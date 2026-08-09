@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-RET — RET-selective inhibitors
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ SPLIT (2026-08-09). RET itself is higher in EMC on both platforms, so the receptor half of the lane holds. ⛔ But the GFRα co-receptors are LOWER on both and strongly so, and the GDNF-family ligands are LOWER on both — so the module that switches RET on is depleted relative to comparator sarcomas.
+**Grade** (owned by [`research/modalities/emc-ret-activation-bar.json`](../../research/modalities/emc-ret-activation-bar.json)): ⛔ SPLIT ON EXPRESSION, AND THE ELIGIBILITY BAR IS THE REAL CLOSURE (2026-08-09, folding a record read 2026-08-07). ARRAY HALF, unchanged: RET itself is higher in EMC on both platforms, but the co-receptors are strongly LOWER on both and the ligands are LOWER on both — the module that switches the receptor on is depleted relative to comparator sarcomas. ⛔ THE ACTIVATION CLAIM DOES NOT SURVIVE READING. Its single source states activation in one abstract sentence about 'a limited set' of at most ten tumours; the number read, the number positive, the assay that produced the word, and whether cellularity was controlled are ALL unrecoverable, and the paper is paywalled so no $0 route reaches them. A 272-record open-access corpus contains no phospho-RET stain, no immunohistochemistry series with a denominator, and no ligand measurement in this disease at all. ⛔ AND THE APPROVED AGENTS DO NOT ADDRESS THIS STATE: they are approved on RET FUSION- or MUTATION-positive disease and the pan-tumour companion diagnostic detects fusions, while EMC's reported state is over-expression of wild-type receptor with no recurring genomic abnormality beyond the driver. ⚠ The corpus absence is bounded — the one paper that matters most is paywalled and so could never appear in a full-text scan; its absence there is an instrument limit and not evidence.
 
 ## What has to land for this route to move
 
@@ -33,6 +33,12 @@ flowchart LR
   TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
   TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
   TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_RET
+  TECH_CLOUD_WET_LAB(["TECH-CLOUD-WET-LAB<br/>expected 2029"]):::tech
+  TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -51,12 +57,14 @@ The highest-ranked lane of the 2026-08-07 sweep and still not a route. It is the
 |---|---|---|
 | `ART-CENSUS-ROUTE-GRADING` | RET transcript is higher in EMC than in comparator sarcomas on both readable platforms | `direct` |
 | `ART-CENSUS-ROUTE-GRADING` | the GFRα co-receptor and GDNF-family ligand modules are LOWER in EMC on both platforms, which weakens a ligand-dependent activation route for the receptor | `direct` |
+| `ART-RET-ACTIVATION-BAR` | the activation claim rests on one paywalled abstract sentence about an unrecoverable number of tumours, no EMC paper in a 272-record open-access corpus reports a phospho-RET or ligand measurement, and the approved selective agents are approved on a molecular state EMC is not reported to be in | `direct` |
 
 ## Remaining unknowns
 
-- Whether the historical 'expressed and activated' report survives, since this reading corroborates expression and cannot corroborate activation.
-- Whether RET could be engaged without the canonical ligand and co-receptor — no RET rearrangement is reported in this disease either way.
-- Whether a co-receptor supply from stroma or nerve would be visible in bulk tumour transcript at all, which bounds how much this reading can be asked to carry.
+- ⛔ ANSWERED 2026-08-09 and kept so it is not re-asked: the historical report does NOT survive as a measurement — it is one abstract sentence, on 'a limited set' of at most ten tumours, with no recoverable n, no assay attribution and no cellularity control.
+- Whether the receptor is phosphorylated in EMC tumour cells at all, and in what fraction — the measurement that has never been made in this disease by anyone.
+- Whether a co-receptor supply from stroma or nerve would be visible in bulk tumour transcript, which bounds how much the depleted-module reading can be asked to carry.
+- Whether over-expression of the wild-type receptor is an eligible state for any selective agent anywhere, which the read corpus says it currently is not.
 
 ## Required validation
 
@@ -70,37 +78,42 @@ The highest-ranked lane of the 2026-08-07 sweep and still not a route. It is the
 | blocker | kind | what would retire it |
 |---|---|---|
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 
 ## Readiness — what this could become today
 
 **`internal_note`**
 
-The lane's headline claim is activation, and this reading reaches expression and the activation MACHINERY but not activation.
+Every $0 instrument that could speak to this route has now spoken. The expression half is split, the activation half does not survive reading, and the eligibility half is unfavourable.
 
 **Missing:**
-- a full read of the original activation report, to establish what was measured and in how many tumours
+- the primary paper's full text, which is paywalled and unreachable at $0
+- a phospho-receptor measurement in EMC tissue, which nobody has published
 
 ## Where this route ends — the paper
 
 **[PUB-KINASE-LEADS](L3-publications.md)** — *Four kinase observations in extraskeletal myxoid chondrosarcoma that nobody followed up* (unwritten)
 
-`contributing` · ○ `unwritten` · aimed at `preprint`
+`contributing` · ◔ `outlined` · aimed at `preprint`
 
 **This route contributes:** One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up.
 
 **The paper would claim:** Four kinase-directed observations specific to this disease exist in the published and curated record — one reported as expressed and activated, one positive across a small series with an internal control, one an interaction curated on the driver protein itself, one an ex-vivo screen hit — and none has been followed up by anyone, in a disease with no targeted agent.
 
-**It is not written because:** Its purpose is to consolidate four leads that are each individually thin, and the consolidation has not been done — three of the four were surfaced two days before this endpoint was registered.
+**It is not written because:** ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. All four leads are graded as of 2026-08-09, and reading each one's own primary record demoted THREE of them in ways the leads' prose did not predict: the activation claim behind the strongest lead is a single paywalled abstract sentence with no recoverable denominator, and the approved agents address a molecular state this disease is not reported to be in; the screen hit turns out to sit beside two same-class hits belonging to a class the board already holds, and its named kinases have no probe on either platform so the arrays could never have attributed it; the interaction lead was measured on wild-type protein in a non-sarcoma tissue from one source. The fourth is discordant on the kinase and concordant on its substrate. ⭐ THAT IS THE PAPER NOW, and it is a better one than the consolidation that was planned: four EMC-specific kinase observations that the field has cited or left for one to two decades, each traced to what was actually measured, with the gap between the citation and the measurement stated. ⛔ Superseded, retained: "the consolidation has not been done — three of the four were surfaced two days before this endpoint was registered." ⚠ Two of the four gradings came from records that had been committed since 2026-08-07 and that the routes were registered without reading.
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The remaining $0 step is a literature read, and it is now sharper than when the route was registered: the question is specifically whether the original report measured activation directly or inferred it.
+Only a phospho-receptor measurement in EMC tissue could reopen it, and none exists.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-MODEL-ACCESS** — Access to a patient-derived EMC model through a collaborator, or through a solo-affordable cloud or robotic wet-lab service with E *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -112,7 +125,7 @@ The remaining $0 step is a literature read, and it is now sharper than when the 
 
 ## Best next action
 
-Read the original RET activation report in full and establish whether activation was measured or inferred, and in how many tumours.
+Report it as the kinase paper's strongest lead and its clearest cautionary case: the one kinase reported activated in this disease, where reading the source shows the report cannot carry the weight a decade of citation has put on it.
 
 *Cost:* $0
 

@@ -44,7 +44,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | blocker | kind | routes held | families | reach | routes that retire it | what would retire it |
 |---|---|---:|---:|---|---:|---|
 | **BLK-NO-EMC-DATA**<br/>EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRIS | `insufficient_data` | 43 | 9 | portfolio-wide | 0 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
-| **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 13 | 7 | portfolio-wide | 2 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 16 | 7 | portfolio-wide | 2 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NOT-FUSION-SELECTIVE**<br/>The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half) | `fundamental_biological_limit` | 14 | 6 | portfolio-wide | 8 | **permanent — nothing** |
 | **BLK-PARALOGUE-DDG**<br/>The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT) | `requires_better_simulation_accuracy` | 9 | 3 | cross-family | 24 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-CLASS-INHERITANCE**<br/>Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenot | `insufficient_data` | 5 | 3 | cross-family | 0 | `TECH-VIRTUAL-CELL` |
@@ -81,7 +81,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-PARALOGUE-DDG** | 9 | cross-family | **2028** | `low` | `extrapolated` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-CLASS-INHERITANCE** | 5 | cross-family | **2028** | `low` | `extrapolated` | `TECH-VIRTUAL-CELL` |
 | **BLK-PARALOGUE-CONTROL** | 1 | single-family | **2028** | `low` | `speculative` | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
-| **BLK-NO-WET-LAB** | 13 | portfolio-wide | **2029** | `low` | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-NO-WET-LAB** | 16 | portfolio-wide | **2029** | `low` | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-R4-BINDS** | 8 | cross-family | **2029** | `low` | `speculative` | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-ENDPOINT-MD** | 1 | single-family | **2029** | `low` | `speculative` | `TECH-E1-POWERED` |
 | **BLK-FUNCTIONAL-ACTIONABILITY** | 1 | single-family | **2029** | `low` | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
@@ -117,24 +117,13 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 - **owner:** `research/IDEAS.md`
 
-### BLK-NOT-FUSION-SELECTIVE
-
-**The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)**
-
-- **kind:** `fundamental_biological_limit` · **PERMANENT**
-- **a statement about:** what the molecule can and cannot tell apart
-- **held by (14):** RT-6MP, RT-B7H3, RT-CART-SURFACE, RT-COVALENT-PROBE, RT-DBD, RT-DEGRADER, RT-EWSR1-PROTEIN, RT-FET-LC-LIGAND, RT-GLUE, RT-MONOVALENT, RT-PRAME-IMMTAC, RT-RIPTAC, RT-SYNPROMOTER, RT-UBIQ-SELECTIVE
-- **retired by route (8):** RT-ASO, RT-FAP-RLT, RT-ICI-TKI, RT-JUNCTION-NEOANTIGEN, RT-PANNR4A-EXVIVO, RT-RIBOZYME, RT-SSTR2, RT-TCR-IMMTAC
-- **when it could lift:** **never** — a fact about what the objects are. No technology in the register claims to retire it, and [B1] fails the build if one ever does. What CAN change is whether it stays decisive for a given route: a route either sidesteps it by construction or it does not.
-- **owner:** `research/manuscripts/target-route-options.md#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it`
-
 ### BLK-NO-WET-LAB
 
 **No wet lab and no collaborator — an ask needs a self-interested taker before its size matters**
 
 - **kind:** `requires_external_collaboration`
 - **a statement about:** the operating regime, not any route's science
-- **held by (13):** RT-ASO-ASK, RT-ATR-PANEL, RT-CHAPERONE, RT-COVALENT-PROBE, RT-EZH2, RT-FAP-RLT, RT-MATRIX-ADDRESS, RT-RIPTAC, RT-SGK1, RT-SSTR2, RT-SYNLETH-DEP, RT-TCIP, RT-TRABECTEDIN-PPARG
+- **held by (16):** RT-ALK-HIT, RT-ASO-ASK, RT-ATR-PANEL, RT-CHAPERONE, RT-COVALENT-PROBE, RT-DNAPK, RT-EZH2, RT-FAP-RLT, RT-MATRIX-ADDRESS, RT-RET, RT-RIPTAC, RT-SGK1, RT-SSTR2, RT-SYNLETH-DEP, RT-TCIP, RT-TRABECTEDIN-PPARG
 - **retired by route (2):** RT-ENDPOINT-CHOICE, RT-METHODS-PAPER
 - **retired by technology:** TECH-CLOUD-WET-LAB, TECH-EMC-MODEL-ACCESS
 - **when it could lift:**
@@ -145,6 +134,17 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
   | `TECH-EMC-MODEL-ACCESS` | `absent` | 2027H2 | **2029** | beyond-2031 | `low` | `speculative` |
 
 - **owner:** `research/manuscripts/what-a-civilian-can-buy.md`
+
+### BLK-NOT-FUSION-SELECTIVE
+
+**The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)**
+
+- **kind:** `fundamental_biological_limit` · **PERMANENT**
+- **a statement about:** what the molecule can and cannot tell apart
+- **held by (14):** RT-6MP, RT-B7H3, RT-CART-SURFACE, RT-COVALENT-PROBE, RT-DBD, RT-DEGRADER, RT-EWSR1-PROTEIN, RT-FET-LC-LIGAND, RT-GLUE, RT-MONOVALENT, RT-PRAME-IMMTAC, RT-RIPTAC, RT-SYNPROMOTER, RT-UBIQ-SELECTIVE
+- **retired by route (8):** RT-ASO, RT-FAP-RLT, RT-ICI-TKI, RT-JUNCTION-NEOANTIGEN, RT-PANNR4A-EXVIVO, RT-RIBOZYME, RT-SSTR2, RT-TCR-IMMTAC
+- **when it could lift:** **never** — a fact about what the objects are. No technology in the register claims to retire it, and [B1] fails the build if one ever does. What CAN change is whether it stays decisive for a given route: a route either sidesteps it by construction or it does not.
+- **owner:** `research/manuscripts/target-route-options.md#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it`
 
 ### BLK-PARALOGUE-DDG
 

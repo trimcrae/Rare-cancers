@@ -18,21 +18,27 @@ last_verified: 2026-08-05
 
 # RT-ALK-HIT — Follow-up of the ALK/ROS1-class ex-vivo screen hit
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ parked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#33--kinase-leads-with-emc-specific-evidence-that-nobody-followed)): ⭑ Registered 2026-08-09 from the modality census; the underlying observation is committed here and was never followed.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ UNATTRIBUTABLE BY EXPRESSION, AND THE RE-READ DEMOTES THE LEAD (2026-08-09). The route's own first step was to re-read the committed screen, and doing it changes what the lead is: the screen returned THREE low-IC50 agents and TWO of them are the same pan-HDAC class, read from this repository's own curated target records rather than recalled. That is a within-screen class replication the one-agent framing could not show — and that class is already on the board, closed on selectivity rather than on activity. ⛔ The named kinases cannot be read at all: ALK and ROS1 have NO PROBE on either platform, so the target group emits no score. That is an instrument statement, never a biological negative. The one readable named target, EGFR, is lower in EMC on both platforms. ⚠ The curated record names ALK and EGFR and does NOT name ROS1, though the lead calls this the ALK/ROS1 class.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_ALK_HIT["○ RT-ALK-HIT"]:::fam
+  RT_ALK_HIT["✓ RT-ALK-HIT"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_ALK_HIT
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
   TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
   TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
   TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_ALK_HIT
+  TECH_CLOUD_WET_LAB(["TECH-CLOUD-WET-LAB<br/>expected 2029"]):::tech
+  TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -45,54 +51,67 @@ flowchart LR
 
 An ALK/ROS1-class inhibitor was among the low-IC50 hits of a 221-drug screen run on a patient-derived model of this disease, and nothing here has ever followed it up. The hit does not establish which target produced it, because that agent inhibits several kinases, so the route's first job is to separate the observation from the hypothesis.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | the two kinases the lead names are unreadable on both platforms so the screen hit cannot be attributed by expression, and two of the screen's three hits belong to a single class already assessed on the board | `direct` |
+
 ## Remaining unknowns
 
-- Which of the agent's targets is responsible, which the screen was not designed to resolve.
+- Which of the agent's targets produced the hit — unanswerable by abundance in principle, since an IC50 reflects dependency and a target at the array floor can still be the one that matters.
 - Whether a single-model screen hit transfers, given how few models of this disease exist.
+- Whether the class the screen actually favoured has any activity window in this disease, which is the board's existing open question for it and is not reopened by this reading.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| The $0 corroboration named in this route's next action | ⛔ none built | yes | — |
-| A response measurement in a fusion-positive EMC model | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| ⛔ TAKEN 2026-08-09 — re-read the committed drug-screen artifact for the full hit list and read each agent's curated targets across the expression cohorts | ⛔ none built | yes | — |
+| A sarcoma-class dependency prior for the hit agents' targets, queued in the dependency panel because the arrays cannot see two of them at all | ⛔ none built | yes | — |
+| An attribution experiment in the line the screen ran on — a knockdown or a target-selective agent, which is the only thing that separates the observation from the hypothesis | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
 | blocker | kind | what would retire it |
 |---|---|---|
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 
 ## Readiness — what this could become today
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+The expression instrument could only ever have ruled a target out, and for the two it was raised to test it could not even do that.
 
 **Missing:**
-- a re-read of the committed drug-screen artifact and its controls
+- a dependency prior for the named targets, which is queued and $0
+- an attribution experiment, which needs the model the screen ran on
 
 ## Where this route ends — the paper
 
 **[PUB-KINASE-LEADS](L3-publications.md)** — *Four kinase observations in extraskeletal myxoid chondrosarcoma that nobody followed up* (unwritten)
 
-`contributing` · ○ `unwritten` · aimed at `preprint`
+`contributing` · ◔ `outlined` · aimed at `preprint`
 
 **This route contributes:** One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up.
 
 **The paper would claim:** Four kinase-directed observations specific to this disease exist in the published and curated record — one reported as expressed and activated, one positive across a small series with an internal control, one an interaction curated on the driver protein itself, one an ex-vivo screen hit — and none has been followed up by anyone, in a disease with no targeted agent.
 
-**It is not written because:** Its purpose is to consolidate four leads that are each individually thin, and the consolidation has not been done — three of the four were surfaced two days before this endpoint was registered.
+**It is not written because:** ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. All four leads are graded as of 2026-08-09, and reading each one's own primary record demoted THREE of them in ways the leads' prose did not predict: the activation claim behind the strongest lead is a single paywalled abstract sentence with no recoverable denominator, and the approved agents address a molecular state this disease is not reported to be in; the screen hit turns out to sit beside two same-class hits belonging to a class the board already holds, and its named kinases have no probe on either platform so the arrays could never have attributed it; the interaction lead was measured on wild-type protein in a non-sarcoma tissue from one source. The fourth is discordant on the kinase and concordant on its substrate. ⭐ THAT IS THE PAPER NOW, and it is a better one than the consolidation that was planned: four EMC-specific kinase observations that the field has cited or left for one to two decades, each traced to what was actually measured, with the gap between the citation and the measurement stated. ⛔ Superseded, retained: "the consolidation has not been done — three of the four were surfaced two days before this endpoint was registered." ⚠ Two of the four gradings came from records that had been committed since 2026-08-07 and that the routes were registered without reading.
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+Attribution needs the model, not the arrays. The screen's own weight sits with a class the board has already assessed.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-MODEL-ACCESS** — Access to a patient-derived EMC model through a collaborator, or through a solo-affordable cloud or robotic wet-lab service with E *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -104,7 +123,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Re-read the committed drug-screen artifact for the full hit list and its controls, then read each of the agent's principal targets across the expression cohorts.
+Report it in the kinase paper as a CORRECTED reading of a lead: the screen's dominant signal is a class the board already holds, and the arrays structurally cannot attribute the kinase hit.
 
 *Cost:* $0
 

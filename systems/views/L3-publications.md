@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**28 endpoints for 68 routes · 24 with a document · 4 unwritten.**
+**28 endpoints for 68 routes · 25 with a document · 3 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -57,10 +57,10 @@ last_verified: 2026-08-06
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-BIOMARKER-DEP**<br/>*Biomarker-selected therapeutic classes in an ultra-rare sarcoma: what t…* | ◔ `outlined` | `preprint` | 5 | ⚠ ITS STATED BLOCKER IS RETIRED AND THE PAPER CHANGED SHAPE. Every lookup it was waiting on ran on 2026-08-09: of the five biomarker-selected classes … |
+| **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. … |
 | **PUB-MATRIX-ADDRESS**<br/>*The myxoid matrix as an address rather than an obstacle* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. … |
 | **PUB-NR-OUTSIDE-NR4A3**<br/>*Nuclear-receptor pharmacology outside NR4A3 in a NR4A3-driven sarcoma* | ◔ `outlined` | `preprint` | 2 | ⚠ ITS BLOCKER IS RETIRED AND BOTH ROUTES ARE GRADED, BOTH NEGATIVELY, FOR DIFFERENT REASONS. The dormancy route is UNREAD  … |
 | **PUB-TXN-DEPENDENCY**<br/>*Transcriptional and proteostatic dependency of a fusion transcription f…* | ◔ `outlined` | `preprint` | 2 | ⚠ ITS STATED BLOCKER IS RETIRED. Both cheapest observations ran on 2026-08-09. The transcriptional-CDK half is CLOSED on the axis that decides it  … |
-| **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ○ `unwritten` | `preprint` | 4 | Its purpose is to consolidate four leads that are each individually thin, and the consolidation has not been done  … |
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ○ `unwritten` | `preprint` | 3 | The eligibility arithmetic it rests on has not been extracted from the curated cohorts yet, and without it the paper would be an argument with no … |
 | **PUB-PARKED-MODALITIES**<br/>*Five modalities parked on a capability that does not exist yet: what wo…* | ○ `unwritten` | `preprint` | 5 | Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. … |
 | **PUB-STRATEGY-ARCH**<br/>*Scheduling, sequencing and reachability as treatment variables in an ul…* | ○ `unwritten` | `preprint` | 3 | Three of its four routes have not had their $0 analyses run, and the fourth is a registry sweep that has not been performed. |
@@ -351,6 +351,25 @@ Six therapeutic classes are selected by a molecular state rather than by a growt
 | [RT-MDM2](L2-rt-mdm2.md) — MDM2 antagonism (p53 reactivation in a quiet genome) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
 | [RT-POLQ](L2-rt-polq.md) — POLθ inhibition (microhomology-mediated end joining) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
 
+### PUB-KINASE-LEADS — Four kinase observations in extraskeletal myxoid chondrosarcoma that nobody followed up
+
+**◔ `outlined` · aimed at `preprint`**
+
+Four kinase-directed observations specific to this disease exist in the published and curated record — one reported as expressed and activated, one positive across a small series with an internal control, one an interaction curated on the driver protein itself, one an ex-vivo screen hit — and none has been followed up by anyone, in a disease with no targeted agent.
+
+**Not written because:** ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. All four leads are graded as of 2026-08-09, and reading each one's own primary record demoted THREE of them in ways the leads' prose did not predict: the activation claim behind the strongest lead is a single paywalled abstract sentence with no recoverable denominator, and the approved agents address a molecular state this disease is not reported to be in; the screen hit turns out to sit beside two same-class hits belonging to a class the board already holds, and its named kinases have no probe on either platform so the arrays could never have attributed it; the interaction lead was measured on wild-type protein in a non-sarcoma tissue from one source. The fourth is discordant on the kinase and concordant on its substrate. ⭐ THAT IS THE PAPER NOW, and it is a better one than the consolidation that was planned: four EMC-specific kinase observations that the field has cited or left for one to two decades, each traced to what was actually measured, with the gap between the citation and the measurement stated. ⛔ Superseded, retained: "the consolidation has not been done — three of the four were surfaced two days before this endpoint was registered." ⚠ Two of the four gradings came from records that had been committed since 2026-08-07 and that the routes were registered without reading.
+
+**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
+
+- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-ALK-HIT](L2-rt-alk-hit.md) — Follow-up of the ALK/ROS1-class ex-vivo screen hit | `contributing` | One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up. |
+| [RT-DNAPK](L2-rt-dnapk.md) — DNA-PK inhibition as an indirect route to the fusion | `contributing` | One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up. |
+| [RT-RET](L2-rt-ret.md) — RET-selective inhibitors | `contributing` | One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up. |
+| [RT-SGK1](L2-rt-sgk1.md) — SGK1 inhibition | `contributing` | One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up. |
+
 ### PUB-MATRIX-ADDRESS — The myxoid matrix as an address rather than an obstacle
 
 **◔ `outlined` · aimed at `preprint`**
@@ -403,25 +422,6 @@ A fusion oncoprotein whose entire mechanism is transactivation, and whose struct
 |---|---|---|
 | [RT-CHAPERONE](L2-rt-chaperone.md) — Chaperone dependency of the chimera (HSP90 and co-ch | `primary` | The half of the paper that argues from what the driver IS STRUCTURALLY: a chimera of two domains that never evolved together is a folding problem before it is a signalling one. |
 | [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13 | `primary` | The half of the paper that argues from what the driver IS: a transcriptional oncoprotein should be more dependent on the transcriptional machinery than the cell it sits in. |
-
-### PUB-KINASE-LEADS — Four kinase observations in extraskeletal myxoid chondrosarcoma that nobody followed up
-
-**○ `unwritten` · aimed at `preprint`**
-
-Four kinase-directed observations specific to this disease exist in the published and curated record — one reported as expressed and activated, one positive across a small series with an internal control, one an interaction curated on the driver protein itself, one an ex-vivo screen hit — and none has been followed up by anyone, in a disease with no targeted agent.
-
-**Not written because:** Its purpose is to consolidate four leads that are each individually thin, and the consolidation has not been done — three of the four were surfaced two days before this endpoint was registered.
-
-**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
-
-- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-ALK-HIT](L2-rt-alk-hit.md) — Follow-up of the ALK/ROS1-class ex-vivo screen hit | `contributing` | One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up. |
-| [RT-DNAPK](L2-rt-dnapk.md) — DNA-PK inhibition as an indirect route to the fusion | `contributing` | One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up. |
-| [RT-RET](L2-rt-ret.md) — RET-selective inhibitors | `contributing` | One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up. |
-| [RT-SGK1](L2-rt-sgk1.md) — SGK1 inhibition | `contributing` | One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up. |
 
 ### PUB-LOCOREGIONAL — Anatomical selectivity in an indolent, extremity-primary, lung-metastasising sarcoma
 
@@ -514,10 +514,10 @@ For a cancer that will never have a randomised trial, the variables a clinician 
 | [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-FUSION-OUTPUT** ◐ | `journal_submission` | `primary` |
 | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `preprint` | **PUB-FUSION-PARTNER** ◐ | `preprint` | `primary` |
 | [RT-VACCINE](L2-rt-vaccine.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-HLA-COVERAGE** ◐ | `preprint` | `primary` |
-| [RT-ALK-HIT](L2-rt-alk-hit.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-KINASE-LEADS** ○ | `preprint` | `contributing` |
-| [RT-DNAPK](L2-rt-dnapk.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-KINASE-LEADS** ○ | `preprint` | `contributing` |
-| [RT-RET](L2-rt-ret.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-KINASE-LEADS** ○ | `preprint` | `contributing` |
-| [RT-SGK1](L2-rt-sgk1.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-KINASE-LEADS** ○ | `preprint` | `contributing` |
+| [RT-ALK-HIT](L2-rt-alk-hit.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-KINASE-LEADS** ◔ | `preprint` | `contributing` |
+| [RT-DNAPK](L2-rt-dnapk.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-KINASE-LEADS** ◔ | `preprint` | `contributing` |
+| [RT-RET](L2-rt-ret.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-KINASE-LEADS** ◔ | `preprint` | `contributing` |
+| [RT-SGK1](L2-rt-sgk1.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-KINASE-LEADS** ◔ | `preprint` | `contributing` |
 | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ○ | `preprint` | `contributing` |
 | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ○ | `preprint` | `contributing` |
 | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ○ | `preprint` | `contributing` |

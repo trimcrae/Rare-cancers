@@ -32,17 +32,17 @@ last_verified: 2026-08-09
 This is the census's result. `never_searched` is orthogonal to the verdict, and the
 orthogonality carries the finding: a class can be unsearched and still not reach EMC —
 nobody looked, and now that someone has, it does not — or unsearched **and** live, which
-is the residue no prior sweep could have returned. **16 of the 112
+is the residue no prior sweep could have returned. **15 of the 112
 are live** (`candidate` or `parked_capability`).
 
 | verdict | classes | of which never searched |
 |---|---:|---:|
-| ⭑ `candidate` | 23 | 7 |
+| ⭑ `candidate` | 21 | 6 |
 | ⏸ `parked_capability` | 9 | 9 |
 | ✓ `on_board` | 41 | 0 |
 | ● `in_clinical_use` | 8 | 0 |
 | ✕ `already_rejected` | 33 | 0 |
-| ✕ `excluded` | 92 | 85 |
+| ✕ `excluded` | 94 | 86 |
 | — `not_applicable` | 11 | 11 |
 
 ### By band
@@ -64,7 +64,6 @@ carries the cheapest observation that would move it.
 
 | class | group | verdict | cheapest next step |
 |---|---|---|---|
-| **MOD-ALK-ROS1** — ALK / ROS1 inhibitors | `kinase_inhibitor` | ⭑ `candidate` | Re-read the committed drug-screen artifact for the full hit list and its controls, then read each of that agent's principal targets across the EMC expression cohorts to see which are present at all. |
 | **MOD-EXPANDED-ACCESS** — Expanded access, compassionate use and off-label registries | `strategy_and_trial_architecture` | ⭑ `candidate` | Map the access pathways and the public outcome registries that accept off-label single-patient reports, and state which of this portfolio's candidates could in principle enter one. |
 | **MOD-IMMUNOCYTOKINE** — Immunocytokines (tumour-targeted cytokine fusions) | `antibody_and_antibody_like` | ⭑ `candidate` | Read the fibronectin and tenascin splice-variant transcripts across the EMC expression cohorts on disk. They are matrix genes, so unlike a cell-surface antigen they are visible in bulk tumour data. |
 | **MOD-INHALED-CHEMO** — Inhaled and aerosolised cytotoxic therapy | `physical_device_locoregional` | ⭑ `candidate` | Assess it together with regional pulmonary delivery from the same registry extraction, since both are selected by the same patient feature. |
@@ -119,7 +118,7 @@ carries the cheapest observation that would move it.
 
 | class | exemplar | verdict | prior | where it lands |
 |---|---|---|---|---|
-| **MOD-ALK-ROS1**<br/>ALK / ROS1 inhibitors | brigatinib | ⭑ `candidate` | ⭑ **new** | [RT-ALK-HIT](L2-rt-alk-hit.md) — Follow-up of the ALK/ROS1-class ex-vivo screen hit |
+| **MOD-ALK-ROS1**<br/>ALK / ROS1 inhibitors | brigatinib | ✕ `excluded` | ⭑ **new** | [RT-ALK-HIT](L2-rt-alk-hit.md) — Follow-up of the ALK/ROS1-class ex-vivo screen hit |
 | **MOD-AURORA-PLK**<br/>Aurora kinase and PLK1 inhibitors | alisertib | ✕ `excluded` | ⭑ **new** | Mitotic kinases whose therapeutic index depends entirely on outpacing the host's proliferating compartments. … |
 | **MOD-AXL**<br/>AXL inhibitors | bemcentinib | ✕ `excluded` | ⭑ **new** | No AXL dependency is reported in EMC, and the class's principal rationale is reversal of acquired resistance to a targeted agent this disease does … |
 | **MOD-CDK46**<br/>CDK4/6 inhibitors | palbociclib | ✕ `excluded` | ⭑ **new** | Selects on a cell-cycle lesion -- CDKN2A loss, CDK4 amplification, an intact RB axis -- and none is reported in EMC's quiet genome. … |
@@ -137,7 +136,7 @@ carries the cheapest observation that would move it.
 | **MOD-MET**<br/>MET inhibitors | capmatinib | ✕ `excluded` | ⭑ **new** | MET appears in the surfaceome candidate list as expressed rather than as selective, and no MET alteration or dependency is reported in EMC. |
 | **MOD-NTRK**<br/>NTRK inhibitors | larotrectinib | ✕ `excluded` | ⭑ **new** | The tumour-agnostic approval is conditioned on an NTRK fusion. EMC's driver is a rearrangement of a different gene, so the agnostic indication does … |
 | **MOD-PI3K-AKT-MTOR**<br/>PI3K / AKT / mTOR inhibitors | everolimus | ✕ `excluded` | ⭑ **new** | The class has been tested broadly across soft-tissue sarcoma without establishing a histology this disease belongs to, and no PI3K-pathway lesion or … |
-| **MOD-RET**<br/>RET-selective inhibitors | selpercatinib | ⭑ `candidate` | · | [RT-RET](L2-rt-ret.md) — RET-selective inhibitors |
+| **MOD-RET**<br/>RET-selective inhibitors | selpercatinib | ✕ `excluded` | · | [RT-RET](L2-rt-ret.md) — RET-selective inhibitors |
 | **MOD-SGK1**<br/>SGK1 inhibition | SGK1 inhibitors | ⭑ `candidate` | · | [RT-SGK1](L2-rt-sgk1.md) — SGK1 inhibition |
 | **MOD-SRC-BTK**<br/>SRC-family and BTK inhibitors | dasatinib | ✕ `excluded` | ⭑ **new** | Both act on signalling axes with no reported role in EMC; the BTK arm is a lymphoid-lineage class with no solid-sarcoma instance at all. |
 | **MOD-TRANSCRIPTIONAL-CDK**<br/>Transcriptional CDK inhibition (CDK7, CDK9, CDK12/13) | CDK7 and CDK9 inhibitors | ✕ `excluded` | · | [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13) |

@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 15 evidence items · 30 artifacts · 14 pinned claims.**
+**19 objects · 15 evidence items · 31 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -81,7 +81,7 @@ omitted, and why `[L5]` reports the count.
 |---|---|---|---|
 | **ART-APO-POSE-SITE** | `research/modalities/apo-pose-site-in-regime.json` | `research/modalities/apo_pose_recovery.py` | `CLM-APO-SITE-IN-REGIME`, [RT-DEGRADER](L2-rt-degrader.md) |
 | **ART-ATR-VULNERABILITY** | `research/modalities/emc-atr-vulnerability.json` | `research/modalities/emc_atr_vulnerability.py` | [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
-| **ART-CENSUS-ROUTE-GRADING** | `research/modalities/census-route-expression-grading.json` | `research/modalities/census_route_expression_grading.py` | [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md), [RT-ARGININE](L2-rt-arginine.md), [RT-CHAPERONE](L2-rt-chaperone.md), [RT-EZH2](L2-rt-ezh2.md), [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md), [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md), [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md), [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md), [RT-MDM2](L2-rt-mdm2.md), [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md), [RT-NR2F1](L2-rt-nr2f1.md), [RT-POLQ](L2-rt-polq.md), [RT-RET](L2-rt-ret.md), [RT-SGK1](L2-rt-sgk1.md), [RT-TXN-CDK](L2-rt-txn-cdk.md) |
+| **ART-CENSUS-ROUTE-GRADING** | `research/modalities/census-route-expression-grading.json` | `research/modalities/census_route_expression_grading.py` | [RT-ALK-HIT](L2-rt-alk-hit.md), [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md), [RT-ARGININE](L2-rt-arginine.md), [RT-CHAPERONE](L2-rt-chaperone.md), [RT-EZH2](L2-rt-ezh2.md), [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md), [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md), [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md), [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md), [RT-MDM2](L2-rt-mdm2.md), [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md), [RT-NR2F1](L2-rt-nr2f1.md), [RT-POLQ](L2-rt-polq.md), [RT-RET](L2-rt-ret.md), [RT-SGK1](L2-rt-sgk1.md), [RT-TXN-CDK](L2-rt-txn-cdk.md) |
 | **ART-CONSTRUCT-DESIGNS** | `research/modalities/emc-fet-construct-designs.json` | `research/modalities/emc_fet_construct_designs.py` | `CLM-CONSTRUCT-FRAME`, `CLM-CONSTRUCT-TCF12`, `OBJ-FUS-T1`, `OBJ-FUS-T2`, `OBJ-FUS-T5`, `OBJ-FUS-TAF15`, [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **ART-CTA-EXPRESSION** | `research/modalities/depmap-target-expression.json` | `research/modalities/depmap_target_expression.py` | [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md), [RT-TCRT-CTA](L2-rt-tcrt-cta.md) |
 | **ART-DDR-AXIS-SCAN** | `research/modalities/fet-ddr-axis-scan.json` | `research/modalities/fet_ddr_axis_scan.py` | `CLM-ATRI-GDSC`, `CLM-KO-SATURATION`, [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
@@ -102,6 +102,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-NRV04-RETRO-CRITERIA-AUDIT** | `research/modalities/nrv04-retro-criteria-audit.json` | `research/modalities/nrv04_retro_criteria_audit.py` | [LANE-8](registers/lanes.md) |
 | **ART-NRV04-RETRO-PRESPEND-AUDIT** | `research/modalities/nrv04-retro-prespend-audit.json` | `research/modalities/nrv04_retro_prespend_audit.py` | [LANE-8](registers/lanes.md) |
 | **ART-PUBLISHED-WARHEAD-REGISTRY** | `research/modalities/published-warhead-registry.json` | `—` | ⚠ **nothing** |
+| **ART-RET-ACTIVATION-BAR** | `research/modalities/emc-ret-activation-bar.json` | `a Europe PMC retrieval read into JSON by hand from the literature-cache corpus` | [RT-RET](L2-rt-ret.md) |
 | **ART-SELCAL-VERDICT** | `research/modalities/selcal-verdict.json` | `research/modalities/selcal_cofold_validate.py` | [LANE-22](registers/lanes.md) |
 | **ART-SURFACE-EXPRESSION** | `research/modalities/emc-surfaceome-scan.json` | `research/modalities/emc_surfaceome_scan.py` | [RT-B7H3](L2-rt-b7h3.md) |
 | **ART-TARGET-ROUTE-CENSUS** | `research/modalities/target-route-census.json` | `research/modalities/target_route_census.py` | `CLM-AF1-LC-SWAP`, `CLM-FUSION-MODEL-DISAGREEMENT`, `OBJ-NR4A3-AF1`, `OBJ-NR4A3-DBD`, [RT-6MP](L2-rt-6mp.md), [RT-ASYMMETRIC](L2-rt-asymmetric.md), [RT-DBD](L2-rt-dbd.md), [RT-RXR](L2-rt-rxr.md) |

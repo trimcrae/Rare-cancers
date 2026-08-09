@@ -6326,15 +6326,16 @@
     "kind": "route",
     "title": "DNA-PK inhibition as an indirect route to the fusion protein",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census, porting a lane surfaced 2026-08-07 that had no route.",
+      "value": "◐ THE INTERACTION IS REAL, WILD-TYPE, AND FROM ONE PAPER IN A NON-SARCOMA TISSUE (graded 2026-08-09 by reading the records the route asked for). The curated evidence is a single UniProt annotation resting on ONE primary source, and it was measured on WILD-TYPE NR4A3 in vascular smooth muscle — not on a fusion protein and not in any sarcoma. ⭐ What survives, and it is the load-bearing half: the modified region is RETAINED in the fusion. The fusion carries NR4A3's full coding region, so nothing the annotation describes is deleted by the breakpoint, and that retention is invariant across all nine DBD-retaining breakpoints. ⛔ The route still cannot deliver selectivity — the same mechanism would lower wild-type NR4A3, and whether the paralogues are regulated the same way is untested.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "33--kinase-leads-with-emc-specific-evidence-that-nobody-followed"
+        "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+        "anchor": "39--dna-pk"
       }
     },
     "grade_pointers": [],
     "blockers_inherited": [
-      "BLK-NO-EMC-DATA"
+      "BLK-NO-EMC-DATA",
+      "BLK-NO-WET-LAB"
     ],
     "blockers_retired": [],
     "instruments": {
@@ -6358,27 +6359,34 @@
     },
     "purpose": "Can the driver be destabilised through its own regulation rather than by binding it?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
       "status": "blocked",
-      "maturity": "concept",
+      "maturity": "scoped",
       "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "A registered lane with no route, and its appeal is structural rather than pharmacological: there is curated experimental evidence of an interaction with the driver protein itself, and acting through the protein's regulation needs neither a ligand for the pocket nor an assembled ternary complex — so it inherits none of the blockers holding the induced-proximity family down.",
     "supporting_evidence": [],
     "remaining_unknowns": [
-      "Whether the curated interaction was measured on a fusion protein or only on wild-type NR4A3, which the records must be read to establish.",
-      "Whether the interaction is regulatory in the direction that would lower fusion activity."
+      "⛔ ANSWERED 2026-08-09 and retained here only so it is not re-asked: the interaction was measured on wild-type NR4A3 in vascular smooth muscle, from a single primary source. The fusion-protein question is therefore OPEN by absence of evidence rather than by ambiguity.",
+      "Whether the phosphorylation is regulatory in the direction that would lower fusion activity in a sarcoma cell, which one non-sarcoma paper cannot establish.",
+      "Whether inhibiting the kinase is survivable in this tissue class at all, which is a dependency question the arrays cannot answer and which is now queued in the sarcoma dependency panel.",
+      "Whether the paralogues NR4A1/NR4A2 are regulated the same way — untested, and the reason this route inherits the non-selectivity blocker rather than escaping it."
     ],
     "required_validation": [
       {
-        "what": "The $0 corroboration named in this route's next action",
+        "what": "⛔ TAKEN 2026-08-09 — read the curated interaction records and their primary source, and establish whether any was measured on a fusion protein. Answer: none was.",
         "feasible_today": true,
         "blocked_by": []
       },
       {
-        "what": "A functional measurement in a fusion-positive EMC model",
+        "what": "A sarcoma-class dependency prior for the kinase and its two partner subunits, which says whether inhibiting it is survivable in this tissue class",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A measurement that the phosphorylation stabilises the FUSION protein, in a cell that carries it — the only observation that transfers the mechanism into this disease",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-WET-LAB"
@@ -6388,17 +6396,21 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a full read of the curated interaction records and their primary sources"
+        "a sarcoma-class dependency prior for the kinase, which is queued and $0",
+        "a measurement in a cell carrying the fusion, which needs a model"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "The mechanism rests on one paper in a tissue that is not a sarcoma. Retention of the modified region is established and is genuinely favourable; everything downstream of it is a transfer."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "The cheap half — record reading and retention — is done. What is left needs either the queued dependency prior or a model.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-MODEL-ACCESS"
+      ]
     },
     "next": {
-      "best_next_action": "Read the curated interaction records and their underlying primary sources, and state whether any was measured on a fusion protein rather than on wild-type NR4A3.",
+      "best_next_action": "Read the queued sarcoma dependency prior for the kinase and its two partner subunits, then report the lead with its wild-type, single-source, non-sarcoma provenance stated plainly.",
       "cost": "$0"
     }
   },
@@ -6409,14 +6421,15 @@
     "kind": "route",
     "title": "RET-selective inhibitors",
     "grade": {
-      "value": "◐ SPLIT (2026-08-09). RET itself is higher in EMC on both platforms, so the receptor half of the lane holds. ⛔ But the GFRα co-receptors are LOWER on both and strongly so, and the GDNF-family ligands are LOWER on both — so the module that switches RET on is depleted relative to comparator sarcomas.",
+      "value": "⛔ SPLIT ON EXPRESSION, AND THE ELIGIBILITY BAR IS THE REAL CLOSURE (2026-08-09, folding a record read 2026-08-07). ARRAY HALF, unchanged: RET itself is higher in EMC on both platforms, but the co-receptors are strongly LOWER on both and the ligands are LOWER on both — the module that switches the receptor on is depleted relative to comparator sarcomas. ⛔ THE ACTIVATION CLAIM DOES NOT SURVIVE READING. Its single source states activation in one abstract sentence about 'a limited set' of at most ten tumours; the number read, the number positive, the assay that produced the word, and whether cellularity was controlled are ALL unrecoverable, and the paper is paywalled so no $0 route reaches them. A 272-record open-access corpus contains no phospho-RET stain, no immunohistochemistry series with a denominator, and no ligand measurement in this disease at all. ⛔ AND THE APPROVED AGENTS DO NOT ADDRESS THIS STATE: they are approved on RET FUSION- or MUTATION-positive disease and the pan-tumour companion diagnostic detects fusions, while EMC's reported state is over-expression of wild-type receptor with no recurring genomic abnormality beyond the driver. ⚠ The corpus absence is bounded — the one paper that matters most is paywalled and so could never appear in a full-text scan; its absence there is an instrument limit and not evidence.",
       "owner": {
-        "file": "research/modalities/census-route-expression-grading.json"
+        "file": "research/modalities/emc-ret-activation-bar.json"
       }
     },
     "grade_pointers": [],
     "blockers_inherited": [
-      "BLK-NO-EMC-DATA"
+      "BLK-NO-EMC-DATA",
+      "BLK-NO-WET-LAB"
     ],
     "blockers_retired": [],
     "instruments": {
@@ -6442,9 +6455,9 @@
     "state": {
       "work_state": "complete",
       "authorization": "free",
-      "status": "blocked",
+      "status": "parked",
       "maturity": "computed",
-      "confidence": "low",
+      "confidence": "moderate",
       "last_verified": "2026-08-09"
     },
     "rationale": "The highest-ranked lane of the 2026-08-07 sweep and still not a route. It is the only kinase reported as both expressed and activated in this disease, the observation comes from independent groups, selective inhibitors are approved in other indications, and the finding has stood without follow-up for over a decade.",
@@ -6458,12 +6471,18 @@
         "ref": "ART-CENSUS-ROUTE-GRADING",
         "what_it_supports": "the GFRα co-receptor and GDNF-family ligand modules are LOWER in EMC on both platforms, which weakens a ligand-dependent activation route for the receptor",
         "strength": "direct"
+      },
+      {
+        "ref": "ART-RET-ACTIVATION-BAR",
+        "what_it_supports": "the activation claim rests on one paywalled abstract sentence about an unrecoverable number of tumours, no EMC paper in a 272-record open-access corpus reports a phospho-RET or ligand measurement, and the approved selective agents are approved on a molecular state EMC is not reported to be in",
+        "strength": "direct"
       }
     ],
     "remaining_unknowns": [
-      "Whether the historical 'expressed and activated' report survives, since this reading corroborates expression and cannot corroborate activation.",
-      "Whether RET could be engaged without the canonical ligand and co-receptor — no RET rearrangement is reported in this disease either way.",
-      "Whether a co-receptor supply from stroma or nerve would be visible in bulk tumour transcript at all, which bounds how much this reading can be asked to carry."
+      "⛔ ANSWERED 2026-08-09 and kept so it is not re-asked: the historical report does NOT survive as a measurement — it is one abstract sentence, on 'a limited set' of at most ten tumours, with no recoverable n, no assay attribution and no cellularity control.",
+      "Whether the receptor is phosphorylated in EMC tumour cells at all, and in what fraction — the measurement that has never been made in this disease by anyone.",
+      "Whether a co-receptor supply from stroma or nerve would be visible in bulk tumour transcript, which bounds how much the depleted-module reading can be asked to carry.",
+      "Whether over-expression of the wild-type receptor is an eligible state for any selective agent anywhere, which the read corpus says it currently is not."
     ],
     "required_validation": [
       {
@@ -6482,17 +6501,21 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a full read of the original activation report, to establish what was measured and in how many tumours"
+        "the primary paper's full text, which is paywalled and unreachable at $0",
+        "a phospho-receptor measurement in EMC tissue, which nobody has published"
       ],
-      "why_not_higher": "The lane's headline claim is activation, and this reading reaches expression and the activation MACHINERY but not activation."
+      "why_not_higher": "Every $0 instrument that could speak to this route has now spoken. The expression half is split, the activation half does not survive reading, and the eligibility half is unfavourable."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The remaining $0 step is a literature read, and it is now sharper than when the route was registered: the question is specifically whether the original report measured activation directly or inferred it.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "Only a phospho-receptor measurement in EMC tissue could reopen it, and none exists.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-MODEL-ACCESS"
+      ]
     },
     "next": {
-      "best_next_action": "Read the original RET activation report in full and establish whether activation was measured or inferred, and in how many tumours.",
+      "best_next_action": "Report it as the kinase paper's strongest lead and its clearest cautionary case: the one kinase reported activated in this disease, where reading the source shows the report cannot carry the weight a decade of citation has put on it.",
       "cost": "$0"
     }
   },
@@ -6503,15 +6526,15 @@
     "kind": "route",
     "title": "Follow-up of the ALK/ROS1-class ex-vivo screen hit",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; the underlying observation is committed here and was never followed.",
+      "value": "⛔ UNATTRIBUTABLE BY EXPRESSION, AND THE RE-READ DEMOTES THE LEAD (2026-08-09). The route's own first step was to re-read the committed screen, and doing it changes what the lead is: the screen returned THREE low-IC50 agents and TWO of them are the same pan-HDAC class, read from this repository's own curated target records rather than recalled. That is a within-screen class replication the one-agent framing could not show — and that class is already on the board, closed on selectivity rather than on activity. ⛔ The named kinases cannot be read at all: ALK and ROS1 have NO PROBE on either platform, so the target group emits no score. That is an instrument statement, never a biological negative. The one readable named target, EGFR, is lower in EMC on both platforms. ⚠ The curated record names ALK and EGFR and does NOT name ROS1, though the lead calls this the ALK/ROS1 class.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "33--kinase-leads-with-emc-specific-evidence-that-nobody-followed"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
     "blockers_inherited": [
-      "BLK-NO-EMC-DATA"
+      "BLK-NO-EMC-DATA",
+      "BLK-NO-WET-LAB"
     ],
     "blockers_retired": [],
     "instruments": {
@@ -6535,27 +6558,39 @@
     },
     "purpose": "Which kinase produced the multi-target inhibitor's hit in a patient-derived model of this disease?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
-      "status": "blocked",
-      "maturity": "concept",
+      "status": "parked",
+      "maturity": "computed",
       "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "An ALK/ROS1-class inhibitor was among the low-IC50 hits of a 221-drug screen run on a patient-derived model of this disease, and nothing here has ever followed it up. The hit does not establish which target produced it, because that agent inhibits several kinases, so the route's first job is to separate the observation from the hypothesis.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the two kinases the lead names are unreadable on both platforms so the screen hit cannot be attributed by expression, and two of the screen's three hits belong to a single class already assessed on the board",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Which of the agent's targets is responsible, which the screen was not designed to resolve.",
-      "Whether a single-model screen hit transfers, given how few models of this disease exist."
+      "Which of the agent's targets produced the hit — unanswerable by abundance in principle, since an IC50 reflects dependency and a target at the array floor can still be the one that matters.",
+      "Whether a single-model screen hit transfers, given how few models of this disease exist.",
+      "Whether the class the screen actually favoured has any activity window in this disease, which is the board's existing open question for it and is not reopened by this reading."
     ],
     "required_validation": [
       {
-        "what": "The $0 corroboration named in this route's next action",
+        "what": "⛔ TAKEN 2026-08-09 — re-read the committed drug-screen artifact for the full hit list and read each agent's curated targets across the expression cohorts",
         "feasible_today": true,
         "blocked_by": []
       },
       {
-        "what": "A response measurement in a fusion-positive EMC model",
+        "what": "A sarcoma-class dependency prior for the hit agents' targets, queued in the dependency panel because the arrays cannot see two of them at all",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "An attribution experiment in the line the screen ran on — a knockdown or a target-selective agent, which is the only thing that separates the observation from the hypothesis",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-WET-LAB"
@@ -6565,17 +6600,21 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a re-read of the committed drug-screen artifact and its controls"
+        "a dependency prior for the named targets, which is queued and $0",
+        "an attribution experiment, which needs the model the screen ran on"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "The expression instrument could only ever have ruled a target out, and for the two it was raised to test it could not even do that."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "Attribution needs the model, not the arrays. The screen's own weight sits with a class the board has already assessed.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-MODEL-ACCESS"
+      ]
     },
     "next": {
-      "best_next_action": "Re-read the committed drug-screen artifact for the full hit list and its controls, then read each of the agent's principal targets across the expression cohorts.",
+      "best_next_action": "Report it in the kinase paper as a CORRECTED reading of a lead: the screen's dominant signal is a class the board already holds, and the arrays structurally cannot attribute the kinase hit.",
       "cost": "$0"
     }
   },

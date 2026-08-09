@@ -37,7 +37,7 @@ flowchart LR
   ST_REPURPOSING["ST-REPURPOSING"]:::fam
   RT_6MP["✓ RT-6MP"]:::fam
   ST_REPURPOSING --> RT_6MP
-  RT_ALK_HIT["○ RT-ALK-HIT"]:::fam
+  RT_ALK_HIT["✓ RT-ALK-HIT"]:::fam
   ST_REPURPOSING --> RT_ALK_HIT
   RT_CARFILZOMIB["○ RT-CARFILZOMIB"]:::fam
   ST_REPURPOSING --> RT_CARFILZOMIB
@@ -71,6 +71,8 @@ flowchart LR
   BLK_NO_EMC_DATA --> RT_TRABECTEDIN
   BLK_NO_EMC_DATA --> RT_TRABECTEDIN_PPARG
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_ALK_HIT
+  BLK_NO_WET_LAB --> RT_RET
   BLK_NO_WET_LAB --> RT_TRABECTEDIN_PPARG
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
   BLK_NOT_FUSION_SELECTIVE --> RT_6MP
@@ -89,13 +91,13 @@ flowchart LR
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
 | **[RT-6MP](L2-rt-6mp.md)**<br/>6-mercaptopurine / AF-1 agonism of the fusion | ✓ closed | scoped | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ◐ *contributing* | Nothing. Cite the closure — it is the clearest example in the register of wild-type pharmacology failing to tr |
-| **[RT-ALK-HIT](L2-rt-alk-hit.md)**<br/>Follow-up of the ALK/ROS1-class ex-vivo screen hit | ○ blocked | concept | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ○ *contributing* | Re-read the committed drug-screen artifact for the full hit list and its controls, then read each of the agent |
+| **[RT-ALK-HIT](L2-rt-alk-hit.md)**<br/>Follow-up of the ALK/ROS1-class ex-vivo screen hit | ✓ parked | computed | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ◔ *contributing* | Report it in the kinase paper as a CORRECTED reading of a lead: the screen's dominant signal is a class the bo |
 | **[RT-CARFILZOMIB](L2-rt-carfilzomib.md)**<br/>Carfilzomib ± anthracycline (± venetoclax) | ○ ready | concept | `internal_note` | [PUB-REPURPOSING](L3-publications.md) ◐ *primary* | Treat as landscape context; the ex-vivo result is banked and needs no further lookup. |
 | **[RT-HDAC-BET](L2-rt-hdac-bet.md)**<br/>HDAC / BET to lower fusion expression | ✓ parked | concept | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ◐ *contributing* | Nothing. Cite the closure when the idea resurfaces. |
 | **[RT-HORMONE-PARTNER](L2-rt-hormone-partner.md)**<br/>Hormonal therapy for hormone-responsive 5′ fusion partners | ✓ parked | computed | `internal_note` | [PUB-NR-OUTSIDE-NR4A3](L3-publications.md) ◔ *primary* | Run the one $0 Europe PMC query on the HSPA8 promoter to close the last ungraded partner, then report the reac |
 | **[RT-PARTNER-STRAT](L2-rt-partner-strat.md)**<br/>NR4A3 5' fusion partner as a treatment-stratification variable | ✓ ready | computed | `preprint` | [PUB-FUSION-PARTNER](L3-publications.md) ◐ *primary* | Post the preprint at research/manuscripts/emc-fusion-partner-stratification.md, and in the same pass send the  |
 | **[RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md)**<br/>PPARG downstream-effector (repurpose TZDs) | ✓ blocked | concept | `internal_note` | [PUB-REPURPOSING](L3-publications.md) ◐ *contributing* | The literature half is CLOSED (research/manuscripts/pparg-direction-emc.md). What remains is a PPARγ activity  |
-| **[RT-RET](L2-rt-ret.md)**<br/>RET-selective inhibitors | ✓ blocked | computed | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ○ *contributing* | Read the original RET activation report in full and establish whether activation was measured or inferred, and |
+| **[RT-RET](L2-rt-ret.md)**<br/>RET-selective inhibitors | ✓ parked | computed | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ◔ *contributing* | Report it as the kinase paper's strongest lead and its clearest cautionary case: the one kinase reported activ |
 | **[RT-RXR](L2-rt-rxr.md)**<br/>RXR-heterodimer modulation of the fusion | ✓ closed | scoped | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ◐ *contributing* | Nothing. The scan carries the one observation that would reopen it. |
 | **[RT-TRABECTEDIN](L2-rt-trabectedin.md)**<br/>Trabectedin (± RT or combination) | ○ ready | concept | `internal_note` | [PUB-EMC-PROGRAM](L3-publications.md) ◐ *context* | Keep as cited landscape context. Do not overstate a single response. |
 | **[RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md)**<br/>Trabectedin + a PPARγ agonist (all approved drugs) | ○ blocked | concept | `experimental_proposal` | [PUB-REPURPOSING](L3-publications.md) ◐ *contributing* | Hold the ask until the PPARγ direction can be stated. Re-grade automatically when EMC expression data lands. |

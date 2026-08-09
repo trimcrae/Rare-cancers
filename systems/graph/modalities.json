@@ -475,9 +475,9 @@
     "kind": "modality_class",
     "band": "drug_mechanism",
     "group": "kinase_inhibitor",
-    "verdict": "candidate",
+    "verdict": "excluded",
     "prior_coverage": "searched_before",
-    "rationale": "The highest-ranked lane of the 2026-08-07 sweep and still not a route. It is the only kinase reported as both expressed and activated in EMC, the observation comes from independent groups, two selective inhibitors are approved in other indications, and the finding has stood without follow-up for over a decade.",
+    "rationale": "⛔ RE-GRADED 2026-08-09 on EVIDENCE QUALITY and on ELIGIBILITY, not on a negative measurement. The class entered the census because this is the one kinase reported both expressed and ACTIVATED in this disease. Reading the source shows the activation claim is a single sentence in a paywalled abstract, about 'a limited set' of at most ten tumours, with no recoverable denominator and no assay attribution — and the approved selective agents are approved on a molecular state this disease is not reported to be in. The reading and its bounds are owned by RT-RET. ⚠ Nothing here says the receptor is inactive in EMC; it says nobody has measured it, which is a different and more useful statement.",
     "exemplar": "selpercatinib",
     "prior_ref": {
       "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
@@ -501,9 +501,9 @@
     "kind": "modality_class",
     "band": "drug_mechanism",
     "group": "kinase_inhibitor",
-    "verdict": "candidate",
+    "verdict": "excluded",
     "prior_coverage": "never_searched",
-    "rationale": "An ALK/ROS1-class inhibitor was among the low-IC50 hits of a 221-drug screen run on a patient-derived EMC line, and nothing here has ever followed it up. ⚠ The hit does not establish which target produced it -- that agent inhibits several kinases -- so the honest first step separates the hypothesis from the observation rather than assuming ALK.",
+    "rationale": "⛔ RE-GRADED 2026-08-09 by reading the screen the class was raised from. The class entered the census because an inhibitor of it was among the low-IC50 hits of the only published drug screen on a patient-derived model of this disease. Re-reading that screen shows two of its three hits belong to a DIFFERENT single class, which is already on the board — and the two kinases this row is named for cannot be read on either expression platform, so the hit is unattributable here in principle. The reading and its limits are owned by RT-ALK-HIT. ⚠ The unreadability is an INSTRUMENT statement and says nothing about whether either kinase is expressed in EMC; what closes the row is that the screen's own weight sits elsewhere, not a negative reading.",
     "exemplar": "brigatinib",
     "requires": [
       "attribution of the ex-vivo hit to a specific kinase",

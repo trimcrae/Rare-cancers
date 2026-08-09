@@ -18,21 +18,27 @@ last_verified: 2026-08-05
 
 # RT-DNAPK — DNA-PK inhibition as an indirect route to the fusion protein
 
-**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ blocked · scoped · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#33--kinase-leads-with-emc-specific-evidence-that-nobody-followed)): ⭑ Registered 2026-08-09 from the modality census, porting a lane surfaced 2026-08-07 that had no route.
+**Grade** (owned by [`research/manuscripts/emc-unexplored-treatment-lanes.md`](../../research/manuscripts/emc-unexplored-treatment-lanes.md#39--dna-pk)): ◐ THE INTERACTION IS REAL, WILD-TYPE, AND FROM ONE PAPER IN A NON-SARCOMA TISSUE (graded 2026-08-09 by reading the records the route asked for). The curated evidence is a single UniProt annotation resting on ONE primary source, and it was measured on WILD-TYPE NR4A3 in vascular smooth muscle — not on a fusion protein and not in any sarcoma. ⭐ What survives, and it is the load-bearing half: the modified region is RETAINED in the fusion. The fusion carries NR4A3's full coding region, so nothing the annotation describes is deleted by the breakpoint, and that retention is invariant across all nine DBD-retaining breakpoints. ⛔ The route still cannot deliver selectivity — the same mechanism would lower wild-type NR4A3, and whether the paralogues are regulated the same way is untested.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_DNAPK["○ RT-DNAPK"]:::fam
+  RT_DNAPK["✓ RT-DNAPK"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_DNAPK
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
   TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
   TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
   TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_DNAPK
+  TECH_CLOUD_WET_LAB(["TECH-CLOUD-WET-LAB<br/>expected 2029"]):::tech
+  TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -47,52 +53,60 @@ A registered lane with no route, and its appeal is structural rather than pharma
 
 ## Remaining unknowns
 
-- Whether the curated interaction was measured on a fusion protein or only on wild-type NR4A3, which the records must be read to establish.
-- Whether the interaction is regulatory in the direction that would lower fusion activity.
+- ⛔ ANSWERED 2026-08-09 and retained here only so it is not re-asked: the interaction was measured on wild-type NR4A3 in vascular smooth muscle, from a single primary source. The fusion-protein question is therefore OPEN by absence of evidence rather than by ambiguity.
+- Whether the phosphorylation is regulatory in the direction that would lower fusion activity in a sarcoma cell, which one non-sarcoma paper cannot establish.
+- Whether inhibiting the kinase is survivable in this tissue class at all, which is a dependency question the arrays cannot answer and which is now queued in the sarcoma dependency panel.
+- Whether the paralogues NR4A1/NR4A2 are regulated the same way — untested, and the reason this route inherits the non-selectivity blocker rather than escaping it.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| The $0 corroboration named in this route's next action | ⛔ none built | yes | — |
-| A functional measurement in a fusion-positive EMC model | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| ⛔ TAKEN 2026-08-09 — read the curated interaction records and their primary source, and establish whether any was measured on a fusion protein. Answer: none was. | ⛔ none built | yes | — |
+| A sarcoma-class dependency prior for the kinase and its two partner subunits, which says whether inhibiting it is survivable in this tissue class | ⛔ none built | yes | — |
+| A measurement that the phosphorylation stabilises the FUSION protein, in a cell that carries it — the only observation that transfers the mechanism into this disease | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
 | blocker | kind | what would retire it |
 |---|---|---|
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 
 ## Readiness — what this could become today
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+The mechanism rests on one paper in a tissue that is not a sarcoma. Retention of the modified region is established and is genuinely favourable; everything downstream of it is a transfer.
 
 **Missing:**
-- a full read of the curated interaction records and their primary sources
+- a sarcoma-class dependency prior for the kinase, which is queued and $0
+- a measurement in a cell carrying the fusion, which needs a model
 
 ## Where this route ends — the paper
 
 **[PUB-KINASE-LEADS](L3-publications.md)** — *Four kinase observations in extraskeletal myxoid chondrosarcoma that nobody followed up* (unwritten)
 
-`contributing` · ○ `unwritten` · aimed at `preprint`
+`contributing` · ◔ `outlined` · aimed at `preprint`
 
 **This route contributes:** One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up.
 
 **The paper would claim:** Four kinase-directed observations specific to this disease exist in the published and curated record — one reported as expressed and activated, one positive across a small series with an internal control, one an interaction curated on the driver protein itself, one an ex-vivo screen hit — and none has been followed up by anyone, in a disease with no targeted agent.
 
-**It is not written because:** Its purpose is to consolidate four leads that are each individually thin, and the consolidation has not been done — three of the four were surfaced two days before this endpoint was registered.
+**It is not written because:** ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. All four leads are graded as of 2026-08-09, and reading each one's own primary record demoted THREE of them in ways the leads' prose did not predict: the activation claim behind the strongest lead is a single paywalled abstract sentence with no recoverable denominator, and the approved agents address a molecular state this disease is not reported to be in; the screen hit turns out to sit beside two same-class hits belonging to a class the board already holds, and its named kinases have no probe on either platform so the arrays could never have attributed it; the interaction lead was measured on wild-type protein in a non-sarcoma tissue from one source. The fourth is discordant on the kinase and concordant on its substrate. ⭐ THAT IS THE PAPER NOW, and it is a better one than the consolidation that was planned: four EMC-specific kinase observations that the field has cited or left for one to two decades, each traced to what was actually measured, with the gap between the citation and the measurement stated. ⛔ Superseded, retained: "the consolidation has not been done — three of the four were surfaced two days before this endpoint was registered." ⚠ Two of the four gradings came from records that had been committed since 2026-08-07 and that the routes were registered without reading.
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The cheap half — record reading and retention — is done. What is left needs either the queued dependency prior or a model.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-MODEL-ACCESS** — Access to a patient-derived EMC model through a collaborator, or through a solo-affordable cloud or robotic wet-lab service with E *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -104,7 +118,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Read the curated interaction records and their underlying primary sources, and state whether any was measured on a fusion protein rather than on wild-type NR4A3.
+Read the queued sarcoma dependency prior for the kinase and its two partner subunits, then report the lead with its wild-type, single-source, non-sarcoma provenance stated plainly.
 
 *Cost:* $0
 

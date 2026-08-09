@@ -46,7 +46,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ASYMMETRIC](L2-rt-asymmetric.md) | ST-OCCUPANCY | `reproducible_workflow` | — |
 | [RT-6MP](L2-rt-6mp.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-AF3-INTERFACE](L2-rt-af3-interface.md) | ST-PROXIMITY | `internal_note` | a co-folder validated on assembly |
-| [RT-ALK-HIT](L2-rt-alk-hit.md) | ST-REPURPOSING | `internal_note` | a re-read of the committed drug-screen artifact and its controls |
+| [RT-ALK-HIT](L2-rt-alk-hit.md) | ST-REPURPOSING | `internal_note` | a dependency prior for the named targets, which is queued and $0; an attribution experiment, which needs the model the screen ran on |
 | [RT-ANDGATE](L2-rt-andgate.md) | ST-PROXIMITY | `internal_note` | arm-2 chemistry |
 | [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | ST-DEPENDENCY | `internal_note` | a dependency or BH3-profiling readout in an EMC model — abundance cannot answer this and the class prior contains no EMC line |
 | [RT-ARGININE](L2-rt-arginine.md) | ST-DEPENDENCY | `internal_note` | nothing — the $0 observation this route was registered for has been taken, and it came back against the premise |
@@ -57,7 +57,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-COVALENT-PROBE](L2-rt-covalent-probe.md) | ST-OCCUPANCY | `internal_note` | a criterion that passes its positive control |
 | [RT-CRISPR-CAS13](L2-rt-crispr-cas13.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector |
 | [RT-DBD](L2-rt-dbd.md) | ST-FUSION-DIRECT | `internal_note` | — |
-| [RT-DNAPK](L2-rt-dnapk.md) | ST-DEPENDENCY | `internal_note` | a full read of the curated interaction records and their primary sources |
+| [RT-DNAPK](L2-rt-dnapk.md) | ST-DEPENDENCY | `internal_note` | a sarcoma-class dependency prior for the kinase, which is queued and $0; a measurement in a cell carrying the fusion, which needs a model |
 | [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-EZH2](L2-rt-ezh2.md) | ST-DEPENDENCY | `internal_note` | nothing — the selection question was asked and answered negatively |
 | [RT-FAP-RLT](L2-rt-fap-rlt.md) | ST-RADIOLIGAND | `internal_note` | any measurement in EMC |
@@ -78,7 +78,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-NR2F1](L2-rt-nr2f1.md) | ST-OCCUPANCY | `internal_note` | a platform that carries a probe for the receptor — the two readable array series do not |
 | [RT-POLQ](L2-rt-polq.md) | ST-DEPENDENCY | `internal_note` | nothing at the expression level — the class selects on a lesion this data cannot see, and on what it CAN see the answer is negative |
 | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | ST-REPURPOSING | `internal_note` | a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md |
-| [RT-RET](L2-rt-ret.md) | ST-REPURPOSING | `internal_note` | a full read of the original activation report, to establish what was measured and in how many tumours |
+| [RT-RET](L2-rt-ret.md) | ST-REPURPOSING | `internal_note` | the primary paper's full text, which is paywalled and unreachable at $0; a phospho-receptor measurement in EMC tissue, which nobody has published |
 | [RT-RIBOZYME](L2-rt-ribozyme.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector; a modern demonstration of trans-splicing ribozymes |
 | [RT-RIPTAC](L2-rt-riptac.md) | ST-PROXIMITY | `internal_note` | paralogue selectivity; a chemistry programme |
 | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | ST-LOCOREGIONAL | `internal_note` | the radioresistance reappraisal's dose-response regression, extended beyond external-beam series |

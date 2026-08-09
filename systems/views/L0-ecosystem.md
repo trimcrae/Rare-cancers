@@ -123,8 +123,8 @@ Every route above ends in a paper. With no wet lab and no clinic, the published 
 
 | state | endpoints | routes feeding them |
 |---|---:|---:|
-| ○ `unwritten` | 4 | 15 |
-| ◔ `outlined` | 4 | 13 |
+| ○ `unwritten` | 3 | 11 |
+| ◔ `outlined` | 5 | 17 |
 | ◐ `drafted` | 20 | 40 |
 
 ## What holds the portfolio down
@@ -136,8 +136,8 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 | blocker | kind | routes held | families | retired by |
 |---|---|---:|---:|---|
 | **BLK-NO-EMC-DATA** | `insufficient_data` | 43 | 9 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | 16 | 7 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 14 | 6 | *permanent — nothing* |
-| **BLK-NO-WET-LAB** | `requires_external_collaboration` | 13 | 7 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 9 | 3 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 9 | 2 | *permanent — nothing* |
 | **BLK-R4-BINDS** | `requires_wet_lab` | 8 | 2 | `TECH-EMC-MODEL-ACCESS` |
