@@ -177,13 +177,33 @@ jobs:
       # checkout safe, and it is why there is now ONE publish mechanism rather than one per lane:
       # the ATR-vulnerability/construct-design artifacts used to have their own step gated
       # `github.ref_name != 'main'`, which excluded the one branch where the drift does the damage.
+      # ⭐ THE FIGURES NEED THEIR OWN STAGING, AND THE REASON IS THE BUG THIS REPLACES.
+      # `artifact_stub_guard --stage` is FLAT and the publishers rebuild each destination from the
+      # basename alone, so anything outside research/modalities/ round-trips into the wrong
+      # directory. Measured 2026-08-09: the figure-provenance stamp was added to that stage list, the
+      # run went green, and the file landed at research/modalities/figure-provenance.json while the
+      # stamp its test reads was never touched. The guard now REFUSES such a path outright, so this
+      # directory has to be carried separately.
+      # ⚠ IT MUST BE COPIED OUT BEFORE THE PUBLISH STEP'S `git checkout -- .` / `git clean`, which
+      # would otherwise discard the freshly rebuilt figures — the same reason $RUNNER_TEMP/res exists.
+      - name: Stage the rebuilt figures (separate — they do not live under research/modalities)
+        if: always()
+        timeout-minutes: 5
+        run: |
+          mkdir -p "$RUNNER_TEMP/figs"
+          if [ -d research/manuscripts/figures ]; then
+            cp -r research/manuscripts/figures/. "$RUNNER_TEMP/figs/" || true
+            echo "staged $(find "$RUNNER_TEMP/figs" -type f | wc -l) figure file(s)"
+          else
+            echo "no figures directory; nothing to stage"
+          fi
+
       - name: Stage results (drop failure stubs)
         if: always()
         timeout-minutes: 5
         run: |
           python3 research/modalities/artifact_stub_guard.py --stage "$RUNNER_TEMP/res" \
             research/modalities/nr4a3-fusion-targets-confounds.json \
-            research/manuscripts/figures/figure-provenance.json \
             research/modalities/depmap-sarcoma-dependency.json \
             research/modalities/depmap-sarcoma-dependency.png \
             research/modalities/depmap-target-expression.json \
@@ -224,6 +244,13 @@ jobs:
             cp "$p" "research/modalities/$(basename "$p")"
             git add -f "research/modalities/$(basename "$p")" || true
           done
+          # the figures keep their real path — see the staging step above for why they cannot ride
+          # the flat $RUNNER_TEMP/res mechanism
+          if [ -n "$(ls -A "$RUNNER_TEMP/figs" 2>/dev/null)" ]; then
+            mkdir -p research/manuscripts/figures
+            cp -r "$RUNNER_TEMP/figs/." research/manuscripts/figures/
+            git add -f research/manuscripts/figures || true
+          fi
           git commit -m "DepMap / FET-DDR / IDR-census / ATR-vulnerability / construct-design artifacts (CI)" \
             || { echo "no changes"; exit 0; }
           # This branch (often main) takes CI commits constantly, so rebase-and-retry rather than
@@ -261,5 +288,12 @@ jobs:
             cp "$p" "research/modalities/$(basename "$p")"
             git add -f "research/modalities/$(basename "$p")" || true
           done
+          # the figures keep their real path — see the staging step above for why they cannot ride
+          # the flat $RUNNER_TEMP/res mechanism
+          if [ -n "$(ls -A "$RUNNER_TEMP/figs" 2>/dev/null)" ]; then
+            mkdir -p research/manuscripts/figures
+            cp -r "$RUNNER_TEMP/figs/." research/manuscripts/figures/
+            git add -f research/manuscripts/figures || true
+          fi
           git commit -m "DepMap + NR4A safety-genetics + resistance-map + E3-expression + superfamily-selectivity compute" || { echo "no changes"; exit 0; }
           git push origin modalities-cache

@@ -66,3 +66,32 @@ def test_stage_drops_stubs_and_keeps_the_rest(tmp_path):
     kept, dropped = stage([good, bad, str(tmp_path / "never-ran.json")], str(dest))
     assert kept == [good] and dropped == [bad]
     assert os.listdir(dest) == ["good.json"]
+
+
+# ⛔ THE INCIDENT THIS PAIR EXISTS FOR (2026-08-09). A figure-provenance stamp living under
+# research/manuscripts/figures/ was added to a workflow's stage list. Staging is FLAT and the
+# publishers rebuild each destination from the basename alone, so it was committed to
+# research/modalities/figure-provenance.json while the stamp its test reads went untouched. Every
+# step reported success and the build stayed red for a reason that looked unrelated to the change
+# that caused it.
+def test_a_path_the_publishers_cannot_deliver_is_refused_rather_than_misfiled(tmp_path):
+    """The refusal must fire on the shape of the real mistake, not on a contrived one."""
+    good = _w(tmp_path, "good.json", {"n": 1})
+    with pytest.raises(SystemExit) as exc:
+        stage([good], str(tmp_path / "res"), publishable_root="research/modalities")
+    msg = str(exc.value)
+    assert "REFUSING TO STAGE" in msg and good in msg, (
+        "the refusal must NAME the offending path — a build failure that does not say which entry "
+        "is wrong sends the reader back to the same guesswork the misfile already caused")
+
+
+def test_the_refusal_is_opt_in_so_the_copy_itself_stays_unit_testable(tmp_path):
+    """⚠ THE FIRST VERSION HARDCODED THE ROOT INTO stage() AND BROKE A LEGITIMATE TEST.
+
+    Every unit test here stages from tmp_path, which is by construction not under the repo's publish
+    directory. A guard that makes its own function untestable is too rigid to be correct, so the
+    constraint lives at the CLI boundary the workflow actually calls and defaults OFF here.
+    """
+    good = _w(tmp_path, "good.json", {"n": 1})
+    kept, dropped = stage([good], str(tmp_path / "res"))
+    assert kept == [good] and dropped == []
