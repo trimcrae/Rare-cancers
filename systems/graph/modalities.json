@@ -1,1 +1,4300 @@
-[]
+[
+  {
+    "id": "MOD-ANTHRACYCLINE",
+    "name": "Anthracyclines",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cytotoxic",
+    "verdict": "in_clinical_use",
+    "prior_coverage": "searched_before",
+    "rationale": "First-line cytotoxic backbone for advanced disease, with an EMC-specific response record curated in the clinical registry. Recorded as the incumbent this census measures new options against.",
+    "exemplar": "doxorubicin",
+    "prior_ref": {
+      "file": "research/data/emc-clinical-registry.json"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ALKYLATOR",
+    "name": "Alkylating agents",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cytotoxic",
+    "verdict": "in_clinical_use",
+    "prior_coverage": "searched_before",
+    "rationale": "Given in combination with an anthracycline in advanced disease; the registry curates the combination arm's outcome. Part of the incumbent arsenal rather than an unexplored class.",
+    "exemplar": "ifosfamide",
+    "prior_ref": {
+      "file": "research/data/emc-clinical-registry.json"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-DNA-MINOR-GROOVE",
+    "name": "DNA minor-groove binders / fusion-TF displacers",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cytotoxic",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "The class is on the board twice over: as monotherapy and as an all-approved-drug combination on the fusion's own documented downstream axis.",
+    "exemplar": "trabectedin",
+    "route": "RT-TRABECTEDIN",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PLATINUM",
+    "name": "Platinum agents",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cytotoxic",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "No EMC-specific evidence exists, and the class holds no standing in soft-tissue sarcoma generally, so there is neither a disease-level nor a class-level reason to carry it. The class couples its effect to proliferation rate, and EMC is a slow-cycling tumour with an indolent natural history -- the profile that makes a division-rate-dependent mechanism weakest, and the same ground on which a physical modality was already declined here.",
+    "exemplar": "cisplatin",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ANTIMETABOLITE",
+    "name": "Antimetabolites",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cytotoxic",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "A sarcoma-wide later-line option with no EMC-specific series anywhere in the curated record. The class couples its effect to proliferation rate, and EMC is a slow-cycling tumour with an indolent natural history -- the profile that makes a division-rate-dependent mechanism weakest, and the same ground on which a physical modality was already declined here.",
+    "exemplar": "gemcitabine",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TOPO1",
+    "name": "Topoisomerase-I inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cytotoxic",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "No EMC report and no sarcoma-class standing that would license a transfer. The class couples its effect to proliferation rate, and EMC is a slow-cycling tumour with an indolent natural history -- the profile that makes a division-rate-dependent mechanism weakest, and the same ground on which a physical modality was already declined here.",
+    "exemplar": "irinotecan",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TOPO2-NON-ANTHRA",
+    "name": "Non-anthracycline topoisomerase-II inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cytotoxic",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Carries none of the anthracycline record that puts its sibling class in clinical use here, and no EMC observation exists. The class couples its effect to proliferation rate, and EMC is a slow-cycling tumour with an indolent natural history -- the profile that makes a division-rate-dependent mechanism weakest, and the same ground on which a physical modality was already declined here.",
+    "exemplar": "etoposide",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MICROTUBULE-STABILIZER",
+    "name": "Microtubule-stabilising agents",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cytotoxic",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "No EMC observation, and the mechanism is the most sharply mitosis-coupled in the cytotoxic set. The class couples its effect to proliferation rate, and EMC is a slow-cycling tumour with an indolent natural history -- the profile that makes a division-rate-dependent mechanism weakest, and the same ground on which a physical modality was already declined here.",
+    "exemplar": "paclitaxel",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MICROTUBULE-DESTABILIZER",
+    "name": "Microtubule-destabilising agents",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cytotoxic",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Approved in a different sarcoma histology on a lineage-specific result that does not transfer to a fusion-driven myxoid tumour, and no EMC observation exists. The class couples its effect to proliferation rate, and EMC is a slow-cycling tumour with an indolent natural history -- the profile that makes a division-rate-dependent mechanism weakest, and the same ground on which a physical modality was already declined here.",
+    "exemplar": "eribulin",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-HYPOXIA-PRODRUG",
+    "name": "Hypoxia-activated prodrugs",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cytotoxic",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "EMC is a hypovascular, matrix-dominated tumour, and the repository has already accepted that this makes it a good niche fit when it graded engineered bacteria -- where the fit was real and the decisive objection was that no in-silico instrument could be brought to bear. That objection does not hold here: a hypoxia signature is readable in expression data already on disk. ⚠ The class has a negative randomised soft-tissue-sarcoma record that any assessment must lead with.",
+    "exemplar": "evofosfamide",
+    "requires": [
+      "a hypoxic fraction large enough to activate the prodrug",
+      "a reductase-competent tumour compartment"
+    ],
+    "zero_dollar_next_step": "Score a hypoxia signature across the two readable EMC expression series and the fourth SRA cohort, then read the sarcoma phase 3 record for why it failed and whether the failure was mechanism or patient selection.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RADIOMIMETIC",
+    "name": "Radiomimetic cytotoxics",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cytotoxic",
+    "verdict": "not_applicable",
+    "prior_coverage": "never_searched",
+    "rationale": "The class survives clinically in germ-cell and lymphoma regimens on histology-specific grounds with no soft-tissue-sarcoma instance to transfer from.",
+    "exemplar": "bleomycin",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-NR4A-AGONIST",
+    "name": "Direct NR4A-family agonism",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "hormonal_nuclear_receptor",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board and closed on direction of effect rather than on reach: the fusion is a gain-of-function transcriptional oncoprotein, so an agonist of it is a candidate for the wrong direction. The closure is filed as premise-corrigible with a watched revival trigger.",
+    "exemplar": "6-mercaptopurine",
+    "route": "RT-6MP",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RXR-AGONIST",
+    "name": "RXR heterodimer pharmacology",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "hormonal_nuclear_receptor",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board and closed: the one solved pharmacology in this receptor family does not reach NR4A3, and the closure was re-verified in 2026 against a primary source rather than left as an assumption.",
+    "exemplar": "bexarotene",
+    "route": "RT-RXR",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PPARG-AGONIST",
+    "name": "PPARγ agonists",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "hormonal_nuclear_receptor",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board as a downstream-effector route, because the fusion transactivates this receptor's promoter. The unresolved question is the direction of the intervention, not whether the axis exists.",
+    "exemplar": "pioglitazone",
+    "route": "RT-PPARG-DOWNSTREAM",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SERM-SERD",
+    "name": "Selective oestrogen-receptor modulators and degraders",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "hormonal_nuclear_receptor",
+    "verdict": "candidate",
+    "prior_coverage": "searched_before",
+    "rationale": "A 5′ fusion partner can import a druggable transcriptional input that NR4A3 itself does not have, and the repository already holds a reported instance of exactly that with durable benefit. No hormonal route exists among the forty, which makes this a registered lane with no home.",
+    "exemplar": "tamoxifen",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "312--hormone-responsive-partners"
+    },
+    "requires": [
+      "a hormone-receptor 5′ partner, which is a minority subset of an already ultra-rare disease"
+    ],
+    "zero_dollar_next_step": "Pool the published partner-frequency series already curated here to size the hormone-responsive subset, and state the arithmetic of how many patients a partner-directed option could reach.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-NR-ORPHAN-AGONIST",
+    "name": "Orphan nuclear-receptor agonism outside the NR4A family",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "hormonal_nuclear_receptor",
+    "verdict": "candidate",
+    "prior_coverage": "searched_before",
+    "rationale": "A registered lane with no route. It targets the disease's actual clinical problem -- dormancy and late metastasis -- and it repoints the orphan-nuclear-receptor modelling stack built for NR4A3 onto a receptor that has a published tool compound, which is the known-answer control NR4A3 never had.",
+    "exemplar": "NR2F1 agonists",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "311--nr2f1-dormancy"
+    },
+    "requires": [
+      "expression of the receptor in EMC tissue"
+    ],
+    "zero_dollar_next_step": "Read the receptor in the targeted expression panel already committed here, then state whether the existing pocket-modelling pipeline runs unmodified on its ligand-binding domain.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-AR-ANTAGONIST",
+    "name": "Androgen-receptor antagonists and degraders",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "hormonal_nuclear_receptor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "No androgen-receptor dependency is reported in EMC and none of the known 5′ partners is an androgen-responsive locus, so the partner-imports-an-input argument that keeps the oestrogen class alive has no instance here.",
+    "exemplar": "enzalutamide",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-AROMATASE",
+    "name": "Aromatase inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "hormonal_nuclear_receptor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Depletes a ligand for a receptor EMC has not been shown to depend on; the hormone-responsive-partner argument runs through the receptor itself rather than through circulating ligand.",
+    "exemplar": "letrozole",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-GNRH",
+    "name": "GnRH analogues",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "hormonal_nuclear_receptor",
+    "verdict": "not_applicable",
+    "prior_coverage": "never_searched",
+    "rationale": "Acts by suppressing gonadal steroid output for tumours whose growth depends on it, and no such dependency is reported in this disease.",
+    "exemplar": "leuprolide",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-GLUCOCORTICOID",
+    "name": "Glucocorticoids",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "hormonal_nuclear_receptor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Used across oncology for supportive and anti-oedema indications rather than as antitumour therapy in solid sarcoma, and no EMC-directed antitumour rationale exists.",
+    "exemplar": "dexamethasone",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RETINOID",
+    "name": "Retinoid differentiation therapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "hormonal_nuclear_receptor",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep on structural grounds. That ruling stands and its reasoning is owned there.",
+    "exemplar": "all-trans retinoic acid",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-VDR",
+    "name": "Vitamin-D receptor agonists",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "hormonal_nuclear_receptor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "No vitamin-D-receptor axis is reported in EMC, and the class has no sarcoma-level antitumour standing to transfer from.",
+    "exemplar": "calcitriol",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-VEGFR-TKI",
+    "name": "VEGFR / multi-kinase antiangiogenic inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "in_clinical_use",
+    "prior_coverage": "searched_before",
+    "rationale": "The best-evidenced systemic class in EMC and the reason the arsenal is not empty: several agents carry EMC-specific response and progression-free-survival records in the curated registry. Recorded as the incumbent, and its response heterogeneity by fusion partner is separately on the board.",
+    "exemplar": "pazopanib",
+    "prior_ref": {
+      "file": "research/data/emc-clinical-registry.json"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-VEGF-MAB",
+    "name": "Anti-VEGF antibodies and ligand traps",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The antiangiogenic hypothesis in EMC is already carried by the multi-kinase inhibitors that hold its entire clinical record; a pure ligand-blocking format adds no new axis of evidence and has no EMC observation of its own.",
+    "exemplar": "bevacizumab",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RET",
+    "name": "RET-selective inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "candidate",
+    "prior_coverage": "searched_before",
+    "rationale": "The highest-ranked lane of the 2026-08-07 sweep and still not a route. It is the only kinase reported as both expressed and activated in EMC, the observation comes from independent groups, two selective inhibitors are approved in other indications, and the finding has stood without follow-up for over a decade.",
+    "exemplar": "selpercatinib",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "31--ret"
+    },
+    "requires": [
+      "confirmation that RET activation is present in fusion-positive EMC tissue rather than in a single historical series"
+    ],
+    "zero_dollar_next_step": "Read RET and its ligand/co-receptor set across the two readable EMC expression series and the fourth cohort, and re-read the original activation report in full to establish what was measured and in how many tumours.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ALK-ROS1",
+    "name": "ALK / ROS1 inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "An ALK/ROS1-class inhibitor was among the low-IC50 hits of a 221-drug screen run on a patient-derived EMC line, and nothing here has ever followed it up. ⚠ The hit does not establish which target produced it -- that agent inhibits several kinases -- so the honest first step separates the hypothesis from the observation rather than assuming ALK.",
+    "exemplar": "brigatinib",
+    "requires": [
+      "attribution of the ex-vivo hit to a specific kinase",
+      "expression of that kinase in EMC tissue"
+    ],
+    "zero_dollar_next_step": "Re-read the committed drug-screen artifact for the full hit list and its controls, then read each of that agent's principal targets across the EMC expression cohorts to see which are present at all.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-EGFR",
+    "name": "EGFR inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The repository's own differential expression read places EGFR below baseline in EMC with no selectivity signal, which was already decisive enough to close a separate modality that depended on it.",
+    "exemplar": "cetuximab",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-HER2",
+    "name": "HER2-directed inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "No amplification or over-expression is reported in EMC, and the genome is quiet and clonal -- the profile in which a receptor amplification would be conspicuous if present.",
+    "exemplar": "trastuzumab",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-FGFR",
+    "name": "FGFR inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Requires an activating fusion, mutation or amplification to select patients, and EMC's rearrangement is at a different locus entirely with no reported FGFR lesion.",
+    "exemplar": "erdafitinib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-IGF1R",
+    "name": "IGF-1R inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep, which cites a negative randomised result in the nearest fusion-sarcoma comparator. That ruling stands.",
+    "exemplar": "teprotumumab",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MET",
+    "name": "MET inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "MET appears in the surfaceome candidate list as expressed rather than as selective, and no MET alteration or dependency is reported in EMC.",
+    "exemplar": "capmatinib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-KIT-PDGFR",
+    "name": "KIT / PDGFR inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "in_clinical_use",
+    "prior_coverage": "searched_before",
+    "rationale": "The registry records a biomarker-restricted single-patient use with prolonged disease stability. Recorded as part of the incumbent arsenal at its true weight, which is one patient.",
+    "exemplar": "imatinib",
+    "prior_ref": {
+      "file": "research/data/emc-clinical-registry.json"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-NTRK",
+    "name": "NTRK inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The tumour-agnostic approval is conditioned on an NTRK fusion. EMC's driver is a rearrangement of a different gene, so the agnostic indication does not reach it despite both being fusion-driven sarcomas -- a distinction worth stating because the shared word invites the wrong inference.",
+    "exemplar": "larotrectinib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-AXL",
+    "name": "AXL inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "No AXL dependency is reported in EMC, and the class's principal rationale is reversal of acquired resistance to a targeted agent this disease does not receive.",
+    "exemplar": "bemcentinib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MAPK",
+    "name": "RAS / RAF / MEK / ERK inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The class selects on an activating MAPK lesion. EMC's genome is quiet and clonal with a single founding translocation and no reported MAPK driver, so there is no lesion to select on.",
+    "exemplar": "trametinib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PI3K-AKT-MTOR",
+    "name": "PI3K / AKT / mTOR inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The class has been tested broadly across soft-tissue sarcoma without establishing a histology this disease belongs to, and no PI3K-pathway lesion or dependency is reported in EMC.",
+    "exemplar": "everolimus",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-JAK-STAT",
+    "name": "JAK / STAT inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "No JAK-STAT dependency is reported in EMC, and the class's solid-tumour rationale runs through inflammatory signalling that this tumour's cold, sparse infiltrate does not supply.",
+    "exemplar": "ruxolitinib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SRC-BTK",
+    "name": "SRC-family and BTK inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Both act on signalling axes with no reported role in EMC; the BTK arm is a lymphoid-lineage class with no solid-sarcoma instance at all.",
+    "exemplar": "dasatinib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CDK46",
+    "name": "CDK4/6 inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Selects on a cell-cycle lesion -- CDKN2A loss, CDK4 amplification, an intact RB axis -- and none is reported in EMC's quiet genome. The class couples its effect to proliferation rate, and EMC is a slow-cycling tumour with an indolent natural history -- the profile that makes a division-rate-dependent mechanism weakest, and the same ground on which a physical modality was already declined here.",
+    "exemplar": "palbociclib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TRANSCRIPTIONAL-CDK",
+    "name": "Transcriptional CDK inhibition (CDK7, CDK9, CDK12/13)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "⭐ The single largest gap this census found in the class it should most obviously have covered. The driver is a transcriptional oncoprotein whose entire mechanism is transactivation, and transcriptional CDK dependency is the best-established vulnerability of fusion-driven sarcomas as a class -- yet no route, no prior sweep and no technique-class table here has ever named it. ⚠ The class is also broadly cytotoxic, so the question is a window rather than an effect.",
+    "exemplar": "CDK7 and CDK9 inhibitors",
+    "requires": [
+      "evidence that fusion-driven transcription is more CDK-dependent than the host cell's"
+    ],
+    "blockers": [
+      "BLK-CLASS-INHERITANCE",
+      "BLK-NO-EMC-DATA"
+    ],
+    "zero_dollar_next_step": "Run the same class-inheritance argument already built for the DNA-damage-response lane over the transcriptional CDKs, using the sarcoma dependency prior already committed here, and state honestly that it is a transfer with no EMC line in it.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-DDR-KINASE",
+    "name": "DNA-damage-response kinase inhibition (ATR, CHK1, WEE1)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board as a split pair -- the computed in-silico assessment and the cell-panel ask -- and it is the portfolio's strongest example of a class-inheritance argument. The computed half graded weak, which the record now carries.",
+    "exemplar": "ceralasertib",
+    "route": "RT-ATR-ASSESS",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-DNAPK",
+    "name": "DNA-PK inhibition",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "candidate",
+    "prior_coverage": "searched_before",
+    "rationale": "A registered lane with no route. Its appeal is structural rather than pharmacological: there is curated experimental evidence of an interaction with NR4A3 itself, and acting through the protein's own regulation needs neither a ligand for the pocket nor an assembled ternary complex -- so it inherits none of the blockers that hold the induced-proximity family down.",
+    "exemplar": "peposertib",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "39--dna-pk"
+    },
+    "requires": [
+      "that the curated interaction is regulatory in the chimera and not only in the wild-type protein"
+    ],
+    "zero_dollar_next_step": "Read the curated interaction records and their underlying primary sources in full, and state whether any of them was measured on a fusion protein rather than on wild-type NR4A3.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SGK1",
+    "name": "SGK1 inhibition",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "candidate",
+    "prior_coverage": "searched_before",
+    "rationale": "A registered lane with no route: a druggable AGC kinase reported positive across a full small series of EMC tumours with an internal negative control, published two decades ago and never followed up by anyone.",
+    "exemplar": "SGK1 inhibitors",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "310--sgk1"
+    },
+    "requires": [
+      "confirmation at the transcript level in an independent EMC cohort"
+    ],
+    "zero_dollar_next_step": "Read SGK1 across the two readable EMC expression series and the fourth cohort, which turns a single antibody-based series into two independent modalities of evidence at no cost.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-AURORA-PLK",
+    "name": "Aurora kinase and PLK1 inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Mitotic kinases whose therapeutic index depends entirely on outpacing the host's proliferating compartments. The class couples its effect to proliferation rate, and EMC is a slow-cycling tumour with an indolent natural history -- the profile that makes a division-rate-dependent mechanism weakest, and the same ground on which a physical modality was already declined here.",
+    "exemplar": "alisertib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CSF1R",
+    "name": "CSF1R inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Approved in a sarcoma whose biology is a macrophage-recruiting autocrine loop. The repository's own reading is that translocation-associated sarcomas carry significantly lower macrophage counts than non-translocation sarcomas, so the compartment this class acts on is the one EMC's class has least of.",
+    "exemplar": "pexidartinib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-IMMUNE-KINASE",
+    "name": "Immune-directed kinase inhibitors (HPK1, TBK1)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "kinase_inhibitor",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Designed to amplify an existing T-cell response. EMC's measured microenvironment is immune-cold with a low mutational burden, which is the registered permanent blocker this class's mechanism runs directly into.",
+    "exemplar": "HPK1 inhibitors",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PROTEASOME",
+    "name": "Proteasome inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board, and it carries the best ex-vivo evidence any agent has in EMC: the single high-sensitivity hit of a chemotherapeutic panel, validated in both patient-derived models.",
+    "exemplar": "carfilzomib",
+    "route": "RT-CARFILZOMIB",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-HDAC",
+    "name": "Histone deacetylase inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board as an expression-lowering route and closed there on selectivity. ⚠ The closure was re-scoped in the 2026-08-06 audit: EMC ex-vivo hits for this class do exist, so what is closed is the fusion-SELECTIVITY claim and explicitly not the non-selective-activity question.",
+    "exemplar": "romidepsin",
+    "route": "RT-HDAC-BET",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BET",
+    "name": "BET bromodomain inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board with its HDAC sibling, closed on a sarcoma-wide dependency prior showing no selectivity window rather than on an EMC measurement.",
+    "exemplar": "BET inhibitors",
+    "route": "RT-HDAC-BET",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PARP",
+    "name": "PARP inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep, and notably in the inverted direction. That ruling stands.",
+    "exemplar": "olaparib",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-POLQ",
+    "name": "POLθ inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "The newest DNA-damage-response class, and the one the existing class-inheritance argument was never extended to. If the FET-rearrangement replication-stress premise holds at all, it is a premise about a repair state, and this class exploits a different arm of the same state -- so it is testable with the instrument already built rather than with a new one.",
+    "exemplar": "POLQ inhibitors",
+    "requires": [
+      "that the replication-stress premise the ATR lane rests on survives its own weak grade"
+    ],
+    "blockers": [
+      "BLK-CLASS-INHERITANCE",
+      "BLK-NO-EMC-DATA"
+    ],
+    "zero_dollar_next_step": "Extend the committed dependency-prior analysis to the microhomology-mediated end-joining genes, and report it beside the ATR assessment's weak grade rather than as a fresh claim.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-IDH",
+    "name": "IDH inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep as a nominal name-match only. That ruling stands, and the sweep kept it precisely because the disease's name misleads.",
+    "exemplar": "ivosidenib",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-EZH2",
+    "name": "EZH2 / PRC2 inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "Approved in a sarcoma selected by a chromatin-remodeller defect, and the portfolio already contains a chromatin-remodelling hypothesis for EMC through a non-canonical BAF subunit -- but the two have never been connected, and no prior sweep named this class. ⚠ The existing BAF route's own dependency prior came back negative, which any assessment has to lead with.",
+    "exemplar": "tazemetostat",
+    "requires": [
+      "a chromatin-remodeller defect or PRC2 dependency in EMC, neither of which is reported"
+    ],
+    "blockers": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "zero_dollar_next_step": "Read the PRC2 and BAF subunit sets across the EMC expression cohorts on disk, and check the committed sarcoma dependency artifact for the same genes so the answer arrives beside the negative that is already recorded.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PRMT5-MAT2A",
+    "name": "PRMT5 / MAT2A inhibitors (MTAP-deletion synthetic lethality)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "⭐ One of the few genuinely biomarker-selected synthetic-lethal classes in oncology, and its biomarker is a copy-number state nobody here has ever read in EMC. The question is cheap and binary, and it has simply never been asked.",
+    "exemplar": "MAT2A inhibitors",
+    "requires": [
+      "co-deletion of the MTAP locus, which is unmeasured in EMC"
+    ],
+    "blockers": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "zero_dollar_next_step": "Read MTAP and its neighbouring locus across every EMC expression series on disk plus the fourth cohort; deletion shows up as a floor-level transcript, so expression data answers a copy-number question well enough to triage it.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-HSP90",
+    "name": "HSP90 and chaperone inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "⭐ A structural argument nobody here has made: fusion oncoproteins are chimeric, and chimeric proteins are disproportionately chaperone-dependent for folding and stability. That is a way to lower fusion protein levels that needs no pocket ligand, no ternary complex and no paralogue discrimination -- the three blockers holding the largest family down. ⚠ The class has a long record of clinical failure on toxicity that any assessment must lead with.",
+    "exemplar": "HSP90 inhibitors",
+    "requires": [
+      "evidence that the chimera is more chaperone-dependent than the wild-type proteins it is made from"
+    ],
+    "blockers": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "zero_dollar_next_step": "Read the chaperone-client literature for FET-family fusion proteins, and check whether the repository's own structural work on the chimera predicts an unstable or partially disordered interface at the junction.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-DNMT",
+    "name": "DNA methyltransferase inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "parked_capability",
+    "prior_coverage": "never_searched",
+    "rationale": "Hypomethylating agents have a coherent rationale in fusion-driven tumours with quiet genomes, but grading it needs EMC methylation data, and no methylation dataset for this disease is available to this program in any form.",
+    "exemplar": "azacitidine",
+    "blockers": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "revisit_trigger": [
+      "TECH-EMC-EXPRESSION-DATA"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-LSD1",
+    "name": "LSD1 inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The class's solid-tumour rationale is lineage-specific to neuroendocrine differentiation, and EMC's reported neuroendocrine features are immunophenotypic rather than a lineage dependency.",
+    "exemplar": "LSD1 inhibitors",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MENIN",
+    "name": "Menin-MLL inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "not_applicable",
+    "prior_coverage": "never_searched",
+    "rationale": "Selects on a specific leukaemic rearrangement class; the interaction it blocks has no reported role in soft-tissue sarcoma.",
+    "exemplar": "revumenib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-WRN",
+    "name": "WRN helicase inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Selects on microsatellite instability. EMC's genome is quiet, clonal and stable -- the opposite of the state this class requires.",
+    "exemplar": "WRN inhibitors",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-USP1-KAT6",
+    "name": "USP1 and KAT6 inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Both select on lesions defined in other diseases -- homologous-recombination deficiency and a hormone-receptor-positive breast context -- neither of which EMC has.",
+    "exemplar": "USP1 inhibitors",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-NAMPT-DHODH",
+    "name": "NAMPT and DHODH inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Both starve a biosynthetic pathway whose demand scales with division rate. The class couples its effect to proliferation rate, and EMC is a slow-cycling tumour with an indolent natural history -- the profile that makes a division-rate-dependent mechanism weakest, and the same ground on which a physical modality was already declined here.",
+    "exemplar": "DHODH inhibitors",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-GLUTAMINASE",
+    "name": "Glutaminase inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out with the wider metabolic sweep on 2026-08-07. That ruling stands.",
+    "exemplar": "telaglenastat",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ARGININE-DEPRIVATION",
+    "name": "Arginine deprivation",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "metabolic_and_dietary",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "⭐ A metabolic class that is genuinely biomarker-selected rather than proliferation-coupled: it works where a single biosynthetic enzyme is silenced, which is a state, not a growth rate. It has been taken to late-phase trials in soft-tissue sarcoma specifically, and the biomarker is one transcript readable in data already committed here.",
+    "exemplar": "pegylated arginine deiminase",
+    "requires": [
+      "silencing of the argininosuccinate synthase locus in EMC, which is unmeasured"
+    ],
+    "blockers": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "zero_dollar_next_step": "Read ASS1 across the two readable EMC expression series and the fourth cohort. A single transcript answers the selection question, and the class already has a sarcoma trial record to read the answer against.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ASPARAGINASE",
+    "name": "Asparaginase",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "metabolic_and_dietary",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The same enzyme-silencing logic as arginine deprivation, but the sensitising defect is a lymphoid lineage property with no solid-sarcoma instance.",
+    "exemplar": "pegaspargase",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ODC",
+    "name": "Ornithine decarboxylase inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Its oncology use is maintenance in a MYCN-driven paediatric tumour, and polyamine demand tracks proliferation. The class couples its effect to proliferation rate, and EMC is a slow-cycling tumour with an indolent natural history -- the profile that makes a division-rate-dependent mechanism weakest, and the same ground on which a physical modality was already declined here.",
+    "exemplar": "eflornithine",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-FASN",
+    "name": "Fatty-acid synthase inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out with the wider metabolic sweep on 2026-08-07. That ruling stands.",
+    "exemplar": "FASN inhibitors",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SHP2",
+    "name": "SHP2 allosteric inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "An adaptor node downstream of receptor tyrosine kinases, used to deepen or rescue MAPK blockade. EMC has no MAPK lesion for it to be adjacent to.",
+    "exemplar": "SHP2 inhibitors",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-XPO1",
+    "name": "Nuclear export (XPO1) inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Parked by the 2026-06-22 emerging-modalities scan. That ruling stands and its reasoning is owned there; it is recorded here so the class cannot be re-proposed as unexplored.",
+    "exemplar": "selinexor",
+    "prior_ref": {
+      "file": "research/manuscripts/emerging-modalities-scan-emc.md",
+      "anchor": "5-briefly-considered-lower-priority"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MDM2-P53",
+    "name": "MDM2 / MDMX antagonists (p53 reactivation)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "⭐ The class needs wild-type p53 and works worst where the genome is chaotic -- and EMC's genome is quiet and clonal with a single founding translocation, which is the profile this class was designed for and rarely finds. No prior sweep named it. ⚠ The class's own history is dose-limiting haematological toxicity, which any assessment must lead with.",
+    "exemplar": "MDM2 antagonists",
+    "requires": [
+      "confirmation that TP53 is wild-type in EMC, which the quiet-genome sequencing implies but has not been read out directly here"
+    ],
+    "blockers": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "zero_dollar_next_step": "Read the committed whole-genome trio analysis for TP53 status and check the MDM2 locus in the EMC expression cohorts, so the selection question is answered from data already on disk.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BCL2",
+    "name": "BCL-2 inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board inside the proteasome-inhibitor route as a combination arm. ⚠ The record was corrected in the 2026-08-06 audit: what the primary source supports is combination activity, and monotherapy was explicitly negative.",
+    "exemplar": "venetoclax",
+    "route": "RT-CARFILZOMIB",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MCL1-BCLXL",
+    "name": "MCL-1 and BCL-xL inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "Follows directly from a result the repository already holds and never pursued: BCL-2 inhibition was inactive alone and active only in combination in patient-derived EMC models, which is the signature of dependence on a different anti-apoptotic family member. Nobody has asked which one.",
+    "exemplar": "MCL-1 inhibitors",
+    "requires": [
+      "identification of which anti-apoptotic protein the models depend on"
+    ],
+    "blockers": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "zero_dollar_next_step": "Read the BCL-2 family across the EMC expression cohorts and re-read the committed ex-vivo screen artifacts for every BH3-mimetic in their panels.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-IAP-SMAC",
+    "name": "IAP antagonists / SMAC mimetics",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The mechanism converts inflammatory cytokine signalling into cell death, so it needs a primed inflammatory context to convert. EMC's measured microenvironment is immune-cold with a low mutational burden, which is the registered permanent blocker this class's mechanism runs directly into.",
+    "exemplar": "SMAC mimetics",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TRAIL-DR5",
+    "name": "Death-receptor agonists",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "A class with a long record of clinical inactivity across solid tumours and no EMC-specific sensitising feature reported.",
+    "exemplar": "DR5 agonists",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-KRAS",
+    "name": "RAS inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "not_applicable",
+    "prior_coverage": "never_searched",
+    "rationale": "Every agent in the class targets a specific mutant allele, and EMC has no reported RAS mutation.",
+    "exemplar": "sotorasib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TEAD-YAP",
+    "name": "TEAD / YAP inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep against a large literature corpus, and flagged there as worth publishing as a negative. That ruling stands.",
+    "exemplar": "TEAD palmitoylation inhibitors",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-WNT-BETA-CATENIN",
+    "name": "Wnt / β-catenin pathway inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Selects on a Wnt-pathway lesion, and none is reported in EMC's quiet genome.",
+    "exemplar": "porcupine inhibitors",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-NOTCH-GSI",
+    "name": "γ-secretase inhibitors / Notch pathway",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep, which retained it only as a trial-design precedent. That ruling stands.",
+    "exemplar": "nirogacestat",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-HIF2A",
+    "name": "HIF-2α inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The class is built for constitutive HIF-2α stabilisation caused by a specific tumour-suppressor loss. A hypoxic microenvironment is a different thing from that lesion, and EMC has no report of it.",
+    "exemplar": "belzutifan",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-STAPLED-PEPTIDE",
+    "name": "Stapled peptides and designed protein binders",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "The de-novo binder class was assessed in the technique-class table and not ranked as a route; the ruling there also covers the peptide format, since both fail on the same unsolved half. That ruling stands.",
+    "exemplar": "RFdiffusion-class binders",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MACROCYCLE",
+    "name": "Macrocyclic small molecules for protein-protein interfaces",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "parked_capability",
+    "prior_coverage": "never_searched",
+    "rationale": "A chemotype that reaches interfaces conventional small molecules cannot, which is the right shape for this target -- and it runs into the same wall as every other route through this pocket: no ligand of any kind is known for it, and the free-energy methods that would rank one cannot resolve the needed margin.",
+    "exemplar": "macrocyclic PPI inhibitors",
+    "blockers": [
+      "BLK-R4-BINDS",
+      "BLK-PARALOGUE-DDG"
+    ],
+    "revisit_trigger": [
+      "TECH-FE-CRYPTIC-POCKET"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CONDENSATE",
+    "name": "Condensate-partitioning small molecules",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Assessed in the technique-class table and not ranked, on the field's own statement about what remains unsolved. That ruling stands and it is filed there as a watch item.",
+    "exemplar": "condensate-partitioning agents",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PROTAC",
+    "name": "PROTAC / bivalent degraders",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "degrader_induced_proximity",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "The most-worked route in the portfolio and no longer its lead. ⛔ That is a demotion of standing, not of evidence: every result stands, and this family's limits are the best-characterised here precisely because of the effort.",
+    "exemplar": "bivalent degraders",
+    "route": "RT-DEGRADER",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MOLECULAR-GLUE",
+    "name": "Molecular glue degraders",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "degrader_induced_proximity",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board and parked: it removes design handles rather than adding them, against the same quantitative selectivity requirement.",
+    "exemplar": "molecular glues",
+    "route": "RT-GLUE",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ANDGATE",
+    "name": "AND-gate bivalent degraders (avidity coincidence detection)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "degrader_induced_proximity",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board: an architecture that tries to buy selectivity from coincidence rather than from affinity, and is parked on the chemistry of its second arm.",
+    "exemplar": "AND-gate degraders",
+    "route": "RT-ANDGATE",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RIPTAC",
+    "name": "RIPTAC — bind the tumour protein, poison an essential one",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "degrader_induced_proximity",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board. ⚠ Its record was corrected in the 2026-08-06 audit: on this target the bound protein is a domain the paralogues share, so partial selectivity is a liability here rather than a tolerance.",
+    "exemplar": "RIPTACs",
+    "route": "RT-RIPTAC",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TCIP",
+    "name": "Transcriptional chemical inducers of proximity",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "degrader_induced_proximity",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board: spend the ligand on rewiring the fusion's output instead of on removing it. One free CPU run from re-grading, per its own record.",
+    "exemplar": "TCIPs",
+    "route": "RT-TCIP",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-UBIQ-SELECTIVE",
+    "name": "Fusion-selective ubiquitination at the transfer step",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "degrader_induced_proximity",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board: discriminate at the ubiquitin-transfer step rather than at binding.",
+    "exemplar": "transfer-step discrimination",
+    "route": "RT-UBIQ-SELECTIVE",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RIBOTAC",
+    "name": "RIBOTAC / RNase-recruiting small molecules",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "degrader_induced_proximity",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Assessed in the technique-class table and not ranked, and filed there as a reopening trigger rather than a route. That ruling stands.",
+    "exemplar": "RIBOTACs",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-LYTAC",
+    "name": "LYTAC / lysosome-targeting chimeras",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "degrader_induced_proximity",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The mechanism routes extracellular and membrane proteins to the lysosome. The driver here is a nuclear transcription factor, so the class cannot reach it by construction.",
+    "exemplar": "LYTACs",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-AUTOPHAGY-DEGRADER",
+    "name": "Autophagy-targeting chimeras (AUTAC, ATTEC, AUTOTAC)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "degrader_induced_proximity",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep on compartment grounds. That ruling stands.",
+    "exemplar": "ATTECs",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-DUBTAC",
+    "name": "DUBTAC / targeted protein stabilisation",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "degrader_induced_proximity",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Stabilises a protein rather than removing it. The driver is a gain-of-function oncoprotein, so the direction of effect is wrong -- the same reasoning that closed the approved NR4A3 agonist.",
+    "exemplar": "DUBTACs",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PHOSPHATASE-RECRUIT",
+    "name": "Phosphatase- and enzyme-recruiting chimeras",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "degrader_induced_proximity",
+    "verdict": "parked_capability",
+    "prior_coverage": "never_searched",
+    "rationale": "Extends induced proximity to post-translational marks other than ubiquitin, which is an interesting fit for a transcription factor whose activity is phosphorylation-regulated. It inherits this family's unsolved half exactly: no correctly assembled induced complex on this target has been produced by anyone.",
+    "exemplar": "phosphorylation-directed chimeras",
+    "blockers": [
+      "BLK-INDUCED-COMPLEX",
+      "BLK-R4-BINDS"
+    ],
+    "revisit_trigger": [
+      "TECH-COFOLD-ASSEMBLY"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TF-PROTAC",
+    "name": "TF-PROTAC (oligonucleotide-directed degradation of a transcription factor)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "degrader_induced_proximity",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "An elegant fit on its face -- the targeting arm is the DNA element the transcription factor binds, which sidesteps needing a pocket ligand. It fails on the same arithmetic that killed direct DNA-binding-domain targeting here: the chimera binds the same response elements as its paralogues, whose DNA-binding domains are near-identical, so the oligonucleotide arm cannot discriminate.",
+    "exemplar": "TF-PROTACs",
+    "blockers": [
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-GAPMER-ASO",
+    "name": "Gapmer antisense oligonucleotides",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "nucleic_acid",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board as the portfolio's junction-directed route. ⚠ Its committed design panel is under retraction pending regeneration at the corrected junction, and nothing from it may be quoted until that runs.",
+    "exemplar": "gapmer ASOs",
+    "route": "RT-ASO",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SIRNA",
+    "name": "siRNA and RNAi",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "nucleic_acid",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "Registered with the antisense route as the same junction-directed deliverable, differing in machinery rather than in what it discriminates on.",
+    "exemplar": "siRNA",
+    "route": "RT-ASO",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-HYBRID-INTRON-ASO",
+    "name": "Intron-directed antisense against the fusion pre-mRNA",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "nucleic_acid",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Proposed and refuted inside a single day on 2026-08-07, with the feasibility computed rather than argued. That ruling stands.",
+    "exemplar": "intron-targeted ASOs",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "35--the-hybrid-intron"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SPLICE-SWITCH-ASO",
+    "name": "Splice-switching antisense oligonucleotides",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "nucleic_acid",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "A mechanistically distinct class from the gapmer route -- redirect splicing rather than degrade the transcript -- and it has never been named here. It fails on a fact the repository already established for a different modality: the splice acceptor at the junction is NR4A3-derived and identical in the wild-type transcript, so the sequence a splice-switching oligonucleotide must recognise is not fusion-unique.",
+    "exemplar": "splice-switching ASOs",
+    "blockers": [
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TF-DECOY",
+    "name": "Transcription-factor decoy oligonucleotides",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "nucleic_acid",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Never named here, and it is the obvious idea for a DNA-binding driver: flood the cell with the response element so the transcription factor binds decoy instead of chromatin. It fails on the same arithmetic as direct DNA-binding-domain targeting -- the decoy competes for an element the paralogues bind equally well, so the reagent cannot tell the chimera from the normal proteins.",
+    "exemplar": "NBRE decoy oligonucleotides",
+    "blockers": [
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MIRNA",
+    "name": "miRNA mimics and antagomirs",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "nucleic_acid",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Acts on networks rather than on a sequence, so it forfeits the one discriminating feature this disease offers -- and no EMC miRNA profile exists to nominate a candidate from.",
+    "exemplar": "miRNA mimics",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-APTAMER",
+    "name": "Aptamers",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "nucleic_acid",
+    "verdict": "parked_capability",
+    "prior_coverage": "never_searched",
+    "rationale": "A folded oligonucleotide can in principle bind a protein surface no small molecule reaches, but the target is nuclear and aptamer delivery to an intracellular compartment is the unsolved half -- the same gate the antisense route waits on.",
+    "exemplar": "aptamers",
+    "blockers": [
+      "BLK-DELIVERY"
+    ],
+    "revisit_trigger": [
+      "TECH-OLIGO-DELIVERY"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MRNA-THERAPEUTIC",
+    "name": "mRNA therapeutics (non-vaccine)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "nucleic_acid",
+    "verdict": "parked_capability",
+    "prior_coverage": "never_searched",
+    "rationale": "Delivering a coding message -- a dominant-negative, a suicide enzyme, a decoy protein -- is a real format with no EMC instance. It waits on the same tumour-delivery gate as every other oligonucleotide here, and the payload would still have to discriminate.",
+    "exemplar": "therapeutic mRNA",
+    "blockers": [
+      "BLK-DELIVERY"
+    ],
+    "revisit_trigger": [
+      "TECH-OLIGO-DELIVERY"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SARNA-CIRCRNA",
+    "name": "Small activating RNA and circular RNA therapeutics",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "nucleic_acid",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Both are up-regulating or durability formats. The therapeutic direction needed against a gain-of-function driver is removal, so the class is pointed the wrong way.",
+    "exemplar": "saRNA",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CAS9-GENOMIC",
+    "name": "CRISPR nuclease disruption of the genomic fusion",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "gene_and_cell_engineering",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board and parked on delivery. The genomic breakpoint is the one truly tumour-exclusive feature available, which is why the route survives its own park.",
+    "exemplar": "Cas9 intron targeting",
+    "route": "RT-CRISPR-CAS13",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CAS13",
+    "name": "Cas13 RNA-targeting knockdown",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "gene_and_cell_engineering",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "Registered with the nuclease route; it reads the fusion transcript rather than the locus, and waits on the same vector.",
+    "exemplar": "Cas13",
+    "route": "RT-CRISPR-CAS13",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BASE-PRIME-EDITING",
+    "name": "Base and prime editing",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "gene_and_cell_engineering",
+    "verdict": "parked_capability",
+    "prior_coverage": "never_searched",
+    "rationale": "Distinct from the RNA-editing approach already ruled out here, and not covered by that ruling: a cytosine base editor can install a stop codon, which the RNA-editing chemistry cannot. It reaches the same wall from the other side -- it needs a vector that delivers to a disseminated solid tumour.",
+    "exemplar": "cytosine base editors",
+    "blockers": [
+      "BLK-VECTOR-DELIVERY"
+    ],
+    "revisit_trigger": [
+      "TECH-VECTOR-DELIVERY"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-EPIGENOME-EDITING",
+    "name": "Epigenome editing (targeted transcriptional silencing)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "gene_and_cell_engineering",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Never named here, and worth stating rather than leaving unexamined. Silencing the fusion means silencing a promoter, and the promoter belongs to the 5′ partner -- a wild-type gene the normal cells carry and use. So the approach engages the wild-type locus by construction, on top of needing the same absent vector.",
+    "exemplar": "dCas9-KRAB",
+    "blockers": [
+      "BLK-NOT-FUSION-SELECTIVE",
+      "BLK-VECTOR-DELIVERY"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RIBOZYME",
+    "name": "Trans-splicing ribozymes",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "gene_and_cell_engineering",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board: couple a suicide gene to the fusion transcript's sequence. Parked on the vector and on the absence of a modern demonstration of the chemistry.",
+    "exemplar": "trans-splicing ribozymes",
+    "route": "RT-RIBOZYME",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SYNPROMOTER",
+    "name": "Fusion-responsive synthetic promoters",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "gene_and_cell_engineering",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board and closed on biology rather than on delivery: EMC lacks the neomorphic DNA-binding element the technique depends on, which is the precise reason it is a harder case than the fusion sarcoma the method was built in.",
+    "exemplar": "synthetic promoters",
+    "route": "RT-SYNPROMOTER",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-AAV-GENE-THERAPY",
+    "name": "AAV and lentiviral gene therapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "gene_and_cell_engineering",
+    "verdict": "parked_capability",
+    "prior_coverage": "never_searched",
+    "rationale": "The delivery chassis three registered routes here already depend on, recorded as its own class so the dependency is visible as a modality gap and not only as a footnote on those routes.",
+    "exemplar": "AAV vectors",
+    "blockers": [
+      "BLK-VECTOR-DELIVERY"
+    ],
+    "revisit_trigger": [
+      "TECH-VECTOR-DELIVERY"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ONCOLYTIC-VIRUS",
+    "name": "Oncolytic viruses",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "gene_and_cell_engineering",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Parked by the 2026-06-22 emerging-modalities scan. That ruling stands and is recorded here so the class cannot be re-proposed as unexplored.",
+    "exemplar": "talimogene laherparepvec",
+    "prior_ref": {
+      "file": "research/manuscripts/emerging-modalities-scan-emc.md",
+      "anchor": "5-briefly-considered-lower-priority"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ONCOLYTIC-BACTERIA",
+    "name": "Oncolytic and engineered bacteria",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "gene_and_cell_engineering",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Graded honestly in the 2026-08-07 sweep and declined, with the niche fit acknowledged as real. That ruling stands.",
+    "exemplar": "engineered anaerobes",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-NAKED-MAB",
+    "name": "Unconjugated monoclonal antibodies",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "antibody_and_antibody_like",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The surfaceome screen returns no antigen that is both selectively enriched in EMC and restricted in normal tissue, so this class has no address to be pointed at. ⚠ That screen ranks tumour-cell monoculture mRNA and structurally cannot see glycans or stroma, so it bounds classic protein antigens and nothing wider. An unconjugated antibody also needs effector recruitment, which the cold infiltrate does not supply.",
+    "exemplar": "rituximab-class antibodies",
+    "requires": [
+      "a selective, surface-accessible antigen"
+    ],
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ADC",
+    "name": "Antibody-drug conjugates",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "antibody_and_antibody_like",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board through the surface-antigen route. ⚠ The 2026-08-06 audit found that route's grade was correct for one of its two antigens and wrong for the other, which fails on a different axis; and a large stromal proteoglycan was never in the screen's seed set at all, so the conjugate format's best candidate address here has still not been assessed.",
+    "exemplar": "trastuzumab deruxtecan",
+    "route": "RT-B7H3",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "requires": [
+      "a selective, internalising surface antigen — and the never-screened proteoglycan is the open candidate"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BITE",
+    "name": "T-cell-engaging bispecific antibodies",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "antibody_and_antibody_like",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "Registered with the surface-antigen route. It removes the need for a pre-existing T-cell response but not the need for an antigen, which is where this disease's gate is.",
+    "exemplar": "T-cell engagers",
+    "route": "RT-B7H3",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-IMMTAC",
+    "name": "Soluble TCR bispecifics (ImmTAC)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "antibody_and_antibody_like",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board twice: against the fusion-junction peptide-HLA and against a cancer-testis antigen with a clinical-stage reagent. Both wait on the antigen rather than on the reagent.",
+    "exemplar": "brenetafusp",
+    "route": "RT-TCR-IMMTAC",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TRISPECIFIC",
+    "name": "Trispecific and multispecific engagers",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "antibody_and_antibody_like",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Adds a costimulatory or second-targeting arm to the engager format. It changes the potency and the safety margin of an engagement, not the availability of something to engage. The surfaceome screen returns no antigen that is both selectively enriched in EMC and restricted in normal tissue, so this class has no address to be pointed at. ⚠ That screen ranks tumour-cell monoculture mRNA and structurally cannot see glycans or stroma, so it bounds classic protein antigens and nothing wider.",
+    "exemplar": "trispecific engagers",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-NK-ENGAGER",
+    "name": "NK-cell engagers",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "antibody_and_antibody_like",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Substitutes the effector population, which does not address the gate. The surfaceome screen returns no antigen that is both selectively enriched in EMC and restricted in normal tissue, so this class has no address to be pointed at. ⚠ That screen ranks tumour-cell monoculture mRNA and structurally cannot see glycans or stroma, so it bounds classic protein antigens and nothing wider.",
+    "exemplar": "NK-cell engagers",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-IMMUNOCYTOKINE",
+    "name": "Immunocytokines (tumour-targeted cytokine fusions)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "antibody_and_antibody_like",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "⭐ The one antibody format whose address is not a tumour-cell antigen. It targets an extracellular matrix epitope, and the matrix is EMC's defining compartment -- so the class routes around the exact instrument limitation the repository has already flagged, namely that its surfaceome screen ranks tumour-cell monoculture transcripts and structurally cannot see stroma. The class also has soft-tissue-sarcoma clinical experience specifically. ⚠ The payload is a cytokine, so a cold infiltrate remains a real objection to the immune arm even if the address holds.",
+    "exemplar": "antibody-cytokine fusions",
+    "requires": [
+      "expression of the targeted matrix epitope in EMC stroma, which the existing screen could not have detected"
+    ],
+    "blockers": [
+      "BLK-ANTIGEN-COLD",
+      "BLK-NO-EMC-DATA"
+    ],
+    "zero_dollar_next_step": "Read the fibronectin and tenascin splice-variant transcripts across the EMC expression cohorts on disk. They are matrix genes, so unlike a cell-surface antigen they are visible in bulk tumour data.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RADIOIMMUNOCONJUGATE",
+    "name": "Radioimmunoconjugates",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "antibody_and_antibody_like",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Swaps a cytotoxic payload for a radionuclide on the same targeting arm, so it inherits the antigen gate unchanged. Dose is delivered per cell but the tumour is dosed per unit volume, and EMC's matrix-dominated bulk gives it few cells per unit volume. This is the correction the repository already measured against the nearest histology when declining boron neutron capture, and it generalises to every per-volume-dosed modality rather than stopping at the one it was first written for.",
+    "exemplar": "radiolabelled antibodies",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MASKED-ANTIBODY",
+    "name": "Masked / conditionally activated antibodies",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "antibody_and_antibody_like",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Widens the therapeutic margin of an antigen that is expressed in normal tissue too. It is a solution to a problem this disease has not reached, because no antigen has been established at all.",
+    "exemplar": "probodies",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ALT-SCAFFOLD",
+    "name": "Non-immunoglobulin binding scaffolds",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "antibody_and_antibody_like",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Nanobodies, DARPins and affibodies change size, penetration and manufacturing -- all real advantages in a matrix-dense tumour, and none of them an address. The surfaceome screen returns no antigen that is both selectively enriched in EMC and restricted in normal tissue, so this class has no address to be pointed at. ⚠ That screen ranks tumour-cell monoculture mRNA and structurally cannot see glycans or stroma, so it bounds classic protein antigens and nothing wider.",
+    "exemplar": "nanobodies",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-AOC",
+    "name": "Antibody-oligonucleotide conjugates",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "antibody_and_antibody_like",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep because the blocking step is the targeting arm rather than the conjugate chemistry. That ruling stands.",
+    "exemplar": "antibody-oligonucleotide conjugates",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CAR-T-AUTOLOGOUS",
+    "name": "Autologous CAR-T",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cell_therapy",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board. It faces the antigen gate and, additionally, a cold and matrix-excluded tumour for the cells to traffic into.",
+    "exemplar": "CAR-T",
+    "route": "RT-CART-SURFACE",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CAR-T-ALLOGENEIC",
+    "name": "Allogeneic / off-the-shelf CAR-T",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cell_therapy",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Changes the manufacturing economics, which matters enormously for an ultra-rare disease, and changes nothing about the antigen. The surfaceome screen returns no antigen that is both selectively enriched in EMC and restricted in normal tissue, so this class has no address to be pointed at. ⚠ That screen ranks tumour-cell monoculture mRNA and structurally cannot see glycans or stroma, so it bounds classic protein antigens and nothing wider.",
+    "exemplar": "allogeneic CAR-T",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CAR-NK",
+    "name": "CAR-NK cells",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cell_therapy",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Substitutes the effector to improve the safety profile; the gate is the antigen and the trafficking, both unchanged. The surfaceome screen returns no antigen that is both selectively enriched in EMC and restricted in normal tissue, so this class has no address to be pointed at. ⚠ That screen ranks tumour-cell monoculture mRNA and structurally cannot see glycans or stroma, so it bounds classic protein antigens and nothing wider.",
+    "exemplar": "CAR-NK",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CAR-M",
+    "name": "CAR-macrophages",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cell_therapy",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep, and contradicted in the direction that matters. That ruling stands.",
+    "exemplar": "CAR-macrophages",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-IN-VIVO-CAR-T",
+    "name": "In vivo CAR-T",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "cell_therapy",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out as a modality in the 2026-08-07 sweep on a registry query; the sweep deliberately kept its economics argument and dropped the modality claim. That ruling stands.",
+    "exemplar": "in vivo CAR-T",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TCR-T",
+    "name": "TCR-engineered T cells",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cell_therapy",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board against a cancer-testis antigen, ported from the sarcoma where the approach is approved. Downgraded on the repository's own finding that EMC is cancer-testis-antigen-low.",
+    "exemplar": "engineered TCR-T",
+    "route": "RT-TCRT-CTA",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PAN-NR4A-EXVIVO",
+    "name": "Ex-vivo transcription-factor modulation of a cell product",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cell_therapy",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board, and structurally unusual: the NR4A family is acted on outside the patient as a manufacturing additive, so the paralogue-selectivity problem that blocks every in-patient route here does not arise.",
+    "exemplar": "pan-NR4A modulation",
+    "route": "RT-PANNR4A-EXVIVO",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TIL",
+    "name": "Tumour-infiltrating lymphocyte therapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cell_therapy",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Parked by the 2026-06-22 emerging-modalities scan. That ruling stands.",
+    "exemplar": "TIL therapy",
+    "prior_ref": {
+      "file": "research/manuscripts/emerging-modalities-scan-emc.md",
+      "anchor": "5-briefly-considered-lower-priority"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-GAMMA-DELTA-NKT",
+    "name": "γδ T cells, NKT cells and virus-specific T cells",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cell_therapy",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Innate-like effectors proposed for tumours where conventional T cells fail. They still have to enter the tumour, and EMC's infiltrate is sparse and excluded by a dense matrix. EMC's measured microenvironment is immune-cold with a low mutational burden, which is the registered permanent blocker this class's mechanism runs directly into.",
+    "exemplar": "γδ T cells",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ALLO-HSCT",
+    "name": "Allogeneic haematopoietic stem-cell transplant",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "cell_therapy",
+    "verdict": "not_applicable",
+    "prior_coverage": "never_searched",
+    "rationale": "A graft-versus-tumour strategy with no role in adult soft-tissue sarcoma and toxicity that an indolent disease could not justify.",
+    "exemplar": "allogeneic HSCT",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PEPTIDE-RNA-VACCINE",
+    "name": "Peptide and RNA cancer vaccines",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "vaccine_active_immunization",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board against the fusion junction, which is the disease's one genuinely tumour-exclusive epitope source. Parked on immunogenicity, which its own record states is not a computational question.",
+    "exemplar": "neoantigen vaccines",
+    "route": "RT-VACCINE",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SHARED-ANTIGEN",
+    "name": "Shared / off-the-shelf tumour antigens",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "vaccine_active_immunization",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board as the antigen itself, shared by three delivery routes. ⚠ The upstream junction panel is under retraction, and the HLA coverage artifact computed from it inherits that defect.",
+    "exemplar": "shared fusion-junction epitopes",
+    "route": "RT-JUNCTION-NEOANTIGEN",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-DNA-VACCINE",
+    "name": "DNA vaccines",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "vaccine_active_immunization",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "A delivery variant of the same junction-epitope hypothesis already on the board, with weaker human immunogenicity data than the formats registered there. It adds a format, not an axis of evidence.",
+    "exemplar": "plasmid DNA vaccines",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-DC-VACCINE",
+    "name": "Dendritic-cell vaccines",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "vaccine_active_immunization",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Manufacturing-intensive per patient, which an ultra-rare disease can least support, and it presents the same epitopes the registered vaccine route already carries.",
+    "exemplar": "dendritic-cell vaccines",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-WHOLE-LYSATE",
+    "name": "Whole-tumour-lysate and autologous cell vaccines",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "vaccine_active_immunization",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Relies on the tumour supplying a diverse antigen repertoire, and EMC's mutational burden is at the very bottom of the range. The repertoire it would present is close to the normal proteome.",
+    "exemplar": "autologous lysate vaccines",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-IN-SITU-VACCINATION",
+    "name": "In-situ vaccination (intratumoural priming)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "vaccine_active_immunization",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The strategy is designed for cold tumours, which makes it look like a fit here -- and the fit fails for a specific reason worth recording. In-situ vaccination releases and adjuvants the antigens the tumour already has. EMC's problem is not that its antigens are poorly presented but that a genome this quiet generates very few of them, so releasing more of nothing does not help.",
+    "exemplar": "intratumoural adjuvants",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PD1-PDL1",
+    "name": "PD-1 / PD-L1 checkpoint inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board in combination with an antiangiogenic inhibitor, which is where its only EMC evidence sits; the registry records no single-agent EMC cohort at all.",
+    "exemplar": "nivolumab",
+    "route": "RT-ICI-TKI",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CTLA4",
+    "name": "CTLA-4 inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Broadens an existing repertoire rather than creating one. EMC's measured microenvironment is immune-cold with a low mutational burden, which is the registered permanent blocker this class's mechanism runs directly into.",
+    "exemplar": "ipilimumab",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-NEXTGEN-CHECKPOINT",
+    "name": "LAG-3, TIGIT and TIM-3 inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Release brakes on T cells that have already recognised something. EMC's measured microenvironment is immune-cold with a low mutational burden, which is the registered permanent blocker this class's mechanism runs directly into.",
+    "exemplar": "relatlimab",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-COSTIM-AGONIST",
+    "name": "Costimulatory agonists (OX40, 4-1BB, GITR, CD40)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Amplify an ongoing response. EMC's measured microenvironment is immune-cold with a low mutational burden, which is the registered permanent blocker this class's mechanism runs directly into.",
+    "exemplar": "4-1BB agonists",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-STING-TLR",
+    "name": "Innate agonists (STING, TLR, RIG-I)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Explicitly designed to convert cold tumours, so it deserves a stated reason rather than a blanket one. Innate agonism supplies the danger signal and the priming context; it does not supply antigens, and a genome as quiet as EMC's is short of antigens rather than short of priming.",
+    "exemplar": "STING agonists",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CD47-SIRPA",
+    "name": "CD47-SIRPα and myeloid checkpoint inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Acts through macrophage phagocytosis, and the repository's own reading is that translocation-associated sarcomas carry significantly lower macrophage counts than non-translocation sarcomas -- so the effector compartment is depleted in exactly EMC's class.",
+    "exemplar": "anti-CD47",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MYELOID-REPROGRAM",
+    "name": "Myeloid reprogramming (TREM2, MARCO and related)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Repolarises tumour macrophages toward an inflammatory phenotype. Same compartment problem as the myeloid checkpoints, plus it still requires a T-cell response to hand off to.",
+    "exemplar": "anti-TREM2",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SYSTEMIC-CYTOKINE",
+    "name": "Systemic cytokine therapy (IL-2, IL-12, IL-15)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Expands lymphocytes systemically with dose-limiting toxicity and no tumour address. ⚠ The tumour-targeted form of the same payload is a separate row and does not share this verdict.",
+    "exemplar": "high-dose IL-2",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-INTERFERON",
+    "name": "Interferon-α",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "in_clinical_use",
+    "prior_coverage": "searched_before",
+    "rationale": "The registry records case-report use in EMC. Recorded as part of the incumbent arsenal at its true weight, which is anecdote.",
+    "exemplar": "interferon-α",
+    "prior_ref": {
+      "file": "research/data/emc-clinical-registry.json"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ADENOSINE-AXIS",
+    "name": "Adenosine-axis inhibitors (A2AR, CD73, CD39)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Relieves a suppressive metabolite brake on T cells that are present. EMC's measured microenvironment is immune-cold with a low mutational burden, which is the registered permanent blocker this class's mechanism runs directly into.",
+    "exemplar": "A2AR antagonists",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-IDO-TDO",
+    "name": "IDO / TDO inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "A suppression-relief class whose randomised record in an immune-hot disease was negative, applied here to a cold one. EMC's measured microenvironment is immune-cold with a low mutational burden, which is the registered permanent blocker this class's mechanism runs directly into.",
+    "exemplar": "epacadostat",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TGFB",
+    "name": "TGF-β pathway inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Proposed for immune-excluded tumours, which EMC is -- but the exclusion here is a physical chondroitin-sulfate gel rather than a TGF-β-driven fibroblast programme, and the repository's stromal sweep already declined the collagen-stiffening class on exactly that distinction.",
+    "exemplar": "TGF-β traps",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TREG-DEPLETION",
+    "name": "Regulatory T-cell depletion",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "immune_modulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Removes suppression of an effector population that is sparse to begin with. EMC's measured microenvironment is immune-cold with a low mutational burden, which is the registered permanent blocker this class's mechanism runs directly into.",
+    "exemplar": "anti-CCR8",
+    "blockers": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-FAP-DIRECTED",
+    "name": "Fibroblast-activation-protein-directed agents",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "microenvironment_and_stroma",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board as a radioligand route, and the 2026-08-07 sweep found a live alpha-emitter trial in relapsed sarcoma with a companion diagnostic. ⚠ The repository's own flat FAP reading came from a stroma-blind instrument, so it does not bound a stromal target.",
+    "exemplar": "FAP inhibitors",
+    "route": "RT-FAP-RLT",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "34--fap-radioligand--the-2026-increment"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-OFCS-VAR2CSA",
+    "name": "Oncofetal chondroitin sulfate targeting",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "microenvironment_and_stroma",
+    "verdict": "candidate",
+    "prior_coverage": "searched_before",
+    "rationale": "A registered lane with no route, and the best-argued matrix address the sweep found: it turns EMC's defining glycan into the target, and it belongs to an antigen class the surfaceome screen structurally could not have found because a sulfation pattern has no gene to rank.",
+    "exemplar": "VAR2CSA-based conjugates",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "36--oncofetal-chondroitin-sulfate"
+    },
+    "requires": [
+      "the oncofetal sulfation pattern in EMC tissue, which no committed artifact has measured"
+    ],
+    "zero_dollar_next_step": "Read the chondroitin-sulfate biosynthesis and sulfotransferase gene set in the targeted expression panel already committed here — the enzymes that build the epitope are genes even though the epitope is not.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CS-BIOSYNTHESIS",
+    "name": "Inhibition of tumour glycosaminoglycan biosynthesis",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "microenvironment_and_stroma",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "⭐ The matrix has been treated here as a barrier and, once, as an address. This is the third option nobody has considered: stop the tumour building it. The myxoid gel is the disease's defining phenotype and it is a manufactured product with a named biosynthetic pathway. ⚠ The pathway is shared with normal chondrogenesis, so selectivity is the open question rather than an assumption.",
+    "exemplar": "glycosaminoglycan synthesis inhibitors",
+    "requires": [
+      "that matrix production is load-bearing for the tumour rather than incidental to it"
+    ],
+    "blockers": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "zero_dollar_next_step": "Grade the chondroitin-sulfate and sulfate-donor pathway read that is ALREADY committed in the targeted expression panel — the data exists on disk and nobody has drawn a therapeutic conclusion from it.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-VASCULAR-DISRUPTING",
+    "name": "Vascular-disrupting agents",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "microenvironment_and_stroma",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Collapses established tumour vasculature, so its effect scales with how much vasculature there is, and EMC is reported hypovascular. The class is pointed at the compartment this tumour has least of.",
+    "exemplar": "combretastatins",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-HYALURONIDASE",
+    "name": "Enzymatic matrix depletion",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "microenvironment_and_stroma",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep on both enzyme specificity and the strategy's own randomised failure. That ruling stands.",
+    "exemplar": "pegvorhyaluronidase alfa",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-STROMAL-NORMALISATION",
+    "name": "Stromal normalisation (LOX / LOXL2, FAK, angiotensin axis)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "microenvironment_and_stroma",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep, with a stated condition under which it would be revisited. That ruling stands.",
+    "exemplar": "simtuzumab",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CD44-RHAMM",
+    "name": "Hyaluronan-receptor-directed agents",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "microenvironment_and_stroma",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep by the repository's own expression data. That ruling stands.",
+    "exemplar": "anti-CD44",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-INTEGRIN-MMP",
+    "name": "Integrin and matrix-metalloproteinase inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "microenvironment_and_stroma",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Both classes have large negative randomised records across solid tumours including sarcoma, and neither has an EMC-specific rationale that would distinguish this attempt from those.",
+    "exemplar": "cilengitide",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-DIETARY-RESTRICTION",
+    "name": "Fasting-mimicking, ketogenic and amino-acid-restriction diets",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "metabolic_and_dietary",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The mechanism is differential stress resistance between fast-dividing tumour cells and normal tissue. The class couples its effect to proliferation rate, and EMC is a slow-cycling tumour with an indolent natural history -- the profile that makes a division-rate-dependent mechanism weakest, and the same ground on which a physical modality was already declined here.",
+    "exemplar": "fasting-mimicking diet",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-MICROBIOME",
+    "name": "Microbiome modulation",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "metabolic_and_dietary",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Its evidence base is modulation of checkpoint-inhibitor response, and checkpoint inhibition has no single-agent foothold in EMC to modulate.",
+    "exemplar": "faecal microbiota transplant",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BETA-RLT",
+    "name": "β-emitting peptide receptor radioligand therapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "radiopharmaceutical_and_radiation",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board as a neuroendocrine-receptor theranostic, where the cheapest possible confirmation has still not been done and the normal-tissue window is already computed as broad.",
+    "exemplar": "lutetium-177 DOTATATE",
+    "route": "RT-SSTR2",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ALPHA-RLT",
+    "name": "α-emitting radioligand therapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "radiopharmaceutical_and_radiation",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "Registered with the stromal radioligand route, where the 2026 increment is specifically an alpha-emitter trial in relapsed sarcoma. Dose is delivered per cell but the tumour is dosed per unit volume, and EMC's matrix-dominated bulk gives it few cells per unit volume. This is the correction the repository already measured against the nearest histology when declining boron neutron capture, and it generalises to every per-volume-dosed modality rather than stopping at the one it was first written for.",
+    "exemplar": "actinium-225 conjugates",
+    "route": "RT-FAP-RLT",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "34--fap-radioligand--the-2026-increment"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-AUGER",
+    "name": "Auger-electron emitters",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "radiopharmaceutical_and_radiation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Requires nuclear-proximal delivery per cell to achieve its very short range, which is the most cell-count-dependent of all radionuclide classes. Dose is delivered per cell but the tumour is dosed per unit volume, and EMC's matrix-dominated bulk gives it few cells per unit volume. This is the correction the repository already measured against the nearest histology when declining boron neutron capture, and it generalises to every per-volume-dosed modality rather than stopping at the one it was first written for.",
+    "exemplar": "iodine-125 conjugates",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RADIOEMBOLIZATION",
+    "name": "Radioembolization and arterial radionuclide delivery",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "radiopharmaceutical_and_radiation",
+    "verdict": "not_applicable",
+    "prior_coverage": "never_searched",
+    "rationale": "Delivered through a hepatic arterial supply for liver-dominant disease, and EMC's metastatic pattern is lung-predominant.",
+    "exemplar": "yttrium-90 microspheres",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-EBRT",
+    "name": "External-beam radiotherapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "radiopharmaceutical_and_radiation",
+    "verdict": "in_clinical_use",
+    "prior_coverage": "searched_before",
+    "rationale": "Part of the standard of care for close or threatened margins and for large or high-grade tumours. ⚠ Its actual benefit in this disease is contested in the repository's own record, which is a separate registered question.",
+    "exemplar": "adjuvant external-beam radiotherapy",
+    "prior_ref": {
+      "file": "research/data/emc-clinical-registry.json"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PARTICLE-THERAPY",
+    "name": "Proton and carbon-ion therapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "radiopharmaceutical_and_radiation",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "⭐ Carbon ions deposit a different quality of dose, and the classical indication is exactly the unresectable radioresistant sarcoma. EMC's radiosensitivity is the subject of a live contradiction in this repository's own record -- two registries say radiotherapy does nothing, the largest series reports a large local-control difference -- and no prior sweep considered that the answer might be dose quality rather than dose.",
+    "exemplar": "carbon-ion radiotherapy",
+    "requires": [
+      "resolution of the existing radioresistance contradiction, which is itself a registered lane"
+    ],
+    "zero_dollar_next_step": "Fold this into the radioresistance reappraisal already scoped here: search the particle-therapy registries for myxoid and chondroid sarcoma histologies, which publish institutional series that a histology-level search reaches.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BRACHYTHERAPY",
+    "name": "Brachytherapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "radiopharmaceutical_and_radiation",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "Delivers a high conformal dose from inside the tumour bed and has a specific extremity soft-tissue sarcoma history, which matches where EMC actually arises. Never considered here, and it bears directly on the same open question about local control.",
+    "exemplar": "interstitial brachytherapy",
+    "zero_dollar_next_step": "Include brachytherapy arms when the radioresistance reappraisal's dose-response regression is built, rather than restricting it to external-beam series.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RADIOSENSITIZER",
+    "name": "Radiosensitizers",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "radiopharmaceutical_and_radiation",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "The one EMC report of a striking response in the literature is a combination of radiotherapy with a systemic agent, and the repository already flagged that confound when correcting a monotherapy route's evidence grade. Nobody turned the confound around and asked whether the combination is the finding.",
+    "exemplar": "concurrent chemoradiotherapy",
+    "requires": [
+      "that the reported combination response is attributable to interaction rather than to either agent alone"
+    ],
+    "zero_dollar_next_step": "Re-read the combination case report in full and pool every EMC case in the literature where systemic therapy and radiotherapy were given concurrently, using the pooling method this repository already owns.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BNCT",
+    "name": "Boron neutron capture therapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "radiopharmaceutical_and_radiation",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep on a measurement in the nearest histology. ⭐ That ruling's reasoning generalises well beyond it, and this census applies the same correction to several other per-volume-dosed classes.",
+    "exemplar": "boronophenylalanine BNCT",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-FLASH",
+    "name": "FLASH ultra-high-dose-rate radiotherapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "radiopharmaceutical_and_radiation",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep and filed as a method-watch trigger. That ruling stands.",
+    "exemplar": "FLASH radiotherapy",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RADIOPROTECTOR",
+    "name": "Radioprotectors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "radiopharmaceutical_and_radiation",
+    "verdict": "not_applicable",
+    "prior_coverage": "never_searched",
+    "rationale": "A normal-tissue toxicity intervention rather than an antitumour one; it changes the tolerable dose and nothing about the tumour.",
+    "exemplar": "amifostine",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SURGERY",
+    "name": "Wide local excision and metastasectomy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "physical_device_locoregional",
+    "verdict": "in_clinical_use",
+    "prior_coverage": "searched_before",
+    "rationale": "The backbone of curative treatment, and metastasectomy remains legitimate in indolent metastatic disease. Recorded because a census of what reaches this disease that omitted its most effective intervention would misstate the baseline.",
+    "exemplar": "R0 wide excision",
+    "prior_ref": {
+      "file": "research/data/emc-clinical-registry.json"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-WATCHFUL-WAITING",
+    "name": "Observation and deferred intervention",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "physical_device_locoregional",
+    "verdict": "in_clinical_use",
+    "prior_coverage": "searched_before",
+    "rationale": "Recorded as a treatment decision rather than an absence of one: the registry names it a legitimate option in indolent metastatic disease, which makes it the comparator any new systemic option has to beat.",
+    "exemplar": "active surveillance",
+    "prior_ref": {
+      "file": "research/data/emc-clinical-registry.json"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ILP",
+    "name": "Isolated limb perfusion",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "physical_device_locoregional",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "⭐ A regional technique with an approved agent and an established role in unresectable extremity soft-tissue sarcoma -- and this disease's most common primary site is the deep soft tissue of the thigh and lower limb, so the anatomical precondition is met more often here than in most sarcomas. Entirely invisible to every prior search, which looked only at molecular modalities.",
+    "exemplar": "TNF-α plus melphalan perfusion",
+    "requires": [
+      "an extremity primary or extremity-confined recurrence"
+    ],
+    "zero_dollar_next_step": "Pool the anatomical-site distribution across the EMC series already curated in the clinical registry to size the eligible fraction, and search the perfusion literature for myxoid histologies specifically.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ISOLATED-LUNG-PERFUSION",
+    "name": "Isolated lung perfusion and regional pulmonary delivery",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "physical_device_locoregional",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "⭐ EMC's metastatic pattern is lung-predominant and its course is indolent, which is the profile regional pulmonary delivery was developed for: high local exposure, contained toxicity, and time for it to matter. Never considered here.",
+    "exemplar": "isolated lung perfusion",
+    "requires": [
+      "lung-limited metastatic disease"
+    ],
+    "zero_dollar_next_step": "Extract the metastatic-site distribution and time-to-metastasis already curated in the clinical registry, and state what fraction of patients are lung-limited and for how long.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-INHALED-CHEMO",
+    "name": "Inhaled and aerosolised cytotoxic therapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "physical_device_locoregional",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "The same lung-predominant argument as regional perfusion, in a repeatable outpatient format rather than a surgical one -- which matters far more for a disease measured in years than in months.",
+    "exemplar": "inhaled cytotoxics",
+    "requires": [
+      "lung-limited or lung-dominant metastatic disease"
+    ],
+    "zero_dollar_next_step": "Assess it together with regional pulmonary delivery from the same registry extraction, since both are selected by the same patient feature.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-THERMAL-ABLATION",
+    "name": "Percutaneous ablation (radiofrequency, microwave, cryo, focused ultrasound)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "physical_device_locoregional",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "Oligometastatic lung disease is the standard indication for percutaneous ablation, and the curated record for this disease states both that distant spread is mostly to lung and that removing isolated metastases can give long disease-free intervals -- which is the surgical form of the same argument. The portfolio contains no physical intervention at all, which is how a technique this routine went unconsidered.",
+    "exemplar": "percutaneous cryoablation",
+    "requires": [
+      "oligometastatic disease, which the indolent course makes common"
+    ],
+    "zero_dollar_next_step": "Read metastatic burden at presentation from the curated registry cohorts and state what fraction would meet a conventional oligometastatic threshold.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-HYPERTHERMIA",
+    "name": "Regional hyperthermia",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "physical_device_locoregional",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "One of the few physical modalities with randomised evidence in soft-tissue sarcoma specifically, added to systemic therapy rather than replacing it. ⚠ Its mechanism includes a proliferation-coupled component, so the indolent-tumour objection that closed several other physical classes here has to be answered rather than assumed away.",
+    "exemplar": "regional hyperthermia",
+    "zero_dollar_next_step": "Read the randomised sarcoma trial's histology breakdown for myxoid subtypes, and check whether its benefit tracked grade or proliferation index.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TTFIELDS",
+    "name": "Tumour-treating fields",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "physical_device_locoregional",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep on mechanism and on the absence of any sarcoma trial. That ruling stands.",
+    "exemplar": "alternating electric fields",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-NIR-PIT",
+    "name": "Near-infrared photoimmunotherapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "physical_device_locoregional",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep on the target of the only approved agent and on light penetration. That ruling stands.",
+    "exemplar": "NIR photoimmunotherapy",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PDT",
+    "name": "Photodynamic therapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "physical_device_locoregional",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Distinct from the photoimmunotherapy already ruled out here, and it fails on the half of that ruling that is about physics rather than about the antibody: light penetration is millimetres and EMC arises deep in proximal soft tissue.",
+    "exemplar": "photodynamic therapy",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ELECTROCHEMOTHERAPY",
+    "name": "Electrochemotherapy and electroporation",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "physical_locoregional",
+    "group": "physical_device_locoregional",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep on the depth limit in its own sarcoma trial. That ruling stands.",
+    "exemplar": "electrochemotherapy",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-HIPEC",
+    "name": "Intraperitoneal and intrathecal regional chemotherapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "physical_device_locoregional",
+    "verdict": "not_applicable",
+    "prior_coverage": "never_searched",
+    "rationale": "Both compartments are selected by a metastatic pattern EMC does not have; its dissemination is haematogenous and lung-predominant.",
+    "exemplar": "HIPEC",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CHEMOEMBOLIZATION",
+    "name": "Transarterial chemoembolization and hepatic arterial infusion",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "physical_device_locoregional",
+    "verdict": "not_applicable",
+    "prior_coverage": "never_searched",
+    "rationale": "Selected by liver-dominant disease with an arterial supply to exploit; EMC's pattern is lung-predominant.",
+    "exemplar": "transarterial chemoembolization",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BONE-TARGETED",
+    "name": "Bisphosphonates and RANKL inhibitors",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "host_directed_and_repurposed",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Selected by skeletal metastasis, which is not EMC's dominant pattern; despite the name, this tumour is extraskeletal and disseminates to lung.",
+    "exemplar": "denosumab",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-REPURPOSED-NONONC",
+    "name": "Repurposed non-oncology agents (metformin, statins, propranolol, antiparasitics, disulfiram)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "host_directed_and_repurposed",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "A large class with a common shape: preclinical breadth, no biomarker, and no randomised solid-tumour confirmation. None has an EMC-specific hypothesis, and adopting any would spend the program's only scarce resource -- a collaborator's attention -- on a class with no way to be right for a stated reason.",
+    "exemplar": "metformin",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-COX2-ASPIRIN",
+    "name": "COX-2 inhibitors and aspirin",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "host_directed_and_repurposed",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Its rationale is inflammation-driven tumour promotion, and EMC's microenvironment is sparse and non-inflamed.",
+    "exemplar": "celecoxib",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SENOLYTIC",
+    "name": "Senolytics and pro-senescence therapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "host_directed_and_repurposed",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep, on the ground that the one-two punch needs a first punch this disease never receives. That ruling stands.",
+    "exemplar": "dasatinib plus quercetin",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SCLEROMYXEDEMA-PHARM",
+    "name": "Pharmacology borrowed from mucin-depositing non-cancer disease",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "host_directed_and_repurposed",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep on driver biology. That ruling stands.",
+    "exemplar": "IVIG, immunomodulatory imides",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-HERV-DARK-ANTIGEN",
+    "name": "Endogenous retroviral and repeat-derived antigens",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "host_directed_and_repurposed",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "rationale": "Ruled out in the 2026-08-07 sweep, and explicitly down-ranked for being unfalsifiable from the desk. That ruling stands.",
+    "exemplar": "HERV-derived epitopes",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ANTICOAGULANT",
+    "name": "Anticoagulants and antiplatelet agents",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "host_directed_and_repurposed",
+    "verdict": "not_applicable",
+    "prior_coverage": "never_searched",
+    "rationale": "A supportive-care indication addressing thrombotic risk, with no antitumour claim to assess.",
+    "exemplar": "low-molecular-weight heparin",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-NANOPARTICLE",
+    "name": "Nanoparticle, liposomal and albumin-bound formulations",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "delivery_and_formulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Reformulation improves exposure and toxicity for an agent whose activity is already established. In EMC the limiting fact about the cytotoxic classes is that their activity is modest, not that their exposure is, so the class addresses the wrong half. ⚠ A matrix-dense tumour also penalises particle penetration specifically.",
+    "exemplar": "liposomal doxorubicin",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-POLYMER-CONJUGATE",
+    "name": "Polymer-drug conjugates",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "delivery_and_formulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Relies on passive retention in leaky vasculature, and EMC is reported hypovascular -- the tumour property the effect depends on.",
+    "exemplar": "polymer-drug conjugates",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-LNP",
+    "name": "Lipid nanoparticles for oligonucleotide delivery",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "delivery_and_formulation",
+    "verdict": "parked_capability",
+    "prior_coverage": "never_searched",
+    "rationale": "The formulation that would carry the portfolio's oligonucleotide routes to a solid tumour, recorded as a class so the gate is visible as a modality rather than only as those routes' footnote.",
+    "exemplar": "lipid nanoparticles",
+    "blockers": [
+      "BLK-DELIVERY"
+    ],
+    "revisit_trigger": [
+      "TECH-OLIGO-DELIVERY"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-EXOSOME",
+    "name": "Extracellular-vesicle delivery",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "delivery_and_formulation",
+    "verdict": "parked_capability",
+    "prior_coverage": "never_searched",
+    "rationale": "An alternative carrier for the same undelivered payloads, at an earlier stage of clinical maturity than the lipid formulations it would compete with.",
+    "exemplar": "engineered exosomes",
+    "blockers": [
+      "BLK-DELIVERY"
+    ],
+    "revisit_trigger": [
+      "TECH-OLIGO-DELIVERY"
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PDC-SMDC",
+    "name": "Peptide-drug and small-molecule-drug conjugates",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "delivery_and_formulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Substitutes a smaller targeting arm for an antibody, which improves penetration in dense tissue and changes nothing about what there is to target. The surfaceome screen returns no antigen that is both selectively enriched in EMC and restricted in normal tissue, so this class has no address to be pointed at. ⚠ That screen ranks tumour-cell monoculture mRNA and structurally cannot see glycans or stroma, so it bounds classic protein antigens and nothing wider.",
+    "exemplar": "peptide-drug conjugates",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-PRODRUG-ACTIVATED",
+    "name": "Tumour-activated prodrugs (enzyme- and pH-triggered)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "delivery_and_formulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Requires a tumour-restricted activating condition. No such enzyme or gradient has been established in EMC. ⚠ The hypoxia-triggered form of this idea is a separate row and does not share this verdict, because hypoxia is a condition this tumour plausibly has.",
+    "exemplar": "enzyme-activated prodrugs",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-INTRATUMOURAL-DEPOT",
+    "name": "Intratumoural depots and sustained-release implants",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "delivery_and_formulation",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Solves local exposure for an accessible mass, and EMC's clinical problem is disseminated metastatic disease that a local depot does not reach.",
+    "exemplar": "hydrogel depots",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BBB-CROSSING",
+    "name": "Blood-brain-barrier-crossing delivery",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "delivery_and_conjugate",
+    "group": "delivery_and_formulation",
+    "verdict": "not_applicable",
+    "prior_coverage": "never_searched",
+    "rationale": "Selected by central-nervous-system involvement, which is not a feature of EMC's metastatic pattern.",
+    "exemplar": "BBB-penetrant carriers",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ADAPTIVE-SCHEDULING",
+    "name": "Adaptive and evolution-guided dosing",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "strategy_and_trial_architecture",
+    "verdict": "candidate",
+    "prior_coverage": "searched_before",
+    "rationale": "A registered lane with no route. It asks nothing new of chemistry and everything of scheduling, it costs nothing, and the sweep found EMC close to an ideal indication on several independent grounds. Its falsifier is itself a publishable question.",
+    "exemplar": "adaptive pazopanib scheduling",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "38--adaptive-scheduling"
+    },
+    "requires": [
+      "a measurable marker to adapt on, in a disease whose response endpoint is itself contested"
+    ],
+    "zero_dollar_next_step": "Build the model on the pooled progression-free-survival data already curated here, and state the conditions under which adaptive scheduling would and would not beat continuous dosing.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-METRONOMIC",
+    "name": "Metronomic dosing",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "strategy_and_trial_architecture",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "Continuous low-dose scheduling suits a disease measured in years, where tolerability over time matters more than depth of response -- and it is the natural comparator arm for the adaptive-scheduling lane, which currently has none. Never considered here.",
+    "exemplar": "metronomic chemotherapy",
+    "zero_dollar_next_step": "Add it as the comparator arm when the adaptive-scheduling model is built, so the two scheduling hypotheses are evaluated against each other rather than each against continuous dosing alone.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SEQUENCING",
+    "name": "Treatment sequencing and line ordering",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "strategy_and_trial_architecture",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "The registry curates several agents with EMC-specific activity and says nothing about what order to give them in. In a disease with years between decisions, ordering is one of the few variables a clinician actually controls, and no prior sweep treated it as a question.",
+    "exemplar": "line-of-therapy ordering",
+    "zero_dollar_next_step": "Tabulate reported prior-therapy exposure against outcome across the curated cohorts and state what the published record can and cannot support about ordering.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BASKET-ELIGIBILITY",
+    "name": "Biomarker-defined basket eligibility",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "strategy_and_trial_architecture",
+    "verdict": "candidate",
+    "prior_coverage": "searched_before",
+    "rationale": "A registered lane with no route, and the sweep's finding is structural rather than scientific: an open trial defines eligibility by a fusion family EMC belongs to, while its listed conditions do not name the disease -- so no histology-based search reaches it. That is a reachability problem, and reachability is something a published paper can fix.",
+    "exemplar": "FET-fusion basket eligibility",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "33--fet-fusion-trial-eligibility"
+    },
+    "zero_dollar_next_step": "Sweep the trial registries for eligibility criteria naming fusion families rather than histologies, and publish the resulting cross-walk as the deliverable.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BIOMARKER-STRATIFICATION",
+    "name": "Biomarker-stratified treatment selection",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "strategy_and_trial_architecture",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board: the 5′ fusion partner as a treatment-stratification variable. It is the portfolio's only route that changes practice without changing the drug.",
+    "exemplar": "fusion-partner stratification",
+    "route": "RT-PARTNER-STRAT",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "32--fusion-variant-stratification"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-ENDPOINT-REFRAME",
+    "name": "Redefining the response endpoint",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "strategy_and_trial_architecture",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board, and upstream of most of this census: an indolent disease judged on a response endpoint built for aggressive ones will score every option here poorly regardless of what it does.",
+    "exemplar": "growth-modulation endpoints",
+    "route": "RT-ENDPOINT-CHOICE",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-EXPANDED-ACCESS",
+    "name": "Expanded access, compassionate use and off-label registries",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "strategy_and_trial_architecture",
+    "verdict": "candidate",
+    "prior_coverage": "never_searched",
+    "rationale": "For a disease that will never have a randomised trial, the realistic route from a computational hypothesis to a treated patient runs through single-patient access and a registry that captures the outcome. The portfolio names publication as its endpoint everywhere and has never registered the mechanism by which a published hypothesis actually reaches a patient.",
+    "exemplar": "single-patient expanded access",
+    "zero_dollar_next_step": "Map the access pathways and the public outcome registries that accept off-label single-patient reports, and state which of this portfolio's candidates could in principle enter one.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-N-OF-1",
+    "name": "N-of-1 and single-patient trial design",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "strategy_and_trial_architecture",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "The design is built for a per-patient private target, and EMC's driver is shared by every patient with the disease -- which makes a shared-cohort design both possible and stronger. The same reasoning already excluded a bespoke-oligonucleotide programme here on its published eligibility criterion.",
+    "exemplar": "n-of-1 designs",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-CHRONOTHERAPY",
+    "name": "Chronotherapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "strategy_and_trial_architecture",
+    "verdict": "excluded",
+    "prior_coverage": "never_searched",
+    "rationale": "Timing delivery to circadian rhythm optimises the tolerability of an agent with established activity, and this disease's problem is the activity rather than the tolerability.",
+    "exemplar": "circadian-timed dosing",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-COVALENT",
+    "name": "Targeted covalent inhibitors and chemical probes",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board, and demoted to a reagent rather than a drug: covalent engagement at a specific cysteine was the largest single demotion of the post-degrader ranking, and the instrument meant to license it fails its own positive control.",
+    "exemplar": "covalent cysteine ligands",
+    "route": "RT-COVALENT-PROBE",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-TF-LBD-OCCUPANCY",
+    "name": "Direct small-molecule occupancy of a transcription-factor ligand-binding domain",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board. It retires the ternary-geometry problem outright by recruiting nothing, and pays for that with a requirement nobody has sized: how much paralogue selectivity occupancy alone would need.",
+    "exemplar": "monovalent pocket modulators",
+    "route": "RT-MONOVALENT",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-LC-DOMAIN-LIGAND",
+    "name": "Ligands for low-complexity and prion-like domains",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board and permanently closed: the domain is shared with the wild-type protein the fusion borrows it from, so a ligand defined by that feature cannot distinguish them.",
+    "exemplar": "FET low-complexity ligands",
+    "route": "RT-FET-LC-LIGAND",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-DBD-LIGAND",
+    "name": "DNA-binding-domain-directed small molecules",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "ppi_and_undruggable",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board and dead by arithmetic: the paralogues' DNA-binding domains are near-identical, far closer than their ligand-binding domains. This is the closure two other census rows inherit -- oligonucleotide-directed degradation and response-element decoys both fail on it.",
+    "exemplar": "DNA-binding-domain ligands",
+    "route": "RT-DBD",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-SYNTHETIC-LETHAL",
+    "name": "Synthetic lethality and dependency-screen-derived targets",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "enzyme_inhibitor_non_kinase",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board through a chromatin-remodelling dependency. ⚠ Its prior came back negative, and the underlying screen contains no EMC line at all -- so the honest bound is not a small sample but no EMC observation.",
+    "exemplar": "BRD9 / ncBAF degraders",
+    "route": "RT-SYNLETH-DEP",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-COMBINATION",
+    "name": "Rational combination therapy",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "strategy_and_trial_architecture",
+    "verdict": "on_board",
+    "prior_coverage": "searched_before",
+    "rationale": "On the board as an all-approved-drug pairing on the fusion's own downstream axis. Recorded as a class because combination is a design decision in its own right, and because the repository has twice had to correct a combination result that had been read as a monotherapy one.",
+    "exemplar": "trabectedin plus a PPARγ agonist",
+    "route": "RT-TRABECTEDIN-PPARG",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  }
+]

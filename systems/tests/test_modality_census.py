@@ -114,6 +114,28 @@ PRIOR_SEARCHES = [
 ]
 
 
+def test_every_strategy_family_is_reached_by_the_census(graph):
+    """⭐ THIS CHECK FOUND SIX REAL GAPS ON ITS FIRST RUN, WHICH IS WHY IT IS HERE. Covalent chemistry,
+    ligand-binding-domain occupancy, low-complexity-domain ligands, DNA-binding-domain ligands,
+    synthetic lethality and rational combination were all classes the board ALREADY pursues and the
+    census had no row for -- the census's own failure mode running in reverse.
+
+    ⚠ ASSERTED AT FAMILY LEVEL, NOT ROUTE LEVEL, AND DELIBERATELY. Several routes are not modality
+    classes at all -- two are wet-lab asks, two are dissemination deliverables, one is a method and one
+    is a selectivity requirement -- so a per-route assertion would need a hand-maintained allowlist,
+    which is the construct this repository has repeatedly watched stop covering the model in silence.
+    A family cannot be exempted the same way: if a whole strategy family has no census row, the census
+    has a hole in it.
+    """
+    if not graph["modalities"]:
+        pytest.skip("census not populated yet")
+    routes = {r["id"]: r for r in graph["routes"]}
+    covered = {m["route"] for m in graph["modalities"] if m.get("route")}
+    reached = {routes[r]["strategy"] for r in covered if r in routes}
+    missing = sorted({s["id"] for s in graph["strategies"]} - reached)
+    assert missing == [], f"strategy families no census row reaches: {missing}"
+
+
 def test_the_prior_searches_still_exist_where_the_census_says_they_do():
     """A reconciliation test whose inputs have moved passes vacuously and reports coverage it never
     checked. `parser_guard.py` exists for this failure mode across the repo; this is its local form."""

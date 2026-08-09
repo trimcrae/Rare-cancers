@@ -81,6 +81,7 @@ and a group with every row excluded is a finding rather than a filing error.
 | verdict | means | the row must carry |
 |---|---|---|
 | `on_board` | an existing route already covers this class | `route` — an `RT-*` that exists |
+| `in_clinical_use` | already given to EMC patients — the incumbent arsenal | the record it rests on, in `prior_ref` |
 | `already_rejected` | someone here already settled it | `prior_ref` — the document that owns the ruling |
 | `excluded` | **this census** is what closes it | the argument, in `rationale`, because here is its only home |
 | `candidate` | it survives, and it is new | `zero_dollar_next_step` |
@@ -92,6 +93,12 @@ Roughly fifty classes already carry a ruling in a prior document. For those the 
 **point**, and restating the reason would create a second home for it that drifts. Where this census
 is itself the closer, the reason belongs in the row because the row is its only home. A single value
 covering both would force one of those two failures.
+
+⭐ **`in_clinical_use` is the denominator's denominator.** The question that produced this census
+described EMC's options as *"a pretty small arsenal"*, and how small is a measurement rather than an
+impression — so the classes patients actually receive are counted here alongside the ones they do not.
+⛔ **It grades availability, never benefit.** A class is `in_clinical_use` because the record says it
+is given, and that says nothing whatever about what it achieves.
 
 ⚠ **`not_applicable` is the weakest verdict and is used sparingly.** "No instance exists" is a claim
 about oncology, not about EMC, and it ages badly. Where the honest statement is *"nothing addresses

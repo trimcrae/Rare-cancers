@@ -3476,7 +3476,7 @@ def render_readiness(g):
     return "\n".join(out)
 
 
-MOD_GLYPH = {"on_board": "✓", "candidate": "⭑", "parked_capability": "⏸",
+MOD_GLYPH = {"on_board": "✓", "in_clinical_use": "●", "candidate": "⭑", "parked_capability": "⏸",
              "already_rejected": "✕", "excluded": "✕", "not_applicable": "—"}
 
 MOD_GROUP_TITLE = {
@@ -3542,7 +3542,8 @@ def render_modalities(g):
                 "are live** (`candidate` or `parked_capability`).\n"]
 
         out += ["| verdict | classes | of which never searched |", "|---|---:|---:|"]
-        for v in ("candidate", "parked_capability", "on_board", "already_rejected", "excluded", "not_applicable"):
+        for v in ("candidate", "parked_capability", "on_board", "in_clinical_use", "already_rejected",
+                  "excluded", "not_applicable"):
             if by_verdict.get(v):
                 n_new = sum(1 for m in mods if m["verdict"] == v and m["prior_coverage"] == "never_searched")
                 out.append(f"| {MOD_GLYPH[v]} `{v}` | {by_verdict[v]} | {n_new} |")
@@ -3583,10 +3584,15 @@ def render_modalities(g):
                     rid = m["route"]
                     disp = routes.get(rid, {}).get("display_name", rid)
                     lands = f"[{rid}](L2-{route_slug(rid)}.md) — {esc(_clip(disp, 60))}"
-                elif m["verdict"] == "already_rejected":
-                    ref = m.get("prior_ref", {})
-                    lands = f"already ruled — [{os.path.basename(ref.get('file',''))}](" \
-                            f"{os.path.relpath(os.path.join(REPO, ref.get('file','')), VIEWS)}" \
+                elif m["verdict"] in ("already_rejected", "in_clinical_use") and m.get("prior_ref"):
+                    # ⛔ THE LINK IS THE WHOLE POINT OF THESE TWO VERDICTS. `already_rejected` means
+                    # another document owns the ruling and this row deliberately does not restate its
+                    # reason (rule 1), so a row that rendered its own prose here would be quietly
+                    # becoming the second home the verdict exists to avoid.
+                    ref = m["prior_ref"]
+                    lead = "already ruled" if m["verdict"] == "already_rejected" else "on the record"
+                    lands = f"{lead} — [{os.path.basename(ref['file'])}](" \
+                            f"{os.path.relpath(os.path.join(REPO, ref['file']), VIEWS)}" \
                             f"{'#' + ref['anchor'] if ref.get('anchor') else ''})"
                 else:
                     lands = esc(_clip(m["rationale"], 150))

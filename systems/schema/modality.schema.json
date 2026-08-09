@@ -75,13 +75,14 @@
     "verdict": {
       "enum": [
         "on_board",
+        "in_clinical_use",
         "already_rejected",
         "excluded",
         "candidate",
         "parked_capability",
         "not_applicable"
       ],
-      "description": "`already_rejected` and `excluded` are deliberately separate. The first means SOMEONE ELSE HERE ALREADY SETTLED IT and the row's job is to POINT at that ruling and never to restate its reason (rule 1); the second means this census is the thing doing the closing, and then the reason belongs here because here is its only home. Collapsing them would either duplicate ~50 existing rulings or hide which document owns each."
+      "description": "`in_clinical_use` is the BASELINE and exists because a census with no denominator for the incumbents cannot say what an unexplored option would have to beat -- trimcrae's question was framed as `a pretty small arsenal`, and the size of that arsenal is a measurement this register should carry rather than imply. It is NOT a claim about how well anything works. `already_rejected` and `excluded` are deliberately separate. The first means SOMEONE ELSE HERE ALREADY SETTLED IT and the row's job is to POINT at that ruling and never to restate its reason (rule 1); the second means this census is the thing doing the closing, and then the reason belongs here because here is its only home. Collapsing them would either duplicate ~50 existing rulings or hide which document owns each."
     },
     "prior_coverage": {
       "enum": ["searched_before", "never_searched"],
