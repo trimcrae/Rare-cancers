@@ -1,0 +1,367 @@
+SOURCE URL: https://seer.cancer.gov/causespecific/
+FINAL URL: https://seer.cancer.gov/causespecific/
+HTTP: 200
+CONTENT-TYPE: text/html; charset=UTF-8
+======================================================================
+Cause-specific Death Classification - SEER Recodes 
+
+ Skip to Main Content 
+
+ An official website of the United States government
+
+ Share on Facebook 
+
+ Tweet 
+
+ Print 
+
+ Search SEER: 
+
+ Main Menu 
+
+ Main Menu
+
+ Home 
+
+ Cancer Statistics
+
+ Cancer Statistics 
+
+ Reports on Cancer 
+
+ Annual Report to the Nation on the Status of Cancer 
+
+ Cancer Stat Facts 
+
+ Preliminary Cancer Incidence Rates and Trends 
+
+ SEER Publications 
+
+ Interactive Tools, Maps, & Graphs 
+
+ Cancer Statistics Explorer Network 
+
+ Understanding Statistics 
+
+ Did You Know? Video Series 
+
+ Defining Cancer Statistics 
+
+ Glossary of Statistical Terms 
+
+ SEER Data & Software
+
+ SEER Data & Software 
+
+ SEER Incidence Database 
+
+ Comparison of Data Products 
+
+ How to Request the Data 
+
+ Documentation for Data 
+
+ SEER*Stat Database Details 
+
+ NCCR Databases in SEER*Stat 
+
+ Variable and Recode Definitions 
+
+ U.S. Datasets 
+
+ U.S. Mortality 
+
+ U.S. Populations 
+
+ Standard Populations 
+
+ SEER Linked Databases 
+
+ Statistical Software 
+
+ SEER*Stat 
+
+ SEER*Prep 
+
+ Health Drivers Calculator (HD*Calc) 
+
+ Methods & Tools for Population-based Cancer Statistics 
+
+ Registry Operations
+
+ Registry Operations 
+
+ Reporting Guidelines 
+
+ SEER Program Coding Manual 
+
+ Hematopoietic Project 
+
+ Solid Tumor Rules 
+
+ Tools & Software 
+
+ Glossary for Registrars 
+
+ SEER*Rx - Drug Database 
+
+ SEER Abstracting Tool 
+
+ SEER Data Management System (SEER*DMS) 
+
+ Staging 
+
+ Registrar Staging Assistant (SEER*RSA) 
+
+ Summary Stage 2018 
+
+ Staging Resources 
+
+ Extent of Disease 2018 
+
+ Questions & Answers 
+
+ SEER Inquiry System 
+
+ Ask a SEER Registrar 
+
+ Data Collection Answers 
+
+ Cancer PathCHART 
+
+ Training 
+
+ News & Events 
+
+ About SEER
+
+ About SEER 
+
+ Program Overview 
+
+ Goals of the SEER Program 
+
+ Fact Sheets & Brochures 
+
+ Collaborating Organizations 
+
+ SEER Registries 
+
+ What is a Cancer Registry? 
+
+ List of Registries 
+
+ Registry Groupings 
+
+ Population Characteristics 
+
+ Research Activities 
+
+ Residual Tissue Repository Program 
+
+ SEER-Linked Virtual Tissue Repository Program 
+
+ SEER Data Quality Initiatives 
+
+ Section Menu 
+ Home 
+ SEER Data & Software 
+ Documentation for Data 
+ Variable & Recode Definitions 
+ Cause-specific Death Classification
+ SEER Cause-specific Death Classification 
+
+ Data Documentation 
+ 
+ SEER Databases in SEER*Stat 
+ 
+ SEER November 2025 Submission 
+
+ SEER November 2024 Submission 
+
+ SEER November 2023 Submission 
+
+ Supplemental SEER November 2020 Submission 
+
+ Previous SEER Submissions 
+
+ NCCR Databases in SEER*Stat 
+ 
+ NCCR December 2024 Submission 
+
+ NCCR December 2023 Submission 
+
+ NCCR December 2022 Submission 
+
+ Variable & Recode Definitions 
+ 
+ Behavior Recode for Analysis 
+
+ Cancer Stage Variables 
+ 
+ SEER Combined/AJCC Cancer Staging 
+ 
+ Derived EOD 2018 
+
+ SEER Combined Stage (2016-2017) 
+
+ Lymphomas - Ann Arbor Staging (1983-2015) 
+
+ Adjusted AJCC 6th ed., T, N, M, and Stage 
+
+ AJCC Stage 3rd Edition 
+
+ Collaborative Stage Site-Specific Factors (CS SSF) 
+
+ Localized/Regional/Distant Stage Adjustments 
+
+ Cancer Type-Specific Recodes 
+ 
+ Breast Subtype (2010+) 
+
+ Derived HER2 Recode (2010+) 
+
+ Site Specific Data Item Recodes 
+
+ Cause of Death Recode 
+
+ Cause-specific Death Classification 
+
+ Incidence Site Recode Variables 
+ 
+ AYA Site Recode 
+
+ Brain/CNS Recode 
+
+ International Classification of Childhood Cancer 
+
+ Lymphoma Subtype Recode 
+
+ Rare Cancer Classification 
+
+ Site Recode 
+
+ Insurance Recode 
+ 
+ Months Survived Based on Complete Dates 
+ 
+ Policy for Calculating Hispanic Mortality 
+
+ Race and Hispanic Ethnicity 
+
+ Surgery to Primary Site 
+
+ Tumor Size Over Time Recode 
+
+ Cause-specific survival is a net survival measure representing survival of a specified cause of death in the absence of other causes of death. Estimates are calculated by specifying the cause of death. Individuals who die of causes other than the specified cause are considered to be censored. This requires a cause of death variable that accurately captures all causes related to the specific cause. Cancer registries use algorithms to process causes of death from death certificate in order to identify a single, disease-specific, underlying cause of death. In some cases, attribution of a single cause of death may be difficult and misattribution may occur. For example a death may be attributed to the site of metastasis instead of the primary site.
+
+ To capture deaths related to the specific cancer but not coded as such, the SEER cause-specific death classification variables are defined by taking into account causes of deaths in conjunction with tumor sequence (i.e., only one primary or one of multiple primaries), site of the original cancer diagnosis, and comorbidities (e.g., AIDS and/or site-related diseases). 
+
+ The SEER Cause-specific Death Classification definitions have changed over time. The previous coding system for 1973-2007 SEER Research Data (November 2009 Submission) is available. 
+
+ 1973-2008 SEER Research Data (November 2010 submission) and Later Releases
+
+ There are two variables in the SEER data for estimating cause-specific survival probability due to ‘cancer’ or due to ‘other-causes’. The idea is to use these variables independently to estimate survival of specified cause of death (e.g. cancer, non-cancer). The ‘SEER cause-specific death classification’ variable is used to obtain cancer-specific survival probability for a given cohort of cancer patients. While, ‘SEER other cause of death classification’ variable is used to obtain the other-cause survival probability for the same cohort of patients. In the first variable, (SEER cause-specific death classification) deaths attributed to the cancer of interest are treated as events and deaths from other causes are treated as censored observation. The event of interest in the second variable (the ‘SEER other cause of death classification’) is the reverse, i.e., deaths attributed to causes other than cancer are treated as events and deaths from cancer are treated as censored observation. The cause of death codes are the same in both variables. 
+
+ The two variables have the following formats. 
+
+ SEER Cause-Specific Death Classification a 
+
+ 0 = Alive or dead of other cause
+
+ 1 = Dead (attributable to this cancer dx)
+
+ 8 = Dead (missing/unknown COD) b 
+
+ 9 = N/A not seq 0-59
+
+ SEER Other Cause of Death Classification a 
+
+ 0 = Alive or dead due to cancer
+
+ 1 = Dead (attributable to causes other than this cancer dx)
+
+ 8 = Dead (missing/unknown COD) b 
+
+ 9 = N/A not seq 0-59 
+
+ The following tables show cause of death codes which are treated as deaths for a respective cancer site. Separate tables are provided for ICD-8, ICD-9, ICD-10 coding systems. 
+
+ ICD-8 SEER Cause-specific Death for Sequence 00 
+
+ ICD-8 SEER Cause-specific Death for Sequence 01-59 a , c 
+
+ ICD-9 SEER Cause-specific Death for Sequence 00 
+
+ ICD-9 SEER Cause-specific Death for Sequence 01-59 a , c 
+
+ ICD-10 SEER Cause-specific Death for Sequence 00 
+
+ ICD-10 SEER Cause-specific Death for Sequence 01-59 a , c 
+
+ Updates/Revisions to these Fields 
+
+ a Starting with the November 2019 data submission, these fields are coded for sequence numbers 0-59 rather than just 0 and 1.
+
+ b The "Dead (missing/unknown COD)" value was added starting with the November 2017 data submission. Prior to the November 2017 data submission, unknown/missing COD was included as other (non-cancer) cause.
+
+ c An error was identified in the cause of death codes, for sequence 01, for cancers of the Anus, Anal Canal, and Anorectum. The correction has been included in the tables above and will be reflected in the SEER data starting with the November 2019 data submission.
+
+ More Information
+
+ For more on survival, see Measures of Cancer Survival . The following SAS program can be used to create these fields: 
+ CreateCauseSpecificAndOtherDeathClassification.sas (SAS, 51 KB) - updated March 16, 2020 .
+
+ Further information and comparisons between cause-specific survival using the SEER cause-specific death classification and relative survival were published in the following article:
+
+ Howlader N, Ries LA, Mariotto AB, Reichman ME, Ruhl J, Cronin KA. Improved Estimates of Cancer-Specific Survival Rates From Population-Based Data. J Natl Cancer Inst 2010 Oct 20;102(20):1584-98. Epub 2010 Oct 11. [ View Abstract ] 
+
+ Return to Top 
+
+ SEER is supported by the Surveillance Research Program (SRP) in NCI's Division of Cancer Control and Population Sciences (DCCPS) . SRP provides national leadership in the science of cancer surveillance as well as analytical tools and methodological expertise in collecting, analyzing, interpreting, and disseminating reliable population-based statistics.
+
+ Follow SEER
+
+ Sign up for email updates
+
+ Sign Up 
+
+ Contact Information
+
+ Contact SEER 
+
+ NCI LiveHelp Online Chat 
+
+ More Information
+
+ Careers 
+ 
+ Sitemap 
+
+ Using This Website 
+
+ Policies
+
+ Accessibility 
+
+ Disclaimer 
+
+ FOIA 
+
+ HHS Vulnerability Disclosure 
+
+ Privacy & Security 
+
+ Reuse of Graphics and Text 
+
+ Website Linking 
+
+ U.S. Department of Health and Human Services 
+
+ National Institutes of Health 
+
+ National Cancer Institute 
+
+ USA.gov 
+
+ NIH... Turning Discovery Into Health ®
