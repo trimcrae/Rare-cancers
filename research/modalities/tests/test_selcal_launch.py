@@ -745,17 +745,41 @@ def _watch_env(monkeypatch, *, complete, hosts, readable=True, ticks=1):
     monkeypatch.setattr(L, "self_dispatch", lambda m, i=None, **k: calls["dispatch"].append(m) or True)
     monkeypatch.setattr(L, "rental_uptime_s", lambda _i: 60.0)
 
+    _now = {"t": 1_700_000_000.0}
+
     def _checked(_key=None):
+        # ⚠ A CHECK TAKES TIME, AND ONE GUARD DEPENDS ON THAT. `no_host_strikes` only counts once
+        # `time.time() - t_start > grace_s`, so with a grace of 0 the first check must land at a
+        # STRICTLY positive elapsed time. Under the old no-op sleep the real clock supplied a few
+        # microseconds by accident; a virtual clock starts at exactly 0 and the strike silently
+        # never fires. Charging the check a millisecond is what the real API call does anyway.
+        _now["t"] += 0.001
         seen["n"] += 1
         h = hosts(seen["n"]) if callable(hosts) else hosts
         r = readable(seen["n"]) if callable(readable) else readable
         return r, {}, list(h)
     monkeypatch.setattr(L, "_live_labels_checked", _checked)
-    monkeypatch.setattr(L.time, "sleep", lambda _s: None)
+    # ⛔ A VIRTUAL CLOCK, NOT A NO-OP SLEEP, AND THE DIFFERENCE IS 30 SECONDS OF CI PER RUN.
+    # `mode_cofold_watch` ends on a WALL-CLOCK deadline (`t_end = time.time() + minutes * 60`).
+    # Stubbing `sleep` to do nothing does not shorten the watch -- it converts every sleep into a
+    # SPIN, so the loop busy-waits until real time reaches the deadline. Measured in CI
+    # 2026-08-08: exactly 12.00s, 9.00s and 9.00s across the three control tests, which is
+    # `ticks * 0.05` minutes of real waiting with the CPU pinned.
+    # Advancing a fake clock BY THE SLEPT AMOUNT is also the more faithful stub: it is what
+    # `sleep` actually does to the clock the code reads, so the deadline arithmetic under test is
+    # exercised exactly as in production instead of being outrun by the wall.
+    monkeypatch.setattr(L.time, "sleep", lambda _s: _now.__setitem__("t", _now["t"] + float(_s)))
+    monkeypatch.setattr(L.time, "time", lambda: _now["t"])
+    # ⭐ AND NOW `ticks` MEANS TICKS. With the old no-op sleep the loop spun on a real clock, so
+    # `ticks=3` did not run three iterations -- it ran however many THOUSANDS fitted into 3 real
+    # seconds. Every control below was therefore exercising a tick count nobody chose and nobody
+    # could read off the call. One tick per second of virtual time, and a window exactly `ticks`
+    # seconds long, makes the loop run exactly `ticks` times.
+    monkeypatch.setenv("SELCAL_WATCH_INTERVAL_S", "1")
     real_print = print
     monkeypatch.setattr("builtins.print", lambda *a, **k: calls["log"].append(" ".join(str(x) for x in a)))
     try:
-        rc = L.mode_cofold_watch(bucket="b", minutes=ticks * 0.05, cofold_prefix="p")
+        rc = L.mode_cofold_watch(bucket="b", minutes=ticks / 60.0, cofold_prefix="p")
     finally:
         monkeypatch.setattr("builtins.print", real_print)
     calls["rc"] = rc
