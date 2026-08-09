@@ -80,7 +80,20 @@ cd "$(dirname "$0")/.."
 # attempt at exactly this comparison on the same day was VACUOUS because it diffed this script's own
 # truncated 20-line output against a full 50-line list: a subset can never show "new on branch", so it
 # returned a clean verdict it had no power to produce. Compare pytest's full list on both sides.
-BASELINE_FAILURES="${PREFLIGHT_BASELINE_FAILURES:-50}"
+# ⛔ DERIVED FROM THE LIST, NEVER TYPED (CLAUDE.md rule 1.1: "a total is DERIVED, never typed --
+# hand-carried totals drift silently"). This was hard-coded at 50 while the authoritative baseline
+# list held 53, so every run printed a drift notice on an otherwise green build -- and a green build
+# that always carries a note is a note nobody reads. The list is the source of truth; the count is a
+# cross-check on it, so computing one from the other makes the two structurally unable to disagree.
+# Superseded, retained: `BASELINE_FAILURES="${PREFLIGHT_BASELINE_FAILURES:-50}"`.
+# ⚠ THIS DOES NOT WEAKEN THE GATE. What actually fails a run is a failure NOT NAMED in the list, and
+# that check is untouched -- see the `comm -23` below. Deriving the count removes bookkeeping noise;
+# it does not raise a ceiling, because the ceiling was never what caught anything.
+_baseline_file=research/modalities/tests/sandbox-failure-baseline.txt
+BASELINE_FAILURES="${PREFLIGHT_BASELINE_FAILURES:-$(
+  grep -v '^#' "$_baseline_file" 2>/dev/null | sed '/^[[:space:]]*$/d' | sort -u | wc -l | tr -d ' '
+)}"
+BASELINE_FAILURES="${BASELINE_FAILURES:-0}"
 rc=0
 
 echo "== lint_consistency =="
