@@ -1,18 +1,19 @@
 ---
 id: DOC-RESPONSE-ENDPOINT-REGIME
-title: "Objective response as a trial summary: the regime in which it carries no information, and the diseases inside it"
+title: "Objective response and disease control on identical patients: what the response summary discards across 552 trial arms"
 level: L3
 kind: manuscript
 status: live
 canonical_for:
-  - the two-axis regime in which an objective-response summary stops carrying information
   - the cross-disease distribution of the disease-control minus objective-response gap
   - the reporting completeness of four-cell best-response tables in posted trial results
+  - the frequency of trial arms whose objective-response readout returns zero
+  - the two-axis regime in which an objective-response summary stops carrying information
 purpose: >-
-  Establish that the failure of an objective-response summary is a property of two measurable
-  coordinates rather than of any tumour type; measure the size of that failure across trial arms in
-  many diseases; and set out which remedies already exist and which diseases in the affected regime
-  still lack one.
+  Measure what an objective-response summary discards, on the identical patients that produced it,
+  across every trial arm that reports enough to be re-read; measure how often that summary returns
+  nothing at all; bound how often a trial is too small for its own response rate; and set out which
+  remedies already exist.
 scope: >-
   Interventional oncology trial arms reporting a complete four-cell best-response table, together
   with registry accrual records. A paper about measurement and reporting. It contains no new
@@ -23,7 +24,7 @@ last_verified: 2026-08-09
 related: [DOC-POLICY-EVIDENCE, DOC-EMC-ENDPOINT-ALTERNATIVES]
 ---
 
-# Objective response as a trial summary: the regime in which it carries no information, and the diseases inside it
+# Objective response and disease control on identical patients: what the response summary discards across 552 trial arms
 
 **Tristan D. McRae**
 
@@ -67,24 +68,24 @@ shrinkage, or enough patients, to make it informative.
 **Methods.** Under a protocol frozen before retrieval, we assembled trial arms from
 ClinicalTrials.gov posted results. The unit is one arm; inclusion depends on the report rather than
 the disease, requiring all four best-response categories as integer counts with an evaluable
-denominator. No tumour type, grade, rarity or indolence descriptor was a criterion, and both
-endpoints were computed on one denominator. Diseases were placed on two measured axes, median
-objective response and median actual enrolment, with boundaries drawn from the binomial.
+denominator. No tumour type, grade or indolence descriptor was a criterion, and both endpoints were
+computed on one denominator. Diseases were placed on two measured axes, median objective response
+and median enrolment, with binomial boundaries.
 
 **Results.** 552 arms from 138 trials carried a complete table. The gap between disease control and
 objective response had a median of 39.4 percentage points (IQR 20.0 to 54.3), and is identically the
-stable-disease proportion, so each value carries an exact interval. It was present in every
-constructible stratum. Of 44 conditions placed, 16 had a median response at or below the 5% null,
-leaving no design defined; of the rest, 31.8% to 73.9% had a median trial too small for an exact
-single-stage design, the interval spanning two accrual populations biased in opposite directions.
-Reporting was the binding constraint: of 2,851 trials naming best overall response, 2,715 (95.2%)
-posted results without the four categories. Of 19 control-token arms, 16 carry an active agent once
-registered interventions are read. Four remedy families appear across 12 domains, 7 with a consensus
-guideline and 5 a trial precedent alone.
+stable-disease proportion, so each value carries an exact interval. It held in every constructible
+stratum; 194 arms discarded 50 points or more. The summary returned nothing at all
+in 251 arms (45.5%), tracking the binomial at the corpus median rate: largely a
+function of arm size. Of 44 conditions placed, 16 had a median response at or below the 5%
+null; of the rest, 31.8% to 73.9% had a median trial too small for a single-stage design, the
+interval bounding two accrual populations biased in opposite directions. Reporting was the binding
+constraint: of 2,851 trials naming best overall response, 2,715 (95.2%) omitted the four
+categories. Four remedy families appear across 12 domains, 7 with a consensus guideline.
 
-**Conclusions.** The failure of a response summary is a property of a coordinate rather than a tumour
-type, and remedies are long established but undiffused. A four-cell table with its denominator lets
-any reader compute either endpoint, and is missing from most of the record.
+**Conclusions.** A response summary discards a large, measurable share of what a trial observed, and
+returns nothing in almost half of arms. Remedies are long established but undiffused. A four-cell
+table with its denominator lets any reader compute either endpoint, and is missing from the record.
 
 ---
 
@@ -111,9 +112,10 @@ measurable in advance of any trial. Neither is a property of a tumour type as su
 analysis below places diseases on axes rather than sorting them into categories.
 
 No indolence descriptor was used to select anything, and no analysis reads one. That matters more
-than it may appear: the diseases this analysis places in the affected regime are largely common
-cancers rather than the rare slow-growing tumours the question is usually asked about, and section
-3.2 names them.
+than it may appear. The question is usually asked about rare slow-growing tumours, and nothing in
+this corpus is selected to answer it that way: the arms carrying the largest gaps are drawn from
+common cancers as readily as from rare ones, and section 4 reports the distribution without sorting
+by tumour type at all.
 
 ---
 
