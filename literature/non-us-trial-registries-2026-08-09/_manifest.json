@@ -1,0 +1,67 @@
+[
+  {
+    "name": "ictrp_nr4a3",
+    "url": "https://trialsearch.who.int/api/QueryV2?q=NR4A3",
+    "status": 404,
+    "error": "HTTPError 404",
+    "chars": 103
+  },
+  {
+    "name": "ictrp_emc",
+    "url": "https://trialsearch.who.int/api/QueryV2?q=extraskeletal%20myxoid%20chondrosarcoma",
+    "status": 404,
+    "error": "HTTPError 404",
+    "chars": 103
+  },
+  {
+    "name": "isrctn_emc",
+    "url": "https://www.isrctn.com/api/query/format/default?q=chondrosarcoma",
+    "status": 200,
+    "final_url": "https://www.isrctn.com/api/query/format/default?q=chondrosarcoma",
+    "content_type": "application/xml",
+    "chars": 29790
+  },
+  {
+    "name": "isrctn_sarcoma_fusion",
+    "url": "https://www.isrctn.com/api/query/format/default?q=sarcoma%20AND%20fusion",
+    "status": 200,
+    "final_url": "https://www.isrctn.com/api/query/format/default?q=sarcoma%20AND%20fusion",
+    "content_type": "application/xml",
+    "chars": 11957
+  },
+  {
+    "name": "euctis_search_emc",
+    "url": "https://euclinicaltrials.eu/ctis-public-api/search?paging=%7B%22page%22%3A1%2C%22size%22%3A50%7D&searchCriteria=%7B%22containAll%22%3A%22chondrosarcoma%22%7D",
+    "status": 403,
+    "error": "HTTPError 403",
+    "chars": 42
+  },
+  {
+    "name": "euctis_search_sarcoma",
+    "url": "https://euclinicaltrials.eu/ctis-public-api/search?paging=%7B%22page%22%3A1%2C%22size%22%3A50%7D&searchCriteria=%7B%22containAll%22%3A%22translocation%20sarcoma%22%7D",
+    "status": 403,
+    "error": "HTTPError 403",
+    "chars": 42
+  },
+  {
+    "name": "anzctr_emc",
+    "url": "https://www.anzctr.org.au/TrialSearch.aspx?searchTxt=chondrosarcoma&isBasic=True",
+    "status": 403,
+    "error": "HTTPError 403",
+    "chars": 633
+  },
+  {
+    "name": "jrct_sarcoma",
+    "url": "https://jrct.niph.go.jp/en-latest-detail/search?search_field=sarcoma",
+    "status": null,
+    "error": "URLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1000)'))"
+  },
+  {
+    "name": "ctgov_nr4a3_control",
+    "url": "https://clinicaltrials.gov/api/v2/studies?query.term=NR4A3&pageSize=100&format=json",
+    "status": 200,
+    "final_url": "https://clinicaltrials.gov/api/v2/studies?query.term=NR4A3&pageSize=100&format=json",
+    "content_type": "application/json",
+    "chars": 163160
+  }
+]
