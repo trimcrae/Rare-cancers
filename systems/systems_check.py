@@ -3937,7 +3937,15 @@ def render_plan(g):
 #: is still worth publishing; it is not worth ranking first.
 CLOSURE_WEIGHT = {
     "open": 5,
-    "authorization": 2,      # blocked on a human decision, which is the cheapest kind of blocked
+    # ⚠ RAISED 2 → 5 (2026-08-09). The old value carried its own retired rationale in this comment:
+    # "the cheapest kind of blocked" — cheapest for US to unblock, which is a READINESS judgement,
+    # and readiness stopped being the rubric earlier the same day. Under a patient-reach rubric a
+    # route blocked only on a laboratory saying yes is not further from a bench than one we are
+    # still computing on; it is the same distance measured the other way, and arguably nearer.
+    # Superseded, retained: `authorization: 2`. The symptom was PUB-ATR-PANEL-ASK — a package of
+    # constructs, controls and pre-committed kill criteria for a group already running the assay —
+    # ranking 8th behind papers with no bench ask at all.
+    "authorization": 5,
     "instrument_limit": -1,  # closed by what we can measure, not by the biology
     "confound_in_the_system": -1,
     "arithmetic_over_fixed_fact": -2,
@@ -4022,10 +4030,26 @@ def _paper_scores(g):
                 need += 1
                 can += 1 if v.get("feasible_today") else 0
         self_doable = (can / need) if need else None
-        score = sum(CLOSURE_WEIGHT.get(r.get("closure_kind"), 0) for r in rs)
-        score += sum(CONFIDENCE_WEIGHT.get((r.get("state") or {}).get("confidence"), 0)
-                     for r in openish)
-        score += 3 * len(ready)
+        # ⛔ A PAPER IS ITS BEST ROUTE, NOT ITS ROUTE COUNT (trimcrae, 2026-08-09, asking what the
+        # top-ranked paper actually contributes). Summing per-route weights made the ranking a
+        # COUNT: PUB-REPURPOSING held first place on three routes every one of which the graph
+        # records at `confidence: low`, one of them regraded that same day to "both in-silico
+        # rationales for it failed". Three weak routes outscored one strong one, which is not how
+        # any reader judges a paper and is not what "could this lead a lab to a test?" asks.
+        # ⚠ Breadth is real and is kept — at HALF, as a tie-break. A closed route is halved too,
+        # rather than being given a special full-weight penalty: one rule, nothing to argue about
+        # in either direction, and §0's warning against ranking finished work first is carried by
+        # the band partition above, which no score can cross.
+        def _standing(r):
+            s = CLOSURE_WEIGHT.get(r.get("closure_kind"), 0)
+            if r.get("closure_kind") == "open":
+                s += CONFIDENCE_WEIGHT.get((r.get("state") or {}).get("confidence"), 0)
+            if (r.get("state") or {}).get("status") == "ready":
+                s += 3
+            return s
+
+        standings = sorted((_standing(r) for r in rs), reverse=True)
+        score = (standings[0] + 0.5 * sum(standings[1:])) if standings else 0
         score += STATE_WEIGHT.get(p.get("state"), 0)
         # Everything left to do being doable here is worth as much as one open route, because a
         # paper nobody else has to touch is one this programme can actually finish.

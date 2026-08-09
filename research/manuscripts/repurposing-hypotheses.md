@@ -49,7 +49,10 @@ and applies only to the ~4% *KIT*-mutant minority — from the **most promising 
 leads**, which are preclinical: PPARγ agonism (in-vivo EMC-model data — though the *direction* of the
 PPARγ effect in EMC is unresolved in the primary literature, and that in-vivo result's in-vitro half
 used a line whose EMC identity the curated record does not support; §3) and the proteasome/BCL-2
-inhibitors carfilzomib and venetoclax (validated across two patient-derived EMC models). In EMC
+inhibitors carfilzomib and venetoclax (an *ex-vivo* screen result of Bangerter et al. 2023, not of
+this work; the screen itself was run on **one** patient-derived EMC model, with three drugs then
+tested in a second — see §4, where two in-silico rationales this work advanced for it both failed).
+In EMC
 the evidence and novelty of a candidate are essentially anti-correlated, and naming that gap — not
 proposing a cure — is part of the contribution. The graph foundation model, by contrast, diverged
 sharply — and a pre-specified stress-test on commoner sarcomas showed the divergence is **not**
@@ -208,7 +211,7 @@ full detail, strongest evidence first:
 | **Imatinib** — *KIT*-mutant subset (KIT) | **Clinical** — 1 patient, 3-yr stable disease | **No** — already reported |
 | **VEGFR-TKIs**: regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib (angiogenesis) | **Clinical, class-level** — pazopanib/sunitinib are active in EMC; these specific agents are untested extensions | Partly |
 | **Zaltoprofen → pioglitazone** (PPARγ / lineage) | **In-vivo** — tumour-growth inhibition in a mouse EMC model via PPARγ. ⚠ **PPARγ DIRECTION — UNRESOLVED (2026-08-06)**; the in-vitro half of this result used a line whose EMC identity the curated record does not support — see the axis note below | **Yes** |
-| **Carfilzomib** ± doxorubicin / venetoclax (proteostasis) | **Ex-vivo** — only 1 of 17 drugs with high sensitivity across **2** patient-derived EMC models; carfilzomib+doxorubicin & +venetoclax synergy | **Yes** |
+| **Carfilzomib** ± doxorubicin / venetoclax (proteostasis) | **Ex-vivo** — only 1 of 17 chemotherapeutics with high sensitivity; carfilzomib+doxorubicin & +venetoclax synergy. ⚠ *The screen was on **one** model (USZ20-EMC1); three validated drugs were then tested in both. See §4 for the correction and for the two in-silico rationales that failed* | **Yes** |
 | **Venetoclax** (BCL-2 / apoptosis) | **Ex-vivo** — sensitivity validated in the 2 EMC models | **Yes** |
 | **HDAC inhibitors**: romidepsin / panobinostat (epigenetic) | **Ex-vivo** — top hits of a 221-drug screen in a patient-derived EMC line | **Yes** |
 | **Brigatinib** (kinome screen hit) | **Ex-vivo** — same EMC-line screen; mechanism unknown | **Yes** |
@@ -327,6 +330,41 @@ clinical data. Their natural next step is **confirmatory testing in the existing
 patient-derived EMC models** (the two independent EMC model drug screens that anchor much of
 this evidence), prioritising hits that recur across models and that pair logically with the
 current anthracycline backbone, before any clinical consideration.
+
+### 4.1 · The proteasome lead: the observation stands and both of our rationales for it failed
+
+⛔ **This subsection reports a negative against a candidate this menu ranks highly, and it is our
+own contribution to that candidate rather than a borrowed one.** The distinction matters for how the
+whole document should be read: the *ex-vivo* killing that puts carfilzomib on the list is
+**Bangerter et al. 2023's measurement, not ours**. What this work added were two independent
+in-silico arguments for *why* a proteasome inhibitor might be selectively effective in this
+disease. Both were pre-specified, both were run, and **both came back negative.**
+
+**(a) There is nothing to select on.** Across the **91 sarcoma cell lines screened** in the public
+CRISPR dependency data, *PSMB1*, *PSMC1*, *PSMD1* and *VCP* are dependencies in **100%** of lines,
+and carfilzomib's own target *PSMB5* in **97.8%**, with selectivity against the rest of the panel
+between **−0.10 and +0.17**. A target required in every line of the class *and* equally required
+outside it cannot ground a selective argument. *SQSTM1* (0%) and *NFE2L1* (7.7%) behaved as the
+internal controls, so the null result is a reading rather than a failed measurement.
+
+**(b) The proteostatic-load explanation is not supported.** A transcriptional read was built to ask
+whether this myxoid, matrix-secreting tumour carries the folding and disposal burden that would make
+degradative capacity limiting — **with the grading rule written and committed before the data were
+fetched.** On the 35-tumour platform the rule fired on the unfolded-protein-response module
+(**+2.11**) while the secretory/matrix-load proxy, which is the module carrying the actual argument,
+was **flat at −0.20**. On the 16-tumour platform every module was null.
+
+⭐ **What survives, stated at its true weight.** The candidate stays on the list, because an
+*ex-vivo* result in cells that carry this disease outranks two failed in-silico rationales for it —
+those rationales were arguments about mechanism, and their failure does not unmake a measurement.
+⚠ **What does not survive is the case for selectivity.** Nothing here supports the idea that a
+proteasome inhibitor would spare normal tissue in this disease more than in any other, and this
+document must not be read as claiming it. Our recorded confidence in the route is correspondingly
+**low**, and its remaining validation is a clinical series that no computational work can supply.
+
+⚠ **A caution about the underlying screen, carried from §3.** The 40-drug screen was run on
+**USZ20-EMC1 alone**; three validated drugs were subsequently tested in both models, and venetoclax
+showed **no monotherapy response**. *Superseded, retained: "across two patient-derived EMC models."*
 
 Across all tranches, the disease's rarity argues for **shared infrastructure**: centralised
 molecular profiling, multi-institution basket/registry designs, and contributing real-world
