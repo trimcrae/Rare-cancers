@@ -301,12 +301,12 @@ absence rather than low sensitivity: the observation does not exist.
 antibody-drug conjugate programme behind it, reads at class mean 0.14 log2TPM with an expressed fraction
 of 0.0 and no selectivity. FAP reads at class mean 1.37 with an expressed fraction of 0.16. CD248 reads
 at class mean 3.01 with an expressed fraction of 0.44 and is the only selectivity-significant member of
-this group. The demonstration matters because it shows what a stroma-only antigen looks like in this
-instrument, which is indistinguishable from a genuinely absent one.
+this group. These values show what a stroma-only antigen looks like in this instrument, which is
+indistinguishable from a genuinely absent one.
 
 **L3, a glycan cannot be ranked.** Oncofetal chondroitin sulfate is a post-translational sulfation
-pattern on a carrier proteoglycan. There is no gene for it, so no gene-expression ranking returns it, not
-weakly and not at the floor. The sulfation machinery panel is sourced from a published set and is a proxy
+pattern on a carrier proteoglycan. There is no gene for it, so no gene-expression ranking can return it.
+The sulfation machinery panel is sourced from a published set and is a proxy
 for the machinery rather than for the epitope.
 
 **L4, the CSPG4 coverage gap.** CSPG4 is not in the 47-antigen seed, has no row in the scan's top
@@ -314,8 +314,7 @@ candidates, no row among its actionable antigens, no row in the single-line prof
 normal-tissue prior artifact of that stage. Whether it was ever scanned is recorded as undecidable,
 because the artifact stores gene counts rather than the gene list. Its absence from the
 selective-and-restricted intersection is therefore a coverage gap and not a rejection. The rendered
-figures are produced from the same JSON, so a gene with no row has nothing to plot; a text search of a
-compressed raster would not be evidence and none is offered.
+figures are produced from the same JSON, so a gene with no row has nothing to plot.
 
 **L5, no disease observation of FAP.** The scan holds no observation of FAP in this disease, for two
 independent reasons. FAP is a fibroblast antigen and there is no fibroblast compartment, per L1. And the
