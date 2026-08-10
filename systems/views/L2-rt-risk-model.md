@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): No validated EMC risk model exists — `nomogram` returns zero files repo-wide and no published EMC series presents one. Size, site, age, rhabdoid features, cellularity and fusion partner are each reported prognostic somewhere, and never together. ⚠ Any model built on a few hundred reconstructed patients will be badly overfit unless it is held to a handful of predictors and reported with an honest optimism correction; a well-calibrated three-variable model is the realistic ceiling here.
+**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): No validated EMC risk model exists — `nomogram` returns zero files repo-wide and no published EMC series presents one. Size, site, age, rhabdoid features, cellularity and fusion partner are each reported prognostic somewhere, and never together. ⚠ Any model built on a few hundred reconstructed patients will be badly overfit unless it is held to a handful of predictors and reported with an honest optimism correction; a well-calibrated three-variable model is the realistic ceiling here.  ⚠ INHERITS THE 2026-08-09 FEASIBILITY DOWNGRADE ON RT-IPD-SURVIVAL: only 19 of 340 EMC full texts print a Kaplan-Meier curve at all, so the reconstructed hazard this route consumes will rest on single-digit poolable curves and a few hundred patients. Whether that supports a decision-relevant model is now the route's first question rather than its last.
 
 ## What has to land for this route to move
 

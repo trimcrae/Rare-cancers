@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): The quantitative case is in one cohort. In 67 molecularly-confirmed, centrally-reviewed localised EMC patients, 10-year overall survival was 84% (69-98) against 10-year disease-free survival of 20% (7-33), with 52% relapsing (PMID 32572850). ⭐ The gap between those two numbers IS this route: most patients relapse, most are alive years later, and what happens in between is whether the recurrence was found while it could still be resected.
+**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): The quantitative case is in one cohort. In 67 molecularly-confirmed, centrally-reviewed localised EMC patients, 10-year overall survival was 84% (69-98) against 10-year disease-free survival of 20% (7-33), with 52% relapsing (PMID 32572850). ⭐ The gap between those two numbers IS this route: most patients relapse, most are alive years later, and what happens in between is whether the recurrence was found while it could still be resected.  ⚠ INHERITS THE 2026-08-09 FEASIBILITY DOWNGRADE ON RT-IPD-SURVIVAL: only 19 of 340 EMC full texts print a Kaplan-Meier curve at all, so the reconstructed hazard this route consumes will rest on single-digit poolable curves and a few hundred patients. Whether that supports a decision-relevant model is now the route's first question rather than its last.
 
 ## What has to land for this route to move
 
