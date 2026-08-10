@@ -7898,7 +7898,7 @@
       "authorization": "free",
       "status": "ready",
       "maturity": "computed",
-      "confidence": "moderate",
+      "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "This repository's evidence contract states its own limit in s2.5 — 'no censoring/Kaplan-Meier; no risk-adjustment or multivariable control' — and s2.4 refuses to merge time-anchored survival. That is a correct account of the method s2.2 mandates, not a limit of the published record: dozens of EMC series print a Kaplan-Meier curve, and Guyot's algorithm inverts one back into the data that generated it. ⭐ The consequence is concrete rather than general: RT-SCHEDULING is closed `definitional` precisely because no pooled progression-free-survival figure may be built under the contract, and reconstruction is the mechanism that makes such a pool legal.",
@@ -7931,9 +7931,9 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "the curves themselves — no published EMC figure has been digitized into CURVES yet"
+        "curves that can actually be reconstructed — only 19 of 340 EMC full texts in the open-access corpus print a Kaplan-Meier curve at all, and how many of those carry a numbers-at-risk table is unmeasured because the table is usually inside the figure image"
       ],
-      "why_not_higher": "The instrument is validated and the artifact is generated, but it computes over an empty table. A methods paper with no dataset is not the paper this route is for."
+      "why_not_higher": "⛔ THE CEILING IS 19 CURVES, NOT THE INSTRUMENT. The instrument is validated and its known-answer control passes; what is unknown is whether enough reconstructable curves exist to build a dataset worth publishing. After POLICY-evidence.md §2.3 excludes overlapping populations the poolable set is plausibly single digits. ⚠ Confidence was `moderate` until the count was taken and is now `low` — the grade text carried the downgrade while this field did not, which is the defect CLAUDE.md §4 names: a populated field is not a measured one, and the paper-strength score reads THIS field, not the prose."
     },
     "timing": {
       "recommendation": "pursue_now",
