@@ -33,6 +33,59 @@ points here from its data-and-code section.
 
 ---
 
+## 2026-08-10, later the same day — the construct-building procedure, and a present-tense sweep
+
+Two things were done in one pass. **A numbered procedure was added** to §4.1, with
+**Supplementary Table S3** carrying the per-junction assembly coordinates: the manuscript had
+established that a construct spliced from coding sequences is wrong and had stated the remedy in a
+single clause ("decidable by sequencing the patient junction and translating the transcript rather
+than the coding sequences"), which is correct and unusable. **And every present-tense claim about
+what other laboratories do was re-read**, after the same defect had been found and removed from this
+file earlier the same day. Three sentences overstated and are registered below.
+
+⭐ **The sweep also found the opposite of what it went looking for, and it is the stronger finding.**
+The premise under test was that no published EMC fusion construct exists, which would have made the
+59-residue result a correction nobody had yet earned. That premise is FALSE in this repository's own
+committed record: [`emc-fet-construct-designs.json`](../modalities/emc-fet-construct-designs.json)
+labels reference 3 (PMID 31020999 / PMC6766969) as **"an EXPRESSED construct with this
+architecture"** for two of the four junctions, quoting *"E-N, corresponding to EWSR1 (exons
+1-12)-NR4A3 (exons 3-8)"* and *"T-N\*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons
+3-8) fusion"*, and records that the same source compares T-N and T-N\* for colony formation;
+[`emc-ret-cistrome.json`](../modalities/emc-ret-cistrome.json) records the same source measuring
+NBRE binding **"RETAINED by the EWSR1-NR4A3 chimera and IMPAIRED by TAF15-NR4A3"**. Both named
+constructs use the **exon 3** acceptor, where the difference this paper reports is one residue, and
+no source retrieved reports a construct at the **exon 2** acceptor. §4.1 now says exactly that, which
+is a better sentence than an implication that the error is widespread.
+
+| superseded | current | where it lived | why it changed |
+|---|---|---|---|
+| **"The practical consequence of section 3.3 falls on anyone building an EMC fusion construct."** | **"falls on a construct assembled at the exon 2 acceptor"**, with the one-residue case at the exon 3 acceptor named in the same paragraph; §4.1 | §4.1 ¶1 of the manuscript before this revision | The 59-residue insertion belongs to the exon 2 acceptor, which one of the four reported junctions uses, and that one is counted **once across three series** (§3.1). As written the sentence put a minority-variant consequence on every EMC construct |
+| **"two different proteins are being called the same fusion"** | **"the same junction name would then denote two different proteins"** | §4.1 ¶1 of the manuscript before this revision | A present progressive asserting an ongoing practice. No source retrieved establishes that any laboratory has built a type-2 construct, and the two sources that DO report expressed EMC fusion constructs both use the exon 3 acceptor |
+| **"fast-recruitment anchor, already held by any laboratory running the assay"** | **"fast-recruitment anchor; reference 1 measured native EWSR1 in the same assay"**; Supplementary Table S2 | the GFP-EWSR1 row of Supplementary Table S2 before this revision | A present-tense claim about other laboratories' reagent stocks, the same defect corrected in §4.3 earlier the same day. What reference 1 supports is that it measured native EWSR1, which Table 5 already records |
+| **"in whichever orientation the recipient laboratory's existing EWSR1-FLI1 construct uses"** | **"in whichever orientation the EWSR1-FLI1 comparator of section 4.3 is built in"**; supplementary tag-orientation note | the tag-orientation paragraph before this revision | Presupposes that the recipient laboratory already holds an EWSR1-FLI1 construct. §4.3 requires that comparator to be run in the same session regardless, so the orientation rule does not need the presupposition |
+| **"The insertion belongs to the acceptor, so any fusion using NR4A3 exon 2 carries it, and a construct built from a protein-level model does not."** | **"The insertion belongs to the acceptor: among the four reported junctions only the minority type 2 uses it, and the other three gain one hybrid residue. A procedure for assembling and verifying either construct is given."**; Abstract | Abstract of the manuscript before this revision | The Abstract stated the insertion's scope in terms of the acceptor and never said how many reported junctions use that acceptor, so a reader skimming it could carry away a 59-residue insertion in the commonest EMC fusion. ⚠ Paid for inside the 250-word limit by six words trimmed elsewhere in the same paragraph; measured at **247 words** by [`submission_metrics.py`](./submission_metrics.py) |
+
+**Additions rather than corrections.** §4.1's six-step procedure (establish the junction, assemble
+the transcript, translate once from the 5' partner's initiator, predict from the donor phase, verify
+against the expected open reading frame, and grade a junction absent from Table 3);
+**Supplementary Table S3**, holding the cut coordinates, assembled cDNA length and open reading
+frame for each reported junction, from
+[`emc-fet-construct-designs.json`](../modalities/emc-fet-construct-designs.json); a **5' untranslated
+length** column in Supplementary Table S1, from
+[`emc-construct-inputs.json`](../modalities/emc-construct-inputs.json), which is where the
+procedure's initiator positions (EWSR1 cDNA nucleotide 70, TAF15 87) come from; the **complete
+phase-1 donor set** across all seventeen EWSR1 coding exons (1, 4, 7, 9, 10, 12, 13, 15), from
+`frame_rule.phase_1_donor_exons` in
+[`emc-fet-frame-and-composition.json`](../modalities/emc-fet-frame-and-composition.json), which the
+manuscript previously gave only over exons 6 to 14; and one scope clause each in §3.3 and the
+Figure 1 caption naming type 2 as the only reported junction at the exon 2 acceptor.
+
+⛔ **Two inputs the procedure needs are named as absent rather than filled**, and §4.1 says so: the
+cryptic exon of reference 3's rarer TAF15::NR4A3 isoform has no sequence in any source retrieved,
+and neither FUS::NR4A3 nor TCF12::NR4A3 has a transcript-level breakpoint statement to build from.
+
+---
+
 ## 2026-08-10 — revision in response to a simulated internal review
 
 Review: [`emc-atr-collaborator-package-peer-review-2026-08-10.md`](./emc-atr-collaborator-package-peer-review-2026-08-10.md).

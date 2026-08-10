@@ -52,7 +52,9 @@ base into a codon; that base with 176 nucleotides of *NR4A3* 5' untranslated seq
 2 and 2 from exon 3, completes 59 codons with no intervening stop before *NR4A3*'s own initiator. A
 construct built for this junction from a protein-level model is therefore 59 residues shorter than
 the reported junction predicts, and the insertion belongs to the exon 2 acceptor rather than to one
-fusion type. The manuscript gives the sequence, the arithmetic at nucleotide resolution and a
+fusion type. The scope is stated with it: type 2 is the only one of the four reported junctions that
+uses that acceptor and is counted once across three series, and the other three gain a single
+residue. The manuscript gives the sequence, the arithmetic at nucleotide resolution and a
 figure panel, and states the precedent: a *TAF15*::*NR4A3* variant with a 25-residue extension by
 the same mechanism is already described in the literature.
 
@@ -62,11 +64,13 @@ corrects, an exon-numbering error in the present author's own earlier work that 
 AF-1 domain and the first zinc finger from every emitted junction, because the correction is the
 reason every boundary here carries its provenance and its self-check.
 
-The Discussion draws two consequences: what a laboratory building an EMC fusion construct should
-build, and where EMC's fusions fall on a retained-RGG recruitment axis published for other FET
-fusions, with three predictions and their falsifiers fixed in advance. The axis is drawn as what is
-known rather than as more: the comparator in that published work spans 0.000 to 0.267, because it
-built one construct and does not state its breakpoint.
+The Discussion draws two consequences. The first is a numbered procedure for assembling and
+verifying the construct a reported junction specifies, from establishing which junction is present
+through to the open reading frame each of the four should yield. The second is where EMC's fusions
+fall on a retained-RGG recruitment axis published for other FET fusions, with three predictions and
+their falsifiers fixed in advance. The axis is drawn as what is known rather than as more: the
+comparator in that published work spans 0.000 to 0.267, because it built one construct and does not
+state its breakpoint.
 
 The study is entirely computational. No experiment was performed, no reagent was made, no plasmid
 was built, and no patient, cell or animal was studied; there was no wet-laboratory work of any kind.

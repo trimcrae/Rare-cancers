@@ -61,6 +61,25 @@ unit of work is a GFP-tagged open reading frame, so a laboratory that HAS the as
 plasmids rather than an instrument - and section 4.3 is worded that way. The same present-tense
 defect was found and removed from the PRMT5 manuscript the same day.
 
+SECOND PRESENT-TENSE SWEEP (2026-08-10, later the same day), covering every sentence in the file
+that asserts or implies what other laboratories do. Three were rewritten and are registered in the
+changelog: section 4.1's "two different proteins are being called the same fusion", which asserted
+an ongoing practice; section 4.1's opening, which put the 59-residue consequence on "anyone building
+an EMC fusion construct" when it falls on the exon 2 acceptor alone; and Supplementary Table S2's
+"already held by any laboratory running the assay". The sweep also turned up the opposite of what it
+was looking for, and section 4.1 now says so: reference 3 DOES report expressed NR4A3 fusion
+constructs, both at the exon 3 acceptor, and no source retrieved here reports one at the exon 2
+acceptor. That is a stronger statement than an implication that the error is widespread, and it
+makes the 59-residue result prospective rather than a criticism of a published reagent.
+
+THE PROCEDURE in section 4.1 and Supplementary Table S3 were added in the same revision. The paper
+established that a coding-sequence construct is wrong and stated the remedy in one clause; a paper
+whose value is that a construct may be built wrong has to say how to build it right. Every value in
+the six steps traces to emc-fet-frame-and-composition.json, emc-fet-construct-designs.json or
+emc-construct-inputs.json, and the two inputs the procedure cannot supply - the cryptic exon's
+sequence, and a transcript-level breakpoint for FUS or TCF12 - are named as absent rather than
+filled.
+
 Alternatives weighed and rejected:
 
   (a) REGISTERED REPORT, Stage 1. Rejected on eligibility, not on fit. Stage 1 review ends in
@@ -134,21 +153,20 @@ the cover letter states the same.
 
 Extraskeletal myxoid chondrosarcoma (EMC) is a translocation sarcoma driven by an NR4A3 fusion,
 usually with the FET-family gene EWSR1. Because NR4A3 transcript exons 1 and 2 are non-coding, a
-reported EMC junction is an mRNA junction whose product cannot be obtained by splicing coding
-sequences. Here every reported EMC junction was translated from canonical reference transcripts at
-the transcript level. One rule governs the outcome: a junction is in frame if and only if the 5'
-donor exon ends one nucleotide into a codon, and both NR4A3 acceptors give the same register because
-exon 2 is 174 nucleotides. The rule was checked against an independent audit of 27
-donor and acceptor pairs and predicts which unreported junctions would be in frame. Its consequence
-at the exon 2 acceptor is a 59-residue insertion: EWSR1 coding sequence ends at nucleotide 793, and
-that single unused base with 176
-nucleotides of NR4A3 5' untranslated sequence, 174 from exon 2 and 2 from exon 3, completes 59
-codons with no intervening stop before NR4A3's own initiator. The insertion belongs to the acceptor,
-so any fusion using NR4A3 exon 2 carries it, and a construct built from a protein-level model does
-not. Retained EWSR1 RG dipeptide counts place the reported EMC fusions between 0 and 11 of 30,
-within the range of a published recruitment series whose own comparator spans 0.000 to 0.267. TCF12
-falls outside the FET compositional range at every prefix length. Three predictions with explicit
-falsifiers are specified in advance.
+reported EMC junction is an mRNA junction whose product cannot be obtained from coding sequences.
+Every reported EMC junction was translated at the transcript level from canonical reference
+transcripts. One rule governs the outcome: a junction is in frame if and only if the 5' donor exon
+ends one nucleotide into a codon, and both NR4A3 acceptors give the same register because exon 2 is
+174 nucleotides. The rule was checked against an independent audit of 27 donor and acceptor pairs
+and grades unreported junctions in advance. Its consequence at the exon 2 acceptor is a 59-residue
+insertion: EWSR1 coding sequence ends at nucleotide 793, and that unused base with 176 nucleotides
+of NR4A3 5' untranslated sequence, 174 from exon 2 and 2 from exon 3, completes 59 codons with no
+intervening stop before NR4A3's own initiator. The insertion belongs to the acceptor: among the four
+reported junctions only the minority type 2 uses it, and the other three gain one hybrid residue. A
+procedure for assembling and verifying either construct is given. Retained EWSR1 RG dipeptide counts
+place the EMC fusions between 0 and 11 of 30, against a published recruitment series whose
+comparator spans 0.000 to 0.267. TCF12 falls outside the FET compositional range at every prefix.
+Three predictions with falsifiers are specified in advance.
 
 ---
 
@@ -172,9 +190,9 @@ model discards.
 This report establishes that arithmetic for every EMC junction with a sourced exon-level breakpoint.
 It reports the rule that governs the reading frame, the insertion the rule produces at one acceptor,
 the four resulting open reading frames with their self-checks, and a compositional classification of
-the one non-FET partner. It then draws two consequences: what a laboratory building an EMC fusion
-construct should build, and where EMC's fusions fall on a recruitment axis published for other FET
-fusions [1].
+the one non-FET partner. It then draws two consequences: a procedure for assembling and verifying
+the construct a reported junction specifies, and where EMC's fusions fall on a recruitment axis
+published for other FET fusions [1].
 
 That axis is the reason the retained composition is measured here at all. A peer-reviewed report in
 *Cancer Research* proposes a shared lesion across FET fusion sarcomas: the chimeric protein retains
@@ -427,7 +445,10 @@ open reading frame retaining the complete NR4A3 moiety.
 The insertion is a property of the acceptor, not of type 2. Any 5' partner exon joined to NR4A3 exon
 2 retains the same 176 nucleotides; what the type-2 breakpoint fixes is the frame they are read in.
 By the rule in section 3.2, a phase-1 donor joined to exon 2 always yields these 59 residues, and a
-donor of any other phase yields no protein of this shape at all.
+donor of any other phase yields no protein of this shape at all. Its reach among the junctions
+reported so far is correspondingly narrow: type 2 is the only one of the four that uses the exon 2
+acceptor, section 3.1 counts it once across three series, and the three exon 3 junctions gain a
+single residue instead.
 
 Two statements bound the weight of this. It is what the canonical transcripts predict for a reported
 exon junction, a computed consequence rather than an observed protein, and it requires checking
@@ -501,7 +522,7 @@ comparison panel and not a proteome background, and no null distribution is clai
 RGG box, roughly a quarter of the RG content, and no N-terminal prefix of any length reaching the
 FET compositional range, which makes the classification robust to the unpinned TCF12 breakpoint.
 
-![Figure 1. Fusion architecture, the retained-RG axis, and the type-2 seam. Panel A draws EWSR1, TAF15 and NR4A3 to scale with every RG dipeptide as a tick and the operational RGG boxes bracketed, then each reported fusion's retained 5' segment on the same ruler. Panel B draws the retained-RG axis with the two firmly measured points as filled circles, the one-domain add-back construct as an unplaceable band, the EWSR1::ATF1 comparator as a span from 0.000 to 0.267, and the EMC placements as open triangles. Panel C draws the type-2 seam at nucleotide resolution with the 59 codons and the translated residues.](./figures/emc-fusion-frame-fig1.png)
+![Figure 1. Fusion architecture, the retained-RG axis, and the type-2 seam. Panel A draws EWSR1, TAF15 and NR4A3 to scale with every RG dipeptide as a tick and the operational RGG boxes bracketed, then each reported fusion's retained 5' segment on the same ruler. Panel B draws the retained-RG axis with the two firmly measured points as filled circles, the one-domain add-back construct as an unplaceable band, the EWSR1::ATF1 comparator as a span from 0.000 to 0.267, and the EMC placements as open triangles. Panel C draws the type-2 seam at nucleotide resolution, the one reported junction at the exon 2 acceptor, with the 59 codons and the translated residues.](./figures/emc-fusion-frame-fig1.png)
 
 **Figure 1.** Fusion architecture, the recruitment axis, and the type-2 seam. (A) EWSR1, TAF15 and
 NR4A3 drawn to scale in residues; each vertical tick is one RG dipeptide at its measured position,
@@ -513,8 +534,10 @@ measured that can be placed on this axis; the hatched band is its one-domain add
 whose reintroduced domain is not identified in reference 1 and whose position is therefore not
 determinable; the bar spans the three reported EWSR1::ATF1 breakpoints, because reference 1 does not
 state which its construct used. Open triangles are computed placements, not measurements. (C) The
-type-2 seam. EWSR1 coding sequence ends one nucleotide into a codon at nucleotide 793; that base and
-176 nucleotides of NR4A3 5' untranslated sequence complete 59 codons before NR4A3's own initiator.
+type-2 seam, the one reported junction at the exon 2 acceptor; the other three join at exon 3 and
+gain a single residue. EWSR1 coding sequence ends one nucleotide into a codon at nucleotide 793;
+that base and 176 nucleotides of NR4A3 5' untranslated sequence complete 59 codons before NR4A3's
+own initiator.
 No panel supports any claim about recruitment, activity, efficacy or safety: panel A is sequence
 composition, panel B places computed points beside published measurements without asserting that
 they behave alike, and panel C is exon arithmetic.
@@ -523,22 +546,85 @@ they behave alike, and panel C is exon arithmetic.
 
 ## 4. Discussion
 
-### 4.1 Consequences for construct design
+### 4.1 Consequences for construct design, and a procedure
 
-The practical consequence of section 3.3 falls on anyone building an EMC fusion construct. A
+The practical consequence of section 3.3 falls on a construct assembled at the exon 2 acceptor. A
 laboratory that takes the type-2 junction from the literature and expresses EWSR1(1-264) joined to
 NR4A3(1-626) builds a protein 59 residues shorter than the canonical transcripts predict for that
-junction. Whether the difference matters functionally is not addressed here and cannot be settled by
-sequence: the 59 residues are proline-rich and serine-rich with no recognisable domain, and no
-structural, binding or activity claim is made about them. What can be said is that two different
-proteins are being called the same fusion, and that the difference is decidable by sequencing the
-patient junction and translating the transcript rather than the coding sequences.
+junction. At an exon 3 acceptor the same shortcut costs one residue rather than 59, which is the
+case for the other three reported junctions. Whether either difference matters functionally is not
+addressed here and cannot be settled by sequence: the 59 residues are proline-rich and serine-rich
+with no recognisable domain, and no structural, binding or activity claim is made about them. What
+can be said is that the same junction name would then denote two different proteins, and that the
+difference is decidable by sequencing the patient junction and translating the transcript rather
+than the coding sequences.
+
+The record retrieved for this analysis bounds that consequence, and the bound changes what the
+correction is for. Reference 3 reports expressed constructs for two of the junctions in Table 1,
+named there by exon, and compares two TAF15::NR4A3 isoforms for colony formation; the rarer isoform
+splices through the cryptic exon in NR4A3 intron 2 and is described as encoding 25 additional amino
+acids ahead of the NR4A3 initiator [3], which is the arithmetic of section 3.3 at a different
+acceptor. Both of the named constructs use the exon 3 acceptor. No source retrieved for this
+analysis reports a construct assembled at the exon 2 acceptor, and none states the nucleotide-level
+construction of any EMC fusion construct. The 59-residue difference is therefore a statement about a
+construct not yet described rather than a correction to a published reagent, and the procedure below
+is written for the junction a laboratory sequences rather than for a type name.
 
 The frame rule of section 3.2 has a second consequence, for junctions not yet reported. A new EMC
 breakpoint can be graded before any construct is made: a donor exon at phase 1 gives an in-frame
 product at either acceptor, and a donor at any other phase does not. That grading is what the
 27-row audit supplies, and it is the reason the four reported junctions are presented here as
 instances rather than as four separate results.
+
+The procedure that follows assembles and verifies the construct a reported junction specifies. Every
+value it uses is given in this section, in Table 2, in Table 3 or in Supplementary Tables S1 and S3.
+
+1. **Establish which junction is present, rather than assuming a type.** Type the tumour's own
+   transcript, by RNA sequencing across the rearrangement or by RT-PCR with exon-specific primers
+   followed by Sanger sequencing of the product; published primer pairs for types 1 and 2 are
+   quoted in section 3.1 [6]. A product size identifies a type only among the types an assay was
+   designed for, so what carries into step 2 is the sequenced junction rather than the type name. A
+   breakpoint splicing into a cryptic exon, as in the rarer TAF15::NR4A3 isoform of reference 3,
+   matches no annotated exon pair and has to be read from the sequence itself.
+2. **Assemble the transcript, not the two coding sequences.** Take the 5' partner's reference cDNA
+   from nucleotide 1 through the last nucleotide of its last retained exon, then join the NR4A3
+   reference cDNA from the first nucleotide of the acceptor exon onward. The reference transcripts
+   are those of Supplementary Table S1: ENST00000397938 for EWSR1, ENST00000605844 for TAF15 and
+   ENST00000395097 for NR4A3. On ENST00000395097 the acceptor exon begins at cDNA nucleotide 524
+   for exon 2 and at 698 for exon 3. Supplementary Table S3 gives the cut coordinates, the
+   assembled length and the expected open reading frame for each reported junction.
+3. **Translate once, in a single frame, from the 5' partner's own initiator.** The initiator follows
+   the 5' untranslated length in Supplementary Table S1, so translation starts at cDNA nucleotide 70
+   for EWSR1 and 87 for TAF15 and runs to the first stop codon. Translating the two partners
+   separately and joining the products gives a different protein: a codon is split across the seam
+   at every reported junction, so at least one residue is encoded by neither partner's own reading
+   frame, and at the exon 2 acceptor a further 58 are NR4A3 sequence read in a frame NR4A3 does not
+   use.
+4. **Predict the outcome from the donor exon's phase before translating anything.** Sum the donor
+   transcript's coding nucleotides through the last retained exon and take the remainder on division
+   by three. A remainder of 1 gives an in-frame product at either NR4A3 acceptor, and any other
+   remainder does not. Table 2 gives the cumulative counts for EWSR1 exons 6 to 14 and section 3.2
+   gives TAF15 exon 6; across all seventeen EWSR1 coding exons the phase-1 donors are exons 1, 4, 7,
+   9, 10, 12, 13 and 15.
+5. **Verify the product against the expected open reading frame.** For the four reported junctions
+   it is 1058, 949, 1099 and 788 residues in the order of Table 3, whose seam sequences straddle the
+   junction in each. Three checks apply to any junction: the reading frame opens with the 5'
+   partner's own N-terminus, its final 626 residues are the complete NR4A3 reference protein, and
+   its nucleotide length is three times its residue count. A sequence failing any of the three was
+   not assembled from the junction it names.
+6. **For a junction absent from Table 3, use the phase rule and the audit.** Apply step 4 to the
+   donor exon in question. A phase-1 donor gives the same architecture as the four reported
+   junctions, gaining one residue at the exon 3 acceptor and 59 at the exon 2 acceptor, and a donor
+   of any other phase gives no reading frame containing both termini. The audit of 27 donor and
+   acceptor pairs cited in section 3.2 grades every EWSR1 and NR4A3 exon pair on that basis. For a
+   5' partner other than EWSR1 or TAF15 the same arithmetic needs a coding-exon model of that
+   partner, which this analysis does not supply.
+
+Two inputs the procedure would need for junctions beyond the four are absent from the sources
+retrieved here and are not supplied. The cryptic exon of reference 3's rarer TAF15::NR4A3 isoform
+has no sequence in any source retrieved, so its 25-residue extension cannot be reproduced from this
+paper; and section 3.1 records the same gap for FUS::NR4A3 and TCF12::NR4A3, neither of which has a
+transcript-level breakpoint statement to build from.
 
 ### 4.2 Placement on the published retained-RG axis
 
@@ -747,20 +833,23 @@ reproduced at no cost.
 into the input cache [8]. Identifiers are as returned by the endpoint in section 2.1 and carry no
 version suffix; the Ensembl release and genome assembly were not recorded at retrieval.
 
-| gene | transcript | translation | protein | transcript / coding exons | Ensembl matches UniProt |
-|---|---|---|---|---|---|
-| EWSR1 | ENST00000397938 | ENSP00000381031 | 656 aa | 17 / 17 | yes |
-| TAF15 | ENST00000605844 | ENSP00000474096 | 592 aa | 16 / 16 | yes |
-| FUS | ENST00000254108 | ENSP00000254108 | 526 aa | 15 / 15 | yes |
-| NR4A3 | ENST00000395097 | ENSP00000378531 | 626 aa | 8 / 6, exons 1-2 non-coding | yes |
-| TCF12 | ENST00000333725 | ENSP00000331057 | 706 aa | 21 / 19 | no; UniProt Q99081 is 682 aa |
+| gene | transcript | translation | protein | 5' untranslated nt | transcript / coding exons | Ensembl matches UniProt |
+|---|---|---|---|---|---|---|
+| EWSR1 | ENST00000397938 | ENSP00000381031 | 656 aa | 69 | 17 / 17 | yes |
+| TAF15 | ENST00000605844 | ENSP00000474096 | 592 aa | 86 | 16 / 16 | yes |
+| FUS | ENST00000254108 | ENSP00000254108 | 526 aa | 76 | 15 / 15 | yes |
+| NR4A3 | ENST00000395097 | ENSP00000378531 | 626 aa | 699 | 8 / 6, exons 1-2 non-coding | yes |
+| TCF12 | ENST00000333725 | ENSP00000331057 | 706 aa | 285 | 21 / 19 | no; UniProt Q99081 is 682 aa |
+
+NR4A3's 699 nucleotides of 5' untranslated sequence decompose as 523 in exon 1, 174 in exon 2 and 2
+in exon 3 ahead of the initiator codon, which is the arithmetic sections 3.2 and 3.3 rest on.
 
 **Supplementary Table S2.** Wild-type controls for the recruitment assay and their predictions.
 Full-length sequences are in the construct artifact under `wild_type_controls`.
 
 | control | role | prediction |
 |---|---|---|
-| GFP-EWSR1, full length | fast-recruitment anchor, already held by any laboratory running the assay | rapid recruitment, as published. Failure to reproduce it makes nothing else in the run interpretable |
+| GFP-EWSR1, full length | fast-recruitment anchor; reference 1 measured native EWSR1 in the same assay | rapid recruitment, as published. Failure to reproduce it makes nothing else in the run interpretable |
 | GFP-TAF15, full length | wild-type anchor for the TAF15::NR4A3 arm | rapid recruitment, as TAF15 carries its own C-terminal RGG region. Not previously reported in this assay, so a prediction rather than a reproduction |
 | GFP-NR4A3, full length | partner-alone control, the EMC analogue of the GFP-FLI1 control in reference 1 | no accumulation. NR4A3 carries 2 RG dipeptides against EWSR1's 30 and has no RGG box, so it is a weak candidate for PAR-dependent recruitment; accumulation would remove the attribution of the fusion's recruitment to the FET moiety |
 | GFP-TCF12, full length | partner-alone anchor for the P3 arm | no accumulation, TCF12 being non-FET by section 3.5 |
@@ -768,5 +857,18 @@ Full-length sequences are in the construct artifact under `wild_type_controls`.
 Tag orientation was left open in all constructs. Reference 1 is internally inconsistent, its methods
 writing EWSR1-FLI1-GFP and its Fig. 5 legend writing GFP-EWSR1-FLI1, and a tag can itself perturb an
 intrinsically disordered region. The artifact therefore emits the untagged reading frame, and EMC
-constructs should be built in whichever orientation the recipient laboratory's existing EWSR1-FLI1
-construct uses.
+constructs should be built in whichever orientation the EWSR1-FLI1 comparator of section 4.3 is
+built in.
+
+**Supplementary Table S3.** Assembly coordinates for the four reported junctions, on the reference
+transcripts of Supplementary Table S1 and from the construct artifact cited in section 5. Positions
+are 1-based on each transcript's cDNA, and NR4A3 cDNA runs to nucleotide 5604. The assembled cDNA is
+the spliced transcript and retains each partner's untranslated sequence; an expression construct
+needs the open reading frame only, whose nucleotide length excludes the stop codon.
+
+| junction | 5' partner cDNA retained | NR4A3 cDNA resumes at | NR4A3 5' untranslated nt read through | assembled cDNA | open reading frame |
+|---|---|---|---|---|---|
+| type 1, EWSR1 e12 to NR4A3 e3 | EWSR1 1-1363 | 698 | 2 | 6270 nt | 3174 nt, 1058 aa |
+| type 2, EWSR1 e7 to NR4A3 e2 | EWSR1 1-862 | 524 | 176 | 5943 nt | 2847 nt, 949 aa |
+| type 5, EWSR1 e13 to NR4A3 e3 | EWSR1 1-1486 | 698 | 2 | 6393 nt | 3297 nt, 1099 aa |
+| TAF15 e6 to NR4A3 e3 | TAF15 1-570 | 698 | 2 | 5477 nt | 2364 nt, 788 aa |
