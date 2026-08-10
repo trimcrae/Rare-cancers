@@ -95,12 +95,26 @@ def _samples(panel, gene, plat):
     return emc, comp, True
 
 
-def _dots(ax, x, vals, colour, jitter=0.085):
+#: ⛔ SHAPE AND FILL CARRY THE SERIES, NOT HUE (2026-08-10). The two series were both filled circles
+#: separated only by colour, and their luminances are 97 and 122 of 255 — about a tenth of the range
+#: apart. Printed greyscale, or read by a colour-blind reviewer, the figure lost its only distinction.
+#: Wiley journals can also levy a colour charge, and the $0 route this programme requires means a
+#: figure must survive being printed in greyscale. Now EMC is a filled circle and the comparator an
+#: OPEN square, so the colour is decoration and the shape is the data.
+MARK = {"emc": {"marker": "o", "fill": True}, "comp": {"marker": "s", "fill": False}}
+
+
+def _dots(ax, x, vals, colour, jitter=0.085, series="emc"):
     """Deterministic spread — no RNG, because a figure must redraw identically."""
     n = len(vals)
+    m = MARK[series]
     for i, v in enumerate(sorted(vals)):
         off = 0.0 if n == 1 else (i / (n - 1) - 0.5) * 2 * jitter
-        ax.plot(x + off, v, "o", ms=4.6, color=colour, mec="white", mew=0.6, zorder=3)
+        if m["fill"]:
+            ax.plot(x + off, v, m["marker"], ms=4.6, color=colour,
+                    mec="white", mew=0.6, zorder=3)
+        else:
+            ax.plot(x + off, v, m["marker"], ms=4.4, mfc="none", mec=colour, mew=1.25, zorder=3)
 
 
 def _gene_panel(ax, panel, genes, title, plat, label):
@@ -111,12 +125,13 @@ def _gene_panel(ax, panel, genes, title, plat, label):
             ax.text(i, 0, "no probe\n(unreadable)", ha="center", va="center", fontsize=6.4,
                     color=C_ABSENT, style="italic", zorder=4)
             continue
-        _dots(ax, i - 0.17, comp, C_COMP)
-        _dots(ax, i + 0.17, emc, C_EMC)
+        _dots(ax, i - 0.17, comp, C_COMP, series="comp")
+        _dots(ax, i + 0.17, emc, C_EMC, series="emc")
         if emc:
             ax.plot([i + 0.03, i + 0.31], [st.median(emc)] * 2, "-", color=C_EMC, lw=1.9, zorder=4)
         if comp:
-            ax.plot([i - 0.31, i - 0.03], [st.median(comp)] * 2, "-", color=C_COMP, lw=1.9, zorder=4)
+            ax.plot([i - 0.31, i - 0.03], [st.median(comp)] * 2, "--", color=C_COMP,
+                    lw=1.9, zorder=4)
     ax.set_xticks(range(len(genes)))
     ax.set_xticklabels(genes, fontsize=7.4)
     ax.set_title(title, fontsize=8.2, color=C_INK, pad=5)
@@ -132,8 +147,8 @@ def fig_readings(plt, panel):
     for r, (plat, pname, kind) in enumerate(PLATS):
         _gene_panel(axes[r][0], panel, METHYLOSOME, f"PRMT5 methylosome — {pname}", plat, kind)
         _gene_panel(axes[r][1], panel, LOCUS, f"MTAP / CDKN2A / CDKN2B locus — {pname}", plat, kind)
-    axes[0][0].plot([], [], "o", color=C_EMC, label="EMC tumour")
-    axes[0][0].plot([], [], "o", color=C_COMP, label="comparator sarcoma")
+    axes[0][0].plot([], [], "o", color=C_EMC, mec="white", mew=0.6, label="EMC tumour")
+    axes[0][0].plot([], [], "s", mfc="none", mec=C_COMP, mew=1.25, label="comparator sarcoma")
     axes[0][0].legend(fontsize=6.6, frameon=False, loc="upper left")
     fig.suptitle("Every tumour, on both platforms. Bars are medians.", fontsize=9, color=C_INK)
     fig.text(0.5, 0.005,
@@ -179,7 +194,20 @@ def fig_dependency(plt, dep):
                 f"{f:.1f}%   (mean gene effect {rows[g]['sarcoma_mean']:+.2f})",
                 va="center", fontsize=7.2, color=C_INK)
     ax.set_xlim(0, 128)
-    ax.set_xlabel(f"% of {dep.get('n_sarcoma_models', '?')} sarcoma cell lines in which the gene is a "
+    # ⛔ THE DENOMINATOR IS THE SCREENED COUNT, NOT THE MODEL COUNT (2026-08-10). This label read
+    # `n_sarcoma_models`, which is 176 — the number of sarcoma models in the release — while the
+    # percentages plotted above it are computed over the 91 that actually carry CRISPR gene-effect
+    # data. The manuscript had already caught that exact error, corrected it in four places
+    # including the abstract, and registered it in its appendix; the FIGURE still carried the
+    # superseded number, so the paper contradicted its own correction in the one place a reader
+    # looks first. Found by rendering the figure and reading the axis.
+    # `n_sarcoma` sits on every per-gene row under `genes_by_group`, never at the top level, so it
+    # is read from the rows and asserted unanimous rather than taken from the first one found.
+    _ns = {r["n_sarcoma"] for grp in dep.get("genes_by_group", {}).values() for r in grp
+           if isinstance(r, dict) and r.get("n_sarcoma")}
+    assert len(_ns) == 1, f"screened-count disagreement across rows: {sorted(_ns)}"
+    n_screened = _ns.pop()
+    ax.set_xlabel(f"% of {n_screened or '?'} screened sarcoma cell lines in which the gene is a "
                   f"dependency", fontsize=7.4)
     ax.set_title("This QUALIFIES the route rather than supporting it", fontsize=8.6, color=C_INK)
     ax.tick_params(labelsize=7.6)
