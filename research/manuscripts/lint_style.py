@@ -50,6 +50,13 @@ TARGETS = [
     "research/manuscripts/repurposing-hypotheses.md",
     "research/manuscripts/emc-surface-target-landscape.md",
     "research/manuscripts/emc-surface-target-landscape-si.md",
+    # ⭐ ADDED 2026-08-10, in response to a simulated peer review that ran this gate against these
+    # two files and found 140 findings across them — 25 warning glyphs and 54 mid-sentence bolds in
+    # the main text alone, plus nine sentence-shaped headings and four sentences asserting the
+    # paper's own candour. They had never been in TARGETS, so the gate had never been applied to a
+    # submission text that carries a cover letter, a checklist and five rendered figures.
+    "research/manuscripts/nr4a3-fusion-transcriptional-output.md",
+    "research/manuscripts/nr4a3-fusion-transcriptional-output-SI.md",
 ]
 
 # Densities are per 1000 words. They are deliberately generous: the aim is to catch prose that
@@ -170,6 +177,14 @@ def _word_count(entries):
 FIGURE_SOURCES = [
     "research/modalities/emc_mtap_prmt5_figures.py",
     "research/manuscripts/figures/repurposing_design_figure.py",
+    # ⭐ ADDED 2026-08-10 with the surface-antigen paper's replacement Figure 1. The figure it
+    # replaces carried a caption asserting that a shaded region was "EMPTY" while a marker sat
+    # inside it, which is the class of defect this gate reads.
+    "research/modalities/emc_surface_figure.py",
+    # ⭐ ADDED 2026-08-10 with the EMC fusion frame paper's Figure 1, its first figure. Its three
+    # panels carry the sequence result, the recruitment axis and the seam, so every caption string
+    # in it is submission text.
+    "research/manuscripts/figures/emc_fusion_frame_figure.py",
 ]
 
 #: Emphasis capitals: an all-caps run of 4+ letters that is not an accepted acronym or gene symbol.

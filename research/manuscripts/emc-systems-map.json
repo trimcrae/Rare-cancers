@@ -456,9 +456,9 @@
       "misattributed_as": [],
       "cited_in": [
         {
-          "file": "research/manuscripts/emc-atr-collaborator-package.md",
+          "file": "research/manuscripts/emc-atr-collaborator-package-changelog.md",
           "as": "PMC2395470",
-          "role": "assertion"
+          "role": "superseded_retained"
         }
       ]
     },
@@ -1083,8 +1083,9 @@
           "DepMap expression: NR4A3 at 0.941 log2(TPM+1), 83rd percentile of 1,673 lines but against a panel median of 0.214. A fusion transcript carries the NR4A3 body under EWSR1's promoter and would read far higher. WEAK CORROBORATION ONLY -- expression alone can neither prove nor exclude a fusion."
         ],
         "what_this_cannot_settle": "Cell-line identity is settled by STR authentication against the donor and by RT-PCR for the fusion. Neither is in public data at the resolution needed and neither is something this programme can perform -- it has no bench. So this does NOT establish what the line is instead, that the original characterisation was wrong, or that the line is not EMC: a line can be misidentified, can drift in culture, or can be a genuine fusion-negative tumour of the same histology. What IS established is that the PUBLIC RECORD does not support the label this repository was applying.",
-        "correction_home": "research/manuscripts/emc-surface-target-landscape.md",
-        "correction_marker": "Amendment 1"
+        "correction_home": "research/manuscripts/emc-surface-target-landscape-si.md",
+        "correction_marker": "Amendment 1",
+        "_correction_home_moved_2026_08_10": "The register was Appendix A of the main manuscript until 2026-08-10, when it moved into the supplementary file: a paper that has never been published cannot carry a corrections section after its references, and an editor reads one as a defect rather than as candour. Nothing was withdrawn in the move, and the object-level marker stays 'Amendment 1' because every other read_by file falls back to it and carries that string. Superseded, retained: correction_home research/manuscripts/emc-surface-target-landscape.md."
       },
       "may_not_ground": [
         "any claim of the form 'EMC expresses X' / 'EMC's surface phenotype is Y'",
@@ -1095,9 +1096,15 @@
       "read_by": [
         {
           "file": "research/manuscripts/emc-surface-target-landscape.md",
-          "use": "PREPRINT. Title/abstract framing, §2.2 class definition, §3.1 + Table 1, §3.5, §6, §7",
+          "use": "PREPRINT. Class definition in Methods and Supplementary Methods S2; the line is read as one of 45 class members and never as disease evidence. The correction register moved into the supplementary file on 2026-08-10 and is Appendix A1 there; the main text carries the marker at the class-definition sentence.",
           "classification": "invalidated",
-          "correction_marker": "Amendment 1"
+          "correction_marker": "a curated Cellosaurus caution"
+        },
+        {
+          "file": "research/manuscripts/emc-surface-target-landscape-si.md",
+          "use": "PREPRINT SUPPLEMENTARY. Supplementary Methods S2 class definition, and Appendix A1, which is the correction register for this line and moved here from the main text on 2026-08-10 so a first submission does not carry a corrections section after its references.",
+          "classification": "invalidated",
+          "correction_marker": "Appendix A1"
         },
         {
           "file": "research/manuscripts/emc-surface-target-redteam.md",
@@ -1377,7 +1384,7 @@
         },
         {
           "file": "research/manuscripts/repurposing-hypotheses.md",
-          "use": "The PPARgamma lead's evidence line. The menu grades PPARgamma agonism as its top novel candidate on 'in-vivo EMC' evidence, which is Higuchi 2023 -- whose in-vitro half used this line. Section 3 'The PPARgamma axis' and section 5 now carry that, and the candidate/leads tables point at it.",
+          "use": "The PPARgamma lead's evidence line. The menu grades PPARgamma agonism as its top novel candidate on 'in-vivo EMC' evidence, which is Higuchi 2023 -- whose in-vitro half used this line. Section 4.3 'The PPARgamma axis and its unresolved direction' and section 6 carry that, and the candidate/leads tables (Tables 3 and 4) point at it. Section numbers updated 2026-08-10 after the manuscript was restructured to lead with its negative findings; they were section 3 and section 5.",
           "classification": "survives_relabelled",
           "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
         },
@@ -1506,6 +1513,13 @@
           "use": "The findings note for the SRA-side fourth-EMC-cohort characterisation (PRJNA1357027 / SRP640302). Names the line ONCE, inside a verbatim quotation of method-watch-triggers.json TRG-EMC-EXPRESSION-DATASET's `_still_watching_for` clause (a), which calls it 'the H-EMC-SS lesson'. The line is named as the NAME OF A CAUTIONARY PRECEDENT, never as a source of a property and never as a cohort member.",
           "classification": "unaffected",
           "why_unaffected": "⭐ THE LINE IS THE REASON THE TRIGGER EXISTS, NOT AN INPUT TO ANYTHING THIS NOTE MEASURES. The note's subject is a 12-sample FFPE TUMOUR deposit; no DepMap model contributes a sample, a count, a read or a verdict to it, and the deposit was characterised entirely from NCBI E-utilities and EBI/ENA payloads. The quoted lesson is precisely that an EMC LABEL is not an EMC FUSION — which is why the trigger has been waiting for per-sample fusion confirmation, and why this deposit's `FISH_1` attribute (EWSR1 break-apart, 8 positive / 4 negative across 12 samples) is the thing that makes clause (a) satisfiable. ⛔ AND THE DISPUTE CUTS THE SAME WAY AS THE FINDING: the note explicitly refuses to read `EWSR1-` as 'not EMC', because a break-apart call names no partner and a TAF15::NR4A3 or TCF12::NR4A3 case is EWSR1-negative by construction — the identical label-vs-fusion distinction the disputed model taught. Reading the line's identity either way changes nothing in the note. ⚠ The mention is deliberately NOT deleted: the trigger it quotes names the line in its own text, and a note that silently paraphrased the quotation away would make the repository's own waiting condition unverifiable against its source."
+        },
+        {
+          "file": "research/manuscripts/repurposing-hypotheses-review-response-2026-08-10.md",
+          "use": "RESPONSE TO REVIEW, not a submission text. Item 20 records that the identity problem was APPLIED as a qualifier: the zaltoprofen and PPARG rows now carry it in the cell a reader would quote. The file rests no claim on the model and never reads it as EMC evidence -- it names the dispute as a reason a row was weakened.",
+          "classification": "unaffected",
+          "correction_marker": "the identity of H-EMC-SS (ACH-001519) is DISPUTED",
+          "why_unaffected": "No claim in the file rests on the model. It appears once, in item 20, as the SECOND of two qualifiers applied to weaken a table row -- so the dispute is the reason for a change rather than an input to one. Invalidating the line would leave the row weakened for the first qualifier alone (the unresolved PPARG direction) and would change nothing else in the document, which is the test for `unaffected` rather than `invalidated`."
         }
       ],
       "distinct_from": [

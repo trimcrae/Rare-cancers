@@ -1,6 +1,6 @@
 ---
 id: DOC-EMC-ATR-COLLABORATOR-PACKAGE-COVER-LETTER
-title: "Cover letter — transcript-level NR4A3 fusion models and pre-specified DSB-recruitment predictions"
+title: "Cover letter — a 59-residue insertion in an EMC NR4A3 fusion, and the frame rule behind it"
 level: L3
 kind: memo
 status: live
@@ -20,9 +20,9 @@ last_verified: 2026-08-10
 
 # Cover letter
 
-*Ready to send. Before submitting: fill the bracketed date, confirm the editor addressee on the
-journal's current masthead, and elect the subscription (non-open-access) route at the fee step so no
-article-processing charge is incurred.*
+*Ready to send. Before submitting: confirm the editor addressee on the journal's current masthead,
+update the date if the submission slips, and elect the subscription (non-open-access) route at the
+fee step so no article-processing charge is incurred.*
 
 ---
 
@@ -30,32 +30,43 @@ article-processing charge is incurred.*
 
 **From:** Tristan D. McRae, independent researcher, unaffiliated — trimcrae@gmail.com
 
-**Date:** [DATE]
+**Date:** 10 August 2026
 
-**Re:** Submission of a Research Article — *"Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay"*
+**Re:** Submission of a Research Article — *"Untranslated NR4A3 sequence encodes a 59-residue insertion in the EWSR1 exon 7 to NR4A3 exon 2 fusion of extraskeletal myxoid chondrosarcoma, and a donor-exon phase rule for the reported junctions"*
 
 Dear Editor,
 
 I submit the manuscript above for consideration as a Research Article in *Genes, Chromosomes and
-Cancer*. A recent report describes FET fusion oncoproteins as disrupting physiologic DNA repair,
-using accumulation of a GFP-tagged fusion protein at laser-induced double-strand break stripes as
-the readout, and reports that recruitment tracks the dose of RGG-rich sequence retained from the FET
-partner. Extraskeletal myxoid chondrosarcoma, whose *NR4A3* fusions were not examined in that work,
-is the untested fourth transcription-factor-partner class in the argument. The manuscript compiles
-the reported EMC junctions from primary sources, translates them at the transcript rather than the
-coding-sequence level, places EMC on the published dose axis, classifies the one non-FET 5' partner,
-and fixes five predictions with explicit falsifiers before any experiment is run.
+Cancer*. Because *NR4A3* transcript exons 1 and 2 carry no coding sequence, a reported
+extraskeletal myxoid chondrosarcoma fusion junction names an mRNA event whose protein product
+cannot be recovered by joining two coding sequences. The manuscript translates every reported EMC
+junction from canonical reference transcripts at the transcript level and reports two results.
 
-The fit with the journal is direct: this is fusion-gene analysis in sarcoma, and the primary
-junction literature the paper compiles includes the counted EMC series published in this journal.
-Two results should interest the readership independently of the proposed assay. Retained EWSR1 RG
-dipeptide counts place the two commonest EMC fusions at 0 of 30 and 8 of 30, bracketing the two
-fusions in which the mechanism has been measured; and the type-2 junction carries 176 nucleotides of *NR4A3* 5'
-untranslated sequence in the EWSR1 reading frame, encoding 59 residues that the protein-level model
-in general use does not contain. The manuscript also documents, and corrects, an exon-numbering
-error in this programme's own earlier work that silently deleted the AF-1 domain and the first zinc
-finger from every emitted junction, because the correction is the reason every boundary here carries
-its provenance and its self-check.
+The first is a rule. A junction is in frame if and only if the 5' donor exon ends one nucleotide
+into a codon, and both *NR4A3* acceptors give the same register because exon 2 is 174 nucleotides.
+The rule was checked against an independent audit of 27 donor and acceptor pairs, accounts for all
+four reported junctions at once, and grades junctions that have not yet been reported.
+
+The second is its consequence at one acceptor. *EWSR1* coding sequence ends at nucleotide 793, one
+base into a codon; that base with 176 nucleotides of *NR4A3* 5' untranslated sequence, 174 from exon
+2 and 2 from exon 3, completes 59 codons with no intervening stop before *NR4A3*'s own initiator. A
+construct built for this junction from a protein-level model is therefore 59 residues shorter than
+the reported junction predicts, and the insertion belongs to the exon 2 acceptor rather than to one
+fusion type. The manuscript gives the sequence, the arithmetic at nucleotide resolution and a
+figure panel, and states the precedent: a *TAF15*::*NR4A3* variant with a 25-residue extension by
+the same mechanism is already described in the literature.
+
+The fit with the journal is direct: this is fusion-gene analysis in sarcoma, and the counted series
+the paper leans on hardest was published in this journal. The manuscript also documents, and
+corrects, an exon-numbering error in the present author's own earlier work that silently deleted the
+AF-1 domain and the first zinc finger from every emitted junction, because the correction is the
+reason every boundary here carries its provenance and its self-check.
+
+The Discussion draws two consequences: what a laboratory building an EMC fusion construct should
+build, and where EMC's fusions fall on a retained-RGG recruitment axis published for other FET
+fusions, with three predictions and their falsifiers fixed in advance. The axis is drawn as what is
+known rather than as more: the comparator in that published work spans 0.000 to 0.267, because it
+built one construct and does not state its breakpoint.
 
 The study is entirely computational. No experiment was performed, no reagent was made, no plasmid
 was built, and no patient, cell or animal was studied; there was no wet-laboratory work of any kind.
@@ -63,11 +74,13 @@ Every sequence is computed from public reference transcripts and every breakpoin
 primary source, so no ethics approval was required. The manuscript asserts no efficacy, potency,
 dose, safety, therapeutic window or clinical readiness for any agent in any disease.
 
-The honest principal limitation is the one section 6 puts at the centre: the class inheritance is
-the whole of the transfer argument, since the replication-stress vulnerability was measured on other
-FET fusions in other diseases and no NR4A3 fusion has been tested for it, and every construct here
+The principal limitations are stated in section 4.4 and two are worth naming here. Every construct
 is a computed design that requires verification against a sequenced breakpoint before a reagent is
-ordered.
+ordered; and for the prediction set, the class inheritance is the whole of the transfer argument,
+since the replication-stress vulnerability was measured on other FET fusions in other diseases and
+no *NR4A3* fusion has been tested for it. The manuscript also discloses two negative findings from
+the author's companion analysis that bear on whether that experiment is worth a laboratory's
+time.
 
 I intend to deposit the manuscript as a preprint on bioRxiv, consistent with the journal's preprint
 policy, and will link the preprint to the published version. I am the sole author, an unaffiliated

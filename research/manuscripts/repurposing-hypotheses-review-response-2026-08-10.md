@@ -337,7 +337,10 @@ own framing that the read is a prior transferred from other sarcomas rather than
 
 The qualification is now in the tables themselves rather than only in the prose section: Table 3's
 zaltoprofen row and Table 4's PPARγ row both carry the unresolved direction and the H-EMC-SS identity
-problem in the cell a reader would quote. The retrieval is declined for the same reason as item 7,
+problem in the cell a reader would quote. To be explicit about what that second qualifier is, since
+this file names the model: the identity of H-EMC-SS (ACH-001519) is DISPUTED — Cellosaurus records a
+curated caution that it does not harbour the EWSR1 fusion that defines the disease — so nothing here
+reads it as EMC evidence, and it is named only as a reason a row was weakened. The retrieval is declined for the same reason as item 7,
 and the manuscript takes the reviewer's stated alternative: §6's fifth limitation says plainly that
 the strength of the only in-vivo signal in the menu **cannot currently be stated**, because the paper
 is not open access and its full text was not retrieved for this work. §7 repeats it as one of the

@@ -54,6 +54,23 @@ VENUES = {
         "provenance": "nature.com pages DO answer; these were read from the journal's own guide to "
                       "authors at HTTP 200",
     },
+    #: ⚠ A VENUE WHOSE LIMITS ARE ANOTHER VENUE'S, ON PURPOSE, AND SAYING SO (added 2026-08-10 when
+    #: emc-surface-target-landscape.md moved from BJC to GCC). Wiley 403s its per-journal author
+    #: guidelines to CI and to a real headless browser alike, so GCC's own limits are not
+    #: retrievable. Mapping the file to the plain GCC profile above would have set main_words to
+    #: None and the abstract to 250 — trading the repository's ONLY publisher-page-verified limits
+    #: for no limit at all, and letting a manuscript grow because a page could not be fetched. So
+    #: the file keeps the BJC envelope as an explicit proxy: it is the tightest verified envelope
+    #: here, it is valid at either journal, and it means no rewrite if the submission is
+    #: redirected. ⛔ These numbers are NOT a retrieved Wiley limit and must never be quoted as one.
+    "GCC-Research-Article-verified-envelope": {
+        "journal": "Genes, Chromosomes and Cancer (Wiley), held to a verified proxy envelope",
+        "limits": {"main_words": 5000, "abstract_words": 200, "display_items": 8,
+                   "references": 80},
+        "provenance": "venue is GCC, whose own limits Wiley blocks retrieval of; the numbers are "
+                      "BJC's publisher-page-verified envelope applied as the tightest verified "
+                      "proxy, so the format is valid at either venue. Not a retrieved GCC limit.",
+    },
 }
 
 #: ⚠ THIS LIST IS HAND-TYPED, AND IT SILENTLY UNDERCOUNTED BY ONE FOR TWO DAYS (2026-08-10).
@@ -69,13 +86,19 @@ MANUSCRIPTS = {
     "emc-atr-collaborator-package.md": "GCC-Research-Article",
     "nr4a3-fusion-transcriptional-output.md": "GCC-Research-Article",
     "repurposing-hypotheses.md": "CROH-Review",
-    "emc-surface-target-landscape.md": "BJC-Article",
+    "emc-surface-target-landscape.md": "GCC-Research-Article-verified-envelope",
 }
 
 #: Headings that end the main text. Matched case-insensitively at any heading level.
-TAIL = re.compile(r"^#+\s*(declarations?|data (and|&) code|data availability|references|"
-                  r"acknowledge?ments?|competing interests|funding|author contributions|"
-                  r"display items|appendix)\b", re.I | re.M)
+#: ⛔ THE SECTION NUMBER WAS NOT OPTIONAL AND EVERY MANUSCRIPT HERE NUMBERS ITS SECTIONS
+#: (2026-08-10). `## 5. Data and code availability` did not match, so the terminus was whatever
+#: unnumbered heading happened to come later — in practice `## Appendix A`, which every manuscript
+#: carried. Deleting an appendix therefore left NO tail match at all, `main` fell back to the whole
+#: body, and one file's main text jumped from 3,161 to 6,721 words with no prose added. A counter
+#: that silently counts a different thing when a heading is removed is worse than one that fails.
+TAIL = re.compile(r"^#+\s*(?:\d+\s*[.)]\s*)?(declarations?|data (and|&) code|data availability|"
+                  r"references|acknowledge?ments?|competing interests|funding|author contributions|"
+                  r"display items|supplementary|appendix)\b", re.I | re.M)
 HEAD = re.compile(r"^#+\s*(background|introduction|1[.\s])", re.I | re.M)
 
 
@@ -125,7 +148,13 @@ def measure(path):
     main_words = len(strip_tables(main).split())
 
     figures = len(re.findall(r"!\[", body))
-    tables = len(re.findall(r"^\*\*Table\s", body, re.M))
+    # ⛔ THIS PATTERN REQUIRED A **BOLD** CAPTION AND SO COUNTED ZERO TABLES IN THE ONE MANUSCRIPT
+    # THAT ITALICISES THEM (measured 2026-08-10). `repurposing-hypotheses.md` captions its tables
+    # `*Table 1.* ...`, so this gate reported one display item where a reviewer counted five, in the
+    # field whose entire job is to catch a display-item breach. A limit check that cannot see the
+    # items it limits reads as headroom. Both emphasis forms are markdown captions; neither is more
+    # of a table than the other.
+    tables = len(re.findall(r"^\*{1,2}Table\s", body, re.M))
     refs = len(re.findall(r"^\s{0,3}\d{1,3}\.\s+\S", body, re.M))
     return {"main_words": main_words, "abstract_words": abstract_words,
             "figures": figures, "tables": tables, "display_items": figures + tables,
