@@ -1,0 +1,222 @@
+{
+  "_what": "Exact-name re-derivation of the TxGNN indication-ranking comparison, from the two committed model artifacts. No model was re-run.",
+  "_generated_by": "research/hypotheses/txgnn_exact_match_reanalysis.py",
+  "_inputs": [
+    "research/hypotheses/txgnn-relatives-comparison.json",
+    "research/hypotheses/txgnn-emc-predictions.json"
+  ],
+  "_the_defect_this_corrects": "txgnn_predict.relevant_ranks matched by substring against a descending-sorted list, so it returned the highest-scoring compound whose name contained the query. Fixed in that file on 2026-08-10; the committed artifacts predate the fix and are re-read here rather than regenerated.",
+  "⛔_what_cannot_be_recovered_here": "The true rank of doxorubicin, apatinib and ifosfamide at any of the three nodes. Only the top 100 (EMC) and top 15 (each node) of the 7,957-drug ranking were ever committed, so those three ranks require a re-run of the model. They are reported as unknown, never estimated.",
+  "⚠_the_published_medians_were_upper_bounds": "A queried agent's own name contains its own query string, so the substring match returns a compound scoring at least as high as the agent. Each substring percentile is an upper bound on the true one.",
+  "_no_clinical_claim": "A model's indication rank is not evidence of efficacy, safety or clinical readiness for any agent in any disease.",
+  "model": "TxGNN (Huang et al., Nat Med 2024) — pretrained 'complex_disease' weights",
+  "relation": "indication",
+  "diseases": [
+    {
+      "label": "EMC",
+      "disease_node": "extraskeletal myxoid chondrosarcoma",
+      "totalRanked": 7957,
+      "n_queried": 33,
+      "n_exact": 28,
+      "median_percentile_exact": 20.9,
+      "iqr_percentile_exact": [
+        18.2,
+        24.0
+      ],
+      "min_percentile_exact": 2.6,
+      "max_percentile_exact": 52.4,
+      "best_exactly_matched_agent": {
+        "drug": "Masitinib",
+        "rank": 3784,
+        "percentile": 52.4
+      },
+      "named_agents": {
+        "pazopanib": {
+          "rank": 6422,
+          "percentile": 19.3
+        },
+        "sunitinib": {
+          "rank": 6382,
+          "percentile": 19.8
+        },
+        "imatinib": {
+          "rank": 5951,
+          "percentile": 25.2
+        },
+        "trabectedin": {
+          "rank": 7158,
+          "percentile": 10.0
+        }
+      },
+      "misresolved_by_the_substring_matcher": [
+        {
+          "query": "apatinib",
+          "returned_instead": "Lapatinib",
+          "rank_of_the_returned_compound": 6693,
+          "percentile_of_the_returned_compound": 15.9,
+          "true_rank_of_the_query": null
+        },
+        {
+          "query": "doxorubicin",
+          "returned_instead": "13-deoxydoxorubicin",
+          "rank_of_the_returned_compound": 2017,
+          "percentile_of_the_returned_compound": 74.7,
+          "true_rank_of_the_query": null
+        },
+        {
+          "query": "ifosfamide",
+          "returned_instead": "Palifosfamide",
+          "rank_of_the_returned_compound": 5531,
+          "percentile_of_the_returned_compound": 30.5,
+          "true_rank_of_the_query": null
+        }
+      ],
+      "absent_from_the_graph": [
+        "fruquintinib",
+        "anlotinib"
+      ],
+      "median_percentile_as_published_by_substring_matching": 21.0,
+      "top_ranked_compound": "ORE-1001"
+    },
+    {
+      "label": "chondrosarcoma",
+      "disease_node": "chondrosarcoma (disease)",
+      "totalRanked": 7957,
+      "n_queried": 33,
+      "n_exact": 28,
+      "median_percentile_exact": 17.6,
+      "iqr_percentile_exact": [
+        12.8,
+        25.0
+      ],
+      "min_percentile_exact": 0.7,
+      "max_percentile_exact": 69.9,
+      "best_exactly_matched_agent": {
+        "drug": "Masitinib",
+        "rank": 2399,
+        "percentile": 69.9
+      },
+      "named_agents": {
+        "pazopanib": {
+          "rank": 6801,
+          "percentile": 14.5
+        },
+        "sunitinib": {
+          "rank": 6936,
+          "percentile": 12.8
+        },
+        "imatinib": {
+          "rank": 6221,
+          "percentile": 21.8
+        },
+        "trabectedin": {
+          "rank": 6572,
+          "percentile": 17.4
+        }
+      },
+      "misresolved_by_the_substring_matcher": [
+        {
+          "query": "apatinib",
+          "returned_instead": "Lapatinib",
+          "rank_of_the_returned_compound": 7434,
+          "percentile_of_the_returned_compound": 6.6,
+          "true_rank_of_the_query": null
+        },
+        {
+          "query": "doxorubicin",
+          "returned_instead": "Zoptarelin doxorubicin",
+          "rank_of_the_returned_compound": 1593,
+          "percentile_of_the_returned_compound": 80.0,
+          "true_rank_of_the_query": null
+        },
+        {
+          "query": "ifosfamide",
+          "returned_instead": "Palifosfamide",
+          "rank_of_the_returned_compound": 4173,
+          "percentile_of_the_returned_compound": 47.6,
+          "true_rank_of_the_query": null
+        }
+      ],
+      "absent_from_the_graph": [
+        "fruquintinib",
+        "anlotinib"
+      ],
+      "median_percentile_as_published_by_substring_matching": 17.7,
+      "top_ranked_compound": "ORE-1001"
+    },
+    {
+      "label": "soft tissue sarcoma",
+      "disease_node": "soft tissue sarcoma",
+      "totalRanked": 7957,
+      "n_queried": 33,
+      "n_exact": 28,
+      "median_percentile_exact": 17.0,
+      "iqr_percentile_exact": [
+        15.0,
+        18.9
+      ],
+      "min_percentile_exact": 2.0,
+      "max_percentile_exact": 61.2,
+      "best_exactly_matched_agent": {
+        "drug": "Masitinib",
+        "rank": 3089,
+        "percentile": 61.2
+      },
+      "named_agents": {
+        "pazopanib": {
+          "rank": 6486,
+          "percentile": 18.5
+        },
+        "sunitinib": {
+          "rank": 6622,
+          "percentile": 16.8
+        },
+        "imatinib": {
+          "rank": 6391,
+          "percentile": 19.7
+        },
+        "trabectedin": {
+          "rank": 7211,
+          "percentile": 9.4
+        }
+      },
+      "misresolved_by_the_substring_matcher": [
+        {
+          "query": "apatinib",
+          "returned_instead": "Lapatinib",
+          "rank_of_the_returned_compound": 6266,
+          "percentile_of_the_returned_compound": 21.3,
+          "true_rank_of_the_query": null
+        },
+        {
+          "query": "doxorubicin",
+          "returned_instead": "13-deoxydoxorubicin",
+          "rank_of_the_returned_compound": 2264,
+          "percentile_of_the_returned_compound": 71.5,
+          "true_rank_of_the_query": null
+        },
+        {
+          "query": "ifosfamide",
+          "returned_instead": "Palifosfamide",
+          "rank_of_the_returned_compound": 4370,
+          "percentile_of_the_returned_compound": 45.1,
+          "true_rank_of_the_query": null
+        }
+      ],
+      "absent_from_the_graph": [
+        "fruquintinib",
+        "anlotinib"
+      ],
+      "median_percentile_as_published_by_substring_matching": 17.4,
+      "top_ranked_compound": "ORE-1001"
+    }
+  ],
+  "top15_shared_by_all_three_nodes": [
+    "APD668",
+    "Cp-166572, 2-Hydroxymethyl-4-(4-N,N-Dimethylaminosulfonyl-1-Piperazino)-Pyrimidine",
+    "L-Myo-Inositol-1-Phosphate",
+    "N-(4-chlorobenzyl)-N-methylbenzene-1,4-disulfonamide",
+    "ORE-1001"
+  ],
+  "n_top15_shared_by_all_three_nodes": 5
+}

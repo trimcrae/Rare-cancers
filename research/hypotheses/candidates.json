@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "disease": "extraskeletal myxoid chondrosarcoma",
   "diseaseSlug": "emc",
-  "landscapeNote": "EMC has a genomically QUIET landscape: clinical NGS of metastatic EMC found no recurrent clinically-actionable mutations (CDKN2A/2B copy loss noted), and the KIT mutation is a rare (~5%) exception. Repurposing should therefore target the NR4A3 fusion / lineage biology (angiogenesis, PPARγ, transcription/epigenetics, apoptosis) and lean on unbiased patient-derived-model drug screens, rather than expecting actionable driver mutations.",
+  "landscapeNote": "EMC has a genomically QUIET landscape: clinical NGS of metastatic EMC found no recurrent clinically-actionable mutations (CDKN2A/2B copy loss noted), and a KIT mutation is a rare exception (an exon-11 mutation in 1 of 20 EMC in one series; a p.E554K mutation in 2 of 48 in another). ⚠ Superseded, retained: \"the KIT mutation is a rare (~5%) exception\" — no source carried the ~5% figure. Repurposing should therefore target the NR4A3 fusion / lineage biology (angiogenesis, PPARγ, transcription/epigenetics, apoptosis) and lean on unbiased patient-derived-model drug screens, rather than expecting actionable driver mutations.",
   "disclaimer": "RESEARCH HYPOTHESES ONLY. These are mechanistic ideas and prioritization scores for investigation - not treatments, not medical advice, and not endorsed for clinical use. None of these drugs is known to work in EMC. Not for the cited clinical registry, and not for any patient-facing use. See research/hypotheses/METHODOLOGY.md.",
   "tiers": {
     "T0-mechanistic": "Mechanistic rationale only; no EMC or close-analog data.",
@@ -20,6 +20,21 @@
       "biomarker": "Existence of a biomarker to select likely responders.",
       "novelty": "Degree to which it is untried in EMC."
     }
+  },
+  "axes": {
+    "_what": "The documented EMC vulnerability axis each candidate addresses. Added 2026-08-10: the axis mapping existed only in the manuscript's prose and could not be checked against this dataset.",
+    "_the_list_grew_from_seven_to_eight": "The manuscript named seven axes and then filed two candidates outside them (imatinib under '(KIT)' and brigatinib under '(kinome screen hit)'). The receptor-kinase axis is real and documented in EMC, so it is named here as the eighth rather than left implicit; brigatinib carries no axis because its mechanism in EMC is undefined, which is the honest value.",
+    "vocabulary": [
+      "angiogenesis",
+      "the NR4A3 fusion and its transcriptional programme",
+      "PPARγ and nuclear-receptor signalling",
+      "epigenetic dependencies",
+      "the cell cycle",
+      "apoptosis and proteostasis",
+      "the immune microenvironment",
+      "receptor tyrosine kinase drivers",
+      "unassigned (unexplained kinome-screen hit)"
+    ]
   },
   "citations": {
     "remiszewski2025": {
@@ -193,12 +208,13 @@
   "candidates": [
     {
       "id": "imatinib-kit-subset",
+      "axis": "receptor tyrosine kinase drivers",
       "drug": "Imatinib (and other KIT inhibitors)",
       "drugClass": "KIT/ABL tyrosine kinase inhibitor",
       "regulatoryStatus": "FDA/EMA-approved (CML, GIST, DFSP)",
       "notTriedInEmc": false,
       "subsetRestricted": true,
-      "registryEligible": "T3 — eligible for emergingTreatments pending clinician review",
+      "registryEligible": "No. Regraded T2 on 2026-08-10 (a single published case is a case-level EMC signal, which is T2 by the scale in section 3 of METHODOLOGY.md; T3 requires prospective or substantial clinical evidence). ⚠ The agent is nonetheless ALREADY listed in the cited registry's emergingTreatments, biomarker-restricted and attributed to that case report — it is there as an agent already REPORTED in EMC, not as a hypothesis that graduated. See METHODOLOGY.md section 5.",
       "enumeratedAgents": [
         "dasatinib",
         "nilotinib",
@@ -211,7 +227,7 @@
       "enumerationProvenance": "Systematic DGIdb enumeration (target-drug-matrix.json) lists these approved KIT inhibitors as alternatives for the KIT-mutant subset; choice should match the specific KIT mutation's drug sensitivity, not just KIT positivity.",
       "mechanism": "Inhibits KIT receptor tyrosine kinase signalling; exon-11 KIT mutations are the most imatinib-sensitive class in GIST.",
       "emcVulnerability": {
-        "claim": "A somatic, imatinib-sensitive-class KIT exon-11 mutation occurs in a minority of EMC, and CD117/KIT is expressed in roughly half of cases.",
+        "claim": "A somatic KIT exon-11 mutation — the imatinib-sensitive class in GIST — is reported in 1 of 20 EMC. CD117/KIT protein is detectable by immunohistochemistry in a substantial but variable proportion: approximately 53% in one series and approximately 84% of 31 cases in another. ⚠ Superseded, retained: \"CD117/KIT is expressed in roughly half of cases\", a single figure attributed to the wrong source.",
         "sourceId": "kitMutation2018"
       },
       "supportingEvidence": [
@@ -232,9 +248,9 @@
         }
       ],
       "rationale": "For the molecularly-selected minority with an actionable KIT exon-11 mutation, imatinib is a shelf-ready, biomarker-driven option — and a KIT-mutant EMC patient has already achieved 3-year disease stabilization on it, making this the most clinically-supported lead. Applies only to the KIT-mutant subset, not EMC generally.",
-      "evidenceTier": "T3-emc-clinical-evidence",
+      "evidenceTier": "T2-emc-case-signal",
       "speculationLevel": "low",
-      "keyRisks": "Single case; only ~5% carry an actionable KIT mutation; CD117 expression alone does not prove KIT dependence; requires NGS selection.",
+      "keyRisks": "Single case. The imatinib-sensitive-class (exon-11) mutation is reported in 1 of 20 EMC in one series; a second series reports a KIT p.E554K mutation in 2 of 48, which no committed source characterises as imatinib-sensitive, so the addressable fraction is smaller and less certain than the two fractions summed. CD117 expression alone does not prove KIT dependence; requires NGS selection. ⚠ Superseded, retained: \"only ~5% carry an actionable KIT mutation\" — no source carried that figure.",
       "openQuestions": [
         "What is the response rate to imatinib across KIT-mutant EMC beyond single cases?"
       ],
@@ -253,6 +269,7 @@
     },
     {
       "id": "zaltoprofen-pparg",
+      "axis": "PPARγ and nuclear-receptor signalling",
       "drug": "Zaltoprofen (PPARγ-inducing NSAID)",
       "drugClass": "NSAID / PPARγ inducer",
       "regulatoryStatus": "Approved NSAID (Japan)",
@@ -291,6 +308,7 @@
     },
     {
       "id": "vegfr-tki-extension",
+      "axis": "angiogenesis",
       "drug": "Regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib, fruquintinib (approved multi-target VEGFR-TKIs)",
       "drugClass": "anti-angiogenic multikinase (VEGFR) TKI",
       "regulatoryStatus": "FDA/EMA-approved (other indications)",
@@ -351,6 +369,7 @@
     },
     {
       "id": "pioglitazone-pparg",
+      "axis": "PPARγ and nuclear-receptor signalling",
       "drug": "Pioglitazone (and other PPARγ agonists)",
       "drugClass": "PPARγ agonist (thiazolidinedione)",
       "regulatoryStatus": "FDA/EMA-approved (type 2 diabetes)",
@@ -389,6 +408,7 @@
     },
     {
       "id": "cdk4-6-inhibitors",
+      "axis": "the cell cycle",
       "drug": "Palbociclib / ribociclib / abemaciclib",
       "drugClass": "CDK4/6 inhibitor",
       "regulatoryStatus": "FDA/EMA-approved (HR+ breast cancer)",
@@ -432,6 +452,7 @@
     },
     {
       "id": "hdac-inhibitors",
+      "axis": "epigenetic dependencies",
       "drug": "Romidepsin / panobinostat (HDAC inhibitors)",
       "drugClass": "histone deacetylase inhibitor",
       "regulatoryStatus": "Approved (CTCL/PTCL; myeloma)",
@@ -470,6 +491,7 @@
     },
     {
       "id": "ntrk-inhibitors",
+      "axis": "receptor tyrosine kinase drivers",
       "drug": "Larotrectinib / entrectinib",
       "drugClass": "TRK inhibitor",
       "regulatoryStatus": "Approved (NTRK-fusion cancers)",
@@ -509,6 +531,7 @@
     },
     {
       "id": "venetoclax-bcl2",
+      "axis": "apoptosis and proteostasis",
       "drug": "Venetoclax",
       "drugClass": "BCL-2 inhibitor (BH3-mimetic)",
       "regulatoryStatus": "FDA/EMA-approved (CLL, AML)",
@@ -547,6 +570,7 @@
     },
     {
       "id": "brigatinib-screen-hit",
+      "axis": "unassigned (unexplained kinome-screen hit)",
       "drug": "Brigatinib",
       "drugClass": "ALK/ROS1 (multikinase) inhibitor",
       "regulatoryStatus": "Approved (ALK+ NSCLC)",
@@ -585,23 +609,24 @@
     },
     {
       "id": "carfilzomib-proteasome",
+      "axis": "apoptosis and proteostasis",
       "drug": "Carfilzomib",
       "drugClass": "proteasome inhibitor",
       "regulatoryStatus": "FDA/EMA-approved (multiple myeloma)",
       "notTriedInEmc": true,
       "mechanism": "Irreversible proteasome inhibition causing proteotoxic stress and apoptosis.",
       "emcVulnerability": {
-        "claim": "Patient-derived EMC ex vivo models are sensitive to carfilzomib.",
+        "claim": "A patient-derived EMC ex vivo model is sensitive to carfilzomib.",
         "sourceId": "emcModels2023"
       },
       "supportingEvidence": [
         {
-          "claim": "Carfilzomib sensitivity identified and validated across two patient-derived EMC ex vivo models, including synergistic combinations.",
+          "claim": "The 40-drug discovery screen ran on USZ20-EMC1 ALONE, where carfilzomib was the only 1 of 17 chemotherapeutics with high sensitivity; carfilzomib, doxorubicin and venetoclax were subsequently tested in both models, giving carfilzomib-plus-doxorubicin and carfilzomib-plus-venetoclax combination activity. ⚠ Superseded, retained: \"identified and validated across two patient-derived EMC ex vivo models\" — the primary text refutes the two-model reading of the discovery screen. Corrected 2026-08-06 by the route framing audit and applied here 2026-08-10.",
           "context": "EMC (ex vivo)",
           "sourceId": "emcModels2023"
         }
       ],
-      "rationale": "Approved proteasome inhibitor with validated EMC ex vivo activity; worth mechanistic follow-up and combination testing.",
+      "rationale": "Approved proteasome inhibitor with ex vivo activity in one patient-derived EMC model and combination activity in both; worth mechanistic follow-up and combination testing. Two in-silico rationales for selectivity (a DepMap dependency argument and a proteostatic-load argument) were pre-specified, run and both returned negative.",
       "evidenceTier": "T1-preclinical-or-analog",
       "speculationLevel": "moderate",
       "keyRisks": "Ex vivo only; mechanism of EMC sensitivity undefined; cardiac/renal toxicity.",
@@ -623,6 +648,7 @@
     },
     {
       "id": "anthracycline-combination-synergy",
+      "axis": "apoptosis and proteostasis",
       "drug": "Anthracycline + venetoclax or carfilzomib (combination)",
       "drugClass": "cytotoxic + targeted combination",
       "regulatoryStatus": "Individually approved; combination investigational",
@@ -661,6 +687,7 @@
     },
     {
       "id": "nr4a3-modulation",
+      "axis": "the NR4A3 fusion and its transcriptional programme",
       "drug": "NR4A3/NOR1-directed modulators (e.g. prostaglandin-A2-related compounds, NR4A ligands)",
       "drugClass": "nuclear-receptor modulator",
       "regulatoryStatus": "No clinical-grade agent; research compounds",
@@ -704,6 +731,7 @@
     },
     {
       "id": "transcriptional-bet-cdk",
+      "axis": "the NR4A3 fusion and its transcriptional programme",
       "drug": "BET (BRD4) or CDK7/CDK9 inhibitors",
       "drugClass": "transcriptional inhibitor",
       "regulatoryStatus": "Investigational (oncology trials)",
@@ -742,6 +770,7 @@
     },
     {
       "id": "mrna-vaccine-checkpoint",
+      "axis": "the immune microenvironment",
       "drug": "mRNA-LNP vaccine + PD-1/PD-L1 checkpoint inhibitor (± anti-angiogenic TKI)",
       "drugClass": "innate-immune agonist + checkpoint inhibitor",
       "regulatoryStatus": "Components approved; combination investigational",

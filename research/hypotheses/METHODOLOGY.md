@@ -134,6 +134,22 @@ option. The registry is now cited by the manuscript meta-analysis, so an
 ungraduated candidate leaking into it would be laundered into a *publication*
 instead. That is a slower failure and a harder one to retract.
 
+⚠ **MEASURED 2026-08-10, AND UNRESOLVED: THE RULE AND THE REGISTRY DISAGREE ABOUT
+IMATINIB.** `candidates.json` graded imatinib `T3-emc-clinical-evidence` on the
+strength of **one published case report**, which is `T2-emc-case-signal` by the
+scale in §3 above; it was regraded T2 that day, in the generator and the dataset.
+The registry's `emergingTreatments` block nonetheless **already lists** imatinib
+(biomarker-restricted, `url` PMC8395296, "based on a single case"). Two readings
+are available and this file does not choose between them: either that entry is an
+independently curated record of an agent already **reported** in EMC — §2 excludes
+such agents from the catalogue precisely because they belong to the registry — or
+a T2 candidate is sitting behind a T3 gate. **The consequence for anything written
+from this file: no candidate now reaches T3, so the T3 threshold currently admits
+nothing, and no manuscript may describe imatinib as awaiting graduation, because
+the registry already carries it.** A clinician review of that entry is the
+decision this needs, and it is one of the things the repurposing manuscript's
+declarations ask a sarcoma specialist to look at.
+
 ## 6. What a good candidate entry contains
 
 `drug`, `drugClass`, `regulatoryStatus`, `mechanism`, `emcVulnerability` (cited),

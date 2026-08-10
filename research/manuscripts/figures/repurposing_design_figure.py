@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """
-Figure 1 of repurposing-hypotheses.md — the three-method design and the firewall.
+Figure 1 of repurposing-hypotheses.md — the generation design and the firewall.
+
+⚠ RETITLED 2026-08-10. It was "the three-method design", while the figure itself showed two methods
+feeding the catalogue and one contributing nothing — the caption promised the thing that did not
+happen. The dashed convention was also unexplained, so a reader had no way to know that dashed
+meant "ran but contributed no candidate", and the divergence label floated above the arrow it
+belongs to instead of sitting on it.
 
 Replaces a ```mermaid``` source block that could not be submitted as a figure. Journals want a
 raster or vector image, not a diagram DSL a renderer may or may not have; the block also rendered
@@ -32,14 +38,14 @@ BOXES = [
     ("B", 0.02, 0.55, 0.26, 0.14, "Target-to-drug enumeration\n(DGIdb, reproducible)", "#f2f2f2", 1.2, False),
     ("C", 0.02, 0.09, 0.26, 0.14, "Graph foundation model\n(TxGNN, zero-shot)", "#ffffff", 1.0, True),
     ("N", 0.42, 0.09, 0.22, 0.12, "Not used as a source", "#ffffff", 1.0, True),
-    ("D", 0.37, 0.585, 0.28, 0.16, "Scored candidate catalogue\n14 existing drugs, tiers T0–T3", "#e0e0e0", 1.8, False),
+    ("D", 0.37, 0.585, 0.28, 0.16, "Scored candidate catalogue\n14 existing drugs, tiers T0–T2", "#e0e0e0", 1.8, False),
     ("M", 0.74, 0.66, 0.24, 0.16, "Manuscript and path\nto testing", "#f2f2f2", 1.2, False),
     ("P", 0.74, 0.30, 0.24, 0.14, "Cited clinical registry", "#f2f2f2", 1.2, False),
 ]
 FIREWALL = (0.42, 0.355, 0.18, 0.10)   # x, y, w, h
 
 fig, ax = plt.subplots(figsize=(9.2, 5.0))
-ax.set_xlim(0, 1); ax.set_ylim(0.05, 0.95); ax.axis("off")
+ax.set_xlim(0, 1); ax.set_ylim(0.02, 0.95); ax.axis("off")
 
 anchors = {}
 for key, x, y, w, h, text, fc, lw, dashed in BOXES:
@@ -73,13 +79,19 @@ def arrow(a, b, label=None, dashed=False, rad=0.0, lx=0.0, ly=0.0):
                 bbox=dict(boxstyle="round,pad=0.22", fc="white", ec="none"))
 
 
-arrow(anchors["A"]["r"], anchors["D"]["l"], rad=-0.12)
-arrow(anchors["B"]["r"], anchors["D"]["l"], rad=0.10)
+arrow(anchors["A"]["r"], anchors["D"]["l"], rad=-0.12, label="12 of 14", ly=0.035)
+arrow(anchors["B"]["r"], anchors["D"]["l"], rad=0.10, label="2 of 14", ly=-0.035)
 arrow(anchors["C"]["r"], anchors["N"]["l"], dashed=True,
-      label="diverged; reported as a limitation,\nno hit promoted", ly=0.075)
+      label="diverged; no hit promoted", ly=0.028)
 arrow(anchors["D"]["b"], anchors["F"]["t"], rad=0.0)
+# ⚠ The label is lifted clear of both boxes it sits between. At the arrow midpoint its two lines
+# overlapped the firewall node on the left and the registry node on the right.
 arrow(anchors["F"]["r"], anchors["P"]["l"], rad=-0.10,
-      label="T3 plus clinician\nreview only", ly=0.055)
+      label="direct EMC clinical evidence\nplus clinician review only", lx=0.035, ly=0.108)
+
+# The dashed convention, spelled out. A reader cannot infer a legend.
+ax.text(0.02, 0.045, "Dashed outline and arrow: a path that ran and contributed no candidate.",
+        ha="left", va="center", fontsize=7.6, color="#444444")
 arrow(anchors["D"]["r"], anchors["M"]["l"], rad=0.0)
 
 fig.tight_layout(pad=0.4)
