@@ -43,83 +43,66 @@ OUT = pathlib.Path("research/literature/rt-lung-mets-probe.json")
 # (key, query). Keep queries quotable in the report verbatim - a zero is evidence of
 # absence ONLY for the exact string beside it.
 QUERIES: list[tuple[str, str]] = [
-    # --- (a) the direct question: RT to an EMC metastasis, any modality ----------
-    ("emc_radiotherapy_any",
-     '("extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma" OR "chordoid sarcoma") '
-     'AND (radiotherapy OR radiation OR irradiation)'),
-    ("emc_sbrt_sabr",
-     '("extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma") '
-     'AND (SBRT OR SABR OR stereotactic OR "stereotactic body" OR radiosurgery OR ablative)'),
-    ("emc_lung_met_local_therapy",
-     '("extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma") '
-     'AND ("lung metastas*" OR "pulmonary metastas*") AND (radiotherapy OR stereotactic OR ablation OR metastasectomy)'),
-    ("emc_oligometastatic",
-     '("extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma") '
-     'AND (oligometastatic OR oligometastas* OR "local therapy" OR "local control")'),
-    ("emc_metastasectomy",
-     '("extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma") AND metastasectomy'),
-    ("emc_thermal_ablation",
-     '("extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma") '
-     'AND ("radiofrequency ablation" OR cryoablation OR microwave OR "thermal ablation")'),
-
-    # --- (b) the denominator: is the metastatic pattern actually lung-confined? --
-    # RT-LUNG-DIRECTED's stated missing numerator. Its view says metastatic SITE was never
-    # curated as a field; that is a statement about the registry, not about the primary reports.
-    ("emc_first_site_of_metastasis",
-     '("extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma") '
-     'AND ("first site" OR "site of metastasis" OR "metastatic pattern" OR "distant recurrence")'),
-    ("emc_natural_history_indolent",
-     '("extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma") '
-     'AND ("natural history" OR indolent OR "long-term survival" OR "watchful waiting" OR observation)'),
-    ("emc_large_series_outcomes",
-     '("extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma") '
-     'AND (cohort OR series OR retrospective OR registry OR SEER) AND (survival OR outcome OR recurrence)'),
-
-    # --- (c) the borrowed evidence base: SBRT for sarcoma lung metastases -------
-    # If EMC-specific evidence is thin, the concept paper's weight rests on whether the
-    # generic sarcoma-lung-SBRT literature is strong AND whether it reports histology subsets.
-    ("sarcoma_lung_sbrt_series",
-     '(sarcoma) AND ("lung metastas*" OR "pulmonary metastas*") AND (SBRT OR SABR OR "stereotactic body radiation" '
-     'OR "stereotactic ablative")'),
-    ("sarcoma_lung_sbrt_meta",
-     '(sarcoma) AND (SBRT OR SABR OR "stereotactic ablative") AND ("systematic review" OR "meta-analysis")'),
-    ("sarcoma_sbrt_histology_subgroup",
-     '(sarcoma) AND (SBRT OR SABR OR "stereotactic ablative") AND (histology OR "histologic subtype" OR "per-histology")'),
-    ("sarcoma_sbrt_vs_metastasectomy",
-     '(sarcoma) AND ("lung metastas*" OR "pulmonary metastas*") AND (SBRT OR SABR OR "stereotactic") '
-     'AND (metastasectomy OR surgery OR resection) AND (compar* OR versus)'),
-    ("sabr_comet_oligometastatic_trials",
-     '("SABR-COMET" OR "oligometastatic") AND ("randomized" OR "randomised" OR "phase II" OR "phase 2") '
-     'AND (radiotherapy OR SABR OR SBRT) AND (survival OR "overall survival")'),
-    ("chondrosarcoma_sbrt_lung",
-     '(chondrosarcoma) AND (SBRT OR SABR OR stereotactic) AND (lung OR pulmonary OR metastas*)'),
-
-    # --- (d) the radiobiology: is the "radioresistant" label right for THIS tumour? -
-    # The repository already holds a live contradiction about whether RT does anything in EMC
-    # (RT-RT-INTENSIFY), and a hypoxia/matrix correction that has closed one route in this family.
-    ("sarcoma_alpha_beta_radiobiology",
-     '(sarcoma OR chondrosarcoma) AND ("alpha/beta" OR "alpha beta ratio" OR fractionation OR radiobiology) '
-     'AND (radioresistan* OR radiosensitiv*)'),
-    ("chondrosarcoma_radioresistance",
-     '(chondrosarcoma) AND (radioresistan* OR radiosensitiv* OR "particle therapy" OR "carbon ion" OR proton)'),
-    ("myxoid_matrix_hypoxia_radiation",
-     '(myxoid OR "chondroid matrix" OR "extracellular matrix") AND (hypoxia OR "oxygen enhancement") '
-     'AND (radiotherapy OR radiation) AND (tumour OR tumor OR sarcoma)'),
-    ("nr4a3_radiation_response",
-     '(NR4A3 OR "NOR-1" OR "NOR1") AND (radiation OR radiotherapy OR "DNA damage" OR irradiation)'),
-    ("myxoid_liposarcoma_radiosensitivity",
-     '("myxoid liposarcoma") AND (radiosensitiv* OR radiotherapy OR "response to radiation")'),
-
-    # --- (e) has the concept paper already been written by someone else? --------
-    # The cheapest way to kill this idea, and the one nobody runs first.
-    ("ultrarare_sarcoma_oligomet_concept",
-     '(sarcoma OR "rare cancer") AND (oligometastatic OR "local therapy") AND '
-     '("conceptual" OR "concept" OR "hypothesis" OR "position paper" OR "perspective" OR "opinion")'),
-    ("indolent_biology_local_therapy_rationale",
-     '(indolent OR "slow-growing" OR "long natural history") AND (oligometastatic OR "metastasis-directed therapy") '
-     'AND (rationale OR "patient selection" OR "who benefits")'),
-    ("metastasis_directed_therapy_rare_histology",
-     '"metastasis-directed therapy" AND (sarcoma OR "rare histology" OR "ultra-rare")'),
+    # ⛔ NO WILDCARD INSIDE A QUOTED PHRASE (fixed 2026-08-10, on this file's first run).
+    # The first version asked for `"lung metastas*"`. Europe PMC matches a quoted phrase
+    # literally, so the whole conjunction returned hitCount=0 — while two papers answering it
+    # were already in hand from a plain web search. A zero a broken query produced is
+    # indistinguishable from a zero the literature produced, and this one was one step from
+    # being reported as "nobody has ever tried it". Spell the variants out instead.
+    #
+    # ⚠ AND FIELD-RESTRICT THE PRECISION QUESTIONS. An unfielded query searches FULL TEXT, so
+    # `("extraskeletal myxoid chondrosarcoma") AND (stereotactic)` returned 42 hits whose top
+    # rows were national sarcoma GUIDELINES naming both terms paragraphs apart. That is not a
+    # count of papers about radiotherapy in this disease. TITLE:/ABSTRACT: is.
+    # Superseded, retained: the unfielded EMC queries and `"lung metastas*"`.
+    ('emc_topic_radiotherapy',
+     '(TITLE:"extraskeletal myxoid chondrosarcoma" OR ABSTRACT:"extraskeletal myxoid chondrosarcoma" OR TITLE:"extra-skeletal myxoid chondrosarcoma" OR ABSTRACT:"extra-skeletal myxoid chondrosarcoma") AND (radiotherapy OR radiation OR irradiation OR SBRT OR SABR OR stereotactic OR radiosurgery)'),
+    ('emc_topic_stereotactic',
+     '(TITLE:"extraskeletal myxoid chondrosarcoma" OR ABSTRACT:"extraskeletal myxoid chondrosarcoma" OR TITLE:"extra-skeletal myxoid chondrosarcoma" OR ABSTRACT:"extra-skeletal myxoid chondrosarcoma") AND (SBRT OR SABR OR stereotactic OR radiosurgery OR "stereotactic body" OR ablative)'),
+    ('emc_topic_lung_mets',
+     '(TITLE:"extraskeletal myxoid chondrosarcoma" OR ABSTRACT:"extraskeletal myxoid chondrosarcoma" OR TITLE:"extra-skeletal myxoid chondrosarcoma" OR ABSTRACT:"extra-skeletal myxoid chondrosarcoma") AND ("lung metastasis" OR "lung metastases" OR "pulmonary metastasis" OR "pulmonary metastases")'),
+    ('emc_topic_lung_mets_local_therapy',
+     '(TITLE:"extraskeletal myxoid chondrosarcoma" OR ABSTRACT:"extraskeletal myxoid chondrosarcoma" OR TITLE:"extra-skeletal myxoid chondrosarcoma" OR ABSTRACT:"extra-skeletal myxoid chondrosarcoma") AND ("lung metastasis" OR "lung metastases" OR "pulmonary metastasis" OR "pulmonary metastases") AND ((radiotherapy OR radiation OR irradiation OR SBRT OR SABR OR stereotactic OR radiosurgery) OR metastasectomy OR ablation)'),
+    ('emc_topic_metastasectomy',
+     '(TITLE:"extraskeletal myxoid chondrosarcoma" OR ABSTRACT:"extraskeletal myxoid chondrosarcoma" OR TITLE:"extra-skeletal myxoid chondrosarcoma" OR ABSTRACT:"extra-skeletal myxoid chondrosarcoma") AND (metastasectomy OR "pulmonary resection" OR "wedge resection")'),
+    ('emc_topic_oligometastatic',
+     '(TITLE:"extraskeletal myxoid chondrosarcoma" OR ABSTRACT:"extraskeletal myxoid chondrosarcoma" OR TITLE:"extra-skeletal myxoid chondrosarcoma" OR ABSTRACT:"extra-skeletal myxoid chondrosarcoma") AND (oligometastatic OR oligometastases OR "metastasis-directed" OR "local control")'),
+    ('emc_topic_thermal_ablation',
+     '(TITLE:"extraskeletal myxoid chondrosarcoma" OR ABSTRACT:"extraskeletal myxoid chondrosarcoma" OR TITLE:"extra-skeletal myxoid chondrosarcoma" OR ABSTRACT:"extra-skeletal myxoid chondrosarcoma") AND ("radiofrequency ablation" OR cryoablation OR microwave OR "thermal ablation")'),
+    ('emc_topic_whole_lung_rt',
+     '(TITLE:"extraskeletal myxoid chondrosarcoma" OR ABSTRACT:"extraskeletal myxoid chondrosarcoma" OR TITLE:"extra-skeletal myxoid chondrosarcoma" OR ABSTRACT:"extra-skeletal myxoid chondrosarcoma") AND ("whole lung" OR "whole-lung" OR "lung irradiation" OR "hemithoracic")'),
+    ('emc_topic_metastatic_pattern',
+     '(TITLE:"extraskeletal myxoid chondrosarcoma" OR ABSTRACT:"extraskeletal myxoid chondrosarcoma" OR TITLE:"extra-skeletal myxoid chondrosarcoma" OR ABSTRACT:"extra-skeletal myxoid chondrosarcoma") AND ("first site" OR "site of metastasis" OR "metastatic pattern" OR "pattern of metastasis" OR "distant recurrence")'),
+    ('emc_topic_natural_history',
+     '(TITLE:"extraskeletal myxoid chondrosarcoma" OR ABSTRACT:"extraskeletal myxoid chondrosarcoma" OR TITLE:"extra-skeletal myxoid chondrosarcoma" OR ABSTRACT:"extra-skeletal myxoid chondrosarcoma") AND ("natural history" OR indolent OR "watchful waiting" OR "active surveillance" OR "long-term survival")'),
+    ('emc_topic_series_outcomes',
+     '(TITLE:"extraskeletal myxoid chondrosarcoma" OR ABSTRACT:"extraskeletal myxoid chondrosarcoma" OR TITLE:"extra-skeletal myxoid chondrosarcoma" OR ABSTRACT:"extra-skeletal myxoid chondrosarcoma") AND (cohort OR series OR retrospective OR SEER) AND (survival OR outcome OR recurrence)'),
+    ('sarcoma_lung_sbrt',
+     '(TITLE:sarcoma OR ABSTRACT:sarcoma) AND ("lung metastasis" OR "lung metastases" OR "pulmonary metastasis" OR "pulmonary metastases") AND (SBRT OR SABR OR "stereotactic body radiation" OR "stereotactic ablative")'),
+    ('sarcoma_lung_sbrt_title',
+     'TITLE:sarcoma AND TITLE:(SBRT OR SABR OR stereotactic) AND TITLE:(lung OR pulmonary OR metastases)'),
+    ('sarcoma_sbrt_vs_surgery',
+     '(TITLE:sarcoma OR ABSTRACT:sarcoma) AND ("lung metastasis" OR "lung metastases" OR "pulmonary metastasis" OR "pulmonary metastases") AND (SBRT OR SABR OR stereotactic) AND (metastasectomy OR resection OR surgery)'),
+    ('sarcoma_sbrt_histology_subgroup',
+     '(TITLE:sarcoma OR ABSTRACT:sarcoma) AND (SBRT OR SABR OR stereotactic) AND ("histologic subtype" OR "histological subtype" OR histotype OR "by histology")'),
+    ('chondrosarcoma_sbrt_lung',
+     '(TITLE:chondrosarcoma OR ABSTRACT:chondrosarcoma) AND (SBRT OR SABR OR stereotactic) AND (lung OR pulmonary)'),
+    ('chondrosarcoma_radioresistance',
+     '(TITLE:chondrosarcoma OR ABSTRACT:chondrosarcoma) AND (radioresistance OR radioresistant OR radiosensitivity OR "radiation resistance")'),
+    ('sarcoma_alpha_beta_ratio',
+     '(sarcoma OR chondrosarcoma) AND ("alpha/beta ratio" OR "alpha beta ratio") AND (radiotherapy OR fractionation)'),
+    ('myxoid_liposarcoma_radiosensitivity',
+     '(TITLE:"myxoid liposarcoma" OR ABSTRACT:"myxoid liposarcoma") AND (radiosensitivity OR radiosensitive OR "response to radiation" OR radiotherapy)'),
+    ('nr4a3_dna_damage_radiation',
+     '(TITLE:NR4A3 OR ABSTRACT:NR4A3 OR TITLE:"NOR-1" OR ABSTRACT:"NOR-1") AND (radiation OR radiotherapy OR "DNA damage" OR irradiation)'),
+    ('myxoid_matrix_hypoxia_radioresponse',
+     '("myxoid matrix" OR "chondroid matrix" OR "hypocellular") AND (hypoxia OR "oxygen enhancement" OR radioresistance) AND (radiotherapy OR radiation)'),
+    ('mdt_rare_histology_concept',
+     '"metastasis-directed therapy" AND (sarcoma OR "rare cancer" OR "ultra-rare" OR "rare histology")'),
+    ('oligometastatic_patient_selection_biology',
+     '(oligometastatic OR "metastasis-directed therapy") AND ("patient selection" OR "selection bias" OR biomarker) AND (indolent OR biology)'),
+    ('fusion_sarcoma_local_therapy_concept',
+     '(TITLE:sarcoma OR ABSTRACT:sarcoma) AND (fusion OR translocation) AND (oligometastatic OR "metastasis-directed therapy" OR "local therapy") AND (rationale OR concept OR perspective OR hypothesis)'),
 ]
 
 
