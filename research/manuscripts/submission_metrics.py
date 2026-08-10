@@ -76,8 +76,33 @@ def strip_tables(text):
                      if not re.match(r"^\s*\|", l) and not re.match(r"^\s*\|?[-: |]+\|", l))
 
 
+def _assert_comments_closed(path, raw):
+    """An unterminated `<!--` hides everything after it from every markdown renderer.
+
+    ⛔ THIS HAPPENED, AND THE COMMENT-STRIP HERE IS WHY IT WENT UNNOTICED (2026-08-10). A scripted
+    edit to `emc-surface-target-landscape.md` replaced a block ending at the first blank line, and
+    the blank line it found sat AFTER the `-->`, so the terminator was consumed. The manuscript then
+    rendered as an HTML comment from the byline down. The regex below strips `<!--.*?-->` and needs
+    the closing token to match, so with the terminator gone it stripped nothing, quietly counted the
+    editorial block as prose, and reported a plausible number. A silent no-op on malformed input is
+    worse than a crash.
+
+    ⚠ COUNTING TOKENS IS THE WRONG TEST, and the first version of this guard failed on its own
+    subject: the repaired file MENTIONS "<!--" in prose inside the comment, explaining the very
+    defect, so opens and closes do not balance while the structure is perfectly sound. The property
+    that matters is not symmetry but whether the strip actually consumes every opener.
+    """
+    residue = re.sub(r"<!--.*?-->", "", raw, flags=re.S)
+    if "<!--" in residue:
+        line = raw[:raw.rindex("<!--")].count("\n") + 1 if "<!--" in raw else "?"
+        raise SystemExit(
+            f"{path}: an editorial comment opening near line {line} is never closed, so every "
+            f"markdown renderer hides the rest of the manuscript. Fix the file, not this check.")
+
+
 def measure(path):
     raw = open(path, encoding="utf-8").read()
+    _assert_comments_closed(path, raw)
     body = re.sub(r"^---\n.*?\n---\n", "", raw, flags=re.S)      # frontmatter
     body = re.sub(r"<!--.*?-->", "", body, flags=re.S)           # editorial comments
     body = re.sub(r"```.*?```", "", body, flags=re.S)            # fenced blocks

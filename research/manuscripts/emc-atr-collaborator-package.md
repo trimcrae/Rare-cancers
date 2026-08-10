@@ -135,9 +135,9 @@ response-endpoint-indolent-tumours.md. No ORCID is given because the repository 
 > dose, safety, therapeutic window or clinical readiness for any agent in any disease, and makes no
 > treatment recommendation. The replication-stress vulnerability that motivates the assay is
 > inherited from the FET fusion class and has never been measured on an NR4A3 fusion; that
-> inheritance is the limit of what is claimed, and nothing below upgrades it into an EMC-specific
-> result. Every construct is a computed design for verification against a sequenced breakpoint
-> before any reagent is ordered.
+> inheritance is the limit of what is claimed here, and no result below is EMC-specific. Every
+> construct is a computed design for verification against a sequenced breakpoint before any reagent
+> is ordered.
 
 ## Abstract
 
@@ -179,16 +179,16 @@ reintroducing one or three RGG-rich domains into EWSR1-FLI1 and into EWSR1-ATF1,
 recruitment and higher overall recruitment as the dose rises.
 
 Three transcription-factor-partner classes were examined in that work. EMC is a fourth, and no
-NR4A3 fusion has been placed in the assay. The gap is not conceptual: the unit of work is a
-GFP-tagged open reading frame, so adding EMC is a matter of new plasmids rather than a new
-instrument or a new analysis. What is missing is the sequence, the placement and the criteria.
+NR4A3 fusion has been placed in the assay. The unit of work in that assay is a GFP-tagged open
+reading frame, so adding EMC requires new plasmids rather than a new instrument or a new analysis;
+what is missing is the sequence, the placement and the criteria.
 
 A prior-art screen supports that reading of the record. A Europe PMC sweep of 322 EMC-linked
 records, of which 238 were retrieved as full text, was screened for ATR and replication stress and
 returned no hits
 ([`emc-prior-art-2026-08-09.json`](../literature/emc-prior-art-2026-08-09.json)). The screen
-matched titles and abstracts rather than full text, so the correct reading of that zero is that
-nothing is indexed on the pairing, and not that no such experiment has been done: a result inside a
+matched titles and abstracts rather than full text, so that zero establishes only that nothing is
+indexed on the pairing, and not that no such experiment has been done: a result inside a
 supplementary table of a larger FET-fusion paper would be invisible to it.
 
 This report supplies those three things. It compiles the reported EMC junctions from primary
@@ -223,10 +223,10 @@ until it passes.
 
 The axis is retained RG dipeptides of the 5' FET partner as a fraction of that partner's wild-type
 total. It is threshold-free: an RG dipeptide either falls inside the retained segment or it does
-not. It is not a count of RGG domains. The source names three RGG-rich domains in EWSR1 while the
-operational box-finder used here merges them into two on the same sequence, and tuning a box
-definition until it returns the expected number would fit the instrument to the answer. The
-underlying RG count requires no definition. Box counts are reported as context only.
+not. It is not a count of RGG domains, which depend on a box definition: the source names three
+RGG-rich domains in EWSR1 while the operational box-finder used here merges them into two on the
+same sequence. The underlying RG count requires no such definition, and box counts are reported as
+context only.
 
 ### 2.3 TCF12 comparison
 
@@ -257,11 +257,11 @@ That command re-derives every figure below offline from the committed input cach
 ([`emc-construct-inputs.json`](../modalities/emc-construct-inputs.json)) and prints `REPRODUCES`.
 The producer refuses to write on drift.
 
-Retrieval, computation and drafting were carried out with AI assistance. Every breakpoint is a
-quotation from a primary source rather than a recollection, every sequence figure is re-derivable
-by the command above, and prose identifiers are checked against tracked fetch products by a linter
-that fails on any identifier absent from them. Those controls exist because the failure mode of the
-method is a fluent citation to a paper that does not exist.
+Retrieval, computation and drafting were carried out with AI assistance. Every breakpoint is quoted
+from a primary source, every sequence figure is re-derivable by the command above, and every prose
+identifier is checked against a tracked fetch product by an automated linter. These controls address
+the characteristic failure mode of the method, which is a fluent citation to a paper that does not
+exist.
 
 ---
 
@@ -310,7 +310,7 @@ All four gene-model assertions pass on all five transcripts.
 | NR4A3 | ENST00000395097 | 626 aa | 8 / 6, exons 1-2 non-coding | yes |
 | TCF12 | canonical | 706 aa | 21 / 19 | no; UniProt Q99081 is 682 aa |
 
-The TCF12 length mismatch is reported rather than reconciled. The two databases select different
+The TCF12 length mismatch is not reconciled here. The two databases select different
 canonical isoforms, so a TCF12 residue number taken from the literature requires conversion before
 comparison with anything here. It does not reach the classification in section 3.5, whose decisive
 tests are compositional and are computed over every prefix.
@@ -338,10 +338,9 @@ therefore not EWSR1(1-264)::NR4A3(1-626), the protein-level model in general use
 programme itself used until this analysis.
 
 The weight of that statement is bounded. It is what the canonical transcripts predict for the
-reported exon junction, a computed consequence rather than an observed protein, and it is exactly
-the kind of thing to check against a sequenced junction before ordering a reagent. It is reported
-because a 59-residue difference changes what any construct built from the published model actually
-contains.
+reported exon junction, a computed consequence rather than an observed protein, and it requires
+checking against a sequenced junction before any reagent is ordered. A 59-residue difference
+nonetheless changes what a construct built from the published model contains.
 
 ### 3.4 Placement on the retained-RG axis
 
@@ -367,8 +366,8 @@ interpolate between points already measured.
 
 Two readings are excluded. Retaining some RG content does not predict absence of the phenotype: the
 commonest clear-cell type retains seven RG dipeptides and the mechanism was measured in that
-disease regardless, so the axis is a comparison and never a threshold. And the placement of
-TAF15::NR4A3 was open until this computation. TAF15's sourced exon 6 junction retains 161 residues
+disease regardless, so the axis is a comparison and not a threshold. The placement of
+TAF15::NR4A3 was also open until this computation. TAF15's sourced exon 6 junction retains 161 residues
 and TAF15's first RG dipeptide falls at residue 175, so the junction lies inside the strict zero-RG
 window with 14 residues of margin, where the earlier sweep could report only a range of 100 to 170.
 
@@ -388,13 +387,12 @@ testable inside one disease on one slide.
 | RGG boxes, operational definition | 2, 1, 2 | 0 | clear |
 | N-terminal identity, Needleman-Wunsch | FET versus FET 26.1 to 35.7 per cent | TCF12 versus FET 16.8 to 20.5 per cent | separates, modestly |
 
-TCF12 is classified as non-FET, and the classification does not rest on the weakest test. The
-identity result is the qualification: 20.5 per cent against a FET-versus-FET floor of 26.1 per cent
-is a real gap but a modest one, which follows from the FET N-termini being low-complexity and only
-26 to 36 per cent identical to each other. The decisive results are compositional. TCF12 has no RGG
-box, roughly a quarter of the RG content, and no N-terminal prefix of any length reaching the FET
-compositional range, which is what makes the classification robust to the unpinned TCF12
-breakpoint.
+TCF12 is classified as non-FET on the compositional tests. The identity result carries the
+qualification: 20.5 per cent against a FET-versus-FET floor of 26.1 per cent is a real gap but a
+modest one, which follows from the FET N-termini being low-complexity and only 26 to 36 per cent
+identical to each other. TCF12 has no RGG box, roughly a quarter of the RG content, and no
+N-terminal prefix of any length reaching the FET compositional range, which makes the
+classification robust to the unpinned TCF12 breakpoint.
 
 ---
 
@@ -413,27 +411,27 @@ P1 to P4 are held in `emc-fet-construct-designs.json` under
 | P4 | The type-1 and type-2 pair reproduces the RGG dose-dependence with no add-back construct, being two naturally occurring points on one axis in one disease with one 3' partner | the pair showing no kinetic difference, which would bound the dose-dependence to engineered constructs |
 | P5 | TCF12::NR4A3 is not recruited, behaving like the source's full-length FLI1 control, which "showed no accumulation at laser-induced DSBs" [1] | recruitment of TCF12::NR4A3 |
 
-P5 is the arm that can falsify rather than confirm. Four outcomes are distinguishable. TCF12::NR4A3
+P5 is the arm capable of falsifying the class argument. Four outcomes are distinguishable. TCF12::NR4A3
 not recruited while EWSR1::NR4A3 is recruited leaves the prediction standing and demonstrates FET
 specificity within one disease, which no experiment in the source performs. Both recruited places
 the driver in something the two chimeras share that is not the FET low-complexity region, the
 obvious candidate being the NR4A3 moiety, which is why GFP-NR4A3 alone is a required control in the
 same run; that outcome refutes the class argument for EMC and the structural mechanism as stated.
 TCF12::NR4A3 recruited while EWSR1::NR4A3 is not inverts the structural argument. Neither recruited
-says EMC does not inherit the lesion by this readout, which is a clean negative and spares other
-groups the experiment.
+indicates that EMC does not inherit the lesion by this readout, a negative result that would spare
+other groups the experiment.
 
 Four things are explicitly not predicted. Retained RGG content is one input to recruitment kinetics
 rather than the only one; the source's own data show a second variable, EWSR1::ATF1 recruiting like
 EWSR1-FLI1 but with "differences in departure timing", and recruitment depending "at least in part"
 on native EWSR1, which these constructs do not control. No effect size is predicted: the axis is
-ordinal, earlier or later and more or less, because the source reports it that way, and a fabricated
-slope would be false precision. Nothing downstream is predicted; the predictions concern recruitment
-kinetics only and say nothing about ATM signalling, ATR dependency, drug sensitivity, efficacy,
-safety, dosing or any clinical question. And the 3' partner is a nuclear receptor with its own
-DNA-binding domain: the source showed that a DNA-binding-domain mutation did not change
-EWSR1-FLI1's localisation, but that was measured on an ETS domain rather than a C4 zinc finger,
-which is a reason to run GFP-NR4A3 alone rather than a reason to assume.
+ordinal, earlier or later and more or less, because the source reports it that way, and no slope is
+available to quote. Nothing downstream is predicted; the predictions concern recruitment kinetics
+only and say nothing about ATM signalling, ATR dependency, drug sensitivity, efficacy, safety,
+dosing or any clinical question. And the 3' partner is a nuclear receptor with its own DNA-binding
+domain: the source showed that a DNA-binding-domain mutation did not change EWSR1-FLI1's
+localisation, but that was measured on an ETS domain rather than a C4 zinc finger, which is why
+GFP-NR4A3 alone is included as a control.
 
 ---
 
@@ -477,8 +475,7 @@ reaches a double-strand break at all.
    table with transcript exon numbers; the label "NR4A3 exon 3" resolved to transcript exon 5, and
    all seven junctions it emitted silently deleted NR4A3's AF-1 domain and the first zinc finger of
    its C4 DNA-binding domain. That error survived review and was caught by re-derivation. Every
-   boundary above therefore carries its provenance and every construct carries self-checks, and the
-   appropriate reading of this report is as arithmetic to audit.
+   boundary above therefore carries its provenance and every construct carries self-checks.
 3. **Canonical Ensembl transcripts only.** A tumour may use a different transcript or a different
    breakpoint, in which case the exon-to-residue map changes and so does the protein.
 4. **The predictions concern recruitment kinetics and nothing else.** They make no claim about ATM

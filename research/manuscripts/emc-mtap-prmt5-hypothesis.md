@@ -135,9 +135,9 @@ fusion.
 The second rationale runs through a genetic selection window rather than through the fusion.
 Tumours that have lost *MTAP* are comparatively more sensitive to PRMT5 and MAT2A inhibition, an
 axis that has reached patients with an MTA-cooperative PRMT5 inhibitor selected on *MTAP* deletion
-[4]. The word comparatively is load-bearing and is not strengthened here: a differential sensitivity
-established in engineered and pan-cancer settings is not a therapeutic window in a patient, and this
-paper claims none. The window also has a known ambiguity. *MTAP* loss implies *CDKN2A* loss, while
+[4]. That sensitivity is comparative. A differential established in engineered and pan-cancer
+settings is not a therapeutic window in a patient, and none is claimed here. The window also has a
+known ambiguity. *MTAP* loss implies *CDKN2A* loss, while
 *CDKN2A* loss does not imply *MTAP* loss [5], so a three-gene locus score can fall on a *CDKN2A*
 event alone.
 
@@ -198,7 +198,7 @@ Both designs are small enough to enumerate completely, so no normal approximatio
 assignment of the observed *z* values to arms of the observed sizes was evaluated and Welch's *t*
 recomputed, giving C(35,6) = 1,623,160 labelings on GPL6244 and C(16,10) = 8,008 on GPL3290. The
 two-sided *p* is the fraction with |*t*| at least the observed value. No random sampling is used, so
-the number reproduces to the digit rather than to a seed.
+the value is exactly reproducible.
 
 The permutation is exact for the labelling and says nothing about how many genes were examined. That
 question is asked separately by computing the same statistic for every symbol the platform's probes
@@ -213,8 +213,8 @@ A per-sample confound score is the mean *z* of the readable members of a named g
 sample carries at least 60% of them. *PRMT5* is then regressed on that score by ordinary least
 squares with one covariate and an intercept, and the EMC-versus-comparator contrast recomputed on the
 residuals. A contrast is called surviving if it keeps its sign and at least 60% of its magnitude, a
-threshold chosen for this work and stated so that it can be disagreed with; raw and adjusted values
-are both reported. The proliferation score uses twelve genes and scores all 35 and all 16 samples;
+threshold chosen for this work rather than taken from an established convention; raw and adjusted
+values are both reported. The proliferation score uses twelve genes and scores all 35 and all 16 samples;
 the chondroid-lineage score uses eight and scores 35 and 14.
 
 ### 2.5 Substrate-motif map
@@ -235,11 +235,10 @@ repository, and section 8 names the artifact that owns each value. Analysis, fig
 were carried out with substantial assistance from an AI coding agent operating on a version-
 controlled repository under the author's direction. The agent is not an author and the author takes
 responsibility for the content. Two of the corrections recorded in Appendix A, the closure of the
-locus rationale and the restatement of the fusion rationale on the gene rather than on the group,
-were found by that process while figures were being drawn, after the prose had been written the other
-way. Every bibliographic identifier below comes from a retrieval record rather than from
-recollection, which is checked by a linter that fails on any prose identifier absent from a tracked
-artifact.
+locus rationale and the restatement of the fusion rationale on the gene rather than the group, were
+found during figure preparation, after the prose had been written the other way. Every bibliographic
+identifier below was taken from a retrieval record and is checked against a tracked artifact by an
+automated linter.
 
 ---
 
@@ -262,12 +261,12 @@ biology.
 **Figure 1.** Every tumour on both platforms. Per-sample *z* against each array's own probe
 distribution; bars are medians. The two platforms are not placed on a shared axis, because one is
 single-channel intensity and the other a two-colour log-ratio. A gene with no probe is marked
-unreadable, which is an instrument statement and not evidence of absence.
+unreadable, which records a missing measurement and not an absence of expression.
 
 An elevated methylosome is consistent with the fusion rationale without being evidence for it, since
 abundance is not dependency and elevated methylosome expression is reported across many malignancies
-[3]. A low locus group is consistent with the *MTAP* rationale without being evidence for it either,
-for the reason section 3.2 develops.
+[3]. The low locus group score is likewise consistent with the *MTAP* rationale without supporting
+it, for the reason developed in section 3.2.
 
 ### 3.2 The locus gene by gene
 
@@ -283,62 +282,59 @@ Read gene by gene, the locus does not support selection on *MTAP*.
 platform, changes sign on the other, and is unremarkable on both when placed against every gene on
 its own array, at the top 74% and top 26% of the |*t*| distribution against *PRMT5*'s top 1.9% and
 1.0%. The locus signal on the powered platform is *CDKN2A*, which itself changes direction between
-platforms. The group statistic of −4.06 is not wrong; it is not about *MTAP*, and no group score
-could have shown that. Since the genetic window depends on *MTAP* loss specifically, the locus
-reading does not support it, and this is reported as a negative rather than as a caveat. Only MTAP
-protein can now settle the question, which is why the test proposed in section 4.2 is a stain.
+platforms. The group statistic of −4.06 is accurate but is not a reading of *MTAP*, and a group
+score cannot distinguish the two. Since the genetic window depends on *MTAP* loss specifically, the
+locus reading does not support it. Only MTAP protein can settle the question, and the test proposed
+in section 4.2 is accordingly a stain.
 
 ![Figure 2](./figures/mtap-prmt5-fig2-locus-genewise.png)
 
-**Figure 2.** The locus is three genes and they are not interchangeable. The figure was drawn to make
-the weakest point in the argument visible, and on its first render it closed the *MTAP* rationale:
-*MTAP* is flat on the powered platform while *CDKN2A* carries the whole locus signal and then
-reverses on the second platform.
+**Figure 2.** The three genes of the locus do not read alike. *MTAP* is flat on the powered
+platform, while *CDKN2A* carries the whole locus signal and then reverses on the second platform.
 
 ### 3.3 The sarcoma dependency prior
 
 Across the 91 screened sarcoma cell lines, PRMT5 and MAT2A are dependencies in 94.5% and 96.7%
-respectively. MTAP is not a dependency in any of them, which is how a biomarker rather than a target
-should read and is the one internal control the panel provides.
+respectively. MTAP is not a dependency in any of them, which is the expected profile for a biomarker
+rather than a target and serves as the panel's internal control.
 
 This weakens the specificity of the proliferation half of the transferred result. Silencing PRMT5
 impairs proliferation in nearly every sarcoma line, so a growth effect in EMC would be close to
 expected; the part that could be specific to this disease, and the part any transfer must rest on, is
 the effect on fusion-driven transcription rather than on growth.
 
-It does not refute the class, for a reason that has to be stated precisely because it resembles
-special pleading. The therapeutic argument for the *MTAP*-selected axis is a differential between
+It does not refute the class. The therapeutic argument for the *MTAP*-selected axis is a differential between
 *MTAP*-deleted and *MTAP*-intact cells, and a gene-effect score cannot express a differential of that
 kind, since an MTA-cooperative inhibitor exploits a metabolic state rather than the raw dependency
 [4]. A near-universal dependency and a genetic window are compatible.
 
 ![Figure 3](./figures/mtap-prmt5-fig3-dependency-qualifier.png)
 
-**Figure 3.** The dependency prior, which qualifies both rationales rather than supporting either.
-PRMT5 and MAT2A are dependencies in almost every sarcoma line, so a growth effect on silencing them
-is close to expected; only an effect on fusion-driven transcription would be specific. MTAP is not a
-dependency.
+**Figure 3.** The sarcoma dependency prior. PRMT5 and MAT2A are dependencies in almost every sarcoma
+line, so a growth effect on silencing them is close to expected; only an effect on fusion-driven
+transcription would be specific to this disease. MTAP is not a dependency, and neither rationale
+gains support from this panel.
 
 The panel contains no EMC line. No EMC cell line carrying the fusion appears in any public dependency
-dataset, so this prior is a transfer from other sarcomas and the bound on it is not a small sample
-but the absence of any EMC observation.
+dataset, so this prior is a transfer from other sarcomas, limited by the complete absence of an EMC
+observation rather than by sample size.
 
 ### 3.4 Comparator classes, pooled group against single gene
 
 ![Figure 4](./figures/mtap-prmt5-fig4-comparator-classes.png)
 
-**Figure 4.** Pooled group against single gene, per comparator class. The panel was drawn to expose a
-control, since low-grade fibromyxoid sarcoma is FUS::CREB3L2, a FET-fusion sarcoma, and therefore a
-test of whether the reading is simply what a fusion sarcoma looks like. Pooled across the four
+**Figure 4.** Pooled group against single gene, per comparator class. One comparator class, low-grade
+fibromyxoid sarcoma, is FUS::CREB3L2 and therefore a FET-fusion control on whether the reading is
+simply what a fusion sarcoma looks like. Pooled across the four
 methylosome genes, EMC ranks second of four comparator classes, below desmoid fibromatosis, so the
 group does not separate this disease. *PRMT5* alone does, with a median of +1.30 against +1.05, +1.04
 and +0.94. Left-panel points are gene-by-sample values pooled across four genes, so they are not
 independent observations and no test is run on them.
 
-The two figures make the same methodological point in opposite directions. For the locus, a group
-score reported a signal that its decisive gene did not have; for the methylosome, a group score hid a
-signal that its decisive gene does have. Neither error is visible without cutting to the gene, and a
-curated group score is therefore a convenience rather than a unit of evidence.
+The two figures illustrate the same methodological point in opposite directions. For the locus, a
+group score reported a signal that its decisive gene did not have; for the methylosome, a group score
+hid a signal that its decisive gene does have. Neither is visible without reading the constituent
+genes, so a curated group score is treated here as a summary and not as a unit of evidence.
 
 ### 3.5 PRMT5's own statistic and its genome-wide placement
 
@@ -367,28 +363,28 @@ target of an NR4A3 fusion.
 | *NR4A3* (control) | +4.66, top 5.9% | +1.70, top 38.5% |
 | *ENO3* (control) | +3.61, top 12.0% | +13.22, top 0.05% |
 
-The controls do not both behave. *ENO3* sits at the extreme of GPL3290, which is what a working
+The two controls do not behave alike. *ENO3* sits at the extreme of GPL3290, as a working
 instrument should show. *NR4A3* is only mid-table there, consistent with the probe-placement caveat
 the source artifact carries, since on a 3′-biased array the probe can sit in the region the fusion
 replaces; GPL3290's ranking should not be read as if every row on it were equally trustworthy.
 
 A rank is not a corrected *p*. It reports where a gene sits among all genes, controls no error rate,
 is computed over a distribution containing real biology rather than a null, and is inflated in
-effective sample size by correlation between transcripts. What it settles is narrower: on these
-arrays a *t* like *PRMT5*'s is uncommon and a *t* like *MTAP*'s is not.
+effective sample size by correlation between transcripts. It supports only the narrower statement
+that on these arrays a *t* of *PRMT5*'s size is uncommon and a *t* of *MTAP*'s size is not.
 
 ### 3.6 Three prespecified controls
 
-Each control was specified against a named weakness before it was run. They are controls rather than
-further hypothesis tests.
+Each control was specified against a named weakness before it was run, and each is a control rather
+than an additional hypothesis test.
 
 The first asks whether the elevation is *PRMT5* or the PRMT family, which matters because the Ewing
 report finds PRMT1 and PRMT5 elevated together across sarcoma types [3]. Eight family members are
 readable on GPL6244 and seven on GPL3290, and *PRMT5* ranks first on both. As a group the family is
-flat (*t* = 0.33 and 1.34) while *PRMT5* alone reads 6.24 and 6.67. It is not a clean sweep on the
-second platform, where *CARM1* reads +5.44 and *PRMT3* +3.47, so a family-wide reading is weakened
-rather than excluded; only GPL6244, where the next member is *PRMT3* at +1.62, separates *PRMT5*
-decisively.
+flat (*t* = 0.33 and 1.34) while *PRMT5* alone reads 6.24 and 6.67. The separation is incomplete on
+the second platform, where *CARM1* reads +5.44 and *PRMT3* +3.47, so a family-wide reading is
+weakened rather than excluded; only on GPL6244, where the next member is *PRMT3* at +1.62, is
+*PRMT5* clearly separated.
 
 The second control adjusts for proliferation, and on one platform it takes most of the contrast.
 
@@ -399,27 +395,26 @@ The second control adjusts for proliferation, and on one platform it takes most 
 | chondroid lineage, 8 genes | GPL6244, *n* = 35 | no, *t* = 0.99 | 6.24 to 6.20 | untouched |
 | chondroid lineage, 8 genes | GPL3290, *n* = 14 | no, *t* = 0.36 | 6.67 to 6.52 | survives |
 
-The second row is a genuine dent in the fusion rationale's transcript half. On GPL3290 the
-proliferation score is itself higher in EMC, correlates with *PRMT5* at *r* = 0.60, and adjusting for
-it takes *PRMT5* from 6.67 to 2.71; on that platform the reading is consistent with a proliferation
-effect, and this paper does not claim otherwise. The platforms disagree and neither is obviously
-right. GPL6244 has 35 tumours, a flat proliferation score and a *PRMT5* contrast that barely moves;
-GPL3290 has 16, a two-colour log-ratio measurement, and a proliferation score that moves with
-everything. The defensible statement is that the transcript half survives on the larger platform and
-does not on the smaller one.
+The second row weakens the transcript half of the fusion rationale. On GPL3290 the proliferation
+score is itself higher in EMC, correlates with *PRMT5* at *r* = 0.60, and adjusting for it takes
+*PRMT5* from 6.67 to 2.71; on that platform the reading is consistent with a proliferation effect.
+The platforms disagree and neither is clearly preferable. GPL6244 has 35 tumours, a flat
+proliferation score and a *PRMT5* contrast that barely moves; GPL3290 has 16, a two-colour
+log-ratio measurement, and a proliferation score that moves with everything. The transcript half
+therefore survives on the larger platform and not on the smaller one.
 
 The third control tests chondroid lineage and is the weakest of the three even where it passes. No
 comparator in either series is cartilage-lineage. It can ask whether *PRMT5* and chondroid markers
 move together within these samples, and they do not (*r* = 0.05 and −0.04), but it cannot exclude
 that chondroid tumours generally express *PRMT5*.
 
-What none of these adjustments can do is remove a confound the proxy measures badly. Regressing out a
-transcript score removes the part of the contrast that the proxy linearly predicts and nothing more,
-which makes a surviving result a much softer statement than a failing one.
+None of these adjustments can remove a confound that the proxy measures badly. Regressing out a
+transcript score removes the part of the contrast the proxy linearly predicts and nothing more, so a
+surviving result is a much weaker statement than a failing one.
 
 ### 3.7 The substrate motif in the fusion protein
 
-Everything above is a measurement on tumours or on cell lines. This section asks instead where
+The readings above are measurements on tumours and on cell lines. This section addresses where
 PRMT5's reported substrate motif sits in the fusion protein.
 
 Profiling arginine methylation genome-wide after selective PRMT5 inhibition, and validating hits by
@@ -434,8 +429,8 @@ makes the location of the motif in the fusion a question worth computing.
 EWSR1 is 656 residues and carries eleven GRG sites, the first at residue 301 and none before it. The
 N-terminal segment that every EWSR1 fusion retains is the SYGQ-rich transactivation region, and it
 contains no site. Every site lies beyond residue 300, in the two RGG-rich regions the fusion
-truncates. Calling this the C-terminal half would be wrong, since residue 301 of 656 lies at 46% of
-the protein; the accurate statement is that the retained segment has none.
+truncates. Residue 301 of 656 falls at 46% of the protein, so the sites are not confined to the
+C-terminal half; the retained N-terminal segment contains none of them.
 
 | fusion | 5′ residues retained | GRG sites kept | fraction of EWSR1's 11 |
 |---|---:|---:|---:|
@@ -454,18 +449,19 @@ segment on the same ruler. EWSR1::FLI1 is plotted in the same style and keeps no
 fusion in which a PRMT5 requirement has actually been shown to be fusion-dependent.
 
 The commonest EMC fusion and the commonest clear cell sarcoma fusion retain the same number of sites,
-at different breakpoints, by coincidence of where the RGG boxes fall. That is the quantitative
-content of a transfer this paper previously stated as an assumption (Appendix A).
+at different breakpoints, by coincidence of where the RGG boxes fall. The transfer between the two
+diseases, previously stated as an assumption (Appendix A), therefore has quantitative content.
 
-The same table refuses the prediction it appears to license. EWSR1::FLI1 retains no sites, and it is
+The table does not license a prediction that retained-site count determines response. EWSR1::FLI1 retains no sites, and it is
 in EWSR1::FLI1 that a PRMT5 inhibitor's effect was shown to be fusion-dependent [3]. Whatever PRMT5
 does in a FET-fusion sarcoma, it does not require the fusion protein to be the substrate. EMC type 2
 and TAF15::NR4A3, which retain none, are therefore not predicted to be unresponsive; the fusion
 protein is one candidate substrate among several, and the others, including wild-type FET proteins,
 Sm proteins and R-loop-resolution factors [9], carry their motifs regardless of the breakpoint.
 
-A motif is a place an enzyme can act. Nothing here shows that any NR4A3 fusion is methylated, that
-PRMT5 is the enzyme that would do it, or that it would matter.
+A motif marks a site at which an enzyme can act. These counts do not show that any NR4A3 fusion is
+methylated, that PRMT5 is the enzyme that would methylate it, or that methylation would be
+functionally consequential.
 
 ---
 
@@ -474,9 +470,9 @@ PRMT5 is the enzyme that would do it, or that it would matter.
 ### 4.1 Status of the two rationales
 
 The 2025 comprehensive review of this disease reaches the same categorical conclusion about the
-absence of a targeted agent, and considers neither of the rationales examined here [1]. What this
-paper adds to it is a measured reading of both against the only public data able to address them,
-which separates them: one is closed and one survives with a stated limit.
+absence of a targeted agent, and considers neither of the rationales examined here [1]. Read against
+the only public data able to address them, the two rationales separate: one is closed and one
+survives with a stated limit.
 
 The *MTAP*-locus rationale is closed at transcript level by the data reported here. The three-gene
 locus score does read lower where the read is powered, but the gene that carries the therapeutic
@@ -491,8 +487,8 @@ separate this disease, while *PRMT5* alone does; *PRMT5* is the gene the rationa
 the other three members are flat or lower in EMC and dilute it. The rationale no longer rests on an
 assumption alone: a peer-reviewed result in a second EWSR1-fusion sarcoma shows a fusion-dependent
 PRMT5 requirement [3], and the sequence analysis of section 3.7 shows that the commonest fusion of
-each of two diseases retains the same number of motif sites. Both are arguments about plausibility.
-Neither is an observation in EMC.
+each of two diseases retains the same number of motif sites. Both are arguments about plausibility;
+neither is an observation in EMC.
 
 Two limits sit on the surviving rationale and are not resolved here. The transcript half survives its
 proliferation control on the 35-tumour platform and does not on the 16-tumour one, and nothing
@@ -560,12 +556,13 @@ hypothesis of this shape affordable in an ultra-rare disease.
 
 ### 4.4 Limitations
 
-Sixteen tumours, two decade-old array platforms, and no correction for multiple testing. Two series
-are not a replication set, and the locus result rests on six tumours on one of them. The genome-wide
-placement of section 3.5 is context for that limit rather than a correction of it.
+The evidence base is sixteen tumours on two decade-old array platforms, with no correction for
+multiple testing. Two series are not a replication set, and the locus result rests on six tumours
+from one of them. The genome-wide placement of section 3.5 provides context for that limit rather
+than a correction of it.
 
-A transcript is not a copy number, which is why the proposed experiments rather than the readings are
-the point of this paper.
+A transcript is not a copy number, which is why the proposed experiments carry more weight here than
+the readings do.
 
 The original source of the fusion rationale is a preprint whose own pages state that it is not
 certified by peer review [2]. Its status since 2022 was not established here, and that caveat travels
@@ -586,7 +583,8 @@ not on the other.
 No EMC cell line carrying the fusion appears in any public dependency dataset, so no dependency
 evidence for this axis in this disease exists or can be generated computationally.
 
-Abundance is not dependency, and where the dependency prior exists it qualifies rather than supports.
+Abundance is not dependency, and the dependency prior that exists bounds both rationales without
+supporting either.
 
 The prior-art screen of section 1.3 matched titles and abstracts rather than full text, so its
 absences are statements about what is indexed on a pairing rather than about what has been done.

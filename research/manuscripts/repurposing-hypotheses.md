@@ -83,7 +83,7 @@ microenvironmental vulnerabilities to agents not yet reported in the disease, by
 methods: literature-driven mechanism curation; reproducible target-to-drug enumeration against
 DGIdb; and zero-shot prediction from a pretrained graph foundation model. Every hypothesis carries an explicit evidence
 tier from T0 to T3. Curation and enumeration converged on 14 candidates across seven vulnerability
-axes. The structure of that menu is the finding: evidence strength and novelty are anti-correlated.
+axes. Across that menu, evidence strength and novelty are anti-correlated.
 The single candidate with EMC clinical evidence, imatinib in the *KIT*-mutant minority, is also the
 only one already reported; every untried candidate rests on preclinical or model-screen data, and
 the cell combining novelty with clinical evidence is empty. The graph model
@@ -145,10 +145,10 @@ without overstating the evidence.
 
 The standing reference for EMC is the 2025 comprehensive review cited above, which covers
 pathogenesis, diagnosis and management through to advanced disease, and which states independently
-that no clinically validated agent directly targets *NR4A3* [1]. This review is a different object
-and is written against it. What is added here is a systematic, reproducible enumeration of agents
-*not yet reported* in EMC, an explicit evidence tier attached to each, and the structural reading
-that follows from tabulating evidence strength against novelty. Nothing already covered by that
+that no clinically validated agent directly targets *NR4A3* [1]. The present review is complementary
+to it, and adds a systematic, reproducible enumeration of agents *not yet reported* in EMC, an
+explicit evidence tier attached to each, and the structural reading that follows from tabulating
+evidence strength against novelty. Nothing already covered by that
 review is claimed as novel here, and the anti-angiogenic class, the anthracycline backbone and
 pazopanib in particular are treated throughout as established context rather than as findings.
 Older literature on the parent histology bounds the novelty of two further axes: a 2007 review of
@@ -245,12 +245,12 @@ what may reach patient-facing material.
 
 ## 3. The candidate menu
 
-Curation and enumeration produced 14 existing-drug candidates across the seven axes. We present
-them by the two axes that a reader can act on, namely how strong the EMC-specific evidence is and
-whether the hypothesis is genuinely untried, rather than by a single rank. Each candidate also
-carries the transparent 0 to 18 composite triage score in the dataset, which we do not use to order
-the presentation, because summing evidence with novelty, tolerability and availability floats the
-already-known agent to the top and is easily misread as a discovery ranking.
+Curation and enumeration produced 14 existing-drug candidates across the seven axes. They are
+presented on two axes, the strength of the EMC-specific evidence and whether the hypothesis is
+genuinely untried, rather than as a single rank. Each candidate also carries the 0 to 18 composite
+triage score in the dataset, which is not used to order the presentation: summing evidence with
+novelty, tolerability and availability floats the already-known agent to the top, and the resulting
+order is easily misread as a discovery ranking.
 
 ### 3.1 Evidence against novelty
 
@@ -268,8 +268,8 @@ columns are how novel the hypothesis is.
 | Genomic or immunohistochemical | — | — | CDK4/6 inhibition (palbociclib) |
 | Mechanistic only | — | — | Pioglitazone (PPARγ); NTRK inhibitors; *NR4A3*-directed modulation; BET and CDK7 to CDK9 inhibitors; mRNA vaccine with checkpoint inhibitor |
 
-The empty cells in the novel-by-clinical corner are the headline: no untried agent has EMC clinical
-evidence. Table 2 gives the detail, strongest evidence first.
+No untried agent has EMC clinical evidence, and the corresponding cells of Table 1 are empty.
+Table 2 gives the detail, strongest evidence first.
 
 *Table 2.* The 14 candidates, with the EMC-specific evidence each rests on.
 
@@ -290,10 +290,10 @@ evidence. Table 2 gives the detail, strongest evidence first.
 | mRNA vaccine with checkpoint inhibitor (immune) | Mechanistic: cold-microenvironment hypothesis, no EMC data | Yes |
 
 Evidence strength and novelty pull in opposite directions. The only clinically evidenced option,
-imatinib, is the only non-novel one and applies to a minority of approximately 4%; every genuinely
-untried hypothesis is preclinical; and the cell that would hold an untried agent with EMC clinical
-evidence is empty. The candidates worth an investigator's attention are therefore the untried ones
-with the strongest functional EMC evidence, in vivo first and then ex vivo, which Table 3 isolates.
+imatinib, is also the only non-novel one and applies to a minority of approximately 4%, and every
+genuinely untried hypothesis rests on preclinical data. The candidates warranting an investigator's
+attention are therefore the untried ones with the strongest functional EMC evidence, in vivo first
+and then ex vivo, which Table 3 isolates.
 
 ### 3.2 Leads for investigators
 
@@ -310,11 +310,10 @@ than by mechanism alone, and testable with existing models or existing agents.
 | CDK4/6 inhibitors (palbociclib) | untried; biomarker-rational | CDK4 positive in 100% of a 31-case series with *CDKN2A*/*CDKN2B* loss [8,5], which is expression and genomic rather than functional | establish functional dependence in an EMC model, then a biomarker-selected window study |
 | BET and CDK7 to CDK9 inhibition; direct *NR4A3* modulation | most on-target, addressing the transcriptional addiction of the fusion | mechanism and analogy only, with no EMC functional data | a research programme rather than a near-term trial |
 
-The signal in Table 3 is convergence on EMC-specific functional data. The PPARγ axis carries
-mechanism plus an in-vivo result, the proteasome and BCL-2 axis carries a patient-derived-model
-screen, and the HDAC and brigatinib hits come from a separate screen. Each rests on EMC functional
-data and none has been tried clinically. That short list, rather than the composite score, is the
-practical output of the exercise.
+The entries in Table 3 converge on EMC-specific functional data. The PPARγ axis carries mechanism
+plus an in-vivo result, the proteasome and BCL-2 axis carries a patient-derived-model screen, and
+the HDAC and brigatinib hits come from a separate screen. None has been tried clinically. That
+short list is the practical output of the exercise.
 
 ### 3.3 The PPARγ axis and its unresolved direction
 
@@ -344,16 +343,14 @@ resolution.
 One functional experiment has tested the direction, and it favours agonism [12]. Its in-vitro work
 used H-EMC-SS, a line that Cellosaurus annotates, citing a primary source, as not harbouring an
 *EWSR1* fusion. That paper is not open access and its full text has not been retrieved here, so
-whether the mouse experiment used the same line is unread rather than unaffected, and it must not
-be written either way. Separately, PPARγ transcriptional output has never been measured in EMC by
-anyone. Every EMC reading is of receptor abundance, and abundance does not imply an activated
-receptor.
+whether the mouse experiment used the same line is unknown and cannot be stated in either
+direction. Separately, PPARγ transcriptional output has not been measured in EMC. Every EMC reading
+is of receptor abundance, and abundance does not imply an activated receptor.
 
-The consequence for this menu runs in both directions. The PPARγ lead is not withdrawn, since it
-remains the only candidate here with an in-vivo signal, but its evidence line is narrower than the
-label "in vivo, animal EMC" conveys, and the sign of the axis is an open question rather than an
-assumed one. Nothing here asserts that agonism or antagonism is the useful direction, and nothing
-here asserts efficacy for pioglitazone, zaltoprofen or any thiazolidinedione in EMC.
+The PPARγ lead is not withdrawn, since it remains the only candidate here with an in-vivo signal,
+but its evidence line is narrower than the label "in vivo, animal EMC" conveys, and the sign of the
+axis is an open question. Nothing here asserts that agonism or antagonism is the useful direction,
+and nothing here asserts efficacy for pioglitazone, zaltoprofen or any thiazolidinedione in EMC.
 
 ### 3.4 The quiet genome, and the two weakest candidates
 
@@ -401,14 +398,12 @@ consideration.
 
 ### 4.1 The proteasome lead and two failed rationales
 
-This subsection reports a negative against a candidate that the menu ranks highly, and the negative
-is our own rather than a borrowed one. The distinction governs how the whole document should be
-read. The ex-vivo killing that places carfilzomib on the list is the measurement of Bangerter and
-colleagues [13], not ours. What this work added were two independent in-silico arguments for why a
-proteasome inhibitor might be selectively effective in this disease. Both were pre-specified, both
-were run, and both returned negative.
+The ex-vivo killing that places carfilzomib on the list is the measurement of Bangerter and
+colleagues [13]. This work added two independent in-silico arguments for why a proteasome inhibitor
+might be selectively effective in this disease. Both were pre-specified, both were run, and both
+returned negative.
 
-*There is nothing to select on.* Across the 91 sarcoma cell lines screened in the public CRISPR
+*The dependency data offer nothing to select on.* Across the 91 sarcoma cell lines screened in the public CRISPR
 dependency data, *PSMB1*, *PSMC1*, *PSMD1* and *VCP* are dependencies in 100% of lines, and the
 target of carfilzomib, *PSMB5*, in 97.8%, with selectivity against the rest of the panel between
 −0.10 and +0.17. A gene required in every line of the class and equally required outside it cannot
