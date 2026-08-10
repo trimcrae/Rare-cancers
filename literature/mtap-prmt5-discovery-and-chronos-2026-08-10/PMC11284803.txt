@@ -1,0 +1,1659 @@
+pmcJ Med ChemJ Med Chem822acssd9716531jmJournal of Medicinal Chemistry0022-26231520-4804pmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC11284803PMC11284803.111284803112848033895534710.1021/acs.jmedchem.4c001131PerspectiveNew Horizons
+of
+Synthetic Lethality in Cancer: Current
+Development and Future Perspectives
+PrevitaliViola BagnoliniGreta CiamaroneAndrea https://orcid.org/0009-0004-1656-2961FerrandiGiovanni RinaldiFrancesco MyersSamuel Harry https://orcid.org/0000-0001-9807-2886RobertiMarinella CavalliAndrea aComputational
+& Chemical Biology, Istituto Italiano
+di Tecnologia, 16163 Genova, ItalybDepartment
+of Pharmacy and Biotechnology, University
+of Bologna, 40126 Bologna, Italy*marinella.roberti@unibo.it.020720242507202467144677011148811521140120241106202407062024290720243007202430072024© 2024 The Authors. Published by American Chemical Society2024The Authorshttps://creativecommons.org/licenses/by-nc-nd/4.0/Permits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/). 
+In recent years,
+synthetic lethality has been recognized as a solid
+paradigm for anticancer therapies. The discovery of a growing number
+of synthetic lethal targets has led to a significant expansion in
+the use of synthetic lethality, far beyond poly(ADP-ribose) polymerase
+inhibitors used to treat BRCA1/2-defective tumors. In particular,
+molecular targets within DNA damage response have provided a source
+of inhibitors that have rapidly reached clinical trials. This Perspective
+focuses on the most recent progress in synthetic lethal targets and
+their inhibitors, within and beyond the DNA damage response, describing
+their design and associated therapeutic strategies. We will conclude
+by discussing the current challenges and new opportunities for this
+promising field of research, to stimulate discussion in the medicinal
+chemistry community, allowing the investigation of synthetic lethality
+to reach its full potential.
+
+Associazione Italiana per la Ricerca sul Cancro10.13039/50110000501021386Ministero dell''UniversitÃ  e della Ricerca10.13039/50110002185620227S3BM7Istituto Italiano di Tecnologia10.13039/501100009531NAUniversitÃ  di Bologna10.13039/501100005969NAAssociazione Italiana per la Ricerca sul Cancro10.13039/50110000501025239pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDdocument-id-old-9jm4c00113document-id-new-14jm4c00113ccc-price1
+
+## Introduction
+Synthetic lethality (SL)
+was first observed in fruit flies and
+later confirmed in yeast, defining it
+as a consequence of the combined alteration
+of individually viable genes. SL has emerged as a promising strategy
+for anticancer drug discovery, particularly for targeting challenging
+tumor suppressor genes. Via exploitation
+of the concept of SL, cancer cells with mutated or inactivated driver
+genes can be selectively targeted, potentially reducing the side effects
+of therapy. The successful implementation
+of SL in drug discovery is fueled by the identification of new SL
+pairs in cancer cells. Recent comprehensive reviews of this field
+encompass a broad spectrum of analyses, ranging from phenotypic profiling to experimental methodologies and predictive models facilitated by computational techniques. Leveraging innovative big data strategies in
+SL drug discovery, researchers can now methodically scrutinize every
+gene across hundreds of cancer cell lines. This enables the identification
+of cancer-specific vulnerabilities and, consequently, synthetic lethal
+relationships that might otherwise remain elusive. However, as our understanding of the original genetic-based
+definition of SL expands, newer subclasses such as “collateral
+SL” and “metabolic SL” , have emerged, underscoring the inherent complexity of the SL definition.
+Moreover, the heterogeneity observed in tumor cells and their microenvironment
+can significantly impact genetic interactions, thereby prompting the
+recognition of condition-dependent forms of SL, often termed as “contextual”
+or “conditional” SL. , 
+Herein,
+we build upon our previously published Perspective in the Journal of Medicinal Chemistry( ) to describe the latest trends in drug development campaigns exploiting
+SL interactions. This Perspective focuses on the classical definition
+of SL in drug discovery, emphasizing its use in identifying novel
+drug targets (e.g., alteration in gene A justifies targeting gene
+B), developing synergistic drug combinations [e.g., drugs targeting
+a SL pair of genes (A and B) or synergistic drug combinations that
+exploit a mutation in a third gene, C], and stratifying cancer patients
+for tailored therapies. A majority of SL targets have been found in
+DNA repair pathways; we therefore dedicate a large part of this Perspective
+to this area of research. Nevertheless, we highlight exciting new
+scientific rationales, particularly SL outside the DNA repair pathways
+and “contextual SL”, which provide promising directions
+for future drug discovery campaigns.
+
+2
+
+## Targeting
+SL in the DNA Damage Response (DDR)
+2.1
+
+## PARP
+and BRCA1/2
+The concept of SL
+in the clinic is best exemplified by the use of poly(ADP-ribose) polymerase
+(PARP) inhibitors (PARPi) to specifically target tumors deficient
+in the homologous recombination (HR) DNA repair factors, BRCA1 or
+BRCA2 (BRCA1/2). PARP is a family of proteins involved in the repair
+of DNA single-stranded breaks (SSBs) and exerts its function through
+binding to the DNA damage site and using nicotinamide adenine dinucleotide
+(NAD+) as a cofactor to mediate poly(ADP-ribosyl)ation
+(PARylation) on target proteins, including PARP itself. 
+PARPi act by binding and trapping the
+PARP enzyme on the chromatin, which results in the conversion of the
+SSB into a DSB, a lesion that necessarily requires HR repair. The use of PARPi prevents the tumor from repairing
+single-strand DNA breaks and increases the incidence of DSBs. Therefore,
+upon administration to a tumor that already has an underlying HR defect,
+e.g., BRCA1/2 deficiency, the tumor cells are unable to survive and
+die because of SL, while normal cells remain unharmed ( ). 
+Since the theory was postulated by two pivotal publications, , the number of studies of PARPi- and BRCA1/2-deficient tumors has
+exponentially increased. PARPi reached the first major milestone in
+2014, when the Food and Drug Administration (FDA) and the European
+Medicine Agency (EMA) approved AstraZeneca’s olaparib (Lynparza)
+for the treatment of advanced ovarian cancer as a single agent in
+patients with germline BRCA mutations (gBRCAm). In the past decade, the PARPi class has continued
+to be used successfully, as proven by the increasing number of PARPi
+in clinical trials or approved for the treatment of BRCA1/2- and/or
+somatic HR-deficient tumors, including ovarian, pancreatic, breast, and prostate cancers,
+either as monotherapy or in combination. The following PARPi have
+been authorized in the United States and/or European Union: rucaparib
+(Rubraca), niraparib (Zejula), and talazoparib (Talzenna). In addition, fuzuloparib (AiRuiYi) and pamiparib (Partruvix) have been
+authorized in China ( ).
+ Despite these breakthrough approvals, the success
+of PARPi in the
+clinic has been hindered by mechanisms of toxicity and resistance. , Recent research has thus turned to exploring promising combination
+approaches utilizing PARPi, with the aim of leveraging synergistic
+effects to improve efficacy and sensitize PARPi-resistant tumors to
+the treatment. While the combination of PARPi with DNA-damaging chemotherapy
+(a strategy that can be considered related to “contextual SL”
+that will be expanded in ) faces issues due to the overlapping of hematological
+toxicities, newer and more targeted therapies have shown promising
+results and are progressing in clinical development. 
+In this context, PARPi have been studied at the preclinical
+level
+in combination with agents that induce a BRCAness phenotype or, more
+broadly, a homologous recombination-deficient (HRD)-like phenotype
+by interfering either directly or indirectly with HR ( ). An example is the combination
+of PARPi with inhibitors of receptor tyrosine kinase receptors (e.g.,
+EGFR, VEGFR, and FLT3-ITD), which have been shown to modulate DDR
+genes through their downstream signaling partners, such as the RAS/RAF/MEK/ERK
+and PI3K/mTOR pathways. Additionally,
+PARPi have been studied in combination with modulators of epigenetic
+mechanisms, as they regulate chromatin mobility and thus affect the
+accessibility of the DDR protein to DNA damage sites, particularly
+DSBs. Indeed, inhibiting certain epigenetic proteins (e.g., BRD4)
+has been demonstrated to downregulate fundamental DDR proteins. To leverage this synergism, in the past several
+years various combinations of PARPi and targeted tyrosine kinase receptor
+or epigenetic inhibitors have been studied for their potential with
+promising preclinical evidence ( ). In addition, other
+combination strategies make use of inhibitors of alternative DDR pathways,
+which are used because of PARP inhibition ( ). Examples of this approach include the
+long-time investigated combination of PARPi-ATR inhibitors or the
+newest targets Polθ and USP1. Lastly,
+the promising synergism of PARPi and immunotherapy ( ) is worth highlighting. PARPi,
+as result of the inhibition of DNA repair, cause the release of dsDNA
+fragments into the cytosol, and this in turn activates cGAS/STING
+signaling. PD-L1 upregulation positively
+correlates with the accumulation of DNA breaks. Indeed, PARPi upregulate
+PD-L1, as a downstream effect of impairing DDR, and also correlate
+with cancer resistance. More broadly, this confirms the therapeutic
+relevance of the combination of anti-PD-1/PD-L1 therapies with the
+available modulators of PARP (and DDR in general). Phase 1/2 clinical
+trials of such combinations have been widely reviewed by Huang et
+al. 
+ In addition, strategies for overcoming toxicities
+associated with
+PARPi have instead focused on the development of new classes of PARP
+modulators (e.g., PARP selective inhibitors, dual inhibitors, PROTAC
+degraders, and prodrugs). − In the following section, we
+detail the most recent advancements in PARP selective inhibitors,
+which represent the forefront of progress in clinical development
+for overcoming toxicities associated with PARPi.
+2.1.1
+
+## PARP1
+Selective Inhibitors
+Although
+first-generation PARPi have been significantly effective in clinical
+settings, they often cause hematological toxicities such as anemia,
+neutropenia, and thrombocytopenia. Research
+suggests that while PARP1, which plays a primary role in the DNA damage
+response (DDR), is essential for efficacy, PARP2 is linked with these
+side effects. Existing first-generation
+PARPi competitively inhibit both PARP1 and PARP2; for example, the
+PARP1/2 selectivity fold for Olaparib is 1. Despite similar enzymatic inhibition activities, they vary significantly
+in their ability to trap PARP enzymes and induce cytotoxic effects
+(with talazoparib being the most potent PARP1 trapping inhibitor and
+veliparib the least potent). Because the trapping capability significantly
+influences efficacy and toxicity, modifying the trapping ability could
+have impact on clinical efficacy. Additional
+studies indicate that SL with BRCA mutations is solely mediated by
+PARP1, suggesting that trapping of PARP2 to DNA is unnecessary. Accordingly,
+a PARP1 selective inhibitor may reduce toxicity while maintaining
+antitumor activity, offering a higher therapeutic index and more combination
+treatment options. In 2015, Nerviano Medical Sciences introduced the
+selective PARP1 inhibitor NMS-P118 ( ). This molecule featured an isoindoline-4-carboxamide
+core substituted with a 4,4-difluorocyclohexyl group, which better
+fits into the catalytic domain of PARP1, filling an induced pocket
+and establishing favorable hydrophobic interactions with Tyr889. NMS-P118
+showed moderate potency against PARP1 (PARP1 IC50 = 0.079
+μM) with a promising PARP1/2 83-fold selectivity. As the first PARP1 selective inhibitor with in vitro and in vivo anticancer activity,
+NMS-P118 demonstrated that inhibiting PARP-1 alone, rather than PARP-2,
+is sufficient for achieving high antitumor efficacy in BRCA-deficient
+tumor settings.
+ The development of NMS-P118 led
+to the development of NMS-P293
+( ), which exhibited
+potent in vitro activity (PARP1 IC50 <
+0.01 μM, and PARP1/2 selectivity fold > 200) and in
+vivo efficacy in HRD tumors (BRCA- and PTEN-deficient) and
+did not induce DNA trapping. Although the structure of NMS-P293 is
+undisclosed, a patent by the same authors describes a series of isoindoline-4-carboxamide
+derivatives with different linear/cyclic chains replacing the 4,4-difluorocyclohexyl
+substituent (Patent WO2014/064149A1). Remarkably, NMS-P293 is not
+a substrate of PgP efflux, a mechanism of resistance attributed to
+current PARPi, and can penetrate the blood–brain barrier. Moreover,
+this molecule demonstrates potent synergistic efficacy and tolerability
+in combination with temozolomide (TMZ) in glioblastoma (GBM) tumor
+models, thereby paving the way for the use of PARPi in central nervous
+system (CNS) tumors. These favorable properties led to NMS-P293 entering
+a phase 1 clinical study in adult patients with selected advanced
+and metastatic solid tumors (NCT04182516).
+Building upon these
+findings, AstraZeneca introduced AZD5305 ( ), a more potent
+(PARP1 IC50 = 0.003 μM) and even more selective (PARP1/2
+selectivity fold > 460) PARP1 inhibitor with excellent in
+vivo pharmacokinetic (PK) and efficacy properties in a BRCA
+mutant PDX model. Although AZD5305 partially mimicked NMS-P118’s
+binding pose (interaction with Gly863), it demonstrated the ability
+to trap PARP1-DNA complexes. Nevertheless,
+data from its ongoing phase 1/2 PETRA trial (NCT04644068) demonstrated
+compelling and promising evidence of safety. 
+In its latest generation of PARP1 inhibitors, AstraZeneca
+managed
+to lower efflux for CNS penetration by masking hydrogen bond (HB)
+donors and introducing core modifications, resulting in the development
+of AZD9574 ( ). This molecule represents the first brain penetrant PARP1 selective
+inhibitor (PARP1 IC50 < 0.005 μM, and PARP1/2
+selectivity fold > 19 107) and PARP1-DNA trapping agent
+in
+clinical trials (NCT05417594). 
+Concurrently with the advancement of PARP1 inhibitors, it is necessary
+to mention the controversial studies emerging about previously unexpected
+toxicity in normal tissues. These include evidence of toxicity in
+human healthy bone marrow cells, linked
+to the trapping activity of PARP1 inhibitors, and the embryonic lethality
+due to PARP1 loss in a dominant-negative manner in a mouse model. Ultimately, this may weaken the therapeutic
+potential and safety of the trapping mechanism mediated by PARP1 inhibitors,
+eventually hampering their future in the clinic.
+
+2.2
+
+## PARG
+Poly(ADP-ribose) glycohydrolase
+(PARG) is an enzyme that preserves genome integrity from replication
+stress by catalyzing de-PARylation, offering an exciting and intriguing
+point of therapeutic intervention within DDR. Interestingly, PARG is often upregulated in cancer and positively
+correlates with resistance to PARPi. PARG
+inhibitors (PARGi) were initially predicted to be active in BRCA2-deficient
+tumor cells, hinting at a possible SL
+parallelism with PARPi. However, recently it has been reported that
+the consequences following inhibition of PARG or PARP may suggest
+different pharmacology and genetic dependencies linked with HRD status. The application of the majority of reported
+small molecules targeting PARG is limited due to their modest low-micromolar
+IC50 and low cell permeability. Recently, a potent and cell-permeable PARGi, PDD00017273 ( ), was identified
+through a homogeneous time-resolved fluorescence (HTRF) high-throughput
+biochemical screen (1.4 million compounds), conducted by AstraZeneca. This discovery was followed by iterative chemical
+modifications and optimization of its chemotype. Although the addition
+of a cyclopropyl group improved the in vitro potency
+of the initial hit (EC50 values of 3.9 and 0.019 μM
+for compounds dubbed 2 and 3, respectively,
+in the reference paper), it hindered its solubility (<10 μM
+in 1% DMSO/PBS). Further optimization by substituting the cyclopropyl
+ring with a dimethyl-pyrazol led to the development of the potent
+(EC50 = 0.026 μM) and soluble compound PDD00017273,
+allowing investigation into PARG cellular pharmacology. Despite these
+promising results, PDD00017273 could not be studied in vivo due to its poor metabolic stability [intrinsic clearance (CLint) of 211 and 78 μL min–1 mg–1 in mouse and human microsomes, respectively]. Ideaya
+built upon these discoveries and developed IDE161, an orally bioavailable
+PARGi. While the structure of IDE161 is undisclosed, it is likely
+a 4-substituted indole and indazole sulfonamide derivative, as outlined
+in a company patent (Patent WO2021/055744A1). Biochemical and cellular
+assays have demonstrated that IDE161 effectively inhibits PAR chain
+hydrolysis and exhibits antiproliferative activity in breast and ovarian
+cancer cell lines, including those resistant to PARPi. Consistent with these in vitro findings, IDE161 has shown antitumor activity in PARPi-resistant
+xenograft models, which has facilitated its entry into clinical trials
+as the first PARGi (NCT05787587). According to the results from this
+first clinical trial, it will be possible to evaluate the therapeutic
+relevance of PARG in tackling BRCA1/2-deficient and HR-defective tumors.
+ 
+2.3
+
+## USP1
+Ubiquitination and deubiquitination
+are recognized as key mechanisms for maintaining cellular homeostasis,
+and their alterations contribute to tumor development. The enzymes
+that participate in these processes, in particular E3 ubiquitin ligase
+and deubiquitinase (DUBs), have been regarded as potential targets
+for anticancer therapy. One of the best characterized human DUBs is
+ubiquitin-specific protease 1 (USP1), which plays an important role
+in the cellular response to DNA damage. Indeed, the complex of USP1 with USP1-associated factor 1 (UAF1)
+acts in two important DDR pathways, namely, translesion synthesis
+(TLS) and interstrand cross-links (ICLs), through the deubiquitination
+of proliferating cell nuclear antigen (PCNA) and Fanconi anemia complementation
+group 2D (FANCD2). Inhibition of USP1 causes the impairment of the
+reversible protein ubiquitination regulation mechanism, resulting
+in increased levels of monoubiquitinated PCNA and FANCD2, leading
+to DNA repair damage ( ). Importantly, USP1 is frequently
+overexpressed in certain human tumor types such as cervical and gastric
+cancer, non-small cell lung cancer (NSCLC), melanoma, and sarcoma,
+suggesting that USP1 could represent a valid target in cancer therapy. 
+ In 2001, Chen et al. identified pimozide
+and GW7647 as the first inhibitors of the human USP1-UAF1 complex
+with low micromolar affinity. These compounds demonstrate the possibility
+of inhibiting the USP1-UAF1 complex with small molecules and synergize
+with cisplatin in cisplatin-resistant cells. However, both compounds are known to bind several DUBs, deSUMOylase,
+and cysteine proteases, which has limited their utility as USP1-UAF1
+chemical probes. For this reason, the same authors developed ML323
+through quantitative high-throughput screening (qHTS) and subsequent
+medicinal chemistry optimization of the hit compound ( and ). This nanomolar inhibitor of the USP1-UAF1
+deubiquitinase complex demonstrated remarkable selectivity and was
+reported to exert its effect through an allosteric mechanism, binding
+far from the USP1 active site ( ). 
+ A recent report of the cryo-EM
+structure of USP1 bound to ML323
+[Protein Data Bank (PDB) entry 7ZH4] shed light on the binding of the inhibitor
+to the enzyme for the first time. This
+structure showed the interaction of the inhibitor in the USP-1 binding
+site with many hydrophobic residues and through two HBs mediated by
+the triazole ring with glutamine 160 (Q160) and the pyrimidine ring
+with glutamine 97 (Q97) ( ). This potent and selective effect against USP1 translated
+into the inhibition of TLS and Fanconi anemia (FA) pathways in cells,
+making ML323 the best-in-class chemical probe for investigating the
+role of USP1 in the cellular response to DNA damage. Moreover, ML323 potentiates cisplatin cytotoxicity in NSCLC
+H596 cells and U2OS osteosarcoma cells. This finding suggested that
+USP1-UAF1 is a key regulator of DDR and a potential target for overcoming
+resistance to the platinum-based anticancer drugs. 
+Recently, a study published by Tango Therapeutics
+showed that USP1
+inhibition is effective in BRCA1/2 mutant tumors and in a subset of
+BRCA1/2 wild-type lung and ovarian tumors, underlying the USP1 dependency on PCNA ubiquitination and consequent protein
+degradation. They demonstrated that,
+in BRCA1 mutant cells, the inhibition of USP1 by I-138 ( ) causes the accumulation of
+mono- and polyubiquitinated PCNA, associated with decreased levels
+of DNA synthesis and DNA damage. I-138 is a patented (Patent WO2017/087837A1)
+small molecule structurally related to ML323. In I-138, the benzyl
+and isopropylphenyl groups of ML323 are kept in place, the aminopyrimidine
+is cyclized in a purinone core, and the triazole substituent is converted
+into a methyl-imidazole substituted with -CF3 at position
+4 ( ). These
+characteristics instilled I-138 with improved potency and physicochemical
+properties ( ). Further studies suggested that I-138 binds to USP1-UAF1 at an
+allosteric site, thought to be the same ML323 binding site ( ). To validate USP1
+as an SL target, the authors determined the effect of USP1 inhibition
+on the viability of BRCA1/2 mutant and BRCA1/2 wild-type tumor cells.
+The inhibition of USP1 by I-138 selectively reduced the viability
+of BRCA1 mutant breast cancer cell line MDA-MB-436, but not that of
+wild-type breast cancer cell line HCC195. Similarly, USP1 inhibition caused the loss of viability of BRCA1
+mutant ovarian cancer cell line UWB1.289. BRCA1 re-expression in UWB1.289
+cells rescued USP1 inhibitor sensitivity, consistently with an SL
+interaction. Moreover, the combination was tested across a panel of
+BRCA1/2 wild-type and mutant cells to study whether USP1 and PARPi
+synergize in cells. The USP1-PARPi combination was preferentially
+synergistic in BRCA1/2-mutated compared to wild-type cells. To test
+the efficacy of USP1-PARPi combination in vivo, I-138
+was dosed in mice with MDA-MB-436 tumors, either alone or in combination
+with niraparib. Administration of both compounds resulted in a complete
+tumor regression and an improved efficacy compared to that of niraparib
+or I-138 alone ( ). In summary, these findings demonstrated the benefit of combining
+USP1 and PARPi in BRCA1/2 mutant tumors in vitro and in vivo. 
+On the basis
+of these findings, Tango Therapeutics has also been
+focusing on the development of TNG348 ( ), a highly selective allosteric USP1 inhibitor
+(USP1i) for the treatment of BRCA1/2 mutant tumors and other HRD tumors.
+TNG348 strongly synergizes with PARPi in patient-derived xenograft
+(PDX) cancer cell models of BRCA1/2 mutant breast and ovarian cancers.
+The synergy between USP1i and PARPi was observed in both PARPi-sensitive
+and -resistant models. Additionally, TNG348 showed strong antitumor
+activity in HRD BRCA1/2 wild-type xenograft models, thus potentially
+expanding USP1i indication. TNG348 is now being evaluated in a phase
+1/2 clinical trial as a monotherapy or in combination with olaparib
+in patients with BRCA1/2 mutant or HRD solid tumors (NCT06065059)
+( ). 
+Meanwhile, KSQ Therapeutics has also developed
+a series of small
+molecules, potent, and highly selective USP1i. Notably, among these
+molecules, compound KSQ-4279, structurally related to both I-138 and
+TNG348 ( ),
+triggered the accumulation of monoubiquitinated substrates of USP1
+in cell lines with BRCA mutations or HRD alterations ( ). The activity of KSQ-4279 was evaluated in both ovarian- and TNBC-derived
+tumor xenograft models, in which it showed a dose-dependent inhibition
+of tumor growth. Combining KSQ-4279 with olaparib resulted in greater
+and more durable tumor regression than monotherapy in tumors with
+only partial sensitivity to PARPi. KSQ-4279 exhibited favorable in vitro ADME properties and a favorable PK profile in different
+preclinical species, with no evidence of dose-related blood toxicity.
+These results led to KSQ-4279 entering a phase 1 clinical trial for
+patients with tumors carrying BRCA mutations or other HRD impairment,
+either as a single agent or in combination with PARPi (NCT05240898).
+
+2.4
+
+## Polθ
+In the search for additional
+SL interactions involving BRCA mutations, DNA polymerase θ (Polθ,
+or POLQ) emerged as an exciting target. Polθ is a versatile
+DNA repair enzyme that is central in the error-prone Polθ-mediated
+end joining (TMEJ) pathway, serving as a vital backup pathway to repair
+DSB when NHEJ or HR is compromised. Polθ
+consists of an N-terminal helicase-like domain (HelD) and a C-terminal
+DNA polymerase domain (PolD) linked by a large unstructured central
+region. This unique structure enables
+Polθ to perform DNA synthesis through its polymerase function
+and to compete with HR through its helicase domain in an ATPase-dependent
+manner. Interestingly, Polθ is
+overexpressed in a variety of human cancers, including colorectal,
+breast, ovarian, lung, and gastric cancer, whereas in most normal
+cells, it is expressed at low level or completely absent, making this
+enzyme an ideal target for oncology. − Depletion of Polθ by siRNA
+and shRNA was effective in BRCA1-deficient cells
+in combination with PARPi, leading to a synergistic antitumor effect
+and a possible delay of PARPi resistance. Additionally, Polθ depletion improved the radiosensitization
+of different HR-proficient tumor cells − and sensitized cancer
+cells to other chemotherapeutic agents. , 
+Considering
+this evidence, Polθ inhibition could provide a novel therapeutic
+strategy in several tumors, including HR- and NHEJ-deficient cancers.
+On the basis of these considerations, the identification of Polθ
+inhibitors (Polθi) and their application with SL interactions
+is a research field that is currently attracting a great deal of interest
+from the scientific community, as thoroughly reported in the recent
+perspective of Pismataro and co-workers. Herein, we therefore report on only the latest updates in the field.
+Compounds are classified according to their mechanism of action, i.e.,
+Polθ-Hel or Polθ-Pol domain inhibitors.
+Novobiocin
+is described as a Polθ HelD inhibitor, but despite
+the promising preclinical results ( ), caution should
+be used when assessing its suitability as a Polθi for SL strategies,
+as its phase 1 clinical trial in solid tumors has recently been suspended
+(NCT05687110). In 2023, Ideaya announced clearance of an IND application
+for GSK101 (IDE705), another Polθ HelD inhibitor, for the treatment
+of patients with HRD tumors in association with niraparib (PARPi). The disclosure of the structure is currently
+limited to patent applications that describe the development of thiadiazolyl
+derivatives (Patents WO2020/243459A1 and WO2022/118210A1). In addition,
+Repare Therapeutics has recently announced the start of a clinical
+trial in the second half of 2024 for RP-3467 (structure undisclosed),
+described as a potential best-in-class Polθ HelD inhibitor,
+which is SL with BRCA loss and capable of synergism in PARPi resistance
+models. 
+ In 2021, Lord and colleagues
+reported the discovery of the Polθ-Pol
+domain inhibitor ART558 ( ), after a screening of approximately 165 000
+inhibitors of Polθ polymerase activity. ART558 is a small molecule-substituted pyrrolidine with an IC50 of 7.9 nM against the full-length enzyme and binds to the
+allosteric binding site of the catalytic domain of Polθ polymerase
+with high specificity and selectivity ( ). The authors obtained the cocrystal of
+Polθ-ART558 (PDB entry 7zx1) and were able to rationalize the binding pose of
+the inhibitor ( ). Interestingly, ART558 interacted through its hydroxyl group at
+position 4 with glutamic acid 2365 (E2365) via a HB interaction ( ), which the authors
+suggested as being crucial for explaining its improved potency.
+ Inhibition of Polθ by ART558
+shows SL with BRCA1/2 mutant tumor cells, resulting
+in more DNA damage in knockout cells
+than in wild-type cells and enhanced effects of PARPi. Moreover, the
+authors showed that defects in the 53BP1/Shieldin complex, known to
+cause PARPi resistance, resulted in in vitro sensitivity
+to ART558 ( ).
+Despite the ART558 good solubility (0.16 mg/mL) and moderate logD
+(pH 7.4 = 3.5), it showed poor metabolic stability in rat microsomes.
+Therefore, a second Polθ-Pol inhibitor, ART812, was developed,
+which possessed better drug-like properties ( ). ART812 resulted in significant BRCA1/SHLD2 (Shieldin complex subunit 2)-defective tumor
+inhibition and was found to be efficacious in vivo in a model of PARPi-resistant TNBC ( ). Further studies
+have led to ART4215 (undisclosed structure), the first Polθi
+to enter clinical evaluation that is currently undergoing a phase
+2 clinical trial by Artios Pharma in combination with talazoparib
+(PARPi) in advanced solid tumors (NCT04991480).
+Recently, Repare
+Therapeutics published a study reporting another
+Polθi that targets the polymerase domain, namely RP-6685 ( ). To identify a small molecule inhibitor, a high-throughput
+screen (HTS) was carried out, leading to a fused N2-substituted pyrazole
+that proved to be an interesting starting point for further development,
+with the aim of optimizing ADME properties ( ). Reducing the size of the fused cyclohexyl
+to cyclopentyl was well tolerated, and the replacement of the amide
+with a thioamide group led to a significant enhancement in the potency,
+without an improvement in the metabolic stability. Replacing the fused
+N2-substituted pyrazole ring with a 2,4-bis-trifluoromethyl aryl moiety
+improved the potency 10-fold compared to that of the hit compound.
+Moreover, this aryl replacement enabled more effective SAR exploration
+due to the accessibility of the chemistry. Introduction of a fluorine
+atom on a phenyl group and substitution of the methyl with a propargyl
+group increased the microsomal stability and potency. Replacing the
+bistrifluoromethyl phenyl core with a bistrifluoromethyl pyridyl core
+optimized the logP value of the compound. Finally, the introduction
+of a basic amino group on the propargyl function led to RP-6685, the
+best candidate for further profiling in xenograft studies. RP-6685
+showed promising in vivo efficacy in HCT116 BRCA2–/– mouse tumor xenograft models ( ). 
+ Very recently, Ding and
+colleagues reported the development of
+3-hydroxymethyl-azetidine derivatives as a novel class of Polθ-Pol
+domain inhibitors. To explore new cores
+and optimize the ADME profile of previously developed Polθi,
+the authors employed their proprietary molecular generative AI platform
+(Chemistry42) followed by a structure-based drug design. Deuterated
+compound C1 showed the best profile. It exhibited robust cellular
+target engagement and antiproliferative effects in BRCA-compromised
+cells. Moreover, promising drug-like properties, e.g., solubility,
+permeability, and metabolic stability exhibited by C1, corroborates
+its potential as a therapeutic agent ( ). 
+
+2.5
+
+## RAD51
+RAD51 recombinase is a central
+HR factor, and its activity is critical for maintaining genome stability
+and cancer prevention. Once loaded by
+BRCA2 onto the ssDNA strand, RAD51 catalyzes strand invasion on a
+homologous DNA template initiating HR repair. In addition to its role in the repair of DSBs, RAD51 exerts its
+function also at stalled or collapsed replication forks during the
+replication stress response. RAD51 is
+overexpressed in several cancers, including pancreatic, breast, prostate,
+non-small cell lung cancer, leukemia, and glioblastoma. Overexpression of RAD51 enhanced DNA repair,
+helping cancer cells to survive and develop resistance to DNA-damaging
+agents, while its depletion or inhibition
+increases sensitivity to DSB-inducing agents, including ionizing radiation
+(IR). 
+RAD51 impairment proved to
+be SL with PARPi. Specific miRNAs were
+found to sensitize tumor cells to olaparib by weakening the expression
+of RAD51, thus highlighting the importance of RAD51 inhibition to
+achieve SL outside BRCA deficiencies. Furthermore, this also raised
+the possibility of using such miRNAs and RAD51 expression levels to
+identify patients that might benefit from treatment with PARPi. Interestingly, functional assays, measuring
+the formation of RAD51 foci as an indirect measurement of HR activity,
+have been shown to predict the PARPi response, thus expanding their
+clinical application. − 
+Beyond the potential of RAD51 as a biomarker
+for HRD and PARPi
+sensitivity, pharmacological RAD51 inhibition has also been investigated
+as a strategy for inducing SL with PARPi. Several compounds that modulate
+RAD51 activity in vitro have been identified, most
+of which modulate its binding to ssDNA, and have been summarized in
+recent reviews. , However, the translation of RAD51
+inhibitors (RAD51i) to the clinic has been slow, with no clinical
+RAD51i in clinical trials to date. The
+mechanism of action of the only purported RAD51i, CYT-0851, entering
+clinical trial (NCT03997968), has recently been disclosed and attributed
+to the inhibition of the monocarboxylate transporter (MCT), therefore
+ruling it out as a RAD51i. 
+Recently,
+our group proposed a new anticancer paradigm dubbed “fully
+small molecule-induced SL”. This paradigm is based on the hypothesis
+that it could be possible to mimic the effect of BRCA2 germline mutations
+by using small organic molecules disrupting RAD51-BRCA protein-protein
+interaction. This could potentially expand the population of patients
+eligible for treatment with olaparib and other PARPi, especially in
+otherwise difficult to treat pancreatic cancers. − BRCA2 interacts with RAD51 through eight homologous
+sequences known as BRC repeats. In particular, the BRC4 peptide interacts
+with RAD51 through two different domains: the FXXA domain, critical
+also for RAD51 multimerization, and the LFDE domain, also known as
+zone I and zone II, respectively ( ). The X-ray crystallographic structure of
+the BRC4 repeat in complex with the catalytic domain of RAD51 has
+been reported (PDB entry 1N0W). − On the basis of this structure, to obtain BRCA2-RAD51
+disruptors, our group conducted virtual screening campaigns based
+on high-throughput docking upon both pockets followed by SAR optimization. − The most promising results were observed with a zone II binding
+dihydroquinoline pyrazoline derivative ARN24089 ( and ) that disrupts BRCA2-RAD51 protein-protein
+interaction, thus mimicking the effects of BRCA2 impairment. The compound
+inhibits HR activity and synergizes with olaparib to trigger SL in
+pancreatic BRCA2-proficient cancer cells (BxPC-3). RAD51 possesses an intrinsic tendency to form oligomeric
+structures, which makes it challenging to conduct biochemical, biophysical,
+and drug discovery investigations. The recent isolation of a fully
+human monomeric RAD51 has allowed us
+to validate ARN24992, a BRCA2-RAD51 inhibitor, which resulted from
+a 19F nuclear magnetic resonance fragment screening performed
+on human wild-type RAD51, followed by medicinal chemistry optimization
+( and ). ARN24922 showed HR inhibition in BxPC-3 cells. Remarkably,
+the combination of ARN24922 with PARPi talazoparib showed efficacy
+also in three-dimensional (3D) pancreatic cancer models, specifically
+PT291 organoids in which the co-administration of both compounds caused
+a 50% reduction of cell viability in comparison with that of the single
+talazoparib treatment. Likewise, Scott
+and colleagues developed CAM833 ( and ), an inhibitor
+of BRCA2-RAD51 interaction binding zone I. This discovery was made
+through a structure-led fragment-based approach utilizing a humanized
+RadA-RAD51 construct developed in house (HumRadA22F). The crystal structure shows that CAM833 binds to the RAD51
+oligomerization pocket and consequently reduces RAD51 foci and filaments,
+preventing DNA repair through HR. Ultimately, CAM833 increases cytotoxicity
+induced by IR and synergizes with PARP1i ( ). Despite promising
+preclinical results, the therapeutic potential of BRCA2-RAD51 interaction
+inhibitors and their combination with PARPi in the clinic has been
+stymied due to the mechanism-related toxicity in normal tissues that
+can result from the systemic inhibition of both RAD51 and PARP. Nevertheless,
+cancer cells depend more strongly on DNA repair mechanisms than do
+healthy cells, due to their genetic instability. Consequently, the
+combination of PARPi and BRCA-RAD51 inhibitors may affect healthy
+cells far less than cancer cells, offering a chance for selectivity.
+Indeed, this specific chemically induced SL can be leveraged in different
+scenarios: (i) to treat patients with acquired resistance to PARPi,
+mostly due to the restoration of the mutated BRCA2 gene or RAD51 overexpression,
+(ii) to treat tumors with mutations that have a SL relationship with
+BRCA impairment. Moreover, beyond the specific PARP-BRCA SL pair,
+this approach forms the basis for future combination strategies targeting
+SL pairs involved in DDR.
+ 
+2.6
+
+## RAD52
+Human RAD52 is involved in
+various DNA repair pathways, including HR, single-strand annealing
+(SSA), and RNA-dependent DNA repair. Moreover,
+RAD52 is involved in solving stalled replication forks. Human RAD52 appears to be nonessential for the
+viability of normal cells , but becomes essential
+under cancer conditions when other DSB repair-related proteins are
+mutated. , Therefore, RAD52 has emerged as a novel
+target to aid chemically induced SL therapies, avoiding resistance
+and severe side effects. Inhibiting RAD52 induces SL in many cancer
+cells with defective DNA repair-related proteins, such as BRCA1/2,
+PALB2, XAB3, and RAD51 paralogues. − 
+Researchers have
+devoted considerable effort to identifying and characterizing RAD52
+inhibitors (RAD52i), but none have reached clinical development. Notably, targeting the RAD52 structure represents
+a remarkable challenge because of the organization of RAD52 into an
+undecameric protein ring that also results in multivalent interactions
+with ssDNA. , Another important challenge
+is the development of inhibitors selective for RAD52 over other ssDNA
+binding proteins to avoid secondary target binding toxicity. 
+A few examples of small molecule RAD52i
+and their SL applications
+are reported below. In 2013, Cramer-Morales and colleagues developed peptide aptamer F79 ( ) as a RAD52i. F79 exerts
+SL in BRCA2 and/or HR-mutated tumor cells. F79 selectively killed
+BRCA-deficient leukemia cells with a low risk toward normal cells
+and showed SL also in breast, pancreatic, and ovarian cancer cells. Moreover, F79 showed encouraging results in vivo (SCID mice with BCR-ABL1 positive leukemia). , Despite these promising results, there have been no further reports
+on the subsequent development of this peptide aptamer ( ).
+ In 2016, Huang et al. identified
+a new series of RAD52 small molecule inhibitors through an HTS with
+a fluorescence quenching assay. Among them, D-I03 ( ) was the most potent compound
+in biochemical and cellular assays. Later,
+Sullivan-Reed and colleagues reported that D-I03 was effective in
+slowing the growth of BRCA1-deficient xenograft tumors in mice. Despite these promising in vitro and in vivo studies, the thiourea scaffold of D-I03
+had several drawbacks, including poor solubility and metabolic and
+chemical instability. 
+In 2016,
+Hengel and colleagues reported
+the development of a novel FRET-HTS assay that led to the identification
+of epigallocatechin (EGC) ( ), a natural compound that competes with ssDNA to bind
+to RAD52, but not to RPA. EGC dysregulated DSB repair and caused a
+reduction in cell viability in BRCA1/2-depleted and MUS81-depleted
+cells. Once more, despite promising in vitro biological results, EGC and its analogues were
+characterized by poor ADME properties, largely due to low gut absorption,
+which was found to be further reduced when accompanied by food. Additionally,
+the very high hydrophilicity of EGC analogues created homogeneity
+problems in lipid formulations. , Very recently,
+Bhat and co-workers tried to overcome
+ADME challenges associated with EGC to produce new RAD52i. Pharmacophore information about the RAD52 complexation
+with EGC allowed for scaffold hopping into a drug-like synthetically
+accessible space. Six distinct chemical scaffolds that occupy the
+same physical space of RAD52 as EGC were identified. The six compounds
+were all efficient RAD52i, in particular against the RPA-RAD52-ssDNA
+complex (IC50 ∼ 8–96 μM). Among the
+selected inhibitors, Z56 and Z99 ( ) were especially attractive as they showed
+enhanced activity in cell viability assays. Z56 was selective for
+RAD52 over RPA in vitro and selectively killed BRCA
+mutant cells. In contrast, Z99 inhibited both proteins in
+vitro and displayed toxicity toward BRCA-complemented cells.
+Z99 showed excellent drug-likeness and was selected for scaffold expansion,
+resulting in potent and selective RAD52i Z58-54 and Z58-87 ( ) with IC50 values in the low micromolar range against RAD52 that were able
+to discriminate between BRCA1/2 mutant and BRCA-proficient cells ( ). Because of the
+selectivity for RAD52 over RPA of both Z56 and derivatives from Z99
+expansion, additional rounds of chemical exploration may be a promising
+strategy for achieving more potent and selective RAD52i. 
+
+2.7
+
+## Nuclear Kinases Associated
+with Genomic Stability
+Nuclear kinases play a pivotal role
+in orchestrating signaling
+pathways in response to DNA damage. These specialized enzymes act
+as key regulators by phosphorylating target proteins involved in DNA
+repair, cell cycle arrest, and apoptosis. Upon sensing DNA lesions,
+these kinases are activated and initiate a cascade of events that
+ensure genomic stability and cell survival. Key players include the
+ATR/CHK1/WEE1 axis, the ATM/CHK2/p53 axis, PKMYT1, and DNA-PK ( ). , PLK1 and Aurora kinase A (AURKA) are also involved in damage checkpoint
+regulation ( ). 
+ Despite the development of various inhibitors,
+the toxicity of
+CHK1/2 inhibitors, stemming from a lack of selectivity, has prevented
+their clinical application and further drug development. However, the improving understanding of SL interactions
+presents an opportunity to repurpose existing inhibitors tailored
+to specific tumor profiles, thereby optimizing their clinical evaluation.
+In this regard, it is worth mentioning the AURKA inhibitor alisertib,
+the most advanced AURKA selective (>200-fold more selective than
+AURKB)
+inhibitor in clinical studies. This molecule found new applications
+after Takeda’s announcement to terminate its phase 3 trial
+in relapsed or refractory peripheral T-cell lymphoma due to a lack
+of efficacy. The drug is now being investigated in phase 1/2 clinical
+trials in Rb-deficient head and neck squamous cell cancer in combination
+with pembrolizumab (NCT04555837) and in combination with osimertinib
+in metastatic EGFR mutant lung cancer (NCT04085315). These trials
+leverage AURKA SL interactions with tumor suppressor deficiencies, even though balancing risk and benefit in patients
+remains difficult.
+In this context, we focus on the extensively
+studied ATR, ATM,
+and DNA-PK kinases, along with emerging players like WEE1, PKMYT1,
+and others such as PLK1, which are attracting attention because of
+their roles in controlling DNA damage checkpoints.
+2.7.1
+
+## Trinity
+of DDR: ATM, ATR, and DNA-PK
+ATM, ATR, and DNA-PK are three
+closely related kinases of the phosphoinositide
+3-kinase-related kinase (PIKK) family. , , These kinases orchestrate DDR at the very early stages,
+acting as sensors that recognize DSBs and activate the signaling cascade
+by interacting with many different downstream players ( ). , − These kinases have been covered extensively
+by the literature in various reviews. , − This work aims to give a brief overview of their function to support
+the discussion about medicinal chemistry strategies, which has led
+to recent clinical progress. With regard to detailed clinical trial
+data, we refer readers to the excellent recent publication by Groelly
+et al. 
+2.7.1.1
+
+## ATR
+ATR is activated by a wider
+range of genotoxic stresses, expanding from DSBs. Rapidly dividing
+cells undergo high levels of replication stress and tend to be highly
+dependent on the ATR pathway. , ATR activation takes
+place in RPA-coated ssDNA through the interaction with the ATR interacting
+protein (ATRIP) and other factors (i.e., TopBP1) ( ). One crucial function of ATR is to induce G2/M arrest by phosphorylating
+the downstream kinase CHK1 to provide sufficient time for DNA repair
+( ). This process is covered in greater detail by
+Neizer-Ashun et al. Briefly, CHK1 induces
+cell cycle arrest by phosphorylating a series of CDC25 phosphatases
+targeting them for degradation or sequestration, causing a signaling
+cascade, which results in cell cycle arrest at the intra-S and G2/M
+checkpoints ( ).
+ATR inhibition is lethal with the ATM pathway. Indeed, ATR
+inhibitors (ATRi) cause the increase in the level of formation of
+DSBs, which in turn augments the reliance of cells on ATM and its
+associated proteins activity. This relationship explains why the inhibition
+of ATR through small molecules seems to be synthetically lethal in
+cells with ATM or p53 deficiency. In ATM- or p53-deficient pancreatic cells, ATR inhibition causes the accumulation
+of DNA damage with the induction of mitosis prior to the completion
+of DNA repair, causing subsequent mitotic catastrophe. Furthermore, ATRi show synergism when combined
+with therapeutic agents that increase replication stress such as traditional
+chemotherapeutics (i.e., DNA topoisomerase I or IR). , Additionally, the recent combination study of ATR inhibition with
+immunotherapeutic targeting PDL1 resulted in a successful synergistic
+antitumor activity in mouse models of castration-resistant prostate
+cancer. Lastly, the link between ATR
+inhibition and PARP is well established, which perhaps represents
+the most promising prospect for ATRi in the clinic. PARP inhibition,
+as mentioned in this Perspective, has shown remarkable success in
+the clinic in BRCA1/2-deficient cancers. However, acquired resistance
+occurs with high frequency where alternative DNA repair pathways are
+leveraged to bypass BRCA1/2 pathway and PARP inhibition. Remarkably,
+the use of ATRi has been shown to block this event and resensitize
+tumor cells to PARP inhibition. Inhibition
+of ATR has progressed from the highlighted in vitro/in vivo studies into clinical trials, with a number
+of ATRi identified. An extensive description of ATRi development and
+their clinical trials has been thoroughly reported in recent reviews. , , , Herein, we narrow the description to a selection of medicinal chemistry
+strategies that led some ATRi entering clinical trials.
+The
+structures of ATRi fall into two classes. The first class is
+the groups of the morpholine hinge binders exemplified by AZ20 ( ). Compounds grouped
+in this class are ATP-competitive and bind to the hinge region of
+the protein through their methyl-morpholine substituent. Moreover,
+the heterocycle attached to the pyridine or pyrimidine central core
+establishes important HB with the protein backbone ( ). AZD6738 (also known as
+ceralasertib, developed by AstraZeneca) was developed from AZ20 to
+improve the aqueous solubility and eliminate CYP3A4 time-dependent
+inhibition. Despite the moderate inhibition against mTOR, which eventually
+may hamper its selectivity, AZD6738 has been the first oral ATRi to
+reach clinical trials ( ). Interestingly, AZD6738 has
+recently showed a clinical therapeutic benefit by underpinning broad
+immunomodulation that suggests a wider antitumor therapeutic potential. BAY1895344 (elimusertib, Bayer) and RP-3500 (camonsertib, Repare Therapeutics,
+now developed in collaboration with Roche) are two other oral ATRi in clinical trials as single agents in DDR-deficient
+tumors ( ). The
+equivalent cell-based potency and selectivity over mTOR of the two
+compounds ( )
+translated into a similar preclinical efficacy when administered on
+a weekly (3 days on/4 off) intermittent schedule both at their respective
+maximum tolerated doses (MTDs, 50 mg/kg BID for BAY1895344, and 30
+mg/kg QD for RP-3500). , However, when both
+were administered on an intermittent dosing schedule in phase I clinical
+evaluation, the two compounds, with different ADME properties, particularly t1/2 (BAY1895344 t1/2 = 11.5 h, and RP-3500 t1/2 = 5.8 h),
+led to the induction of a higher rate of anemia with BAY1895344 than
+with RP-3500. , 
+ The second class of ATRi encompasses
+the aminopyrimidines discovered
+by Vertex ( ). Berzosertib (previously known as M6620 or VX-970, developed by
+Vertex and Merck) was the first ATRi to enter clinical investigation.
+Berzosertib was the result of a medicinal chemistry optimization aimed
+at maintaining an intramolecular hydrogen bond (IMHB) interaction
+between the hydrogen of the pyrazin-2-amine and the oxygen of the
+oxazole ring, resulting in a bioactive conformation that avoids the
+unwanted steric clash between the molecule and Tyr2775 ( ). Furthermore,
+functionalization of the benzyl ring with a methylamine enabled the
+exploitation of a negatively charged area of the ATP binding site,
+resulting in a potent molecule (IC50 = 0.074 μM)
+with favorable physicochemical properties (aqueous solubility of 52
+μM) ( ). Despite being under clinical evaluation,
+both as monotherapy and in combination, berzosertib suffers from limited
+selectivity toward mTOR ( ). For this reason, Vertex and Merck have recently reported
+gartisertib (M4344 or VX-803), a more potent (IC50 = 0.005
+μM) and selective aminopyrimidine derivative ( and ). In its first
+in-human phase I study, gartisertib has been tested in patients bearing
+loss-of-function mutations, specifically, ARID1A, ATRX, DAXX, and
+ATM genes, known to be synthetically lethal with ATR inhibition. However,
+the study reported unexpected liver toxicity, which prevented further
+advancement of gartisertib and led to its recent discontinuation. In any case, the use of loss-of-function mutations
+as biomarkers offered an efficient patient stratification, along with
+the opportunity to leverage SL as an anticancer strategy.
+ ATRN-119 (Aprea Therapeutics) is another recent
+molecule that belongs
+to the aminopyrimidine class of ATRi. Preclinical evaluation data
+for ATRN-119 are limited, but it is described as a potent (IC50 = 0.004 μM) and orally bioavailable derivative ( ) that could get its
+high selectivity (>2000-fold for mTOR) from its macrocyclic structure
+( ). ATRN-119 is in an ongoing phase 1/2a dose escalation
+trial in solid tumors with DDR deficiencies ( ).
+Medicinal chemistry campaigns have
+been hindered by the lack of
+a crystal structure with an appropriate resolution for drug discovery
+campaigns, therefore relying on only
+the ATR homology models built on PI3K-γ as a structural template.
+Nevertheless, continuing research efforts are focused on finding a
+highly selective ATRi possessing favorable ADME characteristics to
+find the optimal clinical dosing schedule. In this regard, ART0380
+(Artios) and IMP9064 (IMPACT Therapeutics) are two other recently
+developed small molecule ATRi in clinical trials but for which preclinical
+data and structure are undisclosed so far ( ).
+
+2.7.1.2
+
+## ATM
+ATM can be activated by two
+different mechanisms, either in reaction to afford reactive oxygen
+species (ROS) or more commonly in response to DSBs. In this latter
+mechanism, the MRN (MRE11-RAD50-NBS1) complex recruits the ATM homodimer,
+which in turn monomerizes with the MRN complex, subsequently promoting
+the interaction between the DNA break and the ATM monomer ( ). The activation of ATM is finely regulated by
+post-translational modifications, including the acetylation of Lys3016
+by acyltransferase TIP60 that in turn promotes Ser1981 autophosphorylation,
+known as a marker of activated ATM, as it occurs immediately after
+the formation of DSBs ( ). Activated ATM in turn phosphorylates MDC1 or γH2AX
+to amplify repair signaling. The ATM/CHK2/p53 pathway controls the
+G1/S checkpoint in addition to being partially involved with G2/M
+checkpoint regulation through phosphorylation and degradation of CDC25A,
+responsible for the removal of the inhibitory phosphorylation of CDKs. 
+For its role in DDR, ATM has been identified
+as a potential druggable target, with SL partnerships being observed
+with PARP, BRCA1, DNA-PK, Polθ, XRCC1, APE1, and the Fanconi
+anemia pathway. Consistently, success
+has been seen in phase I clinical trials using PARPi (e.g., NCT02975934)
+and ATRi (e.g., NCT04657068) to treat ATM-deficient tumors. In turn,
+it follows that tumors defective in one or more of those genes may
+be candidates for therapy using ATM inhibitors (ATMi). AZD0156 was
+the first inhibitor developed by AstraZeneca to enter clinical trials. However, the company removed it from its pipeline
+after severe hematological toxicities in patients treated with a combination
+of AZD0156 and olaparib ( ). Moreover, AZD0156
+turned out to be a substrate for efflux transporters, hindering its
+eventual development for CNS malignancies. Subsequently, AstraZeneca
+developed AZD1390, an orally bioavailable ATMi with improved BBB properties
+in several preclinical models (efflux ratio in MDCK cells of 1.8 at
+0.1 μM and Kp,uu in cynomolgus monkey
+brain of 0.33), making it a suitable clinical candidate for CNS malignancies
+( ). Currently, M4076 (Merck KGaA) has been the
+most potent and selective ATMi (ATM IC50 = 0.2 nM) so far
+in clinical trials. It shares an imidazo[5,4-c]quinolin-2-one
+core with AZD0156 and AZD1390 and an analogous substitution pattern
+(Patent WO2020/193660A1) ( ). The cryo-EM structure of ATM in complex with M4076
+revealed structural insights into its mode of action ( ). In fact, the high selectivity of M4076 is attributed to the stacking
+interactions with W2769 in the hinge region and to the close contact
+between the 1,3-dihydro-imidazo[4,5-c]quinolin-2-one
+moiety of M4076 and C2770, also located in the hinge region ( ). Cryo-EM technology can support structure-based
+drug design (SBDD), especially to help with the challenge of ATM mutations,
+which are common tumor features. In
+conclusion, despite the fact that the clinical evaluation is proceeding,
+ATM have proven to be targetable and ATMi appear as a promising treatment
+option in DDR-mutated cancers.
+ 
+2.7.1.3
+
+## DNA-PKcs
+DNA-PK
+comprises a catalytic
+subunit (DNA-PKcs) and a regulatory heterodimer known as Ku (composed
+of Ku70 and Ku80). Upon localization on DSB, Ku70/Ku80 recruits DNA-PKcs
+to form an active DNA-PK complex ( ). In contrast
+to the other PIKK members, it plays a key role in NHEJ, a DSB repair
+mechanism used by cells outside the G2/S phase or when HR is impaired
+( ). In addition, DNA-PK has a multifaceted role,
+including participation in the replication stress response and DNA
+damage checkpoints. 
+DNA-PKcs have
+been reported to be synthetically lethal with many genes in the DDR
+process. The primary SL partnership is the aforementioned ATM due
+to the complementary nature of these two genes with inactivation of
+both genes causing embryonic lethality. , Furthermore, as simultaneous inhibition of NHEJ and HR tends to
+cause SL in tumors overly reliant on HR, synthetic lethality can be
+seen between DNA-PKcs and the main drivers of HR such as BRCA1, BRCA2,
+CHK2, RAD50, PTIP, PAXAP, and MSH3. 
+Due to the aforementioned SL relationships, drug discovery efforts
+have attempted to inhibit DNA-PKcs activity. This has proven to be
+challenging as selectivity issues have arisen between DNA-PKcs and
+the other PIKK members due to structural similarities between the
+various kinases. M3814 (peposertib,
+Merck KGaA, Patent WO2020/193660A1) and
+AZD7648 (AstraZeneca) are two extensively
+described DNA-PKcs inhibitors (DNA-PKcsi) with demonstrated selectivity
+over other PIKKs ( ). Despite both molecules potentiating radiation and chemotherapy
+both in vitro and in vivo (remarkably,
+AZD7648 sensitized ATM-deficient cancer cells to both radiation therapy
+and PARPi), their clinical translation was not successful. , Indeed, targeting DNA-PKcs is not without risks. Systemic radiosensitization
+of healthy cells in addition to tumor cells has led to side effects,
+which were not counterbalanced with sufficient satisfactory patient
+responses, ultimately leading to program discontinuation for both
+molecules. 
+ Among the newest strategies for pursuing DNA-PKcsi
+is the recent
+development of XRD-0394, an ATM/DNA-PKcs dual inhibitor that shares
+the imidazo-2-one core as a common motif between DNA-PKcsi and ATMi
+and leverages the SL between the two targets, by XRad Therapeutics
+( ). This
+orally available small molecule is described as a potent inhibitor
+of both proteins, without significant inhibition of structurally related
+PIKK kinases in human tumor cells, including ATR and mTOR. In vitro and in vivo efficacy showed marked dose-proportional radiosensitization, with
+no toxicity in the absence of IR. Additionally, in cells lacking BRCA1/2,
+XRD-0394 showed synergism in combination with PARPi, therefore potentially
+expanding their application in the case of resistance. Because of these promising results, XRD-0394
+has recently entered a clinical trial for the treatment of solid tumors
+in combination with palliative radiotherapy (NCT05002140).
+
+2.7.2
+
+## PLK1
+Polo-like kinase 1 (PLK1)
+is a serine/threonine nuclear kinase with different functions in controlling
+genome stability. Its primary role regards the progression of mitosis,
+maturation of the centrosome, and spindle assembly. Moreover, recent
+evidence suggests it is involved in DNA damage and the replication
+stress response ( ). The primary physiological
+function of PLK1 that has been extensively studied is its involvement
+in the G2/M checkpoint. Following activation by AURKA, PLK1 facilitates
+inhibitory phosphorylation on WEE1 and PKMYT1, leading to their degradation
+and subsequent activation of CDK1, inducing cell cycle arrest ( ). PLK1 overexpression in cancers is often correlated with
+poor prognosis, identifying PLK1 as a promising drug discovery target.
+PLK1 consists of two domains, a kinase domain (KD) and a polo-box
+domain (PBD), which provide druggable targets for the design of PLK1
+inhibitors (PLK1i). As summarized in recent reviews, considerable
+effort has been spent on the development of new PLK1i, with at least
+10 PLK1i reaching clinical trials. , However,
+the promising results of the preclinical studies did not translate
+into clinical efficacy because of PLK1i limited effects, resistance,
+and hematological toxicities often arising from the lack of selectivity
+mostly toward PLK2/PLK3. Worth reporting
+is the FDA designation in 2013 of breakthrough therapy to volasertib
+[BI6727 ( )], an ATP-competitive dihydropteridinone PLK1i (IC50 =
+0.78 nM, and PLK2/PLK3 selectivity fold = 6/64) developed by Boehringer
+Ingelheim for the treatment of patients with acute myeloid leukemia
+(AML). Although early results of volasertib in AML patients seemed
+promising, the reported clinical efficacy following a phase 3 trial
+of volasertib, monotherapy or in combination with chemotherapy, failed
+to reproduce positive results, leading to the discontinuation of its
+development. In this context, the search
+for PLK1 SL pair partners could therefore be an efficacious strategy,
+although it is still in its infancy. Promising SL interactions were
+reported between PLK1 and BRCA1, TP53-mutated tumors, CCND1-driven, or KRAS mutation, suggesting possible clinical application of PLK1i in specific subgroups
+of patients. Indeed, in 2020, the FDA assigned the fast-track designation
+to onvansertib [NMS-1286937 ( )], another potent and more selective ATP-competitive
+PLK1i (IC50 = 3 nM, PLK2/PLK3 selectivity fold = 5000) for patients with KRAS-mutated
+metastatic colorectal cancer (mCRC) (NCT03829410). Recent preclinical
+research suggests revisiting previously established PLK1i and evaluating
+their potential in exploiting SL in specific mutated tumors. This
+approach has gained traction following findings such as the application
+of volasertib and GSK978744A, a thiophene-based PLK1i developed by
+GlaxoSmithKline (with an IC50 of 1 nM and a PLK3 selectivity
+fold of 61), in BRCA1-deficient cancer
+models. This exploration holds promise for potentially effective therapeutic
+interventions targeting specific genetic vulnerabilities in cancer
+cells. 
+ 
+2.7.3
+
+## WEE1/PKMYT1
+Due to p53 mutations,
+many human cancer cells suffer from a deficient regulation of the
+G1/S checkpoint and thus rely heavily on G2/M checkpoint regulation. Among the many kinases responsible for orchestrating
+cellular responses, WEE1 is involved in cell cycle progression ( ). WEE1 functions
+as a key suppressor of the G2/M checkpoint through phosphorylation
+of CDK1 and CDK2, causing G2/M arrest and allowing time for DNA repair
+( ). Therefore,
+inhibition of WEE1 leads to premature entry into mitosis and subsequent
+mitosis catastrophe. WEE1 is strongly
+expressed in many cancers, and therefore, its inhibition has emerged
+as an appealing strategy in cancer therapies, especially in SL strategies
+in p53 mutation cancers and in combination with other DNA-damaging
+agents or kinase inhibitors (e.g., ATRi). , 
+Several different WEE1 inhibitors (WEE1i) have so far been
+reported in the literature, bearing different scaffolds and developed
+through various medicinal chemistry approaches. , 
+The WEE1i adavosertib [AZD1775 ( A)], developed by AstraZeneca, has recently
+been discontinued due to a poor toxicity profile ( ). Indeed, the correlation between the activity of AZD1775 and p53
+status seemed to be controversial, as it exhibited cytotoxic effects
+in sarcoma cells regardless of their p53 status. One possible explanation is that AZD1775 was discovered
+to target multiple kinases and exhibits comparable potency against
+both WEE1 and PLK1, suggesting a more intricate mechanism of action
+than a simple dual SL pair. 
+ IMP7068 (Impact Therapeutics) is another WEE1i that
+has recently
+entered clinical trials, specifically in tumors with p53 mutations.
+The structure of IMP7068 has not been disclosed, but a company-related
+patent application (WO2018/090939A1) describes a compound belonging
+to a class of 2,3-dihydropyrimido[4,5-d]pyrimidin-4(1H)-ones as AZD1775 ( A). IMP7068 possesses a superior WEE1/PLK1 selectivity
+(>435-fold) compared to that of AZD1775 with a favorable PK profile
+in preclinical species ( ). 
+Recently, there has
+been significant interest in a novel SL approach
+that exploits vulnerabilities in cancer cells reliant upon CCNE1 amplification. The CCNE1 gene encodes cyclin E1, which forms complexes with
+CDK2 and facilitates cell progression from the G1 phase to the S phase,
+thereby promoting DNA replication. Increased levels of cyclin E have
+been observed across various cancers and are correlated with unfavorable
+outcomes. This overexpression of cyclin E induces DNA replicative
+stress and triggers DNA repair responses, rendering cells more susceptible
+to the WEE1 inhibitor AZD1755. Consequently, cyclin E overexpression
+has emerged as a valuable prognostic biomarker for AZD1775 therapy
+in tumors exhibiting high cyclin E levels. 
+The recently reported azenosertib [ZN-c3 ( A)], developed by Zentalis
+Pharmaceuticals,
+shares with AZD1775 both the 1,2-dihydro-3H-pyrazolo[3,4-d]pyrimidin-3-one central core and the (4-methylpiperazin-1-yl)phenylamino
+tail group. ZN-c3 showed higher selectivity for WEE1 over other kinases,
+with efficacy similar to that of the parent AZD1775 in vivo. Interestingly, the chiral ethyl moiety in the bicyclic headgroup
+of ZN-c3 provided an improvement in WEE1 potency, maintaining excellent
+ADME and PK properties. Its promising
+preclinical results and selectivity profile allowed ZN-c3 to enter
+the clinical evaluation with a continuous dosing regimen and achieving
+promising clinical efficacy in a phase 2 trial ( ). Notably, ZN-c3 was shown to be more sensitive
+in cyclin E1 overexpression in ovarian cancer cells in vitro and in vivo. 
+CCNE1 has been exploited to investigate SL with
+other protein kinases involved in cell cycle control. In particular, the WEE1-like kinase PKMYT1
+was identified through a CRISPR-Cas9 screen as a SL partner with cyclin
+E in cancers overexpressing CCNE1. This is particularly relevant also because it was found
+that a mechanism of acquired AZD1775 resistance is mediated by the
+upregulation of PKMYT1 kinase. This
+mechanism of resistance relies on PKMYT1’s intrinsic biological
+role as a negative regulator of CDK1, allowing cells to avoid mitotic
+catastrophe ( ). , To address the need of selective inhibitors
+that would allow for investigation of the pharmacological role of
+PKMYT1, very recently Repare Therapeutics conducted a focused screen
+of known kinase inhibitors using a fluorescence polarization-based
+competitive displacement assay. Among the inhibitors identified as
+hits, the 3-phenol compound [dubbed 1 in the reference
+paper ( B)]
+appears to be an excellent lead structure, particularly considering
+the 50–60-fold selectivity observed over the highly homologous
+enzyme WEE1. SBDD supported by multiple
+cocrystal structures enabled the optimization of keys properties,
+including PKMYT1 cell-based potency and kinase activity. The medicinal
+chemistry campaign took a fortunate turn with the introduction of
+a dimethylphenol substituent into the azaindole core. The resulting
+molecules, existing as specific atropoisomers, could be separated
+and assessed as single enantiomers, one of which with increased potency
+on PKMYT1. Parallel optimization of ADME properties led to identification
+of the orally available lunresertib [RP-6306 ( B)]. RP-6306 showed nanomolar cell-based
+potency against PKMYT1, excellent selectivity toward a panel of kinases,
+including WEE1, favorable PK, and ultimately efficacy in an ovarian CCNE1-amplified xenograft model ( ). The first-in-class
+clinical candidate RP-6306 reported by Repare Therapeutics is currently
+being evaluated in phase 1 clinical trials for the treatment of various
+solid tumors alone or in combination therapies with FOLFIRI (NCT05147350),
+gemcitabine (NCT05147272), and the ATR selective inhibitor RP-3500
+(NCT04855656). 
+Most recently,
+Repare Therapeutics has partnered with Debiopharm
+to explore SL combination of PKMYT1 and WEE1 in cancer. The collaboration
+aims to explore the synergism between RP-6306 and Debio0123, a potent
+and brain penetrant WEE1i ( A and ), , in a new arm of Repare’s
+ongoing clinical trial NCT04855656.
+Overall, the data suggest
+that WEE1/PKMYT1 inhibition is suitable
+for SL strategies in cancer therapy. The broad spectrum of activities
+exerted by the two kinds of kinases across the cell cycle makes them
+good candidates for a diverse array of therapeutic combinations. However,
+preclinical and clinical studies should be conducted to identify specific
+molecular applications in which WEE1/PKMYT1 inhibitors may be recommended. 
+
+3
+
+## SL beyond
+DDR
+While >70% of oncology trials in SL focus on genes
+within DDR pathways,
+there are emerging opportunities in SL associated with pathways outside
+DDR (non-DDR). Particularly of note
+is the significant presence of non-DDR studies in preclinical research,
+indicating a growing interest in SL beyond DDR. 
+Distinguishing between SL pairs inside or outside
+the DDR context
+can sometimes be challenging because one gene may be associated with
+DDR while the other is not. Examples falling into this category have
+been discussed in the previous section, typically involving the use
+of specific DDR protein inhibitors in mutated tumors (such as KRAS, MYC, RB-1, or ARID1A) or exploiting tumor deficiencies (through gene loss
+of function or protein inhibition) to afford a HRD phenotype, thereby
+enhancing sensitivity to PARPi. Notably in this regard, PARPi talazoparib
+has been shown to be effective in polybromo-associated BAF complex
+(PBRM1)-deficient cancer cells or in combination with BET inhibitors (epigenetic factor). 
+Nevertheless, there are many examples
+of SL pairs in which neither
+gene is a DDR gene, with a reassuring trend of increased application
+in clinical trials over the past decade. Herein, we describe two exclusive non-DDR SL interaction examples,
+one between MTAP deletion and PRMT5 or MAT2A and
+the other between SMARCA4 and SMARCA2. Both of these stand out as
+extensively studied and well-defined SL pairs in terms of medicinal
+chemistry campaigns, with neither gene belonging to the DDR category.
+3.1
+
+## MTAP and PRMT5 or MAT2A
+The chromosome
+9p21 (chr9p21) locus contains the CDKN2A gene, a
+gene encoding critical tumor suppressors and homozygously deleted
+in ∼15% of all human cancers. Due to the proximity of the genes, CDKN2A deletion
+is generally associated with the homozygous deletion of the methylthioadenosine
+phosphorylase (MTAP) gene, which encodes a critical
+enzyme in the methionine and adenine salvage pathway. MTAP metabolizes 5′-methylthioadenosine
+(MTA), a byproduct of polyamine synthesis; therefore, deletion of MTAP results in the accumulation
+of MTA and the blockade of the methionine salvage pathway ( ). The deletion
+of these passenger genes creates therapeutically tractable cancer
+vulnerabilities, exploiting what is termed “collateral SL”. So far, research around MTAP SL partners has
+identified, through RNAi screenings, two metabolic enzymes, the protein
+arginine methyltransferase (PRMT5) and the methionine adenosyl transferase
+II α (MAT2A) as SL targets with MTAP deletion
+( ). , , PRMT5 belongs to the family
+of protein arginine methyltransferases (PRMTs) and acts by transferring
+a methyl group from the S-adenosyl-l-methionine
+(SAM) to coordinate multiple regulatory programs, including cell growth. The role of PRMT5 has been documented in the
+pathogenesis of different diseases, including cancer. The accumulation of MTA in MTAP-deficient cells exerts an inhibitory effect on PRMT5, creating a
+vulnerability that can disrupt cell viability. Indeed, PRMT5 inhibitors
+(PRMT5i) leverage this dysregulated metabolic state and in turn induce
+apoptosis in cancer cells. The reader is advised to refer to the cited
+reviews for a more thorough summary of other PRMT5i. , The essential role of PRMT5 for cell survival, as demonstrated by
+knockout mouse models, explains the issue of toxicity commonly observed
+with PRMT5i in clinical or preclinical studies. To counteract this
+toxicity, inhibitors, named MTA-competitive inhibitors, that preferentially
+bind the target only in the presence of MTA have been designed, to
+reduce MTA-independent inhibition. 
+ Following this research hypothesis, Mirati Therapeutics
+recently
+reported MRTX1719 (M)-27, a small molecule that stabilizes
+the interaction between PRMT5 and MTA. The development of MRTX1719
+(M)-27 is an example of fragment-based lead discovery
+(FBLD). An initial fragment screening with SPR identified fragment
+F1, which underwent fragment growth via SBDD guided by the crystal
+structure of F1 in complex with PRMT5·MTA, giving MRTX1719 ( ). Subsequently, MRTX1719 (M)-27
+was identified as the active and stable atropoisomer ( ). MRTX1719 (M)-27 is a potent and selective binder
+of the PRMT5·MTA complex and selectively inhibits PRMT5 in MTAP-deleted cells at low nanomolar concentrations, compared
+to those of MTAP wild-type cells. Importantly, MRTX1719 (M)-27 avoids the
+hematopoietic toxicity issues of previous PRMT5i. Given the promising preclinical in vivo efficacy results, in which MRTX1719 (M)-27 elicited
+strong antitumor activity across a panel of MTAP-del
+cell line-derived xenograft (CDX) and PDX models, phase 1/2 trials
+of this drug are proceeding in a subset of cancers, including lung
+and mesothelioma ( ). 
+ Similarly, phase 1/2 clinical trials
+are currently ongoing for
+TNG908, a MTA-cooperative PRMT5i developed by Tango Therapeutics ( ). TNG908 is a brain penetrant small molecule,
+and its oral administration drives dose-dependent, selective activity
+against MTAP-null tumors in xenograft models, including
+glioblastoma ( ). 
+Recently, Amgen Inc. has been
+proceeding with phase 1/2 dose escalation
+studies of AMG193, a second-generation MTA-cooperative PRMT5i, to
+treat advanced MTAP-null solid tumors with an improved
+toxicity profile ( and ). AMG193’s structure, currently
+undisclosed, has been indicated in the company patent (Patent WO2021/163344A1).
+The PRMT5 methyl source, SAM, is produced by the enzyme MAT2A ( ). In parallel,
+another strategy for the inhibition of PRMT5 has been the inhibition
+of MAT2A, the enzyme responsible for producing SAM, which is the main
+methyl source of PRMT5. Indeed, the inhibition of MAT2A results in
+the reduction of SAM and in turn the starving of PRMT5 of its substrate.
+With this aim, Ideaya has advanced this approach, developing MAT2A
+inhibitors (MAT2Ai), such as IDE397 that prevents the production of
+SAM ( and ). However, SAM is
+a common substrate used broadly by multiple methyltransferases. Thus,
+there are concerns about the potential off-tissue effects of these
+drugs. Nevertheless, IDE397 has been reported as the best-in-class
+MAT2Ai, with a tolerability profile greater than those of existing
+nontargeted treatments. For this reason, IDE397 is now in phase 1/2
+clinical trials, as a monotherapy and in combination with classical
+chemotherapy in advanced solid tumors harboring MTAP deletion ( ). , Promisingly, MAT2Ai could represent an additional
+class of drugs with which to exploit the paradigm of SL in MTAP-deleted cancers. This is even more important if we
+consider that most SL pairs studied in the clinic so far involve DDR
+players. If successful, those recent examples would make SL significantly
+leap forward in anticancer therapy.
+
+3.2
+
+## SMARCA2
+and SMARCA4
+The SWI/SNF chromatin
+remodeling complexes are highly conserved ATP-dependent multiprotein
+epigenetic regulators that allow bonding of transcription factors
+through opening of a tightly packed chromatin structure in the nucleus. The SWI/SNF complex contains two mutually exclusive
+catalytic ATPase paralog subunits: SMARCA2 (also known as BRM) and
+SMARCA4 (BRG1). The other subunits are
+defined by the specific biological role required, resulting in many
+variations in the final composition. Mutations in SWI/SNF complexes have been linked to cancer growth
+and resistance; in particular, cancer cells with a loss of SMARCA4
+expression via mutation are highly dependent on SMARCA2 for survival,
+characterized as an SL interaction. , 
+These
+findings have inspired extensive efforts to develop inhibitors targeting
+the ATPase activity of SMARCA2. As a
+result, Novartis previously disclosed an optimized small molecule
+[compound dubbed 14 in the reference paper ( A)] that demonstrated in vivo antitumor efficacy in SMARCA4-deficient cancers.
+The compound is described as an allosteric inhibitor of both SMARCA2
+(IC50 < 0.005 μM) and SMARCA4 (IC50 < 0.005 μM), binding to a pocket near the ATP site (Glu852).
+Despite the rather specific trans conformation guaranteed
+by the sulfur–oxygen distance required for activity, the lack
+of selectivity against the two paralogs hampered its development,
+resulting in dose-limiting tolerability issues when administered in vivo. Nevertheless, another
+enzymatic inhibitor of both SMARCA4 and SMARCA2, FHD-286 ( A), has reached
+the clinic, possibly with the intent of recapitulating the corresponding
+genetic SL interaction, despite potential toxicity issues. The small molecule developed by Foghorn Therapeutics
+is described as highly potent and orally available and is now in a
+phase 1 clinical trial in combination with decitabine or cytarabine
+in patients with relapsed and/or refractory AML (NCT04891757). Despite
+the binding mode of FHD-286 not being disclosed, it shares with compound 14 the sulfur–carbonyl motifs, hinting at a similar
+binding behavior ( A).
+ An alternative strategy for targeting SMARCA2 in
+the treatment
+of SMARCA4 mutant cancers involves leveraging small molecules that
+target the SMARCA2 bromodomain region (Asn1464) as a handle for their
+development into PROTACs, as demonstrated by the growth inhibition
+of SMARCA2-dependent (SMARCA4 mutant) cancer cells after intracellular
+knockdown of SMARCA2. This approach
+capitalizes on the unique advantages of PROTACs over traditional small
+molecule inhibitors, allowing for selective degradation of a specific
+protein while sparing its closely related homologues and therefore circumventing the selectivity challenges
+encountered with inhibitors that target the ATPase activity of the
+protein.
+In 2019, Farnaby et al. introduced ACBI1, the first
+PROTAC degrader
+of SWI/SNF complex subunits, SMARCA2 and SMARCA4, swiftly followed by ACBI2 ( B), a notable achievement as an oral VHL-based
+PROTAC, a domain typically associated with CRBN-recruiting bifunctional
+degraders. A factor contributing to
+the success of this molecule is the more compact arrangement of the
+branched linker, which afforded a smalle 3D polar surface area ( B). ACBI2 displayed selective degradation of SMARCA2
+over SMARCA4 in ex vivo and in vivo assays, though it achieved tumor stasis only in vivo despite efficient SMARCA2 degradation (for SMARCA2, DC50 = 1 nM and Dmax = 81%; for SMARCA4,
+DC50 = 32 nM and Dmax = 67%). Subsequent reports unveiled A947 (for SMARCA2,
+DC50 = 0.039 nM and Dmax =
+96%; for SMARCA4, DC50 = 1.1 nM and Dmax = 92%) and SMD-3040 (for
+SMARCA2, DC50 = 12 nM and Dmax = 91%; for SMARCA4, DC50 > 1000 nM and Dmax = 44%), SMARCA2 selective
+VHL-based PROTAC degraders with notable selectivity for SMARCA2 over
+SMARCA4, showing stronger efficacy in SMARCA4 mutant cancer cell lines
+and xenograft models than in SMARCA4 wild-type cells. An interesting
+expansion of the VHL-SAR for SMD-3040 introduced the morpholine group
+onto the VHL-methyl benzyl core, resulting in SMD-3236, which features
+improved DMPK properties and further increased degradation selectivity
+against SMARCA4 (full structure undisclosed; DC50 = 0.5
+nM, and Dmax = 96%; for SMARCA4, DC50 > 1000 nM and Dmax = 41%),
+thus
+representing a promising candidate for further advanced preclinical
+studies possibly overcoming DMPK issues often associated with SMARCA2
+degraders. 
+While potential differences
+in cellular adaptation as a cause for
+the often observed tumor stasis rather than regression in in vivo models have been acknowledged, more potent PROTACs
+(Dmax > 95%) or rational drug combinations are being explored as a means of potentiating
+the activity of PROTACs against tumor cells. In this regard, MCL1
+protein is being evaluated as a synergistic partner for SMARCA2 degradation
+across various SMARCA4 mutated models, underscoring broader applicability
+beyond specific cellular contexts. 
+Nevertheless, the therapeutic rationale of SMARCA2 degraders in
+SMARCA4 mutant tumors suggests a promising clinical future, as demonstrated
+by the VHL-based PROTAC undisclosed by Prelude Therapeutics (PRT3789)
+that recently entered a phase 1 clinical trial (NCT05639751). 
+
+4
+
+## Expanding the Definition
+of SL to Contextual
+SL
+Contextual SL is a concept that has recently been added
+to the
+classic genetically based SL. In fact, the effects of classic SL can
+be weaker or unattainable due to particular tumor conditions, such
+as the heterogeneity of tumor cells, their metabolic state, and the
+tumor microenvironment, which ultimately contribute to the onset of
+resistance to therapy. In this context,
+contextual SL represents a strategy that aims to target both genetic
+vulnerabilities and nongenetic abnormal conditions to achieve a more
+decisive anticancer effect ( ).
+ Tumor tissue promotes neoangiogenesis to grow new
+vessels for nutrient
+demand, in particular glucose to sustain the abnormally hyperactivated
+glycolysis. However, tumor tissue is
+not efficiently vascularized, and this creates hypoxic regions. Generally,
+hypoxia correlates with cancer aggressiveness and resistance to chemotherapy.
+Interestingly, cancer hypoxia connects to SL as it is linked to DDR
+deficiency; thus, as they are likely HR-deficient, hypoxic tumor cells
+can be sensitive to PARPi. As a proof
+of concept, Chan et al. observed that
+repair-defective hypoxic cancer cells experience SL with PARPi, in
+a RKO (human colon carcinoma cell line) xenograft model, which encourages
+further investigation of hypoxia as an inducer of the HR-defective
+phenotype. 
+Moreover, the hyperactivity
+of the tumor hypoxia-induced pH regulator
+carbonic anhydrase IX (CAIX) is seen to block the lethal mechanism
+of ferroptosis by maintaining an alkaline intracellular pH. Taking
+into account this evidence, Chafe et al. performed a SL CRISPR screen in hypoxic TNBC cells and discovered
+that CAIX-NFS1/xCT axis are genetic SL pairs that when dysregulated
+enhance ferroptosis and limit tumor growth. CAIX is a recognized anticancer target and, with CAIX inhibitors,
+is advancing in the clinic (e.g., SLC-0111). Therefore, this SL strategy could be implemented as a tool for the
+treatment of hypoxic cancer cells.
+Cancer cells generally face
+complex metabolic reprogramming. This
+makes them more dependent on a variety
+of pathways and metabolites, opening up contextual SL applications
+that could be considered in addition to genetic SL. For instance,
+in KRas-driven cancer cells, the deprivation of glutamine is SL in
+combination with the ATP-citrate lyase (ACLY) inhibitor, SB-204990,
+as reported by Hatipoglu et al. This
+SL exploits the addiction of KRas-driven cancer cells to glutamine
+due to their metabolic reprogramming. Moreover, the same authors proved
+that the combination of SB-204990 with an inhibitor of transaminase,
+aminooxyacetate, exerted an even stronger SL effect on KRas mutated
+cells, opening up the application of this relationship as a therapeutic
+combination. 
+Increased levels
+of ROS are a characteristic feature of cancer. While increased ROS concentrations are crucial
+for cancer development and progression, levels surpassing a cytotoxic
+threshold lead to cancer cell death. As anticipated above, through metabolic reprogramming, cancer cells
+can adapt also to high ROS concentrations through mechanisms such
+as antioxidant production and often rely on tumor-specific dependencies
+like antioxidant glutathione (GSH) to neutralize ROS. Consequently, restricting GSH availability
+can selectively induce tumor cell death and contribute to the development
+of targeted treatment strategies. For example, Ogiwara et al. demonstrated how cancer cells lacking ARID1A are particularly sensitive to inhibition of antioxidant
+GSH and the key enzyme in GSH synthesis, glutamate-cysteine ligase
+synthase catalytic subunit (GCLC). Inhibiting GCLC significantly reduces
+GSH levels in ARID1A-deficient cancer cells, thereby
+enhancing apoptotic cell death triggered by excess ROS. The susceptibility
+of glutathione metabolism in ARID1A-deficient cancers
+can thus be considered in the context of genetic SL pairs, as previously
+discussed in this Perspective.
+The examples described above
+provide a mere hint of this expanding
+field; a detailed overview of the state of the art is outside the
+scope of this Perspective. We therefore suggest the recent review
+by Ge et al. for a more comprehensive
+analysis. Nevertheless, it is worth emphasizing how careful consideration
+of tumor heterogeneity could overcome some of the difficulties that
+SL strategies have had regarding translation from cellular to in vivo models and, ultimately, patients. This reflection calls for the attention of the medicinal
+chemistry community, providing new potential strategies for drug development.
+
+5
+
+## Final Thoughts and Future Perspectives
+SL therapies
+have paved the way to personalized therapies, with
+the hope of treating specific types of cancers with a very rational
+approach. In this context, PARPi and their use in BRCA1/2 mutation
+tumors led to a true revolution in anticancer therapy. Nevertheless,
+the wide use of PARPi in clinics has highlighted PARPi limitations.
+In particular, the acquired resistance to PARPi represents the most
+frequent event that threatens the effectiveness of the treatment and
+its prolonged use. In this context, aid can come from the identification
+of genes and proteins involved in DDR, to be either predictive biomarkers
+or SL molecular targets. This helps in predicting the effectiveness
+of prescribed therapy and establishing patient eligibility. Furthermore,
+it provides a fresh source of targets for medicinal chemistry campaigns
+in drug discovery, in particular to investigate the druggability of
+said targets and lead to the development of newer DDR-targeting agents
+as
+monotherapy or in combination therapies. In addition to the examples
+previously described in this Perspective, worth mentioning is the
+chemoproteomic approach employed by Vividion Therapeutics. Importantly,
+it yielded VVD-214, an allosteric covalent inhibitor of the Werner
+(WRN) DNA helicase with an important SL application in tumors with
+microsatellite instability (MSI), a common hallmark of cancers with
+DNA mismatch repair deficiency. Beyond
+direct DDR inhibition, SL paradigm is also effective through the inhibition
+of DDR adjacent targets, such as epigenetic regulators and transduction
+signaling mediators, i.e., tyrosine kinase receptors, achieving an
+HRD-like status that can confer sensitivity to PARPi. Targeting those
+indirect players of DDR increases the scope for medicinal chemists
+and expands the use of SL to more varied cohorts of oncological patients.
+Knockout screens to catch new SL pairs have focused so far on two-way
+interactions, silencing one gene across a specific cancer cell line.
+Newly developed double-knockout CRISPR-Cas9 screening approaches are
+under development, opening the way to paralogue knockout to provide
+proteins with redundant activity. Some
+promising SL interactions between paralogue pairs have been reported,
+including some tumor suppressors such as the described SMARCA4, but also ARID1A and CREBBP. In some cases, structural similarity can be
+exploited to achieve a paralogue pair knockout in genetically altered
+cancer cells. An example is the paralog SL interaction of VRK1 nuclear
+kinase in glioblastoma deficient of VRK2 reported by Tango Therapeutics, supporting the VRK1 case as a promising drug
+discovery target using recently developed pyridine-based inhibitors. In other cases, paralogue inhibition discrimination
+is essential for avoiding toxicities and achieving selectivity. In
+this regard, the use of PROTACs can afford a selectivity better than
+that of small molecule inhibitors. As described above for SMARCA2
+degraders, the same approach is being applied to other targets, among
+which the effort of Beactica Therapeutics should be mentioned. They
+developed YAP/TEAD protein–protein interface degraders, where
+one of the four TEAD paralogs (TEAD1) is proven to be SL in certain
+altered genetic settings. 
+RNAs
+are increasingly garnering interest from the medicinal chemistry
+field as a renewed source of clinically relevant targets. Upon determination
+of multiple roles in the regulation of pathological processes, including
+cancer, the identification of RNAs will offer the opportunity to leverage
+SL paradigm using RNA targeting agents, including small molecules
+and RNA-based therapeutics. For example, an option may be the modulation
+of the spliceosome to induce SL in splicing factor-altered cancers.
+Indeed, the dysregulation of the splicing of pre-mRNAs is involved
+in the development of different malignancies, and frequent somatic
+mutations are found in components of the spliceosome in myeloid malignancies. For instance, mutations in SF3B1, a spliceosome component of mRNA of DDR genes, induce a BRCAness-like
+phenotype that confers SL to DNA-damaging agents and PARPi. Whether
+drugs in development that target the SF3B complex can achieve this
+with minimal toxicity remains to be seen. We therefore expect that the number of SL strategies focused on
+RNA will increase in the future.
+Beyond the genetic-based principle,
+SL can evolve into a more versatile
+paradigm (“contextual SL”) to tackle tumor-induced conditions
+and environment, often poorly addressed by the classical combination
+strategies based on SL pairs. Indeed, cancer complexity has been widely
+embraced in the past decade, as it significantly undermines the efficacy
+of current therapeutic strategies.
+In this regard, an exciting
+field that is emerging is the phenomenon
+of “metabolic SL”, defined as an SL relationship not
+only for targeting gain-of-function and loss-of-function mutations
+but also for metabolic vulnerabilities. Another definition of “metabolic SL” is the one given
+by Li et al. that define it as the SL
+dependency of organelles (e.g., mitochondria) and genes/proteins involved
+in maintaining the metabolic state of the cell. Caution needs to be
+used when describing these relationships as SL, because they often
+fall into the definition of cancer dependencies rather than genetic
+SL. Nevertheless, metabolic reprogramming is an emerging hallmark
+of cancer cells, and large-scale metabolic networks can fruitfully
+open the way to novel combinatorial strategies, expanding the concept
+of SL. , 
+Finally, the growing collection of
+genomic data from oncological
+patients, coupled with artificial intelligence and machine learning
+algorithms, will enable the identification of potential SL targets,
+within or outside DDR. Together with the advent of groundbreaking
+medicinal chemistry approaches, the toolbox of SL therapeutics is
+set to undergo a great expansion. For this reason, we hope that this
+work will provide inspiration for the medicinal chemistry community
+to capitalize on those innovative approaches and accelerate the development
+of drug-like compounds to exploit anticancer SL.
+
+## Author Present Address
+‡ CECAM, EPFL, Avenue Forel 3, CH-1015 Lausanne,
+Switzerland
+
+## Author Contributions
+∇ V.P. and
+G.B. contributed equally to this work.
+The authors
+declare no competing financial interest.
+Viola Previtali completed her doctoral
+studies in
+medicinal chemistry at Trinity College Dublin (TCD, Ireland) under
+the guidance of Prof. Isabel Rozas. After completing her postdoctoral
+research in medicinal chemistry and chemical biology with Prof. Mads
+H. Clausen’s group at the Technical University of Denmark (DTU,
+Denmark), she joined the research group of Prof. Cavalli at the Italian
+Institute of Technology (IIT) in 2019. Currently, her research is
+focused on designing and developing drugs for synthetic lethality
+strategies in precision oncology.
+Greta Bagnolini received her Ph.D. in biocomputational,
+biotechnological, pharmaceutical, and pharmacological science at the
+University of Bologna (Italy) in affiliation with the Italian Institute
+of Technology (IIT) in 2021. After postdoctoral studies at Duke University
+(USA) working on RNA targeting, she joined the University of Bologna
+as a postdoc in medicinal chemistry in 2023. Among the different projects
+on which she works, the design and synthesis of protein-protein inhibitors
+for synthetic lethality and RNA targeting by small molecules are the
+center of her research activity.
+Andrea Ciamarone received his M.S. in organic chemistry
+from the University of Bologna (Italy) in 2021. In the same year,
+he joined the Italian Institute of Technology (IIT) as Ph.D. student
+in biotechnological, biocomputational, pharmaceutical, and pharmacological
+sciences. His research is mainly focused on the design and synthesis
+of small molecules for cancer treatment.
+Giovanni Ferrandi is a Ph.D. student in biotechnological,
+biocomputational, pharmaceutical, and pharmacological sciences from
+the University of Bologna in collaboration with the Italian Institute
+of Technology (IIT). He received his M.S. in 2021 in organic synthesis
+and bio-organic chemistry from the University of Bologna with a thesis
+on the synthesis and biological evaluation of organometallic complexes
+with potential anticancer activity at the University of Brussels ULB.
+In 2021, he started his Ph.D. working in drug discovery projects mainly
+focused on the design and synthesis of small molecules to chemically
+induce synthetic lethality in cancer cells.
+Francesco Rinaldi studied Pharmacy at the University
+of Bologna (Unibo, Italy), carrying out his M.S. work at ETH Zurich
+(Switzerland). In 2023, he obtained his Ph.D. in biotechnological,
+biocomputational, pharmaceutical, and pharmacological sciences at
+Unibo, after developing his three-year work at the Italian Institute
+of Technology (IIT), where he is currently acting as a postdoc. Since
+2021, his work has been supported by the Italian Association for Cancer
+Research (AIRC), thanks to a three-year fellowship.
+Samuel H. Myers received his Ph.D. in medicinal
+chemistry
+from the University of Edinburgh (U.K.) in 2016. After postdoctoral
+work in medicinal chemistry and chemical biology at University College
+London (UCL, U.K.), in 2018 he joined the Italian Institute of Technology,
+Genova (Italy), where he worked as a postdoc in medicinal chemistry
+for 5 years. He has since moved into industry having joined Lo.Li
+Pharma srl, Roma (Italy), in 2023.
+Marinella Roberti is Professor of Medicinal Chemistry
+at the University of Bologna. Her research field regards the design
+and the synthesis of biologically active small molecules that can
+be either innovative lead candidates for drug discovery or valuable
+chemical tools for studying molecular pathways. The therapeutic field
+of main interest is cancer. Within the different strategies applied
+for the design of new molecular entities, the development of protein-protein
+interaction inhibitors to chemically induce synthetic lethality is
+the center of her most recent research activities. The scientific
+research activity is documented by >100 publications in peer-reviewed
+journals.
+Andrea Cavalli is
+a professor at the University of
+Bologna and the director of CECAM/EPFL. He was the Director of Computational
+Sciences and the Vice-Scientific Director of IIT. He combines computational
+chemistry with drug discovery. He designed algorithms and protocols
+to accelerate the discovery of new lead candidates. He pioneered molecular
+dynamics and related methods to (multitarget) drug discovery, creating
+algorithms for dynamic docking, allosteric modulation, residence time
+prediction, free energy estimation, etc. He has also led oncogenomics
+programs with clinics and hospitals that aim to find actionable drug
+genes through next-generation sequencing, bioinformatics, and machine
+learning. New targets from omics analyses support new drug discovery
+programs focusing on synthetic lethality. He has published >300
+scientific
+papers and delivered >150 lectures.
+
+## Acknowledgments
+This work was supported by the Italian Association
+for Cancer Research (AIRC, IG 2018, id 21386), PRIN Project 2022 (Prot.
+20227S3BM7), the Italian Institute of Technology (IIT), and the University
+of Bologna. F.R. is the recipient of an AIRC Fellowship 2020 “Ignazia-La-Russa”
+(id 25239). Images were created with Biorender.com.
+
+## Abbreviations Used
+ACLYATP-citrate lyase
+APE1apurinic/apyrimidinic
+endonuclease
+ARID1AAT-rich interactive domain-containing protein 1A
+ATMataxia telangiectasia mutated
+ATMiATM inhibitor
+ATRataxia telangiectasia
+and Rad3-related protein
+ATRiATR inhibitor
+ATRIPATR-interacting protein
+AURKAAurora kinase A
+BETbromodomain and extra-terminal domain
+BRCA1/2breast cancer type
+1 susceptibility protein
+BRDbromodomain
+CCND1cyclin D1
+CDC25Acell division cycle 25 A
+CDKN2Acyclin-dependent kinase inhibitor 2A
+CDXcell line-derived xenograft
+cGAScyclic GMP-AMP synthase
+DDRDNA damage response
+DNA-PKcsDNA-dependent
+protein kinase catalytic subunit
+DNA-PKcsiDNA-PKcs inhibitor
+DSBdouble-strand break
+DUBdeubiquitinase
+EGCepigallocatechin
+EMAEuropean Medicine Agency
+FAFanconi anemia
+FANCD2Fanconi anemia
+complementation group 2D
+FBLDfragment-based lead discovery
+FLT3-ITDFms-like tyrosine receptor kinase 3
+GBMglioblastoma
+gBRCAmgermline BRCA
+mutation
+HBhydrogen
+bond
+HelDhelicase-like
+domain
+HRhomologous
+recombination
+HRDhomologous recombination-deficient
+ICLinterstrand cross-links
+IMHBintramolecular hydrogen bond
+IRionizing radiation
+ITDinternal tandem
+duplication
+KDkinase
+domain
+KRASKirsten
+rat sarcoma
+MAT2Amethionine adenosyltransferase 2A
+MAT2AiMAT2A inhibitor
+MCL1myeloid cell leukemia-1
+MCTmonocarboxylate transporter
+MDC1mediator of DNA damage
+checkpoint 1
+MEKmitogen-activated protein kinase kinase
+METTL16m6A methyltransferase
+miRNAmicroRNA
+MRNMRE11-RAD50-NBS1
+MSH3MutS homologue 3
+MTDmaximum tolerated dose
+MTAmethylthioadenosine
+MTAPmethylthioadenosine
+phosphorylase
+mTORmammalian target of rapamycin
+NFS1iron–sulfur cluster enzyme
+NHEJnonhomologous end joining
+PALB2partner and localizer
+of BRCA2
+PARGpoly(ADP-ribose)
+glycohydrolase
+PARGiPARG inhibitors
+PARPpoly(ADP-ribose) polymerase
+PARPipoly(ADP-ribose) polymerase inhibitor
+PBDpolo-box domain
+PBRM1polybromo-associated BAF complex
+PCNAproliferating
+cell nuclear antigen
+PDXpatient-derived xenograft
+PD-1programmed cell death protein 1
+PD-L1programmed cell death ligand 1
+PIKKphosphoinositide 3-kinase-related
+PLK1iPLK1 inhibitor
+PKMYT1membrane-associated
+tyrosine- and threonine-specific cdc2-inhibitory kinase
+PolDpolymerase domain
+Polθpolymerase
+θ
+PolθiPolθ inhibitor
+PRMTsprotein arginine methyltransferases
+PRMT5protein arginine methyltransferase
+5
+PRMT5iPRMT5 inhibitor
+PROTACproteolysis
+targeting chimera
+qHTSquantitative high-throughput screening
+RAD52iRAD52 inhibitor
+Rafrapidly accelerated fibrosarcoma
+RB-1retinoblastoma
+protein 1
+RPAreplication
+protein A
+SAMS-adenosyl-l-methionine
+SF3Bsplicing factor 3B
+SDLsynthetic dosage lethality
+SFCsupercritical fluid
+chromatography
+shRNAshort RNA
+siRNAsilencing RNA
+SLsynthetic lethality
+SMARCA2/4SWI/SNF-Related, matrix-associated, actin-dependent regulator
+of chromatin, subfamily A, member 2/4
+SSAsingle-strand annealing
+SSBsingle-stranded break
+ssDNAsingle-strand DNA
+STINGstimulator of
+interferon genes
+TBNCtriple-negative breast cancer
+TEADtranscriptional enhanced associated domain
+TLStranslesion synthesis
+TMEJPolθ-mediated
+end joining
+TMZtemozolomide
+UAF1USP1-associated factor 1
+USP1ubiquitin-specific protease 1
+USP1iUSP1 inhibitor
+VHLVon Hippel–Lindau
+VRKVaccinia-related kinase
+WEE1iWEE1 inhibitor
+xCTcystine-glutamate antiporter
+XRCC1X-ray repair
+cross-complementing protein 1
+YAPyes-associated protein 1

@@ -1,0 +1,219 @@
+1691wjoncolWorld Journal of OncologyWorld J OncolElmer PressPMC1195460611954606119546064016210410.14740/wjon2514Comprehensive Investigation of a Tyrosine Kinase Inhibitor-Resistant Gene Zeste White 10 in Hepatocellular Carcinoma
+HuangQing Ling ZhangGuan Lan SuQin Yan ChiBang Teng LinQian LiShi De HeHan TangYu Lu DangYi Wu ChenGang HeRong Quan aDepartment of Pathology, The First Affiliated Hospital of Guangxi Medical University, Nanning 530021, Guangxi Zhuang Autonomous Region, ChinabDepartment of Gastroenterology, The First Affiliated Hospital of Guangxi Medical University, Nanning 530021, Guangxi Zhuang Autonomous Region, ChinacDepartment of Medical Oncology, The First Affiliated Hospital of Guangxi Medical University, Nanning 530021, Guangxi Zhuang Autonomous Region, ChinadThese authors contributed equally to this work.eCorresponding Author: Gang Chen and Rong Quan He, Department of Pathology and Department of Medical Oncology, The First Affiliated Hospital of Guangxi Medical University, Nanning 530021, Guangxi Zhuang Autonomous Region, China. Email: chengang@gxmu.edu.cn and herongquan@gxmu.edu.cn
+932025162210210–2263032025Copyright 2025, Huang et al.This article is distributed under the terms of the Creative Commons Attribution Non-Commercial 4.0 International License, which permits unrestricted non-commercial use, distribution, and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+## Background
+Tyrosine kinase inhibitors (TKIs) are first-line therapies for hepatocellular carcinoma (HCC), but the drug resistance restricts the long-term clinical outcomes. This study aimed to investigate the expression patterns and possible clinical significance of a TKI-resistant gene zeste white 10 (ZW10) in HCC.
+
+## Methods
+Clustered regularly interspaced short palindromic repeats (CRISPR) screening was conducted to obtain TKI-resistant genes. Pan-cancer analysis was employed to analyze the expression landscape of the critical TKI-resistant gene ZW10. Transcriptional expression data for ZW10 were obtained from 76 centers, including 3,312 HCC samples and 2,703 noncancerous tissues. A summary receiver operating characteristic (SROC) curve was built to evaluate ZW10 expression characteristics in HCC. Unpaired two-sample Wilcoxon method was conducted to analyze ZW10 expression levels in HCC of various etiologies. Univariate Cox method was employed to assess the prognostic value of ZW10. Moreover, the gene function within HCC cell lines, the TKI treatment responses, key pathways, and tumor microenvironment of ZW10 were bioinformatically investigated. Drug prediction and molecular docking techniques were used to explore the potency of ZW10 as a novel therapeutic target.
+
+## Results
+The abundance of small guide RNA (sgRNA) corresponding to ZW10 gene was decreased in the whole genome CRISPR knockout library (LogFC = -1.19), indicating that ZW10 may participate in TKI resistance. The differential expression landscape of ZW10 was found in various malignancies including HCC, which was associated with poorer prognosis. Pooled standardized mean difference (SMD) of ZW10 mRNA expression was 0.47 (95% confidence interval (CI): 0.32 - 0.63), the area under SROC was 0.76 (95% CI: 0.72 - 0.79), the sensitivity was 0.63 (95% CI: 0.53 - 0.72), and the specificity was 0.77 (95% CI: 0.67 - 0.84). ZW10 was investigated significant for the growth of HCC cells. Nucleocytoplasmic transport was the possible pathway that ZW10 involved. High level of ZW10 was reversely associated with TKI responses and the abundance of immune cell infiltration. Mocetinostat and capecitabine were predicted to be the potential inhibitors targeting ZW10 with a minimum binding energy of -8.2 and -7.1 kcal/mol, respectively.
+
+## Conclusions
+ZW10 is considered a TKI-resistant and tumor-supportive gene, which is also a promising novel prognostic biomarker for HCC or a therapeutic target for overcoming TKI resistance.
+
+Keywords: Hepatocellular carcinoma, Zeste white 10, Tyrosine kinase inhibitor, Resistance, Nucleocytoplasmic transport
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Dec 19; Accepted 2025 Feb 25; Issue date 2025 Apr.
+
+## Introduction
+Systemic antitumor therapy is the preferred treatment for advanced hepatocellular carcinoma (HCC) [ ]. Tyrosine kinase inhibitors (TKIs) play an important role in first-line and second-line treatment for HCC [ ]. However, intrinsic and acquired drug resistance limits the survival benefit of TKIs, extending patient survival by only a few months and restricting long-term clinical outcomes [ , ]. Therefore, identifying effective biomarkers for guiding TKI-stratified therapy and targeting TKI resistance is crucial for improving patient prognosis.
+Clustered regularly interspaced short palindromic repeats (CRISPR) is a powerful genome-wide tool that utilizes small guide RNAs (sgRNAs) to modify genes across the entire genome [ ]. Within the CRISPR knockout library, knocking out a drug-resistant gene prevents cell survival under drug treatment, causing lower sgRNA abundance, as detected via DNA sequencing. This study employed CRISPR screening to uncover TKI-sensitive and resistant genes, underscoring its importance in drug resistance research. Notably, zeste white 10 (ZW10) was identified as a critical TKI-resistant gene and a potential therapeutic target for overcoming TKI resistance.
+ZW10 plays a crucial role in spindle assembly checkpoint signaling during mitotic chromosome segregation, guiding spindle assembly. Phosphorylation of ZW10 by PLK1 ensures proper chromosome segregation and contributes to the inactivation of the spindle checkpoint, preventing premature mitotic exit [ , ]. Despite its pivotal function, ZW10 remains underexplored in the field of cancer research, with limited reports indicating its upregulation in colorectal cancer and showing that ZW10 deficiency inhibits cell proliferation [ ]. Additionally, loss of ZW10 promotes melanoma resistance to alkylating agents [ ]. However, no studies have yet investigated the relationship between ZW10 and HCC, presenting an intriguing avenue for future research.
+This research was designed to ascertain the TKI-resistant genes through an in-house CRISPR screen experiment, while also evaluating the expression characteristics in HCC along with the prospective clinical value of the critical TKI-resistant gene ZW10 in HCC. We have collected multicenter mRNA datasets to integrate the expression status of ZW10 gene in HCC tissue. The expression level of ZW10 was analyzed in HCC patients with different etiology backgrounds. Prognostic analyses and biological mechanism analysis were used to further investigate the clinical value of ZW10, while molecular docking techniques were used to explore the possibility of ZW10 as an innovative therapeutic target.
+
+## Materials and Methods
+
+## Genome-wide CRISPR knockout screen
+For the materials used in this experiment, Huh7 cell line was sourced from the Cell Bank of the Chinese Academy of Sciences. The human genome-wide CRISPR/Cas9 knockout library v2 (GeCKO v2) covering 65,386 specific sgRNAs (Addgene company, number: 1000000048) and lentiCRISPRv2 vectors carrying Cas9 and puromycin resistance (Addgene company, number: 1000000048) was purchased to construct gene-deficient cell models. During the experiment, to ensure every cell was infested by only one specific sgRNA, the multiplicity of infection was set to less than 0.3. After lentivirus transfection, puromycin treatment was performed to screen the whole genome knockout HCC cells. Subsequently, the HCC cells infected with the lentivirus were treated with anlotinib, a TKI drug produced by Jiangsu Zhengda Tianqing Company, for 21 days. The DNAs of the survived HCC cells were exacted and sequenced by Beijing Noa Zhiyuan Technology Company. To ensure the reliability of the final data, joint data, unknown data, and low-quality data were eliminated and quality control was carried out. Ultimately, the MAGeCK algorithm was utilized for quality assessment and gene expression profiling in the CRISPR/Cas9 genome-wide knockout analysis. Based on the negative screening strategy, the genes with lower sgRNA abundance were considered to be TKI-resistant. The research received Institutional Review Board Approval from the Ethics Committee of the First Affiliated Hospital of Guangxi Medical University and Institutional Animal Care and Use Committee Approval from Guangxi Medical University.
+
+## Pan-cancer analysis
+To broaden the biological context for investigating ZW10 and to validate its significance across diverse cancers, the transcriptional data and matched clinical information for 33 solid tumors were sourced from The Cancer Genome Atlas (TCGA) database [ ]. The differential expression of ZW10 mRNA and its correlation with survival prognosis among various tumors were examined. UALCAN [ ] database and The Human Protein Atlas (THPA) database [ ] were utilized to demonstrate the ZW10 protein levels within solid tumors.
+
+## Gene chip or RNA-sequencing dataset collection
+Given the distinct biological nature of HCC compared to other cancer types, this study required further investigation into the impact of ZW10 in HCC to validate the findings observed in the pan-cancer analysis. The Gene Expression Omnibus (GEO) database [ ], Sequence Read Archive (SRA) database [ ], ArrayExpress database [ ], Oncomine database [ ], TCGA and the Genotype-Tissue Expression (GTEx) database [ ] were retrieved to collect mRNA datasets. The search strategy was as follows: liver neoplasm OR hepatic neoplasm OR hepatocellular cancer OR hepatocellular carcinoma OR hepatic cancer OR hepatic carcinoma OR liver cancer OR cancer of liver. Datasets would be included if the following criteria were met: 1) Homo sapiens; 2) The datasets were mRNA sequencing data in human tissue, containing HCC tissue group and non-cancer hepatic tissue group; 3) The number of HCC samples and non-cancer hepatic samples in each dataset was not less than 3. Datasets would be eliminated for the following conditions: 1) Samples were originated from cell line; 2) Samples were intervened by heat treatment, gene editing or drug treatment; 3) Samples belonged to other subtypes of liver cancer such as cholangiocarcinoma, mixed liver cancer or heterozygous liver cancer; 4) The data could not be obtained or calculated. After data screening, the datasets from the same sequencing platform were merged and batch effects were removed. Besides, log2 (x + 1) normalization was performed for the datasets with large data fluctuation ranges.
+
+## Pooled analysis
+The standardized mean difference (SMD) was integrated to reflect the mRNA level of ZW10 in HCC through STATA version 17. The overall heterogeneity was estimated using the I2 statistic and Q test. If I2 is greater than 50% and Q test has a P value lower than 0.10, the overall heterogeneity is deemed obvious, requiring the use of a random effect model for SMD combination. A summary receiver operating characteristic (SROC) curve was pictured, along with the computation of the area under the curve (AUC) to further verify ZW10 expression in HCC. Egger’s test was utilized to detect publication bias.
+
+## Etiology stratification analysis
+To explore the relationship between ZW10 and HCC of different etiologies, statistical analyses were conducted to assess the expression levels of ZW10 mRNA across various HCC subgroups. These subgroups included alcohol consumption, hepatitis (B or C), hepatitis B, hepatitis C, the combination of alcohol consumption and hepatitis (B or C) and non-alcoholic fatty liver disease. The expression data of ZW10 and clinical information of HCC patients used were downloaded from TCGA database. Unpaired two-sample Wilcoxon method was employed for these analyses.
+
+## Clinical significance and prognosis
+TCGA database provided the prognostic data for HCC patients, where samples lacking complete clinical data were deleted, and parameters containing excessive unknown information were excluded from the analysis. Univariate Cox regression method was utilized to compute the hazard ratios (HRs) of ZW10 transcriptional expression value, age, gender, race, primary tumor stage (pT stage) as well as the American Joint Committee on Cancer (AJCC) stage, and assess the risk of the above factors for HCC death. If an HR is greater than 1, it indicates that the corresponding factor is a risk factor for the occurrence of the event, otherwise is protective. Wilcoxon method was employed to analyze the link between ZW10 mRNA levels with the clinicopathologic features including age, gender, race, pT stage, and AJCC stage. The package “survminer” in R software was employed to compute the optimum cutoff, thereby categorizing all the samples into ZW10-high and ZW10-low level groups based on the expression value. The Kaplan-Meier curves combined with the log-rank test were employed to investigate the association between ZW10 transcriptional level with the overall survival time. When the Kaplan-Meier curves cross, the log-rank test will be unsuitable and replaced with a two-stage test [ ].
+
+## Gene interference effect
+Gene dependence refers to the necessity of genes for cell colony and proliferation. The DepMap team used genome-wide RNAi or CRISPR knockout techniques to analyze the impacts of different gene knockouts on the growth of cancerous cell lines. This study downloaded the “CRISPR (DepMap 22Q2 Public+Score Chronos)” data, extracted the gene effect value of ZW10-deficiency on 20 HCC cell lines and visualized the result by a scatter plot. A gene effect value less than 0 indicates that the effect of gene knockout is to inhibit cell viability.
+
+## Investigation of ZW10 expression and TKIs responses
+To comprehensively understand ZW10’s potential contribution to resistance against multiple TKI drugs, the authors utilized the “pRRophetic” package to explore the relationship between ZW10 transcription levels and the half-maximal inhibitory concentration (IC50) of various TKI components. The cohort of ZW10 sequencing data was standardized using the transcripts per million (TPM) method based on the LIHC-TCGA dataset. Dependent upon the average of ZW10 transcriptional level, the samples were categorized into ZW10-high and ZW10-low level groups, and the relationships between ZW10 and the effectiveness of TKI drugs were explored using independent samples t-test and Pearson analysis.
+
+## Genes with differential expressions and the corresponding biological pathways
+The differentially upregulated genes of 371 HCC tissues compared with 50 non-HCC tissues were calculated by “limma” package, with logFC > 1 as the reference standard. Secondly, Pearson correlation coefficients between ZW10 gene expression and other gene expression were calculated, and the genes exhibiting a Pearson correlation coefficient greater than 0.75 and a P value lower than 0.05 were identified as strongly positive correlation genes of ZW10. The intersective genes between differentially upregulated genes and ZW10 strongly positive correlation genes were input into DAVID database [ ] for biological mechanism analysis [ ].
+
+## Tumor microenvironment exploration
+The “xCell” is a tool that can predict immune cell abundance in an individual sample through single-sample Gene Set Enrichment Analysis (ssGSEA), founded upon gene expression cohort. Sixty-four cell types, including innate and adaptive immune-associated cells, hematopoietic progenitor cells, epithelial cells, and stromal cells that secrete various factors to regulate the tumor microenvironment, can be predicted [ ]. In this study, the “xCell” package was utilized to estimate the tumor microenvironment characteristics of 371 HCC samples. Moreover, the differences in tumor microenvironment characteristics under different ZW10 expression levels were compared with the Wilcoxon test, and the correlations between the ZW10 expression level and the tumor microenvironment cells were investigated using the Spearman method.
+
+## Drug prediction and molecular docking simulation
+Connectivity Map Linked User (CLUE) database [ ] records the gene expression profile of various cell lines after dosing with compounds. The ZW10 strongly positive correlation genes were input into the “Query” option to identify compounds that make the tumor cell expression profiles resemble the input gene profile. A similarity score was used to show the similarity between the effect of small molecule compounds and the input gene set. A positive score indicates that small molecule compounds have a positive effect on the input gene set, otherwise the opposite effect. The compound exhibiting the highest negative score was screened as a candidate inhibitor for ZW10, and the molecular docking simulation between the compound and ZW10 protein structure was performed through Autodock Tools 1.5.6 and Vina tool to analyze the affinity. Although first- and second-line treatments for HCC primarily rely on TKIs, clinical trials have demonstrated that capecitabine shows potential in second- and third-line treatments for HCC. Based on this, molecular docking was further conducted to investigate the binding interaction between ZW10 and capecitabine (PubChem CID: 60953) [ ].
+
+## Statistical analyses
+The statistical software utilized in this study included R (released version 4.1.1), STATA (released version 17), as well as GraphPad Prism (released version 8.0.2). Wilcoxon test and independent samples t-test were employed in the difference analyses between the two groups. Univariate Cox regression method was utilized to compute the HR values and investigate the dangerous factors. The Kaplan-Meier curve, the log-rank test or the two-stage test were conducted for survival prognosis analyses. The Pearson and Spearman methods were employed for correlation analyses. Statistical significance is noted if a P value is less than 0.05.
+
+## Results
+
+## Positive and negative CRISPR screen
+DNA sequencing and biological analysis were performed on the survived cells. In the gene profile of the TKI treatment group, the abundance of sgRNA corresponding to ZW10 was decreased (LogFC = -1.19, P = 0.01, ), indicating that the HCC cells with ZW10-defect were more sensitive to the TKI and likely to die.
+ 
+
+## ZW10 expression landscape in various malignancies
+As exhibited in , the transcriptional level of ZW10 was differentially elevated in BLCA, CESC, CHOL, COAD, ESCA, GBM, HNSC, LIHC, LUAD, LUSC, READ, STAD, and UCEC, and differentially decreased in KIRC, KIRP, and THCA. For the protein expression, ZW10 was highly detected in BRCA, COAD, UCEC, LUAD, HNSC, GBM, and LIHC, and weakly detected in KIRC and PAAD ( ). Microscopically, immunohistochemical (IHC) pictures showed that the ZW10 protein was located in the cytoplasm. Compared with the normal tissue, the cells in HCC tissue had enlarged nuclei and higher staining density ( ). According to the outcomes of univariate Cox regression analyses, ZW10 was related to the poorer overall survival of ACC, BLCA, KICH, LGG, LIHC, PAAD, PRAD, and SARC ( ), poorer disease-specific survival of ACC, BLCA, KICH, LGG, LIHC, PAAD, and SARC ( ), poorer disease-free interval of HNSC and PAAD ( ), and progression-free interval of ACC, BLCA, HNSC, KICH, LGG, LIHC, and PAAD ( ).
+ 
+
+## ZW10 expression and discrimination efficacy
+Totally 38 datasets containing 3,312 HCC samples and 2,703 non-HCC samples were included from 76 research centers. Based on the results of I2 statistics value and the Q test ( ), the overall heterogeneity of the integrated analysis was significant (I2 = 82.9%, P < 0.01) and the random effect was adopted to combine the SMD. The mean value and standard deviation were severally used to describe the central tendency and dispersion of the ZW10 expression level in HCC group compared to non-HCC group ( , wjon.elmerpub.com). The expression level of ZW10 gene exhibited an obvious elevation in HCC group (SMD = 0.47, 95% CI: 0.32 - 0.63). The AUC was 0.76 (95% CI: 0.72 - 0.79). The sensitivity and specificity of ZW10 in differentiating HCC were correspondingly 0.63 (95% CI: 0.53 - 0.72) and 0.77 (95% CI: 0.67 - 0.84, ). The included datasets had no obvious publication bias (P = 0.115, ). All of the aforementioned results indicated an upregulation of ZW10 expression in HCC tissues.
+ 
+
+## Differential expression of ZW10 in different etiological backgrounds of HCC
+Compared to the group without causal risk factors, subgroups with alcohol consumption, hepatitis (B or C), hepatitis B, hepatitis C, the combination of alcohol consumption and hepatitis (B or C), non-alcoholic fatty liver disease and paracancerous hepatitis all exhibited significantly higher ZW10 expression in HCC ( ). However, there was no significant difference in the magnitude of this increased expression among these subgroups.
+ 
+
+## Prognosis value
+Univariate Cox regression was performed in the transcriptional level of ZW10 and the clinicopathological parameters including age, gender, race, pT stage as well as AJCC stage. Individuals with high expression of ZW10 gene had an increased risk of HCC mortality (HR = 1.05, 95% CI: 1.02 - 1.07, P < 0.01, ). Patients in AJCC stage III + IV had an increased ZW10 expression level compared to those in stage I + II (P < 0.01, ) and had a higher risk of mortality (HR = 2.45, 95% CI: 1.67 - 3.58, P < 0.01, ). In comparison to the patients diagnosed with pT1 + pT2, the patients diagnosed with pT3 + pT4 had an elevated ZW10 expression level (P < 0.01, ) and a risk of mortality (HR = 2.47, 95% CI: 1.68 - 3.61, P < 0.01, ). Other factors cannot be considered as dangerous factors for mortality in patients with HCC (P > 0.05, ). Besides, the ZW10 high-level group was linked to the overall survival time of patients diagnosed with HCC (two-stage test, P < 0.01, ).
+ 
+
+## Biological function
+The gene effect scores of ZW10 knockout for 20 HCC cell lines (PLCPRF5, JHH7, SNU886, HLF, SNU449, SNU475, SKHEP1, JHH6, SNU398, JHH5, HEPG2, JHH1, SNU423, SNU182, HUH7, SNU387, JHH4, HUH1, SNU761, and JHH2) were less than 0, demonstrating that ZW10-defect could inhibit the growth of HCC cells ( ).
+ 
+
+## Sensitivity of TKIs under varying ZW10 expressions
+This research predicted the sensitivity of 371 HCC samples (including 157 samples in ZW10-high expression group and 214 samples in ZW10-low expression group) to 10 TKI drugs. Compared to the ZW10-low level group, the ZW10-high level group showed higher IC50 values for axitinib, bosutinib, erlotinib, lapatinib, and sunitinib (P < 0.05, ), but no statistical differences were found between the two groups for dasatinib, gefitinib, imatinib, nilotinib, and sorafenib (P > 0.05, ). The transcriptional expression of ZW10 exhibited a positive relationship with the IC50 values of axitinib (r = 0.21, P < 0.01), bosutinib (r = 0.21, P < 0.01), lapatinib (r = 0.20, P < 0.01), and sunitinib (r = 0.17, P < 0.01), indicating that the increase in ZW10 expression showed an association with a decrease in response rates to TKIs ( , wjon.elmerpub.com).
+ 
+
+## Pathway enrichment analysis
+Totally 42 ZW10 differentially and strongly related genes presented a notable enrichment in the nucleocytoplasmic transport pathway of biological process, the nucleoplasm, kinetochore, nuclear envelope, and nuclear pore pathways of cellular component, and the protein binding pathway of molecular function ( , , wjon.elmerpub.com). The nucleocytoplasmic transport pathway was the only enriched mechanism in KEGG analysis ( , wjon.elmerpub.com).
+ 
+
+## Characteristics in HCC microenvironment
+All of the 371 HCC samples were classified into ZW10 highly expressed and ZW10 low expressed groups, according to the average level of ZW10 gene. In the differential analyses, lower stroma score, microenvironment score, CD4+ effect memory T cells, CD8+ naive T cells, conventional dendritic cells, immature dendritic cells, macrophages, macrophages M2, mesenchymal stem cells, adipocytes, endothelial cells, lymphatic endothelial cells, microvascular endothelial cells, and hepatocytes were observed in ZW10 elevated expression status (P < 0.05, ). Conversely, the infiltrations of CD4+ memory T cells, T-helper 2 cells, common lymphoid progenitor, and mast cells were more abundant in ZW10 high expression group (P < 0.05, ). In the correlation analyses, the ZW10 expression value was negatively correlated with the stroma score, microenvironment score, microvascular endothelial cells, macrophages M2, lymphatic endothelial cells, immature dendritic cells, mesenchymal stem cells, hepatocytes, endothelial cells, macrophages, adipocytes, CD8+ naive T cells, conventional dendritic cells, CD4+ effect memory T cells, natural killing T cells, T-helper 1 cells, plasmacytoid dendritic cells, dendritic cells, as well as CD4+ central memory T cells, and exhibited positive correlations with the T-helper 2 cells, mast cells, CD4+ memory T cells, common lymphoid progenitor, and class switched memory B cells ( , wjon.elmerpub.com).
+ 
+
+## Compounds opposing ZW10 protein
+A total of 42 ZW10 differentially and strongly related genes were used as input dataset to predict small molecule compounds, and mocetinostat (-99.93) ( ), lypressin (-99.89) ( ), and indatraline (-99.89) ( ) were the top three compounds with negative score ( ). For the combination affinities to ZW10 protein (PDB ID: 7QPG), mocetinostat needed the minimum binding energy (-8.2 kcal/mol), followed by lypressin (-7.6 kcal/mol) and indatraline (-7.0 kcal/mol). The combination between mocetinostat and ZW10 protein was simulated and is exhibited in . Mocetinostat formed two hydrogen bonds with TYR and GLU amino acid residues, four hydrophobic bonds with TYR, PHE, ARG, and LEU amino acid residues, and two electrostatic interactions with GLU and ARG amino acid residues of ZW10 protein. The combination between capecitabine and ZW10 protein was simulated and is exhibited in . The minimum binding energy of the molecular docking between ZW10 protein and capecitabine was -7.1 kcal/mol, with the interaction involving three hydrogen bonds, two hydrophobic interactions, and one halogen bond.
+ 
+
+## Discussion
+TKIs have become the cornerstone in the first-line or second-line treatment of HCC since 2007. Nevertheless, the response rate to TKIs remains suboptimal in advanced HCC due to the heterogeneity of systemic therapies and the emergence of drug resistance [ ]. It is urgent to find effective genetic markers to assist clinical TKI stratification therapy. To solve this problem, this study combined CRISPR screening gene knockout with continuous TKI drug treatment to eliminate the effects of the drug’s transient effects while ensuring the accuracy and comprehensiveness of gene screening. ZW10 was ultimately identified as a potential gene involved in resistance to TKI in HCC [ ].
+TKI resistance remains a challenge in HCC treatment. Therefore, exploring the expression profile of ZW10 and its prognostic significance in tumors, particularly in HCC, could further elucidate its potential as a biomarker for drug resistance. Pan-cancer analysis confirmed the upregulation of ZW10 across various tumor types, which correlated with poor patient prognosis. Interestingly, ZW10 expression at both mRNA and protein levels was significantly elevated in HCC, and high ZW10 expression was associated with unfavorable outcomes in HCC patients. Notably, while no direct studies have reported a relationship between ZW10 and HCC, a study indicated that ZW10 is involved in KNTC1-induced PI3K/Akt signaling regulation, where silencing KNTC1 inhibits PI3K/Akt signaling and thereby restrains HCC progression [ ]. Pan-cancer evidence supports the critical contribution of ZW10 to HCC, highlighting its promise as a therapeutic strategy to overcome TKI resistance.
+Building upon the pan-cancer findings, which may overlook the unique characteristics, heterogeneity, and clinical relevance specific to individual malignancies, multi-center HCC samples were further integrated to investigate the expression landscape of ZW10. In a cohort of 3,312 HCC tissue samples, elevated ZW10 mRNA levels were observed. These elevated levels correlated with poor prognosis. Additionally, ZW10 deficiency suppressed HCC cell growth, thus validating the reliability of pan-cancer results. HCC exhibits significant heterogeneity, largely due to the differing impacts of chronic liver diseases [ ]. Therefore, a detailed analysis of the specific etiology is crucial. The results of the etiology stratification analysis showed that ZW10 was highly expressed in HCC caused by various etiologies but no significant differences, indicating that high expression of ZW10 may not lead to HCC by affecting a single etiology. Instead, it likely exerts a broad influence across various etiologies that contribute to the development of HCC. Moreover, response analysis to TKIs revealed that lower ZW10 expression was related to superior TKI treatment responses of axitinib, bosutinib, lapatinib, and sunitinib in this research. Taken together, these findings suggest that ZW10 may function as both an oncogene and a key mediator of TKI.
+Pathway analysis showed significant enrichment of the nucleocytoplasmic transport pathway in both GO and KEGG pathways. The nucleocytoplasmic transport of oncogenes and proteins plays a pivotal role in driving tumorigenesis, enhancing tumor invasiveness, and promoting the advancement of drug resistance, particularly to TKI therapies [ - ]. Pathway analysis results further indicated that ZW10 may be a promising cancer-promoting and drug-resistant target.
+HCC is a tumor characterized by chronic inflammation, and increasing evidence suggests that the tumor microenvironment plays a pivotal role in promoting HCC invasiveness, adverse prognosis, and the development of TKI resistance [ , , ]. In this research, elevated ZW10 status was associated with lower stroma score, microenvironment score, and lower infiltration of various immune cells. Previous studies have demonstrated that high levels of immune infiltration are associated with improved prognosis. Immune cell infiltration into the tumor microenvironment enhances immune surveillance and clearance of tumor cells, thereby improving prognosis in HCC patients. In contrast, lower immune and stroma scores, along with higher tumor purity, are linked to poorer prognosis in HCC [ ]. Overall, ZW10 overexpression likely induces an immunosuppressive state in HCC, which could be reversed by drugs targeting ZW10 or immune-related treatments, potentially enhancing antitumor effects and improving prognosis [ , ].
+Based on the potential of ZW10 as a target for TKI resistance and its high expression possibly contributing to immune suppression in HCC, this study further utilized small molecule compounds prediction and molecular docking to predict drugs targeting ZW10. The results showed that both mocetinostat and capecitabine had good docking efficiency with ZW10 protein. Mocetinostat is a class I histone deacetylase inhibitor with antitumor effects [ - ]. Notably, except direct anti-neoplastic properties, mocetinostat can also enhance the therapeutic effectiveness of immune checkpoint inhibitors and be conductive to overcome the problem of immunotherapy resistance, suggesting its potential for improving the immune microenvironment [ , , ]. Capecitabine has recently achieved very satisfactory efficacy and safety in the second-line treatment of HCC [ ]. Existing studies have shown that the combination of mocetinostat and capecitabine in cancer treatment can reduce tumor metastasis and demonstrate enhanced tumor-suppressive effects [ , ]. It is therefore proposed that mocetinostat and capecitabine may reverse TKI resistance by targeting ZW10 protein.
+
+## Conclusion
+In summary, this study demonstrated that ZW10 may be associated with TKI resistance. The transcriptional expression status of ZW10 was elevated in HCC tissue, and the upregulation of ZW10 was related to poor prognosis. Additionally, ZW10 could promote the growth of HCC cells, and potentially become a therapeutic target to reverse TKI resistance. The functional mechanism of ZW10 in HCC needs further experimental verification.
+
+## Supplementary Material
+Suppl 1The statistical descriptions, true positive values, false positive values, true negative values, and false negative values of ZW10 transcriptional expression levels.
+Suppl 2The Pearson analyses between the predicted half-maximal inhibitory concentration of TKIs and the expression level of ZW10. (a) Axitinib. (b) Bosutinib. (c) Lapatinib. (d) Sunitinib. (e) Dasatinib. (f) Erlotinib. (g) Gefitinib. (h) Imatinib. (i) Nilotinib. (j) Sorafenib. IC50: half-maximal inhibitory concentration; TPM: transcripts per million.
+Suppl 3Details of the Gene Oncology and the Kyoto Encyclopedia of Genes and Genomes analysis. BP: biological process, CC: cellular component, MF: molecular function.
+Suppl 4Spearman analyses between ZW10 expression and the microenvironment characteristics. CD4+ tem: CD4+ effect memory T cells; CD4+ tcm: CD4+ central memory T cells.
+
+## Acknowledgments
+The authors would like to thank Guangxi Zhuang Autonomous Region Clinical Medicine Research Center for Molecular Pathology and Intelligent Pathology Precision Diagnosis and Guangxi Key Laboratory of Enhanced Recovery After Surgery for Gastrointestinal Cancer for the technical support.
+
+## Funding Statement
+The research was supported by Joint Project on Regional High-Incidence Diseases Research of Guangxi Natural Science Foundation (2025GXNSFAA069130), National Natural Science Foundation of China (NSFC82460783, NSFC82160762), Guangxi Higher Education Undergraduate Teaching Reform Project (2023JGB163), Guangxi Medical University “Four New” Project (SX202403), China Undergraduate Innovation and Entrepreneurship Training Program (X202410598360), and Future Academic Star of Guangxi Medical University (WLXSZX24073).
+
+## Conflict of Interest
+The authors declare that they have no conflict of interest.
+
+## Informed Consent
+This study was not involved in human samples, so there is no need to obtain informed consent.
+
+## Author Contributions
+Qing Ling Huang, Gang Chen and Rong Quan He designed the study; Qing Ling Huang, Guan Lan Zhang and Qin Yan Su participated in the CRISPR screening experiment; Bang Teng Chi and Qian Lin collected and screened the public datasets; Guan Lan Zhang, Qin Yan Su, Shi De Li and Han He analyzed the data and presented the results; all the authors involved in writing the draft; Yu Lu Tang, Yi Wu Dang, Gang Chen and Rong Quan He revised the manuscript; all the authors have reviewed and approved the final manuscript.
+
+## Data Availability
+The data supporting this study’s findings are available from the corresponding authors upon reasonable request.
+
+## Abbreviations
+TKItyrosine kinase inhibitor
+ZW10zeste white 10
+CRISPRclustered regularly interspaced short palindromic repeats
+SROCsummary receiver operating characteristic
+sgRNAsmall guide RNA
+SMDstandardized mean difference
+CIconfidence interval
+HCChepatocellular carcinoma
+TCGAThe Cancer Genome Atlas
+THPAThe Human Protein Atlas
+GEOGene Expression Omnibus
+SRASequence Read Archive
+GTExGenotype-Tissue Expression
+AUCarea under the curve
+HRhazard ratio
+pT stageprimary tumor stage
+AJCCAmerican Joint Committee on Cancer
+IC50half-maximal inhibitory concentration
+TPMtranscripts per million
+ssGSEAsingle-sample Gene Set Enrichment Analysis
+CLUEConnectivity Map Linked User
+IHCimmunohistochemical
+ACCadrenocortical carcinoma
+BLCAbladder urothelial carcinoma
+BRCAbreast invasive carcinoma
+CESCcervical squamous cell carcinoma and endocervical adenocarcinoma
+CHOLcholangiocarcinoma
+COADcolon adenocarcinoma
+DLBClymphoid neoplasm diffuse large B-cell lymphoma
+ESCAesophageal carcinoma
+GBMglioblastoma multiforme
+HNSChead and neck squamous cell carcinoma
+KICHkidney chromophobe
+KIRCkidney renal clear cell carcinoma
+KIRPkidney renal papillary cell carcinoma
+LAMLacute myeloid leukemia
+LGGbrain lower grade glioma
+LIHCliver hepatocellular carcinoma
+LUADlung adenocarcinoma
+LUSClung squamous cell carcinoma
+MESOmesothelioma
+OVovarian serous cystadenocarcinoma
+PAADpancreatic adenocarcinoma
+PCPGpheochromocytoma and paraganglioma
+PRADprostate adenocarcinoma
+READrectum adenocarcinoma
+SARCsarcoma
+SKCMskin cutaneous melanoma
+STADstomach adenocarcinoma
+TGCTtesticular germ cell tumors
+THCAthyroid carcinoma
+THYMthymoma
+UCECuterine corpus endometrial carcinoma
+UCSuterine carcinosarcoma
+UVMuveal melanoma
+HDAChistone deacetylase
+CD4+ temCD4+ effect memory T cells
+CD4+ tcmCD4+ central memory T cells
+BPbiological process
+CCcellular component
+MFmolecular function
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Suppl 1The statistical descriptions, true positive values, false positive values, true negative values, and false negative values of ZW10 transcriptional expression levels.
+Suppl 2The Pearson analyses between the predicted half-maximal inhibitory concentration of TKIs and the expression level of ZW10. (a) Axitinib. (b) Bosutinib. (c) Lapatinib. (d) Sunitinib. (e) Dasatinib. (f) Erlotinib. (g) Gefitinib. (h) Imatinib. (i) Nilotinib. (j) Sorafenib. IC50: half-maximal inhibitory concentration; TPM: transcripts per million.
+Suppl 3Details of the Gene Oncology and the Kyoto Encyclopedia of Genes and Genomes analysis. BP: biological process, CC: cellular component, MF: molecular function.
+Suppl 4Spearman analyses between ZW10 expression and the microenvironment characteristics. CD4+ tem: CD4+ effect memory T cells; CD4+ tcm: CD4+ central memory T cells.
+
+## Data Availability Statement
+The data supporting this study’s findings are available from the corresponding authors upon reasonable request.

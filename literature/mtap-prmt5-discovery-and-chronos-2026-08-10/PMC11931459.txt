@@ -1,0 +1,999 @@
+pmcMol CellMol Cell319nihpa9802571Molecular cell1097-27651097-4164pmc-is-collection-domainyespmc-collection-titleNIHPA Author ManuscriptsPMC11931459PMC11931459.11193145911931459NIHMS20562044001527110.1016/j.molcel.2025.01.034NIHMS2056204NIHPA20562041ArticlePredictomes, a classifier-curated database of AlphaFold-modeled
+protein-protein interactions
+SchmidErnst W. WalterJohannes C. 1Department of Biological Chemistry & Molecular
+Pharmacology, Blavatnik Institute, Harvard Medical School, Boston, MA 02115,
+USA2Howard Hughes Medical Institute, Boston, MA 02115,
+USAAuthor Contributions
+E.W.S. wrote all code and performed all experiments. E.W.S. and
+J.C.W. conceived the experiments and wrote the paper.
+*Correspondence and Lead Contact:
+johannes_walter@hms.harvard.edu2032025262202585648497512161232.e517022025240320252403202525032025https://creativecommons.org/licenses/by/4.0/This work is licensed under a Creative Commons Attribution 4.0
+International License, which allows reusers to distribute, remix, adapt, and
+build upon the material in any medium or format, so long as attribution is
+given to the creator. The license allows for commercial use.Predictomes: A classifier-curated database of AlphaFold-modeled protein-protein interactions
+12420242024.04.09.588596bioRxiv10.1101/2024.04.09.588596PMC1103039638645019
+
+## Summary
+Protein-protein interactions (PPIs) are ubiquitous in biology, yet a
+comprehensive structural characterization of the PPIs underlying cellular
+processes is lacking. AlphaFold-Multimer (AF-M) has the potential to fill this
+knowledge gap, but standard AF-M confidence metrics do not reliably separate
+relevant PPIs from an abundance of false positive predictions. To address this
+limitation, we used machine learning on curated datasets to train a
+Structure Prediction and
+Omics informed Classifier
+(SPOC) that effectively separates true and false AF-M predictions of PPIs,
+including in proteome-wide screens. We applied SPOC to an all-by-all matrix of
+nearly 300 human genome maintenance proteins, generating ~40,000
+predictions that can be viewed at predictomes.org, where users can also score their own
+predictions with SPOC. High confidence PPIs discovered using our approach power
+hypothesis generation in genome maintenance. Our results provide a framework for
+interpreting large scale AF-M screens and help lay the foundation for a
+proteome-wide structural interactome.
+
+## eTOC
+Schmid and Walter train a classifier that discerns functionally relevant
+structure predictions in proteome-wide protein-protein interaction (PPI) screens
+using AlphaFold-Multimer, and they use this confidence metric to curate a
+database of 40,000 predicted interactions among ~300 genome maintenance
+proteins.
+
+## Graphical Abstract
+
+ 
+
+pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptyespmc-prop-open-manuscriptyespmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY
+
+## Introduction
+Most biological processes depend on the interaction of multiple
+proteins . Stable
+protein-protein interactions (PPIs) form large cellular structures (e.g. the nuclear
+pore) and stable molecular machines (e.g. RNA polymerase), whereas transient
+interactions underlie dynamic processes ranging from signaling to DNA replication.
+The ~20,000 proteins encoded by the human genome can theoretically combine in
+~200 million binary combinations, but current estimates suggest that only
+~1.5 million pairings represent functional PPIs . Of these, only 50,000 (3%) have been
+identified , and
+~9,000 (0.5%) are structurally resolved. These estimates, though necessarily
+imprecise, indicate that most PPIs are both unknown and structurally inaccessible.
+Recognizing this knowledge gap, investigators have long sought to discover PPIs at
+scale using experimental and computational approaches . Experimental approaches toward this goal
+include yeast two hybrid assays , , co-immunoprecipitation , column chromatography based complex
+fractionation , and
+cross-linking coupled with mass spectrometry . Computational strategies include homology
+modeling , , rigid body docking , and linking genomic data with structural
+information . While these
+methods have uncovered many PPIs, they are laborious, yield many false positive and
+false negative interactions, and thus far have not generated a comprehensive
+structural interactome.
+To address these challenges, researchers are increasingly using deep learning
+methods to model protein structures , and PPIs. The
+most popular predictive algorithm is AlphaFold-multimer (AF-M) , a deep neural network that uses similar
+principles as AlphaFold to predict structures of multi-chain complexes. AF-M was
+trained using five distinct regimens with structures from the Protein Data Bank
+(PDB ), yielding five
+models, each of which makes a structure prediction. AF-M is being used to uncover
+PPIs on the scale of pathways and organisms – . While
+many studies have examined AF-M’s ability to correctly predict structures in
+curated PPI databases – , there has been less focus on
+separating true from false interactions in large-scale unbiased screens. In
+addition, while various groups have proposed different metrics for evaluating
+interface prediction quality and confidence , there has to our knowledge not been a systematic effort to
+compare these metrics on a single, unbiased dataset or integrate them into a
+combined and potentially better performing metascore.
+We previously used in silico screening with AF-M to uncover
+how the protein DONSON promotes replication initiation . Folding DONSON with 70 core replication
+proteins and quantifying the agreement among the five AF-M models (a metric we call
+average models or “avg_models”) identified five functional
+DONSON-interacting proteins – . In the
+first proteome-wide AF-M screen, we also folded DONSON with over 20,000 human
+proteins and scored the results using avg_models and other AF-M confidence metrics
+(e.g. ipTM, pDockQ) . However, in
+this case, DONSON’s functional partners were distributed over the top
+hundreds or even thousands of hits. Given the poor performance of existing metrics
+in this proteome-wide screen, we sought to develop a more robust scoring system that
+successfully identifies true PPIs among interacting pairs that are predicted by
+AF-M.
+In this study, we systematically assessed AF-M’s ability to recover
+true PPIs embedded in a large set of decoy interactions. This analysis showed that
+standard metrics indeed perform poorly in identifying true interactions. We then
+used machine learning to train a classifier on a curated set of positive and
+negative AF-M predictions of binary complexes. This classifier considers structural
+and biological features of the pairwise predictions and is called SPOC
+(Structure Prediction and
+Omics-based Classifier). SPOC
+outperforms standard metrics in separating positive and negative predictions,
+including in several proteome-wide in silico screens. We further
+applied SPOC to an all-by-all interaction matrix of 286 human genome maintenance
+proteins (~40,000 pairs), leading to the identification of many high
+confidence predictions. These can be viewed and downloaded at predictomes.org, where users can also score their own predictions
+with SPOC. In summary, our study introduces SPOC, which guides interpretation of
+large scale in silico screens, and reports a user-friendly web
+interface with large-scale structure predictions in the genome maintenance field
+that drive hypothesis generation.
+
+## Results
+
+## Canonical confidence metrics are inadequate to evaluate large-scale AF-M
+screens
+The results of PPI screens using AF-M are typically ranked using metrics
+such as the interface predicted
+Template Modeling score (ipTM,
+0–1 scale; >0.5 is considered confident), AF-M’s estimate
+of interface accuracy .
+Another common metric is pDockQ , which considers the predicted number of interacting
+residues and their local positioning confidence, pLDDT (predicted Local Distance
+Difference Test) (0 – 1 scale; >0.23 is confident). Because pDockQ
+and ipTM scores can be high for structures that contain spurious
+interfaces , , we previously developed a metric that
+also considers another AF-M output, the predicted alignment error (PAE;
+0–30 Å scale, lower is better), a measure of AF-M’s
+confidence in the global positioning of residues, including
+across interfaces. Specifically, we filter AF-M predictions to identify those in
+which at least five interfacial residue pairs have a PAE value <15
+Å. In addition, both residues in each pair must have pLDDT values
+>50 and reside between 1Å and 5Å of each other ( ). Only these
+“contact positive” (“C+”) pairs are subject to
+downstream analysis. We then quantify how well the independently-trained AF-M
+models agree on the position of all C+ pairs, generating an “average
+models” (avg_models) score ( ; 0–1 scale, >0.5 is confident and means more than
+half the models used during inference agree on all C+ contacts). Although this
+metric was useful in scoring a small-scale in silico screen,
+its performance was poor in a proteome-wide screen .
+To systematically measure the performance of various confidence metrics
+in large-scale in silico screening, we assessed their ability
+to rank a single functional interaction ahead of many interactions that are
+likely false (“Ranking” experiment; ). To this end, we identified 30 well-characterized protein
+complexes that were not in the PDB and therefore could not have informed AF-M
+( ). The
+only exception was UVSSA-RPB1, whose structure was published after the training
+cutoff for AF-M v3, which was used for our experiments . We considered these pairs to be
+positives (P). For each pair, one protein was selected as “bait”
+and paired with 1,000 different and randomly selected prey proteins, the vast
+majority of which should be negative (N). To reduce computation time and
+maximize throughput, all pairs were folded in three out of five AF-M models (3
+recycles; templates enabled). For example, the bait protein UVSSA was folded
+with its known partner RPB1 and with 1,000 random prey proteins. The resulting
+structures were ranked by pDockQ, pDockQ2 , ipTM and avg_models. We additionally ranked structures
+by IF-PAE by identifying
+interface residue pairs (<5 Å distance) and averaging their PAE
+values. The results showed that avg_models performed best, giving UVSSA/RPB1 the
+highest rank, 7th out of 1,001 pairs ( ). In 30 independent ranking experiments, avg_models
+consistently outperformed all other metrics ( ). However, in proteome-wide screens, where the number of
+negatives should be ~20 times higher, even the avg_models metric would be
+expected to mix the positive pair with 100–200 random interactions.
+Indeed, although avg_models performed best in ranking DONSON’s true
+interactors in a previous proteome-wide screen , they were still mixed in with hundreds
+of other proteins, the vast majority of which are presumably false positives
+( – ) . These
+results show that existing confidence metrics are insufficient to identify true
+PPIs in large scale in silico interaction screens.
+
+## Curated sets of PPIs for classifier training
+We sought to use machine learning to train an algorithm or
+“classifier” that can accurately score and rank AF-M predictions.
+For training and evaluation, we curated five datasets corresponding to true
+(biologically meaningful) and negative (likely false or spurious) pairs. To
+avoid confounding effects 
+of training on positive pairs whose interaction is not detected by AF-M, we
+included only contact positive (C+) pairs in our training sets.
+We first constructed the negative set. Previous estimates suggest that
+the human interactome might contain up to ~1.5 million
+interactions – , implying that >99% of
+the ~200 million possible protein pairs do not interact (are negative).
+Therefore, to generate a set in which the vast majority of pairs are negative,
+we folded 40,000 random, binary pairs with our standard folding pipeline. Of
+these, 9,957 (~25%) were C+ ( ). To discriminate against pairs that are in the same pathway or
+complex but do not interact directly, we also compiled a negative set of 3,770
+“decoy” pairs that reside in well-characterized multi-subunit
+complexes such as the proteasome but do not directly interact. 24% (905) of
+these were C+ ( ).
+We also sought to create a positive reference set that reflects
+undiscovered interactions that a screen is designed to uncover. Using only
+structures from the PDB might bias training towards protein complexes that are
+of current interest and amenable to structure determination. We therefore mined
+cross-linking mass spectrometry (XLMS) datasets, which capture PPIs in their
+physiological setting . While
+this type of data is also biased towards abundant proteins, the residue
+proximity information provided by the crosslinks and the overall diversity of
+interactions sampled made it an attractive training set. We compiled 8,685
+unique binary human protein pairs based on cross-linked peptides from 20 XLMS
+studies ( ).
+These were folded using AF-M, which yielded 3,226 C+ positive pairs, from which
+we selected only pairs in which at least one of the cross-links reported agreed
+with at least one of the three AF-M models (cross-linked residues located within
+36 Å of each other, the upper bound of cross-linker lengths used). After
+applying these criteria, 1,597 XLMS pairs remained ( ).
+We also sought to create a negative dataset that mirrored the XLMS
+dataset as closely as possible. To this end, we randomly paired all unique
+proteins in the XLMS data (after homology reduction, as described below) and
+folded them via AF-M ( ;
+“XLMSR”). This process was repeated iteratively until XLMS and
+XLMSR sets contained more than 80% of the same proteins at identical frequencies
+( ).
+The XLMS set probably contains some false positives. Therefore, to
+generate a ground truth for independent evaluation of metrics, we also folded
+protein pairs corresponding to structures in the PDB that were deposited after
+the AF-M v2.3 training cutoff. This set of 1,288 heterodimeric pairs was folded
+with templates disabled to avoid accessing PDB information deposited after
+training. Of these, 946 yielded C+ AF-M predictions, which were compared to the
+corresponding PDB structures using DockQ . 541 (57.2%) had DockQ > 0.23, the CAPRI cutoff
+for acceptable model quality ( ).
+After assembling these five datasets, we ensured that no pair displayed
+30% or more sequence identity to both partners in any other pair. This avoided
+any overlap or “data leakage” between training and test sets.
+Furthermore, to reduce false negatives in training, we purged all negative
+training sets of pairs with >30% sequence similarity to any interacting
+pair in the PDB. These homology reduction steps yielded two final positive sets,
+RefSetXLMS (n = 1,221) and RefSetPDB (n = 410), and
+three negative sets, RefSetRandom (n = 9,852), RefSetDecoy
+(n = 688), and RefSetXLMSR (n = 1,103). Pairs from these RefSets were
+assigned to either training or testing datasets, as outlined in .
+We first used these curated datasets to further evaluate canonical AF-M
+metrics. As shown in , 3.3%,19.4%, and 13.5% of the negative pairs
+(RefSetRandom + RefSetDecoy) exhibited
+“positive” pDockQ2, ipTM, and avg_models scores, respectively,
+even though at most ~0.75% of these random and decoy pairs should be
+positive . In
+contrast, the RefSetPDB had many more positive hits, as expected
+( ).
+However, for all three metrics, there was significant overlap between positive
+and negative pair distributions ( ). Together, these
+results are consistent with the poor performance of these metrics in ranking
+experiments ( – and – ), underscoring the need for a
+better metric that distinguishes positive and negative predictions.
+We also asked how existing metrics stratify the XLMS dataset that would
+be used for training (next section). As expected, pairs from
+RefSetXLMS displayed higher mean pDockQ2, ipTM, and avg_models
+scores than RefSetRandom + RefSetDecoy +
+RefSetXLMSR ( ). Notably, a substantial number of RefSetXLMS
+pairs exhibited low pDockQ2, ipTM, and avg_models scores. It is presently
+unclear whether this was because RefSetXLMS contains a substantial
+number of negative pairs, or because it contains true interactions that are
+difficult to detect using conventional metrics.
+
+## A classifier that distinguishes positive and negative AF-M PPI
+predictions
+To improve upon standard metrics in assessing AF-M predictions, we
+trained a random forest machine learning model on the curated datasets. Random forests
+use random feature subsets during training to build decision trees that each
+attempt to assign the correct class to each instance of training data ( ). The
+resulting algorithm is called a classifier. During inference, previously unseen
+instances are voted on by all trees, yielding a single classifier score that
+ranges from 0 to 1. We initially trained only on RefSetXLMS and its
+randomized counterpart RefSetXLMSR, in which protein pairs are
+closely matched. To train a “structural classifier” on these sets,
+we extracted several numeric features from the predicted interface of each pair
+( for
+definitions). These included not only AF-M-based metrics (PAE, pLDDT, and
+avg_models scores), but other measurable properties of the interface such as the
+number of salt bridges and hydrogen bonds between interacting residues. We then
+used iterative pruning to remove uninformative features. The resulting
+classifier assigned high scores to a large percentage of negative pairs
+(RefSetRandom and RefSetDecoy) ( ). We therefore retrained
+the structural classifier by also including a fraction of
+RefSetRandom ( ) or RefSetRandom and RefSetDecoy
+( ). This
+reduced the scores for false positives ( ), which is desirable
+given AF-M’s propensity to generate such predictions in larger
+numbers.
+After training the structural classifier on 75% of the data
+(RefSetXLMS, RefSetPDB, RefSetXLMSR,
+RefSetRandom, and RefSetDecoy), we evaluated its
+performance on the 25% testing data held back. Performance was assessed by how
+many positives (RefSetXLMS, RefSetPDB) and negatives
+(RefSetXLMSR, RefSetRandom, and
+RefSetDecoy) were identified above each classifier threshold
+(“True Positives”, TPs and “True Negatives”, TNs,
+respectively). Results were displayed as the Recall rate ( , solid lines; fraction of all TPs captured
+above the threshold) and FDR ( ,
+dotted lines; fraction of pairs captured above the threshold that are TNs). As a
+single measure of performance, we determined the Recall rate when the FDR was 5%
+(1 in 20 interactions labeled by the classifier as true are false). Compared to
+existing metrics, the structural classifier exhibited the highest recall (78%)
+at 5% FDR ( ; table). We also
+evaluated performance using Receiver Operating Characteristic (ROC) curves
+( ), which
+quantify the TP and false positive (FP) rates as a function of classifier score.
+Using this analysis, the structural classifier and avg_models performed
+comparably, achieving Area Under
+the ROC Curve (AUC) values of 0.92 and 0.91 respectively.
+Of note, recall rates and derived statistics were calculated only for pairs that
+met the C+ interaction criteria; false negatives where AF-M did not predict
+contact were not considered. Therefore, estimating the absolute recall rate
+requires normalizing by the AF-M true positivity rate (40%), which is derived
+from the fraction of the 1,288 PDB RefSet pairs with an AF-M prediction
+achieving a DockQ score > 0.23 ( ).
+As in many other studies, the above evaluation of classifier performance
+involved test sets with equal numbers of negatives and positives (reviewed in
+ ). However, this 1:1
+N:P ratio does not accurately reflect most real-world scenarios, the most
+extreme of which occurs when a single protein is screened against the entire
+proteome. In this case, we estimated the N:P ratio of contact positive AF-M
+predictions to be ~80:1 ( ). In general, as the N:P
+ratio increases, so does the number of negative pairs with high scores (false
+positives); due to this “invasion” by negatives, the threshold
+score must be increased to maintain an acceptably low FDR ( ). Therefore, to obtain a more realistic
+estimate of classifier performance, we created test sets spanning N:P ratios
+from 1:1 to 128:1. As expected, the Recall of positives was unaffected by these
+ratios, but the FDR increased progressively as the proportion of negatives
+increased ( ). At the 128:1 ratio
+and 5% FDR, the structural classifier retained the highest recall (42.6%),
+greatly outperforming the next closest metric pDockQ2 (11.3%) ( – ; see for standard precision recall curves). Therefore, the structural
+classifier outperformed other metrics under conditions mimicking a proteome-wide
+screen.
+We wondered whether classifier performance could be boosted further by
+considering biological properties of interacting proteins. We therefore included
+genome-wide features of each protein pair that were external to AlphaFold,
+including co-dependency data from DEPMAP , coexpression data , T5 protein language model embeddings , subcellular colocalization
+predictions from DeepLoc 2.0 , hit profiles from the BioORCS CRISPR screen database, and high
+throughput interaction experiments from the BioGRID database ( ). All features were
+derived by combining the metrics of both proteins so that the classifier could
+not identify or learn from protein identities within pairs. The resulting
+Structure Prediction and
+Omics informed Classifier
+(SPOC) outperformed all other indicators, including the structural classifier:
+SPOC’s AUC in ROC curves was 0.96 ( ), and at the 128:1 N:P ratio, it recalled 50.4% of positive pairs
+at 5% FDR ( and ). Strikingly, above a score of 0.89, SPOC achieved
+an effective FDR of 0% on the test sets while still recalling ~50% of C+
+positives, even at the highest N:P ratio ( ). Correcting this recall rate by the ~40% true positive
+rate of our protocol ( ) produces
+an estimated absolute recall rate of 20% for SPOC on all PPIs.
+As expected from SPOC’s superior performance over the structural
+classifier, it is driven by both ‘biological’ and
+‘structural’ features. Based on their GINI importance scores,
+structural and biological features collectively contributed ~55% and
+~45% to performance, respectively ( ). Among structural
+features, a metric quantifying the minimum number of contacts across all models
+was most important (12%), and among biological features, it was the number of
+independent experiments supporting an interaction in the BioGRID database (21%).
+Although some BioGRID data is derived from studies focusing on a specific
+process or protein, the vast majority involves unbiased interaction evidence
+mined from proteome-wide screening efforts. Our results suggest that, by
+evaluating structural and biological features of protein pairs, SPOC identifies
+true interactions in a curated dataset with good sensitivity and high
+specificity, even at N:P ratios that approximate proteome-wide screens.
+
+## SPOC enables proteome-wide screening for PPIs
+To assess SPOC in real-world scenarios, we revisited the ranking tests
+( ), an orthogonal measure of
+performance compared to classification of curated datasets. SPOC outperformed
+all other metrics in these ranking experiments (median rank = 1, mean rank =
+4)( – ) ( ). Importantly, SPOC performed well on proteins in different
+compartments and pathways, as expected given that training was pathway- and
+compartment-agnostic ( ). Moreover, whereas conventional metrics generally distributed
+pairs evenly across their respective score ranges, SPOC more clearly separated
+the TP from TNs ( , – ). This separation of true pairs
+from background is quantified by the Z-score, which is highest for SPOC ( ). Notably, in addition to the
+desired prey SMC6, another top ranked hit for SLF1 was RAD18, a known SLF1
+interactor – that was randomly included as
+part of the 1,000 protein “negative” set. We also assessed how
+SPOC ranked DONSON’s five interactors (MCM3, SLD5, TOPB1, DPOE2, and
+DONSON; ) in
+our proteome-wide screen for DONSON interactors . Unlike all other metrics ( – ) including the
+structural classifier ( ), SPOC
+placed DONSON’s functional partners in the top 6 hits out of more than
+20,000 pairs ( ). This was
+remarkable given that neither DONSON nor any of its homologs were present in any
+training data sets. We also performed a proteome wide interaction screen for
+STK19, which we recently showed is essential for transcription-coupled
+nucleotide excision repair .
+SPOC ranked its functional interactors (RPB1, ERCC2, and ERCC8) in the top three hits ( ). Finally, a proteome wide screen
+for USP37 interactors ranked many ubiquitin-related proteins highly, as
+expected, as well as CDC45, which we recently implicated in tethering USP37 to
+the replisome ( ) . Consistent with our data
+above ( – ), training on a matched, but less complex negative set modestly
+reduced SPOC’s performance ( , SPOC vs. SPOCMatched, compare mean ranks, and ).
+Collectively, our results show that SPOC outperforms all other metrics in
+real-world ranking experiments and can help discover PPIs ab
+initio in proteome-wide in silico screens.
+
+## In silico screening in genome maintenance
+Having developed SPOC, we used it to score all possible pairwise
+interactions within a biological pathway. We folded nearly all binary
+combinations of 286 core human genome maintenance (GM) proteins, yielding 40,459
+structure predictions. Of these, 11,523 (28.5%) satisfied our contact criteria.
+To find a suitable SPOC score cutoff that balances recall with precision, we
+plotted the F1 score (the harmonic mean of precision and recall) as a function
+of SPOC. This value peaked at a SPOC score of 0.33 ( ). This score cutoff captured ~89% of
+RefSetPDB pairs with no homology to complexes AF-M was trained
+on, ~82% of pairs in the RefSetPDB with homology to AF-M
+training complexes, and only 1.2% of TNs from RefSetRandom +
+RefSetXLMSR + RefSetDecoy ( ). Across all GM pairs, 1,151 (2.8%) had SPOC
+scores > 0.33 ( ), implying
+that the average GM protein might have four true partners in the matrix. Among
+this set, 303 pairs achieve SPOC scores > 0.89, the threshold associated
+with an FDR of 0 during testing at N:P ratios of 128:1.
+We addressed how SPOC compares to curation by STRING, in which
+association strength scores exceeding 900 (on a 0–1000 scale) indicate
+strong potential for a physical or functional interaction, and scores below 400
+are considered low confidence . Notably, 625 (54.3%) of the 1,151 GM pairs with a SPOC
+score >0.33 had STRING scores >900 ( ), compared to 921 among all 11,523 C+ pairs (8%) in the GM
+group ( ), a ~7-fold
+enrichment. 63 of the 1,151 pairs with high SPOC scores (~5%) were absent
+from STRING and 178 (~15%) had scores below 400 that are considered
+insignificant ( ; ). These findings align
+with the fact that while there is some correlation (r = 0.58) between SPOC and
+STRING scores, they often diverge ( ). Among the pairs that score highest by SPOC but are absent from
+STRING is MMS22L-RPA2, which is consistent with biochemical evidence that the
+MMS22L-TONSL complex binds to RPA-ssDNA filaments . Another example is USP37-CDC45, which
+is consistent with our finding that CDC45 recruits USP37 to the
+replisome . We also
+addressed how SPOC and the best prior metric in ranking experiments, avg_models,
+compare in the analysis of the GM data. Plotting the SPOC score vs. avg_models
+showed some correlation (r = 0.58), but overall low agreement ( ). Importantly, there were many pairs with
+low avg_models scores (<=0.5) that SPOC rated highly (>0.33; red
+box) and conversely, many pairs with high avg_models scores (>0.5) that
+SPOC downgraded (<=0.33; blue box). These results underscore that SPOC
+makes substantial adjustments to previous rankings. We also compared our SPOC
+results with large PPI databases to estimate what percentage of high confidence
+experimental PPIs (PPI-DB+) are captured via our approach ( ). This analysis revealed that out of the
+40,459 pairs in the GM set, 1,141 are reported in both BioGrid and
+IntAct . Among these
+1,141 pairs, 442 (38.7%) had SPOC scores > 0.33 while the remaining
+~60% were assigned scores below the SPOC threshold. Many of these almost
+certainly represent indirect interactions captured in PPI databases.
+The GM group contains many PPIs with high SPOC scores that are not
+structurally resolved but are nevertheless supported by strong biochemical or
+genetic evidence, indicative of SPOC’s ability to detect meaningful
+interactions. In several instances, the PPI has also been mapped sufficiently to
+indicate that the structure prediction is likely correct. An example is the
+CIP2A-TOPBP1 pair (SPOC=0.898), in which residues shown to be critical for the
+interaction agree
+with the AF-M prediction (see predictomes.org; Note: revised SPOC scores based on retraining
+for this revision will be updated at predictomes.org). Other examples include CIP2A-CIP2A
+(SPOC=0.998; ), FIGNL1-FIRRM
+(SPOC=0.988; , ), and MMS22L-TONSL
+(SPOC=0.993; – )( ). This
+“retrospective validation” suggests that the GM dataset contains
+many valid predictions, and that in silico screening is a
+powerful approach to discover PPIs.
+
+## A web portal for AlphaFold multimer predictions
+To allow researchers to interact with the GM data, we created predictomes.org, a user-friendly online database. Users can
+browse an interactive matrix ( ) or
+a sortable list ( ) that can be ranked by SPOC score and other metrics. Clicking on
+a matrix tile or a list entry displays an information page that includes an
+interactive protein structure viewer ( ) from where
+the structure predictions can be downloaded. If experimental structures of the
+pair already exist, the corresponding PDB entries are listed above the structure
+viewer ( ; blue arrow), and the PDB
+structures can be superimposed on the AF-M prediction ( ; red arrow). The information page also
+contains UniProt entry information, residue level evolutionary conservation,
+predicted residue contacts, interactive PAE and pLDDT plots, and data from the
+STRING and BioGRID databases about potential associations ( and predictomes.org). These features allow rapid visualization,
+ranking, and triage of thousands of structure predictions.
+
+## AI-driven hypothesis generation
+The genome maintenance predictome contains many high confidence
+predictions that suggest interesting and testable hypotheses. We highlight two
+examples related to replicative DNA polymerases. The first involves lagging
+strand synthesis ( ). In this
+process, DNA polymerase α (Pol α), which interacts stably with the
+CMG replicative helicase ,
+first primes each new Okazaki fragment on the lagging strand template. RFC then
+loads the processivity factor PCNA on these primers, followed by primer
+extension by Pol δ. Interestingly, AF-M predicted with high confidence
+(SPOC=0.947) that the non-catalytic POLD3 subunit of Pol δ extends an
+exposed beta sheet in the catalytic POLA1 subunit of Pol α ( and ; for other confidence
+metrics). This interaction was predicted from humans to fission and budding
+yeasts ( ), and
+in budding yeast, previous experiments mapped this interaction to the location
+in both proteins predicted by AF-M , .
+Interestingly, the same region of POLA1 was also predicted to bind a small
+peptide in the N-terminal unstructured region of RFC1 (SPOC=0.743), the largest
+subunit of the RFC complex ( and
+ ; ). Strikingly, in
+three-way structure predictions, the POLD3 and RFC1 peptides interacted with
+each other on the surface of POLA1, with RFC1 draping over the composite beta
+sheet formed by POLA1 and POLD3 ( ). This ternary complex was predicted with high confidence across
+metazoans and fission yeast but not in budding yeast ( ; SPOC currently only
+scores binary predictions), and it is consistent with isolation of a Pol
+δ - Pol α -RFC complex from mammalian cells . These predictions suggest that when Pol
+α primes a new Okazaki fragment, RFC and Pol δ are already
+attached to Pol α, allowing seamless transfer of the primer from Pol
+α to RFC to load PCNA, followed by engagement of Pol δ and primer
+extension ( ). In agreement with
+this model, single molecule experiments demonstrate that yeast Pol δ
+remains bound to the replisome over multiple cycles of Okazaki fragment
+synthesis, an effect that depends on Pol32, the yeast counterpart of
+POLD3 .
+The second hypothesis we highlight addresses how the leading strand DNA
+polymerase ε (Pol ε) and the CTF18 complex are oriented on the
+replisome. In particular, the location of the catalytic domain of Pol ε
+on the replisome remains mysterious. AF-M predicted an interaction between CTF18
+and the winged helix domain of MCM7 (SPOC = 0.466), which resides near the rear
+exit channel of CMG ( , red and
+cyan ribbon diagrams; ). Together with the extensive interface between the CTF18 complex
+and POLE1 , these
+interactions would position the catalytic, N-terminal domain of Pol ε
+adjacent to CMG’s rear exit channel ( , grey ribbon diagram; see figure legend). In this way, the leading
+strand template ( , blue strand)
+would be fed directly into the Pol ε active site. The above examples
+illustrate how large-scale screening for binary PPIs leads to mechanistic
+hypotheses, some of which are readily aligned with existing data.
+
+## SPOC Tool
+To facilitate broad access to SPOC, we created an online tool,
+accessible at predictomes.org, that analyzes user-generated
+AF-M structures. After uploading their predictions, users are sent SPOC, ipTM,
+pDockQ, and avg_models scores for each protein pair. We expect that SPOC will
+facilitate identification of biologically plausible binary structure
+predictions.
+
+## Discussion
+Here, we report tools and resources that will help biologists leverage the
+structure prediction revolution for mechanistic discovery. First, we generated
+well-curated sets of positive and negative protein pairs that can direct future
+machine learning efforts. Second, we used these datasets to train SPOC, a classifier
+that effectively discriminates biologically meaningful and false positive AF-M
+predictions. The power of SPOC is illustrated by the fact that in proteome wide
+screens, it readily identified STK19, USP37, and DONSON partners whose function we
+validated , , .
+We make SPOC available online to allow classification of user-generated
+structure-predictions. Third, we present a SPOC-curated structural predictome of
+genome maintenance proteins, and we give examples of how it powers hypothesis
+generation. Together, the work helps lay the foundation for the eventual development
+of a comprehensive structural interactome.
+Two independent forms of evidence show that SPOC outperforms all previous
+metrics. First, on curated testing sets containing positive and negative pairs, SPOC
+exhibits the highest AUC values in ROC curves (0.96 vs. next best of 0.92), and it
+captures the largest number of positive interactions under realistic screening
+scenarios where negatives greatly outnumber positives (50% vs. 11% for pDockQ2, the
+next best-performing conventional metric). Second, in orthogonal performance tests
+involving in silico screens, including three that were
+proteome-wide, SPOC ranked positive pairs higher than any other metric. We
+discovered that a classifier trained on well-matched positive and negative datasets
+(SPOCMatched) is slightly inferior to SPOC trained on a dataset that
+better reflects the high ratio of negative to positive pairs seen in cells. We infer
+that SPOC outperforms SPOCMatched because the former was exposed to a
+more diverse set of negative examples rather than data leakage between training and
+testing sets. Indeed, protein identities within pairs were obscured in the pairwise
+features used during training, and the ranking experiments demonstrate that SPOC
+performed better than SPOCMatched in real-world tests that are unrelated
+to training. This correspondence between RefSet testing performance and orthogonal
+real-world tests suggests that SPOC has learned meaningful decision boundaries
+rather than flawed strategies derived from data leakage during training and
+testing.
+An important consideration is how to use SPOC to identify positive pairs
+while minimizing false positives. As shown in , positive pairs can in principle have any SPOC score, but they are
+strongly enriched for high scores. Therefore, the appropriate SPOC threshold depends
+on context and what FDR is tolerable, which can be judged from the Recall-FDR curves
+in . A proteome-wide screen is
+expected to involve an ~80:1 N:P ratio and is therefore best modeled by the
+64:1 and 128:1 curves, where maintaining a 5% FDR requires a minimum classifier
+threshold of ~0.89. In contrast, looking for direct interactors after
+enriching for partners either via pathways analysis or through experiments (e.g.
+IP-MS pulldown) is more appropriately evaluated at a lower ratio such as 16:1 or
+4:1, where 5% FDR is compatible with thresholds of ~0.5–0.75. In some
+cases, the use of even lower SPOC thresholds may be justified such as the 0.33
+cutoff we employed to analyze the predictomes GM matrix. However, regardless of the
+specific use case or dataset, the best and safest strategy is always to analyze
+interactions from highest to lowest SPOC score. Although a SPOC score of
+>0.89 yielded an apparent FDR=0 in curated test datasets, even at the 128:1
+ratio ( ), it is uncertain whether this
+holds true for real-world data. In other words, a high score alone never provides
+proof of an interaction, and conversely, a low classifier score is not proof that an
+interaction is false. Finally, although SPOC was not explicitly trained to report on
+interface correctness, model quality is implicit because many of the features that
+contribute to the score are standard AF-M confidence metrics. Despite the above
+limitations, we believe that when used judiciously, SPOC provides a powerful tool to
+prioritize AF-M interactions and drive mechanistic discovery.
+It is interesting to consider possible sources of erroneous classifications
+in AF-M screens. False positives might arise because AF-M was only trained on true
+positives from the PDB and therefore attempts to find an interaction solution for
+all pairs. Some false positives in this class might in fact interact if brought
+together in vitro (“biophysical interactors”) but would not do so due
+to a lack of co-expression or co-localization. Physical interaction studies on such
+pairs will be required to distinguish these possibilities. Many false negatives
+probably involve protein pairs that are scaffolded by other factors and whose
+interaction is too minimal to be detected by AF-M in binary screens. Other false
+negatives may arise because we folded each pair in only three models to maximize
+throughput. Some of these can probably be eliminated by folding pairs in all 5
+models, increased sampling , or
+segmenting proteins , . SPOC almost certainly also has
+“blind spots.” These will include PPIs with physical features that are
+not well represented in the XLMS data on which the classifier was trained, as well
+pairs that are so distinct from any that AF-M was trained on that they cannot be
+structurally modeled. SPOC is also expected to give low scores to protein pairs that
+do not exhibit biological patterns (e.g. co-expression, co-immunoprecipitation,
+genetic co-dependence) typically associated with interacting proteins. An example
+would be a PPI in which the two interacting proteins’ primary functions and
+partners are in orthogonal pathways. Finally, while a pair’s SPOC score will
+likely suffer if it rates poorly in BioGrid, the score can still be strong based on
+a pair’s other features (e.g. DONSON/TOPB1, USP37/CDC45, and STK19/ERCC8). To
+improve SPOC, training on more diverse structural and biological datasets will
+likely be required.
+A web version of SPOC is accessible at predictomes.org and calculates scores for researcher-generated AF-M
+predictions. This tool works best when applied to predictions generated using AF-M
+settings that resemble those used to train the classifier. Accordingly, if a pair
+was folded in all five models, the tool randomly analyzes three to mirror our
+training regimen. However, other AF-M settings such as the number of recycles or
+dropout enabling that cannot be adjusted post-hoc may impact predictions. In many
+cases, it will therefore be advisable to regenerate and analyze AF-M structures
+using the same protocol used for classifier training.
+The data in predictomes.org catalyzes mechanistic discovery. By sorting each
+protein’s putative partners as a ranked list and displaying predictions in an
+interactive structure viewer with relevant, accompanying information, users can
+rapidly triage vast numbers of structure predictions and formulate hypotheses. Even
+in a well-defined pathway such as genome maintenance, comprehensive in
+silico screening highlights interactions that appear to be
+“hiding in plain sight,” such as the predicted interaction between
+POLA1 with POLD3 and POLA1 with RFC1. Such binary predictions often motivate higher
+order folding experiments involving three or more proteins. For example, AF-M
+predicted the existence of a ternary complex of pol δ, RFC, and pol α
+that promotes Okazaki fragment synthesis in a processive assembly line, consistent
+with single molecule experiments . Generating, organizing, and classifying structure predictions in
+major biological pathways, and eventually proteome-wide, has the potential to launch
+a new era of mechanistic discovery in the biological sciences.
+
+## Limitations of the study
+Two additional limitations of our analysis are worth noting. First, our
+analysis currently ignores pairs where AF-M fails to produce an interface
+prediction and thus will miss any positive interactions not predicted by AF-M.
+Second, while we have used “retrospective validation” of known
+PPIs to demonstrate SPOC’s performance, large-scale experimental
+validation of predicted pairs (e.g. by XLMS) will be required to further assess
+SPOC’s ability to identify previously unrecognized PPIs.
+
+## Resource Availability
+
+## Lead Contact
+Further information and requests should be directed to and will be
+fulfilled by the lead contact, Johannes Walter
+(johannes_walter@hms.harvard.edu)
+
+## Materials Availability:
+No new laboratory reagents were generated during this study.
+
+## Data and Code Availability:
+All AlphaFold multimer models and data related to this
+manuscript have been made publicly accessible on the SBGrid data
+repository: 10.15785/SBGRID/1155. Analysis files associated with the
+manuscript have similarly been published on Zenodo: 10.5281/zenodo.14641589. Accession
+numbers for previously published datasets used in this study are listed
+under the .
+All code relevant to this study have been published on
+Zenodo:10.5281/zenodo.14641589. An archived copy of the first
+version of the GitHub repository for the SPOC command line tool
+(https://github.com/walterlab-HMS/SPOC) is also available on
+Zenodo: 10.5281/zenodo.14768322.
+Any additional information required to re-analyze the data
+reported in this paper is available from the lead contact upon
+request
+
+## STAR Methods
+
+## METHOD DETAILS
+
+## AlphaFold-Multimer (AF-M)
+We used a locally installed version of ColabFold v 1.5.2 to run AF-M. All our
+predictions used AF-M multimer version 3 weights models 1, 2, and 4 with 3
+recycles, templates enabled, 1 ensemble, no dropout, and no AMBER
+relaxation. The Multiple Sequence Alignments (MSAs) supplied to AF-M were
+generated by the MMSeq2 
+server using default settings. All MSAs consisted of vertically concatenated
+paired and un-unpaired MSAs for the query proteins. The majority of
+predictions were run on 40GB A100 NVIDIA GPUs while a subset was run on L40S
+NVIDIA GPUs. Given the memory limitations of these GPUs, we generally cap
+all jobs at 3,600 amino acids total. In certain cases where a structure is
+of particular interest, we make exceptions and run AF-M on sequences
+exceeding 3,600 amino acids.
+
+## Finding contacts in AF-M structures
+To determine which residue pairs make valid interfacial contacts in
+AF-M structures, we use a multi-tiered filtering approach that considers
+distance along with the pLDDTs and PAE scores. The first step is to iterate
+through the structure and find all residue pairs in which at least 1 pair of
+heavy atoms are < 5Å apart and where both residues have pLDDTs
+> 50. To avoid clashes, we then eliminate pairs with any heavy atoms
+closer than 1Å. Next, the two PAE scores associated with each residue
+pair (x, y and y, x) are examined, and if they are < 15 Å,
+this residue pair is added to the list of valid interfacial contacts. This
+pipeline differs from our previous approach where our distance limit was
+< 8 Å and we did not consider clashes.
+
+## Genome maintenance pair generation
+Based on literature and expert curation we selected 286 human
+proteins. We then generated all possible unique binary pairs of these
+proteins and proceeded to fold them in 3 AFM models (models 1,2,4). Due to
+GPU memory restrictions and time limits, we almost always limit the total
+amino acid length of pairs we folded to below 3,600 residues. In rare cases
+where proteins are of particular interest to the community (i.e. BRCA2) we
+sometimes exceeded this limit and ran pairs that exceeded 3,600 amino acids
+in length.
+
+## Plots
+All plot visualizations were generated using the Python library
+matplotlib and seaborne running online in Google Colab Jupyter
+Notebooks.
+
+## PDB human pair contact identification
+The PDB API was
+used to find all cryo-EM and X-ray crystallography structures with overall
+resolutions < 3.5 Å containing at least two annotated human
+protein chains. Once all structures with these criteria were retrieved, we
+iterated through all possible combinations of human chain pairs to find
+those in contact. Chains were considered to be in contact if they had at
+least 10 residue pairs with heavy atoms closer than 5 Å. The PDB
+SIFTS API was used to map PDB chain entries to their corresponding UniProt
+identifiers. Based on this analysis of the PDB performed on January 10,
+2024, there were 8,472 unique human binary protein pairs.
+
+## PDB pair retrieval and DockQ Calculation
+We first identified all human heterodimeric pairs structurally
+resolved in the PDB after the AlphaFold-multimer version 3 training cutoff
+date (September 30, 2021). For each of these pairs, we selected the
+structure and chain-pair that had the most interfacial residue pair in
+contact, as defined by our contact criteria (heavy atoms <
+5Å). The PDB API was then used to download the atomic coordinates
+corresponding to each of the chains in CIF format using the following URL:
+https://models.rcsb.org/v1/{pdb_id}/atoms?label_asym_id={chain}&model_nums=1&encoding=cif&copy_all_categories=false&download=false.
+Each chain was extracted from the two individual chain CIF files,
+re-parsed into PDB format, and combined into a new PDB file containing only
+those two chains. Double-letter PDB chain codes were remapped to
+single-letter chain codes to maintain compatibility with the PDB format. We
+then used the DockQ script from the GitHub repository (https://github.com/bjornwallner/DockQ/tree/v1.0) to measure
+DockQ scores between the two-chain PDB structure file and each of the three
+AlphaFold-Multimer (AF-M) predictions (models 1, 2, and 4) made for each
+pair.
+Globally optimal sequence alignments between the native and model
+chains were performed using the EMBOSS needle script, which is called
+internally within the DockQ script. In cases where this alignment failed,
+often due to insufficient sequence similarity between the native and model
+chains (especially in cases where short peptides were experimentally
+solved), the DockQ script did not produce a score, and these pairs were
+discarded. The highest DockQ score obtained from the three predictions was
+recorded as the final DockQ score, measuring the interface similarity
+between the ground truth PDB structure and the AF-M model.
+
+## Fetching protein sequences
+Unless otherwise stated, all protein sequences used for a particular
+protein represent the full-length isoform sequence reported by the UniProt
+database at the time of sequence retrieval. To make sequences compatible
+with AF-M, any non-canonical amino acids not among the standard 20 were
+removed.
+
+## Homology reduction of training and testing datasets
+Once all contact positive (C+) protein pairs were identified across
+all 5 datasets used for training and testing we then identified homologous
+pairs and then randomly selected one pair from a homology set and removed
+all others. Homologous pairs were identified by first clustering the
+reviewed human proteome using MMSeqs2 and requiring 50% overlap and 30% sequence
+similarity. After protein clustering, every protein in every pair was
+assigned to a cluster id. Homologues pairs were then identified by finding
+pairs where both proteins in the pair were in the same clusters as the two
+proteins in another pair.
+
+## Identifying Homologous pairs in the PDB RefSet and PDB pairs in the AF-M
+Training set
+PDB protein entries were first retrieved by downloading https://files.wwpdb.org/pub/pdb/derived_data/pdb_seqres.txt.gz
+and then filtering out non-protein entries by entity type. We then used
+MMSeqs2 to create a map between every reviewed human protein and homologous
+PDB chains at 30% sequence similarity using the following command: mmseqs
+easy-search hs_proteome_uniprot_id_map.fasta pdb_protein_entries.fasta
+2024119_hs_pdb_vs_uniprot_db_v3.txt tmp -s 7.5 --min-seq-id 0.3
+--min-aln-len 6 -e 0.1 --format-mode 4 --exhaustive-search
+This MMSeq2 mapping output was then read in via Python and for every
+pair in our RefSetPDB we identified those PDB entries were both
+proteins contained interacting homologs. Deposit dates for those entries
+were then fetched from the PDB API and any pair with a homologous pair
+deposited before the 2021-09-30 AF-M v2.3 training cutoff was considered to
+have a homolog in the AF-M 2.3 training set. In a handful of instances (n =
+6) this procedure failed to identify any structures containing the pair
+which is false given that we sourced pairs from the PDB. Investigating these
+cases revealed that failure occurred because one or more partners was only
+present as a short peptide in the PDB structure which in turn caused MMSeqs2
+to discard mappings to a UniProt entry due to our maximum e-value cutoff.
+For the purposes of our homolog analysis of SPOC performance we excluded
+these failed PDB pairs.
+
+## Random protein sampling
+We randomly sampled proteins by randomly shuffling a list of UniProt
+IDs from the reviewed canonical human proteins downloaded from UniProt and
+taking the top N ids from this list.
+
+## Extracting and consolidating cross links from publications
+We found 20 publications that performed large-scale cross-linking
+mass spectrometry (XLMS) studies on the scale of whole proteomes or
+organelles and provided an easily accessible table of identified crosslinks
+( ). In
+cases where cross-links were in mouse proteins, we used the UniProt ID
+mapping tool to map
+mouse UniProt IDs to gene symbols to canonical human UniProt IDs. The mouse
+and human sequences were aligned using the BioPython Align package, and the
+crosslinked residue numbers were mapped from mouse coordinates to human
+coordinates. We discarded any crosslinks where this mapping process failed
+on the ID or residue level. After collecting all unique residue
+cross-linking pairs, they were deduplicated first on the level of residues
+and then on the level of protein pairs. We additionally performed random
+trimming of over-represented proteins and protein classes. This was done by
+iteratively identifying the most-common protein across all pairs, randomly
+selecting all but 28 pairs containing that protein, and then removing them
+from the list. This process was repeated until no protein was represented
+more than 28 times across all pairs. After this process, all histone
+proteins were identified using a list of histone identifiers and randomly
+removed until histone containing pairs represented only 1% of the final XLMS
+dataset.
+
+## Random forest training and testing
+We used the RandomForestClassifier package from the scikit-learn to
+train our random forest (RF) models. We implemented a procedure that
+combined a grid search of random forest hypermeters along with iterative
+pruning of features with low GINI importance scores to generate classifiers
+using a minimal number of features. Our grid search was based on the
+following parameters: param_grid = {‘n_estimators’: [150, 200,
+250],’max_depth’: [3, 5, 7],’min_samples_split’:
+[2, 5],’bootstrap’: [True, False],’criterion’:
+[‘gini’,’log_loss’]}. Hyperparameter
+optimization was performed over K-fold test, train splitting with n = 3
+across the training set ( ) with the goal of selecting the combination of settings
+that produced a RF achieving the highest AUC. After each round of
+hyper-parameter tuning, features were ranked from most to least important
+via their GINI scores and all features with GINI scores < 0.01 were
+discarded. The process was then repeated with the reduced feature set until
+feature pruning ended because no more features with GINI scores below 0.01
+were identified. For the structural classifier, we started with a set of 42
+features that were reduced to 24 via pruning ( , tabs
+StructuralC_pre_pruning and StructuralC_post_pruning, respectively).
+Similarly, SPOC was initially supplied with 56 features and ended up with a
+final set of 20 features after pruning ( , tabs SPOC_pre_pruning
+and SPOC_post_pruning ). Otherwise, we used the default values specified by
+scikit-learn. Data was randomly split, with 75% of pairs from each reference
+set selected for training while the remaining 25% were used for testing. ROC
+curve visualizations and AUCs were generated via the roc_curve, AUC
+functions imported from the sklearn.metrics package. To generate FDR recall
+plots, we randomly sub-sampled from the held back test data (n = 10
+independent times) and constructed test sets with specific ratios of
+negative to positive examples ranging from ratios of 1:1 to 1:128. In the
+1:1 case this corresponded to 714 P to 714 N test pairs while in the 1:128
+case, 24 P and 2,912 (all) N pairs were used.
+
+## AlphaMissense data processing
+Data was downloaded from the human proteome-wide precomputed amino
+acid substitution data table hosted at (https://console.cloud.google.com/storage/browser/dm_alphamissense;tab=objects?pli=1&prefix=&forceOnObjectsSortingFiltering=false).
+For each residue position, we averaged the AlphaMissense score across all 19
+possible missense variants predicted to produce a single, per-residue
+missense score. These values were then loaded into a JSON dictionary where
+each key is a UniProt ID that points to a numeric vector (with a length
+equivalent to the amino acid count of the protein) where each entry is a
+number from 0 to 100 that represents the averaged missense score predicted
+for mutating the residue at the corresponding position to a different amino
+acid.
+
+## RNA Coexpression data
+mRNA co-expression data for human proteins was downloaded from the
+online web repository coexpressDB (https://zenodo.org/record/6861444/files/Hsa-u.v22-05.G16651-S245698.combat_pca.subagging.z.d.zip).
+This download returns a folder with files for each gene such that the name
+of the file is the ENTREZ gene ID. For every protein/gene we sorted by
+co-expression score (high to low) and took the top 500 pairs before mapping.
+ENTREZ gene IDs were then mapped to canonical UniProt entry names using the
+UniProt mapping tool. Pairs where the mapping process failed were discarded.
+Score values were used as supplied by the database.
+
+## DEPMAP data
+CRISPR KO gene effect data was downloaded from the online resource
+DEPMAP (https://depmap.org/portal/download/custom/). Every protein
+was converted into a DEPMAP vector of length n= 1,095 (n = # profiled cell
+lines) where every entry/dimension in the vector corresponds to the Chronos
+output (gene effect) for that gene in a cell line.
+
+## BioGRID ORCS data processing
+CRISPR KO data for studies conducted in human cell lines was
+downloaded as a series of files from the BioGRID file repository (https://downloads.thebiogrid.org/File/BioGRID-ORCS/Release-Archive/BIOGRID-ORCS-1.1.15/BIOGRID-ORCS-ALL-homo_sapiens-1.1.15.screens.tar.gz).
+Every gene was mapped to a canonical UniProt ID and for each gene its
+appearance across all the CRISPR screens was converted into binary vectors
+of length n=1,243 (n = # of screens) where each index represents whether
+that gene was considered a “hit” (0 = no hit, 1 = hit) by the
+criterion employed by a specific screen.
+
+## BioGRID data
+BioGRID release 4.4.225 interaction data was downloaded as a tab
+delimited file on August 29, 2023 using the link supplied by the online
+repository at: https://downloads.thebiogrid.org/File/BioGRID/Release-Archive/BIOGRID-4.4.225/BIOGRID-ALL-4.4.225.mitab.zip.
+Interactions were then filtered for human only (taxid:9606). Human protein
+pairs were then identified using UniProt IDs included in the file. The
+number of times a unique human pair was found in this file was then used as
+the biogrid_detect_count feature and encoded into a nested dictionary JSON
+file where uniprot ids are used as keys and point to the detect count
+value.
+
+## DeepLoc2 protein localization predictions
+To have uniform localization information for proteins that went
+beyond standard and incomplete annotations, we utilized predictions from the
+DeepLoc 2.0 protein sequence transformer model. We downloaded (https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=deeploc&version=2.0&packageversion=2.0&platform=All)
+and installed a local copy of DeepLoc 2.0. After installation, we inputted a
+FASTA file containing all canonical SwissProt reviewed sequences for the
+human proteome downloaded from UniProt. We then used the ESDM1B
+“fast” model to predict individual localization probabilities
+split across 10 different possible categories for all sequences. These
+values were then loaded and stored in a JSON dictionary where each key is a
+UniProt ID that points to a numeric vector with the 10 localization
+probabilities output by DeepLoc 2.0.
+
+## H5 protein embeddings
+Per-protein embeddings (vectors of length 1024) were retrieved for
+all reviewed UniProtKB Swiss-Prot human entries via download from UniProt
+(https://ftp.UniProt.org/pub/databases/UniProt/current_release/knowledgebase/embeddings/UP000005640_9606/per-protein.h5).
+
+## STRINGDB scores
+All human protein association scores were downloaded from the
+STRINGv12 database at (https://stringdb-downloads.org/download/protein.links.detailed.v12.0/9606.protein.links.detailed.v12.0.txt.gz).
+Each entry in the file lists a pair of proteins identified by their STRINGDB
+ID consisting of the taxon ID (9606 for humans) concatenated with an ENSEMBL
+protein id. These ENSEMBL protein ids were mapped to UniProt IDs using
+UniProt’s mapping API. In cases where this mapping yielded
+non-canonical UniProt IDs or non-SwissProt entries, these ENSEMBL protein
+ids were mapped to genes and then each gene was mapped to the canonical
+SwissProt UniProt ID.
+
+## Replisome structural model
+An AF-M prediction of the pol ε holoenzyme
+(POLE1-POLE2-POLE3-POLE4; only POLE1 shown) was aligned on the C-terminal,
+non-catalytic lobe of POLE1 in a cryo-EM replisome structure (PDB: 7PLO)
+using ChimeraX . To model
+the primer template, the structure of yeast POLE1 catalytic domain with a
+primer template (PDB: 4M8O) was aligned to the catalytic domain of the AF-M
+POLE1 structure prediction from the pol ε holoenzyme above. The
+catalytic domain of POLE1(residues 1–1180), CTF18, CTF8, DCC1 were
+folded, in which POLE1 made extensive contacts with the CTF18-CTF8-DCC1
+complex. The resulting structure was also aligned on POLE1 of the pol
+ε holoenzyme. Separately, MCM3, MCM7, and CTF18 (only well-ordered
+residues 281–865) were folded together. MCM3 and the N-terminal lobe
+of MCM7 (residues 1–319) were deleted, and the remaining C-terminal
+lobe of MCM7 and CTF18 were aligned on MCM7 from 7PLO.
+
+## QUANTIFICATION AND STATISTICAL ANALYSIS
+All graphs display the number of data points presented and analyzed.
+Ranking data was analyzed using Wilcoxon signed-rank tests as implemented in the
+scipy.stats.wilcoxon Python function.
+
+## ADDITIONAL RESOURCES
+The genome maintenance dataset is available for interactive browsing
+online at predictomes.org.
+
+## Supplementary Material
+1Table S1: Table of ranking experiment analyses, Related to 
+2Table S2: Table of XLMS data sources, Related to 
+3Table S3: Table of classifier features explored, Related to 
+4Table S4: Table of analysis of the GM predictomes dataset, Related
+to 
+5Table S5: Table of metrics for predictions of replication
+hypotheses, Related to 
+6Table S6: Table of data for all train/test set pairs, Related to
+ and 
+7
+
+## Acknowledgements
+We thank Tycho Mevissen and Olga Kochenova for communicating unpublished
+results on STK19 and USP37, respectively. We thank Alan Brown, Lucas Farnung, Wade
+Harper, Edward Huttlin, Nicholas Polizzi, and members of the Walter laboratory for
+helpful discussions and comments on the manuscript. We thank Jack Shaw, Helen Zhu,
+and Maksym Shyian for support in writing helpful analysis scripts. E.W.S. was
+supported by the National Science Foundation (DGE 2140743). J.C.W. was supported by
+NIH grant HL098316. He is an American Cancer Society Research Professor and a member
+of the Howard Hughes Medical Institute.
+Declaration of Interests
+J.C.W. is a co-founder of MOMA Therapeutics, in which he has a financial
+interest.
+Declaration of Generative AI and AI-assisted technologies in the writing
+process
+Open AI’s GPT-4 was used to assist with coding tasks. It was not
+used during manuscript preparation.
+This is a PDF file of an unedited
+manuscript that has been accepted for publication. As a service to our customers
+we are providing this early version of the manuscript. The manuscript will
+undergo copyediting, typesetting, and review of the resulting proof before it is
+published in its final form. Please note that during the production process
+errors may be discovered which could affect the content, and all legal
+disclaimers that apply to the journal pertain.
+ 
+
+## Highlights
+SPOC classifier identifies functional AlphaFold-Multimer structure
+predictions
+Proteome-wide in silico screening with AlphaFold-Multimer enabled by SPOC
+classifier
+Curated database of 40,000 binary structure predictions in genome
+maintenance
+User-friendly website predictomes.org to browse predictions and build hypotheses

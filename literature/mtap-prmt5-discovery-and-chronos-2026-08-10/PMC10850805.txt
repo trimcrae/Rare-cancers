@@ -1,0 +1,143 @@
+pmcMol OncolMol Oncol3199moloncol101308230MOL2Molecular Oncology1574-78911878-0261WileyPMC10850805PMC10850805.110850805108508053799725410.1002/1878-0261.13558MOL213558MOLONC-23-0508.R21Squamous Cell Carcinoma of the Head and NeckResearch ArticleResearch ArticlesA novel pipeline for prioritizing cancer type‐specific therapeutic vulnerabilities using DepMap identifies PAK2 as a target in head and neck squamous cell carcinomas
+DepMap reveals PAK2 is a target in HPV(−) HNSCCM. K. Sannigrahi et al.SannigrahiMalay K. CaoAustin C. RajagopalanPavithra SunLova BrodyRobert M. RaghavLovely GimottyPhyllis A. BasuDevrajhttps://orcid.org/0000-0003-0896-1490 devraj.basu@uphs.upenn.edu
+
+1
+
+Department of Otorhinolaryngology‐Head and Neck Surgery
+University of Pennsylvania
+Philadelphia
+PA
+USA
+
+2
+
+Department of Medicine
+University of Pennsylvania
+Philadelphia
+PA
+USA
+
+3
+
+Department of Biostatistics, Epidemiology and Informatics
+University of Pennsylvania
+Philadelphia
+PA
+USA
+
+4
+
+Ellen and Ronald Caplan Cancer Center
+The Wistar Institute
+Philadelphia
+PA
+USA
+
+*
+Correspondence
+
+D. Basu, Department of Otorhinolaryngology‐Head and Neck Surgery, University of Pennsylvania, 3400 Spruce Street, 5 Ravdin/Silverstein, Philadelphia, PA 19104, USA
+E‐mail: devraj.basu@uphs.upenn.edu
+
+131220232202418245541410.1002/mol2.v18.2336349
+23102023
+1062023
+22112023
+131220230902202409022024© 2023 The Authors. Molecular Oncology published by John Wiley & Sons Ltd on behalf of Federation of European Biochemical Societies.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.There is limited guidance on exploiting the genome‐wide loss‐of‐function CRISPR screens in cancer Dependency Map (DepMap) to identify new targets for individual cancer types. This study integrated multiple tools to filter these data in order to seek new therapeutic targets specific to head and neck squamous cell carcinoma (HNSCC). The resulting pipeline prioritized 143 targetable dependencies that represented both well‐studied targets and emerging target classes like mitochondrial carriers and RNA‐binding proteins. In total, 14 targets had clinical inhibitors used for other cancers or nonmalignant diseases that hold near‐term potential to repurpose for HNSCC therapy. Comparing inhibitor response data that were publicly available for 13 prioritized targets between the cell lines with high vs. low dependency on each target uncovered novel therapeutic potential for the PAK2 serine/threonine kinase. PAK2 gene dependency was found to be associated with wild‐type p53, low PAK2 mRNA, and diploid status of the 3q amplicon containing PAK2. These findings establish a generalizable pipeline to prioritize clinically relevant targets for individual cancer types using DepMap. Its application to HNSCC highlights novel relevance for PAK2 inhibition and identifies biomarkers of PAK2 inhibitor response.
+
+This study provides a template for using the public CRISPR screen data in DepMap to identify novel therapeutic targets for specific cancer types and rapidly advance them toward clinical application. As an example, we used the gene dependency data in DepMap for HPV‐negative head and neck cancer to demonstrate application of the pipeline, which integrates the CRISPR data with multiple other publicly available resources to identify the most promising targets. 
+
+CRISPRDepMaphead and neck squamous cell carcinomaPAK2targeted therapywild type p53Division of Cancer Prevention, National Cancer Institute
+10.13039/100007316P30‐DK050306National Institute of Dental and Craniofacial Research
+10.13039/100000072R01‐DE027185UH2CA267502This work was partly supported by the Stephen and Susan Kelly Fund for Head and Neck Cancers 
+3.2
+
+## Functional classification of prioritized targetable dependencies
+The 143 prioritized genes were evaluated for recurring functional roles in order to identify broad classes of drug targets meriting preclinical therapeutic evaluation in HNSCC. Application of the Gene Functional Classification Tool of DAVID Bioinformatics Resources [ ] with a medium stringency classification (kappa similarity threshold ≥ 0.30) and enrichment score threshold of ≥ 1 highlighted four groups with shared functional annotation (Table  ). The group of receptor tyrosine kinases included IGF1R and multiple ErbB family members, which have already been extensively studied in HNSCC and other solid tumours [ ]. The largest group of enriched dependencies consisted of 8 serine/threonine kinases that have diverse signalling functions. This group notably included three Rho/Rac effector proteins: (a) the MAP3K11 gene product, mixed lineage kinase 3 (MLK3), which is an upstream regulator of MAPK signalling [ ] and phosphorylates IκB kinase (IKK) α and β, thereby activating NF‐κB (11), (b) PKN2, a promoter of cell cycle progression previously been explored as a target in HNSCC [ ], and (c) PAK2, a multi‐function kinase that integrates cellular stress responses with activation of oncogenic signalling pathways [ ] and proved to be of particular interest in subsequent analyses in this study. The other two enriched functional groups were comprised of mitochondrial carrier proteins and RNA‐binding proteins, which have only recently drawn interest as potential therapeutic targets in cancer. The mitochondrial carriers included three members of the SLC25 family, which transport nutrients across the mitochondrial inner membrane, and their role in reprogramming tumour metabolism through overexpression have made them a new focus of preclinical therapeutic development [ ]. The functional group of RNA binding proteins included ELAVL1, ZRANB2 and HNRNPA1, whose role in alternative splicing of transcripts to serve tumour development have made them a focus of recent efforts to target altered RNA splicing in cancer [ , ]. Together, these findings both confirm that our prioritization pipeline captures known targets in HNSCC and underscore the relevance of emerging target classes for other malignancies to this cancer type.
+ 
+3.3
+
+## Several prioritized targets have clinical inhibitors that are positioned to repurpose for HNSCC
+The subset of the 143 prioritized targets that are best positioned for near‐term testing in HNSCC patients were cataloged by using the Open Targets Database [ ] to identify the targets with drugs that have been in clinical trials for other cancers and/or nonmalignant diseases but not HNSCC. Using this tool to filter for inhibitors that have reached at least a phase II trial for any disease identified existing agents for 23 of the 143 targetable proteins. This list contained 9 targets with drugs in active or previous trials for HNSCC (Table  ), including current standard agents like cetuximab, taxanes, and 5‐fluorouracil. Capturing these currently used drugs supported potential clinical utility of the 14 targets with inhibitors have only been studied clinically in other malignant and/or non‐malignant diseases (Table  ) but not HNSCC. These findings support the utility of our prioritization pipeline in identifying clinically relevant targets, including many with inhibitors that have already been used clinically and thus could be repurposed in the near term in HNSCC.
+ 
+3.4
+
+## Drug responses of HNSCC models validate known targets and as well as the novel target PAK2
+The GDSC dataset [ ] was used to pursue validation of select prioritized targets. Response profiles for HNSCC cell lines were available in this resource for 39 compounds that inhibit 13 targets in the list of 143 prioritized dependencies. The cell lines were divided into groups with high dependency (top quartile), intermediate dependency (middle half), and low dependency (bottom quartile) for each target based on Chronos Gene Effect Score [ ]. The cell lines with high dependency showed significantly stronger in vitro growth inhibition when treated with 12 drugs that inhibit one of five targets in the list of 13 targets tested. Four of these five proteins were the well‐studied gene products of EGFR, ERBB2, ERBB3, and PIK3CA (Fig.  ). The fifth target to be validated by this method was PAK2 (Fig.  ), a far less studied serine–threonine kinase that lacks a clinical inhibitor but was inhibited in GDSC data using the PAK‐5339 tool compound. Complete PAK‐5339 dose response curves in GDSC were available for four HNSCC cell line models in the top quartile for PAK2 dependency and for eight models in the bottom quartile. These 12 dose curves are shown in Fig.  , which illustrates a clear separation of responses between the groups with high vs. low dependency based on DepMap CRISPR results. An additional PAK2 tool inhibitor (FRAX486) in the PRISM Lab drug screen data [ ], which was recently integrated into DepMap, provided further pharmacologic evidence to support this dependency (Fig.  ). Likewise, additional genetic evidence was provided by older RNAi screen data in DepMap, which showed the HNSCC models found to be PAK2‐dependent by CRISPR also to be more susceptible to siRNA silencing of PAK2 (Fig.  ). The magnitude of PAK2 gene effect scores in the 24% of cell lines meeting the dependency threshold is contextualized by comparison to those for the well‐studied targets (Fig.  ). Distributions among these dependencies were similar, with only EGFR showing significantly stronger dependency than PAK2. Together, these results support the effectiveness of our prioritization pipeline, which not only captured well‐studied clinical drug targets but also highlighted PAK2 as an emerging target with potential utility for HNSCC therapy.
+ 
+3.5
+
+## Low PAK2 mRNA and diploid status of its 3q amplicon predict favourable PAK2 inhibitor responses
+Additional data sets were integrated to evaluate whether PAK2 genetic alterations and/or expression levels are predictors of PAK2 inhibitor responses that might prove clinically useful in HNSCC. Whereas PAK2 is rarely mutated in cancer, it is frequently amplified and/or overexpressed [ ]. PAK2 copy number and mRNA levels both inversely correlated with PAK2 gene dependency in the HNSCC cell line models annotated in DepMAP, where cell lines with high dependency had both lower PAK2 expression and diploid gene status (Fig.  ). Copy gains in PAK2 were detected in 70% of the 415 HPV(−) HNSCCs in TCGA based on GISTIC score [ ], with 12.3% also meeting the GISTIC score threshold for amplification [ ]. PAK2 notably resides on the 3q amplicon containing the oncogenes PIK3CA, SOX2, ETV5, BCL6, and TP63. These five other genes were consistently co‐amplified with PAK2 (Fig.  ), suggesting that absence of 3q amplification predicts higher PAK2 gene dependency and more favourable inhibitor responses. This possibility was tested using the 48 HPV(−) cell line models of HNSCC whose copy number data is reported in DepMap. Whereas most of these cell lines (n = 47, 98%) had 3q copy gains, the subset meeting the threshold for amplification defined by the ABSOLUTE package [ , ] (n = 10, 21%) had significantly reduced dependency on PAK2 (Fig.  ). Likewise, among the 26 of 48 cell lines with drug response data in GDSC, the 4 lines (15.4%) with 3q amplification exhibited significantly weaker responses to the small molecule PAK2 inhibitor PAK‐5339 (Fig.  ). Of note, the HPV(−) HNSCC patients in TCGA with 3q copy gain or amplification showed no differences in overall survival relative to 3q diploid cases (Fig.  ). The findings underscore potential relevance of PAK2 inhibitors for the large fraction of HPV(−) HNSCCs that maintain diploid 3q and carry similarly poor prognosis to those with PAK2 copy gains via the 3q amplicon.
+
+3.6
+
+## Wild type p53 predicts favourable PAK2 inhibitor responses in HNSCC
+To pursue additional predictors of inhibitor responses for PAK2 and other targets, we evaluated the 143 prioritized dependencies for association with the common cancer‐related gene mutations present in HPV(−) HNSCC. This analysis used the five genes with common hotspot and/or driver mutations in HPV(−) HNSCCs that were both identified by TCGA and were also present in ≥5% of cell line models in DepMap, specifically PIK3CA, CDKN2A, NOTCH1, FAT1 and TP53 (Table  ). Three significant associations were observed (Fig.  ), including the anticipated association of oncogenic PIK3CA mutation with PIK3CA gene dependency. An association of NOTCH1 loss of function mutation with TAP1 dependency was present but of unclear significance given that the TAP1 gene product's role in antigen presentation is not predicted to impact cancer cell line viability or growth in standard culture. More notably, an association between PAK2 dependency and wild‐type (WT) TP53 status was detected based on comparison of the 20.6% of cell line models with WT TP53 to the 80.4% with TP53 hotspot and/or damaging mutations (Fig.  ). The predicted increase in PAK2 inhibitor sensitivity in presence of WT TP53 was confirmed by enhanced responses to PAK‐5339 observed in the 5 HPV(−) HNSCC models with WT TP53 in GDSC data (Fig.  ). Therefore, we explored whether TP53 status might offer clinical utility in addition to PAK2 copy number in predicting inhibitor responses by assessing the overlap between PAK2 amplification and TP53 mutation in the 415 HPV(−) HNSCCs in TCGA (Fig.  ). This analysis shows that WT TP53 alone may predict favourable PAK2 inhibitor responses in the 17.8% of HPV(−) HNSCCs in TCGA with WT TP53 because almost all the WT cases (97.3%) contained a diploid PAK2 locus and had reduced PAK2 levels as a group relative to those with mutant TP53 (Fig.  ). However, most HPV(−) HNSCCs (82.2%) harbour mutant TP53, and consideration of PAK2 copy number appears relevant in them in order to predict responses to PAK2. Despite insufficient HNSCC cell line data to test the interaction between TP53 and PAK2 in determining PAK‐5339 sensitivity, these findings support considering the status of both gene loci in prediction of PAK2 inhibitor responses.
+ 
+3.7
+
+## Re‐evaluation of the prioritization pipeline using an updated DepMap data release
+To assess reproducibility of our findings in recently updated DepMap data prior to publication, the prioritization pipeline was reapplied to the 23Q2 data release. The pipeline prioritized 143 genes that included 103 genes in common with the previous prioritized list of 143 genes shown in Table  . The new list is provided in Table  , in which the 40 genes added to the list are highlighted and the 40 genes no longer meeting the dependency threshold are footnoted. Despite these changes, repeating functional analysis of the new prioritized gene list with the Gene Functional Classification Tool of DAVID Bioinformatics Resources (Table  ) yielded comparable results. Serine/threonine kinases including PAK2 remained among the most enriched dependencies along with tyrosine kinases and RNA binding proteins. The previously identified mitochondrial carriers were regrouped into broader category of transmembrane receptors and carriers, and two new groups were comprised of immunoregulatory and unfolded protein response proteins. Evaluating the new list in the Open Targets Database for drugs reaching at least phase II identified 10 targets with inhibitors only studied clinically in other malignant and/or non‐malignant diseases (Table  ), including 7 preserved from the prior list (Table  ) and 3 additional agents. The relationship between PAK2 gene effect scores and drug responses using both PAK‐5339 (Fig.  ) and FRAX486 (Fig.  ) was unchanged in the updated data release. Likewise, low mRNA levels of PAK2 (Fig.  ) and diploid status of the 3q amplicon (Fig.  ) retained association with PAK2 gene dependency, and the cell lines with diploid 3q exhibited enhanced drug responses (Fig.  ). Lastly, a significant association was retained between PAK2 gene dependency and TP53 WT status was retained (Fig.  ), although the effect size (−0.96) fell just short of the previous arbitrary effect size cutoff of −1 used in the analysis for 22Q1. These results show our key findings remained relatively stable using the updated DepMap 23Q2 release in spite of a ~ 33% change in the genes prioritized by our pipeline. Despite ongoing updating multiple public databases used in this study, this re‐analysis further underscores that the developed pipeline can easily be applied to subsequent data releases and other cancer types.
+ 
+
+4
+
+## Discussion
+This study used CRISPR screen data for HPV(−) HNSCC as a platform to create a pipeline for prioritizing new therapeutic targets in a manner generalizable to the other cancer types in DepMap. The in vitro CRISPR screens of cancer cell lines in DepMap inevitably miss gene dependencies that arise from the in vivo interface with the tumour microenvironment (e.g. PD1/PDL1). They are also predicted to miss targets derived from multiple genes with redundant function and those that can only provide anti‐tumour responses via combination therapies. Nevertheless, the efficacy of our pipeline is illustrated by its ability to capture the molecular targets for current HNSCC drugs including cetuximab, taxanes, and 5‐fluorouracil as well as genes for other well‐studied targets in HNSCC including other ErbB family members and PIK3CA. Favourable performance of the pipeline with these known targets supports the potential utility of other prioritized targets with clinical inhibitors that are well‐studied in other diseases and thus readily testable in HNSCC patients. Our prioritized list also reveals functional categories of genes that are much earlier in development as cancer therapy targets to be relevant to HPV(−) HNSCC. These include RNA‐binding proteins that regulate alternative mRNA splicing to serve cancer progression [ ] and the SLC25 mitochondrial membrane nutrient transporters [ ]. Immediate validation of hits in the screens was facilitated using existing inhibitor response data in GDSC. Although the current GDSC dataset is limited, we were able to validate the PAK2 serine–threonine kinase as a druggable dependency that is not well studied in HNSCC and to identify two potential genetic biomarkers of PAK2 inhibitor response. In comparing pipeline output between the 22Q1 and 23Q2 DepMap releases, it is noted that the updated dataset still prioritized PAK2 and the same total number of genes but altered content of the gene list by 33%. The large change included addition of some new genes with fairly high gene effect scores, and the reason for this effect is not immediately apparent from the reported changes to the Chonos algorithm, which were focused on creating a 5% reduction in false positives meeting the dependency threshold. Nevertheless, we anticipate our pipeline will remain applicable to future updates that continue to refine the Chronos algorithm. Together, these findings provide a template for integration of the continuously updated DepMap CRISPR screen data with other emerging in silico resources to accelerate therapeutic development for both HNSCC and other cancer types.
+PAK2 has both functional redundancies with the other group I PAK family members (PAK1 and 3) plus distinct roles that may jointly contribute to its utility as a target for HPV(−) HNSCC. The three group I PAK kinases all act downstream of Rho/Rac signalling [ ] to activate β‐catenin [ ] and other substrates involved in cell cycle progression (c‐myc, Raf, MEK1, LIM domain kinase), cytoskeletal dynamics (myosin light‐chain kinase, Merlin, β‐catenin), and apoptosis (CRAF, BAD) [ , , ]. PAK2 also has distinct roles in inhibiting apoptosis by phosphorylating caspase 7 [ ] and inhibiting caspase 3 activity [ ], which may help explain why the knockout of PAK2 but not PAK1 or PAK3 is embryonic lethal in mice [ ]. Notably, the current group I PAK inhibitors (PAK‐5339, FRAX597, FRAX1036, and IPA‐3) are not PAK2 selective but have been shown experimentally to have direct antitumour effects [ , , ] as well as ability to overcome chemoresistance [ , ] in other cancer types.
+On the surface, the associations of diploid PAK2 plus low PAK2 expression with PAK2 gene dependence and favourable inhibitor responses seem paradoxical. One possible explanation is that deletion of all PAK2 copies in CRISPR screens is less efficient in cell lines where PAK2 is amplified. In addition, high PAK2 expression in absence of PAK2 addiction might impede the efficacy of PAK‐5339. This scenario may arise if PAK2 is amplified primarily as a passenger effect due to stronger selective pressure for copy gain in the adjacent oncogenes on the 3q amplicon. This situation appears related to the mechanism by which CYCLOPS (Copy‐number alterations Yielding Cancer Liabilities Owing to Partial losS) genes become favourable targets for cancer therapy [ ]. The CYCLOPS phenomenon occurs when copy loss across a region containing a tumour suppressor decreases expression of an adjacent essential gene and thereby sensitizes to inhibition of the adjacent gene product. Despite absence of PAK2 copy losses in HNSCC, lack of upregulated PAK2 expression may improve inhibitor responses by similar mechanism in the 30% of HNSCCs without PAK2 copy gain on 3q in TCGA.
+The reasons for association of WT TP53 status with PAK2 dependency and favourable PAK2 inhibitor response also remain unclear. One possibility is that WT p53 provides protection from the genomic instability needed to amplify the 3q region containing PAK2. In addition, WT p53 positively regulates the promoters of two microRNAs, miR‐7‐5p [ ] and miR‐455‐3p [ ], that deplete the PAK2 mRNA [ , ] and thus could sensitize to inhibition by limiting PAK2 expression. Of note, the individual vs. combined effects of TP53 status and PAK2 copy number on inhibitor response could not be assessed here because too few cell lines had complete annotation for these genetic features in combination with PAK‐5339 inhibitor response data. Nevertheless, our results support making PAK2 a focus for clinical drug development and indicate that TP53 mutation status and PAK2 copy gains within the 3q amplicon should be jointly considered in future studies evaluating efficacy of PAK2 inhibition in HPV(−) HNSCC.
+Another feature of our pipeline was incorporation of the Open Targets Database to prioritize targets with existing clinical inhibitors whose use for other diseases leaves them well positioned for clinical trial development in HPV(−) HNSCC. Another feature of our pipeline was incorporation of the Open Targets Database to prioritize targets with existing clinical inhibitors whose use for other diseases leaves them well positioned for clinical trial development in HPV(−) HNSCC. Among the 7 targets prioritized under both the 22Q1 and 23Q2 DepMap releases, there were two genes for targets with FDA‐approved agents that have been tested clinically in non‐malignant diseases but not in cancer (UGCG, P2RY6). Interestingly, the ceramide glucosyltransferase encoded by UGCG, which is involved in glycosphingolipid biosynthesis, has previously been linked to poor prognosis in HNSCC [ ]. Another five targetable gene dependencies had clinical inhibitors that have reached at least a phase II trial (BIRC2, ITGB1, MAP3K11, LDHA and PTPN1), with 3 having been applied to other cancer types (BIRC2, ITGB1, and LDHA). These observations underscore the potential utility of our pipeline in guiding cancer type‐specific drug discovery and development in the near term.
+
+5
+
+## Conclusion
+This study catalogs the targetable gene dependencies that are most likely to be therapeutically relevant to HPV(−) HNSCC by integrating DepMAP CRISPR screen data with multiple other resources. Based on this analysis, several currently actionable targets for other diseases and multiple targets in earlier phases of development represent promising strategies for treating HNSCC. Of particular interest is PAK2, which was validated using existing PAK2 inhibitor response data and had identifiable genetic biomarkers of response. Our pipeline for HNSCC establishes a generalizable approach to filtering gene dependency data for other cancer types with a focus on accelerating therapeutic development.
+
+## Conflict of interest
+The authors declare no conflict of interest.
+
+## Author contributions
+DB, MKS, and ACC conceived the study, wrote the manuscript, and designed figures and tables. LS and PAG edited and provided critical feedback on the manuscript. MKS, ACC, RMB, PAG, PR, and LR performed bioinformatic and/or statistical analyses. All authors read and approved the final manuscript.
+
+## Peer review
+The peer review history for this article is available at https://publons.com/publon/10.1002/1878-0261.13558.
+
+## Supporting information
+
+Table S1. 143 prioritized targetable dependencies in cell line models of HNSCC.
+
+Table S2. Prioritized targets with drugs in active or previous trials for HNSCC.
+
+Table S3. Commonly mutated genes in HPV(−) HNSCC appearing in ≥ 5% of cell line models.
+
+Table S4. Updated list of prioritized dependencies using DepMap 23Q2 data release, with added genes highlighted removed genes footnoted.
+
+Table S5. Updated list of functional groups using DepMap 23Q2 data release, with added categories highlighted.
+
+Table S6. Prioritized gene products with clinical inhibitors not well‐studied for HNSCC based on DepMap 23Q2 data release, with added targets highlighted removed targets highlighted.
+
+Fig. S1. Cell line responses to inhibitors of prioritized targets already well‐studied in HNSCC.
+
+Fig. S2. PAK‐5339 dose responses of HNSCC models in top vs. bottom quartile of PAK2 gene effect score.
+
+Fig. S3.
+PAK2 dependency in HNSCC models based on CRISPR vs RNAi screening.
+
+Fig. S4. Gene effect score distribution for PAK2 vs. well‐studied targets in HNSCC.
+
+Fig. S5.
+PAK2 copy number alteration vs. survival of HPV(−) HNSCC patients in TCGA.
+
+Fig. S6.
+TP53 mutation status vs. PAK2 expression and copy number in HPV(−) HNSCCs in TCGA.
+
+Fig. S7. Retained association of PAK2 dependency with TP53 WT status in 23Q2 data release.
+Click here for additional data file.
+
+## Acknowledgements
+This study was supported by NIH R01‐DE027185 (DB, PAG), UH2CA267502 (DB, PAG), and P30‐DK050306 (DB). This work was partly supported by the Stephen and Susan Kelly Family Fund for Head and Neck Cancers.
+
+## Data accessibility
+The data that support the findings of this study are available in Tables  and Figs  . Gene dependency data processed by the Chronos algorithm was available from the DepMap at the Broad Institute at https://depmap.org/portal/. Data for the Head and Neck Squamous Cell Carcinoma TCGA cohort (project TCGA‐HNSCC, n = 523 cases) was available in the Genomic Data Commons via cBioPortal at https://www.cbioportal.org/.
