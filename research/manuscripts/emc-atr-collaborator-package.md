@@ -47,10 +47,21 @@ frame; 5' untranslated region; construct design
 its absence there rather than here.
 
 PUBLISHABLE OBJECT. A short computational research article whose Results are sequence and whose
-Discussion draws the consequences, one of which is a pre-specified prediction set for an assay
-another group already runs. That ordering was reversed until this revision: the previous title
-announced the prediction set, the Discussion was replaced by it, and the one novel sequence result
-sat in a subsection with no display item. Alternatives weighed and rejected:
+Discussion draws the consequences, one of which is a pre-specified prediction set for a published
+assay another group has run and reported with its full operative protocol. That ordering was
+reversed until this revision: the previous title announced the prediction set, the Discussion was
+replaced by it, and the one novel sequence result sat in a subsection with no display item.
+
+SUPERSEDED, RETAINED (2026-08-10): "an assay another group already runs". Reference 1 reports
+completed experiments in the past tense and states that the micro-irradiation "was performed as
+previously described", citing an earlier publication for the method; neither it nor any committed
+record here establishes that any laboratory is currently running the assay. The affordability
+argument that phrase was carrying survives in the weaker form the source supports - the assay's
+unit of work is a GFP-tagged open reading frame, so a laboratory that HAS the assay in place needs
+plasmids rather than an instrument - and section 4.3 is worded that way. The same present-tense
+defect was found and removed from the PRMT5 manuscript the same day.
+
+Alternatives weighed and rejected:
 
   (a) REGISTERED REPORT, Stage 1. Rejected on eligibility, not on fit. Stage 1 review ends in
       in-principle acceptance, which publisher guidelines define as a commitment that the AUTHORS
@@ -573,9 +584,10 @@ fusion's over the shared prefix.
 
 ### 4.3 Predictions for the recruitment assay
 
-The unit of work in the assay of reference 1 is a GFP-tagged open reading frame, so adding EMC
-requires plasmids rather than a new instrument or a new analysis. From its methods, the operative
-parameters are U2OS cells expressing GFP-tagged fusion or wild-type proteins, seeded in eight-well
+The unit of work in the assay of reference 1 is a GFP-tagged open reading frame, so for a
+laboratory that has that assay in place, adding EMC requires plasmids rather than a new instrument
+or a new analysis. From its methods, the operative parameters are U2OS cells expressing GFP-tagged
+fusion or wild-type proteins, seeded in eight-well
 chambered slides, sensitised with 1 microgram per millilitre Hoechst 33342 for 30 minutes,
 micro-irradiated along 5-pixel stripes with a 405 nm diode laser at 40 mW, and imaged before
 irradiation and at one-minute intervals for 15 minutes afterwards [1].

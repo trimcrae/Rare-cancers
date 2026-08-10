@@ -61,7 +61,7 @@ One of the few genuinely biomarker-selected synthetic-lethal classes in oncology
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A clinical-stage PRMT5 inhibitor added to the functional screen already running on the two published patient-derived EMC models — the decisive test for the stronger route | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| A clinical-stage PRMT5 inhibitor with a fusion-output readout in one of the two published patient-derived EMC models, whose holders ran a 40-agent panel on them once and published it — the decisive test for the stronger route. ⚠ Superseded, retained (2026-08-10): "added to the functional screen already running on the two published patient-derived EMC models". No source establishes that any screen is currently running there; the manuscript's own §4.2 now says so, and the endpoint's grade records the same correction. | ⛔ none built | **no** | BLK-NO-WET-LAB |
 | MTAP immunohistochemistry on archival EMC tissue — routine, no fresh tissue, no cell line | ⛔ none built | **no** | BLK-NO-WET-LAB |
 | A gene-level copy-number read of the locus in any EMC cohort | ⛔ none built | **no** | BLK-NO-EMC-DATA |
 

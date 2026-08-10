@@ -49,10 +49,10 @@ Read the set before submitting any member of it. Every venue choice here was mad
 
 | field | value |
 |---|---|
-| Word count, main text | 7219 (no limit found) |
-| Abstract | 248 words (limit 250) |
-| Display items | 5 (5 figures, 0 tables) |
-| References | 18 |
+| Word count, main text | 6478 (no limit found) |
+| Abstract | 249 words (limit 250) |
+| Display items | 13 (5 figures, 8 tables) |
+| References | 21 |
 | Cover letter | `emc-mtap-prmt5-hypothesis-cover-letter.md` |
 | Supplementary file | yes |
 | Fee route | VERIFIED |
@@ -73,7 +73,7 @@ Read the set before submitting any member of it. Every venue choice here was mad
 
 | field | value |
 |---|---|
-| Word count, main text | 5572 (no limit found) |
+| Word count, main text | 5581 (no limit found) |
 | Abstract | 249 words (limit 250) |
 | Display items | 7 (1 figures, 6 tables) |
 | References | 19 |

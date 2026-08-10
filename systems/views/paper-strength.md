@@ -53,21 +53,21 @@ last_verified: 2026-08-09
 |---:|---|---|---|---:|---:|---:|---:|---:|---|
 | 1 | [**PUB-ATR-PANEL-ASK**](../../research/manuscripts/emc-atr-collaborator-package.md) | ⭐ could still help a patient | 🧪 **bench, pre-built** | **14.0** | 0 | 0 | 0 | 0% of 1 | ◐ `drafted` |
 | 2 | [**PUB-REPURPOSING**](../../research/manuscripts/repurposing-hypotheses.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.5** | 2 | 0 | 0 | 20% of 5 | ◐ `drafted` |
-| 3 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/emc-surface-target-landscape.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.5** | 2 | 3 | 0 | 0% of 8 | ◐ `drafted` |
-| 4 | **PUB-CARE-DELIVERY** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 4 | 0 | 0 | 29% of 7 | ○ `unwritten` |
-| 5 | **PUB-EMC-CLASSIFICATION** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 2 | 0 | 0 | 33% of 3 | ◔ `outlined` |
-| 6 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |
-| 7 | **PUB-IPD-SURVIVAL** | ⭐ could still help a patient | ⭐ **no bench needed** | **11.0** | 1 | 0 | 0 | 50% of 2 | ○ `unwritten` |
-| 8 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | ⭐ could still help a patient | 🧪 bench, to build | **9.5** | 1 | 0 | 0 | 33% of 6 | ◐ `drafted` |
-| 9 | [**PUB-ATR**](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | 🧪 bench, to build | **8.0** | 1 | 0 | 0 | 0% of 1 | ◐ `drafted` |
-| 10 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | ⭐ could still help a patient | 🏥 clinical adoption | **8.0** | 1 | 0 | 0 | 25% of 4 | ◐ `drafted` |
-| 11 | [**PUB-TXN-DEPENDENCY**](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) | ⭐ could still help a patient | 🧪 bench, to build | **5.0** | 0 | 0 | ⚠ 2 | 60% of 5 | ◐ `drafted` |
-| 12 | **PUB-KINASE-LEADS** | ⭐ could still help a patient | 🧪 bench, to build | **4.5** | 0 | 0 | ⚠ 4 | 55% of 11 | ◔ `outlined` |
-| 13 | **PUB-LOCOREGIONAL** | ⭐ could still help a patient | 🏥 clinical adoption | **4.5** | 0 | 0 | ⚠ 3 | 50% of 6 | ◔ `outlined` |
-| 14 | [**PUB-MONOVALENT**](../../research/manuscripts/nr4a3-monovalent-pocket-route.md) | ⭐ could still help a patient | 🧪 bench, to build | **4.0** | 0 | 1 | 0 | 50% of 2 | ◐ `drafted` |
-| 15 | [**PUB-MODALITY-CENSUS**](../../research/manuscripts/cancer-modality-census.md) | ⭐ could still help a patient | — | **2.0** | 0 | 0 | ⚠ 1 | 0% of 1 | ◐ `drafted` |
-| 16 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/emc-treatment-roadmap.md) | ⭐ could still help a patient | — | **1** | 0 | 0 | 0 | — | ◐ `drafted` · ⚠ 2 cited-only |
-| 17 | [**PUB-MTAP-PRMT5**](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | ⛔ known negative / methods | 🧪 **bench, pre-built** | **15.0** | 1 | 0 | 0 | 0% of 3 | ◐ `drafted` |
+| 3 | **PUB-CARE-DELIVERY** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 4 | 0 | 0 | 29% of 7 | ○ `unwritten` |
+| 4 | **PUB-EMC-CLASSIFICATION** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 2 | 0 | 0 | 33% of 3 | ◔ `outlined` |
+| 5 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |
+| 6 | **PUB-IPD-SURVIVAL** | ⭐ could still help a patient | ⭐ **no bench needed** | **11.0** | 1 | 0 | 0 | 50% of 2 | ○ `unwritten` |
+| 7 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | ⭐ could still help a patient | 🧪 bench, to build | **9.5** | 1 | 0 | 0 | 33% of 6 | ◐ `drafted` |
+| 8 | [**PUB-ATR**](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | 🧪 bench, to build | **8.0** | 1 | 0 | 0 | 0% of 1 | ◐ `drafted` |
+| 9 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | ⭐ could still help a patient | 🏥 clinical adoption | **8.0** | 1 | 0 | 0 | 25% of 4 | ◐ `drafted` |
+| 10 | [**PUB-TXN-DEPENDENCY**](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) | ⭐ could still help a patient | 🧪 bench, to build | **5.0** | 0 | 0 | ⚠ 2 | 60% of 5 | ◐ `drafted` |
+| 11 | **PUB-KINASE-LEADS** | ⭐ could still help a patient | 🧪 bench, to build | **4.5** | 0 | 0 | ⚠ 4 | 55% of 11 | ◔ `outlined` |
+| 12 | **PUB-LOCOREGIONAL** | ⭐ could still help a patient | 🏥 clinical adoption | **4.5** | 0 | 0 | ⚠ 3 | 50% of 6 | ◔ `outlined` |
+| 13 | [**PUB-MONOVALENT**](../../research/manuscripts/nr4a3-monovalent-pocket-route.md) | ⭐ could still help a patient | 🧪 bench, to build | **4.0** | 0 | 1 | 0 | 50% of 2 | ◐ `drafted` |
+| 14 | [**PUB-MODALITY-CENSUS**](../../research/manuscripts/cancer-modality-census.md) | ⭐ could still help a patient | — | **2.0** | 0 | 0 | ⚠ 1 | 0% of 1 | ◐ `drafted` |
+| 15 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/emc-treatment-roadmap.md) | ⭐ could still help a patient | — | **1** | 0 | 0 | 0 | — | ◐ `drafted` · ⚠ 2 cited-only |
+| 16 | [**PUB-MTAP-PRMT5**](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | ⛔ known negative / methods | 🧪 **bench, pre-built** | **15.0** | 1 | 0 | 0 | 0% of 3 | ◐ `drafted` |
+| 17 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/emc-surface-target-landscape.md) | ⛔ known negative / methods | 🧪 bench, to build | **12.5** | 2 | 3 | 0 | 0% of 8 | ◐ `drafted` |
 | 18 | [**PUB-DEGRADER**](../../research/manuscripts/nr4a3-degrader-paper.md) | ⛔ known negative / methods | — | **10.5** | 2 | 3 | 0 | 38% of 8 | ◐ `drafted` |
 | 19 | [**PUB-METHODS**](../../research/manuscripts/degrader-methods-failure-record.md) | ⛔ known negative / methods | — | **9.0** | 1 | 0 | 0 | 100% of 1 | ◐ `drafted` |
 | 20 | [**PUB-ENDPOINT**](../../research/manuscripts/response-endpoint-indolent-tumours.md) | ⛔ known negative / methods | — | **7.0** | 1 | 0 | 0 | 67% of 3 | ◐ `drafted` |
@@ -90,10 +90,6 @@ last_verified: 2026-08-09
 **PUB-REPURPOSING** — score 12.5
 - [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) — *Could a PPARγ-directed agent act on a downstream effector of the fusion?* — `blocked` / `concept` / confidence `low` · last verified `2026-08-05`
 - [RT-CARFILZOMIB](L2-rt-carfilzomib.md) — *Does the best ex-vivo EMC drug-sensitivity evidence point at a proteasome inhibitor combination?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
-
-**PUB-SURFACE-TARGETS** — score 12.5
-- [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) — *Is a PRAME-directed T-cell engager or receptor therapy applicable to EMC?* — `blocked` / `computed` / confidence `moderate` · last verified `2026-08-05`
-- [RT-FAP-RLT](L2-rt-fap-rlt.md) — *Could a fibroblast-activation-protein radioligand reach EMC through its stroma?* — `blocked` / `concept` / confidence `unknown` · last verified `2026-08-05`
 
 **PUB-CARE-DELIVERY** — score 11.5
 - [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) — *How much of EMC's survival is decided by whether the first operation cleared the tumour, and by where it was performed?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
@@ -122,6 +118,10 @@ last_verified: 2026-08-09
 
 **PUB-MTAP-PRMT5** — score 15.0
 - [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) — *Does this tumour carry the copy-number state that selects the PRMT5 axis?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`
+
+**PUB-SURFACE-TARGETS** — score 12.5
+- [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) — *Is a PRAME-directed T-cell engager or receptor therapy applicable to EMC?* — `blocked` / `computed` / confidence `moderate` · last verified `2026-08-05`
+- [RT-FAP-RLT](L2-rt-fap-rlt.md) — *Could a fibroblast-activation-protein radioligand reach EMC through its stroma?* — `blocked` / `concept` / confidence `unknown` · last verified `2026-08-05`
 
 **PUB-DEGRADER** — score 10.5
 - [RT-ASYMMETRIC](L2-rt-asymmetric.md) — *Are the two paralogue-sparing requirements actually the same requirement — and what changes if they are not?* — `ready` / `computed` / confidence `high` · last verified `2026-08-06`
