@@ -1,0 +1,182 @@
+{
+  "id": "ART-EMC-RT-LUNG-METS",
+  "generated": "2026-08-10",
+  "question": "Has anyone anywhere ever delivered radiotherapy to lung metastases in extraskeletal myxoid chondrosarcoma, and is there a concept paper in it?",
+  "asked_by": "trimcrae, 2026-08-10",
+  "provenance": {
+    "citation_index": "research/literature/rt-lung-mets-probe.json",
+    "generator": "scripts/lit_rt_probe.py, dispatched as fetch-literature.yml slug=rt-probe",
+    "full_text_corpus": "literature-cache branch, literature/emc-rt-lung-mets/",
+    "note": "Every identifier below was returned by a Europe PMC query recorded in the citation index. Where a statement comes from an abstract rather than full text, the record says so, because an abstract is evidence of what a paper claims and not of how it got there."
+  },
+
+  "headline": "ANSWER: YES, BUT ONLY AS SCATTERED CASE REPORTS, AND NEVER AS A STUDIED STRATEGY. Radiotherapy has been delivered to metastatic EMC deposits and reported at least four times in four different modalities, including twice to lung specifically. No series, no trial, no registry analysis and no guideline has ever evaluated metastasis-directed radiotherapy in this histology as a question in its own right.",
+
+  "direct_evidence_rt_to_emc_metastases": [
+    {
+      "pmid": "41323055",
+      "doi": "10.1159/000548238",
+      "year": "2025",
+      "journal": "Case Reports in Oncology",
+      "title": "Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxoid Chondrosarcoma Repeatedly Treated with Surgical Excision or Stereotactic Radiotherapy Alone: A Case Report",
+      "modality": "stereotactic ablative radiotherapy (SABR)",
+      "read_from": "abstract, via Europe PMC API (the publisher page returns HTTP 403 to the sandbox and to a runner alike)",
+      "what_it_reports": "One patient. All metastatic sites treated with either surgical excision or SABR alone on three separate occasions, with complete or major response each time; the stated benefit is prolonged systemic-therapy-free intervals with minimal toxicity.",
+      "weight": "n = 1, no control, and the authors present it as an individualised approach for selected patients rather than as a general claim.",
+      "why_it_matters": "It is the only paper in the searchable record in which ablative radiotherapy is the deliberate, repeated, sole treatment of metastatic EMC."
+    },
+    {
+      "pmid": "36944557",
+      "doi": "10.1016/j.clon.2023.03.004",
+      "year": "2023",
+      "journal": "Clinical Oncology (Royal College of Radiologists)",
+      "title": "Whole Lung Radiotherapy to Treat Metastatic Extraskeletal Myxoid Chondrosarcomas",
+      "modality": "bilateral whole-lung external beam radiotherapy",
+      "read_from": "title, journal, year, PMID and DOI from the Europe PMC record; NO abstract is indexed and the publisher page returns HTTP 403, so the content statement below rests on a search-engine snippet and has NOT been verified against the paper",
+      "what_it_reports": "UNVERIFIED, flagged: two patients with metastatic EMC reported as having sustained symptomatic benefit from bilateral whole-lung external beam radiotherapy.",
+      "weight": "n = 2, symptomatic endpoint, and the primary text has not been read here.",
+      "outstanding": "Obtain the full text before any figure or outcome from this paper is quoted anywhere."
+    },
+    {
+      "pmid": "35494187",
+      "doi": "10.5114/jcb.2022.115161",
+      "year": "2022",
+      "journal": "Journal of Contemporary Brachytherapy",
+      "title": "High-dose-rate interstitial brachytherapy as a suitable option for metastatic extraskeletal myxoid chondrosarcoma - a case report",
+      "modality": "HDR interstitial brachytherapy, 30 Gy in 2 fractions in one day",
+      "read_from": "abstract, via Europe PMC API",
+      "what_it_reports": "One patient, 87 years old. Three separate metastatic sites treated (inguinal node, breast, popliteal fossa); long-term local control at all three without severe acute or late toxicity.",
+      "weight": "n = 1. Not lung, but it is a direct observation of metastatic EMC responding durably to ablative dose.",
+      "why_it_matters": "Three sites in one patient controlled by radiation alone is a harder observation to attribute to indolence than a single treated lesion is."
+    },
+    {
+      "pmid": "40885991",
+      "doi": "10.1186/s13018-025-06245-6",
+      "year": "2025",
+      "journal": "Journal of Orthopaedic Surgery and Research",
+      "title": "The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma",
+      "modality": "palliative radiotherapy to metastatic lesions",
+      "read_from": "full text, retrieved to literature-cache",
+      "what_it_reports": "In the 29-patient metastatic-at-presentation subgroup, two patients received palliative radiotherapy for metastatic lesions. No outcome is reported for those two.",
+      "weight": "The exposure is recorded; the outcome is not. This is the only cohort in which metastasis-directed radiotherapy appears at all, and it appears as an untabulated line.",
+      "why_it_matters": "It establishes that the practice happens in real cohorts and that nobody has ever reported what it did."
+    }
+  ],
+
+  "adjacent_evidence_rt_works_on_emc_somewhere": [
+    {
+      "pmid": "36720511",
+      "doi": "10.1136/bcr-2022-250218",
+      "year": "2023",
+      "journal": "BMJ Case Reports",
+      "title": "Extraskeletal myxoid chondrosarcoma in the pelvis successfully treated with proton beam radiotherapy",
+      "read_from": "abstract",
+      "what_it_reports": "A man in his late 60s with pelvic EMC maintained a COMPLETE RESPONSE for more than seven years on proton beam radiotherapy with intra-arterial chemotherapy, without surgery.",
+      "why_it_matters": "A seven-year complete response is difficult to reconcile with a tumour described as refractory to radiotherapy, and it is a primary rather than a metastasis."
+    },
+    {
+      "pmid": "33308312",
+      "doi": "10.1186/s13569-020-00150-8",
+      "year": "2020",
+      "journal": "Clinical Sarcoma Research",
+      "title": "Locally recurrent extraskeletal myxoid chondrosarcoma of the shoulder: a case of complete neoadjuvant radiotherapy response",
+      "read_from": "abstract",
+      "what_it_reports": "Preoperative radiotherapy, 50 Gy; the resection specimen contained NO VIABLE TUMOUR CELLS; no relapse at 24 months.",
+      "why_it_matters": "A pathological complete response is the strongest single observation against the radioresistance label, because it is measured in tissue rather than on imaging."
+    },
+    {
+      "pmid": "31436747",
+      "doi": "10.1097/coc.0000000000000590",
+      "year": "2019",
+      "journal": "American Journal of Clinical Oncology",
+      "title": "Extraskeletal Myxoid Chondrosarcomas: Combined Modality Therapy With Both Radiation and Surgery Improves Local Control",
+      "read_from": "abstract",
+      "what_it_reports": "41 consecutive localised patients, median follow-up 94 months. 10-year local control 90% overall; surgery alone was the only significant factor associated with poorer local control on univariate analysis.",
+      "weight": "Retrospective, single institution, and the irradiated group is the larger one (33 of 41), so indication bias runs in both directions."
+    },
+    {
+      "pmid": "27819877",
+      "doi": "10.1097/coc.0000000000000341",
+      "year": "2018",
+      "journal": "American Journal of Clinical Oncology",
+      "title": "Benefit of Radiotherapy in Extraskeletal Myxoid Chondrosarcoma: A Propensity Score Weighted Population-based Analysis of the SEER Database",
+      "read_from": "abstract",
+      "what_it_reports": "172 localised patients from SEER, 2004-2012; 32% received external beam radiotherapy; propensity-weighted analysis of cancer-specific survival.",
+      "weight": "Population-level and propensity-weighted, which is the strongest design in this list, but it is localised disease and says nothing about metastases."
+    }
+  ],
+
+  "the_live_contradiction": {
+    "statement": "The field does not agree with itself about whether radiotherapy does anything in EMC, and both sides are recent and methodologically serious.",
+    "against": [
+      "PMID 40885991 (2025, n = 171): no association between (neo)adjuvant radiotherapy and local recurrence, HR 0.50 (95% CI 0.11-2.25), p = 0.365. Read from full text.",
+      "PMID 40885991 also reports that 41.7% of irradiated patients had R1/R2 margins against 18.2% of unirradiated ones, which is the indication bias that makes the null hard to interpret in either direction."
+    ],
+    "for": [
+      "PMID 31436747 (2019, n = 41): 10-year local control favours combined modality; surgery alone was the only factor significantly associated with worse local control.",
+      "PMID 27819877 (2018, n = 172, SEER, propensity-weighted): reports a cancer-specific survival benefit for external beam radiotherapy in localised disease.",
+      "PMID 33308312: a pathological complete response at 50 Gy.",
+      "PMID 36720511: a complete response sustained beyond seven years with protons."
+    ],
+    "what_nobody_has_done": "Every entry on both sides concerns the PRIMARY tumour. The contradiction has never been examined at the metastasis, at ablative dose, in the one anatomical compartment where 63% of this disease's metastatic burden actually sits.",
+    "why_that_matters": "Conventionally fractionated 50-66 Gy to a resection bed and 3-5 fraction ablative SABR to a lung nodule are different treatments with different radiobiology. A null result for the first is not evidence about the second, and the literature has been reading it as though it were."
+  },
+
+  "the_natural_history_that_makes_the_case": {
+    "source": "PMID 19347951-adjacent record retrieved as literature/emc-rt-lung-mets/emc-two-referral-centers-drilon-2008.txt (Cancer, 2008, 2 referral centres, n = 86); read from full text",
+    "caution": "The PMID for this 2008 series was NOT confirmed by the probe and must not be written into any manuscript until it is. The retrieved full text is the provenance for the figures below.",
+    "figures": [
+      "First site of metastasis was the LUNG in 80% of cases.",
+      "63% had metastasis CONFINED TO THE LUNGS; a further 17% had lung disease concurrent with other sites.",
+      "34% of patients were diagnosed with, or progressed to, metastatic disease.",
+      "79% of primaries were in an extremity (62% lower, 17% upper).",
+      "Overall survival 82% / 65% / 58% at 5 / 10 / 15 years.",
+      "Median survival after detection of metastases: 17.8 months in the 28 patients with follow-up data."
+    ],
+    "corroboration": "PMID 40885991 (2025, independent cohort): of 29 patients metastatic at presentation, 27 had lung metastases and 2 had peritoneal dissemination. Read from full text.",
+    "significance_for_this_repository": "RT-LUNG-DIRECTED's view states that the lung-confined fraction -- 'the actual eligibility criterion' -- is not curated and that metastatic site 'appears once in free text rather than as data'. That is true of the registry and NOT true of the primary literature: 63% lung-confined is stated outright in the retrieved full text of one series, and corroborated at 93% of the metastatic-at-presentation subgroup in another. The route's missing numerator was one fetch away.",
+    "the_tension_that_has_to_be_stated": "A median survival of 17.8 months after metastasis sits badly beside the description of this disease as indolent, and the concept below must not quietly use the indolent framing and the long-survival figures while ignoring this one. It is from a 2008 cohort with 3.6 years median follow-up and it is the figure most likely to be revised by the reconstructed-IPD instrument this repository already has."
+  },
+
+  "the_borrowed_evidence_base": {
+    "statement": "Metastasis-directed radiotherapy to sarcoma lung metastases is an established, prospectively studied practice. It is simply histology-agnostic.",
+    "read_from": "Europe PMC counts in the citation index plus web-search summaries; the full texts of these sarcoma-wide papers were requested and mostly returned stub pages, so the numeric outcomes below are NOT verified here.",
+    "unverified_figures_do_not_quote": [
+      "2-year local control after SABR for sarcoma lung metastases is reported in the 83-96% range across retrospective series.",
+      "A low alpha/beta ratio of roughly 4-5 is attributed to sarcoma, which is the radiobiological argument for hypofractionation.",
+      "SABR-COMET randomised 99 patients across breast, lung, colorectal and prostate primaries and reported a median overall survival benefit; sarcoma was not a listed primary."
+    ],
+    "verified_structural_facts": [
+      "Europe PMC returns 164 records for sarcoma AND lung metastases AND SABR/SBRT, and 37 with all three concepts in the TITLE -- so the sarcoma-level literature is substantial, not anecdotal.",
+      "Europe PMC returns 5 records for EMC AND stereotactic in title or abstract, of which exactly ONE concerns stereotactic treatment of EMC metastases; the other four are intracranial or cardiac primaries and a review.",
+      "A randomised phase II of SBRT in oligometastatic soft tissue sarcoma exists (Stereosarc, NCT03548428) and a prospective phase 2 of SBRT for sarcoma lung metastases exists (PMID 35987453). Neither is EMC-specific. Both identifiers came from web search and are NOT in the probe index."
+    ]
+  },
+
+  "search_defects_found_and_fixed": [
+    {
+      "defect": "A wildcard inside a quoted phrase.",
+      "detail": "The probe's first run asked for '\"lung metastas*\"'. Europe PMC matches a quoted phrase literally, so it matched nothing and drove the whole conjunction -- EMC AND lung metastases AND local therapy -- to hitCount 0.",
+      "consequence_avoided": "That zero was one step from being reported as 'nobody has ever tried radiotherapy on EMC lung metastases'. It was caught only because papers answering the query were already in hand from a plain web search before the probe ran.",
+      "fixed_in": "scripts/lit_rt_probe.py; the corrected query returns 35."
+    },
+    {
+      "defect": "An exact-phrase field query cannot see a plural.",
+      "detail": "'emc_topic_whole_lung_rt' returned 0 against TITLE/ABSTRACT:\"extraskeletal myxoid chondrosarcoma\". The whole-lung radiotherapy paper is titled '...Extraskeletal Myxoid ChondrosarcomaS' and a direct title lookup returns it as PMID 36944557.",
+      "consequence_avoided": "A second manufactured zero, on the single most on-point paper in the entire search.",
+      "status": "The singular-phrase queries in this probe systematically under-count plural-titled papers. Treat every zero in the index as a statement about the string, not about the literature."
+    },
+    {
+      "defect": "Unfielded queries search full text and inflate counts to meaninglessness.",
+      "detail": "EMC AND stereotactic returned 42 unfielded, whose top rows were national sarcoma guidelines naming both terms paragraphs apart; the same question fielded to TITLE/ABSTRACT returns 5.",
+      "fixed_in": "scripts/lit_rt_probe.py, all EMC queries field-restricted."
+    }
+  ],
+
+  "what_is_still_unread": [
+    "PMID 36944557 full text -- the whole-lung radiotherapy report, the single most on-point paper, blocked by Cloudflare at both the sandbox and the runner and carrying no indexed abstract.",
+    "The dose, fractionation, lesion size and duration of local control in PMID 41323055, none of which is in the abstract.",
+    "Whether any of the sarcoma-wide SABR series reports an EMC subgroup, which would need the full texts that returned stub pages.",
+    "The PMID of the 2008 two-referral-centre series, whose figures are used above from retrieved full text but whose identifier has not been confirmed."
+  ]
+}

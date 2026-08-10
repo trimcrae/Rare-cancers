@@ -22,7 +22,7 @@ last_verified: 2026-08-05
 > lab, no funding for one — so every advance is either in-silico or publish-to-convince.
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.**
 
-**13 strategy families · 75 routes · 20 blockers · 26 technology dependencies.**
+**13 strategy families · 76 routes · 20 blockers · 26 technology dependencies.**
 
 ## The shape of the portfolio
 
@@ -49,10 +49,10 @@ flowchart LR
   ST_PROXIMITY["ST-PROXIMITY ◐ · 7 routes"]:::fam
   ST_NUCLEIC_ACID["ST-NUCLEIC-ACID ✓ · 5 routes"]:::fam
   ST_DISSEMINATION["ST-DISSEMINATION ○ · 4 routes"]:::fam
+  ST_LOCOREGIONAL["ST-LOCOREGIONAL ○ · 4 routes"]:::fam
   ST_MICROENV["ST-MICROENV ○ · 4 routes"]:::fam
   ST_OCCUPANCY["ST-OCCUPANCY ○ · 4 routes"]:::fam
   ST_FUSION_DIRECT["ST-FUSION-DIRECT ✕ · 3 routes"]:::fam
-  ST_LOCOREGIONAL["ST-LOCOREGIONAL ○ · 3 routes"]:::fam
   ST_STRATEGY["ST-STRATEGY ○ · 3 routes"]:::fam
   ST_RADIOLIGAND["ST-RADIOLIGAND ○ · 2 routes"]:::fam
 
@@ -115,7 +115,7 @@ flowchart LR
 | **[ST-DEPENDENCY](L1-st-dependency.md)**<br/>Synthetic lethality and dependency | You do not have to drug the driver if the driver has made something else indispensable. A synthetic-lethal partner can be an ordinary, already-druggab… | 13 | ✓ blocked · computed | hedge |
 | **[ST-DISSEMINATION](L1-st-dissemination.md)**<br/>Methods and publication as an outcome in itself | A computation-only program with no wet lab advances a disease in exactly two ways: by producing a result someone else tests, or by producing methodolo… | 4 | ○ ready · scoped | dissemination |
 | **[ST-MICROENV](L1-st-microenv.md)**<br/>The tumour microenvironment and matrix as the target | The matrix is this disease's defining phenotype and the portfolio's prose has treated it almost entirely as an obstacle to delivery. It is also a manu… | 4 | ○ ready · concept | hedge |
-| **[ST-LOCOREGIONAL](L1-st-locoregional.md)**<br/>Locoregional, physical and radiation-based treatment | Every other family here tries to buy selectivity with chemistry. A beam, a perfusion circuit or a needle buys it with geometry, which is a discriminat… | 3 | ○ ready · concept | hedge |
+| **[ST-LOCOREGIONAL](L1-st-locoregional.md)**<br/>Locoregional, physical and radiation-based treatment | Every other family here tries to buy selectivity with chemistry. A beam, a perfusion circuit or a needle buys it with geometry, which is a discriminat… | 4 | ○ ready · concept | hedge |
 | **[ST-STRATEGY](L1-st-strategy.md)**<br/>Treatment strategy, scheduling and reachability | For a disease measured in years, when and in what order the existing agents are given may matter as much as which they are — and none of that has been… | 3 | ○ ready · concept | cheap_option |
 | **[ST-CARE-DELIVERY](L1-st-care-delivery.md)**<br/>Care delivery, diagnosis and the determinants of survival | Every other family here asks what to GIVE an EMC patient. None asks what determines how long an EMC patient lives now — and in a disease where no syst… | 7 | ○ ready · concept | cheap_option |
 
@@ -128,7 +128,7 @@ Every route above ends in a paper. With no wet lab and no clinic, the published 
 | state | endpoints | routes feeding them |
 |---|---:|---:|
 | ○ `unwritten` | 3 | 10 |
-| ◔ `outlined` | 5 | 15 |
+| ◔ `outlined` | 5 | 16 |
 | ◐ `drafted` | 23 | 50 |
 
 ## What holds the portfolio down
