@@ -30,6 +30,8 @@ related: [DOC-EMC-ATR-VULNERABILITY-ASSESSMENT]
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
 
+Running title: NR4A3 fusion models and DSB predictions
+
 *A sequence-analysis report with a pre-specified prediction set. No experiment was performed and no
 reagent was made. Every sequence below is computed from public reference transcripts, and every
 breakpoint is quoted from a primary source. Analyses and drafting were carried out with AI
@@ -124,7 +126,10 @@ response-endpoint-indolent-tumours.md. No ORCID is given because the repository 
 > **Declarations.** Ethics approval and consent were not required and were not sought: this study
 > analyses public reference sequences and published exon-level breakpoint statements, and involves
 > no human participant, no identifiable data, no patient-level record, no animal and no laboratory
-> work. **Funding:** none. **Competing interests:** none. **Data and code:** section 7.
+> work. **Funding:** none. **Competing interests:** none. **Author contributions:** Tristan D. McRae
+> is the sole author and is responsible, in CRediT terms, for conceptualization, methodology,
+> software, formal analysis, investigation, data curation, visualization, writing of the original
+> draft, and writing of the review and editing. **Data and code:** section 7.
 
 > **Scope of the claims.** This is a sequence-analysis report. It asserts no efficacy, potency,
 > dose, safety, therapeutic window or clinical readiness for any agent in any disease, and makes no

@@ -28,6 +28,8 @@ related: [DOC-EMC-SURFACE-TARGET-LANDSCAPE-SI]
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
 
+Running title: Surface-antigen priorities in EMC
+
 <!-- EDITORIAL, NOT FOR SUBMISSION.
 VENUE: British Journal of Cancer (Springer Nature), article type Article, with a bioRxiv preprint as
 the free open copy. An accepted paper may be published by the traditional subscription route at no
@@ -54,6 +56,15 @@ well, so the word, abstract and display-item limits written into this manuscript
 search-derived. Those affect FORMAT, which an editor returns, not COST, which is billed. And the
 APC figure itself comes from a bibliographic database rather than the publisher page; it is not the
 number the decision rests on, since the charge is being declined.
+AUTHOR BLOCK matches the author block already committed in nr4a3-degrader-paper.md and
+response-endpoint-indolent-tumours.md. No ORCID is given because the repository carries none, and
+only the author can supply one; the sibling submission texts carry the same statement.
+COMMENT TERMINATOR ADDED 2026-08-10. This editorial block opened at "<!-- EDITORIAL" and was never
+closed, so every renderer treated the whole manuscript from that line down as an HTML comment, and
+submission_metrics.py's comment strip, which requires the closing token, silently did nothing. The
+terminator below ends the block where the sibling manuscripts end theirs, immediately before the
+preprint-deposit declarations.
+-->
 
 > **Declarations for preprint deposit.** Ethics approval and consent were not required and were not
 > sought. This study analyses public gene-expression deposits and public annotation resources only. It

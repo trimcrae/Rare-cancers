@@ -26,6 +26,8 @@ related: [DOC-FACT-CHECK-LOG, DOC-REPURPOSING-HYPOTHESES-REVIEW, DOC-PPARG-DIREC
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
 
+Running title: Repurposing candidates in EMC
+
 <!-- EDITORIAL, NOT FOR SUBMISSION.
 VENUE: Critical Reviews in Oncology/Hematology (Elsevier), article type Review, with a bioRxiv
 preprint as the free open copy and Zenodo as the fallback deposit.
@@ -92,6 +94,14 @@ patient-derived model; two in-silico rationales advanced here for it both return
 
 *Keywords:* extraskeletal myxoid chondrosarcoma; *NR4A3*; drug repurposing; rare sarcoma; evidence
 grading; knowledge-graph models.
+
+## Highlights
+
+- Three independent methods yielded 14 existing-drug candidates across seven axes.
+- Evidence strength and novelty are anti-correlated across the candidate menu.
+- Only imatinib, in the KIT-mutant minority, carries direct EMC clinical evidence.
+- Two pre-specified in-silico rationales for the proteasome lead returned negative.
+- A graph foundation model diverged from both methods and promoted no candidate.
 
 ---
 

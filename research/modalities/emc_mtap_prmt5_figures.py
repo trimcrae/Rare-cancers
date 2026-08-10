@@ -81,6 +81,28 @@ def _fingerprint():
     return out
 
 
+#: ⛔ AUTHOR AT THE FINAL PRINTED SIZE, AND FLOOR THE TYPE (2026-08-10). These figures were drawn on
+#: canvases up to 9.6 in wide with 6.4 pt type. A journal scales a figure to its page width, so a
+#: 9.4 in figure on a 7.5 in page is multiplied by 0.80 and that 6.4 pt type prints at 5.1 pt —
+#: under the ~7 pt minimum these journals state, and genuinely hard to read. Matplotlib font sizes
+#: are absolute points, so narrowing the canvas raises type size relative to the plot rather than
+#: shrinking it with the canvas: authoring at the page width means what is drawn is what prints.
+PAGE_W_IN = 7.4          # a full double-column page, with margin to spare
+MIN_PT = 7.0
+
+
+def fs(pt):
+    """Font size floored at the smallest type a journal will accept."""
+    return max(MIN_PT, pt)
+
+
+def page(w, h):
+    """Clamp a figure to the page width, preserving aspect."""
+    if w <= PAGE_W_IN:
+        return (w, h)
+    return (PAGE_W_IN, h * PAGE_W_IN / w)
+
+
 def _samples(panel, gene, plat):
     """(emc_z, comparator_z, readable). ⚠ A sample with no value is DROPPED, never zero-filled."""
     v = (panel["gene_reads"].get(gene) or {}).get(plat)
@@ -122,7 +144,7 @@ def _gene_panel(ax, panel, genes, title, plat, label):
     for i, g in enumerate(genes):
         emc, comp, ok = _samples(panel, g, plat)
         if not ok:
-            ax.text(i, 0, "no probe\n(unreadable)", ha="center", va="center", fontsize=6.4,
+            ax.text(i, 0, "no probe\n(unreadable)", ha="center", va="center", fontsize=fs(6.4),
                     color=C_ABSENT, style="italic", zorder=4)
             continue
         _dots(ax, i - 0.17, comp, C_COMP, series="comp")
@@ -133,45 +155,45 @@ def _gene_panel(ax, panel, genes, title, plat, label):
             ax.plot([i - 0.31, i - 0.03], [st.median(comp)] * 2, "--", color=C_COMP,
                     lw=1.9, zorder=4)
     ax.set_xticks(range(len(genes)))
-    ax.set_xticklabels(genes, fontsize=7.4)
-    ax.set_title(title, fontsize=8.2, color=C_INK, pad=5)
-    ax.set_ylabel(f"z vs this array's own\nprobe distribution\n({label})", fontsize=6.9)
-    ax.tick_params(labelsize=6.9)
+    ax.set_xticklabels(genes, fontsize=fs(7.4))
+    ax.set_title(title, fontsize=fs(8.2), color=C_INK, pad=5)
+    ax.set_ylabel(f"z vs this array's own\nprobe distribution\n({label})", fontsize=fs(6.9))
+    ax.tick_params(labelsize=fs(6.9))
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
 
 def fig_readings(plt, panel):
     """1 — the two readings, per tumour, platforms never sharing an axis."""
-    fig, axes = plt.subplots(2, 2, figsize=(9.4, 6.4))
+    fig, axes = plt.subplots(2, 2, figsize=page(9.4, 6.4))
     for r, (plat, pname, kind) in enumerate(PLATS):
         _gene_panel(axes[r][0], panel, METHYLOSOME, f"PRMT5 methylosome — {pname}", plat, kind)
         _gene_panel(axes[r][1], panel, LOCUS, f"MTAP / CDKN2A / CDKN2B locus — {pname}", plat, kind)
     axes[0][0].plot([], [], "o", color=C_EMC, mec="white", mew=0.6, label="EMC tumour")
     axes[0][0].plot([], [], "s", mfc="none", mec=C_COMP, mew=1.25, label="comparator sarcoma")
-    axes[0][0].legend(fontsize=6.6, frameon=False, loc="upper left")
-    fig.suptitle("Every tumour, on both platforms. Bars are medians.", fontsize=9, color=C_INK)
+    axes[0][0].legend(fontsize=fs(6.6), frameon=False, loc="lower right", handletextpad=0.5)
+    fig.suptitle("Every tumour, on both platforms. Bars are medians.", fontsize=fs(9), color=C_INK)
     fig.text(0.5, 0.005,
              "NOTE  The two platforms are NOT on a shared axis: one is single-channel intensity and one "
              "is a two-colour log-ratio.\nA gene with no probe is marked unreadable — that is an "
              "instrument statement, never evidence of absence.",
-             ha="center", fontsize=6.6, color=C_MUTE)
+             ha="center", fontsize=fs(6.6), color=C_MUTE)
     fig.tight_layout(rect=(0, 0.035, 1, 0.955))
     return fig
 
 
 def fig_locus_genewise(plt, panel):
     """2 — the locus gene by gene, because the paper's own caveat lives between these three genes."""
-    fig, axes = plt.subplots(1, 2, figsize=(8.6, 3.5))
+    fig, axes = plt.subplots(1, 2, figsize=page(8.6, 3.5))
     for c, (plat, pname, kind) in enumerate(PLATS):
         _gene_panel(axes[c], panel, LOCUS, pname, plat, kind)
-    fig.suptitle("The locus is three genes, and they are not interchangeable", fontsize=9, color=C_INK)
+    fig.suptitle("The locus is three genes, and they are not interchangeable", fontsize=fs(9), color=C_INK)
     fig.text(0.5, 0.005,
              "NOTE  CDKN2A is lost by mechanisms that leave MTAP intact, so a LOCUS score is ambiguous by "
              "construction — the group\ncannot distinguish co-deletion from CDKN2A-only loss. Only "
              "MTAP protein can, which is why the manuscript's decisive\ntest for this route is a "
              "stain and not this figure.",
-             ha="center", fontsize=6.6, color=C_MUTE)
+             ha="center", fontsize=fs(6.6), color=C_MUTE)
     fig.tight_layout(rect=(0, 0.06, 1, 0.93))
     return fig
 
@@ -186,13 +208,13 @@ def fig_dependency(plt, dep):
     if not rows:
         return None
     order = [g for g in ("PRMT5", "MAT2A", "MTAP") if g in rows]
-    fig, ax = plt.subplots(figsize=(6.4, 3.3))
+    fig, ax = plt.subplots(figsize=page(6.4, 3.3))
     fr = [rows[g]["sarcoma_frac_dependent"] * 100 for g in order]
     bars = ax.barh(order, fr, color=[C_EMC if f > 50 else C_COMP for f in fr], height=0.5)
     for g, b, f in zip(order, bars, fr):
         ax.text(b.get_width() + 1.6, b.get_y() + b.get_height() / 2,
                 f"{f:.1f}%   (mean gene effect {rows[g]['sarcoma_mean']:+.2f})",
-                va="center", fontsize=7.2, color=C_INK)
+                va="center", fontsize=fs(7.2), color=C_INK)
     ax.set_xlim(0, 128)
     # ⛔ THE DENOMINATOR IS THE SCREENED COUNT, NOT THE MODEL COUNT (2026-08-10). This label read
     # `n_sarcoma_models`, which is 176 — the number of sarcoma models in the release — while the
@@ -208,9 +230,9 @@ def fig_dependency(plt, dep):
     assert len(_ns) == 1, f"screened-count disagreement across rows: {sorted(_ns)}"
     n_screened = _ns.pop()
     ax.set_xlabel(f"% of {n_screened or '?'} screened sarcoma cell lines in which the gene is a "
-                  f"dependency", fontsize=7.4)
-    ax.set_title("This QUALIFIES the route rather than supporting it", fontsize=8.6, color=C_INK)
-    ax.tick_params(labelsize=7.6)
+                  f"dependency", fontsize=fs(7.4))
+    ax.set_title("This QUALIFIES the route rather than supporting it", fontsize=fs(8.6), color=C_INK)
+    ax.tick_params(labelsize=fs(7.6))
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
     fig.text(0.5, 0.005,
@@ -219,7 +241,7 @@ def fig_dependency(plt, dep):
              "effect on FUSION-DRIVEN TRANSCRIPTION would be. MTAP is not a dependency, exactly as a\n"
              "biomarker rather than a target should read.  NO EMC LINE EXISTS IN THIS PANEL - every "
              "value is a transfer from other sarcomas.",
-             ha="center", fontsize=6.5, color=C_MUTE)
+             ha="center", fontsize=fs(6.5), color=C_MUTE)
     fig.tight_layout(rect=(0, 0.11, 1, 1))
     return fig
 
@@ -244,10 +266,10 @@ def _class_ax(ax, rows, title, ylab):
         _dots(ax, i, rows[k], col, jitter=0.17)
         ax.plot([i - 0.26, i + 0.26], [st.median(rows[k])] * 2, "-", color=col, lw=2.2, zorder=4)
     ax.set_xticks(range(len(order)))
-    ax.set_xticklabels([f"{k}\n(n={len(rows[k])})" for k in order], fontsize=6.6)
-    ax.set_ylabel(ylab, fontsize=7.0)
-    ax.set_title(title, fontsize=8.2, color=C_INK, pad=5)
-    ax.tick_params(labelsize=6.8)
+    ax.set_xticklabels([f"{k}\n(n={len(rows[k])})" for k in order], fontsize=fs(6.6))
+    ax.set_ylabel(ylab, fontsize=fs(7.0))
+    ax.set_title(title, fontsize=fs(8.2), color=C_INK, pad=5)
+    ax.tick_params(labelsize=fs(6.8))
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
     return order
@@ -267,18 +289,18 @@ def fig_classes(plt, panel):
     single = _class_z(panel, ("PRMT5",), P6244)
     if not pooled or not single:
         return None
-    fig, axes = plt.subplots(1, 2, figsize=(9.6, 3.7))
+    fig, axes = plt.subplots(1, 2, figsize=page(9.6, 3.7))
     _class_ax(axes[0], pooled, "Methylosome POOLED (4 genes) - EMC ranks second",
               "z vs array, 4 genes pooled")
     _class_ax(axes[1], single, "PRMT5 ALONE - EMC is highest", "z vs array, PRMT5")
-    fig.suptitle("GSE24369 / GPL6244 - each comparator class separately", fontsize=9, color=C_INK)
+    fig.suptitle("GSE24369 / GPL6244 - each comparator class separately", fontsize=fs(9), color=C_INK)
     fig.text(0.5, 0.005,
              "NOTE  LGFMS is FUS::CREB3L2 - a FET-fusion sarcoma, and therefore a control for 'this is "
              "just what a fusion sarcoma looks like'.\nPooled, EMC does not separate from desmoid "
              "fibromatosis; PRMT5 alone does. Route 1 depends on PRMT5, not on the group.\n"
              "Left-panel points are gene-by-sample values pooled across four genes, so they are not "
              "independent observations and no test is run on them.",
-             ha="center", fontsize=6.4, color=C_MUTE)
+             ha="center", fontsize=fs(6.4), color=C_MUTE)
     fig.tight_layout(rect=(0, 0.115, 1, 0.93))
     return fig
 
@@ -317,7 +339,7 @@ def fig_motif_map(plt, motif):
         rows.append((name, c["five_prime_residues_retained"],
                      c["five_prime_motif_sites_retained"]["GRG"], False))
 
-    fig, ax = plt.subplots(figsize=(7.6, 0.52 * len(rows) + 2.5))
+    fig, ax = plt.subplots(figsize=page(7.6, 0.52 * len(rows) + 2.5))
     # the protein, drawn once at the top
     y0 = len(rows) + 0.6
     ax.plot([1, length], [y0, y0], "-", color="#c9d2da", lw=7, solid_capstyle="butt", zorder=1)
@@ -328,9 +350,9 @@ def fig_motif_map(plt, motif):
         ax.plot(p, y0, "|", color=C_EMC, ms=13, mew=1.5, zorder=4)
     ax.text(1, y0 + 0.52, f"EWSR1, {length} aa — {len(sites)} GRG sites (red), first at "
                           f"{sites[0]}; RGG-rich regions shaded",
-            fontsize=7.0, color=C_INK, va="bottom")
+            fontsize=fs(7.0), color=C_INK, va="bottom")
     ax.text(150, y0 - 0.55, "no GRG site in residues 1-300\n(the segment every fusion retains)",
-            fontsize=6.6, color=C_MUTE, ha="center", va="top", style="italic")
+            fontsize=fs(6.6), color=C_MUTE, ha="center", va="top", style="italic")
 
     for i, (name, cut, kept, is_emc) in enumerate(rows):
         y = len(rows) - 1 - i
@@ -342,23 +364,23 @@ def fig_motif_map(plt, motif):
         for p in sites:
             if p <= cut:
                 ax.plot(p, y, "|", color="#7a1f34", ms=10, mew=1.4, zorder=4)
-        ax.text(length + 12, y, f"{kept} kept", fontsize=7.0, va="center", color=C_INK)
-        ax.text(-14, y, name, fontsize=7.0, ha="right", va="center",
+        ax.text(length + 12, y, f"{kept} kept", fontsize=fs(7.0), va="center", color=C_INK)
+        ax.text(-14, y, name, fontsize=fs(7.0), ha="right", va="center",
                 color=C_INK if is_emc else C_MUTE)
-    ax.text(-14, y0, "wild type", fontsize=7.0, ha="right", va="center", color=C_INK)
+    ax.text(-14, y0, "wild type", fontsize=fs(7.0), ha="right", va="center", color=C_INK)
 
     ax.set_xlim(-8, length + 78)
     ax.set_ylim(-2.4, y0 + 1.5)
     ax.set_yticks([])
     ax.set_xticks([1, 100, 200, 300, 400, 500, 600, length])
-    ax.tick_params(labelsize=6.9)
-    ax.set_xlabel("EWSR1 residue", fontsize=7.4)
+    ax.tick_params(labelsize=fs(6.9))
+    ax.set_xlabel("EWSR1 residue", fontsize=fs(7.4))
     for s in ("top", "right", "left"):
         ax.spines[s].set_visible(False)
     ax.text(-14, -1.75,
             "NOTE: EWSR1::FLI1 keeps 0 sites and PRMT5 inhibition is still fusion-dependent there.\n"
             "The motif is NOT required, and this figure is not a response predictor.",
-            fontsize=6.5, color="#7a1f34", ha="left", va="top")
+            fontsize=fs(6.5), color="#7a1f34", ha="left", va="top")
     fig.tight_layout()
     return fig
 
