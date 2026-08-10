@@ -216,8 +216,7 @@ exon lengths sum to the cDNA, coding nucleotides sum to the coding sequence, the
 5' untranslated boundary equals the coding sequence, and the coding sequence translates to the
 reference protein. Each construct carries three further self-checks: the reading frame opens with
 the 5' partner's N-terminus, it ends with the 3' partner's C-terminus, and both hold together. A
-construct failing them is reported as failing and its sequence is withheld rather than adjusted
-until it passes.
+construct failing them is reported as failing, and its sequence is withheld.
 
 ### 2.2 The retained-RG axis
 
@@ -255,7 +254,7 @@ python3 research/modalities/emc_fet_construct_designs.py --check
 
 That command re-derives every figure below offline from the committed input cache
 ([`emc-construct-inputs.json`](../modalities/emc-construct-inputs.json)) and prints `REPRODUCES`.
-The producer refuses to write on drift.
+The producer emits no output if the inputs have drifted.
 
 Retrieval, computation and drafting were carried out with AI assistance. Every breakpoint is quoted
 from a primary source, every sequence figure is re-derivable by the command above, and every prose
@@ -510,7 +509,7 @@ The artifact was produced by GitHub Actions run 30857647907 on `depmap-dependenc
 public repository, and `--check` re-derives it offline. Any figure above that disagrees with the
 artifact is an error in this document.
 
-**Cost of this analysis: $0.** Central processing only, with no rental and no external service.
+The analysis runs on a standard processor and requires no specialised hardware, licensed software or paid service, so it can be reproduced at no cost.
 
 ---
 

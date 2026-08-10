@@ -389,7 +389,7 @@ map to a gene they are collapsed by mean, and probe-level disagreement is not su
 
 **The normal arm is a tissue panel.** Bowel, breast, colon, kidney, lung and uterus contain almost no soft
 tissue, and the libraries are not matched adjacent tissue. The arm is an on-target off-tumour exposure
-axis and not a lineage-specificity axis, and six organ types are not a body.
+axis and not a lineage-specificity axis, and it covers six organ types.
 
 **Different comparator arms.** One lineage cohort compares against low-grade fibromyxoid sarcoma, desmoid
 fibromatosis and fibrosarcoma; the other against dermatofibrosarcoma protuberans and gastrointestinal
@@ -409,7 +409,8 @@ degrees-of-freedom value is reported so that a reader can apply their own.
 
 **Transcript, not protein.** Every address named is a protein or glycan question. Transcript-to-protein
 correlation for membrane proteins is modest and is not measured here, and nothing here measures surface
-localisation, receptor density or epitope accessibility. A high transcript reading is a reason to stain.
+localisation, receptor density or epitope accessibility. A high transcript reading is a reason to
+perform a stain and is not an antigen call.
 
 **No safety statement.** The normal-tissue prior is bulk RNA and the sequencing normal arm is six organ
 types across 27 libraries. Neither is a safety assessment, no therapeutic window is computed anywhere, and

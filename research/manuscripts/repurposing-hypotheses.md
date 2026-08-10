@@ -403,9 +403,9 @@ colleagues [13]. This work added two independent in-silico arguments for why a p
 might be selectively effective in this disease. Both were pre-specified, both were run, and both
 returned negative.
 
-*The dependency data offer nothing to select on.* Across the 91 sarcoma cell lines screened in the public CRISPR
-dependency data, *PSMB1*, *PSMC1*, *PSMD1* and *VCP* are dependencies in 100% of lines, and the
-target of carfilzomib, *PSMB5*, in 97.8%, with selectivity against the rest of the panel between
+*The dependency data offer nothing to select on.* Across the 91 sarcoma cell lines screened in the
+public CRISPR dependency data, *PSMB1*, *PSMC1*, *PSMD1* and *VCP* are dependencies in 100% of
+lines, and the target of carfilzomib, *PSMB5*, in 97.8%, with selectivity against the rest of the panel between
 −0.10 and +0.17. A gene required in every line of the class and equally required outside it cannot
 ground a selective argument. *SQSTM1* at 0% and *NFE2L1* at 7.7% behaved as the pre-named internal
 controls, so the null result is a reading rather than a failed measurement.
@@ -417,10 +417,10 @@ capacity limiting, with the grading rule committed before the data were retrieve
 while the secretory and matrix-load proxy, which is the module carrying the actual argument, was
 flat at −0.20. On the 16-tumour platform (GSE4303) every module was null.
 
-The observation survives and the argument does not. The candidate stays on the list, because an
-ex-vivo result in cells that carry this disease outweighs two failed in-silico rationales for it:
-those rationales concerned mechanism, and their failure does not unmake a measurement. The case for
-selectivity does not survive. No evidence here indicates that a proteasome inhibitor would spare
+The candidate stays on the list, because an ex-vivo result in cells that carry this disease
+outweighs two failed in-silico rationales for it: those rationales concerned mechanism, and their
+failure does not unmake a measurement. The case for selectivity does not survive, and no
+evidence here indicates that a proteasome inhibitor would spare
 normal tissue in this disease more than in any other, and no such claim is made. Our recorded
 confidence in the route is correspondingly low, and the remaining validation it needs is a clinical
 series that no computational work can supply.
@@ -515,10 +515,9 @@ a property of how a disease this rare accumulates evidence rather than a propert
 agent. It also indicates where effort has the highest return: the untried candidates already
 carrying EMC functional data, a set of five rather than of fourteen.
 
-The negative results carry the same treatment as the positive ones. A graph foundation model was run
-as an independent check, diverged from both other methods, was stress-tested against the obvious
-explanation, and promoted no candidate. Two in-silico rationales advanced here for the proteasome
-candidate both failed; as section 4.1 states, that candidate survives on a published ex-vivo
+A graph foundation model was run as an independent check, diverged from both other methods, was
+stress-tested against the obvious explanation, and promoted no candidate. Two in-silico rationales
+advanced here for the proteasome candidate both failed; as section 4.1 states, that candidate survives on a published ex-vivo
 measurement made by others rather than on an argument made here.
 
 The principal weakness is that no step of this work is a wet-laboratory experiment or a clinical

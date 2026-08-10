@@ -96,7 +96,7 @@ the eight was concordantly elevated on both arrays and two were concordantly low
 therapeutic addresses named by candidate routes was concordantly elevated. ALCAM rose on both arrays yet
 sat below the normal-organ median.
 
-**Conclusions.** Surrogate-derived surface priorities did not transfer to EMC tissue. The surrogate's
+**Conclusions.** Surrogate-derived surface priorities did not transfer to EMC tissue: the surrogate's
 negatives transferred and its positives did not.
 
 ## Keywords
@@ -243,27 +243,26 @@ toward mesenchymal antigens, so CDH11 at +3.18 log2TPM is largely a statement th
 express it. And transcript magnitude to two decimal places conveys false precision about surface-protein
 density; the values are coarse tiers.
 
-B7-H3, the field's default surface target for sarcoma, is not significantly selective in these data. B7-H3 protein can be tumour-restricted despite
-broad transcript expression, which is the basis of its clinical traction, so this is a
-selectivity-of-transcript caveat rather than a claim about protein; it removes the transcriptomic
-rationale for treating B7-H3 as the obvious first choice.
+B7-H3, the field's default surface target for sarcoma, is not significantly selective in these data.
+B7-H3 protein can be tumour-restricted despite broad transcript expression, which is the basis of its
+clinical traction, so this is a selectivity-of-transcript caveat rather than a claim about protein; it
+removes the transcriptomic rationale for treating B7-H3 as the obvious first choice.
 
 FAP and CD248 need a further caution. Both are stromal antigens, and the surrogate instrument has no
 stromal compartment, with LRRC15 reading at zero expressed fraction in it. A verdict on FAP from this
 instrument is a statement about tumour cells in culture rather than about FAP in an EMC tumour.
 
 The normal-tissue prior is the decisive filter, and among the classic protein antigens it evaluated no
-antigen was both selective and restricted (Figure 1). Each candidate fails for an identifiable
-reason. NCAM1/CD56
-sits on natural killer cells and neural tissue, carrying a fratricide risk for cell products and a
-circulating compartment; the CD56 antibody-drug conjugate lorvotuzumab mertansine was clinically
+antigen was both selective and restricted (Figure 1). Each candidate fails for an identifiable reason.
+NCAM1/CD56 sits on natural killer cells and neural tissue, carrying a fratricide risk for cell products
+and a circulating compartment; the CD56 antibody-drug conjugate lorvotuzumab mertansine was clinically
 developed and discontinued [9,10]. CDH11 is broadly expressed in normal fibroblasts, synovium and bone,
 and its high cross-cancer enrichment is the mesenchymal-versus-epithelial artefact described above.
 B7-H3, EGFR and FAP are non-selective or broad; FGFR1, MCAM and EPHB4 carry liabilities on this prior.
 The one restricted prior among the classic antigens belongs to B4GALNT1, the GD2 synthase, and whether
 EMC expresses GD2 is not measured by anything in this study. The intersection was computed over the
-antigens the filter saw, and CSPG4 was not among them, so the emptiness is emptiness of the evaluated
-set.
+antigens the filter saw, and CSPG4 was not among them, so the empty intersection is a property of the
+evaluated set.
 
 ### Surrogate priorities in EMC tumour tissue
 
@@ -434,13 +433,11 @@ platform families, which is a marker-grade result even though the same data remo
 therapeutic address. Third, a held-open lead with a stated defect: CSPG4, which the original search never
 evaluated.
 
-What does not survive is the implicit premise that a surrogate ranking plus a normal-tissue prior
-suffices to prioritise scarce validation effort for a rare tumour. It did not suffice here, and the
-check that showed this required no new data.
+A surrogate ranking plus a normal-tissue prior did not suffice to prioritise scarce validation effort
+for this rare tumour, and the check that showed as much required no new data.
 
-The modality axis carries its own gates. The abundant myxoid and chondroid
-extracellular matrix is a diffusion and binding-site barrier to antibodies, adoptive cells and
-radioligands, and adult sarcoma has a poor record for cell products and engagers in cold,
+The modality axis carries its own gates. The abundant myxoid and chondroid extracellular matrix is a
+diffusion and binding-site barrier to antibodies, adoptive cells and radioligands, and adult sarcoma has a poor record for cell products and engagers in cold,
 immune-excluded tumours; a single reported EMC case describes exactly such an immunosuppressive
 microenvironment [4]. The genes concordantly elevated in EMC tissue are largely the matrix itself, so the
 compartment that most complicates delivery is also the compartment carrying most of the differential

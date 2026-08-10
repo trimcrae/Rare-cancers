@@ -303,8 +303,8 @@ impairs proliferation in nearly every sarcoma line, so a growth effect in EMC wo
 expected; the part that could be specific to this disease, and the part any transfer must rest on, is
 the effect on fusion-driven transcription rather than on growth.
 
-It does not refute the class. The therapeutic argument for the *MTAP*-selected axis is a differential between
-*MTAP*-deleted and *MTAP*-intact cells, and a gene-effect score cannot express a differential of that
+It does not refute the class. The therapeutic argument for the *MTAP*-selected axis is a
+differential between *MTAP*-deleted and *MTAP*-intact cells, and a gene-effect score cannot express a differential of that
 kind, since an MTA-cooperative inhibitor exploits a metabolic state rather than the raw dependency
 [4]. A near-universal dependency and a genetic window are compatible.
 
@@ -452,9 +452,9 @@ The commonest EMC fusion and the commonest clear cell sarcoma fusion retain the 
 at different breakpoints, by coincidence of where the RGG boxes fall. The transfer between the two
 diseases, previously stated as an assumption (Appendix A), therefore has quantitative content.
 
-The table does not license a prediction that retained-site count determines response. EWSR1::FLI1 retains no sites, and it is
-in EWSR1::FLI1 that a PRMT5 inhibitor's effect was shown to be fusion-dependent [3]. Whatever PRMT5
-does in a FET-fusion sarcoma, it does not require the fusion protein to be the substrate. EMC type 2
+The table does not license a prediction that retained-site count determines response. EWSR1::FLI1
+retains no sites, and it is in EWSR1::FLI1 that a PRMT5 inhibitor's effect was shown to be
+fusion-dependent [3]. Whatever PRMT5 does in a FET-fusion sarcoma, it does not require the fusion protein to be the substrate. EMC type 2
 and TAF15::NR4A3, which retain none, are therefore not predicted to be unresponsive; the fusion
 protein is one candidate substrate among several, and the others, including wild-type FET proteins,
 Sm proteins and R-loop-resolution factors [9], carry their motifs regardless of the breakpoint.
@@ -552,7 +552,7 @@ hypothesis of this shape affordable in an ultra-rare disease.
 | F7 | the readings are not proliferation or cellularity effects | partially fired, on one platform. Section 3.6: adjustment leaves *PRMT5* largely intact on GPL6244 (6.24 to 5.23, *n* = 35) and takes most of the contrast on GPL3290 (6.67 to 2.71, *n* = 16), where the score is itself elevated in EMC. The platforms disagree, and this is the likeliest way the transcript half is wrong |
 | F8 | specificity rests on fusion-driven transcription, not on growth | a demonstration that PRMT5 inhibition slows EMC growth no more than it slows any sarcoma line's; the near-universal dependency of section 3.3 makes this the likeliest way the fusion rationale fails |
 | F9 | the fusion-class transfer holds because the fusions are matched on PRMT5's motif | a corrected breakpoint that moves EMC type 1 or clear cell's commonest type off 4 retained sites; asserted in a test, so a revision fails the build rather than passing unnoticed. It would weaken the argument rather than the class, since the Ewing result stands with zero sites |
-| F10 | the fusion protein is itself the relevant PRMT5 substrate | contradicted at one point already: EWSR1::FLI1 retains no site and PRMT5 inhibition is still fusion-dependent there [3]. It is listed rather than deleted because the two-construct experiment would settle it in EMC directly, and because a claim this paper does not make is worth naming |
+| F10 | the fusion protein is itself the relevant PRMT5 substrate | contradicted at one point already: EWSR1::FLI1 retains no site and PRMT5 inhibition is still fusion-dependent there [3]. It is listed rather than deleted because the two-construct experiment would settle it in EMC directly |
 
 ### 4.4 Limitations
 
