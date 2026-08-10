@@ -1,0 +1,64 @@
+{
+ "_what": "Bibliographic records for three references a simulated editorial review identified as structural gaps in emc-mtap-prmt5-hypothesis.md: the primary discovery literature for the MTAP-deletion/PRMT5 synthetic lethality, which the manuscript's second rationale rests on and did not cite; and the method citation for the gene-effect scale its dependency section reads, which was identified only by figshare article number.",
+ "_why_it_matters": "the review's point stands on its own: a paper that argues from a synthetic lethality without citing the work that established it, and from a CRISPR gene-effect score without citing the algorithm that produces it, is incomplete on inspection rather than on judgement. The previous revision declined both citations because this repository held no retrieval record for them. It now does.",
+ "_provenance": "Europe PMC search dispatched to a GitHub Actions runner on 2026-08-10, workflow fetch-literature.yml, slug mtap-prmt5-discovery-and-chronos-2026-08-10; query (MTAP AND PRMT5 AND (\"synthetic lethal\" OR \"synthetic lethality\")) OR (Chronos AND DepMap AND CRISPR AND \"gene effect\"). 472 records returned, indexed at literature/mtap-prmt5-discovery-and-chronos-2026-08-10/_index.json on the literature-cache branch.",
+ "_generated_utc": "2026-08-10",
+ "⛔_verification_level": "[MD] METADATA FROM THE RETRIEVED EUROPE PMC RECORD, including the abstract. Full texts for two of the three are in the same cache; nothing below is asserted from a full text that was not read, and each entry states what it is cited for.",
+
+ "citations": [
+  {
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/26912360/",
+   "pmid": "26912360",
+   "pmcid": "PMC4997612",
+   "doi": "10.1126/science.aad5214",
+   "authors": "Kryukov GV, Wilson FH, Ruth JR, Paulk J, Tsherniak A, Marlow SE, Vazquez F, Weir BA, Fitzgerald ME, Tanaka M, Bielski CM, Scott JM, Dennis C, Cowley GS, Boehm JS, Root DE, Golub TR, Clish CB, Bradner JE, Hahn WC, Garraway LA.",
+   "title": "MTAP deletion confers enhanced dependency on the PRMT5 arginine methyltransferase in cancer cells.",
+   "journal": "Science",
+   "year": 2016,
+   "volume": "351",
+   "issue": "6278",
+   "pages": "1214-1218",
+   "cited_for": [
+    "⭐ THE PRIMARY DISCOVERY OF THE LETHALITY THIS MANUSCRIPT'S SECOND RATIONALE RESTS ON. From the retrieved abstract: 'loss of the enzyme methylthioadenosine phosphorylase (MTAP) confers a selective dependence on protein arginine methyltransferase 5 (PRMT5) and its binding partner WDR77'.",
+    "The mechanism, from the same abstract: 'We observed increased intracellular concentrations of methylthioadenosine (MTA, the metabolite cleaved by MTAP) in cells harboring MTAP deletions. Furthermore, MTA specifically inhibited PRMT5 enzym[atic activity]' — which is why an MTA-cooperative agent is the class the rationale calls for.",
+    "The locus asymmetry, from the same abstract: 'MTAP is frequently lost due to its proximity to the commonly deleted tumor suppressor gene, CDKN2A.' This is the premise of the per-sample CDKN2A cross-check in §3.2.",
+    "⛔ NOT cited for anything about extraskeletal myxoid chondrosarcoma, which does not appear in it, nor for efficacy, safety or a therapeutic window in any disease."
+   ]
+  },
+  {
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/27068473/",
+   "pmid": "27068473",
+   "pmcid": null,
+   "doi": "10.1016/j.celrep.2016.03.043",
+   "authors": "Marjon K, Cameron MJ, Quang P, Clasquin MF, Mandley E, Kunii K, McVay M, Choe S, Kernytsky A, Gross S, Konteatis Z, Murtie J, Blake ML, Travins J, Dorsch M, Biller SA, Marks KM.",
+   "title": "MTAP Deletions in Cancer Create Vulnerability to Targeting of the MAT2A/PRMT5/RIOK1 Axis.",
+   "journal": "Cell Reports",
+   "year": 2016,
+   "volume": "15",
+   "issue": "3",
+   "pages": "574-587",
+   "cited_for": [
+    "The co-discovery of the same lethality by an independent route, and the reason MAT2A and RIOK1 are in this manuscript's methylosome and salvage panels at all. From the retrieved abstract: 'we used shRNA screening and identified the metabolic enzyme, methionine adenosyltransferase II alpha (MAT2A), and the arginine methyltransferase, PRMT5, as vulnerable enzymes in cells with MTAP deletion'.",
+    "The co-deletion premise again, from the same abstract: 'Homozygous deletions of p16/CDKN2A are prevalent in cancer, and these mutations commonly involve co-deletion of adjacent genes, including methylthioadenosine phosphorylase (MTAP).'",
+    "⛔ NOT cited for any statement about this histology or about any agent's clinical performance."
+   ]
+  },
+  {
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34930405/",
+   "pmid": "34930405",
+   "pmcid": "PMC8686573",
+   "doi": "10.1186/s13059-021-02540-7",
+   "authors": "Dempster JM, Boyle I, Vazquez F, Root DE, Boehm JS, Hahn WC, Tsherniak A, McFarland JM.",
+   "title": "Chronos: a cell population dynamics model of CRISPR experiments that improves inference of gene fitness effects.",
+   "journal": "Genome Biology",
+   "year": 2021,
+   "volume": "22",
+   "issue": "1",
+   "pages": "343",
+   "cited_for": [
+    "The gene-effect scale every dependency figure in this manuscript reads. From the retrieved abstract: 'we introduce Chronos, an algorithm for inferring gene knockout fitness effects based on an explicit model of cell proliferation dynamics after CRISPR gene knockout'. §2.3 identified the release by figshare article number and named no method.",
+    "⚠ Cited for the instrument, not for a threshold. The −0.5 dependency cut this manuscript applies is DepMap's conventional cut and is not taken from this paper."
+   ]
+  }
+ ]
+}

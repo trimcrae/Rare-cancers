@@ -54,7 +54,12 @@ MOTIF = os.path.join(HERE, "emc-prmt5-substrate-motif-map.json")
 #: comparison BETWEEN classes. `emc-prmt5-multiplicity.json` carries per-sample z for exactly those
 #: samples, beside the record of why they were excluded.
 MULTI = os.path.join(HERE, "emc-prmt5-multiplicity.json")
-SOURCES = (PANEL, DEPMAP, GRADING, MOTIF, MULTI)
+#: added 2026-08-10 with the rebuilt figure 2. `emc-mtap-locus-persample.json` carries the
+#: per-tumour 9p21 reading and the MTAP/CDKN2A conjunction that discriminates a co-deletion from a
+#: low MTAP transcript with an intact locus, which is the manuscript's central negative and which
+#: no group statistic can display.
+LOCUS_PS = os.path.join(HERE, "emc-mtap-locus-persample.json")
+SOURCES = (PANEL, DEPMAP, GRADING, MOTIF, MULTI, LOCUS_PS)
 
 P6244 = "GSE24369_series_matrix.txt.gz"
 P3290 = "GSE4303-GPL3290_series_matrix.txt.gz"
@@ -128,7 +133,10 @@ def _samples(panel, gene, plat):
 #: Wiley journals can also levy a colour charge, and the $0 route this programme requires means a
 #: figure must survive being printed in greyscale. Now EMC is a filled circle and the comparator an
 #: OPEN square, so the colour is decoration and the shape is the data.
-MARK = {"emc": {"marker": "o", "fill": True}, "comp": {"marker": "s", "fill": False}}
+MARK = {"emc": {"marker": "o", "fill": True}, "comp": {"marker": "s", "fill": False},
+        # a filled triangle for pooled normal tissue: a third shape, so the class survives
+        # greyscale beside the open squares of the comparator tumours.
+        "normal": {"marker": "^", "fill": True}}
 
 
 def _dots(ax, x, vals, colour, jitter=0.085, series="emc"):
@@ -177,33 +185,118 @@ def fig_readings(plt, panel):
     axes[0][0].plot([], [], "o", color=C_EMC, mec="white", mew=0.6, label="EMC tumour")
     axes[0][0].plot([], [], "s", mfc="none", mec=C_COMP, mew=1.25, label="comparator sarcoma")
     axes[0][0].legend(fontsize=fs(6.6), frameon=False, loc="lower right", handletextpad=0.5)
-    fig.suptitle("Every tumour, on both platforms. Bars are medians.", fontsize=fs(9), color=C_INK)
+    # ⛔ "EVERY TUMOUR" WAS FALSE AND THE FIGURE IS WHERE A READER MEETS IT FIRST (2026-08-10).
+    # GSE24369 deposits 40 tumours and this figure draws the 35 in the panel's arms; the five
+    # solitary fibrous tumours the classifier had no pattern for appear only in figure 4. The same
+    # defect was registered and corrected for figure 4 in the previous revision and was not carried
+    # across to the figure making the stronger claim.
+    fig.suptitle("Every tumour in the analysed arms, on both platforms. Bars are medians.",
+                 fontsize=fs(9), color=C_INK)
     fig.text(0.5, 0.005,
              "The two platforms are not on a shared axis: one is single-channel intensity, the other a "
              "two-colour log-ratio.\nA gene with no probe is marked unreadable, which reflects the "
-             "instrument rather than the absence of expression.",
+             "instrument rather than the absence of expression.\nFive deposited solitary fibrous "
+             "tumours are not in the analysed arms and are drawn in figure 4.",
              ha="center", fontsize=fs(6.6), color=C_MUTE)
-    fig.tight_layout(rect=(0, 0.035, 1, 0.955))
+    fig.tight_layout(rect=(0, 0.05, 1, 0.955))
     return fig
 
 
-def fig_locus_genewise(plt, panel):
-    """2 — the locus gene by gene, because the paper's own caveat lives between these three genes."""
-    fig, axes = plt.subplots(1, 2, figsize=page(8.6, 3.5))
-    for c, (plat, pname, kind) in enumerate(PLATS):
-        _gene_panel(axes[c], panel, LOCUS, pname, plat, kind)
-    fig.suptitle("MTAP, CDKN2A and CDKN2B, scored separately", fontsize=fs(9), color=C_INK)
+def fig_locus_genewise(plt, panel, locus_ps):
+    """2 — the locus per tumour, and the MTAP/CDKN2A conjunction that decides the 9p21 question.
+
+    ⛔ THIS FIGURE USED TO BE FIGURE 1'S RIGHT COLUMN WITH A DIFFERENT CAPTION. Both panels called
+    `_gene_panel(..., LOCUS, ...)` on the same panel object for the same two platforms, so the two
+    figures were identical point for point and only the title differed. It was rebuilt rather than
+    deleted, because the manuscript's central negative is a PER-SAMPLE argument that no group
+    statistic and no per-gene summary can display: five EMC tumours on GPL3290 sit below every
+    comparator for MTAP, and the question that decides whether they carry a 9p21 homozygous
+    deletion is what CDKN2A does in those same five. The right panel is the only place a reader
+    can see that it does the opposite of co-deletion.
+    """
+    if not locus_ps:
+        return None
+    rec = (locus_ps.get("per_platform") or {}).get(P3290)
+    if not rec:
+        return None
+    fig, axes = plt.subplots(1, 2, figsize=page(7.4, 3.4),
+                             gridspec_kw={"width_ratios": [1.35, 1.0]})
+
+    # left — the three genes per tumour on the platform where all three are readable
+    _gene_panel(axes[0], panel, LOCUS, "GPL6244, per tumour", P6244, "GPL6244, intensity")
+    axes[0].plot([], [], "o", color=C_EMC, mec="white", mew=0.6, label="EMC tumour")
+    axes[0].plot([], [], "s", mfc="none", mec=C_COMP, mew=1.25, label="comparator sarcoma")
+    axes[0].legend(fontsize=fs(6.6), frameon=False, loc="lower left", handletextpad=0.5)
+
+    # right — MTAP against CDKN2A, per tumour, on the platform with the low MTAP tail
+    mt = rec["locus_genes"]["MTAP"]["per_sample"]
+    cd = {r["gsm"]: r for r in rec["locus_genes"]["CDKN2A"]["per_sample"]}
+    cand = {c["gsm"] for c in rec["mtap_low_candidates"]["candidates"]}
+    floor = rec["mtap_low_candidates"]["lowest_comparator_MTAP_array_percentile"] * 100
+    ax = axes[1]
+    ax.axvline(floor, color="#9aa7b4", lw=0.9, ls=":", zorder=1)
+    ax.axhline(25, color="#9aa7b4", lw=0.9, ls=":", zorder=1)
+    for r in mt:
+        c = cd.get(r["gsm"])
+        if not c:
+            continue
+        x, y = r["array_percentile"] * 100, c["array_percentile"] * 100
+        if r["class"] == "EMC":
+            ax.plot(x, y, "o", ms=5.4 if r["gsm"] in cand else 4.6, color=C_EMC,
+                    mec="white", mew=0.6, zorder=4)
+        else:
+            ax.plot(x, y, "s", ms=4.4, mfc="none", mec=C_COMP, mew=1.25, zorder=3)
+    ax.set_xlim(-3, 100)
+    ax.set_ylim(0, 100)
+    ax.set_xlabel("MTAP, percentile of its own array", fontsize=fs(7.0))
+    ax.set_ylabel("CDKN2A, percentile of its own array", fontsize=fs(7.0))
+    ax.set_title("GPL3290, per tumour", fontsize=fs(8.2), color=C_INK, pad=5)
+    ax.tick_params(labelsize=fs(6.9))
+    ax.text(floor + 2, 97, "lowest comparator\nfor MTAP", fontsize=fs(6.2), color=C_MUTE,
+            va="top", ha="left")
+    ax.text(5, 20, "a co-deleted tumour\nwould fall in here", fontsize=fs(6.2), color=C_MUTE,
+            va="top", ha="left", style="italic")
+    for sp in ("top", "right"):
+        ax.spines[sp].set_visible(False)
+
+    fig.suptitle("The 9p21 locus read per tumour", fontsize=fs(9), color=C_INK)
     fig.text(0.5, 0.005,
-             "CDKN2A is lost by mechanisms that leave MTAP intact, so a locus-level score cannot "
-             "distinguish co-deletion\nfrom CDKN2A-only loss. MTAP protein can, which is why the "
-             "decisive test proposed for this route is a stain\nrather than an expression contrast.",
-             ha="center", fontsize=fs(6.6), color=C_MUTE)
-    fig.tight_layout(rect=(0, 0.06, 1, 0.93))
+             "Filled circles are EMC tumours, open squares comparator sarcomas; bars in the left "
+             "panel are medians, while the manuscript table reports differences of\nmeans, so the "
+             "two need not agree in direction for a gene as flat as MTAP. Right: a homozygous 9p21 "
+             "deletion removes MTAP and CDKN2A together, so a\ndeleted tumour would fall in the "
+             "lower-left quadrant. Five EMC tumours sit below every comparator for MTAP and all "
+             "five carry CDKN2A above their\narray median, which is the opposite of the "
+             "co-deletion pattern. No tumour on either platform falls in that quadrant.",
+             ha="center", fontsize=fs(6.2), color=C_MUTE)
+    fig.tight_layout(rect=(0, 0.115, 1, 0.925))
     return fig
+
+
+def _wilson(k, n, z=1.96):
+    """Wilson score interval. A bar at 94.5% of 91 lines is not a point estimate and the figure
+    should not draw it as one."""
+    if not n:
+        return (0.0, 0.0)
+    p = k / n
+    d = 1 + z * z / n
+    c = p + z * z / (2 * n)
+    h = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5)
+    return ((c - h) / d, (c + h) / d)
 
 
 def fig_dependency(plt, dep):
-    """3 — ⛔ THE FIGURE THAT ARGUES AGAINST THE PAPER'S OWN PROLIFERATION READING."""
+    """3 — ⛔ THE FIGURE THAT ARGUES AGAINST THE PAPER'S OWN PROLIFERATION READING.
+
+    ⛔ IT USED TO DRAW ONLY THE SARCOMA FRACTIONS WHILE ITS CAPTION MADE THE LOAD-BEARING POINT
+    WITH THE NON-SARCOMA NUMBER, WHICH NO BAR CARRIED (2026-08-10). The comparison the section
+    actually rests on is sarcoma against everything else — 94.5% versus 94.1% for PRMT5 — so both
+    are drawn. The old title, "PRMT5 and MAT2A are pan-essential across sarcoma lines", also
+    over-stated against the manuscript's own text, which uses MAT2A's selectivity of −0.285 as the
+    contrast that makes PRMT5's +0.013 look like nothing; if MAT2A were pan-essential in the same
+    sense that contrast would have no force. And the x-axis ran to 120% for a quantity bounded at
+    100.
+    """
     rows = {}
     for grp in dep["genes_by_group"].values():
         for r in grp:
@@ -212,14 +305,35 @@ def fig_dependency(plt, dep):
     if not rows:
         return None
     order = [g for g in ("PRMT5", "MAT2A", "MTAP") if g in rows]
-    fig, ax = plt.subplots(figsize=page(6.4, 3.3))
-    fr = [rows[g]["sarcoma_frac_dependent"] * 100 for g in order]
-    bars = ax.barh(order, fr, color=[C_EMC if f > 50 else C_COMP for f in fr], height=0.5)
-    for g, b, f in zip(order, bars, fr):
-        ax.text(b.get_width() + 1.6, b.get_y() + b.get_height() / 2,
-                f"{f:.1f}%   (mean gene effect {rows[g]['sarcoma_mean']:+.2f})",
-                va="center", fontsize=fs(7.2), color=C_INK)
-    ax.set_xlim(0, 128)
+    fig, ax = plt.subplots(figsize=page(6.6, 3.4))
+    ypos = list(range(len(order)))
+    for i, g in enumerate(order):
+        r = rows[g]
+        n_s = r.get("n_sarcoma") or 0
+        n_r = r.get("n_rest") or 0
+        for j, (key, n, col, hatch, lab) in enumerate((
+                ("sarcoma_frac_dependent", n_s, C_EMC, "", "sarcoma lines"),
+                ("rest_frac_dependent", n_r, C_COMP, "///", "non-sarcoma lines"))):
+            f = r.get(key)
+            if f is None:
+                continue
+            y = i + (0.19 if j == 0 else -0.19)
+            ax.barh(y, f * 100, color="white", edgecolor=col, hatch=hatch, height=0.32,
+                    linewidth=1.0, zorder=2,
+                    label=lab if i == 0 else None)
+            lo, hi = _wilson(round(f * n), n)
+            ax.plot([lo * 100, hi * 100], [y, y], "-", color=C_INK, lw=1.0, zorder=3)
+            if hi * 100 > 70:
+                ax.text(lo * 100 - 2, y, f"{f * 100:.1f}%", va="center", ha="right",
+                        fontsize=fs(7.0), color=C_INK, zorder=5)
+            else:
+                ax.text(hi * 100 + 2, y, f"{f * 100:.1f}%", va="center", ha="left",
+                        fontsize=fs(7.0), color=C_INK, zorder=5)
+    ax.set_yticks(ypos)
+    ax.set_yticklabels([f"{g}\n(gene effect {rows[g]['sarcoma_mean']:+.2f} in sarcoma)"
+                        for g in order], fontsize=fs(7.0))
+    ax.legend(fontsize=fs(6.8), frameon=False, loc="upper right")
+    ax.set_xlim(0, 100)
     # ⛔ THE DENOMINATOR IS THE SCREENED COUNT, NOT THE MODEL COUNT (2026-08-10). This label read
     # `n_sarcoma_models`, which is 176 — the number of sarcoma models in the release — while the
     # percentages plotted above it are computed over the 91 that actually carry CRISPR gene-effect
@@ -233,20 +347,21 @@ def fig_dependency(plt, dep):
            if isinstance(r, dict) and r.get("n_sarcoma")}
     assert len(_ns) == 1, f"screened-count disagreement across rows: {sorted(_ns)}"
     n_screened = _ns.pop()
-    ax.set_xlabel(f"% of {n_screened or '?'} screened sarcoma cell lines in which the gene is a "
-                  f"dependency", fontsize=fs(7.4))
-    ax.set_title("PRMT5 and MAT2A are pan-essential across sarcoma lines", fontsize=fs(8.6), color=C_INK)
-    ax.tick_params(labelsize=fs(7.6))
+    ax.set_xlabel(f"% of lines in which the gene is a dependency, with Wilson 95% intervals "
+                  f"({n_screened or '?'} screened sarcoma lines)", fontsize=fs(7.2))
+    ax.set_title("Dependency inside and outside sarcoma", fontsize=fs(8.6), color=C_INK)
+    ax.tick_params(labelsize=fs(7.0))
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
     fig.text(0.5, 0.005,
-             "PRMT5 and MAT2A are dependencies in almost every sarcoma line, so growth inhibition "
-             "on silencing them is expected and is not\nspecific to this disease; only an effect on "
-             "fusion-driven transcription would be. MTAP is not a dependency, consistent with its\n"
-             "role as a biomarker rather than a target. No EMC line is present in this panel, so "
-             "every value is inferred from other sarcomas.",
+             "PRMT5 and MAT2A are dependencies in almost every sarcoma line and in almost every "
+             "non-sarcoma line, so growth inhibition on silencing\nthem is expected and the panel "
+             "supports no statement of tissue selectivity; only an effect on fusion-driven "
+             "transcription would be specific\nto this disease. MTAP is not a dependency in either "
+             "group, which is the profile of a biomarker rather than a target. No EMC line is "
+             "present\nin this panel, so every value is inferred from other sarcomas.",
              ha="center", fontsize=fs(6.5), color=C_MUTE)
-    fig.tight_layout(rect=(0, 0.11, 1, 1))
+    fig.tight_layout(rect=(0, 0.135, 1, 1))
     return fig
 
 
@@ -275,17 +390,32 @@ CLASS_LABEL = {"fibrosarcoma": "myxofibrosarcoma",
 NOT_A_COMPARATOR = "pooled_skeletal_muscle_RNA"
 
 
-def _class_ax(ax, rows, title, ylab):
+def _class_ax(ax, rows, title, ylab, n_genes=1):
     order = sorted(rows, key=lambda k: -st.median(rows[k]))
     for i, k in enumerate(order):
         col = C_EMC if k == "EMC" else C_ABSENT if k == NOT_A_COMPARATOR else C_COMP
-        series = "emc" if k == "EMC" else "comp"
+        # ⛔ SHAPE, NOT HUE, FOR THE CLASS THE PAPER MOST NEEDS A READER TO SEE (2026-08-10). The
+        # generator's own rule is that shape and fill carry the series so the figure survives
+        # greyscale printing, and it was obeyed for EMC against comparator and broken for pooled
+        # normal muscle, which was an open square in gold beside open squares in slate. In
+        # greyscale the normal-tissue column became indistinguishable from a tumour comparator —
+        # and it is the column that reads ABOVE EMC on PRMT5, which is the plainest statement in
+        # the figure of what a within-array z does not show.
+        series = ("emc" if k == "EMC" else "normal" if k == NOT_A_COMPARATOR else "comp")
         _dots(ax, i, rows[k], col, jitter=0.17, series=series)
-        ax.plot([i - 0.26, i + 0.26], [st.median(rows[k])] * 2, "-", color=col, lw=2.2, zorder=4)
+        ax.plot([i - 0.26, i + 0.26], [st.median(rows[k])] * 2,
+                ":" if k == NOT_A_COMPARATOR else "-", color=col, lw=2.2, zorder=4)
     ax.set_xticks(range(len(order)))
-    # ⛔ SIX CLASSES DO NOT FIT HORIZONTALLY. Drawn flat, the long histology names overprinted each
-    # other into an unreadable band, which is worse than the omission the extra classes fixed.
-    ax.set_xticklabels([f"{CLASS_LABEL.get(k, k)} (n={len(rows[k])})" for k in order],
+    # ⛔ THE AXIS REPORTED GENE-BY-SAMPLE COUNTS AS `n` (2026-08-10). In the pooled panel `rows[k]`
+    # holds four genes times the class's samples, so the axis read "EMC (n=24)" for six tumours in
+    # a paper whose entire evidence base is sixteen. The caption disclosed the pooling and never
+    # said the n was not a tumour count. The label now states the tumour count and the gene
+    # multiplier separately.
+    def _lab(k):
+        name = CLASS_LABEL.get(k, k)
+        n_tum = len(rows[k]) // n_genes
+        return f"{name}\n{n_tum} tumours" + (f" x {n_genes} genes" if n_genes > 1 else "")
+    ax.set_xticklabels([_lab(k) for k in order],
                        fontsize=fs(6.4), rotation=28, ha="right", rotation_mode="anchor")
     ax.set_ylabel(ylab, fontsize=fs(7.0))
     ax.set_title(title, fontsize=fs(8.2), color=C_INK, pad=5)
@@ -335,21 +465,28 @@ def fig_classes(plt, panel, multi):
         for k, v in _excluded_class_z(multi, genes).items():
             tgt.setdefault(k, []).extend(v)
     fig, axes = plt.subplots(1, 2, figsize=page(9.6, 4.3))
-    _class_ax(axes[0], pooled, "Methylosome pooled: EMC does not come top", "z vs array")
-    _class_ax(axes[1], single, "PRMT5 alone: EMC highest of the tumours", "z vs array")
+    _class_ax(axes[0], pooled, "Methylosome pooled: EMC does not come top", "z vs array",
+              n_genes=len(METHYLOSOME))
+    _class_ax(axes[1], single, "PRMT5 alone: EMC has the highest class median", "z vs array")
+    axes[1].plot([], [], "o", color=C_EMC, mec="white", mew=0.6, label="EMC tumour")
+    axes[1].plot([], [], "s", mfc="none", mec=C_COMP, mew=1.25, label="comparator")
+    axes[1].plot([], [], "^", color=C_ABSENT, mec="white", mew=0.6, label="normal tissue")
+    axes[1].legend(fontsize=fs(6.4), frameon=False, loc="lower left", handletextpad=0.5)
     fig.suptitle("GSE24369 / GPL6244 - every deposited class separately", fontsize=fs(9),
                  color=C_INK)
     fig.text(0.5, 0.005,
              "LGFMS carries FUS::CREB3L2 and is therefore a within-class control for a FET-fusion "
              "sarcoma. Solitary fibrous tumour is drawn because it is\ndeposited in this series; it "
              "is not in the comparator arm, because the sample classifier carried no pattern for "
-             "it. The two pooled skeletal-muscle\nreferences are normal tissue, are not a "
-             "comparator, and read above EMC on PRMT5. Pooled, EMC does not separate from desmoid "
-             "fibromatosis;\nPRMT5 alone separates it from the other tumour classes. "
-             "Left-panel points are gene-by-sample values pooled across four genes, so they are "
-             "not\nindependent observations and no test is run on them.",
+             "it. The two pooled skeletal-muscle\nreferences are normal tissue, are drawn as "
+             "triangles, are not a comparator, and read above EMC on PRMT5. Pooled, EMC ranks "
+             "third of five, below\ndesmoid fibromatosis and solitary fibrous tumour. On PRMT5 "
+             "alone EMC has the highest class median, and 9 of 34 comparator tumours read at or "
+             "above\nthe lowest EMC tumour. Left-panel points are gene-by-sample values pooled "
+             "across four genes, so they are not independent observations and no test\nis run on "
+             "them.",
              ha="center", fontsize=fs(6.2), color=C_MUTE)
-    fig.tight_layout(rect=(0, 0.155, 1, 0.94))
+    fig.tight_layout(rect=(0, 0.185, 1, 0.94))
     return fig
 
 
@@ -395,48 +532,68 @@ def fig_motif_map(plt, motif):
         rows.append((f"{name} {exon}".strip(), c["five_prime_residues_retained"],
                      c["five_prime_motif_sites_retained"]["GRG"], False))
 
-    fig, ax = plt.subplots(figsize=page(7.6, 0.52 * len(rows) + 2.5))
-    # the protein, drawn once at the top
+    # ⛔ THE PLATEAU IS THE FINDING NOW, AND IT WEAKENS THE PAPER'S OWN EARLIER ARGUMENT
+    # (2026-08-10). Four of the eleven sites sit inside twenty residues and the fifth is 143
+    # residues later, so every breakpoint across that gap keeps exactly four. A figure that draws
+    # two fusions with the same four ticks and does not draw the gap invites a reader to see a
+    # correspondence between two diseases where there is only a step function. The band is shaded
+    # and labelled with its width.
+    plateau = (sites[3] + 1, sites[4] - 1)
+
+    fig, ax = plt.subplots(figsize=page(7.4, 0.52 * len(rows) + 2.9))
     y0 = len(rows) + 0.6
+    ax.axvspan(plateau[0], plateau[1], color="#eef1f4", zorder=0)
     ax.plot([1, length], [y0, y0], "-", color="#c9d2da", lw=7, solid_capstyle="butt", zorder=1)
     for b in boxes:
         ax.plot([b["start"], b["end"]], [y0, y0], "-", color="#8fa5b8", lw=7,
                 solid_capstyle="butt", zorder=2)
     for p in sites:
-        ax.plot(p, y0, "|", color=C_EMC, ms=13, mew=1.5, zorder=4)
-    ax.text(1, y0 + 0.52, f"EWSR1, {length} aa — {len(sites)} GRG sites (red), first at "
-                          f"{sites[0]}; RGG-rich regions shaded",
+        ax.plot(p, y0, "|", color=C_INK, ms=13, mew=1.6, zorder=4)
+    ax.text(1, y0 + 0.52, f"EWSR1, {length} aa - {len(sites)} GRG sites (ticks), first at "
+                          f"{sites[0]}; RGG-rich regions shaded darker",
             fontsize=fs(7.0), color=C_INK, va="bottom")
     ax.text(150, y0 - 0.55, "no GRG site in residues 1-300\n(the segment every fusion retains)",
             fontsize=fs(6.6), color=C_MUTE, ha="center", va="top", style="italic")
 
+    # ⛔ SHAPE AND FILL PATTERN, NOT HUE (2026-08-10). EMC fusions were red bars and comparators
+    # slate bars, with the GRG ticks drawn in red on both; printed greyscale the two series
+    # collapsed together and the ticks vanished from the EMC rows, which carry the whole content of
+    # the section. EMC rows are now solid and comparator rows hatched, and the ticks are drawn in
+    # ink against both.
     for i, (name, cut, kept, is_emc) in enumerate(rows):
         y = len(rows) - 1 - i
         col = C_EMC if is_emc else C_MUTE
-        ax.plot([1, cut], [y, y], "-", color=col, lw=4.5, alpha=0.85,
-                solid_capstyle="butt", zorder=2)
+        ax.barh(y, cut - 1, left=1, height=0.34, color=col if is_emc else "white",
+                edgecolor=col, hatch="" if is_emc else "////", linewidth=1.0, zorder=2)
         ax.plot([cut, length], [y, y], "-", color="#e4e9ee", lw=4.5, solid_capstyle="butt",
                 zorder=1)
         for p in sites:
             if p <= cut:
-                ax.plot(p, y, "|", color="#7a1f34", ms=10, mew=1.4, zorder=4)
+                ax.plot(p, y, "|", color=C_INK, ms=10, mew=1.5, zorder=4)
         ax.text(length + 12, y, f"{kept} kept", fontsize=fs(7.0), va="center", color=C_INK)
         ax.text(-14, y, name, fontsize=fs(7.0), ha="right", va="center",
                 color=C_INK if is_emc else C_MUTE)
     ax.text(-14, y0, "wild type", fontsize=fs(7.0), ha="right", va="center", color=C_INK)
 
+    span = plateau[1] - plateau[0] + 1
+    ax.text((plateau[0] + plateau[1]) / 2, -0.95,
+            f"any breakpoint in residues {plateau[0]}-{plateau[1]} keeps exactly 4 sites\n"
+            f"({span} residues, {span / length:.0%} of the protein)",
+            fontsize=fs(6.5), color=C_INK, ha="center", va="top")
+
     ax.set_xlim(-8, length + 78)
-    ax.set_ylim(-2.4, y0 + 1.5)
+    ax.set_ylim(-3.1, y0 + 1.5)
     ax.set_yticks([])
     ax.set_xticks([1, 100, 200, 300, 400, 500, 600, length])
     ax.tick_params(labelsize=fs(6.9))
     ax.set_xlabel("EWSR1 residue", fontsize=fs(7.4))
     for s in ("top", "right", "left"):
         ax.spines[s].set_visible(False)
-    ax.text(-14, -1.75,
-            "EWSR1::FLI1 retains no sites and PRMT5 inhibition is nonetheless fusion-dependent there,\n"
-            "so the motif is not required and this figure is not a response predictor.",
-            fontsize=fs(6.5), color="#7a1f34", ha="left", va="top")
+    ax.text(-14, -2.15,
+            "Solid bars are EMC fusions, hatched bars comparator fusions. EWSR1::FLI1 retains no "
+            "sites and PRMT5 inhibition is nonetheless\nfusion-dependent there, so the motif is not "
+            "required and this figure is not a response predictor.",
+            fontsize=fs(6.5), color=C_INK, ha="left", va="top")
     fig.tight_layout()
     return fig
 
@@ -452,9 +609,10 @@ def build():
     panel, dep = _load(PANEL), _load(DEPMAP)
     motif = _load(MOTIF) if os.path.exists(MOTIF) else None
     multi = _load(MULTI) if os.path.exists(MULTI) else None
+    locus_ps = _load(LOCUS_PS) if os.path.exists(LOCUS_PS) else None
     figs = {
         "mtap-prmt5-fig1-readings": fig_readings(plt, panel),
-        "mtap-prmt5-fig2-locus-genewise": fig_locus_genewise(plt, panel),
+        "mtap-prmt5-fig2-locus-genewise": fig_locus_genewise(plt, panel, locus_ps),
         "mtap-prmt5-fig3-dependency-qualifier": fig_dependency(plt, dep),
         "mtap-prmt5-fig4-comparator-classes": fig_classes(plt, panel, multi),
         "mtap-prmt5-fig5-motif-map": fig_motif_map(plt, motif),
@@ -471,30 +629,63 @@ def build():
             written.append(os.path.basename(p))
         plt.close(fig)
     with open(STAMP, "w", encoding="utf-8") as fh:
-        json.dump({"_what": "content hashes of every artifact these figures were drawn from",
+        json.dump({"_what": "content hashes of every artifact these figures were drawn from AND of "
+                            "every image file written",
                    "_why": "a reader cannot otherwise tell a stale figure from a current one; "
-                           "--check compares these against the artifacts",
+                           "--check compares both sides",
                    "_regenerate": "python3 research/modalities/emc_mtap_prmt5_figures.py",
-                   "sources": _fingerprint(), "figures": sorted(written)}, fh, indent=1,
-                  sort_keys=True)
+                   "sources": _fingerprint(),
+                   "images": _image_fingerprint(written),
+                   "figures": sorted(written)}, fh, indent=1, sort_keys=True)
         fh.write("\n")
     return written
+
+
+def _image_fingerprint(names):
+    """⛔ THE STAMP FINGERPRINTED THE ARTIFACTS AND NEVER THE IMAGES (2026-08-10), while the SI
+    said `--check` made a stale figure detectable and the tool printed "N files match". Nothing was
+    ever computed from a `.png` or `.pdf`, so a figure edited by hand, or left over from an earlier
+    run of the generator against the same artifact, passed. Hashing the images is what makes the
+    sentence true."""
+    out = {}
+    for n in sorted(names):
+        # ⚠ PNG ONLY. Matplotlib writes a creation timestamp into every PDF, so two runs of the
+        # same code on the same artifacts produce different PDF bytes and a hash of one would fail
+        # on every regeneration. The Agg PNG writer is deterministic, which is what makes this
+        # check worth having.
+        if not n.endswith(".png"):
+            continue
+        p = os.path.join(FIGDIR, n)
+        if os.path.exists(p):
+            with open(p, "rb") as fh:
+                out[n] = hashlib.sha256(fh.read()).hexdigest()[:16]
+    return out
 
 
 def check():
     if not os.path.exists(STAMP):
         print("mtap-prmt5 figures --check: no provenance stamp; run the generator")
         return 1
-    stamped = _load(STAMP).get("sources", {})
+    stamp = _load(STAMP)
+    stamped = stamp.get("sources", {})
     now = _fingerprint()
-    bad = [k for k in stamped if stamped[k] != now.get(k)]
-    for k in bad:
-        print(f"mtap-prmt5 figures --check: DRIFT {k}: stamped {stamped[k]}, now {now.get(k)}")
+    bad = [f"artifact {k}: stamped {stamped[k]}, now {now.get(k)}"
+           for k in stamped if stamped[k] != now.get(k)]
+    stamped_img = stamp.get("images", {})
+    now_img = _image_fingerprint(stamp.get("figures", []))
+    bad += [f"image {k}: stamped {stamped_img[k]}, now {now_img.get(k, 'absent')}"
+            for k in stamped_img if stamped_img[k] != now_img.get(k)]
+    if not stamped_img:
+        bad.append("the stamp carries no image hashes; re-run the generator")
+    for b in bad:
+        print(f"mtap-prmt5 figures --check: DRIFT {b}")
     if bad:
         print("Re-run: python3 research/modalities/emc_mtap_prmt5_figures.py")
         return 1
-    print(f"mtap-prmt5 figures --check: OK — {len(_load(STAMP).get('figures', []))} files match "
-          f"{len(stamped)} committed artifacts")
+    # ⚠ PDFs embed a creation timestamp, so they are listed and not hashed: two runs of the same
+    # code on the same artifacts produce different bytes. Only the PNGs are compared.
+    print(f"mtap-prmt5 figures --check: OK — {len(stamped)} artifacts and {len(stamped_img)} "
+          f"image file(s) match their stamped hashes")
     return 0
 
 

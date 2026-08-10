@@ -39,7 +39,9 @@
   "research/manuscripts/emc-treatment-strategy.md",
   "research/modalities/nr4a3-degrader-next-steps.md",
   "research/manuscripts/emc-mtap-prmt5-hypothesis.md",
-  "research/manuscripts/response-endpoint-indolent-tumours.md"
+  "research/manuscripts/response-endpoint-indolent-tumours.md",
+  "research/manuscripts/emc-mtap-prmt5-hypothesis-SI.md",
+  "research/manuscripts/emc-mtap-prmt5-prepost.md"
  ],
  "_marker_note": [
   "A superseded value is CLEARED when its line — or the two lines above / one below, because markdown prose",
@@ -1000,6 +1002,102 @@
    "pattern": "[Pp]ersistence of the modeled pose",
    "current": "persistence of one modelled pose over the short screening trajectory (nr4a3-degrader-paper.md 2.7)",
    "retired_by": "the same falsifier - local persistence shows a placement is a local minimum, never that it is THE placement. Census: research/modalities/pose-conditionality-census.json"
+  },
+  {
+   "id": "emc_prmt5_title_survives",
+   "pattern": "fusion-class\\s+rationale\\s+that\\s+survives",
+   "current": "two rationales tested against the available public data, neither supported",
+   "retired_by": "the 2026-08-10 round-two review: nothing bearing on the fusion rationale clears 0.05 after the paper's own correction, and the only reading that does is an instrument control"
+  },
+  {
+   "id": "emc_prmt5_ranks_second_of_four",
+   "pattern": "second\\s+of\\s+four\\s+comparator\\s+classes",
+   "current": "third of the five tumour classes, below desmoid fibromatosis and solitary fibrous tumour",
+   "retired_by": "figure 4 drawing only the samples in the panel's arms; the artifact gives desmoid 0.9496 > SFT 0.9354 > EMC 0.9283"
+  },
+  {
+   "id": "emc_prmt5_genomewide_symbol_counts",
+   "pattern": "18,?474|14,?402 (?:symbols|on GPL3290)",
+   "current": "18,688 on GPL6244; 14,404 of the 14,932 carrying a probe on GPL3290",
+   "retired_by": "the superseded pair appears in no committed artifact at any point in this repository's history"
+  },
+  {
+   "id": "emc_prmt5_176_sarcoma_lines",
+   "pattern": "(?:across|of) 176 sarcoma cell lines",
+   "current": "across the 91 screened sarcoma cell lines",
+   "retired_by": "176 is the model count in DepMap 24Q4; only 91 carry CRISPR gene-effect data"
+  },
+  {
+   "id": "emc_prmt5_delta_sd",
+   "pattern": "\\+0\\.266 and \\+0\\.744",
+   "current": "+0.263 and +0.816 SD, now reported as log2 differences with 95% intervals",
+   "retired_by": "drift from emc-expression-panels.json, which is the one home of those values"
+  },
+  {
+   "id": "emc_prmt5_locus_mtap_minus_0023",
+   "pattern": "MTAP\\*? (?:is )?flat where the read is powered \\(?[–−-]0\\.02",
+   "current": "+0.053 SD, 1.09-fold (95% CI 0.86 to 1.38)",
+   "retired_by": "the -0.023 appears in no committed artifact; MTAP reads +0.053 in every committed version at three different bridge rates"
+  },
+  {
+   "id": "emc_prmt5_adjusted_p_one_states_closure",
+   "pattern": "closure\\s+of\\s+this\\s+rationale\\s+is\\s+exactly\\s+what\\s+an\\s+adjusted",
+   "current": "the closure argument rests on the failure of the pre-specified conjunction and on the per-sample CDKN2A cross-check",
+   "retired_by": "an adjusted p of 1.00 is a failure to reject, not a demonstration of absence; the same procedure assigns 0.85 to NR4A3 in the disease its fusion defines"
+  },
+  {
+   "id": "emc_prmt5_eight_systemic_classes",
+   "pattern": "eight\\s+systemic\\s+classes\\s+in\\s+clinical\\s+use",
+   "current": "eight classes in clinical use, of which two are local therapies",
+   "retired_by": "the census the sentence cites lists radiotherapy and surgery among its eight, so the systemic count is six"
+  },
+  {
+   "id": "emc_prmt5_locus_coverage_floor",
+   "pattern": "falls\\s+below\\s+the\\s+panel's\\s+coverage\\s+floor",
+   "current": "falls below the panel's three-gene minimum, although its coverage of 0.667 clears the 0.5 floor",
+   "retired_by": "the artifact records coverage 0.667 against a floor of 0.5, so the criterion named was the one the group passed"
+  },
+  {
+   "id": "emc_prmt5_screen_already_running",
+   "pattern": "a screen (?:already running|that already runs)",
+   "current": "two published patient-derived models exist and have been used for drug testing by the group that established them",
+   "retired_by": "reference 21 reports a one-off 40-agent panel published in 2023; no source supports a present-tense claim about another laboratory"
+  },
+  {
+   "id": "emc_prmt5_other_three_members_flat",
+   "pattern": "other\\s+three\\s+members\\s+are\\s+flat\\s+or\\s+lower\\s+in\\s+EMC",
+   "current": "WDR77 and CLNS1A are higher in EMC but much smaller, and RIOK1 is lower, so the group mean is diluted",
+   "retired_by": "the manuscript's own section 3.5 table prints WDR77 at t = +2.82"
+  },
+  {
+   "id": "emc_prmt5_fig1_every_tumour",
+   "pattern": "\\*\\*Every tumour on both platforms",
+   "current": "Every tumour in the analysed arms, on both platforms",
+   "retired_by": "GSE24369 deposits 40 tumours and the figure draws the 35 in the panel's arms"
+  },
+  {
+   "id": "emc_prmt5_methylosome_many_malignancies",
+   "pattern": "elevated\\s+methylosome\\s+expression\\s+is\\s+reported\\s+across\\s+many\\s+malignancies",
+   "current": "PRMT5, PRMT1 and MEP50 read higher across multiple sarcoma types than in breast and lung cancer",
+   "retired_by": "reference 3 states the former of PRMTs generally on a citation of its own; the latter is what it measured"
+  },
+  {
+   "id": "emc_prmt5_replication_survives",
+   "pattern": "What\\s+survives\\s+correction\\s+is\\s+the\\s+replication",
+   "current": "directional concordance between two deposits, with independence not established",
+   "retired_by": "the same section already said two series are not a replication set, and GPL3290 is structurally confounded"
+  },
+  {
+   "id": "emc_prmt5_motif_quantitative_content",
+   "pattern": "therefore\\s+has\\s+quantitative\\s+content",
+   "current": "the plateau is disclosed and the inference withdrawn",
+   "retired_by": "four GRG sites cluster in twenty residues and the next lies 143 later, so any breakpoint across 142 residues retains exactly four"
+  },
+  {
+   "id": "emc_prmt5_universal_verification",
+   "pattern": "Every\\s+statistic,\\s+percentile,\\s+count\\s+and\\s+dependency\\s+figure\\s+reported\\s+here\\s+was\\s+checked",
+   "current": "section 2.7's account of what was checked, what that check cannot detect, and what it missed",
+   "retired_by": "the universal claim was falsified twice, and the appendix row that described it as weakened was itself wrong"
   }
  ],
  "subset_checks": [

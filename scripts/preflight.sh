@@ -31,6 +31,90 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+# ⛔ ONE PREFLIGHT AT A TIME, AND THE LONG GATE STOPS ON ITS OWN (2026-08-10).
+#
+# MEASURED, not supposed. A session running several subagents in parallel was found with 18 live
+# shells and one process burning 83% of a core: `python3 -m pytest research/modalities/tests/`, 16
+# minutes in, PPID 1. Its whole tree was orphaned — the subagent that launched it had exited, so
+# nobody would ever read its verdict, and the tree it was testing had been edited underneath it. It
+# was computing a stale answer for a reader who no longer existed.
+#
+# THE CHAIN, because only the last link looks like a bug:
+#   1. the pytest gate below runs ~7,200 tests serially and takes ~16 minutes on this box;
+#   2. 16 minutes exceeds an agent's foreground command budget, so agents background it;
+#   3. a backgrounded shell is reparented to init when the agent exits — it does NOT stop;
+#   4. N agents each told to "run the gates" therefore leave N detached 16-minute pytest runs
+#      competing for 4 cores, which is slower for everyone and reads as a hang.
+# No step is wrong alone. The damage is that they compose, unbounded.
+#
+# Two bounds, in the only two places this file can impose them: a non-blocking lock, so a second
+# preflight REFUSES rather than queueing a duplicate; and a hard timeout on the pytest gate, so even
+# a leaked run ends by itself.
+#
+# ⚠ THE REFUSAL EXIT CODE IS 75, NOT 1, AND THAT IS LOAD-BEARING. This script exists because a check
+# once "reported while measuring nothing actionable". A skipped run must never read as a pass — and
+# must not read as a gate FAILURE either, or a caller cannot tell "someone else is running it" from
+# "your code is broken" and will draw the wrong conclusion from a red line. 75 is EX_TEMPFAIL.
+# `./scripts/preflight.sh && git commit` stays safe under either reading.
+#
+# ⛔ OPENED `<>`, NOT `>`, AND THE DIFFERENCE IS THE WHOLE DIAGNOSTIC. `>` truncates on open — so a
+# second preflight wiped the holder's pid out of the lock file BEFORE testing the lock, and then read
+# back the empty file it had just emptied. The refusal still refused, which is why this survived a
+# first test: the guard worked and only its most useful field went missing, intermittently. A
+# diagnostic that destroys the evidence it is about to print is worse than one that prints nothing,
+# because the blank reads as "no holder" rather than as "I erased it". `<>` opens read-write without
+# truncating.
+_pf_lock="/tmp/.rare-cancers-preflight.$(pwd -P | cksum | cut -d' ' -f1).lock"
+exec {_pf_fd}<>"$_pf_lock"
+if ! flock -n "$_pf_fd"; then
+  _pf_holder=$(cat "$_pf_lock" 2>/dev/null || true)
+  echo "PREFLIGHT ALREADY RUNNING${_pf_holder:+ (pid $_pf_holder)} — refusing to start a second one."
+  echo "  The pytest gate takes ~16 minutes; two concurrent runs are slower than one and answer the"
+  echo "  same question. Wait for the running one, or re-run when it finishes."
+  echo "  Nothing was checked here. This is NOT a pass and NOT a gate failure."
+  exit 75
+fi
+printf '%s' "$$" >"$_pf_lock"
+
+# Ceiling for the pytest gate: generous against the ~16 minutes it takes, tight enough that a leaked
+# run cannot hold a core all session. Raise it for a genuinely slower box.
+PREFLIGHT_PYTEST_TIMEOUT="${PREFLIGHT_PYTEST_TIMEOUT:-2400}"
+
+# ⛔ AND STOP WHEN THE CALLER GOES AWAY (2026-08-10, added after the SECOND orphan in one session).
+#
+# The lock above bounds how many preflights run at once. It does nothing about the case that actually
+# happened twice: ONE run, orphaned, with nobody left to read it. Measured both times — an agent
+# backgrounds this script, the agent exits, the shell wrapper is reparented to init, and pytest keeps
+# burning a core computing a verdict for a reader who no longer exists, against a tree that has since
+# been edited underneath it. The timeout above caps that at 40 minutes; on a 4-core box shared with
+# live work, 40 minutes of a wasted core is still worth not spending.
+#
+# ⚠ ORPHANING HAS TWO SHAPES AND A GUARD THAT KNOWS ONLY ONE OF THEM IS ABSENT IN THE OTHER. The
+# first version of this block watched only the GRANDPARENT, on the reasoning that in both observed
+# leaks the shell wrapper survived and so this script's own `$PPID` never changed. That reasoning was
+# right about those two leaks and useless in general: tested against a parent that dies immediately,
+# the startup lookup of the grandparent returned nothing at all, the block took its own
+# "nobody to lose" branch, and NO watchdog started — the guard opted out of precisely the case it
+# exists for, silently, and the test only caught it because it watched the process rather than
+# trusting the code. So watch both, and never treat an unresolvable ancestor as permission to skip:
+#   shape A — wrapper survives, our PPID stays put, the process above it vanishes;
+#   shape B — parent dies at once and we are reparented, so our own PPID becomes 1.
+_pf_grandparent=$(ps -o ppid= -p "$PPID" 2>/dev/null | tr -d ' ' || true)
+case "${_pf_grandparent:-}" in 1|0|"") _pf_grandparent="" ;; esac
+if [ "${PREFLIGHT_NO_ORPHAN_GUARD:-0}" != "1" ]; then
+  ( while :; do
+      sleep 20
+      # shape B: our parent went away and init adopted us.
+      [ "$(ps -o ppid= -p $$ 2>/dev/null | tr -d ' ')" = "1" ] && break
+      # shape A: the process above our parent went away.
+      [ -n "$_pf_grandparent" ] && ! kill -0 "$_pf_grandparent" 2>/dev/null && break
+    done
+    kill -TERM -$$ 2>/dev/null || kill -TERM "$$" 2>/dev/null || true ) &
+  _pf_watchdog=$!
+  # Never let the watchdog outlive the run it guards — that would be this same leak under a new name.
+  trap 'kill "$_pf_watchdog" 2>/dev/null || true' EXIT
+fi
+
 # Known-failing-in-sandbox count. Raise ONLY with a recorded reason; lowering it is always safe.
 #
 # ⛔ RAISED 14 -> 48 ON 2026-08-05, AND THE RAISE IS A CORRECTION RATHER THAN A CONCESSION. The 14 was
@@ -203,7 +287,14 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # exists because a check "reported while measuring nothing actionable", and names three prior
   # instances. This was a fourth, sitting inside the fix for the first three. `set -euo pipefail` and
   # an explicit exit code do not help when the thing being counted is never produced.
-  python3 -m pytest research/modalities/tests/ -q --continue-on-collection-errors \
+  # ⏱ WRAPPED IN `timeout` (2026-08-10). A leaked, orphaned copy of exactly this command was found
+  # holding 83% of a core with nobody left to read it. The lock at the top of this file stops a
+  # SECOND one starting; this stops the FIRST one running forever. `|| true` below deliberately
+  # swallows the status, so the timeout does not announce itself here — it does not need to. A killed
+  # run prints no `N passed` summary, and the count guard immediately below already treats a missing
+  # summary as a hard failure. That is the FAIL-ARMED direction: a truncated run goes red on its own.
+  timeout "${PREFLIGHT_PYTEST_TIMEOUT}" \
+    python3 -m pytest research/modalities/tests/ -q --continue-on-collection-errors \
       --ignore=research/modalities/tests/test_ternary_endpoint_align.py >"$out" 2>&1 || true
   failed=$(grep -cE '^FAILED' "$out" || true)
   errored=$(grep -cE '^ERROR ' "$out" || true)

@@ -1,0 +1,1955 @@
+{
+ "_what": "per-sample reading of the 9p21 locus in the two EMC expression series, and the MTAP/CDKN2A conjunction that discriminates a homozygous co-deletion from a low MTAP transcript with an intact locus.",
+ "_why": "a group mean and a family-wise adjusted p are both mis-specified for a subset event. This asks the per-sample question the manuscript's second rationale actually poses.",
+ "_this_is_not_a_copy_number_measurement": "no threshold here is a validated call, a transcript is not a copy number, and an archival two-colour log-ratio carries no absolute level. The reading is whether the pattern is the one a co-deletion produces.",
+ "_source_artifacts": [
+  "emc-expression-panels.json",
+  "emc-expression-panels-inputs.json",
+  "emc-hypoxia-null-background.json"
+ ],
+ "_generated_from": "2026-08-09T18:41:04+00:00",
+ "per_platform": {
+  "GSE24369_series_matrix.txt.gz": {
+   "gse": "GSE24369",
+   "platform": "GPL6244",
+   "n_EMC": 6,
+   "n_comparator": 29,
+   "locus_genes": {
+    "MTAP": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "probe_ids": [
+      "8154635"
+     ],
+     "EMC_mean_array_percentile": 0.7205,
+     "comparator_mean_array_percentile": 0.6963,
+     "welch_re_derived_here": {
+      "t": 0.6853,
+      "df": 10.8,
+      "mean_EMC": 0.587,
+      "mean_comparator": 0.534,
+      "delta_EMC_minus_comparator": 0.053
+     },
+     "welch_committed": {
+      "t": 0.685,
+      "delta_a_minus_b": 0.053
+     },
+     "lowest_comparator_array_percentile": 0.423,
+     "lowest_comparator_z": -0.1514,
+     "n_EMC_below_every_comparator": 0,
+     "per_sample": [
+      {
+       "gsm": "GSM600936",
+       "class": "EMC",
+       "value": 7.4052,
+       "z_vs_array": 0.4563,
+       "array_percentile": 0.6741
+      },
+      {
+       "gsm": "GSM600937",
+       "class": "EMC",
+       "value": 7.4924,
+       "z_vs_array": 0.5004,
+       "array_percentile": 0.6863
+      },
+      {
+       "gsm": "GSM600939",
+       "class": "EMC",
+       "value": 7.4907,
+       "z_vs_array": 0.5099,
+       "array_percentile": 0.696
+      },
+      {
+       "gsm": "GSM600934",
+       "class": "EMC",
+       "value": 7.6233,
+       "z_vs_array": 0.5725,
+       "array_percentile": 0.7249
+      },
+      {
+       "gsm": "GSM600935",
+       "class": "EMC",
+       "value": 7.6959,
+       "z_vs_array": 0.5983,
+       "array_percentile": 0.7259
+      },
+      {
+       "gsm": "GSM600938",
+       "class": "EMC",
+       "value": 8.2674,
+       "z_vs_array": 0.8844,
+       "array_percentile": 0.8156
+      },
+      {
+       "gsm": "GSM600962",
+       "class": "fibrosarcoma",
+       "value": 6.2009,
+       "z_vs_array": -0.1514,
+       "array_percentile": 0.423
+      },
+      {
+       "gsm": "GSM600957",
+       "class": "fibrosarcoma",
+       "value": 6.3914,
+       "z_vs_array": -0.0651,
+       "array_percentile": 0.4345
+      },
+      {
+       "gsm": "GSM600942",
+       "class": "LGFMS",
+       "value": 6.9908,
+       "z_vs_array": 0.2571,
+       "array_percentile": 0.582
+      },
+      {
+       "gsm": "GSM600953",
+       "class": "LGFMS",
+       "value": 7.1384,
+       "z_vs_array": 0.3248,
+       "array_percentile": 0.6193
+      },
+      {
+       "gsm": "GSM600954",
+       "class": "LGFMS",
+       "value": 7.2699,
+       "z_vs_array": 0.3862,
+       "array_percentile": 0.6465
+      },
+      {
+       "gsm": "GSM600958",
+       "class": "fibrosarcoma",
+       "value": 7.2962,
+       "z_vs_array": 0.4186,
+       "array_percentile": 0.6524
+      },
+      {
+       "gsm": "GSM600930",
+       "class": "desmoid_fibromatosis",
+       "value": 7.3267,
+       "z_vs_array": 0.4258,
+       "array_percentile": 0.6628
+      },
+      {
+       "gsm": "GSM600946",
+       "class": "LGFMS",
+       "value": 7.3817,
+       "z_vs_array": 0.4427,
+       "array_percentile": 0.6722
+      },
+      {
+       "gsm": "GSM600929",
+       "class": "desmoid_fibromatosis",
+       "value": 7.3676,
+       "z_vs_array": 0.447,
+       "array_percentile": 0.6726
+      },
+      {
+       "gsm": "GSM600931",
+       "class": "desmoid_fibromatosis",
+       "value": 7.4126,
+       "z_vs_array": 0.4795,
+       "array_percentile": 0.6788
+      },
+      {
+       "gsm": "GSM600932",
+       "class": "desmoid_fibromatosis",
+       "value": 7.425,
+       "z_vs_array": 0.4849,
+       "array_percentile": 0.6877
+      },
+      {
+       "gsm": "GSM600956",
+       "class": "LGFMS",
+       "value": 7.588,
+       "z_vs_array": 0.5558,
+       "array_percentile": 0.7025
+      },
+      {
+       "gsm": "GSM600933",
+       "class": "desmoid_fibromatosis",
+       "value": 7.5186,
+       "z_vs_array": 0.528,
+       "array_percentile": 0.7036
+      },
+      {
+       "gsm": "GSM600941",
+       "class": "LGFMS",
+       "value": 7.6004,
+       "z_vs_array": 0.553,
+       "array_percentile": 0.7043
+      },
+      {
+       "gsm": "GSM600950",
+       "class": "LGFMS",
+       "value": 7.6347,
+       "z_vs_array": 0.5778,
+       "array_percentile": 0.7064
+      },
+      {
+       "gsm": "GSM600952",
+       "class": "LGFMS",
+       "value": 7.5848,
+       "z_vs_array": 0.5649,
+       "array_percentile": 0.7151
+      },
+      {
+       "gsm": "GSM600951",
+       "class": "LGFMS",
+       "value": 7.5815,
+       "z_vs_array": 0.5639,
+       "array_percentile": 0.7167
+      },
+      {
+       "gsm": "GSM600949",
+       "class": "LGFMS",
+       "value": 7.6409,
+       "z_vs_array": 0.5804,
+       "array_percentile": 0.7203
+      },
+      {
+       "gsm": "GSM600943",
+       "class": "LGFMS",
+       "value": 7.7089,
+       "z_vs_array": 0.6152,
+       "array_percentile": 0.7261
+      },
+      {
+       "gsm": "GSM600928",
+       "class": "desmoid_fibromatosis",
+       "value": 7.5958,
+       "z_vs_array": 0.5766,
+       "array_percentile": 0.7282
+      },
+      {
+       "gsm": "GSM600945",
+       "class": "LGFMS",
+       "value": 7.746,
+       "z_vs_array": 0.6437,
+       "array_percentile": 0.7422
+      },
+      {
+       "gsm": "GSM600944",
+       "class": "LGFMS",
+       "value": 7.7733,
+       "z_vs_array": 0.6544,
+       "array_percentile": 0.7469
+      },
+      {
+       "gsm": "GSM600940",
+       "class": "LGFMS",
+       "value": 7.8474,
+       "z_vs_array": 0.6856,
+       "array_percentile": 0.7551
+      },
+      {
+       "gsm": "GSM600948",
+       "class": "LGFMS",
+       "value": 7.9493,
+       "z_vs_array": 0.7359,
+       "array_percentile": 0.7703
+      },
+      {
+       "gsm": "GSM600955",
+       "class": "LGFMS",
+       "value": 7.982,
+       "z_vs_array": 0.7567,
+       "array_percentile": 0.7793
+      },
+      {
+       "gsm": "GSM600960",
+       "class": "fibrosarcoma",
+       "value": 8.0351,
+       "z_vs_array": 0.774,
+       "array_percentile": 0.7802
+      },
+      {
+       "gsm": "GSM600947",
+       "class": "LGFMS",
+       "value": 8.0896,
+       "z_vs_array": 0.8096,
+       "array_percentile": 0.7973
+      },
+      {
+       "gsm": "GSM600959",
+       "class": "fibrosarcoma",
+       "value": 8.3186,
+       "z_vs_array": 0.9263,
+       "array_percentile": 0.8297
+      },
+      {
+       "gsm": "GSM600961",
+       "class": "fibrosarcoma",
+       "value": 8.3029,
+       "z_vs_array": 0.9342,
+       "array_percentile": 0.8381
+      }
+     ]
+    },
+    "CDKN2A": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "probe_ids": [
+      "8160441"
+     ],
+     "EMC_mean_array_percentile": 0.5265,
+     "comparator_mean_array_percentile": 0.7105,
+     "welch_re_derived_here": {
+      "t": -5.3982,
+      "df": 14.0,
+      "mean_EMC": 0.1077,
+      "mean_comparator": 0.5882,
+      "delta_EMC_minus_comparator": -0.4805
+     },
+     "welch_committed": {
+      "t": -5.398,
+      "delta_a_minus_b": -0.4805
+     },
+     "lowest_comparator_array_percentile": 0.5148,
+     "lowest_comparator_z": 0.0733,
+     "n_EMC_below_every_comparator": 1,
+     "per_sample": [
+      {
+       "gsm": "GSM600939",
+       "class": "EMC",
+       "value": 6.1125,
+       "z_vs_array": -0.2092,
+       "array_percentile": 0.3818
+      },
+      {
+       "gsm": "GSM600936",
+       "class": "EMC",
+       "value": 6.7122,
+       "z_vs_array": 0.1045,
+       "array_percentile": 0.5242
+      },
+      {
+       "gsm": "GSM600935",
+       "class": "EMC",
+       "value": 6.746,
+       "z_vs_array": 0.1252,
+       "array_percentile": 0.5404
+      },
+      {
+       "gsm": "GSM600934",
+       "class": "EMC",
+       "value": 6.8407,
+       "z_vs_array": 0.1645,
+       "array_percentile": 0.543
+      },
+      {
+       "gsm": "GSM600938",
+       "class": "EMC",
+       "value": 6.9137,
+       "z_vs_array": 0.2065,
+       "array_percentile": 0.5769
+      },
+      {
+       "gsm": "GSM600937",
+       "class": "EMC",
+       "value": 7.0,
+       "z_vs_array": 0.2547,
+       "array_percentile": 0.593
+      },
+      {
+       "gsm": "GSM600960",
+       "class": "fibrosarcoma",
+       "value": 6.6417,
+       "z_vs_array": 0.0733,
+       "array_percentile": 0.5148
+      },
+      {
+       "gsm": "GSM600962",
+       "class": "fibrosarcoma",
+       "value": 6.7311,
+       "z_vs_array": 0.1161,
+       "array_percentile": 0.5267
+      },
+      {
+       "gsm": "GSM600933",
+       "class": "desmoid_fibromatosis",
+       "value": 7.0797,
+       "z_vs_array": 0.2978,
+       "array_percentile": 0.6095
+      },
+      {
+       "gsm": "GSM600948",
+       "class": "LGFMS",
+       "value": 7.1692,
+       "z_vs_array": 0.3433,
+       "array_percentile": 0.6241
+      },
+      {
+       "gsm": "GSM600951",
+       "class": "LGFMS",
+       "value": 7.1637,
+       "z_vs_array": 0.3466,
+       "array_percentile": 0.6243
+      },
+      {
+       "gsm": "GSM600940",
+       "class": "LGFMS",
+       "value": 7.2198,
+       "z_vs_array": 0.3662,
+       "array_percentile": 0.6343
+      },
+      {
+       "gsm": "GSM600928",
+       "class": "desmoid_fibromatosis",
+       "value": 7.3435,
+       "z_vs_array": 0.4393,
+       "array_percentile": 0.6692
+      },
+      {
+       "gsm": "GSM600949",
+       "class": "LGFMS",
+       "value": 7.3896,
+       "z_vs_array": 0.4522,
+       "array_percentile": 0.6693
+      },
+      {
+       "gsm": "GSM600942",
+       "class": "LGFMS",
+       "value": 7.443,
+       "z_vs_array": 0.4851,
+       "array_percentile": 0.6771
+      },
+      {
+       "gsm": "GSM600953",
+       "class": "LGFMS",
+       "value": 7.4298,
+       "z_vs_array": 0.4729,
+       "array_percentile": 0.6787
+      },
+      {
+       "gsm": "GSM600929",
+       "class": "desmoid_fibromatosis",
+       "value": 7.4294,
+       "z_vs_array": 0.4792,
+       "array_percentile": 0.6857
+      },
+      {
+       "gsm": "GSM600952",
+       "class": "LGFMS",
+       "value": 7.4628,
+       "z_vs_array": 0.5013,
+       "array_percentile": 0.69
+      },
+      {
+       "gsm": "GSM600944",
+       "class": "LGFMS",
+       "value": 7.4931,
+       "z_vs_array": 0.5117,
+       "array_percentile": 0.6951
+      },
+      {
+       "gsm": "GSM600932",
+       "class": "desmoid_fibromatosis",
+       "value": 7.5027,
+       "z_vs_array": 0.5261,
+       "array_percentile": 0.7058
+      },
+      {
+       "gsm": "GSM600958",
+       "class": "fibrosarcoma",
+       "value": 7.5305,
+       "z_vs_array": 0.5436,
+       "array_percentile": 0.7089
+      },
+      {
+       "gsm": "GSM600931",
+       "class": "desmoid_fibromatosis",
+       "value": 7.5572,
+       "z_vs_array": 0.5559,
+       "array_percentile": 0.7123
+      },
+      {
+       "gsm": "GSM600955",
+       "class": "LGFMS",
+       "value": 7.6375,
+       "z_vs_array": 0.5793,
+       "array_percentile": 0.7159
+      },
+      {
+       "gsm": "GSM600957",
+       "class": "fibrosarcoma",
+       "value": 7.575,
+       "z_vs_array": 0.5587,
+       "array_percentile": 0.7163
+      },
+      {
+       "gsm": "GSM600941",
+       "class": "LGFMS",
+       "value": 7.687,
+       "z_vs_array": 0.5962,
+       "array_percentile": 0.7199
+      },
+      {
+       "gsm": "GSM600945",
+       "class": "LGFMS",
+       "value": 7.6534,
+       "z_vs_array": 0.5965,
+       "array_percentile": 0.7235
+      },
+      {
+       "gsm": "GSM600947",
+       "class": "LGFMS",
+       "value": 7.7274,
+       "z_vs_array": 0.6249,
+       "array_percentile": 0.7406
+      },
+      {
+       "gsm": "GSM600943",
+       "class": "LGFMS",
+       "value": 7.8727,
+       "z_vs_array": 0.698,
+       "array_percentile": 0.7574
+      },
+      {
+       "gsm": "GSM600954",
+       "class": "LGFMS",
+       "value": 7.8379,
+       "z_vs_array": 0.681,
+       "array_percentile": 0.7629
+      },
+      {
+       "gsm": "GSM600930",
+       "class": "desmoid_fibromatosis",
+       "value": 7.9669,
+       "z_vs_array": 0.7563,
+       "array_percentile": 0.7761
+      },
+      {
+       "gsm": "GSM600950",
+       "class": "LGFMS",
+       "value": 8.0895,
+       "z_vs_array": 0.8055,
+       "array_percentile": 0.7846
+      },
+      {
+       "gsm": "GSM600956",
+       "class": "LGFMS",
+       "value": 8.0634,
+       "z_vs_array": 0.7943,
+       "array_percentile": 0.789
+      },
+      {
+       "gsm": "GSM600946",
+       "class": "LGFMS",
+       "value": 8.2064,
+       "z_vs_array": 0.8678,
+       "array_percentile": 0.8188
+      },
+      {
+       "gsm": "GSM600961",
+       "class": "fibrosarcoma",
+       "value": 8.9848,
+       "z_vs_array": 1.3043,
+       "array_percentile": 0.9129
+      },
+      {
+       "gsm": "GSM600959",
+       "class": "fibrosarcoma",
+       "value": 9.7922,
+       "z_vs_array": 1.6843,
+       "array_percentile": 0.9597
+      }
+     ]
+    },
+    "CDKN2B": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "probe_ids": [
+      "8160452"
+     ],
+     "EMC_mean_array_percentile": 0.5716,
+     "comparator_mean_array_percentile": 0.6273,
+     "welch_re_derived_here": {
+      "t": -2.0328,
+      "df": 8.4,
+      "mean_EMC": 0.214,
+      "mean_comparator": 0.3498,
+      "delta_EMC_minus_comparator": -0.1358
+     },
+     "welch_committed": {
+      "t": -2.033,
+      "delta_a_minus_b": -0.1358
+     },
+     "lowest_comparator_array_percentile": 0.4639,
+     "lowest_comparator_z": -0.0471,
+     "n_EMC_below_every_comparator": 0,
+     "per_sample": [
+      {
+       "gsm": "GSM600938",
+       "class": "EMC",
+       "value": 6.431,
+       "z_vs_array": -0.0352,
+       "array_percentile": 0.4736
+      },
+      {
+       "gsm": "GSM600936",
+       "class": "EMC",
+       "value": 6.809,
+       "z_vs_array": 0.1536,
+       "array_percentile": 0.5463
+      },
+      {
+       "gsm": "GSM600934",
+       "class": "EMC",
+       "value": 6.9699,
+       "z_vs_array": 0.2319,
+       "array_percentile": 0.5734
+      },
+      {
+       "gsm": "GSM600939",
+       "class": "EMC",
+       "value": 7.0518,
+       "z_vs_array": 0.2809,
+       "array_percentile": 0.5916
+      },
+      {
+       "gsm": "GSM600937",
+       "class": "EMC",
+       "value": 7.0271,
+       "z_vs_array": 0.2682,
+       "array_percentile": 0.5976
+      },
+      {
+       "gsm": "GSM600935",
+       "class": "EMC",
+       "value": 7.2674,
+       "z_vs_array": 0.3849,
+       "array_percentile": 0.6473
+      },
+      {
+       "gsm": "GSM600962",
+       "class": "fibrosarcoma",
+       "value": 6.4077,
+       "z_vs_array": -0.0471,
+       "array_percentile": 0.4639
+      },
+      {
+       "gsm": "GSM600944",
+       "class": "LGFMS",
+       "value": 6.4796,
+       "z_vs_array": -0.0046,
+       "array_percentile": 0.479
+      },
+      {
+       "gsm": "GSM600960",
+       "class": "fibrosarcoma",
+       "value": 6.6091,
+       "z_vs_array": 0.0569,
+       "array_percentile": 0.5072
+      },
+      {
+       "gsm": "GSM600953",
+       "class": "LGFMS",
+       "value": 6.724,
+       "z_vs_array": 0.114,
+       "array_percentile": 0.5334
+      },
+      {
+       "gsm": "GSM600940",
+       "class": "LGFMS",
+       "value": 6.9774,
+       "z_vs_array": 0.2428,
+       "array_percentile": 0.5829
+      },
+      {
+       "gsm": "GSM600941",
+       "class": "LGFMS",
+       "value": 6.9645,
+       "z_vs_array": 0.2357,
+       "array_percentile": 0.5829
+      },
+      {
+       "gsm": "GSM600945",
+       "class": "LGFMS",
+       "value": 7.0669,
+       "z_vs_array": 0.2977,
+       "array_percentile": 0.6017
+      },
+      {
+       "gsm": "GSM600958",
+       "class": "fibrosarcoma",
+       "value": 7.1002,
+       "z_vs_array": 0.3141,
+       "array_percentile": 0.6019
+      },
+      {
+       "gsm": "GSM600947",
+       "class": "LGFMS",
+       "value": 7.0678,
+       "z_vs_array": 0.2886,
+       "array_percentile": 0.6087
+      },
+      {
+       "gsm": "GSM600948",
+       "class": "LGFMS",
+       "value": 7.1325,
+       "z_vs_array": 0.3248,
+       "array_percentile": 0.616
+      },
+      {
+       "gsm": "GSM600943",
+       "class": "LGFMS",
+       "value": 7.1398,
+       "z_vs_array": 0.3273,
+       "array_percentile": 0.6167
+      },
+      {
+       "gsm": "GSM600950",
+       "class": "LGFMS",
+       "value": 7.1413,
+       "z_vs_array": 0.3307,
+       "array_percentile": 0.6168
+      },
+      {
+       "gsm": "GSM600951",
+       "class": "LGFMS",
+       "value": 7.1618,
+       "z_vs_array": 0.3456,
+       "array_percentile": 0.624
+      },
+      {
+       "gsm": "GSM600956",
+       "class": "LGFMS",
+       "value": 7.2004,
+       "z_vs_array": 0.3614,
+       "array_percentile": 0.6248
+      },
+      {
+       "gsm": "GSM600949",
+       "class": "LGFMS",
+       "value": 7.1913,
+       "z_vs_array": 0.351,
+       "array_percentile": 0.6261
+      },
+      {
+       "gsm": "GSM600930",
+       "class": "desmoid_fibromatosis",
+       "value": 7.1488,
+       "z_vs_array": 0.334,
+       "array_percentile": 0.627
+      },
+      {
+       "gsm": "GSM600946",
+       "class": "LGFMS",
+       "value": 7.1751,
+       "z_vs_array": 0.3362,
+       "array_percentile": 0.6276
+      },
+      {
+       "gsm": "GSM600933",
+       "class": "desmoid_fibromatosis",
+       "value": 7.171,
+       "z_vs_array": 0.3457,
+       "array_percentile": 0.63
+      },
+      {
+       "gsm": "GSM600952",
+       "class": "LGFMS",
+       "value": 7.2692,
+       "z_vs_array": 0.4003,
+       "array_percentile": 0.6465
+      },
+      {
+       "gsm": "GSM600955",
+       "class": "LGFMS",
+       "value": 7.3469,
+       "z_vs_array": 0.4297,
+       "array_percentile": 0.6593
+      },
+      {
+       "gsm": "GSM600929",
+       "class": "desmoid_fibromatosis",
+       "value": 7.3178,
+       "z_vs_array": 0.421,
+       "array_percentile": 0.6609
+      },
+      {
+       "gsm": "GSM600942",
+       "class": "LGFMS",
+       "value": 7.3871,
+       "z_vs_array": 0.4569,
+       "array_percentile": 0.6652
+      },
+      {
+       "gsm": "GSM600928",
+       "class": "desmoid_fibromatosis",
+       "value": 7.3617,
+       "z_vs_array": 0.4492,
+       "array_percentile": 0.6732
+      },
+      {
+       "gsm": "GSM600954",
+       "class": "LGFMS",
+       "value": 7.4535,
+       "z_vs_array": 0.4815,
+       "array_percentile": 0.6862
+      },
+      {
+       "gsm": "GSM600931",
+       "class": "desmoid_fibromatosis",
+       "value": 7.4817,
+       "z_vs_array": 0.516,
+       "array_percentile": 0.6951
+      },
+      {
+       "gsm": "GSM600932",
+       "class": "desmoid_fibromatosis",
+       "value": 7.4741,
+       "z_vs_array": 0.5109,
+       "array_percentile": 0.6986
+      },
+      {
+       "gsm": "GSM600957",
+       "class": "fibrosarcoma",
+       "value": 7.5034,
+       "z_vs_array": 0.521,
+       "array_percentile": 0.6995
+      },
+      {
+       "gsm": "GSM600959",
+       "class": "fibrosarcoma",
+       "value": 7.8848,
+       "z_vs_array": 0.7032,
+       "array_percentile": 0.764
+      },
+      {
+       "gsm": "GSM600961",
+       "class": "fibrosarcoma",
+       "value": 7.871,
+       "z_vs_array": 0.6998,
+       "array_percentile": 0.7713
+      }
+     ]
+    }
+   },
+   "mtap_low_candidates": {
+    "_criterion": "an EMC tumour whose MTAP reading is below every comparator tumour on the same platform, on BOTH the within-array z and the array percentile.",
+    "lowest_comparator_MTAP_z": -0.1514,
+    "lowest_comparator_MTAP_array_percentile": 0.423,
+    "n_candidates": 0,
+    "candidates": [],
+    "_agreement_of_the_two_criteria": {
+     "n_by_z": 0,
+     "n_by_percentile": 0,
+     "n_by_both": 0
+    }
+   },
+   "the_discriminating_conjunction": {
+    "_what": "MTAP and CDKN2A are ~100 kb apart on 9p21 and a homozygous deletion removing MTAP removes CDKN2A with it. A candidate carrying such a deletion must therefore read low for CDKN2A as well.",
+    "headline_criterion": "MTAP below every comparator AND CDKN2A below the 25th percentile of its own array",
+    "n_deletion_consistent_tumours": 0,
+    "by_cdkn2a_cut": {
+     "below_every_comparator": {
+      "criterion": "CDKN2A below every comparator (< 0.5148)",
+      "n_candidates_also_meeting_it": 0,
+      "of_n_MTAP_low_candidates": 0
+     },
+     "0.05": {
+      "criterion": "CDKN2A below the 5th percentile of its own array",
+      "n_candidates_also_meeting_it": 0,
+      "of_n_MTAP_low_candidates": 0
+     },
+     "0.1": {
+      "criterion": "CDKN2A below the 10th percentile of its own array",
+      "n_candidates_also_meeting_it": 0,
+      "of_n_MTAP_low_candidates": 0
+     },
+     "0.25": {
+      "criterion": "CDKN2A below the 25th percentile of its own array",
+      "n_candidates_also_meeting_it": 0,
+      "of_n_MTAP_low_candidates": 0
+     },
+     "0.5": {
+      "criterion": "CDKN2A below the 50th percentile of its own array",
+      "n_candidates_also_meeting_it": 0,
+      "of_n_MTAP_low_candidates": 0
+     }
+    },
+    "_why_below_every_comparator_is_not_the_headline": "the comparator arms read high for CDKN2A, so on GPL3290 that criterion resolves to the 57th percentile and would count a tumour sitting at the median of its own array. It is reported in the ladder and is not a floor.",
+    "CDKN2A_array_percentile_range_in_the_candidates": null
+   },
+   "within_EMC_rank_association_MTAP_vs_CDKN2A": {
+    "rho": 0.2571,
+    "n": 6,
+    "n_permutations": 720,
+    "at_least_as_extreme": 474,
+    "exact_two_sided_p": 0.65833,
+    "_reading": "under 9p21 co-deletion in a subset the association is POSITIVE (both genes low in the same tumours); a negative rho is the opposite of the co-deletion pattern."
+   },
+   "controls_on_the_candidate_set": {
+    "array_dimness_panel_cache": {
+     "GSM600934": {
+      "class": "EMC",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600935": {
+      "class": "EMC",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600936": {
+      "class": "EMC",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600937": {
+      "class": "EMC",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600938": {
+      "class": "EMC",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600939": {
+      "class": "EMC",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600928": {
+      "class": "desmoid_fibromatosis",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600929": {
+      "class": "desmoid_fibromatosis",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600930": {
+      "class": "desmoid_fibromatosis",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600931": {
+      "class": "desmoid_fibromatosis",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600932": {
+      "class": "desmoid_fibromatosis",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600933": {
+      "class": "desmoid_fibromatosis",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 1,
+      "frac_below_5th_percentile": 0.0025
+     },
+     "GSM600940": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600941": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600942": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600943": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600944": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600945": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600946": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600947": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600948": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600949": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600950": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600951": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600952": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600953": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600954": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600955": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600956": {
+      "class": "LGFMS",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600957": {
+      "class": "fibrosarcoma",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600958": {
+      "class": "fibrosarcoma",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600959": {
+      "class": "fibrosarcoma",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600960": {
+      "class": "fibrosarcoma",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600961": {
+      "class": "fibrosarcoma",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     },
+     "GSM600962": {
+      "class": "fibrosarcoma",
+      "n_genes_read": 404,
+      "n_below_5th_percentile": 0,
+      "frac_below_5th_percentile": 0.0
+     }
+    },
+    "array_dimness_wide_cache": {
+     "n_genes_in_cache": 1857,
+     "per_sample": {
+      "GSM600934": {
+       "class": "EMC",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0016
+      },
+      "GSM600935": {
+       "class": "EMC",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0005
+      },
+      "GSM600936": {
+       "class": "EMC",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600937": {
+       "class": "EMC",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600938": {
+       "class": "EMC",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0005
+      },
+      "GSM600939": {
+       "class": "EMC",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600928": {
+       "class": "desmoid_fibromatosis",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0016
+      },
+      "GSM600929": {
+       "class": "desmoid_fibromatosis",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0005
+      },
+      "GSM600930": {
+       "class": "desmoid_fibromatosis",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0016
+      },
+      "GSM600931": {
+       "class": "desmoid_fibromatosis",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0
+      },
+      "GSM600932": {
+       "class": "desmoid_fibromatosis",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0005
+      },
+      "GSM600933": {
+       "class": "desmoid_fibromatosis",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0016
+      },
+      "GSM600940": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600941": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600942": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0016
+      },
+      "GSM600943": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0016
+      },
+      "GSM600944": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600945": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600946": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0
+      },
+      "GSM600947": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0016
+      },
+      "GSM600948": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0005
+      },
+      "GSM600949": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600950": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0005
+      },
+      "GSM600951": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600952": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0022
+      },
+      "GSM600953": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600954": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600955": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600956": {
+       "class": "LGFMS",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0005
+      },
+      "GSM600957": {
+       "class": "fibrosarcoma",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600958": {
+       "class": "fibrosarcoma",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0005
+      },
+      "GSM600959": {
+       "class": "fibrosarcoma",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0016
+      },
+      "GSM600960": {
+       "class": "fibrosarcoma",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600961": {
+       "class": "fibrosarcoma",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600962": {
+       "class": "fibrosarcoma",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0005
+      },
+      "GSM600963": {
+       "class": "?",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600964": {
+       "class": "?",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0
+      },
+      "GSM600965": {
+       "class": "?",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0016
+      },
+      "GSM600966": {
+       "class": "?",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600967": {
+       "class": "?",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0005
+      },
+      "GSM600968": {
+       "class": "?",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      },
+      "GSM600969": {
+       "class": "?",
+       "n_genes_read": 1857,
+       "frac_below_5th_percentile": 0.0011
+      }
+     }
+    },
+    "reference_label_per_class": {
+     "desmoid_fibromatosis": {
+      "soft tissue": 6
+     },
+     "EMC": {
+      "soft tissue": 6
+     },
+     "LGFMS": {
+      "soft tissue": 17
+     },
+     "fibrosarcoma": {
+      "soft tissue": 6
+     },
+     "?": {
+      "soft tissue": 7
+     }
+    }
+   },
+   "nine_p21_neighbourhood_in_the_random_background_cache": {}
+  },
+  "GSE4303-GPL3290_series_matrix.txt.gz": {
+   "gse": "GSE4303",
+   "platform": "GPL3290",
+   "n_EMC": 10,
+   "n_comparator": 6,
+   "locus_genes": {
+    "MTAP": {
+     "readable": true,
+     "n_probes_mapping": 2,
+     "probe_ids": [
+      "33188",
+      "7249"
+     ],
+     "EMC_mean_array_percentile": 0.1298,
+     "comparator_mean_array_percentile": 0.2192,
+     "welch_re_derived_here": {
+      "t": -2.2705,
+      "df": 13.5,
+      "mean_EMC": -1.2527,
+      "mean_comparator": -0.6458,
+      "delta_EMC_minus_comparator": -0.6069
+     },
+     "welch_committed": {
+      "t": -2.271,
+      "delta_a_minus_b": -0.6069
+     },
+     "lowest_comparator_array_percentile": 0.1096,
+     "lowest_comparator_z": -1.065,
+     "n_EMC_below_every_comparator": 5,
+     "per_sample": [
+      {
+       "gsm": "GSM98511",
+       "class": "EMC",
+       "value": -4.8325,
+       "z_vs_array": -2.7893,
+       "array_percentile": 0.0109
+      },
+      {
+       "gsm": "GSM98506",
+       "class": "EMC",
+       "value": -4.139,
+       "z_vs_array": -1.8473,
+       "array_percentile": 0.0395
+      },
+      {
+       "gsm": "GSM98503",
+       "class": "EMC",
+       "value": -2.5845,
+       "z_vs_array": -1.6516,
+       "array_percentile": 0.0461
+      },
+      {
+       "gsm": "GSM98510",
+       "class": "EMC",
+       "value": -3.715,
+       "z_vs_array": -1.5995,
+       "array_percentile": 0.0547
+      },
+      {
+       "gsm": "GSM98499",
+       "class": "EMC",
+       "value": -2.847,
+       "z_vs_array": -1.2052,
+       "array_percentile": 0.104
+      },
+      {
+       "gsm": "GSM98509",
+       "class": "EMC",
+       "value": -2.438,
+       "z_vs_array": -1.0157,
+       "array_percentile": 0.1354
+      },
+      {
+       "gsm": "GSM98495",
+       "class": "EMC",
+       "value": -1.791,
+       "z_vs_array": -0.665,
+       "array_percentile": 0.2006
+      },
+      {
+       "gsm": "GSM98513",
+       "class": "EMC",
+       "value": -1.791,
+       "z_vs_array": -0.6303,
+       "array_percentile": 0.2125
+      },
+      {
+       "gsm": "GSM98496",
+       "class": "EMC",
+       "value": -1.718,
+       "z_vs_array": -0.6462,
+       "array_percentile": 0.2134
+      },
+      {
+       "gsm": "GSM98512",
+       "class": "EMC",
+       "value": -1.542,
+       "z_vs_array": -0.4771,
+       "array_percentile": 0.2812
+      },
+      {
+       "gsm": "GSM89898",
+       "class": "DFSP",
+       "value": -1.618,
+       "z_vs_array": -1.065,
+       "array_percentile": 0.1096
+      },
+      {
+       "gsm": "GSM91405",
+       "class": "GIST",
+       "value": -1.697,
+       "z_vs_array": -0.8036,
+       "array_percentile": 0.1588
+      },
+      {
+       "gsm": "GSM89883",
+       "class": "DFSP",
+       "value": -1.688,
+       "z_vs_array": -0.8073,
+       "array_percentile": 0.1644
+      },
+      {
+       "gsm": "GSM89924",
+       "class": "DFSP",
+       "value": -1.316,
+       "z_vs_array": -0.6393,
+       "array_percentile": 0.2023
+      },
+      {
+       "gsm": "GSM91381",
+       "class": "GIST",
+       "value": -1.263,
+       "z_vs_array": -0.4587,
+       "array_percentile": 0.263
+      },
+      {
+       "gsm": "GSM91397",
+       "class": "GIST",
+       "value": -0.596,
+       "z_vs_array": -0.101,
+       "array_percentile": 0.4173
+      }
+     ]
+    },
+    "CDKN2A": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "probe_ids": [
+      "39629"
+     ],
+     "EMC_mean_array_percentile": 0.7076,
+     "comparator_mean_array_percentile": 0.6623,
+     "welch_re_derived_here": {
+      "t": 1.3246,
+      "df": 13.8,
+      "mean_EMC": 0.5273,
+      "mean_comparator": 0.3527,
+      "delta_EMC_minus_comparator": 0.1746
+     },
+     "welch_committed": {
+      "t": 1.325,
+      "delta_a_minus_b": 0.1746
+     },
+     "lowest_comparator_array_percentile": 0.5669,
+     "lowest_comparator_z": 0.1917,
+     "n_EMC_below_every_comparator": 2,
+     "per_sample": [
+      {
+       "gsm": "GSM98496",
+       "class": "EMC",
+       "value": -0.55,
+       "z_vs_array": 0.0134,
+       "array_percentile": 0.4764
+      },
+      {
+       "gsm": "GSM98499",
+       "class": "EMC",
+       "value": -0.461,
+       "z_vs_array": 0.0943,
+       "array_percentile": 0.5046
+      },
+      {
+       "gsm": "GSM98512",
+       "class": "EMC",
+       "value": -0.051,
+       "z_vs_array": 0.3717,
+       "array_percentile": 0.6375
+      },
+      {
+       "gsm": "GSM98506",
+       "class": "EMC",
+       "value": 0.169,
+       "z_vs_array": 0.3522,
+       "array_percentile": 0.6828
+      },
+      {
+       "gsm": "GSM98509",
+       "class": "EMC",
+       "value": 0.097,
+       "z_vs_array": 0.4714,
+       "array_percentile": 0.6836
+      },
+      {
+       "gsm": "GSM98503",
+       "class": "EMC",
+       "value": 0.304,
+       "z_vs_array": 0.4785,
+       "array_percentile": 0.7323
+      },
+      {
+       "gsm": "GSM98513",
+       "class": "EMC",
+       "value": 0.566,
+       "z_vs_array": 0.7022,
+       "array_percentile": 0.7898
+      },
+      {
+       "gsm": "GSM98495",
+       "class": "EMC",
+       "value": 0.647,
+       "z_vs_array": 0.748,
+       "array_percentile": 0.8106
+      },
+      {
+       "gsm": "GSM98510",
+       "class": "EMC",
+       "value": 1.251,
+       "z_vs_array": 0.9573,
+       "array_percentile": 0.8651
+      },
+      {
+       "gsm": "GSM98511",
+       "class": "EMC",
+       "value": 1.334,
+       "z_vs_array": 1.0842,
+       "array_percentile": 0.8928
+      },
+      {
+       "gsm": "GSM91405",
+       "class": "GIST",
+       "value": -0.119,
+       "z_vs_array": 0.1931,
+       "array_percentile": 0.5669
+      },
+      {
+       "gsm": "GSM89924",
+       "class": "DFSP",
+       "value": 0.074,
+       "z_vs_array": 0.1917,
+       "array_percentile": 0.5821
+      },
+      {
+       "gsm": "GSM89898",
+       "class": "DFSP",
+       "value": 0.182,
+       "z_vs_array": 0.226,
+       "array_percentile": 0.6108
+      },
+      {
+       "gsm": "GSM91397",
+       "class": "GIST",
+       "value": 0.21,
+       "z_vs_array": 0.3786,
+       "array_percentile": 0.6806
+      },
+      {
+       "gsm": "GSM91381",
+       "class": "GIST",
+       "value": 0.538,
+       "z_vs_array": 0.5288,
+       "array_percentile": 0.7604
+      },
+      {
+       "gsm": "GSM89883",
+       "class": "DFSP",
+       "value": 0.559,
+       "z_vs_array": 0.598,
+       "array_percentile": 0.7732
+      }
+     ]
+    },
+    "CDKN2B": {
+     "readable": false
+    }
+   },
+   "mtap_low_candidates": {
+    "_criterion": "an EMC tumour whose MTAP reading is below every comparator tumour on the same platform, on BOTH the within-array z and the array percentile.",
+    "lowest_comparator_MTAP_z": -1.065,
+    "lowest_comparator_MTAP_array_percentile": 0.1096,
+    "n_candidates": 5,
+    "candidates": [
+     {
+      "gsm": "GSM98511",
+      "MTAP_array_percentile": 0.0109,
+      "MTAP_z": -2.7893,
+      "CDKN2A_array_percentile": 0.8928,
+      "CDKN2A_z": 1.0842,
+      "CDKN2A_below_every_comparator": false
+     },
+     {
+      "gsm": "GSM98506",
+      "MTAP_array_percentile": 0.0395,
+      "MTAP_z": -1.8473,
+      "CDKN2A_array_percentile": 0.6828,
+      "CDKN2A_z": 0.3522,
+      "CDKN2A_below_every_comparator": false
+     },
+     {
+      "gsm": "GSM98503",
+      "MTAP_array_percentile": 0.0461,
+      "MTAP_z": -1.6516,
+      "CDKN2A_array_percentile": 0.7323,
+      "CDKN2A_z": 0.4785,
+      "CDKN2A_below_every_comparator": false
+     },
+     {
+      "gsm": "GSM98510",
+      "MTAP_array_percentile": 0.0547,
+      "MTAP_z": -1.5995,
+      "CDKN2A_array_percentile": 0.8651,
+      "CDKN2A_z": 0.9573,
+      "CDKN2A_below_every_comparator": false
+     },
+     {
+      "gsm": "GSM98499",
+      "MTAP_array_percentile": 0.104,
+      "MTAP_z": -1.2052,
+      "CDKN2A_array_percentile": 0.5046,
+      "CDKN2A_z": 0.0943,
+      "CDKN2A_below_every_comparator": true
+     }
+    ],
+    "_agreement_of_the_two_criteria": {
+     "n_by_z": 5,
+     "n_by_percentile": 5,
+     "n_by_both": 5
+    }
+   },
+   "the_discriminating_conjunction": {
+    "_what": "MTAP and CDKN2A are ~100 kb apart on 9p21 and a homozygous deletion removing MTAP removes CDKN2A with it. A candidate carrying such a deletion must therefore read low for CDKN2A as well.",
+    "headline_criterion": "MTAP below every comparator AND CDKN2A below the 25th percentile of its own array",
+    "n_deletion_consistent_tumours": 0,
+    "by_cdkn2a_cut": {
+     "below_every_comparator": {
+      "criterion": "CDKN2A below every comparator (< 0.5669)",
+      "n_candidates_also_meeting_it": 1,
+      "of_n_MTAP_low_candidates": 5
+     },
+     "0.05": {
+      "criterion": "CDKN2A below the 5th percentile of its own array",
+      "n_candidates_also_meeting_it": 0,
+      "of_n_MTAP_low_candidates": 5
+     },
+     "0.1": {
+      "criterion": "CDKN2A below the 10th percentile of its own array",
+      "n_candidates_also_meeting_it": 0,
+      "of_n_MTAP_low_candidates": 5
+     },
+     "0.25": {
+      "criterion": "CDKN2A below the 25th percentile of its own array",
+      "n_candidates_also_meeting_it": 0,
+      "of_n_MTAP_low_candidates": 5
+     },
+     "0.5": {
+      "criterion": "CDKN2A below the 50th percentile of its own array",
+      "n_candidates_also_meeting_it": 0,
+      "of_n_MTAP_low_candidates": 5
+     }
+    },
+    "_why_below_every_comparator_is_not_the_headline": "the comparator arms read high for CDKN2A, so on GPL3290 that criterion resolves to the 57th percentile and would count a tumour sitting at the median of its own array. It is reported in the ladder and is not a floor.",
+    "CDKN2A_array_percentile_range_in_the_candidates": [
+     0.5046,
+     0.8928
+    ]
+   },
+   "within_EMC_rank_association_MTAP_vs_CDKN2A": {
+    "rho": -0.3091,
+    "n": 10,
+    "n_permutations": 3628800,
+    "at_least_as_extreme": 1404004,
+    "exact_two_sided_p": 0.38691,
+    "_reading": "under 9p21 co-deletion in a subset the association is POSITIVE (both genes low in the same tumours); a negative rho is the opposite of the co-deletion pattern."
+   },
+   "controls_on_the_candidate_set": {
+    "array_dimness_panel_cache": {
+     "GSM98495": {
+      "class": "EMC",
+      "n_genes_read": 360,
+      "n_below_5th_percentile": 13,
+      "frac_below_5th_percentile": 0.0361
+     },
+     "GSM98496": {
+      "class": "EMC",
+      "n_genes_read": 353,
+      "n_below_5th_percentile": 15,
+      "frac_below_5th_percentile": 0.0425
+     },
+     "GSM98499": {
+      "class": "EMC",
+      "n_genes_read": 333,
+      "n_below_5th_percentile": 19,
+      "frac_below_5th_percentile": 0.0571
+     },
+     "GSM98503": {
+      "class": "EMC",
+      "n_genes_read": 369,
+      "n_below_5th_percentile": 28,
+      "frac_below_5th_percentile": 0.0759
+     },
+     "GSM98506": {
+      "class": "EMC",
+      "n_genes_read": 339,
+      "n_below_5th_percentile": 20,
+      "frac_below_5th_percentile": 0.059
+     },
+     "GSM98509": {
+      "class": "EMC",
+      "n_genes_read": 364,
+      "n_below_5th_percentile": 8,
+      "frac_below_5th_percentile": 0.022
+     },
+     "GSM98510": {
+      "class": "EMC",
+      "n_genes_read": 345,
+      "n_below_5th_percentile": 16,
+      "frac_below_5th_percentile": 0.0464
+     },
+     "GSM98511": {
+      "class": "EMC",
+      "n_genes_read": 369,
+      "n_below_5th_percentile": 14,
+      "frac_below_5th_percentile": 0.0379
+     },
+     "GSM98512": {
+      "class": "EMC",
+      "n_genes_read": 368,
+      "n_below_5th_percentile": 5,
+      "frac_below_5th_percentile": 0.0136
+     },
+     "GSM98513": {
+      "class": "EMC",
+      "n_genes_read": 366,
+      "n_below_5th_percentile": 8,
+      "frac_below_5th_percentile": 0.0219
+     },
+     "GSM89883": {
+      "class": "DFSP",
+      "n_genes_read": 341,
+      "n_below_5th_percentile": 19,
+      "frac_below_5th_percentile": 0.0557
+     },
+     "GSM89898": {
+      "class": "DFSP",
+      "n_genes_read": 369,
+      "n_below_5th_percentile": 33,
+      "frac_below_5th_percentile": 0.0894
+     },
+     "GSM89924": {
+      "class": "DFSP",
+      "n_genes_read": 365,
+      "n_below_5th_percentile": 27,
+      "frac_below_5th_percentile": 0.074
+     },
+     "GSM91381": {
+      "class": "GIST",
+      "n_genes_read": 355,
+      "n_below_5th_percentile": 29,
+      "frac_below_5th_percentile": 0.0817
+     },
+     "GSM91397": {
+      "class": "GIST",
+      "n_genes_read": 318,
+      "n_below_5th_percentile": 21,
+      "frac_below_5th_percentile": 0.066
+     },
+     "GSM91405": {
+      "class": "GIST",
+      "n_genes_read": 331,
+      "n_below_5th_percentile": 26,
+      "frac_below_5th_percentile": 0.0785
+     }
+    },
+    "array_dimness_wide_cache": {
+     "n_genes_in_cache": 1662,
+     "per_sample": {
+      "GSM98495": {
+       "class": "EMC",
+       "n_genes_read": 1595,
+       "frac_below_5th_percentile": 0.0552
+      },
+      "GSM98496": {
+       "class": "EMC",
+       "n_genes_read": 1503,
+       "frac_below_5th_percentile": 0.0546
+      },
+      "GSM98499": {
+       "class": "EMC",
+       "n_genes_read": 1330,
+       "frac_below_5th_percentile": 0.0609
+      },
+      "GSM98503": {
+       "class": "EMC",
+       "n_genes_read": 1655,
+       "frac_below_5th_percentile": 0.0598
+      },
+      "GSM98506": {
+       "class": "EMC",
+       "n_genes_read": 1446,
+       "frac_below_5th_percentile": 0.0678
+      },
+      "GSM98509": {
+       "class": "EMC",
+       "n_genes_read": 1602,
+       "frac_below_5th_percentile": 0.0462
+      },
+      "GSM98510": {
+       "class": "EMC",
+       "n_genes_read": 1478,
+       "frac_below_5th_percentile": 0.0514
+      },
+      "GSM98511": {
+       "class": "EMC",
+       "n_genes_read": 1657,
+       "frac_below_5th_percentile": 0.0471
+      },
+      "GSM98512": {
+       "class": "EMC",
+       "n_genes_read": 1643,
+       "frac_below_5th_percentile": 0.0298
+      },
+      "GSM98513": {
+       "class": "EMC",
+       "n_genes_read": 1596,
+       "frac_below_5th_percentile": 0.0307
+      },
+      "GSM89883": {
+       "class": "DFSP",
+       "n_genes_read": 1502,
+       "frac_below_5th_percentile": 0.0553
+      },
+      "GSM89898": {
+       "class": "DFSP",
+       "n_genes_read": 1654,
+       "frac_below_5th_percentile": 0.0798
+      },
+      "GSM89924": {
+       "class": "DFSP",
+       "n_genes_read": 1631,
+       "frac_below_5th_percentile": 0.0809
+      },
+      "GSM91381": {
+       "class": "GIST",
+       "n_genes_read": 1546,
+       "frac_below_5th_percentile": 0.0666
+      },
+      "GSM91397": {
+       "class": "GIST",
+       "n_genes_read": 1336,
+       "frac_below_5th_percentile": 0.0614
+      },
+      "GSM91405": {
+       "class": "GIST",
+       "n_genes_read": 1384,
+       "frac_below_5th_percentile": 0.0715
+      }
+     }
+    },
+    "reference_label_per_class": {
+     "DFSP": {
+      "CRH": 3
+     },
+     "GIST": {
+      "UHR": 3
+     },
+     "EMC": {
+      "CRH-mRNA": 10
+     }
+    }
+   },
+   "nine_p21_neighbourhood_in_the_random_background_cache": {
+    "MIR31HG": {
+     "n_probes_mapping": 1,
+     "array_percentile_in_the_MTAP_low_candidates": {
+      "GSM98499": 0.4064,
+      "GSM98503": 0.2869,
+      "GSM98506": 0.5553,
+      "GSM98510": 0.4765,
+      "GSM98511": 0.5222
+     },
+     "comparator_array_percentile_range": [
+      0.2955,
+      0.6742
+     ]
+    },
+    "MLLT3": {
+     "n_probes_mapping": 1,
+     "array_percentile_in_the_MTAP_low_candidates": {
+      "GSM98503": 0.9097,
+      "GSM98506": 0.7499,
+      "GSM98510": 0.8919,
+      "GSM98511": 0.6284
+     },
+     "comparator_array_percentile_range": [
+      0.053,
+      0.7411
+     ]
+    }
+   }
+  }
+ },
+ "binomial_bounds": {
+  "_what": "one-sided 95% upper bound on the frequency of a deletion-consistent tumour, given the count observed at these sample sizes. This is what bounds the negative; it is not a demonstration of absence.",
+  "n_deletion_consistent_tumours_found": 0,
+  "per_platform_n_EMC": {
+   "GPL6244": 6,
+   "GPL3290": 10
+  },
+  "upper_bound_95pc_given_0_of_6": 0.393,
+  "upper_bound_95pc_given_0_of_10": 0.2589,
+  "upper_bound_95pc_given_0_of_16": 0.1707,
+  "_comparison": "reference [11] of the manuscript records MTAP protein loss reaching up to 20% in various sarcomas, and does not name this histology."
+ },
+ "_what_this_establishes": "On GPL3290 five of ten EMC tumours read below every comparator for MTAP, which a group mean cannot see. None of them reads low for CDKN2A: all five sit at or above the median of their own array, and the lowest-MTAP tumour carries the arm's highest CDKN2A. The pattern is therefore not the one 9p21 homozygous co-deletion produces. On GPL6244 no EMC tumour is an MTAP low outlier at all.",
+ "_what_this_does_not_establish": "that no EMC tumour carries a 9p21 deletion. Sixteen tumours bound the frequency loosely, MTAP rests on one probe on GPL6244 and two averaged probes on GPL3290 with no per-probe record committed, and a transcript reading cannot exclude protein loss by a non-deletional mechanism. Only MTAP immunohistochemistry addresses the state the MTAP-selected agents are selected on."
+}

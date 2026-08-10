@@ -42,7 +42,7 @@ biological (also free)."* That is this paper.
 
 | item | state |
 |---|---|
-| Figures rendered from committed artifacts, provenance-hashed | ✅ five figures, `--check` verifiable |
+| Figures rendered from committed artifacts, provenance-hashed | ✅ five figures; `--check` now hashes the **images** as well as the source artifacts, so a hand-edited or stale figure is detectable. ⚠ *Superseded, retained: the earlier stamp hashed only the five input artifacts while the tool printed "10 files match", which read as a statement about the images.* |
 | SI written — methods, full tables, controls, failure modes | ✅ `emc-mtap-prmt5-hypothesis-SI.md` |
 | Abstract structured for a preprint server | ✅ with the qualifier in its own paragraph |
 | Every prose identifier anchored to a retrieval | ✅ `mtap-prmt5-emc-citations.json`, 0 new unanchored |
@@ -86,8 +86,18 @@ pre-posting checklist belongs.
 - ⚠ **STILL NOT VERIFIED:** the per-journal author-guideline pages return 403 from CI as well, so the
   word, abstract and display-item limits the manuscript is written to remain search-derived. Those
   affect FORMAT, which an editor returns, not COST, which is billed.
-- **ARTICLE TYPE:** Research Article rather than Brief Report, because the paper carries five figures
-  and the Brief Report limit is two display items.
+- ⛔ **ARTICLE TYPE — OPEN, AND THE PREVIOUS REASON DOES NOT SURVIVE INSPECTION (2026-08-10).**
+  *Superseded, retained: "Research Article rather than Brief Report, because the paper carries five
+  figures and the Brief Report limit is two display items."* Two things are wrong with that.
+  **(a) It chose the type to fit the figure count, which is backwards** — content selects the type
+  and the type then constrains display items. **(b) The display-item count it rested on was wrong
+  in the permissive direction.** `submission_metrics.py` counted figures only; counting the numbered
+  tables as an editor would, the paper carries **five figures and eight tables**. The gate now counts
+  both and reports 13 items. ⚠ **The choice itself is trimcrae's**, because article type travels with
+  venue and venue is an author decision. What an agent can say: the paper generates no new data, and
+  after this revision it reports a bounded negative, a sequence observation and two named experiments,
+  which is the content profile of a short-format or Hypothesis article. **Record whichever type is
+  chosen with a CONTENT reason, never a figure count.**
 - **ORCID — resolved 2026-08-10.** The manuscript's title block carried a bracketed placeholder while
   the cover letter stated that no ORCID accompanies the submission. The placeholder is deleted and the
   cover letter's statement stands. If trimcrae creates one, add it to both in the same edit.
@@ -139,13 +149,25 @@ These are in the manuscript and must not be softened during any formatting pass:
   transferred result is therefore close to expected. ⭐ **And PRMT5 is a dependency in 94.1% of the
   NON-sarcoma lines too, selectivity 0.013** — the sharper statement of the same limit, now in §3.3
   and SI §S4.
-- ⛔ **ROUTE 2 IS CLOSED BY THIS PAPER'S OWN DATA, and the closure must not be softened back into a
-  caveat during any formatting pass.** *MTAP* is flat where the read is powered (−0.02 SD); the entire
-  locus signal is *CDKN2A* (−0.40 SD), which reverses on the second platform (+0.17). The window
-  selects on *MTAP* loss, so the locus reading does not support it.
-- ⚠ **The methylosome GROUP does not separate this disease** — pooled, EMC ranks second of four
-  comparator classes. *PRMT5* alone does. Route 1's claim is stated on the gene, not the group, and
-  must stay that way.
+- ⛔ **ROUTE 2 IS NOT SUPPORTED BY THIS PAPER'S DATA, AND THE ARGUMENT FOR THAT IS A PER-SAMPLE ONE
+  THAT MUST NOT BE REPLACED BY A GROUP MEAN.** *MTAP* is flat where the read is powered (**+0.053
+  SD**, 1.09-fold, CI 0.86–1.38); what signal the locus group score has is carried by *CDKN2A*
+  (**−0.481 SD**), which reverses on the second platform (**+0.175**). ⚠ *Superseded, retained:
+  "−0.02 SD", "−0.40 SD" and "+0.17" — main text Appendix A registers all three, and records that
+  the −0.023 appears in no committed artifact anywhere in this repository.* ⭐ **AND THE CLOSURE
+  LANGUAGE IS ALSO SUPERSEDED:** *"Route 2 is CLOSED by this paper's own data"* overstated a group
+  mean, which cannot test a subset event. The live statement is that five of ten EMC tumours on
+  GPL3290 read below every comparator for *MTAP* and **none of them carries the low *CDKN2A* that
+  9p21 co-deletion requires**, that no tumour of sixteen is deletion-consistent, and that this bounds
+  the frequency at **17%** rather than excluding it
+  (`emc_mtap_locus_persample.py` → `emc-mtap-locus-persample.json`).
+- ⚠ **The methylosome GROUP does not separate this disease** — pooled, EMC ranks **third of the five
+  tumour classes**, below desmoid fibromatosis and solitary fibrous tumour. ⚠ *Superseded, retained:
+  "second of four comparator classes"; both manuscript appendices register it, and it was still live
+  in three files after the previous revision corrected it in the main text.* On *PRMT5* alone EMC has
+  the highest class median. Route 1's claim is stated on the gene, not the group, and must stay that
+  way — and "separates" is superseded too, because 9 of 34 comparator tumours read at or above the
+  lowest EMC tumour.
 - **16 tumours, two decade-old array platforms.** The genome-wide placement in §3.5 is context for
   that limit, not a correction of it, and must not be re-labelled as one — the correction is a
   SEPARATE procedure (§2.3) and both are reported. ⛔ **THE ADJUSTED VALUES MUST SURVIVE ANY EDITING
@@ -167,21 +189,63 @@ These are in the manuscript and must not be softened during any formatting pass:
   no longer the only support — the Ewing sarcoma result (PMC12354397) is peer-reviewed and shows a
   *fusion-dependent* PRMT5 requirement — but the preprint's status must still travel with every use
   of it.
-- ⚠ **§3.4's motif analysis must not be presented as a response predictor, and the paper's own text
-  is what stops it.** The commonest EMC fusion and the commonest clear cell fusion retain the same
-  four PRMT5-motif sites — but EWSR1::FLI1 retains **none** and PRMT5 still acts there in a
-  fusion-dependent way. Any formatting pass that trims the second half of that pair turns a
-  falsifiable prediction into a claim the data does not support.
+- ⛔ **§3.7's motif analysis must not be presented as a response predictor OR as evidence for the
+  fusion-class transfer, and the second half of that is new.** ⚠ *Superseded, retained: "§3.4's motif
+  analysis" — the motif section is §3.7, not §3.4 — and "The commonest EMC fusion and the commonest
+  clear cell fusion retain the same four PRMT5-motif sites", which was narrowed once to two of three
+  reported clear cell junctions and is now **withdrawn as an inference altogether**.* EWSR1's GRG
+  sites cluster at 301, 303, 316 and 320 with the next at 463, so **every** breakpoint in residues
+  321–462 retains exactly four: a 142-residue plateau covering 21.6% of the protein, with both
+  matched breakpoints inside it 107 residues apart. **What must survive is the plateau disclosure and
+  the one durable observation** — the segment every EWSR1 fusion retains carries no site. EWSR1::FLI1
+  retains none and PRMT5 still acts there in a fusion-dependent way, and that pair must survive too.
 - ⚠ **Elevated PRMT5 is not specific to this disease on the published comparison.** PRMT5, PRMT1 and
   MEP50 read higher across multiple sarcoma types than in breast and lung cancer (PMC12354397). This
   paper's comparator arm is other sarcomas, which is harder — but the two statements are not
   exclusive and the manuscript says so.
 
+## ⛔ Round two of simulated adversarial review — what it changed, 2026-08-10
+
+Four independent simulated reviews (editorial, statistical, biological, integrity) were run against
+the revised manuscript. Three of the four recommended **decline**; the fourth recommended minor
+revision. The consolidated response is
+[`emc-mtap-prmt5-decline-review-response-2026-08-10.md`](./emc-mtap-prmt5-decline-review-response-2026-08-10.md)
+and it lists every ground applied and every ground declined. The three things a future session must
+not undo:
+
+1. ⛔ **THE TITLE NO LONGER CLAIMS A SURVIVAL.** *Superseded, retained: "a fusion-class rationale
+   that survives and an MTAP-locus rationale that does not".* Three reviewers independently found
+   that nothing bearing on the fusion rationale cleared 0.05 after the correction the paper itself
+   elected to apply, and that the only reading which does is an instrument control. The live title
+   is **"two rationales tested against the available public data, neither supported"**, and the
+   claim structure changed in the abstract, §1, §3, §4.1, §5, the cover letter and here — not just
+   the adjectives.
+2. ⛔ **THE ADJUSTED *p* IS A PROPERTY OF ITS FAMILY AND THE RANGE MUST TRAVEL WITH IT.** The same
+   code path gives **0.00015 / 0.000125** over the reported genes, **0.097 / 0.064** over the panel
+   cache, **0.208 / 0.238** over the merged array-wide family, and **0.031** on GPL3290
+   complete-cases. The array-wide family is the one quoted and §2.7 gives the reason it is the right
+   one. Quoting a single value without naming its family is the edit that would most misrepresent
+   this paper.
+3. ⛔ **GPL3290 IS STRUCTURALLY CONFOUNDED AND IS NOT REPLICATION.** Disease class is collinear with
+   GEO submission block, with the two-colour reference pool and with within-study platform
+   assignment; all 10 EMC and only 6 of that deposit's 26 comparator sarcomas landed on the array.
+   No re-analysis fixes it. Every sentence calling the two series a replication is withdrawn.
+
+⭐ **AND ONE FREE ANALYSIS CHANGED A CONCLUSION'S FOUNDATION RATHER THAN ITS SIGN.** The biology
+review found that the *MTAP* closure rested on a group-mean test that cannot see a subset event, and
+that the committed per-sample data held a candidate one. Running the discriminating check cost
+nothing and is now `emc_mtap_locus_persample.py` → `emc-mtap-locus-persample.json`, with a `--check`.
+It came back **for** the authors: the five MTAP-low tumours all carry *CDKN2A* at or above their
+array median, which is the opposite of co-deletion. The closure is stronger than it was and it now
+rests on the right test — and it is stated as a bound (17% at 95%) rather than as an exclusion.
+
 ## Re-check before any posting pass
 
 ```bash
-python3 research/modalities/emc_prmt5_multiplicity.py --check   # the correction reproduces
-python3 research/modalities/emc_mtap_prmt5_figures.py --check   # figures match the artifacts
+python3 research/modalities/emc_prmt5_multiplicity.py --check    # the correction reproduces
+python3 research/modalities/emc_mtap_locus_persample.py --check  # the per-sample 9p21 reading
+python3 research/modalities/emc_prmt5_effect_sizes.py --check    # effect sizes and family sensitivity
+python3 research/modalities/emc_mtap_prmt5_figures.py --check    # figures AND images match
 python3 research/manuscripts/lint_claims.py                     # language rules (CI-only gate)
 python3 research/manuscripts/lint_citations.py                  # every identifier traces to a fetch
 python3 research/manuscripts/submission_metrics.py              # abstract and display-item limits

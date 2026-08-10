@@ -1,7 +1,7 @@
 {
  "_regenerate": "python3 research/modalities/emc_mtap_prmt5_figures.py",
- "_what": "content hashes of every artifact these figures were drawn from",
- "_why": "a reader cannot otherwise tell a stale figure from a current one; --check compares these against the artifacts",
+ "_what": "content hashes of every artifact these figures were drawn from AND of every image file written",
+ "_why": "a reader cannot otherwise tell a stale figure from a current one; --check compares both sides",
  "figures": [
   "mtap-prmt5-fig1-readings.pdf",
   "mtap-prmt5-fig1-readings.png",
@@ -14,10 +14,18 @@
   "mtap-prmt5-fig5-motif-map.pdf",
   "mtap-prmt5-fig5-motif-map.png"
  ],
+ "images": {
+  "mtap-prmt5-fig1-readings.png": "cc59d0f8aed45596",
+  "mtap-prmt5-fig2-locus-genewise.png": "7766c2099d51a2e0",
+  "mtap-prmt5-fig3-dependency-qualifier.png": "6c91a1aff230443a",
+  "mtap-prmt5-fig4-comparator-classes.png": "56bbfd9d8cef9d19",
+  "mtap-prmt5-fig5-motif-map.png": "19815ba454856df4"
+ },
  "sources": {
   "census-route-expression-grading.json": "a21cdbebdda19710",
   "depmap-sarcoma-dependency.json": "d88bed62a80dcb51",
   "emc-expression-panels.json": "38233b8ebf557d48",
+  "emc-mtap-locus-persample.json": "e85401f1336a21f8",
   "emc-prmt5-multiplicity.json": "d38c4c07a8c0c506",
   "emc-prmt5-substrate-motif-map.json": "12f6cf2c2764c2d6"
  }

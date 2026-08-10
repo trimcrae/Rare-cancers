@@ -1,0 +1,46 @@
+{
+ "_what": "Resolution of one question raised against emc-mtap-prmt5-hypothesis.md: is extraskeletal myxoid chondrosarcoma among the seven fusion-positive sarcoma subtypes in the expression panel that reference [3] (PMID 40823091) uses for its pan-sarcoma PRMT5/MEP50 comparison? If it were, an indexed peer-reviewed paper would already have plotted PRMT5 and MEP50 in this histology and the manuscript's priority sentence would be false in its own strongest citation.",
+ "_why_it_matters": "the manuscript claims that nothing indexed pairs the PRMT5 methylosome with this histology. The named panel is the single most likely counterexample, because it is a sarcoma panel inside the paper the manuscript leans on hardest.",
+ "_generated_utc": "2026-08-10",
+ "⛔_verification_level": "[IN] INFERENCE FROM TWO COMMITTED FULL TEXTS. The R2 platform dataset itself was NOT retrieved and is not reachable from this environment. What is established is an exact arithmetic and platform match between the two sources' own descriptions; what is not established is a direct inspection of the deposited dataset.",
+
+ "what_reference_3_says": {
+  "source": "PMID 40823091, PMC12354397, committed at literature/fet-arginine-methylation/PMC12354397.txt on the literature-cache branch",
+  "verbatim": "The following datasets were accessed: Filion (n=137; 7 different fusion positive sarcoma subtypes including n=24 EWSR1-FLI1 and n=4 EWSR1-ERG)",
+  "platform_verbatim": "using platforms MAS 5.0-u133a and MAS 5.0 u133p2",
+  "probe_sets_verbatim": "PRMT5 = 217786_s_at; MEP50/WDR77 = 201421_s_at; PRMT1 = 206445_s_at",
+  "_note": "only two of the seven subtypes are named in the text, which is why the question could not be answered from this source alone."
+ },
+
+ "what_the_filion_source_says": {
+  "source": "PMID 18855877, PMC4429309, doi 10.1002/path.2445 — Filion C, Motoi T, Olshen AB, Lae M, Emnett RJ, Gutmann DH, Perry A, Ladanyi M, Labelle Y. The EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor gene. The Journal of Pathology 2009;217(1):83-93.",
+  "committed_full_text": "literature/emc-post-degrader-options/emc_pparg_filion_pmc.txt and literature/pparg-direction-emc-2026-08-06/emc_pparg_filion_pmc.txt on the literature-cache branch",
+  "bibliographic_record": "research/literature/submission-reference-metadata-2026-08-09.json, key 18855877",
+  "comparison_set_verbatim": "of 137 other primitive sarcomas with translocation-derived aberrant transcriptional proteins. These sarcomas consisted of 28 Ewing's sarcomas (ES), 23 alveolar rhabdomyosarcomas (ARMS), 28 desmoplastic small round cell tumors (DSRCT), 12 alveolar soft part sarcomas (ASPS) and 46 synovial sarcomas (SS)",
+  "emc_arm_verbatim": "we compared the data from these 3 EMC samples to similarly processed data from 137 samples of five other types of sarcomas",
+  "platform_verbatim": "Samples were hybridized to Affymetrix U133A microarrays containing 22,215 probes sets"
+ },
+
+ "the_arithmetic": {
+  "filion_comparison_set_sums_to": 137,
+  "components": {"Ewing sarcoma": 28, "alveolar rhabdomyosarcoma": 23,
+                 "desmoplastic small round cell tumour": 28,
+                 "alveolar soft part sarcoma": 12, "synovial sarcoma": 46},
+  "filion_EMC_arm": 3,
+  "filion_total_including_EMC": 140,
+  "reference_3_reports_n": 137,
+  "ewing_split_matches": "reference [3] names n=24 EWSR1-FLI1 and n=4 EWSR1-ERG, which sum to 28 — exactly Filion's Ewing sarcoma count. So reference [3]'s subtype count resolves Filion's five histological types into fusion subtypes rather than adding a sixth histology.",
+  "platform_matches": "both describe Affymetrix U133A."
+ },
+
+ "_answer": "EMC is very probably NOT in the panel. The n reference [3] quotes is 137, which is exactly the size of Filion's comparison set EXCLUDING its three EMC tumours; including them would give 140. The Ewing count also reconciles exactly. On that arithmetic the manuscript's priority sentence is not falsified by its own strongest citation.",
+
+ "_what_would_overturn_it": "a direct reading of the R2 platform's Filion dataset showing 137 samples that include the three EMC tumours, or a different Filion deposit of the same name. Neither is reachable from this environment, so the manuscript states this as a reconciliation of two published descriptions rather than as an inspection of the dataset.",
+
+ "_a_separate_finding_in_the_same_source": {
+  "what": "Filion et al. 2009 profiled three EWSR1::NR4A3-positive EMC tumours on Affymetrix U133A.",
+  "why_it_matters": "the manuscript describes two archival series as the only readable EMC expression data. That is a statement about PUBLICLY DEPOSITED data and must be worded as one: this is a third EMC expression dataset in the published record.",
+  "is_it_deposited": "not found. The GEO cohort search committed at research/modalities/emc-cohort-search-inputs.json ran six queries and returned 56 records; no deposit corresponding to this study is among them, and the paper's own text records its comparison sarcomas as 'M. Ladanyi, unpublished data'. So the manuscript's claim holds for deposited data and must say so.",
+  "⚠": "absence from that search is not proof of absence from GEO. The search terms are committed and a reader can repeat them."
+ }
+}
