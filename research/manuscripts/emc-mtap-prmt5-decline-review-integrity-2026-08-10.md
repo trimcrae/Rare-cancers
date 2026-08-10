@@ -31,13 +31,24 @@ to say the same thing twice and to mean what its artifacts say?***
 **Not yet submittable — but the defect profile is much better than the volume of findings suggests,
 and nothing found here touches a result.**
 
-I traced **147 numbers** out of the manuscript, the SI and the five figure captions into the
-committed artifacts. **139 agreed exactly**, at the stated rounding, against the artifact that owns
-them. **Six disagreed or were misdescribed, one is a live superseded value, and one could not be
-traced to any artifact at all.** No statistic in the Results section is wrong: every *t*, Δ, exact
-*p*, adjusted *p*, percentile, genome-wide rank, dependency fraction, per-class median and motif
-count reproduces. The five committed figures regenerate **byte-identically** from the committed
-artifacts — I re-ran the generator in an isolated copy of the tree and every PNG hash matched.
+I made **229 checks** against the committed artifacts, covering every number in the manuscript, the
+SI and the five figure captions, plus **20 checks on the figures themselves**. Several rows in the
+table below cover a whole sub-table at once, so the count of distinct values behind those 229 checks
+is over three hundred.
+
+**212 of the 229 agreed exactly**, at the stated rounding, against the artifact that owns them.
+**Sixteen disagreed, were misdescribed, or are a live superseded value; one could not be traced to
+any artifact at all.** Of the sixteen, only **five are numeric**: a superseded class ranking still
+live in the SI, one quantity reported at two different values, a rounded lower bound asserted as a
+bound, a count whose descriptor contradicts its source, and a mis-stated family size. The other
+eleven are misdescriptions of a cited source or of an artifact, one dangling cross-reference, and two
+claims about the checking machinery that the machinery does not support. Of the 20 figure checks, 15
+passed, four are presentation defects and one is a gap in the checking tool.
+
+**No statistic in the Results section is wrong.** Every *t*, Δ, exact *p*, adjusted *p*, percentile,
+genome-wide rank, dependency fraction, per-class median and motif count reproduces. The five
+committed figures regenerate **byte-identically** from the committed artifacts — I re-ran the
+generator in an isolated copy of the tree and every PNG hash matched.
 
 What fails is the layer above the numbers: **the paper's account of its own checking**. §2.6 still
 makes a universal verification claim that this review falsifies for the second time; the corrections
@@ -411,8 +422,8 @@ Cellosaurus as not harbouring an EWSR1 fusion, **and it carries no CRISPR data**
 
 **What I checked.** The first clause is fully traceable and verbatim: `depmap-target-expression.json`
 and `emc-surfaceome-scan.json` both carry `_identity_correction` with the Cellosaurus caution quoted
-in full for cell line ACH-001519 / H-EMC-SS. The second clause I could not verify. I searched every
-tracked `.json`, `.py` and `.md` in the repository for that line's identifiers alongside any CRISPR,
+in full for that line. The second clause I could not verify. I searched every tracked `.json`, `.py`
+and `.md` in the repository for that line's model and name identifiers alongside any CRISPR,
 gene-effect or dependency term and found nothing;
 `depmap-sarcoma-dependency.json` records `n_sarcoma_models: 176` and `n_sarcoma: 91` per gene but
 enumerates no model.
@@ -482,8 +493,9 @@ supplement whose §S8 opens "Every number in the main text and in this supplemen
 
 ## 3 · Every number traced
 
-147 rows. **✅ = agrees with the artifact at the stated rounding. ❌ = disagrees, is misdescribed, or
-is a live superseded value. ⚠ = could not be traced.** Artifact paths are relative to the repository
+229 checks in §3.1–§3.6, and 20 figure checks in §3.7. **✅ = agrees with the artifact at the stated
+rounding. ❌ = disagrees, is misdescribed, or is a live superseded value. ⚠ = could not be traced.**
+Some rows cover a whole sub-table, and say so. Artifact paths are relative to the repository
 root; `panels` = `research/modalities/emc-expression-panels.json`, `multi` =
 `research/modalities/emc-prmt5-multiplicity.json`, `controls` =
 `research/modalities/emc-prmt5-route-controls.json`, `dep` =
