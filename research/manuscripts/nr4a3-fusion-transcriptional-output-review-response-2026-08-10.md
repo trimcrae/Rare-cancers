@@ -234,7 +234,7 @@ main text: Tables 1–4 and Figures 1–3, which is seven display items, down fr
 retained in the main-text file but marked as repository record stripped at submission**, alongside
 the YAML frontmatter, because this repository's own rules require a superseded value to stay
 recorded and an appendix is where that bookkeeping belongs; it is not part of the submitted PDF.
-**The main text fell from 12,160 words to 8,988, not to 5,000–6,000.** That is a 26% cut against a
+**The main text fell from 12,160 words to 9,015, not to 5,000–6,000.** That is a 26% cut against a
 50% target and I have not closed the gap, for a reason worth stating plainly: the same review
 required a new prior-art subsection, a measurement of the null's independence property, a
 correlation correction reported for every set, six further sensitivity analyses and an extra
