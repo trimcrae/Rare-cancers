@@ -49,7 +49,12 @@ PANEL = os.path.join(HERE, "emc-expression-panels.json")
 DEPMAP = os.path.join(HERE, "depmap-sarcoma-dependency.json")
 GRADING = os.path.join(HERE, "census-route-expression-grading.json")
 MOTIF = os.path.join(HERE, "emc-prmt5-substrate-motif-map.json")
-SOURCES = (PANEL, DEPMAP, GRADING, MOTIF)
+#: added 2026-08-10. Figure 4 drew only the samples the panel's arms contain, so a deposited class
+#: the sample classifier had no pattern for was invisible in a figure whose whole subject is the
+#: comparison BETWEEN classes. `emc-prmt5-multiplicity.json` carries per-sample z for exactly those
+#: samples, beside the record of why they were excluded.
+MULTI = os.path.join(HERE, "emc-prmt5-multiplicity.json")
+SOURCES = (PANEL, DEPMAP, GRADING, MOTIF, MULTI)
 
 P6244 = "GSE24369_series_matrix.txt.gz"
 P3290 = "GSE4303-GPL3290_series_matrix.txt.gz"
@@ -258,14 +263,30 @@ def _class_z(panel, genes, plat):
     return rows
 
 
+#: ⛔ ONE BUCKET NAME IS A SUBSTRING ARTEFACT AND THE FIGURE MUST NOT REPEAT IT (2026-08-10). The
+#: six samples the classifier buckets `fibrosarcoma` are annotated `Myxofibrosarcoma` in GEO; the
+#: bucket matches on the substring. Myxofibrosarcoma is a different entity, so the axis carries what
+#: the deposit says the samples are. The bucket name stays in the artifact, which is a record of
+#: what the classifier did.
+CLASS_LABEL = {"fibrosarcoma": "myxofibrosarcoma",
+               "desmoid_fibromatosis": "desmoid fibromatosis",
+               "solitary_fibrous_tumour": "solitary fibrous tumour",
+               "pooled_skeletal_muscle_RNA": "pooled normal muscle"}
+NOT_A_COMPARATOR = "pooled_skeletal_muscle_RNA"
+
+
 def _class_ax(ax, rows, title, ylab):
     order = sorted(rows, key=lambda k: -st.median(rows[k]))
     for i, k in enumerate(order):
-        col = C_EMC if k == "EMC" else C_COMP
-        _dots(ax, i, rows[k], col, jitter=0.17)
+        col = C_EMC if k == "EMC" else C_ABSENT if k == NOT_A_COMPARATOR else C_COMP
+        series = "emc" if k == "EMC" else "comp"
+        _dots(ax, i, rows[k], col, jitter=0.17, series=series)
         ax.plot([i - 0.26, i + 0.26], [st.median(rows[k])] * 2, "-", color=col, lw=2.2, zorder=4)
     ax.set_xticks(range(len(order)))
-    ax.set_xticklabels([f"{k}\n(n={len(rows[k])})" for k in order], fontsize=fs(6.6))
+    # ⛔ SIX CLASSES DO NOT FIT HORIZONTALLY. Drawn flat, the long histology names overprinted each
+    # other into an unreadable band, which is worse than the omission the extra classes fixed.
+    ax.set_xticklabels([f"{CLASS_LABEL.get(k, k)} (n={len(rows[k])})" for k in order],
+                       fontsize=fs(6.4), rotation=28, ha="right", rotation_mode="anchor")
     ax.set_ylabel(ylab, fontsize=fs(7.0))
     ax.set_title(title, fontsize=fs(8.2), color=C_INK, pad=5)
     ax.tick_params(labelsize=fs(6.8))
@@ -274,33 +295,61 @@ def _class_ax(ax, rows, title, ylab):
     return order
 
 
-def fig_classes(plt, panel):
+def _excluded_class_z(multi, genes):
+    """The deposited samples the panel's arms leave out, keyed by class, from the exclusion record."""
+    rows = {}
+    if not multi:
+        return rows
+    rec = ((multi.get("per_platform") or {}).get(P6244) or {}).get("excluded_sample_z") or {}
+    for s in (rec.get("samples") or {}).values():
+        for g in genes:
+            v = (s.get("z_vs_array") or {}).get(g)
+            if v is not None:
+                rows.setdefault(s["class"], []).append(v)
+    return rows
+
+
+def fig_classes(plt, panel, multi):
     """4 — pooled group vs the single gene, because the GROUP DILUTES THE SIGNAL rather than making it.
 
     ⭐ THIS PANEL PAIR IS THE FINDING, AND IT WAS NOT THE ONE THE FIGURE WAS BUILT FOR. Pooled across
-    the four methylosome genes EMC ranks SECOND, below desmoid fibromatosis — the group does not
-    separate this disease at all. PRMT5 alone, which is the gene route 1 actually depends on, is
-    clearly highest. The three other members are flat or lower in EMC and dilute it.
+    the four methylosome genes EMC does not come top — the group does not separate this disease at
+    all. PRMT5 alone, which is the gene route 1 actually depends on, is highest of the tumour
+    classes. The three other members are flat or lower in EMC and dilute it.
     ⚠ Which is figure 2's lesson running the other way: there a group INVENTED a signal its key gene
     did not have; here a group HID one its key gene does have. Neither is visible without the cut.
+
+    ⛔ AND IT USED TO DRAW FOUR CLASSES WHERE THE DEPOSIT HAS SIX (2026-08-10). The panel artifact
+    carries per-sample values only for the samples in an arm, so five solitary fibrous tumours the
+    sample classifier had no pattern for, and two pooled skeletal-muscle references excluded by
+    design, were absent from a figure whose entire subject is the comparison between classes. Both
+    are drawn now, from `emc-prmt5-multiplicity.json`, with the normal-tissue column marked as not a
+    comparator — and it reads HIGHER than EMC on PRMT5, which is a caveat about what a within-array
+    z can show and belongs in the figure rather than in a footnote.
     """
     pooled = _class_z(panel, METHYLOSOME, P6244)
     single = _class_z(panel, ("PRMT5",), P6244)
     if not pooled or not single:
         return None
-    fig, axes = plt.subplots(1, 2, figsize=page(9.6, 3.7))
-    _class_ax(axes[0], pooled, "Methylosome, four genes pooled: EMC ranks second",
-              "z vs array, 4 genes pooled")
-    _class_ax(axes[1], single, "PRMT5 alone: EMC is highest", "z vs array, PRMT5")
-    fig.suptitle("GSE24369 / GPL6244 - each comparator class separately", fontsize=fs(9), color=C_INK)
+    for tgt, genes in ((pooled, METHYLOSOME), (single, ("PRMT5",))):
+        for k, v in _excluded_class_z(multi, genes).items():
+            tgt.setdefault(k, []).extend(v)
+    fig, axes = plt.subplots(1, 2, figsize=page(9.6, 4.3))
+    _class_ax(axes[0], pooled, "Methylosome pooled: EMC does not come top", "z vs array")
+    _class_ax(axes[1], single, "PRMT5 alone: EMC highest of the tumours", "z vs array")
+    fig.suptitle("GSE24369 / GPL6244 - every deposited class separately", fontsize=fs(9),
+                 color=C_INK)
     fig.text(0.5, 0.005,
              "LGFMS carries FUS::CREB3L2 and is therefore a within-class control for a FET-fusion "
-             "sarcoma.\nPooled, EMC does not separate from desmoid "
-             "fibromatosis; PRMT5 alone does. Route 1 depends on PRMT5, not on the group.\n"
-             "Left-panel points are gene-by-sample values pooled across four genes, so they are not "
-             "independent observations and no test is run on them.",
-             ha="center", fontsize=fs(6.4), color=C_MUTE)
-    fig.tight_layout(rect=(0, 0.115, 1, 0.93))
+             "sarcoma. Solitary fibrous tumour is drawn because it is\ndeposited in this series; it "
+             "is not in the comparator arm, because the sample classifier carried no pattern for "
+             "it. The two pooled skeletal-muscle\nreferences are normal tissue, are not a "
+             "comparator, and read above EMC on PRMT5. Pooled, EMC does not separate from desmoid "
+             "fibromatosis;\nPRMT5 alone separates it from the other tumour classes. "
+             "Left-panel points are gene-by-sample values pooled across four genes, so they are "
+             "not\nindependent observations and no test is run on them.",
+             ha="center", fontsize=fs(6.2), color=C_MUTE)
+    fig.tight_layout(rect=(0, 0.155, 1, 0.94))
     return fig
 
 
@@ -331,11 +380,19 @@ def fig_motif_map(plt, motif):
         rows.append((f["label"].split("—")[0].strip().replace("EWSR1::NR4A3", "EWSR1::NR4A3"),
                      f["last_five_prime_residue_retained"],
                      f["five_prime_motif_sites_retained"]["GRG"], True))
+    # ⛔ EVERY REPORTED JUNCTION, NOT THE CLEANEST ONE (2026-08-10). This loop used to skip any
+    # comparator whose label says "reported type", which dropped two of the three reported
+    # EWSR1::ATF1 junctions — and the dropped pair is exactly what makes the comparison honest:
+    # one of them retains four sites like the commonest type, and the other retains none. A figure
+    # that plots the single cleanest of three available comparisons is the failure this whole
+    # paper is written against.
     for c in motif["measured_comparator_fusions_on_the_same_ruler"]:
-        name = (c["comparator"] or "").split("—")[0].strip()
+        raw = (c["comparator"] or "")
+        name = raw.split("—")[0].strip()
+        exon = raw.split("—")[-1].strip() if "—" in raw else ""
         if "reported type" in name:
-            continue
-        rows.append((name, c["five_prime_residues_retained"],
+            name = name.replace("(clear cell, reported type)", "(clear cell, further reported)")
+        rows.append((f"{name} {exon}".strip(), c["five_prime_residues_retained"],
                      c["five_prime_motif_sites_retained"]["GRG"], False))
 
     fig, ax = plt.subplots(figsize=page(7.6, 0.52 * len(rows) + 2.5))
@@ -394,11 +451,12 @@ def build():
                          "axes.labelcolor": C_INK, "xtick.color": C_MUTE, "ytick.color": C_MUTE})
     panel, dep = _load(PANEL), _load(DEPMAP)
     motif = _load(MOTIF) if os.path.exists(MOTIF) else None
+    multi = _load(MULTI) if os.path.exists(MULTI) else None
     figs = {
         "mtap-prmt5-fig1-readings": fig_readings(plt, panel),
         "mtap-prmt5-fig2-locus-genewise": fig_locus_genewise(plt, panel),
         "mtap-prmt5-fig3-dependency-qualifier": fig_dependency(plt, dep),
-        "mtap-prmt5-fig4-comparator-classes": fig_classes(plt, panel),
+        "mtap-prmt5-fig4-comparator-classes": fig_classes(plt, panel, multi),
         "mtap-prmt5-fig5-motif-map": fig_motif_map(plt, motif),
     }
     os.makedirs(FIGDIR, exist_ok=True)

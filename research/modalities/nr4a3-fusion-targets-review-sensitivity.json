@@ -1,0 +1,1999 @@
+{
+ "_inputs": {
+  "expression": "nr4a3-fusion-targets-inputs.json",
+  "primary_artifact": "nr4a3-fusion-targets.json"
+ },
+ "_language_discipline": "Nothing here asserts efficacy, selectivity, safety, a therapeutic window or clinical readiness for any agent, target or gene, and no such quantity is computed.",
+ "_offline": "CPU-only, pure stdlib, no network. Seeded and deterministic.",
+ "_what": "sensitivity analyses added in revision. Reads the committed inputs and primary artifact; writes no new measurement of any tumour.",
+ "class_B_evidence_split": {
+  "B1_primary_assay_retrieved": [
+   "CDKN2AIP",
+   "COX5A",
+   "GLS2",
+   "PDP1",
+   "SDHA",
+   "SMPX"
+  ],
+  "B2_by_the_string_rule_alone": [
+   "BIRC3",
+   "CCND1",
+   "ICAM1",
+   "LOXL2",
+   "MYH7",
+   "NOX1",
+   "SKP2",
+   "TH",
+   "VCAM1"
+  ],
+  "B2_review_assertion_only": [
+   "BIRC3",
+   "CCND1",
+   "ICAM1",
+   "LOXL2",
+   "MYH7",
+   "NOX1",
+   "SKP2",
+   "TH",
+   "VCAM1",
+   "VTN"
+  ],
+  "_question": "Class B mixes rows whose primary assay was retrieved with rows resting on a review's assertion, and it supplies 16 of the 19 genes in the headline aggregate.",
+  "_rule": "B2 = the catalogue row's citation begins 'Reviewed in' (no primary assay paper retrieved). VTN is assigned to B2 by hand, for the reason recorded in the source.",
+  "genes_the_string_rule_and_the_assignment_disagree_on": [
+   "VTN"
+  ],
+  "per_platform": {
+   "GPL3290": {
+    "A_plus_B1": {
+     "band": [
+      -0.41571,
+      0.48158
+     ],
+     "clears": true,
+     "clears_inflated": true,
+     "fraction_of_inflated_threshold": 1.908,
+     "fraction_of_threshold": 1.908,
+     "genes_not_readable": [],
+     "n_readable": 9,
+     "n_requested": 9,
+     "observed_delta": 0.91888,
+     "p_empirical_two_sided": 0.0015,
+     "rho_bar": -0.0161,
+     "threshold_inflated": 0.48158,
+     "variance_inflation_factor": 0.871
+    },
+    "A_plus_B_all_dna_binding": {
+     "band": [
+      -0.2919,
+      0.36237
+     ],
+     "clears": false,
+     "clears_inflated": false,
+     "fraction_of_inflated_threshold": 0.721,
+     "fraction_of_threshold": 0.911,
+     "genes_not_readable": [
+      "ICAM1",
+      "MYH7"
+     ],
+     "n_readable": 17,
+     "n_requested": 19,
+     "observed_delta": 0.33007,
+     "p_empirical_two_sided": 0.07448,
+     "rho_bar": 0.0372,
+     "threshold_inflated": 0.45778,
+     "variance_inflation_factor": 1.596
+    },
+    "B1_only": {
+     "band": [
+      -0.5231,
+      0.60649
+     ],
+     "clears": false,
+     "clears_inflated": false,
+     "fraction_of_inflated_threshold": 0.201,
+     "fraction_of_threshold": 0.201,
+     "genes_not_readable": [],
+     "n_readable": 6,
+     "n_requested": 6,
+     "observed_delta": 0.12195,
+     "p_empirical_two_sided": 0.73207,
+     "rho_bar": -0.0508,
+     "threshold_inflated": 0.60649,
+     "variance_inflation_factor": 0.746
+    },
+    "B2_only": {
+     "band": [
+      -0.4337,
+      0.5215
+     ],
+     "clears": false,
+     "clears_inflated": false,
+     "fraction_of_inflated_threshold": 0.626,
+     "fraction_of_threshold": 0.815,
+     "genes_not_readable": [
+      "ICAM1",
+      "MYH7"
+     ],
+     "n_readable": 8,
+     "n_requested": 10,
+     "observed_delta": -0.35365,
+     "p_empirical_two_sided": 0.10672,
+     "rho_bar": 0.0994,
+     "threshold_inflated": -0.56481,
+     "variance_inflation_factor": 1.696
+    }
+   },
+   "GPL6244": {
+    "A_plus_B1": {
+     "band": [
+      -0.19719,
+      0.15432
+     ],
+     "clears": true,
+     "clears_inflated": false,
+     "fraction_of_inflated_threshold": 0.731,
+     "fraction_of_threshold": 1.101,
+     "genes_not_readable": [],
+     "n_readable": 9,
+     "n_requested": 9,
+     "observed_delta": 0.1699,
+     "p_empirical_two_sided": 0.03874,
+     "rho_bar": 0.1586,
+     "threshold_inflated": 0.23243,
+     "variance_inflation_factor": 2.269
+    },
+    "A_plus_B_all_dna_binding": {
+     "band": [
+      -0.13579,
+      0.10255
+     ],
+     "clears": false,
+     "clears_inflated": false,
+     "fraction_of_inflated_threshold": 0.231,
+     "fraction_of_threshold": 0.393,
+     "genes_not_readable": [],
+     "n_readable": 19,
+     "n_requested": 19,
+     "observed_delta": 0.04026,
+     "p_empirical_two_sided": 0.33017,
+     "rho_bar": 0.1044,
+     "threshold_inflated": 0.17402,
+     "variance_inflation_factor": 2.88
+    },
+    "B1_only": {
+     "band": [
+      -0.24341,
+      0.20198
+     ],
+     "clears": false,
+     "clears_inflated": false,
+     "fraction_of_inflated_threshold": 0.138,
+     "fraction_of_threshold": 0.216,
+     "genes_not_readable": [],
+     "n_readable": 6,
+     "n_requested": 6,
+     "observed_delta": -0.05255,
+     "p_empirical_two_sided": 0.68083,
+     "rho_bar": 0.2929,
+     "threshold_inflated": -0.38211,
+     "variance_inflation_factor": 2.464
+    },
+    "B2_only": {
+     "band": [
+      -0.18789,
+      0.13886
+     ],
+     "clears": false,
+     "clears_inflated": false,
+     "fraction_of_inflated_threshold": 0.336,
+     "fraction_of_threshold": 0.407,
+     "genes_not_readable": [],
+     "n_readable": 10,
+     "n_requested": 10,
+     "observed_delta": -0.07641,
+     "p_empirical_two_sided": 0.44239,
+     "rho_bar": 0.0514,
+     "threshold_inflated": -0.22726,
+     "variance_inflation_factor": 1.463
+    }
+   }
+  }
+ },
+ "closed_form": {
+  "_question": "Is the resampled band reproduced by a closed form, and does that make the null an independence null?",
+  "_reading": "null_sd x sqrt(n) is constant across set size on both platforms, which is the signature of a null with no inter-gene correlation term. The band is therefore the sampling distribution of a mean of n independent gene-level contrasts.",
+  "_residual": "The 3-5% decline of null_sd x sqrt(n) at the largest set sizes is the finite-population correction for sampling without replacement from a 4,000-symbol pool: 1 - (n-1)/(N-1) with N = 4000 predicts the direction and roughly the magnitude.",
+  "per_platform": {
+   "GPL3290": {
+    "closed_form": "band = global_offset +/- 1.96 * sigma_platform / sqrt(n_readable)",
+    "global_offset": 0.0258,
+    "null_sd_x_sqrt_n_range": [
+     0.66235,
+     0.69693
+    ],
+    "null_sd_x_sqrt_n_spread_fraction": 0.051,
+    "sets": [
+     {
+      "band": [
+       -0.40588,
+       0.45998
+      ],
+      "closed_form_band": [
+       -0.39418,
+       0.44578
+      ],
+      "max_abs_edge_error": 0.0142,
+      "max_rel_edge_error": 0.0338,
+      "n": 10,
+      "null_sd": 0.21758,
+      "null_sd_x_sqrt_n": 0.68805,
+      "set": "G_brenca_TAF15_high_axon_guidance"
+     },
+     {
+      "band": [
+       -0.33573,
+       0.39705
+      ],
+      "closed_form_band": [
+       -0.32915,
+       0.38075
+      ],
+      "max_abs_edge_error": 0.0163,
+      "max_rel_edge_error": 0.0459,
+      "n": 14,
+      "null_sd": 0.18499,
+      "null_sd_x_sqrt_n": 0.69217,
+      "set": "B_native_nr4a3_dna_binding_targets"
+     },
+     {
+      "band": [
+       -0.29715,
+       0.37648
+      ],
+      "closed_form_band": [
+       -0.29631,
+       0.34791
+      ],
+      "max_abs_edge_error": 0.02857,
+      "max_rel_edge_error": 0.0887,
+      "n": 17,
+      "null_sd": 0.16903,
+      "null_sd_x_sqrt_n": 0.69693,
+      "set": "A_plus_B_all_dna_binding"
+     },
+     {
+      "band": [
+       -0.2853,
+       0.34814
+      ],
+      "closed_form_band": [
+       -0.28724,
+       0.33884
+      ],
+      "max_abs_edge_error": 0.0093,
+      "max_rel_edge_error": 0.0297,
+      "n": 18,
+      "null_sd": 0.16161,
+      "null_sd_x_sqrt_n": 0.68565,
+      "set": "D_filion_table1_emc_vs_137_sarcomas"
+     },
+     {
+      "band": [
+       -0.2853,
+       0.34814
+      ],
+      "closed_form_band": [
+       -0.28724,
+       0.33884
+      ],
+      "max_abs_edge_error": 0.0093,
+      "max_rel_edge_error": 0.0297,
+      "n": 18,
+      "null_sd": 0.16161,
+      "null_sd_x_sqrt_n": 0.68565,
+      "set": "E_filion_table2_overlap_with_subramanian"
+     },
+     {
+      "band": [
+       -0.13739,
+       0.21148
+      ],
+      "closed_form_band": [
+       -0.15011,
+       0.20171
+      ],
+      "max_abs_edge_error": 0.01272,
+      "max_rel_edge_error": 0.0723,
+      "n": 57,
+      "null_sd": 0.08845,
+      "null_sd_x_sqrt_n": 0.66778,
+      "set": "PPARG_pparg_curated_trrust_human"
+     },
+     {
+      "band": [
+       -0.07146,
+       0.13828
+      ],
+      "closed_form_band": [
+       -0.08019,
+       0.13179
+      ],
+      "max_abs_edge_error": 0.00873,
+      "max_rel_edge_error": 0.0824,
+      "n": 157,
+      "null_sd": 0.05372,
+      "null_sd_x_sqrt_n": 0.67311,
+      "set": "PPARG_pparg_KO_DOWN"
+     },
+     {
+      "band": [
+       -0.0636,
+       0.13357
+      ],
+      "closed_form_band": [
+       -0.07636,
+       0.12796
+      ],
+      "max_abs_edge_error": 0.01276,
+      "max_rel_edge_error": 0.1249,
+      "n": 169,
+      "null_sd": 0.05095,
+      "null_sd_x_sqrt_n": 0.66235,
+      "set": "PPARG_pparg_chip_chea"
+     },
+     {
+      "band": [
+       -0.06648,
+       0.13251
+      ],
+      "closed_form_band": [
+       -0.07431,
+       0.12591
+      ],
+      "max_abs_edge_error": 0.00783,
+      "max_rel_edge_error": 0.0782,
+      "n": 176,
+      "null_sd": 0.05,
+      "null_sd_x_sqrt_n": 0.66332,
+      "set": "PPARG_adipogenesis_process_proxy"
+     },
+     {
+      "band": [
+       -0.06123,
+       0.1309
+      ],
+      "closed_form_band": [
+       -0.06906,
+       0.12066
+      ],
+      "max_abs_edge_error": 0.01024,
+      "max_rel_edge_error": 0.1079,
+      "n": 196,
+      "null_sd": 0.04819,
+      "null_sd_x_sqrt_n": 0.67466,
+      "set": "PPARG_pparg_KO_UP_FALSIFIER"
+     },
+     {
+      "band": [
+       -0.05054,
+       0.12058
+      ],
+      "closed_form_band": [
+       -0.06177,
+       0.11337
+      ],
+      "max_abs_edge_error": 0.01123,
+      "max_rel_edge_error": 0.1282,
+      "n": 230,
+      "null_sd": 0.04378,
+      "null_sd_x_sqrt_n": 0.66396,
+      "set": "PPARG_pparg_OE_UP"
+     }
+    ],
+    "sigma_platform": 0.6776,
+    "worst_relative_band_edge_error": 0.1282
+   },
+   "GPL6244": {
+    "closed_form": "band = global_offset +/- 1.96 * sigma_platform / sqrt(n_readable)",
+    "global_offset": -0.0084,
+    "null_sd_x_sqrt_n_range": [
+     0.25282,
+     0.26832
+    ],
+    "null_sd_x_sqrt_n_spread_fraction": 0.0594,
+    "sets": [
+     {
+      "band": [
+       -0.19574,
+       0.14604
+      ],
+      "closed_form_band": [
+       -0.17017,
+       0.15337
+      ],
+      "max_abs_edge_error": 0.02557,
+      "max_rel_edge_error": 0.1581,
+      "n": 10,
+      "null_sd": 0.08425,
+      "null_sd_x_sqrt_n": 0.26642,
+      "set": "G_brenca_TAF15_high_axon_guidance"
+     },
+     {
+      "band": [
+       -0.15684,
+       0.11422
+      ],
+      "closed_form_band": [
+       -0.13629,
+       0.11949
+      ],
+      "max_abs_edge_error": 0.02055,
+      "max_rel_edge_error": 0.1607,
+      "n": 16,
+      "null_sd": 0.06708,
+      "null_sd_x_sqrt_n": 0.26832,
+      "set": "B_native_nr4a3_dna_binding_targets"
+     },
+     {
+      "band": [
+       -0.14184,
+       0.10465
+      ],
+      "closed_form_band": [
+       -0.12576,
+       0.10896
+      ],
+      "max_abs_edge_error": 0.01608,
+      "max_rel_edge_error": 0.137,
+      "n": 19,
+      "null_sd": 0.06084,
+      "null_sd_x_sqrt_n": 0.2652,
+      "set": "A_plus_B_all_dna_binding"
+     },
+     {
+      "band": [
+       -0.13995,
+       0.0978
+      ],
+      "closed_form_band": [
+       -0.12279,
+       0.10599
+      ],
+      "max_abs_edge_error": 0.01716,
+      "max_rel_edge_error": 0.15,
+      "n": 20,
+      "null_sd": 0.05973,
+      "null_sd_x_sqrt_n": 0.26712,
+      "set": "E_filion_table2_overlap_with_subramanian"
+     },
+     {
+      "band": [
+       -0.13736,
+       0.09472
+      ],
+      "closed_form_band": [
+       -0.12003,
+       0.10323
+      ],
+      "max_abs_edge_error": 0.01733,
+      "max_rel_edge_error": 0.1552,
+      "n": 21,
+      "null_sd": 0.05821,
+      "null_sd_x_sqrt_n": 0.26675,
+      "set": "D_filion_table1_emc_vs_137_sarcomas"
+     },
+     {
+      "band": [
+       -0.08698,
+       0.04448
+      ],
+      "closed_form_band": [
+       -0.07285,
+       0.05605
+      ],
+      "max_abs_edge_error": 0.01413,
+      "max_rel_edge_error": 0.2192,
+      "n": 63,
+      "null_sd": 0.03312,
+      "null_sd_x_sqrt_n": 0.26288,
+      "set": "PPARG_pparg_curated_trrust_human"
+     },
+     {
+      "band": [
+       -0.05482,
+       0.0173
+      ],
+      "closed_form_band": [
+       -0.04571,
+       0.02891
+      ],
+      "max_abs_edge_error": 0.01161,
+      "max_rel_edge_error": 0.3112,
+      "n": 188,
+      "null_sd": 0.01854,
+      "null_sd_x_sqrt_n": 0.25421,
+      "set": "PPARG_pparg_KO_DOWN"
+     },
+     {
+      "band": [
+       -0.05482,
+       0.0173
+      ],
+      "closed_form_band": [
+       -0.04571,
+       0.02891
+      ],
+      "max_abs_edge_error": 0.01161,
+      "max_rel_edge_error": 0.3112,
+      "n": 188,
+      "null_sd": 0.01854,
+      "null_sd_x_sqrt_n": 0.25421,
+      "set": "PPARG_pparg_chip_chea"
+     },
+     {
+      "band": [
+       -0.05533,
+       0.01735
+      ],
+      "closed_form_band": [
+       -0.04561,
+       0.02881
+      ],
+      "max_abs_edge_error": 0.01146,
+      "max_rel_edge_error": 0.308,
+      "n": 189,
+      "null_sd": 0.0186,
+      "null_sd_x_sqrt_n": 0.25571,
+      "set": "PPARG_adipogenesis_process_proxy"
+     },
+     {
+      "band": [
+       -0.05266,
+       0.01425
+      ],
+      "closed_form_band": [
+       -0.04206,
+       0.02526
+      ],
+      "max_abs_edge_error": 0.01101,
+      "max_rel_edge_error": 0.3271,
+      "n": 231,
+      "null_sd": 0.01695,
+      "null_sd_x_sqrt_n": 0.25762,
+      "set": "PPARG_pparg_KO_UP_FALSIFIER"
+     },
+     {
+      "band": [
+       -0.05069,
+       0.01221
+      ],
+      "closed_form_band": [
+       -0.04075,
+       0.02395
+      ],
+      "max_abs_edge_error": 0.01174,
+      "max_rel_edge_error": 0.3629,
+      "n": 250,
+      "null_sd": 0.01599,
+      "null_sd_x_sqrt_n": 0.25282,
+      "set": "PPARG_pparg_OE_UP"
+     }
+    ],
+    "sigma_platform": 0.261,
+    "worst_relative_band_edge_error": 0.3629
+   }
+  }
+ },
+ "composition_matched_nulls": {
+  "_method": "pool symbols are ranked into deciles on two properties measured on this platform \u2014 mean value across samples, and detection rate (the fraction of samples with a value). Each draw reproduces the real set's decile composition exactly, so the matched null differs from the uniform one only in composition.",
+  "_question": "The null matches on set size only. A published target list is biased toward well-measured genes; a uniform draw from mapped symbols is not.",
+  "per_platform": {
+   "GPL3290": {
+    "_decile_edges": {
+     "detection_rate_decile": [
+      [
+       0.0,
+       0.5625
+      ],
+      [
+       0.5625,
+       0.75
+      ],
+      [
+       0.75,
+       0.875
+      ],
+      [
+       0.875,
+       0.9375
+      ],
+      [
+       0.9375,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ]
+     ],
+     "expression_decile": [
+      [
+       -5.3757,
+       -1.963
+      ],
+      [
+       -1.9577,
+       -1.4127
+      ],
+      [
+       -1.4103,
+       -1.0626
+      ],
+      [
+       -1.0615,
+       -0.7972
+      ],
+      [
+       -0.7966,
+       -0.55
+      ],
+      [
+       -0.5498,
+       -0.3342
+      ],
+      [
+       -0.3339,
+       -0.1028
+      ],
+      [
+       -0.1027,
+       0.1695
+      ],
+      [
+       0.1696,
+       0.5961
+      ],
+      [
+       0.5993,
+       4.6739
+      ]
+     ]
+    },
+    "detection_rate_decile": {
+     "A_plus_B_all_dna_binding": {
+      "decile_composition": {
+       "1": 3,
+       "2": 1,
+       "3": 5,
+       "4": 8
+      },
+      "fraction_of_matched_threshold": 0.866,
+      "fraction_of_uniform_threshold": 0.877,
+      "matched_band": [
+       -0.28428,
+       0.38096
+      ],
+      "n": 17,
+      "observed_delta": 0.3301,
+      "p_empirical_two_sided": 0.09898,
+      "uniform_band": [
+       -0.29715,
+       0.37648
+      ]
+     },
+     "D_filion_table1_emc_vs_137_sarcomas": {
+      "decile_composition": {
+       "0": 1,
+       "1": 2,
+       "2": 6,
+       "3": 1,
+       "4": 8
+      },
+      "fraction_of_matched_threshold": 4.036,
+      "fraction_of_uniform_threshold": 4.246,
+      "matched_band": [
+       -0.32819,
+       0.36627
+      ],
+      "n": 18,
+      "observed_delta": 1.4783,
+      "p_empirical_two_sided": 0.00025,
+      "uniform_band": [
+       -0.2853,
+       0.34814
+      ]
+     }
+    },
+    "expression_decile": {
+     "A_plus_B_all_dna_binding": {
+      "decile_composition": {
+       "1": 4,
+       "2": 3,
+       "3": 3,
+       "5": 2,
+       "6": 1,
+       "7": 1,
+       "8": 2,
+       "9": 1
+      },
+      "fraction_of_matched_threshold": 1.056,
+      "fraction_of_uniform_threshold": 0.877,
+      "matched_band": [
+       -0.32017,
+       0.3125
+      ],
+      "n": 17,
+      "observed_delta": 0.3301,
+      "p_empirical_two_sided": 0.04699,
+      "uniform_band": [
+       -0.29715,
+       0.37648
+      ]
+     },
+     "D_filion_table1_emc_vs_137_sarcomas": {
+      "decile_composition": {
+       "2": 1,
+       "3": 1,
+       "4": 1,
+       "5": 1,
+       "7": 1,
+       "9": 13
+      },
+      "fraction_of_matched_threshold": 2.487,
+      "fraction_of_uniform_threshold": 4.246,
+      "matched_band": [
+       -0.21236,
+       0.59437
+      ],
+      "n": 18,
+      "observed_delta": 1.4783,
+      "p_empirical_two_sided": 0.00025,
+      "uniform_band": [
+       -0.2853,
+       0.34814
+      ]
+     }
+    }
+   },
+   "GPL6244": {
+    "_decile_edges": {
+     "detection_rate_decile": [
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ],
+      [
+       1.0,
+       1.0
+      ]
+     ],
+     "expression_decile": [
+      [
+       2.4545,
+       5.1521
+      ],
+      [
+       5.1546,
+       5.8885
+      ],
+      [
+       5.8894,
+       6.3713
+      ],
+      [
+       6.3718,
+       6.7523
+      ],
+      [
+       6.755,
+       7.0858
+      ],
+      [
+       7.0884,
+       7.4372
+      ],
+      [
+       7.4395,
+       7.8278
+      ],
+      [
+       7.8303,
+       8.2593
+      ],
+      [
+       8.2627,
+       8.8894
+      ],
+      [
+       8.8899,
+       12.634
+      ]
+     ]
+    },
+    "detection_rate_decile": {
+     "A_plus_B_all_dna_binding": {
+      "decile_composition": {
+       "0": 19
+      },
+      "fraction_of_matched_threshold": 0.36,
+      "fraction_of_uniform_threshold": 0.385,
+      "matched_band": [
+       -0.10646,
+       0.11196
+      ],
+      "n": 19,
+      "observed_delta": 0.0403,
+      "p_empirical_two_sided": 0.45864,
+      "uniform_band": [
+       -0.14184,
+       0.10465
+      ]
+     },
+     "D_filion_table1_emc_vs_137_sarcomas": {
+      "decile_composition": {
+       "0": 21
+      },
+      "fraction_of_matched_threshold": 10.571,
+      "fraction_of_uniform_threshold": 11.942,
+      "matched_band": [
+       -0.10081,
+       0.107
+      ],
+      "n": 21,
+      "observed_delta": 1.1311,
+      "p_empirical_two_sided": 0.00025,
+      "uniform_band": [
+       -0.13736,
+       0.09472
+      ]
+     }
+    },
+    "expression_decile": {
+     "A_plus_B_all_dna_binding": {
+      "decile_composition": {
+       "0": 1,
+       "1": 1,
+       "2": 3,
+       "3": 2,
+       "4": 2,
+       "6": 3,
+       "7": 1,
+       "8": 4,
+       "9": 2
+      },
+      "fraction_of_matched_threshold": 0.417,
+      "fraction_of_uniform_threshold": 0.385,
+      "matched_band": [
+       -0.1514,
+       0.09665
+      ],
+      "n": 19,
+      "observed_delta": 0.0403,
+      "p_empirical_two_sided": 0.26918,
+      "uniform_band": [
+       -0.14184,
+       0.10465
+      ]
+     },
+     "D_filion_table1_emc_vs_137_sarcomas": {
+      "decile_composition": {
+       "0": 1,
+       "1": 2,
+       "2": 5,
+       "3": 3,
+       "4": 1,
+       "5": 3,
+       "6": 1,
+       "7": 2,
+       "8": 1,
+       "9": 2
+      },
+      "fraction_of_matched_threshold": 11.455,
+      "fraction_of_uniform_threshold": 11.942,
+      "matched_band": [
+       -0.12774,
+       0.09874
+      ],
+      "n": 21,
+      "observed_delta": 1.1311,
+      "p_empirical_two_sided": 0.00025,
+      "uniform_band": [
+       -0.13736,
+       0.09472
+      ]
+     }
+    }
+   }
+  }
+ },
+ "detectability": {
+  "_method": "the set-level delta with a confidence interval obtained by inverting the exact label-permutation test (the interval of shifts applied to the EMC arm that the two-sided permutation test does not reject at 0.05), and the smallest true shift this design would place outside the size-matched band with 80% probability, computed as threshold + 0.8416 * SE of the observed contrast.",
+  "_question": "Replace 'a bounded negative, not an underpowered one' with an interval.",
+  "_this_is_not_a_power_calculation": "no alternative hypothesis is assumed for the confidence interval; the 80% figure is a detectability statement about a shift of the set score, not about a biological effect size.",
+  "per_platform": {
+   "GPL3290": {
+    "A_plus_B_all_dna_binding": {
+     "ci_method": "exact, all assignments enumerated",
+     "n_distinct_assignments": 8008,
+     "n_readable": 17,
+     "observed_delta": 0.33007,
+     "permutation_ci_95": [
+      0.09207,
+      0.56499
+     ],
+     "reading": "effects on this set score larger than the last figure would fall outside the size-matched band four times in five; smaller ones are not excluded by this design.",
+     "se_of_contrast": 0.10447,
+     "size_matched_threshold": 0.37648,
+     "smallest_shift_outside_band_with_80pc_probability": 0.4644
+    },
+    "B_native_nr4a3_dna_binding_targets": {
+     "ci_method": "exact, all assignments enumerated",
+     "n_distinct_assignments": 8008,
+     "n_readable": 14,
+     "observed_delta": -0.14532,
+     "permutation_ci_95": [
+      -0.41155,
+      0.11011
+     ],
+     "reading": "effects on this set score larger than the last figure would fall outside the size-matched band four times in five; smaller ones are not excluded by this design.",
+     "se_of_contrast": 0.10366,
+     "size_matched_threshold": -0.33573,
+     "smallest_shift_outside_band_with_80pc_probability": 0.423
+    },
+    "D_filion_table1_emc_vs_137_sarcomas": {
+     "ci_method": "exact, all assignments enumerated",
+     "n_distinct_assignments": 8008,
+     "n_readable": 18,
+     "observed_delta": 1.47825,
+     "permutation_ci_95": [
+      0.83715,
+      2.10324
+     ],
+     "reading": "effects on this set score larger than the last figure would fall outside the size-matched band four times in five; smaller ones are not excluded by this design.",
+     "se_of_contrast": 0.26626,
+     "size_matched_threshold": 0.34814,
+     "smallest_shift_outside_band_with_80pc_probability": 0.5722
+    }
+   },
+   "GPL6244": {
+    "A_plus_B_all_dna_binding": {
+     "ci_method": "sampled \u2014 20,000 seeded assignments per shift, because the complete enumeration at this arm split is too large to invert",
+     "n_distinct_assignments": 1623160,
+     "n_readable": 19,
+     "observed_delta": 0.04026,
+     "permutation_ci_95": [
+      -0.08156,
+      0.16281
+     ],
+     "reading": "effects on this set score larger than the last figure would fall outside the size-matched band four times in five; smaller ones are not excluded by this design.",
+     "se_of_contrast": 0.05327,
+     "size_matched_threshold": 0.10465,
+     "smallest_shift_outside_band_with_80pc_probability": 0.1495
+    },
+    "B_native_nr4a3_dna_binding_targets": {
+     "ci_method": "sampled \u2014 20,000 seeded assignments per shift, because the complete enumeration at this arm split is too large to invert",
+     "n_distinct_assignments": 1623160,
+     "n_readable": 16,
+     "observed_delta": -0.06746,
+     "permutation_ci_95": [
+      -0.17767,
+      0.04335
+     ],
+     "reading": "effects on this set score larger than the last figure would fall outside the size-matched band four times in five; smaller ones are not excluded by this design.",
+     "se_of_contrast": 0.06805,
+     "size_matched_threshold": -0.15684,
+     "smallest_shift_outside_band_with_80pc_probability": 0.2141
+    },
+    "D_filion_table1_emc_vs_137_sarcomas": {
+     "ci_method": "sampled \u2014 20,000 seeded assignments per shift, because the complete enumeration at this arm split is too large to invert",
+     "n_distinct_assignments": 1623160,
+     "n_readable": 21,
+     "observed_delta": 1.13113,
+     "permutation_ci_95": [
+      0.89456,
+      1.37254
+     ],
+     "reading": "effects on this set score larger than the last figure would fall outside the size-matched band four times in five; smaller ones are not excluded by this design.",
+     "se_of_contrast": 0.19062,
+     "size_matched_threshold": 0.09472,
+     "smallest_shift_outside_band_with_80pc_probability": 0.2551
+    }
+   }
+  }
+ },
+ "inter_gene_correlation": {
+  "_method": "rho-bar is the mean of all pairwise Pearson correlations between member genes' per-sample z. Two versions are reported. `rho_bar_raw` uses the values as they are, over both arms together. `rho_bar_residual` centres each gene within each arm first, so a correlation that is only the two arms differing cannot inflate it \u2014 this is the quantity a correlation-corrected competitive test needs, and it is the one the inflated threshold uses. VIF = 1 + (n-1)*rho-bar; the inflated threshold is the uninflated one times sqrt(VIF) when VIF > 1.",
+  "_question": "How much does the independence null understate the threshold for a set whose genes are correlated?",
+  "per_platform": {
+   "GPL3290": {
+    "A_plus_B_all_dna_binding": {
+     "clears_inflated": false,
+     "clears_uninflated": false,
+     "fraction_of_inflated_threshold": 0.694,
+     "fraction_of_uninflated_threshold": 0.877,
+     "n_readable": 17,
+     "observed_delta": 0.3301,
+     "rho_bar": 0.0372,
+     "rho_bar_raw": 0.0177,
+     "threshold_inflated": 0.47561,
+     "threshold_uninflated": 0.37648,
+     "variance_inflation_factor": 1.596
+    },
+    "B_native_nr4a3_dna_binding_targets": {
+     "clears_inflated": false,
+     "clears_uninflated": false,
+     "fraction_of_inflated_threshold": 0.388,
+     "fraction_of_uninflated_threshold": 0.433,
+     "n_readable": 14,
+     "observed_delta": -0.1453,
+     "rho_bar": 0.0186,
+     "rho_bar_raw": -0.0028,
+     "threshold_inflated": -0.37412,
+     "threshold_uninflated": -0.33573,
+     "variance_inflation_factor": 1.242
+    },
+    "D_filion_table1_emc_vs_137_sarcomas": {
+     "clears_inflated": true,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 2.348,
+     "fraction_of_uninflated_threshold": 4.246,
+     "n_readable": 18,
+     "observed_delta": 1.4783,
+     "rho_bar": 0.1335,
+     "rho_bar_raw": 0.298,
+     "threshold_inflated": 0.62954,
+     "threshold_uninflated": 0.34814,
+     "variance_inflation_factor": 3.27
+    },
+    "E_filion_table2_overlap_with_subramanian": {
+     "clears_inflated": true,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 3.11,
+     "fraction_of_uninflated_threshold": 5.702,
+     "n_readable": 18,
+     "observed_delta": 1.985,
+     "rho_bar": 0.1388,
+     "rho_bar_raw": 0.6978,
+     "threshold_inflated": 0.63817,
+     "threshold_uninflated": 0.34814,
+     "variance_inflation_factor": 3.36
+    },
+    "G_brenca_TAF15_high_axon_guidance": {
+     "clears_inflated": false,
+     "clears_uninflated": false,
+     "fraction_of_inflated_threshold": 0.178,
+     "fraction_of_uninflated_threshold": 0.264,
+     "n_readable": 10,
+     "observed_delta": 0.1214,
+     "rho_bar": 0.1343,
+     "rho_bar_raw": 0.0728,
+     "threshold_inflated": 0.68366,
+     "threshold_uninflated": 0.45998,
+     "variance_inflation_factor": 2.209
+    },
+    "PPARG_adipogenesis_process_proxy": {
+     "clears_inflated": false,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 0.494,
+     "fraction_of_uninflated_threshold": 1.647,
+     "n_readable": 176,
+     "observed_delta": 0.2183,
+     "rho_bar": 0.0578,
+     "rho_bar_raw": 0.086,
+     "threshold_inflated": 0.44161,
+     "threshold_uninflated": 0.13251,
+     "variance_inflation_factor": 11.107
+    },
+    "PPARG_pparg_KO_DOWN": {
+     "clears_inflated": false,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 0.647,
+     "fraction_of_uninflated_threshold": 1.605,
+     "n_readable": 157,
+     "observed_delta": 0.2219,
+     "rho_bar": 0.033,
+     "rho_bar_raw": 0.0356,
+     "threshold_inflated": 0.34288,
+     "threshold_uninflated": 0.13828,
+     "variance_inflation_factor": 6.148
+    },
+    "PPARG_pparg_KO_UP_FALSIFIER": {
+     "clears_inflated": false,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 0.51,
+     "fraction_of_uninflated_threshold": 1.826,
+     "n_readable": 196,
+     "observed_delta": -0.1118,
+     "rho_bar": 0.0605,
+     "rho_bar_raw": 0.0484,
+     "threshold_inflated": -0.2191,
+     "threshold_uninflated": -0.06123,
+     "variance_inflation_factor": 12.804
+    },
+    "PPARG_pparg_OE_UP": {
+     "clears_inflated": false,
+     "clears_uninflated": false,
+     "fraction_of_inflated_threshold": 0.016,
+     "fraction_of_uninflated_threshold": 0.04,
+     "n_readable": 230,
+     "observed_delta": -0.002,
+     "rho_bar": 0.0236,
+     "rho_bar_raw": 0.0149,
+     "threshold_inflated": -0.12794,
+     "threshold_uninflated": -0.05054,
+     "variance_inflation_factor": 6.408
+    },
+    "PPARG_pparg_chip_chea": {
+     "clears_inflated": false,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 0.639,
+     "fraction_of_uninflated_threshold": 2.2,
+     "n_readable": 169,
+     "observed_delta": 0.2938,
+     "rho_bar": 0.0646,
+     "rho_bar_raw": 0.085,
+     "threshold_inflated": 0.45976,
+     "threshold_uninflated": 0.13357,
+     "variance_inflation_factor": 11.848
+    },
+    "PPARG_pparg_curated_trrust_human": {
+     "clears_inflated": false,
+     "clears_uninflated": false,
+     "fraction_of_inflated_threshold": 0.577,
+     "fraction_of_uninflated_threshold": 0.779,
+     "n_readable": 57,
+     "observed_delta": 0.1647,
+     "rho_bar": 0.0146,
+     "rho_bar_raw": 0.0104,
+     "threshold_inflated": 0.28533,
+     "threshold_uninflated": 0.21148,
+     "variance_inflation_factor": 1.82
+    }
+   },
+   "GPL6244": {
+    "A_plus_B_all_dna_binding": {
+     "clears_inflated": false,
+     "clears_uninflated": false,
+     "fraction_of_inflated_threshold": 0.227,
+     "fraction_of_uninflated_threshold": 0.385,
+     "n_readable": 19,
+     "observed_delta": 0.0403,
+     "rho_bar": 0.1044,
+     "rho_bar_raw": 0.0227,
+     "threshold_inflated": 0.17759,
+     "threshold_uninflated": 0.10465,
+     "variance_inflation_factor": 2.88
+    },
+    "B_native_nr4a3_dna_binding_targets": {
+     "clears_inflated": false,
+     "clears_uninflated": false,
+     "fraction_of_inflated_threshold": 0.248,
+     "fraction_of_uninflated_threshold": 0.43,
+     "n_readable": 16,
+     "observed_delta": -0.0675,
+     "rho_bar": 0.1334,
+     "rho_bar_raw": 0.0249,
+     "threshold_inflated": -0.27173,
+     "threshold_uninflated": -0.15684,
+     "variance_inflation_factor": 3.002
+    },
+    "D_filion_table1_emc_vs_137_sarcomas": {
+     "clears_inflated": true,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 6.318,
+     "fraction_of_uninflated_threshold": 11.942,
+     "n_readable": 21,
+     "observed_delta": 1.1311,
+     "rho_bar": 0.1286,
+     "rho_bar_raw": 0.3793,
+     "threshold_inflated": 0.17902,
+     "threshold_uninflated": 0.09472,
+     "variance_inflation_factor": 3.572
+    },
+    "E_filion_table2_overlap_with_subramanian": {
+     "clears_inflated": true,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 3.649,
+     "fraction_of_uninflated_threshold": 9.133,
+     "n_readable": 20,
+     "observed_delta": 0.8932,
+     "rho_bar": 0.277,
+     "rho_bar_raw": 0.3921,
+     "threshold_inflated": 0.24476,
+     "threshold_uninflated": 0.0978,
+     "variance_inflation_factor": 6.263
+    },
+    "G_brenca_TAF15_high_axon_guidance": {
+     "clears_inflated": true,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 2.382,
+     "fraction_of_uninflated_threshold": 2.542,
+     "n_readable": 10,
+     "observed_delta": -0.4975,
+     "rho_bar": 0.0154,
+     "rho_bar_raw": 0.067,
+     "threshold_inflated": -0.20887,
+     "threshold_uninflated": -0.19574,
+     "variance_inflation_factor": 1.139
+    },
+    "PPARG_adipogenesis_process_proxy": {
+     "clears_inflated": false,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 0.281,
+     "fraction_of_uninflated_threshold": 2.726,
+     "n_readable": 189,
+     "observed_delta": 0.0473,
+     "rho_bar": 0.4948,
+     "rho_bar_raw": 0.1359,
+     "threshold_inflated": 0.16823,
+     "threshold_uninflated": 0.01735,
+     "variance_inflation_factor": 94.015
+    },
+    "PPARG_pparg_KO_DOWN": {
+     "clears_inflated": false,
+     "clears_uninflated": false,
+     "fraction_of_inflated_threshold": 0.006,
+     "fraction_of_uninflated_threshold": 0.017,
+     "n_readable": 188,
+     "observed_delta": 0.0003,
+     "rho_bar": 0.0381,
+     "rho_bar_raw": 0.0547,
+     "threshold_inflated": 0.04934,
+     "threshold_uninflated": 0.0173,
+     "variance_inflation_factor": 8.132
+    },
+    "PPARG_pparg_KO_UP_FALSIFIER": {
+     "clears_inflated": false,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 0.256,
+     "fraction_of_uninflated_threshold": 1.018,
+     "n_readable": 231,
+     "observed_delta": -0.0536,
+     "rho_bar": 0.0645,
+     "rho_bar_raw": 0.0801,
+     "threshold_inflated": -0.20961,
+     "threshold_uninflated": -0.05266,
+     "variance_inflation_factor": 15.844
+    },
+    "PPARG_pparg_OE_UP": {
+     "clears_inflated": false,
+     "clears_uninflated": false,
+     "fraction_of_inflated_threshold": 0.092,
+     "fraction_of_uninflated_threshold": 0.47,
+     "n_readable": 250,
+     "observed_delta": -0.0238,
+     "rho_bar": 0.0999,
+     "rho_bar_raw": 0.0218,
+     "threshold_inflated": -0.2579,
+     "threshold_uninflated": -0.05069,
+     "variance_inflation_factor": 25.885
+    },
+    "PPARG_pparg_chip_chea": {
+     "clears_inflated": false,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 0.6,
+     "fraction_of_uninflated_threshold": 4.624,
+     "n_readable": 188,
+     "observed_delta": 0.08,
+     "rho_bar": 0.3126,
+     "rho_bar_raw": 0.0579,
+     "threshold_inflated": 0.13339,
+     "threshold_uninflated": 0.0173,
+     "variance_inflation_factor": 59.449
+    },
+    "PPARG_pparg_curated_trrust_human": {
+     "clears_inflated": false,
+     "clears_uninflated": true,
+     "fraction_of_inflated_threshold": 0.376,
+     "fraction_of_uninflated_threshold": 1.021,
+     "n_readable": 63,
+     "observed_delta": 0.0454,
+     "rho_bar": 0.1028,
+     "rho_bar_raw": 0.0241,
+     "threshold_inflated": 0.12077,
+     "threshold_uninflated": 0.04448,
+     "variance_inflation_factor": 7.372
+    }
+   }
+  },
+  "\u26a0_why_both": "for a set that really does separate the arms, the raw version counts the set's own effect as co-regulation and manufactures a large inflation. Set D is the worked example: raw rho-bar is several times the residual one."
+ },
+ "muscle_marker_nulls": {
+  "_note": "MYH7 is also a class-B member of this paper's own target catalogue, so its flatness cannot be read purely as evidence about admixture.",
+  "_question": "The muscle-admixture control reports four percentile differences with no null. Put them through the same size-1 null the class-A genes face.",
+  "per_platform": {
+   "GPL3290": {
+    "ACTA1": {
+     "delta_mean_z": -0.4538,
+     "n_EMC": 8,
+     "n_comparator": 4,
+     "outside_band": false,
+     "p_empirical_two_sided": 0.35826,
+     "size_1_band": [
+      -1.44986,
+      1.48601
+     ]
+    },
+    "ENO3": {
+     "delta_mean_z": 3.8113,
+     "n_EMC": 10,
+     "n_comparator": 6,
+     "outside_band": true,
+     "p_empirical_two_sided": 0.00137,
+     "size_1_band": [
+      -1.4092,
+      1.40647
+     ]
+    },
+    "MYH7": {
+     "state": "not readable on this platform"
+    },
+    "MYL1": {
+     "delta_mean_z": 0.6801,
+     "n_EMC": 10,
+     "n_comparator": 6,
+     "outside_band": false,
+     "p_empirical_two_sided": 0.2522,
+     "size_1_band": [
+      -1.4092,
+      1.40647
+     ]
+    },
+    "PYGM": {
+     "delta_mean_z": -2.5774,
+     "n_EMC": 10,
+     "n_comparator": 6,
+     "outside_band": true,
+     "p_empirical_two_sided": 0.00549,
+     "size_1_band": [
+      -1.4092,
+      1.40647
+     ]
+    }
+   },
+   "GPL6244": {
+    "ACTA1": {
+     "delta_mean_z": -0.28,
+     "n_EMC": 6,
+     "n_comparator": 29,
+     "outside_band": false,
+     "p_empirical_two_sided": 0.16096,
+     "size_1_band": [
+      -0.66089,
+      0.50545
+     ]
+    },
+    "ENO3": {
+     "delta_mean_z": 0.8074,
+     "n_EMC": 6,
+     "n_comparator": 29,
+     "outside_band": true,
+     "p_empirical_two_sided": 0.02349,
+     "size_1_band": [
+      -0.66089,
+      0.50545
+     ]
+    },
+    "MYH7": {
+     "delta_mean_z": -0.1658,
+     "n_EMC": 6,
+     "n_comparator": 29,
+     "outside_band": false,
+     "p_empirical_two_sided": 0.29393,
+     "size_1_band": [
+      -0.66089,
+      0.50545
+     ]
+    },
+    "MYL1": {
+     "delta_mean_z": -0.5133,
+     "n_EMC": 6,
+     "n_comparator": 29,
+     "outside_band": false,
+     "p_empirical_two_sided": 0.06373,
+     "size_1_band": [
+      -0.66089,
+      0.50545
+     ]
+    },
+    "PYGM": {
+     "delta_mean_z": 0.3438,
+     "n_EMC": 6,
+     "n_comparator": 29,
+     "outside_band": false,
+     "p_empirical_two_sided": 0.10547,
+     "size_1_band": [
+      -0.66089,
+      0.50545
+     ]
+    }
+   }
+  }
+ },
+ "parity_with_primary_artifact": {
+  "_what": "every scored set's delta re-derived here and compared with the committed value",
+  "agrees": true,
+  "rows": [
+   {
+    "abs_difference": 0.0,
+    "committed": 0.0403,
+    "platform": "GPL6244",
+    "recomputed": 0.04026,
+    "set": "A_plus_B_all_dna_binding"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": -0.0675,
+    "platform": "GPL6244",
+    "recomputed": -0.06746,
+    "set": "B_native_nr4a3_dna_binding_targets"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 1.1311,
+    "platform": "GPL6244",
+    "recomputed": 1.13113,
+    "set": "D_filion_table1_emc_vs_137_sarcomas"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 0.8932,
+    "platform": "GPL6244",
+    "recomputed": 0.89322,
+    "set": "E_filion_table2_overlap_with_subramanian"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": -0.4975,
+    "platform": "GPL6244",
+    "recomputed": -0.49752,
+    "set": "G_brenca_TAF15_high_axon_guidance"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 0.0473,
+    "platform": "GPL6244",
+    "recomputed": 0.04729,
+    "set": "PPARG_adipogenesis_process_proxy"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 0.0003,
+    "platform": "GPL6244",
+    "recomputed": 0.00026,
+    "set": "PPARG_pparg_KO_DOWN"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": -0.0536,
+    "platform": "GPL6244",
+    "recomputed": -0.05365,
+    "set": "PPARG_pparg_KO_UP_FALSIFIER"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": -0.0238,
+    "platform": "GPL6244",
+    "recomputed": -0.02381,
+    "set": "PPARG_pparg_OE_UP"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 0.08,
+    "platform": "GPL6244",
+    "recomputed": 0.08003,
+    "set": "PPARG_pparg_chip_chea"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 0.0454,
+    "platform": "GPL6244",
+    "recomputed": 0.04545,
+    "set": "PPARG_pparg_curated_trrust_human"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 0.3301,
+    "platform": "GPL3290",
+    "recomputed": 0.33007,
+    "set": "A_plus_B_all_dna_binding"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": -0.1453,
+    "platform": "GPL3290",
+    "recomputed": -0.14532,
+    "set": "B_native_nr4a3_dna_binding_targets"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 1.4783,
+    "platform": "GPL3290",
+    "recomputed": 1.47825,
+    "set": "D_filion_table1_emc_vs_137_sarcomas"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 1.985,
+    "platform": "GPL3290",
+    "recomputed": 1.98496,
+    "set": "E_filion_table2_overlap_with_subramanian"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 0.1214,
+    "platform": "GPL3290",
+    "recomputed": 0.12139,
+    "set": "G_brenca_TAF15_high_axon_guidance"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 0.2183,
+    "platform": "GPL3290",
+    "recomputed": 0.21825,
+    "set": "PPARG_adipogenesis_process_proxy"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 0.2219,
+    "platform": "GPL3290",
+    "recomputed": 0.22194,
+    "set": "PPARG_pparg_KO_DOWN"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": -0.1118,
+    "platform": "GPL3290",
+    "recomputed": -0.11177,
+    "set": "PPARG_pparg_KO_UP_FALSIFIER"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": -0.002,
+    "platform": "GPL3290",
+    "recomputed": -0.00199,
+    "set": "PPARG_pparg_OE_UP"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 0.2938,
+    "platform": "GPL3290",
+    "recomputed": 0.29377,
+    "set": "PPARG_pparg_chip_chea"
+   },
+   {
+    "abs_difference": 0.0,
+    "committed": 0.1647,
+    "platform": "GPL3290",
+    "recomputed": 0.16474,
+    "set": "PPARG_pparg_curated_trrust_human"
+   }
+  ],
+  "worst_abs_difference": 0.0
+ },
+ "per_gene_missingness_nulls": {
+  "_method": "for each gene, the size-1 null is redrawn over the same 4,000-symbol pool restricted to the samples on which that gene has a value, so the null carries the gene's own arm sizes. A pool symbol missing from those samples is dropped from that draw, exactly as the real gene would be.",
+  "_question": "The size-1 band is drawn once per platform. Genes measured on fewer samples have a wider sampling distribution and are graded against a band that is too narrow for them.",
+  "per_platform": {
+   "GPL3290": {
+    "ENO3": {
+     "band_width_ratio_own_over_platform": 1.034,
+     "n_EMC": 10,
+     "n_comparator": 6,
+     "observed_delta": 3.81128,
+     "outside_own_band": true,
+     "outside_platform_band": true,
+     "own_missingness_band": [
+      -1.4092,
+      1.40647
+     ],
+     "p_empirical_two_sided_own_band": 0.00137,
+     "platform_wide_band": [
+      -1.31352,
+      1.40969
+     ]
+    },
+    "NR4A3": {
+     "n_EMC": 9,
+     "n_comparator": 2,
+     "state": "NOT_MEASURABLE \u2014 below the three-per-arm floor"
+    },
+    "PLAGL1": {
+     "band_width_ratio_own_over_platform": 1.025,
+     "n_EMC": 8,
+     "n_comparator": 6,
+     "observed_delta": -2.13403,
+     "outside_own_band": true,
+     "outside_platform_band": true,
+     "own_missingness_band": [
+      -1.37486,
+      1.41577
+     ],
+     "p_empirical_two_sided_own_band": 0.01156,
+     "platform_wide_band": [
+      -1.31352,
+      1.40969
+     ]
+    },
+    "PPARG": {
+     "band_width_ratio_own_over_platform": 1.016,
+     "n_EMC": 10,
+     "n_comparator": 5,
+     "observed_delta": 2.48094,
+     "outside_own_band": true,
+     "outside_platform_band": true,
+     "own_missingness_band": [
+      -1.40842,
+      1.35956
+     ],
+     "p_empirical_two_sided_own_band": 0.00975,
+     "platform_wide_band": [
+      -1.31352,
+      1.40969
+     ]
+    },
+    "SEMA3C": {
+     "band_width_ratio_own_over_platform": 1.034,
+     "n_EMC": 10,
+     "n_comparator": 6,
+     "observed_delta": 0.62283,
+     "outside_own_band": false,
+     "outside_platform_band": false,
+     "own_missingness_band": [
+      -1.4092,
+      1.40647
+     ],
+     "p_empirical_two_sided_own_band": 0.2783,
+     "platform_wide_band": [
+      -1.31352,
+      1.40969
+     ]
+    },
+    "SGK1": {
+     "band_width_ratio_own_over_platform": 1.034,
+     "n_EMC": 10,
+     "n_comparator": 6,
+     "observed_delta": 0.6156,
+     "outside_own_band": false,
+     "outside_platform_band": false,
+     "own_missingness_band": [
+      -1.4092,
+      1.40647
+     ],
+     "p_empirical_two_sided_own_band": 0.28077,
+     "platform_wide_band": [
+      -1.31352,
+      1.40969
+     ]
+    }
+   },
+   "GPL6244": {
+    "ENO3": {
+     "band_width_ratio_own_over_platform": 1.028,
+     "n_EMC": 6,
+     "n_comparator": 29,
+     "observed_delta": 0.80745,
+     "outside_own_band": true,
+     "outside_platform_band": true,
+     "own_missingness_band": [
+      -0.66089,
+      0.50545
+     ],
+     "p_empirical_two_sided_own_band": 0.02349,
+     "platform_wide_band": [
+      -0.60637,
+      0.52874
+     ]
+    },
+    "NR4A3": {
+     "band_width_ratio_own_over_platform": 1.028,
+     "n_EMC": 6,
+     "n_comparator": 29,
+     "observed_delta": 0.7415,
+     "outside_own_band": true,
+     "outside_platform_band": true,
+     "own_missingness_band": [
+      -0.66089,
+      0.50545
+     ],
+     "p_empirical_two_sided_own_band": 0.02749,
+     "platform_wide_band": [
+      -0.60637,
+      0.52874
+     ]
+    },
+    "PLAGL1": {
+     "band_width_ratio_own_over_platform": 1.028,
+     "n_EMC": 6,
+     "n_comparator": 29,
+     "observed_delta": -0.42345,
+     "outside_own_band": false,
+     "outside_platform_band": false,
+     "own_missingness_band": [
+      -0.66089,
+      0.50545
+     ],
+     "p_empirical_two_sided_own_band": 0.08548,
+     "platform_wide_band": [
+      -0.60637,
+      0.52874
+     ]
+    },
+    "PPARG": {
+     "band_width_ratio_own_over_platform": 1.028,
+     "n_EMC": 6,
+     "n_comparator": 29,
+     "observed_delta": 0.30713,
+     "outside_own_band": false,
+     "outside_platform_band": false,
+     "own_missingness_band": [
+      -0.66089,
+      0.50545
+     ],
+     "p_empirical_two_sided_own_band": 0.12597,
+     "platform_wide_band": [
+      -0.60637,
+      0.52874
+     ]
+    },
+    "SEMA3C": {
+     "band_width_ratio_own_over_platform": 1.028,
+     "n_EMC": 6,
+     "n_comparator": 29,
+     "observed_delta": 0.72978,
+     "outside_own_band": true,
+     "outside_platform_band": true,
+     "own_missingness_band": [
+      -0.66089,
+      0.50545
+     ],
+     "p_empirical_two_sided_own_band": 0.02774,
+     "platform_wide_band": [
+      -0.60637,
+      0.52874
+     ]
+    },
+    "SGK1": {
+     "band_width_ratio_own_over_platform": 1.028,
+     "n_EMC": 6,
+     "n_comparator": 29,
+     "observed_delta": -0.18074,
+     "outside_own_band": false,
+     "outside_platform_band": false,
+     "own_missingness_band": [
+      -0.66089,
+      0.50545
+     ],
+     "p_empirical_two_sided_own_band": 0.26918,
+     "platform_wide_band": [
+      -0.60637,
+      0.52874
+     ]
+    }
+   }
+  }
+ },
+ "seed_sensitivity": {
+  "_question": "How much of the reported threshold is Monte-Carlo noise in the 4,000 draws?",
+  "n_seeds": 20,
+  "per_platform": {
+   "GPL3290": {
+    "A_plus_B_all_dna_binding": {
+     "committed_q975": 0.37648,
+     "fraction_of_threshold_range": [
+      0.886,
+      0.936
+     ],
+     "mean_q975_over_seeds": 0.36018,
+     "n": 17,
+     "range_q975": [
+      0.35279,
+      0.3727
+     ],
+     "relative_sd": 0.0156,
+     "sd_q975_over_seeds": 0.00562
+    },
+    "D_filion_table1_emc_vs_137_sarcomas": {
+     "committed_q975": 0.34814,
+     "fraction_of_threshold_range": [
+      4.086,
+      4.377
+     ],
+     "mean_q975_over_seeds": 0.35201,
+     "n": 18,
+     "range_q975": [
+      0.33775,
+      0.36175
+     ],
+     "relative_sd": 0.0193,
+     "sd_q975_over_seeds": 0.0068
+    }
+   },
+   "GPL6244": {
+    "A_plus_B_all_dna_binding": {
+     "committed_q975": 0.10465,
+     "fraction_of_threshold_range": [
+      0.385,
+      0.424
+     ],
+     "mean_q975_over_seeds": 0.10009,
+     "n": 19,
+     "range_q975": [
+      0.09507,
+      0.10476
+     ],
+     "relative_sd": 0.0254,
+     "sd_q975_over_seeds": 0.00255
+    },
+    "D_filion_table1_emc_vs_137_sarcomas": {
+     "committed_q975": 0.09472,
+     "fraction_of_threshold_range": [
+      11.3,
+      12.719
+     ],
+     "mean_q975_over_seeds": 0.09369,
+     "n": 21,
+     "range_q975": [
+      0.08893,
+      0.1001
+     ],
+     "relative_sd": 0.0311,
+     "sd_q975_over_seeds": 0.00292
+    }
+   }
+  },
+  "\u26a0_what_this_does_not_bound": "pool-composition error. The committed artifact carries the 4,000 symbols that were drawn and not the platform universe they were drawn from, so a second POOL cannot be drawn here. This is the spread over draw seeds at a fixed pool only."
+ },
+ "set_D_without_genes_shared_with_set_E": {
+  "_question": "Set D is offered as an independent benchmark. It shares genes with set E, which is defined from a top-50 list derived on GPL3290 itself.",
+  "per_platform": {
+   "GPL3290": {
+    "full": {
+     "band": [
+      -0.27961,
+      0.3573
+     ],
+     "committed_observed_delta": 1.4783,
+     "fraction_of_threshold": 4.137,
+     "n": 18,
+     "observed_delta": 1.47825,
+     "reproduces_committed_delta": true
+    },
+    "n_readable_full": 18,
+    "n_shared_and_readable": 3,
+    "shared_and_readable": [
+     "DKK1",
+     "MAN1A1",
+     "NMB"
+    ],
+    "without_shared_genes": {
+     "band": [
+      -0.317,
+      0.38017
+     ],
+     "fraction_of_threshold": 2.721,
+     "n": 15,
+     "observed_delta": 1.03431,
+     "p_empirical_two_sided": 0.00025
+    }
+   },
+   "GPL6244": {
+    "full": {
+     "band": [
+      -0.13358,
+      0.09859
+     ],
+     "committed_observed_delta": 1.1311,
+     "fraction_of_threshold": 11.474,
+     "n": 21,
+     "observed_delta": 1.13113,
+     "reproduces_committed_delta": true
+    },
+    "n_readable_full": 21,
+    "n_shared_and_readable": 3,
+    "shared_and_readable": [
+     "DKK1",
+     "MAN1A1",
+     "NMB"
+    ],
+    "without_shared_genes": {
+     "band": [
+      -0.14236,
+      0.10181
+     ],
+     "fraction_of_threshold": 10.565,
+     "n": 18,
+     "observed_delta": 1.07556,
+     "p_empirical_two_sided": 0.00025
+    }
+   }
+  },
+  "shared_with_set_E": [
+   "DKK1",
+   "MAN1A1",
+   "NMB"
+  ]
+ },
+ "t_scale_null": {
+  "_question": "The manuscript quotes a Welch t for a set and a null computed on delta. What does an arbitrary set of the same size print on the t scale?",
+  "per_platform": {
+   "GPL3290": {
+    "A_plus_B_all_dna_binding": {
+     "fraction_of_random_sets_with_larger_abs_t": 0.0988,
+     "n": 17,
+     "null_abs_t_q95": 3.9162,
+     "null_t_band_95": [
+      -3.3086,
+      4.3499
+     ],
+     "observed_delta": 0.33007,
+     "observed_t": 3.1594,
+     "reading": "an arbitrary set of this size on this platform routinely prints a t of this magnitude, so t alone grades nothing here."
+    }
+   },
+   "GPL6244": {
+    "A_plus_B_all_dna_binding": {
+     "fraction_of_random_sets_with_larger_abs_t": 0.769,
+     "n": 19,
+     "null_abs_t_q95": 5.8794,
+     "null_t_band_95": [
+      -6.718,
+      4.3679
+     ],
+     "observed_delta": 0.04026,
+     "observed_t": 0.7558,
+     "reading": "an arbitrary set of this size on this platform routinely prints a t of this magnitude, so t alone grades nothing here."
+    }
+   }
+  }
+ }
+}

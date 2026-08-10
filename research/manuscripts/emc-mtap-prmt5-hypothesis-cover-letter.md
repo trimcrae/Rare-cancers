@@ -32,14 +32,14 @@ article-processing charge is incurred.*
 
 **Date:** [DATE]
 
-**Re:** Submission of a Research Article — *"The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-class rationale that survives, an MTAP-locus rationale that does not, and two inexpensive tests"*
+**Re:** Submission of a Research Article — *"The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-class rationale that survives and an MTAP-locus rationale that does not"*
 
 Dear Editor,
 
 I submit the manuscript above for consideration as a Research Article in *Genes, Chromosomes and
 Cancer*. Extraskeletal myxoid chondrosarcoma is an ultra-rare translocation sarcoma driven by an
-*NR4A3* fusion for which no targeted agent exists, and no indexed study examines the PRMT5
-methylosome in this histology. The paper takes the two independent rationales that would put that
+*NR4A3* fusion, no clinically validated agent directly targets that driver, and no indexed study
+examines the PRMT5 methylosome in this histology. The paper takes the two independent rationales that would put that
 methylosome in front of the disease, one transferring from other EWSR1-fusion sarcomas and one
 resting on selection at the *MTAP* locus, and tests each against the only public data able to
 address it: the two archival expression series containing this histology, a public sarcoma CRISPR
@@ -63,12 +63,17 @@ animal data were generated, so no ethics approval was required. The manuscript a
 selectivity, safety, therapeutic window or clinical readiness for any agent in any disease, and
 makes none by implication.
 
-The honest principal limitation is the one the manuscript states in section 4.4: the transcript half
-of the surviving rationale rests on 16 EMC tumours across two decade-old array platforms that
-disagree once a proliferation score is adjusted for, so the contrast survives that control on the
-35-tumour platform and largely does not on the 16-tumour platform. The manuscript reports the
-disagreement rather than the better of the two readings, and lists it among the ways the paper is
-most likely to be wrong.
+The principal limitation is the one the manuscript states in section 4.4, and it is stated in the
+abstract as well. The transcript contrast that carries the surviving rationale does not clear a
+conventional threshold once the number of genes examined is corrected for: a max-statistic
+permutation correction, run on the same data and reported beside the uncorrected values, puts
+*PRMT5* at a family-wise adjusted *p* of 0.21 and 0.24 on the two platforms. The same correction
+strengthens the paper's negative, placing *MTAP* at 1.00 on both. A second limitation is a
+disagreement between the platforms: the contrast survives a proliferation adjustment on the
+35-tumour platform and largely does not on the 16-tumour one, where a pre-specified single-gene
+cellularity control also moves. The manuscript reports both, together with a batch confound in the
+16-tumour series that offers a mundane explanation for part of the second, rather than reporting the
+better of the two readings.
 
 I intend to deposit the manuscript as a preprint on bioRxiv, consistent with the journal's preprint
 policy, and will link the preprint to the published version. I am the sole author, an unaffiliated

@@ -1,0 +1,197 @@
+{
+ "_what": "Europe PMC records for the gene-set-testing prior art the transcriptional-output manuscript positions itself against, retrieved 2026-08-10 so that no identifier in that manuscript's reference list is written from recollection.",
+ "_why": "Simulated peer review of nr4a3-fusion-transcriptional-output.md found that the paper cited no statistical prior art at all while presenting a competitive gene-set null as its own contribution. Adding those citations from memory is the exact failure research/manuscripts/lint_citations.py exists to catch, so they were fetched instead.",
+ "_how": "GitHub Actions workflow .github/workflows/fetch-literature.yml, query path (scripts/fetch-paper.mjs sync), which runs the Europe PMC REST search API with resultType=core and writes the record set to the literature-cache branch. Three dispatches, each with a title/author/DOI-keyed query. Every field below is copied from the returned record; nothing is completed from memory.",
+ "_scope": "A citation index. It carries no result, measures nothing about any disease or agent, and asserts nothing about efficacy, selectivity, safety, a therapeutic window or clinical readiness.",
+ "generated_utc": "2026-08-10",
+ "runs": [
+  {"run_id": 31379169742, "slug": "gene-set-null-prior-art", "n_records_returned": 29,
+   "query": "(TITLE:\"competitive gene set test accounting for inter-gene correlation\") OR (TITLE:\"rotation gene set tests for complex microarray experiments\") OR (TITLE:\"gene expression data in terms of gene sets\") OR (TITLE:\"On testing the significance of sets of genes\") OR (TITLE:\"Single sample scoring of molecular phenotypes\") OR (TITLE:\"gene set variation analysis for microarray and RNA-seq data\") OR (TITLE:\"knowledge-based approach for interpreting genome-wide expression profiles\") OR (TITLE:\"Permutation P-values should never be zero\") OR (TITLE:\"Controlling the false discovery rate\") OR (TITLE:\"oncogenic KRAS-driven cancers require TBK1\") OR (TITLE:\"multicellular ecosystem of metastatic melanoma\") OR (TITLE:\"generalization of Student's problem when several different population variances are involved\")"},
+  {"run_id": 31379451790, "slug": "gene-set-null-prior-art-2", "n_records_returned": 7,
+   "query": "(TITLE:\"Controlling the false discovery rate: a practical and powerful approach to multiple testing\") OR (AUTH:\"Benjamini Y\" AND AUTH:\"Hochberg Y\" AND PUB_YEAR:1995) OR (AUTH:\"Efron B\" AND AUTH:\"Tibshirani R\" AND PUB_YEAR:2007) OR (TITLE:\"significance of sets of genes\") OR (TITLE:\"generalization of Student\") OR (AUTH:\"Welch BL\" AND PUB_YEAR:1947) OR (TITLE:\"restandardization\" AND gene) OR (TITLE:\"Gene set analysis of genome-wide association studies\") OR (TITLE:\"Gene set enrichment analysis made simple\")"},
+  {"run_id": 31380107406, "slug": "gene-set-null-prior-art-3", "n_records_returned": 5,
+   "query": "(DOI:\"10.1111/j.2517-6161.1995.tb02031.x\") OR (DOI:\"10.1214/07-AOAS101\") OR (TITLE:\"practical and powerful approach to multiple testing\") OR (AUTH:\"Tibshirani\" AND TITLE:\"sets of genes\") OR (TITLE:\"Gene set enrichment analysis: performance evaluation\") OR (TITLE:\"Toward a gold standard for benchmarking gene set enrichment analysis\") OR (TITLE:\"Ten years of pathway analysis\") OR (TITLE:\"Enrichment or depletion of a GO category within a class of genes\")"}
+ ],
+ "_selection_note": "The three queries returned 41 records between them; the 13 below are the ones the manuscript cites. The remainder are unrelated papers whose titles matched a broad clause (chiefly 'controlling the false discovery rate' in proteomics, ecology and psychometrics) and are left in the literature-cache corpus rather than copied here.",
+ "records": [
+  {
+   "key": "goeman_buhlmann_2007_competitive_vs_selfcontained",
+   "why_cited": "the competitive-versus-self-contained distinction, and the argument that a competitive null is invalid under inter-gene correlation",
+   "title": "Analyzing gene expression data in terms of gene sets: methodological issues.",
+   "authors": "Goeman JJ, Bühlmann P.",
+   "journal": "Bioinformatics (Oxford, England)",
+   "journalAbbrev": "Bioinformatics",
+   "volume": "23", "issue": "8", "pages": "980-987", "year": 2007,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/17303618",
+   "doi": "10.1093/bioinformatics/btm051",
+   "citedBy": 585
+  },
+  {
+   "key": "wu_smyth_2012_camera",
+   "why_cited": "CAMERA — a competitive gene-set test that estimates and corrects the inter-gene correlation this manuscript's null omits",
+   "title": "Camera: a competitive gene set test accounting for inter-gene correlation.",
+   "authors": "Wu D, Smyth GK.",
+   "journal": "Nucleic acids research",
+   "journalAbbrev": "Nucleic Acids Res",
+   "volume": "40", "issue": "17", "pages": "e133", "year": 2012,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/22638577",
+   "pmcid": "PMC3458527",
+   "doi": "10.1093/nar/gks461",
+   "citedBy": 738
+  },
+  {
+   "key": "wu_2010_roast",
+   "why_cited": "ROAST — the rotation-based self-contained counterpart to a competitive test",
+   "title": "ROAST: rotation gene set tests for complex microarray experiments.",
+   "authors_verbatim_from_record": "Wu D, Lim E, Vaillant F, Vaillant F, Asselin-Labat ML, Visvader JE, Smyth GK.",
+   "authors_note": "the returned authorString repeats one author; the manuscript cites the first three plus et al. rather than reproducing the duplication",
+   "journal": "Bioinformatics (Oxford, England)",
+   "journalAbbrev": "Bioinformatics",
+   "volume": "26", "issue": "17", "pages": "2176-2182", "year": 2010,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/20610611",
+   "pmcid": "PMC2922896",
+   "doi": "10.1093/bioinformatics/btq401",
+   "citedBy": 475
+  },
+  {
+   "key": "foroutan_2018_singscore",
+   "why_cited": "single-sample set scoring with an explicit null of random gene sets of the same size — the closest published relative of this manuscript's calibration",
+   "title": "Single sample scoring of molecular phenotypes.",
+   "authors": "Foroutan M, Bhuva DD, Lyu R, Horan K, Cursons J, Davis MJ.",
+   "journal": "BMC bioinformatics",
+   "journalAbbrev": "BMC Bioinformatics",
+   "volume": "19", "issue": "1", "pages": "404", "year": 2018,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/30400809",
+   "pmcid": "PMC6219008",
+   "doi": "10.1186/s12859-018-2435-4",
+   "citedBy": 443
+  },
+  {
+   "key": "hanzelmann_2013_gsva",
+   "why_cited": "GSVA — the standard comparator for a per-sample gene-set score",
+   "title": "GSVA: gene set variation analysis for microarray and RNA-seq data.",
+   "authors": "Hänzelmann S, Castelo R, Guinney J.",
+   "journal": "BMC bioinformatics",
+   "journalAbbrev": "BMC Bioinformatics",
+   "volume": "14", "issue": "", "pages": "7", "year": 2013,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/23323831",
+   "pmcid": "PMC3618321",
+   "doi": "10.1186/1471-2105-14-7",
+   "citedBy": 12019
+  },
+  {
+   "key": "barbie_2009_ssgsea",
+   "why_cited": "the paper in which single-sample GSEA (ssGSEA) is introduced; the other standard comparator for a per-sample set score",
+   "title": "Systematic RNA interference reveals that oncogenic KRAS-driven cancers require TBK1.",
+   "authors": "Barbie DA, Tamayo P, Boehm JS, et al.",
+   "journal": "Nature",
+   "journalAbbrev": "Nature",
+   "volume": "462", "issue": "7269", "pages": "108-112", "year": 2009,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/19847166",
+   "pmcid": "PMC2783335",
+   "doi": "10.1038/nature08460",
+   "citedBy": 3152
+  },
+  {
+   "key": "tirosh_2016_binned_control_sets",
+   "why_cited": "control gene sets matched on expression bin rather than on size alone, in the most widely used module-scoring implementation",
+   "title": "Dissecting the multicellular ecosystem of metastatic melanoma by single-cell RNA-seq.",
+   "authors": "Tirosh I, Izar B, Prakadan SM, et al.",
+   "journal": "Science (New York, N.Y.)",
+   "journalAbbrev": "Science",
+   "volume": "352", "issue": "6282", "pages": "189-196", "year": 2016,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/27124452",
+   "pmcid": "PMC4944528",
+   "doi": "10.1126/science.aad0501",
+   "citedBy": 4253
+  },
+  {
+   "key": "subramanian_2005_gsea",
+   "why_cited": "GSEA. Cited for the method, and named in the manuscript on first use to keep it distinct from Subramanian et al. 2005 J Pathol, the EMC expression cohort.",
+   "title": "Gene set enrichment analysis: a knowledge-based approach for interpreting genome-wide expression profiles.",
+   "authors": "Subramanian A, Tamayo P, Mootha VK, et al.",
+   "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+   "journalAbbrev": "Proc Natl Acad Sci U S A",
+   "volume": "102", "issue": "43", "pages": "15545-15550", "year": 2005,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/16199517",
+   "pmcid": "PMC1239896",
+   "doi": "10.1073/pnas.0506580102",
+   "citedBy": 41912
+  },
+  {
+   "key": "phipson_smyth_2010_permutation_p",
+   "why_cited": "the +1/+1 smoothing of an empirical p, and why a permutation p may not be reported as zero",
+   "title": "Permutation P-values should never be zero: calculating exact P-values when permutations are randomly drawn.",
+   "authors": "Phipson B, Smyth GK.",
+   "journal": "Statistical applications in genetics and molecular biology",
+   "journalAbbrev": "Stat Appl Genet Mol Biol",
+   "volume": "9", "issue": "", "pages": "Article39", "year": 2010,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/21044043",
+   "doi": "10.2202/1544-6115.1585",
+   "citedBy": 333
+  },
+  {
+   "key": "welch_1947",
+   "why_cited": "the unequal-variance t test used for every contrast in the manuscript",
+   "title": "The generalisation of student's problems when several different population variances are involved.",
+   "authors": "WELCH BL.",
+   "journal": "Biometrika",
+   "volume": "34", "issue": "", "pages": "28-35", "year": 1947,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/20287819",
+   "doi": "10.1093/biomet/34.1-2.28"
+  },
+  {
+   "key": "irizarry_2009_gsea_made_simple",
+   "why_cited": "a plain account of what a gene-sampling null does and does not test",
+   "title": "Gene set enrichment analysis made simple.",
+   "authors": "Irizarry RA, Wang C, Zhou Y, Speed TP.",
+   "journal": "Statistical methods in medical research",
+   "journalAbbrev": "Stat Methods Med Res",
+   "volume": "18", "issue": "", "pages": "565-575", "year": 2009,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/20048385",
+   "doi": "10.1177/0962280209351908"
+  },
+  {
+   "key": "geistlinger_2021_benchmark",
+   "why_cited": "the benchmarking standard a new gene-set method would have to meet, cited in support of the decision not to present this implementation as one",
+   "title": "Toward a gold standard for benchmarking gene set enrichment analysis.",
+   "authors": "Geistlinger L, Csaba G, Santarelli M, Ramos M, Schiffer L, et al.",
+   "journal": "Briefings in bioinformatics",
+   "journalAbbrev": "Brief Bioinform",
+   "volume": "22", "issue": "", "pages": "545-556", "year": 2021,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32026945",
+   "doi": "10.1093/bib/bbz158"
+  },
+  {
+   "key": "rivals_2007_which_test",
+   "why_cited": "the choice of null distribution for a category-enrichment question",
+   "title": "Enrichment or depletion of a GO category within a class of genes: which test?",
+   "authors": "Rivals I, Personnaz L, Taing L, Potier MC.",
+   "journal": "Bioinformatics (Oxford, England)",
+   "journalAbbrev": "Bioinformatics",
+   "volume": "23", "issue": "", "pages": "401-407", "year": 2007,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/17182697",
+   "doi": "10.1093/bioinformatics/btl633"
+  }
+ ],
+ "not_retrieved": {
+  "_what": "Two references the manuscript's revised Methods names in prose. Neither journal is indexed by Europe PMC, so no record could be retrieved and NO IDENTIFIER IS WRITTEN FOR EITHER, here or in the manuscript. Both must be completed against the primary source before submission; this entry is the open task.",
+  "_why_it_is_recorded_rather_than_guessed": "writing a volume, page range or DOI from recollection is the failure mode research/manuscripts/lint_citations.py was built for. An honest gap is cheaper than a fabricated identifier.",
+  "items": [
+   {
+    "cited_as": "Benjamini Y, Hochberg Y. Controlling the false discovery rate: a practical and powerful approach to multiple testing. Journal of the Royal Statistical Society Series B, 1995.",
+    "used_for": "the Benjamini-Hochberg q-values reported across the per-gene permutation p-values",
+    "queries_tried": ["TITLE:\"Controlling the false discovery rate: a practical and powerful approach to multiple testing\"", "AUTH:\"Benjamini Y\" AND AUTH:\"Hochberg Y\" AND PUB_YEAR:1995", "DOI:\"10.1111/j.2517-6161.1995.tb02031.x\"", "TITLE:\"practical and powerful approach to multiple testing\""],
+    "result": "no matching record returned by any of the four; the journal is not indexed by Europe PMC",
+    "before_submission": "complete volume, issue and page range from the primary source"
+   },
+   {
+    "cited_as": "Efron B, Tibshirani R. On testing the significance of sets of genes. Annals of Applied Statistics, 2007.",
+    "used_for": "restandardization — the pairing of a gene-randomization null with a sample-permutation null that this manuscript's Methods also builds",
+    "queries_tried": ["TITLE:\"On testing the significance of sets of genes\"", "TITLE:\"significance of sets of genes\"", "AUTH:\"Efron B\" AND AUTH:\"Tibshirani R\" AND PUB_YEAR:2007", "DOI:\"10.1214/07-AOAS101\"", "AUTH:\"Tibshirani\" AND TITLE:\"sets of genes\""],
+    "result": "no matching record returned by any of the five; the journal is not indexed by Europe PMC",
+    "before_submission": "complete volume, issue and page range from the primary source"
+   }
+  ]
+ }
+}
