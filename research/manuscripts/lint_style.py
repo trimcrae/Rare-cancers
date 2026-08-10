@@ -158,6 +158,81 @@ def _word_count(entries):
     return max(n, 1)
 
 
+# ── FIGURE SOURCES ────────────────────────────────────────────────────────────────────────
+#: ⛔ A FIGURE TITLE IS SUBMISSION TEXT AND THIS GATE HAD NEVER SEEN ONE (trimcrae, 2026-08-10,
+#: on a screenshot: "The header language in this diagram is unprofessional and painfully obvious
+#: that it's Claude talking"). The reason is structural rather than an oversight in any one file:
+#: this linter reads `.md`, and every figure title, axis label and caption in this repository is a
+#: Python string inside a generator. So four manuscripts passed gate 5 cleanly while shipping a
+#: figure captioned "This QUALIFIES the route rather than supporting it" — mid-sentence capitals
+#: for emphasis, an argument with the reader, and the house register at its most recognisable, in
+#: the element a reviewer looks at first.
+FIGURE_SOURCES = [
+    "research/modalities/emc_mtap_prmt5_figures.py",
+    "research/manuscripts/figures/repurposing_design_figure.py",
+]
+
+#: Emphasis capitals: an all-caps run of 4+ letters that is not an accepted acronym or gene symbol.
+FIG_SHOUT = re.compile(r"(?<![A-Z0-9:/_-])([A-Z]{4,})(?![A-Z0-9:/_-])")
+FIG_SHOUT_OK = {
+    "MTAP", "PRMT", "CDKN", "EWSR", "LGFMS", "CRISPR", "DGID", "TXGNN", "GRG", "RGG",
+    "TRUE", "FALSE", "TYPE", "NOTE",
+}
+
+#: ⚠ SCOPED TO WHAT IS ACTUALLY RENDERED, by walking calls rather than every string constant. A
+#: first version linted every literal and its only finding was a console message, `--check: DRIFT`,
+#: which no reviewer will ever read. Docstrings, comments, paths and CLI output are not figure text,
+#: and a gate that flags them trains people to ignore it. The house register BELONGS in a comment
+#: explaining why a rule exists; it does not belong on an axis.
+FIG_RENDERERS = {"set_title", "set_xlabel", "set_ylabel", "suptitle", "text", "annotate",
+                 "set_xticklabels", "set_yticklabels", "figtext"}
+FIG_RENDERED_KW = {"label", "title", "xlabel", "ylabel"}
+
+
+def lint_figure_source(path):
+    """Lint the strings a figure generator actually renders into a figure."""
+    import ast
+    try:
+        tree = ast.parse(open(path, encoding="utf-8").read())
+    except (OSError, SyntaxError):
+        return None
+
+    targets = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        name = (node.func.attr if isinstance(node.func, ast.Attribute)
+                else node.func.id if isinstance(node.func, ast.Name) else "")
+        parts = list(node.args) if name in FIG_RENDERERS else []
+        parts += [kw.value for kw in node.keywords if kw.arg in FIG_RENDERED_KW]
+        for part in parts:
+            for sub in ast.walk(part):
+                if isinstance(sub, ast.Constant) and isinstance(sub.value, str):
+                    targets.append(sub)
+
+    findings, seen = [], set()
+    for c in targets:
+        t = c.value
+        if len(t) < 18 or " " not in t.strip() or (c.lineno, t) in seen:
+            continue
+        seen.add((c.lineno, t))
+        flat = " ".join(t.split())
+        for ch in GLYPHS:
+            if ch in flat:
+                findings.append((c.lineno, "ERROR", "glyph",
+                                 f"decorative glyph {ch!r} in figure text: {flat[:70]}"))
+                break
+        for pat, why in BANNED + SELF_REFERENTIAL:
+            if re.search(pat, flat, re.I):
+                findings.append((c.lineno, "ERROR", "banned-phrase", f"{why}: {flat[:70]}"))
+        shouts = [w for w in FIG_SHOUT.findall(flat) if w not in FIG_SHOUT_OK]
+        if shouts:
+            findings.append((c.lineno, "ERROR", "emphasis-capitals",
+                             f"all-caps for emphasis {shouts[:3]} in figure text: {flat[:60]}"))
+    return {"path": path, "findings": findings, "words": 0,
+            "bold_per_1000": 0.0, "emdash_per_1000": 0.0}
+
+
 def lint_file(path):
     findings = []
     full = os.path.join(ROOT, path) if not os.path.isabs(path) else path
@@ -241,6 +316,8 @@ def main(argv):
     paths = [a for a in argv if not a.startswith("--")] or TARGETS
 
     results = [r for r in (lint_file(p) for p in paths) if r]
+    if not [a for a in argv if not a.startswith("--")]:
+        results += [r for r in (lint_figure_source(p) for p in FIGURE_SOURCES) if r]
     if not results:
         print("lint_style: no target files present — nothing to check")
         return 0

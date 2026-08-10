@@ -174,9 +174,9 @@ def fig_readings(plt, panel):
     axes[0][0].legend(fontsize=fs(6.6), frameon=False, loc="lower right", handletextpad=0.5)
     fig.suptitle("Every tumour, on both platforms. Bars are medians.", fontsize=fs(9), color=C_INK)
     fig.text(0.5, 0.005,
-             "NOTE  The two platforms are NOT on a shared axis: one is single-channel intensity and one "
-             "is a two-colour log-ratio.\nA gene with no probe is marked unreadable — that is an "
-             "instrument statement, never evidence of absence.",
+             "The two platforms are not on a shared axis: one is single-channel intensity, the other a "
+             "two-colour log-ratio.\nA gene with no probe is marked unreadable, which reflects the "
+             "instrument rather than the absence of expression.",
              ha="center", fontsize=fs(6.6), color=C_MUTE)
     fig.tight_layout(rect=(0, 0.035, 1, 0.955))
     return fig
@@ -187,12 +187,11 @@ def fig_locus_genewise(plt, panel):
     fig, axes = plt.subplots(1, 2, figsize=page(8.6, 3.5))
     for c, (plat, pname, kind) in enumerate(PLATS):
         _gene_panel(axes[c], panel, LOCUS, pname, plat, kind)
-    fig.suptitle("The locus is three genes, and they are not interchangeable", fontsize=fs(9), color=C_INK)
+    fig.suptitle("MTAP, CDKN2A and CDKN2B, scored separately", fontsize=fs(9), color=C_INK)
     fig.text(0.5, 0.005,
-             "NOTE  CDKN2A is lost by mechanisms that leave MTAP intact, so a LOCUS score is ambiguous by "
-             "construction — the group\ncannot distinguish co-deletion from CDKN2A-only loss. Only "
-             "MTAP protein can, which is why the manuscript's decisive\ntest for this route is a "
-             "stain and not this figure.",
+             "CDKN2A is lost by mechanisms that leave MTAP intact, so a locus-level score cannot "
+             "distinguish co-deletion\nfrom CDKN2A-only loss. MTAP protein can, which is why the "
+             "decisive test proposed for this route is a stain\nrather than an expression contrast.",
              ha="center", fontsize=fs(6.6), color=C_MUTE)
     fig.tight_layout(rect=(0, 0.06, 1, 0.93))
     return fig
@@ -231,16 +230,16 @@ def fig_dependency(plt, dep):
     n_screened = _ns.pop()
     ax.set_xlabel(f"% of {n_screened or '?'} screened sarcoma cell lines in which the gene is a "
                   f"dependency", fontsize=fs(7.4))
-    ax.set_title("This QUALIFIES the route rather than supporting it", fontsize=fs(8.6), color=C_INK)
+    ax.set_title("PRMT5 and MAT2A are pan-essential across sarcoma lines", fontsize=fs(8.6), color=C_INK)
     ax.tick_params(labelsize=fs(7.6))
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
     fig.text(0.5, 0.005,
-             "PRMT5 and MAT2A are dependencies in almost every sarcoma line, so a GROWTH effect on "
-             "silencing them is close to expected\nand is not specific to this disease. Only an "
-             "effect on FUSION-DRIVEN TRANSCRIPTION would be. MTAP is not a dependency, exactly as a\n"
-             "biomarker rather than a target should read.  NO EMC LINE EXISTS IN THIS PANEL - every "
-             "value is a transfer from other sarcomas.",
+             "PRMT5 and MAT2A are dependencies in almost every sarcoma line, so growth inhibition "
+             "on silencing them is expected and is not\nspecific to this disease; only an effect on "
+             "fusion-driven transcription would be. MTAP is not a dependency, consistent with its\n"
+             "role as a biomarker rather than a target. No EMC line is present in this panel, so "
+             "every value is inferred from other sarcomas.",
              ha="center", fontsize=fs(6.5), color=C_MUTE)
     fig.tight_layout(rect=(0, 0.11, 1, 1))
     return fig
@@ -290,13 +289,13 @@ def fig_classes(plt, panel):
     if not pooled or not single:
         return None
     fig, axes = plt.subplots(1, 2, figsize=page(9.6, 3.7))
-    _class_ax(axes[0], pooled, "Methylosome POOLED (4 genes) - EMC ranks second",
+    _class_ax(axes[0], pooled, "Methylosome, four genes pooled: EMC ranks second",
               "z vs array, 4 genes pooled")
-    _class_ax(axes[1], single, "PRMT5 ALONE - EMC is highest", "z vs array, PRMT5")
+    _class_ax(axes[1], single, "PRMT5 alone: EMC is highest", "z vs array, PRMT5")
     fig.suptitle("GSE24369 / GPL6244 - each comparator class separately", fontsize=fs(9), color=C_INK)
     fig.text(0.5, 0.005,
-             "NOTE  LGFMS is FUS::CREB3L2 - a FET-fusion sarcoma, and therefore a control for 'this is "
-             "just what a fusion sarcoma looks like'.\nPooled, EMC does not separate from desmoid "
+             "LGFMS carries FUS::CREB3L2 and is therefore a within-class control for a FET-fusion "
+             "sarcoma.\nPooled, EMC does not separate from desmoid "
              "fibromatosis; PRMT5 alone does. Route 1 depends on PRMT5, not on the group.\n"
              "Left-panel points are gene-by-sample values pooled across four genes, so they are not "
              "independent observations and no test is run on them.",
@@ -378,8 +377,8 @@ def fig_motif_map(plt, motif):
     for s in ("top", "right", "left"):
         ax.spines[s].set_visible(False)
     ax.text(-14, -1.75,
-            "NOTE: EWSR1::FLI1 keeps 0 sites and PRMT5 inhibition is still fusion-dependent there.\n"
-            "The motif is NOT required, and this figure is not a response predictor.",
+            "EWSR1::FLI1 retains no sites and PRMT5 inhibition is nonetheless fusion-dependent there,\n"
+            "so the motif is not required and this figure is not a response predictor.",
             fontsize=fs(6.5), color="#7a1f34", ha="left", va="top")
     fig.tight_layout()
     return fig
