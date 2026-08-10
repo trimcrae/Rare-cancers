@@ -451,6 +451,20 @@ set-definition blocks or an existing curated reference list.
 
 ---
 
+## Two numbers that exist twice, and why
+
+Supplementary §S3.6 and §S3.7 score their comparisons in the independently implemented resampler of
+the new sensitivity module rather than in the producer behind Table S2, because a within-table
+comparison is only meaningful if both of its columns come from one draw. That leaves the A+B
+aggregate and set D each printed at two slightly different values across the SI: 91% and 72% in
+§S3.6 against 88% and 69% in Table S2, and 4.14× and 11.47× in §S3.7 against 4.25× and 11.94×. The
+difference is the Monte-Carlo spread measured in §S3.2 and nothing else. **Table S2 and the primary
+artifact own the reported figures; every value quoted in the main text, the abstract and the
+Conclusion is theirs**, and both SI sections now say so in the paragraph above their table, so a
+reader meeting the second value cannot mistake it for a correction of the first.
+
+---
+
 ## One known follow-up the revision creates
 
 Renumbering the Results sections leaves stale pointers in four producer docstrings and comments that

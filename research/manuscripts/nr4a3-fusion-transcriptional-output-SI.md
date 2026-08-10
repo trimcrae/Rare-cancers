@@ -299,6 +299,14 @@ B2 by hand because its cited primary is a target list rather than the assay the 
 | B1 · primary assay retrieved, native only | GPL6244 | 6 | -0.0525 | 22% | 0.68083 | +0.2929 | 14% |
 | B2 · review assertion only | GPL6244 | 10 | -0.0764 | 41% | 0.44239 | +0.0514 | 34% |
 
+Every row of this table, including the A+B row, is scored in the same independently implemented
+resampler, so the four are comparable with each other. That resampler is not the one that produced
+Table S2, which is the committed primary artifact: A+B reads 91% and 39% here against 88% and 39%
+there, and 72% against 69% inflated on GPL3290. The difference is the Monte-Carlo spread of §S3.2
+and nothing else, the committed 97.5th percentile sitting 2.9% above the mean of 20 re-draws.
+Table S2 owns the reported figures; this table exists only for the within-resampler comparison, and
+no figure from it is quoted in the main text.
+
 B1 alone clears nothing on either platform, so the A+B1 clearance is carried by the three class-A
 members rather than by the retrieved-primary native targets. A+B1 is reported as a sensitivity; A+B
 remains the primary aggregate, because re-designating the primary set after seeing which subset
@@ -308,7 +316,11 @@ clears is the manoeuvre the calibration exists to prevent.
 
 Set D shares *DKK1*, *MAN1A1* and *NMB* with set E, which is defined as the overlap between Filion's
 EMC profile and the top 50 of the GPL3290 cohort itself, so 3 of set D's 18 GPL3290-readable members
-are documented members of a list derived from that platform. Scored in one resampler:
+are documented members of a list derived from that platform. Both columns below are scored in one
+resampler so the comparison is like for like; as in §S3.6 that resampler is not the one behind
+Table S2, which reports set D at 4.25× and 11.94× rather than the 4.14× and 11.47× here. Table S2
+owns the reported figures, and what this table licenses is the difference between its two columns
+rather than either column's absolute value.
 
 | platform | n | Δ with the shared genes | reached | n | Δ without them | reached | p_emp |
 |---|---:|---:|---:|---:|---:|---:|---:|
