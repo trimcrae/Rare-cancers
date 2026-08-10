@@ -49,10 +49,10 @@ repository holds none, and an invented identifier on a person is the failure lin
 to prevent, applied to a human. Supply one at deposit if wanted.
 CORRECTIONS: Appendix A is the correction and supersession register required by CLAUDE.md rule 1.2. It
 sits outside the 5,000-word body and is deposited as a supplementary note.
-REFERENCES: completed 2026-08-09 from the committed Europe PMC retrievals. Eleven entries now carry a
-full author list, journal, year, volume and pages; five (6, 13, 16, 17, 18) are in neither retrieval and
-still carry their identifier only, and two (4, 5) resolved without a journal or pagination. Completing
-those seven remains a submission blocker.
+REFERENCES: complete as of 2026-08-09. All eighteen entries carry a full author list, journal, year,
+volume and pages, from the committed Europe PMC retrievals; every one is cited in the text. Reference
+16 was replaced after a retrieval showed the entry as written described no real paper; the reasoning
+and the two rejected candidates are in Appendix A5.
 -->
 
 > **Declarations for preprint deposit.** Ethics approval and consent were not required and were not
@@ -616,9 +616,7 @@ wrote the manuscript.
 Author lists, journal titles, volumes and pages are taken from the retrieval records in
 [`submission-reference-metadata-2026-08-09.json`](../literature/submission-reference-metadata-2026-08-09.json)
 and [`emc-prior-art-2026-08-09.json`](../literature/emc-prior-art-2026-08-09.json), and where a record
-lists more than six authors the first six are given. Entries still marked *identifier only* are not in
-either record; they are cited by identifier so that a reader can resolve them, and must be completed
-from the primary sources before submission.
+lists more than six authors the first six are given.
 
 1. Remiszewski P, Falkowski S, Szumera-Ciećkiewicz A, Spałek MJ, Rutkowski P, Czarnecka AM. From
    pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid
