@@ -37,7 +37,13 @@ def test_every_cell_of_the_convergence_matrix_resolves_to_a_real_statistic(art):
     for g, row in cells.items():
         assert len(row) == 6, g
         for txt, state in row:
-            assert state in ("supported", "weak", "absent", "circular"), (g, txt)
+            # `rank_only` was added 2026-08-10 for the 3SEQ column. Methods refuse to make a
+            # percentile an instrument at n = 4, and the column previously coloured a cell
+            # "supported" at an undocumented percentile threshold, which contradicted its own
+            # caption. A neutral state is the figure agreeing with the text.
+            assert state in ("supported", "weak", "absent", "circular", "rank_only"), (g, txt)
+        # The 3SEQ column carries no test, so it must never colour a cell as support.
+        assert row[3][1] == "rank_only", f"{g}: 3SEQ column must stay neutral, got {row[3]}"
         # None of these five instruments is genuinely uncomputable for any class-A gene.
         assert not [t for t, s in row if s == "absent"], f"{g}: {row}"
 

@@ -42,19 +42,20 @@ assistance (section 2.6).*
 Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma driven by an *NR4A3* fusion,
 usually EWSR1::NR4A3; no clinically validated agent directly targets NR4A3. No indexed study examines
 the PRMT5 methylosome in this histology. We tested two independent rationales against the only public
-data able to address them: the two archival series containing it (16 EMC tumours, two
-platforms), a public sarcoma CRISPR dependency panel, and PRMT5's reported substrate motif in the
-fusion protein sequence. The first transfers from EWSR1-fusion sarcomas where PRMT5 supports
-fusion-driven transcription. *PRMT5* reads higher in EMC than in the comparator arm on both
-(*t* = 6.24 and 6.67) and ranks first of the readable PRMT family, but does not survive
-correction for the number of genes examined: family-wise adjusted *p* at least 0.21 and 0.24, against
-exact permutation *p* of 0.000142 and 0.000125 for one gene's labelling. A twelve-gene proliferation
-adjustment leaves it nearly intact on the 35-tumour platform and removes most of it on the 16-tumour
-one, so the platforms disagree. In EWSR1 the eleven Gly-Arg-Gly
-sites all lie beyond residue 300; the commonest EMC fusion and two of three reported clear cell
-fusions retain four, and EWSR1::FLI1 none. Selection on *MTAP* loss is not supported: *MTAP* is flat
-where the read is powered, reverses sign on the other platform, and has an adjusted *p* of 1.00. Two inexpensive experiments would settle each: MTAP immunohistochemistry on archival tissue,
-and one clinical-stage PRMT5 inhibitor added to a screen already running on published EMC models.
+data able to address them: the two archival series containing it (16 EMC tumours, two platforms), a
+public sarcoma CRISPR dependency panel, and PRMT5's reported substrate motif in the fusion protein
+sequence. The first transfers from EWSR1-fusion sarcomas where PRMT5 supports fusion-driven
+transcription. *PRMT5* reads higher in EMC than in the comparator arm on both (*t* = 6.24 and 6.67)
+and ranks first of the readable PRMT family, but does not survive correction for the number of genes
+examined: family-wise adjusted *p* at least 0.21 and 0.24, against exact permutation *p* of 0.000142
+and 0.000125 for one gene's labelling. A twelve-gene proliferation adjustment leaves it nearly intact
+on the 35-tumour platform and removes most of it on the 16-tumour one, so the platforms disagree. In
+EWSR1 the eleven Gly-Arg-Gly sites all lie beyond residue 300; the commonest EMC fusion and two of
+three reported clear cell fusions retain four, and EWSR1::FLI1 none. Selection on *MTAP* loss is not
+supported: *MTAP* is flat where the read is powered, reverses sign on the other platform, and has an
+adjusted *p* of 1.00. Two inexpensive experiments would settle each: MTAP immunohistochemistry on
+archival tissue, and one clinical-stage PRMT5 inhibitor added to a screen already running on
+published EMC models.
 
 ---
 

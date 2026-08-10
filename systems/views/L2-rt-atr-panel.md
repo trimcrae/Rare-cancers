@@ -89,13 +89,13 @@ a complete, specified experimental proposal (emc-atri-prereg.md) — UNCOSTED. W
 
 ## Where this route ends — the paper
 
-**[PUB-ATR-PANEL-ASK](L3-publications.md)** — [Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay](../../research/manuscripts/emc-atr-collaborator-package.md)
+**[PUB-ATR-PANEL-ASK](L3-publications.md)** — [Untranslated NR4A3 sequence encodes a 59-residue insertion in the EWSR1 exon 7 to NR4A3 exon 2 fusion of extraskeletal myxoid chondrosarcoma, and a donor-exon phase rule for the reported junctions](../../research/manuscripts/emc-atr-collaborator-package.md)
 
-`primary` · ◐ `drafted` · aimed at `experimental_proposal`
+`primary` · ◐ `drafted` · aimed at `journal_submission`
 
 **This route contributes:** The costed panel design, its controls and its kill criteria — the half of the ATR question that no computation can supply.
 
-**The paper would claim:** Everything a group already running the FET-fusion DSB-recruitment assay would have to derive in order to add EMC as a fourth partner class is pre-built — constructs, controls, predicted outcomes and kill criteria fixed in advance — so the marginal cost of testing the assessment's prediction is the bench time and nothing else.
+**The paper would claim:** A reported EMC fusion junction is an mRNA event whose protein cannot be recovered by joining coding sequences: one rule decides the reading frame of every reported NR4A3-fusion junction, a donor exon ending one nucleotide into a codon, and its consequence at the NR4A3 exon 2 acceptor is a 59-residue insertion encoded by untranslated NR4A3 sequence, so a construct built from a protein-level model of that junction is 59 residues short.
 
 ## Strategic timing — the wait equation
 

@@ -14,36 +14,56 @@ scope: >
   scientific result.
 audience: [maintainers, external reviewers, collaborators]
 related: [DOC-NR4A3-FUSION-TRANSCRIPTIONAL-OUTPUT]
-date: 2026-08-08
-last_verified: 2026-08-08
+date: 2026-08-10
+last_verified: 2026-08-10
 ---
 
 # Submission checklist and journal-fit rationale
 
-⚠ **THE MANUSCRIPT WAS REFRAMED 2026-08-08 AND THIS FILE WAS RE-AUDITED AGAINST IT.** The paper now
-leads with the **size-matched empirical null** as its contribution and states the three-gene ordering
-as the worked example; §1 was reordered and the figures renumbered to match first mention (the null
-is Figure 1). What changed in *this* file: the venue rationale in §1 carries a re-examination note,
-and the word counts below were re-derived rather than carried over — one of them was stale by ~2,900
-words. **No number in the manuscript's §3 changed**, so every standards check below that was verified
-against a result still holds.
+⚠ **THE MANUSCRIPT WAS REFRAMED A SECOND TIME ON 2026-08-10, IN RESPONSE TO A SIMULATED INTERNAL
+PEER REVIEW**
+([`nr4a3-fusion-transcriptional-output-peer-review-2026-08-10.md`](./nr4a3-fusion-transcriptional-output-peer-review-2026-08-10.md);
+point-by-point response in
+[`nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md`](./nr4a3-fusion-transcriptional-output-review-response-2026-08-10.md)).
+The 2026-08-08 reframing put the size-matched empirical null at the front of the paper as its
+contribution. That is now **withdrawn**: the null is a competitive gene-set null of a standard kind,
+the paper cited no prior art for it, and measured against the committed artifact it is additionally
+an *independence* null (`null_sd × sqrt(n)` constant to within 5.9% across set sizes 10–250 on both
+platforms). The paper is retitled around the disease result, the null is a Methods subsection
+positioned against Goeman and Bühlmann, CAMERA, ROAST, restandardization and single-sample scoring,
+and the correlation-inflated threshold is reported beside the uninflated one for every set.
+
+⚠ *Superseded, retained: the 2026-08-08 note that "the paper now leads with the size-matched
+empirical null as its contribution and states the three-gene ordering as the worked example", and
+§1's conclusion that the venue answer was "unchanged" after that reframing.*
 
 Companion to [`nr4a3-fusion-transcriptional-output.md`](./nr4a3-fusion-transcriptional-output.md) and
 [`nr4a3-fusion-transcriptional-output-cover-letter.md`](./nr4a3-fusion-transcriptional-output-cover-letter.md).
 
 ## 1 · Recommended venue
 
-⚠ **RE-EXAMINED 2026-08-08, AFTER THE REFRAMING, AND THE ANSWER IS UNCHANGED.** The manuscript now
-leads with a methodological contribution — a size-matched empirical null for gene-set reads on small
-rare-tumour series — rather than with the gene ordering, and a venue chosen for its sarcoma audience
-deserves re-testing against that. It still holds: GCC publishes cancer-genomics *methodology* applied
-to neoplasia, not only disease findings, and the instrument's motivating example, its three cohorts
-and its readership are all sarcoma. **The relevant risk moved rather than disappeared**: the old
-framing risked a reviewer asking "why does this matter", and the new one risks "is this a methods
-paper in the wrong journal". The cover letter answers the second directly by naming the calibration
-as the contribution in its first paragraph. If GCC desk-rejects on that ground, the fallback order
-below should be revisited before resubmitting, because a pure-methods venue would then outrank
-*The Journal of Pathology*.
+⚠ **RE-EXAMINED A SECOND TIME ON 2026-08-10, AND THE RECOMMENDATION NOW DEPENDS ON THE REFRAMING.**
+The 2026-08-08 audit asked whether a venue chosen for its sarcoma audience still fitted a paper led
+by a methodological contribution, and answered "unchanged". The simulated review disagreed, and the
+reasoning is worth recording because it is about triage rather than about quality: a GCC editor sees
+title plus abstract, and a title whose first clause was a statistical generality, above an abstract
+opening on a statistical failure mode, reads as a biostatistics methods paper with a sarcoma
+illustration. With no new genomic data and three archival series, that is a desk-reject risk rather
+than a review risk.
+
+**The recommendation is therefore conditional.** Under the 2026-08-10 reframing — a title and
+abstract that lead with the three-gene catalogue and the mapped absence of an EMC chromatin
+experiment, and a cover letter whose first substantive paragraph is the catalogue rather than the
+calibration — GCC remains the right primary venue, because the assets are exactly its remit:
+evidence-typed fusion-target curation, a comparator-stratum dissection, a circularity finding, a
+calibrated occupancy audit and a specified missing experiment in a fusion-driven sarcoma.
+
+⛔ **If the reframing were declined and the methodological framing restored, GCC would no longer be
+the right primary target.** In that case the paper should go to a methods or general
+cancer-genomics venue before being submitted anywhere, and the simulated review's judgement is that
+the methodological half would not survive methods review as novel without a simulation study
+benchmarking it against CAMERA — so a split produces one publishable paper and one rejected one.
+Subordinating rather than splitting is the choice taken.
 
 **Primary: *Genes, Chromosomes & Cancer* (Wiley), Original Research Article.** It is the field's
 dedicated journal for the genetics and genomics of neoplasia, and specifically for fusion-driven
@@ -80,10 +100,10 @@ re-analyses of public data at no charge, and both Wiley journals above permit bi
 | requirement | target | status in manuscript |
 |---|---|---|
 | Article type | Original Research Article | ✔ declared |
-| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, **296 words** by the command in §3 (which counts markdown emphasis tokens, so the prose count is slightly lower); inside the J Pathol limit |
+| Abstract | GCC: believed 250 words (search-derived) · J Pathol: unstructured ≤300 | ✔ unstructured, **250 words** by the packet's counting rule as of 2026-08-10; inside both. ⚠ *Superseded, retained: **296 words**, and before that a reading of the limit as "flexible".* |
 | Keywords | 5–7 | ✔ 7 keywords |
-| Structure | Introduction · Methods · Results · Discussion · Conclusion | ✔ full IMRaD, plus Limitations, two appendices and a Supplementary Information file |
-| References | GCC: any consistent style · J Pathol/EJC: ≤40–50 | ✔ 12 primary + gene-set resources, Vancouver style |
+| Structure | Introduction · Methods · Results · Discussion · Conclusion | ✔ full IMRaD, plus Limitations, one repository-only appendix stripped at submission, and a Supplementary Information file. ⚠ *Superseded, retained: **two appendices**; Appendix B was compressed into §4.3 and Table S10.* |
+| References | GCC: any consistent style · J Pathol/EJC: ≤40–50 | ✔ 29 numbered + gene-set resources, Vancouver style; two carry no identifier and are a residual author step (§7.3b). ⚠ *Superseded, retained: **12 primary**.* |
 | Data availability statement | required | ✔ public accessions + open code repository, Zenodo archive planned |
 | Funding statement | required | ✔ "None" |
 | Competing-interests statement | required | ✔ "None" |
@@ -108,13 +128,15 @@ documented counting rule gives **abstract 333 words** and **main text 12,160 wor
 frontmatter, editorial comments, table bodies and every appendix) — and that is the whole problem: a
 submission decision taken on the smaller pair reads as compliant when the larger pair is not.
 
-⛔ **THE DISAGREEMENT IS DECISION-RELEVANT HERE, NOT COSMETIC.** This section read the abstract as
-"inside GCC's flexible limit and J Pathol's ≤300". The packet's venue table records GCC's believed
-abstract limit as **250 words**, search-derived and unverified because Wiley's author pages serve a
-bot challenge, and the packet therefore flags this manuscript as **over a stated limit — the only
-over-limit row of the five**. Two files thus hold two different beliefs about the same journal's
-abstract rule. **Confirm the real limit on the journal's own page before submitting**; if it is 250,
-the abstract needs roughly 83 words cut, and no other paper in the packet needs anything.
+⛔ **THE DISAGREEMENT WAS DECISION-RELEVANT AND IS NOW RESOLVED IN THE PACKET'S FAVOUR.** This
+section read the abstract as "inside GCC's flexible limit and J Pathol's ≤300". The packet's venue
+table records GCC's believed abstract limit as **250 words**, search-derived and unverified because
+Wiley's author pages serve a bot challenge, and it flagged this manuscript as the only over-limit row
+of the five at 333 words. **The abstract was cut to 250 words on 2026-08-10 and the packet no longer
+flags this manuscript.** Main text fell from 12,160 to under 9,000 words in the same pass, and
+display items from 15 to 7 (4 tables, 3 figures) with six tables and two figures moved to the
+Supplementary Information. ⚠ **Confirm the real abstract limit on the journal's own page before
+submitting**; 250 remains search-derived and unverified.
 
 ⚠ *Superseded, retained: **abstract "296 words"**, **main text "~10,410 words"**, and before that
 **"~7,090 words"** — the last stale by ~2,900 words before the 2026-08-08 reframing, having drifted
@@ -122,16 +144,20 @@ through several revisions unnoticed.*
 
 Structure, which is inventory rather than a count and so stays here:
 
-- **Display items:** **5 figures** (per-sample dots, the size-matched null, the evidence catalogue, the
-  instrument-convergence matrix, the muscle-admixture control) and numbered tables in the body,
-  plus unnumbered tables in Data availability and the two appendices. **For *The Journal of
-  Pathology* the main text would need trimming toward ~4,000 words**; the material that would go
-  first is §3.6's stratified narrative and §2.6's method prose, both of which already have fuller
-  versions in the SI.
-- **Supplementary Information:** `nr4a3-fusion-transcriptional-output-SI.md`, ~5,480 words, 6 numbered
-  supplementary tables (S1–S6) and six method sections (§S1–§S6).
-- **References:** 12 numbered primary references plus separately listed gene-set resources and the GEO
-  series record.
+- **Display items (revised 2026-08-10):** **3 figures** in the main text (the size-matched null, the
+  per-sample dots, the instrument-convergence matrix) and **4 numbered tables** (the three cohorts,
+  the class-A catalogue, the three genes under permutation, the set scores against their nulls) —
+  seven display items. Two figures (the evidence-class counts, the muscle-admixture control) and six
+  tables moved to the Supplementary Information. Appendix A (the supersession register) is repository
+  record and is stripped at submission with the YAML frontmatter; Appendix B was compressed into §4.3
+  and Table S10.
+- **Supplementary Information:** `nr4a3-fusion-transcriptional-output-SI.md`, ~7,900 words, 13
+  numbered supplementary tables (S1–S13), two supplementary figures and ten sections (§S1–§S10).
+- **References:** 29 numbered references, of which 13 are the gene-set-testing prior art added in
+  revision, plus separately listed gene-set resources and the GEO series record. **Two references
+  (28, Benjamini and Hochberg 1995; 29, Efron and Tibshirani 2007) carry no identifier**, because
+  neither journal is indexed by Europe PMC and no record could be retrieved; completing them from the
+  primary source is a residual author step (§7).
 
 ## 4 · Reporting-guideline note
 
@@ -346,13 +372,22 @@ These are outward-facing or identity-bound actions that only the author can take
 content itself is submission-ready.
 
 1. **Add an ORCID** to the title page and cover letter (bracketed placeholder present).
-2. **Mint a Zenodo DOI** by archiving the code repository at the submitted commit, and paste it into the
-   Data and code availability section (the section already states this is planned at acceptance; some
-   journals prefer the DOI at submission).
+2. **Mint a Zenodo DOI** by archiving the code repository at the submitted commit, and paste it into
+   the Data and code availability section. ⚠ *Superseded, retained: this step and the manuscript
+   previously disagreed, the manuscript saying "at submission" in one clause while this file said
+   "at acceptance". Both now say **at submission**.*
 3. **Verify the remaining gene-set-resource identifiers** (Enrichr, ChEA, TRRUST, MSigDB Hallmark)
    against their primary sources and add full bibliographic identifiers; the manuscript currently cites
    them to the depth the held source supplies and flags this explicitly, in line with the project's
    citation-provenance discipline.
+3b. ⛔ **Complete references 28 and 29 from the primary source.** Benjamini and Hochberg (1995,
+   *J R Stat Soc Series B*) and Efron and Tibshirani (2007, *Annals of Applied Statistics*) are cited
+   in the revised Methods and carry **no volume, no pages and no identifier**, because neither
+   journal is indexed by Europe PMC and three dispatches of the repository's literature-fetch route
+   returned no record for either (queries and outcomes recorded in
+   [`gene-set-null-prior-art.json`](../literature/gene-set-null-prior-art.json) under
+   `not_retrieved`). **Writing those identifiers from recollection is the failure `lint_citations.py`
+   exists to catch and must not be done**; they are to be read off the primary sources.
 4. **Elect the subscription (non-open-access) route** at the fee step so no APC is charged, unless a
    full waiver for open access has been secured.
 5. **Fill the bracketed fields** in the cover letter (date, ORCID) and confirm the current editor

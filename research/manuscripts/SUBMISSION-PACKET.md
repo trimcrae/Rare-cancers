@@ -26,10 +26,10 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 5222 (no limit found) |
-| Abstract | 250 words (limit 250) |
+| Word count, main text | 7219 (no limit found) |
+| Abstract | 248 words (limit 250) |
 | Display items | 5 (5 figures, 0 tables) |
-| References | 11 |
+| References | 18 |
 | Cover letter | `emc-mtap-prmt5-hypothesis-cover-letter.md` |
 | Supplementary file | yes |
 | Fee route | VERIFIED |
@@ -50,17 +50,19 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3161 (no limit found) |
-| Abstract | 239 words (limit 250) |
-| Display items | 7 (0 figures, 7 tables) |
-| References | 16 |
+| Word count, main text | 5572 (no limit found) |
+| Abstract | 249 words (limit 250) |
+| Display items | 7 (1 figures, 6 tables) |
+| References | 19 |
 | Cover letter | `emc-atr-collaborator-package-cover-letter.md` |
 | Supplementary file | none |
 | Fee route | VERIFIED |
 
 ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
 
-**Figures to upload** — none; this paper's display items are all tables.
+**Figures to upload**
+
+- `emc-fusion-frame-fig1.png` — raster present, vector present
 
 ## Genes, Chromosomes and Cancer (Wiley)
 
@@ -68,25 +70,21 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 12160 (no limit found) |
-| Abstract | 333 words (limit 250) |
-| Display items | 15 (5 figures, 10 tables) |
-| References | 45 |
+| Word count, main text | 9007 (no limit found) |
+| Abstract | 250 words (limit 250) |
+| Display items | 7 (3 figures, 4 tables) |
+| References | 47 |
 | Cover letter | `nr4a3-fusion-transcriptional-output-cover-letter.md` |
 | Supplementary file | yes |
 | Fee route | VERIFIED |
-
-> **Over a stated limit:** abstract_words 333 > 250
 
 ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
 
 **Figures to upload**
 
 - `fig1-size-matched-null.png` — raster present, vector present
-- `fig2-evidence-classes.png` — raster present, vector present
 - `fig3-per-sample-class-a.png` — raster present, vector present
 - `fig4-instrument-convergence.png` — raster present, vector present
-- `fig5-muscle-admixture-control.png` — raster present, vector present
 
 ## Critical Reviews in Oncology/Hematology (Elsevier)
 
@@ -94,10 +92,10 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 5037 (limit 8000) |
-| Abstract | 238 words (limit 250) |
-| Display items | 1 (1 figures, 0 tables) (limit 6) |
-| References | 20 |
+| Word count, main text | 6384 (limit 8000) |
+| Abstract | 242 words (limit 250) |
+| Display items | 5 (1 figures, 4 tables) (limit 6) |
+| References | 25 |
 | Cover letter | `repurposing-hypotheses-cover-letter.md` |
 | Supplementary file | none |
 | Fee route | VERIFIED, and this is the most explicit statement obtained |
@@ -108,23 +106,25 @@ last_verified: 2026-08-10
 
 - `repurposing-fig1-design.png` — raster present, vector present
 
-## British Journal of Cancer (Springer Nature)
+## Genes, Chromosomes and Cancer (Wiley), held to a verified proxy envelope
 
 **Manuscript** `emc-surface-target-landscape.md`
 
 | field | value |
 |---|---|
-| Word count, main text | 4755 (limit 5000) |
-| Abstract | 194 words (limit 200) |
-| Display items | 5 (0 figures, 5 tables) (limit 8) |
-| References | 21 (limit 80) |
+| Word count, main text | 5000 (limit 5000) |
+| Abstract | 198 words (limit 200) |
+| Display items | 5 (1 figures, 4 tables) (limit 8) |
+| References | 17 (limit 80) |
 | Cover letter | `emc-surface-target-landscape-cover-letter.md` |
 | Supplementary file | yes |
-| Fee route | VERIFIED at the journal's own pages, with one real caveat |
+| Fee route | not recorded |
 
-⚠ Limits provenance: nature.com pages DO answer; these were read from the journal's own guide to authors at HTTP 200.
+⚠ Limits provenance: venue is GCC, whose own limits Wiley blocks retrieval of; the numbers are BJC's publisher-page-verified envelope applied as the tightest verified proxy, so the format is valid at either venue. Not a retrieved GCC limit..
 
-**Figures to upload** — none; this paper's display items are all tables.
+**Figures to upload**
+
+- `emc-surface-fig1-transfer.png` — raster present, vector present
 
 ## Outstanding for every paper, and only the author can supply these
 

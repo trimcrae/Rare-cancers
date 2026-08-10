@@ -74,7 +74,7 @@ The reviewer's first question — 'is any of this the fusion?' — still has no 
 
 ## Where this route ends — the paper
 
-**[PUB-FUSION-OUTPUT](L3-publications.md)** — [Almost every gene set reads higher in the index arm: a size-matched empirical null for small rare-tumour expression series, and what it leaves of the EWSR1::NR4A3 direct-target catalogue](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md)
+**[PUB-FUSION-OUTPUT](L3-publications.md)** — [The published direct-target catalogue of the EWSR1::NR4A3 fusion is three genes wide, and none is separable from disease association in the available EMC expression record](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md)
 
 `primary` · ◐ `drafted` · aimed at `journal_submission`
 

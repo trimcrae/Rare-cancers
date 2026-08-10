@@ -24,10 +24,16 @@ last_verified: 2026-08-10
 three genes wide, and none is separable from disease association in the available EMC expression
 record.*
 
-**Summary of the outcome.** 34 of the 37 revision items were applied, 2 were applied in the
-alternative form the reviewer offered, and 1 was declined with a stated reason. The central
-reframing was accepted. Everything reported below is offline, CPU-only and free; no new bench work
-was done and no money was spent.
+**Summary of the outcome.** 36 of the 37 revision items were applied: 31 in full, and 5 in a
+qualified form that is stated at the item (12, the class-B split, without the primary/sensitivity
+swap; 15, the occupancy multiplicity, in the second form the reviewer offered; 17, seed sensitivity,
+with the half that is not computable named as such; 27, an SI label corrected in prose but not by
+hand-editing a producer's artifact; 31, references, with two carrying no identifier). **One item, 36,
+is declined**: an ORCID belongs to a person and cannot be invented, so the placeholder is retained
+and recorded as a residual author step. Separately, the structural moves of major point 13 were made
+in full but its word target was not reached, which is stated under that point rather than counted as
+applied. The central reframing was accepted. Everything reported below is offline, CPU-only and free;
+no new bench work was done and no money was spent.
 
 **New computation added in revision.** Nine sensitivity analyses the review asked for are computed
 by a new producer, `research/modalities/nr4a3_fusion_targets_review_sensitivity.py`, writing

@@ -96,7 +96,7 @@ Downgraded on a measurement rather than on reasoning, which is the useful kind o
 
 ## Where this route ends — the paper
 
-**[PUB-SURFACE-TARGETS](L3-publications.md)** — [Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts](../../research/manuscripts/emc-surface-target-landscape.md)
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [How far a lineage-surrogate surface-antigen ranking transfers to the tumour it was built for: extraskeletal myxoid chondrosarcoma as a worked case](../../research/manuscripts/emc-surface-target-landscape.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

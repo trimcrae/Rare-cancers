@@ -367,12 +367,18 @@ registry entry itself.
 
 | gate | result |
 |---|---|
-| `lint_consistency.py` | 0 ERROR across 17 target files |
-| `lint_style.py` | 0 ERROR across 11 files |
+| `lint_consistency.py` | 0 ERROR |
+| `lint_style.py` | 0 ERROR |
 | `lint_claims.py` | 0 ERROR |
-| `systems_check.py --check` | 0 ERROR |
-| `emc_systems_map_check.py --check` | 1 ERROR, in a file this revision did not touch — a sibling manuscript's review response created in the same working tree names a disputed cell line without classifying the use. Not this paper's |
-| `lint_citations.py` | 33 unanchored identifiers, all of them in `nr4a3-fusion-transcriptional-output.md`, a sibling manuscript being revised concurrently in the same tree. This manuscript and its SI contribute none |
+| `systems_check.py --check` | 0 ERROR; views regenerated for the new title |
+| `emc_systems_map_check.py --check` | 0 ERROR |
+| `lint_citations.py` | 0 ERROR, 0 new unanchored identifiers. Every identifier added by this revision anchors to a tracked retrieval record |
 | `emc_mtap_prmt5_figures.py --check` | OK, 10 files against 5 committed artifacts |
 | `emc_prmt5_multiplicity.py --check` | REPRODUCES |
-| `submission_metrics.py` | abstract 248 words against 250; 5 display items; within believed limits |
+| `submission_metrics.py` | abstract 248 words against a believed 250; main text 7,219 words against no stated limit; 5 display items; flagged over nothing |
+
+One operational note for a future revision of this paper: `lint_citations.py` reads `git ls-files`,
+so an identifier whose only home is a new and still-untracked artifact reads as unanchored until that
+artifact is tracked. The two new artifacts here carry reference 2's published identifiers and must
+land in the same commit as the reference list, which is the same rule CLAUDE.md 1.3 states for a
+pinned figure.

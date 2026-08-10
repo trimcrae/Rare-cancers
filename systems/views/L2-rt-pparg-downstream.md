@@ -89,13 +89,13 @@ Its central premise is directionally unresolved. Publishing a repurposing hypoth
 
 ## Where this route ends — the paper
 
-**[PUB-REPURPOSING](L3-publications.md)** — [Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma: a graded candidate menu from three independent generation methods](../../research/manuscripts/repurposing-hypotheses.md)
+**[PUB-REPURPOSING](L3-publications.md)** — [Repurposing in an ultra-rare sarcoma: evidence and novelty are anti-correlated in extraskeletal myxoid chondrosarcoma, and two computational routes added no candidate](../../research/manuscripts/repurposing-hypotheses.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 
 **This route contributes:** The downstream-effector axis, carried with its direction flagged unresolved — scoped as unresolved and NOT refuted, which the paper must not conflate.
 
-**The paper would claim:** Existing agents not yet reported in EMC can be mapped to EMC's molecular and microenvironmental axes by three independent methods, each candidate graded by an explicit evidence tier — a hypothesis-generating menu that asserts no efficacy for any agent it names.
+**The paper would claim:** In an ultra-rare sarcoma, evidence strength and novelty are anti-correlated across the existing agents that could be repurposed into it: the one candidate with EMC clinical evidence is the only one already tried, and the cell holding an untried agent with clinical evidence is empty. Two computational routes to filling that cell — a reproducible target-to-drug enumeration and a pretrained graph foundation model — contributed 2 of 14 candidates and 0 of 14 respectively. A hypothesis-generating menu that asserts no efficacy for any agent it names. ⚠ Superseded, retained (2026-08-10): "mapped ... by three independent methods", which the artifacts do not support — 12 of the 14 candidates are single-rater curation.
 
 ## Strategic timing — the wait equation
 

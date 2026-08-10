@@ -267,7 +267,7 @@ def fig_classes(plt, tgt):
     fig.suptitle("The entire published direct-target catalogue of an NR4A3 chimera is three genes",
                  fontsize=13, color=C_INK, y=0.97, x=0.02, ha="left", fontweight="bold")
     fig.text(0.02, 0.885, "Counted across 2,276 retrieved full-text documents (§3.10). A count of "
-                          "what has been PUBLISHED, not of what exists.",
+                          "what has been published, not of what exists.",
              fontsize=8.6, color=C_MUTE, ha="left")
     fig.tight_layout(rect=[0, 0, 1, 0.86])
     return fig
@@ -308,7 +308,16 @@ def _cells(tgt, robust, seq3, motif, conf, occ):
               if isinstance(c, dict) and c.get("permutation")]
         if ps:
             worst = max(ps)
-            row.append((f"$p$ = {worst:.3g}\nacross {len(ps)} strata",
+            # ⚠ FIVE CONTRASTS, FOUR DISTINCT SUB-ARMS. On GPL6244 `non_myxoid_comparators_only` IS
+            # `class_desmoid_fibromatosis_only` -- the same six samples under two names -- so the
+            # caption used to count one stratum twice. The least favourable p is unaffected; the
+            # label was not.
+            n_distinct = len({tuple(sorted(
+                (c.get("comparator_gsms") or c.get("comparator_samples") or [])))
+                or round(c["permutation"]["p_two_sided"], 12)
+                for c in pr.values()
+                if isinstance(c, dict) and c.get("permutation")})
+            row.append((f"$p$ = {worst:.3g}\nworst of {len(ps)} contrasts\nover {n_distinct} sub-arms",
                         "supported" if worst < 0.05 else "weak"))
         else:
             row.append(("not computed", "absent"))
@@ -318,10 +327,14 @@ def _cells(tgt, robust, seq3, motif, conf, occ):
         if pn is None and psar is None:
             row.append(("not readable", "absent"))
         else:
-            best = max(x for x in (pn, psar) if x is not None)
+            # ⛔ THIS COLUMN CARRIES NO TEST AND MUST NOT COLOUR ONE. It used to mark a cell
+            # "supported" at percentile >= 95, an undocumented threshold that made PPARG supported
+            # at 84.0/96.4 while SEMA3C was not at 94.2/92.6 -- inside a figure whose caption says
+            # the column carries no test. Methods refuse to make a percentile an instrument at
+            # n = 4, so the column is now neutral throughout and the printed percentiles speak.
             txt = (f"{cal.get('emc_over_normal')}× / {pn}ᵗʰ\n"
                    f"{cal.get('emc_over_sarcoma')}× / {psar}ᵗʰ")
-            row.append((txt, "supported" if best >= 95 else "weak"))
+            row.append((txt, "rank_only"))
         # NBRE, exact motif against the dinucleotide-preserving (composition-matched) null
         fg = ((motif.get("part_1_nbre_scan") or {}).get("focus_genes") or {}).get(g) or {}
         sn = fg.get("shuffle_null") or {}
@@ -350,21 +363,26 @@ def _cells(tgt, robust, seq3, motif, conf, occ):
 
 def fig_matrix(plt, tgt, robust, seq3, motif, conf, occ):
     cols = ["GPL6244 array\nΔ mean $z$ · BH $q$", "GPL3290 array\nΔ mean $z$ · BH $q$",
-            "each comparator stratum\nleast favourable exact $p$",
-            "3SEQ cohort\nratio · percentile of 14,120 genes",
+            "GPL6244 comparator strata\nleast favourable exact $p$",
+            # ⚠ 14,120 is the deposit's gene count; the percentile ranks within the genes with a
+            # computable ratio on each axis (13,708 and 13,247), which is a different denominator.
+            "3SEQ cohort · rank, no test\nratio · percentile (13,708 / 13,247)",
             "NBRE motif\nsequence, not occupancy",
             # ⚠ "paralogue" alone was true until the Haller deposit arrived and is now wrong for a
             # third of the column: 8 of the 12 informative experiments are NR4A1, but 4 are NR4A3
             # itself — wild-type, in acinic cell carcinoma. Neither is the fusion, which is the
             # point the header has to carry, and "paralogue" understates one axis while overstating
             # the other's relevance.
-            "NR4A occupancy\nNR4A1 + native NR4A3, vs 198-gene panel"]
+            "NR4A occupancy vs 198-gene panel\nNR4A1 and native NR4A3, neither the fusion"]
     cells = _cells(tgt, robust, seq3, motif, conf, occ)
-    colour = {"supported": C_SUPP, "weak": C_NULL, "absent": C_ABSENT, "circular": "#b08a3e"}
-    fig, ax = plt.subplots(figsize=(15.6, 4.9))
+    colour = {"supported": C_SUPP, "weak": C_NULL, "absent": C_ABSENT,
+              "circular": "#b08a3e", "rank_only": "#c8cdd4"}
+    # ⚠ WIDER, AND THE HEADERS SIT ON THREE LINES. At 15.6 in the "NBRE motif" and
+    # "NR4A occupancy" headers collided and were unreadable at submission size.
+    fig, ax = plt.subplots(figsize=(18.4, 5.3))
     for ci, c in enumerate(cols):
-        ax.text(ci + 0.5, len(GENES) + 0.16, c, ha="center", va="bottom", fontsize=8.4,
-                color=C_INK, linespacing=1.6)
+        ax.text(ci + 0.5, len(GENES) + 0.16, c, ha="center", va="bottom", fontsize=7.9,
+                color=C_INK, linespacing=1.7)
     for ri, g in enumerate(GENES):
         y = len(GENES) - 1 - ri
         ax.text(-0.12, y + 0.5, f"$\\it{{{g}}}$", ha="right", va="center", fontsize=13,
@@ -383,15 +401,16 @@ def fig_matrix(plt, tgt, robust, seq3, motif, conf, occ):
     ax.axis("off")
     key = [("supported by this instrument", C_SUPP), ("not supported", C_NULL),
            ("circular — scored on the data the claim came from", "#b08a3e"),
+           ("a rank, not a test", "#c8cdd4"),
            ("not computable", C_ABSENT)]
     handles = [plt.Rectangle((0, 0), 1, 1, facecolor=c, edgecolor="white",
                              hatch="///" if lab == "not computable" else None)
                for lab, c in key]
-    ax.legend(handles, [k for k, _ in key], fontsize=7.6, frameon=False, ncol=4,
+    ax.legend(handles, [k for k, _ in key], fontsize=7.4, frameon=False, ncol=5,
               loc="lower left", bbox_to_anchor=(0.0, 0.0), handlelength=1.6, columnspacing=1.4)
     fig.suptitle("Independent instruments applied to the three published direct targets",
                  fontsize=13, color=C_INK, y=0.98, x=0.02, ha="left", fontweight="bold")
-    fig.text(0.02, 0.905, "Columns are NOT commensurable and no glyph is scaled by effect size. "
+    fig.text(0.02, 0.905, "Columns are not commensurable and no glyph is scaled by effect size. "
                           "Colour encodes only whether that instrument supported the gene.",
              fontsize=8.6, color=C_MUTE, ha="left")
     fig.tight_layout(rect=[0, 0, 1, 0.88])

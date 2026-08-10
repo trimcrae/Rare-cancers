@@ -82,13 +82,13 @@ The decisive observation is a stain on tissue this programme cannot obtain, so t
 
 ## Where this route ends — the paper
 
-**[PUB-MTAP-PRMT5](L3-publications.md)** — [The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-class rationale that survives, an MTAP-locus rationale that does not, and two inexpensive tests](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md)
+**[PUB-MTAP-PRMT5](L3-publications.md)** — [The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-class rationale that survives and an MTAP-locus rationale that does not](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 
 **This route contributes:** The route IS the paper: two independent routes into the same class, the confounds that could produce each reading without the underlying biology, and the two different cheap experiments that separate them.
 
-**The paper would claim:** Two independent lines point at the PRMT5 methylosome in extraskeletal myxoid chondrosarcoma and neither has ever been examined in it. One of them closes on the paper's own data and is reported as the negative it is; the other survives and is argued rather than assumed — a peer-reviewed result in a second EWSR1-fusion sarcoma where PRMT5 inhibition acts in a fusion-DEPENDENT way, plus a sequence finding that PRMT5's measured substrate motif is absent from the half of EWSR1 every fusion retains and that the commonest EMC and clear cell fusions keep the same number of sites. The same analysis refuses the response prediction it looks like it licenses. Each route ends at a different inexpensive experiment, and the negative branch of each is worth publishing.
+**The paper would claim:** Two independent lines point at the PRMT5 methylosome in extraskeletal myxoid chondrosarcoma and neither has ever been examined in it. One of them closes on the paper's own data and is reported as the negative it is; the other survives as a hypothesis and is argued rather than assumed — a peer-reviewed result in a second EWSR1-fusion sarcoma where PRMT5 inhibition acts in a fusion-DEPENDENT way, plus a sequence finding that PRMT5's measured substrate motif is absent from the half of EWSR1 every fusion retains and that the commonest EMC fusion and two of the three reported clear cell junctions keep the same number of sites. A max-statistic permutation correction, added on 2026-08-10, puts the primary transcript contrast at an adjusted p of 0.21 and 0.24 and the MTAP closure at 1.00, so the paper leads with the correction rather than with the uncorrected p. The same analysis refuses the response prediction it looks like it licenses. Each route ends at a different inexpensive experiment, and the negative branch of each is worth publishing.
 
 ## Strategic timing — the wait equation
 

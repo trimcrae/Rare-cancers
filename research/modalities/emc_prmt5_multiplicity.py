@@ -651,11 +651,6 @@ def compute():
     return res
 
 
-def _strip(o):
-    """Drop fields that legitimately vary between runs before a --check diff."""
-    return o
-
-
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     ap.add_argument("--check", action="store_true",
@@ -667,7 +662,7 @@ def main(argv=None):
             print("no artifact to check against", file=sys.stderr)
             return 1
         old = json.load(open(OUT, encoding="utf-8"))
-        drift = [k for k in res if _strip(old.get(k)) != _strip(res[k])]
+        drift = [k for k in res if old.get(k) != res[k]]
         print("REPRODUCES" if not drift else f"DRIFT in: {drift}")
         return 0 if not drift else 1
     with open(OUT, "w", encoding="utf-8") as fh:
