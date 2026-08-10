@@ -26,16 +26,29 @@ REPO = os.path.dirname(os.path.dirname(HERE))
 OUT = os.path.join(HERE, "SUBMISSION-PACKET.md")
 
 #: Things only the author can supply. Listed per paper so none is discovered at the portal.
+#: Things only the author can supply.
+#: ⛔ TWO OF THE THREE ENTRIES HERE WERE ASSERTED AND ONE WAS WRONG (2026-08-10). trimcrae asked "I
+#: have to suggest my own reviewers?" — a fair question, because I had written that most venues ask
+#: for three to five without checking any of them. The British Journal of Cancer's Guide to Authors
+#: is the one that answers on plain HTTP, and it contains ZERO occurrences of "suggest" and zero of
+#: "oppose" or "exclude": it asks for no reviewer names at all. The same read also corrected the
+#: address item — the guide asks for affiliations and a corresponding-author e-mail, never a postal
+#: address. The Wiley and Elsevier guides remain unreadable, so their requirements are unknown
+#: rather than assumed either way.
 AUTHOR_ONLY = [
-    ("ORCID", "Free at orcid.org. All four venues request it and some require it for the "
-              "corresponding author. The repository carries none and cannot invent one."),
-    ("Suggested reviewers", "Most venues ask for three to five, with affiliation and email. The "
-                            "candidates are in each paper's own reference list; the choice is a "
-                            "conflict-of-interest judgement only the author can make, so no names "
-                            "are proposed here."),
-    ("Postal address", "Submission portals require one for the corresponding author. The "
-                       "manuscripts state 'independent researcher, unaffiliated' and give no "
-                       "address."),
+    ("ORCID", "REQUIRED, and this one is verified: the British Journal of Cancer's Guide to Authors "
+              "states that 'the corresponding author should also provide an ORCID identifier'. Free "
+              "at orcid.org. The repository carries none and cannot invent one."),
+    ("Corresponding-author e-mail and affiliation", "The BJC title-page specification asks for full "
+              "author names and affiliations together with the corresponding author's e-mail. The "
+              "manuscripts give the e-mail and state 'independent researcher, unaffiliated', which "
+              "is an affiliation statement. No postal address is requested."),
+    ("Suggested reviewers", "PROBABLY NOT NEEDED, and previously overstated here. BJC's Guide to "
+              "Authors does not mention suggesting, opposing or excluding reviewers anywhere. Some "
+              "portals offer an optional field; where it is optional it can be left blank. The "
+              "Wiley and Elsevier guides could not be retrieved, so their position is unknown. If a "
+              "portal does ask, the candidates are in each paper's own reference list, and the "
+              "choice is a conflict-of-interest judgement only the author can make."),
 ]
 
 

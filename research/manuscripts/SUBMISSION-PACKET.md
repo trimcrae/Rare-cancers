@@ -50,7 +50,7 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3071 (no limit found) |
+| Word count, main text | 3078 (no limit found) |
 | Abstract | 239 words (limit 250) |
 | Display items | 7 (0 figures, 7 tables) |
 | References | 16 |
@@ -68,7 +68,7 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 5061 (limit 8000) |
+| Word count, main text | 4889 (limit 8000) |
 | Abstract | 238 words (limit 250) |
 | Display items | 1 (1 figures, 0 tables) (limit 6) |
 | References | 20 |
@@ -88,7 +88,7 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 4756 (limit 5000) |
+| Word count, main text | 4755 (limit 5000) |
 | Abstract | 194 words (limit 200) |
 | Display items | 5 (0 figures, 5 tables) (limit 8) |
 | References | 21 (limit 80) |
@@ -102,9 +102,9 @@ last_verified: 2026-08-10
 
 ## Outstanding for every paper, and only the author can supply these
 
-- **ORCID.** Free at orcid.org. All four venues request it and some require it for the corresponding author. The repository carries none and cannot invent one.
-- **Suggested reviewers.** Most venues ask for three to five, with affiliation and email. The candidates are in each paper's own reference list; the choice is a conflict-of-interest judgement only the author can make, so no names are proposed here.
-- **Postal address.** Submission portals require one for the corresponding author. The manuscripts state 'independent researcher, unaffiliated' and give no address.
+- **ORCID.** REQUIRED, and this one is verified: the British Journal of Cancer's Guide to Authors states that 'the corresponding author should also provide an ORCID identifier'. Free at orcid.org. The repository carries none and cannot invent one.
+- **Corresponding-author e-mail and affiliation.** The BJC title-page specification asks for full author names and affiliations together with the corresponding author's e-mail. The manuscripts give the e-mail and state 'independent researcher, unaffiliated', which is an affiliation statement. No postal address is requested.
+- **Suggested reviewers.** PROBABLY NOT NEEDED, and previously overstated here. BJC's Guide to Authors does not mention suggesting, opposing or excluding reviewers anywhere. Some portals offer an optional field; where it is optional it can be left blank. The Wiley and Elsevier guides could not be retrieved, so their position is unknown. If a portal does ask, the candidates are in each paper's own reference list, and the choice is a conflict-of-interest judgement only the author can make.
 
 ## Not verified, and stated rather than assumed
 

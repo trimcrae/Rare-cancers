@@ -232,6 +232,15 @@ specified before the tables were parsed, and each is reported with its *t* and d
 that a reader can apply their own correction. A threshold on |*t*| in a verdict string is a readability
 aid rather than a test.
 
+### Use of large language models
+
+Analysis code, data processing and manuscript drafting were carried out with substantial assistance
+from a large language model under the author's direction. The author designed the study, specified
+every read and threshold in advance, and verified each reported value against the committed
+artifact that produced it. No large language model is an author, and none is accountable for the
+work. Every number in this manuscript is reproducible offline from the artifacts named in the data
+availability statement, without any language model.
+
 ## Results
 
 ### Stage-1 selectivity and the normal-tissue prior
