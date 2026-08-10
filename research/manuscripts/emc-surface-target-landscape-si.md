@@ -335,10 +335,10 @@ accessions only, and resolving them through a curated dictionary, a UniGene arch
 that platform.
 
 That bridge is the weak link on this platform. A gene can be unreadable purely because its accession did
-not resolve, which is exactly why CD248, CD276, SSTR2, GPC2 and B4GALNT1 carry a single-platform state
-rather than a low reading. The lesson generalises past this dataset: a statement that public data is
-unusable is a statement about a tool, and it cost this analysis its entire tumour-tissue axis for a month
-while the fix required no new data.
+not resolve, which is why CD248, CD276, SSTR2, GPC2 and B4GALNT1 carry a single-platform state
+rather than a low reading. The general point extends past this dataset: a finding that public data is
+unusable can be a property of the tool applied to it rather than of the data, and here the correction
+required no new data.
 
 ### S3. CSPG4, held open
 
@@ -374,13 +374,13 @@ against array intensity in archival tissue on two decade-old platforms.
 
 The compartment explanation is the one a single measurement could test. A single-cell or spatial dataset
 for this disease separates the tumour-cell compartment from the stromal one and would settle it directly.
-None is in hand, and neither document picks a winner in its absence.
+None is in hand, and neither document selects among the four explanations in its absence.
 
 ### S5. Extended limitations
 
 **Cohort size.** The exposure axis rests on 4 tumour libraries. Those are medians of four values, with no
-confidence interval, no test and no distribution. The array arms are 6 and 10 archival tumours. Nothing in
-either document settles anything at the level of a population.
+confidence interval, no test and no distribution. The array arms are 6 and 10 archival tumours. Neither
+document supports a population-level statement.
 
 **Single peaks and single probes.** Several genes rest on one peak in the sequencing deposit, among them
 CSPG4, FAP, GPC3, L1CAM and PRAME, and one peak has no internal replication. Several array rows rest on
