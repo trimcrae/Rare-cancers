@@ -103,6 +103,24 @@ QUERIES: list[tuple[str, str]] = [
      '(oligometastatic OR "metastasis-directed therapy") AND ("patient selection" OR "selection bias" OR biomarker) AND (indolent OR biology)'),
     ('fusion_sarcoma_local_therapy_concept',
      '(TITLE:sarcoma OR ABSTRACT:sarcoma) AND (fusion OR translocation) AND (oligometastatic OR "metastasis-directed therapy" OR "local therapy") AND (rationale OR concept OR perspective OR hypothesis)'),
+    # --- (f) the plural trap, and the papers a phrase query cannot see ------------
+    # `emc_topic_whole_lung_rt` returned 0 while a plain web search had already surfaced
+    # "Whole Lung Radiotherapy to Treat Metastatic Extraskeletal Myxoid ChondrosarcomaS"
+    # (Clinical Oncology, 2023). The suspected mechanism is the PLURAL: an exact-phrase match on
+    # "extraskeletal myxoid chondrosarcoma" need not match inside "...chondrosarcomas". These
+    # three discriminate -- unfielded word-AND, the plural phrase, and the title outright. If the
+    # paper appears here and not above, the zero was the phrase form, not the literature.
+    ('emc_words_whole_lung_rt',
+     '(extraskeletal AND myxoid AND chondrosarcoma) AND ("whole lung" OR "whole-lung" OR "lung irradiation" OR hemithoracic)'),
+    ('emc_plural_phrase',
+     '(TITLE:"extraskeletal myxoid chondrosarcomas" OR ABSTRACT:"extraskeletal myxoid chondrosarcomas")'),
+    ('whole_lung_rt_title_lookup',
+     'TITLE:"Whole Lung Radiotherapy to Treat Metastatic Extraskeletal Myxoid Chondrosarcomas"'),
+    # And the radiation-to-EMC papers the fielded run did surface, pulled by identifier so their
+    # abstracts land in the artifact rather than being read off a search-results page.
+    ('emc_rt_papers_by_doi',
+     '(DOI:"10.1159/000548238" OR DOI:"10.5114/jcb.2022.115161" OR DOI:"10.1136/bcr-2022-250218" '
+     'OR DOI:"10.1186/s13569-020-00150-8" OR DOI:"10.1097/COC.0000000000000590" OR DOI:"10.1097/COC.0000000000000341")'),
 ]
 
 
