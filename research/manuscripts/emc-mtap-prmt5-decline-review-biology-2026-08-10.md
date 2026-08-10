@@ -570,8 +570,8 @@ EWSR1 is extensively arginine-methylated.
 **What is wrong.** §3.6 narrates the GPL3290 disagreement as EMC being more proliferative. The
 per-sample values do not clearly say that.
 
-**Evidence.** `gene_reads.MKI67`, GPL3290: the nine EMC tumours sit at array percentiles of 10–30%,
-and the six comparators at 0–22%, with two comparator values at *z* = −3.72 and −3.88. Both arms are
+**Evidence.** `gene_reads.MKI67`, GPL3290: the nine EMC tumours with a value sit at array percentiles
+of 6–30%, and the six comparators at 0–18%, with two comparator values at *z* = −3.72 and −3.88. Both arms are
 below their arrays' means; the pooled *t* = 2.30 is carried by two extreme comparator values rather
 than by high proliferation in EMC. SI §S5a already shows MKI67 falling to *t* = 1.09 against the
 label-matched half. The manuscript reports the split and still narrates the confound in the other
