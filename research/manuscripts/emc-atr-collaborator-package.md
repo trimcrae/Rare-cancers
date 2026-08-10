@@ -256,10 +256,16 @@ That command re-derives every figure below offline from the committed input cach
 ([`emc-construct-inputs.json`](../modalities/emc-construct-inputs.json)) and prints `REPRODUCES`.
 The producer emits no output if the inputs have drifted.
 
-Retrieval, computation and drafting were carried out with AI assistance. Every breakpoint is quoted
-from a primary source, every sequence figure is re-derivable by the command above, and every prose
-identifier is checked against a tracked fetch product by an automated linter. These controls address
-the characteristic failure mode of the method, which is a fluent citation to a paper that does not
+Retrieval, computation and drafting were carried out with substantial assistance from an AI coding
+agent operating on a version-controlled repository under the author's direction. The agent is not an
+author and cannot be one, and the author takes responsibility for the content. The agent's output
+did influence the substance of this report rather than its wording alone: the transcript-level
+reading frames, the recruitment-axis placement and the TCF12 classification are all computed
+results, and the pre-specified predictions follow from them. The author verified each by an
+independent route. Every breakpoint is quoted from a primary source and checked against the cited
+record, every sequence figure is re-derivable by the command above, and every prose identifier is
+checked against a tracked fetch product by an automated linter. Those controls address the
+characteristic failure mode of the method, which is a fluent citation to a paper that does not
 exist.
 
 ---

@@ -1,0 +1,37 @@
+{
+  "_what": "The AI-disclosure requirement of each venue, read from the publisher's own policy page, and what each manuscript now does to meet it.",
+  "_why": "A stop-hook check flagged that one paper's LLM disclosure had been moved to the right place for its journal while the other three were never checked against theirs. The requirements turned out to DIFFER BY PUBLISHER, so a single fix would have been wrong for two of the four.",
+  "_retrieval": {
+    "slug": "ai-disclosure-policies-2026-08-10",
+    "date_et": "2026-08-10",
+    "note": "The per-journal author guides are bot-walled, but the AI policies are PUBLISHER-WIDE and live on hosts that answer. That is why this was retrievable when the word limits were not."
+  },
+  "venues": {
+    "Springer Nature (British Journal of Cancer)": {
+      "source": "https://www.nature.com/bjc/authors-and-referees/gta (HTTP 200)",
+      "verbatim": "Use of an LLM should be properly documented in the Methods section (and if a Methods section is not available, in a suitable alternative part) of the manuscript.",
+      "also": "Large Language Models (LLMs), such as ChatGPT, do not currently satisfy our authorship criteria.",
+      "manuscript": "emc-surface-target-landscape.md",
+      "done": "New Methods subsection 'Use of large language models'. Previously the disclosure sat only in Declarations, which is the wrong place by this journal's own rule."
+    },
+    "Elsevier (Critical Reviews in Oncology/Hematology)": {
+      "source": "https://www.elsevier.com/about/policies-and-standards/generative-ai-policies-for-journals (HTTP 200)",
+      "verbatim_declaration": "Authors should disclose the use of AI tools for manuscript preparation in a separate AI declaration statement included in their manuscript upon submission.",
+      "verbatim_methods": "Where AI tools are used as part of the research process rather than manuscript preparation, this use should be described in detail in the Methods section.",
+      "prescribed_section_title": "Declaration of generative AI and AI-assisted technologies in the manuscript preparation process",
+      "manuscript": "repurposing-hypotheses.md",
+      "done": "⛔ ELSEVIER REQUIRES BOTH, IN DIFFERENT PLACES, which is the opposite arrangement from Springer Nature. Split accordingly: research-process use is now Methods section 2.5, and the manuscript-preparation declaration uses Elsevier's own prescribed section title and recommended wording."
+    },
+    "Wiley (Genes, Chromosomes and Cancer)": {
+      "source": "https://authors.wiley.com/ethics-guidelines/index.html (HTTP 200)",
+      "verbatim": "Authors should document all AI Technology used, including its purpose, whether it influenced key arguments or conclusions, and how they personally reviewed and verified any AI-generated content.",
+      "also": "in accordance with COPE's position statement on Authorship and AI tools these tools cannot fulfil the role of an author and must not be listed as one on an article",
+      "manuscripts": [
+        "emc-mtap-prmt5-hypothesis.md",
+        "emc-atr-collaborator-package.md"
+      ],
+      "done": "Wiley prescribes no location, but three content elements. Audited both papers against them. MTAP already gave purpose and, unusually well, the influence on conclusions - it records that two corrections in its appendix were found during figure preparation after the prose had been written the other way - but did not say how the author verified the output; added. The ATR package gave purpose and verification but stated neither the influence on conclusions nor that the tool is not an author; both added."
+    }
+  },
+  "⚠_what_this_does_not_cover": "COPE's position statement returned 403 and was not read. It is cited by Wiley's own policy, which was read, so the substance reaches these manuscripts through that route rather than directly."
+}

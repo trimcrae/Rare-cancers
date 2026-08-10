@@ -233,8 +233,10 @@ against the sum of its retained 5′ half and NR4A3's contribution.
 Every figure, table and number is regenerable from public data by scripts in the accompanying
 repository, and section 8 names the artifact that owns each value. Analysis, figures and drafting
 were carried out with substantial assistance from an AI coding agent operating on a version-
-controlled repository under the author's direction. The agent is not an author and the author takes
-responsibility for the content. Two of the corrections recorded in Appendix A, the closure of the
+controlled repository under the author's direction, using Anthropic Claude. The agent is not an
+author and cannot be one, and the author takes responsibility for the content. The author verified
+every reported value against the committed artifact that produced it, and specified the reads,
+thresholds and controls before the corresponding data were retrieved. Two of the corrections recorded in Appendix A, the closure of the
 locus rationale and the restatement of the fusion rationale on the gene rather than the group, were
 found during figure preparation, after the prose had been written the other way. Every bibliographic
 identifier below was taken from a retrieval record and is checked against a tracked artifact by an

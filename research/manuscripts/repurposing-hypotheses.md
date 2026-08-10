@@ -226,7 +226,17 @@ GSE24369, and 10 EMC against 6 comparators on GSE4303. The module definitions, t
 |t| ≥ 2, and the four readings the rule could emit were all fixed before retrieval. The stated prior
 expectation was a null, because transcript abundance is a weak instrument for a dependency.
 
-### 2.5 Citation integrity and the patient firewall
+### 2.5 Use of AI tools in the research process
+
+The candidate enumeration, the graph-model run, the two pre-specified in-silico tests and the
+citation-integrity checks described above were executed by an AI coding agent operating on a
+version-controlled repository under the author's direction, using Anthropic Claude. Every step is a
+committed script with a committed output artifact, so each result is re-derivable offline without
+any AI tool. The author specified the inclusion rules, the evidence tiers and both pre-specified
+tests before the corresponding data were retrieved, and verified every reported value against the
+artifact that produced it. Manuscript-preparation use is declared separately in section 9.
+
+### 2.6 Citation integrity and the patient firewall
 
 Every clinical and biological claim in the underlying catalogue is tied to a primary source; any
 claim that could not be so grounded was tagged for verification and resolved to a primary reference
@@ -550,10 +560,12 @@ all clinical and biological inputs come from the published literature cited belo
 analyses, performed the literature curation and verification, and wrote the manuscript,
 independently and in a personal capacity.
 
-*Use of artificial intelligence.* AI tools (Anthropic Claude) were used for literature aggregation,
-the systematic target-to-drug enumeration, the graph-model run, the two pre-specified in-silico
-tests, reference verification and drafting. The author takes full responsibility for all content
-and conclusions. AI is not, and cannot be, an author.
+*Declaration of generative AI and AI-assisted technologies in the manuscript preparation process.*
+During the preparation of this work the author used Anthropic Claude in order to draft and revise
+manuscript text, to aggregate literature and to verify bibliographic identifiers against retrieval
+records. After using this tool the author reviewed and edited the content as needed and takes full
+responsibility for the content of the published article. The tool is not an author and cannot be
+one. Use of AI tools within the research process itself is described in section 2.5.
 
 *Clinical review.* A sarcoma clinician or researcher has not been involved. Clinical collaboration
 is actively sought and is recommended, to review candidate plausibility and the clinical-registry
