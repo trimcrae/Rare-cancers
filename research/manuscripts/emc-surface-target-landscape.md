@@ -116,9 +116,9 @@ marker [2].
 Because the driver is nuclear, driver-directed therapy confronts a druggability or
 oligonucleotide-delivery gate. Cell-surface antigens enable modalities that move the problem elsewhere:
 antibody-drug conjugates, T-cell engagers, chimeric antigen receptor cell products and radioligand
-therapy. That axis is gated differently rather than more easily, and it gives up the fusion-level
-specificity that a nucleic-acid route uniquely offers, since every surface antigen considered below is a
-generic lineage antigen with no mechanistic link to the fusion.
+therapy. That axis carries its own gates, and it gives up the fusion-level specificity that a
+nucleic-acid route uniquely offers, since every surface antigen considered below is a generic
+lineage antigen with no mechanistic link to the fusion.
 
 Surface-antigen prioritisation for EMC has had to run on surrogates because the disease was taken to be
 absent from usable public expression data. A prior-art screen run for this work supports the underlying
@@ -132,12 +132,11 @@ it establishes that nothing is indexed on those pairings rather than that no suc
 surface-antigen analysis inside a supplementary table of a larger sarcoma paper would be invisible to
 it.
 
-The assumption that EMC is absent from public expression data is the one this paper tests. Three EMC
-tumour-tissue cohorts turn out to be readable at no cost, two of them only after a probe-to-symbol
-accession bridge was built. The study therefore has two stages: a surrogate-based prioritisation, and
-the test of that prioritisation against the disease it was built for. The field routinely builds
-surrogate-based target lists for rare tumours and rarely reports what happened when the tumour itself
-was measured.
+That assumption is tested here. Three EMC tumour-tissue cohorts are readable at no cost, two of them
+only after a probe-to-symbol accession bridge was built. The study therefore has two stages: a
+surrogate-based prioritisation, and the test of that prioritisation against the disease it was built
+for. Surrogate-based target lists are routinely built for rare tumours, and the outcome when the
+tumour itself is measured is rarely reported.
 
 ## Methods
 
@@ -173,7 +172,7 @@ This is cross-cancer selectivity, a descriptor of distinguishability from other 
 a tumour-versus-normal contrast; it mechanically favours mesenchymal antigens because the DepMap panel
 is epithelial-dominated.
 
-Four limits of this instrument were computed rather than asserted (Supplementary Note S1). The scanned
+Four limits of this instrument were computed (Supplementary Note S1). The scanned
 population is tumour-cell monoculture, so it contains no stromal or fibroblast compartment; an antigen
 carried only by stroma reads at the floor, demonstrated by LRRC15, an established sarcoma
 cancer-associated-fibroblast antigen with a clinical antibody-drug conjugate programme behind it, at
@@ -217,9 +216,9 @@ GPL3290 probes carry expressed-sequence-tag accessions only, so a gene can be un
 because its accession did not resolve through the curated dictionary, UniGene archive and live-query
 bridge. Every gene therefore carries a cross-platform state: CONCORDANT_UP_ON_BOTH,
 CONCORDANT_DOWN_ON_BOTH, DISCORDANT_OPPOSITE_SIGNS, MOVED_ON_ONE_FLAT_ON_THE_OTHER, FLAT_ON_BOTH,
-READABLE_ON_ONE_PLATFORM_ONLY or NOT_READABLE_ON_EITHER_PLATFORM. The last two are statements about the
-instrument. An absent reading is not a reading of absence: CD248, CD276 and SSTR2 are unreadable on
-GPL3290, and no statement below treats that as evidence about their expression. A curated panel is
+READABLE_ON_ONE_PLATFORM_ONLY or NOT_READABLE_ON_EITHER_PLATFORM. The last two describe the
+instrument rather than the biology. CD248, CD276 and SSTR2 are unreadable on GPL3290, and no
+statement below treats unreadability as evidence about their expression. A curated panel is
 scored only above a floor of 3 readable genes and 0.5 coverage; panels below the floor emit no score.
 
 ### Controls and multiple testing
@@ -244,8 +243,7 @@ toward mesenchymal antigens, so CDH11 at +3.18 log2TPM is largely a statement th
 express it. And transcript magnitude to two decimal places conveys false precision about surface-protein
 density; the values are coarse tiers.
 
-The one decision-grade result in this column is negative. B7-H3, the field's default surface target for
-sarcoma, is not significantly selective in these data. B7-H3 protein can be tumour-restricted despite
+B7-H3, the field's default surface target for sarcoma, is not significantly selective in these data. B7-H3 protein can be tumour-restricted despite
 broad transcript expression, which is the basis of its clinical traction, so this is a
 selectivity-of-transcript caveat rather than a claim about protein; it removes the transcriptomic
 rationale for treating B7-H3 as the obvious first choice.
@@ -255,7 +253,8 @@ stromal compartment, with LRRC15 reading at zero expressed fraction in it. A ver
 instrument is a statement about tumour cells in culture rather than about FAP in an EMC tumour.
 
 The normal-tissue prior is the decisive filter, and among the classic protein antigens it evaluated no
-antigen was both selective and restricted (Figure 1). The candidates fail in nameable ways. NCAM1/CD56
+antigen was both selective and restricted (Figure 1). Each candidate fails for an identifiable
+reason. NCAM1/CD56
 sits on natural killer cells and neural tissue, carrying a fratricide risk for cell products and a
 circulating compartment; the CD56 antibody-drug conjugate lorvotuzumab mertansine was clinically
 developed and discontinued [9,10]. CDH11 is broadly expressed in normal fibroblasts, synovium and bone,
@@ -272,12 +271,11 @@ Every antigen the surrogate called selective now has a reading in EMC tumour tis
 concordantly higher in EMC than in comparator sarcomas on both arrays, and two are concordantly lower
 (Table 3). The two antigens the surrogate called non-selective read the same way in tissue: EGFR is
 concordantly down on both arrays, and CD276 is lower in EMC on the one platform that reads it. The
-surrogate's negatives transferred and its positives did not, which is the opposite of the asymmetry an
-optimistic reading would assume.
+surrogate's negatives transferred and its positives did not.
 
-Table 3 is not a refutation of the surrogate, which asked a different question, in monoculture, and
-answered it correctly. It is not corrected for multiple testing. And a flat or single-platform row does
-not demonstrate that an antigen is absent.
+Three qualifications apply to Table 3. It does not refute the surrogate, which asked a different
+question, in monoculture, and answered it correctly. It is not corrected for multiple testing. And a
+flat or single-platform row does not demonstrate that an antigen is absent.
 
 ### Route-named therapeutic addresses
 
@@ -290,16 +288,16 @@ work: ALCAM, CD248, CD276, FAP, PRAME and SSTR2.
 
 The single antigen elevated on both arrays is ALCAM, which no candidate route names, and the exposure
 axis demotes it. Its EMC median in the sequencing cohort, 0.578, sits below the normal-organ median of
-0.631 while remaining above the other-sarcoma median of 0.377. The lineage half survives and the
-exposure half does not, and for any surface-directed modality the exposure axis decides whether an
-address is usable at all. ALCAM as an EMC-versus-sarcoma marker is untouched by this; what weakens is
-ALCAM as a therapeutic address. The reading rests on one cohort, n = 4, at transcript level, on two
+0.631 while remaining above the other-sarcoma median of 0.377. The lineage reading survives and the
+exposure reading does not, and for any surface-directed modality the exposure axis decides whether an
+address is usable at all. ALCAM as an EMC-versus-sarcoma marker is unaffected; what weakens is ALCAM
+as a therapeutic address. The reading rests on one cohort, n = 4, at transcript level, on two
 peaks, and is not a safety statement. The two normal-tissue instruments in this study disagree about
 ALCAM: the Human Protein Atlas prior classes it RESTRICTED (tissue enriched, detected in many, immune-cell
 enhanced), while the sequencing normal arm places its EMC median below the normal-organ median. Neither
-instrument measures protein, and the disagreement is recorded rather than resolved.
+instrument measures protein, and the disagreement is not resolved here.
 
-Four rows deserve reading individually. CD248 inverts: it is the surrogate's only selectivity-significant
+Four rows warrant individual comment. CD248 inverts: it is the surrogate's only selectivity-significant
 antigen in this set, at 2.29 log2TPM enrichment with q = 0.0, and in EMC tissue it is lower than
 comparator sarcomas on the one platform that reads it and below normal organs in the sequencing cohort.
 CD276 points the same way in tissue as in the surrogate, sitting at the 79th array percentile while

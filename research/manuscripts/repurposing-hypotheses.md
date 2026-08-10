@@ -417,13 +417,13 @@ capacity limiting, with the grading rule committed before the data were retrieve
 while the secretory and matrix-load proxy, which is the module carrying the actual argument, was
 flat at −0.20. On the 16-tumour platform (GSE4303) every module was null.
 
-What survives is the observation. The candidate stays on the list, because an ex-vivo result in
-cells that carry this disease outranks two failed in-silico rationales for it; those rationales
-were arguments about mechanism, and their failure does not unmake a measurement. What does not
-survive is the case for selectivity. Nothing here supports the idea that a proteasome inhibitor
-would spare normal tissue in this disease more than in any other, and this document must not be
-read as claiming that it would. Our recorded confidence in the route is correspondingly low, and
-the remaining validation it needs is a clinical series that no computational work can supply.
+The observation survives and the argument does not. The candidate stays on the list, because an
+ex-vivo result in cells that carry this disease outweighs two failed in-silico rationales for it:
+those rationales concerned mechanism, and their failure does not unmake a measurement. The case for
+selectivity does not survive. No evidence here indicates that a proteasome inhibitor would spare
+normal tissue in this disease more than in any other, and no such claim is made. Our recorded
+confidence in the route is correspondingly low, and the remaining validation it needs is a clinical
+series that no computational work can supply.
 
 A caution about the underlying screen, carried from section 3, applies to every row that cites it.
 The 40-drug screen was run on USZ20-EMC1 alone; carfilzomib, doxorubicin and venetoclax were
@@ -462,9 +462,9 @@ rescue the leads: they ranked similarly low and the model reproduced the same im
 which were metabolic and lysosomal-storage-disease agents (Table 4). The divergence is therefore
 not attributable to the sparsity of EMC specifically; it is a general property of the indication
 ranking of this released checkpoint, which, being the held-out complex-disease split, also prevents
-any of the three diseases from serving as a clean data-rich control. We report this as a limitation
-and acted on none of it; no prediction from the model was promoted to a candidate. It is a reminder
-that no single generation method is authoritative here.
+any of the three diseases from serving as a clean data-rich control. It is reported as a limitation,
+and no prediction from the model was promoted to a candidate. No single generation method is treated
+as authoritative here.
 
 *Table 4.* Sparsity stress test. Median percentile of the mechanism-derived and
 enumeration-derived agents in the 7,957-drug indication ranking of the model, per disease; higher
@@ -503,33 +503,29 @@ Every clinical and biological claim in the underlying catalogue is cited to a pr
 
 ## 6. Critical view
 
-Three things distinguish this review from the existing literature on EMC treatment, and one thing
-weakens it.
-
 The existing standard reference summarises what is done for EMC and what is known about it [1].
-This review asks the complementary question of what is not yet done, and answers it with a
-reproducible enumeration rather than with a reading list. The output is a graded menu in which
-every entry states, in a fixed vocabulary, how speculative it is; a reader who disagrees with a
-grade can see exactly which evidence produced it.
+This review addresses the complementary question of what is not yet done, and answers it with a
+reproducible enumeration. The output is a graded menu in which every entry states, in a fixed
+vocabulary, how speculative it is; a reader who disagrees with a grade can see which evidence
+produced it.
 
-The structural result is the part likely to survive changes in the drug landscape. Tabulating
+The structural result is the part most likely to survive changes in the drug landscape. Tabulating
 evidence strength against novelty exposes an anti-correlation and an empty cell, and that shape is
 a property of how a disease this rare accumulates evidence rather than a property of any particular
-agent. It also predicts where effort has the highest return: the untried candidates already
-carrying EMC functional data, which is a set of five rather than of fourteen.
+agent. It also indicates where effort has the highest return: the untried candidates already
+carrying EMC functional data, a set of five rather than of fourteen.
 
-The negative results are reported at the same weight as the positive ones. A graph foundation model
-was run as an independent check, diverged, was stress-tested against the obvious explanation, and
-is reported as a limitation with no candidate promoted from it. Two in-silico rationales advanced
-here for the proteasome candidate both failed, and section 4.1 states that the candidate survives
-on somebody else's measurement rather than on our argument. A menu that reported only its successes
-would be a longer document and a less useful one.
+The negative results carry the same treatment as the positive ones. A graph foundation model was run
+as an independent check, diverged from both other methods, was stress-tested against the obvious
+explanation, and promoted no candidate. Two in-silico rationales advanced here for the proteasome
+candidate both failed; as section 4.1 states, that candidate survives on a published ex-vivo
+measurement made by others rather than on an argument made here.
 
-The weakness is that no step of this work is a wet-laboratory experiment or a clinical observation,
-and none of it can become either without a collaborator. Every lead above terminates in a test that
-someone else has to run. A sarcoma clinician or translational researcher has not yet reviewed these
-candidates, and that review is recommended before any clinical-facing use of this menu. What is
-offered here is the ordering of a search, not evidence that anything in it works.
+The principal weakness is that no step of this work is a wet-laboratory experiment or a clinical
+observation, and none of it can become either without a collaborator. Every lead above terminates in
+a test that someone else has to run. A sarcoma clinician or translational researcher has not yet
+reviewed these candidates, and that review is recommended before any clinical-facing use of this
+menu. What is offered here is the ordering of a search, not evidence that anything in it works.
 
 ---
 
