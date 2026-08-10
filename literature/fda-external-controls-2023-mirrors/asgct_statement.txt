@@ -1,0 +1,2299 @@
+SOURCE URL: https://www.asgct.org/advocacy/policy-statements/considerations-for-the-design-and-conduct-of-externally-controlled-trials-for-drug-and-biological-products-guidance
+FINAL URL: https://www.asgct.org/advocacy/policy-statements/considerations-for-the-design-and-conduct-of-externally-controlled-trials-for-drug-and-biological-products-guidance
+HTTP: 200
+CONTENT-TYPE: text/html; charset=UTF-8
+======================================================================
+Considerations for the Design and Conduct of Externally… | ASGCT 
+
+ 100">
+
+ Skip to main 
+
+ ASGCT.org
+
+ Annual Meeting
+
+ Patient Education
+
+ Molecular Therapy Journals
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.dropdownOpen.lg = index;
+ }
+ }, 100);
+ },
+ 
+ handleMouseLeave() {
+ clearTimeout(this.timeout);
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) {
+ this.dropdownOpen.lg = null;
+ }
+ }, 100);
+ }
+ }">
+
+ Sign In 
+
+ Join 
+
+ Partner with ASGCT 
+
+ Pressroom 
+
+ Search this site
+
+ Search all ASGCT.org sites
+
+ Search this site
+
+ Search all ASGCT.org sites
+
+ $refs.input.value = value)">
+
+ Keywords 
+ 
+ 0"
+ x-transition:enter="transition ease-out duration-200 transform"
+ x-transition:enter-start="opacity-0 scale-95"
+ x-transition:enter-end="opacity-100 scale-100"
+ x-transition:leave="transition ease-in duration-150 transform"
+ x-transition:leave-start="opacity-100 scale-100"
+ x-transition:leave-end="opacity-0 scale-95"
+ @click="inputValue = ''; $refs.input.focus()"
+ type="button"
+ class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 text-primary-700 hover:text-gray-300 transition-colors z-10"
+ title="Clear search">
+ Clear search 
+
+ Search 
+
+ {
+ setTimeout(() => {
+ this.ensureLayoutStabilityAndCalculate();
+ }, 100);
+ });
+ 
+ window.addEventListener('resize', () => {
+ this.calculateMenuPositions();
+ this.equalizeAllDropdownHeights();
+ });
+ 
+ this.$el.addEventListener('dropdown-changed', () => {
+ setTimeout(() => {
+ this.equalizeAllDropdownHeights();
+ }, 50);
+ });
+ },
+ 
+ ensureLayoutStabilityAndCalculate() {
+ this.$nextTick(() => {
+ requestAnimationFrame(() => {
+ setTimeout(() => {
+ const topbar = this.$refs.topbar;
+ if (!topbar) {
+ return;
+ }
+ 
+ this.calculateMenuPositions();
+ this.equalizeAllDropdownHeights();
+ this.prepareDropdowns();
+ }, 100);
+ });
+ });
+ },
+ 
+ prepareDropdowns() {
+ const firstLevelDropdowns = Array.from(this.$refs.topbar.querySelectorAll(':scope > li > ul.dropdown'));
+ firstLevelDropdowns.forEach(dropdown => {
+ dropdown.setAttribute('data-level', '1');
+ 
+ const secondLevelDropdowns = Array.from(dropdown.querySelectorAll('li > ul.dropdown'));
+ secondLevelDropdowns.forEach(subDropdown => {
+ subDropdown.setAttribute('data-level', '2');
+ 
+ const thirdLevelDropdowns = Array.from(subDropdown.querySelectorAll('li > ul.dropdown'));
+ thirdLevelDropdowns.forEach(thirdDropdown => {
+ thirdDropdown.setAttribute('data-level', '3');
+ });
+ });
+ });
+ },
+ 
+ equalizeAllDropdownHeights() {
+ if (window.innerWidth {
+ dropdown.style.height = '';
+ });
+ return;
+ }
+
+ this.$el.querySelectorAll('ul.dropdown').forEach(dropdown => {
+ dropdown.style.height = '';
+ });
+ 
+ const visibleDropdowns = Array.from(this.$el.querySelectorAll('ul.dropdown:not(.hidden)'));
+ if (!visibleDropdowns.length) return;
+ 
+ const maxHeight = Math.max(...visibleDropdowns.map(d => d.scrollHeight));
+ 
+ visibleDropdowns.forEach(dropdown => {
+ dropdown.style.height = `${maxHeight}px`;
+ });
+ },
+ 
+ calculateMenuPositions() {
+ if (window.innerWidth > this.breakpoint) {
+ const topbar = this.$refs.topbar;
+ if (!topbar) return;
+
+ const topbarRect = topbar.getBoundingClientRect();
+ const topbarCenter = topbarRect.left + topbarRect.width / 2;
+ 
+ const children = Array.from(topbar.children);
+ 
+ this.menuSides = children.map((item) => {
+ const itemRect = item.getBoundingClientRect();
+ const itemCenter = itemRect.left + itemRect.width / 2;
+ return itemCenter > topbarCenter ? 'right' : 'left';
+ });
+ }
+ },
+ 
+ toggleDropdown(index) {
+ if (window.innerWidth {
+ this.$el.dispatchEvent(new CustomEvent('dropdown-changed'));
+ });
+ }
+ this.updateBodyGradient();
+ },
+ 
+ handleMouseEnter(index) {
+ clearTimeout(this.timeout);
+
+ // Set alignment state immediately.
+ if (window.innerWidth > this.breakpoint) {
+ this.align = this.menuSides[index] || 'left';
+ }
+
+ // Use the timeout ONLY to delay opening the dropdown.
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) {
+ this.dropdownOpen.lg = index;
+ 
+ document.dispatchEvent(new CustomEvent('asgct-reset-nested-menus', {
+ detail: { activeTopLevelIndex: index }
+ }));
+ 
+ setTimeout(() => {
+ this.checkDropdownPosition();
+ this.equalizeAllDropdownHeights();
+ }, 10);
+ }
+ this.updateBodyGradient();
+ }, 100);
+ },
+
+ handleMouseLeave() {
+ clearTimeout(this.timeout);
+ 
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) {
+ this.dropdownOpen.lg = null;
+ document.dispatchEvent(new CustomEvent('asgct-reset-nested-menus'));
+ // Reset the alignment state.
+ this.align = 'left';
+ }
+ this.updateBodyGradient();
+ }, 100);
+ },
+ 
+ checkDropdownPosition() {
+ if (window.innerWidth > this.breakpoint) {
+ const dropdown = this.$el.querySelector('.dropdown:not(.hidden)');
+ if (!dropdown) return;
+
+ const dropdownRect = dropdown.getBoundingClientRect();
+ const windowRight = window.innerWidth - dropdownRect.right;
+
+ if (this.align === 'left' && windowRight {
+ this.equalizeAllDropdownHeights();
+ });
+ }
+ }
+ },
+ 
+ handleDirection(direction) { 
+ if (direction === 'left') {
+ this.dropdownOpen.lg = (this.dropdownOpen.lg > 0) 
+ ? this.dropdownOpen.lg - 1 
+ : this.$refs.topbar.children.length - 1;
+ } else {
+ this.dropdownOpen.lg = (this.dropdownOpen.lg {
+ this.equalizeAllDropdownHeights();
+ });
+ this.updateBodyGradient();
+ },
+ 
+ updateBodyGradient() {
+ // Prevent function from running multiple times in the same frame
+ if (this.updateGradientQueued) return;
+ this.updateGradientQueued = true;
+
+ requestAnimationFrame(() => {
+ const isDropdownOpen = this.dropdownOpen.sm !== null || this.dropdownOpen.lg !== null;
+ const theme = 'main';
+ let overlay = document.getElementById('menu-gradient-overlay');
+
+ // If the overlay doesn't exist, create it once.
+ if (!overlay) {
+ overlay = document.createElement('div');
+ overlay.id = 'menu-gradient-overlay';
+ overlay.style.cssText = `
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100vw;
+ height: 100vh;
+ z-index: 29;
+ pointer-events: none;
+ opacity: 0;
+ transition: opacity 0.3s ease-in-out;
+ ${theme === 'patient-education' 
+ ? 'background: linear-gradient(180deg, rgba(255, 255, 255, 0.80) 0%, rgba(92, 97, 171, 0.80) 100%);'
+ : 'background: linear-gradient(180deg, rgba(7, 2, 44, 0.00) 0%, rgba(7, 2, 44, 0.80) 100%);'
+ }
+ `;
+ document.body.appendChild(overlay);
+ }
+ 
+ // Simply toggle the opacity. The CSS transition handles the fade effect.
+ overlay.style.opacity = isDropdownOpen ? '1' : '0';
+ 
+ this.updateGradientQueued = false;
+ });
+ }
+ }" class="absolute z-30 w-full py-4 lg:mt-4 lg:relative lg:block shadow-md lg:shadow-none lg:py-0" :class="(mainMenu ? '' : 'hidden')">
+
+ breakpoint) { dropdownOpen.lg = 0; align = menuSides[0] || 'left'; }" 
+ role="presentation" class="relative lg:border-0 border-b border-gray-200" 
+ 
+ @mouseenter="handleMouseEnter(0)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ Membership
+
+ Membership
+
+ {
+ this.childOpen.lg = null;
+ });
+
+ const mainMenuEl = this.$el.closest('#main-menu');
+ if (mainMenuEl) {
+ const mainComponent = Alpine.$data(mainMenuEl);
+ this.localParentAlign = mainComponent.align;
+ this.$watch(() => mainComponent.align, (newAlignValue) => {
+ this.localParentAlign = newAlignValue;
+ });
+ }
+ },
+
+ toggleChildDropdown(index) { 
+ if (window.innerWidth {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ }
+ }">
+ breakpoint) childOpen.lg = 0" 
+ class="py-2 lg:px-6" 
+ >
+
+ Become a Member
+
+ breakpoint) childOpen.lg = 1" 
+ class="py-2 lg:px-6" 
+ >
+
+ Get Involved
+
+ breakpoint) childOpen.lg = 2" 
+ class="py-2 lg:px-6" 
+ >
+
+ ASGCT Committees
+
+ breakpoint) childOpen.lg = 3" 
+ class="py-2 lg:px-6" 
+ >
+
+ Member Directory
+
+ breakpoint) childOpen.lg = 4" 
+ class="py-2 lg:px-6" 
+ >
+
+ Member Portal
+
+ breakpoint) { dropdownOpen.lg = 1; align = menuSides[1] || 'left'; }" 
+ role="presentation" class="relative lg:border-0 border-b border-gray-200" 
+ 
+ @mouseenter="handleMouseEnter(1)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ Events + Meetings
+
+ Events + Meetings
+
+ {
+ this.childOpen.lg = null;
+ });
+
+ const mainMenuEl = this.$el.closest('#main-menu');
+ if (mainMenuEl) {
+ const mainComponent = Alpine.$data(mainMenuEl);
+ this.localParentAlign = mainComponent.align;
+ this.$watch(() => mainComponent.align, (newAlignValue) => {
+ this.localParentAlign = newAlignValue;
+ });
+ }
+ },
+
+ toggleChildDropdown(index) { 
+ if (window.innerWidth {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ }
+ }">
+ breakpoint) childOpen.lg = 0" 
+ class="py-2 lg:px-6" 
+ >
+
+ Graduate Medical Education Bootcamp in CGT
+
+ breakpoint) childOpen.lg = 1" 
+ class="py-2 lg:px-6" 
+ >
+
+ 2026 Policy Summit
+
+ breakpoint) childOpen.lg = 2" 
+ class="py-2 lg:px-6" 
+ >
+
+ Advancing Cell & Gene Therapies for Cancer
+
+ breakpoint) childOpen.lg = 3" 
+ class="py-2 lg:px-6" 
+ >
+
+ Breakthroughs in Cell & Gene Therapy
+
+ breakpoint) childOpen.lg = 4" 
+ class="py-2 lg:px-6" 
+ >
+
+ AAV + LNP Clinical Implementation
+
+ breakpoint) childOpen.lg = 5" 
+ class="py-2 lg:px-6" 
+ >
+
+ All Upcoming Events
+
+ breakpoint) { dropdownOpen.lg = 2; align = menuSides[2] || 'left'; }" 
+ role="presentation" class="relative lg:border-0 border-b border-gray-200" 
+ 
+ @mouseenter="handleMouseEnter(2)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ Education + Career
+
+ Education + Career
+
+ {
+ this.childOpen.lg = null;
+ });
+
+ const mainMenuEl = this.$el.closest('#main-menu');
+ if (mainMenuEl) {
+ const mainComponent = Alpine.$data(mainMenuEl);
+ this.localParentAlign = mainComponent.align;
+ this.$watch(() => mainComponent.align, (newAlignValue) => {
+ this.localParentAlign = newAlignValue;
+ });
+ }
+ },
+
+ toggleChildDropdown(index) { 
+ if (window.innerWidth {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ }
+ }">
+ breakpoint) childOpen.lg = 0" 
+ class="py-2 lg:px-6" 
+ >
+
+ Media Library
+
+ breakpoint) childOpen.lg = 1" 
+ class="py-2 lg:px-6" 
+ >
+
+ ASGCT Learning Center
+
+ breakpoint) childOpen.lg = 2" 
+ class="py-2 lg:px-6" 
+ >
+
+ Grants, Funding + Awards
+
+ breakpoint) childOpen.lg = 3" 
+ class="py-2 lg:px-6" 
+ >
+
+ ASGCT Career Center
+
+ breakpoint) childOpen.lg = 4" 
+ class="py-2 lg:px-6" 
+ >
+
+ ASGCT Podcast Network
+
+ breakpoint) childOpen.lg = 5" 
+ class="py-2 lg:px-6" 
+ >
+
+ Abstracts
+
+ breakpoint) childOpen.lg = 6" 
+ class="py-2 lg:px-6" 
+ >
+
+ Molecular Therapy Family of Journals
+
+ breakpoint) childOpen.lg = 7" 
+ class="py-2 lg:px-6" 
+ >
+
+ Patient Education
+
+ breakpoint) { dropdownOpen.lg = 3; align = menuSides[3] || 'left'; }" 
+ role="presentation" class="relative lg:border-0 border-b border-gray-200" 
+ 
+ @mouseenter="handleMouseEnter(3)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ Advocacy
+
+ Advocacy
+
+ {
+ this.childOpen.lg = null;
+ });
+
+ const mainMenuEl = this.$el.closest('#main-menu');
+ if (mainMenuEl) {
+ const mainComponent = Alpine.$data(mainMenuEl);
+ this.localParentAlign = mainComponent.align;
+ this.$watch(() => mainComponent.align, (newAlignValue) => {
+ this.localParentAlign = newAlignValue;
+ });
+ }
+ },
+
+ toggleChildDropdown(index) { 
+ if (window.innerWidth {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ }
+ }">
+ breakpoint) childOpen.lg = 0" 
+ class="py-2 lg:px-6" 
+ :class="childOpen.lg === 0 ? 'lg:bg-primary-150' : ''" 
+ @mouseenter="handleChildMouseEnter(0)" 
+ @mouseleave="handleChildMouseLeave()"
+ >
+
+ ASGCT’s Policy Priorities
+
+ ASGCT’s Policy Priorities
+
+ {
+ this.grandchildOpen.lg = null;
+ });
+ 
+ const mainMenuEl = this.$el.closest('#main-menu');
+ if (mainMenuEl) {
+ const mainComponent = Alpine.$data(mainMenuEl);
+ this.localParentAlign = mainComponent.align;
+ this.$watch(() => mainComponent.align, (newAlignValue) => {
+ this.localParentAlign = newAlignValue;
+ });
+ }
+ },
+ 
+ toggleGrandchildDropdown(index) { 
+ if (window.innerWidth {
+ if (window.innerWidth > this.breakpoint) {
+ this.grandchildOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ } 
+ }, 100);
+ },
+ handleGrandchildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.grandchildOpen.lg = null;
+ }, 100);
+ }
+ }">
+
+ Regulatory Policy
+
+ Responsible Use of Technology
+
+ Genetic Screening and Testing
+
+ Federal Research Funding
+
+ Payment Policy
+
+ breakpoint) childOpen.lg = 1" 
+ class="py-2 lg:px-6" 
+ >
+
+ Policy Statement Library
+
+ breakpoint) childOpen.lg = 2" 
+ class="py-2 lg:px-6" 
+ >
+
+ 2026 Policy Summit
+
+ breakpoint) childOpen.lg = 3" 
+ class="py-2 lg:px-6" 
+ >
+
+ Regulatory Webinar Series
+
+ breakpoint) childOpen.lg = 4" 
+ class="py-2 lg:px-6" 
+ :class="childOpen.lg === 4 ? 'lg:bg-primary-150' : ''" 
+ @mouseenter="handleChildMouseEnter(4)" 
+ @mouseleave="handleChildMouseLeave()"
+ >
+
+ FDA Engagements
+
+ FDA Engagements
+
+ {
+ this.grandchildOpen.lg = null;
+ });
+ 
+ const mainMenuEl = this.$el.closest('#main-menu');
+ if (mainMenuEl) {
+ const mainComponent = Alpine.$data(mainMenuEl);
+ this.localParentAlign = mainComponent.align;
+ this.$watch(() => mainComponent.align, (newAlignValue) => {
+ this.localParentAlign = newAlignValue;
+ });
+ }
+ },
+ 
+ toggleGrandchildDropdown(index) { 
+ if (window.innerWidth {
+ if (window.innerWidth > this.breakpoint) {
+ this.grandchildOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ } 
+ }, 100);
+ },
+ handleGrandchildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.grandchildOpen.lg = null;
+ }, 100);
+ }
+ }">
+
+ FDA Liaison Meeting
+
+ FDA-ASGCT Workshops
+
+ CGT Science Series
+
+ breakpoint) childOpen.lg = 5" 
+ class="py-2 lg:px-6" 
+ >
+
+ The Advocate Newsletter
+
+ breakpoint) childOpen.lg = 6" 
+ class="py-2 lg:px-6" 
+ >
+
+ Congressional Policy Fellowship
+
+ breakpoint) { dropdownOpen.lg = 4; align = menuSides[4] || 'left'; }" 
+ role="presentation" class="relative lg:border-0 border-b border-gray-200" 
+ 
+ @mouseenter="handleMouseEnter(4)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ News + Publications
+
+ News + Publications
+
+ {
+ this.childOpen.lg = null;
+ });
+
+ const mainMenuEl = this.$el.closest('#main-menu');
+ if (mainMenuEl) {
+ const mainComponent = Alpine.$data(mainMenuEl);
+ this.localParentAlign = mainComponent.align;
+ this.$watch(() => mainComponent.align, (newAlignValue) => {
+ this.localParentAlign = newAlignValue;
+ });
+ }
+ },
+
+ toggleChildDropdown(index) { 
+ if (window.innerWidth {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ }
+ }">
+ breakpoint) childOpen.lg = 0" 
+ class="py-2 lg:px-6" 
+ >
+
+ ASGCT News
+
+ breakpoint) childOpen.lg = 1" 
+ class="py-2 lg:px-6" 
+ >
+
+ Molecular Therapy Family of Journals
+
+ breakpoint) childOpen.lg = 2" 
+ class="py-2 lg:px-6" 
+ >
+
+ ASGCT Podcast Network
+
+ breakpoint) childOpen.lg = 3" 
+ class="py-2 lg:px-6" 
+ >
+
+ ASGCT Impact Report
+
+ breakpoint) childOpen.lg = 4" 
+ class="py-2 lg:px-6" 
+ >
+
+ Quarterly Landscape Report
+
+ breakpoint) childOpen.lg = 5" 
+ class="py-2 lg:px-6" 
+ >
+
+ Press Contact
+
+ breakpoint) childOpen.lg = 6" 
+ class="py-2 lg:px-6" 
+ :class="childOpen.lg === 6 ? 'lg:bg-primary-150' : ''" 
+ @mouseenter="handleChildMouseEnter(6)" 
+ @mouseleave="handleChildMouseLeave()"
+ >
+
+ ASGCT Newsletters
+
+ ASGCT Newsletters
+
+ {
+ this.grandchildOpen.lg = null;
+ });
+ 
+ const mainMenuEl = this.$el.closest('#main-menu');
+ if (mainMenuEl) {
+ const mainComponent = Alpine.$data(mainMenuEl);
+ this.localParentAlign = mainComponent.align;
+ this.$watch(() => mainComponent.align, (newAlignValue) => {
+ this.localParentAlign = newAlignValue;
+ });
+ }
+ },
+ 
+ toggleGrandchildDropdown(index) { 
+ if (window.innerWidth {
+ if (window.innerWidth > this.breakpoint) {
+ this.grandchildOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ } 
+ }, 100);
+ },
+ handleGrandchildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.grandchildOpen.lg = null;
+ }, 100);
+ }
+ }">
+
+ The Advocate Newsletter
+
+ The Patient Press Newsletter
+
+ The Vector Newsletter
+
+ breakpoint) { dropdownOpen.lg = 5; align = menuSides[5] || 'left'; }" 
+ role="presentation" class="relative lg:border-0 " 
+ 
+ @mouseenter="handleMouseEnter(5)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ About ASGCT
+
+ About ASGCT
+
+ {
+ this.childOpen.lg = null;
+ });
+
+ const mainMenuEl = this.$el.closest('#main-menu');
+ if (mainMenuEl) {
+ const mainComponent = Alpine.$data(mainMenuEl);
+ this.localParentAlign = mainComponent.align;
+ this.$watch(() => mainComponent.align, (newAlignValue) => {
+ this.localParentAlign = newAlignValue;
+ });
+ }
+ },
+
+ toggleChildDropdown(index) { 
+ if (window.innerWidth {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ }
+ }">
+ breakpoint) childOpen.lg = 0" 
+ class="py-2 lg:px-6" 
+ :class="childOpen.lg === 0 ? 'lg:bg-primary-150' : ''" 
+ @mouseenter="handleChildMouseEnter(0)" 
+ @mouseleave="handleChildMouseLeave()"
+ >
+
+ Leadership + Staff
+
+ Leadership + Staff
+
+ {
+ this.grandchildOpen.lg = null;
+ });
+ 
+ const mainMenuEl = this.$el.closest('#main-menu');
+ if (mainMenuEl) {
+ const mainComponent = Alpine.$data(mainMenuEl);
+ this.localParentAlign = mainComponent.align;
+ this.$watch(() => mainComponent.align, (newAlignValue) => {
+ this.localParentAlign = newAlignValue;
+ });
+ }
+ },
+ 
+ toggleGrandchildDropdown(index) { 
+ if (window.innerWidth {
+ if (window.innerWidth > this.breakpoint) {
+ this.grandchildOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ } 
+ }, 100);
+ },
+ handleGrandchildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.grandchildOpen.lg = null;
+ }, 100);
+ }
+ }">
+
+ Board of Directors
+
+ Staff
+
+ Committees
+
+ Strategic Plan
+
+ Bylaws
+
+ breakpoint) childOpen.lg = 1" 
+ class="py-2 lg:px-6" 
+ >
+
+ Collaborations + Partnerships
+
+ breakpoint) childOpen.lg = 2" 
+ class="py-2 lg:px-6" 
+ >
+
+ ASGCT Foundation
+
+ breakpoint) childOpen.lg = 3" 
+ class="py-2 lg:px-6" 
+ >
+
+ Global Outreach
+
+ breakpoint) childOpen.lg = 4" 
+ class="py-2 lg:px-6" 
+ >
+
+ Work at ASGCT
+
+ breakpoint) childOpen.lg = 5" 
+ class="py-2 lg:px-6" 
+ >
+
+ Contact Us
+
+ $refs.input.value = value)">
+
+ Keywords 
+ 
+ 0"
+ x-transition:enter="transition ease-out duration-200 transform"
+ x-transition:enter-start="opacity-0 scale-95"
+ x-transition:enter-end="opacity-100 scale-100"
+ x-transition:leave="transition ease-in duration-150 transform"
+ x-transition:leave-start="opacity-100 scale-100"
+ x-transition:leave-end="opacity-0 scale-95"
+ @click="inputValue = ''; $refs.input.focus()"
+ type="button"
+ class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 text-primary-700 hover:text-gray-300 transition-colors z-10"
+ title="Clear search">
+ Clear search 
+
+ Search 
+
+ {
+ setTimeout(() => {
+ console.log('🔍 DEBUG: Window load setTimeout executed at:', Date.now());
+ this.ensureLayoutStabilityAndCalculate();
+ }, 100);
+ });
+ 
+ window.addEventListener('resize', () => {
+ this.calculateMenuPositions();
+ this.equalizeAllDropdownHeights();
+ });
+ 
+ this.$el.addEventListener('dropdown-changed', () => {
+ this.$el.setAttribute('data-align', this.align);
+ setTimeout(() => {
+ this.equalizeAllDropdownHeights();
+ }, 50);
+ });
+ },
+ 
+ ensureLayoutStabilityAndCalculate() {
+ let attempts = 0;
+ const maxAttempts = 10;
+ const retryDelay = 200;
+ 
+ const tryCalculate = () => {
+ attempts++;
+ 
+ this.$nextTick(() => {
+ // Use requestAnimationFrame to ensure rendering is complete
+ requestAnimationFrame(() => {
+ setTimeout(() => {
+ const topbar = this.$refs.topbar;
+ if (!topbar) {
+ if (attempts {
+ const rect2 = topbar.getBoundingClientRect();
+ 
+ // If dimensions changed, layout is still shifting
+ const layoutStable = (
+ Math.abs(rect1.width - rect2.width) li > ul.dropdown'));
+ firstLevelDropdowns.forEach(dropdown => {
+ dropdown.setAttribute('data-level', '1');
+ 
+ const secondLevelDropdowns = Array.from(dropdown.querySelectorAll('li > ul.dropdown'));
+ secondLevelDropdowns.forEach(subDropdown => {
+ subDropdown.setAttribute('data-level', '2');
+ 
+ const thirdLevelDropdowns = Array.from(subDropdown.querySelectorAll('li > ul.dropdown'));
+ thirdLevelDropdowns.forEach(thirdDropdown => {
+ thirdDropdown.setAttribute('data-level', '3');
+ });
+ });
+ });
+ },
+ 
+ equalizeAllDropdownHeights() {
+ const currentAlignment = this.align;
+ 
+ if (window.innerWidth {
+ dropdown.style.height = '';
+ });
+ return;
+ }
+
+ // First, reset all heights to natural size
+ this.$el.querySelectorAll('ul.dropdown').forEach(dropdown => {
+ dropdown.style.height = '';
+ });
+ 
+ // Find the max height of all visible dropdowns (regardless of level)
+ const visibleDropdowns = Array.from(this.$el.querySelectorAll('ul.dropdown:not(.hidden)'));
+ if (!visibleDropdowns.length) return;
+ 
+ // Get the maximum height across all dropdowns
+ const maxHeight = Math.max(...visibleDropdowns.map(d => d.scrollHeight));
+ 
+ // Apply the same max height to ALL visible dropdowns
+ visibleDropdowns.forEach(dropdown => {
+ dropdown.style.height = `${maxHeight}px`;
+ });
+ },
+ 
+ calculateMenuPositions() {
+ if (window.innerWidth > this.breakpoint) {
+ const topbar = this.$refs.topbar;
+ if (!topbar) return;
+ 
+ const topbarRect = topbar.getBoundingClientRect();
+ const topbarCenter = topbarRect.left + topbarRect.width / 2;
+ 
+ // Store whether each menu item is on the right side
+ this.menuSides = Array.from(topbar.children).map(item => {
+ const rect = item.getBoundingClientRect();
+ const itemCenter = rect.left + rect.width / 2;
+ return itemCenter > topbarCenter ? 'right' : 'left';
+ });
+ }
+ },
+ 
+ toggleDropdown(index) {
+ if (window.innerWidth {
+ this.$el.dispatchEvent(new CustomEvent('dropdown-changed'));
+ });
+ } 
+ },
+ 
+ handleMouseEnter(index) {
+ clearTimeout(this.timeout);
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) {
+ this.align = this.menuSides[index] || 'left';
+ 
+ // IMPORTANT: Explicitly set the attribute on the main menu element
+ this.$el.setAttribute('data-align', this.align);
+ 
+ // Also set the data-align attribute on the li element
+ const menuItem = this.$refs.topbar.children[index];
+ if (menuItem) {
+ menuItem.setAttribute('data-align', this.align);
+ }
+ 
+ this.dropdownOpen.lg = index;
+ 
+ // Still check position as a fallback to ensure dropdown is fully visible
+ setTimeout(() => {
+ this.checkDropdownPosition();
+ this.equalizeAllDropdownHeights();
+ }, 10); 
+ }
+ }, 100);
+ },
+ 
+ handleMouseLeave() { 
+ clearTimeout(this.timeout);
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) {
+ this.dropdownOpen.lg = null;
+ }
+ }, 100); 
+ },
+ 
+ checkDropdownPosition() {
+ if (window.innerWidth > this.breakpoint) {
+ const dropdown = this.$el.querySelector('.dropdown:not(.hidden)');
+ 
+ if (!dropdown) return;
+
+ const dropdownWidth = dropdown.offsetWidth;
+ const dropdownPosition = dropdown.getBoundingClientRect().left;
+ const windowWidth = window.innerWidth;
+ const windowRight = windowWidth - dropdownPosition - dropdownWidth;
+
+ // Only override the side-based alignment if there's not enough space
+ if (this.align === 'left' && windowRight {
+ this.equalizeAllDropdownHeights();
+ });
+ }
+ }
+ },
+ 
+ handleDirection(direction) { 
+ if (direction === 'left') {
+ if (this.dropdownOpen.lg > 0) { 
+ this.dropdownOpen.lg--; 
+ } else {
+ this.dropdownOpen.lg = this.$refs.topbar.children.length - 1;
+ }
+ } else {
+ if (this.dropdownOpen.lg {
+ this.equalizeAllDropdownHeights();
+ });
+ }
+ }"
+ class="absolute z-50 inset-x-0 pt-4 pb-10 lg:mt-4 lg:relative shadow-md lg:shadow-none lg:py-0 lg:block
+ bg-primary-700 lg:bg-transparent
+ "
+ :class="{ 'block': mainMenu, 'hidden': !mainMenu }"
+ x-cloak
+ x-transition:enter="transition ease-out duration-200"
+ x-transition:enter-start="opacity-0 -translate-y-2"
+ x-transition:enter-end="opacity-100 translate-y-0"
+ x-transition:leave="transition ease-in duration-150"
+ x-transition:leave-start="opacity-100 translate-y-0"
+ x-transition:leave-end="opacity-0 -translate-y-2"
+>
+
+ this.breakpoint) { dropdownOpen.lg = 0; align = menuSides[0] || 'left'; $el.setAttribute('data-align', align); }" 
+ role="presentation"
+ class="relative lg:border-0 pb-5 lg:pb-0 "
+ 
+ @mouseenter="handleMouseEnter(0)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ Membership 
+
+ Membership 
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ },
+ parentAlign: function() {
+ // Look for the data-align attribute on the main-menu first
+ const mainMenu = this.$el.closest('#main-menu');
+ const mainMenuAlign = mainMenu && mainMenu.getAttribute('data-align');
+ 
+ // Then check if any parent li has the data-align attribute
+ const parentItem = this.$el.closest('li[data-align]');
+ const parentItemAlign = parentItem && parentItem.getAttribute('data-align');
+ 
+ return parentItemAlign || mainMenuAlign || 'left';
+ }
+ }">
+
+ Overview
+
+ this.breakpoint) childOpen.lg = 0" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Become a Member
+
+ this.breakpoint) childOpen.lg = 1" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Get Involved
+
+ this.breakpoint) childOpen.lg = 2" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ ASGCT Committees
+
+ this.breakpoint) childOpen.lg = 3" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Member Directory
+
+ this.breakpoint) childOpen.lg = 4" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ lg:pb-0
+ "
+ >
+
+ Member Portal
+
+ this.breakpoint) { dropdownOpen.lg = 1; align = menuSides[1] || 'left'; $el.setAttribute('data-align', align); }" 
+ role="presentation"
+ class="relative lg:border-0 pb-5 lg:pb-0 "
+ 
+ @mouseenter="handleMouseEnter(1)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ Events + Meetings 
+
+ Events + Meetings 
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ },
+ parentAlign: function() {
+ // Look for the data-align attribute on the main-menu first
+ const mainMenu = this.$el.closest('#main-menu');
+ const mainMenuAlign = mainMenu && mainMenu.getAttribute('data-align');
+ 
+ // Then check if any parent li has the data-align attribute
+ const parentItem = this.$el.closest('li[data-align]');
+ const parentItemAlign = parentItem && parentItem.getAttribute('data-align');
+ 
+ return parentItemAlign || mainMenuAlign || 'left';
+ }
+ }">
+
+ Overview
+
+ this.breakpoint) childOpen.lg = 0" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Graduate Medical Education Bootcamp in CGT
+
+ this.breakpoint) childOpen.lg = 1" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ 2026 Policy Summit
+
+ this.breakpoint) childOpen.lg = 2" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Advancing Cell & Gene Therapies for Cancer
+
+ this.breakpoint) childOpen.lg = 3" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Breakthroughs in Cell & Gene Therapy
+
+ this.breakpoint) childOpen.lg = 4" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ AAV + LNP Clinical Implementation
+
+ this.breakpoint) childOpen.lg = 5" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ lg:pb-0
+ "
+ >
+
+ All Upcoming Events
+
+ this.breakpoint) { dropdownOpen.lg = 2; align = menuSides[2] || 'left'; $el.setAttribute('data-align', align); }" 
+ role="presentation"
+ class="relative lg:border-0 pb-5 lg:pb-0 "
+ 
+ @mouseenter="handleMouseEnter(2)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ Education + Career 
+
+ Education + Career 
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ },
+ parentAlign: function() {
+ // Look for the data-align attribute on the main-menu first
+ const mainMenu = this.$el.closest('#main-menu');
+ const mainMenuAlign = mainMenu && mainMenu.getAttribute('data-align');
+ 
+ // Then check if any parent li has the data-align attribute
+ const parentItem = this.$el.closest('li[data-align]');
+ const parentItemAlign = parentItem && parentItem.getAttribute('data-align');
+ 
+ return parentItemAlign || mainMenuAlign || 'left';
+ }
+ }">
+
+ Overview
+
+ this.breakpoint) childOpen.lg = 0" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Media Library
+
+ this.breakpoint) childOpen.lg = 1" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ ASGCT Learning Center
+
+ this.breakpoint) childOpen.lg = 2" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Grants, Funding + Awards
+
+ this.breakpoint) childOpen.lg = 3" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ ASGCT Career Center
+
+ this.breakpoint) childOpen.lg = 4" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ ASGCT Podcast Network
+
+ this.breakpoint) childOpen.lg = 5" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Abstracts
+
+ this.breakpoint) childOpen.lg = 6" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Molecular Therapy Family of Journals
+
+ this.breakpoint) childOpen.lg = 7" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ lg:pb-0
+ "
+ >
+
+ Patient Education
+
+ this.breakpoint) { dropdownOpen.lg = 3; align = menuSides[3] || 'left'; $el.setAttribute('data-align', align); }" 
+ role="presentation"
+ class="relative lg:border-0 pb-5 lg:pb-0 "
+ 
+ @mouseenter="handleMouseEnter(3)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ Advocacy 
+
+ Advocacy 
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ },
+ parentAlign: function() {
+ // Look for the data-align attribute on the main-menu first
+ const mainMenu = this.$el.closest('#main-menu');
+ const mainMenuAlign = mainMenu && mainMenu.getAttribute('data-align');
+ 
+ // Then check if any parent li has the data-align attribute
+ const parentItem = this.$el.closest('li[data-align]');
+ const parentItemAlign = parentItem && parentItem.getAttribute('data-align');
+ 
+ return parentItemAlign || mainMenuAlign || 'left';
+ }
+ }">
+
+ Overview
+
+ this.breakpoint) childOpen.lg = 0" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ md:relative
+ "
+ :class="childOpen.lg === 0 ? 'lg:bg-primary-200 lg:bg-opacity-40' : ''" 
+ @mouseenter="handleChildMouseEnter(0)" 
+ @mouseleave="handleChildMouseLeave()"
+ >
+
+ ASGCT’s Policy Priorities
+
+ ASGCT’s Policy Priorities
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.grandchildOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ } 
+ }, 100);
+ },
+ handleGrandchildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.grandchildOpen.lg = null;
+ }, 100);
+ },
+ parentAlign: function() {
+ // Look for the data-align attribute on the main-menu first
+ const mainMenu = this.$el.closest('#main-menu');
+ const mainMenuAlign = mainMenu && mainMenu.getAttribute('data-align');
+ 
+ // Then check if any parent li has the data-align attribute
+ const parentItem = this.$el.closest('li[data-align]');
+ const parentItemAlign = parentItem && parentItem.getAttribute('data-align');
+ 
+ return parentItemAlign || mainMenuAlign || 'left';
+ }
+ }">
+
+ Overview
+
+ Regulatory Policy
+
+ Responsible Use of Technology
+
+ Genetic Screening and Testing
+
+ Federal Research Funding
+
+ Payment Policy
+
+ this.breakpoint) childOpen.lg = 1" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Policy Statement Library
+
+ this.breakpoint) childOpen.lg = 2" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ 2026 Policy Summit
+
+ this.breakpoint) childOpen.lg = 3" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Regulatory Webinar Series
+
+ this.breakpoint) childOpen.lg = 4" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ md:relative
+ "
+ :class="childOpen.lg === 4 ? 'lg:bg-primary-200 lg:bg-opacity-40' : ''" 
+ @mouseenter="handleChildMouseEnter(4)" 
+ @mouseleave="handleChildMouseLeave()"
+ >
+
+ FDA Engagements
+
+ FDA Engagements
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.grandchildOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ } 
+ }, 100);
+ },
+ handleGrandchildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.grandchildOpen.lg = null;
+ }, 100);
+ },
+ parentAlign: function() {
+ // Look for the data-align attribute on the main-menu first
+ const mainMenu = this.$el.closest('#main-menu');
+ const mainMenuAlign = mainMenu && mainMenu.getAttribute('data-align');
+ 
+ // Then check if any parent li has the data-align attribute
+ const parentItem = this.$el.closest('li[data-align]');
+ const parentItemAlign = parentItem && parentItem.getAttribute('data-align');
+ 
+ return parentItemAlign || mainMenuAlign || 'left';
+ }
+ }">
+
+ Overview
+
+ FDA Liaison Meeting
+
+ FDA-ASGCT Workshops
+
+ CGT Science Series
+
+ this.breakpoint) childOpen.lg = 5" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ The Advocate Newsletter
+
+ this.breakpoint) childOpen.lg = 6" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ lg:pb-0
+ "
+ >
+
+ Congressional Policy Fellowship
+
+ this.breakpoint) { dropdownOpen.lg = 4; align = menuSides[4] || 'left'; $el.setAttribute('data-align', align); }" 
+ role="presentation"
+ class="relative lg:border-0 pb-5 lg:pb-0 "
+ 
+ @mouseenter="handleMouseEnter(4)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ News + Publications 
+
+ News + Publications 
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ },
+ parentAlign: function() {
+ // Look for the data-align attribute on the main-menu first
+ const mainMenu = this.$el.closest('#main-menu');
+ const mainMenuAlign = mainMenu && mainMenu.getAttribute('data-align');
+ 
+ // Then check if any parent li has the data-align attribute
+ const parentItem = this.$el.closest('li[data-align]');
+ const parentItemAlign = parentItem && parentItem.getAttribute('data-align');
+ 
+ return parentItemAlign || mainMenuAlign || 'left';
+ }
+ }">
+
+ Overview
+
+ this.breakpoint) childOpen.lg = 0" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ ASGCT News
+
+ this.breakpoint) childOpen.lg = 1" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Molecular Therapy Family of Journals
+
+ this.breakpoint) childOpen.lg = 2" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ ASGCT Podcast Network
+
+ this.breakpoint) childOpen.lg = 3" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ ASGCT Impact Report
+
+ this.breakpoint) childOpen.lg = 4" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Quarterly Landscape Report
+
+ this.breakpoint) childOpen.lg = 5" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Press Contact
+
+ this.breakpoint) childOpen.lg = 6" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ lg:pb-0
+ md:relative
+ "
+ :class="childOpen.lg === 6 ? 'lg:bg-primary-200 lg:bg-opacity-40' : ''" 
+ @mouseenter="handleChildMouseEnter(6)" 
+ @mouseleave="handleChildMouseLeave()"
+ >
+
+ ASGCT Newsletters
+
+ ASGCT Newsletters
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.grandchildOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ } 
+ }, 100);
+ },
+ handleGrandchildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.grandchildOpen.lg = null;
+ }, 100);
+ },
+ parentAlign: function() {
+ // Look for the data-align attribute on the main-menu first
+ const mainMenu = this.$el.closest('#main-menu');
+ const mainMenuAlign = mainMenu && mainMenu.getAttribute('data-align');
+ 
+ // Then check if any parent li has the data-align attribute
+ const parentItem = this.$el.closest('li[data-align]');
+ const parentItemAlign = parentItem && parentItem.getAttribute('data-align');
+ 
+ return parentItemAlign || mainMenuAlign || 'left';
+ }
+ }">
+
+ Overview
+
+ The Advocate Newsletter
+
+ The Patient Press Newsletter
+
+ The Vector Newsletter
+
+ this.breakpoint) { dropdownOpen.lg = 5; align = menuSides[5] || 'left'; $el.setAttribute('data-align', align); }" 
+ role="presentation"
+ class="relative lg:border-0 pb-5 lg:pb-0 "
+ 
+ @mouseenter="handleMouseEnter(5)" 
+ @mouseleave="handleMouseLeave()"
+ >
+
+ About ASGCT 
+
+ About ASGCT 
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.childOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ }
+ }, 100);
+ },
+ handleChildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+ }, 100);
+ },
+ parentAlign: function() {
+ // Look for the data-align attribute on the main-menu first
+ const mainMenu = this.$el.closest('#main-menu');
+ const mainMenuAlign = mainMenu && mainMenu.getAttribute('data-align');
+ 
+ // Then check if any parent li has the data-align attribute
+ const parentItem = this.$el.closest('li[data-align]');
+ const parentItemAlign = parentItem && parentItem.getAttribute('data-align');
+ 
+ return parentItemAlign || mainMenuAlign || 'left';
+ }
+ }">
+
+ Overview
+
+ this.breakpoint) childOpen.lg = 0" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ md:relative
+ "
+ :class="childOpen.lg === 0 ? 'lg:bg-primary-200 lg:bg-opacity-40' : ''" 
+ @mouseenter="handleChildMouseEnter(0)" 
+ @mouseleave="handleChildMouseLeave()"
+ >
+
+ Leadership + Staff
+
+ Leadership + Staff
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.grandchildOpen.lg = index;
+ this.$el.closest('#main-menu').dispatchEvent(new CustomEvent('dropdown-changed'));
+ } 
+ }, 100);
+ },
+ handleGrandchildMouseLeave() {
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) this.grandchildOpen.lg = null;
+ }, 100);
+ },
+ parentAlign: function() {
+ // Look for the data-align attribute on the main-menu first
+ const mainMenu = this.$el.closest('#main-menu');
+ const mainMenuAlign = mainMenu && mainMenu.getAttribute('data-align');
+ 
+ // Then check if any parent li has the data-align attribute
+ const parentItem = this.$el.closest('li[data-align]');
+ const parentItemAlign = parentItem && parentItem.getAttribute('data-align');
+ 
+ return parentItemAlign || mainMenuAlign || 'left';
+ }
+ }">
+
+ Overview
+
+ Board of Directors
+
+ Staff
+
+ Committees
+
+ Strategic Plan
+
+ Bylaws
+
+ this.breakpoint) childOpen.lg = 1" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Collaborations + Partnerships
+
+ this.breakpoint) childOpen.lg = 2" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ ASGCT Foundation
+
+ this.breakpoint) childOpen.lg = 3" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Global Outreach
+
+ this.breakpoint) childOpen.lg = 4" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ pb-4 lg:pb-0
+ "
+ >
+
+ Work at ASGCT
+
+ this.breakpoint) childOpen.lg = 5" 
+ class="
+ pt-0 lg:pt-2
+ lg:px-6
+ mr-4 lg:mr-0
+ lg:no-underline
+ lg:pb-0
+ "
+ >
+
+ Contact Us
+
+ Search this site
+
+ Search all ASGCT.org sites
+
+ $refs.input.value = value)">
+
+ Keywords 
+ 
+ 0"
+ x-transition:enter="transition ease-out duration-200 transform"
+ x-transition:enter-start="opacity-0 scale-95"
+ x-transition:enter-end="opacity-100 scale-100"
+ x-transition:leave="transition ease-in duration-150 transform"
+ x-transition:leave-start="opacity-100 scale-100"
+ x-transition:leave-end="opacity-0 scale-95"
+ @click="inputValue = ''; $refs.input.focus()"
+ type="button"
+ class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 text-primary-700 hover:text-gray-300 transition-colors z-10"
+ title="Clear search">
+ Clear search 
+
+ Search 
+
+ {
+ if (window.innerWidth > this.breakpoint) {
+ this.dropdownOpen.lg = index;
+ }
+ }, 100);
+ },
+ 
+ handleMouseLeave() {
+ clearTimeout(this.timeout);
+ this.timeout = setTimeout(() => {
+ if (window.innerWidth > this.breakpoint) {
+ this.dropdownOpen.lg = null;
+ }
+ }, 100);
+ }
+ }">
+
+ Sign In 
+
+ Join 
+
+ Partner with ASGCT 
+
+ Pressroom 
+
+ Search this site
+
+ Search all ASGCT.org sites
+
+ Search this site
+
+ Search all ASGCT.org sites
+
+ $refs.input.value = value)">
+
+ Keywords 
+ 
+ 0"
+ x-transition:enter="transition ease-out duration-200 transform"
+ x-transition:enter-start="opacity-0 scale-95"
+ x-transition:enter-end="opacity-100 scale-100"
+ x-transition:leave="transition ease-in duration-150 transform"
+ x-transition:leave-start="opacity-100 scale-100"
+ x-transition:leave-end="opacity-0 scale-95"
+ @click="inputValue = ''; $refs.input.focus()"
+ type="button"
+ class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 text-primary-700 hover:text-gray-300 transition-colors z-10"
+ title="Clear search">
+ Clear search 
+
+ Search 
+
+ ASGCT.org
+
+ Annual Meeting
+
+ Patient Education
+
+ Molecular Therapy Journals
+
+ Home 
+
+ ... 
+
+ Advocacy 
+
+ Policy Statement Library 
+
+ Considerations for the Design and Conduct of Externally Controlled Trials f… 
+
+ Home 
+
+ Advocacy 
+
+ Policy Statement Library 
+
+ Considerations for the Design and Conduct of Externally Controlled Trials f… 
+
+ Share 
+
+ Considerations for the Design and Conduct of Externally Controlled Trials for Drug and Biological Products Guidance
+
+ May 2, 2023
+
+ | 
+ 
+ Submitted to FDA
+
+ Download PDF 
+
+ Regulatory Policy, 
+
+ Clinical Development, 
+
+ FDA Guidance 
+
+ {
+ if (isPatientSite) {
+ button.className = 'button inline-flex font-normal rounded-5 bg-primary-500 hover:bg-primary-300 text-white primary-darker py-2 px-5 text-lg xl:text-22 block rounded items-center group';
+ } else {
+ button.className = 'button inline-flex font-normal rounded-5 bg-secondary hover:bg-secondary-200 text-white secondary py-2 px-5 text-lg xl:text-22 block rounded items-center group';
+ }
+
+ const text = button.textContent;
+ button.textContent = '';
+ const span = document.createElement('span');
+ span.className = 'min-w-0';
+ span.textContent = text;
+ button.appendChild(span);
+
+ const icon = document.createElement('i');
+ icon.className = 'icon-Icon-ArrowCircleRight ml-2 lg:ml-3 text-2xl xl:text-32 flex-shrink-0 flex items-center justify-center w-6 h-6 lg:w-8 lg:h-8 group-hover:hidden';
+ icon.setAttribute('aria-hidden', 'true');
+ button.appendChild(icon);
+
+ const img = document.createElement('img');
+ img.className = 'ml-2 lg:ml-3 flex-shrink-0 w-6 h-6 lg:w-8 lg:h-8 hidden group-hover:block';
+ if (isPatientSite) {
+ img.setAttribute('src', '/public/images/uploads/primary-arrow-onwhite.svg');
+ } else {
+ img.setAttribute('src', '/public/images/uploads/secondary-arrow-onwhite.svg');
+ }
+ img.setAttribute('aria-hidden', 'true');
+ button.appendChild(img);
+ });
+
+ // Adjust max-width of figcaption elements to match the rendered width the preceding figure -> img element
+ root.querySelectorAll('figure.image').forEach((figure) => {
+ let img = figure.querySelector('img');
+ if (!img) {
+ const anchor = figure.querySelector('a');
+ if (anchor) {
+ img = anchor.querySelector('img');
+ }
+ }
+ const figcaption = figure.querySelector('figcaption');
+
+ if (img && figcaption) {
+ const setFigcaptionMaxWidth = () => {
+ figcaption.style.maxWidth = `${img.offsetWidth}px`;
+ };
+
+ // Set initial max-width after image loads
+ if (img.complete) {
+ setFigcaptionMaxWidth();
+ } else {
+ img.addEventListener('load', setFigcaptionMaxWidth);
+ }
+
+ // Recalculate max-width on window resize
+ window.addEventListener('resize', setFigcaptionMaxWidth);
+ }
+ });
+
+ // Fix up read more link styles within WYSIWYG content
+ root.querySelectorAll('a.read-more').forEach((link) => {
+ if (isPatientSite) {
+ link.className = 'read-more theme-primary font-medium items-center inline-flex';
+ } else {
+ link.className = 'read-more theme-secondary font-medium items-center inline-flex';
+ }
+
+ const text = link.textContent;
+ link.textContent = '';
+ const span = document.createElement('span');
+ span.className = 'read-more-text text-lg xl:text-22 font-normal font-body leading-21 lg:leading-26 max-w-[12rem] lg:max-w-none';
+ span.textContent = text;
+ link.appendChild(span);
+
+ const icon = document.createElement('i');
+ icon.className = 'icon-Icon-ArrowCircleRight ml-2 text-2xl xl:text-32 flex-shrink-0 flex items-center justify-center w-6 h-6 lg:w-8 lg:h-8 no-underline';
+ icon.setAttribute('aria-hidden', 'true');
+ link.appendChild(icon);
+ });
+
+ // Handle footnotes linking and styling
+ root.querySelectorAll('sup').forEach((sup, index) => {
+ const linkText = (sup.textContent || '').trim();
+ const anchor = document.createElement('a');
+ anchor.textContent = linkText;
+ anchor.id = `foot-${index + 1}`;
+ anchor.href = `#cite-${index + 1}`;
+ anchor.className = 'underline';
+ anchor.title = 'Scroll to footnote';
+ sup.textContent = '';
+ sup.appendChild(anchor);
+ });
+ ">
+ 
+ Dockets Management Staff (HFA-305)
+Food and Drug Administration
+5630 Fishers Lane, Rm. 1061
+Rockville, MD 20852
+ RE: Comments for Docket No. FDA-2022-D-2983, “Considerations for the Design and Conduct of Externally Controlled Trials for Drug and Biological Products Guidance for Industry” 
+ Dear Sir/Madam:
+ The American Society of Gene & Cell Therapy (ASGCT) appreciates the opportunity to comment on the draft guidance document Considerations for the Design and Conduct of Externally Controlled Trials for Drug and Biological Products Guidance for Industry. ASGCT is a nonprofit professional membership organization comprised of nearly 6,000 scientists, physicians, and other professionals working in cell and gene therapy (CGT) in settings such as universities, hospitals, and biotechnology companies. Many of our members have spent their careers in this field performing the underlying research that has led to today’s robust pipeline of transformative therapies. The mission of ASGCT is to advance knowledge, awareness, and education leading to the discovery and clinical application of genetic and cellular therapies to alleviate human disease.
+ The Society would like to thank the Agency for considering the need of sponsors and investigators to utilize externally controlled clinical trials to provide evidence of the safety and effectiveness of drug products. The Society believes that the externally controlled trial guidance should establish standardized protocols and guidelines to ensure trials are conducted safely and effectively, as cell and gene therapy developers focused on rare diseases with high morbidity and mortality rates face both practical and ethical hurdles in deploying traditional, randomized placebo-controlled trials.
+ This draft guidance, however, does not meaningfully advance the use of external controls, including controls based on real-world evidence (RWE), potentially limiting sponsors’ ability to overcome practical and ethical challenges in developing treatments for rare disease. If finalized, the Agency would neither incorporate Congressional desire to utilize RWE, nor embrace the spirit of initiatives like the “Operation Warp Speed” pilot for rare disease drug development announced by CBER Director Peter Marks.
+ Given that the Congressional direction to issue this guidance is over six years old, and that the advancement of RWE has been supported through multiple cycles of PDUFA funding, we expect that FDA’s views on how RWE may support drug development would be significantly more mature. Rather, the guidance focuses on the challenges associated with externally controlled designs and RWE without providing actionable recommendations to sponsors to support successful therapeutic product development. We do not believe that such a focus fulfills the legislative intent of the provisions of the 21st Century Cures Act [Public Law No. 114-255] that FDA cites as an impetus for issuing this guidance. 1 
+ For instance, Lines 83-85 of the draft guidance state the following (emphasis added):
+ “In many situations, however, the likelihood of credibly demonstrating the effectiveness of a drug of interest with an external control is low , and sponsors should choose a more suitable design, regardless of the prevalence of disease .” 
+ Footnote 17 highlights another concerning limitation (emphasis added):
+ “Scenarios that would not be suitable for externally controlled trials include when the natural history of the disease of interest is not understood sufficiently or when the disease course is considered well-understood but is variable .” 
+ The Agency has a history of engaging with individual product sponsors on a case-by-case basis. FDA has embraced the use of external controls, including those utilizing RWE, to support the demonstration of efficacy in several approved products, such as Skysona 2 , Myozyme 3 , Carbaglu 4 , and Ceptrotin 5 . CAR T-cell therapies, with their potentially paradigm-altering modalities, have also relied heavily on RWE to demonstrate effectiveness. The experience of sponsors is that the Agency has been more accepting of registry data, RWE, and historical external controls than this guidance suggests.
+ It is important to note that some of the disparities in clinical trial participation and lack of representation in clinical data used by the Agency to inform regulatory decisions stem from logistical barriers to participation research (such as lack of transportation and financial burden, interference with work and family responsibilities, and out-of-pocket expenses). Greater utilization of RWE, such as RWE derived from registries, has the potential to facilitate the inclusion of more representative patient populations to reflect the risks and benefits of products more accurately.
+ Considering the clear Congressional direction for the use of RWE and interest of CBER leadership in advancing the development of products for unmet needs and rare indications, we respectfully request that FDA issue a new draft of this guidance that provides clear recommendations regarding how external controls, including those utilizing RWE, can be used to support product development, and recommendations on the collection, analysis, and submission of control data that would best support regulatory approval particularly when traditional trial design is unethical or unfeasible. This revised guidance could therefore help ensure that externally controlled trials are used scientifically, rigorously, and transparently, with appropriate consideration for potential biases and other limitations. It will also reduce the burden on both sponsors and the Agency to have a clear set of recommendations rather than only case-by-case interactions.
+ We also urge the Agency to consider the anticipated treatment effect and the innate differences between CGT and small molecule space when considering data sources for external controls in this guidance. We also ask that the Agency provide references in the guidance to areas where the considerations may be applied differently to CGT products or products with durable treatment effects.
+ We applaud the involvement of CDER, CBER, and OCE in drafting this guidance and encourage FDA to maintain this alignment in future iterations of the guidance. There currently needs to be more consistency between Centers and various review divisions regarding how externally controlled trials, including those that leverage RWE and registry information, can support CGT product development. We are encouraged by the collaboration that this guidance document reflects and urge the Agency to take active strides toward revising and implementing the final version across product categories.
+ Thank you for your consideration of these comments. If you have any questions about the Society’s comment, please do not hesitate to contact Margarita Valdez Martínez, Director of Policy and Advocacy, at [email protected] .
+ Sincerely,
+ David M. Barrett, JD
+Chief Executive Officer
+
+ Footnotes
+
+ Through Section 3022 of 21st Century Cures [Public Law No. 114-255], Congress required FDA to establish a program to evaluate the potential use of RWE and develop a framework to implement the RWE program and defined RWE broadly as “data regarding the usage, or the potential benefits or risks, of a drug derived from sources other than randomized clinical trials.” While the 21st Century Cures provision was limited to the use of RWE to support the approval of new indications of previously approved drugs and post-approval study requirements, the FDA Reauthorization Act of 2017 [Public Law No. 115-52] included FDA’s PDUFA VI commitment to consider the use of RWE for the evaluation of a drug’s effectiveness. In PDUFA VII, which was adopted as part of the FDA User Fee Reauthorization Act of 2022 [Public Law No. 117-180], FDA committed to establishing the “Advancing Real-World Evidence Program” to identify approaches for generating RWE that meet regulatory requirements in support of labeling for effectiveness. 
+
+ https://www.fda.gov/media/162098/download 
+
+ https://www.accessdata.fda.gov/drugsatfda_docs/nda/2006/125141s0000_Myozyme_MedR.pdf 
+
+ https://www.accessdata.fda.gov/drugsatfda_docs/nda/2010/022562s000sumr.pdf 
+
+ http://wayback.archive-it.org/7993/20170723031357/https://www.fda.gov/downloads/BiologicsBloodVaccines/BloodBloodProducts/ApprovedProducts/LicensedProductsBLAs/FractionatedPlasmaProducts/UCM074084.pdf 
+
+ Explore Related Policy Statements
+
+ Safety Assessment of Genome Editing Using Next-Generation Sequencing Guidance Document
+
+ July, 17 2026
+
+ Office of Management and Budget's Proposed Rule Sign On
+
+ July, 16 2026
+
+ Office of Management and Budget's Proposed Rule “Regulation for Federal Financial Assistance”
+
+ July, 13 2026
+
+ RFI: Next-Generation US Clinical Development to Accelerate Cures
+
+ June, 30 2026
+
+ 20700 Swenson Drive, Suite 200
+
+Waukesha, WI 53186
+
+ Contact Us 
+
+ Work at ASGCT 
+
+ Membership 
+
+ Collaborate With Us 
+
+ ASGCT News 
+
+ Events 
+
+ Linkedin 
+
+ Facebook 
+
+ Social-Media 
+
+ X 
+
+ Bluesky 
+
+ Youtube 
+
+ Terms & Conditions 
+ Privacy Policy 
+ Website Accessibility 
+ Cookies Policy 
+ Meeting Code of Conduct 
+
+ Copyright © 2000-2026 All rights reserved. American Society of Gene & Cell Therapy.
+
+ Back to top 
+
+ Cookie Alert
+
+ This website uses cookies to ensure you get the best experience on our website.
+
+ Accept All 
+
+ Accept Necessary 
+ 
+ Privacy policy 
+ | 
+ Cookies policy
