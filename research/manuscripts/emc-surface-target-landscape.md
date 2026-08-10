@@ -305,8 +305,8 @@ reading lower than comparators, which is the profile of an antigen that is expre
 non-discriminating rather than absent. FAP is flat, and the comparator arm is why that matters: GSE24369
 compares EMC with desmoid fibromatosis and fibrosarcoma, fibroblastic lesions in which FAP is expected
 to be high, and EMC itself sits at the 88th array percentile, so this is not a reading that EMC lacks
-FAP. What it does say is that a FAP-directed route cannot claim EMC as a selectively FAP-rich indication
-among soft-tissue tumours; the whole 13-gene stromal and matrix panel is lower in EMC on both platforms
+FAP. It indicates instead that a FAP-directed route cannot claim EMC as a selectively FAP-rich
+indication among soft-tissue tumours; the whole 13-gene stromal and matrix panel is lower in EMC on both platforms
 (Δ = −0.328, *t* = −1.89; Δ = −0.467, *t* = −1.80). PRAME reads at the floor of every readable cohort:
 30th array percentile on GPL6244 with Δ near zero, 11th percentile of log-ratios on GPL3290 where its
 nominally positive Δ is flat at |*t*| = 1.43, and a sequencing EMC median of 0.102 against an
@@ -322,8 +322,8 @@ The panel-level score for the route-named addresses disagrees between platforms 
 lower in EMC on GPL6244 (Δ = −0.0935, *t* = −1.66, 11 of 11 readable) and higher on GPL3290 (Δ = +0.599,
 *t* = 2.91, 8 of 11). The three genes missing from the GPL3290 score are CD248, CD276 and SSTR2, three of
 the four that read down or flat on GPL6244, so the two panel scores are not computed over the same set
-and the disagreement is partly a coverage artefact. The per-gene table is the honest presentation and
-the panel scores are not.
+and the disagreement is partly a coverage artefact. The per-gene table is therefore the interpretable
+presentation and the panel scores are not.
 
 ### SSTR2 and the GD2 proxy
 
@@ -345,11 +345,12 @@ readable on GPL3290, and the whole five-gene glycan-synthase panel is lower in E
 (Δ = −0.147, *t* = −4.96; Δ = −1.050, *t* = −3.44). GD2 is a glycolipid and B4GALNT1 is a synthase, so
 this is a proxy for a proxy and cannot exclude the antigen.
 
-What changes is the prior. The hypothesis was that EMC's reported neuroendocrine phenotype might extend
-to SSTR2 surface expression at a level worth imaging, and the first EMC transcript readings show no
-elevation over other soft-tissue tumours and no striking absolute signal. What does not change is the
-gate: a peptide-receptor radioligand route depends on absolute receptor protein density and on the
-tumour-to-normal uptake ratio, and no quantity in this study measures either. A single somatostatin-receptor
+These readings change the prior without changing the gate. The hypothesis was that EMC's reported
+neuroendocrine phenotype might extend to SSTR2 surface expression at a level worth imaging, and the
+first EMC transcript readings show no elevation over other soft-tissue tumours and no striking
+absolute signal. The gate is unchanged: a peptide-receptor radioligand route depends on absolute
+receptor protein density and on the tumour-to-normal uptake ratio, and no quantity in this study
+measures either. A single somatostatin-receptor
 positron-emission-tomography scan, or an SSTR2 immunohistochemical stain on archival EMC, remains the
 cheap decisive measurement, and these readings lower the prior for it rather than removing the reason to
 perform it.
@@ -373,7 +374,7 @@ mean, and dermatofibrosarcoma protuberans is a dermal fibroblastic tumour while 
 melanocytic and pericytic antigen, so a high comparator arm would flatten the contrast for reasons about
 the comparator rather than about EMC. The sequencing row rests on one peak and n = 4, and the Human
 Protein Atlas already places CSPG4 on the broad-liability list, so its normal-tissue behaviour beyond
-those six organs is unaddressed. CSPG4 is held open rather than promoted or buried.
+those six organs is unaddressed. CSPG4 is therefore held open.
 
 ### Genes concordantly elevated on both arrays
 
@@ -381,7 +382,7 @@ Across the 100 genes on the cross-platform board, exactly five are concordantly 
 VCAN, BGN, CD44, GPC1 and ALCAM (Table 5). Four of the five are matrix or proteoglycan genes, and ALCAM
 is the only classical single-pass cell-surface adhesion molecule among them.
 
-Three considerations make this weaker than it looks. The background is saturated: VCAN's EMC samples sit
+Three considerations weaken that reading. The background is saturated: VCAN's EMC samples sit
 at the 99.7th and 97.5th array percentiles against comparators at the 97.8th and 91.2nd, so the
 separation is small on top of a signal that is high everywhere, and a matrix proteoglycan being abundant
 in a myxoid tumour is expected rather than discriminating. These are largely secreted or
@@ -390,13 +391,13 @@ statement about what the tumour deposits rather than about what a binder would f
 archival tissue cannot deconvolve compartments, so a matrix or stromal signal may report the
 compartment's presence rather than the tumour cell's.
 
-The two instruments invert on the three genes where they can be compared, and that is recorded rather
-than resolved. CD248 is the surrogate's only selectivity-significant antigen in this set and is lower in
+The two instruments invert on the three genes where they can be compared, and the disagreement is not
+resolved here. CD248 is the surrogate's only selectivity-significant antigen in this set and is lower in
 EMC tissue; ALCAM was scored and rejected by the surrogate and is higher in EMC tissue on both arrays;
 CD44 is the surrogate's most strongly negative row here and is higher in EMC tissue on both arrays. Four
 explanations are live and nothing in either artifact discriminates them. The two instruments ask
-different questions, sarcoma-versus-other-cancer against EMC-versus-other-sarcoma, and opposite answers
-to those are not even inconsistent. They read different populations, since the surrogate contains no
+different questions, sarcoma-versus-other-cancer against EMC-versus-other-sarcoma, so opposite answers
+are not inconsistent. They read different populations, since the surrogate contains no
 verified *EWSR1::NR4A3* line and so holds no EMC observation. They read different compartments, since
 monoculture is tumour cells only while bulk tissue adds stroma, vasculature, immune infiltrate and
 matrix. And they use different measurements, RNA-sequencing transcripts per million in cultured lines
@@ -416,10 +417,10 @@ control licenses reading the other rows and is not evidence for any of them.
 
 ## Discussion
 
-Done rigorously, in-silico surface-target discovery for this disease does not hand over a clean target,
-and when its output is checked against the disease's own tissue the leads largely do not reproduce. The
-contribution is therefore not a target list. It is an audited estimate of how far a lineage-surrogate
-surface ranking transfers to the disease it was built for, and here the negatives transferred and the
+In-silico surface-target discovery for this disease does not deliver a clean target, and when its
+output is checked against the disease's own tissue the leads largely do not reproduce. The
+contribution is therefore an estimate of how far a lineage-surrogate surface ranking transfers to the
+disease it was built for, rather than a target list; here the negatives transferred and the
 positives did not. That asymmetry has a testable mechanism: a cross-lineage selectivity test measures
 mesenchymal rather than epithelial character, which is a property EMC shares with every comparator in
 the tissue cohorts, so it cannot discriminate within them. The caution applies to every surrogate-based
@@ -433,11 +434,11 @@ platform families, which is a marker-grade result even though the same data remo
 therapeutic address. Third, a held-open lead with a stated defect: CSPG4, which the original search never
 evaluated.
 
-What does not survive is the implicit promise that a surrogate ranking plus a normal-tissue prior
-suffices to prioritise scarce validation effort for a rare tumour. It did not suffice here, and the check
-that showed it required no new data and could have been run first.
+What does not survive is the implicit premise that a surrogate ranking plus a normal-tissue prior
+suffices to prioritise scarce validation effort for a rare tumour. It did not suffice here, and the
+check that showed this required no new data.
 
-The modality axis is gated differently rather than more easily. The abundant myxoid and chondroid
+The modality axis carries its own gates. The abundant myxoid and chondroid
 extracellular matrix is a diffusion and binding-site barrier to antibodies, adoptive cells and
 radioligands, and adult sarcoma has a poor record for cell products and engagers in cold,
 immune-excluded tumours; a single reported EMC case describes exactly such an immunosuppressive

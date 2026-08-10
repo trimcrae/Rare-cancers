@@ -8,6 +8,9 @@ generator: research/manuscripts/submission_packet.py
 purpose: >-
   Assemble, per paper, every fact a journal submission portal asks for, so
   none is re-derived from six artifacts at the moment of submitting.
+scope: >-
+  Submission logistics only, for the four manuscripts in submission form. It reports no
+  result, asserts nothing about any disease or agent, and is not a scientific record.
 audience: [maintainers]
 date: 2026-08-10
 last_verified: 2026-08-10
