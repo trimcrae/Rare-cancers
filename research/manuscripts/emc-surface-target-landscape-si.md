@@ -28,8 +28,7 @@ related: [DOC-EMC-SURFACE-TARGET-LANDSCAPE]
 
 Companion to [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md). Section numbers
 prefixed S refer to this document; unprefixed section names refer to the main text. Every value below is
-read from a committed artifact named in the main text under Data availability, and no value is retyped
-from memory.
+read from a committed artifact named in the main text under Data availability.
 
 ## Supplementary Methods
 
@@ -43,9 +42,9 @@ topology annotation; 41 of the 47 were already present in the UniProt set, so th
 genes. Of those, 2,692 carried a row in the DepMap expression matrix and were scanned.
 
 The seed is therefore a small and largely redundant minority of the scanned set, and the scan is largely
-though not strictly unbiased. Two consequences follow. An antigen can enter the ranking because a human
-put it in the seed rather than because a topology annotation placed it there, which is why the seed size
-and overlap are reported rather than assumed. And the scanned gene list itself was not written to the
+though not strictly unbiased. Two consequences follow. An antigen can enter the ranking because it was
+placed in the seed rather than because a topology annotation captured it, which is why the seed size
+and overlap are reported above. And the scanned gene list itself was not written to the
 output artifact, only the counts, which is the reason the CSPG4 coverage question in Note S3 is
 undecidable rather than resolvable.
 
@@ -78,8 +77,8 @@ Human Protein Atlas semantics rather than a threshold on expression:
 
 - RESTRICTED requires tissue-enriched or group-enriched specificity, a restricted distribution, no
   vital-tissue signal and no strong immune or circulating signal.
-- ENHANCED_BROAD covers tissue-enhanced antigens, which are detected broadly with a peak. Tissue-enhanced
-  is not restricted, and treating it as restricted is the single most common misreading of these fields.
+- ENHANCED_BROAD covers tissue-enhanced antigens, which are detected broadly with a peak.
+  Tissue-enhanced is not restricted and is not treated as restricted here.
 - BROAD_LIABILITY covers low tissue specificity, and also any antigen whose distribution is
   detected-in-all regardless of its specificity label. The distribution override is what demotes MCAM,
   which is group-enriched yet detected in all tissues.
@@ -118,8 +117,7 @@ ratios of those medians.
 
 Array contrasts are Welch two-sample comparisons of EMC against the comparator arm, expressed as Δ, the
 difference of group mean z values in standard deviation units of that array's probe distribution, with
-*t* and degrees of freedom. Combining a read density with an array z score would be a category error, and
-no statement in either document does so.
+*t* and degrees of freedom. Read densities and array z scores are never combined.
 
 ### S5. Readability, the accession bridge and cross-platform states
 
@@ -144,11 +142,11 @@ and are reported in Table S5 as unscored.
 A Europe PMC retrieval returned 322 EMC-linked records with 238 full-text files, hand-screened for
 surfaceome, surface antigen, cell-surface protein, chimeric antigen receptor, radioligand, antibody-drug
 conjugate and immunotherapy terms. Three EMC-specific records matched, none of them a systematic
-surface-antigen map. No positive control was included in the query, because no confident control existed
-for a prior-art question and a control chosen for being trusted rather than for being returnable had
-previously discarded a whole corpus; the corpus was screened by hand instead. The screen matched titles
-and abstracts rather than full text, so an absence in it is evidence that nothing is indexed on the
-pairing and is not evidence that no such work exists.
+surface-antigen map. No positive control was included in the query, because no record was known in
+advance to be both relevant and returnable by this query, and an earlier control chosen on relevance
+alone had caused a whole corpus to be discarded; the corpus was screened by hand instead. The screen
+matched titles and abstracts rather than full text, so an absence in it is evidence that nothing is
+indexed on the pairing and is not evidence that no such work exists.
 
 ## Supplementary Tables
 
@@ -199,7 +197,7 @@ pairing and is not evidence that no such work exists.
 
 Note on ALCAM. The prior classes it RESTRICTED, while the exposure axis of the sequencing cohort places
 its EMC median below the normal-organ median. The two normal-tissue instruments disagree about this
-antigen, neither measures protein, and the main text records the disagreement rather than resolving it.
+antigen, neither measures protein, and the disagreement is not resolved in either document.
 
 **Table S3.** Curated panel membership.
 
@@ -246,7 +244,7 @@ by requested members. Panels below the floor emit no score.
 The route-named panel disagrees between platforms, and the three genes missing from the GPL3290 score are
 CD248, CD276 and SSTR2, which are three of the four reading down or flat on GPL6244. The two scores are
 therefore not computed over the same set and the disagreement is partly a coverage artefact. The per-gene
-tables in the main text are the honest presentation of that panel.
+tables in the main text are the interpretable presentation of that panel.
 
 **Table S6.** Exposure-axis values from the 3'-end sequencing cohort. Medians of per-peak medians;
 4 EMC libraries, 27 normal-organ libraries, 32 non-EMC sarcoma libraries.
@@ -292,7 +290,7 @@ as low or absent.
 
 ### S1. Measured limits of the surrogate instrument
 
-Five limits were computed rather than asserted, and each bears on a conclusion in the main text.
+Five limits of the surrogate instrument were computed, and each bears on a conclusion in the main text.
 
 **L1, no stromal compartment.** The scanned population is immortalised tumour cell lines cultured as
 monoculture. A cancer-associated fibroblast is a different cell that is not present in the culture, so an

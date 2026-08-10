@@ -460,12 +460,12 @@ whether the epitope a binder needs is exposed; transcript-to-protein correlation
 is modest and is not measured here. A high transcript reading is a reason to stain rather than an antigen
 call. And the tissue cohorts are small archival bulk deposits on decade-old platforms: n = 6, n = 10 and
 n = 4, with the exposure axis resting on medians of four libraries against six visceral organ types.
-Nothing here settles anything at the level of a population.
+None of these readings supports a population-level statement.
 
 Several further constraints apply to every number above. Read densities from 3'-end sequencing are never
 pooled with array intensities. Several genes rest on a single peak in the sequencing deposit, among them
 CSPG4, FAP, GPC3, L1CAM and PRAME, and several array rows rest on a single probe. The 27 normal libraries
-are a tissue panel rather than matched adjacent tissue, and six organs are not a body. The two lineage
+are a tissue panel rather than matched adjacent tissue, covering six organ types. The two lineage
 cohorts have different comparator arms, so a gene can move in one and not the other because the
 comparator changed rather than because EMC did, which is the worked explanation for CSPG4. GPL3290 is a
 two-colour log-ratio platform, so an absolute level there means relative to the reference pool and only
@@ -481,14 +481,14 @@ retrieved must be sourced before use.
 
 ### Conclusion
 
-A stringent in-silico analysis does not deliver a clean EMC surface target, and when its output
+This in-silico analysis does not deliver a clean EMC surface target, and when its output
 is checked against the disease's own tumour tissue the leads largely do not reproduce. None of the eleven
 therapeutic addresses named by candidate routes is concordantly elevated in EMC relative to comparator
 sarcomas, none of the eight surrogate-selective antigens is concordantly elevated on both arrays, and the
 one antigen that is elevated on both, ALCAM, shows no separation from normal visceral organ tissue on the
 only cohort able to measure that. What survives is a set of negatives with a named basis, a demoted but
-intact lineage marker, one held-open lead the original search never evaluated, and an audited caution
-about surrogate-based target lists for rare tumours.
+intact lineage marker, one held-open lead the original search never evaluated, and a caution about
+surrogate-based target lists for rare tumours.
 
 The measurement that would decide the question is EMC surface protein expression with a normal-tissue
 comparison, on a cohort large enough to carry a distribution. Two groups hold patient-derived EMC models,
