@@ -139,6 +139,12 @@ def slim(rec: dict) -> dict:
         "cited_by": rec.get("citedByCount"),
         "is_oa": rec.get("isOpenAccess"),
         "type": rec.get("pubType"),
+        # ⛔ THE ABSTRACT IS THE POINT FOR THE PAPERS THAT MATTER MOST HERE. Both papers that
+        # answer the direct question -- the SABR case report and the whole-lung RT report --
+        # sit behind Cloudflare, which returns 403 to the runner as well as to the sandbox.
+        # Europe PMC serves their abstracts through the API that is designed to serve them,
+        # which is the right channel: no scraping, no paywall, and a record of what was read.
+        "abstract": (rec.get("abstractText") or "")[:1800] or None,
     }
 
 
