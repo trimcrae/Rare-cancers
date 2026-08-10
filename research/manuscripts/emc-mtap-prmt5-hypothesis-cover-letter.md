@@ -21,10 +21,9 @@ last_verified: 2026-08-10
 # Cover letter
 
 *Ready to send. Before submitting: fill the bracketed date, confirm the editor addressee on the
-journal's current masthead, elect the subscription (non-open-access) route at the fee step so no
-article-processing charge is incurred, and settle the article type — see the note in
-[`emc-mtap-prmt5-prepost.md`](./emc-mtap-prmt5-prepost.md), which records why the previous reason
-for choosing Research Article did not survive inspection.*
+journal's current masthead, and elect the subscription (non-open-access) route at the fee step so no
+article-processing charge is incurred. The article type is Research Article, recorded with its
+content reason in [`emc-mtap-prmt5-prepost.md`](./emc-mtap-prmt5-prepost.md).*
 
 ---
 

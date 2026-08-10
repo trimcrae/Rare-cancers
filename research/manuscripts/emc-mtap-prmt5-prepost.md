@@ -86,18 +86,32 @@ pre-posting checklist belongs.
 - ⚠ **STILL NOT VERIFIED:** the per-journal author-guideline pages return 403 from CI as well, so the
   word, abstract and display-item limits the manuscript is written to remain search-derived. Those
   affect FORMAT, which an editor returns, not COST, which is billed.
-- ⛔ **ARTICLE TYPE — OPEN, AND THE PREVIOUS REASON DOES NOT SURVIVE INSPECTION (2026-08-10).**
+- ⛔ **ARTICLE TYPE — RESOLVED 2026-08-10 AFTER THE RELOCATION PASS: RESEARCH ARTICLE, ON CONTENT.**
   *Superseded, retained: "Research Article rather than Brief Report, because the paper carries five
-  figures and the Brief Report limit is two display items."* Two things are wrong with that.
+  figures and the Brief Report limit is two display items."* Two things were wrong with that.
   **(a) It chose the type to fit the figure count, which is backwards** — content selects the type
   and the type then constrains display items. **(b) The display-item count it rested on was wrong
   in the permissive direction.** `submission_metrics.py` counted figures only; counting the numbered
   tables as an editor would, the paper carries **five figures and eight tables**. The gate now counts
-  both and reports 13 items. ⚠ **The choice itself is trimcrae's**, because article type travels with
-  venue and venue is an author decision. What an agent can say: the paper generates no new data, and
-  after this revision it reports a bounded negative, a sequence observation and two named experiments,
-  which is the content profile of a short-format or Hypothesis article. **Record whichever type is
-  chosen with a CONTENT reason, never a figure count.**
+  both and reports 13 items. ⚠ *Also superseded, retained: "after this revision it reports a bounded
+  negative, a sequence observation and two named experiments, which is the content profile of a
+  short-format or Hypothesis article", and "**The choice itself is trimcrae's**".* That reading
+  graded the paper by the SIGN of its conclusions rather than by what it contains, and a negative
+  result is not thereby a short paper.
+  **THE CONTENT REASON, which is the only kind this entry accepts.** The paper carries a full
+  Materials and methods (sample classification, per-gene scoring, an exact permutation enumerated
+  over all 1,623,160 and 8,008 labelings, a max-statistic multiplicity correction over an array-wide
+  family, a confound-adjustment procedure and a sequence method), a per-sample analysis of the 9p21
+  locus that is its own primary result rather than a supporting panel, four pre-specified controls
+  reported whether they passed or fired, effect sizes with 95% intervals and minimum detectable
+  effects, a family-composition sensitivity across four families, and a ten-row falsifier table.
+  That is the anatomy of a Research Article. A Brief Report is a single observation with condensed
+  methods, and this paper's methods are the thing a reader has to check; a Hypothesis article
+  proposes an idea without testing it, and this paper states two rationales, pre-specifies a test
+  for each, runs both and reports that neither is supported. It is a full study whose result is
+  negative, which is a statement about the finding and not about the format.
+  ⚠ **What does NOT enter the reason:** the display-item count, the word count, and the fact that
+  the conclusions are negative.
 - **ORCID — resolved 2026-08-10.** The manuscript's title block carried a bracketed placeholder while
   the cover letter stated that no ORCID accompanies the submission. The placeholder is deleted and the
   cover letter's statement stands. If trimcrae creates one, add it to both in the same edit.
@@ -139,7 +153,13 @@ pre-posting checklist belongs.
 
 ## ⚠ Honest statements that must survive to the posted version
 
-These are in the manuscript and must not be softened during any formatting pass:
+These are in the manuscript and must not be softened during any formatting pass. ⭐ **AND AFTER THE
+2026-08-10 RELOCATION PASS, "in the manuscript" MEANS THE MAIN TEXT OR ITS SUPPLEMENT**: the main
+text was cut from 11,537 to about 6,500 words by moving working into numbered supplementary sections
+S1 to S14, each named by a main-text pointer, and **nothing was deleted**. Every item below was
+checked after that pass and is still stated; where the working moved, the main text keeps the finding
+and the pointer. ⛔ **The relocation is not a licence to soften anything on this list — a statement
+that is only in the supplement is still a statement this paper makes.**
 
 - **No EMC cell line carrying the fusion appears in any public dependency dataset.** Every dependency
   figure is a transfer from other sarcomas.

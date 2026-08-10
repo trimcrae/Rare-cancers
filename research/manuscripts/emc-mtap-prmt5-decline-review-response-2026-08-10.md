@@ -626,3 +626,28 @@ of this manuscript removes any of them.
    with an offer to consolidate; the underlying question of whether one re-analysis of two archival
    series should yield three Research Articles is the editors' to answer, and the cover letter says
    so. *(Editorial grounds 1, 3 and 13.)*
+---
+
+## Where this response's section pointers now resolve (relocation pass, 2026-08-10)
+
+The manuscript was cut from 11,537 to about 6,500 words of main text by **relocating** material into
+the supplementary file, not by deleting it. Nothing this response records as applied has been
+withdrawn, and no disclosure, caveat, confound statement, sensitivity analysis or limitation was
+dropped; each either stayed in the main text or moved to a numbered supplementary section that the
+main text points at by name. Where a pointer in this document names a main-text section, the finding
+is still stated there and the working is now in the supplement:
+
+| what moved | from | to, in full |
+|---|---|---|
+| the two source reports' designs, mechanisms and inhibitor results by class | §1.2, §4.2 | S11 |
+| the corpus and screen composition, and the pan-sarcoma panel arithmetic | §1.3 | S12 |
+| the *z*-score background, multi-probe collapse, the probe-to-symbol bridge and its measured rates, the coverage floors, both minimum arm sizes and the realised missingness | §2.1 | S2 |
+| the deposit summaries, accession blocks, reference-label caveat and per-array covariates | §2.1 | S1 |
+| the family construction, the arm-floor convention and the variance-ratio distribution | §2.4 | S5c, S10 |
+| the software stack and what the value-by-value checking does and does not establish | §2.7 | S13 |
+| the per-sample controls, the neighbouring 9p21 genes and the ladder of *CDKN2A* cuts | §3.2 | S3a |
+| the reference-channel split, including the DFSP-against-GIST contrast | §3.6 | S5a |
+| the exclusion sensitivity (*PRMT5* 6.24 to 6.31, *MTAP* 0.69 to 0.70, *CDKN2A* −5.40 to −5.66), the three qualifications on the corrected figures, the count of comparisons and the transfer argument | §4.4, §4.1 | S14 |
+
+Figure and table legends moved to a display-item legends section after the references, which is the
+journal's submission format and is why the counted main text falls without any legend being changed.
