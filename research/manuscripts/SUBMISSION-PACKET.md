@@ -62,6 +62,32 @@ last_verified: 2026-08-10
 
 **Figures to upload** — none; this paper's display items are all tables.
 
+## Genes, Chromosomes and Cancer (Wiley)
+
+**Manuscript** `nr4a3-fusion-transcriptional-output.md`
+
+| field | value |
+|---|---|
+| Word count, main text | 12160 (no limit found) |
+| Abstract | 333 words (limit 250) |
+| Display items | 15 (5 figures, 10 tables) |
+| References | 45 |
+| Cover letter | `nr4a3-fusion-transcriptional-output-cover-letter.md` |
+| Supplementary file | yes |
+| Fee route | VERIFIED |
+
+> **Over a stated limit:** abstract_words 333 > 250
+
+⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
+
+**Figures to upload**
+
+- `fig1-size-matched-null.png` — raster present, vector present
+- `fig2-evidence-classes.png` — raster present, vector present
+- `fig3-per-sample-class-a.png` — raster present, vector present
+- `fig4-instrument-convergence.png` — raster present, vector present
+- `fig5-muscle-admixture-control.png` — raster present, vector present
+
 ## Critical Reviews in Oncology/Hematology (Elsevier)
 
 **Manuscript** `repurposing-hypotheses.md`

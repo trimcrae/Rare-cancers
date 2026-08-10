@@ -56,9 +56,18 @@ VENUES = {
     },
 }
 
+#: ⚠ THIS LIST IS HAND-TYPED, AND IT SILENTLY UNDERCOUNTED BY ONE FOR TWO DAYS (2026-08-10).
+#: nr4a3-fusion-transcriptional-output.md carried a cover letter, a dedicated submission checklist
+#: whose stated purpose is to make "submission-ready auditable rather than asserted", a declared
+#: venue, and five rendered figures with vectors beside them — and was absent here, so the packet
+#: announced "four manuscripts in submission form" and the three final sweeps (de-Claude, the
+#: per-publisher AI disclosure, the ORCID line) each ran over four files rather than five. A packet
+#: built so that nothing is re-derived at the portal cannot also be the thing that decides which
+#: papers exist. When a manuscript acquires a cover letter and a venue, it belongs in this map.
 MANUSCRIPTS = {
     "emc-mtap-prmt5-hypothesis.md": "GCC-Research-Article",
     "emc-atr-collaborator-package.md": "GCC-Research-Article",
+    "nr4a3-fusion-transcriptional-output.md": "GCC-Research-Article",
     "repurposing-hypotheses.md": "CROH-Review",
     "emc-surface-target-landscape.md": "BJC-Article",
 }
