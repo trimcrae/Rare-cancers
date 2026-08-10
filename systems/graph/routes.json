@@ -7424,6 +7424,115 @@
     }
   },
   {
+    "id": "RT-MDT-LUNG",
+    "display_name": "Metastasis-directed ablative radiotherapy to lung metastases (SABR/SBRT)",
+    "level": "L2",
+    "kind": "route",
+    "title": "Metastasis-directed ablative radiotherapy to lung metastases (SABR/SBRT)",
+    "grade": {
+      "value": "◐ IT HAS BEEN DONE FOUR TIMES AND STUDIED ZERO TIMES (2026-08-10). ⭐ Ablative radiotherapy has been delivered to metastatic EMC and reported in four modalities — SABR, whole-lung EBRT, HDR interstitial brachytherapy and unspecified palliative RT — twice to lung specifically, against a denominator of five papers naming EMC and stereotactic radiotherapy in title or abstract at all. No series, trial, registry analysis or guideline has ever evaluated it as a question. ⛔ The four reports are all positive and all uncontrolled, so they are usable as existence proofs that the treatment is deliverable and NOT as evidence that it works; publication bias here points the same way as the hypothesis, which is the route's main threat. ⭐ What is genuinely new is an inferential error the field has been making: every study of radiotherapy in this disease concerns conventionally fractionated dose to a PRIMARY, and its null results have been read as though they were evidence about ablative dose to a METASTASIS.",
+      "owner": {
+        "file": "research/literature/emc-rt-lung-mets-findings.json"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-LUNG-DIRECTED",
+        "axis": "how the lung lesion is reached",
+        "fails_on": [
+          "BLK-NO-CURATED-CLINICAL-DATA"
+        ],
+        "why": "that route is regional perfusion, inhaled delivery and percutaneous ablation — ways of reaching lesions surgery cannot. This one is external-beam ablative radiotherapy, which is the standard-of-care oligometastatic intervention and the only modality actually delivered to EMC lung metastases in the published record"
+      },
+      {
+        "route": "RT-RT-INTENSIFY",
+        "axis": "whether the question is dose quality at the primary or dose geometry at the metastasis",
+        "fails_on": [],
+        "why": "that route asks whether particles, brachytherapy or radiosensitisation rescue a contested PRIMARY-site result. This one argues those primary-site results were never evidence about ablative dose to a METASTASIS, so the exclusion it inherits rests on a category error rather than on a measurement"
+      }
+    ],
+    "strategy": "ST-LOCOREGIONAL",
+    "publication": {
+      "endpoint": "PUB-LOCOREGIONAL",
+      "role": "contributing",
+      "contribution": "The one anatomical-selectivity strategy in this family that has actually been delivered to patients with this disease, and the reappraisal showing why the evidence said to rule it out was never about it."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Has the standard-of-care oligometastatic intervention ever been tried on EMC lung metastases, and does the evidence said to rule radiotherapy out in this disease actually bear on it?",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-10"
+    },
+    "rationale": "This disease is extremity-primary, lung-metastasis-dominant and slow, and 63% of its metastatic patients have disease confined to the lungs — the exact anatomical situation metastasis-directed radiotherapy exists for. It was never considered here because the disease is labelled radioresistant, and that label rests entirely on conventionally fractionated dose to primary tumours. Meanwhile four separate groups have quietly given ablative radiotherapy to metastatic EMC and published what happened, and nobody has assembled those reports or noticed that the exclusion rests on a category error.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-EMC-RT-LUNG-METS",
+        "what_it_supports": "four published deliveries of radiotherapy to metastatic EMC across four modalities, two to lung; five papers total naming EMC and stereotactic radiotherapy in title or abstract; and the primary-vs-metastasis split running through every study on both sides of the radioresistance question",
+        "strength": "direct"
+      },
+      {
+        "ref": "ART-EMC-RT-LUNG-METS",
+        "what_it_supports": "63% of metastatic patients have disease confined to the lungs and lung is the first site in 80%, from retrieved full text — the eligibility numerator RT-LUNG-DIRECTED records as uncurated",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Dose, fractionation, lesion size and duration of local control in the one SABR report — none is in its abstract and the full text is open access and unfetched.",
+      "What the whole-lung radiotherapy report actually found. It is the single most on-point paper in the record, it carries no indexed abstract, and it returns HTTP 403 to the sandbox and to a runner alike.",
+      "Whether any sarcoma-wide SABR series reports an EMC subgroup, which would convert borrowed evidence into histology-specific evidence.",
+      "⚠ How many EMC metastases have been irradiated and progressed. This is unknowable from the published record and it is the number that would decide the route — four case reports with four good outcomes is what a literature looks like when nobody publishes the failures."
+    ],
+    "required_validation": [
+      {
+        "what": "Full-text extraction of dose, fractionation and control duration from the reported cases",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A histology-specific outcome series, which only a collaborating centre or a sarcoma registry could assemble",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "missing": [
+        "the full text of the whole-lung radiotherapy report, blocked at both the sandbox and the runner and carrying no indexed abstract",
+        "a radiation oncologist co-author, without whom a concept paper in this space reads as an outsider's proposal"
+      ],
+      "why_not_higher": "The argument is complete and the evidence behind it is four uncontrolled case reports whose publication bias points the same way as the hypothesis, so the paper can be written today only as a hypothesis piece that reasons from the design asymmetry rather than from the outcomes."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "Every remaining step is a $0 literature fetch, and the concept paper needs no compute, no wet lab and no data this repository lacks.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Fetch the full text of the four reported deliveries and extract dose, fractionation, lesion size and duration of local control — the step that turns four anecdotes into a table.",
+      "cost": "$0"
+    }
+  },
+  {
     "id": "RT-RT-INTENSIFY",
     "display_name": "Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia)",
     "level": "L2",
