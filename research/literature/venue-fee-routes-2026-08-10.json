@@ -145,5 +145,34 @@
   "⚠_what_is_still_not_verified": {
     "biorxiv_submission_is_free": "NOT retrieved at primary source. www.biorxiv.org returned HTTP 429 on five attempts across three runs; GitHub runner IPs are shared and bioRxiv rate-limits them. openRxiv, the non-profit that operates bioRxiv, states on its own site (HTTP 200) that preprints let researchers 'share scientific findings worldwide for free' and that the transition 'secures their long-term future while maintaining free, responsible sharing of scientific information'. That is the operator's statement about the service, not a retrieved fee schedule. bioRxiv charging no submission fee is not in dispute; it is simply not PRIMARY-SOURCE verified in this pass, and it is recorded that way rather than upgraded.",
     "journal_specific_author_guidelines": "The per-journal guideline pages 403 from CI as well as from the sandbox, so word limits, abstract limits and display-item caps written into the manuscripts remain search-derived. These affect FORMAT, not cost, and a format mismatch is returned by an editor rather than billed to the author."
+  },
+  "⭐_UPDATE_2026_08_10_THE_TWO_OPEN_ITEMS_WERE_TAKEN_AS_FAR_AS_THEY_GO": {
+    "1_biorxiv_is_now_CLOSED_at_primary_source": {
+      "was": "HTTP 429 on five plain-HTTP attempts across three runs; recorded as not verified.",
+      "method": "A headless Chromium on the CI runner. A real browser session with a cookie jar reads as a reader rather than a scraper, and the rate limiter let it through on the first attempt.",
+      "verbatim_1": "\"Is there a charge for submitting manuscripts to bioRxiv? There is no fee to submit articles to bioRxiv.\" — https://www.biorxiv.org/about/FAQ, HTTP 200",
+      "verbatim_2": "\"There is no charge for registration or article deposition.\" — https://www.biorxiv.org/submit-a-manuscript, HTTP 200",
+      "verdict": "The free open copy for all four manuscripts is VERIFIED. This is the item that actually gated the preprint, and it is closed."
+    },
+    "2_the_per_journal_guidelines_cannot_be_retrieved_and_here_is_why_that_is_final": {
+      "attempts": [
+        "plain HTTP from the dev sandbox: 000, blocked at the egress proxy",
+        "plain HTTP from a CI runner: 403",
+        "headless Chromium from a CI runner: 403, still",
+        "nine alternate hosts and submission systems: none carries the per-journal limits"
+      ],
+      "what_the_block_pages_say": {
+        "wiley": "\"This website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not a bot.\" — a JavaScript challenge.",
+        "elsevier": "A ScienceDirect error page returning a reference number and the runner's IP (172.178.119.119, an Azure datacenter address) — an IP-class block."
+      },
+      "⛔_why_this_stops_here": "Both are deliberate security controls, and the remaining step would be defeating them rather than reading a public page. That is not a line to cross for a word count. The limits stay marked search-derived in every manuscript.",
+      "⚠_and_it_gates_nothing_that_matters_now": "bioRxiv sets no word, abstract or display-item limit, so the preprint is untouched. At journal submission the author is on the journal's own site in a browser, where these pages load normally, and a format mismatch is returned by an editor rather than billed — it is not a cost and not a scientific defect."
+    },
+    "3_what_was_done_instead_and_it_found_a_real_over_limit": {
+      "tool": "research/manuscripts/submission_metrics.py, with submission-metrics.json as its output",
+      "reasoning": "The limits could not be verified, so OUR side of the comparison was pinned down instead: checking the limits is now a sixty-second job on the journal's page rather than a rewrite discovered after a desk rejection.",
+      "⛔_it_immediately_caught_one": "The repurposing abstract was 257 words against a 250-word cap. Trimmed to 244 with no content dropped. All four manuscripts are now within every believed limit.",
+      "⚠_it_also_settled_a_disagreement_between_two_earlier_counts": "The surface-target main text had been measured at 4,553 words by one pass and 6,719 by another — a 2,166-word gap created purely by counting different things. The tool states its counting rule in the file and gives 4,756, within the 5,000 believed limit."
+    }
   }
 }

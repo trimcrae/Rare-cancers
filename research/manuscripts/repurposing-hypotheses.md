@@ -76,21 +76,19 @@ Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare *NR4A3*-rearranged so
 with an indolent but relentlessly metastasising course and no established effective systemic
 therapy. Anti-angiogenic multikinase inhibitors are the most consistently active class, and
 clinical sequencing recovers no recurrent actionable mutation beyond the fusion, so repurposing
-agents that already carry human safety data is rational. We mapped the
-documented molecular and microenvironmental vulnerabilities of EMC to existing agents not yet
-reported in the disease, by three independent methods: literature-driven mechanism curation; a
-reproducible target-to-drug enumeration against the DGIdb interaction database; and zero-shot
-prediction from a pretrained graph foundation model. Every hypothesis carries an explicit evidence
+agents with existing human safety data is rational. We mapped EMC's documented molecular and
+microenvironmental vulnerabilities to agents not yet reported in the disease, by three independent
+methods: literature-driven mechanism curation; reproducible target-to-drug enumeration against
+DGIdb; and zero-shot prediction from a pretrained graph foundation model. Every hypothesis carries an explicit evidence
 tier from T0 to T3. Curation and enumeration converged on 14 candidates across seven vulnerability
 axes. The structure of that menu is the finding: evidence strength and novelty are anti-correlated.
 The single candidate with EMC clinical evidence, imatinib in the *KIT*-mutant minority, is also the
 only one already reported; every untried candidate rests on preclinical or model-screen data, and
 the cell combining novelty with clinical evidence is empty. The graph model
 diverged from both other methods, and a pre-specified stress test on two commoner sarcomas showed
-that the divergence is not attributable to the rarity of EMC. The ex-vivo screen that places
+the divergence is not attributable to EMC's rarity. The ex-vivo screen placing
 carfilzomib among the leads is the published result of Bangerter and colleagues, run on one
-patient-derived model; two in-silico rationales advanced here for that candidate both returned
-negative. No efficacy is claimed for any agent named here.
+patient-derived model; two in-silico rationales advanced here for it both returned negative. No efficacy is claimed for any agent named here.
 
 *Keywords:* extraskeletal myxoid chondrosarcoma; *NR4A3*; drug repurposing; rare sarcoma; evidence
 grading; knowledge-graph models.
