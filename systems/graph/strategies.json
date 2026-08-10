@@ -434,5 +434,43 @@
         "BLK-NO-EMC-DATA"
       ]
     }
+  },
+  {
+    "id": "ST-CARE-DELIVERY",
+    "title": "Care delivery, diagnosis and the determinants of survival",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "Which of this disease's survival is decided by the care a patient actually receives — the diagnosis, the operation, the follow-up — rather than by which agent they are given?",
+    "thesis": "Every other family here asks what to GIVE an EMC patient. None asks what determines how long an EMC patient lives now — and in a disease where no systemic agent has a demonstrated survival benefit, that is decided by whether the diagnosis was right before the operation, whether the operation cleared the tumour, whether the recurrence was found while it was still resectable, and how long anyone kept looking. The largest published survival association in EMC is an operation, and until this family existed no route on the board covered it.",
+    "portfolio_role": "cheap_option",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "purpose_note": "Minted 2026-08-09. ⭐ THE OMISSION WAS STRUCTURAL AND THE CENSUS PROVES IT RATHER THAN MERELY FAILING TO CATCH IT: the 217-class modality census sorts into four bands — drug_mechanism, delivery_and_conjugate, physical_locoregional, strategy_and_architecture — every one of which is a taxonomy of INTERVENTIONS, and it grades MOD-SURGERY ('Wide local excision and metastasectomy') and MOD-WATCHFUL-WAITING as `in_clinical_use`, i.e. incumbent arsenal, excluded from grading. A census built to enumerate NEW modalities cannot see variance inside the existing one. This is the same instrument-shape failure the 2026-08-07 sweep diagnosed in itself, one level up: that sweep widened the MODALITY space and never looked past modality — all ten of its sweeps name an agent, a target or a schedule.",
+    "limitations": [
+      "Nothing in this family produces a new agent, so its ceiling is bounded by what the existing arsenal can do — and its floor is that the arsenal is already being used, so the gain is variance-reduction rather than a new option.",
+      "Every route here ends in an observational or modelled argument. No randomised trial will ever settle a surgical-margin or surveillance-interval question in a disease this rare, so the limits of the design must travel with every claim.",
+      "Reconstructed and registry data are re-expressions of published records, never new patients — they inherit every selection and publication bias of the series they came from and can correct none of it.",
+      "Treatment associations in observational sarcoma data are dominated by confounding by indication, which runs in the direction that makes therapy look harmful; a route here that reports an unadjusted hazard has produced an artefact, not a result.",
+      "Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness."
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
+    "next": {
+      "best_next_action": "Digitize the Kaplan-Meier curves and numbers-at-risk tables of the open-access EMC series already cited here and run them through research/modalities/emc_ipd_survival.py — the instrument is built and its known-answer control passes; only the curves are missing.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-NO-CURATED-CLINICAL-DATA"
+      ]
+    }
   }
 ]

@@ -47,7 +47,7 @@ last_verified: 2026-08-09
 
 ⛔ **AND THE BOOLEAN `wet_lab_test_named` IS RETIRED, HAVING FAILED IN BOTH DIRECTIONS AT ONCE.** It could not tell a test somebody had **already run** from one a lab could pick up — PUB-REPURPOSING drew the full flag on a completed third-party *ex-vivo* screen. And it scored **zero** for the one paper that reaches a patient with no laboratory at all, whose own note read *"which is why the flag is False and not a demerit"* while the flag was costing it the largest single term in the score. `patient_path` replaces it with five graded values, printed in the table.
 
-⛔ **A LOW SCORE CAN MEAN 'CLOSED' OR IT CAN MEAN 'NOBODY GRADED IT', AND THOSE ARE OPPOSITE THINGS.** `closure_kind` is unset on 21 of 68 routes, and an unset field contributes nothing in either direction — so a paper can sit low here purely because its routes have never been graded. The `ungraded` column is that reading, and a high number in it means **go grade the routes**, not **the paper is weak** (CLAUDE.md §4: an absent reading is not a reading of absence).
+⛔ **A LOW SCORE CAN MEAN 'CLOSED' OR IT CAN MEAN 'NOBODY GRADED IT', AND THOSE ARE OPPOSITE THINGS.** `closure_kind` is unset on 21 of 75 routes, and an unset field contributes nothing in either direction — so a paper can sit low here purely because its routes have never been graded. The `ungraded` column is that reading, and a high number in it means **go grade the routes**, not **the paper is weak** (CLAUDE.md §4: an absent reading is not a reading of absence).
 
 | # | endpoint | band | path to a patient | score | open | closed | ungraded | doable here | state |
 |---:|---|---|---|---:|---:|---:|---:|---:|---|
@@ -55,30 +55,33 @@ last_verified: 2026-08-09
 | 2 | [**PUB-ATR-PANEL-ASK**](../../research/manuscripts/emc-atr-collaborator-package.md) | ⭐ could still help a patient | 🧪 **bench, pre-built** | **14.0** | 0 | 0 | 0 | 0% of 1 | ◐ `drafted` |
 | 3 | [**PUB-REPURPOSING**](../../research/manuscripts/repurposing-hypotheses.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.5** | 2 | 0 | 0 | 20% of 5 | ◐ `drafted` |
 | 4 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/emc-surface-target-landscape.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.5** | 2 | 3 | 0 | 0% of 8 | ◐ `drafted` |
-| 5 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |
-| 6 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | ⭐ could still help a patient | 🧪 bench, to build | **9.5** | 1 | 0 | 0 | 33% of 6 | ◐ `drafted` |
-| 7 | [**PUB-ATR**](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | 🧪 bench, to build | **8.0** | 1 | 0 | 0 | 0% of 1 | ◐ `drafted` |
-| 8 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | ⭐ could still help a patient | 🏥 clinical adoption | **8.0** | 1 | 0 | 0 | 25% of 4 | ◐ `drafted` |
-| 9 | [**PUB-TXN-DEPENDENCY**](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) | ⭐ could still help a patient | 🧪 bench, to build | **5.0** | 0 | 0 | ⚠ 2 | 60% of 5 | ◐ `drafted` |
-| 10 | **PUB-KINASE-LEADS** | ⭐ could still help a patient | 🧪 bench, to build | **4.5** | 0 | 0 | ⚠ 4 | 55% of 11 | ◔ `outlined` |
-| 11 | **PUB-LOCOREGIONAL** | ⭐ could still help a patient | 🏥 clinical adoption | **4.5** | 0 | 0 | ⚠ 3 | 50% of 6 | ◔ `outlined` |
-| 12 | [**PUB-MONOVALENT**](../../research/manuscripts/nr4a3-monovalent-pocket-route.md) | ⭐ could still help a patient | 🧪 bench, to build | **4.0** | 0 | 1 | 0 | 50% of 2 | ◐ `drafted` |
-| 13 | [**PUB-MODALITY-CENSUS**](../../research/manuscripts/cancer-modality-census.md) | ⭐ could still help a patient | — | **2.0** | 0 | 0 | ⚠ 1 | 0% of 1 | ◐ `drafted` |
-| 14 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/emc-treatment-roadmap.md) | ⭐ could still help a patient | — | **1** | 0 | 0 | 0 | — | ◐ `drafted` · ⚠ 2 cited-only |
-| 15 | [**PUB-DEGRADER**](../../research/manuscripts/nr4a3-degrader-paper.md) | ⛔ known negative / methods | — | **10.5** | 2 | 3 | 0 | 38% of 8 | ◐ `drafted` |
-| 16 | [**PUB-METHODS**](../../research/manuscripts/degrader-methods-failure-record.md) | ⛔ known negative / methods | — | **9.0** | 1 | 0 | 0 | 100% of 1 | ◐ `drafted` |
-| 17 | [**PUB-ENDPOINT**](../../research/manuscripts/response-endpoint-indolent-tumours.md) | ⛔ known negative / methods | — | **7.0** | 1 | 0 | 0 | 67% of 3 | ◐ `drafted` |
-| 18 | [**PUB-FUSION-OUTPUT**](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | ⛔ known negative / methods | — | **6.0** | 1 | 0 | 0 | 50% of 6 | ◐ `drafted` |
-| 19 | [**PUB-TCIP**](../../research/manuscripts/tcip-induced-interface-preprint.md) | ⛔ known negative / methods | — | **3.0** | 1 | 0 | 0 | 67% of 3 | ◐ `drafted` |
-| 20 | [**PUB-BIOMARKER-DEP**](../../research/manuscripts/emc-biomarker-selected-classes.md) | ⛔ known negative / methods | — | **2.0** | 0 | 0 | ⚠ 5 | 40% of 10 | ◐ `drafted` |
-| 21 | **PUB-MATRIX-ADDRESS** | ⛔ known negative / methods | — | **0.5** | 0 | 0 | ⚠ 4 | 50% of 8 | ◔ `outlined` |
-| 22 | **PUB-NR-OUTSIDE-NR4A3** | ⛔ known negative / methods | — | **0.5** | 0 | 0 | ⚠ 2 | 80% of 5 | ◔ `outlined` |
-| 23 | [**PUB-ANDGATE**](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md) | ⛔ known negative / methods | — | **0.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
-| 24 | [**PUB-HLA-COVERAGE**](../../research/manuscripts/hla-coverage-emc.md) | ⛔ known negative / methods | — | **-1.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
-| 25 | [**PUB-NEOANTIGEN**](../../research/manuscripts/fusion-junction-neoantigen-paper.md) | ⛔ known negative / methods | — | **-1.0** | 0 | 2 | 0 | 33% of 3 | ◐ `drafted` |
-| 26 | [**PUB-SYNLETH**](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ⛔ known negative / methods | — | **-1.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
-| 27 | [**PUB-CLOSED-ROUTES**](../../research/manuscripts/closed-routes-negative-record.md) | ⛔ known negative / methods | — | **-7.0** | 0 | 7 | 0 | 0% of 3 | ◐ `drafted` |
-| 28 | **PUB-PARKED-MODALITIES** | ○ parked on a capability nobody has | — | **-6.0** | 0 | 5 | 0 | 0% of 6 | ○ `unwritten` |
+| 5 | **PUB-CARE-DELIVERY** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 4 | 0 | 0 | 29% of 7 | ○ `unwritten` |
+| 6 | **PUB-EMC-CLASSIFICATION** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 2 | 0 | 0 | 33% of 3 | ◔ `outlined` |
+| 7 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |
+| 8 | **PUB-IPD-SURVIVAL** | ⭐ could still help a patient | ⭐ **no bench needed** | **11.0** | 1 | 0 | 0 | 50% of 2 | ○ `unwritten` |
+| 9 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | ⭐ could still help a patient | 🧪 bench, to build | **9.5** | 1 | 0 | 0 | 33% of 6 | ◐ `drafted` |
+| 10 | [**PUB-ATR**](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | 🧪 bench, to build | **8.0** | 1 | 0 | 0 | 0% of 1 | ◐ `drafted` |
+| 11 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | ⭐ could still help a patient | 🏥 clinical adoption | **8.0** | 1 | 0 | 0 | 25% of 4 | ◐ `drafted` |
+| 12 | [**PUB-TXN-DEPENDENCY**](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) | ⭐ could still help a patient | 🧪 bench, to build | **5.0** | 0 | 0 | ⚠ 2 | 60% of 5 | ◐ `drafted` |
+| 13 | **PUB-KINASE-LEADS** | ⭐ could still help a patient | 🧪 bench, to build | **4.5** | 0 | 0 | ⚠ 4 | 55% of 11 | ◔ `outlined` |
+| 14 | **PUB-LOCOREGIONAL** | ⭐ could still help a patient | 🏥 clinical adoption | **4.5** | 0 | 0 | ⚠ 3 | 50% of 6 | ◔ `outlined` |
+| 15 | [**PUB-MONOVALENT**](../../research/manuscripts/nr4a3-monovalent-pocket-route.md) | ⭐ could still help a patient | 🧪 bench, to build | **4.0** | 0 | 1 | 0 | 50% of 2 | ◐ `drafted` |
+| 16 | [**PUB-MODALITY-CENSUS**](../../research/manuscripts/cancer-modality-census.md) | ⭐ could still help a patient | — | **2.0** | 0 | 0 | ⚠ 1 | 0% of 1 | ◐ `drafted` |
+| 17 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/emc-treatment-roadmap.md) | ⭐ could still help a patient | — | **1** | 0 | 0 | 0 | — | ◐ `drafted` · ⚠ 2 cited-only |
+| 18 | [**PUB-DEGRADER**](../../research/manuscripts/nr4a3-degrader-paper.md) | ⛔ known negative / methods | — | **10.5** | 2 | 3 | 0 | 38% of 8 | ◐ `drafted` |
+| 19 | [**PUB-METHODS**](../../research/manuscripts/degrader-methods-failure-record.md) | ⛔ known negative / methods | — | **9.0** | 1 | 0 | 0 | 100% of 1 | ◐ `drafted` |
+| 20 | [**PUB-ENDPOINT**](../../research/manuscripts/response-endpoint-indolent-tumours.md) | ⛔ known negative / methods | — | **7.0** | 1 | 0 | 0 | 67% of 3 | ◐ `drafted` |
+| 21 | [**PUB-FUSION-OUTPUT**](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | ⛔ known negative / methods | — | **6.0** | 1 | 0 | 0 | 50% of 6 | ◐ `drafted` |
+| 22 | [**PUB-TCIP**](../../research/manuscripts/tcip-induced-interface-preprint.md) | ⛔ known negative / methods | — | **3.0** | 1 | 0 | 0 | 67% of 3 | ◐ `drafted` |
+| 23 | [**PUB-BIOMARKER-DEP**](../../research/manuscripts/emc-biomarker-selected-classes.md) | ⛔ known negative / methods | — | **2.0** | 0 | 0 | ⚠ 5 | 40% of 10 | ◐ `drafted` |
+| 24 | **PUB-MATRIX-ADDRESS** | ⛔ known negative / methods | — | **0.5** | 0 | 0 | ⚠ 4 | 50% of 8 | ◔ `outlined` |
+| 25 | **PUB-NR-OUTSIDE-NR4A3** | ⛔ known negative / methods | — | **0.5** | 0 | 0 | ⚠ 2 | 80% of 5 | ◔ `outlined` |
+| 26 | [**PUB-ANDGATE**](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md) | ⛔ known negative / methods | — | **0.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
+| 27 | [**PUB-HLA-COVERAGE**](../../research/manuscripts/hla-coverage-emc.md) | ⛔ known negative / methods | — | **-1.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
+| 28 | [**PUB-NEOANTIGEN**](../../research/manuscripts/fusion-junction-neoantigen-paper.md) | ⛔ known negative / methods | — | **-1.0** | 0 | 2 | 0 | 33% of 3 | ◐ `drafted` |
+| 29 | [**PUB-SYNLETH**](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ⛔ known negative / methods | — | **-1.0** | 0 | 1 | 0 | 0% of 1 | ◐ `drafted` |
+| 30 | [**PUB-CLOSED-ROUTES**](../../research/manuscripts/closed-routes-negative-record.md) | ⛔ known negative / methods | — | **-7.0** | 0 | 7 | 0 | 0% of 3 | ◐ `drafted` |
+| 31 | **PUB-PARKED-MODALITIES** | ○ parked on a capability nobody has | — | **-6.0** | 0 | 5 | 0 | 0% of 6 | ○ `unwritten` |
 
 ## The open routes, which are the only ones that can still change an answer
 
@@ -95,8 +98,21 @@ last_verified: 2026-08-09
 - [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) — *Is a PRAME-directed T-cell engager or receptor therapy applicable to EMC?* — `blocked` / `computed` / confidence `moderate` · last verified `2026-08-05`
 - [RT-FAP-RLT](L2-rt-fap-rlt.md) — *Could a fibroblast-activation-protein radioligand reach EMC through its stroma?* — `blocked` / `concept` / confidence `unknown` · last verified `2026-08-05`
 
+**PUB-CARE-DELIVERY** — score 11.5
+- [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) — *How much of EMC's survival is decided by whether the first operation cleared the tumour, and by where it was performed?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
+- [RT-SURVEILLANCE](L2-rt-surveillance.md) — *Does follow-up in EMC stop before the disease does, and how much resectable recurrence is lost when it does?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
+- [RT-METASTASECTOMY](L2-rt-metastasectomy.md) — *In a lung-metastasis-dominant indolent sarcoma, what should decide whether — and how often — metastases are resected?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
+- [RT-RISK-MODEL](L2-rt-risk-model.md) — *Can the prognostic factors reported piecemeal across EMC's series be combined into a stratification that would let treatment intensity be matched to risk?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
+
+**PUB-EMC-CLASSIFICATION** — score 11.5
+- [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) — *Does EMC's classification — the ICD-O code it shares and the tumour class its name implies — change what patients are counted and what they are given?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`
+- [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) — *What do population-level treatment patterns and outcomes say about EMC that the published series cannot?* — `blocked` / `concept` / confidence `low` · last verified `2026-08-09`
+
 **PUB-STRATEGY-ARCH** — score 11.5
 - [RT-TRIAL-REACH](L2-rt-trial-reach.md) — *Can a patient with this disease actually reach the trials and the agents that a computational result would point them toward?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`
+
+**PUB-IPD-SURVIVAL** — score 11.0
+- [RT-IPD-SURVIVAL](L2-rt-ipd-survival.md) — *Can the time-to-event data this disease's clinical questions all require be recovered from the curves already published?* — `ready` / `computed` / confidence `low` · last verified `2026-08-09`
 
 **PUB-ASO** — score 9.5
 - [RT-ASO](L2-rt-aso.md) — *Can an RNase-H gapmer or siRNA against the EWSR1::NR4A3 breakpoint junction silence the chimera while sparing wild-type NR4A3?* — `blocked` / `scoped` / confidence `moderate` · last verified `2026-08-06`

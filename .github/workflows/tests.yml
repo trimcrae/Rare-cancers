@@ -167,6 +167,29 @@ jobs:
       # returns 0 precisely because it just made the file match.
       - name: EMC fusion-partner pooling — the committed artifact re-derives from its counts
         run: python3 research/manuscripts/emc_fusion_partner_pooling.py --check
+      # The two ST-CARE-DELIVERY generators (added 2026-08-09), wired here for the same reason as
+      # their three siblings above and built to the same idiom rather than a fourth one: `build()`
+      # is pure and touches no file, `check()` re-derives to MEMORY and compares against the
+      # committed copy, so neither can regenerate its own reference and pass against itself.
+      #
+      # ⭐ AND UNLIKE THE THREE ABOVE, BOTH ARE ALSO COVERED BY PREFLIGHT, WHICH IS THE POINT.
+      # CLAUDE.md §7 records the 2026-08-06 incident where a medical-integrity gate ran in CI and
+      # nowhere else, so a session could read `PREFLIGHT OK`, merge, and only then turn `main` red.
+      # research/modalities/tests/test_emc_ipd_survival.py and
+      # research/modalities/tests/test_emc_care_delivery_evidence.py live under the directory
+      # preflight's pytest gate already walks, and each perturbs the REAL committed artifact on
+      # disk and asserts the REAL `--check` refuses it AND writes nothing. These steps are the
+      # belt; those tests are the braces, and they are what makes the steps evidence.
+      #
+      # ⛔ THE IPD ARTIFACT CARRIES A CONSTRAINT THE OTHERS DO NOT: its CURVES table must stay
+      # EMPTY until a real published figure is digitized WITH PROVENANCE, because a Kaplan-Meier
+      # coordinate nobody read is a fabricated clinical datum — the golden rule this repository
+      # opens with. test_the_curves_table_is_empty_and_the_artifact_says_so fails the build if one
+      # appears, and the schema requires `digitized_by` on every curve so the hand step is named.
+      - name: EMC IPD survival reconstruction — the committed artifact re-derives
+        run: python3 research/modalities/emc_ipd_survival.py --check
+      - name: EMC care-delivery evidence — the committed artifact re-derives
+        run: python3 research/modalities/emc_care_delivery_evidence.py --check
       # Same standalone-step reasoning, for the two CI-shape linters. Both exist because a guard
       # that fails OPEN leaves no trace: a `skipped` step and a silently-loosened threshold both
       # render as a green tick, so the only place they can be caught is before they merge.

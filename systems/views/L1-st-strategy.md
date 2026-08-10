@@ -43,15 +43,15 @@ flowchart LR
   RT_TRIAL_REACH["✓ RT-TRIAL-REACH"]:::fam
   ST_STRATEGY --> RT_TRIAL_REACH
 
-  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
-  BLK_NO_EMC_DATA --> ST_STRATEGY
+  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — The clinical facts these r…"}}:::blk
+  BLK_NO_CURATED_CLINICAL_DATA --> RT_SEQUENCING
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
   classDef tech stroke-width:1px,stroke-dasharray:4 3;
 ```
 
-**Reading it.** 1 blocker point at the FAMILY node: every route here inherits it, so the family stands or falls as a unit on that. The rest point at individual routes.
+**Reading it.** ⭐ **No blocker points at the family node**, and that is the finding: the routes here are *not* held down by one shared thing. They are blocked individually, for different reasons — so retiring any one blocker frees some routes and not others, and there is no single unlock for the family.
 
 *What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
 
@@ -62,14 +62,6 @@ flowchart LR
 | **[RT-SCHEDULING](L2-rt-scheduling.md)**<br/>Adaptive and metronomic scheduling of existing agents | ✓ blocked | computed | `internal_note` | [PUB-STRATEGY-ARCH](L3-publications.md) ◐ *contributing* | Build the two-population model with each median carried separately as its own parameter interval, and the one  |
 | **[RT-SEQUENCING](L2-rt-sequencing.md)**<br/>Treatment sequencing and line ordering | ✓ parked | computed | `internal_note` | [PUB-STRATEGY-ARCH](L3-publications.md) ◐ *contributing* | Report the negative in the strategy paper: the sequencing question in this disease has no evidence base, state |
 | **[RT-TRIAL-REACH](L2-rt-trial-reach.md)**<br/>Trial reachability and access pathways | ✓ ready | computed | `internal_note` | [PUB-STRATEGY-ARCH](L3-publications.md) ◐ *contributing* | Publish the eligibility map — this is the one route in the portfolio whose output could reach a patient withou |
-
-## Family-level bets — blockers EVERY route here inherits
-
-If one of these is never retired, the whole family is dead. That is a different risk from any
-single route failing, and it is only visible at this level.
-
-- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
-
 ## Best next action
 
 Pool the curated cohorts' progression-free-survival data to state what the published record can and cannot support about scheduling and ordering.

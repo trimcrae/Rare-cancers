@@ -1,0 +1,36 @@
+{
+  "_generated_by": "research/modalities/emc_ipd_survival.py",
+  "_do_not_hand_edit": "Every number here is computed from the CURVES table in the generator. Verify with `python3 research/modalities/emc_ipd_survival.py --check`.",
+  "method": {
+    "citation": "Guyot P, Ades AE, Ouwens MJNM, Welton NJ. Enhanced secondary analysis of survival data: reconstructing the data from published Kaplan-Meier survival curves. BMC Med Res Methodol 2012;12:9.",
+    "doi": "10.1186/1471-2288-12-9",
+    "pmid": "22297116"
+  },
+  "what_this_is": "Patient-level survival data reconstructed from published Kaplan-Meier curves. A reconstruction is a re-expression of a published figure -- never new patients, never new follow-up, and it inherits every selection effect of the series it came from.",
+  "quality_floor": {
+    "require_numbers_at_risk_table": true,
+    "max_abs_km_deviation": 0.05,
+    "min_digitized_points": 6,
+    "rationale": "Without a numbers-at-risk table the per-interval censored count is unidentifiable. A curve below the floor is REFUSED, not pooled with a caveat."
+  },
+  "curve_schema": {
+    "id": "short stable identifier, e.g. 'bishop2019_localised_os'",
+    "source_id": "citation key in research/data/emc-clinical-registry.json -> registry.citations",
+    "endpoint": "one of: os | dss | pfs | lrfs | dmfs",
+    "population": "free text -- the arm or stratum this curve describes",
+    "time_unit": "months | years",
+    "digitized": "list of [time, survival_probability], time non-decreasing, S non-increasing in [0,1]",
+    "risk_table": "list of [time, n_at_risk], time non-decreasing, n_at_risk non-increasing",
+    "total_events": "integer if the paper prints it, else null",
+    "digitized_by": "who read the figure, and with what tool -- provenance for a hand step"
+  },
+  "candidate_sources": [],
+  "curves_supplied": 0,
+  "curves_admissible": 0,
+  "curves_pooled": 0,
+  "quality": [],
+  "errors": [],
+  "reconstructions": [],
+  "pooled": null,
+  "status": "NO CURVES DIGITIZED. The instrument is built and its known-answer control passes; no published EMC figure has been read into CURVES yet. Digitizing a figure requires the figure, and inventing a coordinate would fabricate a clinical datum. This field is the honest state, not a placeholder to be filled in with plausible numbers."
+}

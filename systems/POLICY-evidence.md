@@ -239,6 +239,51 @@ supports statements about measurement and reporting. It supports no statement ab
 comparative effectiveness, or any patient's prognosis, and the §2.5 limitations continue to apply
 to every row inside it.
 
+### 2.7 Reconstructed patient-level survival — the third estimand class
+
+§2.4 forbids merging time-anchored survival and §2.5 records the consequence in its own words:
+*"no censoring/Kaplan–Meier; no risk-adjustment or multivariable control."* Both are correct about
+the method §2.2 mandates — a median cannot be averaged and a percentage carries no censoring — and
+neither is a statement about the published record, which prints Kaplan–Meier curves this contract
+had no legal way to read.
+
+A **reconstructed patient-level survival dataset** has as its unit **one patient-time record**
+(a time and an event indicator) recovered from a published curve by the Guyot algorithm
+(*BMC Med Res Methodol* 2012;12:9). Its question is *how does risk evolve over time*, which is the
+question this disease's indolence makes central and which neither of the first two classes can
+express. It is admitted under the conditions below and under no others.
+
+- **(a) A numbers-at-risk table is mandatory.** Without one the per-interval censored count is
+  unidentifiable and the reconstruction is assumption rather than inversion. A curve without a
+  risk table is **refused, not admitted with a caveat** — a caveat travels badly and a refusal is
+  checkable.
+- **(b) The reconstruction must reproduce its own input.** The product-limit estimate recomputed
+  from the reconstructed records is compared against the digitized survival probabilities, and a
+  curve exceeding the stated deviation floor is refused. A reconstruction that cannot reproduce
+  the curve it came from has not converged.
+- **(c) Digitization provenance is required per curve** — who read the figure and with what tool.
+  This is the one hand step in the chain, and an unattributed coordinate is indistinguishable from
+  an invented one.
+- **(d) §2.1 and §2.3 bind unchanged.** Only non-overlapping populations may be combined, and the
+  smaller of any overlapping pair stays `pool: false` with its reason recorded. The SEER analyses
+  of this disease overlap each other and overlap institutional series.
+- **(e) Permitted: Kaplan–Meier estimates, medians with "not reached" preserved as a NON-NUMBER,
+  competing-risks decomposition, and proportional-hazards models with an explicit optimism
+  correction.** Prohibited: any covariate-stratified claim where the source published only a
+  pooled curve, because a reconstruction recovers times and events and **never covariates**.
+- **(f) The reconstruction is labelled as one wherever it appears.** It is a re-expression of a
+  published figure, not new patients and not new follow-up, and it inherits every selection and
+  publication bias of the source series while correcting none of them.
+
+⚠ **What this class adds is censoring structure, and that is all.** It makes a time-to-event
+analysis legal where §2.4 made it a category error; it does not make the underlying series larger,
+newer, less selected or better conducted. The §2.5 limitations apply in full to every row.
+
+⛔ **A passing known-answer control on the reconstruction algorithm is not evidence about any
+particular curve.** The control in `research/modalities/tests/test_emc_ipd_survival.py` feeds
+exact coordinates and therefore bounds algorithmic error alone; it is structurally incapable of
+failing on a mis-read figure. Digitization error is bounded per curve by (b), never by the control.
+
 ---
 
 ## 3. Representing disagreement (contested evidence)

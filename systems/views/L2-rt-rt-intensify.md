@@ -27,12 +27,10 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   RT_RT_INTENSIFY["✓ RT-RT-INTENSIFY"]:::fam
-  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
-  BLK_NO_EMC_DATA --> RT_RT_INTENSIFY
-  TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
-  TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
-  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
-  TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — The clinical facts these r…"}}:::blk
+  BLK_NO_CURATED_CLINICAL_DATA --> RT_RT_INTENSIFY
+  TECH_RECONSTRUCTED_IPD(["TECH-RECONSTRUCTED-IPD<br/>expected 2026H2"]):::tech
+  TECH_RECONSTRUCTED_IPD -.-> BLK_NO_CURATED_CLINICAL_DATA
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -68,7 +66,7 @@ This repository's own record contains a live contradiction about whether radioth
 
 | blocker | kind | what would retire it |
 |---|---|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-CURATED-CLINICAL-DATA** | `insufficient_data` | `TECH-RECONSTRUCTED-IPD` |
 
 ## Readiness — what this could become today
 
@@ -101,9 +99,6 @@ The remaining steps are $0 curation and literature search, both self-doable.
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
-
-**Revisit when:**
-- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 

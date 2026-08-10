@@ -31,6 +31,7 @@ unlabelled forecast is indistinguishable from a measurement.
 | 14 | **TECH-EMC-MODEL-ACCESS** | `experimental_access` | `absent` | beyond-2031 | **2029** | 2027H2 | `speculative` | `transformative` | yes |
 | 11 | **TECH-FE-CRYPTIC-POCKET** | `free_energy_method` | `absent` | 2030 | **2028** | 2027H1 | `extrapolated` | `transformative` | yes |
 | 10 | **TECH-EMC-EXPRESSION-DATA** | `biological_dataset` | `early_signals` | beyond-2031 | **2029** | 2027 | `speculative` | `transformative` | yes |
+| 10 | **TECH-RECONSTRUCTED-IPD** | `biological_dataset` | `partially_landed` | 2027 | **2026H2** | 2026H2 | `evidence_based` | `large` | n/a — watched another way |
 | 9 | **TECH-COFOLD-ASSEMBLY** | `structure_prediction` | `partially_landed` | 2028 | **2027** | 2026H2 | `evidence_based` | `transformative` | yes |
 | 7 | **TECH-CHEAP-ENSEMBLE** | `conformational_ensemble` | `partially_landed` | 2028 | **2027** | 2026H2 | `evidence_based` | `large` | yes |
 | 7 | **TECH-POSE-CONVERGENCE** | `structure_prediction` | `absent` | 2030 | **2028** | 2027 | `extrapolated` | `large` | yes |
@@ -54,8 +55,8 @@ unlabelled forecast is indistinguishable from a measurement.
 | 1 | **TECH-RXR-HETERODIMER-REPORT** | `published_measurement` | `absent` | never | **beyond-2031** | 2029 | `speculative` | `marginal` | yes |
 | 1 | **TECH-ASO-SPECIFICITY-MODEL** | `foundation_model_biology` | `absent` | 2029 | **2028** | 2027 | `extrapolated` | `moderate` | yes |
 
-**1 dependency(ies) cannot be seen by a literature search and are watched
-another way** — each says how, under `not_scannable_because` in its Detail entry: `TECH-COMPUTE-COST`. ⛔ This is a recorded decision, not a gap; the
+**2 dependency(ies) cannot be seen by a literature search and are watched
+another way** — each says how, under `not_scannable_because` in its Detail entry: `TECH-COMPUTE-COST`, `TECH-RECONSTRUCTED-IPD`. ⛔ This is a recorded decision, not a gap; the
 alternative was a fabricated query that reports nothing forever while being credited
 as coverage.
 
@@ -151,6 +152,39 @@ as coverage.
 **What would move this.** Any deposited EMC series, or a pan-sarcoma atlas whose inclusion criteria reach this histology. A single usable deposit collapses the whole forecast.
 
 *Scanned by:* `TRG-EMC-EXPRESSION-DATASET`, `TRG-SARCOMA-ATRI-RESPONSE-PANEL`
+
+### TECH-RECONSTRUCTED-IPD — fan-out 10
+
+**Patient-level survival data recovered from published Kaplan-Meier curves, at a quality this disease's series can actually support**
+
+*Category:* `biological_dataset` · *state:* `partially_landed` · *confidence in that state:* `moderate`
+
+**Why it matters.** ⭐ THIS IS THE CAPABILITY TWO PARKED ROUTES WERE WAITING ON WITHOUT NAMING IT. RT-SEQUENCING is parked with the rationale 'Only individual-patient data could change this, and it is not obtainable here', and RT-SCHEDULING is closed `definitional` because POLICY-evidence.md s2.4 forbids merging time-anchored endpoints so no pooled progression-free-survival figure may be built. Reconstruction obtains the first and legalises the second: Guyot et al. 2012 inverts a published curve plus its numbers-at-risk table back into the data that generated it, and a patient-level dataset may be pooled where a median may not. ⚠ It adds censoring structure, never patients — every selection and publication bias of the source series survives intact.
+
+**What the state assessment rests on:**
+- The instrument is built and validated: research/modalities/emc_ipd_survival.py implements Guyot et al. 2012 and its known-answer control recovers a held-out cohort EXACTLY (26 patients, 11 events, 15 censored), with survival agreeing within 0.004 except at the tail, and the control is demonstrably capable of failing.
+- ⛔ THE ARM THAT HAS NOT LANDED IS THE DATA. No published EMC figure has been digitized into it, so the artifact computes over an empty CURVES table and says so. Whether the capability arrives in this disease depends on how many EMC series print a numbers-at-risk table, which nobody has counted.
+- The control feeds exact coordinates, so it bounds ALGORITHMIC error only and is structurally unable to fail on a mis-read pixel.
+
+**Unblocks.** blockers: BLK-NO-CURATED-CLINICAL-DATA · routes: RT-IPD-SURVIVAL, RT-RISK-MODEL, RT-SURVEILLANCE, RT-SEQUENCING, RT-SURGICAL-QUALITY, RT-METASTASECTOMY, RT-LIMB-PERFUSION, RT-LUNG-DIRECTED, RT-RT-INTENSIFY
+
+**Forecast.**
+
+| scenario | band | confidence | rationale |
+|---|---|---|---|
+| conservative | `2027` | moderate | If most EMC series print no numbers-at-risk table, the quality floor refuses them and the capability never arrives in this disease however good the algorithm is. That is the live failure mode and nobody has counted the tables. |
+| expected | `2026H2` | moderate | The instrument is built and its known-answer control passes; what remains is digitizing figures from open-access papers already retrieved. That is manual work measured in hours, not a capability anyone is waiting on. |
+| optimistic | `2026H2` | moderate | ⛔ THERE IS NO OPTIMISTIC CASE DISTINCT FROM THE EXPECTED ONE, and saying so is the honest entry. Nothing external accelerates this — no paper, no model and no collaborator. It is bounded entirely by whether someone reads the figures. |
+
+*Basis:* `evidence_based` · *impact here:* `large` · *last reviewed:* 2026-08-09
+
+**What would move this.** A count of how many published EMC series print a numbers-at-risk table beside their Kaplan-Meier curve. That single census decides whether the capability is reachable at all, and it is free.
+
+**⚠ Adoption note.** ⚠ The date refers to a DATASET existing, not to any clinical question being answered by it. Reconstruction adds censoring structure and no patients, so a landed forecast here licenses time-to-event ANALYSIS and licenses nothing about the strength of the underlying series.
+
+*Not scannable — watched another way.* ⛔ NOTHING EXTERNAL WILL ANNOUNCE THIS ONE, AND THAT IS WHY IT NEEDS SAYING RATHER THAN A TRIGGER. Every other capability here waits on someone else's paper, so a literature scan is the right watcher. This one waits on a method published in 2012 being applied to figures already retrieved — the algorithm landed fourteen years ago and the instrument is built and validated in this repository. A scan would return reconstruction papers in other diseases forever and none of them would move it.
+
+WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-survival.json, which is 0 today and is the only number that can change this capability's state, plus research/modalities/tests/test_emc_ipd_survival.py, which fails the build if a curve is added without digitization provenance. ⚠ The genuinely uncertain input is not a method but a COUNT — how many published EMC series print a numbers-at-risk table beside their curve — and nobody has taken it.
 
 ### TECH-COFOLD-ASSEMBLY — fan-out 9
 

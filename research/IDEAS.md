@@ -105,6 +105,37 @@ of what's shelved vs. active and the next step for each.
 > `n = 5` is *EMCS-or-MCS* with the single objective response in an MCS patient, and that NR4A3 has
 > **exactly one PDB entry** against NR4A1's 21, so the anti-target is better resolved than the target.
 
+> **★★ AND WHAT EVEN THAT MEMO COULD NOT SEE — [`systems/views/L1-st-care-delivery.md`](../systems/views/L1-st-care-delivery.md)
+> (2026-08-09).** Every route on this board, all 217 classes of the modality census and all ten of
+> the 2026-08-07 sweeps answer one question — ***what should we GIVE an EMC patient?*** None asked
+> ***what determines how long an EMC patient lives now***, which in a disease with no
+> survival-proven systemic agent is decided by the diagnosis, the operation, the follow-up and how
+> long anyone keeps looking. ⛔ **THE CENSUS PROVES THE OMISSION RATHER THAN MERELY MISSING IT:**
+> its four bands are all taxonomies of INTERVENTIONS, and it grades `MOD-SURGERY` ("Wide local
+> excision and metastasectomy") and `MOD-WATCHFUL-WAITING` as `in_clinical_use` — incumbent
+> arsenal, excluded from grading. **A census built to enumerate NEW modalities cannot see variance
+> inside the existing one**, and that is where this disease's realized survival is. Same
+> instrument-shape failure the 2026-08-07 sweep diagnosed in itself, one level up: it widened the
+> *modality* space and never looked past modality.
+> **What the sweep that followed measured, all $0:** ⭐ the largest published survival association
+> in EMC is **an operation** (SEER locoregional, surgery HR 0.27 [0.16–0.47] univariate, 0.36
+> [0.19–0.69] adjusted — **PMID 32856598**), and no route covered it; ⭐ **28 %** of musculoskeletal
+> myxoid soft-tissue tumours carry an *indeterminate* preoperative diagnosis, and their
+> positive-margin rate is **37 % vs 15 %** when malignancy is known beforehand (**PMID 39899751**) —
+> a measured chain from diagnostic uncertainty to surgical failure; ⭐ 10-year OS **84 %** against
+> 10-year DFS **20 %** in the molecularly-confirmed ISG cohort (**PMID 32572850**), which is the
+> whole surveillance argument; and ⛔ **zero** EMC metastasectomy records in a 554-paper open-access
+> corpus, where the absence is the finding. ⚠ Most rows are `[API]` (abstract-level) — an abstract
+> is not a paper, and upgrading them is the precondition for quoting any of it.
+> **⭐ And one closure reopens.** `RT-SEQUENCING` is parked because *"Only individual-patient data
+> could change this, and it is not obtainable here"*, and `RT-SCHEDULING` is closed `definitional`
+> because [POLICY-evidence.md](../systems/POLICY-evidence.md) §2.4 forbids merging time-anchored
+> endpoints. Both describe the same missing capability, now built and validated:
+> [`emc_ipd_survival.py`](./modalities/emc_ipd_survival.py) inverts a published Kaplan–Meier curve
+> back into patient-level data (Guyot 2012), and §2.7 was added to the evidence contract to admit
+> it. ⛔ **Its `CURVES` table is EMPTY and a test enforces that** — the instrument is validated, no
+> figure has been digitized, and inventing a coordinate would fabricate a clinical datum.
+
 The goal pivoted away from the vaccine/coverage work (rigorous but unlikely to
 *yield a treatment*; economics favour a tumour-agnostic platform we don't control) toward routes
 that could actually drug or immuno-target EWSR1::NR4A3 EMC.

@@ -43,8 +43,8 @@ flowchart LR
   RT_RT_INTENSIFY["✓ RT-RT-INTENSIFY"]:::fam
   ST_LOCOREGIONAL --> RT_RT_INTENSIFY
 
-  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
-  BLK_NO_EMC_DATA --> ST_LOCOREGIONAL
+  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — The clinical facts these r…"}}:::blk
+  BLK_NO_CURATED_CLINICAL_DATA --> ST_LOCOREGIONAL
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -68,7 +68,7 @@ flowchart LR
 If one of these is never retired, the whole family is dead. That is a different risk from any
 single route failing, and it is only visible at this level.
 
-- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
+- **BLK-NO-CURATED-CLINICAL-DATA** (`insufficient_data`) — The clinical facts these routes need are IN the published record and have never been extracted into the registry
 
 ## Best next action
 

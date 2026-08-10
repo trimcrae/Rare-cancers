@@ -22,7 +22,7 @@ last_verified: 2026-08-05
 > lab, no funding for one — so every advance is either in-silico or publish-to-convince.
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.**
 
-**12 strategy families · 68 routes · 18 blockers · 25 technology dependencies.**
+**13 strategy families · 75 routes · 20 blockers · 26 technology dependencies.**
 
 ## The shape of the portfolio
 
@@ -32,10 +32,11 @@ What one screen has to carry is not the list — it is the **convergence**. Each
 
 ```mermaid
 flowchart LR
-  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — 9 families"}}:::blk
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — 7 families"}}:::blk
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — 7 families"}}:::blk
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — 6 families"]]:::perm
   BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — 3 families"}}:::blk
+  BLK_NO_CURATED_CLINICAL_DATA{{"BLK-NO-CURATED-CLINICAL-DATA — 3 families"}}:::blk
   BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — 3 families"}}:::blk
   BLK_ANTIGEN_COLD[["BLK-ANTIGEN-COLD — 2 families"]]:::perm
   BLK_R4_BINDS{{"BLK-R4-BINDS — 2 families"}}:::blk
@@ -44,6 +45,7 @@ flowchart LR
   ST_DEPENDENCY["ST-DEPENDENCY ✓ · 13 routes"]:::fam
   ST_REPURPOSING["ST-REPURPOSING ✓ · 11 routes"]:::fam
   ST_IMMUNO["ST-IMMUNO ✓ · 9 routes"]:::fam
+  ST_CARE_DELIVERY["ST-CARE-DELIVERY ○ · 7 routes"]:::fam
   ST_PROXIMITY["ST-PROXIMITY ◐ · 7 routes"]:::fam
   ST_NUCLEIC_ACID["ST-NUCLEIC-ACID ✓ · 5 routes"]:::fam
   ST_DISSEMINATION["ST-DISSEMINATION ○ · 4 routes"]:::fam
@@ -56,13 +58,11 @@ flowchart LR
 
   BLK_NO_EMC_DATA --> ST_DEPENDENCY
   BLK_NO_EMC_DATA --> ST_IMMUNO
-  BLK_NO_EMC_DATA --> ST_LOCOREGIONAL
   BLK_NO_EMC_DATA --> ST_MICROENV
   BLK_NO_EMC_DATA --> ST_NUCLEIC_ACID
   BLK_NO_EMC_DATA --> ST_OCCUPANCY
   BLK_NO_EMC_DATA --> ST_RADIOLIGAND
   BLK_NO_EMC_DATA --> ST_REPURPOSING
-  BLK_NO_EMC_DATA --> ST_STRATEGY
   BLK_NO_WET_LAB --> ST_DEPENDENCY
   BLK_NO_WET_LAB --> ST_MICROENV
   BLK_NO_WET_LAB --> ST_NUCLEIC_ACID
@@ -79,6 +79,9 @@ flowchart LR
   BLK_CLASS_INHERITANCE --> ST_DEPENDENCY
   BLK_CLASS_INHERITANCE --> ST_RADIOLIGAND
   BLK_CLASS_INHERITANCE --> ST_REPURPOSING
+  BLK_NO_CURATED_CLINICAL_DATA --> ST_CARE_DELIVERY
+  BLK_NO_CURATED_CLINICAL_DATA --> ST_LOCOREGIONAL
+  BLK_NO_CURATED_CLINICAL_DATA --> ST_STRATEGY
   BLK_PARALOGUE_DDG --> ST_FUSION_DIRECT
   BLK_PARALOGUE_DDG --> ST_OCCUPANCY
   BLK_PARALOGUE_DDG --> ST_PROXIMITY
@@ -96,7 +99,7 @@ flowchart LR
 
 **Reading it.** A hexagon is a blocker with a named way out; a double-walled box is a **permanent** one — a fact about the biology that no technology retires. An arrow means *holds down*.
 
-⚠ **10 further blocker(s) are NOT drawn here**, because each holds down exactly one family and belongs on that family's page. Drawing all 18 would render the portfolio as a hairball and bury the 8 that shape it. Every one of them is in [registers/blockers.md](registers/blockers.md).
+⚠ **11 further blocker(s) are NOT drawn here**, because each holds down exactly one family and belongs on that family's page. Drawing all 20 would render the portfolio as a hairball and bury the 9 that shape it. Every one of them is in [registers/blockers.md](registers/blockers.md).
 
 ## The landscape
 
@@ -114,6 +117,7 @@ flowchart LR
 | **[ST-MICROENV](L1-st-microenv.md)**<br/>The tumour microenvironment and matrix as the target | The matrix is this disease's defining phenotype and the portfolio's prose has treated it almost entirely as an obstacle to delivery. It is also a manu… | 4 | ○ ready · concept | hedge |
 | **[ST-LOCOREGIONAL](L1-st-locoregional.md)**<br/>Locoregional, physical and radiation-based treatment | Every other family here tries to buy selectivity with chemistry. A beam, a perfusion circuit or a needle buys it with geometry, which is a discriminat… | 3 | ○ ready · concept | hedge |
 | **[ST-STRATEGY](L1-st-strategy.md)**<br/>Treatment strategy, scheduling and reachability | For a disease measured in years, when and in what order the existing agents are given may matter as much as which they are — and none of that has been… | 3 | ○ ready · concept | cheap_option |
+| **[ST-CARE-DELIVERY](L1-st-care-delivery.md)**<br/>Care delivery, diagnosis and the determinants of survival | Every other family here asks what to GIVE an EMC patient. None asks what determines how long an EMC patient lives now — and in a disease where no syst… | 7 | ○ ready · concept | cheap_option |
 
 ## Where the portfolio ends
 
@@ -123,8 +127,8 @@ Every route above ends in a paper. With no wet lab and no clinic, the published 
 
 | state | endpoints | routes feeding them |
 |---|---:|---:|
-| ○ `unwritten` | 1 | 5 |
-| ◔ `outlined` | 4 | 13 |
+| ○ `unwritten` | 3 | 10 |
+| ◔ `outlined` | 5 | 15 |
 | ◐ `drafted` | 23 | 50 |
 
 ## What holds the portfolio down
@@ -135,22 +139,24 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 
 | blocker | kind | routes held | families | retired by |
 |---|---|---:|---:|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | 43 | 9 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-EMC-DATA** | `insufficient_data` | 37 | 7 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | 16 | 7 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 14 | 6 | *permanent — nothing* |
-| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 9 | 3 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 9 | 2 | *permanent — nothing* |
+| **BLK-NO-CURATED-CLINICAL-DATA** | `insufficient_data` | 9 | 3 | `TECH-RECONSTRUCTED-IPD` |
+| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 9 | 3 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | 8 | 2 | `TECH-EMC-MODEL-ACCESS` |
-| **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | 5 | 1 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
 | **BLK-CLASS-INHERITANCE** | `insufficient_data` | 5 | 3 | `TECH-VIRTUAL-CELL` |
-| **BLK-VECTOR-DELIVERY** | `requires_future_technology` | 3 | 1 | `TECH-VECTOR-DELIVERY` |
+| **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | 5 | 1 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
 | **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | 3 | 1 | `TECH-COFOLD-ASSEMBLY` |
 | **BLK-UNSIZED-REQUIREMENT** | `requires_wet_lab` | 3 | 2 | *an action we can take* |
+| **BLK-VECTOR-DELIVERY** | `requires_future_technology` | 3 | 1 | `TECH-VECTOR-DELIVERY` |
 | **BLK-REACH-CATEGORICAL** | `scientific_uncertainty` | 2 | 1 | `TECH-EXPOSURE-CRITERION` |
-| **BLK-ENDPOINT-MD** | `no_known_assay` | 1 | 1 | `TECH-E1-POWERED` |
-| **BLK-PARALOGUE-CONTROL** | `no_known_assay` | 1 | 1 | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
-| **BLK-FUNCTIONAL-ACTIONABILITY** | `requires_wet_lab` | 1 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-DELIVERY** | `requires_future_technology` | 1 | 1 | `TECH-OLIGO-DELIVERY` |
+| **BLK-ENDPOINT-MD** | `no_known_assay` | 1 | 1 | `TECH-E1-POWERED` |
+| **BLK-FUNCTIONAL-ACTIONABILITY** | `requires_wet_lab` | 1 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-PARALOGUE-CONTROL** | `no_known_assay` | 1 | 1 | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
+| **BLK-REGISTRY-DUA** | `requires_authorization` | 1 | 1 | *an action we can take* |
 | **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED** | `requires_authorization` | 1 | 1 | *an action we can take* |
 | **BLK-TCIP-INTERFACE-FLOOR** | `insufficient_data` | 1 | 1 | *an action we can take* |
 
@@ -163,13 +169,13 @@ Ordered by how much comes back if they land. Full register: [registers/technolog
 | 14 | **TECH-EMC-MODEL-ACCESS** | `absent` | 2029 | `speculative` |
 | 11 | **TECH-FE-CRYPTIC-POCKET** | `absent` | 2028 | `extrapolated` |
 | 10 | **TECH-EMC-EXPRESSION-DATA** | `early_signals` | 2029 | `speculative` |
+| 10 | **TECH-RECONSTRUCTED-IPD** | `partially_landed` | 2026H2 | `evidence_based` |
 | 9 | **TECH-COFOLD-ASSEMBLY** | `partially_landed` | 2027 | `evidence_based` |
 | 7 | **TECH-CHEAP-ENSEMBLE** | `partially_landed` | 2027 | `evidence_based` |
 | 7 | **TECH-POSE-CONVERGENCE** | `absent` | 2028 | `extrapolated` |
 | 7 | **TECH-CLOUD-WET-LAB** | `early_signals` | 2029 | `extrapolated` |
 | 6 | **TECH-EXPOSURE-CRITERION** | `absent` | 2027H2 | `extrapolated` |
 | 6 | **TECH-VIRTUAL-CELL** | `early_signals` | 2028 | `extrapolated` |
-| 5 | **TECH-CHARGE-CHANGE-FEP** | `absent` | 2027 | `extrapolated` |
 
 ## Drill down
 

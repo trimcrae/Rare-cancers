@@ -1,0 +1,127 @@
+{
+  "_generated_by": "research/modalities/emc_care_delivery_evidence.py",
+  "_do_not_hand_edit": "Verify with `python3 research/modalities/emc_care_delivery_evidence.py --check`.",
+  "what_this_is": "What the published record already says about the determinants of EMC survival that are not a new agent. One row per source; NOTHING is combined across rows.",
+  "corpus": {
+    "workflow": ".github/workflows/fetch-literature.yml",
+    "run_id": 31341462928,
+    "dispatched": "2026-08-09",
+    "records": 554,
+    "branch": "literature-cache",
+    "path": "literature/emc-care-delivery-and-classification/",
+    "known_positive_control": {
+      "pmid": "32856598",
+      "passed": true,
+      "note": "The workflow fails the run when a declared expect_pmids control is absent, so a green run is evidence the query returned the paper it was required to return."
+    }
+  },
+  "icd_o_9231_3": {
+    "code": "9231/3",
+    "label_in_icd_o_3": "myxoid chondrosarcoma",
+    "question": "Does ICD-O-3 morphology code 9231/3 separate EMC from skeletal myxoid chondrosarcoma, and is a SEER-based EMC cohort therefore a cohort of EMC?",
+    "answer": "NO on the first, and the second does not follow. The two published SEER studies below use the same morphology code for mutually incompatible populations. A morphology code carries no information about whether a tumour arose in bone or soft tissue -- ICD-O keeps that on the separate topography axis -- so neither study is misusing the code, and the ambiguity cannot be resolved from the morphology field alone.",
+    "sides": [
+      {
+        "reads_the_code_as": "extraskeletal myxoid chondrosarcoma",
+        "pmid": "32856598",
+        "year": 2020,
+        "title": "Long-term Outcomes for Extraskeletal Myxoid Chondrosarcoma: A SEER Database Analysis",
+        "quote": "We queried the SEER 1973-2016 database for patients with myxoid chondrosarcoma (ICD-O-3: 9231/3).",
+        "quote_source": "abstract, Methods",
+        "provenance": "[API]"
+      },
+      {
+        "reads_the_code_as": "one histological subtype of chondrosarcoma (a bone tumour study; the code sits beside 9220 chondrosarcoma NOS and 9221 juxtacortical)",
+        "pmid": "31765367",
+        "pmcid": "PMC6894367",
+        "year": 2019,
+        "title": "Prognostic Factors and Treatment Options for Patients with High-Grade Chondrosarcoma",
+        "quote": "The following histologic ICD-O-3 codes ... were included: code 9220 (chondrosarcoma not otherwise specified), code 9221 (juxtacortical chondrosarcoma), code 9231 (myxoid chondrosarcoma), code 9240 (mesenchymal chondrosarcoma), code 9242 (clear cell chondrosarcoma) and code 9243 (dedifferentiated chondrosarcoma).",
+        "quote_source": "full text, Materials and Methods",
+        "provenance": "[FT]"
+      }
+    ],
+    "consequence_for_this_repository": "Every SEER-derived EMC figure cited here inherits an unquantified contamination whose size nobody has measured. This does not retract any of them; it means the question 'how much of that cohort is EMC?' has never been asked, and it is answerable from the topography field the same databases carry.",
+    "consequence_for_the_clinic": "Separate from the registry problem and possibly larger: the disease's NAME places it inside a tumour class it does not belong to. EMC is not cartilaginous and is classed by WHO as a tumour of uncertain differentiation, so a clinician reasoning from the name may import conventional-chondrosarcoma expectations. This repository already noticed one instance of that -- the IDH/ivosidenib row in emc-unexplored-treatment-lanes.md s6, closed as a 'nominal name-match only' -- and filed it as a one-paragraph curiosity rather than as an instance of a general problem.",
+    "what_would_close_it": "Re-run a SEER 9231/3 query split by ICD-O topography (soft tissue vs bone primary sites) and report the split. That is the measurement nobody has published, and it needs a SEER data-use agreement rather than a fetch."
+  },
+  "findings": [
+    {
+      "id": "surgery-is-the-lever",
+      "route": "RT-SURGICAL-QUALITY",
+      "pmid": "32856598",
+      "year": 2020,
+      "design": "SEER 1973-2016, n=439 (373 locoregional)",
+      "what_it_says": "In locoregional disease, surgery was associated with superior overall survival (HR 0.27, 95% CI 0.16-0.47 univariate; HR 0.36, 95% CI 0.19-0.69 in the adjusted sensitivity analysis). Chemotherapy (HR 1.90, 95% CI 1.11-3.27) and radiotherapy (HR 1.45, 95% CI 1.03-2.06) were associated with INFERIOR survival. 10-year OS with distant disease was 10% (95% CI 2%-25%).",
+      "why_it_matters": "The single largest published survival association in this disease is an operation, and no route on this board covered it. ⚠ The inferior chemo/RT hazards are textbook confounding by indication -- sicker patients receive them -- and must not be read as harm; the same paper's own adjusted model dissolves most of the effect.",
+      "carries_the_icd_o_caveat": true,
+      "provenance": "[API]"
+    },
+    {
+      "id": "indeterminate-diagnosis-costs-the-margin",
+      "route": "RT-DIAGNOSTIC-PATHWAY",
+      "pmid": "39899751",
+      "year": 2025,
+      "design": "retrospective, 439 myxoid soft-tissue tumours; 235 with biopsy data",
+      "what_it_says": "28% (66/235) of musculoskeletal myxoid soft-tissue tumours had an INDETERMINATE diagnosis before resection. Among those that proved sarcoma with 2-year follow-up, the positive-margin rate was 37% (10/27) versus 15% (11/74) when malignancy was known preoperatively.",
+      "why_it_matters": "⭐ This is the causal chain the portfolio has no route for, MEASURED, and in myxoid tumours specifically: diagnostic uncertainty before the operation more than doubles the positive-margin rate at it. It links avenue 5 (diagnosis) to avenue 2 (the first operation) with a number rather than an argument.",
+      "carries_the_icd_o_caveat": false,
+      "provenance": "[API]"
+    },
+    {
+      "id": "the-disease-outruns-its-follow-up",
+      "route": "RT-SURVEILLANCE",
+      "pmid": "32572850",
+      "year": 2021,
+      "design": "Italian Sarcoma Group, 3 referral centres, n=67 localised, NR4A3-rearrangement confirmed, centrally reviewed to WHO 2013, median follow-up 55 months",
+      "what_it_says": "5-year OS 94% (86-100) and 10-year OS 84% (69-98), against 5-year disease-free survival 51% (38-65) and 10-year DFS 20% (7-33). 35/67 (52%) relapsed -- 9 local, 26 distant.",
+      "why_it_matters": "The gap between an 84% 10-year OS and a 20% 10-year DFS is the whole case for the surveillance route: most patients relapse, most are alive years later, and the interval between those two facts is where a resectable recurrence either is or is not found. It is also the cleanest EMC cohort in the corpus -- molecularly confirmed and centrally reviewed, so it carries no ICD-O contamination.",
+      "carries_the_icd_o_caveat": false,
+      "provenance": "[API]"
+    },
+    {
+      "id": "single-centre-surgical-series",
+      "route": "RT-SURGICAL-QUALITY",
+      "pmid": "36326382",
+      "year": 2022,
+      "design": "single reference centre, n=13, 2006-2018",
+      "what_it_says": "All 13 underwent wide resection with one positive margin; 38.5% recurred, 46.2% developed lung metastasis, 53.8% died. Median survival 61 months, 5-year survival 51.8%. No significant survival difference by age, sex, side, limb location, postoperative radiotherapy, recurrence or lung metastasis.",
+      "why_it_matters": "The only EMC paper in the corpus whose subject IS the operation. ⚠ At n=13 with 7 deaths every one of its null findings is underpowered, and the absence of a radiotherapy effect here must not be read against the two series that disagree.",
+      "carries_the_icd_o_caveat": false,
+      "provenance": "[API]"
+    }
+  ],
+  "absences": [
+    {
+      "id": "no-emc-metastasectomy-literature",
+      "route": "RT-METASTASECTOMY",
+      "query": "metastasectom* within the EMC-matching subset of a 554-record open-access corpus retrieved 2026-08-09",
+      "result": "ZERO records.",
+      "reading": "⭐ The absence is the finding and it is the route's justification, not an obstacle to it. EMC is indolent, lung-metastasis-dominant and measured in decades -- the profile for which pulmonary metastasectomy is standard practice in sarcoma generally -- and no paper in this corpus asks the question in EMC. ⚠ An open-access corpus is not the literature: this bounds what a 554-record open-access sweep contains, and a closed-access series or a chapter could exist. The claim is 'not found here', never 'does not exist'.",
+      "provenance": "[API]"
+    }
+  ],
+  "rows_by_route": {
+    "RT-SURGICAL-QUALITY": [
+      "surgery-is-the-lever",
+      "single-centre-surgical-series"
+    ],
+    "RT-DIAGNOSTIC-PATHWAY": [
+      "indeterminate-diagnosis-costs-the-margin"
+    ],
+    "RT-SURVEILLANCE": [
+      "the-disease-outruns-its-follow-up"
+    ],
+    "RT-METASTASECTOMY": [
+      "no-emc-metastasectomy-literature"
+    ]
+  },
+  "pmids": [
+    "31765367",
+    "32572850",
+    "32856598",
+    "36326382",
+    "39899751"
+  ],
+  "verification_level": "Mixed and labelled per row. Most rows are [API] -- the structured Europe PMC record, i.e. the abstract. An abstract is not a paper and a number read from one has not been checked against the source's own tables. Upgrading the four FINDINGS rows to [FT] is the next $0 step and is a precondition for quoting any of these in a manuscript."
+}

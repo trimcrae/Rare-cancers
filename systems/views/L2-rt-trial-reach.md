@@ -24,22 +24,7 @@ last_verified: 2026-08-05
 
 ## What has to land for this route to move
 
-```mermaid
-flowchart LR
-  RT_TRIAL_REACH["✓ RT-TRIAL-REACH"]:::fam
-  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
-  BLK_NO_EMC_DATA --> RT_TRIAL_REACH
-  TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
-  TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
-  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
-  TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
-  classDef fam stroke-width:2px;
-  classDef blk stroke-width:2px;
-  classDef perm stroke-width:4px;
-  classDef tech stroke-width:1px,stroke-dasharray:4 3;
-```
-
-**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+*This route inherits no blocker and retires none — there is no dependency structure to draw. Its state is decided by the evidence on this page alone.*
 
 ## Scientific rationale
 
@@ -66,12 +51,6 @@ Two findings meet here. A trial exists whose eligibility is defined by the fusio
 | ⛔ TAKEN 2026-08-07 — the registry sweep for eligibility criteria naming fusion families rather than histologies | ⛔ none built | yes | — |
 | ⛔ TAKEN 2026-08-09 — per-trial eligibility-text adjudication of the four candidates the sweep could not confirm. Two admit, two refuse. | ⛔ none built | yes | — |
 | Coverage of non-US registries, which need an authenticated endpoint | ⛔ none built | **no** | — |
-
-## Blockers
-
-| blocker | kind | what would retire it |
-|---|---|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 
 ## Readiness — what this could become today
 
@@ -101,9 +80,6 @@ This is the route with a live, actionable and entirely $0 output — a list of o
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
-
-**Revisit when:**
-- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
