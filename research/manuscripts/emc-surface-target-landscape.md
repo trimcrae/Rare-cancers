@@ -30,30 +30,30 @@ related: [DOC-EMC-SURFACE-TARGET-LANDSCAPE-SI]
 
 <!-- EDITORIAL, NOT FOR SUBMISSION.
 VENUE: British Journal of Cancer (Springer Nature), article type Article, with a bioRxiv preprint as
-the free open copy. BJC runs a transformative model: an accepted paper may be published by the
-traditional subscription route at no charge to the author, and gold open access is an optional paid
-upgrade (3,580 EUR / 4,480 USD / 3,060 GBP for a full article). That is the zero-cost route this
-programme requires. There is no submission fee.
-VERIFICATION STATUS: SEARCH-VERIFIED, NOT PAGE-VERIFIED (2026-08-09). nature.com is blocked at this
-container's egress proxy, so the journal's own author pages could not be fetched directly; the fee
-route, the article-type limits and the preprint policy were read from web-search results reporting
-those pages. Re-read them at submission and record the reading.
-RESIDUAL COST TO WATCH: BJC levies a colour charge for figures in the print and PDF version, waived
-only for open-access papers. Figure 1 must therefore be rendered as greyscale line art, or the zero-cost
-route is not zero-cost. emc_surface_figure.py currently emits colour.
-LIMITS APPLIED: structured abstract 200 words (Background, Methods, Results, Conclusions); main body
-5,000 words excluding abstract, display items and references; maximum 8 display items; maximum 80
-references.
-AUTHORSHIP: Tristan McRae, independent researcher, unaffiliated. No ORCID is given because the
-repository holds none, and an invented identifier on a person is the failure lint_citations.py exists
-to prevent, applied to a human. Supply one at deposit if wanted.
-CORRECTIONS: Appendix A is the correction and supersession register required by CLAUDE.md rule 1.2. It
-sits outside the 5,000-word body and is deposited as a supplementary note.
-REFERENCES: complete as of 2026-08-09. All eighteen entries carry a full author list, journal, year,
-volume and pages, from the committed Europe PMC retrievals; every one is cited in the text. Reference
-16 was replaced after a retrieval showed the entry as written described no real paper; the reasoning
-and the two rejected candidates are in Appendix A5.
--->
+the free open copy. An accepted paper may be published by the traditional subscription route at no
+charge to the author; gold open access is an optional paid upgrade. That is the zero-cost route this
+programme requires.
+SUPERSEDED, RETAINED: this note previously quoted the upgrade as "3,580 EUR / 4,480 USD / 3,060 GBP",
+taken from a web-search snippet. A bibliographic database reports USD 4,690. The figure is not the
+one any decision here rests on, since the charge is declined, but the discrepancy is the measurable
+reason the search-snippet method was replaced. Neither number is publisher-page verified.
+FEE ROUTE: THE $0 SUBSCRIPTION ROUTE IS NOW VERIFIED AT PRIMARY SOURCE (2026-08-10). The publisher
+policy pages were retrieved from a GitHub Actions runner rather than from this sandbox, because the
+per-journal pages return HTTP 403 to both. Full record with verbatim quotations, URLs and HTTP
+statuses: research/literature/venue-fee-routes-2026-08-10.json.
+The journal's own open-access page states that gold open access requires an article processing charge,
+and that authors choosing "the standard subscription publication route" need only complete the
+standard Licence to Publish form. The journal is recorded as not open access and not in DOAJ.
+THE COLOUR CHARGE IS CONFIRMED at the journal's own guide to authors, verbatim: "There is a charge if
+authors choose to publish their figures in colour in the print publication (which includes the online
+PDF). Colour charges will not apply to authors who choose to pay an article processing charge to make
+their paper Open Access." It is an author CHOICE, so the $0 route holds provided figures are
+submitted greyscale.
+STILL NOT VERIFIED, and stated as such: the per-journal author-guideline pages return 403 from CI as
+well, so the word, abstract and display-item limits written into this manuscript remain
+search-derived. Those affect FORMAT, which an editor returns, not COST, which is billed. And the
+APC figure itself comes from a bibliographic database rather than the publisher page; it is not the
+number the decision rests on, since the charge is being declined.
 
 > **Declarations for preprint deposit.** Ethics approval and consent were not required and were not
 > sought. This study analyses public gene-expression deposits and public annotation resources only. It

@@ -63,18 +63,20 @@ VENUE. Genes, Chromosomes and Cancer (Wiley), Research Article, with the preprin
 Rationale: it is the field's standard home for fusion-gene analysis in sarcoma, and the reported
 EMC junction literature this paper compiles sits in that literature.
 
-FEE ROUTE, AND WHAT IS UNVERIFIED. bioRxiv: free, VERIFIED (openRxiv/bioRxiv own material states
-submission is free of charge). Genes, Chromosomes and Cancer: Wiley's own author pages state that a
-hybrid journal's corresponding author is OFFERED the open-access option on acceptance, and the
-journal's open-access page states the APC applies "if the Open Access option is selected" (USD
-4,810 quoted), which implies a subscription route at no author charge. UNVERIFIED AT THE PRIMARY
-SOURCE: onlinelibrary.wiley.com is blocked by this environment's egress proxy (403 at CONNECT), so
-the author-guidelines and open-access pages could not be read directly and the statements above
-rest on search-result snippets of those pages. Do not treat the $0 route as confirmed until it is
-confirmed in writing at submission, per the standing rule in nr4a3-degrader-preprint-plan.md.
-Fallback with the same hybrid structure: Cancer Genetics (Elsevier). Excluded outright: PLOS,
-Scientific Reports, Frontiers, IJMS and other APC-only venues.
-
+FEE ROUTE: THE $0 SUBSCRIPTION ROUTE IS NOW VERIFIED AT PRIMARY SOURCE (2026-08-10). The publisher
+policy pages were retrieved from a GitHub Actions runner rather than from this sandbox, because the
+per-journal pages return HTTP 403 to both. Full record with verbatim quotations, URLs and HTTP
+statuses: research/literature/venue-fee-routes-2026-08-10.json.
+Wiley states on its own author pages that under open access "the author pays an Article Publication
+Charge", that hybrid open access is selected by the corresponding author AFTER acceptance, and that a
+subscription article requires only a Copyright Transfer or Exclusive License Agreement. The journal
+is recorded as not open access and not in DOAJ. Declining the optional open-access selection is the
+$0 route.
+STILL NOT VERIFIED, and stated as such: the per-journal author-guideline pages return 403 from CI as
+well, so the word, abstract and display-item limits written into this manuscript remain
+search-derived. Those affect FORMAT, which an editor returns, not COST, which is billed. And the
+APC figure itself comes from a bibliographic database rather than the publisher page; it is not the
+number the decision rests on, since the charge is being declined.
 ARTICLE-TYPE SPECIFICS ALSO UNVERIFIED for the same reason. Search snippets of the journal's
 guidelines report an abstract of at most 250 words, structured or unstructured, and a Short
 Communication limit of 2,500 words with 25 references and six display items. This manuscript is

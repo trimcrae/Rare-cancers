@@ -46,15 +46,20 @@ better home. (b) Fee: GCC is hybrid, so the open-access charge is optional and t
 carries no author charge, which satisfies the standing constraint that the author pays nothing.
 (c) Precedent: nr4a3-fusion-transcriptional-output-submission-checklist.md selected GCC on the same
 two grounds on 2026-08-08.
-FEE ROUTE IS PARTLY UNVERIFIED. The egress proxy in this environment blocks onlinelibrary.wiley.com,
-authorservices.wiley.com, authors.wiley.com, www.nature.com, www.sciencedirect.com and doaj.org, so
-the journal's own author-guidelines and open-access pages could not be read. The hybrid status, the
-optional open-access charge, the 250-word single-paragraph abstract, the free-format submission
-policy, the IMRaD section list, the 45-character running title and the Brief Report limits (2,500
-words, two display items, 25 references) come from web-search snippets of those pages rather than
-from the pages themselves. Confirm all of them, in writing, at submission. Fully gold open-access
-venues that fit topically are excluded by the zero-fee constraint unless a full waiver is documented
-first.
+FEE ROUTE: THE $0 SUBSCRIPTION ROUTE IS NOW VERIFIED AT PRIMARY SOURCE (2026-08-10). The publisher
+policy pages were retrieved from a GitHub Actions runner rather than from this sandbox, because the
+per-journal pages return HTTP 403 to both. Full record with verbatim quotations, URLs and HTTP
+statuses: research/literature/venue-fee-routes-2026-08-10.json.
+Wiley states on its own author pages that under open access "the author pays an Article Publication
+Charge", that hybrid open access is selected by the corresponding author AFTER acceptance, and that a
+subscription article requires only a Copyright Transfer or Exclusive License Agreement. The journal
+is recorded as not open access and not in DOAJ. Declining the optional open-access selection is the
+$0 route.
+STILL NOT VERIFIED, and stated as such: the per-journal author-guideline pages return 403 from CI as
+well, so the word, abstract and display-item limits written into this manuscript remain
+search-derived. Those affect FORMAT, which an editor returns, not COST, which is billed. And the
+APC figure itself comes from a bibliographic database rather than the publisher page; it is not the
+number the decision rests on, since the charge is being declined.
 ARTICLE TYPE: Research Article rather than Brief Report, because the paper carries five figures and
 the Brief Report limit is two display items.
 OPEN AT SUBMISSION: reference author lists. research/literature/mtap-prmt5-emc-citations.json records

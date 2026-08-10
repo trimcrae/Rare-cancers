@@ -28,13 +28,20 @@ related: [DOC-FACT-CHECK-LOG, DOC-REPURPOSING-HYPOTHESES-REVIEW, DOC-PPARG-DIREC
 
 <!-- EDITORIAL, NOT FOR SUBMISSION.
 VENUE: Critical Reviews in Oncology/Hematology (Elsevier), article type Review, with a bioRxiv
-preprint as the free open copy and Zenodo as the fallback deposit. Reasoning and the fee-route
-evidence are in the report accompanying this rewrite. The $0 route is the subscription side of a
-hybrid journal; open access there is optional and carries an APC, which is declined. The publisher
-domains (sciencedirect.com, elsevier.com, link.springer.com, nature.com) are blocked by this
-environment's egress proxy, so the author guidelines and the fee policy summarised below were read
-through web search of those pages rather than from the pages themselves. Confirm both in writing at
-submission.
+preprint as the free open copy and Zenodo as the fallback deposit.
+FEE ROUTE: THE $0 SUBSCRIPTION ROUTE IS NOW VERIFIED AT PRIMARY SOURCE (2026-08-10). The publisher
+policy pages were retrieved from a GitHub Actions runner rather than from this sandbox, because the
+per-journal pages return HTTP 403 to both. Full record with verbatim quotations, URLs and HTTP
+statuses: research/literature/venue-fee-routes-2026-08-10.json.
+Elsevier states on its own pricing page, verbatim: "Our waiving policy does not apply to hybrid
+journals. Authors publishing in hybrid journals can publish under the subscription model at no cost
+and make use of the Elsevier sharing policy." This journal is hybrid: not open access, not in DOAJ,
+and carrying an article publishing charge for the optional open-access route only.
+STILL NOT VERIFIED, and stated as such: the per-journal author-guideline pages return 403 from CI as
+well, so the word, abstract and display-item limits written into this manuscript remain
+search-derived. Those affect FORMAT, which an editor returns, not COST, which is billed. And the
+APC figure itself comes from a bibliographic database rather than the publisher page; it is not the
+number the decision rests on, since the charge is being declined.
 GUIDELINES BUILT TO: review no longer than 8000 words excluding tables and figures; at most six
 figures and/or tables; abstract no longer than 250 words; a mandatory Critical View section at the
 end. This draft carries one figure and four tables, that is five display items.

@@ -1,0 +1,149 @@
+{
+  "_what": "Primary-source verification of the $0 publishing route for the three journals the submission-form manuscripts target, fetched 2026-08-10 from a GitHub Actions runner.",
+  "_why": "trimcrae, 2026-08-10: 'the journal submission is directly after the preprint submission for me and I don't want to publish a bad preprint with the justification that I can fix it before submitting to a journal.' Every venue choice had been made on SEARCH SNIPPETS of publisher pages, because the dev sandbox's egress proxy 403s every publisher domain, and four separate drafting agents each recorded the fee route as UNVERIFIED and stopped there.",
+  "⭐_the_method_was_the_whole_problem_and_it_was_already_documented": "CLAUDE.md §6 says in terms that 'I can't run X here' is never a reason to defer, and that networked work blocked by the egress proxy routes to a GitHub Actions runner with unrestricted internet. The repository already had `fetch-literature.yml` + `scripts/lit_fetch_urls.py`, which fetch an arbitrary {name: url} manifest from CI. Nobody pointed it at a publisher. Three rounds of that workflow produced everything below.",
+  "_retrieval": {
+    "workflow": ".github/workflows/fetch-literature.yml (targets_json path)",
+    "slugs": [
+      "venue-fee-routes-2026-08-10",
+      "venue-fee-routes-round2-2026-08-10",
+      "venue-fee-routes-round3-2026-08-10"
+    ],
+    "date_et": "2026-08-10",
+    "n_targets": 45
+  },
+  "⚠_publisher_journal_pages_are_cloudflare_protected_and_403_even_from_CI": "onlinelibrary.wiley.com, www.sciencedirect.com and www.elsevier.com journal pages returned 403 from the runner too, so this is NOT a sandbox limitation and would not have been fixed by any amount of retrying. What worked was going to the PUBLISHER-WIDE policy pages on the author-facing hosts (authors.wiley.com, elsevier.com policy pages, nature.com journal pages), which are not behind the same protection, plus structured bibliographic databases.",
+  "verdicts": {
+    "GCC": {
+      "journal": "Genes, Chromosomes and Cancer (Wiley)",
+      "used_by": [
+        "emc-mtap-prmt5-hypothesis.md",
+        "emc-atr-collaborator-package.md"
+      ],
+      "zero_dollar_route": "VERIFIED",
+      "evidence": [
+        {
+          "source": "https://authors.wiley.com/author-resources/Journal-Authors/open-access/index.html",
+          "http": 200,
+          "verbatim": "Through open access, the author pays an Article Publication Charge, and the article is immediately freely available online for all to read, download, and share. We have a program of fully open access journals and most of our subscription-based journals offer an open access option called hybrid open journals."
+        },
+        {
+          "source": "https://authors.wiley.com/author-resources/Journal-Authors/open-access/hybrid-open-access/index.html",
+          "http": 200,
+          "verbatim": "Once your article is accepted, the corresponding author can select the open access option from the Author Services Dashboard."
+        },
+        {
+          "source": "https://authors.wiley.com/author-resources/Journal-Authors/licensing/index.html",
+          "http": 200,
+          "verbatim": "For subscription articles, you will either transfer copyright to Wiley with a Copyright Transfer Agreement (CTA) or grant Wiley an exclusive license to the copyright with an Exclusive License Agreement (ELA)."
+        },
+        {
+          "source": "https://api.openalex.org/sources/issn:1098-2264",
+          "http": 200,
+          "structured": {
+            "is_oa": false,
+            "is_in_doaj": false,
+            "apc_usd": 4840
+          }
+        },
+        {
+          "source": "https://doaj.org/api/search/journals/issn%3A1098-2264",
+          "http": 200,
+          "structured": {
+            "total": 0
+          },
+          "reading": "Absent from DOAJ, which indexes only fully open-access journals."
+        }
+      ],
+      "reasoning": "The journal is subscription-based with an OPT-IN hybrid OA option selected by the author AFTER acceptance; the APC attaches to that option alone, and the subscription route requires only a copyright or licence agreement. Declining the option is the $0 route."
+    },
+    "CROH": {
+      "journal": "Critical Reviews in Oncology/Hematology (Elsevier)",
+      "used_by": [
+        "repurposing-hypotheses.md"
+      ],
+      "zero_dollar_route": "VERIFIED, and this is the most explicit statement obtained",
+      "evidence": [
+        {
+          "source": "https://www.elsevier.com/about/policies-and-standards/pricing",
+          "http": 200,
+          "verbatim": "Our waiving policy does not apply to hybrid journals. Authors publishing in hybrid journals can publish under the subscription model at no cost and make use of the Elsevier sharing policy."
+        },
+        {
+          "source": "https://www.elsevier.com/about/policies-and-standards/pricing",
+          "http": 200,
+          "verbatim": "We either charge for publishing an article or reading an article but we never charge for the same article twice. We have a strict no double-dipping policy."
+        },
+        {
+          "source": "https://api.openalex.org/sources/issn:1040-8428",
+          "http": 200,
+          "structured": {
+            "is_oa": false,
+            "is_in_doaj": false,
+            "apc_usd": 3690
+          }
+        },
+        {
+          "source": "https://doaj.org/api/search/journals/issn%3A1040-8428",
+          "http": 200,
+          "structured": {
+            "total": 0
+          }
+        }
+      ],
+      "reasoning": "Elsevier states in its own words that authors in hybrid journals publish under the subscription model AT NO COST. CROH is hybrid: not open access, not in DOAJ, and carrying an APC for the optional OA route."
+    },
+    "BJC": {
+      "journal": "British Journal of Cancer (Springer Nature)",
+      "used_by": [
+        "emc-surface-target-landscape.md"
+      ],
+      "zero_dollar_route": "VERIFIED at the journal's own pages, with one real caveat",
+      "evidence": [
+        {
+          "source": "https://www.nature.com/bjc/authors-and-referees/open-access-self-archiving",
+          "http": 200,
+          "verbatim": "If authors opt to publish via the standard subscription publication route then the corresponding author must complete the standard Licence to Publish form when prompted."
+        },
+        {
+          "source": "https://www.nature.com/bjc/authors-and-referees/open-access-self-archiving",
+          "http": 200,
+          "verbatim": "Authors are required to pay an article processing charge (APC) to facilitate open access publication.",
+          "reading": "The APC is stated as a requirement of the OA route specifically, against a subscription route whose only stated requirement is a licence form."
+        },
+        {
+          "source": "https://api.openalex.org/sources/issn:0007-0920",
+          "http": 200,
+          "structured": {
+            "is_oa": false,
+            "is_in_doaj": false,
+            "apc_usd": 4690
+          }
+        },
+        {
+          "source": "https://doaj.org/api/search/journals/issn%3A0007-0920",
+          "http": 200,
+          "structured": {
+            "total": 0
+          }
+        }
+      ],
+      "⚠_the_colour_charge_is_real_and_is_now_confirmed_at_primary_source": {
+        "source": "https://www.nature.com/bjc/authors-and-referees/gta",
+        "http": 200,
+        "verbatim": "There is a charge if authors choose to publish their figures in colour in the print publication (which includes the online PDF). Colour charges will not apply to authors who choose to pay an article processing charge to make their paper Open Access.",
+        "consequence": "The $0 route requires GREYSCALE figures. This was flagged from a search snippet and is now confirmed from the journal's own guide to authors. It is an author CHOICE, not a mandatory charge, so the route stays $0 provided the figures are submitted greyscale."
+      }
+    }
+  },
+  "⛔_two_APC_figures_taken_from_search_snippets_were_WRONG": {
+    "GCC": "recorded as USD 4,810 from a search snippet; OpenAlex reports USD 4,840",
+    "BJC": "recorded as USD 4,480 from a search snippet; OpenAlex reports USD 4,690",
+    "CROH": "recorded as USD 3,690; OpenAlex agrees",
+    "⚠": "Neither figure changes a decision, because the APC is being declined in all three cases. They are registered because they are the measurable evidence that the search-snippet method was producing wrong numbers, which is exactly the concern that prompted this work. ⛔ AND OPENALEX IS ITSELF A SECONDARY SOURCE for the APC value: the publisher-page APC could not be read because those pages 403. The APC is NOT verified at primary source; the $0 SUBSCRIPTION ROUTE is, and that is the fact the decision rests on."
+  },
+  "⚠_what_is_still_not_verified": {
+    "biorxiv_submission_is_free": "NOT retrieved at primary source. www.biorxiv.org returned HTTP 429 on five attempts across three runs; GitHub runner IPs are shared and bioRxiv rate-limits them. openRxiv, the non-profit that operates bioRxiv, states on its own site (HTTP 200) that preprints let researchers 'share scientific findings worldwide for free' and that the transition 'secures their long-term future while maintaining free, responsible sharing of scientific information'. That is the operator's statement about the service, not a retrieved fee schedule. bioRxiv charging no submission fee is not in dispute; it is simply not PRIMARY-SOURCE verified in this pass, and it is recorded that way rather than upgraded.",
+    "journal_specific_author_guidelines": "The per-journal guideline pages 403 from CI as well as from the sandbox, so word limits, abstract limits and display-item caps written into the manuscripts remain search-derived. These affect FORMAT, not cost, and a format mismatch is returned by an editor rather than billed to the author."
+  }
+}
