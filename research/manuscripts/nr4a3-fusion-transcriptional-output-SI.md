@@ -161,34 +161,34 @@ and is reported for completeness only.
 
 | set | platform | n requested / readable | Δ | null 95% band | reached | inter-gene correlation | verdict |
 |---|---|---:|---:|---|---:|---|---|
-| A fusion dna binding targets | GPL6244 | 3 / 3 |, |, |, |, | no score (below floor) |
-| A fusion dna binding targets | GPL3290 | 3 / 3 |, |, |, |, | no score (below floor) |
-| A plus B all dna binding | GPL6244 | 19 / 19 | +0.0403 | [-0.1418, +0.1047] | 39% | ρ̄ +0.1044, VIF 2.88, 23% | not distinguishable |
-| A plus B all dna binding | GPL3290 | 19 / 17 | +0.3301 | [-0.2972, +0.3765] | 88% | ρ̄ +0.0372, VIF 1.596, 69% | not distinguishable |
-| B native nr4a3 dna binding targets | GPL6244 | 16 / 16 | -0.0675 | [-0.1568, +0.1142] | 43% | ρ̄ +0.1334, VIF 3.002, 25% | not distinguishable |
-| B native nr4a3 dna binding targets | GPL3290 | 16 / 14 | -0.1453 | [-0.3357, +0.3971] | 43% | ρ̄ +0.0186, VIF 1.242, 39% | not distinguishable |
-| C fusion expression only | GPL6244 | 2 / 2 |, |, |, |, | no score (below floor) |
-| C fusion expression only | GPL3290 | 2 / 2 |, |, |, |, | no score (below floor) |
-| D filion table1 emc vs 137 sarcomas | GPL6244 | 21 / 21 | +1.1311 | [-0.1374, +0.0947] | 11.94× | ρ̄ +0.1286, VIF 3.572, 6.32× | SET-SPECIFIC |
-| D filion table1 emc vs 137 sarcomas | GPL3290 | 21 / 18 | +1.4783 | [-0.2853, +0.3481] | 4.25× | ρ̄ +0.1335, VIF 3.27, 2.35× | SET-SPECIFIC |
-| E filion table2 overlap with subramanian | GPL6244 | 20 / 20 | +0.8932 | [-0.1399, +0.0978] | 9.13× | ρ̄ +0.2770, VIF 6.263, 3.65× | SET-SPECIFIC |
-| E filion table2 overlap with subramanian | GPL3290 | 20 / 18 | +1.9850 | [-0.2853, +0.3481] | 5.70× | ρ̄ +0.1388, VIF 3.36, 3.11× | SET-SPECIFIC |
-| F brenca EWSR1 high axon guidance | GPL6244 | 3 / 3 |, |, |, |, | no score (below floor) |
-| F brenca EWSR1 high axon guidance | GPL3290 | 3 / 3 |, |, |, |, | no score (below floor) |
-| G brenca TAF15 high axon guidance | GPL6244 | 10 / 10 | -0.4975 | [-0.1957, +0.1460] | 2.54× | ρ̄ +0.0154, VIF 1.139, 2.38× | SET-SPECIFIC |
-| G brenca TAF15 high axon guidance | GPL3290 | 10 / 10 | +0.1214 | [-0.4059, +0.4600] | 26% | ρ̄ +0.1343, VIF 2.209, 18% | not distinguishable |
-| PPARG adipogenesis process proxy | GPL6244 | 200 / 189 | +0.0473 | [-0.0553, +0.0174] | 2.73× | ρ̄ +0.4948, VIF 94.015, 28% | SET-SPECIFIC |
-| PPARG adipogenesis process proxy | GPL3290 | 200 / 176 | +0.2183 | [-0.0665, +0.1325] | 1.65× | ρ̄ +0.0578, VIF 11.107, 49% | SET-SPECIFIC |
-| PPARG pparg KO DOWN | GPL6244 | 206 / 188 | +0.0003 | [-0.0548, +0.0173] | 2% | ρ̄ +0.0381, VIF 8.132, 1% | not distinguishable |
-| PPARG pparg KO DOWN | GPL3290 | 206 / 157 | +0.2219 | [-0.0715, +0.1383] | 1.60× | ρ̄ +0.0330, VIF 6.148, 65% | SET-SPECIFIC |
-| PPARG pparg KO UP FALSIFIER | GPL6244 | 246 / 231 | -0.0536 | [-0.0527, +0.0143] | 1.02× | ρ̄ +0.0645, VIF 15.844, 26% | SET-SPECIFIC |
-| PPARG pparg KO UP FALSIFIER | GPL3290 | 246 / 196 | -0.1118 | [-0.0612, +0.1309] | 1.83× | ρ̄ +0.0605, VIF 12.804, 51% | SET-SPECIFIC |
-| PPARG pparg OE UP | GPL6244 | 269 / 250 | -0.0238 | [-0.0507, +0.0122] | 47% | ρ̄ +0.0999, VIF 25.885, 9% | not distinguishable |
-| PPARG pparg OE UP | GPL3290 | 269 / 230 | -0.0020 | [-0.0505, +0.1206] | 4% | ρ̄ +0.0236, VIF 6.408, 2% | not distinguishable |
-| PPARG pparg chip chea | GPL6244 | 191 / 188 | +0.0800 | [-0.0548, +0.0173] | 4.62× | ρ̄ +0.3126, VIF 59.449, 60% | SET-SPECIFIC |
-| PPARG pparg chip chea | GPL3290 | 191 / 169 | +0.2938 | [-0.0636, +0.1336] | 2.20× | ρ̄ +0.0646, VIF 11.848, 64% | SET-SPECIFIC |
-| PPARG pparg curated trrust human | GPL6244 | 66 / 63 | +0.0454 | [-0.0870, +0.0445] | 1.02× | ρ̄ +0.1028, VIF 7.372, 38% | SET-SPECIFIC |
-| PPARG pparg curated trrust human | GPL3290 | 66 / 57 | +0.1647 | [-0.1374, +0.2115] | 78% | ρ̄ +0.0146, VIF 1.82, 58% | not distinguishable |
+| A · fusion DNA-binding targets | GPL6244 | 3 / 3 | – | – | – | – | no score (below floor) |
+| A · fusion DNA-binding targets | GPL3290 | 3 / 3 | – | – | – | – | no score (below floor) |
+| A+B · all DNA-binding targets | GPL6244 | 19 / 19 | +0.0403 | [-0.1418, +0.1047] | 39% | ρ̄ +0.1044, VIF 2.88, 23% | not distinguishable |
+| A+B · all DNA-binding targets | GPL3290 | 19 / 17 | +0.3301 | [-0.2972, +0.3765] | 88% | ρ̄ +0.0372, VIF 1.596, 69% | not distinguishable |
+| B · native NR4A3 DNA-binding targets | GPL6244 | 16 / 16 | -0.0675 | [-0.1568, +0.1142] | 43% | ρ̄ +0.1334, VIF 3.002, 25% | not distinguishable |
+| B · native NR4A3 DNA-binding targets | GPL3290 | 16 / 14 | -0.1453 | [-0.3357, +0.3971] | 43% | ρ̄ +0.0186, VIF 1.242, 39% | not distinguishable |
+| C · fusion expression only | GPL6244 | 2 / 2 | – | – | – | – | no score (below floor) |
+| C · fusion expression only | GPL3290 | 2 / 2 | – | – | – | – | no score (below floor) |
+| D · published EMC expression signature | GPL6244 | 21 / 21 | +1.1311 | [-0.1374, +0.0947] | 11.94× | ρ̄ +0.1286, VIF 3.572, 6.32× | SET-SPECIFIC |
+| D · published EMC expression signature | GPL3290 | 21 / 18 | +1.4783 | [-0.2853, +0.3481] | 4.25× | ρ̄ +0.1335, VIF 3.27, 2.35× | SET-SPECIFIC |
+| E · Filion ∩ Subramanian top 50 (circular on GPL3290) | GPL6244 | 20 / 20 | +0.8932 | [-0.1399, +0.0978] | 9.13× | ρ̄ +0.2770, VIF 6.263, 3.65× | SET-SPECIFIC |
+| E · Filion ∩ Subramanian top 50 (circular on GPL3290) | GPL3290 | 20 / 18 | +1.9850 | [-0.2853, +0.3481] | 5.70× | ρ̄ +0.1388, VIF 3.36, 3.11× | SET-SPECIFIC |
+| F · EWSR1-high axon guidance | GPL6244 | 3 / 3 | – | – | – | – | no score (below floor) |
+| F · EWSR1-high axon guidance | GPL3290 | 3 / 3 | – | – | – | – | no score (below floor) |
+| G · TAF15-high axon guidance | GPL6244 | 10 / 10 | -0.4975 | [-0.1957, +0.1460] | 2.54× | ρ̄ +0.0154, VIF 1.139, 2.38× | SET-SPECIFIC |
+| G · TAF15-high axon guidance | GPL3290 | 10 / 10 | +0.1214 | [-0.4059, +0.4600] | 26% | ρ̄ +0.1343, VIF 2.209, 18% | not distinguishable |
+| PPARγ · adipogenesis process proxy | GPL6244 | 200 / 189 | +0.0473 | [-0.0553, +0.0174] | 2.73× | ρ̄ +0.4948, VIF 94.015, 28% | SET-SPECIFIC |
+| PPARγ · adipogenesis process proxy | GPL3290 | 200 / 176 | +0.2183 | [-0.0665, +0.1325] | 1.65× | ρ̄ +0.0578, VIF 11.107, 49% | SET-SPECIFIC |
+| PPARγ · knockout-DOWN | GPL6244 | 206 / 188 | +0.0003 | [-0.0548, +0.0173] | 2% | ρ̄ +0.0381, VIF 8.132, 1% | not distinguishable |
+| PPARγ · knockout-DOWN | GPL3290 | 206 / 157 | +0.2219 | [-0.0715, +0.1383] | 1.60× | ρ̄ +0.0330, VIF 6.148, 65% | SET-SPECIFIC |
+| PPARγ · knockout-UP falsifier | GPL6244 | 246 / 231 | -0.0536 | [-0.0527, +0.0143] | 1.02× | ρ̄ +0.0645, VIF 15.844, 26% | SET-SPECIFIC |
+| PPARγ · knockout-UP falsifier | GPL3290 | 246 / 196 | -0.1118 | [-0.0612, +0.1309] | 1.83× | ρ̄ +0.0605, VIF 12.804, 51% | SET-SPECIFIC |
+| PPARγ · over-expression-UP | GPL6244 | 269 / 250 | -0.0238 | [-0.0507, +0.0122] | 47% | ρ̄ +0.0999, VIF 25.885, 9% | not distinguishable |
+| PPARγ · over-expression-UP | GPL3290 | 269 / 230 | -0.0020 | [-0.0505, +0.1206] | 4% | ρ̄ +0.0236, VIF 6.408, 2% | not distinguishable |
+| PPARγ · ChEA ChIP-PET targets | GPL6244 | 191 / 188 | +0.0800 | [-0.0548, +0.0173] | 4.62× | ρ̄ +0.3126, VIF 59.449, 60% | SET-SPECIFIC |
+| PPARγ · ChEA ChIP-PET targets | GPL3290 | 191 / 169 | +0.2938 | [-0.0636, +0.1336] | 2.20× | ρ̄ +0.0646, VIF 11.848, 64% | SET-SPECIFIC |
+| PPARγ · TRRUST human-curated | GPL6244 | 66 / 63 | +0.0454 | [-0.0870, +0.0445] | 1.02× | ρ̄ +0.1028, VIF 7.372, 38% | SET-SPECIFIC |
+| PPARγ · TRRUST human-curated | GPL3290 | 66 / 57 | +0.1647 | [-0.1374, +0.2115] | 78% | ρ̄ +0.0146, VIF 1.82, 58% | not distinguishable |
 
 The inflation is a coarse correction, and it is coarsest where the sets are largest: at n ≈ 190 a
 ρ̄ of 0.05 already gives a variance inflation factor near 10, so the inflated thresholds for the
@@ -217,10 +217,10 @@ Redrawing the 4,000 random sets under 20 further seeds, at a fixed pool:
 
 | set | platform | committed 97.5th percentile | mean over 20 seeds | SD | range | relative SD |
 |---|---|---:|---:|---:|---|---:|
-| A plus B all dna binding | GPL3290 | 0.37648 | 0.36018 | 0.00562 | [0.35279, 0.3727] | 1.6% |
-| D filion table1 emc vs 137 sarcomas | GPL3290 | 0.34814 | 0.35201 | 0.0068 | [0.33775, 0.36175] | 1.9% |
-| A plus B all dna binding | GPL6244 | 0.10465 | 0.10009 | 0.00255 | [0.09507, 0.10476] | 2.5% |
-| D filion table1 emc vs 137 sarcomas | GPL6244 | 0.09472 | 0.09369 | 0.00292 | [0.08893, 0.1001] | 3.1% |
+| A+B · all DNA-binding targets | GPL3290 | 0.37648 | 0.36018 | 0.00562 | [0.35279, 0.3727] | 1.6% |
+| D · published EMC expression signature | GPL3290 | 0.34814 | 0.35201 | 0.0068 | [0.33775, 0.36175] | 1.9% |
+| A+B · all DNA-binding targets | GPL6244 | 0.10465 | 0.10009 | 0.00255 | [0.09507, 0.10476] | 2.5% |
+| D · published EMC expression signature | GPL6244 | 0.09472 | 0.09369 | 0.00292 | [0.08893, 0.1001] | 3.1% |
 
 This bounds Monte-Carlo error only. The committed artifact carries the 4,000 symbols that were
 drawn and not the platform universe they were drawn from, so a second pool cannot be drawn here and
@@ -235,14 +235,14 @@ with a value):
 
 | set | platform | matched on | matched band | reached | uniform-draw reached |
 |---|---|---|---|---:|---:|
-| A plus B all dna binding | GPL3290 | detection rate decile | [-0.28428, 0.38096] | 87% | 88% |
-| D filion table1 emc vs 137 sarcomas | GPL3290 | detection rate decile | [-0.32819, 0.36627] | 4.04× | 4.25× |
-| A plus B all dna binding | GPL3290 | expression decile | [-0.32017, 0.3125] | 1.06× | 88% |
-| D filion table1 emc vs 137 sarcomas | GPL3290 | expression decile | [-0.21236, 0.59437] | 2.49× | 4.25× |
-| A plus B all dna binding | GPL6244 | detection rate decile | [-0.10646, 0.11196] | 36% | 38% |
-| D filion table1 emc vs 137 sarcomas | GPL6244 | detection rate decile | [-0.10081, 0.107] | 10.57× | 11.94× |
-| A plus B all dna binding | GPL6244 | expression decile | [-0.1514, 0.09665] | 42% | 38% |
-| D filion table1 emc vs 137 sarcomas | GPL6244 | expression decile | [-0.12774, 0.09874] | 11.46× | 11.94× |
+| A+B · all DNA-binding targets | GPL3290 | detection rate decile | [-0.28428, 0.38096] | 87% | 88% |
+| D · published EMC expression signature | GPL3290 | detection rate decile | [-0.32819, 0.36627] | 4.04× | 4.25× |
+| A+B · all DNA-binding targets | GPL3290 | expression decile | [-0.32017, 0.3125] | 1.06× | 88% |
+| D · published EMC expression signature | GPL3290 | expression decile | [-0.21236, 0.59437] | 2.49× | 4.25× |
+| A+B · all DNA-binding targets | GPL6244 | detection rate decile | [-0.10646, 0.11196] | 36% | 39% |
+| D · published EMC expression signature | GPL6244 | detection rate decile | [-0.10081, 0.107] | 10.57× | 11.94× |
+| A+B · all DNA-binding targets | GPL6244 | expression decile | [-0.1514, 0.09665] | 42% | 39% |
+| D · published EMC expression signature | GPL6244 | expression decile | [-0.12774, 0.09874] | 11.46× | 11.94× |
 
 On GPL6244 the mean value is a log2 intensity and the decile match is an expression-level match; on
 GPL3290 it is a mean log-ratio against a reference pool, so detection rate is the closer analogue of
@@ -254,7 +254,7 @@ holds under three of the four and is marginal under the fourth.
 | gene | platform | n EMC / n comparator | Δ | platform-wide band | band under this gene's own design | width ratio | outside its own band |
 |---|---|---|---:|---|---|---:|---|
 | *ENO3* | GPL3290 | 10 / 6 | +3.8113 | [-1.31352, 1.40969] | [-1.4092, 1.40647] | 1.034 | yes |
-| *NR4A3* | GPL3290 | 9 / 2 |, |, |, |, | not measurable |
+| *NR4A3* | GPL3290 | 9 / 2 | – | – | – | – | not measurable |
 | *PLAGL1* | GPL3290 | 8 / 6 | -2.1340 | [-1.31352, 1.40969] | [-1.37486, 1.41577] | 1.025 | yes |
 | *PPARG* | GPL3290 | 10 / 5 | +2.4809 | [-1.31352, 1.40969] | [-1.40842, 1.35956] | 1.016 | yes |
 | *SEMA3C* | GPL3290 | 10 / 6 | +0.6228 | [-1.31352, 1.40969] | [-1.4092, 1.40647] | 1.034 | no |
@@ -275,12 +275,12 @@ null band for *t* of [−3.31, +4.35] on GPL3290 and [−6.72, +4.37] on GPL6244
 
 | set | platform | Δ | permutation 95% CI | method | smallest shift outside the band with 80% probability |
 |---|---|---:|---|---|---:|
-| A plus B all dna binding | GPL3290 | +0.3301 | [+0.0921, +0.5650] | exact | 0.4644 |
-| B native nr4a3 dna binding targets | GPL3290 | -0.1453 | [-0.4116, +0.1101] | exact | 0.423 |
-| D filion table1 emc vs 137 sarcomas | GPL3290 | +1.4783 | [+0.8371, +2.1032] | exact | 0.5722 |
-| A plus B all dna binding | GPL6244 | +0.0403 | [-0.0816, +0.1628] | sampled, 20,000 assignments | 0.1495 |
-| B native nr4a3 dna binding targets | GPL6244 | -0.0675 | [-0.1777, +0.0433] | sampled, 20,000 assignments | 0.2141 |
-| D filion table1 emc vs 137 sarcomas | GPL6244 | +1.1311 | [+0.8946, +1.3725] | sampled, 20,000 assignments | 0.2551 |
+| A+B · all DNA-binding targets | GPL3290 | +0.3301 | [+0.0921, +0.5650] | exact | 0.4644 |
+| B · native NR4A3 DNA-binding targets | GPL3290 | -0.1453 | [-0.4116, +0.1101] | exact | 0.423 |
+| D · published EMC expression signature | GPL3290 | +1.4783 | [+0.8371, +2.1032] | exact | 0.5722 |
+| A+B · all DNA-binding targets | GPL6244 | +0.0403 | [-0.0816, +0.1628] | sampled, 20,000 assignments | 0.1495 |
+| B · native NR4A3 DNA-binding targets | GPL6244 | -0.0675 | [-0.1777, +0.0433] | sampled, 20,000 assignments | 0.2141 |
+| D · published EMC expression signature | GPL6244 | +1.1311 | [+0.8946, +1.3725] | sampled, 20,000 assignments | 0.2551 |
 
 ### S3.6 · Class B split into B1 and B2
 
@@ -290,14 +290,14 @@ B2 by hand because its cited primary is a target list rather than the assay the 
 
 | set | platform | n readable | Δ | reached | p_emp | ρ̄ | reached, inflated |
 |---|---|---:|---:|---:|---:|---:|---:|
-| A plus B1 | GPL3290 | 9 | +0.9189 | 1.91× | 0.0015 | -0.0161 | 1.91× |
-| A plus B all dna binding | GPL3290 | 17 | +0.3301 | 91% | 0.07448 | +0.0372 | 72% |
-| B1 only | GPL3290 | 6 | +0.1220 | 20% | 0.73207 | -0.0508 | 20% |
-| B2 only | GPL3290 | 8 | -0.3537 | 82% | 0.10672 | +0.0994 | 63% |
-| A plus B1 | GPL6244 | 9 | +0.1699 | 1.10× | 0.03874 | +0.1586 | 73% |
-| A plus B all dna binding | GPL6244 | 19 | +0.0403 | 39% | 0.33017 | +0.1044 | 23% |
-| B1 only | GPL6244 | 6 | -0.0525 | 22% | 0.68083 | +0.2929 | 14% |
-| B2 only | GPL6244 | 10 | -0.0764 | 41% | 0.44239 | +0.0514 | 34% |
+| A+B1 · primary assay retrieved | GPL3290 | 9 | +0.9189 | 1.91× | 0.0015 | -0.0161 | 1.91× |
+| A+B · all DNA-binding targets | GPL3290 | 17 | +0.3301 | 91% | 0.07448 | +0.0372 | 72% |
+| B1 · primary assay retrieved, native only | GPL3290 | 6 | +0.1220 | 20% | 0.73207 | -0.0508 | 20% |
+| B2 · review assertion only | GPL3290 | 8 | -0.3537 | 82% | 0.10672 | +0.0994 | 63% |
+| A+B1 · primary assay retrieved | GPL6244 | 9 | +0.1699 | 1.10× | 0.03874 | +0.1586 | 73% |
+| A+B · all DNA-binding targets | GPL6244 | 19 | +0.0403 | 39% | 0.33017 | +0.1044 | 23% |
+| B1 · primary assay retrieved, native only | GPL6244 | 6 | -0.0525 | 22% | 0.68083 | +0.2929 | 14% |
+| B2 · review assertion only | GPL6244 | 10 | -0.0764 | 41% | 0.44239 | +0.0514 | 34% |
 
 B1 alone clears nothing on either platform, so the A+B1 clearance is carried by the three class-A
 members rather than by the retrieved-primary native targets. A+B1 is reported as a sensitivity; A+B
@@ -351,9 +351,9 @@ weight. Three of the six arms (KO_DOWN, OE_UP, TRRUST) were never permutation-te
 verdicts rest on the competitive null only.
 
 **Under the correlation-inflated threshold none of the six arms clears.** Applying the variance
-inflation of main-text §2.3.2 to each arm's own measured ρ̄, the six arms reach 28%, 1%, 26%, 9%, 60%
-and 38% of the inflated threshold on GPL6244 and 49%, 65%, 51%, 2%, 64% and 58% on GPL3290
-(Table S2). These sets are large, 57 to 250 readable genes, and 1 + (n−1)ρ̄ grows quickly with n,
+inflation of main-text §2.3.2 to each arm's own measured ρ̄, and reading the six arms in the order of
+the table above, they reach 60%, 26%, 1%, 9%, 38% and 28% of the inflated threshold on GPL6244 and
+64%, 51%, 65%, 2%, 58% and 49% on GPL3290 (Table S2). These sets are large, 57 to 250 readable genes, and 1 + (n−1)ρ̄ grows quickly with n,
 so the inflated threshold at these sizes is a conservative bound rather than a calibrated one; but the
 direction is not in doubt, and no PPARγ arm may be reported as set-specific without that
 qualification. The permutation results below are the self-contained evidence that is unaffected by it.
@@ -362,7 +362,7 @@ qualification. The permutation results below are the self-contained evidence tha
 and shares 44 genes with the ChEA arm (23% of the smaller set), the largest overlap in the table, and
 it is itself significant under permutation on both platforms. PPARγ target output therefore cannot be
 separated from an adipogenic differentiation component in these data, and five of the six arms are
-mouse-derived. Stated at full honesty: PPARγ target genes are coordinately higher in EMC tumour tissue
+mouse-derived. PPARγ target genes are coordinately higher in EMC tumour tissue
 than in comparator sarcomas, beyond a size-matched random set, on two platforms, and the same data
 cannot distinguish that from an adipogenic differentiation programme. **This says nothing about the
 direction of any pharmacological intervention on this axis.**
@@ -400,23 +400,23 @@ unlikely but does not exclude it, and no adjusted number in this document is "th
 | NR4A3 | gene | GPL6244 | +0.7415 | 0.000184 | 0.000552 | yes | yes (0.000146) |
 | PLAGL1 | gene | GPL6244 | -0.4234 | 0.082605 | 0.123908 | yes | yes (0.015936) |
 | SGK1 | gene | GPL6244 | -0.1807 | 0.369002 | 0.369002 | yes | yes (0.445976) |
-| A_plus_B_all_dna_binding | set | GPL6244 | +0.0403 | 0.517577 |, | yes | yes (0.36406) |
-| B_native_nr4a3_dna_binding_targets | set | GPL6244 | -0.0675 | 0.225747 |, | yes | yes (0.137337) |
-| D_filion_table1_emc_vs_137_sarcomas | set | GPL6244 | +1.1311 | 1e-06 |, | yes | yes (1e-06) |
-| PPARG_pparg_chip_chea | set | GPL6244 | +0.0800 | 0.000327 |, | yes | yes (0.001238) |
-| PPARG_pparg_KO_UP_FALSIFIER | set | GPL6244 | -0.0536 | 0.361899 |, | yes | yes (0.222558) |
-| PPARG_adipogenesis_process_proxy | set | GPL6244 | +0.0473 | 0.034511 |, | yes | yes (0.037594) |
+| A_plus_B_all_dna_binding | set | GPL6244 | +0.0403 | 0.517577 | – | yes | yes (0.36406) |
+| B_native_nr4a3_dna_binding_targets | set | GPL6244 | -0.0675 | 0.225747 | – | yes | yes (0.137337) |
+| D_filion_table1_emc_vs_137_sarcomas | set | GPL6244 | +1.1311 | 1e-06 | – | yes | yes (1e-06) |
+| PPARG_pparg_chip_chea | set | GPL6244 | +0.0800 | 0.000327 | – | yes | yes (0.001238) |
+| PPARG_pparg_KO_UP_FALSIFIER | set | GPL6244 | -0.0536 | 0.361899 | – | yes | yes (0.222558) |
+| PPARG_adipogenesis_process_proxy | set | GPL6244 | +0.0473 | 0.034511 | – | yes | yes (0.037594) |
 | ENO3 | gene | GPL3290 | +3.8113 | 0.000125 | 0.000625 | yes | yes (0.000125) |
 | PPARG | gene | GPL3290 | +2.4809 | 0.000333 | 0.000833 | yes | yes (0.000333) |
 | SEMA3C | gene | GPL3290 | +0.6228 | 0.16521 | 0.16521 | yes | yes (0.097777) |
 | PLAGL1 | gene | GPL3290 | -2.1340 | 0.002331 | 0.003885 | yes | yes (0.008658) |
 | SGK1 | gene | GPL3290 | +0.6156 | 0.155844 | 0.16521 | yes | yes (0.257867) |
-| A_plus_B_all_dna_binding | set | GPL3290 | +0.3301 | 0.011114 |, | yes | yes (0.001499) |
-| B_native_nr4a3_dna_binding_targets | set | GPL3290 | -0.1453 | 0.257493 |, | yes | yes (0.334915) |
-| D_filion_table1_emc_vs_137_sarcomas | set | GPL3290 | +1.4783 | 0.0005 |, | yes | yes (0.000375) |
-| PPARG_pparg_chip_chea | set | GPL3290 | +0.2938 | 0.000749 |, | yes | yes (0.000375) |
-| PPARG_pparg_KO_UP_FALSIFIER | set | GPL3290 | -0.1118 | 0.296454 |, | yes | yes (0.084416) |
-| PPARG_adipogenesis_process_proxy | set | GPL3290 | +0.2183 | 0.001499 |, | yes | yes (0.00025) |
+| A_plus_B_all_dna_binding | set | GPL3290 | +0.3301 | 0.011114 | – | yes | yes (0.001499) |
+| B_native_nr4a3_dna_binding_targets | set | GPL3290 | -0.1453 | 0.257493 | – | yes | yes (0.334915) |
+| D_filion_table1_emc_vs_137_sarcomas | set | GPL3290 | +1.4783 | 0.0005 | – | yes | yes (0.000375) |
+| PPARG_pparg_chip_chea | set | GPL3290 | +0.2938 | 0.000749 | – | yes | yes (0.000375) |
+| PPARG_pparg_KO_UP_FALSIFIER | set | GPL3290 | -0.1118 | 0.296454 | – | yes | yes (0.084416) |
+| PPARG_adipogenesis_process_proxy | set | GPL3290 | +0.2183 | 0.001499 | – | yes | yes (0.00025) |
 
 **Table S5. Every stratified comparator contrast, with its own exact permutation p**
 
@@ -437,9 +437,9 @@ unlikely but does not exclude it, and no adjusted number in this document is "th
 | gene | class DFSP only | class GIST only | non myxoid comparators only | reference pool matched only |
 |---|---|---|---|---|
 | *ENO3* | +3.515 (p 0.003497) | +4.107 (p 0.003497) | +3.811 (p 0.000125) | +3.515 (p 0.003497) |
-| *PPARG* | +2.679 (p 0.003497) |, | +2.481 (p 0.000333) | +2.679 (p 0.003497) |
+| *PPARG* | +2.679 (p 0.003497) | – | +2.481 (p 0.000333) | +2.679 (p 0.003497) |
 | *SEMA3C* | +0.113 (p 0.8427) | +1.133 (p 0.05944) | +0.623 (p 0.1652) | +0.113 (p 0.8427) |
-| *NR4A3* |, |, |, |, |
+| *NR4A3* | – | – | – | – |
 | *PLAGL1* | -1.659 (p 0.04242) | -2.609 (p 0.006061) | -2.134 (p 0.002331) | -1.659 (p 0.04242) |
 | *SGK1* | -0.198 (p 0.5804) | +1.429 (p 0.01399) | +0.616 (p 0.1558) | -0.198 (p 0.5804) |
 
@@ -497,7 +497,7 @@ their bands, and *PYGM* reads −2.577 there, outside its band in the direction 
 | *ENO3* (positive) | GPL6244 | 6 / 29 | +0.8075 | [−0.606, +0.529] | 0.0195 | outside, AGREES |
 | *ENO3* | GPL3290 | 10 / 6 | +3.8113 | [−1.314, +1.410] | 0.00054 | outside, AGREES |
 | *NR4A3* (tumour identity) | GPL6244 | 6 / 29 | +0.7415 | [−0.606, +0.529] | 0.0240 | outside, AGREES |
-| *NR4A3* | GPL3290 | 9 / 2 |, |, |, | not measurable (floor is 3 per arm) |
+| *NR4A3* | GPL3290 | 9 / 2 | – | – | – | not measurable (floor is 3 per arm) |
 | *PLAGL1* (directional falsifier) | GPL6244 | 6 / 29 | −0.4235 | [−0.606, +0.529] | 0.0885 | inside, not a reading at this power |
 | *PLAGL1* | GPL3290 | 8 / 6 | −2.1340 | [−1.314, +1.410] | 0.0130 | outside, AGREES |
 | *SGK1* (transcript/protein discordance) | GPL6244 | 6 / 29 | −0.1807 | [−0.606, +0.529] | 0.2694 | inside, AGREES (flat) |
@@ -516,7 +516,7 @@ redrawn under each gene's own observed samples is Table S3's companion in §S3.4
 | ENO3 | 2 | 2.53× | 98.0th | 2.02× | 95.9th |
 | SEMA3C | 3 | 1.82× | 94.2nd | 1.66× | 92.6th |
 | PPARG | 5 | 1.42× | 84.0th | 2.12× | 96.4th |
-| *NR4A3 (control)* | 3 | 1.96× | 95.6th |, (sarcoma median 0.000) |, |
+| *NR4A3 (control)* | 3 | 1.96× | 95.6th |, (sarcoma median 0.000) | – |
 
 The median gene in this deposit has an EMC/normal ratio of 1.05 and an EMC/sarcoma ratio of 1.05; the
 95th percentiles are 1.89 and 1.89. The denominators are the genes with a computable ratio on each
@@ -671,9 +671,9 @@ mirror and is not a drop-in fourth arm.
 
 | # | query (NCBI E-utilities, `db=gds`) | why | as written | repaired |
 |---|---|---|---|---|
-| 1 | `"extraskeletal myxoid chondrosarcoma"[All Fields]` | the disease name in full, highest precision | 17 |, |
+| 1 | `"extraskeletal myxoid chondrosarcoma"[All Fields]` | the disease name in full, highest precision | 17 | – |
 | 2 | `"myxoid chondrosarcoma"[All Fields] AND "expression profiling"[Filter]` | the shortened name, restricted to expression series | 0 | 2 |
-| 3 | `(EWSR1 AND NR4A3) OR "EWS-NOR1" OR "EWSR1-NR4A3" OR "TAF15-NR4A3"` | the fusion rather than the disease, catches a deposit indexed by its driver | 5 |, |
+| 3 | `(EWSR1 AND NR4A3) OR "EWS-NOR1" OR "EWSR1-NR4A3" OR "TAF15-NR4A3"` | the fusion rather than the disease, catches a deposit indexed by its driver | 5 | – |
 | 4 | `NR4A3[All Fields] AND sarcoma[All Fields] AND "expression profiling"[Filter]` | the 3′ partner plus lineage, for a deposit naming *NR4A3* but not EMC | 0 | 0, a confirmed zero |
 | 5 | `"chondrosarcoma"[All Fields] AND "expression profiling"[Filter] AND "Homo sapiens"[Organism]` | intentionally over-broad: EMC samples inside a general chondrosarcoma series | 0 | 4 |
 | 6 | `sarcoma[All Fields] AND "translocation"[All Fields] AND "expression profiling"[Filter]` | translocation-sarcoma panels, the kind of deposit EMC hides inside | 0 | 32 |

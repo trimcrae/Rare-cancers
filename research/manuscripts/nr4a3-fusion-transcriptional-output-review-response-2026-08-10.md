@@ -407,7 +407,7 @@ paragraph that states it is not new.
 | 17 | applied, with the pool-composition half stated as not computable | SI §S3.2, Limitation 18 |
 | 18 | applied | §3.7, SI §S3.3, Limitation 18 |
 | 19 | applied | abstract, now 250 words |
-| 20 | applied | SI §S3, §S5, §S6, §S7, §S8, §S10 |
+| 20 | applied, except Appendix A, which is retained as repository record stripped at submission (major point 13) | SI §S3, §S5, §S6, §S7, §S8, §S10 |
 | 21 | applied | Tables S3, S5, S8, S9; Figures S1, S2 |
 | 22 | applied | §1.2, SI §S2.1 |
 | 23 | applied | §2.5, §3.7, §3.9, Figure 3 |
@@ -448,6 +448,19 @@ other gate in this repository.
 Everything else in the reference list is reproduced from a retrieved record: references 15–27 from
 `gene-set-null-prior-art.json`, and the rest from the machine-readable target catalogue, the
 set-definition blocks or an existing curated reference list.
+
+---
+
+## One known follow-up the revision creates
+
+Renumbering the Results sections leaves stale pointers in four producer docstrings and comments that
+cite the manuscript by section: `nr4a3_fusion_targets_confounds.py` (§3.10, §3.12),
+`gse243553_eno3_overlap.py` (§3.10, §3.11, Table 9), `emc_ret_target_scan.py` and `emc_sra_study.py`.
+None of them reads a section number as a value, so nothing computed is affected and no artifact
+changed; they are comments pointing at headings that have moved (§3.10 and §3.11 are now §3.8, §3.12
+is now §3.9, and Table 9 is now Table S9). They are left for a pass that can re-run those lanes'
+tests rather than edited here, and are recorded so the next reader finds them from this file rather
+than by following a dead pointer.
 
 ---
 

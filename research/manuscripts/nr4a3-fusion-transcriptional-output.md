@@ -503,7 +503,7 @@ not to a gene is not a grade. With that cell set aside, *PPARG*'s remaining evid
 | **A · fusion DNA-binding targets** (3, 3) | no score — floor is 4 genes | no score |
 | **B · native NR4A3 DNA-binding targets** (16, 14) | d −0.0675, 43% of threshold; 25% inflated | d −0.1453, 43%; 39% inflated |
 | **A+B pooled** (19, 17) | d +0.0403, 39%; 23% inflated | d +0.3301, 88%; 69% inflated |
-| **A+B1, primary assay retrieved** (9, 9) | d +0.1699, 110% of its own re-drawn threshold, p_emp 0.039; 73% inflated | d +0.9189, 191%, p_emp 0.0015; 191% inflated |
+| **A+B1, primary assay retrieved** (9, 9) | d +0.1699, 110% of its own re-drawn threshold, p_emp 0.039; 73% inflated | d +0.9189, 191%, p_emp 0.0015; unchanged by inflation, ρ̄ being below zero |
 | **D · published EMC expression signature** (21, 18) | d +1.1311, p_emp ≤ 0.0005, 11.9× threshold; 6.3× inflated | d +1.4783, p_emp ≤ 0.0005, 4.2×; 2.3× inflated |
 | **D without the three genes shared with set E** (18, 15) | d +1.0756, p_emp ≤ 0.0005, 10.6× (against 11.5× for the full set in the same resampler) | d +1.0343, p_emp ≤ 0.0005, 2.7× (against 4.1×) |
 
@@ -520,9 +520,9 @@ the contrast detects a list selected for this difference at 11.9-fold and 4.2-fo
 not calibrate what effect size a mechanistically selected set should reach. Set D also shares three
 genes (*DKK1*, *MAN1A1*, *NMB*) with set E, which is the overlap between Filion's EMC profile and the
 top 50 of the GPL3290 cohort itself, so 3 of its 18 GPL3290-readable members are documented members
-of a list derived from that platform. Scored in one resampler with and without them, the clearance falls from 11.5-fold to 10.6-fold
-on GPL6244 and from 4.1-fold to 2.7-fold on GPL3290, so it is not an artefact of those three genes,
-though the GPL3290 margin falls by more than a third.
+of a list derived from that platform. Scored in one resampler with and without them, the clearance
+falls from 11.5-fold to 10.6-fold on GPL6244 and from 4.1-fold to 2.7-fold on GPL3290, so it is not
+an artefact of those three genes, though the GPL3290 margin falls by more than a third.
 
 Three sensitivities qualify the aggregate negative (SI §S3). Under composition-matched nulls the
 aggregate reaches 36% and 42% of a detection-rate-matched and an expression-decile-matched threshold
