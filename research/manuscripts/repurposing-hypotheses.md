@@ -25,6 +25,7 @@ related: [DOC-FACT-CHECK-LOG, DOC-REPURPOSING-HYPOTHESES-REVIEW, DOC-PPARG-DIREC
 **Tristan D. McRae**
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
+ORCID: [ORCID TO BE SUPPLIED BY THE AUTHOR BEFORE SUBMISSION]
 
 Running title: Repurposing candidates in EMC
 

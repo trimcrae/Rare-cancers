@@ -24,9 +24,10 @@ related: [DOC-EMC-SURFACE-TARGET-LANDSCAPE-SI]
 
 # Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts
 
-**Tristan McRae**
+**Tristan D. McRae**
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
+ORCID: [ORCID TO BE SUPPLIED BY THE AUTHOR BEFORE SUBMISSION]
 
 Running title: Surface-antigen priorities in EMC
 

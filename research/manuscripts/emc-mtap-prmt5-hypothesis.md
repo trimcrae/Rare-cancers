@@ -24,9 +24,10 @@ related: [DOC-MODALITY-CENSUS, DOC-EMC-UNEXPLORED-LANES]
 
 # The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-class rationale that survives, an MTAP-locus rationale that does not, and two inexpensive tests
 
-**Tristan McRae**
+**Tristan D. McRae**
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
+ORCID: [ORCID TO BE SUPPLIED BY THE AUTHOR BEFORE SUBMISSION]
 
 Running title: PRMT5 in extraskeletal myxoid chondrosarcoma
 

@@ -29,6 +29,7 @@ related: [DOC-EMC-ATR-VULNERABILITY-ASSESSMENT]
 **Tristan D. McRae**
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
+ORCID: [ORCID TO BE SUPPLIED BY THE AUTHOR BEFORE SUBMISSION]
 
 Running title: NR4A3 fusion models and DSB predictions
 

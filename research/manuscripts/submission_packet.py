@@ -36,9 +36,15 @@ OUT = os.path.join(HERE, "SUBMISSION-PACKET.md")
 #: address. The Wiley and Elsevier guides remain unreadable, so their requirements are unknown
 #: rather than assumed either way.
 AUTHOR_ONLY = [
-    ("ORCID", "REQUIRED, and this one is verified: the British Journal of Cancer's Guide to Authors "
-              "states that 'the corresponding author should also provide an ORCID identifier'. Free "
-              "at orcid.org. The repository carries none and cannot invent one."),
+    ("ORCID", "THE ONE REMAINING ITEM, and the only thing in this packet an agent cannot do. "
+              "The British Journal of Cancer's Guide to Authors states that the corresponding "
+              "author should also provide an ORCID identifier; the Wiley and Elsevier author "
+              "guides are bot-walled, so their position is unknown rather than assumed. "
+              "Registration is free at orcid.org and takes a few minutes, and it is an identity "
+              "registration, so it must be done by the author and not on their behalf. Each "
+              "manuscript now carries an ORCID line in its author block reading ORCID TO BE "
+              "SUPPLIED BY THE AUTHOR BEFORE SUBMISSION; replacing that string in four files is "
+              "the whole of the remaining work."),
     ("Corresponding-author e-mail and affiliation", "The BJC title-page specification asks for full "
               "author names and affiliations together with the corresponding author's e-mail. The "
               "manuscripts give the e-mail and state 'independent researcher, unaffiliated', which "
