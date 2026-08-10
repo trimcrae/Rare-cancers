@@ -1,0 +1,19 @@
+{
+  "_note": "Exon-resolution breakpoints for the fusions in fusion_frame_trap.FUSIONS. EVERY row's exon numbers are read off the `quote` field, which is a VERBATIM span of an abstract Europe PMC returned into fusion-frame-trap-inputs.json under the identifier in `source_id`. fusion_frame_trap.verify_quotes() locates each quote character-for-character in that committed corpus and the module refuses to emit an artifact if any quote cannot be found. Nothing here was typed from recollection, and a fusion with no locatable breakpoint statement has no row and is counted INDETERMINATE.",
+  "_limits": [
+    "A quote is evidence of what the record says. It is not evidence that the breakpoint it names is the only, commonest or canonical one for that entity.",
+    "Exon numbers in the literature are counted on whichever transcript that paper used. Where the 3' partner has more than one distinct first exon across its protein-coding transcripts, the row is graded INDETERMINATE unless `three_prime_transcript_named` is true.",
+    "A row states one junction. Several entities have more than one recurrent junction; where the corpus states more than one, each is a separate row."
+  ],
+  "_schema": {
+    "fusion": "the FUSIONS id this junction belongs to",
+    "junction": "a short label for this particular junction",
+    "five_prime_exon": "transcript exon rank of the 5' partner's last retained exon, or null if the source does not fix it",
+    "three_prime_exon": "transcript exon rank of the 3' partner's first retained exon, or null",
+    "five_prime_transcript_named": "true only if the source names the 5' partner transcript/isoform its exon numbering is counted on",
+    "three_prime_transcript_named": "same for the 3' partner",
+    "evidence": {"source_id": "the Europe PMC id/PMID/PMCID/DOI the quote is taken from", "quote": "verbatim span of that record's abstract"},
+    "note": "free text; never a source of a number"
+  },
+  "breakpoints": []
+}
