@@ -105,12 +105,22 @@ def test_the_headline_oligo_is_gap_centred_and_splits_the_seam_evenly(art):
 def test_coverage_is_explained_by_an_identical_donor_run_not_left_to_be_inferred(art):
     """§4: produce the evidence that proves the mechanism. Each multi-partner row must name it."""
     for aso, rec in art["isoform_coverage"]["multi_partner_exact"].items():
-        run = rec["shared_donor_run"]
+        run = rec["shared_donor_run_within_the_design_window"]
         assert run, f"{aso} covers several partners with no shared donor run recorded"
         longest = max(s["donor_bases"] for s in rec["seam_split_per_junction"].values())
         assert len(run) >= longest, (
             f"{aso}: the shared donor run ({len(run)} nt) is shorter than the donor-side "
             f"contribution it has to explain ({longest} nt) — the coverage claim is impossible")
+        # ⛔ AND THE TWO RUNS MUST NOT BE CONFLATED (2026-08-12). The windowed run is capped by this
+        # design's own donor contribution; the maximal run is a property of the transcripts. The
+        # artifact reported only the first, under a name and a `_mechanism` string that both claimed
+        # the second — publishing "identical over the 8 bases" where the donors agree over 10, and
+        # propagating that understatement into the systems graph and its generated view.
+        maximal = rec["maximal_shared_donor_run"]
+        assert maximal.endswith(run), (
+            f"{aso}: the windowed run {run!r} is not a suffix of the maximal run {maximal!r} — "
+            f"these are meant to be the same stretch measured over different spans")
+        assert len(maximal) >= len(run)
 
 
 def test_the_ewsr1_rows_reproduce_the_corrected_2026_08_06_result(art):
@@ -130,9 +140,33 @@ def test_the_ewsr1_rows_reproduce_the_corrected_2026_08_06_result(art):
 
 
 def test_a_partner_with_no_transcript_model_is_named_not_dropped(art):
-    """TFG is a reported EMC partner with no model here. An absent reading must say its own name."""
-    assert "TFG" in art["partners_not_scoreable"]
-    assert "TFG" not in art["partners_scored"]
+    """Every declared partner is either scored or NAMED as unscoreable — never silently dropped.
+
+    ⚠ THIS TEST USED TO ASSERT `"TFG" in partners_not_scoreable`, AND IT WENT RED BY BEING RIGHT
+    (2026-08-12). TFG was a reported EMC 5′ partner this repository held no transcript model for,
+    so the artifact named it as unscoreable rather than omitting it — which is the property worth
+    having. Then a CI fetch added the model, TFG became scoreable, six frame-compatible TFG
+    junctions appeared, and the test failed because the gap it was guarding had closed.
+
+    ⛔ A TEST PINNED TO AN INSTANCE OF A PROPERTY EXPIRES WHEN THE INSTANCE DOES, AND ITS FAILURE
+    LOOKS EXACTLY LIKE A REGRESSION. What matters is not that TFG in particular is missing; it is
+    that the artifact's partition is total — no declared partner falls out of both lists — which is
+    what "an absent reading must say its own name" actually means. Asserted that way, this passes
+    whether or not a model exists for any given partner, and still fails the moment one goes
+    missing from both sides.
+    """
+    scored = set(art["partners_scored"])
+    unscoreable = set(art["partners_not_scoreable"])
+    declared = set(atlas.PARTNERS)
+    assert not (scored & unscoreable), "a partner cannot be both scored and unscoreable"
+    assert declared == scored | unscoreable, (
+        f"declared partners {sorted(declared - (scored | unscoreable))} appear in neither list — "
+        f"a partner that is silently dropped reads as a partner that does not exist")
+    for sym in unscoreable:
+        assert art["partners_not_scoreable"][sym], f"{sym} is unscoreable with no reason recorded"
+    for sym in scored:
+        assert any(r["donor_symbol"] == sym for r in art["graded_pairs"]), (
+            f"{sym} is listed as scored but graded no pairs")
 
 
 def test_the_weaker_provenance_gate_is_disclosed_per_gene(art):

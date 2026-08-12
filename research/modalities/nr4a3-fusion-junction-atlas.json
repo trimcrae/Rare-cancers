@@ -2,7 +2,7 @@
   "_title": "Pan-partner NR4A3 fusion-junction atlas \u2014 every frame-compatible seam, graded, with junction-spanning gapmer panels and cross-junction coverage",
   "_generated_by": "research/modalities/nr4a3_fusion_atlas.py",
   "_cost": "$0 \u2014 CPU only, no GPU, no rental, no network when the committed transcript cache answers. Sequence arithmetic over committed Ensembl transcript models.",
-  "_utc": "2026-08-12T11:54:17Z",
+  "_utc": "2026-08-12T15:21:33Z",
   "_what_this_is_not": [
     "NOT a claim about which junctions patients carry. This enumerates what is FRAME-COMPATIBLE \u2014 an arithmetic property of exon structure. Breakpoint recurrence is a clinical observation and no partner-and-exon-resolved patient series is held here.",
     "NOT a potency, knockdown, delivery, tolerability, safety or clinical-readiness claim, and no such quantity is computed anywhere in this file.",
@@ -11,15 +11,16 @@
   ],
   "_provenance_gate_note": "`nr4a3-exon-audit.json` grades NR4A3 and EWSR1 only \u2014 the two genes the 2026-08-06 off-by-two correction was derived against. For TAF15, TCF12 and FUS that gate CANNOT RUN, and the weaker one that can (emc-construct-inputs.json's four recorded self-checks plus three sequence self-checks) is what stands behind their seams. Which gate ran is recorded per gene below and must be read with every partner result.",
   "_transcript_source": {
-    "requested": "cache",
+    "requested": "auto",
     "used_per_gene": {
       "NR4A3": "committed_cache",
       "EWSR1": "committed_cache",
       "TAF15": "committed_cache",
       "TCF12": "committed_cache",
-      "FUS": "committed_cache"
+      "FUS": "committed_cache",
+      "TFG": "committed_cache"
     },
-    "committed_cache_fetched_utc": "2026-08-09T18:53:19Z",
+    "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
     "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
   },
   "provenance_gate_per_gene": {
@@ -27,7 +28,8 @@
     "EWSR1": "graded_exon_audit",
     "TAF15": "construct_inputs_self_checks_only",
     "TCF12": "construct_inputs_self_checks_only",
-    "FUS": "construct_inputs_self_checks_only"
+    "FUS": "construct_inputs_self_checks_only",
+    "TFG": "construct_inputs_self_checks_only"
   },
   "acceptor": "NR4A3",
   "acceptor_exon_window": [
@@ -50,11 +52,10 @@
     "EWSR1",
     "FUS",
     "TAF15",
-    "TCF12"
+    "TCF12",
+    "TFG"
   ],
-  "partners_not_scoreable": {
-    "TFG": "TFG absent from emc-construct-inputs.json \u2014 a reported EMC 5' partner; `emc_fet_construct_designs.py --refresh` (CI, needs Ensembl) adds it to emc-construct-inputs.json and no other input is missing"
-  },
+  "partners_not_scoreable": {},
   "transcripts": {
     "EWSR1": {
       "transcript": "ENST00000397938",
@@ -84,6 +85,13 @@
       "utr5_nt": 76,
       "n_transcript_exons": 15
     },
+    "TFG": {
+      "transcript": "ENST00000240851",
+      "cdna_nt": 1907,
+      "cds_nt": 1203,
+      "utr5_nt": 271,
+      "n_transcript_exons": 8
+    },
     "NR4A3": {
       "transcript": "ENST00000395097",
       "cdna_nt": 5604,
@@ -92,15 +100,15 @@
       "n_transcript_exons": 8
     }
   },
-  "n_pairs_graded": 207,
+  "n_pairs_graded": 231,
   "grade_counts": {
-    "EMITTABLE": 32,
-    "NON_CODING_ACCEPTOR": 69,
-    "OUT_OF_FRAME": 37,
-    "SEAM_NOT_PRODUCED": 69
+    "EMITTABLE": 38,
+    "NON_CODING_ACCEPTOR": 77,
+    "OUT_OF_FRAME": 39,
+    "SEAM_NOT_PRODUCED": 77
   },
-  "n_emittable_junctions": 32,
-  "n_junctions_with_a_fusion_specific_design": 32,
+  "n_emittable_junctions": 38,
+  "n_junctions_with_a_fusion_specific_design": 38,
   "declared_donor_window": {
     "EWSR1": [
       6,
@@ -188,20 +196,28 @@
       "provenance_gate": "construct_inputs_self_checks_only"
     },
     "TFG": {
-      "in_model_set": false,
-      "n_pairs_graded": 0,
-      "grade_counts": {},
-      "n_emittable_junctions": 0,
-      "n_junctions_with_a_fusion_specific_design": 0,
-      "gc_range_across_designs": null,
-      "provenance_gate": null
+      "in_model_set": true,
+      "n_pairs_graded": 24,
+      "grade_counts": {
+        "EMITTABLE": 6,
+        "NON_CODING_ACCEPTOR": 8,
+        "OUT_OF_FRAME": 2,
+        "SEAM_NOT_PRODUCED": 8
+      },
+      "n_emittable_junctions": 6,
+      "n_junctions_with_a_fusion_specific_design": 6,
+      "gc_range_across_designs": [
+        25.0,
+        50.0
+      ],
+      "provenance_gate": "construct_inputs_self_checks_only"
     }
   },
   "isoform_coverage": {
     "_question": "Can one oligo serve more than one junction, or does every seam need its own? This is the difference between a per-patient panel and a stock reagent, and it had never been computed.",
     "_what_counts": "A match counts ONLY if it straddles the OTHER junction's own seam. A 16-mer that merely occurs somewhere inside another chimera is finding the shared NR4A3 body, which every one of these fusions contains \u2014 that is the same acceptor twice, not cross-junction coverage, and it is reported separately as `body_match_not_junction_spanning` on each design.",
     "n_designs_covering_a_second_junction_exactly": 9,
-    "n_designs_with_a_gap_intact_match_at_a_second_junction": 62,
+    "n_designs_with_a_gap_intact_match_at_a_second_junction": 79,
     "n_designs_covering_MORE_THAN_ONE_PARTNER_exactly": 9,
     "_why_multi_partner_is_the_interesting_number": "Two junctions of the SAME partner sharing an oligo is a within-gene observation. Two junctions of DIFFERENT partners sharing one is a statement about FET-family paralogy: the donors' low-complexity sequence immediately 5' of the breakpoint is similar enough that one junction-spanning oligo can be exclusive at both seams. That same paralogy is why `design(parents=...)` had to be widened to screen every partner \u2014 the identical sequence property is a specificity liability and a coverage asset at once, and a reader must be able to see both from this file.",
     "exact": {
@@ -233,8 +249,9 @@
             "acceptor_bases": 8
           }
         },
-        "shared_donor_run": "GTTTGATG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 8 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "GTTTGATG",
+        "maximal_shared_donor_run": "TGGTTTGATG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints (TGGTTTGATG); this design's own donor-side window covers 8 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "GGCATATCATCAAACC": {
@@ -265,8 +282,9 @@
             "acceptor_bases": 7
           }
         },
-        "shared_donor_run": "GGTTTGATG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 9 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "GGTTTGATG",
+        "maximal_shared_donor_run": "TGGTTTGATG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints (TGGTTTGATG); this design's own donor-side window covers 9 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "AGGGCATATCATCAAA": {
@@ -297,8 +315,9 @@
             "acceptor_bases": 9
           }
         },
-        "shared_donor_run": "TTTGATG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 7 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "TTTGATG",
+        "maximal_shared_donor_run": "TGGTTTGATG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints (TGGTTTGATG); this design's own donor-side window covers 7 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "CAGGGCATATCATCAA": {
@@ -329,8 +348,9 @@
             "acceptor_bases": 10
           }
         },
-        "shared_donor_run": "TTGATG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "TTGATG",
+        "maximal_shared_donor_run": "TGGTTTGATG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints (TGGTTTGATG); this design's own donor-side window covers 6 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "GCATATCATCAAACCA": {
@@ -361,8 +381,9 @@
             "acceptor_bases": 6
           }
         },
-        "shared_donor_run": "TGGTTTGATG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "TGGTTTGATG",
+        "maximal_shared_donor_run": "TGGTTTGATG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints (TGGTTTGATG); this design's own donor-side window covers 10 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "CAGGGCATATCTCCAC": {
@@ -387,8 +408,9 @@
             "acceptor_bases": 10
           }
         },
-        "shared_donor_run": "GTGGAG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "GTGGAG",
+        "maximal_shared_donor_run": "GTGGAG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints (GTGGAG); this design's own donor-side window covers 6 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "AGGGCATATCACCAAA": {
@@ -413,8 +435,9 @@
             "acceptor_bases": 9
           }
         },
-        "shared_donor_run": "TTTGGTG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 7 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "TTTGGTG",
+        "maximal_shared_donor_run": "TTTGGTG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 7 bases immediately 5' of their breakpoints (TTTGGTG); this design's own donor-side window covers 7 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "CAGGGCATATCACCAA": {
@@ -439,8 +462,9 @@
             "acceptor_bases": 10
           }
         },
-        "shared_donor_run": "TTGGTG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "TTGGTG",
+        "maximal_shared_donor_run": "TTTGGTG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 7 bases immediately 5' of their breakpoints (TTTGGTG); this design's own donor-side window covers 6 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "CAGGGCATATCTCCTC": {
@@ -465,8 +489,9 @@
             "acceptor_bases": 10
           }
         },
-        "shared_donor_run": "GAGGAG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "GAGGAG",
+        "maximal_shared_donor_run": "GAGGAG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints (GAGGAG); this design's own donor-side window covers 6 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       }
     },
@@ -499,8 +524,9 @@
             "acceptor_bases": 8
           }
         },
-        "shared_donor_run": "GTTTGATG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 8 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "GTTTGATG",
+        "maximal_shared_donor_run": "TGGTTTGATG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints (TGGTTTGATG); this design's own donor-side window covers 8 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "GGCATATCATCAAACC": {
@@ -531,8 +557,9 @@
             "acceptor_bases": 7
           }
         },
-        "shared_donor_run": "GGTTTGATG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 9 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "GGTTTGATG",
+        "maximal_shared_donor_run": "TGGTTTGATG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints (TGGTTTGATG); this design's own donor-side window covers 9 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "AGGGCATATCATCAAA": {
@@ -563,8 +590,9 @@
             "acceptor_bases": 9
           }
         },
-        "shared_donor_run": "TTTGATG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 7 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "TTTGATG",
+        "maximal_shared_donor_run": "TGGTTTGATG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints (TGGTTTGATG); this design's own donor-side window covers 7 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "CAGGGCATATCATCAA": {
@@ -595,8 +623,9 @@
             "acceptor_bases": 10
           }
         },
-        "shared_donor_run": "TTGATG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "TTGATG",
+        "maximal_shared_donor_run": "TGGTTTGATG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints (TGGTTTGATG); this design's own donor-side window covers 6 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "GCATATCATCAAACCA": {
@@ -627,8 +656,9 @@
             "acceptor_bases": 6
           }
         },
-        "shared_donor_run": "TGGTTTGATG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "TGGTTTGATG",
+        "maximal_shared_donor_run": "TGGTTTGATG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 10 bases immediately 5' of their breakpoints (TGGTTTGATG); this design's own donor-side window covers 10 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "CAGGGCATATCTCCAC": {
@@ -653,8 +683,9 @@
             "acceptor_bases": 10
           }
         },
-        "shared_donor_run": "GTGGAG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "GTGGAG",
+        "maximal_shared_donor_run": "GTGGAG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints (GTGGAG); this design's own donor-side window covers 6 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "AGGGCATATCACCAAA": {
@@ -679,8 +710,9 @@
             "acceptor_bases": 9
           }
         },
-        "shared_donor_run": "TTTGGTG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 7 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "TTTGGTG",
+        "maximal_shared_donor_run": "TTTGGTG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 7 bases immediately 5' of their breakpoints (TTTGGTG); this design's own donor-side window covers 7 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "CAGGGCATATCACCAA": {
@@ -705,8 +737,9 @@
             "acceptor_bases": 10
           }
         },
-        "shared_donor_run": "TTGGTG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "TTGGTG",
+        "maximal_shared_donor_run": "TTTGGTG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 7 bases immediately 5' of their breakpoints (TTTGGTG); this design's own donor-side window covers 6 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       },
       "CAGGGCATATCTCCTC": {
@@ -731,8 +764,9 @@
             "acceptor_bases": 10
           }
         },
-        "shared_donor_run": "GAGGAG",
-        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints",
+        "shared_donor_run_within_the_design_window": "GAGGAG",
+        "maximal_shared_donor_run": "GAGGAG",
+        "_mechanism": "the donor transcripts are IDENTICAL over the 6 bases immediately 5' of their breakpoints (GAGGAG); this design's own donor-side window covers 6 of them, which is why its coverage is arithmetically possible",
         "_acceptor_side_is_not_evidence": "All these junctions use the same NR4A3 acceptor exon, so their acceptor-side bases agree trivially. The load-bearing half is the donor run above."
       }
     },
@@ -824,22 +858,27 @@
       "AGGGCATATCTAGATC": {
         "designed_for": "EWSR1_e10__NR4A3_e3",
         "also_plausible_at": [
-          "TCF12_e11__NR4A3_e3"
+          "TCF12_e11__NR4A3_e3",
+          "TFG_e2__NR4A3_e3"
         ],
         "partners_covered": [
           "EWSR1",
-          "TCF12"
+          "TCF12",
+          "TFG"
         ]
       },
       "CAGGGCATATCTAGAT": {
         "designed_for": "EWSR1_e10__NR4A3_e3",
         "also_plausible_at": [
           "TCF12_e11__NR4A3_e3",
-          "TCF12_e17__NR4A3_e3"
+          "TCF12_e17__NR4A3_e3",
+          "TFG_e2__NR4A3_e3",
+          "TFG_e7__NR4A3_e3"
         ],
         "partners_covered": [
           "EWSR1",
-          "TCF12"
+          "TCF12",
+          "TFG"
         ]
       },
       "AGGGCATATCATCAAA": {
@@ -860,12 +899,15 @@
           "EWSR1_e9__NR4A3_e3",
           "FUS_e7__NR4A3_e3",
           "TAF15_e8__NR4A3_e3",
-          "TAF15_e9__NR4A3_e3"
+          "TAF15_e9__NR4A3_e3",
+          "TFG_e2__NR4A3_e3",
+          "TFG_e6__NR4A3_e3"
         ],
         "partners_covered": [
           "EWSR1",
           "FUS",
-          "TAF15"
+          "TAF15",
+          "TFG"
         ]
       },
       "GGGCATATCTCCACGG": {
@@ -902,13 +944,16 @@
           "TAF15_e12__NR4A3_e3",
           "TAF15_e14__NR4A3_e3",
           "TAF15_e8__NR4A3_e3",
-          "TCF12_e17__NR4A3_e3"
+          "TCF12_e17__NR4A3_e3",
+          "TFG_e2__NR4A3_e3",
+          "TFG_e6__NR4A3_e3"
         ],
         "partners_covered": [
           "EWSR1",
           "FUS",
           "TAF15",
-          "TCF12"
+          "TCF12",
+          "TFG"
         ]
       },
       "GGGCATATCCGGGGGC": {
@@ -943,11 +988,23 @@
         "designed_for": "TAF15_e1__NR4A3_e3",
         "also_plausible_at": [
           "TAF15_e4__NR4A3_e3",
-          "TCF12_e5__NR4A3_e3"
+          "TCF12_e5__NR4A3_e3",
+          "TFG_e5__NR4A3_e3"
         ],
         "partners_covered": [
           "TAF15",
-          "TCF12"
+          "TCF12",
+          "TFG"
+        ]
+      },
+      "AGGGCATATCTGACTG": {
+        "designed_for": "TAF15_e4__NR4A3_e3",
+        "also_plausible_at": [
+          "TFG_e7__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TAF15",
+          "TFG"
         ]
       },
       "CAGGGCATATCTGACT": {
@@ -955,12 +1012,15 @@
         "also_plausible_at": [
           "FUS_e8__NR4A3_e3",
           "TAF15_e1__NR4A3_e3",
-          "TCF12_e3__NR4A3_e3"
+          "TCF12_e3__NR4A3_e3",
+          "TFG_e5__NR4A3_e3",
+          "TFG_e7__NR4A3_e3"
         ],
         "partners_covered": [
           "FUS",
           "TAF15",
-          "TCF12"
+          "TCF12",
+          "TFG"
         ]
       },
       "AGGGCATATCTTGTGT": {
@@ -1028,12 +1088,14 @@
           "FUS_e10__NR4A3_e3",
           "FUS_e5__NR4A3_e3",
           "TAF15_e11__NR4A3_e3",
-          "TAF15_e9__NR4A3_e3"
+          "TAF15_e9__NR4A3_e3",
+          "TFG_e6__NR4A3_e3"
         ],
         "partners_covered": [
           "EWSR1",
           "FUS",
-          "TAF15"
+          "TAF15",
+          "TFG"
         ]
       },
       "GCATATCACCAAAATT": {
@@ -1054,12 +1116,15 @@
           "FUS_e10__NR4A3_e3",
           "FUS_e7__NR4A3_e3",
           "TAF15_e11__NR4A3_e3",
-          "TAF15_e8__NR4A3_e3"
+          "TAF15_e8__NR4A3_e3",
+          "TFG_e2__NR4A3_e3",
+          "TFG_e7__NR4A3_e3"
         ],
         "partners_covered": [
           "EWSR1",
           "FUS",
-          "TAF15"
+          "TAF15",
+          "TFG"
         ]
       },
       "GGGCATATCTCGCCGC": {
@@ -1154,11 +1219,13 @@
       "AGGGCATATCTGATCC": {
         "designed_for": "TCF12_e3__NR4A3_e3",
         "also_plausible_at": [
-          "TAF15_e14__NR4A3_e3"
+          "TAF15_e14__NR4A3_e3",
+          "TFG_e5__NR4A3_e3"
         ],
         "partners_covered": [
           "TAF15",
-          "TCF12"
+          "TCF12",
+          "TFG"
         ]
       },
       "CAGGGCATATCTGATC": {
@@ -1166,12 +1233,15 @@
         "also_plausible_at": [
           "FUS_e11__NR4A3_e3",
           "TAF15_e14__NR4A3_e3",
-          "TAF15_e4__NR4A3_e3"
+          "TAF15_e4__NR4A3_e3",
+          "TFG_e5__NR4A3_e3",
+          "TFG_e7__NR4A3_e3"
         ],
         "partners_covered": [
           "FUS",
           "TAF15",
-          "TCF12"
+          "TCF12",
+          "TFG"
         ]
       },
       "GGGCATATCCATCAGA": {
@@ -1210,11 +1280,13 @@
         "designed_for": "TCF12_e9__NR4A3_e3",
         "also_plausible_at": [
           "TAF15_e6__NR4A3_e3",
-          "TCF12_e11__NR4A3_e3"
+          "TCF12_e11__NR4A3_e3",
+          "TFG_e6__NR4A3_e3"
         ],
         "partners_covered": [
           "TAF15",
-          "TCF12"
+          "TCF12",
+          "TFG"
         ]
       },
       "CAGGGCATATCTTGCA": {
@@ -1222,33 +1294,40 @@
         "also_plausible_at": [
           "TAF15_e12__NR4A3_e3",
           "TAF15_e6__NR4A3_e3",
-          "TCF12_e11__NR4A3_e3"
+          "TCF12_e11__NR4A3_e3",
+          "TFG_e6__NR4A3_e3"
         ],
         "partners_covered": [
           "TAF15",
-          "TCF12"
+          "TCF12",
+          "TFG"
         ]
       },
       "AGGGCATATCTAGAAT": {
         "designed_for": "TCF12_e11__NR4A3_e3",
         "also_plausible_at": [
           "EWSR1_e10__NR4A3_e3",
-          "TCF12_e9__NR4A3_e3"
+          "TCF12_e9__NR4A3_e3",
+          "TFG_e6__NR4A3_e3"
         ],
         "partners_covered": [
           "EWSR1",
-          "TCF12"
+          "TCF12",
+          "TFG"
         ]
       },
       "CAGGGCATATCTAGAA": {
         "designed_for": "TCF12_e11__NR4A3_e3",
         "also_plausible_at": [
           "EWSR1_e10__NR4A3_e3",
-          "TCF12_e9__NR4A3_e3"
+          "TCF12_e9__NR4A3_e3",
+          "TFG_e5__NR4A3_e3",
+          "TFG_e6__NR4A3_e3"
         ],
         "partners_covered": [
           "EWSR1",
-          "TCF12"
+          "TCF12",
+          "TFG"
         ]
       },
       "AGGGCATATCTGTGAG": {
@@ -1265,11 +1344,23 @@
         "also_plausible_at": [
           "EWSR1_e1__NR4A3_e3",
           "EWSR1_e4__NR4A3_e3",
-          "TCF12_e19__NR4A3_e3"
+          "TCF12_e19__NR4A3_e3",
+          "TFG_e5__NR4A3_e3"
         ],
         "partners_covered": [
           "EWSR1",
-          "TCF12"
+          "TCF12",
+          "TFG"
+        ]
+      },
+      "AGGGCATATCTCTATA": {
+        "designed_for": "TCF12_e17__NR4A3_e3",
+        "also_plausible_at": [
+          "TFG_e7__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TCF12",
+          "TFG"
         ]
       },
       "CAGGGCATATCTCTAT": {
@@ -1278,12 +1369,15 @@
           "EWSR1_e10__NR4A3_e3",
           "EWSR1_e13__NR4A3_e3",
           "FUS_e5__NR4A3_e3",
-          "TCF12_e19__NR4A3_e3"
+          "TCF12_e19__NR4A3_e3",
+          "TFG_e2__NR4A3_e3",
+          "TFG_e7__NR4A3_e3"
         ],
         "partners_covered": [
           "EWSR1",
           "FUS",
-          "TCF12"
+          "TCF12",
+          "TFG"
         ]
       },
       "AGGGCATATCTCTGAC": {
@@ -1308,11 +1402,13 @@
       "CAGGGCATATCGTTTG": {
         "designed_for": "FUS_e1__NR4A3_e3",
         "also_plausible_at": [
-          "TAF15_e6__NR4A3_e3"
+          "TAF15_e6__NR4A3_e3",
+          "TFG_e4__NR4A3_e3"
         ],
         "partners_covered": [
           "FUS",
-          "TAF15"
+          "TAF15",
+          "TFG"
         ]
       },
       "CAGGGCATATTGTTCT": {
@@ -1352,12 +1448,14 @@
         "also_plausible_at": [
           "EWSR1_e13__NR4A3_e3",
           "FUS_e11__NR4A3_e3",
-          "TAF15_e14__NR4A3_e3"
+          "TAF15_e14__NR4A3_e3",
+          "TFG_e2__NR4A3_e3"
         ],
         "partners_covered": [
           "EWSR1",
           "FUS",
-          "TAF15"
+          "TAF15",
+          "TFG"
         ]
       },
       "GGGCATATCACCAAAT": {
@@ -1393,11 +1491,13 @@
       "CAGGGCATATCGGAGT": {
         "designed_for": "FUS_e8__NR4A3_e3",
         "also_plausible_at": [
-          "TAF15_e4__NR4A3_e3"
+          "TAF15_e4__NR4A3_e3",
+          "TFG_e7__NR4A3_e3"
         ],
         "partners_covered": [
           "FUS",
-          "TAF15"
+          "TAF15",
+          "TFG"
         ]
       },
       "GGGCATATCTCCTCGC": {
@@ -1457,6 +1557,201 @@
           "EWSR1",
           "FUS",
           "TCF12"
+        ]
+      },
+      "AGGGCATATCTTCATC": {
+        "designed_for": "TFG_e2__NR4A3_e3",
+        "also_plausible_at": [
+          "EWSR1_e10__NR4A3_e3",
+          "FUS_e5__NR4A3_e3",
+          "TFG_e6__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "EWSR1",
+          "FUS",
+          "TFG"
+        ]
+      },
+      "CAGGGCATATCTTCAT": {
+        "designed_for": "TFG_e2__NR4A3_e3",
+        "also_plausible_at": [
+          "EWSR1_e10__NR4A3_e3",
+          "EWSR1_e12__NR4A3_e3",
+          "EWSR1_e13__NR4A3_e3",
+          "FUS_e10__NR4A3_e3",
+          "FUS_e5__NR4A3_e3",
+          "TAF15_e11__NR4A3_e3",
+          "TAF15_e9__NR4A3_e3",
+          "TCF12_e17__NR4A3_e3",
+          "TFG_e6__NR4A3_e3",
+          "TFG_e7__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "EWSR1",
+          "FUS",
+          "TAF15",
+          "TCF12",
+          "TFG"
+        ]
+      },
+      "CAGGGCATATCATTTT": {
+        "designed_for": "TFG_e4__NR4A3_e3",
+        "also_plausible_at": [
+          "FUS_e1__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "FUS",
+          "TFG"
+        ]
+      },
+      "GGGCATATCTGAAACC": {
+        "designed_for": "TFG_e5__NR4A3_e3",
+        "also_plausible_at": [
+          "TFG_e7__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TFG"
+        ]
+      },
+      "GGCATATCTGAAACCT": {
+        "designed_for": "TFG_e5__NR4A3_e3",
+        "also_plausible_at": [
+          "TFG_e7__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TFG"
+        ]
+      },
+      "AGGGCATATCTGAAAC": {
+        "designed_for": "TFG_e5__NR4A3_e3",
+        "also_plausible_at": [
+          "TCF12_e3__NR4A3_e3",
+          "TFG_e7__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TCF12",
+          "TFG"
+        ]
+      },
+      "GCATATCTGAAACCTG": {
+        "designed_for": "TFG_e5__NR4A3_e3",
+        "also_plausible_at": [
+          "TFG_e7__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TFG"
+        ]
+      },
+      "CAGGGCATATCTGAAA": {
+        "designed_for": "TFG_e5__NR4A3_e3",
+        "also_plausible_at": [
+          "TAF15_e1__NR4A3_e3",
+          "TAF15_e4__NR4A3_e3",
+          "TCF12_e11__NR4A3_e3",
+          "TCF12_e13__NR4A3_e3",
+          "TCF12_e3__NR4A3_e3",
+          "TFG_e6__NR4A3_e3",
+          "TFG_e7__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TAF15",
+          "TCF12",
+          "TFG"
+        ]
+      },
+      "AGGGCATATCTTCAAT": {
+        "designed_for": "TFG_e6__NR4A3_e3",
+        "also_plausible_at": [
+          "TCF12_e11__NR4A3_e3",
+          "TCF12_e9__NR4A3_e3",
+          "TFG_e2__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TCF12",
+          "TFG"
+        ]
+      },
+      "CAGGGCATATCTTCAA": {
+        "designed_for": "TFG_e6__NR4A3_e3",
+        "also_plausible_at": [
+          "EWSR1_e12__NR4A3_e3",
+          "EWSR1_e13__NR4A3_e3",
+          "FUS_e10__NR4A3_e3",
+          "FUS_e5__NR4A3_e3",
+          "FUS_e7__NR4A3_e3",
+          "TAF15_e11__NR4A3_e3",
+          "TAF15_e8__NR4A3_e3",
+          "TCF12_e11__NR4A3_e3",
+          "TCF12_e9__NR4A3_e3",
+          "TFG_e2__NR4A3_e3",
+          "TFG_e5__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "EWSR1",
+          "FUS",
+          "TAF15",
+          "TCF12",
+          "TFG"
+        ]
+      },
+      "GGGCATATCTGAATAC": {
+        "designed_for": "TFG_e7__NR4A3_e3",
+        "also_plausible_at": [
+          "TFG_e5__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TFG"
+        ]
+      },
+      "GGCATATCTGAATACT": {
+        "designed_for": "TFG_e7__NR4A3_e3",
+        "also_plausible_at": [
+          "TFG_e5__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TFG"
+        ]
+      },
+      "AGGGCATATCTGAATA": {
+        "designed_for": "TFG_e7__NR4A3_e3",
+        "also_plausible_at": [
+          "TAF15_e4__NR4A3_e3",
+          "TCF12_e17__NR4A3_e3",
+          "TFG_e5__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TAF15",
+          "TCF12",
+          "TFG"
+        ]
+      },
+      "CAGGGCATATCTGAAT": {
+        "designed_for": "TFG_e7__NR4A3_e3",
+        "also_plausible_at": [
+          "EWSR1_e10__NR4A3_e3",
+          "FUS_e8__NR4A3_e3",
+          "TAF15_e4__NR4A3_e3",
+          "TAF15_e9__NR4A3_e3",
+          "TCF12_e17__NR4A3_e3",
+          "TCF12_e3__NR4A3_e3",
+          "TFG_e2__NR4A3_e3",
+          "TFG_e5__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "EWSR1",
+          "FUS",
+          "TAF15",
+          "TCF12",
+          "TFG"
+        ]
+      },
+      "GCATATCTGAATACTG": {
+        "designed_for": "TFG_e7__NR4A3_e3",
+        "also_plausible_at": [
+          "TFG_e5__NR4A3_e3"
+        ],
+        "partners_covered": [
+          "TFG"
         ]
       }
     }
@@ -5808,6 +6103,510 @@
       "grade": "SEAM_NOT_PRODUCED",
       "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]",
       "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e1__NR4A3_e2",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 1,
+      "acceptor_exon_start": 2,
+      "donor_coding_nt_through_cut": 0,
+      "donor_last_whole_residue": 0,
+      "donor_coding_phase": 0,
+      "nr4a3_acceptor_exon_is_coding": false,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 176,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": null,
+      "frame_sum_mod3": 2,
+      "in_frame": false,
+      "chimeric_protein_length": 52,
+      "junction_context_mRNA": "CTCCGCAAGCCG|AGCCCACTGCGG",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e1__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 1,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 0,
+      "donor_last_whole_residue": 0,
+      "donor_coding_phase": 0,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 2,
+      "in_frame": false,
+      "chimeric_protein_length": 31,
+      "junction_context_mRNA": "CTCCGCAAGCCG|ATATGCCCTGCG",
+      "grade": "OUT_OF_FRAME",
+      "why": "frame register mismatch: (TFG coding nt 0 + acceptor 5'UTR 2) mod 3 = 2, must be 0",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e1__NR4A3_e4",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 1,
+      "acceptor_exon_start": 4,
+      "donor_coding_nt_through_cut": 0,
+      "donor_last_whole_residue": 0,
+      "donor_coding_phase": 0,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 0,
+      "nr4a3_cds_nt_at_resume": 951,
+      "nr4a3_first_residue": 318,
+      "frame_sum_mod3": 0,
+      "in_frame": false,
+      "chimeric_protein_length": 4,
+      "junction_context_mRNA": "CTCCGCAAGCCG|AGAACAGTGCAG",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e2__NR4A3_e2",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 2,
+      "acceptor_exon_start": 2,
+      "donor_coding_nt_through_cut": 184,
+      "donor_last_whole_residue": 61,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": false,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 176,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": null,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 746,
+      "junction_context_mRNA": "ATAAAGATGAAG|AGCCCACTGCGG",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e2__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 2,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 184,
+      "donor_last_whole_residue": 61,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 688,
+      "junction_context_mRNA": "ATAAAGATGAAG|ATATGCCCTGCG",
+      "grade": "EMITTABLE",
+      "why": "in frame, resume residue inside the corrected range",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e2__NR4A3_e4",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 2,
+      "acceptor_exon_start": 4,
+      "donor_coding_nt_through_cut": 184,
+      "donor_last_whole_residue": 61,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 0,
+      "nr4a3_cds_nt_at_resume": 951,
+      "nr4a3_first_residue": 318,
+      "frame_sum_mod3": 1,
+      "in_frame": false,
+      "chimeric_protein_length": 75,
+      "junction_context_mRNA": "ATAAAGATGAAG|AGAACAGTGCAG",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e3__NR4A3_e2",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 3,
+      "acceptor_exon_start": 2,
+      "donor_coding_nt_through_cut": 268,
+      "donor_last_whole_residue": 89,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": false,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 176,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": null,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 774,
+      "junction_context_mRNA": "TGACATTATTTG|AGCCCACTGCGG",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e3__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 3,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 268,
+      "donor_last_whole_residue": 89,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 716,
+      "junction_context_mRNA": "TGACATTATTTG|ATATGCCCTGCG",
+      "grade": "EMITTABLE",
+      "why": "in frame, resume residue inside the corrected range",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e3__NR4A3_e4",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 3,
+      "acceptor_exon_start": 4,
+      "donor_coding_nt_through_cut": 268,
+      "donor_last_whole_residue": 89,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 0,
+      "nr4a3_cds_nt_at_resume": 951,
+      "nr4a3_first_residue": 318,
+      "frame_sum_mod3": 1,
+      "in_frame": false,
+      "chimeric_protein_length": 103,
+      "junction_context_mRNA": "TGACATTATTTG|AGAACAGTGCAG",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e4__NR4A3_e2",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 4,
+      "acceptor_exon_start": 2,
+      "donor_coding_nt_through_cut": 415,
+      "donor_last_whole_residue": 138,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": false,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 176,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": null,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 823,
+      "junction_context_mRNA": "TTCCTGAAAATG|AGCCCACTGCGG",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e4__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 4,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 415,
+      "donor_last_whole_residue": 138,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 765,
+      "junction_context_mRNA": "TTCCTGAAAATG|ATATGCCCTGCG",
+      "grade": "EMITTABLE",
+      "why": "in frame, resume residue inside the corrected range",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e4__NR4A3_e4",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 4,
+      "acceptor_exon_start": 4,
+      "donor_coding_nt_through_cut": 415,
+      "donor_last_whole_residue": 138,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 0,
+      "nr4a3_cds_nt_at_resume": 951,
+      "nr4a3_first_residue": 318,
+      "frame_sum_mod3": 1,
+      "in_frame": false,
+      "chimeric_protein_length": 152,
+      "junction_context_mRNA": "TTCCTGAAAATG|AGAACAGTGCAG",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e5__NR4A3_e2",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 5,
+      "acceptor_exon_start": 2,
+      "donor_coding_nt_through_cut": 580,
+      "donor_last_whole_residue": 193,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": false,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 176,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": null,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 878,
+      "junction_context_mRNA": "ATCAGGTTTCAG|AGCCCACTGCGG",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e5__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 5,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 580,
+      "donor_last_whole_residue": 193,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 820,
+      "junction_context_mRNA": "ATCAGGTTTCAG|ATATGCCCTGCG",
+      "grade": "EMITTABLE",
+      "why": "in frame, resume residue inside the corrected range",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e5__NR4A3_e4",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 5,
+      "acceptor_exon_start": 4,
+      "donor_coding_nt_through_cut": 580,
+      "donor_last_whole_residue": 193,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 0,
+      "nr4a3_cds_nt_at_resume": 951,
+      "nr4a3_first_residue": 318,
+      "frame_sum_mod3": 1,
+      "in_frame": false,
+      "chimeric_protein_length": 207,
+      "junction_context_mRNA": "ATCAGGTTTCAG|AGAACAGTGCAG",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e6__NR4A3_e2",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 6,
+      "acceptor_exon_start": 2,
+      "donor_coding_nt_through_cut": 721,
+      "donor_last_whole_residue": 240,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": false,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 176,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": null,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 925,
+      "junction_context_mRNA": "GTCAGATTGAAG|AGCCCACTGCGG",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e6__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 6,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 721,
+      "donor_last_whole_residue": 240,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 867,
+      "junction_context_mRNA": "GTCAGATTGAAG|ATATGCCCTGCG",
+      "grade": "EMITTABLE",
+      "why": "in frame, resume residue inside the corrected range",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e6__NR4A3_e4",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 6,
+      "acceptor_exon_start": 4,
+      "donor_coding_nt_through_cut": 721,
+      "donor_last_whole_residue": 240,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 0,
+      "nr4a3_cds_nt_at_resume": 951,
+      "nr4a3_first_residue": 318,
+      "frame_sum_mod3": 1,
+      "in_frame": false,
+      "chimeric_protein_length": 254,
+      "junction_context_mRNA": "GTCAGATTGAAG|AGAACAGTGCAG",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e7__NR4A3_e2",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 7,
+      "acceptor_exon_start": 2,
+      "donor_coding_nt_through_cut": 820,
+      "donor_last_whole_residue": 273,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": false,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 176,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": null,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 958,
+      "junction_context_mRNA": "TTCAGTATTCAG|AGCCCACTGCGG",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e7__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 7,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 820,
+      "donor_last_whole_residue": 273,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 900,
+      "junction_context_mRNA": "TTCAGTATTCAG|ATATGCCCTGCG",
+      "grade": "EMITTABLE",
+      "why": "in frame, resume residue inside the corrected range",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e7__NR4A3_e4",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 7,
+      "acceptor_exon_start": 4,
+      "donor_coding_nt_through_cut": 820,
+      "donor_last_whole_residue": 273,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 0,
+      "nr4a3_cds_nt_at_resume": 951,
+      "nr4a3_first_residue": 318,
+      "frame_sum_mod3": 1,
+      "in_frame": false,
+      "chimeric_protein_length": 287,
+      "junction_context_mRNA": "TTCAGTATTCAG|AGAACAGTGCAG",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e8__NR4A3_e2",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 8,
+      "acceptor_exon_start": 2,
+      "donor_coding_nt_through_cut": 1203,
+      "donor_last_whole_residue": 401,
+      "donor_coding_phase": 0,
+      "nr4a3_acceptor_exon_is_coding": false,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 176,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": null,
+      "frame_sum_mod3": 2,
+      "in_frame": false,
+      "chimeric_protein_length": 400,
+      "junction_context_mRNA": "TGATTGAATCCA|AGCCCACTGCGG",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e8__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 8,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 1203,
+      "donor_last_whole_residue": 401,
+      "donor_coding_phase": 0,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 2,
+      "in_frame": false,
+      "chimeric_protein_length": 400,
+      "junction_context_mRNA": "TGATTGAATCCA|ATATGCCCTGCG",
+      "grade": "OUT_OF_FRAME",
+      "why": "frame register mismatch: (TFG coding nt 1203 + acceptor 5'UTR 2) mod 3 = 2, must be 0",
+      "within_declared_donor_window": null
+    },
+    {
+      "junction_label": "TFG_e8__NR4A3_e4",
+      "donor_symbol": "TFG",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 8,
+      "acceptor_exon_start": 4,
+      "donor_coding_nt_through_cut": 1203,
+      "donor_last_whole_residue": 401,
+      "donor_coding_phase": 0,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 0,
+      "nr4a3_cds_nt_at_resume": 951,
+      "nr4a3_first_residue": 318,
+      "frame_sum_mod3": 0,
+      "in_frame": false,
+      "chimeric_protein_length": 400,
+      "junction_context_mRNA": "TGATTGAATCCA|AGAACAGTGCAG",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]",
+      "within_declared_donor_window": null
     }
   ],
   "panels": [
@@ -5849,7 +6648,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -5878,7 +6678,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -5907,7 +6708,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -5934,7 +6736,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -5961,7 +6764,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -6012,7 +6816,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6039,7 +6844,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6066,7 +6872,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6093,7 +6900,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6120,7 +6928,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -6170,7 +6979,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6197,7 +7007,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6224,7 +7035,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6251,7 +7063,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -6280,7 +7093,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6326,7 +7140,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6353,7 +7168,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6380,7 +7196,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -6410,7 +7227,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6437,7 +7255,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -6492,7 +7311,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6519,11 +7339,13 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
-            "TCF12_e11__NR4A3_e3"
+            "TCF12_e11__NR4A3_e3",
+            "TFG_e2__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -6548,7 +7370,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6575,12 +7398,15 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
             "TCF12_e11__NR4A3_e3",
-            "TCF12_e17__NR4A3_e3"
+            "TCF12_e17__NR4A3_e3",
+            "TFG_e2__NR4A3_e3",
+            "TFG_e7__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -6605,7 +7431,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6651,7 +7478,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "FUS_e10__NR4A3_e3",
@@ -6681,7 +7509,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "FUS_e10__NR4A3_e3",
@@ -6711,7 +7540,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "FUS_e10__NR4A3_e3",
@@ -6744,7 +7574,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "FUS_e10__NR4A3_e3",
@@ -6754,7 +7585,9 @@
             "EWSR1_e9__NR4A3_e3",
             "FUS_e7__NR4A3_e3",
             "TAF15_e8__NR4A3_e3",
-            "TAF15_e9__NR4A3_e3"
+            "TAF15_e9__NR4A3_e3",
+            "TFG_e2__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -6779,7 +7612,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "FUS_e10__NR4A3_e3",
@@ -6828,7 +7662,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -6858,7 +7693,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6885,7 +7721,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -6917,7 +7754,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -6944,7 +7782,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "FUS_e5__NR4A3_e3"
@@ -6956,7 +7795,9 @@
             "TAF15_e12__NR4A3_e3",
             "TAF15_e14__NR4A3_e3",
             "TAF15_e8__NR4A3_e3",
-            "TCF12_e17__NR4A3_e3"
+            "TCF12_e17__NR4A3_e3",
+            "TFG_e2__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         }
@@ -7000,7 +7841,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -7029,7 +7871,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -7058,7 +7901,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7085,7 +7929,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -7115,7 +7960,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7161,7 +8007,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7188,7 +8035,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7215,7 +8063,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7242,7 +8091,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7269,12 +8119,14 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
             "TAF15_e4__NR4A3_e3",
-            "TCF12_e5__NR4A3_e3"
+            "TCF12_e5__NR4A3_e3",
+            "TFG_e5__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         }
@@ -7318,7 +8170,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7345,7 +8198,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7372,10 +8226,13 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
-          "also_gap_intact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TFG_e7__NR4A3_e3"
+          ],
           "body_match_not_junction_spanning": []
         },
         {
@@ -7399,13 +8256,16 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
             "FUS_e8__NR4A3_e3",
             "TAF15_e1__NR4A3_e3",
-            "TCF12_e3__NR4A3_e3"
+            "TCF12_e3__NR4A3_e3",
+            "TFG_e5__NR4A3_e3",
+            "TFG_e7__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -7430,7 +8290,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7476,7 +8337,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7503,7 +8365,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7530,7 +8393,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -7559,7 +8423,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -7589,7 +8454,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7635,7 +8501,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -7664,7 +8531,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "FUS_e7__NR4A3_e3"
@@ -7698,7 +8566,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -7727,7 +8596,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "FUS_e7__NR4A3_e3"
@@ -7739,7 +8609,8 @@
             "FUS_e10__NR4A3_e3",
             "FUS_e5__NR4A3_e3",
             "TAF15_e11__NR4A3_e3",
-            "TAF15_e9__NR4A3_e3"
+            "TAF15_e9__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -7764,7 +8635,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -7812,7 +8684,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7839,7 +8712,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7866,7 +8740,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7893,7 +8768,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -7902,7 +8778,9 @@
             "FUS_e10__NR4A3_e3",
             "FUS_e7__NR4A3_e3",
             "TAF15_e11__NR4A3_e3",
-            "TAF15_e8__NR4A3_e3"
+            "TAF15_e8__NR4A3_e3",
+            "TFG_e2__NR4A3_e3",
+            "TFG_e7__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -7927,7 +8805,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -7973,7 +8852,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "EWSR1_e12__NR4A3_e3",
@@ -8003,7 +8883,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "EWSR1_e12__NR4A3_e3",
@@ -8033,7 +8914,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "EWSR1_e12__NR4A3_e3",
@@ -8066,7 +8948,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "EWSR1_e12__NR4A3_e3",
@@ -8076,7 +8959,9 @@
             "EWSR1_e9__NR4A3_e3",
             "FUS_e7__NR4A3_e3",
             "TAF15_e8__NR4A3_e3",
-            "TAF15_e9__NR4A3_e3"
+            "TAF15_e9__NR4A3_e3",
+            "TFG_e2__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -8101,7 +8986,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "EWSR1_e12__NR4A3_e3",
@@ -8150,7 +9036,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -8179,7 +9066,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -8209,7 +9097,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8236,7 +9125,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -8269,7 +9159,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8315,7 +9206,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -8345,7 +9237,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -8374,7 +9267,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -8406,7 +9300,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8433,7 +9328,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "FUS_e11__NR4A3_e3"
@@ -8486,7 +9382,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8513,7 +9410,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8540,11 +9438,13 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
-            "TAF15_e14__NR4A3_e3"
+            "TAF15_e14__NR4A3_e3",
+            "TFG_e5__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -8569,13 +9469,16 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
             "FUS_e11__NR4A3_e3",
             "TAF15_e14__NR4A3_e3",
-            "TAF15_e4__NR4A3_e3"
+            "TAF15_e4__NR4A3_e3",
+            "TFG_e5__NR4A3_e3",
+            "TFG_e7__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -8600,7 +9503,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8646,7 +9550,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -8675,7 +9580,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -8704,7 +9610,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8731,7 +9638,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -8761,7 +9669,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8807,7 +9716,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8834,7 +9744,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8861,7 +9772,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8888,7 +9800,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8915,7 +9828,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8961,7 +9875,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -8988,12 +9903,14 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
             "TAF15_e6__NR4A3_e3",
-            "TCF12_e11__NR4A3_e3"
+            "TCF12_e11__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -9018,7 +9935,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9045,13 +9963,15 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
             "TAF15_e12__NR4A3_e3",
             "TAF15_e6__NR4A3_e3",
-            "TCF12_e11__NR4A3_e3"
+            "TCF12_e11__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -9076,7 +9996,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9122,7 +10043,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9149,7 +10071,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9176,12 +10099,14 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
             "EWSR1_e10__NR4A3_e3",
-            "TCF12_e9__NR4A3_e3"
+            "TCF12_e9__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -9206,12 +10131,15 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
             "EWSR1_e10__NR4A3_e3",
-            "TCF12_e9__NR4A3_e3"
+            "TCF12_e9__NR4A3_e3",
+            "TFG_e5__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -9236,7 +10164,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9282,7 +10211,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9309,7 +10239,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9336,7 +10267,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -9365,7 +10297,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9392,13 +10325,15 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
             "EWSR1_e1__NR4A3_e3",
             "EWSR1_e4__NR4A3_e3",
-            "TCF12_e19__NR4A3_e3"
+            "TCF12_e19__NR4A3_e3",
+            "TFG_e5__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         }
@@ -9442,7 +10377,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9469,10 +10405,13 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
-          "also_gap_intact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TFG_e7__NR4A3_e3"
+          ],
           "body_match_not_junction_spanning": []
         },
         {
@@ -9496,7 +10435,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9523,14 +10463,17 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
             "EWSR1_e10__NR4A3_e3",
             "EWSR1_e13__NR4A3_e3",
             "FUS_e5__NR4A3_e3",
-            "TCF12_e19__NR4A3_e3"
+            "TCF12_e19__NR4A3_e3",
+            "TFG_e2__NR4A3_e3",
+            "TFG_e7__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -9555,7 +10498,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9601,7 +10545,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9628,7 +10573,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -9657,7 +10603,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9684,7 +10631,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -9714,7 +10662,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9760,7 +10709,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9787,7 +10737,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9814,7 +10765,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9841,7 +10793,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9868,11 +10821,13 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
-            "TAF15_e6__NR4A3_e3"
+            "TAF15_e6__NR4A3_e3",
+            "TFG_e4__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         }
@@ -9916,7 +10871,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9943,7 +10899,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9970,7 +10927,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -9997,7 +10955,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -10024,7 +10983,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -10072,7 +11032,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -10102,7 +11063,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -10131,13 +11093,15 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
             "EWSR1_e13__NR4A3_e3",
             "FUS_e11__NR4A3_e3",
-            "TAF15_e14__NR4A3_e3"
+            "TAF15_e14__NR4A3_e3",
+            "TFG_e2__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -10162,7 +11126,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -10189,7 +11154,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "EWSR1_e13__NR4A3_e3"
@@ -10201,7 +11167,9 @@
             "TAF15_e12__NR4A3_e3",
             "TAF15_e14__NR4A3_e3",
             "TAF15_e8__NR4A3_e3",
-            "TCF12_e17__NR4A3_e3"
+            "TCF12_e17__NR4A3_e3",
+            "TFG_e2__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         }
@@ -10245,7 +11213,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -10274,7 +11243,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "TAF15_e8__NR4A3_e3"
@@ -10308,7 +11278,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -10337,7 +11308,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "TAF15_e8__NR4A3_e3"
@@ -10349,7 +11321,8 @@
             "FUS_e10__NR4A3_e3",
             "FUS_e5__NR4A3_e3",
             "TAF15_e11__NR4A3_e3",
-            "TAF15_e9__NR4A3_e3"
+            "TAF15_e9__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -10374,7 +11347,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -10422,7 +11396,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -10449,7 +11424,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -10476,7 +11452,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -10503,7 +11480,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -10530,11 +11508,13 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
-            "TAF15_e4__NR4A3_e3"
+            "TAF15_e4__NR4A3_e3",
+            "TFG_e7__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         }
@@ -10578,7 +11558,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "EWSR1_e12__NR4A3_e3",
@@ -10608,7 +11589,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "EWSR1_e12__NR4A3_e3",
@@ -10638,7 +11620,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "EWSR1_e12__NR4A3_e3",
@@ -10671,7 +11654,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "EWSR1_e12__NR4A3_e3",
@@ -10681,7 +11665,9 @@
             "EWSR1_e9__NR4A3_e3",
             "FUS_e7__NR4A3_e3",
             "TAF15_e8__NR4A3_e3",
-            "TAF15_e9__NR4A3_e3"
+            "TAF15_e9__NR4A3_e3",
+            "TFG_e2__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
           ],
           "body_match_not_junction_spanning": []
         },
@@ -10706,7 +11692,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "EWSR1_e12__NR4A3_e3",
@@ -10755,7 +11742,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -10786,7 +11774,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -10818,7 +11807,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -10845,7 +11835,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [
             "TAF15_e14__NR4A3_e3"
@@ -10879,7 +11870,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -10925,7 +11917,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -10954,7 +11947,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
@@ -10981,7 +11975,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -11010,7 +12005,8 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [
@@ -11040,10 +12036,1034 @@
             "FUS",
             "NR4A3",
             "TAF15",
-            "TCF12"
+            "TCF12",
+            "TFG"
           ],
           "also_exact_in_junctions": [],
           "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        }
+      ]
+    },
+    {
+      "junction_label": "TFG_e2__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "donor_exon_end": 2,
+      "acceptor_exon_start": 3,
+      "seam_mRNA": "ATAAAGATGAAG|ATATGCCCTGCG",
+      "nr4a3_first_residue": 1,
+      "chimeric_protein_length": 688,
+      "n_tiled": 5,
+      "n_fusion_specific": 5,
+      "exact_parent_hits_seen": [],
+      "gc_range_fusion_specific": [
+        31.2,
+        43.8
+      ],
+      "best_gap_specificity_margin": 3,
+      "designs": [
+        {
+          "antisense_5to3": "GGGCATATCTTCATCT",
+          "target_mRNA_5to3": "AGATGAAGATATGCCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 8,
+          "bases_from_EWSR1": 8,
+          "bases_from_NR4A3": 8,
+          "specificity_margin": 8,
+          "gap_bases_from_EWSR1": 3,
+          "gap_bases_from_NR4A3": 3,
+          "gap_specificity_margin": 3,
+          "gap_centered": true,
+          "gc_percent": 43.8,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "AGGGCATATCTTCATC",
+          "target_mRNA_5to3": "GATGAAGATATGCCCT",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 9,
+          "bases_from_EWSR1": 7,
+          "bases_from_NR4A3": 9,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 2,
+          "gap_bases_from_NR4A3": 4,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 43.8,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "EWSR1_e10__NR4A3_e3",
+            "FUS_e5__NR4A3_e3",
+            "TFG_e6__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GGCATATCTTCATCTT",
+          "target_mRNA_5to3": "AAGATGAAGATATGCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 7,
+          "bases_from_EWSR1": 9,
+          "bases_from_NR4A3": 7,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 4,
+          "gap_bases_from_NR4A3": 2,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCTTCAT",
+          "target_mRNA_5to3": "ATGAAGATATGCCCTG",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 10,
+          "bases_from_EWSR1": 6,
+          "bases_from_NR4A3": 10,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 1,
+          "gap_bases_from_NR4A3": 5,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 43.8,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "EWSR1_e10__NR4A3_e3",
+            "EWSR1_e12__NR4A3_e3",
+            "EWSR1_e13__NR4A3_e3",
+            "FUS_e10__NR4A3_e3",
+            "FUS_e5__NR4A3_e3",
+            "TAF15_e11__NR4A3_e3",
+            "TAF15_e9__NR4A3_e3",
+            "TCF12_e17__NR4A3_e3",
+            "TFG_e6__NR4A3_e3",
+            "TFG_e7__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GCATATCTTCATCTTT",
+          "target_mRNA_5to3": "AAAGATGAAGATATGC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 6,
+          "bases_from_EWSR1": 10,
+          "bases_from_NR4A3": 6,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 5,
+          "gap_bases_from_NR4A3": 1,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 31.2,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        }
+      ]
+    },
+    {
+      "junction_label": "TFG_e3__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "donor_exon_end": 3,
+      "acceptor_exon_start": 3,
+      "seam_mRNA": "TGACATTATTTG|ATATGCCCTGCG",
+      "nr4a3_first_residue": 1,
+      "chimeric_protein_length": 716,
+      "n_tiled": 5,
+      "n_fusion_specific": 5,
+      "exact_parent_hits_seen": [],
+      "gc_range_fusion_specific": [
+        25.0,
+        37.5
+      ],
+      "best_gap_specificity_margin": 3,
+      "designs": [
+        {
+          "antisense_5to3": "GGGCATATCAAATAAT",
+          "target_mRNA_5to3": "ATTATTTGATATGCCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 8,
+          "bases_from_EWSR1": 8,
+          "bases_from_NR4A3": 8,
+          "specificity_margin": 8,
+          "gap_bases_from_EWSR1": 3,
+          "gap_bases_from_NR4A3": 3,
+          "gap_specificity_margin": 3,
+          "gap_centered": true,
+          "gc_percent": 31.2,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GGCATATCAAATAATG",
+          "target_mRNA_5to3": "CATTATTTGATATGCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 7,
+          "bases_from_EWSR1": 9,
+          "bases_from_NR4A3": 7,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 4,
+          "gap_bases_from_NR4A3": 2,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 31.2,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "AGGGCATATCAAATAA",
+          "target_mRNA_5to3": "TTATTTGATATGCCCT",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 9,
+          "bases_from_EWSR1": 7,
+          "bases_from_NR4A3": 9,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 2,
+          "gap_bases_from_NR4A3": 4,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 31.2,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCAAATA",
+          "target_mRNA_5to3": "TATTTGATATGCCCTG",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 10,
+          "bases_from_EWSR1": 6,
+          "bases_from_NR4A3": 10,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 1,
+          "gap_bases_from_NR4A3": 5,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GCATATCAAATAATGT",
+          "target_mRNA_5to3": "ACATTATTTGATATGC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 6,
+          "bases_from_EWSR1": 10,
+          "bases_from_NR4A3": 6,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 5,
+          "gap_bases_from_NR4A3": 1,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 25.0,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        }
+      ]
+    },
+    {
+      "junction_label": "TFG_e4__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "donor_exon_end": 4,
+      "acceptor_exon_start": 3,
+      "seam_mRNA": "TTCCTGAAAATG|ATATGCCCTGCG",
+      "nr4a3_first_residue": 1,
+      "chimeric_protein_length": 765,
+      "n_tiled": 5,
+      "n_fusion_specific": 5,
+      "exact_parent_hits_seen": [],
+      "gc_range_fusion_specific": [
+        37.5,
+        37.5
+      ],
+      "best_gap_specificity_margin": 3,
+      "designs": [
+        {
+          "antisense_5to3": "GGGCATATCATTTTCA",
+          "target_mRNA_5to3": "TGAAAATGATATGCCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 8,
+          "bases_from_EWSR1": 8,
+          "bases_from_NR4A3": 8,
+          "specificity_margin": 8,
+          "gap_bases_from_EWSR1": 3,
+          "gap_bases_from_NR4A3": 3,
+          "gap_specificity_margin": 3,
+          "gap_centered": true,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GGCATATCATTTTCAG",
+          "target_mRNA_5to3": "CTGAAAATGATATGCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 7,
+          "bases_from_EWSR1": 9,
+          "bases_from_NR4A3": 7,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 4,
+          "gap_bases_from_NR4A3": 2,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "AGGGCATATCATTTTC",
+          "target_mRNA_5to3": "GAAAATGATATGCCCT",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 9,
+          "bases_from_EWSR1": 7,
+          "bases_from_NR4A3": 9,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 2,
+          "gap_bases_from_NR4A3": 4,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GCATATCATTTTCAGG",
+          "target_mRNA_5to3": "CCTGAAAATGATATGC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 6,
+          "bases_from_EWSR1": 10,
+          "bases_from_NR4A3": 6,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 5,
+          "gap_bases_from_NR4A3": 1,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCATTTT",
+          "target_mRNA_5to3": "AAAATGATATGCCCTG",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 10,
+          "bases_from_EWSR1": 6,
+          "bases_from_NR4A3": 10,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 1,
+          "gap_bases_from_NR4A3": 5,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "FUS_e1__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        }
+      ]
+    },
+    {
+      "junction_label": "TFG_e5__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "donor_exon_end": 5,
+      "acceptor_exon_start": 3,
+      "seam_mRNA": "ATCAGGTTTCAG|ATATGCCCTGCG",
+      "nr4a3_first_residue": 1,
+      "chimeric_protein_length": 820,
+      "n_tiled": 5,
+      "n_fusion_specific": 5,
+      "exact_parent_hits_seen": [],
+      "gc_range_fusion_specific": [
+        43.8,
+        50.0
+      ],
+      "best_gap_specificity_margin": 3,
+      "designs": [
+        {
+          "antisense_5to3": "GGGCATATCTGAAACC",
+          "target_mRNA_5to3": "GGTTTCAGATATGCCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 8,
+          "bases_from_EWSR1": 8,
+          "bases_from_NR4A3": 8,
+          "specificity_margin": 8,
+          "gap_bases_from_EWSR1": 3,
+          "gap_bases_from_NR4A3": 3,
+          "gap_specificity_margin": 3,
+          "gap_centered": true,
+          "gc_percent": 50.0,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TFG_e7__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GGCATATCTGAAACCT",
+          "target_mRNA_5to3": "AGGTTTCAGATATGCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 7,
+          "bases_from_EWSR1": 9,
+          "bases_from_NR4A3": 7,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 4,
+          "gap_bases_from_NR4A3": 2,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 43.8,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TFG_e7__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "AGGGCATATCTGAAAC",
+          "target_mRNA_5to3": "GTTTCAGATATGCCCT",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 9,
+          "bases_from_EWSR1": 7,
+          "bases_from_NR4A3": 9,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 2,
+          "gap_bases_from_NR4A3": 4,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 43.8,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TCF12_e3__NR4A3_e3",
+            "TFG_e7__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GCATATCTGAAACCTG",
+          "target_mRNA_5to3": "CAGGTTTCAGATATGC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 6,
+          "bases_from_EWSR1": 10,
+          "bases_from_NR4A3": 6,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 5,
+          "gap_bases_from_NR4A3": 1,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 43.8,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TFG_e7__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCTGAAA",
+          "target_mRNA_5to3": "TTTCAGATATGCCCTG",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 10,
+          "bases_from_EWSR1": 6,
+          "bases_from_NR4A3": 10,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 1,
+          "gap_bases_from_NR4A3": 5,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 43.8,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TAF15_e1__NR4A3_e3",
+            "TAF15_e4__NR4A3_e3",
+            "TCF12_e11__NR4A3_e3",
+            "TCF12_e13__NR4A3_e3",
+            "TCF12_e3__NR4A3_e3",
+            "TFG_e6__NR4A3_e3",
+            "TFG_e7__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        }
+      ]
+    },
+    {
+      "junction_label": "TFG_e6__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "donor_exon_end": 6,
+      "acceptor_exon_start": 3,
+      "seam_mRNA": "GTCAGATTGAAG|ATATGCCCTGCG",
+      "nr4a3_first_residue": 1,
+      "chimeric_protein_length": 867,
+      "n_tiled": 5,
+      "n_fusion_specific": 5,
+      "exact_parent_hits_seen": [],
+      "gc_range_fusion_specific": [
+        37.5,
+        43.8
+      ],
+      "best_gap_specificity_margin": 3,
+      "designs": [
+        {
+          "antisense_5to3": "GGGCATATCTTCAATC",
+          "target_mRNA_5to3": "GATTGAAGATATGCCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 8,
+          "bases_from_EWSR1": 8,
+          "bases_from_NR4A3": 8,
+          "specificity_margin": 8,
+          "gap_bases_from_EWSR1": 3,
+          "gap_bases_from_NR4A3": 3,
+          "gap_specificity_margin": 3,
+          "gap_centered": true,
+          "gc_percent": 43.8,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GGCATATCTTCAATCT",
+          "target_mRNA_5to3": "AGATTGAAGATATGCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 7,
+          "bases_from_EWSR1": 9,
+          "bases_from_NR4A3": 7,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 4,
+          "gap_bases_from_NR4A3": 2,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "AGGGCATATCTTCAAT",
+          "target_mRNA_5to3": "ATTGAAGATATGCCCT",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 9,
+          "bases_from_EWSR1": 7,
+          "bases_from_NR4A3": 9,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 2,
+          "gap_bases_from_NR4A3": 4,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TCF12_e11__NR4A3_e3",
+            "TCF12_e9__NR4A3_e3",
+            "TFG_e2__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCTTCAA",
+          "target_mRNA_5to3": "TTGAAGATATGCCCTG",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 10,
+          "bases_from_EWSR1": 6,
+          "bases_from_NR4A3": 10,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 1,
+          "gap_bases_from_NR4A3": 5,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 43.8,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "EWSR1_e12__NR4A3_e3",
+            "EWSR1_e13__NR4A3_e3",
+            "FUS_e10__NR4A3_e3",
+            "FUS_e5__NR4A3_e3",
+            "FUS_e7__NR4A3_e3",
+            "TAF15_e11__NR4A3_e3",
+            "TAF15_e8__NR4A3_e3",
+            "TCF12_e11__NR4A3_e3",
+            "TCF12_e9__NR4A3_e3",
+            "TFG_e2__NR4A3_e3",
+            "TFG_e5__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GCATATCTTCAATCTG",
+          "target_mRNA_5to3": "CAGATTGAAGATATGC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 6,
+          "bases_from_EWSR1": 10,
+          "bases_from_NR4A3": 6,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 5,
+          "gap_bases_from_NR4A3": 1,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [],
+          "body_match_not_junction_spanning": []
+        }
+      ]
+    },
+    {
+      "junction_label": "TFG_e7__NR4A3_e3",
+      "donor_symbol": "TFG",
+      "donor_exon_end": 7,
+      "acceptor_exon_start": 3,
+      "seam_mRNA": "TTCAGTATTCAG|ATATGCCCTGCG",
+      "nr4a3_first_residue": 1,
+      "chimeric_protein_length": 900,
+      "n_tiled": 5,
+      "n_fusion_specific": 5,
+      "exact_parent_hits_seen": [],
+      "gc_range_fusion_specific": [
+        37.5,
+        43.8
+      ],
+      "best_gap_specificity_margin": 3,
+      "designs": [
+        {
+          "antisense_5to3": "GGGCATATCTGAATAC",
+          "target_mRNA_5to3": "GTATTCAGATATGCCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 8,
+          "bases_from_EWSR1": 8,
+          "bases_from_NR4A3": 8,
+          "specificity_margin": 8,
+          "gap_bases_from_EWSR1": 3,
+          "gap_bases_from_NR4A3": 3,
+          "gap_specificity_margin": 3,
+          "gap_centered": true,
+          "gc_percent": 43.8,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TFG_e5__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GGCATATCTGAATACT",
+          "target_mRNA_5to3": "AGTATTCAGATATGCC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 7,
+          "bases_from_EWSR1": 9,
+          "bases_from_NR4A3": 7,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 4,
+          "gap_bases_from_NR4A3": 2,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TFG_e5__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "AGGGCATATCTGAATA",
+          "target_mRNA_5to3": "TATTCAGATATGCCCT",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 9,
+          "bases_from_EWSR1": 7,
+          "bases_from_NR4A3": 9,
+          "specificity_margin": 7,
+          "gap_bases_from_EWSR1": 2,
+          "gap_bases_from_NR4A3": 4,
+          "gap_specificity_margin": 2,
+          "gap_centered": true,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TAF15_e4__NR4A3_e3",
+            "TCF12_e17__NR4A3_e3",
+            "TFG_e5__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCTGAAT",
+          "target_mRNA_5to3": "ATTCAGATATGCCCTG",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 10,
+          "bases_from_EWSR1": 6,
+          "bases_from_NR4A3": 10,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 1,
+          "gap_bases_from_NR4A3": 5,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 43.8,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "EWSR1_e10__NR4A3_e3",
+            "FUS_e8__NR4A3_e3",
+            "TAF15_e4__NR4A3_e3",
+            "TAF15_e9__NR4A3_e3",
+            "TCF12_e17__NR4A3_e3",
+            "TCF12_e3__NR4A3_e3",
+            "TFG_e2__NR4A3_e3",
+            "TFG_e5__NR4A3_e3"
+          ],
+          "body_match_not_junction_spanning": []
+        },
+        {
+          "antisense_5to3": "GCATATCTGAATACTG",
+          "target_mRNA_5to3": "CAGTATTCAGATATGC",
+          "architecture": "5-6-5 (LNA-DNA-LNA)",
+          "junction_offset_in_oligo": 6,
+          "bases_from_EWSR1": 10,
+          "bases_from_NR4A3": 6,
+          "specificity_margin": 6,
+          "gap_bases_from_EWSR1": 5,
+          "gap_bases_from_NR4A3": 1,
+          "gap_specificity_margin": 1,
+          "gap_centered": false,
+          "gc_percent": 37.5,
+          "has_G4_motif": false,
+          "fusion_specific": true,
+          "exact_parent_hits": [],
+          "parents_screened": [
+            "EWSR1",
+            "FUS",
+            "NR4A3",
+            "TAF15",
+            "TCF12",
+            "TFG"
+          ],
+          "also_exact_in_junctions": [],
+          "also_gap_intact_in_junctions": [
+            "TFG_e5__NR4A3_e3"
+          ],
           "body_match_not_junction_spanning": []
         }
       ]

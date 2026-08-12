@@ -267,6 +267,35 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
     fi
   fi
   rm -f "$out"
+
+  # ⛔ GATE 9: THE MANUSCRIPT TESTS, WHICH THIS SCRIPT DID NOT RUN UNTIL 2026-08-12.
+  #
+  # CI has run `research/manuscripts/tests` since 2026-08-03 and preflight never did, so a session
+  # could read PREFLIGHT OK and push a manuscript guard failure — the exact shape of the 2026-08-06
+  # incident recorded in CLAUDE.md §7, where gate 3 was CI-only and a disputed cell line reached
+  # `main` behind a green local run. What made this worth closing today rather than noting: the
+  # newest guard here is `test_submission_citations.py`, and citation integrity is the repository's
+  # FIRST golden rule. A citation guard that only fires after the push is a citation guard that
+  # fires after the mistake is shared.
+  #
+  # ⚠ RUN SEPARATELY, NOT FOLDED INTO THE INVOCATION ABOVE. That one diffs its failures against
+  # `sandbox-failure-baseline.txt`, whose entries are all modalities test IDs; widening its scope
+  # would silently change what the baseline is a baseline OF. These have no dep gap in this sandbox
+  # — 151 passed, 0 failed, measured the day this gate was added — so the bar here is simply zero.
+  echo "== pytest (manuscripts: endpoints, systems map, pooling, submission citations) =="
+  mout=$(mktemp)
+  python3 -m pytest research/manuscripts/tests -q --continue-on-collection-errors >"$mout" 2>&1 || true
+  tail -1 "$mout"
+  if ! grep -qE '[0-9]+ (passed|failed)' "$mout"; then
+    echo "   FAILED: pytest reported no test count -- the run collected nothing."
+    tail -5 "$mout"; rc=1
+  elif grep -qE '^(FAILED|ERROR )' "$mout"; then
+    echo "   FAILED:"; grep -E '^(FAILED|ERROR )' "$mout" | sed 's/^/     /'
+    rc=1
+  else
+    echo "   OK"
+  fi
+  rm -f "$mout"
 fi
 
 if [ "$rc" -ne 0 ]; then

@@ -153,6 +153,22 @@ def cross_junction_coverage(target, own_label, fusions, seam_index):
     return sorted(exact), sorted(gap_intact), sorted(set(body_only))
 
 
+def _maximal_shared_donor_run(fusions, seams):
+    """The longest suffix of donor sequence shared by every one of these chimeras.
+
+    Walks leftward from each seam while all the chimeras agree, so the answer is a property of the
+    TRANSCRIPTS and is independent of any oligonucleotide's length. That independence is the whole
+    point: it is what the sentence "these donors are identical over N bases before the breakpoint"
+    actually claims, and reading it off a design's own window silently caps it at that design's
+    donor contribution.
+    """
+    n = 0
+    while all(seams[i] - n - 1 >= 0 for i in range(len(fusions))) and \
+            len({fusions[i][seams[i] - n - 1] for i in range(len(fusions))}) == 1:
+        n += 1
+    return fusions[0][seams[0] - n:seams[0]] if n else ""
+
+
 def build():
     acceptor = ja.transcript_model(ACCEPTOR)
     lo_res, hi_res = ja.plausible_nr4a3_resume_residues()
@@ -277,11 +293,30 @@ def build():
             splits[lab] = {"donor_bases": seam - s, "acceptor_bases": s + len(target) - seam}
             donor_sides.add(fusion[s:seam])
         v["seam_split_per_junction"] = splits
-        v["shared_donor_run"] = sorted(donor_sides)[0] if len(donor_sides) == 1 else None
+        # ⛔ TWO DIFFERENT LENGTHS, AND THE FIELD USED TO REPORT ONLY THE SMALLER ONE UNDER THE
+        # LARGER ONE'S NAME (2026-08-12). `donor_sides` holds the donor bases THIS OLIGO COVERS, so
+        # its shared run is capped by the design's donor-side contribution — 8 for the lead
+        # candidate, whose donor window is 8 long. The published `_mechanism` string then said "the
+        # donor transcripts are IDENTICAL over the 8 bases immediately 5' of their breakpoints",
+        # which is a claim about the TRANSCRIPTS and is not what was measured: the donors agree over
+        # 10 (`TGGTTTGATG`), diverging only at −11. The understatement propagated into
+        # `systems/graph/routes.json` and its generated view, so a reader who checked the artifact
+        # against the manuscript would have found the artifact contradicting it — and the artifact
+        # is the half a referee can download.
+        # Both are now emitted under names that cannot be mistaken for each other: the windowed run
+        # is what makes THIS design's coverage arithmetically possible, and the maximal run is the
+        # property of the transcripts that bounds how long such a design could be.
+        v["shared_donor_run_within_the_design_window"] = (
+            sorted(donor_sides)[0] if len(donor_sides) == 1 else None)
+        maximal = _maximal_shared_donor_run([fusions[lab] for lab in labels],
+                                            [seam_index[lab] for lab in labels])
+        v["maximal_shared_donor_run"] = maximal
         v["_mechanism"] = (
-            "the donor transcripts are IDENTICAL over the "
-            f"{len(sorted(donor_sides)[0])} bases immediately 5' of their breakpoints"
-            if len(donor_sides) == 1 else
+            f"the donor transcripts are IDENTICAL over the {len(maximal)} bases immediately 5' of "
+            f"their breakpoints ({maximal}); this design's own donor-side window covers "
+            f"{len(sorted(donor_sides)[0])} of them, which is why its coverage is arithmetically "
+            f"possible"
+            if len(donor_sides) == 1 and maximal else
             "donor-side sequence differs between these junctions — coverage is not explained by a "
             "shared donor run and this row needs a look before it is quoted")
         # The acceptor side is shared by construction (one acceptor exon), so it explains nothing.

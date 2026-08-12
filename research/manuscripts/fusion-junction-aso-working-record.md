@@ -262,11 +262,27 @@ approaches are necessary."* **PMID 31728968** is a protocols chapter supplying *
 for RNAi design of chimeric RNAs… and necessary controls"*: §4's control design is a solved, published
 protocol.
 
-**(v) ⛔ A junction-targeted agent has been taken into clinical testing.** **PMID 27166877** — a bi-shRNA
-against *"the identical type 1 translocation junction region of the EWS/FLI1 transcribed mRNA"*, reporting
-85–92 % target knockdown and stating that the results *"provide the justification to initiate clinical
-testing"*; follow-through in patients is **PMID 36780200**. A reviewer knows this. The manuscript must not
-read as though it does not.
+**(v) ⛔ A junction-targeted agent has been developed to the point of proposing clinical testing.**
+**PMID 27166877** — a bi-shRNA against *"the identical type 1 translocation junction region of the
+EWS/FLI1 transcribed mRNA"*, reporting 85–92 % target knockdown and stating that the results
+*"provide the justification to initiate clinical testing"*. A reviewer knows this lineage exists.
+The manuscript must not read as though it does not.
+
+⚠ **SUPERSEDED, RETAINED: "has been taken into clinical testing … follow-through in patients is
+PMID 36780200" (corrected 2026-08-12).** That sentence was wrong twice over and had reached the
+submission draft. **PMID 36780200 is Vigil** — an autologous tumour-cell therapy expressing a
+**bi-shRNA against *furin*** plus GM-CSF — and its own abstract says so in the file this repository
+already held (`origin/literature-cache:literature/aso-refmeta-journals/PMC10150239.txt`: *"Vigil is
+a novel autologous tumor cell therapy expressing bi-shRNA furin/GMCSF plasmid"*). EWS/FLI1 enters
+that paper only as a **ctDNA breakpoint marker for response monitoring**, not as the agent's target.
+And PMID 27166877 is titled *Preclinical* Justification: it argues **for** initiating clinical
+testing, so citing it as evidence that testing **happened** inverts what it says. No trial of a
+junction-directed EWS/FLI1 agent is anchored anywhere in this repository. ⛔ **The tell was in the
+title of each paper**, and neither `lint_citations` nor `lint_claims` can catch this class: both
+identifiers are real, both are anchored to genuine fetch products, and the sentence attached to them
+was hedged. Provenance and claim strength are orthogonal to whether the cited paper is *about* the
+thing claimed — that check is human, and here it took an adversarial reader asking what the agent
+in PMID 36780200 actually targets.
 
 **(vi) And the delivery gate has been passed once, in a rare fusion-driven cancer.** **PMID 37980543** —
 GalNAc-conjugated siRNA against the **DNAJB1::PRKACA fusion junction** in fibrolamellar HCC. This is the
@@ -867,21 +883,31 @@ the one the design code excluded.**
 
 [`nr4a3_fusion_atlas.py`](../modalities/nr4a3_fusion_atlas.py) →
 [`nr4a3-fusion-junction-atlas.json`](../modalities/nr4a3-fusion-junction-atlas.json) closes that, at $0,
-offline, from the committed Ensembl transcript cache. It grades **207 donor-exon × NR4A3-acceptor-exon
-pairs across four partners** — every pair, refusals included — and emits junction-spanning gapmer panels
-for the rows it grades `EMITTABLE`.
+offline, from the committed Ensembl transcript cache. It grades **231 donor-exon × NR4A3-acceptor-exon
+pairs across all five reported partners** — every pair, refusals included — and emits junction-spanning
+gapmer panels for the rows it grades `EMITTABLE`.
 
-| | EWSR1 | TAF15 | TCF12 | FUS |
-|---|---|---|---|---|
-| pairs graded | 51 | 48 | 63 | 45 |
-| `EMITTABLE` junctions | 8 | 8 | 8 | 8 |
-| junctions yielding ≥1 fusion-specific design | **8** | **8** | **8** | **8** |
-| GC range across those designs | 37.5–75.0% | 31.2–68.8% | 25.0–56.2% | 31.2–62.5% |
-| provenance gate available | graded exon audit | construct-inputs self-checks only | " | " |
+| | EWSR1 | TAF15 | TCF12 | FUS | TFG |
+|---|---|---|---|---|---|
+| pairs graded | 51 | 48 | 63 | 45 | 24 |
+| `EMITTABLE` junctions | 8 | 8 | 8 | 8 | 6 |
+| junctions yielding ≥1 fusion-specific design | **8** | **8** | **8** | **8** | **6** |
+| GC range across those designs | 37.5–75.0% | 31.2–68.8% | 25.0–56.2% | 31.2–62.5% | 25.0–50.0% |
+| provenance gate available | graded exon audit | construct-inputs self-checks only | " | " | " |
+
+⚠ *Superseded, retained: **207 pairs across four partners**, `EMITTABLE` **32**, and the statement
+in `PARTNER_ABSENCE_HINTS` that TFG could not be scored. All were true until 2026-08-12, when a CI
+fetch added TFG's transcript model (ENST00000240851) to `emc-construct-inputs.json` and the atlas
+picked it up on the next run. Nothing was recomputed differently; a partner that had been named as
+unscoreable became scoreable, which is exactly what naming it rather than dropping it was for.*
 
 **Three readings, and the third is the one worth the paper.**
 
-**(i) Designability is not the constraint.** All **32** frame-compatible junctions yield at least one
+⚠ *Superseded, retained, and it recurs three times below: **20 of 32** unscreened. The denominator
+moved from 32 to 38 when TFG entered the atlas on 2026-08-12; the twelve screened junctions did not
+change, so the unscreened residual is 26 of 38.*
+
+**(i) Designability is not the constraint.** All **38** frame-compatible junctions yield at least one
 gapmer that is junction-spanning and a perfect complement of no parent transcript, at GC values mostly
 inside the standard comfort band. The modality's difficulty in EMC is not finding sequences.
 
@@ -1072,7 +1098,7 @@ RefSeq accession is held here), so this rested on name matching alone, and the a
 
 **Bounds, unchanged in kind.** Predicted, sequence-level, canonical transcripts, under the same
 gap-mismatch heuristic the paper reports as retired for clean calls. **All four partners are now
-screened at 12 junctions; the other 20 emittable junctions are not**, and no **exon-resolved** TCF12 breakpoint is
+screened at 12 junctions; the other 26 emittable junctions are not**, and no **exon-resolved** TCF12 breakpoint is
 available — TCF12::NR4A3 fusions are reported in patients (PMID 11156374; PMID 12598313, TCF12-TEC in 1
 of 10 EMCs) but not at the exon resolution these designs require. Nothing here addresses potency, knockdown,
 delivery, tolerability or clinical use, and the conditional in §3a-septies stands: this speaks to TAF15
@@ -1509,7 +1535,7 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
   `SEAM_NOT_PRODUCED`, so every screen in this manuscript has still only run on modelled positions."*
   Twelve real exon junctions across four partners have since been screened (§3a-sexies, §3a-octies,
   §3a-nonies) at seams graded frame-compatible and verified against two independent transcript
-  acquisitions. **The residual is different and smaller: 20 of the 32 frame-compatible junctions remain
+  acquisitions. **The residual is different and smaller: 26 of the 38 frame-compatible junctions remain
   unscreened.** Every clinical design must still be re-derived from the patient's *sequenced* fusion
   transcript.
 - **Delivery unsolved — and it is three routes, not one gate (§3c-bis).** No validated tumour-delivery
@@ -1527,7 +1553,7 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
   program has tested. ⚠ *Superseded, retained: "The transcriptome-wide off-target screens have **not**
   been run on the TAF15/TCF12/FUS panels, so nothing about their off-target load is known in either
   direction."* They have (§3a-octies, §3a-nonies): TAF15 e11, FUS e10 and all eight TCF12 junctions are
-  screened. What remains true is that **20 of 32 frame-compatible junctions are unscreened**, and that
+  screened. What remains true is that **26 of 38 frame-compatible junctions are unscreened**, and that
   the provenance gate behind the three non-EWSR1 partners' transcript models is the weaker of the two
   available.
 - **Knockdown, not knockout.** ASO/siRNA reduce transcript; they do not eliminate the gene or guarantee
@@ -1844,10 +1870,13 @@ being shown it.
   targeting arm was supplied by a receptor conjugate. ⚠ ASGPR/GalNAc is hepatocyte-directed and is **not**
   available to a soft-tissue sarcoma, so this bears on §3c as evidence that the delivery gate is passable in
   principle, **not** as a route for EMC.
-- **Clinical stage.** **PMID: 27166877 · PMC5023384 · doi:10.1038/mt.2016.93** — bi-shRNA EWS/FLI1 lipoplex,
-  which *"targets the identical type 1 translocation junction region of the EWS/FLI1 transcribed mRNA"*, taken
-  through IND-enabling work; follow-through in patients at **PMID: 36780200 · PMC10150239**. Review, 2026:
+- **Preclinical stage.** **PMID: 27166877 · PMC5023384 · doi:10.1038/mt.2016.93** — bi-shRNA EWS/FLI1
+  lipoplex, which *"targets the identical type 1 translocation junction region of the EWS/FLI1
+  transcribed mRNA"*, taken through IND-enabling work and arguing for clinical testing. Review, 2026:
   **PMID: 42110475 · PMC13156592 · doi:10.1016/j.omton.2026.201213**.
+  ⚠ *Superseded, retained: "**Clinical stage** … follow-through in patients at PMID: 36780200"
+  (corrected 2026-08-12). PMID 36780200 is Vigil, a bi-shRNA against* furin*, not against EWS/FLI1
+  — see §1a(v).*
 - **What the search did NOT find, with the accounting that makes it auditable.** No junction-directed
   oligonucleotide against **EWSR1::NR4A3**, or against any NR4A3 fusion. Across the two corpora — 5,385 rows,
   **5,153 unique records** — EWSR1::NR4A3 is named in **4 rows (3 distinct papers) and none carries an

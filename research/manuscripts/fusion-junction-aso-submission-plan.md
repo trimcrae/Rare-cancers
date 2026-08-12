@@ -92,17 +92,24 @@ page — author guidelines or the journal's own OA statement — read successful
 of record stands with the inference named as an inference, and **no submission should be made on the
 strength of this row alone.**
 
-## 2 · What the venue demands that the current draft does not meet
+## 2 · What the venue demands, and where the submission stands
 
-| requirement | current state |
-|---|---|
-| ~6,000 words main text | **≈21,000** — the dominant restructuring task |
-| structured abstract | present but long and narrative |
-| IMRaD | Results are ordered as a **chronology** (§3a, 3a-bis, … 3a-nonies), not by finding |
-| numbered figures | **none exist** |
-| numbered reference list with author/title/journal/year | prose carries bare PMIDs; journal titles were deliberately not stored by the fetch path |
-| journal register | measured against `lint_style.py`: bold 33.2/1000 against a limit of 12, em-dash 17.5/1000 against 6, 286 mid-sentence bolds, 127 glyphs |
-| data availability | artifacts are repo JSON on a feature branch; a citable archive is needed |
+⚠ **This table was written against the WORKING RECORD, before the submission text existed as a
+separate file.** Every row below now measures `fusion-junction-aso-short-communication.md`; the
+superseded column is kept because the size of the gap is the reason the split happened.
+
+| requirement | state (2026-08-12) | was, before the split |
+|---|---|---|
+| ~6,000 words main text | ✅ ≈4,200 | ≈21,000 — the dominant restructuring task |
+| structured abstract | ✅ present, 274 words, four headed parts | present but long and narrative |
+| IMRaD | ✅ Results ordered by finding, §3.1–§3.4 | ordered as a **chronology** (§3a, 3a-bis, … 3a-nonies) |
+| numbered figures | ✅ three, generated from committed artifacts, with legends | **none exist** |
+| numbered reference list with author/title/journal/year | ✅ 28 entries, `fusion-junction-aso-submission-references.md`, numbering DERIVED from per-citation PMIDs | prose carries bare PMIDs; journal titles were deliberately not stored by the fetch path |
+| journal register | ✅ `lint_style.py` clean: 0 glyphs, bold ≈5/1000 against a limit of 12, em-dash ≈5/1000 against 6 | bold 33.2/1000, em-dash 17.5/1000, 286 mid-sentence bolds, 127 glyphs |
+| data availability | ⛔ **open** — artifacts are repo JSON on a feature branch; a citable archive is needed | same |
+| author block, funding, competing interests | ⛔ **open — trimcrae only.** The manuscript carries an explicit placeholder that says it must not be submitted in place | not yet reached |
+| figures in a submission format | ⛔ **open** — the three figures are dependency-free SVG, which is vector and loses nothing, but NAT will want EPS/TIFF/PDF. No converter exists in the dev sandbox; this is a CI step, not a redraw |
+| venue confirmation | ⛔ **open** — see §1: the publisher changed and no NAT-specific policy page has been read successfully |
 
 ## 3 · What must NOT be lost in the rewrite
 

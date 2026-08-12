@@ -292,6 +292,24 @@ def lint_file(path):
                 findings.append((lineno, "ERROR", "bold-midsentence",
                                  f"bold inside a sentence: **{m.group(1)[:48]}**"))
 
+        # ⛔ AND THE SAME CHECK ACROSS THE LINE BREAK (2026-08-12). The scan above is per LINE, so
+        # `**fifty-five of seventy carry\nload at or below chance**` — bold whose opening and
+        # closing markers sit on different lines — never matched, and two of them survived a clean
+        # gate into the submission draft. In a hard-wrapped manuscript that is not an exotic case:
+        # it is what happens to any emphasis long enough to be worth flagging. Reported at the
+        # OPENING line, and only when the next line continues it, so a `**` that merely appears
+        # twice on adjacent lines is not miscounted as one span.
+        if line.count("**") % 2 == 1:
+            nxt = next((ln for (n, ln, _, _) in entries if n == lineno + 1), None)
+            if nxt is not None and "**" in nxt and not (is_table_header or heading):
+                prefix = line[:line.rfind("**")]
+                if re.search(r"[A-Za-z0-9,)][\s]*$", prefix) and \
+                        not re.match(r"^[\s>|*\-+\d.]*$", prefix):
+                    span = (line[line.rfind("**"):] + " " + nxt.split("**")[0]).strip("* ")
+                    findings.append((lineno, "ERROR", "bold-midsentence",
+                                     f"bold inside a sentence, across a line break: "
+                                     f"**{span[:48]}**"))
+
         for pat, why in BANNED:
             mm = re.search(pat, line, re.I)
             if mm:
