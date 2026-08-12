@@ -67,8 +67,8 @@
     }
   },
   "n_oligos_screened": 5,
-  "n_screened_ok": 4,
-  "n_oligos_no_true_cleavage_risk": 0,
+  "n_screened_ok": 5,
+  "n_oligos_no_true_cleavage_risk": 1,
   "oligos": [
     {
       "antisense_5to3": "GGGCATATCTCTATAA",
@@ -76,11 +76,11 @@
       "gc_percent": 37.5,
       "specificity_margin": 8,
       "status": "screened",
-      "blast_rid": "7TKF5NJC016",
+      "blast_rid": "7TMM186U016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 8,
-      "n_true_cleavage_risk": 7,
-      "n_gap_disrupted_no_cleavage": 1,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 0,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
       "gap_mismatch_histogram": {
@@ -91,11 +91,8 @@
       "n_gap_mismatch_unresolvable": 0,
       "n_distinct_loci": 3,
       "n_loci_seen_only_as_predicted_models": 1,
-      "n_loci_with_a_gap_spanning_hit": 2,
-      "loci_with_a_gap_spanning_hit": [
-        "LOC105374497",
-        "STRN"
-      ],
+      "n_loci_with_a_gap_spanning_hit": 0,
+      "loci_with_a_gap_spanning_hit": [],
       "offtargets": [
         {
           "acc": "NM_001349109",
@@ -108,7 +105,7 @@
           "is_minus_strand": true,
           "qseq": "TTATAGAGATATGCCC",
           "midline": "||||||| ||||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -122,7 +119,7 @@
           "is_minus_strand": true,
           "qseq": "TTATAGAGATATGCCC",
           "midline": "||| ||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -136,7 +133,7 @@
           "is_minus_strand": true,
           "qseq": "TTATAGAGATATGCCC",
           "midline": "||| ||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -150,7 +147,7 @@
           "is_minus_strand": true,
           "qseq": "TTATAGAGATATGCCC",
           "midline": "||| ||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -164,7 +161,7 @@
           "is_minus_strand": true,
           "qseq": "TTATAGAGATATGCCC",
           "midline": "||| ||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -178,7 +175,7 @@
           "is_minus_strand": true,
           "qseq": "TTATAGAGATATGCCC",
           "midline": "||| ||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -192,7 +189,7 @@
           "is_minus_strand": true,
           "qseq": "TTATAGAGATATGC",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -206,7 +203,7 @@
           "is_minus_strand": true,
           "qseq": "TTATAGAGATATGC",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         }
       ]
@@ -217,11 +214,11 @@
       "gc_percent": 37.5,
       "specificity_margin": 7,
       "status": "screened",
-      "blast_rid": "7TKF85EZ016",
+      "blast_rid": "7TMM59TP016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 12,
-      "n_true_cleavage_risk": 11,
-      "n_gap_disrupted_no_cleavage": 1,
+      "n_true_cleavage_risk": 6,
+      "n_gap_disrupted_no_cleavage": 0,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
       "gap_mismatch_histogram": {
@@ -232,10 +229,9 @@
       "n_gap_mismatch_unresolvable": 0,
       "n_distinct_loci": 3,
       "n_loci_seen_only_as_predicted_models": 1,
-      "n_loci_with_a_gap_spanning_hit": 2,
+      "n_loci_with_a_gap_spanning_hit": 1,
       "loci_with_a_gap_spanning_hit": [
-        "CENPK",
-        "STRN"
+        "CENPK"
       ],
       "offtargets": [
         {
@@ -249,7 +245,7 @@
           "is_minus_strand": true,
           "qseq": "TATAGAGATATGCCCT",
           "midline": "|||||| |||||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -263,7 +259,7 @@
           "is_minus_strand": true,
           "qseq": "TATAGAGATATGCCCT",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -277,7 +273,7 @@
           "is_minus_strand": true,
           "qseq": "TATAGAGATATGCCCT",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -291,7 +287,7 @@
           "is_minus_strand": true,
           "qseq": "TATAGAGATATGCCCT",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -305,7 +301,7 @@
           "is_minus_strand": true,
           "qseq": "TATAGAGATATGCCCT",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -319,7 +315,7 @@
           "is_minus_strand": true,
           "qseq": "TATAGAGATATGCCCT",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -414,11 +410,11 @@
       "gc_percent": 31.2,
       "specificity_margin": 7,
       "status": "screened",
-      "blast_rid": "7TKFCH26016",
+      "blast_rid": "7TMM96E9016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 11,
-      "n_true_cleavage_risk": 10,
-      "n_gap_disrupted_no_cleavage": 1,
+      "n_true_cleavage_risk": 1,
+      "n_gap_disrupted_no_cleavage": 0,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
       "gap_mismatch_histogram": {
@@ -429,13 +425,9 @@
       "n_gap_mismatch_unresolvable": 0,
       "n_distinct_loci": 6,
       "n_loci_seen_only_as_predicted_models": 4,
-      "n_loci_with_a_gap_spanning_hit": 5,
+      "n_loci_with_a_gap_spanning_hit": 1,
       "loci_with_a_gap_spanning_hit": [
-        "LOC105374497",
-        "LOC124901764",
-        "N4BP2",
-        "NHLRC2",
-        "STRN"
+        "LOC124901764"
       ],
       "offtargets": [
         {
@@ -449,7 +441,7 @@
           "is_minus_strand": true,
           "qseq": "ATTATAGAGATATGCC",
           "midline": "|||| |||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -463,7 +455,7 @@
           "is_minus_strand": true,
           "qseq": "ATTATAGAGATATGCC",
           "midline": "|||| |||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -477,7 +469,7 @@
           "is_minus_strand": true,
           "qseq": "ATTATAGAGATATGCC",
           "midline": "|||| |||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -491,7 +483,7 @@
           "is_minus_strand": true,
           "qseq": "ATTATAGAGATATGCC",
           "midline": "|||| |||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -505,7 +497,7 @@
           "is_minus_strand": true,
           "qseq": "ATTATAGAGATATGCC",
           "midline": "|||| |||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -519,7 +511,7 @@
           "is_minus_strand": true,
           "qseq": "ATTATAGAGATATGCC",
           "midline": "|||||| |||||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -547,7 +539,7 @@
           "is_minus_strand": true,
           "qseq": "ATTATAGAGATATG",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -561,7 +553,7 @@
           "is_minus_strand": true,
           "qseq": "ATTATAGAGATATGC",
           "midline": "|||| ||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -575,7 +567,7 @@
           "is_minus_strand": true,
           "qseq": "TTATAGAGATATGC",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -589,7 +581,7 @@
           "is_minus_strand": true,
           "qseq": "TTATAGAGATATGC",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         }
       ]
@@ -600,11 +592,11 @@
       "gc_percent": 43.8,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "7TKFGAFF016",
+      "blast_rid": "7TMMCFJ3016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 16,
-      "n_true_cleavage_risk": 15,
-      "n_gap_disrupted_no_cleavage": 1,
+      "n_true_cleavage_risk": 10,
+      "n_gap_disrupted_no_cleavage": 0,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
       "gap_mismatch_histogram": {
@@ -615,10 +607,9 @@
       "n_gap_mismatch_unresolvable": 0,
       "n_distinct_loci": 4,
       "n_loci_seen_only_as_predicted_models": 1,
-      "n_loci_with_a_gap_spanning_hit": 3,
+      "n_loci_with_a_gap_spanning_hit": 2,
       "loci_with_a_gap_spanning_hit": [
         "LOC285422",
-        "STRN",
         "ZNF599"
       ],
       "offtargets": [
@@ -633,7 +624,7 @@
           "is_minus_strand": true,
           "qseq": "ATAGAGATATGCCCTG",
           "midline": "||||| ||||||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -675,7 +666,7 @@
           "is_minus_strand": true,
           "qseq": "AGAGATATGCCCTG",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -689,7 +680,7 @@
           "is_minus_strand": true,
           "qseq": "AGAGATATGCCCTG",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -703,7 +694,7 @@
           "is_minus_strand": true,
           "qseq": "AGAGATATGCCCTG",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -829,7 +820,7 @@
           "is_minus_strand": true,
           "qseq": "AGAGATATGCCCTG",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         }
       ]
@@ -839,8 +830,211 @@
       "target_mRNA_5to3": "AATTATAGAGATATGC",
       "gc_percent": 25.0,
       "specificity_margin": 6,
-      "status": "screen_failed",
-      "error": "Remote end closed connection without response"
+      "status": "screened",
+      "blast_rid": "7TMMG85B016",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 13,
+      "n_true_cleavage_risk": 3,
+      "n_gap_disrupted_no_cleavage": 1,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 12,
+        "1": 1,
+        "2": 0
+      },
+      "n_gap_mismatch_unresolvable": 0,
+      "n_distinct_loci": 7,
+      "n_loci_seen_only_as_predicted_models": 5,
+      "n_loci_with_a_gap_spanning_hit": 2,
+      "loci_with_a_gap_spanning_hit": [
+        "PPARGC1A",
+        "WDPCP"
+      ],
+      "offtargets": [
+        {
+          "acc": "NM_001320494",
+          "defn": "Homo sapiens vestigial like family member 3 (VGLL3), transcript variant 3, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "hit_frame": -1,
+          "is_minus_strand": true,
+          "qseq": "AATTATAGAGATATGC",
+          "midline": "||||||||||| ||||",
+          "risk": "minus_strand_not_hybridisable",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_016206",
+          "defn": "Homo sapiens vestigial like family member 3 (VGLL3), transcript variant 1, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "hit_frame": -1,
+          "is_minus_strand": true,
+          "qseq": "AATTATAGAGATATGC",
+          "midline": "||||||||||| ||||",
+          "risk": "minus_strand_not_hybridisable",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_006713138",
+          "defn": "PREDICTED: Homo sapiens vestigial like family member 3 (VGLL3), transcript variant X1, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "hit_frame": -1,
+          "is_minus_strand": true,
+          "qseq": "AATTATAGAGATATGC",
+          "midline": "||||||||||| ||||",
+          "risk": "minus_strand_not_hybridisable",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054346475",
+          "defn": "PREDICTED: Homo sapiens vestigial like family member 3 (VGLL3), transcript variant X1, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "hit_frame": -1,
+          "is_minus_strand": true,
+          "qseq": "AATTATAGAGATATGC",
+          "midline": "||||||||||| ||||",
+          "risk": "minus_strand_not_hybridisable",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054348811",
+          "defn": "PREDICTED: Homo sapiens PPARG coactivator 1 alpha (PPARGC1A), transcript variant X11, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "AATTATAGAGATATGC",
+          "midline": "|||||||||||| |||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054348812",
+          "defn": "PREDICTED: Homo sapiens PPARG coactivator 1 alpha (PPARGC1A), transcript variant X12, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "AATTATAGAGATATGC",
+          "midline": "|||||||||||| |||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XR_007060567",
+          "defn": "PREDICTED: Homo sapiens uncharacterized LOC124901764 (LOC124901764), ncRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "AATTATAGAGATATGC",
+          "midline": "||||| ||||||||||",
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
+        },
+        {
+          "acc": "NM_198514",
+          "defn": "Homo sapiens NHL repeat containing 2 (NHLRC2), mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 2,
+          "q_to": 15,
+          "hit_frame": -1,
+          "is_minus_strand": true,
+          "qseq": "ATTATAGAGATATG",
+          "midline": "||||||||||||||",
+          "risk": "minus_strand_not_hybridisable",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054342385",
+          "defn": "PREDICTED: Homo sapiens WD repeat containing planar cell polarity effector (WDPCP), transcript variant X14, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "AATTATAGAGATAT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XR_001739302",
+          "defn": "PREDICTED: Homo sapiens uncharacterized LOC105373454 (LOC105373454), ncRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": -1,
+          "is_minus_strand": true,
+          "qseq": "AATTATAGAGATAT",
+          "midline": "||||||||||||||",
+          "risk": "minus_strand_not_hybridisable",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XR_001739422",
+          "defn": "PREDICTED: Homo sapiens uncharacterized LOC105374497 (LOC105374497), transcript variant X4, ncRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 3,
+          "q_to": 16,
+          "hit_frame": -1,
+          "is_minus_strand": true,
+          "qseq": "TTATAGAGATATGC",
+          "midline": "||||||||||||||",
+          "risk": "minus_strand_not_hybridisable",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XR_007071837",
+          "defn": "PREDICTED: Homo sapiens uncharacterized LOC105373454 (LOC105373454), ncRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": -1,
+          "is_minus_strand": true,
+          "qseq": "AATTATAGAGATAT",
+          "midline": "||||||||||||||",
+          "risk": "minus_strand_not_hybridisable",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XR_007071992",
+          "defn": "PREDICTED: Homo sapiens uncharacterized LOC105374497 (LOC105374497), transcript variant X4, ncRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 3,
+          "q_to": 16,
+          "hit_frame": -1,
+          "is_minus_strand": true,
+          "qseq": "TTATAGAGATATGC",
+          "midline": "||||||||||||||",
+          "risk": "minus_strand_not_hybridisable",
+          "gap_mismatches": 0
+        }
+      ]
     }
   ]
 }
