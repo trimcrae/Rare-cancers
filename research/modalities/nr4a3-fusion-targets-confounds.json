@@ -6,7 +6,7 @@
  },
  "_language_discipline": "Nothing in this file is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim for any agent, target or gene, and no such quantity is computed. No test here measures occupancy: nothing shows any gene being bound by any fusion protein.",
  "_what": "Confound audit and sensitivity analysis for the EWSR1::NR4A3 transcriptional-output reading.",
- "generated_utc": "2026-08-09T18:53:20Z",
+ "generated_utc": "2026-08-12T13:41:57Z",
  "minimum_detectable_effect": {
   "_what": "for every set the manuscript scores, the delta required to clear the 95% band of its own size-matched null, and how far the observed delta got.",
   "_why": "a negative that does not say what it could have detected is not interpretable. This is a DETECTABILITY threshold on this instrument at these arm sizes, not a statistical power calculation -- no alternative hypothesis is assumed.",
@@ -585,34 +585,16 @@
    "gene_source_merge": {
     "_guard": "sample order and per-sample background must match exactly; every gene this module reads must agree to 1e-9 or the merge is refused. Disagreements on genes nothing here reads are recorded above rather than suppressed.",
     "_what": "gene tables unioned across the two committed caches so a gene absent from one is still readable",
-    "n_added_from_secondary": 51,
-    "n_from_primary_cache": 1824,
-    "n_shared_genes_compared": 994,
-    "n_shared_genes_disagreeing": 4,
+    "n_added_from_secondary": 48,
+    "n_from_primary_cache": 1857,
+    "n_shared_genes_compared": 997,
+    "n_shared_genes_disagreeing": 1,
     "shared_genes_disagreeing": {
-     "ABCB8": {
-      "_cause": "the two modules map a different number of probes to this symbol, so they average different probe sets.",
-      "n_probes_primary_cache": 2,
-      "n_probes_secondary_cache": 4,
-      "worst_abs_z_difference": 0.184857
-     },
-     "ILVBL": {
+     "ACAA1": {
       "_cause": "the two modules map a different number of probes to this symbol, so they average different probe sets.",
       "n_probes_primary_cache": 2,
       "n_probes_secondary_cache": 1,
-      "worst_abs_z_difference": 0.334592
-     },
-     "SAA1": {
-      "_cause": "the two modules map a different number of probes to this symbol, so they average different probe sets.",
-      "n_probes_primary_cache": 2,
-      "n_probes_secondary_cache": 1,
-      "worst_abs_z_difference": 0.738098
-     },
-     "SAA2": {
-      "_cause": "the two modules map a different number of probes to this symbol, so they average different probe sets.",
-      "n_probes_primary_cache": 1,
-      "n_probes_secondary_cache": 2,
-      "worst_abs_z_difference": 0.849906
+      "worst_abs_z_difference": 1.274808
      }
     },
     "worst_abs_z_difference_among_genes_this_module_reads": 0.0
@@ -1760,17 +1742,10 @@
     "_guard": "sample order and per-sample background must match exactly; every gene this module reads must agree to 1e-9 or the merge is refused. Disagreements on genes nothing here reads are recorded above rather than suppressed.",
     "_what": "gene tables unioned across the two committed caches so a gene absent from one is still readable",
     "n_added_from_secondary": 44,
-    "n_from_primary_cache": 1635,
+    "n_from_primary_cache": 1662,
     "n_shared_genes_compared": 887,
-    "n_shared_genes_disagreeing": 1,
-    "shared_genes_disagreeing": {
-     "TMEM87A": {
-      "_cause": "the two modules map a different number of probes to this symbol, so they average different probe sets.",
-      "n_probes_primary_cache": 1,
-      "n_probes_secondary_cache": 2,
-      "worst_abs_z_difference": 0.420002
-     }
-    },
+    "n_shared_genes_disagreeing": 0,
+    "shared_genes_disagreeing": {},
     "worst_abs_z_difference_among_genes_this_module_reads": 0.0
    },
    "muscle_admixture": {
