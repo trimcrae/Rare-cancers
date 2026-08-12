@@ -907,7 +907,7 @@
     "root_cause": "The lane doc `nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md` contains BOTH the landed result (§3.5, correct, and itself dated '2026-07-26 2:49 PM ET') AND the earlier pilot framing (§4, 'the run now in flight', with the 5,657-placement numbers). STRATEGY.md was written from §4. The lane doc's §4 was never reconciled to its own §3.5, so the stale text had a live-looking source to be copied from.",
     "the_guard_is_real_and_did_not_fire_wrongly": "VERDICT_NOT_EVALUABLE is a genuine code path in `nr4a_paralogue_dynamics.categorical_verdict` that fires only when a scope has NO paralogue conformers — it exists to stop a PASS produced by measuring nothing. It is correct code. It has simply not been true of this artifact since 2026-07-26.",
     "what_is_NOT_stale": {
-      "the_paper": "research/manuscripts/nr4a3-degrader-paper.md §2.10 already carries the landed numbers verbatim and honestly (300 conformers, 73,867 placements, 1.000 exposed, 0.12 %/0.29 % unfiltered, 122 hits / ~0.04 %, and the 'zero co-labelling events observed, not a probability quoted to five figures' caveat). The manuscript does NOT quote the superseded 0.081/0.258 pair.",
+      "the_paper": "research/manuscripts/degrader/nr4a3-degrader-paper.md §2.10 already carries the landed numbers verbatim and honestly (300 conformers, 73,867 placements, 1.000 exposed, 0.12 %/0.29 % unfiltered, 122 hits / ~0.04 %, and the 'zero co-labelling events observed, not a probability quoted to five figures' caveat). The manuscript does NOT quote the superseded 0.081/0.258 pair.",
       "pinned_figures_json": "carries no entry for either superseded value — which is why CI is green on them today.",
       "the_paper_gaps_that_ARE_real": [
         "§2.10 says 'for solvent-exposed cysteines' without naming the criterion (EXPOSED_RSA = 0.25) or its failed positive control (NR4A1 Cys551).",
@@ -986,12 +986,12 @@
         "retired_by": "the matched NR4A1/NR4A2/NR4A3 ensembles landing 2026-07-26 (3d993237f), which replaced the 5,657-placement static-model pilot"
       },
       "also_needs_a_marked_line_in": [
-        "research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md §3.3 and §4 (a lint target; §3.5 of the same file already carries the landed result, so §4 is internally contradicted and is the source STRATEGY.md copied from)",
-        "research/manuscripts/nr4a3-inverse-linker-design-2026-07-25.md (not a lint target; carries the pair in five places)",
-        "research/manuscripts/map-audit-strategy.md, research/manuscripts/map-merge-inventory.md (not lint targets)"
+        "research/manuscripts/degrader/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md §3.3 and §4 (a lint target; §3.5 of the same file already carries the landed result, so §4 is internally contradicted and is the source STRATEGY.md copied from)",
+        "research/manuscripts/degrader/nr4a3-inverse-linker-design-2026-07-25.md (not a lint target; carries the pair in five places)",
+        "research/manuscripts/program/map-audit-strategy.md, research/manuscripts/program/map-merge-inventory.md (not lint targets)"
       ]
     },
-    "research/manuscripts/nr4a3-degrader-paper.md": {
+    "research/manuscripts/degrader/nr4a3-degrader-paper.md": {
       "_status": "NOT stale — §2.10 already carries the landed numbers correctly and does not quote the superseded pair. One real gap, recorded here and not fixed:",
       "gap": "§2.10 states 'P(...) = 1.000 for solvent-exposed cysteines in every scope' without naming the criterion that adjudicates *solvent-exposed* (`EXPOSED_RSA = 0.25`) or disclosing that the same criterion fails its own positive control — NR4A1 Cys551, the literature-anchored celastrol site, at RSA 0.165 on the state-matched opened model and 0 of 25 metadynamics frames. The paper discusses Cys551 at length elsewhere (§ on the NR-V04 confound), so the omission is in the categorical paragraph specifically.",
       "suggested_addition": "one clause naming the cutoff and one sentence saying that at the 12-atom gate the result does NOT depend on it (reach-only collision there is 0.000-0.003), while the 16- and 20-atom columns do."

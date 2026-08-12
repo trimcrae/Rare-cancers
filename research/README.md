@@ -100,7 +100,7 @@ research/
 - Repurposing: methodology + grading rubric drafted; catalog seeded with 3 graded
   candidates. **Needs** targeted literature verification of `needs-verification`
   claims and clinician review.
-- Novel modalities: manuscript drafted (`manuscripts/novel-modalities.md`) with **real,
+- Novel modalities: manuscript drafted (`manuscripts/modality-census/novel-modalities.md`) with **real,
   reproducible CI compute** (`research/modalities/`, `modalities-run.yml`): AlphaFold/
   fpocket druggability of NR4A3 (folded LBD, no druggable pocket — max 0.495), the
   fusion-junction neoantigen (⛔ *superseded, retained:* "lead **GQQPCVQAQY** strong on

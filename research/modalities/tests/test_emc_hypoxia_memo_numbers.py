@@ -24,7 +24,7 @@ import pytest
 MOD = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REPO = os.path.dirname(MOD)
 ART = os.path.join(MOD, "emc-hypoxia-confounds.json")
-MEMO = os.path.join(REPO, "manuscripts", "emc-hypoxia-reading.md")
+MEMO = os.path.join(REPO, "manuscripts", "microenv", "emc-hypoxia-reading.md")
 
 G6 = "GSE24369_series_matrix.txt.gz"
 G3 = "GSE4303-GPL3290_series_matrix.txt.gz"

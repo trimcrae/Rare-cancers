@@ -41,8 +41,8 @@ WHERE THE NUMBERS COME FROM
 Two kinds of input, kept apart on purpose:
 
   1. COMMITTED ARTIFACTS, read at run time and never re-typed:
-       research/manuscripts/emc-systemic-therapy-pooling.json   (integer counts, medians, citations)
-       research/manuscripts/emc-endpoint-discordance.json       (the D3 reporting census, D5)
+       research/manuscripts/endpoint/emc-systemic-therapy-pooling.json   (integer counts, medians, citations)
+       research/manuscripts/endpoint/emc-endpoint-discordance.json       (the D3 reporting census, D5)
      These own their numbers. This file reads them; it does not become a second home for them.
 
   2. RETRIEVED CONSTANTS, each carried below with its VERBATIM QUOTE and the exact corpus file it was
@@ -51,7 +51,7 @@ Two kinds of input, kept apart on purpose:
      Glabbeke reference values, and the two published EMC-specific 6-month progression-free rates.
      ⚠ EVERY ONE OF THEM WAS FETCHED, NOT RECALLED. CLAUDE.md Sec. 7 records an agent writing a PMID
      from memory that passed two gates; the retrieval corpus for this file is
-     `research/manuscripts/lit-targets-endpoint-benchmarks.json`, its outputs are on the
+     `research/manuscripts/endpoint/lit-targets-endpoint-benchmarks.json`, its outputs are on the
      `literature-cache` branch under `literature/emc-endpoint-benchmarks{,-r2}/`, and no identifier
      or figure in this file was written down without being read out of one of those files first.
 
@@ -64,8 +64,8 @@ the conversion is VALIDATED against the three EMC cohorts that publish both quan
 
 Regenerate:  python3 research/manuscripts/emc_endpoint_alternatives.py
 Verify:      python3 research/manuscripts/emc_endpoint_alternatives.py --check
-Output:      research/manuscripts/emc-endpoint-alternatives.json
-Read by:     research/manuscripts/emc-endpoint-alternatives-2026-08-08.md
+Output:      research/manuscripts/endpoint/emc-endpoint-alternatives.json
+Read by:     research/manuscripts/endpoint/emc-endpoint-alternatives-2026-08-08.md
 """
 from __future__ import annotations
 
@@ -77,13 +77,13 @@ import sys
 from datetime import datetime, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-POOLING = os.path.join(HERE, "emc-systemic-therapy-pooling.json")
-DISCORDANCE = os.path.join(HERE, "emc-endpoint-discordance.json")
-OUT = os.path.join(HERE, "emc-endpoint-alternatives.json")
+POOLING = os.path.join(HERE, "endpoint", "emc-systemic-therapy-pooling.json")
+DISCORDANCE = os.path.join(HERE, "endpoint", "emc-endpoint-discordance.json")
+OUT = os.path.join(HERE, "endpoint", "emc-endpoint-alternatives.json")
 
-POOLING_REL = "research/manuscripts/emc-systemic-therapy-pooling.json"
-DISCORDANCE_REL = "research/manuscripts/emc-endpoint-discordance.json"
-CORPUS_REL = "research/manuscripts/lit-targets-endpoint-benchmarks.json"
+POOLING_REL = "research/manuscripts/endpoint/emc-systemic-therapy-pooling.json"
+DISCORDANCE_REL = "research/manuscripts/endpoint/emc-endpoint-discordance.json"
+CORPUS_REL = "research/manuscripts/endpoint/lit-targets-endpoint-benchmarks.json"
 CACHE = "literature-cache branch, literature/emc-endpoint-benchmarks"
 CACHE2 = "literature-cache branch, literature/emc-endpoint-benchmarks-r2"
 
@@ -1525,7 +1525,7 @@ def e7_gmi_data_availability(pooling, by_key):
                     "criterion excludes it', never 'no patient appeared in both'. Same criterion, "
                     "same wording, independently corroborated on the EU Clinical Trials Register "
                     "for EudraCT 2013-005456-15 by a sibling retrieval the same day -- "
-                    "research/manuscripts/partner-event-counts-2026-08-08.md Sec. 3."),
+                    "research/manuscripts/fusion-partner/partner-event-counts-2026-08-08.md Sec. 3."),
             },
             "why_this_is_the_ask_and_not_a_new_trial": (
                 "Because it converts a completed, already-funded, already-consented body of work "

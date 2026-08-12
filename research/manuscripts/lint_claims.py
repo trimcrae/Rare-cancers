@@ -60,8 +60,8 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 # The manuscript IS the preprint IS the submission (CLAUDE.md single-source-of-truth rule),
 # so the default set is the paper + its SI. Other docs can be passed explicitly.
 DEFAULT_TARGETS = [
-    "research/manuscripts/nr4a3-degrader-paper.md",
-    "research/manuscripts/nr4a3-degrader-paper-SI.md",
+    "research/manuscripts/degrader/nr4a3-degrader-paper.md",
+    "research/manuscripts/degrader/nr4a3-degrader-paper-SI.md",
     # ⛔ ADDED 2026-08-08 — A MANUSCRIPT IS PICKED UP FROM THE PUBLICATION REGISTER; ITS SI IS NOT.
     # `_publication_documents()` reads `publications.json` -> `publications[].document.file`, which
     # names one file per endpoint. So the moment a paper is split into a main text plus an SI, HALF
@@ -74,7 +74,7 @@ DEFAULT_TARGETS = [
     # six-arm PPARγ activity reading with its adipogenic ceiling, the pre-registered decision rule,
     # and the complete evidence catalogue with its per-row assay claims. Those are the sentences most
     # able to drift from "set-specific up against a size-matched null" into "PPARγ is active in EMC".
-    "research/manuscripts/nr4a3-fusion-transcriptional-output-SI.md",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md",
     # Added 2026-08-02. The program map was linted by lint_consistency (pinned NUMBERS) but by
     # nothing that checks claim LANGUAGE -- which is how a table of bare "PASSES" verdicts and a
     # "Chemical basis: OK strong, and already measured" cell (whose owning artifact is not in this
@@ -112,7 +112,7 @@ DEFAULT_TARGETS = [
     #
     # ⭐ THE OUTWARD-FACING DOCUMENT NEEDS THE STRICTEST CHECK, NOT THE LOOSEST. A stale claim in the
     # manuscript is caught by review; a stale claim in an email is caught by the recipient.
-    "research/manuscripts/nr4a3-degrader-outreach-emails.md",
+    "research/manuscripts/degrader/nr4a3-degrader-outreach-emails.md",
     # ⛔ ADDED 2026-08-06 — THE SAME HOLE AS THE OUTREACH EMAILS, IN THE TWO FILES CLAUDE.md ITSELF
     # SENDS EVERY SESSION TO READ. §5 names `emc-treatment-strategy.md` as required reading before
     # resuming treatment-research work, and §6 names `nr4a3-degrader-next-steps.md` as the single home
@@ -137,14 +137,14 @@ DEFAULT_TARGETS = [
     #
     # ⚠ A RETRACTION THAT REACHES SOME OF ITS COPIES IS NOT A RETRACTION. Adding these two is what makes
     # the next one land everywhere instead of everywhere-someone-remembered.
-    "research/manuscripts/emc-treatment-strategy.md",
+    "research/manuscripts/program/emc-treatment-strategy.md",
     "research/modalities/nr4a3-degrader-next-steps.md",
     # ⛔ ADDED 2026-08-06 by the route framing audit. RT-ASO is Tier 1 rank 2 and its
     # `next.best_next_action` is "Publish" — so this is the one manuscript actually queued to leave
     # the building, and it was in neither this file's targets nor the view glob below. That is the
     # outreach-emails lesson exactly: the outward-facing document needs the strictest check, not
     # the loosest.
-    "research/manuscripts/fusion-junction-aso-working-record.md",
+    "research/manuscripts/aso/fusion-junction-aso-working-record.md",
     # ⛔ ADDED 2026-08-07, in the same commit that created it. `emc-hypoxia-reading.md` names three
     # DRUG CLASSES off a tissue-expression reading, which is the exact shape this linter exists for:
     # a measured observation whose mechanism suggests an intervention, written by an agent who has
@@ -152,7 +152,7 @@ DEFAULT_TARGETS = [
     # one notch too strong. It is also the first EMC TISSUE-BIOLOGY memo here — the reason the ASO
     # paper was added (the outward-facing document needs the strictest check) applies before a
     # document is outward-facing, not after.
-    "research/manuscripts/emc-hypoxia-reading.md",
+    "research/manuscripts/microenv/emc-hypoxia-reading.md",
 ]
 
 # ⛔ ADDED 2026-08-06 — THE THIRD TIME THIS EXACT HOLE HAS BEEN FOUND, AND THE LARGEST.

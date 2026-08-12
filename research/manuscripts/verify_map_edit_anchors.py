@@ -61,11 +61,34 @@ sys.path.insert(0, os.path.join(ROOT, "research", "modalities"))
 
 import map_edit_anchors as mea  # noqa: E402
 
-DEFAULT_ARTIFACT = os.path.join(HERE, "three-row-audit-map-edits.json")
+DEFAULT_ARTIFACT = os.path.join(HERE, "degrader", "three-row-audit-map-edits.json")
 
 #: `NOT_FOUND`/`AMBIGUOUS`/`UNREAD` are the unresolved states -- see `map_edit_anchors.verify()`. `OK`
 #: (applicable), `APPLIED` (landed) and `UNANCHORED` (deferred by contract) are all accounted for.
 UNRESOLVED = ("NOT_FOUND", "AMBIGUOUS", "UNREAD")
+
+
+def _same_basename_at(ref, relpath):
+    """The path `relpath`'s basename occupies at `ref`, when the file sits elsewhere in that tree.
+
+    ⛔ THE EXACT CASE THIS WHOLE SCRIPT EXISTS FOR, ARRIVING FROM THE OTHER DIRECTION. Its header
+    records nine edits that died because "the documents moved underneath them". A reorganisation makes
+    the same thing happen across REFS rather than across time: on 2026-08-12 the manuscripts were sorted
+    into per-route folders, so an edit written against `research/manuscripts/degrader/x.md` cannot be
+    read at `origin/main`, where that file is still `research/manuscripts/x.md`. Without this the script
+    reports `UNREAD` — an unresolved state, i.e. a failure — for every edit whose document moved, which
+    says "this edit is dead" about an edit that is perfectly applicable.
+
+    ⚠ ONLY AN UNAMBIGUOUS MATCH IS ACCEPTED. Two files sharing a basename at that ref means the identity
+    is a guess, and guessing which document an edit targets is worse than declaring it unread.
+    """
+    r = subprocess.run(["git", "-C", ROOT, "ls-tree", "-r", "--name-only", ref,
+                        "research/manuscripts/"], capture_output=True, text=True)
+    if r.returncode != 0:
+        return None
+    base = os.path.basename(relpath)
+    hits = [p for p in r.stdout.splitlines() if os.path.basename(p) == base]
+    return hits[0] if len(hits) == 1 else None
 
 
 def _materialise(ref, relpath):
@@ -76,7 +99,13 @@ def _materialise(ref, relpath):
     r = subprocess.run(["git", "-C", ROOT, "show", "%s:%s" % (ref, relpath)],
                        capture_output=True, text=True)
     if r.returncode != 0:
-        return None
+        moved = _same_basename_at(ref, relpath)
+        if moved is None:
+            return None
+        r = subprocess.run(["git", "-C", ROOT, "show", "%s:%s" % (ref, moved)],
+                           capture_output=True, text=True)
+        if r.returncode != 0:
+            return None
     fh = tempfile.NamedTemporaryFile("w", suffix=".md", delete=False, encoding="utf-8")
     fh.write(r.stdout)
     fh.close()

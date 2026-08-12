@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Confound audit and sensitivity analysis for the EWSR1::NR4A3 transcriptional-output reading.
 
-WHAT THIS IS. The manuscript `research/manuscripts/nr4a3-fusion-transcriptional-output.md` reports
+WHAT THIS IS. The manuscript `research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md` reports
 that the three genes with a DNA-binding assay against an NR4A3 chimera (SEMA3C, PPARG, ENO3) read
 higher in EMC tumour tissue. Its own §4.1 lists four things that reading is equally consistent with
 and states that nothing in these datasets removes the cell-of-origin or the myxoid-architecture

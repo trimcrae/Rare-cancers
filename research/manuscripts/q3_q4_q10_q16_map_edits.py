@@ -8,7 +8,7 @@ nine verbatim edits that all failed to apply.
 
 ⛔ THIS SCRIPT APPLIES NOTHING. `nr4a3-program-map.md`, `path-family-synthesis.md`, `systems/graph/*` and
 `systems/views/*` are not hand-edited by this pass; the edits are ROUTED. Verify with
-`research/manuscripts/verify_map_edit_anchors.py research/manuscripts/q3-q4-q10-q16-map-edits.json`.
+`research/manuscripts/verify_map_edit_anchors.py research/manuscripts/degrader/q3-q4-q10-q16-map-edits.json`.
 
 ⛔ FENCE. This pass owns the `Q3`, `Q4`, `Q10` and `Q16` rows of §10.1a, the ⚖ ALTERNATIVE cell for THE
 MODALITY at C397 in §10.1b, §2.4's brief clause, and `path-family-synthesis.md` §3 Tier-2 row 10. It
@@ -25,8 +25,8 @@ REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 MOD = os.path.join(REPO, "research", "modalities")
 
 MAP = "research/manuscripts/nr4a3-program-map.md"
-SYN = "research/manuscripts/path-family-synthesis.md"
-OUT = os.path.join(HERE, "q3-q4-q10-q16-map-edits.json")
+SYN = "research/manuscripts/program/path-family-synthesis.md"
+OUT = os.path.join(HERE, "degrader", "q3-q4-q10-q16-map-edits.json")
 
 ART = {
     "antihandle": os.path.join(MOD, "nr4a3-antihandle-constraint.json"),
@@ -210,7 +210,7 @@ def build(f):
         "file": MAP, "anchor": a, "current_text": live_line(MAP, a),
         "proposed_text": (
             "| **Q10** | **Re-run the linker-reach enumeration with the E3 arm REMOVED** — the covalent "
-            "inhibitor / probe configuration at C397 | [route 2](target-route-options.md) ★★ | `R8` "
+            "inhibitor / probe configuration at C397 | [route 2](program/target-route-options.md) ★★ | `R8` "
             "`R15` | **⚖ ALT** (to the degrader modality — see [§10.1b](#101b--the-family--what-picking-"
             "one-costs-you)) | ✅ **DONE** | **—** | **$0 CPU** | ⛔ **THIS ROW SAID 'NEVER RUN' ABOUT AN "
             "ARTIFACT ALREADY ON THIS BRANCH.** The enumeration ran **2026-08-06 at 7:12 AM ET** "
@@ -268,7 +268,7 @@ def build(f):
         "file": MAP, "anchor": a, "current_text": live_line(MAP, a),
         "proposed_text": (
             "| **Q16** | **Restate the design brief ASYMMETRICALLY** — in its harder measured form | "
-            "[route 1](target-route-options.md) ★★ | `R7` ([§2.4](#24--the-selectivity-requirement-is-"
+            "[route 1](program/target-route-options.md) ★★ | `R7` ([§2.4](#24--the-selectivity-requirement-is-"
             "asymmetric--and-this-page-stated-it-symmetrically)) | **⇢ PRE** | ✅ **DONE %s** | **—** | "
             "**$0** | ⭐ **RESTATED: *%s*** — four clauses, each carrying its own sensitivity, in "
             "[`nr4a3-design-brief-asymmetric.json`](../modalities/nr4a3-design-brief-asymmetric.json). "

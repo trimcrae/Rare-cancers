@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ parked · concept · confidence high · verified 2026-08-06
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 3 — not fusion-selective; a class effect, not a fusion-SELECTIVITY result
+**Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md)): Tier 3 — not fusion-selective; a class effect, not a fusion-SELECTIVITY result
 
 ## What has to land for this route to move
 
@@ -75,7 +75,7 @@ Closed on a definitional argument; the output is the reasoning.
 
 ## Where this route ends — the paper
 
-**[PUB-CLOSED-ROUTES](L3-publications.md)** — [Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search](../../research/manuscripts/closed-routes-negative-record.md)
+**[PUB-CLOSED-ROUTES](L3-publications.md)** — [Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search](../../research/manuscripts/methods-record/closed-routes-negative-record.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

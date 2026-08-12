@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ closed · scoped · confidence moderate · verified 2026-08-06
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): ✕ closed on DIRECTION OF EFFECT (6-MP enhances NR4A3; the fusion is gain-of-function) and on non-selectivity — NOT on the refuted 'domain the fusion replaces'
+**Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md)): ✕ closed on DIRECTION OF EFFECT (6-MP enhances NR4A3; the fusion is gain-of-function) and on non-selectivity — NOT on the refuted 'domain the fusion replaces'
 
 ## What has to land for this route to move
 
@@ -81,7 +81,7 @@ Closed on DIRECTION OF EFFECT, not definitionally: 6-MP enhances NR4A3 activity 
 
 ## Where this route ends — the paper
 
-**[PUB-CLOSED-ROUTES](L3-publications.md)** — [Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search](../../research/manuscripts/closed-routes-negative-record.md)
+**[PUB-CLOSED-ROUTES](L3-publications.md)** — [Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search](../../research/manuscripts/methods-record/closed-routes-negative-record.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

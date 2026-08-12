@@ -68,7 +68,7 @@ N_IDS = 16
 MAP = {"C%02d" % i: "IC-%d" % i for i in range(1, N_IDS + 1)}
 
 ROADMAP = "research/manuscripts/nr4a3-program-map.md"
-MAP_EDITS_OUT = os.path.join(ROOT, "research", "manuscripts", "instrument-register-prefix-map-edits.json")
+MAP_EDITS_OUT = os.path.join(ROOT, "research", "manuscripts", "program", "instrument-register-prefix-map-edits.json")
 
 #: The register's own files. Every `C\d\d` in these is a register id -- the JSON says so itself:
 #: "IDs ARE THIS FILE'S NAMESPACE ONLY. `C01`..`C16` are CANDIDATE instruments."
@@ -110,7 +110,7 @@ NEVER_REWRITE = (
     "systems/schema/research-object.schema.json",
     "research/modalities/instrument_register_renumber.py",
     "research/modalities/tests/test_instrument_register_prefix.py",
-    "research/manuscripts/instrument-register-prefix-map-edits.json",
+    "research/manuscripts/program/instrument-register-prefix-map-edits.json",
 )
 
 #: ⛔⛔ A `map_edits_required` BLOCK IS A VERBATIM QUOTATION OF THE ROADMAP, AND THE ROADMAP IS THE ONE

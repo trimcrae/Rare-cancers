@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-FUSION-DIRECT](L1-st-fusion-direct.md) · **state:** ✕ closed · scoped · confidence high · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-11--target-the-ewsr1-half-at-the-protein-level)): ✕ down — relocates onto an essential gene
+**Grade** (owned by [`research/manuscripts/program/target-route-options.md`](../../research/manuscripts/program/target-route-options.md#route-11--target-the-ewsr1-half-at-the-protein-level)): ✕ down — relocates onto an essential gene
 
 ## What has to land for this route to move
 
@@ -76,7 +76,7 @@ It is a closed route. Its only output is the reasoning that closes it, which bel
 
 ## Where this route ends — the paper
 
-**[PUB-CLOSED-ROUTES](L3-publications.md)** — [Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search](../../research/manuscripts/closed-routes-negative-record.md)
+**[PUB-CLOSED-ROUTES](L3-publications.md)** — [Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search](../../research/manuscripts/methods-record/closed-routes-negative-record.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

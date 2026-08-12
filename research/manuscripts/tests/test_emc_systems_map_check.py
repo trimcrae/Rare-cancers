@@ -324,7 +324,7 @@ def test_a_correction_home_that_does_not_carry_its_own_marker_fails(m):
 def test_a_file_reading_a_disputed_model_with_no_visible_correction_fails(m):
     """THE ONE THAT MATTERS: the preprint may not go on using the model silently."""
     use = next(u for u in disputed(m)["read_by"]
-               if u["file"] == "research/manuscripts/emc-surface-target-landscape.md")
+               if u["file"] == "research/manuscripts/surface-targets/emc-surface-target-landscape.md")
     use["correction_marker"] = "a correction marker that is not in that file 98765"
     assert "O3" in codes(m)
 
@@ -333,7 +333,7 @@ def test_an_unclassified_use_is_an_error(m):
     """O4 -- the recurrence guard. Forget a file and the build says so."""
     o = disputed(m)
     o["read_by"] = [u for u in o["read_by"]
-                    if u["file"] != "research/manuscripts/emc-surface-target-landscape.md"]
+                    if u["file"] != "research/manuscripts/surface-targets/emc-surface-target-landscape.md"]
     assert "O4" in codes(m)
 
 
@@ -341,7 +341,7 @@ def test_an_unclassified_use_of_ANY_alias_is_an_error(m):
     """Aliases matter: the same line is HEMCSS in one file and CVCL_1238 in another."""
     o = disputed(m)
     o["read_by"] = [u for u in o["read_by"]
-                    if u["file"] != "research/manuscripts/emc-surface-target-redteam.md"]
+                    if u["file"] != "research/manuscripts/surface-targets/emc-surface-target-redteam.md"]
     assert "O4" in codes(m)
 
 

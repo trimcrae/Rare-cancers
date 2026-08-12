@@ -781,7 +781,7 @@ def stale_blocker():
                                                       "nothing. It is correct code. It has simply not been "
                                                       "true of this artifact since 2026-07-26.",
         "what_is_NOT_stale": {
-            "the_paper": "research/manuscripts/nr4a3-degrader-paper.md §2.10 already carries the landed "
+            "the_paper": "research/manuscripts/degrader/nr4a3-degrader-paper.md §2.10 already carries the landed "
                          "numbers verbatim and honestly (300 conformers, 73,867 placements, 1.000 exposed, "
                          "0.12 %/0.29 % unfiltered, 122 hits / ~0.04 %, and the 'zero co-labelling events "
                          "observed, not a probability quoted to five figures' caveat). The manuscript does "
@@ -1092,16 +1092,16 @@ def proposed_edits(residue_identity_block, claim_block, dyn):
                               "which replaced the 5,657-placement static-model pilot",
             },
             "also_needs_a_marked_line_in": [
-                "research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md §3.3 and §4 "
+                "research/manuscripts/degrader/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md §3.3 and §4 "
                 "(a lint target; §3.5 of the same file already carries the landed result, so §4 is "
                 "internally contradicted and is the source STRATEGY.md copied from)",
-                "research/manuscripts/nr4a3-inverse-linker-design-2026-07-25.md (not a lint target; "
+                "research/manuscripts/degrader/nr4a3-inverse-linker-design-2026-07-25.md (not a lint target; "
                 "carries the pair in five places)",
-                "research/manuscripts/map-audit-strategy.md, research/manuscripts/map-merge-inventory.md "
+                "research/manuscripts/program/map-audit-strategy.md, research/manuscripts/program/map-merge-inventory.md "
                 "(not lint targets)",
             ],
         },
-        "research/manuscripts/nr4a3-degrader-paper.md": {
+        "research/manuscripts/degrader/nr4a3-degrader-paper.md": {
             "_status": "NOT stale — §2.10 already carries the landed numbers correctly and does not quote "
                        "the superseded pair. One real gap, recorded here and not fixed:",
             "gap": "§2.10 states 'P(...) = 1.000 for solvent-exposed cysteines in every scope' without "

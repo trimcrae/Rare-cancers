@@ -12,7 +12,7 @@ fusion junction before**, in a committed artifact built from a stated Ensembl me
 numbers, so the label "NR4A3 exon 3" resolved to transcript exon 5, and all seven committed
 junctions silently deleted NR4A3's AF-1 and the first zinc finger of its C4 DBD — an off-by-two
 that survived review and was caught only by a $0 re-derivation
-(`research/manuscripts/target-route-options.md` §1.3; `nr4a3_exon_audit.py`). That incident is
+(`research/manuscripts/program/target-route-options.md` §1.3; `nr4a3_exon_audit.py`). That incident is
 the reason this module exists in this shape, and the reason every boundary below carries its
 provenance rather than a remembered number.
 
@@ -904,7 +904,7 @@ def derive(inputs: dict) -> dict:
             "repository has been wrong about a fusion junction before — a committed artifact "
             "built from a stated Ensembl methodology was off by two exons and silently deleted "
             "NR4A3's AF-1 and the first zinc finger of its DNA-binding domain "
-            "(research/manuscripts/target-route-options.md §1.3). Every boundary here therefore "
+            "(research/manuscripts/program/target-route-options.md §1.3). Every boundary here therefore "
             "carries its provenance, and every construct carries self-checks a reader can audit "
             "before spending a cent.",
         "_assay_this_serves": {

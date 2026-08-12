@@ -27,7 +27,7 @@ last_verified: 2026-08-07
 ## 0 · The one-paragraph answer
 
 **The lane survives, and its headline sentence does not.**
-[`emc-unexplored-treatment-lanes.md` §3.1](../manuscripts/emc-unexplored-treatment-lanes.md#31--ret)
+[`emc-unexplored-treatment-lanes.md` §3.1](../manuscripts/program/emc-unexplored-treatment-lanes.md#31--ret)
 says *"RET in EMC passes the test MET in CCS failed."* Read against the primary sources, that is not
 supported: **the only report of RET *activation* in EMC is one sentence in one paywalled 2014
 abstract, over "a limited set of samples" of an n = 10 series, with no stated numerator and no

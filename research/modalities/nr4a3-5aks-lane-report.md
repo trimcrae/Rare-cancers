@@ -15,7 +15,7 @@ _backfilled: true
 # LANE 16 — RUNG 5a-KS, the ligand-side causal kill-switch
 
 > **What this rung is.** The preregistered Tier-3 test of the design ladder
-> ([paper §5](../manuscripts/nr4a3-degrader-paper.md)): a ligand-side double difference over one matched
+> ([paper §5](../manuscripts/degrader/nr4a3-degrader-paper.md)): a ligand-side double difference over one matched
 > molecule pair, asking whether a **designed element** *creates* paralogue discrimination.
 >
 > ```

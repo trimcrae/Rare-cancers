@@ -48,7 +48,7 @@ import sys
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "lit-targets-aso-delivery-routes.json")
+OUT = os.path.join(HERE, "aso", "lit-targets-aso-delivery-routes.json")
 BRANCH = "origin/literature-cache"
 
 CORPORA = [

@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ✓ ready · computed · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-4--the-ex-vivo-pan-nr4a-pole-car-t-manufacturing-additive)): ★ already in the paper as pole 2; under-used as an ARGUMENT
+**Grade** (owned by [`research/manuscripts/program/target-route-options.md`](../../research/manuscripts/program/target-route-options.md#route-4--the-ex-vivo-pan-nr4a-pole-car-t-manufacturing-additive)): ★ already in the paper as pole 2; under-used as an ARGUMENT
 
 ## What has to land for this route to move
 
@@ -74,7 +74,7 @@ It is already a pole of the lead manuscript. Its constraint is that no cellular 
 
 ## Where this route ends — the paper
 
-**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/nr4a3-degrader-paper.md)
+**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/degrader/nr4a3-degrader-paper.md)
 
 `contributing` · ◐ `drafted` · aimed at `journal_submission`
 

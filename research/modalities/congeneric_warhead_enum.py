@@ -3,7 +3,7 @@
 Focused CONGENERIC WARHEAD ENUMERATION for the NR4A3-selective-degrader program.
 
 This implements the "Warhead source" section of
-    research/manuscripts/nr4a3-degrader-strategy-ternary-first.md
+    research/manuscripts/degrader/nr4a3-degrader-strategy-ternary-first.md
 (Track B: selectivity from warhead x linker x E3 x ternary-interface geometry). It enumerates a small,
 curated, chemically-motivated congeneric set around the experimentally-anchored NR4A3 tool compound and
 emits it as a machine-readable design table for the downstream RBFE / ternary matrix.

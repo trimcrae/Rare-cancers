@@ -194,7 +194,7 @@ LITERATURE_TARGETS = [
                 "the fusion protein.' So a native-NR4A3 cistrome does not predict this target, and "
                 "a fusion target need not be a native one. ⚠ The direction of any PHARMACOLOGY on "
                 "this axis is NOT settled by this row and has its one home in "
-                "`research/manuscripts/pparg-direction-emc.md` §6.",
+                "`research/manuscripts/repurposing/pparg-direction-emc.md` §6.",
     },
     {
         "gene": "ENO3",
@@ -1864,7 +1864,7 @@ def _assemble_reads(res, sets):
                 "rather than an answer to it."),
             "the_abundance_question_is_elsewhere": "PPARG ABUNDANCE in EMC is already settled and "
                                                    "has one home: "
-                                                   "research/manuscripts/pparg-direction-emc.md "
+                                                   "research/manuscripts/repurposing/pparg-direction-emc.md "
                                                    "§6. This read is about ACTIVITY only.",
         },
     }
@@ -1918,7 +1918,7 @@ def _cannot_conclude():
                 "NR4A3 FUSION BINDS, OR WHAT CHROMATIN DOES, IN EMC MATERIAL — while the same "
                 "archives hold chromatin maps for EWSR1::WT1, EWSR1::ATF1, EWSR1::FLI1, "
                 "FUS::DDIT3 and, twice, HEY1::NCOA2. Search record: "
-                "research/manuscripts/nr4a3-cistrome-search-2026-08-08.md. "
+                "research/manuscripts/fusion-output/nr4a3-cistrome-search-2026-08-08.md. "
                 "⚠ THIS FIELD IS NOT YET IN THE COMMITTED nr4a3-fusion-targets.json — that "
                 "artifact is figure-stamped (research/manuscripts/figures/figure-provenance.json), "
                 "so hand-editing it would break the stamp that tells a reader whether a figure was "
@@ -1954,7 +1954,7 @@ def _cannot_conclude():
             "real and must be stated whenever this dataset is used.",
             "A knockdown or degradation of the fusion in a genuinely fusion-positive EMC model, "
             "with RNA-seq. No such experiment exists in the literature (see "
-            "research/manuscripts/nr4a3-emc-biology-evidence.md, 'the decisive gap'), and the one "
+            "research/manuscripts/degrader/nr4a3-emc-biology-evidence.md, 'the decisive gap'), and the one "
             "EMC line most used is recorded here as not carrying the fusion on the curated record.",
             "Fusion-type-stratified EMC expression data. Brenca et al. 2019 show class-3 vs "
             "class-4-6 semaphorins separating EWSR1- from TAF15-translocated EMC; neither readable "

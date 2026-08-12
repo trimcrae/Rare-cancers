@@ -234,7 +234,7 @@ def main() -> int:
         "asks": (
             "Is the view the transcriptional-output manuscript re-reads actually held by the field, "
             "or is the manuscript re-reading one or two papers nobody cites? Raised by trimcrae "
-            "2026-08-08 against research/manuscripts/nr4a3-fusion-transcriptional-output.md."
+            "2026-08-08 against research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md."
         ),
         "what_this_cannot_conclude": (
             "A hit count is not a reading of prose. A citing review is evidence that the anchor is "

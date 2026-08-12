@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ blocked · scoped · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 2, rank 4 — ASK, best W1 in the portfolio
+**Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md)): Tier 2, rank 4 — ASK, best W1 in the portfolio
 
 ## What has to land for this route to move
 
@@ -89,7 +89,7 @@ a complete, specified experimental proposal (emc-atri-prereg.md) — UNCOSTED. W
 
 ## Where this route ends — the paper
 
-**[PUB-ATR-PANEL-ASK](L3-publications.md)** — [Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay](../../research/manuscripts/emc-atr-collaborator-package.md)
+**[PUB-ATR-PANEL-ASK](L3-publications.md)** — [Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay](../../research/manuscripts/dependency/emc-atr-collaborator-package.md)
 
 `primary` · ◐ `drafted` · aimed at `experimental_proposal`
 

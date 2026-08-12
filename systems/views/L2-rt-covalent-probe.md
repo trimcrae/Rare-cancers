@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md#route-5--the-covalent-probe-at-c397-proposed-as-a-reagent---the-largest-single-demotion)): Tier 3 — the largest single demotion; D ≈ 0 and P is negative rather than merely absent
+**Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md#route-5--the-covalent-probe-at-c397-proposed-as-a-reagent---the-largest-single-demotion)): Tier 3 — the largest single demotion; D ≈ 0 and P is negative rather than merely absent
 
 ## What has to land for this route to move
 
@@ -107,7 +107,7 @@ Its in-silico half is not publishable BECAUSE its exposure instrument fails its 
 
 ## Where this route ends — the paper
 
-**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/nr4a3-degrader-paper.md)
+**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/degrader/nr4a3-degrader-paper.md)
 
 `contributing` · ◐ `drafted` · aimed at `journal_submission`
 

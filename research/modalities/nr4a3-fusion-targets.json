@@ -51,7 +51,7 @@
   },
   "2_what_would_discriminate": [
    "\u2605 A CISTROME IN THE RIGHT CELL. An NR4A3 ChIP-seq peak set with the FUSION expressed, intersected with these expression reads: a gene that is up in EMC AND carries a fusion-bound NBRE within its regulatory region is driven; a gene that is up with no peak is correlated. The nearest available dataset is Haller et al. 2019 (PMID 30664630) \u2014 NR4A3 ChIP-seq in three human AciCC tumours plus H3K27ac/H3K4me3/CTCF, processed data at Zenodo doi 10.5281/zenodo.1483691 (OPEN) and raw at EGA EGAS00001002795 (CONTROLLED ACCESS). \u26a0 AciCC carries NATIVE NR4A3 up-regulated by enhancer hijacking, NOT a fusion, so it answers 'where does the NR4A3 DBD go in a human tumour' and not 'where does EWSR1::NR4A3 go'. Given Filion's measurement that native NR4A3 does NOT activate the PPARG promoter the fusion activates, that gap is real and must be stated whenever this dataset is used.",
-   "A knockdown or degradation of the fusion in a genuinely fusion-positive EMC model, with RNA-seq. No such experiment exists in the literature (see research/manuscripts/nr4a3-emc-biology-evidence.md, 'the decisive gap'), and the one EMC line most used is recorded here as not carrying the fusion on the curated record.",
+   "A knockdown or degradation of the fusion in a genuinely fusion-positive EMC model, with RNA-seq. No such experiment exists in the literature (see research/manuscripts/degrader/nr4a3-emc-biology-evidence.md, 'the decisive gap'), and the one EMC line most used is recorded here as not carrying the fusion on the curated record.",
    "Fusion-type-stratified EMC expression data. Brenca et al. 2019 show class-3 vs class-4-6 semaphorins separating EWSR1- from TAF15-translocated EMC; neither readable series records which fusion each EMC sample carries, so that axis is unreadable here and every EMC arm below is a MIXTURE.",
    "Motif-level evidence at $0: an NBRE scan of the promoters of the genes that read high, against a matched background. That is sequence work, needs no new data, and is NOT done in this module \u2014 it is the obvious next free step."
   ],
@@ -339,7 +339,7 @@
      "NR4A3-deltaC (native truncated)"
     ],
     "gene": "PPARG",
-    "note": "\u2605\u2605 THE ROW THAT DISPROVES THE TRANSFER ASSUMPTION. Same paper, same reporter: 'the results show that both the native and truncated receptors do not activate PPARG transcription under the same conditions in which it is readily activated by the fusion protein.' So a native-NR4A3 cistrome does not predict this target, and a fusion target need not be a native one. \u26a0 The direction of any PHARMACOLOGY on this axis is NOT settled by this row and has its one home in `research/manuscripts/pparg-direction-emc.md` \u00a76.",
+    "note": "\u2605\u2605 THE ROW THAT DISPROVES THE TRANSFER ASSUMPTION. Same paper, same reporter: 'the results show that both the native and truncated receptors do not activate PPARG transcription under the same conditions in which it is readily activated by the fusion protein.' So a native-NR4A3 cistrome does not predict this target, and a fusion target need not be a native one. \u26a0 The direction of any PHARMACOLOGY on this axis is NOT settled by this row and has its one home in `research/manuscripts/repurposing/pparg-direction-emc.md` \u00a76.",
     "species_of_the_cells": "rat (the promoter construct is human)",
     "system": "CFK2 fetal RAT chondrogenic cells, stable EWSR1/NR4A3 lines (et2, et16, et19) and transient transfection of wild-type CFK2; HUMAN PPARG promoter construct",
     "verbatim": "Transient transfections of CFK2 cells with EWSR1/NR4A3 and the wild-type or mutated promoter clearly show that this single nucleotide change drastically reduces the ability of the fusion protein to activate transcription of PPARG. ... Thus, the PPARG promoter is a target of aberrant transactivation by the EWSR1/NR4A3 fusion protein in EMC tumors.",
@@ -34714,7 +34714,7 @@
     "pparg_chip_chea": "mouse",
     "pparg_curated_trrust_human": "human"
    },
-   "the_abundance_question_is_elsewhere": "PPARG ABUNDANCE in EMC is already settled and has one home: research/manuscripts/pparg-direction-emc.md \u00a76. This read is about ACTIVITY only."
+   "the_abundance_question_is_elsewhere": "PPARG ABUNDANCE in EMC is already settled and has one home: research/manuscripts/repurposing/pparg-direction-emc.md \u00a76. This read is about ACTIVITY only."
   }
  },
  "series_records": {

@@ -22,7 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE)) if os.path.basename(HERE) == "manu
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 ART = os.path.join(REPO, "research", "modalities", "apo-pose-recovery.json")
 SITE = os.path.join(REPO, "research", "modalities", "apo-pose-site-in-regime.json")
-OUT = os.path.join(HERE, "row4-pose-map-edits.json")
+OUT = os.path.join(HERE, "degrader", "row4-pose-map-edits.json")
 MAP = "research/manuscripts/nr4a3-program-map.md"
 
 

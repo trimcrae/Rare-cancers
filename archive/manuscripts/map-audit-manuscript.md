@@ -778,7 +778,7 @@ linter matches the token, not the polarity:
 structural points follow:
 
 1. **The map is not language-linted at all.** `lint_claims.py` `DEFAULT_TARGETS` (line 56) is exactly
-   `["research/manuscripts/nr4a3-degrader-paper.md", "research/manuscripts/nr4a3-degrader-paper-SI.md"]`. The
+   `["research/manuscripts/degrader/nr4a3-degrader-paper.md", "research/manuscripts/degrader/nr4a3-degrader-paper-SI.md"]`. The
    map **is** in `lint_consistency.py`'s target list (`pinned-figures.json` → `targets`, 12 files) and passes at
    **0 ERROR** — but that linter checks pinned-number consistency, not claim language. So the map's own
    `PASSES` / *"✓ strong, and already measured"* / *"the validated descriptor"* / *"Chemical basis: ✓ strong"*

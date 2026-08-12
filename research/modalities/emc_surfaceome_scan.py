@@ -346,7 +346,7 @@ def main():
                                      "carried the EMC label cannot carry it.",
             "verdict_source": "research/modalities/emc-atr-vulnerability.json -> "
                               "part_a_hemcss_identity (NOT_FUSION_POSITIVE_PER_CURATED_RECORD)",
-            "correction_home": "research/manuscripts/emc-surface-target-landscape.md "
+            "correction_home": "research/manuscripts/surface-targets/emc-surface-target-landscape.md "
                                "(Amendment 1, 2026-08-05)",
             "⚠_what_changed_on_2026_08_09": "Nothing about the correction. Only its PROVENANCE: it is "
                                             "now emitted by this module rather than patched onto the "

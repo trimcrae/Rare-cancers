@@ -116,9 +116,9 @@ def test_every_corrected_site_carries_the_pmid():
     """
     previously_wrong = [
         os.path.join("research", "IDEAS.md"),
-        os.path.join("research", "manuscripts", "emc-treatment-roadmap.md"),
-        os.path.join("research", "manuscripts", "degrader-vs-synthetic-lethal.md"),
-        os.path.join("research", "manuscripts", "target-route-options.md"),
+        os.path.join("research", "manuscripts", "program", "emc-treatment-roadmap.md"),
+        os.path.join("research", "manuscripts", "dependency", "degrader-vs-synthetic-lethal.md"),
+        os.path.join("research", "manuscripts", "program", "target-route-options.md"),
         os.path.join("research", "modalities", "nr4a3-degrader-design-spec.md"),
     ]
     missing = []

@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-RADIOLIGAND](L1-st-radioligand.md) · **state:** ○ blocked · concept · confidence unknown · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emerging-modalities-scan-emc.md`](../../research/manuscripts/emerging-modalities-scan-emc.md#2-fap-targeted-radioligand-therapy-fapi-rlt--emerging-plausibly-applies)): Emerging, plausible
+**Grade** (owned by [`research/manuscripts/modality-census/emerging-modalities-scan-emc.md`](../../research/manuscripts/modality-census/emerging-modalities-scan-emc.md#2-fap-targeted-radioligand-therapy-fapi-rlt--emerging-plausibly-applies)): Emerging, plausible
 
 ## What has to land for this route to move
 
@@ -100,7 +100,7 @@ Entirely unmeasured in EMC. The rationale is a plausible inference from the tumo
 
 ## Where this route ends — the paper
 
-**[PUB-SURFACE-TARGETS](L3-publications.md)** — [Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts](../../research/manuscripts/emc-surface-target-landscape.md)
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

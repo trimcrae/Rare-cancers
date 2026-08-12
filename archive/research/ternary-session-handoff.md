@@ -26,10 +26,10 @@ in the start prompt — fold it in before spending any GPU.)
    rule; **spot-GPU default** + pilot-one-leg-first + wait-out-spot-capacity; engineering-is-free;
    exhaust-self-doable-before-surfacing; and **every hand-off / outward step starts with a copyable
    reviewer-AI review block**.
-2. **research/manuscripts/nr4a3-degrader-strategy-ternary-first.md** — THE adopted strategy (ternary-first,
+2. **research/manuscripts/degrader/nr4a3-degrader-strategy-ternary-first.md** — THE adopted strategy (ternary-first,
    congeneric Zaienne-19 warheads, RBFE primary, ternary the central selectivity variable, two-tier promotion,
    de-prioritized routes).
-3. **research/manuscripts/nr4a3-congeneric-rbfe-plan.md** + **research/modalities/congeneric-rbfe-map.json** —
+3. **research/manuscripts/degrader/nr4a3-congeneric-rbfe-plan.md** + **research/modalities/congeneric-rbfe-map.json** —
    the binary RBFE perturbation map (pilot edge + pre-registered abort criteria).
 4. **research/modalities/nrv04-ternary-benchmark.json** → keys `descriptive_v3_result`, `review_v3_final`,
    `real_cif_smoke_result` — the NR-V04 retrospective control result + the analyzer's honest limits.

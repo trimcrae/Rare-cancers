@@ -81,7 +81,7 @@ The combination test was run and the combination is absent, but one half of it I
 
 ## Where this route ends — the paper
 
-**[PUB-BIOMARKER-DEP](L3-publications.md)** — [Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what the available expression data excludes](../../research/manuscripts/emc-biomarker-selected-classes.md)
+**[PUB-BIOMARKER-DEP](L3-publications.md)** — [Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what the available expression data excludes](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

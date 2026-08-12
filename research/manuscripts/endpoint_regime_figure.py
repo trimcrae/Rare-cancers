@@ -35,9 +35,9 @@ sys.path.insert(0, HERE)
 from endpoint_regime_map import (  # noqa: E402
     DESIGN_NULL, NO_DESIGN, n_for_90pct_chance_of_one_event, required_n_against_null)
 
-MAP = os.path.join(HERE, "endpoint-regime-map.json")
-OUT = os.path.join(HERE, "endpoint-regime-map.svg")
-OUT_REL = "research/manuscripts/endpoint-regime-map.svg"
+MAP = os.path.join(HERE, "endpoint", "endpoint-regime-map.json")
+OUT = os.path.join(HERE, "endpoint", "endpoint-regime-map.svg")
+OUT_REL = "research/manuscripts/endpoint/endpoint-regime-map.svg"
 
 W, H = 900, 560
 L, R, T, B = 88, 240, 46, 64          # margins; the right margin holds the legend

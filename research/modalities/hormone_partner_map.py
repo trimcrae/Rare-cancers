@@ -288,9 +288,9 @@ EXCLUDED = [
 # ── Reach. Denominators are OWNED by nr4a3-emc-biology-evidence.md; this file does not re-derive them.
 COHORTS = [
     {"cohort": "Modern Pathology 2023", "pmid": "36948401", "n": 58, "n_pgr": 0, "n_greb1": 0,
-     "owner": "research/manuscripts/nr4a3-emc-biology-evidence.md — Hypothesis 2, pillar 1"},
+     "owner": "research/manuscripts/degrader/nr4a3-emc-biology-evidence.md — Hypothesis 2, pillar 1"},
     {"cohort": "Agaram, Hum Pathol 2014", "pmcid": "PMC4015728", "n": 26, "n_pgr": 0, "n_greb1": 0,
-     "owner": "research/manuscripts/nr4a3-emc-biology-evidence.md — Hypothesis 2, pillar 1"},
+     "owner": "research/manuscripts/degrader/nr4a3-emc-biology-evidence.md — Hypothesis 2, pillar 1"},
 ]
 
 
@@ -451,7 +451,7 @@ def build() -> dict:
         "map_edits_required": [],
         "_why_map_edits_is_empty_here": (
             "Every edit this lane owes is routed through "
-            "research/manuscripts/nr2f1-hormone-lane-map-edits.json, which is the single file the "
+            "research/manuscripts/occupancy/nr2f1-hormone-lane-map-edits.json, which is the single file the "
             "map's owner applies. This lane adds a ROUTE, not a requirement: it changes no gate, no "
             "price, no rung and no claim ceiling on nr4a3-program-map.md, so it owes that page "
             "nothing."

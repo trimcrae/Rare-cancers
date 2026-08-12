@@ -89,17 +89,17 @@ omitted, and why `[L5]` reports the count.
 | **ART-DECOY-NULL-LBD** | `research/modalities/categorical-decoy-null-lbd.json` | `research/modalities/categorical_decoy_null.py` | `CLM-C397-DECOY-NULL`, [RT-COVALENT-PROBE](L2-rt-covalent-probe.md), [RT-DEGRADER](L2-rt-degrader.md) |
 | **ART-DEPMAP-SARCOMA-DEP** | `research/modalities/depmap-sarcoma-dependency.json` | `research/modalities/depmap_sarcoma_dependency.py` | [RT-ALK-HIT](L2-rt-alk-hit.md), [RT-CHAPERONE](L2-rt-chaperone.md), [RT-DNAPK](L2-rt-dnapk.md), [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) |
 | **ART-EMC-CLINICAL-REGISTRY** | `research/data/emc-clinical-registry.json` | `hand-curated from published literature; ingestion via scripts/fetch-paper.mjs + scripts/triage-literature.mjs` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md), [RT-ICI-TKI](L2-rt-ici-tki.md), [RT-PARTNER-STRAT](L2-rt-partner-strat.md), [RT-TRABECTEDIN](L2-rt-trabectedin.md) |
-| **ART-EMC-ENDPOINT-DISCORDANCE** | `research/manuscripts/emc-endpoint-discordance.json` | `research/manuscripts/emc_endpoint_discordance.py (stdlib only, CPU, $0; --check re-derives and refuses to write on any drift)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
+| **ART-EMC-ENDPOINT-DISCORDANCE** | `research/manuscripts/endpoint/emc-endpoint-discordance.json` | `research/manuscripts/emc_endpoint_discordance.py (stdlib only, CPU, $0; --check re-derives and refuses to write on any drift)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
 | **ART-EMC-EXPRESSION-PANELS** | `research/modalities/emc-expression-panels.json` | `research/modalities/emc_expression_panels.py` | ⚠ **nothing** |
 | **ART-EMC-RT-LUNG-METS** | `research/literature/emc-rt-lung-mets-findings.json` | `scripts/lit_rt_probe.py, plus hand curation of the retrieved full texts` | [RT-MDT-LUNG](L2-rt-mdt-lung.md) |
-| **ART-ENDPOINT-CORPUS** | `research/manuscripts/endpoint-corpus.json` | `research/manuscripts/endpoint_corpus.py (stdlib only, CPU, $0; --check re-derives from the literature-cache extraction and refuses to write on drift)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
-| **ART-ENDPOINT-ORR-DCR-REREAD** | `research/manuscripts/orr-dcr-reread.json` | `research/manuscripts/orr_dcr_reread.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
-| **ART-ENDPOINT-PLACEBO-CALIBRATION** | `research/manuscripts/placebo-arm-calibration.json` | `research/manuscripts/placebo_arm_calibration.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
-| **ART-ENDPOINT-PRIOR-ART-AUDIT** | `research/manuscripts/endpoint-prior-art-audit.json` | `research/manuscripts/endpoint_prior_art_audit.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
-| **ART-ENDPOINT-REGIME-MAP** | `research/manuscripts/endpoint-regime-map.json` | `research/manuscripts/endpoint_regime_map.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
+| **ART-ENDPOINT-CORPUS** | `research/manuscripts/endpoint/endpoint-corpus.json` | `research/manuscripts/endpoint_corpus.py (stdlib only, CPU, $0; --check re-derives from the literature-cache extraction and refuses to write on drift)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
+| **ART-ENDPOINT-ORR-DCR-REREAD** | `research/manuscripts/endpoint/orr-dcr-reread.json` | `research/manuscripts/orr_dcr_reread.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
+| **ART-ENDPOINT-PLACEBO-CALIBRATION** | `research/manuscripts/endpoint/placebo-arm-calibration.json` | `research/manuscripts/placebo_arm_calibration.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
+| **ART-ENDPOINT-PRIOR-ART-AUDIT** | `research/manuscripts/endpoint/endpoint-prior-art-audit.json` | `research/manuscripts/endpoint_prior_art_audit.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
+| **ART-ENDPOINT-REGIME-MAP** | `research/manuscripts/endpoint/endpoint-regime-map.json` | `research/manuscripts/endpoint_regime_map.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
 | **ART-FET-TRIAL-ELIGIBILITY** | `research/literature/fet-fusion-trial-eligibility-2026-08-07.json` | `a ClinicalTrials.gov API v2 sweep read into JSON from the literature-cache corpus` | [RT-TRIAL-REACH](L2-rt-trial-reach.md) |
 | **ART-FUSION-OBJECT-INVENTORY** | `research/modalities/fusion-object-inventory.json` | `research/modalities/fusion_object_inventory.py` | `CLM-BREAKPOINT-FILTER`, `OBJ-EWSR1-WT`, `OBJ-NR4A3-WT`, [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md), [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) |
-| **ART-FUSION-PARTNER-POOLING** | `research/manuscripts/emc-fusion-partner-pooling.json` | `research/manuscripts/emc_fusion_partner_pooling.py` | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) |
+| **ART-FUSION-PARTNER-POOLING** | `research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json` | `research/manuscripts/emc_fusion_partner_pooling.py` | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) |
 | **ART-GSE28866-TUMOUR-VS-NORMAL** | `research/modalities/gse28866-tumour-vs-normal.json` | `the GSE28866 supplementary peak-table read (emc-expression-datasets.yml)` | ⚠ **nothing** |
 | **ART-HLA-COVERAGE** | `research/modalities/hla-coverage.json` | `research/modalities/hla_coverage.py` | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md), [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md), [RT-TCRT-CTA](L2-rt-tcrt-cta.md), [RT-VACCINE](L2-rt-vaccine.md) |
 | **ART-HORMONE-PARTNER-LANE** | `research/modalities/hormone-partner-lane.json` | `research/modalities/hormone_partner_map.py` | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) |
@@ -115,7 +115,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-RET-ACTIVATION-BAR** | `research/modalities/emc-ret-activation-bar.json` | `a Europe PMC retrieval read into JSON by hand from the literature-cache corpus` | [RT-RET](L2-rt-ret.md) |
 | **ART-SELCAL-VERDICT** | `research/modalities/selcal-verdict.json` | `research/modalities/selcal_cofold_validate.py` | [LANE-22](registers/lanes.md) |
 | **ART-SURFACE-EXPRESSION** | `research/modalities/emc-surfaceome-scan.json` | `research/modalities/emc_surfaceome_scan.py` | [RT-B7H3](L2-rt-b7h3.md) |
-| **ART-SYSTEMIC-THERAPY-POOLING** | `research/manuscripts/emc-systemic-therapy-pooling.json` | `research/manuscripts/emc_systemic_therapy_pooling.py` | [RT-SCHEDULING](L2-rt-scheduling.md), [RT-SEQUENCING](L2-rt-sequencing.md) |
+| **ART-SYSTEMIC-THERAPY-POOLING** | `research/manuscripts/endpoint/emc-systemic-therapy-pooling.json` | `research/manuscripts/emc_systemic_therapy_pooling.py` | [RT-SCHEDULING](L2-rt-scheduling.md), [RT-SEQUENCING](L2-rt-sequencing.md) |
 | **ART-TARGET-ROUTE-CENSUS** | `research/modalities/target-route-census.json` | `research/modalities/target_route_census.py` | `CLM-AF1-LC-SWAP`, `CLM-FUSION-MODEL-DISAGREEMENT`, `OBJ-NR4A3-AF1`, `OBJ-NR4A3-DBD`, [RT-6MP](L2-rt-6mp.md), [RT-ASYMMETRIC](L2-rt-asymmetric.md), [RT-DBD](L2-rt-dbd.md), [RT-RXR](L2-rt-rxr.md) |
 | **ART-TCIP-REACH** | `research/modalities/nr4a3-tcip-reach.json` | `research/modalities/nr4a3_tcip_reach.py` | [RT-TCIP](L2-rt-tcip.md) |
 | **ART-TRIAL-REACH-ADJUDICATION** | `research/literature/emc-trial-reachability-adjudication-2026-08-09.json` | `per-trial ClinicalTrials.gov API v2 reads, adjudicated against the eligibility text and quoted verbatim` | [RT-TRIAL-REACH](L2-rt-trial-reach.md) |
@@ -129,20 +129,20 @@ omitted, and why `[L5]` reports the count.
 
 | claim | document · locator | rests on | field |
 |---|---|---|---|
-| **CLM-AF1-LC-SWAP** | `research/manuscripts/emc-post-degrader-options.md`<br/>the 6-MP closure — 'NOR-1 residues 1–112 sit entirely inside the stretch the fusion replaces' | **ART-TARGET-ROUTE-CENSUS** | `/af1_to_lc_swap` |
+| **CLM-AF1-LC-SWAP** | `research/manuscripts/program/emc-post-degrader-options.md`<br/>the 6-MP closure — 'NOR-1 residues 1–112 sit entirely inside the stretch the fusion replaces' | **ART-TARGET-ROUTE-CENSUS** | `/af1_to_lc_swap` |
 | **CLM-APO-SITE-IN-REGIME** | `research/manuscripts/nr4a3-program-map.md`<br/>V3's row — the in-regime site panel by two independent transfer routes | **ART-APO-POSE-SITE** | `/site_panel_in_regime` |
-| **CLM-ATRI-GDSC** | `research/manuscripts/emc-post-degrader-options.md`<br/>the ATRi-contrast section — the GDSC2 re-cut by FET status | **ART-DDR-AXIS-SCAN** | `/atr_inhibitor_sensitivity_gdsc/by_drug` |
+| **CLM-ATRI-GDSC** | `research/manuscripts/program/emc-post-degrader-options.md`<br/>the ATRi-contrast section — the GDSC2 re-cut by FET status | **ART-DDR-AXIS-SCAN** | `/atr_inhibitor_sensitivity_gdsc/by_drug` |
 | **CLM-BREAKPOINT-FILTER** | `research/modalities/fusion-object-inventory.md`<br/>'Which chimeras are possible, and which are plausible' | **ART-FUSION-OBJECT-INVENTORY** | `/plausible_breakpoints/n_after_DBD_filter` |
 | **CLM-C397-DECOY-NULL** | `research/manuscripts/nr4a3-program-map.md`<br/>V17's row — the second, independently pre-registered decoy-null scope that DOES contain C397 | **ART-DECOY-NULL-LBD** | `/results` |
-| **CLM-CONSTRUCT-FRAME** | `research/manuscripts/emc-atr-collaborator-package.md`<br/>§7.2 'The four constructs — all four are in frame' | **ART-CONSTRUCT-DESIGNS** | `/n_constructs_in_frame` |
-| **CLM-CONSTRUCT-TCF12** | `research/manuscripts/emc-atr-collaborator-package.md`<br/>§7.4 'TCF12 — the negative control checked out' | **ART-CONSTRUCT-DESIGNS** | `/tcf12_negative_control` |
-| **CLM-FUSION-MODEL-DISAGREEMENT** | `research/manuscripts/target-route-options.md`<br/>§1.3 'the repo held two incompatible models of the fusion protein' | **ART-TARGET-ROUTE-CENSUS** | `/fusion_model_disagreement` |
+| **CLM-CONSTRUCT-FRAME** | `research/manuscripts/dependency/emc-atr-collaborator-package.md`<br/>§7.2 'The four constructs — all four are in frame' | **ART-CONSTRUCT-DESIGNS** | `/n_constructs_in_frame` |
+| **CLM-CONSTRUCT-TCF12** | `research/manuscripts/dependency/emc-atr-collaborator-package.md`<br/>§7.4 'TCF12 — the negative control checked out' | **ART-CONSTRUCT-DESIGNS** | `/tcf12_negative_control` |
+| **CLM-FUSION-MODEL-DISAGREEMENT** | `research/manuscripts/program/target-route-options.md`<br/>§1.3 'the repo held two incompatible models of the fusion protein' | **ART-TARGET-ROUTE-CENSUS** | `/fusion_model_disagreement` |
 | **CLM-IDR-COMPARATIVE** | `research/IDEAS.md`<br/>the ATR route row's 'structural precondition is COMPUTED and it holds' sentence | **ART-IDR-CENSUS** | `/emc_vs_measured_fusions_comparative/rows` |
-| **CLM-IDR-CONTROLS** | `research/manuscripts/emc-post-degrader-options.md`<br/>the positive-control rows beside it (the fusions in which ATM suppression was MEASURED) | **ART-IDR-CENSUS** | `/positive_controls_pass` |
-| **CLM-IDR-EMC** | `research/manuscripts/emc-post-degrader-options.md`<br/>route 1's RGG-retention table row for EWSR1::NR4A3 | **ART-IDR-CENSUS** | `/emc_canonical_EWSR1_NR4A3/rg_dipeptides_retained` |
-| **CLM-KO-SATURATION** | `research/manuscripts/emc-post-degrader-options.md`<br/>the DepMap knockout scan reported as a FAILED instrument | **ART-DDR-AXIS-SCAN** | `/knockout_instrument_saturation` |
-| **CLM-MONOVALENT-CROSSCHECK** | `research/manuscripts/nr4a3-monovalent-pocket-route.md`<br/>§3 'its bivalent half replicates the committed artifact cell-for-cell' | **ART-MONOVALENT-REACH** | `/cross_checks` |
-| **CLM-MONOVALENT-VERDICT** | `research/manuscripts/nr4a3-monovalent-pocket-route.md`<br/>§3 'The result' — the E3-arm-free reach enumeration | **ART-MONOVALENT-REACH** | `/verdict/answer_on_the_conservative_convention` |
+| **CLM-IDR-CONTROLS** | `research/manuscripts/program/emc-post-degrader-options.md`<br/>the positive-control rows beside it (the fusions in which ATM suppression was MEASURED) | **ART-IDR-CENSUS** | `/positive_controls_pass` |
+| **CLM-IDR-EMC** | `research/manuscripts/program/emc-post-degrader-options.md`<br/>route 1's RGG-retention table row for EWSR1::NR4A3 | **ART-IDR-CENSUS** | `/emc_canonical_EWSR1_NR4A3/rg_dipeptides_retained` |
+| **CLM-KO-SATURATION** | `research/manuscripts/program/emc-post-degrader-options.md`<br/>the DepMap knockout scan reported as a FAILED instrument | **ART-DDR-AXIS-SCAN** | `/knockout_instrument_saturation` |
+| **CLM-MONOVALENT-CROSSCHECK** | `research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md`<br/>§3 'its bivalent half replicates the committed artifact cell-for-cell' | **ART-MONOVALENT-REACH** | `/cross_checks` |
+| **CLM-MONOVALENT-VERDICT** | `research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md`<br/>§3 'The result' — the E3-arm-free reach enumeration | **ART-MONOVALENT-REACH** | `/verdict/answer_on_the_conservative_convention` |
 
 ## Where this sits
 

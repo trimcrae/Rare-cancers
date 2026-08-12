@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ ready · computed · confidence low · verified 2026-08-08
 
-**Grade** (owned by [`research/manuscripts/emc-fusion-partner-stratification.md`](../../research/manuscripts/emc-fusion-partner-stratification.md#5--what-this-synthesis-claims-and-what-it-does-not)): The portfolio's only patient-SELECTION route: it proposes no new agent and no new modality, and asks instead which existing patients the one active drug class is reported to work in. Its finding is a DIRECTION with no established magnitude, and its deliverable - a pooled synthesis plus a costless ask of the field - is complete and unblocked.
+**Grade** (owned by [`research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md`](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md#5--what-this-synthesis-claims-and-what-it-does-not)): The portfolio's only patient-SELECTION route: it proposes no new agent and no new modality, and asks instead which existing patients the one active drug class is reported to work in. Its finding is a DIRECTION with no established magnitude, and its deliverable - a pooled synthesis plus a costless ask of the field - is complete and unblocked.
 
 ## What has to land for this route to move
 
@@ -91,7 +91,7 @@ EMC has one systemic class with reproducible activity - the antiangiogenic TKIs 
 
 **`preprint`**
 
-The synthesis is complete and reproducible, and nothing blocks posting it. What holds it below a journal submission is not the writing but the evidence base: the RESPONSE analysis rests on a single trial's three-patient stratum with zero events, and the per-arm denominators for both TKI cohorts were read from secondary sources because neither primary full text is open access. ⚠ Superseded, retained: 'and the outcome analysis is one cohort of 23. A reviewer would be right to ask for the three paywalled tables' - the outcome analysis became two non-overlapping cohorts and 73 patients on 2026-08-08 when Huang 2023's Table 1 was read, and one of the three tables is off the list because it was never paywalled. The prognostic half is materially stronger than it was; the response half is where it was, and that is what still caps this at a preprint. Two items that used to sit in `missing` were resolved on 2026-08-08 and are recorded where they belong rather than restated here: `resolved_2026_08_08` in research/manuscripts/emc-fusion-partner-pooling.json, and research/manuscripts/partner-event-counts-2026-08-08.md s0.
+The synthesis is complete and reproducible, and nothing blocks posting it. What holds it below a journal submission is not the writing but the evidence base: the RESPONSE analysis rests on a single trial's three-patient stratum with zero events, and the per-arm denominators for both TKI cohorts were read from secondary sources because neither primary full text is open access. ⚠ Superseded, retained: 'and the outcome analysis is one cohort of 23. A reviewer would be right to ask for the three paywalled tables' - the outcome analysis became two non-overlapping cohorts and 73 patients on 2026-08-08 when Huang 2023's Table 1 was read, and one of the three tables is off the list because it was never paywalled. The prognostic half is materially stronger than it was; the response half is where it was, and that is what still caps this at a preprint. Two items that used to sit in `missing` were resolved on 2026-08-08 and are recorded where they belong rather than restated here: `resolved_2026_08_08` in research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json, and research/manuscripts/fusion-partner/partner-event-counts-2026-08-08.md s0.
 
 **Missing:**
 - a non-zero TAF15 event count on the RESPONSE endpoint - the entire published TAF15::NR4A3 antiangiogenic-TKI experience is 3-5 patients with ZERO responses, and a zero-event arm yields no magnitude at any denominator. This is now the route's ONLY hard evidence gap and no re-reading of an existing report can close it
@@ -104,7 +104,7 @@ The synthesis is complete and reproducible, and nothing blocks posting it. What 
 
 ## Where this route ends — the paper
 
-**[PUB-FUSION-PARTNER](L3-publications.md)** — [Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a partner-stratified pooled synthesis](../../research/manuscripts/emc-fusion-partner-stratification.md)
+**[PUB-FUSION-PARTNER](L3-publications.md)** — [Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a partner-stratified pooled synthesis](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 
@@ -135,7 +135,7 @@ The analysis is done, the artifact is committed and reproducible, and the delive
 
 ## Best next action
 
-Post the preprint at research/manuscripts/emc-fusion-partner-stratification.md, and in the same pass send the three paywalled-table requests named in its section 6 to the corresponding authors.
+Post the preprint at research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md, and in the same pass send the three paywalled-table requests named in its section 6 to the corresponding authors.
 
 *Cost:* $0
 

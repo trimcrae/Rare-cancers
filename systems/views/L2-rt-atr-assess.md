@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ ready · computed · confidence low · verified 2026-08-06
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 1, rank 3 — DELIVERABLE
+**Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md)): Tier 1, rank 3 — DELIVERABLE
 
 ## What has to land for this route to move
 
@@ -105,7 +105,7 @@ It is computationally complete on its own axis, and its limit — that this is c
 
 ## Where this route ends — the paper
 
-**[PUB-ATR](L3-publications.md)** — [The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/emc-atr-vulnerability-assessment.md)
+**[PUB-ATR](L3-publications.md)** — [The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

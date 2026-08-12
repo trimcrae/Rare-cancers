@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-STRATEGY](L1-st-strategy.md) · **state:** ✓ blocked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/emc-systemic-therapy-pooling.json`](../../research/manuscripts/emc-systemic-therapy-pooling.json)): ⚠ THE INPUT THE ROUTE NAMED DOES NOT EXIST AND MUST NOT BE BUILT (2026-08-09). The route's next step was 'build the scheduling model on the pooled progression-free-survival data already curated here'. ⛔ There is no pooled PFS and there cannot be one: the repository's evidence contract refuses to merge time-anchored endpoints, and the systemic pooling artifact refuses that pool explicitly rather than by omission. ⭐ What DOES exist is four EMC-specific medians that must be carried separately — two with confidence intervals, one with an observed range only, and one printed by its source with NO interval, NO range and NO number at risk. That is exactly a parameters-as-intervals model with one parameter that has no interval at all, which is a stronger specification than the pooled figure would have been. ⭐⭐ AND THE ROUTE ACQUIRES A SECOND, SHARPER CLAIM: four PFS figures circulate in this disease's literature attributed to agents that did not produce them — including one that is a median FOLLOW-UP quoted as a median PFS, from a paper whose own text says PFS was not reached.
+**Grade** (owned by [`research/manuscripts/endpoint/emc-systemic-therapy-pooling.json`](../../research/manuscripts/endpoint/emc-systemic-therapy-pooling.json)): ⚠ THE INPUT THE ROUTE NAMED DOES NOT EXIST AND MUST NOT BE BUILT (2026-08-09). The route's next step was 'build the scheduling model on the pooled progression-free-survival data already curated here'. ⛔ There is no pooled PFS and there cannot be one: the repository's evidence contract refuses to merge time-anchored endpoints, and the systemic pooling artifact refuses that pool explicitly rather than by omission. ⭐ What DOES exist is four EMC-specific medians that must be carried separately — two with confidence intervals, one with an observed range only, and one printed by its source with NO interval, NO range and NO number at risk. That is exactly a parameters-as-intervals model with one parameter that has no interval at all, which is a stronger specification than the pooled figure would have been. ⭐⭐ AND THE ROUTE ACQUIRES A SECOND, SHARPER CLAIM: four PFS figures circulate in this disease's literature attributed to agents that did not produce them — including one that is a median FOLLOW-UP quoted as a median PFS, from a paper whose own text says PFS was not reached.
 
 ## What has to land for this route to move
 
@@ -60,7 +60,7 @@ The model has not been built. What changed is that its specification is now corr
 
 ## Where this route ends — the paper
 
-**[PUB-STRATEGY-ARCH](L3-publications.md)** — [Eligible but unfindable — trials that admit an ultra-rare sarcoma while listing conditions that never name it](../../research/manuscripts/emc-trial-reachability.md)
+**[PUB-STRATEGY-ARCH](L3-publications.md)** — [Eligible but unfindable — trials that admit an ultra-rare sarcoma while listing conditions that never name it](../../research/manuscripts/care-delivery/emc-trial-reachability.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

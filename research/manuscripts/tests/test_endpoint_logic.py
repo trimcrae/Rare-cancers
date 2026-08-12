@@ -206,7 +206,7 @@ def test_the_share_below_the_design_contour_excludes_undefined_conditions():
     """Regression on the wrong headline: 16 of 44 conditions have an undefined comparison, and
     counting them in the denominator understated the finding as 31.8% instead of 50.0%."""
     import json
-    with open(os.path.join(MANUSCRIPTS, "endpoint-regime-map.json")) as fh:
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "endpoint-regime-map.json")) as fh:
         g = json.load(fh)["G4_what_the_map_reads"]
     defined = g["conditions_where_the_design_comparison_is_defined"]
     below = g["conditions_whose_median_trial_is_below_the_design_contour"]
@@ -218,7 +218,7 @@ def test_the_share_below_the_design_contour_excludes_undefined_conditions():
 
 def _census():
     import json
-    with open(os.path.join(MANUSCRIPTS, "endpoint-corpus.json")) as fh:
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "endpoint-corpus.json")) as fh:
         doc = json.load(fh)
     return doc["C3_dispositions"], doc["C3b_census_denominator_decomposed"]
 
@@ -247,7 +247,7 @@ def test_the_narrow_denominator_is_the_stricter_test_and_the_paper_leads_with_it
     _, dec = _census()
     assert (dec["best_overall_response_family"]["share_not_re_readable_pct"]
             <= dec["placebo_arm_family"]["share_not_re_readable_pct"])
-    with open(os.path.join(MANUSCRIPTS, "response-endpoint-indolent-tumours.md"),
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "response-endpoint-indolent-tumours.md"),
               encoding="utf-8") as fh:
         abstract = fh.read().split("## Abstract", 1)[1].split("## 1. Background", 1)[0]
     assert str(dec["best_overall_response_family"]["share_not_re_readable_pct"]) in abstract, (
@@ -278,7 +278,7 @@ def test_the_distinct_trial_count_equals_the_corpus_trial_count():
     property POLICY-evidence 2.6(h) requires.
     """
     import json
-    with open(os.path.join(MANUSCRIPTS, "endpoint-corpus.json")) as fh:
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "endpoint-corpus.json")) as fh:
         doc = json.load(fh)
     assert (doc["C3b_census_denominator_decomposed"]["records_versus_distinct_trials"]
             ["distinct_ncts_with_a_four_cell_block"] == doc["C6_counts"]["distinct_trials"])
@@ -288,7 +288,7 @@ def test_the_distinct_trial_count_equals_the_corpus_trial_count():
 
 def _regime():
     import json
-    with open(os.path.join(MANUSCRIPTS, "endpoint-regime-map.json")) as fh:
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "endpoint-regime-map.json")) as fh:
         return json.load(fh)
 
 
@@ -348,7 +348,7 @@ def test_the_zero_event_result_is_withdrawn_and_its_named_list_is_gone():
         "3.2's withdrawal should be revisited rather than left standing")
     assert zhi > zlo
 
-    with open(os.path.join(MANUSCRIPTS, "response-endpoint-indolent-tumours.md"),
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "response-endpoint-indolent-tumours.md"),
               encoding="utf-8") as fh:
         paper = fh.read()
     body = paper.split("## Appendix A", 1)[0]
@@ -361,7 +361,7 @@ def test_the_zero_event_result_is_withdrawn_and_its_named_list_is_gone():
 
 def test_the_manuscript_reports_the_bound_and_not_only_the_point_estimate():
     """A bound computed and not stated is a bound nobody has."""
-    with open(os.path.join(MANUSCRIPTS, "response-endpoint-indolent-tumours.md"),
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "response-endpoint-indolent-tumours.md"),
               encoding="utf-8") as fh:
         paper = fh.read()
     lo, hi = _regime()["G4b_the_accrual_axis_is_two_populations"][
@@ -383,7 +383,7 @@ def test_the_covered_domain_count_is_split_by_evidence_grade():
     count is what gets quoted.
     """
     import json
-    with open(os.path.join(MANUSCRIPTS, "endpoint-prior-art-audit.json")) as fh:
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "endpoint-prior-art-audit.json")) as fh:
         a4 = json.load(fh)["A4_diseases_with_an_endorsed_alternative"]
     split = a4["⚠_covered_is_not_uniformly_endorsed"]
     assert (split["domains_with_a_consensus_guideline"]
@@ -392,7 +392,7 @@ def test_the_covered_domain_count_is_split_by_evidence_grade():
                   if k not in ("consensus_guideline", "single_trial_precedent"))
             == a4["count"]), "the grade split must account for every covered domain"
 
-    with open(os.path.join(MANUSCRIPTS, "response-endpoint-indolent-tumours.md"),
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "response-endpoint-indolent-tumours.md"),
               encoding="utf-8") as fh:
         abstract = fh.read().split("## Abstract", 1)[1].split("\n---\n", 1)[0]
     assert "endorsed across" not in abstract, (
@@ -408,7 +408,7 @@ def test_the_thinness_of_the_coverage_is_recorded():
     presence is, which is the reading a reader needs to weigh "12 domains".
     """
     import json
-    with open(os.path.join(MANUSCRIPTS, "endpoint-prior-art-audit.json")) as fh:
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "endpoint-prior-art-audit.json")) as fh:
         a4 = json.load(fh)["A4_diseases_with_an_endorsed_alternative"]
     split = a4["⚠_covered_is_not_uniformly_endorsed"]
     per = split["documents_per_domain"]
@@ -420,7 +420,7 @@ def test_the_thinness_of_the_coverage_is_recorded():
 
 def _sens():
     import json
-    with open(os.path.join(MANUSCRIPTS, "orr-dcr-reread.json")) as fh:
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "orr-dcr-reread.json")) as fh:
         return json.load(fh)
 
 
@@ -489,7 +489,7 @@ def test_no_committed_file_claims_the_strata_were_pre_specified():
     sens = _sens()["R4_sensitivities"]
     assert any("NOT_pre_specified" in k for k in sens), (
         "R4 must state that its strata were not pre-specified")
-    with open(os.path.join(MANUSCRIPTS, "lit-targets-cross-disease-endpoints.json")) as fh:
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "lit-targets-cross-disease-endpoints.json")) as fh:
         protocol = fh.read().lower()
     for word in ("stratum", "strata", "stratif"):
         assert word not in protocol, (
@@ -509,7 +509,7 @@ def test_the_figure_and_the_artifact_compute_the_same_expectation():
     """
     import json
     import endpoint_result_figures as F
-    with open(os.path.join(MANUSCRIPTS, "orr-dcr-reread.json")) as fh:
+    with open(os.path.join(MANUSCRIPTS, "endpoint", "orr-dcr-reread.json")) as fh:
         rr = json.load(fh)
     rows = rr["R2_per_arm_rows"]
     bands = rr["R8_zero_response_readouts"]["disjoint_bins_observed_against_binomial"]["bands"]

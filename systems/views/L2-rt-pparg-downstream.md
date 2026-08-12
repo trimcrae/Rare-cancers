@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ blocked · concept · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-5--downstream-of-the-fusion-pparg-and-the-transactivated-nodes)): ★ keep, unblock cheaply
+**Grade** (owned by [`research/manuscripts/program/target-route-options.md`](../../research/manuscripts/program/target-route-options.md#route-5--downstream-of-the-fusion-pparg-and-the-transactivated-nodes)): ★ keep, unblock cheaply
 
 ## What has to land for this route to move
 
@@ -49,14 +49,14 @@ If the fusion drives its phenotype partly through PPARγ signalling, then an app
 
 ## Remaining unknowns
 
-- The direction is unresolved rather than refuted, and the reason is NOT absence of study: the two EMC expression studies that report PPARG proposed OPPOSITE directions from the same observation (Subramanian 2005 → PPARG inhibitors; Filion 2009 → PPARG agonists), and the single functional test favouring agonism was run in H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed). ⚠ The redundancy clause is WITHDRAWN — it is not in the source it cited, and Filion et al. argue the opposite in their own discussion. One home: research/manuscripts/pparg-direction-emc.md
+- The direction is unresolved rather than refuted, and the reason is NOT absence of study: the two EMC expression studies that report PPARG proposed OPPOSITE directions from the same observation (Subramanian 2005 → PPARG inhibitors; Filion 2009 → PPARG agonists), and the single functional test favouring agonism was run in H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed). ⚠ The redundancy clause is WITHDRAWN — it is not in the source it cited, and Filion et al. argue the opposite in their own discussion. One home: research/manuscripts/repurposing/pparg-direction-emc.md
 - The in-vivo evidence for agonism (Higuchi 2023) uses H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed); whether the MOUSE experiment used that line is UNREAD — the paper is not open access and its full text has not been retrieved.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A literature read of the PPARγ-axis direction in EMC (agonism vs antagonism) via the Europe PMC CI lane — ✅ DONE 2026-08-06, research/manuscripts/pparg-direction-emc.md: UNRESOLVED, leaning agonism, tier T1 with a model-identity caveat | ⛔ none built | yes | — |
+| A literature read of the PPARγ-axis direction in EMC (agonism vs antagonism) via the Europe PMC CI lane — ✅ DONE 2026-08-06, research/manuscripts/repurposing/pparg-direction-emc.md: UNRESOLVED, leaning agonism, tier T1 with a model-identity caveat | ⛔ none built | yes | — |
 | A PPARγ TARGET-GENE (activity) readout in EMC. ⚠ Re-scoped from abundance: abundance is already measured twice and concordantly (Subramanian 2005, Filion 2009); receptor ACTIVITY is what the direction turns on and has never been measured by anyone | ⛔ none built | **no** | BLK-NO-EMC-DATA |
 
 ## Blockers
@@ -85,11 +85,11 @@ If the fusion drives its phenotype partly through PPARγ signalling, then an app
 Its central premise is directionally unresolved. Publishing a repurposing hypothesis whose sign is unknown would be exactly the over-claim the language rules exist to prevent.
 
 **Missing:**
-- a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md
+- a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/repurposing/pparg-direction-emc.md
 
 ## Where this route ends — the paper
 
-**[PUB-REPURPOSING](L3-publications.md)** — [Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma: a graded candidate menu from three independent generation methods](../../research/manuscripts/repurposing-hypotheses.md)
+**[PUB-REPURPOSING](L3-publications.md)** — [Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma: a graded candidate menu from three independent generation methods](../../research/manuscripts/repurposing/repurposing-hypotheses.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 
@@ -123,7 +123,7 @@ One cheap measurement settles it, and no amount of reasoning substitutes for the
 
 ## Best next action
 
-The literature half is CLOSED (research/manuscripts/pparg-direction-emc.md). What remains is a PPARγ activity readout in EMC, which is blocked by BLK-NO-EMC-DATA — not by an unrun literature pull.
+The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-emc.md). What remains is a PPARγ activity readout in EMC, which is blocked by BLK-NO-EMC-DATA — not by an unrun literature pull.
 
 *Cost:* $0
 

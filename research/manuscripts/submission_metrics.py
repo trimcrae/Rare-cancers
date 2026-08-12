@@ -57,10 +57,10 @@ VENUES = {
 }
 
 MANUSCRIPTS = {
-    "emc-mtap-prmt5-hypothesis.md": "GCC-Research-Article",
-    "emc-atr-collaborator-package.md": "GCC-Research-Article",
-    "repurposing-hypotheses.md": "CROH-Review",
-    "emc-surface-target-landscape.md": "BJC-Article",
+    "mtap-prmt5/emc-mtap-prmt5-hypothesis.md": "GCC-Research-Article",
+    "dependency/emc-atr-collaborator-package.md": "GCC-Research-Article",
+    "repurposing/repurposing-hypotheses.md": "CROH-Review",
+    "surface-targets/emc-surface-target-landscape.md": "BJC-Article",
 }
 
 #: Headings that end the main text. Matched case-insensitively at any heading level.

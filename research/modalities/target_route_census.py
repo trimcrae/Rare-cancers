@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Domain-resolved census behind `manuscripts/target-route-options.md` (CPU, stdlib only, $0).
+"""Domain-resolved census behind `manuscripts/program/target-route-options.md` (CPU, stdlib only, $0).
 
 WHY THIS EXISTS
 ---------------
@@ -323,7 +323,7 @@ def build():
 
     return {
         "_title": "Target-route census -- domain-resolved paralogue identity, the junction residue swap, and the unreconciled fusion model",
-        "_owner": "research/manuscripts/target-route-options.md",
+        "_owner": "research/manuscripts/program/target-route-options.md",
         "_method": (
             "Pure-stdlib. Sequences read from nr4a-sequences-cache.json (UniProt Q92570 / "
             "P22736 / P43354 / Q01844). Identity from an affine-gap global alignment "

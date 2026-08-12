@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md#route-6---trabectedin--a-pparγ-agonist-an-all-approved-drug-combination-on-emcs-own-documented-axis)): Tier 2, rank 5 — ASK with a good taker and a thin deliverable
+**Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md#route-6---trabectedin--a-pparγ-agonist-an-all-approved-drug-combination-on-emcs-own-documented-axis)): Tier 2, rank 5 — ASK with a good taker and a thin deliverable
 
 ## What has to land for this route to move
 
@@ -55,7 +55,7 @@ Both components are approved, so a combination trial is unusually cheap to propo
 
 ## Remaining unknowns
 
-- The DIRECTION of the PPARγ effect in EMC is unresolved — ⚠ but the redundancy clause ('if the fusion already turns PPARγ on, an agonist may be redundant or harmful') is WITHDRAWN: it is not in the source it cited, and Filion et al. propose agonists in their own discussion. Two primary studies answered the question in OPPOSITE directions; one functional experiment favours agonism, in a disputed-identity line. research/manuscripts/pparg-direction-emc.md
+- The DIRECTION of the PPARγ effect in EMC is unresolved — ⚠ but the redundancy clause ('if the fusion already turns PPARγ on, an agonist may be redundant or harmful') is WITHDRAWN: it is not in the source it cited, and Filion et al. propose agonists in their own discussion. Two primary studies answered the question in OPPOSITE directions; one functional experiment favours agonism, in a disputed-identity line. research/manuscripts/repurposing/pparg-direction-emc.md
 - Whether the combination has any EMC-specific rationale beyond both drugs being available.
 - The in-vivo evidence for agonism (Higuchi 2023) uses H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed); whether the MOUSE experiment used that line is UNREAD — the paper is not open access and its full text has not been retrieved.
 
@@ -94,11 +94,11 @@ Both components are approved, so a combination trial is unusually cheap to propo
 The ask is well formed and both drugs are approved, but the direction of the PPARγ effect is unresolved — proposing a combination whose direction is unknown is a thin deliverable.
 
 **Missing:**
-- a PPARγ ACTIVITY readout in EMC, not an abundance one — the direction is stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md
+- a PPARγ ACTIVITY readout in EMC, not an abundance one — the direction is stated at T1 with a model-identity caveat in research/manuscripts/repurposing/pparg-direction-emc.md
 
 ## Where this route ends — the paper
 
-**[PUB-REPURPOSING](L3-publications.md)** — [Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma: a graded candidate menu from three independent generation methods](../../research/manuscripts/repurposing-hypotheses.md)
+**[PUB-REPURPOSING](L3-publications.md)** — [Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma: a graded candidate menu from three independent generation methods](../../research/manuscripts/repurposing/repurposing-hypotheses.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

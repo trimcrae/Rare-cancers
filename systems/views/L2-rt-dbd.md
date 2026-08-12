@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-FUSION-DIRECT](L1-st-fusion-direct.md) · **state:** ✕ closed · computed · confidence high · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-12--target-the-dbd--dna-binding)): ✕ down, on arithmetic — `zinc_finger_window` paralogue identity 92.8% / 98.6% against the LBD's 59.4% / 67.3%
+**Grade** (owned by [`research/manuscripts/program/target-route-options.md`](../../research/manuscripts/program/target-route-options.md#route-12--target-the-dbd--dna-binding)): ✕ down, on arithmetic — `zinc_finger_window` paralogue identity 92.8% / 98.6% against the LBD's 59.4% / 67.3%
 
 ## What has to land for this route to move
 
@@ -73,7 +73,7 @@ Closed by arithmetic over a fixed measured fact.
 
 ## Where this route ends — the paper
 
-**[PUB-CLOSED-ROUTES](L3-publications.md)** — [Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search](../../research/manuscripts/closed-routes-negative-record.md)
+**[PUB-CLOSED-ROUTES](L3-publications.md)** — [Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search](../../research/manuscripts/methods-record/closed-routes-negative-record.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

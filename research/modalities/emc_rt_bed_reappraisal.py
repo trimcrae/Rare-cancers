@@ -3,7 +3,7 @@
 
 WHY THIS EXISTS
 ---------------
-`research/manuscripts/emc-unexplored-treatment-lanes.md` §3.7 registers a live contradiction in
+`research/manuscripts/program/emc-unexplored-treatment-lanes.md` §3.7 registers a live contradiction in
 EMC's own published record:
 
   * "RT does nothing"      — Japanese National Bone and Soft Tissue Tumor Registry, n = 171
@@ -798,7 +798,7 @@ def build():
     return {
         "_schema": "emc-rt-bed-reappraisal/1",
         "_generated_by": "research/modalities/emc_rt_bed_reappraisal.py",
-        "_one_home_for": ("every number in research/manuscripts/emc-radioresistance-reappraisal.md; "
+        "_one_home_for": ("every number in research/manuscripts/care-delivery/emc-radioresistance-reappraisal.md; "
                           "the prose points here and types no arithmetic of its own"),
         "_disclaimer": ("⛔ NOTHING HERE ASSERTS EFFICACY, SAFETY, A THERAPEUTIC WINDOW OR CLINICAL "
                         "READINESS. Every estimate is an observational association from cohorts in "

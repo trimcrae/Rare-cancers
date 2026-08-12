@@ -38,8 +38,8 @@ home for them.
 
 Regenerate:  python3 research/manuscripts/emc_endpoint_discordance.py
 Verify:      python3 research/manuscripts/emc_endpoint_discordance.py --check
-Output:      research/manuscripts/emc-endpoint-discordance.json
-Read by:     research/manuscripts/response-endpoint-indolent-tumours.md
+Output:      research/manuscripts/endpoint/emc-endpoint-discordance.json
+Read by:     research/manuscripts/endpoint/response-endpoint-indolent-tumours.md
 """
 from __future__ import annotations
 
@@ -51,10 +51,10 @@ import sys
 from datetime import datetime, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SOURCE = os.path.join(HERE, "emc-systemic-therapy-pooling.json")
-OUT = os.path.join(HERE, "emc-endpoint-discordance.json")
+SOURCE = os.path.join(HERE, "endpoint", "emc-systemic-therapy-pooling.json")
+OUT = os.path.join(HERE, "endpoint", "emc-endpoint-discordance.json")
 
-SOURCE_REL = "research/manuscripts/emc-systemic-therapy-pooling.json"
+SOURCE_REL = "research/manuscripts/endpoint/emc-systemic-therapy-pooling.json"
 
 # The three prospective EMC cohorts. Named rather than filtered, because "which cohorts may be
 # pooled" is an evidence-contract judgement that the source file made and recorded with its reasons

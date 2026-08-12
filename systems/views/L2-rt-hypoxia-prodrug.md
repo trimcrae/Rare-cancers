@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-MICROENV](L1-st-microenv.md) · **state:** ✓ parked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/emc-hypoxia-reading.md`](../../research/manuscripts/emc-hypoxia-reading.md#5--the-therapeutic-hooks-at-their-true-weight)): ⛔ GRADE WITHDRAWN AND REPLACED, 2026-08-09 (same day). It was first graded SUPPORTED from the raw two-platform contrast. That reading was taken from the panel artifact WITHOUT reading the confound audit that audits it: against a genome-wide size-matched null the signature does not clear on GPL6244, and the owning memo rules the signal is a reason to ask a question rather than to revisit this class.
+**Grade** (owned by [`research/manuscripts/microenv/emc-hypoxia-reading.md`](../../research/manuscripts/microenv/emc-hypoxia-reading.md#5--the-therapeutic-hooks-at-their-true-weight)): ⛔ GRADE WITHDRAWN AND REPLACED, 2026-08-09 (same day). It was first graded SUPPORTED from the raw two-platform contrast. That reading was taken from the panel artifact WITHOUT reading the confound audit that audits it: against a genome-wide size-matched null the signature does not clear on GPL6244, and the owning memo rules the signal is a reason to ask a question rather than to revisit this class.
 
 ## What has to land for this route to move
 

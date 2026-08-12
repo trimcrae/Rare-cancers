@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/immunotherapy-options-emc.md`](../../research/manuscripts/immunotherapy-options-emc.md)): DOWNGRADED to weak — gating fact resolved, mostly negative
+**Grade** (owned by [`research/manuscripts/neoantigen/immunotherapy-options-emc.md`](../../research/manuscripts/neoantigen/immunotherapy-options-emc.md)): DOWNGRADED to weak — gating fact resolved, mostly negative
 
 ## What has to land for this route to move
 
@@ -96,7 +96,7 @@ Downgraded on a measurement rather than on reasoning, which is the useful kind o
 
 ## Where this route ends — the paper
 
-**[PUB-SURFACE-TARGETS](L3-publications.md)** — [Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts](../../research/manuscripts/emc-surface-target-landscape.md)
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ○ delegated · concept · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/immunotherapy-options-emc.md`](../../research/manuscripts/immunotherapy-options-emc.md#2-checkpoint-inhibitor--anti-angiogenic-tki-combination--real-emc-signal-new-lead)): Landscape comparator — the only approved-drug combination with any reported EMC response
+**Grade** (owned by [`research/manuscripts/neoantigen/immunotherapy-options-emc.md`](../../research/manuscripts/neoantigen/immunotherapy-options-emc.md#2-checkpoint-inhibitor--anti-angiogenic-tki-combination--real-emc-signal-new-lead)): Landscape comparator — the only approved-drug combination with any reported EMC response
 
 ## What has to land for this route to move
 
@@ -92,7 +92,7 @@ This is clinical evidence synthesis, not computation, and this program's contrib
 
 ## Where this route ends — the paper
 
-**[PUB-EMC-PROGRAM](L3-publications.md)** — [Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3](../../research/manuscripts/emc-treatment-roadmap.md)
+**[PUB-EMC-PROGRAM](L3-publications.md)** — [Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3](../../research/manuscripts/program/emc-treatment-roadmap.md)
 
 `context` · ◐ `drafted` · aimed at `journal_submission`
 

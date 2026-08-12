@@ -22,9 +22,9 @@ _backfilled: true
 > **The ask rests on:** the preregistration [`emc-atri-prereg.md`](./emc-atri-prereg.md) (criteria fixed
 > in advance, including the PARP negative-translation control), the structural census
 > [`emc-fet-idr-census.json`](./emc-fet-idr-census.json), and the route write-up
-> [`emc-post-degrader-options.md`](../manuscripts/emc-post-degrader-options.md) route 1.
+> [`emc-post-degrader-options.md`](../manuscripts/program/emc-post-degrader-options.md) route 1.
 >
-> **Etiquette, inherited unchanged from [`nr4a3-degrader-outreach-emails.md`](../manuscripts/nr4a3-degrader-outreach-emails.md):**
+> **Etiquette, inherited unchanged from [`nr4a3-degrader-outreach-emails.md`](../manuscripts/degrader/nr4a3-degrader-outreach-emails.md):**
 > short (~150 words), one low-friction ask, honest that it is a prediction, generous terms, and
 > **never overclaim** — "a preregistered hypothesis", never "we found a treatment".
 

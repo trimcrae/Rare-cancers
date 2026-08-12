@@ -1,0 +1,104 @@
+{
+  "_what": "Graph and document edits owed by the 2026-08-07 disposition of BLK-TCIP-INTERFACE-FLOOR. Reasoning, evidence and every number: research/manuscripts/tcip/tcip-interface-floor-sizing.md. Measurement: research/modalities/nr4a3-induced-interface-census.json.",
+  "_owner": "research/manuscripts/tcip/tcip-interface-floor-sizing.md",
+  "_cost": "$0 — CI fetches to a GitHub Actions runner and pure-stdlib CPU analysis. No GPU, no rental, nothing purchased, nobody contacted.",
+  "_why_routed_and_not_applied_by_hand": "systems/graph/*.json is the source of truth for every blocker and route, systems/views/* is generated from it and a hand-edit fails the build, and nr4a3-program-map.md is read by other suspended lanes. This lane measures and reports; the graph owner applies.",
+  "_rule": "No number is retyped into the graph. Each edit names the artifact that owns its figures (CLAUDE.md rule 1). Every `current_text` below was read from the live file on this branch at the time of writing.",
+  "_do_not_apply_blind": [
+    "E1 RETIRES a blocker. It is a judgement call, not a clerical fix: it rests on n = 1 deposited structure, and the reasoning for why n = 1 is nonetheless a retirement (rather than a partial answer) is in the owner document's section 5. Disagreeing with that reasoning is a legitimate outcome; if it is rejected, apply E1b instead, which downgrades rather than retires and is written out below.",
+    "E4 proposes NO CHANGE to REQ-TCIP-2 and exists to make that explicit. Sizing the floor is not permission to drop the both-floors bracket."
+  ],
+  "generated": "2026-08-07",
+  "verified_against": "the working tree of this lane's worktree branch",
+  "n_edits": 5,
+
+  "map_edits_required": [
+    {
+      "id": "E1",
+      "file": "systems/graph/blockers.json",
+      "target": "the record with id BLK-TCIP-INTERFACE-FLOOR",
+      "operation": "replace_fields",
+      "current_fields": {
+        "kind": "insufficient_data",
+        "retired_by_action": "Find, for ANY chemically-induced transcriptional-proximity system, a relationship between a CHARACTERISED induced interface (size, cooperativity, or induced-complex residence time) and transcriptional output — MISSING-3. ⛔ Measured 2026-08-07 at $0 by reading the committed full text of the route's own motivating source on the literature-cache branch: `cooperativ*` 0 occurrences, `linker` 0, `contact residue` 0, `interface` only inside a reference title, and no structure of the induced complex. That source characterises the ternary complex functionally and not structurally, so it does not supply the input. Supporting Information was not in the cache and is the one place left to look before this escalates to requires_wet_lab. Until then REQ-TCIP-2 (report at both floors, assert only what holds at both) is the route's operative requirement."
+      },
+      "proposed_fields": {
+        "status": "retired",
+        "retired_on": "2026-08-07",
+        "retired_by": "A deposited, characterised induced interface in a chemically-induced TRANSCRIPTIONAL-proximity system was found and MEASURED under the reach sampler's own contact predicate: PDB 9MZA, 'Chemically Hijacked BCL6-TCIP3-p300 Complex', X-ray 2.1 A, released 2025-04-16, whose own rcsb_primary_citation names Nix et al., 'A Bivalent Molecular Glue Linking Lysine Acetyltransferases to Oncogene-induced Cell Death' (bioRxiv 10.1101/2025.03.14.643404 -> Cell 10.1016/j.cell.2026.06.037, PMID 42476129). The induced BCL6-p300 interface measures FAR BELOW the degrader-derived floor the route inherited, in both directions and in both crystallographically independent copies. The floor is therefore bounded from above by real data, and the sign question the owner document recorded as unknown answers 'smaller'. Numbers: research/modalities/nr4a3-induced-interface-census.json. Reasoning, provenance and limits: research/manuscripts/tcip/tcip-interface-floor-sizing.md.",
+        "residual_open_question": "NOT this blocker, and narrower than it: no SERIES exists — two or more induced interfaces of different size in one transcriptional system with matched transcriptional output — which is what would turn a bound into a calibration curve. That is a wet-lab / medicinal-chemistry series and is already carried by BLK-NO-WET-LAB. Keeping this blocker open for it would make an answered question look unanswered.",
+        "evidence": [
+          "research/manuscripts/tcip/tcip-interface-floor-sizing.md",
+          "research/modalities/nr4a3-induced-interface-census.json",
+          "research/modalities/nr4a3_induced_interface_census.py",
+          "research/modalities/nr4a3-tcip-route-memo.md#4---the-finding-the-size-penalty-is-a-degraders-interface-floor-not-steric-bulk",
+          "research/modalities/nr4a3-tcip-reach.json",
+          "research/manuscripts/degrader/selectivity-requirement-sizing.md#31--req-tcip-1--the-induced-interface-floor--cannot-be-sized-today"
+        ]
+      },
+      "why": "The blocker's own retired_by_action names three things: a characterised induced interface, in any chemically-induced transcriptional-proximity system, related to transcriptional output. All three now exist, are cited, and one of them is measured here rather than read out of prose.",
+      "artifact": "research/modalities/nr4a3-induced-interface-census.json"
+    },
+
+    {
+      "id": "E1b",
+      "file": "systems/graph/blockers.json",
+      "target": "the record with id BLK-TCIP-INTERFACE-FLOOR",
+      "operation": "ALTERNATIVE TO E1 — apply ONLY if the graph owner judges n = 1 insufficient to retire",
+      "proposed_fields": {
+        "kind": "insufficient_data",
+        "retired_by_action": "SUPERSEDED IN PART, 2026-08-07. The input this asked for now exists and has been measured: PDB 9MZA ('Chemically Hijacked BCL6-TCIP3-p300 Complex', 2.1 A) is a deposited, chemically induced TRANSCRIPTIONAL-proximity complex, and its induced interface measures far below the degrader-derived floor this route inherited — see research/modalities/nr4a3-induced-interface-census.json and research/manuscripts/tcip/tcip-interface-floor-sizing.md. What remains is a SERIES rather than a single anchor: two or more induced interfaces of different size in one transcriptional system with matched transcriptional output. ⛔ The Supporting Information this record previously named as 'the one place left to look' was pursued and could not be retrieved: PMC serves a download interstitial, and NCBI's OA service and Europe PMC each answer, in their own words, that PMC12851799 is not open access. That route is closed and is not what is being waited on."
+      },
+      "why": "A named dead end plus a measured bound is more useful than an open question nobody is watching, even if the graph owner prefers not to retire on one structure.",
+      "artifact": "research/modalities/nr4a3-induced-interface-census.json"
+    },
+
+    {
+      "id": "E2",
+      "file": "systems/graph/routes.json",
+      "target": "RT-TCIP",
+      "operation": "append_to_artifacts_and_evidence",
+      "proposed": {
+        "artifacts_add": ["ART-TCIP-INDUCED-INTERFACE-CENSUS"],
+        "note": "RT-TCIP now holds a second computed artifact: a census of the induced-interface size of 22 deposited complexes, measured under the reach sampler's own contact predicate, which is what let its inherited floor be graded against real structures. Geometry only; no binding, activity, selectivity, efficacy or clinical statement."
+      },
+      "why": "The route's blocker list changes and the evidence that changed it should be reachable from the route, not only from the blocker.",
+      "artifact": "research/modalities/nr4a3-induced-interface-census.json"
+    },
+
+    {
+      "id": "E3",
+      "file": "research/manuscripts/degrader/selectivity-requirement-sizing.md",
+      "section": "3.1 · REQ-TCIP-1 — the induced-interface floor — CANNOT BE SIZED TODAY",
+      "operation": "append_a_superseding_note_after_the_MISSING-3_block",
+      "anchor": "> **`MISSING-3` (sets `REQ-TCIP-1`).** For **any** chemically-induced transcriptional-proximity system, a",
+      "proposed_addition": "⭑ **SUPERSEDED IN PART, 2026-08-07 — `MISSING-3` HAS BEEN SUPPLIED, AND THE SIGN IS *SMALLER*.** The two arguments above were recorded as unadjudicable. One of them now has a measurement against it: [`tcip-interface-floor-sizing.md`](./tcip-interface-floor-sizing.md) measures the induced interface of **PDB 9MZA**, the deposited chemically induced **p300·BCL6** complex of a KAT-TCIP, under this repository's own contact predicate, and it comes out **well below** the degrader-derived floor `REQ-TCIP-1` inherits — in both directions and in both independent copies. ⛔ **This does NOT retire `REQ-TCIP-2` below**, and it does not turn a bound into a calibration curve: it is **one system**, it bounds the floor from **above** only, and no series of interface sizes with matched transcriptional output exists. The numbers have their one home in [`nr4a3-induced-interface-census.json`](../modalities/nr4a3-induced-interface-census.json) and are not restated here. *Superseded, retained: the reading of this section under which the sign of the difference was unknown in both directions.*",
+      "why": "This section is the owner of REQ-TCIP-1's status and currently states, as its headline, that the floor cannot be sized today. That is no longer true and a reader arriving here would act on it.",
+      "artifact": "research/modalities/nr4a3-induced-interface-census.json"
+    },
+
+    {
+      "id": "E4",
+      "file": "research/manuscripts/degrader/selectivity-requirement-sizing.md",
+      "section": "3.2 · REQ-TCIP-2 — the BRACKET requirement",
+      "operation": "NO CHANGE — recorded explicitly so that 'the floor is sized now' is not read as permission to drop it",
+      "proposed_addition": "⛔ **AND SIZING THE FLOOR DOES NOT RETIRE THIS REQUIREMENT (2026-08-07).** `REQ-TCIP-2` exists because the ratio is **floor-dependent**, not because the floor was unknown — and it is still floor-dependent. Two further reasons it must hold independently of §3.1's update: the pooled contrast is **confounded** (within-class spread exceeds the between-class contrast at all 8 rungs, and a seed defect moved the ratio by ~0.13; [`nr4a3-tcip-route-memo.md` §4(a)](../modalities/nr4a3-tcip-route-memo.md) owns both), and a **single** deposited structure may not be promoted into 'the' TCIP floor. Every geometric statement this route publishes is still reported at **both** floors and still asserts only what holds at both.",
+      "why": "The most likely misreading of this session's result is that a sized floor licenses a single-floor claim. It does not, and saying nothing is how that misreading happens.",
+      "artifact": "research/modalities/nr4a3-tcip-reach.json"
+    }
+  ],
+
+  "verification": {
+    "measurement_reproduced_by": "python3 research/modalities/nr4a3_induced_interface_census.py <corpus-dir> research/modalities/nr4a3-induced-interface-census.json",
+    "corpus": "literature-cache branch: literature/tcip-interface-floor-2026-08-07/ (21 mmCIF) and literature/tcip-9mza-2026-08-07/ (9MZA)",
+    "tests": "research/modalities/tests/test_induced_interface_census.py — 9 tests, including a pin that the artifact's floor equals nr4a3_basin_search.PARAMS['min_contact_residues'], so the comparison cannot silently stop being a comparison",
+    "post_apply_checks": [
+      "python3 systems/systems_check.py --check",
+      "python3 research/manuscripts/lint_consistency.py  → 0 ERROR",
+      "python3 research/manuscripts/lint_claims.py       → 0 ERROR",
+      "./scripts/preflight.sh"
+    ]
+  },
+
+  "_ci_input_branch_to_delete": "ci-input/tcip-interface-floor-2026-08-07 — created ONLY to carry four target-list JSONs into fetch-literature.yml, because that workflow reads its URL corpus from a path in the checked-out ref and the dev sandbox cannot reach RCSB, PMC or Europe PMC. It contains no analysis and no result; every artifact it produced lives on literature-cache. Delete it once the corpora above are confirmed present."
+}

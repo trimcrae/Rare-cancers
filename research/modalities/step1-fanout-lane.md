@@ -19,7 +19,7 @@ produced **no scientific output** — do not cite anything from it. What it prod
 repriced the rung by ~4×, four infrastructure defects, and partial checkpoints that wave 2 **resumes from**.
 
 Schedule entry: `step1_fanout_cmpd19` in
-[degrader-paper-schedule.json](../manuscripts/degrader-paper-schedule.json).
+[degrader-paper-schedule.json](../manuscripts/program/degrader-paper-schedule.json).
 Live prices: [research/compute/pricing.md](../compute/pricing.md) §A. Bid policy:
 [bid-strategy.md](../compute/bid-strategy.md) §7.
 

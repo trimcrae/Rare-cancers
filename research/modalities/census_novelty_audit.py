@@ -38,7 +38,7 @@ SELF = (
     "systems/graph/modalities.json",
     "systems/taxonomy/modality.md",
     "systems/views/",                       # every generated view, including the census's own
-    "research/manuscripts/cancer-modality-census.md",
+    "research/manuscripts/modality-census/cancer-modality-census.md",
     "research/modalities/census_novelty_audit.py",
     "research/modalities/census-novelty-audit.json",
     "research/modalities/census_route_expression_grading.py",

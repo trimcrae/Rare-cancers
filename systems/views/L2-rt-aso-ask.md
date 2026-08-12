@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · **state:** ○ blocked · scoped · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 2, rank 6 — ASK
+**Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md)): Tier 2, rank 6 — ASK
 
 ## What has to land for this route to move
 
@@ -95,7 +95,7 @@ It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-workin
 
 ## Where this route ends — the paper
 
-**[PUB-ASO](L3-publications.md)** — [Working record — fusion-junction ASO analyses, provenance and correction history](../../research/manuscripts/fusion-junction-aso-working-record.md)
+**[PUB-ASO](L3-publications.md)** — [Working record — fusion-junction ASO analyses, provenance and correction history](../../research/manuscripts/aso/fusion-junction-aso-working-record.md)
 
 `contributing` · ◐ `drafted` · aimed at `journal_submission`
 

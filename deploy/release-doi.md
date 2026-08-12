@@ -15,7 +15,7 @@ _backfilled: true
 # Citable snapshots with a Zenodo DOI (Tier-B low-latency dissemination)
 
 The journal paper is slow; the roadmap moves weekly. This is the **middle tier** from
-`research/manuscripts/emc-treatment-strategy.md` (Q4): a way to mint a **citable, versioned DOI** for
+`research/manuscripts/program/emc-treatment-strategy.md` (Q4): a way to mint a **citable, versioned DOI** for
 the current state of the roadmap in minutes, so collaborators/reviewers can cite "the roadmap as of
 2026-06-24" while the formal paper is in review.
 

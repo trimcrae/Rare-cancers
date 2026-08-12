@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ○ parked · concept · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-10--a-molecular-glue-instead-of-a-protac)): ⏸ watch, do not build — removes handles and keeps the same ~1 kcal/mol claim
+**Grade** (owned by [`research/manuscripts/program/target-route-options.md`](../../research/manuscripts/program/target-route-options.md#route-10--a-molecular-glue-instead-of-a-protac)): ⏸ watch, do not build — removes handles and keeps the same ~1 kcal/mol claim
 
 ## What has to land for this route to move
 

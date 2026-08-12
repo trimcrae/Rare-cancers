@@ -254,7 +254,7 @@ which makes no claim about binding, ternary formation, degradation, efficacy or 
 been stale for **seven days**, not two.
 
 **Root cause, diagnosed not guessed.** The lane doc
-[`nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md`](../manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md)
+[`nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md`](../manuscripts/degrader/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md)
 contains **both** the landed result (§3.5, correct, itself dated "2026-07-26 2:49 PM ET") **and** the earlier
 pilot framing (§4, *"the run now in flight"*, with the 5,657-placement numbers). STRATEGY.md was written from
 §4. §4 was never reconciled to its own §3.5, so the stale text had a live-looking source to be copied from.

@@ -111,7 +111,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by route (0):** —
 - **retired by technology:** TECH-EMC-EXPRESSION-DATA, TECH-VIRTUAL-CELL
 - **⭐ retired by an action we can take:** NOT RETIRED, and the 2026-08-08 lead is recorded here so that it cannot be mistaken for a retirement. PRJNA1357027 / SRP640302 is a real, public, fourth EMC cohort — n = 12 FFPE tumours, downloadable since 2025-11-11, carrying per-sample EWSR1 break-apart FISH status, site, size, morphology and outcome-adjacent annotation, and larger than any of the three cohorts the manuscript reads (emc-fourth-cohort-sra-2026-08-08.md; artifact emc-sra-study.json, transport gate passed on three controls). It is TempO-Seq TARGETED-PANEL data, so its gene space is the panel's and the panel is not named anywhere in the archive metadata. This blocker's statement is about FUNCTIONAL-GENOMICS data — one DepMap line, no CRISPR — and a tumour expression panel is not a dependency screen, so nothing here touches it. What WOULD retire it is an EMC dependency or drug-response screen (a second EMC line in DepMap, a CRISPR screen, or an ex-vivo panel), none of which exists; TRG-SARCOMA-ATRI-RESPONSE-PANEL watches for it. The nearest $0 step on the cohort itself is naming the TempO-Seq panel, on which every read of it is gated.
-- **evidence:** research/manuscripts/emc-fourth-cohort-sra-2026-08-08.md / research/modalities/emc-sra-study.json / research/modalities/emc-sra-study-inputs.json
+- **evidence:** research/manuscripts/fusion-output/emc-fourth-cohort-sra-2026-08-08.md / research/modalities/emc-sra-study.json / research/modalities/emc-sra-study-inputs.json
 - **when it could lift:**
 
   | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
@@ -137,7 +137,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
   | `TECH-CLOUD-WET-LAB` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `low` | `extrapolated` |
   | `TECH-EMC-MODEL-ACCESS` | `absent` | 2027H2 | **2029** | beyond-2031 | `low` | `speculative` |
 
-- **owner:** `research/manuscripts/what-a-civilian-can-buy.md`
+- **owner:** `research/manuscripts/modality-census/what-a-civilian-can-buy.md`
 
 ### BLK-NOT-FUSION-SELECTIVE
 
@@ -148,7 +148,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **held by (14):** RT-6MP, RT-B7H3, RT-CART-SURFACE, RT-COVALENT-PROBE, RT-DBD, RT-DEGRADER, RT-EWSR1-PROTEIN, RT-FET-LC-LIGAND, RT-GLUE, RT-MONOVALENT, RT-PRAME-IMMTAC, RT-RIPTAC, RT-SYNPROMOTER, RT-UBIQ-SELECTIVE
 - **retired by route (8):** RT-ASO, RT-FAP-RLT, RT-ICI-TKI, RT-JUNCTION-NEOANTIGEN, RT-PANNR4A-EXVIVO, RT-RIBOZYME, RT-SSTR2, RT-TCR-IMMTAC
 - **when it could lift:** **never** — a fact about what the objects are. No technology in the register claims to retire it, and [B1] fails the build if one ever does. What CAN change is whether it stays decisive for a given route: a route either sidesteps it by construction or it does not.
-- **owner:** `research/manuscripts/target-route-options.md#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it`
+- **owner:** `research/manuscripts/program/target-route-options.md#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it`
 
 ### BLK-ANTIGEN-COLD
 
@@ -159,7 +159,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **held by (9):** RT-B7H3, RT-CART-SURFACE, RT-ICI-TKI, RT-IMMUNOCYTOKINE, RT-JUNCTION-NEOANTIGEN, RT-PRAME-IMMTAC, RT-TCR-IMMTAC, RT-TCRT-CTA, RT-VACCINE
 - **retired by route (0):** —
 - **when it could lift:** **never** — a fact about what the objects are. No technology in the register claims to retire it, and [B1] fails the build if one ever does. What CAN change is whether it stays decisive for a given route: a route either sidesteps it by construction or it does not.
-- **owner:** `research/manuscripts/immunotherapy-options-emc.md`
+- **owner:** `research/manuscripts/neoantigen/immunotherapy-options-emc.md`
 
 ### BLK-NO-CURATED-CLINICAL-DATA
 
@@ -174,7 +174,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 ⛔ THIS BLOCKER REPLACED A MISATTRIBUTION, AND THE CORRECTION WAS NOT UNIFORM — WHICH IS THE POINT. Six routes across ST-LOCOREGIONAL and ST-STRATEGY inherited BLK-NO-EMC-DATA, whose own record scopes it to FUNCTIONAL-GENOMICS data (one DepMap line, no CRISPR). None of the six needs a dependency screen, so all six lost it. Only FOUR gained this one: RT-LIMB-PERFUSION, RT-LUNG-DIRECTED and RT-RT-INTENSIFY, whose `readiness.missing` names site, burden or per-patient dose curation verbatim, and RT-SEQUENCING, whose timing rationale reads 'Only individual-patient data could change this, and it is not obtainable here'.
 
-⭐ RT-SCHEDULING AND RT-TRIAL-REACH GAINED NOTHING AND ARE NOW UNBLOCKED OUTRIGHT. RT-SCHEDULING's `readiness.missing` says 'nothing to start — the inputs are committed', and RT-TRIAL-REACH's names non-US registry coverage needing an authenticated endpoint, which is an access condition and not a curation gap. Giving either of them a curation blocker would have swapped one mis-scoped blocker for another and left them reading as blocked when they are not. ⚠ RT-SCHEDULING still carries `status: blocked` from its own grade owner (research/manuscripts/emc-systemic-therapy-pooling.json); that status was NOT edited here, because a route's grade belongs to its owner and this change belongs to the blocker model. It now shows a blocked route with no blocker, which is a real disagreement for that owner to settle rather than one to paper over.
+⭐ RT-SCHEDULING AND RT-TRIAL-REACH GAINED NOTHING AND ARE NOW UNBLOCKED OUTRIGHT. RT-SCHEDULING's `readiness.missing` says 'nothing to start — the inputs are committed', and RT-TRIAL-REACH's names non-US registry coverage needing an authenticated endpoint, which is an access condition and not a curation gap. Giving either of them a curation blocker would have swapped one mis-scoped blocker for another and left them reading as blocked when they are not. ⚠ RT-SCHEDULING still carries `status: blocked` from its own grade owner (research/manuscripts/endpoint/emc-systemic-therapy-pooling.json); that status was NOT edited here, because a route's grade belongs to its owner and this change belongs to the blocker model. It now shows a blocked route with no blocker, which is a real disagreement for that owner to settle rather than one to paper over.
 
 Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filing a free curation task behind a technology forecast to 2029 is how work that could be done today reads as work that cannot.
 - **evidence:** research/modalities/emc-care-delivery-evidence.json / research/data/emc-clinical-registry.json
@@ -236,7 +236,7 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
   |---|---|---|---|---|---|---|
   | `TECH-VIRTUAL-CELL` | `early_signals` | 2027H1 | **2028** | 2030 | `low` | `extrapolated` |
 
-- **owner:** `research/manuscripts/emc-post-degrader-options.md#route-1---atr-inhibitor-synthetic-lethality-emc-inherits-a-class-vulnerability-it-has-never-been-tested-for`
+- **owner:** `research/manuscripts/program/emc-post-degrader-options.md#route-1---atr-inhibitor-synthetic-lethality-emc-inherits-a-class-vulnerability-it-has-never-been-tested-for`
 
 ### BLK-TERNARY-GEOMETRY
 
@@ -272,7 +272,7 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
   |---|---|---|---|---|---|---|
   | `TECH-COFOLD-ASSEMBLY` | `partially_landed` | 2026H2 | **2027** | 2028 | `moderate` | `evidence_based` |
 
-- **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#1--the-route-stated-precisely--and-the-split-that-decides-it`
+- **owner:** `research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md#1--the-route-stated-precisely--and-the-split-that-decides-it`
 
 ### BLK-UNSIZED-REQUIREMENT
 
@@ -283,9 +283,9 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
 - **held by (3):** RT-ASYMMETRIC, RT-MONOVALENT, RT-TCIP
 - **retired by route (0):** —
 - **⭐ retired by an action we can take:** Obtain the three dose-responses named as MISSING-1, MISSING-2 and MISSING-4 in selectivity-requirement-sizing.md. Until then the thresholds stay as stated forms with an explicit range and no upper bound. ⛔ NOT retired by any computation: a genotype bounds developmental, complete, lifelong loss and cannot be inverted into an adult tolerated occupancy, and no in-silico instrument produces an occupancy-to-output transfer function.
-- **evidence:** research/manuscripts/selectivity-requirement-sizing.md#22--what-cannot-be-sized-for-this-route-and-the-named-missing-inputs / research/manuscripts/selectivity-requirement-sizing.md#43--req-asym-3--the-defect-a-scalar-creates-stated-so-it-can-be-checked / research/modalities/nr4a2-sparing-bound.json
+- **evidence:** research/manuscripts/degrader/selectivity-requirement-sizing.md#22--what-cannot-be-sized-for-this-route-and-the-named-missing-inputs / research/manuscripts/degrader/selectivity-requirement-sizing.md#43--req-asym-3--the-defect-a-scalar-creates-stated-so-it-can-be-checked / research/modalities/nr4a2-sparing-bound.json
 - **when it could lift:** **not forecast** — retired by an action we can take, not by an advance we wait for. The action is the row above.
-- **owner:** `research/manuscripts/selectivity-requirement-sizing.md#5--the-requirement-register-in-one-checkable-table`
+- **owner:** `research/manuscripts/degrader/selectivity-requirement-sizing.md#5--the-requirement-register-in-one-checkable-table`
 
 ### BLK-VECTOR-DELIVERY
 
@@ -302,7 +302,7 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
   |---|---|---|---|---|---|---|
   | `TECH-VECTOR-DELIVERY` | `absent` | 2028 | **2030** | beyond-2031 | `low` | `speculative` |
 
-- **owner:** `research/manuscripts/emc-post-degrader-options.md#routes-813--why-each-sits-in-tier-3`
+- **owner:** `research/manuscripts/program/emc-post-degrader-options.md#routes-813--why-each-sits-in-tier-3`
 
 ### BLK-REACH-CATEGORICAL
 
@@ -320,7 +320,7 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
   |---|---|---|---|---|---|---|
   | `TECH-EXPOSURE-CRITERION` | `absent` | 2026H2 | **2027H2** | 2029 | `low` | `extrapolated` |
 
-- **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#3--the-0-test-built-run-and-it-came-back-against-the-route`
+- **owner:** `research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md#3--the-0-test-built-run-and-it-came-back-against-the-route`
 
 ### BLK-DELIVERY
 
@@ -337,7 +337,7 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
   |---|---|---|---|---|---|---|
   | `TECH-OLIGO-DELIVERY` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `low` | `extrapolated` |
 
-- **owner:** `research/manuscripts/fusion-junction-aso-working-record.md#3c-bis-delivery-is-three-routes-with-different-requirements-not-one-gate--and-only-one-of-them-needs-the-antigen-2026-08-12`
+- **owner:** `research/manuscripts/aso/fusion-junction-aso-working-record.md#3c-bis-delivery-is-three-routes-with-different-requirements-not-one-gate--and-only-one-of-them-needs-the-antigen-2026-08-12`
 
 ### BLK-ENDPOINT-MD
 
@@ -372,7 +372,7 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
   | `TECH-CLOUD-WET-LAB` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `low` | `extrapolated` |
   | `TECH-EMC-MODEL-ACCESS` | `absent` | 2027H2 | **2029** | beyond-2031 | `low` | `speculative` |
 
-- **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#2--the-crux-is-the-pocket-functionally-actionable--and-is-it-actionable-in-the-fusion`
+- **owner:** `research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md#2--the-crux-is-the-pocket-functionally-actionable--and-is-it-actionable-in-the-fusion`
 
 ### BLK-PARALOGUE-CONTROL
 
@@ -426,8 +426,8 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
 - **held by (1):** RT-TCIP
 - **retired by route (0):** —
 - **⭐ retired by an action we can take:** Find, for ANY chemically-induced transcriptional-proximity system, a relationship between a CHARACTERISED induced interface (size, cooperativity, or induced-complex residence time) and transcriptional output — MISSING-3. ⛔ Measured 2026-08-07 at $0 by reading the committed full text of the route's own motivating source on the literature-cache branch: `cooperativ*` 0 occurrences, `linker` 0, `contact residue` 0, `interface` only inside a reference title, and no structure of the induced complex. That source characterises the ternary complex functionally and not structurally, so it does not supply the input. Supporting Information was not in the cache and is the one place left to look before this escalates to requires_wet_lab. Until then REQ-TCIP-2 (report at both floors, assert only what holds at both) is the route's operative requirement.
-- **evidence:** research/modalities/nr4a3-tcip-route-memo.md#4---the-finding-the-size-penalty-is-a-degraders-interface-floor-not-steric-bulk / research/modalities/nr4a3-tcip-reach.json / research/manuscripts/selectivity-requirement-sizing.md#31--req-tcip-1--the-induced-interface-floor--cannot-be-sized-today
+- **evidence:** research/modalities/nr4a3-tcip-route-memo.md#4---the-finding-the-size-penalty-is-a-degraders-interface-floor-not-steric-bulk / research/modalities/nr4a3-tcip-reach.json / research/manuscripts/degrader/selectivity-requirement-sizing.md#31--req-tcip-1--the-induced-interface-floor--cannot-be-sized-today
 - **when it could lift:** **not forecast** — retired by an action we can take, not by an advance we wait for. The action is the row above.
-- **owner:** `research/manuscripts/selectivity-requirement-sizing.md#31--req-tcip-1--the-induced-interface-floor--cannot-be-sized-today`
+- **owner:** `research/manuscripts/degrader/selectivity-requirement-sizing.md#31--req-tcip-1--the-induced-interface-floor--cannot-be-sized-today`
 
 [← L0](../L0-ecosystem.md)

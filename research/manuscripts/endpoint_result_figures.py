@@ -25,11 +25,11 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REREAD = os.path.join(HERE, "orr-dcr-reread.json")
-OUT2 = os.path.join(HERE, "endpoint-gap-distribution.svg")
-OUT3 = os.path.join(HERE, "endpoint-zero-response.svg")
-OUT2_REL = "research/manuscripts/endpoint-gap-distribution.svg"
-OUT3_REL = "research/manuscripts/endpoint-zero-response.svg"
+REREAD = os.path.join(HERE, "endpoint", "orr-dcr-reread.json")
+OUT2 = os.path.join(HERE, "endpoint", "endpoint-gap-distribution.svg")
+OUT3 = os.path.join(HERE, "endpoint", "endpoint-zero-response.svg")
+OUT2_REL = "research/manuscripts/endpoint/endpoint-gap-distribution.svg"
+OUT3_REL = "research/manuscripts/endpoint/endpoint-zero-response.svg"
 
 W, H = 880, 470
 L, R, T, B = 78, 34, 44, 66

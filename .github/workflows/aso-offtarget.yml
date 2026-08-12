@@ -97,6 +97,13 @@ jobs:
           OUT_SUFFIX: ${{ inputs.out_suffix }}
         run: python junction_aso_offtarget.py
 
+      # ⭐ THE MTIME BASELINE THE PUBLISH STEP STAGES AGAINST. Written before any science step, so
+      # `find -newer` can separate "this run wrote it" from "the checkout has always carried it".
+      # Its ABSENCE is a hard error at publish rather than a fallback to the glob, because the glob
+      # is what overwrote four runs' results on 2026-08-12.
+      - name: Mark job start (publish staging baseline)
+        run: touch "$RUNNER_TEMP/job-start"
+
       - name: Install ViennaRNA (for target-site accessibility)
         # Skipped on a seam sweep: that mode runs no design and no evaluation, so a pip install
         # there is pure wall-clock and one more thing that can fail in a repair job.
@@ -260,9 +267,35 @@ jobs:
           # message". The commit message here was honest; the staging was not. A mode that runs no
           # producer has no outputs, and copying a checked-in file is not a result.
           # The branch is the accumulating home for these artifacts; the checkout is not.
+          # ⛔⛔ STAGE ONLY WHAT THIS RUN PRODUCED — A GLOB STAGES THE CHECKOUT'S STALE COPIES TOO.
+          # MEASURED 2026-08-12, and it destroyed real results. Five screens ran concurrently for the
+          # first time (the concurrency group used to serialise them). Each one's publish copied
+          # `junction-aso-offtarget*.json` FROM THE REPO CHECKOUT, which carries committed copies of
+          # every junction — including the ones this run did not screen — and wrote them over the
+          # branch's newer artifacts. The commit chain shows it plainly: f53c6c7c ADDED e12n3
+          # (+194 lines), the next run REMOVED it (-194) while adding its own, the next removed
+          # those, and only the last run's junctions survived. Four of five runs' science was
+          # overwritten by stale files while every run reported success.
+          # ⛔ THIS IS THIS FILE'S OWN RECORDED FAILURE IN A NEW MODE. The block above documents
+          # exactly it for `seam_retraction_sweep` — "copying a checked-in file is not a result" —
+          # and guarded only that one path. The normal screening path had the same defect and was
+          # invisible while runs were serial, because a serial run's checkout was never staler than
+          # the branch by more than its own output.
+          # The fix is to stage by MTIME against a marker written before the science steps, so only
+          # files this job actually wrote can travel. A run that produced nothing now stages
+          # nothing, instead of republishing the repository at the branch.
           if [ "${{ inputs.seam_retraction_sweep }}" != "true" ]; then
-            cp research/modalities/junction-aso-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-            cp research/modalities/junction-aso-offtarget*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+            if [ -f "$RUNNER_TEMP/job-start" ]; then
+              find research/modalities -maxdepth 1 -name 'junction-aso-designs*.json' \
+                   -newer "$RUNNER_TEMP/job-start" -exec cp {} "$RUNNER_TEMP/res/" \; 2>/dev/null || true
+              find research/modalities -maxdepth 1 -name 'junction-aso-offtarget*.json' \
+                   -newer "$RUNNER_TEMP/job-start" -exec cp {} "$RUNNER_TEMP/res/" \; 2>/dev/null || true
+              echo "staged $(ls -1 "$RUNNER_TEMP/res" 2>/dev/null | wc -l) file(s) written by THIS run"
+            else
+              echo "::error::no job-start marker — refusing to stage by glob, which would republish"
+              echo "::error::the checkout's stale copies over this branch's newer artifacts"
+              exit 1
+            fi
             cp research/modalities/aso-insilico-evaluation*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
             cp research/modalities/junction-sirna-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
             cp research/modalities/hybrid-intron-model.json "$RUNNER_TEMP/res/" 2>/dev/null || true
@@ -289,7 +322,7 @@ jobs:
           # Measured 2026-08-08 at this branch's tip: THIRTEEN committed design artifacts carried the
           # acceptor seam `TTGTCCGTACAG` — NR4A3 CDS nt 1081, residue 361, one of the three resume
           # residues the exon-index off-by-two produced — with no banner of any kind, while
-          # research/manuscripts/fusion-junction-aso-working-record.md told readers those files "do not exist
+          # research/manuscripts/aso/fusion-junction-aso-working-record.md told readers those files "do not exist
           # ... on origin/modalities-cache". They had existed since commit 30eb5684 (2026-07-03), the
           # single CI commit FROM THIS WORKFLOW that created all thirteen.
           #

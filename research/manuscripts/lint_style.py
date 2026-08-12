@@ -35,7 +35,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 #: Manuscript bodies held to journal register. A file is added here when it becomes a submission
 #: text; a memo, a plan or a findings note is NOT a submission text and must not be listed.
 TARGETS = [
-    "research/manuscripts/response-endpoint-indolent-tumours.md",
+    "research/manuscripts/endpoint/response-endpoint-indolent-tumours.md",
     # ⭐ ADDED 2026-08-09, the day four endpoints were taken to submission form. Gate 5 checks
     # REGISTER, and until now it enforced that on exactly one file while three other submission
     # texts drifted freely — a rule filed where it cannot fire is absent (CLAUDE.md §6). Measured
@@ -44,18 +44,18 @@ TARGETS = [
     # repurposing menu. All are clean now, and this list is what stops them going back.
     # ⛔ SUBMISSION TEXTS ONLY. A memo, a plan or a findings note must not be added here — the
     # house style is CORRECT everywhere else in this repository.
-    "research/manuscripts/emc-mtap-prmt5-hypothesis.md",
-    "research/manuscripts/emc-mtap-prmt5-hypothesis-SI.md",
-    "research/manuscripts/emc-atr-collaborator-package.md",
-    "research/manuscripts/repurposing-hypotheses.md",
-    "research/manuscripts/emc-surface-target-landscape.md",
-    "research/manuscripts/emc-surface-target-landscape-si.md",
+    "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md",
+    "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-SI.md",
+    "research/manuscripts/dependency/emc-atr-collaborator-package.md",
+    "research/manuscripts/repurposing/repurposing-hypotheses.md",
+    "research/manuscripts/surface-targets/emc-surface-target-landscape.md",
+    "research/manuscripts/surface-targets/emc-surface-target-landscape-si.md",
     # ⭐ THE ASO SUBMISSION, ADDED 2026-08-12 WHEN IT BECAME A SUBMISSION TEXT RATHER THAN A
     # WORKING DOCUMENT. Measured on entry: 2,341 words, 274-word structured abstract, zero glyphs,
     # bold 6.8/1000 against the limit of 12, em-dashes 3.4/1000 against 6, no inline repository
     # paths. It passes on merit, not by exemption. Its 24,000-word predecessor could not, and the
     # split is what made both readable — see the note below.
-    "research/manuscripts/fusion-junction-aso-short-communication.md",
+    "research/manuscripts/aso/fusion-junction-aso-short-communication.md",
 ]
 
 # ⛔ fusion-junction-aso-working-record.md IS DELIBERATELY NOT IN `TARGETS`, AND THAT IS NOW CORRECT
@@ -78,7 +78,7 @@ TARGETS = [
 # ⚠ The old path `fusion-junction-aso-paper.md` no longer exists: it was renamed to the working
 # record, and the short communication took its place as the deliverable. The name is written here
 # once so a reader meeting it in history can resolve it.
-_NOT_YET_A_SUBMISSION_TEXT_IN_REGISTER = "research/manuscripts/fusion-junction-aso-working-record.md"
+_NOT_YET_A_SUBMISSION_TEXT_IN_REGISTER = "research/manuscripts/aso/fusion-junction-aso-working-record.md"
 
 # Densities are per 1000 words. They are deliberately generous: the aim is to catch prose that
 # leans on a device, not to ban the device. A paper that trips one of these is not using emphasis,

@@ -4,7 +4,7 @@ dropped, the literature state of SuFEx tyrosine chemistry, and the chemoselectiv
 
 WHY THIS FILE EXISTS
 --------------------
-[`path-family-synthesis.md`](../manuscripts/path-family-synthesis.md) §2 Tier-1 row 6 records a finding and
+[`path-family-synthesis.md`](../manuscripts/program/path-family-synthesis.md) §2 Tier-1 row 6 records a finding and
 then a MANDATE, and only the finding had landed. The finding: sweeping 11 reactive classes instead of the
 committed two finds paralogue-unique, alignment-robust LBD positions well beyond C397, and one of them —
 **Y419**, a tyrosine addressable by SuFEx chemistry, one residue from C420 — ranks ABOVE NR4A1 Cys551, the
@@ -73,7 +73,7 @@ REACH = os.path.join(HERE, "nr4a3-linker-covalent-reach.json")
 OUT = os.path.join(HERE, "sufex-second-handle.json")
 
 # ⛔ NOT EDITED BY THIS FILE. Roadmap edits are DESCRIBED in `map_edits_required` and applied by a human.
-LOCKED = ("research/manuscripts/nr4a3-program-map.md", "research/manuscripts/path-family-synthesis.md",
+LOCKED = ("research/manuscripts/nr4a3-program-map.md", "research/manuscripts/program/path-family-synthesis.md",
           "STRATEGY.md", "CLAUDE.md", "systems/graph/", "systems/views/")
 
 # The residue classes a SuFEx warhead is documented to label, with the reactive atom used for the distance.

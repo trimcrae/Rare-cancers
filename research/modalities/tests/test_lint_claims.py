@@ -238,8 +238,8 @@ def test_R5_ignores_a_zero_dollar_figure_but_not_a_real_one(tmp_path):
 
 def test_strategy_and_plan_docs_are_clean_of_banned_phrases():
     import os
-    targets = ["research/manuscripts/nr4a3-congeneric-rbfe-plan.md",
-               "research/manuscripts/nr4a3-degrader-strategy-ternary-first.md",
+    targets = ["research/manuscripts/degrader/nr4a3-congeneric-rbfe-plan.md",
+               "research/manuscripts/degrader/nr4a3-degrader-strategy-ternary-first.md",
                "research/compute/access-allocation-request.md"]
     errs = []
     for t in targets:
@@ -255,9 +255,9 @@ def test_strategy_and_plan_docs_are_clean_of_banned_phrases():
 def _paper():
     import os
     here = os.path.dirname(os.path.abspath(__file__))
-    p = os.path.join(here, "..", "..", "manuscripts", "nr4a3-degrader-paper.md")
+    p = os.path.join(here, "..", "..", "manuscripts", "degrader", "nr4a3-degrader-paper.md")
     if not os.path.exists(p):
-        p = os.path.join(here, "..", "..", "..", "research", "manuscripts", "nr4a3-degrader-paper.md")
+        p = os.path.join(here, "..", "..", "..", "research", "manuscripts", "degrader", "nr4a3-degrader-paper.md")
     with open(p, encoding="utf-8") as fh:
         return fh.read()
 

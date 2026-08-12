@@ -8,7 +8,7 @@ still exits 0 — and several of those scripts write a *placeholder* JSON on the
 (`emc_fet_idr_census.py` writes `{"_status": "sequences missing, cannot compute: [...]",
 "_remedy": "..."}`). The publish step then committed that placeholder on top of the good artifact.
 That is how `research/modalities/emc-fet-idr-census.json` came to be a 2-key stub on `main` while
-`research/manuscripts/emc-post-degrader-options.md` on `main` printed a full results table out of it
+`research/manuscripts/program/emc-post-degrader-options.md` on `main` printed a full results table out of it
 — CLAUDE.md §7 harm #1, an artifact that reads as a current fact and is not one.
 
 THE TEST, deliberately the dumbest one that works: **a JSON object whose every top-level key starts

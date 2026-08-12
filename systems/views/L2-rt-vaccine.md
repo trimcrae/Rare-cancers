@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ✓ parked · computed · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/hla-coverage-emc.md`](../../research/manuscripts/hla-coverage-emc.md)): PARKED — done, not a treatment path; a self-adjacent junction in a cold tumour is a weak immunogen
+**Grade** (owned by [`research/manuscripts/neoantigen/hla-coverage-emc.md`](../../research/manuscripts/neoantigen/hla-coverage-emc.md)): PARKED — done, not a treatment path; a self-adjacent junction in a cold tumour is a weak immunogen
 
 ## What has to land for this route to move
 
@@ -84,7 +84,7 @@ its antigen input is no longer void — it is regenerated. What now blocks it is
 
 ## Where this route ends — the paper
 
-**[PUB-HLA-COVERAGE](L3-publications.md)** — [Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunotherapy in extraskeletal myxoid chondrosarcoma: a r](../../research/manuscripts/hla-coverage-emc.md)
+**[PUB-HLA-COVERAGE](L3-publications.md)** — [Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunotherapy in extraskeletal myxoid chondrosarcoma: a r](../../research/manuscripts/neoantigen/hla-coverage-emc.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

@@ -1,0 +1,232 @@
+{
+ "_what": "Routed graph and roadmap edits owed by the 2026-08-07 assessment of emc-unexplored-treatment-lanes.md §3.11 (NR2F1 dormancy agonism) and §3.12 (hormone-responsive 5' partners).",
+ "_owners": [
+  "research/modalities/nr2f1-dormancy-lane.json",
+  "research/modalities/hormone-partner-lane.json"
+ ],
+ "_cost": "$0 — two Europe PMC retrievals on GitHub-hosted runners plus reads of committed artifacts. No GPU, no rental.",
+ "_why_routed_and_not_applied_by_hand": "systems/graph/*, systems/views/* and nr4a3-program-map.md are hand-edit-forbidden for this session, and systems/views/* fails the build on any hand edit (systems_check.py --write-views regenerates them). Every roadmap edit below is exact-substring verified against the LIVE map with verify_map_edits.py, which refuses an anchor it cannot locate exactly once rather than guessing — the mechanism the 2026-08-02/03 dead-anchor incidents produced.",
+
+ "_what_this_deliberately_does_NOT_do": [
+  "It does not change a requirement, gate, price, rung, claim ceiling or Open decision. Registering a route amends no register (roadmap §0.8).",
+  "It does not add an instrument row to §3.1. Neither lane pointed an instrument at anything, and a V row for an instrument that never ran would be a fabricated register entry.",
+  "It does not restate a figure. Every number stays in the artifact that owns it and is referenced by file → field.",
+  "It does not re-grade any existing route. §3.12's closure of the MEK/IEG-promoter family is unchanged; this work strengthens its evidential base and touches no other row."
+ ],
+
+ "n_roadmap_edits": 1,
+ "map_edits_required": [
+  {
+   "id": "E1",
+   "section": "2.1 — the register, row R5",
+   "anchor": "the cheapest item on it is **$0** and is a SOURCING question (a known answer in regime whose site actually rearranges), not a compute one.",
+   "current_text": "the cheapest item on it is **$0** and is a SOURCING question (a known answer in regime whose site actually rearranges), not a compute one.",
+   "proposed_text": "the cheapest item on it is **$0** and is a SOURCING question (a known answer in regime whose site actually rearranges), not a compute one. ⛔ **AND ONE CANDIDATE FAMILY HAS NOW BEEN SEARCHED AND RETURNED NOTHING (2026-08-07, $0).** The NR2F/COUP-TF orphan receptors were proposed as the donor of exactly this known answer — [`emc-unexplored-treatment-lanes.md` §3.11](emc-unexplored-treatment-lanes.md) called NR2F1 *\"the known-answer control the flagship lacked\"* — and retrieval refutes it: **there is no experimental structure of NR2F1 or its LBD at all**, so the family supplies no apo→holo pair, and the one NR2F-family crystal (NR2F2, 3CJW) is autorepressed with the pocket collapsed. Full retrieval, the three primary sources and what a passing NR2F1 test would and would not have licensed: [`nr2f1-dormancy-lane.json`](../modalities/nr2f1-dormancy-lane.json) → `verdict` / `what_a_passing_nr2f1_known_answer_test_would_and_would_not_license_for_NR4A3`. **Recorded here so the next session does not re-run the same search.**",
+   "why": "This row tells every future session that the cheapest way to move R5 is a $0 SOURCING question. One family has now been sourced and eliminated. Without this pointer the same search is repeated; with it, the row keeps its instruction and gains its first result. No number is typed and no status changes.",
+   "artifact": "research/modalities/nr2f1-dormancy-lane.json:evidence.F1_no_experimental_nr2f1_structure"
+  }
+ ],
+
+ "_graph_edits_note": "systems/graph/routes.json is hand-edit-forbidden for this session, so the two records below are PROPOSED IN FULL rather than applied. They are schema-shaped against the live file (every field name and every controlled-vocabulary value is taken from an existing record or from systems/CONVENTIONS.md §4). ⚠ THREE THINGS THE GRAPH OWNER MUST DO BEFORE APPLYING, and they are named rather than assumed: (1) `revival_trigger` values are NEW `TR-*` ids and must be registered wherever the existing `TR-NR4A3-RXR-HETERODIMER-REPORT` is registered, or dropped; (2) applying a route requires reprojecting systems/emc-systems-map.json (the legacy mirror) for the SHARED_ROUTE_FIELDS, or systems_check [L2]/[L3] fails the build; (3) `python3 systems/systems_check.py --write-views` must be run afterwards, because every file under systems/views/ is generated and a stale view fails preflight gate 2.",
+
+ "graph_edits_proposed": {
+  "systems/graph/routes.json": [
+   {
+    "id": "RT-NR2F1-DORMANCY",
+    "display_name": "NR2F1 dormancy agonism",
+    "aliases": ["NR2F1 agonist", "COUP-TF1 dormancy", "dormancy maintenance"],
+    "grade": {
+     "value": "⚠ SPLIT VERDICT, and the split is the point. The CAPABILITY-TRANSFER half — that NR2F1 supplies the known-answer control the degrader program never had — is REFUTED at $0 by retrieval: no experimental NR2F1 structure exists, the agonist C26 was itself found by docking into a 40%-identity homology model with no measured binding constant, and this repository's own screen puts NR2F1 at 0.216 identity to NR4A3 with 4 of 10 Pocket-5 positions gapped. The DISEASE-FIT half — that dormancy maintenance is unusually well matched to EMC's late-recurrence natural history — is untouched and is the reason this route is registered rather than closed.",
+     "owner": {"file": "research/modalities/nr2f1-dormancy-lane.json", "anchor": "verdict"}
+    },
+    "grade_pointers": [
+     {"file": "research/manuscripts/program/emc-unexplored-treatment-lanes.md", "asserts_grade": false}
+    ],
+    "blockers_inherited": ["BLK-NO-EMC-DATA", "BLK-NO-WET-LAB"],
+    "blockers_retired": [],
+    "instruments": {"support": [], "disclosed_failing": ["V3", "V21"]},
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+     {"route": "RT-DEGRADER",
+      "axis": "what the molecule is asked to do to the receptor",
+      "fails_on": ["BLK-PARALOGUE-DDG"],
+      "why": "the degrader removes NR4A3; this route AGONISES a different receptor to install a quiescence programme, and it inherits none of the ternary or ubiquitin-transfer requirements. It does inherit the same class of paralogue problem in a harder instance — the NR2F1/NR2F2 LBD pair is reported at 96% identity."},
+     {"route": "RT-RXR",
+      "axis": "which receptor is being modulated",
+      "fails_on": [],
+      "why": "RT-RXR is closed because NR4A3 does not heterodimerise with RXR. That is a measurement about NR4A3's dimer and says nothing about NR2F1, which does heterodimerise with RXR and whose only usable LBD model is templated on RXRα. Two different receptors; the closure does not transfer."},
+     {"route": "RT-SYNLETH-DEP",
+      "axis": "what the therapeutic endpoint is",
+      "fails_on": ["BLK-NO-EMC-DATA"],
+      "why": "a dependency route kills dividing cells; this route deliberately does not — its endpoint is that cells stay asleep and the tumour does not shrink. Efficacy readouts that reward shrinkage would score it as a failure."}
+    ],
+    "closure_note": "NOT closed. Blocked on one $0 observation: whether NR2F1 is expressed in EMC at all, which the pending emc-expression-datasets.yml read settles. ⛔ What IS closed, and permanently unless the published record changes, is the instrument-transfer rationale — a known-answer control cannot be constructed on NR2F1 from the current literature, and a run that appeared to pass one would certify nothing.",
+    "closure_kind": "open",
+    "revival_trigger": ["TR-NR2F1-LBD-STRUCTURE", "TR-NR2F1-BINDING-CONSTANT"],
+    "strategy": "ST-REPURPOSING",
+    "publication": {
+     "endpoint": "PUB-PARKED-MODALITIES",
+     "role": "contributing",
+     "contribution": "Two things the field does not have written down. First, the honest state of the NR2F1 druggability record: the most-cited dormancy agonist rests on a homology model at 40% identity with no structure and no measured binding constant, and its own authors say so. Second, a worked example of a capability-transfer proposal refuted for $0 before any compute was bought — which is the failure mode most likely to consume a small program's budget."
+    },
+    "level": "L2",
+    "kind": "route",
+    "title": "NR2F1 dormancy agonism",
+    "provenance": {"owner": {"file": "systems/graph/routes.json"}},
+    "purpose": "EMC's clinical problem is late recurrence rather than bulk disease. Could a therapy that maintains dormancy — rather than shrinking tumours — match that natural history, and can this program's orphan-NR-LBD machinery grade any compound that tried?",
+    "state": {
+     "work_state": "future",
+     "authorization": "free",
+     "status": "blocked",
+     "maturity": "concept",
+     "confidence": "low",
+     "last_verified": "2026-08-07"
+    },
+    "rationale": "EMC metastasises late, overwhelmingly to lung, over many years, with 10-year survival reported at 65–70%. A therapy that holds disseminated cells asleep and never shrinks a tumour is worth little in most cancers and is unusually well matched here. NR2F1 is the published master regulator of disseminated-tumour-cell dormancy and has a reported specific agonist, which made it look like both a target and a calibrator. It is the first; it is not the second.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+     "Whether NR2F1 is expressed in EMC at all — the gate on everything else, and a $0 read already dispatched.",
+     "Whether agonising NR2F1 does anything in EMC. No EMC model has been tested with C26 or any NR2F1 agonist by anyone.",
+     "Whether NR2F1 can be engaged selectively over NR2F2, whose LBD is reported at 96% identity — a harder instance of the problem that stopped the degrader route.",
+     "Whether C26 binds NR2F1 directly at all. Its reported target engagement is the knockout-dependence of a cellular effect; no Kd, SPR, ITC or thermal shift appears in the primary report."
+    ],
+    "required_validation": [
+     {"what": "NR2F1 expression in EMC, above floor, in at least one series",
+      "instrument": "INS-GEO-SERIES-CHARACTERISE",
+      "feasible_today": true,
+      "blocked_by": []},
+     {"what": "A known-answer control for pose prediction in an NR2F-family LBD",
+      "instrument": "V3",
+      "feasible_today": false,
+      "blocked_by": ["BLK-NO-EMC-DATA"]}
+    ],
+    "readiness": {
+     "attainable_today": "internal_note",
+     "why_not_higher": "One half is a pending binary read and the other half is a refutation of a proposal nobody published. Neither is a paper on its own; both belong in the parked-modalities record.",
+     "missing": ["the NR2F1 expression read in EMC", "any experimental NR2F1 structure", "any measured binding constant for any NR2F1 ligand"]
+    },
+    "timing": {
+     "recommendation": "monitor",
+     "rationale": "The biology half resolves on a free read already in flight. The instrument half cannot move until somebody else determines an NR2F-family receptor–ligand complex, which is not this program's experiment to run and is not obviously imminent — the family's only crystal structure is from 2008 and is ligand-free.",
+     "six_month_delta": "Small. Structure determination on an autorepressed orphan receptor with no high-affinity ligand is not a fast-moving target.",
+     "two_year_delta": "Possibly material if the dormancy field's clinical interest pulls a structural effort behind it.",
+     "cost_trend": "flat",
+     "automation_outlook": "The computational half is fully automatable and already built; what is missing is an experiment, which automation does not supply.",
+     "revisit_trigger": ["TECH-EMC-EXPRESSION-DATA"]
+    },
+    "next": {
+     "best_next_action": "Read the pending NR2F1 row out of emc-expression-datasets.yml. ⛔ Do NOT dispatch a second run — one is already in flight. If NR2F1 is at floor in both series, close this route on premise_false and stop; if it is expressed, the next action is still not a docking run, because there is nothing to calibrate against.",
+     "cost": "$0"
+    }
+   },
+   {
+    "id": "RT-HORMONE-PARTNER",
+    "display_name": "Endocrine therapy in hormone-responsive-partner NR4A3 fusions",
+    "aliases": ["PGR::NR4A3 tamoxifen", "hormone-responsive 5' partner", "the hormonal route"],
+    "grade": {
+     "value": "⛔ REAL, VERIFIED, AND IT REACHES ALMOST NOBODY — and the route's own headline must say so. One EMC patient in the world literature had a PGR::NR4A3 fusion, received tamoxifen, and at the time of report had over five years of ongoing benefit (PMID 36103645). ZERO of the partner-genotyped EMC cases in the two cohorts this repository cites carried a PGR partner; the denominator, the Wilson 95% interval and the stated non-overlap assumption are DERIVED, never typed, and live in `hormone-partner-lane.json` → `reach.pooled`. ⭐ The GENERAL principle is stronger than the EMC route: the 5' partner supplies the promoter, so the reachable handle on fusion expression is the partner's regulatory input — now supported across 12 partners and 3 tumour types, including a second oestrogen-axis partner (GREB1::NR4A3) and an enhancer-hijack case outside EMC entirely (SCPP::NR4A3 in salivary acinic cell carcinoma). ⛔ Neither adds an EMC patient.",
+     "owner": {"file": "research/modalities/hormone-partner-lane.json", "anchor": "headline"}
+    },
+    "grade_pointers": [
+     {"file": "research/manuscripts/program/emc-unexplored-treatment-lanes.md", "asserts_grade": false}
+    ],
+    "blockers_inherited": ["BLK-NO-EMC-DATA", "BLK-NO-WET-LAB"],
+    "blockers_retired": [],
+    "instruments": {"support": [], "disclosed_failing": []},
+    "objects": ["OBJ-NR4A3-WT"],
+    "evidence": ["EV-PMC4015728"],
+    "artifacts": [],
+    "distinct_from": [
+     {"route": "RT-DEGRADER",
+      "axis": "what is lowered, and by what mechanism",
+      "fails_on": [],
+      "why": "the degrader removes the fusion PROTEIN and must discriminate NR4A3 from its paralogues at the ligand-binding domain. This route lowers fusion TRANSCRIPTION by acting on the 5' partner's promoter input, and inherits no paralogue-selectivity requirement at all — the discrimination is genomic, not molecular, and is exact by construction because only the fusion allele carries that promoter driving NR4A3."},
+     {"route": "RT-TRABECTEDIN-PPARG",
+      "axis": "where in the causal chain the drug acts",
+      "fails_on": ["BLK-NO-EMC-DATA"],
+      "why": "that route acts DOWNSTREAM of the fusion on a nuclear-receptor axis the fusion activates. This one acts UPSTREAM, on the promoter that transcribes the fusion. Opposite ends of the same chain, and a patient could in principle be eligible for both."},
+     {"route": "RT-RXR",
+      "axis": "which nuclear receptor and in what capacity",
+      "fails_on": [],
+      "why": "RT-RXR asks whether NR4A3's own dimer partner is druggable and is closed on measurement. Here PGR and GREB1 appear as GENOMIC DONORS of a promoter, not as receptors being modulated in the tumour cell — the drug acts on ER, upstream of the donor promoter."}
+    ],
+    "closure_note": "NOT closed, and its limit is arithmetic rather than mechanistic. The mechanism is sound and the single clinical observation is strong for an n of 1; what bounds the route is the size of the eligible population, which the repository's own cited cohorts put at 0 of 84 with a ~4.4% Wilson upper bound. ⚠ That bound may UNDERCOUNT for a stated reason and it must not be inflated because of it: the source report says its own fusion 'would have not been captured by existing commercial vendors which use panel-based approaches that do not include PGR or N4A3', and both cited cohorts genotyped by targeted assay.",
+    "closure_kind": "open",
+    "revival_trigger": ["TR-EMC-RNASEQ-PARTNER-SERIES"],
+    "strategy": "ST-REPURPOSING",
+    "publication": {
+     "endpoint": "PUB-REPURPOSING",
+     "role": "contributing",
+     "contribution": "The first partner-by-partner druggability map of the NR4A3 5' partners, with an explicit evidence tier per row and the retrieval negatives kept. Its one sentence for the field's record: because NR4A3 breaks near its start, the pharmacologically reachable handle on fusion expression is the PARTNER's regulatory input and never NR4A3's own — which is why one PGR-partnered patient responded to an anti-oestrogen, why a MEK inhibitor cannot work on any of them, and why the honest reach of a hormonal route in EMC is a bound of a few percent rather than a subtype."
+    },
+    "level": "L2",
+    "kind": "route",
+    "title": "Endocrine therapy in hormone-responsive-partner NR4A3 fusions",
+    "provenance": {"owner": {"file": "systems/graph/routes.json"}},
+    "purpose": "NR4A3 breaks near its own start, so the 5' partner supplies the promoter. Which partners import a druggable regulatory input, and how many EMC patients could such a route serve?",
+    "state": {
+     "work_state": "computed",
+     "authorization": "free",
+     "status": "blocked",
+     "maturity": "computed",
+     "confidence": "moderate",
+     "last_verified": "2026-08-07"
+    },
+    "rationale": "A fusion oncoprotein is usually undruggable and its promoter is usually not. Here the promoter is the partner's, and partners differ: PGR's is oestrogen-driven and has a drug, GREB1's is a canonical oestrogen-receptor target, and the FET-family partners that account for the great majority of EMC have no retrieved inducible input at all. That asymmetry is the route, and it is also the route's ceiling.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+     "The true frequency of hormone-responsive partners in EMC. Zero events in 84 genotyped cases bounds it; it does not measure it, and both cohorts used assays the index report says would have missed its own case.",
+     "Whether anti-oestrogen therapy benefits the four reported PGR::NR4A3 uterine epithelioid leiomyosarcomas — the report that describes them does not mention endocrine treatment.",
+     "Whether the HSPA8 promoter carries a druggable inducible element. The only partner whose gene family plausibly does; nothing was retrieved either way.",
+     "Whether lowering fusion transcription is therapeutically sufficient in any partner class. No experiment addresses this for any partner, including PGR — the single clinical observation is an outcome, not a mechanism measurement."
+    ],
+    "required_validation": [
+     {"what": "An RNA-seq-genotyped EMC series large enough to estimate the hormone-responsive-partner fraction rather than bound it",
+      "instrument": "INS-GEO-SERIES-CHARACTERISE",
+      "feasible_today": false,
+      "blocked_by": ["BLK-NO-EMC-DATA"]}
+    ],
+    "readiness": {
+     "attainable_today": "preprint",
+     "why_not_higher": "The partner map and the reach bound are complete and citable now, and the field has no equivalent. What it cannot yet be is a treatment recommendation: the clinical evidence is n = 1 and the eligible population is bounded at a few percent.",
+     "missing": ["an unbiased-sequencing denominator", "any outcome from a second hormone-responsive-partner case"]
+    },
+    "timing": {
+     "recommendation": "pursue_now",
+     "rationale": "The whole route is literature and annotation. It is finished except for writing, it costs nothing, and it is the only route in the portfolio with a documented multi-year clinical benefit behind it — however small the population.",
+     "six_month_delta": "Small; driven by whether a second case is reported.",
+     "two_year_delta": "Moderate — unbiased RNA-seq is displacing panel genotyping in sarcoma, which is precisely the change that would make more of these cases visible.",
+     "cost_trend": "falling_fast",
+     "automation_outlook": "Fully automatable; the enumeration here was produced by a regex over a retrieved corpus.",
+     "revisit_trigger": ["TECH-EMC-EXPRESSION-DATA"]
+    },
+    "next": {
+     "best_next_action": "One targeted $0 Europe PMC query for outcomes in the four PGR::NR4A3 uterine epithelioid leiomyosarcomas and any GREB1::NR4A3 case. Taking the axis from n = 1 to n > 1 — in any disease — is the single observation that most changes what this route can claim.",
+     "cost": "$0"
+    }
+   }
+  ]
+ },
+
+ "new_ids_requiring_registration": [
+  {"id": "TR-NR2F1-LBD-STRUCTURE",
+   "what": "An experimentally determined structure of NR2F1 or NR2F2 LBD WITH A LIGAND BOUND is deposited.",
+   "why": "the only event that could make a genuine known-answer control constructible in this receptor family.",
+   "detection": "$0 — an RCSB accession query, or a method-watch trigger."},
+  {"id": "TR-NR2F1-BINDING-CONSTANT",
+   "what": "A measured binding constant (Kd/IC50 by SPR, ITC, thermal shift or radioligand displacement) for any compound against purified NR2F1 LBD.",
+   "why": "it would make C26 a known answer for an AFFINITY instrument even without a structure. ⛔ Still not for a POSE instrument.",
+   "detection": "$0 — literature scan."},
+  {"id": "TR-EMC-RNASEQ-PARTNER-SERIES",
+   "what": "An EMC series genotyped by unbiased RNA-seq rather than a targeted panel, reporting 5' partners.",
+   "why": "the only observation that converts the hormonal route's reach BOUND into an estimate, in either direction.",
+   "detection": "$0 — literature scan."}
+ ],
+
+ "verification": {
+  "roadmap_edits": "verify_map_edits.py run against the live nr4a3-program-map.md on 2026-08-07: 1 edit, status APPLIES, 'anchor and current_text are both present exactly once in the live map', verdict ALL EDITS APPLY. Re-run before applying — the anchor is verified against the map as it stood, and the map moves: `python3 research/modalities/verify_map_edits.py research/manuscripts/occupancy/nr2f1-hormone-lane-map-edits.json`.",
+  "graph_edits": "⚠ NOT MACHINE-VERIFIED. verify_map_edits.py checks roadmap anchors only; it has no schema check for routes.json. The two records were shaped by reading the live file and systems/CONVENTIONS.md §4, and `python3 systems/systems_check.py --check` is the real gate — it must be run by whoever applies them, together with a reprojection of the legacy mirror and `--write-views`."
+ }
+}

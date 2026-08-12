@@ -273,7 +273,7 @@ def classify(h):
 # ─────────────────────────────────────────────────────────────────────────────────────────
 # ⛔ THE PANEL'S ORIGINAL HEADLINE COUNTED EVERY GAP-DISRUPTED NEAR-MATCH AS ZERO-CLEAVABLE, AND
 # THE PRIMARY LITERATURE DOES NOT SUPPORT THAT. Two retrieved sources, both anchored in
-# research/manuscripts/lit-targets-aso-verify.json and both re-verified against PubMed, Europe PMC
+# research/manuscripts/aso/lit-targets-aso-verify.json and both re-verified against PubMed, Europe PMC
 # and Crossref on 2026-08-08 (Actions run 31276141296):
 #
 #   * PMID 23963702 (Østergaard ME, Southwell AL, Kordasiewicz H, Watt AT, Skotte NH, Doty CN,

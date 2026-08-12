@@ -20,7 +20,7 @@ _backfilled: true
 
 *Branch `claude/nr4a3-ensemble-redesign` · created 2026-07-11.* Read alongside: the program state
 ([`nr4a3-degrader-next-steps.md`](./nr4a3-degrader-next-steps.md)), the manuscript §2.1/§2.8
-([`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md)), the pre-registration
+([`../manuscripts/degrader/nr4a3-degrader-paper.md`](../manuscripts/degrader/nr4a3-degrader-paper.md)), the pre-registration
 ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md)), the harmonized pocket tracker
 ([`pocket_tracking.py`](./pocket_tracking.py) + [`nr4a3_pocket_reharmonize.py`](./nr4a3_pocket_reharmonize.py)),
 and the provenance/decision ledger ([`nr4a3-redesign-provenance.json`](./nr4a3-redesign-provenance.json)).

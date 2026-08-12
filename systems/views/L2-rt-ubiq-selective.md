@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-13--fusion-selective-ubiquitination-closed-by-a-number-the-repo-already-owns)): ✕ closed by a measurement already committed
+**Grade** (owned by [`research/manuscripts/program/target-route-options.md`](../../research/manuscripts/program/target-route-options.md#route-13--fusion-selective-ubiquitination-closed-by-a-number-the-repo-already-owns)): ✕ closed by a measurement already committed
 
 ## What has to land for this route to move
 
@@ -91,7 +91,7 @@ No degradation-geometry claim may rest on a composed assembly, so the computed r
 
 ## Where this route ends — the paper
 
-**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/nr4a3-degrader-paper.md)
+**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/degrader/nr4a3-degrader-paper.md)
 
 `contributing` · ◐ `drafted` · aimed at `journal_submission`
 

@@ -27,7 +27,7 @@ Figures quoted out of `M2` are **citations**, owned by
 
 ## 1 · The mandate, and what was actually written down
 
-[`path-family-synthesis.md`](../manuscripts/path-family-synthesis.md) §2 Tier-1 row 6 records a finding and
+[`path-family-synthesis.md`](../manuscripts/program/path-family-synthesis.md) §2 Tier-1 row 6 records a finding and
 then an instruction:
 
 > *"Take the threshold-free rank as the roadmap mandates and stop quoting both rulers as equals."*

@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DISSEMINATION](L1-st-dissemination.md) · **state:** ○ ready · scoped · confidence high · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md#route-3---publish-the-methods-result-the-program-has-already-earned--rank-1)): Tier 1, rank 1 — DELIVERABLE
+**Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md#route-3---publish-the-methods-result-the-program-has-already-earned--rank-1)): Tier 1, rank 1 — DELIVERABLE
 
 ## What has to land for this route to move
 
@@ -74,7 +74,7 @@ Nothing blocks it. It is the only route in the portfolio with no scientific bloc
 
 ## Where this route ends — the paper
 
-**[PUB-METHODS](L3-publications.md)** — [The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish](../../research/manuscripts/degrader-methods-failure-record.md)
+**[PUB-METHODS](L3-publications.md)** — [The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish](../../research/manuscripts/methods-record/degrader-methods-failure-record.md)
 
 `primary` · ◐ `drafted` · aimed at `journal_submission`
 

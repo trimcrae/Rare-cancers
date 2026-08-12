@@ -333,7 +333,7 @@ lists six routes and **deliberately omits RT-DBD**. Fixed by adding `BLK-NOT-FUS
 
 ### X13 · ⛔ OPEN — a live manuscript proposes a route this family declares permanently closed
 
-`research/manuscripts/fusion-coactivator-ppi-paper.md` (`status: live`) proposed drugging the EWS-TAD
+`research/manuscripts/fusion-direct/fusion-coactivator-ppi-paper.md` (`status: live`) proposed drugging the EWS-TAD
 and called it **"the fusion-unique EWS-TAD surface"**. That surface is the shared FET low-complexity
 region — the exact object `RT-FET-LC-LIGAND` declares permanently closed. Verified: the file mentions
 wild-type EWSR1 **zero times** (`grep -icE "wild-type EWSR1|WT EWSR1|endogenous EWSR1"` → 0), so its

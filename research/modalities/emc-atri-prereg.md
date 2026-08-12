@@ -41,7 +41,7 @@ _backfilled: true
 > **What this program CAN settle by itself** is a different and much narrower question — whether the
 > hypothesis is internally consistent in public data and whether it transfers to EMC. That is done,
 > it is $0, and it lives in
-> [`emc-atr-vulnerability-assessment.md`](../manuscripts/emc-atr-vulnerability-assessment.md) +
+> [`emc-atr-vulnerability-assessment.md`](../manuscripts/dependency/emc-atr-vulnerability-assessment.md) +
 > [`emc_atr_vulnerability.py`](./emc_atr_vulnerability.py). **It is not evidence that an ATR
 > inhibitor kills EMC cells and cannot become that evidence.**
 
@@ -49,7 +49,7 @@ _backfilled: true
 approached.** A criterion written after the numbers arrive is not a criterion; that is the whole
 reason this document exists and the reason it is dated by its commit rather than by a line of prose.
 
-**Route:** [`emc-post-degrader-options.md`](../manuscripts/emc-post-degrader-options.md) route 1.
+**Route:** [`emc-post-degrader-options.md`](../manuscripts/program/emc-post-degrader-options.md) route 1.
 That memo is the design rationale and the ranking; it is not re-derived here and nothing here amends
 it. **Board row:** [`../IDEAS.md`](../IDEAS.md).
 
@@ -75,9 +75,9 @@ has agreed to run it and nobody has been asked.**
 
 | item | who can do it | status |
 |---|---|---|
-| The public-data transfer test (is the hypothesis internally consistent; does it transfer to EMC) | **us, in-silico, $0** | ✅ done — [`emc-atr-vulnerability-assessment.md`](../manuscripts/emc-atr-vulnerability-assessment.md) |
+| The public-data transfer test (is the hypothesis internally consistent; does it transfer to EMC) | **us, in-silico, $0** | ✅ done — [`emc-atr-vulnerability-assessment.md`](../manuscripts/dependency/emc-atr-vulnerability-assessment.md) |
 | The structural precondition from sequence | **us, in-silico, $0** | ✅ done — [`emc_fet_idr_census.py`](./emc_fet_idr_census.py) |
-| The DSB-recruitment arm: exon-verified construct designs, the RGG dose-calibration prediction and the within-EMC TCF12 negative control | **us, in-silico, $0** (the designs; a lab still has to build and image them) | ✅ done — [`emc-atr-collaborator-package.md`](../manuscripts/emc-atr-collaborator-package.md) → [`emc_fet_construct_designs.py`](./emc_fet_construct_designs.py). ⚠ It also **corrects the junction this file's §1 relies on** — the commonest EMC fusion is EWSR1 exon 12, not exon 7; see that file's appendix |
+| The DSB-recruitment arm: exon-verified construct designs, the RGG dose-calibration prediction and the within-EMC TCF12 negative control | **us, in-silico, $0** (the designs; a lab still has to build and image them) | ✅ done — [`emc-atr-collaborator-package.md`](../manuscripts/dependency/emc-atr-collaborator-package.md) → [`emc_fet_construct_designs.py`](./emc_fet_construct_designs.py). ⚠ It also **corrects the junction this file's §1 relies on** — the commonest EMC fusion is EWSR1 exon 12, not exon 7; see that file's appendix |
 | The GDSC / DepMap re-cuts | **us, in-silico, $0** | ✅ done — [`fet_ddr_axis_scan.py`](./fet_ddr_axis_scan.py) |
 | ⛔ Everything in §3–§6 below — cells, dose–response, γH2AX, PARPi arm, proliferation index | **a laboratory. NOT us.** | **HOPE, not plan.** No lab engaged, none approached |
 | ⛔ The optional ATM-pS1981 ± IR mechanism readout | **a laboratory. NOT us.** | **HOPE, not plan** |
@@ -216,18 +216,18 @@ The only thing this program itself commits to is writing up whatever comes back 
 ## 7 · Provenance and limits
 
 - Every literature figure above is fetched and quoted from
-  [`lit-targets-emc-post-degrader.json`](../manuscripts/lit-targets-emc-post-degrader.json) on the
+  [`lit-targets-emc-post-degrader.json`](../manuscripts/program/lit-targets-emc-post-degrader.json) on the
   `literature-cache` branch. Nothing here is quoted from memory or from a search summary.
 - **The structural precondition census is a SEQUENCE argument.** It cannot show that any NR4A3 fusion
   is recruited to double-strand breaks or suppresses ATM. Those are the measurements being asked for.
 - **The GDSC comparator is every non-FET line in GDSC2, not other sarcomas**, and its FET group is
   dominated by Ewing. It says nothing about EMC directly — **no EMC line is in GDSC2.** ⭑ The
   matched-comparator version of that contrast is now computed and is in
-  [`emc-atr-vulnerability-assessment.md`](../manuscripts/emc-atr-vulnerability-assessment.md).
+  [`emc-atr-vulnerability-assessment.md`](../manuscripts/dependency/emc-atr-vulnerability-assessment.md).
 - **We have not contacted any of the groups named in §3, and there is no plan to.** Doing so is an
   outward-facing act and is gated on trimcrae per CLAUDE.md §3. Until then this file is a document,
   not a project.
 - ⚠ **H-EMC-SS is named in §3 as a candidate EMC model and its fusion status is UNVERIFIED.** §3's
   "Fusion status" row already requires per-model confirmation, and that requirement is now doing
   real work rather than being boilerplate — see part A of
-  [`emc-atr-vulnerability-assessment.md`](../manuscripts/emc-atr-vulnerability-assessment.md).
+  [`emc-atr-vulnerability-assessment.md`](../manuscripts/dependency/emc-atr-vulnerability-assessment.md).

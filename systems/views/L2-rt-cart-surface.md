@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/car-t-strategies-emc.md`](../../research/manuscripts/car-t-strategies-emc.md)): Hard but not closed — among surface modalities, the conjugate and radioligand forms carry the smaller build and regulatory burden; nothing here bears on efficacy in EMC
+**Grade** (owned by [`research/manuscripts/surface-targets/car-t-strategies-emc.md`](../../research/manuscripts/surface-targets/car-t-strategies-emc.md)): Hard but not closed — among surface modalities, the conjugate and radioligand forms carry the smaller build and regulatory burden; nothing here bears on efficacy in EMC
 
 ## What has to land for this route to move
 
@@ -95,7 +95,7 @@ Blocked by the antigen search and the cold stroma rather than by the cell produc
 
 ## Where this route ends — the paper
 
-**[PUB-SURFACE-TARGETS](L3-publications.md)** — [Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts](../../research/manuscripts/emc-surface-target-landscape.md)
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

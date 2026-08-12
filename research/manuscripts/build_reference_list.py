@@ -36,9 +36,9 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
-PAPER = os.path.join(HERE, "fusion-junction-aso-working-record.md")
-OUT_JSON = os.path.join(HERE, "fusion-junction-aso-references.json")
-OUT_MD = os.path.join(HERE, "fusion-junction-aso-references.md")
+PAPER = os.path.join(HERE, "aso", "fusion-junction-aso-working-record.md")
+OUT_JSON = os.path.join(HERE, "aso", "fusion-junction-aso-references.json")
+OUT_MD = os.path.join(HERE, "aso", "fusion-junction-aso-references.md")
 BRANCH = "origin/literature-cache"
 
 #: Fields a complete journal reference needs. A record missing any of these is reported, never guessed.

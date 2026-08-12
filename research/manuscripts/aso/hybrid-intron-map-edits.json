@@ -1,0 +1,61 @@
+{
+  "_what": "Map + route-graph edits owed by the 2026-08-07 hybrid-intron premise audit.",
+  "_owner": "research/manuscripts/aso/hybrid-intron-aso-target.md",
+  "_artifact": "research/modalities/hybrid-intron-model.json",
+  "_cost": "$0 — analysis of committed artifacts only. No network call, no GPU, no rental, nothing dispatched.",
+  "_why_routed_and_not_applied_by_hand": "Parallel agents are working against nr4a3-program-map.md and systems/graph/* this session, and this session was instructed not to hand-edit either. Every text edit below is verified to match the LIVE document exactly once and is applied through route_map_edits.py, which refuses an anchor it cannot locate exactly once rather than guessing.",
+  "_anchor_contract": "current_text was counted against research/manuscripts/nr4a3-program-map.md in this worktree; count == 1 for each. proposed_text is current_text plus an appended clause — no existing sentence is rewritten and no number is typed.",
+  "_what_this_deliberately_does_NOT_do": [
+    "It does not re-rank anything. A refuted premise on one unexplored lane changes no gate, no rung, no price and no Open decision.",
+    "It does not touch the fusion-junction ASO manuscript's retraction block or its lifting — both are read here, neither is amended.",
+    "It does not restate a figure. The budget, the GC readings and the screen counts stay in hybrid-intron-model.json and in the panels that own them."
+  ],
+  "n_edits": 2,
+  "map_edits_required": [
+    {
+      "id": "E1",
+      "section": "the 'Owned by a different deliverable' row — route 3, the fusion-junction ASO / siRNA",
+      "why": "The cell says the regeneration is 'dispatched and unread' and that nothing from that panel may be quoted. That was true when written and is now STALE: the corrected regeneration landed on 2026-08-06, the retraction was lifted for the two panels that exist (E7::N3 and E12::N3), and those panels are quotable — they are the head-to-head baseline the hybrid-intron audit rests on. A cell that says a landed result may not be quoted is a stale status reading as a current one, which is the failure mode this whole routing mechanism exists for.",
+      "current_text": "Regeneration is dispatched and **unread**; nothing from that panel may be quoted.",
+      "proposed_text": "Regeneration is dispatched and **unread**; nothing from that panel may be quoted. ✅ **CLOSED 2026-08-06 — the regeneration LANDED and the retraction is lifted for the two panels that exist (E7::N3, E12::N3), which are quotable; *superseded, retained:* 'dispatched and **unread**'.** It refuted rather than restored the headline: `n_oligos_no_true_cleavage_risk = 0` and `n_candidates_zero_offtarget = 0` at both. ⭐ **And the obvious escape hatch from that refutation is now graded and closed too (2026-08-07):** the hybrid intron adds kilobases of target but **no additional fusion-unique window** — its bulk is wild-type pre-mRNA in the same nuclear compartment, so the budget stays `GAP − 1` and the seam becomes per-patient. [`hybrid-intron-aso-target.md`](hybrid-intron-aso-target.md) → [`hybrid-intron-model.json`](../modalities/hybrid-intron-model.json)."
+    },
+    {
+      "id": "E2",
+      "section": "the 2026-08-06 exon-correction narrowing (`U`, the acceptor-exon 5'UTR retained in the fusion)",
+      "why": "The line states that `U` is 'a number no artifact in this repo records, which is what the CI Ensembl fetch measures'. Superseded the same day by the regeneration's finding (b): emc-construct-inputs.json records it, U = 2, cross-checked by 953 − 951 in nr4a3-exon-audit.json. The hybrid-intron audit re-derives U = 2 offline from those same two artifacts, so the claim that it needs the network is now false twice over.",
+      "current_text": "where `U` is the acceptor-exon 5′UTR length **retained in the fusion — a number no artifact in this repo records**, which is what the CI Ensembl fetch measures.",
+      "proposed_text": "where `U` is the acceptor-exon 5′UTR length **retained in the fusion — a number no artifact in this repo records**, which is what the CI Ensembl fetch measures. ⚠ *Superseded, retained: 'a number no artifact in this repo records'.* It was true of `nr4a3-exon-audit.json` and false of the repo — [`emc-construct-inputs.json`](../modalities/emc-construct-inputs.json) carries the spliced cDNA and `utr5_len` for both genes, and `U` is a subtraction from them. Re-derived offline, with no network call, twice: by the 2026-08-06 regeneration and again by [`hybrid_intron.coordinate_convention`](../modalities/hybrid_intron.py) on 2026-08-07."
+    }
+  ],
+  "graph_edits_proposed": {
+    "_note": "systems/graph/routes.json is NOT hand-edited by this session. These are the proposed changes, stated precisely enough to apply verbatim, for whoever holds the graph.",
+    "_target": "systems/graph/routes.json",
+    "edits": [
+      {
+        "route": "RT-ASO",
+        "field": "artifacts",
+        "op": "append",
+        "value": "research/modalities/hybrid-intron-model.json",
+        "why": "the audit that closes the 'target more of the fusion' escape hatch belongs to this route's evidence, not to a new one"
+      },
+      {
+        "route": "RT-ASO",
+        "field": "closure_note",
+        "op": "append_clause",
+        "value": "The hybrid-intron enlargement of this route is graded and closed (2026-08-07): the fusion-unique budget is set by the seam, not by how much of the fusion is transcribed, so an intron target adds kilobases of sequence and zero additional fusion-unique windows — and its seam is per-patient where the mRNA seam is shared. hybrid-intron-aso-target.md. This does not change the route's own gate, which remains BLK-DELIVERY.",
+        "why": "the route's closure_note currently says only that its gate is delivery; a reader arriving from the refuted junction screen will ask the intron question next, and the answer should be in the route record rather than only in a memo"
+      },
+      {
+        "route": null,
+        "op": "do_not_create_a_new_route",
+        "why": "⛔ Deliberate. A graded-and-closed premise is not a route — it is evidence inside RT-ASO. Creating RT-ASO-INTRON would add a row to the portfolio whose only content is a negative, which is exactly the Axis-D inflation CLAUDE.md §0 warns about. The publication endpoint is unchanged: PUB-ASO, as a section, not a new paper."
+      }
+    ]
+  },
+  "lane_memo_correction_applied_in_place": {
+    "file": "research/manuscripts/program/emc-unexplored-treatment-lanes.md",
+    "section": "3.5 · The hybrid intron",
+    "why_not_routed": "that memo is not on this session's do-not-edit list, and leaving a premise that its own ranking table quotes ('kilobases of sequence existing in no other transcript') live and uncorrected is how a refuted claim stays quotable. The edit is a single inserted block that corrects the premise and points at the audit; the section's text is otherwise untouched.",
+    "what_changed": "an inserted ⛔ block immediately under the §3.5 heading, plus the rank-5 row in the §2 table gaining a graded pointer."
+  }
+}

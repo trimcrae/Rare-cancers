@@ -29,7 +29,7 @@ last_verified: 2026-08-05
 
 ## THE ORDERED PLAN (spend-gated) — read top-to-bottom for "what's next"
 
-*★ **THE ITEM LAYER, AND THE MOST FRAGILE OBJECT IN THE REPO.** ⚠ **Parsed by [`work_ledger.scan_plan_items`](../../research/modalities/work_ledger.py)** on this heading string, the bullet regex and the `###` rung sub-headings; the skipped marker is an **en dash**, not a hyphen, and the scan ends at the next `##`. Renaming the heading makes the plan invisible with no error; reformatting a bullet makes an open item vanish from the work board. [`degrader-paper-schedule.json`](../../research/manuscripts/degrader-paper-schedule.json) is its declared one-for-one machine mirror. [§10](../../research/manuscripts/nr4a3-program-map.md#10--the-roadmap--one-ordered-list) is the ordered view over this layer and never restates a price.*
+*★ **THE ITEM LAYER, AND THE MOST FRAGILE OBJECT IN THE REPO.** ⚠ **Parsed by [`work_ledger.scan_plan_items`](../../research/modalities/work_ledger.py)** on this heading string, the bullet regex and the `###` rung sub-headings; the skipped marker is an **en dash**, not a hyphen, and the scan ends at the next `##`. Renaming the heading makes the plan invisible with no error; reformatting a bullet makes an open item vanish from the work board. [`degrader-paper-schedule.json`](../../research/manuscripts/program/degrader-paper-schedule.json) is its declared one-for-one machine mirror. [§10](../../research/manuscripts/nr4a3-program-map.md#10--the-roadmap--one-ordered-list) is the ordered view over this layer and never restates a price.*
 
 Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `[!]` result under correction.
 **Price** = spot $ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here (mid-range).
@@ -93,7 +93,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   §1b/§1c.
 
   **★ r0 IS IN, IT IS THE WRONG SIGN, AND MORE REPLICATES CANNOT FIX IT (2026-07-25). Full analysis +
-  recommendation: [valB-mini-r0-verdict-2026-07-25.md](../../research/manuscripts/valB-mini-r0-verdict-2026-07-25.md).**
+  recommendation: [valB-mini-r0-verdict-2026-07-25.md](../../research/manuscripts/degrader/valB-mini-r0-verdict-2026-07-25.md).**
   The first complete cycle (CI 30148463967, re-dumped 30155238348) gives **ΔΔG_coop(r0) = −0.534 kcal/mol**
   against the +0.944 target — wrong sign, 1.478 off, **both of which are r0's own superseded reading and NOT
   the lane's headline** ([Appendix A](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims) 44 and 51; the
@@ -227,7 +227,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      points with 0 counterexamples**; **conditioned on r0 the corrected PASS rate is 0.0 % in every cell**
      (superseded rule: up to 71.6 %); an exhaustive 58,081-cell (r1,r2) scan gives **0 PASS under both**, so it
      demonstrably **does not rescue the failing result**; discrimination improves 2.0× → 10–3330×. Ratification
-     block: §8 of [valb-gate-defect-fix-audit-2026-07-25.md](../../research/manuscripts/valb-gate-defect-fix-audit-2026-07-25.md),
+     block: §8 of [valb-gate-defect-fix-audit-2026-07-25.md](../../research/manuscripts/degrader/valb-gate-defect-fix-audit-2026-07-25.md),
      which states the "applied after an unfavourable result" optic plainly as the risk.
   3. *in flight* — the **reverse** ternary+binary legs, testing |ΔG_fwd + ΔG_rev|.
   4. **⚠ THE NAMED RESCOPE IS DEAD — the P-series cannot carry this calibrator, established for $0 on real data**
@@ -269,7 +269,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      conflated or their legs mixed in one reduction.)*
      T1 = cmpd1→cmpd4 **is r0, reused** at coefficient +1 (verified: the triangle closes in T1's as-run
      direction, no sign flip). Evidence:
-     [valb-closure-triangle-pregate-2026-07-25.md](../../research/manuscripts/valb-closure-triangle-pregate-2026-07-25.md)
+     [valb-closure-triangle-pregate-2026-07-25.md](../../research/manuscripts/degrader/valb-closure-triangle-pregate-2026-07-25.md)
      (`valb_triangle_chem.py` in the production mapper's own container + `valb_triangle_closure.py`, 19 tests).
      **Three corrections to the design as originally proposed:**
      - **(i) T3 is a DOUBLE perturbation for all four named cmpd4′ candidates** — X and Y act at different
@@ -1115,7 +1115,7 @@ carry over) — free credit beats cheap cash, and it buys ≈3 ternary edges, no
 from a **manual** source not yet reconciled against the ~8 dispatched L4 legs. Track GCP burn separately, and do
 not let "we spent ~$2 so far" imply the L4 lane was free.
 
-### Cost levers adopted 2026-07-24 ([evidence](../../research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md))
+### Cost levers adopted 2026-07-24 ([evidence](../../research/manuscripts/degrader/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md))
 
 1. **~~4 fs ternary production ≈ 2× cheaper per leg.~~ ⚠ CORRECTED 2026-07-25 — the saving is **1.56×**, not
    2×, and the leg is **2800 iterations**, not 2400. Both verified against `rbfe_spot_driver` source, both pure

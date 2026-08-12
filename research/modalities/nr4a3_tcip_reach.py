@@ -1096,13 +1096,13 @@ def _map_edits(census, summary):
                     "inherited — so the roadmap and the graph currently disagree."),
             "evidence": ("systems/graph/routes.json RT-TCIP.blockers_retired / blockers_inherited; "
                          "systems/AUDIT-2026-08-06-routes.md 'Left open deliberately'; and "
-                         "research/manuscripts/target-route-options.md route 6, which states BOTH readings "
+                         "research/manuscripts/program/target-route-options.md route 6, which states BOTH readings "
                          "in one section ('retires R9 ... R10 and R12 outright' and 'it inherits the same "
                          "induced-complex modelling problem as R9')"),
             "status": "DESCRIBED, NOT APPLIED — the roadmap is off-limits to this lane",
         },
         {
-            "file": "research/manuscripts/path-family-synthesis.md",
+            "file": "research/manuscripts/program/path-family-synthesis.md",
             "anchor": "Tier 3 table, row 12 (TCIP)",
             "current_text": "retires `R9`/`R10`/`R12`; keeps `R4`/`R5`/`R7`",
             "proposed_text": "retires `R12`; keeps `R4`/`R5`/`R7`/`R9`/`R10`",
@@ -1120,7 +1120,7 @@ def _map_edits(census, summary):
             "status": "DESCRIBED, NOT APPLIED",
         },
         {
-            "file": "research/manuscripts/target-route-options.md",
+            "file": "research/manuscripts/program/target-route-options.md",
             "anchor": "§2 route register, row 6",
             "current_text": "Keeps `R4` `R5` `R7`; **retires `R9` `R10` `R12`**",
             "proposed_text": "Keeps `R4` `R5` `R7` `R9` `R10`; **retires `R12`**",
@@ -1128,7 +1128,7 @@ def _map_edits(census, summary):
             "status": "DESCRIBED, NOT APPLIED",
         },
         {
-            "file": "research/manuscripts/target-route-options.md",
+            "file": "research/manuscripts/program/target-route-options.md",
             "anchor": "Route 6 — TCIP, prose",
             "current_text": "so it retires `R9`",
             "proposed_text": "so it retires `R12`, and `R9`/`R10` survive unchanged",

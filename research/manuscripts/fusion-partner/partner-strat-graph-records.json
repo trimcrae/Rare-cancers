@@ -1,0 +1,316 @@
+{
+  "_what": "PROPOSED systems-graph records for the fusion-variant stratification work (2026-08-07). ✅ APPLIED - all three records are live in systems/graph/*.json.",
+  "_status_2026_08_08": "⛔ THIS FILE IS A HISTORICAL PROPOSAL AND ITS RECORD COPIES ARE NO LONGER CURRENT. ART-FUSION-PARTNER-POOLING, PUB-FUSION-PARTNER and RT-PARTNER-STRAT all exist in the graph, and on 2026-08-08 the graph's `what_it_would_claim`, `readiness.missing`, `why_not_higher`, `closure_note`, `remaining_unknowns` and `publication.contribution` were rewritten after Huang 2023's per-partner event counts were read from the published PDF - so the copies below state the PRE-integration version. ⚠ Per CLAUDE.md rule 1 the live graph is the one home and this file is deliberately NOT being kept in sync: re-typing the new text here would create a second copy of exactly the fact that already drifted once. Read systems/graph/routes.json -> RT-PARTNER-STRAT and systems/graph/publications.json -> PUB-FUSION-PARTNER, never this file, for what the graph says. What this file remains useful for is its `_validated` block - the negative-control method by which the records were checked before application.",
+  "_why_not_applied": "⚠ Superseded, retained: 'systems/graph/*.json is being edited by several parallel sessions today; applying these here would collide. This file is the proposal, written to the live schemas so that applying it is a copy rather than a redesign.' True on 2026-08-07; the records were applied afterwards.",
+  "_rule": "CLAUDE.md rule 1 - one fact, one home. No number is typed here. Every figure these records refer to lives in research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json, and the prose that states them lives in research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md.",
+  "generated": "2026-08-07",
+  "author_note": "Written by the session that expanded emc-fusion-partner-stratification.md to a preprint draft.",
+
+  "_how_to_apply": [
+    "1. Append `proposed_records[]` where `collection` says, in the order given - artifacts, then publications, then routes. The route references the other two, so applying it first leaves the build red between steps.",
+    "2. Regenerate the views: `python3 systems/systems_check.py --write-views`. systems/views/** is GENERATED and a hand-edit fails the build.",
+    "3. `python3 systems/systems_check.py --check` then `./scripts/preflight.sh`.",
+    "4. `python3 research/manuscripts/lint_claims.py` - `what_it_would_claim` is linted through systems/views/L3-publications.md, so a claim written one notch too strong fails CI rather than a review."
+  ],
+
+  "_validated": {
+    "how": "The three records were injected into an IN-MEMORY copy of the graph (systems_check.load_graph(), never written to disk) and put through the real checker functions rather than eyeballed against the schema.",
+    "checks_run": [
+      "jsonschema Draft202012Validator against systems/schema/route.schema.json and publication.schema.json, resolved exactly as check_schemas resolves them",
+      "check_publications - [B1] endpoint resolves, [B2] the new endpoint is claimed by a route, [B4] the document declares level L3",
+      "check_supporting_evidence_refs - [V4] every supporting_evidence[].ref resolves in evidence/artifacts/objects/instruments/claims",
+      "check_pointers - [P2] every {file, anchor} pair resolves, including the grade anchor into the manuscript"
+    ],
+    "and_a_negative_control": "⭐ A CHECK THAT CANNOT FAIL PROVES NOTHING, so each verdict below was earned against a deliberately broken copy of the record: dropping `rationale` and setting `timing.recommendation: wait` without a `revisit_trigger` both raise schema errors; a non-existent endpoint raises [B1] and [B2]; an unresolvable `supporting_evidence[].ref` raises [V4]; a dead grade anchor raises [P2]; and an endpoint document that does not declare level L3 raises [B4]. ⚠ The first attempt at that last mutant pointed the endpoint at emc-unexplored-treatment-lanes.md and [B4] did NOT fire - because that memo declares `level: L3` itself, so the mutation was not a violation. A negative control that fails to go red is a statement about the control, not about the check.",
+    "result": "see `_validation_result` at the foot of this file"
+  },
+
+  "proposed_records": [
+    {
+      "collection": "systems/graph/artifacts.json",
+      "action": "append",
+      "id": "ART-FUSION-PARTNER-POOLING",
+      "why": "PREREQUISITE, not an extra. [V4] requires every `supporting_evidence[].ref` to resolve in evidence/artifacts/objects/instruments/claims, and the pooled artifact is the route's principal evidence. Without this row the route record cannot be applied without turning the build red - which is exactly the failure [V4] was added on 2026-08-06 to catch (four refs resolving to nothing, one of them at `strength: direct`, with the build green the whole time).",
+      "record": {
+        "id": "ART-FUSION-PARTNER-POOLING",
+        "path": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
+        "produced_by": "research/manuscripts/emc_fusion_partner_pooling.py",
+        "workflow": ".github/workflows/fetch-literature.yml",
+        "published_to": [
+          "main"
+        ],
+        "note": "The one home of every number in the partner-stratified synthesis: cohorts with their inclusion verdict and reason, per-partner strata, the citation map with primary-vs-secondary provenance, three analyses with Wilson intervals, and the retrieval provenance of every count. Stdlib-only and deterministic - re-running the generator reproduces the committed file byte-for-byte apart from its `_generated_utc` stamp (measured 2026-08-07 on this checkout). Method is systems/POLICY-evidence.md s1-s2, not a per-analysis choice. It carries `_do_not_hand_edit`: a count is changed in the generator's COHORTS table and the file regenerated."
+      }
+    },
+
+    {
+      "collection": "systems/graph/publications.json",
+      "action": "append",
+      "id": "PUB-FUSION-PARTNER",
+      "why": "CLAUDE.md s5 - every route's end goal is a paper, and until this row exists the model cannot tell 'this route has no endpoint' from 'this route's endpoint is not written yet'. The endpoint here is written: a preprint draft exists, so `state` is `drafted` and `document` points at it, which also forbids `working_title` per the schema's allOf.",
+      "supersedes_proposal": "research/manuscripts/fusion-partner/emc-fusion-partner-map-edits.json -> map_edits_required[F2].proposed_object. SAME ID, SAME ENDPOINT, ONE DIFFERENCE: `what_it_would_claim` is rewritten below to add the estimand ceiling ('a direction and not a magnitude') and to drop the phrase 'for the first time'. ⚠ Precisely: that phrase is a novelty claim of the family R3 exists for, but it is NOT one the current R3-first-to regex matches (`the first (to|study|work|report|demonstration)`), so it would have passed CI - it is dropped because an endpoint sentence should not lead on novelty, not because a linter would have caught it. Apply ONE of the two, not both - they are the same row.",
+      "record": {
+        "id": "PUB-FUSION-PARTNER",
+        "level": "L3",
+        "kind": "publication",
+        "state": "drafted",
+        "target_venue": "preprint",
+        "document": {
+          "file": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md"
+        },
+        "what_it_would_claim": "The NR4A3 5' fusion partner is a candidate - not established - treatment-stratification variable in EMC: pooling every published partner-stratified report under one pre-committed evidence contract shows a consistent DIRECTION and no established magnitude, because the entire published TAF15::NR4A3 antiangiogenic-TKI experience is three to five patients with no reported responses and a 95% upper bound lying above the comparator arm's own point estimate; the partner's prognostic effect does not survive adjustment for tumour size in either of the two larger series to test it; and the review literature's metastasis claim runs opposite to the only cohort that publishes event counts by partner. It makes no treatment recommendation and asserts no efficacy, safety, therapeutic window or clinical readiness for any agent."
+      }
+    },
+
+    {
+      "collection": "systems/graph/routes.json",
+      "action": "append",
+      "id": "RT-PARTNER-STRAT",
+      "why": "There is currently NO route modelling this work, which is why it had no publication endpoint - the two absences are the same absence. The nearest existing row is RT-ICI-TKI, and it is a different object: see `distinct_from` in the record.",
+      "record": {
+        "id": "RT-PARTNER-STRAT",
+        "display_name": "NR4A3 5' fusion partner as a treatment-stratification variable",
+        "aliases": [
+          "fusion-variant stratification",
+          "EWSR1 vs TAF15 stratification",
+          "partner-stratified pooled synthesis",
+          "the fusion-partner stratification work"
+        ],
+        "grade": {
+          "value": "The portfolio's only patient-SELECTION route: it proposes no new agent and no new modality, and asks instead which existing patients the one active drug class is reported to work in. Its finding is a DIRECTION with no established magnitude, and its deliverable - a pooled synthesis plus a costless ask of the field - is complete and unblocked.",
+          "owner": {
+            "file": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+            "anchor": "#5--what-this-synthesis-claims-and-what-it-does-not"
+          }
+        },
+        "grade_pointers": [
+          {
+            "file": "research/manuscripts/program/emc-unexplored-treatment-lanes.md",
+            "asserts_grade": true
+          }
+        ],
+        "blockers_inherited": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "blockers_retired": [],
+        "instruments": {
+          "support": [],
+          "disclosed_failing": []
+        },
+        "objects": [
+          "OBJ-FUS-T1",
+          "OBJ-FUS-TAF15",
+          "OBJ-FUS-TCF12",
+          "OBJ-FUS-FUSNR4A3"
+        ],
+        "evidence": [
+          "EV-PMC4015728",
+          "EV-PMC6766969",
+          "EV-BANGERTER-2023"
+        ],
+        "artifacts": [
+          "ART-FUSION-PARTNER-POOLING",
+          "ART-EMC-CLINICAL-REGISTRY"
+        ],
+        "distinct_from": [
+          {
+            "route": "RT-ICI-TKI",
+            "axis": "what the route proposes",
+            "fails_on": [],
+            "why": "RT-ICI-TKI proposes a COMBINATION - it asks whether adding a checkpoint inhibitor to an anti-angiogenic TKI has an EMC signal, and it is landscape context rather than this program's contribution. This route proposes no combination and no agent at all: it asks WHICH PATIENTS the antiangiogenic class is reported to work in, and its contribution is a pooled reading of the published record under a stated method. The two share one drug class and nothing else - a result here would change who is enrolled, not what is given."
+          },
+          {
+            "route": "RT-CARFILZOMIB",
+            "axis": "what the matched USZ model pair is evidence FOR",
+            "fails_on": [],
+            "why": "Both routes read Bangerter's two patient-derived EMC models, and they read them for opposite purposes: RT-CARFILZOMIB takes the models' drug sensitivity as evidence about an AGENT, while this route takes them as evidence about the PARTNER - and finds partner-INDEPENDENCE, which bounds this route's own biomarker rather than supporting it. Conflating the two readings is how a source that argues against a hypothesis gets cited for it."
+          },
+          {
+            "route": "RT-TRABECTEDIN",
+            "axis": "which existing agent's EMC record is being re-read",
+            "fails_on": [],
+            "why": "Both are clinical-evidence re-readings of an approved agent already used in EMC, and both are the kind of route that can only ever produce a paper. They differ in the axis: RT-TRABECTEDIN re-reads a single arm's denominator and outcome attribution; this route re-reads response and outcome STRATIFIED by a molecular variable, across every report that gives one."
+          }
+        ],
+        "closure_kind": "open",
+        "closure_note": "Not closed, and the two halves close on different terms. The DELIVERABLE is complete: the synthesis has run, its artifact is committed and reproducible, and nothing blocks the paper. The QUESTION is open and cannot be closed from here - it needs partner-stratified counts that exist today inside three paywalled tables, or one new published case. That asymmetry is the route, not a defect in it.",
+        "strategy": "ST-REPURPOSING",
+        "publication": {
+          "endpoint": "PUB-FUSION-PARTNER",
+          "role": "primary",
+          "contribution": "The whole paper: the pooled partner-stratified response, outcome and prevalence figures under one pre-committed method; the estimand ceiling that turns a repeated qualitative claim into a stated direction with no established magnitude; the metastasis reversal in the only cohort with event counts; the size-adjustment result from the two larger series; the attribution correction on the field's most-quoted caveat; and the zero-patient-cost ask that follows."
+        },
+        "level": "L2",
+        "kind": "route",
+        "title": "NR4A3 5' fusion partner as a treatment-stratification variable",
+        "provenance": {
+          "owner": {
+            "file": "systems/graph/routes.json"
+          }
+        },
+        "purpose": "Does the NR4A3 5' fusion partner identify which EMC patients the one systemically active drug class is reported to work in - and what does the published record actually support, as opposed to what it is repeatedly said to support?",
+        "state": {
+          "work_state": "complete",
+          "authorization": "free",
+          "status": "ready",
+          "maturity": "computed",
+          "confidence": "low",
+          "last_verified": "2026-08-07"
+        },
+        "rationale": "EMC has one systemic class with reproducible activity - the antiangiogenic TKIs - and four separate literatures each report that the two principal fusion variants behave differently under it, in outcome, in prevalence and in transcriptional programme. None of the four had been combined with any other, and no source pools the response data at all, so the belief was stronger in the field's prose than in the field's counts and nobody could say by how much. A stratification variable is also the cheapest kind of clinical result to act on: it needs no new molecule, no new modality and no wet lab, only that the variable be reported. This route is the reading that says how much the published record carries - and its answer is a direction with no established magnitude, which is a different and more useful statement than the qualitative claim it replaces.",
+        "supporting_evidence": [
+          {
+            "ref": "ART-FUSION-PARTNER-POOLING",
+            "what_it_supports": "Every pooled figure the route rests on: TKI objective response by partner under both the POLICY-conformant primary and the assume-independent secondary analysis, the single-cohort outcome intervals, the four-series prevalence pool, and the inclusion verdict and reason for every cohort considered.",
+            "strength": "direct"
+          },
+          {
+            "ref": "EV-PMC4015728",
+            "what_it_supports": "The only published EMC cohort reporting outcome EVENT COUNTS by NR4A3 partner - and therefore the only source of the disease-specific-death contrast and of the distant-recurrence reversal. NOTE for whoever applies this: the evidence row's own `what_it_supports` currently describes a DIFFERENT use of the same paper (its RT-PCR primer design, corroborating the exon-level junctions). Both uses are real; the row's field is worth extending rather than replacing.",
+            "strength": "direct"
+          },
+          {
+            "ref": "EV-PMC6766969",
+            "what_it_supports": "The transcriptional mechanism that separates the two variants - the axon-guidance switch, and the chromatin-affinity result that the EWSR1 chimera retains SEMA3C promoter binding while the TAF15 chimera is impaired. Carried as CONTEXT, not as corroboration: it shares its senior investigators and consortium with both TKI reports, so it is the same investigators explaining their own clinical observation.",
+            "strength": "transferred"
+          },
+          {
+            "ref": "EV-BANGERTER-2023",
+            "what_it_supports": "The only matched EWSR1/TAF15 patient-derived model pair in existence, and it reads AGAINST this route's hypothesis rather than with it: the authors' finding is partner-INDEPENDENT drug response, and neither model was tested against an antiangiogenic TKI. It bounds the biomarker's scope to the class in which the correlation was observed. Listed as supporting evidence because a bound on a claim is part of what the claim rests on.",
+            "strength": "transferred"
+          }
+        ],
+        "remaining_unknowns": [
+          "Whether the response contrast is real at all. Zero of three to five TAF15 patients is consistent with a TAF15 response rate equal to the EWSR1 one - the 95% Wilson upper bound sits above the comparator arm's own point estimate in both analyses.",
+          "Whether the two published TKI cohorts share patients. The overlap cannot be excluded from any accessible source, which is why the headline denominator is a range rather than a number.",
+          "Whether the pazopanib trial's comparator arm is EWSR1 at all - it is `non-TAF15`, and no accessible source gives the trial's full partner distribution.",
+          "Whether the partner is an independent prognostic factor. The two larger series that tested it both lose it once tumour size is in the model, and the partner is itself associated with size.",
+          "Whether partner assignment is comparable across series. The four prevalence cohorts did not use one assay, and each carries a partner-unassigned residue excluded from both numerator and denominator - an assumption of missing-at-random that no report supports.",
+          "Whether the mechanism has anything to do with the clinical observation. The one matched model pair says drug response is partner-independent for the class it tested, and the mechanism paper shares a consortium with the clinical reports."
+        ],
+        "required_validation": [
+          {
+            "what": "Partner-stratified event counts from the two largest outcome series, which exist today inside their paywalled full texts (Mod Pathol 2023, Ann Surg Oncol 2021) and would more than double the world's poolable evidence at zero new patient cost",
+            "feasible_today": false,
+            "blocked_by": [
+              "BLK-NO-EMC-DATA"
+            ]
+          },
+          {
+            "what": "The pazopanib trial's full fusion-partner distribution and its prior-therapy table, which together close both the overlap question and the composition of the comparator arm",
+            "feasible_today": false,
+            "blocked_by": [
+              "BLK-NO-EMC-DATA"
+            ]
+          },
+          {
+            "what": "A partner-stratified reanalysis of any registry with size and stage adjusted for - the test the two larger series already point at and neither could complete",
+            "feasible_today": false,
+            "blocked_by": [
+              "BLK-NO-EMC-DATA"
+            ]
+          },
+          {
+            "what": "Re-running the generator and reproducing the committed artifact, which is what makes every figure in the paper checkable by a reader with no network and no dependencies",
+            "feasible_today": true,
+            "blocked_by": []
+          }
+        ],
+        "readiness": {
+          "attainable_today": "preprint",
+          "why_not_higher": "The synthesis is complete and reproducible, and nothing blocks posting it. What holds it below a journal submission is not the writing but the evidence base: the primary analysis rests on a single trial's three-patient stratum, the per-arm denominators for both TKI cohorts were read from secondary sources because neither primary full text is open access, and the outcome analysis is one cohort of 23. A reviewer would be right to ask for the three paywalled tables, and nobody here can supply them.",
+          "missing": [
+            "per-partner event counts from Huang 2023 (Mod Pathol, n = 58) and Paioli 2021 (Ann Surg Oncol, n = 67)",
+            "the pazopanib trial's full partner distribution and prior-therapy table (Lancet Oncol 2019)",
+            "NCT02066285's eligibility text, absent from the cached ClinicalTrials.gov v2 field set"
+          ],
+          "evidence_required": [
+            "at least one further cohort reporting objective response by NR4A3 partner with integer counts"
+          ]
+        },
+        "timing": {
+          "recommendation": "pursue_now",
+          "rationale": "The analysis is done, the artifact is committed and reproducible, and the deliverable is unblocked. Waiting does not improve it: no new EMC cohort is expected, the three tables that would move it are already written and simply not public, and the ask this paper makes - report the partner alongside response - only starts working once it is published. A synthesis that names the missing tables is also the cheapest instrument for getting them released.",
+          "six_month_delta": "Little, unless a new case report or a partner-stratified registry reanalysis appears. One published TAF15 response would change the conclusion outright, and that is a single case report away.",
+          "two_year_delta": "Materially more if the paywalled tables are published or a registry reanalysis is run - both are decisions by other people rather than capabilities that must arrive.",
+          "cost_trend": "flat",
+          "automation_outlook": "Retrieval, pooling and interval arithmetic are fully automated here and cost $0. Deciding which cohorts may be pooled at all - the overlap judgement in particular - is not automatable and is where the analysis actually lives."
+        },
+        "next": {
+          "best_next_action": "Post the preprint at research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md, and in the same pass send the three paywalled-table requests named in its section 6 to the corresponding authors.",
+          "cost": "$0",
+          "blocked_on": []
+        }
+      }
+    }
+  ],
+
+  "decisions_and_alternatives": [
+    {
+      "field": "routes.strategy",
+      "chosen": "ST-REPURPOSING",
+      "alternatives_rejected": {
+        "ST-DISSEMINATION": "Its thesis is that methodology and negative results are themselves a contribution - it is the home of the program's own failure record. This route's content is a clinical claim about a biomarker and an approved drug class, not a claim about this program's methods. Filing it there would classify a clinical-evidence route as dissemination because its output happens to be a paper, and every route's output is a paper.",
+        "ST-IMMUNO": "Where RT-ICI-TKI sits, and only because of its checkpoint half. There is no immune component here."
+      },
+      "note": "ST-REPURPOSING is the family that already holds the approved-agent clinical routes, including ones already reported in EMC (RT-TRABECTEDIN). Its stated purpose asks about agents 'not yet tried in EMC', which this class HAS been - so the fit is to the family's practice rather than to its purpose sentence. Flagging it rather than hiding it: if the maintainer would rather widen ST-REPURPOSING's purpose or mint a patient-selection family, this route is the one that makes the case."
+    },
+    {
+      "field": "routes.blockers_inherited",
+      "chosen": "BLK-NO-EMC-DATA",
+      "reasoning": "None of the 18 registered blockers describes 'the counts exist and are behind a paywall'. BLK-NO-EMC-DATA's NAME is the DepMap instance (one cell line, no CRISPR data), which is not this obstacle - but its `statement_about` is 'data availability - the repo-wide rate-limiter, not any one route', and the register already uses it for clinical-series scarcity: RT-ICI-TKI inherits it for 'a larger EMC series or a registry analysis'. This follows that precedent.",
+      "alternative_not_taken": "Minting BLK-PARTNER-COUNTS-PAYWALLED (kind `insufficient_data`, retired by publication of three named tables) would model the obstacle more precisely, and it is deliberately NOT proposed here: systems/graph/blockers.json is a file parallel sessions are touching today, and a fourth record raises the collision surface for a gain that is descriptive rather than structural."
+    },
+    {
+      "field": "routes.blockers_retired",
+      "chosen": "[] (empty)",
+      "reasoning": "⚠ SURFACING AN AMBIGUITY RATHER THAN PICKING A SIDE. The schema says this field is 'Blockers this route ANSWERS'. RT-ICI-TKI uses it differently - it lists BLK-PARALOGUE-DDG, BLK-TERNARY-GEOMETRY and BLK-NOT-FUSION-SELECTIVE, which that route does not ANSWER but simply does not FACE, being made of approved drugs. This route is in exactly the same position and would take exactly the same three under that reading. It is left empty because filling it requires choosing which reading is the register's, and that is the maintainer's call, not a navigation-layer one."
+    },
+    {
+      "field": "publications.blocked_by",
+      "chosen": "omitted",
+      "reasoning": "The field is for blockers that hold up the PAPER rather than the science, and nothing holds up this paper. That asymmetry is the most useful thing these two records say together: the route's `required_validation` is three-quarters infeasible today, and its endpoint is unblocked. A route can be blocked on evidence while its paper is publishable as an honest, bounded reading - which is the portfolio's main source of publishable work."
+    },
+    {
+      "field": "routes.state.maturity",
+      "chosen": "computed",
+      "reasoning": "The pooling ran and returned into a committed artifact. `externally_corroborated` was considered and rejected: the independent readings that corroborate the TKI strata (Ghent, University of Michigan) are independent GROUPS reading the SAME patients, which is not an independent measurement. Overstating this field is how a synthesis of one trial's three-patient stratum comes to read as replicated."
+    },
+    {
+      "field": "routes.state.confidence",
+      "chosen": "low",
+      "reasoning": "Confidence is in the object's own central assertion, and the central assertion is that the partner is a usable stratification variable. The data cannot exclude equality between the arms. `moderate` would be defensible for the prevalence pool alone and is the wrong answer for the route."
+    }
+  ],
+
+  "consequences_for_the_checker": [
+    "[B2] is SATISFIED for the new endpoint only once the route is applied - PUB-FUSION-PARTNER claimed by no route is a hard error. Apply both or neither.",
+    "[B5] will NOT fire: it warns when a `ready` route's endpoint is `unwritten` or `outlined`, and this endpoint is `drafted`.",
+    "[B6]/[B7] counts move by one endpoint and one claimed L3 document.",
+    "[L4] will WARN that routes/RT-PARTNER-STRAT is new in the graph and absent from the legacy registry research/manuscripts/emc-systems-map.json. That is the expected state for a new route while the legacy file is hand-maintained; projecting it there is optional and is NOT part of this proposal.",
+    "lint_claims.py gains one file by glob - the endpoint's `document.file` is added to its targets automatically, so the manuscript becomes linted the moment the publication row lands. Measured on the manuscript as written: 0 ERROR, 2 WARN, both R4-confirms firing on the literal path `scripts/validate-registry.mjs` rather than on a claim."
+  ],
+
+  "not_proposed_here": [
+    "Any edit to systems/graph/*.json, systems/views/** or research/manuscripts/nr4a3-program-map.md - out of scope and collision-prone today.",
+    "The registry citation-label fix (`warmke2023` -> `Huang 2023`), already routed as edit F3 in research/manuscripts/fusion-partner/emc-fusion-partner-map-edits.json.",
+    "The lane-memo correction on the USZ pair, already routed as edit F1 in the same file.",
+    "A BLK-* row for the paywalled counts - see decisions_and_alternatives.",
+    "An EV-* row for either TKI report. Neither the sunitinib series nor the pazopanib trial has an evidence-register id today, and both are cited in the pooling artifact's own citation map with full identifiers and verification notes. Adding them is worthwhile and is a separate, larger edit to evidence.json."
+  ],
+
+  "_validation_result": {
+    "run": "2026-08-07",
+    "how": "in-memory injection into systems_check.load_graph(); nothing written to systems/",
+    "jsonschema_route": "PASS",
+    "jsonschema_publication": "PASS",
+    "B1_endpoint_resolves": "PASS",
+    "B2_endpoint_claimed_by_a_route": "PASS",
+    "B4_document_declares_level_L3": "PASS",
+    "V4_supporting_evidence_refs_resolve": "PASS",
+    "P2_grade_anchor_resolves": "PASS",
+    "total_checker_errors_on_the_injected_graph": 0,
+    "every_verdict_has_a_demonstrated_failure_mode": true,
+    "note": "Re-run after applying, because a checker run over an injected copy proves the records are well-formed and cannot prove the applied graph is consistent with everything else that landed the same day."
+  }
+}

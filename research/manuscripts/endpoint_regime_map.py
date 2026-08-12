@@ -45,10 +45,10 @@ sys.path.insert(0, HERE)
 
 from emc_endpoint_alternatives import binom_sf, single_stage_design  # noqa: E402
 
-CORPUS = os.path.join(HERE, "endpoint-corpus.json")
-DISCORDANCE = os.path.join(HERE, "emc-endpoint-discordance.json")
-OUT = os.path.join(HERE, "endpoint-regime-map.json")
-OUT_REL = "research/manuscripts/endpoint-regime-map.json"
+CORPUS = os.path.join(HERE, "endpoint", "endpoint-corpus.json")
+DISCORDANCE = os.path.join(HERE, "endpoint", "emc-endpoint-discordance.json")
+OUT = os.path.join(HERE, "endpoint", "endpoint-regime-map.json")
+OUT_REL = "research/manuscripts/endpoint/endpoint-regime-map.json"
 
 #: The null a single-arm oncology phase 2 conventionally tests against, and the one the 2019
 #: pazopanib EMC stratum registered. Sourced rather than chosen here.
@@ -359,8 +359,8 @@ def build():
         "_do_not_hand_edit": True,
         "title": "The regime in which a response-rate readout stops carrying information",
         "governed_by": "systems/POLICY-evidence.md 2.6",
-        "reads": ["research/manuscripts/endpoint-corpus.json",
-                  "research/manuscripts/emc-endpoint-discordance.json"],
+        "reads": ["research/manuscripts/endpoint/endpoint-corpus.json",
+                  "research/manuscripts/endpoint/emc-endpoint-discordance.json"],
 
         "G1_axis_definitions": {
             "axis_1_response_rate": (

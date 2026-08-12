@@ -13,7 +13,7 @@ exclusion worse than a scope note:
       this disease — has occurred in a non-TAF15 patient; the TAF15 arm is 0 events across 3 to 5
       patients. That pooled contrast, its zero-event caveat and the primary authors' own hedge that
       the fusion is a surrogate rather than a mechanism, are owned by
-      `research/manuscripts/emc-fusion-partner-pooling.json` and are NOT restated here (rule 1).
+      `research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json` and are NOT restated here (rule 1).
       What follows from it for THIS module is only this: the partner-defined subgroup with the
       fewest options was the one a hard-coded gene symbol excluded from the design lane.
   (b) The FET-family donors are PARALOGUES. EWSR1, TAF15 and FUS share genuinely similar

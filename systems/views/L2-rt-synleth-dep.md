@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/degrader-vs-synthetic-lethal.md`](../../research/manuscripts/degrader-vs-synthetic-lethal.md)): DOWNGRADED — DepMap 24Q4 transfer prior negative; ⏸ parked on data, not on ideas
+**Grade** (owned by [`research/manuscripts/dependency/degrader-vs-synthetic-lethal.md`](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md)): DOWNGRADED — DepMap 24Q4 transfer prior negative; ⏸ parked on data, not on ideas
 
 ## What has to land for this route to move
 
@@ -100,7 +100,7 @@ Parked on DATA rather than on ideas. A negative derived from a transfer prior ov
 
 ## Where this route ends — the paper
 
-**[PUB-SYNLETH](L3-publications.md)** — [Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comparison](../../research/manuscripts/degrader-vs-synthetic-lethal.md)
+**[PUB-SYNLETH](L3-publications.md)** — [Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comparison](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md)
 
 `primary` · ◐ `drafted` · aimed at `internal_note`
 

@@ -95,7 +95,7 @@ This is clinical-evidence synthesis rather than a computational contribution. It
 
 ## Where this route ends — the paper
 
-**[PUB-EMC-PROGRAM](L3-publications.md)** — [Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3](../../research/manuscripts/emc-treatment-roadmap.md)
+**[PUB-EMC-PROGRAM](L3-publications.md)** — [Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3](../../research/manuscripts/program/emc-treatment-roadmap.md)
 
 `context` · ◐ `drafted` · aimed at `journal_submission`
 

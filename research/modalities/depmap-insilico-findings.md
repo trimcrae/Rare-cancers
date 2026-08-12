@@ -30,7 +30,7 @@ _backfilled: true
 > extraskeletal myxoid chondrosarcoma (PubMed=34413129)."* DepMap's own filtered fusion caller
 > returns 2 calls for the model and neither names NR4A3 or any FET gene
 > ([`emc-atr-vulnerability.json`](./emc-atr-vulnerability.json) → `part_a_hemcss_identity`; full
-> correction: [`emc-surface-target-landscape.md` → Amendment 1](../manuscripts/emc-surface-target-landscape.md)).
+> correction: [`emc-surface-target-landscape.md` → Amendment 1](../manuscripts/surface-targets/emc-surface-target-landscape.md)).
 > ⚠ It does **not** establish what the line is instead — that needs STR authentication + RT-PCR,
 > which this programme cannot perform.
 >
@@ -40,7 +40,7 @@ _backfilled: true
 >
 > | claim in this file | status |
 > |---|---|
-> | Finding 3: *"PRAME … HIGH in myxoid (7.6) … **EMC is a myxoid-class tumour, so this is the most promising antigen-directed signal**"* and the tracker update *"best antigen-directed option **for a myxoid-class tumour**"* | ⛔ **INVALIDATED as an EMC-proximal read.** The 7.6 is one line of disputed identity. ⭑ Note [`../manuscripts/emc-treatment-roadmap.md`](../manuscripts/emc-treatment-roadmap.md) already **refused** to treat the 7.6 as EMC-proximal — right conclusion, wrong reason (it thought the line was liposarcoma) |
+> | Finding 3: *"PRAME … HIGH in myxoid (7.6) … **EMC is a myxoid-class tumour, so this is the most promising antigen-directed signal**"* and the tracker update *"best antigen-directed option **for a myxoid-class tumour**"* | ⛔ **INVALIDATED as an EMC-proximal read.** The 7.6 is one line of disputed identity. ⭑ Note [`../manuscripts/program/emc-treatment-roadmap.md`](../manuscripts/program/emc-treatment-roadmap.md) already **refused** to treat the 7.6 as EMC-proximal — right conclusion, wrong reason (it thought the line was liposarcoma) |
 > | Finding 3: **PRAME ≫ MAGE-A4 / NY-ESO-1** (53 % vs 7 % / 5 %) | ✅ **SURVIVES.** A *relative* claim across all sarcoma lines; the disputed line is one of them and cannot move it. This is the defensible form of the PRAME lead |
 > | Finding 2: **B7-H3 near-universal (99 %, mean 5.73)** | ✅ **SURVIVES.** Rests on the whole panel; `myxoid 4.4` is one of six subtype numbers and is the *lowest* of them |
 > | Finding 2: *"NCAM1/CD56 … **myxoid-subtype ≈ 0** (myxoid *liposarcoma* is not NE)"* → CD56 stays plausible-but-unconfirmed | ⚠ **CONCLUSION SURVIVES, REASONING RE-LABELLED.** The parenthetical is wrong; the 0.03 is one line of disputed identity, so it was never evidence about EMC either way. "Unconfirmed" was and remains right |

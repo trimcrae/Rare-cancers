@@ -273,7 +273,7 @@ an auto-captured lead that *"must clear `verify-refs` before any manuscript quot
   workflow**, so dispatching `verify-refs` as committed cannot clear it. Adding it is a workflow edit,
   i.e. a commit — outside this lane's remit. (The 2026-08-06 route audit already recorded this under *"Left
   open deliberately"*; re-read here and unchanged.)
-- `research/manuscripts/fact-check-log.md` → **0** occurrences.
+- `research/manuscripts/methods-record/fact-check-log.md` → **0** occurrences.
 - Crossref and Europe PMC are **403'd at the egress proxy** from this sandbox (verified by direct `curl`
   and by `WebFetch`), so the check cannot be run locally either.
 
@@ -511,5 +511,5 @@ text above carries only the current value.
   figures had been restated here and drifted from it. Neither set is registered in
   [`pinned-figures.json`](../manuscripts/pinned-figures.json), which is why `lint_consistency.py` could
   not catch the drift. Found while writing
-  [`PUB-TCIP`](../manuscripts/tcip-induced-interface-preprint.md). The §4(b) ablation table
+  [`PUB-TCIP`](../manuscripts/tcip/tcip-induced-interface-preprint.md). The §4(b) ablation table
   (0.896 / 1.121 / 1.254) was checked in the same pass and is **unchanged**.

@@ -23,7 +23,7 @@ import pose_conditionality_census as pcc  # noqa: E402
 
 CENSUS = json.loads((MOD / "pose-conditionality-census.json").read_text())
 MAP_EDITS = json.loads(
-    (REPO / "research" / "manuscripts" / "pose-conditionality-map-edits.json").read_text()
+    (REPO / "research" / "manuscripts" / "degrader" / "pose-conditionality-map-edits.json").read_text()
 )
 
 

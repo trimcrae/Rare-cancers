@@ -37,7 +37,13 @@ jobs:
           mkdir -p out
           node - <<'EOF'
           const fs = require("fs"), path = require("path");
-          const files = fs.readdirSync("research/manuscripts").filter(f=>f.endsWith(".md")).map(f=>"research/manuscripts/"+f);
+          // ⚠ RECURSIVE. Manuscripts moved into per-route subfolders on 2026-08-12; a flat
+          // readdirSync silently stopped seeing 190 of them and would have reported success on
+          // whatever was left at the root.
+          const walk = d => fs.readdirSync(d, {withFileTypes:true}).flatMap(e =>
+            e.isDirectory() ? (e.name === "__pycache__" ? [] : walk(path.join(d, e.name)))
+                            : (e.name.endsWith(".md") ? [path.join(d, e.name)] : []));
+          const files = walk("research/manuscripts");
           let n = 0;
           for (const f of files) {
             const t = fs.readFileSync(f, "utf8");

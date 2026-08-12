@@ -31,7 +31,7 @@ exclude anything, the finding IS the width. See `where_the_evidence_is_too_thin`
 
 Regenerate:  python3 research/manuscripts/emc_systemic_therapy_pooling.py
 Verify:      python3 research/manuscripts/emc_systemic_therapy_pooling.py --check
-Output:      research/manuscripts/emc-systemic-therapy-pooling.json
+Output:      research/manuscripts/endpoint/emc-systemic-therapy-pooling.json
 
 ⛔ `--check` WAS A PROMISE THIS FILE COULD NOT KEEP (found 2026-08-08). Until that day this module
 parsed NO arguments at all: `--check` was accepted by the shell, ignored by the script, and the
@@ -54,7 +54,7 @@ import os
 import sys
 from datetime import datetime, timezone
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "emc-systemic-therapy-pooling.json")
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "endpoint", "emc-systemic-therapy-pooling.json")
 
 # --------------------------------------------------------------------------------------------
 # Citations. Every entry carries >= 1 resolvable identifier and the ROUTE it was retrieved by,
@@ -768,7 +768,7 @@ CONTEXT_ONLY = [
             "and the Frontiers publisher landing page for doi 10.3389/fonc.2020.00828 (HTTP 200) "
             "-- three independent acquisitions, each carrying both sentences. GitHub Actions run "
             "31276131242, corpus literature/chiusole2020-pfs-verify on the literature-cache "
-            "branch, targets research/manuscripts/lit-targets-chiusole2020-pfs.json."),
+            "branch, targets research/manuscripts/endpoint/lit-targets-chiusole2020-pfs.json."),
         "⛔_why_this_was_missed_for_a_year": (
             "THE ABSTRACT DOES NOT CONTAIN IT. The PubMed record for PMID 32612944 was fetched in "
             "the same run (HTTP 200) and carries the abstract only; the string does not appear in "

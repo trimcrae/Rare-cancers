@@ -229,7 +229,7 @@ DEFAULT_PLAN_DOC = os.path.join(HERE, "..", "..", "systems", "views", "plan.md")
 DEFAULT_STRATEGY = DEFAULT_PLAN_DOC                # backwards-compatible alias; do not add a second path
 #: The MACHINE MIRROR of the ORDERED PLAN. It carries `id`, `status` and `depends_on`, so
 #: the "is this rung blocked" question is answerable exactly, against a real graph, with no name matching.
-DEFAULT_SCHEDULE = os.path.join(HERE, "..", "manuscripts", "degrader-paper-schedule.json")
+DEFAULT_SCHEDULE = os.path.join(HERE, "..", "manuscripts", "program", "degrader-paper-schedule.json")
 REPO = "trimcrae/Rare-cancers"
 
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════

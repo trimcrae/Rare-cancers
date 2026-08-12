@@ -123,7 +123,7 @@ def main():
     # and DepMap's filtered fusion caller names no FET gene for it (emc-atr-vulnerability.json ->
     # part_a_hemcss_identity). So `myxoid` here is neither liposarcoma nor usable EMC -- it is one
     # sarcoma line of disputed identity, and NO subtype read off it is EMC evidence.
-    # Correction home: research/manuscripts/emc-surface-target-landscape.md (Amendment 1).
+    # Correction home: research/manuscripts/surface-targets/emc-surface-target-landscape.md (Amendment 1).
     # ⚠ ALWAYS CHECK `n` BEFORE QUOTING A SUBTYPE NUMBER FROM THIS TABLE. Every one of these groups
     # can be a single line, and a subtype mean of n=1 reads exactly like a subtype mean of n=20.
     subtypes = ["ewing", "synovial", "myxoid", "alveolar", "rhabdo", "lipo"]
@@ -177,7 +177,7 @@ def main():
                                            "EGFR 0.19.",
             "verdict_source": "research/modalities/emc-atr-vulnerability.json -> "
                               "part_a_hemcss_identity",
-            "correction_home": "research/manuscripts/emc-surface-target-landscape.md "
+            "correction_home": "research/manuscripts/surface-targets/emc-surface-target-landscape.md "
                                "(Amendment 1, 2026-08-05)",
             "no_numeric_field_is_touched_by_this_block": True,
             "_general_warning": "EVERY subtype group in /surface_and_cta_by_subtype can be n=1. "

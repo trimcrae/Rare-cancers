@@ -292,7 +292,7 @@ def main():
                   # depends on it (verified, not assumed). ⛔ And the model's identity is
                   # DISPUTED: Cellosaurus CVCL_1238 records that it does not harbor an EWSR1
                   # fusion, so it would not be an EMC read even if data appeared. Correction
-                  # home: research/manuscripts/emc-surface-target-landscape.md (Amendment 1).
+                  # home: research/manuscripts/surface-targets/emc-surface-target-landscape.md (Amendment 1).
                   "Myxoid_liposarcoma": "myxoid", "Alveolar_RMS": "alveolar"}.items()}
 
     # Fusion-addiction proxy (degrader make-or-break): does a fusion partner read as a dependency

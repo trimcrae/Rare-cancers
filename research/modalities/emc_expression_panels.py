@@ -270,7 +270,7 @@ PANELS = {
             "⛔ `PPARG` and `PPARGC1A` appear ONLY as interpretive context and are marked "
             "`is_the_read: false`. PPARG ABUNDANCE in EMC is already measured twice, concordantly "
             "(Subramanian 2005, n=10; Filion 2009, n=3 fusion-verified), and its one home is "
-            "`research/manuscripts/pparg-direction-emc.md` §6. Re-reporting abundance as if it were "
+            "`research/manuscripts/repurposing/pparg-direction-emc.md` §6. Re-reporting abundance as if it were "
             "new would be the second copy of a settled fact. The MISSING measurement, named in that "
             "memo as the one thing nobody has ever done, is receptor ACTIVITY."),
         "direction_reading_rules": (
@@ -287,7 +287,7 @@ PANELS = {
             "   neither is a claim about any thiazolidinedione, zaltoprofen, trabectedin or any "
             "   combination. The direction question's adjudicated state — UNRESOLVED, leaning "
             "   agonism, T1 with a model-identity caveat — has ONE home and this file does not "
-            "   move it: `research/manuscripts/pparg-direction-emc.md`."),
+            "   move it: `research/manuscripts/repurposing/pparg-direction-emc.md`."),
         "what_it_cannot_settle": "Ligand occupancy, receptor activity in the pharmacological sense, "
                                  "and whether any agonist or antagonist has an effect in EMC. A "
                                  "target-gene signature in bulk archival tissue is transcriptional "
@@ -2198,7 +2198,7 @@ def _assemble_reads(res):
          "direction_reading_rules": PANELS["pparg_target_activity"]["direction_reading_rules"],
          "abundance_context_only": {
              "_warning": "CONTEXT, NOT A NEW MEASUREMENT. PPARG abundance in EMC has one home: "
-                         "research/manuscripts/pparg-direction-emc.md §6.",
+                         "research/manuscripts/repurposing/pparg-direction-emc.md §6.",
              "is_the_read": False,
              "genes": _readability_of(res, ["PPARG", "PPARGC1A", "RXRA"])}})
     R["read_4_NE_STATE"] = _read_entry(

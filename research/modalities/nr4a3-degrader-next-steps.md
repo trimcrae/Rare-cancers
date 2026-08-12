@@ -27,16 +27,16 @@ _backfilled: true
 > (the structural precondition, computed), [`fet_ddr_axis_scan.py`](./fet_ddr_axis_scan.py) →
 > [`fet-ddr-axis-scan.json`](./fet-ddr-axis-scan.json) (the DepMap/GDSC public-data analysis),
 > ⭐ [`emc_atr_vulnerability.py`](./emc_atr_vulnerability.py) → [`emc-atr-vulnerability.json`](./emc-atr-vulnerability.json)
-> → [`../manuscripts/emc-atr-vulnerability-assessment.md`](../manuscripts/emc-atr-vulnerability-assessment.md)
+> → [`../manuscripts/dependency/emc-atr-vulnerability-assessment.md`](../manuscripts/dependency/emc-atr-vulnerability-assessment.md)
 > (**the route's own module and its GRADED output — tier `WEAK`**; `emc-post-degrader-options.md` route 1a calls it
 > "its module"), [`emc_fet_construct_designs.py`](./emc_fet_construct_designs.py), and
 > [`emc-atri-outreach-DRAFT.md`](./emc-atri-outreach-DRAFT.md) (⛔ **held, not sent**). The route's
-> rationale and rank: [`../manuscripts/emc-post-degrader-options.md`](../manuscripts/emc-post-degrader-options.md).
+> rationale and rank: [`../manuscripts/program/emc-post-degrader-options.md`](../manuscripts/program/emc-post-degrader-options.md).
 > Both scans run from `depmap-dependency.yml`; **neither needs a GPU or a rental.**
 
 **Source of truth for HOW to resume/run the degrader compute from a fresh session** (infra + run commands). Read
 this alongside the plan ([`/nr4a3-program-map.md`](../manuscripts/nr4a3-program-map.md)), the
-manuscript ([`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md)) and the
+manuscript ([`../manuscripts/degrader/nr4a3-degrader-paper.md`](../manuscripts/degrader/nr4a3-degrader-paper.md)) and the
 pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md)) before launching
 anything. Last updated 2026-08-06. ⚠ *Superseded, retained: "Last updated 2026-06-26" — the file carried content through 2026-07-27 and frontmatter `date: 2026-08-05` while its own stamp read six weeks earlier.*
 
@@ -62,8 +62,8 @@ anything. Last updated 2026-08-06. ⚠ *Superseded, retained: "Last updated 2026
 > predicted selective candidate is the win** (only after the gate passes). Steps 1 & 2 are parallel; 3 gates on both. RBFE is
 > KEPT as the warhead input; **denovo_401 → side comparator only**; the ABFE λ-repair / replicates / T4L
 > benchmark are shelved. Much of the ABFE/denovo_401 detail below is now **historical context**, not the active
-> plan. Canonical calendar: [`../manuscripts/degrader-paper-schedule.json`](../manuscripts/degrader-paper-schedule.json);
-> strategy: [`../manuscripts/nr4a3-degrader-strategy-ternary-first.md`](../manuscripts/nr4a3-degrader-strategy-ternary-first.md).
+> plan. Canonical calendar: [`../manuscripts/program/degrader-paper-schedule.json`](../manuscripts/program/degrader-paper-schedule.json);
+> strategy: [`../manuscripts/degrader/nr4a3-degrader-strategy-ternary-first.md`](../manuscripts/degrader/nr4a3-degrader-strategy-ternary-first.md).
 
 > **ENSEMBLE-ROBUST REDESIGN (2026-07-11, branch `claude/nr4a3-ensemble-redesign`).** trimcrae directed a
 > redesign against an *ensemble-defined* target (not another molecule against one selected frame), motivated
@@ -131,7 +131,7 @@ in the right direction, and ranks the non-binder control weakly; *inconclusive/i
 
 ## TL;DR
 Druggability case is a **feasibility result, stated honestly** (see the red-team:
-[`../manuscripts/nr4a3-degrader-paper-redteam.md`](../manuscripts/nr4a3-degrader-paper-redteam.md)).
+[`../manuscripts/degrader/nr4a3-degrader-paper-redteam.md`](../manuscripts/degrader/nr4a3-degrader-paper-redteam.md)).
 **Gate 0/0b** pass; **Gate 2** (opened-pocket druggable + handle-facing) passes; **Gate 1** is met only in
 the weaker *basin-breathing* sense (F(Rg) is **monotonic — no separate opened minimum**, so not the
 pre-registered "minimum/shoulder, not just biased excursions"); **Gate 3** (energetic accessibility) —
@@ -563,7 +563,7 @@ options: multi-snapshot-in-the-loop lead-opt around a scaffold; revisit whether 
 selective small-molecule binding at all; or shift weight to the degrader's other legs / ASO).**
 
 ## Selectivity architecture — binder vs ternary (2026-06-30 analysis)
-Full rigorous treatment: **[../manuscripts/nr4a3-degrader-selectivity-architecture.md](../manuscripts/nr4a3-degrader-selectivity-architecture.md)**.
+Full rigorous treatment: **[../manuscripts/degrader/nr4a3-degrader-selectivity-architecture.md](../manuscripts/degrader/nr4a3-degrader-selectivity-architecture.md)**.
 Key computed result that reframes the campaign: the **orthosteric cryptic pocket is a selectivity HOTSPOT**
 (7/10 warhead-contact residues divergent = 70%, vs 43% for the rest of the LBD; 60% vs 28% on the
 "differs from BOTH paralogues" criterion). So the binder's problem was never handle scarcity — it is
@@ -701,7 +701,7 @@ Full reconciliation + gate scoring + the disclosed Gate-0 deviation:
 degradation) for ex-vivo/transient immuno-oncology (T-cell exhaustion; Chen 2019) — a distinct molecule,
 not a contingency. **Anti-target** = NR4A1+NR4A3 (combined loss → AML; design *away* from). HCC/breast
 also tumour-suppressive. Detail:
-[`../manuscripts/nr4a3-degrader-broader-indications.md`](../manuscripts/nr4a3-degrader-broader-indications.md).
+[`../manuscripts/degrader/nr4a3-degrader-broader-indications.md`](../manuscripts/degrader/nr4a3-degrader-broader-indications.md).
 
 ## STEP 0 — handle-facing confirmation — ✅ DONE (CONFIRMED 2026-06-26, run 28249776934)
 **Result:** druggable frames 8/25 sampled (fpocket ≥ D\*=0.53); **mean 5.0/7 handles pocket-facing**;

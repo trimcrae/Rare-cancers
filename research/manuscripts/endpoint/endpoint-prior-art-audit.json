@@ -1,0 +1,405 @@
+{
+ "_schema": "endpoint-prior-art-audit/1",
+ "_generated_by": "research/manuscripts/endpoint_prior_art_audit.py",
+ "_do_not_hand_edit": true,
+ "title": "Which diseases already replaced the response-rate summary, and how",
+ "reads": [
+  "research/manuscripts/endpoint/endpoint-prior-art-inputs.json",
+  "research/manuscripts/endpoint/endpoint-regime-map.json"
+ ],
+ "A0_the_necessity_question": {
+  "asked": "has oncology already solved this, making the argument unnecessary?",
+  "answer": "partly, repeatedly, and separately. At least four distinct solution families are in use, several carried by named working groups issuing formal criteria. What has NOT happened is generalisation: each fix was made for one disease or one drug class and stayed there.",
+  "consequence_for_the_paper": "the defensible claim is not that oncology has failed to notice. It is that the problem is a property of a coordinate, that the solutions already exist, and that they have not reached the diseases whose coordinates need them most. That is a narrower and more useful paper than the one that would have been written without asking.",
+  "what_would_have_falsified_the_paper": "finding a general, cross-disease treatment of the low-rate/low-accrual regime with an endorsed remedy. None was retrieved. That is an absence in what these queries returned, not a proof that none exists."
+ },
+ "A1_endorsed_alternatives": [
+  {
+   "pmid": "9607564",
+   "year": "1998",
+   "title": "There are no bad anticancer agents, only bad clinical trial designs--twenty-first Richard and Hinda Rosenthal Foundation Award Lecture",
+   "journal": "",
+   "doi": null,
+   "domain": "oncology-wide",
+   "fix_family": "D_patient_as_own_control",
+   "endorsement_grade": "methodology_paper",
+   "what_it_changed": "the argument that trial design rather than agent is often what produces a negative result",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "round3_xdisease-endpoint-criteria/epmc_title_vonhoff_bad_designs"
+  },
+  {
+   "pmid": "17470865",
+   "year": "2007",
+   "title": "Correlation of computed tomography and positron emission tomography in patients with metastatic gastrointestinal stromal tumor treated at a single institution with imatinib mesylate: proposal of new computed tomography response criteria",
+   "journal": "",
+   "doi": "10.1200/jco.2006.07.3049",
+   "domain": "gastrointestinal stromal tumour",
+   "fix_family": "B_redefine_response",
+   "endorsement_grade": "single_trial_precedent",
+   "what_it_changed": "the observation that imatinib-treated GIST changes density rather than size, which is the measurement that motivated the Choi criteria",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "round3_xdisease-endpoint-criteria/epmc_title_choi_gist_ct_pet"
+  },
+  {
+   "pmid": "17470866",
+   "year": "2007",
+   "title": "We should desist using RECIST, at least in GIST",
+   "journal": "",
+   "doi": "10.1200/jco.2006.07.3411",
+   "domain": "gastrointestinal stromal tumour",
+   "fix_family": "B_redefine_response",
+   "endorsement_grade": "methodology_paper",
+   "what_it_changed": "the explicit argument that size-based response criteria should not be used in this disease",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "round3_xdisease-endpoint-criteria/epmc_title_choi_desist_recist_gist"
+  },
+  {
+   "pmid": "20231676",
+   "year": "2010",
+   "title": "Updated response assessment criteria for high-grade gliomas: response assessment in neuro-oncology working group",
+   "journal": "",
+   "doi": "10.1200/jco.2009.26.3541",
+   "domain": "high-grade glioma",
+   "fix_family": "B_redefine_response",
+   "endorsement_grade": "consensus_guideline",
+   "what_it_changed": "response assessment criteria issued by a named neuro-oncology working group",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "round3_xdisease-endpoint-criteria/epmc_title_rano_highgrade"
+  },
+  {
+   "pmid": "20175033",
+   "year": "2010",
+   "title": "Modified RECIST (mRECIST) assessment for hepatocellular carcinoma",
+   "journal": "",
+   "doi": "10.1055/s-0030-1247132",
+   "domain": "hepatocellular carcinoma",
+   "fix_family": "B_redefine_response",
+   "endorsement_grade": "consensus_guideline",
+   "what_it_changed": "a modified response assessment counting viable rather than total tumour",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "round3_xdisease-endpoint-criteria/epmc_title_mrecist_hcc"
+  },
+  {
+   "pmid": "21474379",
+   "year": "2011",
+   "title": "Response assessment in neuro-oncology (a report of the RANO group): assessment of outcome in trials of diffuse low-grade gliomas",
+   "journal": "",
+   "doi": "10.1016/s1470-2045(11)70057-2",
+   "domain": "diffuse low-grade glioma",
+   "fix_family": "A_switch_to_time_to_event",
+   "endorsement_grade": "consensus_guideline",
+   "what_it_changed": "outcome assessment for trials in a slow-growing tumour, from the same group",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "round3_xdisease-endpoint-criteria/epmc_title_rano_lowgrade"
+  },
+  {
+   "pmid": "20920605",
+   "year": "2011",
+   "title": "Statistical methods for a phase II oncology trial with a growth modulation index (GMI) endpoint",
+   "journal": "",
+   "doi": "10.1016/j.cct.2010.09.010",
+   "domain": "oncology-wide",
+   "fix_family": "D_patient_as_own_control",
+   "endorsement_grade": "methodology_paper",
+   "what_it_changed": "statistical methods for a phase 2 trial using a growth modulation index",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "xdisease-endpoint-criteria/epmc_fix_family_growth_modulation"
+  },
+  {
+   "pmid": "25113753",
+   "year": "2014",
+   "title": "Recommendations for initial evaluation, staging, and response assessment of Hodgkin and non-Hodgkin lymphoma: the Lugano classification",
+   "journal": "",
+   "doi": "10.1200/jco.2013.54.8800",
+   "domain": "Hodgkin and non-Hodgkin lymphoma",
+   "fix_family": "C_add_categories",
+   "endorsement_grade": "consensus_guideline",
+   "what_it_changed": "a staging and response classification for a family of diseases with indolent members",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "round3_xdisease-endpoint-criteria/epmc_title_lugano_classification"
+  },
+  {
+   "pmid": "25317882",
+   "year": "2014",
+   "title": "Lanreotide in metastatic enteropancreatic neuroendocrine tumors",
+   "journal": "",
+   "doi": "10.1056/nejmc1409757",
+   "domain": "enteropancreatic neuroendocrine tumour",
+   "fix_family": "A_switch_to_time_to_event",
+   "endorsement_grade": "single_trial_precedent",
+   "what_it_changed": "a placebo-controlled trial in an indolent tumour with a progression-based primary endpoint",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "round3_xdisease-endpoint-criteria/epmc_title_clarinet_lanreotide"
+  },
+  {
+   "pmid": "26903579",
+   "year": "2016",
+   "title": "Trial Design and Objectives for Castration-Resistant Prostate Cancer: Updated Recommendations From the Prostate Cancer Clinical Trials Working Group 3",
+   "journal": "",
+   "doi": "10.1200/jco.2015.64.2702",
+   "domain": "castration-resistant prostate cancer",
+   "fix_family": "A_switch_to_time_to_event",
+   "endorsement_grade": "consensus_guideline",
+   "what_it_changed": "trial design and objectives from a named working group, in a disease where much of the burden is not measurable by size at all",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "round3_xdisease-endpoint-criteria/epmc_title_pcwg3"
+  },
+  {
+   "pmid": "27714541",
+   "year": "2016",
+   "title": "Cabozantinib for metastatic breast carcinoma: results of a phase II placebo-controlled randomized discontinuation study",
+   "journal": "",
+   "doi": "10.1007/s10549-016-4001-y",
+   "domain": "breast carcinoma",
+   "fix_family": "D_patient_as_own_control",
+   "endorsement_grade": "single_trial_precedent",
+   "what_it_changed": "a second randomised discontinuation trial, establishing the design is runnable rather than theoretical",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "xdisease-control-arms/epmc_randomized_discontinuation_design"
+  },
+  {
+   "pmid": "28379322",
+   "year": "2017",
+   "title": "International Working Group consensus response evaluation criteria in lymphoma (RECIL 2017)",
+   "journal": "",
+   "doi": "10.1093/annonc/mdx097",
+   "domain": "lymphoma",
+   "fix_family": "C_add_categories",
+   "endorsement_grade": "consensus_guideline",
+   "what_it_changed": "an international working group response classification issued alongside the incumbent one",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "xdisease-endpoint-criteria/epmc_fix_family_minor_response"
+  },
+  {
+   "pmid": "26731483",
+   "year": "2017",
+   "title": "Placebo-Controlled, Double-Blind, Prospective, Randomized Study on the Effect of Octreotide LAR in the Control of Tumor Growth in Patients with Metastatic Neuroendocrine Midgut Tumors (PROMID): Results of Long-Term Survival",
+   "journal": "",
+   "doi": "10.1159/000443612",
+   "domain": "neuroendocrine tumour",
+   "fix_family": "A_switch_to_time_to_event",
+   "endorsement_grade": "single_trial_precedent",
+   "what_it_changed": "a placebo-controlled trial in an indolent tumour reading out on tumour growth control rather than on response",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "round3_xdisease-endpoint-criteria/epmc_title_promid_octreotide"
+  },
+  {
+   "pmid": "29540348",
+   "year": "2018",
+   "title": "iwCLL guidelines for diagnosis, indications for treatment, response assessment, and supportive management of CLL",
+   "journal": "",
+   "doi": "10.1182/blood-2017-09-806398",
+   "domain": "chronic lymphocytic leukaemia",
+   "fix_family": "C_add_categories",
+   "endorsement_grade": "consensus_guideline",
+   "what_it_changed": "guidelines that specify indications for treatment as well as response assessment, which is what makes deferred treatment measurable",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "round3_xdisease-endpoint-criteria/epmc_title_iwcll_guidelines"
+  },
+  {
+   "pmid": "30458583",
+   "year": "2019",
+   "title": "Phase II trial design with growth modulation index as the primary endpoint",
+   "journal": "",
+   "doi": "10.1002/pst.1916",
+   "domain": "oncology-wide",
+   "fix_family": "D_patient_as_own_control",
+   "endorsement_grade": "methodology_paper",
+   "what_it_changed": "a phase 2 design with the growth modulation index as the PRIMARY endpoint, so the approach is powered rather than descriptive",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "xdisease-endpoint-criteria/epmc_fix_family_growth_modulation"
+  },
+  {
+   "pmid": "30528315",
+   "year": "2019",
+   "title": "Results of a Phase II Placebo-controlled Randomized Discontinuation Trial of Cabozantinib in Patients with Non-small-cell Lung Carcinoma",
+   "journal": "",
+   "doi": "10.1016/j.cllc.2018.10.006",
+   "domain": "oncology-wide",
+   "fix_family": "D_patient_as_own_control",
+   "endorsement_grade": "single_trial_precedent",
+   "what_it_changed": "a placebo-controlled randomised discontinuation trial, the design that removes the historical comparator entirely",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "xdisease-control-arms/epmc_randomized_discontinuation_design"
+  },
+  {
+   "pmid": "33672857",
+   "year": "2021",
+   "title": "A Growth Modulation Index-Based GEISTRA Score as a New Prognostic Tool for Trabectedin Efficacy in Patients with Advanced Soft Tissue Sarcomas: A Spanish Group for Sarcoma Research (GEIS) Retrospective Study",
+   "journal": "",
+   "doi": "10.3390/cancers13040792",
+   "domain": "soft-tissue sarcoma",
+   "fix_family": "D_patient_as_own_control",
+   "endorsement_grade": "single_trial_precedent",
+   "what_it_changed": "a growth-modulation-index-based score applied in a sarcoma cohort",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "xdisease-endpoint-criteria/epmc_fix_family_growth_modulation"
+  },
+  {
+   "pmid": "40156702",
+   "year": "2025",
+   "title": "The Growth Modulation Index (GMI) as an Efficacy Outcome in Cancer Clinical Trials: A Scoping Review with Suggested Reporting Guidelines",
+   "journal": "",
+   "doi": "10.1007/s11912-025-01667-1",
+   "domain": "oncology-wide",
+   "fix_family": "D_patient_as_own_control",
+   "endorsement_grade": "methodology_paper",
+   "what_it_changed": "a review of the growth modulation index as an efficacy outcome",
+   "_assignment_is_a_judgement": "domain, fix family and endorsement grade are judgements made from the retrieved title, journal and abstract. The record itself is retrieved; the classification is not, and a reader may disagree with it without disturbing the citation.",
+   "retrieved_via": "xdisease-endpoint-criteria/epmc_fix_family_growth_modulation"
+  }
+ ],
+ "A2_fix_families": {
+  "definitions": {
+   "A_switch_to_time_to_event": "replace the response summary with a time-to-event or fixed-timepoint progression-free endpoint",
+   "B_redefine_response": "keep a response endpoint but redefine it so it detects the biology the agent actually produces",
+   "C_add_categories": "keep the endpoint and add categories between response and progression",
+   "D_patient_as_own_control": "remove the historical comparator by making each patient their own control"
+  },
+  "documents_per_family": {
+   "A_switch_to_time_to_event": 4,
+   "B_redefine_response": 4,
+   "C_add_categories": 3,
+   "D_patient_as_own_control": 7
+  },
+  "identifiers_per_family": {
+   "A_switch_to_time_to_event": [
+    "21474379",
+    "25317882",
+    "26731483",
+    "26903579"
+   ],
+   "B_redefine_response": [
+    "17470865",
+    "17470866",
+    "20175033",
+    "20231676"
+   ],
+   "C_add_categories": [
+    "25113753",
+    "28379322",
+    "29540348"
+   ],
+   "D_patient_as_own_control": [
+    "20920605",
+    "27714541",
+    "30458583",
+    "30528315",
+    "33672857",
+    "40156702",
+    "9607564"
+   ]
+  },
+  "_all_four_families_are_occupied": true
+ },
+ "A3_endorsement_grades": {
+  "definitions": {
+   "consensus_guideline": "a named working group issuing response or trial-design criteria",
+   "methodology_paper": "a design or statistical method, not disease-specific",
+   "single_trial_precedent": "one trial or cohort using the approach"
+  },
+  "counts": {
+   "methodology_paper": 5,
+   "single_trial_precedent": 6,
+   "consensus_guideline": 7
+  },
+  "reading": "the disease-specific fixes are mostly consensus guidelines, and the patient-as-own-control family is mostly methodology and single-trial precedent. The family that best addresses the natural-history confound is the one with the least formal endorsement."
+ },
+ "A4_diseases_with_an_endorsed_alternative": {
+  "disease_domains_covered": {
+   "gastrointestinal stromal tumour": [
+    "B_redefine_response"
+   ],
+   "high-grade glioma": [
+    "B_redefine_response"
+   ],
+   "hepatocellular carcinoma": [
+    "B_redefine_response"
+   ],
+   "diffuse low-grade glioma": [
+    "A_switch_to_time_to_event"
+   ],
+   "Hodgkin and non-Hodgkin lymphoma": [
+    "C_add_categories"
+   ],
+   "enteropancreatic neuroendocrine tumour": [
+    "A_switch_to_time_to_event"
+   ],
+   "castration-resistant prostate cancer": [
+    "A_switch_to_time_to_event"
+   ],
+   "breast carcinoma": [
+    "D_patient_as_own_control"
+   ],
+   "lymphoma": [
+    "C_add_categories"
+   ],
+   "neuroendocrine tumour": [
+    "A_switch_to_time_to_event"
+   ],
+   "chronic lymphocytic leukaemia": [
+    "C_add_categories"
+   ],
+   "soft-tissue sarcoma": [
+    "D_patient_as_own_control"
+   ]
+  },
+  "count": 12,
+  "_scope": "covered means a document was retrieved for that domain by these queries. It is not a systematic review of guidelines and cannot show that a disease has NO alternative -- only that none was retrieved here.",
+  "⚠_covered_is_not_uniformly_endorsed": {
+   "_what_this_measures": "for each disease domain, the STRONGEST grade of document retrieved for it, and how many documents that domain rests on",
+   "strongest_grade_per_domain": {
+    "gastrointestinal stromal tumour": "single_trial_precedent",
+    "high-grade glioma": "consensus_guideline",
+    "hepatocellular carcinoma": "consensus_guideline",
+    "diffuse low-grade glioma": "consensus_guideline",
+    "Hodgkin and non-Hodgkin lymphoma": "consensus_guideline",
+    "enteropancreatic neuroendocrine tumour": "single_trial_precedent",
+    "castration-resistant prostate cancer": "consensus_guideline",
+    "breast carcinoma": "single_trial_precedent",
+    "lymphoma": "consensus_guideline",
+    "neuroendocrine tumour": "single_trial_precedent",
+    "chronic lymphocytic leukaemia": "consensus_guideline",
+    "soft-tissue sarcoma": "single_trial_precedent"
+   },
+   "domains_by_strongest_grade": {
+    "single_trial_precedent": 5,
+    "consensus_guideline": 7
+   },
+   "domains_with_a_consensus_guideline": 7,
+   "domains_resting_only_on_a_trial_precedent": 5,
+   "documents_per_domain": {
+    "Hodgkin and non-Hodgkin lymphoma": 1,
+    "breast carcinoma": 1,
+    "castration-resistant prostate cancer": 1,
+    "chronic lymphocytic leukaemia": 1,
+    "diffuse low-grade glioma": 1,
+    "enteropancreatic neuroendocrine tumour": 1,
+    "gastrointestinal stromal tumour": 2,
+    "hepatocellular carcinoma": 1,
+    "high-grade glioma": 1,
+    "lymphoma": 1,
+    "neuroendocrine tumour": 1,
+    "soft-tissue sarcoma": 1
+   },
+   "domains_resting_on_a_single_document": 11,
+   "_the_honest_summary": "consensus guidelines in some domains and trial precedent in the rest. 'Endorsed across N domains' is true only of the first group, and the count of the second is reported beside it rather than folded into it."
+  }
+ },
+ "A5_the_gap": {
+  "conditions_in_the_low_response_regime": 25,
+  "_definition": "conditions placed on the regime map with a median objective response of 15% or less",
+  "_why_this_is_the_paper": "the fixes exist and are old -- the earliest retrieved document is from 1998. The gap is not invention, it is diffusion: a remedy endorsed in glioma or GIST or lymphoma does not reach a rare tumour whose coordinate is worse than any of them.",
+  "transferability": {
+   "A_switch_to_time_to_event": "transfers immediately and costs no patients, but inherits the natural-history confound whole -- it only moves which number is uncalibrated",
+   "B_redefine_response": "transfers only where the agent produces a specific non-shrinkage change that imaging can see",
+   "C_add_categories": "transfers cheaply and improves reporting, but does not fix the small-sample problem",
+   "D_patient_as_own_control": "the only family that attacks the confound rather than relocating it, and the least formally endorsed"
+  }
+ },
+ "A6_what_this_audit_is_not": {
+  "not_a_systematic_review": "the corpus is what a frozen set of queries returned. A disease absent here may have an endorsed alternative that these queries did not reach.",
+  "assignments_are_judgements": "fix family, domain and endorsement grade are read off retrieved titles, journals and abstracts by the author of this file. The records are retrieved; the classification is an opinion that can be disputed without disturbing a citation.",
+  "no_efficacy_claim": "nothing here says any endpoint produced a better treatment decision, or that any agent works. It records what criteria exist and who issued them."
+ }
+}

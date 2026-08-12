@@ -20,11 +20,11 @@ import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MANUSCRIPTS = os.path.dirname(HERE)
-PAPER = os.path.join(MANUSCRIPTS, "response-endpoint-indolent-tumours.md")
+PAPER = os.path.join(MANUSCRIPTS, "endpoint", "response-endpoint-indolent-tumours.md")
 
 
 def _load(name):
-    with open(os.path.join(MANUSCRIPTS, name), encoding="utf-8") as fh:
+    with open(os.path.join(MANUSCRIPTS, "endpoint", name), encoding="utf-8") as fh:
         return json.load(fh)
 
 

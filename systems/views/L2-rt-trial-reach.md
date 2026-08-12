@@ -63,7 +63,7 @@ The finding is confirmed one trial at a time and its limits are stated. What rem
 
 ## Where this route ends — the paper
 
-**[PUB-STRATEGY-ARCH](L3-publications.md)** — [Eligible but unfindable — trials that admit an ultra-rare sarcoma while listing conditions that never name it](../../research/manuscripts/emc-trial-reachability.md)
+**[PUB-STRATEGY-ARCH](L3-publications.md)** — [Eligible but unfindable — trials that admit an ultra-rare sarcoma while listing conditions that never name it](../../research/manuscripts/care-delivery/emc-trial-reachability.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

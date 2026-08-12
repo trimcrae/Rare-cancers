@@ -104,8 +104,8 @@ def test_the_unreconstructable_original_is_recorded_and_not_claimed():
 
 def test_both_quoting_documents_point_at_the_definition():
     """The whole deliverable is that a reader hitting the phrase can find out what it means."""
-    for rel in ("research/manuscripts/three-row-audit-2026-08-03.md",
-                "research/manuscripts/r3-site-choice-audit-2026-08-03.md"):
+    for rel in ("research/manuscripts/degrader/three-row-audit-2026-08-03.md",
+                "research/manuscripts/degrader/r3-site-choice-audit-2026-08-03.md"):
         body = open(os.path.join(ROOT, rel), encoding="utf-8").read()
         assert "fast six" in body, rel
         assert "fast_checks.py" in body, (

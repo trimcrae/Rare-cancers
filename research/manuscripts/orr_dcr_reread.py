@@ -40,10 +40,10 @@ import statistics
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CORPUS = os.path.join(HERE, "endpoint-corpus.json")
-DISCORDANCE = os.path.join(HERE, "emc-endpoint-discordance.json")
-OUT = os.path.join(HERE, "orr-dcr-reread.json")
-OUT_REL = "research/manuscripts/orr-dcr-reread.json"
+CORPUS = os.path.join(HERE, "endpoint", "endpoint-corpus.json")
+DISCORDANCE = os.path.join(HERE, "endpoint", "emc-endpoint-discordance.json")
+OUT = os.path.join(HERE, "endpoint", "orr-dcr-reread.json")
+OUT_REL = "research/manuscripts/endpoint/orr-dcr-reread.json"
 
 #: Pre-stated thresholds. Fixed before the distribution was looked at, so that "how many arms cross
 #: this line" is a reading rather than a line drawn around the answer.
@@ -220,8 +220,8 @@ def build():
         "title": "Objective response and disease control read on identical patients, across "
                  "diseases -- a study-level descriptive series",
         "governed_by": "systems/POLICY-evidence.md 2.6",
-        "reads": ["research/manuscripts/endpoint-corpus.json",
-                  "research/manuscripts/emc-endpoint-discordance.json"],
+        "reads": ["research/manuscripts/endpoint/endpoint-corpus.json",
+                  "research/manuscripts/endpoint/emc-endpoint-discordance.json"],
 
         "R1_gap_identity": {
             "statement": "on one denominator, disease control minus objective response equals the "

@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ○ blocked · computed · confidence low · verified 2026-08-06
 
-**Grade** (owned by [`research/manuscripts/nr4a3-monovalent-pocket-route.md`](../../research/manuscripts/nr4a3-monovalent-pocket-route.md#7--grade-against-the-failure-record)): REGISTERED, NOT PROMOTED — and specifically a DOWNGRADE of what the probe framing implies about a monovalent drug
+**Grade** (owned by [`research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md`](../../research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md#7--grade-against-the-failure-record)): REGISTERED, NOT PROMOTED — and specifically a DOWNGRADE of what the probe framing implies about a monovalent drug
 
 ## What has to land for this route to move
 
@@ -126,7 +126,7 @@ Its central premise — that occupancy does something — has never been tested 
 
 ## Where this route ends — the paper
 
-**[PUB-MONOVALENT](L3-publications.md)** — [The monovalent pocket-modulation route — a small molecule that only occupies the NR4A3 LBD](../../research/manuscripts/nr4a3-monovalent-pocket-route.md)
+**[PUB-MONOVALENT](L3-publications.md)** — [The monovalent pocket-modulation route — a small molecule that only occupies the NR4A3 LBD](../../research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md)
 
 `primary` · ◐ `drafted` · aimed at `internal_note`
 

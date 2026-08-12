@@ -96,7 +96,7 @@ OUT = os.path.join(HERE, "antitarget-selfcontrol.json")
 OUT_MD = os.path.join(HERE, "antitarget-selfcontrol.md")
 #: The SI edit list, standalone, so `route_map_edits.py --target ...paper-SI.md` can consume it directly.
 OUT_SI = os.path.join(HERE, "antitarget-selfcontrol-si-edits.json")
-SI_PATH = os.path.join(HERE, "..", "manuscripts", "nr4a3-degrader-paper-SI.md")
+SI_PATH = os.path.join(HERE, "..", "manuscripts", "degrader", "nr4a3-degrader-paper-SI.md")
 WORK = os.environ.get("SELFCONTROL_WORK", os.path.join(HERE, "_antitarget_selfcontrol_work"))
 
 #: The receptor the 47-receptor sequence screen flagged and the panel does not carry.
@@ -1035,7 +1035,7 @@ def si_edits(doc):
     detail = "; ".join("%s %s Å" % (n, rows.get(n, {}).get("rmsd_A")) for n in blocking)
     band = (doc.get("criterion") or {}).get("recovered_rmsd_A")
     return [{
-        "file": "research/manuscripts/nr4a3-degrader-paper-SI.md",
+        "file": "research/manuscripts/degrader/nr4a3-degrader-paper-SI.md",
         "section": "SI §S1 — the anti-target panel paragraph (3)",
         "anchor": "*(3) The anti-target panel disqualifies all of them.*",
         "current_text": "*(3) The anti-target panel disqualifies all of them.*",
@@ -1058,7 +1058,7 @@ def si_edits(doc):
         # caveat beside an unqualified main-text claim is worse than neither: a reader who never opens
         # the SI sees only the unconditioned sentence. Found by grepping the paper for "anti-target"
         # rather than by trusting the brief's scoping to the SI.
-        "file": "research/manuscripts/nr4a3-degrader-paper.md",
+        "file": "research/manuscripts/degrader/nr4a3-degrader-paper.md",
         "section": "main text — the counter-screen sentence",
         "anchor": "**At marketed-library scale, no repurposing candidate survives the counter-screen**",
         "current_text": "**Full screen and target panel: SI §S1.**",
@@ -1258,7 +1258,7 @@ def main():
                        "it — see anchor_check. The panel is unreadable and the file still asserts the "
                        "margin, so this edit must be relocated by hand rather than dropped."})
     # kept for readers that already parse the SI-only field
-    si_block = doc["manuscript_edits_required"].get("research/manuscripts/nr4a3-degrader-paper-SI.md")
+    si_block = doc["manuscript_edits_required"].get("research/manuscripts/degrader/nr4a3-degrader-paper-SI.md")
     doc["si_edits_required"] = (si_block or {}).get("edits", [])
     doc["si_edit_anchor_check"] = (si_block or {}).get("anchor_check")
     json.dump(doc, open(OUT, "w"), indent=2)

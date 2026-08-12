@@ -251,10 +251,10 @@ def main(argv=None):
             {"file": "research/modalities/nr4a3_denovo.py",
              "says": "loads nr4a3-release-druggable.pdb from the Step-0 receptor dir; docstring: the "
                      "DRUGGABLE UNBIASED RELEASE conformation, NOT the biased-metad frame"},
-            {"file": "research/manuscripts/nr4a3-degrader-paper-redteam.md (F16.1)",
+            {"file": "research/manuscripts/degrader/nr4a3-degrader-paper-redteam.md (F16.1)",
              "says": "denovo_401 is pocket-conditioned on the NR4A3 release-druggable frame, quoting the "
                      "same nr4a3_denovo.py lines"},
-            {"file": "research/manuscripts/nr4a3-degrader-paper.md",
+            {"file": "research/manuscripts/degrader/nr4a3-degrader-paper.md",
              "says": "all downstream design is anchored to a druggable release-derived frame "
                      "(Rg ~ 0.737, fpocket >= 0.5; nr4a3_release_druggable.py)"},
             {"file": "research/modalities/nr4a3_release_druggable.py",

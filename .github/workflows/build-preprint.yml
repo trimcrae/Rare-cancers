@@ -38,7 +38,12 @@ jobs:
           set -e
           paper="${PAPER:-emc-surface-target-landscape}"
           mkdir -p build
-          cp "research/manuscripts/${paper}.md" "build/${paper}.md"
+          # ⚠ RESOLVED BY SEARCH, not by a fixed directory. Manuscripts moved into per-route
+          # subfolders on 2026-08-12, so the basename this workflow takes as input no longer sits
+          # at research/manuscripts/ — a hard-coded path would fail every dispatch.
+          src=$(find research/manuscripts -name "${paper}.md" -not -path "*/__pycache__/*" | head -1)
+          [ -n "$src" ] || { echo "no manuscript named ${paper}.md under research/manuscripts/"; exit 1; }
+          cp "$src" "build/${paper}.md"
           git fetch origin modalities-cache || true
           git show origin/modalities-cache:research/modalities/emc-surface-prioritization.png > build/emc-surface-prioritization.png 2>/dev/null || echo "figure not found (continuing without it)"
 

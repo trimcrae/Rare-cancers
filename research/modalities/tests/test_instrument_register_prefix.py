@@ -130,7 +130,7 @@ def test_the_migration_is_idempotent_over_the_repo():
 def test_the_routed_roadmap_edits_are_all_accounted_for():
     """The roadmap is never rewritten mechanically. Its edits are routed, and a routed edit whose anchor
     is dead is the failure `map_edit_anchors` exists to catch."""
-    p = os.path.join(ROOT, "research", "manuscripts", "instrument-register-prefix-map-edits.json")
+    p = os.path.join(ROOT, "research", "manuscripts", "program", "instrument-register-prefix-map-edits.json")
     if not os.path.exists(p):
         pytest.skip("the routed block has not been emitted in this checkout")
     d = json.load(open(p, encoding="utf-8"))

@@ -3,7 +3,7 @@
 
 WHY THIS EXISTS
 ---------------
-`research/manuscripts/emc-unexplored-treatment-lanes.md` §3.8 argues that EMC is close to an ideal
+`research/manuscripts/program/emc-unexplored-treatment-lanes.md` §3.8 argues that EMC is close to an ideal
 adaptive-therapy indication on five independent grounds, that the work is $0, and that its
 falsifier is itself a publishable question. It also states the deliverable correctly:
 
@@ -755,7 +755,7 @@ def build():
         "_schema": "emc-adaptive-pazopanib/1",
         "_generated_by": "research/modalities/emc_adaptive_pazopanib.py",
         "_one_home_for": ("every number in "
-                          "research/manuscripts/emc-adaptive-scheduling-pazopanib.md; the prose "
+                          "research/manuscripts/care-delivery/emc-adaptive-scheduling-pazopanib.md; the prose "
                           "points here and types no arithmetic of its own"),
         "_disclaimer": ("⛔ NOTHING HERE ASSERTS EFFICACY, SAFETY, A THERAPEUTIC WINDOW OR CLINICAL "
                         "READINESS. Adaptive scheduling has never been tested in EMC or in any "

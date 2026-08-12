@@ -29,7 +29,7 @@ import re
 import sys
 
 DOC = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                   "fet-fusion-trial-eligibility-notice.md")
+                   "fusion-direct", "fet-fusion-trial-eligibility-notice.md")
 
 # The draft's first line and its sign-off. Both copies must contain both, exactly twice in total.
 START = "If you have extraskeletal myxoid chondrosarcoma"

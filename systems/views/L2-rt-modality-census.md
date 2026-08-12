@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DISSEMINATION](L1-st-dissemination.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#2--what-the-enumeration-returned)): ⭑ Complete as a deliverable on 2026-08-09: the register, the generated view and the manuscript all exist and every pointer in them resolves.
+**Grade** (owned by [`research/manuscripts/modality-census/cancer-modality-census.md`](../../research/manuscripts/modality-census/cancer-modality-census.md#2--what-the-enumeration-returned)): ⭑ Complete as a deliverable on 2026-08-09: the register, the generated view and the manuscript all exist and every pointer in them resolves.
 
 ## What has to land for this route to move
 
@@ -49,7 +49,7 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 ## Where this route ends — the paper
 
-**[PUB-MODALITY-CENSUS](L3-publications.md)** — [What oncology can do, and what reaches extraskeletal myxoid chondrosarcoma — a modality census](../../research/manuscripts/cancer-modality-census.md)
+**[PUB-MODALITY-CENSUS](L3-publications.md)** — [What oncology can do, and what reaches extraskeletal myxoid chondrosarcoma — a modality census](../../research/manuscripts/modality-census/cancer-modality-census.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

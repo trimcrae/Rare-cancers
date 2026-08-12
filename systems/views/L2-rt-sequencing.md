@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-STRATEGY](L1-st-strategy.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/emc-systemic-therapy-pooling.json`](../../research/manuscripts/emc-systemic-therapy-pooling.json)): ⛔ THE PUBLISHED RECORD CANNOT SUPPORT A SEQUENCING CLAIM, AND SAYING SO PRECISELY IS THE RESULT (2026-08-09). No randomised evidence exists for any systemic therapy in this disease: all prospective cohorts are single-arm or single-arm within a master protocol, and the one randomised dataset that touches the disease randomised translocation sarcomas as a class with no EMC patient in its control arm. Every pooled denominator is under sixty patients worldwide, ever, and two of the pools rest on single-digit EMC subsets whose intervals span almost the entire range. ⭐ The between-cohort response range runs from zero to a majority, which is why the artifact REFUSES the all-regimen pool rather than reporting it — and that refusal, not an ordering, is what this route can honestly contribute.
+**Grade** (owned by [`research/manuscripts/endpoint/emc-systemic-therapy-pooling.json`](../../research/manuscripts/endpoint/emc-systemic-therapy-pooling.json)): ⛔ THE PUBLISHED RECORD CANNOT SUPPORT A SEQUENCING CLAIM, AND SAYING SO PRECISELY IS THE RESULT (2026-08-09). No randomised evidence exists for any systemic therapy in this disease: all prospective cohorts are single-arm or single-arm within a master protocol, and the one randomised dataset that touches the disease randomised translocation sarcomas as a class with no EMC patient in its control arm. Every pooled denominator is under sixty patients worldwide, ever, and two of the pools rest on single-digit EMC subsets whose intervals span almost the entire range. ⭐ The between-cohort response range runs from zero to a majority, which is why the artifact REFUSES the all-regimen pool rather than reporting it — and that refusal, not an ordering, is what this route can honestly contribute.
 
 ## What has to land for this route to move
 
@@ -79,7 +79,7 @@ A route whose deliverable is a negative about evidence quality is complete when 
 
 ## Where this route ends — the paper
 
-**[PUB-STRATEGY-ARCH](L3-publications.md)** — [Eligible but unfindable — trials that admit an ultra-rare sarcoma while listing conditions that never name it](../../research/manuscripts/emc-trial-reachability.md)
+**[PUB-STRATEGY-ARCH](L3-publications.md)** — [Eligible but unfindable — trials that admit an ultra-rare sarcoma while listing conditions that never name it](../../research/manuscripts/care-delivery/emc-trial-reachability.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

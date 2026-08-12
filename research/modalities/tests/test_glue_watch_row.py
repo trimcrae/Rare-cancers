@@ -27,7 +27,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 TRIGGERS = os.path.join(ROOT, "research", "method-watch-triggers.json")
 WATCH = os.path.join(ROOT, "research", "method-watch.md")
-ROUTES = os.path.join(ROOT, "research", "manuscripts", "target-route-options.md")
+ROUTES = os.path.join(ROOT, "research", "manuscripts", "program", "target-route-options.md")
 
 TRIGGER_ID = "TRG-GLUE-PROSPECTIVE-DESIGN"
 

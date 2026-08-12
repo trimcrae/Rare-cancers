@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · **state:** ○ blocked · scoped · confidence moderate · verified 2026-08-12
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 1, rank 2 — DELIVERABLE
+**Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md)): Tier 1, rank 2 — DELIVERABLE
 
 ## What has to land for this route to move
 
@@ -104,7 +104,7 @@ The computational arc is complete and the delivery gate is stated honestly as a 
 
 ## Where this route ends — the paper
 
-**[PUB-ASO](L3-publications.md)** — [Working record — fusion-junction ASO analyses, provenance and correction history](../../research/manuscripts/fusion-junction-aso-working-record.md)
+**[PUB-ASO](L3-publications.md)** — [Working record — fusion-junction ASO analyses, provenance and correction history](../../research/manuscripts/aso/fusion-junction-aso-working-record.md)
 
 `primary` · ◐ `drafted` · aimed at `journal_submission`
 

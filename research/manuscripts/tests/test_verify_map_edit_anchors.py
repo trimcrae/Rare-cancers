@@ -26,7 +26,7 @@ import pytest
 HERE = os.path.dirname(os.path.abspath(__file__))
 MANUSCRIPTS = os.path.dirname(HERE)
 ROOT = os.path.dirname(os.path.dirname(MANUSCRIPTS))
-ARTIFACT = os.path.join(MANUSCRIPTS, "three-row-audit-map-edits.json")
+ARTIFACT = os.path.join(MANUSCRIPTS, "degrader", "three-row-audit-map-edits.json")
 SCRIPT = os.path.join(MANUSCRIPTS, "verify_map_edit_anchors.py")
 
 sys.path.insert(0, os.path.join(ROOT, "research", "modalities"))

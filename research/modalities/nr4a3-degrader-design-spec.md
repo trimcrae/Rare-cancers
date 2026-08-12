@@ -150,7 +150,7 @@ PROTAC), but it must be assessed, and it is *known* from NR4A3 physiology despit
 > Experiment 2 — the selective warhead** (`gpu-warhead-aws.yml`, BUILT and idle), then the ternary model.
 > Full program state + exact run instructions for a fresh session:
 > **[`nr4a3-degrader-next-steps.md`](./nr4a3-degrader-next-steps.md)**. Manuscript:
-> [`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md).
+> [`../manuscripts/degrader/nr4a3-degrader-paper.md`](../manuscripts/degrader/nr4a3-degrader-paper.md).
 
 Two experiments would materially change the degrader paper, both attacking the route's core
 weaknesses. Ranked by impact-per-effort:

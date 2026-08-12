@@ -34,10 +34,10 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-INPUTS = os.path.join(HERE, "endpoint-prior-art-inputs.json")
-REGIME = os.path.join(HERE, "endpoint-regime-map.json")
-OUT = os.path.join(HERE, "endpoint-prior-art-audit.json")
-OUT_REL = "research/manuscripts/endpoint-prior-art-audit.json"
+INPUTS = os.path.join(HERE, "endpoint", "endpoint-prior-art-inputs.json")
+REGIME = os.path.join(HERE, "endpoint", "endpoint-regime-map.json")
+OUT = os.path.join(HERE, "endpoint", "endpoint-prior-art-audit.json")
+OUT_REL = "research/manuscripts/endpoint/endpoint-prior-art-audit.json"
 
 FAMILIES = {
     "A_switch_to_time_to_event": "replace the response summary with a time-to-event or "
@@ -204,8 +204,8 @@ def build():
         "_generated_by": "research/manuscripts/endpoint_prior_art_audit.py",
         "_do_not_hand_edit": True,
         "title": "Which diseases already replaced the response-rate summary, and how",
-        "reads": ["research/manuscripts/endpoint-prior-art-inputs.json",
-                  "research/manuscripts/endpoint-regime-map.json"],
+        "reads": ["research/manuscripts/endpoint/endpoint-prior-art-inputs.json",
+                  "research/manuscripts/endpoint/endpoint-regime-map.json"],
 
         "A0_the_necessity_question": {
             "asked": "has oncology already solved this, making the argument unnecessary?",

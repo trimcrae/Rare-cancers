@@ -5,7 +5,7 @@ Composes and sends a once-a-day email with three sections:
   1. What ran yesterday   - SageMaker training jobs that finished in the last ~30 h (+ recent GitHub Actions runs).
   2. What is running now   - in-progress SageMaker training jobs, with elapsed time and spot-slot usage.
   3. Optimistic schedule   - a day-by-day projection to paper completion, walked from *today* over the
-                             maintained critical-path plan in research/manuscripts/degrader-paper-schedule.json.
+                             maintained critical-path plan in research/manuscripts/program/degrader-paper-schedule.json.
 
 ALL times are rendered in US Eastern, 12-hour AM/PM (repo standing rule #1). Read-only against AWS/GitHub;
 it starts nothing.
@@ -33,7 +33,7 @@ from mailer import llm_summarize, md_to_html, send_email  # noqa: E402
 
 ET = ZoneInfo("America/New_York")
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SCHEDULE_FILE = REPO_ROOT / "research" / "manuscripts" / "degrader-paper-schedule.json"
+SCHEDULE_FILE = REPO_ROOT / "research" / "manuscripts" / "program" / "degrader-paper-schedule.json"
 
 
 # ----------------------------------------------------------------------------- time helpers (ET, 12-hour)
@@ -339,7 +339,7 @@ def build_bodies(region):
     # ---- plain text ----
     T = [f"NR4A3 PROTAC-degrader — daily status  ·  {fmt_dt(g['now'])}", "=" * 60, "",
          summary_md, "", "-" * 60,
-         "Full detail (schedule source: research/manuscripts/degrader-paper-schedule.json):", ""]
+         "Full detail (schedule source: research/manuscripts/program/degrader-paper-schedule.json):", ""]
     T.append(facts)
     text = "\n".join(T)
 

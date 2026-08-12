@@ -4,13 +4,13 @@
 ═══════════════════════════════════════════════════════════════════════════════════════════════
 THE QUESTION
 ═══════════════════════════════════════════════════════════════════════════════════════════════
-`research/manuscripts/nr4a3-fusion-transcriptional-output.md` §3.10 reports a SEQUENCE reading:
+`research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md` §3.10 reports a SEQUENCE reading:
 *ENO3*'s -10 kb/+15 kb TSS window carries 4 exact NBREs (5'-AAAGGTCA-3', PMID 1902986), more than
 its own dinucleotide composition predicts. That section's own first caveat is that **a motif is not
 occupancy**, and §3.11 recorded that no genome-wide chromatin experiment with an NR4A3 fusion had
 been retrieved.
 
-That absence was OVERTURNED on 2026-08-08 (`research/manuscripts/nr4a3-cistrome-search-2026-08-08.md`):
+That absence was OVERTURNED on 2026-08-08 (`research/manuscripts/fusion-output/nr4a3-cistrome-search-2026-08-08.md`):
 **GEO GSE243553** (PMID 39048711) is a pooled single-cell ATAC screen of >100 oncofusions in
 HEK293T carrying EWSR1-NR4A3, TAF15-NR4A3, TCF12-NR4A3 and TFG-NR4A3 **plus full-length wild-type
 NR4A3 and the reciprocal NR4A3-EWSR1 as controls**. This module asks whether that instrument's

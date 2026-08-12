@@ -231,7 +231,7 @@
   },
   {
     "id": "ART-FUSION-PARTNER-POOLING",
-    "path": "research/manuscripts/emc-fusion-partner-pooling.json",
+    "path": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
     "produced_by": "research/manuscripts/emc_fusion_partner_pooling.py",
     "workflow": ".github/workflows/fetch-literature.yml",
     "published_to": [
@@ -264,7 +264,7 @@
     "path": "research/modalities/gse28866-tumour-vs-normal.json",
     "produced_by": "the GSE28866 supplementary peak-table read (emc-expression-datasets.yml)",
     "cost": "$0 - CI, no GPU",
-    "what_it_is": "The ONLY deposit reachable at $0 that carries EMC libraries alongside NORMAL tissue. 19 genes, n = 4 EMC, 27 normal-organ libraries and 32 non-EMC sarcoma libraries on 3SEQ. Its canonical interpretation is research/manuscripts/gse28866-tumour-vs-normal-reading.md, which is canonical_for it.",
+    "what_it_is": "The ONLY deposit reachable at $0 that carries EMC libraries alongside NORMAL tissue. 19 genes, n = 4 EMC, 27 normal-organ libraries and 32 non-EMC sarcoma libraries on 3SEQ. Its canonical interpretation is research/manuscripts/fusion-output/gse28866-tumour-vs-normal-reading.md, which is canonical_for it.",
     "has_control": true,
     "control_note": "NR4A3 is detected in the EMC arm and its median across the 32 other sarcomas is zero - the fusion's own 3' partner behaving as the disease definition requires, in a cohort this repository did not choose. A control, not a result.",
     "limits": [
@@ -278,12 +278,12 @@
   },
   {
     "id": "ART-EMC-ENDPOINT-DISCORDANCE",
-    "path": "research/manuscripts/emc-endpoint-discordance.json",
+    "path": "research/manuscripts/endpoint/emc-endpoint-discordance.json",
     "produced_by": "research/manuscripts/emc_endpoint_discordance.py (stdlib only, CPU, $0; --check re-derives and refuses to write on any drift)",
     "published_to": [
       "main"
     ],
-    "note": "Arithmetic over the integer counts owned by research/manuscripts/emc-systemic-therapy-pooling.json: the objective-response and disease-control readings on one denominator, the discordant stable-disease count derived two independent ways and asserted equal, a reporting-completeness census of the published EMC systemic-therapy literature, the binomial arithmetic of each endpoint at achievable trial sizes, and a DETECTOR for one discrepancy between two committed fields of the source file (its summary says both modern EMC trials chose a 6-month progression-free primary endpoint; its own verbatim quote of the 2019 pazopanib trial says that trial's primary endpoint was objective response). It re-derives the source's pooled proportions as a PARITY CHECK only and is not a second home for them."
+    "note": "Arithmetic over the integer counts owned by research/manuscripts/endpoint/emc-systemic-therapy-pooling.json: the objective-response and disease-control readings on one denominator, the discordant stable-disease count derived two independent ways and asserted equal, a reporting-completeness census of the published EMC systemic-therapy literature, the binomial arithmetic of each endpoint at achievable trial sizes, and a DETECTOR for one discrepancy between two committed fields of the source file (its summary says both modern EMC trials chose a 6-month progression-free primary endpoint; its own verbatim quote of the 2019 pazopanib trial says that trial's primary endpoint was objective response). It re-derives the source's pooled proportions as a PARITY CHECK only and is not a second home for them."
   },
   {
     "id": "ART-CENSUS-ROUTE-GRADING",
@@ -297,7 +297,7 @@
   },
   {
     "id": "ART-ENDPOINT-CORPUS",
-    "path": "research/manuscripts/endpoint-corpus.json",
+    "path": "research/manuscripts/endpoint/endpoint-corpus.json",
     "produced_by": "research/manuscripts/endpoint_corpus.py (stdlib only, CPU, $0; --check re-derives from the literature-cache extraction and refuses to write on drift)",
     "published_to": [
       "main"
@@ -306,7 +306,7 @@
   },
   {
     "id": "ART-ENDPOINT-ORR-DCR-REREAD",
-    "path": "research/manuscripts/orr-dcr-reread.json",
+    "path": "research/manuscripts/endpoint/orr-dcr-reread.json",
     "produced_by": "research/manuscripts/orr_dcr_reread.py (stdlib only, CPU, $0; --check re-derives)",
     "published_to": [
       "main"
@@ -315,7 +315,7 @@
   },
   {
     "id": "ART-ENDPOINT-REGIME-MAP",
-    "path": "research/manuscripts/endpoint-regime-map.json",
+    "path": "research/manuscripts/endpoint/endpoint-regime-map.json",
     "produced_by": "research/manuscripts/endpoint_regime_map.py (stdlib only, CPU, $0; --check re-derives)",
     "published_to": [
       "main"
@@ -324,7 +324,7 @@
   },
   {
     "id": "ART-ENDPOINT-PLACEBO-CALIBRATION",
-    "path": "research/manuscripts/placebo-arm-calibration.json",
+    "path": "research/manuscripts/endpoint/placebo-arm-calibration.json",
     "produced_by": "research/manuscripts/placebo_arm_calibration.py (stdlib only, CPU, $0; --check re-derives)",
     "published_to": [
       "main"
@@ -333,7 +333,7 @@
   },
   {
     "id": "ART-ENDPOINT-PRIOR-ART-AUDIT",
-    "path": "research/manuscripts/endpoint-prior-art-audit.json",
+    "path": "research/manuscripts/endpoint/endpoint-prior-art-audit.json",
     "produced_by": "research/manuscripts/endpoint_prior_art_audit.py (stdlib only, CPU, $0; --check re-derives)",
     "published_to": [
       "main"
@@ -372,7 +372,7 @@
   },
   {
     "id": "ART-SYSTEMIC-THERAPY-POOLING",
-    "path": "research/manuscripts/emc-systemic-therapy-pooling.json",
+    "path": "research/manuscripts/endpoint/emc-systemic-therapy-pooling.json",
     "produced_by": "research/manuscripts/emc_systemic_therapy_pooling.py",
     "workflow": "none — it pools committed curated cohorts and runs anywhere",
     "published_to": [

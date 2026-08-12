@@ -4,7 +4,7 @@
 WHY THIS EXISTS
 ---------------
 Two committed objects disagree about where NR4A3 resumes in the chimera, and nobody reconciled
-them (found 2026-08-02, `manuscripts/target-route-options.md` finding 3):
+them (found 2026-08-02, `manuscripts/program/target-route-options.md` finding 3):
 
   * `fusion_cofold.py`      -- EWS_CUT = 264 :: "NR4A3 resumed at res 2".  Keeps NR4A3's AF1,
                                its zinc-finger DBD, the hinge and the LBD.  Its own sibling
@@ -16,7 +16,7 @@ them (found 2026-08-02, `manuscripts/target-route-options.md` finding 3):
 
 They cannot both be right, and the repo's own cited functional evidence bears against the second
 as written: the fusion binds a response element in the PPARG promoter and transactivates it
-(Filion 2009, PMC4429309 -- `manuscripts/nr4a3-emc-biology-evidence.md` hypothesis 2, pillar 2),
+(Filion 2009, PMC4429309 -- `manuscripts/degrader/nr4a3-emc-biology-evidence.md` hypothesis 2, pillar 2),
 which is a DNA-binding-domain-dependent function.
 
 ⛔ WHY IT MATTERS ENOUGH TO SPEND A CI RUN ON.  Roadmap requirement `R13` ("the modelled object is
@@ -261,7 +261,7 @@ def audit():
 
     return {
         "_title": "EWSR1::NR4A3 junction model audit -- exon->residue map, both numbering schemes, and which fusion model survives",
-        "_owner": "research/manuscripts/target-route-options.md finding 3; roadmap requirement R13",
+        "_owner": "research/manuscripts/program/target-route-options.md finding 3; roadmap requirement R13",
         "_method": (
             "Ensembl REST, canonical transcript, pure stdlib. Per-exon coding length and first "
             "encoded residue, reported under BOTH the transcript exon rank (what the literature "

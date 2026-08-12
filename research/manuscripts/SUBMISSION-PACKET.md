@@ -22,7 +22,7 @@ last_verified: 2026-08-10
 
 ## Genes, Chromosomes and Cancer (Wiley)
 
-**Manuscript** `emc-mtap-prmt5-hypothesis.md`
+**Manuscript** `mtap-prmt5/emc-mtap-prmt5-hypothesis.md`
 
 | field | value |
 |---|---|
@@ -30,7 +30,7 @@ last_verified: 2026-08-10
 | Abstract | 250 words (limit 250) |
 | Display items | 5 (5 figures, 0 tables) |
 | References | 11 |
-| Cover letter | `emc-mtap-prmt5-hypothesis-cover-letter.md` |
+| Cover letter | `mtap-prmt5/emc-mtap-prmt5-hypothesis-cover-letter.md` |
 | Supplementary file | yes |
 | Fee route | VERIFIED |
 
@@ -46,7 +46,7 @@ last_verified: 2026-08-10
 
 ## Genes, Chromosomes and Cancer (Wiley)
 
-**Manuscript** `emc-atr-collaborator-package.md`
+**Manuscript** `dependency/emc-atr-collaborator-package.md`
 
 | field | value |
 |---|---|
@@ -54,7 +54,7 @@ last_verified: 2026-08-10
 | Abstract | 239 words (limit 250) |
 | Display items | 7 (0 figures, 7 tables) |
 | References | 16 |
-| Cover letter | `emc-atr-collaborator-package-cover-letter.md` |
+| Cover letter | `dependency/emc-atr-collaborator-package-cover-letter.md` |
 | Supplementary file | none |
 | Fee route | VERIFIED |
 
@@ -64,7 +64,7 @@ last_verified: 2026-08-10
 
 ## Critical Reviews in Oncology/Hematology (Elsevier)
 
-**Manuscript** `repurposing-hypotheses.md`
+**Manuscript** `repurposing/repurposing-hypotheses.md`
 
 | field | value |
 |---|---|
@@ -72,7 +72,7 @@ last_verified: 2026-08-10
 | Abstract | 238 words (limit 250) |
 | Display items | 1 (1 figures, 0 tables) (limit 6) |
 | References | 20 |
-| Cover letter | `repurposing-hypotheses-cover-letter.md` |
+| Cover letter | `repurposing/repurposing-hypotheses-cover-letter.md` |
 | Supplementary file | none |
 | Fee route | VERIFIED, and this is the most explicit statement obtained |
 
@@ -84,7 +84,7 @@ last_verified: 2026-08-10
 
 ## British Journal of Cancer (Springer Nature)
 
-**Manuscript** `emc-surface-target-landscape.md`
+**Manuscript** `surface-targets/emc-surface-target-landscape.md`
 
 | field | value |
 |---|---|
@@ -92,7 +92,7 @@ last_verified: 2026-08-10
 | Abstract | 194 words (limit 200) |
 | Display items | 5 (0 figures, 5 tables) (limit 8) |
 | References | 21 (limit 80) |
-| Cover letter | `emc-surface-target-landscape-cover-letter.md` |
+| Cover letter | `surface-targets/emc-surface-target-landscape-cover-letter.md` |
 | Supplementary file | yes |
 | Fee route | VERIFIED at the journal's own pages, with one real caveat |
 

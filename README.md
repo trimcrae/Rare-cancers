@@ -31,7 +31,7 @@ last_verified: 2026-08-05
 | Why work is stalled, and what would unstall it | [blocker taxonomy](./systems/taxonomy/blockers.md) · [technology taxonomy](./systems/taxonomy/technology.md) |
 | **What any of it actually rests on** | [`systems/views/L5-evidence-base.md`](./systems/views/L5-evidence-base.md) — every object, citation, artifact and pinned claim, each showing what rests on it |
 | The degrader program — the #1 deliverable | [`research/manuscripts/nr4a3-program-map.md`](./research/manuscripts/nr4a3-program-map.md): requirements, instruments, gates, the ordered plan, the spend ladder |
-| The broader route portfolio as a decision record | [`research/manuscripts/emc-treatment-strategy.md`](./research/manuscripts/emc-treatment-strategy.md) |
+| The broader route portfolio as a decision record | [`research/manuscripts/program/emc-treatment-strategy.md`](./research/manuscripts/program/emc-treatment-strategy.md) |
 | Standing rules for agents working here | [`CLAUDE.md`](./CLAUDE.md) |
 | Where a superseded document went | [`systems/MIGRATION.md`](./systems/MIGRATION.md) |
 

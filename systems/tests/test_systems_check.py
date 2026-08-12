@@ -834,8 +834,8 @@ def test_a_load_bearing_document_cannot_declare_itself_retired(graph):
     assert pinned, "[D8]'s pinned-figures half is inert"
     assert instructed, "[D8]'s project-instruction half is inert"
     # The two documents that would have been archived on a wrong label are both covered.
-    assert "research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md" in pinned
-    assert "research/manuscripts/nr4a3-degrader-preprint-plan.md" in instructed
+    assert "research/manuscripts/degrader/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md" in pinned
+    assert "research/manuscripts/degrader/nr4a3-degrader-preprint-plan.md" in instructed
     f = sc.Findings()
     sc.check_documents(graph, f)
     assert [e for e in f.errors if "[D8]" in e] == [], "\n".join(f.errors)
@@ -851,11 +851,11 @@ def test_a_partial_supersession_is_never_classified_as_a_whole_one():
     """
     sys.path.insert(0, SYS)
     import backfill_frontmatter as bf
-    partial = ["research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md",
-               "research/manuscripts/nr4a3-degrader-strategy-ternary-first.md",
-               "research/manuscripts/nr4a3-degrader-preprint-plan.md"]
-    whole = ["research/manuscripts/nr4a3-degrader-preprint.md",
-             "research/manuscripts/nr4a3-degrader-preprint-si.md"]
+    partial = ["research/manuscripts/degrader/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md",
+               "research/manuscripts/degrader/nr4a3-degrader-strategy-ternary-first.md",
+               "research/manuscripts/degrader/nr4a3-degrader-preprint-plan.md"]
+    whole = ["research/manuscripts/degrader/nr4a3-degrader-preprint.md",
+             "research/manuscripts/degrader/nr4a3-degrader-preprint-si.md"]
 
     def replay(rel):
         body = open(os.path.join(REPO, rel), encoding="utf-8").read().split("---\n", 2)[2]
@@ -880,8 +880,8 @@ def test_a_redirect_stub_stays_at_the_path_it_redirects_from():
     Both were on the archive shortlist: `historical`, tiny, and referenced only by each other. Moving
     one to `archive/` would destroy the one thing it does, to reclaim 48 lines.
     """
-    for rel in ("research/manuscripts/nr4a3-degrader-preprint.md",
-                "research/manuscripts/nr4a3-degrader-preprint-si.md"):
+    for rel in ("research/manuscripts/degrader/nr4a3-degrader-preprint.md",
+                "research/manuscripts/degrader/nr4a3-degrader-preprint-si.md"):
         p = os.path.join(REPO, rel)
         assert os.path.exists(p), f"{rel} was archived — a redirect must stay where the reader looks"
         fm = sc._frontmatter(open(p, encoding="utf-8").read())
@@ -1451,7 +1451,7 @@ def test_the_row_selector_convention_is_not_reported_as_a_broken_anchor():
     """`#heading|row-selector` addresses a ROW inside a section; only the heading half is a GitHub
     anchor. Validating the whole string called nine live pointers broken on the widened check's first
     run — a correct check earning a reputation for crying wolf."""
-    p = os.path.join(REPO, "research/manuscripts/emc-post-degrader-options.md")
+    p = os.path.join(REPO, "research/manuscripts/program/emc-post-degrader-options.md")
     assert sc.anchor_resolves(p, "#2--the-ranked-list|tier1-rank2")
     assert sc.anchor_resolves(p, "#2--the-ranked-list")
     assert not sc.anchor_resolves(p, "#2--the-ranked-list-that-does-not-exist|tier1-rank2")

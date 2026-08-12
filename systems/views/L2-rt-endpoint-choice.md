@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DISSEMINATION](L1-st-dissemination.md) · **state:** ✓ ready · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/response-endpoint-indolent-tumours.md`](../../research/manuscripts/response-endpoint-indolent-tumours.md)): DELIVERABLE, complete. The manuscript exists, every figure in it is derived by a committed producer with a --check reproduction mode, and no measurement, spend, capability or third party gates it. Its ceiling is stated inside it: it is an argument about MEASUREMENT and cannot become evidence that any agent works.
+**Grade** (owned by [`research/manuscripts/endpoint/response-endpoint-indolent-tumours.md`](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md)): DELIVERABLE, complete. The manuscript exists, every figure in it is derived by a committed producer with a --check reproduction mode, and no measurement, spend, capability or third party gates it. Its ceiling is stated inside it: it is an argument about MEASUREMENT and cannot become evidence that any agent works.
 
 ## What has to land for this route to move
 
@@ -85,7 +85,7 @@ The failure of a response summary is a property of two measurable coordinates - 
 
 ## Where this route ends — the paper
 
-**[PUB-ENDPOINT](L3-publications.md)** — [Objective response and disease control on identical patients: what the response summary discards across 552 trial arms](../../research/manuscripts/response-endpoint-indolent-tumours.md)
+**[PUB-ENDPOINT](L3-publications.md)** — [Objective response and disease control on identical patients: what the response summary discards across 552 trial arms](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md)
 
 `primary` · ◐ `drafted` · aimed at `journal_submission`
 

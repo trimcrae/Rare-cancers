@@ -24,7 +24,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MOD = os.path.join(HERE, "..", "modalities")
-OUT = os.path.join(HERE, "fusion-junction-aso-submission-tables.md")
+OUT = os.path.join(HERE, "aso", "fusion-junction-aso-submission-tables.md")
 
 
 def _load(name):

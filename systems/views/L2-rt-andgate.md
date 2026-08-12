@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ✓ parked · computed · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/fusion-selective-andgate-degrader-paper.md`](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md)): ⏸ hold — arm-2 chemistry does not exist
+**Grade** (owned by [`research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md`](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md)): ⏸ hold — arm-2 chemistry does not exist
 
 ## What has to land for this route to move
 
@@ -91,7 +91,7 @@ There is no second arm, so there is nothing to compute and nothing to report bey
 
 ## Where this route ends — the paper
 
-**[PUB-ANDGATE](L3-publications.md)** — [A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeleta](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md)
+**[PUB-ANDGATE](L3-publications.md)** — [A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeleta](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

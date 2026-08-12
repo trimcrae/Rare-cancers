@@ -7,7 +7,7 @@ name: Release — citable roadmap snapshot (Zenodo DOI)
 #
 # Dispatch-only and intentionally NOT automatic: a published release + DOI is permanent. Dispatch from
 # `main`. Cadence: cut a release on any Tier-1/2 route change (or monthly if anything changed), after
-# adding a dated changelog entry to research/manuscripts/emc-treatment-roadmap.md.
+# adding a dated changelog entry to research/manuscripts/program/emc-treatment-roadmap.md.
 
 on:
   workflow_dispatch:
@@ -40,7 +40,7 @@ jobs:
           else
             python - <<'PY' > /tmp/notes.md
           import re
-          src = "research/manuscripts/emc-treatment-roadmap.md"
+          src = "research/manuscripts/program/emc-treatment-roadmap.md"
           txt = open(src).read()
           # grab the blockquoted changelog: from "**Changelog**" through the end of the quote block
           out, grab = [], False
@@ -57,9 +57,9 @@ jobs:
                       break
           body = "\n".join(l for l in out if l)
           print("## EMC treatment roadmap — changelog\n")
-          print(body or "(See research/manuscripts/emc-treatment-roadmap.md)")
-          print("\n---\nLiving roadmap: research/manuscripts/emc-treatment-roadmap.md")
-          print("Strategy/portfolio: research/manuscripts/emc-treatment-strategy.md")
+          print(body or "(See research/manuscripts/program/emc-treatment-roadmap.md)")
+          print("\n---\nLiving roadmap: research/manuscripts/program/emc-treatment-roadmap.md")
+          print("Strategy/portfolio: research/manuscripts/program/emc-treatment-strategy.md")
           PY
           fi
           echo "----- release notes -----"; cat /tmp/notes.md

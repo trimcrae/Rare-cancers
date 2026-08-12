@@ -51,7 +51,7 @@ MOD = REPO / "research" / "modalities"
 MAN = REPO / "research" / "manuscripts"
 
 OUT = MOD / "pose-conditionality-census.json"
-MAP_EDITS_OUT = MAN / "pose-conditionality-map-edits.json"
+MAP_EDITS_OUT = MAN / "degrader" / "pose-conditionality-map-edits.json"
 
 LIGAND = "denovo_401"
 
@@ -296,7 +296,7 @@ CLAIMS = [
         "id": "PC-01",
         "claim": "\"The predicted docked pose of denovo_401\" — Figure 5(d) names a singular pose as the program's pose.",
         "where": [
-            "research/manuscripts/nr4a3-degrader-paper.md — §2.7, Figure 5 caption panel (d)",
+            "research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.7, Figure 5 caption panel (d)",
         ],
         "computed_on": "one smina top pose in one metadynamics-opened NR4A3 LBD frame",
         "grade": "POSE-DEPENDENT",
@@ -321,8 +321,8 @@ CLAIMS = [
             "and margin − SD in the unbiased release/design frame."
         ),
         "where": [
-            "research/manuscripts/nr4a3-degrader-paper.md — §2.7 candidate table row `denovo_401`",
-            "research/manuscripts/nr4a3-degrader-paper.md — §2.7 Figure 5 panels (a) and (b)",
+            "research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.7 candidate table row `denovo_401`",
+            "research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.7 Figure 5 panels (a) and (b)",
         ],
         "computed_on": (
             "one docked pose in the release/design frame, relaxed and averaged over 10 MD frames. ⚠ Frame "
@@ -347,7 +347,7 @@ CLAIMS = [
     {
         "id": "PC-03",
         "claim": "The metad-opened-frame MM-GBSA margin and its percentile against the frame-matched decoy null.",
-        "where": ["research/manuscripts/nr4a3-degrader-paper.md — §2.7 (the honest narrowing paragraph)"],
+        "where": ["research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.7 (the honest narrowing paragraph)"],
         "computed_on": "one smina top pose in the metadynamics-opened frame",
         "grade": "NOT-MARGINALISABLE",
         "why_that_grade": (
@@ -369,8 +369,8 @@ CLAIMS = [
             "ΔΔG contrasts."
         ),
         "where": [
-            "research/manuscripts/nr4a3-degrader-paper.md — §2.8 Result block (conditional ABFE)",
-            "research/manuscripts/nr4a3-degrader-paper-SI.md — §S7",
+            "research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.8 Result block (conditional ABFE)",
+            "research/manuscripts/degrader/nr4a3-degrader-paper-SI.md — §S7",
         ],
         "computed_on": "one docked starting pose per receptor, propagated by explicit-solvent double decoupling",
         "grade": "NOT-MARGINALISABLE",
@@ -392,7 +392,7 @@ CLAIMS = [
     {
         "id": "PC-05",
         "claim": "The 8XTT-anchored NR4A3 ABFE leg and the receptor-model sensitivity reading built on it.",
-        "where": ["research/manuscripts/nr4a3-degrader-paper.md — §2.8 8XTT-anchored recalculation"],
+        "where": ["research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.8 8XTT-anchored recalculation"],
         "computed_on": "one docked pose in an 8XTT-seeded release-MD frame (\"denovo_401 docked identically\")",
         "grade": "NOT-MARGINALISABLE",
         "why_that_grade": (
@@ -413,8 +413,8 @@ CLAIMS = [
         "id": "PC-06",
         "claim": "The lead-optimization ABFE cross-check (`lo_m0_NCCO`) — an FEP tie, no resolved improvement.",
         "where": [
-            "research/manuscripts/nr4a3-degrader-paper.md — §2.8 lead-optimization cross-check",
-            "research/manuscripts/nr4a3-degrader-paper-SI.md — §S5",
+            "research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.8 lead-optimization cross-check",
+            "research/manuscripts/degrader/nr4a3-degrader-paper-SI.md — §S5",
         ],
         "computed_on": "one docked pose per molecule in one opened NR4A3 frame",
         "grade": "NOT-MARGINALISABLE",
@@ -433,7 +433,7 @@ CLAIMS = [
     {
         "id": "PC-07",
         "claim": "The stereochemical species resolution — 16 stereoisomers docked and MM-GBSA-scored, resolving the diastereomer carried forward.",
-        "where": ["research/manuscripts/nr4a3-degrader-paper.md — §2.7 species resolution"],
+        "where": ["research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.7 species resolution"],
         "computed_on": "one top pose per stereoisomer",
         "grade": "NOT-MARGINALISABLE",
         "why_that_grade": (
@@ -453,8 +453,8 @@ CLAIMS = [
         "id": "PC-08",
         "claim": "The anti-target counter-screen statements about the candidate — the panel maximum and the every-survivor clause.",
         "where": [
-            "research/manuscripts/nr4a3-degrader-paper.md — §2.5 counter-screen sentence",
-            "research/manuscripts/nr4a3-degrader-paper-SI.md — §S1",
+            "research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.5 counter-screen sentence",
+            "research/manuscripts/degrader/nr4a3-degrader-paper-SI.md — §S1",
         ],
         "computed_on": "one top pose per anti-target receptor",
         "grade": "NOT-MARGINALISABLE",
@@ -480,7 +480,7 @@ CLAIMS = [
             "The pre-committed advancement criterion \"persistence of the modeled pose over the short "
             "screening trajectory\"."
         ),
-        "where": ["research/manuscripts/nr4a3-degrader-paper.md — §2.7 (what the program pre-committed to)"],
+        "where": ["research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.7 (what the program pre-committed to)"],
         "computed_on": "one pose, watched over one short trajectory",
         "grade": "POSE-DEPENDENT",
         "why_that_grade": (
@@ -561,8 +561,8 @@ CLAIMS = [
         "id": "PC-13",
         "claim": "The ternary geometric-feasibility reading for the representative candidate-PROTAC, and its CRBN-proximity proxy.",
         "where": [
-            "research/manuscripts/nr4a3-degrader-paper.md — §2.5 (representative candidate-PROTAC ternary)",
-            "research/manuscripts/nr4a3-degrader-paper-SI.md — §S2",
+            "research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.5 (representative candidate-PROTAC ternary)",
+            "research/manuscripts/degrader/nr4a3-degrader-paper-SI.md — §S2",
         ],
         "computed_on": "a single predicted ternary pose per paralogue (a co-fold, not a docking search)",
         "grade": "NOT-MARGINALISABLE",
@@ -630,7 +630,7 @@ CLAIMS = [
     {
         "id": "PC-16",
         "claim": "The computational alanine scan of the handle residues (per-residue MM-GBSA ΔΔG of the candidate).",
-        "where": ["research/manuscripts/nr4a3-degrader-paper.md — §2.4 conservation paragraph"],
+        "where": ["research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.4 conservation paragraph"],
         "computed_on": "not run — stated as something that \"could estimate\" ligand-binding sensitivity",
         "grade": "NOT-MARGINALISABLE",
         "why_that_grade": (
@@ -652,7 +652,7 @@ CLAIMS = [
             "The generated-library quality statistic — the fraction of generated molecules contacting at "
             "least four of the five engageable handles."
         ),
-        "where": ["research/manuscripts/nr4a3-degrader-paper.md — §2.6 generation-quality sentence"],
+        "where": ["research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.6 generation-quality sentence"],
         "computed_on": "one generated pose per molecule",
         "grade": "NOT-MARGINALISABLE",
         "why_that_grade": (
@@ -671,7 +671,7 @@ CLAIMS = [
     {
         "id": "PC-18",
         "claim": "The warhead exit vector and the basin/meta-basin enumeration built on it.",
-        "where": ["research/manuscripts/nr4a3-degrader-paper.md — §2.10 and its limitations"],
+        "where": ["research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.10 and its limitations"],
         "computed_on": "an ensemble of warhead exit-vector poses, with the pose-surviving fraction reported per basin",
         "grade": "ALREADY-MARGINALISED",
         "why_that_grade": (
@@ -691,7 +691,7 @@ CLAIMS = [
             "Sequence-level uniqueness of the NR4A3-unique cysteine and lysines, and the per-frame reach "
             "of the unique cysteine to the pocket exit vector."
         ),
-        "where": ["research/manuscripts/nr4a3-degrader-paper.md — §2.10 categorical handles"],
+        "where": ["research/manuscripts/degrader/nr4a3-degrader-paper.md — §2.10 categorical handles"],
         "computed_on": (
             "an alignment (no structure) for the uniqueness half; a receptor-derived exit vector over 75 "
             "unbiased conformers for the reach half — no ligand pose enters either"
@@ -726,7 +726,7 @@ def build() -> dict:
             "Every figure is READ from the artifacts named per block; no number is typed here."
         ),
         "_answers": (
-            "research/manuscripts/path-family-synthesis.md §2 Tier-1 row 2 — the pre-registered falsifier, "
+            "research/manuscripts/program/path-family-synthesis.md §2 Tier-1 row 2 — the pre-registered falsifier, "
             "which FIRED on 2026-08-06"
         ),
         "_status": (
@@ -749,7 +749,7 @@ def build() -> dict:
                 "is not an object this program is entitled to, and every pose-conditional row above must "
                 "be restated as marginalised-over-poses"
             ),
-            "pre_registered_in": "research/manuscripts/path-family-synthesis.md §2 Tier-1 row 2",
+            "pre_registered_in": "research/manuscripts/program/path-family-synthesis.md §2 Tier-1 row 2",
             "fired": True,
             "fired_on": "2026-08-06",
             "verdict_artifact": "research/modalities/pose-second-method.json",

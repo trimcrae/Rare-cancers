@@ -12,7 +12,7 @@ genome-wide chromatin experiment has ever been performed with an NR4A3 fusion". 
 2026-08-08: GEO GSE243553 (PMID 39048711) is a pooled single-cell ATAC screen in HEK293T carrying
 EWSR1-NR4A3, TAF15-NR4A3, TCF12-NR4A3 and TFG-NR4A3. It changes NOTHING this module computes — it is
 chromatin ACCESSIBILITY in a biosensor cell line, not protein occupancy and not EMC, so it is not a
-peak set and does not enter the 110 scored here. See research/manuscripts/nr4a3-cistrome-search-2026-08-08.md.
+peak set and does not enter the 110 scored here. See research/manuscripts/fusion-output/nr4a3-cistrome-search-2026-08-08.md.
 
 THE ANSWER IS NO, AND THE WAY IT IS NO MATTERS. Calibrated against a background panel of 198 genes
 this lane did not choose, none of the three class-A genes carries more promoter-window occupancy than

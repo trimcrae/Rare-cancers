@@ -55,7 +55,7 @@ to progress.
   small next to what is live. **Never in preference to work that could still move a route.** Publishing is
   how a result reaches a patient; it is not a substitute for having one.
 - **⛔ BEWARE THE AXIS THAT RANKS FINISHED THINGS FIRST.**
-  [`emc-post-degrader-options.md`](./research/manuscripts/emc-post-degrader-options.md) grades routes partly
+  [`emc-post-degrader-options.md`](./research/manuscripts/program/emc-post-degrader-options.md) grades routes partly
   on **Axis D — *what do we hold if the experiment never happens?*** That axis is real and was added for a
   good reason, but it **structurally promotes completed negatives over live leads**, because a finished
   write-up always scores full marks on it and a live lead never does. **Read Axis D as a tiebreaker, never
@@ -304,7 +304,7 @@ When in doubt: do it and show it.
   single source of truth for what's next, every step's GO/NO-GO gate, and every cost. It wins over any other
   doc, including this one. *(Superseded, retained: **"THE PLAN IS STRATEGY.md"** — true until 2026-08-02, when
   every live section was moved into the roadmap and STRATEGY.md became two history appendices.)* The schedule
-  JSON [degrader-paper-schedule.json](./research/manuscripts/degrader-paper-schedule.json) is a machine mirror
+  JSON [degrader-paper-schedule.json](./research/manuscripts/program/degrader-paper-schedule.json) is a machine mirror
   of the ordered plan; [pricing.md](./research/compute/pricing.md) owns the cost evidence. **Do not restate
   prices here** — this file carried a ladder total three times and it was stale every time. Superseded plan
   framings (atlas-anchor, Track A/B, the three-step spine, orientation-first) are in
@@ -313,7 +313,7 @@ When in doubt: do it and show it.
   to move the treatment science for EMC** — the most complete, rigorous, honest computational characterization
   achievable with **no wet lab**, every result at its true weight, **across the whole route portfolio**. Read
   [IDEAS.md](./research/IDEAS.md) and
-  [emc-treatment-strategy.md](./research/manuscripts/emc-treatment-strategy.md) before resuming any
+  [emc-treatment-strategy.md](./research/manuscripts/program/emc-treatment-strategy.md) before resuming any
   treatment-research work so you don't re-litigate settled calls.
   - **⛔ THE DEGRADER IS NOT THE NORTH STAR AND GETS NO SPECIAL TREATMENT (trimcrae, 2026-08-06: *"We went down
     that path and ran into enough blockers that it no longer has special treatment."*).** ⚠ *Superseded,
@@ -360,7 +360,7 @@ When in doubt: do it and show it.
   in-silico. **GPU spend is not a gate on paper quality**: run the warranted experiments — including expensive
   ones — to strengthen or honestly refute the claims, and post only once that work is folded in. Cost is a reason
   to sequence and right-size, not to skip a decision-relevant run.
-  **ONE FILE PER DELIVERABLE:** [nr4a3-degrader-paper.md](./research/manuscripts/nr4a3-degrader-paper.md) + its
+  **ONE FILE PER DELIVERABLE:** [nr4a3-degrader-paper.md](./research/manuscripts/degrader/nr4a3-degrader-paper.md) + its
   SI **is** both the ChemRxiv preprint and the JCIM submission **for the degrader route**. ⚠ *Superseded,
   retained: **"SINGLE DELIVERABLE"**, unqualified — the anti-duplication rule it protects is live and unchanged,
   but as written it also said this repository has ONE deliverable, and it has
@@ -372,8 +372,8 @@ When in doubt: do it and show it.
   retained: "`nr4a3-degrader-preprint*.md` are retired stubs" — that glob also swept in
   `nr4a3-degrader-preprint-plan.md`, which is 174 live lines and which this very sentence goes on to cite.*
   Pre-post checklist:
-  [preprint-plan.md](./research/manuscripts/nr4a3-degrader-preprint-plan.md); ready-to-send outreach:
-  [outreach-emails.md](./research/manuscripts/nr4a3-degrader-outreach-emails.md).
+  [preprint-plan.md](./research/manuscripts/degrader/nr4a3-degrader-preprint-plan.md); ready-to-send outreach:
+  [outreach-emails.md](./research/manuscripts/degrader/nr4a3-degrader-outreach-emails.md).
   **This is long-lived on a rising frontier, not a one-shot:** parked items are "revisit when capability X lands",
   not dead, and completed work is worth re-grading as methods improve ([method-watch.md](./research/method-watch.md)).
   Guardrail: a coming capability justifies waiting or re-running, **never** claiming a result before the method

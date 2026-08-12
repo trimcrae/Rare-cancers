@@ -485,8 +485,8 @@ def test_the_si_edit_only_exists_while_the_panel_is_unreadable():
     # BOTH manuscripts, because the main text asserts the same panel-wide maximum as the SI. Conditioning
     # only the SI leaves a reader who never opens it with the unqualified claim.
     files = sorted(e["file"] for e in edits)
-    assert files == ["research/manuscripts/nr4a3-degrader-paper-SI.md",
-                     "research/manuscripts/nr4a3-degrader-paper.md"], files
+    assert files == ["research/manuscripts/degrader/nr4a3-degrader-paper-SI.md",
+                     "research/manuscripts/degrader/nr4a3-degrader-paper.md"], files
     assert all("NOT CURRENTLY READABLE" in e["proposed_text"] for e in edits)
     si = [e for e in edits if e["file"].endswith("-SI.md")][0]
     assert "PXR" in si["proposed_text"] and "6.761" in si["proposed_text"]

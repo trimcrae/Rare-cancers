@@ -3,7 +3,7 @@
 
 WHY THIS EXISTS
 ---------------
-`research/manuscripts/emc-unexplored-treatment-lanes.md` s3.2 ranks "fusion-variant
+`research/manuscripts/program/emc-unexplored-treatment-lanes.md` s3.2 ranks "fusion-variant
 stratification (EWSR1 vs TAF15)" #2 of twelve unexplored lanes and calls it "the cheapest
 paper on the board": four independent lines converge on the NR4A3 5' partner as a
 treatment-relevant biomarker, and **nobody has pooled them**. This file does the pooling,
@@ -29,7 +29,7 @@ is not used to license any claim.
 
 Stdlib only.
 Run:     python3 research/manuscripts/emc_fusion_partner_pooling.py
-Writes:  research/manuscripts/emc-fusion-partner-pooling.json
+Writes:  research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json
 Verify:  python3 research/manuscripts/emc_fusion_partner_pooling.py --check
 
 ⛔ `_do_not_hand_edit` WAS A PROMISE THIS FILE COULD NOT KEEP (found 2026-08-08, in the same
@@ -63,7 +63,7 @@ import sys
 from datetime import datetime, timezone
 
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-OUT = os.path.join(REPO, "research", "manuscripts", "emc-fusion-partner-pooling.json")
+OUT = os.path.join(REPO, "research", "manuscripts", "fusion-partner", "emc-fusion-partner-pooling.json")
 
 Z95 = 1.959963984540054  # two-sided normal quantile at 95%
 
@@ -380,7 +380,7 @@ CITATIONS = {
             "IN THIS REPOSITORY BY PATTERN: Warmke LM is a real author with a real and DIFFERENT "
             "TAF15::NR4A3 paper (PMID 37057757, Genes Chromosomes Cancer 2023, "
             "doi 10.1002/gcc.23144), cited correctly as reference 20 of "
-            "research/manuscripts/nr4a3-degrader-paper.md. Check each hit against its identifier."
+            "research/manuscripts/degrader/nr4a3-degrader-paper.md. Check each hit against its identifier."
         ),
         "identity_confirmed": (
             "PMID 36948401 WAS CHECKED AGAINST THE PAPER RATHER THAN ASSUMED, because three "
@@ -1551,7 +1551,7 @@ def build() -> dict:
             "(CLAUDE.md rule 1)."
         ),
         "title": "Partner-stratified pooled synthesis of published EMC systemic-therapy and outcome data (EWSR1::NR4A3 vs TAF15::NR4A3)",
-        "lane": "research/manuscripts/emc-unexplored-treatment-lanes.md s3.2",
+        "lane": "research/manuscripts/program/emc-unexplored-treatment-lanes.md s3.2",
         "method": {
             "contract": "systems/POLICY-evidence.md s1-s2 (binding)",
             "estimator": "crude denominator-weighted proportions",
@@ -1664,7 +1664,7 @@ def build() -> dict:
                     "literature-cache:literature/emc-partner-events/nct02066285_ctgov_v2_full.txt "
                     "(HTTP 200) and literature-cache:literature/emc-partner-events-r3/"
                     "euctr_geis32_es.txt (HTTP 200); narrated in "
-                    "research/manuscripts/partner-event-counts-2026-08-08.md s3."
+                    "research/manuscripts/fusion-partner/partner-event-counts-2026-08-08.md s3."
                 ),
             },
         },

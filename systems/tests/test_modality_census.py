@@ -205,9 +205,9 @@ def test_parents_resolve_and_do_not_cycle(graph):
 # idea." Making that mechanical is the difference between a claim and a check.
 
 PRIOR_SEARCHES = [
-    "research/manuscripts/emc-post-degrader-options.md",
-    "research/manuscripts/emc-unexplored-treatment-lanes.md",
-    "research/manuscripts/emerging-modalities-scan-emc.md",
+    "research/manuscripts/program/emc-post-degrader-options.md",
+    "research/manuscripts/program/emc-unexplored-treatment-lanes.md",
+    "research/manuscripts/modality-census/emerging-modalities-scan-emc.md",
 ]
 
 
@@ -248,8 +248,8 @@ def test_the_prior_searches_still_exist_where_the_census_says_they_do():
 #: rediscovering. When this fires, the fix is a new MOD-* row pointing at the new ruling, then bump
 #: the count in the same commit.
 RECONCILED = {
-    "research/manuscripts/emc-unexplored-treatment-lanes.md": ("## 6 · Considered and rejected", 26),
-    "research/manuscripts/emc-post-degrader-options.md": ("## 3b · The technique classes searched", 22),
+    "research/manuscripts/program/emc-unexplored-treatment-lanes.md": ("## 6 · Considered and rejected", 26),
+    "research/manuscripts/program/emc-post-degrader-options.md": ("## 3b · The technique classes searched", 22),
 }
 
 

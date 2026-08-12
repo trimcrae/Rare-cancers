@@ -133,7 +133,7 @@ The computational arc is complete enough to describe honestly, but every selecti
 
 ## Where this route ends — the paper
 
-**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/nr4a3-degrader-paper.md)
+**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/degrader/nr4a3-degrader-paper.md)
 
 `primary` · ◐ `drafted` · aimed at `journal_submission`
 

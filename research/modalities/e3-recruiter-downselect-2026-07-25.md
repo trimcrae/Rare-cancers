@@ -280,7 +280,7 @@ DOES NOT REOPEN.** Cost **$0** (one CI fetch, no GPU, no rental).
 Numbers, entry lists and HTTP statuses are **not restated here** — their one home is
 [`e3-recruiter-pdb-recheck-2026-08-03.json`](e3-recruiter-pdb-recheck-2026-08-03.json), and the raw
 fetched text is on the `literature-cache` branch under `literature/e3-recruiter-trigger/`
-(corpus [`lit-targets-e3-recruiter-trigger.json`](../manuscripts/lit-targets-e3-recruiter-trigger.json),
+(corpus [`lit-targets-e3-recruiter-trigger.json`](../manuscripts/degrader/lit-targets-e3-recruiter-trigger.json),
 `fetch-literature.yml` run 30861878219).
 
 **★ The decisive fact is a PDB census, not a paper — and it was free the whole time.** The trigger's
@@ -338,7 +338,7 @@ query is kept verbatim in the trigger's `search._query_revision`.
 
 **Not changed — the row itself, and nothing downstream.** ⚠ And one thing worth saying even though it
 deflates the finding: `R9` and `R12` are both *future — NOT STARTED*, and
-[`emc-post-degrader-options.md`](../manuscripts/emc-post-degrader-options.md) §0 puts the E3
+[`emc-post-degrader-options.md`](../manuscripts/program/emc-post-degrader-options.md) §0 puts the E3
 recruiter on the **liability** side of the split it draws — *"the degradation geometry — ternary, E3,
 exit vector, ubiquitin transfer, and a ~1 kcal/mol paralogue margin"* — not the asset side. So even a
 genuine reopen here would reopen a parked row **inside a programme parked for unrelated,

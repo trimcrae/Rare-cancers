@@ -85,7 +85,7 @@ A pan-essential target with no window is a closed line, and its value is as a pa
 
 ## Where this route ends — the paper
 
-**[PUB-TXN-DEPENDENCY](L3-publications.md)** — [Transcriptional and proteostatic dependency of a fusion transcription factor — what a no-wet-lab program can and cannot establish](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md)
+**[PUB-TXN-DEPENDENCY](L3-publications.md)** — [Transcriptional and proteostatic dependency of a fusion transcription factor — what a no-wet-lab program can and cannot establish](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

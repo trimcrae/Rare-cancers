@@ -22,8 +22,8 @@ and *view the PNG* before committing (AGENTS.md -> "Making figures").
   python3 portfolio_quadrant.py        # writes portfolio-quadrant.png
 
 Keep cell membership in sync with the two-axis table in:
-  research/manuscripts/emc-treatment-roadmap.md (Sec 3)
-  research/manuscripts/emc-treatment-strategy.md ("The ranking")
+  research/manuscripts/program/emc-treatment-roadmap.md (Sec 3)
+  research/manuscripts/program/emc-treatment-strategy.md ("The ranking")
 """
 import os
 import matplotlib

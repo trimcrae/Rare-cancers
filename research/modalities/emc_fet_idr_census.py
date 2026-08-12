@@ -4,7 +4,7 @@ Do EMC's fusions satisfy the STRUCTURAL PRECONDITION of the FET/ATM-suppression 
 
 THE QUESTION
 ------------
-The ATR-inhibitor route for EMC (research/manuscripts/emc-post-degrader-options.md route 1) is a CLASS
+The ATR-inhibitor route for EMC (research/manuscripts/program/emc-post-degrader-options.md route 1) is a CLASS
 inheritance: FET fusion oncoproteins suppress ATM activation at double-strand breaks, so the ATR axis
 becomes load-bearing. Whether EMC inherits it is usually argued from the partner list - EWSR1, TAF15
 and FUS are the three FET genes, so EMC is FET-rearranged. That argument is about GENE NAMES.
@@ -66,7 +66,7 @@ DESIGN, AND THE CONTROL THAT COMES FIRST
    exon 12; the row below remains valid arithmetic for a 264-residue EWSR1 cut and the right
    comparator for EWSR1::FLI1 type 1, but the label "canonical" belongs to the exon-12 cut. One
    home for the correction and the superseded value:
-   `research/manuscripts/emc-atr-collaborator-package.md` (§2.2 + appendix).
+   `research/manuscripts/dependency/emc-atr-collaborator-package.md` (§2.2 + appendix).
 
 Output: emc-fet-idr-census.json. `--check` recomputes and diffs. Network needed only to refresh the
 sequence cache; with the cache present it is pure-stdlib and runs anywhere.

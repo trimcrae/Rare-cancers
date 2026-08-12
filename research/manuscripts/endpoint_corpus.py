@@ -39,10 +39,10 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "endpoint-corpus.json")
-INPUTS = os.path.join(HERE, "endpoint-corpus-inputs.json")
-PROTOCOL_REL = "research/manuscripts/lit-targets-cross-disease-endpoints.json"
-OUT_REL = "research/manuscripts/endpoint-corpus.json"
+OUT = os.path.join(HERE, "endpoint", "endpoint-corpus.json")
+INPUTS = os.path.join(HERE, "endpoint", "endpoint-corpus-inputs.json")
+PROTOCOL_REL = "research/manuscripts/endpoint/lit-targets-cross-disease-endpoints.json"
+OUT_REL = "research/manuscripts/endpoint/endpoint-corpus.json"
 
 CACHE_REFS = ("origin/literature-cache", "literature-cache", "FETCH_HEAD")
 SLUG = "xdisease-ctg-results"

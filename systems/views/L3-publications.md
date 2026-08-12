@@ -36,29 +36,29 @@ last_verified: 2026-08-06
 
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
-| **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-ASO**<br/>[Working record — fusion-junction ASO analyses, provenance and correctio…](../../research/manuscripts/fusion-junction-aso-working-record.md) | ◐ `drafted` | `journal_submission` | 2 | — |
-| **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
-| **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
-| **PUB-CLOSED-ROUTES**<br/>[Seven routes closed on argument rather than on experiment — the negativ…](../../research/manuscripts/closed-routes-negative-record.md) | ◐ `drafted` | `preprint` | 7 | — |
-| **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
-| **PUB-EMC-PROGRAM**<br/>[Attacking an "undruggable" fusion oncoprotein by computation alone: a d…](../../research/manuscripts/emc-treatment-roadmap.md) | ◐ `drafted` | `journal_submission` | 2 | — |
-| **PUB-ENDPOINT**<br/>[Objective response and disease control on identical patients: what the …](../../research/manuscripts/response-endpoint-indolent-tumours.md) | ◐ `drafted` | `journal_submission` | 1 | — |
-| **PUB-FUSION-OUTPUT**<br/>[Almost every gene set reads higher in the index arm: a size-matched emp…](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `journal_submission` | 1 | — |
-| **PUB-FUSION-PARTNER**<br/>[Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a…](../../research/manuscripts/emc-fusion-partner-stratification.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-HLA-COVERAGE**<br/>[Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunoth…](../../research/manuscripts/hla-coverage-emc.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
-| **PUB-MODALITY-CENSUS**<br/>[What oncology can do, and what reaches extraskeletal myxoid chondrosarc…](../../research/manuscripts/cancer-modality-census.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-MONOVALENT**<br/>[The monovalent pocket-modulation route — a small molecule that only occ…](../../research/manuscripts/nr4a3-monovalent-pocket-route.md) | ◐ `drafted` | `internal_note` | 1 | — |
-| **PUB-MTAP-PRMT5**<br/>[The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-…](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-NEOANTIGEN**<br/>[Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal …](../../research/manuscripts/fusion-junction-neoantigen-paper.md) | ◐ `drafted` | `preprint` | 2 | — |
-| **PUB-REPURPOSING**<br/>[Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma:…](../../research/manuscripts/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
-| **PUB-STRATEGY-ARCH**<br/>[Eligible but unfindable — trials that admit an ultra-rare sarcoma while…](../../research/manuscripts/emc-trial-reachability.md) | ◐ `drafted` | `preprint` | 3 | — |
-| **PUB-SURFACE-TARGETS**<br/>[Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: …](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
-| **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
-| **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-TXN-DEPENDENCY**<br/>[Transcriptional and proteostatic dependency of a fusion transcription f…](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) | ◐ `drafted` | `preprint` | 2 | — |
+| **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-ASO**<br/>[Working record — fusion-junction ASO analyses, provenance and correctio…](../../research/manuscripts/aso/fusion-junction-aso-working-record.md) | ◐ `drafted` | `journal_submission` | 2 | — |
+| **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
+| **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
+| **PUB-CLOSED-ROUTES**<br/>[Seven routes closed on argument rather than on experiment — the negativ…](../../research/manuscripts/methods-record/closed-routes-negative-record.md) | ◐ `drafted` | `preprint` | 7 | — |
+| **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/degrader/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
+| **PUB-EMC-PROGRAM**<br/>[Attacking an "undruggable" fusion oncoprotein by computation alone: a d…](../../research/manuscripts/program/emc-treatment-roadmap.md) | ◐ `drafted` | `journal_submission` | 2 | — |
+| **PUB-ENDPOINT**<br/>[Objective response and disease control on identical patients: what the …](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md) | ◐ `drafted` | `journal_submission` | 1 | — |
+| **PUB-FUSION-OUTPUT**<br/>[Almost every gene set reads higher in the index arm: a size-matched emp…](../../research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `journal_submission` | 1 | — |
+| **PUB-FUSION-PARTNER**<br/>[Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a…](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-HLA-COVERAGE**<br/>[Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunoth…](../../research/manuscripts/neoantigen/hla-coverage-emc.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/methods-record/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
+| **PUB-MODALITY-CENSUS**<br/>[What oncology can do, and what reaches extraskeletal myxoid chondrosarc…](../../research/manuscripts/modality-census/cancer-modality-census.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-MONOVALENT**<br/>[The monovalent pocket-modulation route — a small molecule that only occ…](../../research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md) | ◐ `drafted` | `internal_note` | 1 | — |
+| **PUB-MTAP-PRMT5**<br/>[The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-…](../../research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-NEOANTIGEN**<br/>[Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal …](../../research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md) | ◐ `drafted` | `preprint` | 2 | — |
+| **PUB-REPURPOSING**<br/>[Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma:…](../../research/manuscripts/repurposing/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
+| **PUB-STRATEGY-ARCH**<br/>[Eligible but unfindable — trials that admit an ultra-rare sarcoma while…](../../research/manuscripts/care-delivery/emc-trial-reachability.md) | ◐ `drafted` | `preprint` | 3 | — |
+| **PUB-SURFACE-TARGETS**<br/>[Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: …](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
+| **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
+| **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-TXN-DEPENDENCY**<br/>[Transcriptional and proteostatic dependency of a fusion transcription f…](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-EMC-CLASSIFICATION**<br/>*One code, two diseases: what registry-based extraskeletal myxoid chondr…* | ◔ `outlined` | `preprint` | 2 | ⭐ The contradiction is MEASURED and quoted from both papers' own Methods sections (emc-care-delivery-evidence.json -> icd_o_9231_3), which is enough … |
 | **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. … |
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. … |
@@ -74,7 +74,7 @@ last_verified: 2026-08-06
 
 ### PUB-ANDGATE — A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeleta
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/fusion-selective-andgate-degrader-paper.md`](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md`](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md)**
 
 Coincidence detection across both halves of the fusion is a design that would convert a paralogue-selectivity problem into an avidity problem — and it names precisely what does not exist for it to be built, which is a ligand for the EWSR1 half.
 
@@ -88,7 +88,7 @@ Coincidence detection across both halves of the fusion is a design that would co
 
 ### PUB-ASO — Working record — fusion-junction ASO analyses, provenance and correction history
 
-**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/fusion-junction-aso-working-record.md`](../../research/manuscripts/fusion-junction-aso-working-record.md)**
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/aso/fusion-junction-aso-working-record.md`](../../research/manuscripts/aso/fusion-junction-aso-working-record.md)**
 
 The EWSR1::NR4A3 breakpoint junction is the one truly tumour-exclusive feature of this disease at the RNA level, an oligonucleotide can be designed to read it rather than a shape, and transcriptome-wide specificity screening finds no competing match — with delivery named as the outstanding gate rather than assumed away.
 
@@ -103,7 +103,7 @@ The EWSR1::NR4A3 breakpoint junction is the one truly tumour-exclusive feature o
 
 ### PUB-ATR — The in-silico ATR vulnerability assessment for EMC
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-atr-vulnerability-assessment.md`](../../research/manuscripts/emc-atr-vulnerability-assessment.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/dependency/emc-atr-vulnerability-assessment.md`](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md)**
 
 A replication-stress vulnerability can be assessed for EMC by inheritance from its FET-fusion class, and the assessment states inside itself that class inheritance is not an EMC measurement — which is what makes it an assessment rather than a finding.
 
@@ -118,7 +118,7 @@ A replication-stress vulnerability can be assessed for EMC by inheritance from i
 
 ### PUB-ATR-PANEL-ASK — Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay
 
-**◐ `drafted` · aimed at `experimental_proposal` · [`research/manuscripts/emc-atr-collaborator-package.md`](../../research/manuscripts/emc-atr-collaborator-package.md) · ships with **PUB-ATR****
+**◐ `drafted` · aimed at `experimental_proposal` · [`research/manuscripts/dependency/emc-atr-collaborator-package.md`](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) · ships with **PUB-ATR****
 
 Everything a group already running the FET-fusion DSB-recruitment assay would have to derive in order to add EMC as a fourth partner class is pre-built — constructs, controls, predicted outcomes and kill criteria fixed in advance — so the marginal cost of testing the assessment's prediction is the bench time and nothing else.
 
@@ -132,7 +132,7 @@ Everything a group already running the FET-fusion DSB-recruitment assay would ha
 
 ### PUB-BIOMARKER-DEP — Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what the available expression data excludes
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-biomarker-selected-classes.md`](../../research/manuscripts/emc-biomarker-selected-classes.md) · ships with **PUB-MODALITY-CENSUS****
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/dependency/emc-biomarker-selected-classes.md`](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) · ships with **PUB-MODALITY-CENSUS****
 
 Five therapeutic classes are selected by a molecular state rather than by a histology, every selecting feature is readable in expression data already public for this disease, and the useful output is which classes the data rules OUT rather than which it nominates. Four selecting features are absent; the fifth class survives because the instrument cannot reach its question rather than because the data was favourable. The four negatives are deliberately NOT reported as equally strong.
 
@@ -146,7 +146,7 @@ Five therapeutic classes are selected by a molecular state rather than by a hist
 
 ### PUB-CLOSED-ROUTES — Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/closed-routes-negative-record.md`](../../research/manuscripts/closed-routes-negative-record.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/methods-record/closed-routes-negative-record.md`](../../research/manuscripts/methods-record/closed-routes-negative-record.md)**
 
 A route can be closed rigorously without an experiment when the closure is definitional or is arithmetic over a fixed measured fact, and separating those permanent closures from the merely instrument-limited ones is what keeps a portfolio from re-litigating settled questions — with wild-type NR4A3 pharmacology failing to transfer to the chimera as the worked example.
 
@@ -162,7 +162,7 @@ A route can be closed rigorously without an experiment when the closure is defin
 
 ### PUB-DEGRADER — In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket
 
-**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/nr4a3-degrader-paper.md`](../../research/manuscripts/nr4a3-degrader-paper.md)**
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/degrader/nr4a3-degrader-paper.md`](../../research/manuscripts/degrader/nr4a3-degrader-paper.md)**
 
 A cryptic pocket on the NR4A3 ligand-binding domain can be found and a paralogue-favoured ligand designed into it by computation alone — and the selectivity margin that design would need is larger than the instruments used to predict it can currently resolve, which is reported as the result rather than worked around.
 
@@ -181,7 +181,7 @@ A cryptic pocket on the NR4A3 ligand-binding domain can be found and a paralogue
 
 ### PUB-EMC-PROGRAM — Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3
 
-**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/emc-treatment-roadmap.md`](../../research/manuscripts/emc-treatment-roadmap.md)**
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/program/emc-treatment-roadmap.md`](../../research/manuscripts/program/emc-treatment-roadmap.md)**
 
 The gap in EMC care is categorical rather than a matter of degree — nothing in clinical use addresses the driver — and a computation-only program can enumerate the driver-directed routes, state a falsifiable kill criterion for each, and place the borrowed standard-of-care agents as context rather than as its own contribution.
 
@@ -192,7 +192,7 @@ The gap in EMC care is categorical rather than a matter of degree — nothing in
 
 ### PUB-ENDPOINT — Objective response and disease control on identical patients: what the response summary discards across 552 trial arms
 
-**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/response-endpoint-indolent-tumours.md`](../../research/manuscripts/response-endpoint-indolent-tumours.md)**
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/endpoint/response-endpoint-indolent-tumours.md`](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md)**
 
 An objective-response summary discards a large, measurable share of what a trial observed, and returns nothing at all in almost half of reported arms. Across 552 arms in 138 trials carrying a complete four-cell best-response table, the gap between disease control and objective response has a median of 39.4 percentage points (IQR 20.0-54.3), is identically the stable-disease proportion so each value carries an exact Wilson interval, holds in every constructible stratum (27.2-43.6), and reaches 50 points or more in 194 arms. 251 of 552 arms (45.5%) record zero objective responses, tracking the binomial at the corpus median rate, so an uninformative readout is largely a function of arm size rather than of the agent. Reporting is the binding constraint: of 2851 trials whose registry text names best overall response, 2715 (95.2%) post results without the four categories. Between 31.8% and 73.9% of conditions with a defined comparison have a median trial too small for an exact single-stage design; that is a BOUND rather than a point estimate because the accrual axis pools two populations biased in opposite directions. Remedies exist in four families across 12 disease domains, 7 with a consensus guideline and 5 on a single trial precedent, so the gap is diffusion rather than invention. Extraskeletal myxoid chondrosarcoma is the worked extreme at the 88.9th percentile, a weaker claim about that disease and a stronger one about endpoints. WITHDRAWN 2026-08-09: the zero-event-contour result and its named disease list, which came entirely from trials terminated for failure to accrue. It asserts no efficacy, safety or clinical readiness for any agent.
 
@@ -202,7 +202,7 @@ An objective-response summary discards a large, measurable share of what a trial
 
 ### PUB-FUSION-OUTPUT — Almost every gene set reads higher in the index arm: a size-matched empirical null for small rare-tumour expression series, and what it leaves of the EWSR1::NR4A3 direct-target catalogue
 
-**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/nr4a3-fusion-transcriptional-output.md`](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md)**
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md`](../../research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md)**
 
 A gene-set read on a small rare-tumour expression series is uninterpretable until a size-matched random set drawn from the same platform's own genes has been scored beside it — and that calibration, which costs one seeded resampling and is not specific to any disease, refuses the very set this paper assembles. Applied to the EWSR1::NR4A3 direct-target catalogue (three genes across 2,276 retrieved full-text documents), the aggregate reaches 39% and 88% of its null threshold and does NOT clear, while the published EMC phenotype clears the same threshold 11.9-fold and 4.2-fold in the same run. Calibrated, the three genes separate rather than reading alike; the surviving gene is the pre-designated positive control and is therefore not an independent finding. No experiment has measured where an NR4A3 fusion binds, or what chromatin does, in EMC material — a negative the field's own habits sharpen, since it runs exactly that experiment for EWSR1::WT1, EWSR1::ATF1, EWSR1::FLI1, FUS::DDIT3 and (twice) HEY1::NCOA2 — so no gene named can yet be told apart from one merely associated with the disease, and the paper specifies the experiment that would settle it.
 
@@ -212,7 +212,7 @@ A gene-set read on a small rare-tumour expression series is uninterpretable unti
 
 ### PUB-FUSION-PARTNER — Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a partner-stratified pooled synthesis
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-fusion-partner-stratification.md`](../../research/manuscripts/emc-fusion-partner-stratification.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md`](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md)**
 
 The NR4A3 5' fusion partner is a candidate - not established - treatment-stratification variable in EMC, and its two halves are in different states. On PROGNOSIS, pooling the two cohorts that publish event counts by partner (73 patients, two continents, no shared authors) gives a crude disease-specific death rate of 7/15 = 46.7% (95% CI 24.8-70.0) with TAF15::NR4A3 against 6/58 = 10.3% (4.8-20.8) with EWSR1::NR4A3 - a magnitude this contrast has never had - reported inseparably from the multivariable analysis in the larger of those cohorts, in which the partner is NOT independent of tumour size and 78% of TAF15 tumours exceed 10 cm, so the partner may be a marker for a big tumour rather than for a biology. On TREATMENT RESPONSE the record supports a DIRECTION and no magnitude at all, because the entire published TAF15::NR4A3 antiangiogenic-TKI experience is three to five patients with no reported responses and a 95% upper bound lying above the comparator arm's own point estimate; a zero-event arm yields no magnitude at any denominator, and nothing in the prognostic result bears on it. The review literature's metastasis claim is supported by neither count-bearing cohort in either direction. It makes no treatment recommendation and asserts no efficacy, safety, therapeutic window or clinical readiness for any agent.
 
@@ -222,7 +222,7 @@ The NR4A3 5' fusion partner is a candidate - not established - treatment-stratif
 
 ### PUB-HLA-COVERAGE — Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunotherapy in extraskeletal myxoid chondrosarcoma: a r
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/hla-coverage-emc.md`](../../research/manuscripts/hla-coverage-emc.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/neoantigen/hla-coverage-emc.md`](../../research/manuscripts/neoantigen/hla-coverage-emc.md)**
 
 If a public junction epitope were presented, the fraction of the patient population whose HLA alleles could see it is computable from reference allele frequencies — an eligibility ceiling that constrains every junction-directed immunotherapy route and is reusable independently of whether the epitope itself survives.
 
@@ -236,7 +236,7 @@ If a public junction epitope were presented, the fraction of the patient populat
 
 ### PUB-METHODS — The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish
 
-**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/degrader-methods-failure-record.md`](../../research/manuscripts/degrader-methods-failure-record.md)**
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/methods-record/degrader-methods-failure-record.md`](../../research/manuscripts/methods-record/degrader-methods-failure-record.md)**
 
 A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures are the transferable result, because the field publishes almost none of them.
 
@@ -246,7 +246,7 @@ A computation-only program can state, with its instruments' known-answer control
 
 ### PUB-MODALITY-CENSUS — What oncology can do, and what reaches extraskeletal myxoid chondrosarcoma — a modality census
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/modality-census/cancer-modality-census.md`](../../research/manuscripts/modality-census/cancer-modality-census.md)**
 
 A complete enumeration of cancer-treatment modality classes, graded one line at a time against a single ultra-rare fusion sarcoma, separates the classes that were considered and dismissed from the classes nobody had pointed at — a distinction a literature search cannot make about itself, and one that changes which work is worth doing next.
 
@@ -256,7 +256,7 @@ A complete enumeration of cancer-treatment modality classes, graded one line at 
 
 ### PUB-MONOVALENT — The monovalent pocket-modulation route — a small molecule that only occupies the NR4A3 LBD
 
-**◐ `drafted` · aimed at `internal_note` · [`research/manuscripts/nr4a3-monovalent-pocket-route.md`](../../research/manuscripts/nr4a3-monovalent-pocket-route.md)**
+**◐ `drafted` · aimed at `internal_note` · [`research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md`](../../research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md)**
 
 Occupancy of the NR4A3 pocket without recruitment is a distinct route from degradation, and the question of whether occupancy alone changes the fusion's behaviour has never been asked by anyone — so the route is untested rather than refuted.
 
@@ -270,7 +270,7 @@ Occupancy of the NR4A3 pocket without recruitment is a distinct route from degra
 
 ### PUB-MTAP-PRMT5 — The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-class rationale that survives, an MTAP-locus rationale that does not, and two inexpensive tests
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-mtap-prmt5-hypothesis.md`](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) · ships with **PUB-MODALITY-CENSUS****
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md`](../../research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md) · ships with **PUB-MODALITY-CENSUS****
 
 Two independent lines point at the PRMT5 methylosome in extraskeletal myxoid chondrosarcoma and neither has ever been examined in it. One of them closes on the paper's own data and is reported as the negative it is; the other survives and is argued rather than assumed — a peer-reviewed result in a second EWSR1-fusion sarcoma where PRMT5 inhibition acts in a fusion-DEPENDENT way, plus a sequence finding that PRMT5's measured substrate motif is absent from the half of EWSR1 every fusion retains and that the commonest EMC and clear cell fusions keep the same number of sites. The same analysis refuses the response prediction it looks like it licenses. Each route ends at a different inexpensive experiment, and the negative branch of each is worth publishing.
 
@@ -280,7 +280,7 @@ Two independent lines point at the PRMT5 methylosome in extraskeletal myxoid cho
 
 ### PUB-NEOANTIGEN — Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal myxoid chondrosarcoma: a fusion-exclusive immunot
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/fusion-junction-neoantigen-paper.md`](../../research/manuscripts/fusion-junction-neoantigen-paper.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md`](../../research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md)**
 
 The fusion junction produces a peptide sequence that is absent from wild-type EWSR1 and wild-type NR4A3 — ⚠ the only novelty test in this repo compares against those two PARENT proteins (`fusion_breakpoints.py:231`) and NO proteome-wide search has ever been run, so 'absent from the normal proteome' is not a claim this work can make, and whether any allele presents it is a prediction that must be regenerated against a corrected exon index before it can be reported at all.
 
@@ -295,7 +295,7 @@ The fusion junction produces a peptide sequence that is absent from wild-type EW
 
 ### PUB-REPURPOSING — Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma: a graded candidate menu from three independent generation methods
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/repurposing-hypotheses.md`](../../research/manuscripts/repurposing-hypotheses.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/repurposing/repurposing-hypotheses.md`](../../research/manuscripts/repurposing/repurposing-hypotheses.md)**
 
 Existing agents not yet reported in EMC can be mapped to EMC's molecular and microenvironmental axes by three independent methods, each candidate graded by an explicit evidence tier — a hypothesis-generating menu that asserts no efficacy for any agent it names.
 
@@ -311,7 +311,7 @@ Existing agents not yet reported in EMC can be mapped to EMC's molecular and mic
 
 ### PUB-STRATEGY-ARCH — Eligible but unfindable — trials that admit an ultra-rare sarcoma while listing conditions that never name it
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-trial-reachability.md`](../../research/manuscripts/emc-trial-reachability.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/care-delivery/emc-trial-reachability.md`](../../research/manuscripts/care-delivery/emc-trial-reachability.md)**
 
 For a cancer that will never have a randomised trial, the variables a clinician actually controls — when, in what order, and whether the patient can reach a trial at all — are treatable as research questions, and a portfolio whose every endpoint is a publication needs the step after publication registered as a route.  ⚠ THE DRAFTED PAPER COVERS THE REACHABILITY VARIABLE ONLY. The endpoint's claim spans three variables — scheduling, sequencing and reachability — and the other two are now graded as closed (RT-SCHEDULING definitional, RT-SEQUENCING instrument_limit). Their findings are real and publishable (four medians that cannot be pooled by contract, four PFS figures circulating attributed to agents that did not produce them, and a refusal to pool that is itself the result) but they are NOT in the drafted manuscript yet. ⛔ Recorded here rather than left for a reader to discover, because `drafted` on an endpoint whose paper covers one of its three routes would otherwise read as more finished than it is.
 
@@ -323,7 +323,7 @@ For a cancer that will never have a randomised trial, the variables a clinician 
 
 ### PUB-SURFACE-TARGETS — Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-surface-target-landscape.md`](../../research/manuscripts/emc-surface-target-landscape.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/surface-targets/emc-surface-target-landscape.md`](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md)**
 
 Surface and stromal antigens can be prioritised for EMC in silico, and the honest limit of the prioritisation is set by what the comparator basis can see. ⚠ SUPERSEDED 2026-08-07, RETAINED: the prior claim was that every negative is "bounded by that surrogate basis rather than by an EMC tissue measurement", from "one cell line and a translocation-sarcoma comparison set". THREE EMC TISSUE COHORTS ARE NOW READ (GSE24369/GPL6244, GSE4303/GPL3290, GSE28866/3SEQ), the third carrying 27 normal-organ libraries — the first on-target/off-tumour exposure axis this repository has had. The surrogate-basis framing is therefore no longer the binding limit and the paper needs rewriting rather than re-verifying. ⛔ The rewrite is a DEMOTION, not a gain: ALCAM, its lead antigen, reads 0.578 in EMC against 0.631 in normal tissue and loses the exposure axis while keeping the lineage half; CSPG4 is the largest row in the new deposit and is discordant across cohorts (+0.885 GPL6244, -0.189 GPL3290).
 
@@ -342,7 +342,7 @@ Surface and stromal antigens can be prioritised for EMC in silico, and the hones
 
 ### PUB-SYNLETH — Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comparison
 
-**◐ `drafted` · aimed at `internal_note` · [`research/manuscripts/degrader-vs-synthetic-lethal.md`](../../research/manuscripts/degrader-vs-synthetic-lethal.md)**
+**◐ `drafted` · aimed at `internal_note` · [`research/manuscripts/dependency/degrader-vs-synthetic-lethal.md`](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md)**
 
 A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a FET fusion, and the negative recorded here is bounded by a transfer prior over a single cell line — a statement about the available data, not about the biology.
 
@@ -356,7 +356,7 @@ A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a F
 
 ### PUB-TCIP — The induced-interface floor that proximity design inherits from degraders is about twice the interface of the one solved transcriptional CIP
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/tcip-induced-interface-preprint.md`](../../research/manuscripts/tcip-induced-interface-preprint.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/tcip/tcip-induced-interface-preprint.md`](../../research/manuscripts/tcip/tcip-induced-interface-preprint.md)**
 
 ⛔ NOT AN EMC-SPECIFIC RESULT — DEMOTED 2026-08-07, MEASURED RATHER THAN JUDGED. 'NR4A3' appears 0 times in nr4a3-induced-interface-census.json and 0 times in tcip-interface-floor-sizing.md; '8XTT', NR4A3's only experimental structure, appears 0 times in either OR in nr4a3-tcip-reach.json. Both load-bearing results are free of NR4A3: the 6-7-contact measurement is on 9MZA, a BCL6-p300 lymphoma system, and the 6-of-15 calibration is over published degrader/glue ternaries, none of them NR4A3. The reach enumeration IS NR4A3-anchored but names it three times, all caveats. THE CLAIM IS MODALITY-GENERAL AND THE EMC ANCHOR IS THE SETTING IT WAS COMPUTED IN. THE CLAIM ITSELF: the min_contact_residues floor that induced-proximity tooling applies by default is inherited from degraders; ablating it INVERTS the single-domain/multi-subunit acceptance ratio (0.896 at 12 -> 1.121 at 6 -> 1.254 at 0), so a size penalty read off that floor is an artefact of the wrong modality's parameter; the only deposited chemically-induced TRANSCRIPTIONAL-proximity complex (PDB 9MZA, 2.1 A) has an induced interface of 6-7 contacts across 4 residues per side, roughly half the floor; and the floor is too strict even at home, rejecting 6 of 15 published degrader/glue ternaries. ⚠ WHAT IT MAY NOT CLAIM: the size contrast itself does NOT survive a re-draw (within-class spread exceeds between-class contrast in 8 of 8 rungs), n=1 bounds the floor from ABOVE only, and 'ADMITS' is an excluded-volume statement no tested body has ever failed. ⚠ SUPERSEDED, RETAINED: the prior claim was framed as 'Transcriptional chemically-induced proximity on EWSR1::NR4A3', which implied a disease-specific deliverable it does not carry.
 
@@ -366,7 +366,7 @@ A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a F
 
 ### PUB-TXN-DEPENDENCY — Transcriptional and proteostatic dependency of a fusion transcription factor — what a no-wet-lab program can and cannot establish
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-transcriptional-proteostatic-dependency.md`](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) · ships with **PUB-MODALITY-CENSUS****
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md`](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md) · ships with **PUB-MODALITY-CENSUS****
 
 A fusion oncoprotein whose entire mechanism is transactivation, and whose structure is a chimera of two domains that never evolved together, predicts dependencies on the transcriptional machinery and on the chaperone system — and for both, ABUNDANCE AND DEPENDENCY DISAGREE IN OPPOSITE DIRECTIONS. The transcriptional half is the most concordant elevation in the census and closes completely on dependency, being pan-essential with no selectivity. The chaperone half is an internally contradictory elevation that survives weakly for a reason abundance alone could not show. Reading only the first axis would have given a confident and wrong answer in both cases, which is the transferable result.
 

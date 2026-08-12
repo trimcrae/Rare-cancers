@@ -33,8 +33,8 @@ import unicodedata
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MAP = os.path.join(HERE, "nr4a3-program-map.md")
-PAPER = os.path.join(HERE, "nr4a3-degrader-paper.md")
-SI = os.path.join(HERE, "nr4a3-degrader-paper-SI.md")
+PAPER = os.path.join(HERE, "degrader", "nr4a3-degrader-paper.md")
+SI = os.path.join(HERE, "degrader", "nr4a3-degrader-paper-SI.md")
 
 #: A citation: a backticked `:NNNN` or `:NNNN–NNNN`, en dash or hyphen.
 CITE = re.compile(r"`:(\d+)(?:[–-](\d+))?`")

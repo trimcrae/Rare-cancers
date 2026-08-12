@@ -14,7 +14,7 @@ move the other. Cite it; never change it.
 
 Usage:  python3 research/manuscripts/row4_second_method_map_edits.py
         python3 research/manuscripts/route_map_edits.py \
-                research/manuscripts/row4-second-method-map-edits.json --apply
+                research/manuscripts/degrader/row4-second-method-map-edits.json --apply
 """
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ import sys
 REPO = pathlib.Path(__file__).resolve().parents[2]
 ART = REPO / "research" / "modalities" / "pose-second-method.json"
 MAP = REPO / "research" / "manuscripts" / "nr4a3-program-map.md"
-OUT = REPO / "research" / "manuscripts" / "row4-second-method-map-edits.json"
+OUT = REPO / "research" / "manuscripts" / "degrader" / "row4-second-method-map-edits.json"
 
 #: The next free instrument id. `V1`…`V21` are taken; `V22` is checked against the live map below rather
 #: than assumed, because minting a colliding id is silent and permanent (§0.4: never renumber).

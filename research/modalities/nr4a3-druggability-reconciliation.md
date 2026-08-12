@@ -86,7 +86,7 @@ already-demonstrated ligandability likely lives," which is a stronger, experimen
 low-complexity region, and the only *approved-drug* NOR-1 pharmacology — 6-mercaptopurine — acts through
 that AF-1 and **not** the LBD ([Wansa et al., *J Biol Chem* 2003;278(27):24776–90, PMID
 12709428](https://pubmed.ncbi.nlm.nih.gov/12709428/); the closure is owned by
-[`emc-post-degrader-options.md`](../manuscripts/emc-post-degrader-options.md) Tier 4). So *"is the
+[`emc-post-degrader-options.md`](../manuscripts/program/emc-post-degrader-options.md) Tier 4). So *"is the
 published NR4A3 pharmacology AF-1-borne too?"* decides whether any of it transfers to the disease protein.
 It is a one-sentence question about a plasmid, and the answer had never been read off the source.
 
@@ -133,7 +133,7 @@ retained, the LBD-borne module is available without arguing past a loss that doe
 3. ⛔ **No purified protein and no biophysical binding measurement exists anywhere in it.** Every readout
    is a cell-based luciferase reporter or a qPCR. There is therefore **no published precedent for a
    purified-protein biophysical assay on NR4A3 at all** (owned by
-   [`what-a-civilian-can-buy.md`](../manuscripts/what-a-civilian-can-buy.md) §1.3).
+   [`what-a-civilian-can-buy.md`](../manuscripts/modality-census/what-a-civilian-can-buy.md) §1.3).
 4. ⚠ **The paper's own framing of the pocket is a challenge, not a support:** *"NOR‐1 … **lacks an
    accessible pocket in the canonical ligand binding region of nuclear receptors**, its transcriptional
    activity mainly depends on its expression level."* That is the occluded-canonical-pocket view this
@@ -145,10 +145,10 @@ competing transactivation domain**, so it is maximally sensitive to LBD-borne ac
 low-complexity region is a strong, independently-acting activator. *"Occupancy changes output"* is
 established **for that chimera**, not for EWSR1::NR4A3. That is a functional cell assay, not an in-silico
 question, and it is graded as a route blocker in
-[`nr4a3-monovalent-pocket-route.md`](../manuscripts/nr4a3-monovalent-pocket-route.md) §2.3, which owns it.
+[`nr4a3-monovalent-pocket-route.md`](../manuscripts/occupancy/nr4a3-monovalent-pocket-route.md) §2.3, which owns it.
 
 *Provenance: quoted from PMC9542104 fetched read-only on a CI runner (run 30858114744, corpus
-[`lit-targets-nr4a3-lbd-vs-af1.json`](../manuscripts/lit-targets-nr4a3-lbd-vs-af1.json) →
+[`lit-targets-nr4a3-lbd-vs-af1.json`](../manuscripts/occupancy/lit-targets-nr4a3-lbd-vs-af1.json) →
 `literature-cache:literature/nr4a3-lbd-vs-af1/`). Its body is byte-identical to the independent
 2026-08-03 `civilian-purchasing` fetch of the same article, so two separate retrievals agree.*
 
@@ -157,9 +157,9 @@ question, and it is graded as a route blocker in
 **⛔ SUPERSEDED ATTRIBUTION, RETAINED SO IT STAYS QUOTABLE AND SEARCHABLE: "Munck 2022", and
 "Munck JM et al. *Druggability Evaluation of NOR-1 Reveals Inverse NOR-1 Agonists* (2022)".** Five files
 carried it with **no PMID**: [`../IDEAS.md`](../IDEAS.md),
-[`emc-treatment-roadmap.md`](../manuscripts/emc-treatment-roadmap.md),
-[`degrader-vs-synthetic-lethal.md`](../manuscripts/degrader-vs-synthetic-lethal.md),
-[`target-route-options.md`](../manuscripts/target-route-options.md) and
+[`emc-treatment-roadmap.md`](../manuscripts/program/emc-treatment-roadmap.md),
+[`degrader-vs-synthetic-lethal.md`](../manuscripts/dependency/degrader-vs-synthetic-lethal.md),
+[`target-route-options.md`](../manuscripts/program/target-route-options.md) and
 [`nr4a3-degrader-design-spec.md`](./nr4a3-degrader-design-spec.md). **Do not cite it as current.**
 
 **Measured, not inferred** — three index queries, all run in CI on 2026-08-03 (run 30858114744):
@@ -416,7 +416,7 @@ The bottleneck is **not** backbone-prediction accuracy:
   **authors corrected 2026-08-07 from the primary full text.**)
   ⚠ *Superseded, retained: this entry read* **"Sturm/Willems, Marschner JA, Merk D, et al."** *and carried
   "Author order to confirm" — an open item that stayed open while the correct list sat two files away in
-  [`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md) reference 11, matching on
+  [`../manuscripts/degrader/nr4a3-degrader-paper.md`](../manuscripts/degrader/nr4a3-degrader-paper.md) reference 11, matching on
   both PMC ID and DOI. **The mechanism is worth recording because it is not a typo:** the Merk lab has a second
   NR4A paper in this same reference list — Willems S, Morozov V, Marschner JA, Merk D, the probe-audit paper
   cited four entries above and quoted in §5 — and* **that** *paper's genuine first author was carried onto this

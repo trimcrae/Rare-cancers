@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-06
 
-**Grade** (owned by [`research/manuscripts/emc-surface-target-landscape.md`](../../research/manuscripts/emc-surface-target-landscape.md)): Tier 3 — already red-teamed in this repo. ⚠ THE TWO ANTIGENS FAIL DIFFERENTLY: B7-H3/CD276 is NOT selective (BH q = 1.0, enrichment 0.14); CD56/NCAM1 IS selective (q = 0.0, enrichment 1.74) and fails instead on the normal-tissue / immune window (NK cells), with a discontinued CD56 ADC precedent
+**Grade** (owned by [`research/manuscripts/surface-targets/emc-surface-target-landscape.md`](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md)): Tier 3 — already red-teamed in this repo. ⚠ THE TWO ANTIGENS FAIL DIFFERENTLY: B7-H3/CD276 is NOT selective (BH q = 1.0, enrichment 0.14); CD56/NCAM1 IS selective (q = 0.0, enrichment 1.74) and fails instead on the normal-tissue / immune window (NK cells), with a discontinued CD56 ADC precedent
 
 ## What has to land for this route to move
 
@@ -100,7 +100,7 @@ The negative was measured on surrogates, so it is as provisional as a positive w
 
 ## Where this route ends — the paper
 
-**[PUB-SURFACE-TARGETS](L3-publications.md)** — [Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts](../../research/manuscripts/emc-surface-target-landscape.md)
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

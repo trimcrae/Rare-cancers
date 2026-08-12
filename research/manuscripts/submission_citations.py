@@ -34,10 +34,10 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PAPER = os.path.join(HERE, "fusion-junction-aso-short-communication.md")
-REFS_JSON = os.path.join(HERE, "fusion-junction-aso-references.json")
-OUT_MD = os.path.join(HERE, "fusion-junction-aso-submission-references.md")
-OUT_JSON = os.path.join(HERE, "fusion-junction-aso-submission-references.json")
+PAPER = os.path.join(HERE, "aso", "fusion-junction-aso-short-communication.md")
+REFS_JSON = os.path.join(HERE, "aso", "fusion-junction-aso-references.json")
+OUT_MD = os.path.join(HERE, "aso", "fusion-junction-aso-submission-references.md")
+OUT_JSON = os.path.join(HERE, "aso", "fusion-junction-aso-submission-references.json")
 
 #: `<sup>8–11</sup><!--PMID:33241214,36265509,21846246,23052253-->`
 CITE = re.compile(r"<sup>([0-9,–\-\s]+)</sup>\s*<!--\s*PMID:\s*([0-9,\s]+?)\s*-->")
@@ -96,7 +96,7 @@ def rewrite(text, cites, order):
 #: then the curated maps, each of which stamps its entries `verified` and carries the same fields.
 CURATED = [
     (os.path.join(HERE, "..", "data", "emc-clinical-registry.json"), "registry.citations"),
-    (os.path.join(HERE, "emc-fusion-partner-pooling.json"), "citations"),
+    (os.path.join(HERE, "fusion-partner", "emc-fusion-partner-pooling.json"), "citations"),
 ]
 
 

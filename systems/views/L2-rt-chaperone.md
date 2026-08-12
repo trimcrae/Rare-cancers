@@ -91,7 +91,7 @@ An arm-split reading is a reason to ask the client question, not an answer to it
 
 ## Where this route ends — the paper
 
-**[PUB-TXN-DEPENDENCY](L3-publications.md)** — [Transcriptional and proteostatic dependency of a fusion transcription factor — what a no-wet-lab program can and cannot establish](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md)
+**[PUB-TXN-DEPENDENCY](L3-publications.md)** — [Transcriptional and proteostatic dependency of a fusion transcription factor — what a no-wet-lab program can and cannot establish](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

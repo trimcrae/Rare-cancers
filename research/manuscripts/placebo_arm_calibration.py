@@ -35,13 +35,13 @@ import statistics
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CORPUS = os.path.join(HERE, "endpoint-corpus.json")
-ALTERNATIVES = os.path.join(HERE, "emc-endpoint-alternatives.json")
-REGIME = os.path.join(HERE, "endpoint-regime-map.json")
-DETAIL = os.path.join(HERE, "placebo-arm-detail-inputs.json")
-NATURAL_HISTORY = os.path.join(HERE, "natural-history-inputs.json")
-OUT = os.path.join(HERE, "placebo-arm-calibration.json")
-OUT_REL = "research/manuscripts/placebo-arm-calibration.json"
+CORPUS = os.path.join(HERE, "endpoint", "endpoint-corpus.json")
+ALTERNATIVES = os.path.join(HERE, "endpoint", "emc-endpoint-alternatives.json")
+REGIME = os.path.join(HERE, "endpoint", "endpoint-regime-map.json")
+DETAIL = os.path.join(HERE, "endpoint", "placebo-arm-detail-inputs.json")
+NATURAL_HISTORY = os.path.join(HERE, "endpoint", "natural-history-inputs.json")
+OUT = os.path.join(HERE, "endpoint", "placebo-arm-calibration.json")
+OUT_REL = "research/manuscripts/endpoint/placebo-arm-calibration.json"
 
 #: An arm title naming an active anti-tumour agent alongside the control token is BACKBONED. The
 #: list is deliberately broad: a false BACKBONED call costs one arm of calibration, a false
@@ -314,9 +314,9 @@ def build():
         "_do_not_hand_edit": True,
         "title": "What happens on no active treatment, and how little of it has been measured",
         "governed_by": "systems/POLICY-evidence.md 2.6",
-        "reads": ["research/manuscripts/endpoint-corpus.json",
-                  "research/manuscripts/emc-endpoint-alternatives.json",
-                  "research/manuscripts/endpoint-regime-map.json"],
+        "reads": ["research/manuscripts/endpoint/endpoint-corpus.json",
+                  "research/manuscripts/endpoint/emc-endpoint-alternatives.json",
+                  "research/manuscripts/endpoint/endpoint-regime-map.json"],
 
         "P1_extraction_contract": {
             "required_fields": REQUIRED_FIELDS,
@@ -389,7 +389,7 @@ def build():
                 "emc-endpoint-alternatives.json -> E10 already holds a retrieved, verbatim-quoted "
                 "randomised placebo-controlled measurement in an indolent soft-tissue tumour. It "
                 "is pointed at, not re-typed."),
-            "owned_by": "research/manuscripts/emc-endpoint-alternatives.json -> "
+            "owned_by": "research/manuscripts/endpoint/emc-endpoint-alternatives.json -> "
                         "E10_indolent_tumour_placebo_calibration",
             "the_two_readings": e10.get("⭐_the_two_readings_that_matter_here")
                                 or e10.get("randomised_placebo_controlled"),

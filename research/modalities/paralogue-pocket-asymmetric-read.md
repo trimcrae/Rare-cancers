@@ -65,7 +65,7 @@ Read `verdict` and `per_paralogue` in the JSON. In words, and without their numb
   (`verdict.the_pooled_verdict_is_driven_by`).
 
 ★ **The direction agrees with an independent, non-simulation reading of the same asymmetry.**
-[`target-route-options.md` route 1](../manuscripts/target-route-options.md#route-1--asymmetric-selectivity-nr4a1-sparing-mandatory-nr4a2-sparing-best-effort--pk)
+[`target-route-options.md` route 1](../manuscripts/program/target-route-options.md#route-1--asymmetric-selectivity-nr4a1-sparing-mandatory-nr4a2-sparing-best-effort--pk)
 already records that all 7 Pocket-5 handles differ against NR4A1 but only 6 of 7 against NR4A2 — *"the
 programme has more discriminating power against the paralogue whose sparing is mandatory"*. That is a
 sequence fact and this is a conformational-frequency fact; they are not the same evidence and they point
@@ -146,7 +146,7 @@ Re-emitted verbatim in the JSON's `_ceilings_inherited`, and they bind every sen
 
 - **Not `ΔG_open`.** A detection fraction is not an opening penalty and must never be reported as one.
   `R6` is untouched and no free-energy statement is licensed. *(This is also the property that makes the
-  reading worth having: [`path-family-synthesis.md`](../manuscripts/path-family-synthesis.md) records that
+  reading worth having: [`path-family-synthesis.md`](../manuscripts/program/path-family-synthesis.md) records that
   the routes which genuinely reduce the selectivity requirement do so by leaving the free-energy axis, and
   this discriminator has no free energy in it.)*
 - **Not evidence of absence, and never an exclusion.** At these ensemble sizes this supports a
@@ -164,8 +164,8 @@ Recorded, **not edited** — every one of these is outside this pass's write sco
 | document | what it says | why it is now misleading |
 |---|---|---|
 | [`paralogue-pocket-contrast.json`](./paralogue-pocket-contrast.json) → `map_edits_required` | the pooled verdict, and three proposed roadmap edits that would each carry it into the map | landed record, correct as generated. Its §8 Route A edit **has not been applied** to the map (verified: the Route A heading line is unchanged), so the pooled string is not yet in the roadmap — the cheapest possible moment to split it |
-| [`path-family-synthesis.md`](../manuscripts/path-family-synthesis.md) → row `L4` | the ranking with all three species' counts in one row | states the ranking symmetrically; the mandatory/best-effort split is invisible in it |
-| [`path-family-synthesis.md`](../manuscripts/path-family-synthesis.md) → row `C3` | *"Both support the ranking"* | true of the ordering, and it is the sentence that flattens the two axes into one |
+| [`path-family-synthesis.md`](../manuscripts/program/path-family-synthesis.md) → row `L4` | the ranking with all three species' counts in one row | states the ranking symmetrically; the mandatory/best-effort split is invisible in it |
+| [`path-family-synthesis.md`](../manuscripts/program/path-family-synthesis.md) → row `C3` | *"Both support the ranking"* | true of the ordering, and it is the sentence that flattens the two axes into one |
 | [`nr4a3-program-map.md`](../manuscripts/nr4a3-program-map.md) §6a, the CONFORMATIONAL-SELECTION row | scopes the categorical claim dead and keeps the ranking alive, treating the paralogues jointly | the ✕ rests on **detection**, which genuinely is symmetric — so this row is **correct as written**. It is listed only so a future editor does not "fix" it |
 
 ⛔ **`RT-ASYMMETRIC`'s route record makes a symmetric restatement a defect, and these are where one would

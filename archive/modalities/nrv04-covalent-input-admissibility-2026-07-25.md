@@ -162,7 +162,7 @@ Three obstacles, in increasing severity.
      finding 3 and is what the probe in §6 tests.
 
    ⚠ **A correction that runs the other way, and it matters.**
-   [`nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md) §2.2 cites Muñoz-Tello 2020 as showing
+   [`nr4a3-degrader-paper.md`](../manuscripts/degrader/nr4a3-degrader-paper.md) §2.2 cites Muñoz-Tello 2020 as showing
    that "celastrol, C-DIM12 and TMPA do **not**" directly bind "**the NR4A LBD**", and down-weights celastrol
    accordingly. That study (Muñoz-Tello, Lin, Khan, de Vera, Kamenecka & Kojetin, *J. Med. Chem.* **2020**,
    PMID 33289551) assayed the **Nurr1 (NR4A2)** LBD only — its title and abstract are Nurr1-specific. So it is

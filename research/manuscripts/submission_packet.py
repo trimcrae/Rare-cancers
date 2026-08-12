@@ -73,9 +73,11 @@ def figures_for(stem):
     body = open(md, encoding="utf-8").read()
     out = []
     for ref in re.findall(r"!\[[^\]]*\]\(([^)\s]+)", body):
-        rel = ref.lstrip("./")
-        png = os.path.join(HERE, rel)
-        out.append({"file": os.path.basename(rel),
+        # ⚠ RESOLVED AGAINST THE MANUSCRIPT'S OWN DIRECTORY, not against HERE. Manuscripts moved into
+        # per-route folders on 2026-08-12, so their figure links are `../figures/x.png`; joining those
+        # to HERE would look for a directory that does not exist and report every figure MISSING.
+        png = os.path.normpath(os.path.join(os.path.dirname(md), ref))
+        out.append({"file": os.path.basename(ref),
                     "png": os.path.exists(png),
                     "vector": any(os.path.exists(png[:-4] + e) for e in (".pdf", ".eps", ".svg"))})
     return out

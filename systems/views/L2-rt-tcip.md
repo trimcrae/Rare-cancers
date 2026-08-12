@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ○ blocked · scoped · confidence low · verified 2026-08-06
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 3 — demoted from Tier 2; the cheapest promotion available in the memo
+**Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md)): Tier 3 — demoted from Tier 2; the cheapest promotion available in the memo
 
 ## What has to land for this route to move
 
@@ -113,7 +113,7 @@ The enumeration has now run and the route holds a computed result of its own, so
 
 ## Where this route ends — the paper
 
-**[PUB-TCIP](L3-publications.md)** — [The induced-interface floor that proximity design inherits from degraders is about twice the interface of the one solved transcriptional CIP](../../research/manuscripts/tcip-induced-interface-preprint.md)
+**[PUB-TCIP](L3-publications.md)** — [The induced-interface floor that proximity design inherits from degraders is about twice the interface of the one solved transcriptional CIP](../../research/manuscripts/tcip/tcip-induced-interface-preprint.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

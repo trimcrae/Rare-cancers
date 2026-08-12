@@ -409,7 +409,7 @@ documented behaviour is to append to it. The *mechanical* digest is healthy (`or
   claimed above the validation status of the instrument that produces it, and every instrument in this queue is
   at *proposed*.
 - **Nothing here re-litigates a settled call.** In particular, the fusion-exclusive routes have their own settled
-  body of work ([`fusion-selective-approaches-overview.md`](../manuscripts/fusion-selective-approaches-overview.md)
+  body of work ([`fusion-selective-approaches-overview.md`](../manuscripts/fusion-direct/fusion-selective-approaches-overview.md)
   and its five manuscripts, with a live deferred Level-1-vs-Level-2 decision). `IC-7` is an **instrument for
   `R13`**, not a proposal to change routes.
 - **Nothing here implies proteome-wide selectivity, EMC efficacy, safety, a therapeutic window, or clinical
