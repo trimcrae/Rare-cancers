@@ -795,6 +795,30 @@ When in doubt: do it and show it.
   `sourceId`/`primaryRef`, primary vs secondary) and a fixed pooling method (crude denominator-weighted
   proportions + Wilson 95% CIs, non-overlapping cohorts only). Read **[systems/POLICY-evidence.md](./systems/POLICY-evidence.md)** before
   touching `registry`.
+- **★★ PREFLIGHT IS TIERED: FAST GATES ALWAYS, THE TEST SUITE SCOPED TO THE CHANGE, AND THE WHOLE
+  THING ONLY BEFORE PUBLICATION (trimcrae, 2026-08-12: *"not running tests on every single modality,
+  only the ones affected"* and *"not requiring preflight to run on every push to main, only manually
+  before publication"*).** Measured that day: the modalities suite was **745.9 s of a ~15-minute
+  gate — 87 % of preflight** — while the seven doc, systems-model and medical-integrity gates cost
+  about a minute between them, and those are the ones that have actually caught things here. ⚠ And
+  the expensive copy is the WEAKER one: this sandbox lacks numpy, rdkit, boto3, scipy, pymbar and
+  netCDF4, so 48 of those tests fail as missing imports and five modules do not import at all, while
+  `tests.yml` runs `on: push` with the real dependencies. Twelve local minutes bought a degraded
+  rerun of a check that was about to run properly. Scoped, a typical change now runs in **under a
+  second** (measured: a `junction_aso_offtarget.py` edit selects 3 test modules, 39 tests, 0.51 s).
+  - **`./scripts/preflight.sh`** — every fast gate, plus only the tests the change can reach
+    ([`affected_tests.py`](./scripts/affected_tests.py), a static import graph with transitive
+    closure). **This is the commit loop.**
+  - **`PREFLIGHT_FULL=1 ./scripts/preflight.sh`** — everything. **Required before anything
+    outward-facing: a preprint, a submission, a release, a DOI.** Scoping is not a claim that the
+    rest of the suite passes.
+  - ⛔ **THE SELECTOR FAILS TO FULL, AND THAT IS THE ENTIRE SAFETY ARGUMENT.** A changed `conftest`,
+    a changed test helper, an unparseable source, a git that will not answer, or an edit to the
+    selector or to `preflight.sh` all take the whole suite. A gate that quietly runs too little is
+    the "reports while measuring nothing" defect this repository keeps paying for, not a faster
+    gate; `scripts/tests/test_affected_tests.py` asserts each of those directions, and the
+    baseline-pruning readout is suppressed on a scoped run because **a subset cannot say a test it
+    never executed is fixed.**
 - **Before committing:** `./scripts/preflight.sh` must pass. **Nine gates, in this order:** (1) the consistency
   linter, (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
   (4) `research/manuscripts/lint_citations.py`, (5) `research/manuscripts/lint_style.py`,

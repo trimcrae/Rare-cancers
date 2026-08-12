@@ -179,7 +179,42 @@ else
 fi
 
 if [ "${SKIP_TESTS:-0}" != "1" ]; then
-  echo "== pytest (modalities) =="
+  # ⭐ CHANGE-SCOPED BY DEFAULT, FULL ON DEMAND (trimcrae, 2026-08-12: the suite was the bottleneck,
+  # and "only the ones affected by the changes" plus "not on every push, manually before
+  # publication").
+  #
+  # MEASURED, which is why this changed: the modalities step was **745.9 s of a ~15-minute gate**,
+  # 87 % of preflight, while the seven doc / systems-model / medical-integrity gates above cost
+  # about a minute between them — and those are the ones that have actually caught things here.
+  #
+  # ⚠ AND THE EXPENSIVE COPY IS THE WEAKER ONE. This sandbox lacks numpy, rdkit, boto3, scipy,
+  # pymbar and netCDF4, so 48 of these tests fail as missing imports and five modules do not import
+  # at all. `tests.yml` runs `on: push` WITH those dependencies installed, so the version of this
+  # suite that means something runs in CI on every push regardless. Twelve local minutes bought a
+  # degraded rerun of a check that was about to run properly.
+  #
+  # ⛔ THE SELECTOR FAILS TO FULL, AND THAT IS THE WHOLE SAFETY ARGUMENT. A changed conftest, a
+  # changed test helper, an unparseable source, a git that does not answer, or an edit to the
+  # selector or to this script all return FULL rather than a subset — because a gate that quietly
+  # runs too little is the "reports while measuring nothing" defect this file was written against,
+  # not a faster gate. `scripts/tests/test_affected_tests.py` asserts each of those directions.
+  #
+  # ⛔ BEFORE ANYTHING OUTWARD-FACING — a preprint, a submission, a release, a DOI — run
+  #     PREFLIGHT_FULL=1 ./scripts/preflight.sh
+  # Scoping is for the commit loop. It is not a claim that the rest of the suite passes.
+  SELECTED=""
+  if [ "${PREFLIGHT_FULL:-0}" = "1" ]; then
+    echo "== pytest (modalities: FULL, PREFLIGHT_FULL=1) =="
+  else
+    SELECTED="$(python3 scripts/affected_tests.py 2>/dev/null || echo FULL)"
+    if [ "$SELECTED" = "FULL" ] || [ -z "$SELECTED" ]; then
+      SELECTED=""
+      echo "== pytest (modalities: FULL -- the change could not be scoped) =="
+    else
+      n=$(printf '%s\n' "$SELECTED" | grep -c . || true)
+      echo "== pytest (modalities: $n module(s) affected by this change; PREFLIGHT_FULL=1 for all) =="
+    fi
+  fi
   out=$(mktemp)
   # ⛔ `--continue-on-collection-errors` ADDED 2026-08-05, AND WITHOUT IT THIS STEP MEASURED NOTHING.
   #
@@ -203,8 +238,17 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # exists because a check "reported while measuring nothing actionable", and names three prior
   # instances. This was a fourth, sitting inside the fix for the first three. `set -euo pipefail` and
   # an explicit exit code do not help when the thing being counted is never produced.
-  python3 -m pytest research/modalities/tests/ -q --continue-on-collection-errors \
-      --ignore=research/modalities/tests/test_ternary_endpoint_align.py >"$out" 2>&1 || true
+  # ⚠ AN EMPTY SELECTION IS A REAL ANSWER — "this change touches no modality test" — and pytest
+  # exits 5 on "no tests ran", which must not read as a failure. It is handled below.
+  if [ -n "$SELECTED" ]; then
+    # shellcheck disable=SC2086
+    python3 -m pytest $SELECTED -q --continue-on-collection-errors >"$out" 2>&1 || true
+  elif [ "${PREFLIGHT_FULL:-0}" != "1" ] && [ "$(python3 scripts/affected_tests.py 2>/dev/null | head -1)" = "" ]; then
+    echo "no modality test is affected by this change" >"$out"
+  else
+    python3 -m pytest research/modalities/tests/ -q --continue-on-collection-errors \
+        --ignore=research/modalities/tests/test_ternary_endpoint_align.py >"$out" 2>&1 || true
+  fi
   failed=$(grep -cE '^FAILED' "$out" || true)
   errored=$(grep -cE '^ERROR ' "$out" || true)
   tail -1 "$out"
@@ -212,7 +256,9 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # ⛔ A RUN THAT EXECUTED NOTHING IS NOT A PASS. Belt and braces against the failure above returning
   # in another form: if pytest never reports a test count, the parsed failure count is meaningless and
   # this step must go red rather than quietly agree with itself.
-  if ! grep -qE '[0-9]+ (passed|failed)' "$out"; then
+  if grep -q '^no modality test is affected by this change$' "$out"; then
+    echo "   OK (no modality test is affected; CI runs the full suite on push)"
+  elif ! grep -qE '[0-9]+ (passed|failed)' "$out"; then
     echo "   FAILED: pytest reported no test count -- the run collected nothing, so '0 failures' would"
     echo "           be a statement about an empty run. Last lines:"
     tail -5 "$out"
@@ -253,10 +299,20 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
         echo "   OK ($failed failure(s), every one named in the sandbox baseline as dep-related;"
         echo "       $errored module(s) could not be imported here and are counted separately)"
       fi
-      if [ -n "$fixed" ]; then
+      # ⛔ A SUBSET CANNOT SAY A BASELINE ENTRY IS FIXED, AND SAYING SO WOULD BE THE WORST KIND OF
+      # WRONG (2026-08-12, with the change-scoped run above). `fixed` is comm(1) over the baseline
+      # minus THIS RUN's failures — so a scoped run, which never executed most of the suite, would
+      # report every unrun entry as "no longer fails, prune it". Acting on that would delete the
+      # baseline wholesale and the next full run would go red against nothing. The list is only
+      # meaningful when the run that produced it covered the same population, so it is printed only
+      # for a full run; for a scoped one the pruning question is simply not asked.
+      if [ -n "$fixed" ] && [ -z "$SELECTED" ]; then
         # Not a failure: the list is meant to shrink, and a stale entry quietly widens what is tolerated.
         echo "   ⓘ $(printf '%s\n' "$fixed" | wc -l | tr -d ' ') baseline entr(y/ies) no longer fail -- prune them from $base:"
         printf '%s\n' "$fixed" | sed 's/^/     /'
+      elif [ -n "$SELECTED" ]; then
+        echo "   ⓘ scoped run — the baseline-pruning check is skipped (a subset cannot speak for"
+        echo "     tests it did not execute). Run PREFLIGHT_FULL=1 to re-derive it."
       fi
       # Cross-check the retained count against the list, so the two can never disagree silently.
       if [ "$failed" -gt "$BASELINE_FAILURES" ] && [ -z "$new" ]; then
