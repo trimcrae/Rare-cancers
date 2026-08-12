@@ -67,7 +67,7 @@
     }
   },
   "n_oligos_screened": 5,
-  "n_screened_ok": 4,
+  "n_screened_ok": 0,
   "n_oligos_no_true_cleavage_risk": 0,
   "oligos": [
     {
@@ -75,244 +75,32 @@
       "target_mRNA_5to3": "AGCGCTTGATATGCCC",
       "gc_percent": 56.2,
       "specificity_margin": 8,
-      "status": "screened",
-      "blast_rid": "7STXXWWC014",
-      "n_parent_or_intended_hits": 0,
-      "n_offtarget_near_matches": 3,
-      "n_true_cleavage_risk": 2,
-      "n_gap_disrupted_no_cleavage": 1,
-      "n_wing_only_affinity": 0,
-      "n_coverage_only_fallback": 0,
-      "gap_mismatch_histogram": {
-        "0": 2,
-        "1": 1,
-        "2": 0
-      },
-      "n_gap_mismatch_unresolvable": 0,
-      "offtargets": [
-        {
-          "acc": "XM_047423580",
-          "defn": "PREDICTED: Homo sapiens kinesin family member 27 (KIF27), transcript variant X24, mRNA >gi|2462625329|ref|XM_054363266.1| PREDICTED: Homo sapiens kinesin family member 27 (KIF27), transcript variant X24, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "qseq": "AGCGCTTGATATGCC",
-          "midline": "|||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "XR_001752847",
-          "defn": "PREDICTED: Homo sapiens uncharacterized LOC105371742 (LOC105371742), transcript variant X5, ncRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "qseq": "GCGCTTGATATGCCC",
-          "midline": "|| ||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XR_007087401",
-          "defn": "PREDICTED: Homo sapiens uncharacterized LOC105371742 (LOC105371742), transcript variant X5, ncRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "qseq": "GCGCTTGATATGCCC",
-          "midline": "|| ||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        }
-      ]
+      "status": "screen_failed",
+      "error": "BLAST poll timeout for RID 7TGZ3Y4P016"
     },
     {
       "antisense_5to3": "GGCATATCAAGCGCTG",
       "target_mRNA_5to3": "CAGCGCTTGATATGCC",
       "gc_percent": 56.2,
       "specificity_margin": 7,
-      "status": "screened",
-      "blast_rid": "7STYRZZB014",
-      "n_parent_or_intended_hits": 0,
-      "n_offtarget_near_matches": 2,
-      "n_true_cleavage_risk": 1,
-      "n_gap_disrupted_no_cleavage": 1,
-      "n_wing_only_affinity": 0,
-      "n_coverage_only_fallback": 0,
-      "gap_mismatch_histogram": {
-        "0": 1,
-        "1": 1,
-        "2": 0
-      },
-      "n_gap_mismatch_unresolvable": 0,
-      "offtargets": [
-        {
-          "acc": "NM_175885",
-          "defn": "Homo sapiens family with sequence similarity 181 member B (FAM181B), mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "qseq": "CAGCGCTTGATATGC",
-          "midline": "||||||||||| |||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_047423580",
-          "defn": "PREDICTED: Homo sapiens kinesin family member 27 (KIF27), transcript variant X24, mRNA >gi|2462625329|ref|XM_054363266.1| PREDICTED: Homo sapiens kinesin family member 27 (KIF27), transcript variant X24, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "qseq": "AGCGCTTGATATGCC",
-          "midline": "|||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        }
-      ]
+      "status": "screen_failed",
+      "error": "BLAST poll timeout for RID 7TGZ7T8S016"
     },
     {
       "antisense_5to3": "AGGGCATATCAAGCGC",
       "target_mRNA_5to3": "GCGCTTGATATGCCCT",
       "gc_percent": 56.2,
       "specificity_margin": 7,
-      "status": "screened",
-      "blast_rid": "7STZM3FK014",
-      "n_parent_or_intended_hits": 0,
-      "n_offtarget_near_matches": 7,
-      "n_true_cleavage_risk": 2,
-      "n_gap_disrupted_no_cleavage": 5,
-      "n_wing_only_affinity": 0,
-      "n_coverage_only_fallback": 0,
-      "gap_mismatch_histogram": {
-        "0": 2,
-        "1": 5,
-        "2": 0
-      },
-      "n_gap_mismatch_unresolvable": 0,
-      "offtargets": [
-        {
-          "acc": "NM_001018056",
-          "defn": "Homo sapiens very low density lipoprotein receptor (VLDLR), transcript variant 2, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "qseq": "CGCTTGATATGCCCT",
-          "midline": "|||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "NM_001322225",
-          "defn": "Homo sapiens very low density lipoprotein receptor (VLDLR), transcript variant 3, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "qseq": "CGCTTGATATGCCCT",
-          "midline": "|||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "NM_001322226",
-          "defn": "Homo sapiens very low density lipoprotein receptor (VLDLR), transcript variant 4, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "qseq": "CGCTTGATATGCCCT",
-          "midline": "|||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "NM_003383",
-          "defn": "Homo sapiens very low density lipoprotein receptor (VLDLR), transcript variant 1, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "qseq": "CGCTTGATATGCCCT",
-          "midline": "|||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "NR_110135",
-          "defn": "Homo sapiens long independently transcribed non-coding RNA 1267 (LINC01267), long non-coding RNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "qseq": "CGCTTGATATGCCCT",
-          "midline": "|||||| ||||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "XR_001752847",
-          "defn": "PREDICTED: Homo sapiens uncharacterized LOC105371742 (LOC105371742), transcript variant X5, ncRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "qseq": "GCGCTTGATATGCCC",
-          "midline": "|| ||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XR_007087401",
-          "defn": "PREDICTED: Homo sapiens uncharacterized LOC105371742 (LOC105371742), transcript variant X5, ncRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "qseq": "GCGCTTGATATGCCC",
-          "midline": "|| ||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        }
-      ]
+      "status": "screen_failed",
+      "error": "BLAST poll timeout for RID 7TGZB2TD016"
     },
     {
       "antisense_5to3": "GCATATCAAGCGCTGC",
       "target_mRNA_5to3": "GCAGCGCTTGATATGC",
       "gc_percent": 56.2,
       "specificity_margin": 6,
-      "status": "screened",
-      "blast_rid": "7SU0GKWT014",
-      "n_parent_or_intended_hits": 0,
-      "n_offtarget_near_matches": 1,
-      "n_true_cleavage_risk": 1,
-      "n_gap_disrupted_no_cleavage": 0,
-      "n_wing_only_affinity": 0,
-      "n_coverage_only_fallback": 0,
-      "gap_mismatch_histogram": {
-        "0": 1,
-        "1": 0,
-        "2": 0
-      },
-      "n_gap_mismatch_unresolvable": 0,
-      "offtargets": [
-        {
-          "acc": "NM_175885",
-          "defn": "Homo sapiens family with sequence similarity 181 member B (FAM181B), mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "GCAGCGCTTGATATGC",
-          "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        }
-      ]
+      "status": "screen_failed",
+      "error": "BLAST poll timeout for RID 7TGZJ0W5016"
     },
     {
       "antisense_5to3": "CAGGGCATATCAAGCG",
@@ -320,7 +108,7 @@
       "gc_percent": 56.2,
       "specificity_margin": 6,
       "status": "screen_failed",
-      "error": "Remote end closed connection without response"
+      "error": "BLAST poll timeout for RID 7TGZNVXT016"
     }
   ]
 }
