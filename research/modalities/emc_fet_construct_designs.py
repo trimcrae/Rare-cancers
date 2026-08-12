@@ -97,7 +97,19 @@ ENS = "https://rest.ensembl.org"
 
 # Genes whose transcript models this module needs. TCF12 is here because the within-EMC negative
 # control is only worth anything if "TCF12 is not a FET protein" is COMPUTED rather than asserted.
-GENES = ["EWSR1", "TAF15", "FUS", "TCF12", "NR4A3"]
+# ⭐ TFG ADDED 2026-08-12, AND IT IS ADDITIVE TO THE FETCH ONLY. `GENES` drives exactly one loop —
+# `fetch_inputs`, which resolves each symbol at Ensembl and writes it into emc-construct-inputs.json.
+# It does NOT drive `derive`, which names its FET partners explicitly (`fets = ["EWSR1","TAF15","FUS"]`
+# and the per-construct entries), so no construct, no verdict and no derived number moves. TFG is a
+# reported EMC 5' partner with no transcript model anywhere in this repository, which made it the one
+# partner `nr4a3_fusion_atlas.py` had to report as unscoreable rather than design against — an absent
+# reading, correctly named, but a gap that one fetch closes.
+# ⚠ NO UNIPROT ACCESSION IS ADDED. `UNIPROT` below is a separate dict and TFG is deliberately not in
+# it: this repository holds no fetched TFG accession, and typing one from recollection is precisely
+# the failure `lint_citations.py` (preflight gate 4) exists for. `gene_model` resolves by SYMBOL at
+# Ensembl and needs no accession, and the UniProt loop iterates `UNIPROT`, so TFG simply has no
+# `uniprot_sequences` entry until someone fetches one. Missing and named beats present and invented.
+GENES = ["EWSR1", "TAF15", "FUS", "TCF12", "TFG", "NR4A3"]
 UNIPROT = {"EWSR1": "Q01844", "TAF15": "Q92804", "FUS": "P35637",
            "TCF12": "Q99081", "NR4A3": "Q92570", "FLI1": "Q01543", "ATF1": "P18846"}
 

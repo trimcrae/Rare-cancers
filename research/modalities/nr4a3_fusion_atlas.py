@@ -58,10 +58,17 @@ ACCEPTOR = "NR4A3"
 #: carries no TFG record, so no seam can be built for it here. It is reported as an unscoreable
 #: partner in the artifact's `partners_not_scoreable` block, because a partner nobody could read
 #: and a partner with no junctions must never render alike (CLAUDE.md §4).
-PARTNERS = ["EWSR1", "TAF15", "TCF12", "FUS"]
-PARTNERS_EXPECTED_BUT_ABSENT = {
-    "TFG": "no transcript model in emc-construct-inputs.json — cannot be built offline; a "
-           "targeted Ensembl fetch would add it and no other input is missing",
+PARTNERS = ["EWSR1", "TAF15", "TCF12", "FUS", "TFG"]
+
+#: Why a listed partner may still be unscoreable. ⚠ THIS IS A FALLBACK EXPLANATION, NOT THE
+#: DETECTOR. TFG is in `PARTNERS` as of 2026-08-12 so the model-loading loop below decides its fate
+#: from the cache at run time and reports it under `partners_not_scoreable` the moment it cannot be
+#: read. The earlier arrangement — TFG absent from `PARTNERS` and hard-coded here as missing — would
+#: have kept printing "absent" after the fetch that added it, because nothing checked. A hard-coded
+#: statement about a value another file owns is not a reading; it is a hope that ages badly.
+PARTNER_ABSENCE_HINTS = {
+    "TFG": "a reported EMC 5' partner; `emc_fet_construct_designs.py --refresh` (CI, needs Ensembl) "
+           "adds it to emc-construct-inputs.json and no other input is missing",
 }
 
 
@@ -156,7 +163,8 @@ def build():
         try:
             models[sym] = ja.transcript_model(sym)
         except Exception as exc:                                        # noqa: BLE001
-            unreadable[sym] = str(exc)
+            hint = PARTNER_ABSENCE_HINTS.get(sym)
+            unreadable[sym] = f"{exc}" + (f" — {hint}" if hint else "")
 
     # ── 1. grade every pair, refusals included ────────────────────────────────────────────────
     rows, emittable = [], []
@@ -334,7 +342,8 @@ def build():
         "oligo_geometry": {"length": ja.OLIGO_LEN, "wing": ja.WING, "gap": ja.GAP,
                            "architecture": f"{ja.WING}-{ja.GAP}-{ja.WING} (LNA-DNA-LNA)"},
         "partners_scored": sorted(models),
-        "partners_not_scoreable": {**PARTNERS_EXPECTED_BUT_ABSENT, **unreadable},
+        # MEASURED at run time from what the cache actually answered — never a hard-coded list.
+        "partners_not_scoreable": dict(unreadable),
         "transcripts": {s: {"transcript": m["transcript"], "cdna_nt": len(m["cdna"]),
                             "cds_nt": len(m["cds"]), "utr5_nt": m["utr5_len"],
                             "n_transcript_exons": m["n_transcript_exons"]}
