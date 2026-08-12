@@ -1,209 +1,205 @@
 {
- "⛔_RETRACTED_SEAMS": {
-  "⛔_stamp_this_banner_into_the_artifact": true,
-  "status": "RETRACTED - DO NOT QUOTE ANY OLIGO, SEQUENCE, GC VALUE, ACCESSIBILITY OR OFF-TARGET COUNT IN THIS FILE",
-  "one_line": "1 of this file's 1 junction seam fields carry an acceptor built by the retracted CODING-exon index, resuming NR4A3 at residue 361 instead of residue 1. Every oligo in this panel spans the seam by construction, so not one design survives the correction.",
-  "the_defect": "`fusion_breakpoints.py` addressed NR4A3's coding-offset table with TRANSCRIPT exon numbers. NR4A3 ENST00000395097 has 8 transcript exons of which the first two carry no coding sequence, so the label \"NR4A3 exon 3\" reached the THIRD CODING exon instead of transcript exon 3. For EWSR1 the two numberings coincide (its exon 1 is coding), which is exactly why the error was invisible and why the donor side of these seams is correct.",
-  "fixed_at_source": "fusion_breakpoints.resume_offset / cut_offset (2026-08-02) - they now RAISE on a non-coding exon rather than sliding onto its neighbour",
-  "corrected_acceptor_seam": "ATATGCCCTGCG",
-  "corrected_acceptor_seam_source": "re-derived at grading time from junction_aso.mrna_junction over the committed transcript cache; never typed into this module",
-  "retracted_seams_found": [
-   {
-    "field": ".breakpoint.junction_context_mRNA",
-    "seam": "ATAAGCCTGGTG|TTGTCCGTACAG",
-    "acceptor": "TTGTCCGTACAG",
-    "nr4a3_cds_nt": 1081,
-    "nr4a3_resumes_at_residue": 361
-   }
-  ],
-  "⛔_not_regenerated": "This artifact was NOT rebuilt. Regenerating the design panels emits numbers no manuscript currently states, while every claim sourced to them is already withdrawn as unverifiable - that is the ASO lane's call, not this grader's. Nothing here designs, scores or invents an oligo; the banner is counted from what is already in the file. `junction-mrna-frame-audit.json` grades the corresponding junctions EMITTABLE under the corrected model, so a rebuild is possible; when it happens this grader lifts the banner by RE-DERIVATION, not because the file was rewritten.",
-  "⛔_scope": "exon arithmetic and sequence composition only. No potency, knockdown, specificity, delivery, tolerability, efficacy, safety or clinical claim is made, repaired or implied here, and none was ever established by this file.",
-  "graded_utc": "2026-08-08T20:40:45Z",
-  "graded_et": "2026-08-08 4:40 PM ET",
-  "graded_by": "research/modalities/junction_seam_retraction.py"
- },
- "_note": "In-silico evaluation of EWSR1::NR4A3 junction gapmers: transcriptome off-target screen + target-site accessibility + sequence liabilities. EVALUATION ONLY — hypotheses for wet-lab testing, not a validated drug. Does NOT address tumour delivery (the route's real bottleneck).",
- "junction_label": "EWSR1_e9__NR4A3_e3",
- "breakpoint": {
-  "mode": "real_exon_junction",
-  "source": "Ensembl MANE/canonical exon structure (fusion_breakpoints.gene_model)",
-  "EWSR1_exon_end": 9,
-  "NR4A3_exon_start": 3,
-  "note": "Real in-frame EWSR1::NR4A3 exon junction (self-checked translate(CDS)==Ensembl protein; NR4A3 C-terminus intact). NOT the codon-space modelled reference.",
-  "junction_context_mRNA": "ATAAGCCTGGTG|TTGTCCGTACAG"
- },
- "n_evaluated": 5,
- "accessibility": {
-  "status": "ok",
-  "window_mRNA_span": [
-   922,
-   1102
-  ],
-  "window_len": 180
- },
- "offtarget_screen": {
-  "status": "ok",
-  "transcripts_scanned": 186185,
-  "source": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_rna.fna.gz"
- },
- "n_candidates_zero_offtarget": 1,
- "n_candidates_fusion_specific_sirna_seed": 2,
- "sirna_note": "For a dedicated siRNA, design the duplex so the junction falls inside the guide seed (g2-g8) — these gapmer-derived windows are evaluated as-is, so seed-straddling is reported, not enforced.",
- "ranking_key": "fewest gapmer off-targets > most accessible site > fusion-specific siRNA seed > lower RISC seed load > balanced junction > mid-GC > no G4 > fewer CpG",
- "top_designs": [
-  {
-   "antisense_5to3": "GTACGGACAACACCAG",
-   "target_mRNA_5to3": "CTGGTGTTGTCCGTAC",
-   "architecture": "5-6-5 (LNA-DNA-LNA)",
-   "specificity_margin": 6,
-   "gc_percent": 56.2,
-   "site_accessibility": 0.409,
-   "offtarget_exact": 0,
-   "offtarget_le1mm": 0,
-   "offtarget_hits": [],
-   "sirna_guide_seed_7mer": "GTCCGTA",
-   "sirna_seed_spans_junction": false,
-   "sirna_seed_offtarget_sites": 4416,
-   "cpg_count": 1,
-   "has_G4_motif": false,
-   "max_homopolymer": 2,
-   "fusion_specific": true
-  },
-  {
-   "antisense_5to3": "TACGGACAACACCAGG",
-   "target_mRNA_5to3": "CCTGGTGTTGTCCGTA",
-   "architecture": "5-6-5 (LNA-DNA-LNA)",
-   "specificity_margin": 7,
-   "gc_percent": 56.2,
-   "site_accessibility": 0.407,
-   "offtarget_exact": 0,
-   "offtarget_le1mm": 1,
-   "offtarget_hits": [
-    {
-     "acc": "NM_000678.4",
-     "mm": 1
+  "_note": "In-silico evaluation of EWSR1::NR4A3 junction gapmers: transcriptome off-target screen + target-site accessibility + sequence liabilities. EVALUATION ONLY \u2014 hypotheses for wet-lab testing, not a validated drug. Does NOT address tumour delivery (the route's real bottleneck).",
+  "junction_label": "EWSR1_e9__NR4A3_e3",
+  "breakpoint": {
+    "mode": "real_exon_junction_mRNA",
+    "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted \u2014 \u26a0 for EWSR1 and NR4A3 only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and `provenance_gate` below records which one actually ran.",
+    "donor_gene": "EWSR1",
+    "provenance_gate": {
+      "EWSR1": "graded_exon_audit",
+      "NR4A3": "graded_exon_audit"
+    },
+    "EWSR1_exon_end": 9,
+    "donor_exon_end": 9,
+    "NR4A3_exon_start": 3,
+    "note": "Real in-frame EWSR1::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
+    "junction_context_mRNA": "ATAAGCCTGGTG|ATATGCCCTGCG",
+    "_transcript_source": {
+      "requested": "auto",
+      "used_per_gene": {
+        "EWSR1": "ensembl+cache_agreed",
+        "NR4A3": "ensembl+cache_agreed"
+      }
+    },
+    "measured_junction": {
+      "junction_label": "EWSR1_e9__NR4A3_e3",
+      "donor_symbol": "EWSR1",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 9,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 1012,
+      "donor_last_whole_residue": 337,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 964,
+      "junction_context_mRNA": "ATAAGCCTGGTG|ATATGCCCTGCG",
+      "EWSR1_exon_end": 9,
+      "NR4A3_exon_start": 3,
+      "ewsr1_coding_nt_through_cut": 1012,
+      "ewsr1_last_whole_residue": 337,
+      "ewsr1_coding_phase": 1
     }
-   ],
-   "sirna_guide_seed_7mer": "TGTCCGT",
-   "sirna_seed_spans_junction": false,
-   "sirna_seed_offtarget_sites": 13940,
-   "cpg_count": 1,
-   "has_G4_motif": false,
-   "max_homopolymer": 2,
-   "fusion_specific": true
   },
-  {
-   "antisense_5to3": "GGACAACACCAGGCTT",
-   "target_mRNA_5to3": "AAGCCTGGTGTTGTCC",
-   "architecture": "5-6-5 (LNA-DNA-LNA)",
-   "specificity_margin": 6,
-   "gc_percent": 56.2,
-   "site_accessibility": 0.301,
-   "offtarget_exact": 0,
-   "offtarget_le1mm": 4,
-   "offtarget_hits": [
-    {
-     "acc": "XM_047447696.1",
-     "mm": 1
-    },
-    {
-     "acc": "XM_047447697.1",
-     "mm": 1
-    },
-    {
-     "acc": "XM_047447698.1",
-     "mm": 1
-    },
-    {
-     "acc": "XM_047447699.1",
-     "mm": 1
-    }
-   ],
-   "sirna_guide_seed_7mer": "TGTTGTC",
-   "sirna_seed_spans_junction": true,
-   "sirna_seed_offtarget_sites": 42575,
-   "cpg_count": 0,
-   "has_G4_motif": false,
-   "max_homopolymer": 2,
-   "fusion_specific": true
+  "n_evaluated": 5,
+  "accessibility": {
+    "status": "ok",
+    "window_mRNA_span": [
+      991,
+      1171
+    ],
+    "window_len": 180
   },
-  {
-   "antisense_5to3": "CGGACAACACCAGGCT",
-   "target_mRNA_5to3": "AGCCTGGTGTTGTCCG",
-   "architecture": "5-6-5 (LNA-DNA-LNA)",
-   "specificity_margin": 7,
-   "gc_percent": 62.5,
-   "site_accessibility": 0.302,
-   "offtarget_exact": 0,
-   "offtarget_le1mm": 7,
-   "offtarget_hits": [
-    {
-     "acc": "NM_000934.4",
-     "mm": 1
-    },
-    {
-     "acc": "NM_001165920.1",
-     "mm": 1
-    },
-    {
-     "acc": "NM_001165921.2",
-     "mm": 1
-    },
-    {
-     "acc": "XM_005256701.5",
-     "mm": 1
-    },
-    {
-     "acc": "XM_017024765.2",
-     "mm": 1
-    }
-   ],
-   "sirna_guide_seed_7mer": "GTTGTCC",
-   "sirna_seed_spans_junction": true,
-   "sirna_seed_offtarget_sites": 28124,
-   "cpg_count": 1,
-   "has_G4_motif": false,
-   "max_homopolymer": 2,
-   "fusion_specific": true
+  "offtarget_screen": {
+    "status": "ok",
+    "transcripts_scanned": 186185,
+    "source": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_rna.fna.gz"
   },
-  {
-   "antisense_5to3": "ACGGACAACACCAGGC",
-   "target_mRNA_5to3": "GCCTGGTGTTGTCCGT",
-   "architecture": "5-6-5 (LNA-DNA-LNA)",
-   "specificity_margin": 8,
-   "gc_percent": 62.5,
-   "site_accessibility": 0.345,
-   "offtarget_exact": 0,
-   "offtarget_le1mm": 30,
-   "offtarget_hits": [
+  "n_candidates_zero_offtarget": 2,
+  "n_candidates_fusion_specific_sirna_seed": 2,
+  "sirna_note": "For a dedicated siRNA, design the duplex so the junction falls inside the guide seed (g2-g8) \u2014 these gapmer-derived windows are evaluated as-is, so seed-straddling is reported, not enforced.",
+  "ranking_key": "fewest gapmer off-targets > most accessible site > fusion-specific siRNA seed > lower RISC seed load > balanced junction > mid-GC > no G4 > fewer CpG",
+  "top_designs": [
     {
-     "acc": "NM_001284322.2",
-     "mm": 1
+      "antisense_5to3": "GCATATCACCAGGCTT",
+      "target_mRNA_5to3": "AAGCCTGGTGATATGC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 6,
+      "gc_percent": 50.0,
+      "site_accessibility": 0.397,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "offtarget_hits": [],
+      "sirna_guide_seed_7mer": "TGATATG",
+      "sirna_seed_spans_junction": true,
+      "sirna_seed_offtarget_sites": 38397,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 2,
+      "fusion_specific": true
     },
     {
-     "acc": "NM_001286581.2",
-     "mm": 1
+      "antisense_5to3": "CAGGGCATATCACCAG",
+      "target_mRNA_5to3": "CTGGTGATATGCCCTG",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 6,
+      "gc_percent": 56.2,
+      "site_accessibility": 0.339,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "offtarget_hits": [],
+      "sirna_guide_seed_7mer": "ATGCCCT",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 51309,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 3,
+      "fusion_specific": true
     },
     {
-     "acc": "NM_001286582.2",
-     "mm": 1
+      "antisense_5to3": "GGCATATCACCAGGCT",
+      "target_mRNA_5to3": "AGCCTGGTGATATGCC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 7,
+      "gc_percent": 56.2,
+      "site_accessibility": 0.343,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "offtarget_hits": [
+        {
+          "acc": "XR_007065842.1",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "GATATGC",
+      "sirna_seed_spans_junction": true,
+      "sirna_seed_offtarget_sites": 24224,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 2,
+      "fusion_specific": true
     },
     {
-     "acc": "NM_001286583.2",
-     "mm": 1
+      "antisense_5to3": "GGGCATATCACCAGGC",
+      "target_mRNA_5to3": "GCCTGGTGATATGCCC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 8,
+      "gc_percent": 62.5,
+      "site_accessibility": 0.338,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 9,
+      "offtarget_hits": [
+        {
+          "acc": "NM_001351979.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001351980.2",
+          "mm": 1
+        },
+        {
+          "acc": "XM_017017520.2",
+          "mm": 1
+        },
+        {
+          "acc": "XM_047426733.1",
+          "mm": 1
+        },
+        {
+          "acc": "XM_047426734.1",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "ATATGCC",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 28354,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 3,
+      "fusion_specific": true
     },
     {
-     "acc": "NM_020901.4",
-     "mm": 1
+      "antisense_5to3": "AGGGCATATCACCAGG",
+      "target_mRNA_5to3": "CCTGGTGATATGCCCT",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 7,
+      "gc_percent": 56.2,
+      "site_accessibility": 0.339,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 22,
+      "offtarget_hits": [
+        {
+          "acc": "NM_001351979.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001351980.2",
+          "mm": 1
+        },
+        {
+          "acc": "XM_006712931.5",
+          "mm": 1
+        },
+        {
+          "acc": "XM_006712932.5",
+          "mm": 1
+        },
+        {
+          "acc": "XM_011533277.4",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "TATGCCC",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 25775,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 3,
+      "fusion_specific": true
     }
-   ],
-   "sirna_guide_seed_7mer": "TTGTCCG",
-   "sirna_seed_spans_junction": false,
-   "sirna_seed_offtarget_sites": 9845,
-   "cpg_count": 1,
-   "has_G4_motif": false,
-   "max_homopolymer": 2,
-   "fusion_specific": true
-  }
- ]
+  ]
 }
