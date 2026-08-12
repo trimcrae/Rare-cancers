@@ -34,11 +34,9 @@
     "_transcript_source": {
       "requested": "auto",
       "used_per_gene": {
-        "TCF12": "committed_cache",
+        "TCF12": "ensembl+cache_agreed",
         "NR4A3": "ensembl+cache_agreed"
-      },
-      "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
-      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+      }
     }
   },
   "_note": "Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs (blastn-short vs human RefSeq RNA, NCBI BLAST URL API), resolved to the gap-mismatch level. A TRUE cleavage risk = an off-target near-match whose central DNA gap is fully matched (RNase-H can cleave); a gap-disrupted hit (mismatch inside the gap) does NOT cleave; wing-only hits are weak affinity liabilities. A clean oligo has zero true_cleavage_risk off-targets. Predicted specificity, not validated; confirm by the parental-/off-target-sparing assays.",
@@ -69,7 +67,7 @@
     }
   },
   "n_oligos_screened": 5,
-  "n_screened_ok": 5,
+  "n_screened_ok": 4,
   "n_oligos_no_true_cleavage_risk": 0,
   "oligos": [
     {
@@ -78,7 +76,7 @@
       "gc_percent": 56.2,
       "specificity_margin": 8,
       "status": "screened",
-      "blast_rid": "7T9UBVKM014",
+      "blast_rid": "7STXXWWC014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 3,
       "n_true_cleavage_risk": 2,
@@ -91,12 +89,6 @@
         "2": 0
       },
       "n_gap_mismatch_unresolvable": 0,
-      "n_distinct_loci": 2,
-      "n_loci_seen_only_as_predicted_models": 2,
-      "n_loci_with_a_gap_spanning_hit": 1,
-      "loci_with_a_gap_spanning_hit": [
-        "LOC105371742"
-      ],
       "offtargets": [
         {
           "acc": "XM_047423580",
@@ -105,8 +97,6 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "AGCGCTTGATATGCC",
           "midline": "|||||||| ||||||",
           "risk": "gap_disrupted_no_cleavage",
@@ -119,8 +109,6 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "GCGCTTGATATGCCC",
           "midline": "|| ||||||||||||",
           "risk": "true_cleavage_risk",
@@ -133,8 +121,6 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "GCGCTTGATATGCCC",
           "midline": "|| ||||||||||||",
           "risk": "true_cleavage_risk",
@@ -148,7 +134,7 @@
       "gc_percent": 56.2,
       "specificity_margin": 7,
       "status": "screened",
-      "blast_rid": "7T9V7E5H016",
+      "blast_rid": "7STYRZZB014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 2,
       "n_true_cleavage_risk": 1,
@@ -161,12 +147,6 @@
         "2": 0
       },
       "n_gap_mismatch_unresolvable": 0,
-      "n_distinct_loci": 2,
-      "n_loci_seen_only_as_predicted_models": 1,
-      "n_loci_with_a_gap_spanning_hit": 1,
-      "loci_with_a_gap_spanning_hit": [
-        "FAM181B"
-      ],
       "offtargets": [
         {
           "acc": "NM_175885",
@@ -175,8 +155,6 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "CAGCGCTTGATATGC",
           "midline": "||||||||||| |||",
           "risk": "true_cleavage_risk",
@@ -189,8 +167,6 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "AGCGCTTGATATGCC",
           "midline": "|||||||| ||||||",
           "risk": "gap_disrupted_no_cleavage",
@@ -204,7 +180,7 @@
       "gc_percent": 56.2,
       "specificity_margin": 7,
       "status": "screened",
-      "blast_rid": "7T9W23SD014",
+      "blast_rid": "7STZM3FK014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 7,
       "n_true_cleavage_risk": 2,
@@ -217,12 +193,6 @@
         "2": 0
       },
       "n_gap_mismatch_unresolvable": 0,
-      "n_distinct_loci": 3,
-      "n_loci_seen_only_as_predicted_models": 1,
-      "n_loci_with_a_gap_spanning_hit": 1,
-      "loci_with_a_gap_spanning_hit": [
-        "LOC105371742"
-      ],
       "offtargets": [
         {
           "acc": "NM_001018056",
@@ -231,8 +201,6 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "CGCTTGATATGCCCT",
           "midline": "|||||||| ||||||",
           "risk": "gap_disrupted_no_cleavage",
@@ -245,8 +213,6 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "CGCTTGATATGCCCT",
           "midline": "|||||||| ||||||",
           "risk": "gap_disrupted_no_cleavage",
@@ -259,8 +225,6 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "CGCTTGATATGCCCT",
           "midline": "|||||||| ||||||",
           "risk": "gap_disrupted_no_cleavage",
@@ -273,8 +237,6 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "CGCTTGATATGCCCT",
           "midline": "|||||||| ||||||",
           "risk": "gap_disrupted_no_cleavage",
@@ -287,8 +249,6 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "hit_frame": 1,
-          "is_minus_strand": false,
           "qseq": "CGCTTGATATGCCCT",
           "midline": "|||||| ||||||||",
           "risk": "gap_disrupted_no_cleavage",
@@ -301,8 +261,6 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "GCGCTTGATATGCCC",
           "midline": "|| ||||||||||||",
           "risk": "true_cleavage_risk",
@@ -315,8 +273,6 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "GCGCTTGATATGCCC",
           "midline": "|| ||||||||||||",
           "risk": "true_cleavage_risk",
@@ -330,7 +286,7 @@
       "gc_percent": 56.2,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "7T9WZVXK014",
+      "blast_rid": "7SU0GKWT014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 1,
       "n_true_cleavage_risk": 1,
@@ -343,12 +299,6 @@
         "2": 0
       },
       "n_gap_mismatch_unresolvable": 0,
-      "n_distinct_loci": 1,
-      "n_loci_seen_only_as_predicted_models": 0,
-      "n_loci_with_a_gap_spanning_hit": 1,
-      "loci_with_a_gap_spanning_hit": [
-        "FAM181B"
-      ],
       "offtargets": [
         {
           "acc": "NM_175885",
@@ -357,8 +307,6 @@
           "align_len": 16,
           "q_from": 1,
           "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
           "qseq": "GCAGCGCTTGATATGC",
           "midline": "|||||||||||| |||",
           "risk": "true_cleavage_risk",
@@ -371,239 +319,8 @@
       "target_mRNA_5to3": "CGCTTGATATGCCCTG",
       "gc_percent": 56.2,
       "specificity_margin": 6,
-      "status": "screened",
-      "blast_rid": "7T9XWZW9014",
-      "n_parent_or_intended_hits": 0,
-      "n_offtarget_near_matches": 34,
-      "n_true_cleavage_risk": 21,
-      "n_gap_disrupted_no_cleavage": 13,
-      "n_wing_only_affinity": 0,
-      "n_coverage_only_fallback": 0,
-      "gap_mismatch_histogram": {
-        "0": 21,
-        "1": 13,
-        "2": 0
-      },
-      "n_gap_mismatch_unresolvable": 0,
-      "n_distinct_loci": 6,
-      "n_loci_seen_only_as_predicted_models": 3,
-      "n_loci_with_a_gap_spanning_hit": 2,
-      "loci_with_a_gap_spanning_hit": [
-        "CHEK2",
-        "LOC124900682"
-      ],
-      "offtargets": [
-        {
-          "acc": "NR_110135",
-          "defn": "Homo sapiens long independently transcribed non-coding RNA 1267 (LINC01267), long non-coding RNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "CGCTTGATATGCCCTG",
-          "midline": "|||||| |||||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "NM_001005735",
-          "defn": "Homo sapiens checkpoint kinase 2 (CHEK2), transcript variant 3, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "GCTTGATATGCCCTG",
-          "midline": "||| |||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_001018056",
-          "defn": "Homo sapiens very low density lipoprotein receptor (VLDLR), transcript variant 2, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "CGCTTGATATGCCCT",
-          "midline": "|||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "NM_001257387",
-          "defn": "Homo sapiens checkpoint kinase 2 (CHEK2), transcript variant 4, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "GCTTGATATGCCCTG",
-          "midline": "||| |||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_001322225",
-          "defn": "Homo sapiens very low density lipoprotein receptor (VLDLR), transcript variant 3, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "CGCTTGATATGCCCT",
-          "midline": "|||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "NM_001322226",
-          "defn": "Homo sapiens very low density lipoprotein receptor (VLDLR), transcript variant 4, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "CGCTTGATATGCCCT",
-          "midline": "|||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "NM_001349956",
-          "defn": "Homo sapiens checkpoint kinase 2 (CHEK2), transcript variant 5, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "GCTTGATATGCCCTG",
-          "midline": "||| |||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_001438293",
-          "defn": "Homo sapiens checkpoint kinase 2 (CHEK2), transcript variant 7, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "GCTTGATATGCCCTG",
-          "midline": "||| |||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_001438294",
-          "defn": "Homo sapiens checkpoint kinase 2 (CHEK2), transcript variant 8, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "GCTTGATATGCCCTG",
-          "midline": "||| |||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_001438295",
-          "defn": "Homo sapiens checkpoint kinase 2 (CHEK2), transcript variant 9, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "GCTTGATATGCCCTG",
-          "midline": "||| |||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_003383",
-          "defn": "Homo sapiens very low density lipoprotein receptor (VLDLR), transcript variant 1, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "CGCTTGATATGCCCT",
-          "midline": "|||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "NM_007194",
-          "defn": "Homo sapiens checkpoint kinase 2 (CHEK2), transcript variant 1, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "GCTTGATATGCCCTG",
-          "midline": "||| |||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_145862",
-          "defn": "Homo sapiens checkpoint kinase 2 (CHEK2), transcript variant 2, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "GCTTGATATGCCCTG",
-          "midline": "||| |||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_011521866",
-          "defn": "PREDICTED: Homo sapiens Ras protein specific guanine nucleotide releasing factor 1 (RASGRF1), transcript variant X2, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "GCTTGATATGCCCTG",
-          "midline": "|||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "XM_011529839",
-          "defn": "PREDICTED: Homo sapiens checkpoint kinase 2 (CHEK2), transcript variant X1, mRNA >gi|2462583655|ref|XM_054325037.1| PREDICTED: Homo sapiens checkpoint kinase 2 (CHEK2), transcript variant X1, mRNA",
-          "identity": 14,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "hit_frame": -1,
-          "is_minus_strand": true,
-          "qseq": "GCTTGATATGCCCTG",
-          "midline": "||| |||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        }
-      ]
+      "status": "screen_failed",
+      "error": "Remote end closed connection without response"
     }
   ]
 }
