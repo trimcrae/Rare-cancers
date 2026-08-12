@@ -87,6 +87,17 @@ TARGETS = {
         "https://us.sagepub.com/en-us/nam/pure-gold-open-access-journals-at-sage",
     "us_sage_nat_description":
         "https://us.sagepub.com/en-us/nam/journal/nucleic-acid-therapeutics",
+    # ⭐ A FALLBACK VENUE IS ONLY A FALLBACK IF ITS POLICY CAN BE READ (2026-08-12). Every previous
+    # candidate for this paper sits behind a publisher that refuses this fetcher — Wiley 403,
+    # Elsevier 403, journals.sagepub.com 403 — so "we will go to X instead" would be an assumption
+    # of exactly the kind that sent the first venue decision at a publisher which no longer
+    # publishes the journal. nature.com answered 200 on the first run, so the Springer Nature
+    # portfolio is the one whose fee model this repository can actually confirm. Cancer Gene
+    # Therapy is the closest Springer Nature title in scope: fusion-directed and nucleic-acid
+    # therapeutics, hybrid subscription model.
+    "cgt_journal_home": "https://www.nature.com/cgt/",
+    "cgt_author_instructions": "https://www.nature.com/cgt/for-authors",
+    "cgt_open_access": "https://www.nature.com/cgt/open-access",
     # ── bioRxiv, the free open copy for all four papers ─────────────────────────────────
     "biorxiv_faq": "https://www.biorxiv.org/about/FAQ",
     "biorxiv_submission_guide": "https://www.biorxiv.org/submit-a-manuscript",
