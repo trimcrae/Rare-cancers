@@ -77,26 +77,44 @@ independently corroborate this repo's own instrument verdicts.
 - Across **61 peer-reviewed docking-based virtual-screening papers** proposing repurposed SARS-CoV-2
   Mpro inhibitors, **41 (67.21%) applied no validation step at all** and only **2 (3.28%)** confirmed a
   prediction experimentally. Docking score did not track measured potency — best correlation
-  **Pearson r = −0.335** — and **neither docking scores nor MM-GBSA ΔG could separate actives from 113
-  experimentally confirmed inactives** ([Med Res Rev, DOI 10.1002/med.21862](https://onlinelibrary.wiley.com/doi/full/10.1002/med.21862)).
-  ⭐ **That last result is the external confirmation of `V20`** — "single-snapshot MM-GBSA margin > 0 as a
-  selectivity verdict", which [`methods-index.md`](../../systems/views/methods-index.md) already grades
-  `fails`. The repo reached the field's conclusion independently.
+  **Pearson r = −0.335** *(both CONFIRMED 3-0)*, and in that dataset neither docking scores nor MM-GBSA ΔG
+  separated actives from 113 experimentally confirmed inactives
+  ([Med Res Rev, DOI 10.1002/med.21862](https://onlinelibrary.wiley.com/doi/full/10.1002/med.21862)).
+  ⚠ **The GENERALISATION was REFUTED 0-3 and must not be repeated.** "A docking-score cutoff cannot
+  legitimately be used to nominate hits" is contradicted by prospective ultra-large-library campaigns in
+  which hit rate fell monotonically with docking score
+  ([Lyu et al., Nature 2019](https://www.nature.com/articles/s41586-019-0917-9)) and by docking-nominated
+  Mpro hits later confirmed by crystallography (Fink et al., Protein Science 2023, DOI 10.1002/pro.4712,
+  PMID 37354015); the source's own caveat is that performance improved when covalent and noncovalent
+  inhibitors were treated separately. **What survives is narrow and still useful: a single-snapshot
+  rescoring margin does not carry a selectivity verdict in this regime** — which is exactly what `V20`
+  says, and [`methods-index.md`](../../systems/views/methods-index.md) already grades it `fails`. ⛔ It is
+  *consistent with* the repo's verdict, not independent proof of it.
 - The failure mode has a documented endgame: a network-pharmacology-plus-docking cancer-mechanism paper
-  **retracted** by its publisher on publication-integrity grounds, one of a genre spanning many sibling
-  retractions ([PMC10412175](https://pmc.ncbi.nlm.nih.gov/articles/PMC10412175/)).
+  **retracted** by its publisher on publication-integrity grounds
+  ([PMC10412175](https://pmc.ncbi.nlm.nih.gov/articles/PMC10412175/)) — the retraction itself CONFIRMED
+  3-0, *and grounded in process integrity rather than a scientific refutation of the docking*.
+  ⚠ **Do NOT read the mass retractions as a verdict on this archetype (REFUTED 0-3).** They were a
+  paper-mill and compromised-peer-review phenomenon spanning **>8,000 papers across all topics**, and the
+  cited paper's own title contains "Experimental Validation", so it was never an in-silico-only study.
 - ⭐ **The one credibility architecture that resolves this without owning a lab is the blind prospective
   challenge.** CACHE is modelled on CASP but adds a prospective experimental arm — **the organisers
   assay the compounds participants predict**, and screening data are withheld until the cycle completes,
   so the prediction is genuinely blind
-  ([Nat Rev Chem](https://www.nature.com/articles/s41570-022-00363-z); *this claim survived 3-vote
-  adversarial verification, 2-1*). CACHE Challenge #1 was won with an **entirely open-source, modest-compute
-  workflow** — GNINA over ~7 million commercially available molecules, ranked on docking score alone —
-  against **an undrugged target with no known ligands**, with 23 groups competing
+  ([Nat Rev Chem](https://www.nature.com/articles/s41570-022-00363-z); *CONFIRMED 2-1*). CACHE Challenge #1
+  was won with an **entirely open-source stack** — GNINA docking plus pharmacophore search, ranked on
+  docking score alone — against **an undrugged target with no known ligands** (the LRRK2 WD40 central
+  cavity), with 23 groups competing
   ([J Chem Inf Model 2024;64(24):9388-9396, DOI 10.1021/acs.jcim.4c01429, PMID 39654129, PMC11683865](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11683865/)).
-  ⛔ **DO NOT repeat the claim that CACHE gives participants free wet-lab validation.** That claim was
-  put to adversarial verification and **refuted 0-3**. The cost structure to participants is unresolved
-  and must be checked before any plan rests on it.
+  ⛔ **TWO CLAIMS ABOUT THIS WERE REFUTED 0-3 AND BOTH WOULD HAVE MISLED A PLAN.**
+  **(a) It is NOT a modest-compute workflow.** The paper's own methods report docking *"parallelized across
+  **4936 CPU cores** as preemptable, low-priority jobs"* on a university cluster, taking *"2 weeks with
+  light concurrent usage and 4–6 weeks with heavier"*, with Pharmit screening >179 million compounds.
+  **A few hundred dollars does not buy this.** Costing a CACHE entry means costing 4,936-core-weeks.
+  **(b) CACHE does NOT demonstrably give participants free wet-lab validation.** The organiser-run arm is
+  real — SPR on 1,955 procured compounds, 73 hits <150 µM K<sub>D</sub> (CACHE #1 results paper,
+  DOI 10.1021/acs.jcim.4c01267, PMID 39499532) — but the claim that participants' validation costs are
+  covered failed 0-3 and the cost structure remains **unresolved**. Check it before any plan rests on it.
 
 ### 2 · Public molecular-data reanalysis — under-exploited, with a documented small-n rule
 
@@ -114,14 +132,19 @@ independently corroborate this repo's own instrument verdicts.
   survival analysis ([PLOS Comput Biol, DOI 10.1371/journal.pcbi.1006826](https://journals.plos.org/ploscompbiol/article?id=10.1371%2Fjournal.pcbi.1006826)).
   **Class-discrimination questions tolerate n = 5; time-to-event questions do not.** That is a design
   rule this repo can apply directly.
-- ⚠ **The same paper is the cautionary half**: its discovery layer was fully public (TCGA, GTEx v7, GEO
-  GSE21050) but what made it publishable at that level was author-generated qRT-PCR, a tissue microarray
-  and ethics approval **LUMC B17.036**. *The public-data analysis is portable; the validation that
-  carried it is not.*
+- ⚠ **The same paper is the cautionary half, and it is the sharpest lesson here.** Its discovery layer was
+  public (TCGA soft-tissue sarcoma, GTEx v7, GEO GSE21050 — **and the Connectivity Map, a fourth public
+  set omitted from the first draft of this memo**), but what made it publishable at that level was
+  author-generated qRT-PCR, a tissue microarray and ethics approval **LUMC B17.036** *(CONFIRMED 3-0, both
+  halves)*. *The public-data analysis is portable; the validation that carried it is not.*
 - ⛔ **Signature-reversal repurposing (CMap/LINCS) is a trap.** Querying CMap 2 with 588 CMap 1-derived
   signatures put the correct compound in the top 10% only **17%** of the time, against **83%** for a
-  same-resource self-query; wet-lab-validated CMap 1 hits were not recoverable — parbendazole fell from
-  **rank 1 to rank 142** ([Sci Rep 2021;11:17624](https://www.nature.com/articles/s41598-021-97005-z)).
+  same-resource self-query *(CONFIRMED 3-0)*, and the previously-reported hit parbendazole ranks **142**
+  in CMap 2 ([Sci Rep 2021;11:17624](https://www.nature.com/articles/s41598-021-97005-z)).
+  ⚠ **The "fell from rank 1" framing was REFUTED 0-3**: the source gives CMap 2 ranks only, the CMap 1
+  ranks are not in evidence, and of the compounds named only parbendazole was experimentally validated
+  (PNAS, DOI 10.1073/pnas.1501597112). The same paper also reports glucocorticoids ranking top-20 in
+  **both** versions, so this is partial non-recovery, not total.
 
 ### 3 · Evidence synthesis and reconstructed IPD — ⭐ the live one
 
@@ -259,16 +282,52 @@ behind anything live, and items 1–6 above are all live.
 
 ## 3 · Limits of this survey
 
-- **The harness failed partway and it is recorded rather than smoothed over.** The first deep-research
-  pass hit an account weekly usage limit: 40 of 107 agents completed, 67 errored, **and the synthesis step
-  failed**, so the tool's returned result was a truncation artifact and was not reported as a finding. The
-  40 completed agents were recovered from `journal.jsonl` and the run resumed after reset.
-- ⚠ **Most claims here carry NO adjudicated verdict.** Only two survived or failed 3-vote adversarial
-  verification (CACHE's prospective arm, confirmed 2-1; CACHE free validation, refuted 0-3). The rest are
-  sourced to a fetched page or a search result but their verification votes errored on the usage limit.
-  **An errored vote is not a refutation** (§4), and it is not a confirmation either.
+- **The harness failed TWICE and both are recorded rather than smoothed over.** The first pass hit an
+  account weekly usage limit: 40 of 107 agents completed, 67 errored, **and the synthesis step failed**,
+  so the tool's returned result was a truncation artifact and was not reported as a finding. The resumed
+  run reached 102 results and 24 adjudicated claims and then **died when the container was restarted** —
+  diagnosed from PID 1 elapsed time of ~73 s, a `--session-mode resume` launch and no surviving workflow
+  process. **The synthesis never ran in either pass.** Everything here was recovered from `journal.jsonl`
+  by correlating each verifier's `agentId` to its `## Claim under review` prompt.
+- ⚠ **24 claims carry a real 3-vote verdict — 16 CONFIRMED, 8 REFUTED. The remaining ~91 carry none**,
+  because their voters errored or died with the container. **An errored vote is not a refutation** (§4),
+  and it is not a confirmation either.
+- ⛔ **A REFUTATION HERE USUALLY MEANS SCOPE OVERREACH, NOT FACTUAL FALSITY, AND CONFLATING THE TWO WOULD
+  DISCARD TRUE FINDINGS.** Six of the eight refutations upheld the underlying measurement and killed the
+  inference drawn from it. Read the verdict's evidence in the JSON before acting on it — the exception is
+  the CACHE compute correction, which is a straight factual fix with planning consequences.
+- ⚠ **One voter cited THIS repo's own committed files as a counter-source.** That is a circularity to
+  watch: an artifact committed earlier in the same session is not independent corroboration of itself.
 - **Several identifiers are search-result-derived, not page-fetched**, because the egress proxy blocks
   seer.cancer.gov, jamanetwork.com and PMC. Each is flagged in the evidence JSON.
 - ⛔ **An anchored identifier is not a verified one.** Gate 4 checks that an identifier appears in a
   tracked artifact, which is evidence of a fetch, not of correctness. Nothing here should be cited in a
   manuscript without reading the source.
+
+---
+
+## Appendix A — corrections after adjudication, with the superseded wording retained
+
+⚠ **Every line below was in this memo when it was first committed (`ff28beaa`) and was corrected once the
+resumed run's 3-vote verdicts were recovered.** Rule 1.2: the superseded wording stays quotable here and
+the live text carries only the corrected value. **The first commit's message repeats two of these errors
+and cannot be edited** — this appendix is the correction of record for it.
+
+| # | superseded wording, verbatim | verdict | what replaced it |
+|---|---|---|---|
+| A1 | "CACHE Challenge #1 was won with an **entirely open-source, modest-compute workflow**" — and, in the commit message, that it is a route for a researcher with hundreds of dollars | REFUTED 0-3 | The paper's methods report docking **parallelized across 4,936 CPU cores** on a university cluster over 2–6 weeks, with Pharmit screening >179 M compounds. The open-source half stands; **"modest-compute" was wrong and is the one correction with direct planning consequences.** |
+| A2 | "neither docking scores nor MM-GBSA ΔG could separate actives from 113 experimentally confirmed inactives … **the external confirmation of `V20`**" | REFUTED 0-3 *(on the generalisation)* | The measurement stands in that dataset. The general claim that a docking cutoff can never nominate hits is contradicted by Lyu et al. Nature 2019 and Fink et al. Protein Science 2023. Now stated as **consistent with `V20`, not independent proof of it.** |
+| A3 | "one of a genre spanning **many sibling retractions**" | REFUTED 0-3 | The retractions were a **paper-mill and compromised-peer-review** phenomenon across >8,000 papers in all topics — not a verdict on in-silico methodology. The cited paper's own title contains "Experimental Validation". |
+| A4 | "parbendazole fell **from rank 1** to rank 142" | REFUTED 0-3 | The source reports CMap 2 ranks only; the CMap 1 ranks are not in evidence and only parbendazole was experimentally validated. Glucocorticoids ranked top-20 in **both** versions, so this is partial non-recovery. |
+| A5 | discovery layer "fully public (TCGA, GTEx v7, GEO GSE21050)" | REFUTED 1-2 | Correct but incomplete — it **omitted the Connectivity Map**, a fourth public dataset used in the therapeutic-target arm. |
+
+⭐ **What did NOT need correcting, because it was adjudicated and held:** the 61-paper/67%-no-validation
+count and the r = −0.335 correlation (3-0); the CMap 17%-versus-83% reproducibility gap (3-0); the TCGA
+site signature at AUROC 0.964–0.998 and preserved-site cross-validation as the prescribed $0 mitigation
+(3-0); that the PLOS sarcoma paper is **not** a zero-wet-lab study and its validation needed institutional
+assets (3-0); the n=5 classification-versus-survival floor (2-0); CACHE's prospective experimental arm
+(2-1); and the LRRK2 WD40 target being undrugged with no known ligands (2-1).
+
+⛔ **The §2 recommendations are unaffected.** Items 1–8 rest on the IPD/registry/trial-design evidence,
+none of which was refuted. **Item 9 (a CACHE entry) is the exception and is materially downgraded by A1:**
+it is no longer a cheap option and must be costed as 4,936-core-weeks before it is considered.
