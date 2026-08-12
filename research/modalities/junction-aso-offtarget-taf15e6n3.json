@@ -1,0 +1,309 @@
+{
+  "junction_label": "TAF15_e6__NR4A3_e3",
+  "breakpoint": {
+    "mode": "real_exon_junction_mRNA",
+    "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted \u2014 \u26a0 for EWSR1 and NR4A3 only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and `provenance_gate` below records which one actually ran.",
+    "donor_gene": "TAF15",
+    "provenance_gate": {
+      "TAF15": "construct_inputs_self_checks_only",
+      "NR4A3": "graded_exon_audit"
+    },
+    "EWSR1_exon_end": 6,
+    "donor_exon_end": 6,
+    "NR4A3_exon_start": 3,
+    "note": "Real in-frame TAF15::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
+    "measured_junction": {
+      "junction_label": "TAF15_e6__NR4A3_e3",
+      "donor_symbol": "TAF15",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 6,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 484,
+      "donor_last_whole_residue": 161,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 788,
+      "junction_context_mRNA": "ACCACACACAAG|ATATGCCCTGCG"
+    },
+    "junction_context_mRNA": "ACCACACACAAG|ATATGCCCTGCG",
+    "_transcript_source": {
+      "requested": "auto",
+      "used_per_gene": {
+        "TAF15": "ensembl+cache_agreed",
+        "NR4A3": "ensembl+cache_agreed"
+      }
+    }
+  },
+  "_note": "Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs (blastn-short vs human RefSeq RNA, NCBI BLAST URL API), resolved to the gap-mismatch level. A TRUE cleavage risk = an off-target near-match whose central DNA gap is fully matched (RNase-H can cleave); a gap-disrupted hit (mismatch inside the gap) does NOT cleave; wing-only hits are weak affinity liabilities. A clean oligo has zero true_cleavage_risk off-targets. Predicted specificity, not validated; confirm by the parental-/off-target-sparing assays.",
+  "method": {
+    "db": "refseq_rna (txid9606[ORGN])",
+    "program": "blastn (short, FILTER off)",
+    "near_match_threshold": ">= 14/16 identical",
+    "gap_region_1based": [
+      6,
+      11
+    ],
+    "breakpoint_model": "Real in-frame TAF15::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
+    "parent_set": {
+      "donor_gene": "TAF15",
+      "names_excluded": [
+        "TAF15",
+        "TATA-box binding protein associated factor 15",
+        "TAF2N",
+        "RBP56",
+        "NR4A3",
+        "NOR-1",
+        "nuclear receptor subfamily 4 group A member 3"
+      ],
+      "accessions_excluded": [
+        "NM_005243",
+        "NM_006981"
+      ],
+      "accession_arm_live_for_donor": false
+    }
+  },
+  "n_oligos_screened": 5,
+  "n_screened_ok": 1,
+  "n_oligos_no_true_cleavage_risk": 0,
+  "oligos": [
+    {
+      "antisense_5to3": "GGGCATATCTTGTGTG",
+      "target_mRNA_5to3": "CACACAAGATATGCCC",
+      "gc_percent": 50.0,
+      "specificity_margin": 8,
+      "status": "screen_failed",
+      "error": "BLAST poll timeout for RID 7T02GU3E014"
+    },
+    {
+      "antisense_5to3": "GGCATATCTTGTGTGT",
+      "target_mRNA_5to3": "ACACACAAGATATGCC",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "status": "screen_failed",
+      "error": "BLAST poll timeout for RID 7T0NM94Z014"
+    },
+    {
+      "antisense_5to3": "AGGGCATATCTTGTGT",
+      "target_mRNA_5to3": "ACACAAGATATGCCCT",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "status": "screen_failed",
+      "error": "BLAST poll timeout for RID 7T18SF3Y014"
+    },
+    {
+      "antisense_5to3": "CAGGGCATATCTTGTG",
+      "target_mRNA_5to3": "CACAAGATATGCCCTG",
+      "gc_percent": 50.0,
+      "specificity_margin": 6,
+      "status": "screen_failed",
+      "error": "IncompleteRead(11868 bytes read)"
+    },
+    {
+      "antisense_5to3": "GCATATCTTGTGTGTG",
+      "target_mRNA_5to3": "CACACACAAGATATGC",
+      "gc_percent": 43.8,
+      "specificity_margin": 6,
+      "status": "screened",
+      "blast_rid": "7T1XAT3G014",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 50,
+      "n_true_cleavage_risk": 50,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 50,
+        "1": 0,
+        "2": 0
+      },
+      "n_gap_mismatch_unresolvable": 0,
+      "offtargets": [
+        {
+          "acc": "NM_007220",
+          "defn": "Homo sapiens carbonic anhydrase 5B (CA5B), mRNA; nuclear gene for mitochondrial product",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ACACACAAGATATGC",
+          "midline": "|||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NR_002725",
+          "defn": "Homo sapiens inactivation escape 2 (INE2), long non-coding RNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ACACACAAGATATGC",
+          "midline": "|||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NR_160544",
+          "defn": "Homo sapiens CA5BP1-CA5B readthrough (CA5BP1-CA5B), transcript variant 1, long non-coding RNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ACACACAAGATATGC",
+          "midline": "|||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054332294",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X9, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054332295",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X10, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054332296",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X11, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054332299",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X14, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054332301",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X16, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054332306",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X21, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054332307",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X22, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054332309",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X24, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054332313",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X28, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054332315",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X30, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054373150",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X1, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XM_054373151",
+          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X2, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "CACACACAAGATATGC",
+          "midline": "|| |||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        }
+      ]
+    }
+  ]
+}

@@ -28,11 +28,11 @@
       "what": "~5-fold discrimination per single-nucleotide change for an UNMODIFIED RNase-H-active ASO. The OPTIMISTIC end: it is the figure for a gapmer chosen and positioned for allele selectivity, which these designs were not.",
       "n_oligos_with_zero_predicted_cleavage_load": 0,
       "rank_best_first": [
-        "GGGCATATTCTGCTGC",
-        "AGGGCATATTCTGCTG",
-        "CAGGGCATATTCTGCT",
-        "GGCATATTCTGCTGCC",
-        "GCATATTCTGCTGCCC"
+        "CAGGGCATATCTGATC",
+        "GCATATCTGATCCACT",
+        "GGCATATCTGATCCAC",
+        "GGGCATATCTGATCCA",
+        "AGGGCATATCTGATCC"
       ]
     },
     "duroux_16mer_none": {
@@ -41,171 +41,171 @@
       "what": "16-mers 'did not discriminate efficiently'; discrimination in that assay was confined to 12-13mers centred on the mismatch. The PESSIMISTIC end, and the one matching this panel's oligo LENGTH: a gap-internal mismatch buys nothing, so every near-match counts at full weight.",
       "n_oligos_with_zero_predicted_cleavage_load": 0,
       "rank_best_first": [
-        "CAGGGCATATTCTGCT",
-        "GGGCATATTCTGCTGC",
-        "AGGGCATATTCTGCTG",
-        "GCATATTCTGCTGCCC",
-        "GGCATATTCTGCTGCC"
+        "CAGGGCATATCTGATC",
+        "GCATATCTGATCCACT",
+        "GGCATATCTGATCCAC",
+        "GGGCATATCTGATCCA",
+        "AGGGCATATCTGATCC"
       ]
     }
   },
   "per_oligo": {
     "ostergaard_5fold": {
-      "GGGCATATTCTGCTGC": {
-        "n_offtarget_near_matches": 32,
-        "n_full_gap_duplex": 12,
-        "n_gap_disrupted": 20,
-        "n_gap_disrupted_resolved_from_saved_alignments": 20,
-        "n_gap_disrupted_unresolved_by_truncation": 0,
-        "n_coverage_only_fallback_counted_at_full_weight": 0,
-        "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 16.0,
-        "residual_cleavage_load_hi": 16.0,
-        "exact": true,
-        "zero_predicted_cleavage_load": false
-      },
-      "AGGGCATATTCTGCTG": {
-        "n_offtarget_near_matches": 33,
-        "n_full_gap_duplex": 13,
-        "n_gap_disrupted": 20,
-        "n_gap_disrupted_resolved_from_saved_alignments": 20,
-        "n_gap_disrupted_unresolved_by_truncation": 0,
-        "n_coverage_only_fallback_counted_at_full_weight": 0,
-        "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 17.0,
-        "residual_cleavage_load_hi": 17.0,
-        "exact": true,
-        "zero_predicted_cleavage_load": false
-      },
-      "GGCATATTCTGCTGCC": {
-        "n_offtarget_near_matches": 50,
-        "n_full_gap_duplex": 49,
+      "GGGCATATCTGATCCA": {
+        "n_offtarget_near_matches": 15,
+        "n_full_gap_duplex": 14,
         "n_gap_disrupted": 1,
         "n_gap_disrupted_resolved_from_saved_alignments": 1,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 49.2,
-        "residual_cleavage_load_hi": 49.2,
+        "residual_cleavage_load_lo": 14.2,
+        "residual_cleavage_load_hi": 14.2,
         "exact": true,
         "zero_predicted_cleavage_load": false
       },
-      "CAGGGCATATTCTGCT": {
-        "n_offtarget_near_matches": 20,
-        "n_full_gap_duplex": 20,
+      "GGCATATCTGATCCAC": {
+        "n_offtarget_near_matches": 13,
+        "n_full_gap_duplex": 12,
+        "n_gap_disrupted": 1,
+        "n_gap_disrupted_resolved_from_saved_alignments": 1,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 12.2,
+        "residual_cleavage_load_hi": 12.2,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      },
+      "AGGGCATATCTGATCC": {
+        "n_offtarget_near_matches": 49,
+        "n_full_gap_duplex": 49,
         "n_gap_disrupted": 0,
         "n_gap_disrupted_resolved_from_saved_alignments": 0,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 20.0,
-        "residual_cleavage_load_hi": 20.0,
+        "residual_cleavage_load_lo": 49.0,
+        "residual_cleavage_load_hi": 49.0,
         "exact": true,
         "zero_predicted_cleavage_load": false
       },
-      "GCATATTCTGCTGCCC": {
-        "n_offtarget_near_matches": 50,
-        "n_full_gap_duplex": 50,
+      "CAGGGCATATCTGATC": {
+        "n_offtarget_near_matches": 4,
+        "n_full_gap_duplex": 4,
         "n_gap_disrupted": 0,
         "n_gap_disrupted_resolved_from_saved_alignments": 0,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 50.0,
-        "residual_cleavage_load_hi": 50.0,
+        "residual_cleavage_load_lo": 4.0,
+        "residual_cleavage_load_hi": 4.0,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      },
+      "GCATATCTGATCCACT": {
+        "n_offtarget_near_matches": 11,
+        "n_full_gap_duplex": 11,
+        "n_gap_disrupted": 0,
+        "n_gap_disrupted_resolved_from_saved_alignments": 0,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 11.0,
+        "residual_cleavage_load_hi": 11.0,
         "exact": true,
         "zero_predicted_cleavage_load": false
       }
     },
     "duroux_16mer_none": {
-      "GGGCATATTCTGCTGC": {
-        "n_offtarget_near_matches": 32,
-        "n_full_gap_duplex": 12,
-        "n_gap_disrupted": 20,
-        "n_gap_disrupted_resolved_from_saved_alignments": 20,
-        "n_gap_disrupted_unresolved_by_truncation": 0,
-        "n_coverage_only_fallback_counted_at_full_weight": 0,
-        "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 32.0,
-        "residual_cleavage_load_hi": 32.0,
-        "exact": true,
-        "zero_predicted_cleavage_load": false
-      },
-      "AGGGCATATTCTGCTG": {
-        "n_offtarget_near_matches": 33,
-        "n_full_gap_duplex": 13,
-        "n_gap_disrupted": 20,
-        "n_gap_disrupted_resolved_from_saved_alignments": 20,
-        "n_gap_disrupted_unresolved_by_truncation": 0,
-        "n_coverage_only_fallback_counted_at_full_weight": 0,
-        "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 33.0,
-        "residual_cleavage_load_hi": 33.0,
-        "exact": true,
-        "zero_predicted_cleavage_load": false
-      },
-      "GGCATATTCTGCTGCC": {
-        "n_offtarget_near_matches": 50,
-        "n_full_gap_duplex": 49,
+      "GGGCATATCTGATCCA": {
+        "n_offtarget_near_matches": 15,
+        "n_full_gap_duplex": 14,
         "n_gap_disrupted": 1,
         "n_gap_disrupted_resolved_from_saved_alignments": 1,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 50.0,
-        "residual_cleavage_load_hi": 50.0,
+        "residual_cleavage_load_lo": 15.0,
+        "residual_cleavage_load_hi": 15.0,
         "exact": true,
         "zero_predicted_cleavage_load": false
       },
-      "CAGGGCATATTCTGCT": {
-        "n_offtarget_near_matches": 20,
-        "n_full_gap_duplex": 20,
+      "GGCATATCTGATCCAC": {
+        "n_offtarget_near_matches": 13,
+        "n_full_gap_duplex": 12,
+        "n_gap_disrupted": 1,
+        "n_gap_disrupted_resolved_from_saved_alignments": 1,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 13.0,
+        "residual_cleavage_load_hi": 13.0,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      },
+      "AGGGCATATCTGATCC": {
+        "n_offtarget_near_matches": 49,
+        "n_full_gap_duplex": 49,
         "n_gap_disrupted": 0,
         "n_gap_disrupted_resolved_from_saved_alignments": 0,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 20.0,
-        "residual_cleavage_load_hi": 20.0,
+        "residual_cleavage_load_lo": 49.0,
+        "residual_cleavage_load_hi": 49.0,
         "exact": true,
         "zero_predicted_cleavage_load": false
       },
-      "GCATATTCTGCTGCCC": {
-        "n_offtarget_near_matches": 50,
-        "n_full_gap_duplex": 50,
+      "CAGGGCATATCTGATC": {
+        "n_offtarget_near_matches": 4,
+        "n_full_gap_duplex": 4,
         "n_gap_disrupted": 0,
         "n_gap_disrupted_resolved_from_saved_alignments": 0,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 50.0,
-        "residual_cleavage_load_hi": 50.0,
+        "residual_cleavage_load_lo": 4.0,
+        "residual_cleavage_load_hi": 4.0,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      },
+      "GCATATCTGATCCACT": {
+        "n_offtarget_near_matches": 11,
+        "n_full_gap_duplex": 11,
+        "n_gap_disrupted": 0,
+        "n_gap_disrupted_resolved_from_saved_alignments": 0,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 11.0,
+        "residual_cleavage_load_hi": 11.0,
         "exact": true,
         "zero_predicted_cleavage_load": false
       }
     }
   },
-  "source_screen": "EWSR1_e7__NR4A3_e3",
+  "source_screen": "TCF12_e3__NR4A3_e3",
   "source_breakpoint": {
     "mode": "real_exon_junction_mRNA",
     "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted \u2014 \u26a0 for EWSR1 and NR4A3 only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and `provenance_gate` below records which one actually ran.",
-    "donor_gene": "EWSR1",
+    "donor_gene": "TCF12",
     "provenance_gate": {
-      "EWSR1": "graded_exon_audit",
+      "TCF12": "construct_inputs_self_checks_only",
       "NR4A3": "graded_exon_audit"
     },
-    "EWSR1_exon_end": 7,
-    "donor_exon_end": 7,
+    "EWSR1_exon_end": 3,
+    "donor_exon_end": 3,
     "NR4A3_exon_start": 3,
-    "note": "Real in-frame EWSR1::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
+    "note": "Real in-frame TCF12::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
     "measured_junction": {
-      "junction_label": "EWSR1_e7__NR4A3_e3",
-      "donor_symbol": "EWSR1",
+      "junction_label": "TCF12_e3__NR4A3_e3",
+      "donor_symbol": "TCF12",
       "acceptor_symbol": "NR4A3",
-      "donor_exon_end": 7,
+      "donor_exon_end": 3,
       "acceptor_exon_start": 3,
-      "donor_coding_nt_through_cut": 793,
-      "donor_last_whole_residue": 264,
+      "donor_coding_nt_through_cut": 148,
+      "donor_last_whole_residue": 49,
       "donor_coding_phase": 1,
       "nr4a3_acceptor_exon_is_coding": true,
       "nr4a3_acceptor_exon_5utr_nt_retained": 2,
@@ -213,22 +213,17 @@
       "nr4a3_first_residue": 1,
       "frame_sum_mod3": 0,
       "in_frame": true,
-      "chimeric_protein_length": 891,
-      "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG",
-      "EWSR1_exon_end": 7,
-      "NR4A3_exon_start": 3,
-      "ewsr1_coding_nt_through_cut": 793,
-      "ewsr1_last_whole_residue": 264,
-      "ewsr1_coding_phase": 1
+      "chimeric_protein_length": 676,
+      "junction_context_mRNA": "TCAGTGGATCAG|ATATGCCCTGCG"
     },
-    "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG",
+    "junction_context_mRNA": "TCAGTGGATCAG|ATATGCCCTGCG",
     "_transcript_source": {
       "requested": "auto",
       "used_per_gene": {
-        "EWSR1": "ensembl+cache_agreed",
+        "TCF12": "ensembl+cache_agreed",
         "NR4A3": "ensembl+cache_agreed"
       }
     }
   },
-  "_generated_from": "junction-aso-offtarget-e7n3.json"
+  "_generated_from": "junction-aso-offtarget-tcf12e3n3.json"
 }
