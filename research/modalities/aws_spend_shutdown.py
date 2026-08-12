@@ -315,7 +315,12 @@ def s3_purge(census: dict) -> None:
         if not b.get("n_objects") and not b.get("gb"):
             print(f"  s3://{bucket}: census read it as empty, skipping")
             continue
-        verdict, evidence = ("UNVERSIONED", {})
+        # ⚠ NOT "UNVERSIONED". The check writes and deletes an object, so it only runs under APPLY — and
+        # the first version of this line seeded the variable with "UNVERSIONED", which then went into the
+        # committed ledger as though a dry run had VERIFIED the bucket was unversioned. It had verified
+        # nothing. §4(b): a field's PRESENCE is never evidence of its provenance, and a plausible value is
+        # more dangerous than a missing one because nobody re-checks it.
+        verdict, evidence = ("NOT_CHECKED (dry run performs no writes)", {})
         if APPLY:
             verdict, evidence = _versioning_verdict(bucket, region)
             print(f"  versioning verdict for s3://{bucket}: {verdict}  evidence={evidence}")
