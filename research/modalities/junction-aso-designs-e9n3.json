@@ -2,10 +2,10 @@
   "_note": "Fusion-junction gapmer ASO designs (RNase-H1 mechanism). DESIGN ONLY \u2014 hypotheses for wet-lab knockdown testing; not a validated drug.",
   "_breakpoint_model": {
     "assumption": false,
-    "junction_label": "EWSR1_e13__NR4A3_e3",
+    "junction_label": "EWSR1_e9__NR4A3_e3",
     "EWSR1_mRNA": "NM_005243",
     "NR4A3_mRNA": "NM_006981",
-    "junction_context_mRNA": "CACTCCGTGGAG|ATATGCCCTGCG",
+    "junction_context_mRNA": "ATAAGCCTGGTG|ATATGCCCTGCG",
     "caveat": "Re-run with a patient's sequenced fusion transcript for clinical design.",
     "_transcript_source": {
       "requested": "auto",
@@ -21,18 +21,18 @@
       "EWSR1": "graded_exon_audit",
       "NR4A3": "graded_exon_audit"
     },
-    "EWSR1_exon_end": 13,
-    "donor_exon_end": 13,
+    "EWSR1_exon_end": 9,
+    "donor_exon_end": 9,
     "NR4A3_exon_start": 3,
     "note": "Real in-frame EWSR1::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
     "measured_junction": {
-      "junction_label": "EWSR1_e13__NR4A3_e3",
+      "junction_label": "EWSR1_e9__NR4A3_e3",
       "donor_symbol": "EWSR1",
       "acceptor_symbol": "NR4A3",
-      "donor_exon_end": 13,
+      "donor_exon_end": 9,
       "acceptor_exon_start": 3,
-      "donor_coding_nt_through_cut": 1417,
-      "donor_last_whole_residue": 472,
+      "donor_coding_nt_through_cut": 1012,
+      "donor_last_whole_residue": 337,
       "donor_coding_phase": 1,
       "nr4a3_acceptor_exon_is_coding": true,
       "nr4a3_acceptor_exon_5utr_nt_retained": 2,
@@ -40,12 +40,12 @@
       "nr4a3_first_residue": 1,
       "frame_sum_mod3": 0,
       "in_frame": true,
-      "chimeric_protein_length": 1099,
-      "junction_context_mRNA": "CACTCCGTGGAG|ATATGCCCTGCG",
-      "EWSR1_exon_end": 13,
+      "chimeric_protein_length": 964,
+      "junction_context_mRNA": "ATAAGCCTGGTG|ATATGCCCTGCG",
+      "EWSR1_exon_end": 9,
       "NR4A3_exon_start": 3,
-      "ewsr1_coding_nt_through_cut": 1417,
-      "ewsr1_last_whole_residue": 472,
+      "ewsr1_coding_nt_through_cut": 1012,
+      "ewsr1_last_whole_residue": 337,
       "ewsr1_coding_phase": 1
     }
   },
@@ -57,8 +57,8 @@
   "_gap_margin_note": "gap_specificity_margin = junction-unique bases INSIDE the 6-nt catalytic gap on the shorter side; it is the operative fusion-vs-parent discriminator (RNase-H cleaves only across the gap). The oligo-wide specificity_margin overstates discrimination (red-team F3). gap_centered = >=2 unique gap bases each side.",
   "top_designs": [
     {
-      "antisense_5to3": "GGGCATATCTCCACGG",
-      "target_mRNA_5to3": "CCGTGGAGATATGCCC",
+      "antisense_5to3": "GGGCATATCACCAGGC",
+      "target_mRNA_5to3": "GCCTGGTGATATGCCC",
       "architecture": "5-6-5 (LNA-DNA-LNA)",
       "junction_offset_in_oligo": 8,
       "bases_from_EWSR1": 8,
@@ -78,8 +78,8 @@
       ]
     },
     {
-      "antisense_5to3": "GGCATATCTCCACGGA",
-      "target_mRNA_5to3": "TCCGTGGAGATATGCC",
+      "antisense_5to3": "GGCATATCACCAGGCT",
+      "target_mRNA_5to3": "AGCCTGGTGATATGCC",
       "architecture": "5-6-5 (LNA-DNA-LNA)",
       "junction_offset_in_oligo": 7,
       "bases_from_EWSR1": 9,
@@ -99,8 +99,8 @@
       ]
     },
     {
-      "antisense_5to3": "AGGGCATATCTCCACG",
-      "target_mRNA_5to3": "CGTGGAGATATGCCCT",
+      "antisense_5to3": "AGGGCATATCACCAGG",
+      "target_mRNA_5to3": "CCTGGTGATATGCCCT",
       "architecture": "5-6-5 (LNA-DNA-LNA)",
       "junction_offset_in_oligo": 9,
       "bases_from_EWSR1": 7,
@@ -120,8 +120,8 @@
       ]
     },
     {
-      "antisense_5to3": "GCATATCTCCACGGAG",
-      "target_mRNA_5to3": "CTCCGTGGAGATATGC",
+      "antisense_5to3": "GCATATCACCAGGCTT",
+      "target_mRNA_5to3": "AAGCCTGGTGATATGC",
       "architecture": "5-6-5 (LNA-DNA-LNA)",
       "junction_offset_in_oligo": 6,
       "bases_from_EWSR1": 10,
@@ -131,7 +131,7 @@
       "gap_bases_from_NR4A3": 1,
       "gap_specificity_margin": 1,
       "gap_centered": false,
-      "gc_percent": 56.2,
+      "gc_percent": 50.0,
       "has_G4_motif": false,
       "fusion_specific": true,
       "exact_parent_hits": [],
@@ -141,8 +141,8 @@
       ]
     },
     {
-      "antisense_5to3": "CAGGGCATATCTCCAC",
-      "target_mRNA_5to3": "GTGGAGATATGCCCTG",
+      "antisense_5to3": "CAGGGCATATCACCAG",
+      "target_mRNA_5to3": "CTGGTGATATGCCCTG",
       "architecture": "5-6-5 (LNA-DNA-LNA)",
       "junction_offset_in_oligo": 10,
       "bases_from_EWSR1": 6,
