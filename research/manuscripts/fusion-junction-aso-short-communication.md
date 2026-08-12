@@ -7,8 +7,10 @@ status: live
 canonical_for:
   - the submitted form of the fusion-junction ASO work
 purpose: >
-  The submission manuscript for PUB-ASO, written as a Short Communication for Nucleic Acid
-  Therapeutics. Its provenance archive, including every superseded value and the full correction
+  The submission manuscript for PUB-ASO, written as a Short Communication for Cancer Gene Therapy
+  (Springer Nature), whose $0 subscription route is read at primary source. Nucleic Acid Therapeutics
+  is the better scientific fit and remains preferred if its fee model can ever be read; see
+  fusion-junction-aso-submission-plan.md §1b. Its provenance archive, including every superseded value and the full correction
   history, is fusion-junction-aso-working-record.md; the numbers themselves live in the artifacts
   under research/modalities/ and are not duplicated here.
 scope: >

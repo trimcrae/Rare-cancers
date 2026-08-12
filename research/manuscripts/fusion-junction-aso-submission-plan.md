@@ -92,6 +92,35 @@ page — author guidelines or the journal's own OA statement — read successful
 of record stands with the inference named as an inference, and **no submission should be made on the
 strength of this row alone.**
 
+### 1b · THE DECISION (2026-08-12, trimcrae: *"Pick a venue"*)
+
+⛔ **NAT COULD NOT BE CONFIRMED, AND THE RULE ABOVE SAYS THAT SETTLES IT.** Seven `journals.sagepub.com`
+paths were put to a real headless browser across two runs — the journal home, author instructions,
+aims and scope, and the description page — and **all seven returned 403**, exactly as Wiley and
+Elsevier do. That is bot detection rather than a paywall, so it is not a statement about fees; but
+the $0 constraint is binding and this repository's own discipline is FEE CONFIRMED IN WRITING before
+committing. A venue whose fee model cannot be read cannot be the venue.
+
+✅ **THE PICK IS *CANCER GENE THERAPY* (Springer Nature), because its fee model WAS read.**
+`nature.com/cgt/open-access` returned HTTP 200 and states verbatim that **"Authors who publish open
+access in Cancer Gene Therapy are required to pay an article processing charge (APC)"**, refers to
+**"our subscription licensing terms"**, and frames the journal among **"hybrid journals"**. Open
+access is therefore the optional paid upgrade and **the subscription route is the free one** — the
+$0 route, confirmed at primary source rather than inferred from a portfolio page. Scope: the journal
+describes itself as *"the essential gene and cellular therapy resource for cancer researchers and
+clinicians"*, and a junction-directed nucleic-acid therapeutic for a fusion-driven sarcoma sits
+inside that.
+
+⚠ **THIS IS A DECISION UNDER THE CONSTRAINT, NOT A JUDGEMENT THAT CGT IS THE BETTER JOURNAL.** NAT
+is the better scientific fit — it is the field's dedicated oligonucleotide-therapeutics journal —
+and it remains the preferred venue **the moment its fee model can be read**. The block is
+bot detection, so **a human loading `journals.sagepub.com/home/nat` in an ordinary browser settles
+it in seconds**, which is the one step this repository cannot take for itself. If that read shows a
+subscription route, switch back to NAT before submitting; nothing in the manuscript is venue-specific.
+
+**Plan of record: bioRxiv preprint (free, immediately) → Cancer Gene Therapy, subscription route.**
+The preprint is unaffected by the venue question and should not wait on it.
+
 ## 2 · What the venue demands, and where the submission stands
 
 ⚠ **This table was written against the WORKING RECORD, before the submission text existed as a
@@ -107,9 +136,10 @@ superseded column is kept because the size of the gap is the reason the split ha
 | numbered reference list with author/title/journal/year | ✅ 28 entries, `fusion-junction-aso-submission-references.md`, numbering DERIVED from per-citation PMIDs | prose carries bare PMIDs; journal titles were deliberately not stored by the fetch path |
 | journal register | ✅ `lint_style.py` clean: 0 glyphs, bold ≈5/1000 against a limit of 12, em-dash ≈5/1000 against 6 | bold 33.2/1000, em-dash 17.5/1000, 286 mid-sentence bolds, 127 glyphs |
 | data availability | ⛔ **open** — artifacts are repo JSON on a feature branch; a citable archive is needed | same |
-| author block, funding, competing interests | ⛔ **open — trimcrae only.** The manuscript carries an explicit placeholder that says it must not be submitted in place | not yet reached |
+| author block, funding, competing interests | ✅ **written** — author block taken from the form already committed across the other manuscripts; self-funded, no funder role; no financial interests, with survivorship declared as a non-financial one | not yet reached |
+| ORCID | ⛔ **open — trimcrae only.** No ORCID iD exists anywhere in the repository; free to register and required by some publishers at submission | not yet reached |
 | figures in a submission format | ⛔ **open** — the three figures are dependency-free SVG, which is vector and loses nothing, but NAT will want EPS/TIFF/PDF. No converter exists in the dev sandbox; this is a CI step, not a redraw |
-| venue confirmation | ⛔ **open** — see §1: the publisher changed and no NAT-specific policy page has been read successfully |
+| venue confirmation | ✅ **decided — Cancer Gene Therapy (Springer Nature), $0 subscription route read at primary source.** See §1b; NAT remains preferred if a human can load its page, since the block is bot detection |
 
 ## 3 · What must NOT be lost in the rewrite
 

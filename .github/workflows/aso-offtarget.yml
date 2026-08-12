@@ -33,7 +33,7 @@ on:
         description: "Output filename suffix, e.g. -bp200-8"
         required: false
       real_junctions:
-        description: "Space-separated REAL exon junctions. Two-field 'donorExon:NR4A3exon' means EWSR1 (e.g. '12:3 7:3'); three-field 'DONOR:donorExon:NR4A3exon' selects any partner this repo holds a transcript model for (e.g. 'TAF15:11:3 FUS:10:3'). If set, runs the real-junction pipeline (design + gap-resolved BLAST + uncapped eval + junction siRNA) and skips the codon-space screen."
+        description: "REAL exon junctions, separated by spaces or commas. Two-field 'donorExon:NR4A3exon' means EWSR1 (e.g. '12:3 7:3'); three-field 'DONOR:donorExon:NR4A3exon' selects any partner this repo holds a transcript model for (e.g. 'TAF15:11:3 FUS:10:3'). If set, runs the real-junction pipeline (design + gap-resolved BLAST + uncapped eval + junction siRNA) and skips the codon-space screen."
         required: false
       sirna_only_junctions:
         description: "Space-separated REAL exon junctions EWSR1exon:NR4A3exon for which to run ONLY the (fast, no-BLAST) siRNA design — e.g. junctions whose gapmer pipeline is already done ('7:3 12:3')."
@@ -120,6 +120,16 @@ jobs:
           # nothing today and collide with EWSR1 e11 tomorrow, and a screen filed under a junction
           # label its sequence does not match is the exact shape of the 2026-08-06 retraction.
           # EWSR1 keeps the bare `-e{n}n{n}` suffix so every committed artifact path is unchanged.
+          # ⛔ COMMAS ARE ACCEPTED, BECAUSE THEY WERE SILENTLY MIS-PARSED (measured 2026-08-12).
+          # This loop word-splits on whitespace. A dispatch of `TAF15:6:3,TCF12:19:3,TCF12:7:3` is
+          # therefore ONE token: the three-field arm matches, `%%:*` takes `TAF15`, `%%:*` on the
+          # remainder takes `6`, and `##*:` takes the LAST colon-field of the whole string — so it
+          # ran TAF15 e6 and discarded two junctions without a word. The run reported success, the
+          # publish step committed one junction's artifacts, and the two missing screens looked
+          # like reproducible remote failures rather than screens that never ran. Separator
+          # confusion in a free-text input is not a user error to be documented; it is a parsing
+          # bug, and the fix is to accept both.
+          JUNCS="$(printf '%s' "$JUNCS" | tr ',' ' ')"
           for jpair in $JUNCS; do
             case "$jpair" in
               *:*:*) donor="${jpair%%:*}"; rest="${jpair#*:}"; e="${rest%%:*}"; n="${rest##*:}" ;;
@@ -152,6 +162,16 @@ jobs:
           JUNCS: ${{ inputs.sirna_only_junctions }}
         run: |
           set -u
+          # ⛔ COMMAS ARE ACCEPTED, BECAUSE THEY WERE SILENTLY MIS-PARSED (measured 2026-08-12).
+          # This loop word-splits on whitespace. A dispatch of `TAF15:6:3,TCF12:19:3,TCF12:7:3` is
+          # therefore ONE token: the three-field arm matches, `%%:*` takes `TAF15`, `%%:*` on the
+          # remainder takes `6`, and `##*:` takes the LAST colon-field of the whole string — so it
+          # ran TAF15 e6 and discarded two junctions without a word. The run reported success, the
+          # publish step committed one junction's artifacts, and the two missing screens looked
+          # like reproducible remote failures rather than screens that never ran. Separator
+          # confusion in a free-text input is not a user error to be documented; it is a parsing
+          # bug, and the fix is to accept both.
+          JUNCS="$(printf '%s' "$JUNCS" | tr ',' ' ')"
           for jpair in $JUNCS; do
             e="${jpair%%:*}"; n="${jpair##*:}"
             sfx="-e${e}n${n}"
