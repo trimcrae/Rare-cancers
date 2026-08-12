@@ -123,9 +123,12 @@ reports that **a single 16-mer gapmer is fusion-exclusive at three different par
 over the eight bases immediately 5′ of their breakpoints — so the deployable artifact is not necessarily
 *n* bespoke oligos. The full transcriptome pipeline was then run at those junctions — **the first
 off-target screens at any non-EWSR1 NR4A3 fusion** — and reproduces the identical panel from a live
-Ensembl read by an independent code path; that shared design is also the **cleanest of the twenty
-screened** (8 predicted cleavage risks against 13–50; 0 exact and 1 ≤1-mismatch off-target across
-186,185 transcripts). The conclusion is unchanged and is stated as such: **0 of 5 designs are clean at
+Ensembl read by an independent code path; that shared design is the **cleanest of the ten distinct
+sequences screened at the FET junctions** (8 predicted cleavage risks against 13–50; 0 exact and 1
+≤1-mismatch off-target across 186,185 transcripts) — ⚠ *superseded, retained: "the cleanest of the twenty
+screened."* Those twenty screens were **ten distinct oligos**, because the same five were screened at
+each of three junctions and returned identical results, so the denominator triple-counted; and TCF12
+designs score lower still (best 1, §3a-nonies). The conclusion is unchanged and is stated as such: **0 of 5 designs are clean at
 every junction screened**, so what the screens support is a rank ordering for a wet-lab assay, not a
 clean call. We then specify what else is computable *now* without any GPU (extended
 tiling and a breakpoint-keyed per-patient panel). On delivery we correct a framing rather than claim
@@ -269,6 +272,17 @@ liver-specific receptor handle, and EMC has no equivalent. §3c remains unsolved
 **The one first-in-kind claim, stated at exactly its weight: an indication-level first.** Across 5,153 unique
 records, **four** name EWSR1::NR4A3 at title/abstract level; those four are three distinct papers
 (**PMID 40762284**, **PMID 29937513**, **PMID 25097177**) and **not one is an oligonucleotide study**, so the
+⛔ **THOSE THREE IDENTIFIERS ARE NOT YET VERIFIED, AND THEY CARRY THIS PAPER'S ONLY NOVELTY CLAIM
+(flagged 2026-08-12).** They appear in `lit-targets-aso-verify.json` **only inside a hand-written
+narrative field**, with no retrieved record — no title, no authors, no year, no abstract — anywhere in
+this repository, and the fusion's machine-generated `example_pmids` list is empty while every other
+fusion's is populated. That is an identifier written into a prose field and read back as though it
+were a fetch: the exact failure the citation gate exists for, in the one position the gate cannot
+see, because the gate matches identifiers against any tracked JSON without asking whether the match
+is a record or a sentence. A `resultType=core` fetch over all three is running; until it returns,
+**this sentence's specific citations are unverified and the count they support must not be quoted.**
+⚠ The absence claim itself does not rest on them — it rests on the corpus-wide count of zero
+oligonucleotide studies against any NR4A3 fusion — but the three papers named as the four rows do.
 count of junction-directed oligonucleotide work against EWSR1::NR4A3 — or against *any* NR4A3 fusion — is
 **zero**. ⭐ **That second clause is now load-bearing rather than incidental**: since §3a-septies the
 paper addresses *any* NR4A3 fusion — TAF15, TCF12 and FUS as well as EWSR1 — so the untouched indication
@@ -854,7 +868,11 @@ and sit *outside* the declared window; they are reported as arithmetic, not as c
 across the seam of **EWSR1 e12::NR4A3 e3**, **TAF15 e11::NR4A3 e3** *and* **FUS e10::NR4A3 e3**, and
 occurs in **none** of the five wild-type parent transcripts. The mechanism is measured rather than
 inferred: the three donors are **identical over the 8 bases immediately 5′ of their breakpoints**
-(`GTTTGATG`), which is long enough to supply the entire donor-side contribution at all three seams. Nine
+(`TGGTTTGATG`) — TAF15 and FUS are in fact identical over the whole 12-nt stored window — which is long
+enough to supply the entire donor-side contribution at all three seams. ⚠ *Superseded, retained: "the 8
+bases immediately 5′ of their breakpoints (`GTTTGATG`)."* Eight is the donor contribution of **one** of
+the five designs; they range 6 to 10, so an 8-base run would not have covered two of the five the
+sentence generalised over. The measured three-way run is ≥10. Nine
 multi-partner designs exist in total: **five** cover this same three-partner set (differing only in how
 the 16-mer is registered across the seam, 6+10 through 10+6) and four cover two partners. Of the five,
 `GGGCATATCATCAAAC` is the one with the largest gap-level margin, which is why it is the one named.
@@ -897,8 +915,8 @@ proposition for an ultra-rare disease than *n* bespoke oligos.
   — see §3a-octies.** ⚠ *Superseded, retained: "The gap-resolved BLAST and uncapped 186,185-transcript
   screens … have **not** been run on the TAF15/TCF12/FUS panels … Until they land, no statement about
   off-target load at a non-EWSR1 junction is available, in either direction."* That was true when
-  written and is now closed for TAF15 e11 and FUS e10. It remains true for **TCF12** and for the other
-  22 emittable junctions, none of which has been screened.
+  written and is now closed for TAF15 e11 and FUS e10. It remains true for the other
+  **20** emittable junctions, none of which has been screened.
 - **TFG is a reported EMC partner with no transcript model in this repository**, so it is absent from the
   atlas and named as absent — by the loader, at run time, rather than by a hard-coded note. ⚠ That
   distinction is the fix, not pedantry: the first version of this asserted TFG's absence in a constant,
@@ -916,10 +934,25 @@ been run outside EWSR1: the full pipeline (design → gap-resolved BLAST vs huma
 **EWSR1 e12** and **e7** re-run in the same job.
 
 **The design panels at the three junctions came back identical, oligo for oligo.** All three emit the
-same five gapmers, headed by `GGGCATATCATCAAAC`. This is the §3a-septies coverage result **reproduced by
-a different code path** — the per-junction CI design-and-screen pipeline, which knows nothing of the
-atlas and builds each chimera independently — rather than re-asserted from the same artifact. The atlas
-computed it offline from the committed cache; this ran from a live Ensembl read.
+same five gapmers, headed by `GGGCATATCATCAAAC`.
+
+⛔ **AND THE INDEPENDENCE THIS AGREEMENT SUPPORTS IS NARROWER THAN FIRST WRITTEN — THE CORRECTION IS
+RECORDED BECAUSE THE OVER-CLAIM WAS THE RETRACTION'S OWN ERROR REPEATED.** ⚠ *Superseded, retained:*
+"reproduced by **a different code path** — the per-junction CI design-and-screen pipeline, which knows
+nothing of the atlas and builds each chimera independently." That is false.
+[`nr4a3_fusion_atlas.py`](../modalities/nr4a3_fusion_atlas.py) **imports `junction_aso`** and calls
+`transcript_model`, `mrna_junction_generic`, `grade_junction` and `design` — the same four functions the
+CI workflow invokes. Seam construction, frame grading and tiling are **shared code and cannot fail
+independently**. Two artifacts agreeing because one implementation produced both is precisely what the
+2026-08-06 retraction was: E7::N3 and E12::N3 agreed, and the agreement was read as corroboration when a
+single defect had produced both.
+
+**What is genuinely independent is the transcript acquisition, and that is the check that counts here.**
+The atlas was built offline from the committed 2026-08-09 cache; the CI run read Ensembl live and
+recorded `ensembl+cache_agreed` for TAF15, FUS and NR4A3 — two separate acquisitions of the transcript
+model, agreeing field-for-field. By this manuscript's own standard (§3a-sexies) that is the whole test,
+and it is passed. It is not a second implementation of the design logic, and this paper must not claim
+one.
 
 | design | GC | gap-resolved BLAST: true cleavage risks | uncapped: exact | uncapped: ≤1 mm |
 |---|---|---|---|---|
@@ -937,9 +970,10 @@ counterparts, on branch `modalities-cache`.
 
 **Four readings.**
 
-**(i) The multi-partner design is also the cleanest design.** `GGGCATATCATCAAAC` carries **8** predicted
-true cleavage risks against 13–50 for the other four at the same junction, and against **12–50** at
-E7::N3 (§3a-sexies). Its single ≤1-mismatch off-target in the uncapped scan is one histone transcript
+**(i) The multi-partner design is the cleanest of the FET-junction designs.** `GGGCATATCATCAAAC` carries
+**8** predicted true cleavage risks against 13–50 for the other four at the same junction, and against
+**12–50** at E7::N3 (§3a-sexies). ⚠ It is **not** the cleanest in the paper — TCF12 designs reach 1
+(§3a-nonies) — and the counts here are right-censored wherever they read 50. Its single ≤1-mismatch off-target in the uncapped scan is one histone transcript
 (`NM_012274.2`). Nothing forced this: coverage and off-target load are independent properties, and the
 oligo that reaches three partners could easily have been the dirtiest. It is the cleanest of the twenty
 screened.
@@ -952,7 +986,10 @@ the screens support is a **rank ordering** for a wet-lab specificity assay, not 
 **(iii) The parent-set correction was live, and it changed nothing here — which is a measurement.**
 The screen now excludes the *donor's own* transcript rather than always EWSR1's (§3a-septies). At these
 junctions **`n_parent_or_intended_hits` is 0 for every oligo**, so the widened and re-pointed parent set
-neither hid a hit nor manufactured one. That is worth stating precisely because it could have gone the
+neither hid a hit nor manufactured one. ⚠ **For two of the five that zero is right-censored and must not
+be read as a measurement**: `GGCATATCATCAAACC` and `GCATATCATCAAACCA` each returned exactly 50
+near-matches, which is the BLAST hit-list cap, so a parent hit ranking below the 50th would be invisible.
+The claim holds for the three uncensored designs and is an absent reading for the other two. That is worth stating precisely because it could have gone the
 other way: the fix was made on the reasoning that a stale parent set errs in both directions at once, and
 at these junctions the error would have been zero. ⚠ The accession arm of that exclusion is inert for
 TAF15 and FUS (no verified RefSeq accession is held here), so the exclusion rested on name matching
@@ -978,10 +1015,13 @@ every exact multi-partner set. The screens show it is compensated on the other a
 | TCF12 e17 / e13 / e19 / e5 | 0 of 5 (e19: of 4) | 7 / 10 / 10 / 14 | — |
 | *best across EWSR1, TAF15, FUS* | *0 of 5* | *8* | *0 of 5* |
 
-**(i) TCF12 e7 breaks a pattern that had held everywhere else — on one of the two screens.** Four of its
-five designs carry **zero ≤1-mismatch off-targets** across 186,185 transcripts. That is the first time any
-design in this program has reached zero on the uncapped screen; every junction before this returned
-`n_candidates_zero_offtarget = 0`.
+**(i) TCF12 e7 is the strongest junction on the uncapped screen.** Four of its five designs carry
+**zero ≤1-mismatch off-targets** across 186,185 transcripts — the joint-highest count in the corpus.
+⚠ *Superseded, retained: "the first time any design in this program has reached zero on the uncapped
+screen; every junction before this returned `n_candidates_zero_offtarget = 0`."* Both halves were false.
+The modelled 200/8 breakpoint reached **4 of 5** and is reported doing so in §3a-quater, and **seven of
+the eight** TCF12 junctions carry at least one such design (e7 4, e9 2, e19 2, e3/e11/e13/e17 1 each,
+e5 0). What is true is narrower and is what the table now says.
 
 **⛔ (ii) And this paper's own methodology forbids calling them clean.** The gap-resolved BLAST — the
 wider test, which admits 2-mismatch hits the ≤1-mismatch cutoff structurally cannot see (§3a-quater) —
@@ -998,15 +1038,15 @@ the partner whose own designs look best, which is a genuine trade-off rather tha
 **breadth and per-oligo specificity point at different partners.**
 
 **(iv) The parent exclusion fired for the first time.** `n_parent_or_intended_hits` is non-zero at TCF12
-e3 and e19 and was zero at every FET junction — the first hits classified as parent rather than
-off-target anywhere in the program. ⚠ For TCF12 the accession arm of that exclusion is inert (no verified
+**e3, e5 and e19** — four hits across three junctions — and was zero at every FET junction: the first
+hits classified as parent rather than off-target anywhere in the program. ⚠ For TCF12 the accession arm of that exclusion is inert (no verified
 RefSeq accession is held here), so this rested on name matching alone, and the artifacts record it.
 
 **Bounds, unchanged in kind.** Predicted, sequence-level, canonical transcripts, under the same
 gap-mismatch heuristic the paper reports as retired for clean calls. **All four partners are now
-screened at 12 junctions; the other 20 emittable junctions are not**, and no TCF12 breakpoint has been
-shown to occur in a patient — TCF12::NR4A3 is a rare partner and this repository holds no exon-resolved
-TCF12 case. Nothing here addresses potency, knockdown,
+screened at 12 junctions; the other 20 emittable junctions are not**, and no **exon-resolved** TCF12 breakpoint is
+available — TCF12::NR4A3 fusions are reported in patients (PMID 11156374; PMID 12598313, TCF12-TEC in 1
+of 10 EMCs) but not at the exon resolution these designs require. Nothing here addresses potency, knockdown,
 delivery, tolerability or clinical use, and the conditional in §3a-septies stands: this speaks to TAF15
 and FUS patients only if their breakpoints fall at the homologous exons, which nobody here has shown.
 
@@ -1020,22 +1060,26 @@ this draft:
    **`gap_specificity_margin`** (junction-unique bases *inside* the 6-nt catalytic gap on the shorter side) and
    a `gap_centered` flag, and ranks by it — the operative discriminator, retiring the overstating oligo-wide
    `specificity_margin` (committed in every real-junction design JSON). What remains specifiable (not yet run)
-   is the **wider-window, multi-length tiling** (14–20-mers, both 5-6-5 and 5-10-5), which the panel above
-   (§3a-quinquies) motivates directly: since clean 16-mer gapmers are the exception, a 5-10-5 20-mer sweep is
-   the most promising lever to convert the 1–3-residual-risk junctions (E9/E10/E12) into clean designs.
-2. **Genome-wide off-target complementarity screen (CPU) — DONE for the modelled breakpoint (§3a-bis i).**
-   The current design-time check only confirms an oligo is not a *perfect* complement of the two parent
-   CDSs; a real specificity claim requires a transcriptome-wide near-match search with gap-region weighting
-   (RNase-H tolerates wing mismatches more than gap mismatches). **This has now been run** (blastn-short vs
-   The current design-time check only confirms an oligo is not a *perfect* complement of the two parent
-   CDSs; a real specificity claim requires a transcriptome-wide near-match search with gap-region weighting
-   (RNase-H tolerates wing mismatches more than gap mismatches). **This has now been run** on the modelled
-   reference junction (poor — §3a-bis), the favorable modelled 200/8 junction (§3a-quater), **and — closing
-   the red-team's lead gap — on the real recurrent EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions
-   (§3a-quinquies)**, built exon-exact from Ensembl structure via the companion `fusion_breakpoints.py`. The
-   real junctions are markedly more GC-favorable than the modelled reference and yield a predicted-clean
-   gapmer at E7::N3; the remaining specifiable items are now the gap-centred re-tiling (§3b.1) and screening
-   any *additional* in-frame patient breakpoints as they are sequenced.
+   is the **wider-window, multi-length tiling** (14–20-mers, both 5-6-5 and 5-10-5), which the corrected
+   panels motivate directly: since **no** 16-mer gapmer at any screened junction is predicted clean, a
+   5-10-5 20-mer sweep is the most promising remaining lever on off-target load.
+   ⚠ *Superseded, retained: "to convert the 1–3-residual-risk junctions (E9/E10/E12) into clean designs."*
+   Those residual-risk figures came from the retracted panel; E9 and E10 were never computed at the
+   corrected seam, and corrected E12's lowest load is 8, not 1–3.
+2. **Genome-wide off-target complementarity screen (CPU) — DONE, and now at twelve real junctions.**
+   ⚠ *This item previously carried a paragraph duplicated verbatim, the first copy truncated mid-sentence
+   at "(blastn-short vs" — a text corruption, removed 2026-08-12.* The design-time check only confirms an
+   oligo is not a *perfect* complement of its parent transcripts; a real specificity claim requires a
+   transcriptome-wide near-match search with gap-region weighting, because RNase-H tolerates wing
+   mismatches more than gap mismatches. That has been run on the modelled reference junction (poor —
+   §3a-bis), the favorable modelled 200/8 junction (§3a-quater), and on **twelve real exon junctions
+   across all four partners** (§3a-sexies, §3a-octies, §3a-nonies).
+   ⛔ *Superseded, retained: "The real junctions are markedly more GC-favorable than the modelled
+   reference and yield a predicted-clean gapmer at E7::N3."* The GC half survives; the clean-gapmer half
+   is **contradicted by the corrected screen** — E7::N3's lowest predicted cleavage load is 12, and no
+   design at any of the twelve junctions is predicted clean. The remaining specifiable items are the
+   gap-centred re-tiling (§3b.1), the 20 unscreened frame-compatible junctions, and any additional
+   patient breakpoints as they are sequenced.
 
    **Per-breakpoint feasibility scan — DONE (§3a-ter), and the favorable-breakpoint screens are now DONE too
    (§3a-quater).** The sensitivity sweep over 390 modelled breakpoints has been run and committed
@@ -1264,8 +1308,10 @@ alveolar macrophage clearance — is mature enough to have its own reviews (**PM
   final six words, and stating it that way understated the route. Retrieved, and each is a distinct
   agent in a distinct indication:
   - **SPL84**, an **inhaled antisense oligonucleotide**, phase 1, 32 healthy volunteers, single
-    inhaled dose across four escalating cohorts (**PMID 39500647**) — an inhaled *ASO*, the exact
-    modality class of this paper, dosed in humans.
+    inhaled dose across four escalating cohorts (**PMID 39500647**). ⚠ **It is a splice-switching
+    (steric-block) ASO**, targeting a CFTR cryptic-exon splicing defect — *not* an RNase-H1-active
+    gapmer. It establishes that an inhaled ASO can be formulated and dosed in humans; it does not
+    establish that for this paper's mechanism, whose chemistry and gap requirement differ.
   - **SNS812**, *"First in Human Fully Modified siRNA"*, inhaled, phase 1 single- and multiple-ascending
     dose in healthy participants (**PMID 40116355**).
   - **MIR 19 / siR-7-EM/KK-46**, inhaled siRNA, an open-label randomised controlled multicentre
@@ -1299,9 +1345,11 @@ that matter most to this paper.
 - **⛔ AND THE EXPERIMENT §4 ASKS FOR HAS ALREADY BEEN RUN — IN A DIFFERENT RARE SARCOMA, WITH THE EXACT
   CONTROL ARCHITECTURE THIS PAPER SPECIFIES.** In solitary fibrous tumour, isogenic cell models were
   CRISPR-engineered to carry the **NAB2::STAT6** fusion, and **fusion-specific ASOs** were then evaluated
-  against them, reducing fusion expression by **58%** and reducing tumour growth (**PMID 37370737**).
-  That is §4's design — fusion-specific ASO, engineered fusion-positive/fusion-negative isogenic pair,
-  knockdown plus phenotype — executed end-to-end in a rare soft-tissue sarcoma. **It is not our result and
+  against them, reducing fusion expression by **58%** and cell proliferation by **22%** in vitro
+  (**PMID 37370737**). ⚠ **The tumour-growth reduction reported in that study belongs to its
+  AAV2-CRISPR/CasRx arm, not to the ASO**, and is not claimed here. That is §4's design —
+  fusion-specific ASO, engineered fusion-positive/fusion-negative isogenic pair, knockdown plus
+  phenotype — executed end-to-end in a rare soft-tissue sarcoma. **It is not our result and
   we claim nothing from it**; what it establishes is that §4 is a *routine, published, executable
   protocol* rather than a speculative ask, which is the single most useful thing an outreach letter can
   say to a lab deciding whether to spend a technician-month on an ultra-rare disease.
@@ -1362,7 +1410,8 @@ prediction assumes patients carry breakpoints at those homologous exons, which i
 **⭐ This experiment is a published protocol, not a speculative ask — say so in the letter.** The same
 design (fusion-specific ASO, CRISPR-engineered isogenic fusion-positive/negative pair, knockdown plus
 growth readout) was executed in **solitary fibrous tumour** against **NAB2::STAT6**, giving 58% reduction
-in fusion expression and reduced tumour growth (**PMID 37370737**, §3c-bis) — in a rare soft-tissue
+in fusion expression and a 22% reduction in proliferation in vitro (**PMID 37370737**, §3c-bis; the
+tumour-growth reduction in that study is attributable to its CRISPR/CasRx arm) — in a rare soft-tissue
 sarcoma, with the very controls the red-team required here. A lab weighing a technician-month on an
 ultra-rare disease is being asked to repeat a routine protocol on a new fusion, not to invent one.
 
@@ -1427,13 +1476,14 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
   hand-chosen thresholds, so 62% is an **upper bound on *designable* positions, not a real-patient breakpoint
   frequency**; (ii) "favorable" requires only that a triage-passing in-band design *exists* — and triage is
   **not** the off-target screen (the 200/8 worked example shows the scan's own in-band pick failing the BLAST
-  screen, §3a-ter/§3a-quater). ⛔ **Caveat (iii) — that the screens had only run on modelled positions —
-  is OPEN, not addressed.** *Superseded, retained: "has now been **addressed**: the full pipeline was
-  run on the real EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions (§3a-quinquies), which are more
-  GC-favorable than the modelled grid and yield a predicted-clean gapmer at E7::N3 (E12::N3 needs
-  per-oligo selection)."* Those runs used a seam graded `SEAM_NOT_PRODUCED`, so **every screen in this
-  manuscript has still only run on modelled positions.** Every clinical design must still be
-  re-derived from the patient's *sequenced* fusion transcript.
+  screen, §3a-ter/§3a-quater). ✅ **Caveat (iii) — that the screens had only run on modelled positions — is CLOSED.**
+  ⚠ *Superseded, retained, and it was true only of the retracted panels: "Those runs used a seam graded
+  `SEAM_NOT_PRODUCED`, so every screen in this manuscript has still only run on modelled positions."*
+  Twelve real exon junctions across four partners have since been screened (§3a-sexies, §3a-octies,
+  §3a-nonies) at seams graded frame-compatible and verified against two independent transcript
+  acquisitions. **The residual is different and smaller: 20 of the 32 frame-compatible junctions remain
+  unscreened.** Every clinical design must still be re-derived from the patient's *sequenced* fusion
+  transcript.
 - **Delivery unsolved — and it is three routes, not one gate (§3c-bis).** No validated tumour-delivery
   route for EMC exists, and this remains the dominant risk for the whole modality. What is corrected is
   the *shape* of the risk, not its size: the missing EMC surface antigen gates the **systemic
@@ -1446,9 +1496,12 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
 - **The pan-partner atlas is exon arithmetic, not clinical epidemiology (§3a-septies).** It grades what
   is frame-compatible; no partner-and-exon-resolved patient series exists here, so the three-partner
   oligo result is conditional on breakpoints falling at homologous exons — an assumption nobody in this
-  program has tested. The transcriptome-wide off-target screens have **not** been run on the
-  TAF15/TCF12/FUS panels, so nothing about their off-target load is known in either direction, and the
-  provenance gate behind those three partners' transcript models is the weaker of the two available.
+  program has tested. ⚠ *Superseded, retained: "The transcriptome-wide off-target screens have **not**
+  been run on the TAF15/TCF12/FUS panels, so nothing about their off-target load is known in either
+  direction."* They have (§3a-octies, §3a-nonies): TAF15 e11, FUS e10 and all eight TCF12 junctions are
+  screened. What remains true is that **20 of 32 frame-compatible junctions are unscreened**, and that
+  the provenance gate behind the three non-EWSR1 partners' transcript models is the weaker of the two
+  available.
 - **Knockdown, not knockout.** ASO/siRNA reduce transcript; they do not eliminate the gene or guarantee
   durable, complete loss of fusion protein. Depth and duration of knockdown are empirical.
 - **⛔ THE PAPER NO LONGER CALLS ANY DESIGN "PREDICTED CLEAN", AND THE HEURISTIC THAT ALLOWED IT WAS NOT
