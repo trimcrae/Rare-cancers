@@ -118,5 +118,58 @@
   "http_404": 2,
   "kaplan_meier_mentioned": 4,
   "numbers_at_risk_visible_in_text": 0
+ },
+ "step_1b_figure_route_probe": {
+  "_what": "Step 1b: find a route to the Kaplan-Meier figure graphics, where a numbers-at-risk row lives if it exists, and establish whether the question is answerable from text at all.",
+  "_answer": "IT IS NOT. The chiusole2020 figures are RASTER IMAGES. Settled by a discriminating observation rather than assumed: the PDF text layer carries the figure CAPTIONS (typeset page text) but ZERO plot internals -- no axis tick labels, no '0.0/0.2/.../1.0' survival-axis tokens, no bare numeric rows. So the absence of 'at risk' from both the XML and the PDF text is UNINFORMATIVE in exactly the way s4 warns, and the admissibility question can only be closed by LOOKING at the graphic.",
+  "routes_tried": [
+   {
+    "route": "pmc.ncbi.nlm.nih.gov/articles/<PMCID>/bin/<figure>.jpg",
+    "result": "HTTP 200 but content-type text/html -- a reCAPTCHA interstitial",
+    "⭐_why_it_matters": "The binary guard keys off the DECLARED CONTENT TYPE, not the '.jpg' in the URL, so the captcha was written as text and stayed legible as the refusal it is. Keying off the extension would have saved a captcha page under a figure filename and reported success."
+   },
+   {
+    "route": "europepmc.org/articles/<PMCID>/bin/<figure>.jpg",
+    "result": "RemoteDisconnected -- connection closed without a response"
+   },
+   {
+    "route": "ebi.ac.uk/europepmc/webservices/rest/<PMCID>/supplementaryFiles",
+    "result": "HTTP 200, application/zip",
+    "⛔_found_a_live_bug": "The script recorded chars=80087 -- it ran a ZIP through a UTF-8 text decoder and destroyed it while reporting success. This is what forced the binary branch to be generalised beyond images."
+   },
+   {
+    "route": "ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=<PMCID>",
+    "result": "✅ WORKS -- returns licence and package location",
+    "note": "For PMC7308468: licence CC BY, package oa_package/c5/67/PMC7308468.tar.gz. This is the correct programmatic entry point for PMC open-access assets."
+   },
+   {
+    "route": "https://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/... and .../oa_pdf/...",
+    "result": "HTTP 404 for every path tried",
+    "⚠": "The oa.fcgi href is an ftp:// URL; naively rewriting the scheme to https on the same host did NOT resolve. A working HTTPS mirror for OA packages was not found in this pass and remains open."
+   },
+   {
+    "route": "publisher direct PDF (frontiersin.org/.../pdf)",
+    "result": "✅ WORKS -- HTTP 200, application/pdf, 33 KB of extracted text"
+   }
+  ],
+  "⭐_two_papers_definitively_closed": {
+   "finding": "drilon2008 (PMC2779719) and bishop2019 (PMC7771031) both return error code 'idIsNotOpenAccess' from the OA service. Their earlier HTTP 404 on fullTextXML was NOT an endpoint quirk -- these papers are not open access, and no open route will reach them.",
+   "consequence": "They stay on the candidate list with full_text_reachable resolved to False. Reaching them needs a subscription or an interlibrary route, which is trimcrae's to decide, not a free step."
+  },
+  "⭐_printed_numbers_recovered_from_chiusole2020": {
+   "_what": "Safe transcription from the PDF text layer -- no digitisation. These are exactly what a printed-numbers-only paper (memo s5.3 option 3) would rest on, and they are already in hand.",
+   "median_overall_survival_months": 180,
+   "alive_at_5_years_pct": 75,
+   "deaths": 20,
+   "p_values_by_comparison": {
+    "local_recurrence": 0.54,
+    "sex": 0.409,
+    "primary_location": 0.25,
+    "metastatic_site": 0.137,
+    "one_pfs_comparison": 0.009
+   },
+   "⚠": "Transcribed from the extracted text layer, not read off a figure. Each should be checked against the published table before use in any manuscript."
+  },
+  "_next_step": "Look at the four figure graphics and answer one bounded yes/no per curve: is there a numbers-at-risk row beneath the axis? Obtaining them needs a working route to the OA package or the publisher's figure assets; the OA service names the package and the HTTPS mirror for it is still unresolved."
  }
 }

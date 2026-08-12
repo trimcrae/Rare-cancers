@@ -468,7 +468,7 @@ it is the larger half of the work, and it converts 17 unread candidates into a g
 | # | step | who | cost | produces | what stops it |
 |---:|---|---|---|---|---|
 | 1 | ✅ **DONE — full texts fetched and scanned** (Actions run `31605336241`, published to `literature-cache`). Result in [`emc-ipd-admissibility-2026-08-12.json`](../literature/emc-ipd-admissibility-2026-08-12.json). **It did not close the question, and why it could not is the finding — see 5.2a.** | me | **$0** (CI) | 5 of 7 retrieved; 4 report Kaplan-Meier analysis | 2 of 7 returned **HTTP 404** from the Europe PMC endpoint despite having PMCIDs |
-| 1b | **Inspect the figure graphics for an at-risk row** — a bounded yes/no observation, not digitisation. | me | **$0** | the actual admissible subset | nothing; this is the immediate next action |
+| 1b | ⚠ **ATTEMPTED — the question is real but the assets are not reachable yet.** Five routes tried; the figures are raster, so no text route can answer it. See 5.2b. | me | **$0** | a reusable routing map, and two papers definitively closed | **no working HTTPS route to PMC open-access figure assets was found** |
 | 2 | **Adjudicate overlap** across the 11 flagged rows — Milan/INT recurrence and the US institutional recurrence — against study periods and institutions, which are already curated fields. | me | **$0** | a non-overlapping pooling set, as `POLICY-evidence.md` requires | study periods may not disambiguate; some will stay "cannot exclude overlap" and must be excluded |
 | 3 | ⛔ **DECIDE who digitises the curves.** | **trimcrae** | — | unblocks everything downstream | **This is a medical-integrity call, not a task.** See 5.3 |
 | 4 | **Register on PROSPERO before analysing.** | trimcrae (account) / me (protocol text) | **$0** | the credibility step that separates this from pooled numbers | registration requires a named person; it is an account, not an affiliation |
@@ -502,6 +502,35 @@ of engagement with a figure, not two, and only the third is the risky one:
    trimcrae's decision in 5.3.**
 
 The original plan collapsed 2 and 3 together and therefore deferred more than it needed to.
+
+### 5.2b · ⛔ Step 1b: the question is unanswerable from text, established rather than assumed
+
+**The chiusole2020 figures are raster images.** The discriminating observation: the PDF text layer
+carries the figure **captions** — which are typeset page text — and **zero plot internals**. No axis tick
+labels, no survival-axis tokens, no bare numeric rows. So the absence of "at risk" from *both* the XML and
+the PDF proves nothing at all, and §4's rule holds: **the only way to close admissibility is to look at
+the graphic.**
+
+⭐ **The routing map, which is reusable for every future literature fetch here:**
+
+| route | result |
+|---|---|
+| `pmc.ncbi.nlm.nih.gov/articles/<PMCID>/bin/<fig>.jpg` | HTTP 200 but `text/html` — a **reCAPTCHA** |
+| `europepmc.org/articles/<PMCID>/bin/<fig>.jpg` | connection closed without a response |
+| Europe PMC `supplementaryFiles` | HTTP 200 `application/zip` — ⛔ **and it exposed a live corruption bug** |
+| **`oa.fcgi?id=<PMCID>`** | ✅ **works** — returns licence and package path. The correct entry point |
+| `https://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/…` | HTTP 404 on every path tried — **unresolved** |
+| **publisher direct PDF** | ✅ **works** — 33 KB of extracted text |
+
+⭐ **Two papers are now definitively closed.** `drilon2008` and `bishop2019` return **`idIsNotOpenAccess`**.
+Their earlier 404s were not an endpoint quirk — no open route reaches them, and obtaining them is a
+subscription decision rather than a free step.
+
+⭐ **And option 3 stopped being hypothetical.** The PDF text layer yielded real printed statistics for
+`chiusole2020` — median overall survival **180 months**, **75%** alive at 5 years, 20 deaths, and the
+p-value for every subgroup comparison — by transcription, with nothing digitised. **The
+printed-numbers-only paper is already accumulating its inputs as a byproduct of the admissibility pass**,
+which is exactly the argument for it in §5.3.
 
 ### 5.3 · ⛔ The one decision that is genuinely trimcrae's
 
