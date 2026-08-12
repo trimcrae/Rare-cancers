@@ -46,6 +46,10 @@ on:
         description: "mode=shutdown: 'true' actually performs the actions. ANY OTHER VALUE IS A DRY RUN. Deletion is irreversible — dry-run first and read the object counts."
         default: "false"
         required: false
+      keep_images:
+        description: "mode=shutdown, TARGETS=ecr_prune: how many newest images to KEEP per repo. 0 empties the repo. ecr_prune uses BatchDeleteImage, a different IAM action from ecr_delete_all's DeleteRepository — so it can work where the other is denied."
+        default: "1"
+        required: false
       purge_confirm:
         description: "mode=shutdown, TARGETS=s3_purge: must be the literal DELETE-EVERYTHING. The whole-bucket delete does nothing without it, so no default or typo can reach it."
         default: ""
@@ -78,6 +82,7 @@ jobs:
           TARGETS: ${{ inputs.shutdown_targets }}
           APPLY: ${{ inputs.shutdown_apply == 'true' && '1' || '0' }}
           PURGE_CONFIRM: ${{ inputs.purge_confirm }}
+          KEEP_IMAGES: ${{ inputs.keep_images }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
