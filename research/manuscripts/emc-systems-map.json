@@ -84,11 +84,11 @@
   },
   {
    "id": "BLK-DELIVERY",
-   "name": "Tumour delivery of an oligonucleotide or a vector",
-   "statement_about": "engineering, not biology; not in-silico-solvable today",
+   "name": "SYSTEMIC, antigen-dependent tumour delivery of an oligonucleotide or a vector — NOT delivery as such",
+   "statement_about": "engineering, not biology; not in-silico-solvable today. ⛔ RESCOPED 2026-08-12, and the rescope is a correction rather than a softening. Superseded, retained: \"Tumour delivery of an oligonucleotide or a vector\", unqualified. As written this blocker took the hardest of three delivery routes and applied its requirement to the whole modality, and TECH-OLIGO-DELIVERY — the only thing that retires it — is defined in systemic terms (\"a conjugate, tumour-penetrating peptide or ligand-targeted lipid nanoparticle — OR a characterised EMC-enriched surface antigen\"). But the manuscript this blocker is owned by lists local/intratumoural administration FIRST in its own §3c, explicitly because it needs no EMC surface marker, and §3c-bis adds inhaled/pulmonary administration on the same footing. So an antigen the tumour-tissue data has refused (aso-delivery-antigen.json) was gating two routes that never required it. What the blocker still correctly holds: the systemic receptor-targeted route (AOC, ligand-targeted nanoparticle), which genuinely does wait on a named EMC antigen or a soft-tissue-sarcoma conjugate. What it must NOT be read as holding: that no delivery route for this modality can be attempted, or that the §4 wet-lab experiment waits on any of this — it does not, and a fusion-ASO that cannot silence the fusion in an EMC cell is not worth delivering by any route.",
    "owner": {
-    "file": "research/manuscripts/fusion-junction-aso-paper.md",
-    "anchor": null
+    "file": "research/manuscripts/fusion-junction-aso-working-record.md",
+    "anchor": "#3c-bis-delivery-is-three-routes-with-different-requirements-not-one-gate--and-only-one-of-them-needs-the-antigen-2026-08-12"
    }
   },
   {
@@ -1509,17 +1509,16 @@
     },
     {
      "file": "research/literature/no-wet-lab-archetypes-2026-08-12.json",
-     "use": "Appears ONLY as a retrieval source URL (web.expasy.org/cellosaurus/CVCL_1238) in the second research pass's `sources` list, under the angle 'EMC / NR4A3 public data and cell-line inventory'. That angle produced ZERO verified claims, so nothing in the artifact reads a biological property off this model -- no fusion status, no expression, no dependency, no drug response.",
+     "use": "Appears ONLY as a retrieval source URL (web.expasy.org/cellosaurus/CVCL_1238) in the second research pass's `sources` list, under the angle 'EMC / NR4A3 public data and cell-line inventory'. That angle produced ZERO verified claims, so nothing in the artifact reads a biological property off this model.",
      "classification": "unaffected",
-     "why_unaffected": "The dispute is about WHAT this line is. An artifact that records the line's existence and the fact that its identity is disputed does not depend on the answer. It would become `invalidated` the moment any claim here grounded an EMC property on the model.",
-     "⭐_and_the_dispute_is_itself_the_finding": "The survey asked whether ANY EMC or NR4A3-fusion cell line exists in DepMap or Cellosaurus. The repo's own register answers it more sharply than the research did: the single DepMap model carrying the EMC OncotreeSubtype is identity-disputed, and the curated record CONTRADICTS its carriage of the fusion. That is a real constraint on the public-omics-reanalysis archetype for this disease and belongs in the memo, not just in a lint fix.",
+     "why_unaffected": "The dispute is about WHAT this line is. An artifact that records the line's existence and that its identity is disputed does not depend on the answer. It would become `invalidated` the moment any claim here grounded an EMC property on the model.",
      "correction_marker": null
     },
     {
      "file": "research/manuscripts/no-wet-lab-publication-archetypes.md",
-     "use": "s6.5 -- cites the dispute ITSELF as the answer to the survey's cell-line question, and draws one consequence: the public-omics-reanalysis archetype cannot ground an EMC property on this model, so class-borrowing across FET-fusion sarcomas is the only form that route can take. Also s1's grade of archetype 2, which s6.5 sharpens.",
+     "use": "s6.5 -- cites the dispute ITSELF, and draws one consequence: the public-omics-reanalysis archetype cannot ground an EMC property on this model, so class-borrowing across FET-fusion sarcomas is the only form that route can take. s6.5 leads with the DepMap fusion-call evidence rather than the Cellosaurus EWSR1 caution, because EWSR1 is not what defines EMC (trimcrae, 2026-08-12). s7.1 records the paper idea built on this object and WITHDRAWS it.",
      "classification": "unaffected",
-     "why_unaffected": "The memo reads no biological property off the line -- no fusion status, no expression, no dependency. Its claim depends on the dispute being REAL, not on how the dispute resolves: whatever this line turns out to be, it cannot ground an EMC-labelled property today. A resolution in either direction would refine the memo's wording without invalidating its conclusion.",
+     "why_unaffected": "The memo reads no biological property off the line. Its claim depends on the dispute being REAL, not on how it resolves: whatever this line turns out to be, it cannot ground an EMC-labelled property today. s7.1 exists precisely because the stronger reading -- that published findings studied something that is not EMC -- is NOT supported by this object's own what_this_cannot_settle field.",
      "correction_marker": null
     }
    ],

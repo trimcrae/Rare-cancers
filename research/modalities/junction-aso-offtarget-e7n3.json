@@ -2,17 +2,25 @@
   "junction_label": "EWSR1_e7__NR4A3_e3",
   "breakpoint": {
     "mode": "real_exon_junction_mRNA",
-    "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted.",
+    "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted \u2014 \u26a0 for EWSR1 and NR4A3 only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and `provenance_gate` below records which one actually ran.",
+    "donor_gene": "EWSR1",
+    "provenance_gate": {
+      "EWSR1": "graded_exon_audit",
+      "NR4A3": "graded_exon_audit"
+    },
     "EWSR1_exon_end": 7,
+    "donor_exon_end": 7,
     "NR4A3_exon_start": 3,
     "note": "Real in-frame EWSR1::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
     "measured_junction": {
       "junction_label": "EWSR1_e7__NR4A3_e3",
-      "EWSR1_exon_end": 7,
-      "NR4A3_exon_start": 3,
-      "ewsr1_coding_nt_through_cut": 793,
-      "ewsr1_last_whole_residue": 264,
-      "ewsr1_coding_phase": 1,
+      "donor_symbol": "EWSR1",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 7,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 793,
+      "donor_last_whole_residue": 264,
+      "donor_coding_phase": 1,
       "nr4a3_acceptor_exon_is_coding": true,
       "nr4a3_acceptor_exon_5utr_nt_retained": 2,
       "nr4a3_cds_nt_at_resume": 0,
@@ -20,17 +28,20 @@
       "frame_sum_mod3": 0,
       "in_frame": true,
       "chimeric_protein_length": 891,
-      "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG"
+      "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG",
+      "EWSR1_exon_end": 7,
+      "NR4A3_exon_start": 3,
+      "ewsr1_coding_nt_through_cut": 793,
+      "ewsr1_last_whole_residue": 264,
+      "ewsr1_coding_phase": 1
     },
     "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG",
     "_transcript_source": {
-      "requested": "cache",
+      "requested": "auto",
       "used_per_gene": {
-        "EWSR1": "committed_cache",
-        "NR4A3": "committed_cache"
-      },
-      "committed_cache_fetched_utc": "2026-08-03T23:45:45Z",
-      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+        "EWSR1": "ensembl+cache_agreed",
+        "NR4A3": "ensembl+cache_agreed"
+      }
     }
   },
   "_note": "Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs (blastn-short vs human RefSeq RNA, NCBI BLAST URL API), resolved to the gap-mismatch level. A TRUE cleavage risk = an off-target near-match whose central DNA gap is fully matched (RNase-H can cleave); a gap-disrupted hit (mismatch inside the gap) does NOT cleave; wing-only hits are weak affinity liabilities. A clean oligo has zero true_cleavage_risk off-targets. Predicted specificity, not validated; confirm by the parental-/off-target-sparing assays.",
@@ -42,7 +53,22 @@
       6,
       11
     ],
-    "breakpoint_model": "Real in-frame EWSR1::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference."
+    "breakpoint_model": "Real in-frame EWSR1::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
+    "parent_set": {
+      "donor_gene": "EWSR1",
+      "names_excluded": [
+        "EWSR1",
+        "EWS RNA",
+        "NR4A3",
+        "NOR-1",
+        "nuclear receptor subfamily 4 group A member 3"
+      ],
+      "accessions_excluded": [
+        "NM_005243",
+        "NM_006981"
+      ],
+      "accession_arm_live_for_donor": true
+    }
   },
   "n_oligos_screened": 5,
   "n_screened_ok": 5,
@@ -54,13 +80,19 @@
       "gc_percent": 56.2,
       "specificity_margin": 8,
       "status": "screened",
-      "blast_rid": "7A6DRSW7016",
+      "blast_rid": "7SRT0RJ4014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 32,
       "n_true_cleavage_risk": 12,
       "n_gap_disrupted_no_cleavage": 20,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 12,
+        "1": 20,
+        "2": 0
+      },
+      "n_gap_mismatch_unresolvable": 0,
       "offtargets": [
         {
           "acc": "NM_001001973",
@@ -71,7 +103,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "|||||| |||||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_001271022",
@@ -82,7 +115,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "|||||||||| |||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_001271023",
@@ -93,7 +127,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "|||||||||| |||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_001320886",
@@ -104,7 +139,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "|||||| |||||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_005174",
@@ -115,7 +151,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "|||||| |||||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_014467",
@@ -126,7 +163,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "||||||||||||| ||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NM_024865",
@@ -137,7 +175,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NM_032166",
@@ -148,7 +187,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "|||||||||| |||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_052898",
@@ -159,7 +199,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "||||||||||||| ||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NM_130384",
@@ -170,7 +211,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "|||||||||| |||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NR_153405",
@@ -181,7 +223,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "|||||||||| |||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "XM_011539272",
@@ -192,7 +235,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "||||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "XM_017002538",
@@ -203,7 +247,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCC",
           "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_017016290",
@@ -214,7 +259,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "|||||| |||||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "XM_024448810",
@@ -225,7 +271,8 @@
           "q_to": 16,
           "qseq": "GCAGCAGAATATGCCC",
           "midline": "|||||||||| |||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         }
       ]
     },
@@ -235,13 +282,19 @@
       "gc_percent": 50.0,
       "specificity_margin": 7,
       "status": "screened",
-      "blast_rid": "7A6EK6XY016",
+      "blast_rid": "7SRTVY81014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 33,
       "n_true_cleavage_risk": 13,
       "n_gap_disrupted_no_cleavage": 20,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 13,
+        "1": 20,
+        "2": 0
+      },
+      "n_gap_mismatch_unresolvable": 0,
       "offtargets": [
         {
           "acc": "NM_001039469",
@@ -252,7 +305,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_001091",
@@ -263,7 +317,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||| ||||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_001160102",
@@ -274,7 +329,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||||||||| ||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NM_001163296",
@@ -285,7 +341,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_001163297",
@@ -296,7 +353,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_001272072",
@@ -307,7 +365,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||| ||||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_004954",
@@ -318,7 +377,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NM_006151",
@@ -329,7 +389,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||||||||| ||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NM_017490",
@@ -340,7 +401,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||||| ||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "NR_027647",
@@ -351,7 +413,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||||||||| ||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NR_153413",
@@ -362,7 +425,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||| ||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_011524810",
@@ -373,7 +437,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||||||||| ||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_017002538",
@@ -384,7 +449,8 @@
           "q_to": 15,
           "qseq": "CAGCAGAATATGCCC",
           "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_017011945",
@@ -395,7 +461,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||| ||||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         },
         {
           "acc": "XM_017011946",
@@ -406,7 +473,8 @@
           "q_to": 16,
           "qseq": "CAGCAGAATATGCCCT",
           "midline": "||||||| ||||||||",
-          "risk": "gap_disrupted_no_cleavage"
+          "risk": "gap_disrupted_no_cleavage",
+          "gap_mismatches": 1
         }
       ]
     },
@@ -416,13 +484,19 @@
       "gc_percent": 56.2,
       "specificity_margin": 7,
       "status": "screened",
-      "blast_rid": "7A6FDKRC016",
+      "blast_rid": "7SRUP9DW014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 50,
       "n_true_cleavage_risk": 49,
       "n_gap_disrupted_no_cleavage": 1,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 49,
+        "1": 1,
+        "2": 0
+      },
+      "n_gap_mismatch_unresolvable": 0,
       "offtargets": [
         {
           "acc": "XM_005277534",
@@ -433,7 +507,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_005277535",
@@ -444,7 +519,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_005277536",
@@ -455,7 +531,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_005277539",
@@ -466,7 +543,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_005277541",
@@ -477,7 +555,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_006714576",
@@ -488,7 +567,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_006714577",
@@ -499,7 +579,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_017009273",
@@ -510,7 +591,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_017009274",
@@ -521,7 +603,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417006",
@@ -532,7 +615,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417007",
@@ -543,7 +627,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417008",
@@ -554,7 +639,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417010",
@@ -565,7 +651,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417011",
@@ -576,7 +663,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417014",
@@ -587,7 +675,8 @@
           "q_to": 16,
           "qseq": "GGCAGCAGAATATGCC",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         }
       ]
     },
@@ -597,13 +686,19 @@
       "gc_percent": 50.0,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "7A6G8NFR016",
+      "blast_rid": "7SRVHBVW014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 20,
       "n_true_cleavage_risk": 20,
       "n_gap_disrupted_no_cleavage": 0,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 20,
+        "1": 0,
+        "2": 0
+      },
+      "n_gap_mismatch_unresolvable": 0,
       "offtargets": [
         {
           "acc": "NM_001160102",
@@ -614,7 +709,8 @@
           "q_to": 16,
           "qseq": "AGCAGAATATGCCCTG",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NM_001199461",
@@ -625,7 +721,8 @@
           "q_to": 16,
           "qseq": "AGCAGAATATGCCCTG",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NM_001199463",
@@ -636,7 +733,8 @@
           "q_to": 16,
           "qseq": "AGCAGAATATGCCCTG",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NM_001199464",
@@ -647,7 +745,8 @@
           "q_to": 16,
           "qseq": "AGCAGAATATGCCCTG",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NM_006151",
@@ -658,7 +757,8 @@
           "q_to": 16,
           "qseq": "AGCAGAATATGCCCTG",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NM_144781",
@@ -669,7 +769,8 @@
           "q_to": 16,
           "qseq": "AGCAGAATATGCCCTG",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NR_027647",
@@ -680,7 +781,8 @@
           "q_to": 16,
           "qseq": "AGCAGAATATGCCCTG",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_011524810",
@@ -691,7 +793,8 @@
           "q_to": 16,
           "qseq": "AGCAGAATATGCCCTG",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_054316108",
@@ -702,7 +805,8 @@
           "q_to": 16,
           "qseq": "AGCAGAATATGCCCTG",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NR_187497",
@@ -713,7 +817,8 @@
           "q_to": 16,
           "qseq": "CAGAATATGCCCTG",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NR_187498",
@@ -724,7 +829,8 @@
           "q_to": 16,
           "qseq": "CAGAATATGCCCTG",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "NR_187499",
@@ -735,7 +841,8 @@
           "q_to": 16,
           "qseq": "CAGAATATGCCCTG",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_017002538",
@@ -746,7 +853,8 @@
           "q_to": 14,
           "qseq": "AGCAGAATATGCCC",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047445325",
@@ -757,7 +865,8 @@
           "q_to": 16,
           "qseq": "CAGAATATGCCCTG",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_054339164",
@@ -768,7 +877,8 @@
           "q_to": 14,
           "qseq": "AGCAGAATATGCCC",
           "midline": "||||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         }
       ]
     },
@@ -778,13 +888,19 @@
       "gc_percent": 56.2,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "7A6H30TS016",
+      "blast_rid": "7SRWBHGW014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 50,
       "n_true_cleavage_risk": 50,
       "n_gap_disrupted_no_cleavage": 0,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 50,
+        "1": 0,
+        "2": 0
+      },
+      "n_gap_mismatch_unresolvable": 0,
       "offtargets": [
         {
           "acc": "XM_005277539",
@@ -795,7 +911,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_005277541",
@@ -806,7 +923,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_006714577",
@@ -817,7 +935,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_017009273",
@@ -828,7 +947,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417007",
@@ -839,7 +959,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417008",
@@ -850,7 +971,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417009",
@@ -861,7 +983,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417010",
@@ -872,7 +995,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417011",
@@ -883,7 +1007,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_047417014",
@@ -894,7 +1019,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_054316108",
@@ -905,7 +1031,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_054352182",
@@ -916,7 +1043,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_054352183",
@@ -927,7 +1055,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_054352184",
@@ -938,7 +1067,8 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         },
         {
           "acc": "XM_054352185",
@@ -949,15 +1079,10 @@
           "q_to": 16,
           "qseq": "GGGCAGCAGAATATGC",
           "midline": "|||||||||||| |||",
-          "risk": "true_cleavage_risk"
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
         }
       ]
     }
-  ],
-  "_provenance": {
-    "blast_screen": "run on a GitHub-hosted CPU runner, workflow aso-offtarget.yml, run 31130876597, step completed 2026-08-06T23:36:01Z (7:36 PM ET). Every per-oligo record below \u2014 RID, hits, midlines, counts \u2014 is that run's output, verbatim.",
-    "header_reemitted": "the run's copy of junction_aso_offtarget.py emitted the codon-space constants EWSR1_keep_aa/NR4A3_from_aa into a REAL-mode artifact (wrong for e12, and contradicting the measured resume residue in the same file). The header was re-emitted through the FIXED module with screen_one stubbed to return the records above verbatim \u2014 assembled by code, never hand-edited.",
-    "two_independent_reads_of_the_transcript_model": "the CI screen built its designs from a LIVE Ensembl read (2026-08-06); this header was re-emitted from the committed emc-construct-inputs.json cache (fetched 2026-08-03), which is why breakpoint._transcript_source reads committed_cache. The two produce BYTE-IDENTICAL designs and an identical measured_junction. \u2b50 That is a real cross-check, and it is the kind the retracted panel never had: e7n3 and e12n3 agreeing was ONE defect producing both, whereas these are two separate acquisitions of the transcript model agreeing.",
-    "cost": "$0 \u2014 GitHub Actions CPU + local CPU. No GPU, no rental."
-  }
+  ]
 }

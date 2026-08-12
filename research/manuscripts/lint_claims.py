@@ -144,7 +144,7 @@ DEFAULT_TARGETS = [
     # the building, and it was in neither this file's targets nor the view glob below. That is the
     # outreach-emails lesson exactly: the outward-facing document needs the strictest check, not
     # the loosest.
-    "research/manuscripts/fusion-junction-aso-paper.md",
+    "research/manuscripts/fusion-junction-aso-working-record.md",
     # ⛔ ADDED 2026-08-07, in the same commit that created it. `emc-hypoxia-reading.md` names three
     # DRUG CLASSES off a tissue-expression reading, which is the exact shape this linter exists for:
     # a measured observation whose mechanism suggests an intervention, written by an agent who has

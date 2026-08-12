@@ -3985,7 +3985,7 @@ PATIENT_PATH_WEIGHT = {
 #: finished, published and correct — but it does mean the result waits on a capability nobody in this
 #: field has yet, and a queue-ordering rubric should feel that. ⛔ THE DEFECT THAT PROMPTED IT:
 #: `BLK-DELIVERY` ("tumour delivery of an oligonucleotide"), whose `owner.file` IS
-#: `fusion-junction-aso-paper.md`, was declared by NO endpoint and NO route. The paper names delivery
+#: `fusion-junction-aso-working-record.md`, was declared by NO endpoint and NO route. The paper names delivery
 #: as its dominant gate on fourteen separate lines; the graph defined the blocker, attributed it to
 #: that exact manuscript, and nothing pointed at it — so the one limitation a reader raises within a
 #: minute of reading was invisible to every view generated from the graph.

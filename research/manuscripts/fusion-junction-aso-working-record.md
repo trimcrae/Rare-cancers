@@ -1,8 +1,8 @@
 ---
-id: DOC-FUSION-JUNCTION-ASO-PAPER
-title: "A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity"
+id: DOC-FUSION-JUNCTION-ASO-WORKING-RECORD
+title: "Working record — fusion-junction ASO analyses, provenance and correction history"
 level: L3
-kind: manuscript
+kind: register
 status: live
 canonical_for: []
 purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
@@ -12,157 +12,34 @@ date: 2026-08-05
 last_verified: unverified
 _backfilled: true
 ---
+> # THIS IS THE WORKING RECORD, NOT THE SUBMISSION
+>
+> **The submitted manuscript is
+> [`fusion-junction-aso-short-communication.md`](./fusion-junction-aso-short-communication.md).** This
+> file is its provenance archive: every analysis in full, every superseded value, and the complete
+> correction history that repository rule 1.2 requires be registered rather than dropped.
+>
+> It exists because those two audiences are incompatible. A journal reader needs one thesis, one
+> denominator and no version history; a maintainer needs to know which numbers were withdrawn, when,
+> and why. Keeping both in one file produced a 24,000-word document in which — as an editorial review
+> put it on 2026-08-12 — *no sentence stated a result the manuscript did not itself withdraw, censor
+> or disown*. Splitting them is what makes each readable.
+>
+> **This file is not a parallel draft of the paper and must never become one.** It holds analyses and
+> provenance; the submission holds the argument. Where they overlap on a number, the artifact under
+> `research/modalities/` is the one home and both point at it.
+
 # A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity that the NR4A3 degrader cannot reach
 
-> # ⛔⛔ RETRACTION — THE REAL-EXON HALF OF THIS MANUSCRIPT (2026-08-06)
->
-> **NOT SUBMITTABLE IN ITS CURRENT STATE. Every design, GC value, off-target count, seam and
-> headline gapmer attributed below to a "real" EWSR1 exon-*n* :: NR4A3 exon-3 junction is
-> RETRACTED and must not be quoted.** The codon-space modelled half of the paper (§3a, §3a-bis,
-> §3a-ter, §3a-quater, the 390-breakpoint scan and the 200/8 screens) is **untouched by this** —
-> it never used the exon index. What falls is §3a-quinquies and every sentence that leans on it.
->
-> **What went wrong, measured.** `junction_aso.py`'s `FUSION_JUNCTION_MODE=real` path indexed a
-> table keyed by **coding** exon with a **transcript** exon number. NR4A3 `ENST00000395097` has 8
-> transcript exons of which 1 and 2 carry no coding sequence, so the label "NR4A3 exon 3"
-> addressed the third *coding* exon. The committed seam `TTGTCCGTACAG` sits at **NR4A3 CDS nt
-> 1081**, i.e. NR4A3 resuming at **residue 361** — bit-for-bit the value
-> [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json) grades
-> **`SEAM_NOT_PRODUCED`**, against a corrected
-> `nr4a3_resume_range_across_plausible_breakpoints` of **[1, 1]** in
-> [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json). So those panels
-> describe a chimera missing NR4A3 residues 1–360 — AF1 and the first zinc finger of the C4 DBD,
-> which opens at C292 — that no plausible breakpoint in the declared windows produces.
-> Primary record: [`systems/AUDIT-2026-08-06-routes.md`](../../systems/AUDIT-2026-08-06-routes.md)
-> finding **X14**.
->
-> **⚠ Why this manuscript could not catch it, and it is the transferable lesson.** The **EWSR1
-> side reproduced correctly throughout** (EWSR1 transcript exon 1 *is* coding, so rank equals
-> coding index there). The E7::N3 and E12::N3 panels therefore agreed with each other, and §3a-quinquies
-> read that agreement as corroboration — *"Both share the NR4A3 exon-3 right-side seam … **as
-> expected**."* **Two artifacts agreeing is not evidence when one defect produces both.**
->
-> **⭐ A second reading, taken 2026-08-06, that the paper had already recorded without knowing it.**
-> §3a-quinquies flags E11::N3 as an unexplained no-output and offers *"most likely … our exon
-> indexing for EWSR1 exon 11 → NR4A3 exon 3 may not be in-frame as joined."* That guess was wrong
-> and the real cause is arithmetic. Under the defective index the chimeric CDS is in frame exactly
-> when the EWSR1 cut offset ≡ 1081 ≡ 1 (mod 3). Read off the committed exon audit
-> ([`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json)): e7 793, e9 1012, e10 1045,
-> e12 1294, e13 1417 are all ≡ 1 — and **e11 1164 ≡ 0**. The set of junctions the pipeline emitted
-> ({7, 9, 10, 12, 13}) and the single one it refused ({11}) are **exactly** what the off-by-two
-> predicts. The "integrity flag" was the defect announcing itself, and it was read as an exon-boundary
-> uncertainty for a month.
->
-> **⛔ Three panels this manuscript cites have never existed.** §3a-quinquies claims a "full
-> recurrent-junction panel (now run, real, committed — 2026-07-03)" over
-> `junction-aso-offtarget-e{9,10,13}n3.json` and `junction-sirna-designs-e{7,9,10,12,13}n3.json`.
-> ⛔ **CORRECTED 2026-08-08 — THIS SEARCH WAS WRONG, AND THE FILES EXIST.** ⚠ *Superseded,
-> retained:* "Searched 2026-08-06: **none of those filenames is present on `origin/main`, on
-> `origin/modalities-cache`, or in any commit reachable from this clone's refs.** Only the E7::N3
-> and E12::N3 files exist, and those six are the ones carrying `_RETRACTED_SEAM` banners."
-> **Measured 2026-08-08 at the tip of `origin/modalities-cache`: THIRTEEN of them are there** —
-> `junction-aso-designs-e{10,13}n3.json`, `junction-aso-offtarget-e{9,10,13}n3.json`,
-> `aso-insilico-evaluation-e{9,10,13}n3.json` and `junction-sirna-designs-e{7,9,10,12,13}n3.json` —
-> added by commit `30eb5684` on **2026-07-03**, the single CI commit from `aso-offtarget.yml` that
-> created all thirteen, and unmodified since. Only `junction-aso-designs-e9n3.json` is genuinely
-> absent. **The 2026-08-06 search was run in a clone that had not fetched the branch**, so it
-> reported an unfetched ref as an empty one: an absent reading read as a reading of absence, in the
-> one place where it became a published claim about what a reader can check.
-> **What does NOT change is the withdrawal.** Every quantitative statement sourced to E9/E10/E13 —
-> the siRNA GC ranges, "a fully-clean 16-mer gapmer appears at 1 of 5 junctions", and the
-> gapmer+siRNA panel-coverage conclusion — stays withdrawn, and now on the STRONGER of the two
-> grounds rather than the weaker: those files do not merely fail to be readable, they are readable
-> and **carry the retracted acceptor seam `TTGTCCGTACAG`** (NR4A3 CDS nt 1081, residue 361) against
-> the corrected `ATATGCCCTGCG`. All thirteen were graded and bannered
-> `⛔_RETRACTED_SEAMS` by [`junction_seam_retraction.py`](../modalities/junction_seam_retraction.py),
-> whose sweep now runs inside `aso-offtarget.yml`'s publish step so the branch's owner cannot
-> republish an unbannered one.
->
-> **What is owed, and its state.** ⚠ *Superseded, retained (the state as of the morning of
-> 2026-08-06):* `junction_aso.py` was corrected (twice — see the two-defect block
-> in that module) and the corrected real-exon mode is built and unit-tested. Regeneration needs a
-> live Ensembl read, which the dev sandbox's egress proxy refuses (measured 2026-08-06:
-> `CONNECT tunnel failed, response 403` to `rest.ensembl.org`), so it must run in CI —
-> `emc-expression-datasets.yml` `mode: aso-junction`. **Until that run lands, the corrected seam,
-> the corrected GC values and the corrected off-target load are UNKNOWN.** They are not "expected
-> to be similar"; the entire NR4A3 half of every oligo changes, and every oligo in this panel
-> spans the seam by construction, so **not one design survives**.
->
-> # ✅ REGENERATED, AND THE RETRACTION IS LIFTED FOR THE TWO PANELS THAT EXIST (2026-08-06, later the same day)
->
-> **What is now measured, and what is still withdrawn — read both halves.**
->
-> **(a) The seam.** The corrected junction resumes NR4A3 at **residue 1**, inside the corrected
-> plausible range **[1, 1]**. The corrected mRNA seams are
-> **`ACGGGCAGCAGA|ATATGCCCTGCG`** (E7::N3) and **`AATGGTTTGATG|ATATGCCCTGCG`** (E12::N3), against
-> the retracted `…|TTGTCCGTACAG` both panels shared.
->
-> **(b) The thing the earlier block could not state, because it needed one number nobody had
-> measured.** A fusion transcript retains the acceptor exon WHOLE, 5′UTR included, so the register
-> is set by the donor cut *and* by however many NR4A3 exon-3 bases sit 5′ of NR4A3's own ATG — call
-> it *U*. `junction_aso.py`'s two-defect block records *U* as unknown from any artifact in this
-> repo. That was true of [`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json), which
-> records coding nt per exon only, and **false of the repo**:
-> [`emc-construct-inputs.json`](../modalities/emc-construct-inputs.json) carries the spliced cDNA,
-> per-exon lengths and `utr5_len` for both genes, fetched from the same Ensembl endpoint on
-> 2026-08-03 with its own self-checks recorded. **Measured: NR4A3 transcript exons 1–2 end at cDNA
-> nt 697 and the CDS starts at nt 699, so *U* = 2.** Independent cross-check inside the same
-> file: exon 3 is 953 nt and the exon audit records 951 CODING nt in it, and 953 − 951 = 2.
->
-> **(c) That resolves a caveat this repo had recorded as open, and it changes the answer by a
-> residue.** EWSR1 exon 7 ends at coding nt 793 = 264 whole residues **+ 1 nt**, so (793 + 2) mod 3
-> = 0: the chimeric ORF is in frame **and** the leftover EWSR1 nucleotide plus the two retained
-> acceptor-UTR nucleotides form a codon belonging to **neither parent**. At E7::N3 that codon is
-> `AAT` = **Asn**, so the protein seam is `…SQQSSSYGQQ-**N**-MPCVQAQYSP…`. One home for the
-> resolution: [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json) →
-> `gate._phase_note_resolution`.
->
-> **(d) And it inverts the E11::N3 arithmetic, which is the sharpest check available that the
-> correction is the right one.** Under the *defective* index the chimeric CDS was in frame exactly
-> when the EWSR1 cut ≡ 1 (mod 3) — admitting e7/e9/e10/e12/e13 and refusing **e11**. Under the
-> corrected mRNA-level model the condition is (cut + 2) ≡ 0 (mod 3) — which admits **e7 and e12,
-> the two junctions this manuscript leads with**, and now refuses **e11**. Both models refuse e11
-> and for different arithmetic; the corrected one restores exactly the junctions the defective one
-> was accidentally admitting. Every declared exon pair is graded in
-> [`junction-mrna-frame-audit.json`](../modalities/junction-mrna-frame-audit.json) — the table this
-> lane never had, which designs nothing and refuses out loud.
->
-> **(e) Two independent reads agree, and this time they can fail independently.** The BLAST screen
-> ran on a GitHub-hosted CPU runner from a **live Ensembl read** (2026-08-06); the audit, the design
-> panels and the artifact headers were rebuilt offline from the **2026-08-03 committed cache**. The
-> two produce **byte-identical designs and an identical measured junction**. That is the check the
-> retracted panels never had: E7::N3 and E12::N3 agreeing was one defect producing both, whereas
-> these are two separate acquisitions of the transcript model.
->
-> **(f) STILL WITHDRAWN — but for a different and stronger reason than this paragraph gave.**
-> ⚠ *Superseded, retained:* "The E9/E10/E13 panels and the `junction-sirna-designs-e*n3` files **do
-> not exist** and were never regenerated, because there was nothing to regenerate." **Twelve of the
-> thirteen do exist**, on `origin/modalities-cache` since 2026-07-03 (only
-> `junction-aso-designs-e9n3.json` is genuinely absent); the search that concluded otherwise had not
-> fetched the branch — see the correction above. They were not regenerated, which is the true half
-> of the sentence, and they carry the retracted acceptor seam, which is why every statement sourced
-> to them — the siRNA GC ranges, *"a fully-clean 16-mer gapmer appears at 1 of 5 junctions"*, and
-> the gapmer+siRNA panel-coverage conclusion — remains withdrawn. They are now withdrawn as
-> **measurably wrong** rather than as unverifiable, and all thirteen carry a `⛔_RETRACTED_SEAMS`
-> banner saying so in the file itself. **The corrected panel still covers 2 junctions, not 5.**
-> ⚠ The three E9/E10/E13 junctions are graded **EMITTABLE** under the corrected model
-> ([`junction-mrna-frame-audit.json`](../modalities/junction-mrna-frame-audit.json)), so they COULD
-> be rebuilt; until they are, nothing about them may be quoted.
->
-> **(g) The corrected result does not restore the retracted headline — it refutes half of it.** See
-> §3a-sexies. Chemistry improves at the real seams; predicted specificity does **not**, and the
-> retracted *"a gapmer predicted clean on both screens at E7::N3"* is contradicted by the corrected
-> screen. Delivery (§3c) remains the dominant gate and nothing here speaks to potency, knockdown,
-> tolerability or clinical use.
->
-> **What survives the retraction** — narrower than the paper's current framing and stated at full
-> strength: the *rationale* (a breakpoint mRNA seam present only in the chimera) is a sequence
-> argument that does not depend on which exon pair is right; the codon-space screens and the
-> 390-breakpoint scan are unaffected; and `junction_breakpoint_scan.py` was never implicated,
-> because it deliberately refuses the exon→CDS mapping and works in codon space. ⚠ *Superseded,
-> retained: the earlier and broader claim that "the ASO lane is unaffected" by the 2026-08-03 exon
-> correction. That was true of `junction_breakpoint_scan.py` and false of the lane — the earlier
-> audit checked one of the lane's two modules and generalised.*
+> **Correction record.** This manuscript was subject to a retraction and correction on 2026-08-06:
+> a defective exon index produced a chimeric seam no plausible breakpoint generates, and every
+> design attributed to a "real" EWSR1 exon-*n* :: NR4A3 exon-3 junction before that date is
+> withdrawn. The panels were rebuilt, the withdrawal partially lifted, and the corrected result
+> **refutes half of the retracted headline** rather than restoring it. The full record — what went
+> wrong, what the corrected reading is, what remains withdrawn and why — is
+> **[Appendix A](#appendix-a--retraction-and-correction-record-2026-08-06)**. It is kept in full
+> because the superseded values stay quotable and a reader who meets one elsewhere must be able to
+> find what replaced it.
 
 > **In-silico design / feasibility draft (2026-06).** No wet lab; no molecule synthesized; **no new
 > GPU run was performed** — the real results cited here are CPU outputs: the committed gapmer designs
@@ -254,10 +131,35 @@ must follow the triage (§3a-ter/§3a-quater). So feasibility is
 selection step (sequence the patient's breakpoint, triage it, then BLAST-screen a favorable design), not a
 roadblock — with the honest bounds that these breakpoints are *modelled, not exon-exact*, that "favorable"
 is a GC/complexity triage rather than the full BLAST screen, and that clinical design must still be re-run
-on each patient's sequenced breakpoint. We then specify what else is computable *now* without any GPU (extended
-tiling and a breakpoint-keyed per-patient panel), and we are explicit that the genuinely unsolved problem is **tumour delivery**, which
-we discuss only at the hypothesis level (e.g. a B7-H3-targeted antibody–oligonucleotide conjugate or a
-receptor-targeted nanoparticle). We ask others to run one decisive experiment: junction-ASO versus
+on each patient's sequenced breakpoint. We then extend the analysis from one partner to the disease: a pan-partner atlas
+([`nr4a3-fusion-junction-atlas.json`](../modalities/nr4a3-fusion-junction-atlas.json)) grades **207
+donor-exon × NR4A3-acceptor-exon pairs across EWSR1, TAF15, TCF12 and FUS**, finds **32** frame-compatible
+junctions of which **every one** yields at least one junction-spanning, parent-sparing design, and
+reports that **a single 16-mer gapmer is fusion-exclusive at three different partners' junctions at once**
+(EWSR1 e12, TAF15 e11 and FUS e10, each joined to NR4A3 exon 3) because the three donors are identical
+over the eight bases immediately 5′ of their breakpoints — so the deployable artifact is not necessarily
+*n* bespoke oligos. The full transcriptome pipeline was then run at those junctions — **the first
+off-target screens at any non-EWSR1 NR4A3 fusion** — and reproduces the identical panel from a live
+Ensembl read by an independent code path; that shared design is the **cleanest of the ten distinct
+sequences screened at the FET junctions** (8 predicted cleavage risks against 13–50; 0 exact and 1
+≤1-mismatch off-target across 186,185 transcripts) — ⚠ *superseded, retained: "the cleanest of the twenty
+screened."* Those twenty screens were **ten distinct oligos**, because the same five were screened at
+each of three junctions and returned identical results, so the denominator triple-counted; and TCF12
+designs score lower still (best 1, §3a-nonies). The conclusion is unchanged and is stated as such: **0 of 5 designs are clean at
+every junction screened**, so what the screens support is a rank ordering for a wet-lab assay, not a
+clean call. We then specify what else is computable *now* without any GPU (extended
+tiling and a breakpoint-keyed per-patient panel). On delivery we correct a framing rather than claim
+progress: **it is three routes with different requirements, not one gate.** The missing EMC surface
+antigen — which the tumour-tissue data refuses — is a prerequisite of the *systemic receptor-targeted*
+route only; local/intratumoural and **inhaled/pulmonary** administration need no antigen, and EMC's
+distant spread is lung-dominant (35–45% of patients, primarily lung; median time to metastasis ≈28
+months). Inhaled and intratracheal oligonucleotide delivery producing specific gene silencing *in
+tumours growing in the lung* is an active preclinical field, in other tumour types, in animals — and the
+inhaled-oligonucleotide *route* has itself reached patients, including an inhaled antisense
+oligonucleotide in a phase 1 trial and an inhaled siRNA in phase 2b-3, in non-oncology indications. We
+state plainly that no such record concerns EMC, a sarcoma lung metastasis, a fusion target, or any
+solid-tumour target: what is established is that the route is deliverable and tolerable in humans, not
+that it reaches a metastatic nodule. We ask others to run one decisive experiment: junction-ASO versus
 scrambled-control knockdown in patient-derived EMC lines (USZ-EMC [Bangerter]; NCC-EMC [Iwata]), with
 specificity confirmed by sparing of the parental transcripts. ⛔ **We state the prior art rather than
 imply novelty we do not have: junction-directed oligonucleotides against fusion oncogenes are a continuous
@@ -360,11 +262,27 @@ approaches are necessary."* **PMID 31728968** is a protocols chapter supplying *
 for RNAi design of chimeric RNAs… and necessary controls"*: §4's control design is a solved, published
 protocol.
 
-**(v) ⛔ A junction-targeted agent has been taken into clinical testing.** **PMID 27166877** — a bi-shRNA
-against *"the identical type 1 translocation junction region of the EWS/FLI1 transcribed mRNA"*, reporting
-85–92 % target knockdown and stating that the results *"provide the justification to initiate clinical
-testing"*; follow-through in patients is **PMID 36780200**. A reviewer knows this. The manuscript must not
-read as though it does not.
+**(v) ⛔ A junction-targeted agent has been developed to the point of proposing clinical testing.**
+**PMID 27166877** — a bi-shRNA against *"the identical type 1 translocation junction region of the
+EWS/FLI1 transcribed mRNA"*, reporting 85–92 % target knockdown and stating that the results
+*"provide the justification to initiate clinical testing"*. A reviewer knows this lineage exists.
+The manuscript must not read as though it does not.
+
+⚠ **SUPERSEDED, RETAINED: "has been taken into clinical testing … follow-through in patients is
+PMID 36780200" (corrected 2026-08-12).** That sentence was wrong twice over and had reached the
+submission draft. **PMID 36780200 is Vigil** — an autologous tumour-cell therapy expressing a
+**bi-shRNA against *furin*** plus GM-CSF — and its own abstract says so in the file this repository
+already held (`origin/literature-cache:literature/aso-refmeta-journals/PMC10150239.txt`: *"Vigil is
+a novel autologous tumor cell therapy expressing bi-shRNA furin/GMCSF plasmid"*). EWS/FLI1 enters
+that paper only as a **ctDNA breakpoint marker for response monitoring**, not as the agent's target.
+And PMID 27166877 is titled *Preclinical* Justification: it argues **for** initiating clinical
+testing, so citing it as evidence that testing **happened** inverts what it says. No trial of a
+junction-directed EWS/FLI1 agent is anchored anywhere in this repository. ⛔ **The tell was in the
+title of each paper**, and neither `lint_citations` nor `lint_claims` can catch this class: both
+identifiers are real, both are anchored to genuine fetch products, and the sentence attached to them
+was hedged. Provenance and claim strength are orthogonal to whether the cited paper is *about* the
+thing claimed — that check is human, and here it took an adversarial reader asking what the agent
+in PMID 36780200 actually targets.
 
 **(vi) And the delivery gate has been passed once, in a rare fusion-driven cancer.** **PMID 37980543** —
 GalNAc-conjugated siRNA against the **DNAJB1::PRKACA fusion junction** in fibrolamellar HCC. This is the
@@ -387,8 +305,32 @@ liver-specific receptor handle, and EMC has no equivalent. §3c remains unsolved
 **The one first-in-kind claim, stated at exactly its weight: an indication-level first.** Across 5,153 unique
 records, **four** name EWSR1::NR4A3 at title/abstract level; those four are three distinct papers
 (**PMID 40762284**, **PMID 29937513**, **PMID 25097177**) and **not one is an oligonucleotide study**, so the
-count of junction-directed oligonucleotide work against EWSR1::NR4A3 — or against *any* NR4A3 fusion — is
-**zero**. Against **108** junction-plus-oligo records for BCR::ABL1 and **37** for EWSR1::FLI1, EMC is not a
+count of junction-directed oligonucleotide work against EWSR1::NR4A3 — or against *any* NR4A3 fusion —
+is **zero**.
+
+✅ **THOSE THREE IDENTIFIERS ARE NOW VERIFIED, AND THE FETCH ALSO SHOWS THE FRAMING WAS TOO KIND TO
+ITSELF (2026-08-12).** ⚠ *Superseded, retained: they were flagged earlier the same day as unverified,
+because they appeared in `lit-targets-aso-verify.json` only inside a hand-written narrative field —
+no title, no authors, no abstract — while that fusion's machine-generated `example_pmids` list was
+empty and every other fusion's was populated. An identifier written into a prose field and read back
+as though it were a fetch is the exact failure the citation gate exists for, and it sits in the one
+position the gate cannot see: the gate matches identifiers against any tracked JSON without asking
+whether the match is a record or a sentence.* A `resultType=core` fetch resolved all three, and they
+are real papers — but **only one of the three is an EMC paper**:
+
+| PMID | what it actually is |
+|---|---|
+| 29937513 | an EMC case report — an actionable *KIT* mutation (Int J Mol Sci, 2018) |
+| 40762284 | **bladder** cancer — NR4A3 and anoikis resistance via EWSR1 (Cancer Biol Ther, 2025) |
+| 25097177 | primary **myelofibrosis** CD34+ miRNA–mRNA analysis (Blood, 2014) |
+
+So the honest statement of the search result is: **4 of 5,153 records mention EWSR1::NR4A3 at
+title/abstract level, those four are three papers, only one concerns EMC, and none is an
+oligonucleotide study.** The absence claim survives — it rests on the corpus-wide count of zero
+oligonucleotide studies against any NR4A3 fusion, not on these three — but a reader who pulls the
+three should not find them oversold. ⭐ **That second clause is now load-bearing rather than incidental**: since §3a-septies the
+paper addresses *any* NR4A3 fusion — TAF15, TCF12 and FUS as well as EWSR1 — so the untouched indication
+is the whole NR4A3-rearranged disease and not one partner of it. Against **108** junction-plus-oligo records for BCR::ABL1 and **37** for EWSR1::FLI1, EMC is not a
 thin search result; it is an untouched indication. ⚠ The method is title/abstract-only, so every count is a
 **lower bound** — which is the correct direction here, because a lower-bound method cannot manufacture a zero
 it did not observe, though it can miss a paper that names the fusion only in its body.
@@ -925,6 +867,243 @@ remains the dominant gate for the modality. The specifiable next lever is unchan
 motivated: **longer oligos (5-10-5 20-mers) with gap-centred re-tiling**, since the residual liabilities are
 gap-spanning near-matches rather than GC.
 
+### 3a-septies. The pan-partner atlas — every NR4A3 fusion, not just EWSR1 (real, committed — 2026-08-12)
+
+Everything above this line addresses **one** 5′ partner. EMC is not defined by EWSR1; it is defined by
+**NR4A3 rearrangement to a variable partner** — EWSR1 in the large majority, *TAF15* in a substantial
+minority, and *TCF12*/*TFG*/*FUS* rarely [Panagopoulos]. Until now the design lane could not address
+any partner but EWSR1, for no better reason than a hard-coded gene symbol, and that exclusion lands on
+the worst-served subgroup: every reported objective response to an antiangiogenic TKI in advanced EMC —
+the only systemic class with activity here — has occurred in a **non-TAF15** patient, with the TAF15 arm
+at 0 events across 3–5 patients. That contrast, its zero-event ceiling and the primary authors' own hedge
+that the fusion is a *surrogate* rather than a mechanism are owned by
+[`emc-fusion-partner-pooling.json`](./emc-fusion-partner-pooling.json) and are not restated here. What
+follows from it for *this* paper is only this: **the partner-defined subgroup with the fewest options was
+the one the design code excluded.**
+
+[`nr4a3_fusion_atlas.py`](../modalities/nr4a3_fusion_atlas.py) →
+[`nr4a3-fusion-junction-atlas.json`](../modalities/nr4a3-fusion-junction-atlas.json) closes that, at $0,
+offline, from the committed Ensembl transcript cache. It grades **231 donor-exon × NR4A3-acceptor-exon
+pairs across all five reported partners** — every pair, refusals included — and emits junction-spanning
+gapmer panels for the rows it grades `EMITTABLE`.
+
+| | EWSR1 | TAF15 | TCF12 | FUS | TFG |
+|---|---|---|---|---|---|
+| pairs graded | 51 | 48 | 63 | 45 | 24 |
+| `EMITTABLE` junctions | 8 | 8 | 8 | 8 | 6 |
+| junctions yielding ≥1 fusion-specific design | **8** | **8** | **8** | **8** | **6** |
+| GC range across those designs | 37.5–75.0% | 31.2–68.8% | 25.0–56.2% | 31.2–62.5% | 25.0–50.0% |
+| provenance gate available | graded exon audit | construct-inputs self-checks only | " | " | " |
+
+⚠ *Superseded, retained: **207 pairs across four partners**, `EMITTABLE` **32**, and the statement
+in `PARTNER_ABSENCE_HINTS` that TFG could not be scored. All were true until 2026-08-12, when a CI
+fetch added TFG's transcript model (ENST00000240851) to `emc-construct-inputs.json` and the atlas
+picked it up on the next run. Nothing was recomputed differently; a partner that had been named as
+unscoreable became scoreable, which is exactly what naming it rather than dropping it was for.*
+
+**Three readings, and the third is the one worth the paper.**
+
+⚠ *Superseded, retained, and it recurs three times below: **20 of 32** unscreened. The denominator
+moved from 32 to 38 when TFG entered the atlas on 2026-08-12; the twelve screened junctions did not
+change, so the unscreened residual is 26 of 38.*
+
+**(i) Designability is not the constraint.** All **38** frame-compatible junctions yield at least one
+gapmer that is junction-spanning and a perfect complement of no parent transcript, at GC values mostly
+inside the standard comfort band. The modality's difficulty in EMC is not finding sequences.
+
+**(ii) The generalisation reproduces the established EWSR1 result rather than moving it.** Restricted to
+this repository's declared EWSR1 breakpoint window, the `EMITTABLE` set is exactly **e7, e9, e10, e12,
+e13**, with **e11 refused** as a frame-register mismatch — the corrected 2026-08-06 result, re-derived by
+donor-generic code that never mentions EWSR1. Three further EWSR1 rows (e1, e4, e15) are frame-compatible
+and sit *outside* the declared window; they are reported as arithmetic, not as clinical breakpoints.
+
+**(iii) ⭐ One oligo can be fusion-exclusive at three different partners' junctions at once.** The
+16-mer **`5′-GGGCATATCATCAAAC-3′`** (GC 43.8%, gap-centred with a gap-level margin of 3) splits **8 + 8**
+across the seam of **EWSR1 e12::NR4A3 e3**, **TAF15 e11::NR4A3 e3** *and* **FUS e10::NR4A3 e3**, and
+occurs in **none** of the five wild-type parent transcripts. The mechanism is measured rather than
+inferred: the three donors are **identical over the 8 bases immediately 5′ of their breakpoints**
+(`TGGTTTGATG`) — TAF15 and FUS are in fact identical over the whole 12-nt stored window — which is long
+enough to supply the entire donor-side contribution at all three seams. ⚠ *Superseded, retained: "the 8
+bases immediately 5′ of their breakpoints (`GTTTGATG`)."* Eight is the donor contribution of **one** of
+the five designs; they range 6 to 10, so an 8-base run would not have covered two of the five the
+sentence generalised over. The measured three-way run is ≥10. Nine
+multi-partner designs exist in total: **five** cover this same three-partner set (differing only in how
+the 16-mer is registered across the seam, 6+10 through 10+6) and four cover two partners. Of the five,
+`GGGCATATCATCAAAC` is the one with the largest gap-level margin, which is why it is the one named.
+
+**Why this is the interesting number, and why it cuts both ways.** FET-family paralogy is the reason the
+per-oligo specificity screen had to be widened from two parents to all five — a design against one
+partner's seam *can* be a perfect complement of another partner's wild-type transcript, and only a screen
+that knows about every partner can see it. The same identity that creates that liability creates the
+coverage: it is one sequence property, read twice. A reader must be able to see both from the artifact,
+and both are in it.
+
+**⭐ And the mechanism has a negative control that the atlas supplies for free — it came out right.** If
+the coverage really is FET-family paralogy, then the one partner here that is **not** a FET protein
+should be excluded from it. **TCF12 appears in no exact multi-partner set at all** — every one of the
+nine is drawn from EWSR1, TAF15 and FUS. TCF12 reaches only the weaker gap-intact category, where a match
+is tolerated mismatches in the wings. The prediction was not designed for: partner membership of the
+coverage sets was never a criterion in the ranking, and TCF12 was in the panel because it is a reported
+EMC partner, not because it was chosen as a control.
+
+**What this changes about the deliverable.** §3b.4 says the deployable artifact is a *panel* keyed to a
+sequenced breakpoint. That remains true and is now quantified — but it is no longer the only shape
+available. At one junction position, a **single stock reagent** addresses the commonest EWSR1 junction and
+the TAF15 and FUS equivalents together, which is a materially different manufacturing and regulatory
+proposition for an ultra-rare disease than *n* bespoke oligos.
+
+**Honest bounds, and they are firm.**
+
+- **Frame-compatible is not clinically reported.** This enumerates an arithmetic property of exon
+  structure. No partner-and-exon-resolved patient series exists here, so which exon pair a given patient
+  carries is not decidable from this table. The three-partner result reads: *if* a TAF15 patient's
+  breakpoint is at TAF15 exon 11 and a FUS patient's at FUS exon 10 — the positions whose donor sequence
+  is identical to EWSR1 exon 12's — then one oligo serves all three. Whether patients carry those exons is
+  a clinical observation nobody here has made.
+- **The provenance gate is weaker for the new partners, and that is disclosed per gene.**
+  [`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json) grades NR4A3 and EWSR1 only — the two
+  genes the 2026-08-06 off-by-two correction was derived against. For TAF15, TCF12 and FUS that gate
+  cannot run; what stands behind their seams is the weaker one (the transcript cache's own recorded
+  self-checks plus three sequence self-checks). Every partner row carries which gate ran.
+- ✅ **The transcriptome screen HAS now run at the two non-EWSR1 junctions the coverage result turns on
+  — see §3a-octies.** ⚠ *Superseded, retained: "The gap-resolved BLAST and uncapped 186,185-transcript
+  screens … have **not** been run on the TAF15/TCF12/FUS panels … Until they land, no statement about
+  off-target load at a non-EWSR1 junction is available, in either direction."* That was true when
+  written and is now closed for TAF15 e11 and FUS e10. It remains true for the other
+  **20** emittable junctions, none of which has been screened.
+- **TFG is a reported EMC partner with no transcript model in this repository**, so it is absent from the
+  atlas and named as absent — by the loader, at run time, rather than by a hard-coded note. ⚠ That
+  distinction is the fix, not pedantry: the first version of this asserted TFG's absence in a constant,
+  which would have gone on printing "absent" after the fetch that added it, because nothing checked. The
+  fetch is now wired (`emc_fet_construct_designs.py --refresh`, CI, symbol-resolved at Ensembl with no
+  invented accession) and nothing else is missing; until it runs, TFG has no designs here in either
+  direction.
+- Nothing here addresses potency, knockdown, delivery, tolerability, safety or clinical use.
+
+### 3a-octies. The first transcriptome screens at a non-EWSR1 junction — and the three-partner oligo screened independently at each (real, committed — 2026-08-12)
+
+The pan-partner atlas is sequence arithmetic. This section is the network-bound screen that had never
+been run outside EWSR1: the full pipeline (design → gap-resolved BLAST vs human RefSeq RNA → uncapped
+186,185-transcript evaluation) executed at **TAF15 e11::NR4A3 e3** and **FUS e10::NR4A3 e3**, alongside
+**EWSR1 e12** and **e7** re-run in the same job.
+
+**The design panels at the three junctions came back identical, oligo for oligo.** All three emit the
+same five gapmers, headed by `GGGCATATCATCAAAC`.
+
+⛔ **AND THE INDEPENDENCE THIS AGREEMENT SUPPORTS IS NARROWER THAN FIRST WRITTEN — THE CORRECTION IS
+RECORDED BECAUSE THE OVER-CLAIM WAS THE RETRACTION'S OWN ERROR REPEATED.** ⚠ *Superseded, retained:*
+"reproduced by **a different code path** — the per-junction CI design-and-screen pipeline, which knows
+nothing of the atlas and builds each chimera independently." That is false.
+[`nr4a3_fusion_atlas.py`](../modalities/nr4a3_fusion_atlas.py) **imports `junction_aso`** and calls
+`transcript_model`, `mrna_junction_generic`, `grade_junction` and `design` — the same four functions the
+CI workflow invokes. Seam construction, frame grading and tiling are **shared code and cannot fail
+independently**. Two artifacts agreeing because one implementation produced both is precisely what the
+2026-08-06 retraction was: E7::N3 and E12::N3 agreed, and the agreement was read as corroboration when a
+single defect had produced both.
+
+**What is genuinely independent is the transcript acquisition, and that is the check that counts here.**
+The atlas was built offline from the committed 2026-08-09 cache; the CI run read Ensembl live and
+recorded `ensembl+cache_agreed` for TAF15, FUS and NR4A3 — two separate acquisitions of the transcript
+model, agreeing field-for-field. By this manuscript's own standard (§3a-sexies) that is the whole test,
+and it is passed. It is not a second implementation of the design logic, and this paper must not claim
+one.
+
+| design | GC | gap-resolved BLAST: true cleavage risks | uncapped: exact | uncapped: ≤1 mm |
+|---|---|---|---|---|
+| **`GGGCATATCATCAAAC`** | **43.8%** | **8** | **0** | **1** |
+| `AGGGCATATCATCAAA` | 37.5% | 13 | 0 | 2 |
+| `CAGGGCATATCATCAA` | 43.8% | 17 | 0 | 2 |
+| `GCATATCATCAAACCA` | 37.5% | 46 | 0 | 22 |
+| `GGCATATCATCAAACC` | 43.8% | 50 | 0 | 7 |
+
+Identical at EWSR1 e12, TAF15 e11 and FUS e10 — sources
+[`junction-aso-offtarget-taf15e11n3.json`](../modalities/junction-aso-offtarget-taf15e11n3.json),
+[`-fuse10n3`](../modalities/junction-aso-offtarget-fuse10n3.json),
+[`aso-insilico-evaluation-taf15e11n3.json`](../modalities/aso-insilico-evaluation-taf15e11n3.json) and
+counterparts, on branch `modalities-cache`.
+
+**Four readings.**
+
+**(i) The multi-partner design is the cleanest of the FET-junction designs.** `GGGCATATCATCAAAC` carries
+**8** predicted true cleavage risks against 13–50 for the other four at the same junction, and against
+**12–50** at E7::N3 (§3a-sexies). ⚠ It is **not** the cleanest in the paper — TCF12 designs reach 1
+(§3a-nonies) — and the counts here are right-censored wherever they read 50. Its single ≤1-mismatch off-target in the uncapped scan is one histone transcript
+(`NM_012274.2`). Nothing forced this: coverage and off-target load are independent properties, and the
+oligo that reaches three partners could easily have been the dirtiest. It is the cleanest of the twenty
+screened.
+
+**(ii) The conclusion does not change, and that is the honest headline: 0 of 5 clean at every junction.**
+No design at any of the four junctions is free of gap-spanning near-matches. Extending to new partners
+did not find an escape from the finding §3a-sexies already reported for EWSR1 — it reproduced it. What
+the screens support is a **rank ordering** for a wet-lab specificity assay, not a clean call.
+
+**(iii) The parent-set correction was live, and it changed nothing here — which is a measurement.**
+The screen now excludes the *donor's own* transcript rather than always EWSR1's (§3a-septies). At these
+junctions **`n_parent_or_intended_hits` is 0 for every oligo**, so the widened and re-pointed parent set
+neither hid a hit nor manufactured one. ⚠ **For two of the five that zero is right-censored and must not
+be read as a measurement**: `GGCATATCATCAAACC` and `GCATATCATCAAACCA` each returned exactly 50
+near-matches, which is the BLAST hit-list cap, so a parent hit ranking below the 50th would be invisible.
+The claim holds for the three uncensored designs and is an absent reading for the other two. That is worth stating precisely because it could have gone the
+other way: the fix was made on the reasoning that a stale parent set errs in both directions at once, and
+at these junctions the error would have been zero. ⚠ The accession arm of that exclusion is inert for
+TAF15 and FUS (no verified RefSeq accession is held here), so the exclusion rested on name matching
+alone; every artifact records which arms were live.
+
+**(iv) The new partners' seams now have two independent acquisitions.** The CI run recorded
+`ensembl+cache_agreed` for TAF15, FUS **and** NR4A3 — a live Ensembl read that agreed field-for-field
+with the committed 2026-08-09 cache the atlas was built from. The atlas's seams were cache-only when
+written; they are not now.
+
+### 3a-nonies. TCF12 — the partner excluded from pan-FET coverage has the best specificity (real, committed — 2026-08-12)
+
+All **eight** emittable TCF12 junctions were then screened, completing partner coverage. TCF12 is the
+one non-FET donor in the panel, and §3a-septies' negative control already showed it is excluded from
+every exact multi-partner set. The screens show it is compensated on the other axis.
+
+| junction | designs clean (gap-resolved) | lowest true cleavage risks | designs with 0 ≤1-mm off-targets (uncapped) |
+|---|---|---|---|
+| **TCF12 e7** | 0 of the **4 successfully screened** | **1** | **4 of 5** |
+| TCF12 e9 | 0 of 5 | 2 | 2 of 5 |
+| TCF12 e11 | 0 of 5 | 3 | 1 of 5 |
+| TCF12 e3 | 0 of 5 | 4 | — |
+| TCF12 e17 / e13 / e19 / e5 | 0 of 5 (e19: of 4) | 7 / 10 / 10 / 14 | — |
+| *best across EWSR1, TAF15, FUS* | *0 of 5* | *8* | *0 of 5* |
+
+**(i) TCF12 e7 is the strongest junction on the uncapped screen.** Four of its five designs carry
+**zero ≤1-mismatch off-targets** across 186,185 transcripts — the joint-highest count in the corpus.
+⚠ *Superseded, retained: "the first time any design in this program has reached zero on the uncapped
+screen; every junction before this returned `n_candidates_zero_offtarget = 0`."* Both halves were false.
+The modelled 200/8 breakpoint reached **4 of 5** and is reported doing so in §3a-quater, and **seven of
+the eight** TCF12 junctions carry at least one such design (e7 4, e9 2, e19 2, e3/e11/e13/e17 1 each,
+e5 0). What is true is narrower and is what the table now says.
+
+**⛔ (ii) And this paper's own methodology forbids calling them clean.** The gap-resolved BLAST — the
+wider test, which admits 2-mismatch hits the ≤1-mismatch cutoff structurally cannot see (§3a-quater) —
+still returns **1–2 predicted true cleavage risks** for those same designs. This is exactly the
+divergence red-team F5 recorded at the 200/8 breakpoint, and the resolution is the one already adopted
+there: **the wider screen is the defensible one, so TCF12 e7 is 0 of 4 clean, not 4 of 5.** ⚠ One of its
+five BLAST queries failed, which is why the denominator is 4 and why it is written as *"of the
+successfully screened"* rather than *"of 5"*.
+
+**(iii) What survives is a comparative statement, and it is still worth having.** TCF12 junctions carry
+**lower predicted off-target load than any FET-partner junction** — a best of 1 predicted cleavage risk
+against a best of 8 across EWSR1, TAF15 and FUS. So the partner that cannot share the pan-FET reagent is
+the partner whose own designs look best, which is a genuine trade-off rather than a uniform ranking:
+**breadth and per-oligo specificity point at different partners.**
+
+**(iv) The parent exclusion fired for the first time.** `n_parent_or_intended_hits` is non-zero at TCF12
+**e3, e5 and e19** — four hits across three junctions — and was zero at every FET junction: the first
+hits classified as parent rather than off-target anywhere in the program. ⚠ For TCF12 the accession arm of that exclusion is inert (no verified
+RefSeq accession is held here), so this rested on name matching alone, and the artifacts record it.
+
+**Bounds, unchanged in kind.** Predicted, sequence-level, canonical transcripts, under the same
+gap-mismatch heuristic the paper reports as retired for clean calls. **All four partners are now
+screened at 12 junctions; the other 26 emittable junctions are not**, and no **exon-resolved** TCF12 breakpoint is
+available — TCF12::NR4A3 fusions are reported in patients (PMID 11156374; PMID 12598313, TCF12-TEC in 1
+of 10 EMCs) but not at the exon resolution these designs require. Nothing here addresses potency, knockdown,
+delivery, tolerability or clinical use, and the conditional in §3a-septies stands: this speaks to TAF15
+and FUS patients only if their breakpoints fall at the homologous exons, which nobody here has shown.
+
 ### 3b. What is specifiable now, without any GPU
 
 All of the following are CPU-only and need no new GPU/compute run; they are specified, not executed, in
@@ -935,22 +1114,26 @@ this draft:
    **`gap_specificity_margin`** (junction-unique bases *inside* the 6-nt catalytic gap on the shorter side) and
    a `gap_centered` flag, and ranks by it — the operative discriminator, retiring the overstating oligo-wide
    `specificity_margin` (committed in every real-junction design JSON). What remains specifiable (not yet run)
-   is the **wider-window, multi-length tiling** (14–20-mers, both 5-6-5 and 5-10-5), which the panel above
-   (§3a-quinquies) motivates directly: since clean 16-mer gapmers are the exception, a 5-10-5 20-mer sweep is
-   the most promising lever to convert the 1–3-residual-risk junctions (E9/E10/E12) into clean designs.
-2. **Genome-wide off-target complementarity screen (CPU) — DONE for the modelled breakpoint (§3a-bis i).**
-   The current design-time check only confirms an oligo is not a *perfect* complement of the two parent
-   CDSs; a real specificity claim requires a transcriptome-wide near-match search with gap-region weighting
-   (RNase-H tolerates wing mismatches more than gap mismatches). **This has now been run** (blastn-short vs
-   The current design-time check only confirms an oligo is not a *perfect* complement of the two parent
-   CDSs; a real specificity claim requires a transcriptome-wide near-match search with gap-region weighting
-   (RNase-H tolerates wing mismatches more than gap mismatches). **This has now been run** on the modelled
-   reference junction (poor — §3a-bis), the favorable modelled 200/8 junction (§3a-quater), **and — closing
-   the red-team's lead gap — on the real recurrent EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions
-   (§3a-quinquies)**, built exon-exact from Ensembl structure via the companion `fusion_breakpoints.py`. The
-   real junctions are markedly more GC-favorable than the modelled reference and yield a predicted-clean
-   gapmer at E7::N3; the remaining specifiable items are now the gap-centred re-tiling (§3b.1) and screening
-   any *additional* in-frame patient breakpoints as they are sequenced.
+   is the **wider-window, multi-length tiling** (14–20-mers, both 5-6-5 and 5-10-5), which the corrected
+   panels motivate directly: since **no** 16-mer gapmer at any screened junction is predicted clean, a
+   5-10-5 20-mer sweep is the most promising remaining lever on off-target load.
+   ⚠ *Superseded, retained: "to convert the 1–3-residual-risk junctions (E9/E10/E12) into clean designs."*
+   Those residual-risk figures came from the retracted panel; E9 and E10 were never computed at the
+   corrected seam, and corrected E12's lowest load is 8, not 1–3.
+2. **Genome-wide off-target complementarity screen (CPU) — DONE, and now at twelve real junctions.**
+   ⚠ *This item previously carried a paragraph duplicated verbatim, the first copy truncated mid-sentence
+   at "(blastn-short vs" — a text corruption, removed 2026-08-12.* The design-time check only confirms an
+   oligo is not a *perfect* complement of its parent transcripts; a real specificity claim requires a
+   transcriptome-wide near-match search with gap-region weighting, because RNase-H tolerates wing
+   mismatches more than gap mismatches. That has been run on the modelled reference junction (poor —
+   §3a-bis), the favorable modelled 200/8 junction (§3a-quater), and on **twelve real exon junctions
+   across all four partners** (§3a-sexies, §3a-octies, §3a-nonies).
+   ⛔ *Superseded, retained: "The real junctions are markedly more GC-favorable than the modelled
+   reference and yield a predicted-clean gapmer at E7::N3."* The GC half survives; the clean-gapmer half
+   is **contradicted by the corrected screen** — E7::N3's lowest predicted cleavage load is 12, and no
+   design at any of the twelve junctions is predicted clean. The remaining specifiable items are the
+   gap-centred re-tiling (§3b.1), the 20 unscreened frame-compatible junctions, and any additional
+   patient breakpoints as they are sequenced.
 
    **Per-breakpoint feasibility scan — DONE (§3a-ter), and the favorable-breakpoint screens are now DONE too
    (§3a-quater).** The sensitivity sweep over 390 modelled breakpoints has been run and committed
@@ -1090,6 +1273,149 @@ No delivery claim is made; this section exists to mark delivery as the dominant 
 targeting-arm unknown from "none named" to a data-ranked shortlist**, and to point at the EMC lines that could
 confirm it — not to assert a solution.
 
+### 3c-bis. Delivery is three routes with different requirements, not one gate — and only one of them needs the antigen (2026-08-12)
+
+⛔ **THE PRECEDING SECTION IS CORRECT AND ITS SUMMARY HAS BEEN MIS-STATED — INCLUDING BY THIS
+REPOSITORY'S OWN PORTFOLIO GRAPH.** §3c already lists **local/intratumoural administration first**,
+explicitly because it is *"the only delivery hypothesis here that needs **no** EMC-specific surface
+marker"*. Yet the route is carried in [`systems/graph/blockers.json`](../../systems/graph/blockers.json)
+under a single `BLK-DELIVERY` of kind `requires_future_technology`, retired only by a capability whose
+own definition is systemic — *"a conjugate, tumour-penetrating peptide or ligand-targeted lipid
+nanoparticle — OR a characterised EMC-enriched surface antigen"* — with a forecast of **2029**. A
+monolithic blocker takes the hardest route's requirement and applies it to the modality. **The antigen
+that the tissue data has refused (§3c, `aso-delivery-antigen.json`) is a prerequisite of exactly one of
+the three routes below, and it has been gating all three.**
+
+The retrieval record for this section is [`aso_delivery_routes.py`](./aso_delivery_routes.py) →
+[`lit-targets-aso-delivery-routes.json`](./lit-targets-aso-delivery-routes.json), $0, read from corpora
+already published to the `literature-cache` branch. **A record there is evidence the record exists. It
+is not evidence that any route works, and none of the counts below is used to claim a gate is passed.**
+
+| route | needs an EMC surface antigen? | what the retrieval finds | what is still unknown |
+|---|---|---|---|
+| **R1 · local / intratumoural** | **no** | 37 records. ⚠ Read narrowly: a 2025 review of pulmonary siRNA delivery lists *"intratumoral injections, implantable depots, inhalable aerosols, and image-guided procedures"* among localised oncology approaches and notes that direct **drug** delivery is already widely applied in liver, eye, peritoneum, breast, joint, coronary and brain disease (**PMID 41658564**) — that is a statement about localised administration generally, **not** evidence that intratumoural *oligonucleotide* dosing is established | reaches accessible lesions only — not a strategy for disseminated disease |
+| **R2 · inhaled / pulmonary** | **no** | **68 records** on inhaled or intratracheal oligonucleotide delivery to lung tumours, against **684** on inhaled oligonucleotide delivery outside oncology, including repeated demonstrations of gene silencing *in tumours metastatic to the lung* | deposition and uptake in a matrix-dominated EMC nodule is untested; see the bounds below |
+| **R3 · systemic receptor-targeted (AOC / ligand-NP)** | **yes** | the platform exists in other indications | **no EMC antigen survives the tissue test** (§3c) — this route, and only this route, is blocked on the missing input |
+
+**⭐ R2 is the route this disease's own natural history points at, and nobody in this program had asked
+about it.** Three readings, from three independent kinds of source, agree that EMC's distant spread is
+**lung-dominant**:
+
+1. **This repository's pooled denominator**, owned by
+   [`emc-locoregional-eligibility.json`](../modalities/emc-locoregional-eligibility.json) and not
+   re-derived here: **36.3%** (94/259, Wilson 95% CI 30.7–42.3%) of localised patients develop distant
+   disease across three non-overlapping series.
+2. **Site, where any cohort records it.** The registry's metastatic-at-diagnosis cohort reports
+   **27 lung and 2 peritoneal metastases in 29 patients**. ⚠ That is a *free-text note in one cohort*,
+   not a curated field, and it is a presenting population rather than a pooled site distribution — the
+   limitation is stated at source and is why this is listed as one reading among three rather than as
+   the answer.
+3. **An external review, retrieved rather than recalled.** A 2025 comprehensive EMC review states that
+   distant metastases develop in *"around 35-45% of patients, primarily in the lungs"*, with median time
+   to metastasis *"approximately 28 months"* (**PMID 41055792**). The rate agrees with (1) from a
+   completely different aggregation, and the site statement is the one this repository could not compute.
+
+⭐ **And the ~28-month median matters as much as the site does.** A delivery route needs a *window*, and
+a disease whose metastases appear over years rather than weeks is one where a lung-directed strategy has
+time to be applied. A large retrospective cohort separately observed a trend to better survival for
+**solitary** lung metastases (**PMID 32612944**) — consistent with, though not evidence for, the premise
+that lung-confined disease in EMC is a meaningful clinical category.
+
+So the organ this modality can be delivered to *without solving targeting* is the organ this disease
+goes to, on a timescale long enough to act. ⚠ **What none of these three establishes is the number that
+would actually size the route**: what fraction of metastatic EMC patients are lung-**confined**. That
+requires lesion-burden curation no published series provides, is recorded as open in
+`emc-locoregional-eligibility.json`, and is not asserted here in either direction.
+
+**What the retrieved record actually supports, at its true weight.** Inhaled and intratracheal
+oligonucleotide delivery is not a hypothetical route: dry-powder, nebulised and nanocarrier siRNA
+formulations have repeatedly produced **specific gene silencing in tumours already growing in the lung**
+in animal models — *"strong and specific gene silencing activity against tumors metastasized to the
+lungs"* at a 3 µg dose (**PMID 29627404**), silencing quantified histologically and separately in
+airways, parenchyma **and** lung tumours (**PMID 26138669**), and increased survival treating
+*established* lung metastases (**PMID 31481310**). Reviews describe the respiratory system as suited to
+direct delivery by *"large surface area, rich vascularization, and anatomical accessibility"*
+(**PMID 41658564**), and the formulation and barrier literature — mucociliary and cough clearance,
+alveolar macrophage clearance — is mature enough to have its own reviews (**PMID 28392618**).
+
+**⛔ And the bounds, which are wide and are the reason this is a section and not a claim.**
+
+- **No EMC.** Not one retrieved record concerns EMC, and none concerns a sarcoma lung metastasis. Every
+  result above is another tumour type in a mouse.
+- **The barrier is real and untested here.** An EMC pulmonary metastasis is a **parenchymal, hypocellular,
+  matrix-dominated nodule**, not airway-surface disease. Deposition, penetration from the airway lumen
+  into such a nodule, cellular uptake and endosomal escape are all unaddressed by a literature count.
+  ⚠ EMC's myxoid matrix is a specific reason for caution, not a generic one: this repository has already
+  closed one route on the arithmetic that a modality *dosed per unit volume but delivered per cell* is
+  penalised in a tumour with few cells per unit volume.
+- **The models flatter the route in one direction and understate it in another, and both are recorded.**
+  ⚠ Lung-metastasis models made by intravenous cell injection grow *from the vascular side*, so an inhaled
+  formulation reaching the epithelial side may be **under**-estimated — stated in the source that raises
+  it (**PMID 30954524**). Against that, mouse airway geometry and a single-dose murine readout flatter
+  deposition relative to a human lung.
+- ⭐ **CORRECTED, AND IN THE DIRECTION THAT HELPS: THE INHALED OLIGONUCLEOTIDE ROUTE HAS REACHED
+  PATIENTS — REPEATEDLY, AND WITH AN ASO.** ⚠ *Superseded, retained: "Only 3 of the 68 records carry
+  clinical-stage language at all … No inhaled oligonucleotide against a solid-tumour target is claimed
+  here to have reached patients."* The first clause was an artifact of a partial corpus — the broad
+  inhaled-delivery fetch had not published when it was written, and **52** of the retrieved
+  inhaled-route records carry clinical-stage language. The second clause was true only because of its
+  final six words, and stating it that way understated the route. Retrieved, and each is a distinct
+  agent in a distinct indication:
+  - **SPL84**, an **inhaled antisense oligonucleotide**, phase 1, 32 healthy volunteers, single
+    inhaled dose across four escalating cohorts (**PMID 39500647**). ⚠ **It is a splice-switching
+    (steric-block) ASO**, targeting a CFTR cryptic-exon splicing defect — *not* an RNase-H1-active
+    gapmer. It establishes that an inhaled ASO can be formulated and dosed in humans; it does not
+    establish that for this paper's mechanism, whose chemistry and gap requirement differ.
+  - **SNS812**, *"First in Human Fully Modified siRNA"*, inhaled, phase 1 single- and multiple-ascending
+    dose in healthy participants (**PMID 40116355**).
+  - **MIR 19 / siR-7-EM/KK-46**, inhaled siRNA, an open-label randomised controlled multicentre
+    **phase 2b-3** trial (**PMID 40028836**, NCT05783206).
+  - **TRK-250**, inhaled siRNA, phase 1 in 34 **patients** with idiopathic pulmonary fibrosis
+    (**PMID 37738329**).
+
+  ⛔ **What this does and does not license.** It establishes that inhaled oligonucleotides can be
+  formulated, aerosolised, dosed and tolerated **in humans** — the route is not a preclinical
+  curiosity, and the pharmaceutical questions this paper cannot answer have been answered in some
+  other indication by someone. It establishes **nothing** about reaching a tumour: every agent above
+  targets airway epithelium, lung parenchyma or a virus in the airway, which is the compartment
+  inhalation naturally reaches. **A metastatic sarcoma nodule is not that compartment**, and no
+  retrieved record concerns a solid-tumour target, a sarcoma, a fusion transcript, or EMC. The gap
+  between "the route works in people" and "the route reaches an EMC lung metastasis" is the whole
+  remaining question, and it is untouched.
+- **Silencing a reporter or a pathway gene is not silencing a fusion.** Every retrieved lung result
+  targets a conventional gene. The junction-specific mechanism this paper is about has never been
+  delivered by this route.
+
+**⭐ R4 — and this is the answer to "is anyone else solving this for us?"** Partly, and in the two places
+that matter most to this paper.
+
+- **A fusion-directed siRNA has been delivered systemically to a sarcoma tumour in an animal.** Cationic
+  hydrogenated detonation nanodiamonds carried an **anti-EWS-FLI1 siRNA into a Ewing sarcoma xenograft**,
+  with tritium labelling used to measure biodistribution and excretion, and *"siRNA directed against
+  EWS-FLI1 inhibited this oncogene expression in tumour xenografted on mice"* (**PMID 32204428**). This is
+  a soft-tissue/bone sarcoma, not a liver, and the payload is fusion-directed — the two properties GalNAc
+  precedent (§1a vi) does not have. ⚠ It is a mouse xenograft with a nanoparticle platform, not a
+  clinical delivery solution, and it is one report.
+- **⛔ AND THE EXPERIMENT §4 ASKS FOR HAS ALREADY BEEN RUN — IN A DIFFERENT RARE SARCOMA, WITH THE EXACT
+  CONTROL ARCHITECTURE THIS PAPER SPECIFIES.** In solitary fibrous tumour, isogenic cell models were
+  CRISPR-engineered to carry the **NAB2::STAT6** fusion, and **fusion-specific ASOs** were then evaluated
+  against them, reducing fusion expression by **58%** and cell proliferation by **22%** in vitro
+  (**PMID 37370737**). ⚠ **The tumour-growth reduction reported in that study belongs to its
+  AAV2-CRISPR/CasRx arm, not to the ASO**, and is not claimed here. That is §4's design —
+  fusion-specific ASO, engineered fusion-positive/fusion-negative isogenic pair, knockdown plus
+  phenotype — executed end-to-end in a rare soft-tissue sarcoma. **It is not our result and
+  we claim nothing from it**; what it establishes is that §4 is a *routine, published, executable
+  protocol* rather than a speculative ask, which is the single most useful thing an outreach letter can
+  say to a lab deciding whether to spend a technician-month on an ultra-rare disease.
+
+**What follows, and it is a change in sequencing rather than a claim of progress.** The correct statement
+is not *"delivery is solved"* and not *"delivery is a 2029 technology"*. It is: **two of the three
+delivery routes for this modality do not depend on the input EMC lacks, one of them is matched to where
+this disease actually spreads, and the paper's decisive experiment (§4) is worth running before any of
+them is settled** — because a junction-ASO that cannot silence the fusion in an EMC cell is not worth
+delivering by any route, and one that can is worth the delivery work. **Delivery gates the therapy. It
+does not gate the experiment, and it should not have been gating the paper.**
+
 ---
 
 ## 4. The decisive experiment we ask others to run
@@ -1121,6 +1447,27 @@ occurs, so that "spared" is a real negative and not an insensitive assay. The ph
 controls the experiment converts five sequences and a mechanism into evidence; without them it can show
 on-target knockdown and EMC-cell killing but cannot *prove* the wild-type transcripts are spared. It needs no
 new molecule beyond synthesising the listed oligos and the engineered/isogenic models above.
+
+**⭐ One reagent worth prioritising, and why it is the highest-information single oligo in the paper.**
+If only a handful of sequences can be synthesised, **`5′-GGGCATATCATCAAAC-3′`** (§3a-septies) is the one
+to make first. It is gap-centred, sits at 43.8% GC, and is predicted junction-spanning and
+parent-sparing at **EWSR1 e12::NR4A3 e3, TAF15 e11::NR4A3 e3 and FUS e10::NR4A3 e3** simultaneously. That
+makes it a single experiment that tests the paper's central mechanism *and* its most surprising
+structural prediction at once: if it silences the fusion in an EWSR1 e12 line, the mechanism holds; if it
+also silences a TAF15 or FUS fusion at the homologous junction, the shared-donor-run prediction holds and
+a stock reagent — rather than a bespoke panel — becomes the realistic deliverable for an ultra-rare
+disease. **If it fails at one partner and works at another, that is informative too**, and it is exactly
+the discriminating result no amount of further sequence analysis here can produce. ⚠ The multi-partner
+prediction assumes patients carry breakpoints at those homologous exons, which is not established
+(§3a-septies bounds); a line carrying a different TAF15 exon tests nothing about this oligo.
+
+**⭐ This experiment is a published protocol, not a speculative ask — say so in the letter.** The same
+design (fusion-specific ASO, CRISPR-engineered isogenic fusion-positive/negative pair, knockdown plus
+growth readout) was executed in **solitary fibrous tumour** against **NAB2::STAT6**, giving 58% reduction
+in fusion expression and a 22% reduction in proliferation in vitro (**PMID 37370737**, §3c-bis; the
+tumour-growth reduction in that study is attributable to its CRISPR/CasRx arm) — in a rare soft-tissue
+sarcoma, with the very controls the red-team required here. A lab weighing a technician-month on an
+ultra-rare disease is being asked to repeat a routine protocol on a new fusion, not to invent one.
 
 **Named recipients — the outreach ask (preprint-stage action).** This is no longer an abstract "someone should
 run it": two groups now hold patient-derived EMC lines and screen drugs on them — the **USZ / University
@@ -1183,15 +1530,32 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
   hand-chosen thresholds, so 62% is an **upper bound on *designable* positions, not a real-patient breakpoint
   frequency**; (ii) "favorable" requires only that a triage-passing in-band design *exists* — and triage is
   **not** the off-target screen (the 200/8 worked example shows the scan's own in-band pick failing the BLAST
-  screen, §3a-ter/§3a-quater). ⛔ **Caveat (iii) — that the screens had only run on modelled positions —
-  is OPEN, not addressed.** *Superseded, retained: "has now been **addressed**: the full pipeline was
-  run on the real EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions (§3a-quinquies), which are more
-  GC-favorable than the modelled grid and yield a predicted-clean gapmer at E7::N3 (E12::N3 needs
-  per-oligo selection)."* Those runs used a seam graded `SEAM_NOT_PRODUCED`, so **every screen in this
-  manuscript has still only run on modelled positions.** Every clinical design must still be
-  re-derived from the patient's *sequenced* fusion transcript.
-- **Delivery unsolved.** No validated tumour-delivery route for EMC exists; §3c lists hypotheses only. This
-  is the dominant risk for the whole modality.
+  screen, §3a-ter/§3a-quater). ✅ **Caveat (iii) — that the screens had only run on modelled positions — is CLOSED.**
+  ⚠ *Superseded, retained, and it was true only of the retracted panels: "Those runs used a seam graded
+  `SEAM_NOT_PRODUCED`, so every screen in this manuscript has still only run on modelled positions."*
+  Twelve real exon junctions across four partners have since been screened (§3a-sexies, §3a-octies,
+  §3a-nonies) at seams graded frame-compatible and verified against two independent transcript
+  acquisitions. **The residual is different and smaller: 26 of the 38 frame-compatible junctions remain
+  unscreened.** Every clinical design must still be re-derived from the patient's *sequenced* fusion
+  transcript.
+- **Delivery unsolved — and it is three routes, not one gate (§3c-bis).** No validated tumour-delivery
+  route for EMC exists, and this remains the dominant risk for the whole modality. What is corrected is
+  the *shape* of the risk, not its size: the missing EMC surface antigen gates the **systemic
+  receptor-targeted** route only, while local/intratumoural and inhaled/pulmonary administration need no
+  antigen. Inhaled oligonucleotide delivery producing gene silencing in lung tumours is an active
+  preclinical field in **other** tumour types, in **animals**; no retrieved record concerns EMC, a
+  sarcoma lung metastasis, a fusion target, or a patient, and an EMC pulmonary metastasis is a
+  hypocellular matrix-dominated parenchymal nodule whose penetration and uptake properties are untested.
+  **This changes what should be attempted first. It does not move the modality closer to a patient.**
+- **The pan-partner atlas is exon arithmetic, not clinical epidemiology (§3a-septies).** It grades what
+  is frame-compatible; no partner-and-exon-resolved patient series exists here, so the three-partner
+  oligo result is conditional on breakpoints falling at homologous exons — an assumption nobody in this
+  program has tested. ⚠ *Superseded, retained: "The transcriptome-wide off-target screens have **not**
+  been run on the TAF15/TCF12/FUS panels, so nothing about their off-target load is known in either
+  direction."* They have (§3a-octies, §3a-nonies): TAF15 e11, FUS e10 and all eight TCF12 junctions are
+  screened. What remains true is that **26 of 38 frame-compatible junctions are unscreened**, and that
+  the provenance gate behind the three non-EWSR1 partners' transcript models is the weaker of the two
+  available.
 - **Knockdown, not knockout.** ASO/siRNA reduce transcript; they do not eliminate the gene or guarantee
   durable, complete loss of fusion protein. Depth and duration of knockdown are empirical.
 - **⛔ THE PAPER NO LONGER CALLS ANY DESIGN "PREDICTED CLEAN", AND THE HEURISTIC THAT ALLOWED IT WAS NOT
@@ -1506,10 +1870,13 @@ being shown it.
   targeting arm was supplied by a receptor conjugate. ⚠ ASGPR/GalNAc is hepatocyte-directed and is **not**
   available to a soft-tissue sarcoma, so this bears on §3c as evidence that the delivery gate is passable in
   principle, **not** as a route for EMC.
-- **Clinical stage.** **PMID: 27166877 · PMC5023384 · doi:10.1038/mt.2016.93** — bi-shRNA EWS/FLI1 lipoplex,
-  which *"targets the identical type 1 translocation junction region of the EWS/FLI1 transcribed mRNA"*, taken
-  through IND-enabling work; follow-through in patients at **PMID: 36780200 · PMC10150239**. Review, 2026:
+- **Preclinical stage.** **PMID: 27166877 · PMC5023384 · doi:10.1038/mt.2016.93** — bi-shRNA EWS/FLI1
+  lipoplex, which *"targets the identical type 1 translocation junction region of the EWS/FLI1
+  transcribed mRNA"*, taken through IND-enabling work and arguing for clinical testing. Review, 2026:
   **PMID: 42110475 · PMC13156592 · doi:10.1016/j.omton.2026.201213**.
+  ⚠ *Superseded, retained: "**Clinical stage** … follow-through in patients at PMID: 36780200"
+  (corrected 2026-08-12). PMID 36780200 is Vigil, a bi-shRNA against* furin*, not against EWS/FLI1
+  — see §1a(v).*
 - **What the search did NOT find, with the accounting that makes it auditable.** No junction-directed
   oligonucleotide against **EWSR1::NR4A3**, or against any NR4A3 fusion. Across the two corpora — 5,385 rows,
   **5,153 unique records** — EWSR1::NR4A3 is named in **4 rows (3 distinct papers) and none carries an
@@ -1602,3 +1969,163 @@ refreshed by GitHub Actions on the `modalities-cache` branch):
 
 No GPU computation was performed for this draft (the RNase-H1 cleavage-discrimination MD of §8 is the one
 planned GPU experiment; all results above are CPU, via GitHub Actions → `modalities-cache`).
+
+
+---
+
+## Appendix A — retraction and correction record (2026-08-06)
+
+*Moved here from the head of the manuscript. Retained verbatim: rule 1.2 of this repository's
+maintenance contract requires that a superseded number is registered rather than dropped, and an
+appendix is where that bookkeeping belongs — not in the running text, where the old values read as
+current.*
+
+> # ⛔⛔ RETRACTION — THE REAL-EXON HALF OF THIS MANUSCRIPT (2026-08-06)
+>
+> **NOT SUBMITTABLE IN ITS CURRENT STATE. Every design, GC value, off-target count, seam and
+> headline gapmer attributed below to a "real" EWSR1 exon-*n* :: NR4A3 exon-3 junction is
+> RETRACTED and must not be quoted.** The codon-space modelled half of the paper (§3a, §3a-bis,
+> §3a-ter, §3a-quater, the 390-breakpoint scan and the 200/8 screens) is **untouched by this** —
+> it never used the exon index. What falls is §3a-quinquies and every sentence that leans on it.
+>
+> **What went wrong, measured.** `junction_aso.py`'s `FUSION_JUNCTION_MODE=real` path indexed a
+> table keyed by **coding** exon with a **transcript** exon number. NR4A3 `ENST00000395097` has 8
+> transcript exons of which 1 and 2 carry no coding sequence, so the label "NR4A3 exon 3"
+> addressed the third *coding* exon. The committed seam `TTGTCCGTACAG` sits at **NR4A3 CDS nt
+> 1081**, i.e. NR4A3 resuming at **residue 361** — bit-for-bit the value
+> [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json) grades
+> **`SEAM_NOT_PRODUCED`**, against a corrected
+> `nr4a3_resume_range_across_plausible_breakpoints` of **[1, 1]** in
+> [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json). So those panels
+> describe a chimera missing NR4A3 residues 1–360 — AF1 and the first zinc finger of the C4 DBD,
+> which opens at C292 — that no plausible breakpoint in the declared windows produces.
+> Primary record: [`systems/AUDIT-2026-08-06-routes.md`](../../systems/AUDIT-2026-08-06-routes.md)
+> finding **X14**.
+>
+> **⚠ Why this manuscript could not catch it, and it is the transferable lesson.** The **EWSR1
+> side reproduced correctly throughout** (EWSR1 transcript exon 1 *is* coding, so rank equals
+> coding index there). The E7::N3 and E12::N3 panels therefore agreed with each other, and §3a-quinquies
+> read that agreement as corroboration — *"Both share the NR4A3 exon-3 right-side seam … **as
+> expected**."* **Two artifacts agreeing is not evidence when one defect produces both.**
+>
+> **⭐ A second reading, taken 2026-08-06, that the paper had already recorded without knowing it.**
+> §3a-quinquies flags E11::N3 as an unexplained no-output and offers *"most likely … our exon
+> indexing for EWSR1 exon 11 → NR4A3 exon 3 may not be in-frame as joined."* That guess was wrong
+> and the real cause is arithmetic. Under the defective index the chimeric CDS is in frame exactly
+> when the EWSR1 cut offset ≡ 1081 ≡ 1 (mod 3). Read off the committed exon audit
+> ([`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json)): e7 793, e9 1012, e10 1045,
+> e12 1294, e13 1417 are all ≡ 1 — and **e11 1164 ≡ 0**. The set of junctions the pipeline emitted
+> ({7, 9, 10, 12, 13}) and the single one it refused ({11}) are **exactly** what the off-by-two
+> predicts. The "integrity flag" was the defect announcing itself, and it was read as an exon-boundary
+> uncertainty for a month.
+>
+> **⛔ Three panels this manuscript cites have never existed.** §3a-quinquies claims a "full
+> recurrent-junction panel (now run, real, committed — 2026-07-03)" over
+> `junction-aso-offtarget-e{9,10,13}n3.json` and `junction-sirna-designs-e{7,9,10,12,13}n3.json`.
+> ⛔ **CORRECTED 2026-08-08 — THIS SEARCH WAS WRONG, AND THE FILES EXIST.** ⚠ *Superseded,
+> retained:* "Searched 2026-08-06: **none of those filenames is present on `origin/main`, on
+> `origin/modalities-cache`, or in any commit reachable from this clone's refs.** Only the E7::N3
+> and E12::N3 files exist, and those six are the ones carrying `_RETRACTED_SEAM` banners."
+> **Measured 2026-08-08 at the tip of `origin/modalities-cache`: THIRTEEN of them are there** —
+> `junction-aso-designs-e{10,13}n3.json`, `junction-aso-offtarget-e{9,10,13}n3.json`,
+> `aso-insilico-evaluation-e{9,10,13}n3.json` and `junction-sirna-designs-e{7,9,10,12,13}n3.json` —
+> added by commit `30eb5684` on **2026-07-03**, the single CI commit from `aso-offtarget.yml` that
+> created all thirteen, and unmodified since. Only `junction-aso-designs-e9n3.json` is genuinely
+> absent. **The 2026-08-06 search was run in a clone that had not fetched the branch**, so it
+> reported an unfetched ref as an empty one: an absent reading read as a reading of absence, in the
+> one place where it became a published claim about what a reader can check.
+> **What does NOT change is the withdrawal.** Every quantitative statement sourced to E9/E10/E13 —
+> the siRNA GC ranges, "a fully-clean 16-mer gapmer appears at 1 of 5 junctions", and the
+> gapmer+siRNA panel-coverage conclusion — stays withdrawn, and now on the STRONGER of the two
+> grounds rather than the weaker: those files do not merely fail to be readable, they are readable
+> and **carry the retracted acceptor seam `TTGTCCGTACAG`** (NR4A3 CDS nt 1081, residue 361) against
+> the corrected `ATATGCCCTGCG`. All thirteen were graded and bannered
+> `⛔_RETRACTED_SEAMS` by [`junction_seam_retraction.py`](../modalities/junction_seam_retraction.py),
+> whose sweep now runs inside `aso-offtarget.yml`'s publish step so the branch's owner cannot
+> republish an unbannered one.
+>
+> **What is owed, and its state.** ⚠ *Superseded, retained (the state as of the morning of
+> 2026-08-06):* `junction_aso.py` was corrected (twice — see the two-defect block
+> in that module) and the corrected real-exon mode is built and unit-tested. Regeneration needs a
+> live Ensembl read, which the dev sandbox's egress proxy refuses (measured 2026-08-06:
+> `CONNECT tunnel failed, response 403` to `rest.ensembl.org`), so it must run in CI —
+> `emc-expression-datasets.yml` `mode: aso-junction`. **Until that run lands, the corrected seam,
+> the corrected GC values and the corrected off-target load are UNKNOWN.** They are not "expected
+> to be similar"; the entire NR4A3 half of every oligo changes, and every oligo in this panel
+> spans the seam by construction, so **not one design survives**.
+>
+> # ✅ REGENERATED, AND THE RETRACTION IS LIFTED FOR THE TWO PANELS THAT EXIST (2026-08-06, later the same day)
+>
+> **What is now measured, and what is still withdrawn — read both halves.**
+>
+> **(a) The seam.** The corrected junction resumes NR4A3 at **residue 1**, inside the corrected
+> plausible range **[1, 1]**. The corrected mRNA seams are
+> **`ACGGGCAGCAGA|ATATGCCCTGCG`** (E7::N3) and **`AATGGTTTGATG|ATATGCCCTGCG`** (E12::N3), against
+> the retracted `…|TTGTCCGTACAG` both panels shared.
+>
+> **(b) The thing the earlier block could not state, because it needed one number nobody had
+> measured.** A fusion transcript retains the acceptor exon WHOLE, 5′UTR included, so the register
+> is set by the donor cut *and* by however many NR4A3 exon-3 bases sit 5′ of NR4A3's own ATG — call
+> it *U*. `junction_aso.py`'s two-defect block records *U* as unknown from any artifact in this
+> repo. That was true of [`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json), which
+> records coding nt per exon only, and **false of the repo**:
+> [`emc-construct-inputs.json`](../modalities/emc-construct-inputs.json) carries the spliced cDNA,
+> per-exon lengths and `utr5_len` for both genes, fetched from the same Ensembl endpoint on
+> 2026-08-03 with its own self-checks recorded. **Measured: NR4A3 transcript exons 1–2 end at cDNA
+> nt 697 and the CDS starts at nt 699, so *U* = 2.** Independent cross-check inside the same
+> file: exon 3 is 953 nt and the exon audit records 951 CODING nt in it, and 953 − 951 = 2.
+>
+> **(c) That resolves a caveat this repo had recorded as open, and it changes the answer by a
+> residue.** EWSR1 exon 7 ends at coding nt 793 = 264 whole residues **+ 1 nt**, so (793 + 2) mod 3
+> = 0: the chimeric ORF is in frame **and** the leftover EWSR1 nucleotide plus the two retained
+> acceptor-UTR nucleotides form a codon belonging to **neither parent**. At E7::N3 that codon is
+> `AAT` = **Asn**, so the protein seam is `…SQQSSSYGQQ-**N**-MPCVQAQYSP…`. One home for the
+> resolution: [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json) →
+> `gate._phase_note_resolution`.
+>
+> **(d) And it inverts the E11::N3 arithmetic, which is the sharpest check available that the
+> correction is the right one.** Under the *defective* index the chimeric CDS was in frame exactly
+> when the EWSR1 cut ≡ 1 (mod 3) — admitting e7/e9/e10/e12/e13 and refusing **e11**. Under the
+> corrected mRNA-level model the condition is (cut + 2) ≡ 0 (mod 3) — which admits **e7 and e12,
+> the two junctions this manuscript leads with**, and now refuses **e11**. Both models refuse e11
+> and for different arithmetic; the corrected one restores exactly the junctions the defective one
+> was accidentally admitting. Every declared exon pair is graded in
+> [`junction-mrna-frame-audit.json`](../modalities/junction-mrna-frame-audit.json) — the table this
+> lane never had, which designs nothing and refuses out loud.
+>
+> **(e) Two independent reads agree, and this time they can fail independently.** The BLAST screen
+> ran on a GitHub-hosted CPU runner from a **live Ensembl read** (2026-08-06); the audit, the design
+> panels and the artifact headers were rebuilt offline from the **2026-08-03 committed cache**. The
+> two produce **byte-identical designs and an identical measured junction**. That is the check the
+> retracted panels never had: E7::N3 and E12::N3 agreeing was one defect producing both, whereas
+> these are two separate acquisitions of the transcript model.
+>
+> **(f) STILL WITHDRAWN — but for a different and stronger reason than this paragraph gave.**
+> ⚠ *Superseded, retained:* "The E9/E10/E13 panels and the `junction-sirna-designs-e*n3` files **do
+> not exist** and were never regenerated, because there was nothing to regenerate." **Twelve of the
+> thirteen do exist**, on `origin/modalities-cache` since 2026-07-03 (only
+> `junction-aso-designs-e9n3.json` is genuinely absent); the search that concluded otherwise had not
+> fetched the branch — see the correction above. They were not regenerated, which is the true half
+> of the sentence, and they carry the retracted acceptor seam, which is why every statement sourced
+> to them — the siRNA GC ranges, *"a fully-clean 16-mer gapmer appears at 1 of 5 junctions"*, and
+> the gapmer+siRNA panel-coverage conclusion — remains withdrawn. They are now withdrawn as
+> **measurably wrong** rather than as unverifiable, and all thirteen carry a `⛔_RETRACTED_SEAMS`
+> banner saying so in the file itself. **The corrected panel still covers 2 junctions, not 5.**
+> ⚠ The three E9/E10/E13 junctions are graded **EMITTABLE** under the corrected model
+> ([`junction-mrna-frame-audit.json`](../modalities/junction-mrna-frame-audit.json)), so they COULD
+> be rebuilt; until they are, nothing about them may be quoted.
+>
+> **(g) The corrected result does not restore the retracted headline — it refutes half of it.** See
+> §3a-sexies. Chemistry improves at the real seams; predicted specificity does **not**, and the
+> retracted *"a gapmer predicted clean on both screens at E7::N3"* is contradicted by the corrected
+> screen. Delivery (§3c) remains the dominant gate and nothing here speaks to potency, knockdown,
+> tolerability or clinical use.
+>
+> **What survives the retraction** — narrower than the paper's current framing and stated at full
+> strength: the *rationale* (a breakpoint mRNA seam present only in the chimera) is a sequence
+> argument that does not depend on which exon pair is right; the codon-space screens and the
+> 390-breakpoint scan are unaffected; and `junction_breakpoint_scan.py` was never implicated,
+> because it deliberately refuses the exon→CDS mapping and works in codon space. ⚠ *Superseded,
+> retained: the earlier and broader claim that "the ASO lane is unaffected" by the 2026-08-03 exon
+> correction. That was true of `junction_breakpoint_scan.py` and false of the lane — the earlier
+> audit checked one of the lane's two modules and generalised.*

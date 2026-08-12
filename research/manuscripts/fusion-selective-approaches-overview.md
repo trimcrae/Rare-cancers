@@ -40,7 +40,7 @@ condensate / coactivator activity).
 > That decision may route Level 2 to the **ASO** (paper 1) rather than the AND-gate degrader (paper 3).
 
 ## The five manuscripts
-1. **RNA — fusion-junction ASO / siRNA** → [`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md)
+1. **RNA — fusion-junction ASO / siRNA** → [`fusion-junction-aso-working-record.md`](./fusion-junction-aso-working-record.md)
 2. **Immune — fusion-junction neoantigen** (vaccine / TCR-T / soluble-TCR) → [`fusion-junction-neoantigen-paper.md`](./fusion-junction-neoantigen-paper.md)
 3. **Protein — AND-gate (coincidence-detection) bivalent degrader** → [`fusion-selective-andgate-degrader-paper.md`](./fusion-selective-andgate-degrader-paper.md)
 4. **Protein — condensate / phase-separation disruption** → [`fusion-condensate-disruption-paper.md`](./fusion-condensate-disruption-paper.md)

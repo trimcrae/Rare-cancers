@@ -50,7 +50,35 @@ TARGETS = [
     "research/manuscripts/repurposing-hypotheses.md",
     "research/manuscripts/emc-surface-target-landscape.md",
     "research/manuscripts/emc-surface-target-landscape-si.md",
+    # ⭐ THE ASO SUBMISSION, ADDED 2026-08-12 WHEN IT BECAME A SUBMISSION TEXT RATHER THAN A
+    # WORKING DOCUMENT. Measured on entry: 2,341 words, 274-word structured abstract, zero glyphs,
+    # bold 6.8/1000 against the limit of 12, em-dashes 3.4/1000 against 6, no inline repository
+    # paths. It passes on merit, not by exemption. Its 24,000-word predecessor could not, and the
+    # split is what made both readable — see the note below.
+    "research/manuscripts/fusion-junction-aso-short-communication.md",
 ]
+
+# ⛔ fusion-junction-aso-working-record.md IS DELIBERATELY NOT IN `TARGETS`, AND THAT IS NOW CORRECT
+# RATHER THAN DEFERRED (2026-08-12). It is no longer a manuscript: the submission is
+# `fusion-junction-aso-short-communication.md`, and the working record is its provenance archive —
+# every analysis in full plus the superseded-value register that rule 1.2 REQUIRES. Gate 5 checks
+# journal REGISTER, and that file's audience is a maintainer, so the house style is right there.
+#
+# ⚠ Superseded, retained: the measurement below was taken when the working record still WAS the
+# manuscript, and it is kept because it is the EVIDENCE FOR SPLITTING rather than rewriting. Getting
+# bold from 33.2 to under 12 across 20,915 words would have meant stripping emphasis off the very
+# clauses that stop the paper over-claiming ("**predicted**, not demonstrated", "**0 of 5** clean").
+# A single document carrying both a journal argument and a correction ledger cannot satisfy one
+# audience without failing the other, and the attempt produced a 24,000-word file in which — as an
+# editorial review put it — no sentence stated a result the manuscript did not itself withdraw.
+#
+#     20,915 words · bold 33.2/1000 (limit 12) · em-dash 17.5/1000 (limit 6)
+#     286 bold-midsentence · 127 glyph · 14 heading-style · 4 banned-phrase
+#
+# ⚠ The old path `fusion-junction-aso-paper.md` no longer exists: it was renamed to the working
+# record, and the short communication took its place as the deliverable. The name is written here
+# once so a reader meeting it in history can resolve it.
+_NOT_YET_A_SUBMISSION_TEXT_IN_REGISTER = "research/manuscripts/fusion-junction-aso-working-record.md"
 
 # Densities are per 1000 words. They are deliberately generous: the aim is to catch prose that
 # leans on a device, not to ban the device. A paper that trips one of these is not using emphasis,
@@ -263,6 +291,24 @@ def lint_file(path):
             if re.search(r"[A-Za-z0-9,)][\s]*$", prefix) and not re.match(r"^[\s>|*\-+\d.]*$", prefix):
                 findings.append((lineno, "ERROR", "bold-midsentence",
                                  f"bold inside a sentence: **{m.group(1)[:48]}**"))
+
+        # ⛔ AND THE SAME CHECK ACROSS THE LINE BREAK (2026-08-12). The scan above is per LINE, so
+        # `**fifty-five of seventy carry\nload at or below chance**` — bold whose opening and
+        # closing markers sit on different lines — never matched, and two of them survived a clean
+        # gate into the submission draft. In a hard-wrapped manuscript that is not an exotic case:
+        # it is what happens to any emphasis long enough to be worth flagging. Reported at the
+        # OPENING line, and only when the next line continues it, so a `**` that merely appears
+        # twice on adjacent lines is not miscounted as one span.
+        if line.count("**") % 2 == 1:
+            nxt = next((ln for (n, ln, _, _) in entries if n == lineno + 1), None)
+            if nxt is not None and "**" in nxt and not (is_table_header or heading):
+                prefix = line[:line.rfind("**")]
+                if re.search(r"[A-Za-z0-9,)][\s]*$", prefix) and \
+                        not re.match(r"^[\s>|*\-+\d.]*$", prefix):
+                    span = (line[line.rfind("**"):] + " " + nxt.split("**")[0]).strip("* ")
+                    findings.append((lineno, "ERROR", "bold-midsentence",
+                                     f"bold inside a sentence, across a line break: "
+                                     f"**{span[:48]}**"))
 
         for pat, why in BANNED:
             mm = re.search(pat, line, re.I)

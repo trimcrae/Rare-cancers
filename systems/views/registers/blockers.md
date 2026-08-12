@@ -56,7 +56,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-INDUCED-COMPLEX**<br/>An induced ternary/bivalent complex is still required (a second protein must be placed) | `requires_better_structure_prediction` | 3 | 1 | single-family | 1 | `TECH-COFOLD-ASSEMBLY` |
 | **BLK-VECTOR-DELIVERY**<br/>Vector delivery (gene-therapy payload into a solid tumour) | `requires_future_technology` | 3 | 1 | single-family | 0 | `TECH-VECTOR-DELIVERY` |
 | **BLK-REACH-CATEGORICAL**<br/>The categorical (covalent) window at C397 does not survive the E3-arm-free reach enumerati | `scientific_uncertainty` | 2 | 1 | single-family | 0 | `TECH-EXPOSURE-CRITERION` |
-| **BLK-DELIVERY**<br/>Tumour delivery of an oligonucleotide or a vector | `requires_future_technology` | 1 | 1 | single-family | 0 | `TECH-OLIGO-DELIVERY` |
+| **BLK-DELIVERY**<br/>SYSTEMIC, antigen-dependent tumour delivery of an oligonucleotide or a vector — NOT delive | `requires_future_technology` | 1 | 1 | single-family | 0 | `TECH-OLIGO-DELIVERY` |
 | **BLK-ENDPOINT-MD**<br/>Endpoint-MD selectivity readout (E1) returns null | `no_known_assay` | 1 | 1 | single-family | 0 | `TECH-E1-POWERED` |
 | **BLK-FUNCTIONAL-ACTIONABILITY**<br/>Is the LBD a FUNCTIONAL handle in the chimera, whose other end is a strong independent act | `requires_wet_lab` | 1 | 1 | single-family | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-PARALOGUE-CONTROL**<br/>The paralogue-discrimination positive control (NR-V04) is discordant | `no_known_assay` | 1 | 1 | single-family | 0 | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
@@ -324,10 +324,10 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
 
 ### BLK-DELIVERY
 
-**Tumour delivery of an oligonucleotide or a vector**
+**SYSTEMIC, antigen-dependent tumour delivery of an oligonucleotide or a vector — NOT delivery as such**
 
 - **kind:** `requires_future_technology`
-- **a statement about:** engineering, not biology; not in-silico-solvable today
+- **a statement about:** engineering, not biology; not in-silico-solvable today. ⛔ RESCOPED 2026-08-12, and the rescope is a correction rather than a softening. Superseded, retained: "Tumour delivery of an oligonucleotide or a vector", unqualified. As written this blocker took the hardest of three delivery routes and applied its requirement to the whole modality, and TECH-OLIGO-DELIVERY — the only thing that retires it — is defined in systemic terms ("a conjugate, tumour-penetrating peptide or ligand-targeted lipid nanoparticle — OR a characterised EMC-enriched surface antigen"). But the manuscript this blocker is owned by lists local/intratumoural administration FIRST in its own §3c, explicitly because it needs no EMC surface marker, and §3c-bis adds inhaled/pulmonary administration on the same footing. So an antigen the tumour-tissue data has refused (aso-delivery-antigen.json) was gating two routes that never required it. What the blocker still correctly holds: the systemic receptor-targeted route (AOC, ligand-targeted nanoparticle), which genuinely does wait on a named EMC antigen or a soft-tissue-sarcoma conjugate. What it must NOT be read as holding: that no delivery route for this modality can be attempted, or that the §4 wet-lab experiment waits on any of this — it does not, and a fusion-ASO that cannot silence the fusion in an EMC cell is not worth delivering by any route.
 - **held by (1):** RT-ASO
 - **retired by route (0):** —
 - **retired by technology:** TECH-OLIGO-DELIVERY
@@ -337,7 +337,7 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
   |---|---|---|---|---|---|---|
   | `TECH-OLIGO-DELIVERY` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `low` | `extrapolated` |
 
-- **owner:** `research/manuscripts/fusion-junction-aso-paper.md`
+- **owner:** `research/manuscripts/fusion-junction-aso-working-record.md#3c-bis-delivery-is-three-routes-with-different-requirements-not-one-gate--and-only-one-of-them-needs-the-antigen-2026-08-12`
 
 ### BLK-ENDPOINT-MD
 

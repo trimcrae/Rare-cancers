@@ -19,7 +19,7 @@ junctions rather than modelled ones. The corrected acceptor seam is `ATATGCCCTGC
 exon 3's two retained 5'UTR nt, then Met1), and every oligo in these panels spans the seam by
 construction, so not one design in a defective file survives the correction.
 
-⛔ AND A MANUSCRIPT TOLD READERS THEY DID NOT EXIST. `fusion-junction-aso-paper.md` states that the
+⛔ AND A MANUSCRIPT TOLD READERS THEY DID NOT EXIST. `fusion-junction-aso-working-record.md` states that the
 E9/E10/E13 and siRNA panels are "not present on `origin/main`, on `origin/modalities-cache`, or in
 any commit reachable from this clone's refs" and that they "do not exist". They have existed on
 `origin/modalities-cache` since commit 30eb5684, 2026-07-03 -- the single CI commit that created all

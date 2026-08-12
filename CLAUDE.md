@@ -795,11 +795,11 @@ When in doubt: do it and show it.
   `sourceId`/`primaryRef`, primary vs secondary) and a fixed pooling method (crude denominator-weighted
   proportions + Wilson 95% CIs, non-overlapping cohorts only). Read **[systems/POLICY-evidence.md](./systems/POLICY-evidence.md)** before
   touching `registry`.
-- **Before committing:** `./scripts/preflight.sh` must pass. **Eight gates, in this order:** (1) the consistency
+- **Before committing:** `./scripts/preflight.sh` must pass. **Nine gates, in this order:** (1) the consistency
   linter, (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
   (4) `research/manuscripts/lint_citations.py`, (5) `research/manuscripts/lint_style.py`,
   (6) `systems/parser_guard.py`, (7) the registry evidence
-  contract (`validate-registry.mjs`), (8) the modalities tests. Its exit code cannot be masked. **Do not
+  contract (`validate-registry.mjs`), (8) the modalities tests, (9) the manuscripts tests. Its exit code cannot be masked. **Do not
   re-type an ordinal from memory** — `[P1]` derives it from the script and fails the build on any document
   that disagrees. *(It did exactly that when gate 4 was inserted, catching four documents in one run.)*
   ⚠ **`lint_claims.py` is NOT in preflight** — it runs only in CI, so a green preflight does not mean the
@@ -807,7 +807,10 @@ When in doubt: do it and show it.
   (`validate-registry.mjs`), the doc linters and the modalities tests" — written before gates 2 and 3 existed,
   and "the doc linters" plural was never true of this script. And: **"Five gates"**, which listed the map
   check nowhere, **"Six gates"**, written before citation provenance was one, and **"Seven gates"**, written
-  before manuscript prose style was one.*
+  before manuscript prose style was one, and **"Eight gates"**, written before the manuscript tests
+  were run locally at all — CI had run them since 2026-08-03 and this script had not, so a green
+  preflight was silent about every guard in `research/manuscripts/tests`, the newest of which checks
+  citation numbering.*
   - **★★ GATE 5 IS ABOUT REGISTER, AND IT IS SCOPED ON PURPOSE (2026-08-09).** This repository's house
     style — glyph warnings, bold on the load-bearing clause, running commentary on why a rule exists —
     is correct *here*, in the roadmap and in the artifacts, where the reader is a maintainer or an agent
@@ -860,7 +863,7 @@ When in doubt: do it and show it.
   clinical registry, now [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)
   — read by `research/meta/meta-analysis.mjs` and `research/hypotheses/enumerate-drugs.mjs`, both of which build
   the path from segments, so **searching for the DIRECTORY name finds neither; searching for the filename finds
-  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 7 of preflight's 8**.
+  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 7 of preflight's 9**.
   **Do not recreate the site.** Full accounting: [`systems/MIGRATION.md`](./systems/MIGRATION.md).
   ⚠ *Superseded, retained: "both via segment-built paths a text search will not find … which is gate 2 of
   preflight." The first over-stated the problem — `grep emc-clinical-registry` returns both readers at once,

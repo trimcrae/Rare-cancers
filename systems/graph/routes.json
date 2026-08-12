@@ -300,7 +300,7 @@
       "status": "blocked",
       "maturity": "scoped",
       "confidence": "moderate",
-      "last_verified": "2026-08-06"
+      "last_verified": "2026-08-12"
     },
     "rationale": "The breakpoint junction is a sequence that exists in no healthy cell. An oligonucleotide reads sequence rather than shape, so it discriminates on SEQUENCE rather than shape — predicted, not demonstrated where every protein-directed route has to fight a shared fold. This is the fusion-selective route whose deliverable is finishable here (RT-JUNCTION-NEOANTIGEN, RT-TCR-IMMTAC and RT-RIBOZYME also retire the blocker), and its in-silico arc is complete: design, off-target screen, breakpoint-favourability scan, and gap-mismatch-resolved candidates.",
     "supporting_evidence": [
@@ -311,6 +311,8 @@
       }
     ],
     "remaining_unknowns": [
+      "⭐ THE LANE IS NO LONGER EWSR1-ONLY (2026-08-12, $0, offline). nr4a3-fusion-junction-atlas.json grades 231 donor-exon x NR4A3-acceptor-exon pairs across all five reported partners -- EWSR1, TAF15, TCF12, FUS and TFG; 38 are frame-compatible and EVERY ONE yields at least one junction-spanning, parent-sparing design, so designability is not this route's constraint. One 16-mer (GGGCATATCATCAAAC) is junction-spanning and fusion-exclusive at EWSR1 e12, TAF15 e11 and FUS e10 :: NR4A3 e3 SIMULTANEOUSLY, because the three donors are identical over the 10 bases 5' of their breakpoints (TGGTTTGATG; superseded, retained: '8 bases', which read the shared run off ONE DESIGN'S 8-base donor window instead of off the transcripts) -- so a stock reagent, not only an n-of-1 panel, is on the table. ✅ THE FIRST NON-EWSR1 SCREENS HAVE NOW RUN (2026-08-12, run 31593688595, $0): TAF15 e11 and FUS e10 return the SAME five designs as EWSR1 e12 from a live Ensembl read by an independent code path, and the shared design carries 8 predicted cleavage risks (superseded, retained: 'the cleanest of the twenty screened' -- those twenty screens were TEN distinct oligos, and TCF12 designs reach fewer; 0 exact and 1 <=1-mismatch across 186,185 transcripts). ⛔ The conclusion did not move: 0 of 5 clean at every junction. ✅ ALL FOUR PARTNERS ARE NOW SCREENED, AT 12 JUNCTIONS (run 31596310296 added TCF12's 8). TCF12 -- the one non-FET donor, excluded from every exact multi-partner set, which is the coverage mechanism's own negative control coming out right -- carries the LOWEST predicted off-target load of any partner (best 1 true cleavage risk vs 8 across EWSR1/TAF15/FUS), and TCF12 e7 is the first junction in the program with designs at zero <=1-mismatch off-targets on the uncapped scan. ⛔ It is still 0-of-4-clean on the WIDER gap-resolved screen, which is the defensible one (red-team F5), so breadth and per-oligo specificity point at different partners rather than one ranking. WHAT IS STILL NOT KNOWN: 26 of the 38 emittable junctions are unscreened, every TFG junction among them (superseded, retained: 'the other 20', from the four-partner atlas), no TCF12 breakpoint is shown to occur in a patient, the provenance gate behind the TAF15/TCF12/FUS/TFG transcript models is the weaker of the two, and whether patients carry breakpoints at those homologous exons is a clinical fact nobody here holds.",
+      "⛔ 'DELIVERY' WAS ONE BLOCKER STANDING FOR THREE ROUTES WITH DIFFERENT REQUIREMENTS (2026-08-12; BLK-DELIVERY rescoped, paper §3c-bis). The missing EMC surface antigen gates the SYSTEMIC receptor-targeted route only. Local/intratumoural and inhaled/pulmonary administration need no antigen, and EMC's distant spread is lung-dominant (35-45% of patients, primarily lung, median ~28 months to metastasis; PMID 41055792). Inhaled oligonucleotide delivery producing gene silencing in tumours growing in the lung is an active preclinical field -- in other tumour types, in animals, never in EMC, never against a fusion, never in a patient (lit-targets-aso-delivery-routes.json). This changes what to attempt first; it does not move the modality closer to a patient.",
       "The committed design panel was rebuilt at the corrected mRNA junction on 2026-08-06 (aso-offtarget.yml run 31130876597, $0): NR4A3 resumes at residue 1, seams ACGGGCAGCAGA|ATATGCCCTGCG (e7n3) and AATGGTTTGATG|ATATGCCCTGCG (e12n3). The panel covers TWO junctions, not the five once claimed — e9n3/e10n3/e13n3 and every exon-mode siRNA file never existed and stay withdrawn as unverifiable. ⛔ THE CORRECTED SCREEN DOES NOT RESTORE THE RETRACTED HEADLINE: 0 of 5 designs at EACH junction are free of gap-spanning near-matches, so 'a gapmer predicted clean on both screens at E7::N3' is CONTRADICTED by the corrected data, not merely unproven. GC does move in the route's favour (37.5-56.2% vs 75.0-81.2% at the modelled reference).",
       "How to deliver an oligonucleotide to a non-hepatic solid tumour — the one remaining gate, and it is engineering rather than biology.",
       "Whether predicted specificity survives a calibrated cleavage model: the current screen uses a deliberately conservative gap-mismatch heuristic, so it may be over- or under-calling.",
@@ -340,13 +342,23 @@
         "what": "A calibrated gap-internal-mismatch RNase-H1 cleavage model, which would retire the conservative heuristic the specificity margin rests on (paper §8)",
         "feasible_today": true,
         "blocked_by": []
+      },
+      {
+        "what": "A TFG transcript model, the one reported EMC partner with no model in this repository -- one targeted Ensembl fetch, nothing else missing",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Screen the remaining 20 emittable junctions; the pipeline reaches any partner now",
+        "feasible_today": true,
+        "blocked_by": []
       }
     ],
     "readiness": {
       "attainable_today": "chemrxiv",
       "why_not_higher": "The computational arc is complete and the delivery gate is stated honestly as a gate rather than hidden. A journal submission is reachable; what would strengthen it most is not more computation but a delivery candidate to name.",
       "missing": [
-        "a named delivery candidate"
+        "a named delivery candidate FOR THE SYSTEMIC ROUTE -- rescoped 2026-08-12; the local and inhaled routes never required one, and grading the whole route on the systemic route's missing input is what the BLK-DELIVERY rescope corrects"
       ],
       "experiment_required": [
         "junction knockdown plus parental sparing in an EMC or FET-fusion line"
@@ -361,7 +373,7 @@
       "automation_outlook": "The design and screening halves are already automated; delivery is not a computational problem at all."
     },
     "next": {
-      "best_next_action": "Publish the complete in-silico arc with delivery named as the gate, and keep the delivery watch running.",
+      "best_next_action": "Publish the complete in-silico arc: a systematic NR4A3-fusion junction design platform spanning four partners, screened at three junctions, with delivery stated as three routes of differing requirement rather than one gate.",
       "cost": "$0",
       "blocked_on": [
         "BLK-DELIVERY"
@@ -451,7 +463,7 @@
     ],
     "required_validation": [
       {
-        "what": "Junction knockdown and the phenotype arm, in an EMC line — with a fusion-negative line as control (fusion-junction-aso-paper.md §4)",
+        "what": "Junction knockdown and the phenotype arm, in an EMC line — with a fusion-negative line as control (fusion-junction-aso-working-record.md §4)",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-WET-LAB"
@@ -467,7 +479,7 @@
     ],
     "readiness": {
       "attainable_today": "experimental_proposal",
-      "why_not_higher": "It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-paper.md §4). What it lacks is a taker, and no amount of further specification produces one.",
+      "why_not_higher": "It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-working-record.md §4). What it lacks is a taker, and no amount of further specification produces one.",
       "missing": [
         "a collaborator with an EMC or FET-fusion line",
         "an engineered or isogenic fusion-positive model expressing abundant wild-type NR4A3 and EWSR1 — an EMC line alone cannot carry the sparing claim",
@@ -7408,6 +7420,117 @@
     },
     "next": {
       "best_next_action": "Re-curate metastatic site from the open-access primary reports of the pooled series — the one $0 step that converts this route's denominator into an eligible fraction.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-MDT-LUNG",
+    "display_name": "Metastasis-directed ablative radiotherapy to lung metastases (SABR/SBRT)",
+    "level": "L2",
+    "kind": "route",
+    "title": "Metastasis-directed ablative radiotherapy to lung metastases (SABR/SBRT)",
+    "grade": {
+      "value": "◔ THE PRACTICE IS REAL; THE ARGUMENT FOR IT IS ALREADY PUBLISHED (2026-08-10, corrected the same day it was written). ⛔ THIS ROUTE'S ORIGINAL GRADE CLAIMED A CATEGORY ERROR NOBODY HAD NAMED — that the field reads conventionally fractionated primary-site nulls as evidence about ablative dose to a metastasis. The 2025 comprehensive review (PMID 41055792) names it, in BED terms: conventional EBRT 'typically deliver[s] BED levels insufficient for long-term control' against 142 Gy at α/β = 4, hypofractionation 'may have contributed to overcoming the intrinsic radioresistance of EMC', 'SBRT may also be an option instead of surgery', and 'metastasis-directed local therapy should follow uniform MDT criteria'. ⛔ THE REFUTING FULL TEXT WAS ALREADY RETRIEVED IN literature-cache WHEN THE CLAIM WAS WRITTEN, cited as a search hit and never opened. ⭐ WHAT SURVIVES IS SMALLER AND QUANTITATIVE: at least seven reported deliveries exist scattered across case reports and one review that garbles two of their attributions, and nobody has tabulated them by dose, BED and duration of local control, nor tested whether the α/β = 4 borrowed from generic sarcoma fits the EMC observations. ⛔ That is a synthesis, not a reappraisal, and it may not carry a paper by itself — publication bias across ~7 uniformly positive anecdotes will not support a dose-response claim. Superseded, retained: the category-error framing.",
+      "owner": {
+        "file": "research/literature/emc-rt-lung-mets-findings.json"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-LUNG-DIRECTED",
+        "axis": "how the lung lesion is reached",
+        "fails_on": [
+          "BLK-NO-CURATED-CLINICAL-DATA"
+        ],
+        "why": "that route is regional perfusion, inhaled delivery and percutaneous ablation — ways of reaching lesions surgery cannot. This one is external-beam ablative radiotherapy, which is the standard-of-care oligometastatic intervention and the only modality actually delivered to EMC lung metastases in the published record"
+      },
+      {
+        "route": "RT-RT-INTENSIFY",
+        "axis": "whether the question is dose quality at the primary or dose geometry at the metastasis",
+        "fails_on": [],
+        "why": "that route asks whether particles, brachytherapy or radiosensitisation rescue a contested PRIMARY-site result. This one argues those primary-site results were never evidence about ablative dose to a METASTASIS, so the exclusion it inherits rests on a category error rather than on a measurement"
+      }
+    ],
+    "strategy": "ST-LOCOREGIONAL",
+    "publication": {
+      "endpoint": "PUB-LOCOREGIONAL",
+      "role": "contributing",
+      "contribution": "The one anatomical-selectivity strategy in this family that has actually been delivered to patients with this disease, and the reappraisal showing why the evidence said to rule it out was never about it."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Has the standard-of-care oligometastatic intervention ever been tried on EMC lung metastases, and does the evidence said to rule radiotherapy out in this disease actually bear on it?",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-10"
+    },
+    "rationale": "This disease is extremity-primary, lung-metastasis-dominant and slow, and 63% of its metastatic patients have disease confined to the lungs — the exact anatomical situation metastasis-directed radiotherapy exists for. It was never considered here because the disease is labelled radioresistant, and that label rests entirely on conventionally fractionated dose to primary tumours. Meanwhile four separate groups have quietly given ablative radiotherapy to metastatic EMC and published what happened, and nobody has assembled those reports or noticed that the exclusion rests on a category error.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-EMC-RT-LUNG-METS",
+        "what_it_supports": "four published deliveries of radiotherapy to metastatic EMC across four modalities, two to lung; five papers total naming EMC and stereotactic radiotherapy in title or abstract; and the primary-vs-metastasis split running through every study on both sides of the radioresistance question",
+        "strength": "direct"
+      },
+      {
+        "ref": "ART-EMC-RT-LUNG-METS",
+        "what_it_supports": "63% of metastatic patients have disease confined to the lungs and lung is the first site in 80%, from retrieved full text — the eligibility numerator RT-LUNG-DIRECTED records as uncurated",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "⛔ Whether ANY contribution survives that the 2025 review has not already made in prose. This is now the route's gating question and it was not asked before the route was minted.",
+      "Dose, fractionation, lesion size and duration of local control in the one SABR report — none is in its abstract and the full text is open access and unfetched.",
+      "What the whole-lung radiotherapy report actually found. It is the single most on-point paper in the record, it carries no indexed abstract, and it returns HTTP 403 to the sandbox and to a runner alike.",
+      "Whether any sarcoma-wide SABR series reports an EMC subgroup, which would convert borrowed evidence into histology-specific evidence.",
+      "⚠ How many EMC metastases have been irradiated and progressed. This is unknowable from the published record and it is the number that would decide the route — four case reports with four good outcomes is what a literature looks like when nobody publishes the failures."
+    ],
+    "required_validation": [
+      {
+        "what": "Full-text extraction of dose, fractionation and control duration from the reported cases",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A histology-specific outcome series, which only a collaborating centre or a sarcoma registry could assemble",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a quantitative contribution that a 2025 review has not already made in prose — currently the only candidate is the BED-versus-local-control tabulation, and roughly seven positively-selected cases will not support it",
+        "the full text of the whole-lung radiotherapy report, blocked at both the sandbox and the runner",
+        "primary reports for the three cases the 2025 review names with garbled or duplicated attributions"
+      ],
+      "why_not_higher": "The novelty claim that justified a standalone paper is refuted by a 2025 review that makes the same argument more precisely. What remains is a dose-and-outcome table over roughly seven uniformly positive anecdotes, which is a useful addendum to another paper and is not a preprint on its own."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "Every remaining step is a $0 literature fetch, and the concept paper needs no compute, no wet lab and no data this repository lacks.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Do NOT write the concept paper as framed. Extract dose, fractionation, BED and local-control duration for every reported irradiated EMC metastasis into the findings artifact, and decide from the assembled table whether anything survives that the 2025 review has not already said.",
       "cost": "$0"
     }
   },

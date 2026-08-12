@@ -419,5 +419,16 @@
       "claude/emc-patient-survival-gaps-huphuu"
     ],
     "note": "Mostly [API]-level provenance — the structured Europe PMC record, i.e. the abstract. ⚠ An abstract is not a paper: a number read from one has not been checked against the source's own tables, and the artifact's verification_level field says so. The one [FT] passage is the ICD-O code enumeration in PMID 31765367."
+  },
+  {
+    "id": "ART-EMC-RT-LUNG-METS",
+    "path": "research/literature/emc-rt-lung-mets-findings.json",
+    "produced_by": "scripts/lit_rt_probe.py, plus hand curation of the retrieved full texts",
+    "workflow": "fetch-literature.yml, slug=rt-probe (citation index) and slug=emc-rt-lung-mets (full-text corpus)",
+    "published_to": [
+      "main",
+      "literature-cache"
+    ],
+    "note": "What the published record actually contains about radiotherapy to metastatic EMC: four deliveries in four modalities, two of them to lung, against a denominator of five papers naming the disease and stereotactic radiotherapy in title or abstract at all. ⛔ THE FOUR REPORTS ARE ALL POSITIVE AND ALL UNCONTROLLED — usable as existence proofs that the treatment is deliverable, never as evidence that it works, because nobody publishes the metastasis that was irradiated and progressed. ⭐ Its most important output is a distinction nobody had drawn: every study on both sides of this disease's radioresistance question concerns conventionally fractionated dose to a PRIMARY, and those nulls have been read as evidence about ablative dose to a METASTASIS. ⚠ Also records two search defects that each manufactured a zero on the central question — a wildcard inside a quoted phrase, and an exact-phrase field query that cannot match a plural title — so every zero in the citation index is a statement about the query string and not about the literature."
   }
 ]

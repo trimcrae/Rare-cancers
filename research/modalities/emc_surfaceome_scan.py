@@ -2,7 +2,7 @@
 """
 EMC surfaceome discovery scan — find a candidate targeting antigen for oligo/cell-therapy delivery.
 
-WHY. The fusion-junction ASO route's dominant gate is tumour DELIVERY (fusion-junction-aso-paper.md
+WHY. The fusion-junction ASO route's dominant gate is tumour DELIVERY (fusion-junction-aso-working-record.md
 §3c). The best systemic delivery vehicle is a receptor-targeted antibody-oligonucleotide conjugate
 (AOC), but an AOC needs a TARGETING ARM: a surface antigen enriched on EMC cells. Today the only
 antigen the paper can even name is B7-H3 (CD276), and that is an EXTRAPOLATION from other sarcomas

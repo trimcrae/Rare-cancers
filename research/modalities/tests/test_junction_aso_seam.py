@@ -155,7 +155,7 @@ def test_cds_concatenation_would_have_refused_the_two_junctions_the_paper_leads_
 def test_the_e11_no_output_the_paper_flagged_is_the_off_by_two_announcing_itself():
     """⭐ THE DEFECT'S ONE SPONTANEOUS SYMPTOM, ROOT-CAUSED.
 
-    `fusion-junction-aso-paper.md` §3a-quinquies records E11::N3 as an unexplained no-output and guesses
+    `fusion-junction-aso-working-record.md` §3a-quinquies records E11::N3 as an unexplained no-output and guesses
     *"most likely … our exon indexing for EWSR1 exon 11 → NR4A3 exon 3 may not be in-frame as joined."*
     Under the defective index NR4A3 resumed at CDS nt 1081, so the chimeric CDS is in frame exactly when
     the EWSR1 cut ≡ 1081 (mod 3). That predicts, with no residual, that {7, 9, 10, 12, 13} emit and {11}

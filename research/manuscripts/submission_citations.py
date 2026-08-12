@@ -1,0 +1,245 @@
+#!/usr/bin/env python3
+"""Resolve the submission manuscript's superscripts to PMIDs, renumber them, and emit its references.
+
+⛔ WHY THIS EXISTS, AND WHY IT IS NOT `build_reference_list.py`. That script reads the WORKING
+RECORD, which cites bare inline PMIDs, and produces the 74-entry list for it. The submission was
+condensed out of that record and cites bare SUPERSCRIPT NUMBERS with no identifier attached, so the
+mapping from "superscript 13" to a paper existed only in the author's head. That is precisely the
+state in which a citation drifts silently: nothing in the repository could be asked whether
+superscript 13 pointed at the paper the sentence described, and when it was finally asked by hand,
+it did not — PMID 36780200 was cited for "a bi-shRNA against the EWS/FLI1 junction taken into
+clinical testing" and is a trial of Vigil, a bi-shRNA against *furin*.
+
+THE FIX IS TO PUT THE IDENTIFIER IN THE TEXT. Every superscript carries an HTML comment naming its
+PMIDs, e.g. `<sup>12</sup><!--PMID:27166877-->`. Comments do not render, so the manuscript reads
+unchanged, but the mapping is now a fact in the file rather than a memory. This script then:
+
+  1. reads those pairs in order of appearance;
+  2. assigns each distinct PMID a number by FIRST APPEARANCE, which is what a numbered list means;
+  3. rewrites the superscripts to the assigned numbers, so hand-numbering can never drift;
+  4. emits the reference list from fetched metadata, reusing `build_reference_list`'s records.
+
+⚠ IT CHECKS CONSISTENCY, NOT CORRECTNESS. It can prove that superscript 12 and its comment agree,
+that one PMID has one number, and that the numbering has no gaps. It cannot tell whether PMID
+27166877 supports the sentence it is attached to — the failure that actually happened. That check is
+human. What this removes is the second failure layered on top: an author who checked the citation
+once, then renumbered by hand and moved it.
+"""
+from __future__ import annotations
+
+import json
+import os
+import re
+import subprocess
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+PAPER = os.path.join(HERE, "fusion-junction-aso-short-communication.md")
+REFS_JSON = os.path.join(HERE, "fusion-junction-aso-references.json")
+OUT_MD = os.path.join(HERE, "fusion-junction-aso-submission-references.md")
+OUT_JSON = os.path.join(HERE, "fusion-junction-aso-submission-references.json")
+
+#: `<sup>8–11</sup><!--PMID:33241214,36265509,21846246,23052253-->`
+CITE = re.compile(r"<sup>([0-9,–\-\s]+)</sup>\s*<!--\s*PMID:\s*([0-9,\s]+?)\s*-->")
+BARE = re.compile(r"<sup>([0-9,–\-\s]+)</sup>(?!\s*<!--)")
+
+
+def parse(text):
+    """(span, printed_numbers, pmids) for every annotated citation, in order of appearance."""
+    out = []
+    for m in CITE.finditer(text):
+        pmids = [p.strip() for p in m.group(2).split(",") if p.strip()]
+        out.append((m.span(), m.group(1), pmids))
+    return out
+
+
+def assign(cites):
+    """PMID -> number, by first appearance. This is the definition of a numbered reference list."""
+    order = {}
+    for _, _, pmids in cites:
+        for p in pmids:
+            order.setdefault(p, len(order) + 1)
+    return order
+
+
+def render_run(nums):
+    """[8,9,10,11] -> '8–11'; [12] -> '12'; [24,27] -> '24,27'. Runs of three or more collapse."""
+    nums = sorted(set(nums))
+    parts, i = [], 0
+    while i < len(nums):
+        j = i
+        while j + 1 < len(nums) and nums[j + 1] == nums[j] + 1:
+            j += 1
+        if j - i >= 2:
+            parts.append(f"{nums[i]}–{nums[j]}")
+        else:
+            parts.extend(str(n) for n in nums[i:j + 1])
+        i = j + 1
+    return ",".join(parts)
+
+
+def rewrite(text, cites, order):
+    """Rewrite superscripts to assigned numbers, right to left so earlier spans stay valid."""
+    for (a, b), _printed, pmids in reversed(cites):
+        nums = [order[p] for p in pmids]
+        text = text[:a] + f"<sup>{render_run(nums)}</sup><!--PMID:{','.join(pmids)}-->" + text[b:]
+    return text
+
+
+#: The clinical citations were curated into the EMC registry rather than fetched into the ASO
+#: corpus, so the ASO reference list has no entry for them at all — the paper's only prospective
+#: trial among them. They carry the same fields, are checked by preflight's registry evidence
+#: contract, and each is stamped `verified`, so reading them here is reading a tracked record, not
+#: filling a gap from memory. Left out, four real references would have printed as "[METADATA NOT
+#: RETRIEVED]" while their metadata sat in the repository.
+#: (path, dotted key of the {slug: record} map). Order is precedence: the fetched ASO corpus wins,
+#: then the curated maps, each of which stamps its entries `verified` and carries the same fields.
+CURATED = [
+    (os.path.join(HERE, "..", "data", "emc-clinical-registry.json"), "registry.citations"),
+    (os.path.join(HERE, "emc-fusion-partner-pooling.json"), "citations"),
+]
+
+
+def _dig(d, dotted):
+    for k in dotted.split("."):
+        d = (d or {}).get(k)
+    return d or {}
+
+
+def load_meta():
+    """Bibliographic records, keyed by PMID. Read, never typed — see build_reference_list."""
+    out = {}
+    if os.path.exists(REFS_JSON):
+        d = json.load(open(REFS_JSON))
+        entries = d if isinstance(d, list) else (d.get("references") or d.get("entries") or [])
+        for e in entries:
+            p = str(e.get("pmid") or "").strip()
+            if p:
+                out[p] = e
+    for path, key in CURATED:
+        if not os.path.exists(path):
+            continue
+        for e in _dig(json.load(open(path)), key).values():
+            p = str((e or {}).get("pmid") or "").strip()
+            if p and p not in out:
+                out[p] = e
+    out.update({p: e for p, e in _literature_cache().items() if p not in out})
+    return out
+
+
+def _literature_cache():
+    """Every fetched record on the `literature-cache` branch, keyed by PMID.
+
+    ⭐ THE LAST RESORT, AND THE ONLY ONE THAT CAN COVER A CITATION FETCHED TODAY. The ASO reference
+    corpus was built for the working record, so a paper retrieved for the submission after that
+    corpus was frozen has metadata nowhere the two sources above can see — which is a reason to
+    fetch again, never a reason to type an author list. Read with `git show` against the fetched
+    branch: $0, offline, no network, exactly as `build_reference_list` does.
+    """
+    out = {}
+    r = subprocess.run(["git", "ls-tree", "-r", "--name-only", "origin/literature-cache"],
+                       cwd=os.path.dirname(os.path.dirname(HERE)), capture_output=True, text=True)
+    for path in [ln for ln in r.stdout.splitlines() if ln.endswith("/_index.json")]:
+        g = subprocess.run(["git", "show", f"origin/literature-cache:{path}"],
+                           cwd=os.path.dirname(os.path.dirname(HERE)),
+                           capture_output=True, text=True)
+        try:
+            d = json.loads(g.stdout)
+        except Exception:  # noqa: BLE001 — a malformed index must not stop the others
+            continue
+        recs = d if isinstance(d, list) else (d.get("records") or list(d.values()))
+        for e in recs:
+            if not isinstance(e, dict):
+                continue
+            p = str(e.get("pmid") or "").strip()
+            if p and p not in out:
+                out[p] = e
+    return out
+
+
+def format_entry(n, pmid, meta):
+    e = meta.get(pmid)
+    if not e:
+        # ⛔ A GAP IS PRINTED AS A GAP. An invented author list is worse than a visible hole:
+        # the hole is something the author can see and fix, the invention is not.
+        return f"{n}. [METADATA NOT RETRIEVED] PMID: {pmid}."
+    bits = []
+    for k in ("authors", "title", "journal"):
+        if e.get(k):
+            bits.append(str(e[k]).rstrip("."))
+    tail = ""
+    if e.get("year"):
+        tail = f" {e['year']}"
+        if e.get("volume"):
+            tail += f";{e['volume']}"
+            if e.get("issue"):
+                tail += f"({e['issue']})"
+            if e.get("pages"):
+                tail += f":{e['pages']}"
+        tail += "."
+    s = ". ".join(bits) + "." + tail + f" PMID: {pmid}."
+    if e.get("doi"):
+        s += f" doi:{e['doi']}"
+    return f"{n}. {s}"
+
+
+def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    text = open(PAPER, encoding="utf-8").read()
+    cites = parse(text)
+    bare = [m.group(1) for m in BARE.finditer(text)]
+
+    if not cites:
+        print("no annotated citations found — nothing to resolve", file=sys.stderr)
+        return 2
+
+    order = assign(cites)
+    meta = load_meta()
+    missing = [p for p in order if p not in meta]
+
+    print(f"{len(cites)} annotated citation(s), {len(order)} distinct PMID(s), "
+          f"{len(bare)} UNANNOTATED superscript(s), {len(missing)} without fetched metadata")
+    if bare:
+        # ⛔ NOT A WARNING TO SKIM PAST. An unannotated superscript is one this tool cannot check
+        # and will not renumber, so it keeps whatever number the author last typed — while every
+        # citation around it moves. That is worse than the problem this tool was written to fix.
+        print(f"  ⛔ unannotated superscripts (these will NOT be renumbered): {sorted(set(bare))}")
+    if missing:
+        print(f"  ⚠ no fetched record for: {sorted(missing)} — entries print as gaps, never guessed")
+
+    if "--write" in argv:
+        new = rewrite(text, cites, order)
+        if new != text:
+            open(PAPER, "w", encoding="utf-8").write(new)
+            print(f"  renumbered superscripts in {os.path.basename(PAPER)}")
+        lines = [format_entry(n, p, meta) for p, n in sorted(order.items(), key=lambda kv: kv[1])]
+        open(OUT_MD, "w", encoding="utf-8").write(
+            "<!-- GENERATED — DO NOT EDIT. Regenerate: python3 "
+            "research/manuscripts/submission_citations.py --write -->\n\n"
+            "# References — fusion-junction ASO submission\n\n"
+            f"*{len(order)} entries, numbered by first citation in the submission manuscript. "
+            "Metadata is read from retrieved bibliographic records; an unretrieved field is left "
+            "absent rather than completed.*\n\n" + "\n".join(lines) + "\n")
+        json.dump({"_what": ("Every reference cited by the submission manuscript, numbered by "
+                             "order of first citation, with the bibliographic record each entry "
+                             "was rendered from."),
+                   "_provenance": ("Records are read from retrieved fetch products — the ASO "
+                                   "reference corpus, the curated citation maps, and the "
+                                   "literature-cache branch. No field is typed from recollection; "
+                                   "a record that was never retrieved is listed in "
+                                   "`without_fetched_metadata` and its entry prints as a gap."),
+                   "n_references": len(order),
+                   "numbering": {p: n for p, n in sorted(order.items(), key=lambda kv: kv[1])},
+                   "records": {p: meta[p] for p in order if p in meta},
+                   "without_fetched_metadata": sorted(missing),
+                   "unannotated_superscripts": sorted(set(bare))},
+                  open(OUT_JSON, "w"), indent=2)
+        print(f"  wrote {os.path.basename(OUT_MD)} and {os.path.basename(OUT_JSON)}")
+    else:
+        for p, n in sorted(order.items(), key=lambda kv: kv[1]):
+            print(f"  {n:>3}  PMID:{p}  {'' if p in meta else '(no fetched record)'}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

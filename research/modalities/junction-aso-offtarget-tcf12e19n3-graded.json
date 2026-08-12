@@ -1,0 +1,201 @@
+{
+  "_what": "Graded re-score of a committed gap-resolved off-target screen. Replaces the binary 'a mismatch in the DNA gap abolishes RNase-H cleavage' assumption with the fold-discrimination the primary literature actually reports.",
+  "_the_correction": "Under the retired abolition assumption 0 of 4 oligos scored '0 predicted-cleavable off-targets' and were called predicted off-target-clean. Under BOTH literature-supported models that count is 0 of 4: every design retains a non-zero predicted residual cleavage load, because every design has at least one gap-disrupted near-match and a gap-disrupted near-match is reduced, not abolished. What survives is a RANK ORDER, not a clean/dirty call.",
+  "_what_this_is_not": [
+    "Not a measurement. No RNase-H1 cleavage was measured here or anywhere in this repository; this re-weights a BLAST-derived prediction under a literature prior.",
+    "Not a safety, efficacy or selectivity claim, and not a therapeutic-window statement.",
+    "Wing-only near-matches (alignment does not reach the DNA gap) are scored 0 for CLEAVAGE and are not thereby harmless \u2014 they remain affinity liabilities, counted separately as n_wing_only_not_counted.",
+    "Independence across two gap-internal mismatches is an assumption. Neither source measures it, which is why the pessimistic model (fold 1.0) is reported alongside.",
+    "The interval width is TRUNCATION of the saved off-target list, not statistical uncertainty. Where `exact` is true there is no truncation."
+  ],
+  "retired_model": {
+    "name": "all_gap_mismatch_blocks_cleavage",
+    "fold_per_gap_mismatch": Infinity,
+    "why_retired": "no retrieved source supports abolition; both sources above measure or imply a finite fold, and the one that matches the 16-mer length implies ~none."
+  },
+  "retired_model_headline": "0 of 4 predicted off-target-clean",
+  "near_match_threshold": ">= 14/16 identical",
+  "oligo_len": 16,
+  "gap_region_1based": [
+    6,
+    11
+  ],
+  "max_mismatches_per_near_match": 2,
+  "models": {
+    "ostergaard_5fold": {
+      "fold_per_gap_mismatch": 5.0,
+      "source": "PMID 23963702 (doi 10.1093/nar/gkt725)",
+      "what": "~5-fold discrimination per single-nucleotide change for an UNMODIFIED RNase-H-active ASO. The OPTIMISTIC end: it is the figure for a gapmer chosen and positioned for allele selectivity, which these designs were not.",
+      "n_oligos_with_zero_predicted_cleavage_load": 0,
+      "rank_best_first": [
+        "AGGGCATATCTCTGAC",
+        "GGCATATCTCTGACTT",
+        "CAGGGCATATCTCTGA",
+        "GCATATCTCTGACTTG"
+      ]
+    },
+    "duroux_16mer_none": {
+      "fold_per_gap_mismatch": 1.0,
+      "source": "PMID 7567450 (doi 10.1093/nar/23.17.3411)",
+      "what": "16-mers 'did not discriminate efficiently'; discrimination in that assay was confined to 12-13mers centred on the mismatch. The PESSIMISTIC end, and the one matching this panel's oligo LENGTH: a gap-internal mismatch buys nothing, so every near-match counts at full weight.",
+      "n_oligos_with_zero_predicted_cleavage_load": 0,
+      "rank_best_first": [
+        "AGGGCATATCTCTGAC",
+        "GGCATATCTCTGACTT",
+        "CAGGGCATATCTCTGA",
+        "GCATATCTCTGACTTG"
+      ]
+    }
+  },
+  "per_oligo": {
+    "ostergaard_5fold": {
+      "AGGGCATATCTCTGAC": {
+        "n_offtarget_near_matches": 10,
+        "n_full_gap_duplex": 10,
+        "n_gap_disrupted": 0,
+        "n_gap_disrupted_resolved_from_saved_alignments": 0,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 10.0,
+        "residual_cleavage_load_hi": 10.0,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      },
+      "GGCATATCTCTGACTT": {
+        "n_offtarget_near_matches": 11,
+        "n_full_gap_duplex": 11,
+        "n_gap_disrupted": 0,
+        "n_gap_disrupted_resolved_from_saved_alignments": 0,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 11.0,
+        "residual_cleavage_load_hi": 11.0,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      },
+      "CAGGGCATATCTCTGA": {
+        "n_offtarget_near_matches": 20,
+        "n_full_gap_duplex": 18,
+        "n_gap_disrupted": 2,
+        "n_gap_disrupted_resolved_from_saved_alignments": 2,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 18.4,
+        "residual_cleavage_load_hi": 18.4,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      },
+      "GCATATCTCTGACTTG": {
+        "n_offtarget_near_matches": 35,
+        "n_full_gap_duplex": 32,
+        "n_gap_disrupted": 3,
+        "n_gap_disrupted_resolved_from_saved_alignments": 3,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 32.6,
+        "residual_cleavage_load_hi": 32.6,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      }
+    },
+    "duroux_16mer_none": {
+      "AGGGCATATCTCTGAC": {
+        "n_offtarget_near_matches": 10,
+        "n_full_gap_duplex": 10,
+        "n_gap_disrupted": 0,
+        "n_gap_disrupted_resolved_from_saved_alignments": 0,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 10.0,
+        "residual_cleavage_load_hi": 10.0,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      },
+      "GGCATATCTCTGACTT": {
+        "n_offtarget_near_matches": 11,
+        "n_full_gap_duplex": 11,
+        "n_gap_disrupted": 0,
+        "n_gap_disrupted_resolved_from_saved_alignments": 0,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 11.0,
+        "residual_cleavage_load_hi": 11.0,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      },
+      "CAGGGCATATCTCTGA": {
+        "n_offtarget_near_matches": 20,
+        "n_full_gap_duplex": 18,
+        "n_gap_disrupted": 2,
+        "n_gap_disrupted_resolved_from_saved_alignments": 2,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 20.0,
+        "residual_cleavage_load_hi": 20.0,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      },
+      "GCATATCTCTGACTTG": {
+        "n_offtarget_near_matches": 35,
+        "n_full_gap_duplex": 32,
+        "n_gap_disrupted": 3,
+        "n_gap_disrupted_resolved_from_saved_alignments": 3,
+        "n_gap_disrupted_unresolved_by_truncation": 0,
+        "n_coverage_only_fallback_counted_at_full_weight": 0,
+        "n_wing_only_not_counted": 0,
+        "residual_cleavage_load_lo": 35.0,
+        "residual_cleavage_load_hi": 35.0,
+        "exact": true,
+        "zero_predicted_cleavage_load": false
+      }
+    }
+  },
+  "source_screen": "TCF12_e19__NR4A3_e3",
+  "source_breakpoint": {
+    "mode": "real_exon_junction_mRNA",
+    "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted \u2014 \u26a0 for EWSR1 and NR4A3 only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and `provenance_gate` below records which one actually ran.",
+    "donor_gene": "TCF12",
+    "provenance_gate": {
+      "TCF12": "construct_inputs_self_checks_only",
+      "NR4A3": "graded_exon_audit"
+    },
+    "EWSR1_exon_end": 19,
+    "donor_exon_end": 19,
+    "NR4A3_exon_start": 3,
+    "note": "Real in-frame TCF12::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
+    "measured_junction": {
+      "junction_label": "TCF12_e19__NR4A3_e3",
+      "donor_symbol": "TCF12",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 19,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 1978,
+      "donor_last_whole_residue": 659,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 1286,
+      "junction_context_mRNA": "AGCAAGTCAGAG|ATATGCCCTGCG"
+    },
+    "junction_context_mRNA": "AGCAAGTCAGAG|ATATGCCCTGCG",
+    "_transcript_source": {
+      "requested": "auto",
+      "used_per_gene": {
+        "TCF12": "ensembl+cache_agreed",
+        "NR4A3": "ensembl+cache_agreed"
+      }
+    }
+  },
+  "_generated_from": "junction-aso-offtarget-tcf12e19n3.json"
+}

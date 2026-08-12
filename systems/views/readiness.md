@@ -32,7 +32,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) | ST-DISSEMINATION | `journal_submission` | — |
 | [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) | ST-DISSEMINATION | `journal_submission` | — |
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | ST-DISSEMINATION | `journal_submission` | the MM-GBSA decoy null's primary run output committed as a JSON — it lives in S3, and it is the headline evidence of the recommended framing (the $0 CI job named in paper-framing-o |
-| [RT-ASO](L2-rt-aso.md) | ST-NUCLEIC-ACID | `chemrxiv` | a named delivery candidate |
+| [RT-ASO](L2-rt-aso.md) | ST-NUCLEIC-ACID | `chemrxiv` | a named delivery candidate FOR THE SYSTEMIC ROUTE -- rescoped 2026-08-12; the local and inhaled routes never required one, and grading the whole route on the systemic route's missi |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | ST-DEPENDENCY | `preprint` | an EMC-specific measurement |
 | [RT-DEGRADER](L2-rt-degrader.md) | ST-PROXIMITY | `preprint` | a passing selectivity known-answer control; an anti-target panel that recovers its own cognate ligands |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | ST-DISSEMINATION | `preprint` | — |
@@ -73,6 +73,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md) | ST-MICROENV | `internal_note` | a stain or a binding assay on EMC tissue — the epitope is a modification pattern and there is no further expression observation that could reach it |
 | [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) | ST-MICROENV | `internal_note` | a restatement of the premise in a form this reading does not already contradict |
 | [RT-MDM2](L2-rt-mdm2.md) | ST-DEPENDENCY | `internal_note` | a direct TP53 sequence call, which no available EMC dataset supplies |
+| [RT-MDT-LUNG](L2-rt-mdt-lung.md) | ST-LOCOREGIONAL | `internal_note` | a quantitative contribution that a 2025 review has not already made in prose — currently the only candidate is the BED-versus-local-control tabulation, and roughly seven positively |
 | [RT-METASTASECTOMY](L2-rt-metastasectomy.md) | ST-CARE-DELIVERY | `internal_note` | metastatic site and burden, which appear in free text rather than as curated data |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | ST-OCCUPANCY | `internal_note` | a functional readout; the occupancy-to-output transfer functions that would turn the stated requirement into a number (MISSING-1, MISSING-2) |
 | [RT-NR2F1](L2-rt-nr2f1.md) | ST-OCCUPANCY | `internal_note` | a platform that carries a probe for the receptor — the two readable array series do not |

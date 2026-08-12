@@ -38,7 +38,7 @@ corrected screen **refuted its headline**: `n_oligos_no_true_cleavage_risk = 0` 
 [`-e12n3.json`](../modalities/junction-aso-offtarget-e12n3.json),
 [`aso-insilico-evaluation-e7n3.json`](../modalities/aso-insilico-evaluation-e7n3.json),
 [`-e12n3.json`](../modalities/aso-insilico-evaluation-e12n3.json); the retraction and its lifting
-are in [`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md)).
+are in [`fusion-junction-aso-working-record.md`](./fusion-junction-aso-working-record.md)).
 
 [`emc-unexplored-treatment-lanes.md` §3.5](./emc-unexplored-treatment-lanes.md#35--the-hybrid-intron)
 proposes the hybrid intron as the rescue, on one premise, quoted in full:

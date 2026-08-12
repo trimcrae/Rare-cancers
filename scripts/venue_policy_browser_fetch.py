@@ -41,6 +41,63 @@ TARGETS = {
     # ── British Journal of Cancer (Springer Nature) — surface targets. These answered on
     #    plain HTTP already; re-read here so all four venues rest on one method. ──────────
     "bjc_guide_to_authors": "https://www.nature.com/bjc/authors-and-referees/gta",
+    # ── Nucleic Acid Therapeutics (Mary Ann Liebert) — the fusion-junction ASO paper ────
+    #    Added 2026-08-12 with the venue decision. That decision was written stating the fee
+    #    model as a PLAN rather than a retrieved fact, and said so; these three targets are what
+    #    turn it into a reading. What has to be answered: is there a free subscription route
+    #    (the $0 constraint is binding and eliminates most of the field), what is the main-text
+    #    word limit, and what is the preprint policy.
+    # ⛔ THE LIEBERT URLs ARE DEAD AND THE PUBLISHER HAS CHANGED (measured 2026-08-12, this
+    #    fetcher). `home.liebertpub.com` returned 403 on both author-facing pages, and the
+    #    open-access URL RESOLVED to
+    #    sagepub.com/journals/mary-ann-liebert-journals-transition-information — "Mary Ann Liebert
+    #    journals transition information". Nucleic Acid Therapeutics is now a SAGE journal, so its
+    #    fee model has to be read at SAGE and the Liebert-era assumption is worthless. This is the
+    #    reason the venue decision was written as a plan to be confirmed rather than as a fact.
+    "nat_liebert_legacy_oa": "https://home.liebertpub.com/lpages/open-access-options/226",
+    "sage_liebert_transition": "https://www.sagepub.com/journals/mary-ann-liebert-journals-transition-information",
+    "sage_nat_journal": "https://journals.sagepub.com/home/nat",
+    "sage_open_access_options": "https://us.sagepub.com/en-us/nam/open-access-at-sage",
+    "sage_apc_information": "https://us.sagepub.com/en-us/nam/article-processing-charges-apcs",
+    # ⛔ THE PAGE THAT ACTUALLY DECIDES THE SUBMISSION, AND IT WAS NEVER TARGETED (2026-08-12).
+    # The four SAGE targets above answer the FEE question. None of them answers the two questions a
+    # manuscript has to be built against — the main-text word limit and the article types the
+    # journal accepts — because those live on the journal's own submission-guidelines page, and the
+    # venue plan recorded that limit as "~6,000 words" from an inference nobody had checked. A
+    # Short Communication written to a guessed limit is a Short Communication that may be the wrong
+    # length. `manuscript-submission-guidelines` is SAGE's standard per-journal path.
+    "sage_nat_submission_guidelines":
+        "https://journals.sagepub.com/author-instructions/NAT",
+    "sage_nat_aims_and_scope": "https://journals.sagepub.com/aims-scope/NAT",
+    "sage_nat_home_alt": "https://journals.sagepub.com/description/NAT",
+    # ⛔ ANSWER THE QUESTION FROM A HOST THAT ANSWERS (2026-08-12). Measured across two runs:
+    # `journals.sagepub.com` returns 403 to a real headless browser, exactly as Wiley and Elsevier
+    # do, while `sagepub.com` and `us.sagepub.com` return 200. Adding more paths on the refusing
+    # host is not a plan. So the fee question is put to sources that DO answer, and each is a
+    # discriminator rather than a restatement of SAGE's portfolio-wide page:
+    #   * DOAJ indexes FULLY open-access journals only. Present -> the journal is gold, and the $0
+    #     constraint rules it out. Absent -> it is not indexed as fully OA, which is consistent with
+    #     hybrid. ⚠ Absence is weaker evidence than presence and must be reported as such: a gold
+    #     journal can be missing from DOAJ for administrative reasons.
+    #   * SAGE publishes its own list of pure-gold journals. NAT's absence from a list the PUBLISHER
+    #     maintains is the strongest negative available without reading the journal page itself.
+    # Together, presence in neither is what would let the hybrid inference be stated as a reading.
+    "doaj_nat_api": "https://doaj.org/api/search/journals/%22Nucleic%20Acid%20Therapeutics%22",
+    "sage_gold_oa_journal_list":
+        "https://us.sagepub.com/en-us/nam/pure-gold-open-access-journals-at-sage",
+    "us_sage_nat_description":
+        "https://us.sagepub.com/en-us/nam/journal/nucleic-acid-therapeutics",
+    # ⭐ A FALLBACK VENUE IS ONLY A FALLBACK IF ITS POLICY CAN BE READ (2026-08-12). Every previous
+    # candidate for this paper sits behind a publisher that refuses this fetcher — Wiley 403,
+    # Elsevier 403, journals.sagepub.com 403 — so "we will go to X instead" would be an assumption
+    # of exactly the kind that sent the first venue decision at a publisher which no longer
+    # publishes the journal. nature.com answered 200 on the first run, so the Springer Nature
+    # portfolio is the one whose fee model this repository can actually confirm. Cancer Gene
+    # Therapy is the closest Springer Nature title in scope: fusion-directed and nucleic-acid
+    # therapeutics, hybrid subscription model.
+    "cgt_journal_home": "https://www.nature.com/cgt/",
+    "cgt_author_instructions": "https://www.nature.com/cgt/for-authors",
+    "cgt_open_access": "https://www.nature.com/cgt/open-access",
     # ── bioRxiv, the free open copy for all four papers ─────────────────────────────────
     "biorxiv_faq": "https://www.biorxiv.org/about/FAQ",
     "biorxiv_submission_guide": "https://www.biorxiv.org/submit-a-manuscript",

@@ -2,7 +2,7 @@
 """Can any antigen be NAMED as the delivery arm of the fusion-junction ASO? — both axes, EMC tissue.
 
 ★★ WHY THIS EXISTS. `systems/views/readiness.md` records RT-ASO's single missing item as **"a named
-delivery candidate"**, and `fusion-junction-aso-paper.md` §3c states delivery is the one unsolved
+delivery candidate"**, and `fusion-junction-aso-working-record.md` §3c states delivery is the one unsolved
 gate and offers an antibody–oligonucleotide-conjugate (AOC) arm whose antigen shortlist came from a
 **translocation-sarcoma DepMap SURROGATE** — no EMC tissue in it, and no normal tissue in it either.
 Two things have changed since that section was written and neither has been applied to it:
@@ -563,7 +563,7 @@ def derive():
                   "of the EWSR1::NR4A3 fusion-junction ASO? Both axes — elevated in EMC TUMOUR "
                   "tissue and restricted in NORMAL tissue — scored against three EMC cohorts."),
         "_why": ("readiness.md records RT-ASO's one missing item as 'a named delivery candidate', "
-                 "and fusion-junction-aso-paper.md §3c's AOC shortlist came from a DepMap surrogate "
+                 "and fusion-junction-aso-working-record.md §3c's AOC shortlist came from a DepMap surrogate "
                  "with no EMC and no normal tissue in it. Three EMC tumour cohorts and 27 "
                  "normal-organ libraries now exist. This re-asks the question on that basis."),
         "_execution_model": "$0. Pure stdlib, no network, no GPU. Every number is read or derived "
@@ -744,7 +744,7 @@ def _pub_aso_delta(out):
         return (rows.get(g) or {}).get("joint_verdict")
 
     return {
-        "_scope": "fusion-junction-aso-paper.md §3c (the AOC delivery arm) and "
+        "_scope": "fusion-junction-aso-working-record.md §3c (the AOC delivery arm) and "
                   "systems/views/readiness.md -> RT-ASO 'a named delivery candidate'.",
         "can_now_say": [
             "The AOC targeting arm has been tested against EMC TUMOUR tissue and against NORMAL "

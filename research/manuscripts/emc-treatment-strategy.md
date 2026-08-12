@@ -387,7 +387,7 @@ first*. The two priorities:
 1. **NR4A3-degrader result paper** ([`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)) — the
    target-centric cryptic-pocket/selectivity/degrader-design result. NR4A3-selective but **not**
    fusion-selective (shared LBD).
-2. **Fusion-junction ASO paper** ([`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md)) — the
+2. **Fusion-junction ASO paper** ([`fusion-junction-aso-working-record.md`](./fusion-junction-aso-working-record.md)) — the
    **fusion-exclusive** RNA-level route that spares wild-type NR4A3, and the **most-likely-to-work** of the
    fusion-unique modalities (proven knockdown class + strong fusion-addiction prior). It now carries a
    complete in-silico arc — gapmer/siRNA design → transcriptome-wide off-target screen → a per-breakpoint

@@ -3,27 +3,33 @@
   "junction_label": "EWSR1_e12__NR4A3_e3",
   "breakpoint": {
     "mode": "real_exon_junction_mRNA",
-    "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted.",
+    "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted \u2014 \u26a0 for EWSR1 and NR4A3 only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and `provenance_gate` below records which one actually ran.",
+    "donor_gene": "EWSR1",
+    "provenance_gate": {
+      "EWSR1": "graded_exon_audit",
+      "NR4A3": "graded_exon_audit"
+    },
     "EWSR1_exon_end": 12,
+    "donor_exon_end": 12,
     "NR4A3_exon_start": 3,
     "note": "Real in-frame EWSR1::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
     "junction_context_mRNA": "AATGGTTTGATG|ATATGCCCTGCG",
     "_transcript_source": {
-      "requested": "cache",
+      "requested": "auto",
       "used_per_gene": {
-        "EWSR1": "committed_cache",
-        "NR4A3": "committed_cache"
-      },
-      "committed_cache_fetched_utc": "2026-08-03T23:45:45Z",
-      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+        "EWSR1": "ensembl+cache_agreed",
+        "NR4A3": "ensembl+cache_agreed"
+      }
     },
     "measured_junction": {
       "junction_label": "EWSR1_e12__NR4A3_e3",
-      "EWSR1_exon_end": 12,
-      "NR4A3_exon_start": 3,
-      "ewsr1_coding_nt_through_cut": 1294,
-      "ewsr1_last_whole_residue": 431,
-      "ewsr1_coding_phase": 1,
+      "donor_symbol": "EWSR1",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 12,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 1294,
+      "donor_last_whole_residue": 431,
+      "donor_coding_phase": 1,
       "nr4a3_acceptor_exon_is_coding": true,
       "nr4a3_acceptor_exon_5utr_nt_retained": 2,
       "nr4a3_cds_nt_at_resume": 0,
@@ -31,7 +37,12 @@
       "frame_sum_mod3": 0,
       "in_frame": true,
       "chimeric_protein_length": 1058,
-      "junction_context_mRNA": "AATGGTTTGATG|ATATGCCCTGCG"
+      "junction_context_mRNA": "AATGGTTTGATG|ATATGCCCTGCG",
+      "EWSR1_exon_end": 12,
+      "NR4A3_exon_start": 3,
+      "ewsr1_coding_nt_through_cut": 1294,
+      "ewsr1_last_whole_residue": 431,
+      "ewsr1_coding_phase": 1
     }
   },
   "n_evaluated": 5,
@@ -208,10 +219,5 @@
       "max_homopolymer": 3,
       "fusion_specific": true
     }
-  ],
-  "_provenance": {
-    "uncapped_scan": "run on a GitHub-hosted CPU runner, workflow aso-offtarget.yml, run 31130876597, step completed 2026-08-06T23:36:01Z (7:36 PM ET). Every design, off-target count, accessibility value and seed count below is that run's output, verbatim.",
-    "grading_added": "that run's copy of aso_insilico.py emitted a junction LABEL with no graded offsets. breakpoint.measured_junction and breakpoint._transcript_source were computed here by importing junction_aso and evaluating the same expressions the fixed module now uses, after asserting the seam matches \u2014 code, never hand-entered values.",
-    "cost": "$0 \u2014 GitHub Actions CPU + local CPU. No GPU, no rental."
-  }
+  ]
 }

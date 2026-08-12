@@ -14,7 +14,7 @@ _backfilled: true
 ---
 # Red-team of the fusion-junction ASO paper — deficiencies + fixes applied
 
-> **Role:** adversarial review of [`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md) (2026-06-26),
+> **Role:** adversarial review of [`fusion-junction-aso-working-record.md`](./fusion-junction-aso-working-record.md) (2026-06-26),
 > run as two independent reviewers (computational/methods lens + molecular-biology/clinical lens) plus a
 > data-cross-check against every committed JSON. Scope per the standing directive: critique the *manuscript's
 > claims, framing, internal consistency, and methods* — **not** the experiments still out of reach (no wet
