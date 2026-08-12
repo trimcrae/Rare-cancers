@@ -57,6 +57,16 @@ enumerated here.
 Constraints applied: unaffiliated, solo, no wet lab, no clinic, no patient contact, no IRB, no
 institutional DUA, GPU budget in the hundreds of dollars.
 
+⛔ **READ THIS BEFORE THE TABLE — THE EVIDENCE IS UNEVEN BY ARCHETYPE, AND IT IS THINNEST EXACTLY WHERE
+THE RECOMMENDATIONS ARE STRONGEST.** All 17 claims that survived verification rest on **six primary
+papers**, clustered on archetypes **1, 2, 8 and 9**. Archetypes **3 (evidence synthesis / reconstructed
+IPD), 4 (registry access), 5 (trial design / external controls / Bayesian borrowing), 6 (mathematical
+modelling) and 7 (perspective papers) produced NO claim that survived verification.** ⚠ **That is an
+absence of evidence in this survey, not evidence that those archetypes fail** — their claims were sourced
+but their verifiers errored, died with the container, or were dropped for budget. **§2's recommendations
+1–6 lean on exactly those archetypes and therefore need a fresh, targeted literature pass before anything
+is staked on them.** The grades below still stand as *judgements*; they are not all equally *evidenced*.
+
 | # | archetype | verdict here | the binding constraint |
 |---|---|---|---|
 | 1 | In-silico drug discovery (docking / MD / FEP / co-fold) | ⚠ **done to exhaustion, and its ceiling is now documented** | not access — **the field's own validation bar** |
@@ -86,25 +96,34 @@ independently corroborate this repo's own instrument verdicts.
   ([Lyu et al., Nature 2019](https://www.nature.com/articles/s41586-019-0917-9)) and by docking-nominated
   Mpro hits later confirmed by crystallography (Fink et al., Protein Science 2023, DOI 10.1002/pro.4712,
   PMID 37354015); the source's own caveat is that performance improved when covalent and noncovalent
-  inhibitors were treated separately. **What survives is narrow and still useful: a single-snapshot
+  inhibitors were treated separately — **discrimination improved to a best AUC of 0.744** on that split.
+  **What survives is narrow and still useful: a single-snapshot
   rescoring margin does not carry a selectivity verdict in this regime** — which is exactly what `V20`
   says, and [`methods-index.md`](../../systems/views/methods-index.md) already grades it `fails`. ⛔ It is
   *consistent with* the repo's verdict, not independent proof of it.
-- The failure mode has a documented endgame: a network-pharmacology-plus-docking cancer-mechanism paper
-  **retracted** by its publisher on publication-integrity grounds
-  ([PMC10412175](https://pmc.ncbi.nlm.nih.gov/articles/PMC10412175/)) — the retraction itself CONFIRMED
+- The failure mode has a documented endgame: *"Network Pharmacology, Molecular Docking, and Experimental
+  Validation to Unveil the Molecular Targets and Mechanisms of Compound Fuling Granule to Treat Ovarian
+  Cancer"* (Oxidative Medicine and Cellular Longevity, DOI 10.1155/2022/2896049, PMID 36062197, PMC9428684)
+  was **retracted**, notice [PMC10412175](https://pmc.ncbi.nlm.nih.gov/articles/PMC10412175/) — CONFIRMED
   3-0, *and grounded in process integrity rather than a scientific refutation of the docking*.
+  ⚠ Separately, the genre **has** been criticised on methodological grounds (Front Pharmacol 2026,
+  DOI 10.3389/fphar.2026.1566772) — so "integrity, not method" is true of *this retraction*, not of the
+  whole literature.
   ⚠ **Do NOT read the mass retractions as a verdict on this archetype (REFUTED 0-3).** They were a
   paper-mill and compromised-peer-review phenomenon spanning **>8,000 papers across all topics**, and the
   cited paper's own title contains "Experimental Validation", so it was never an in-silico-only study.
 - ⭐ **The one credibility architecture that resolves this without owning a lab is the blind prospective
   challenge.** CACHE is modelled on CASP but adds a prospective experimental arm — **the organisers
-  assay the compounds participants predict**, and screening data are withheld until the cycle completes,
-  so the prediction is genuinely blind
+  assay the compounds participants predict** — the experimental hub is SGC-Toronto, and CACHE #1 screened
+  **~1,955 participant-nominated compounds by SPR, yielding 73 binders below 150 µM K<sub>D</sub>** with
+  orthogonal ITC/¹⁹F-NMR and aggregation counter-checks (DOI 10.1021/acs.jcim.4c01267, PMID 39499532).
+  ⚠ **Terminology corrected by a verifier:** modern CACHE runs **Round 1 and Round 2** within a challenge,
+  and cross-participant withholding protects **Round 2 independence** rather than making Round 1 blind
   ([Nat Rev Chem](https://www.nature.com/articles/s41570-022-00363-z); *CONFIRMED 2-1*). CACHE Challenge #1
   was won with an **entirely open-source stack** — GNINA docking plus pharmacophore search, ranked on
   docking score alone — against **an undrugged target with no known ligands** (the LRRK2 WD40 central
-  cavity), with 23 groups competing
+  cavity, apo structure **PDB 6DLO**), with **23 teams each selecting up to 100 compounds from Enamine REAL
+  (~36 billion molecules)**
   ([J Chem Inf Model 2024;64(24):9388-9396, DOI 10.1021/acs.jcim.4c01429, PMID 39654129, PMC11683865](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11683865/)).
   ⛔ **TWO CLAIMS ABOUT THIS WERE REFUTED 0-3 AND BOTH WOULD HAVE MISLED A PLAN.**
   **(a) It is NOT a modest-compute workflow.** The paper's own methods report docking *"parallelized across
@@ -120,7 +139,11 @@ independently corroborate this repo's own instrument verdicts.
 
 - Target nomination from public dependency data **clears peer review at real journals**: PAK2 in HNSCC
   from DepMap CRISPR reanalysis ([Mol Oncol, DOI 10.1002/1878-0261.13558, PMID 37997254](https://pubmed.ncbi.nlm.nih.gov/37997254/));
-  shinyDepMap, whose **entire contribution is reanalysis of public DepMap data**, accepted by *eLife*
+  ⚠ **but do NOT cite it as a confirmed zero-wet-lab exemplar**: its Methods section was unobtainable in
+  this survey, so whether the published version contains author-generated validation is **UNVERIFIED**.
+  The indirect evidence (deposited code and gene lists only; the inhibitor arm reusing GDSC assays)
+  favours pure reanalysis but does not establish it. shinyDepMap, whose **entire contribution is
+  reanalysis of public DepMap data**, accepted by *eLife*
   ([DOI 10.7554/eLife.57116, PMC7924953](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7924953/)).
 - **The credibility architecture is a prespecified negative-control filter stack, not a top-hit
   ranking**: essential in ≥10% of the type's lines, NOT a DepMap common-essential, NOT a dependency in
@@ -136,7 +159,11 @@ independently corroborate this repo's own instrument verdicts.
   public (TCGA soft-tissue sarcoma, GTEx v7, GEO GSE21050 — **and the Connectivity Map, a fourth public
   set omitted from the first draft of this memo**), but what made it publishable at that level was
   author-generated qRT-PCR, a tissue microarray and ethics approval **LUMC B17.036** *(CONFIRMED 3-0, both
-  halves)*. *The public-data analysis is portable; the validation that carried it is not.*
+  halves — and the only claims here verified against a genuinely fetched primary full text)*.
+  ⚠ **A verifier killed the counterfactual and it is worth keeping dead:** *"the validation is what made
+  this publishable"* is **unverifiable**, because PLOS Comput Biol publishes purely computational work.
+  What is established is narrower and still the lesson: *the public-data analysis is portable; the
+  validation layer requires institutional assets, and it was present here.*
 - ⛔ **Signature-reversal repurposing (CMap/LINCS) is a trap.** Querying CMap 2 with 588 CMap 1-derived
   signatures put the correct compound in the top 10% only **17%** of the time, against **83%** for a
   same-resource self-query *(CONFIRMED 3-0)*, and the previously-reported hit parbendazole ranks **142**
@@ -220,7 +247,8 @@ existing agents are given is a real therapeutic question that needs no laborator
 Site of tissue submission is recoverable from TCGA whole-slide images at **AUROC 0.964–0.998**, versus
 0.623 for clinical variables, and **stain normalisation does not remove it** (site still ≥0.850).
 Re-splitting so no site spans folds destroyed a large share of apparent signal: of 56 predictable
-features, **51 (91.1%) declined** and **20 (35.7%) became undetectable**
+features, **51 (91.1%) declined** and **20 (35.7%) became undetectable** — ⚠ measured on TCGA
+**whole-slide images**, not on all TCGA-derived predictors (scope corrected by a verifier)
 ([Nat Commun 2021](https://www.nature.com/articles/s41467-021-24698-1)).
 ⭐ **The prescribed $0 mitigation — preserved-site cross-validation with public code — is offered by its
 authors precisely because external validation cohorts are unavailable, and they say this applies
@@ -306,6 +334,113 @@ behind anything live, and items 1–6 above are all live.
 
 ---
 
+## 4 · The archetype reference — what it costs to enter, what venue takes it, what claim it may make
+
+⭐ **This is the synthesis the harness never produced.** §1 grades each archetype against this programme;
+this section is the operational detail behind those grades — entry cost, venue, claim ceiling, and the
+specific thing that kills a submission. Verdicts marked *(n-n)* carry an adjudicated 3-vote result;
+everything else is sourced but unadjudicated.
+
+⛔ **NO JOURNAL'S STATED POLICY ON REQUIRING EXPERIMENTAL VALIDATION WAS RETRIEVED IN THIS SURVEY.** Every
+venture named below as one that "takes" an archetype is **inferred from where the exemplars were
+published**, which is not the same thing: PLOS Comput Biol publishing a wet-lab-backed paper does not mean
+it requires one, and the converse is equally unproven. **Check the policy page before choosing a venue.**
+
+### 4.1 · Entry cost and the real gate
+
+| archetype | true $ cost to enter | the gate that is NOT money |
+|---|---|---|
+| Blind challenge (CACHE) | ⛔ **4,936 CPU cores × 2–6 weeks** for the winning entry — not a few hundred dollars | none administratively: entry is open to unaffiliated participants, code release is **not** required, and participants may stay anonymous (top performers are de-anonymised at data release) |
+| DepMap / public-omics reanalysis | **$0**, registration-only downloads | ⛔ **the cell line.** The unit of analysis is an immortalised line, and an ultra-rare tumour may have **zero or one** model — no model, no derivable dependency |
+| CMap / LINCS audit | **$0** — GSE92742, GSE70138, L1000-Query, scripts on GitHub | reproducibility itself: the resource fails its own cross-version test |
+| Reconstructed IPD | **$0** — R implementation shipped as a supplementary file, open access CC BY | ⛔ **the numbers-at-risk table.** No table, no admissible curve |
+| Systematic review / meta-analysis | **$0** | PROSPERO registration and an exhaustive dated multi-database search |
+| SEER Research (base tier) | **$0**, no fee, requests processed in **2 business days** | ⚠ **a Windows desktop environment** — SEER*Stat is a Windows application. The practical barrier is an OS, not an institution |
+| SEER Research Plus / Specialized | — | ⛔ chained gates: eRA Commons or HHS account → institutional email → per-database review. Compounded, not singular |
+| NCDB PUF | — | ⛔ CoC-accredited affiliation + insider designation + Chair's letterhead |
+| Trial-design / Bayesian methodology | **$0** | none — case studies may be hypothetical or built from published trials |
+| **Running** a basket trial | — | ⛔ **89% are multicentric, averaging 56 centres**; one reached 1,013. Structurally impossible solo |
+| Mathematical modelling | **$0** | none |
+| Digital pathology on public WSI | **$0** (GDC, cBioPortal; fold code on GitHub) | ⛔ site/batch confounding — see 4.3 |
+
+### 4.2 · Claim ceilings, and the phrasing that survives review
+
+⛔ **Every archetype here has a ceiling, and the papers that survive state it themselves rather than
+letting a reviewer find it.** This is the single most transferable lesson in the survey.
+
+- **Blind-challenge hit-finding** — the winning CACHE #1 deliverable was a **weak micromolar binder,
+  K<sub>D</sub> = 56 µM by SPR**, framed as *"a hit series"* and a reproducible workflow. Not a drug, not
+  a functional inhibitor. **Venue: J Chem Inf Model** published both the participant methods papers and the
+  organisers' companion outcome paper. ⚠ **INFERRED FROM WHERE EXEMPLARS APPEARED, NOT FROM POLICY** — see
+  the warning under §4.1.
+- **DepMap mining** — *"prioritised candidate / repurposing opportunity / methodological template"*. One
+  exemplar reported **143 prioritised dependencies and 14 targets with existing clinical inhibitors**,
+  framed as *"near-term potential to repurpose"* *(3-0)*.
+- **Reanalysis tools** — explicitly hypothesis-generating: nominating the most sensitive lines **for
+  someone else to test**, and "target hopping" from an undruggable protein to a druggable one.
+- **Reconstructed IPD** — a **methods claim about recovering published data**, never a clinical efficacy
+  claim. The mucosal-melanoma exemplar kept its conclusion at descriptive comparison and stated plainly
+  that the better-looking combination arm *did not reach significance*.
+- **Computational critique** — the CMap audit **declined to adjudicate which version was correct** and
+  converted its negative into usage recommendations *(3-0)*. A critique that refuses to overclaim is more
+  publishable than one that declares a winner.
+- **Single-arm ultra-rare trials** — *"clinically meaningful antitumour activity"* and a conditional
+  option in a defined line. Never efficacy, never survival benefit.
+
+⭐ **Two credibility devices recur and both are free:** a **known-answer positive control** (one repurposing
+paper validated its pipeline by showing CMap recovered doxorubicin, the standard agent) and **explicitly
+hedged phrasing for the novel prediction**. This repo already runs known-answer controls as instruments;
+what it has not done is use one as the *rhetorical* spine of a paper.
+
+### 4.3 · What kills each archetype
+
+- **Docking/virtual screening** — no validation architecture. ⭐ The critique that names the failure also
+  prescribes the **wet-lab-free** fix: retrospective enrichment against known actives **and** known
+  inactives/decoys, re-docking from **SMILES-regenerated** 3D coordinates rather than crystallographic
+  ones, and cross-docking to test protein flexibility. **None of that needs a laboratory.**
+- **Provenance, not method.** The retracted exemplar's own title advertised *"Experimental Validation"* and
+  it did not save the paper *(3-0)*. What carries a computational paper is verifiable data provenance and
+  reviewable process — which is an argument for this repo's artifact discipline, not against it.
+- **Digital pathology** — site signal masquerading as biology. Named endpoints collapse under
+  preserved-site splits: genomic-ancestry prediction **0.798 → 0.507**, ALK-fusion detection **0.678 →
+  0.404** (LUSC) and **0.637 → 0.417** (LUAD). Chance, in other words.
+- **Bayesian borrowing** — the exchangeability assumption and the between-trial heterogeneity variance,
+  *hardest to specify precisely when few external trials exist*, which is the ultra-rare regime. Honest
+  papers report the cost: max type I error **6.3%** against a nominal 2.5% under prior-data conflict,
+  against power gains up to 14%.
+
+### 4.4 · ⚠ Two corrections to §2 that this detail forces
+
+1. **The external-control-arm route splits in two, and only one half is reachable.** FDA's guidance
+   imposes an **Agency-access and auditability requirement** — the sponsor must ensure FDA can reach the
+   underlying data. **A solo researcher cannot satisfy that**, so a *regulatory-grade* external control is
+   out of reach. What remains reachable, and still valuable, is a **published comparator for the field**:
+   the natural-history benchmark a future single-arm trial would be interpreted against. Externally
+   controlled designs are overwhelmingly a rare-disease instrument in practice — **45 non-oncology FDA
+   approvals between 2000 and 2019** rested on external control data (Jahanshahi et al., *Ther Innov Regul
+   Sci* 2021, PMC8332598, via the NORD docket comment).
+2. **NCDB PUF could not answer the facility-volume question even if it were obtainable.** The PUF is
+   de-identified and **identifies neither patients, providers nor hospitals**. `RT-POPULATION-REGISTRY`'s
+   `remaining_unknowns` asks *"whether facility volume is recoverable at all in the public files"* — for
+   NCDB PUF the answer is **no, structurally**. That is a free closure of an open question, and it means
+   the referral-pattern question needs a different instrument.
+
+### 4.5 · ⭐ The argument that unlocks the ultra-rare case
+
+The mucosal-melanoma reconstructed-IPD paper justified its own existence with the evidence gap itself:
+prospective trials in that disease are infeasible, so standard of care had been **extrapolated from a
+biologically distinct common cancer**. That is precisely EMC's situation — an ultra-rare sarcoma managed
+largely by extrapolation from soft-tissue sarcoma at large.
+
+⭐ **That argument structure is available to this programme verbatim, and it is the strongest framing
+found in this survey for getting ultra-rare synthesis work past review.** It converts small n from a
+weakness the paper must apologise for into the reason the paper is necessary. Supporting evidence that the
+constraint is structural rather than an author failing: the largest molecularly-confirmed EMC series
+assembled **58 FISH-confirmed tumours with material for only 48**, and one sarcoma study could not run a
+receptor-tyrosine-kinase assay **at all** because untreated frozen material did not exist.
+
+---
+
 ## Appendix A — corrections after adjudication, with the superseded wording retained
 
 ⚠ **Every line below was in this memo when it was first committed (`ff28beaa`) and was corrected once the
@@ -331,3 +466,34 @@ assets (3-0); the n=5 classification-versus-survival floor (2-0); CACHE's prospe
 ⛔ **The §2 recommendations are unaffected.** Items 1–8 rest on the IPD/registry/trial-design evidence,
 none of which was refuted. **Item 9 (a CACHE entry) is the exception and is materially downgraded by A1:**
 it is no longer a cheap option and must be costed as 4,936-core-weeks before it is considered.
+
+---
+
+## Appendix B — corrections from the harness's own synthesis (third pass, completed)
+
+⭐ **The run finally completed on its third resume: 107/107 agents, 0 errors, and the synthesis ran.** Its
+output is recorded verbatim in the evidence JSON under `harness_synthesis` and is the authority over the
+earlier hand-recovered reading wherever the two differ. It corroborated the memo's structure and forced
+these corrections, all applied above.
+
+| # | superseded wording | what replaced it |
+|---|---|---|
+| B1 | *(absent)* — §1 stated grades without stating that the evidence behind them is uneven | ⛔ **Archetypes 3, 4, 5, 6 and 7 produced NO claim that survived verification.** All 17 surviving claims rest on **six primary papers** clustered on archetypes 1, 2, 8 and 9. §2's recommendations 1–6 lean on the unevidenced ones and now say so. |
+| B2 | "**Venue:** J Chem Inf Model … a named venue that accepts compute-only work" | ⛔ **No journal's stated policy was ever retrieved.** Every venue statement is inferred from where exemplars appeared. PLOS Comput Biol publishing a wet-lab-backed paper does not mean it requires one. |
+| B3 | shinyDepMap/PAK2 cited as clearing review "with no author-generated data" | ⚠ The PAK2 paper's Methods were unobtainable; whether the published version contains author-generated validation is **UNVERIFIED**. Not a confirmed zero-wet-lab exemplar. |
+| B4 | "what made it publishable at that level was author-generated qRT-PCR…" | ⚠ **An unverifiable counterfactual** — PLOS Comput Biol publishes purely computational work. Narrowed to: the validation layer requires institutional assets, and it was present here. |
+| B5 | "neither docking nor MM-GBSA could separate actives from inactives" | Discrimination **improved to best AUC 0.744** when covalent and noncovalent were separated. |
+| B6 | "retracted … one of a genre" | Full identifiers now given (DOI 10.1155/2022/2896049, PMID 36062197, PMC9428684). ⚠ And the genre **has** been criticised methodologically (Front Pharmacol 2026, DOI 10.3389/fphar.2026.1566772) — "integrity, not method" is true of *this retraction*, not the whole literature. |
+| B7 | "screening data are withheld until the cycle completes, so the prediction is genuinely blind" | Modern CACHE runs **Round 1 and Round 2**; cross-participant withholding protects **Round 2 independence** rather than making Round 1 blind. |
+| B8 | preserved-site CV "destroyed a large share of apparent signal" | ⚠ Measured on TCGA **whole-slide images** only, not all TCGA-derived predictors. |
+
+⚠ **How strong the verification actually is, stated plainly.** Only **three** claims were confirmed against
+a genuinely fetched primary full text — the CMap paper and both PLOS Comput Biol claims — routed out
+through GitHub Actions runs `31592017890` / `31594039131` / `31594360640` with artifacts committed to
+`origin/literature-cache`. ⭐ *That is this repo's own §6 escape hatch, used by the harness without being
+told to.* Everything else was confirmed from **search-result rendering** cross-checked across at least two
+independent hosts per identifier, which is materially weaker than reading the page.
+
+⛔ **One verifier flagged CIRCULAR PROVENANCE:** for one quote the only reachable home was this repo's own
+cache, committed earlier in the same session. An artifact is not independent corroboration of itself, and
+that claim's confidence was capped for it.

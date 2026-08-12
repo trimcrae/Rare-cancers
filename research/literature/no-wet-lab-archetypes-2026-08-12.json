@@ -6,7 +6,7 @@
   "route": "deep-research workflow (5 search angles -> parallel WebSearch -> URL-dedup fetch -> 3-vote adversarial verification)",
   "run_id": "wf_30f1f771-9b1",
   "date_et": "2026-08-12",
-  "harness_incident": "TWO failures, both recorded. (1) The first pass hit an account weekly usage limit: 40 of 107 agents completed, 67 errored, and the SYNTHESIS STEP FAILED, so the tool's returned result was a truncation artifact and was NOT reported as a finding. (2) The resumed run reached 102 results and 24 adjudicated claims, then DIED when the container was restarted and the session resumed into a fresh one -- diagnosed from PID 1 elapsed time of ~73s, a `--session-mode resume` launch, and no surviving workflow process. The synthesis never ran in either pass. Everything here was recovered from journal.jsonl by correlating each verifier agentId to its '## Claim under review' prompt.",
+  "harness_incident": "TWO failures, both recorded. (1) The first pass hit an account weekly usage limit: 40 of 107 agents completed, 67 errored, and the SYNTHESIS STEP FAILED, so the tool's returned result was a truncation artifact and was NOT reported as a finding. (2) The resumed run reached 102 results and 24 adjudicated claims, then DIED when the container was restarted and the session resumed into a fresh one -- diagnosed from PID 1 elapsed time of ~73s, a `--session-mode resume` launch, and no surviving workflow process. The synthesis never ran in either pass. Everything here was recovered from journal.jsonl by correlating each verifier agentId to its '## Claim under review' prompt. THIRD PASS: resumed again 2026-08-12 and COMPLETED -- 107/107 agents, 0 errors, and the synthesis ran. Its output is recorded verbatim under harness_synthesis below and is the authority over the earlier hand-recovered reading wherever the two differ.",
   "verification_status": "24 claims carry a real 3-vote adjudicated verdict: 16 CONFIRMED, 8 REFUTED (see adjudicated_claims). The remaining ~91 extracted claims have NO verdict because their voters errored on the usage limit or died with the container. An errored vote is neither a refutation nor a confirmation (CLAUDE.md s4)."
  },
  "verified_confirmed": [
@@ -1302,5 +1302,402 @@
    ]
   }
  ],
- "_reading_the_refutations": "MOST REFUTATIONS HERE ARE SCOPE OVERREACH, NOT FACTUAL FALSITY, and conflating the two would discard true findings. Read each verdict's evidence before acting on it. Worked examples: the MM-GBSA/Mpro refutation upholds the specific measurement and kills only the GENERALISATION that a docking-score cutoff can never nominate hits (counter-evidence: Lyu et al. Nature 2019, hit rate falling monotonically with docking score; Fink et al. Protein Science 2023). The Hindawi refutation upholds the PMCID roster and kills the ATTRIBUTION -- the retractions were paper-mill and compromised peer review across >8,000 papers in all topics, not a verdict on in-silico methodology. By contrast the CACHE/GNINA refutation is a genuine factual correction with direct planning consequences: the winning entry ran on 4,936 CPU cores of a university cluster over 2-6 weeks, so it is NOT a modest-compute solo workflow."
+ "_reading_the_refutations": "MOST REFUTATIONS HERE ARE SCOPE OVERREACH, NOT FACTUAL FALSITY, and conflating the two would discard true findings. Read each verdict's evidence before acting on it. Worked examples: the MM-GBSA/Mpro refutation upholds the specific measurement and kills only the GENERALISATION that a docking-score cutoff can never nominate hits (counter-evidence: Lyu et al. Nature 2019, hit rate falling monotonically with docking score; Fink et al. Protein Science 2023). The Hindawi refutation upholds the PMCID roster and kills the ATTRIBUTION -- the retractions were paper-mill and compromised peer review across >8,000 papers in all topics, not a verdict on in-silico methodology. By contrast the CACHE/GNINA refutation is a genuine factual correction with direct planning consequences: the winning entry ran on 4,936 CPU cores of a university cluster over 2-6 weeks, so it is NOT a modest-compute solo workflow.",
+ "harness_synthesis": {
+  "_what": "The deep-research harness's own synthesis, produced on the third (successful) resume of wf_30f1f771-9b1. Recorded verbatim.",
+  "summary": "Across the verified evidence, the \"no wet lab\" cancer-therapeutics paper survives review by one of three credibility architectures, not by the quality of its computation: (a) BLIND PROSPECTIVE VALIDATION performed by someone else — the CACHE challenge model, where computational-only teams submit predictions against a ligand-free target and the organizers procure and assay the compounds, which is the only confirmed route to an experimentally-confirmed hit-discovery paper for a researcher who owns no bench; (b) DISCIPLINED PUBLIC-DATA REANALYSIS whose credibility comes from leakage-aware splitting, released code and an honestly bounded claim — exemplified by DepMap dependency mining that cleared peer review at target-nomination level (PAK2/HNSCC, Mol Oncol 2024) and by preserved-site cross-validation for TCGA imaging (Nat Commun 2021); and (c) the PUBLISHABLE NEGATIVE / METHOD AUDIT, where the finding IS the failure of a computational resource and the ceiling discipline is to decline to adjudicate what the data cannot settle (Lim & Pavlidis's CMap reproducibility paper is the model). The dominant failure mode is quantified and canonical: in a 61-paper audit of COVID-era docking repurposing, 67.21% applied no validation step at all and only 2 papers (3.28%) tested anything experimentally, docking score did not track measured potency (best r = -0.335), and the adjacent \"network pharmacology + docking\" genre has been retracted at scale on publication-integrity grounds — so an unvalidated docking or network-pharmacology paper now carries prior suspicion rather than prior credit. The hard constraint for a solo unaffiliated worker is not compute but VALIDATION ASSETS AND ACCESS: the sarcoma exemplar (PLOS Comput Biol 2019) shows the discovery layer running entirely on free public data (TCGA/GTEx/GEO) while the layer that carried the therapeutic claim — archival tumour tissue, a newly built tissue microarray, and ethics-board approval LUMC B17.036 — is structurally unobtainable without an institution. For ultra-rare disease specifically, the one measured small-n rule is that the floor is analysis-type-dependent: n=5 MPNST survived a supervised class-discrimination analysis and was excluded outright from the survival analysis.",
+  "findings": [
+   {
+    "claim": "The only confirmed architecture that lets a computation-only group publish an EXPERIMENTALLY CONFIRMED hit-discovery paper without owning a wet lab is the blind prospective challenge, in which the organizers procure and assay the predicted compounds. CACHE is the working instance: participants submit up to 100 predicted binders, the organizers (SGC-Toronto experimental hub) buy and test them, and screening data are withheld from other participants until the second testing round completes.",
+    "confidence": "high",
+    "vote": "[0] 2-1, [4] 3-0 — merged; architecture independently corroborated from organizer-side sources",
+    "sources": [
+     "https://www.nature.com/articles/s41570-022-00363-z",
+     "https://doi.org/10.1021/acs.jcim.4c01429",
+     "https://pubmed.ncbi.nlm.nih.gov/39654129/",
+     "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11683865/",
+     "https://doi.org/10.1021/acs.jcim.4c01267",
+     "https://pubmed.ncbi.nlm.nih.gov/39499532/"
+    ],
+    "evidence": "The design paper (Nat Rev Chem, DOI 10.1038/s41570-022-00363-z) states verbatim: \"unlike CASP, which was able to piggy-back on experiments being done in the structural biology community, CACHE will have an experimental arm testing predictions prospectively\" and \"CACHE will procure and assay the predicted compounds.\" This was EXECUTED, not merely planned: CACHE Challenge #1 results (Li et al., J Chem Inf Model 2024, DOI 10.1021/acs.jcim.4c01267, PMID 39499532) report ~1955 participant-nominated compounds screened centrally by SPR at 50/100 uM, 73 binders with KD < 150 uM, orthogonal ITC/19F-NMR confirmation plus solubility/aggregation counter-checks. A participant-side exemplar exists with full identifiers: Dunn I, Pirhadi S, Wang Y, Ravindran S, Concepcion C, Koes DR, \"CACHE Challenge #1: Docking with GNINA Is All You Need,\" J Chem Inf Model 2024;64(24):9388-9396, DOI 10.1021/acs.jcim.4c01429, PMID 39654129, PMC11683865 — \"this two-arm approach resulted in two hits as classified by the CACHE organizers ... their resulting best hit series tied for first place when evaluated by a panel of expert judges.\" CEILING ON THE CLAIM: the archetype yields an experimentally-confirmed WEAK binder, not a lead — CACHE #1 hit rates were low and \"most compounds bound with an affinity above 50 uM\"; one competing team reported a 2.17% hit rate vs 6.7-7.6% typical for ultra-large library screening. Organizers themselves caution that \"no single measure can be used to unambiguously quantify the success of virtual screens,\" which is why an expert-judge panel adjudicates. SOLO-EXECUTABILITY CAVEAT: entry is SELECTED, not open — organizer text reads \"testing costs are covered for all selected teams,\" so an unaffiliated entrant must be admitted. A separate claim that CACHE puts a ~$25,000/100-compound price on validation and covers it for every qualified participant was REFUTED 0-3 and must not be repeated. A claim that the winning GNINA workflow is directly executable by a solo researcher on a few hundred dollars of GPU was also REFUTED 0-3 — treat compute-executability as unestablished.",
+    "evidence_note": "Domains blocked by egress proxy; confirmations came from search-result rendering cross-checked across at least two independent hosts per identifier."
+   },
+   {
+    "claim": "The target selection in a blind challenge is what makes it a real prediction test: CACHE #1 chose the central cavity of the LRRK2 WD-40 repeat domain precisely BECAUSE it was undrugged with no known ligand and only an apo structure (PDB 6DLO) in the PDB, so no ligand-based prior existed to exploit. 23 computational teams competed, each selecting up to 100 compounds from Enamine REAL (~36 billion molecules).",
+    "confidence": "high",
+    "vote": "[5] 2-1 — but every component independently corroborated against the primary organizer paper",
+    "sources": [
+     "https://doi.org/10.1021/acs.jcim.4c01267",
+     "https://pubmed.ncbi.nlm.nih.gov/39499532/",
+     "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11683865/"
+    ],
+    "evidence": "Organizer paper (Li et al., JCIM 2024): \"CACHE #1 participants were challenged to use the apo structure of LRRK2-WDR (PDB code 6DLO) to predict compounds occupying the central cavity of the donut shaped domain\"; \"a domain with no known ligand and only an apo structure in the PDB\"; and the choice was deliberate — \"The lack of known binding data and presumably low druggability of the target is a challenge to computational hit finding methods.\" Participant paper confirms \"23 participants employed a diverse array of structure-based methods to identify hits to a target with no known ligands.\" IMPORTANT LIMIT ON THE EMC ANALOGY: the parallel to an orphan fusion-driven target such as NR4A3 holds only on the narrow dimension of 'no ligand-based prior.' LRRK2-WDR had an experimentally solved apo crystal structure with a defined central cavity — a structural starting point that a fusion transcription factor does not have. And CACHE's credibility rests on organizer-provided wet-lab confirmation, so the BLIND-PREDICTION FRAMING is transferable to a no-lab researcher while the EXPERIMENTAL CONFIRMATION BACKBONE is not."
+   },
+   {
+    "claim": "The modal published in-silico-only drug-repurposing paper carries ZERO validation architecture, and this is documented quantitatively. Across 61 peer-reviewed docking-based virtual-screening papers proposing repurposed SARS-CoV-2 Mpro inhibitors: 41 (67.21%) applied no validation step at all, 18 (29.51%) used only re-docking, 3 (4.92%) used in-silico actives enrichment, and only 2 (3.28%) confirmed any prediction experimentally in vitro.",
+    "confidence": "high",
+    "vote": "[1] 3-0",
+    "sources": [
+     "https://doi.org/10.1002/med.21862",
+     "https://pubmed.ncbi.nlm.nih.gov/34697818/",
+     "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8662214/"
+    ],
+    "evidence": "Macip G et al., \"Haste makes waste: A critical review of docking-based virtual screening in drug repurposing for SARS-CoV-2 main protease (M-pro) inhibition,\" Medicinal Research Reviews 2022;42(2):744-769, DOI 10.1002/med.21862, PMID 34697818, PMC8662214. Paper's own text: \"Only two of the 61 articles reviewed confirmed their computational predictions in vitro\" and \"more than 67% did not apply a validation step (Table 1).\" ARITHMETIC NOTE (checked, not disqualifying): the categories sum to 64 > 61 and percentages to 104.92% because each percentage uses the 61 denominator and ~3 articles carry two validation categories. The 18/3 sub-counts rest on the Table 1 extraction alone; the 2 and 41 figures are independently confirmed from the paper's prose. Scope this to COVID-era Mpro repurposing VS papers, not to in-silico publishing generally. This is the single most citable quantification of the 'docking-paper mill' failure mode and defines the bar a serious archetype-1 paper must clear."
+   },
+   {
+    "claim": "Docking score does not track measured potency, so a docking-only paper cannot legitimately claim potency ranking. In the same review's own benchmark — two Mpro crystal structures (6LU7, 6WQF), five docking protocols, 150 literature-derived inhibitors and 81 COVID Moonshot inhibitors — the single best correlation was Pearson r = -0.335 (p = 0.003) for covalent inhibitors with AutoDock Vina, while noncovalent correlations were near zero or of the WRONG SIGN (positive).",
+    "confidence": "high",
+    "vote": "[2] 3-0",
+    "sources": [
+     "https://doi.org/10.1002/med.21862",
+     "https://pubmed.ncbi.nlm.nih.gov/34697818/",
+     "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8662214/"
+    ],
+    "evidence": "Verbatim: \"The best correlation had a Pearson's r coefficient of -0.335 (p value 0.003) for the covalent inhibitors when AutoDock Vina was used... However, the Pearson correlation coefficients for the noncovalent inhibitors were positive or around zero... For the set of 81 M-pro inhibitors from the COVID MoonShot project, most of the correlations were unexpectedly found to be positive.\" Docking scores are negative binding energies and pIC50 rises with potency, so the expected sign is negative — positive means anti-correlated with potency. The paper's own hedged operational conclusion is that correlation is \"not good enough to fully support using a docking score as a cutoff value.\" IMPORTANT SCOPE CORRECTION: a stronger version of this claim — that neither docking scores nor MM-GBSA dG could separate actives from the 113 confirmed inactives, i.e. that a docking cutoff can NEVER nominate hits — was REFUTED 0-3. Discrimination actually IMPROVED when covalent and noncovalent sets were separated (best AUC 0.744 for MM-GBSA on FRED poses of noncovalent inhibitors on 6WQF). The defensible claim is about CORRELATION WITH POTENCY, not about total inability to discriminate. Independent corroboration of the direction comes from CASF/CSAR benchmark summaries where 'scoring power' lags 'docking power' and few methods reach Spearman >= 0.5 for affinity ranking."
+   },
+   {
+    "claim": "The canonical editorial criticism of this genre is not that any single prediction was disproved but that independent studies using similar libraries and similar methodology nominate DIFFERENT compounds, most validate nothing, and the accompanying language is overconfident relative to the evidence — the review calls unvalidated predictions \"speculative and dubious.\"",
+    "confidence": "high",
+    "vote": "[3] 3-0",
+    "sources": [
+     "https://doi.org/10.1002/med.21862",
+     "https://pubmed.ncbi.nlm.nih.gov/34697818/",
+     "https://link.springer.com/article/10.1007/s10822-026-00849-8"
+    ],
+    "evidence": "Abstract text: \"Various manuscripts predict different compounds, even when they use a similar initial dataset and methodology, and most of them do not validate their methodology or results.\" Full text: \"Without a proper validation, the predictions obtained are speculative and dubious\" and \"Overconfident statements and conclusions that are not fully supported by experimental evidence are frequently found in articles that use protein-ligand docking to find SARS-CoV-2 M-pro inhibitors.\" TWO FRAMING PRECISIONS: (a) 'largely different' is an inference from the review's no-consensus finding, not verbatim; (b) the source is a peer-reviewed critical review with its own benchmark, not literally an editorial, and its evidence base is COVID-era Mpro-specific, so extension to 'the docking-paper mill' generally is a reasonable but extrapolative generalisation. A 2026 J Comput Aided Mol Des paper (DOI 10.1007/s10822-026-00849-8, \"Reproducibility, validation, and failure modes across classical and AI-driven molecular docking\") points the same way. PRACTICAL IMPLICATION FOR AN UNAFFILIATED AUTHOR: reviewers now apply prior suspicion to this template, so the language ceiling must be explicit (nominate a hypothesis, never assert a hit) and reproducibility architecture (released poses, code, negative controls, protocol validation) is what substitutes for the absent assay."
+   },
+   {
+    "claim": "The adjacent 'network pharmacology + molecular docking' cancer-mechanism genre has been discredited at the level of publication integrity, not by anyone re-running the computation. A concrete identifier-confirmed instance: \"Network Pharmacology, Molecular Docking, and Experimental Validation to Unveil the Molecular Targets and Mechanisms of Compound Fuling Granule to Treat Ovarian Cancer\" (Oxidative Medicine and Cellular Longevity, DOI 10.1155/2022/2896049, PMID 36062197, PMC9428684) was retracted (notice PMC10412175, DOI 10.1155/2023/9867930, Aug 2023) as part of Hindawi's paper-mill sweep.",
+    "confidence": "high",
+    "vote": "[6] 3-0, [7] 3-0 — merged",
+    "sources": [
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC10412175/",
+     "https://onlinelibrary.wiley.com/doi/10.1155/2022/2896049",
+     "https://pubmed.ncbi.nlm.nih.gov/36062197/",
+     "https://retractionwatch.com/2023/03/21/nearly-20-hindawi-journals-delisted-from-leading-index-amid-concerns-of-papermill-activity/",
+     "https://doi.org/10.3389/fphar.2026.1566772"
+    ],
+    "evidence": "The retraction notice cites \"evidence of ONE OR MORE OF the following indicators of systematic manipulation of the publication process: Discrepancies in scope; Discrepancies in the description of the research reported; Discrepancies between the availability of data and the research described; Inappropriate citations; Incoherent, meaningless and/or irrelevant content included in the article; Peer-review manipulation\" — note 'one or more of', NOT 'including', which is a correction to the originally supplied quote. No scientific re-analysis of the docking is offered as grounds. Context: Oxidative Medicine and Cellular Longevity was among ~19 Hindawi journals delisted from Web of Science for paper-mill activity, inside a wave of 500+ (ultimately 8,000+) retractions for compromised peer review. TWO REQUIRED SCOPE FIXES: (a) the genre HAS ALSO been attacked on methodological grounds — Frontiers in Pharmacology 2026, \"Blind docking methods have been inappropriately used in most network pharmacology analysis,\" DOI 10.3389/fphar.2026.1566772, reviewing 35 network-pharmacology docking papers — so 'destroyed by provenance, not by re-running the docking' is true of THIS retraction, not of the archetype universally; (b) this specific paper included wet-lab 'Experimental Validation', so it is a FAILURE-MODE exemplar, not a zero-new-data exemplar. A broader claim listing six sibling retracted PMC IDs as proof the sub-genre is discredited at scale was REFUTED 0-3 and should not be reproduced."
+   },
+   {
+    "claim": "CMap/LINCS signature-reversal repurposing has a measured, quantified reproducibility problem: querying CMap 2 (LINCS L1000) with 588 CMap-1-derived compound signatures put the correct compound in the top 10% only 17% of the time (99/588) and ranked it first for fewer than 1% of signatures, against a same-resource self-query control of 83% (486/588) top-10% and 53% (313) rank-first.",
+    "confidence": "high",
+    "vote": "[8] 3-0",
+    "sources": [
+     "https://www.nature.com/articles/s41598-021-97005-z",
+     "https://doi.org/10.1038/s41598-021-97005-z",
+     "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8413422/",
+     "https://doi.org/10.1002/psp4.12107"
+    ],
+    "evidence": "Lim N, Pavlidis P, \"Evaluation of connectivity map shows limited reproducibility in drug repositioning,\" Scientific Reports 2021;11:17624, DOI 10.1038/s41598-021-97005-z, PMC8413422 (preprint bioRxiv 10.1101/845693). Figures verified verbatim. THREE REFUTATION ATTEMPTS FAILED: (i) 'it's a platform artifact' (Affymetrix HG-U133A vs L1000 978 landmarks with inferred genes) does not rescue the method, because the authors report low differential-expression reproducibility WITHIN each CMap as well as between them; (ii) validated successes (RGES/IC50 correlation, kenpaullone in Ebola) qualify but do not contradict a reproducibility problem; (iii) the 2021 date does not stale a statement about what a specific benchmark measured. TWO SCOPE PRECISIONS to carry into any write-up: the source is a primary research paper, not an editorial, and it is one of several critiques (cf. Cheng et al., CPT Pharmacometrics Syst Pharmacol, DOI 10.1002/psp4.12107); and the benchmark task is compound SELF-RECOVERY, which is the necessary precondition for disease-signature-reversal repurposing but not literally the same task — state that as an inference. A stronger sub-claim giving specific rank migrations (parbendazole rank 1 -> 142, withaferin-A 9 -> 196, amylocaine 20 -> 122, salbutamol 1 -> 61) was REFUTED 0-3 and must not be cited."
+   },
+   {
+    "claim": "That CMap paper is also the best available TEMPLATE for the publishable-negative archetype: the authors held their claim inside a ceiling a computation-only critique can defend — they attempted and FAILED to adjudicate which CMap version is correct (a third dataset was mutually discordant with both), raised and answered the competing explanation that both resources may recommend different-but-valid compounds, and converted the negative into actionable usage recommendations rather than a verdict that the method does not work.",
+    "confidence": "high",
+    "vote": "[9] 3-0 — verified by live fetch of the primary full text via CI",
+    "sources": [
+     "https://www.nature.com/articles/s41598-021-97005-z",
+     "https://doi.org/10.1038/s41598-021-97005-z"
+    ],
+    "evidence": "Verified by fetching the primary page on a GitHub Actions runner (run 31592017890; artifact committed to origin/literature-cache:literature/cmap-lim-pavlidis-verify/cmap_scirep.txt, 76,110 chars) because nature.com is egress-blocked from the sandbox. All three quote fragments found verbatim exactly once each. Abstract: \"We attempted to identify the 'better' CMap by comparison with a third dataset, but they were mutually discordant. Our findings have implications for CMap usage and we suggest steps for investigators to limit false positives.\" Discussion: \"Another possibility is that both CMaps do recommend valid compounds - just different ones\" — immediately REBUTTED by the authors (\"However, one would still expect that CMap 2 would highly rank the queried compound ... and that was usually not the case\"), which is a stronger credibility device than conceding it. Terminal position: \"Based on these observations and considerable uncertainty about which, if any, version of CMap is reliable, we make some recommendations for researchers\" — then concrete guidance on cell-line relevance and signature size. This is the transferable lesson for archetype 9: an unaffiliated author publishing a route closure should (a) name what the data cannot settle and say so, (b) pre-empt the strongest alternative explanation in the text, (c) end in usage recommendations rather than a verdict. Open access, ~60 citations, Pavlidis lab (UBC)."
+   },
+   {
+    "claim": "Public digital-pathology repositories carry a strong NON-BIOLOGICAL site/batch signature that inflates published accuracies, and the fix is a $0 method an unaffiliated researcher can execute. Tissue submitting site is recoverable from TCGA whole-slide images by a standard Xception CNN at one-vs-rest AUROC 0.964-0.998 across six cancer subtypes, versus 0.623 mean for a model predicting site from clinical variables; and re-splitting so no site appears in both folds (preserved-site cross-validation) dropped AUROC for 51/56 (91.1%) predictable features, with 20 (35.7%) no longer significantly detectable and a mean drop of 0.069 (range -0.042 to 0.291) across 58 features.",
+    "confidence": "high",
+    "vote": "[10] 3-0, [11] 2-1 — merged; batch-effect core unanimous, the resplit statistics carry a scope caveat",
+    "sources": [
+     "https://www.nature.com/articles/s41467-021-24698-1",
+     "https://doi.org/10.1038/s41467-021-24698-1",
+     "https://pubmed.ncbi.nlm.nih.gov/34285218/",
+     "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8292530/",
+     "https://github.com/fmhoward/PreservedSiteCV"
+    ],
+    "evidence": "Howard FM, Dolezal J, Kochanny S, ... Grossman RL, Pearson AT, \"The impact of site-specific digital histology signatures on deep learning model accuracy and bias,\" Nat Commun 2021;12:4423, PMID 34285218, PMC8292530, 204 citations. Verified verbatim against the repo's cached open-access full text at origin/literature-cache:literature/howard-site-signatures/PMC8292530.txt. The authors ADJUDICATED the obvious objection themselves with a single-site simulation: \"batch effect, as opposed to biologic subpopulation differences, are the predominant cause of highly accurate site prediction by deep-learning models.\" TWO SCOPE FIXES: (a) the resplit result is measured on TCGA WHOLE-SLIDE HISTOLOGY IMAGES specifically — do not generalise it to all TCGA-derived predictors (e.g. expression-based) without saying so; (b) corruption is TASK-DEPENDENT, not universal — HER2, lobular-vs-ductal, ER/PR status, KIRC grade, TP53 in BRCA/HNSC/LUAD and BRAF in COADREAD were essentially unaffected. A claim that stain normalization and colour augmentation fail to remove the signature (site still predictable above 0.850 OVR AUROC) was 1-2 and is NOT carried as confirmed."
+   },
+   {
+    "claim": "That same paper prescribes the credibility architecture for public-data ML that an unaffiliated researcher can execute at $0, and does so explicitly because external validation cohorts are often unavailable — stating that this is especially true FOR RARE CANCER SUBTYPES. The method is quadratic-programming-based preserved-site cross-validation; all inputs are public (GDC portal, cBioPortal) and the fold-generation code is on GitHub.",
+    "confidence": "high",
+    "vote": "[12] 3-0",
+    "sources": [
+     "https://www.nature.com/articles/s41467-021-24698-1",
+     "https://doi.org/10.1038/s41467-021-24698-1",
+     "https://github.com/fmhoward/PreservedSiteCV",
+     "https://portal.gdc.cancer.gov/",
+     "https://cbioportal.org"
+    ],
+    "evidence": "Verbatim: \"When developing predictive histologic models for a large number of features, external validation of every finding can be impractical/infeasible. Furthermore, adequate external validation datasets may not be readily available for rare cancer subtypes. As such, multiple studies have trained and validated models using TCGA with no external validation or only partial validation.\" Method: \"We propose using convex optimization/quadratic programming as demonstrated in this study to identify the split of sites to allow optimal stratification of features of interest\" (CPLEX v12.10 in Methods). Data availability: \"Data from TCGA including digital histology and the clinical and genetic annotations used are available from https://portal.gdc.cancer.gov/ and https://cbioportal.org.\" Code availability: \"Our code used for fold generation for cross-validation is available from https://github.com/fmhoward/PreservedSiteCV\" — verified live (public, Python, README cites the DOI; preservedsite/crossfolds.py builds boolean cvxpy variables with a cp.square objective, i.e. a genuine mixed-integer quadratic program). $0 SURVIVES SCRUTINY: the code imports CPLEX (commercial), but the free Community Edition (1000 var / 1000 constraint cap) covers this problem size (3 crossfolds x 38 sites = 114 booleans in the README example), and cvxpy makes swapping a free MIQP solver a one-string change; TCGA slides + clinical data are the OPEN tier (no dbGaP, no DUA). HONEST SCOPING: the authors' full recommendation set is four-part (report outcome variation across sites; never share a site between train and test; use precision-recall not AUROC on imbalanced data; keep stain normalisation/augmentation), and they explicitly do NOT sell preserved-site CV as a substitute for external validation — they call external validation \"the tried and true gold standard\" and position their method as an early screen for \"which features are unlikely to survive the test of external validation.\" 'Plus public code release' is the surveyor's addition, not one of the paper's listed best practices."
+   },
+   {
+    "claim": "Secondary reanalysis of public molecular data clears peer review at a TARGET-NOMINATION level in a real journal with no author-generated data apparent: Sannigrahi et al. nominated PAK2 as a druggable target in HNSCC purely from reanalysis of public DepMap CRISPR loss-of-function screens plus reuse of public inhibitor-response data.",
+    "confidence": "high",
+    "vote": "[16] 3-0",
+    "sources": [
+     "https://pubmed.ncbi.nlm.nih.gov/37997254/",
+     "https://doi.org/10.1002/1878-0261.13558",
+     "https://febs.onlinelibrary.wiley.com/doi/10.1002/1878-0261.13558",
+     "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10850805/",
+     "https://github.com/BasuLab2023/DepMap-2023",
+     "https://doi.org/10.1101/2022.06.12.495566"
+    ],
+    "evidence": "Sannigrahi MK, Cao Y, Rajagopalan P, Sun Z, Brody J, Raghav K, Gimotty PA, Basu D (Univ. of Pennsylvania), \"A novel pipeline for prioritizing cancer type-specific therapeutic vulnerabilities using DepMap identifies PAK2 as a target in head and neck squamous cell carcinomas,\" Molecular Oncology 2024;18(2):336-349 (Epub 13 Dec 2023), DOI 10.1002/1878-0261.13558, PMID 37997254, PMC10850805. Identifiers recovered from four independent indexers. DATA BASIS IS ALL PUBLIC AND ALL FREE — the authors' own repo (github.com/BasuLab2023/DepMap-2023, fetched successfully) lists DepMap 22Q1/23Q2 Chronos gene-effect and gene-probability scores for 63 HPV-negative HNSCC + 24 ESCC lines, DGIdb, Open Targets Platform, GDSC2, PRISM Repurposing, DEMETER2, plus the analysis R script and gene lists; no author-generated assay data is deposited. Even the inhibitor arm reuses public assays: PAK-5339 and FRAX486 responses were \"evaluated in vitro in GDSC.\" The pipeline \"prioritized 143 targetable dependencies,\" then compared inhibitor response between high- and low-dependency lines for 13 targets, reporting dependency biomarkers (wild-type p53, low PAK2 mRNA, diploid 3q). UNRESOLVED: full-text Methods could not be read (all relevant domains egress-blocked), so the presence of any author-generated wet-lab layer in the published version is UNVERIFIED; the earlier preprint (bioRxiv 10.1101/2022.06.12.495566) is described as using publicly available DepMap data without new experimental work. TWO QUALIFICATIONS: the headline framing is the PIPELINE as a reusable template with PAK2 as its demonstration output — slightly weaker than 'a bare target nomination clears review'; and for EMC specifically, DepMap contains NO extraskeletal myxoid chondrosarcoma lines, so transferability is blocked by cell-line availability, not by publishability. No retraction, correction or expression of concern found."
+   },
+   {
+    "claim": "The sharpest exemplar of the SPLIT between what a solo researcher can and cannot do is the sarcoma machine-learning paper: its entire discovery layer ran on free public data, but every headline finding was carried through review by author-generated wet-lab validation requiring institutional assets — archival human tumour specimens, a newly constructed tissue microarray, and formal ethics-board approval (LUMC B17.036) under the Dutch Code for Proper Secondary Use of Human Tissue.",
+    "confidence": "high",
+    "vote": "[13] 3-0, [14] 3-0 — merged",
+    "sources": [
+     "https://journals.plos.org/ploscompbiol/article?id=10.1371%2Fjournal.pcbi.1006826",
+     "https://doi.org/10.1371/journal.pcbi.1006826",
+     "https://pubmed.ncbi.nlm.nih.gov/30785874/",
+     "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6398862/",
+     "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE21050"
+    ],
+    "evidence": "van IJzendoorn DGP, Szuhai K, Briaire-de Bruijn IH, Kostine M, Kuijjer ML, Bovee JVMG, \"Machine learning analysis of gene expression data reveals novel diagnostic and prognostic biomarkers and identifies therapeutic targets for soft tissue sarcomas,\" PLoS Comput Biol 2019, DOI 10.1371/journal.pcbi.1006826, PMID 30785874, PMC6398862. Verified against Europe PMC full-text XML and a CI-fetched copy (run 31594039131; origin/literature-cache:literature/pcbi1006826-verify/). THE WET-LAB LAYER, all three components confirmed in Methods: (1) qRT-PCR on an independent cohort of nine samples — \"Frozen tissue from five SS and four MPNSTs was retrieved from our archive and anonymized\"; (2) IHC on \"one existing tissue microarray (TMA) and one newly constructed TMA,\" with \"seventy leiomyosarcomas... scored for HMMR protein expression,\" scored blinded by a pathologist; (3) cell-viability assays with two HDAC inhibitors (quisinostat, trichostatin A; PrestoBlue, 72 h) in four lines SYO-1, JA192, LMS04, LMS05. Ethics: \"handled according to... the Code for Proper Secondary Use of Human Tissue in the Netherlands... as reviewed and approved by the LUMC ethical board (B17.036).\" THE PORTABLE LAYER: TCGA RNA-seq (206 revised STS cases, NIH GDC, downloaded Feb 2018), GTEx, and French Sarcoma Group arrays from GEO accession GSE21050 (public since June 2010); tooling is R/TensorFlow/Keras, randomForest, Rtsne, caret, limma, maxstat, EnrichR — all $0 and open. TWO NECESSARY QUALIFICATIONS: (a) 'every major computational finding was wet-lab backed' overstates degree — the t-SNE/DNN finding that SS and MPNST resemble nervous-system tissue was never wet-lab validated, and only HMMR of the prognostic gene set went to IHC; the authors themselves hedge to \"When possible, we verified our findings in independent datasets or in cell lines.\" (b) 'the validation is what MADE IT PUBLISHABLE at this level' is an UNVERIFIABLE COUNTERFACTUAL about editorial requirements — PLOS Computational Biology publishes purely computational papers routinely. The load-bearing, verified fact is that the validation layer required assets an unaffiliated solo researcher cannot obtain; whether the paper would have been rejected without it is not established. A separate claim asserting exact public-data cohort sizes (GTEx v7 9,662 samples; GSE21050 DDLPS n=62, LMS n=84) split 1-2 and is not carried as confirmed."
+   },
+   {
+    "claim": "For the ultra-rare / small-n problem, the one MEASURED rule in this evidence set is that the sample-size floor is ANALYSIS-TYPE-DEPENDENT, not a single threshold: MPNST with only five TCGA samples was RETAINED in the supervised random-forest diagnostic-marker analysis — and its markers NEURL1, SCD and NPAS1 were qRT-PCR-verified in an independent cohort — but was EXCLUDED OUTRIGHT from the survival/prognostic-gene analysis for that exact reason.",
+    "confidence": "medium",
+    "vote": "[15] 3-0 on the facts, but the generalisable rule is the surveyor's inference, not the authors'",
+    "sources": [
+     "https://journals.plos.org/ploscompbiol/article?id=10.1371%2Fjournal.pcbi.1006826",
+     "https://doi.org/10.1371/journal.pcbi.1006826",
+     "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6398862/"
+    ],
+    "evidence": "Verified against the fetched PLOS manuscript text (CI run 31594360640; origin/literature-cache:literature/verify-pcbi1006826/, 109,535 bytes, 27 MPNST hits). Cohort: \"...50 dedifferentiated liposarcomas (DDLPS), 44 undifferentiated pleomorphic sarcomas (UPS), 17 myxofibrosarcomas (MFS), 10 synovial sarcomas (SS...) and 5 malignant peripheral nerve sheath tumors (MPNST).\" Retained in classification: Fig 2b — \"Random forests were generated to differentiate between STLMS and ULMS, SS and MPNST, DDLPS and MFS with UPS and last between MFS and UPS. Within the three identified groups a prediction accuracy of over 95% was reached, except when differentiating between UPS and MFS (88%).\" Excluded from time-to-event: \"We identified prognostic genes for all annotated soft tissue sarcoma subtypes, except MPNST (with only five samples available).\" WHY CONFIDENCE IS MEDIUM, NOT HIGH: the paper never articulates a general small-n policy — it simply made that split, and the SS-vs-MPNST classifier rests on 10+5 samples with an UNREPORTED train/test split, so 'n=5 tolerates class discrimination' means 'the authors did it and it survived review', not 'it is statistically sound.' Also note MPNST was not excluded everywhere — it reappears in the CMap therapy step (\"Tanespimycin was identified for UPS, ULMS and MPNST\"), so the exclusion is specific to the survival analysis. PRACTICAL READ FOR EMC: a supervised discrimination or signature-characterisation claim on a handful of samples is publishable if honestly bounded; a survival or prognostic-gene claim at that n is not."
+   },
+   {
+    "claim": "DERIVED SYNTHESIS FOR THE EMC CASE — of the nine archetypes, three are executable under the stated constraints (unaffiliated, no lab/clinic/IRB/DUA, hundreds of dollars of GPU), one is executable only by admission to an external challenge, and the rest are blocked by specific, nameable constraints rather than by compute.",
+    "confidence": "medium",
+    "vote": "Not a verified claim — inference built on findings above; the archetypes with no surviving verified evidence are flagged, not asserted",
+    "sources": [
+     "https://www.nature.com/articles/s41467-021-24698-1",
+     "https://github.com/fmhoward/PreservedSiteCV",
+     "https://doi.org/10.1002/1878-0261.13558",
+     "https://www.nature.com/articles/s41598-021-97005-z",
+     "https://doi.org/10.1002/med.21862",
+     "https://doi.org/10.1371/journal.pcbi.1006826",
+     "/home/user/Rare-cancers/research/manuscripts/no-wet-lab-publication-archetypes.md",
+     "/home/user/Rare-cancers/research/literature/no-wet-lab-archetypes-2026-08-12.json"
+    ],
+    "evidence": "EXECUTABLE NOW: (2) secondary reanalysis of public molecular data — GDC/cBioPortal/GEO/DepMap are the open tier with no DUA, and the PAK2 paper proves target-nomination clears review on this basis alone; (8) AI/ML on public data, PROVIDED the leakage architecture is adopted (preserved-site CV, released code, honest limitation statement), for which the tooling is free and the authors explicitly justify the method by the unavailability of external cohorts for RARE cancer subtypes; (9) publishable negatives and reproducibility audits, where Lim & Pavlidis is a directly imitable template and the ceiling discipline (decline to adjudicate what the data cannot settle; end in usage recommendations) is the whole credibility architecture. EXECUTABLE ONLY BY ADMISSION: (1) in-silico hit finding with experimental confirmation — the ONLY confirmed no-lab route is a blind prospective challenge where organizers run the assay, and entry is selected, so the blocking constraint is ADMISSION, not compute; without it the ceiling is a hypothesis, and the docking-mill evidence says an unvalidated nomination is now met with prior suspicion. BLOCKED BY ASSETS, NOT COMPUTE: the sarcoma exemplar's validation layer (archival tissue, TMA construction, ethics approval) is unobtainable, so any EMC paper must be designed so that no claim depends on it. TARGET-SPECIFIC BLOCKER FOR EMC: DepMap contains no EMC cell lines, so dependency mining is not directly transferable — the workaround would be fusion-class or cross-disease borrowing, which this evidence set does NOT verify. NOT COVERED BY ANY SURVIVING CLAIM, therefore neither recommended nor excluded here: (3) clinical evidence synthesis / reconstructed IPD from Kaplan-Meier curves, (4) registry epidemiology and what access an unaffiliated individual actually obtains for SEER/NCDB/RARECARE, (5) trial design and external/synthetic control arms, (6) mathematical/mechanistic modelling, (7) hypothesis and perspective papers. Existing repo write-ups of this survey are at /home/user/Rare-cancers/research/manuscripts/no-wet-lab-publication-archetypes.md and the source ledger at /home/user/Rare-cancers/research/literature/no-wet-lab-archetypes-2026-08-12.json."
+   }
+  ],
+  "caveats": "COVERAGE IS THE BIGGEST WEAKNESS, AND IT IS UNEVEN BY ARCHETYPE. All 17 surviving claims rest on only SIX primary papers, and they cluster on archetypes 1, 2, 8 and 9. Archetypes 3 (clinical evidence synthesis / Guyot-reconstructed IPD / PROSPERO-PRISMA), 4 (SEER/NCDB/RARECARE registry access for an unaffiliated individual), 5 (basket trials, external control arms, Bayesian borrowing, n-of-1), 6 (adaptive therapy, QSP, dosing/fractionation modelling) and 7 (hypothesis/perspective papers) produced NO claim that survived verification — that is an absence of evidence in this survey, not evidence that those archetypes fail. Any downstream plan that leans on them needs a fresh literature pass.\n\nVERIFICATION WAS DEGRADED BY EGRESS BLOCKING. This environment's proxy blocks nature.com, PMC, PubMed, Europe PMC, Wiley, bioRxiv, Crossref, OpenAlex and Semantic Scholar. Only three claims were confirmed against a genuinely fetched primary full text (the CMap paper and both PLOS Comput Biol claims, all three via GitHub Actions runs 31592017890 / 31594039131 / 31594360640 with artifacts committed to origin/literature-cache), plus the Nat Commun histology paper against a pre-existing repo cache. Everything else — CACHE, the Macip docking review, the Hindawi retraction, the DepMap/PAK2 paper — was confirmed from SEARCH-RESULT RENDERING of the source pages, cross-checked across at least two independent hosts per identifier. That is materially weaker than reading the page. Section-level and figure-panel-level details for those papers are corroborated but not personally read.\n\nONE FULL TEXT WAS NEVER READ AT ALL. For Sannigrahi et al. (PAK2/DepMap) the Methods section was unobtainable, so whether the PUBLISHED version contains author-generated wet-lab validation is UNVERIFIED. The indirect evidence (deposited code + gene lists only; preprint described as using public data without new experiments; the inhibitor arm explicitly reusing GDSC assays) favours it being a pure reanalysis, but it is not established. Do not cite it as a confirmed zero-wet-lab exemplar without checking the Methods.\n\nEIGHT CLAIMS WERE REFUTED AND SOME WERE ATTRACTIVE. Notably: that CACHE prices validation at ~$25,000/100 compounds and covers it for every qualified participant (0-3); that the prize-winning GNINA workflow is directly executable by a solo researcher on a few hundred dollars of GPU (0-3); that neither docking score nor MM-GBSA could separate actives from inactives at all (0-3 — discrimination actually improved when covalent/noncovalent were separated, best AUC 0.744); and specific CMap rank-migration numbers for parbendazole/withaferin-A/amylocaine/salbutamol (0-3). These must not re-enter the write-up.\n\nTHREE CLAIMS CARRY SCOPE OVERREACH THAT WAS CORRECTED HERE AND MUST TRAVEL WITH THEM: the preserved-site CV result is measured on TCGA WHOLE-SLIDE IMAGES only, not all TCGA-derived predictors; the Hindawi retraction's grounds are publication-process integrity for THAT paper, while the genre has separately been criticised on methodological grounds (Front Pharmacol 2026, DOI 10.3389/fphar.2026.1566772); and 'the validation is what made the sarcoma paper publishable' is an unverifiable counterfactual, since PLOS Comput Biol publishes purely computational work.\n\nTWO CLAIMS WERE 2-1 SPLITS: the CACHE data-withholding/blindness mechanism (the verifier corrected the 'cycle 2' terminology — modern CACHE calls these Round 1 and Round 2 within a challenge, and cross-participant withholding protects Round 2 independence rather than making Round 1 blind), and the preserved-site CV statistics (confidence capped at medium by the verifier because the quote's only reachable home was the repo's own cache, i.e. circular provenance).\n\nTIME-SENSITIVITY IS LOW BUT NOT ZERO. Most claims describe what a fixed published document reported, which does not decay. The exceptions are the ones that describe an ONGOING programme or a moving policy: CACHE's admission rules, cost-coverage and target list change per challenge (Challenge #3 on the SARS-CoV-2 Nsp3 macrodomain is now published, and Conscience became steward in 2024); DepMap releases new quarterly data and cell lines; and journal policies on requiring experimental validation were NOT verified from any journal's stated policy page — no such policy text was retrieved in this survey, so every statement about 'which journals accept the archetype' is inferred from where the exemplars were published, not from an editorial policy.",
+  "open_questions": [
+   "What are the actual entry requirements for CACHE for an UNAFFILIATED SOLO participant — is admission open on application, is there any institutional-affiliation or eligibility requirement, and who bears the compound-procurement and assay cost in the current round? The specific cost/coverage claim was refuted 0-3, so this is genuinely unresolved and it is the single highest-leverage question, because CACHE is the only confirmed route to organizer-run wet-lab confirmation of a no-lab prediction.",
+   "What do confirmed exemplars look like for the five archetypes with zero surviving evidence — reconstructed-IPD meta-analysis via the Guyot algorithm from published Kaplan-Meier curves, SEER/NCDB/RARECARENet access for an individual with no institutional signature, external/synthetic control arms and Bayesian borrowing for ultra-rare cancers, mathematical/mechanistic modelling, and hypothesis papers? Registry access in particular is a binary gate (some require an institutional signature or a data-use agreement) and it was never checked.",
+   "Do the journals that published these exemplars have STATED policies on requiring experimental validation? Nothing in this survey retrieved a policy page; PLOS Computational Biology publishing a wet-lab-backed paper does not establish that it requires one, and knowing the stated policy of PLOS Comput Biol, Molecular Oncology, Scientific Reports, J Chem Inf Model and the sarcoma-specific journals would determine where an EMC paper can be aimed.",
+   "For EMC specifically: how many molecular samples exist in PUBLIC repositories worldwide (GEO/SRA/cBioPortal/TCGA-SARC), and is there any EMC or NR4A3-fusion cell line in DepMap or the Cell Model Passports? The DepMap-mining archetype is blocked by cell-line absence rather than by publishability, so the answer decides whether fusion-class pooling or cross-disease borrowing is a workaround or a dead end. Relatedly, has anyone published a small-n Bayesian hierarchical or fusion-class-pooled analysis in sarcoma that passed review, which would give a citable methodological precedent for the n=5-50 regime?"
+  ],
+  "refuted": [
+   {
+    "claim": "The paper states, from a ~50-author public-private consortium including industry, that as of 2022 no computational method could reliably find potent drug-like binders, that no CASP-style computational-chemistry benchmark was operational, and that the reason prospective experimental testing of predictions had not been organised was cost — which is the field-level justification for why an unvalidated in-silico hit-finding paper is not taken at face value.",
+    "vote": "1-2",
+    "source": "https://www.nature.com/articles/s41570-022-00363-z"
+   },
+   {
+    "claim": "CACHE puts a hard price on experimental validation of computational predictions — ~$25,000 USD per 100 compounds, fully loaded — and in its first two competitions covers that cost for every qualified participant, meaning a computational-only researcher can obtain wet-lab validation of their predictions at zero personal cost initially, with costs transferred to participants in later rounds.",
+    "vote": "0-3",
+    "source": "https://www.nature.com/articles/s41570-022-00363-z"
+   },
+   {
+    "claim": "Neither docking scores nor MM-GBSA ΔG values could separate compounds with experimental Mpro inhibitory activity from 113 experimentally confirmed inactive compounds, so a docking-score cutoff cannot legitimately be used to nominate hits or to rank a candidate's potency against a reference — this is the explicit ceiling on what a docking-only paper may claim.",
+    "vote": "0-3",
+    "source": "https://onlinelibrary.wiley.com/doi/full/10.1002/med.21862"
+   },
+   {
+    "claim": "A competitive, prize-winning result in this archetype was achieved with an entirely open-source, modest-compute workflow: GNINA (open-source deep-learning docking) applied to ~7 million commercially available molecules in one arm plus pharmacophore screening in the other, with ranking based on docking scores alone — no proprietary software, no in-house assay data. This is directly executable by an unaffiliated solo researcher with a few hundred dollars of GPU time. [Retrieved via search-result rendering; source domain egress-blocked.]",
+    "vote": "0-3",
+    "source": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11683865/"
+   },
+   {
+    "claim": "This is not an isolated case: the same retraction genre spans many sibling 'network pharmacology and/or molecular docking' papers across multiple Hindawi journals retracted in 2023, with PMC identifiers returned in the same searches (e.g. PMC10396634 spinal cord injury; PMC10791440 Picrorhizae Rhizoma anticancer; PMC10632048 Osthole gastric cancer; PMC10718706 Banxia Xiexin decoction; PMC10769737 lung adenocarcinoma; PMC10412194 bladder urothelial carcinoma), establishing that a whole in-silico-only sub-genre has been discredited at scale and that reviewers now treat its template with prior suspicion.",
+    "vote": "0-3",
+    "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10412175/"
+   },
+   {
+    "claim": "Previously published CMap 1 hits that the original authors had experimentally validated fail to be re-prioritized by CMap 2 even under deliberately favourable, cell-line- and compound-matched comparison: parbendazole went from rank 1 in CMap 1 to rank 142 in CMap 2 (tau = 16.12), withaferin-A from 9 to 196, amylocaine from 20 to 122, and salbutamol from inverse-rank 1 to 61 — i.e. a wet-lab-validated computational hit is not recoverable from the successor version of the same resource.",
+    "vote": "0-3",
+    "source": "https://www.nature.com/articles/s41598-021-97005-z"
+   },
+   {
+    "claim": "The standard mitigation used in the digital-pathology literature — stain colour normalization and colour augmentation — does not remove the site signature; site remains predictable at average OVR AUROC above 0.850 under every normalization method tested.",
+    "vote": "1-2",
+    "source": "https://www.nature.com/articles/s41467-021-24698-1"
+   },
+   {
+    "claim": "The entire discovery layer of this PLOS Comput Biol paper rested on reused public data: TCGA soft-tissue sarcoma RNA-seq (206 revised cases, downloaded Feb 2018 from the NIH GDC portal), GTEx v7 (9,662 samples across 31 tissue types), and French Sarcoma Group expression arrays pulled from GEO accession GSE21050 (DDLPS n=62, LMS n=84) — i.e., a solo-executable, $0 data footprint for the computational half of the study.",
+    "vote": "1-2",
+    "source": "https://journals.plos.org/ploscompbiol/article?id=10.1371%2Fjournal.pcbi.1006826"
+   }
+  ],
+  "sources": [
+   {
+    "url": "https://www.nature.com/articles/s41570-022-00363-z",
+    "quality": "primary",
+    "angle": "In-silico-only drug discovery: norms, blind challenges, journal validation policies",
+    "claimCount": 5
+   },
+   {
+    "url": "https://researcher-resources.acs.org/publish/author_guidelines?coden=jmcmar",
+    "quality": "unreliable",
+    "angle": "In-silico-only drug discovery: norms, blind challenges, journal validation policies",
+    "claimCount": 0
+   },
+   {
+    "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/med.21862",
+    "quality": "primary",
+    "angle": "In-silico-only drug discovery: norms, blind challenges, journal validation policies",
+    "claimCount": 5
+   },
+   {
+    "url": "https://link.springer.com/article/10.1007/s10822-026-00849-8",
+    "quality": "unreliable",
+    "angle": "In-silico-only drug discovery: norms, blind challenges, journal validation policies",
+    "claimCount": 0
+   },
+   {
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11683865/",
+    "quality": "primary",
+    "angle": "In-silico-only drug discovery: norms, blind challenges, journal validation policies",
+    "claimCount": 5
+   },
+   {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10412175/",
+    "quality": "primary",
+    "angle": "In-silico-only drug discovery: norms, blind challenges, journal validation policies",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.nature.com/articles/s41598-021-97005-z",
+    "quality": "primary",
+    "angle": "Secondary reanalysis of public omics: exemplars and reproducibility critique",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.nature.com/articles/s41467-021-24698-1",
+    "quality": "primary",
+    "angle": "Secondary reanalysis of public omics: exemplars and reproducibility critique",
+    "claimCount": 5
+   },
+   {
+    "url": "https://journals.plos.org/ploscompbiol/article?id=10.1371%2Fjournal.pcbi.1006826",
+    "quality": "primary",
+    "angle": "Secondary reanalysis of public omics: exemplars and reproducibility critique",
+    "claimCount": 5
+   },
+   {
+    "url": "https://pubmed.ncbi.nlm.nih.gov/37997254/",
+    "quality": "primary",
+    "angle": "Secondary reanalysis of public omics: exemplars and reproducibility critique",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.nature.com/articles/s41568-024-00763-x",
+    "quality": "primary",
+    "angle": "Secondary reanalysis of public omics: exemplars and reproducibility critique",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7924953/",
+    "quality": "primary",
+    "angle": "Secondary reanalysis of public omics: exemplars and reproducibility critique",
+    "claimCount": 5
+   },
+   {
+    "url": "https://link.springer.com/article/10.1186/1471-2288-12-9",
+    "quality": "primary",
+    "angle": "Clinical evidence synthesis with no patient contact: reconstructed IPD and pooled case series",
+    "claimCount": 5
+   },
+   {
+    "url": "https://pubmed.ncbi.nlm.nih.gov/34074267/",
+    "quality": "primary",
+    "angle": "Clinical evidence synthesis with no patient contact: reconstructed IPD and pooled case series",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11474374/",
+    "quality": "primary",
+    "angle": "Clinical evidence synthesis with no patient contact: reconstructed IPD and pooled case series",
+    "claimCount": 5
+   },
+   {
+    "url": "https://jamanetwork.com/journals/jama/fullarticle/2279718",
+    "quality": "primary",
+    "angle": "Clinical evidence synthesis with no patient contact: reconstructed IPD and pooled case series",
+    "claimCount": 5
+   },
+   {
+    "url": "https://pubmed.ncbi.nlm.nih.gov/24703573/",
+    "quality": "primary",
+    "angle": "Clinical evidence synthesis with no patient contact: reconstructed IPD and pooled case series",
+    "claimCount": 5
+   },
+   {
+    "url": "https://seer.cancer.gov/data/product-comparison.html",
+    "quality": "primary",
+    "angle": "Registry epidemiology access for an unaffiliated individual",
+    "claimCount": 5
+   },
+   {
+    "url": "https://seer.cancer.gov/data/access.html",
+    "quality": "primary",
+    "angle": "Registry epidemiology access for an unaffiliated individual",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.facs.org/quality-programs/cancer-programs/national-cancer-database/puf/",
+    "quality": "primary",
+    "angle": "Registry epidemiology access for an unaffiliated individual",
+    "claimCount": 5
+   },
+   {
+    "url": "https://link.springer.com/article/10.1186/s13023-025-04048-w",
+    "quality": "primary",
+    "angle": "Ultra-rare/small-n methodology plus EMC/NR4A3-specific computational literature",
+    "claimCount": 5
+   },
+   {
+    "url": "https://link.springer.com/article/10.1186/s13023-022-02342-5",
+    "quality": "primary",
+    "angle": "Ultra-rare/small-n methodology plus EMC/NR4A3-specific computational literature",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.fda.gov/media/164960/download",
+    "quality": "primary",
+    "angle": "Ultra-rare/small-n methodology plus EMC/NR4A3-specific computational literature",
+    "claimCount": 5
+   },
+   {
+    "url": "https://pubmed.ncbi.nlm.nih.gov/36948401/",
+    "quality": "primary",
+    "angle": "Ultra-rare/small-n methodology plus EMC/NR4A3-specific computational literature",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(19)30319-5/abstract",
+    "quality": "primary",
+    "angle": "Ultra-rare/small-n methodology plus EMC/NR4A3-specific computational literature",
+    "claimCount": 5
+   }
+  ],
+  "stats": {
+   "angles": 5,
+   "sourcesFetched": 25,
+   "claimsExtracted": 115,
+   "claimsVerified": 25,
+   "confirmed": 17,
+   "killed": 8,
+   "unverified": 0,
+   "afterSynthesis": 14,
+   "urlDupes": 0,
+   "budgetDropped": 5,
+   "agentCalls": 107
+  },
+  "⛔_coverage_caveat_is_the_headline": "All 17 surviving claims rest on SIX primary papers and cluster on archetypes 1, 2, 8 and 9. Archetypes 3 (evidence synthesis / reconstructed IPD), 4 (registry access), 5 (trial design / external controls / Bayesian borrowing), 6 (mathematical modelling) and 7 (perspective papers) produced NO claim that survived verification. That is an ABSENCE OF EVIDENCE IN THIS SURVEY, not evidence those archetypes fail -- but the memo's recommendations 1-6 lean on exactly those archetypes and need a fresh targeted literature pass before anything is staked on them.",
+  "⚠_no_journal_policy_was_ever_retrieved": "No journal's stated policy on requiring experimental validation was retrieved. Every 'which venue accepts this archetype' statement is INFERRED from where exemplars were published.",
+  "⚠_verification_was_degraded_by_egress": "Only three claims were confirmed against a genuinely fetched primary full text (the CMap paper and both PLOS Comput Biol claims), routed out through GitHub Actions runs 31592017890 / 31594039131 / 31594360640 with artifacts committed to origin/literature-cache -- the repo's own s6 escape hatch, used by the harness. Everything else was confirmed from search-result rendering cross-checked across at least two independent hosts per identifier, which is materially weaker than reading the page."
+ }
 }
