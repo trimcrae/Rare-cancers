@@ -10,11 +10,9 @@
     "_transcript_source": {
       "requested": "auto",
       "used_per_gene": {
-        "TFG": "committed_cache",
+        "TFG": "ensembl+cache_agreed",
         "NR4A3": "ensembl+cache_agreed"
-      },
-      "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
-      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+      }
     },
     "mode": "real_exon_junction_mRNA",
     "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted \u2014 \u26a0 for EWSR1 and NR4A3 only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and `provenance_gate` below records which one actually ran.",
