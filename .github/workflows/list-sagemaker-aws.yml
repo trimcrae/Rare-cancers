@@ -23,7 +23,7 @@ on:
         default: ""
         required: false
       mode:
-        description: "'job' = FULL terminal record of one job by name, ANY state (status, FailureReason, transitions, billable, CloudWatch log) — the only mode that can see a FAILED job; 'forensic' = the whole sel-cbp30 incident (ckpt provenance + every matching job + spend), commits abfe-sel-ckpt-forensic.json; 'savings' = realized managed-spot discount (now includes Failed); 'abfe_rate' = measured per-leg ABFE rate; 'abfe_ready' = ABFE dispatch-readiness; blank = in-progress jobs"
+        description: "'job' = FULL terminal record of one job by name, ANY state (status, FailureReason, transitions, billable, CloudWatch log) — the only mode that can see a FAILED job; 'forensic' = the whole sel-cbp30 incident (ckpt provenance + every matching job + spend), commits abfe-sel-ckpt-forensic.json; 'spend_census' = READ-ONLY census of everything billing at rest (S3/ECR/EBS/CloudWatch/SageMaker-per-hour) + Cost Explorer if permitted, commits aws-spend-census.json; 'savings' = realized managed-spot discount (now includes Failed); 'abfe_rate' = measured per-leg ABFE rate; 'abfe_ready' = ABFE dispatch-readiness; blank = in-progress jobs"
         default: ""
         required: false
       job_name:
@@ -71,6 +71,8 @@ jobs:
           cd research/modalities
           if [ "$MODE" = "forensic" ]; then
             python abfe_sel_forensic.py --tag "$ABFE_TAG"
+          elif [ "$MODE" = "spend_census" ]; then
+            python aws_spend_census.py
           else
             python list_sagemaker.py
           fi
@@ -80,3 +82,9 @@ jobs:
           PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "abfe sel-cbp30 forensic: terminal job state, FailureReason, billable, ckpt provenance (CI, \$0)" \
             research/modalities/abfe-sel-ckpt-forensic.json
+      - name: Commit the spend census back to the triggering branch
+        if: ${{ inputs.mode == 'spend_census' }}
+        run: |
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "aws spend census: what still bills at rest with every AWS lane retired (CI, \$0)" \
+            research/modalities/aws-spend-census.json
