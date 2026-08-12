@@ -569,7 +569,7 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-SGK1](L2-rt-sgk1.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-KINASE-LEADS** ◔ | `preprint` | `contributing` |
 | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ◔ | `preprint` | `contributing` |
 | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ◔ | `preprint` | `contributing` |
-| [RT-MDT-LUNG](L2-rt-mdt-lung.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `preprint` | **PUB-LOCOREGIONAL** ◔ | `preprint` | `contributing` |
+| [RT-MDT-LUNG](L2-rt-mdt-lung.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ◔ | `preprint` | `contributing` |
 | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ◔ | `preprint` | `contributing` |
 | [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ◔ | `preprint` | `contributing` |
 | [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ◔ | `preprint` | `contributing` |

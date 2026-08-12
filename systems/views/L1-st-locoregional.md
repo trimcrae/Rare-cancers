@@ -65,7 +65,7 @@ flowchart LR
 |---|---|---|---|---|---|
 | **[RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md)**<br/>Isolated limb perfusion for extremity disease | ✓ blocked | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | Curate primary anatomical site from the open-access pooled series, then search the perfusion literature for my |
 | **[RT-LUNG-DIRECTED](L2-rt-lung-directed.md)**<br/>Lung-directed local therapy (regional perfusion, inhaled delivery, ablation) | ✓ blocked | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | Re-curate metastatic site from the open-access primary reports of the pooled series — the one $0 step that con |
-| **[RT-MDT-LUNG](L2-rt-mdt-lung.md)**<br/>Metastasis-directed ablative radiotherapy to lung metastases (SABR/SBRT) | ✓ ready | computed | `preprint` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | Fetch the full text of the four reported deliveries and extract dose, fractionation, lesion size and duration  |
+| **[RT-MDT-LUNG](L2-rt-mdt-lung.md)**<br/>Metastasis-directed ablative radiotherapy to lung metastases (SABR/SBRT) | ✓ ready | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | Do NOT write the concept paper as framed. Extract dose, fractionation, BED and local-control duration for ever |
 | **[RT-RT-INTENSIFY](L2-rt-rt-intensify.md)**<br/>Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia) | ✓ blocked | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does no |
 ## Best next action
 
