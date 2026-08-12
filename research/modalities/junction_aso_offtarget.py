@@ -72,6 +72,7 @@ PARENT_GENES = tuple(_DONOR_ALIASES.get(_DONOR, (_DONOR,))) + (
 N_OLIGOS = 6                                       # screen the top N fusion-specific designs
 # near match = allow up to 2 mismatches over the oligo length (14/16 at len 16, 18/20 at len 20)
 NEAR_MATCH_MIN_IDENT = ja.OLIGO_LEN - 2
+SUBMIT_SPACING_S = 3                               # NCBI: at most one request per 3 s
 POLL_MAX_S = 600                                   # cap per-query polling at 10 min
 
 
@@ -505,12 +506,14 @@ def rescore(paths):
     return 0
 
 
-def screen_one(design):
+def screen_one(design, rid=None):
+    """Screen one design. `rid` lets a caller submit first and collect later — see `screen_all`."""
     target = design["target_mRNA_5to3"]
     rec = {"antisense_5to3": design["antisense_5to3"], "target_mRNA_5to3": target,
            "gc_percent": design["gc_percent"], "specificity_margin": design["specificity_margin"]}
     try:
-        rid = blast_put(target)
+        if rid is None:
+            rid = blast_put(target)
         blast_poll(rid)
         hits = blast_hits(rid)
         offt = [h for h in hits
@@ -558,16 +561,55 @@ def screen_one(design):
     return rec
 
 
+def screen_all(designs):
+    """Submit every design to BLAST first, then collect — instead of one blocking wait each.
+
+    ⛔ WHY: THIS LOOP WAS THE WHOLE COST OF THE SCREEN (measured 2026-08-12). It ran strictly
+    serially — submit, poll to READY, fetch, next — so a five-design junction paid five full BLAST
+    round-trips back to back and the step measured **27.6 min per junction**. Twelve junctions is
+    then ~5.5 h against a 6-hour job ceiling, which is why the paper's screens had been trickling
+    out a junction at a time.
+
+    NCBI's URL API is submit-then-poll BY DESIGN: `CMD=Put` returns an RID immediately and the
+    search continues server-side whether or not anyone is waiting. Submitting all five and then
+    polling them turns five sequential waits into one concurrent one — the searches were always
+    running in parallel on NCBI's side; only this client was serialising them.
+
+    ⚠ NCBI'S POSTED USAGE RULES ARE KEPT, NOT BENT. Their guidance is at most one request every
+    three seconds and polling no more often than once a minute per RID; submissions stay spaced by
+    `SUBMIT_SPACING_S`, and the collect phase polls each RID in turn with the existing 20-second
+    sleep inside `blast_poll`, so the request rate against any single search is unchanged. This is
+    a change to WHEN we wait, not to how hard we hit the service.
+
+    ⛔ A FAILED SUBMISSION MUST NOT TAKE THE OTHERS DOWN. Each design carries its own RID or its own
+    error, exactly as before — the four transport failures already on record are per-oligo, and
+    batching must not turn one of them into a lost junction.
+    """
+    rids = {}
+    for i, d in enumerate(designs):
+        seq = d["target_mRNA_5to3"]
+        try:
+            rids[seq] = blast_put(seq)
+            print(f"  submitted {i+1}/{len(designs)}: {seq} -> {rids[seq]}", file=sys.stderr)
+        except Exception as e:  # noqa: BLE001 — recorded per design by screen_one below
+            rids[seq] = None
+            print(f"  submit failed {i+1}/{len(designs)}: {seq}: {e}", file=sys.stderr)
+        time.sleep(SUBMIT_SPACING_S)
+
+    out = []
+    for i, d in enumerate(designs):
+        seq = d["target_mRNA_5to3"]
+        print(f"  collecting {i+1}/{len(designs)}: {seq}", file=sys.stderr)
+        out.append(screen_one(d, rid=rids.get(seq)))
+    return out
+
+
 def main():
     ews, nr4, left, right, fusion = ja.build_parents_and_fusion()
     label, prov = ja.junction_label()
     designs = [o for o in ja.design(left, right, fusion) if o["fusion_specific"]][:N_OLIGOS]
 
-    screened = []
-    for i, d in enumerate(designs):
-        print(f"  screening oligo {i+1}/{len(designs)}: {d['target_mRNA_5to3']}", file=sys.stderr)
-        screened.append(screen_one(d))
-        time.sleep(3)   # be polite to NCBI between submissions
+    screened = screen_all(designs)
 
     n_ok = sum(1 for r in screened if r["status"] == "screened")
     n_clean = sum(1 for r in screened

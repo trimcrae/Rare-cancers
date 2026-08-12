@@ -143,3 +143,55 @@ def test_the_lead_candidates_gap_spanning_load_is_the_three_loci_the_manuscript_
 
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))
+
+
+def test_every_blast_submission_happens_before_any_poll():
+    """⛔ THE SCREEN'S WHOLE COST WAS THIS ORDERING (measured 2026-08-12). Submitting, blocking to
+    READY, fetching, then starting the next design made a five-design junction pay five full BLAST
+    round-trips back to back: 27.6 min per junction, ~5.5 h for the paper's twelve against a
+    six-hour job ceiling. NCBI's URL API continues a search server-side whether or not anyone is
+    waiting, so the searches were always parallel and only this client was serialising them.
+
+    Asserted as an ORDERING rather than a duration, because a timing test would be flaky and would
+    not say what went wrong. If a future edit reintroduces submit-then-wait inside the loop, the
+    first poll moves ahead of the last submit and this fails."""
+    import junction_aso_offtarget as M
+    order = []
+    put, poll, hits, sleep = M.blast_put, M.blast_poll, M.blast_hits, M.time.sleep
+    try:
+        M.blast_put = lambda seq: (order.append(("put", seq)), f"RID_{seq}")[1]
+        M.blast_poll = lambda rid: order.append(("poll", rid))
+        M.blast_hits = lambda rid: []
+        M.time.sleep = lambda s: None
+        designs = [{"target_mRNA_5to3": f"SEQ{i}", "antisense_5to3": f"A{i}",
+                    "gc_percent": 50.0, "specificity_margin": 3} for i in range(5)]
+        recs = M.screen_all(designs)
+    finally:
+        M.blast_put, M.blast_poll, M.blast_hits, M.time.sleep = put, poll, hits, sleep
+    kinds = [k for k, _ in order]
+    assert kinds.count("put") == 5 and kinds.count("poll") == 5 and len(recs) == 5
+    assert max(i for i, k in enumerate(kinds) if k == "put") \
+        < min(i for i, k in enumerate(kinds) if k == "poll"), (
+        "a poll happened before the last submission — the screen is serial again")
+
+
+def test_one_failed_submission_does_not_lose_the_other_designs():
+    """Four transport failures are already on record and they are per-oligo. Batching must not turn
+    one of them into a lost junction."""
+    import junction_aso_offtarget as M
+    put, poll, hits, sleep = M.blast_put, M.blast_poll, M.blast_hits, M.time.sleep
+    try:
+        def flaky(seq):
+            if seq == "SEQ2":
+                raise RuntimeError("Remote end closed connection without response")
+            return f"RID_{seq}"
+        M.blast_put, M.blast_hits, M.time.sleep = flaky, (lambda rid: []), (lambda s: None)
+        M.blast_poll = lambda rid: None
+        designs = [{"target_mRNA_5to3": f"SEQ{i}", "antisense_5to3": f"A{i}",
+                    "gc_percent": 50.0, "specificity_margin": 3} for i in range(5)]
+        recs = M.screen_all(designs)
+    finally:
+        M.blast_put, M.blast_poll, M.blast_hits, M.time.sleep = put, poll, hits, sleep
+    assert len(recs) == 5
+    assert sum(1 for r in recs if r.get("status") == "screened") == 4
+    assert sum(1 for r in recs if r.get("status") == "screen_failed") == 1
