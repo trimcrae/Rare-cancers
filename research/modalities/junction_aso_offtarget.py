@@ -113,7 +113,34 @@ def blast_poll(rid):
 
 
 def blast_hits(rid):
-    """Fetch XML results and return parsed HSPs."""
+    """Fetch XML results and return parsed HSPs.
+
+    ⛔⛔ ORIENTATION IS PARSED AS OF 2026-08-12, AND EVERY SCREEN COMMITTED BEFORE THAT DATE
+    OVER-COUNTS. This function read six HSP fields and never `Hsp_hit-frame`, and no orientation
+    filter existed anywhere downstream. `blastn` searches BOTH strands by default, so a transcript
+    carrying the REVERSE COMPLEMENT of the sense target window is returned as a high-identity hit —
+    and an antisense oligonucleotide cannot hybridise it, because hybridisation needs the
+    complement, not the reverse complement. Such a hit is not a weak liability; it is not a
+    liability at all. It was nonetheless admitted by the `identity >= 14` filter and, if its
+    alignment spanned query positions 6-11, recorded as a `true_cleavage_risk`.
+
+    ⭐ THE DISCRIMINATING EVIDENCE WAS A CONTRADICTION BETWEEN THIS REPOSITORY'S OWN TWO SCREENS,
+    found by adversarial review. At TCF12 e13::NR4A3 e3 the design `GGGCATATCTGTGAGA` returns FIVE
+    PERFECT 16/16 matches to C7orf25 here, while `aso_insilico`'s uncapped scan over the same
+    186,185-transcript set reports `offtarget_exact: 0` and `offtarget_le1mm: 0` for the identical
+    query. Both cannot be true: an exact match lies inside the local scan's <=1-mismatch window, and
+    that scan is exhaustive for <=1 mismatch by a pigeonhole argument over both 8-mer halves. The
+    local scan searches the STORED (sense) orientation only — stated in the manuscript as a scoping
+    choice — so a minus-strand BLAST hit is exactly the class it would miss and this one would keep.
+    The published reconciliation ("the <=1-mismatch cutoff cannot see 14/16 hits") cannot explain a
+    16/16 hit and therefore cannot be assumed to explain the other divergences either.
+
+    ⚠ WHAT IS FIXED AND WHAT IS NOT. `hit_frame` is now captured and `is_minus_strand` derived, so
+    downstream code can exclude or flag them. This does NOT retro-correct the committed artifacts:
+    they were produced without the field and cannot be re-derived without re-running the search, so
+    every `n_true_cleavage_risk` published before this date is an UPPER BOUND of unknown tightness.
+    Re-running is the only fix, and the manuscript must say so until it has.
+    """
     xml = _http(BLAST + "?" + urllib.parse.urlencode(
         {"CMD": "Get", "RID": rid, "FORMAT_TYPE": "XML"}), timeout=180)
     root = ET.fromstring(xml)
@@ -126,11 +153,32 @@ def blast_hits(rid):
             alen = int(hsp.findtext("Hsp_align-len") or 0)
             qfrom = int(hsp.findtext("Hsp_query-from") or 0)
             qto = int(hsp.findtext("Hsp_query-to") or 0)
+            # ⚠ ABSENT IS NOT PLUS. A missing `Hsp_hit-frame` is recorded as None and treated as
+            # UNKNOWN orientation downstream, never silently as the safe case — that substitution
+            # is how the original defect would reappear the first time NCBI changed its schema.
+            raw_frame = hsp.findtext("Hsp_hit-frame")
+            frame = int(raw_frame) if raw_frame not in (None, "") else None
             hits.append({"acc": hid, "defn": hdef, "identity": ident, "align_len": alen,
                          "q_from": qfrom, "q_to": qto,
+                         "hit_frame": frame,
+                         "is_minus_strand": (frame < 0) if frame is not None else None,
                          "qseq": hsp.findtext("Hsp_qseq") or "",
                          "midline": hsp.findtext("Hsp_midline") or ""})
     return hits
+
+
+#: Screens produced before orientation was parsed. Their counts are upper bounds, and any artifact
+#: whose hits lack `hit_frame` must be reported as such rather than quoted as a measurement.
+ORIENTATION_PARSED_SINCE = "2026-08-12"
+
+
+def screen_orientation_status(screen):
+    """Whether a committed screen can distinguish hybridisable hits from reverse-complement ones."""
+    for o in screen.get("oligos", []):
+        for h in (o.get("offtargets") or []):
+            if "hit_frame" in h:
+                return "orientation_parsed"
+    return "orientation_UNPARSED_counts_are_upper_bounds"
 
 
 def is_parent(h):
@@ -167,6 +215,33 @@ def gap_mismatch_profile(h):
     if len(gap_covered) < (gap_hi - gap_lo + 1):
         return False, False, None
     return True, True, gap_mismatches
+
+
+def _locus_summary(ranked):
+    """Gene-locus counts over the COMPLETE ranked hit list, written into the screen record.
+
+    The arithmetic lives in `junction_aso_locus_collapse` and is imported rather than repeated, so
+    a screen produced today and an artifact recounted after the fact cannot disagree about what a
+    locus is. Imported lazily: that module reads this one's orientation verdict, and a module-level
+    import in both directions would be a cycle.
+    """
+    try:
+        from junction_aso_locus_collapse import accession_class, locus_of  # noqa: PLC0415
+    except ImportError:  # pragma: no cover — the screen must not fail over a reporting extra
+        return {}
+    by_locus = {}
+    for h in ranked:
+        by_locus.setdefault(locus_of(h), []).append(h)
+    predicted_only = [k for k, v in by_locus.items()
+                      if {accession_class(h) for h in v} == {"predicted"}]
+    risk_loci = sorted(k for k, v in by_locus.items()
+                       if any(str(h.get("risk") or "").startswith("true_cleavage") for h in v))
+    return {
+        "n_distinct_loci": len(by_locus),
+        "n_loci_seen_only_as_predicted_models": len(predicted_only),
+        "n_loci_with_a_gap_spanning_hit": len(risk_loci),
+        "loci_with_a_gap_spanning_hit": risk_loci,
+    }
 
 
 def classify(h):
@@ -469,6 +544,13 @@ def screen_one(design):
                 for n in range(0, MAX_MISMATCHES_PER_NEAR_MATCH + 1)},
             "n_gap_mismatch_unresolvable": sum(1 for h in ranked
                                                if h.get("gap_mismatches") is None),
+            # ⛔ LOCUS COUNTS OVER ALL RANKED HITS, FOR THE SAME REASON AS THE HISTOGRAM ABOVE
+            # (2026-08-12). A near-match count is a count of RefSeq VARIANTS, and collapsing it to
+            # genes after the fact can only be done over the 15 hits saved below — which for 41 of
+            # 67 already-committed oligonucleotides is a truncated sample of a list up to 50 long,
+            # so those artifacts can offer a lower bound and nothing better. Computed here, before
+            # the truncation, the collapse is exact and stays exact.
+            **_locus_summary(ranked),
             "offtargets": ranked[:15],
         })
     except Exception as e:  # noqa: BLE001 — never crash the whole screen on one query

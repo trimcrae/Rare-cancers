@@ -337,7 +337,7 @@ Superseded, retained: all six routes previously inherited BLK-NO-EMC-DATA. Filin
   |---|---|---|---|---|---|---|
   | `TECH-OLIGO-DELIVERY` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `low` | `extrapolated` |
 
-- **owner:** `research/manuscripts/fusion-junction-aso-paper.md#3c-bis-delivery-is-three-routes-with-different-requirements-not-one-gate--and-only-one-of-them-needs-the-antigen-2026-08-12`
+- **owner:** `research/manuscripts/fusion-junction-aso-working-record.md#3c-bis-delivery-is-three-routes-with-different-requirements-not-one-gate--and-only-one-of-them-needs-the-antigen-2026-08-12`
 
 ### BLK-ENDPOINT-MD
 

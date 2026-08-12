@@ -1,8 +1,8 @@
 ---
-id: DOC-FUSION-JUNCTION-ASO-PAPER
-title: "A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity"
+id: DOC-FUSION-JUNCTION-ASO-WORKING-RECORD
+title: "Working record — fusion-junction ASO analyses, provenance and correction history"
 level: L3
-kind: manuscript
+kind: register
 status: live
 canonical_for: []
 purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
@@ -12,6 +12,23 @@ date: 2026-08-05
 last_verified: unverified
 _backfilled: true
 ---
+> # THIS IS THE WORKING RECORD, NOT THE SUBMISSION
+>
+> **The submitted manuscript is
+> [`fusion-junction-aso-short-communication.md`](./fusion-junction-aso-short-communication.md).** This
+> file is its provenance archive: every analysis in full, every superseded value, and the complete
+> correction history that repository rule 1.2 requires be registered rather than dropped.
+>
+> It exists because those two audiences are incompatible. A journal reader needs one thesis, one
+> denominator and no version history; a maintainer needs to know which numbers were withdrawn, when,
+> and why. Keeping both in one file produced a 24,000-word document in which — as an editorial review
+> put it on 2026-08-12 — *no sentence stated a result the manuscript did not itself withdraw, censor
+> or disown*. Splitting them is what makes each readable.
+>
+> **This file is not a parallel draft of the paper and must never become one.** It holds analyses and
+> provenance; the submission holds the argument. Where they overlap on a number, the artifact under
+> `research/modalities/` is the one home and both point at it.
+
 # A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity that the NR4A3 degrader cannot reach
 
 > **Correction record.** This manuscript was subject to a retraction and correction on 2026-08-06:
@@ -272,19 +289,30 @@ liver-specific receptor handle, and EMC has no equivalent. §3c remains unsolved
 **The one first-in-kind claim, stated at exactly its weight: an indication-level first.** Across 5,153 unique
 records, **four** name EWSR1::NR4A3 at title/abstract level; those four are three distinct papers
 (**PMID 40762284**, **PMID 29937513**, **PMID 25097177**) and **not one is an oligonucleotide study**, so the
-⛔ **THOSE THREE IDENTIFIERS ARE NOT YET VERIFIED, AND THEY CARRY THIS PAPER'S ONLY NOVELTY CLAIM
-(flagged 2026-08-12).** They appear in `lit-targets-aso-verify.json` **only inside a hand-written
-narrative field**, with no retrieved record — no title, no authors, no year, no abstract — anywhere in
-this repository, and the fusion's machine-generated `example_pmids` list is empty while every other
-fusion's is populated. That is an identifier written into a prose field and read back as though it
-were a fetch: the exact failure the citation gate exists for, in the one position the gate cannot
-see, because the gate matches identifiers against any tracked JSON without asking whether the match
-is a record or a sentence. A `resultType=core` fetch over all three is running; until it returns,
-**this sentence's specific citations are unverified and the count they support must not be quoted.**
-⚠ The absence claim itself does not rest on them — it rests on the corpus-wide count of zero
-oligonucleotide studies against any NR4A3 fusion — but the three papers named as the four rows do.
-count of junction-directed oligonucleotide work against EWSR1::NR4A3 — or against *any* NR4A3 fusion — is
-**zero**. ⭐ **That second clause is now load-bearing rather than incidental**: since §3a-septies the
+count of junction-directed oligonucleotide work against EWSR1::NR4A3 — or against *any* NR4A3 fusion —
+is **zero**.
+
+✅ **THOSE THREE IDENTIFIERS ARE NOW VERIFIED, AND THE FETCH ALSO SHOWS THE FRAMING WAS TOO KIND TO
+ITSELF (2026-08-12).** ⚠ *Superseded, retained: they were flagged earlier the same day as unverified,
+because they appeared in `lit-targets-aso-verify.json` only inside a hand-written narrative field —
+no title, no authors, no abstract — while that fusion's machine-generated `example_pmids` list was
+empty and every other fusion's was populated. An identifier written into a prose field and read back
+as though it were a fetch is the exact failure the citation gate exists for, and it sits in the one
+position the gate cannot see: the gate matches identifiers against any tracked JSON without asking
+whether the match is a record or a sentence.* A `resultType=core` fetch resolved all three, and they
+are real papers — but **only one of the three is an EMC paper**:
+
+| PMID | what it actually is |
+|---|---|
+| 29937513 | an EMC case report — an actionable *KIT* mutation (Int J Mol Sci, 2018) |
+| 40762284 | **bladder** cancer — NR4A3 and anoikis resistance via EWSR1 (Cancer Biol Ther, 2025) |
+| 25097177 | primary **myelofibrosis** CD34+ miRNA–mRNA analysis (Blood, 2014) |
+
+So the honest statement of the search result is: **4 of 5,153 records mention EWSR1::NR4A3 at
+title/abstract level, those four are three papers, only one concerns EMC, and none is an
+oligonucleotide study.** The absence claim survives — it rests on the corpus-wide count of zero
+oligonucleotide studies against any NR4A3 fusion, not on these three — but a reader who pulls the
+three should not find them oversold. ⭐ **That second clause is now load-bearing rather than incidental**: since §3a-septies the
 paper addresses *any* NR4A3 fusion — TAF15, TCF12 and FUS as well as EWSR1 — so the untouched indication
 is the whole NR4A3-rearranged disease and not one partner of it. Against **108** junction-plus-oligo records for BCR::ABL1 and **37** for EWSR1::FLI1, EMC is not a
 thin search result; it is an untouched indication. ⚠ The method is title/abstract-only, so every count is a

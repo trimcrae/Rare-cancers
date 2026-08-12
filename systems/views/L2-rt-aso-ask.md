@@ -59,7 +59,7 @@ This is the single experiment that would convert the oligonucleotide route from 
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| Junction knockdown and the phenotype arm, in an EMC line — with a fusion-negative line as control (fusion-junction-aso-paper.md §4) | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| Junction knockdown and the phenotype arm, in an EMC line — with a fusion-negative line as control (fusion-junction-aso-working-record.md §4) | ⛔ none built | **no** | BLK-NO-WET-LAB |
 | PARENTAL SPARING, in an engineered or isogenic fusion-positive model carrying abundant wild-type NR4A3 AND EWSR1, with single-parent-targeting ASOs as positive controls. A scrambled control tests sequence-independent toxicity, not discrimination (red-team F7) | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
@@ -80,7 +80,7 @@ This is the single experiment that would convert the oligonucleotide route from 
 
 **`experimental_proposal`**
 
-It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-paper.md §4). What it lacks is a taker, and no amount of further specification produces one.
+It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-working-record.md §4). What it lacks is a taker, and no amount of further specification produces one.
 
 **Missing:**
 - a collaborator with an EMC or FET-fusion line
@@ -95,7 +95,7 @@ It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-paper.
 
 ## Where this route ends — the paper
 
-**[PUB-ASO](L3-publications.md)** — [A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity](../../research/manuscripts/fusion-junction-aso-paper.md)
+**[PUB-ASO](L3-publications.md)** — [Working record — fusion-junction ASO analyses, provenance and correction history](../../research/manuscripts/fusion-junction-aso-working-record.md)
 
 `contributing` · ◐ `drafted` · aimed at `journal_submission`
 

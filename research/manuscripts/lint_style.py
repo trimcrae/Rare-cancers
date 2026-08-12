@@ -50,26 +50,35 @@ TARGETS = [
     "research/manuscripts/repurposing-hypotheses.md",
     "research/manuscripts/emc-surface-target-landscape.md",
     "research/manuscripts/emc-surface-target-landscape-si.md",
+    # ⭐ THE ASO SUBMISSION, ADDED 2026-08-12 WHEN IT BECAME A SUBMISSION TEXT RATHER THAN A
+    # WORKING DOCUMENT. Measured on entry: 2,341 words, 274-word structured abstract, zero glyphs,
+    # bold 6.8/1000 against the limit of 12, em-dashes 3.4/1000 against 6, no inline repository
+    # paths. It passes on merit, not by exemption. Its 24,000-word predecessor could not, and the
+    # split is what made both readable — see the note below.
+    "research/manuscripts/fusion-junction-aso-short-communication.md",
 ]
 
-# ⛔ fusion-junction-aso-paper.md IS NOT IN `TARGETS` YET, AND THE REASON IS A MEASUREMENT RATHER
-# THAN A JUDGEMENT (2026-08-12). Its retraction apparatus was moved to Appendix A that day — the
-# precondition for adding it, since gate 5 exempts appendices so rule 1.2's superseded-value
-# register can live somewhere without dragging the running text's register with it. It was then
-# added here and the gate run, which is the only way to know the size of the job:
+# ⛔ fusion-junction-aso-working-record.md IS DELIBERATELY NOT IN `TARGETS`, AND THAT IS NOW CORRECT
+# RATHER THAN DEFERRED (2026-08-12). It is no longer a manuscript: the submission is
+# `fusion-junction-aso-short-communication.md`, and the working record is its provenance archive —
+# every analysis in full plus the superseded-value register that rule 1.2 REQUIRES. Gate 5 checks
+# journal REGISTER, and that file's audience is a maintainer, so the house style is right there.
+#
+# ⚠ Superseded, retained: the measurement below was taken when the working record still WAS the
+# manuscript, and it is kept because it is the EVIDENCE FOR SPLITTING rather than rewriting. Getting
+# bold from 33.2 to under 12 across 20,915 words would have meant stripping emphasis off the very
+# clauses that stop the paper over-claiming ("**predicted**, not demonstrated", "**0 of 5** clean").
+# A single document carrying both a journal argument and a correction ledger cannot satisfy one
+# audience without failing the other, and the attempt produced a 24,000-word file in which — as an
+# editorial review put it — no sentence stated a result the manuscript did not itself withdraw.
 #
 #     20,915 words · bold 33.2/1000 (limit 12) · em-dash 17.5/1000 (limit 6)
 #     286 bold-midsentence · 127 glyph · 14 heading-style · 4 banned-phrase
 #
-# ⚠ THAT IS A FULL REWRITE OF THE RUNNING TEXT, NOT A TIDY, AND IT CANNOT BE SCRIPTED. Getting bold
-# from 33.2 to under 12 per 1000 words means removing roughly two thirds of it across 20k words in a
-# manuscript where the bold is frequently carrying the HEDGE — "**predicted**, not demonstrated",
-# "**0 of 5** clean", "**no** design is free of…". A regex pass would strip emphasis off exactly the
-# clauses that stop this paper over-claiming, which is a worse outcome than the wrong register.
-# So it is left out deliberately, with the cost named, rather than added and half-satisfied or
-# silenced with a looser threshold. **This is the last step between the manuscript and submittable**,
-# and it is a prose job for a session that can give it a whole pass.
-_NOT_YET_A_SUBMISSION_TEXT_IN_REGISTER = "research/manuscripts/fusion-junction-aso-paper.md"
+# ⚠ The old path `fusion-junction-aso-paper.md` no longer exists: it was renamed to the working
+# record, and the short communication took its place as the deliverable. The name is written here
+# once so a reader meeting it in history can resolve it.
+_NOT_YET_A_SUBMISSION_TEXT_IN_REGISTER = "research/manuscripts/fusion-junction-aso-working-record.md"
 
 # Densities are per 1000 words. They are deliberately generous: the aim is to catch prose that
 # leans on a device, not to ban the device. A paper that trips one of these is not using emphasis,

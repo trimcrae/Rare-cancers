@@ -37,7 +37,7 @@ last_verified: 2026-08-06
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-ASO**<br/>[A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 b…](../../research/manuscripts/fusion-junction-aso-paper.md) | ◐ `drafted` | `journal_submission` | 2 | — |
+| **PUB-ASO**<br/>[Working record — fusion-junction ASO analyses, provenance and correctio…](../../research/manuscripts/fusion-junction-aso-working-record.md) | ◐ `drafted` | `journal_submission` | 2 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
 | **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
@@ -86,9 +86,9 @@ Coincidence detection across both halves of the fusion is a design that would co
 |---|---|---|
 | [RT-ANDGATE](L2-rt-andgate.md) — AND-gate bivalent degrader (avidity coincidence dete | `primary` | The coincidence-detection design and the statement of exactly what does not exist for it to be built. |
 
-### PUB-ASO — A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity
+### PUB-ASO — Working record — fusion-junction ASO analyses, provenance and correction history
 
-**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/fusion-junction-aso-paper.md`](../../research/manuscripts/fusion-junction-aso-paper.md)**
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/fusion-junction-aso-working-record.md`](../../research/manuscripts/fusion-junction-aso-working-record.md)**
 
 The EWSR1::NR4A3 breakpoint junction is the one truly tumour-exclusive feature of this disease at the RNA level, an oligonucleotide can be designed to read it rather than a shape, and transcriptome-wide specificity screening finds no competing match — with delivery named as the outstanding gate rather than assumed away.
 

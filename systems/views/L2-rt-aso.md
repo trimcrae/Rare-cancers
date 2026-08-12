@@ -104,7 +104,7 @@ The computational arc is complete and the delivery gate is stated honestly as a 
 
 ## Where this route ends — the paper
 
-**[PUB-ASO](L3-publications.md)** — [A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity](../../research/manuscripts/fusion-junction-aso-paper.md)
+**[PUB-ASO](L3-publications.md)** — [Working record — fusion-junction ASO analyses, provenance and correction history](../../research/manuscripts/fusion-junction-aso-working-record.md)
 
 `primary` · ◐ `drafted` · aimed at `journal_submission`
 

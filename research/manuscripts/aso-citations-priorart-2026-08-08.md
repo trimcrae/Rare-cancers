@@ -10,7 +10,7 @@ purpose: >
   recollection, run the prior-art search the manuscript never had, and record two findings that
   change what the manuscript may claim.
 scope: >
-  Covers research/manuscripts/fusion-junction-aso-paper.md only. Does not touch the degrader paper,
+  Covers research/manuscripts/fusion-junction-aso-working-record.md only. Does not touch the degrader paper,
   the partner-stratification paper, the surface-antigen files or the citation-provenance ledger.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-08
@@ -406,7 +406,7 @@ What this costs the paper, stated plainly:
 
 ### ⛔ §3a-quinquies is a RETRACTED section still sitting in the manuscript body
 
-Lines 562–690 of `fusion-junction-aso-paper.md` are a fully retracted section retained inline, under
+Lines 562–690 of `fusion-junction-aso-working-record.md` are a fully retracted section retained inline, under
 a banner, in the body of a document whose front matter says `status: live`. It is superseded by
 §3a-sexies. Keeping a withdrawn section in the running text — rather than in an appendix — means
 every quotable sequence, GC value and off-target count in it stays quotable, which is precisely what

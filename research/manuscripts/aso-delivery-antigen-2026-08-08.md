@@ -40,7 +40,7 @@ wider normal-tissue prior or by its absence. So `readiness.md`'s missing item, *
 candidate"*, is **not discharged**.
 
 ⭐ **What has changed is the BASIS of the refusal, and that is the result.** Until today the ASO's
-delivery gate was bounded by a **surrogate**: `fusion-junction-aso-paper.md` §3c's targeting-arm
+delivery gate was bounded by a **surrogate**: `fusion-junction-aso-working-record.md` §3c's targeting-arm
 shortlist was ranked across a translocation-sarcoma DepMap class that contains no verified
 *EWSR1::NR4A3* line and no normal tissue at all, and §3c says so honestly — *"the toxicity-relevant
 tumour-vs-normal window (GTEx/HPA) is the flagged next filter"*. That filter has now been applied,

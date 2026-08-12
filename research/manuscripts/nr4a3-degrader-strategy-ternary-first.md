@@ -193,7 +193,7 @@ that wastes current effort. Proceeding Level 1 is the shared prerequisite for ei
   [`fusion-selective-andgate-degrader-paper.md`](./fusion-selective-andgate-degrader-paper.md).
 - The **sequence-clean** fusion-exclusive alternative *modality* (junction ASO/siRNA — fusion-exclusive by
   base-pairing, spares WT NR4A3; gated on tumour **delivery**, not biology) →
-  [`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md).
+  [`fusion-junction-aso-working-record.md`](./fusion-junction-aso-working-record.md).
 - WT-NR4A3 tumour-suppressor liability citations: Mullican 2007; Safe & Karki 2021.
 
 **Information STILL NEEDED before deciding (assemble at the gate):**

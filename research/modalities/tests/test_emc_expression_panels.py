@@ -553,12 +553,19 @@ def test_a_missing_accession_rate_is_an_absent_reading_not_agreement():
     assert "abs_difference_vs_prior" not in r
 
 
-def _fake_artifact(rate, exhausted_at=None, global_exhausted=None):
+def _fake_artifact(rate, exhausted_at=None, global_exhausted=None, errors=None,
+                   uids_lost=None, dry_at=None):
     diag = {"accession_resolution_rate": rate}
     if exhausted_at is not None:
         diag["ncbi_budget_exhausted_in_elink_at"] = exhausted_at
     if global_exhausted is not None:
         diag["ncbi_global_budget_exhausted"] = global_exhausted
+    if errors is not None:
+        diag["ncbi_errors"] = errors
+    if uids_lost is not None:
+        diag["ncbi_elink_uids_lost_to_transport"] = uids_lost
+    if dry_at is not None:
+        diag["ncbi_elink_abandoned_for_zero_yield_at"] = dry_at
     return {"part_b_emc_tumour_signature": {
         "per_platform": {"GSE24369_series_matrix.txt.gz": {
             "platform": "GPL6244", "probe_mapping_diagnostic": diag}}}}
@@ -578,15 +585,45 @@ def test_the_truncation_detector_separates_the_two_cases_it_exists_to_separate()
     assert mf, "the cross-platform global-budget form is truncation too"
     mf, _ = _bridge_was_truncated(_fake_artifact(0.965, exhausted_at=3400), "GSE4303", "GPL3290")
     assert mf is None, "a different series' record must not be read as this one's"
+    # the two modes added 2026-08-12, each on its own so neither can pass on the other's evidence
+    mf, _ = _bridge_was_truncated(_fake_artifact(0.982, dry_at=1200), "GSE24369", "GPL6244")
+    assert mf, "a run that abandoned elink for zero yield says so in its own field and is incomplete"
+    mf, _ = _bridge_was_truncated(_fake_artifact(0.982, uids_lost=400), "GSE24369", "GPL6244")
+    assert mf, "counted transport loss is incompleteness"
+    mf, _ = _bridge_was_truncated(
+        _fake_artifact(0.982, errors=[{"endpoint": "elink.fcgi", "error": "HTTP Error 502"}]),
+        "GSE24369", "GPL6244")
+    assert mf, "a pre-2026-08-12 artifact carries only the sampled list, and it must still count"
+    # ⛔ AND THE FALLBACK MUST NOT FIRE ON ANY ERROR ANYWHERE. esearch/esummary failures cost UID
+    # recovery, not gene links, and are already visible as a lower `accessions_resolved_to_a_uid`;
+    # treating them as elink truncation would let the equality branch be disabled by an unrelated
+    # blip, which is the exact failure this predicate was written to avoid.
+    mf, _ = _bridge_was_truncated(
+        _fake_artifact(0.982, errors=[{"endpoint": "esummary.fcgi", "error": "HTTP Error 502"}]),
+        "GSE24369", "GPL6244")
+    assert mf is None, "a non-elink error is not evidence the gene-link step came back short"
 
 
 def _bridge_was_truncated(d, gse, platform):
-    """Did the run that produced this rate stop against an exhausted NCBI budget?
+    """Did the run that produced this rate fail to ask NCBI everything it meant to ask?
 
-    ⭐ THE ONE FIELD THAT DECIDES WHETHER TWO RATES ARE COMPARABLE. `TARGETS`' own comment already
+    ⭐ THE FIELDS THAT DECIDE WHETHER TWO RATES ARE COMPARABLE. `TARGETS`' own comment already
     states the rule — "a lower rate with an exhausted budget is a truncated pass; a lower rate
     WITHOUT one is a real change and should be chased" — but nothing read the field, so the test
-    below could not tell the two apart and went red for the harmless one."""
+    below could not tell the two apart and went red for the harmless one.
+
+    ⚠ AND "EXHAUSTED BUDGET" WAS ONLY ONE OF THREE WAYS THE TOP-UP COMES BACK SHORT (2026-08-12).
+    A CI run wrote 0.982 against a 0.984 pin having exhausted no budget and abandoned no chunk for
+    zero yield: it answered all 4,303 accessions and lost gene links to repeated elink `502`s and
+    `IncompleteRead`s, which the producer recorded in `ncbi_errors` and nothing read. The
+    discriminating observation is that curated (6,830) and UniGene (51,071) resolution were
+    IDENTICAL to the previous run, so the entire move was elink yield — a third-party endpoint's
+    behaviour on the day, not a change in this repository. Transport failure against elink is
+    therefore the third mode, and the rate it produces is a floor like the other two.
+
+    ⛔ IT DOES NOT WEAKEN THE TEST: every mode still falls through to the same derived ceiling
+    below, which bounds the shortfall by what the top-up could ever have contributed. A base
+    resolution change larger than that ceiling still fails, whatever the endpoint was doing."""
     per = (d.get("part_b_emc_tumour_signature") or {}).get("per_platform") or {}
     for mf, rec in per.items():
         if not mf.startswith(gse):
@@ -597,9 +634,24 @@ def _bridge_was_truncated(d, gse, platform):
         if rec.get("platform") not in (None, platform) and platform not in mf:
             continue
         if diag.get("ncbi_budget_exhausted_in_elink_at") is not None or \
-                diag.get("ncbi_global_budget_exhausted"):
+                diag.get("ncbi_global_budget_exhausted") or \
+                diag.get("ncbi_elink_abandoned_for_zero_yield_at") is not None or \
+                _elink_transport_failed(diag):
             return mf, diag
     return None, None
+
+
+def _elink_transport_failed(diag):
+    """Did elink refuse to answer, as opposed to answering with nothing?
+
+    Reads the counted field first (`ncbi_elink_uids_lost_to_transport`, written since 2026-08-12)
+    and falls back to the sampled `ncbi_errors` list, which is all an artifact produced before that
+    date can offer — six entries whether six chunks failed or six hundred did, which is why the
+    counted field exists."""
+    if diag.get("ncbi_elink_uids_lost_to_transport"):
+        return True
+    return any(str(e.get("endpoint", "")).startswith("elink")
+               for e in (diag.get("ncbi_errors") or []) if isinstance(e, dict))
 
 
 @pytest.mark.committed_artifact

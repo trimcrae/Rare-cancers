@@ -65,6 +65,33 @@ Consequences, stated plainly:
 and the fee model taken on trust, the paper would have been aimed at a publisher that no longer
 publishes the journal.
 
+### 1a · What the SAGE read returned, and exactly how far it goes
+
+✅ **The $0 route exists at SAGE, and this is a reading rather than an assumption.** `sagepub.com`'s
+open-access page (HTTP 200, resolved to `sagepub.com/journals/open-access`) states, verbatim:
+
+> **"Hybrid Open Access (Sage Choice) Publish Open Access in hybrid subscription journals for an
+> article processing charge"** … **"Green Open Access In our Green Open Access option you may share
+> the Original Submission or Accepted Manuscript at any time after your paper is accepted and in any
+> format"**
+
+Both halves matter for the constraint. Hybrid means OA is an **optional** upgrade behind an APC, so
+the subscription side is the free route; and Green OA means the accepted manuscript may be shared
+*"at any time … in any format"*, which is the open copy without a fee — on top of the bioRxiv
+preprint.
+
+⚠ **AND HERE IS WHAT WAS NOT READ, WHICH MATTERS AS MUCH.** That page is SAGE's **portfolio-wide**
+policy, not a statement about this journal. `journals.sagepub.com/home/nat` returned **403**, and the
+APC-information URL did not resolve at all. So the chain is: *SAGE operates hybrid subscription
+journals with a free route* → *NAT is now a SAGE journal* → **therefore NAT is probably hybrid**. The
+last step is an inference, not a reading. A gold-OA journal inside a mostly-hybrid portfolio is an
+ordinary thing to exist.
+
+**Status: the venue is viable and not yet confirmed.** What would confirm it is one NAT-specific
+page — author guidelines or the journal's own OA statement — read successfully. Until then the plan
+of record stands with the inference named as an inference, and **no submission should be made on the
+strength of this row alone.**
+
 ## 2 · What the venue demands that the current draft does not meet
 
 | requirement | current state |

@@ -99,7 +99,7 @@ tumour-suppressive in HCC/breast/lymphoma. Bounds the set and mandates NR4A1-spa
 ## Update (2026-06-26, trimcrae): the ASO joins the degrader as the second priority paper
 The degrader remains the lead, but it is **NR4A3-selective, not fusion-selective** (the LBD it drugs is
 identical in the fusion and wild-type NR4A3). The **fusion-junction ASO paper**
-([`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md)) is now the **co-priority second paper**:
+([`fusion-junction-aso-working-record.md`](./fusion-junction-aso-working-record.md)) is now the **co-priority second paper**:
 it covers the *next* selectivity tier — sparing wild-type NR4A3 by silencing the chimeric transcript — and
 is the most-likely-to-work fusion-exclusive route (complete in-silico arc; delivery the one gate). The two
 pair naturally: degrader spares the paralogues, ASO spares wild-type NR4A3. Full sequencing + the

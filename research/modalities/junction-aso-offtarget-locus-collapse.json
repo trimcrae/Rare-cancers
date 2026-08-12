@@ -1,0 +1,1945 @@
+{
+  "what": "Off-target near-matches from every committed junction-gapmer screen, re-counted per GENE LOCUS instead of per RefSeq transcript accession, and split by whether the locus was seen in curated (NM_/NR_) or only predicted (XM_/XR_) records.",
+  "\u26a0_not_a_measurement": "A locus count is a denominator, not an off-target activity. No hit was re-aligned or re-graded; the screens' own risk classes are carried through unchanged.",
+  "\u26d4_censoring": "The screens store the top 15 hits per oligonucleotide and report the full near-match count separately, so an oligonucleotide with more than 15 is right-censored: its locus count is a lower bound and its inflation factor is not computable. Every summary below is over the UNCENSORED subset.",
+  "n_screens": 14,
+  "n_oligos": 67,
+  "n_oligos_uncensored": 26,
+  "n_oligos_right_censored": 41,
+  "totals_over_uncensored_oligos_only": {
+    "transcript_near_matches": 229,
+    "distinct_loci_summed_over_oligos": 88,
+    "median_inflation_factor": 2.25,
+    "max_inflation_factor": 7.0,
+    "oligos_whose_loci_are_all_curated": 4,
+    "oligos_with_no_gap_spanning_locus": 2
+  },
+  "screens": [
+    {
+      "screen": "junction-aso-offtarget-bp200-8-gapres.json",
+      "junction_label": null,
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 5,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCTATACGGCTGTG",
+          "specificity_margin": 8,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 21,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 0,
+          "loci_with_a_gap_spanning_hit": [],
+          "loci_seen_only_as_predicted_models": [
+            "LOC107985152"
+          ],
+          "n_transcripts_curated": 3,
+          "n_transcripts_predicted": 12,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 9,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GGCTATACGGCTGTGT",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 36,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "DDR2",
+            "KCNQ1OT1"
+          ],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 7,
+          "n_transcripts_predicted": 8,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 8,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AGGGCTATACGGCTGT",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 1,
+          "n_transcript_near_matches_stored": 1,
+          "n_distinct_loci": 1,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 1.0,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 0,
+          "loci_with_a_gap_spanning_hit": [],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 0,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 1,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCTATACGGCTGTGTA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 38,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "DDR2",
+            "KCNQ1OT1",
+            "SLC66A1"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "FAM167A"
+          ],
+          "n_transcripts_curated": 4,
+          "n_transcripts_predicted": 11,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AAGGGCTATACGGCTG",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 28,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 2,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 1,
+          "loci_with_a_gap_spanning_hit": [
+            "FAM219B"
+          ],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 15,
+          "n_transcripts_predicted": 0,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 14,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-bp200-8.json",
+      "junction_label": null,
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 4,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCTATACGGCTGTG",
+          "specificity_margin": 8,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 21,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 0,
+          "loci_with_a_gap_spanning_hit": [],
+          "loci_seen_only_as_predicted_models": [
+            "LOC107985152"
+          ],
+          "n_transcripts_curated": 3,
+          "n_transcripts_predicted": 12,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 9,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AGGGCTATACGGCTGT",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 1,
+          "n_transcript_near_matches_stored": 1,
+          "n_distinct_loci": 1,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 1.0,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 0,
+          "loci_with_a_gap_spanning_hit": [],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 0,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 1,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCTATACGGCTGTGTA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 38,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 0,
+          "loci_with_a_gap_spanning_hit": [],
+          "loci_seen_only_as_predicted_models": [
+            "FAM167A"
+          ],
+          "n_transcripts_curated": 4,
+          "n_transcripts_predicted": 11,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AAGGGCTATACGGCTG",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 28,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 2,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 0,
+          "loci_with_a_gap_spanning_hit": [],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 15,
+          "n_transcripts_predicted": 0,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 14,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-e12n3.json",
+      "junction_label": "EWSR1_e12__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 5,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCATATCATCAAAC",
+          "specificity_margin": 8,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 9,
+          "n_transcript_near_matches_stored": 9,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 2.25,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "DEPDC4",
+            "LOC105374140",
+            "SGMS1"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "DEPDC4",
+            "LOC105374140",
+            "SGMS1"
+          ],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 8,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GGCATATCATCAAACC",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 50,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "ATR",
+            "UQCC6",
+            "ZNF676"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "ATR",
+            "UQCC6",
+            "ZNF676"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 15,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 8,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AGGGCATATCATCAAA",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 18,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 8,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 6,
+          "n_loci_with_a_gap_spanning_hit": 5,
+          "loci_with_a_gap_spanning_hit": [
+            "C12ORF42-AS1",
+            "DEPDC4",
+            "LOC105372206",
+            "LOC105374140",
+            "LOC107985250"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "DEPDC4",
+            "LOC105372206",
+            "LOC105374140",
+            "LOC107985250",
+            "LYPLAL1",
+            "SYT16"
+          ],
+          "n_transcripts_curated": 2,
+          "n_transcripts_predicted": 13,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 3,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCATCAA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 19,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 5,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 2,
+          "n_loci_with_a_gap_spanning_hit": 4,
+          "loci_with_a_gap_spanning_hit": [
+            "C12ORF42-AS1",
+            "CAVIN4",
+            "LOC105374140",
+            "ZNF225"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC105374140",
+            "SYT16"
+          ],
+          "n_transcripts_curated": 4,
+          "n_transcripts_predicted": 11,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCATATCATCAAACCA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 50,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 2,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "UQCC6",
+            "ZNF676"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "ATR",
+            "ZNF676"
+          ],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 14,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 7,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-e7n3.json",
+      "junction_label": "EWSR1_e7__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 5,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCATATTCTGCTGC",
+          "specificity_margin": 8,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 32,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 9,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 6,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 4,
+          "loci_with_a_gap_spanning_hit": [
+            "DRC8",
+            "NANOG",
+            "SRPX2",
+            "XKR4"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "DRC8",
+            "GPBP1L1",
+            "GSTO2"
+          ],
+          "n_transcripts_curated": 11,
+          "n_transcripts_predicted": 4,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 4,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AGGGCATATTCTGCTG",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 33,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 5,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 4,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "DRC8",
+            "LPO",
+            "acc:NR_153413"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "DRC8"
+          ],
+          "n_transcripts_curated": 11,
+          "n_transcripts_predicted": 4,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 1
+        },
+        {
+          "antisense_5to3": "GGCATATTCTGCTGCC",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 50,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 1,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 1,
+          "loci_with_a_gap_spanning_hit": [
+            "PPIP5K2"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "PPIP5K2"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 15,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 15,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "CAGGGCATATTCTGCT",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 20,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 5,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 2,
+          "n_loci_with_a_gap_spanning_hit": 5,
+          "loci_with_a_gap_spanning_hit": [
+            "DRC8",
+            "LINC02955",
+            "LOC124902071",
+            "LPO",
+            "PDCD2"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "DRC8",
+            "LOC124902071"
+          ],
+          "n_transcripts_curated": 10,
+          "n_transcripts_predicted": 5,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCATATTCTGCTGCCC",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 50,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 2,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 2,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "LPO",
+            "PPIP5K2"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LPO",
+            "PPIP5K2"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 15,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 14,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-fuse10n3.json",
+      "junction_label": "FUS_e10__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 5,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCATATCATCAAAC",
+          "specificity_margin": 8,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 9,
+          "n_transcript_near_matches_stored": 9,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 2.25,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "DEPDC4",
+            "LOC105374140",
+            "SGMS1"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "DEPDC4",
+            "LOC105374140",
+            "SGMS1"
+          ],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 8,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GGCATATCATCAAACC",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 50,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "ATR",
+            "UQCC6",
+            "ZNF676"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "ATR",
+            "UQCC6",
+            "ZNF676"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 15,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 8,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AGGGCATATCATCAAA",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 18,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 8,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 6,
+          "n_loci_with_a_gap_spanning_hit": 5,
+          "loci_with_a_gap_spanning_hit": [
+            "C12ORF42-AS1",
+            "DEPDC4",
+            "LOC105372206",
+            "LOC105374140",
+            "LOC107985250"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "DEPDC4",
+            "LOC105372206",
+            "LOC105374140",
+            "LOC107985250",
+            "LYPLAL1",
+            "SYT16"
+          ],
+          "n_transcripts_curated": 2,
+          "n_transcripts_predicted": 13,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 3,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCATCAA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 19,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 5,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 2,
+          "n_loci_with_a_gap_spanning_hit": 4,
+          "loci_with_a_gap_spanning_hit": [
+            "C12ORF42-AS1",
+            "CAVIN4",
+            "LOC105374140",
+            "ZNF225"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC105374140",
+            "SYT16"
+          ],
+          "n_transcripts_curated": 4,
+          "n_transcripts_predicted": 11,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCATATCATCAAACCA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 50,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 2,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "UQCC6",
+            "ZNF676"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "ATR",
+            "ZNF676"
+          ],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 14,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 7,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-taf15e11n3.json",
+      "junction_label": "TAF15_e11__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 5,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCATATCATCAAAC",
+          "specificity_margin": 8,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 9,
+          "n_transcript_near_matches_stored": 9,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 2.25,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "DEPDC4",
+            "LOC105374140",
+            "SGMS1"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "DEPDC4",
+            "LOC105374140",
+            "SGMS1"
+          ],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 8,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GGCATATCATCAAACC",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 50,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "ATR",
+            "UQCC6",
+            "ZNF676"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "ATR",
+            "UQCC6",
+            "ZNF676"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 15,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 8,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AGGGCATATCATCAAA",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 18,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 8,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 6,
+          "n_loci_with_a_gap_spanning_hit": 5,
+          "loci_with_a_gap_spanning_hit": [
+            "C12ORF42-AS1",
+            "DEPDC4",
+            "LOC105372206",
+            "LOC105374140",
+            "LOC107985250"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "DEPDC4",
+            "LOC105372206",
+            "LOC105374140",
+            "LOC107985250",
+            "LYPLAL1",
+            "SYT16"
+          ],
+          "n_transcripts_curated": 2,
+          "n_transcripts_predicted": 13,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 3,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCATCAA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 19,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 5,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 2,
+          "n_loci_with_a_gap_spanning_hit": 4,
+          "loci_with_a_gap_spanning_hit": [
+            "C12ORF42-AS1",
+            "CAVIN4",
+            "LOC105374140",
+            "ZNF225"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC105374140",
+            "SYT16"
+          ],
+          "n_transcripts_curated": 4,
+          "n_transcripts_predicted": 11,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCATATCATCAAACCA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 50,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 2,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "UQCC6",
+            "ZNF676"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "ATR",
+            "ZNF676"
+          ],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 14,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 7,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-tcf12e11n3.json",
+      "junction_label": "TCF12_e11__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 5,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCATATCTAGAATG",
+          "specificity_margin": 8,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 15,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 5,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 3.0,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "BNC2",
+            "LINC01052",
+            "LOC105377805"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "BNC2",
+            "LOC105377805",
+            "LOC124907761"
+          ],
+          "n_transcripts_curated": 4,
+          "n_transcripts_predicted": 11,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 10,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GGCATATCTAGAATGC",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 9,
+          "n_transcript_near_matches_stored": 9,
+          "n_distinct_loci": 5,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 1.8,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 2,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "BNC2",
+            "LINC01052",
+            "TMPO-AS1"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "BNC2",
+            "WASHC5"
+          ],
+          "n_transcripts_curated": 4,
+          "n_transcripts_predicted": 5,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 3,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AGGGCATATCTAGAAT",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 27,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 2,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 1,
+          "loci_with_a_gap_spanning_hit": [
+            "RTN4"
+          ],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 15,
+          "n_transcripts_predicted": 0,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 12,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCTAGAA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 35,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 2,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 1,
+          "loci_with_a_gap_spanning_hit": [
+            "RTN4"
+          ],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 15,
+          "n_transcripts_predicted": 0,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 12,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCATATCTAGAATGCT",
+          "specificity_margin": 6,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 10,
+          "n_transcript_near_matches_stored": 10,
+          "n_distinct_loci": 5,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 2.0,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "BNC2",
+            "LINC02615",
+            "LOC107986015"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "BNC2",
+            "LOC107986015",
+            "LOC124906223"
+          ],
+          "n_transcripts_curated": 3,
+          "n_transcripts_predicted": 7,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 4,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-tcf12e13n3.json",
+      "junction_label": "TCF12_e13__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 5,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCATATCTGTGAGA",
+          "specificity_margin": 8,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 17,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 8,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 5,
+          "n_loci_with_a_gap_spanning_hit": 4,
+          "loci_with_a_gap_spanning_hit": [
+            "C7ORF25",
+            "LOC112268113",
+            "RPL23AP53",
+            "SLC9A9"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC107984151",
+            "LOC112268113",
+            "PAK3",
+            "SLC9A9",
+            "TENM2"
+          ],
+          "n_transcripts_curated": 5,
+          "n_transcripts_predicted": 10,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GGCATATCTGTGAGAG",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 19,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 6,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 6,
+          "loci_with_a_gap_spanning_hit": [
+            "C7ORF25",
+            "LINC03154",
+            "LOC107986108",
+            "SLC45A4",
+            "SLC9A9",
+            "ZNF566-AS1"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC107986108",
+            "SLC45A4",
+            "SLC9A9"
+          ],
+          "n_transcripts_curated": 5,
+          "n_transcripts_predicted": 10,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AGGGCATATCTGTGAG",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 25,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 2,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "C7ORF25",
+            "LOC112268113"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC105377113",
+            "LOC112268113"
+          ],
+          "n_transcripts_curated": 5,
+          "n_transcripts_predicted": 10,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 8,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCATATCTGTGAGAGG",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 18,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 7,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 5,
+          "n_loci_with_a_gap_spanning_hit": 5,
+          "loci_with_a_gap_spanning_hit": [
+            "C7ORF25",
+            "LINC03154",
+            "LOC107986108",
+            "SLC45A4",
+            "ZNF610"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC107986108",
+            "LOC124906320",
+            "SCFD2",
+            "SLC45A4",
+            "ZNF610"
+          ],
+          "n_transcripts_curated": 4,
+          "n_transcripts_predicted": 11,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCTGTGA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 50,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "C7ORF25",
+            "CDC42BPA",
+            "RGS9"
+          ],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 11,
+          "n_transcripts_predicted": 4,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 10,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-tcf12e17n3.json",
+      "junction_label": "TCF12_e17__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 5,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCATATCTCTATAA",
+          "specificity_margin": 8,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 8,
+          "n_transcript_near_matches_stored": 8,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 2.67,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "LOC105374497",
+            "STRN"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC105374497"
+          ],
+          "n_transcripts_curated": 2,
+          "n_transcripts_predicted": 6,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 1
+        },
+        {
+          "antisense_5to3": "AGGGCATATCTCTATA",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 12,
+          "n_transcript_near_matches_stored": 12,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 4.0,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "CENPK",
+            "STRN"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "CENPK"
+          ],
+          "n_transcripts_curated": 2,
+          "n_transcripts_predicted": 10,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 6,
+          "n_loci_unresolved_to_a_symbol": 1
+        },
+        {
+          "antisense_5to3": "GGCATATCTCTATAAT",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 11,
+          "n_transcript_near_matches_stored": 11,
+          "n_distinct_loci": 6,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 1.83,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 4,
+          "n_loci_with_a_gap_spanning_hit": 5,
+          "loci_with_a_gap_spanning_hit": [
+            "LOC105374497",
+            "LOC124901764",
+            "N4BP2",
+            "NHLRC2",
+            "STRN"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC105374497",
+            "LOC124901075",
+            "LOC124901764",
+            "N4BP2"
+          ],
+          "n_transcripts_curated": 2,
+          "n_transcripts_predicted": 9,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCTCTAT",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 16,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "LOC285422",
+            "STRN",
+            "ZNF599"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC285422"
+          ],
+          "n_transcripts_curated": 3,
+          "n_transcripts_predicted": 12,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 9,
+          "n_loci_unresolved_to_a_symbol": 1
+        },
+        {
+          "antisense_5to3": "GCATATCTCTATAATT",
+          "specificity_margin": 6,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 13,
+          "n_transcript_near_matches_stored": 13,
+          "n_distinct_loci": 7,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 1.86,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 5,
+          "n_loci_with_a_gap_spanning_hit": 6,
+          "loci_with_a_gap_spanning_hit": [
+            "LOC105373454",
+            "LOC105374497",
+            "NHLRC2",
+            "PPARGC1A",
+            "VGLL3",
+            "WDPCP"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC105373454",
+            "LOC105374497",
+            "LOC124901764",
+            "PPARGC1A",
+            "WDPCP"
+          ],
+          "n_transcripts_curated": 3,
+          "n_transcripts_predicted": 10,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 4,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-tcf12e19n3.json",
+      "junction_label": "TCF12_e19__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 4,
+      "per_oligo": [
+        {
+          "antisense_5to3": "AGGGCATATCTCTGAC",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 10,
+          "n_transcript_near_matches_stored": 10,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 3.33,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "CNNM3",
+            "LOC107987234",
+            "LOC124907859"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "CNNM3",
+            "LOC107987234",
+            "LOC124907859"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 10,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 6,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GGCATATCTCTGACTT",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 11,
+          "n_transcript_near_matches_stored": 11,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 2.75,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 4,
+          "loci_with_a_gap_spanning_hit": [
+            "ANXA2R-OT1",
+            "CNNM3",
+            "LOC107987234",
+            "LOC124907859"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "CNNM3",
+            "LOC107987234",
+            "LOC124907859"
+          ],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 10,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 6,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCTCTGA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 20,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 5,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 4,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 4,
+          "loci_with_a_gap_spanning_hit": [
+            "CCDC80",
+            "PLA2G2E",
+            "STRN",
+            "ZNF599"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC105378210"
+          ],
+          "n_transcripts_curated": 5,
+          "n_transcripts_predicted": 10,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 6,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCATATCTCTGACTTG",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 35,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 5,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 4,
+          "loci_with_a_gap_spanning_hit": [
+            "KCNJ15",
+            "LOC107984805",
+            "LOC124904482",
+            "SLC1A3"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC105373604",
+            "LOC107984805",
+            "LOC124904482"
+          ],
+          "n_transcripts_curated": 8,
+          "n_transcripts_predicted": 7,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 6,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-tcf12e3n3.json",
+      "junction_label": "TCF12_e3__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 5,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCATATCTGATCCA",
+          "specificity_margin": 8,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 15,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 3.75,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 4,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "LOC105373592",
+            "NKAIN3",
+            "TRMT11"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "EGFR",
+            "LOC105373592",
+            "NKAIN3",
+            "TRMT11"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 15,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 8,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GGCATATCTGATCCAC",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 13,
+          "n_transcript_near_matches_stored": 13,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 3.25,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "MBNL1",
+            "NKAIN3",
+            "TRMT11"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "MBNL1",
+            "NKAIN3",
+            "TRMT11"
+          ],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 12,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 8,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AGGGCATATCTGATCC",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 49,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 15,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 11,
+          "n_loci_seen_only_as_predicted_models": 4,
+          "n_loci_with_a_gap_spanning_hit": 15,
+          "loci_with_a_gap_spanning_hit": [
+            "acc:NM_001317851",
+            "acc:NM_001377420",
+            "acc:NM_001377421",
+            "acc:NM_001377422",
+            "acc:NM_001377423",
+            "acc:NM_001377424",
+            "acc:NM_001377425",
+            "acc:NM_001377426",
+            "acc:NM_001377427",
+            "acc:NM_001377428",
+            "acc:NM_001377429",
+            "acc:XM_005265218",
+            "acc:XM_011533806",
+            "acc:XM_011533807",
+            "acc:XM_011533810"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "acc:XM_005265218",
+            "acc:XM_011533806",
+            "acc:XM_011533807",
+            "acc:XM_011533810"
+          ],
+          "n_transcripts_curated": 11,
+          "n_transcripts_predicted": 4,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 1,
+          "n_loci_unresolved_to_a_symbol": 15
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCTGATC",
+          "specificity_margin": 6,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 4,
+          "n_transcript_near_matches_stored": 4,
+          "n_distinct_loci": 2,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 2.0,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "LOC124905570",
+            "RPAP2"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC124905570"
+          ],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 3,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 3,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCATATCTGATCCACT",
+          "specificity_margin": 6,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 11,
+          "n_transcript_near_matches_stored": 11,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 3.67,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "NKAIN3",
+            "TMEM161B",
+            "TRMT11"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "NKAIN3",
+            "TMEM161B",
+            "TRMT11"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 11,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 8,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-tcf12e5n3.json",
+      "junction_label": "TCF12_e5__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 5,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCATATCCATCAGA",
+          "specificity_margin": 8,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 26,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 15,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 12,
+          "n_loci_with_a_gap_spanning_hit": 15,
+          "loci_with_a_gap_spanning_hit": [
+            "acc:NM_001282426",
+            "acc:NM_001282427",
+            "acc:NM_002649",
+            "acc:XM_005250443",
+            "acc:XM_011516316",
+            "acc:XM_011516317",
+            "acc:XM_017012328",
+            "acc:XM_047420479",
+            "acc:XM_047420480",
+            "acc:XM_047420481",
+            "acc:XM_054358410",
+            "acc:XM_054358411",
+            "acc:XM_054358412",
+            "acc:XM_054358413",
+            "acc:XM_054358414"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "acc:XM_005250443",
+            "acc:XM_011516316",
+            "acc:XM_011516317",
+            "acc:XM_017012328",
+            "acc:XM_047420479",
+            "acc:XM_047420480",
+            "acc:XM_047420481",
+            "acc:XM_054358410",
+            "acc:XM_054358411",
+            "acc:XM_054358412",
+            "acc:XM_054358413",
+            "acc:XM_054358414"
+          ],
+          "n_transcripts_curated": 3,
+          "n_transcripts_predicted": 12,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 1,
+          "n_loci_unresolved_to_a_symbol": 15
+        },
+        {
+          "antisense_5to3": "AGGGCATATCCATCAG",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 20,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 9,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 9,
+          "n_loci_with_a_gap_spanning_hit": 7,
+          "loci_with_a_gap_spanning_hit": [
+            "FTO",
+            "LOC107985219",
+            "acc:XM_054358410",
+            "acc:XM_054358412",
+            "acc:XM_054358413",
+            "acc:XM_054358414",
+            "acc:XM_054358415"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "FGGY",
+            "FTO",
+            "HNF1B",
+            "LOC107985219",
+            "acc:XM_054358410",
+            "acc:XM_054358412",
+            "acc:XM_054358413",
+            "acc:XM_054358414",
+            "acc:XM_054358415"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 15,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 4,
+          "n_loci_unresolved_to_a_symbol": 5
+        },
+        {
+          "antisense_5to3": "GGCATATCCATCAGAT",
+          "specificity_margin": 7,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 50,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 1,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 1,
+          "loci_with_a_gap_spanning_hit": [
+            "HNRNPA2B1"
+          ],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 14,
+          "n_transcripts_predicted": 1,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 15,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCCATCA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 21,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 5,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "FTO",
+            "TGFB2"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "CDKAL1",
+            "FTO",
+            "LOC105376213"
+          ],
+          "n_transcripts_curated": 5,
+          "n_transcripts_predicted": 10,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 8,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCATATCCATCAGATT",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 50,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 1,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 1,
+          "loci_with_a_gap_spanning_hit": [
+            "HNRNPA2B1"
+          ],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 14,
+          "n_transcripts_predicted": 1,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 15,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-tcf12e7n3.json",
+      "junction_label": "TCF12_e7__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 4,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCATATCAAGCGCT",
+          "specificity_margin": 8,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 3,
+          "n_transcript_near_matches_stored": 3,
+          "n_distinct_loci": 2,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 1.5,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 2,
+          "n_loci_with_a_gap_spanning_hit": 1,
+          "loci_with_a_gap_spanning_hit": [
+            "LOC105371742"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "KIF27",
+            "LOC105371742"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 3,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 2,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GGCATATCAAGCGCTG",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 2,
+          "n_transcript_near_matches_stored": 2,
+          "n_distinct_loci": 2,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 1.0,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 1,
+          "loci_with_a_gap_spanning_hit": [
+            "FAM181B"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "KIF27"
+          ],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 1,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 1,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AGGGCATATCAAGCGC",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 7,
+          "n_transcript_near_matches_stored": 7,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 2.33,
+          "n_loci_with_a_curated_transcript": 2,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 1,
+          "loci_with_a_gap_spanning_hit": [
+            "LOC105371742"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "LOC105371742"
+          ],
+          "n_transcripts_curated": 5,
+          "n_transcripts_predicted": 2,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 4,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GCATATCAAGCGCTGC",
+          "specificity_margin": 6,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 1,
+          "n_transcript_near_matches_stored": 1,
+          "n_distinct_loci": 1,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 1.0,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 1,
+          "loci_with_a_gap_spanning_hit": [
+            "FAM181B"
+          ],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 1,
+          "n_transcripts_predicted": 0,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 1,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    },
+    {
+      "screen": "junction-aso-offtarget-tcf12e9n3.json",
+      "junction_label": "TCF12_e9__NR4A3_e3",
+      "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
+      "n_oligos": 5,
+      "per_oligo": [
+        {
+          "antisense_5to3": "GGGCATATCTTGCATA",
+          "specificity_margin": 8,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 14,
+          "n_transcript_near_matches_stored": 14,
+          "n_distinct_loci": 2,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 7.0,
+          "n_loci_with_a_curated_transcript": 1,
+          "n_loci_seen_only_as_predicted_models": 1,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "ATP23",
+            "SMAD2"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "SMAD2"
+          ],
+          "n_transcripts_curated": 4,
+          "n_transcripts_predicted": 10,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 8,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "AGGGCATATCTTGCAT",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 11,
+          "n_transcript_near_matches_stored": 11,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 3.67,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 3,
+          "n_loci_with_a_gap_spanning_hit": 1,
+          "loci_with_a_gap_spanning_hit": [
+            "STK3"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "GATAD2A",
+            "STK3",
+            "WWTR1"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 11,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 5,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "GGCATATCTTGCATAA",
+          "specificity_margin": 7,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 13,
+          "n_transcript_near_matches_stored": 13,
+          "n_distinct_loci": 3,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 4.33,
+          "n_loci_with_a_curated_transcript": 3,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "ATP23",
+            "CCNH"
+          ],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 9,
+          "n_transcripts_predicted": 4,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 8,
+          "n_loci_unresolved_to_a_symbol": 0
+        },
+        {
+          "antisense_5to3": "CAGGGCATATCTTGCA",
+          "specificity_margin": 6,
+          "right_censored": false,
+          "n_transcript_near_matches_reported": 7,
+          "n_transcript_near_matches_stored": 7,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": false,
+          "inflation_factor": 1.75,
+          "n_loci_with_a_curated_transcript": 0,
+          "n_loci_seen_only_as_predicted_models": 4,
+          "n_loci_with_a_gap_spanning_hit": 3,
+          "loci_with_a_gap_spanning_hit": [
+            "acc:XM_011531191",
+            "acc:XM_047442407",
+            "acc:XM_047442408"
+          ],
+          "loci_seen_only_as_predicted_models": [
+            "GATAD2A",
+            "acc:XM_011531191",
+            "acc:XM_047442407",
+            "acc:XM_047442408"
+          ],
+          "n_transcripts_curated": 0,
+          "n_transcripts_predicted": 7,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 4,
+          "n_loci_unresolved_to_a_symbol": 3
+        },
+        {
+          "antisense_5to3": "GCATATCTTGCATAAA",
+          "specificity_margin": 6,
+          "right_censored": true,
+          "n_transcript_near_matches_reported": 40,
+          "n_transcript_near_matches_stored": 15,
+          "n_distinct_loci": 4,
+          "n_distinct_loci_is_a_lower_bound": true,
+          "inflation_factor": null,
+          "n_loci_with_a_curated_transcript": 4,
+          "n_loci_seen_only_as_predicted_models": 0,
+          "n_loci_with_a_gap_spanning_hit": 2,
+          "loci_with_a_gap_spanning_hit": [
+            "ATP23",
+            "SAMD9"
+          ],
+          "loci_seen_only_as_predicted_models": [],
+          "n_transcripts_curated": 9,
+          "n_transcripts_predicted": 6,
+          "n_transcripts_other": 0,
+          "max_variants_at_one_locus": 6,
+          "n_loci_unresolved_to_a_symbol": 0
+        }
+      ]
+    }
+  ]
+}
