@@ -1,0 +1,160 @@
+2992heliyonHeliyonHeliyonElsevierPMC1013374810133748101337483712393910.1016/j.heliyon.2023.e15373Malaria prevalence in Pakistan: A systematic review and meta-analysis (2006–2021)
+KhanMuhammad Imran QureshiHumera BaeSuk Joo KhattakAamer Ali AnwarMuhammad Shahid AhmadSadique HassanFazal AhmadShabir aDepartment of Industrial Engineering, Hanyang University, Seoul, South KoreabDepartment of Medical Laboratory Technology, The University of Haripur, Haripur, Khyber Pakhtunkhwa, PakistancDepartment of AI and Software Gachon University Seongnam-si 13120, South KoreadEIAS, Data Science and Blockchain Laboratory, College of Computer and Information Sciences, Prince Sultan University, Riyadh, Saudi ArabiaeDepartment of Mathematics and Statistics, The University of Haripur, Haripur, Khyber Pakhtunkhwa, PakistanfIT Convergence Engineering, Gachon University, Gyonggi-do, Seongnam-si, Sujeong-gu, 13120, Republic of Korea∗Corresponding author. sjbae@hanyang.ac.kr
+∗∗Corresponding author. shahidanwar786@gachon.ac.kr
+1These authors have contributed equally to this work and share the first authorship.
+114202394e15373e153732842023© 2023 Published by Elsevier Ltd.This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+Malaria is one of the major public health issues globally. Malaria infection spreads through mosquito bites from infected female Anopheles mosquitoes. This study aims to conduct a systematic review and meta-analysis on malaria prevalence in Pakistan from 2006 to 2021. We searched PubMed, Science Direct, EMBASE, EMCare, and Google Scholar to acquire data on the prevalence of malaria infections. We performed a meta-analysis with a random-effects model to obtain the pooled prevalence of malaria, Plasmodium vivax, and Plasmodium falciparum. Meta-analysis was computed using R 4.1.2 Version statistical software. I2 and time series analysis were performed to identify a possible source of heterogeneity across studies. A funnel plot and the Freeman-Tukey Double Arcsine Transformed Proportion were used to evaluate the presence of publication bias. Out of the 315 studies collected, only 45 full-text articles were screened and included in the final measurable meta-analysis. Pooled malaria prevalence in Pakistan was 23.3%, with Plasmodium vivax, Plasmodium falciparum, and mixed infection rates of 79.13%, 16.29%, and 3.98%, respectively. Similarly, the analysis revealed that the maximum malaria prevalence was 99.79% in Karachi and the minimum was 1.68% in the Larkana district. Amazingly, this systematic review and meta-analysis detected a wide variation in malaria prevalence in Pakistan. Pakistan's public health department and other competent authorities should pay close attention to the large decrease in mosquito populations to curb the infection rate.
+Keywords: Malaria, Meta-analysis, Pakistan, Plasmodium vivax, Plasmodium falciparum
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Jul 17; Revised 2023 Mar 20; Accepted 2023 Apr 4; Collection date 2023 Apr.
+
+1.
+
+## Introduction
+Malaria is a protozoan disease caused by five Plasmodium species and spread by the female Anopheles mosquitoes [ , ]. It is one of the leading causes of morbidity and mortality, with enormous medical and economic impact [ , ]. Four species, including P. vivax and P. falciparum, are known to infect humans in Pakistan and are the most common and widely distributed parasites [ , ]. According to the World Malaria Report for 2021, about half of the world's population lives in 87 nations and regions at risk of malaria transmission. In 2020, it was estimated that Malaria affected 241 million medical episodes and caused about 627,000 deaths [ ]. Apart from that, it's a major public health issue in humid and subtropical areas [ , ]. According to the World Health Organization (WHO), Pakistan is one of the seven countries in the Eastern Mediterranean Region that account for 98% of the total malaria burden in the region. Around 217 million people in Pakistan are at moderate risk of malaria, and 63 million are at high risk. Approximately 0.47 million malaria cases and 800 deaths have been reported in 2020 [ ].
+Environmental factors such as topography, rainfall, climate, and people's socioeconomic status significantly impact malaria transmission. As a result, tropical countries with warm temperatures, heavy rainfall, and high humidity, such as Ethiopia, are ideal for mosquito breeding, lifespan, and parasite sporogony. Malaria is endemic in Pakistan, where it is unstable and spreads seasonally. Transmission peaks twice a year, in September and December and April and May, to coincide with the height of agricultural activity [ ]. Fever, high temperature, sweating, shivering, vomiting, and severe headache are unusual malarial antecedents in terms of clinical signs [ ]. Several malaria diagnostic tests are available, including microscopy, rapid diagnostic tests, and polymerase chain reaction (PCR) assays. Despite its low sensitivity and the necessity for trained professionals, microscopy is still the gold standard for malaria diagnosis [ ]. Early diagnosis, timely treatment, targeted vector control, and epidemic prevention are among the techniques used by the Pakistani government to combat malaria [ ].
+In the late 1970s, the health departments of all four provinces recorded a progressive increase in annual malaria cases. Thus, malaria frequency surged dramatically in the Punjab province between 1980 and 1990, then declined slightly in the late 1980s before increasing again in the 1990s. Similarly, Malaria spread expanded in Khyber Pakhtunkhwa (KP) and Sindh provinces in 1990, but in 1980, Malaria spread throughout northern and southern Khyber, with cases documented in Balochistan. Malaria is most prevalent in KP and Balochistan, specifically Swat, Malakand, Peshawar, Mardan, Lower Dir, Quetta, and Buner [ , , , ].
+Pakistan is extremely vulnerable to climate change due to its geographical location, reliance on agricultural and water resources, and weak disaster preparedness infrastructure. Frequent floods in Pakistan have been linked to a significant rise in malaria cases. Climate change, poor vector management, and insufficient health care are most likely to be blamed for malaria cases [ , ].
+Accurate epidemiological data on malaria prevalence and species distribution across genders and all age categories, including all provinces—especially those frequently ignored—are crucial for achieving the goals outlined in the global technical strategy against malaria for 2016–2030. To the best of our knowledge, there isn’t any comprehensive report from Pakistan on malaria epidemiology in different provinces, species distribution, or disease burden across gender and age groups. This study sought to assess the pooled prevalence and proportion of mixed infection by Plasmodium spp. In different regions of Pakistan. This information is necessary to guide the.
+progress of research on mixed infections and can guide stack holders to develop successful malaria control and elimination strategies. This systematic review or meta-analysis is the first-ever report estimating pooled malaria incidence in Pakistan.
+
+2.
+
+## Methods
+2.1.
+
+## Searching strategy. The preferred reporting items for systematic reviews and meta-analyses
+(PRISMA) guideline was used to conduct this systematic review and meta-analysis. Utilized the following electronic databases to ascertain malaria prevalence in Pakistan: Pubmed, Science Direct, EMBASE, EMCare, and Google Scholar. We used a keyword procedure to match the search keywords to the Medical Subject Headings (MeSH). The search words were also combined and separated using Boolean operators like "OR" and "AND." We used the MeSH terms "prevalence" or "prevalence" and "malaria" or "malaria" [MeSH terms] and "Pakistan" or "Pakistan" [MeSH terms] to find important articles. All reports and research studies on malaria prevalence in Pakistan published from 2006 to 2021 were included.
+
+2.2.
+
+## Criteria for inclusion and exclusion
+2.2.1.
+
+## Criteria for inclusion
+We considered cross-sectional, descriptive, and retrospective investigations using microscopies, RDTs, and PCR as laboratory procedures in this meta-analysis.
+
+2.2.2.
+
+## Criteria for exclusion
+Studies that reported an unknown sample size were removed simultaneously, and studies that lacked strong data on disease cases were also removed.
+
+2.3.
+
+## Procedure for searching and evaluating quality
+We imported the published research articles into EndNote 20 and deleted duplicates once they were also deleted while searching for them. Each author examined the literature individually for possibly eligible publications that satisfied the stated inclusion criteria by looking at.
+titles, abstracts, and full texts. Seventy-five study articles were checked for suitability standards by looking at abstracts and titles. Sixty-one of them were chosen by all the authors for full-text review.
+
+2.4.
+
+## Data extraction
+All authors of this paper collaborated to design the data extraction form in Microsoft Excel. This information extraction sheet included the first author's name, year of publication, region, study design, age, laboratory method used, gender, sample size, overall malaria prevalence, P. vivax, and P. falciparum. Finally, the reliability of the eliminated data files was rigorously reviewed, and a detailed discussion between the authors resolved any differences among the removed data.
+
+2.5.
+
+## Analysis of data
+After extracting the data with Microsoft Excel, we utilized the R 4.1.2 version for statistical analysis. Because of the considerable heterogeneity in the study, we adopted random-effects models. Otherwise, it generates study encumbrances, mostly used to distinguish between different research variations. The I2 statistic, which has a value ranging from 0 to 100%, predicts that the major difference among studies involved in a systematic review and meta-analysis is attributable to heterogeneity instead of chance. Low, medium, and high heterogeneity between trials is indicated by I2 values of 25%, 50%, and 75% plus. When a p-value was less than 0.05, the presence of heterogeneity was determined. We also investigated the publication's bias.
+
+2.6.
+
+## Random effect model
+A random-effects meta-analysis model (equation ) considers that empirical estimates of treatment effect may differ across studies due to differences in treatment effect in each study and sampling variability (chance). As a result, even if every research study had an arbitrarily high sample size, the apparent study effects would still differ due to actual variances in treatment effects. Changes in study populations induce treatment effect heterogeneity, treatments received, follow-up time, and other variables. The pooled estimate and confidence interval for the random-effects model relate to the center of the distribution of intervention effects but do not indicate the width of the distribution. It is common to reference the pooled estimate and its confidence interval as an alternative estimate of the quantity examined in a fixed-effect meta-analysis, which is incorrect. A random-effects meta-analysis confidence interval indicates uncertainty in the position of the mean of systematically varied effects in multiple studies. Contrary to popular belief, it does not describe the degree of variability among studies. Mathematically shown as:
+(2.1)Yit=β0+β1Xit+β2Zit+αi+μitWhere are the coefficients, unobserved heterogeneity and error term
+
+3.
+
+## Results
+3.1.
+
+## Characteristics of the articles involved
+A total of 45 published papers on the prevalence of Malaria in Pakistan were included after examining all inclusion and exclusion criteria. Initially, 315 existing publications were located using a database search engine. From the 315 research papers assessed, 240 duplicates were detected and removed. Then, based on their titles and abstracts, 75 publications were screened. Finally, after thoroughly analyzing the whole text of sixty-one papers, we judged that forty-five were eligible for our systematic review and meta-analysis. The number of research papers picked at each stage and the full screening and eligibility process are depicted in . In terms of study design, all papers considered in this review used cross-sectional, descriptive, and retrospective study designs. With only 116 participants, the research in Okara, Punjab, Pakistan, had the smallest sample size of any study assessed. Another study in Pakistan had the most participants overall, with 6500000. Malaria diagnostic methods used in the studies included microscopic, RDT, and PCR. The majority of the high endemic regions were included in this systematic review and meta-analysis. All articles included in this systematic review were assessed using the JBI quality evaluation technique, and all of them received a satisfactory rating. ( ).
+ 
+3.2.
+
+## Total prevalence of malaria in Pakistan
+We calculated the pooled prevalence of malaria in Pakistan using the selected articles . Thus, there was high heterogeneity found between the studies (I2 = 100%, P = 0.0). The random-effects model remained fitted at 95%; the overall estimated pooled prevalence of malaria was 23.25% (95% CI: 16.14–31.21). A forest plot was utilized to depict the malaria incidence in each experiment and the aggregate estimate. The prevalence ranged from 1.68% in Larkana to 99.79% in Karachi (Sindh province) in Pakistan. Each included the study's estimate and incidence, and the consistent CI is shown in .
+ In this meta-analysis, men had a higher prevalence of malaria than women. The prevalence in males was 61.57% (95% CI: 56.06–66.94, I2 = 100%, 45 studies), and the prevalence in females was 31.71% (95% CI: 27.24–36.36, I2 = 100%, 45 studies). Thus, in this meta-analysis, the prevalence of Malaria was higher in people aged 18–30 years. Most of the cases belonged to rural areas.
+
+3.3.
+
+## Prevalence of Plasmodium falciparum
+According to the primary studies, P. falciparum prevalence ranged from 0.11% in the Swat KP region to 70.08% in the Zyarat and Sanjavi regions. P. falciparum was the second most common parasite, accounting for 16.29% of the total prevalence estimate with a 95% confidence interval of (11.33–21.92) and I2 = 100% between-study heterogeneity ( ).
+ 
+3.4.
+
+## Prevalence of Plasmodium vivax
+This systematic review and meta-analysis discovered P. vivax prevalence estimates of 29.92% and 99.89% in Zairat, Sanjavi, and Swat, respectively, in the KP province. However, in this systematic review and meta-analysis, P. vivax is presently the most prevalent malaria parasite in Pakistan, accounting for 79.13% with a 95% confidence interval of (72.60–84.99) and I2 = 100% between-study heterogeneity ( ).
+ 
+3.5.
+
+## Prevalence of mixed infection
+Only 16 out of 45 studies had mixed infection in this systematic review and meta-analysis. Mixed infection estimates of 0.10% and 17.07% in D.I. Khan and Khudzar. However, in this study Mixed infection is presently the lowest prevalent malaria parasite in Pakistan, accounting for 3.98% with a 95% confidence interval of (2.04–6.49) and I2 = 99% between-study heterogeneity ( ).
+ 
+3.6.
+
+## Publication bias Tests for Heterogeneity
+The funnel plot screened the publication bias between studies on the prevalence of Malaria and objectively using the Freeman-Tukey Double Arcsine Transformed Proportion. Based on a visual examination of the funnel plot, we found no evidence of publishing bias ( ).
+ 
+3.7.
+
+## Time series analysis
+The prevalence of Malaria has not changed uniformly in studies. From 2006 to 2007, the prevalence of Malaria decreased dramatically. However, from 2007 to 2021, the rest of the spread increased and sometimes decreased .
+Tests for Heterogeneity.
+ Significant heterogeneity was identified among the 45 studies included in the Meta-analysis, as evidenced by Q statistics (p-value 0). In addition, the studies had a significantly larger degree of heterogeneity.
+Quantifying heterogeneity:
+(3.1)tau2=0.0890[0.0606;0.1418];tau=0.2982[0.2463;0.3765](3.2)I2=99.9%;H=37.13[36.36;37.91]Test of heterogeneity: Q d. f. p-value.
+60646.14 44 0.00.
+In a meta-analysis, the I2 index measures (equation ) the dispersion of effect sizes, and tau2 estimates (equation ) the variance of the underlying distribution of true effect sizes. It seemed reasonable to apply the random effect model based on these statistics. The combined estimate from the random effect model showed a 23.25% prevalence.
+
+4.
+
+## Discussion
+Malaria is the fifth leading cause of mortality worldwide, killing hundreds of thousands of people, especially children under five and pregnant women [ ]. According to the WHO, Pakistan has 1.5 million malaria cases each year. Pakistan has been placed in the Eastern Mediterranean Region's Group 3 countries, accounting for 95% of the overall regional malaria burden [ ]. Pakistan reduced case incidence by 40% or more in 2020 compared with 2015, according to the WHO 2021 report. However, Pakistan remained one of the top four countries responsible for the most anticipated malaria cases in the region (56%) in 2020 [ ].
+In 2018, KP was the most malaria-affected province in Pakistan, followed by Balochistan (17%), the FATA region (19%), and Punjab (0.2%) [ ]. Malaria cases differ substantially between regions and cannot be correctly analyzed due to a lack of data. Because Pakistan experiences all four seasons with harsh climatic conditions, malaria parasitic species have an unequal distribution throughout the country, and their occurrence varies with the seasons [ ]. The examination of microscopic slides is routinely used for malaria diagnosis. The rapid diagnostic test is usually used in remote areas among migrant outbreaks and when microscopic detection is impossible. Based on the national malaria treatment guidelines, chloroquine plus primaquine is used as a treatment regimen for P. vivax [ ]. Together with sulfadoxine/pyrimethamine, artesunate is recommended as the first-line treatment for P. falciparum after the withdrawal of chloroquine in 2007. However, from 2017 onward, artesunate lumefantrine has been recommended by the WHO as the drug of choice [ ].
+Malaria control in Pakistan is difficult due to a lack of experienced health personnel, laboratory facilities, and appropriate drugs [ ]. Active and passive diagnostics can substantially reduce malaria incidence and prevalence [ ]. Accurate malaria infection surveillance and control initiatives in Pakistan may also be scaled up with accurate data [ ]. The current systematic review included 45 studies with a total of 6889403 malaria infections in Pakistan [ ]. This systematic review and meta-analysis derived basic information regarding Pakistan's estimated pooled malaria prevalence. It used 45 full-text publications to determine the prevalence of two common Plasmodium species in Pakistan: P. falciparum and P. vivax infections. The estimated overall pooled prevalence of Malaria in Pakistan was 23.25% (95% CI: 16.14–31.21) in this systematic review and meta-analysis, with considerable heterogeneity among the studies (I2 = 100%, P = 0.0), the pooled prevalence estimates of P. falciparum were 16.29% (95% CI (11.33–21.92), and the pooled prevalence estimates of P. vivax were 79.13% with 95% CI (72.60–84.99). In this study, the P. falciparum.
+studies (  = 100%, P = 0.0), P. vivax studies (  = 100%, P = 0.0) and mixed studies (I2 = 99%, P = 0.01) with a lot of heterogeneity. Malaria is more common in Pakistan than in other South Asian countries due to differences in insecticide-treated bed nets, test types, environmental conditions, presumptive diagnosis, and the lack of appropriate treatment [ ]. P. vivax was the most prevalent species in Pakistan, followed by P. falciparum, and there were no cases of P. malariae or P. ovale. P. vivax has been reported worldwide and can grow in both temperate and tropical settings. Its larger geographical distribution has been attributed to its early emergence of gametocytes, efficient transmission by Anopheles vectors at lower parasite numbers, faster development of sporozoites within the mosquito, and wider viable temperature ranges than P. falciparum [ ].
+The majority of cases in this study were seen in men and adults over the age of 15, especially in rural areas. The higher proportion of malaria cases among adult men has been a prominent epidemiological characteristic in malarial countries. This high percentage is due to professional and behavioral characteristics that expose men to more infective vectors than women. Due to the prevalence of asymptomatic infections with low parasite concentrations among adult men, these so-called “hot groups” can play a crucial role in outbreaks [ ].
+In Pakistan, continuous insecticidal netting and indoor spraying, early detection and treatment, and environmental control should be routinely encountered. The current study discovered substantial heterogeneity in malaria prevalence in Pakistan compared to other studies done in South Asia. The use of Insecticide-Treated Nets (ITNs), the local environment, age, gender, socioeconomic status, health care facilities, geographic location, household crowding, comorbidities (sickle cell anemia and G6PD deficiency), diagnosis, and treatment facilities are all important determinants of malaria incidence heterogeneity [ , ].
+A meta-analysis was conducted in 2021, which showed the spread of Malaria in India and Thailand was 8% (95% CI: 4–13%, I2: 85.87%, nine studies with 59/794 cases) and 35% (95% CI: 7–64%, I2: 98.9%, four studies with 262/624 cases) [ ]. And so meta-analysis was done also in Afghanistan, Iran, and China, which showed the spread of Malaria which was 0.15 (95%CI: 0.10–0.21; I2 = 83.3%) [ ], 63% (95% CI 51–74%; seven studies) [ ] and 9% (2006/35,768, 95% CI 7.0–12.0%) [ ]. The publications included in this systematic review and meta-analysis demonstrated considerable diversity. Even though all researchers included in this research attempted to explore probable sources of heterogeneity, the reasons for inconsistency remained unknown. Some of the studies were conducted during the high malaria transmission season, while the remainder were conducted during the low malaria transmission season. The seasons in which the studies were done may have contributed to the variability. An improved epidemiological survey and improvement of the surveillance system are two of the most important activities that should be done by public health to control and eliminate Malaria in Pakistan. The two most significant success factors are abundant political commitment to Malaria and good inter-sectoral coordination.
+
+5.
+
+## Strength and limitations
+To the best of our knowledge, this is the first comprehensive systematic review and meta-analysis of malaria prevalence and species distribution across Pakistan's provinces. The current study investigated the pooled prevalence of malaria in Pakistan. The highest infection rate, gender ratio, age group, and peak period during our meta-analysis will all be determined by this study. The evidence could help primary care providers and policymakers create effective malaria management and, eventually, elimination policies.
+In Pakistan, malaria is a severe public health concern. For decision-makers, this report summarized Pakistan's malaria prevalence. When interpreting the significant findings, it is necessary to keep in mind certain essential limitations that the current review possesses. All of the publications under investigation were cross-sectional, descriptive, and retrospective; as a result, other confounding variables might have impacted the outcome variable. Studies included different malaria diagnosis techniques, such as microscopy, RDTs, and PCR, which might have influenced the incidence and species distribution in the study areas. Although it's crucial to take surveillance data and country-level reporting constraints into account (e.g., over or underreporting; missing districts), continued monitoring includes active and passive surveillance and ensures reported data is accurate and consistent across districts. Most of the research has been carried out in the provinces of KP and Baluchistan, while Sindh, FATA, and Punjab only had a small number. The uneven distribution of publications around the country may impact this study's findings. The results of this systematic review and meta-analysis, reporting the pooled proportion of malaria positivity rate among the population screened based on the articles selected, might be impacted by the limitations mentioned.
+
+6.
+
+## Conclusion
+In this comprehensive review and meta-analysis, a substantial range in malaria prevalence in Pakistan was discovered. According to this comprehensive review and meta-analysis, the total incidence of Malaria in Pakistan has increased and decreased over time. This malarial spread was higher in KP and Balochistan provinces than in other parts of Pakistan. Early diagnosis, effective treatment of the disease, integrated mosquito control programs, and regular monitoring for drug resistance in Plasmodium spp. should be prioritized and implemented by Pakistan's government. The two most significant malaria control and elimination variables are substantial political commitment and excellent inter-sectoral coordination.
+This review studies covered all four provinces of Pakistan; however, there are no published data from the fifth province of Gilgit-Baltistan and the autonomous state of Azad Jammu and Kashmir (AJK). Further research in these locations would be interesting to understand Pakistan's malaria epidemiology comprehensively. Plasmodium epidemiology studies must be carried out regularly in Pakistan's 169 districts to get a clear epidemiological picture. As there is a shortage of antimalarial resistance data in Pakistan, antimalarial efficacy trials must be done at least once every 24 months, according to WHO guidelines. To control and eventually eradicate malaria, emphasize the urgent need for researchers, research funding organizations, government agencies, and health authorities (Malaria Control Program, Ministry of Health, and WHO) to step up their efforts.
+
+## Author contribution statement
+Muhammad Imran Khan; Humera Qureshi: Conceived and designed the experiments; Analyzed and interpreted the data; Contributed reagents, materials, analysis tools or data; Wrote the paper.
+Suk Joo Bae: Analyzed and interpreted the data; Contributed reagents, materials, analysis tools or data; Wrote the paper.
+Shahid Anwar: Conceived and designed the experiments; Analyzed and interpreted the data; Contributed reagents, materials, analysis tools or data.
+Sadique Ahmad; Fazal Hassan; Shabir Ahmad: Analyzed and interpreted the data; Contributed reagents, materials, analysis tools or data.
+Aamer Ali Khattak: Conceived and designed the experiments; Wrote the paper.
+
+## Funding statement
+This work was supported by the Korea Institute of Energy Technology Evaluation and Planning (KETEP) and the Ministry of Trade, Industry & Energy (MOTIE) of the Republic of Korea (No. 20213030030190, 2021202090056C).
+
+## Data availability statement
+Data will be made available on request.
+
+## Declaration of interest’s statement
+The authors declare no conflict of interest.
+
+## Contributor Information
+Suk Joo Bae, Email: sjbae@hanyang.ac.kr.
+Muhammad Shahid Anwar, Email: shahidanwar786@gachon.ac.kr.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+Data will be made available on request.

@@ -1,0 +1,130 @@
+pmcFront Endocrinol (Lausanne)Front Endocrinol (Lausanne)1753frontendoFront. Endocrinol.Frontiers in Endocrinology1664-2392Frontiers Media SAPMC12673663PMC12673663.112673663126736634134713510.3389/fendo.2025.16988501Systematic ReviewRisk factors and early prediction of pancreatic cancer among patients with diabetes mellitus: a systematic review and meta-analysis
+CongHaoru SoftwareConceptualizationMethodologyWriting – original draftSongJiamei ValidationData curationWriting – original draftFormal analysisLiuLe InvestigationResourcesWriting – original draftLiuShilin Data curationVisualizationWriting – review & editingWuHaonan VisualizationWriting – review & editingNanZheng Writing – review & editingFunding acquisitionProject administrationSupervision1College of Traditional Chinese Medicine, Changchun University of Chinese Medicine, Changchun, Jilin, China2Department of Endocrinology and Metabolism, The First Affiliated Hospital to Changchun University of Chinese Medicine, Changchun, Jilin, China3College of Pharmacy, Changchun University of Chinese Medicine, Changchun, Jilin, China*Correspondence: Zheng Nan, nanzheng001@aliyun.com191120252025164806471698850059202528102025191120250412202505122025Copyright © 2025 Cong, Song, Liu, Liu, Wu and Nan.2025Cong, Song, Liu, Liu, Wu and Nanhttps://creativecommons.org/licenses/by/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+## Aim
+Diabetes mellitus (DM) increases the risk of pancreatic cancer (PC). This study evaluates risk factors for PC in DM patients and the predictive accuracy of machine learning (ML) models to provide research-backed data for the development and update of intelligent prediction tools.
+
+## Methods
+PubMed, Cochrane, Embase, and Web of Science were systematically retrieved, up to December 1, 2024. The quality of the original studies was assessed through the Newcastle-Ottawa Scale (NOS). A meta-analysis was conducted on the c-index that reflects the comprehensive accuracy of the prediction models.
+
+## Results
+18 studies were included. The rough annual incidence of PC among DM was estimated at 0.4% (95% CI: 0.1% - 0.9%), and the incidence rates of PC for new-onset DM and pre-existing DM were 0.3% (95% CI: 0.1% - 0.5%) and 0.5% (95% CI: 0% - 2.7%), respectively. The possible risk factors included age at DM diagnosis, weight changes, blood sugar, ALP, GI symptoms, pancreatic disease history, and the usage of hypoglycemic drugs. ML models based on risk factors had ROC-AUCs of 0.79 (95% CI: 0.75-0.84) in the training set and 0.79 (95% CI: 0.71-0.87) in the validation set.
+
+## Conclusions
+Risk factors for PC in DM are diverse. Current ML models appear to exhibit favorable predictive accuracy but are built on severely imbalanced data. Future studies with larger, broader populations are needed to address this limitation.
+
+## Systematic review registration
+https://www.crd.york.ac.uk/PROSPERO/, identifier CRD42025631534.
+
+diabetes mellitusincidence ratemachine learningpancreatic cancerrisk factorsThe author(s) declare financial support was received for the research and/or publication of this article. This research was supported by National Master of Traditional Chinese Medicine Nan Zheng’s Heritage Studio (No. 1000080305). 
+3.2
+
+## Characteristics of the studies
+Among the 18 studies selected, 1 was a prospective cohort study, 2 adopted a case-control design, 2 were nested case-control population-based studies, 1 was a retrospective observational study, and the remaining 12 were all retrospective cohort studies. A total of 18 studies investigated the risk factors for PC in patients with DM, and 13 of these studies established prediction models for PC among DM patients employing ML algorithms. The data used in the studies mainly came from various databases, including the UK Biobank database in 2 studies, TriNetX database in 3 studies, and regional single-center/multi-center data from research sites in 13 studies. The average follow-up period of those studies was around 3 years. The ML algorithms used in the studies included LR, SVM, MLP, XG Boost, RF, PRS, Boursi model, iterative linearization method, ANN, neural network, LDA, Light GBM, GBM, SVC, Voting, END-PAC scoring model, and Cox model. The selected modeling variables all had clinical characteristics. In a study, variables related to genetic features were also included. To verify the performance of the models, these studies adopted internal validation (random sampling, K-fold cross-validation, Bootstrap), and some also employed external validation ( ).
+ 
+3.3
+
+## Risk of bias in studies
+The NOS scale was employed to assess the quality of the studies selected. Among the 18 studies selected, 1 was a prospective cohort study, 2 were case-control studies, 2 were nested case-control population-based studies, 1 was a retrospective observational study, and the remaining 12 were all retrospective cohort studies. Among them, only one study was conducted based on a specific group, such as veterans. Therefore, it did not receive any points for the representativeness of the exposure cohort. There were ten studies with a follow-up period of no more than three years. We believed that such a duration might lead to insufficient follow-up, and therefore, it did not receive any points either. In addition, all the 18 studies received 2 points each in the comparability analysis item, and 1 point each in other items. The final scores of the 18 studies selected were all between 8 and 9, featuring all high-quality studies.
+
+3.4
+
+## Risk factors
+In the studies selected, 6 studies used the Cox regression method, 7 employed the logistic regression approach to investigate the risk factors for PC among patients with DM, and the remaining 5 discussed the modeling variables providing a higher predictive effect in the constructed prediction models. Due to the diversity of risk factors and potential differences in the assessment methods among various factors, an overview of them was only provided ( ).
+ 3.4.1
+
+## Clinical characteristics
+The increased risk of PC among patients with DM may be associated to older age, pancreatic-related diseases (such as chronic pancreatitis and pancreatic cystic lesions), history of liver diseases (such as non-alcoholic fatty liver disease (NAFLD)), jaundice, gallstones, and chronic kidney disease (CKD) at a stage less than 2 ( – ). It is worth noting that the risk of developing new-onset DM is greater than that of pre-existing DM. Patients with this condition present with weight loss and rapid deterioration of glycemic control within 1–2 years before the diagnosis of DM ( , ). When patients with new-onset DM experience symptoms such as abdominal pain, nausea, and vomiting, this may indicate the possibility of PC ( ).
+
+3.4.2
+
+## Biochemical indicators
+In terms of biochemical indicators, certain differences in lipid metabolism and liver function are also observed between patients with new-onset DM and those with pre-existing DM. These include variations in triglyceride (TG), alkaline phosphatase (ALP), and alanine aminotransferase (ALT) ( ). A higher rate of HbA1c alteration and elevated ALP are correlated with the occurrence of PC ( ). Notably, alterations in these biochemical indicators may be the consequence of early-stage PC. Therefore, they could potentially be used in clinical practice to identify high-risk populations for early-stage PC.
+
+3.4.3
+
+## Medication history
+During the DM treatment process, changes in the timing of insulin administration, alterations in the medication regimen, and the application of new medications may be associated with the onset of PC ( ). The initiation of insulin use, metformin, and other oral hypoglycemic drugs is correlated with a heightened risk of PC ( , ). The use of GLP-1RAs, a novel class of antidiabetic drugs in clinical practice in recent years, has been observed to be associated with a change in the incidence of PC among treated patients ( ). Additionally, some drugs used to treat complications of DM (such as β-blockers, acid-suppressing drugs, and lipid-regulating medications) are also associated with the risk of PC ( , ). Nevertheless, as the discussion on the role of medication history in the onset of PC in the original studies included remains limited, the observed association between drug exposure and PC should be interpreted with caution.
+During the course of these studies, due to ethnicity, region, scale, educational level, and information deficiency, certain deviations may exist in the prediction results. However, the early identification of the risk factors above is still of great significance for predicting the occurrence of PC, assisting in the early treatment of PC, and improving the survival of patients with PC. Early surgical treatment is currently the most effective means to strive for the survival of PC patients. Efforts should be made to develop powerful tools to detect high-risk populations for PC, in order to provide accurate and reliable clinical prediction tools for the prevention and treatment of PC.
+
+3.5
+
+## Meta-analysis
+3.5.1
+
+## Incidence rate
+A double arcsine transformation was applied prior to meta-analysis of the 18 included studies. A random-effects model was utilized to summarize the average annual incidence rate, which was found to be approximately 0.4% (95% CI: 0.1% - 0.9%). Subgroup analyses of incidence rates were performed according to new-onset DM or pre-existing DM and country or region. The incidence rates of PC were 0.3% (95% CI: 0.1% - 0.5%) in patients with new-onset DM and 0.5% (95% CI: 0% - 2.7%) in those with pre-existing DM, respectively ( ). In the subgroup analysis by country or region, the incidence rate of PC was 1.1% (95% CI: 0% - 4.5%) in patients from the UK compared to 0.5% (95% CI: 0.1% - 1.3%) in those from the U.S. ( ).
+ 
+3.5.2
+
+## Accuracy of the prediction model
+Among the literature included in this study, 5 provided the c-index of the training set, 4 conducted cross-validation, and 5 verified the models built on the training set. The results based on the random effects model indicated that the c-index of the training set was 0.79 (95% CI: 0.75 - 0.84, I2 = 95.3%); the c-index of the validation set was 0.79 (95% CI: 0.71 - 0.87, I2 = 92.3%); and the c-index of the cross-validation was 0.80 (95% CI: 0.75 - 0.86, I2 = 92.8%) ( ).
+ 
+
+4
+
+## Discussion
+4.1
+
+## Summary of the main findings
+In the systematic review, the annual incidence rate of PC among diabetic patients was 0.4% (95% CI: 0.1% - 0.9%). Through meta-analysis, in the current situation where there are no efficient prediction tools, constructing a prediction model for the risk of PC using ML methods seems to be a feasible clinical prediction approach. The aggregated c-index of the training set and the validation set was 0.79 (95% CI: 0.75 - 0.84, I2 = 95.3%) and 0.79 (95% CI: 0.71 - 0.87, I2 = 92.3%), respectively. Among the 18 studies selected, there existed diverse risk factors.
+
+4.2
+
+## Comparison with previous reviews
+Patients with DM tend to have an elevated risk of PC. A meta-analysis by Qiwen Ben et al. has confirmed that DM is an independent risk factor for PC (the summary RRs = 1.94; 95% CI: 1.66 - 2.27) ( ). This study also confirmed this view. In this study, the annual average incidence rate of PC among patients with DM was 0.4% (95% CI: 0.1% - 0.9%). The incidence rates of PC among patients with new-onset DM and those with pre-existing DM were 0.3% (95% CI: 0.1% - 0.5%) and 0.5% (95% CI: 0% - 2.7%), respectively. The incidence of PC was higher in patients suffering from pre-existing DM compared with those experiencing new-onset DM. Nonetheless, the wide confidence interval (0% - 2.7%) suggested that this might be related to the heterogeneity of the study population. The results for the group of patients with new-onset DM were more concentrated and stable (0.1% - 0.5%), signifying that new-onset DM was a warning sign for PC. These findings emphasize the vital significance of integrating PC screening and prevention into the clinical management of DM. However, current strategies are hindered by the lack of reliable risk prediction tools. Existing literature in this domain has chiefly focused on identifying risk factors relative to PC to guide targeted prevention strategies. While the intended purpose is to accurately identify target patients, challenges remain in achieving effective early diagnosis of PC, and the accuracy of existing prediction models remains suboptimal. Moreover, early diagnosis of PC is critical for therapeutic outcomes, yet during the process of model establishment, the lack of stage-specific diagnostic data limits their applicability for predicting early-stage PC ( ).
+The progression of DM to complications is influenced by multiple factors. In addition to evaluating the performance of predictive models in included studies, our review synthesizes evidence on risk factors for PC development in patients with DM. Previous studies have established DM as an independent risk factor for PC ( ), while others have identified additional contributors, including advanced age, smoking, alcohol consumption, family history, and pancreatitis ( , ). However, these studies offer only a limited exploration of DM-related risk factors that may induce PC, which may compromise the establishment and interpretation of clinical prediction models. The primary objective of current research in this field is to identify robust risk factors to facilitate early intervention in high-risk individuals. Our study systematically reviews risk factors reported in the included literature, providing evidence-based recommendations for the future development of intelligent prediction tools.
+
+4.3
+
+## Challenges faced by prediction model
+Based on our synthesized findings, ML-based models have demonstrated favorable accuracy in predicting PC risk among DM patients. However, several challenges persist in their development and application.
+Firstly, the low annual incidence of PC in modeling datasets results in severe imbalance. None of the included studies addressed data imbalance during model construction, and only a few reported sensitivity and specificity. That forces us to question the accuracy of the prediction results, as they may be influenced by a higher number of negative events. Therefore, there are still challenges in screening for positive events, such as the early diagnosis of PC. Therefore, future studies should account for the impact of imbalanced data on the construction of ML models. During the model construction process, it is advisable to attempt to use balanced data to build models, and then validate them using imbalanced data. Additionally, comprehensive evaluation metrics should be provided to assist in improving the model performance as much as possible, thereby reducing the impact of imbalanced data.
+Secondly, variations in follow-up duration may influence model accuracy. Shorter follow-up periods could lead to underrepresentation of PC cases. That results in a lack of comprehensive evidence for PC, thereby limiting the accuracy of prediction models. Among the included studies, follow-up durations varied, making it difficult for us to discuss the predictive accuracy of the models. Future research should rigorously consider the accuracy of the models during different follow-up periods, and promptly update the models for each follow-up period.
+Thirdly, the choice of ML algorithms affects both predictive performance and accuracy. When selecting models, we need to balance interpretability with predictive accuracy. Interpretability is one of the attributes of ML. During the modeling stage, the higher the interpretability, the more it helps people understand why such predictions are made. In clinical practice, when physicians utilize prediction models, they can employ medical terminology to clearly explain the model’s underlying mechanisms. This enhances both model transparency and patient comprehension, thereby strengthening trust in both the medical professionals and the prediction models. Ultimately, this facilitates the orderly implementation of evidence-based clinical work. Models with better interpretability, such as logistic regression, Cox regression, decision trees, and linear discriminant functions, often demonstrate poorer accuracy due to their inability to handle more complex relationships. In contrast, models capable of high-precision processing, such as random forests and XGBoost, achieve higher accuracy, but their complex internal mechanisms may lead to a “black box” phenomenon ( ). Regarding the processing of imbalanced data, the interpretability and the accuracy are primarily attributed to the negative events.
+
+4.4
+
+## Deviation from protocol
+We ultimately employed the NOS scale to evaluate the bias risk in the studies selected, rather than the PROBAST tool specified in the study protocol. This decision was made because the included literature comprised not only studies developing or validating prediction models but also a subset of articles solely examining risk factors without model construction. Given this heterogeneity in study design, the NOS was deemed more suitable for a unified quality assessment across all eligible literature.
+
+5
+
+## Strengths and limitations
+5.1
+
+## Strengths
+This study pioneers the comprehensive evaluation of the predictive value of ML models for identifying PC risk in patients with DM. We further discuss the current applications and limitations of such models, providing evidence-based insights to guide the development and refinement of future predictive tools.
+
+5.2
+
+## Limitations
+Firstly, the number of eligible studies after systematic retrieval is limited, and the investigated prediction models exhibited relative homogeneity in methodology. Secondly, the models were primarily trained on imbalanced datasets, yet none of the included studies addressed potential bias arising from severe class imbalance, which may compromise the reported accuracy in predicting PC among diabetic patients. Thirdly, most studies derived their data from overlapping databases, resulting in restricted geographic and ethnic representation, thereby limiting the generalizability of our findings. Fourthly, there are still certain limitations in the analysis of incidence rates. Since the original studies included only provided follow-up time and failed to discuss the incidence rate of PC in terms of the course of DM, stratified analyses of the incidence rate of PC among patients with DM at different disease courses were not carried out. Lastly, the discussion on risk factors such as drug exposure remained restricted.
+
+6
+
+## Conclusion
+ML-based prediction models demonstrate favorable value in predicting PC risk among patients with DM. Future research could leverage these approaches to dynamically update prediction algorithms. However, the studies included in our analysis predominantly relied on severely imbalanced datasets for model development, with limited discussion on the impact of follow-up duration on predictive performance. Therefore, subsequent studies should lay emphasis on larger and more representative patient cohorts, construct more widely applicable models, and dynamically update ML models.
+
+Edited by: Åke Sjöholm, Gävle Hospital, Sweden
+Reviewed by: Hailiang Wang, Qingdao University, China
+Tatsunori Satoh, Shizuoka General Hospital, Japan
+
+## Data availability statement
+The original contributions presented in the study are included in the article/ . Further inquiries can be directed to the corresponding author.
+
+## Author contributions
+HC: Software, Conceptualization, Methodology, Writing – original draft. JS: Validation, Data curation, Writing – original draft, Formal Analysis. LL: Investigation, Resources, Writing – original draft. SL: Data curation, Visualization, Writing – review & editing. HW: Visualization, Writing – review & editing. ZN: Writing – review & editing, Funding acquisition, Project administration, Supervision.
+
+## Conflict of interest
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Generative AI statement
+The author(s) declare that no Generative AI was used in the creation of this manuscript.
+Any alternative text (alt text) provided alongside figures in this article has been generated by Frontiers with the support of artificial intelligence and reasonable efforts have been made to ensure accuracy, including review by the authors wherever possible. If you identify any issues, please contact us.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+## Supplementary material
+The Supplementary Material for this article can be found online at: https://www.frontiersin.org/articles/10.3389/fendo.2025.1698850/full#supplementary-material

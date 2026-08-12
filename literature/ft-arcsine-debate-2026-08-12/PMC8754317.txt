@@ -1,0 +1,297 @@
+440plosonePLoS ONEPLoS OnePLOSPMC8754317875431787543173502072510.1371/journal.pone.0248850People who inject drugs in metropolitan Chicago: A meta-analysis of data from 1997-2017 to inform interventions and computational modeling toward hepatitis C microelimination
+BoodramBasmatteeConceptualization, Funding acquisition, Writing – original draft, Writing – review & editing Mackesy-AmitiMary EllenConceptualization, Data curation, Formal analysis, Methodology, Visualization, Writing – original draft, Writing – review & editing KhannaAdityaMethodology, Software, Writing – review & editing BrickmanBryanSoftware, Visualization DahariHarelFunding acquisition, Writing – review & editing OzikJonathanConceptualization, Methodology, Software, Writing – review & editing WongNgai SzeEditor 1Division of Community Health Sciences, School of Public Health, University of Illinois at Chicago, Chicago, Illinois, United States of America2Department of Behavioral and Social Sciences, School of Public Health, Brown University, Providence, Rhode Island, United States of America3Department of Medicine, Chicago Center for HIV Elimination, University of Chicago, Chicago, Illinois, United States of America4Division of Hepatology, Department of Medicine, Loyola University Medical Center, Maywood, Illinois, United States of America5Decision and Infrastructure Sciences Division, Argonne National Laboratory, Lemont, Illinois, United States of America6Chinese University of Hong Kong, HONG KONGCompeting Interests: The authors have declared that no competing interests exist.
+✉* E-mail: mmamiti@uic.edu
+#Contributed equally.
+1212022171e0248850e02488501312022This is an open access article, free of all copyright, and may be freely reproduced, distributed, transmitted, modified, built upon, or otherwise used by anyone for any lawful purpose. The work is made available under the Creative Commons CC0 public domain dedication.
+
+## Abstract
+Progress toward hepatitis C virus (HCV) elimination in the United States is not on track to meet targets set by the World Health Organization, as the opioid crisis continues to drive both injection drug use and increasing HCV incidence. A pragmatic approach to achieving this is using a microelimination approach of focusing on high-risk populations such as people who inject drugs (PWID). Computational models are useful in understanding the complex interplay of individual, social, and structural level factors that might alter HCV incidence, prevalence, transmission, and treatment uptake to achieve HCV microelimination. However, these models need to be informed with realistic sociodemographic, risk behavior and network estimates on PWID. We conducted a meta-analysis of research studies spanning 20 years of research and interventions with PWID in metropolitan Chicago to produce parameters for a synthetic population for realistic computational models (e.g., agent-based models). We then fit an exponential random graph model (ERGM) using the network estimates from the meta-analysis in order to develop the network component of the synthetic population.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2021 Mar 23; Accepted 2021 Dec 13; Collection date 2022.
+
+## Introduction
+Hepatitis C virus (HCV) infection is a leading cause of chronic liver disease and mortality worldwide. Globally, people who inject drugs (PWID) are disproportionally represented among the estimated 71.1 million chronically infected globally [ ]. In the United States (U.S.), PWID are at the highest risk for acquiring and transmitting HCV infection primarily through contaminated syringe-sharing [ ]. Data from a recent modeling study that included 88 countries (85% of the global population) showed that if transmission risk among PWID was removed, an estimated 43% of incident HCV infections would be prevented from 2018–2030 [ ]. Despite the long-term availability of harm reduction strategies such as syringe services programs (SSPs), medication-assisted therapy (MAT), behavioral counseling, and the recent availability of highly-effective direct-acting antiviral (DAA) treatment, injection drug use (IDU) and HCV incidence have been increasing at alarming rates among PWID, particularly among young, non-Hispanic white, nonurban PWID [ – ].
+Currently, the U.S. lags behind other high-income countries in progress towards achieving the World Health Organization’s (WHO) goal of reducing new chronic infections by 90% and mortality by 65% by 2030 [ ]. The HCV microelimination approach [ ], which entails pursuing elimination goals in discrete high-risk populations such as PWID and/or in specific regions, may be a more pragmatic, less daunting approach to ultimately achieving WHO’s global HCV elimination goal. However, even within the U.S., the PWID population is heterogeneous, as evidenced by subpopulation and geographic differences in HCV incidence and prevalence [ , , ]. Moreover, significant barriers to DAA treatment initiation and completion among PWID exist [ ]. An understanding of the complex interplay of individual, social, and structural level factors that might alter HCV incidence, transmission, and HCV treatment uptake among PWID is imperative for achieving HCV microelimination in this population. While this level of complexity is extremely difficult to address with traditional empirical studies, it could be theoretically investigated using an individual oriented computational modeling approach such as agent-based modeling (ABM) [ – ].
+We report results of a meta-analysis of recent studies (1997–2017) [ , – ] among PWID to profile this population using data representing the estimated 32,000 PWID who reside in metropolitan Chicago, Illinois [ ] that includes both urban and suburban PWID [ ]. Our findings could be used to 1) better inform development and implementation of interventions targeting PWID subpopulations, and 2) to provide a realistic profile of a synthetic PWID population for computational models that could be used to forecast HCV epidemiology and discover the specific combination of interventions that would achieve HCV microelimination. To further assist with the development of a realistic synthetic population, we also fitted an exponential random graph model (ERGM) using the network estimates from the meta-analysis. ERGMs offer a uniquely robust and flexible approach in modeling the dependencies between behavioral parameters, and have been used to model syringe sharing networks in a number of related contexts [ ].
+
+## Methods
+
+## Meta-analysis data sources
+We used twelve diverse datasets in the meta-analysis, including eleven research studies and one SSP ( ), which were selected on the basis that they would provide rich data sources on the highly heterogeneous PWID population of metropolitan Chicago. The SSP data were split into two datasets according to year of enrollment to represent earlier and later time periods. The primary drug injected among PWID in the metropolitan Chicago area is heroin, with cocaine second. Methamphetamine injection was uncommon during the covered time period. In all datasets, records only included individuals 18 years or older and excluded those missing key demographic information (sex, age, race/ethnicity).
+ Sexual orientation was only collected in 9 of the 11 studies, and transgender identity was collected in all studies. Subjects who identified as transgender were excluded if the study did not include a variable to classify them as male or female (i.e., biological sex). The datasets were stratified by sex (male or female), race/ethnicity (non-Hispanic White, non-Hispanic Black, Hispanic, and Other/mixed), and age category (18–24, 25–34, 35–44, 45 and older). Measures were harmonized across studies, and frequencies of categorical variables and means and standard deviations of continuous variables were computed for the strata in each dataset. Poisson standard deviations were computed for count variables such as network size and number of sex partners.
+
+## Measures
+
+## Sociodemographic characteristics
+Measures included basic demographic categories of sex, age, race/ethnicity, and place of residence (dichotomized as within the city limits of Chicago (urban) vs. all other surrounding suburban areas). Measures of current employment, income, and recent homelessness were also available. Several studies asked about sources of income, while others asked directly about employment status. The measures were harmonized by creating indicators of any employment (including temporary work), and regular employment (full or part-time). Measures of income were answered on a categorical scale, in increments of $500 or $5000. We used the median of the category (the lower limit for the top category) as the value of income. Homelessness was measured as self-perceived homelessness (e.g. have you been homeless, have you considered yourself homeless) within the past 6 or 12 months.
+
+## Harm reduction
+We included measures of current substance use treatment (other than peer support groups), and obtaining syringes from a SSP in recent months.
+
+## IDU networks
+Two measures of IDU network size were available: 1) number of people respondent knows who inject drugs (PWID network, 6 studies); 2) number of people respondent injected drugs with in the past 30 days, 3 months, or 6 months (injection network, 5 studies). Three studies included both of these measures. The syringe-sharing network is a further subset of the network of people with whom they injected. We estimated the number of people respondent used a syringe after (in-degree), and the number of people respondent gave his or her syringe to after using it (out-degree). As measures of network mixing, we estimated the network proportions by sex, race/ethnicity, and Chicago/non-Chicago residence, based on responses to questions included in studies that used respondent driven sampling (RDS). However, only one study (SATHCAP) included respondents of all ages, therefore for purposes of informing the model, network mixing estimates were based on this study only.
+
+## IDU behaviors
+Variables related to injection drug use included age of first injection drug use, years of injecting (computed from current age and age of first injection), and frequency of injection in past 30 days. Frequency of injection was estimated based on responses to two questions: 1) average frequency of injection in the past 3, 6 or 12 months, with categorical responses, from once a month or less to every day, and 2) typical number of times injected per day, from once to 10 or more times a day.
+Injection risk behaviors included syringe-mediated drug sharing (SMS) in the past 3, 6, or 12 months (injected drugs with a syringe after someone else squirted drugs into it from another syringe, “backloading”, or drugs were mixed, measured, or divided using someone else’s syringe), any receptive syringe sharing (RSS; injected with a syringe that someone else had used to inject) in the past 30 days to 12 months, frequency of RSS (estimated proportion of injections that involved RSS based on Likert scale response or number of RSS injections and frequency of injection), any equipment sharing (shared cookers, cotton, or rinse water) in the past 30 days to 12 months, and frequency of sharing cookers (converted Likert scale responses to proportion of injections).
+
+## Meta-analysis: Random effects model
+Under the fixed-effect model it is assumed that the true effect size for all studies is identical, and the only reason the effect size varies between studies is due to sampling error. By contrast, under the random-effects model the goal is not to estimate one true effect, but to estimate the mean of a distribution of effects [ ]. Although our studies have many similarities, there may be important differences between the study populations that influence the observed effect sizes, including most obviously time. There is also variability in the measures used across the studies that can affect effect sizes, e.g. reporting on behavior in the past 3 months vs. past 6 months. Moreover, due to confounding of study with time, we did not perform analyses of time trends. In another paper, using meta-regression on aggregate level data [ ], we report an increase in homelessness over time among young PWID. We detected no significant changes in risk behavior or networks over time.
+Estimates of network size and injection risk behavior were stratified by sex, race and ethnicity (non-Hispanic white, non-Hispanic Black, Hispanic (all races), and non-Hispanic other races), and age category (18–24, 25–34, 35–44, and 45 and older.) Random effects meta-analysis of proportions and means was conducted in R using the meta package [ ]. Meta-analysis of continuous and count variables was conducted using the inverse variance method of DerSimonian and Laird [ ] and the GLMM model was used for proportions. The REML estimator was applied to estimate between study variance (tau-squared) [ , ]. Poisson standard deviations were used in the estimation of count variables (network size, number of people sharing syringes and other equipment). The distribution of random effects was assumed normal. Sample estimates based on subgroups of fewer than five subjects were excluded.
+
+## Mixed effects regression analyses
+We estimated mixed effects regression models in Stata (v. 15, StataCorp) to examine main effects of demographic variables on socioeconomic status, harm reduction, networks, and risk behavior. Logistic regression models were estimated for binary outcomes, and negative binomial regression models were estimated for count outcomes. Contrasts were computed to test the joint effects of multi-category variables of race/ethnicity and age category. We conducted separate analyses to examine associations with sexual orientation using data from those studies that collected this information.
+
+## Modeling networks of persons who inject drugs
+The theoretical framework for modeling IDU networks is based upon the exponential random graph models (ERGMs) [ – ]. The ERGMs are fit using the ergm package [ , ] in the R programming language [ ] to generate directed graphs that represent the syringe sharing network. Conceptually, ERGMs can be understood to be similar to logistic regression models, where the outcome variable indicates presence and absence of an “edge” (also known as “tie” or “relational information”) and the independent variables describe network configurations.
+Because PWID syringe-sharing relationships are not random [ ], it is necessary to include mixing parameters in the model that govern the probability of tie formation. Characteristics such as sex, age, race and ethnicity, and geographic proximity are important factors that influence both tie formation and risk behaviors related to HCV transmission and acquisition [ – ].
+The log-odds of formation of each partnership type were dependent upon the number and distribution of existing syringe-sharing relationships (henceforth, “relationships”) within the network. The mean number of such relationships was estimated from meta-analyses as described above, based on reported numbers of receptive and distributive syringe sharing partners, and the distribution of relationships was determined by the following parameters: mixing based on sex (“male” and “female”), race/ethnicity (“non-Hispanic white”, “non-Hispanic Black”, “Hispanic”, “non-Hispanic other”) and age (“under 25” vs. “25 and older”); the distribution of geographic distances and the distribution of in- and out-degree edges. The mathematical formulation of the model is given in Equation A.1 in the .
+Standard tools in the statnet package were used to assess model fit and convergence. One hundred networks were simulated from the fitted model and the distributions of the simulated parameters were compared to the targets estimated from the meta-analysis above.
+
+## Results
+
+## Meta-analysis estimates
+Heterogeneity among studies was high for nearly all measures, with I-squared > 90%. Selected characteristics of the combined samples are shown in . Additional output is available in .
+ 
+
+## Socioeconomic status
+On average 43% (95% CI 0.26–0.63, tau = 1.26) of PWID reported having some kind of employment including temporary work, and 19% (95% CI 0.09–0.36, tau = 1.37) of PWID were employed in a regular job (full or part-time). Women were less likely to be employed in any capacity (OR = 0.49, 95% CI 0.36–0.65), as were Hispanic (vs. non-Hispanic white, OR = 0.67, 95% CI 0.54–0.84) and non-Hispanic Black persons (vs. non-Hispanic white, OR = 0.63, 95% CI 0.42–0.93), and persons over 25 years old (Chi2[1] = 48.25, p < .0001). Results were similar for regular employment except that Chicago residence decreased the likelihood of regular employment (OR = 0.76, 95% CI 0.61–0.94). The average monthly income was $1,367 (95% CI 1132–1603, tau = 286), with higher income reported by non-Hispanic white PWID (Chi2[1] = 12.84, p = .0003), and decreasing with increasing age (Chi2[3] = 126.91, p < .0001).
+An estimated 38% of PWID reported being homeless; those who resided in Chicago were more likely to report being homeless (OR = 1.42, 95% CI 1.16–1.75), while non-Hispanic Black PWID were less likely to be homeless (35% vs. 44% non-Hispanic white, OR = 0.68, 95% CI 0.56–0.83). Sexual orientation was not associated with regular employment, but bisexual men were less likely to have income from any kind of work compared to heterosexual men (OR = 0.75, 95% CI 0.60–0.94). Bisexual men (vs. heterosexual men, OR = 1.69, 95% CI 1.44–1.98), homosexual women (vs. heterosexual women, OR = 2.28, 95% CI 1.40–3.72), and bisexual women (vs. heterosexual women, OR = 1.55, 95% CI 1.23–1.94) were more likely to report being homeless.
+
+## Injection behavior and harm reduction
+The estimated average age of first injection was 22 (95% CI 20.9–23.2, tau = 2.1), duration of injection was 9.9 years (95% CI 6.6–13.1, tau = 5.7), and average frequency of injection in the past 30 days was 75 times (95% CI 60.5–89.8, tau = 26). Over half of PWID (59%, 95% CI 0.59–0.46, tau = 0.84) reported use of a SSP, and 13% (95% CI 0.10–0.17, tau = 0.48) reported current substance use treatment. Women (OR = 1.23, 95% CI 1.04–1.46) and PWID over 25 (Chi2[1] = 10.07, p = .0015) were more likely to use a SSP, while non-Hispanic Black PWID were less likely than others to use a SSP after adjusting for age (Chi2[3] = 22.80, p < .0001). PWID who resided in Chicago were marginally more likely to report using a SSP (OR = 1.28, 95% CI 1.00–1.64). Women were more likely than men to report current treatment (OR = 1.42, 95% CI 1.25–1.61), and current treatment increased with increasing age (Chi2[3] = 424.21, p < .0001). Sexual orientation was not associated with SSP use, but bisexual men were more likely to report current treatment (vs. heterosexual men, OR = 1.36, 95% CI 1.08–1.71); the prevalence of current treatment for bisexual men was similar to that for women.
+
+## Network size
+Estimates of PWID and injection network size are shown in Tables and . PWID network size increased with age (Wald chi2[3] = 31.71, p < .0001), and there were no consistent sex or race/ethnicity differences. Injection network size was smaller in the oldest (45+) age category (chi2[1] = 6.35, p = .01), and non-Hispanic white PWID tended to report a larger number of people they injected with compared to other categories (chi2[1] = 12.28, p = .0005). Homosexual men reported smaller PWID networks (IRR = 0.74, 95% CI 0.57–0.95), while bisexual women reported larger PWID networks (IRR = 1.17, 95% CI 1.07–1.29), and bisexual men and women reported injecting with a larger number of people (IRR = 1.14, 95% CI 1.02–1.27).
+ 
+
+## Network mixing
+On average, men and women reported respectively that 68% (95% CI 0.67–0.70, tau = 0.01) and 60% (95% CI 0.58–0.64, tau = 0.03) of the people they knew who injected drugs were male. Young PWID (under 25 years old) reported on average 61% (95% CI 0.42–0.79, tau = 0.16) of their PWID network was also under 25, while older PWID reported 14% (95% CI 0.13–0.15, tau = 0) of their PWID network was under 25. Among PWID who lived in the city of Chicago, 87% (95% CI 0.79–0.94, tau = 0.06) of network members also lived in Chicago, while among PWID who lived in surrounding suburban areas or nearby states, 37% (95% CI 0.19–0.55, tau = 0.16) of network members lived in Chicago. Non-Hispanic white PWID reported that 74% (95% CI 0.62–0.85, tau = 0.11) of their network members were also white, non-Hispanic Black PWID reported that 55% (95% CI 0.28–0.81, tau = 0.26) of their network members were also non-Hispanic Black, and Hispanic PWID reported that 51% (95% CI 0.33–0.68, tau = 0.18) of their network members were also Hispanic.
+
+## Injection risk behavior
+Overall, the estimated percentage of PWID reporting equipment sharing was 63% (95% CI 0.56–0.69, tau = 0.39), receptive syringe sharing (RSS) was 31% (95% CI 0.25–0.38, tau = 0.55), distributive syringe sharing (DSS) was 39% (95% CI 0.35–0.44, tau = 0.22), and syringe mediated sharing was 25% (95% CI 0.22–0.28, tau = 0.28). The average proportion of injections involving RSS was 0.12 (95% CI 0.09–0.15, tau = 0.05), and the average proportion of injections involving shared equipment was 0.28 (95% CI 0.23–0.33, tau = 0.70). The results for proportions of PWID in each demographic subgroup reporting any receptive and distributive syringe sharing are shown in Figs and . Additional results are available in . Of note, several subgroups were small leading to large confidence intervals for the estimates.
+ In mixed effects regressions, women were more likely than men to report equipment sharing (OR = 1.32, 95% CI 1.17–1.50), RSS (OR = 1.47, 95% CI 1.37–1.59) and DSS (OR = 1.38, 95% CI 1.26–1.52). There were also significant effects of age on all three behaviors. The likelihood of recent equipment sharing decreased with age (Chi2[3] = 10.80, p = .01), from 0.69 in the youngest (18–24) category to 0.61 and 0.58 in the intermediate age categories, and 0.56 in the oldest (≥ 45) category. The likelihood of recent RSS also decreased with age (Chi2[3] = 15.18, p = .002), from 0.37 for the 18–24 category to 0.31 and 0.28 in the intermediate categories, and 0.23 for 45 and older. The likelihood of recent DSS was significantly lower for the oldest age category (≥ 45) compared to all other categories (Chi2[1] = 31.02, p < .0001), dropping from 0.42 in the youngest category and 0.41 and 0.39 in the intermediate categories, to 0.29 in the oldest category. Hispanics were less likely to report equipment sharing compared to the other race/ethnicity categories (Chi2[1] = 13.5, p = .0002; Hispanic vs. white OR = 0.80, 95% CI 0.71–0.90), while RSS was more likely to be reported by white compared to Black or Hispanic PWID (Chi2[3] = 12.47, p = .006; Black vs. white OR = 0.75, 95% CI 0.56–1.01; Hispanic vs. white OR = 0.82, 95% CI 0.70–0.95). The likelihood of DSS was not influenced by race/ethnicity. Persons residing in the city of Chicago were less likely to report RSS (29% vs. 34%, OR = 0.79, 95% CI 0.67–0.92) compared to those living outside of Chicago, even while adjusting for other variables. Homosexual (OR = 1.87, 95% CI 1.21–2.89) and bisexual (OR = 2.14, 95% CI 1.71–2.66) PWID were more likely to report RSS (vs. heterosexual), bisexual PWID were more likely to report equipment sharing (OR = 1.74, 95% CI 1.48–2.04), and bisexual men (OR = 1.85, 95% CI 1.36–2.52) and homosexual (OR = 3.12, 95% CI 1.58–6.16) and bisexual women (OR = 1.65, 95% CI 1.25–2.18) were more likely to report DSS.
+
+## Sharing partners
+Among PWID who shared any injection equipment, the estimated average number of sharing partners was 3.5 (95% CI 2.6–4.4, tau = 1.13). There were no significant effects of demographic variables in negative binomial mixed effects regressions on equipment sharing partners. The estimates of number of receptive and distributive syringe sharing partners are shown in Tables and . Among PWID who used a shared syringe, the overall estimated average number of syringe-sharing partners was 2.2 (95% CI 1.64–2.67, tau = 0.78). Among PWID who gave a used syringe to another person to use, the estimated average number of people shared with was 2.4 (95% CI 1.86–2.98, tau = 0.62).
+ In mixed effects negative binomial regressions, there were significant effects of age on number of RSS partners (Chi2[3] = 12.92, p = .005) and DSS partners (Chi2[3] = 18.88, p = .0003). The marginal mean numbers of RSS and DSS partners were 2.1 and 2.2, respectively in the youngest age category, and 2.5 and 2.6, respectively in the oldest age category. There was also a significant effect of race/ethnicity on number of DSS partners (Chi2[3] = 27.00, p < .0001), with non-Hispanic other race/ethnicity reporting fewer DSS partners (marginal mean 2.0; vs. white IRR = 0.82, 95% CI 0.72–0.94). There was no difference in number of RSS or DSS partners by sex or urban residence.
+
+## Fitting and simulating synthetic syringe sharing networks
+
+## Model fit
+We define the random edge probability as the number of observed edges divided by the maximum number of possible edges on a directed network with 32,000 nodes. We report the ratio (Rp) of the probability of the edge corresponding to a specified network parameter relative to a random edge. Estimated Rp for edges representing needles shared from males to females is 2.41, from females to males is 2.50, and between males is 1.43, indicating the higher probability of syringe sharing from males to females, and between females than between males. The Rp values for mixing between age categories are: 5.98 for persons ≤25 years of age; 1.98 for edges representing syringes shared from persons ≤25 years to persons >26 years and 0.74 for edges representing syringe sharing from persons >26 years to persons ≤25 years. We also note that syringe sharing shows strong race homophily as evidenced by the Rp values for edges between Black (9.07), Hispanic (5.57), and all other race/ethnicities (9.86) relative to the much lower Rp values representing edges between different races (Table A.1 in ). Syringe sharing between PWID (nodes) residing less than 1/8 mile or 1/8–1 mile apart are much more likely (Rp values of 1511 and 58.13, respectively); Rp for an edge between nodes 1–20 miles apart is about 0.8. See for a detailed summary of the estimated model coefficients and relative probabilities.
+
+## Comparing the fit of the simulated models to the targets
+The distributions of the specified network parameters across the 100 simulated networks and the target values for each of the statistics is shown in . The target values of each of the network parameters specified in the model (see ) are within the 2.5th and 97.5th percentiles of the simulated distribution.
+ 
+
+## Discussion
+Our meta-analysis of the last 20 years of data on people who inject drugs provide a profile of this population from a large metropolitan area. To our knowledge, this is the first meta-analysis of recent PWID empirical data that more realistically represent the demographic and geographic shift in the PWID population composition resulting from on-going opioid epidemic [ ].
+As we would expect, PWID have high rates of joblessness and homelessness. In a previous paper, we analyzed a subset of these data and found that homelessness among young PWID increased significantly over the covered time period [ ]. Young white suburban male PWID are somewhat better off than other subgroups. This might in part explain why young male PWID are less likely to obtain syringes from a SSP, as they may be able to purchase them at drug stores more conveniently. However, this means they are less likely to be exposed to harm reduction services such as syringe exchange, MAT, HIV/HCV testing and counseling, and drug and HIV/HCV treatment referrals.
+Older PWID were both more likely to use a SSP and less likely to report sharing of syringes and other equipment. However, older PWID who did share syringes tended to have more sharing partners than their younger counterparts, which could be an indication of higher HIV and HCV infection risk for this group. In contrast to age effects, the findings for women were inconsistent. Although women were more likely than men to use a SSP, they were also more likely to report sharing of syringes and other equipment. Minority sexual orientation was also associated with larger risk networks and greater likelihood of syringe sharing among both men and women. PWID living in Chicago were less likely to report RSS, perhaps reflecting greater access to SSPs. Yet, in spite of greater availability of SSPs in Chicago, non-Hispanic Black PWID were less likely than others of the same age to use a SSP. This highlights the need for greater outreach efforts to reach Black urban PWID who are at high risk for HCV infection and opioid overdose.
+ERGMs allow for fitting of a model that incorporates mixing and degree parameters that describe processes that govern formation of syringe sharing networks in a statistically robust fashion. In this study, we estimated the important impacts of network characteristics such as sex, age, race and ethnicity, and geographic proximity, in addition to the network processes that govern the process of sharing and receiving a syringe (i.e, out- and in-ties, respectively). We found that syringe sharing from males to females and between females was more likely than syringe sharing between males. We also estimated the impact of geographic proximity and race-based homophily on the syringe sharing in the population.
+
+## Limitations
+Our study has notable limitations associated with the methods used as well as the sources of data. When study parameters are heterogeneous, the pooled estimate alone is an insufficient summary of the underlying population parameter. It is also important to understand the variability in the estimates. We conducted mixed effects regression analyses to inform our understanding of the sources of variability among the studies. However, there are likely additional sources of variability beyond the demographic characteristics that we investigated. While measures were harmonized to be as equivalent as possible across studies, differences across studies in time frame of measurement and definitions may have contributed to between study heterogeneity of the meta-analysis estimates. Second, we applied the common assumption of a normal distribution for the random effects. Alternative methods that do not rely on this assumption might produce different estimates.
+The datasets represent large, robust observational studies and intervention program records of hard-to-reach and retain individuals. A shortcoming inherent in the study of hard-to-reach populations is that the representativeness of the samples is unknown. We did not have a large number of data sources, and for some measures, only a subset of these provided data. Participants were predominantly non-Hispanic white and samples contained small proportions of Black and Hispanic PWID, limiting subgroup analyses. In computing estimates for demographic subgroups, the data available were sometimes insufficient to produce an estimate. An alternative approach could be to use marginal predicted values from mixed effects models, that would essentially smooth over the holes in the data.
+In spite of these limitations, the meta-analysis estimates provide an empirical basis for setting parameters such as average injection network size and the probability of syringe sharing in a synthetic population for complex computational models, including ABMs developed by our group [ , ]. Our findings may not be generalizable to PWID in other geographic locations or settings, but rather represent a starting point for other regions.
+
+## Conclusions
+Our meta-analysis of data from multiple diverse datasets on PWID, and the fitted ERGM model using the network estimates from the meta-analysis, generated robust estimates on a circumscribed population during the on-going opioid epidemic, which can provide a useful resource for developing intervention strategies in this population. Computational models allow for the discovery of interventions or combinations of interventions prior to implementation that accounts for the complex interplay of multilevel factors. A direct application of this study’s findings could be to provide the estimates for generating a data-driven, realistic synthetic population for complex computational models that build on on-going efforts in Chicago [ ]. In turn, these models might be used model the effectiveness of strategies for HCV microelimination and/or other outcomes (e.g. overdose prevention) for Chicago, which can be adapted for other regions. Future work will include building agent-based models.
+
+## Supporting information
+S1 File
+
+## Technical appendix.
+Model fitting procedure, code, and table of estimated coefficients, standard errors and mean edge probability and probability ratio obtained from exponential random graph model.
+(PDF)
+Click here for additional data file.
+S2 File
+
+## S1-S3 Figs.
+Figures showing estimates for proportions of PWID reporting sharing of ancillary injection equipment (S1 Fig), syringe-mediated drug sharing (S2 Fig), and obtaining syringes from a syringe service program (S3 Fig).
+(PDF)
+Click here for additional data file.
+S1 Table
+
+## Random effects meta-analysis estimates of characteristics of PWID population.
+(PDF)
+Click here for additional data file.
+
+## Acknowledgments
+We thank Dr. Lawrence Ouellet and the Chicago Department of Public Health for providing access to several data sets, and we extend our appreciation to Community Outreach Intervention Projects for providing access to service program data.
+
+## Data Availability
+All data and documentation files are available from the Open Science Framework database (DOI 10.17605/OSF.IO/4PXZW).
+
+## Funding Statement
+This work was supported by grants to HD, JO and BB[1] from the National Institute of General Medical Sciences, USA (https://www.nigms.nih.gov), grant number R01GM121600 and to BB[1] from the National Institute of Drug Abuse, USA (https://www.drugabuse.gov), grant number R01DA043484. The contents of this paper are solely the responsibility of the authors and do not necessarily represent the official views of NIGMS or the National Institutes of Health. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+PLoS ONEPLoS One10.1371/journal.pone.0248850.r001Decision Letter 0
+WongNgai SzeAcademic Editor© 2021 Ngai Sze WongThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+3 Jun 2021
+
+PONE-D-21-09358
+A meta-analysis of 20 years of data on people who inject drugs in metropolitan Chicago to inform computational modeling
+PLOS ONE
+Dear Dr. Mackesy-Amiti,
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+Please submit your revised manuscript by Jul 15 2021 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosone@plos.org. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+Please include the following items when submitting your revised manuscript:
+
+A rebuttal letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+
+If you would like to make changes to your financial disclosure, please include your updated statement in your cover letter. Guidelines for resubmitting your figure files are available below the reviewer comments at the end of this letter.
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: http://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols. Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols.
+We look forward to receiving your revised manuscript.
+Kind regards,
+Ngai Sze Wong
+Academic Editor
+PLOS ONE
+Additional Editor Comments:
+When responding to the reviewer's concerns, it will be particularly important to respond with significant changes (adding limitations in DISCUSSION and assessment of heterogeneity in methods and results), and clarification to the concern of drug types (or all were heroin users?).
+The DISCUSSION part usually includes comparison of results with other studies, and implications of methods or results. Also, there is no in-text citation for 'Table 3'.
+Journal Requirements:
+When submitting your revision, we need you to address these additional requirements.
+1. Please ensure that your manuscript meets PLOS ONE's style requirements, including those for file naming. The PLOS ONE style templates can be found at
+https://journals.plos.org/plosone/s/file?id=wjVg/PLOSOne_formatting_sample_main_body.pdf and
+
+https://journals.plos.org/plosone/s/file?id=ba62/PLOSOne_formatting_sample_title_authors_affiliations.pdf
+
+2. We note you have included a table to which you do not refer in the text of your manuscript. Please ensure that you refer to Table 3 in your text; if accepted, production will need this reference to link the reader to the Table.
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+1. Is the manuscript technically sound, and do the data support the conclusions?
+The manuscript must describe a technically sound piece of scientific research with data that supports the conclusions. Experiments must have been conducted rigorously, with appropriate controls, replication, and sample sizes. The conclusions must be drawn appropriately based on the data presented. 
+Reviewer #1: No
+**********
+2. Has the statistical analysis been performed appropriately and rigorously? 
+Reviewer #1: Yes
+**********
+3. Have the authors made all data underlying the findings in their manuscript fully available?
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.
+Reviewer #1: Yes
+**********
+4. Is the manuscript presented in an intelligible fashion and written in standard English?
+PLOS ONE does not copyedit accepted manuscripts, so the language in submitted articles must be clear, correct, and unambiguous. Any typographical or grammatical errors should be corrected at revision, so please note any specific errors here.
+Reviewer #1: Yes
+**********
+5. Review Comments to the Author
+Please use the space provided to explain your answers to the questions above. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. (Please upload your review as an attachment if it exceeds 20,000 characters)
+Reviewer #1: Thank you for the opportunity to review this interesting manuscript. While it is impressive in some respects, I have some major concerns regarding some data, analytic and interpretable omissions that limit my enthusiasm.
+While I agree with the authors that a random-effects meta-analysis is appropriate given potential heterogeneity in the data being analyzed, this does not remove issues of heterogeneity. To fully interpret these findings, tests of heterogeneity are still required (I would suggest I2 as well as Heterogeneity Variance τ2 /Standard Deviation τ to produce a standard deviation of the true effect sizes). It would also be helpful to inform readers about the limits of interpretability related to the use of random effects meta-analysis.
+To that end, there is no limitations section, which is of concern given that there are multiple complex analytic approaches presented in this manuscript, and the data are generated from prospective observational cohort studies of hard-to-reach and retain individuals. The limitations of this work are many and important, and should be clearly elucidated.
+One critical piece not included is the type of drug injected. This is highly determinative for syringe related risk behaviors and, to a certain extent, network size. These data need to be incorporated into the analysis, even if broadly (i.e., by drug type: opioid, amphetamine-type stimulant, other stimulants [cocaine/crack cocaine], and tranquilizers). Not including these data is a critical flaw.
+Broadly (and this is explicated more specifically below), there are some important contextual features from the studies—mostly around when they were conducted and the inclusion of gender and sexual minorities—that could be critically helpful in understanding what drives network size and syringe-related risk behaviors. At minimum, understanding whether there were time trends in the reporting of certain outcomes (i.e., the average proportion of syringe sharing, injection frequency, accessing SSP) is needed to contextualize the findings.
+Further comments:
+What was the assumed distribution (normal, etc.) employed in the meta-analysis?
+Did associations or trends change over time? For example, were there changes in the median income level, proportion of homeless respondents, proportion of Hispanic or Black respondents, age of first injection, use of SSP, accessing treatment, network size, etc.? These would be really helpful data to present.
+Was median income inflation-adjusted and if so, what was the reference year?
+Sexual identity appears critical in influencing risk and in determining the number of out-network ties; were details on sexual identity/preference collected? Even if they were for a subset of the studies I would strongly suggest running a subanalysis on those as this is likely to be determinative for syringe-related risk behaviors. For instance, young gay men who inject have in many settings be identified as particularly high risk for injection-related risk behaviors, mediated in part by use of stimulants (e.g., crystal methamphetamine).
+Though cell sizes may be small, it would also be important if possible to explore gender identities in relation to risk, even if limited to descriptive statistics.
+Unclear about the proportion of equipment sharing: is it 62% or 0.62%? If the former, which seems more reasonable, there seems to be some inconsistent presentation of values here.
+Unfortunate that young-young mixing was not estimable. What is the implication for the strengths of this meta-analysis to model network size?
+The discussion really does not delve into the issues raised by the results at all. It is largely a summary of the results.
+**********
+6. PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com/. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Registration is free. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email PLOS at figures@plos.org. Please note that Supporting Information files do not need this step.
+PLoS ONEPLoS One10.1371/journal.pone.0248850.r002Author response to Decision Letter 0
+1212022171e0248850e0248850Collection date 2022.
+
+11 Oct 2021
+
+We thank the reviewers for their insightful comments. We have addressed all of the comments as follows below. In addition to the requested revisions, we have edited the entire manuscript to enhance clarity and flow, particularly in the introduction and discussion. We have also elected to revise the manuscript title to reflect these changes. 
+1. While I agree with the authors that a random-effects meta-analysis is appropriate given potential heterogeneity in the data being analyzed, this does not remove issues of heterogeneity. To fully interpret these findings, tests of heterogeneity are still required (I would suggest I2 as well as Heterogeneity Variance τ2 /Standard Deviation τ to produce a standard deviation of the true effect sizes)..
+Response: Due to some concerns about the Freeman-Tukey method for proportions†, we re-ran the analysis in R using the GLMM method to obtain measures of heterogeneity including τ2 and I2. Rather than using different software for some measures, we decided to re-run all analyses using the R meta procedure. This resulted in some slight changes in the estimates, particularly for confidence intervals. The R procedure does not generate confidence intervals for estimates based on only one study. We now also present values of tau in the text. We also corrected an oversight in the analysis of numbers of RSS and DSS partners in which study estimates based on small cell sizes (<5) were not excluded. 
+†Schwarzer G, Chemaitelly H, Abu-Raddad LJ, Rücker G. Seriously misleading results using inverse of Freeman-Tukey double arcsine transformation in meta-analysis of single proportions. Research Synthesis Methods. 2019;10(3):476-83. doi: https://doi.org/10.1002/jrsm.1348.
+2. It would also be helpful to inform readers about the limits of interpretability related to the use of random effects meta-analysis. To that end, there is no limitations section, which is of concern given that there are multiple complex analytic approaches presented in this manuscript, and the data are generated from prospective observational cohort studies of hard-to-reach and retain individuals. The limitations of this work are many and important, and should be clearly elucidated.
+Response: We thank the reviewers for this insight. We have added a limitations section to the revised manuscript that addresses these issues (see Discussion, Limitations). While we agree on the importance of quantifying variability in the estimates, since we are using meta-analysis to generate estimates for a synthetic population (rather than studying a treatment or intervention effect), heterogeneity is not a major limitation. 
+3. One critical piece not included is the type of drug injected. 
+Response: Over all studies included in the analysis, 86-100% of participants injected heroin by itself (pooled = 97%). Cocaine was the second most common drug injected (pooled = 36%), either alone or with heroin (speedball). We have clarified this in the revised manuscript (see Methods, Meta-analysis Data Sources section). 
+4. What was the assumed distribution (normal, etc.) employed in the meta-analysis?
+Response: The assumed distribution of random effects was normal. We have clarified this in revised manuscript (see Methods, Meta-analysis: Random Effects Model section)
+5. Understanding whether there were time trends in the reporting of certain outcomes (i.e., the average proportion of syringe sharing, injection frequency, accessing SSP) is needed to contextualize the findings. Did associations or trends change over time? For example, were there changes in the median income level, proportion of homeless respondents, proportion of Hispanic or Black respondents, age of first injection, use of SSP, accessing treatment, network size, etc.? These would be really helpful data to present.
+Response: Due to confounding of study with time, analysis of time trends is limited to using meta-regression on aggregate level data (rather than mixed effects regression). In another paper (Hotton et al, 2021 listed below), we report an increase in homelessness over time among young PWID. We detected no significant changes in risk behavior or networks over time. The demographic composition of the samples is not necessarily a good indicator of the evolving demographics of the metro PWID population, so we did not try to estimate changes in racial/ethnic composition for example. (We used other sources and methods to construct the demographic profile for the ABM.) We have included an explanation of this in the revised manuscript (see Methods, Meta-analysis: Random Effects Model section). 
+Hotton AL, Mackesy-Amiti ME, Boodram B. Trends in homelessness and injection practices among young urban and suburban people who inject drugs: 1997-2017. Drug Alcohol Depend. 2021;225:108797. Epub 2021/06/09. doi: 10.1016/j.drugalcdep.2021.108797. 
+6. Was median income inflation-adjusted and if so, what was the reference year?
+Response: Median income was not inflation-adjusted, since we were not looking at time trends, we were only testing associations between income and other demographic variables. As such, no revisions to manuscript was made in this regard. 
+7. Sexual identity appears critical in influencing risk and in determining the number of out-network ties; were details on sexual identity/preference collected? Even if they were for a subset of the studies I would strongly suggest running a subanalysis on those as this is likely to be determinative for syringe-related risk behaviors. For instance, young gay men who inject have in many settings be identified as particularly high risk for injection-related risk behaviors, mediated in part by use of stimulants (e.g., crystal methamphetamine). Though cell sizes may be small, it would also be important if possible to explore gender identities in relation to risk, even if limited to descriptive statistics.
+Response: Sexual orientation was collected in 9 of the 11 studies, and transgender identity was collected in all studies. Very few trans-identified persons were included in these samples (n=22). There were 114 respondents who identified as gay/homosexual (pooled estimate 2.9%), and 796 who identified as bisexual (pooled estimate 10.8%). In the revised manuscript, we conducted additional mixed effects regression analyses to examine the contribution of sexual orientation to risk behavior and network size (See Methods and Results sections). 
+8. Unclear about the proportion of equipment sharing: is it 62% or 0.62%? If the former, which seems more reasonable, there seems to be some inconsistent presentation of values here.
+Response: The percentage reporting use of a shared syringe was 62%. We have fixed this inconsistency in the revised manuscript.
+9. Unfortunate that young-young mixing was not estimable. What is the implication for the strengths of this meta-analysis to model network size?
+Response: In estimating mixing using ERGMs, a base term needs to be specified. In this case, we selected the young-young term as the base. The log-odds estimated for the remaining mixing combinations (young-old, old-old, old-young) are estimated relative to this base term. We see from Table 1 that this specification works well; the target number of young-young edges is 18992, which falls within the IQR produced across our 100 simulations: (18949, 19487). The target statistics for the remaining combinations of age mixing similarly fall within the IQRs of the relevant statistics across the simulated networks. Given that these reference groups are already specified, not revisions to the manuscript is made in regard to this. 
+More details on the specification of mixing terms in ERGMs can be found in Goodreau et. al. below. We have included this clarification in the methods section pertaining to ERGMs.
+Goodreau, S. M., Handcock, M. S., Hunter, D. R., Butts, C. T., & Morris, M. (2008). A statnet Tutorial. Journal of Statistical Software, 24(9), 1–27.
+10. The discussion really does not delve into the issues raised by the results at all. It is largely a summary of the results.
+Response: We have substantially expanded discussion of the results in the revised manuscript. In addition, we have provided additional literature the introduction to support the premise of the study, and therefore, the utility of the results in its applications.
+AttachmentSubmitted filename: Response to reviewers.docx
+Click here for additional data file.
+PLoS ONEPLoS One10.1371/journal.pone.0248850.r003Decision Letter 1
+WongNgai SzeAcademic Editor© 2021 Ngai Sze WongThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+14 Dec 2021
+
+People who inject drugs in metropolitan Chicago: A meta-analysis of data from 1997-2017 to inform interventions and computational modeling toward hepatitis C microelimination
+PONE-D-21-09358R1
+Dear Dr. Mackesy-Amiti,
+We’re pleased to inform you that your manuscript has been judged scientifically suitable for publication and will be formally accepted for publication once it meets all outstanding technical requirements.
+Within one week, you’ll receive an e-mail detailing the required amendments. When these have been addressed, you’ll receive a formal acceptance letter and your manuscript will be scheduled for publication.
+An invoice for payment will follow shortly after the formal acceptance. To ensure an efficient process, please log into Editorial Manager at http://www.editorialmanager.com/pone/, click the 'Update My Information' link at the top of the page, and double check that your user information is up-to-date. If you have any billing related questions, please contact our Author Billing department directly at authorbilling@plos.org.
+If your institution or institutions have a press office, please notify them about your upcoming paper to help maximize its impact. If they’ll be preparing press materials, please inform our press team as soon as possible -- no later than 48 hours after receiving the formal acceptance. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information, please contact onepress@plos.org.
+Kind regards,
+Ngai Sze Wong
+Academic Editor
+PLOS ONE
+PLoS ONEPLoS One10.1371/journal.pone.0248850.r004Acceptance letter
+WongNgai SzeAcademic Editor© 2021 Ngai Sze WongThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+3 Jan 2022
+
+PONE-D-21-09358R1 
+People who inject drugs in metropolitan Chicago: A meta-analysis of data from 1997-2017 to inform interventions and computational modeling toward hepatitis C microelimination 
+Dear Dr. Mackesy-Amiti:
+I'm pleased to inform you that your manuscript has been deemed suitable for publication in PLOS ONE. Congratulations! Your manuscript is now with our production department. 
+If your institution or institutions have a press office, please let them know about your upcoming paper now to help maximize its impact. If they'll be preparing press materials, please inform our press team within the next 48 hours. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information please contact onepress@plos.org.
+If we can help with anything else, please email us at plosone@plos.org. 
+Thank you for submitting your work to PLOS ONE and supporting open access. 
+Kind regards, 
+PLOS ONE Editorial Office Staff
+on behalf of
+Dr. Ngai Sze Wong 
+Academic Editor
+PLOS ONE
+Associated Data
+
+## Supplementary Materials
+S1 File
+
+## Technical appendix.
+Model fitting procedure, code, and table of estimated coefficients, standard errors and mean edge probability and probability ratio obtained from exponential random graph model.
+(PDF)
+Click here for additional data file.
+S2 File
+
+## S1-S3 Figs.
+Figures showing estimates for proportions of PWID reporting sharing of ancillary injection equipment (S1 Fig), syringe-mediated drug sharing (S2 Fig), and obtaining syringes from a syringe service program (S3 Fig).
+(PDF)
+Click here for additional data file.
+S1 Table
+
+## Random effects meta-analysis estimates of characteristics of PWID population.
+(PDF)
+Click here for additional data file.
+AttachmentSubmitted filename: Response to reviewers.docx
+Click here for additional data file.
+
+## Data Availability Statement
+All data and documentation files are available from the Open Science Framework database (DOI 10.17605/OSF.IO/4PXZW).

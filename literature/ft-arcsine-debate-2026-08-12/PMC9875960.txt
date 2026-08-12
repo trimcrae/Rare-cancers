@@ -1,0 +1,226 @@
+pmcMedicine (Baltimore)2786medicine2985248RMDMedicine0025-79741536-5964Wolters Kluwer HealthPMC9875960PMC9875960.1987596098759603670538710.1097/MD.0000000000032670134600Research ArticleSystematic Review and Meta-AnalysisAn app for predicting patient dementia classes using convolutional neural networks (CNN) and artificial neural networks (ANN): Comparison of prediction accuracy in Microsoft Excel
+HoSam Yu-ChiehMDt20317@hotmail.com ChienTsair-WeiMBAsmile@mail.chimei.org.tw LinMei-LienMScmhex6899@hotmail.com TsaiKang-TingMD a Department of Emergency Medicine, Chi Mei Medical Center, Tainan, Taiwanb Department of Geriatrics and Gerontology, Chi Mei Medical Center, Tainan, Taiwanc Department of Medical Research, Chi Mei Medical Center, Tainan, Taiwand Department of Examination Room, Chi Mei Medical Center, Tainan, Taiwane Center for Integrative Medicine, Chi Mei Medical Center, Tainan, Taiwanf Department of Nursing, Chung Hwa University of Medical Technology, Tainan, Taiwan.** Correspondence: Kang-Ting Tsai, Department of Geriatrics and Gerontology, Chi-Mei Medical Center, 901 Chung Hwa Road, Yung Kung Dist., Tainan 710, Taiwan (e-mail: codingpaperabc@gmail.com).271202327120231024427375e32670151120222612202227122022270120232701202313032024Copyright © 2023 the Author(s). Published by Wolters Kluwer Health, Inc.2023https://creativecommons.org/licenses/by-nc/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution-Non Commercial License 4.0 (CCBY-NC), where it is permissible to download, share, remix, transform, and buildup the work provided it is properly cited. The work cannot be used commercially without permission from the journal.
+
+## Background:
+Dementia is a progressive disease that worsens over time as cognitive abilities deteriorate. Effective preventive interventions require early detection. However, there are no reports in the literature concerning apps that have been developed and designed to predict patient dementia classes (DCs). This study aimed to develop an app that could predict DC automatically and accurately for patients responding to the clinical dementia rating (CDR) instrument.
+
+## Methods:
+A CDR was applied to 366 outpatients in a hospital in Taiwan, with assessments on 25 and 49 items endorsed by patients and family members, respectively. The 2 models of convolutional neural networks (CNN) and artificial neural networks (ANN) were applied to examine the prediction accuracy based on 5 classes (i.e., no cognitive decline, very mild, mild, moderate, and severe) in 4 scenarios, consisting of 74 (items) in total, 25 in patients, 49 in family, and a combination strategy to select the best in the aforementioned scenarios using the forest plot. Using CDR scores in patients and their families on both axes, patients were dispersed on a radar plot. An app was developed to predict patient DC.
+
+## Results:
+We found that ANN had higher accuracy rates than CNN with a ratio of 3:1 in the 4 scenarios. The highest accuracy rate (=93.72%) was shown in the combination scenario of ANN. A significant difference was observed between the CNN and ANN in terms of the accuracy rate. An available ANN-based app for predicting DC in patients was successfully developed and demonstrated in this study.
+
+## Conclusion:
+On the basis of a combination strategy and a decision rule, a 74-item ANN model with 285 estimated parameters was developed and included. The development of an app that will assist clinicians in predicting DC in clinical settings is required in the near future.
+
+accuracy rateartificial neural networks (ANN)clinical dementia rating (CDR)convolutional neural networks (CNN)dementia class (DC)pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NCOPEN-ACCESSTRUESDCT
+
+## Key points:
+An app for patients predicting dementia classes was developed and demonstrated in this study.
+The 2 models of convolutional neural networks and artificial neural networks were compared in the prediction accuracy based on 5 classes (i.e., no cognitive decline, very mild, mild, moderate, and severe) in 4 scenarios.
+A decision rule to design the artificial neural networks app was built, particularly in double-checking the dementia classes based on additional family assessments or radar plots if the class is predicted beyond the 2 classes of no cognitive decline and very mild.
+
+## 1. Introduction
+Dementia is a progressive disease that worsens over time as cognitive abilities deteriorate. Effective preventive interventions require early detection.[ ] Recent surveys indicate that dementia is underdiagnosed. When using electronic health records to investigate demographic characteristics or clinical associations of an illness (e.g., dementia), International Classification of Diseases 10th Revision codes alone cannot serve as a reliable gold standard.[ ]
+
+## 1.1. Dementia detection and prediction in the literature
+Although dementia cannot be diagnosed by a single diagnostic test, clinicians employ a variety of tools and tests to detect dementia, whether it is caused by Alzheimer disease or by another disease.[ ] One of the most common tests for assessing cognitive impairment is the mini mental state examination (MMSE).[ ] The diagnostic accuracy of the MMSE has been investigated at various cut points for dementia in people >65 years of age.[ ] The authors[ ] noted that the MMSE is helpful in diagnosing dementia in settings with a low prevalence of dementia and suggested that the MMSE should not be used alone to confirm or exclude the presence of a disease. A second approach is to use the clock drawing test,[ ] which provides a simple scoring system for rapid screening for mild cognitive impairment in patients with dementia.[ ]
+A variety of automatic speech-based tools have been developed to detect dementia more recently. These approaches typically employ machine learning (ML) classifiers trained with various vocal features derived from recorded data resulting from standard spoken tasks.[ , ] In addition, automatic speech-based tools can utilize lexical and conversation analysis-inspired features that are derived from transcripts of recorded data.[ ] Furthermore, CogAware[ ] analyzes transcripts of individuals describing the “cookie theft” image[ ] to determine whether they originate from a patient with dementia or from a cognitively normal individual.
+An underutilized but powerful tool for detecting dementia quickly and automatically is the patient’s electronic medical record (EMR). There are increasing numbers of EMRs available that contain large quantities of heterogeneous data.[ ] ML models have been trained using this information (e.g., images that demonstrate cortical atrophy, demographic and clinical information, as well as performance on cognitive tests) to detect the presence and severity of dementia.[ – ] Models of this type have also been used to assess the risk of a person converting to dementia from a stage of mild cognitive impairment.[ , ]
+Another study[ ] conducted and analyzed by demographic and clinical data from EMRs to determine individual patients’ risk scores for dementia based on both structured and unstructured data from EMRs. A similar retrospective study was performed[ ] using structured data, including medical diagnoses, primary care tests, investigations, lifestyle information, and prescription data. The study[ ] analyzed structured clinical data from an elderly population cohort and found that their prediction models reached average F1-scores of 0.93 and 0.81 for both basic and severity diagnoses, respectively.
+In this study, 2 research questions were raised, including no such research predicted classifying patients into >4 classes (no cognitive decline, very mild, mild, moderate, and severe[ ]) to predict dementia class (DC) (i.e., rather than the binary classes of absence and presence in dementia as in traditional ML studies) and developed an app to assist clinicians in predicting DC in clinical settings.
+
+## 1.2. Dementia assessments in clinical practice
+The clinical dementia rating (CDR) is one of the most frequently used tools for evaluating dementia severity[ ] in clinical settings. The CDR is a problem-oriented questionnaire completed by the patient and their family members to assess the extent of the patient’s dementia.[ ] However, it takes considerable time to complete all items on the 8 subscale domains, including memory, orientation, judgment, community affairs, hobbies at home, personal care, personality and behavioral problems, and language.[ ] For hospital technicians, CDR assessments are time-consuming, tedious, and subjective.
+Additionally, the CDR assessment result is required for a variety of purposes, including payment for Alzheimer disease medicines (such medications are regulated by the Taiwan government insurance institute) and employment of foreign caregivers hired by patients’ families.[ ] Therefore, CDR certification has become increasingly in demand in Taiwan, where the number of dementia patients has reached 124,263, or 0.54% of Taiwan’s 23 million residents.[ ] To reduce the burden on technicians in the administration of CDRs, an app developed to predict DC for patients is urgently needed.
+
+## 1.3. ML-based app for predicting DC
+To identify undetected dementia in primary care patients in the UK, a variety of ML models were compared with baseline epidemiological approaches.[ ] Although logistic regression and random forest algorithms allow for the exposure of important features for achieving this prediction task in dementia and ML algorithms have been shown to be effective in predicting progression to dementia in memory clinic patients,[ ] no such app has been developed in use for clinicians. Developing an app to predict DC for patients is thus necessary.
+ML algorithms are typically used as black boxes without the ability to interpret individual predictions.[ ] To provide clinicians with a clear understanding of the rationale for using ML, one emerging challenge is to make it easy and clear to understand the process of ML. Microsoft Excel is a familiar program to many researchers. We are motivated to compare the accuracy of 2 popular ML models (i.e., convolutional neural networks, [CNN] and artificial neural networks [ANN]) that have been demonstrated in the literature,[ – ] but with binary classes only. In general, CNN is considered to be a more powerful and accurate method of solving classification problems. When datasets are limited and image inputs are not needed, ANNs remain the most effective method.[ ]
+
+## 1.4. Study aims
+This study aimed to develop an app that could predict the DC automatically and accurately for patients responding to the CDR instrument.
+Two hypotheses were made for verification, including that the ANN has higher predictive accuracy than the CNN (because datasets are limited and image inputs are not required in this study[ ]) and that an app can be developed and designed to help clinicians predict DC.
+
+## 2. Methods
+
+## 2.1. Data source
+A CDR scale was applied to 366 outpatients diagnosed with dementia at a 1236-bed medical center in Taiwan from June to September 2013. All CDR data were collected, including questionnaires completed by both patients and family members,[ ] with 25 and 49 items, respectively, upon request from the authors[ ] (see data deposited in Supplemental Digital Content S1, http://links.lww.com/MD/I326). It is generally accepted that the severity of dementia can be classified into 5 degrees: healthy (CDR 0), very mild (CDR 0.5), mild (CDR 1), moderate (CDR 2), or severe (CDR 3).[ , ]
+The Research Ethics Review Board of the Chi-Mei Medical Center approved and monitored this study.[ ] The demographic data were collected anonymously and deposited in Supplemental Digital Content S1, http://links.lww.com/MD/I326 without identifying information about the participants.
+
+## 2.2. Study results displayed in tables and visualizations
+
+## 2.2.1. Part I: Descriptive statistics of the data.
+A contingency table was used to report the relationship between CDR scores and frequency in a sample of 366 patients. A chord diagram[ ] was used to display the correlation coefficient (CC) between the summation of CDR scores and each item in the patient and family assessments. Those subjects whose scores were endorsed by patients and family members were displayed on a radar plot[ , ] based on positively standardized scores from 0 to 10. Those that are more severe are dispersed far from the origins of the radar plot. We examined the difference between proportional counts equally distributed on the radar plot and raw counts in the sample using the χ2 test.
+
+## 2.2.2. Part II: Model building.
+
+## 2.2.2.1. ANN algorithm and model building.
+
+## 2.2.2.1.1. Parameters in neuron stems.
+There are k neuron stems (such as those that are used by all patients, for example, providing k values for each patient in Equation 1; using the MS Excel function of SUMPRODUCT, it is possible to obtain the sum of multiplication for each pair of elements, a and x, in Equation 1). For each neuron stem, the sigmoid function in Equation 2 transformed the probability (yielded in Equation 1) into a value between 0 and 1.0.
+
+Neuron Stemk=∑Lj=1akj×xj+biask,
+(1)
+
+Sigmoid functionk=Sk=11+exp(−1×Neuron Stemk)=exp(Neuron Stemk)1+exp(Neuron Stemk),
+(2)
+In ANN, L represents the length of the item, and k represents the number of neuron stems. The parameter is combined with the observed score of item j in the kth neuron stem. There are parameters to be estimated in these k neuron stems.
+
+## 2.2.2.1.2. Parameters in neuron filters.
+There are m neuron filters based on m classes we are going to predict in the ANN model (e.g., 5 strata in dementia for patients, m = 5: no cognitive decline, very mild, mild, moderate, and severe). Each filter has k + 1 parameters (e.g., when k = 2 referred to Equation 3). As such, there are parameters to be estimated in these m neuron filters. The sigmoid function in Equation 4 transformed the probability (yielded in Equation 3) into a value between 0 and 1.0.
+
+Neuron Filtermk=∑ki=1bmi×Sk+biasm,
+(3)
+
+Sigmoid functionm=Sm=11+exp(−1×Neuron Filterm)=exp(Neuron Stemm)1+exp(Neuron Stemm),
+(4)
+where is the mth probability of classes provided by the ANN model.
+
+## 2.2.2.1.3. Model parameters to be estimated.
+The number of model parameters can be computed by the formula (= (k in stems and filters; for example, 53 parameters are involved in 10 items, 3 stems, and 5 filters based on 5 classes to be predicted.
+
+## 2.2.2.2. CNN algorithm and model building.
+
+## 2.2.2.2.1. Fundamental concept of CNN.
+This type of artificial neural network accepts image-type data as inputs (e.g., a 144-pixel image has 144 scores and 16 subimages, each containing 9 pixels). For example, the patient in a dementia assessment has 30 responses that could be fully incorporated into these image-type data sequentially, that is, 144 responses with some repetition. Before conducting CNN, we should determine some elements in the manipulated scenario:
+What is the number of classes that should be predicted (e.g., 5 strata in dementia for patients with m = 5: no cognitive decline, very mild, mild, moderate, and severe). In a CNN model with m = 5, there are 2 types of neuron stems and filters with 5 sets each.
+What is the number of pixels that contains the patient’s response in an image, as well as the number of subimages within an image (e.g., 144 pixels in an image, n = 144) and 16 subimages each with 9 pixels, h = 9) and q = 16 = 144 ÷ 9 = the number of subimages).
+What is the number of parameters (denoted by β) in a neuron filter, which is dependent on the number of feature maps (denoted by δ) projected in the pooling layer If δ is 4, β is 20 + 1 because there are 80 (=16 × 5 = q × m points that should be projected by the feature map with 4 points each (i.e., 20 = 80 ÷ 4 by adding another parameter of bias in the neuron filter).
+Therefore, 3 elements are determined now, namely, m = 5, n = 144, h = 9, q = 16 (=144 ÷ 9), β = 21, and δ = 4.
+
+## 2.2.2.2.2. Parameters in neuron stems.
+Five neuron stems (such as those that are used by all patients, for example, providing m × q values for each patient in Equation 5). For each neuron stem, the sigmoid function in Equation 6 transformed the probability (yielded in Equation 5) into a value between 0 and 1.0.
+
+Neuron Stemm=∑mi=1∑hj=1∑qr=1amj×xh×(j−1)+r+biasm,
+(5)
+
+Sigmoid functionm=Sm=11+exp(−1×Neuron Stemm)=exp(Neuron Stemm)1+exp(Neuron Stemm),
+(6)
+In CNN, all responses in items for a patient have been fully filled into the image-type dataset (e.g., 16 responses with 9 times repeatedly). In this case, 80 (=144 ÷ 9 × 5) probabilities (denoted by are obtained in Equation 6. There are parameters to be estimated in these m neuron stems.
+
+## 2.2.2.2.3. Feature maps used to project those 80 probabilities.
+Based on the 80 probability results generated in the previous section, the feature map is used to select the maximum values with 4 points in the neuron stems (note: the average or minimum values are also suggested for use in CNN). Therefore, 20 values that are maximum in each feature map for each patient are found. The probabilities in the pooling layer can be produced using Equation 7 to generalize 5 sets of probabilities (against neuron filters in the next section) for predicting the DC.
+
+Sigmoid functionF=SF=11+exp(−1×Feature MapF)=exp(Feature MapF)1+exp(Feature MapF),
+(7)
+
+## 2.2.2.2.4. Parameters in neuron filters.
+There are m neuron filters based on m classes we are going to predict DC in the CNN model. Each filter has 21(= β mentioned in section 2.1.2.1) parameters to be estimated. Equation 8 can be expressed by the one: when m = 5 owing to 5 DCs to be chosen). As such, there are parameters to be estimated in these m neuron filters. The sigmoid function in Equation 9 transformed the probability (yielded in Equation 7) into a value between 0 and 1.0.
+
+Neuron Filterm=∑ki=1bmi×SF+biasm,
+(8)
+
+Sigmoid functionm=Sm=11+exp(−1×Neuron Filterm)=exp(Neuron Filterm)1+exp(Neuron Filterm),
+(9)
+where is the mth probability of classes provided by the CNN model.
+
+## 2.2.2.3. Parameter estimation and class prediction.
+The number of model parameters can be computed by the formula (=[m × h + m] [q × m ÷ δ] × m + m) in stems and filters; for example, 155 parameters are involved in 5 stems and 5 filters based on 5 classes to be predicted.
+We set all parameters (i.e., a, b and bias in stems and filters) with randomized values in a normal distribution before performing parameter estimation. The model residual is set using the function in MS Excel via Equation 10.
+
+Residual=SUMXMY2({true classes},{Sm from 1 to m})2,
+(10)
+where {true classes} is the data string in m classes (e.g., 10000, 01000, 00100, 00010, and 00001 represent the true class as no cognitive decline, very mild, mild, moderate, or severe, from 1 to 5, when m = 5).
+Solver add-in in MSExcel was applied to estimate model parameters (see the 2 models with MS Excel modules in Supplemental Digital Contents S2–S4, http://links.lww.com/MD/I327: http://links.lww.com/MD/I328: http://links.lww.com/MD/I329 for details).
+The dementia grade is determined by the selection of class at the maximum probability in see Equation 11.
+
+  #Classi=at{max(Sm)},
+(11)
+where is the mth probability of classes provided via Equation 9.
+
+## 2.2.2.4. Parameter estimation and class prediction.
+Model building and parameter estimation in ANN and CNN are briefly described in Figure . Details about them are deposited in Supplemental Digital Contents S2 to S4, http://links.lww.com/MD/I327: http://links.lww.com/MD/I328: http://links.lww.com/MD/I329.
+ 
+
+## 2.2.3. Part III: Predicting DC for patients.
+
+## 2.2.3.1. Comparison of model prediction in accuracy between ANN and CNN.
+Three scenarios were manipulated to examine the difference in model accuracy between ANN and CNN, including all 74 items, 25 items for patients, 49 items for family members, and a combination of selected dementia grades based on the highest accuracy rate in each category. Accuracy is defined as the number of true predicted outcomes divided by the total number of patients (=366).
+Comparisons of accuracy rates in those 4 scenarios were made using forest plots.[ – ] The Freeman–Tukey double arcsine transformation of proportions was applied to stabilize the variances.[ ] The significance level of Type I error was set at 0.05.
+
+## 2.2.3.2. Decision rule for increasing the accuracy rate.
+In scenarios manipulated in the previous section, the combination scenario should have the highest accuracy rate, since the highest accuracy rates in each DC are selected and applied. The decision rule was designed and displayed on a Sanky diagram.[ – ]
+
+## 2.2.3.3. An app designed for predicting DC.
+Based on the decision rule outlined in the previous section, an online application was developed for predicting the DC. A dementia grade classification (with the highest probability according to Equation 11) is displayed immediately on the website after the 74 responses have been collected from both patient and family assessments.
+
+## 2.3. Creating dashboards on Google Maps
+All graphs were drawn by author-made modules in Excel (Microsoft Corp). We created pages of HTML used for the network graph and forest plots on Google Maps.
+The graphs on Google Maps can be zoomed in and out with a link to the website. The method of how to conduct this study is deposited with a PDF file in Supplemental Digital Content S2, http://links.lww.com/MD/I327. The 2 modules of the CNN and ANN models are deposited in Supplemental Digital Contents S3, http://links.lww.com/MD/I328 and S4, http://links.lww.com/MD/I329. A list of 74 items can be found in Multimedia Supplemental Digital Content S5, http://links.lww.com/MD/I330. The MP4 videos on CNN, ANN, and App are shown at the references.[ – ]
+
+## 3. Results
+
+## 3.1. Descriptive statistics of the data
+This study included 366 patients, of whom 179 were male (49%) and 187 were female (51%). The majority fell into the moderate category (141, 38.52%). The male to female ratios were 34:20, 17:6, and 7:1 for those aged between 70 and 75, 65 and 70, and 55 and 60, respectively (Fig. ). Frequency was highest in moderate categories (38.52%), followed by mild categories (26.50%), and severe categories (22.95%). There was an equal number of cases in the 2 classes of no cognitive decline and very severe (=10, 2.73%). There were no cases observed in the late stage category (Table ).
+ Two chord diagrams display the CCs between the summation of CDR scores and each item in the patient and family assessment[ ] (Fig. ). Supplemental Digital Content S5, http://links.lww.com/MD/I330 contains all items with the respective symbols. Based on the 3 statistics of maximum, minimum, and median, we can see that the CCs are similar between the 2 assessments.
+ Those subjects whose scores have been endorsed by patients and family members are displayed on a radar plot (Fig. ). It can be seen that patients who are more severe are dispersed far from the origins of the radar plot, such as the case of patient number 043, with a family score of 70 and a patient score of 30, at the top of the radar plot. As a result of the χ2 test, there was no difference between proportional counts distributed on the radar plot and raw counts in the sample (χ2 = 4.82, P = .58).
+ 
+
+## 3.2. Model building and prediction
+As shown in Table , the CNN and ANN models were compared in 4 scenarios. With a ratio of 3:1, ANN had higher accuracy rates than CNN. The highest accuracy rate (=93.72%) was shown in the combination scenario of ANN, as shown at the bottom right of Table . A significant difference was observed between CNN and ANN in terms of accuracy rate, as shown in the forest plot (Fig. ).
+ 
+
+## 3.3. An app suggested for predicting DC
+An algorithm was developed based on the combination of classes in ANNs to predict the DC, which is shown at the bottom of Table . Decision rules are based on the use of ANN and radar plots to determine DCs (Fig. ). Double-checking of the dementia prediction is performed for each individual patient to ensure that additional family assessments or radar plots are required if the class is not predicted in the top 2 categories.
+ Figure illustrates an online application of dementia classification. Once the QR code is scanned and 74 responses are pasted into the input box, a bar chart with the probability of each DC is displayed on the smartphone or website. Based on the ANN model, the class with the highest probability is predicted and suggested.
+ 
+
+## 3.4. Online dashboards shown on Google Maps
+All the QR codes in Figures[ – ] are linked to the dashboards. Readers are suggested to examine the displayed dashboards on Google Maps.
+
+## 4. Discussion
+
+## 4.1. Principal findings
+In this study, we found that ANN had higher accuracy rates than CNN with a ratio of 3:1 in the 4 scenarios. The highest accuracy rate (=93.72%) was shown in the combination scenario of ANN. A significant difference was observed between the CNN and ANN in terms of the accuracy rate. An available ANN-based app for predicting DC in patients was successfully developed and demonstrated in this study.
+Accordingly, the 2 hypotheses that[ ] the ANN has higher predictive accuracy than the CNN and an app that can be developed and designed to help clinicians predict DC have been confirmed.
+
+## 4.2. Additional information
+As with all web-based technologies, advances in mobile communication technology are rapidly increasing. A multidimensional computerized adaptive test for the CDR scale has been demonstrated in the literature.[ ] Even though multidimensional computerized adaptive test could reduce the burden on technicians who administer CDRs, we cannot guarantee that the prediction accuracy will be higher than that of ML. Nonetheless, the combination of ML and web-based Computerized Adaptive Testing[ ] can be applied to the field of dementia in the future.
+The 2 popular ML models (i.e., CNN and ANN) have also been demonstrated separately in MS Excel.[ – ] Many researchers are familiar with the use of Microsoft Excel. Until now, no research has been conducted comparing model accuracy between the 2 ML models under the MS Excel environment, particularly when the modules and Equations are detailed in Supplemental Digital Contents, as we did in this research.
+To predict DC, multiple classes of predictive models are derived from patient/family questionnaires. Based on ML, there are substantial differences between traditional binary classes of prediction. We use 2 kinds of features in our models that vary with each scenario based on the assessment of the patient and the family. A decision rule was then formed with the ANN algorithm incorporated with the radar plot (Fig. ) to enhance the prediction accuracy (e.g., 93.72% in Table ), which can be applied to future relevant studies.
+There are numerous underlying causes (e.g., Alzheimer disease, which is the most prevalent at least in later life) in addition to the biology and pathophysiology of dementia, all of which are influenced by different factors (e.g., comorbidity, lifestyle, and genetics).[ ] To differentiate dementia from patients’ conditions, we require individualized and precise treatment for patients in the future. According to the approach described in this paper, numerous factors result in unpredictability that impacts the accuracy and efficiency of prediction. By using the app, this complexity could be reduced, resulting in improved prediction performance.
+
+## 4.3. Implications and changes
+There are 3 features that could make sense in prediction DC in future relevant studies, including an app for patients predicting DC should be developed, particularly with multiple classes to predict; the 2 models of CNN and ANN compared in the prediction accuracy based on 5 classes (i.e., no cognitive decline, very mild, mild, moderate, and severe) in 4 scenarios that can be applied to other algorithm comparisons in the future; a decision rule to design the app can be drawn on the Sankey diagram, particularly in double-checking the DC based on additional information (e.g., family assessments or radar plots if the class is predicted beyond the 2 classes of no cognitive decline and very mild).
+In addition, many researchers are familiar with Microsoft Excel. To provide readers with a better understanding of the accuracy of the 2 popular ML models, a comparison of their accuracy was displayed on the forest plot, and modules and equations are included in the Supplemental Digital Contents and Figure .
+
+## 4.4. Limitations and suggestions
+There are a number of issues that need to be addressed in detail in further research. As a first concern, only the 2 ML models were compared. More algorithm models could be compared regarding dementia prediction in the future.
+The second point is that although there are a few studies examining the use of multiple classes in prediction in the literature (for instance, a number of studies comparing prediction accuracy in binary classes using receiver operating characteristic curves), MS Excel’s Solver add-in function does not allow for the estimation of more parameters(e.g., >=300 in an attempt).
+Third, there were only a few neuron stems assigned to the ANN model, only 4 points were designed in feature maps, and 9 pixels were used in the CNN model. To improve prediction accuracy, future studies should enlarge these types of settings.
+Fourth, the ANN model was proposed in this study based on our findings in Table . A greater sample size is suggested for future studies, which will be compared to the results of using ANNs in the future. Furthermore, it is possible to examine the prediction accuracy by separating the 2 sets of learning and testing samples in the future.
+Fifth, according to the radar plot in Figure with an equal interval radius in ascending, patients who are more severe are dispersed far from the origins of the radar plot. There was no difference between proportional counts distributed on the radar plot and raw counts in the sample (χ2 = 4.82, P = .58). The results of this study are worthy of further study in the future, as well as examination to determine whether they are consistent with other dementia-related studies.
+Sixth, Freeman–Tukey double arcsine transformation of proportions[ ] was used to visualize the pair-comparison in accuracy rates on the forest plot. There is a need to discuss whether the method can be used in other situations with a single accuracy rate and a variety of sample sizes for comparison in the future.
+Finally, although the combination strategy is considered valuable and applicable with a substantially higher accuracy rate than other scenarios, some programming techniques are necessary due to the complexity of the situation with many loops that require double checking.
+
+## 5. Conclusion
+On the basis of a combination strategy and a decision rule, a 74-item ANN model with 285 parameters estimated was developed and contained. A detailed interpretation of the 2 ML models in MS Excel is provided in Supplemental Digital Contents to assist readers in understanding ML in action. The development of an app that will assist clinicians in predicting DC in clinical settings is required in the near future.
+
+## Acknowledgments
+We are grateful for the data provided by authors[ ] to help us complete this study.
+
+## Author contributions
+Conceptualization: Sam Yu-Chieh Ho.
+Investigation: Mei-Lien Lin, Kang-Ting Tsai.
+Methodology: Tsair-Wei Chien.
+
+## Supplementary Material
+ 
+
+## Abbreviations:
+ANNartificial neural networks
+CCcorrelation coefficient
+CDRclinical dementia rating
+CNNconvolutional neural networks
+DCdementia class
+EMRelectronic medical record
+MLmachine learning
+MMSEMini Mental State Examination
+
+The authors have no funding to disclose.
+The Research Ethics Review Board of the Chi-Mei Medical Center approved and monitored this study.
+The authors have no conflicts of interest to disclose.
+The datasets generated during and/or analyzed during the current study are publicly available.
+Supplemental Digital Content is available for this article.
+How to cite this article: Ho SY-C, Chien T-W, Lin M-L, Tsai K-T. An app for predicting patient dementia classes using convolutional neural networks (CNN) and artificial neural networks (ANN): Comparison of prediction accuracy in Microsoft Excel. Medicine 2023;102:4(e32670).

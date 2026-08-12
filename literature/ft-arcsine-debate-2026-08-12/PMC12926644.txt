@@ -1,0 +1,36 @@
+2984iranjrepbioInternational Journal of Reproductive BiomedicineInt J Reprod BiomedShahid Sadoughi University of Medical Sciences and Health ServicesPMC1292664412926644129266444178373010.18502/ijrm.v23i12.20719When 105% is too much: Reflections on boundaries and statistical methods in diagnostic test accuracy meta-analytical modeling: A letter to the editor
+MonteroJavier Arredondo 1Pediatric Surgery Department, Complejo Asistencial Universitario de León, León, Spain.*
+Javier Arredondo Montero;
+Department of Pediatric Surgery,
+Complejo Asistencial Universitario
+de León. c/Altos de Nava s/n,
+24008 León, Castilla y León,
+Spain.
+Postal Code: 24008
+Tel: (+34) 987237400
+Email:
+jarredondo@saludcastillayleon.es;
+javier.montero.arredondo@gmail.com
+
+1422026231210511051–1053432026Copyright © 2025 Arredondo Montero.This is an open access article distributed under the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium for noncommercial purposes only, provided the original work is properly cited.statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Jun 11; Revised 2025 Nov 5; Accepted 2025 Nov 29; Collection date 2025 Dec.
+
+## Dear Editor,
+Reading a diagnostic test accuracy (DTA) meta-analysis often feels like a careful reconstruction of reasoning, coherence, and analytical validity. A reported sensitivity of 97.6%, with a 95% CI extending to 105.5%, is one such red flag. Far from trivial, this reflects the use of statistical methods inappropriate for bounded data. Upon reviewing the meta-analysis by Keshari et al. (1), I identified several methodological issues that compromise the validity of their findings and merit correction.
+Confidence intervals for sensitivity and specificity must fall within the 0–100% range, as these are proportions bounded between 0 and 1. Figure 2 in the meta-analysis (1) reports a sensitivity of 97.6% (95% CI: 89.65–105.55%) for Dugoff et al. an impossible result suggesting an unbounded model without transformation for proportion data (e.g., logit, log, or Freeman-Tukey double arcsine). The pooled sensitivity (90.88%, 95% CI: 80.92–100.85%) likewise exceeds 100%, indicating a formally invalid estimate. Instead of addressing the problem, the authors truncate the upper bound in the abstract, reporting “90.9 (95% CI: 80.9–100%)”, which presents an adjusted rather than a model-derived value. Such modification diminishes transparency and misrepresents analytic uncertainty.
+The methods further conflate concepts by stating that heterogeneity was “evaluated using Cochran's Q test and the DerSimonian-Laird method”. Cochran's Q tests for between-study variability, while DerSimonian-Laird is a random-effects estimator applied after such variability was detected. Although DerSimonian-Laird is cited in the methods (despite its limitations compared to restricted maximum likelihood) (2), several forest plots (e.g., Figures 2 and 3) indicate the use of restricted maximum likelihood estimation. This inconsistency between the reported and applied models reduces reproducibility.
+The meta-analysis also performs univariate pooling of sensitivity without plotting specificity or employing hierarchical or bivariate models, which account for correlation and threshold effects (3, 4). This approach limits interpretability. Moreover, restricting the analysis to only 4 studies from a larger review of over 70 may introduce selection bias and diminish generalizability.
+Clinical heterogeneity further undermines the pooled results. In figure 2, the authors combine the sensitivity for all aneuploidies from Schlaikjær Hartwig et al. (5) with that for trisomy 21 from Dugoff et al. (6), yielding the invalid 95% CI noted earlier, even though the original trial reported a valid 97% (95% CI: 83.8–99.7%). Pooling such distinct endpoints without stratification or sensitivity analyses violates the principle of clinical coherence. Sensitivity and detection rate (diagnostic yield) are also used interchangeably, though they represent different measures: sensitivity denotes the proportion of true positives among affected individuals, whereas detection rate refers to positive tests among the screened population. This conceptual distinction is critical for interpretability.
+A further error appears in the abstract: “MicroRNA levels were significantly increased (standardized mean difference 1.22, 95%: CI: -0.90 to 3.34)”. Because the CI includes 0, the difference is not statistically significant; indeed, figure 3 shows p = 0.26. Reporting it as significant misrepresents the evidence. The wide CI (-0.90 to 3.34) also reflects extreme imprecision, with heterogeneity indices (I² = 97.85%, Q = 38.6, p 0.001, ² = 4.45) confirming severe inconsistency that invalidates any pooled inference.
+Moreover, in figure 3, all control groups appear with identical mean values (1.00), which the original data do not support, for instance, Lamadrid-Romero et al. reported no such uniformity. If standardization or imputation was applied, this should have been explicitly stated, as standardized mean differences are sensitive to such transformations.
+Several sensitivity estimates, including those from Schlaikjær Hartwig et al. and Dugoff et al. (5, 6), were directly extracted without reconstructing 2 2 tables. Although convenient, this practice departs from recommended DTA standards that require independent reconstruction to ensure consistent definitions and denominators. Omitting this step risks propagating biases and precludes assessment of threshold effects.
+The study process also lacks essential transparency: it was not registered in PROSPERO, and inclusion/exclusion criteria are only broadly described. Such omissions conflict with accepted standards for systematic reviews and reduce reproducibility. The use of the Joanna Briggs Institute checklist, instead of QUADAS-2, the standard tool for DTA quality assessment, further weakens the methodological rigor and diverges from PRISMA-DTA guidelines.
+Finally, the use of funnel plots to assess publication bias is inappropriate when fewer than 10 studies are included (3). With only 5 studies analyzed, such plots are underpowered and unreliable.
+In summary, the meta-analysis contains several methodological errors that materially affect its conclusions. Reporting sensitivity values exceeding 100% and modifying confidence intervals post hoc indicates the need to revisit the underlying statistical models rather than adjust the presentation. Diagnostic meta-analysis requires bounded data transformations, hierarchical modeling, and transparent reporting to ensure valid inference. These observations are intended not as criticism but as constructive clarification, to support more rigorous and reproducible application of meta-analytic methods in diagnostic research.
+
+## Acknowledgments 
+The author used ChatGPT (OpenAI) exclusively for language refinement. No generative AI was used to develop ideas, structure the argument, or produce scientific content. All intellectual contributions are the author's own.
+
+## Conflict of Interest
+The author declares no conflict of interest.
+
+## References

@@ -1,0 +1,135 @@
+3452parepiParasite Epidemiology and ControlParasite Epidemiol ControlElsevierPMC1109089811090898110908983874599610.1016/j.parepi.2024.e00350Global prevalence of Toxoplasma gondii in birds: A systematic review and meta-analysis
+ZakiLeila OlfatifarMeysam GhaffarifarFatemeh EslahiAida Vafae KarimiPourSaryazdiAmir TaghipourAli HamidianfarNajla BadriMilad JokelainenPikka aMedical Microbiology Research Center, Qazvin University of Medical Sciences, Qazvin, IranbGastroenterology and Hepatology Diseases Research Center, Qom University of Medical Sciences, Qom, IrancDepartment of Parasitology and Entomology, Faculty of Medical Sciences, Tarbiat Modares University, Tehran, IrandZoonoses Research Center, Jahrom University of Medical Sciences, Jahrom, IraneDepartment of Natural Resources & Environmental Sciences, Faculty of Agriculture and Natural Resources, Islamic Azad University Khorasgan (Isfahan) Branch, Isfahan, IranfMetabolic Diseases Research Center, Research Institute for Prevention of Non-Communicable Diseases, Qazvin University of Medical Sciences, Qazvin, IrangInfectious Disease Preparedness, Statens Serum Institut, Copenhagen, Denmark⁎Corresponding authors. badri22.milad@gmail.compijo@ssi.dk
+1These authors contributed equally to this work.
+264202425e00350e003501452024© 2024 The Authors. Published by Elsevier Ltd on behalf of World Federation of Parasitologists.This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+Among the potential animal reservoirs of the zoonotic parasite T. gondii, birds have received relatively little attention. This systematic review and meta-analysis aimed to assess the global status and to provide an overview of the epidemiology of T. gondii infection in birds. The standard protocol of preferred reporting items for systematic reviews and meta-analyses (PRISMA) guidelines were followed. Scopus, PubMed, Web of Science, Science Direct, ProQuest, and Google Scholar were searched for relevant publications from January 1990, to March 2024. All peer-reviewed original research articles describing the prevalence of T. gondii in birds were included. Inclusion and exclusion criteria were applied, and both direct and indirect detection were considered. The point estimates and 95% confidence intervals were calculated using the meta-package in R (version 3.6.1). The variance between studies (heterogeneity) was quantified by the I2 index. Finally, 258 articles (including 380 datasets) were eligible for inclusion in the systematic review and meta-analysis. The global pooled prevalence was 24% (21 - 26%). The highest prevalence of T. gondii was observed in buzzards (52%, 34 - 70%), turkeys (31%, 17 - 46%), and chickens (30%, 26 - 34%). The present study provides a comprehensive view of the global prevalence of T. gondii in birds.
+Keywords: Toxoplasma gondii, Birds, Prevalence, Meta-analysis
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Nov 1; Revised 2024 Mar 12; Accepted 2024 Apr 17; Collection date 2024 May.
+
+1.
+
+## Introduction
+The protozoan Toxoplasma gondii (T. gondii), the causative agent of toxoplasmosis, is one of the most successful parasites and can infect humans and almost all warm-blooded animals globally ; ; ). It is a major public health issue, and it is estimated that nearly a third of the world's human population is infected ( ; ). Members of the Felidae family, both wild and domestic felids, are the definitive hosts in the life cycle of T. gondii, while other animals, including birds, can serve as intermediate hosts. All hosts can acquire the infection by ingesting tissues of infected hosts or ingesting infective oocysts, originally shed in the feces of cats ( ). Humans are no exception; this parasitic infection may be transmitted to humans via drinking contaminated water, ingestion of contaminated food, or eating raw or undercooked meat of infected animals, including birds ( ; ), or raw eggs ( ; ). Vertical transmission of T. gondii infection can also occur in several host species ( ; ; ). Also, infection via blood transfusion and organ transplantation are other possible routes of transmission ( ; ).
+The outcomes of T. gondii infection vary according to host and parasite factors, in particular the immune status of the host ( ). In immunocompetent individuals, T. gondii infection is oftentimes subclinical or mild. However, especially in those with compromised immune systems, toxoplasmosis can cause widespread complications and life-threatening outcomes ( ). The disease can be severe in birds, with e.g., pneumonia, splenitis, hepatitis, multi-organ involvement, and even death ( ).
+The role of birds in the spread and transfer of infectious agents is obvious. They are considered good carriers or reservoirs for infectious agents due to their high dispersal capabilities. According to the published literature, T. gondii prevalence has increased in several bird species ( ; ; ; ; ).
+Toxoplasma gondii is recognized as a significant causative agent of mortality among diverse species of birds ( ). Birds play a crucial role as intermediate hosts for T. gondii, and their infection with this parasite holds significant epidemiological importance. Specifically, when ground-feeding birds become infected with T. gondii, it signifies the potential contamination of soil with oocysts, which in turn serves as a source of infection for cats ( ). Certain opportunistic birds, such as seagulls, serve as reliable indicators of environmental contamination because they rely on dumps and sewage systems for their food sources ( ). Moreover, birds frequently preyed upon by felines may be regarded as significant reservoirs of T. gondii. These infected birds, harboring tissue cysts, pose a potential risk of transmitting the infection to both humans and cats ( ). Especially, game birds, if not adequately cooked, present a potential risk of transmitting T. gondii to humans who consume them ( ).
+Toxoplasma gondii is a parasite that needs to be addressed using a One Health approach ( ). Its hosts include birds and mammals, including humans ( ; ). In addition, oocysts of the parasite can contaminate the environment, water, and soil ( ). For many birds, most T. gondii infections are presumably transmitted via contaminated feed, water or soil ( ). Indeed, infected birds have been demonstrated to be a candidate group of sentinel animals to reveal environmental contamination with T. gondii oocysts ( ).
+Toxoplasma gondii has been the subject of much study on mammals, especially humans and domestic animals, although, there is a gap of knowledge on the global prevalence of the parasite in bird populations. The present systematic review and meta-analysis focusing on T. gondii in birds may shed light into the parasite's distribution patterns, transmission dynamics, and potential risks to humans and animals. Furthermore, such a study could pinpoint areas with high infection rates and elucidate the factors influencing the transmission of T. gondii. This knowledge is essential for developing effective strategies to control the spread of the parasite and reduce its impact on both human and animal populations.
+
+2.
+
+## Materials and methods
+2.1.
+
+## Information sources and systematic search
+The present systematic review and meta-analysis was done according to the preferred reporting items for systematic reviews and meta-analysis (PRISMA) statement ( ). Literature search for published studies on the prevalence of T. gondii infection in birds was retrieved via searching six international databases Scopus, PubMed, Web of Science, Science Direct, ProQuest, and Google Scholar) between 1990 and 01 March 2024. The search process was accomplished using the conjunction of the following key words: (“Toxoplasma gondii” OR “T. gondii” OR “Toxoplasma infection” OR “Toxoplasmosis”) AND (“prevalence” OR “epidemiology”) AND (“bird” OR “avian” OR “chicken”). Moreover, the bibliographic list of all selected articles and their citing articles were hand-searched to find additional relevant articles.
+
+2.2.
+
+## Inclusion criteria, study selection and data extraction
+The first selection of studies was made based on information specified in the title and abstract. The second step was to verify the full text of the article, if available. Studies were included if they met the pre-established criteria: (1) full-texts or abstracts published in English without geographical limitation, (2) peer-reviewed original research articles, short reports or letters to the Editor that studied the prevalence of T. gondii in birds, (3) papers published online from January 1990, until March 2024 with a digital object identifier (DOI), and (4) those papers that provided the exact total sample size and number of samples that tested positive. Papers not meeting the above-mentioned criteria were excluded. Moreover, we excluded studies with a sample size fewer than twenty and if there were less than three articles available based on each species of bird.
+The included data were gathered using a Microsoft Excel spreadsheet for the following sub-terms: the author’s name, year of publication, continent, country, types of tested samples (tissue and/or serum), diagnostic method, wild or domestic bird, type of bird, annual precipitation, annual rainfall, average temperature, climate, humidity, total sample size, and number of positive samples ( , ).
+ 
+2.3.
+
+## Data synthesis and statistical analysis
+For each included study, the point estimates and their respective 95% confidence intervals (CI) were calculated using the random-effects model. A meta-regression analysis was used to determine the possible association between average temperature, and year of publication with T. gondii prevalence in birds. Furthermore, Begg’s funnel plot, Egger’s funnel plot, and the Doi plot were implemented to investigate possible publication bias ( ; ; ). The prevalence data were pooled through statistical meta-analysis with the Freeman-Tukey double arcsine method for the random-effects model, based on the inverse variance approach for measuring weight.
+In order to visualize possible heterogeneity among the included studies, a forest plot analysis was used. The heterogeneity index among the included studies was defined using the I2 index and Cochrane’s Q test, so that I2 values of < 25%, 25–75%, and > 75% were considered to have low, moderate, and high heterogeneity, respectively. A p-value < 0.05 was regarded as statistically significant. All analyses were conducted by the meta-package in R (version 3.6.1) ( ).
+
+3.
+
+## Results
+3.1.
+
+## Literature search selection and data extraction
+The findings from the search and study selection process are outlined in a PRISMA flow diagram ( ). Initially, a total of 2,859 records were identified. Following the removal of duplicates and non-eligible studies, 258 articles containing 380 datasets and 90,480 bird samples met the inclusion criteria.
+ Our analysis encompassed 17,269 infected birds from six continents, spanning 64 countries. Specifically, there were 149 studies from Asia, 85 from Europe, 60 from South America, 44 from North America, 40 from Africa, and 2 from Oceania.
+Brazil had the highest number of studies (50), followed by China (42) (Supplementary Fig. 1). The estimated global prevalence of T. gondii in birds was determined to be 24% (21 - 26%) (Supplementary Fig. 1).
+Based on the included studies, a map illustrating the prevalence of T. gondii in birds across various global regions was generated using QGIS3 software (https://qgis.org/en/site/). Additionally, a Sankey plot indicated that the largest number of studies originated from Asia ( A-B).
+ 
+3.2.
+
+## Pooled prevalence based on source of samples, and diagnostic methods
+The pooled prevalence rates varied depending on the type of samples collected. For serum samples, the estimated prevalence was 25% (23 - 28%) and for tissue samples this rate was 15% (11 - 20%) ( ).
+Regarding detection method, the pooled prevalence ranged between 39-1%. Accordingly, the highest estimated rate (39%, 30 - 48%) was related to latex agglutination test (LA).
+In addition, the pooled prevalence was as follows for different diagnostic techniques; 30% (23 - 38%) for indirect immunofluorescence assay (IFA), 27% (16 - 39%) for indirect hemagglutination test (IHA), 25% (22 - 29%) for modified agglutination test (MAT), 18% (14 - 23%) for enzyme-linked immunosorbent assay (ELISA), 18% (13 - 24%) for molecular test, 9% (4 - 17%) for direct agglutination test (DAT), 9% (3 - 17%) for studies using bioassay, and 1% (0 - 5%) for studies using Sabin Feldman dye test (SFDT) ( ).
+
+3.3.
+
+## Pooled prevalence based on wild/domestic status, and type of birds
+In terms of wild/domestic status, the pooled prevalence was notably higher in domestic birds, reaching 28% (25- 31%) compared to wild birds ( ).
+Among different types of birds, buzzards exhibited the highest prevalence reaching 52% (34 - 70%).
+Furthermore, the pooled prevalence in bird hosts was as follows: 31% (17 - 46%) in turkeys, 30% (26 - 34%) in chickens, 29% (18 - 42%) in owls, 29% (12 - 49%) in gulls, 25% (20 - 30%) in Kestrel, 25% (15 - 36%) in hawks, 25% (7 - 49%) in crows, 22% (2 - 52%) in rheas, 19% (15 - 25%) in ducks, 19% (14 -25%) in geese, 19% (6 - 34%) in ostriches, 19% (2 - 44%) in magpies, 18% (6 - 34%) in vultures, 18% (4 - 40%) in penguins, 15% (4 - 31%) in white storks, 14% (5 - 26%) in sparrows, 12% (6 -18%) in pigeons, 12% (5 - 21%) in quails, 8% (0 - 19%) in starlings, 3% (1 - 5%) in doves, and 2% (1 - 4%) in pheasants ( ).
+
+3.4.
+
+## Pooled prevalence based on continent and country
+The pooled prevalence estimates varied across continents, ranging from 16-64%. Accordingly, Oceania had the highest prevalence (64%, 12 - 100%), while Europe displayed the lowest prevalence rate (16%, 12 - 20%) ( ).
+Analysis at the country level revealed that Nicaragua, despite having only one study available, had the highest pooled prevalence (86%, 77 - 91%) (Supplementary Fig. 2).
+
+3.5.
+
+## Pooled prevalence based on climate variables
+The highest pooled prevalence was associated with regions characterized by an average temperature > 20°C, annual precipitation of 300-650 mm, annual rainfall of < 400 mm, and humidity of < 40% with estimates of 30% (26 - 34%), 32% (27 - 36%), 30% (25 - 35%), and 28% (20 - 36%), respectively ( ).
+Regarding different climatic variables, the highest prevalence rate (50%, 35 - 66%) was found in regions with tropical rainforest climate and the lowest prevalence rate (7%, 4 - 12%) was associated with marine climate ( ).
+
+3.6.
+
+## Meta regression
+The meta-regression analysis revealed that among the examined factors, both average temperature and year of publication were significant in explaining the estimated heterogeneity, with statistically significant results for all criteria. Accordingly, the following report was observed for each factor: 1) average temperature (slop = 0.2983, p < 0.0001), and 2) year of publication (slop = 9.100, p < 0.004) ( A-B).
+ 
+3.7.
+
+## Publication bias
+A highly significant publication bias was observed using both Egger’s test (t = 4.71, p < 0.0001) and Begg’s test (t = 7.70, p < 0.0001) ( A & B). Furthermore, Doi plot analysis showed a major asymmetry (LFK index: 2.71) ( C).
+ 
+
+4.
+
+## Discussion
+Toxoplasma gondii infection has a significant impact on public health as well as animal health, welfare and production globally. It is widely distributed and is highly prevalent in many areas of the world, leading to high costs to society, and serious outcomes in both humans and animals populations ( ; ).
+Several factors account for the variations in infection rates observed across different geographical regions, with particular emphasis on the effectiveness of infectious disease control measures, the sensitivity of employed methods, and the specific geographic locations where birds were discovered. Herein, the elevated prevalence of T. gondii in birds observed in Oceania with a high abundance of avian populations ( ), underscores the need for additional research.
+Warmer climate provide favorable circumstances for the survival of the oocysts in the environment ( ; ). Similarly, our analysis revealed that the highest prevalence rate was associated with average temperature higher than 20°C. Moreover, a significant heterogeneity in the prevalence of T. gondii was detected regarding climate and geographic factors.
+A broad spectrum of diagnostic tests was utilized in the studies we included. However, LA found to has the highest prevalence rate. It is expected that different detection techniques yield heterogeneous data. In this regard, the diagnostic performance of the MAT has been reported to be applicable for many host species and more accurate, compared to the ELISA ( ). Serological assays have different sensitivity and specificity, although they remain the primary screening method for qualitatively detecting antibodies against T. gondii infection ( ). PCR-based techniques may have high sensitivity and specificity. However, these tools possess different disadvantages such as relatively high cost. The use of bioassay has become less common, while direct isolation of the parasites to cell cultures is being discussed more ( ). Direct microscopic method is not an appropriate and reliable test to detect T. gondii because of low sensitivity and requirement of expertise, knowledge and skills ( ; ).
+Birds are susceptible to T. gondii with tissue cysts capable of persisting in their body, presenting a potential source of infection for other hosts ( ; ). Findings of the present study suggests that the prevalence of T. gondii was high in several orders of birds, such as Galliformes, Accipitriformes, Passeriformes, and Anseriformes. However, the highest prevalence rate was noted in carnivorous birds. These birds are at the top of the food pyramid, so the burden of pollution, including with biological agents, that can accumulate in food chains, is high in them ( ).
+Carnivorous birds are thought to acquire T. gondii infection through ingestion of tissue cysts present in the tissues of infected prey; nevertheless, they can also become infected from sporulated oocysts, e.g. by ingesting contaminated water or feed ( ). The buzzard (Buteo buteo) is a carnivore and predator living in a variety of climates, from the watery desert to the North Pole ( ; ). The reason for the high prevalence in this bird is likely attributed to its feeding habit and the widespread distribution, making it a valuable indicator host across different countries. Significantly, turkeys exhibited a relatively high prevalence of T. gondii infection. The importance of the infection in turkey, as ground-feeding bird, lies in its potential role as indicator of environmental contamination. Additionally, free-ranging chickens and other ground-feeding birds serve as effective sentinels or indicators of environmental contamination with T. gondii oocysts. ( ).
+Toxoplasma gondii strains isolated from birds can reflect the various genotypes present in the environment as well as in their primary predators and prey. A comprehensive analysis of the genetic diversity of T. gondii isolates from birds revealed that atypical genotypes were the most prevalent (59%). Types II, III, and I were less common, with prevalence rates of 23.4%, 13.8%, and 2%, respectively. Moreover, the review demonstrated the significant genetic diversity of T. gondii, with non-clonal strains circulating in birds across South and North America, while clonal parasites with limited genetic variation were predominant in Europe, Asia, and Africa ( ).
+The present systematic review and meta-analysis had some strengths including the comprehensive literature search in four international databases, the large sample size of birds included, analysis of several subgroups, and the rigorous methodology. However, the current review has also some limitations, including lack of data regarding the prevalence of T. gondii infection among birds from many countries, limited sample sizes in some reports, lack of evaluation of related risk factors in many studies, variation in sensitivity and specificity of diagnostic tests, and language limitations. Given these limitations, it is important to note that our findings may not precisely reflect the prevalence rate, although, it is very useful as it gives an overview of prevalence of T. gondii in birds at a global scale.
+
+5.
+
+## Conclusion
+Studying epidemiology of T. gondii in birds provides valuable information for health policy makers to assess the current status of the infection and it helps to evaluate, and possibly mitigate potential threats to the poultry industry, wild bird populations, domestic and wild mammals, and humans. The current study sheds light on widespread distribution of T. gondii throughout continents and countries, with varied prevalence rates determined by factors such as climate, geographical location, and bird species. The prevalence rates varied depending on the sample sources and diagnostic procedures used, emphasizing the significance of standardized test techniques. Carnivorous birds of prey identified as prominent hosts, demonstrating their involvement in T. gondii transmission dynamics. The genetic diversity of T. gondii strains in birds demonstrates the complicated nature of transmission mechanisms.
+Future study should focus on filling information gaps about T. gondii prevalence in bird populations globally. Standardization of surveillance techniques and diagnostic methods may improve our understanding of the parasite's distribution and transmission dynamics in bird species. Furthermore, specific measures, such as raising awareness among poultry producers and implementing steps to prevent environmental contamination, are critical for minimizing T. gondii's impact on both animal welfare and public health.
+Finally, this study is a critical step in improving our understanding of T. gondii epidemiology in birds and emphasizes the need of collaborative efforts in combating this ubiquitous parasite infection. By prioritizing multidisciplinary research and implementing preventative measures, we may reduce the worldwide burden of T. gondii while also protecting the health of humans and animals.
+
+## Funding
+This work was supported by deputy of research and technology, Qazvin University of Medical Sciences, Qazvin, Iran (contract no. IR.QUMS.REC.1400.356).
+
+## Ethical considerations
+Ethical approval was required and provided for this study, as stated by our institutional review board.
+
+## Declaration of competing interest
+The authors declared no potential conflicts of interest concerning the research or authorship.
+
+## Acknowledgements
+We sincerely thank personnel from the Medical Microbiology Research Center, Qazvin University of Medical Sciences, Qazvin, Iran.
+
+## Footnotes
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.parepi.2024.e00350.
+
+## Contributor Information
+Milad Badri, Email: badri22.milad@gmail.com.
+Pikka Jokelainen, Email: pijo@ssi.dk.
+
+Appendix A.
+
+## Supplementary data
+
+ 
+ 
+
+## References

@@ -1,0 +1,163 @@
+273viroljVirology JournalVirol JBMCPMC1210098712100987121009874040518710.1186/s12985-025-02788-6Hepatitis surface B antigen clearance induced by long-term tenofovir disoproxil fumarate monotherapy in chronic hepatitis B treatment: a meta-analysis and longitudinal modeling analysis
+JianWeizhe YinYalin XueJunsheng ChenRong FengJingwen ZengJiayao HeRuoyi ZhouTianyan 1Department of Pharmaceutics, School of Pharmaceutical Sciences, Peking University, Beijing, China 2Xiamen Amoytop Biotech Co., LTD, Xiamen, China ✉Corresponding author.
+#Contributed equally.
+2252025221581582352025© The Author(s) 2025Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+
+## Background
+Chronic hepatitis B (CHB) is a significant global health challenge, with tenofovir disoproxil fumarate (TDF) widely used as an effective treatment option. Despite TDF’s efficacy in suppressing hepatitis B virus (HBV) DNA, it rarely achieves functional cure, requiring hepatitis B surface antigen (HBsAg) clearance or seroconversion, which are an optimal goal of CHB treatment. This study aimed to evaluate the long-term effects of TDF monotherapy on HBsAg clearance rates through a systematic review and meta-analysis, combined with a longitudinal modeling analysis to investigate HBsAg dynamics.
+
+## Methods
+Eligible studies published between January 1st, 2008, and September 28th, 2023, in PubMed, EMBASE, and Web of Science were included in the systematic review and meta-analysis. The longitudinal model was developed based on data from 123 subjects in a Phase III trial cohort.
+
+## Results
+Twenty-three studies were selected for meta-analysis. The summarized HBsAg clearance rate was near zero and unlikely to increase with extended treatment. The longitudinal model of HBsAg dynamic in CHB patients receiving TDF monotherapy showed a good fitting performance and extrapolation predictive ability. Model-based simulation confirmed that HBsAg clearance remained unlikely with prolonged therapy, with median HBsAg levels reducing by 21% after 168 weeks.
+
+## Conclusions
+The consistency between meta-analysis and model simulation outcomes indicated that TDF monotherapy can achieve a limited reduction in HBsAg levels but did not result in functional cure, which reinforced the limited role of TDF monotherapy in comprehensive CHB management.
+
+## Graphical abstract
+
+ 
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12985-025-02788-6.
+
+Keywords: CHB, TDF, HBsAg clearance, HBsAg seroconversion, Model-based simulation
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Apr 7; Accepted 2025 May 12; Collection date 2025.
+
+## Background
+Chronic hepatitis B (CHB) is a global public health challenge of this decade. According to the report from World Health Organization, 254 million people are living with hepatitis B and approximately 1.2 million new hepatitis B infections occur each year [ ]. Despite effective disease management, a considerable number of CHB patients eventually progress to liver fibrosis, cirrhosis, hepatocellular carcinoma, resulting in an increased number of hepatitis B–related deaths from 820 000 in 2019 to 1.1 million in 2022 [ ]. Besides, novel and highly effective treatments for CHB are often associated with high costs. Therefore, it remains meaningful to fully evaluate the long-term efficacy of traditional, low-cost antiviral drugs, which provides important references for the goal of improving the overall clinical benefits for CHB patients.
+As currently recommended in several clinical guidelines, the mainstream therapeutic options for CHB are nucleos(t)ide analogs (NAs) and interferon (including pegylated interferon-α [PegIFNα]) [ – ]. Tenofovir (including tenofovir disoproxil fumarate [TDF] and tenofovir alafenamide [TAF]) exhibits stronger efficacy and better safety among NAs [ ]. Both NAs and PegIFNα are recommended for treatment-naïve CHB patients, but the treatment course of PegIFNα should be limited to no more than 96 weeks [ – ]. Additionally, long-term use of PegIFNα may lead to some adverse effects and is associated with high costs. Considering the efficacy, safety, and treatment cost, the majority of CHB patients still choose NAs as the initial treatment or for long-term maintenance therapy.
+Functional cure is now generally agreed as an optimal and realistic treatment goal for CHB [ – ]. Because of the viral genetic material in hepatocyte nucleus (e.g. covalently closed circular DNA [cccDNA] and integrated HBV DNA), CHB cannot be completely cured. Functional cure involves a sustained shut down of viral replication with undetectable HBV DNA and hepatitis B surface antigen (HBsAg) in serum, which requires HBsAg clearance and seroconversion [ ]. The clearance refers to undetectable HBsAg in the serum, while the seroconversion additionally requires the appearance of anti-HBs antibodies (HBsAb). Due to the lack of direct effects on cccDNA and inadequate restoration of host antiviral immune responses against HBV, NAs rarely achieve HBsAg clearance [ , ]. Thus, the monitoring of HBsAg has not received sufficient attention in NAs monotherapy. However, HBsAg is an important indicator to identify advantageous patients who show excellent efficacy in long-term NAs therapy and have a high likelihood of functional cure after combination therapy of NAs and PegIFNα [ ].
+Existing meta-analyses of NAs monotherapy commonly pooled results from different treatment durations without considering the time dependency of HBsAg clearance [ – ]. Besides, in meta-analyses of NAs monotherapy, most included studies have follow-up of 1–2 years [ , ], and those on achieving HBsAg clearance with long-term therapy are also relatively scarce. Moreover, previous studies less report separate results of TDF but instead combination of multiple NAs [ , ]. Therefore, this study aims to conduct a meta-analysis and systematic review to evaluate the incidence of HBsAg clearance in patients receiving long-term TDF monotherapy. Additionally, a longitudinal model will be developed to investigate the dynamic decline of HBsAg level over the course of TDF treatment.
+
+## Materials and methods
+
+## Systemic review and meta-analysis
+
+## Literature search strategy
+The systematic review and meta-analysis was performed according to the preferred reporting items for systematic review and meta-analysis (PRISMA) extension statement. The study protocol was registered with PROSPERO, CRD42024613610. A systematic search in PubMed, EMBASE, and Web of Science was conducted among literatures published between January 1st, 2008, and September 28th, 2023, using various combinations of keywords “hepatitis B”, “CHB”, “tenofovir”, “tenofovir disoproxil”, “tenofovir disoproxil fumarate”, and “Viread”. Detailed search strategy for all databases was provided in Supplementary Method .
+
+## Study selection criteria
+Literatures that were accessible in full text and met the following criteria were included: (1) interventional studies that provided the efficacy of TDF monotherapy for CHB patients; (2) studies in which TDF monotherapy continued for over 48 weeks (or 1 year); (3) HBsAg clearance was defined as HBsAg < 0.05 IU/mL or below the lower limit of detection (LLOQ of 0.05 IU/mL) while HBsAg seroconversion was defined as HBsAg < 0.05 IU/mL or below the LLOQ, and HBsAb level > 10 IU/mL; (4) studies that reported HBsAg clearance or seroconversion rate at the end of treatment/follow-up or at several time points during the follow-up.
+Exclusion criteria were as follows: (1) studies involved patients with cirrhosis or other virus infection, such as hepatitis D, hepatitis C, or HIV; (2) studies involved CHB patients after hepatectomy and liver transplantation; (3) studies involved patients in special populations, such as pregnant women, breast feeding women, children, and the elderly; (4) case series, letters, conference abstracts, systematic reviews, reviews, dissertation, prognostic studies, pharmacoeconomic studies and errata; (5) non-English publications.
+
+## Data extraction
+Data from each study were extracted independently by two reviewers using a standardized data extraction form. Disagreements were resolved by discussion, with assistance from a third reviewer if necessary. When multiple publications reported the same study, we extracted all data and compared to remove duplicated data. A PICOS structure was used to formulate the data extraction, as follows [ ]: (1) population (age, gender, sample size, baseline HBsAg level, pretreatment status [treatment naïve/NAs-treated], and hepatitis B e antigen [HBeAg] negative/positive); (2) intervention and comparison (dosage, treatment cycle, and treatment duration); (3) outcome (the number, rate, and follow-up time point of HBsAg loss); (4) study design and characterizes (study design, clinical trial number or study name, the first author’s name, country).
+
+## Statistical analysis
+The statistical analysis was conducted following Cochrane handbook for systematic reviews. Freeman–Tukey double-arcsine transformation was applied to stabilize the variance, in order to calculate the summary estimate and 95% confidential intervals (CI) in each included study. Heterogeneity across studies was assessed by the Cochrane Q test and I2 statistic. Random-effects models were used to pool the estimated statistics in the meta-analysis.
+The Cochrane Risk of Bias tool was employed to evaluate the quality of randomized controlled trials (RCTs), while the Newcastle-Ottawa Scale (NOS) was used to assess the quality of cohort studies. For single-arm studies, the quality was assessed using the MINORS (Methodological Index for Non-Randomized Studies) score.
+Subgroup analyses were conducted to assess whether the efficacy changes with prolonged treatment. Separate meta-analyses were performed for each subgroup, and heterogeneity between subgroups was assessed using the Cochrane Q test. All analyses were conducted by the meta package in R 4.2.0 software [ ].
+
+## Longitudinal HBsAg model
+
+## Model establishment
+Detailed method for longitudinal modeling is provided in Supplementary Method 2.
+
+## Model simulation
+Longitudinal HBsAg level of CHB subjects during the whole 168 weeks follow-up were simulated using individual parameters estimated in the model. The comparison between observations and predictions before week 48 were used to evaluate the goodness of fit while that after week 48 to assess the prediction performance. When calculating HBsAg clearance rates over time, missing observations from subjects who switched to another treatment at week 48 were imputed by individual predictions.
+
+## Results
+
+## Systemic review and meta-analysis
+The literature search strategy initially identified 5665 studies from three electronic databases. Candidate papers were selected according to the inclusion and exclusion criteria. The PRISMA flow diagram of the selection process is shown in Fig.  . Finally, 25 articles of 23 studies, involving 2423 individuals, were eligible for the meta-analysis. Of all included studies, 13 were RCTs, seven studies were cohort studies, two were clinical controlled trials, and one was single-arm trial.
+ Detailed characteristics of included studies are described in Table  . As for prior treatment, 1335 subjects from 12 studies were treatment naïve patients, 579 subjects of nine studies were NAs-treated patients, two studies were composed of both. As for HBeAg status, four studies consisted of HBeAg-positive populations, three studies were HBeAg-negative ones, and 16 studies were mixed populations.
+ Both clearance rate and seroconversion rate were used in studies to reflect the efficacy in HBsAg. Twenty-two studies (2308 patients) reported HBsAg clearance rate after TDF monotherapy and the summarized mean HBsAg clearance rate was 0%, with 95% CI of 0%-0% (I2 = 0%, p = 0.96 for Q test), as shown in Fig.  a. Fourteen studies (1877 patients) reported HBsAg seroconversion rate, of which the summarized mean was also 0%, with 95% CI of 0%-0% (I2 = 0%, p = 1.00 for Q test), as shown in Fig.  b. Overall, long-term TDF monotherapy cannot achieve HBsAg clearance in CHB patients. The heterogeneity among studies was not significant.
+ For quality assessment, all RCTs indicated a low risk of test bias and missing data, attributed to the use of quantitative laboratory measures and a missed visit rate below 20% (Supplementary Figure ). Each of the nine cohort studies exhibited a low-risk score and the single-arm study were as well (Supplementary Table and ).
+
+## Longitudinal HBsAg model
+In total, 123 subjects were included in the modeling dataset, of which 19 subjects did not switch to other treatment after week 48. Demographic and clinical characteristics of subjects at enrolment are summarized in Supplementary Table . Except for age, other baseline characteristics of the 19 non-switch individuals used for extrapolation validation were not significantly different from those of the entire population for modeling. Non-switch subjects tended to have a lower baseline of HBsAg, but the time trend of HBsAg ratio to baseline were similar between this subgroup and overall population (Fig.  ).
+ The HBsAg data from CHB patients receiving TDF monotherapy were fit using an indirect response (IDR) model. The estimated parameters and bootstrap results are shown in Table  . All the parameters had reasonable typical values and acceptable relative standard errors (RSE) (less than 30%). The goodness of fit (GOF) plot and virtual prediction check (VPC) demonstrated the good description and predictive ability of the model (Supplementary Figure and ).
+ The longitudinal HBsAg level of CHB subjects receiving TDF monotherapy were simulated using individual parameters estimated in the model (Fig.  ). Before week 48, the consistency between the median and 95% confidence intervals of observed and predicted values indicated a high degree of model fit. After week 48, the vast majority of observations dataset fell in the 95% prediction CI, which was an external validation of the efficacy extrapolation.
+ 
+
+## Changes in HBsAg with extended TDF treatment
+A stratified meta-analysis was conducted by time points to explore changes in HBsAg with prolonged TDF monotherapy. Summarized HBsAg clearance rate was 0% (95% CI, 0%-0%) at week 48, 0% (95% CI, 0-1%) at week 72, 0% (95% CI, 0%-0%) at week 96, 0% (95% CI, 0-2%) at week 144, 0% (95% CI, 0%-0%) at week 192, 1% (95% CI, 0-2%) at week 240 (Supplementary Figure ). There was no significant heterogeneity of HBsAg clearance rate between groups (p = 0.75 for Q test). Similar results were observed in HBsAg seroconversion rate (Supplementary Figure ). The subgroup analysis indicated that HBsAg status did not change with prolonged TDF treatment.
+The HBsAg level of 123 CHB patients were simulated using the longitudinal model. According to the simulation, only one of the subjects reached the threshold of HBsAg clearance after week 144, with a rate of < 0.01%. The clearance rate predicted by the longitudinal model was consistent with the results of the meta-analysis (Fig.  ). Specifically, the median of simulated HBsAg level decreased from 298 IU/mL at baseline to 234 IU/mL at week 168 (representing a 21% reduction), which was far from the threshold of HBsAg loss and unlikely to reach it even with extended treatment.
+ 
+
+## Discussion
+The management of CHB is crucial for improving overall human health. NAs are one of the first-line therapy for the initial treatment or long-term maintenance therapy for CHB. Although NAs monotherapy rarely achieves functional cure, it is important to investigate HBsAg clearance rate of patients receiving long-term NAs monotherapy. This study focused on TDF to conduct a systematic review and meta-analysis and establish a longitudinal HBsAg model, demonstrating that long-term TDF monotherapy was capable of suppressing HBsAg to a certain extent but rarely leaded to HBsAg clearance. Currently, no recent meta-analysis (up to Sep. 2023) has explored the long-term HBsAg response in patients undergoing TDF monotherapy and there are also few studies that developed longitudinal models to describe the dynamic changes in HBsAg levels with TDF treatment. The results will provide important references for the disease management of overall CHB patients.
+Focusing on HBsAg levels during long-term NAs monotherapy holds the following meanings. First, a small subset of patients may achieve functional cure following long-term TDF monotherapy [ ]. Sustained monitoring of HBsAg could provide a critical criterion for when to discontinue antiviral therapy for these individuals [ , ]. Patients with post-treatment HBsAg levels < 100 IU/mL are less likely to relapse after discontinuation [ ]. Second, HBsAg levels are one of evidence to identify NAs-treated advantageous CHB patients, who have a high likelihood of achieving a functional cure with combination therapy of NAs and PegIFNα [ – ]. Third, the status of HBsAg clearance in patients with NAs monotherapy can serve as a historical control for other studies. Furthermore, compared with previous studies that did not distinguish between different types of NAs [ – ], this study focused on the efficacy of long-term TDF monotherapy in achieving HBsAg clearance, which provides more relevant insights for CHB patients treated with TDF. Based on current experience, very few patients who achieved HBsAg clearance receiving NAs may even require several years of therapy [ ]. It was necessary to conduct a systematic review on the effect of long-term (≥ 48 weeks) NAs maintenance therapy on HBsAg clearance, as well as to examine whether there was a time-dependent relationship.
+With mechanism of reducing viral replication and partially restoring immune system, TDF can moderately lower HBsAg levels but typically fails to achieve full clearance of HBsAg [ ]. In this study, both HBsAg clearance or seroconversion rate were near zero with TDF monotherapy, and did not increase with extended treatment to 240 weeks. Similar results that 1 to 5 years of NAs monotherapy rarely achieved HBsAg seroclearance were also reported in other meta-analyses and authoritative guidelines [ , , , ]. The pooled HBsAg loss rate in this study may be a comparatively low value yet still within the expected range. Even with the extension of TDF monotherapy to 10 years, the proportion of HBsAg clearance was low at the end of follow-up (4%, 8/198) [ ]. Simulation from the longitudinal model showed a limited HBsAg reduction (from 298 to 234 IU/mL) over 168-week TDF treatment. Comparable HBsAg decline was observed in others studies of NAs monotherapy, and further extension of treatment duration does not lead to additional inhibition [ , ]. Given the low incidence of HBsAg clearance or seroconversion, the impact of any factors on this event was challenging to demonstrate. In this meta-analysis, no significant heterogeneity between subgroups was reported in this study probably, including treatment duration, prior treatment status, and HBeAg status, were conducted (results not fully shown). It is worth noting that in HIV/HBV-coinfected individuals receiving TDF-based antiretroviral therapy, HBsAg clearance rates of 7.2–11.3% have been reported [ – ], possibly due to the effects of immune reconstitution and dual antiviral pressure. However, as the present study specifically focused on CHB monoinfection, these populations were not included in the analysis.
+A longitudinal model was developed to describe the dynamic decline of HBsAg level over the course of TDF treatment. The meta-analysis analyzed trial-level data from multiple published studies to generate the highest-quality summary evidence, whereas the longitudinal model employed individual-patient data from a Phase III study to quantify patient-specific HBsAg dynamics and predict the probability of HBsAg loss, serving as a supplement to the meta-analysis. In this study, the dynamic of HBsAg in CHB patients receiving TDF monotherapy was quite simple, thus an IDR model [ ], rather than complex models [ , ], was selected finally. For NAs-treated CHB patients, the stable production of HBsAg from cccDNA in hepatocyte nucleus can be regarded as a biological process. The simplicity of the model structure allowed for the estimation of population typical value and inter-individual variability of parameters using nonlinear mixed-effect method. To date, no population model was reported for the inhibitory effect of TDF monotherapy on HBsAg.
+Certainly, there were still some limitations in this study. First, in the meta-analysis, HBsAg clearance rates of TDF monotherapy were almost zero, limiting the conduction of a model-based meta-analysis to describe the time-dependent change in HBsAg clearance rates, and also reducing the significance of subgroup analyses. Second, the representativeness of CHB patient data used for longitudinal modeling could be further expanded (e.g. higher HBsAg baseline or higher HBV DNA level), and the data volume should also be appropriately increased. Besides, the established longitudinal model may be more suitable for predicting the dynamic of HBsAg in patients who have not achieved functional cure after long-term TDF treatment but not entire population, as the majority of the modeling dataset consists of such patients. The situation of functional cure was more complex, involving the interaction of immune system and HBV infection, which needed a more mechanism-based model (e.g. quantitative system pharmacology (QSP) model) and more supporting data.
+
+## Conclusions
+In conclusion, a systematic review and meta-analysis based on recent studies was conducted, and the results demonstrated that the incidence of HBsAg clearance or seroconversion in CHB patients undergoing long-term TDF monotherapy was close to zero. Furthermore, a longitudinal HBsAg model proved that TDF monotherapy can achieve a limited reduction in HBsAg levels but did not result in functional cure. The results of the meta-analysis and longitudinal model were mutually supportive.
+
+## Electronic supplementary material
+Below is the link to the electronic supplementary material.
+
+Supplementary Material 1
+
+## Acknowledgements
+Thanks for support from Xiamen Amoytop Biotech Co., LTD.
+
+## Abbreviations
+CHBChronic hepatitis B
+CIConfidential interval
+FOCEIFirst-order conditional estimation method with interaction
+GOFGoodness of fit
+HBeAgHepatitis B e antigen
+HBsAgHepatitis B surface antigen
+HBVHepatitis B virus
+ICHInternational conference on harmonization
+IDRIndirect response
+IIVInter-individual variability
+LLOQLower limit of quantitation
+MAPBMaximum a posteriori bayesian
+MINORSMethodological index for non-randomized studies
+NAsNucleos(t)ide analogs
+NOSNewcastle-ottawa scale
+PegIFNαPegylated interferon-α
+PRISMAPreferred reporting items for systematic review and meta-analysis
+RCTRandomized controlled trial
+RSERelative standard error
+TAFTenofovir alafenamide
+TDFTenofovir disoproxil fumarate
+VPCVisual predictive check
+
+## Author contributions
+YY and TZ designed research; JF, YY, and JZ performed the meta-analysis; WJ, RC, and JX established the longitudinal model; WJ, TZ, and RH wrote and revised the manuscript.
+
+## Funding
+The authors declare that no funds, grants, or other support were received during the preparation of this manuscript.
+
+## Data availability
+The datasets analyzed during the current study are available from the corresponding author on reasonable request.
+
+## Declarations
+
+## Ethics approval and consent to participate
+The study was conducted conforming to the Declaration of Helsinki and the International Conference on Harmonization (ICH) Good Clinical Practice Guidelines. The analysis plan was approved by institutional review boards and independent ethics committees. All participants provided written informed consent.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Weizhe Jian, Yalin Yin, Ruoyi He and Tianyan Zhou contributed to supervision equally to this work.
+
+## Contributor Information
+Ruoyi He, Email: heruoyi@amoytop.com.
+Tianyan Zhou, Email: tianyanzhou@bjmu.edu.cn.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Material 1
+
+## Data Availability Statement
+The datasets analyzed during the current study are available from the corresponding author on reasonable request.

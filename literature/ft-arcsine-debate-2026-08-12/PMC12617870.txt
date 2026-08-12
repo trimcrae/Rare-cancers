@@ -1,0 +1,363 @@
+532plosntdPLOS Neglected Tropical DiseasesPLoS Negl Trop DisPLOSPMC1261787012617870126178704120209910.1371/journal.pntd.0013698Paramyxoviruses in Old World fruit bats (Pteropodidae): An open database and synthesis of sampling effort, viral positivity, and coevolution
+JumanMaya MConceptualization, Data curation, Formal analysis, Visualization, Writing – original draft RestifOlivierConceptualization, Writing – review & editing BeckerDaniel JConceptualization, Methodology, Supervision, Writing – review & editing SchountzTonyEditor 1Department of Veterinary Medicine, University of Cambridge, Cambridge, United Kingdom2School of Biological Sciences, University of Oklahoma, Norman, Oklahoma, United States of America3Colorado State University College of Veterinary Medicine and Biomedical Sciences, UNITED STATES OF AMERICA✉* E-mail: mmj38@cam.ac.uk
+The authors have declared that no competing interests exist.
+71120251911e0013698e001369815112025© 2025 Juman et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+
+## Abstract
+Over the past 30 years, research interest in the links between Old World fruit bats (family Pteropodidae) and paramyxoviruses has driven a rapid proliferation of surveillance studies in this system. We performed a systematic review and data synthesis of all published paramyxovirus studies of wild pteropodids. Here, we present an open, static, PRISMA-compliant database called pteroparamyxo, which includes 1,476 records of prevalence or seroprevalence from 118 studies published between 1971 and 2023. Using this dataset, we examined biases in sampling effort, predictors of viral positivity, tissue tropism, and pteropodid–paramyxovirus coevolution. We found significant spatial and taxonomic bias in sampling effort, largely driven by overrepresentation of Pteropus–henipavirus systems; in particular, African bats were undersampled for paramyxoviruses relative to Asian and Oceanian taxa. On the viral side, henipaviruses (specifically Hendra, Nipah, and Cedar viruses) were overrepresented relative to pararubulaviruses. We also identified substantial non-random variability in paramyxovirus prevalence and seroprevalence. Spleens and pooled fecal samples from pteropodids yielded the highest PCR positivity, while samples from Oceania tended to have slightly higher seroprevalence than those from Asia and Africa. Collection year was not a significant predictor of positivity, suggesting limited overall change in paramyxovirus PCR prevalence or seroprevalence over the last several decades. Finally, we found weak evidence of pteropodid–paramyxovirus coevolution, supporting relatively frequent host-switching within this system. Our study highlights critical sampling gaps to address in future surveillance studies and provides preliminary evidence for sample and tissue types to prioritize in field- and museum-based sampling.
+
+## Author summary
+Paramyxoviruses are a family of viruses that include the human measles and mumps viruses as well as emerging zoonoses like Hendra and Nipah henipaviruses. These henipaviruses spill over from wild fruit bats to domestic animals and humans in Australia and Asia, causing high fatality rates with no known human treatments or vaccines. The occurrence and prevalence of paramyxoviruses across the entire fruit bat family (Pteropodidae) has never been formally investigated, as published detection attempts have not yet been consolidated into a database. We conducted a systematic review of the existing literature on pteropodid–paramyxovirus sampling efforts and compiled an open database for researchers to reference and use. We then leveraged this novel database for a suite of analyses and demonstrated that Australian and Asian fruit bats are disproportionately sampled for paramyxoviruses while African species are understudied, despite the fact that African samples have slightly higher rates of paramyxovirus detection. We identified sample types that may be particularly likely to yield viral detections, a finding which can help guide future survey efforts using field studies as well as museum collections. We also demonstrate that paramyxoviruses appear liable to switch host species within Pteropodidae, challenging earlier hypotheses that these viruses are host specific.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Aug 13; Accepted 2025 Oct 29; Collection date 2025 Nov.
+
+## Introduction
+Anthropogenic change is driving increased viral transmission across species boundaries, including spillover of zoonotic viruses from wildlife to humans [ ]. One particular viral family of interest is the Paramyxoviridae, negative-strand RNA viruses identified across vertebrate groups. Paramyxoviruses cause particularly high disease burdens in mammals and birds, with varying degrees of host specificity [ ]. For example, the subfamily Orthoparamyxovirinae contains the genera Morbillivirus (e.g., host-specific measles virus and broadly infecting canine distemper virus) and Henipavirus (e.g., zoonotic bat-borne Hendra and Nipah viruses, which cause fatal encephalitis in horses and humans) [ ]. The subfamily Rubulavirinae contains the genera Orthorubulavirus (e.g., mumps and human parainfluenza viruses) and Pararubulavirus (e.g., Tioman virus, Menangle virus, and other recently isolated bat-borne viruses) [ ]. To understand the host range, geographic range, and potential spillover risks of paramyxoviruses, a more comprehensive picture of host–paramyxovirus relationships is critical.
+Bats are known to host a variety of paramyxoviruses and have been suggested as the ancestral hosts of Paramyxoviridae [ ]. In particular, Old World fruit bats (family Pteropodidae) have been implicated as reservoir hosts of two highly pathogenic henipaviruses and other potentially zoonotic paramyxoviruses. This ecologically and morphologically diverse bat family of roughly 200 species is widespread across Asia, Oceania, and Africa [ ]. Immunity-related genes in pteropodids have evolved at higher rates relative to other chiropteran families, and some pteropodid-specific mutations are associated with decreased inflammatory responses to pathogens [ ]. A balance of viral tolerance and immune defense strategies may explain these fruit bats’ apparent ability to host viruses that are highly pathogenic in other mammals [ ]. Henipaviruses, including Hendra virus [ ], Nipah virus [ ], Ghanaian bat henipavirus [ ], and Cedar virus [ ], have been detected in pteropodids. Novel pararubulaviruses have also been isolated from pteropodids [ – ]. Some studies have noted apparent clustering of related paramyxoviruses in certain pteropodid species, raising the possibility of host specificity and host-virus coevolution [ ], though this has not been quantitatively tested. This growing body of evidence linking pteropodids to paramyxoviruses has also prompted further research on the ecological links between these bats and their viruses [ – ], which have implications for downstream spillover risk [ , ].
+Pteropodids are largely frugivorous and nectarivorous, and loss of native habitat has driven many of these species to seek food sources in urban areas (e.g., public and private gardens), increasing the likelihood of human–bat interactions [ ]. Climate and land-use change have been linked to the spillover of henipaviruses from pteropodids [ , ], and the geographic (and possibly host) ranges of paramyxoviruses appear to be expanding in certain cases—for example, the recent Nipah virus spillovers and associated fatalities in South India [ , ]. The resulting interest in henipaviruses may have created a bias toward studying Pteropus bats in Australia and South and Southeast Asia [ ]. Sampling disparities such as these, coupled with a lack of consolidated data, prevent a deeper understanding of global changes in viral occurrence, distributions, and spillover rates over time [ ]. Large, taxonomically broad host–virus association databases partially address this issue, but these presence-only databases lack negative results by nature and also often lack fine-grained metadata. While taxonomically specific databases exist for other viral families like coronaviruses [ ], interactions between pteropodids and the broader Paramyxoviridae have not been comprehensively compiled, despite the fact that these bats have been heavily sampled for henipaviruses and other paramyxoviruses [ – ]. The absence of such a synthesis limits the identification of patterns in viral prevalence, which is critical for spillover prediction and mitigation [ ].
+To address these gaps and enable formal synthesis of pteropodid–paramyxovirus associations, we built a standardized, PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses)-compliant database of all published detection attempts of paramyxoviruses in wild pteropodid bats, including metadata on viral taxonomy, host taxonomy, sampling and detection methodologies, seasonality, location, and date, as well as including data on negative results. We then used the resulting dataset to perform a series of phylogenetic comparative analyses and formal meta-analyses to better understand pteropodid–paramyxovirus relationships and the current state of the associated literature. To this end, we investigated: (1) geographic and taxonomic (both host and viral) sampling gaps in this system; (2) key predictors of paramyxovirus prevalence and seroprevalence in pteropodids, including potential tissue tropism; and (3) the degree of pteropodid–paramyxovirus coevolution or host-switching.
+
+## Methods
+
+## Systematic review
+To generate our database of paramyxovirus detection attempts in wild pteropodids, we followed the PRISMA protocol ( ) [ ]. On August 3rd, 2023, we systematically searched PubMed and Web of Science with the following string: (pteropodid* OR pteropid* OR “fruit bat” OR “fruit bats” OR “flying fox” OR “flying foxes” OR Acerodon OR Aethalops OR Alionycteris OR Aproteles OR Balionycteris OR Boneia OR Casinycteris OR Chironax OR Cynopterus OR Desmalopex OR Dobsonia OR Dyacopterus OR Eidolon OR Eonycteris OR Epomophorus OR Epomops OR Haplonycteris OR Harpyionycteris OR Hypsignathus OR Latidens OR Macroglossus OR Megaerops OR Megaloglossus OR Melonycteris OR Mirimiri OR Myonycteris OR Nanonycteris OR Neopteryx OR Nesonycteris OR Notopteris OR Nyctimene OR Otopteropus OR Paranyctimene OR Penthetor OR Pilonycteris OR Plerotes OR Ptenochirus OR Pteralopex OR Pteropus OR Rousettus OR Scotonycteris OR Sphaerias OR Stenonycteris OR Styloctenium OR Syconycteris OR Thoopterus) AND (paramyxovirus* OR Paramyxoviridae OR henipavirus* OR Hendra OR Nipah OR rubulavirus* OR morbillivirus*). We identified 1,260 records in total and proceeded to screen 862 titles and abstracts from non-duplicated records. Studies were excluded if they did not include new (i.e., not republished) data on paramyxovirus detection attempts in wild bats—therefore, any studies of captive bats or experimental studies of bat-derived cell lines were excluded. We identified 136 articles for further full-text screening, of which 118 met the inclusion criteria for our study.
+
+## Data collection
+Our final database included 118 studies and 1,476 records. Where prevalence was not reported in the original studies, it was calculated from the number of positive and tested samples before meta-analysis. For viral isolation attempts where positivity rate or number of positive samples was not reported, we included a binary variable (0: unsuccessful detection; 1: successful detection). Therefore, the same bat may be included in multiple records, if the study tested multiple samples (e.g., different tissue types or detection methods) per individual bat. For papers where over 100 sampling events are detailed, sampling events were summarized by location, species, and tissue type. When original studies did not separate samples by species, locations, tissue types, or years, all information was included in one record (separated by commas in the relevant cells). Before downstream analyses, these pooled records were filtered out when relevant, but they remain in the database for researchers who may be interested in specific species, tissue types, or sites. When original studies did not report all the metadata for a study (e.g., sampling season), these were not imputed.
+
+## Spatial and taxonomic sampling biases
+Our dataset included bat samples from 33 countries in three geographical regions (Africa, Asia, and Oceania; countries classified according to the United Nations Geoscheme). All analyses were conducted in R (version 4.2.1) [ ]. We first visualized the number of studies and (log-scale) samples per country by building maps with the aggregated Pteropodidae IUCN range map overlaid for context. We then fitted three GLMs to these country-level variables with region as the categorical predictor and one of three respective response variables: binary sampling status (whether or not a country had been sampled for paramyxoviruses in pteropodids) as a binomial response, with all countries in these three regions included; the number of unique studies per country as a Poisson-distributed response, with only sampled countries included; and the number of samples per country as another Poisson-distributed response, with only sampled countries included. We assessed the fit of GLMs using McFadden’s R2 (‘performance’ package) and made individual region-to-region pairwise comparisons using the ‘emmeans’ package [ , ].
+To assess taxonomic sampling biases, we first aligned all sampled bats (n = 58) and viruses (n = 16) identified at the species level to host [ ] and virus [ ] phylogenies. To do so, we relabeled species names to fit the published taxonomy where necessary (e.g., Pteropus medius was relabeled as P. giganteus for the purpose of taxonomic backbone alignment, though we retain the currently recognized names in our published database). For all bat and virus species in the phylogenies, we created a binary response variable representing whether or not each species had been sampled or sampled for, respectively. For those species present in our dataset, we calculated the number of unique studies and total samples associated with each bat and virus species. To assess the degree of phylogenetic signal in sampling effort across bats and viruses, we used the ‘caper’ package [ ] to calculate D (<0: highly conserved; 0: phylogenetic clustering under Brownian motion; 0–1: intermediate phylogenetic signal; 1: phylogenetically random sampling distribution; > 1: overdispersed) for binary sampling effort and Pagel’s lambda (λ) (0: phylogenetically random sampling distribution; 0–1: intermediate phylogenetic signal; 1: phylogenetic clustering under Brownian motion) for the log10-transformed number of studies and samples. Finally, we used the package ‘phylofactor’ [ ] to apply phylogenetic factorization, a graph-partitioning algorithm, to both the bat and virus phylogenies. This approach partitioned binary sampling effort (binomial response), number of studies (Poisson distribution), and number of samples (Gaussian distribution due to an extreme skew in number of samples and consequent transformation via natural log) across the trees using iterative GLMs, producing a list of bat or virus clades (containing at least three species) that differ significantly from the rest of the tree in sampling effort. We used Holm’s sequentially rejective test with a family-wise error rate of 5% to account for multiple comparisons and determine the number of statistically significant clades [ ].
+
+## Meta-analysis of viral and antibody positivity
+We used the ‘metafor’ package [ ] to run two hierarchical meta-analysis models for two separate viral positivity datasets: PCR detection (n = 782 records) and serological detection (n = 311 records). The response variables in our models were the Freeman-Tukey double arcsine-transformed proportions of paramyxovirus PCR-positive or seropositive samples and their sampling variances. Models were fitted using restricted maximum likelihood (REML) and included bat genus, genus-level phylogeny [ ], and country as random effects along with an observation-level random effect nested inside a study-level random effect; all models were also weighted by inverse sampling variance. We used genus instead of species as a random effect in these models to retain records from bats not identified to the species level (e.g., unspecified Australian Pteropus spp.). We calculated the contribution of heterogeneity (true variability rather than noise) to variance in viral positivity (I2) for the entire dataset, as well as the proportional contribution for each random effect. Our models included all available non-collinear predictors. For the PCR model, we included fixed effects of region (Oceania, Asia, Africa), study type (cross sectional, longitudinal, or both), sample type (feces, serum, saliva, swab, tissue, various), sampling year, and host subfamily (Cynopterinae, Eidolinae, Epomophorinae, Macroglossusinae, Pteropodinae, Rousettinae); for the serology model, we included fixed effects of region (Oceania, Asia, Africa), sampling year, and host subfamily (Cynopterinae, Eidolinae, Epomophorinae, Macroglossusinae, Pteropodinae, Rousettinae). We note that seroprevalence is determined with different methods and cutoff values across the studies and that serological assays also capture cross-reactivity with different antigens; here, we seek to understand broad patterns in general paramyxovirus seroprevalence. For records reflecting detection attempts across a range of sampling years, the midpoint of the start and end years was used to calculate the average “sampling year”. Methodological variation within datasets could not be included in these models due to collinearity with other predictors; however, changes in diagnostic methods track with time (e.g., a shift from RT-PCR to metagenomic methods for PCR detection and a shift from neutralization assays to ELISA and multiplexed assays for serological detection), such that including sampling year as a predictor accounts for this variation ( ). Limited temporal autocorrelation in both PCR prevalence and seroprevalence also suggests that sampling year effectively controls for any temporal clustering of studies ( ).
+To assess paramyxovirus prevalence in different tissue types (as tissue type was a collinear predictor in all possible models and therefore could not be included), we also calculated overall viral prevalence per tissue type for records using PCR.
+
+## Cophylogenetic analysis
+We lastly used the Procrustean Approach to Cophylogeny (PACo), with the ‘paco’ package, to assess coevolution between paramyxoviruses and pteropodids and thus the dependence of the viral phylogeny on the host phylogeny [ ]. For this analysis, we defined a known association as either a PCR detection or viral isolation of an ICTV-recognized paramyxovirus species in a described species of pteropodid, thereby excluding serological detections (due to lower viral specificity) and any PCR or viral culture detection in bats recognized only to the genus level (e.g., unspecified Australian Pteropus spp.). We conducted a goodness-of-fit test to evaluate how well a codivergence model fits the matrix of known host–virus links, and then established its statistical significance by fitting the model to 5000 randomizations of the matrix and testing the null hypothesis that host and virus species are randomly associated. We generated residuals for each host–virus link (smaller residuals indicate more support for coevolution, and higher residuals indicate more support for host-switching). We then visualized the host–virus links with a tanglegram of all known links in our dataset using the package ‘phytools’ [ ].
+
+## Results
+
+## Overview of dataset
+Our final database consists of 1,476 individual records from 118 studies of paramyxoviruses in pteropodids published between 1971 and 2023 ( ; ). Each record constitutes a detection attempt associated with a unique combination of the following columns: host identification (at the finest taxonomic resolution available, typically species), virus identification (at the finest taxonomic resolution available, typically genus or species), detection type (single or pooled), study type (cross-sectional, longitudinal, or both), general detection method (PCR, serology, or viral isolation), specific detection method (i.e., type of PCR or serological assay), gene or antigen target, sample type (e.g., tissue, swab, blood, urine), type of tissue tested, country, state/region, site (with coordinates if reported), sampling year, and sampling month/season. Each record also includes the number of samples tested, the number of positive samples, and the reported prevalence.
+Only three of the 118 studies were published before the year 2000, reflecting the rapid increase in interest in pteropodid–henipavirus relationships after the discovery of Hendra and Nipah virus in the 1990s ( ). Of the total records, 66% (n = 972; 3.0% mean positivity) involve PCR detection attempts, 27% (n = 393; 25.8% mean positivity) involve serological detection attempts, and 7% (n = 111; 0.7% mean positivity) involve viral isolation attempts. Over 67% of records focus on the viral subfamily Orthoparamyxovirinae, and 66% of records involve henipaviruses specifically (the remaining 1% reflected “henipa-like” orthoparamyxoviruses). Another 11% involve the viral subfamily Rubulavirinae, with the remaining records attempting to detect any paramyxovirus (typically with PCR primers targeting the L gene). Detections of unclassified sequences comprise under 5% of all records. Fine-grained spatial studies of paramyxovirus prevalence are limited by available spatial metadata; only 21% of records have associated latitude and longitude listed in the original studies. However, 68% include a specific site (or multiple sites), 89% include an administrative area within a country (e.g., state, province, or district), and 99% name a specific country, allowing for broader studies of geographic biases in sampling effort (and potential georeferencing for future studies). The most common sample types in our dataset are blood (29%; n = 425), urine (27%; n = 405), swabs (22%; n = 323), and tissue (16%; n = 232). Of the blood samples, 90.8% were used for serological testing, 8.7% for PCR, and 0.5% for viral isolation. Detailed breakdowns of sampling effort and viral positivity by tissue type, detection method, and viral subfamily are included in and .
+ 
+
+## Spatial sampling biases
+Our dataset includes studies in all three regions within the Pteropodidae range (Africa, Asia, and Oceania) across 33 countries/territories ( and ). However, sampling effort has been highly heterogeneous across countries, with the number of studies per country ranging from one to 29 ( ) and the number of samples per country ranging from 21 (Gabon) to 58,590 (Australia) ( ). In particular, large geographic sampling gaps are found in central and southern Africa ( ). A generalized linear model (GLM) of binary sampling effort and subsequent post-hoc comparisons did not reveal any statistically significant variation across the three regions (χ2 = 4.66, p = 0.10, R2 = 0.03) ( ). However, the intensity of sampling did vary across regions, in terms of both the number of studies per country (χ2 = 26.13, p < 0.0001, R2 = 0.11) and the number of samples per country (χ2 = 147,804, p < 0.0001, R2 = 0.38). Specifically, there have been more pteropodid–paramyxovirus studies and samples from Oceania than from Asia or Africa ( and c), a difference likely driven by an ongoing research focus on the Pteropus–Hendra virus system in Australia. There have also been more samples collected from Asia than from Africa ( ).
+ 
+
+## Taxonomic sampling biases
+Pteropodids sampled for paramyxoviruses include 58 of the 194 species and 23 of the 43 genera in the family. Using a phylogeny of all the Pteropodidae [ ], we found intermediate phylogenetic signal in binary sampling effort (D = 0.85), departing from both phylogenetic randomness (p = 0.03) and Brownian motion models of evolution (p = 0). We then applied phylogenetic factorization, a graph-partitioning algorithm [ ], which identified one clade with a disproportionately high fraction of sampled species, including Rousettus amplexicaudatus, R. spinalatus, R. leschenaultii, R. obliviosus, R. madagascariensis, R. aegyptiacus, R. lanosus, and R. celebensis, as well as the genera Epomops, Epomophorus, Micropteropus, Nanonycteris, Hypsignathus, Megaloglossus, and Myonycteris ( and ). Among sampled species, the number of studies per species range from one to 24 and was randomly distributed across the host phylogeny (Pagel’s λ = 0.00), departing from Brownian motion clustering (p < 0.0001) but not from phylogenetic randomness (p = 1). Rousettus leschenaultii, R. obliviosus, R. madagascariensis, and R. aegyptiacus are overrepresented relative to other taxa, as have been many species of Pteropus; however, P. chrysoproctus, P. tonganus, P. neohibernicus, and P. temminckii have been significantly understudied ( and ). The number of samples per species range from one to 24,954 and showed moderate phylogenetic signal (λ = 0.59), departing from both Brownian motion clustering (p < 0.0001) and phylogenetic randomness (p = 0.004). The single identified overrepresented clade constitutes 16 Pteropus species, including those heavily sampled for Hendra and Nipah viruses (e.g., P. giganteus, P. lylei, P. poliocephalus, P. alecto) ( and ).
+ On the viral side, 16 of the 78 recognized species in the family Paramyxoviridae [ ] have been detected (by PCR, serology, or viral isolation) in the Pteropodidae, comprising three genera: Henipavirus, Orthorubulavirus, and Pararubulavirus. We found strong, highly conserved phylogenetic signal in binary sampling effort (D = -0.90), departing from phylogenetic randomness (p = 0) but not from Brownian motion models of evolution (p = 0.99). Phylogenetic factorization did not identify any viral clades differing significantly in the fraction of detected species ( and ). Among detected viruses, the number of studies per virus range from one to 54 and displayed strong phylogenetic signal (λ = 0.93), departing from phylogenetic randomness (p = 0.04) but not from Brownian motion (p = 0.61). Hendra, Nipah, and Cedar henipaviruses are overrepresented in the literature, while Tioman, Teviot, and Menangle pararubulaviruses have been understudied ( and ). The number of samples per virus range from nine to 52,006 samples and also show strong phylogenetic signal (λ = 1.00), departing from phylogenetic randomness (p = 0.04) but not from Brownian motion (p = 1.00). Again, Hendra (52,006 samples), Nipah (45,906 samples), and Cedar (2,139 samples) henipaviruses are overrepresented relative to all other detected paramyxoviruses ( and ).
+
+## Heterogeneity and predictors of paramyxovirus positivity
+We fitted two initial, intercept-only phylogenetic meta-analysis models (one for PCR prevalence and one for seroprevalence) that included random effects of within- and between-study variation, host genus, genus-level phylogeny, and country [ , ]. These models were fitted to aggregated datasets of PCR prevalence and seroprevalence which include different methodological approaches, primers and gene targets, and other sources of variation in viral positivity. Consequently, we observed significant heterogeneity among positivity estimates in both the PCR dataset (I2 = 90.0%, Q = 3,791.92, p < 0.0001) and the serological dataset (I2 = 96.5%, Q = 9,733.17, p < 0.0001). This heterogeneity was mostly explained by between-study (65.7% PCR; 40.7% serology) and within-study (14.0% PCR; 26.5% serology) effects. Bat phylogeny explained 0% of the heterogeneity in the PCR dataset but 28.1% of the heterogeneity in the serological dataset, and other genus effects accounted for 0% of the heterogeneity in both datasets. Country effects accounted for 8.2% and 1.3% of the heterogeneity in the PCR and serological datasets, respectively. None of the fixed effects included in our models were significantly associated with paramyxovirus prevalence or seroprevalence in Pteropodidae, with all confidence intervals crossing zero and no significant post-hoc pairwise comparisons; this may be due to the limited sample size of these separate datasets (particularly serology; n = 311). However, in the PCR model, serum, feces, tissue, and urine appeared to have slightly higher prevalence than the intercept (blood), and African and Asian samples had slightly higher prevalence than the intercept (Oceania). Cross-sectional studies and longitudinal studies appear to yield similar PCR prevalence rates. In the serology model, African and Asian samples had slightly lower prevalence than samples from Oceania. In both models, Eidolinae, Pteropodinae, and Rousettinae subfamilies had slightly higher viral detection than the intercept (Cynopterinae), as did Macroglossusinae in the PCR model ( ).
+ Because tissue type had to be excluded from the phylogenetic meta-analysis models due to collinearity with other predictors, we separately investigated paramyxovirus tissue tropism in Pteropodidae by calculating PCR prevalence for each tissue type. We found that PCR prevalence was highest in spleen samples (6.9%), followed by pooled tissue samples from multiple organs (6.7%), pooled fecal samples from likely multiple individuals (6.5%), pooled swabs/samples (5.4%), and pooled urine samples from likely multiple individuals (4.2%) ( ). All other tissue or sample types yielded around or under 2% prevalence: reproductive organs (2.1%); urine samples from single individuals (1.7%); kidney (1.0%); oral swabs (0.8%); fecal, rectal, or anal swabs/samples (0.8%); blood or serum (0.5%); nasal swabs (0.4%); fecal samples from single individuals (0.2%); and liver (0.1%). Lung, intestine, and skin swabs all had 0% PCR prevalence.
+ 
+
+## Cophylogenetic analysis
+Lastly, we tested the dependence of the viral phylogeny on the host phylogeny using PACo [ ]. This matrix included 23 known PCR or viral isolation links between 12 pteropodid species and 13 ICTV-ratified paramyxovirus species ( ). Only three viral species (Hendra henipavirus, Nipah henipavirus, and Tioman pararubulavirus) have been identified in more than one bat species, while over half of the included bat species (7/12) have links to more than one virus ( ). When compared to 5,000 randomly permuted host–virus matrices, we found no statistically significant congruence between the two phylogenies in our dataset (m2XY = 9,827.11, p = 0.69). Failure to reject the null hypothesis indicates a high degree of host-switching by paramyxoviruses within Pteropodidae. However, the links between Pteropus species and henipaviruses and some pararubulaviruses (Teviot, Tioman, Menangle) had lower residuals and therefore demonstrated more support for host–virus coevolution, as did the links between Rousettus leschenaultii and Tuhoko pararubulaviruses ( and ).
+ 
+
+## Discussion
+The isolation of Hendra and Nipah viruses from flying foxes in 1996 and 2000, respectively, sparked widespread research interest in the relationship between pteropodid bats and paramyxoviruses [ , ]. We sought to aggregate all published records of pteropodid–paramyxovirus associations and prevalence into a PRISMA-compliant, open, static database ( ), included here as a supplementary file and also available in a public GitHub repository ( ; https://github.com/mayajuman/pteroparamyxo). Storing the dataset in this dynamic repository facilitates future updates and additional versions that include more recent studies. Our database, named pteroparamyxo, includes 1,476 records of viral detection attempts from 118 studies published between 1971 and 2023, which allows for formal synthesis of sampling and positivity across space, time, and host/viral taxonomy. This consolidation is critical for addressing questions about changes in viral dynamics [ ]. Our focus on gathering detailed metadata for a viral and host family-specific database will enable robust downstream models to be trained on this taxonomic subset, an approach with higher predictive capacity than broader models [ ].
+Spatial and taxonomic analyses of this dataset confirm suspected trends and biases in sampling effort. Pteropodids in Australia and, to a lesser degree, South Asia (particularly India and Bangladesh) have been heavily sampled for paramyxoviruses, in terms of both number of studies and number of samples collected ( ). These trends are likely driven by studies of Hendra and Nipah virus spillover events and high numbers of under-roost urine samples collected following outbreaks [ , ]. Much of Africa and Asia remains understudied for paramyxoviruses in fruit bats, despite evidence of henipavirus spillover into human populations in Cameroon, for example [ ], a country which remains undersampled in our dataset ( ). This sampling gap is also notable in light of the fact that African samples had slightly higher PCR prevalence than samples from Oceania, and some African bat subfamilies (Eidolinae and Rousettinae) had slightly higher PCR prevalence and seroprevalence than other subfamilies ( ). Taken together, this suggests missed opportunities for additional detection of paramyxoviruses in African pteropodids ( ).
+Similarly, taxonomic sampling biases abound on both the host and viral side. In terms of binary sampling effort, a clade containing some Rousettus species and closely related genera (Epomops, Epomophorus, Micropteropus, Nanonycteris, Hypsignathus, Megaloglossus, Myonycteris) has a disproportionately high fraction of species sampled for paramyxoviruses. Among sampled taxa, some species in the highly studied genera Pteropus, Rousettus, and Eidolon are significantly overrepresented relative to other species; however, certain Pteropus species have been understudied (e.g., largely island-dwelling species like P. chrysoproctus, P. tonganus, P. neohibernicus, and P. temminckii) ( and ). The occurrence and prevalence of paramyxoviruses in these bat species are currently unknown due to very small sample sizes, and future surveillance studies could target these taxa accordingly. Those that are particularly elusive or difficult to sample in the wild may be good candidates for museum-based viral screening, an approach which allows for efficient and taxonomically broad sampling across space and time [ ]. Further, while the scope of this study was limited to Pteropodidae, collecting and consolidating viral data from non-pteropodid bats could allow for broader analyses of bat–paramyxovirus coevolution. Preliminary evidence suggests that some insectivorous bat families host paramyxovirus clades distinct from those in pteropodid bats, a finding that could be more robustly assessed with additional sampling and explicit cophylogenetic tests [ , ].
+On the viral side, the majority of studies have focused on henipaviruses; consequently, Hendra, Nipah, and Cedar viruses are overrepresented, while pararubulaviruses are comparatively neglected in the literature ( and ). This skew is driven by the disproportionate focus on henipavirus detection after the discovery of Hendra and Nipah viruses in flying foxes in 1996 and 2000 [ , ]. Outside of the viruses detected in pteropodids, there is a vast diversity of other mammalian and vertebrate paramyxoviruses that do not appear in our dataset ( ), including paramyxoviruses identified in insectivorous bats [ – ]. Conversely, 70 records in our database involve unclassified paramyxovirus sequences that could appear anywhere in the viral tree. Viral taxonomy can be unstable and often lags behind host taxonomy [ ]; future ICTV updates may recognize additional bat-borne paramyxovirus species. Still, based on published links between 13 recognized paramyxovirus species and 12 named pteropodid species (other isolated viruses were generally attributed to Pteropus spp.), we performed a cophylogenetic analysis that revealed little evidence of phylogenetic congruence between hosts and viruses, contrary to tentative hypotheses of pteropodid–paramyxovirus coevolution posed in earlier surveillance studies [ ]. The strongest coevolutionary signal was found in Pteropus–Henipavirus systems, though this result was not statistically significant and may be an artifact caused by heavy sampling of Pteropus species for henipaviruses. There was more support for host-switching among other links (e.g., Rousettus/Eidolon–pararubulaviruses). These findings raise the possibility of paramyxovirus expansion into new pteropodid hosts and geographic areas, which may have implications for spillover into human and domestic animal populations.
+Our results also hint at methodologies and sample types that might yield higher paramyxovirus positivity. Over time, there has been a shift in PCR detection methods from targeted RT-PCR to metagenomic approaches; in serological studies, neutralization assays have been supplanted by multiplexed Luminex assays and ELISA ( ). In general, urine, tissue, serum, and fecal samples appeared to have higher PCR prevalence than blood, whereas saliva and swab samples had lower prevalence ( ). A more in-depth look at tissue tropism suggested that spleen and pooled feces are undersampled relative to their typical prevalence, as these tissues have the highest PCR prevalence among specified sources (i.e., excluding pooled tissue) ( and ). These sample types could be good priorities for future surveillance studies of paramyxoviruses in pteropodids and offer specific options for both invasive (e.g., spleen extraction during necropsy) and non-invasive (e.g., under-roost fecal collection [ ]) sampling approaches. Pooled samples generally show higher positivity, as they contain samples from likely multiple individuals, raising the likelihood of a positive result. Both cross-sectional and longitudinal studies yielded similar PCR prevalence ( ), suggesting that both are suitable approaches for surveillance studies and that the study type can be selected based on the research question at hand. However, only 7% of records involved viral isolation attempts, the gold standard for confirming viral presence in a sample. This is due in part to the strict biosafety requirements and resources (e.g., BSL-4 facilities) involved in viral isolation for henipaviruses, which inhibit detection attempts in countries with limited resources where these viruses are known to circulate.
+Syntheses and meta-analyses such as this can be limited in scope and statistical robustness by data gaps as well as a lack of stratified and standardized metadata reported in existing studies. Our study is inherently restricted by between-study variation at a finer level than what is captured in our dataset and in many of the original studies (e.g., sampling protocols, PCR primers, laboratory protocols, etc). Consequently, our models treat all PCR and all serological detection attempts as comparable to one another (though weighted by sample size), when in reality methodologies can differ widely across studies. Where possible, researchers should report the specific tissue types, localities, sampling dates, taxonomic identifications, and other metadata included in pooled samples; we also suggest providing detection estimates at as fine-grained a level as possible to enable more detailed analysis of pteropodid–paramyxovirus associations. This will help inform sampling protocols for surveillance of wild bats and museum specimens. Other limitations of this study include redundancy across samples from the same individual bat (e.g., the screening of tissue samples from bats already found to be positive, which artificially inflates positivity estimates) as well as reporting gaps in the literature, as our analysis only includes published data.
+Here, we have: (1) highlighted the major spatial and taxonomic sampling gaps in the pteropodid–paramyxovirus system; (2) identified sample types, regions, host subfamilies, and study types associated with higher prevalence or seroprevalence; and (3) found evidence of host-switching by paramyxoviruses within Pteropodidae. Importantly, we found no evidence that paramyxovirus prevalence or seroprevalence in pteropodids has changed in recent decades, as collection year was not a significant predictor in our models ( ). Our published dataset constitutes a first step toward gathering, standardizing, and stratifying surveillance data to guide future studies of paramyxoviruses, which continue to pose threats to human health. Addressing the sampling gaps outlined here will be critical in developing a more complete picture of these bat–virus systems.
+
+## Supporting Information
+S1 Fig
+
+## PRISMA reporting diagram for study selection and screening.
+(TIFF)
+S2 Fig
+
+## Stacked barplots showing changes in diagnostic methods for (A) PCR and (B) serological detection of paramyxoviruses in Pteropodidae by publication year.
+(TIFF)
+S3 Fig
+
+## Temporal autocorrelation functions for (A) PCR prevalence and (B) seroprevalence of paramyxoviruses in Pteropodidae.
+Lags represent years between estimates.
+(TIFF)
+S1 Table
+
+## Database breakdown by sample type and detection method.
+Sample size (records and number of samples), percentage of records with at least one positive sample, and average prevalence by detection method, sample type, and viral subfamily.
+(XLSX)
+S2 Table
+
+## Database breakdown by type of paramyxovirus.
+Number of studies, host species, and samples tested for different paramyxoviruses, with positivity rates reported for serological and PCR detection attempts as well as number of successful viral isolations.
+(XLSX)
+S3 Table
+
+## Database breakdown by country.
+Number of studies, number of samples, and mean viral prevalence and seropositivity rates for all countries.
+(XLSX)
+S4 Table
+
+## Results from PACo cophylogenetic analysis of paramyxoviruses in Pteropodidae.
+Jackknifed squared residuals and upper 95% confidence intervals for each known pteropodid–paramyxovirus link from PACo.
+(XLSX)
+S1 Text
+
+## Complete reference list for all 118 studies included in the dataset.
+(PDF)
+S1 Data
+
+## Database generated and used in this study (‘pteroparamyxo’).
+(CSV)
+
+## Acknowledgments
+We thank Kim Halpin and Mohammed Ziaur Rahman for constructive feedback on earlier versions of this manuscript.
+
+## Data Availability
+All relevant data are within the manuscript and its files and https://github.com/mayajuman/pteroparamyxo.
+
+## Funding Statement
+MMJ was supported by a Gates Cambridge Scholarship enabled by grant OPP1144 from the Bill & Melinda Gates Foundation (https://www.gatescambridge.org/) as well as the Fellow-in-Residence award from the Viral Emergence Research Initiative (Verena) funded by NSF DBI 2515340 (https://www.viralemergence.org/). DJB was supported by NSF DBI 2515340 and the Edward Mallinckrodt, Jr. Foundation (https://emallinckrodtfoundation.org/home-page). No funders played a role in the study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+PLOS Neglected Tropical DiseasesPLoS Negl Trop Dis10.1371/journal.pntd.0013698.r001Author response to Decision Letter 0
+71120251911e0013698e0013698Collection date 2025 Nov.
+
+## Transfer Alert
+This paper was transferred from another journal. As a result, its full editorial history (including decision letters, peer reviews and author responses) may not be present.
+
+13 Aug 2025
+
+AttachmentSubmitted filename: Juman et al. response to reviewers.pdf
+PLOS Neglected Tropical DiseasesPLoS Negl Trop Dis10.1371/journal.pntd.0013698.r002Decision Letter 0
+MarziAndreaSection Editor© 2025 Andrea MarziThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+20 Oct 2025
+
+PNTD-D-25-01418
+Paramyxoviruses in Old World fruit bats (Pteropodidae): an open database and synthesis of sampling effort, viral positivity, and coevolution
+PLOS Neglected Tropical Diseases
+Dear Dr. Juman,
+Thank you for submitting your manuscript to PLOS Neglected Tropical Diseases. After careful consideration, we feel that it has merit but does not fully meet PLOS Neglected Tropical Diseases's publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+Please submit your revised manuscript within 30 days Dec 19 2025 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosntds@plos.org. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pntd/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+Please include the following items when submitting your revised manuscript:
+* A rebuttal letter that responds to each point raised by the editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'. This file does not need to include responses to any formatting updates and technical items listed in the 'Journal Requirements' section below.
+* A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+* An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+If you would like to make changes to your financial disclosure, competing interests statement, or data availability statement, please make these updates within the submission form at the time of resubmission. Guidelines for resubmitting your figure files are available below the reviewer comments at the end of this letter.
+We look forward to receiving your revised manuscript.
+Kind regards,
+Tony Schountz, PhD
+Academic Editor
+PLOS Neglected Tropical Diseases
+Andrea Marzi
+Section Editor 
+PLOS Neglected Tropical Diseases
+Shaden Kamhawi
+co-Editor-in-Chief
+PLOS Neglected Tropical Diseases
+orcid.org/0000-0003-4304-636XX
+Paul Brindley
+co-Editor-in-Chief
+PLOS Neglected Tropical Diseases
+orcid.org/0000-0003-1765-0002 
+
+Additional Editor Comments: 
+
+Dear Dr. Juman, the reviewers have identified several minor issues with the manuscript that should be addressed. Reviewer 2, in particular, has raised several points for clarification. Please respond to each of these points for the resubmission.
+
+Journal Requirements:
+
+If the reviewer comments include a recommendation to cite specific previously published works, please review and evaluate these publications to determine whether they are relevant and should be cited. There is no requirement to cite these works unless the editor has indicated otherwise.
+1) Please upload all main figures as separate Figure files in .tif or .eps format. For more information about how to convert and format your figure files please see our guidelines: 
+
+https://journals.plos.org/plosntds/s/figures
+
+2) Some material included in your submission may be copyrighted. According to PLOSu2019s copyright policy, authors who use figures or other material (e.g., graphics, clipart, maps) from another author or copyright holder must demonstrate or obtain permission to publish this material under the Creative Commons Attribution 4.0 International (CC BY 4.0) License used by PLOS journals. Please closely review the details of PLOSu2019s copyright requirements here: PLOS Licenses and Copyright. If you need to request permissions from a copyright holder, you may use PLOS's Copyright Content Permission form.
+Please respond directly to this email and provide any known details concerning your material's license terms and permissions required for reuse, even if you have not yet obtained copyright permissions or are unsure of your material's copyright compatibility. Once you have responded and addressed all other outstanding technical requirements, you may resubmit your manuscript within Editorial Manager. 
+Potential Copyright Issues:
+i) Figure 2. Please (a) provide a direct link to the base layer of the map (i.e., the country or region border shape) and ensure this is also included in the figure legend; and (b) provide a link to the terms of use / license information for the base layer image or shapefile. We cannot publish proprietary or copyrighted maps (e.g. Google Maps, Mapquest) and the terms of use for your map base layer must be compatible with our CC BY 4.0 license.
+Note: if you created the map in a software program like R or ArcGIS, please locate and indicate the source of the basemap shapefile onto which data has been plotted.
+If your map was obtained from a copyrighted source please amend the figure so that the base map used is from an openly available source. Alternatively, please provide explicit written permission from the copyright holder granting you the right to publish the material under our CC BY 4.0 license.
+If you are unsure whether you can use a map or not, please do reach out and we will be able to help you. The following websites are good examples of where you can source open access or public domain maps:
+* U.S. Geological Survey (USGS) - All maps are in the public domain. (http://www.usgs.gov)
+* PlaniGlobe - All maps are published under a Creative Commons license so please cite u201cPlaniGlobe, http://www.planiglobe.com, CC BY 2.0u201d in the image credit after the caption. (http://www.planiglobe.com/?lang=enl)
+* Natural Earth - All maps are public domain. (http://www.naturalearthdata.com/about/terms-of-use/).
+3)  Please ensure that the funders and grant numbers match between the Financial Disclosure field and the Funding Information tab in your submission form. Note that the funders must be provided in the same order in both places as well.  
+
+Reviewers' comments: 
+
+Reviewer's Responses to Questions
+
+Key Review Criteria Required for Acceptance?
+
+As you describe the new analyses required for acceptance, please consider the following:
+
+Methods
+
+-Are the objectives of the study clearly articulated with a clear testable hypothesis stated?
+-Is the study design appropriate to address the stated objectives?
+-Is the population clearly described and appropriate for the hypothesis being tested?
+-Is the sample size sufficient to ensure adequate power to address the hypothesis being tested?
+-Were correct statistical analysis used to support conclusions?
+-Are there concerns about ethical or regulatory requirements being met?
+Reviewer #1: Great
+Reviewer #2: Minor Revision
+1. Author should provide the total number of samples included for each testing method (PCR, ELISA, and virus isolation). To improve readability, include explicit numbers and positivity rates in the main text for each method and sample type (e.g., n=XX, YY% positive). (Line 255)
+2. You mention that PCR prevalence and seroprevalence were not significantly influenced by the year of collection, suggesting little change across decades. I recommend to provide a sensitivity analysis to test whether methodological differences across time might obscure temporal trends? (Line 546)
+
+Results
+
+-Does the analysis presented match the analysis plan?
+-Are the results clearly and completely presented?
+-Are the figures (Tables, Images) of sufficient quality for clarity?
+Reviewer #1: Yes - all good
+Reviewer #2: Minor Revision
+1. While pooled swab positivity is mentioned (5.4%) and detailed in supplementary data, the main text does not specify overall positivity or breakdown of sample types with positivity (e.g., oral or rectal swab). Add this information to the results for completeness, as it could inform non-invasive sampling strategies. (Lines 430–431)
+2. The meta-analysis synthesizes data from studies spanning 1971–2023, but study periods are not explicitly included as a factor. Please add this to the methods and results sections, as temporal clustering of studies could influence overall prevalence estimates due to varying environmental or methodological factors.
+
+Conclusions
+
+-Are the conclusions supported by the data presented?
+-Are the limitations of analysis clearly described?
+-Do the authors discuss how these data can be helpful to advance our understanding of the topic under study?
+-Is public health relevance addressed?
+Reviewer #1: Yes
+Reviewer #2: Revision required as per recommendations
+1. Your findings highlight that pararubulaviruses are understudied compared to henipaviruses. Could you elaborate on why this bias exists in details? (Line 511)
+2. Since PCR prevalence and seroprevalence represent different methodologies, so require more explanation to avoid potential confounding and better highlight method-specific patterns. Explain it in the results and discussion section.
+3. The finding of higher prevalence in spleen samples (6.89%) is highlighted (Figure 5) may be affected by redundancy, since individuals positive in other tissues (e.g., swabs) could bias detection rates, especially given the small sample size. Could you clarify this point and discuss the limitations of sample size in tissue-specific conclusions?
+4. I recommend adding a separate paragraph explicitly outlining the study’s limitations (e.g., heterogeneous methods across studies, reporting gaps, sample redundancy, uneven sample sizes, geographic under-sampling in Africa, reliance on published data only).
+5. Virus isolation is notably low compare to PCR, likely due to requirements for BSL-4 facilities that is very limited worldwide, especially for henipaviruses. Expand on this in the discussion section to explain why PCR dominates and implications for confirming viable virus.
+6. Pooled urine and fecal samples from roosts show higher positivity, possibly because they mix contributions from multiple bats. Discuss this in the results and discussion section to guide interpretation for colony-based surveillance.
+
+Editorial and Data Presentation Modifications?
+
+Use this section for editorial suggestions as well as relatively minor modifications of existing data that would enhance clarity. If the only modifications needed are minor and/or editorial, you may wish to recommend “Minor Revision” or “Accept”.
+Reviewer #1: Reference 3 does need to be changed to Walker et al (as is indicated in the author's response).
+Reviewer #2: Accept
+
+Summary and General Comments
+
+Use this section to provide overall comments, discuss strengths/weaknesses of the study, novelty, significance, general execution and scholarship. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. If requesting major revision, please articulate the new experiments that are needed.
+Reviewer #1: The authors have clearly addressed all 3 reviewer's comments and suggestions.
+There was only one minor change that was not done - and that was updating reference 3 to Walker et al.
+I also want to commend the authors for their considered responses to Reviewer 1 who was unprofessional and dismissive in their approach to providing constructive feedback.
+Reviewer #2: The paper is clearly written, conceptually sound, and well-organized. The results are important for understanding the ecology of paramyxoviruses in pteropodid bats and for directing future monitoring activities. The public repository (GitHub) is an important resource for the scientific community. However, the manuscript has a few points for improvement to enhance clarity.
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: Yes: Kim Halpin
+Reviewer #2: Yes: Mohammed Ziaur Rahman
+
+Figure resubmission:
+
+While revising your submission, we strongly recommend that you use PLOS’s NAAS tool (https://ngplosjournals.pagemajik.ai/artanalysis) to test your figure files. NAAS can convert your figure files to the TIFF file type and meet basic requirements (such as print size, resolution), or provide you with a report on issues that do not meet our requirements and that NAAS cannot fix.
+After uploading your figures to PLOS’s NAAS tool - https://ngplosjournals.pagemajik.ai/artanalysis, NAAS will process the files provided and display the results in the 'Uploaded Files' section of the page as the processing is complete. If the uploaded figures meet our requirements (or NAAS is able to fix the files to meet our requirements), the figure will be marked as 'fixed' above. If NAAS is unable to fix the files, a red 'failed' label will appear above. When NAAS has confirmed that the figure files meet our requirements, please download the file via the download option, and include these NAAS processed figure files when submitting your revised manuscript.
+
+Reproducibility:
+
+To enhance the reproducibility of your results, we recommend that authors of applicable studies deposit laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. Additionally, PLOS ONE offers an option to publish peer-reviewed clinical study protocols. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols
+PLOS Neglected Tropical DiseasesPLoS Negl Trop Dis10.1371/journal.pntd.0013698.r003Author response to Decision Letter 1
+71120251911e0013698e0013698Collection date 2025 Nov.
+
+27 Oct 2025
+
+AttachmentSubmitted filename: Juman et al. R2R.pdf
+PLOS Neglected Tropical DiseasesPLoS Negl Trop Dis10.1371/journal.pntd.0013698.r004Decision Letter 1
+SafronetzDavidSection Editor© 2025 David SafronetzThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+29 Oct 2025
+
+Dear Ms. Juman,
+We are pleased to inform you that your manuscript 'Paramyxoviruses in Old World fruit bats (Pteropodidae): an open database and synthesis of sampling effort, viral positivity, and coevolution' has been provisionally accepted for publication in PLOS Neglected Tropical Diseases.
+Before your manuscript can be formally accepted you will need to complete some formatting changes, which you will receive in a follow up email. A member of our team will be in touch with a set of requests.
+Please note that your manuscript will not be scheduled for publication until you have made the required changes, so a swift response is appreciated.
+IMPORTANT: The editorial review process is now complete. PLOS will only permit corrections to spelling, formatting or significant scientific errors from this point onwards. Requests for major changes, or any which affect the scientific understanding of your work, will cause delays to the publication date of your manuscript.
+Should you, your institution's press office or the journal office choose to press release your paper, you will automatically be opted out of early publication. We ask that you notify us now if you or your institution is planning to press release the article. All press must be co-ordinated with PLOS.
+Thank you again for supporting Open Access publishing; we are looking forward to publishing your work in PLOS Neglected Tropical Diseases.
+Best regards,
+Tony Schountz, PhD
+Academic Editor
+PLOS Neglected Tropical Diseases
+Andrea Marzi
+Section Editor
+PLOS Neglected Tropical Diseases
+Shaden Kamhawi
+co-Editor-in-Chief
+PLOS Neglected Tropical Diseases
+orcid.org/0000-0003-4304-636XX
+Paul Brindley
+co-Editor-in-Chief
+PLOS Neglected Tropical Diseases
+orcid.org/0000-0003-1765-0002
+***********************************************************
+Dear Dr. Juman,
+Thank you for addressing the reviewer comments. I have recommended acceptance of your manuscript.
+p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 16.0px; font: 14.0px Arial; color: #323333; -webkit-text-stroke: #323333}span.s1 {font-kerning: none
+PLOS Neglected Tropical DiseasesPLoS Negl Trop Dis10.1371/journal.pntd.0013698.r005Acceptance letter
+SafronetzDavidSection Editor© 2025 David SafronetzThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Dear Ms. Juman,
+We are delighted to inform you that your manuscript, "Paramyxoviruses in Old World fruit bats (Pteropodidae): an open database and synthesis of sampling effort, viral positivity, and coevolution," has been formally accepted for publication in PLOS Neglected Tropical Diseases.
+We have now passed your article onto the PLOS Production Department who will complete the rest of the publication process. All authors will receive a confirmation email upon publication.
+The corresponding author will soon be receiving a typeset proof for review, to ensure errors have not been introduced during production. Please review the PDF proof of your manuscript carefully, as this is the last chance to correct any scientific or type-setting errors. Please note that major changes, or those which affect the scientific understanding of the work, will likely cause delays to the publication date of your manuscript. Note: Proofs for Front Matter articles (Editorial, Viewpoint, Symposium, Review, etc...) are generated on a different schedule and may not be made available as quickly.
+Soon after your final files are uploaded, the early version of your manuscript will be published online unless you opted out of this process. The date of the early version will be your article's publication date. The final article will be published to the same URL, and all versions of the paper will be accessible to readers.
+For Research Articles, you will receive an invoice from PLOS for your publication fee after your manuscript has reached the completed accept phase. If you receive an email requesting payment before acceptance or for any other service, this may be a phishing scheme. Learn how to identify phishing emails and protect your accounts at https://explore.plos.org/phishing.
+Thank you again for supporting open-access publishing; we are looking forward to publishing your work in PLOS Neglected Tropical Diseases.
+Best regards,
+Shaden Kamhawi
+co-Editor-in-Chief
+PLOS Neglected Tropical Diseases
+Paul Brindley
+co-Editor-in-Chief
+PLOS Neglected Tropical Diseases
+Associated Data
+
+## Supplementary Materials
+S1 Fig
+
+## PRISMA reporting diagram for study selection and screening.
+(TIFF)
+S2 Fig
+
+## Stacked barplots showing changes in diagnostic methods for (A) PCR and (B) serological detection of paramyxoviruses in Pteropodidae by publication year.
+(TIFF)
+S3 Fig
+
+## Temporal autocorrelation functions for (A) PCR prevalence and (B) seroprevalence of paramyxoviruses in Pteropodidae.
+Lags represent years between estimates.
+(TIFF)
+S1 Table
+
+## Database breakdown by sample type and detection method.
+Sample size (records and number of samples), percentage of records with at least one positive sample, and average prevalence by detection method, sample type, and viral subfamily.
+(XLSX)
+S2 Table
+
+## Database breakdown by type of paramyxovirus.
+Number of studies, host species, and samples tested for different paramyxoviruses, with positivity rates reported for serological and PCR detection attempts as well as number of successful viral isolations.
+(XLSX)
+S3 Table
+
+## Database breakdown by country.
+Number of studies, number of samples, and mean viral prevalence and seropositivity rates for all countries.
+(XLSX)
+S4 Table
+
+## Results from PACo cophylogenetic analysis of paramyxoviruses in Pteropodidae.
+Jackknifed squared residuals and upper 95% confidence intervals for each known pteropodid–paramyxovirus link from PACo.
+(XLSX)
+S1 Text
+
+## Complete reference list for all 118 studies included in the dataset.
+(PDF)
+S1 Data
+
+## Database generated and used in this study (‘pteroparamyxo’).
+(CSV)
+AttachmentSubmitted filename: Juman et al. response to reviewers.pdf
+AttachmentSubmitted filename: Juman et al. R2R.pdf
+
+## Data Availability Statement
+All relevant data are within the manuscript and its files and https://github.com/mayajuman/pteroparamyxo.

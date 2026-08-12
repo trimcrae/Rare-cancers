@@ -1,0 +1,171 @@
+pmcHealth Sci RepHealth Sci Rep3569hscirepHSR2Health Science Reports2398-8835WileyPMC12699978PMC12699978.112699978126999784139427710.1002/hsr2.71626HSR2716261Methods and ProtocolsMethods and ProtocolsRobust Bayesian Model Averaging Meta‐Analysis of Menstrual Disorders in COVID‐19 Survivors: A Methodological Meta‐Analysis Study
+FalahatiGhazalehhttps://orcid.org/0009-0009-7743-4943 BiglarianAkbarhttps://orcid.org/0000-0002-9776-7085 Behboudi‐GandevaniSamirahttps://orcid.org/0000-0003-3526-640X Bidhendi‐YarandiRaziehhttps://orcid.org/0000-0002-2533-167X Razi_bidhendi@yahoo.comra.bidhendi@uswr.ac.ir
+
+1
+
+Department of Biostatistics and Epidemiology
+School of Social health, University of Social Welfare and Rehabilitation Sciences
+Tehran
+Iran
+
+2
+
+Social Determinants of Health Research Center
+University of Social Welfare and Rehabilitation Sciences
+Tehran
+Iran
+
+3
+
+Faculty of Nursing and Health Sciences
+Nord University
+Bodø
+Norway
+
+4
+
+Neuromusculoskeletal Rehabilitation Research Center
+University of Social Welfare and Rehabilitation Sciences
+Tehran
+Iran
+
+*
+Correspondence: Razieh Bidhendi‐Yarandi (Razi_bidhendi@yahoo.com; ra.bidhendi@uswr.ac.ir)
+1212202512202581250135810.1002/hsr2.v8.12e71626
+28102025
+16122024
+27112025
+121220251312202515122025© 2025 The Author(s). Health Science Reports published by Wiley Periodicals LLC.https://creativecommons.org/licenses/by-nc/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## ABSTRACT
+
+## Background and Aims
+The COVID‐19 pandemic has significantly affected public health worldwide. This study applies a novel Robust Bayesian Model Averaging‐Publication Selection Model Averaging method (RoBMA‐PSMA) to address publication bias for a single proportion and estimate the pooled prevalence of menstrual disorders in surviving women from SARS‐CoV‐2 through a meta‐analysis of existing evidence.
+
+## Methods
+Data analysis was performed using both classical and novel RoBMA‐PSMA approaches for meta‐analysis. The R software 4.4.1 package “metafor” and JASP 0.18.3 software were used to conduct statistical analysis.
+
+## Results
+The pooled prevalence estimates via conditional ROBMA‐PSMA, were: amenorrhea, 12% (95% CI: 3%–20%); intermenstrual bleeding, 17% (95% CI: 3%–31%); menstrual cycle regularity changes, 24% (95% CI: 9%–34%); menstrual duration changes, 15% (95% CI: 3%–32%); menstrual volume changes, 12% (95% CI: 2%–24%), pain related changes, 17% (95% CI: 3%–30%), and overall, 9% (95% CI: 5%–13%). Results of other classical methods, including random/fixed and trim and fill methods showed significantly different pooled effect sizes.
+
+## Conclusion
+Using a Robust Bayesian methodology, we found that 9%–24% of women of reproductive age experienced menstrual disorders during the COVID‐19 pandemic, highlighting its significant impact on women's health. To address this, it is crucial to educate women about the pandemic's effects on menstrual health and provide support services, including counseling and access to specialized healthcare providers. The RoBMA‐PSMA approach can help researchers effectively tackle publication bias and heterogeneity, offering a straightforward, data‐driven method that requires minimal technical expertise, supported by a user‐friendly tool.
+
+Trial Registration: Prospective Register of Systematic Reviews (PROSPERO): CRD42024561216.
+
+## Summary
+
+9%–24% of women of reproductive age suffered from menstrual disorders during the COVID‐19 pandemic, highlighting the significant impact of the pandemic on women's health.
+RoBMA‐PSMA as an alternative approach for estimating single proportions, could resolve the issues of publication bias and heterogeneity by providing a data‐driven, insightful, and efficient methodology.
+RoBMA‐PSMA methodology for medical researchers is straightforward and accessible, requiring minimal technical expertise, thanks to the availability of a user‐friendly tool.
+
+prevalence of menstrual disorderspublication biasRoBMA‐PSMArobust Bayesian model averaging method‐publication selectionSARS‐CoV‐2 
+3.2
+
+## Bayesian Approach for Meta‐Analysis of a Single Proportion
+To overcome the issue of PB for meta‐analysis of single proportion, the Robust Bayesian Model Averaging‐Publication Selection Model Averaging approach (RoBMA‐PSMA) proposed by Bartos et al. seems to be a promising alternative due to the process of accounting for the uncertainty among the selection of models [ ]. The concept behind this approach is to combine the likelihood of the data obtained from 36 hypothetical models regarding publication bias pattern (none, with selection model based on various p values and tails, PET‐PEESE), heterogeneity (none, with appropriate prior distribution) and significance of the effect size (none, with appropriate prior distribution) via Bayesian model averaging approach accounting specific prior model probabilities called empirical prior, and then estimate the posterior pooled effect size [ , , , ]. The estimated posterior effect size, θ, based on the Bayesian model averaging approach obtained from combining the 36 estimates across all models in the ensemble, weighted according to their posterior model probabilities, is defined as follows:
+
+pr(θ|Η)=∑i=136pr(θi|Ηi,observations)pr(Ηi|observations)
+
+Where pr(θi|Ηi,observations) is estimated posterior parameter distributions for model i, and pr(Ηi|observations) is considered as estimated posterior probabilities of the models.
+The inclusion Bayes factor (BF10) as a diagnostic index also assesses the predictive performance of the alternative [ ] over null (0) models [ ].
+As a rule of thumb: a BF10 from 1 to 3 signals a small predictive performance difference between the models, from 3 to 10 is a sign of the moderate outperformance of the alternative model relative to the null model, and any BF10 levels higher than 10 suggest strong evidence for the alternative model rather than the null model.
+In this study, we adapted the model proposed by Bartos et al. to estimate the posterior prevalence adjusted for PB. We made two significant modifications [ ]: applied conditional model averaging estimates that only considered models that assumed the effect of interest to be presented, resulting in 18 models; and [ ] We used an informative Beta(α, β) distribution as a conjugated prior for binomial data instead of the standard Normal distribution, which provides a better fit to binomial data. These modifications enabled us to estimate the posterior effect size adjusted for PB. In addition, uniform distribution (0, A), A →∞, was used for heterogeneity instead of inverse gamma. The values of “α”, “β”, and “A” were obtained from the sensitivity analysis (Supporting Information S1: Appendix  , Table  ). A 18‐modified Bayesian estimating algorithm initialized with the parameters of the model of interest, that is, the model Η which inform of the effect size, P, and its heterogeneity,τ, as well as their prior distributions, that is, θ, so that the likelihood of the model parameters to be observed, that is, pr(data|θ,Η), and the relative plausibility of unobserved model parameters, that is, pr(θ|Η), can be determined. For example, consider two meta‐analysis models of Η0 and Η1 for the fixed effect model as:
+
+Η0:P~f(.),τ=0;
+
+Likelihoodofkobservedeffectsizes:pr(observations|θ0,Η0)
+
+Where Η0 is the null model of the present effect size, that is, P≠0 under some f(.) prior distribution, here Beta (α, β), without across‐study heterogeneity, that is, τ=0, and the likelihood of data which is the k observed effect sizes: pr(observations|θ0,Η0).
+
+Η1:P~f(.),τ~g(.);
+
+Likelihood of k observed effect sizes:pr(observations|θ0,Η0)
+
+Where Η1 is the alternative model of the present effect size, that is, P≠0 under some f(.) prior distribution, here Beta (α, β), with a cross‐study heterogeneity, that is,τ~g(.), here uniform (0, A), and the Likelihood of data, which is the k observed effect sizes: pr(observations|θ1,Η1).
+In addition, nine different patterns of publication bias prior distribution were considered as: none, one‐sided p value with Cumulative Dirichlet (CumDirichlet) prior distribution, two‐sided p value with CumDirichlet prior distribution, PET and PEESE with Cauchy prior distribution. Table  summarizes the defined models for estimating the adjusted posterior prevalence.
+ 
+3.3
+
+## Statistical Analysis
+Software including R 4.4.1 package “metafor” and JASP 0.18.3 were used for statistical analysis. For classical meta‐analysis, heterogeneity was evaluated using the χ
+2 test and I‐square index. Publication bias was also assessed by both funnel plot and Egger's test. The fixed and random effect models were used for the estimation of the pooled prevalence via the meta‐prop method with a pooled estimate after the Freeman‐Tukey double arcsine transformation to stabilize the variances. Moreover, to provide more precise results considering both potential publication bias and heterogeneity in the estimation of pooled prevalence of menstrual disorders, we applied the conditional RoBMA‐PSMA approach with a weakly informative Beta prior distribution with the parameters 1.5 and 2.5 which is a left‐skewed distribution with the average 0.375, and the uniform (0, 10) as an improper limit of the prior distribution for heterogeneity and a weakly informative but proper prior inverse‐gamma (2, 0.01) for tau, using a scale approximately similar to that of the observed effect sizes, as suggested. BF10 for effect size, heterogeneity, and PB was also reported to evaluate the Bayes estimates.
+
+4
+
+## Results
+4.1
+
+## Search Results and Characteristics of the Included Studies
+The initial literature search yielded 10,165 studies, 108 of which were further evaluated by retrieving their full text, and 77 of these were excluded. Eventually, 31 [ , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , ] eligible studies were included in the systematic review and offered extractable data for the meta‐analysis (PRISMA flow diagram—Figure  ). The main characteristics of the included studies are summarized in the Supporting Information S1: Table  .
+ 
+4.2
+
+## Result of Quality Assessment, Publication Bias, and Heterogeneity
+Out of 31 included studies, 9 (29%) were judged as high quality [ , , , , , , , , ], 4 (13%) were judged as poor quality [ , , , ], the rest 18 (58%) had at most 2 items of “No”, “unclear” or “Not applicable” considered as the moderate quality [ , , , , , , , , , , , , , , , , , ]. Overall, none of the eligible studies were excluded based on the Joanna Briggs Institute Critical Appraisal Checklist for analytical cross‐sectional studies (Supporting Information S1: Table  ).
+Supporting Information S1: Figure  presents the Funnel plots, and results of Egger's test Table  demonstrates the statistically significant results of PB for pain‐related changes and overall based on Freeman–Tukey double arcsine transformation. In addition, based on RoBMA‐PSMA, we found evidence for the presence of PB for outcomes including menstrual duration changes, menstrual volume changes, pain‐related changes and overall (BF > 10), and moderate evidence for the presence of publication bias for amenorrhea, BFpb = 3.460, and intermenstrual bleeding, BFpb = 3.255, (Table  ). A sensitivity analysis was run to check whether there was an influential study, especially among low‐quality studies. Results showed no significant influential study (Supporting Information S1: Figure  ).
+ In terms of heterogeneity, the χ
+2 test and I‐square index for all outcomes were also statistically significant (p < 0.001). The Bayesian approach estimated the inclusion BFh over 10 for all outcomes and showed evidence for presence heterogeneity as well.
+
+4.3
+
+## Result of the Classical Fixed/Random Effect Meta‐Analysis
+Table  shows the results of classical fixed/random effect meta‐analysis methods using the inverse‐variance weighting approach with the Freeman–Tukey double arcsine transformation and trim and fill method for adjusting publication bias.
+Results of fixed effect models showed, the pooled prevalence based on the Freeman–Tukey double arcsine transformation for amenorrhea: 0.11 (95% CI: 0.10, 0.13; I^2 = 95.24%), intermenstrual bleeding: 0.13 (95% CI: 0.12, 0.16; I^2 = 98.58%), menstrual cycle regularity changes: 0.16 (95% CI: 0.10, 0.17; I^2 = 99.32%), menstrual duration changes: 0.09 (95% CI: 0.08, 0.10; I^2 = 98.93%), menstrual volume changes 0.09 (95% CI: 0.08, 0.10; I^2 = 98.93%), pain related changes: 0.08 (95% CI: 0.08, 0.09; I^2 = 99.34%), and overall 0.10 (95% CI: 0.09, 0.11), were estimated.
+Based on the trim and fill method of adjusting publication bias, estimated pooled prevalence were 0.11 (95% CI: 0.10, 0.13; I^2 = 95.24%), intermenstrual bleeding: 0.13 (95% CI: 0.12, 0.16; I^2 = 98.58%), menstrual cycle regularity changes: 0.07 (95% CI: 0.06, 0.08; I^2 = 99.32%), menstrual duration changes: 0.08 (95% CI: 0.07, 0.09; I^2 = 98.93%), menstrual volume changes 0.06 (95% CI: 0.05, 0.07; I^2 = 98.93%), pain related changes: 0.06 (95% CI: 0.05, 0.07; I^2 = 99.34%), and overall 0.07 (95% CI: 0.06, 0.08).
+Results of the random effect model shows, the pooled prevalence based on the Freeman–Tukey double arcsine transformation for amenorrhea: 0.12 (95% CI: 0.07, 0.17; I^2 = 95.24%), intermenstrual bleeding: 0.15 (95% CI: 0.05, 0.28; I^2 = 98.58%), menstrual cycle regularity changes: 0.30 (95% CI: 0.25, 0.35; I^2 = 99.32%), menstrual duration changes: 0.25 (95% CI: 0.17, 0.33; I^2 = 99.23%), menstrual volume changes 0.24 (0.22, 0.27; I^2 = 98.93%), pain related changes: 0.22 (95% CI: 0.15, 0.30; I^2 = 99.34%), and overall 0.25 (95% CI: 0.24, 0.26; I^2 = 99.19%), were estimated.
+Based on trim and fill method of adjusting publication bias, estimated pooled prevalence were amenorrhea: 0.11 (95% CI: 0.10, 0.13), intermenstrual bleeding: 0.15 (95% CI: 0.05, 0.28), menstrual cycle regularity changes: 0.16 (95% CI: 0.10, 0.17), menstrual duration changes: 0.21 (95% CI: 0.13, 0.30), menstrual volume changes 0.22 (0.16, 0.29), pain related changes: 0.18 (95% CI: 0.10, 0.28), and overall 0.18 (95% CI: 0.15, 0.21).
+Forest plots were also depicted to summarize information on included individual studies, a visual suggestion of the amount of study heterogeneity, and pooled estimated prevalence (Supporting Information S1: Figure  ). Subgroup analysis based on severity of COVID‐19 and vaccination status showed higher prevalence of Overall menstrual disorders in severe 0.42 (95% CI: 0.14, 0.69) versus mild to moderate patients 0.34 (95% CI: 0.23, 0.45) and 0.48 (95% CI: 0.13, 0.82) in no vaccinated versus 0.39 (95% CI: 0.17, 0.61) in at least one dose vaccine intake (Supporting Information S1: Figure  ).
+
+4.4
+
+## Result of Robust Bayesian Model Averaging Method of Meta‐Analysis
+Table  provides the model summary based on the conditional RoBMA‐PSMA estimation method. The pooled prevalence of the menstrual disorders based on RoBMA‐PSMA was estimated as, amenorrhea: 0.12 (95% CI: 0.03, 0.20; BF > 10), intermenstrual bleeding: 0.17 (95% CI: 0.3, 0.31; BF > 10), menstrual cycle regularity changes: 0.24 (95% CI: 0.09, 0.34; BF > 10), menstrual duration changes: 0.15 (95% CI: 0.03, 0.32; BF > 10), menstrual volume changes 0.12 (0.02, 0.24; BF > 20), pain related changes: 0.17 (95% CI: 0.03, 0.30; BF > 20), and overall 0.09 (95% CI: 0.05, 0.13; BF > 20). Inclusion BFs revealed strong evidence of PB for menstrual cycle regularity, changes in menstrual duration, changes in menstrual volume, and changes in pain‐related changes overall. Heterogeneity was also existed for all outcomes (BF > 10). Comparisons of the results from the classical and RBMA‐PSMA models, based on PB, revealed some contradictions, particularly as the number of included studies increased. For instance, according to Egger's test, the PB for outcomes such as menstrual cycle regularity, menstrual duration changes, and menstrual volume changes was deemed not statistically significant. However, upon considering the inclusion BF, there was strong evidence of PB (BF > 10) for these outcomes. The Random effect model also provided an overestimated pooled effect size compared to RBMA‐PSMA when considering no PB. In the cases of amenorrhea, intermenstrual bleeding, pain‐related changes, and overall outcomes, the classical and RBMA‐PSMA models yield consistent results regarding PB and heterogeneity. For the non‐significant PB cases of amenorrhea and intermenstrual bleeding, the estimated pooled effect sizes derived from both the random effects model and RBMA‐PSMA were nearly identical. In contrast, for the significant PB cases, particularly for the outcome with a higher number of included studies (Overall, N = 133), the random effects model provided an overestimated pooled effect size.
+We have also implemented a weakly informative but proper prior inverse‐gamma (2, 0.01) for tau, using a scale approximately similar to that of the observed effect sizes, as suggested. The results showed no significant changes in estimates of pooled effect size than estimates with uninformative prior (Supporting Information S1: Appendix  , Table  ).
+
+5
+
+## Discussion
+Menstrual disorders are prevalent and can significantly affect a woman's well‐being and QoL. These disorders can cause a range of symptoms, including irregular or prolonged bleeding, cramping, pain, and mood changes, which can be both physically and emotionally distressing, leading to reproductive health issues. It is a valid concern that COVID‐19 may impact menstrual disorders. While there is not a lot of conclusive research yet [ ], some women have reported experiencing changes in their menstrual cycles after contracting the virus.
+In this study, we estimated the pooled prevalence of menstrual disorders in reproductive‐aged women infected by the SARS‐COV‐2 virus. Our results based on the RoBMA‐PSMA method indicated that nearly 9%–24% of women who survived COVID‐19 had experienced menstrual disorders, particularly menstrual cycle regularity changes.
+Our findings were analogous to other studies despite different analysis methods, indicating women afflicted with COVID‐19 infection had a higher likelihood of experiencing menstrual irregularities [ , , ]. For example, in the inverse variance method and a random effects model meta‐analysis of 16 included studies by Al Kadiri et al. the overall pooled prevalence of menorrhagia, polymenorrhea, abnormal cycle length and oligomenorrhea were found to be 24.24% (95% CI: 12.8%–35.6%), 16.2% (95% CI: 10.7%–21.6%), 6.6% (95% CI: 5.0%–8.2%) and 22.7% (95% CI: 13.5%–32.0%), respectively. Publication bias and heterogeneity were assessed using funnel plots and I‐squared index [ ]. Al Shahrani et al. ran a meta‐analysis of 11 studies involving a total of 26,283 adult women. The results highlighted several menstrual changes with the following pooled percentages: 27.3% for abnormal cycle duration (CI: 7.2%–64.6%), 22% for dysmenorrhea (CI: 5.2%–59.4%), 16% for irregular cycles (CI: 5.8%–37.2%), 11.7% for abnormal cycle flow (CI: 5.8%–22%), and 5.5% for light flow (CI: 2.3%–12.5%). Heterogeneity was evaluated using Q statistics and the I‐squared index. Additionally, publication bias was examined through funnel plots and Begg's adjusted rank correlation test [ ].
+Various reasons could explain the situation, some evidence indicates that the menstrual cycle is governed by a fine‐tuned hormonal balance that interacts with immune, vascular, and coagulation systems, affecting menstrual bleeding and premenstrual and menstrual symptom severity [ ]. Some recent studies identified a significant link between menstrual changes and stress during the pandemic. Furthermore, the emergence of depressive symptoms and sleep disturbances has been closely associated with pandemic‐related restrictions, such as quarantine measures [ , ]. The relationship between menstrual changes, stress, depressive symptoms, and sleep disturbances during the pandemic highlights the necessity for a holistic healthcare approach. Understanding the effects of stress on reproductive and mental health is essential for effective interventions. Future research should examine long‐term impacts and strategies to support individuals facing these challenges, especially during global crises like COVID‐19 [ , , ].
+The novel coronavirus can cause an immune system overreaction, leading to excessive inflammation. Inflammatory responses can disrupt the menstrual cycle, leading to heavier bleeding, more painful cramps, and other menstrual disorders. Moreover, menstrual disorders can be considered a potential side effect of COVID‐19 vaccination. More than 50% of women have experienced menstrual abnormalities after the COVID‐19 vaccine. Some studies suggest that menorrhagia, Oligomenorrhea, and polymenorrhea were the most common menstrual irregularities experienced by women after receiving the COVID‐19 vaccine. However, since most of the proposed results are extracted from cross‐sectional studies, causal effects of vaccination would be a matter of controversy, especially due to heterogeneity caused by some potential factors such as demographic factors like age, ethnicity, and Gynecological disorders such as endometriosis, menorrhagia, fibroids, PCOS, and adenomyosis [ , , , ]. Our subgroup analysis showed that non‐vaccinated women had a higher prevalence of overall menstrual disorders, however, we acknowledge that the limited data available for subgroup analysis may impose certain constraints on the findings. The severity of COVID‐19 is also another source of heterogeneity. Our results showed that severe cases encounter more problems than mild to moderate. This aligns with existing literature that highlights the correlation between the severity of COVID‐19 and menstrual symptoms [ , ].
+In addition, the COVID‐19 pandemic restrictions have led to mental health issues such as stress, anxiety, sleep disorders, and depression, which can have a significant impact on menstrual disorders [ ]. The disruption of daily routines, social isolation, and financial insecurity caused by the pandemic can all contribute to increased stress and anxiety, which can exacerbate existing menstrual disorders [ , , ].
+Different approaches were introduced for the meta‐analysis of single proportions, such as newly Generalized Linear Mixed Models with random slopes (GLMM), zero‐inflated models, or meta‐regression incorporating covariates [ , , ]; however, they mostly concentrated on the technical estimation issues of pooled prevalence, and PB was not addressed in their estimation algorithms. We applied both classical and proposed RoBMA‐PSMA approaches to compare the results. The results of the fixed‐effect approaches significantly underestimated the prevalence of menstrual disorders. Considering heterogeneity in the results by applying the random‐effect approach made the estimates more realistic, close to RoBMA‐PSMA, in small data samples. On the contrary, by increasing the amount of heterogeneity in the larger data, it seems that the random‐effect approach overestimated the proportions [ ]. In addition, using the trim and fill technique to consider the PB would worsen the situation due to the mechanism of this approach, which makes a symmetric funnel plot by imputing generated data that seems improper for the single proportion.
+RoBMA‐PSMA offers significant advantages over classical meta‐analysis approaches, particularly fixed and random effects models, especially in handling heterogeneity and publication bias. It allows for the incorporation of multiple models that account for different sources of heterogeneity, providing a nuanced understanding of variability among studies while directly estimating uncertainty associated with heterogeneity. In contrast, classical approaches often assume a single true effect size, which can lead to misleading conclusions. Additionally, RoBMA‐PSMA integrates prior information about publication bias, mitigating its impact by considering multiple models rather than relying solely on published studies. This probabilistic framework quantifies uncertainty in effect size estimates and facilitates model comparison, allowing researchers to dynamically update their analyses as new data becomes available. Overall, RoBMA‐PSMA provides a more flexible and comprehensive method for synthesizing research findings, leading to more reliable and interpretable results.
+Since the RoBMA‐PSMA approach considers all possible scenarios, it provides a robust estimation of pooled effect size. We also modified the proposed RoBMA‐PSMA to overcome some limitations of this approach in the meta‐analysis of the single proportion. Firstly, since this method tends to assign all prior probability to the null hypothesis, for example, for effect size equal to zero, the resulting model‐averaged posterior distribution is mostly concentrated on zero, except in cases where the alternative models are strongly supported by the data, in which case the model‐averaged posterior distribution tends to be a mix of densities that reflect the alternative models, therefore the original RoBMA‐PSMA approach, especially when using non‐informative priors and small data sets, can lead to underestimation of the pooled effect size in a single proportion study [ ]. In our study analysis, the underestimation of pooled effect size was evident in the results of the classical methods that employed trim‐and‐fill adjustments compared to those without adjustments. This underestimation was notably more pronounced in the random effects method. To address this controversy, we applied a modified version of RoBMA‐PSMA that considered 18 models where the effect size was not zero, called the conditional model averaging approach. Secondly, another limitation of RoBMA‐PSMA is the uncertainty in the choice of priors, which can influence the estimation of the posterior effect size. To overcome this, we employed an educated guess through a weekly informative Beta distribution based on available clinical evidence as a conjugated prior for binomial data and improper prior distribution uniform (0,10) instead of inverse‐gamma for heterogeneity to avoid improper estimation of the posterior distribution [ , , ], however, the effect of prior distribution can be diluted when the sample size of the data is sufficiently large. In addition, sensitivity analysis for the choice of prior could overcome any ambiguity [ ].
+To examine the potential influence of variance‐effect size correlation on the results, we conducted a sensitivity analysis using logit‐transformed proportions, as well. The findings from the logit‐transformed models were highly consistent with those obtained from the main analysis, indicating that the transformation did not materially affect the pooled estimates or the overall conclusions. These results, presented in the Supporting Information S1: Appendix  , Table  , further support the RBMA‐PSMA analytical approach's robustness and confirm the outcomes' stability across effect size transformation.
+Some potential limitations of the RoBMA‐PSMA approach include computational demands; the complexity of the RoBMA‐PSMA approach increases with the number of studies included in the meta‐analysis and the number of variables under consideration. So, when the data set grows, the computational resources needed to process the analyses can escalate significantly, leading to longer processing times. Impact on research timelines: The lengthy running time may hinder timely data analysis, potentially delaying the dissemination of important findings. In fast‐paced research environments, such as those responding to public health crises, prolonged computational times can be a significant drawback, as researchers may require quicker results to inform decision‐making and policy development.
+Despite these challenges, the advantages of the RoBMA‐PSMA approach, such as its robustness in dealing with publication bias and its efficiency in synthesizing data, often outweigh the drawbacks associated with longer computational times. Researchers can mitigate some of these limitations by utilizing upgraded computer systems or cloud‐based computing solutions that offer greater processing power. This study encountered several limitations related to the technical methodology and clinical findings in the meta‐analysis examining the impact of COVID‐19 on menstrual disorders. We employed pooled prevalence estimates derived from various meta‐analysis approaches; however, the inherent differences in estimation methods hinder direct comparability, and no single index quantifies these differences. Some simulation studies estimated bias and root mean square error to compare models, which was not the focus of our research as we noted that different approaches yielded diverse results. Our findings are consistent with other studies that suggest there is no universally optimal method for conducting meta‐analyses of proportion studies [ , ]. In addition, the claims of underestimation or overestimation in fixed and random effects models, as well as the trim‐and‐fill method, are rooted in their inherent mechanisms for estimating effect sizes, particularly when calculating pooled proportions. Simulation studies are crucial for accurately estimating the extent of underestimation or overestimation in these methods [ , , ]. Applying inclusion BF as a diagnostic index can be complex and may be misinterpreted as providing conclusive evidence rather than conditional evidence. Data availability was another limitation of this study. The studies included may not have sufficient data to allow for meaningful subgroup analysis (e.g., stress, immune dysregulation) to consider the sources of heterogeneity. A different study design could also be another source of heterogeneity.
+Ultimately, employing conditional RoBMA‐PSMA with an informative prior Beta distribution can enhance the method's effectiveness. This approach provides a structured way to incorporate prior knowledge into the analysis, thus serving as a benchmark for the meta‐analysis of a single proportion. By establishing a solid foundation for analysis, researchers can achieve a balance between computational efficiency and analytical rigor, ensuring that the benefits of the RoBMA‐PSMA method are fully realized.
+
+6
+
+## Conclusion
+Using a robust Bayesian methodology, we found that 9%–24% of women of reproductive age experienced menstrual disorders during the COVID‐19 pandemic, highlighting its significant impact on women's health. To address this, it is crucial to educate women about the pandemic's effects on menstrual health and provide support services, including counseling and access to specialized healthcare providers. The RoBMA‐PSMA approach can help researchers effectively tackle publication bias and heterogeneity, offering a straightforward, data‐driven method that requires minimal technical expertise, supported by a user‐friendly tool.
+
+## Author Contributions
+
+Ghazaleh Falahati: software (lead), writing – original draft (equal), writing – review and editing (equal). Akbar Biglarian: review and editing (equal), conceptualization (supporting), methodology (supporting). Samira Behboudi‐Gandevani: writing – review and editing (equal), conceptualization (supporting), writing – original draft (supporting), writing – review and editing (equal). Razieh Bidhendi‐Yarandi: conceptualization (lead), methodology (lead), writing – original draft (lead), software (lead), formal analysis (lead), writing – review and editing (lead).
+
+## Funding
+The authors received no specific funding for this work.
+
+## Ethics Statement
+The protocol for this study was registered in PROSPERO CRD42024561216. This study was approved by the Ethics Committee of the University of Social Welfare and Rehabilitation Sciences in Tehran, Iran (IR.USWR.REC.1402.015). This study is a systematic review and meta‐analysis that used data extracted from previously published studies. No new data were collected from human participants, therefore, informed consent were not required.
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Transparency Statement
+The corresponding author, Razieh Bidhendi‐Yarandi, affirms that this manuscript is an honest, accurate, and transparent account of the study being reported; that no important aspects of the study have been omitted; and that any discrepancies from the study as planned (and, if relevant, registered) have been explained.
+
+## Supporting information
+supplementary_file_R3_clean.
+
+## Acknowledgments
+All authors have read and approved the final version of the manuscript. Corresponding author R.B.Y. had full access to all of the data in this study and takes complete responsibility for the integrity of the data and the accuracy of the data analysis.
+
+## Data Availability Statement
+The data that support the findings of this study are available from the corresponding author upon reasonable request.

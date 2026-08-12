@@ -1,0 +1,181 @@
+pmcVirol JVirol J273virolj101231645Virology Journal1743-422XBMCPMC12797722PMC12797722.112797722127977224135090610.1186/s12985-025-03027-830271ResearchSeroprevalence of hepatitis E in general, hepatic, and pregnant populations in Nepal, Bangladesh, and Pakistan: a systematic review and meta-analysis
+GuptaBirendra Prasadbirendraphd@gmail.com SahAjay Kumar SahAbhay Kumar GuptaVivek Prasad GhimireDinesh Prasad AcharyaNikita WagleChandramani 1Global Clinical Research, Kathmandu, Nepal 2Virology Society Nepal, Kathmandu, Nepal 51220252026235044096108202514112025051220251401202614012026© The Author(s) 20252025https://creativecommons.org/licenses/by-nc-nd/4.0/Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Background
+Hepatitis E virus (HEV) is a major cause of viral hepatitis in low- and middle-income countries, particularly in South Asia, where poor sanitation facilitates its fecal-oral transmission. Nepal, Bangladesh, and Pakistan experience a significant HEV burden, with severe outcomes in high-risk groups like pregnant women and hepatic patients, who face elevated mortality rates. This systematic review and meta-analysis aimed to estimate HEV seroprevalence in these countries, focusing on the general population, pregnant women, and hepatic patients, to inform public health strategies.
+
+## Methods
+We searched PubMed, Embase, Cochrane Library, and ProMED-mail for studies published between 2000 and 2017, following PRISMA guidelines and a registered protocol [PROSPERO: CRD42018099558]. Studies reporting HEV seroprevalence in Nepal, Bangladesh, or Pakistan using serological or molecular methods were included. The original search period was retained as data extraction was completed in 2018, and including newer studies was not feasible. A random-effects meta-analysis was conducted using the ‘metaprop’ function in R, with heterogeneity assessed via I² and τ² statistics. Publication bias was evaluated using Egger’s test and funnel plots.
+
+## Results
+The meta-analysis included 64 studies, totaling 25,301 participants. Pooled HEV seroprevalence was 23.8% (95% CI: 13.7%–35.5%) in the general population (n = 9,935), 41.2% (95% CI: 27.6%–55.6%) in pregnant women (n = 4,345), and 41.8% (95% CI: 30.7%–53.4%) in hepatic patients (n = 11,021). High heterogeneity was observed (I²=98.3–99.4%), with significant country-level variation in hepatic patients (p = 0.0002). Subgroup analyses revealed country-specific variations, particularly for hepatic patients where Bangladesh and Nepal showed higher prevalence than Pakistan. Publication bias was evident in pregnant women (p = 0.0002) and hepatic patients (p = 0.0066), but not in the general population (p = 0.6235).
+
+## Conclusions
+These findings highlight the substantial burden of HEV in South Asia, with notable differences across population groups and countries. The high seroprevalence in hepatic patients and pregnant women underscores the need for targeted surveillance and intervention strategies like improved sanitation and vaccination. High heterogeneity and publication bias suggest cautious interpretation, and future research should focus on standardizing diagnostics and conducting longitudinal studies to assess temporal trends in HEV prevalence.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12985-025-03027-8.
+
+## Keywords
+Hepatitis eSeroprevalenceKey populationNepalBangladeshPakistanMeta analysispmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDissue-copyright-statement© BioMed Central Ltd., part of Springer Nature 2026
+
+## Background
+Hepatitis E (HE) is a leading cause of waterborne viral hepatitis worldwide, contributing significantly to the global burden of liver disease [ ]. It is caused by the Hepatitis E virus (HEV), a single-stranded positive-sense RNA virus with four major genotypes that cause human disease (genotypes 1, 2, 3 and 4) [ ]. Genotypes 1 and 2 primarily infect humans, while genotypes 3 and 4 can infect both humans and animals, such as pigs [ ]. HE typically presents as an acute, self-limiting illness with clinical symptoms including fever, nausea, jaundice, loss of appetite, and vomiting. However, only about 30% of infected individuals exhibit these symptoms [ ].
+HEV poses a substantial global health challenge, particularly in low- and middle-income countries (LMICs). Globally, it causes approximately 20 million infections annually, resulting in 3.3 million symptomatic cases, 70,000 deaths and 3,000 stillbirths [ ]. In Southeast Asia, viral hepatitis is a leading cause of death, with around 410,000 deaths yearly, and HEV accounts for a substantial proportion of burden [ ].
+The virus spreads primarily through the fecal-oral route in developing countries, often via contaminated water (genotypes 1 and 2) or undercooked pork and animal products (genotypes 3 and 4). Region with poor sanitation, such as Nepal, Bangladesh and Pakistan, experiencing recurring waterborne outbreak, especially during the monsoon season, which disproportionately affect vulnerable population [ ]. Beyond its traditional transmission routes, HEV is now recognized as an emerging transfusion related infection, further complicating its control [ – ].
+Certain groups face a higher risk of severe outcomes from HEV infection. Pregnant women, particularly in their third trimester, face mortality of 30% or higher [ ]. HE during pregnancy can lead to severe complications, including fulminant hepatic failure, hepatic encephalopathy, disseminated intravascular coagulation, maternal death, fetal distress, premature delivery, or infant death [ , ]. Beyond its traditional fecal-oral transmission, Individuals with pre-existing chronic liver disease are at increased risk of acute liver failure, with mortality rates reaching 43% at 1 month and 70% at 12 months following HEV infection, while healthy individuals without liver conditions are generally at lower risk [ , ]. Similarly, immunocompromised individuals such as solid organ transplant recipients on immunosuppressive drugs are at risk to chronic HEV infections that may persist for years [ , ]. A current study shows that HIV-infected individuals are at higher risk of acquiring acute HEV infection than healthy individuals [ ]. and chronic HEV has been reported in patients with compromised immunity due to HIV/AIDS or hematologic malignancies [ , ]. Additionally, HEV is also prevalent among travelers from industrialized countries visiting high-endemic areas like Nepal, Bangladesh, and Pakistan, particularly during outbreaks in the rainy season [ ].
+Despite the significant burden of HEV in South Asia, there is a lack of comprehensive, region-specific data on its seroprevalence, particularly in high-risk populations. Previous systematic reviews have focused on global HEV prevalence or specific populations like pregnant women in other regions, but none have synthesized seroprevalence data across diverse groups in Nepal, Bangladesh, and Pakistan [ , – ]. These countries face unique challenges, including poor water quality, inadequate sanitation infrastructure, and limited surveillance systems, which exacerbate HEV transmission and complicate public health responses [ , ]. Understanding the seroprevalence of HEV in these settings is critical for identifying high-risk groups, informing targeted interventions such as improved sanitation, vaccination, and enhanced surveillance, and reducing the associated morbidity and mortality.
+This systematic review and meta-analysis aim to synthesize historical evidence (2000–2017) to estimate the seroprevalence of Hepatitis E virus (HEV) in Nepal, Bangladesh, and Pakistan among three key populations: the general population, pregnant women, and hepatic patients. By analyzing the data from studies published between 2000 and 2017, we seek to provide a comprehensive understanding of HEV exposure in these regions. Specifically, we investigated: (1) What is the pooled seroprevalence of HEV in the general population, pregnant women, and hepatic patients across these countries during the study period? (2) How does HEV seroprevalence vary geographically (subgroup analysis by country). These questions remain relevant today, as HEV continues to burden South Asia due to persistent challenges in sanitation and healthcare access. The findings will help guide interventions such as targeted vaccination programs and sanitation improvements, which are critical for mitigating the burden of HEV in South Asia in the present day.
+
+## Methods
+
+## Protocol and registration
+The protocol for this systematic review and meta-analysis was registered with PROSPERO [CRD42018099558] in July 2018. PROSPERO is an international database of prospectively registered systematic reviews managed by the Centre for Reviews and Dissemination, University of York. The review was conducted in accordance with the registered protocol. While we could not update the registration on PROSPERO, we have refined the study by reframing the research questions and updating the search strategy to focus on targeted populations (general population, pregnant women, and hepatic patients) and specific regions (Nepal, Bangladesh, and Pakistan). The search period was retained as originally planned (January 1, 2000, to December 31, 2017) to ensure consistency with the registered protocol.
+
+## Eligibility criteria
+Studies were included if they reported HEV seroprevalence in Nepal, Bangladesh, or Pakistan, based on abstract screening. The following predefined criteria were applied (Table  ).
+
+ 
+
+## Information sources and search strategy
+We conducted a systematic search of the Cochrane Library, MEDLINE (via PubMed), and Embase (via Ovid) databases, as well as the ProMED-mail archive, to identify relevant studies published in English. A systematic search was conducted in accordance with our PROSPERO-registered protocol (CRD42018099558). While the original protocol included a broader geographical scope, the search strategy was refined prior to study selection to focus specifically on Nepal, Bangladesh, and Pakistan to ensure clinical homogeneity and a focused research question. The final search strategy employed for all databases incorporated three key concepts: (1) Hepatitis E virus, (2) the target countries, and (3) seroprevalence or prevalence. In PubMed, the search string was: (“Hepatitis E” OR “acute hepatitis” OR “acute liver disease” OR “jaundice”) AND (“Nepal” OR “Bangladesh” OR “Pakistan”) AND (“seroprevalence” OR “prevalence” OR “seroepidemiology”). Filters were applied to limit results to studies published in English between January 1, 2000, and December 31, 2017. This strategy was adapted for the Cochrane Library and Embase. The detailed, final search strategy for each database is provided in S1 Table.
+
+## Selection process
+Eligible studies were independently screened by four researchers based on the inclusion criteria outlined in Table  . The screening process involved an initial review of titles and abstracts to generate a list of potentially relevant studies, followed by a full-text assessment for final inclusion. Duplicate records across databases were first identified and removed using EndNote, followed by manual verification to ensure accuracy. Records retrieved from the search were screened for eligibility, with 2 articles excluded due to language restrictions and 198 full-text articles excluded for reasons such as Not focused on HEV seroprevalence, or incomplete HEV seroprevalence data, as illustrated in the PRISMA flowchart (Fig.  ). Disagreements in the identification of relevant studies were discussed by the authors until a consensus was reached. The flow of article searches and selection, including the number of records identified, screened, and included, is presented in the PRISMA flowchart (Fig.  ). No automation tools were used in the process. Bibliographic database EndNote was used to manage references.
+
+ 
+
+## Data extraction
+Data were extracted independently by authors using a predefined template in Microsoft Excel.
+Extracted information included article details (PMID, year of publication, first author, time of sample collection, country/region), study design (sample size, age group, target population, clinical syndrome, study endpoint), pathogen identification methods (serology and/or RT-PCR). Information on HEV antibody type (IgM, IgG, or total) was extracted as reported by each study. However, since not all studies differentiated antibody classes, seroprevalence was recorded as presented in the original article.
+
+## Quality assessment
+To ensure the reliability of study outcomes, we used the integrated quality criteria for review of multiple study designs (ICROMS) as quality assessment tool [ ]. This tool allowed for a rigorous analysis of the studies, identifying limitations and considering them in the interpretation of the results. ICROMS comprises several criteria, each receiving a score based on whether the criterion is met. A score of 2 points is assigned if a criterion is fully met, 0 points if it is not met, and 1 point if it is unclear whether the criterion is met or if it is not applicable. The total score for each study is calculated by summing the points for all criteria, resulting in a global quality score. Each study design required a minimum global quality score to be eligible for inclusion in the data analysis. Any disagreements during the quality evaluation process were discussed among the researchers until a consensus was reached.
+
+## Effect measure
+Seroprevalence was selected as the primary effect measure. For this review, seroprevalence was defined as the proportion of individuals testing positive for anti-HEV IgG and/or IgM antibodies, depending on the assay used in each study. To address the statistical challenges of synthesizing proportions (e.g., bounded scales [0, 1] and skewed variances), logit transformation was applied for meta-analysis. Following synthesis, results were back transformed to the original percentage scale for presentation, accompanied by 95% confidence intervals (CIs) to quantify the precision of individual study estimates and the pooled seroprevalence.
+
+## Synthesis methods
+A random-effects meta-analysis was conducted using the ‘metaprop’ function in R’s meta package, employing the DerSimonian-Laird estimator to account for expected heterogeneity across diverse epidemiological settings. Heterogeneity was assessed using the I-squared (I²) statistic (to measure the percentage of variation due to between-study differences), the tau-squared (τ²) statistic (to estimate the variance of the true effect sizes), and the Cochran’s Q statistic (assessing whether observed variations exceed chance levels).
+Results were presented in forest plots to visually depict individual study estimates, pooled estimates, and corresponding 95% confidence intervals. Funnel plots were generated to visually explore potential publication bias, plotting study effect sizes (seroprevalence, Freeman-Tukey transformed) against their standard errors, with asymmetry indicating possible bias. Subgroup analysis by country was conducted to explore differences in seroprevalence across Nepal, Bangladesh, and Pakistan. Sensitivity analyses were planned but not conducted due to time and data constraints.
+
+## Reporting bias assessment
+Publication bias was assessed using funnel plots and Egger’s regression test. Asymmetry in the funnel plot or a significant Egger’s test (p < 0.05) would indicate bias toward publishing larger or statistically significant effects. However, interpretation was cautioned due to high heterogeneity, which can distort funnel plot symmetry independent of true bias.
+
+## Certainty assessment
+Given the high degree of heterogeneity observed in the meta-analysis, certainty in the pooled seroprevalence estimates is likely to be low. The wide confidence intervals indicate substantial imprecision. Although formal methods like the GRADE (Grading of Recommendations Assessment, Development, and Evaluation) approach were not used, the high heterogeneity and imprecision suggest cautious interpretation of the estimates. Despite these limitations, the seroprevalence estimates provide valuable insights into the HEV burden in the studied populations, though future research with more consistent study designs is needed for more robust conclusions.
+
+## Results
+
+## Study selection
+Initially, we identified a total of 1713 articles published between (2000 to 2017), of which 171 were identified from Cochrane library, 553 Medline (via PubMed), 963 Embase (via Ovid) and 26 articles were identified manually from the references of included studies. After screening for eligibility by reviewing full texts, 262 articles remained, of which 64 studies were ultimately included in the meta-analysis. The included studies comprised 16 articles on the general population, 30 on hepatic patients, and 18 on pregnant women published between 2000 and 2017 (Fig.  ).
+Exclusions were based on the following criteria: review articles, book chapters, topics unrelated to HEV infection in the specified populations (e.g., animal studies), duplicates, insufficient data, and non-English languages (Table  ). The majority of included studies were hospital-based, cross-sectional designs focusing on hepatic patients, with variations in study design and setting across the dataset.
+
+## Study characteristics
+The characteristics of the included studies are summarized below, categorized by the study population. Table  presents the study characteristics for the general population. Table  for pregnant women, and Table  for hepatic patients. Each table includes study design, sample size, seropositive number, proportion, diagnostic methods, and other relevant data.
+
+ 
+
+ 
+
+ 
+
+## Result of individual studies
+
+## HEV in general population
+A total of 16 studies reported HEV seroprevalence in the general population across Bangladesh, Nepal, and Pakistan (Table  ). Sample sizes ranged from 20 to 4,751 participants. Diagnostic methods included serology (IgG, IgM, or combined with molecular techniques), and study designs comprised cross-sectional studies and outbreak reports, with cross-sectional studies being more common. The summarized data for each study, including seroprevalence estimates and study characteristics, are presented in Table  .
+
+## HEV in pregnant women
+Eighteen studies reported HEV seroprevalence among pregnant women (Table  ). Sample sizes varied from 5 to 2,227 participants. The majority of studies used serology, while a few incorporated combined serology and molecular methods. Study designs included cross-sectional, cohort, and randomized controlled trials. Detailed seroprevalence estimates and relevant study information are summarized in Table  .
+
+## HEV in hepatic patients
+A total of 27 studies examined HEV seroprevalence among hepatic patients (Table  ). Sample sizes ranged from 12 to 4,751 participants. Diagnostic methods included serology (IgG, IgM, or combined with molecular techniques). Study designs included cross-sectional studies, cohort studies, and outbreak reports. The seroprevalence estimates and study characteristics for each included study are presented in Table  .
+
+## Characteristics and risk of bias in studies
+Pooled HEV seroprevalence estimates were calculated for three population categories using a random-effects model due to significant heterogeneity. In the general population, 16 studies (N = 9935) from Bangladesh (7), Nepal (5), and Pakistan (4) reported seroprevalence ranging from 1.0% to 74.6%. Most studies were cross-sectional, with one cohort and one outbreak report. The ICROMS scores ranged from 18 to 25, indicating moderate risk of bias.
+For pregnant women, 18 studies (N = 4,345) were analyzed, including data from Bangladesh (4), Nepal (4), and Pakistan (10). Cross-sectional studies were predominant, with a few cohort and randomized controlled trials. Seroprevalence ranged from 3.0% to 80.4%, with one study incorporating molecular techniques. The ICROMS scores (range: 18–25, median: 22) suggest moderate study quality.
+Among hepatic patients, 30 studies (N = 11,021) from Bangladesh (16), Nepal (7), and Pakistan (7) reported seroprevalence ranging from 3.7% to 97.9%. Cross-sectional designs were most common, and all studies used serology, with some incorporating molecular methods. The ICROMS scores (17–25) indicate moderate risk of bias, with higher-quality studies including Harun-Or-Rashid (2013) [ ] and Sazzad (2017) [ ]. Overall, ICROMS quality scores for included studies ranged from 18 to 25 out of a maximum of 30, indicating moderate to high methodological quality across studies.
+
+## Result of statistical synthesis
+
+## Seroprevalence in general population
+The pooled seroprevalence of anti-HEV antibodies in general population was estimated to be 23.8% (CI: 13.7%–35.5%), indicating a high burden of HEV exposure in the region. However, there was significant heterogeneity among studies (I² = 99.4%, τ² = 0.0668), suggesting variability in prevalence across different populations and study settings. The result of the meta-analysis, including individual study estimates and the pooled effect size is presented in the forest plot (Fig.  ).
+
+ 
+
+Study-specific seroprevalence estimates ranged from 1.1% (CI: 0.7%–1.7%) in Pakistan (Saeedi 2004) to 74.6% (CI: 62.5%–84.5%) in Bangladesh (Alam 2009). The prediction interval (0.0%–77.9%) suggests that future studies may report widely varying seroprevalence estimates, further supporting the presence of regional and demographic disparities in HEV exposure.
+Subgroup analysis by country showed differing seroprevalence estimates. In Bangladesh, the estimate was 26.72% (CI: 14.49% to 41.06%), with moderate heterogeneity (I² = 98.5%). Studies from Pakistan yielded a lower estimate of 19.44% (CI: 1.23% to 50.20%), with high heterogeneity (I² = 99.4%). The studies from Nepal showed an estimate of 23.30% (CI: 9.51% to 40.90%), with an I² of 99.2%. The test for subgroup differences between the countries was not statistically significant (p-value = 0.8809), suggesting that the variation in seroprevalence across countries may not be as large as initially expected (Table  ).
+
+ 
+
+## Seroprevalence in pregnant women
+The random effects model provided an overall pooled estimate of 41.23% (CI: 27.56% to 55.57%) seroprevalence. However, there was substantial heterogeneity (I² = 98.3%), indicating significant variability across the studies, which is further confirmed by the high values of tau² (0.0840) and tau (0.2898). The prediction interval ranged from 0.00% to 95.66%, suggesting wide uncertainty about the true seroprevalence (Fig.  ).
+
+ 
+
+Subgroup analysis by country showed seroprevalence of 24.8% (CI: 11.6%–41.1%) in Bangladesh, 52.2% (CI: 20.0%–83.5%) in Nepal, and 44.2% (CI: 25.8%–63.4%) in Pakistan. A test for subgroup differences showed no statistically significant variation between countries (Q = 3.64, p = 0.1623), suggesting that the observed differences in seroprevalence across countries may be due to chance rather than systematic differences (Table  ).
+
+## Seroprevalence in hepatic patient
+The meta-analysis of 30 studies (n = 11,021) in hepatic patients revealed a pooled HEV seroprevalence of 41.8% (CI: 30.7%–53.4%) using a random-effects model. Extreme heterogeneity was observed (I²=99.2%, Q = 3580.81, p < 0.0001), reflecting significant between-study variability. The prediction interval (0%–96.3%) indicates a wide range of expected seroprevalence in future studies, highlighting regional and methodological differences (Fig.  ).
+
+ 
+
+Subgroup analysis reveals notable differences between countries. For studies from Bangladesh, the estimated seroprevalence was 48.07% (CI: 36.76% to 59.47%), with moderate heterogeneity (I² = 98.6%) and a statistically significant Q-test for heterogeneity (p-value < 0.001). The studies from Nepal showed a slightly lower seroprevalence estimate of 47.26% (CI: 21.85% to 73.45%), with high heterogeneity (I² = 99.1%). In contrast, studies from Pakistan reported a substantially lower estimate of 15.62% (CI: 7.18% to 26.48%), with moderate heterogeneity (I² = 94.9%). The test for subgroup differences was significant (p-value = 0.0002), indicating that the country of origin significantly influenced the seroprevalence estimates (Table  ).
+
+## Result of publication bias
+Publication bias was evaluated using Egger’s test and funnel plot asymmetry analysis across all three study populations. For hepatic patients, Egger’s test indicated significant funnel plot asymmetry (t = −2.94, df = 28, p = 0.0066), suggesting potential publication bias, with a bias estimate of −8.77 (SE = 2.99). Similarly, in the pregnant women subgroup, a significant small-study effect was observed (t = 4.77, df = 16, p = 0.0002), with a bias estimate of 8.04 (SE = 1.69), indicating possible bias (Fig.  ). However, for the general population, Egger’s test did not detect significant asymmetry (t = 0.50, df = 14, p = 0.6235), suggesting no strong evidence of publication bias in this subgroup.
+
+ 
+
+## Discussion
+This systematic review and meta-analysis provide a comprehensive assessment of the seroprevalence of hepatitis E virus (HEV) in Nepal, Bangladesh, and Pakistan across three population groups: hepatic patients, general population, and pregnant women. Our findings reveal substantial HEV exposure, with pooled seroprevalence estimates of 23.8% in the general population, 41.2% in pregnant women, and 41.8% in hepatic patients. These results align with prior regional reports but highlight critical disparities in surveillance quality and epidemiological trends across South Asia [ , ].
+However, our estimate for the general population (23.8%) is lower than some reports from other low- and middle-income countries (LMICs), where seroprevalence estimates often exceed 30% in certain regions, reflecting higher endemicity and past exposure [ , ]. This difference may be attributable to variations in diagnostic methods, such as serology versus combined serology and molecular testing, as well as the focus on specific countries within South Asia, which might experience lower overall exposure compared to other LMIC settings.
+Subgroup analysis by country revealed significant variation in hepatic patients, with seroprevalence lowest in Pakistan (15.6%) compared to Bangladesh (48.1%) and Nepal (47.3%) (p = 0.0002). In contrast, no significant country-level differences were observed in the general population (p = 0.8809) or pregnant women (p = 0.1623), suggesting that other factors, such as study design or diagnostic variability, may contribute more to the observed heterogeneity in these groups. The high seroprevalence in pregnant women (41.2%) is particularly alarming, given the elevated mortality risk associated with HEV infection during pregnancy, which can reach 20–30% in the third trimester [ ]. Similarly, the 41.8% seroprevalence in hepatic patients underscores the vulnerability of this group, with prior studies reporting mortality rates of 43% at 1 month and 70% at 12 months following HEV infection in patients with pre-existing liver disease [ ]. The rising incidence of HEV co-infection with other hepatitis viruses (e.g., HBV, HCV) in hepatic patients, as noted in our review, further exacerbates morbidity and mortality in these populations [ ].
+The extreme heterogeneity across all categories (I²=98.3–99.4%) is a critical finding, likely driven by differences in study settings (e.g., hospital-based vs. community-based, outbreak vs. non-outbreak), study design (cross-sectional, cohort, or outbreak reports), population characteristics (age, urban–rural composition, high-risk groups), and diagnostic methods (e.g., IgG for past exposure in the general population and pregnant women, IgM for acute infection in hepatic patients, and variability in assay types) and regional sanitation levels. It should be noted that specific exposure or risk factor data (e.g., water quality, hygiene practices, or urban–rural differences) were not consistently reported in the included studies; therefore, the influence of these factors on heterogeneity remains speculative. The wide prediction intervals (e.g., 0.0%–96.3% for hepatic patients) highlight the uncertainty in applying these estimates to new settings, emphasizing the need for context-specific data. Publication bias was evident in the pregnant women (p = 0.0002) and hepatic patients (p = 0.0066) categories, suggesting that the pooled estimates for these groups may be overestimated due to the overrepresentation of smaller studies with higher seroprevalence. In contrast, the general population estimate showed no evidence of publication bias (p = 0.6235), enhancing its reliability. Significant publication bias detected in two subgroups suggests potential overestimation of pooled prevalence. Hence, these results should be interpreted cautiously, considering possible underreporting of studies with negative or lower prevalence findings. However, the high residual heterogeneity in Egger’s regression (τ² ranging from 25.65 to 166.26) indicates that methodological variability also contributes to the observed differences, and the subjectivity of visual funnel plot inspection warrants cautious interpretation, as noted in the methods [ ].
+These findings have significant public health implications for South Asia, where HEV remains a major cause of acute viral hepatitis. The high seroprevalence in pregnant women and hepatic patients underscores the urgent need for targeted interventions, such as improving access to safe drinking water and sanitation infrastructure, which are critical for reducing HEV transmission [ ]. The potential for HEV vaccination, which has demonstrated efficacy in endemic areas (Zhang et al., 2015), should be explored as a preventive strategy, particularly for high-risk groups like pregnant women [ ]. Public health policies should also prioritize education campaigns to raise awareness of HEV transmission risks, particularly during the monsoon season when outbreaks are more frequent. For hepatic patients, early diagnosis and management of HEV infection are essential to reduce mortality, especially in Bangladesh and Nepal, where serprevalence is highest.
+This study’s strengths include adherence to PRISMA guidelines, a comprehensive search strategy, a defined study period (2000–2017), and robust statistical analyses. However, several limitations should be considered. The high heterogeneity across studies limits the ability to draw country-specific conclusions, and publication bias was detected in the hepatic patient and pregnant women subgroups, suggesting underrepresentation of smaller studies with negative findings. Variations in diagnostic methods (serology alone versus combined serology and molecular testing) and the predominance of hospital-based studies may also influence prevalence estimates. Exposure-related determinants such as water quality, sanitation, hygiene practices, and urban–rural differences could not be assessed due to inconsistent reporting, though these factors likely contributed to the observed heterogeneity. Subgroup analysis by study design and sensitivity analyses were not feasible because of the imbalance in study numbers, differing designs, and diagnostic approaches. Although this review includes articles published only up to 2017, its findings remain relevant for understanding the HEV burden in South Asia.
+
+## Conclusion
+This systematic review and meta-analysis provide important insights into the seroprevalence of HEV in Nepal, Bangladesh, and Pakistan. However, given the substantial heterogeneity across studies and the evidence base limited to publications up to 2017, the findings should be interpreted with caution. The observed higher burden among hepatic patients and pregnant women underscores the continued need for strengthened surveillance, improved sanitation, and further research using standardized diagnostic approaches to better define the evolving HEV epidemiology in South Asia.
+
+## Supplementary Information
+
+Supplementary Material 1.
+
+## Abbreviations
+ELISA Enzyme linked immunosorbent assay
+HEHepatitis E
+HEVHepatitis E virus
+HIV Human immunodeficiency virus
+IFAImmunofluorescence assay
+IgG Immunoglobulin G
+IgM Immunoglobulin M
+LMICFSLow- and middle-income country
+RNA Ribonucleic acid
+RT-PCRReal-time polymerase chain reaction
+WHOWorld health organization
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Acknowledgements
+We would like to express our sincere gratitude to the corresponding authors of the studies included in this systematic review who generously shared full-text articles and supplementary data, enabling a comprehensive analysis. we acknowledge the researchers and public health professionals whose work over the past decades has contributed to the growing body of knowledge on hepatitis E virus epidemiology in South Asia.
+
+## Author contributions
+BPG led the conceptualization, data extraction, and methodology development. Formal analysis and data curation were conducted by BPG and CMW. original draft was prepared by BPG. Statistical analysis and revision of the manudescript were performed by CMW. Critical review was bone by VPG, AKS, AKS, DPG and NA.
+
+## Funding
+Part of funding received from Virology Society Nepal.
+
+## Data availability
+All data and materials have included in the manuscript.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare no competing interests.

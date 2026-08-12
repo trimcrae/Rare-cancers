@@ -1,0 +1,295 @@
+pmcSyst RevSyst Rev1798sysrevSystematic Reviews2046-4053BMCPMC12882189PMC12882189.112882189128821894151447510.1186/s13643-025-03059-930591ProtocolAssessing performance, calibration, and explainability of machine learning versus traditional models for early outcome prediction after spontaneous intracerebral hemorrhage: a systematic review and meta-analysis protocol
+BuFan XuRongzhen ZhaoXinyan HeQiaoxia WenYandi XiongLile http://orcid.org/0009-0000-4578-6383QinLanqinlan199708@163.com GuanHua1774055952@qq.com 1https://ror.org/05damtm70grid.24695.3c0000 0001 1431 9176Dongzhimen Hospital of Beijing University of Chinese Medicine, Beijing, China 2https://ror.org/01hcefx46grid.440218.b0000 0004 1759 7210Shenzhen People’s Hospital, Shenzhen, China 3Shenzhen Yantian District People’s Hospital, Shenzhen, China 1012026202615504424481310202521122025100120260802202608022026© The Author(s) 20262026https://creativecommons.org/licenses/by/4.0/Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.
+
+## Background
+Early outcome prediction after spontaneous intracerebral hemorrhage (ICH) is critical for patient management and counseling. Although machine learning (ML) models are increasingly applied, their comparative performance and explainability relative to traditional statistical models remain unclear.
+
+## Objectives
+To systematically compare the predictive performance, calibration, and explainability of ML versus traditional models for early outcomes after ICH.
+
+## Methods
+Following PRISMA-P guidelines and registered in PROSPERO (CRD420251166996), this systematic review and meta-analysis will include studies developing, validating, or comparing ML and traditional models for predicting early mortality or poor functional outcome (mRS ≥ 3 or GOS ≤ 3) after ICH. Data sources will include PubMed, Embase, Scopus, Web of Science, Cochrane CENTRAL, IEEE Xplore, and major Chinese databases (CNKI, Wanfang, VIP, CBM). Two reviewers will independently screen studies, extract data, and assess risk of bias using the PROBAST + AI tool, which extends and replaces the original PROBAST framework for prediction models incorporating machine learning. Pooled analyses will employ random-effects models; confidence in the body of evidence will be summarized using an adapted approach informed by GRADE principles for prognosis evidence.
+
+## Expected results
+This review will explore whether ML-based models demonstrate differences in discrimination, calibration, and explainability compared with traditional models.
+
+## Conclusions
+This review will provide a comprehensive, evidence-based assessment of prognostic modeling for ICH, guiding future model design, validation, and clinical application.
+
+## Systematic review registration
+PROSPERO CRD420251166996
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s13643-025-03059-9.
+
+## Keywords
+Intracerebral hemorrhageMachine learningPrognostic modelsCalibrationExplainabilitySystematic reviewMeta-analysisShenzhen Basic Research ProjectJCYJ20240813104110014GuanHuaResearch Fund of Shenzhen Health Economics Association202417GuanHuapmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© BioMed Central Ltd., part of Springer Nature 2026
+
+## Introduction
+Spontaneous intracerebral hemorrhage (ICH) is a severe subtype of stroke characterized by spontaneous rupture of cerebral vessels and bleeding within the brain parenchyma [ ]. Despite accounting for only 10–15% of all strokes, ICH contributes disproportionately to stroke-related mortality and long-term disability [ ]. Early prediction of poor outcomes, such as death or severe functional dependence, is crucial for informing clinical management, prognostic counseling, and the design of interventional studies.
+Over the past decade, machine learning (ML) techniques have gained increasing attention in prognostic modeling for ICH [ , ]. These methods can handle complex, nonlinear interactions between high-dimensional variables, offering potential advantages over traditional regression-based models [ ]. However, evidence regarding their comparative performance, calibration, and explainability remains limited and inconsistent. Existing studies vary substantially in design, sample size, data sources, feature selection, and validation methods, making it difficult to generalize their findings or draw consistent conclusions.
+Moreover, recent advances in multimodal data integration—combining clinical, imaging, and laboratory information—have expanded the potential of ML-based prognostic tools. However, the lack of standardized feature definitions, heterogeneous preprocessing pipelines, and inconsistent validation practices across studies has hindered evidence synthesis and clinical translation.
+In contrast, traditional statistical models—such as logistic or Cox regression—have been long established in clinical prediction research and remain the reference standard for outcome modeling [ , ]. Yet, their predictive power may be constrained by linear assumptions and limited capacity to incorporate complex multimodal data. It is therefore essential to systematically evaluate whether ML-based approaches genuinely offer superior predictive value or simply reflect overfitting or data-specific performance gains.
+This systematic review and meta-analysis aims to comprehensively evaluate and compare the predictive performance, calibration, and explainability of ML versus traditional models in forecasting early outcomes after spontaneous ICH. By identifying methodological strengths, weaknesses, and reporting gaps, this study will help clarify the clinical utility of ML-based models and guide future research toward robust, interpretable, and clinically meaningful prognostic tools in neurocritical care.
+Ultimately, by providing a transparent comparison of ML and traditional models, this review will not only summarize current evidence but also establish a methodological framework to inform future model development, validation, and implementation in clinical neurocritical care. The conceptual framework of this review is shown in Fig.  , outlining the comparative evaluation between ML and traditional prognostic models. 
+
+## Methods
+
+## Protocol and registration
+This protocol has been developed in accordance with the PRISMA-P 2015 statement and the Cochrane Handbook for Systematic Reviews of Interventions [ , ]. The protocol is prospectively registered in PROSPERO (CRD420251166996). All stages of the review—including literature search, study selection, data extraction, risk of bias assessment, and evidence synthesis—will follow predefined procedures to minimize bias and enhance consistency. Any substantive amendments will be justified in the final report and updated in the PROSPERO record.
+Because this review synthesizes data from previously published studies, ethical approval is not required. The protocol was internally peer-reviewed by two independent senior researchers in neurocritical care and clinical prediction modeling as part of an institutional, non-commercial funding scheme. This work is supported by existing academic funding and represents a secondary extension of prior research conducted under these grants.
+A completed PRISMA-P checklist is provided in Supplementary material S2. Methods for prognosis and prediction model reviews will also be considered where applicable.
+
+## Eligibility criteria
+The eligibility criteria were established a priori according to the PICOS framework. Additional detail beyond the PROSPERO record is provided to enhance clarity and reproducibility.
+
+## Population
+Adult patients (≥ 18 years) with spontaneous ICH confirmed by CT or MRI, typically admitted within 24–72 h of symptom onset. No restrictions on sex, ethnicity, country, or healthcare setting.
+
+## Exclusions
+Non-spontaneous ICH (traumatic, aneurysmal, vascular malformation–related, or anticoagulant-induced), pediatric populations, animal/preclinical studies, or mixed cohorts without separable ICH data. For studies including mixed adult and pediatric populations, inclusion will require that at least 80% of participants meet the adult eligibility criteria, or that extractable subgroup data for adults are available.
+
+## Intervention (exposure)
+Application of ML/AI-based predictive models for early clinical outcomes after ICH, including supervised techniques such as tree-based ensembles (random forest, gradient boosting, XGBoost, LightGBM), SVM, regularized regression (LASSO, ridge, elastic net), neural networks, and hybrid/stacked approaches. Inputs may include clinical, imaging, and laboratory variables [ – ].
+Eligible when ML is used for feature selection, multimodal fusion, or model calibration.
+
+## Exclusions
+ML used solely for image segmentation or diagnosis without outcome prediction; unsupervised clustering/descriptive analytics only; or purely traditional regression without algorithmic learning/penalization.
+
+## Comparator (control)
+Traditional statistical models or clinical risk scores used for early outcome prediction after ICH (e.g., multivariable logistic regression, Cox models; ICH score, FUNC score, ICH-GS; and other rule-based prognostic tools). Studies must report at least one comparable performance metric (AUC, accuracy, sensitivity, specificity, or calibration indices).
+In this review, “traditional models” refer to regression-based or rule-based prognostic models with explicit statistical formulations (e.g., logistic regression, Cox regression, and established clinical risk scores).
+
+## Exclusions
+No comparator model; univariable associations only; or non-outcome tasks (e.g., hematoma expansion prediction alone).
+
+## Outcomes
+Primary evaluation dimensions:Predictive performance (discrimination).
+AUC, accuracy, sensitivity, specificity, C-statistic.
+Calibration
+Brier score, calibration slope, intercept.
+Explainability
+variable importance and post hoc methods (e.g., SHAP, LIME) [ ].
+Early clinical outcomes
+Mortality
+all-cause death within 30–90 days after ICH;
+Functional outcome
+mRS or GOS, with poor outcome defined as mRS ≥ 3 or GOS ≤ 3.
+
+## Secondary outcomes
+Sample size and outcome prevalence; data source (single- vs multicenter); study design (retrospective vs prospective); feature selection and preprocessing; validation type (internal vs external); handling of missing data and class imbalance.
+Where available, we will extract decision-analytic measures—including net benefit and decision-curve analysis (DCA)—to contextualize model performance at clinically relevant threshold probabilities. If DCA is not reported, we will compute it when sufficient aggregate data are provided.
+
+## Study design and setting
+
+## Eligible designs
+Original, non-randomized studies developing, validating, or comparing predictive models (retrospective/prospective cohorts; registry-based/multicenter observational studies; secondary analyses of RCT datasets or large databases).
+
+## Exclusions
+Reviews, meta-analyses, editorials, commentaries, conference abstracts without sufficient methodological detail, case reports, animal studies. Clinical/hospital settings only; no geographic or income-level restrictions.
+To ensure methodological robustness, studies will be required to include at least 10 outcome events for model development or validation.
+
+## Information sources and search strategy
+A comprehensive search will follow the Cochrane Handbook and PRISMA-P 2015 standards.
+
+## Electronic databases
+From inception to final search date, we will search.
+PubMed/MEDLINE; Embase (Embase.com); Cochrane CENTRAL; Scopus; Web of Science – SCI; IEEE Xplore; CNKI; Wanfang; VIP (CQVIP); CBM.
+No restrictions on language, year, or country. Inclusion of Chinese databases mitigates language/publication bias and improves global representativeness [ ].
+
+## Search strategy
+Controlled vocabulary (MeSH/Emtree) and free-text terms related to ICH, ML/AI, and outcome prediction will be used with database-specific syntax.
+The complete search strings for all databases are provided in Supplementary material S1.
+The search will undergo independent PRESS peer review and will be re-run within two weeks prior to data extraction to capture newly indexed studies; any incremental inclusions will be tracked and reported in an updated PRISMA flow.
+
+## Grey literature and additional sources
+Searches will include ProQuest Dissertations and Theses Global, preprint servers (medRxiv, arXiv), conference proceedings (neurology/stroke/AI), and backward citation tracking. Citation alerts will be set in PubMed and Scopus.
+For non-English/Chinese reports, titles/abstracts will be screened using machine translation; potentially eligible full texts will be translated by bilingual researchers or professional services. Translation decisions and uncertainties will be logged and presented in Supplementary material.
+
+## Study selection process
+Records will be de-duplicated in EndNote and screened in Rayyan by two independent reviewers (titles/abstracts, then full texts). Disagreements will be resolved by consensus or a third reviewer.
+The study selection process will be illustrated in a PRISMA 2020 flow diagram (Fig.  ) documenting the number of records identified, screened, excluded, and included at each stage. 
+
+## Quality assurance of the search
+The strategy will undergo PRESS 2015 peer review. All modifications will be documented, and the search will be rerun immediately before data extraction.
+
+## Study selection and data management
+
+## Study selection
+Two reviewers will independently screen records against eligibility criteria; full texts will be assessed for inclusion. Inter-reviewer agreement will be quantified using Cohen’s κ (κ ≥ 0.80 as excellent).
+
+## Data extraction
+A piloted Excel form will capture.
+Study details; participant characteristics; model characteristics; performance metrics; explainability methods; and study-level covariates. Multiple models per study will be extracted separately. Authors will be contacted for clarifications where needed. Cross-checks will resolve discrepancies.
+To avoid double counting, we will identify overlapping cohorts (by institution, timeframe, registry) and preferentially include the most comprehensive or externally validated report. When multiple models per study are reported, we will pre-specify a hierarchy—externally validated > internally validated > apparent performance—and extract all models for qualitative synthesis while nominating one “index model” per study for primary pooling.
+We will extract and document how missing data were handled in each included study. No imputation will be performed at the review level; all analyses will rely on reported study-level results.
+
+## Data management and storage
+EndNote will manage references; Rayyan for screening; Excel for extraction/QA. A master decisions log will ensure auditability. Data will be stored on secure institutional servers with restricted access and version control. Upon review completion, the finalized dataset will be archived and may be made available to qualified researchers upon reasonable request following publication.
+
+## Risk of bias and quality assessment
+The methodological quality and risk of bias of the included studies will be assessed using PROBAST + AI [ ], which is specifically designed for evaluating the development and validation of prediction models. PROBAST + AI formally extends and replaces PROBAST-2019 by addressing additional sources of bias specific to machine learning and artificial intelligence–based prediction models. The use of PROBAST + AI ensures a structured and transparent evaluation of risk of bias and applicability across both ML and traditional statistical prediction models.
+In parallel with PROBAST, we will pilot a brief TRIPOD-AI/PROBAST-AI–informed checklist focusing on AI-specific reporting domains, including predictor handling, feature leakage safeguards, preprocessing transparency, hyperparameter tuning, and external validation. This checklist will be used to qualitatively summarize the sufficiency of AI-related reporting; it will not alter PROBAST domain ratings but will be presented descriptively to highlight reporting consistency and completeness.
+
+## Assessment domains
+PROBAST + AI evaluates key domains that contribute to potential bias and applicability concerns.
+Participants, Predictors, Outcome, and Analysis [ ]. Each signaling question within these domains will be answered as “Yes,” “Probably Yes,” “Probably No,” “No,” or “No information,” leading to a final judgment of low, high, or unclear risk of bias for each domain and overall.
+
+## Assessment process
+Two reviewers will independently assess each included study using a standardized PROBAST + AI checklist, following a calibration exercise on a subset of studies. Disagreements will be resolved by discussion or consultation with a third reviewer with expertise in clinical prediction modeling. Development and validation phases will be evaluated separately when both are reported. Inter-rater reliability will be quantified using Cohen’s κ (κ ≥ 0.80 = excellent).
+
+## Presentation of quality assessment
+Results will be presented in summary tables and as visualization plots generated in R 4.3 using the robvis package. Where feasible, sensitivity analyses will be conducted excluding studies at high risk of bias to examine the robustness of pooled estimates.
+
+## Data synthesis and statistical analysis
+
+## Overview
+We will perform structured synthesis, quantitative meta-analysis where appropriate, and otherwise narrative synthesis (Cochrane guidance).
+Analyses: R 4.3, packages metafor and meta.
+
+## Quantitative synthesis
+With ≥ 3 comparable studies (e.g., AUC, C-statistic, calibration slope/Brier), random-effects (DerSimonian–Laird) pooling will be used; REML as a robustness check [ ]. AUC may be logit-transformed; proportions via Freeman–Tukey transformation. Report 95% CIs.
+When studies report multiple test sets from the same cohort, we will avoid dependency by selecting a single non-overlapping test set per cohort. For AUC pooling, if necessary, we will harmonize time horizons (e.g., 30–90 days) using author-reported aligned estimates; unmatched horizons will be summarized narratively.
+
+## Heterogeneity
+Cochran’s Q and I2 (25/50/75% = low/moderate/high).
+If I2 > 75%, explore via subgroup/meta-regression [ ]. Prespecified subgroups: model type; data source; validation type; region; outcome type.
+Planned moderators for meta-regression include:
+Sample size (log-transformed), outcome prevalence, external vs internal validation, imaging inclusion (yes/no), multimodal inputs (clinical + imaging + labs), and region (Asia vs non-Asia). Meta-regression will be performed only when ≥ 10 studies contribute to a moderator.
+
+## Sensitivity analyses
+Exclude high risk-of-bias studies; exclude small samples/lacking external validation [ ]; apply alternative estimators (e.g., Hartung–Knapp–Sidik–Jonkman). Compare with main analyses.
+We will construct a bias-resistant analysis set excluding studies at high risk of bias (overall PROBAST + AI“high”), studies without any form of validation, and studies with extreme class imbalance (outcome prevalence < 10% or > 90%) unless appropriate rebalancing was applied and reported.
+
+## Narrative synthesis
+If pooling is infeasible, provide a structured narrative across performance, calibration, and explainability, with tables/figures.
+
+## Reporting bias and small-study effects
+Formal funnel plots and statistical tests for funnel plot asymmetry were developed primarily for intervention-effect meta-analyses and are not appropriate for prediction model performance syntheses. Therefore, they will not be applied in this review. Instead, potential reporting bias will be assessed qualitatively by examining study characteristics, completeness of reporting, and availability of protocols or registrations.
+
+## Statistical significance
+Two-sided tests; α = 0.05. Report per PRISMA 2020, with full code/parameters for reproducibility.
+
+## Confidence in the body of evidence
+There is no single official GRADE approach specifically for prediction model performance syntheses. Accordingly, the following framework is intended to provide a descriptive and supportive summary, rather than a formal GRADE rating. We will therefore summarize confidence in the body of evidence using an adapted framework informed by GRADE principles for prognosis evidence, considering risk of bias (PROBAST + AI), inconsistency, indirectness, imprecision, and potential reporting bias [ ]. Evidence summaries will be descriptively categorized (e.g., higher vs lower confidence) to aid interpretation, without implying formal GRADE ratings. Two reviewers will independently assess and summarize confidence in the body of evidence with calibration and consensus resolution. Summary tables will be prepared using structured evidence profiles; software such as GRADEpro GDT may be used solely as a reporting aid, without assigning formal GRADE certainty ratings [ ]. 
+We will adapt GRADE wording to the prediction context.
+Inconsistency will follow I2 and overlap of confidence intervals; indirectness will consider deviation from spontaneous ICH populations or early time windows; imprecision will incorporate optimal information size for AUC differences ≥ 0.05; we will note situations where findings appear consistent across externally validated studies and clinically meaningful, while avoiding formal upgrading/downgrading decisions.
+
+## Patient and public involvement
+No patients or members of the public were directly involved in the design, conduct, or reporting of this protocol. To enhance clinical relevance, outcome selection and interpretation frameworks were informed by consultation with clinical neurologists and data scientists experienced in ICH management and prognostic modeling.
+Upon publication, we aim to deposit the cleaned extraction sheet, analytic code, and figure scripts in an open repository (e.g., OSF/GitHub) with a permanent DOI; any licensed database search strings will be shared in full in Supplementary material to maximize reproducibility.
+
+## Expected results
+This systematic review and meta-analysis is expected to provide a comprehensive synthesis of the current evidence comparing ML and traditional statistical models for early outcome prediction following spontaneous ICH.
+This review will summarize and compare reported discrimination and calibration of ML-based and traditional models, and explore whether performance profiles differ across model types and validation settings (e.g., internal vs. external validation and multimodal vs. unimodal inputs) [ ].
+Furthermore, the review is expected to highlight important heterogeneity in model design and validation practices across studies.
+Specifically, differences are likely to emerge in sample size, feature selection techniques, data preprocessing strategies, and external validation efforts [ ].
+These methodological variations are anticipated to influence both predictive performance and generalizability of ML models.
+The review will also summarize the degree to which model explainability has been incorporated into current ML approaches.
+We will describe the extent to which interpretability techniques (e.g., SHAP, LIME, feature importance) are reported and evaluated. We will also identify gaps in explainability reporting and assessment across studies [ ].
+By quantitatively pooling available performance metrics, the meta-analysis will generate pooled estimates of discrimination and calibration, offering an evidence-based benchmark for future prognostic modeling efforts in ICH.
+Subgroup and sensitivity analyses are expected to identify factors—such as validation type, model complexity, and study quality—that account for observed heterogeneity and may guide the design of more robust prediction frameworks.
+Ultimately, this review aims to produce an evidence-informed summary of the strengths, limitations, and clinical applicability of ML-based versus traditional models.
+The results are expected to inform clinical researchers, neurologists, and data scientists about the practical potential and current methodological gaps in applying ML for early prognostication after ICH, providing direction for future studies and the development of clinically implementable predictive tools.
+
+## Discussion and significance
+
+## Rationale and expected contribution
+Spontaneous ICH remains one of the most devastating subtypes of stroke, characterized by high mortality and long-term disability despite advances in acute care. Accurate early prognostication is therefore crucial for guiding treatment decisions, resource allocation, and family counseling [ ].
+In recent years, the rapid growth of ML and artificial intelligence (AI) methods has offered new opportunities for enhancing prognostic modeling in neurological disorders. However, their comparative performance against traditional statistical models—and their interpretability in clinical contexts—remains incompletely understood.
+This review will systematically evaluate and synthesize the available evidence on ML and traditional models for early outcome prediction after ICH. By quantitatively comparing predictive performance, calibration, and explainability, the study aims to clarify whether ML approaches truly offer superior predictive value or complementary advantages in clinical decision-making [ , ]. The findings are expected to provide a methodologically rigorous and evidence-based overview that bridges the gap between computational innovation and bedside applicability.
+
+## Innovation and significance
+The proposed review has several innovative aspects:
+
+## Comprehensive methodological scope
+It integrates both English- and Chinese-language databases, thereby minimizing publication and language bias and ensuring global representativeness of the included evidence.
+
+## Tri-dimensional evaluation framework
+It concurrently examines performance, calibration, and explainability, reflecting a holistic view of model quality rather than focusing solely on discrimination metrics.
+
+## Standardized quality appraisal
+Risk of bias will be assessed using PROBAST + AI, and confidence in the body of evidence will be summarized using an adapted, GRADE-informed descriptive approach (without formal GRADE ratings).
+
+## Translational potential
+By identifying methodological strengths and weaknesses, the findings will inform the development of future ML models that are both accurate and clinically interpretable, facilitating responsible implementation in neurocritical care [ ].
+Together, these features will make this review one of the first comprehensive efforts to systematically appraise ML versus traditional models for ICH outcome prediction.
+
+## Limitations and anticipated challenges
+Several challenges are anticipated.
+First, heterogeneity across studies in terms of patient populations, imaging protocols, model development procedures, and outcome definitions may limit the feasibility of quantitative pooling [ ].
+Second, reporting quality and incomplete data (e.g., missing calibration metrics or external validation) may hinder direct comparison between models.
+Third, the rapid evolution of ML methods may lead to time-related publication bias, as newer algorithms may not yet be extensively validated or published.
+To mitigate these challenges, the review will apply robust inclusion criteria, standardized data extraction templates, and sensitivity analyses to ensure methodological consistency and interpretative clarity.
+Where quantitative synthesis is not feasible, a structured narrative synthesis will be presented to summarize patterns and highlight key research gaps.
+
+## Future directions and clinical relevance
+The findings of this review are expected to guide both researchers and clinicians toward more reliable and interpretable predictive modeling practices [ ].
+Future research should focus on:
+Conducting prospective, multicenter validations of ML-based prognostic tools [ ];
+Integrating multimodal data (e.g., clinical, imaging, and biomarker information) to enhance model robustness [ ]; and.
+Establishing standardized reporting frameworks (e.g., TRIPOD-AI, PROBAST-AI) to improve transparency and reproducibility in prognostic modeling [ , ].
+Ultimately, this review will contribute to advancing precision medicine in neurocritical care, promoting the responsible use of ML in the management of ICH, and supporting the translation of data-driven models into clinical practice.
+
+## Supplementary Information
+
+Supplementary Material 1. Search Strategy. Detailed database search strategies including MeSH/Emtree terms and Boolean operators.
+Supplementary Material 2. PRISMA-P 2015 Checklist. Completed checklist indicating adherence to each PRISMA-P item.
+
+## Abbreviations
+AIArtificial intelligence
+AUCArea under the curve
+CBMChinese Biomedical Literature Database
+CENTRALCochrane Central Register of Controlled Trials
+CNKIChina National Knowledge Infrastructure
+DCADecision Curve Analysis
+GOSGlasgow Outcome Scale
+GRADEGrading of Recommendations, Assessment, Development, and Evaluation
+ICHIntracerebral hemorrhage
+IEEEInstitute of Electrical and Electronics Engineers
+I2I-squared statistic (measure of heterogeneity)
+LASSOLeast Absolute Shrinkage and Selection Operator
+LightGBMLight Gradient Boosting Machine
+MLMachine learning
+mRSModified Rankin Scale
+OROdds ratio
+PICOSPopulation, Intervention, Comparator, Outcomes, and Study design
+PRISMAPreferred Reporting Items for Systematic Reviews and Meta-Analyses
+PRISMA-PPreferred Reporting Items for Systematic Review and Meta-Analysis Protocols
+PROBASTPrediction Model Risk of Bias Assessment Tool
+PROSPEROInternational Prospective Register of Systematic Reviews
+RFRandom Forest
+RCTRandomized controlled trial
+REMLRestricted maximum likelihood
+SVMSupport vector machine
+TRIPODTransparent Reporting of a multivariable prediction model for Individual Prognosis or Diagnosis
+TRIPOD-AITRIPOD extension for Artificial Intelligence-based models
+VIPChongqing VIP Information Database
+Web of Science–SCIScience Citation Index Expanded
+95% CI95% Confidence interval
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Rongzhen Xu and Xinyan Zhao contributed equally to this work and should be considered co-first authors.
+
+## Acknowledgements
+The authors would like to acknowledge the support of the funding support described in the Funding section and the helpful feedback from peer reviewers.
+
+## Authors’ contributions
+FB and LQ conceived and designed the study. FB, RX, and XZ developed the search strategy, performed the literature screening, and drafted the initial manuscript. LQ supervised the methodological design, provided clinical and statistical expertise, and critically revised the manuscript for important intellectual content. All authors contributed to the interpretation of data, approved the final version of the manuscript, and agreed to be accountable for all aspects of the work. RX and XZ contributed equally to this work and should be considered co-first authors.
+
+## Funding
+This study was supported by the Shenzhen Basic Research Project (JCYJ20240813104110014) and the Research Fund of Shenzhen Health Economics Association (202417).
+
+## Data availability
+No new data were generated or analyzed in this study. Data supporting the findings of this protocol will be obtained from previously published studies. Upon completion of the review, the finalized extraction dataset and analysis files will be available from the corresponding author upon reasonable request.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Because this review synthesizes data from previously published studies, ethical approval is not required.
+
+## Consent for publication
+Since no primary data is collected and only published studies are included, consent for publication is not required.
+
+## Competing interests
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.

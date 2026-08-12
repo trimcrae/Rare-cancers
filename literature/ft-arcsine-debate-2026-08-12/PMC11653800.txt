@@ -1,0 +1,165 @@
+48bmcneulBMC NeurologyBMC NeurolBMCPMC1165380011653800116538003969602910.1186/s12883-024-03968-7A systematic review and meta-analysis show a decreasing prevalence of post-stroke infections
+Awere-DuoduAaron DarkwahSamuel OsmanAbdul-Halim DonkorEric S 1Department of Medical Microbiology, University of Ghana Medical School, Accra, Ghana ✉Corresponding author.
+181220242447947918122024© The Author(s) 2024Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+
+## Background
+Infection is a common complication in the acute phase after stroke; a systematic review in 2011 reported a post-stroke infection prevalence of 30%. Despite the plethora of primary data on post-stroke infections in recent times, a systematic review that synthesizes the data to provide comprehensive information to guide preventive, control, and management efforts is yet to be undertaken. This systematic review, therefore, aimed at bridging this gap by describing the epidemiology of post-stroke infections including the global prevalence and the associated mortality rates.
+
+## Methodology
+A comprehensive search was conducted in PubMed, SCOPUS, and Web of Science resulting in 2210 studies, of which 73 studies covering 32,109,574 stoke patients were included in the systematic review. Prevalence data on defined post-stroke infections were extracted for analysis in RStudio version 4.3.3.
+
+## Results
+The pooled prevalence of post-stroke infections and mortality rates were 9.14% and 15.91% respectively. The prevalence of post-stroke infections was highest for pneumonia (12.4%), followed by urinary tract infection (8.31%). Geographically, the prevalence of post-stroke infections for the various continents were Europe (10.41%), Africa (10.22%), South America (8.83%), North America (8.15%), Asia (8.09%), and Australia (7.88%). Common etiological agents of post-stroke infections included multidrug-resistant organisms particularly, Carbapenem-resistant Klebsiella pneumoniae (15.4-31.8%), Methicillin-resistant Staphylococcus aureus (9.8-15.4%), and Carbapenem-resistant Acinetobacter baumannii (38.5%).
+
+## Conclusion
+This systematic review indicates about a 3-fold decline in the global prevalence of post-stroke infections in the last decade. Pneumonia is the most common post-stroke infection. Europe and Africa have the highest prevalence of post-stroke infections.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12883-024-03968-7.
+
+Keywords: Post-stroke infections, Pneumonia, UTI, BSI, Sepsis, Epidemiology
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Aug 9; Accepted 2024 Nov 19; Collection date 2024.
+
+## Introduction
+Stroke is a medical condition characterized by a sudden and localized disruption of brain function resulting from infarction or hemorrhage in the brain [ ]. The plethora of bodily functions coordinated by the brain results in a wide range of body dysfunctions in the event of a stroke. Approximately 50% of stroke victims are left permanently disabled due to the extensive impact on these functions [ ]. In 2016, there were 13.6 million new cases of stroke worldwide, resulting in 5.5 million deaths [ ]. Of these, ischemic strokes accounted for 2.7 million deaths, while hemorrhagic strokes were responsible for 2.8 million deaths. The World Stroke Organization (WSO) reported in 2022 that stroke was the second most common cause of death and the third leading cause of combined death and disability worldwide, underscoring its significant threat to public health [ ]. The epidemiology of stroke appears to be changing in several facets including the affected age. For instance, a study conducted by Feigin et al. in 2022 reported a 22% prevalence of stroke in individuals aged 15 to 49 years [ ]. This increasing occurrence of stroke in young people has since led to a new understanding that stroke is no longer a disease of the old [ , ].
+The early detection and treatment of stroke are associated with a lesser impact on patients with a chance of recovery in a subset of these patients [ ]. However, post-stroke life is worsened by a high predisposition to infections that contribute massively to the high mortality rates of the condition. This high predisposition has been attributed to post-stroke immunosuppression caused by stress response and imbalance in the involuntary nervous system, which leads to lymphopenia, and deactivation of lymphocytes and monocytes, amongst other immunologic effects [ , ]. Post-stroke infections could be community- or hospital-related, and notable among these infections are pneumonia and urinary tract infection (UTI). A systematic review and meta-analysis conducted by Westendorp et al. in 2011 reported that post-stroke infections had a pooled prevalence of 30%, with a prevalence of 10% for both pneumonia and UTI [ ]. This study included research from high-income countries and other parts of the world, but none from Africa. In recent times, several studies on stroke have been conducted among African populations [ – ]. Additionally, there have been notable changes in the epidemiology of stroke since Westendorp et al. conducted their study over a decade ago. Therefore, it is imperative to conduct an updated systematic review and meta-analysis of post-stroke infections to ascertain new infection patterns influenced by changes in stroke epidemiology. Our study aims to provide a more comprehensive overview of the global prevalence of post-stroke infections by identifying the most prevalent infections and infection rates among different types of strokes, and comparing these rates across continents and countries, along with the associated mortality rates.
+
+## Methodology
+
+## Search strategy
+This study was conducted per the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) guidelines of 2020 [ ]. Three databases, SCOPUS, PubMed, and Web of Science, were elaborately searched for relevant studies in May 2024. One Boolean search string was used in PubMed and Web of Science while another was used in SCOPUS (Supplementary Table  ).
+
+## Study selection
+The study selection criteria used are as follows:
+
+Inclusion criteria;
+
+Population of patients with acute stroke.
+Studies that reported rates of infections in the acute phase after stroke. The acute phase of a stroke refers to the initial period (defined by the first 24 hours to a few days) following the onset of stroke symptoms when immediate medical intervention is critical.
+Studies that included patients with ischemic or hemorrhagic stroke.
+
+Exclusion criteria;
+
+Reviews, systematic reviews, meta-analyses, case series, case reports, and clinical trials.
+Studies with ≤ 25 patients.
+Stroke patients in rehabilitation settings.
+Studies that included only a small subgroup of stroke patients, such as those restricted to specific age groups or stroke subtypes.
+Studies that did not provide a clear definition of infection.
+
+## Data extraction
+The relevant data extracted from the included studies for the systematic review were the author’s name, study period, study design, location, type of stroke, post-stroke infections, etiologic agents, and prescribed antibiotics (Supplementary Table  ). For the meta-analysis portion of the study, the number of patients diagnosed with a defined post-stroke infection and the total number of patients used in the study were extracted with adherence to the set inclusion criterion of ≥ 25 stroke patients. Additionally, data on the number of patients who died as a result of a defined post-stroke infection were extracted. The specific post-stroke infections for which data were extracted included pneumonia, UTI, sepsis, bloodstream infection (BSI), respiratory tract infection (RTI), and other infections (infectious diarrhea, intravenous site infection, and gastrointestinal infection).
+
+## Quality Assessment
+Twelve items from the Strengthening the Reporting of Observational Studies in Epidemiology (STROBE) checklist for reporting observational studies were utilized to assess the quality of the included studies. A response of “Yes” was assigned to studies that provided adequate information on an item’s recommendations, while a response of “No” was given to those with inadequate information or unclear descriptions. The studies were then categorized into three quality levels: High quality (“Yes” for 9 to 12 items), Moderate quality (“Yes” for 5 to 8 items), and Low quality (“Yes” for 1 to 4 items) (Supplementary Table  ).
+
+## Data analysis
+The meta-analysis was conducted in RStudio version 4.3.3 using the meta package. The Freeman-Tukey double arcsine transformation standardized variances among the 73 included studies. The DerSimonian-Laird method was used to generate the pooled prevalences. The I [ ] statistic was used in assessing the heterogeneity in study results with values of 0%, 25%, 50%, and ≥ 75% connoting no, low, moderate, and high heterogeneity respectively. Confidence intervals (95% CI) for the I [ ] statistics were generated using the Jackson method. The funnel plot and Egger’s regression test were used to visualize and determine the statistical significance of publication bias, respectively. Additionally, a sensitivity analysis and meta-regression analysis were performed to assess potential sources of heterogeneity in our meta-analysis. Statistical significance was pegged at a p-value of < 0.05.
+
+## Results
+
+## Search results
+The search results were limited to studies published in the English language from 2012 to 2024. Subsequently, a total of 2210 results were obtained from the databases. After the resolution of 466 duplicates, 1959 studies were screened for eligibility (Fig.  ). The screening process was done in three phases, including title screening, abstract screening, and full-text screening, by two independent investigators. In the event of a discrepancy, a third investigator served as the arbiter. Twenty-five eligible papers were excluded after full-text screening (Supplementary Table  ).
+ 
+
+## Description of study characteristics
+Seventy-three (73) studies from 28 countries that were conducted from 2002 to 2023 and published from 2012 to 2024 were included in this review [ – , – ]. The studies spanned 6 continents, namely, Africa (5 countries; 5 studies), Asia (9 countries; 29 studies), Australia (1 country; 2 studies), Europe (10 countries; 29 studies), North America (1 country; 7 studies), and South America (1 country; I study). The distribution of studies based on the stroke type was as follows: ischemic stroke only (30/73 studies), hemorrhagic stroke only (3/73 studies), unspecified stroke type (18/73 studies), ischemic/hemorrhagic/unspecified stroke type (8/73 studies), ischemic/hemorrhagic stroke (11/73 studies), ischemic/unspecified stroke type (2/73 studies), and ischemic/hemorrhagic/mixed (1/73 studies). Regarding post-stroke infections, pneumonia was reported in 5 studies, UTI in 13 studies, and both pneumonia and UTI in 55 studies. Seventeen (17) studies reported clinical characteristics such as dysphagia (15 studies), lowered consciousness (2 studies), and urine incontinence/retention (8 studies). Subjects included in the studies spanned the age range of 16 to 100 years. The National Institute of Health Stroke Scale (NIHSS) scores were reported by 42 studies with 19 studies and 23 studies reporting median and mean scores respectively. The median scores ranged from 0 to 17.06 while the mean scores ranged from 2 to 17. Three (3) studies reported prescribed antimicrobials. The commonly prescribed antibiotics were ceftriaxone (6–79%), ampicillin/sulbactam (57%), piperacillin-tazobactam (14–52%), meropenem (3.7–42%), cefixime (48%), vancomycin (3-39%), metronidazole (22%), azithromycin (20%), moxifloxacin (14%), ceftazidime (13%), amikacin (12%), ciprofloxacin (10%), gentamicin (3–10%), and levofloxacin (10%) (Supplementary Table  ).
+A total of 177 prevalence data of defined post-stroke infections were extracted from the 73 included studies. The total prevalence data extracted for the specific post-stoke infections are as follows; pneumonia (72 prevalence data), UTI (84 prevalence data), sepsis (9 prevalence data), BSI (9 prevalence data), and other infections (3 prevalence data). Additionally, 7 data on mortality were extracted from 5 studies comprising 3 mortality prevalence data for pneumonia and 4 mortality prevalence data for UTI.
+
+## Prevalence of Post-stroke infections
+The overall pooled prevalence of post-stroke infections in 32,109,574 stroke patients was 9.14%. (95% CI [8.23; 10.10]). The prevalence of specific post-stroke infections was highest in pneumonia at 12.14% (95% CI [11.13; 13.18]) followed by UTI at 8.31% (95% CI [6.97; 9.75]) (Fig.  ).
+ Generally, retrospective studies included in the systematic review reported relatively higher prevalence of post-stroke infections compared to prospective studies (Table  ).
+ 
+
+## Subgroup analyses
+The prevalence of post-stroke infections was higher in hemorrhagic stroke (12.3%) compared to ischemic stroke (7.32%) (Fig.  ). Prevalence of post-stroke infections for the various continents were Europe (10.41%), Africa (10.22%), South America (8.83%), North America (8.15%), Asia (8.09%), and Australia (7.88%) (Supplementary Fig.  ). Prevalence of post-stroke infections based on per capita income were low-income countries (16.33%), lower-middle-income countries (LMIC) (9.60%), upper-middle-income countries (8.21%), and high-income countries (9.17%) (Supplementary Fig.  ).
+ 
+
+## Sensitivity analysis
+The impact of each study on the pooled prevalence of post-stroke infections was assessed using a leave-one-out sensitivity analysis. The results showed that excluding any single study did not significantly change the pooled prevalence of post-stroke infections and combined effects, indicating the robustness of our findings (Supplementary Table  ).
+
+## Meta-Regression
+A random effects meta-regression analysis was used to assess the effect of three study characteristics on the observed wide variations in effect sizes in this study. Meta-regression analysis for BSI could not be generated by our model due to statistical considerations such as collinearity. Type of stroke, continent, and post-stroke infection were used as covariates in determining the source of heterogeneity. Hemorrhagic stroke, pneumonia, and UTI had statistically significant strong positive associations with the observed heterogeneity. Ischemic stroke had a minimally significant negative association with the observed heterogeneity. The continents represented in this study did not significantly affect heterogeneity (Table  ).
+ 
+
+## Microbial etiology of Post-stroke infections
+Only 5 of the 73 studies included in the systematic review reported on the etiology of post-stroke infections. The commonest organisms reported were Klebsiella pneumoniae (8.5-41.5%), Acinetobacter baumannii (16.8%), Enterococcus faecalis (18.5%), Staphylococcus aureus (11.5-15%), Klebsiella oxotyca (12.9%), Proteus mirabilis (12.9%), Escherichia coli (1.9-11.2%), Pseudomonas aeruginosa (11.2%), and Enterobacter aerogenes (9.3%). Other etiological agents were multidrug-resistant organisms such as Carbapenem-resistant Klebsiella pneumoniae (15.4-31.8%), Methicillin-resistant Staphylococcus aureus (9.8-15.4%), and Carbapenem-resistant Acinetobacter baumannii (38.5%).
+
+## Mortality rate of Post-stroke infections
+The pooled mortality rate of post-stroke infections was 15.91% (95% CI [8.24; 25.31]). The estimated mortality rates of pneumonia and UTI were 21.60% (95% CI [0.10; 62.26]) and 12.16% (95% CI [0.00; 40.31]) respectively (Fig.  ).
+ 
+
+## Heterogeneity and publication Bias
+The Egger’s regression test had a p-value of 0.621 indicating no publication bias in the included studies. The funnel plot illustrated a wider variation in sample sizes of the included studies (Supplementary Fig.  ). The estimated prevalences of the defined post-stroke infections had significant heterogeneity (H > 1 and I2 > 75%). Additionally, the overall pooled prevalence of post-stroke infections had a significant heterogeneity (H = 85.32 and I2 = 100% [100%; 100%]).
+
+## Discussion
+This paper provides an updated systematic review of post-stroke infections after a previous one by Westendorp et al. [ ] in 2011. It is worth noting that our systematic review analyzed data from 32,109,574 stroke patients while that of Westendorp et al. [ ] reported on 137,817 stroke patients. With a sample size of about 232 times greater than that of Westendorp et al. [ ], our systematic review tends to provide more reliable information. The age distribution of patients in this study was 16 to 100 years. The diagnosis of stroke in individuals as young as 16 years in this study confirms a major change in the epidemiology of the disease – a transition from adults into adolescents [ ]. A probable explanation for our finding could be the increasingly high occurrence of overweight and obesity, which are modifiable risk factors for stroke in children and adolescents owing to a shift in dietary choices to junk foods and less daily physical activity in many parts of the world [ ]. Our finding is worrying as the lowest age of diagnosis of stroke keeps decreasing while optimal care for stroke patients below 50 years is not yet known [ ].
+The pooled prevalence of post-stroke infections in this study was 9.14%, which is considerably lower than the prevalence of 30% reported by Westendorp et al. [ ]. The difference between the prevalence of post-stroke infections in the two systematic reviews could be attributed to the more advanced management of stroke patients in established stroke units worldwide in recent times, which has led to better outcomes due to improved preventive monitoring and patient care. The study by Westendorp et al. also reported a prevalence of 10% for each of pneumonia and UTI. By comparison, our systematic review found the prevalence of pneumonia (12.14%) to be higher and that of UTI (8.31%). The prevalence of BSI and sepsis were 1.79% and 4.95% respectively, probably reflecting the immunodepression manifested by stroke. Other infections such as infectious diarrhea, gastrointestinal infection, and intravenous site infection had a prevalence of 2.67%. These infections could stem from contamination from the hospital environment during admission.
+Generally, there was a lower prevalence of post-stroke infections in prospective studies compared to retrospective studies in our systematic review. In recent times, effective stroke management including prophylactic antibiotic therapy, recanalization, and specialized care for stroke patients in established stroke units has advanced, which could account for the observed decrease in the prevalence of some post-stroke infections. Additionally, improvements in diagnostic practices such as modern medical imaging techniques and the adoption of standardized stroke assessment tools to monitor disease progression could also contribute to the observed decrease in post-stroke infections.
+The prevalence of post-stroke infections was higher in hemorrhagic strokes, at 12.03%, compared to ischemic strokes, which had a prevalence of 7.32%. For unspecified strokes, the prevalence was 10.30%. A large number of strokes remain unspecified, particularly in low-income and lower-middle-income countries, due to the lack of advanced modern imaging technology. Even when such technology is available, the cost of these services often prevents patients from accessing them.
+In the World Bank country classification subgroup analysis, low-income countries had the highest prevalence of post-stroke infections, at 16.33%, while upper-middle-income countries had the lowest, at 8.21%. However, the result for low-income countries is based on a single study and may not be entirely reliable and representative. Nonetheless, the finding is not surprising, as a country’s economic status hugely influences the quality of healthcare delivery. Low-income countries often lack the resources needed for specialized care, such as stroke care.
+Interestingly, the post-stroke infection rates in lower-middle-income countries (9.60%) and high-income countries (9.17%) were not significantly different. This is surprising, given that high-income countries typically have the best facilities and resources for specialized care, including stroke care. This unexpected finding could be attributed to several factors including the growing issue of antimicrobial resistance which is present in all parts of the world; we observed multidrug-resistant organisms such as Methicillin-resistant Staphylococcus aureus and Carbapenem-resistant Klebsiella pneumoniae as common etiological agents of post-stroke infections in this systematic review. Even in settings with excellent facilities and preventive care practices, resistant bacterial strains can make treating post-stroke infections challenging. Similar reasons could account for the higher prevalence of post-stroke infections observed in Europe (10.41%) as compared to Africa (10.22%) and Asia (8.09%) in our continental subgroup analysis. Continental predictors were found not to significantly influence heterogeneity in this study. However, it is worth noting that the prevalence results of Africa and South America cannot be largely relied upon due to the limited number of studies from both continents. Hence, more research on post-stroke infections should be conducted in these regions.
+The mortality rate of post-stroke infections was 15.91% with that of pneumonia being 21.60% and UTI being 12.6%. Our pooled mortality rate is lower than the 20% and 48% mortality rates reported by Shi et al. [ ] and Westendorp et al. [ ] respectively . Our observed mortality rate for pneumonia is lower than the 26% reported by Westendorp et al., while the mortality rate for UTIs is slightly higher than the 12% and 12.2% reported by Westendorp et al. [ ] and Koennecke et al. [ ], respectively. The high mortality rate of pneumonia is unsurprising as pneumonia is a more life-threatening infection compared to UTI.
+Our meta-analysis revealed no publication bias in our included studies as confirmed by Egger’s regression test (p-value = 0.621). This suggests that over the past decade, stroke researchers have consistently published their study findings, whether significant or not, which is highly commendable. The practice of unbiased publication of study results ensures the availability of reliable data on stroke. This data can guide effective disease monitoring and inform policy planning and implementation worldwide. Our finding contrasts with the previous systematic review on post-stroke infections by Westendorp et al. which reported a publication bias [ ].
+One limitation of this study is its heterogeneity. Our meta-regression identified hemorrhagic stroke, pneumonia, and UTI as significant contributors to this heterogeneity. Additionally, most of the included studies were retrospective and had larger sample sizes compared to the prospective studies, which likely contributed to the observed heterogeneity in the results. The wide confidence intervals for mortality outcomes could also be attributed to this data variability. Stroke severity scores from studies that did not use the NHISS were excluded from this review, potentially introducing bias in the reported stroke severity scores. Furthermore, this study could not adequately report antimicrobial resistance in the pathogens causing post-stroke infections due to limited data in the included studies.
+
+## Conclusion
+This systematic review indicates about a 3-fold decline in the global prevalence of post-stroke infections in the last decade. The findings of a younger age of stroke diagnosis, a major reduction in the pooled prevalence of post-stroke infections, and the changes in the prevalence of common post-stroke infections confirm a change in the epidemiology of stroke. While there have been major advancements in stroke management, leading to a notable reduction in the pooled prevalence of post-stroke infections observed in this study, accessibility to these services remains a challenge in some parts of the world. This is especially true in developing countries, where the cost of such specialized care can be prohibitively expensive for many stroke victims. Hence, there is the need to establish free or subsidized stroke care units in developing countries to ensure optimum care for all stroke victims. Additionally, more research is needed to assess resistance patterns in causative organisms of post-stroke infections.
+
+## Electronic supplementary material
+Below is the link to the electronic supplementary material.
+
+Supplementary Material 1
+
+Supplementary Material 2
+
+## Acknowledgements
+None.
+
+## Abbreviations
+BSIBloodstream infection
+CIConfidence Interval
+NHISSNational Institute of Health Stroke Scale
+PRISMAPreferred Reporting Items for Systematic Reviews and Meta-Analyses
+RTIRespiratory tract infection
+STROBEStrengthening the Reporting of Observational Studies in Epidemiology
+UTIUrinary tract infection
+WSOWorld Stroke Organization
+
+## Author contributions
+E.S.D. and A.A.-D. conceived the idea for this study. A.A.-D. and S.D. conducted the literature search, while A.A.-D. and A.-H.O. were responsible for data extraction. The data analysis was performed by A.A.-D. and A.-H.O., who drafted the original manuscript. E.S.D. and S.D. revised the final manuscript. All authors reviewed and approved the final version of the manuscript.
+
+## Funding
+“This review paper was supported by the Fogarty International Center of the National Institutes of Health through the Research and Capacity Building in Antimicrobial Resistance in West Africa (RECABAW) Training Programme hosted at the Department of Medical Microbiology, University of Ghana Medical School (Award Number: D43TW012487). The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.”
+
+## Data availability
+Data will be made available upon request from the authors.
+
+## Declarations
+
+## Ethics approval and consent to participate
+This study required no ethical approval or consent from patients.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Material 1
+Supplementary Material 2
+
+## Data Availability Statement
+Data will be made available upon request from the authors.
