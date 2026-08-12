@@ -91,6 +91,27 @@ def main() -> int:
     results.append(_try("s3:ListBucketMultipartUploads",
                         lambda: s3.list_multipart_uploads(Bucket=bucket, MaxUploads=1)))
     results.append(_try("s3:GetBucketTagging", lambda: s3.get_bucket_tagging(Bucket=bucket)))
+
+    # ⛔ THE QUESTION THAT DECIDES WHETHER ARCHIVING WORKS AT ALL, and GetBucketVersioning is denied.
+    # If versioning is ENABLED, copying an object onto itself writes a NEW version and the old one stays
+    # in Standard, still billing — so the transition would report success and save nothing. That is the
+    # "reports while measuring nothing" shape, and it would only surface on next month's bill.
+    # `ListObjectVersions` answers it from the objects themselves: a bucket that never had versioning
+    # returns every object with VersionId 'null'. A real version id means versions exist.
+    def _versions():
+        r = s3.list_object_versions(Bucket=bucket, MaxKeys=200)
+        vs = r.get("Versions", [])
+        ids = {v.get("VersionId") for v in vs}
+        row = {"sampled": len(vs),
+               "all_null_version_ids": ids == {"null"} if ids else None,
+               "distinct_version_ids": len(ids),
+               "delete_markers": len(r.get("DeleteMarkers", [])),
+               "noncurrent_sampled": sum(1 for v in vs if not v.get("IsLatest"))}
+        results.append({"capability": "s3:ListBucketVersions (versioning evidence)",
+                        "allowed": True, **row})
+    v = _try("s3:ListBucketVersions", _versions)
+    if not v["allowed"]:
+        results.append(v)
     results.append(_try("ce:GetCostAndUsage", lambda: boto3.client("ce", region_name="us-east-1").
                         get_cost_and_usage(
                             TimePeriod={"Start": (_dt.date.today() - _dt.timedelta(days=2)).isoformat(),
