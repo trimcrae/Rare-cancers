@@ -255,7 +255,26 @@ def classify(h):
 
     ⛔ THESE LABELS ARE A PARTITION, NOT A VERDICT. `gap_disrupted_no_cleavage` says where the
     mismatch fell; it does NOT say the transcript is safe, and reading it as zero risk is the
-    defect `grade_panel()` below exists to correct — see DISCRIMINATION_MODELS."""
+    defect `grade_panel()` below exists to correct — see DISCRIMINATION_MODELS.
+
+    ⛔⛔ ORIENTATION IS CHECKED FIRST, AND UNTIL 2026-08-12 IT WAS NOT CHECKED AT ALL. `blastn`
+    searches both strands. A transcript matching the REVERSE COMPLEMENT of the target window is not
+    a liability in any degree: an antisense oligonucleotide cannot hybridise to it, so there is no
+    duplex, no RNase-H substrate and nothing to cleave. Those hits were nevertheless passing the
+    identity filter and being labelled `true_cleavage_risk`.
+    ⚠ AND PARSING `hit_frame` ALONE FIXED NOTHING. The field was captured a week earlier and this
+    function never read it, so every reported count still included minus-strand hits — the
+    instrumentation was in place and the number it was supposed to correct had not moved. Measured
+    once this branch actually diverted them: **55 % of the gap-spanning "risks" on the EWSR1
+    junctions are minus-strand**, ranging from 7 % at e13 to 89 % at e7. That spread is why it
+    matters beyond a rescale — it reorders the junctions.
+
+    ⛔ `None` IS NOT `False`. A screen produced before the parse carries no `hit_frame`, and an
+    absent reading must not be promoted to "plus strand, therefore a real risk" OR demoted to safe.
+    Only an explicit `True` diverts, so pre-fix artifacts keep exactly the counts they had and stay
+    honestly labelled upper bounds, while re-run artifacts get the measurement."""
+    if h.get("is_minus_strand") is True:
+        return "minus_strand_not_hybridisable"
     reaches, covered, n_mm = gap_mismatch_profile(h)
     if not reaches:
         return "wing_only_affinity_risk"
