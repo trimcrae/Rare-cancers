@@ -120,10 +120,16 @@ def test_the_committed_collapse_summarises_only_uncensored_oligos():
 
 
 @pytest.mark.committed_artifact
-def test_the_lead_candidates_gap_spanning_load_is_the_three_loci_the_manuscript_claims():
-    """The manuscript names three loci and "not one curated transcript among them" for
-    5′-GGGCATATCATCAAAC-3′. That is a checkable claim about a committed artifact, so it is checked
-    here rather than trusted — and it is the sentence a reviewer is most likely to test."""
+def test_the_lead_candidates_gap_spanning_load_is_the_one_locus_the_manuscript_claims():
+    """The manuscript names ONE locus, LOC105374140, and no curated transcript, for
+    5′-GGGCATATCATCAAAC-3′. Checked here rather than trusted — it is the sentence a reviewer is most
+    likely to test.
+
+    ⚠ THIS TEST PREVIOUSLY ASSERTED THREE LOCI, AND IT WENT RED BY DOING ITS JOB (2026-08-12). The
+    orientation filter removed the hits at DEPDC4 and SGMS1 as minus-strand, leaving five
+    gap-spanning hits that are all variants of one uncharacterised locus. The manuscript sentence
+    was rewritten to match the artifact, and this assertion follows it. Superseded, retained: three
+    loci, from the screens that counted both strands."""
     path = os.path.join(MOD, "junction-aso-offtarget-locus-collapse.json")
     if not os.path.exists(path):
         pytest.skip("locus-collapse artifact is not present in this checkout")
@@ -133,7 +139,9 @@ def test_the_lead_candidates_gap_spanning_load_is_the_three_loci_the_manuscript_
     assert rows, "the lead candidate is absent from every committed screen"
     for o in rows:
         assert o["right_censored"] is False, "the claim would be a lower bound, not a count"
-        assert o["n_loci_with_a_gap_spanning_hit"] == 3, o["loci_with_a_gap_spanning_hit"]
+        assert o["n_loci_with_a_gap_spanning_hit"] == 1, o["loci_with_a_gap_spanning_hit"]
+        assert o["loci_with_a_gap_spanning_hit"] == ["LOC105374140"], (
+            "the manuscript names this locus explicitly; if it moved, fix the manuscript too")
         curated_and_gap_spanning = (set(o["loci_with_a_gap_spanning_hit"])
                                     - set(o["loci_seen_only_as_predicted_models"]))
         assert not curated_and_gap_spanning, (
