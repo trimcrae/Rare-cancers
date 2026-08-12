@@ -29,9 +29,11 @@ the default `TARGETS` and the destructive ones are opt-in.
 
 Env:
   APPLY=1            actually do it (default: dry run)
-  TARGETS=a,b,c      comma list from: mpu_abort, log_retention, log_delete, ecr_prune, ebs_detached,
-                     ebs_snapshots, s3_prefixes, s3_glacier
+  TARGETS=a,b,c      comma list from: mpu_abort, log_retention, log_delete, ecr_prune, ecr_delete_all,
+                     ebs_detached, ebs_snapshots, s3_prefixes, s3_purge, s3_glacier
                      default: mpu_abort,log_retention  (the two that lose no data)
+  PURGE_CONFIRM      must equal DELETE-EVERYTHING for TARGETS=s3_purge to do anything
+  PURGE_INCLUDE_TOOLING=1  also delete TOOLING_PREFIXES (mdenv/) — off by default, see below
   S3_PREFIXES=...    for TARGETS=s3_prefixes: comma list of `bucket/prefix` to delete. REQUIRED — this
                      target has no default, because a default here would be a default deletion.
   LOG_RETENTION_DAYS retention to set (default 30)
@@ -55,12 +57,23 @@ OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "aws-spend-shutdo
 APPLY = os.environ.get("APPLY", "") == "1"
 DEFAULT_TARGETS = "mpu_abort,log_retention"
 
-# ★ Never deleted, with or without APPLY. These hold the only copy of results the manuscript cites; a
-# rerun costs GPU dollars. Matching is on the leading path segment of the S3 key.
+# ★ Never deleted by the TARGETED path (`s3_prefixes`), with or without APPLY. These hold the only copy
+# of results the manuscript cites; a rerun costs GPU dollars. Matching is on the leading path segment.
+# ⚠ These are a guard against a mistyped prefix, NOT a veto over the owner: `s3_purge` is the deliberate
+# "all of it" path and is gated by its own explicit confirmation string instead (see PURGE_CONFIRM).
 PROTECTED_PREFIXES = {
     "abfe", "ternary", "rbfe", "fep", "metad", "nrv04", "selcal", "cofold",
     "results", "manuscript", "release", "archive",
 }
+
+# ★★ EXEMPT FROM THE PURGE BECAUSE IT IS TOOLING, NOT A LEAD (2026-08-12).
+# The purge was authorised as "delete everything, these leads are dead and documented" — a statement about
+# RESULTS. `mdenv/nrv04md.tar.gz` is not a result: it is the conda-packed MD environment that every NR-V04
+# Vast instance fetches at launch by presigned URL (`nrv04_vast_launch.MDENV_KEY`), built and uploaded by
+# the conda-pack job in `fusion-cpu-extras.yml`. Deleting it frees $0.14/mo and silently breaks the next
+# launch, which would then fail at fetch time with no attribution to this cleanup — the far more expensive
+# outcome. It is rebuildable, so this is a default and not a veto: PURGE_INCLUDE_TOOLING=1 removes it too.
+TOOLING_PREFIXES = {"mdenv"}
 
 _CFG = Config(retries={"max_attempts": 5, "mode": "standard"})
 _LOG: list[dict] = []
@@ -254,6 +267,121 @@ def s3_prefixes(census: dict) -> None:
                                                       Delete={"Objects": batch, "Quiet": True}))
 
 
+def _versioning_verdict(bucket: str, region: str) -> tuple[str, dict]:
+    """Is this bucket versioned? Decided by EXPERIMENT, because every read that would say so is denied.
+
+    ⛔ WHY THIS RUNS BEFORE THE PURGE AND NOT AFTER. On a versioned bucket `DeleteObject` does not remove
+    anything — it writes a delete marker and the object version stays, still billing. The purge would
+    delete 118k objects, report complete success, free NOTHING, and the failure would surface four weeks
+    later on an invoice. That is the exact "reports while measuring nothing" shape this repo keeps paying
+    for, and here it would be discovered only after the data was already unreachable through the console.
+
+    The probe key is denied `GetBucketVersioning` AND `ListBucketVersions`, so the bucket cannot be asked.
+    But `DeleteObject` ANSWERS THE QUESTION ITSELF: on a versioned bucket the delete response carries
+    `VersionId` (of the new delete marker) and `DeleteMarker: True`; on an unversioned bucket it carries
+    neither. That is one write and one delete of a throwaway key, using only permissions already measured
+    open — a definitive reading for $0, in place of a prior about how SageMaker creates its default bucket.
+    """
+    s3 = boto3.client("s3", region_name=region, config=_CFG)
+    key = "_spend-probe/versioning-check.txt"
+    s3.put_object(Bucket=bucket, Key=key, Body=b"versioning check; safe to delete")
+    resp = s3.delete_object(Bucket=bucket, Key=key)
+    evidence = {"delete_response_version_id": resp.get("VersionId"),
+                "delete_response_delete_marker": resp.get("DeleteMarker")}
+    if resp.get("VersionId") and resp.get("VersionId") != "null":
+        return "VERSIONED", evidence
+    if resp.get("DeleteMarker"):
+        return "VERSIONED", evidence
+    return "UNVERSIONED", evidence
+
+
+def s3_purge(census: dict) -> None:
+    """Delete every object in the bucket except the tooling exemption. The deliberate 'all of it' path.
+
+    Gated on PURGE_CONFIRM=DELETE-EVERYTHING so that no default, typo or half-remembered TARGETS list can
+    reach it — the gate encodes an explicit human authorisation, which is the only thing that makes this
+    action legitimate. It is separate from `s3_prefixes` precisely so the targeted path can keep its
+    protected-prefix guard while this one deliberately does not have it.
+    """
+    print("\n== S3 PURGE — delete every object in the bucket ==")
+    if os.environ.get("PURGE_CONFIRM") != "DELETE-EVERYTHING":
+        print("  ⛔ REFUSED: PURGE_CONFIRM=DELETE-EVERYTHING is not set. Nothing deleted.")
+        _LOG.append({"action": "s3-purge", "applied": False, "refused": "no_purge_confirm"})
+        return
+    buckets = census.get("s3", {}).get("buckets", [])
+    include_tooling = os.environ.get("PURGE_INCLUDE_TOOLING") == "1"
+    for b in buckets:
+        bucket, region = b["bucket"], b["region"]
+        if not b.get("n_objects") and not b.get("gb"):
+            print(f"  s3://{bucket}: census read it as empty, skipping")
+            continue
+        verdict, evidence = ("UNVERSIONED", {})
+        if APPLY:
+            verdict, evidence = _versioning_verdict(bucket, region)
+            print(f"  versioning verdict for s3://{bucket}: {verdict}  evidence={evidence}")
+            _LOG.append({"action": "versioning-check", "target": bucket, "verdict": verdict,
+                         "applied": True, **evidence})
+            if verdict == "VERSIONED":
+                # Deleting would write delete markers and free nothing. Refuse rather than produce a
+                # successful-looking run that does not move the bill.
+                print(f"  ⛔ REFUSED s3://{bucket}: bucket is VERSIONED. DeleteObject would leave "
+                      "noncurrent versions billing in full, so this purge would free nothing while "
+                      "making the data unreachable. Needs s3:DeleteObjectVersion (this key lacks every "
+                      "bucket-level permission) or a lifecycle rule to expire noncurrent versions.")
+                _LOG.append({"action": "s3-purge", "target": bucket, "applied": False,
+                             "refused": "bucket_is_versioned"})
+                continue
+        s3 = boto3.client("s3", region_name=region, config=_CFG)
+        batch: list[dict] = []
+        n_deleted = n_kept = 0
+        bytes_deleted = 0
+
+        def flush(batch=batch):
+            if not batch:
+                return
+            act("delete-objects", f"s3://{bucket} [{len(batch)} objects]",
+                {"bucket": bucket, "n": len(batch)},
+                lambda batch=list(batch): s3.delete_objects(
+                    Bucket=bucket, Delete={"Objects": batch, "Quiet": True}))
+            batch.clear()
+
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket):
+            for o in page.get("Contents", []):
+                top = o["Key"].split("/")[0] if "/" in o["Key"] else "(root)"
+                if top in TOOLING_PREFIXES and not include_tooling:
+                    n_kept += 1
+                    continue
+                batch.append({"Key": o["Key"]})
+                n_deleted += 1
+                bytes_deleted += o["Size"]
+                if len(batch) >= 1000:
+                    flush()
+        flush()
+        print(f"  s3://{bucket}: {n_deleted} objects ({bytes_deleted / 1024 ** 3:.2f} GB) "
+              f"{'deleted' if APPLY else 'would be deleted'}; {n_kept} kept as tooling "
+              f"({sorted(TOOLING_PREFIXES)})")
+        _LOG.append({"action": "s3-purge-summary", "target": bucket, "applied": APPLY,
+                     "n_deleted": n_deleted, "gb_deleted": round(bytes_deleted / 1024 ** 3, 2),
+                     "n_kept_tooling": n_kept, "versioning": verdict})
+
+
+def ecr_delete_all(census: dict) -> None:
+    """Delete every image in every ECR repo, then the repos themselves.
+
+    The AWS ABFE/FEP lanes are retired and production is on Vast. Both images rebuild from a tracked
+    Dockerfile via build-abfe-image.yml / build-fep-image.yml, so this is recoverable engineering rather
+    than lost data — but note that a rebuild RE-SOLVES an environment whose scientific packages are not
+    pinned, so a rebuilt image is not guaranteed byte-identical to the one being removed (CLAUDE.md §6,
+    the openmmtools/pymbar parity reading). Nothing currently depends on either image.
+    """
+    print("\n== ECR: delete ALL images and the repositories ==")
+    for r in census.get("ecr", {}).get("repos", []):
+        ecr = boto3.client("ecr", region_name=r["region"], config=_CFG)
+        act("ecr-delete-repository", f"{r['repo']} ({r['region']}, {r['gb']} GB, {r['n_images']} images)",
+            {"repo": r["repo"], "gb": r["gb"]},
+            lambda r=r: ecr.delete_repository(repositoryName=r["repo"], force=True))
+
+
 def s3_glacier(census: dict) -> None:
     """Transition, do not delete: a lifecycle rule to Glacier Deep Archive after 30 days.
 
@@ -284,9 +412,11 @@ TARGET_FNS = {
     "log_retention": log_retention,
     "log_delete": log_delete,
     "ecr_prune": ecr_prune,
+    "ecr_delete_all": ecr_delete_all,
     "ebs_detached": ebs_detached,
     "ebs_snapshots": ebs_snapshots,
     "s3_prefixes": s3_prefixes,
+    "s3_purge": s3_purge,
     "s3_glacier": s3_glacier,
 }
 

@@ -38,6 +38,18 @@ on:
         description: "savings mode: restrict to instance types containing this string, e.g. ml.g5.xlarge. abfe_rate mode: the job-NAME substring to match (default 'abfe'). abfe_ready mode: the checkpoint TAG to check (default 'sel-cbp30-v1')"
         default: ""
         required: false
+      shutdown_targets:
+        description: "mode=shutdown: comma list of what to switch off — mpu_abort, log_retention, log_delete, ecr_prune, ecr_delete_all, ebs_detached, ebs_snapshots, s3_prefixes, s3_purge, s3_glacier. Default is the two that lose no data."
+        default: "mpu_abort,log_retention"
+        required: false
+      shutdown_apply:
+        description: "mode=shutdown: 'true' actually performs the actions. ANY OTHER VALUE IS A DRY RUN. Deletion is irreversible — dry-run first and read the object counts."
+        default: "false"
+        required: false
+      purge_confirm:
+        description: "mode=shutdown, TARGETS=s3_purge: must be the literal DELETE-EVERYTHING. The whole-bucket delete does nothing without it, so no default or typo can reach it."
+        default: ""
+        required: false
 
 permissions:
   contents: write
@@ -63,6 +75,9 @@ jobs:
           JOB_NAME: ${{ inputs.job_name }}
           ABFE_TAG: ${{ inputs.forensic_tag }}
           INSTANCE_FILTER: ${{ inputs.instance_filter }}
+          TARGETS: ${{ inputs.shutdown_targets }}
+          APPLY: ${{ inputs.shutdown_apply == 'true' && '1' || '0' }}
+          PURGE_CONFIRM: ${{ inputs.purge_confirm }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
@@ -75,6 +90,11 @@ jobs:
             python aws_spend_census.py
           elif [ "$MODE" = "spend_probe" ]; then
             python aws_spend_probe.py
+          elif [ "$MODE" = "shutdown" ]; then
+            # The census artifact is the ONLY source of what gets touched, so the run acts on numbers a
+            # human has already read rather than on whatever it discovers at execution time.
+            python aws_spend_census.py > /dev/null
+            python aws_spend_shutdown.py
           else
             python list_sagemaker.py
           fi
@@ -96,3 +116,9 @@ jobs:
           PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "aws spend probe: which shutdown routes the CI key is permitted to take (CI, \$0)" \
             research/modalities/aws-spend-probe.json
+      - name: Commit the shutdown ledger and the post-action census
+        if: ${{ inputs.mode == 'shutdown' }}
+        run: |
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "aws shutdown: ${{ inputs.shutdown_apply == 'true' && 'APPLIED' || 'dry run' }} targets=${{ inputs.shutdown_targets }} (CI, \$0)" \
+            research/modalities/aws-spend-shutdown.json research/modalities/aws-spend-census.json
