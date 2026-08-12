@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Measure each submission-form manuscript against the limits its chosen venue is believed to set.
 
-WHY THIS EXISTS. The per-journal author-guideline pages for two of the three venues cannot be
+WHY THIS EXISTS. The per-journal author-guideline pages for most of these venues cannot be
 retrieved by any automated means: onlinelibrary.wiley.com serves a JavaScript bot challenge and
 www.sciencedirect.com blocks the datacenter IP outright, and both persist under a real headless
 browser run from CI. Those are deliberate security controls and are not something to defeat. So the
@@ -20,6 +20,19 @@ sections a journal counts: from the first substantive section heading through th
 Declarations. It EXCLUDES frontmatter, HTML editorial comments, the abstract, keywords, the
 display-item captions block, declarations, references and every Appendix — and it excludes table
 BODIES, since journals count tables as display items rather than as words.
+
+⛔⛔ A DISPLAY ITEM OR A REFERENCE THAT LIVES IN A COMPANION FILE IS STILL THIS PAPER'S, AND
+COUNTING ONLY THE MANUSCRIPT FILE REPORTS ZERO FOR IT (2026-08-12). The fusion-junction ASO
+manuscript keeps its two tables in `…-submission-tables.md` and its 29 references in
+`…-submission-references.md`, both GENERATED so that a cell and its source cannot diverge — which is
+good practice and made every display-item and reference counter here read 0. A row of measured
+zeroes on a paper that has five display items and 29 references is the "a populated field is not a
+measured one" defect in its other direction: a field that is present, plausible and false. So the
+counters read the manuscript AND its declared `COMPANIONS`, and figures and tables are counted as
+DISTINCT NUMBERS rather than as caption lines, so an embed and its own caption cannot count twice.
+
+⚠ THE SAME PASS CORRECTED THREE EXISTING COUNTS, none of which changed a verdict — see
+`SUPERSEDED_MEASUREMENTS` below, which is the appendix rule 1.2 requires and not a changelog.
 
     python3 research/manuscripts/submission_metrics.py
 """
@@ -54,6 +67,32 @@ VENUES = {
         "provenance": "nature.com pages DO answer; these were read from the journal's own guide to "
                       "authors at HTTP 200",
     },
+    # ⛔ EVERY LIMIT HERE IS `None` BECAUSE IT IS UNREAD, WHICH IS NOT THE SAME `None` AS THE ROWS
+    # ABOVE. There it can mean "the venue sets no limit of that kind"; here it means nobody has ever
+    # seen this journal's author guidelines. ⛔ DO NOT FILL THESE IN FROM BJC. Both are Springer
+    # Nature and the temptation is obvious, but a sibling journal's guide is not this journal's
+    # guide, and a borrowed number would read as a measured one for the rest of the paper's life.
+    # ⚠ AND DO NOT READ THE 404s AS A BLOCK. nature.com answers this repository normally — the
+    # journal home, the open-access page and `/cgt/about` all returned 200. What failed was
+    # GUESSING PATHS: `/cgt/for-authors` and `/cgt/submission-guidelines` do not exist. The
+    # guidelines are almost certainly reachable from links the journal home actually carries, which
+    # is what `venue_policy_browser_fetch.harvest_links()` was added to record. So this row's `None`
+    # is one CI fetch from becoming a number, not a dead end.
+    "CGT-Short-Communication": {
+        "journal": "Cancer Gene Therapy (Springer Nature)",
+        "limits": {"main_words": None, "abstract_words": None, "display_items": None,
+                   "references": None},
+        "provenance": "UNREAD, NOT UNLIMITED. Cancer Gene Therapy's author guidelines have never "
+                      "been retrieved: https://www.nature.com/cgt/for-authors and "
+                      "https://www.nature.com/cgt/submission-guidelines each returned HTTP 404 on "
+                      "all four attempts of the 2026-08-12 headless-browser run "
+                      "(research/literature/venue-policy-browser-fetch.json). The pages that DID "
+                      "answer carry no limits: the journal home (200), the open-access fees page "
+                      "(200), and /cgt/about (200, redirecting to /cgt/journal-information, which "
+                      "gives aims, scope, article types and metrics and states no word, abstract, "
+                      "display-item or reference limit). No limit in this row is inherited from "
+                      "British Journal of Cancer or from any other Springer Nature title.",
+    },
 }
 
 MANUSCRIPTS = {
@@ -61,13 +100,101 @@ MANUSCRIPTS = {
     "dependency/emc-atr-collaborator-package.md": "GCC-Research-Article",
     "repurposing/repurposing-hypotheses.md": "CROH-Review",
     "surface-targets/emc-surface-target-landscape.md": "BJC-Article",
+    "aso/fusion-junction-aso-short-communication.md": "CGT-Short-Communication",
 }
 
+#: Files that carry display items or reference entries belonging to a manuscript but living outside
+#: it. Kept separate from MANUSCRIPTS so a paper with no companions needs no entry at all.
+#: ⚠ MAIN TEXT AND THE ABSTRACT ARE NEVER READ FROM A COMPANION — only display items and
+#: references are, because those are the two things a journal counts wherever they physically sit.
+COMPANIONS = {
+    "aso/fusion-junction-aso-short-communication.md": [
+        "aso/fusion-junction-aso-submission-tables.md",
+        "aso/fusion-junction-aso-submission-references.md",
+    ],
+}
+
+#: ⛔ THE FIGURE FILES A PORTAL ACTUALLY WANTS UPLOADED, for manuscripts whose figures are NOT
+#: markdown embeds (2026-08-12). `submission_packet.figures_for()` discovers figures by matching
+#: `![...](path)`, which is right for a paper that embeds its images and reports ZERO for a paper
+#: that carries a Figure legends section instead — and this file's own counter had already been
+#: corrected for exactly that, so the packet was printing "none; this paper's display items are all
+#: tables" for a paper with three figures whose PDFs sit committed beside the manuscript. The
+#: consequence is not cosmetic: that line is the upload checklist, so it told the author to submit
+#: nothing.
+#: ⚠ DECLARED, NOT INFERRED. There is no committed link between "Figure 1" in the prose and
+#: `aso-junction-space.svg`; a prefix guess would be a convention nobody wrote down. Paths are
+#: relative to this directory, and `submission_packet` reports each one MISSING if it is absent, so
+#: a wrong entry here fails loudly rather than silently shrinking the checklist.
+FIGURE_FILES = {
+    "aso/fusion-junction-aso-short-communication.md": [
+        "figures/aso-junction-space.svg",
+        "figures/aso-multipartner-seam.svg",
+        "figures/aso-chance-baseline.svg",
+    ],
+}
+
+#: ⚠ THE APPENDIX RULE 1.2 REQUIRES: values this file used to emit, why they were wrong, and what
+#: replaced them. None of these changed a verdict — every affected row was and remains within every
+#: believed limit — but a superseded number stays quotable unless it is registered as superseded.
+SUPERSEDED_MEASUREMENTS = [
+    {"row": "surface-targets/emc-surface-target-landscape.md", "field": "figures",
+     "was": 0, "now": 1,
+     "why": "The figure counter matched only `![` image embeds. This manuscript's Figure 1 is a "
+            "caption in its Display items block with no embedded image file, so a real figure "
+            "counted as zero. Figures are now counted as distinct figure NUMBERS drawn from embeds "
+            "and captions together."},
+    {"row": "surface-targets/emc-surface-target-landscape.md", "field": "display_items",
+     "was": 5, "now": 6,
+     "why": "Follows the figure correction above; the five tables are unchanged. Still inside the "
+            "believed limit of 8."},
+    {"row": "surface-targets/emc-surface-target-landscape.md", "field": "references",
+     "was": 21, "now": 18,
+     "why": "The reference counter matched every numbered line anywhere in the file, so three "
+            "numbered lines inside Appendix A were counted as references. It now reads the "
+            "References section only."},
+    {"row": "dependency/emc-atr-collaborator-package.md", "field": "references",
+     "was": 16, "now": 8,
+     "why": "Same defect, larger: the eight-item numbered list in the Limitations section was "
+            "counted as eight extra references, exactly doubling a reference list of 8."},
+    {"row": "mtap-prmt5/emc-mtap-prmt5-hypothesis.md", "field": "main_words",
+     "was": 5222, "now": 5213,
+     "why": "Nine `---` section dividers were counted as nine words; a horizontal rule is not a "
+            "word. Rules are now blanked before counting."},
+    {"row": "mtap-prmt5/emc-mtap-prmt5-hypothesis.md", "field": "abstract_words",
+     "was": 250, "now": 249,
+     "why": "Same divider defect. Worth registering rather than waving through: 250 against a "
+            "believed cap of 250 reads as sitting exactly on the line, and it never was."},
+    {"row": "dependency/emc-atr-collaborator-package.md", "field": "main_words",
+     "was": 3161, "now": 3153, "why": "Eight `---` dividers counted as words."},
+    {"row": "dependency/emc-atr-collaborator-package.md", "field": "abstract_words",
+     "was": 239, "now": 238, "why": "One `---` divider counted as a word."},
+    {"row": "repurposing/repurposing-hypotheses.md", "field": "main_words",
+     "was": 5037, "now": 5030, "why": "Seven `---` dividers counted as words."},
+]
+
 #: Headings that end the main text. Matched case-insensitively at any heading level.
-TAIL = re.compile(r"^#+\s*(declarations?|data (and|&) code|data availability|references|"
+#: ⚠ THE DISPLAY-ITEM BLOCK IS NOT ALWAYS CALLED "Display items". The ASO manuscript splits it into
+#: `## Tables` and `## Figure legends`, and until both were listed here its three figure legends
+#: were counted as main-text prose — a silent ~430-word overstatement against a word limit, which is
+#: the one number this file exists to get right. These two alternatives are anchored to end-of-line
+#: rather than closed with `\b`, so a section genuinely about tables ("Tables and their sources")
+#: cannot truncate the main text by accident.
+TAIL = re.compile(r"^#+\s*(?:(?:declarations?|data (?:and|&) code|data availability|references|"
                   r"acknowledge?ments?|competing interests|funding|author contributions|"
-                  r"display items|appendix)\b", re.I | re.M)
+                  r"display items|appendix)\b"
+                  r"|(?:figure legends?|tables?)\s*$)", re.I | re.M)
 HEAD = re.compile(r"^#+\s*(background|introduction|1[.\s])", re.I | re.M)
+
+#: The References section, so a numbered list elsewhere in the file cannot inflate the count.
+REF_HEAD = re.compile(r"^#+\s*(?:\d+\.\s*)?references\b", re.I | re.M)
+REF_END = re.compile(r"^#+\s*appendix\b", re.I | re.M)
+NUMBERED = re.compile(r"^\s{0,3}\d{1,3}\.\s+\S", re.M)
+
+FIG_EMBED = re.compile(r"!\[([^\]]*)\]")
+FIG_ALT_NUM = re.compile(r"\s*Figure\s*(\d+)", re.I)
+FIG_CAPTION = re.compile(r"^\*\*Figure\s*(\d+)", re.M)
+TAB_CAPTION = re.compile(r"^\*\*Table\s*(\d+)", re.M)
 
 
 def strip_tables(text):
@@ -100,12 +227,66 @@ def _assert_comments_closed(path, raw):
             f"markdown renderer hides the rest of the manuscript. Fix the file, not this check.")
 
 
-def measure(path):
+def prepare(path):
+    """Read one markdown file and strip everything no journal counts.
+
+    ⚠ A HORIZONTAL RULE IS NOT A WORD, and `"---".split()` says it is one. Section dividers were
+    being counted as prose — 9, 8 and 7 words of main text in three manuscripts, and one word of
+    abstract in three, which put the MTAP abstract at an apparent 250 against a believed cap of 250
+    when it is really 249. Blanked rather than deleted, so line structure and every `^#`-anchored
+    heading match survive untouched.
+    """
     raw = open(path, encoding="utf-8").read()
     _assert_comments_closed(path, raw)
     body = re.sub(r"^---\n.*?\n---\n", "", raw, flags=re.S)      # frontmatter
     body = re.sub(r"<!--.*?-->", "", body, flags=re.S)           # editorial comments
     body = re.sub(r"```.*?```", "", body, flags=re.S)            # fenced blocks
+    return re.sub(r"^[ \t]*(?:-{3,}|\*{3,}|_{3,})[ \t]*$", "", body, flags=re.M)
+
+
+def count_display_items(bodies):
+    """Distinct figure and table NUMBERS across a manuscript and its companions.
+
+    ⚠ NUMBERS, NOT CAPTION LINES. A figure that is both embedded (`![Figure 3](…)`) and captioned
+    (`**Figure 3.** …`) is ONE display item, and counting lines would report two. An embed whose alt
+    text carries no figure number cannot be deduplicated against a caption, so it is counted on its
+    own — over-counting an unnumbered figure is the safe direction against a display-item cap.
+    """
+    figures, tables, unnumbered = set(), set(), 0
+    for body in bodies:
+        for alt in FIG_EMBED.findall(body):
+            m = FIG_ALT_NUM.match(alt)
+            if m:
+                figures.add(m.group(1))
+            else:
+                unnumbered += 1
+        figures.update(FIG_CAPTION.findall(body))
+        tables.update(TAB_CAPTION.findall(body))
+    return len(figures) + unnumbered, len(tables)
+
+
+def count_references(bodies):
+    """Numbered entries inside a References section, wherever that section lives.
+
+    ⛔ SCOPED TO THE SECTION, BECAUSE "every numbered line in the file" IS NOT A REFERENCE COUNT.
+    That is what this counted until 2026-08-12, and it read a numbered Limitations list as eight
+    extra references in one manuscript and three Appendix lines as references in another. An
+    Appendix ends the section for the same reason it ends the main text: rule 1.2 puts superseded
+    values there, and a superseded reference is not a reference.
+    """
+    total = 0
+    for body in bodies:
+        h = REF_HEAD.search(body)
+        if not h:
+            continue
+        end = REF_END.search(body, h.end())
+        total += len(NUMBERED.findall(body[h.end():end.start() if end else len(body)]))
+    return total
+
+
+def measure(path, companion_paths=()):
+    body = prepare(path)
+    companions = [prepare(p) for p in companion_paths]
 
     ab = re.search(r"^#+\s*Abstract\s*$(.*?)(?=^#+\s)", body, re.S | re.M)
     abstract_words = len(ab.group(1).split()) if ab else None
@@ -115,30 +296,42 @@ def measure(path):
     main = body[start.start():tail.start()] if start and tail else body
     main_words = len(strip_tables(main).split())
 
-    figures = len(re.findall(r"!\[", body))
-    tables = len(re.findall(r"^\*\*Table\s", body, re.M))
-    refs = len(re.findall(r"^\s{0,3}\d{1,3}\.\s+\S", body, re.M))
+    figures, tables = count_display_items([body] + companions)
     return {"main_words": main_words, "abstract_words": abstract_words,
             "figures": figures, "tables": tables, "display_items": figures + tables,
-            "references": refs}
+            "references": count_references([body] + companions)}
 
 
 def main():
-    rows, over = [], 0
+    rows, over, unread = [], 0, 0
     for fname, vkey in MANUSCRIPTS.items():
         v = VENUES[vkey]
-        m = measure(os.path.join(REPO, "research", "manuscripts", fname))
+        companions = COMPANIONS.get(fname, [])
+        m = measure(os.path.join(REPO, "research", "manuscripts", fname),
+                    [os.path.join(REPO, "research", "manuscripts", c) for c in companions])
         flags = []
         for key, lim in v["limits"].items():
             got = m.get(key)
             if lim is not None and got is not None and got > lim:
                 flags.append(f"{key} {got} > {lim}")
                 over += 1
+        # ⚠ A ROW WHOSE LIMITS ARE ALL UNREAD MUST NOT PRINT AS "within believed limits". There is
+        # nothing to be within, and a green line against no limit is the most confident-looking
+        # false reassurance this file could emit.
+        graded = [k for k, lim in v["limits"].items() if lim is not None]
         rows.append({"file": fname, "venue": v["journal"], "measured": m,
+                     "companion_files": companions,
+                     "figure_files": FIGURE_FILES.get(fname, []),
                      "limits": v["limits"], "limits_provenance": v["provenance"],
-                     "over_limit": flags})
-        state = "OVER: " + "; ".join(flags) if flags else "within believed limits"
-        print(f"{fname:40s} {vkey:22s} main={m['main_words']:5d}w  abs={m['abstract_words']}w  "
+                     "limits_read": bool(graded), "over_limit": flags})
+        if flags:
+            state = "OVER: " + "; ".join(flags)
+        elif graded:
+            state = "within believed limits"
+        else:
+            state = "⛔ NOT GRADED — this venue's limits have never been read"
+            unread += 1
+        print(f"{fname:47s} {vkey:24s} main={m['main_words']:5d}w  abs={m['abstract_words']}w  "
               f"items={m['display_items']:2d}  refs={m['references']:2d}  {state}")
 
     out = os.path.join(REPO, "research", "manuscripts", "submission-metrics.json")
@@ -146,20 +339,49 @@ def main():
         json.dump({
             "_what": "What each submission-form manuscript actually is, measured, against the limits "
                      "its venue is believed to set.",
-            "_why": "Two of three venues block automated retrieval of their author guidelines with "
+            "_why": "Most of these venues block automated retrieval of their author guidelines with "
                     "deliberate security controls that persist under a real browser. The limits stay "
                     "unverified; this pins down OUR side so checking theirs is a sixty-second job.",
-            "⛔_the_limits_below_are_not_verified": "Only the BJC row was read from the journal's own "
-                    "page. The other two are search-derived. Do not cite them as retrieved facts.",
+            "⛔_the_limits_below_are_not_verified": "They fall into three states and the difference "
+                    "matters. READ: only the BJC row was retrieved from the journal's own guide to "
+                    "authors at HTTP 200. SEARCH-DERIVED: the two GCC rows and the CROH row come "
+                    "from search summaries, because Wiley serves a bot challenge and Elsevier "
+                    "blocks the datacenter IP; do not cite them as retrieved facts. UNREAD: the "
+                    "Cancer Gene Therapy row carries no limits at all — its `null`s mean nobody has "
+                    "seen the guidelines, NOT that the journal sets no limit. That row is reported "
+                    "ungraded rather than compliant, and its numbers must never be borrowed from "
+                    "the BJC row merely because both journals are Springer Nature.",
+            "⛔_the_CGT_fee_schedule_is_unread_and_that_is_a_live_submission_risk": "The $0 route "
+                    "for Cancer Gene Therapy rests on ONE page: nature.com/cgt/open-access (HTTP "
+                    "200) states that open access requires an APC and that authors 'can also choose "
+                    "to publish under the traditional publishing model (no APC charges apply)'. "
+                    "That answers the APC question and ONLY the APC question. Page charges, colour "
+                    "charges, submission fees and over-length charges on the subscription route are "
+                    "UNREAD, because they live in the author guidelines and every author-guideline "
+                    "path tried returned 404. ⛔ THIS IS NOT A HYPOTHETICAL: Nucleic Acid "
+                    "Therapeutics was the preferred venue for this paper, PASSED the no-APC test, "
+                    "and was rejected anyway once its guidelines were read — they levy mandatory "
+                    "Publishing Services Fees of $90 per page on every accepted manuscript, roughly "
+                    "$700-1,100 for this one. The same question has not been put to CGT. Until a "
+                    "CGT author-guideline or fee page is read, the venue's compliance with the $0 "
+                    "constraint is established for APCs and unestablished overall.",
             "⚠_none_of_this_gates_the_preprint": "bioRxiv sets no word, abstract or display-item "
                     "limit, and its deposit being free is verified verbatim at primary source.",
             "counting_rule": "Main text runs from the first substantive heading to the last heading "
                     "before Declarations, excluding frontmatter, HTML comments, fenced blocks, the "
-                    "abstract, table bodies, references and every Appendix.",
+                    "abstract, table bodies, the display-item block under any of its names "
+                    "('Display items', 'Tables', 'Figure legends'), references and every Appendix. "
+                    "Figures and tables are counted as DISTINCT NUMBERS across the manuscript and "
+                    "its `companion_files`, so an embedded figure and its own caption count once "
+                    "and a table generated into a separate file still counts. References are the "
+                    "numbered entries inside a References section, wherever that section lives; a "
+                    "numbered list anywhere else in the file is not a reference.",
+            "⚠_superseded_measurements": SUPERSEDED_MEASUREMENTS,
             "rows": rows,
         }, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
-    print(f"\nwrote {os.path.relpath(out, REPO)} — {over} limit(s) exceeded")
+    print(f"\nwrote {os.path.relpath(out, REPO)} — {over} limit(s) exceeded, "
+          f"{unread} paper(s) ungraded because the venue's limits are unread")
     return 0
 
 

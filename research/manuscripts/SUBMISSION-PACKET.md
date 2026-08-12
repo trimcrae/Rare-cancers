@@ -26,8 +26,8 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 5222 (no limit found) |
-| Abstract | 250 words (limit 250) |
+| Word count, main text | 5213 (no limit found) |
+| Abstract | 249 words (limit 250) |
 | Display items | 5 (5 figures, 0 tables) |
 | References | 11 |
 | Cover letter | `mtap-prmt5/emc-mtap-prmt5-hypothesis-cover-letter.md` |
@@ -50,10 +50,10 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3161 (no limit found) |
-| Abstract | 239 words (limit 250) |
+| Word count, main text | 3153 (no limit found) |
+| Abstract | 238 words (limit 250) |
 | Display items | 7 (0 figures, 7 tables) |
-| References | 16 |
+| References | 8 |
 | Cover letter | `dependency/emc-atr-collaborator-package-cover-letter.md` |
 | Supplementary file | none |
 | Fee route | VERIFIED |
@@ -68,7 +68,7 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 5037 (limit 8000) |
+| Word count, main text | 5030 (limit 8000) |
 | Abstract | 238 words (limit 250) |
 | Display items | 1 (1 figures, 0 tables) (limit 6) |
 | References | 20 |
@@ -90,8 +90,8 @@ last_verified: 2026-08-10
 |---|---|
 | Word count, main text | 4755 (limit 5000) |
 | Abstract | 194 words (limit 200) |
-| Display items | 5 (0 figures, 5 tables) (limit 8) |
-| References | 21 (limit 80) |
+| Display items | 6 (1 figures, 5 tables) (limit 8) |
+| References | 18 (limit 80) |
 | Cover letter | `surface-targets/emc-surface-target-landscape-cover-letter.md` |
 | Supplementary file | yes |
 | Fee route | VERIFIED at the journal's own pages, with one real caveat |
@@ -99,6 +99,28 @@ last_verified: 2026-08-10
 ⚠ Limits provenance: nature.com pages DO answer; these were read from the journal's own guide to authors at HTTP 200.
 
 **Figures to upload** — none; this paper's display items are all tables.
+
+## Cancer Gene Therapy (Springer Nature)
+
+**Manuscript** `aso/fusion-junction-aso-short-communication.md`
+
+| field | value |
+|---|---|
+| Word count, main text | 3929 (no limit found) |
+| Abstract | 346 words  |
+| Display items | 5 (3 figures, 2 tables) |
+| References | 29 |
+| Cover letter | `aso/fusion-junction-aso-short-communication-cover-letter.md` |
+| Supplementary file | none |
+| Fee route | not recorded |
+
+⚠ Limits provenance: UNREAD, NOT UNLIMITED. Cancer Gene Therapy's author guidelines have never been retrieved: https://www.nature.com/cgt/for-authors and https://www.nature.com/cgt/submission-guidelines each returned HTTP 404 on all four attempts of the 2026-08-12 headless-browser run (research/literature/venue-policy-browser-fetch.json). The pages that DID answer carry no limits: the journal home (200), the open-access fees page (200), and /cgt/about (200, redirecting to /cgt/journal-information, which gives aims, scope, article types and metrics and states no word, abstract, display-item or reference limit). No limit in this row is inherited from British Journal of Cancer or from any other Springer Nature title..
+
+**Figures to upload**
+
+- `aso-junction-space.svg` — raster present, vector present
+- `aso-multipartner-seam.svg` — raster present, vector present
+- `aso-chance-baseline.svg` — raster present, vector present
 
 ## Outstanding for every paper, and only the author can supply these
 
@@ -109,6 +131,7 @@ last_verified: 2026-08-10
 ## Not verified, and stated rather than assumed
 
 - The per-journal author guidelines could not be retrieved: Wiley serves a JavaScript bot challenge and ScienceDirect blocks the datacenter IP, and both persist under a real headless browser from CI. Word, abstract and display-item limits above are search-derived except for the British Journal of Cancer row, which was read from the journal's own page. Confirm each at the portal, where the pages load normally.
+- Cancer Gene Therapy is a separate and worse case, because it is a CHOSEN venue whose fee schedule has never been read. nature.com answers, and its open-access page was read at HTTP 200 and establishes that open access is the optional paid upgrade — so the subscription route carries no article processing charge. But `/cgt/for-authors`, `/cgt/submission-guidelines` and `/cgt/about` all returned 404, so that journal's page, colour and over-length charges are unknown. Nucleic Acid Therapeutics passed the same APC test and was then disqualified by mandatory page charges of $90/page. Load the journal's author guidelines in an ordinary browser and confirm the full fee schedule before submitting there.
 - The $0 route rests on publisher-wide policy statements quoted verbatim in `research/literature/venue-fee-routes-2026-08-10.json`, not on the per-journal fee page. Elect the subscription route at the fee step and decline the open-access upgrade.
 - The British Journal of Cancer levies a colour charge for figures in print, waived only for open-access papers. That paper has no figures, so the charge cannot arise.
 

@@ -66,12 +66,30 @@ def _load(rel):
         return json.load(fh)
 
 
-def figures_for(stem):
+def figures_for(stem, declared=()):
+    """The figure files to upload, as (basename, raster present, vector present).
+
+    ⛔ AN EMBED SCAN ALONE REPORTS ZERO FIGURES FOR A PAPER THAT HAS THREE (2026-08-12). This
+    matched `![...](path)` only, which is right for a manuscript that embeds its images and wrong
+    for one that carries a Figure legends section and ships the files beside it. The ASO paper is
+    the second kind, so this printed "none; this paper's display items are all tables" — on the
+    line that IS the portal upload checklist. A checklist that omits the deliverables is worse than
+    no checklist, because it reads as having been checked.
+    ⚠ `declared` comes from `submission_metrics.FIGURE_FILES` via the row, because no committed
+    link exists between "Figure 1" in the prose and a filename. A missing declared file is reported
+    MISSING rather than dropped.
+    """
     md = os.path.join(HERE, stem + ".md")
     if not os.path.exists(md):
         return []
     body = open(md, encoding="utf-8").read()
     out = []
+    for ref in declared or ():
+        p = os.path.normpath(os.path.join(HERE, ref))
+        base = os.path.splitext(p)[0]
+        out.append({"file": os.path.basename(ref),
+                    "png": any(os.path.exists(base + e) for e in (".png", ".tif", ".tiff")),
+                    "vector": any(os.path.exists(base + e) for e in (".pdf", ".eps", ".svg"))})
     for ref in re.findall(r"!\[[^\]]*\]\(([^)\s]+)", body):
         # ⚠ RESOLVED AGAINST THE MANUSCRIPT'S OWN DIRECTORY, not against HERE. Manuscripts moved into
         # per-route folders on 2026-08-12, so their figure links are `../figures/x.png`; joining those
@@ -120,7 +138,7 @@ def main():
         vk = venue_key.get(row["venue"], "")
         v = verdicts.get(vk, {})
         letter = os.path.exists(os.path.join(HERE, stem + "-cover-letter.md"))
-        figs = figures_for(stem)
+        figs = figures_for(stem, row.get("figure_files") or ())
         si = os.path.exists(os.path.join(HERE, stem + "-SI.md")) or \
             os.path.exists(os.path.join(HERE, stem + "-si.md"))
 
