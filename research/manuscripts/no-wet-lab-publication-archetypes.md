@@ -690,9 +690,30 @@ picked up **`CVCL_1238`** — and this repository already records that object as
 
 ⛔ **That is the answer to open question 3's cell-line half, and the repo's own register gives it more
 sharply than either research pass did.** The single DepMap model carrying the OncotreeSubtype
-"Extraskeletal Myxoid Chondrosarcoma" is `OBJ-LINE-HEMCSS` / H-EMC-SS / `CVCL_1238`, its identity is
-disputed, and **the curated record contradicts its carriage of the EMC fusion**. An 18-locus STR profile
-exists, so the line is a real profiled entity — *the open question is what it is, not whether it exists.*
+"Extraskeletal Myxoid Chondrosarcoma" is `OBJ-LINE-HEMCSS` / H-EMC-SS / `CVCL_1238`, and **the public
+record does not support the label.** An 18-locus STR profile exists, so the line is a real profiled
+entity — *the open question is what it is, not whether it exists.*
+
+⭐ **THE LOAD-BEARING EVIDENCE IS THE FUSION-CALL FILE, NOT THE CELLOSAURUS CAUTION** (trimcrae,
+2026-08-12, correcting an earlier draft of this section). The register's `evidence_verbatim` reads *"Does
+not harbor a gene fusion involving **EWSR1** which is a hallmark of extraskeletal myxoid chondrosarcoma"* —
+and quoting that alone is a weak argument, because ⛔ **EWSR1 is not what defines this disease. NR4A3
+rearrangement is.** EWSR1 is merely the commonest partner (79% in the 58-case cohort in §2), and a
+TAF15::NR4A3 or TCF12::NR4A3 line would be fully EMC while harbouring no EWSR1 fusion at all. The claim
+survives only because a **second, independent line** carries it: **DepMap `OmicsFusionFiltered.csv` 24Q4
+lists this model with two calls — `AL158209.1--NEBL` and `VIM--RPS25` — and NEITHER names NR4A3, EWSR1,
+TAF15 or FUS.** ⭐ *The model's PRESENCE in that file is what makes this a reading of absence rather than
+an absent reading.* Weak corroboration only: NR4A3 expression sits at 0.941 log2(TPM+1) — 83rd percentile
+of 1,673 lines, but against a panel median of 0.214, where a fusion transcript driving the NR4A3 body off
+a partner promoter should read far higher.
+
+⚠ **AND THE REGISTER IS CAREFUL IN A WAY THIS SECTION MUST NOT BLUR.** Its `what_this_cannot_settle`
+field states that none of this establishes *what the line is instead, that the original characterisation
+was wrong, or that the line is not EMC* — a line can be misidentified, drift in culture, or be a genuine
+fusion-negative tumour of the same histology. Settling identity needs STR authentication against the donor
+and RT-PCR for the fusion, neither of which is in public data at the needed resolution and neither of
+which this programme can perform. **What is established is narrower and still sufficient for the
+consequence below: the public record does not support the label.**
 
 **Consequence for §1's grade of archetype 2.** Public-omics reanalysis was graded *"partly done,
 under-exploited"* with the binding constraint given as "EMC has ~no molecular samples". That is now
@@ -706,3 +727,51 @@ can take.**
 `emc-systems-map.json` → `read_by`, because that file names the identifier only as a retrieval source and
 grounds no biological property on the model. It would become `invalidated` the moment any claim here rested
 on it.
+
+---
+
+## 7 · Paper ideas this analysis produced — one kept, one WITHDRAWN
+
+*Recorded so neither is re-proposed as unexplored. Absence of an idea from the board is sometimes a
+judgement; these two are.*
+
+### 7.1 · ⛔ WITHDRAWN — "audit the published EMC literature for findings that rest on H-EMC-SS"
+
+**Proposed and withdrawn the same day (2026-08-12), and the withdrawal is the more useful record.**
+
+The pitch was: §6.5 shows the public record does not support this line's EMC label, your `read_by` sweep
+covers 30 files *inside this repository*, and nobody has asked the same question of the **external**
+published literature — so audit which published EMC findings rest on it. That is the publishable-negative
+archetype, which this survey verified better than any other, and it costs $0.
+
+⛔ **It does not survive its own source.** An audit of that shape needs the premise *"these papers studied
+something that is not EMC."* The register explicitly refuses to supply it: `what_this_cannot_settle` says
+the evidence does **not** establish that the line is not EMC, only that the public record does not support
+the label. **A caution is not a refutation**, and a paper built on the stronger reading would be asserting
+exactly what the underlying artifact declines to assert.
+
+⚠ **The failure mode worth remembering is how it arose.** The idea was generated from a *lint failure* —
+gate 3 going red — and a red gate feels like a discovery. It was inflated into a paper before its
+governing artifact was re-read. **The artifact had the disqualifying sentence in it the whole time.**
+
+**Reopening trigger:** STR authentication against the donor, or RT-PCR for an NR4A3 fusion in this line,
+appearing in public data. Either would convert the caution into a finding. Neither is something this
+programme can produce.
+
+### 7.2 · ⭐ KEPT — does EMC's published survival literature report itself well enough to be reused?
+
+Unaffected by the above, because it rests on this survey's own measurements rather than on the cell line.
+§5.2a and §5.2b establish the shape: 17 candidate series, 2 of 7 reachable full texts denied outright as
+not open access, figures rasterised so reporting completeness cannot be read from text, and a quality
+floor (`REQUIRE_RISK_TABLE`) that is **this programme's stricter choice** rather than a constraint the
+method imposes (§6.1).
+
+**The claim it would make:** an ultra-rare cancer's clinical literature can be exhaustively enumerated and
+still not be poolable, and the binding limit is *reporting practice* rather than patient numbers. **The
+denominator is the finding** — how many of a disease's published series carry a numbers-at-risk table at
+all. ⚠ Genuinely at risk of being a paragraph rather than a paper: if most series report well, the
+finding evaporates and it becomes the methods section of `PUB-IPD-SURVIVAL`. **That is knowable from step
+1b and should decide it.**
+
+⚠ **Neither is on the board.** Adding 7.2 to `publications.json` is a separate call, and §0's ordering
+applies: `PUB-MTAP-PRMT5`, `PUB-REPURPOSING` and `PUB-IPD-SURVIVAL` are live and rank ahead of it.
