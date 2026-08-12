@@ -79,6 +79,10 @@ _CFG = Config(retries={"max_attempts": 5, "mode": "standard"})
 _LOG: list[dict] = []
 
 
+def _code(e: ClientError) -> str:
+    return e.response.get("Error", {}).get("Code", "Unknown")
+
+
 def act(kind: str, what: str, detail: dict | None = None, fn=None) -> None:
     """One place where dry-run vs apply is decided, so no call site can accidentally bypass it."""
     row = {"action": kind, "target": what, "applied": False, **(detail or {})}
@@ -281,11 +285,28 @@ def _versioning_verdict(bucket: str, region: str) -> tuple[str, dict]:
     `VersionId` (of the new delete marker) and `DeleteMarker: True`; on an unversioned bucket it carries
     neither. That is one write and one delete of a throwaway key, using only permissions already measured
     open — a definitive reading for $0, in place of a prior about how SageMaker creates its default bucket.
+
+    ⚠ AND IT MUST NOT RAISE. The first version let a denial escape: the account holds a second bucket
+    (`cf-templates-…`, 4 objects, ~10 KB) that this key is not scoped to, and the probe's DeleteObject
+    there raised AccessDenied, aborting the whole run — AFTER the real bucket had been purged but BEFORE
+    the ECR and log-retention targets ran. A cleanup crashing on a 10 KB bucket must not strand the rest
+    of the work, so an unprobeable bucket returns UNKNOWN and is skipped by the caller.
+
+    ⚠ The probe writes BEFORE it deletes, so a bucket that allows PutObject and denies DeleteObject keeps
+    a stray probe object. That is reported rather than swallowed — it is small, but an unreported artifact
+    left behind by a cleanup tool is how the next census grows an unexplained row.
     """
     s3 = boto3.client("s3", region_name=region, config=_CFG)
     key = "_spend-probe/versioning-check.txt"
-    s3.put_object(Bucket=bucket, Key=key, Body=b"versioning check; safe to delete")
-    resp = s3.delete_object(Bucket=bucket, Key=key)
+    try:
+        s3.put_object(Bucket=bucket, Key=key, Body=b"versioning check; safe to delete")
+    except ClientError as e:
+        return "UNKNOWN", {"probe": "PutObject denied", "error": _code(e)}
+    try:
+        resp = s3.delete_object(Bucket=bucket, Key=key)
+    except ClientError as e:
+        return "UNKNOWN", {"probe": "DeleteObject denied", "error": _code(e),
+                           "stray_probe_object_left": f"s3://{bucket}/{key}"}
     evidence = {"delete_response_version_id": resp.get("VersionId"),
                 "delete_response_delete_marker": resp.get("DeleteMarker")}
     if resp.get("VersionId") and resp.get("VersionId") != "null":
@@ -326,6 +347,14 @@ def s3_purge(census: dict) -> None:
             print(f"  versioning verdict for s3://{bucket}: {verdict}  evidence={evidence}")
             _LOG.append({"action": "versioning-check", "target": bucket, "verdict": verdict,
                          "applied": True, **evidence})
+            if verdict == "UNKNOWN":
+                # Cannot establish whether deletes would actually free anything, and in practice this
+                # means the key is not scoped to the bucket at all. Skip rather than half-delete.
+                print(f"  ⛔ SKIPPED s3://{bucket}: cannot probe it ({evidence.get('error')}). "
+                      "This key is not scoped to this bucket, so it could not be purged anyway.")
+                _LOG.append({"action": "s3-purge", "target": bucket, "applied": False,
+                             "refused": "versioning_unknown", **evidence})
+                continue
             if verdict == "VERSIONED":
                 # Deleting would write delete markers and free nothing. Refuse rather than produce a
                 # successful-looking run that does not move the bill.
@@ -438,8 +467,21 @@ def main() -> int:
     print(f"census: {census.get('generated_utc')}   account: {census.get('account')}")
     print(f"targets: {targets}")
     print("=" * 96)
+    # ⛔ ONE TARGET'S FAILURE MUST NOT STRAND THE OTHERS. Measured 2026-08-12: an AccessDenied inside
+    # `s3_purge`, on a 10 KB bucket this key is not scoped to, propagated out of main() and killed the run
+    # — after the 2.7 TB purge had succeeded but before `ecr_delete_all` and `log_retention` ran. The work
+    # that mattered was done and the job still reported failure, which is the worst combination to read:
+    # it invites re-running a destructive step that already completed. Each target is isolated, and a
+    # target that raises is recorded as failed while the rest proceed.
+    failures: list[str] = []
     for t in targets:
-        TARGET_FNS[t](census)
+        try:
+            TARGET_FNS[t](census)
+        except Exception as e:  # noqa: BLE001
+            failures.append(t)
+            print(f"::error::target {t} raised {type(e).__name__}: {e}")
+            _LOG.append({"action": f"target:{t}", "applied": False,
+                         "error": f"{type(e).__name__}: {e}"})
     summary = {
         "generated_utc": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
         "applied": APPLY,
@@ -450,6 +492,7 @@ def main() -> int:
         "n_applied": sum(1 for r in _LOG if r.get("applied")),
         "n_failed": sum(1 for r in _LOG if r.get("error")),
         "n_refused": sum(1 for r in _LOG if r.get("refused")),
+        "failed_targets": failures,
     }
     with open(OUT, "w") as fh:
         json.dump(summary, fh, indent=2, sort_keys=True)
