@@ -441,6 +441,99 @@ receptor-tyrosine-kinase assay **at all** because untreated frozen material did 
 
 ---
 
+## 5 · The execution plan — ordered, costed, and split by who can actually do it
+
+⭐ **This section exists because §2 listed routes and a route is not a next action.** Each step below
+names what to run, what it costs, what it produces, and what would stop it.
+
+### 5.1 · ⛔ The distinction that governs step 1: READING A PRINTED NUMBER IS NOT DIGITISING A FIGURE
+
+Reconstruction needs two things from a paper: the **numbers-at-risk table** (printed as text) and the
+**curve coordinates** (readable only off the figure). These have completely different integrity
+profiles and must not be done in the same step.
+
+- **Extracting printed facts is safe and defensible.** Does this paper contain a Kaplan-Meier figure at
+  all? Does it print a numbers-at-risk table? What median survival does it state? Those are transcription,
+  checkable against the source, and they decide **admissibility** — which is the gating question.
+- ⛔ **Reading coordinates off a plotted curve is a HAND STEP WITH UNGUARDED ERROR.** The instrument's own
+  test docstring says so: the known-answer control feeds exact coordinates, so it bounds *algorithmic*
+  error and is *"structurally incapable of failing on digitization error."* An agent reading a rendered
+  figure by eye would produce clinical numbers whose error nothing in this repo measures.
+
+⭐ **So step 1 does the whole admissibility pass without digitising anything.** That is not a compromise —
+it is the larger half of the work, and it converts 17 unread candidates into a graded, admissible subset.
+
+### 5.2 · The steps
+
+| # | step | who | cost | produces | what stops it |
+|---:|---|---|---|---|---|
+| 1 | ✅ **DONE — full texts fetched and scanned** (Actions run `31605336241`, published to `literature-cache`). Result in [`emc-ipd-admissibility-2026-08-12.json`](../literature/emc-ipd-admissibility-2026-08-12.json). **It did not close the question, and why it could not is the finding — see 5.2a.** | me | **$0** (CI) | 5 of 7 retrieved; 4 report Kaplan-Meier analysis | 2 of 7 returned **HTTP 404** from the Europe PMC endpoint despite having PMCIDs |
+| 1b | **Inspect the figure graphics for an at-risk row** — a bounded yes/no observation, not digitisation. | me | **$0** | the actual admissible subset | nothing; this is the immediate next action |
+| 2 | **Adjudicate overlap** across the 11 flagged rows — Milan/INT recurrence and the US institutional recurrence — against study periods and institutions, which are already curated fields. | me | **$0** | a non-overlapping pooling set, as `POLICY-evidence.md` requires | study periods may not disambiguate; some will stay "cannot exclude overlap" and must be excluded |
+| 3 | ⛔ **DECIDE who digitises the curves.** | **trimcrae** | — | unblocks everything downstream | **This is a medical-integrity call, not a task.** See 5.3 |
+| 4 | **Register on PROSPERO before analysing.** | trimcrae (account) / me (protocol text) | **$0** | the credibility step that separates this from pooled numbers | registration requires a named person; it is an account, not an affiliation |
+| 5 | **Quantify the ICD-O-3 9231/3 split** before any SEER work. | me | **$0** | whether a 9231/3 cohort is an EMC cohort at all | already scoped as `RT-DIAGNOSTIC-PATHWAY`; unchanged by this survey |
+| 6 | **Obtain SEER Research base tier** — valid email, online form, DUA acknowledgement, ~2 business days, no fee. | **trimcrae** | **$0** | population denominators and treatment patterns | ⚠ needs a **Windows** environment for SEER\*Stat. Do **after** step 5, not before |
+| 7 | **Targeted evidence pass on archetypes 3–7** — the coverage hole, where recommendations currently outrun evidence. | me | **$0** | verified exemplars, venue policies, CACHE entry terms | *(running now)* |
+
+### 5.2a · ⛔ What step 1 established, and the trap it walked into
+
+**Four of the five retrieved papers report Kaplan-Meier survival analysis.** `chiusole2020` alone prints
+**four overall-survival curves** — by resection extent, sex, primary location and metastatic site — making
+it the richest single candidate found. `stacchiotti2013anthracycline` mentions no Kaplan-Meier analysis at
+all and probably carries no curve.
+
+⚠ **Two of seven were never retrieved.** `drilon2008` (PMC2779719) and `bishop2019` (PMC7771031) both
+returned **HTTP 404** from the Europe PMC full-text endpoint despite having PMCIDs. That is a statement
+about *that endpoint*, not about those papers, and they need a second route before anything is concluded.
+
+⛔ **And zero of the five mentions "numbers at risk" in its text or prints it in a table — which is a LIMIT
+OF THE METHOD, NOT A FINDING ABOUT THE PAPERS.** In JATS XML the at-risk row is rendered **inside the
+figure image**, so a full-text search is structurally incapable of seeing it whether or not it is there.
+Reporting "no EMC series carries an at-risk table" would have been exactly the error §4 of CLAUDE.md
+names: *an absent reading is not a reading of absence.* **The question is open and step 1b answers it.**
+
+⭐ **The useful distinction this exposed, which the original plan did not have.** There are *three* levels
+of engagement with a figure, not two, and only the third is the risky one:
+1. **Reading the caption** — pure text, entirely safe. Done.
+2. **Inspecting the plot for structure** — *is there a numbers-at-risk row beneath the axis?* A bounded
+   yes/no with no quantity attached. **Safe, and it is what decides admissibility.**
+3. **Reading coordinates off the curve** — a hand step with unguarded error. **This, and only this, is
+   trimcrae's decision in 5.3.**
+
+The original plan collapsed 2 and 3 together and therefore deferred more than it needed to.
+
+### 5.3 · ⛔ The one decision that is genuinely trimcrae's
+
+**Who reads the curve coordinates, and is an agent-read coordinate acceptable provenance for a clinical
+datum?**
+
+The instrument demands a `digitized_by` field precisely because this is a hand step. Three options, and
+this programme's medical-integrity rule makes the choice non-obvious:
+
+1. **trimcrae digitises** with WebPlotDigitizer — slowest, and the only option whose provenance is
+   unambiguous. The published method estimates roughly half an hour per curve.
+2. **An agent digitises**, recorded honestly as such — fast, and it puts numbers whose error nothing here
+   measures into a clinical artifact. ⚠ *The repository's first golden rule is never to fabricate medical
+   facts; a mis-read coordinate is not a fabrication in intent but is one in effect.*
+3. **Neither** — restrict the paper to what printed numbers alone support (pooled response rates, medians,
+   reporting-completeness findings). **Weaker, and entirely defensible.**
+
+⭐ **Option 3 is a real paper on its own**, and step 1 produces it as a byproduct. A survey of *how
+completely EMC's published survival literature reports itself* — how many series print a numbers-at-risk
+table at all — is both a finding and the methods section of whatever follows.
+
+### 5.4 · What this plan does NOT claim
+
+⚠ **Steps 1 and 2 do not produce a survival result.** They produce a graded, deduplicated,
+provenance-clean input set and an honest count of what is usable. That is the unglamorous half, it is
+where the route actually is, and pretending otherwise would repeat the error §0 describes.
+⛔ **And nothing here promises the pooled cohort is large.** The 1,133 figure is a sum across rows with
+known overlap; the non-overlapping admissible total could be a small fraction of it, and step 2 exists to
+find out rather than to assume.
+
+---
+
 ## Appendix A — corrections after adjudication, with the superseded wording retained
 
 ⚠ **Every line below was in this memo when it was first committed (`ff28beaa`) and was corrected once the

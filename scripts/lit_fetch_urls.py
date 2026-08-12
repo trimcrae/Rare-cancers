@@ -136,6 +136,34 @@ def fetch(name: str, url: str) -> dict:
         rec["error"] = repr(exc)
         return rec
 
+    # ⛔ AN IMAGE MUST NOT BE PUT THROUGH A UTF-8 TEXT WRITER. Every branch below ends at
+    # `open(..., "w", encoding="utf-8")`, and `data.decode("utf-8", errors="replace")` on a JPEG
+    # replaces most of the file with U+FFFD -- so the run reports success, the manifest records a
+    # plausible `chars` count, and the artifact is destroyed. That is the populated-field-is-not-a-
+    # measured-field shape this repo already has two incidents for, so images get their own path
+    # and are written in BINARY, with the .txt kept as a provenance stub pointing at them.
+    #
+    # Added 2026-08-12 for the EMC IPD admissibility pass: a Kaplan-Meier figure's
+    # numbers-at-risk row is rendered INSIDE THE FIGURE IMAGE, so it is invisible to full-text
+    # search and the only way to answer "is the curve admissible?" is to look at the graphic.
+    if ctype.lower().startswith("image/") or data[:3] == b"\xff\xd8\xff" or data[:8] == b"\x89PNG\r\n\x1a\n":
+        ext = {"image/jpeg": "jpg", "image/png": "png", "image/gif": "gif",
+               "image/tiff": "tif"}.get(ctype.split(";")[0].strip().lower())
+        if ext is None:
+            ext = "png" if data[:8] == b"\x89PNG\r\n\x1a\n" else "jpg"
+        binpath = os.path.join(OUT, f"{name}.{ext}")
+        with open(binpath, "wb") as fh:
+            fh.write(data)
+        rec["binary_path"] = os.path.basename(binpath)
+        rec["bytes"] = len(data)
+        rec["chars"] = 0
+        with open(os.path.join(OUT, f"{name}.txt"), "w", encoding="utf-8") as fh:
+            fh.write(f"SOURCE URL: {url}\nFINAL URL: {rec.get('final_url')}\n"
+                     f"HTTP: {rec.get('status')}\nCONTENT-TYPE: {ctype}\n"
+                     f"BINARY: {os.path.basename(binpath)} ({len(data)} bytes)\n"
+                     + "=" * 70 + "\nBinary image saved alongside this stub; not text.\n")
+        return rec
+
     if "pdf" in ctype.lower() or data[:5] == b"%PDF-":
         text = pdf_to_text(data)
     elif _looks_structured(ctype, data):
