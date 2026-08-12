@@ -1,91 +1,33 @@
 {
   "actions": [
     {
-      "action": "versioning-check",
-      "applied": true,
-      "delete_response_delete_marker": null,
-      "delete_response_version_id": null,
-      "target": "sagemaker-us-east-2-646605541856",
-      "verdict": "UNVERSIONED"
-    },
-    {
-      "action": "delete-objects",
-      "applied": true,
-      "bucket": "sagemaker-us-east-2-646605541856",
-      "n": 17,
-      "target": "s3://sagemaker-us-east-2-646605541856 [17 objects]"
-    },
-    {
-      "action": "s3-purge-summary",
-      "applied": true,
-      "gb_deleted": 0.0,
-      "n_deleted": 17,
-      "n_kept_tooling": 1,
-      "target": "sagemaker-us-east-2-646605541856",
-      "versioning": "UNVERSIONED"
-    },
-    {
-      "action": "versioning-check",
-      "applied": true,
-      "error": "AccessDenied",
-      "probe": "DeleteObject denied",
-      "stray_probe_object_left": "s3://cf-templates-v2kjpo1se7g0-us-east-2/_spend-probe/versioning-check.txt",
-      "target": "cf-templates-v2kjpo1se7g0-us-east-2",
-      "verdict": "UNKNOWN"
-    },
-    {
-      "action": "s3-purge",
-      "applied": false,
-      "error": "AccessDenied",
-      "probe": "DeleteObject denied",
-      "refused": "versioning_unknown",
-      "stray_probe_object_left": "s3://cf-templates-v2kjpo1se7g0-us-east-2/_spend-probe/versioning-check.txt",
-      "target": "cf-templates-v2kjpo1se7g0-us-east-2"
-    },
-    {
-      "action": "ecr-delete-repository",
+      "action": "ecr-batch-delete",
       "applied": false,
       "error": "AccessDeniedException",
-      "gb": 9.657,
+      "gb": 9.66,
+      "n": 1,
       "repo": "nr4a3-abfe",
-      "target": "nr4a3-abfe (us-east-2, 9.657 GB, 1 images)"
+      "target": "nr4a3-abfe (us-east-2): 1 images, 9.66 GB"
     },
     {
-      "action": "ecr-delete-repository",
+      "action": "ecr-batch-delete",
       "applied": false,
       "error": "AccessDeniedException",
-      "gb": 9.158,
+      "gb": 9.16,
+      "n": 1,
       "repo": "nr4a3-fep",
-      "target": "nr4a3-fep (us-east-2, 9.158 GB, 1 images)"
-    },
-    {
-      "action": "set-log-retention",
-      "applied": false,
-      "days": 30,
-      "error": "AccessDeniedException",
-      "log_group": "/aws/sagemaker/TrainingJobs",
-      "target": "/aws/sagemaker/TrainingJobs (us-east-2, 0.0289 GB) -> 30d"
-    },
-    {
-      "action": "set-log-retention",
-      "applied": false,
-      "days": 30,
-      "error": "AccessDeniedException",
-      "log_group": "/aws/sagemaker/ProcessingJobs",
-      "target": "/aws/sagemaker/ProcessingJobs (us-east-2, 0.0023 GB) -> 30d"
+      "target": "nr4a3-fep (us-east-2): 1 images, 9.16 GB"
     }
   ],
   "applied": true,
-  "census_generated_utc": "2026-08-12T23:51:31+00:00",
+  "census_generated_utc": "2026-08-12T23:53:28+00:00",
   "failed_targets": [],
-  "generated_utc": "2026-08-12T23:51:47+00:00",
-  "n_actions": 9,
-  "n_applied": 4,
-  "n_failed": 6,
-  "n_refused": 1,
+  "generated_utc": "2026-08-12T23:53:37+00:00",
+  "n_actions": 2,
+  "n_applied": 0,
+  "n_failed": 2,
+  "n_refused": 0,
   "targets": [
-    "s3_purge",
-    "ecr_delete_all",
-    "log_retention"
+    "ecr_prune"
   ]
 }
