@@ -59,6 +59,17 @@ TARGETS = {
     "sage_nat_journal": "https://journals.sagepub.com/home/nat",
     "sage_open_access_options": "https://us.sagepub.com/en-us/nam/open-access-at-sage",
     "sage_apc_information": "https://us.sagepub.com/en-us/nam/article-processing-charges-apcs",
+    # ⛔ THE PAGE THAT ACTUALLY DECIDES THE SUBMISSION, AND IT WAS NEVER TARGETED (2026-08-12).
+    # The four SAGE targets above answer the FEE question. None of them answers the two questions a
+    # manuscript has to be built against — the main-text word limit and the article types the
+    # journal accepts — because those live on the journal's own submission-guidelines page, and the
+    # venue plan recorded that limit as "~6,000 words" from an inference nobody had checked. A
+    # Short Communication written to a guessed limit is a Short Communication that may be the wrong
+    # length. `manuscript-submission-guidelines` is SAGE's standard per-journal path.
+    "sage_nat_submission_guidelines":
+        "https://journals.sagepub.com/author-instructions/NAT",
+    "sage_nat_aims_and_scope": "https://journals.sagepub.com/aims-scope/NAT",
+    "sage_nat_home_alt": "https://journals.sagepub.com/description/NAT",
     # ── bioRxiv, the free open copy for all four papers ─────────────────────────────────
     "biorxiv_faq": "https://www.biorxiv.org/about/FAQ",
     "biorxiv_submission_guide": "https://www.biorxiv.org/submit-a-manuscript",
