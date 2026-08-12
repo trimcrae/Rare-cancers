@@ -39,35 +39,30 @@ myxoid chondrosarcoma; sarcoma
 
 ## Abstract
 
-**Background.** Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma defined by
-rearrangement of *NR4A3* to a variable 5′ partner, most often *EWSR1*. The chimeric mRNA carries a
-breakpoint seam absent from every normal transcript, the disease's one tumour-exclusive feature at
-the RNA level. No junction-directed oligonucleotide has been reported against any NR4A3 fusion.
+**Background.** Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma defined by
+rearrangement of *NR4A3* to a variable 5′ partner. Its chimeric mRNA carries a breakpoint seam
+absent from every normal transcript — its one tumour-exclusive RNA feature. No junction-directed
+oligonucleotide has been reported against any NR4A3 fusion.
 
-**Methods.** Chimeric transcripts were built at the mRNA level from canonical Ensembl models,
-retaining the acceptor exon in full, and every donor-exon × *NR4A3*-acceptor-exon pair was graded
-across all five reported partners. Junction-spanning 16-mer 5-6-5 LNA/DNA/LNA gapmers were tiled over
-each frame-compatible seam and screened against every parent transcript, then against human RefSeq
-RNA by gap-resolved BLAST and against 186,185 transcripts by exhaustive ≤1-mismatch search.
+**Methods.** Chimeras were built at the mRNA level from canonical Ensembl models, acceptor exon
+retained whole; every donor-exon × acceptor-exon pair across five partners was graded.
+Junction-spanning 16-mer 5-6-5 LNA/DNA/LNA gapmers were tiled over each frame-compatible seam, then
+screened against all six parent transcripts, against RefSeq RNA by gap-resolved BLAST, and
+exhaustively for ≤1 mismatch over 186,185 transcripts.
 
-**Results.** Of 231 graded exon pairs, 38 are frame-compatible, and all 38 yield at least one
-junction-spanning gapmer that is not a perfect complement of any parent transcript. Twenty-four
-junctions were screened, sixteen of them with alignment orientation filtered. Because `blastn`
-searches both strands, near-matches must be filtered by orientation:
-a transcript carrying the reverse complement of the target window cannot be hybridised by an
-antisense oligonucleotide and is not a liability. Across the filtered corpus 47% of apparent
-gap-spanning risks are minus-strand, and the proportion varies from 4% to 100% between junctions, so
-the filter reorders them rather than rescaling them. After it, four designs at three *TCF12*
-junctions carry no hybridisable near-match at all, and the exhaustive scan independently returns no
-exact and no single-mismatch match anywhere in 186,185 transcripts for each. Separately, one 16-mer
-spans the seams of *EWSR1* exon 12, *TAF15* exon 11 and *FUS* exon 10 at once through ten identical
-donor bases — a sequence property and not a clinical one, since the only exon-resolved
-*TAF15::NR4A3* breakpoints published are exon 6.
+**Results.** Of 231 graded pairs, 38 are frame-compatible, and all 38 yield a gapmer matching no
+parent perfectly. Twenty-four junctions were screened, sixteen with orientation filtered: `blastn`
+searches both strands, and a reverse-complement match cannot hybridise. Such matches are 47% of
+apparent gap-spanning risks (362 of 777), ranging 4–100% between junctions, so filtering reorders
+junctions rather than rescaling them. Four designs at three *TCF12* junctions then carry no
+hybridisable near-match at all, no exact or single-mismatch match among 186,185 transcripts, and zero
+residual cleavage load under both literature discrimination bounds. One 16-mer spans the *EWSR1*
+exon 12, *TAF15* exon 11 and *FUS* exon 10 seams through ten identical donor bases — a sequence
+property, not a clinical one: published exon-resolved *TAF15::NR4A3* breakpoints are exon 6.
 
-**Conclusions.** Neither designability nor transcriptome load is the limiting step for junction
-gapmers in NR4A3-rearranged sarcoma; candidates with no detectable off-target exist. The limiting
-step is discrimination between the fusion and its parent transcripts at the catalytic gap, which is
-set by enzymology and chemistry, and which no computation here resolves.
+**Conclusions.** Neither designability nor transcriptome load limits junction gapmers here. The
+limiting step is discrimination between the fusion and its parent transcripts at the catalytic gap,
+set by enzymology and chemistry, which no computation here resolves.
 
 ---
 
@@ -75,7 +70,7 @@ set by enzymology and chemistry, and which no computation here resolves.
 
 EMC is defined in the large majority of cases by an in-frame fusion of *EWSR1* to the orphan nuclear
 receptor *NR4A3*,<sup>1</sup><!--PMID:8634690--> with *TAF15* accounting for a substantial minority
-and *TCF12* and *TFG* reported rarely,<sup>2</sup><!--PMID:32572850--> *FUS::NR4A3* is reported in
+and *TCF12* and *TFG* reported rarely.<sup>2</sup><!--PMID:32572850--> *FUS::NR4A3* is reported in
 a recent series that identified it by sequencing in two of five variant EMCs.<sup>3</sup><!--PMID:41755350--> Next-generation sequencing of EMC finds
 few recurrent secondary mutations beyond the fusion,<sup>4</sup><!--PMID:28423517--> so it is to a
 first approximation the single clonal driver. In every junction type described, the predicted
@@ -175,13 +170,20 @@ is not supported by the primary literature and is not used for any claim of clea
 discrimination for an unmodified RNase-H-active oligonucleotide is approximately
 five-fold,<sup>20</sup><!--PMID:23963702--> and at 16-mer length one study reports no efficient discrimination at
 all.<sup>21</sup><!--PMID:7567450--> Both measurements are against a single-nucleotide substitution rather than a fusion
-seam, and the pessimistic one used unmodified antisense DNA; they are applied here as the closest available bounds. Every screen was therefore re-scored under both bounds as a graded residual
-cleavage load, holding the hit set fixed so that only the scoring changed. Where a hit list reached
-its cap, counts are right-censored and are reported as lower bounds.
+seam, and the pessimistic one used unmodified antisense DNA; they are applied here as the closest
+available bounds. Every gap-resolved screen was therefore re-scored under both bounds as a graded
+residual cleavage load, holding the hit set fixed so that only the scoring changed: 25 of the 27
+screens, the two exceptions being one coverage-only screen that records no gap-mismatch depth and
+one that returned no successfully screened design. The re-score counts only hybridisable hits where
+it can — that is, where the retained hit list is complete, so every hit's strand is known. Where a
+hit list reached its cap the strand of the remainder is unrecoverable, and those designs keep a
+strand-blind count that is an upper bound; each design records which of the two applies. Where a hit
+list reached its cap, counts are right-censored and are reported as lower bounds.
 
 **Availability.** All code, graded artefacts and per-design tables are released under a single
 archived version [DATA AVAILABILITY DOI TO BE MINTED BEFORE SUBMISSION]. No result in this manuscript
-requires network access or credentials to reproduce from that archive.
+reported here requires network access or credentials to reproduce from that archive; only
+regenerating the specificity screens from scratch does.
 
 ## 3 · Results
 
@@ -196,7 +198,7 @@ necessary and sufficient across all 231 rows.
 
 Among these, *EWSR1* exon 12 joined to *NR4A3* exon 3 is the junction reported most often — type 1
 in 10 of the 15 *EWSR1*-rearranged tumours of an 18-case series<sup>22</sup><!--PMID:12378528--> — so
-designs against it address the largest documented patient group.
+designs at this seam correspond to the largest documented patient group.
 
 Every one of the 38 frame-compatible junctions yields at least one junction-spanning gapmer that is
 not a perfect complement of any of the six parent transcripts, at GC contents largely inside the
@@ -240,15 +242,17 @@ reported EMC partners. The check had little power to fail: any non-homologous do
 separate FET paralogy from incidental exon homology. The stronger evidence for paralogy is that four
 additional two-partner sets are also FET-only.
 
-On specificity the ordering inverts (Table 2). Taking each junction's best design after the
-orientation filter, three of the eight *TCF12* junctions carry a design with no hybridisable
-gap-spanning near-match at all, while the best across the six filtered *EWSR1*, *TAF15* and *FUS*
-junctions is one. *TFG* straddles both: of its two filtered junctions, exon 6 also reaches zero and
+On specificity the ordering inverts. Taking at each junction the lowest count any of its designs
+achieves after the orientation filter — which is not the convention of Table 2, where each row
+reports the design with the highest gap-level margin, so a junction's best design and its
+representative design need not be the same one — three of the eight *TCF12* junctions carry a design
+with no hybridisable gap-spanning near-match at all, while the lowest across the six filtered
+*EWSR1*, *TAF15* and *FUS* junctions is one. *TFG* straddles both: of its two filtered junctions, exon 6 also reaches zero and
 exon 2 reaches one. The distributions overlap rather than separate — the remaining five *TCF12*
 junctions match that best FET minimum of one rather than beating it — so it is the minima that
 distinguish the partners and not their distributions wholesale. Breadth and per-oligo
 specificity therefore point at different partners: the multi-partner reagent is a FET one, and every
-design with no detectable off-target is not.
+design with no hybridisable near-match is not.
 
 ### 3.4 · Strand orientation, and the designs that survive it
 
@@ -281,17 +285,28 @@ The two arms fail in different ways — one is a heuristic alignment search over
 other an exhaustive substitution scan over the sense orientation only — so their agreement is not a
 restatement.
 
-That agreement is also what validates the orientation call itself. Three designs return perfect
+The graded re-score agrees with both. Scoring every retained hit by the residual cleavage a
+gap-internal mismatch is predicted to permit, under the optimistic five-fold bound and under the
+pessimistic bound at which a 16-mer discriminates not at all, returns a residual load of zero for
+these same four designs and for no other design at any screened junction. That is the arithmetic
+consequence of their having no hybridisable hit to score rather than an independent measurement, but
+it is the point at which the discrimination model the Discussion rests on is applied to the
+candidates themselves, and under the harsher of the two bounds they survive it.
+
+That agreement is also what corroborates the orientation call itself. Three designs return perfect
 16/16 BLAST matches while the sense-only exhaustive scan reports no exact match. Both results can
 only be correct if every one of those BLAST hits is on the minus strand, and every one is.
 
 A chance argument bounds how surprising this should be, and it points the other way from what we
 first assumed. There are 1,129 16-mers within two substitutions of any given 16-mer, so an arbitrary
-transcriptome position matches at ≥14/16 with probability 2.6 × 10⁻⁷; over a RefSeq RNA set of order
-10⁸–10⁹ nucleotides that predicts 79–210 near-matches for any 16-mer whatever. The screened designs
-return far fewer. The model, not the instrument, is what is wrong: the exhaustive arm is complete for
-substitutions by construction, and it too comes in low — a median of 2 observed against 3.4–9.1
-predicted at the ≤1-mismatch threshold. Where an instrument with ground truth disagrees with the
+transcriptome position matches at ≥14/16 with probability 2.6 × 10⁻⁷; over an assumed RefSeq RNA
+span of 3 × 10⁸–8 × 10⁸ nucleotides (assumed, because the screens record transcripts scanned rather
+than nucleotides, and both bands here inherit that range) that predicts 79–210 near-matches for any
+16-mer whatever. The BLAST arm cannot test this: its hit list is capped at 50, which lies below the
+null's lower bound of 79, so any
+design must return fewer whatever the transcriptome contains. The exhaustive arm can test it, being
+complete for substitutions by construction, and it too comes in low, a median of 2 observed against
+3.4–9.1 predicted at the ≤1-mismatch threshold. Where an instrument with ground truth disagrees with the
 null, the null is over-predicting, as an independent-uniform-base model will against real transcript
 sequence. It separates "more than chance" from "at chance" and supports nothing finer.
 
@@ -300,8 +315,10 @@ hits per query, and 15 of the 75 filtered designs reach that cap; a further 36 e
 retained per design, so 51 in all carry right-censored counts. The four clean designs are not among
 them, returning one to eight raw hits each.
 Separately, BLAST is a heuristic and its sensitivity at ≥14/16 is unquantified here, so "no
-hybridisable near-match" is a statement about what this search found. The ≤1-mismatch result carries
-no such qualification, which is why it is the arm the cleanliness claim rests on.
+hybridisable near-match" is a statement about what this search found. The ≤1-mismatch result carries no such
+sensitivity qualification, being exhaustive for substitutions by construction, which is why it is the
+arm the cleanliness claim rests on; it remains blind to insertions and deletions, to the minus
+strand, and to pre-mRNA.
 
 ### 3.5 · Near-match counts overstate the number of loci
 
@@ -323,9 +340,9 @@ design returns no exact match and a single ≤1-mismatch match on the exhaustive
 ## 4 · Discussion
 
 Three findings stand, the second conditionally. Junction-spanning, parent-sparing designs exist at
-every frame-compatible NR4A3 fusion junction, and four of them carry no detectable off-target on
-either screen, so neither sequence availability nor transcriptome load is what constrains this
-modality here. One 16-mer spans three partners' seams at once through a measured ten-base donor
+every frame-compatible NR4A3 fusion junction, and four of them carry no hybridisable near-match on
+the alignment screen and no single-mismatch match on the exhaustive one, so neither sequence availability nor transcriptome load is what constrains this
+modality here. One 16-mer spans three partners' seams at once through a ten-base donor
 identity, which would change the deployable artefact for an ultra-rare disease from *n* bespoke
 oligonucleotides to a stock reagent — if patients carrying *TAF15* and *FUS* fusions prove to break at
 those exons, which the only exon-resolved *TAF15* data published say they do not. And the partner
@@ -365,7 +382,7 @@ cells, reduced fusion expression by 58% and proliferation by 22% in vitro.<sup>2
 both the mechanism and the multi-partner prediction; its predicted load — five gap-spanning
 near-matches at one uncharacterised locus and a single ≤1-mismatch transcriptome match (Table 2) —
 should travel with it. If the object is instead the cleanest available test of the mechanism alone,
-5′-GGGCATATCTCTATAA-3′ at *TCF12* exon 17 carries no detectable off-target on either screen, at the
+5′-GGGCATATCTCTATAA-3′ at *TCF12* exon 17 carries no hybridisable near-match on either screen, at the
 cost of addressing a partner reported in a few per cent of patients.
 
 Transferability depends on how that experiment is set up. The breakpoint of the cell line or patient sample must be established
@@ -424,11 +441,16 @@ oligonucleotide junction-spanning at all three seams — and is the same identit
 parent transcripts hard to discriminate from, so the gap-level margin of three is shown alongside.
 Coverage is predicted from sequence and has not been measured.
 
-**Figure 3. Transcriptome load per design against chance expectation.** Each bar is one design's
-count of exact plus ≤1-mismatch matches over 186,185 transcripts, ranked. The band is the number of
-such matches expected for an arbitrary 16-mer under an independent-uniform-base null (3.4–9.1);
-49 of the 60 designs at real junctions fall at or below its upper bound, and the two extreme
-outliers sit at a modelled control seam at 81.2% GC. Because this scan is exhaustive for
+**Figure 3. Transcriptome load per design against chance expectation.** Each bar is one distinct
+oligonucleotide's count of exact plus ≤1-mismatch matches over 186,185 transcripts, ranked. Fifty
+designs are plotted: the 60 design records at real exon junctions collapse to 50 molecules, because
+five of the 16-mers are junction-spanning at three partners' seams at once, and each of those is one
+physical oligonucleotide, plotted once rather than three times (marked). The band is the number of
+such matches expected for an arbitrary 16-mer under an independent-uniform-base null (3.4–9.1); 41
+of the 50 fall at or below its upper bound and nine exceed it. A further ten designs, from two
+modelled breakpoints whose seams were not built from a spliced transcript model, are not plotted;
+four of those ten exceed the band, at 16 to 95 matches and 75.0 to 81.2% GC. Because this scan is
+exhaustive for
 substitutions, the fact that observed load runs below the band is evidence that the null
 over-predicts against real transcript sequence rather than that the search is incomplete. The band
 separates "more than chance" from "at chance" and is not a significance test; the counts are
@@ -464,7 +486,7 @@ manuscript, and to conduct internal critical review of earlier drafts. Every qua
 here is produced by code in the released archive and is reproducible from it; no numerical result
 was generated by a language model directly. Every literature identifier was checked against a
 retrieved bibliographic record, and identifiers that could not be so anchored were removed rather
-than retained. The authors take full responsibility for the content, including for the correctness
+than retained. The author takes full responsibility for the content, including for the correctness
 of the code and for the interpretation of the results.
 
 ## References

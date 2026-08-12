@@ -86,7 +86,8 @@ def blast_put(seq):
     """Submit a short blastn search restricted to human RefSeq RNA; return the RID."""
     params = {
         "CMD": "Put", "PROGRAM": "blastn", "DATABASE": "refseq_rna",
-        "QUERY": seq, "WORD_SIZE": "7", "EXPECT": "1000", "HITLIST_SIZE": "50",
+        "QUERY": seq, "WORD_SIZE": "7", "EXPECT": "1000",
+        "HITLIST_SIZE": str(BLAST_HITLIST_SIZE),
         "FILTER": "F", "MEGABLAST": "off", "ENTREZ_QUERY": "txid9606[ORGN]",
     }
     html = _http(BLAST, data=urllib.parse.urlencode(params).encode())
@@ -170,6 +171,13 @@ def blast_hits(rid):
 
 #: Screens produced before orientation was parsed. Their counts are upper bounds, and any artifact
 #: whose hits lack `hit_frame` must be reported as such rather than quoted as a measurement.
+#: ⛔ BLAST's own ceiling on hits returned per query, and the reason a near-match count of
+#: exactly this value is a LOWER BOUND rather than a measurement. It is named because two
+#: different caps operate on the same numbers and conflating them misreads both: this one
+#: bounds what the search REPORTS, while the 15-hit retention below bounds what we STORE.
+#: The manuscript quotes both, and `submission_tables` marks its columns from them.
+BLAST_HITLIST_SIZE = 50
+
 ORIENTATION_PARSED_SINCE = "2026-08-12"
 
 #: The three states a committed screen can be in. They are DISTINCT on purpose: the middle one is
@@ -428,6 +436,35 @@ def grade_one(oligo, fold):
     saved = oligo.get("offtargets") or []
 
     hist = oligo.get("gap_mismatch_histogram")
+
+    # ⛔⛔ THE HISTOGRAM COUNTS HITS AN ANTISENSE OLIGONUCLEOTIDE CANNOT BIND, AND THAT PUT THIS
+    # PAPER'S CENTRAL NEGATIVE ON NON-LIABILITIES (2026-08-12). `gap_mismatch_histogram` is written
+    # over every ranked hit regardless of strand. `classify()` was fixed to divert minus-strand
+    # hits and `n_true_cleavage_risk` fell to 0 for the clean designs — while the histogram beside
+    # it still read {"0": 7, "1": 1} for an oligonucleotide whose eight hits are ALL minus-strand.
+    # The graded load is then 0.2 rather than 0, and `zero_predicted_cleavage_load` reads False for
+    # a design the paper reports as carrying no hybridisable near-match. A reviewer downloading the
+    # archive sees the graded artifact contradict the headline, and both are ours.
+    #
+    # ⚠ REPAIRED ONLY WHERE IT CAN BE, WHICH IS WHERE THE SAVED LIST IS COMPLETE. `screen_one`
+    # keeps the strongest 15 of a hitlist up to 50, so for a censored design the strand of the tail
+    # is gone and no honest recount exists — those keep the strand-blind histogram and are marked,
+    # so the load stays the upper bound it has always been rather than silently improving.
+    saved_all = oligo.get("offtargets") or []
+    n_near = int(oligo.get("n_offtarget_near_matches") or 0)
+    complete = bool(saved_all) and len(saved_all) == n_near
+    strand_known = any(h.get("is_minus_strand") is not None for h in saved_all)
+    hist_strand_aware = False
+    if hist and complete and strand_known:
+        rebuilt = {str(n): 0 for n in range(0, MAX_MISMATCHES_PER_NEAR_MATCH + 1)}
+        for h in saved_all:
+            if h.get("is_minus_strand") is True:
+                continue                                   # not hybridisable, not a liability
+            n_mm = h.get("gap_mismatches")
+            if n_mm is not None and str(n_mm) in rebuilt:
+                rebuilt[str(n_mm)] += 1
+        hist, hist_strand_aware = rebuilt, True
+
     if hist:
         # ⭐ COMPLETE histogram over every ranked hit — written by screens run after 2026-08-08.
         # No truncation, so the interval collapses to a point.
@@ -463,6 +500,11 @@ def grade_one(oligo, fold):
         "residual_cleavage_load_hi": round(hi, 4),
         "exact": unresolved == 0,
         "zero_predicted_cleavage_load": hi == 0.0,
+        # ⚠ WHICH HISTOGRAM THIS LOAD WAS BUILT ON, stated per oligo rather than per screen,
+        # because within one screen some designs are censored and some are not. False means the
+        # count still includes minus-strand hits and the load is an upper bound of unknown
+        # tightness — not a measurement of hybridisable liability.
+        "gap_histogram_orientation_filtered": hist_strand_aware,
     }
 
 

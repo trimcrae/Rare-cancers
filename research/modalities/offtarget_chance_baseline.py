@@ -43,6 +43,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "offtarget-chance-baseline.json")
 
 OLIGO_LEN = 16
+
+#: A source panel counts as a REAL junction only if its own record says its seam was built from a
+#: spliced transcript model. Both remaining panels predate that rebuild: neither carries a
+#: `junction_label`, and the one that carries a breakpoint at all states it in AMINO-ACID
+#: coordinates (`EWSR1_keep_aa` / `NR4A3_from_aa`), i.e. a protein-coordinate seam of the kind the
+#: manuscript's Declarations record as withdrawn in full. The classification is therefore read off
+#: each source file, never inferred from a filename.
+REAL_JUNCTION_BREAKPOINT_MODE = "real_exon_junction_mRNA"
 #: Transcriptome size is not recorded by the screens (they record transcript COUNT, 186,185, not
 #: nucleotides), so the expectation is reported as a RANGE over a plausible span rather than as a
 #: single number nobody measured. Naming the uncertainty is the point; picking a midpoint would hide it.
@@ -60,12 +68,42 @@ def chance_expectation(length, mismatches):
     return p, tuple(round(p * n, 1) for n in TRANSCRIPTOME_NT_RANGE)
 
 
-def collect_observed():
+def seam_class(d):
+    """('real_exon_junction'|'modelled_breakpoint', the breakpoint record that decided it)."""
+    bp = d.get("breakpoint") or {}
+    if d.get("junction_label") and bp.get("mode") == REAL_JUNCTION_BREAKPOINT_MODE:
+        return "real_exon_junction", bp.get("mode")
+    return "modelled_breakpoint", (bp or None)
+
+
+def committed_panel_set():
+    """The source panels the CURRENTLY COMMITTED artifact was built from, or None if there is none.
+
+    ⚠ WHY A CALLER WOULD EVER WANT THIS. The panel set grows: junctions acquire an uncapped
+    <=1-mismatch screen at different times, and every one that lands changes every count derived
+    here — the median, the at-or-below fraction, and therefore the figure and the sentences the
+    manuscript writes off them. Regenerating over a LARGER panel set is a data decision with
+    manuscript consequences, so it must be taken deliberately and not as a side effect of somebody
+    fixing an unrelated defect in the same file. `--panels-from-artifact` pins the panel set to the
+    committed one so that a derivation change can be shipped on its own; the default remains "read
+    everything that exists", which is what a refresh should do.
+    """
+    try:
+        d = json.load(open(OUT))
+    except (OSError, ValueError):
+        return None
+    return {r["_source"] for r in d.get("per_design", [])} or None
+
+
+def collect_observed(panels=None):
     """Every committed design's uncapped <=1-mismatch count, keyed by junction and sequence."""
     rows = []
     for path in sorted(glob.glob(os.path.join(HERE, "aso-insilico-evaluation*.json"))):
+        if panels is not None and os.path.basename(path) not in panels:
+            continue
         d = json.load(open(path))
         label = d.get("junction_label") or os.path.basename(path)
+        cls, bp = seam_class(d)
         for o in d.get("top_designs", []):
             if o.get("offtarget_le1mm") is None:
                 continue
@@ -73,14 +111,70 @@ def collect_observed():
                          "gc_percent": o.get("gc_percent"),
                          "offtarget_exact": o.get("offtarget_exact"),
                          "offtarget_le1mm": o["offtarget_le1mm"],
-                         "_source": os.path.basename(path)})
+                         "_source": os.path.basename(path),
+                         "seam_class": cls,
+                         "breakpoint_record": bp,
+                         "transcripts_scanned":
+                             (d.get("offtarget_screen") or {}).get("transcripts_scanned")})
     return rows
 
 
-def build():
+def dedupe_sequences(rows):
+    """One entry per distinct oligonucleotide, in the row order first seen.
+
+    ⛔ WHY THIS EXISTS, AND WHAT IT FIXES. A row of `per_design` is a (junction, design) PAIR, not a
+    molecule. Five of these 16-mers are junction-spanning at THREE partners' seams at once — the
+    multi-partner designs the manuscript headlines — so each appears once per junction and any
+    consumer that iterates rows counts one physical oligonucleotide three times. That is
+    pseudoreplication, and it inflated the published at-or-below fraction. The de-duplicated view is
+    built HERE rather than in a figure script so that every consumer gets the same one.
+
+    The three copies of a multi-partner design are the same sequence screened against the same
+    transcriptome, so their counts must agree; a disagreement would mean the screens are not
+    comparable and is raised rather than silently resolved by picking a copy.
+    """
+    keyed = {}
+    for r in rows:
+        s = r["antisense_5to3"]
+        prev = keyed.get(s)
+        if prev is None:
+            keyed[s] = {"antisense_5to3": s, "junctions": [r["junction"]],
+                        "n_junctions": 1, "seam_class": r["seam_class"],
+                        "gc_percent": r["gc_percent"],
+                        "offtarget_exact": r["offtarget_exact"],
+                        "offtarget_le1mm": r["offtarget_le1mm"],
+                        "_sources": [r["_source"]]}
+            continue
+        for k in ("gc_percent", "offtarget_exact", "offtarget_le1mm", "seam_class"):
+            if prev[k] != r[k]:
+                raise ValueError(
+                    f"the same oligonucleotide {s} carries {k}={prev[k]!r} at "
+                    f"{prev['junctions'][0]} and {r[k]!r} at {r['junction']}; the copies are not "
+                    "the same screen and must not be merged")
+        prev["junctions"].append(r["junction"])
+        prev["_sources"].append(r["_source"])
+        prev["n_junctions"] += 1
+    return list(keyed.values())
+
+
+def _uniform(vals):
+    """The single value shared by every element, or a raise — never a silent pick."""
+    s = set(vals)
+    if len(s) != 1:
+        raise ValueError(f"expected one shared value, got {sorted(s)}")
+    return s.pop()
+
+
+def _span(vals):
+    """[min, max] over a non-empty iterable, for captions that quote a range."""
+    v = sorted(vals)
+    return [v[0], v[-1]]
+
+
+def build(panels=None):
     p2, exp2 = chance_expectation(OLIGO_LEN, 2)
     p1, exp1 = chance_expectation(OLIGO_LEN, 1)
-    rows = collect_observed()
+    rows = collect_observed(panels)
     counts = sorted(r["offtarget_le1mm"] for r in rows)
     n = len(counts)
     median = counts[n // 2] if n % 2 else (counts[n // 2 - 1] + counts[n // 2]) / 2
@@ -91,6 +185,20 @@ def build():
         r["expected_le1mm_lo"], r["expected_le1mm_hi"] = lo, hi
         r["at_or_below_chance"] = c <= hi
         r["ratio_to_chance_hi"] = round(c / hi, 2) if hi else None
+
+    seqs = dedupe_sequences(rows)
+    for s in seqs:
+        c = s["offtarget_le1mm"]
+        s["expected_le1mm_lo"], s["expected_le1mm_hi"] = lo, hi
+        s["at_or_below_chance"] = c <= hi
+        s["ratio_to_chance_hi"] = round(c / hi, 2) if hi else None
+    seqs.sort(key=lambda s: (s["offtarget_le1mm"], s["antisense_5to3"]))
+
+    plotted = [s for s in seqs if s["seam_class"] == "real_exon_junction"]
+    excluded = [s for s in seqs if s["seam_class"] != "real_exon_junction"]
+    exc_above = [s for s in excluded if not s["at_or_below_chance"]]
+    multi = [s for s in plotted if s["n_junctions"] > 1]
+    scanned = sorted({r["transcripts_scanned"] for r in rows})
 
     return {
         "_title": "Chance baseline for junction-gapmer off-target counts",
@@ -133,6 +241,59 @@ def build():
             "min": counts[0], "median": median, "max": counts[-1],
             "mean": round(sum(counts) / n, 1),
             "n_at_or_below_chance_upper": sum(1 for r in rows if r["at_or_below_chance"]),
+            "_unit_caveat": (
+                "⚠ THESE ARE ROWS, NOT MOLECULES. A row is a (junction, design) pair, and five "
+                "designs are junction-spanning at three seams each, so they are counted three "
+                "times here. Anything that reports a FRACTION OF DESIGNS must read "
+                "`observed_distinct_sequences` or `figure_series` instead; this block is retained "
+                "because per-junction consumers legitimately want the per-junction rows."),
+        },
+        "observed_distinct_sequences": {
+            "_what": (
+                "The same designs counted as PHYSICAL OLIGONUCLEOTIDES: one entry per distinct "
+                "antisense sequence, whatever number of junctions it spans."),
+            "n_rows": n,
+            "n_sequences": len(seqs),
+            "n_sequences_spanning_multiple_junctions": len(multi),
+            "junctions_spanned_by_each_of_those": sorted({s["n_junctions"] for s in multi}),
+            "n_at_or_below_chance_upper": sum(1 for s in seqs if s["at_or_below_chance"]),
+        },
+        "figure_series": {
+            "_what": (
+                "Exactly what the manuscript's chance-baseline figure draws, resolved here so the "
+                "drawing script computes nothing: one bar per distinct oligonucleotide at a REAL "
+                "exon junction, ranked by observed load."),
+            "unit": "one distinct oligonucleotide",
+            "seam_class_plotted": "real_exon_junction",
+            "transcripts_scanned": scanned[0] if len(scanned) == 1 else scanned,
+            "n_plotted": len(plotted),
+            "n_at_or_below_chance_upper": sum(1 for s in plotted if s["at_or_below_chance"]),
+            "n_above_chance_upper": sum(1 for s in plotted if not s["at_or_below_chance"]),
+            "n_multi_junction_sequences": len(multi),
+            #: A scalar, not the set, because a caption has to say "each spans N junctions" in
+            #: words. Uniformity is asserted rather than assumed — a mixed set would make that
+            #: sentence false and there would be no way to tell from the number alone.
+            "multi_junction_span": _uniform(s["n_junctions"] for s in multi),
+            "multi_junction_sequences": [s["antisense_5to3"] for s in multi],
+            "excluded": {
+                "_why": (
+                    "These panels' seams were not built from a spliced transcript model: neither "
+                    "source records a `junction_label`, and the one that records a breakpoint at "
+                    "all states it in amino-acid coordinates. They are modelled control seams, and "
+                    "plotting them beside real junctions invites the reader to grade real designs "
+                    "against sequence that no patient transcript is known to carry."),
+                "n_excluded": len(excluded),
+                "n_breakpoints": len({s["_sources"][0] for s in excluded}),
+                "sources": sorted({s["_sources"][0] for s in excluded}),
+                "n_at_or_below_chance_upper": len(excluded) - len(exc_above),
+                "n_above_chance_upper": len(exc_above),
+                "above_offtarget_le1mm": [s["offtarget_le1mm"] for s in exc_above],
+                "above_offtarget_le1mm_range": _span(s["offtarget_le1mm"] for s in exc_above),
+                "above_gc_percent": [s["gc_percent"] for s in exc_above],
+                "above_gc_percent_range": _span(s["gc_percent"] for s in exc_above),
+                "gc_percent_all": [s["gc_percent"] for s in excluded],
+            },
+            "series": plotted,
         },
         "_reading": (
             f"At the <=1-mismatch threshold chance alone predicts {lo}-{hi} hits per 16-mer. The "
@@ -142,15 +303,23 @@ def build():
             "because no 16-mer can be, and most designs carry no more transcriptome load than "
             "chance. The outliers are the informative rows."),
         "per_design": rows,
+        "per_sequence": seqs,
     }
 
 
-def main():
-    res = build()
+def main(argv=None):
+    argv = sys.argv[1:] if argv is None else argv
+    panels = committed_panel_set() if "--panels-from-artifact" in argv else None
+    if panels is not None:
+        print(f"panel set pinned to the committed artifact's {len(panels)} sources", file=sys.stderr)
+    res = build(panels)
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(res, fh, indent=2)
     print("wrote", OUT, file=sys.stderr)
-    print(json.dumps({k: v for k, v in res.items() if k != "per_design"}, indent=2))
+    summary = {k: v for k, v in res.items() if k not in ("per_design", "per_sequence")}
+    summary["figure_series"] = {k: v for k, v in summary["figure_series"].items()
+                                if k != "series"}
+    print(json.dumps(summary, indent=2))
     return 0
 
 

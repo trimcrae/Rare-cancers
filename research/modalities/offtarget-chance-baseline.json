@@ -2,7 +2,7 @@
   "_title": "Chance baseline for junction-gapmer off-target counts",
   "_generated_by": "research/modalities/offtarget_chance_baseline.py",
   "_cost": "$0 \u2014 arithmetic over committed artifacts. No network, no GPU.",
-  "_utc": "2026-08-12T14:12:51Z",
+  "_utc": "2026-08-12T23:49:49Z",
   "_why": "The manuscript's negative headline \u2014 '0 of 58 designs predicted off-target-clean' \u2014 is arithmetically unavoidable at a >=14/16 identity threshold and therefore says nothing about this disease, this fusion, or these junctions. This file computes what chance alone predicts, so an observed count can be read against it.",
   "_what_this_is_not": [
     "NOT a significance test and NOT a p-value. The null assumes independent uniform bases; real transcript sequence is composition-skewed, repetitive, and full of paralogues and transcript variants of one locus. It is an order-of-magnitude reference only.",
@@ -36,7 +36,1001 @@
     "median": 2.0,
     "max": 95,
     "mean": 7.6,
-    "n_at_or_below_chance_upper": 55
+    "n_at_or_below_chance_upper": 55,
+    "_unit_caveat": "\u26a0 THESE ARE ROWS, NOT MOLECULES. A row is a (junction, design) pair, and five designs are junction-spanning at three seams each, so they are counted three times here. Anything that reports a FRACTION OF DESIGNS must read `observed_distinct_sequences` or `figure_series` instead; this block is retained because per-junction consumers legitimately want the per-junction rows."
+  },
+  "observed_distinct_sequences": {
+    "_what": "The same designs counted as PHYSICAL OLIGONUCLEOTIDES: one entry per distinct antisense sequence, whatever number of junctions it spans.",
+    "n_rows": 70,
+    "n_sequences": 60,
+    "n_sequences_spanning_multiple_junctions": 5,
+    "junctions_spanned_by_each_of_those": [
+      3
+    ],
+    "n_at_or_below_chance_upper": 47
+  },
+  "figure_series": {
+    "_what": "Exactly what the manuscript's chance-baseline figure draws, resolved here so the drawing script computes nothing: one bar per distinct oligonucleotide at a REAL exon junction, ranked by observed load.",
+    "unit": "one distinct oligonucleotide",
+    "seam_class_plotted": "real_exon_junction",
+    "transcripts_scanned": 186185,
+    "n_plotted": 50,
+    "n_at_or_below_chance_upper": 41,
+    "n_above_chance_upper": 9,
+    "n_multi_junction_sequences": 5,
+    "multi_junction_span": 3,
+    "multi_junction_sequences": [
+      "GGGCATATCATCAAAC",
+      "AGGGCATATCATCAAA",
+      "CAGGGCATATCATCAA",
+      "GGCATATCATCAAACC",
+      "GCATATCATCAAACCA"
+    ],
+    "excluded": {
+      "_why": "These panels' seams were not built from a spliced transcript model: neither source records a `junction_label`, and the one that records a breakpoint at all states it in amino-acid coordinates. They are modelled control seams, and plotting them beside real junctions invites the reader to grade real designs against sequence that no patient transcript is known to carry.",
+      "n_excluded": 10,
+      "n_breakpoints": 2,
+      "sources": [
+        "aso-insilico-evaluation-bp200-8.json",
+        "aso-insilico-evaluation.json"
+      ],
+      "n_at_or_below_chance_upper": 6,
+      "n_above_chance_upper": 4,
+      "above_offtarget_le1mm": [
+        16,
+        17,
+        58,
+        95
+      ],
+      "above_offtarget_le1mm_range": [
+        16,
+        95
+      ],
+      "above_gc_percent": [
+        75.0,
+        75.0,
+        81.2,
+        81.2
+      ],
+      "above_gc_percent_range": [
+        75.0,
+        81.2
+      ],
+      "gc_percent_all": [
+        56.2,
+        56.2,
+        50.0,
+        62.5,
+        56.2,
+        75.0,
+        75.0,
+        75.0,
+        81.2,
+        81.2
+      ]
+    },
+    "series": [
+      {
+        "antisense_5to3": "AGGGCATATCAAGCGC",
+        "junctions": [
+          "TCF12_e7__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 56.2,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e7n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "AGGGCATATCTAGAAT",
+        "junctions": [
+          "TCF12_e11__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 37.5,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e11n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "AGGGCATATCTCTGAC",
+        "junctions": [
+          "TCF12_e19__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e19n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "AGGGCATATCTTGCAT",
+        "junctions": [
+          "TCF12_e9__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e9n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "CAGGGCATATCTTGCA",
+        "junctions": [
+          "TCF12_e9__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e9n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "GCATATCAAGCGCTGC",
+        "junctions": [
+          "TCF12_e7__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 56.2,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e7n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "GCATATCTCTGACTTG",
+        "junctions": [
+          "TCF12_e19__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e19n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "GGCATATCAAGCGCTG",
+        "junctions": [
+          "TCF12_e7__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 56.2,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e7n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "GGGCATATCAAGCGCT",
+        "junctions": [
+          "TCF12_e7__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 56.2,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e7n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "GGGCATATCTCTATAA",
+        "junctions": [
+          "TCF12_e17__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 37.5,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e17n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "GGGCATATCTGATCCA",
+        "junctions": [
+          "TCF12_e3__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e3n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "GGGCATATCTGTGAGA",
+        "junctions": [
+          "TCF12_e13__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 0,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e13n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.0
+      },
+      {
+        "antisense_5to3": "CAGGGCATATCAAGCG",
+        "junctions": [
+          "TCF12_e7__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 56.2,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 1,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e7n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.11
+      },
+      {
+        "antisense_5to3": "CAGGGCATATCTGATC",
+        "junctions": [
+          "TCF12_e3__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 1,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e3n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.11
+      },
+      {
+        "antisense_5to3": "GCATATCTCTATAATT",
+        "junctions": [
+          "TCF12_e17__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 25.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 1,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e17n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.11
+      },
+      {
+        "antisense_5to3": "GCATATCTGTGAGAGG",
+        "junctions": [
+          "TCF12_e13__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 1,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e13n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.11
+      },
+      {
+        "antisense_5to3": "GGCATATCTCTATAAT",
+        "junctions": [
+          "TCF12_e17__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 31.2,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 1,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e17n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.11
+      },
+      {
+        "antisense_5to3": "GGCATATCTCTGACTT",
+        "junctions": [
+          "TCF12_e19__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 1,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e19n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.11
+      },
+      {
+        "antisense_5to3": "GGCATATCTGTGAGAG",
+        "junctions": [
+          "TCF12_e13__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 1,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e13n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.11
+      },
+      {
+        "antisense_5to3": "GGGCATATCATCAAAC",
+        "junctions": [
+          "EWSR1_e12__NR4A3_e3",
+          "FUS_e10__NR4A3_e3",
+          "TAF15_e11__NR4A3_e3"
+        ],
+        "n_junctions": 3,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 1,
+        "_sources": [
+          "aso-insilico-evaluation-e12n3.json",
+          "aso-insilico-evaluation-fuse10n3.json",
+          "aso-insilico-evaluation-taf15e11n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.11
+      },
+      {
+        "antisense_5to3": "GGGCATATCTAGAATG",
+        "junctions": [
+          "TCF12_e11__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 1,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e11n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.11
+      },
+      {
+        "antisense_5to3": "GGGCATATCTCTGACT",
+        "junctions": [
+          "TCF12_e19__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 1,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e19n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.11
+      },
+      {
+        "antisense_5to3": "AGGGCATATCATCAAA",
+        "junctions": [
+          "EWSR1_e12__NR4A3_e3",
+          "FUS_e10__NR4A3_e3",
+          "TAF15_e11__NR4A3_e3"
+        ],
+        "n_junctions": 3,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 37.5,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 2,
+        "_sources": [
+          "aso-insilico-evaluation-e12n3.json",
+          "aso-insilico-evaluation-fuse10n3.json",
+          "aso-insilico-evaluation-taf15e11n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.22
+      },
+      {
+        "antisense_5to3": "AGGGCATATCCATCAG",
+        "junctions": [
+          "TCF12_e5__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 2,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e5n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.22
+      },
+      {
+        "antisense_5to3": "CAGGGCATATCATCAA",
+        "junctions": [
+          "EWSR1_e12__NR4A3_e3",
+          "FUS_e10__NR4A3_e3",
+          "TAF15_e11__NR4A3_e3"
+        ],
+        "n_junctions": 3,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 2,
+        "_sources": [
+          "aso-insilico-evaluation-e12n3.json",
+          "aso-insilico-evaluation-fuse10n3.json",
+          "aso-insilico-evaluation-taf15e11n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.22
+      },
+      {
+        "antisense_5to3": "CAGGGCATATCCATCA",
+        "junctions": [
+          "TCF12_e5__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 2,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e5n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.22
+      },
+      {
+        "antisense_5to3": "CAGGGCATATCTAGAA",
+        "junctions": [
+          "TCF12_e11__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 2,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e11n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.22
+      },
+      {
+        "antisense_5to3": "CAGGGCATATCTCTGA",
+        "junctions": [
+          "TCF12_e19__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 2,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e19n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.22
+      },
+      {
+        "antisense_5to3": "GCATATCCATCAGATT",
+        "junctions": [
+          "TCF12_e5__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 37.5,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 2,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e5n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.22
+      },
+      {
+        "antisense_5to3": "GCATATCTGATCCACT",
+        "junctions": [
+          "TCF12_e3__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 2,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e3n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.22
+      },
+      {
+        "antisense_5to3": "GGCATATCTGATCCAC",
+        "junctions": [
+          "TCF12_e3__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 2,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e3n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.22
+      },
+      {
+        "antisense_5to3": "CAGGGCATATCTGTGA",
+        "junctions": [
+          "TCF12_e13__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 3,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e13n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.33
+      },
+      {
+        "antisense_5to3": "GCATATTCTGCTGCCC",
+        "junctions": [
+          "EWSR1_e7__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 56.2,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 3,
+        "_sources": [
+          "aso-insilico-evaluation-e7n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.33
+      },
+      {
+        "antisense_5to3": "CAGGGCATATTCTGCT",
+        "junctions": [
+          "EWSR1_e7__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 4,
+        "_sources": [
+          "aso-insilico-evaluation-e7n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.44
+      },
+      {
+        "antisense_5to3": "GCATATCTAGAATGCT",
+        "junctions": [
+          "TCF12_e11__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 37.5,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 4,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e11n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.44
+      },
+      {
+        "antisense_5to3": "CAGGGCATATCTCTAT",
+        "junctions": [
+          "TCF12_e17__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 5,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e17n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.55
+      },
+      {
+        "antisense_5to3": "AGGGCATATCTCTATA",
+        "junctions": [
+          "TCF12_e17__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 37.5,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 6,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e17n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.66
+      },
+      {
+        "antisense_5to3": "GGCATATCTAGAATGC",
+        "junctions": [
+          "TCF12_e11__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 6,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e11n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.66
+      },
+      {
+        "antisense_5to3": "GGCATATCATCAAACC",
+        "junctions": [
+          "EWSR1_e12__NR4A3_e3",
+          "FUS_e10__NR4A3_e3",
+          "TAF15_e11__NR4A3_e3"
+        ],
+        "n_junctions": 3,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 7,
+        "_sources": [
+          "aso-insilico-evaluation-e12n3.json",
+          "aso-insilico-evaluation-fuse10n3.json",
+          "aso-insilico-evaluation-taf15e11n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.77
+      },
+      {
+        "antisense_5to3": "GGGCATATCTTGCATA",
+        "junctions": [
+          "TCF12_e9__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 8,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e9n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.88
+      },
+      {
+        "antisense_5to3": "GGGCATATTCTGCTGC",
+        "junctions": [
+          "EWSR1_e7__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 56.2,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 9,
+        "_sources": [
+          "aso-insilico-evaluation-e7n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": true,
+        "ratio_to_chance_hi": 0.99
+      },
+      {
+        "antisense_5to3": "AGGGCATATCTGTGAG",
+        "junctions": [
+          "TCF12_e13__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 12,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e13n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": false,
+        "ratio_to_chance_hi": 1.32
+      },
+      {
+        "antisense_5to3": "AGGGCATATTCTGCTG",
+        "junctions": [
+          "EWSR1_e7__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 12,
+        "_sources": [
+          "aso-insilico-evaluation-e7n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": false,
+        "ratio_to_chance_hi": 1.32
+      },
+      {
+        "antisense_5to3": "GGCATATCTTGCATAA",
+        "junctions": [
+          "TCF12_e9__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 37.5,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 13,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e9n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": false,
+        "ratio_to_chance_hi": 1.43
+      },
+      {
+        "antisense_5to3": "GGGCATATCCATCAGA",
+        "junctions": [
+          "TCF12_e5__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 14,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e5n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": false,
+        "ratio_to_chance_hi": 1.54
+      },
+      {
+        "antisense_5to3": "GGCATATTCTGCTGCC",
+        "junctions": [
+          "EWSR1_e7__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 56.2,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 21,
+        "_sources": [
+          "aso-insilico-evaluation-e7n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": false,
+        "ratio_to_chance_hi": 2.31
+      },
+      {
+        "antisense_5to3": "GCATATCATCAAACCA",
+        "junctions": [
+          "EWSR1_e12__NR4A3_e3",
+          "FUS_e10__NR4A3_e3",
+          "TAF15_e11__NR4A3_e3"
+        ],
+        "n_junctions": 3,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 37.5,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 22,
+        "_sources": [
+          "aso-insilico-evaluation-e12n3.json",
+          "aso-insilico-evaluation-fuse10n3.json",
+          "aso-insilico-evaluation-taf15e11n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": false,
+        "ratio_to_chance_hi": 2.42
+      },
+      {
+        "antisense_5to3": "GCATATCTTGCATAAA",
+        "junctions": [
+          "TCF12_e9__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 31.2,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 23,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e9n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": false,
+        "ratio_to_chance_hi": 2.53
+      },
+      {
+        "antisense_5to3": "GGCATATCCATCAGAT",
+        "junctions": [
+          "TCF12_e5__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 43.8,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 32,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e5n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": false,
+        "ratio_to_chance_hi": 3.52
+      },
+      {
+        "antisense_5to3": "AGGGCATATCTGATCC",
+        "junctions": [
+          "TCF12_e3__NR4A3_e3"
+        ],
+        "n_junctions": 1,
+        "seam_class": "real_exon_junction",
+        "gc_percent": 50.0,
+        "offtarget_exact": 0,
+        "offtarget_le1mm": 35,
+        "_sources": [
+          "aso-insilico-evaluation-tcf12e3n3.json"
+        ],
+        "expected_le1mm_lo": 3.4,
+        "expected_le1mm_hi": 9.1,
+        "at_or_below_chance": false,
+        "ratio_to_chance_hi": 3.85
+      }
+    ]
   },
   "_reading": "At the <=1-mismatch threshold chance alone predicts 3.4-9.1 hits per 16-mer. The observed median across 70 committed designs is 2.0. The median design is therefore AT OR BELOW what an arbitrary oligonucleotide of this length would return, which is the honest form of the paper's specificity statement: no design is clean because no 16-mer can be, and most designs carry no more transcriptome load than chance. The outliers are the informative rows.",
   "per_design": [
@@ -47,6 +1041,13 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-bp200-8.json",
+      "seam_class": "modelled_breakpoint",
+      "breakpoint_record": {
+        "EWSR1_keep_aa": 200,
+        "NR4A3_from_aa": 8,
+        "is_canonical": false
+      },
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -59,6 +1060,13 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-bp200-8.json",
+      "seam_class": "modelled_breakpoint",
+      "breakpoint_record": {
+        "EWSR1_keep_aa": 200,
+        "NR4A3_from_aa": 8,
+        "is_canonical": false
+      },
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -71,6 +1079,13 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-bp200-8.json",
+      "seam_class": "modelled_breakpoint",
+      "breakpoint_record": {
+        "EWSR1_keep_aa": 200,
+        "NR4A3_from_aa": 8,
+        "is_canonical": false
+      },
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -83,6 +1098,13 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-bp200-8.json",
+      "seam_class": "modelled_breakpoint",
+      "breakpoint_record": {
+        "EWSR1_keep_aa": 200,
+        "NR4A3_from_aa": 8,
+        "is_canonical": false
+      },
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -95,6 +1117,13 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-bp200-8.json",
+      "seam_class": "modelled_breakpoint",
+      "breakpoint_record": {
+        "EWSR1_keep_aa": 200,
+        "NR4A3_from_aa": 8,
+        "is_canonical": false
+      },
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -107,6 +1136,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-e12n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -119,6 +1151,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-e12n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -131,6 +1166,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-e12n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -143,6 +1181,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 7,
       "_source": "aso-insilico-evaluation-e12n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -155,6 +1196,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 22,
       "_source": "aso-insilico-evaluation-e12n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -167,6 +1211,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 3,
       "_source": "aso-insilico-evaluation-e7n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -179,6 +1226,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 4,
       "_source": "aso-insilico-evaluation-e7n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -191,6 +1241,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 9,
       "_source": "aso-insilico-evaluation-e7n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -203,6 +1256,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 12,
       "_source": "aso-insilico-evaluation-e7n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -215,6 +1271,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 21,
       "_source": "aso-insilico-evaluation-e7n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -227,6 +1286,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-fuse10n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -239,6 +1301,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-fuse10n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -251,6 +1316,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-fuse10n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -263,6 +1331,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 7,
       "_source": "aso-insilico-evaluation-fuse10n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -275,6 +1346,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 22,
       "_source": "aso-insilico-evaluation-fuse10n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -287,6 +1361,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-taf15e11n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -299,6 +1376,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-taf15e11n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -311,6 +1391,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-taf15e11n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -323,6 +1406,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 7,
       "_source": "aso-insilico-evaluation-taf15e11n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -335,6 +1421,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 22,
       "_source": "aso-insilico-evaluation-taf15e11n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -347,6 +1436,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e11n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -359,6 +1451,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-tcf12e11n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -371,6 +1466,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-tcf12e11n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -383,6 +1481,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 4,
       "_source": "aso-insilico-evaluation-tcf12e11n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -395,6 +1496,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 6,
       "_source": "aso-insilico-evaluation-tcf12e11n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -407,6 +1511,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e13n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -419,6 +1526,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-tcf12e13n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -431,6 +1541,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-tcf12e13n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -443,6 +1556,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 3,
       "_source": "aso-insilico-evaluation-tcf12e13n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -455,6 +1571,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 12,
       "_source": "aso-insilico-evaluation-tcf12e13n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -467,6 +1586,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e17n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -479,6 +1601,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-tcf12e17n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -491,6 +1616,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-tcf12e17n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -503,6 +1631,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 5,
       "_source": "aso-insilico-evaluation-tcf12e17n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -515,6 +1646,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 6,
       "_source": "aso-insilico-evaluation-tcf12e17n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -527,6 +1661,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e19n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -539,6 +1676,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e19n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -551,6 +1691,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-tcf12e19n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -563,6 +1706,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-tcf12e19n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -575,6 +1721,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-tcf12e19n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -587,6 +1736,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e3n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -599,6 +1751,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-tcf12e3n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -611,6 +1766,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-tcf12e3n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -623,6 +1781,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-tcf12e3n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -635,6 +1796,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 35,
       "_source": "aso-insilico-evaluation-tcf12e3n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -647,6 +1811,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-tcf12e5n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -659,6 +1826,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-tcf12e5n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -671,6 +1841,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 2,
       "_source": "aso-insilico-evaluation-tcf12e5n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -683,6 +1856,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 14,
       "_source": "aso-insilico-evaluation-tcf12e5n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -695,6 +1871,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 32,
       "_source": "aso-insilico-evaluation-tcf12e5n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -707,6 +1886,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e7n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -719,6 +1901,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e7n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -731,6 +1916,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e7n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -743,6 +1931,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e7n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -755,6 +1946,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 1,
       "_source": "aso-insilico-evaluation-tcf12e7n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -767,6 +1961,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e9n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -779,6 +1976,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 0,
       "_source": "aso-insilico-evaluation-tcf12e9n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -791,6 +1991,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 8,
       "_source": "aso-insilico-evaluation-tcf12e9n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -803,6 +2006,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 13,
       "_source": "aso-insilico-evaluation-tcf12e9n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -815,6 +2021,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 23,
       "_source": "aso-insilico-evaluation-tcf12e9n3.json",
+      "seam_class": "real_exon_junction",
+      "breakpoint_record": "real_exon_junction_mRNA",
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -827,6 +2036,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 8,
       "_source": "aso-insilico-evaluation.json",
+      "seam_class": "modelled_breakpoint",
+      "breakpoint_record": null,
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": true,
@@ -839,6 +2051,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 16,
       "_source": "aso-insilico-evaluation.json",
+      "seam_class": "modelled_breakpoint",
+      "breakpoint_record": null,
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -851,6 +2066,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 17,
       "_source": "aso-insilico-evaluation.json",
+      "seam_class": "modelled_breakpoint",
+      "breakpoint_record": null,
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -863,6 +2081,9 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 58,
       "_source": "aso-insilico-evaluation.json",
+      "seam_class": "modelled_breakpoint",
+      "breakpoint_record": null,
+      "transcripts_scanned": 186185,
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,
@@ -875,6 +2096,1111 @@
       "offtarget_exact": 0,
       "offtarget_le1mm": 95,
       "_source": "aso-insilico-evaluation.json",
+      "seam_class": "modelled_breakpoint",
+      "breakpoint_record": null,
+      "transcripts_scanned": 186185,
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 10.44
+    }
+  ],
+  "per_sequence": [
+    {
+      "antisense_5to3": "AAGGGCTATACGGCTG",
+      "junctions": [
+        "aso-insilico-evaluation-bp200-8.json"
+      ],
+      "n_junctions": 1,
+      "seam_class": "modelled_breakpoint",
+      "gc_percent": 56.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-bp200-8.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "AGGGCATATCAAGCGC",
+      "junctions": [
+        "TCF12_e7__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 56.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e7n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "AGGGCATATCTAGAAT",
+      "junctions": [
+        "TCF12_e11__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 37.5,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e11n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "AGGGCATATCTCTGAC",
+      "junctions": [
+        "TCF12_e19__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e19n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "AGGGCATATCTTGCAT",
+      "junctions": [
+        "TCF12_e9__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e9n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "AGGGCTATACGGCTGT",
+      "junctions": [
+        "aso-insilico-evaluation-bp200-8.json"
+      ],
+      "n_junctions": 1,
+      "seam_class": "modelled_breakpoint",
+      "gc_percent": 56.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-bp200-8.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "CAGGGCATATCTTGCA",
+      "junctions": [
+        "TCF12_e9__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e9n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "GCATATCAAGCGCTGC",
+      "junctions": [
+        "TCF12_e7__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 56.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e7n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "GCATATCTCTGACTTG",
+      "junctions": [
+        "TCF12_e19__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e19n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "GCTATACGGCTGTGTA",
+      "junctions": [
+        "aso-insilico-evaluation-bp200-8.json"
+      ],
+      "n_junctions": 1,
+      "seam_class": "modelled_breakpoint",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-bp200-8.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "GGCATATCAAGCGCTG",
+      "junctions": [
+        "TCF12_e7__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 56.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e7n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "GGGCATATCAAGCGCT",
+      "junctions": [
+        "TCF12_e7__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 56.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e7n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "GGGCATATCTCTATAA",
+      "junctions": [
+        "TCF12_e17__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 37.5,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e17n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "GGGCATATCTGATCCA",
+      "junctions": [
+        "TCF12_e3__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e3n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "GGGCATATCTGTGAGA",
+      "junctions": [
+        "TCF12_e13__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e13n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "GGGCTATACGGCTGTG",
+      "junctions": [
+        "aso-insilico-evaluation-bp200-8.json"
+      ],
+      "n_junctions": 1,
+      "seam_class": "modelled_breakpoint",
+      "gc_percent": 62.5,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "_sources": [
+        "aso-insilico-evaluation-bp200-8.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.0
+    },
+    {
+      "antisense_5to3": "CAGGGCATATCAAGCG",
+      "junctions": [
+        "TCF12_e7__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 56.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e7n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.11
+    },
+    {
+      "antisense_5to3": "CAGGGCATATCTGATC",
+      "junctions": [
+        "TCF12_e3__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e3n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.11
+    },
+    {
+      "antisense_5to3": "GCATATCTCTATAATT",
+      "junctions": [
+        "TCF12_e17__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 25.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e17n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.11
+    },
+    {
+      "antisense_5to3": "GCATATCTGTGAGAGG",
+      "junctions": [
+        "TCF12_e13__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e13n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.11
+    },
+    {
+      "antisense_5to3": "GGCATATCTCTATAAT",
+      "junctions": [
+        "TCF12_e17__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 31.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e17n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.11
+    },
+    {
+      "antisense_5to3": "GGCATATCTCTGACTT",
+      "junctions": [
+        "TCF12_e19__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e19n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.11
+    },
+    {
+      "antisense_5to3": "GGCATATCTGTGAGAG",
+      "junctions": [
+        "TCF12_e13__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e13n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.11
+    },
+    {
+      "antisense_5to3": "GGCTATACGGCTGTGT",
+      "junctions": [
+        "aso-insilico-evaluation-bp200-8.json"
+      ],
+      "n_junctions": 1,
+      "seam_class": "modelled_breakpoint",
+      "gc_percent": 56.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "_sources": [
+        "aso-insilico-evaluation-bp200-8.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.11
+    },
+    {
+      "antisense_5to3": "GGGCATATCATCAAAC",
+      "junctions": [
+        "EWSR1_e12__NR4A3_e3",
+        "FUS_e10__NR4A3_e3",
+        "TAF15_e11__NR4A3_e3"
+      ],
+      "n_junctions": 3,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "_sources": [
+        "aso-insilico-evaluation-e12n3.json",
+        "aso-insilico-evaluation-fuse10n3.json",
+        "aso-insilico-evaluation-taf15e11n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.11
+    },
+    {
+      "antisense_5to3": "GGGCATATCTAGAATG",
+      "junctions": [
+        "TCF12_e11__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e11n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.11
+    },
+    {
+      "antisense_5to3": "GGGCATATCTCTGACT",
+      "junctions": [
+        "TCF12_e19__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e19n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.11
+    },
+    {
+      "antisense_5to3": "AGGGCATATCATCAAA",
+      "junctions": [
+        "EWSR1_e12__NR4A3_e3",
+        "FUS_e10__NR4A3_e3",
+        "TAF15_e11__NR4A3_e3"
+      ],
+      "n_junctions": 3,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 37.5,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 2,
+      "_sources": [
+        "aso-insilico-evaluation-e12n3.json",
+        "aso-insilico-evaluation-fuse10n3.json",
+        "aso-insilico-evaluation-taf15e11n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.22
+    },
+    {
+      "antisense_5to3": "AGGGCATATCCATCAG",
+      "junctions": [
+        "TCF12_e5__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 2,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e5n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.22
+    },
+    {
+      "antisense_5to3": "CAGGGCATATCATCAA",
+      "junctions": [
+        "EWSR1_e12__NR4A3_e3",
+        "FUS_e10__NR4A3_e3",
+        "TAF15_e11__NR4A3_e3"
+      ],
+      "n_junctions": 3,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 2,
+      "_sources": [
+        "aso-insilico-evaluation-e12n3.json",
+        "aso-insilico-evaluation-fuse10n3.json",
+        "aso-insilico-evaluation-taf15e11n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.22
+    },
+    {
+      "antisense_5to3": "CAGGGCATATCCATCA",
+      "junctions": [
+        "TCF12_e5__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 2,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e5n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.22
+    },
+    {
+      "antisense_5to3": "CAGGGCATATCTAGAA",
+      "junctions": [
+        "TCF12_e11__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 2,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e11n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.22
+    },
+    {
+      "antisense_5to3": "CAGGGCATATCTCTGA",
+      "junctions": [
+        "TCF12_e19__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 2,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e19n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.22
+    },
+    {
+      "antisense_5to3": "GCATATCCATCAGATT",
+      "junctions": [
+        "TCF12_e5__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 37.5,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 2,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e5n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.22
+    },
+    {
+      "antisense_5to3": "GCATATCTGATCCACT",
+      "junctions": [
+        "TCF12_e3__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 2,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e3n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.22
+    },
+    {
+      "antisense_5to3": "GGCATATCTGATCCAC",
+      "junctions": [
+        "TCF12_e3__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 2,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e3n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.22
+    },
+    {
+      "antisense_5to3": "CAGGGCATATCTGTGA",
+      "junctions": [
+        "TCF12_e13__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 3,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e13n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.33
+    },
+    {
+      "antisense_5to3": "GCATATTCTGCTGCCC",
+      "junctions": [
+        "EWSR1_e7__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 56.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 3,
+      "_sources": [
+        "aso-insilico-evaluation-e7n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.33
+    },
+    {
+      "antisense_5to3": "CAGGGCATATTCTGCT",
+      "junctions": [
+        "EWSR1_e7__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 4,
+      "_sources": [
+        "aso-insilico-evaluation-e7n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.44
+    },
+    {
+      "antisense_5to3": "GCATATCTAGAATGCT",
+      "junctions": [
+        "TCF12_e11__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 37.5,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 4,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e11n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.44
+    },
+    {
+      "antisense_5to3": "CAGGGCATATCTCTAT",
+      "junctions": [
+        "TCF12_e17__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 5,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e17n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.55
+    },
+    {
+      "antisense_5to3": "AGGGCATATCTCTATA",
+      "junctions": [
+        "TCF12_e17__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 37.5,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 6,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e17n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.66
+    },
+    {
+      "antisense_5to3": "GGCATATCTAGAATGC",
+      "junctions": [
+        "TCF12_e11__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 6,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e11n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.66
+    },
+    {
+      "antisense_5to3": "GGCATATCATCAAACC",
+      "junctions": [
+        "EWSR1_e12__NR4A3_e3",
+        "FUS_e10__NR4A3_e3",
+        "TAF15_e11__NR4A3_e3"
+      ],
+      "n_junctions": 3,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 7,
+      "_sources": [
+        "aso-insilico-evaluation-e12n3.json",
+        "aso-insilico-evaluation-fuse10n3.json",
+        "aso-insilico-evaluation-taf15e11n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.77
+    },
+    {
+      "antisense_5to3": "ACGCAGGGCTGCTGCC",
+      "junctions": [
+        "aso-insilico-evaluation.json"
+      ],
+      "n_junctions": 1,
+      "seam_class": "modelled_breakpoint",
+      "gc_percent": 75.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 8,
+      "_sources": [
+        "aso-insilico-evaluation.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.88
+    },
+    {
+      "antisense_5to3": "GGGCATATCTTGCATA",
+      "junctions": [
+        "TCF12_e9__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 8,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e9n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.88
+    },
+    {
+      "antisense_5to3": "GGGCATATTCTGCTGC",
+      "junctions": [
+        "EWSR1_e7__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 56.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 9,
+      "_sources": [
+        "aso-insilico-evaluation-e7n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": true,
+      "ratio_to_chance_hi": 0.99
+    },
+    {
+      "antisense_5to3": "AGGGCATATCTGTGAG",
+      "junctions": [
+        "TCF12_e13__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 12,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e13n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 1.32
+    },
+    {
+      "antisense_5to3": "AGGGCATATTCTGCTG",
+      "junctions": [
+        "EWSR1_e7__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 12,
+      "_sources": [
+        "aso-insilico-evaluation-e7n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 1.32
+    },
+    {
+      "antisense_5to3": "GGCATATCTTGCATAA",
+      "junctions": [
+        "TCF12_e9__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 37.5,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 13,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e9n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 1.43
+    },
+    {
+      "antisense_5to3": "GGGCATATCCATCAGA",
+      "junctions": [
+        "TCF12_e5__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 14,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e5n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 1.54
+    },
+    {
+      "antisense_5to3": "GACGCAGGGCTGCTGC",
+      "junctions": [
+        "aso-insilico-evaluation.json"
+      ],
+      "n_junctions": 1,
+      "seam_class": "modelled_breakpoint",
+      "gc_percent": 75.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 16,
+      "_sources": [
+        "aso-insilico-evaluation.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 1.76
+    },
+    {
+      "antisense_5to3": "GGACGCAGGGCTGCTG",
+      "junctions": [
+        "aso-insilico-evaluation.json"
+      ],
+      "n_junctions": 1,
+      "seam_class": "modelled_breakpoint",
+      "gc_percent": 75.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 17,
+      "_sources": [
+        "aso-insilico-evaluation.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 1.87
+    },
+    {
+      "antisense_5to3": "GGCATATTCTGCTGCC",
+      "junctions": [
+        "EWSR1_e7__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 56.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 21,
+      "_sources": [
+        "aso-insilico-evaluation-e7n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 2.31
+    },
+    {
+      "antisense_5to3": "GCATATCATCAAACCA",
+      "junctions": [
+        "EWSR1_e12__NR4A3_e3",
+        "FUS_e10__NR4A3_e3",
+        "TAF15_e11__NR4A3_e3"
+      ],
+      "n_junctions": 3,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 37.5,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 22,
+      "_sources": [
+        "aso-insilico-evaluation-e12n3.json",
+        "aso-insilico-evaluation-fuse10n3.json",
+        "aso-insilico-evaluation-taf15e11n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 2.42
+    },
+    {
+      "antisense_5to3": "GCATATCTTGCATAAA",
+      "junctions": [
+        "TCF12_e9__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 31.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 23,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e9n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 2.53
+    },
+    {
+      "antisense_5to3": "GGCATATCCATCAGAT",
+      "junctions": [
+        "TCF12_e5__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 43.8,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 32,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e5n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 3.52
+    },
+    {
+      "antisense_5to3": "AGGGCATATCTGATCC",
+      "junctions": [
+        "TCF12_e3__NR4A3_e3"
+      ],
+      "n_junctions": 1,
+      "seam_class": "real_exon_junction",
+      "gc_percent": 50.0,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 35,
+      "_sources": [
+        "aso-insilico-evaluation-tcf12e3n3.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 3.85
+    },
+    {
+      "antisense_5to3": "CGCAGGGCTGCTGCCC",
+      "junctions": [
+        "aso-insilico-evaluation.json"
+      ],
+      "n_junctions": 1,
+      "seam_class": "modelled_breakpoint",
+      "gc_percent": 81.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 58,
+      "_sources": [
+        "aso-insilico-evaluation.json"
+      ],
+      "expected_le1mm_lo": 3.4,
+      "expected_le1mm_hi": 9.1,
+      "at_or_below_chance": false,
+      "ratio_to_chance_hi": 6.37
+    },
+    {
+      "antisense_5to3": "GCAGGGCTGCTGCCCG",
+      "junctions": [
+        "aso-insilico-evaluation.json"
+      ],
+      "n_junctions": 1,
+      "seam_class": "modelled_breakpoint",
+      "gc_percent": 81.2,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 95,
+      "_sources": [
+        "aso-insilico-evaluation.json"
+      ],
       "expected_le1mm_lo": 3.4,
       "expected_le1mm_hi": 9.1,
       "at_or_below_chance": false,

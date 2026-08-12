@@ -10,9 +10,27 @@ each design's observed load against the band chance alone predicts, so the two a
 inside the band means indistinguishable from an arbitrary 16-mer, and the outliers are visibly a
 small, identifiable minority rather than a general property.
 
+⛔ ONE BAR IS ONE MOLECULE, AND IT WAS NOT ALWAYS. This figure previously drew one bar per ROW of
+`per_design`, and a row is a (junction, design) PAIR. Five of these 16-mers are junction-spanning at
+THREE partners' seams at once — the multi-partner designs section 3.2 headlines — so each was drawn
+three times and counted three times in the at-or-below fraction. That is pseudoreplication: it
+inflates exactly the designs the paper is proudest of, and it inflates the statistic used to defend
+them. The series is now the artifact's de-duplicated one, and the five multi-partner sequences carry
+a marker so a reader can see that the collapse happened rather than having to trust it.
+
+⛔ AND THE EXCLUDED SET IS NAMED, PLURAL, WITH ITS OWN COUNTS. Ten designs come from TWO modelled
+breakpoints rather than from real exon junctions, and FOUR of the ten exceed the band — the caption
+that said "a modelled control seam" and "the two extreme outliers" was singular and undercounted on
+both. They are not plotted, because grading real-junction designs against sequence no patient
+transcript is known to carry is the comparison a reviewer would object to; they are described in
+full instead, from the artifact's own `figure_series.excluded` block.
+
 ⛔ NOTHING IS COMPUTED HERE. Every value is read from `offtarget-chance-baseline.json`; this script
 draws it. If a number in the figure disagrees with the manuscript, the artifact is the arbiter and
-the manuscript is wrong — not the other way round, and not this file.
+the manuscript is wrong — not the other way round, and not this file. The membership of the plotted
+series, the at-or-below count, the excluded set and its ranges are all resolved by
+`offtarget_chance_baseline.py` and read here as given, so that no second implementation of "which
+designs count" can drift away from the first.
 
 Dependency-free SVG, following the repository's other figure scripts: no matplotlib, no network.
 """
@@ -24,8 +42,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "..", "..", "modalities", "offtarget-chance-baseline.json")
 OUT = os.path.join(HERE, "aso-chance-baseline.svg")
 
-W, H = 900, 430
-L, R, T, B = 78, 28, 46, 96          # margins
+W, H = 900, 460
+L, R, T, B = 78, 28, 72, 104         # margins
 PLOT_W, PLOT_H = W - L - R, H - T - B
 
 
@@ -36,9 +54,12 @@ def esc(s):
 def main(argv=None):
     d = json.load(open(SRC))
     lo, hi = d["null_model"]["expected_hits_per_oligo_ge_15_of_16"]
-    rows = sorted(d["per_design"], key=lambda r: r.get("offtarget_le1mm") or 0)
-    obs = [r.get("offtarget_le1mm") or 0 for r in rows]
-    n = len(obs)
+    fs = d["figure_series"]
+    exc = fs["excluded"]
+    rows = fs["series"]                      # already one per distinct oligonucleotide, ranked
+    obs = [r["offtarget_le1mm"] for r in rows]
+    multi = [r["n_junctions"] > 1 for r in rows]
+    n = fs["n_plotted"]
     ymax = max(obs + [hi]) * 1.08
 
     def x(i):
@@ -69,33 +90,58 @@ def main(argv=None):
                  f'text-anchor="end">{v}</text>')
         v += step
 
-    # one bar per design, ranked; above-band designs are the only ones coloured
+    # one bar per DISTINCT oligonucleotide, ranked; above-band designs are the only ones coloured.
+    # A multi-partner design carries a marker above its bar: it is one molecule at three seams, and
+    # the marker is what tells the reader the three seams were collapsed rather than dropped.
+    bw = max(PLOT_W / n - 1.6, 1.2)
     for i, val in enumerate(obs):
         above = val > hi
         col = "#c62828" if above else "#2e7d32"
-        bw = max(PLOT_W / n - 1.6, 1.2)
         p.append(f'<rect x="{x(i) - bw / 2:.1f}" y="{y(val):.1f}" width="{bw:.1f}" '
                  f'height="{T + PLOT_H - y(val):.1f}" fill="{col}" opacity="0.85"/>')
+        if multi[i]:
+            cx, cy, s = x(i), y(val) - 7, 4.0
+            p.append(f'<polygon points="{cx:.1f},{cy - s:.1f} {cx + s:.1f},{cy:.1f} '
+                     f'{cx:.1f},{cy + s:.1f} {cx - s:.1f},{cy:.1f}" fill="#111"/>')
 
-    n_at_or_below = d["observed"]["n_at_or_below_chance_upper"]
-    p.append(f'<text x="{L}" y="{T - 24}" font-size="15" fill="#111" font-weight="600">'
+    n_at_or_below = fs["n_at_or_below_chance_upper"]
+    scanned = f'{fs["transcripts_scanned"]:,}'
+    p.append(f'<text x="{L}" y="24" font-size="15" fill="#111" font-weight="600">'
              f'Transcriptome load per junction gapmer against chance expectation</text>')
-    p.append(f'<text x="{L}" y="{T - 8}" font-size="12" fill="#555">'
-             f'{esc(n)} designs, ranked; exact plus ≤1-mismatch matches over 186,185 transcripts. '
-             f'{esc(n_at_or_below)} of {esc(n)} fall at or below the chance upper bound.</text>')
-    p.append(f'<text x="{L + PLOT_W / 2:.0f}" y="{H - 52}" font-size="12" fill="#333" '
-             f'text-anchor="middle">designs, ranked by observed load</text>')
+    p.append(f'<text x="{L}" y="42" font-size="12" fill="#555">'
+             f'{esc(n)} distinct oligonucleotides at real exon junctions, ranked; exact plus '
+             f'≤1-mismatch matches over {esc(scanned)} transcripts.</text>')
+    # ⚠ the key's marker is a POLYGON, not the character ◆. A glyph the installed font lacks
+    # renders as a tofu box in the PDF and nowhere else, which is the class of defect that is
+    # invisible until a proof arrives; the polygon is the same shape the plot itself draws.
+    p.append(f'<polygon points="{L + 4.5},50 {L + 8.5},54 {L + 4.5},58 {L + 0.5},54" '
+             f'fill="#111"/>')
+    p.append(f'<text x="{L + 14}" y="58" font-size="12" fill="#555">'
+             f'{esc(n_at_or_below)} of {esc(n)} fall at or below the chance upper bound. Marked: '
+             f'the {esc(fs["n_multi_junction_sequences"])} designs spanning '
+             f'{esc(fs["multi_junction_span"])} partners’ seams — one molecule, plotted once, not '
+             f'{esc(fs["multi_junction_span"])} times.</text>')
+    p.append(f'<text x="{L + PLOT_W / 2:.0f}" y="{H - 66}" font-size="12" fill="#333" '
+             f'text-anchor="middle">distinct oligonucleotides, ranked by observed load</text>')
     p.append(f'<text x="18" y="{T + PLOT_H / 2:.0f}" font-size="12" fill="#333" '
              f'text-anchor="middle" transform="rotate(-90 18 {T + PLOT_H / 2:.0f})">'
              f'transcriptome matches at ≤1 mismatch</text>')
 
-    # ⚠ the caveat travels ON the figure, because a figure is what gets reused without its caption
-    p.append(f'<text x="{L}" y="{H - 30}" font-size="10.5" fill="#666">'
+    # ⚠ the caveats travel ON the figure, because a figure is what gets reused without its caption
+    gc_lo, gc_hi = exc["above_gc_percent_range"]
+    hit_lo, hit_hi = exc["above_offtarget_le1mm_range"]
+    p.append(f'<text x="{L}" y="{H - 46}" font-size="10.5" fill="#666">'
              f'Chance band assumes independent uniform bases over an assumed transcriptome span; it '
              f'separates "more than chance" from "at chance" and is not a significance test.</text>')
-    p.append(f'<text x="{L}" y="{H - 16}" font-size="10.5" fill="#666">'
-             f'Counts are predictions from sequence search, not measured off-target activity. The '
-             f'red designs are GC-rich, low-complexity sequences at one modelled seam.</text>')
+    p.append(f'<text x="{L}" y="{H - 30}" font-size="10.5" fill="#666">'
+             f'Counts are predictions from sequence search, not measured off-target activity. '
+             f'{esc(fs["n_above_chance_upper"])} of the {esc(n)} plotted designs exceed the '
+             f'band.</text>')
+    p.append(f'<text x="{L}" y="{H - 14}" font-size="10.5" fill="#666">'
+             f'Not plotted: {esc(exc["n_excluded"])} designs at {esc(exc["n_breakpoints"])} '
+             f'modelled breakpoints rather than real exon junctions; '
+             f'{esc(exc["n_above_chance_upper"])} of those exceed the band, at '
+             f'{esc(hit_lo)}–{esc(hit_hi)} matches and {esc(gc_lo)}–{esc(gc_hi)}% GC.</text>')
     p.append('</svg>')
 
     svg = "\n".join(p)
@@ -104,7 +150,8 @@ def main(argv=None):
     if "--write" in argv or True:
         with open(OUT, "w") as fh:
             fh.write(svg + "\n")
-        print(f"wrote {OUT}  ({n} designs, band {lo}-{hi}, {n_at_or_below} at or below)")
+        print(f"wrote {OUT}  ({n} distinct designs, band {lo}-{hi}, {n_at_or_below} at or below, "
+              f"{exc['n_excluded']} excluded from {exc['n_breakpoints']} modelled breakpoints)")
     return 0
 
 

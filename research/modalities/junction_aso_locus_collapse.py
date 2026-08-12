@@ -125,8 +125,24 @@ def collapse_oligo(oligo):
                              else round(len(hits) / len(by_locus), 2)),
         "n_loci_with_a_curated_transcript": len(loci_curated),
         "n_loci_seen_only_as_predicted_models": len(loci_predicted),
-        "n_loci_with_a_gap_spanning_hit": len(loci_risk),
+        # ⛔⛔ THE SCREEN'S OWN COUNT WINS, AND RECOUNTING FROM THE SAVED HITS UNDERSTATED IT
+        # (2026-08-12). `loci_risk` is derived from the top-15 hits this module can see, while the
+        # screen computed `n_loci_with_a_gap_spanning_hit` over EVERY ranked hit before truncation.
+        # For a censored design the two disagree, and they disagree in the flattering direction:
+        # EWSR1 e9 / GGGCATATCACCAGGC recounted to 0 here against the screen's exact 2, so Table 2
+        # printed "≥0" for a design with two gap-spanning loci — a design looking CLEANER than it
+        # is, which this module's own docstring names as the dangerous failure. It also put the
+        # table in direct contradiction with §3.3 of the manuscript, which reads the exact field.
+        # ⚠ The recount is kept as the fallback for a screen that predates the exact field, and
+        # `loci_with_a_gap_spanning_hit` stays the NAMES this module can see, which for a censored
+        # design is a subset — so the names are a lower bound while the count is exact.
+        "n_loci_with_a_gap_spanning_hit": (
+            oligo["n_loci_with_a_gap_spanning_hit"]
+            if oligo.get("n_loci_with_a_gap_spanning_hit") is not None else len(loci_risk)),
+        "n_loci_with_a_gap_spanning_hit_is_from_the_screen": (
+            oligo.get("n_loci_with_a_gap_spanning_hit") is not None),
         "loci_with_a_gap_spanning_hit": sorted(loci_risk),
+        "named_gap_spanning_loci_are_a_subset_when_censored": censored,
         # named, not just counted, so "none of the gap-spanning loci is curated" is a claim a
         # reader — or a test — can check by set membership instead of by arithmetic on totals
         "loci_seen_only_as_predicted_models": sorted(loci_predicted),

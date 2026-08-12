@@ -28,11 +28,11 @@
       "what": "~5-fold discrimination per single-nucleotide change for an UNMODIFIED RNase-H-active ASO. The OPTIMISTIC end: it is the figure for a gapmer chosen and positioned for allele selectivity, which these designs were not.",
       "n_oligos_with_zero_predicted_cleavage_load": 0,
       "rank_best_first": [
+        "GCATATCATCAAACCA",
         "GGGCATATCATCAAAC",
         "AGGGCATATCATCAAA",
-        "CAGGGCATATCATCAA",
-        "GCATATCATCAAACCA",
-        "GGCATATCATCAAACC"
+        "GGCATATCATCAAACC",
+        "CAGGGCATATCATCAA"
       ]
     },
     "duroux_16mer_none": {
@@ -41,11 +41,11 @@
       "what": "16-mers 'did not discriminate efficiently'; discrimination in that assay was confined to 12-13mers centred on the mismatch. The PESSIMISTIC end, and the one matching this panel's oligo LENGTH: a gap-internal mismatch buys nothing, so every near-match counts at full weight.",
       "n_oligos_with_zero_predicted_cleavage_load": 0,
       "rank_best_first": [
+        "GCATATCATCAAACCA",
         "GGGCATATCATCAAAC",
         "AGGGCATATCATCAAA",
-        "CAGGGCATATCATCAA",
-        "GCATATCATCAAACCA",
-        "GGCATATCATCAAACC"
+        "GGCATATCATCAAACC",
+        "CAGGGCATATCATCAA"
       ]
     }
   },
@@ -53,135 +53,145 @@
     "ostergaard_5fold": {
       "GGGCATATCATCAAAC": {
         "n_offtarget_near_matches": 9,
-        "n_full_gap_duplex": 8,
+        "n_full_gap_duplex": 5,
         "n_gap_disrupted": 1,
         "n_gap_disrupted_resolved_from_saved_alignments": 1,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 8.2,
-        "residual_cleavage_load_hi": 8.2,
+        "residual_cleavage_load_lo": 5.2,
+        "residual_cleavage_load_hi": 5.2,
         "exact": true,
-        "zero_predicted_cleavage_load": false
+        "zero_predicted_cleavage_load": false,
+        "gap_histogram_orientation_filtered": true
       },
       "GGCATATCATCAAACC": {
         "n_offtarget_near_matches": 50,
-        "n_full_gap_duplex": 50,
+        "n_full_gap_duplex": 10,
         "n_gap_disrupted": 0,
         "n_gap_disrupted_resolved_from_saved_alignments": 0,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 50.0,
-        "residual_cleavage_load_hi": 50.0,
+        "residual_cleavage_load_lo": 10.0,
+        "residual_cleavage_load_hi": 10.0,
         "exact": true,
-        "zero_predicted_cleavage_load": false
+        "zero_predicted_cleavage_load": false,
+        "gap_histogram_orientation_filtered": false
       },
       "AGGGCATATCATCAAA": {
         "n_offtarget_near_matches": 18,
-        "n_full_gap_duplex": 13,
-        "n_gap_disrupted": 5,
+        "n_full_gap_duplex": 5,
+        "n_gap_disrupted": 2,
         "n_gap_disrupted_resolved_from_saved_alignments": 5,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 14.0,
-        "residual_cleavage_load_hi": 14.0,
+        "residual_cleavage_load_lo": 6.0,
+        "residual_cleavage_load_hi": 6.0,
         "exact": true,
-        "zero_predicted_cleavage_load": false
+        "zero_predicted_cleavage_load": false,
+        "gap_histogram_orientation_filtered": false
       },
       "CAGGGCATATCATCAA": {
         "n_offtarget_near_matches": 19,
-        "n_full_gap_duplex": 17,
+        "n_full_gap_duplex": 13,
         "n_gap_disrupted": 2,
         "n_gap_disrupted_resolved_from_saved_alignments": 2,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 17.4,
-        "residual_cleavage_load_hi": 17.4,
+        "residual_cleavage_load_lo": 13.4,
+        "residual_cleavage_load_hi": 13.4,
         "exact": true,
-        "zero_predicted_cleavage_load": false
+        "zero_predicted_cleavage_load": false,
+        "gap_histogram_orientation_filtered": false
       },
       "GCATATCATCAAACCA": {
         "n_offtarget_near_matches": 50,
-        "n_full_gap_duplex": 46,
-        "n_gap_disrupted": 4,
+        "n_full_gap_duplex": 2,
+        "n_gap_disrupted": 0,
         "n_gap_disrupted_resolved_from_saved_alignments": 4,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 46.8,
-        "residual_cleavage_load_hi": 46.8,
+        "residual_cleavage_load_lo": 2.8,
+        "residual_cleavage_load_hi": 2.8,
         "exact": true,
-        "zero_predicted_cleavage_load": false
+        "zero_predicted_cleavage_load": false,
+        "gap_histogram_orientation_filtered": false
       }
     },
     "duroux_16mer_none": {
       "GGGCATATCATCAAAC": {
         "n_offtarget_near_matches": 9,
-        "n_full_gap_duplex": 8,
+        "n_full_gap_duplex": 5,
         "n_gap_disrupted": 1,
         "n_gap_disrupted_resolved_from_saved_alignments": 1,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 9.0,
-        "residual_cleavage_load_hi": 9.0,
+        "residual_cleavage_load_lo": 6.0,
+        "residual_cleavage_load_hi": 6.0,
         "exact": true,
-        "zero_predicted_cleavage_load": false
+        "zero_predicted_cleavage_load": false,
+        "gap_histogram_orientation_filtered": true
       },
       "GGCATATCATCAAACC": {
         "n_offtarget_near_matches": 50,
-        "n_full_gap_duplex": 50,
+        "n_full_gap_duplex": 10,
         "n_gap_disrupted": 0,
         "n_gap_disrupted_resolved_from_saved_alignments": 0,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 50.0,
-        "residual_cleavage_load_hi": 50.0,
+        "residual_cleavage_load_lo": 10.0,
+        "residual_cleavage_load_hi": 10.0,
         "exact": true,
-        "zero_predicted_cleavage_load": false
+        "zero_predicted_cleavage_load": false,
+        "gap_histogram_orientation_filtered": false
       },
       "AGGGCATATCATCAAA": {
         "n_offtarget_near_matches": 18,
-        "n_full_gap_duplex": 13,
-        "n_gap_disrupted": 5,
+        "n_full_gap_duplex": 5,
+        "n_gap_disrupted": 2,
         "n_gap_disrupted_resolved_from_saved_alignments": 5,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 18.0,
-        "residual_cleavage_load_hi": 18.0,
+        "residual_cleavage_load_lo": 10.0,
+        "residual_cleavage_load_hi": 10.0,
         "exact": true,
-        "zero_predicted_cleavage_load": false
+        "zero_predicted_cleavage_load": false,
+        "gap_histogram_orientation_filtered": false
       },
       "CAGGGCATATCATCAA": {
         "n_offtarget_near_matches": 19,
-        "n_full_gap_duplex": 17,
+        "n_full_gap_duplex": 13,
         "n_gap_disrupted": 2,
         "n_gap_disrupted_resolved_from_saved_alignments": 2,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 19.0,
-        "residual_cleavage_load_hi": 19.0,
+        "residual_cleavage_load_lo": 15.0,
+        "residual_cleavage_load_hi": 15.0,
         "exact": true,
-        "zero_predicted_cleavage_load": false
+        "zero_predicted_cleavage_load": false,
+        "gap_histogram_orientation_filtered": false
       },
       "GCATATCATCAAACCA": {
         "n_offtarget_near_matches": 50,
-        "n_full_gap_duplex": 46,
-        "n_gap_disrupted": 4,
+        "n_full_gap_duplex": 2,
+        "n_gap_disrupted": 0,
         "n_gap_disrupted_resolved_from_saved_alignments": 4,
         "n_gap_disrupted_unresolved_by_truncation": 0,
         "n_coverage_only_fallback_counted_at_full_weight": 0,
         "n_wing_only_not_counted": 0,
-        "residual_cleavage_load_lo": 50.0,
-        "residual_cleavage_load_hi": 50.0,
+        "residual_cleavage_load_lo": 6.0,
+        "residual_cleavage_load_hi": 6.0,
         "exact": true,
-        "zero_predicted_cleavage_load": false
+        "zero_predicted_cleavage_load": false,
+        "gap_histogram_orientation_filtered": false
       }
     }
   },

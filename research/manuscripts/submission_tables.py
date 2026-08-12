@@ -32,6 +32,19 @@ def _load(name):
     return json.load(open(p)) if os.path.exists(p) else None
 
 
+def _hitlist_size():
+    """BLAST's per-query hit ceiling, from the module that sets it. One home, never re-typed."""
+    try:
+        sys.path.insert(0, os.path.abspath(MOD))
+        from junction_aso_offtarget import BLAST_HITLIST_SIZE  # noqa: PLC0415
+        return int(BLAST_HITLIST_SIZE)
+    except Exception:  # noqa: BLE001
+        return 50
+
+
+HITLIST_SIZE = _hitlist_size()
+
+
 def _orientation_filtered(status):
     """Whether a screen's counts were actually filtered by alignment orientation.
 
@@ -163,7 +176,17 @@ def table2(collapse, chance, atlas):
         ranked = sorted(ol, key=lambda o: -(gap_margin.get((lab, o["antisense_5to3"])) or -1))
         best = ranked[0]
         gm = gap_margin.get((lab, best["antisense_5to3"]))
-        cens = "≥" if best["right_censored"] else ""
+        # ⛔ THREE COLUMNS SHARED ONE CENSORING MARKER AND ONLY ONE OF THEM EARNED IT
+        # (2026-08-12). `right_censored` means the design has more near-matches than the 15 this
+        # module retains, and that bounds ONLY the locus recount, which is done from the retained
+        # hits. The other two are not bounded by it: the reported near-match count is the screen's
+        # complete figure and is bounded instead by BLAST's own 50-hit hitlist, and the
+        # gap-spanning locus count now comes from the screen, computed over every ranked hit before
+        # truncation, so it is exact. Marking an exact 0 as "≥0" is not a harmless over-caution —
+        # it is unreadable, because "≥0" is true of every number and says nothing.
+        cens_loci = "≥" if best["right_censored"] else ""
+        cens_near = "≥" if (best["n_transcript_near_matches_reported"] or 0) >= HITLIST_SIZE else ""
+        cens_gap = "" if best.get("n_loci_with_a_gap_spanning_hit_is_from_the_screen") else cens_loci
         vals = sorted(le1.get(lab, []))
         med = vals[len(vals) // 2] if vals else "—"
         mx = max(vals) if vals else "—"
@@ -171,11 +194,11 @@ def table2(collapse, chance, atlas):
         rows.append(
             f"| {lab.replace('__', '::').replace('_', ' ')}{mark} | {len(ol)} | "
             f"{gm if gm is not None else '—'} | 5′-{best['antisense_5to3']}-3′ | "
-            f"{cens}{best['n_transcript_near_matches_reported']} → "
+            f"{cens_near}{best['n_transcript_near_matches_reported']} → "
             # "of those" means OF THE GAP-SPANNING LOCI, so it is the intersection of the two
             # named lists, not the whole-design predicted-only count — which is larger and would
             # have overstated how much of the liability sits in predicted annotation.
-            f"{cens}{best['n_distinct_loci']} | {cens}{best['n_loci_with_a_gap_spanning_hit']} | "
+            f"{cens_loci}{best['n_distinct_loci']} | {cens_gap}{best['n_loci_with_a_gap_spanning_hit']} | "
             f"{len(set(best.get('loci_with_a_gap_spanning_hit') or []) & set(best.get('loci_seen_only_as_predicted_models') or []))} | "
             f"{med} ({mx}) |")
     return "\n".join([hdr, sep] + rows)
@@ -205,9 +228,10 @@ structure and is not a claim about which junctions patients carry.
 design with the highest gap-level margin at that junction, which is the ranking the Methods define. Near-match counts are of RefSeq
 transcript accessions and are also given collapsed to distinct gene loci, since RefSeq carries one
 accession per annotated variant. A “≥” marks a right-censored count: the screens store the top 15
-hits per design, so a design with more is a lower bound. **All gap-resolved counts are upper
-bounds**: the BLAST arm did not parse alignment orientation, so minus-strand matches — which an
-antisense oligonucleotide cannot hybridise — are included. `XM_`/`XR_` records are computationally
+hits per design, so a design with more is a lower bound. **Counts in ‡-marked rows are upper
+bounds**: those screens did not filter alignment orientation, so minus-strand matches — which an
+antisense oligonucleotide cannot hybridise — are still included in them. Unmarked rows are
+orientation-filtered. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
 None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n‡ This junction's counts were not filtered by alignment orientation, so they still include minus-strand hits — across the filtered corpus, 47% of all apparent gap-spanning hits. Two distinct causes are marked alike here because their consequence is identical: three screens never parsed the aligned strand, and four parsed it but were classified before the filter read it. Its numbers are upper bounds and are NOT comparable with the unmarked rows.
 

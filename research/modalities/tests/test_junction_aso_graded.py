@@ -196,22 +196,81 @@ def test_a_coverage_only_screen_is_REFUSED_not_scored_as_clean():
     assert jo.screen_is_gap_resolved({"oligos": []})[0] is False
 
 
-def test_no_design_at_any_real_junction_reaches_zero_predicted_cleavage_load():
-    """The paper's headline negative, asserted over the whole graded corpus rather than one panel.
+def test_exactly_the_four_orientation_clean_designs_reach_zero_predicted_cleavage_load():
+    """The paper's headline, asserted over the whole graded corpus rather than one panel.
 
-    If this ever passes with a non-zero count, a design has become predicted-clean under a
-    literature-supported model and the manuscript's central claim has changed.
+    ⭐ THIS TEST FIRED AS DESIGNED AND THE CLAIM IT GUARDED CHANGED (2026-08-12). It previously
+    asserted `n_zero == 0` — no design predicted-clean under either literature bound — and its own
+    docstring said that a non-zero count would mean "the manuscript's central claim has changed".
+    It was a tripwire, not a prohibition, and it tripped for the right reason.
+
+    ⛔ WHAT CHANGED WAS AN ERROR, NOT THE SCIENCE. `grade_one` scored `gap_mismatch_histogram`,
+    which counts every ranked hit REGARDLESS OF STRAND. `blastn` searches both strands, and a
+    transcript carrying the reverse complement of the target window cannot be hybridised by an
+    antisense oligonucleotide — there is no duplex, so there is nothing for RNase H1 to cleave and
+    nothing to score. The four designs at TCF12 exons 7, 9 and 17 have ZERO plus-strand
+    near-matches; every one of their 8, 2, 1 and 7 hits is minus-strand. Their previous non-zero
+    load was cleavage predicted on transcripts they cannot bind.
+
+    ⚠ A ZERO HERE IS ARITHMETIC, NOT A MEASUREMENT. These designs have no hybridisable hit to
+    score, so the load is zero under any discrimination bound; that is weaker than a bound-specific
+    finding and the manuscript says so where it reports it. What the zero does establish is that
+    the harsher of the two bounds does not move them, because there is nothing for it to act on.
+
+    ⛔ STILL A TRIPWIRE, NOW POINTED THE OTHER WAY. A FIFTH design reaching zero, or any design
+    outside TCF12 e7/e9/e17 reaching zero, fails this test — because with the strand filter correct
+    the only remaining route to a zero is a censored design whose unseen tail was assumed away.
     """
     import glob
-    n_designs = n_zero = n_junctions = 0
+    expected = {"GGGCATATCTCTATAA", "CAGGGCATATCTTGCA", "GGCATATCAAGCGCTG", "GCATATCAAGCGCTGC"}
+    n_designs = n_junctions = 0
+    zero_seqs, zero_junctions = set(), set()
     for p in sorted(glob.glob(os.path.join(HERE, "junction-aso-offtarget-*-graded.json"))):
         g = _load(p)
         if g.get("source_screen") is None:
             continue                      # the modelled codon-space panel, not a real junction
         n_junctions += 1
         n_designs += len(g["per_oligo"]["ostergaard_5fold"])
-        for m in g["models"].values():
-            n_zero += m["n_oligos_with_zero_predicted_cleavage_load"]
+        # per_oligo is {model: {antisense: row}}, keyed by sequence rather than a list
+        for rows in g["per_oligo"].values():
+            for seq, r in rows.items():
+                if r.get("zero_predicted_cleavage_load"):
+                    zero_seqs.add(seq)
+                    zero_junctions.add(g.get("junction_label") or g["source_screen"])
     assert n_junctions >= 12, f"only {n_junctions} real junctions graded"
     assert n_designs >= 58, f"only {n_designs} designs graded"
-    assert n_zero == 0, f"{n_zero} design(s) now score zero predicted cleavage load"
+    assert zero_seqs == expected, (
+        f"the set of predicted-clean designs changed: {sorted(zero_seqs)}")
+    assert zero_junctions == {"TCF12_e7__NR4A3_e3", "TCF12_e9__NR4A3_e3",
+                              "TCF12_e17__NR4A3_e3"}, sorted(zero_junctions)
+
+
+def test_a_zero_load_is_never_awarded_to_a_design_with_a_hybridisable_hit():
+    """The property that makes the zeroes above meaningful, asserted directly on the screens.
+
+    A design scores zero only if it has no plus-strand near-match at all. If a design with even one
+    hybridisable hit ever scored zero, the load would be measuring the strand filter rather than
+    the transcriptome.
+    """
+    import glob
+    import junction_aso_offtarget as jo
+    for p in sorted(glob.glob(os.path.join(HERE, "junction-aso-offtarget-*.json"))):
+        if "-graded" in p or "locus-collapse" in p:
+            continue
+        screen = _load(p)
+        # ⚠ A COVERAGE-ONLY SCREEN IS EXCLUDED HERE FOR THE SAME REASON `--rescore` REFUSES IT.
+        # `junction-aso-offtarget-bp200-8.json` records no gap-mismatch depth and no strand, so
+        # `grade_one` reads absent fields as zero and returns a zero load manufactured out of the
+        # missing data — the defect the gap-resolution guard exists to stop. Asking this property
+        # of a screen that cannot answer it tests the guard, not the grading.
+        if not jo.screen_is_gap_resolved(screen)[0]:
+            continue
+        for o in screen.get("oligos", []):
+            if o.get("status") != "screened":
+                continue
+            plus = [h for h in (o.get("offtargets") or []) if not h.get("is_minus_strand")]
+            for fold in (5.0, 1.0):
+                if jo.grade_one(o, fold)["zero_predicted_cleavage_load"]:
+                    assert not plus, (
+                        f"{os.path.basename(p)} / {o['antisense_5to3']} scored zero load with "
+                        f"{len(plus)} hybridisable hit(s)")

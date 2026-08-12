@@ -2195,3 +2195,53 @@ minimum of 1, so five **match** it and none is worse.
 figure above from the committed screens and fails if the manuscript and its evidence diverge again.
 Its last parametrised test asserts that none of the superseded values in the left column can
 reappear in the running text.
+
+### Appendix B.2 — the graded re-score was computed on hits the oligonucleotides cannot bind
+
+⛔ **THE ORIENTATION DEFECT REACHED THE GRADED MODEL TOO, AND THERE IT INVERTED A HEADLINE.**
+`grade_one` scores each retained hit by the residual cleavage a gap-internal mismatch is predicted to
+permit, reading `gap_mismatch_histogram` — which `screen_one` writes over **every** ranked hit
+*regardless of strand*. So the load was computed partly on transcripts carrying the reverse
+complement of the target window, which an antisense oligonucleotide cannot hybridise: no duplex, no
+RNase-H1 substrate, nothing to cleave, and therefore nothing to score.
+
+**Measured.** The four designs the paper reports as carrying no hybridisable near-match — at *TCF12*
+exons 7, 9 and 17 — have **zero plus-strand near-matches**; every one of their 8, 2, 1 and 7 hits is
+minus-strand. Their committed graded artifacts nevertheless reported
+`zero_predicted_cleavage_load: False`, with a residual load of 7.2 under the five-fold bound and 8.0
+under the pessimistic one, and `n_oligos_with_zero_predicted_cleavage_load: 0` in every graded file.
+A reviewer downloading the archive would have found artifacts that appear to refute the manuscript's
+headline, and both would have been ours.
+
+⚠ **AND THE GRADED FILES WERE STALE ON TOP OF IT.** `junction-aso-offtarget-tcf12e17n3-graded.json`
+carried `n_full_gap_duplex: 7` against its own source screen's `n_true_cleavage_risk: 0` — it was
+generated before the screen's classifier was corrected, so re-running was needed independently of
+the histogram fix.
+
+| quantity | superseded | current |
+|---|---|---|
+| designs with zero predicted cleavage load, all real junctions | 0 | **4**, at *TCF12* exons 7, 9 and 17 |
+| `-graded.json` files committed | 13 of 25 gradeable screens | **25 of 25** |
+| Methods, on the graded re-score | "Every screen was therefore re-scored" | 25 of 27; the two exceptions named (one coverage-only, one with no successfully screened design) |
+| residual load, `GGGCATATCTCTATAA` | 7.2 / 8.0 | **0 / 0** |
+
+✅ **THE FIX IS BOUNDED AND FAILS TOWARD THE UPPER BOUND.** The histogram is rebuilt strand-aware
+**only where the retained hit list is complete**, because `screen_one` keeps the strongest 15 of a
+hitlist up to 50 and the strand of a truncated tail is unrecoverable. A censored design keeps its
+strand-blind histogram and its load stays the upper bound it always was; every graded row now records
+which of the two it is (`gap_histogram_orientation_filtered`).
+
+⚠ **A ZERO HERE IS ARITHMETIC, NOT A MEASUREMENT**, and the manuscript says so where it reports it: a
+design with no hybridisable hit to score has zero load under any discrimination bound, which is
+weaker than a bound-specific finding. What it does establish is that the harsher of the two bounds
+does not move these four, because there is nothing for it to act on.
+
+⭐ **THE TRIPWIRE THAT CAUGHT THIS WAS OUR OWN, AND IT WORKED.**
+`test_no_design_at_any_real_junction_reaches_zero_predicted_cleavage_load` asserted `n_zero == 0` and
+its docstring said a non-zero count would mean "the manuscript's central claim has changed". It
+tripped, for the right reason. It is now
+`test_exactly_the_four_orientation_clean_designs_reach_zero_predicted_cleavage_load`, still a
+tripwire and pointed the other way: a fifth design reaching zero, or any design outside those three
+junctions, fails the build — because with the strand filter correct, the only remaining route to a
+zero is a censored design whose unseen tail was assumed away. A second test asserts directly that no
+design with even one hybridisable hit is ever awarded a zero.
