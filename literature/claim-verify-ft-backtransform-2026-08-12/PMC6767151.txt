@@ -1,0 +1,205 @@
+Res Synth MethodsRes Synth Methods379blackwellopen101543738JRSMResearch Synthesis Methods1759-28791759-2887pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC6767151PMC6767151.1676715167671513094543810.1002/jrsm.1348JRSM1348jrsm.13481Brief Method NoteBrief Method NoteSeriously misleading results using inverse of Freeman‐Tukey double arcsine transformation in meta‐analysis of single proportions
+SCHWARZER et al.SchwarzerGuidohttps://orcid.org/0000-0001-6214-9087 sc@imbi.uni-freiburg.deChemaitellyHiamhttps://orcid.org/0000-0002-8756-6968 Abu‐RaddadLaith J.https://orcid.org/0000-0003-0790-0506 RückerGertahttps://orcid.org/0000-0002-2192-2560 
+1
+Institute of Medical Biometry and Statistics, Faculty of Medicine and Medical Center
+University of Freiburg
+Freiburg im Breisgau
+Germany
+
+2
+Infectious Disease Epidemiology Group, Weill Cornell Medicine‐Qatar
+Cornell University, Qatar Foundation, Education City
+Doha
+Qatar
+
+3
+Department of Healthcare Policy & Research, Weill Cornell Medicine
+Cornell University
+New York
+New York
+USA
+*Correspondence
+Guido Schwarzer, Institute of Medical Biometry and Statistics, Faculty of Medicine and Medical Center, University of Freiburg, Germany.
+Email: sc@imbi.uni-freiburg.de23420199201910334293510.1002/jrsm.v10.34764830510201812220192432019300920190310201906022020© 2019 The Authors Research Synthesis Methods Published by John Wiley & Sons Ltd.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.Standard generic inverse variance methods for the combination of single proportions are based on transformed proportions using the logit, arcsine, and Freeman‐Tukey double arcsine transformations. Generalized linear mixed models are another more elaborate approach. Irrespective of the approach, meta‐analysis results are typically back‐transformed to the original scale in order to ease interpretation. Whereas the back‐transformation of meta‐analysis results is straightforward for most transformations, this is not the case for the Freeman‐Tukey double arcsine transformation, albeit possible.
+In this case study with five studies, we demonstrate how seriously misleading the back‐transformation of the Freeman‐Tukey double arcsine transformation can be. We conclude that this transformation should only be used with special caution for the meta‐analysis of single proportions due to potential problems with the back‐transformation. Generalized linear mixed models seem to be a promising alternative.
+
+back‐transformationgeneralized linear mixed modelharmonic meanrandom intercept logistic regressionvariance stabilizationDeutsche ForschungsgemeinschaftRU1747/1-2Qatar National Research Fund9-040-3-008 The harmonic mean of 85 is obviously the wrong choice in this meta‐analysis with sample sizes ranging from 29 to more than 200 000. Figure shows the influence of sample size on meta‐analysis results (see also Table ). For sample sizes between 10 and around 120, results are exactly zero for the back‐transformation of the Freeman‐Tukey double arcsine transformation. The number of HCV infections per 1000 observations then steeply increases up to a sample size of 500 when the effect of sample size starts to slowly level out.
+ As noted earlier, the results of the random‐effects model are very different for the two logit methods due to different between‐study variance estimates. This discrepancy can be explained by looking at the confidence intervals of individual studies in the corresponding forest plots (Figures and  ). Confidence intervals, based on the normal approximation, are much narrower for the two smallest studies in the classic random‐effects meta‐analysis (Figure ) than the confidence intervals, based on the Clopper‐Pearson method taking the binomial distribution into account,( , ) in the GLMM meta‐analysis (Figure ). Apparently, in these two small studies with only 1 HCV infection and less than 50 observations, the assumption of a normally distributed logit transformed proportion is not fulfilled. With increasing numbers of infections and sample sizes, approximate and Clopper‐Pearson confidence intervals get closer to each other. Obviously, the very narrow confidence intervals of the two smallest studies result in an inflated between‐study variance estimate leading to a larger estimate for the pooled mean HCV prevalence and a much wider confidence interval for the pooled mean HCV prevalence.
+ 
+3
+
+## DISCUSSION
+Our case study shows that meta‐analysis results based on the back‐transformation of the Freeman‐Tukey double arcsine transformation can be very misleading and even smaller than all individual study results. We observe similar undesirable results in a meta‐analysis using the complete dataset with 28 studies. To our knowledge, this is the first publication reporting such an anomaly and erratic results.
+In our view, the main reason for this unexpected behaviour is the very extreme pattern of sample sizes that range from 29 to more than 200 000. The harmonic mean of 85 is much smaller than 3 of the 5 sample sizes. For such highly skewed sample sizes, the harmonic mean is by definition rather small, which may result in nonsensical back‐transformed probabilities.
+In order to prevent misleading conclusions for the Freeman‐Tukey double arcsine transformation, several sample sizes could be used to evaluate the sensitivity of meta‐analysis results; however, this may lead to diverging meta‐analysis estimates. In our example, using the arithmetic or geometric mean in the back‐transformation (see Table ) would result in random‐effects estimates of 1.96 and 1.59 HCV infections per 1000 observations, respectively. Here, results for the harmonic mean are obviously wrong; however, it is rather unclear whether to rely on the results for the arithmetic or geometric mean. All other transformations (arcsine, logit, and log) do not have this intrinsic problem in the presentation of meta‐analysis results.
+Overall, the arcsine transformation appears to be the best classic method for the meta‐analysis of single proportions. However, as application of GLMMs for meta‐analysis is nowadays straightforward due to its implementation in common software, there is neither a real reason nor a clear advantage for using an approximate method. Accordingly, we support the viewpoint of  previous works,( , , , )  recommending the use of GLMMs for the meta‐analysis of single proportions. From our perspective, the only disadvantage of a GLMM is that individual study weights are not available, which we consider as a minor drawback; analysts seeing this differently should use the arcsine transformation.
+Our recommendation is purportedly in contrast to advice by Barendregt et al promoting the use of the Freeman‐Tukey double arcsine transformation over the logit transformation. However, this publication only considered these transformations under the classic meta‐analysis model. We agree with Barendregt et al that the use of the logit transformation is problematic in inverse variance meta‐analyses with small event numbers or sample sizes; this is also visible in our example. These problems with the logit transformation under the classic meta‐analysis do not translate to GLMMs. The classic meta‐analysis model assumes that treatment estimates of individual studies follow a normal distribution that is obviously critical in studies with small numbers of events and observations. The arcsine and Freeman‐Tukey double arcsine transformation are less affected by this normality assumption than the logit transformation. However, GLMMs taking into account the binomial structure of the data are not affected by this problem at all.( , )
+
+4
+
+## CONCLUSIONS
+Our case study shows that the Freeman‐Tukey double arcsine transformation should only be used with special caution for the meta‐analysis of single proportions due to potential problems in the back‐transformation of meta‐analysis results. In our view, a sensitivity analysis using other sample sizes is mandatory for this transformation. GLMMs seem to be a promising alternative which is nowadays available in common meta‐analysis software.
+
+## CONFLICT OF INTEREST
+The author reported no conflict of interest.
+
+## Supporting information
+Supporting info item
+Click here for additional data file.
+Supporting info item
+Click here for additional data file.
+
+## ACKNOWLEDGEMENTS
+H.C. and L.J.A. acknowledge support by NPRP grant number 9‐040‐3‐008  from the Qatar National Research Fund (a member of Qatar Foundation), and support provided by the Biostatistics, Epidemiology, and Biomathematics Research Core at Weill Cornell Medicine in Qatar. G.R. acknowledges the support by the Deutsche Forschungsgemeinschaft (DFG), grant number RU1747/1‐2. The findings achieved herein are solely the responsibility of the authors.
+ APPENDIX A
+
+## STATISTICAL METHODS
+A.1We consider a meta‐analysis of K studies where each study reports the number of events, a
+k, and the number of observations n
+k, k = 1,…,K. We assume that the number of events follows a binomial distribution. Specifically, cell count a
+k∼Binomial(n
+k,p
+k), where p
+k denotes the probability of the event in study k. These probabilities are estimated from the observed number of events and sample sizes by 
+p^k=ak/nk.
+
+A.1
+
+## Transformations
+In this subsection, we briefly introduce the arcsine, Freeman‐Tukey double arcsine, and logit transformations in the context of a single study. In the next subsection, the use of these transformations in meta‐analyses will be described.
+A.1.1
+
+## Arcsine transformation
+The arcsine‐transformed event probability 
+θkAS
+ is defined as 
+θkAS=arcsinpk. An estimate of 
+θkAS is given by replacing p
+k with 
+p^k. The main advantage of this transformation is the property of variance stabilization. The approximate variance of 
+θ^kAS is calculated using 
+Var^(θ^kAS)=14nk, where the approximation improves as n
+k increases. Notice that the approximate variance of 
+θ^kAS only depends on the sample size. A confidence interval for 
+θkAS can be constructed as 
+θ^kAS±z1−α2S.E.(θ^kAS) with standard error 
+S.E.(θ^kAS)=Var^(θ^kAS) and 
+z1−α2 denoting the 
+1−α2 quantile of the standard normal distribution.
+
+A.1.2
+
+## Freeman‐Tukey double arcsine transformation
+The Freeman‐Tukey double arcsine‐transformed event probability 
+θkFT
+ is an average of two arcsine‐transformed probabilities. Its estimate is given by 
+θ^kFT=0.5arcsinaknk+1+arcsinak+1nk+1. The Freeman‐Tukey double arcsine transformation was introduced in order to improve on the variance stabilizing property of the arcsine transformation. The approximate variance of 
+θ^kFT is 
+Var^(θ^kFT)=14nk+2, where the approximation—again—improves as n
+k increases. A confidence interval for 
+θkFT can be constructed following the same methodology for that of the arcsine transformed probability described above.
+
+A.1.3
+
+## Logit transformation
+The logit transformation is another classic transformation defined as 
+θkLO=logpk1−pk. Again, an estimate of 
+θkLO is given by replacing p
+k with 
+p^k. The approximate variance of 
+θ^kLO is 
+Var^(θ^kLO)=1ak+1nk−ak. It is clear from this variance formula that the approximate variance of a logit transformed proportion can become infinite if the number of events is zero or equal to the sample size. Typically, in this situation, a small increment is added to each denominator in order to yield a finite variance estimate.
+A confidence interval for 
+θkLO can be constructed following the same methodology for that of the arcsine transformed probability described earlier.
+
+A.2
+
+## Meta‐analysis of single proportions
+We briefly describe both the classic meta‐analysis method assuming approximate normally distributed study effects (ie, prevalence measures) as well as the generalized linear mixed model taking the binary structure of the data into account.
+All methods are available in R function metaprop() from R package meta. 
+
+A.2.1
+
+## Classic random‐effects model
+Classic fixed‐effect and random‐effects meta‐analysis methods using the inverse variance method can be implemented to combine single proportions. As the random‐effects model is a generalization of the fixed‐effect model, we only introduce the random‐effects model, which is defined as 
+θ^k=θk+ϵk,ϵk∼i.i.d.N(0,σk),θk=θ+uk,uk∼i.i.d.N(0,τ2), where the ϵ's and u's are independent. This model contains two sources of variation: the within‐study variances 
+σk2, k = 1,…,K, and the between‐study variance τ
+2. The classic meta‐analysis methods assume that the variances 
+σk2 are estimated without error by 
+σ^k2. The estimated effects 
+θ^k and corresponding standard errors σ
+k (which are assumed known) are used to estimate τ
+2 with the restricted maximum likelihood method. Results are very similar using the classic DerSimonian and Laird estimator, which is still the default in most statistical software for meta‐analysis. The fixed‐effect model is a special case when τ
+2 = 0. Accordingly, results of fixed‐effect and random‐effects meta‐analysis are identical if the estimate 
+τ^2 equals zero.
+Given estimates 
+(θ^k,σ^k), the random‐effects estimate of θ, denoted by 
+θ^R, is 
+θ^R=∑k=1Kθ^k/(σ^k2+τ^2)∑k=1K1/(σ^k2+τ^2), which is a weighted average of the individual effect estimates 
+θ^k with weights 
+wk=1/(σ^k2+τ^2).
+ The variance of 
+θ^R is estimated by 
+Var^(θ^R)=1∑k=1Kwk and a (1‐α) confidence interval for 
+θ^R can be calculated using 
+θ^R±z1−α2S.E.(θ^R) with standard error 
+S.E.(θ^R)=Var^(θ^R).
+A fixed‐effect meta‐analysis can be conducted by assuming a between‐study variance τ
+2 = 0 resulting in a fixed‐effect estimate 
+θ^F.
+Instead of 
+θ^k and 
+σ^k, we use 
+θ^kAS and 
+S.E.(θ^kAS) for the arcsine method, 
+θ^kFT and 
+S.E.(θ^kFT) for the Freeman‐Tukey double arcsine method, and 
+θ^kLO and 
+S.E.(θ^kLO) for the logit method. We denote the corresponding fixed‐effect and random‐effects estimates as 
+θ^FAS, 
+θ^RAS, 
+θ^FFT, 
+θ^RFT, 
+θ^FLO, and 
+θ^RLO, respectively.
+
+A.2.2
+
+## Generalized linear mixed model
+An excellent tutorial describes how generalized linear mixed models can be utilized in the meta‐analysis of event outcomes. One special case considered in the paper is the meta‐analysis of single proportions, which—like the classic meta‐analysis model—assumes a normal distribution for the effect size (ie, transformed proportion) across studies. However, a binomial distribution is assumed for the number of events within a study, ie, 
+ak∼Binomialnk,pk. Using the above defined logit transformed proportion 
+θkLO, this relation can be re‐expressed in the following way to define the random‐effects model 
+ak∼i.i.d.Binomialnk,exp(θkLO)1+exp(θkLO),θkLO∼i.i.d.θ+ukuk∼i.i.d.N(0,τ2). This model uses the binomial likelihood 
+exp(θkLO)ak(1+exp(θkLO)nk instead of the likelihood from the normal distribution and is also known as a random intercept logistic regression model that implicitly uses the logit transformation. Accordingly, the GLMM estimates 
+θ^FGL and 
+θ^RGL correspond to the logit transformed probabilities in the fixed‐effect and random‐effects model, respectively.
+Estimation of GLMMs for meta‐analysis of single proportions is straightforward with R function metaprop() by specifying argument method = "GLMM".
+In principle, individual study weights could be derived from the likelihood contribution of each individual study; however, this information is at the moment not available in the utilized R software. Alternatively, the width of the Clopper‐Pearson confidence intervals that also takes the binomial data structure into account( , ) could be used to get approximate study weights.
+
+A.3
+
+## Back‐transformations
+For a single study, several statistical methods exist to calculate a confidence interval for a single proportion.( , ) These methods do not use the arcsine or the Freeman‐Tukey double arcsine transformations, and therefore, the back‐transformation is not strictly relevant for individual study results. However, in a meta‐analysis context, the back‐transformation of the (double) arcsine as well as the logit transformation is essential to report results on the original scale, ie, as proportions.
+A.3.1
+
+## Arcsine back‐transformation
+The back‐transformation/inverse of the arcsine transformation is defined as 
+pkAS=sin(θkAS)2. This back‐transformation can be used for a single study as well as the result of a meta‐analysis, eg, for the random‐effects estimate 
+θ^RAS and its lower and upper confidence limits.
+
+A.3.2
+
+## Inverse of Freeman‐Tukey double arcsine transformation
+Miller introduced the back‐transformation of the Freeman‐Tukey double arcsine transformation that was published almost 30  years after the initial publication. For study k, the back‐transformation is defined as 
+pkFT=0.51−sgn(cos(θkFT))1−sin(2θkFT)+sin(2θkFT)−1/sin(2θkFT)/nk2. This rather complex back‐transformation arises from using an average of two arcsine transformed proportions. The sample size n
+k is included in the back‐transformation, which is no problem for a single study. However, in a meta‐analysis with different sample sizes, a single sample size has to be specified to apply the back‐transformation. Miller suggested to use the harmonic mean of the sample sizes, ie, 
+ñ=K∑k=1K1nk. Accordingly, this harmonic mean 
+ñ and the meta‐analysis estimate 
+θ^FFT or 
+θ^RFT are used in the back‐transformation.
+
+A.3.3
+
+## Inverse of logit transformation
+The inverse of the logit transformation is defined as 
+pkLO=exp(θkLO)1+exp(θkLO). This well‐known back‐transformation can be used both for a single study and in a meta‐analysis setting (classic method or GLMM).
