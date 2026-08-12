@@ -68,7 +68,7 @@
     }
   },
   "n_oligos_screened": 5,
-  "n_screened_ok": 1,
+  "n_screened_ok": 0,
   "n_oligos_no_true_cleavage_risk": 0,
   "oligos": [
     {
@@ -77,7 +77,7 @@
       "gc_percent": 50.0,
       "specificity_margin": 8,
       "status": "screen_failed",
-      "error": "BLAST poll timeout for RID 7T02GU3E014"
+      "error": "BLAST poll timeout for RID 7T4CW66B014"
     },
     {
       "antisense_5to3": "GGCATATCTTGTGTGT",
@@ -85,7 +85,7 @@
       "gc_percent": 43.8,
       "specificity_margin": 7,
       "status": "screen_failed",
-      "error": "BLAST poll timeout for RID 7T0NM94Z014"
+      "error": "BLAST poll timeout for RID 7T501YEP014"
     },
     {
       "antisense_5to3": "AGGGCATATCTTGTGT",
@@ -93,7 +93,7 @@
       "gc_percent": 43.8,
       "specificity_margin": 7,
       "status": "screen_failed",
-      "error": "BLAST poll timeout for RID 7T18SF3Y014"
+      "error": "BLAST poll timeout for RID 7T5K6MKT014"
     },
     {
       "antisense_5to3": "CAGGGCATATCTTGTG",
@@ -101,209 +101,15 @@
       "gc_percent": 50.0,
       "specificity_margin": 6,
       "status": "screen_failed",
-      "error": "IncompleteRead(11868 bytes read)"
+      "error": "BLAST poll timeout for RID 7T66CC0A014"
     },
     {
       "antisense_5to3": "GCATATCTTGTGTGTG",
       "target_mRNA_5to3": "CACACACAAGATATGC",
       "gc_percent": 43.8,
       "specificity_margin": 6,
-      "status": "screened",
-      "blast_rid": "7T1XAT3G014",
-      "n_parent_or_intended_hits": 0,
-      "n_offtarget_near_matches": 50,
-      "n_true_cleavage_risk": 50,
-      "n_gap_disrupted_no_cleavage": 0,
-      "n_wing_only_affinity": 0,
-      "n_coverage_only_fallback": 0,
-      "gap_mismatch_histogram": {
-        "0": 50,
-        "1": 0,
-        "2": 0
-      },
-      "n_gap_mismatch_unresolvable": 0,
-      "offtargets": [
-        {
-          "acc": "NM_007220",
-          "defn": "Homo sapiens carbonic anhydrase 5B (CA5B), mRNA; nuclear gene for mitochondrial product",
-          "identity": 15,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "qseq": "ACACACAAGATATGC",
-          "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NR_002725",
-          "defn": "Homo sapiens inactivation escape 2 (INE2), long non-coding RNA",
-          "identity": 15,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "qseq": "ACACACAAGATATGC",
-          "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NR_160544",
-          "defn": "Homo sapiens CA5BP1-CA5B readthrough (CA5BP1-CA5B), transcript variant 1, long non-coding RNA",
-          "identity": 15,
-          "align_len": 15,
-          "q_from": 2,
-          "q_to": 16,
-          "qseq": "ACACACAAGATATGC",
-          "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054332294",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X9, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054332295",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X10, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054332296",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X11, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054332299",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X14, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054332301",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X16, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054332306",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X21, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054332307",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X22, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054332309",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X24, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054332313",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X28, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054332315",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X30, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054373150",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X1, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054373151",
-          "defn": "PREDICTED: Homo sapiens calcium voltage-gated channel subunit alpha1 C (CACNA1C), transcript variant X2, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "qseq": "CACACACAAGATATGC",
-          "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        }
-      ]
+      "status": "screen_failed",
+      "error": "BLAST poll timeout for RID 7T6THZNW014"
     }
   ]
 }
