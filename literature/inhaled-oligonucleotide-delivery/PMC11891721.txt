@@ -1,0 +1,183 @@
+2992heliyonHeliyonHeliyonElsevierPMC1189172111891721118917214006604710.1016/j.heliyon.2025.e42616A novel single-domain antibody obtained from immune Bactrian camels against botulinum toxin type A using SPR-based screening method
+HuNaijing PengFenghao JiangZhiyang WangZhihong PengShangde XingCong LiuYingjun LiXinying LuoLonglong ChenGuojiang XiaoHe WangJing YuJiyun LiuChenghua QiaoChunxia FengJiannan aBeijing Institute of Pharmacology and Toxicology, Beijing, 100850, ChinabBeijing Institute of Tropical Medicine, Beijing Friendship Hospital, Capital Medical University, Beijing, 100050, ChinacCollege of Biotechnology, Campus of Jiangsu University of Science and Technology, Zhenjiang, Jiangsu, 212100, ChinadJoint National Laboratory for Antibody Drug Engineering, Henan University, Kaifeng, 475004, ChinaeSchool of Medicine and Holistic Integrative Medicine, Nanjing University of Chinese Medicine, Nanjing, 210023, China⁎Corresponding author. bioqcx@126.com
+⁎⁎Corresponding author. fengjiannan1970@qq.com
+1422025114e42616e426161032025© 2025 The AuthorsThis is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+Botulinum neurotoxin (BoNT) is a highly lethal toxin produced by the anaerobic bacterium Clostridium botulinum, which leads to nerve paralysis following poisoning. At present, there is no specific drug officially approved. Antibodies, particularly single-domain antibodies, represent safe and effective candidates for specific drugs against BoNT. In this study, the receptor-binding domain of botulinum toxin (BoNT/AHCC) was utilized to immunize Bactrian camels, resulting in the generation of a nanobody phage library. From this library, a high-affinity binding antibody, designated A1, and a neutralizing antibody, named HM, were successfully obtained through SPR-based screening. The affinity constant of HM for botulinum toxin is 1.08E-11 M. Results from computer simulations indicate that HM binds at the same site as SV2C. Furthermore, experimental findings demonstrate that HM exhibits significant blocking activity at both the in vitro binding level and the cellular level. In mouse toxicity experiments, HM has been shown to offer protection against a 20 LD50 dose of BoNT/A. Consequently, HM mitigates botulinum toxin poisoning in mice by obstructing the binding of AHCC to SV2C.
+Keywords: Single-domain antibodies, Botulinum neurotoxin type A, Bactrian camel, Surface plasmon resonance
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Aug 5; Revised 2025 Feb 4; Accepted 2025 Feb 10; Collection date 2025 Feb 28.
+
+1.
+
+## Introduction
+Botulinum neurotoxins (BoNT), produced by the anaerobic bacterium Clostridium botulinum, are responsible for causing botulism. BoNT is classified into seven different serotypes (A-G) [ , ]. Human botulism is primarily attributed to Clostridium botulinum neurotoxin (BoNT) serotypes A, B, E, and F, which lead to symptoms of flaccid muscle paralysis [ ]. There are four main forms of human botulism: (1) foodborne botulism resulting from ingesting the food contaminated with botulinum toxin [ ]; (2) infant botulism [ , ] and adult intestinal botulism [ ] which arise from intestinal colonization by the bacteria; (3) wound botulism [ ] caused by infection in wounds with Clostridium; (4) iatrogenic botulism [ , ], which occurs from the therapeutic use of BoNT/A and BoNT/B for various medical conditions.
+After botulinum toxin poisoning, the median lethal dose (LD50) in mouse is 0.1–1 ng/kg. The LD50 for human is not definitively known but can be inferred from studies conducted on primates. The lethal doses been estimated as follows: 1–2 ng/kg when administered intravenously or intramuscularly, 10 ng/kg when inhaled, and 1 μg/kg when ingested orally [ , , , , ]. Therefor botulinum toxin is considered the most lethal substance. Due to its extreme toxicity and the easy of production of BoNT/A, it has been classified as a category A biothreat agent by Center of Disease Control and Prevention in the United States [ ].
+Botulinum toxin type A is a polypeptide protein composed of two chains, a heavy chain (100 kDa, BoNT/AHC) at the C terminal and a light chain (50 kDa, BoNT/ALC) at the N terminal, both of which are linked by disulfide bonds [ , ]. The heavy chain consists of a 50 kDa N-terminal translocation domain (HCN) and a C-terminal receptor-binding domain (HCC). AHCC binds gangliosides and prominent vesicular proteins at the neuromuscular junction, facilitating entry into cells via endocytosis [ ]. Under acidic conditions, the N-terminal structure of the heavy chain undergoes a conformational change (AHCN) [ ], forming a channel that transports the light chain (ALC) into the cytoplasm. ALC possesses metalloenzyme activity and cleaves SNARE protein SNAP-25 [ , ]. This process blocks neurotransmitter release, resulting in skeletal muscle paralysis and can ultimately respiratory failure and death [ ]. Although botulinum toxin is also used for medical purposes, improper handling can increase the incidence of iatrogenic poisoning [ ]. The main treatment modalities following botulism include monitoring, supportive care and antitoxin therapy, with equine seven-valent botulinum antitoxin (BAT®) being the currently approved antitoxin serum [ ]. However, antitoxin serum is a heterologous protein, which may cause hypersensitivity reaction, resulting in side effects such as serum sickness and stasis [ ].
+At present, Clostridium and its diverse toxins have garnered significant attention in the realm of diagnostics and therapeutic strategies [ , ]. Nanobodies, as a promising candidate for pharmacological intervention, have been widely recognized for their efficacy. Variable domains of heavy-chain only antibodies(VHHs), also known as single-domain antibodies(sdAbs) or nanobodies, are derived from the variable region of the heavy chain of unique antibodies in animals of the Camelidae family. Currently, they represent the smallest antibody structure capable of complete antigen binding function [ ]. These VHHs possess several advantages, including high affinity, robust stability, excellent solubility, and significant tissue permeability, making them highly promising for application in neutralizing botulism [ ].
+In this study, we focused on HM screening from a VHH antibody immune library using phage display with the receptor-binding domain of botulinum toxin type A (BoNT/AHCC) as the antigen to immune Bactrian camel. We determined that HM could effectively block the binding of BoNT/AHCC to SV2C and protect mice from botulinum toxin poisoning. HM was obtained by coating an inactive A1 antibody as a scaffold to display the active site of BoNT/AHCC. Additionally, the screening process involved exposing the active site of BoNT/AHCC by coating an inactive antibody with A1 as a scaffold. This screening strategy indicates that sufficient exposure of the active site of the antigen is critical for identifying effective botulinum toxin-neutralizing antibodies.
+
+2.
+
+## Results
+2.1.
+
+## Discovery and characterization of a new VHH targeting BoNT/AHCC
+We selected a Bactrian camel named L9 for immunization, administering five times with BoNT/AHCC followed by a sixth booster with the natural toxin, as described in A. The serum titer was assessed using ELISA, reaching a level of 1:8000, which was sufficient for library construction ( B). Afterward, venous blood was collected from the camel, and the heavy chain variable region was obtained through RNA extraction, reverse transcription, PCR ( ), and was then subcloned into a phage display vector. The antibody library had a capacity of 6 × 109 phagemids, with an accuracy rate of over 80 % ( ).
+ VHHs are identified using the following screening methods.
+(1)The classical ELISA method was applied using antigen coating directly. After four rounds of selection, the phage library was significantly enriched ( A). Monoclonals were identified by ELISA, and clones with high OD value (>2) were selected for sequencing ( B). Among the many identified clones, one antibody sequence (clone number: A1) was overwhelmingly dominant. These were subcloned into a eukaryotic vector for expression.
+ Using the surface plasmon resonance (SPR) method, direct coating of BoNT/AHCC was used to identify the affinity of the antibodies A1 had the affinity of 3.624E-10 M to bind AHCC ( C). However, A1 failed to prevent mcie from death following exposure to LD100 BoNT/A in vivo ( D), as did other candidate antibodies.
+We speculated and verified through competitive SPR that A1 binds to the inactive site of BoNT/AHCC. In brief, the CM5 chip is incubated with SV2C, the receptor of BoNT/A. Prepare a range of dilutions for BoNT/AHCC, which exhibits an affinity of 6.539E-8 M towards SV2C and a binding saturation concentration of 400 nM for BoNT/AHCC ( A), to be utilized in subsequent SPR competition assays.
+ Then A1 and AHCC are mixed as the mobile phase. As the concentration of A1 increases, the Ru value increases, suggesting A1 cannot antagonize the binding of AHCC and SV2C, thus A1 bound to the epitope of AHCC which was far from SV2C-binding sites ( B). Due to the high affinity (10E-10 M) of A1 and AHCC at the inactive site, we chose it to serve as a scaffold antibody coated on the tube, which can help assist AHCC display in indirect screening method.
+(2)Indirect screening method: Coating A1 on the immune tube enables the capture of AHCC; subsequently, clones can be screened out with non-overlapping epitopes with A1. The natural exposure of AHCC’s active site facilitates binding to bacteriophages, as coating may influence the original conformation of AHCC. A1 captured AHCC, thereby exposing the effective binding sites of AHCC for indirect screening. After three rounds of phage screening ( A), we selected hundreds of phage antibody clones, subsequently using SPR method to identify neutralizing antibody candidates. In brief, an anti-M13 antibody was conjugated to the CM5 chip, which subsequently reacted with the phage samples to immobilize the antibody; thereafter, AHCC was added to choose the positive clones. As shown in B, the stability value served as a criterion for screening, and 8 clones exhibiting high Ru value were selected for Fc fusion and eukaryotic expression in 293T cells. Then Protein A chip was used to capture the nanobody from the cell supernatant, which was then bound to AHCC. Among these, clone 7 demonstrated a high binding Ru value and a slower dissociation rate ( C). Consequently, Clone 7, designated as HM, was selected for expression and purification. The binding affinity of HM to AHC, as measured using surface plasmon resonance (SPR), was determined to be 1.08E-11 M ( D).
+ 
+2.2.
+
+## The binding mode between functional antibody, unfunctional antibody and BoNT/AHCC
+To explore the differences between those antibodies, the 3-D structures of Botulinum toxin A H-chain, and its receptor SV2C Domain 4 were modeled using computer-guided homology modeling method. The structures of AHCC and SV2C was shown in A. As shown in the figure, the key residues of AHCC to bind to SV2C were 1124DVNNVG1129, 1184VVVKNKEY1191 and 1210EIPD1213. Subsequently, based on the 3-D structures of AHCC to bind to the antibodies (i.e. HM and A1), respectively, the potential bio-activity and possible mechanism was evaluated. As shown in B and C, the antibody HM can compete with SV2C by binding to the receptor-binding domain (1155Y, 1160FI1161, 1184V, 1188NKE1190 in AHCC), whereas the antibody A1 bound to opposite sites of AHCC, distant from the epitope recognized by the SV2C (1034RLI1036, 1038Q, 1081EK1082, 1085K in AHCC).
+ 
+2.3.
+
+## VHH inhibits the binding of botulinum toxin type A to SV2C
+The binding sites of the antibody to AHCC were analyzed by computer homologous modeling, and it was preliminarily speculated theoretically that HM functions by blocking the interaction of AHCC to the receptor, thus hindering the subsequent intracellular signal cascades. Furthermore, VHH was assessed for its ability to reduce the binding of AHCC to SV2C using an SRP competition assay. The experimental results are presented in A. As the concentration of HM increased, the Ru value decreased, indicating that HM can block the binding of AHCC and SV2C.
+ 
+2.4.
+
+## VHH inhibits botulinum toxin type A binding cells
+To furtherly test our hypothesis at cellular level that HM inhibited the binding of BoNT/AHCC to SV2C on host cells, we chosen Neuro-2a cells to detect the binding of AHCC by immunostaining analysis. Alexa Flour 488 conjugated AHCC was incubated with Neuro-2a and AHCC was able to bind to the cells. However, the binding was blocked by the addition of HM at a range of concentrations, for the fluorescence intensity was decreased significantly on a dose-dependent manner, indicating that HM could block the binding of AHCC to the receptors on neurons in vitro ( B and C).
+
+2.5.
+
+## VHH neutralized toxin poisoning in mice
+To further verify the neutralizing effect of VHHs against botulinum toxin type A, CD-1 female mice were selected for in vivo assays poisoned with BoNT/A. LD100 of botulinum toxin type A was injected intraperitoneally as the control group, while different concentrations of the antibody were mixed with toxin and incubated at room temperature for 30 min before intraperitoneal injection in the experimental groups. As shown in A and B, HM (0.05–5 mg/kg) effectively protected all mice from death.
+ Furtherly, we increased the toxin dose to 20 LD50 and 200 LD50, and antibody dose of 10 mg/kg. After co-incubation the toxin-antibody mixture was injected intraperitoneally. As shown in C and 10 mg/kg of HM completely protected mice from the challenge of 20 LD50. When the dose of toxin increased to 200 LD50, HM also protected 30 % of mice, and extend the survival time of mice to at least 40 h.
+
+3.
+
+## Discussion
+In this study, we used AHCC, the cell-binding domain of botulinum toxin type A, as the antigen to immunize to obtain a neutralizing antibody HM. The affinity of purified HM to AHCC is 1.08E-11 M. It has been confirmed that HM blocks the binding of AHCC to SV2C at both the cellular and molecular levels. In in vivo protection experiments with mice, a low dose of 5 μg/kg of antibody was able to neutralize the toxicity of the LD100 of botulinum toxin type A. At high doses of toxin, the antibody could also completely protect mice or at least prolong their survival time. Both of the obtained antibodies have been granted patents: A1 (Chinese patent No.CN202410180148.1), HM (Chinese patent No.CN202311169052.7).
+During the screening, we found that most of the VHHs obtained by directly coating the antigen for panning exhibited binding activity; however, they lacked protective activity in vivo. Antibodies demonstrating good binding activity did not necessarily have excellent neutralizing activity. Other research [ ] suggests that coating may affect the conformation of antigens, leading to antibodies failing to bind to effective active sites. After obtaining antibody A1, which showed affinity binding to AHCC but lacked neutralizing function, we verified that A1 did not bind to the active site of AHCC, which was confirmed by the SPR method. Effective screening of VHHs depends on the conformational epitopes of the target antigen. Therefore, maintaining the natural and stable structure of the antigen is crucial. VHH showed different recognition of LC/E when it was either coated or in a soluble form. Similarly, Tremblay et al. [ ] reported a similar case in anti-LC/E antibody-screening, in which they changed the method to VHH-Captured LC/E and finally obtained a satisfactory neutralizing antibody. To ensure the conformation of AHCC and expose the active sites, we coated A1 onto immune tubes to capture AHCC as a scaffold. Simultaneously, the SPR screening method was also used to avoid the encapsulation step and maintain the conformation of AHCC. Among the screened antibodies, there were more clones indeed to have good affinity in SPR affinity testing and good neutralizing activity both in vitro (via SPR) and in vivo (in a mice model), despite showing no significant binding activity detected by ELISA method. Furthermore, using computer-aided modeling, we analyzed the binding mode of A1, HM or SV2C to bind to AHCC, revealing the overlapped epitope recognized by HM and SV2C. This result demonstrates that maintaining the proper conformation of the antigen or exposing key epitopes might be crucial for screening antibodies with functional activity. Additionally, the screening strategy based on competitive SPR adopted in this study proved beneficial. By analyzing the binding modes of different antibodies (A1, HM, and SV2C), SPR provided critical insights into the overlapping epitopes recognized by neutralizing antibodies, further validating the importance of antigen conformation in functional screening. SPR ensures that the antigen remains in its native state, accurately assesses the functional binding of antibodies to active sites, and provides real-time, label-free data that aids in the identification of truly neutralizing antibodies. This approach offers a solid foundation for future screening efforts aimed at isolating additional functional antibodies.
+In this study, we have successfully identified multiple VHH antibodies against botulinum toxin. Although detailed analysis has thus far been conducted on only two of the most characteristic antibodies, A1 and HM, the remaining candidate antibodies also exhibit promising applications. However, there are certain limitations to the completeness of this research, including the constraints of epitope analysis, the insufficiency of candidate antibody comprehensiveness. Future research will delve into epitope analysis and computational modeling [ ], integrating antibody sequence and structural information [ ]. Additionally, the development and application of nanobodies will be explored, leveraging their small size and high stability to construct multivalent nanobodies [ , ], thereby enhancing neutralization efficacy and tissue penetration. Furthermore, efforts will be made to the optimization of humanized antibodies, such as the modification of the Fc region to extend their half-life in vivo, while rigorously verifying their safety and efficacy. Ultimately, by optimizing the design and combination of multivalent antibodies, synergistic neutralization of multiple botulinum toxin epitopes will be achieved, providing more effective candidate molecules and strategies for the prevention and treatment of botulinum toxin poisoning.
+
+4.
+
+## Materials and methods
+4.1.
+
+## Cells and animals
+The Neuro-2a cell line (RRID: CVCL_0470) was obtained from Wuhan Pricella Biotechnology Co., Ltd. The cell line was authenticated via STR profiling, which confirmed its identity with the reference profile in the EXPASY database (RRID: CVCL_0470). Additionally, mycoplasma testing was performed, and the results were negative, indicating the absence of contamination. The Neuro-2a cell line was cultured in MEM (C11095500CP, Gibco/Thermo Fisher Scientific) supplemented with 10 % fetal bovine serum (16000–044, Gibco/Thermo Fisher Scientific), 100 U/mL penicillin, and 100 μg/mL NEAA at 37 °C with 5 % CO2.
+CHO-s cells were obtained from Invitrogen Life Technologies. CHO-s cells were cultured in ExpiCHO™ Expression Medium. The cells were incubated at 37 °C in a humidified incubator with an atmosphere of 8 % CO2 on an orbital shaker platform.
+The CD-1 mice weighing 15–18 g were provided by Beijing Vital River Laboratory Animal Technology Co., Ltd. (Beijing, China) and raised in a pathogen free environment.
+
+4.2.
+
+## Reagents
+GERBU Adjuvant LQ 3000 (GERBU Biotechnik, Cat. #30000025); DAPI (BioLegend, Cat. #422801); jetPRIMEVersatile DNA/siRNA transfection reagent (Polyplus-transfection, Cat. #101000046); the EndoFree Maxi Plasmid Kit (Tiangen Biotech (Beijing) Co. #DP117); HRP-conjugated rabbit anti-camel IgG Fc secondary antibody (Solarbio, Cat. #SE283); GST-SV2C (list labs, Cat. #690). All reagents related to polymerase chain reaction (PCR) were purchased from TaRaKa Company. The botulinum neurotoxin type A1 (BoNT/A) is currently preserved in our laboratory for further research. BoNT/A1 was titrated to determine the LD50. Average specific activities of the toxin was as follows: 3.27 × 105 LD50 s/mL (n = 5).
+
+4.3.
+
+## Bactrian camel immunization
+A one-year-old Bactrian camel that had not been immunized in the past six months was selected. The camel was immunized with BoNT/AHCC mixed with an equal volume of the GERBU adjuvant at intervals of 7 days. Three days after the fifth immunization, the serum was collected to determine antibody titers. Subsequently, BoNT/A was administered as a booster without adjuvant. After 7 days, 100 mL of blood was collected from the jugular vein in Venosafe hematology EDTA-coated blood collection bag which was inverted twice to inhibit coagulation.
+
+4.4.
+
+## Phage display library construction
+Lymphocyte B isolation, mRNA extraction, PCR amplification and library construction were performed as described by Els Pardon et al. [ , , ] The VHH obtained was cloned into pComb3XTT (Addgene, MA, USA) vector through SfiI restriction site. The recombinant plasmid was then electroporated into E. coli TG1 (LGC Biosearch Technologies, Hoddesdon, UK), and the phage library was amplified for bio-panning and isolation.
+
+4.5.
+
+## Screening for BoNT/A binders
+4.5.1.
+
+## Classical method with antigen coating directly
+Immune tubes were coated with BoNT/AHCC in PBS at 4 °C overnight, followed by blocking with PBST with 5 % non-fat dried milk at 37 °C for 1h; Phages were added to the tubes and incubated at 37 °C for 1h. Unbound phages were removed by washing 15 times with PBST and 10 times with PBS. The bound phages were eluted using 0.1 M Gly-HCL. TG1 E. coli cells at OD600 of 0.6 were infected with the eluted phage and incubated at 37 °C for 30 min without shaking. After incubating the mixture overnight at 37 °C on 2 × YT agar plates containing 100 μg/mL ampicillin and 1 % glucose, the cells were scraped off. The recombinant phage was packaged with the M13K07 helper phage (New England Biolabs, MA, USA) and its titer was determined. A total of four rounds of panning were conducted, and the binding of nanobody phage clones was evaluated by ELISA.
+
+4.5.2.
+
+## Indirect screening method
+The experimental process follows the classical screening method, with a one key difference: A1 is coated on the immune tube. The complex formed by the co-incubation AHCC and the phage is then added to the immune tube coated with A1, allowing A1 to capture the AHCC-Phage complex. Finally, the binding of nanobody phage clones is validated using BIAcore.
+
+4.6.
+
+## Expression and purification
+The recombinant BoNT/AHCC domain (amino acids 868–1296) antigens were prepared as described previously [ ]. BoNT/AHCC were expressed in E. coli BL21 and purified with nickel-chelated affinity column by standard methods from the supernatant of cell lysate. Then the purified proteins were analyzed by sodium dodecyl sulfate-polyacrylamide gel electrophoresis (SDS-PAGE).
+The VHH was expressed using the ExpiCHO™ Expression System. Eight days post-transfection, the supernatant was collected and purified using a HiTrap MabSelect Sure protein A column with elution conducted in 150 mM acetic acid on an Äkta Purifier System (GE Healthcare Life Sciences). The final protein concentration was determined by the Pierce BCA Protein Assay Kit (Thermo Fisher Scientific). The purity of the VHH was analyzed by SDS-PAGE under reducing (loading buffer containing DTT) conditions and HPLC-SEC.
+
+4.7.
+
+## Affinity determination
+BIAcore was used to determine the affinity constant between the antibody and BoNT/AHCC antigen. Antibodies were coated on Protein A chips and antigen concentrations set to 100 nM, 50 nM, 25 nM, 12.5 nM, 6.25 nM, 3.125 nM, respectively. Antibodies were coated first, then bound and dissociated with varying concentrations of antigens, and the resulting sensorgrams were fitted by analytical software to calculate the affinity constants for antibodies and antigens.
+BIAcore was also used to detect the affinity constant between SV2C and BoNT/AHCC. A CM5 sensor chip was immobilized with SV2C, and BoNT/AHCC concentrations were set to 400 nM, 200 nM, 100 nM, 50 nM, 25 nM, 12.5 nM.
+
+4.8.
+
+## Immunostaining
+Neuro-2a cells were seeded on poly-D-lysine coated coverslips, cultured overnight in MEM medium, and stained the following day when the cell density reached 85 %. Staining was performed by fixing the cells with 4 % paraformaldehyde, permeabilizing with 0.3 % Triton in PBS solution, incubating antibodies with AHCC for 1 h at room temperature, and then incubating cells for 1 h at room temperature. Afterward, the nuclei were stained with DAPI and mounted with mounting tablets.
+
+4.9.
+
+## 3-D spatial structures modeling
+According to the amino acid sequences of the screening antibodies HM and A1, the 3-D theoretical structures were modeled using Swiss Model (https://www.expasy.org/resources/swiss-model) and NanoBodyBuilder2 (https://opig.stats.ox.ac.uk/webapps/sabdab-sabpred/sabpred/nanobodybuilder2/) methods [ ]. The 3-D structure of Botulinum toxin A H-chain (AHCC) was obtained from AlphaFold2 method while the receptor SV2C LD4 domain structure was constructed using Swiss Model method.
+Then, based on CVFF forcefield, the theoretical structures of HM, A1, AHCC and SV2C were optimized using Steepest-Descent (convergence criterion 0.1 kcal/mol, 8000 steps) and conjugate gradient (convergence criterion 0.05 kcal/mol, 20000 steps) methods, respectively. Using the crystal structure of BoNT/E receptor binding domain in complex with SV2 and VHH (PDB code: 7UIA [ ]) as model, the 3-D complex structure of AHCC and SV2-LD4 was constructed and optimized. Using Docking method, the 3-D complex structures of HM and AHCC, A1 and AHCC were obtained. All computational methods were employed with InsightII software (2000) and performed on Sun workstation.
+
+4.10.
+
+## Mouse toxin lethality assay with agents administered post-intoxication
+Neutralizing activity of purified antibodies was measured using CD-1 mice. After mixing antibody with BoNT/A toxin, the mixture was allowed to stand at room temperature for 30 min. CD-1 mice (five per group) were then injected intraperitoneally, and their survival status was observed and recorded over a 96-h period.
+
+4.11.
+
+## Statistical analysis
+All data were analyzed using Prism software (Version 9.0, GraphPad, San Diego, CA).
+
+4.12.
+
+## Abbreviations
+To facilitate the reader's understanding, here is a list of abbreviations used in this study:
+BoNT/AHC: a heavy chain (100 kDa) at the C terminal of Botulinum toxin type A.
+BoNT/ALC: a light chain (50 kDa) at the N terminal of Botulinum toxin type A.
+BoNT/AHCC: the C-terminal translocation domain (50 kDa) of BoNT/AHC.
+BoNT/AHCN: the N-terminal translocation domain (50 kDa) of BoNT/AHC.
+VHH: variable domains of heavy-chain only antibodies.
+SV2C: Synaptic Vesicle Glycoprotein 2C.
+
+## CRediT authorship contribution statement
+Naijing Hu: Writing – original draft, Data curation, Conceptualization. Fenghao Peng: Data curation. Zhiyang Jiang: Validation, Data curation. Zhihong Wang: Data curation. Shangde Peng: Validation, Data curation. Cong Xing: Validation, Data curation. Yingjun Liu: Validation, Data curation. Xinying Li: Writing – review & editing. Longlong Luo: Formal analysis. Guojiang Chen: Writing – review & editing. He Xiao: Formal analysis. Jing Wang: Formal analysis. Jiyun Yu: Software. Chenghua Liu: Data curation. Chunxia Qiao: Methodology, Conceptualization. Jiannan Feng: Software, Methodology.
+
+## Institutional review board statement
+The animal study protocol was approved by the Institutional Animal Care and Use Committee (IACUC) of Beijing Institute of Pharmacology and Toxicology (IACUC-DWZX-2021-621).
+
+## Data availability statement
+Data are available on request to the authors.
+
+## Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+## Footnotes
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.heliyon.2025.e42616.
+
+## Contributor Information
+Chunxia Qiao, Email: bioqcx@126.com.
+Jiannan Feng, Email: fengjiannan1970@qq.com.
+
+Appendix A.
+
+## Supplementary data
+The following is the Supplementary data to this article:
+
+## Multimedia component 1
+Multimedia component 1
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Multimedia component 1
+Multimedia component 1
+
+## Data Availability Statement
+Data are available on request to the authors.

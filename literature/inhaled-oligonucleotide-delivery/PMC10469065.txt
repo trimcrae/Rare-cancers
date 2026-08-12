@@ -1,0 +1,467 @@
+3946starprotSTAR ProtocolsSTAR ProtocElsevierPMC1046906510469065104690653759719010.1016/j.xpro.2023.102520Protocol to measure ribosome density along mRNA transcripts of Arabidopsis thaliana tissues using Ribo-seq
+Vélez-BermúdezIsabel Cristina ChouShu-Jen ChenAi-Ping LinWen-Dar SchmidtWolfgang 1Institute of Plant and Microbial Biology, Academia Sinica, Taipei 11529, Taiwan2Institute of Plant and Microbial Biology, Genomic Technology Core, Academia Sinica, Taipei 11529, Taiwan3Institute of Plant and Microbial Biology, Bioinformatics Core Lab, Academia Sinica, Taipei 11529, Taiwan∗Corresponding author icvb@gate.sinica.edu.tw
+∗∗Corresponding author wosh@gate.sinica.edu.tw
+4Technical contact
+5Lead contact
+188202343102520102520192023© 2023 The Author(s)This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+Ribosome profiling (Ribo-seq) measures ribosome density along messenger RNA (mRNA) transcripts and is used to estimate the “translational fitness” of a given mRNA in response to environmental or developmental cues with high resolution. Here, we describe a protocol for Ribo-seq in plants adapted for the model plant Arabidopsis thaliana. We describe steps for lysis and nucleolytic digestion and ribosome footprinting. We then detail library construction, sequencing, and data analysis.
+Subject areas: Genomics, RNAseq, Model Organisms, Plant Sciences, Molecular Biology
+
+## Graphical abstract
+ 
+
+## Highlights
+•Steps to prepare lysates for mRNA isolation from Arabidopsis thaliana tissues
+•Monosome isolation and RNA purification for RNA footprinting
+•Circularization and rRNA depletion for Ribo-seq data
+•Library construction and sequencing for data analysis
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+Ribosome profiling (Ribo-seq) measures ribosome density along messenger RNA (mRNA) transcripts and is used to estimate the “translational fitness” of a given mRNA in response to environmental or developmental cues with high resolution. Here, we describe a protocol for Ribo-seq in plants adapted for the model plant Arabidopsis thaliana. We describe steps for lysis and nucleolytic digestion and ribosome footprinting. We then detail library construction, sequencing, and data analysis.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoCollection date 2023 Sep 15.
+
+## Before you begin
+
+## Introduction
+Ribosome profiling (Ribo-seq), is a method based on next-generation sequencing of ribosome-protected mRNA fragments that measures translational regulation and allows for detailed and accurate in vivo analysis of protein production. Ribo-seq can provide the exact position of the ribosomes to be translated under precisely controlled conditions and determine which mRNAs are being actively translated, contributing to a better understanding of translation and its regulation. , One of the main and distinctive features of Ribo-seq compared to RNA-seq is its triplet periodicity. This pattern is not observable in data derived from RNA-seq experiments, and a strong framing preference is indicative of high quality Ribo-seq data. Among the particular strengths of the Ribo-seq methodology are the sensitivity and precision of the quantification, the provision of positional information, and the instantaneous, snapshot-like measurements of translation.
+Since the development of ribosome profiling and the publication of the method—initially adapted to mammalian cells —several Ribo-seq protocols have been published for the model plant Arabidopsis thaliana. , , , , , The main steps involved in performing ribosome profiling are harvesting and lysate preparation, ribonuclease digestion, size selection, rRNA depletion, linker ligation and reverse transcription, library preparation, and data analysis.
+In Arabidopsis, Ribo-seq surveys have allowed for a better understanding of the regulation of gene expression during translation and generated insights into translational elongation. Ribo-seq has been used to study translation during plant development, , , , , pathogen attack, , abiotic stress, , , and in organelles such as mitochondria. Ribo-seq has also been employed to improve genome annotation. , 
+
+## Prepare buffers
+
+Timing: 4 h
+
+The day before starting the protocol, the materials listed below should be prepared in advance.
+1.Prepare 20% Triton X-100 by mixing 20 mL of Triton X-100 in 80 mL nuclease-free water and mix until obtaining a clear, transparent, and homogeneous solution using a magnetic stirrer.
+Note: Triton X-100 can be stored indefinitely at 4°C.
+CRITICAL: Triton X-100 can cause serious skin and eye irritation. Use only in a well-ventilated area and wear eye/face protection.
+2.Prepare 0.5 M EDTA (pH 8.0) by dissolving 18.61 g EDTA disodium salt in nuclease-free water until 100 mL, adjust the pH with NaOH, and autoclave to sterilize the solution.
+CRITICAL: EDTA can cause serious eye irritation. Use only in a well-ventilated area and wear eye/face protection.
+Alternatives: In our hands, UltraPure 0.5 M EDTA pH 8.0 (Invitrogen, Cat#15575020) worked well for the protocol.
+3.Prepare 2× denaturing loading buffer by dissolving 15 mg bromophenol blue in 1.0 mL of 0.5 M EDTA and add 200 μL to 9.8 mL formamide.
+Note: 2× Denaturing loading buffer can be stored indefinitely at room temperature.
+CRITICAL: Formamide is highly toxic, suspected of causing cancer and fertility problems. It is recommended to work under a chemical hood. Do not inhale the substance and avoid the generation of vapor. Dispose contents to an approved waste disposal plant.
+4.Prepare RNA gel extraction buffer as shown in the table below:
+ Note: RNA gel extraction buffer can be stored indefinitely at room temperature.
+CRITICAL: SDS is a flammable solid, harmful if swallowed or inhaled. Can cause serious eye damage as well as skin and respiratory irritation. Avoid breathing dust and wear eye/face protection.
+5.Prepare DNA gel extraction buffer as shown in the table below:
+ Note: DNA gel extraction buffer can be stored indefinitely at room temperature.
+6.Prepare 3 M NaOAc (pH 5.5) by mixing 246.1 g of sodium acetate in nuclease-free water to a final volume of 1 L and adjust the pH with glacial acetic acid.
+Alternatives: In our hands, nuclease-free 3 M NaOAc (Ambion, Cat#AM9740) worked well for the protocol.
+Note: NaOAc can be stored indefinitely at room temperature.
+7.Prepare the NaOH solution (1 N) by dissolving 40 g of NaOH pellets in nuclease-free water to a final volume of 1 L with constant stirring.
+Note: Since NaOH is hygroscopic and can react with atmospheric carbon dioxide, it is difficult to obtain NaOH pellets that are pure sodium hydroxide. We recommend to standardize a more concentrated solution and dilute as necessary. NaOH can be stored indefinitely at room temperature.
+CRITICAL: NaOH is highly corrosive an can cause severe skin burns and eye damage. It is advised to wear gloves of impermeable material and resistant to the product as well as safety glasses with side shields or goggles.
+8.Prepare the subtraction oligos at a concentration of 10 mM each.
+Note: Subtraction oligos can be stored indefinitely at −20°C.
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+ 
+Note: Prepare fresh with RNase-free reagents and keep on ice.
+
+CRITICAL: Cycloheximide is highly toxic, contact can cause skin and eye irritation. Use personal protective equipment as required, do not eat, drink, or smoke when using this product and dispose the contents to an approved waste disposal plant.
+
+ 
+Note: Prepare fresh with RNase-free reagents. Keep the lysis buffer on ice. The 20% polyoxyethylene (10) tridecyl ether should be prepared by dissolving 2 g in 10 mL of nuclease-free water, 20% deoxycholic acid should be prepared by mixing 2 g in 10 mL of nuclease-free water. Mix the compounds until the solutions are homogeneous using a magnetic stirrer.
+
+CRITICAL: Polyoxyethylene (10) tridecyl ether can causes serious eye damage. Avoid contact with skin and eyes, do not breath mist, gas, or vapours. Wear protective gloves, protective clothing, eye protection, and face protection. Do not discharge into the environment. Deoxycholic acid is considered as acute oral toxicity. Do not eat, drink, or smoke when using this product. Wear personal protective equipment/face protection, ensure adequate ventilation and avoid dust formation.
+
+ 
+Note: Prepare fresh with RNase-free reagents. Keep the lysis buffer on ice.
+
+ 
+Note: Prepare fresh with RNase-free reagents and keep the buffer on ice. The sucrose solution is ∼34% (wt/vol).
+
+ 
+Note: 2× bind/wash buffer should be prepared fresh.
+
+## Step-by-step method details
+
+## Preparation of lysates
+
+Timing: 1 h
+
+For this step, it is very critical to immobilize the ribosomes on the mRNA. To maintain the in vivo translational status, it is necessary to freeze the samples with liquid nitrogen, to conduct the lysis in the presence of the translation inhibitor cycloheximide and under conditions that inhibit the activity of RNases.
+1.Collect the Arabidopsis tissue maintaining the integrity of the roots and shoots.
+2.Grind 200 mg of Arabidopsis tissue with liquid nitrogen and resuspend in 600 μL lysis buffer by vortex.
+CRITICAL: Do not use paper tissue to remove excess media on the roots, which would compromise the integrity of the roots and lower the amount and quality of the recovered ribosomes.
+CRITICAL: A successful lysate preparation depends on the quality of grinding.
+3.Incubate the samples 20 min on ice and vortex twice during the incubation for 5 s.
+4.Centrifuge the samples at 16,000 × g for 15 min at 4°C.
+5.Recover 500 μL of the soluble supernatant and transfer to a fresh Eppendorf tube.
+CRITICAL: The lysates should be kept on ice until the next step.
+
+## RNA digestion
+
+Timing: 45 min
+
+Nuclease digestion is a critical step during the preparation of ribosome footprints since both the stability of ribosomal RNA and the complete conversion of polysomes to monosomes are very important for ribosome profiling. The nuclease treatment step generates both ribosomal RNA fragments and rRNA contaminating the samples, making the choice of an appropriate RNase enzyme and control of the time for sample digestion crucial. Improper digestion potentially compromises ribosomal integrity, which may cause experimental bias and loss of information. Here, we chose RNase I, which degrades single-stranded RNA to cyclic nucleotide monophosphates, leaving a 5′-OH and 2'-, 3′-cyclic monophosphate. While RNase I is able to digest mRNA outside the ribosomes, the integrity of the ribosomes is largely preserved.
+6.Add 12.5 μL of RNase I (100 U/μL) to the recovered 500 μL of lysate and incubate for 45 min at room temperature with gentle mixing on a nutator.
+7.After the digestion, take 500 μL of lysate and add 16.66 μL of SUPERase∗In RNase Inhibitor to stop the nuclease digestion.
+
+## Sucrose density gradient fractionation
+
+Timing: 4 h
+
+This step describes the separation of ribosomes from other cellular components by sucrose density gradient ultracentrifugation.
+8.Transfer the digested lysate into a 13 × 56 mm polycarbonate ultracentrifuge tube.
+9.Slowly add 1.5 mL of 1 M sucrose cushion buffer.
+CRITICAL: During the addition of the sucrose cushion buffer, it is recommended to position the pipette tip against the wall of the ultracentrifuge tube, carefully dropping the sucrose solution to get two distinct layers in order to achieve consistency between the replicates (the lysate will be located on top of the sucrose).
+10.Centrifuge the samples in a TLA 100.4 rotor at 548,800 × g at 4°C for 4 h to recover the ribosomes.
+CRITICAL: Precool the TLA 100.4 rotor at 4°C in advance to prevent RNA degradation.
+
+## RNA footprint extraction
+
+Timing: 1 h 30 min
+
+This step describes the extraction of RNA footprints.
+11.Remove the supernatant carefully. Locate the translucent ribosomal pellet, but avoid to touch the bottom of the tube.
+Note: Since the ribosomal pellet is translucent and may be hard to detect, you can mark the location of the pellet on the ultracentrifuge tube right after removing the tube from the rotor.
+12.Resuspend the ribosomal pellet in 1 mL of TRIzol reagent in a 13 × 56 mm polycarbonate ultracentrifuge tube.
+Note: For RNA isolation, we followed the TRIzol protocol from Invitrogen. We compared the yield and quality of the isolated RNA using RNA extraction kits and TRIzol reagent and obtained the best results with TRIzol ( and ).
+13.Transfer the resuspended pellet to a fresh 1.5 mL Eppendorf tube, add 0.2 mL of chloroform, shake the tube vigorously by hand for 15 s, and incubate for 3 min at room temperature.
+14.Centrifuge the sample at 12,000 × g for 15 min at 4°C.
+15.Remove the aqueous phase of the sample very carefully. Avoid contamination of the interphase or organic layer, and pipet the solution into a fresh 1.5 mL tube.
+16.Add 0.5 mL of 100% isopropanol to the aqueous phase, vortex for 5 s, incubate at −20°C for 30 min, and centrifuge at 12,000 × g for 10 min at 4°C.
+17.Remove the supernatant, leaving only the RNA pellet in the tube.
+18.Add 1 mL of 75% ethanol to the samples to wash the pellet.
+CRITICAL: Prepare fresh ethanol with RNase-free reagents. The percentage of ethanol should be 75%, a lower percentage can lead to DNA contamination.
+19.Centrifuge the samples at 7,500 × g for 5 min at 4°C and discard the ethanol.
+Note: Remove the ethanol very well using a pipet. Do not disturb the pellet.
+20.Air dry the RNA pellet for 10 min at room temperature.
+21.Resuspend the RNA pellet in 20 μL of 10 mM Tris-HCl (pH 8.0).
+Pause point: RNA can be stored overnight at −20°C or for several months at −80°C.
+ 
+
+## Footprint fragment extraction
+
+Timing: 3 h 15 min – overnight
+
+This step describes the footprint fragment extraction, where the RNA fragments of 30–34 nt length—corresponding to the ribosome-protected fragments (RPFs)—were excised from a polyacrylamide gel.
+22.Pre-run a 15% polyacrylamide TBE-urea gel at 200 V for 15 min using 1 X TBE running buffer.
+CRITICAL: It is advised to keep an electrophoresis tank in the lab free of RNase contamination. If the tank is used for other purposes, is necessary decontaminate the tank by soaking it in 0.1 N sodium hydroxide (NaOH) and 0.1% EDTA in nuclease-free water overnight, and then extensively rinse with nuclease-free water before use. Alternatively, you can also use commercially available products such as RNase ZAP (Ambion).
+Molecular biology grade water should be used to prepare the running buffer due to the large volume of nuclease-free water needed for this purpose. We suggest to prepare DEPC-treated water as follows: add 1 mL of DEPC (diethylpyrocarbonate) to 1 L of MilliQ water, incubate for 12 h at 37°C, and autoclave the DEPC-water for 15 min to degrade the DEPC. It is advised to wear protective gloves, eye protection, and face protection when manipulating DEPC.
+23.Just prior to the electrophoresis, add 10 μL of 2× denaturing sample buffer to each RNA sample, and prepare the upper and lower markers by adding 1.0 μL of upper and lower markers (stock 10 μM), 8.0 μL of 10 mM Tris-HCl (pH 8.0), and 10.0 μL of 2× denaturing sample buffer in a fresh 1.5 mL tube.
+24.Prepare a ladder sample with 0.5 μL of 10 bp ladder (1 μg/μL), 4.5 μL of 10 mM Tris-HCl (pH 8.0), and 5.0 μL of 2× denaturing samples buffer.
+25.Denature the samples for 90 s at 80°C.
+26.Load the samples on the polyacrylamide gel with control oligo sample (mixed upper and lower markers) at both sides of the RNA samples.
+CRITICAL: It is very important to clean the wells before loading the samples on the gel since urea may compromise proper running of the samples.
+Note: We suggest to run only 6 μL of each RNA sample in the gel (6 lines in total per sample).
+27.Run the gel for 65 min at 200 V.
+28.Stain the gel for 3 min with 1× SYBR Gold in 1× TBE running buffer with gentle shaking.
+29.Illuminate the stained gel using ultraviolet transillumination and excise the 30 nt – 34 nt region between the NI-NI-19 and NI-NI-20 oligo markers from each footprint sample.
+CRITICAL: RPFs are usually ∼30 nt in length. We recommended to cut the middle region between 30 nt – 34 nt to avoid contamination from rRNAs since the major contamination with rRNA was found between ∼28 nt and 35 nt ( A).
+30.Transfer each excised gel slice in a 2 mL non-stick RNase-free microfuge tube.
+Note: You can also process the oligo marker bands as an internal control for the experiment.
+31.Add 400 μL of RNA gel extraction buffer to the polyacrylamide gel slices and freeze the samples for 1 h at −80°C.
+32.Incubate the samples overnight on a nutator at room temperature.
+Note: Overnight incubation increases the reproducibly of the experiment.
+Pause point: At this point, the protocol could be continued the next day.
+ 
+
+## Purification of footprint fragments
+
+Timing: 30 min - overnight
+
+This step describes the purification of footprint fragments.
+33.Centrifuge the samples containing the gel slides at 16,100 × g for 15 min at 4°C and transfer the supernatant (400 μL) into a 1.5 mL non-stick RNase-free microfuge tube.
+34.Add 1.5 μg of GlycoBlue to each sample and vortex for 5 s.
+Note: It is suggested to use GlycoBlue to increase the visibility of the pellet and to avoid losing the recovered RNA footprints.
+35.Add 500 μL of isopropanol to the samples and vortex for 5 s. To precipitate the RNA footprints, keep the samples overnight at −80°C.
+Pause point: The samples can be stored for one week at −80°C.
+
+## RNA footprint recovery
+
+Timing: 1 h
+
+This step describes the RNA footprint recovery.
+36.Centrifuge the samples at 16,100 × g for 35 min at 4°C.
+37.Remove the supernatant and dry the pellet for 10 min at room temperature.
+38.Resuspend the RNA footprint pellets in 12 μL of 10 mM Tris-HCl (pH 8.0).
+Note: In total, 6 different RNA footprint pellets belonging to a unique sample should be resuspended together in 12 μL of 10 mM Tris-HCl (pH 8.0) as follows: resuspend the first tube in 12 μL of 10 mM Tris-HCl (pH 8.0). Transfer the resuspended RNA footprints from the first to the second tube, and repeat this procedure until the sixth tube.
+Note: It is advised to use 2 μL for the BioAnalyzer to check the quality of the RNA footprints before generating the libraries for sequencing.
+Note: The BioAnalyzer profiles after purification of the excised gel regions from roots and shoots are shown in B and 3C.
+Pause point: The samples can be stored indefinitely at −80°C.
+
+## Library construction
+
+Timing: 5 days
+
+The construction of the library is one of the key points of the protocol. Linker ligation and rRNA depletion are the most important steps for up to standard results.
+
+## Dephosphorylation of the RNA footprint samples
+
+Timing: 1 h 30 min - overnight
+
+This step describes the dephosphorylation of RNA footprint samples.
+39.Add 33 μL of nuclease-free water to each 10 μL of RNA footprints (from step 38) and denaturate for 2 min at 75°C.
+40.Equilibrate the samples at 37°C, add the dephosphorylation reaction -outlined below, and incubate for 1 h at 37°C.
+ 41.Incubate the samples for 10 min at 70°C to inactivate the enzyme.
+42.Add 450 μL of nuclease-free water, 2.0 μL of 5 mg/mL linear acrylamide, and 50.0 μL of 3 M NaOAc to the samples and mix thoroughly.
+43.Add 500 μL of isopropanol, vortex for 5 s, and keep the samples overnight at −80°C.
+Pause point: The samples can be stored overnight at −80°C.
+
+## Linker ligation of the samples
+
+Timing: 7 h 20 min – overnight
+
+This step describes the linker ligation of ribosome footprints.
+44.Centrifuge the samples at 16,100 × g for 45 min at 4°C.
+45.Add ice-cold 80% ethanol and centrifuge the samples at 16,100 × g for 15 min at 4°C.
+46.Remove the supernatant and dry the pellet for 5 min at room temperature.
+47.Resuspend the samples in 8.5 μL of 10 mM Tris-HCl (pH 7.0).
+Pause point: The samples can be stored indefinitely at −80°C.
+48.Add 0.5 μL of preadenylated linker (0.25 μg/μL) to the samples.
+49.Incubate the samples for 2 min at 75°C and cool them on ice for 15 min.
+50.Prepare the ligation reaction and incubate for 4 h at room temperature.
+ 51.Run the samples in a polyacrylamide gel electrophoresis as follows:a.Add 20 μL of 2× NOVEX TBE-urea sample buffer to the linker ligation products.
+b.Prepare an RNA ladder: 2 μL of low range ssRNA ladder, 0.2 μL of 20 μL M lower/upper marker (optional), 5.8 μL of nuclease-free water, and 8 μL of 2× NOVEX sample buffer.
+c.Denature the samples for 5 min at 90°C and place them on ice. Spin-down before use.
+d.Take a 10% TBE-urea gel, wash the wells, and load the samples with a p20 pipette.
+e.Run the gels containing the linker ligation samples for 10 min at 100 V and then for 45 min at 200 V to resolve the fragments well.Alternatives: You can adjust the running conditions according to your tank if is different from the brand that we provide in this protocol.
+
+f.Stain the gel in 30 mL of nuclease-free water and 3 μL of SYBR Gold at 30 rpm for 10 min in the dark.
+g.Visualize the gel with an ultra-slim-LED illuminator.
+
+52.Cut the region near the 43–51 nt (+17 nt) from the gel, and transfer the linker ligation product bands to a 1.5 mL non-stick RNase-free microfuge tube ( ).
+53.Grind the gel with a pestle in a 1.5 mL tube.
+54.Add 500 μL of RNA gel extraction buffer to the polyacrylamide gel slices.
+55.Heat the samples for 10 min at 72°C.
+56.Transfer the samples to a Spin-X column (Coring 8160) and centrifuge at 16,100 × g for 10 min at 4°C.
+57.Transfer 500 μL of the supernatant into a non-stick RNase-free 1.5 mL microfuge tube.
+58.Add 50.0 μL of 3 M NaOAc (pH 5.2) and 2.2 μL of 5 mg/mL linear acrylamide to each sample and mix thoroughly.
+59.Add 550 μL of isopropanol to each sample and vortex to resuspend well.
+Pause point: The samples can be stored overnight at −80°C.
+ 
+
+## Reverse transcription
+
+Timing: 3 h 45 min – overnight
+
+This step describes the generation of cDNA via reverse transcription.
+60.Centrifuge the samples at 16,100 × g for 45 min at 4°C.
+61.Add ice-cold 80% ethanol and centrifuge the samples at 16,100 × g for 15 min at 4°C.
+62.Remove the supernatant and dry the pellet for 5 min at room temperature.
+63.Resuspend the samples in 10.5 μL of 10 mM Tris-HCl (pH 7.0).
+Pause point: The samples can be stored indefinitely at −80°C.
+64.Add 0.5 μL of 25 μM reverse transcription primer to the samples.
+65.Denature the samples for 5 min at 65°C in the thermal cycler and keep the samples on ice.
+66.Prepare and incubate the reverse transcription reaction for 30 min at 48°C in the thermal cycler.
+ 67.Add 2.0 μL of 1 N NaOH to the samples and incubate at 98°C for 20 min.
+68.Run the samples in a polyacrylamide gel electrophoresis as previously described in step 51, but switch voltage to 200 V and run the gel for 65 min or use the conditions suggested for your electrophoresis tank.
+69.Cut and transfer the reverse-transcription product bands from the gel to a 1.5 mL non-stick DNase-free microfuge tube ( ).
+70.Grind the gel with a pestle in a 1.5 mL tube.
+71.Add 500 μL of DNA gel extraction buffer to the polyacrylamide gel slices.
+72.Heat the samples for 10 min at 72°C.
+73.Transfer the samples to a Spin-X column (Coring 8160) and centrifuge at 16,100 × g for 10 min at 4°C.
+74.Transfer 500 μL of the supernatant into a non-stick DNase-free 1.5 mL microfuge tube.
+75.Add 50.0 μL of 3 M NaOAc (pH 5.2) and 2.2 μL of 5 mg/mL linear acrylamide to each sample and mix thoroughly.
+76.Add 550 μL of isopropanol to each sample and vortex to resuspend well.
+Note: Instead of marker oligo samples, prepare 1 μL of 25 ng reverse transcription primer, 7 μL of nuclease-free water, and 8 μL of 2× NOVEX sample buffer.
+Pause point: The samples can be stored overnight at −80°C.
+ 
+
+## Circularization and rRNA depletion
+
+Timing: 3 h – overnight
+
+This step describes the circularization and rRNA depletion, a vital step for the generation of high-quality Ribo-seq data.
+77.Centrifuge the samples at 16,100 × g for 45 min at 4°C.
+78.Add ice-cold 80% ethanol and centrifuge the samples at 16,100 × g for 15 min at 4°C.
+79.Remove the supernatant and dry the pellet for 5 min at room temperature.
+80.Resuspend the samples in 15.0 μL of 10 mM Tris-HCl (pH 8.0).
+Pause point: The samples can be stored indefinitely at −80°C.
+81.Incubate the circularization reaction for 1 h at 60°C and incubate the samples for 10 min at 80°C to inactivate the enzyme.
+ Pause point: The samples can be stored indefinitely at −20°C.
+82.Add 1.0 μL of 200 μM subtraction oligo pool, 1.0 μL of 20× SSC, and 3.0 μL of nuclease-free water to 5.0 μL of circularization reaction.
+ Note: For designing the subtraction oligos used for removing rRNA from the libraries, it is recommended to conduct a pilot Ribo-seq experiment to identify abundant contaminant sequences. Contamination from rRNA can be similar across biological replicate samples, but can also vary greatly across developmental stages or tissues as well as among samples from different species. Thus, sequencing with fewer reads to evaluate the percentage of rRNA is highly recommended. The question as to whether this step is recommended is determined by the rRNA carry-over degree and rRNA removal efficiency; if the cost of subtraction is lower than the cost of sequencing ribosome RNA, rRNA depletion should be considered.
+CRITICAL: For the RNA depletion steps, it is necessary to use 2 reactions per sample to collect sufficient DNA.
+83.Denature the samples for 90 s at 100°C and anneal at 0.1°C/s to 37°C.
+84.Incubate the samples for 15 min at 37°C.
+85.Prepare MyOne Streptavidin C1 DynaBeads (10 mg/mL) as follows:a.Dilute the binding and washing (B&W) buffer (2×) to 1× as a working solution.
+b.Resuspend the Dynabeads in the vial (i.e., vortex for >30 s).
+c.Transfer 25 μL of Dynabeads to a 1.5 mL DNase-free non-stick tube, and place the tubes on a magnetic rack for 1 min.
+d.Discard the supernatant, remove the tube from the rack, and resuspend the beads in 25 μL of 1× B&W buffer.
+e.Wash the beads two more times.
+f.Resuspend the Dynabeads in 10 μL of 2× B&W buffer, and equilibrate the beads at 37°C.
+
+86.Add 10.0 μL of subtraction reaction to the beads, mix well, and incubate for 15 min at 37°C in the ThermoMixer.
+87.Place the tubes in the magnetic rack for 1 min.
+88.Pipet 17.5 μL of the supernatant into a 1.5 mL DNase-free non-stick tube. Pool the eluate from the same sample to a final volume of 35 μL.
+89.Add 15.0 μL of bind/wash buffer, 1.0 μL of 5 mg/mL linear acrylamide, and 5.0 μL of 5 M NaCl to the samples and mix thoroughly.
+90.Add 234 μL of isopropanol to each sample, vortex for 5 s, and store the samples overnight at −80°C.
+Pause point: The samples can be stored overnight at −80°C.
+
+## PCR amplification and barcoding
+
+Timing: 3 h – overnight
+
+This step describes PCR amplification and barcoding.
+91.Centrifuge the samples at 16,100 × g for 45 min at 4°C.
+92.Add ice-cold 80% ethanol and centrifuge the samples at 16,100 × g for 15 min at 4°C.
+93.Remove the supernatant and dry the pellet for 5 min at room temperature.
+94.Resuspend the depleted DNA samples in 10.0 μL of 10 mM Tris-HCl (pH 8.0).
+Pause point: The samples can be stored indefinitely at −80°C.
+95.Prepare a two-fold serial dilution of depletion products (1/2, 1/4, 1/8).
+96.Set up a PCR mixture for 3 reactions per sample as follows:
+ 97.Perform the PCR amplification using the conditions given below.
+ 98.Remove the PCR tube strips containing the reactions and add 3.0 μL of 6× non-denaturing loading dye to each PCR tube.
+Note: As a control, mix 1.0 μL of Ultra-Low Range DNA Ladder (Invitrogen), 15.7 μL of 10 mM Tris-HCl (pH 8.0), and 3.3 μL of 6× non-denaturing loading dye.
+99.Run the amplification reactions in an 8% polyacrylamide non-denaturing gel by electrophoresis for 10 min at 100 V and then for 50 min at 200 V.
+Note: Load amplification reactions for the same sample in adjacent wells to allow for direct comparison.
+100.Stain the gel for 20 min with 2 μL of 1× SYBR Gold in 40 mL of nuclease-free water at 30 rpm for 15–20 min in the dark.
+101.Determine the optimal PCR cycle number and template input volume based on the PCR results. Select conditions featuring a prominent product band but little accumulation of re-annealed partial duplex library products.
+102.Prepare the DNA template and mix with index primer, 4 reactions per sample.
+103.Setup the PCR reaction again as described in steps 96–100.
+104.Illuminate the stained gel using an ultraviolet transillumination and excise and transfer the PCR product bands from the gel to a 1.5 mL non-stick DNase-free microfuge tube ( ).
+CRITICAL: Avoid to cut any lower product band derived from unextended reverse transcription primers ( ).
+105.Grind the gel with a pestle in a 1.5 mL tube.
+106.Add 500 μL of DNA gel extraction buffer to the polyacrylamide gel slices.
+107.Heat the samples for 10 min at 72°C.
+108.Transfer the samples to a Spin-X column (Coring 8160) and centrifuge at 16,100 × g for 10 min at 4°C.
+109.Transfer 500 μL of the supernatant into a non-stick DNase-free 1.5 mL microfuge tube.
+110.Add 50.0 μL of 3 M NaOAc (pH 5.2) and 2.2 μL of 5 mg/mL linear acrylamide to each sample and mix thoroughly.
+111.Add 550 μL of isopropanol to each sample and vortex to resuspend well.
+112.Centrifuge the samples at 16,100 × g for 45 min at 4°C.
+113.Add ice-cold 80% ethanol and centrifuge the samples at 16,100 × g for 15 min at 4°C.
+114.Remove the supernatant and dry the pellet for 5 min at room temperature.
+Pause point: The samples can be stored overnight at −80°C.
+115.Resuspend every DNA library in 20.0 μL of 10 mM Tris-HCl (pH 8.0).
+Pause point: The samples can be stored indefinitely at −80°C.
+ 
+
+## Library sequencing
+
+Timing: 5 days
+
+This step describes the quantification and sequencing of the libraries.
+116.Quantify and check the library quality by loading 1.5 μL of library with 6.0 μL of nuclease-free water in a high-sensitivity DNA chip on the Agilent BioAnalyzer following the manufacturer’s protocol (https://www.agilent.com/cs/library/usermanuals/Public/G2938-90321_SensitivityDNA_KG_EN.pdf).
+117.The libraries should be sequenced for 50 bases using an Illumina Hiseq 2500 SR50 system.
+Note: Approximately 5% of the reads map to coding gene regions without any ambiguity. Thus, 100 M reads should yield circa 5 M unambiguous reads.
+
+## Expected outcomes
+While RNA-seq determines the total amount of mRNA to survey transcriptional regulation, Ribo-seq can be used to measure mRNAs undergoing translation, providing a more accurate view of protein expression. Since the Ribo-seq technique allows detailed and accurate in vivo analysis of protein production, this approach can be used to estimate translation efficiency (TE), to identify open reading frames (ORFs) and upstream (uORFs), to determinate the approximate translation elongation rate, the positions and densities of ribosomes on individual mRNAs through the mapping of the sequenced RPFs, and to predict protein abundance.
+
+## Quantification and statistical analysis
+
+## Data analysis
+
+Timing: 5 days
+
+Using this protocol, at least 22 million Ribo-seq reads will be generated for each biological replicate. Of these, typically between 5–15 million Ribo-seq reads will be mapped to protein-coding regions of the Arabidopsis genome.
+The analysis of the sequencing data is similar to the standard RNA-seq data analysis and depends on the aims of the experiment.
+
+## Mapping Ribo-seq reads
+In order to specifically deal with Ribo-seq reads of Arabidopsis samples, we wrapped our procedure into three scripts (filtering, mapping, and counting), plus one environment checking script. Together with prebuild bowtie2 index files and gene coordinate files, these scripts are available via file riboFMC.tar.gz at https://maccu.project.sinica.edu.tw/20230330/.
+Hardware requirements: The wrapper scripts have been tested on an Ubuntu 20.04 virtual machine with 8GB RAM and 4 vCPUs.
+Software requirements: Running these wrapper scripts requires a standard Linux/Unix environment with Java (version 7 or later), B-owtie2, and SAMtools available in the command line. The Perl module Bio::DB::Fasta is also required, which would be available by installing the B-ioPerl package in Linux distributions like Debian and Ubuntu, or by using CPAN install.
+1.Process the Ribo-seq data by Cutadapt for adapter removal. Hereafter, we assume the cleaned file is a FASTQ gzip file named root-ctr-0h-r1.fastq.gz.
+2.Download the package, extract it, and run the setup script setup.pl. The setup script will check the existences of Java, B-owtie2, SAMtools, and the Perl module Bio::DB::Fasta. It will also verify if the Arabidopsis TAIR10 genome assembly is in directory riboFMC/db. If not, entering “yes” will let the script download files from the TAIR FTP archive.
+> wget https://maccu.project.sinica.edu.tw/20230330/riboFMC.tar.gz
+> tar -xzvf riboFMC.tar.gz
+> riboFMC/setup.pl
+3.Run the filtering script riboFMC/filter.pl. This script filters the data by mapping reads to Araport11 tRNAs, miRNAs, snoRNAs, snRNAs, and rRNAs. The mapping is performed by employing B-owtie2 against a prebuild B-owtie2 index in riboFMC/db/filterBase. This script requires two parameters: (i) input FASTQ file (can be compressed by gzip) and (ii) output FASTA file (must be compressed). The output FASTA file stores reads that cannot be mapped to the filter base. The command line option -p should be applied if the computer is capable of concurrently running more than 3 threads (default setting). In the output text, the line starting with “Executing command” shows the command being executed.
+> riboFMC/filter.pl root-ctr-0h-r1.fastq.gz root-ctr-0h-r1.pass1.fasta.gz
+CRITICAL: lncRNAs were included for further analysis.
+4.Run the mapping script riboFMC/mapping.pl. Taking the output file from the last step as input, this script maps the remaining reads to Araport11 transcriptome using Bowtie2 and keep alignments with at least 95% identity. Alignment results can be saved in the file assigned by the second parameter in BAM format. Similarly, option -p should be considered if the computer can run more than three threads. Some short explanations on the executed command: the Bowtie2 part is to map reads to Araport11 transcripts and alignments are in transcript coordinates. The J-ava part (rackj.jar) is responsible for keeping only alignments with an identity at least 95% and for transferring transcript coordinates into genome coordinates. Perl script psl2sam.pl and SAMtools are for transforming results into a BAM file.
+> riboFMC/mapping.pl root-ctr-0h-r1.pass1.fasta.gz root-ctr-0h-r1.transcriptome.translated.bam
+5.Run the counting script riboFMC/counting.pl. This wrapper script calls a Java program inside riboFMC/jar/rackj.jar for per-gene read counting given the BAM file is assigned by the first parameter. The default coordinate file of genes to be counted are stored in riboFMC/db/target.cgff for Araport11 mRNAs, lnc_RNAs, and ncRNAs. The second parameter functions as a prefix string of a number of output files. The counting result file to be used in this protocol is suffixed with “.geneRPKM”. This file is in tab-delimited text format and can be opened with Excel. The five columns of the table denote: (i) gene ID, (ii) sum of exon lengths (in Kbps), (iii) sum of unique-reads and multi-reads, (iv) RPKM, and (v) ratio of multi-reads. Note that read counting of unique-reads and multi-reads as well as computation of RPKMs follow the description described in Mortazavi et al. 
+> riboFMC/counting.pl root-ctr-0h-r1.transcriptome.translated.bam root-ctr-0h-r1
+
+## Computing differentially expressed genes
+
+6.To identify differentially expressed genes, Z-tests were performed as described in Lan et al., and genes with a P value of ≤ 0.05 were defined as being differentially expressed. For Ribo-seq, genes with a log2 ≥ 1.2 of the ratio treatment/control are selected as upregulated genes and genes with a log2 ≤ −1.2 of the ratio treatment/control are defined as down-regulated. To facilitate the computation, a template Excel file CompareRPKMs.xlsx is provided in https://maccu.project.sinica.edu.tw/20230330/. Some manual operations are needed to use the Excel file: (i) adjust the numbers of control columns and treatment columns by inserting or deleting columns, and verify that the Excel formulas in columns Pt and Pc are covering treatment and control columns, respectively, (ii) ascertain that all “.geneRPKM” files from the last step are in the same order, (iii) copy and fill columns with gene information and RPKM values, and (iv) use the Excel autofill function to duplicate formulas in row 2 under columns Pt, Pc, …, logFC to all rows. The column “Z-TEST” contains Z-test P values, the column “logFC” contains log2-fold-change.
+
+## Limitations
+One of the limitations of the Ribo-seq technique is the limited detection of lowly expressed genes.
+The way the samples are harvested is very critical; keeping the integrity of the roots yields more ribosomes.
+Another problem is associated with RNase digestion which is highly stochastic, causing high variability in ribosome-protected fragment lengths.
+A further drawback of this method is related to changes in the ribosome profiles. Since the protocol includes the use of cycloheximide (a drug that blocks translation elongation to prevent ribosome run-off), which can cause excessive ribosome accumulation at the initiation site, the distinction between direct and indirect effects on translation is rendered difficult.
+
+## Troubleshooting
+
+## Problem 1
+Degradation of RNA (steps 1–5).
+
+## Potential solution
+
+•Use RNase-free water.
+•Wear disposable gloves to prevent contamination by ribonucleases present on your hands.
+•Use reagents of the highest quality available.
+•Filter-sterilize all buffers for long-term storage.
+•Pre-chill rotors and centrifuges before use.
+
+## Problem 2
+Poor enrichment of polysomes after lysis and sucrose gradient fractionation (steps 1–10).
+
+## Potential solution
+
+•Sustain tissue integrity when collecting the samples.
+•During the lysis step, it is important to use salts to stabilize the ribosomes.
+•Try an alternative polysome and/or lysis buffer.
+
+## Problem 3
+Low amount of recovered RNA after size selection (steps 11–21).
+
+## Potential solution
+
+•Use TRIzol instead of a kit for RNA purification.
+
+## Problem 4
+Low number of reads and concomitant high amount of rRNA contamination (steps 82–90).
+
+## Potential solution
+
+•Cut the region between 28 nt - 30 nt and avoid to cut the region (marked in blue) that is contaminated with rRNA ( ).
+•Fewer RPFs obtained by sequencing, resulting in less mapped reads, can be the result of the presence of rRNA in the libraries, which is the most predominant RNA. Most contaminating rRNAs are generated from ribonuclease digestion of the ribosomes ( ). One way of depleting rRNA is to use subtractive hybridization of biotinylated oligos customized to library preparations. If the contamination for rRNA is still high, you may clean up the libraries again with the Ribo-Zero Removal Kit (Plant Leaf, Illumina, MRZPL1224- or Plant Seed/Root, Illumina, MRZSR116) as complementary strategy.
+
+ 
+
+## Problem 5
+
+•Multiple site mappings, ambiguous reads, and underestimation of the differential translational regulation in the coding sequences by the length of footprints (∼30 nts) (steps 118–122).
+
+## Potential solution
+
+•Use appropiate and specific bioinformatic tools to filter the alignments.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Wolfgang Schmidt (wosh@gate.sinica.edu.tw).
+
+## Materials availability
+This study did not generate new unique reagents.
+
+## Data and code availability
+The methodology for computational analysis is available at https://maccu.project.sinica.edu.tw/20230330/. Any additional information required is available from the upon request.
+
+## Acknowledgments
+This work was supported by grants from Academia Sinica (AS-TP-109-L01) and the National Science and Technology Council (111-2313-B-001-01). The graphical abstract was created with BioRender.com.
+
+## Author contributions
+W.S. and I.C.V.-B. designed and conceived this study. I.C.V.-B., S.-J.C., and A.-P.C. performed the experiments. S.-J.C. and A.-P.C. prepared the libraries and designed the subtraction oligos. W.-D.L. developed the methodology for computational analysis. W.S., I.C.V.-B., S.-J.C., A.-P.C., and W.-D.L. analyzed the results. I.C.V.-B. wrote the manuscript. W.S. supervised the study and edited the manuscript.
+
+## Declaration of interests
+The authors declare no competing interests.
+
+## Contributor Information
+Isabel Cristina Vélez-Bermúdez, Email: icvb@gate.sinica.edu.tw.
+Wolfgang Schmidt, Email: wosh@gate.sinica.edu.tw.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+The methodology for computational analysis is available at https://maccu.project.sinica.edu.tw/20230330/. Any additional information required is available from the upon request.

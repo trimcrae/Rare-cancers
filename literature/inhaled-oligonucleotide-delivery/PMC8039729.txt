@@ -1,0 +1,291 @@
+STAR ProtocSTAR Protoc3946starprot101769501STAR Protocols2666-1667ElsevierPMC8039729PMC8039729.1803972980397293385113810.1016/j.xpro.2021.100401S2666-1667(21)00108-81004011ProtocolMetabolic analysis of mouse bone-marrow-derived dendritic cells using an extracellular flux analyzer
+GotohKazuhitogotou.kazuhito.712@m.kyushu-u.ac.jp TakataYurie NakashimaYuya MizuguchiSoichi KomoriKeishi KangDongchonkang@cclm.med.kyushu-u.ac.jp 1Department of Clinical Chemistry and Laboratory Medicine, Graduate School of Medical Sciences, Kyushu University, 3-1-1, Maidashi, Higashi-ku, Fukuoka 812-8582, Japan∗Corresponding author gotou.kazuhito.712@m.kyushu-u.ac.jp∗∗Corresponding author kang@cclm.med.kyushu-u.ac.jp2Technical contact
+3Lead contact
+1862021263202122378122100401260320211204202104042026© 2021 The Author(s)2021https://creativecommons.org/licenses/by/4.0/This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).
+
+## Summary
+Dendritic cell (DC) maturation induced by Toll-like receptor (TLR) agonists requires the activation of downstream metabolic changes. Here, we provide a detailed protocol to measure glycolysis, mitochondrial respiration, and fatty acid oxidation in mouse bone-marrow-derived DCs with the Seahorse XF24 extracellular flux (XF) analyzer. XF analysis with the Seahorse bioanalyzer has become a standard method to measure bioenergetic functions in cells, and this protocol can be adapted to other immune cells.
+For complete information on using this protocol, please refer to .
+
+## Graphical Abstract
+ 
+
+## Highlights
+•Measuring energy metabolism in dendritic cells with an extracellular flux analyzer
+•Analyzing TLR-induced glycolytic changes in dendritic cells
+•Analyzing mitochondrial stress test and fatty acid oxidation in dendritic cells
+
+Dendritic cell (DC) maturation induced by Toll-like receptor (TLR) agonists requires the activation of downstream metabolic changes. Here, we provide a detailed protocol to measure glycolysis, mitochondrial respiration, and fatty acid oxidation in mouse bone marrow-derived DCs with the Seahorse XF24 extracellular flux (XF) analyzer. XF analysis with the Seahorse bioanalyzer has become a standard method to measure bioenergetic functions in cells, and this protocol can be adapted to other immune cells.
+
+## Subject areas
+Cell biologyCell cultureCell isolationCell-based assaysImmunologyMetabolismpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY
+
+## Before you begin
+Immunometabolism is an emerging field of investigation at the interface between the historically distinct disciplines of immunology and metabolism ( ). Recent studies on immunometabolism in myeloid dendritic cells (mDCs) provide new insights on the mechanism of the critical controllers of innate and adaptive immunity ( ) ( ). In particular, extracellular flux (XF) analysis has become a standard method to measure bioenergetic functions in DCs ( ) ( ) ( ) ( ).
+This protocol comprises several methods to quantify the energy utilization of DCs in real-time using a Seahorse extracellular flux analyzer. The basic protocol describes a standard test with an XFe24 analyzer. If you use an XFe96 analyzer, you should adjust the number of DCs and the volume of buffer used according to the XFe96 analyzer. Please check the latest information on the Agilent website (https://www.agilent.com/en/product/cell-analysis/real-time-cell-metabolic-analysis) before your experiments.
+In this protocol, we mainly described the analytical methods using mouse bone marrow-derived DCs (BMDCs). If you are using other cell types, please refer to . Although we show the number of cells that we could analyze so far in , we recommend that you consider the appropriate number of cells before starting the experiments.CRITICAL: To obtain better results, it is important to seed more cells by monolayers
+ 
+
+## Key resources table
+ 
+
+## Materials and equipment
+
+## Buffer and medium preparation
+Timing: 1–2 h
+ 
+Preparation of RBC lysis solution•8.3 g of Ammonium chloride (NH4Cl) are dissolved. Add dH2O to bring the total volume to 1000 mL.
+•20.6 g of Trizma hydrochloride (Tris) are dissolved. Add dH2O to bring the total volume to 1000 mL Adjust the pH with HCl and NaCl solutions to pH 7.65.
+•Mix 90 mL of 0.16M NH4Cl solution and 10 mL of 0.17M Tris pH 7.65. Adjust the pH with HCl and NaCl solutions to pH 7.2. Sterilize RBC lysis solution with Bottle Tops and Filter Units and store at 2°C–8°C.
+ Note: Please check the latest information on the Agilent website (https://www.agilent.com/en/product/cell-analysis/real-time-cell-metabolic-analysis) before your experiments. We show the protocol of RPMI medium (https://www.agilent.com/cs/library/usermanuals/public/XF24_DAY_OF_MEDIA_PREP.pdf).
+ 
+Preparation of the XF assay medium (glycolysis stress test)•Warm the assay medium to 37°C without CO2.
+•Adjust the pH with HCl and NaCl solutions to pH 7.4. Filter using polycarbonate membrane filter.
+•Keep at 37°C until ready to use without CO2.
+CRITICAL: The value of ECAR is affected by the pH of assay medium. Therefore, to accurately measure the ECAR value, it is necessary to adjust the pH to 7.4 4 h before assay under 37°C.
+Note: Please check the latest information on the Agilent website (https://www.agilent.com/en/product/cell-analysis/real-time-cell-metabolic-analysis) before your experiments. We show the protocol of RPMI medium (https://www.chem.agilent.com/cs/library/usermanuals/public/XF_Glycolysis_Stress_Test_Kit_User_Guide.pdf).
+ Note: Please check the latest information on the Agilent website (https://www.agilent.com/en/product/cell-analysis/real-time-cell-metabolic-analysis) before your experiments. We show the protocol of RPMI medium (https://www.agilent.com/cs/library/flyers/public/flyer-agilent-seahorse-xf-palmitate-oxidation-stress-test-kit-cell-analysis-5994-1649en-agilent.pdf).
+ Note: We recommend using within 4 h of medium preparation to avoid reagents degradation over the time and pH changes. In addition, we recommend warming the assay medium in a 37°C incubator without CO2 1 h before its use on cells.
+Note: Because FBS contains a high amount of different unknown components, the amount of FBS may affect the result of ECAR and OCR. Depending on the results of ECAR and OCR, it should be considered to reduce the amount of FBS.
+ 
+Preparation of the XF assay medium•Once 8.4 g of RPMI-1640 medium powder, D-glucose, fetal bovine serum, and sodium pyruvate are dissolved, add dH20 to bring the total volume to 1000 mL.
+•Adjust the pH with HCl and NaCl solutions to pH 7.4.
+•Sterilize the cell culture media with Bottle Tops and Filter Units and store at 2°C–8°C.
+CRITICAL: Adjust pH as precisely as possible; the final pH will affect the results of ECAR data. Because glycolysis is measured by the changes in extracellular pH, the XF assay medium should not contain any buffering reagents.
+Note: If you use other cells, prepare a DMEM-based medium by referring to .
+ 
+
+## Preparation of palmitate (PA) + bovine serum albumin (BSA) conjugate
+Timing: 1–2 h
+Note: We recommend using the XF Palmitate Oxidation Stress Test Kit (Cat# 103693-100)
+
+If you prepare PA+BSA yourself, refer or http://www.wklab.org/wp-content/uploads/2016/02/Palmitate-BSA_Prep_SOP_v080624.pdf. 
+Preparation of the BSA solution ( A)•Add 100 mL of 150 mM NaCl in a 250 mL glass beaker. Warm the beaker with a stir bar in a 37°C incubator.
+•Add 2.267 g of BSA to 100 mL of 150 mM NaCl in a 250 mL glass beaker. Stir until the BSA is completely dissolved.
+ 
+Preparation of the PA solution ( B)•Add 44 mL of 150 mM NaCl to a 100 mL glass beaker. Warm the beaker with a stir bar in a 70°C incubator.
+•Add 30.6 mg PA to 44 mL of 150 mM NaCl in a 100 mL glass beaker. The PA solution may appear increasingly cloudy as the temperature reaches 50–60°C but will clarify approaching 70°C. Stir until the PA is completely dissolved.
+CRITICAL: PA is difficult to dissolve at temperatures of <50°C. Therefore, take care not to lower the PA solution's temperature to <50°C until PA binds to BSA. If PA do not conjugate to BSA, PA is not incorporated into cells. Therefore, this section is important.
+ 
+Conjugating PA to BSA ( D)CRITICAL: If PA do not conjugate to BSA, PA is not incorporated in DCs. Therefore, this section is important. In particular, because PA is difficult to dissolve at temperatures of <50°C, be careful the temperature of PA solution.
+•Add 50 mL of 150 mM NaCl to a 250 mL glass beaker. Warm the beaker with a stir bar in a 37°C incubator. Transfer 5 mL of the PA solution with a 10 mL pipette into a 250 mL glass beaker.
+•Add total of 40 mL of PA solution into 250 mL glass beaker in 8 batches of 5 mL each. Stir a 250 mL glass beaker at 37°C for 1 h.
+•Add 10 mL of 150 mM NaCl to a 250 mL glass beaker and adjust the final volume to 100 mL.
+•Check the solution’s pH and adjust it to pH 7.4.
+•Separate into 2–5 mL each and freeze at −20°C.
+
+## Step-by-step method details
+
+## Bone marrow cell isolation
+Timing: 3 h
+Note: Ensure that all the reagents and samples are kept on ice during the entire procedure. Perform all steps in a laminar flow hood with sterile equipment to maintain sterility.
+
+For 2–4 whole Seahorse XF24 cell culture microplates, you will need BMDCs from one mouse.Note: We recommend using male 6–10 week-old mice.
+1.Sterilize the dissection kit and bench area with 70% (vol/vol) ethanol spray. Euthanize the mice with CO2 or inhaled anesthetics, such as isoflurane or sevoflurane, followed by cervical dislocation.
+2.Pin down the mouse to expose its abdomen. Spray the euthanized mice with 70% (vol/vol) ethanol to sterilize its skin.
+3.Use scissors to cut along the midline of the abdomen until exposing the femurs. Remove the femurs and tibias and place them in a dish containing PBS. ( )
+
+4.Remove the muscle and as much connective tissue as possible from the femurs and tibias. Place the harvested bones on a 60-mm dish filled with PBS.
+CRITICAL: If the bone is broken or the soft tissue is inadequately removed, the number of bone marrow cells harvested may be decreased.
+
+## Methods video S1. Collect femurs and tibias from mouse (step 3)
+
+This section is shown in .5.Trim both ends of the femurs and tibias carefully using sterile scissors to expose the interior marrow shaft ( ).
+6.Use a 5 mL syringe to draw up to 5 mL of fresh culture medium. Attach a 21-gauge needle to the syringe. Hold the bone over a fresh 60-mm dish, with its narrow end pointing down. Flush the marrow out of the bone with 5 mL of PBS ( ).
+
+## Methods video S2. Trim both ends of the femurs and tibias (step 5)
+
+7.Aspirate the marrow and the medium from the 60-mm dish and pipette up and down three times, rinsing the sides of the dish each time to disperse the marrow.
+8.Collect the cell suspension with the syringe and add the suspension to a 15 or 50 mL tube.
+Optional: Pass the cell suspension through a 70-μm cell strainer to remove any remaining bone or muscle fragments.
+9.Centrifuge the cell suspension at 3,000× rpm (800 × g) at 4°C for 5 min to pellet the cells. Discard the supernatant by gently tilting the tube and pouring the media into a waste disposal beaker. Recap the tube and gently tap to disperse the cell pellet.
+10.Add 1.0 mL / body of RBC lysis buffer to the cells and gently tap the tube with fingers to mix the lysis solution for 30–60 s. Add 10 mL of RPMI medium to dilute the buffer after RBC lysis.
+11.Centrifuge the cell suspension at 3,000× rpm (800 × g) at 4°C for 5 min to pellet the cells. Discard the supernatant by gently tilting the tube and pouring the media into a waste disposal beaker. Recap the tube and gently tap to disperse the cell pellet.
+CRITICAL: If red blood cell lysis fails, return to step 10.
+12.Resuspend the cells in 10 mL of culture medium and place on ice. Mix the cell culture medium well and count the cells; 2–6 × 107 bone marrow cells can be collected from two tibias and two femurs.
+13.Day 0: Seed 2 × 106 bone marrow cells in 2 mL of culture medium onto a 12-well culture plate with 10–25 ng/mL of GM-CSF in a 37°C and humidified 5% CO2 incubator.
+Note: BMDCs can be cultured in a 60-mm dish (12 × 106 bone marrow cells/ 6 mL), a 100-mm dish (2 × 107 bone marrow cells/ 10 mL), or a 6-well dish (8 × 106 bone marrow cells/ 4 mL).
+
+## Methods video S3. Collect bone marrow cell suspension (steps 6–8)
+
+If you wish to culture plasmacytoid dendritic cells (pDCs) or macrophages, you can obtain pDCs and macrophages using Flt3 ligands or M-CSF at the same concentration as GM-CSF ( ) ( ).
+
+## Myeloid dendritic cell culture
+Timing: 6–7 days
+14.Day 3, 5: Add 2 mL of culture media with 10–25 ng/mL GM-CSF and divide 1 well into 2 wells.
+15.Day 6–7: Collect the myeloid dendritic cells. We speculate that 1–3 × 107 DCs / body can be recovered.
+CRITICAL: Be careful to avoid collecting the highly adherent cells.
+
+Important: Non-BMDCs can be eliminated by early washing steps, discarding highly adherent cells, and enriching or sorting for CD11c+ cells ( ).Note: If the culture media is not added properly, the survival rate and number of the BMDCs will be reduced.
+
+## Purification of myeloid dendritic cell
+Timing: 2 h
+Note: The percentage of CD11c+ BMDCs is approximately 60%–90%. Use the following process to obtain a more concentrated population of CD11c+ BMDCs. After this step, we speculate that 0.5–1 × 107 DCs / body can be recovered.
+Note: If you will purify CD11c+ BMDCs, refer https://www.miltenyibiotec.com/DE-en/shop/comMiltenyiDatasheet/product?productId=54985.
+16.Mix the cell culture medium well and count the cells.
+17.Centrifuge the cell suspension at 3,000× rpm (800 × g) at 4°C for 5 min to pellet the cells. Discard the supernatant by gently tilting the tube and pouring the media into a waste disposal beaker. Recap the tube and gently tap to disperse the cell pellet.
+18.Resuspend the cell pellet in 10 mL of MACS buffer.
+19.Centrifuge the cell suspension at 3,000× rpm (800 × g) at 4°C for 5 min. Discard the supernatant by gently tilting the tube and pouring the media into a waste disposal beaker. Recap the tube and gently tap to break up the cell pellet.
+20.Resuspend the cell pellet in 400 μL of MACS buffer per 1–2 × 10⁸ cells.
+21.Add 100 μL of CD11c MicroBeads UltraPure per 1– 2 × 10⁸ total cells.
+22.Mix well and incubate for 10 min in the dark in the refrigerator at 2°C–8°C.
+23.After incubation, add 10 mL of MACS buffer and centrifuge the cell suspension at 3,000× rpm (800 × g) at 4°C for 5 min. Discard the supernatant. Recap the tube and gently tap to disperse the cell pellet.
+24.Resuspend cell pellet in 1 mL of MACS buffer.
+25.Place an LS column in the magnetic field of the MACS Separator. Add 3 mL of MACS buffer onto the LS column to rinse the column.
+26.Apply 1 mL of the cell suspension onto the column. After adding the cell suspension, wash the LS column three times with 3 mL MACS buffer each.
+27.Remove the LC column from the MACS Separator and place it on a 15 mL collection tube.
+28.Apply 5 mL of MACS buffer onto the column. Immediately flush out the CD11chigh mDCs by firmly pushing the plunger into the column.
+Optional: If you use the autoMACS® Pro Separator, refer to the corresponding user’s manual on using the autoMACS® Pro Separator.
+Note: After collecting the CD11chigh mDCs, we recommend checking the purity of BMDCs by flow cytometry. If you will check the purity of BMDCs, refer https://www.biolegend.com/en-us/protocols/cell-surface-flow-cytometry-staining-protocol.
+
+## Hydration of a Seahorse XFe sensor cartridge
+29.Place the assay cartridge upside down next to a 24-well utility plate. Add 1.0 mL of XF calibrant solution to each well of the 24-well utility plate.
+30.Put the cartridge back onto the utility plate and the sensor cartridge with the lid.
+31.Place it in a 37°C incubator without CO2 to hydrate for 4–48 h. To prevent evaporation of the water, verify that the incubator is properly humidified.
+Note: The sensor cartridge should be hydrated for at least 4 h before assay. However, we do not recommend using an XFe sensor cartridge after >48 h of hydration.
+
+## Preparation of poly-L-lysine-coated microplates
+Note: If you use non-adherent cells including BMDCs, we recommend this step. The adhesion of cells to a plate affects the accuracy of the experiment.
+32.Apply 50 μL of 0.01% poly-L-Lysine (PLL) or poly-D-Lysine (PDL) to the wells of the 24-well XF cell culture microplate. Tap the microplate to ensure that the liquid completely covers the bottom of the well.
+33.Incubate the microplate with the PLL or PDL solution for at least 5 min at room temperature.
+34.Remove the PLL or PDL solution by aspiration and thoroughly rinse the bottom of the plate with sterile water. Dry for at least 2 h before seeding cells.
+Note: If you use PLL, please check this information on the Sigma Aldrich website (https://www.sigmaaldrich.com/technical-documents/articles/biofiles/poly-lysine-product.html). If you use PDL, please check this information on the Sigma Aldrich website (https://www.sigmaaldrich.com/catalog/product/sigma/p7280?lang=en&region=US). If you use Cell Tak, please check this information on the Agilent Technologies website (https://www.agilent.com/cs/library/technicaloverviews/public/5991-7153EN.pdf).
+Note: If you use PDL-coated cell culture microplate, you can get PDL-coated cell culture microplate (#103730-100, #103722-100) from Agilent Technologies. (https://www.agilent.com/cs/library/flyers/public/flyer-agilent-seahorse-xf-pdl-coated-cell-culture-microplates-cell-analysis-5994-1990en-agilent.pdf)
+
+## Seeding mDCs in XF24 culture microplate
+35.Collect the BMDCs into a 15 or 50 mL Falcon tube and count the cells.
+36.Centrifuge the cell suspension at 3,000× rpm (800 × g) at 4°C for 5 min to pellet the cells. Discard the supernatant by gently tilting the tube and pouring the media into a waste disposal beaker. Recap the tube and gently tap to disperse the cell pellet.
+37.Resuspend the cell pellet in XF assay medium at a density of approximately 2 × 106 /mL. Mix the cell suspension well and seed 100 μL of it on a PLL-coated 24-well XF microplate without a blank well.
+Note: This protocol describes measuring oxygen consumption rates (OCR) and ECAR at 2 × 105 BMDCs/well using an XF24 analyzer. If you would like to analyze only OCR, you will obtain the results by reducing the number of mDCs used. If you would like to analyze splenic dendritic cells or plasmacytoid dendritic cells, you should seed 2–5 × 105 mDCs/well.
+38.Centrifuge the microplate for 2–5 min at 2000 rpm at room temperature to allow the cells to settle into a monolayer at the bottom of the plate.
+Note: BMDCs are non-adherent cells. Therefore, to use swinging buckets or plates attach BMDCs to the bottom of the plate.
+39.Slowly add 400 μL of XF assay medium into the sample to avoid disrupting the cell monolayer. Add 500 μL of XF assay medium into the blank well. Normally, 4 wells (1A, 3C, 4B, 6D) are used as a blank well ( B). 
+CRITICAL: No cells should be placed in the blank wells.
+40.Incubate the microplate for 30–60 min at 37°C without CO2 until you are ready to load the plate onto the XF24 extracellular flux analyzer.
+CRITICAL: This session is critical for obtaining accurate results of the Seahorse assay. The number of cells directly affects the values of OCR and ECAR. If you seed too many cells, the cells will be seeded in multiple layers. You should observe the cells under an inverted microscope to confirm that a monolayer of cells is present in all the wells.
+
+## XF assay
+41.Prepare 2 mL of 10× TLR agonist, mitochondrial inhibitor, or uncoupler injection solutions and an XFe sensor cartridge.
+42.Add 56–75 μL of each 10× injection solution into injection ports A, B, C, and D, respectively ( A). Return the hydration cartridge to the 37°C incubator without CO2 before setting up the run.
+43.Design a study protocol in the XF24 extracellular flux analyzer software provided by the manufacturer ( A–3D). Click the “I’m Ready” button and place the hydrated cartridge from the 37°C incubator without CO2 on the XF24 extracellular flux analyzer ( B and E). 
+Note: We recommend 4 blank ( B) and 3 or more replicas wells for 1 plate.
+44.Wait for the machine to calibrate the sensors. When the calibration is finished, keep the cartridge on the machine while the calibrant plate in the load position is sent out. At this point, take the XF24 cell culture microplate from the 37°C incubator without CO2 and put it into the load position and click the “CONTINUE” button.
+45.After the XF24 extracellular flux analyzer run is finished, remove the assayed XF24 cell culture microplate, place it in a 37°C incubator to determine the cell counts or the protein concentration, and click the “CONTINUE” button to end the program.
+
+## After XF assay (optional)
+Note: Normalization is an important component in the workflow for performing analysis of raw data to ensure accurate and consistent interpretation of results. We show a method using the number of cells. If you will use the method of normalization (e.g., using protein concentration, cell count, DNA content), refer https://www.agilent.com/cs/library/technicaloverviews/public/Methods_and_Strategies_for_Normalizing_Tech_Overview_022118.pdf
+Note: If XF plate is coated with protein containing cellular adherents (e.g., collagen, laminin, Matrigel), normalization using total protein is also not applicable.
+46.Carefully remove the supernatant and add PBS 100 μL.
+47.Strip off the cells on bottom and count the cells.
+48.Standardize using Wave software.
+
+## Expected outcomes
+Measuring TLR-induced metabolic changes: The binding of TLR and TLR agonists leads to rapid activation of DCs ( ). Activated DCs by TLR agonist, including LPS (TLR4 ligand) and CpG-DNA (TLR9 ligand), exhibit a rapid increase in glucose consumption and lactate production, as indicated by the real-time changes in extracellular acidification (ECAR) and OCR ( , ). DC activation is dependent on an early increase in glycolysis. Conversely, LPS and CpG-DNA do not affect the mitochondrial respiratory chain in the DCs. Imiquimod, a TLR7 agonist, also enhances glycolysis of DCs. Unlike LPS and CpG, imiquimod impairs the mitochondrial respiratory chain by binding and inhibiting the quinone oxidoreductases NQO2 ( ). depicts ECAR and OCR measurements to detect metabolic changes by TLR stimulation.
+Measuring post TLR stimulation changes: Several studies have also shown that immature DCs use mitochondrial oxidative phosphorylation (OXPHOS) as a core metabolic process, rather than glycolysis. Conversely, mature DCs induced by TLR ligands display increased glycolysis and inactivated OXPHOS ( , ). Analysis can be done to measure the difference in mitochondrial and glycolytic stress between the immature and mature DCs ( ).
+Measuring fatty acid metabolism in DCs: Fatty acid oxidation has critical roles in regulating adaptive and innate immune responses ( ). Tolerogenic and mature DCs showed substantially different levels of proteins and metabolites involved in the fatty acid oxidation (FAO) pathway ( ) ( ).
+The individual protocols to measure each of these metabolic changes are outlined in “quantification and statistical analysis.”
+
+## Quantification and statistical analysis
+
+## Analysis of TLR-induced metabolic change
+ 
+
+## Analysis of metabolic change after TLR stimulation
+Pretreatment (DC maturation)1.Stimulate BMDCs with LPS (100 ng/mL) or CpG-DNA (1 μM) for at least 12 h in a 37°C and humidified 5% CO2 incubator.
+2.Collect the BMDCs into a 15- or 50-mL Falcon tube and count the cells.
+3.Centrifuge the cell suspension at 3,000× rpm at 4°C for 5 min to pellet the cells. Discard the supernatant by gently tilting the tube and pouring the media into a waste disposal beaker. Recap the tube and gently tap to disperse the cell pellet.
+4.Resuspend the cell pellet in XF assay medium at a density of approximately 2 × 106 / mL. Mix the cell suspension and seed 100 μL of it on a PLL-coated 24-well XF microplate without a blank well.
+5.Centrifuge the microplate for 2–5 min at 2000 rpm at room temperature to allow the cells to settle into a monolayer at the bottom of the plate. Proceed by same way as for Method 37.
+6.Slowly add 400 μL of XF assay medium into the sample to avoid disrupting the cell monolayer. Add 500 μL of XF assay medium into the blank well.
+7.Incubate the microplate for 30–60 min at 37°C without CO2 until you are ready to load the plate onto the XF24 extracellular flux analyzer.
+ Note: Because the ideal compound concentration is affected by cell type and assay medium, we recommend that a titration experiment for these compounds is performed for new cells or assay medium. If you check the ideal compound concentration of mitochondrial stress test, refer the Agilent website in p14–15 (https://www.agilent.com/cs/library/usermanuals/public/XF_Cell_Mito_Stress_Test_Kit_User_Guide.pdf).
+ 
+
+## Analysis of fatty acid metabolism in myeloid dendritic cells
+Pretreatment (FAO assay)1.Collect the BMDCs into a 15 or 50 mL Falcon tube and count the cells.
+2.Centrifuge the cell suspension at 3,000× rpm at 4°C for 5 min to pellet the cells. Discard the supernatant by gently tilting the tube and pouring the media into a waste disposal beaker. Recap the tube and gently tap to disperse the cell pellet.
+3.Resuspend the cell pellet in XF assay medium at a density of approximately 2 × 106 /mL. Mix the cell suspension well and seed 100 μL of it on a PLL-coated 24-well XF microplate without a blank well.
+4.Centrifuge the microplate for 2–5 min at 2000 rpm at room temperature to allow the cells to settle into a monolayer at the bottom of the plate.
+5.Slowly add 400 μL of XF assay medium with PA (0.3 mM) +BSA (0.05 mM), BSA (0.05 mM), or 200 μM Etomoxir into the sample to avoid disrupting the cell monolayer. Add 500 μL of XF assay medium into the blank well.
+6.Incubate the microplate for 30–60 min at 37°C without CO2 until you are ready to load the plate onto the XF24 extracellular flux analyzer ( ).
+Note: Recently, several studies showed that Etomoxir induces Cpt1a-independent off-target effects at concentrations >10 or 100 μM ( ) ( ). Therefore, if you want to analyze only the CPT1a-specific inhibitory effect, we recommend to analysis with Etomoxir at concentrations < 10 μM.
+ 
+
+## XF assay analysis
+Note: Agilent Seahorse Wave Desktop software is the assay design, data analysis, and file management software for all Agilent Seahorse XF Analyzers. Because the latest release of Wave Desktop software provides new analysis capabilities in a redesigned interface that will streamline your XF workflow, download from the following site. https://www.agilent.com/en/products/cell-analysis/software-download-for-wave-desktop?productURL=https%3A%2F%2Fwww.agilent.com%2Fen%2Fproduct%2Fcell-analysis%2Freal-time-cell-metabolic-analysis%2Fxf-software%2Fseahorse-wave-desktop-software-740897
+1.Open and view assay result file with Agilent Seahorse Wave Desktop software ( A). 
+2.Normalize by the number of cells or the concentration of protein in each well ( B).
+3.Export the assay result as Microsoft Excel or GraphPad Prism file ( C).
+4.Analyze the assay results ( D and ). 
+Note: Agilent Seahorse Wave Desktop software includes several programs that can automatically measure Mito Fuel Flex Test, Cell Mito Stress Test, Cell Energy Phenotype Test, Glycolytic Rate Assay, and Real-Time ATP Rate Assay ( C).
+
+## Limitations
+In these protocols, we have described several analytic methods using mouse BMDCs. Because we have analyzed similar assays on various cells, we consider these protocols to be beneficial. Conversely, there are several new reagents and protocols. Therefore, when you perform analyses with a Seahorse extracellular flux analyzer, we recommend checking for new protocols at https://www.agilent.com/en/product/cell-analysis/real-time-cell-metabolic-analysis.
+
+## Troubleshooting
+
+## Problem 1
+RBCs are not hemolysed by RBC lysis buffer. Refer to (step 10). 
+
+## Potential solution
+Extend the mixing time to 60–120 s.
+Add 2 mL / body of RBC lysis buffer to the cells.
+Remake RBC lysis buffer.
+
+## Problem 2
+Bone marrow cells are not properly differentiated into BMDCs (step 15).
+
+## Potential solution
+Reduce the number of bone marrow cells seeded onto the culture plate.
+Extend the culturing period of the BMDCs.
+Increase the concentration of GM-CSF.
+Use a different lot of fetal bovine serum.
+
+## Problem 3
+The measured value of OCR or ECAR is small or lower than the sensitivity (step 45).
+
+## Potential solution
+Check the viability of BMDCs.
+Increase the number of BMDCs seeded into an XF24 cell culture microplate.
+Improve the condition of the BMDCs.
+Prepare the assay medium again.
+
+## Problem 4
+ECAR does not increase after the administration of TLR agonist (step 45).
+
+## Potential solution
+Increase or decrease the concentration of the TLR agonist.
+ECAR may not increase in DCs whose energy metabolism has shifted from mitochondrial respiration to glycolysis by the inhibitor or genetic modification.
+Reduce the FCS concentration to 1%–5% because FCS has some buffering capacity.
+
+## Problem 5
+The value of OCR and ECAR is not stable (step 45).
+
+## Potential solution
+CRITICAL: We recommend checking raw data for pO2 and pH.
+Check the levels of pO2 and pH.
+When a large number of cells are seeded in a well, an artifact of OCR may be generated due to the hypoxia. If pO2 or pH decreases over time, we recommend to reduce the number of cells or increase the rest time of assay ( ).
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Kazuhito Gotoh (gotou.kazuhito.712@m.kyushu-u.ac.jp).
+
+## Materials availability
+All reagents generated in this study are available from the lead contact with a completed Materials Transfer Agreement.
+
+## Data and code availability
+The data that support the findings of this study are available from the lead contact upon reasonable requests.
+
+ 
+
+## Acknowledgments
+This work was supported by 10.13039/501100001691JSPS KAKENHI grant numbers JP18K11077 and JP16K19196 to K.G. and JP20H00530 and JP17H01550 to D.K. This work was also supported by a grant from the 10.13039/100007449Takeda Science Foundation, The Shin-Nihon Foundation of Advanced Medical Research, and Charitable Trust Laboratory Medicine Research Foundation of Japan (to K.G.). We would like to acknowledge all of our colleagues in Dr. Kang's and Dr. Fukui's laboratory for their support throughout this project. We thank Edanz Group (https://en-author-services.edanz.com/ac) for editing a draft of this manuscript.
+
+## Author contributions
+K.G. and D.K. designed the study. K.G., Y.T., Y.N., S.M., and K.K. carried out the experiments. K.G. prepared the figures. K.G. wrote the manuscript. D.K. supervised the experiments. K.G. and D.K. reviewed the experiments.
+
+## Declaration of interests
+The authors declare no competing interests.
+
+Supplemental information can be found online at https://doi.org/10.1016/j.xpro.2021.100401.

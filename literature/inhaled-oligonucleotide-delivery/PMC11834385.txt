@@ -1,0 +1,604 @@
+379blackwellopenAdvanced Healthcare MaterialsAdv Healthc MaterPMC1183438511834385118343853884386610.1002/adhm.202400965Unlocking Transplant Tolerance with Biomaterials
+PhamJohn‐Paul A CoronelMaría M 
+1
+Department of Biomedical Engineering, University of Michigan, Ann Arbor, MI, 48109, USA
+2
+Elizabeth Caswell Diabetes Institute, University of Michigan, Ann Arbor, MI, 48109, USA*
+E‐mail: mcoronel@umich.edu
+
+✉Corresponding author.
+372024145240096524009651922025© 2024 The Author(s). Advanced Healthcare Materials published by Wiley‐VCH GmbHThis is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## Abstract
+For patients suffering from organ failure due to injury or autoimmune disease, allogeneic organ transplantation with chronic immunosuppression is considered the god standard in terms of clinical treatment. However, the true “holy grail” of transplant immunology is operational tolerance, in which the recipient exhibits a sustained lack of alloreactivity toward unencountered antigen presented by the donor graft. This outcome is resultant from critical changes to the phenotype and genotype of the immune repertoire predicated by the activation of specific signaling pathways responsive to soluble and mechanosensitive cues. Biomaterials have emerged as a medium for interfacing with and reprogramming these endogenous pathways toward tolerance in precise, minimally invasive, and spatiotemporally defined manners. By viewing seminal and contemporary breakthroughs in transplant tolerance induction through the lens of biomaterials‐mediated immunomodulation strategies—which include intrinsic material immunogenicity, the depot effect, graft coatings, induction and delivery of tolerogenic immune cells, biomimicry of tolerogenic immune cells, and in situ reprogramming—this review emphasizes the stunning diversity of approaches in the field and spotlights exciting future directions for research to come.
+Keywords: biomaterials, immunoengineering, immunomodulation, transplantation
+
+Transplantation holds great promise, but the lack of long‐term success outcomes highlights the need for more targeted therapeutics and insights from immune rejection mechanisms. This review delves into how biomaterials offer a versatile toolbox for engineering next‐generation therapeutics, emphasizing the inherent properties of materials that suit specific approaches and innovative strategies targeting in situ pathways.
+
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2024 May 31; Received 2024 Mar 14; Issue date 2025 Feb 18.
+
+1.
+
+## Introduction
+1.1.
+
+## Addressing the Need for Targeted Therapies in Organ Transplantation
+In the United States, organ transplantation procedures are becoming an increasingly commonplace outcome in the wake of organ failure from acute injury, progressive degenerative autoimmune diseases, and an increasingly aging population. In 2022 alone, there were 42 889 individuals in the United States who received one or more organ transplants, while there were 62 585 new candidates registered into the national Organ Procurement and Transplantation Network's waitlist by the end of the same year (reported as of July 26, 2023). These numbers signify both the importance and unmet demand for this potentially life‐saving procedure. Maintenance immunosuppression has become the contemporary clinical standard for facilitating acute graft survival rates beyond 85% across kidney, liver, and heart transplant procedures, and above 95% for all types of whole pancreas transplantations.[
+ 
+] More rigorously defined protocols for pretransplantation screening and prophylactic therapies have also ameliorated the frequency of immediate post‐transplant infections and deaths.[
+ 
+] While both innovations have paved the way for a somewhat naïve sense of optimism for engraftment efficacy,[
+ , , 
+] long‐term graft survival rates have not experienced similar boons. Detailed investigation of transplantation datasets revealed stagnant chronic rejection and survival rates for whole‐organ liver, lung, heart, intestinal, and pancreas transplants since 1995.[
+ , 
+] This paucity conveys the critical need to move away from chronic immunosuppression and develop targeted tolerogenic immunotherapies to quell long‐term graft rejection.
+In the clinic, maintenance immunosuppressive agents, which must be administered regularly for years after transplant, can prevent acute graft rejection and increase short‐term rates of allograft survival by broadly depleting T cell activity. A brief review of the host immune response pathways against transplanted grafts is given in Section  . However, current immunosuppression regimens present a risk factor for metabolic side effects such as hypertension,[
+ , 
+] obesity,[
+ , 
+] diabetogenesis,[
+ , , 
+] nephrotoxicity,[
+ , , 
+] neurotoxicity,[
+ 
+] infection,[
+ 
+] and malignancies.[
+ , 
+] Additionally, they affect the induction and function of regulatory T cells (Treg), cells that are fundamentally involved in promoting long‐term allograft tolerance.[
+ , , , , , 
+] Operational tolerance, a sustained immunosuppression‐free state for allograft acceptance, has only been sporadically obtained in the clinic through mixed lymphohematopoietic chimerism: where the recipient's bone marrow compartment contains both native and donor hematopoietic stem cells (see Section  ).[
+ 
+] Despite evidence of feasibility, attempting to arrest T cell activation local to the graft requires some sort of preconditioning irradiation, whether with low‐dose focused thymic irradiation that is susceptible to incomplete ablation, or more aggressive whole body irradiation or total lymphocyte irradiation to forcibly ablate almost all reactive recipient lymphocytes to “reset” the landscape of thymic education before infusion with allogeneic or syngeneic bone marrow. However, these preconditioning procedures are difficult to scale to larger animal models without major toxicity‐related complications.[
+ , , 
+]
+
+The realities of off‐target effects and incomplete suppression of alloreactivity seen with contemporary systemic immunosuppression strategies demand new technologies that provide targeted delivery of agents, which can reprogram the recipient's immune system toward long‐lasting tolerance. Biomaterials have emerged as an exciting modular toolbox for overcoming the challenges barring the road to operational tolerance. This is an incredibly dynamic and evolving field, encompassing a spectrum of material selections, material architectures, and bioactive functionalization strategies that take inspiration from the field's growing understanding of immune tolerance and cancer immunotherapy. The objective of this review is to highlight seminal and contemporary breakthroughs in the application of biomaterials for promoting transplant tolerance (Figure
+ ). Attention will be given to discussing engineered methods for generating a Treg‐rich local microenvironment that recapitulate native pathways of induced Treg development, and what future directions may be imminent.
+ 
+1.2.
+
+## A Review of Mechanisms of Alloreactivity
+One of the most fundamental reasons underlying the rejection of allogeneic organ transplants is the mismatch between major histocompatibility complex (MHC) haplotypes between donor and recipient tissues. Zinkernagel et al. were among the first to prove that the cytolytic function of CD8+ cytotoxic T cells is restricted to recognition of both an antigen molecule and a human leukocyte antigen (HLA, or human MHC) molecule of the same haplotype displayed by other native somatic cells of the host, such that T cell receptors bind to both simultaneously.[
+ , , 
+] In the case of an organ transplant, the donor allogeneic HLA molecules act both as the immunogenic antigen and requisite HLA molecule and can trigger an alloreactive response upon interfacing with T cells via the direct recognition pathway. In this pathway, passenger leukocytes such as donor antigen presenting cells (APCs, like dendritic cells) are the impetus of graft rejection, by initially trafficking to secondary lymphoid organs from the graft to present allogeneic HLA molecules to naïve T cells.[
+ , 
+] This phenomenon stands in contrast to the indirect allorecognition pathway. Under this route, it is theorized that alloantigens from donor tissue can be uptaken and presented by recipient APCs to activate recipient CD4+ T cells. Over time, the efficiency by which this pathway can aggravate an immune response drastically compounds due to antigen spreading: when formerly unrecognized “cryptic” alloantigens suddenly begin activating new, unique host CD4+ T cell clones, which may underpin chronic transplant rejection.[
+ , , 
+] Thus, T cells have proven to be instrumental to both graft rejection and graft tolerance.
+While T cells are sufficient to mediate graft destruction, the priming environment during allorecognition also facilitates B cells in generating a humoral alloimmune response. Alloantigen‐specific T cells, activated through the indirect pathway, migrate to secondary lymphoid tissues.[
+ 
+] There, both memory B cells and long‐lived plasma cells are generated, contributing to long‐term antibody‐mediated rejection (ABMR). Additionally, while B cell activation typically occurs within secondary lymphoid organs, emerging evidence suggests that B cells, including those responding to transplant‐induced antigens, can also undergo activation and differentiation within the transplanted organ itself.[
+ 
+] For a review on B cell responses to allografts, readers are referred to other comprehensive literature on this topic.[
+ , , 
+] Currently, there is no standard clinical care for the treatment of chronic ABMR.[
+ 
+] However, immunosuppressants like Rituximab (an anti‐CD20 monoclonal antibody) have gained traction in the transplant community, especially in renal allografts where ABMR remains problematic.[
+ 
+] However, this depletion therapy comes with significant drawbacks, most notably an increased risk of cardiovascular disease and associated mortality, without reducing AMR incidence, T‐cell rejection, or the production of de novo donor serum antibodies.[
+ , , 
+] Rituximab's broad mechanism of depletion thereby indiscriminately affects all B‐lymphocyte populations, including those that are atheroprotective.[
+ 
+] B cells, like T cells, are diverse and not all subsets are harmful. Emerging research highlights a subset of regulatory B cells that are crucial in managing immunity in allergy and disease models.[
+ , 
+] Unfortunately, there is no consensus on characteristic surface or transcriptomic markers for these populations, making them difficult to isolate and study.[
+ 
+] Typically, their mechanistic roles involve the secretion of IL‐10, TGF‐β, and IL‐35, targets also currently explored for inducing T cell tolerance. Consequently, some approaches discussed in this review might inadvertently target humoral immunity. This area remains relatively unexplored within the biomaterials field, presenting an opportunity for innovative research. While some B cell‐centric strategies will be mentioned, this review primarily focuses on T cell‐centric strategies for immunomodulation and tolerance induction. In considering the numerous interdependencies between the T cell‐mediated adaptive immune response and humoral alloimmunity, advancing effective clinical strategies will still likely need to integrate approaches targeting both T cells and B cells to achieve long‐lasting outcomes.
+
+1.3.
+
+## Current Clinical Immunosuppression Regimens
+In the clinic, maintenance immunosuppressive agents are administered regularly for months or years after the transplant, and include corticosteroids, antiproliferation agents, calcineurin inhibitors, and mammalian target of rapamycin (mTOR) inhibitors (Figure
+ ). Corticosteroids like prednisone have been used for decades to abrogate graft rejection. When a corticosteroid binds to the intracellular glucorticoid receptor (GR), a conformational change occurs that exposes the C‐terminal ligand‐binding domain (LBD). The LBD enables the GR to dimerize and traffic to the nucleus, where zinc finger motifs on the receptor localize it to specific DNA sequences called glucocorticoid response elements. There, they impose changes to the architecture and accessibility of the genome that result in downstream upregulation of anti‐inflammatory genes. They can also bind to and inactivate transcription factors like NF‐κB via transrepression, leading to downregulation of inflammatory genes that are typically transcriptionally activated by NF‐κB. Yet, corticosteroids curtail survival rates if slowly withdrawn due to side effects such as hypertension, obesity, and massive shifts in metabolism leading to hyperglycemia, which may endanger individuals with type I diabetes receiving whole pancreas or islet transplants, and lead to increased risk of allograft coronary artery disease for cardiac transplants.[
+ , , , , , 
+] Antiproliferation agents like mycophenolate mofetil (MMF) have marginally improved acute graft and patient survival for renal transplant recipients. They inhibit proliferation by targeting and inhibiting the activity of inosine monophosphate dehydrogenase, the rate‐limiting enzyme that dictates synthesis of guanosine nucleotides (via kinase‐mediated transfer of phosphate groups from adenosine triphosphate) essential for DNA synthesis. As a result of this nonspecific mechanism of action, death‐censored analyses showed that treatments with MMF still result in a 40% loss of functioning kidney grafts at a chronic timescale of 12 years post‐transplantation.[
+ , , 
+] Calcineurin inhibitors like cyclosporine and tacrolimus act to prevent T cell activation by inhibiting calcineurin‐mediated activation of NFAT1c, but with the off‐target effects of nephrotoxicity, neurotoxicity, and diabetogenesis, as well as evidence suggesting the inhibition of tissue‐protective Treg activity.[
+ , , , , , 
+] Finally, mTOR inhibitors like sirolimus and everolimus target the mTOR pathway that prevents any cells, like alloreactive T cells, from progressing through the cell cycle. Consequently, its broad mechanism of action leads to a bevy of side effects such as beta cell apoptosis and decreased insulin secretion for pancreas or islet transplants, such that the seminal Edmonton study showed that only 10% of human islet transplant recipients receiving sirolimus as their main immunosuppressant managed to maintain insulin independence at 5 years post‐transplant.[
+ , , , , , , 
+] Current recognized markers of operational tolerance may be markedly impacted by the immunosuppressive regimen. However, throughout this review, it will become apparent that biomaterials offer advanced therapeutic properties that avoid and actively mitigate systemic toxicities associated with immunosuppressants by enabling dose reduction, facilitating localization, and augmenting their tolerizing effects.
+ 
+1.4.
+
+## Operational Tolerance in the Clinic
+While numerous strategies for enabling operational allograft tolerance in humans and other primates have been investigated, the most successful by far has been the induction of mixed chimerism via combined hematopoietic cell transplantation.[
+ , , 
+] Mixed chimerism is an immunological state in which the transplant recipient's lymphohematopoietic compartment consists of both recipient‐derived and donor‐derived immune cells replenished from donor‐sourced progenitor cells transplanted into the bone marrow and coexisting with recipient cells. This state is established in an organ transplant patient using whole‐body and/or targeted thymic irradiation alongside blockading monoclonal antibody treatment to deplete alloreactive thymocytes and lymphocytes.[
+ 
+] Decades of research has led to the development of a conditioning regimen for chimerism induction that is not so aggressively myeloablative to avoid post‐transplant mortality from a lack of immunocompetence, graft‐versus‐host disease, or failed engraftment of donor bone marrow, but which nevertheless eliminates an excess of donor‐reactive T cells from the host or an excess of host‐reactive donor T cells.[
+ , , 
+] The mechanism by which operational tolerance can be achieved from sustained multilineage hematopoiesis of both donor cells and recipient cells is not fully understood, but the most prominent theory suggests intrathymic deletion of alloreactive clones mediated by thymic APCs developed from donor bone marrow, followed by peripheral clonal deletion of alloreactive T cells mediated by alloantigen‐protective CD4+ cells.[
+ , 
+] Together, these mechanisms provide an immunologically hyporesponsive microenvironment proximal to the tolerated graft that can be sustained for over a decade even after peripheral recipient–donor chimerism is no longer detectable.[
+ , 
+] Nevertheless, these positive outcomes have not been consistently observed across all patients tested. Indeed, more than half of the patients in one trial (6 out of 10) experienced some degree of complication or rejection incident, requiring retransplantation or the reintroduction of nonspecific immunosuppression years after initial graft transplantation, thereby reintroducing novel health risks.[
+ 
+]
+
+Of note, only solid kidney transplants have seen somewhat widespread success in the clinical space in terms of sustained function following immunosuppression withdrawal. Evaluation of this therapy with other solid organ or cell‐based transplants have not been as successful despite mixed chimerism being achieved in mouse and some nonhuman primate (NHP) models.[
+ , , 
+] This susceptibility to graft rejection in humans and nonhuman primates is theorized to originate from the greater frequency of alloreactive effector memory T cells present in these organisms even before transplant, and which are known to be uniquely resistant to conventional depleting antibody treatment or costimulation blockade, and whose proliferation is enhanced in the leukopenic stage following irradiation therapy.[
+ 
+] Altogether, operational tolerance continues to remain an elusive goal in the clinic, requiring a reconceptualization of what target agents and pathways unique to the human and NHP immune system to target in future immunosuppression regimens.
+
+2.
+
+## Harnessing Biomaterial‐Endogenous Properties for Tolerance Induction
+The advent of biomaterials as a translational technology has enabled new opportunities for precisely directing the transplant immune response. Biomaterials can be engineered into complex structures ranging from particles to scaffolds, each acting as a scalable and modular platform that can set the groundwork for the localized delivery or presentation of tolerogenic drugs, biologics, or antigen.[
+ , 
+] Each design can be leveraged to maximize cargo delivery as well as to exploit inherent physicochemical properties of the biomaterial to promote engagement and modulation of immune function (Figure
+ ). This encompasses factors as material size and charge, which can be harnessed to target specific cell populations in the absence of cargo. In this section, we will delve into how biomaterial‐endogenous properties can be rationally engineered to modulate immune responses independently and in combination with one another to evoke unique synergistic effects.
+ 2.1.
+
+## Intrinsic Immunomodulatory Functions of Materials: Impacts of Geometry and Material Selection
+The exploration of biomaterials as tools to foster tolerance initially emerged from the realm of drug delivery research. Extensive literature exists examining how carrier geometry, encompassing shape and size, influences the stability and delivery efficacy of these carriers (for comprehensive reviews on biomaterials for drug delivery[
+ , , 
+]). The impetus to attain dynamic control over critical material properties to enhance drug delivery capabilities ultimately sheds light on how these same inherent properties of biomaterials modulate their interactions with immune cells. Micrometer‐ (in the context of this review, defined as 1–1000 µm diameter) and nanosized (1–1000 nm diameter) based materials are unique in the fact that their size and possible functionalization with homing peptides make them infusible carriers to distal areas of the body like the pancreas,[
+ 
+] spinal cord/central nervous system,[
+ 
+] and lymph nodes,[
+ , 
+] which would otherwise be extremely invasive to access with a surgical procedure. Importantly, they are known to readily interact with immune cells to direct endogenous responses.[
+ 
+] Indeed, many studies have demonstrated the importance of particle size in effectively leveraging adaptive immunity, as sub‐100 nm diameter particles are readily trafficked through the lymphatic system and into the lymph nodes for exposure to naïve T cells and highly concentrated APCs.[
+ , , , 
+] Engagement of biomaterial constructs with APCs is of great interest for transplant tolerance because of their role in propagating anti‐inflammatory signals when not receiving the requisite “double handshake” of costimulatory ligands like CD80, CD86, or CD40 that can promote anergy or the differentiation to FoxP3+ Tregs.[
+ , , 
+] Strategies by which biomaterials can promote these specific changes in APCs and the importance of Tregs will be discussed in depth in Section  (see Table  ).
+ However, while the geometry of small particle therapies can aid in improving interactions with the immune system, it also makes them prone to premature clearance by mononuclear phagocytes due to the rapid “tagging” of these carriers by the binding of serum albumins, complement proteins and immunoglobulins once in circulation.[
+ 
+] A major component of the protein corona of nanoparticles (NPs) is apolipoprotein,[
+ 
+] which targets mannose receptors found abundantly within liver sinusoidal endothelial cells[
+ 
+]—suggested to be the gatekeepers of hepatic immunity—leading to increased regulatory cytokine production like TGF‐β and an increase in Tregs.[
+ 
+] Additionally, unlike other constituents of the protein corona, apolipoproteins are known to help NPs evade phagocytic clearance, such that understanding how to intrinsically promote NP coating by certain compositions of proteins associated with tolerogenic and proevasion outcomes would be useful to increase the longevity and bioavailability of particle treatments. Studies performed by the Scott group have enumerated how varying NP architectures between spherical micelles, filamentous micelles, and hollow polymersomes drastically change the dynamics of protein corona formation and the identities of the adsorbed proteins, which then impacts the efficiency of uptake by phagocytes.[
+ 
+] Protein corona composition can also be determined by surface chemistry and surface charge: key variables to consider in the selection of biomaterials for immune modulation.[
+ 
+] Experiments conducted by the King and Shea groups showed that anionic microparticles are preferentially uptaken by inflammatory monocytes, known to differentiate into pathological macrophages implicated in the allograft rejection process, and instead divert them away from the graft site to the splenic marginal zone to undergo apoptosis.[
+ , 
+] Likewise, the adaptive immune response pivotal for long‐term engraftment is also highly influenced by particle architecture: Tomić et al. demonstrated that cellulose nanofibrils promote tolerogenic dendritic cells (DCs) with greater Treg polarizing capacity,[
+ 
+] while others have shown that antigen‐conjugated rod‐shaped NPs preferentially induce a T helper type 2 (Th2) response following internalization by DCs over conjugated spherical or cylindrical NPs.[
+ , , 
+] Th2 polarization is characterized by an increased expression of interleukin 4 (IL‐4) and interleukin 10 (IL‐10), cytokines that promote the differentiation of regulatory T cells and tolerogenic APCs and inhibit cytotoxic T lymphocyte and macrophage activation, in contrast to the interferon‐gamma (IFN‐γ) driven Th1 response.[
+ , 
+] Thus, strategies that favor Th2 responses are generally desirable for transplant tolerance induction. Overall, the unmatched ability of particles to interact and induce cellular responses efficiently and noninvasively at predetermined ectopic sites on account of their small size and wide array of immune‐activating structural geometries makes them highly translatable precision medicine therapeutics for transplant tolerance.
+In contrast to small particles, macrosized biomaterials (>1000 µm total diameter or length) such as scaffolds are poised to recapitulate the intricacies of the native extracellular matrix, thus providing a porous microenvironment with a high surface area‐to‐volume ratio that encourages cellular infiltration, adhesion, and growth factor and chemokine diffusion.[
+ , 
+] By combining these properties with their ability to control drug release profiles, scaffolds can therefore simultaneously deliver allogeneic cells, supplementary tolerogenic cells, and chemical compounds in a spatiotemporally defined manner.[
+ 
+] The recognition of microporosity as an important feature for modulating immune cell infiltration has led to a range of methods for porosity fabrication,[
+ 
+] including freeze‐thawing cryopolymerization,[
+ , 
+] colloidal crystal templating,[
+ 
+] and acoustic droplet vaporization using focused ultrasound.[
+ , 
+] While the ability of scaffolds to recruit immune cells may seem counterintuitive for mitigating graft rejection, complementary biomaterial technologies have seized an opportunity to skew the immune infiltrate away from the typical acute inflammatory response toward immune phenotypes that can promote local tolerance. An example of this synergy comes from the Shea group, whose salt‐leached porous polymer scaffolds inherently augment the magnitude of the infiltrating acute immune response and support the initial engraftment of allogeneic islets.[
+ 
+] But when combined with entrapped therapeutics like interleukin‐33 (IL‐33, a cytokine involved in Th2 responses), the scaffold can better maintain immune homeostasis at ectopic islet transplantation sites.[
+ , , 
+] Likewise, the Mooney group has demonstrated a tactic where they used sacrificial fast‐degrading hydrogel porogens to introduce greater porosity in alginate bulk gel scaffolds[
+ 
+] to tune the release profile of granulocyte‐macrophage colony stimulating factor (GM‐CSF), which enhanced local infiltration of tolerogenic dendritic cells.[
+ 
+]
+
+To address concerns about accurately defining scaffold pore size, the Segura group introduced microporous annealed particle (MAP) microgel scaffolds, in which each building block can be individually controlled through microfluidic‐based fabrication methods, and by extension, can precisely control the mean pore size comprising the interstitial space between connected particles.[
+ 
+] A similar microgel‐based approach has been implemented by the García group and paired with surface presentation of immunomodulatory signals to alloreactive T cells, taking advantage of the enhanced immune cell infiltration conveyed by the biomaterial scaffold to modulate local immune responses (see Section  ).[
+ , 
+] Together, these examples show how scaffolds, among other biomaterials, can be rationally engineered as systems that stage multiple complementary processes converging at the promotion of tolerance.
+2.1.1.
+
+## Inorganic Materials
+Beyond structural considerations, the vast palette of lipids, inorganic materials, and natural and synthetic polymers available for engineering biomaterial structures enables the exploitation of unique material‐driven characteristics prime for specific applications as delivery, drug loading, ligand presentation, or even demonstration of intrinsic immunomodulatory properties for immune cell subpopulation‐specific targeting and reprogramming without any additional payload. For example, iron oxide's sensitivity to external magnetic fields and its low cytotoxicity upon metabolic breakdown make it an attractive candidate for fabricating NP carriers of therapeutics with the potential for user‐guided biodistribution. Direct adsorption of immunosuppressive drugs as cyclosporine onto iron oxide NPs improved its bioavailability and slowed clearance as compared to free drug.[
+ 
+] Another group took advantage of the superparamagnetic nature of iron oxide material with NPs designed to be uptaken by isolated allogeneic pancreatic islets before transplantation into chemically induced diabetic mice via intraportal hepatic infusion. Concomitant manipulation of the islet‐internalized NPs with a magnetic field specifically localized them to the median lobe of the liver as visualized postoperation using magnetic resonance imaging. To further functionalize their iron oxide cores, the same group adsorbed glycyrrhizin (an uncompetitive inhibitor of proinflammatory cytokine HMGB1, known to aggravate acute islet inflammation and death following transplant), to the NP surface and saw attenuation of innate immune activation markers in vitro leading to extended cotransplanted islet survival and euglycemia in vivo.[
+ 
+] These superparamagnetic iron oxide NPs (SPIONs) offer researchers direct, immediate, and minimally invasive control over the targetability and retention of this biomaterial platform, but previous applications have yet to demonstrate the efficacy of SPIONs decorated with immunomodulatory components in protecting graft tissue for longer periods of time over 30 days. This is especially important considering that chronic graft rejection can be mediated by a background foreign body response against a persistent biomaterial in the graft site.[
+ 
+] Consequently, prolonged retention of inorganic, nondegradable SPIONs using magnetic immobilization could lead to long‐term induction of inflammation and loss of graft function, especially when surface‐adsorbed immunomodulators may eventually be inactivated through proteases or displaced by competitive binding of serum proteins in vivo.[
+ , , 
+] Like SPIONs, quantum dots are an inorganic material nanostructure whose innate physical characteristics facilitate powerful in vivo imaging and tracking capabilities. However, alongside their trademark tunable fluorescence parameters, certain graphene and transition metal carbide quantum dots have shown intriguing intrinsic immunomodulatory properties potentially conducive to future use in transplantation.[
+ 
+] Specifically, 65 nm diameter graphene quantum dots inhibited dendritic cell maturation and secretion of Th1 response‐polarizing cytokines upon internalization, while simultaneously enhancing the surface display of protolerogenic coinhibitory molecules as programmed cell death 1 ligand 1 (PD‐L1).[
+ 
+] In contrast, transition metal carbide quantum dots (Ti3C2 MXene) were able to suppress the activation of effector T cells and promote the de novo conversion of Tregs in a pure population of T cells with no APC internalization required.[
+ 
+] Another derivative of carbonaceous nanoparticles, multiwalled carbon nanotubes (MWCNTs), has gained recognition in the biomaterials field due to it being an increasingly prevalent environmental pollutant as a byproduct of combustion emissions. While much work has focused on their effect on pulmonary inflammation and fibrosis, new evidence has emerged linking MWCNTs with immune suppression. Inhalation exposure to MWCNTs has been associated with decreased natural killer function and increased production of prostaglandins and IL‐10.[
+ , 
+] Moreover, there have been reports of systemic effects observed through decreased spleen‐isolated T cell proliferation in the absence of antigen.[
+ 
+] It is exciting to speculate that MWCNTs could be implemented for antigen‐specific tolerance induction, as their inherent structural properties could allow for multiple antigen display and intranasal delivery. Notably, carbon nanotubes can exist in many forms, and the effects on immune suppression have only been reported for single and multiwalled compositions. Exploring their role in antigen‐specific tolerance to transplantation would be of significant interest.
+Noble materials such as gold (Au) and silver have also been utilized in NP fabrication due to their low immunogenicity, chemical inertness, and ease of surface modification through adsorption‐based conjugation schemes. Michelini et al. recently reported that AuNPs have a size‐dependent capacity to shift LPS‐activated DC phenotype to a tolerogenic state, characterized by the downregulation of CD86, IL‐12, and IL‐27, the upregulation of ILT3, and the induction of class E compartments. Significantly, this tolerogenic DC phenotype was less effective at promoting Th1 activation and central memory T cell proliferation.[
+ 
+] Given the pivotal role of these cell populations in long‐lasting tolerance induction, it would be highly interesting to evaluate whether this system could be applied to antigen‐specific tolerance induction in transplantation. Yang et al. have also utilized AuNPs, but with a novel twist by coating them with high‐density lipoprotein to target scavenger receptor type B‐1 in B cell lymphomas.[
+ 
+] By binding to this receptor, AuNPs promote differential manipulation of cellular cholesterol flux in lymphoma cells, limiting cholesterol delivery and promoting specific cell death. This innovative materials‐driven approach of manipulating immune cell behavior through modulation of immunometabolism is becoming a promising research direction, offering the potential for longer‐lasting effects without the need for additional payloads. This has been motivated by studies into the intracellular signaling pathways that bridge antigen recognition via T cell receptors and B cell receptors (BCRs) to the regulation of cholesterol metabolism, such that metabolic reprogramming natively occurs during the cells’ phenotypic transition to an effector fate. Taking the inverse approach to synthetically alter activated B and T cell metabolism for the express purpose of arresting their cell cycle progression and stunting their proliferation is a promising and exciting avenue for future research. Another lucrative property of a drug nanocarrier for transplant tolerance would be loading capacity and affinity to hydrophobic immunosuppressants with otherwise low bioavailability. Porous elemental silica and closely related mesoporous silica are inorganic materials whose intrinsically high surface area‐to‐volume ratio is well‐suited for the delivery of hydrophobic immunosuppressive macrolides as rapamycin and tacrolimus, with the option for a variety of surface chemistry modifications for covalent linking of homing antibodies to specific immune cell populations as dendritic cells or organs as the lymph node to promote downstream tolerization.[
+ , 
+]
+
+2.1.2.
+
+## Synthetic Polymers
+Similarly, polyethylene glycol (PEG) and poly(lactic‐co‐glycolic acid) (PLGA) are among the most commonly used synthetic polymers in the biomaterials space, but they are oftentimes chemically modified to facilitate various conjugation and network formation strategies, as well as to endow additional immunogenicity. For example, methacrylic acid (MAA) was physically entangled within a PEG‐acrylate matrix to form a degradable semi‐interpenetrating polymer network hydrogel that polarized infiltrating macrophages toward an anti‐inflammatory M2 state.[
+ , 
+] Even adjusting the characteristics of smaller chemical moieties, like the chirality of intraparticle peptide crosslinkers in a MAP gel, significantly impacted the activation of endogenous innate and adaptive immune responses toward proregenerative function.[
+ , 
+] To effectively utilize biomaterials in immune modulation, it is essential to understand the immunogenicity of the byproducts resulting from material degradation. In this context, Allen et al. recently demonstrated that microparticles fabricated from PLGA can inherently modulate APC activation and secretion of maturation molecules based on the polymer's molecular weight. Lower molecular weights showed higher efficacy in eliciting immunosuppressive effects, while higher molecular weights could have transient immunostimulatory effects after acute presentation.[
+ 
+] Another promising synthetic material with inherent immunomodulatory functions are dendrimers—synthetic polymers characterized by a structure of repeatedly branching chains. Polyamidoamine‐glucosamine dendrimers, which have a core structure formed by glucosamine, inhibit Toll‐like receptor (TLR)‐mediated inflammatory responses and have been shown to decrease IL‐6 and IL‐8 production.[
+ 
+] TLRs mediate the innate immune system response and are expressed by macrophages and DCs. Given that antidonor immune responses are predominantly mediated by DCs, targeting these cells represents a clinically viable approach for tolerance induction.[
+ 
+] Similarly, imidazoquinoline‐based dendrimers can suppress immune responses, as the repeated imidazoquinoline molecule acts as an agonist to TLR7 and TLR8.[
+ 
+] Amphiphilic dendrimers have also been implemented for the delivery of short interfering RNA (siRNA) capable of enacting gene silencing in primary immune cells.[
+ 
+] The multivalency of the dendrimer polymers allows for facile self‐assembly of complete siRNA vectors in the presence of the oligonucleotides, allowing for more efficient and potent delivery. Thus, by modifying the composition of dendrimer cores and dendrites, one can alter their physical conformations to form complexes with greater functionality beyond physically interacting with extracellular ligands and receptors on immune cells. From this, it is evident that the inherent chemical composition of materials plays a significant role in their immunomodulatory effects. These findings underscore the need to fully elucidate the effects of biomaterials on immune populations to rationally select, integrate, and engineer them into advanced constructs for immunomodulatory applications. Surface charge has also proven to be an important design parameter for scaffolds and has motivated the selection of polymers beyond PEG and PLGA. Hydrogels made of zwitterionic polymers (containing both cationic and anionic groups) like carboxybetaine, resisted nonspecific protein adsorption to limit the foreign body response, and attracted anti‐inflammatory macrophages displaying classic M2 markers like IL‐10 and type‐1 arginase (Arg1).[
+ , 
+]
+
+2.1.3.
+
+## Decellularized Matrix Materials
+Other groups are taking cues from the regenerative medicine field under the realization that natural extracellular matrix (ECM) could provide a one‐to‐one microarchitectural and biochemical template for engraftment beyond anything synthetic polymers can currently achieve. Mechanical properties of ECM, such as viscoelasticity, can influence the behavior of immune cells, including proliferation and differentiation. Recently, Mooney and co‐workers demonstrated that viscoelastic hybrid ECM mimic biomaterials could stimulate T cells to differentially upregulate genes related to exhaustion and Treg differentiation, such as JunB and interleukin‐2 (IL‐2), while downregulating the effector CD8 phenotype.[
+ , , 
+] However, as understanding of other physicochemical variables that contribute to the immune modulating capacity of native ECM remains incomplete, implementing ECM itself as a scaffold may be preferable to trying to synthetically replicate its properties. Decellularization and delipidation processes are used to create inert ECM‐derived hydrogels majorly stripped of HLA proteins for de novo tissue growth across a multitude of cell types.[
+ , , 
+]An interesting approach along this line uses decellularized extracellular matrix (dECM) derived from thymus tissue to create a scaffold where seeded murine thymic epithelial cells and thymic stromal cells were able to recapitulate the functional 3D network of the organ and many of the signature marker genes crucial for T cell progenitor homing and lymphopoiesis.[
+ , , 
+] Significantly, thymic dECMs populated with a mix of thymic epithelial cells from a C57BL/6 (B6) mouse and from a CBA/J mouse were able to facilitate negative selection of alloreactive T cell precursors in an athymic B6 mouse, and ultimately prevent rejection of CBA/J skin grafts without immunosuppression,[
+ 
+] demonstrating the potent effects that native ECM wield in directing even the most intricate stromal and immune cell interactivity. While naturally derived biomaterials like dECMs face challenges in the translational space, such as sourcing and sterilization,[
+ 
+] their unique provision of mechanical signals should be further explored to better suppress alloreactivity.
+
+2.1.4.
+
+## Extracellular Vesicles and Virus‐Like Particles
+The uncovering of a new method of intercellular communication through membrane‐bound nanosized particles, known as extracellular vesicles (EVs),[
+ 
+] also opened doors for a new engineered strategy based on naturally derived materials. EVs play an active role in graft rejection, mainly as a carrier of MHC molecules that can lead to allograft recognition in a semidirect and indirect manner.[
+ , 
+] Being a major interface in donor cell‐recipient cell communication following transplantation, many groups have then recognized the merit of leveraging EVs for immunomodulation. While EVs can be secreted by virtually all cell types, their composition can vary significantly based on the cellular source. In the literature, great emphasis has been placed on investigating EVs sourced from known immunomodulatory cells (i.e., Tregs, tolerogenic DCs, and mesenchymal stromal cells).[
+ , 
+] However, in terms of using EVs as a central component of immunomodulatory biomaterial therapies, the research landscape is equally varied and vast. The Weaver group has explored EVs from placenta‐derived tolerogenic cells such as trophoblasts.[
+ 
+] By taking advantage of the excess cysteines on surface proteins presented by EVs, they covalently linked them to a protease‐degradable hydrogel via Michael addition to maleimide groups. This tethering improved EV retention in the hydrogel as compared to just physical entrapment. Moreover, as a proof of concept, they demonstrated modulation of cytokine secretion from natural killer cells in vitro. On an analogous approach, the Lakey group used a hybrid encapsulation system using alginate materials to entrap umbilical cord‐derived EVs.[
+ 
+] This system delayed rat islet xenograft rejection in diabetic mice as compared to free EVs delivered systemically, highlighting the integral nature of material‐enforced entrapment and localization for boosting EV function. An alternative approach was seen in the engineering of “designer” EVs carrying desired immunomodulatory surface ligands to bolster their therapeutic potential. To accomplish this, the Phelps group generated EVs from a lymphoblast cell line that expressed diabetogenic autoantigen peptide‐containing MHC complexes alongside costimulatory CD80 and/or coinhibitory programmed cell death 1 ligand 1 (PD‐L1).[
+ 
+] They were able to demonstrate in vitro that EVs isolated from these cells carried the ligands of interest, that the EVs induced activating or suppressive effects on cocultured T cells depending on the ligand cargo, and that these effects were conferred in an antigen‐specific manner. While this work is a proof of principle, it provides a promising foundation for understanding the mechanisms by which engineered EVs could potentially abrogate autoimmune diabetes. In engineering EVs, one could also encapsulate immunosuppressant small molecules, such as FK506, that can synergize with EV presentation of endogenous immunosuppressive ligands such as PD‐L1 and Lag‐3. This combinatorial approach has been shown to be successful in alleviating immune rejection of heart allografts.[
+ 
+] Another innovative EV‐oriented approach used genetic engineering to induce FoxP3 expression in the EV‐generating CD4+ T cell source. The introduction of this FoxP3 gene resulted in the enrichment of immunomodulatory coreceptors PD‐1 and CTLA‐4 on isolated EVs, as well as surface expression of integrins. Due to these abundant decorated cell adhesion molecules, EVs specifically targeted and were retained proximal to vasculature and lymphatic vessels leading to improved survival in a renal solid organ transplant model.[
+ 
+] Building on targeting mechanisms incorporated into EVs, an emerging strategy involves a two‐step approach where EVs from genetically engineered cell sources are designed to promote targeted uptake by nonphagocytic cells as T cells, while also featuring actively loading cargo for direct nucleic acid or protein payload delivery.[
+ 
+] While the targeting approach used in this work is not necessarily specific just to T cells, the ability to deliver gene‐editing material with endogenous EV nanoparticle carriers is an exciting discovery that can be significantly expanded upon in the context of transplant tolerance. Aside from acting as cargo carriers and substrates for surface presentation of receptors, EVs have also been functionalized to act as decoys for the sequestration of proinflammatory cytokines.[
+ 
+] Utilizing genetic engineering, high‐affinity cytokine binding domains were adorned on EV surfaces that acted as decoy receptors against multiple different targets simultaneously. Biomimicry was used to further improve the binding efficacy of these receptor‐decorated EVs, such that ligands were designed to be multimerized (whether as tetramers or dimers) while presented by EVs, thereby mimicking their native structural arrangement as observed during ligand–receptor binding events between cells. This EV strategy was capable of suppressing inflammation in two different models and even outperformed small biologic drugs currently used in the clinic. It would be interesting to extend this approach to the sequestration of numerous other Th1 cytokines involved in cellular rejection of allografts, such as IFN‐γ.
+Virus‐like particles (VLPs) represent another natural biomaterial system currently investigated for modulating immune responses. These particles self‐assemble due to the expression of proteins encoding capsids, virus envelopes, or monolayered particles derived from a multilayered virus.[
+ 
+] Historically, VLPs have been used for vaccine development due to their potent capacity to induce an antibody response,[
+ 
+] their ability to accept adjuvant payloads designed to enhance their immunogenicity,[
+ , 
+] and the ease of modification for the surface display of epitopes for targeting. VLPs have been modified to express peptides representing T cell‐recognized epitopes for antigen‐specific tolerance induction.[
+ 
+] Following subcutaneous delivery of these VLPs in a previously antigen‐immunized mouse model, T cell and B cell immune responses were nearly completely abrogated through a single injection, yet it was nonlasting. Nevertheless, it provides a proof of concept of how exposure to antigens through VLPs can modulate the immune response. Like EVs, VLPs can also be loaded with payloads for targeted delivery of immunotherapeutics as gene editing materials. To this extent, retroviral capsids have been used for the delivery of base editor ribonucleoproteins, considering that the structural flexibility of retroviral capsids is amenable to encapsulating an array of diverse protein cargoes.[
+ 
+] The higher loading capacity of these VLPs enabled enhanced gene editing both in vitro and in vivo compared to state‐of‐the‐art lentiviral vectors and lipid nanoparticles. This represents a promising avenue for in vivo gene editing of immune cells, although further research is needed to better assess pharmacodynamics and dosage requirements.
+Overall, these explorations demonstrate how the basal physical properties of biomaterials can be exploited to interface with immune cells in the absence of any additional layered signaling cues. Designing more complex biomaterial constructs for tolerance induction will thus require a careful curation of physicochemical properties that can synergize with, rather than detract from, other copresented immunomodulatory mechanisms.
+
+2.2.
+
+## Biomaterials as Controlled Release Depots for Localized Delivery
+Encapsulating immunomodulatory compounds using biomaterials is a compelling strategy for ensuring localized delivery with minimal off‐target effects without having to manipulate the tissue transplant. The most common biomaterial depots are synthetic biodegradable polymers, and micelles made with phospholipids or amphiphilic polymers.[
+ 
+] The encapsulated cargo best suited for each of these assemblies is dependent on the hydrophobicity of the underlying material chemistry, as well as the fabrication method. Lipid particles like liposomes and lipid nanoparticles (LNPs) have gained notoriety due to their rapid commercialization during the COVID‐19 pandemic as stabilizing nanocarriers for mRNA vaccine sequences, and their ability to codeliver encapsulated compounds of different hydrophilicities by constructing multilamellar complexes.[
+ , , 
+] Polymer particles are a more diverse class that encompasses micelle‐like designs, solid matrix spheres, and hyperbranched dendrimers, but which can all generally act to encapsulate one or multiple compounds[
+ 
+] using fabrication techniques where the compound is physically mixed with the solubilized polymer before subjecting it to discrete particle formation via bulk emulsification,[
+ 
+] microfluidics,[
+ 
+] or nanoprecipitation methods.[
+ , 
+] Deciding what materials to use for the engineering of encapsulating particle platforms is therefore a balancing act between considering the degree of compatibility with the desired cargo, material architecture, and target delivery profile to maximize immune cell modulation
+Loading of immunosuppressants into synthetic carriers is thereby centered around biomaterial‐mediated precision pharmacokinetics to mitigate some of the known issues with systemic administration of these drugs. For example, small molecule drugs used in the clinic such as mycophenolate mofetil and tacrolimus (an immunosuppressive agent used for prophylaxis of organ rejection post‐transplant) have been conjugated to fatty acids to form NPs to protect against liver transplant rejection and prevent immune cell infiltration into the graft.[
+ 
+] Other platforms have exploited the versatile ability of biomaterials to codeliver multiple compounds in a modular fashion, by implementing two sizes of microparticles (either capable or incapable of being phagocytosed, and each size encapsulating a different immunosuppressive drug) to target tolerogenic dendritic cells capable of suppressing T cell proliferation.[
+ , 
+] Additionally, the specificity of this approach can be improved by implementing targeting motifs such as antibodies chemically linked to the particle surface to serve as selective tethers to features expressed by cells on the target site. The Cheng groups have taken advantage of this approach to deliver encapsulated tacrolimus using PLGA–PEG microparticles conjugated to a monoclonal antibody specific for an epitope highly and specifically expressed in the high endothelial venules of lymph nodes. This allowed for these larger particles to home to the draining lymph nodes and to directly abrogate T cell activation from circulating heart allograft antigen delivered by APCs.[
+ 
+]
+
+Nevertheless, the rate at which a compound is released can only be modulated to a certain extent, and more stringent specificity toward certain cell populations must be established through other means. Biomaterial carriers can be made responsive to the presence of desired cell populations by having their release profiles dictated by molecular dynamics involved in the pathology of disease or alloreactivity rather than general release methods. Drug release profiles can then directly correlate with the oscillating intensities of autoimmune diseases like relapsing multiple sclerosis, or in the case of transplantation, can adopt a decaying release profile over time that depends on the proximal activity of known effector immune populations involved in graft rejection. Illustrating this is the Liang group's amphiphilic peptides that spontaneously assemble into nanofibers via supramolecular interactions, eventually entangling into a hydrogel. The hydrogel undergoes solubilization when certain peptide motifs are phosphorylated by the same protein tyrosine kinases that propagate intracellular signaling after T cell receptor ligation,[
+ 
+] thereby enabling faster release of encapsulated tacrolimus only in the presence of activated T cells.[
+ 
+] The array of biomaterial carrier architectures centered on the principle of the depot effect altogether affirms the ease of fabrication and versatility of this approach. Yet, this strategy remains constrained by practical engineering limitations on therapeutic encapsulation, which limits their longevity and adds complexity by requiring frequent dosages that must then be optimized between patients when considering translation.
+
+2.3.
+
+## Cellular Encapsulation, Immunoisolation, and ImmunoCloak to Prevent Rejection
+While current biomaterials for inducing transplant tolerance typically provide some immunological signal, its first application was predominantly in immunoisolation. Like organ transplantation, cell transplantation offers the potential for lifelong therapy, often involving minimally invasive surgery with fewer associated risks and complications. The key requirements of this transplant scenario involve providing a highly oxygenated and nutrient‐rich microenvironment for a small tissue, but also ensuring systemic bioavailability of secreted small molecules and protection against the surveilling recipient immune system. A biomaterial “shell” acting as a size‐exclusionary shield against larger cellular threats while enabling diffusion of essential small molecules elegantly fulfills these demands. The restoration of endogenous insulin production through cellular therapy has been an appealing approach for treating type 1 diabetes since the early 1970s. To this end, Lim and Sun first microencapsulated murine islets in crosslinked alginate membranes, exploiting the porous microarchitecture of the natural biomaterial to allow for a bidirectional flow of nutrients and glucose from the extracellular space and secreted insulin from within the capsule.[
+ 
+] This approach has since been refined to allow for orthogonal fine‐tuning of capsule mechanical properties,[
+ 
+] chemical modification of polymers to enhance mechanical stability,[
+ , 
+] and the incorporation of immunosuppressive chemokines like CXCL12.[
+ 
+] These advancements matured immunoisolation into a state where it could be feasibly translated into the clinical space,[
+ 
+] but human trials with transplanted cadaveric islets in alginate microspheres resulted in a lukewarm outcome where hypoglycemia was ameliorated but exogenous insulin was still required.[
+ , 
+] These disappointing results were attributed to the interference of fibrotic overgrowth around the sedimented aggregated microspheres within the intraperitoneal cavity that prevented metabolites from reaching the encapsulated islets, with this being especially observable in bipedal recipients.[
+ 
+] Recent efforts have tested alternative implantation locations like the bursa omentalis and other microsphere materials to help mitigate the fibrotic foreign‐body response.[
+ , , , , , 
+] However, a continuing lack of evidence for operational graft tolerance with encapsulation‐based immunoisolation methods for islets and even more limited success with other small cell clusters as porcine fetal liver fragments in a hepatic failure animal model[
+ 
+] has underlined a need for more refined and scalable technologies.
+To decrease transplant volumes, numerous groups have pioneered microencapsulation techniques to minimize empty space and improve metabolic profiles, thereby enhancing cellular viability. In an example of this, microfluidics platforms and water–oil phase flow‐focusing have been used to generate PEG‐maleimide microgels each encapsulating one to two islets, thereby dramatically decreasing the diameter of these particles by several hundred micrometers relative to alginate microspheres, as well as enabling straightforward functionalization of the synthetic polymer backbone with cell adhesion peptides to further transplanted islet survival and vascularization.[
+ 
+] The Tomei group refined the hydrodynamic and geometric conditions of their microfluidics system to achieve conformal coating, in which flow‐focusing individually enveloped islets in thin micrometer‐scale PEG‐maleimide hydrogel shells.[
+ , , , 
+] This reduces the required transplant volume by nearly 200 times as compared to microencapsulation, and with the added benefit of selective permeability against recipient IgG antibodies capable of complement activation and antibody‐mediated rejection, but not against smaller nutrients and insulin. Transplant of conformally coated human islets into diabetic immunocompromised mice culminated in complete diabetes reversal, but more mixed results were seen with transplant into immunocompetent syngeneic rats and xenogeneic NHPs.[
+ 
+] In contrast, the Ma group chose a tubular structure where islets were encapsulated in alginate hydrogels cylindrically surrounding nylon sutures or filled within nanofibrous electrospun silicone‐polycarbonate‐urethane sleeves.[
+ 
+] In the latter case, the nanofibrous outer layer lent greater mechanical robustness that allowed it to be directly handled by laparoscopic forceps during transplantation, but like conformal coatings, failed to protect islets in challenging xenogeneic transplants in larger animal models.[
+ 
+] Despite this, a markedly different outcome was observed with ovarian tissue double encapsulated within an immunoisolating PEG hydrogel, formed by an inner degradable core placed within a nondegradable outer hydrogel. In this context, both allografts and human xenografts were able to survive long‐term in immunocompetent alloantigen‐sensitized mouse models.[
+ , 
+] These divergent results between two types of allograft tissue highlight the tissue‐dependent and model‐specific complexities in engineering materials for tissue delivery. Ultimately, current immunoisolation strategies generally cannot completely inhibit indirect activation of the recipient immune system: in which low‐molecular‐weight shed alloantigen can diffuse out, be uptaken by CD8a+ APCs, and cross‐presented to cognate CD8+ T cells, driving an inflammatory microenvironment that antagonizes the viability of even coated grafts.[
+ 
+] This could present a greater challenge in an allograft setting, where graft rejection is primarily mediated by T cells as compared to xenografts, where rejection is mostly driven by innate immune cell activity responsive to antibody‐driven cellular cytotoxicity as facilitated by the humoral response.[
+ , 
+]
+
+A recent technology relying on the same principle of concealing graft alloantigens was described by Stubenitsky et al., in which they introduced ImmunoCloak: a bioengineered nonimmunogenic membrane interface film comprised of components typically found in native ECM as type IV collagen, fibronectin, laminin, and glycosaminoglycans.[
+ 
+] Since then, the group has expanded this technology to confront rejection of vascularized solid organ transplants typically initiated by graft endothelial cell antigen recognition or alloantibody production,[
+ , , 
+] showing it does not occlude vessels nor inhibits renal function, while delaying rejection of transplanted kidneys without systemic immunosuppression.[
+ , 
+] The clinical translatability of ImmunoCloak and other immunosuppressive vessel augmentation procedures[
+ 
+] remains in question, as these methods are proposed as extensions to existing protocols for cold storage preservation or normothermic machine perfusion[
+ 
+] that currently face challenges of their own, including delayed graft function from damage to the graft endothelium,[
+ , 
+] cold ischemic injury,[
+ 
+] and an increased risk of contamination for organs kept ex vivo.
+
+3.
+
+## Biomaterials for Establishing Self‐Sustained Tolerance
+Considering the transient nature of the depot effect, delivering compounds that establish a self‐sustaining tolerogenic microenvironment can be more advantageous for achieving long‐lived operational tolerance. This premise is built upon the discovery of a unique subset of CD4+ T cells that control endogenous tolerance: Tregs. Initially discovered in groundbreaking experiments delivering anti‐CD4 monoclonal antibody,[
+ , 
+] these FoxP3+, CD45RBLO, and CD25+ T cells are capable of reconstituting allogenic graft tolerance when adoptively transferred into previously T‐cell depleted or immunosuppressed naïve mice syngeneic to the Tregs.[
+ , 
+] These cells can suppress T cell effector function via presentation of coreceptors such as cytotoxic T‐lymphocyte‐associated protein 4 (CTLA‐4) and PD‐L1, surface molecules known to lead to suppression of activity following binding, and secretion of transforming growth factor‐β1 (TGF‐β1) and IL‐10, cytokines which inhibit APC function and promote anergy of other effector T cells.[
+ , 
+] Equipping biomaterials with the necessary chemical cues to enhance Treg differentiation (creating inducible Tregs, or iTregs) opens a novel possibility for re‐educating the recipient immune system to suppress alloreactivity.
+3.1.
+
+## Biomaterials to Enhance iTreg Recruitment and Functional Stability In Situ
+Boosting Treg cell numbers in the local environment holds clear appeal for inducing transplantation tolerance, as it can address the hurdles associated with enhancing the efficiency of ex vivo Treg expansion and maintaining the functional quality of the resultant cells. Natively, Treg generation from naïve CD4+ precursors in the periphery is contingent on a specific milieu of soluble and intercellularly presented signals that is carefully arranged across space and time over the course of a local immune response (Figure
+ ). The generation of alloantigen‐specific Tregs is crucial for efficacious treatment of transplant tolerance, as they are significantly more potent at protecting grafts from effector‐cell mediated cytotoxicity than polyclonally expanded Tregs.[
+ 
+] For clinical strategies as autologous infusion of expanded Tregs, the usage of alloantigen‐specific cells would theoretically result in a tenfold reduction in the number of cells necessary to confer therapeutic effects in a human transplant setting as compared to polyclonal cells. The intrinsic rarity of this alloantigen‐specific subpopulation (constituting only 1–10% of the total Treg pool) has motivated the use of ex vivo expansion or chimeric antigen receptor engineering of isolated recipient T cells maintained under complex tolerizing cultures with allogeneic donor antigen presenting cells or B cells to select for alloantigen‐specific clones. However, a major challenge is the need for high numbers of cells for efficacy given the obstacle of cell clearance following systemic infusion.[
+ , 
+] To this extent, the Shea group took advantage of their PLGA scaffold's ability to forcibly colocalize cells and coseeded allogeneic islets and iTregs. These iTregs were “preeducated” to regulate effector T cells targeting islets by exposing naïve CD4+ T cells in vitro to APCs, TGF‐β1, and islet antigen peptide (Figure
+ ). This approach protected against the onset of diabetes for a longer period than blank scaffold controls in nonobese diabetic (NOD) mouse recipients. Surprisingly, their construct also conferred systemic tolerance from implanted iTreg education of host Tregs against the primed islet antigen and other islet antigens through infectious tolerance.[
+ , 
+] Innovative new strategies have looked to hijack endogenous pathways for skewing responses toward Treg development.[
+ , 
+] Treg cells exhibit significant expression of the interleukin 2 receptor α‐chain (IL‐2Rα; CD25) that completes the high‐affinity trimeric IL‐2R complex along with IL‐2Rβ (CD122) and IL‐2Rγc (CD132), yet they depend on IL‐2 generated by activated T cells.[
+ 
+] Clinically, low doses of IL‐2 have demonstrated selective enrichment of Tregs over effector T cells.[
+ , 
+] However, a significant limitation of this approach is the precise delivery of IL‐2 to Tregs at the appropriate site and time, as its systemic administration can trigger the simultaneous activation of other proinflammatory cells.[
+ 
+] The Azzi group has devised a clever approach to address the spatiotemporal constraints of IL‐2 therapy. They have developed redox‐sensitive nanogel backpacks that carry IL‐2 on the surface of ex vivo expanded antigen‐specific Tregs. IL‐2 is selectively released under conditions of high cellular metabolic activity concomitant with proinflammatory microenvironments, therefore helping prevent premature nonspecific release of cargo (Figure  ). These nanogel‐conjugated Tregs have been demonstrated to suppress in vivo alloimmunity to a greater extent than conventional ex vivo expanded Tregs; yet, as a drug delivery system, this technology has limitations in terms of longevity, as there is a finite amount of IL‐2 that can be delivered. Nonetheless, this approach remains intriguing, and it is crucial to determine if this operational tolerance is antigen‐specific by challenging with third‐party grafts.[
+ 
+] Overall, biomaterials can play a unique role in delivering cell therapies as they can significantly improve retention, augment the phenotype of cells in situ, and aid in lowering the critical mass of cells necessary for therapeutic efficacy.
+ Despite the success in Treg generation protocols ex vivo, the widespread adoption of these approaches is limited due to remaining concerns about their efficiency as well as the resulting target cell population's sterility, purity, and function due to the necessary inclusion of feeder cells.[
+ , , 
+] General suboptimal antigen exposure or chronic exposure to certain types of antigens present on parasites and helminths associated with an anti‐inflammatory Th2 response can predicate initial iTreg differentiation.[
+ 
+] This initial pool of iTregs then secrete cytokines that more expediently drive further iTreg development as an integrated positive feedback loop. Delivering these same cytokine signals using biomaterial carriers are thereby a compelling means of efficiently repolarizing a local existing immune response toward tolerance without the need for recapitulating the entirety of endogenous proiTreg signaling dynamics. Implantable biomaterials with heterogeneous structures and modular components offer a promising avenue for the localized delivery of these signals. Moreover, they can leverage the body's own cellular machinery for the in situ generation of sought‐after iTregs. Renowned for their ability to promote the infiltration of circulating immune cells, bulk alginate hydrogels endowed with porosity using sacrificial porogens and incorporated with gold NPs coated with GM‐CSF chemokine were first noted to preferentially attract immature dendritic cells. Theorizing that these dendritic cells could present locally entrapped antigen peptide in a noninflammatory and protolerogenic context, the bulk alginate hydrogel was directly functionalized with a known diabetogenic islet‐specific BDC2.5 peptide. When implanted into NOD mice, the authors observed a significantly greater gel‐ and islet‐localized enrichment of FoxP3+ Tregs indicative of functional antigen presentation and endogenous positive selection of a functionally superior Treg population.[
+ 
+] Expanding upon this concept by using a particle architecture to facilitate minimally invasive delivery and substituting an autoantigen with a transplant alloantigen, the Jewell group experimented with direct intralymph node injection of 3 µm diameter PLGA microparticles (taking advantage of sized mediated entrapment) encapsulating MHC antigen and rapamycin as a localized Treg‐expanding signal through mTOR (mammalian target of rapamycin) inhibition. This approach extended normoglycemia after pancreatic islet transplantation in an allograft mismatched model (Figure  ).[
+ 
+] Similarly, the Stabler group has engineered 50 µm diameter degradable PLGA microparticles with encapsulated TGF‐β1 whose larger size helped inhibit phagocytosis and consequent premature clearance from graft sites. These specific size constraints when cotransplanted with healthy allogeneic islets into chemically induced diabetic mice, these microparticles led to normoglycemia for up to three months. The observed tolerance was facilitated by induced Tregs in the proximal microenvironment.[
+ 
+] The success of this platform can be attributed to the synergy between the size of the carrier alongside the cytokine cargo, as mitigation of APC phagocytosis ensured that microparticles would act as extracellular depots for releasing TGF‐β1, as its activity is dependent on engagement of the native molecule with membrane‐bound receptors and would otherwise have attenuated or completely inhibited protolerogenic signaling cascades if internalized.
+Expanding upon single‐compound encapsulating particle platforms, the Little group was inspired by in vitro experiments proving that IL‐2, TGF‐β1, and rapamycin were all conducive toward Treg development.[
+ 
+] This led to the engineering of a combinatorial Treg‐enriching delivery platform, in which three types of 10–20 µm diameter microparticles each uniquely encapsulating IL‐2, TGF‐β1, or rapamycin were pooled and administered into MHC‐mismatched transplanted rat hindlimbs (Figure  ). Water‐soluble compounds as IL‐2 and TGF‐β1 were prepared using a double‐emulsion encapsulation method, while hydrophobic rapamycin was more directly encapsulated using a single‐emulsion method. Ultimately, these fabrication methods differentially impacted loading efficiency alongside structural characteristics of the microparticles, which then informed unique drug release profiles. Namely, the more porous IL‐2 and TGF‐β1 microparticles experienced rapid bolus release followed by slower plateaued release alongside a cumulative release amount on the order of nanograms per milligram of particles over two months, while the smooth‐surface rapamycin microparticles exhibited continuous release of a cumulative drug amount on the order of micrograms per milligram of particles.[
+ 
+] Animals treated with these three microparticle types experienced prolonged allograft acceptance concomitant with an increased local FoxP3+ Treg population that functionally exhibited greater donor‐specific T cell suppression.[
+ 
+] More recently, they have used a similar microparticle platform for the gradient delivery of Treg‐recruiting chemokine CCL22.[
+ 
+] Analysis of the cellular infiltrate revealed an accumulation of Tregs at the hindlimb graft site, along with a decrease in the number of effector CD4+ T cells. Shifting this local immune cell ratio toward Treg phenotype predominance has been demonstrated in in vivo rodent models to induce graft tolerance. However, it has not been investigated whether the Tregs recruited by biomaterial‐mediated delivery of CCL22 are specific to donor‐derived antigens. Such specificity could enhance their capability to suppress alloreactive host T cells responding to these antigens. These studies also emphasize that material selection is also a critical innate physicochemical parameter considered in engineering Treg‐inducing biomaterials. Namely, all of the proposed microparticle technologies mentioned here rely on bulk erosion and hydrolytic degradation of PLGA, which results in imprecise control over the release kinetics of encapsulated compounds that consequently tend toward rapid burst release profiles.[
+ 
+] While other PLGA microparticle platforms advertise more sustained release profiles over three weeks, such behavior can be influenced through material‐mediated approaches only by modulating the molecular weight or the lactic acid‐to‐glycolic acid ratio of the base polymer backbone as a means of slowing or accelerating the rate of water infiltration, which yields inconsistent impacts on release kinetics in practice. Future research on microparticle platforms for colocalizing multiple soluble therapeutics should investigate ways of fine‐tuning the degradation kinetics of the underlying biomaterial, as was done with hydrolytically degradable hydrogel microparticles,[
+ 
+] to probe how individually varying each therapeutic's release profile for simultaneous or more staggered release could result in enhanced robust protolerogenic effects. Other research groups have also investigated biomaterials that selectively and responsively degrade when exposed to proinflammatory metalloproteases or elevated acidity, but applications of these materials in the context of delivering endogenous signaling cytokines to promote organ transplant survival have not yet been extensively studied.[
+ , , 
+]
+
+Another tangential strategy is to cotransplant tolerogenic dendritic cells, which present antigen with downregulated expression of critical CD80/CD86 costimulatory ligands to T cells to induce the latter into anergy or an induced Treg state in situ. Numerous studies, many of which have progressed from mouse to early‐phase human clinical trials in Europe and United States, have demonstrated the potential for tolerogenic APCs to be expanded in vitro from syngeneic donor or autologously derived bone marrow monocytes for infusion into the recipient before transplant.[
+ , , , , 
+] Recently, biomaterials have been explored to better localize these tolerogenic APCs rather than contend with the unpredictability of systemic infusion. Indeed, previously mentioned PEG–MAA hydrogel scaffolds carrying islet antigen‐primed tolerogenic APCs showed significantly increased FoxP3+ Treg induction, but only slightly delayed onset of recipient immune system activation with a spontaneously diabetic mouse model (Figure  ).[
+ 
+] Interestingly, the microarchitecture of the PEG–MAA material was deemed not to be the key factor contributing to the observed immunomodulatory effects, but rather its intrinsic surface chemistry and charge profile theorized to promote adsorption of a specific milieu of complement proteins leading to immune signaling pathway modulation, and as a result, differential recruitment of neutrophils and subsequent polarization of APCs.[
+ 
+] However, scaffold porosity is a parameter with significant sway over shaping the trajectory of the infiltrating immune response as demonstrated by the Segura group's studies on how increasing the average pore size of their granular MAP gels resulted in preferential acute recruitment of neutrophils and proregenerative M2‐biased antigen‐presenting macrophages that led to less fibrotic skin wound repair.[
+ 
+] Substantial work therefore remains in potentially translating these findings on optimal scaffold material, porosity, and encapsulated tolerogenic cell cargo to the improvement of outcomes in allogeneic and xenogeneic transplant models specifically.
+
+3.2.
+
+## Biomaterials Biomimicry for Reprogramming of Infiltrating Immune Cells
+A better understanding of the mechanisms of the immune system has led to the development of immunotherapeutics that mimic endogenous pathways. An example of one of these mechanisms is APC‐mediated antigen cargo representation to maintain native peripheral immune tolerance. Antigen‐presenting cell‐mediated clearance of apoptotic cell debris is immunologically “silent” without activation of a proinflammatory response, in contrast to the clearance of necrotic cells, such that local tolerance directed toward antigens expressed by the apoptotic cells is established.[
+ 
+] Substituting these self‐antigens with allogeneic antigens while preserving the same tolerogenic programming could be an efficacious conditioning treatment for a transplant recipient. Inspired by the work of the Miller group who used ethylenecarbodiimide (ECDI)‐fixed splenic APCs,[
+ , , , 
+] Hunter et al. engineered biocompatible, degradable PLGA nanoparticles that mimicked the size of apoptotic cell fragments.[
+ 
+] These synthetic apoptotic cells were used to promote allogeneic murine islet graft survival when paired with low‐dose rapamycin through indirect recipient APC representation of conjugated antigen leading to reactive T cell deletion (Figure  ).[
+ 
+] Biomaterials can also exhibit biomimicry of cellular activities and interactions, which can aid in circumventing the need for uptake and processing for function. By conjugating protein ligands known to be expressed by parenchymal, stromal, or immune cells, and which may participate in specific signaling pathways upon ligation, the biomaterial itself can become the bioactive therapeutic rather than just act as a passive stabilizing carrier. Additionally, surface presentation of proteins for biomimicry has the advantage of allowing access to critical protein structures and differential functions compared to their soluble form.[
+ , , 
+] As a result, surface‐conjugating immunomodulatory proteins to biomaterial carriers with parameterizable shape and size can better recreate the biophysics of native cell transmembrane expression and enhance desired downstream tolerogenic effects, or even unlock entirely novel effects. This new paradigm of precision nanomedicine wields exciting implications for transplant tolerance, with recent research demonstrating the impact of particles that functionally recapitulate the tolerogenic processes of both APCs and Tregs. For example, the Stabler group attempted to reproduce the phenomenon of infectious tolerance, in which tolerance is conferred from one population of Tregs primed against a specific antigen to another population of naïve T cells responsive to the same antigen. The proposed native mechanism involves colocalization of the Treg and the naïve T cell to the same APC, whereupon TGF‐β1 expressed on the surface of the Treg cell engages with receptors on the naïve T cell to suppress activation and promote de novo FoxP3 expression.[
+ 
+] An artificial analogue was created by conjugating TGF‐β1 to the surfaces of glass beads, such that the synthetic carrier acts as an engineered Treg‐APC complex to boost Treg generation from naïve precursors when supplemented with antigen peptide (Figure
+ ).[
+ 
+] Biomaterial mimicry of antigen presenting cells is also not only restricted to biodegradable polymers and associated chemistries. More robust control over antigen ligand display was achieved by the Jewell group using 10 nm diameter CdSe/ZnS quantum dots, which were chosen as the underlying biomaterial architecture due to its optical properties for tracking purposes, its extremely small size enabling lymphatic drainage, and its unique metal‐affinity‐driven coordination chemistry driving precise dictation of surface ligand density.[
+ 
+]
+
+ A more active approach to engineering an immunosuppressive microenvironment may be to directly provide a negative signal to either naïve or alloreactive T cells. Two critical pathways fitting these criteria are CD95/Fas protein to CD95L/Fas ligand (Fas‐FasL) and programmed cell death protein 1 to programmed cell death 1 ligand 1 (PD1–PD‐L1). Expression of FasL and PD‐L1 has been implicated in the maintenance of immunologically privileged sites, tumor cell immune evasion, peripheral immune homeostasis, and cytotoxic T cell effector activity due to their triggering of receptor cell apoptosis (for FasL ligation) or suppression (for PD‐L1 ligation) upon binding.[
+ , , 
+] More importantly, like TGF‐β1, both ligands exhibit differential signaling effects between their bound and soluble isoforms. They are thereby poised to be immobilized to carriers to provide unique immunomodulatory outcomes that cannot be replicated by free ligand, such as forcibly causing T cell death or exhaustion local to the transplant site. Indeed, only the bound FasL variant can transmit its death signal to activated Teff cells upregulating Fas receptor.[
+ , , 
+] Initial iterations of engineered membrane‐bound FasL expression included transfection‐based methods[
+ 
+] and physically conjugating streptavidin‐bound FasL (SA‐FasL) to biotinylated islets, which reduced the proliferative capacity of alloreactive Teff cells and extended graft survival by driving FoxP3+ Treg conversion and predominance over effector T cells (Teffs) in the presence of TGF‐β1.[
+ , 
+] Expanding the scope to improving solid organ transplant outcomes in general, FasL coating of donor T cells was recently found to abrogate graft‐versus‐host disease (common after hematopoietic cell transplantation procedures for mixed chimerism induction) via autocrine Fas‐FasL ligation on alloreactive donor Teff cells.[
+ 
+] Substituting cells with synthetic carriers is the latest evolution of FasL presentation for transplant tolerance, bringing about more precise modulation of ligand presentation while inching further toward translational realization. The García and Shea groups attached SA‐FasL to biotin‐terminated PEG‐maleimide microgels and to biotin‐PLGA scaffolds, respectively (Figure  ).[
+ , 
+] When cotransplanted with allogeneic islets and transient rapamycin, their respective approaches resulted in graft survival rates comparable to previous efforts with rapamycin‐supplemented FasL‐coated islets. Remarkably, the García group has extended this to a preclinical model of chemically induced diabetic nonhuman primates. Single donor islets transplanted into the omentum of cynomolgus monkeys with SA‐FasL‐presenting microgels, under 3 months of rapamycin monotherapy, culminated with a 70% reduction in exogenous insulin and graft survival over 180 days,[
+ 
+] highlighting the promising safety and efficacy of this biomimetic immunomodulatory approach.
+Like Fas‐FasL, the PD1 to PD‐L1 signaling axis has garnered attention in the transplant tolerance space due to its role in abrogating chronic allograft rejection through several potential avenues,[
+ 
+] including destabilizing the immunological synapse that forms during T cell activation,[
+ 
+] generating de novo FoxP3+ iTreg cells from CD4+ T cells by blocking the Akt‐mTOR signaling pathway[
+ 
+] and facilitating afferent migration of iTregs into draining lymph nodes.[
+ 
+] Thus, surface‐presenting PD‐L1 can prove highly effective for inducing transplant tolerance by targeting one of the above‐mentioned mechanisms in lymphocytes or other immune cells. To this end, we together with the García group have engineered streptavidin‐bound PD‐L1 (SA‐PD‐L1) tethered to the surface of PEG microgels for islet transplantation. We have demonstrated graft survival past 100 days post‐transplant, which correlated to a dependence on the activity of Tregs at the transplant site, as well as a unique local upregulation of anergy markers in the CD4+ cell population and a local increase in M2 anti‐inflammatory macrophages over time following transplant.[
+ 
+] We have since expanded this to autoimmune models, whereby PD‐L1 presentation could abrogate autoimmunity in a subset of syngeneic transplant recipients while also delaying allograft rejection in a model of combined alloreactivity and autoreactivity.[
+ 
+] More recently, we have also demonstrated that varying the length of the linker used for PD‐L1 presentation can boost the immunoregulatory function of the protein both in vitro and in vivo.[
+ 
+] The observed effect cannot be solely attributed to protein clearance, as the kinetics of protein presentation remained unchanged, and the effect was limited to recruited immune cells, with no alterations observed in distal lymphoid organs. It remains to be determined whether this new biomaterial parameter translates to enhancements in graft survival when applied to the design of therapeutics, or whether it enables the titration of the immunomodulatory protein to lower dosages for comparable efficacy. Lastly, future development of biomaterial technologies exploiting biomimicry of the aforementioned pathways could be expanded to consider intrinsic particle morphology, and mechanics of signal presentation to further optimize T cell engagement for these signal‐delivering biomaterial carriers, as shown by the Green group's findings that ellipsoidal particles more potently engaged with T cells.[
+ 
+] Moreover, these strategies have been primarily applied to cellular transplantation, particularly in islet transplantation. An important consideration for broadening the scope and applicability of these strategies is to validate them in the context of transplanting other types of microtissues or with solid organ transplants, such that they are initially perfused with or codelivered with biomaterial carriers of costimulatory molecules.
+B cell‐mediated humoral immunity is a substantial contributor to allograft rejection, providing proinflammatory soluble cytokine and costimulatory ligand signaling to cytotoxic T cells to compound their activation, as well as secreting donor graft‐specific antibodies that may accelerate rejection via antibody‐dependent cellular cytotoxicity.[
+ 
+] The approaches highlighted so far have primarily focused on T cell‐dependent pathways of immune rejection as an upstream target for inducing tolerance. This is because once antibodies involved in ABMR are detected, the rejection might be at an irreversible stage, as evidenced by the partial success of B cell‐focused therapies in preventing allograft rejection and achieving tolerance.[
+ 
+] Nevertheless, with the emerging knowledge of regulatory B cells having immunosuppressive effects and their ability to migrate and activate within the graft, it is important to highlight some upcoming strategies in this area. A major target for B cell approaches within the biomaterials field has been the engineering of local immune niches for therapeutics, as well as the controlled release of biologics for vaccination strategies.[
+ , 
+] However, some emerging strategies have focused on B‐cell modulation efforts through the targeting of B‐cell inhibitory coreceptors. CD22 is a receptor expressed by B cells that inhibits antibody production and promotes apoptosis when bound to CD22L ligand. In an effort to translate this inhibitory function, LNPs were engineered to copresent CD22L and autoantigens implicated in several autoimmune diseases. Delivery of this biomaterial system has shown promise in multiple murine models, significantly reducing mortality following antigen challenge.[
+ , 
+] To target both T and B cells, these LNPs have also been used to encapsulate rapamycin along with the antigen and CD22L signal, resulting in the alleviation of arthritis symptoms in a mouse model.[
+ 
+] Moreover, the same team targeted another inhibitory coreceptor commonly expressed by B cells, Siglec‐G, by engineering a high‐affinity cognate ligand. By immobilizing the ligand alongside antigen on LNPs, the group demonstrated that this biomaterial platform for combinatorial signaling inhibited BCR‐mediated activation in both short‐ and long‐lived B cells.[
+ 
+] A deeper interrogation of the molecular basis of CD22 ligation has been conducted through biomimetic polymeric antigens that display a BCR‐binding epitope and a CD22 ligand. Specifically, defining a mechanism for antigen‐initiated signaling through CD22 to modulate B cell suppression has been largely obfuscated due to interference from known background cis interactions between CD22 and sialylated glycans present on the B cell surface. By using synthetic multivalent polymer antigens, researchers were able to instead isolate the contributions of trans interaction in CD22 signaling, which demonstrated that inhibition of B cell activation can be achieved with both cis and trans interactions through this pathway.[
+ 
+] This finding introduces new opportunities for glycoengineering to alter the immunogenicity of antigens and skew immune responses toward effective suppression. Another variable that has recently gained prominence in the field is the spatial organization of ligand and receptor presentation, and how it may contribute to the regulation of immune signaling.[
+ 
+] In B cells, ligand mobility significantly affects spreading dynamics, the formation and movement of receptor clusters, actin cytoskeleton organization, and even the level of signaling activation.[
+ 
+] Taking advantage of the active role of the cytoskeleton in propagating signaling, the Scherer group engineered polyisocyanopeptides (PICs), multivalent polymeric scaffolds loaded with autoantigenic peptides and a trisaccharide CD22 ligand.[
+ 
+] Reduced phospho‐Syk expression upon B cell binding with the antigen‐loaded PICs demonstrated the capacity of the multivalent scaffold to more robustly interfere with BCR activation as compared to previously assessed tetrameric antigen. These advancements underscore the potential for novel biomaterial architectures to augment the therapeutic outcomes of coreceptor ligand biomimicry.
+While many efforts have focused on studying CD22 due to its potent inhibitory activity, it is worth noting that clinical data with anti‐CD22 monoclonal antibodies, such as epratuzumab, have been less than stellar in decreasing the activation of B cells in patients with systemic lupus erythematosus.[
+ 
+] It is also important to recognize that these coreceptors are expressed differently during the development of the B cell lineage. CD22 is most expressed on developing B cells, and less so on plasmablasts and plasma cells.[
+ 
+] Plasmablasts secrete low‐affinity antibodies but are also responsible for forming long‐lived plasma cells that produce the majority of antibodies involved in immune surveillance, including those directed against protein antigens as HLA.[
+ 
+] While the source of antibodies constituting the humoral component of transplant rejection remains elusive, the fact that current immunotherapies do not target these known B cell populations responsible for antibody generation suggests the potential for a more targeted approach. B cell activating factor (BAFF) is a member of the tumor necrosis factor family and plays an indispensable role in B cell maturation. BAFF binds to three separate receptors—BCMA (B‐cell maturation antigen), TACI (transmembrane activator and calcium‐modulator and cyclophilin ligand (CAML) interactor), and BAFF‐R (BAFF receptor; BR3).[
+ 
+] BAFF‐R plays a crucial role in B‐cell activation and differentiation into memory B cells and plasmocytes.[
+ , 
+] However, the roles of BCMA and TACI are less well understood. TACI is generally thought to have a negative role in B cell signaling, as TACI‐deficient mice present an enlarged B‐cell pool that may be linked to an autoimmune phenotype.[
+ , 
+] Moreover, through a currently unknown mechanism, TACI ligation can induce the maturation of regulatory B cells capable of secreting immunosuppressive cytokines as IL‐10.[
+ , 
+] Notably, the expression of TACI is limited to memory B cells, plasmablasts, and plasma cells, making this receptor a compelling target for interfacing with and influencing the behavior of antibody‐producing cells. Adding to the excitement, TACI is also expressed on T cells,[
+ 
+] presenting a target for dual T cell and B cell immunomodulation. Overall, future functionalization of biomaterials with B cell coinhibitory receptor‐reactive ligands can serve to therapeutically augment both T cell‐independent and T cell‐dependent humoral responses to transplanted grafts.
+
+3.3.
+
+## Biomaterial‐Mediated In Situ Reprogramming of Immune Cells for Transplant Tolerance
+Many of the examples given thus far of tolerogenic biomaterials have been contingent on delivering a signal that indirectly modulates immune cell phenotype as the endpoint of an intracellular signaling pathway. Accordingly, they oftentimes provide insufficient expression of tolerogenic or suppressive gene programs in the face of antigen challenge, such that temporary host immune hyporesponsiveness to the transplanted graft is achieved, but not lasting operational tolerance. A longstanding goal in the field has been to instead use gene therapy to directly reprogram the functional and phenotypic characteristics of a cell. Previous approaches have involved retroviral vectors encoding allogeneic MHC,[
+ , 
+] as well as lentiviral and adeno‐associated virus vectors.[
+ , 
+] In all cases, the integration of the transgene into the recipient cell genome presents a challenge for clinical translation due to the increased risk of insertional mutagenesis and the cost associated with the technique.[
+ 
+] A safer alternative using biomaterials is mRNA carrier transfection, which in comparison, is transient in expression and thereby harbors much less risk for off‐target effects.
+To reconcile the need for lasting tolerance with a platform that can only briefly induce phenotypic change, inspiration has been taken from the cancer immunotherapy field by combining chimeric antigen receptor‐T cells (CAR‐T cells) with antigen‐specific infectious tolerance catalyzed by an initial pool of Tregs. Thus, CAR‐Treg cells have emerged as intriguing biologic tool that express engineered single‐chain variable fragment proteins recognizing an alloantigen to be tolerated in the recipient, while also expressing the characteristic immunosuppressive Treg cytokine and surface ligand profile (see Figure  for an overview of ex vivo CAR‐T cell engineering).[
+ 
+] Having shown potential for allogeneic skin and islet transplant in mouse and NHP models, research has pivoted toward developing mRNA delivery platforms for in vivo reprogramming of naïve recipient lymphocytes into CAR‐Tregs, rather than relying on inefficient in vitro expansion and transduction of CD4+CD25− Treg precursors.[
+ , , , 
+] The most promising classes of mRNA carriers thus far are charge‐altering releasable transporters (CARTs) that enhance endosomal escape of mRNA cargo,[
+ , 
+] and LNPs, which have advanced considerably in the clinical space and have exhibited selective multiorgan targeting potential with facile chemical modifications (Figure  ).[
+ , , , 
+] Laying the groundwork for mRNA‐induced CAR‐Treg therapy for transplant tolerance has been the Mitchell and Wender groups’ work in optimizing LNP and CART formulations respectively (by combinatorically screening different polyamine cores and alkyl chain lengths for LNPs and different ratios of saturated, unsaturated, and aromatic lipids for the lipid domains of CARTs) for specific delivery of mRNA into primary T cells and natural killer (NK) cells that ultimately induced strong CAR expression on both.[
+ , , 
+] Of note, the Whitehead group has demonstrated changes to the chemistry of these mRNA cargo vehicles that lead to uptake in typically inaccessible organs such as the pancreas, and which is contingent on initial macrophage uptake,[
+ 
+] revealing newfound possibilities for in situ reprogramming of recipient parenchymal, stromal, or immune cells to express tolerogenic surface ligands like PD‐L1 and FasL. Yet, the inverse would be as equally efficacious: selectively downregulating genes in effector cells involved in alloreactivity, such as inhibiting the release of proinflammatory cytokines associated with propagating a Th1 response like IFN‐γ or iNOS (inducible nitric oxide synthase), or costimulatory molecules necessary for T cell activation. Guided by this hypothesis, the Mitchell group recently built upon their LNP formulation for mRNA delivery to lymphocytes and tweaked the proportion of excipient “helper” phospholipids to create a derivative LNP composition optimized for coencapsulating CAR‐encoding mRNA and siRNA for silencing genes of interest. Critically, their dual RNA‐delivering LNPs were capable of simultaneously promoting CAR expression and significantly diminishing PD‐1 surface expression in primary human T cells, and with even greater transfection efficiency than single‐RNA encapsulating LNP compounds.[
+ 
+] Overall, in situ genetic reprogramming embodies an elegant solution to engineering operational tolerance, but it still must contend with looming logistical and regulatory obstacles. If these challenges can be solved through refinements made to delivery, specificity, and safety that move this technology beyond its current infancy, in situ reprogramming grants unparalleled mechanistic insight into tolerogenic immune programs with exciting potential to make transplant tolerance a reality.
+
+4.
+
+## Future Perspectives
+Immunomodulation has arrived at the threshold of translation for transplant tolerance through critical innovations in chemistry, materials science, and biophysics. Many native processes that steer the immune response have been recreated with impressive fidelity by engineered biomaterial constructs. However, a lingering deficiency across this anthology of work is that lasting operational tolerance has yet to be consistently proven. While many probable individual aspects of operational tolerance have been promoted by biomaterial‐mediated strategies, such as the alternative activation of innate immune cells and lymphocytes toward “protolerogenic” fates, a framework of what constitutes operational tolerance in terms of signals, gene programs, and detectable phenotypes has yet to be rigorously defined, although some headway has been made toward answering this question.[
+ 
+] It is therefore likely that the complexity of biomaterials for transplant tolerance will scale with the number of requisite changes to the genome, proteome, and metabolome observed during tolerance induction.
+Another critical consideration is the feasibility of certain biomaterial approaches in the context of the specific rejection pathology being targeted. Many examples presented here involve cellular or vascular composite grafts (e.g., skin, islets), which by virtue of their heterogeneity, are more susceptible to rejection than solid organ transplants. This enhanced immunogenicity has been attributed to the presence of resident T cells and APCs in the graft, with a rejection signature dominated by cytokines and chemokines characteristic of Teff cell activity. This unique environment might contribute to the success of some of the therapies described here that specifically target the reprogramming of Teff cells while refraining from including any antigen as part of their presentation scheme, as they are likely relying on a local endogenous source of antigen for the development of antigen‐specific tolerogenic responses. As a result, these strategies may be dependent on colocalization with the graft or delivery/drainage to lymph nodes proximal to the graft for maximal function. Instances that lack these options might encounter a higher bar for therapeutic efficacy. Compounding this is the fact that the heterogeneous composition of these grafts (including cells of interest, resident immune cells, endothelial cells, etc.) means that rejection of one component does not equate to rejection of the entire tissue. The intricacies of these simultaneous multilayered immune responses are challenging to unravel, and to our knowledge, have not been fully investigated in the context of the biomaterial approaches for graft protection as discussed above that predominantly utilize holistic metrics of graft function to benchmark effectiveness. However, parsing this complexity and better understanding the spatiotemporally heterogeneous timeline of rejection across an entire vascular composite or whole organ is crucial for engineering next‐generation biomaterial‐mediated antigen‐specific tolerance induction. This would lend itself well not only to the selection of rejection biomarkers for active targeting and therapeutic localization, but also for defining the timing and frequency of these therapeutic regimens, which currently rely on a mainly stochastic process.
+Certain strategies mentioned in this review are more generalizable across multiple transplant types, including for solid organ transplants that are compatible with interventions as ex vivo organ perfusion. New biomaterial strategies can complement and improve these existing clinical procedures by interfacing with the solid organ's endothelial cell interface to cultivate a sustained tolerogenic microenvironment upon first encounter by the recipient immune system. Such strategies include ImmunoCloak perfusion of the glycocalyx of graft vasculature. However, the most compelling future technologies for solid organ tolerization may lie in in vivo reprogramming strategies, which can confer tolerance to de novo tolerogenic cells capable of propagating beyond the initial population of immune cells. Regardless, a common necessity for all future research initiatives is cognizance of the large discrepancies in immune responses between rodents and humans. This strongly suggests that therapeutic efficacy studies should be conducted in larger, clinically relevant animal models or using in vitro models that incorporate human cells. As of now, biomaterials have proven to be a powerfully flexible toolkit for minimally invasive tuning of immunity, with paradigm‐shifting potential for improving human health in the context of organ transplantation and autoimmune disorders.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Acknowledgements
+This work was supported in part by the Juvenile Diabetes Foundation (Award No. 2‐SRA‐2022‐1274‐S‐B) to M.M.C. J.‐P.A.P. was supported by the University of Michigan Cellular Biotechnology Training Program, a National Institutes of Health Training grant (Award No. T32GM145304).
+
+## Biographies
+
+John‐Paul A. Pham is a Ph.D. student in biomedical engineering at the University of Michigan. He received a B.S. in bioengineering (biotechnology) from the University of California San Diego. His research interests focus on engineering immunomodulatory nanomaterials for minimally invasive treatment of autoimmune disease and improvement of transplant outcomes. His work is supported by the University of Michigan Cellular Biotechnology Training Program, a National Institutes of Health T32 fellowship.
+ 
+
+Maria M. Coronel earned her Ph.D. in biomedical engineering at the University of Florida and Clinical Translational Research Training from Emory University. She completed a postdoctoral fellowship at the Georgia Institute of Technology, where she was supported by the NIH ILET2 training grant and JDRF Postdoctoral Fellowship. As an assistant professor in the Department of Biomedical Engineering, and the Caswell Diabetes Center at the University of Michigan, Dr. Coronel's research is focused on biomaterials aimed at metabolic and immunological reprogramming for transplantation, as well as to probe and predictive the loss of immunological homeostasis in the context of autoimmunity.
+ 
+
+Pham J.‐P. A., Coronel M. M., Unlocking Transplant Tolerance with Biomaterials. Adv. Healthcare Mater.
+2025, 14, 2400965. 10.1002/adhm.202400965
+
+## References

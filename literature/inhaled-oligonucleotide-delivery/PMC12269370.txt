@@ -1,0 +1,926 @@
+pmcACS NanoACS Nano822acssdnnACS Nano1936-08511936-086Xwww.acsnano.orgpmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC12269370PMC12269370.112269370122693704057764410.1021/acsnano.5c039111ReviewTechnology
+Roadmap of Micro/Nanorobots
+6841089https://orcid.org/0000-0002-4468-6003JuXiaohui ),
+leading to a new understanding of the propulsion and collective behaviors
+of microrobots, demonstrating new capabilities, and offering exciting
+new opportunities.
+ 
+1.2
+
+## Early Efforts: Toward Nanoscale Locomotion
+and Navigation
+Major advances in manufacturing and nanotechnology
+have facilitated the fabrication of microscale devices capable of
+propulsion at small scales.
+ for more details).
+ a and b).
+Then, we introduce locomotion mechanisms in three different categories, i.e., chemical ( c), physical ( d), and biohybrid ( e) approaches. It is important to note that
+this Review does not follow a universal nomenclature for equations.
+Instead, parameters and nomenclature are defined as each equation
+is introduced.
+ 2.1
+
+## Theory of Locomotion at Low Reynolds Number
+2.1.1
+
+## Equations of Motion for Fluid Flow
+The incompressible
+flow of a simple fluid, including its response
+to a body moving within the fluid, can be described by the classical
+Navier–Stokes equations: is the statement
+of momentum conservation for the fluid; the terms on the left capture
+the acceleration (or deceleration) of the fluid elements while on
+the right, the term ∇p corresponds to pressure
+gradients and μ∇
+2
+u represents forces due to viscous friction. is the condition of mass conservation for
+incompressible flows, including all those where the mass density remains
+constant. To gain intuition in the case of a small-scale swimmer moving
+in a Newtonian fluid, it is useful to re-cast in a nondimensional form. With a characteristic
+velocity U and a characteristic length L, and anticipating a fluid flow dominated by the action of viscosity,
+it is standard to define the dimensionless variables (where tildes
+are used to imply dimensionless quantities):
+2.3
+ ũ=uU,∇̃=L∇,∂∂t̃=LU∂∂t,p̃=LμUp,f̃ext=L2μUfext
+
+The Reynolds number is a dimensionless
+number that compares the typical magnitude of inertial force density f
+
+i
+ = (ρU
+2)/L to viscous forces density f
+
+v
+ = (μU)/L
+2, and thus is given by:
+2.4
+ Re=fifv=(ρU2)/L(μU)/L2=ρULμ
+
+Using and , we can
+re-write the
+Navier–Stokes equation in a dimensionless form as follows:
+2.5
+ Re(∂ũ∂t̃+(ũ·∇̃)ũ)=−∇̃p̃+∇̃2ũ+f̃ext
+
+Micro/nanoscale swimmers have characteristics that almost always
+put them in the low Reynolds number regime: length scales of tens
+of micrometers or less and velocities in the order of tens of micrometers
+per second. These values indicate Reynolds numbers around 10–4 in water (or typically even lower). , leading to the incompressible
+(dimensionless) Stokes equation:
+2.6
+ 0=−∇̃p̃+∇̃2ũ+f̃ext
+
+2.7
+ ∇·ũ=0
+
+In the low Reynolds number regime, implies that viscous drag forces dominate
+inertial forces at small scales and the equations of motion become
+linear and time-reversible. and ) need to be accompanied
+by appropriate boundary conditions. Two types of boundary conditions
+are applicable for the locomotion of small-scale swimmers. The first
+one is the “kinematics” type where the deformation of
+the body is imposed and the resulting motion (i.e., swimming linear and angular velocities) is solved for using the
+fact that the micro/nanoscale swimmers are, in general, force- and
+torque-free. This is often the case for theoretical modeling, which
+allows us to obtain analytical predictions on model systems. a). b). One is the corkscrew mechanism of bacterial flagella where rigid
+helical flagellar filaments are rotated by specialized motors embedded
+in the cell wall. Another example is the wave-like deformation of
+flexible spermatozoa flagella. Less studied examples include neutrophils
+that exploit friction against surfaces to propel themselves, rolling
+along the endothelium lining the blood vasculature. In most cases,
+these biological examples have led to the design of bio-inspired swimmers
+in laboratory conditions, such as artificial bacterial flagella c and ). Catalytic reactions
+can be induced just by contact of a material (catalyst) with reagent(s)
+or by activating the catalyst with an external stimulus (e.g., light or electric field) to boost the chemical reaction. As we
+will see in the upcoming sections, there are several mechanisms proposed
+for the motion of catalytically propelled micro/nanomotors, which
+depend on several factors, e.g., size, shape, and
+composition. Other strategies exploit Marangoni effects, galvanic
+displacement reactions, ion-exchange processes, bipolar electrochemistry,
+or polymerization.
+ Some of the pioneering micro/nanomotors
+contained Pt or Ni a) (a more detailed description is given
+in ref , with each oppositely
+moving the particle. Other choices of parameters can easily produce
+a scenario where chemiphoretic forces dominate. Such situations, and
+the resulting reversal of a chemical micromotor, were discussed previously. b). c). In the first stage, the
+fuel solution wets the catalytic material containing energetically
+favorable nucleation points, where O2 accumulates and expands
+as bubbles. In the second stage, bubbles migrate toward one opening
+of the tubenormally the larger openingand finally,
+the bubbles are released, thereby inducing another motion step.
+ d). Overall,
+the enzyme-powered nanomotors presented above bring more inspiration
+toward the development of bubble-propelled motors. e). Moreover,
+the fabrication of hybrid photocatalytic/magnetic micro/nanorobots
+has demonstrated enhanced motion speeds due to improved electron-hole
+separation. These enhancements are attributed to the synergistic effects
+of magnetic spinning combined with photocatalytic motion, – f), we can
+formulate the following half-cell reactions, where positive potential
+indicates a spontaneous reaction:
+ 3Cu→3Cu2++6e−2H++2AuCl4−+6e−→2Au+8Cl−+2H+
+
+The overall reaction is as follows:
+ 3Cu+2HAuCl4→2Au+3CuCl2+2HCl
+
+While electrochemistry requires
+the use of the Nernst equation
+to calculate the electromotive forces and the Gibbs free energy (ΔG) for the actual process by calculating the difference
+of the standard potentials, it is not yet clear if and how this value
+relates to the driving force of the process:
+2.23
+ ΔGfree=−zF(Ecathode−Eanode)=−zFE
+where z is the number of
+electrons exchanged, F is the Faraday constant, and E is the potential difference of the reaction. We find a
+dependence on concentration using the Nernst equation; however, it
+is also overlaid by the absolute potential, reflecting the tendencies
+of different metal combinations to undergo reduction and oxidation
+reactions. An additional influence is created by the different behavior
+of individual ions; using the example from above, positively charged
+Cu ions accumulate near the negatively charged colloid surface while
+the negatively charged Cl ions diffuse away. Taking into account the
+different diffusivity of Cu and Cl ions, g). h). i left panel). The authors attributed the enhanced
+diffusion of micromotors to the asymmetrically positioned Grubbs’
+catalyst that consumed numerous monomer molecules while forming only
+a limited number of polymer chains. Therefore, these micromotors were
+able to establish the required monomer gradient for fluid low from
+the side with lower substrate concentration (Si side) to the side
+with higher substrate concentration (Au side). Approximately 10 years
+later, Städler’s group followed up on this idea, using
+SiO2-based micromotors that were surface-functionalized
+with an atom-transfer radical polymerization initiator for surface
+polymerization of hydroxyethylmethacrylate into polymer brushes ( i right panel). j left panel). j right panel).
+Advective transport of reactants helps sustain the gradient across
+the surface outside the motor. A series of reactions have been designed
+to create active, swimming droplets, including hydrolysis reactions, k). This is not trivial because artificial
+micro/nanomotors lack sensing, signaling, and motion redirection capabilities
+that motile cells use to perform chemotaxis. Nevertheless, experimental
+evidence for chemotaxis has been presented in a few studies, for example
+with active droplets k). , one can express
+the B field as:
+2.32
+ B=μ0(H+χH)=μ0(1+χ)H
+
+By defining the relative permeability μ
+= μ0 (1 + χ), we can express as follows:
+2.33
+ B=μH
+
+Note that the susceptibility of paramagnets and diamagnets
+is very
+small (|χ| ≪ 1); hence, in these cases:
+2.34
+ B=μ0H
+
+When manipulating magnetic
+objects, it is essential to consider
+how the material will align with respect to the applied magnetic field. a). Systems that
+can create gradients throughout the human body can generate tens to
+hundreds of milli-Tesla per meter with a sophisticated level of control
+( b). c). d). Although the field gradient can steer
+an isotropic (i.e., spherical) particle, strong magnetic
+fields are required to generate sufficient field variation over the
+particle size, whereas torque-driven propulsion relies on weak uniform
+fields. Simple scaling arguments d and e).
+Theoretical research of torque-driven actuation
+by the rotating
+fields started about a decade ago. The angular dynamics of a slender
+helix with remanent magnetization driven by a rotating field B
+rot in a Newtonian fluid was first considered
+in refs 
+ e). f), B
+con = B(
+x̂
+cos ωt + 
+ŷ
+sin ωt + δẑ
+), implies that the optimal propulsion speed is a purely geometric
+property that can be estimated from |Uz
+|/ωl ≤ λ
+max, where λ
+max is the largest
+(by the absolute value) eigenvalue of the chirality matrix Ch.
+By symmetry, the synchronous actuation by an in-plane (and
+conically)
+rotating field yields net propulsion along the field rotation axis. g). A minimal design of the undulating magnetic microswimmers
+made of just two rigid links (with one of them magnetic) connected
+by a torsional spring was suggested in ref h). A highly efficient two-arm magnetic nanobot exhibiting
+a complex (“freestyle”) 3D undulatory gait in the planar
+oscillatory magnetic field was reported in ref i and j).
+The design
+of an electromagnet is generally based on insulated
+copper wires wrapped around a ferromagnetic core. Although this system
+presents some constraints in terms of heating and requires an efficient
+cooling system to extend the working time, it is one of the most extensively
+used systems. An example of such a system is the Helmholtz coil, which
+has the ability to generate force-free torque on a magnetic object,
+generating a uniform and aligned magnetic field to the axial direction,
+but with a rather limited workspace. However, in such systems, the
+magnetic coupling (which generally utilizes Lorentz force) is extremely
+strong, leading to the efficient transfer of power. One can also find
+the Maxwell coil, which adequately separates different electromagnets
+to achieve a uniform magnetic gradient. and ) that are exerted on the particle. Standard methods for solving
+the Navier–Stokes equations numerically are the finite element
+method (FEM) and the finite volume method (FVM). An example of a corresponding
+software package using the FEM is COMSOL. Examples of software packages
+using the FVM are OpenFOAM, which is open source, and AcoDyn (Accelerating
+research and development using software solutions, https://acodyn.com), which is relatively
+new and optimized for acoustofluidic simulations, i.e., for simulations of the interaction of sound with fluids. An advantage
+of this numerical approach is its wide applicability as it does not
+require strong approximations of the system considered. A disadvantage
+is that these simulations do not reveal directly the dependence of
+the system’s features on the system parameters. Instead, one
+must run the simulations for several parameter values and then guess
+the underlying functional dependence of the features of interest on
+the varied parameters. For example, this has been done to reveal the
+effect of the shape and size
+ a) and, therefore, can be classified as standing
+wave-based propulsion systems. Wang et al. found
+that these nanorobots could exhibit rapid propulsion along the pressure
+nodes in the standing wave fields of an acoustic chamber when stimulated
+acoustically at 3.7–4.1 MHz, matching the chamber’s
+resonant frequencies. Their remarkable speed, achieving up to 50–100
+body lengths per second, can be attributed to the concave and convex
+shapes at their ends, which create asymmetric vortices for unidirectional
+propulsion. Additionally, the nanomotors’ dynamic response
+is enhanced due to the large acoustic impedance mismatch between the
+metallic structures of the motors and the surrounding environment,
+which also leads to strong scattering of the ultrasound. This is because
+the speed of sound and mass density in the metal are much larger than
+in water.
+ Further innovations have
+also led to the creation of a multi-actuation
+nanomotor, which combines a Ni-coated Pd helical appendage with an
+Au nanorod ( b). c). The microrobots, composed
+of spherical SiO2 particles, were half-coated in high-density
+materials such as Ti, Ni, or Pt while the other half remained uncoated.
+When these microrobots were exposed to standing wave ultrasound, the
+asymmetric coating caused unequal oscillations between the dense and
+less dense sides. This difference in oscillation led to acoustic microstreaming,
+ultimately producing translational motion. d). These microbubbles, in a viscous gel, are propelled by the superposition
+of shape and volume modes on their surfaces, exhibiting unique behaviors
+such as nucleation, self-assembly, microparticle transport, and deployment. e). These microrobots execute translational
+motion and generate significant propulsive speed, up to 6 mm s–1, which can be regulated externally by an electronic
+function generator. The propulsive force is attributed to asymmetric
+microbubble oscillation, creating localized microvortices in the surrounding
+liquid and radiation forces emitted by the microbubbles. Ahmed et al. demonstrated translational and rotational motions
+by strategically positioning the microbubbles at different locations
+within the micro-containers. They further demonstrated steerable microrobots
+by incorporating differently sized microbubbles within a container. f). Stimulated by ultrasound,
+the bubble oscillates, aligning the microrobot’s axis through
+fluidic flow. A small fin was engineered onto its cylindrical surface
+to enable directional movement. The group also showcased the first
+bubble-based microrobots operating in 3D fluidic channels. g).
+High-resolution mold–replica techniques were used to create
+prototypes of these artificial muscles. The stingraybot’s fins
+feature microcavity arrays in three sizes along their length, producing
+a natural undulatory motion under sweeping ultrasound frequencies
+that propels it forward. h). i). These microrobots
+generate large-amplitude tail oscillations when acoustically stimulated,
+resulting in either linear or rotary movement, depending on their
+design. Typically, when ultrasound interacts with sharp edges,
+ j). k). Its asymmetric double helix design interacts
+with the incident acoustic field, generating a propulsion torque that
+enables rotation around its long axis. Uniquely, the microrobot’s
+directionality can be altered by simply adjusting the acoustic frequency.
+These microrobots have been demonstrated to navigate up and down artificial
+3D vascular channels. l). Depending on the ratio between the radius
+of the particle R and the wavelength λ, different
+models can describe the optical forces. For the two asymptotic cases, R ≫ λ and R ≪ λ,
+the optical forces are respectively described with ray optics and
+the electric dipole approximation. For particles with dimensions comparable
+to the wavelength, a complete wave optical modeling of the particle
+light interaction with Lorenz–Mie theory is necessary to compute
+the optical forces. To achieve sufficient light gradients and forces,
+optical tweezers typically employ high numerical aperture objectives
+(that focus the light strongly) or a counter-propagating beam to compensate
+for the scattering forces. Devices such as acousto–optic deflectors,
+galvo mirrors, or spatial light modulators then enable the spatial
+manipulation of the light and dynamic trapping.
+In addition
+to linear momentum, light can carry angular momentum
+that exerts torques. Angular momentum can be separated into two terms,
+the spin angular momentum (SAM) associated with the circular polarization
+and the orbital angular momentum (OAM) that characterizes the rotation
+of the Poynting vector along the direction of propagation ( l). The SAM interaction
+is performed with a circularly polarized light obtained with a quarter-wave
+plate transferring the momentum to spin the particle. The OAM interaction
+is realized with a helicoidally wave front beam obtained with a spiral
+phase plate or a spatial light modulator to generate a revolution
+of the particle around the beam axis.
+In a straightforward use
+of optical tweezers as “miniature
+fingers” at the microscale ( n), micro-fabricated constituents are grabbed
+and displaced into a structure, e.g., a rotor. n). A similar approach is proposed to devise micromachines that can
+collect, displace, and release single cells at a desired location
+( m). o).
+ p). In addition, the interplay of the optical
+forces with the self-propulsion of active colloids unlocks opportunities
+beyond the conventional optical trapping of passive particles. For
+example, the forces of optical traps orient active colloids, owing
+to the physical (and optical) asymmetry that underpins the self-propulsion
+of the colloid. For example, Janus particles, such as metal–polymer
+or Fe2O3–polymer composites (at neutral
+pH), have a “back” metal or Fe2O3 half, which is a strong light-scatterer. Self-propelled particles
+reorient and align in the direction of propagation of light when crossing
+an optical trap, remaining stable inside the trap. In the absence
+of propulsion, the scattering forces lead to the expulsion of the
+particle from the trap. The propulsion force of the active colloid
+counter-balances the scattering forces controlled by the laser intensity
+allowing the position particles into the template formed by the traps
+( p). In close-packed
+arrangements, the interactions between the active colloids allow structures
+to remain after the removal of the traps, forming dynamic micromachines.
+ q). The cargo can be released and micromachines
+can be disassembled by removal of the blue light that controls the
+photocatalytic activity of the active components. r). Notably, varying the frequency of the
+applied electric field generates several distinct nonlinear (quadratic
+with the electric field) electrokinetic effects that can power locomotion
+in different ways depending also on the experimental setup. In a parallel-plate
+electrode experimental setup, the proximity of a particle to the bottom
+electrode substrate distorts EDL induced within the electrolyte at
+the electrode interface and its associated electric fields. This disruption
+of uniformity in the applied electric fields due to the particle’s
+presence results in a tangential field component that acts on the
+induced EDL, generating electrohydrodynamic (EHD) flow around the
+particles. s) can demonstrate different types of trajectories
+as demonstrated in t. u). ).
+ In the last two decades, an abundance
+of work has been carried
+out on the theoretical and conceptual front of this very active field
+of research. In this section, we will summarize some key aspects of
+these theoretical developments. There are a number of existing reviews
+on these topics, which readers can consult for more specialist accounts
+of the achievements in those areas.
+ a). b­(i)). b­(ii)). b­(iii)). Similarly,
+micro/nanorobots on the liquid–air interface can also exhibit
+a variety of swarming behaviors through hydrodynamic interactions.
+ c­(i)). c (ii)).
+The
+combination of acoustic and magnetic fields enables the microswarm
+to mimic the motion of natural microswimmers such as neutrophils,
+spermatozoa, and bacteria. c­(iii)). A
+similar bio-inspired swarm actuation strategy is achieved with two
+piezoelectric transducers, facilitating the controlled navigation
+of microbubble swarms against the blood flow. d­(i)). d­(ii)). A new mechanism for rationally creating
+multimodal, reconfigurable, patterned swarms has recently been proposed
+and validated in an electrically driven semiconductor micromotor system.
+By using light to modulate the electric polarization of semiconductor
+particles, various swarming modes have been achieved through the controlled
+balancing of two effects, electrostatic attraction and electrorotation,
+governing swarm motion in distinct manners. e­(i)).
+This dynamic control allowed for the formation of crystals that dissolve
+upon deactivation of the light source. e­(ii)). a). b). c). d). e). f). g). This study demonstrates that microswarms composed of different
+building blocks can exhibit diverse collective behaviors under the
+same input. This approach can be further employed to achieve independent
+motion control of microswarms, which bears substantial significance
+for practical applications. Additionally, hybrid field actuation is
+also suitable for achieving independent control, given the more pronounced
+discrepancy in the response of building blocks to diverse applied
+fields. Recently, a selective control strategy for microswarms that
+combines light and magnetic fields has been developed ( h). a). The brain’s collective intelligence enables complex problem-solving,
+and mimicking this network structure in artificial neural networks
+has demonstrated impressive abilities, sometimes surpassing human
+brain performance. Broadly speaking, autonomous behavior, therefore,
+can be described as the ability of the agent to perform on its own
+by utilizing external inputs but without the need for the external
+guidance of a separate agent. It is worth noting that in many cases,
+the autonomy of biological agents is maintained even if they perform
+collectively in which individual agents are a part of a larger group.
+Examples of such behavior, known as “swarming”, can
+be seen in bird flocks, fish schools, and bacteria swarms. Effective
+operation within a swarm or eliciting function by a swarm indeed illustrates
+higher-level examples of embodied intelligence, which are elaborated
+in later sections.
+ b). The degree of reliance on bodily or cognitive aspects
+varies depending on the complexity of the brain and body. Humans and
+animals with advanced nervous systems process cognition differently
+than simpler organisms like unicellular organisms, plants, and invertebrates
+with decentralized systems (e.g., jellyfish). In
+such organisms, cognition is domain-specific, decentralized, and relies
+on local knowledge structures, allowing for quick access to achieve
+specific goals, unlike centralized cognition in humans.
+ ). These components are usually rigid and bulky and
+rely on rather sophisticated processing units and computers for their
+cognition and operation. Micro/nanorobots, on the contrary, are artificial
+analogs of microorganisms that are generally soft, small, and lack
+sophisticated nervous systems; indeed, micro/nanorobots mainly rely
+on bodily aspects of artificial embodied intelligence. Achieving artificial
+embodied intelligence on small scales is extremely challenging due
+to the engineering trade-offs between miniaturization and intelligence.
+Such a trade-off makes it extremely hard to effectively integrate
+all functional components in a single small-scale robot.
+ e). Centimeter and millimeter-scale
+robotic systems, such as insect-inspired micromachines,
+ c). The bodily aspects of artificial embodied intelligence
+of micro/nanorobots mainly include their ability to sense environmental
+cues and transduce those cues to desirable functionalities. These
+features must all be embedded within the small-scale robots’
+building block materials to create “on-board intelligence”.
+ c). , we will elaborate on the materials commonly used
+in micro/nanorobotics, including stimuli-responsive materials.
+The response of stimuli-responsive materials to external cues can
+be essentially deemed as the transduction or the transformation of
+one form of energy to another, e.g. chemical energy
+to mechanical energy. d). In the
+case of taxis, the material responds to external cues by changing
+its location and moving toward or away from the source of stimuli. ).
+ 5.4.1
+
+## Mechanical Adaptation
+Transduction
+of the external stimuli into different forms of mechanical energy
+in micro/nanorobots offers a promising solution for the manipulation
+and transport of small-scale objects in complex environments ( a). These microrobots
+transduce chemical or physical stimuli, such as pH gradients and magnetic
+fields, into mechanical energy, such as motion and shape-change, allowing
+for precise control over locomotion and transport. Just as the evolution
+of organisms in nature has led to more advanced forms of motion, micro/nanorobots
+also require such advancements to enable functionalities like seek-and-find
+and pick-and-place. The use of stimuli-responsive materials, including
+thin films, atomistic films, and gels, has opened up exciting possibilities
+for complex shape change in microrobots.
+ b). The biorecognition
+process provides microrobots with the ability to selectively bind
+to biomarkers and other target molecules. This capability, combined
+with self- or externally propelled mechanisms, allows microrobots
+to perform a wide range of tasks. For example, many motile cells and
+single-celled microorganisms can perform chemotaxis, which refers
+to directed motion up or down a gradient in chemical concentration.
+Chemotaxis is a critical capability in many biological scenarios.
+For instance, it allows bacteria to seek nutrients and avoid predators,
+enables immune cells to pursue those same bacteria, and allows spermatozoa
+to find and fertilize an ovum, among others. c).
+ a, artificial neural networks have demonstrated
+remarkable capabilities in mimicking the brain’s neural networks
+and, in some cases, surpassing the performance of the human brain.
+For the simplest neuron network architecture, the branching model,
+neurons are divided into different layers and connections are constructed
+between neurons in adjacent layers, which allows information to be
+processed as chemical signals.
+ Inspired by this neural network architecture, we may consider using
+micro/nanorobots to replace the nodes in the neural network to realize
+material intelligence b. While this is
+still far from being materialized, we may list a few prerequisites
+for realizing this material intelligence:1.Information propagation between micro/nanorobots.
+2.Self-regulation and homeostasis
+in
+the micro/nanorobot network.
+3.Adjustable connection weighting by
+training in the network.
+
+In the human
+brain, information is processed in the form of an
+electric pulse, which is propagated by secreting and receiving neurotransmitters
+at synapses. In principle, any chemical signal may be applied as an
+information carrier as far as it can be maintained with sufficient
+time for data processing. However, as the chemical diffuses and the
+signal diminishes over time, it will be essential to amplify the chemical
+signal to maintain the propagation of chemical information.
+Fortunately, in micro/nanorobots systems, self-catalyzed reactions
+are routinely used, which results in information propagation in the
+form of chemical waves. One example of such a case is the H2O2 decomposition reaction catalyzed by AgCl. In 2012,
+Sen’s group discovered the chemical wave of self-propelled
+AgCl particles in H2O2 under UV radiation. c, the target wave and spiral wave are both observed in this AgCl
+colloid system.
+A similar chemical wave could potentially be
+harnessed for information
+transmission. With the implementation of appropriate regulations and
+rules, it may also pave the way for chemical computation to be realized. d, this system is composed of two chemically
+active colloid species, acidic sulfonated polystyrene and ZnO, coupled
+by simple acid–base neutralization reaction by exchanging H+ and Zn2+ ions through the solution. Importantly,
+the reaction rate is distance-dependent, where closer particle–particle
+interaction leads to a stronger exchange reaction and stronger coupling
+( e). In this
+system, the reaction rate is self-regulated, which helps maintain
+the balance of chemical interactions.
+Interestingly, this system
+allows the active colloid solution to
+show distinct macroscopic phase segregation and form an active swarm
+that shows decision-making abilities ( f) similar to the quorum sensing strategy
+seen in nature. a). b). c). d). e). f). a), reactive minerals (e.g., CaCO3), b). c). One category of magnetically driven
+micro/nanorobots utilizes flexible structures, where oscillating magnetic
+fields induce undulations in the flexible sections, propelling the
+entire micro/nanorobot structure. d). e).
+Red blood cells are the most abundant cells in blood circulation
+and considered one of the most promising manufacturing materials for
+biological hybrid micro/nanorobots. In contrast to other cells, they
+have a double concave shape, and, thus, a very large internal volume
+and expandable cell surface for large drug loading. A sufficiently
+long blood circulation time of red blood cells can significantly improve
+the pharmacokinetics of the loaded drug in vivo.
+Moreover, the isolation of red blood cells is simple and low-cost.
+Therefore, red blood cells have become a material for preparing micro/nanorobots
+with biocompatibility, long cycling, high capacity, and cost-effectiveness.
+Platelets are tiny anucleated cell fragments that can be recruited
+to sites of vascular injury and play multiple important roles in antimicrobial
+host defense, with specialized functions to hemostasis and prevent
+thrombosis. f–h). These materials possess unique
+adaptability, self-sensing, or memory capabilities.
+ i).
+ j). Their self-organization
+is dominated by nonreciprocal interactions caused by chemical fields,
+although DLVO forces, magnetic or electrostatic dipole interactions,
+depletion interactions, and capillary interactions also play a role.
+Each motor’s nonreciprocal interactions include its reaction
+to chemical fields created by other motors as well as chemical fields
+coupling between motors. These are long-range forces that typically
+exhibit an r–2 decay with distance r from the motor’s center of mass, which are very helpful in
+producing structurally stable assemblies and swarms.
+ k).
+ l). Carrier media comprise nonconductive
+liquids, mildly conductive liquids, and conductive electrolytes. In
+comparison to the carrier medium, the polarization of polar materials,
+as well as the distribution of mobile charges (such as scattered ions)
+and fixed charges (such as covalently bonded surface charges), are
+significant in the induction of micro/nanomotor assembly. The surface
+of polar materials distributed in an electrolyte frequently bears
+an intrinsic charge, causing short-range electrostatic repulsion or
+attraction between micro/nanomotors. m). No unique materials, shapes, or sizes are necessary. The response
+time is merely a few seconds and it is safe to use with practically
+any solution or material. Furthermore, optical tweezers can operate
+to construct micro/nanomotors using photophysical fields. Optical
+tweezers are devices that employ highly concentrated beams to accurately
+grasp and manipulate micro/nanoscale objects.
+ a). b).
+ b), MOF-based microrobots created by efficiently assembling MOF
+nanoparticles via a transient Pickering emulsion
+method, d),
+ c),
+ f). This encapsulation
+minimizes the exposure of Mg during the subsequent reaction with water.
+Also, Zn/Fe Janus micro/nanorobots was prepared by depositing Fe on
+a hemisphere of Zn particles. g). In their first
+attempt, the group used GLAD to fabricate about one billion helical-shaped
+propellers per cm2. h illustrates the scheme for fabricating
+spiral nanoswimmers. In this method, the preparation of Pd nanospirals
+relies on the electrochemical co-deposition of Pd2+ and
+Cu2+ in the nanopore of the aluminum oxide membrane template
+in an acidic environment. Au nanorods are first electrodeposited inside
+the nanopore to form a uniform solid substrate. Pd/Cu nanorods were
+then grown using a solution containing PdCl2, CuCl2, and HCl. OH− groups on the surface of
+alumina and H+ in an acidic solution, as well as suitable
+reduction potentials, are necessary for the effective reduction of
+Pd2+ to form a crystal structure on the nanopore wall and
+the etching of Cu from the nanorods produces Pd nanospirals. The electron
+beam then vaporizes the nanometer-thick layer of magnetic nickel onto
+the Pd nanospring, forming a tiny magnetic spiral nanoswimmer. g). h). ).
+ 7.1
+
+## Micro/Nanorobot Applications in Biomedicine
+7.1.1
+
+## Drug and Cell Delivery
+7.1.1.1
+
+## Drug
+Delivery
+An ideal drug carrier
+should possess four characteristics: (1) stabilizing the drug of interest,
+(2) transporting the drug to specific tissues, (3) controlling the
+release of the drug to maximize its time in the therapeutic window,
+and (4) degrading over clinically relevant timescales for elimination
+or clearance without adverse reactions. Discoveries in materials engineering,
+formulation science, and pharmacology have led to the development
+of new nanocarriers that realize most of these characteristics (i.e., stabilization, controlled release, and degradation). ). ). Powered by diverse
+energy sources, these micro/nanorobots, equipped with nanoscale surgical
+components, can directly penetrate and retrieve cellular tissues,
+enabling unparalleled precision in surgery. ). In vivo trials in porcine kidneys demonstrated
+that the microrobotic swarms were able to achieve selective embolization,
+providing a potential solution to mitigate complications associated
+with existing passive, nonselective embolization techniques. For precise
+aneurysm embolization, magnetic microfiberbots ).
+ ).
+Magnetic actuation is the primary choice for microrobotic
+probes because the type of magnetic fields that are used to actuate
+these probes (i.e., low strength and low frequency)
+do not have any reported impact on cellular physiology. In addition,
+several programmable magnetic field generators have been introduced
+that can be seamlessly interfaced with optical microscopes for dexterous
+manipulation of the probes. ). For example, the GI tract, blood vessels,
+urogenital tract, and joint cavities primarily possess a liquid or
+liquid–solid interface environment characterized by the presence
+of bodily fluids or blood with inherent viscosity and fluid dynamics.
+In contrast, the respiratory tract typically features a gaseous or
+gas–liquid interface environment. Understanding these unique
+conditions is crucial for optimizing the design and operation of microrobots
+in order to ensure their efficacy and precision in performing therapeutic
+and diagnostic tasks within these complex biological systems.
+ 7.1.6.1
+
+## Gastrointestinal Tract
+Micro/nanorobots
+used for GI delivery are typically actuated by chemical fuels or magnetic
+fields. In the GI tract, microrobots must contend with the corrosive
+effects of digestive fluids and the mechanical resistance posed by
+the plicae. To overcome these challenges, microrobots are designed
+to either passively avoid or actively harness the corrosive nature
+of these digestive fluids to power their controlled movement. For
+example, in the stomach, microrobots composed of materials like Mg
+or Zn react with gastric acid to produce H2 bubbles that
+propel them, allowing efficient navigation through the environment.
+This capability enhances drug delivery to specific targets such as
+the gastric mucosa for treating conditions like Helicobacter
+pylori infection.
+ .
+ 7.2.1
+
+## Strategies to Enhance Performance
+Improving
+efficiency is key in water purification due to the rising
+challenges posed by water pollution. Micro/nanorobots show great promise,
+but enhancing their efficiency, i.e., pollutant removal/degradation
+rate, is essential. This depends on three factors: (i) contact probability
+with pollutants, (ii) number of adsorption sites, and (iii) (photo)­catalytic
+activity for pollutant degradation. This section explores innovative
+strategies to improve these aspects, paving the way for more effective
+micro/nanorobot applications in treating contaminated water.
+With a few exceptions, . What makes micromotors particularly attractive
+is the enhanced motion and great acceleration of the reaction kineticsespecially
+in catalytic micromotorswhich allow for a great reduction
+of the detection times; most importantly, the amount of sample needed
+to just a few microliters. a­(i)). Another
+elegant recent strategy is illustrated in a­(ii), where catalase-powered ZIF-8 micromotors
+experience a decrease in the speed in the presence of Cu, which is
+overexpressed in the cerebrospinal fluid of Alzheimer disease patient
+samples. The as-developed fast screening method allows for the discrimination
+of samples at the different states of the disease using 1 μL
+and in less than 5 minutes. b­(i)). b­(ii)).
+ c­(i)), c­(ii) illustrates the use of Mg micromotors exploiting OH ions generated
+during Mg micromotors’ hydrogen-based propulsion for the detection
+of nonelectroactive analytes, such as phthalates, after basic hydrolysis
+to phenol, all steps being carried out on a low-volume sample on the
+screen-printed electrode, showing the suitability of micromotor integration
+with electrochemical detection. a and b). However, controlling
+the shape and material of the micro/nanorobot body, for which no general
+process method exists, requires new synthesis methods and optimization,
+thereby significantly increasing the processing time.
+ The simplest method to control the shape and material of micro/nanorobots
+is through scaffold-assisted synthesis, considering that the goal
+of rapid prototyping is to quickly check the performance with a small
+amount of the final synthesized product. Micro/nanorobots with desired
+shapes and materials can be rapidly synthesized using processes such
+as layer-by-layer (LbL), c). d). e) f).
+ g). These patent applications have been filed worldwide,
+including 44 in China, 23 in the United States, 9 in Europe, and 5
+in Korea, as part of efforts to secure intellectual property rights
+related to micro/nanorobots ( h).
+ ). First, a comprehensive validation process for the
+stability, biocompatibility, and lifespan of nanomaterials in micro/nanorobots
+is crucial. Second, clear regulations on user safety, data privacy,
+and sustainability are needed to enhance trust and utility. Lastly,
+toxicity assessments for micro/nanorobots used in applications involving
+human and environmental exposure are in their early stages of development.
+Systematic criteria and discussions among experts are essential to
+holistically evaluate the biological safety of micro/nanorobots, encompassing
+assessments in blood environments, immune responses, organ toxicity,
+protein modifications, and immune reactions.
+ 8.2.1
+
+## Nanomaterials Safety
+The use of
+nanomaterials in environmental and biomedical engineering has grown
+significantly, impacting human healthcare. However, concerns about
+the stability and toxicity of nanomaterials persist due to their size,
+which alters physicochemical properties and may trigger new biological
+reactions. The stability of nanomaterials, which is influenced by
+size, composition, and surface modifications, can lead to unique interactions
+within the body due to their nanoscale dimensions ( a).
+ b). c) have been developed
+to address micro/nanorobot toxicity, which is closely tied to biocompatibility
+and interactions, and requires diverse methods based on tissue location
+and exposure duration. This includes tests for cell toxicity, sensitization,
+irritation, systemic and chronic toxicity, and genotoxicity.
+ e illustrates a hypothetical
+micro/nanorobot design that could achieve embodied intelligence. However,
+integrating all these components at the micro/nanoscale remains challenging
+due to gaps between on-board and off-board intelligence and top-down versus bottom-up approaches.
+
+9.1.7
+
+## Technology Roadmap
+Over the past
+two decades, significant progress has been made toward bridging these
+gaps, advancing micro/nanorobot design in five key directions: 1)
+shifting from rigid to soft, smart materials; 2) evolving from simple
+to reconfigurable mechanisms; 3) adopting bio-inspired and modular
+principles; 4) enhancing functionality to be multifunctional and multimodal;
+and 5) enabling swarm cooperation. While these advancements drive
+miniaturization and intelligentization, a seamless combination of
+these strategies is yet to be realized due to persistent technological
+and conceptual challenges.
+To outline a clear vision for the
+advancement of micro/nanorobots, we propose the 10 most critical questions
+for the next decade, serving as a foundation for a technology roadmap.
+These questions are intended to bridge the current understanding of
+the field with long-term objectives for a practical future of micro/nanorobotics.
+Achieving these goals will require a dual strategy: advancing fundamental
+knowledge by addressing the "critical problems" of the micro/nanoworld
+and driving technical innovation to solve real-world applications.1)What is the smallest
+scale of nanorobots?
+2)Can we design chemically powered micro/nanorobots
+that are compatible with their working environments?
+3)What is the fundamental principle of
+collective motion of chemically propelled micro/nanorobots?
+4)Can we achieve intelligent
+micro/nanorobotic
+swarms with and without AI-assistance?
+5)What is the most versatile approach
+to manipulate micro/nanorobots externally?
+6)What is the most suitable strategy
+to track and monitor micro/nanorobots?
+7)Can life-like materials be autonomous
+and as such, create autonomous micro/nanorobots?
+8)Can we fabricate micro/nanorobots that
+mimic motility, biosensing and shape change characteristics of living
+microorganisms?
+9)Can
+we enhance medical treatments by
+swallowing, injecting or inhaling micro/nanorobots?
+10)How can we achieve scalable production
+of micro/nanorobots ensuring precision, quality control, and regulatory
+compliance?
+
+The field of micro/nanorobots
+exemplifies the extraordinary potential
+of interdisciplinary research, uniting nanotechnology, materials science,
+biology, and engineering to address some of humanity’s most
+pressing challenges. Advancing the field of micro/nanorobots in the
+next decades comes with its share of challenges, but we are confident
+that their transformative potential will far outweigh the obstacles.
+This technological roadmap review aims to motivate the research community
+to address critical barriers hindering progress and to explore innovative
+approaches that can accelerate the development and application of
+these technologies. We envision a future where experts from diverse
+disciplines collaborate to unlock the full potential of micro/nanorobots,
+as such multidisciplinary efforts are crucial for overcoming limitations
+and achieving groundbreaking advancements in this exciting field.
+
+The content is solely the responsibility of the
+authors and does not necessarily represent the official views of the
+funding agencies. Martin Pumera acknowledges the financial support
+of Grant Agency of the Czech Republic (EXPRO: 25-15484X). Xiaohui
+Ju, Xia Peng and Cagatay M. Oral acknowledge ERDF/ESF project TECHSCALE
+(No. CZ.02.01.01/00/22_008/0004587) for financial support. Xiaohui
+Ju acknowledges the financial support from Czech Grant Agency GACR
+standard grant No. 25-15996S. Salvador Pane, Fabian Landers and Semih
+Sevim acknowledge funding from the European Union's Horizon 2020
+Proactive
+Open program under FETPROACT-EIC-05-2019 ANGIE (No. 952152) and the
+European Union’s Horizon Europe Research and Innovation Programme
+under the EVA project (GA no. 101047081).Li Zhang acknowledges funding
+support from the Hong Kong Research Grants Council (RGC) with grant
+numbers R4015-2, RFS2122-4S03, and STG1/E-401/23-N. Hamed Shahsavan
+acknowledges Natural Sciences and Engineering Research Council of
+Canada (NSERC). Cagatay M. Oral and Hamed Shahsavan were in part funded
+by the WIN-CEITEC BUT Joint Seed Funding Program. Qiang He and Xiankun
+Lin acknowledge the National Natural Science Foundation of China (22193033,
+U22A20346) and Heilongjiang Provincial Key R&D Program (2022ZX02C23)
+for providing financial support. Il-Doo Kim acknowledges the National
+Research Foundation of Korea (NRF) grant funded by the Korea government
+(MSIT) (No. RS-2024-00435493). Ramin Golestanian acknowledges support
+from the Max Planck School Matter to Life and the MaxSynBio Consortium
+which are jointly funded by the Federal Ministry of Education and
+Research (BMBF) of Germany and the Max Planck Society. Bradley J.
+Nelson and Semih Sevim acknowledge funding from the Swiss National
+Science Foundation under SNSF-Sinergia project no. 198643. Raphael
+Wittkowski is funded by the Deutsche Forschungsgemeinschaft (DFG,
+German Research Foundation) − 535275785. Daniel Ahmed acknowledges
+the support provided by the European Research Council, as part of
+the European Union’s Horizon 2020 research and innovation program
+(grant agreement 853309, SONOBOTS) and Swiss National Science Foundation
+(SNSF) under the SNSF Project funding MINT 2022 grant agreement No.
+213058. Daniel Ahmed also extends thanks to Zhiyuan Zhang, Mahmoud
+Medany, and Prajwal Agrawal for helpful discussions. Wei Wang acknowledges
+the National Natural Science Foundation of China (T2322006) and the
+Shenzhen Science and Technology Program (RCYX20210609103122038). Mariana
+Medina-Sánchez acknowledges the financial support received
+from the European Union’s Horizon 2020 research and innovation
+program (ERC Starting Grant Nr. 853609), the HORIZON-MSCA-2022-COFUND-101126600-SmartBRAIN3,
+and the Grant PID2023-148899OA-I00 funded by MICIU/AEI/ 10.13039/501100011033.
+Maria Guix acknowledges the financial support from the Spanish Ministry
+of Science (grants RYC2020-945030119-I and PID2023-151682NA-I00 funded
+by MCIN/ AEI /10.13039/501100011033/ and FEDER) and Unidades de Excelencia
+María de Maeztu 2021 CEX2021-001202-M. Bahareh Behkam
+and Naimat Kalim Bari acknowledge support from the National Science
+Foundation (CBET-2318093). Naimat Kalim Bari also gratefully acknowledges
+financial support from the Virginia Tech Presidential Postdoctoral
+Fellowship. Raymond Kapral acknowledges the Natural Sciences and Engineering
+Research Council of Canada. Giuseppe Battaglia, Subhadip Ghosh and
+Bárbara Borges Fernandes thank the European Research Council
+ChessTaG grant 769798 (G.B.); Ministry of Science and Innovation of
+Spain, Proyectos I+D+I PID2020-119914RBI00 and Proyectos I+D+I PID2023-149206OB-I00
+and the Agencia de Gestión de Ayudas Universitarias y de Investigación
+(AGAUR) for the grant SGR 01538 and for SG fellowship (2022 BP 00214).
+Alexander Leshansky and Konstantin Morozov acknowledge the support
+of the Israel Science Foundation (ISF) via grant no. 2899/21. Alberto
+Escarpa and Beatriz Jurado Sánchez acknowledge support from
+The Spanish Ministry of Science, Innovation and Universities [Grant
+PID2023-152298NB-I00 funded by MCIN/AEI/10.13039/501100011033 and
+FEDER, UE (A.E, B. J. S), grant TED2021-132720B-I00, funded by MCIN/AEI/10.13039/501100011033
+and the European Union “NextGenerationEU”/PRTR (A.E,
+B. J. S); grant CNS2023-144653 funded by MCIN/AEI/10.13039/ 501100011033
+and the European Union “NextGenerationEU”/PRTR] and
+Junta de Comunidades de Castilla la Mancha (grant number SBPLY/23/180225/000058).
+Jeremie Palacci acknowledges support from the European Union through
+ERC grant (VULCAN, 101086998). Josep Puigmartí-Luis acknowledges
+the Agencia Estatal de Investigación (AEI) for the María
+de Maeztu, project no. CEX2021-001202-M, the Ministerio de Ciencia,
+Innovación y Universidades (Grant No. PID2020-116612RB-C33
+funded by MCIN/AEI/10.13039/501100011033) and the Generalitat de Catalunya
+(2021 SGR 00270). James D. Nicholas, Jordi Ignés-Mullol, and
+Josep Puigmartí-Luis acknowledge support from the European
+Union’s Horizon Europe Research and Innovation Programme under
+the EVA project (GA no: 101047081). Josep Puigmartí-Luis
+and Jordi Ignés-Mullol acknowledge support from the European
+Union’s Horizon 2020 Proactive Open program under FETPROACT-EIC-05-2019
+ANGIE (No. 952152). Jordi Ignés-Mullol also acknowledges the
+Ministerio de Ciencia, Innovación y Universidades (Grant No.
+PID2022-137713NB-C21 funded by MICIU/AEI/10.13039/501100011033). Lauren
+Zarzar and Yutong Liu acknowledge support from the US Army Research
+Office (Grant W911NF-18-1-0414). Longqiu Li acknowledges the National
+Natural Science Foundation of China (52125505, U23A20637) for providing
+financial support. Wyatt Shields acknowledges support from the National
+Science Foundation (NSF) through a CAREER grant (CBET 2143419). Xing
+Ma acknowledges the support from Shenzhen Science and Technology Program
+(RCJC20231211090000001). David H. Gracias acknowledges support from
+the NIH-NIBIB (R01EB017742). The content is solely the responsibility
+of the authors and does not necessarily represent the official views
+of the NIH. Samuel Sánchez acknowledges funding from the European
+Research Council (ERC) under the European Union’s Horizon 2020
+and Horizon Europe research and innovation programmes (grants agreement
+No 866348, i-NanoSwarms), the CERCA program by the Generalitat de
+Catalunya, the project 2021 SGR 01606, and the "Centro de Excelencia
+Severo Ochoa" (Grant CEX2023-001282-S). Maria Jose Esplandiu
+acknowledges
+the Ministerio de Ciencia e Innovación of Spain (MICIN) through
+PID 2021-124568NB-I00 and TED2021-129898B-C21 project. Sarthak Misra
+and Antonio Lobosco acknowledge funding from European Research Council
+(ERC) under the European Union’s Horizon 2020 Research and
+Innovation Programme (Grant Nr. 866494, project-MAESTRO). Jinxing
+Li acknowledges support from the National Science Foundation under
+Award Nos. CMMI 2323917, ECCS-2216131, ECCS 2339495, ECCS-2334134,
+NIH NIBIB Trailblazer R21 Award, and Henry Ford Hospital + MSU Cancer
+Research Pilot Award. Ze Xiong acknowledges the financial support
+from the International S&T Cooperation Program of Shanghai (24490710900)
+and the start-up grant from ShanghaiTech University (2023F0209-000-02).
+Yongfeng Mei acknowledges the National Natural Science Foundation
+of China (62375054), Science and Technology Commission of Shanghai
+Municipality (24520750200, 24CL2900200), and Shanghai Talent Programs.
+Ayusman Sen thanks the National Science Foundation, the Air Force
+Office of Scientific Research, and the Sloan Foundation for their
+financial support. Abdon Pena-Francesch acknowledges support from
+the Air Force Office of Scientific Research under award number FA9550-24-1-0185.
+Katherine Villa acknowledges funding from the European Research Council
+(ERC) under the European Union’s Horizon 2020 research and
+innovation programme (GA no. 101076680; PhotoSwim) and the support
+from the Spanish Ministry of Science (MCIN/AEI/10.13039/501100011033)
+and the European Union (Next generation EU/PRTR) through the Ramón
+y Cajal grant, RYC2021-031075-I. Kang Liang acknowledges support from
+the Australian Research Council (DP250101401 and FT220100479) and
+the National Breast Cancer Foundation, Australia (IIRS-22–104).
+Jizhai Cui acknowledges the National Key Technologies R&D Program
+of China (2022YFA1207000) and Shanghai Rising-Star Program (24QA2700700).
+Xiang-Zhong Chen acknowledges the National Natural Science Foundation
+of China (52473254) and the National Key Research and Development
+Program of China (2023YFB35070003).
+The authors declare the
+following competing financial interest(s): Giuseppe Battaglia is the
+founder and company director of ViaNautis Bio, a company focusing
+on the development of novel genetic medicines.
+
+## Vocabulary
+Micro/nanorobotsa broadly encompassing
+term referring to micro- or nanoscale devices capable of converting
+energy (chemical, electrical, magnetic, etc.) into
+mechanical motion for controlled locomotion or task execution. This
+definition includes both systems with moving parts and those relying
+on nonreciprocal interactions, and applies to swimmers, active colloids,
+and self-propelled particles across diverse operating environments.
+Low Reynolds numbera fluid dynamic regime where viscous forces dominate over inertial
+forces, typically occurring at microscopic scales (Re ≪ 1), resulting in highly laminar, time-reversible flow that
+significantly constrains locomotion strategies of micro/nanoscale
+systems.
+Self-phoresisa propulsion mechanism where a particle moves through a fluid by
+generating its own local gradient in a driving field - such as concentration,
+electric potential, or temperature - via surface activity, leading
+to motion without external force.
+Collective behavioremergent, coordinated motion or
+pattern formation arising from interactions among multiple micro/nanorobots,
+often mediated by hydrodynamic, chemical, or physical cues, enabling
+functionalities beyond the capabilities of individual units.
+Smart responsive materialsrefer to materials capable of making visible and tangible responses
+to changes in their surrounding environment or external stimuli (such
+as stress, electricity, magnetism, light, heat, pH, or chemical compounds.
+NanoarchitectonicsA postnanotechnology framework focused on constructing functional
+material systems by precisely arranging atoms, molecules, and nanomaterials
+through atomistic, molecular, supramolecular, and biomolecular engineering,
+enabling complex architectures such as nanorobots with enhanced control
+over structure and function.
+IntelligenceThe ability of micro/nanorobots to autonomously accomplish
+specific tasks in dynamic, unpredictable microscale environments by
+integrating sensors, actuators, controllers, power sources, and interfaces
+into a cohesive system. This intelligence allows the robots to perceive
+and respond to external stimuli, similar to biological systems, enabling
+them to adapt and function effectively in complex, energy-dissipating,
+and fluidic conditions.

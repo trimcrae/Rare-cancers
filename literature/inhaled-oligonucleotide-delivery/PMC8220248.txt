@@ -1,0 +1,506 @@
+STAR ProtocSTAR Protoc3946starprot101769501STAR Protocols2666-1667ElsevierPMC8220248PMC8220248.1822024882202483418947410.1016/j.xpro.2021.100609S2666-1667(21)00316-61006091ProtocolProtocol for using heterologous spike-ins to normalize for technical variation in chromatin immunoprecipitation
+GreulichFranziskafranziska.greulich@tum.de MechtidouAikaterini HornTeresa UhlenhautNina Henriette 1Metabolic Programming, School of Life Sciences Weihenstephan, ZIEL-Institute for Food & Health, Technische Universitaet Muenchen (TUM), 85354 Freising, Germany2Institute for Diabetes and Obesity (IDO) & Institute for Diabetes and Cancer (IDC), Helmholtz Center Munich (HMGU) and German Center for Diabetes Research (DZD), 85764 Neuherberg (Munich), Germany∗Corresponding author franziska.greulich@tum.de3These authors contributed equally
+4Lead contact
+5Technical contact
+1792021166202123384160100609160620212806202104052024© 2021 The Author(s)2021https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+Quantifying differential genome occupancy by chromatin immunoprecipitation (ChIP) remains challenging due to variation in chromatin fragmentation, immunoprecipitation efficiencies, and intertube variability. In this protocol, we add heterologous spike-ins from Drosophila chromatin as an internal control to the mice chromatin before immunoprecipitation to normalize for technical variation in ChIP-qPCR or ChIP-seq. The choice of spike-in depends on the evolutionary conservation of the protein of interest and the antibody used.
+For complete details on the use and execution of this protocol, please refer to .
+
+## Graphical abstract
+ 
+
+## Highlights
+•Chromatin immunoprecipitation (ChIP) maps protein-binding sites in the genome
+•Heterologous spike-in ChIP reduces technical variation in ChIP experiments
+•Applicable to proteins with high interspecies conservation
+
+Quantifying differential genome occupancy by chromatin immunoprecipitation (ChIP) remains challenging due to variation in chromatin fragmentation, immunoprecipitation efficiencies, and intertube variability. In this protocol, we add heterologous spike-ins from Drosophila chromatin as an internal control to the mice chromatin before immunoprecipitation to normalize for technical variation in ChIP-qPCR or ChIP-seq. The choice of spike-in depends on the evolutionary conservation of the protein of interest and the antibody used.
+
+## Subject areas
+Sequence analysisCell BiologyChIPseqMolecular BiologyChromatin immunoprecipitation (ChIP)pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-ND
+
+## Before you begin
+Chromatin ImmunoPrecipitation (ChIP) profiles the occupancy of DNA-associated factors within cells by either quantitative PCR (ChIP-qPCR) or with next-generation sequencing (ChIP-seq). Cells or tissues are fixed with formaldehyde and target-specific antibodies are used to precipitate the protein of interest after cell, nuclear lysis and chromatin fragmentation. Due to the complex protocol design and the variability in chromatin fragmentation between samples, inter-tube comparability is difficult to achieve without internal controls. One method to address this issue is the use of loci that do not change occupancy between samples to perform inter-tube normalization ( ). This resembles the "housekeeping" approach used to normalize mRNA expression in standard quantitative RT-PCR of cDNAs. Such approaches are the basis of software packages like Thor ( ), DiffBind ( ) or DESeq2 ( ) for ChIP-seq quantification. In ChIP-qPCR, the choice of a positive locus bound by the protein of interest that does not change across conditions can be very challenging. Often, the genomic targets of the protein of interest or the behavior in response to experimental perturbations are unknown. ChIP-seq approaches are slightly more robust, as long as the majority of binding events is unaffected by the experimental perturbation. In this case, several control regions can be picked for normalization, avoiding the bias of selecting one control region. Those regions might be promoter regions of well characterized housekeeping genes, as suggested by Allhoff et al. ( ). However, those normalization approaches are limited by the assumption that the occupancy of the protein of interest remains unaltered at the majority of sites (ChIP-seq), or at a particular locus (ChIP-qPCR), under the various conditions studied.
+One example, where this assumption is violated, was reported when profiling H3 lysine 27 trimethylation (H3K27me3) after inhibition of EZH2 (Enhancer of Zeste 2 Polycomb Repressive Complex 2 Subunit). The inhibition of EZH2, the major histone methyltransferase for H3K27, resulted in a global loss of H3K27me3. In order to quantify the observed genomic changes in H3K27me3, the authors developed “parallel ChIP”. By spiking Drosophila melanogaster chromatin into the target samples (Mus musculus), they internally controlled for inter-tube variation by performing ChIP against the Drosophila-specific histone variant H2Av ( ).
+Here, we describe a very similar approach by using an antibody that specifically detects the protein of interest in the samples of target as well as the spike-in species. Our method is limited to the conservation of the protein of interest, but it is independent of the variability in IP efficiencies of the antibody. We successfully used this approach for profiling several histone modifications (H3K27ac, H3K4me1, H3K4me2 and H3K4me3) by ChIP-seq and ChIP-qPCR in murine macrophages with spike-ins from Drosophila S2 cells ( ). We also performed spike-in normalization for transcription factors with limited conservation in murine cells using human spike-in chromatin (HEK293 cells) by ChIP-qPCR.
+Before you begin with the actual experiment, crosslink target and spike-in cells/tissues, establish the sonication conditions for each cell type, design species-specific negative and positive control primers and confirm the specificity of the antibody in both species (see the following sections for more details). We emphasize here that optimal sonication conditions and a thoroughly tested antibody are crucial for a successful ChIP experiment.
+
+## Crosslinking of target or spike-in cells
+Timing: 30 min
+1.Before starting:a.Plate 20 M cells in a 15 cm plate one day before fixation. Perform treatment of interest.
+b.Prepare 1% formaldehyde∗ (FA) solution and 1 M glycine solutions in DPBS. (see ).CRITICAL: Formaldehyde is toxic. Always use protective clothing and follow safety instructions when working with formaldehyde. Work in a fume hood and dispose of residuals according to local regulations for hazardous waste.
+
+c.Pre-cool DPBS.
+
+2.Aspirate the medium, wash cells once with 10 mL DPBS. Aspirate again.
+3.Add 1% FA (10 mL/plate) and incubate for 15 min at 18°C–24°C.
+Note: For proteins that are not contacting the DNA directly, a dual crosslinking with an additional protein-protein crosslinker like disuccinimidyl glutarate (DSG) might be required. In that case, start with a 30 min fixation with 2 mM DSG (in DPBS) at 4°C and proceed after aspiration of the DSG to the FA fixation without any wash step.
+4.Add 1.5 mL 1 M glycine and incubate for 5 min at 18°C–24°C. Rock back and forth gently to mix.
+5.Aspirate. Wash 2× with cold DPBS and harvest the cells by scraping off the dish.
+6.Transfer the cell suspension to a tube and keep on ice.
+CRITICAL: For the spike-in cells, split the cells into two tubes with 10 M cells each to avoid freeze and thaw cycles.
+7.Spin the tubes for 5 min at 400 × g at 4°C. Aspirate Supernatant.
+Pause point: Pellets might be stored at −80°C for up to one year.
+
+## Establish sonication conditions
+Timing: 2 days
+
+The number of sonication cycles and the amplitude of sonication needs to be optimized beforehand, for both the spike-in cells as well as the cells of interest (target). Ideally, chromatin is fragmented to 150 bp to 1.5 kb with as little energy added by sonication as possible. This step is very important, since “over-shearing” of the chromatin (bulk fragments below 200 bp) will reduce the IP efficiency by damaging the protein epitopes of interest. On the other hand, “under-shearing” (bulk fragments above 1 kb) will reduce the amount of purified DNA, due to loss of DNA during purification or size selection.
+Test the sonication conditions by serial sonication of the same chromatin sample. For example, take a chromatin aliquot every two sonication cycles and perform reverse crosslinking overnight (see steps 42–47). The purified DNA is run on a 0.7% agarose gel. An example picture for a murine macrophage pellet sheared at 20 M cells/mL of shearing buffer, with the Bioruptor 300, is shown in A and an example for Drosophila S2 cells in B. In this case, the optimal number of cycles would be 12 for a mix of both cell types. 
+
+## Design and order of qPCR primers
+Timing: 1–2 h
+
+In order to test the specificity of the ChIP, design at least one primer pair for a region bound by the protein of interest in each the target and spike-in species (positive locus). Additionally, design one primer pair for a region not bound by the protein of interest (negative locus). For histone marks, use publicly available data from ENCODE (https://www.encodeproject.org/ ( )), MODENCODE data available for Drosophila melanogaster (http://gbrowse.modencode.org/fgb2/gbrowse/fly/), public track hubs on UCSC (https://www.genome.ucsc.edu/ ( )) or available data on the Gene Expression Omnibus (GEO) ( ). An example can be found in A and 2B.Note: If ChIP-Seq data for the mark or protein of interest is unavailable for the target or for the spike-in tissue, we recommend the generation of a ChIP-Seq data set before performing ChIP quantifications by qPCR.
+ 
+
+## Validate antibodies for specificity in target and spike-in species
+Timing: 3 days
+
+In order to confirm that the antibody indeed recognizes the protein of interest in both species and to validate the specificity of the PCR primer, perform ChIP-qPCR against the protein of interest (H3K4me2 in our case). Use the target species, the spike-in species and a mixture of target and spike-in species (10%–25% spike-in) as samples and follow the protocol below (steps 1–55). An example of the expected results are shown in C. Here, we performed ChIP against H3K4me2 in Drosophila S2 cells, in murine bone marrow-derived macrophages treated with 100 ng/mL LPS for 3 h, and in a 1:4 mixture of Drosophila S2 cells with murine macrophages. The Drosophila-specific primers against H3K4me2 (eRF3 locus) ( A) are only enriched in the samples containing chromatin from Drosophila melanogaster. On the other hand, the mouse-specific primers against a H3K4me2-positive (Cxcl10/11, B) and H3K4me2-negative (NegPol2) locus give a specific signal in samples containing murine chromatin. In addition, we observe a higher enrichment at the positive (Cxcl10/11) over the negative (NegPol2) locus in murine macrophages, indicating specificity of the antibody ( C).CRITICAL: The protein of interest needs to be conserved between target and spike-in species in order to be recognized by the antibody in both species (see ).
+
+## Material preparations
+Timing: 30 min
+8.Pre-cool centrifuges suitable for Eppendorf tubes to 4°C.
+9.Turn on Bioruptor and pre-cool the water bath.
+10.Prepare buffers (see ) and aliquots of Fast IP, Shearing and Dilution, add EDTA-free proteinase inhibitors and store on ice.
+11.Pre-heat thermomixers to 99°C, 37°C or 56°C.
+
+## Key resources table
+ Alternatives: Any supplier may provide chemicals. Chemicals should be molecular-biology grade.
+Alternatives: ChIP fragmentation with the Bioruptor might be other sonication devices like the Covaris systems (https://www.covaris.com/products-services/instruments) or probe sonicators. Alternatively, chromatin can be fragmented enzymatically using micrococcal nuclease (MNase). Either way, the optimal conditions have to be established before performing the actual ChIP experiment.
+Alternatives: Any other equipment supplier may provide equivalent equipment.
+
+## Materials and equipment
+ Alternatives: If the SDS concentration is too high for a particular antibody ( ), low-SDS shearing buffers with SDS contents as low as 0.1% can be tried. Note that sonication conditions need to be re-established when changing the shearing buffer. We have observed prolonged sonication times (Bioruptor) to be required when reducing the SDS content.
+Alternatives: Add 0.1% Triton X-100 to avoid SDS precipitation while shearing especially if longer sonication times are required.
+ Note: For the Fast IP, Shearing and Dilution Buffers, prepare aliquots before starting the experiment and add EDTA-free proteinase inhibitors freshly. These solutions are stable for 1 day at 4°C.
+CRITICAL: Harmful chemicals are indicated with an asterisk (∗) here or in the following protocol.
+
+## Formaldehyde
+Flammable liquid and vapor. Harmful if swallowed. Causes severe skin burns and eye damage. May cause an allergic skin reaction. Causes serious eye damage. Toxic if inhaled. May cause cancer (inhalation). Toxic to aquatic life. Only work with formaldehyde when specifically instructed. Keep away from heat sources and open flames. Take precautionary measures against static discharge. Do not eat, drink or smoke when using formaldehyde. Avoid environmental release. Wear protective clothing, protective gloves, eye and face protection. Wash contaminated clothing before reuse. Store in well-ventilated cabinets and keep containers tightly closed. Dispose of content and containers to comply with local regulatory authorities.
+
+## Ethanol
+Highly flammable liquid and vapor. Causes serious eye damage/irritation. Keep Ethanol away from heat sources, open flames. Do not smoke. Keep containers tightly closed. Large amounts should be stored in fireproof cabinets.
+
+## Acetic acid
+Flammable liquid and vapor. Harmful if inhaled. Causes severe skin burns and eye damage. Causes serious eye damage. Harmful to aquatic life. Keep away from heat sources. Store in fireproof cabinets. Take precaution measures against static discharge. Wash exposed skin thoroughly after handling. Only work in well-ventilated areas or under the fume hood. Wear protective clothing, protective gloves, eye and face protection.
+
+## SDS
+Flammable solid. Harmful if swallowed or inhaled, causes skin irritation or serious eye damage. May cause respiratory irritation. Harmful to aquatic life with long lasting effects. Keep away from heat sources. Avoid breathing dust by using pellets or masks. Wear protective clothing and eye protection.
+
+## Tris-HCl
+May cause eye and skin irritation. Wear protective clothing.
+
+## Triton X-100
+Harmful if swallowed. Causes serious eye damage. Toxic to aquatic life with long lasting effects. Do not eat, drink or smoke when using Triton X-100. Avoid environmental release. Wear protective gloves/eye protection.
+
+## RNase A
+May cause allergy or asthma symptoms or breathing difficulties if inhaled. Avoid breathing dust/vapor.
+
+## Proteinase K
+Causes skin irritation. May cause allergic skin reaction. Causes serious eye irritation. May cause allergy or asthma symptoms or breathing difficulties if inhaled. May cause respiratory irritation. Do not breathe dust. Wear protective gloves/eye protection.
+
+## Step-by-step method details
+
+## Cell lysis
+Timing: 30 min
+
+In this step, the frozen, formaldehyde-fixed pellets from target and spike-in cells are processed for cell lysis. All steps are performed on ice.Note: Target and spike-in cells are processed separately to allow for alternative cell lysis protocols e.g., when working with tissues instead of cell lines.
+Alternatives: If the cell lysis and sonication conditions for target and spike-in cells are identical, both might already be mixed in step 2.
+1.Thaw target and spike-in cell pellets on ice.
+Note: For one ChIP-seq experiment targeting a transcription factor, use 40 M cells, and for histone marks, use 20 M cells. For ChIP-qPCR, 2 M cells per IP are recommended. 5% of the experimental cell number is required for spike-in per ChIP-seq experiment, and 15%–25% should be used for ChIP-qPCR. Use spike-in pellets accordingly.
+CRITICAL: The amount of spike-in chromatin must be adjusted depending on the genome size differences between the target and spike-in species and according to the genomic coverage of the protein of interest. The above-mentioned amount of spike-in chromatin is optimized for murine cells combined with Drosophila spike-in, and for performing ChIP-Seq against widely occurring histone marks such as H3K4me1/me2/me3 or H3K27ac. See .
+2.Resuspend 20 M cells in 1 mL ice-cold FastIP buffer. Let the chromatin sit on ice for 10 min. During this time, pull the cell suspension through an insulin syringe once for mechanical cell lysis.
+3.Spin at 12,000 × g for 1 min at 4°C. Aspirate the supernatant using either vacuum or a pipette. Leave the pellet untouched. Some liquid may remain.
+4.Repeat steps 2 and 3.
+CRITICAL: Cell and tissue lysis needs to be optimized individually for each tissue or cell line. We refer to Mir at al. ( ) for recommendations.
+
+## Spike-in and sonication
+Timing: 30 min per 3 samples (depending on the Bioruptor tube holder)
+
+In this step, 5% of spike-in chromatin is mixed with the target chromatin and fragmented by sonication. 5.Resuspend cell pellets completely in 1 mL ice-cold Shearing Buffer per 20 M cells.
+CRITICAL: The Shearing Buffer needs to be cold but not “cloudy”. In case of SDS precipitation, warm the sample briefly and vortex it to solubilize all precipitates.
+6.Shortly before distributing the spike-in chromatin, mix spike-in nuclei very well and add 5% of spike-in per target chromatin per 1.5 mL Bioruptor TPP tube.
+Note: For sonication in 1.5 mL Bioruptor TPP tubes, do not fill the tube with more than 550 μl of chromatin, to ensure a complete immersion of the liquid-filled tube in the water bath. If 20 M target cells are resuspended in 1 mL Shearing Buffer and 10 M spike-in cells in 500 μl Shearing Buffer, aliquot 25 μl spike-in nuclei per 1.5 mL Bioruptor tube and add 500 μl of target chromatin. Two Bioruptor tubes per 20 M target cells are required during sonication.
+
+ 1: Different sonication conditions for target and spike-in cells or tissues.7.Continue with sonication using a Bioruptor 300 or similar model (Diagenode).
+Note: If the Bioruptor tube holder cannot fit all the tubes in one round, distribute aliquots from the same sample across different rounds to avoid sonication biases introduced by the samples being in different sonication rounds.
+8.Unite the sheared chromatin from each sample aliquot inside a 2 mL low binding Eppendorf tube and store on ice until proper sonication is confirmed by fast-reverse cross-linking.
+
+## Fast reverse cross-linking
+Timing: 2–3 h
+
+Here, the appropriate size of the chromatin fragments is validated before proceeding with immunoprecipitation. 9.Take 20 μL of sheared chromatin from each sample (e.g., experimental condition) and adjust the volume to 100 μL with 1×TE buffer.
+10.Add 4 μL 5 M NaCl and incubate at 99°C for 15 min mixing at 1,000 rpm in a thermomixer.
+11.Remove samples from the thermomixer and wait for them to cool down to 18°C–24°C.
+12.Add 0.5 μL RNase A∗ (10 mg/mL stock). Incubate for 15 min at 37°C and 300 rpm.
+13.Add 4 μL 1 M Tris-HCl∗ pH=7.5, 2 μL 0.5 M EDTA pH=8 and 1 μL Proteinase K∗ (10 mg/mL stock). Incubate at 56°C for 1 h, while mixing at 300 rpm.
+14.Purify the samples with the MinElute PCR purification kit (QIAGEN) following the manufacturer's instructions. Elute the samples in 15 μL elution buffer.
+Note: Adjust the pH of the PB buffer if the color is not yellow, by adding 1 μl 3 M NaOAc pH=5.2.
+15.Mix each sample with 4 μl of 6× colorless DNA loading dye and load onto a 0.7% agarose gel containing peqGreen or similar.
+Note: Dyes in the sample loading buffer might lower the fluorescence intensity of the sample DNA at the front of the dye and thereby affect the visibility of the fragmented chromatin.
+16.If required, add additional sonication cycles and repeat the fast reverse crosslink.
+CRITICAL: The fragment size of the chromatin should be comparable between all samples under study. See for an example.
+
+ 
+
+## Immunoprecipitation
+Timing: 2 days
+
+In this step, the chromatin fraction bound by the factor of interest is purified using immunoprecipitation (IP).17.Leave the fragmented chromatin at 18°C–24°C until all SDS precipitates are dissolved. Occasionally vortex samples gently. (1–2 min)
+18.Centrifuge at 12,000 × g for 10 min at 4°C.
+19.Take the top 90% of each sample’s supernatant (900 μl for one 20 M cell pellet) into a 15 mL conical tube. Do not touch the pellet (cell debris).
+20.Transfer 9 μl of supernatant from each sample to a 1.5 mL tube as an input control (1% input) and freeze at −20°C until de-crosslinking in step 41. Discard the remaining volume and the pellet.
+Note: The amount of input material might be increased to 10%, if an independent input sample is required for sequencing. Adjust the percentage input calculations accordingly.
+21.Add 8.1 mL Dilution Buffer to the 15 mL conical tube containing the sample (1:10 dilution of the sheared chromatin).
+Note: For ChIP-qPCR, take 10% input (9 μl) and 90 μl of chromatin per IP. Dilute the chromatin with 810 μl of dilution buffer and perform IPs in 1.5 mL low binding Eppendorf tubes. Adjust the percentage input calculations accordingly.
+Alternatives: If the epitope of interest is expressed at low levels or if the antibody affinity is low, reducing the dilution of the sheared chromatin might be advantageous. In this case, reduce the amount of SDS in the shearing buffer (see ).
+Alternatives: An additional pre-clearing step might be included, in the event that high background signal is detected (see ).
+22.Add 4 μg of antibody to each 15 mL conical tube containing the diluted sample.
+Note: For ChIP-qPCR, use 1 μg of antibody for each IP.
+Note: Antibody concentrations need optimization and depend on the antibody affinity and the amount of epitope present within the sample.
+Note: Antibodies must be tested for specificity. See .
+23.Rotate tubes 12–16 h at 4°C.
+24.Block Dynabeads.Note: The type of beads depends on the isotype and species of the ChIP antibody. For polyclonal antibodies raised in rabbit, we recommend sheep anti-rabbit IgG Dynabeads (Life Technologies).
+a.Transfer 60 μL of well suspended Dynabeads/IP from the stock bottle into a 1.5 mL low binding tube and place the tube into a magnetic rack.
+b.Add 1 mL Dilution Buffer. Remove the tube from the rack and resuspend the beads by inverting and flicking the tube.
+c.Place the tube back into the magnetic rack and wait for 30 s until the liquid is cleared from the beads.
+d.Aspirate the supernatant without disturbing the beads.
+e.Repeat b-d twice more.
+f.Add 1 mL Dilution Buffer supplemented with 0.5% BSA (molecular biology-grade), completely resuspend the beads by flicking the tube and incubate 12–16 h at 4°C while rotating slowly.
+
+Note: For ChIP-qPCR, use 20 μL of sepharose protein A/G beads per IP. Instead of the magnetic rack, spin the beads 30 s at 300 × g for washing. Take care to never vortex sepharose beads.
+Alternatives: Dynabeads perform equally well in ChIP-qPCR.
+25.The next day, spin the 15 mL conical tubes containing the IP for 20 min at 3,600 × g at 4°C.
+Note: For ChIP-qPCR, spin IPs at 12,000 × g for 10 min at 4°C (1.5 mL Eppendorf tubes).
+26.During the centrifugation, wash the blocked beads 3 times in Dilution Buffer.a.Place the Dynabeads in the magnetic rack. Wait 30 s until all beads are collected and the liquid is cleared.
+b.Aspirate the supernatant carefully without losing beads.
+c.Add 1 mL Dilution Buffer, remove the tube from the magnetic rack and resuspend the beads by flicking the tube.
+d.Place the Dynabeads inside the magnetic rack. Wait 30 s until all the beads are collected and the liquid cleared, and aspirate the supernatant carefully.
+e.Repeat c-d twice more.
+f.Resuspend beads in 65 μl Dilution buffer/IP.
+
+Note: For sepharose beads, spin the beads 30 s at 300 × g and 4°C instead of using the magnetic rack.
+27.Aliquot 15 μL Dynabeads into fresh 2 mL low binding Eppendorf tubes (4 tubes for one 20 M cell pellet).
+28.After centrifugation, take the top 90% (approx. 8 mL) of chromatin. On ice, aliquot 2 mL per 2 mL low binding Eppendorf tube containing Dynabeads beads (from step 27).
+Note: For ChIP-qPCR, transfer the top 90% of the chromatin (800 μl) into a new 1.5 mL low binding tube that contains 20 μL of sepharose beads in Dilution Buffer.
+29.Incubate for 6 h at 4°C while slowly rotating the tubes.
+30.Note: For ChIP-qPCR, incubate for 3 h at 4°C while rotating. On ice, wash the beads with the immobilized chromatin of interest with FAST IP Buffer. Place magnetic racks on ice.a.Place the 2 mL Eppendorf tubes inside the magnetic rack. Wait for 30 s until the liquid is cleared.
+b.Aspirate the supernatant and add 1 mL ice-cold Fast IP buffer.
+c.Take the tubes from the magnetic rack and mix by inverting and flicking the tubes. Let the samples sit on ice for 2 min.
+d.Repeat a-c four more times.
+
+Note: For sepharose beads, spin beads 30 s at 300 × g and 4°C instead of using the magnetic rack.
+31.During the washes, prepare the Bead Elution Buffer.
+Note: Steps 32 and 33 are only required for ChIP-seq samples
+32.After the fifth wash, add 100 μL ice-cold 1× TE buffer to each tube. Unite the beads from the four 2 mL tubes (for one 20 M cell pellet) by removing the tubes from the magnetic rack and resuspending the beads with the P200. Collect all beads from one sample in one tube. Afterward, one tube with 400 μl bead suspension per sample remains.
+33.Add another 50 μL ice-cold 1× TE buffer to each one of the empty tubes, resuspend any remaining beads and unite with the beads from step 32 (650 μl beads in 1×TE).
+34.Place the tubes into the magnetic rack, wait 1 min until the solution is cleared, and carefully remove the supernatant with a pipette. Be careful, the beads will only be loosely attached in TE buffer.
+Note: For ChIP-qPCR, the steps 32 and 33 are not required, since every tube is a separate IP.
+35.Add 1 mL 1× ice-cold TE buffer, resuspend the beads by inversion and by flicking the tubes, and place them back into the magnetic rack. Wait 1 min until the solution is cleared.
+36.Carefully pipet the TE buffer off using a pipette. Shortly spin the beads and transfer the tube back to the magnetic rack. Remove any remaining supernatant.
+Note: For sepharose beads, spin beads 30 s at 300 × g and 18°C–24°C instead of using the magnetic rack.
+37.Add 100 μL Bead Elution Buffer per tube, vortex and incubate 15 min at 18°C–24°C and 1,000 rpm in a thermomixer.
+Note: For ChIP-qPCR, add 50 μL Bead Elution Buffer to each IP.
+38.Place the tubes into the magnetic rack and collect the supernatant into fresh 1.5 mL low binding Eppendorf tubes.
+39.Add another 100 μL Bead Elution Buffer to the beads, vortex and incubate again inside the thermomixer for 15 min at 18°C–24°C and 1,000 rpm.
+Note: For ChIP-qPCR, add 50 μL bead elution buffer and spin beads 30 s at 300 × g and 18°C–24°C instead of using the magnetic rack.
+40.Shortly spin the tubes in a bench top centrifuge. Place the tubes into the magnetic rack and collect the supernatant into the 1.5 mL tubes from step 38. The final volume of the eluted chromatin is 200 μL.
+Note: For ChIP-qPCR, the final volume should be 100 μL.
+41.Thaw the input sample and adjust the volume of the input sample to 200 μL using 1× TE buffer.
+42.Add 8 μL of 5 M NaCl to the 200 μL eluted chromatin and input, vortex and heat at 65°C for 12–16 h. Do not shake.
+Note: For ChIP-qPCR, adjust the volume of the input sample to 100 μL and add 4 μL of 5 M NaCl.
+
+## DNA purification
+Timing: 3 h
+
+In this step, the chromatin is de-crosslinked and the DNA is purified.43.Add 1 μL of RNase A∗ (10 mg/mL stock) to the eluted DNA and input samples.
+44.Incubate for 30 min at 37°C and 300 rpm in a thermomixer.
+45.Add 4 μL 0.5 M EDTA pH=8, 8 μL 1 M Tris-HCl∗ pH=7.5 and 1 μL Proteinase K∗ (10 mg/mL stock).
+46.Incubate in a thermomixer for 2 h at 56°C and 300 rpm.
+47.Purify the de-crosslinked chromatin using the MinElute PCR purification kit from QIAGEN.a.Add 1,110 μL PB buffer and 50 μL 3M NaOAc pH=5.2. The color of the pH indicator should be yellow.Note: For ChIP-qPCR, add 500 μL PB buffer and 20 μL 3M NaOAc pH 5.2.
+
+b.Mix with a pipette and load 700 μl de-crosslinked chromatin in PB buffer onto the spin column and spin at 20,000 × g for 30 s at 18°C–24°C.
+c.Discard the flow-through.
+d.Repeat step b with the remaining chromatin.
+e.Wash with 750 μL PE buffer (containing EtOH∗) to the spin column.
+f.Spin at 20,000 × g for 30 s and discard the flow- through.
+g.Spin the empty column at 20,000 × g for 1 min to remove residual PE buffer.
+h.Add 16 μL EB buffer and spin at 20,000 × g for 1 min.
+
+Pause point: For ChIP-seq, the purified ChIP DNA might be stored at −20°C until libraries can be prepared. Before freezing the samples, take a 2 μl aliquot for qPCR (see steps 48–55)) and another 1–2 μl aliquot to measure the DNA concentration with Qubit. Avoid freeze and thaw cycles.
+CRITICAL: Purified DNA for ChIP-qPCR is very unstable due to its low concentration. ChIP samples with lowly concentrated DNA tend to lose a higher fraction of DNA to adsorption by the tube walls and subsequent denaturation of smaller fragments ( ; ). Low-concentrated ChIP DNA (as from ChIP-qPCR) should be processed immediately. The maximal storage time is 12–16 h at −20°C.
+
+## Quantitative PCR (qPCR)
+Timing: 3 h
+
+In this step, the enrichment is quantified. It serves as a quality control of ChIP samples designated for sequencing.48.Thaw SYBR Green PCR master mix and prepare 10-μM dilutions of the primers for at least one negative and positive locus.
+49.Take 2 μl from the eluted ChIP or input DNA, and add 118 μl of nuclease-free water (1:60 dilution). This is sufficient for 8 qPCRs in a 384-well format when performing triplicates.
+Note: For ChIP-qPCR experiments, only dilute the eluted DNA (ChIP or input) 1:15 at the highest, depending on how many qPCRs will be performed. Further dilution will make the spike-ins undetectable.
+50.Create five standards by making serial dilutions of the input samples, as indicated in the following table:
+ 51.Further dilute the input 1:5.
+52.Add 4.5 μl of each standard, water (as non-template control), input and ChIP samples to 3 of the 384 wells each (triplicates).
+53.Prepare the qPCR master mix based on the following table. Replace n by the number of ChIP samples (including all input samples).
+ 54.Run the following protocol on the qPCR machine:
+ Optional: Run a melt curve analysis.
+55.Confirm that the reaction efficiency is between 90%–110% by analyzing the standard curve.
+
+## Quality control
+Before proceeding to library preparation, the following two quality control standards must be met.56.Specific enrichment for the factor of interest, as determined by ChIP-qPCR.
+
+Test the enriched chromatin for a positive locus occupied by the factor of interest and for a negative locus that should not be bound by the factor of interest (see ).Note: The negative control is of utmost importance, as ChIP-seq experiments are not usually compared to IgG controls to test whether an antibody is specific.
+57.The majority of the input chromatin should be fragmented between 200 and 1500 bp as determined by agarose gel electrophoresis (see and ).
+
+## Library preparation
+Timing: 2 days for 1 to 20 libraries
+Timing: 3 h until next pause point per five libraries for steps 66and 67
+Timing: approx. 3–16 h for step 68
+Timing: 2 h depending on the cycle number for steps69and 70
+Timing: 3 h for 1–10 libraries for step 71
+
+In this part, the ChIP DNA is prepared for sequencing on an Illumina NGS machine using a ligation-based approach (see ).58.Bring AMPure XP beads to 18°C–24°C.
+59.Prepare fresh 80% EtOH∗ (molecular biology-grade) with nuclease-free water.
+60.Prepare fresh Library Elution Buffer (LEB).
+61.Quantify the ChIP and input DNA using Qubit.
+Note: Input DNA has to be diluted at least 1:100 for Qubit quantification.
+62.Dilute up to 5 ng of ChIP DNA in 50 μl nuclease-free water.
+Note: If the ChIP DNA is undetectable, it might still be processed for library preparation (see ).
+63.Perform end repair and A-tailinga.Prepare one end repair reaction per sample in a PCR tube as follows: 
+Buffers and enzymes are from the KAPA HyperPrep Kit.
+b.Mix thoroughly and spin samples using a benchtop centrifuge.
+c.Incubate the samples in a thermocycler with the following program, and proceed to the next step immediately: 
+
+64.Adapter ligation (single index)a.Add the following reagents to the end-repaired and A-tailed ChIP DNA: 
+Buffers and enzymes are from the KAPA HyperPrep Kit.
+b.Mix thoroughly and spin samples shortly in a benchtop centrifuge.
+c.Incubate at 20°C for 15 min in a thermocycler and proceed to the next step immediately.
+
+Note: The adapter identifies each sample. Accordingly, use different adapters for each sample and record the adapters used, to enable computational demultiplexing after sequencing. An adapter contains the primer binding sequence for the universal amplification primers in step 69, and a unique barcode (index) on one (single index) or both strands (dual index), which are required for the identification of each sample (see ). Adapters might be ordered from any oligonucleotide vendor.
+ 
+We are using single index adapters here. However, dual indices are recommended for sequencing on Illumina NovaSeq 6000 machines to avoid index hopping.65.Post-ligation Clean-up (0.8× AMPure XP bead clean-up)CRITICAL: AMPure XP beads should be equilibrated to 18°C–24°C.
+Note: Timing during AMPure XP bead clean-up is important, we therefore recommend to process at most 10 libraries at the same time. Multiple rounds of 10 purifications are possible.
+a.Mix AMPure XP beads well and add 88 μl per 110 μl ligation reaction using a pipette. Mix reaction by pipetting up and down for 10×.
+b.Incubate 5 min at 18°C–24°C.
+c.Place PCR tubes in magnetic tube holder (8-stripe) and wait until the liquid is clear (1–3 min).
+d.Remove 175 μl of the supernatant with a pipette and discard it.CRITICAL: Do not disturb the beads.
+
+e.Add 200 μl of freshly prepared 80% EtOH∗ without disturbing the beads. Incubate 1 min.
+f.Remove all EtOH∗ with a pipet without disturbing the beads.
+g.Dry beads at 18°C–24°C (2–5 min).CRITICAL: Check each tube individually. Do not overdry beads. Overdried beads will show cracks.
+
+h.Add 25 μl Library Elution Buffer to the beads, take the PCR tubes from the magnetic rack and pipet up and down for 10× times. Incubate 2 min at 18°C–24°C.
+i.Place PCR tubes into the magnetic tube holder and wait until the liquid is cleared (1–5 min).
+j.Transfer 22 μl of the supernatant to a fresh PCR tube.
+
+Pause point: Adapter-ligated DNA can be stored at 4°C for one week or at −20°C for one month.
+66.Size Selection with the Pippin PrepAlternatives: Double-sided size selection with AMPure XP beads might be performed, but does not yield size ranges as accurately as the Pippin Prep. For a target range of 200–660 bp, 0.5× AMPure XP beads are added to the sample in the first step. Larger fragments are bound to the beads, while the desired fragments remain in the supernatant. New beads are added to the supernatant according to the following formula, using a left-sided ratio of 0.8×:
+V(SPRIbeads)=V(sample)×(leftsidedratio−rigthsidedratio)=V(sample)×0.3
+The desired fragments are bound by the beads and small fragments are discarded together with the supernatant. The procedure is the same as described in point 65 after adjusting for the AMPure XP bead ratio.Note: With one Pippin Gel Cassette, size selection of up to five libraries can be performed. For more libraries, consecutive runs of Size Selection might be performed.
+a.Turn the Pippin Prep on and create the following protocol:i.Select the correct cassette from the drop-down menu: “2% Marker E”
+ii.Select Range (turns orange).
+iii.Enter 200 into the “BP Start” and 600 in the “BP End” field.
+iv.Enter the sample ID.
+v.Press “Use Internal Standards”, which will auto-fill the Reference Lane box.
+vi.“End Run when Elution is Completed”
+vii.Save the protocol.
+
+b.Calibrate the Pippin Prepi.Press “Calibrate” on the control panel.
+ii.Put the calibration fixture onto the optical nest (dark-side down).
+iii.Close the lid and press “Calibrate”.
+iv.After calibration, press “EXIT” to return to the main menu.
+
+c.Bring loading solution/marker mix to 18°C−24°C.
+d.Add 8 μl of library elution buffer and 10 μl of loading solution/marker mix to each sample.
+e.Mix thoroughly by vortexing and spin tubes in a benchtop centrifuge.
+f.Unpack one 2% Dye-free Pippin Gel Cassette from the box and inspect it for cracks in the gel or for missing buffer (e.g., dried wells).Note: Do not use cassettes with cracks or dried wells.
+
+g.Check for air bubbles in the detection regions and behind the elution wells. Dislodge them by slightly tapping against the cassette.Note: If an air bubble is visible between the plastic and the agarose, do not use this well.
+
+h.Place the cassette into the optical nest of the Pippin Prep and remove the adhesive strips.
+i.Refill buffer wells with less than 50% buffer.
+j.Remove all buffer (approx. 50 μl) from the elution wells and replace with 40 μl fresh Electrophoresis Buffer.Note: Carefully place the pipet tip at the bottom of the elution well for refill and move upwards with the buffer level to avoid the introduction of air bubbles.
+
+k.Seal elution wells with the provided adhesive tape strips.
+l.Fill sample wells with Electrophoresis Buffer (approx. 70 μl in total).
+m.Run the Continuity test by pressing “TEST”.Note: If a separation lane fails the continuity test, check the sample well’s buffer level. If the buffer is sufficient but the lane still fails, do not use this lane. If the elution channel failed, replace the elution buffer and rerun the continuity test. If it fails again, do not use this lane for any sample.
+
+n.Fill up sample wells with Electrophoresis Buffer if required.
+o.Remove 40 μl of Electrophoresis Buffer from each sample well that will be used.
+p.Load 40 μl of sample into each well.Note: Place the pipet tip just below the buffer level and follow the liquid level while loading the sample to avoid air bubbles.
+
+q.Select the prepared protocol and press “START”. One run takes approx. 2.5 h.
+r.After the run, collect the samples by removing the adhesive tape from the top of the elution wells and carefully pipet 40 μl of eluted DNA into a fresh PCR tube using a pipette.
+
+67.Concentrate the size-selected library with AMPure XP beadsa.Combine 72 μl of well-mixed AMPure XP beads with 40 μl of size-selected ChIP DNA and mix with a pipet (10 times).
+b.Proceed with the AMPure XP bead purification as described in points 66b-g.
+c.Add 26 μl Library Elution Buffer to the beads, take the PCR tubes from the magnetic rack and pipet up and down 10 times. Incubate for 2 min at 18°C–24°C.
+d.Place PCR tubes into the magnetic tube holder and wait until the liquid is cleared (1–5 min).
+e.Transfer 24 μl of the supernatant to a fresh PCR tube.
+
+Pause point: ChIP DNA can be stored at 4°C for up to 24 h after size selection. Do not freeze.
+68.Kapa Library Quantification
+Library quantification estimates the amount of adapter-ligated ChIP DNA and is required to estimate the number of amplification cycles for the library.a.Prepare serial dilutions of the ChIP DNA in Library Elution Buffer (LEB) as follows: 
+b.Load 4 μl of each standard (provided by the KAPA Library Quantification Kit) and sample into a 384-well plate. Perform assay in triplicates.Note: The standard concentrations are as follows: Std 1: 20 pM; Std2: 2 pM; Std 3: 0.2 pM; Std 4: 0.02 pM; Std 5: 0.002 pM; Std 6: 0.0002 pM
+
+c.Add 6 μl of Kapa SYBR Green master mix per well.Note: Premix 5 mL KAPA SYBR Fast qPCR Master Mix with 1 mL of 10× Primer before the first use and prepare aliquots. All reagents are provided by the KAPA Library Quantification Kit. Store in the dark at −20°C. Do not freeze and thaw more than twice.
+
+d.Run the following protocol on the qPCR machine: approx. 2.5 h Optional: Run a melt curve analysis.
+
+e.Confirm that the reaction efficiency is between 90%–110% by analyzing the standard curve.
+f.Calculate the library concentration as follows: c(undiluted library in pM)=d1×(fStdfLib×x)+d2×(fStdfLib×y)+d3×(fStdfLib×z)3m(undilutedlibraryinng)=c(undiluted library in pM)×109×fLib×Mbp×VLib
+The average standard fragment length fStd (standards from the KAPA Library Quantification Kit) is 452 bp. The average size-selected library fragment length fLib (Pippin Prep) is 350 bp. The molecular weight of one base pair (Mbp) is approximated with 660 g/mol. The ChIP library volume (VLib) is 20 μl (see point 67e).
+g.Determine the number of amplification cycles required from the amount of ChIP DNA (ng) with the help of the following table from the KAPA Library Quantification Kit (Roche): 
+
+CRITICAL: Take care to avoid too many rounds of amplification in order to prevent PCR duplicates from making up most of your sequencing reads. See .
+69.Library amplificationa.For each sample, prepare the following PCR reaction on ice: 
+b.Run the following PCR program: 
+
+Note: The number of cycles X has to be adapted according to the amplification cycles determined in 68g.
+70.Post-amplification Clean-up with AMPure XP beads (1× AMPure XP bead clean-up)a.Mix 50 μl of the amplified ChIP library with 50 μl of well mixed AMPure XP beads with a pipet by pipetting up and down for 10 times.
+b.Proceed with the AMPure XP bead purification as described in 66b-g.
+c.Add 16 μl Library Elution Buffer to the beads, remove the PCR tubes from the magnetic rack and pipet up and down for 10 times. Incubate for 2 min at 18°C–24°C.
+d.Place PCR tubes into the magnetic tube holder and wait until the liquid is cleared (1–5 min).
+e.Transfer 14 μl of the supernatant to a fresh PCR tube. This is the final library.
+
+Pause point: The final library can be stored at −20°C for up to 1 year. Take aliquots for Bioanalyzer and Qubit concentration measurement before freezing. Avoid freeze and thaw cycles.
+71.Perform quality control with the Agilent Bioanalyzer.
+
+The Bioanalyzer profile on the left in shows an ideal library with a size distribution between 200 and 600 bp and no adapter or primer dimer contaminations: 
+In case of adapter contamination, see .72.Pooling of libraries for sequencinga.Measure the library concentrations by Qubit.
+b.Calculate the volume of each library to be pooled for sequencing as follows:VLib=Nlanes×cpool×Vpool×Mbp×fLibNsamplesperlane×cLib×103VLib – volume to pool for the individual library in μlNlanes – number of lanescpool – concentration of the final pool in μMVpool – volume of the final pool in μlMbp – molecular weight of one base pair (approx. 660 g/mol)fLib – average library size as determined by the BioanalyzerNsamples per lane – number of samples to pool per lane (see notes)cLib – concentration of individual library in ng/μl as measured by Qubit
+c.Fill to the Vpool with nuclease-free water and store the pool of ChIP libraries at −20°C until sequencing.Note: Flow cells and pooling strategy need to be adapted according to the number of libraries, the sequencer available and the desired sequencing depth. We recommend contacting the sequencing facility or provider before pooling. The number of samples to pool in one lane is determined by the total number of reads given by a flow cell (e.g., 800 M reads for one lane on the SP flow cell for the NovaSeq 6000) and the desired sequencing depth. Sequencing depth recommendations for the mouse genome are as follows:
+ 
+
+## Expected outcomes
+ChIP-seq libraries with 1–5 ng/μl size-selected DNA can be expected. If a library meets the following quality control standards, it can be processed for pooling and sequencing.
+First, the ChIP-qPCR shows a significant enrichment at a positive locus when compared to a negative region, for both the target and the spike-in genome (see ). 
+Secondly, the bulk of the fragmented chromatin used for library preparation is between 200 and 1,500 bp in size. The size-selected library therefore resembles the majority of the fragmented chromatin.
+Third, the fragment length distribution of the library resembles a shape similar to the library visualized in the Bioanalyzer profiles in left or broader. A homogeneous distribution of fragments from 200 to 600 bps is expected. No adapter dimers are detected.
+
+## Quantification and statistical analysis
+
+## Normalization of ChIP-qPCR results
+Analyze ChIP-qPCR data by calculating the percentage input (%input) for each IP and for each locus (target and spike-in) as described in the following section. Here, we present an example of ChIP-qPCR against H3K4me2 in murine macrophages stimulated with LPS (L) or LPS plus Dexamethasone (L+D). 25% of spike-in chromatin from Drosophila S2 cells was used. In this example, the %input was calculated separately for each replicate. Fkbp5 represents the positive locus of the target genome and eRF3 denotes the positive locus of the spike-in genome. NegPol2 is a negative locus in the target genome.1.First, determine the performance of the primers used, by calculating the PCR efficiency from the standard curve.
+
+Find the mean Ct values (technical replicates) of each standard in . Standards were prepared as described in step 50. 
+We plot the standard curve as linear regression of the mean Ct values (technical replicates) over the log2-transformed dilution factor ( ) and determine the PCR efficiency from the slope of the standard curve as follows.PCRefficiency=100×2(1−slope)
+The linear range of the standard curve is defined as the Ct value range, with the standard curve being linear. In our example, all the primers have a linear range from S1 (22 for Fkbp5) to S4 (33 for Fkbp5). S5 was excluded, as it was either outside the linear range or within one Ct value of the non-template control ( ).2.Adjust the input to 100% using the following formula:
+inpadj=Ctinp¯−log2dfinpadj – adjusted inputdf – dilution factor (500 for 1% input diluted 1:5 during qPCR) – mean Ct value of the qPCR replicates from the input sample3.Calculate the percentage input using the following formula:
+%inp=100×2−(CtIP¯−inpadj) – mean Ct value of the qPCR replicates for the ChIP sample
+ shows the example data from the ChIP-qPCR against H3K4me2 in murine macrophages. 
+4.Continue to spike-in normalization using the following formula:
+ 
+ - %input of a locus occupied by the protein of interest in the target genome (positive)
+ - %input of a locus occupied by the protein of interest in the spike-in genome (positive)
+ illustrates the example data for a H3K4me2 ChIP-qPCR experiment in murine macrophages. 
+ shows the enrichment of H3K4me2 in LPS (L) and LPS plus Dexamethasone (L+D) treated macrophages at a positive (Fkbp5) and a negative locus (Negpol2) before ( A) and after spike-in normalization ( B). Before spike-in normalization, the results from both replicates are highly variable, both in LPS and LPS plus Dexamethasone stimulated macrophages. A similar variation is observed for the Drosophila spike-in locus eRF3 pointing towards a technical bias between the different test tubes ( A). By normalization to the positive spike-in locus (eRF3), we are able to account for this variation ( B).CRITICAL: The spike-in ratio must be sufficiently high to measure reliable Ct values by qPCR (see ).
+ 
+
+## Normalization of ChIP-seq results
+The quality of the sequencing reads can be evaluated by FASTQC (https://www.bioinformatics.babraham.ac.uk/projects/fastqc/). Samples not yielding at least 50% of the required sequencing depth (see 72c) should be submitted for re-sequencing. The “per base quality score” should be above 28 for all read positions. Low quality reads are filtered out during sample processing with Samtools ( ). Adapter sequences are removed with Trimmomatic ( ).
+Samples are processed via a standard ChIP-seq pipeline ( left). Each sample is mapped against the target genome (Mus musculus Ensembl genome build GRCm38.p6 (mm10)) ( ) and against the spike-in genome (Drosophila melanogaster Ensembl BDGP6 release 78 (dm6)) in this example ( )) using BWA-MEM ( ). Peaks are called using MACS2 ( ). For more details, see Mir et al. ( ) and the ENCODE pipeline (https://www.encodeproject.org/data-standards/chip-seq/ ( )). 
+Samples with fewer than 80% of reads mapping to the target genome or more than 80% of PCR duplicates (see ) should be excluded from analysis. Furthermore, ChIP-seq samples of transcription factors with <1% of reads overlapping peaks (RiP), or histone marks with <10% RiP in either target genome or spike-in genome should be removed as well (see ). Samples with a recovery of <1% spike-in DNA (of all non-duplicated and aligned reads) were removed, too. Note that the proportion of recovered spike-in reads will depend on the target and the spike-in genome size ratio and the genomic coverage of the protein of interest (see ).
+The peak union of all replicates (peak universe) can be generated in R (https://www.R-project.org/
+( )) using the GenomicRanges package ( ), and blacklisted regions can be removed using the following script: Note: At the time of publications, BED files of the updated blacklisted regions could be found at https://github.com/Boyle-Lab/Blacklist/tree/master/lists.
+
+The number of reads covering peaks (RiP) is determined using BEDTools ( ) and the R script below: 
+The immunoprecipitation efficiency (IPeff) is calculated from the reads covering peaks (RiP) divided by all quality-filtered reads (RQC) for each reference genome. The absolute scale factor (sfabs) for each sample is calculated from the percentage of spike-in chromatin (100∗spike-in reads (Rdm)/(spike-in reads (Rdm) + target reads (Rmm))) divided by the RiP for the spike-in genome and normalized by the IP efficiency ratio between spike-in and target genome (IPeffdm/IPeffmm) (see right).
+The absolute scale factors of all samples are set into relation (sfrel) by normalizing to the highest occurring absolute scale factor among all samples. Those relative scale factors are used for scaling BigWig files with deepTools ( ): 
+The inverse of the relative scale factors replaces the sizeFactors in DESeq2 ( ) for differential occupancy analysis in R. Alternatives: Diffbind ( ) also offers spike-in normalization and differential occupancy analyses for simple designs.
+Note: DESeq2 allows the usage of complex experimental designs.
+
+ includes the mapping statistics (%map), the calculated IP efficiencies (IPeff), the absolute (abs.) and the relative (rel.) scale factors (sf) of an example data set ( ). FASTQ files are deposited on GEO with the accession number GEO: GSE138017. 
+The effect of spike-in normalization on the read counts across all H3K4me2 peaks (peak universe) between replicates, and examples of normalized versus non-normalized genome browser tracks, are shown in . 
+
+## Limitations
+ChIP depends on the specificity and availability of the antibody. Any antibody used in ChIP experiments needs to be extensively tested by ChIP-qPCR in the cell type or tissue of interest, ideally by comparing wild type and knockout cells. A pre-screen by Western blot is possible. If knockout cells/tissues are not available, specific blocking peptides might be purchased and included as controls. The latter is recommended when profiling closely related histone modifications to ensure that the ChIP antibodies do not cross-react. Additionally, ChIP experiments require a certain amount of starting material. For low amounts of input material, Cut&Run or Cut&Tag techniques are an alternative, but come with their own limitations ( ; ). ChIP-seq experiments in particular are limited to the availability of genome sequences for the target species.
+Heterologous spike-in ChIP experiments have several additional technical limitations. For heterologous spike-in ChIP, the protein of interest needs to be conserved between the target and the spike-in species. Closely related species can be used for ChIP-qPCR, given that the primers were tested for cross-reactivity, but are not recommended for ChIP-seq experiments. To test for cross-mappability of the spike-in species, obtain the reference genome for the spike-in species, bin it into fragments matching the sequencing read length (e.g., 50 or 101 bp) and map it against the target species, and vice versa. Less than 10% cross-mappability are acceptable for heterologous spike-in experiments. On top of the target protein conservation, the antibody of interest needs to react with the protein epitope of interest across species. The reactivity of the ChIP antibody needs to be tested in cross-linked tissue or cell material form the target species as well as for the spike-in cells or tissues. For this purpose, one can design primers against positive and negative regions in both genomes and test several antibodies against the protein of interest for specificity by ChIP-qPCR.Note: Polyclonal antibodies are more likely to react with the protein of interest across species.
+
+## Troubleshooting
+
+## Problem 1
+Target and spike-in cells have different sonication conditions (step 6).
+
+## Potential solution
+Sonication conditions have to be optimal for each of the tissues/cells used as target or spike-in. Therefore, optimal sonication conditions need to be established before the start of the experiment. In the case of murine macrophages and Drosophila S2 cells, sonication conditions are very similar (12 cycles for macrophages and 10 cycles for S2 cells at high settings, see ). Thus, both cell types can be mixed at the desired spike-in ratio before sonication. This might not always be the case.
+If the sonication conditions differ substantially between target and spike-in species, lyse and shear both cell types separately with the optimal conditions for each sample. Mix the fragmented chromatin at the desired spike-in ratio, after removing insoluble chromatin (step 18).
+
+## Problem 2
+Find a ChIP-grade antibody (Before you begin, step 22).
+
+## Potential solution
+A key success factor for ChIP experiments is a specific antibody. Find below some recommendations on how to select a good ChIP antibody.•Acquire ChIP-validated antibodies, but still confirm the specificity of those antibodies by performing ChIP-qPCR against a positive and negative locus in the specific experimental system (e.g., cell type or tissue) as described in the “Before you begin” section.
+•Try antibodies suitable for immunohistochemistry or immunofluorescence of formaldehyde-fixed tissues.
+•Try polyclonal antibodies, as they may have a higher probability of recognizing an unmasked epitope and as they may exhibit cross-species specificity.
+•Test each antibody against a knockout or knockdown cell line if available, or use blocking peptides to confirm antibody specificity.
+•Include more than one negative (not bound by the protein of interest) and positive locus, as well as an IgG control, to test for specificity in Chip-qPCR.
+
+## Problem 3
+Undetectable ChIP DNA (step 62).
+
+## Potential solution
+The sensitivity of the Qubit dsDNA HS kit lies between 0.2–100 ng of DNA. A ChIP sample might be undetectable by Qubit.•Repeat the ChIP and combine the eluted DNA samples from two ChIP experiments.
+•If the input material is limiting a repetition of the experiment, process the complete ChIP DNA for library preparation. After library quantification, do not add more than 14 PCR cycles to avoid over amplification of the library. A specific enrichment for the factor of interest must have been observed by ChIP-qPCR (see ), and the majority of the chromatin fragments must lie between 150 and 1500 bp, as determined by agarose gel electrophoresis or Bioanalyzer of the input DNA (see and ).
+
+## Problem 4
+Adapter contamination of the final library.
+
+## Potential solution
+The Bioanalyzer profiles might reveal an additional peak at approx. 120 bp similar to . Those are adapter dimers contaminating the library. In contrast to the remaining PCR primers at around 35 bp, adapter dimers need to be removed before sequencing, as they contain the adapter sequence able to bind to the flow cell.
+Repeat post amplification clean-up step 70.Note that any additional clean-up step will result in the loss of approximately half the concentration of the final library.
+
+## Problem 5
+Low amount of spike-in DNA after ChIP (step 6).
+
+## Potential solution
+If the spike-in qPCR yields very high Ct values or N/As in the ChIP samples, or if they fall below 1% of all non-duplicated and properly aligned reads for ChIP-Seq samples, the concentration of the spike-in chromatin is too low to allow for proper estimation of technical bias.•Make sure the spike-in primers are optimal, by determining at the PCR efficiency and the melt curve. The melt curve should only show one prominent peak. The PCR efficiency should lie between 90 - 100% for a Ct value range, recapitulating the Ct values of the ChIP samples.
+•If the spike-in primers are optimized and show significant enrichment for the input sample, the chosen positive locus might not be positive.
+•If the input sample also shows a high Ct value for the spike-in chromatin, or if < 1% spike-in reads are detected in ChIP-Seq, consider increasing the spike-in ratio up to 25% in ChIP-qPCR or up to 10% in ChiP-Seq experiments.
+
+## Problem 6
+High number of PCR duplicates (step 69).
+
+## Potential solution
+PCR duplication rates >50% are not only expensive, but they also bias the occupied chromatin fraction towards smaller fragments. A true PCR duplicate has the same start and end of the sequencing read. In order to differentiate PCR duplicates from naturally occurring duplicates, paired-end sequencing is recommended. PCR duplicates mostly arise from library amplification (step 69), when more than 7 amplification cycles were performed.•Limit PCR cycles to maximum 7 cycles.
+•If sufficient ChIP DNA is available, consider combining two library preparations of the same sample, with low numbers of amplification cycles each.
+•If sufficient ChIP DNA was obtained, insufficient adapter annealing might cause a requirement for extra PCR cycles during library amplification. Amplification primers only bind adapters and therefore, only adapter-ligated chromatin fragments will be amplified. To ensure optimal adapter ligation, avoid freeze and thaw cycles of adapter dilutions and make sure that the T4 ligase is stored properly. If the problem persists, reorder adapter stocks or prepare fresh adapter dilutions.
+
+## Problem 7
+High background signal (steps 5, 7, 22, and 26).
+
+## Potential solution
+The fraction of reads mapping into peaks reflects the efficiency of the ChIP (IP efficiency) and serves as quality readout that reports on how many reads were specifically purified. IP efficiencies below 10% indicate an unspecific recovery of chromatin fragments, due to various reasons. Similarly, a low enrichment for a positive locus over the negative locus in ChIP-qPCR might indicate unspecific binding, even if the IgG control was not affected.
+There are several reasons for a high background signal.
+If the antibody causes an unspecific signal (see ), the enrichment for a positive locus over the negative locus (region not bound by the protein of interest) will be low, and both signals will be significantly higher than the signal observed in the IgG control.
+Besides an unspecific antibody, the antibody-epitope interaction may be inhibited by the SDS content of the shearing buffer. Try a low-SDS shearing buffer (step 5) and add Triton X-100 up to 1%, to sequester the SDS during immunoprecipitation (step 21). 
+Low-SDS Shearing Buffer is stable at 18°C−24°C for up to 6 month.
+∗Sodium deoxycholate is harmful when swallowed and may cause respiratory irritation. Avoid breathing dust/fume/vapors or sprays. Do not eat/drink or smoke while using Sodium Deoxycholate. Wash hands after handling. Wear protective clothing. Work in a well-ventilated area. Dispose according to regional/national regulations.Note: When changing the shearing buffer, sonication conditions have to be re-established.
+
+“Over-sheared” chromatin displays unspecific binding to the beads or interactions of the ChIP antibody with alternative epitopes. Confirm fragment sizes after sonication, and do not proceed with ChIP if most of the chromatin fragments are below 500 bp after fast-reverse cross-link.
+Unspecific binding of chromatin and DNA to the beads may cause increased background signal. Try to reduce the incubation time with the beads. Otherwise, pre-clearing of chromatin with pre-blocked Dynabeads or sepharose beads might remove proteins and DNA that binds unspecifically to the beads. Add 20 μl of pre-blocked beads to each sample and incubate for 1 h at 4°C while rotating slowly. After 1 h, place tubes in a magnetic rack (Dynabeads) or spin for 30 s at 300 × g at 4°C (sepharose beads). Transfer the supernatant to a fresh tube and proceed with the immunoprecipitation (step 22).
+Rarely, batch effects in the Dynabeads or sepharose beads might cause higher background signal and are resolved after purchase of a new batch.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Franziska Greulich (franziska.greulich@tum.de).
+
+## Material availability
+This study did not generate any unique reagents. All reagents used are commercially available and listed in the Key Resource table.
+
+## Data and code availability
+The example data used in this study is available from GEO (https://www.ncbi.nlm.nih.gov/geo/ ( )) under the accession number GEO: GSE138017. All unique code is reported in this study.
+
+ 
+
+## Acknowledgments
+We sincerely thank E. Graf, S. Loesecke, T. Schwarzmayr, and I. de la Rosa (HMGU genomics core) for their contribution to the NGS studies. We are grateful to I. Guderian and S. Regn for administrative assistance. This work received funding from the 10.13039/501100001659DFG (UH 275/1-1, SFB 1064 Chromatin Dynamics and TRR205 Adrenal Research to NHU and Entzuendungsprozesse GR 5179/1-1 to FG) and from the 10.13039/100010663ERC (ERC-2014-StG 638573 SILENCE to NHU). Figures were partially created using BioRender.
+
+## Author contributions
+F.G. designed, performed, and analyzed the NGS experiments. F.G. and A.M. developed, validated, and optimized the spike-in ChIP protocol. A.M. performed the spike-in ChIP-qPCR. T.H. optimized the library preparation protocol. F.G. and N.H.U. supervised the work and secured funding. A.M. and F.G. wrote the manuscript together with N.H.U. All authors read and approved the final manuscript.
+
+## Declaration of interests
+The authors declare no competing interests.

@@ -1,0 +1,1007 @@
+4063jacsauJACS AuJACS AuAmerican Chemical SocietyPMC1204195712041957120419574031381710.1021/jacsau.5c00084Machine Learning
+Reveals Amine Type in Polymer Micelles
+Determines mRNA Binding, In Vitro, and In Vivo Performance
+for Lung-Selective Delivery
+PandaSidharth EatonElla J MuralikrishnanPraveen StelljesErin M SeeligDavis LeydenMichael C GilkeyAlexandria K BarnesJackson T MorrisseyDavid V SarupriaSapna MoriarityBranden S ReinekeTheresa M †Department
+of Chemistry, University of Minnesota, Minneapolis, Minnesota 55455, United States‡Department
+of Genetics, Cell Biology and Development, University of Minnesota, Minneapolis, Minnesota 55455, United States§Department
+of Chemical Engineering and Materials Science, University of Minnesota, Minneapolis, Minnesota 55455, United States∥Department
+of Pediatrics, University of Minnesota, Minneapolis, Minnesota 55455, United States⊥Department
+of Veterinary Clinical Sciences, College of Veterinary Medicine, University of Minnesota, Saint Paul, Minnesota 55108, United States#Pfizer
+Research
+and Development, 610
+Main Street, Cambridge, Massachusetts 02139, United States▽Masonic
+Cancer Center, University of Minnesota, Minneapolis, Minnesota 55455, United States▼Center
+for Genome Engineering, University of Minnesota, Minneapolis, Minnesota 55455, United States*Email: treineke@umn.edu.
+14420255418451845–1861152025© 2025 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Cationic micelles, composed of amphiphilic block copolymers
+with
+polycationic coronas, offer a customizable platform for mRNA delivery.
+Here, we present a library of 30 cationic micelle nanoparticles (MNPs)
+formulated from diblock copolymers with reactive poly(pentafluorophenol
+acrylate) backbones modified with diverse amines. This library systematically
+varies in nitrogen-based cationic functionalities, exhibiting a spectrum
+of properties that encompass varied degrees of alkyl substitution
+(A1–A5), piperazine (A6), oligoamine (A7), guanidinium (A8),
+and hydroxylation (A9–A10) that vary in side-chain volume,
+substitution pattern, hydrophilicity, and pKa to assess parameter impact on mRNA delivery. In vitro delivery assays using GFP+ mRNA across multiple cell lines reveal
+that amine side-chain bulk and chemical structure critically affect
+performance. Using machine learning analysis via SHapley Additive
+exPlanations (SHAP) on 180 formulations (3780 experimental measurements),
+we mapped key relationships between amine chemistry and performance
+metrics, finding that amine-specific binding efficiency was a major
+determinant of mRNA delivery efficacy, cell viability, and GFP intensity.
+Micelles with stronger mRNA binding capabilities (A1 and A7) have
+higher cellular delivery performance, whereas those with intermediate
+binding tendencies deliver a higher amount of functional mRNA per
+cell (A2, A10). This indicates that balancing the binding strength
+is crucial for performance. Micelles with hydrophobic and bulky pendant
+groups (A3–A5) tend to induce necrosis during cellular delivery,
+highlighting the significance of chemical optimization. A7 amphiphile,
+displaying primary and secondary amine, consistently demonstrates
+the highest GFP expression across various cell types and in
+vivo achieves high delivery specificity to lung tissue upon
+intravenous administration. Moreover, we established a strong correlation
+between in vitro and in vivo performance
+using Multitask Gaussian Process models, underscoring the predictive
+power of in vitro models for anticipating in vivo outcomes. Overall, this innovative study integrates
+advanced data science with experimental design, demonstrating the
+pivotal role of chemical amine-dependent optimization for advancing
+targeted mRNA delivery to the lungs.
+Keywords: mRNA delivery, polymer, amphiphile, lung tropism, micelle
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Jan 23; Accepted 2025 Mar 20; Revised 2025 Mar 19; Collection date 2025 Apr 28.
+
+## Introduction
+Nucleic acid therapeutics leverage precise
+modulation of the cellular
+genome and proteome, offering immense potential for treating numerous
+acquired and inherited diseases from thalassemia and sickle cell anemia
+to cystic fibrosis and cancer. − Unprecedented human health advancements
+are being realized via 26 FDA-approved genetic medicines and over
+3000 ongoing clinical trials via ex vivo and in vivo delivery of nucleic acids into cells and tissues. Messenger RNA (mRNA) has been globally applied
+in vaccines and numerous clinical trials due to its ability to express
+therapeutic proteins without the need for nuclear translocation and
+lower risk of genotoxicity and mutagenesis. , However,
+mRNAs are rapidly degraded by RNases and show low stability and poor
+cellular uptake. Viral nanoparticles and lipid nanoparticles (LNPs)
+have been proven in the clinic for mRNA delivery. , However,
+thermal stability concerns for LNPs , alongside
+astronomical manufacturing costs and inflammatory response from viruses , have fostered exploration and discovery of alternate delivery systems.
+Polymer-based vehicles offer an exceptionally vast synthetic design
+space, facile composition modularity, and well-defined architecture
+as alternative nucleic acid delivery vehicles. This, coupled with
+decades of research and development optimizing low-cost production
+on mass scale, offers unprecedented opportunities for tailoring vehicle
+design. , Polymer vehicles provide a new avenue for
+the exploration of novel vector architectures and chemistries for
+mRNA delivery that previously remained inaccessible through viral
+and LNP vector systems, yet coupling the physicochemical structure,
+biological properties, and in vivo performance is
+still in the early stages of development.
+Cationic polymers
+such as poly(ethylenimine) (PEI) − and poly(dimethylaminoethyl methacrylate)
+(PDMAEMA) − are the predominant polymeric delivery systems due
+to their ability
+to form electrostatic complexes with negatively charged nucleic acids.
+Various polymer architectures, including homopolymers, alternating
+and statistical copolymers, block copolymers, as well as branched,
+star, and brush-like structures, have shown effective packaging of
+nucleic acids into complexes commonly referred to as polyplexes, polyelectrolyte
+complexes (PECs), and polymer nanoparticles (PNPs). These complexes are known to facilitate efficient intracellular
+delivery. Among these, assemblies of amphiphilic block copolymers
+bearing pendant polycationic coronas, known as micelles, have emerged
+as a promising class of polycationic delivery systems in drug and
+nucleic acid delivery. − Micelles offer structural similarities to both LNPs and PNPs ( ) via a marriage
+of unlimited chemical modification, formulation composition, and uniform
+preassembled particle sizes. When complexed with nucleic acids, these
+micelles form micellar nanoparticles (MNPs) or micelleplexes. Our
+group has shown that MNPs provide a well-defined paradigm providing
+multivalent cationic corona for binding of polyanionic payloads. Micelles
+and MNPs benefit from extremely slow chain-exchange kinetics and enhanced
+compaction of nucleic acid cargo, which ensures better colloidal stability
+and delivery efficiency. − Furthermore, our group has shown
+that self-assembled micelles have demonstrated superior delivery performance
+compared to their linear counterparts for various nucleic acid payloads,
+including plasmid DNA (pDNA) and antisense oligonucleotides (ASOs). − 
+ Multiple investigations have shown that variations
+in the chemistry,
+morphology, and formulation of polycationic micelles significantly
+affect the complexation and delivery efficiency of pDNA, Cas9 ribonucleoprotein,
+and siRNAs. − For example, Duvall et al. showed that modifying the corona charge
+density by mixing neutral poly(ethylene glycol) (PEG)-based amphiphiles
+with DMAEMA based cationic amphiphiles improved siRNA unpackaging
+and significantly impacted in vivo biodistribution. Similarly, Traeger et al. were able to improve
+pDNA delivery efficiency in cultured cells and MNP stability in serum
+by reducing cationic charge density via the incorporation of anionic
+functionalities. Importantly, these findings
+suggest that the charge–charge interactions between the polycation
+and nucleic acid payload dictate the formation of micelleplexes and
+their subsequent disassembly, thus critically impacting the delivery
+performance. Nitrogenous moieties are the conventional archetype of
+cationic moieties used in the design of polycationic delivery vehicles.
+Our group has previously reported that amine structure can alter in vitro performance in studies led by Santa Chalarca et
+al. for micelle-pDNA systems and Hanson
+et al. for micelle-ASO systems. However,
+despite the availability of large design space, micellar delivery
+systems have mostly been limited to PDMAEMA-based scaffolds with some
+micelle-like structures being studied based on modified PEI. , These amine-type-based dependencies have been observed for a variety
+of different nucleic acids. However, a cohesive head-to-head assessment
+correlating cationic micelle physicochemical properties with mRNA
+complexation and delivery performance in vitro and in vivo is still lacking, hindering further clinical development
+of this novel, stable, and scalable MNP high-performance vehicle class.
+In addition to driving mRNA complexation kinetics, the identity
+of charged groups in nanoparticle formulations can significantly influence
+biodistribution and in vivo performance − The cationic charge imparted by these amines can lead to protein
+opsonization, resulting in serum fouling and reduced delivery efficacy.
+However, by altering the nanoparticle surface chemistry, it is possible
+to recruit specific serum proteins that facilitate targeted delivery
+to extrahepatic organs. For instance,
+research on lipid nanoparticles (LNPs) has advanced this field, with
+Siegwart et al. demonstrating Selective Organ Targeting (SORT) LNPs. By tuning the helper lipid within a five-component
+lipid formulation, they achieved targeted delivery of mRNA to organs
+such as the liver, lungs, and spleen. Studies also suggest that nanocarriers
+containing quaternary ammonium moieties can effectively target the
+lungs via intravenous administration. − However, nontitratable
+amines like quaternary ammonium groups often exhibit poor nucleic
+acid cargo release, , , − necessitating the use of charge density-reducing
+helper lipids or comonomers to enhance performance. While these laborious
+empirical strategies provide information, their fiscally intensive
+synthesis, characterization, formulation, and biological testing efforts
+are limiting. Thus, there is a dire need to develop intelligent structure
+discovery and efficiency correlations via data science methods to
+rapidly improve predictive nucleic acid delivery performance with
+well-defined formulations.
+In this work, we identify the fundamental
+physicochemical properties
+of cationic micelles that dictate their efficacy for mRNA delivery in vitro and in vivo, with the goal of
+guiding future generations of optimized organ tropic formulations
+for polymer vehicles ( ). We hypothesize that amine chemistry/identity, pKa/pH responsiveness, molecular volume, and hydrophilic/hydrophobic
+balance all play key roles in altering in vitro or in vivo performance and tropism. To test this hypothesis,
+we developed a streamlined parallel workflow to generate modifiable
+diblock polymers yielding 30 micelle structures and thousands of experimental
+data points, leveraging the heuristic tools of parallel synthesis/characterization
+and machine learning. In vitro delivery experiments
+using GFP-encoding mRNA with various cell lines were conducted to
+assess the delivery efficiency. A machine learning method based on
+SHapley Additive exPlanations (SHAP) analysis was employed to correlate
+and decipher key design principles that dictate performance. Indeed,
+the chemical properties of the amines significantly impact performance.
+Micelles with strong mRNA binding capabilities yield higher cellular
+delivery performance, those with intermediate binding deliver a higher
+amount of mRNA per cell, and structures with hydrophobic/bulky pendant
+groups induce necrosis during cellular delivery. Notably, a pH-responsive
+amphiphile with a polyamine-based pendant moiety, designated A7, emerged
+as the top performer, exhibiting exemplary delivery efficiency across
+cell lines. Using Multitask Gaussian Process models, in vitro and in vivo data correlation is shown linking amine
+properties directly to both delivery efficacy and biodistribution.
+Overall, this work is the first to show that cationic polymers can
+be tailored to yield both exceptional performance and lung-selective
+targeting via intravenous (IV) administration. These findings highlight
+the critical role of amine-based functional group design in optimizing
+the physicochemical properties of cationic micelles for mRNA delivery.
+This work integrates advanced data science tools into a robust synthetic
+and characterization framework for the rational design of next-generation,
+organ-specific mRNA delivery systems, paving the way for more effective,
+affordable, and targeted mRNA therapeutics.
+
+## Results and Discussion
+
+## Polymer Amphiphile Synthesis, Micelle Formation, and Characterization
+Postpolymerization functionalization of reactive polymer scaffolds
+provides a facile avenue for the combinatorial synthesis of polymer
+libraries. , This methodology addresses challenges
+associated with monomer incompatibility arising from differing reactivity
+ratios, a limitation often constraining accessible polymer sequences.
+In the current study, we synthesize a set of postpolymerization modifiable
+diblock copolymer scaffolds, with poly(n-butyl acrylate)
+serving as the hydrophobic block and poly(pentafluorophenol acrylate)
+as the modular block. To understand the effect of corona cation density
+on mRNA binding and delivery, we introduce variability in the molecular
+weight of pentafluorophenol acrylate via chain extension on a PnBA
+block, generating three distinct parent modular scaffolds ( A,B). Previous research
+has established that for diblock polymers, a hydrophilic fraction
+(fhydrophilic) of approximately 0.5 is
+indicative of spherical micelle formation. , In our three parent polymer scaffolds, the PnBA block (hydrophobic)
+is kept constant at 118 repeat units (RU), while the modular block
+is varied with lengths of 100 repeat units (RU) (Short Library, 0.46 fhydrophilic), 150 RU (Medium Library, 0.56 fhydrophilic), and 200 RU (Long Library, 0.63 fhydrophilic) ( A,B and S3).
+ We then reacted each scaffold with 10 different
+primary amine-based
+modifiers to readily yield a series of 30 poly(nBA)-b-poly(cation) copolymers with a focus on acrylamide linkers for stability
+and performance. The primary amine modifiers
+feature nitrogen-based cationic functionalities, exhibiting a spectrum
+of properties that encompass varied degrees of alkyl substitution
+(A1–A5), hydroxylation (A9–A10), and include specialty
+amines such as piperazine (A6), polyamine (A7), and guanido (A8) moieties
+( A). Boc protection
+is applied to species containing multiple amines to enhance selectivity
+(Figure S6). The primary amines also cleave
+trithiocarbonate end-groups, so hydroxyethyl acrylate is used as a
+capping agent. A notable advantage of employing poly(pentafluorophenol
+acrylate) is the ability to assess the extent of amidation via 19F NMR (Figure S5). Complete conversion
+is confirmed by the disappearance of poly(pentafluorophenol acrylate)
+peaks. The number-average molecular weight (Mn) and fhydrophilic are calculated
+assuming a poly(n-butyl acrylate)118-b-poly(cationic)100/150/200 block composition (Figures S3 and S7–S16). Finally, potentiometric
+titrations on the amphiphiles show that pKa values range from 7.2 to 8.3, with the A7 modification exhibiting
+two pKas at 5.6 and 8.2 (Table S1). This postpolymerization modification approach provides
+a robust framework for systematically varying polymer scaffold properties,
+allowing for precise control over corona cation density and hydrophilic–hydrophobic
+balance.
+The self-assembly of polycationic amphiphiles to form
+micelles
+is performed via an ultrasound-assisted direct dissolution technique.
+Dry powders of the amphiphiles are directly dissolved in MOPS buffer
+at pH 7 via stirring at room temperature for 3 days with 30 min of
+ultrasonication every 24 h. Dynamic light scattering (DLS) is used
+to assess the size distribution, revealing intensity-weighted mean
+diameters (Z-Average value) ranging from 70 to 130
+nm, displaying a narrow monomodal distribution for the entire polymer
+library ( D).
+While variations in the hydrophilic block length did not produce a
+linear change in micelle size, the amine identity is found to influence
+micelle size trends. Specifically, an increase in the amine hydrophobicity
+was positively correlated with larger micelle sizes. Furthermore,
+the direct dissolution micelle assembly method typically results in
+the formation of nonergodic micelles, where polymer characteristics
+and preparation techniques significantly influence size. Given the consistent synthesis and formulation
+methodology applied across the library, these size trends are inherent
+characteristics that play a critical role in dictating the reproducible
+properties of polybasic amphiphiles.
+
+## Chemical Features Affect mRNA Binding and MNP Size/Stability
+The efficacy of mRNA delivery vectors hinges on both efficient
+complexation and the release of the bioactive cargo. The influence
+of amphiphile identity on micelle–mRNA binding and release
+dynamics is assayed via two modified versions of a RiboGreen-based
+dye exclusion assay ( A). The assays simulate changes in micelleplex stability in
+cell culture media and mRNA release and are conducted at N/P (molar
+ratio of micelle nitrogen (N) content to mRNA phosphate (P) content)
+ratios of 5 and 10. The first assay demonstrates a high degree of
+complexation (∼98%) of all micelles in PBS buffer at both N/P
+ratios with no clear trends ( B). However, high binding efficiency does not necessarily
+indicate stable micelleplexes. To elucidate micelleplex behavior in
+complex cell culture media, micelleplex formulations (post-RiboGreen
+assay) are subject to dilution in cell culture media (OptiMEM). Changes
+in micelleplex stability result in mRNA expulsion, increasing RiboGreen
+fluorescence. Across the micelle library, N/P 5 formulations exhibit
+a comparative increase in fluorescence (indicative of decreased relative
+binding efficiency) over N/P 10 formulations. This indicates more
+mRNA release from low N/P formulations, implying a decrease in MNP
+stability. This suggests that MNP formation at a higher N/P of 10
+is more stable in culture media ( B and S18).
+ To gauge the relative binding strength of MNPs,
+we used a modified
+dye exclusion assay with the addition of heparan sulfate ( B and S18), an anionic sulfonate glycosaminoglycan
+ubiquitous on cell surfaces and known to cause nucleic acid release
+from delivery vehicles. Pearson pairwise correlation values assess
+relationships between input features of amine chemistry, corona length,
+and relative binding strength values (from RiboGreen fluorescence
+increase upon heparan sulfate incubation) (Figure S19). Results show that greater amine substitution and hydrophobicity
+lead to a weaker relative mRNA binding strength and more release.
+mRNA release increases linearly across A1–A5 due to increasingly
+bulky and hydrophobic substitutions on the amines. Notably, A7 and
+A8 MNPs exhibit low mRNA release, indicating very stable and compact
+formulations. MNPs displaying hydroxyl groups (A9 and A10), had similar
+stability to their nonhydroxylated counterparts (A1 and A2), potentially
+due to additional hydrogen bonding interactions with mRNA, negating
+the effect of bulky substitutions. These findings show that less substituted
+amines improve mRNA-micelle binding and underscore the chemistry in
+optimizing micelleplex stability and mRNA release, which is crucial
+for enhancing delivery efficiency and therapeutic efficacy.
+Micelleplex size is another key parameter that impacts cellular
+internalization and the functional delivery of mRNA. DLS measurements
+show that the MNP hydrodynamic size distribution generally ranges
+between ∼150 nm to ∼250 nm in PBS at both N/P ratios
+of 5 and 10 ( C and Tables S2 and S3). N/P 10 formulations
+generally offer smaller MNPs in PBS (ca. 100–200 nm) than in
+N/P 5, suggesting higher mRNA compaction. In contrast, the increased
+particle size at a lower N/P ratio is likely due to micelle aggregation,
+potentially forming dimers or trimers during mRNA complexation. This
+phenomenon is likely driven by intermicellar interactions facilitated
+by partial charge neutralization at lower N/P ratios, leading to reduced
+electrostatic repulsion and increased clustering. A correlation is
+found with amine hydrophobicity wherein more hydrophobic amines result
+in larger aggregates. However, MNPs displaying A8 emerge as an exception
+that form large aggregates at N/P 5. OptiMEM addition, however, results
+in some degree of MNP aggregation evident from an increase in hydrodynamic
+diameter, likely due to counterion-induced aggregation ranging into
+microns. Again, MNPs bearing bulky hydrophobic amines (A5, A5, and
+A6) show a higher level of aggregation evident from an increase in
+MNP hydrodynamic diameter. These findings show that both the MNP formulation
+ratio and the amine hydrophilicity and side-chain bulkiness affect
+MNP stability, an important feature for optimizing mRNA delivery systems.
+
+## Amine Identity Dictates MNP Delivery Performance In
+Vitro
+To elucidate the impact of physicochemical
+structure on mRNA delivery efficacy, micellar nanoparticles (MNPs)
+were formulated using mRNA encoding green fluorescent protein (GFP).
+Delivery experiments were conducted across a range of therapeutically
+relevant cell lines, including HEK293T (kidney), A549 (lung), HuH7
+(liver), and HDFn (fibroblasts), yielding promising results ( B,C and S22–S27). The efficacy of mRNA delivery
+was evaluated using flow cytometry, which provided two key metrics:
+the percentage of GFP-positive cells (indicating delivery efficiency)
+and the mean fluorescence intensity (MFI), which reflects the extent
+of GFP expression within individual cells. In delivery experiments
+with HEK293T cells, all MNP formulations were tested across different
+N/P ratios and mRNA dosages.
+ The GFP expression levels of MNP formulations in
+HEK293T cells
+at N/P ratios of 5 and 10, across three different mRNA dosages ( B,C and S22–S24), demonstrate a positive correlation
+between N/P ratio, mRNA dosage, and GFP expression levels. This correlation
+is attributed to the interplay between nucleic acid compaction and
+the ability of excess cationic polymers to facilitate endosomal escape
+mechanisms. Notably, significant variations in the delivery performance
+are closely linked to the identity of the amine components within
+the MNP corona. Preliminary data analysis reveals a consistent trend:
+increased amine bulkiness correlates with decreased delivery efficiency
+and GFP MFI. Notably, although A3 MNPs achieve high delivery efficiencies,
+their corresponding GFP MFI is significantly lower compared to those
+of A1 and A2 variants. Similarly, A6 MNPs, which contain a piperazine-based
+amine moiety with bulky substitutions, exhibit a notably lower GFP
+MFI, suggesting suboptimal performance due to premature mRNA release
+and poor delivery. In contrast, hydroxyl modifications of primary
+and secondary amine-based pendant groups (A9 and A10) lead to higher
+GFP MFI compared to their nonhydroxylated counterparts (A1 and A2),
+indicating that such modifications may enhance mRNA delivery and release.
+The A7 MNPs are the top-performing formulations even at lower N/P
+ratios. The dual pKa exhibited by A7 (Table S1) likely increases endosomal escape and
+mRNA release and translation. The guanido-based
+A8 MNP exhibited unexpected poor performance despite the known activity
+of guanidine chemistry leading to cell permeation and pDNA-based gene
+expression. , We hypothesize that A8 MNPs,
+due to their guanidinium groups, introduce additional hydrogen bonding
+interactions with mRNA, leading to stronger binding and significantly
+altering mRNA complexation-decomplexation dynamics. Importantly, these
+observed trends, although detailed for HEK293T cells, were also consistent
+across the other cell lines studied (Figure S27).
+The relationship between the physicochemical parameters
+and delivery
+was quantitatively analyzed by SHAP TreeExplainer analysis. SHAP is a game theoretic approach employed to
+extract the importance of a given model variable (polymer features)
+on a predicted output (delivery performance) based on initial learning
+data. Key polymer-dependent features such as side-chain molecular
+volume (bulkiness) and c log P, relative binding efficiency, pKa, micelle size, and MNP size were considered as independent
+input variables ( D,E and S39). Different machine
+learning (ML) models were trained on distinct subsets of data derived
+from 3780 experimental measurements. These subsets were carefully
+selected to evaluate how different input features influence various
+biological outputs (see the section for details). To validate the robustness of our ML model
+results, we conducted 5-fold cross-validation and have reported test R2 values in the prediction of different properties
+in Table S5. SHAP analysis of the in vitro data highlights that MNP size is the most critical
+determinant of delivery efficiency and GFP mean fluorescence intensity
+(MFI), as illustrated in the radar plots (Figure S39D–F). Although amine hydrophobicity and bulkiness
+influence mRNA binding capacity to MNPs, thereby affecting delivery
+outcomes, these features are less directly perceived by cells compared
+with the physical attribute of particle size. Interfeature dependencies,
+depicted through Pearson correlations (Figure S19), show that MNP size is positively correlated with side-chain
+hydrophobicity, a relationship emphasized in the SHAP dependency plots
+(Figure S40). The pronounced impact of
+MNP size arises from the formation of larger, less compact structures
+due to hydrophobic and bulky amine substitutions.
+Additionally,
+SHAP plots demonstrate a strong influence of mRNA
+binding efficiency on both delivery efficiency and GFP MFI. This is
+evident in F,G, where delivery efficiency increases linearly with increasing
+binding efficiency, while GFP MFI peaks at intermediate binding values.
+This suggests that stronger mRNA binding enhances the stability and
+delivery efficiency by minimizing premature decomplexation before
+cellular entry. Conversely, an optimal intermediate binding strength
+ensures efficient cytosolic release, resulting in higher GFP expression.
+Notably, the analysis also indicates a negligible role of corona length
+( D,E) in dictating
+biological outcomes, supporting our initial experimental observations
+that the length of the cationic micelle corona does not significantly
+impact delivery, likely due to its inherently high cation density.
+Overall, these data highlight the crucial role of physicochemical
+characteristics in optimizing mRNA delivery via micellar nanoparticles,
+demonstrating how parameters such as MNP size, amine bulkiness, and
+mRNA binding efficiency directly influence delivery efficiency and
+GFP expression.
+
+## Amine Identity Dictates MNP Uptake and Endosomal Escape to Enhance
+mRNA Delivery
+We next sought to correlate the mechanistic
+impetus regulating delivery performance to the polymer features to
+create a holistic design blueprint. Since the corona length of MNPs
+did not significantly affect their delivery performance, formulations
+with a medium-length corona complexed with GFP mRNA were selected
+for more detailed mechanistic investigations. Delivery experiments
+using Cy5-labeled GFP mRNA indicated over 90% internalization across
+all 10 micelles at the 4 h mark, a trend that persisted even at 24
+and 48 h ( A and S28). To assess relative cellular
+internalization, we measured the geometric mean fluorescence intensity
+(MFI) of Cy5. Notably, when comparing the Cy5 MFI at 24 h with amine
+identity, we observed that micelles with poorer binding affinities
+resulted in reduced internalization of mRNA payloads. Furthermore,
+the internalization of nanosystems can occur through various endocytic
+and macropinocytotic pathways. − To probe internalization mechanism,
+cells were co-incubated with MNPs containing Cy5 mRNA and specific
+drugs known to inhibit certain internalization pathways. The results showed that all MNP formulations
+primarily relied on clathrin-mediated endocytosis, with some contributions
+from caveolar endocytosis and macropinocytosis (Figure S29). While amine identity does not seem to impact
+the preferred uptake pathway, the dependence on clathrin-mediated
+endocytosis, an endolysosomal pathway, indicates a downstream dependence
+of the observed delivery performance on endosomal escape propensity.
+ Upon entering the endolysosomal pathway, micelleplexes
+encounter
+two potential outcomes: successful translocation to the early endosome
+with subsequent cytoplasmic release, or entrapment in the late endosome,
+leading to lysosomal degradation. The
+latter scenario, driven by V-ATPase proton pumps, presents a primary
+bottleneck in nucleic acid delivery. Amine-based polycations with
+pKa values ≤6 exhibit buffering
+capacity, acting as “proton sponges” during endosomal
+acidification. , This buffering induces chloride
+counterion influx, causing endosomal swelling, membrane destabilization,
+and rupture. Additionally, protonation of micelleplexes during buffering
+may release micelles to maintain charge balance, which can interact
+with and disrupt the endosomal lipid bilayer, forming pores and facilitating
+escape. Bafilomycin-A1 (Baf-A1), an H+-ATPase inhibitor was added to cultures to block proton influx
+into cellular endosomes (preventing proton sponge-mediated escape). , A significant decrease in GFP expression level upon Baf-A1 treatment
+is found across MNPs, indicating a primary reliance on proton sponge-mediated
+endosomal escape ( B). The pendant amine groups of A7 typically share a proton
+at higher pH levels, becoming individually protonated as the pH decreases
+resulting in the dual pKa observed. Consequently, A7 displays a broad buffering
+region, indicating superior buffering capacity and resulting in the
+largest drop in GFP expression (∼90%). MNPs displaying A1 and
+A9 also yield a substantial decrease (∼75%) in GFP expression,
+while A3, A6, and A10 exhibit an intermediate decrease in GFP expression
+levels (∼40%). Overall, micelles with lower pKa values enhance endosomal escape (Figure S30).
+Overall, we observed a robust link between
+the identity of amine
+groups and mechanistic attributes of observed biological performance.
+These data demonstrate that while all micelle formulations ensured
+high levels of mRNA internalization, the efficiency is dictated by
+the binding affinity. Moreover, the reliance on the “proton
+sponge″ effect of amines with specific pKa values significantly influenced endosomal escape, highlighting
+the importance of amine titratability in the design of effective gene
+delivery systems.
+
+## Amine Identity Dictates MNP Toxicity and Cellular Viability In Vitro
+Toxicity assays allow fundamental insights
+into how chemical parameters, such as amine substitution and hydrophilicity,
+affect cellular viability, which is crucial for the rational design
+of polymer-based systems. CCK-8 assays measure the metabolic activity
+of cells and offer a first-pass measure of delivery system toxicity
+( A and S22–S24). The cell viability profiles
+of individual micelles show a negative correlation with an increasing
+micelleplex N/P ratio and mRNA dosage. While higher N/P ratios and
+mRNA dosage improve delivery efficiency due to the surplus cations,
+this effect is counterbalanced by a reduction in cell viability, likely
+due to the necrotic effects of excessive cationic functionalities.
+The identity of the amine substitution also has a discernible effect
+on the viability profiles. Amines bearing hydrophobic and bulky substitutions
+correlate with a decline in transfection efficiency, particularly
+evident when comparing variants A1 through A5. The viability trends
+linearly decrease from A1 through A5, with A5 displaying high necrotic
+cell death. Similarly, high levels of cell death are seen for the
+piperazine-based A6 micelles. Hydroxyl modification of primary and
+secondary amine-based groups (A9 and A10) negatively affects viability
+in comparison to nonhydroxylated counterparts (A1 and A2). In contrast,
+A7 micelleplexes display moderate viability, while A8 micelleplexes
+do not elicit cytotoxicity, despite effective internalization. Again,
+we did not observe any correlation between micelle corona size and in vitro viability, which is further demonstrated via SHAP
+analysis (Figure S39C). While these observations
+are for HEK293T cells, the same amine-dependent trends are observed
+across the other cell lines as well (Figure S27).
+ Given that cationic nanoparticles are known to
+induce membrane
+porosity, we examined the impact of membrane destabilization on cell
+viability. Propidium iodide (PI), a dye that enters cells with compromised
+membranes, is used to assess this destabilization. Greater substitution
+on amines results in a greater PI signal, indicating membrane permeation
+( B). Both excessive
+hydrophobicity and hydrophilicity amplify this effect, with hydroxyl-modified
+amines (A9 and A10) showing PI internalization levels comparable to
+their more hydrophobic counterparts (A4 and A5). Performing PI internalization
+assay in tandem with Annexin V assay delineates subpopulations undergoing
+apoptosis or necrosis , ( C). Annexin V binds to phosphatidylserine
+exposed on the cell surface during death, indicating necrosis if accompanied
+by PI positivity (due to membrane poration) or apoptosis if Annexin
+V is positive alone (Figure S20). The correlation
+between necrosis levels and membrane destabilization, as assessed
+by PI internalization, is significant ( C,D). Apoptosis levels remain consistent
+across the treatment library, suggesting that while some degree of
+membrane permeabilization is crucial for effective transfection and
+endosomal escape, excessive destabilization can lead to an increase
+in necrosis, compromising cell viability. Overall, micelles with more
+hydrophobic and bulky pendant amine groups (A4–A6) cause an
+increase in necrosis, indicating their potential unsuitability ( D). Interestingly,
+micelles such as A1, A2, and A7, which cause only intermediate reductions
+in cell viability, exhibit low necrosis levels, suggesting that a
+reduction in cell viability may be due to a slowdown in cell growth
+rather than necrotic death, highlighting the importance of selecting
+amine modifications that balance efficacy with minimal cytotoxicity.
+
+## Amine Identity Dictates In Vivo Delivery Performance
+To evaluate the in vivo delivery performance of
+MNPs, we bound luciferase-encoding mRNA to the MNP formulations. These
+MNPs were administered by tail vein injection to immune-competent
+BALB/c mice to quantify luciferase expression through live-animal
+luminescence imaging ( A and S32). The animals were sacrificed
+6 h postinjection, and organs were harvested to measure organ luminescence,
+which serves to assess biodistribution. Below, we focus on data from
+MNPs with the medium cation corona length (at N/P 10 and mRNA dosage
+of 0.5 mg/kg), given the absence of significant performance differences
+among MNPs A7 short, medium, and long in in vivo delivery
+screens (Figure S33) and the consistent
+data from the entire MNP library in cell culture models ( B,D). Collectively,
+these results highlight the critical influence of amine identity on
+delivery efficiency.
+ Intravenous administration of the medium library
+MNP displaying
+cations A1–A10 demonstrates disparate in vivo performance, with only A1, A7, and A9 micelles exhibiting significant
+luciferase signal indicative of successful luciferase expression ( A,B). The luminescence
+signal for these MNPs is predominantly localized in the thoracic region.
+MNP A7 displays the highest luminescence at 3 × 106 p/s/cm2/sr, comparable to that of the commercial control in vivo-JetPEI and an order of magnitude greater than A1
+and A9 MNP formulations at the same dosage. Organ-level luciferase
+signaling revealed lung-specific biodistribution of the luminescence
+for all three MNP identities ( C). A7 MNPs displayed lung luminescence (1.2 ×
+107 p/s/cm2/sr) significantly higher than that
+of in vivo-JetPEI (3.9 × 106 p/s/cm2/sr), indicating delivery specificity. This was further validated
+by the delivery of Cy5-labeled mRNA and organ imaging, which confirmed
+that A7 MNPs predominantly localized in the lungs ( D). The ability of A7 MNPs
+to achieve highly selective lung accumulation and expression is particularly
+significant, as it contrasts with existing organ-selective LNP formulations,
+which while capable of lung-specific mRNA translation, still exhibit
+substantial hepatic accumulation. We attribute this enhanced specificity
+to the homogeneous single-component nature of our MNPs, in contrast
+to the multicomponent lipid-based LNPs, which have been shown to accumulate
+in the liver due to the presence of cholesterol and phospholipids. These findings show the ability of the A7 MNPs
+to circumvent hepatic sequestration without requiring extensive formulation
+optimization, thus, highlighting its potential as a highly efficient
+and simplified platform for pulmonary mRNA delivery. SHAP analysis
+further revealed that the relative binding strength between micelles
+and mRNA is the dominant factor influencing luciferase activity, followed
+by pKa and MNP size ( E). This trend reinforces the
+critical role of binding strength in ensuring the stability of cargo
+against serum protein-induced decomplexation yet enabling effective
+cytoplasmic release. It also explains why A10 MNPs, despite performing
+on par with A7 in vitro, failed in vivo. A10’s weaker binding affinity relative to A7, which facilitated
+greater mRNA release and higher GFP MFI in vitro,
+likely caused premature decomplexation during circulation, ultimately
+compromising mRNA delivery. The emergence of pKa as an influential parameter is notable, as previous research
+has established its role in determining organ specificity. Nanoparticles
+with high pKa (>8), particularly those
+containing nitrogenous moieties, are enriched with proteins having
+a pI (isoelectronic point) below physiological pH
+in their nanoparticle corona. These nitrogenous
+groups, such as quaternary ammonium species, facilitate the adsorption
+of vitronectin, which aids in binding with αvβ3 integrin
+receptors on the endothelial cells within lung capillaries, ultimately
+directing tissue-specific delivery. , Since A1,
+A7, and A9 micelles display a corona pKa of around 8, we attribute a similar mechanism to account for the
+MNP targeting to the lungs to that previous study. However, further investigation of the cationic MNP’s
+lung specificity is ongoing to clarify the exact mechanisms.
+Injected mice displayed no discernible adverse events following
+MNP administration. In vivo tolerability assessments
+of A1, A7, and A9 MNPs at N/P 10 with an mRNA dosage of 0.6 mg/kg
+revealed no significant alterations in ALT, AST, BUN, or creatinine
+serum levels compared to untreated controls 24 h postadministration,
+indicating unaffected renal and hepatic functionality (Figure S35). To further probe the potential for
+MNP-induced tissue damage and an inflammatory response, cytokine profiling
+was conducted. We collected plasma samples 6 h postinjection for analysis
+of pro-inflammatory cytokines including MCP-1, IFNγ, TNFα,
+GM-CSF, IL-1β, IL-2, IL-4, IL-6, IL-10, and IL-12p70 ( G and S38). Notably, JetPEI triggered marked elevations
+in MCP-1, IFNγ, TNFα, and IL-4, relative to the PBS-injected
+controls, while the A7 MNP group exhibited a moderate MCP-1 increase,
+significantly lower than that of JetPEI but above control levels.
+Crucially, no significant upregulation of IFNγ, TNFα,
+or IL-4 was observed in the A7 cohort. Histopathological evaluation
+via hematoxylin and eosin staining revealed no differences in gross
+pathology across lung and liver tissues between the groups (Figures S36 and S37). Although modest inflammatory
+signatures and minor histological changes were detected, these are
+congruent with the delivery methodology employed. Elevated cytokines,
+particularly in the in vivo-JetPEI and A7 groups,
+are predominantly linked to monocyte and macrophage activation, which
+are abundant in pulmonary tissues. The
+heightened levels of IL-6 observed in the A7 group likely result from
+membrane permeabilization, triggering the release of damage-associated
+molecular patterns (DAMPs). These DAMPs, in turn, activate pattern
+recognition receptors (PRRs) on macrophages, initiating IL-6-mediated
+acute-phase inflammatory cascades. The
+preferential lung tropism exhibited by A7 MNPs likely produces the
+greatest membrane disruption. In contrast, the reduced delivery efficacy
+of A1 and A9 in pulmonary tissues correlated with diminished IL-6
+induction, indicative of less tissue perturbation (Figure S35). In vivo-JetPEI, despite its
+lung specificity, induced lower IL-6 levels than A7, likely due to
+its reduced membrane-permeabilizing capabilities. Collectively, these
+data highlight the favorable tolerability and robust lung-targeting
+capacity of MNP formulations for mRNA delivery. Looking forward, such
+precision in pulmonary nucleic acid delivery holds significant potential
+for advancing next-generation therapeutic interventions targeting
+chronic conditions including cystic fibrosis and acute respiratory
+distress syndrome (ARDS).
+
+## In Vitro MNP Delivery Performance in the Presence
+of Serum Serves as a Predictor of In Vivo MNP Delivery
+Success
+Serum proteins are known to adversely affect polyplex
+compaction, leading to premature unpackaging of genetic payloads and
+hindering payload internalization. , We hypothesized
+that serum protein fouling might explain the disparities observed
+between in vitro and in vivo mRNA
+delivery performance, prompting us to examine their impact on the
+MNP system under in vitro conditions. To investigate
+the role of amines in resisting serum fouling, we conducted in vitro transfection assays in HEK293T cells, using culture
+media supplemented with 10% fetal bovine serum instead of OptiMEM
+( A). Flow cytometry
+analysis revealed that GFP expression levels for the A7 MNP were high
+and comparable to those observed under serum-reduced conditions. In
+contrast, formulations containing A1 and A9 exhibited slightly lower
+expression, while A2 and A10 demonstrated poor performance, achieving
+less than 5% expression ( B and S31A). Additionally,
+cellular viability was markedly improved across all formulations (Figure S31B)
+ SHAP analysis revealed that pKa and
+MNP size are the most significant factors influencing delivery efficiency
+under serum conditions, with binding efficiency ranking third ( D). The high binding
+efficiencies of A1, A7, and A9, attributed to their primary amine
+content, likely contribute to stable micelleplexes (lower mRNA decomplexation)
+in the presence of serum proteins, thereby enhancing the delivery
+performance. This is further corroborated by Cy5-labeled mRNA uptake
+assays, which demonstrate that micelles with strong binding capabilities
+promote greater overall mRNA internalization in serum ( C and S31C,D).
+The superior performance of A7 under both in vivo and in vitro (under serum) conditions,
+alongside
+the considerable activity of A1 and A9, suggests a correlation between in vitro (under serum) and in vivo delivery.
+To explore this, we applied multitask Gaussian Process (GP) models,
+using BoTorch to evaluate the predictive
+value of in vitro data for in vivo activity, incorporating data from both serum-supplemented and OptiMEM
+conditions (Figure S41). Input data were
+scaled using min-max normalization, while outputs were standardized
+with z-score normalization to prepare for multitask GP training. The
+multitask GP model, trained on both in vitro and in vivo data sets, enabled us to examine correlations across
+tasks. To assess the robustness of our predictive framework, we further
+trained the model on five different subsets of training data (Table S6). Results showed that incorporating in vitro (serum present) data improved predictions for in vivo activity more effectively than incorporating in vitro (serum reduced) data. This enhancement was quantitatively
+supported by the task covariance matrix from the GP model, with a
+covariance of 0.935 ± 0.05 between in vitro (serum
+present) and in vivo activity, significantly higher
+than the covariance between in vitro (serum reduced)
+and in vivo activity (0.342 ± 0.09) (Table S6). This finding highlights the serum-based in vitro data as more representative of the biological processes
+critical for predicting in vivo performance. Additionally,
+true vs predicted plots validated that multitask models, especially
+with serum-based data, substantially improved predictions of amine-mediated
+trends in vivo.
+This comprehensive analysis
+provides a nuanced understanding of
+how key polymer features influence mRNA delivery performance both in vitro and in vivo, revealing complex
+relationships among these variables. While structure–activity
+relationships observed in serum-free in vitro delivery
+diverged notably from in vivo outcomes, delivery
+in the presence of serum in vitro appears to better
+predict in vivo success. These findings support the
+idea that the integration of serum conditions in in vitro screens can serve as a rapid and inexpensive qualitative model for
+signaling the possibility of in vivo delivery success,
+accelerating the development of targeted, stable, and effective nanoparticle
+systems for gene therapy applications.
+
+## Conclusions
+In conclusion, this study presents an innovative
+approach for generating
+a diverse library of polycationic diblock amphiphiles, aiming to rapidly
+develop micelles for efficient mRNA delivery in both in vitro and in vivo settings. Utilizing a postpolymerization
+functionalization strategy, a library of amphiphiles containing three
+molecular weights and 10 distinct amine moieties are assembled into
+micelles. In vitro delivery studies using a reporter
+gene assay demonstrate that micelles with stronger mRNA binding capabilities
+(A1 and A7) transfect more cells, whereas those with intermediate
+binding tendencies deliver a higher amount of functional mRNA per
+cell (A2 and A10). This indicates that balancing the binding strength
+is likely crucial to achieving optimal delivery performance. Moreover,
+micelles with hydrophobic and bulky pendant groups (A3, A4, and A5)
+tend to induce necrosis during cellular delivery, leading to a reduction
+in cell viability. Further cellular uptake studies, examining internalization
+mechanisms and endosomal escape efficiency, revealed that micelles
+with enhanced buffering capacity both improve endosomal escape and
+increase mRNA internalization, boosting the delivery efficiency. Among
+the synthesized amphiphiles, a polyamine-based pendant moiety, labeled
+A7, emerged as the most effective, showcasing exceptional delivery
+results across multiple cell lines. This superior performance is also
+shown in vivo, where A7 selectively targets the lung
+and results across the library align with serum-present in
+vitro delivery trends. To gain a deeper understanding of
+the correlation between amine structure and biological performance,
+SHAP analysis was applied. This analysis confirmed that binding efficiency
+plays a pivotal role in determining delivery potential while also
+identifying micelle nanoparticle (MNP) size as a critical factor in
+delivery efficacy. Multitask Gaussian Process models further established
+a strong correlation between in vitro performance
+in the presence of serum and in vivo outcomes, offering
+valuable insights for the design of future micelle-based mRNA delivery
+systems. Overall, this study sets a new benchmark for mRNA delivery
+technologies by addressing key challenges, such as delivery efficiency,
+cytotoxicity, and organ targeting, while integrating experimental
+and machine learning insights to offer a new paradigm for designing
+micelle-based systems with enhanced precision and efficacy. This work
+establishes a promising and robust framework that could accelerate
+the development of next-generation therapeutics in gene therapy, laying
+the foundation for groundbreaking advancements in nanomedicine.
+
+## Materials and Methods
+
+## Synthesis of Poly(nBA)-b-poly(PFPA) Diblock
+Polymer Scaffold
+All chemicals were purchased from Sigma-Aldrich
+and used without further purification. Pentafluorophenol acrylate
+was synthesized as outlined in the Supporting Information. Poly(nBA)-DDMAT macroCTA was synthesized by the
+bulk RAFT polymerization of n-butyl acrylate (nBA)
+with 2-(dodecylthiocarbonothioylthio)-2-methylpropionic acid (DDMAT)
+CTA. Following purification and characterization, poly(nBA)-DDMAT
+macroCTA (1 eq) was weighed into a 10 mL scintillation vial, and pentafluorophenyl
+acrylate (150, 200, 250 equiv) was added to it. The mixture was then
+dissolved in 1,4 dioxane (2 M final concentration) to obtain a yellow
+homogeneous solution. AIBN (0.05 equiv) was added to the mixture,
+and the vial was degassed via sparging with N2 (g) for
+1 h. The reaction mixture was then stirred at 70 °C for 18 h
+under a N2 (g) atmosphere. The reaction was quenched by
+immersing the flask in liquid nitrogen and opening it to air simultaneously.
+70% monomer conversion was estimated from the relative integrations
+of the signals at −157.78 ppm (1F, polymer) and −157.94
+(1F, residual monomer) in the 19F NMR. The reaction mixture
+was precipitated in ice-cold methanol and dried overnight under vacuum,
+to obtain the diblock scaffold as an off-yellow powder. Block polymer
+composition of poly(nBA)118-b-poly(PFPA)m was estimated from the relative integrations of the signals
+at 4.04 ppm(2H, poly(nBA) block), 3.08 ppm(1H, poly(PFPA) block),
+and 0.94 ppm(3H, poly(nBA) block) in the 1H NMR spectrum
+of the purified diblock polymer in CDCl3. Finally, given
+the inevitable variation in molecular weights postmodification, we
+calculated fhydrophilic based on repeat units to ensure
+consistency in our analyses.
+
+## Synthesis of Poly(nBA)-b-poly(cationic acrylamide)
+Amphiphilic Diblock Polymers
+All 10 polymers
+for each library (Sh, Md, Lg) were synthesized, in parallel, following
+a similar generalized procedure: 200 mg of the poly(nBA)-b-poly(PFPA) diblock polymer scaffold was weighed into individual
+scintillation vials. 5 mL of anhydrous DMF solvent was added to each
+vial and the resultant mixture was stirred until a homogeneous solution
+was obtained. 20 equiv of hydroxyethyl acrylate were added to the
+resulting solutions as a capping agent. 2n equiv
+of each amine, where n is the number of PFPA RU of the corresponding
+scaffold, were weighed into each vial. The vials were then capped,
+put under nitrogen, and heated to 40 °C for 18 h while stirring.
+Following completion of reaction, the mixture was allowed to cool
+down to room temperature and an aliquot was taken for analysis via 19F NMR. Reaction completion was assessed by a complete disappearance
+of the 19F polymer signals at −152, −157,
+and −162 ppm. The crude reaction solutions were then purified
+via dialysis against methanol using a SnakeSkin dialysis bag (3.5
+kDa MWCO) and the polymers were then recovered by drying under vacuum.
+For diblock polymers bearing Boc-protected side chains (A1, A2,
+A6–A10), the polymers were dissolved in trifluoroacetic acid
+(1 mL of TFA per 100 mg of polymer), and the solution was stirred
+while open to the air for 4.5 h. The crude reaction mixture was concentrated
+under vacuum. The residue was dissolved in 5 mL of DMF and dialyzed
+against deionized water, using a SnakeSkin dialysis bag (3.5 kDa MWCO).
+The polymers were recovered via lyophilization. Polymers were dissolved
+in DMF-d7 and purity was confirmed via 1H NMR spectroscopy.
+
+## MNP Formulation and Size Measurement
+Micelles were
+prepared via the direct dissolution method. 10 mg of each amphiphile
+was weighed into individual clean, dust-free, glass vials. Appropriate
+amounts of MOPS buffer (pH = 7, concentration = 20 mM, ionic strength
+100 mM, adjusted with NaCl) were added to obtain 1 mg/mL polymer dispersions.
+The dispersions were stirred at room temperature for 3 days. The solutions
+were sonicated for 30 min at every 24 h interval using an ultrasonic
+bath. During the sonication process, the temperature of the bath was
+monitored and never exceeded 30 °C. The micelles were filtered
+through a 0.22 μm GHP syringe filter, and their size distribution
+was measured with a Malvern Zetasizer Nano ZS (λ = 633 nm) with
+a scattering angle of 173° at a temperature of 25 °C.
+MNP solutions were prepared by diluting micelle and mRNA components
+in DNA/RNase-free PBS (pH 7.4) unless otherwise specified. All micelle
+stocks were diluted to a final concentration of 3 nMol of nitrogen
+per μL. These stocks were then diluted to the appropriate concentration
+necessary so that upon mixing (equal volumes) with diluted mRNA solution,
+the appropriate N/P is achieved. For example, in the case of A7 (Md
+Library), 5 μL of the polymer stock is necessary for every 0.5
+μg of plasmid at an N/P = 10. For example, to make a polyplex
+sample containing 1.5 μg of plasmid at N/P = 10 for a transfection,
+15 μL of polymer stock was diluted in 60 μL of PBS to
+yield 75 μL of micelle stock. For mRNA at 1 mg/mL concentration,
+1.5 μL of mRNA stock was added to 73.5 μL of PBS. To form
+the MNPs, 75 μL of micelle stock was added to 75 μL of
+mRNA stock, mixed, and then allowed to incubate at room temperature
+for 45 min prior to use. PNP formulations for JetPEI were prepared
+following manufacturer protocol.
+The hydrodynamic diameter (Dh) of the
+thus formed MNPs in PBS was determined via DLS using a DynaPro Plate
+Reader at a temperature of 25 °C. To determine their size distribution
+upon dilution in cell culture media, the MNPs were first formed in
+PBS, and their size distributions were recorded and then diluted (3×)
+with OptiMEM. The OptiMEM diluted MNPs were incubated further for
+2 h prior to DLS measurements. The interval of time between addition
+of media and sample measurement was kept constant for all samples.
+
+## RiboGreen Dye Exclusion Assay
+Quant-iT RiboGreen was
+purchased from Thermo Fisher Scientific for dye exclusion studies.
+mRNA dilution was prepared by adding the required amount of primary
+mRNA stock (1 mg/mL) to PBS containing RiboGreen to achieve a final
+concentration of 0.5% RiboGreen by volume. An equal volume of micelle
+dilution was added to this mRNA dilution form MNPs in accordance with
+the previously outlined protocol. mRNA stock containing RiboGreen
+and PBS containing only RiboGreen were used as controls. The MNP solutions
+(100 μL) were dispensed into a black flat-bottom 96-well microplate
+using a multichannel pipettor in triplicate, and the fluorescence
+end point was measured using a microplate reader equipped with a fluorescence
+filter cube (λex = 485/20 nm, λem = 528/20 nm). The relative fluorescence of each sample was calculated
+by subtracting the blank (dye-free sample of the corresponding N/P
+ratio) and then normalizing the result to the polymer-free sample
+(N/P = 0). The polyplex solutions in the plate were then diluted 3×
+with OptiMEM (serum-free), and the fluorescence end points were taken
+30 min after dilution. To understand the mRNA release dynamics, 10
+μL of heparan sulfate dilution in PBS at 1.875 mg/mL (target
+S/N 10) was added to each well containing the MNPs (100 μL)
+and the fluorescence increase was measured as described before. The
+difference in normalized fluorescence intensity due to the addition
+of heparin was used to compare the extent of mRNA release from polyplexes
+in the presence of heparin.
+
+## Delivery Reporter Assay
+GFP expressing mRNA was delivered in vitro in HEK293T, HuH7, A549, and HDFn cells to serve
+as reporter mRNA for successful delivery. The methods outlined herein
+are similar for all of the cell lines unless otherwise specified.
+Cells were plated in 48-well plates at 25000 cells/well density 24
+h prior to transfection. MNPs were prepared as outlined before, and
+then 3× diluted with OptiMEM. The media was aspirated off the
+wells, and the OptiMEM diluted MNPs were added in triplicates to wells
+and then put in the incubator for 4 h. For example, 75 μL of
+A7 micelle stock was added to 75 μL of mRNA stock containing
+1.5 μg of mRNA, allowed to incubate at RT for 45 min, and then
+diluted with 300 μL of OptiMEM to a total volume of 450 μL.
+This solution was immediately added to wells in triplicate such that
+each well received 150 μL total containing 0.5 μg mRNA
+dose. After 4 h of incubation, each well was topped with cell-specific
+growth media containing 10% FBS. Positive control, jetPEI, was used
+according to the manufacturer’s protocol for transfection at
+an N/P of 5. 24 h post-transfection, the media on the cells was replaced
+with fresh supplemented growth media. All transfections were done
+at N/P of 5 and 10 at mRNA dosages of 0.5 μg/well. A dosage
+screening was done in HEK293T cells at 0.25, 0.5, and 0.75 μg/well.
+48 h post-transfection, the cell viability was assessed by CCK-8
+Assay. To prepare the assay solution, an appropriate volume of CCK-8
+solution was added to Fluorobrite DMEM (w/10% FBS) to achieve a final
+dilution of 8% CCK-8 solution. The media was aspirated off from the
+well, and 500 μL of CCK-8 dilution was added to each well and
+put in the incubator for 2 h. Post incubation, 100 μL of CCK-8
+media in the well was aliquoted into clear-bottom 96-well plates,
+and the absorbance at 450 nm was measured on a Synergy H1 Hybrid Reader
+(BioTek; Winooski, VT). The absorbance was normalized to untreated
+controls to obtain the relative cellular viability for each condition.
+Post CCK-8 assay, the media was aspirated off the well, and the
+cells were trypsinized and then transferred to 2 mL deep-well plates.
+The cells were washed with PBS, pelleted via centrifugation (1000g for 10 min at 4 °C), and then resuspended in PBS
+containing 2% FBS. The PBS dilution also contained calcein violet
+AM to enable delineation of live cell populations. For delivery efficiency,
+the percentage of live cells expressing GFP was measured via flow
+cytometry on a Bio-Rad (Hercules, CA) ZE5 flow cytometer with the
+405 and 488 nm laser channels activated. The data were analyzed with
+FlowJo software. Gating schemes are represented in Figure S21.
+For delivery in the presence of serum, the
+methodology outlined
+above was followed with one modification. The MNP formulations were
+diluted 3× with DMEM containing 10% FBS instead of OptiMEM. The
+rest of the protocol was kept the same.
+For internalization
+assays, Cy5-labeled GFP expressing mRNA (EZ
+Cap Cy5 EGFP mRNA (5-moUTP), ApexBio Technology) was used as the reporter
+gene. The delivery protocol was kept the same as that outlined above.
+The percentage of live cells positive for Cy5 and Cy5 MFI were measured
+via flow cytometry on a Bio-Rad (Hercules, CA) ZE5 flow cytometer
+with 640 nm laser channels activated. Gating schemes are represented
+in Figure S21. All internalization studies
+were done at N/P 7.5 and 0.5 μg of mRNA/well dosage.
+
+## In Vivo Studies
+All animal studies
+were approved by the Institutional Animal Care and Use Committee (IACUC)
+at the University of Minnesota. The mice were housed within the University
+of Minnesota’s Research Animal Resource facilities, an AAALAC-accredited
+program. Specific Pathogen Free female Balb/C mice were purchased
+from The Jackson Laboratory (Strain #:000651). The animals were dosed
+at 8 weeks old with either PBS, MNP formulations, or JetPEI carrying
+10 μg of luciferase mRNA in a total of 200 μL via tail
+vein injection. Six hours after injection, delivery was assessed by in vivo bioluminescence imaging on the IVIS Spectrum 2 (reference
+funding). Briefly, animals are intraperitoneally injected with D-luciferin
+substrate (100 μL total volume, 28 mg kg–1). The animals are then anesthetized with isoflurane and placed in
+the imager where luminescent signal is measured 5 min after substrate
+injection. Image acquisition is set to 5 min exposure with fStop =
+1 and Binning = 2.
+The mice were euthanized by CO2 inhalation for sample collection. Blood was collected by cardiac
+stick, allowed to clot for 30 min, and then serum was isolated by
+centrifugation for biochemical analysis. Organs including the lungs,
+thymus, liver, spleen, and kidneys, were collected in PBS on ice.
+D-Luciferin substrate was spiked into the PBS and organs were imaged
+on the IVIS Spectrum 2 (University of Minnesota Imaging Centers, SCR_020997,
+NIH grant 1S10OD032261). Bioluminescence data was analyzed using Living
+Image software (version 4.7.3). Organs were then fixed in Formalin
+and preserved in 70% EtOH for histology.
+Histology was performed
+by the University of Minnesota Masonic
+Cancer Center’s Comparative Pathology Shared Resource. Hematoxylin
+and Eosin staining was used to assess tissue structure after the administration
+of MNPs. Lung samples flash frozen in Tissue Plus O.C.T. compound
+(Scigen) were stained with antiluciferase antibody (cat#) experimental
+details, analysis tool, and details. Biochemical analysis was performed
+by the University of Minnesota Veterinary Medical Center Clinical
+Pathology Laboratory using a Beckman AU480 Chemistry Analyzer. Serum
+levels of ALT, AST, BUN, and Creatinine were used to assess liver
+and kidney function 24 h after administration of MNPs. Ten inflammatory
+markers (GM-CSF, IFNγ, IL-1b, IL-2, IL-4, IL-6, IL-10, IL-12p70,
+MCP-1, and TNFα) were assessed with the MCYTOMAG-70K-10 Mouse
+Cytokine MAGNETIC Kit (MilliporeSigma) on a Luminex 200 instrument
+(Thermo Fisher Scientific).
+
+## Machine Learning Analysis
+Pearson pairwise correlation
+values were computed to assess the relationships between all of the
+features. To explain the relationship between the input features and
+the output, SHAP (SHapley Additive exPlanations) TreeExplainer analysis was used. SHAP shows the importance of the input
+features in the output prediction. SHAP analysis is performed with
+a Random Forest (RF) model trained on all of the experimental data
+on MNPs. For each target property, a separate RF model is trained
+to ensure property-specific feature importance analysis. The average
+values from three replicate experiments were used for each RF model,
+reducing 540 data points to 180 data points per property. Using different
+models (Gaussian Process Regression (GPR), Neural Networks (NN)) did
+not give any major differences in mean absolute error (MAE) values
+of validation and test sets in a 70–15–15 train-validation-test
+random split. SHAP values were visualized with different input features
+to identify correlations between assigned SHAP values and a feature
+based on another feature. The input features used for the model are
+as follows: mRNA payload, N/P ratio, corona length, partition coefficient
+(cLogP) of the protonated cationic moieties, volume of the cationic
+group, pKa of the cations, log micelleplex
+size (determined using OptiMEM), and micelle–mRNA binding strength.
+All of the features (except mRNA payload, N/P ratio, and corona length)
+are scaled using MinMaxScaler. The Scikit-learn package was used to build the RF and GPR models and
+PyTorch was used to build the NN model.
+The default hyperparameters were used for the RF model, and changing
+the parameters did not affect our results For each input feature,
+a mean absolute SHAP value across all samples (normalized to the highest
+mean absolute SHAP value for each output variable) is calculated to
+assess the average importance of each feature for a given data point.
+A high mean absolute SHAP value would correspond to an important feature
+and vice versa. The model is trained on all data points where mRNA
+dosage is 0.5 μg and the N/P ratio is 10 (Train R2 = 0.985).
+
+## Acknowledgments
+Funding for this research was provided by Pfizer. This work
+was supported by the resources and staff at the University of Minnesota
+University Imaging Centers (UIC) (SCR_020997, NIH grant 1S10OD032261)
+and University of Minnesota Research Animal Resources (RAR). Figures
+were created in part with BioRender.com.
+
+## Supporting Information Available
+The Supporting Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/jacsau.5c00084.
+Polymer synthesis and characterization information in
+the form of NMR spectra, SEC traces, and potentiometric titrations;
+micelle and micelleplex DLS characterization data; detailed biophysical
+characterization data (dye exclusion assay, DLS aggregation data);
+expanded transfection data; detailed internalization data; cell apoptosis/necrosis
+data; gating schemes; Baf-A1 assays; serum transfection; machine learning;
+and in vivo mouse experiments. (PDF)
+
+## Author Contributions
+The manuscript
+was written through contributions of all authors. All authors have
+given approval to the final version of the manuscript.
+
+The authors declare no
+competing financial interest.
+
+## Supplementary Material
+au5c00084_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+au5c00084_si_001.pdf

@@ -1,0 +1,81 @@
+pmcJ Cell Mol MedJ Cell Mol Med2233jcmmopen101083777JCMMJournal of Cellular and Molecular Medicine1582-18381582-4934WileyPMC11176596PMC11176596.111176596111765963887243510.1111/jcmm.18414JCMM18414JCMM-02-2024-043.R11Original ArticleOriginal ArticlesUnveiling the role of copper metabolism and STEAP2 in idiopathic pulmonary fibrosis molecular landscape
+Wang et al.WangYajunhttps://orcid.org/0000-0002-7779-2515 ChenShuyang ChenShujing chen.shujing1@zs-hospital.sh.cnJiangJinjun jinjundoc@163.com
+
+1
+
+Department of Pulmonary and Critical Care Medicine, Zhongshan Hospital
+Fudan University
+Shanghai
+China
+
+2
+
+Shanghai Respiratory Research Institute
+Shanghai
+China
+
+*
+Correspondence
+
+Shujing Chen and Jinjun Jiang, Department of Pulmonary and Critical Care Medicine, Zhongshan Hospital, Fudan University, Shanghai, China.
+Email: chen.shujing1@zs-hospital.sh.cn and jinjundoc@163.com
+
+146202462024281146381010.1111/jcmm.v28.11e18414
+0142024
+0522024
+0752024
+140620241406202415062024© 2024 The Author(s). Journal of Cellular and Molecular Medicine published by Foundation for Cellular and Molecular Medicine and John Wiley & Sons Ltd.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Idiopathic pulmonary fibrosis (IPF) is a debilitating interstitial lung disease characterized by progressive fibrosis and poor prognosis. Despite advancements in treatment, the pathophysiological mechanisms of IPF remain elusive. Herein, we conducted an integrated bioinformatics analysis combining clinical data and carried out experimental validations to unveil the intricate molecular mechanism of IPF. Leveraging three IPF datasets, we identified 817 upregulated and 560 downregulated differentially expressed genes (DEGs). Of these, 14 DEGs associated with copper metabolism were identified, shedding light on the potential involvement of disrupted copper metabolism in IPF progression. Immune infiltration analysis revealed dysregulated immune cell infiltration in IPF, with a notable correlation between copper metabolism‐related genes and immune cells. Weighted gene co‐expression network analysis (WGCNA) identified a central module correlated with IPF‐associated genes, among which STEAP2 emerged as a key hub gene. Subsequent in vivo and in vitro studies confirmed the upregulation of STEAP2 in IPF model. Knockdown of STEAP2 using siRNA alleviated fibrosis in vitro, suggesting potential pathway related to copper metabolism in the pathophysiological progression of IPF. Our study established a novel link between immune cell infiltration and dysregulated copper metabolism. The revelation of intracellular copper overload and upregulated STEAP2 unravelled a potential therapeutic option. These findings offer valuable insights for future research and therapeutic interventions targeting STEAP2 and associated pathways in IPF.
+
+bioinformaticscopper metabolismIPFSTEAP2WGCNA 
+3.2
+
+## Expression profile of cuproptosis and Cu metabolism‐associated genes in IPF
+Our study focus on the differential expression of 52 genes associated with cuproptosis and Cu metabolism between IPF and control groups (Figure  ). In the IPF group (Figure  ), a total of 14 DEGs were identified. In summary, these findings underscore the significant role of Cu metabolism‐related genes in the development of IPF. Further investigation into the interrelationships among the 14 Cu metabolism‐related DEGs, using KEGG enrichment analysis (Figure  ), revealed that these genes are primarily involved in the pathways of mineral absorption and HIF‐1 signalling. The subsequent GO (Figure  ) analysis indicated a substantial enrichment of genes associated with the regulation of growth. All of the signalling pathways and ontologies mentioned above were vital for the pathogenesis of IPF. Additionally, the PPI network illustrates interactions among 14 genes (Figure  ), with positive correlation between members of metallothioneins (MTs) family and 6‐transmembrane epithelial antigen of prostate (STEAP) family interact positively.
+ 
+3.3
+
+## Immune cell infiltration analysis and Lasso‐Cox regression
+Immune cell infiltration scores for each sample were computed using the ‘CIBERSORT’ R package, with the barplot for the IPF and control groups visually represents the distribution of 22 immune cell types (Figure  ). The vioplot (Figure  ) illustrated that IPF samples exhibited an elevated level of memory B cells, plasma cells, gamma delta T cells, M0 macrophages, resting dendritic cells and resting mast cells, alongside reduced levels of resting NK cells and neutrophils. Correlation analysis among the 22 immune cell types revealed a positive association between naive B cells and activated mast cells (r = 0.51), while resting natural killer cells showed a negative correlation with neutrophils (r = −0.46) (Figure  ). To uncover hub genes related to the Cu metabolism in IPF, the LASSO model was constructed using the expression levels of Cu metabolism related‐genes and clinical traits (IPF vs. control) across all samples (Figure  ). According to the value of the lambda minimum criteria, five genes were identified to have nonzero regression coefficients (Figure  ). We also analysed the correlation between the five DEGs related to Cu metabolism and immune infiltration. The heatmap (Figure  ) revealed a positive correlation between resting NK cells and AOC3 (r = 0.56), a positive association between neutrophils and MT1M (r = 0.56), while resting NK cells exhibited a negative correlation with STEAP2 (r = 0.66).
+ 
+3.4
+
+## WGCNA and identification of key modules
+A single IPF dataset (GSE53845) was subjected to WGCNA, with a ‘soft’ thresholding power of β = 5 (achieving a scale‐free R2 of 0.91) as shown in Figure  . Figure  displays the clustering dendrogram of IPF and control samples. Subsequently, 33 distinct gene co‐expression modules (GCMs) were identified, each designated by a unique colour (Figure  ). Figure  illustrated the association between IPF and these GCMs. Significantly, the black module, consisting of 104 genes, displayed the strongest association with IPF (correlation coefficient = 0.78, p = 7.7 × 10−11) and was recognized as the central module for further analysis. Moreover, we calculated the associations between module affiliation and gene importance in the black module for IPF. As expected, there was a clear and significant positive correlation between them (r = 0.69), as shown in Figure  . As a result, the genes in the black module were determined to have the strongest association with IPF. In Figure  , the identification of 1 gene (STEAP2) occurred by intersecting 5 hub DEGs related to Cu metabolism with 104 genes in the black module.
+ 
+3.5
+
+## STEAP2 expression in animal model
+Subsequent to the bioinformatic analysis of IPF clinical patients' sequencing data, we proceeded to the in vivo study to investigate key regulators associated in Cu metabolism. IPF mouse model was constructed by intratracheal administration of bleomycin (5 mg/kg) to induce pulmonary fibrosis. After euthanasia, the left lung of IPF mouses was removed for H&E, Masson and STEAP2 immunohistochemical staining (Figure  ). In comparison to the control group, the IPF group exhibited a range of inflammatory cell infiltration, accompanied by minor haemorrhage, alveolar wall thickening, an increased presence of collagenous fibres, and an increase in STEAP2 expression. In addition, we used right lung tissue for RT‐qPCR and Western Blot detection. The mRNA expression of STEAP2 showed an increased in the IPF group (Figure  ), which was paralleled by a substantial increase in its protein expression, depicted in Figure  .
+ 
+3.6
+
+## Knockdown of STEAP2 alleviates pulmonary fibrosis
+siRNA targeted STEAP2 was transfected into MRC5 cells to knock down its expression. RT‐qPCR experiments revealed notable suppression of STEAP2 expression with both siRNA1 and siRNA3, as depicted in Figure  . To further validate these findings, we performed Western Blot analyses which confirmed that siRNA3 significantly inhibited STEAP2 expression (Figure  ). siRNA3 transfected cells showed significant resistance to TGF‐β induced fibrosis markers (α‐SMA and COL1A1, Figure  ). Cell migration is also an important observation indicator for the differentiation of fibroblasts into myofibroblasts. It was found that after the addition of TGF‐β, the area of cell migration increased significantly from an average of 29%–37%. However, after the knockdown of STEAP2, cell migration was significantly inhibited, decreasing to 23% (Figure  ). Therefore, we conclude that inhibiting the expression of STEAP2 contributes to the improvement of fibrosis.
+ 
+
+4
+
+## DISCUSSION
+IPF is a chronic, lethal and progressive pulmonary disease that contributed to significant morbidity and mortality. The clinical presentations of IPF varies, with progressive cough and dyspnoea being the most prevalent ones. , The rising prevalence of IPF has exerted a notable influence on both the economic progress of human society and the physical health of individuals. Current pharmaceuticals research can only mitigate the advancement of the disease and preserve lung function rather than offer a cure. The recently reported programmed cell death pathway, Cuproptosis, has taken the spotlight of oncological studies, where inducing tumour cell death by overloading its intracellular Cu concentration would become a potential therapeutic approach. However, researches of Cuproptosis in the pathogenesis and pathophysiological mechanism of inflammatory diseases haven't been abundant. Cu‐dependent cell death or Cuproptosis was implicated in disease progression, marked by the aggregation of lipoylated mitochondrial enzymes and the destabilization of iron–sulfur cluster proteins. It was reported that Cuproptosis was related to various diseases, such as rheumatoid arthritis, Crohn's disease, melanoma and lung adenocarcinoma. Interestingly, increased Cu concentrations in the bronchoalveolar lavage fluid (BALF) of IPF patients have been reported, with Cu‐dependent enzymes like Lysyl Oxidase‐Like 2 (LOXL2) implicated in the pathogenesis of pulmonary fibrosis. 
+
+Previous studies have primarily relied on bioinformatic analyses to identify differentially expressed CRGs between IPF and healthy samples. While such studies offer valuable insights for future research directions, the absence of experimental validation limits their generalizability and applicability. In our study, we used multiple GEO datasets to minimize sample errors and enhance credibility. Prior to merging three datasets, we meticulously selected samples that met the standard diagnostic criteria for IPF. Our investigation focused on elucidating the relationship between CRGs, Cu metabolism‐related genes, and DEGs, leading to the identification of 14 shared DEGs associated with Cu metabolism. Subsequently, we examined the correlation between immune cell infiltration and Cu metabolism‐related DEGs. Furthermore, hub genes were examined in IPF samples, ultimately revealing STEAP2 as significantly upregulated genes in IPF, which also had an inverse correlation to resting NK cells levels, and they were significantly reduced in IPF samples compared with the control samples. We validated our findings using an animal model, wherein the manifestations observed in the mouse IPF model corroborated with the findings from human sequencing expression profiling. Finally, knockdown of STEAP2 conferred protection to MRC5 cells against TGF‐β induced fibrosis. By combining bioinformatic analyses with experimental validation and animal models, our study contributes to a deeper understanding of IPF pathogenesis and highlights STEAP2 as a potential therapeutic target.
+STEAP2 is a member of the six transmembrane epithelial antigen of the prostate, and is predominately involved in vital physiological process such as ion transport and redox reactions. STEAP2 acts as a metalloreductase, facilitating the reduction of metal ions like ion and Cu. STEAP2 is widely expressed in various tissues and cell types, including lungs, kidneys, and immune cells, which suggests the potential roles of STEAP2 in diverse physiological processes beyond its initially identified association with prostate cancer. Zhu et al. identified that the m6A modification of STEAP2 inhibits thyroid cancer progression. Zhang et al. revealed that STEAP2 promotes osteosarcoma progression. With the newly discovered Cuproptosis as a novel programmed cell death pathway stimulated by intracellular Cu overload, it's of vital importance to consider the roles STEAP2 may play in maintaining intracellular Cu homeostasis. From the perspective of Cu metabolism, STEAP2 reduces Cu2+ to its more active form, Cu1+, while also facilitating Cu uptake. We therefore hypothesize that the upregulation of STEAP2 in IPF patients contributes to the intracellular accumulation of Cu and eventually triggers Cuproptosis, resulting in continuous lung damage. Our study confirmed that knockdown of STEAP2 using siRNA can protect MRC5 cells against TGF‐β induced fibrotic responses, suggesting the potential application of STEAP2 as a therapeutic target.
+Our study has certain limitations. Firstly, we did not conduct in vivo study to confirm the efficacy of STEAP2 knockdown in alleviating Bleomycin‐induced pulmonary fibrosis. Secondly, our assessment of decreased fibrotic markers was limited to immunoblot analysis to substantiate the potential of STEAP2 knockdown. However, despite these limitations, our study bears sufficient novelty by being among the pioneering investigations to successfully identify a marker related to Cu metabolism and affirm its role in fibrotic damage. We believe that our findings underscore the importance of further research focusing on elucidating the mechanisms of Cu metabolism in the pathophysiological responses of IPF. More spotlights should be cast to fully elucidate the Cu metabolism mechanisms in pathophysiological responses of IPF in order to discover and develop novel therapeutic applications.
+
+5
+
+## CONCLUSION
+In conclusion, this comprehensive discussion elucidates the intricate molecular landscape of IPF, emphasizing the significance of DEGs, Cu metabolism, immune cell dynamics, and the pivotal role of STEAP2 in the disease process. These findings not only deepen our understanding of the pathogenesis of IPF but also provide a basis for future research and potential therapeutic interventions targeting STEAP2 and associated pathways. The integration of multi‐omics data and experimental validation enhances the credibility and translational relevance of our results, contributing to the ongoing efforts to unravel the complexities of IPF.
+
+## AUTHOR CONTRIBUTIONS
+
+Yajun Wang: Data curation (lead); formal analysis (lead); investigation (equal); visualization (equal); writing – original draft (lead). Shuyang Chen: Data curation (equal); formal analysis (equal); methodology (equal); writing – review and editing (lead). Shujing Chen: Conceptualization (equal); funding acquisition (equal); supervision (supporting). Jinjun Jiang: Conceptualization (equal); funding acquisition (equal); supervision (equal).
+
+## CONFLICT OF INTEREST STATEMENT
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## DATA AVAILABILITY STATEMENT
+The data that support the findings of this study are available in NCBI at www.s4trials.com, reference number [GSE110147, GSE24206, GSE53845].

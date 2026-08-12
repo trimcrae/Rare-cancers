@@ -1,0 +1,263 @@
+3946starprotSTAR ProtocolsSTAR ProtocElsevierPMC1133924511339245113392453906865410.1016/j.xpro.2024.103220Protocol for constructing tumor-targeting ANM-PROTACs for degradation of transcription factors
+LiJin LiangChao 1Department of Systems Biology, School of Life Sciences, Southern University of Science and Technology, Shenzhen 518055, China2Institute of Integrated Bioinfomedicine and Translational Science (IBTS), School of Chinese Medicine, Hong Kong Baptist University, Hong Kong SAR 999077, China3State Key Laboratory of Proteomics, National Center for Protein Sciences (Beijing), Beijing Institute of Lifeomics, Beijing 100850, China∗Corresponding author liangc@sustech.edu.cn
+4Technical contact
+5Lead contact
+2772024531032201032202282024© 2024 The Author(s)This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+AS1411-NCL-MDM2-based proteolysis-targeting chimeras (ANM-PROTACs) are capable of inducing selective degradation of transcription factors (TFs) in tumor cells. Here, we present a protocol for constructing ANM-PROTACs. We describe steps for molecular design of the ANM-PROTACs, assembly and characterization of the ANM-PROTACs, and initial assessment of in vitro TF degradation potency. We then detail procedures for validation of selective degradation of TFs via proteomic analysis. This protocol has been successfully applied to degrade various TFs across multiple tumor cell lines.
+For complete details on the use and execution of this protocol, please refer to Fu et al. 
+Subject areas: Cancer, Protein Biochemistry, Proteomics, Mass Spectrometry
+
+## Graphical abstract
+ 
+
+## Highlights
+•Protocol for design, assembly, and characterization of the ANM-PROTACs targeting TFs
+•Optimization of administration timing and concentration of the ANM-PROTACs for TFs
+•Validation of selective degradation of TFs by the ANM-PROTACs via proteomic analysis
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+AS1411-NCL-MDM2-based proteolysis-targeting chimeras (ANM-PROTACs) are capable of inducing selective degradation of transcription factors (TFs) in tumor cells. Here, we present a protocol for constructing ANM-PROTACs. We describe steps for molecular design of the ANM-PROTACs, assembly and characterization of the ANM-PROTACs, and initial assessment of in vitro TF degradation potency. We then detail procedures for validation of selective degradation of TFs via proteomic analysis. This protocol has been successfully applied to degrade various TFs across multiple tumor cell lines.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoCollection date 2024 Sep 20.
+
+## Before you begin
+In our recent study, we revealed that the DNA aptamer AS1411 against nucleolin (NCL) could be repurposed as a recruiter of the E3 ligase MDM2 in PROTAC technology since it could harness the NCL-MDM2 complex within tumor cells. Benefiting from the overexpression of NCL on the surface of tumor cells and its shuttling action, the AS1411/NCL/MDM2-based PROTACs (ANM-PROTACs) were capable of selectively recognizing and penetrating tumor cells, leading to efficient ubiquitination and proteasomal degradation of various target proteins including transcription factors (TFs).
+This protocol describes the construction of the ANM-PROTAC molecules via coupling AS1411 with TF decoy oligonucleotide ligands for tumor-specific degradation of TFs, such as signal transducer and activator of transcription 3 (STAT3) in human cervical cancer cell line HeLa. Through sequential steps for molecular design, assembly and characterization, optimization, and validation of the ANM-PROTACs in vitro, the optimal degrader for STAT3 can be identified, with a built-in tumor-targeting ability inherited from AS1411. While STAT3 is exemplified herein, in practice this approach is broadly applicable to other TFs in multiple tumor cells. The ANM-PROTAC degraders for TFs provide an approach for studying the functions of TFs and identifying the target genes as well as the downstream signaling of TFs in tumor cells.
+
+## Cell line
+A human cervical cancer cell line, HeLa, was obtained from the American Type Culture Collection (ATCC, USA). The cells were cultured in ATCC-formulated DMEM medium, supplemented with 10% fetal bovine serum and 1% Penicillin-Streptomycin, and incubated at 37°C in a 5% CO2 atmosphere. Mycoplasma contamination in cell cultures was monitored using the MycoAlert Mycoplasma Detection Kit.
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+ 
+
+## Step-by-step method details
+
+## Design of ANM-PROTAC molecules
+
+Timing: 2 h
+
+For easy design and assembly of the ANM-PROTAC, AS1411 will be coupled with a TF decoy oligonucleotide ligand via a single-strand DNA linker. This demands careful consideration of diverse TF decoy oligonucleotides and varied DNA linker lengths. Here, we leverage the JASPAR database, housing curated, non-redundant TF binding sequences (TFBSs), for identifying the candidate TF decoy oligonucleotides as ligands for our protein of interest. A range of single-strand DNA linkers with lengths of up to 20 bases are also adopted for constructing the ANM-PROTAC molecules.
+1.Find the JASPAR website (https://jaspar.elixir.no/) and search for the decoy oligonucleotides of the targeted TF. Here, we choose STAT3 as an example.
+Note: When entering STAT3, three TFBSs are found ( A). Among them, ID MA0144.2 and MA0144.3 are the candidate TFBSs for the targeted species, Homo sapiens ( B). Both MA0144.2 and MA 0144.3 are recommended as candidate oligonucleotides. Here, we chose ID MA0144.2 as an example for the next step based on our previous study. Refer to .
+Note: For different homo- or heterodimers of TFs, it is recommended to select the TFBSs for the whole TF complexes from the JASPAR database, such as MA0099.2/MA0099.3/MA0099.4 for the JUN:FOS complex, and MA0059.1/ MA0059.2 for the MYC:MAX complex.
+2.Design different lengths of single-strand DNA linkers between AS1411 and the selected TF decoy oligonucleotide (ID MA0144.2).
+Note: Single-strand DNA linkers can be composed of 0, 3, 6, 12, or 20 nt of adenines ( C).
+ 
+
+## Assembly of the ANM-PROTAC molecules
+
+Timing: 4–5 h
+
+3.Synthesize the reverse sequences of the ANM-PROTACs, which consist of AS1411, single-strand DNA linkers, and the reverse strand of MA0144.2 in the order as shown in C, from a reputable vendor (e.g., Thermo Fisher Scientific, Sigma-Aldrich and Sangon).
+4.Synthesize the forward sequences of the ANM-PROTACs, which were the same as the forward strand of MA0144.2, from a reputable vendor (e.g., Thermo Fisher Scientific, Sigma-Aldrich and Sangon).
+5.Dissolve the dry powder of the above forward sequences and reverse sequences of the ANM-PROTACs (steps 3 and 4) with STE buffer to 100 μM.
+6.Mix the above forward sequences and reverse sequences of the ANM-PROTACs (steps 3 and 4) at the volume ratio of 1:1.
+7.Heat the solution at 95°C for 5 min and then cool it down slowly to room temperature at a rate of 2°C per min.
+8.Store at 4°C ready for use for up to 4 weeks.
+
+Note: Since ANM-PROTAC molecules consist of oligonucleotides, long-term storage is recommended at −80°C.
+
+## Characterization of the ANM-PROTAC molecules
+
+Timing: 3 h
+
+The ANM-PROTAC molecules are subjected to 20% nondenaturing polyacrylamide gel electrophoresis (PAGE), and the clearness of bands, smearing, and the presence or not of non-target bands will be the criteria for the quality of the ANM-PROTAC molecules.
+9.Sample preparation.a.Adjust the concentration of the ANM-PROTAC molecules and control sequences (TF decoy oligonucleotide MA0144.2 and AS1411) to 10 μM.
+b.Mix the ANM-PROTAC molecules and control sequences with 6× DNA Loading Buffer at the volume ratio of 5:1.
+
+10.Gel preparation.a.Assemble the gel-casting module using 1.5 mm spacer glass plates.
+b.Prepare the 20% nondenaturing polyacrylamide gel solution by mixing the following reagents ( ).
+c.Pour the mixture between the gel plates and insert the comb. Allow the gel to polymerize for 15–30 min.
+
+CRITICAL: When APS is added, polymerization begins immediately. Therefore, all subsequent steps must be performed quickly.
+11.Running the gel.a.Install the glass plates into the electrophoresis tank and fill the tank with 1× TBE electrophoresis buffer.
+b.Load 10 μL of each sample and 5 μL of DNA ladder in the wells of the gel.
+c.Run the gel at a constant voltage of 100 V for 1.5–2 h, until the bromophenol blue indicator bands have migrated halfway up the gel.
+d.Stain the gel with 4SGelblue (10,000×) in 1× TBE buffer for 15 min.
+e.Visualize the bands under UV projector ( ).
+
+Note: The bands should be single and clear, without smearing or non-target bands. Refer to .
+ 
+
+## Assessment of in vitro degradation potency
+
+Timing: 3–5 days
+
+The following steps describe the assessment of in vitro degradation potency of the ANM-PROTAC molecules. Western blotting is used to detect the level of target protein after dosing at different timing and concentrations of the ANM-PROTACs.
+
+## Cell plating
+
+12.Culture HeLa cells in a fresh culture medium until reaching ∼80% confluency within 100 mm culture dishes.
+
+CRITICAL: Since the internalization of the ANM-PROTAC molecules relies on the cell surface expression of NCL, other tumor cell lines, such as A549, MCF-7, HepG2 and PC-3 are suitable substitutes for HeLa cells, as NCL is a pan-cancer cell surface biomarker. 
+
+Note: For HeLa cells, the initial plating densities should be 1–5 × 105 cells/well of 6-well plates.
+
+13.Remove the media from the culture dishes and gently wash the cells with PBS.
+
+Note: Add 2 mL of PBS along the margin of dishes, and avoid PBS hitting cells straightly causing cells to fall off.
+
+14.Add 2 mL of 0.25% trypsin-EDTA and wait for 2–3 min. Check the detachment of cells.
+
+Note: Dishes can be placed into an incubator to shorten the time of detachment. For most of adherent tumor cells, up to 1 min is enough in an incubator atmosphere. Optimize digestion time to prevent cellular injury caused by over-digestion.
+
+15.Add 3 mL of culture medium to culture dishes, resuspend cells by pipetting, and move cell suspension to a 15 mL centrifuge tube.
+16.Centrifuge cells at 300 × g for 5 min at room temperature.
+17.Resuspend the cell pellet in culture medium at a concentration of 2 × 105 cells/mL and add 2 mL of cell suspension into a 6-well cell culture plate until reaching 50%–70% confluency.
+
+Note: Cell concentration can be calculated with either a manual or automatic hemocytometer. The number of cells plated in wells depends on the cell lines. The confluency is not recommended to overpass 70% to prevent influencing the efficacy of the ANM-PROTAC molecules.
+
+## In vitro administration of ANM-PROTAC molecules
+The following steps describe the confirmation of optimal administration timing and concentration. In our previous practice, the effective time of the ANM-PROTAC molecules is within 48 h, and the optimal concentration is recommended within 2.5 μM.
+Note: If weak degradation is observed, a higher concentration of ANM-PROTAC molecules above 2.5 μM is required.
+18.Remove the media from the 6-well cell culture plate.
+19.Dilute the ANM-PROTAC molecules and add different concentrations of the diluted ANM-PROTAC molecules into the wells of the plates.
+20.Place the plates in an incubator and wait for 6 h.
+Note: In our previous practice, we noticed that ANM-PROTACs take degradation effect in 3–6 h. Herein, we chose 6 h for testing the optimal concentration. Refer to .
+21.Remove the media and wash the cells with PBS.
+22.Digest cell with trypsin-EDTA (0.7 mL/well), add equal volumes of medium to resuspended cells and move cell suspension to 1.5 mL EP tube.
+23.Centrifuge cell at 300 × g for 5 min at 25°C.
+24.Wash the cell pellet with PBS for 3 times.
+25.Removed PBS to perform Western blot ( ) or be stored at −20°C.
+Note: It is recommended to determine the optimal concentration through dose-response experiments before proceeding to the time course study.
+ 
+
+## Western blotting
+The following steps describe the general methods of Western blotting based on a semi-dry transfer system. For those who use a wet tank transfer system, you may change some of the reagents and use appropriate equipment following other reputable protocols or experienced methods from your own laboratory.
+26.Add proteinase inhibitor cocktail (100×) to RIPA cell lysis buffer.
+27.Add 100 μL of cell lysis buffer to cell samples and pipette until the mixture becomes transparent and viscous. Put the samples on ice.
+Note: Viscousness of mixture is caused by DNA release from cells. If the mixture is too viscous and affects cell lysis (cell clumps cannot be broken up by pipetting), adjust the volume of the lysis buffer appropriately.
+28.Ultrasonic lyse the above cell samples in a sonicator 8–10 times at a power of 20%, 2 s/time, and quickly place the samples on ice.
+29.Use BCA protein assay kit to detect protein concentration.
+30.Add 20 μL of loading buffer (6×) and heat at 100°C for 10 min.
+31.Prepare a 10% (w/v) SDS-PAGE gel.
+Note: For detailed gel make formula, the introduction to SDS-PAGE from Merck (https://www.sigmaaldrich.com/HK/en/technical-documents/protocol/protein-biology/gel-electrophoresis/sds-page) is recommended, or commercial precast gel can be chosen. You may change gel % based on target protein with different molecular weights.
+32.After polymerization, remove the comb and fill the buffer tank with 1× Tris/Glycine/SDS buffer.
+Note: To make 1 L of working buffer, add 100 mL buffer concentrate to 900 mL nanopure water. Mix thoroughly. Final concentration of a 1× solution is 25 mM Tris, 192 mM glycine, and 0.1% (w/v) SDS, pH 8.3.
+33.Take 20–30 μg of protein sample and 5 μL of protein marker and load them in the appropriate lane.
+34.Run the gel at an 80 V constant voltage for 20 min. When the indicator band exceeds the position of the upper gel, adjust the voltage to 120 V. The electrophoresis is terminated until the bromophenol blue has migrated near the bottom of the gel.
+35.Take 40 mL of 1× semi-dry transfer buffer into a plastic container and fully soak 2 pieces of thick filter paper for 10 min.
+Note: To make 100 mL of working buffer, add in order of 20 mL ethanol, 60 mL of nanopure water, and 20 mL 5× semi-dry transfer buffer. Store at room temperature, and the working buffer is available for reuse.
+36.Take the appropriate volume of methanol to activate the PVDF membrane by immersing it for 3 min.
+Note: Be careful to fully soak the PVDF (polyvinylidene difluoride) to prevent consequent uneven protein transfer. If you use the nitrocellulose membranes, you can ignore this step.
+37.Transfer the fully soaked PVDF membrane to thick filter paper, and place the glue on the PVDF membrane, in the order from top to bottom: thick filter paper–glue–PVDF membrane–thick filter paper, transfer to a semi-dry transfer tank.
+38.Use a roller to press out the air bubbles.
+CRITICAL: It is essential to press out the air bubbles to prevent the ineffective protein transfer from gel to membrane. You can roll layer by layer to make sure the tight fit.
+39.Semi-dry transfer for 13 min at 2.5 A, 25 V.
+40.Prepare blocking buffer with 5% (w/v) skim milk diluted by 1× TBST.
+Note: Mix 100 mL 10× TBST buffer with 900 mL nanopure water. Final concentration of a 1× solution is 100 mM Tris, 150 mM NaCl, 0.05% (w/v) Tween-20, pH 7.2–7.6. Store at room temperature.
+41.Dilute primary and secondary antibodies proportionally with antibody diluents.
+Note: Diluted antibodies can be stored at 4°C, and they are available to reused within a week ideally.
+42.Incubate the transferred PVDF membrane with blocking solution for 1 h at room temperature with shaking.
+43.Remove the blocking solution and wash the PVDF membrane with 1× TBST with shaking three times, 10 min/time.
+44.Cut the membrane according to the protein marker positioning and incubate it with the primary antibody dilution of the target protein overnight at 4°C with slow horizontal shaking.
+45.After washing the membrane three times according to the above steps, incubate the secondary antibody with slow horizontal shaking at room temperature for 1 h, and then wash the membrane three times again.
+46.Pre-cool the chemiluminescence instrument to −20°C, and place the washed PVDF membrane in the exposure area framed by the instrument.
+47.Evenly drop the 1:1 premixed enhanced ECL luminescence solution on the membrane for visualization ( ).
+Note: For unsuccessful exposure of Western blot bands, refer to .
+
+## Validation of selective degradation of TFs via proteomic analysis
+
+Timing: 1 week
+
+We observed that the ANM-PROTAC molecule targeting STAT3 exhibits the strongest degradation effects in HeLa cells at a concentration of 500 nM for 6 h ( ). In this section, we performed proteomic analysis and confirmed the ANM-PROTAC can exclusively degrade STAT3 without affecting the expression of non-target proteins ( ).
+48.Sample preparation.a.Plate 4 × 105 cells/well of HeLa cells in 6-well culture plates with 50%–70% confluency (steps 12–17).
+b.Dose cells with the 500 nM ANM-PROTAC degraders or PBS for 6 h.Note: In this step, use the condition of optimal dosing timing and concentration from the assessment of in vitro degradation potency. Based on our time course study, treating the HeLa cells for 6 h resulted in the maximum degradation of STAT3. Other targets may require a different optimal time point to be degraded.
+CRITICAL: When HeLa cells are plated with 50%–70% confluency, the number of cells per well was around 4 × 105, insufficient for the following sample preparation. 2–3 replicates are recommended for each group.
+
+c.Use the EasyPep Mini MS Sample Prep Kit for sample preparation, requiring 100 μg of protein per sample.Note: The kit processes protein samples from 10–100 μg and a minimum of 1 × 106 cultured cells per sample is used for initial lysis. The steps of sample preparation consist of: 1) extracting protein, reducing, and alkylating; 2) digesting protein; and 3) cleaning up peptides.
+
+d.The peptide pellet is resuspended with 100 μL of 0.1% formic acid (FA) in water, and the peptide samples can be used for direct LC-MS/MS analysis.
+
+49.Liquid chromatography-tandem mass spectrometry (LC-MS/MS) (Part 1): Liquid chromatography is used for the separation of isolated peptides. , , a.Inject Peptides into the Easy-nLC 1000 (Thermo Scientific, USA) ultrahigh-pressure liquid chromatography pump.Note: The LC separation system is comprised of a trap column (100 μm inside diameter × 4 cm) and an analytic column with an integrated spray tip (100 μm inside diameter × 20 cm), both filled with 3 μm/120 Å ReproSil-Pur C18 resins (Dr. Maisch GmbH, DE).
+
+b.Load half of the acquired peptide samples onto a trap column and washed with Mobile phase A (0.1% FA in LC-MS grade water), at a flow rate of 2 μL/min.
+c.Separate peptides on the analytical column using a step gradient of Mobile phase B (0.1% FA in acetonitrile), at the flow rate of 300 nL/min ( ).Note: The timing of effective gradient is 1 h, from 7%–35% Mobile phase B.
+
+50.LC-MS/MS (Part 2): Eluted peptides are analyzed by high-resolution mass spectrometry using data-independent acquisition (DIA) mode.a.Connect the Orbitrap Fusion Lumos Tribrid Mass Spectrometer (Thermo Scientific, USA) with an Easy-nLC 1000 ultrahigh-pressure liquid chromatography pump.
+b.The parameters of MS1 and MS2 are as follows ( and ).
+
+ 
+
+## Expected outcomes
+Herein, we describe a protocol for the design of ANM-PROTAC degraders targeting the STAT3 of HeLa cells, which could be extended to degrade other TFs in tumor cells. The result of PAGE gel represents single, clear bands without smearing or non-target bands, demonstrating the high purity of the constructed ANM-PROTAC ( ). Time- and concentration-dependent degradation of STAT3 was observed in HeLa cells after treatment with the ANM-PROTAC ( ). LC-MS/MS proteomics analysis is used for validating the selective degradation of STAT3 by the ANM-PROTAC degrader ( ). Ultimately, the ANM-PROTAC degraders could be tools with built-in tumor-targeting properties for effectively degrading TFs in tumor cells. We believe this protocol will significantly contribute to the cancer field by offering an alternative method for modulating TFs, distinct from the commonly used RNA interference or CRISPR-based genome editing.
+
+## Limitations
+This protocol described here can achieve tumor-specific degradation of TFs using our ANM-PROTAC degraders. Due to PROTAC’s "hook effect" (where overdose reduces degradation efficacy due to non-target binary products), determination of optimal concentration is crucial. Despite AS1411 is a quadruplex-forming nuclease-resistant ssDNA aptamer, the introduction of unmodified TF decoy oligonucleotide ligands in the ANM-PROTACs may compromise the potency of the ANM-PROTACs, as they are susceptible to serum nuclease-induced degradation.
+
+## Troubleshooting
+
+## Problem 1
+ANM-PROTACs are unstable in serum.
+
+## Potential solution
+TF decoy oligonucleotides in ANM-PROTACs are susceptible to serum nuclease-induced degradation. We recommend performing chemical modifications, such as phosphorothioate modifications, 2′-O-methyl modifications, and locked nucleic acids, to improve their serum stability.
+
+## Problem 2
+PAGE gel represents non-target bands or smearing of the ANM-PROTACs.
+
+## Potential solution
+
+•Change the timing of heat and annealing for assembly of the ANM-PROTACs.
+•Use a PCR amplifier for more precise temperature control when assembling the ANM-PROTAC molecules (step 7).
+
+## Problem 3
+There is low yield of target ANM-PROTACs.
+
+## Potential solution
+We recommend using covalent linkers to replace base pair linkers between AS1411 and the TF decoy oligonucleotides, thereby enhancing the yield of the ANM-PROTAC molecules. Examples of such covalent linkers include alkyl PEG, disulfide linkers, and click chemistry linkers.
+
+## Problem 4
+ANM-PROTACs display limited potency for the degradation of TFs.
+
+## Potential solution
+
+•Try different linker lengths (0–20 nt) between AS1411 and TF decoy oligonucleotides. In our previous practice, we tried DNA linkers with lengths of 6, 12, and 20 nt. We found that ANM-PROTACs with all three linker lengths exhibited degradation effects.
+•Change the bases of linkers from adenines to others (such as thymine or guanine). Ensure that the choice of bases does not influence the structure of AS1411 or interact with TF decoy oligonucleotides.
+
+## Problem 5
+Western blot bands are invisible in semi-dry transfer system.
+
+## Potential solution
+
+•We recommend using Ponceau S reversible stain before the blotting step to confirm the successful transfer of proteins from the gel to the blotting membrane.
+•Increase concentration of primary and/or secondary antibody.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Chao Liang (liangc@sustech.edu.cn).
+
+## Technical contact
+Questions about the technical specifics of performing the protocol should be directed to and will be answered by the technical contact, Jin Li (lijin11824@gmail.com).
+
+## Materials availability
+Antibodies, reagents, and cell line used in this study were obtained from the commercial sources described in the . Non-commercially available reagents used in this study can be made available upon request but may require payment to cover the cost of chemical synthesis.
+
+## Data and code availability
+The published article includes all datasets and code generated or analyzed during this study. 
+
+## Acknowledgments
+This work is supported by the National Natural Science Foundation Council of China (82172386 and 81922081 to C.L.), the Guangdong Basic and Applied Basic Research Foundation (2022A1515012164 to C.L.), and the Science, Technology and Innovation Commission of Shenzhen (JCYJ20210324104201005 to C.L.). The graphical abstract was created using BioRender.
+
+## Author contributions
+Conceptualization, C.L. and J.L.; methodology, J.L.; investigation, C.L. and J.L.; visualization, J.L.; writing – original draft, J.L.; writing – review and editing, C.L. and J.L.; supervision, C.L.
+
+## Declaration of interests
+The authors declare no competing interests.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+The published article includes all datasets and code generated or analyzed during this study.

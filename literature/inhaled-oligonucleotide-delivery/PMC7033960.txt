@@ -1,0 +1,493 @@
+ACS OmegaACS Omega3686acsomega101691658aoACS Omega2470-1343American Chemical SocietyPMC7033960PMC7033960.1703396070339603209572010.1021/acsomega.9b039081ArticleMolecular and Coarse-Grained Modeling to Characterize
+and Optimize Dendrimer-Based Nanocarriers for Short Interfering RNA
+Delivery
+StojceskiFilip GrassoGianvito PallanteLorenzo DananiAndrea †Istituto
+Dalle Molle di Studi sull’Intelligenza Artificiale (IDSIA), Scuola Universitaria Professionale della Svizzera
+Italiana (SUPSI), Università della Svizzera Italiana (USI), Centro Galleria 2, Manno CH-6928, Switzerland‡PolitoBIOMed
+Lab, Department of Mechanical and Aerospace Engineering, Politecnico di Torino, 10129 Torino, Italy*E-mail: gianvito.grasso@idsia.ch (G.G.).*E-mail: andrea.danani@idsia.ch (A.D.).070220201802202056352913297829861511201929012020070220202402202027022020Copyright © 2020 American Chemical Society2020American Chemical SocietyThis is an open access article published under an ACS AuthorChoice License, which permits copying and redistribution of the article or any adaptations for non-commercial purposes. 
+Dendrimer
+nanocarriers are unique hyper-branched polymers with
+biomolecule-like properties, representing a promising prospect as
+a nucleic acid delivery system. The design of effective dendrimer-based
+gene carriers requires considering several parameters, such as carrier
+morphology, size, molecular weight, surface chemistry, and flexibility/rigidity.
+In detail, the rational design of the dendrimer surface chemistry
+has been ascertained to play a crucial role on the efficiency of interaction
+with nucleic acids. Within this framework, advances in the field of
+organic chemistry have allowed us to design dendrimers with even small
+difference in the chemical structure of their surface terminals. In
+this study, we have selected two different cationic phosphorus dendrimers
+of generation 3 functionalized, respectively, with pyrrolidinium (DP)
+and morpholinium (DM) surface groups, which have demonstrated promising
+potential for short interfering RNA (siRNA) delivery. Despite DP and
+DM differing only for one atom in their chemical structure, in vitro
+and in vivo experiments have highlighted several differences between
+them in terms of siRNA complexation properties. In this context, we
+have employed coarse-grained molecular dynamics simulation techniques
+to shed light on the supramolecular characteristics of dendrimer–siRNA
+complexation, the so-called dendriplex formations. Our data provide
+important information on self-assembly dynamics driven by surface
+chemistry and competition mechanisms.
+
+pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyesdocument-id-old-9ao9b03908document-id-new-14ao9b03908ccc-price
+
+## Introduction
+RNA-based
+drugs, including short interfering RNA (siRNA) molecules, are particularly promising examples of a modern
+medicine doctrine approach, conceived
+to minimize side effects. Despite encouraging results shown using
+siRNA-mediated treatments, , cellular uptake still
+represents the major issue in the development of effective siRNA therapies.
+The poor internalization of siRNAs across cell membranes is due to
+their high molecular weight and negative charge. To efficiently achieve intracellular delivery, siRNAs are
+usually complexed with cationic molecules which generate complexes
+with a size ranging from tens to a few hundreds of nanometers. Several polymeric and lipid nanocarriers have
+been developed in the literature, including chitosan, cationic lipids,
+polyethyleneimine, and dendrimers. − In the field of siRNA delivery, cationic phosphorous dendrimers − have proven to be excellent drug carriers for gene-silencing treatments
+after in vitro and in vivo experiments. , , − In a previous study, we focused the attention on two different cationic
+phosphorus dendrimers of generation 3 for siRNA delivery. Those dendrimers were functionalized, respectively,
+with pyrrolidinium (DP) and morpholinium (DM) surface groups. , 
+Several differences between DP and DM have been highlighted
+in
+terms of interaction properties with siRNA molecules by both in vitro
+experiments and molecular modeling. In detail, in vitro experiments
+indicated DP to have a multivalent character because it efficiently
+binds more than one siRNA molecule because of its ability to maximize
+the entropic contribution to the complexation free energy (CFE). In addition, DP has also a lower enthalpy contribution
+to the CFE because of the lower recruitment of its charged terminals,
+which intrinsically maximizes the ability to complex with more than
+one siRNA. Contrariwise, DM has higher
+enthalpy contribution to the CFE because it involves a higher number
+of its charged terminals, which de facto disadvantages the complexation
+with multiple siRNAs. All aforementioned
+characteristics in fact strongly influence the stoichiometric number
+of DP and DM, resulting in a different supramolecular binding behavior.
+Although atomistic modeling provided a clear picture of how functionalization
+may drive dendrimer ability to bind siRNA, a complete exploration
+of dendrimer–siRNA aggregation phenomena is still missing.
+In particular, to deeply explore the overall dendrimer–siRNA
+complexation dynamics, molecular systems consisting of more than one
+siRNA and/or one dendrimer should be simulated. All-atom (AA) molecular
+dynamics (MD) simulations have limited ability to approach large systems
+such as supramolecular assemblies and microsecond dynamics of those
+assemblies. An interesting approach to overcome the abovementioned
+limitations is the so-called coarse-grained (CG) modeling, which allows
+to investigate the conformational behavior of supramolecular assemblies
+and dynamics of microseconds with a reasonable computational effort. Within this context, MARTINI CG force field
+has found a broad range of applications because it combines speed
+and versatility while maintaining chemical specificity. − MARTINI forcefield has been already applied to model PAMAM , or poly(l-lysine) dendrimers and their interaction with the cellular membrane. − 
+In the present study, we
+carried out CG-MD simulations to provide
+further crucial information on DP and DM self-assembly phenomena and
+interaction propensity to siRNA. Our data confirmed how even small
+changes of the dendrimer surface chemistry may strongly affect the
+dendrimer interaction mechanism with siRNA, providing a view on how
+those small chemical changes on the dendrimer surface affect at higher
+scales the dendriplex superassembly stability. The outcome of this
+research provides (i) a characterization of DP and DM dendriplexes , and (ii) information to rationally design/optimize the dendrimer
+surface for tailoring dendrimer–siRNA drug-delivery systems.
+
+## Results
+In this section, we will show the results regarding the dendrimers
+self-assembly properties, stoichiometric coefficients, and competition
+mechanisms.
+
+## T1. Dendrimer Self-Aggregation Mechanisms
+Recent in
+vitro experiments from our previous work highlighted a DP tendency to self-assemble. Here, we have carried
+out CG simulations to investigate molecular mechanisms describing
+this behavior (section , category T1). A shows the percentage
+of self-assembled dendrimers. The probability of DP dendrimer to aggregate
+(70%) was found much higher if compared to DM (30%). Moreover, buried
+surface (BS) estimation was carried out to evaluate the interacting
+surface of complexed dendrimers. B indicates a quite similar total BS (DP
+= 9.55 ± 0.98 nm2, DM = 8.80 ± 1.15 nm2) for both DM and DP. As expected, DP–DP complexes were characterized
+by a slightly higher hydrophobic BS (DP = 9.02 ± 0.97 nm2, DM = 7.03 ± 0.99 nm2) and a lower hydrophilic
+contact area (DP = 0.53 ± 0.18 nm2, DM = 1.77 ±
+0.38 nm2) with respect to DM–DM complexes. The greater
+tendency shown by DP to interact by hydrophobic contacts is likely
+driven by apolar terminals on the outer surface. The increased buried
+hydrophobic area of DP promotes the self-assembly phenomena, in agreement
+with experimental data.
+ In addition to the previously BS analysis, dendrimer
+solvent accessible
+surface area (SASA) has been also computed in order to clarify the
+percentage of the dendrimer surface involved in the self-assembly
+process. shows
+the SASA analysis and the BS/SASA ratio for both the dendrimer type,
+dividing results in three main categories: total, hydrophobic, and
+hydrophilic. Accordingly to the B bar diagram, the BS/SASA ratio is in perfect correlation
+with the interaction surface of the dendrimer assembly. Despite DP
+has lower total SASA, it involves a higher interaction surface, resulting
+in a higher percentage of the BS/SASA ratio.
+ 
+
+## T2. siRNA–Dendrimer
+Binding Stoichiometry
+In
+vitro experiments and AA simulations suggested DP–siRNA stoichiometry
+higher than 2, whereas DM–siRNA stoichiometry lower than 1,
+which definitively crown the DP dendrimer as the most efficient nanocarrier.
+In this work, an extensive CG-MD investigation was carried out to
+deeply elucidate molecular reasons behind this feature (set up described
+in section , category T2). Overall,
+15 replicas of 500 ns were carried out for each system, considering
+the last 50 ns for all the following analyses. A shows the probability of each dendrimer
+to be in contact with 1 and 2 siRNA, respectively. Results indicated
+that DP was able to maximize the probability to bind 2 siRNA molecules
+(78.6% of the MD frames—Supporting Movie 1), if compared with DM (36.1% of the MD frames—Supporting Movie 2). B shows the BS, that is, the interaction surface, between
+dendrimer and siRNA in stable dendriplex assemblies. In these CG-MD
+simulations, dendriplex can be composed by 1 dendrimer and 1 siRNA
+or 1 dendrimer and 2 siRNA. The BS was always larger in case of DM–siRNA
+dendriplex (DM–1 siRNA = 16.89 ± 4.20 nm2,
+DM–2 siRNA = 24.46 ± 6.11 nm2; DP–1
+siRNA = 8.25 ± 1.18 nm2, DP–2 siRNA = 18.69
+± 4.15 nm2). It is worth noting that BS is 2.27 higher
+in case of DP binding 2 siRNA (BSDP–2 siRNA/BSDP–1 siRNA > 2), whereas the BS is only
+1.45 higher for DM binding 2 siRNA (BSDM–2 siRNA/BSDM–1 siRNA < 1.5). This evidence is
+again in agreement with a higher stoichiometry of DP in binding siRNA,
+as suggested in the recent literature. 
+ To complete the picture, terminal-siRNA
+distance analysis has been
+performed in order to extract fruitful information on the interaction
+behavior of the different DM and DP characterizing beads. In greater
+detail, shows
+the number of Q0, N0, and C1 dendrimer
+terminal beads present within three main distance intervals from the
+siRNAs: “primary interaction (d ≤ 0.6
+nm)” indicates a strong stabilization range where terminal
+beads are primary involved in the dendrimer–siRNA complexation.
+The “Secondary interaction (0.6 nm < d ≤
+1.1 nm)” range indicates an interval where the terminal beads
+are still involved in interaction with siRNA by van der Waals and
+Coulomb forces. “Free terminals (d > 1.1
+nm)”
+indicate that no interaction is occurring between beads and siRNA
+beyond this range. Remarkably, in both cases, where 1 or 2 siRNA are
+complexed, DM involves a higher number of Q0 and N0 terminal beads for complexation purposes, whereas DP utilizes
+a lower number of Q0 and C1 terminal beads.
+Interestingly, the N0 bead of the DM terminals is employed
+for primary stabilization tasks in a better way (DM–1 siRNA
+N0/Q0 = 0.73, DM–2 siRNA N0/Q0 = 0.72), rather than the C1 bead of the
+DP terminals (DP–1 siRNA C1/Q0 = 0.54,
+DP–2 siRNA C1/Q0 = 0.47).
+ 
+
+## T3. Dendrimer Competition Mechanisms
+In this section,
+we have investigated possible competition phenomena which may affect
+the ability of DM and DP to complex in dendriplex assemblies (set
+up described in section , category
+T3). To address this point, 15 replicas of 500 ns were carried out
+for each system, considering the last 50 ns for all the following
+analyses.
+ A depicts the probability of the DP and DM dendrimers to be found
+in dendriplex or free in solution. Interestingly, DP dendrimers are
+found free in solution only with probability 0.2 among all replicas,
+whereas DM can be found free in solution with a higher probability
+up to 0.4. This implies that siRNA–DM complexes are in general
+constituted by 1 siRNA and 1 dendrimer.
+ It is worth noting that the higher
+probability to find DP dendrimers
+aggregated in dendriplexes is also driven by DP self-aggregation properties
+(already highlighted by in vitro experiments and shown in ). This unique DP property is crucial for promoting dendriplex stabilization
+and growth also through dendrimer–dendrimer contacts. In this
+sense, the DP self-aggregation tendency should be interpreted as a
+complexation promoting feature and not a competition mechanism. To
+complete the picture, a contact analysis has been performed in order
+to evaluate if the first contact occurs between the two dendrimers
+or between the siRNA and the dendrimers. The distance below which
+the molecules are considered as stably complexed is 0.6 nm. In detail,
+aggregation occurs first between the two dendrimers in 2 replicas
+out of total 15 (15.4%) for 2DP–siRNA systems, whereas it occurs
+in 1 replica out of total 15 (7.2%) for two DM–siRNA systems.
+It is worth mentioning that DM–siRNA complexation is stabilized
+by a siRNA deformation while wrapping around dendrimer, as also shown
+by AA simulation of the previous literature. The abovementioned DM–siRNA complexation feature is also
+detectable in present CG simulations ( , Supporting Information S.6). B quantifies the siRNA bending angle “θ” in three
+cases: 1DEN–siRNA dendriplex, 2DEN–siRNA dendriplex
+and siRNA alone. Interestingly, the results show that the siRNA bending
+angle, both when it interacts with one and two DPs, is close to the
+conformation assumed by siRNA when alone in water. In contrary, siRNA
+structure deformation reached lower bending angles both in the case
+of complexing with one and two DMs. However, siRNA is able to wrap
+around only one between the two bound DM ( C, Supporting Information S.6). This aspect suggests that only one DM will be stabilized
+in the complexation, whereas the other will be more likely able to
+detach. In this sense, we highlight a competition mechanism in DM–siRNA
+complexation, which is not present in DP–siRNA complexation
+( D, Supporting Information S.6). All these evidences
+suggest some competition phenomena among dendrimers when an excess
+of dendrimers are present in the solutions, as usual in experimental
+studies. In detail, considering that the dendrimer–siRNA molar
+ratio is always higher than 1, the competition
+mechanisms can alter certain chemical parameters, including the stoichiometric
+coefficients.
+
+## Discussion
+Dendrimers are polymeric
+hyperbranched nanocarriers characterized
+by the globular shape with high monodispersity and high degree of
+versatility, which have outstanding features for nanomedicine. − Within this context, polycationic dendrimers have proven to be an
+excellent drug delivery carrier for gene therapy strategies. , In this paper, we have employed CG MD to investigate complexation
+dynamics of siRNA with two different type of polycationic phosphorous
+dendrimers, namely, the pyrrolidinium and morpholinium dendrimers.
+MD has already shown to be a powerful tool to investigate nanoscale
+phenomena driving macromolecules properties from the molecular to
+supramolecular scale. , − Here, our in silico study aims at exploring molecular
+features driving supramolecular complexation in terms of assemble
+mechanisms and competition phenomena. In this framework, dendrimers
+or dendrons self-assembled supramolecular nanostructures reduce the
+difficulty in overcoming the plasmatic membrane, resulting in an increased
+cellular uptake of siRNAs. − Particular importance must be
+given to the dendriplex size. , More precisely, the
+size of dendriplex plays a key role in avoiding problems such as little
+effectiveness or excessive toxicity on the transfected cells. In this study, we have selected two different
+cationic phosphorus dendrimers of generation 3, functionalized, respectively,
+with pyrrolidinium (DP) and morpholinium (DM) surface groups, which
+demonstrated a promising potential for siRNA delivery. Our data have demonstrated that DP has an increased capacity
+to self-assembly rather than DM. Such behavior is related with the
+different dendrimers’ chemical nature of the terminal beads,
+which for DM is polar and for DP is completely apolar. Because systems
+are immersed in an aqueous solvent, the behavior of nonpolar particles
+to aggregate is increased, and probably it results in our demonstrated
+tighter self-assembly showed by DP. Further studies on the size and
+the polydispersity index of the DP aggregates could be indicated to
+improve the control and the prediction of this sensitive characteristic,
+with the aim of avoiding adverse events. Another important feature
+to investigate in order to modulate the dendriplex size and conformation
+is the dendrimer complexation behavior with siRNA molecules. In this context, cationic dendrimer–siRNA
+aggregates formation are mainly driven by electrostatic interactions. Therefore, tuning up the peripheral positive
+charge density and the terminal chemical structure of dendrimers may
+strongly influence the binding attitude with siRNAs. Recent study has highlighted how even small difference
+in dendrimer chemical composition can affect the enthalpy and entropic
+contribution of DP and DM, drastically changing their stoichiometric
+values. It has been already highlighted
+how the dendrimer multivalence behavior is intrinsically connected
+to the enthalpy contribution and the entropic penalty in the binding
+free energy. − In our research, we have demonstrated that DP has
+an increased capacity to complex with 2 siRNAs, while DM has increased
+attitude to complex with 1 siRNA. Such a different behavior may indicate
+that DP can reorganize in a more efficient way its branches in order
+to bind 2 siRNAs. On the other hand, DM may suffer from higher conformational
+change when it complexes with 1 siRNA. This assumption is supported
+by the BS analysis ( B), which confirms that DM has a greater interaction surface
+both when it is complexed with 1 or 2 siRNAs. The higher BS values
+exhibited by DM are due to its capability to flex the siRNA structure,
+a behavior which is almost totally absent for the DP. Because DP has decreased the BS surface and employs a lower
+number of terminals for complexation purposes, it has an increased
+efficiency in binding siRNA rather than DM. , In
+addition, the lower number of terminals employed by DP can be also
+useful in detachment of siRNAs once inside the cell, which can lead
+to an amplified bioactivity. On the other hand, we have shown that
+DP presents self-assembly mechanisms even in the presence of siRNA
+double-strained filaments. Considering that in vitro experiments are
+executed with an excess of dendrimer buffer, , we
+can suggest that DP concentration within the dendriplex will be probably
+higher in comparison of DM concentration within the dendriplex. According
+to the recent literature, positively charged nanoparticles and aggregates
+have much greater propensity to translocate through cell membranes
+than negatively or neutral charged ones. − In addition,
+the superficial positive charged molecules have proved to be also
+strongly correlated to cellular uptake and cytotoxicity. − The higher presence of DPs into the dendriplex nanoparticles can
+result in a higher capability of masking the siRNA negative charge,
+leading in an increased cellular internalization. On the other hand,
+tuning properly the dendrimer hydrophobic/hydrophilic affinity with
+membranes , can also aid the efficient translocation
+of dendriplexes inside the cell. In this
+framework, DP increased apolar character rather than DM, may also
+play a crucial role in the cellular uptake process, because of the
+increased hydrophobic affinity with the plasmatic membrane. Taken
+all together, it is reasonable to assume that DP increased binding
+multivalence and self-assembly attitude, with no significant competition
+phenomena, lead to higher dendriplex stabilization and neutralization
+which ultimately can improve the cell transfection.
+
+## Conclusions
+In the present study, we adopted the MARTINI force-filed to shed
+light on the different supramolecular behavior of two cationic phosphorous
+dendrimers, namely, DM and DP, in complexing siRNA. We have shown
+how small surface modification might lead in significant changing
+on the dendrimer–siRNA complexation dynamics. The results indicate
+that DP is significantly more efficient in binding 2 siRNAs, while
+DM has increased attitude to complex with 1 siRNA. In this framework,
+we also highlighted a competition mechanism in DM–siRNA interaction,
+which is not present in DP–siRNA interaction. The outcome of
+this research provides fruitful insight in order to deeply understand
+the mechanisms driving the supramolecular dendriplex formation. In
+conclusion, this multiscale computational work paves the way for a
+future investigation of the dendriplex structures formed by the large-scale
+interaction of dendrimers and nucleic acids.
+
+## Methods
+
+## Dendrimers
+CG Models
+Dendrimers CG models, in terms
+of coordinates and topology, were generated starting from AA trajectories
+of DM and DP by grouping AA coordinates and mapping them in CG beads
+as made in several previous works. − , , 
+AA-MD set up and results concerning
+conformational stability are reported in our previous work and summarized
+in Supporting Information S.1. The AA simulations
+of single dendrimer in water will be used here as reference for validation
+of CG dendrimer models.
+CG-AA maps for DM and DP dendrimers
+are shown in . More details about the AA
+group division and bead identification is reported in Supporting Information S.2. Nonbonded parameters
+assigned to each CG bead have been taken from the MARTINI forcefield. AA trajectories and AA-CG maps were used as
+input for PyCGTOOL in order to generate
+the dendrimer CG-bonded terms topology. , 
+ 
+
+## Dendrimer CG Model Validation
+As mentioned above, the
+dendrimer CG models were validated by comparing the dendrimer AA and
+CG dendrimer conformational dynamics. In a greater detail, AA-MD and
+CG-MD simulations have been performed on the same molecular system
+(dendrimer in water) for both DP and DM.
+The tuning of bonded
+parameters was done using the iterative modified Boltzmann inversion
+(ImBI) technique (Supporting Information S.3), to derive potentials of the bonded terms in order to match the
+topological parameters of reference atomistic models. Structural conformation
+of both CG dendrimer models was evaluated in comparison with AA trajectories,
+by measuring mean and standard deviation of the radius of gyration
+and root mean square fluctuations.
+The ImBI requires several
+steps of CG dynamics and a topology refinement
+on the basis of a comparison with system properties obtained at the
+CG level and the same properties obtained by AA-MD (target trajectory). Concerning the CG level, each dendrimer (DP
+and DM) was positioned in the center of a dodecahedron box filled
+with normal water beads, using 0.21 nm as van der Waals distance,
+and ions (Na+ and Cl–) at a physiological
+concentration (0.15 M). To prevent unwanted CG water freezing, 20%
+of normal P4 water beads were replaced with special-type BP4 antifreeze
+water beads. 
+Then, each simulation
+step of the ImBI was performed as follows.
+The system (dendrimer in water) was energy-minimized by 2000 steps
+of the steepest descent energy minimization algorithm. A 100 ps position-restrained
+MD was performed at 320 K using the v-rescale thermostat in the NVT ensemble. Then, a 5 ns position-restrained
+MD was performed at 320 K and 1 atm using Berendsen barostat in the NPT ensemble. Finally, a 100
+ns MD without position restraints was performed in the NPT ensemble coupling the system by the Parrinello–Rahman barostat and the v-rescale thermostat. Atom velocities were randomly initialized following
+a Maxwell–Boltzmann distribution. Long-ranged electrostatic
+interactions were calculated at every step with the reaction-field
+method, using a relative dielectric constant value of 15, with a cut-off
+of 1.1 nm. A cut-off of 1.1 nm was also
+applied to Lennard–Jones interactions. The LINCS algorithm approach allowed
+an integration time step of 10 fs.
+Validation analysis was performed
+taking into account the last
+20 ns of production run, following two main strategies: (A) suit the
+bonded parameters as similar as possible to the atomistic models and
+(B) try to optimize the conformational features of the dendrimers
+as close as possible to the atomistic simulations. , , 
+The detailed validation procedure
+that has been adopted can be
+found in the Supporting Information S.4.
+
+## Generation of siRNA CG Model
+The parametrization followed
+to obtain the siRNA CG model is based on the MARTINI DNA force-field
+extension adapted in order to achieve
+a correct implementation of the RNA properties. The siRNA CG model was created with a soft elastic network
+which has allowed the building of correct double-stranded siRNA’s
+structure. In detail, the soft model
+has been found in good agreement with the experimental persistence
+length and helical parameters for dsRNA molecules. The maximum recommended time-step in order to maintain
+the simulations stability is 10 fs. 
+
+## CG MD of Dendrimer–Dendrimer and Dendrimer–siRNA
+Complexation
+CG MD developed in this work can be divided
+into three main categories (T1, T2, and T3). For each category, a
+different molecular system has been considered.
+
+## T1. Investigation of Dendrimer
+Self-Aggregation Mechanisms
+Two homologues, for example,
+2DM molecules (or 2DP molecules),
+have been positioned at a minimum distance of 3 nm from each other
+( A). The simulation
+test aims at investigating DP and DM self-aggregation tendency.
+ 
+
+## T2. Investigation of siRNA–Dendrimer
+Binding Stoichiometry
+A system consisting of 2 siRNA and
+1 dendrimer (DM or DP) has been
+built by positioning each molecule at a minimum distance of 2 nm from
+each other. The simulation test aims at investigating molecular reasons
+behind a different stoichiometry shown by DP and DM in binding siRNA
+( B).
+
+## T3.
+Investigation of Dendrimer Competition Mechanisms in Binding
+siRNA
+A system consisting of 2 dendrimers and 1 siRNA has
+been built by positioning each molecule at a minimum distance of 2
+nm from each other. The simulation test aims at investigating if some
+kind of competition mechanism may affect the dendrimer ability to
+bind siRNA ( C).
+All CG simulations have been carried out in CG modeled
+explicit water and ions as described below. In all the cases, the
+molecular system was positioned in the center of a dodecahedron box
+with a minimum periodic images distance no smaller than 2.0 nm and
+solvated with nonpolarizable water beads. After that Na–Cl
+ions were added at a concentration of 0.15 M, such as human extracellular
+ions concentration, forming systems with a total amount of about 45,000
+interacting beads. MARTINI v_2.1-dna forcefield was adopted for CG simulations. To avoid freezing of the
+solvent beads, 20% of normal water beads (P4) was replaced with heavy
+water beads (BP4). Long-ranged electrostatic
+interactions were calculated at every step choosing the reaction-field
+method, using a relative dielectric constant value of 15, with a cut-off
+of 1.1 nm. A cut-off of 1.1 nm was also
+applied to vdW interactions. 
+Each
+system was energy-minimized by 2000 steps of steepest descent
+energy minimization algorithm. A 100 ps position-restrained MD was
+performed at 320 K using v-rescale thermostat
+in the NVT ensemble. Then was performed a 5 ns position-restrained
+MD at 320 K and 1 atm using Berendsen barostat in the NPT ensemble, giving the time to
+equilibrate the system density. Atom velocities were randomly initialized
+following a Maxwell–Boltzmann distribution. Finally, 10 MD
+replicas for category T1 and 15 MD replicas for both T2 and T3 were
+performed for 500 ns each, without position restrains, in the NPT ensemble using Parrinello–Rahman barostat. Each replica was characterized by different atom
+velocities at the beginning of the MD simulation. All the performed
+analyses were done considering the last 50 ns of each replica.
+GROMACS 2018.3 , package was used for all MD simulations.
+The visual MD (VMD) package was used
+for the visual inspection of the simulated systems and for systems
+snapshot rendering.
+
+## Supporting Information Available
+The Supporting
+Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acsomega.9b03908.DP maximizes the probability
+to bind 2 siRNA molecules
+(AVI)
+DP maximizes
+the probability to bind 2 siRNA molecules
+if compared with DM (AVI)
+AA MD of DM and DP; features of CG maps; modified Boltzmann
+inversion; topological parameter validation; siRNA bending angle;
+and dendrimer competition phenomena (PDF)
+
+## Supplementary Material
+ao9b03908_si_001.avi
+ao9b03908_si_002.avi
+ao9b03908_si_003.pdf
+
+The authors declare no
+competing financial interest.
+
+## Acknowledgments
+Authors gratefully acknowledge the financial support
+from the Swiss National Foundation through the grant IZCNZ0-174842
+(“Computational modeling to characterize and optimize dendrimer-based
+nanocarriers for siRNA delivery in Chronicle Obstructive Pulmonary
+Disease”). The authors would also like to acknowledge the financial
+support provided by COST-European Cooperation in Science and Technology,
+to the COST Action MP1404: Simulation and pharmaceutical technologies
+for advanced patient-tailored inhaled medicines (SimInhale). This
+work was also supported by the Swiss National Supercomputing Centre
+(CSCS).

@@ -1,0 +1,241 @@
+4139disconDiscover OncologyDiscov OncolSpringerPMC1172483211724832117248323979804010.1007/s12672-025-01782-2Global research trends and emerging hotspots in nano-drug delivery systems for lung cancer: a comprehensive bibliometric analysis (1998–2024)
+YuCao FanChong-Qi ChenYao-Xuan GuoFeng RaoHao-Han ChePeng-Yu ZuoChun-Jian ChenHuan-Wen 1Department of Cardiothoracic Surgery, The First Affiliated Hospital of Chongqing Medical University, No.1, Youyi Road, Yuzhong District, Chongqing, 400010 China 2Department of Cardiothoracic Surgery, Chongqing University Jiangjin Hospital, Chongqing, 402260 China 3Department of Cardiothoracic Surgery, The People’s Hospital of Chongqing Hechuan, Chongqing, 410520 China 4Department of Thoracic Surgery, Army Medical Center of People’s Liberation Army of China (PLA), 10# Changjiang Branch Road, Yuzhong District, Chongqing, 400042 China ✉Corresponding author.
+#Contributed equally.
+11120251633331212025© The Author(s) 2025Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+
+## Purpose
+Nano-drug delivery systems (NDDS) have become a promising alternative and adjunctive strategy for lung cancer (LC) treatment. However, comprehensive bibliometric analyses examining global research efforts on NDDS in LC are scarce. This study aims to fill this gap by identifying key research trends, emerging hotspots, and collaboration networks within the field of NDDS and LC.
+
+## Methods
+A total of 2452 publications, spanning from 1998 to 2024, were extracted from the Web of Science Core Collection. The data were analyzed using tools such as VOSviewer, CiteSpace, and the R package ‘bibliometrix’.
+
+## Results
+The analysis covered contributions from 12,539 researchers affiliated with 2689 institutions across 55 countries, with their work published in 551 different journals. Research output has increased steadily, with China and the United States leading in both publication volume and impact. Major contributors include the Chinese Academy of Sciences and Shanghai Jiao Tong University. The International Journal of Nanomedicine published the most articles, while Journal of Controlled Release ranked highest in co-citations. Kamal Dua authored the most papers, and Maeda, H. was the most frequently co-cited author. Key research areas encompass “active targeting”, “drug delivery optimization”, “overcoming drug resistance”, “nanocarriers”, and “pulmonary drug delivery”. Emerging hotspots include “epithelial mesenchymal transition”, “mucus penetration”, “lipid nanoparticles”, “hydrogels”, and “immune checkpoint inhibitors”.
+
+## Conclusion
+This bibliometric analysis, the first comprehensive study on NDDS in LC, identifies China and the United States as leading contributors in publication volume and impact. Key research areas include “active targeting” and “drug delivery optimization”, with emerging hotspots such as “lipid nanoparticles” and “immune checkpoint inhibitors”. These findings provide essential insights to guide future research and optimize treatment strategies.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1007/s12672-025-01782-2.
+
+Keywords: Nano-drug delivery systems, Lung cancer, Nanocarriers, Bibliometric analysis, Research trends
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Nov 7; Accepted 2025 Jan 6; Collection date 2025 Dec.
+
+## Introduction
+Lung cancer (LC) remains a major cause of cancer-related deaths globally, with treatment options ranging from surgery, radiotherapy, and chemotherapy to targeted therapies and immunotherapy [ , ]. Surgical intervention is typically reserved for patients with early-stage non-small cell lung cancer (NSCLC). However, since many cases are diagnosed at advanced stages, surgery is often not a viable option. For these patients, chemotherapy and radiotherapy are still the primary treatments, although they are associated with considerable systemic toxicity and can lead to drug resistance, thereby reducing effectiveness [ , ]. While targeted therapies, such as those targeting EGFR and ALK mutations, have shown success, their efficacy is often hampered by tumor heterogeneity and resistance. Immune checkpoint inhibitors (ICIs), including PD-1/PD-L1 inhibitors, have demonstrated promise in LC treatment, but many patients remain unresponsive to immunotherapy, and immune-related adverse effects are common [ , ].
+Given these limitations, nano-drug delivery systems (NDDS) have emerged as a promising therapeutic strategy, either as an alternative or in combination with existing treatments [ ]. NDDS encapsulates drugs in nanoscale carriers, enabling more precise targeting of cancer cells, while reducing the exposure of healthy tissues, thereby minimizing side effects [ ]. Moreover, NDDS can be engineered for controlled release, allowing for increased drug accumulation in tumors and the potential to overcome resistance. These nanocarriers can also be used alongside chemotherapies, immunotherapies, or gene therapies, providing more effective treatment combinations for LC patients [ – ]. Their ability to deliver drugs efficiently while offering multifunctionality positions NDDS as a key player in improving therapeutic outcomes and reducing adverse reactions.
+Despite the growing research in NDDS for LC treatment, a comprehensive bibliometric analysis of its application in this field has yet to be conducted. Such an analysis could provide insights into major research trends, key focus areas, and gaps in current studies [ ]. This would be valuable in guiding resource allocation and advancing future research. Therefore, conducting a bibliometric analysis is crucial to understanding the current landscape and future potential of NDDS in LC therapy. This study aims to address that gap by analyzing the global research on NDDS in LC between 1998 and 2024. Key research questions include:
+What are the major research trends and emerging topics in NDDS for LC?
+Which countries and institutions are leading in this field?
+How have international collaborations and citation networks evolved, and what impact have they had on NDDS research in LC?
+What are the primary types of NDDS studied, and how do they enhance LC treatment?
+Which areas show the most promise as future research hotspots?
+By leveraging advanced bibliometric tools such as VOSviewer and CiteSpace, this study seeks to identify critical aspects of NDDS research in LC treatment and provide insights that can shape future studies and therapeutic strategies, ultimately aimed at improving patient outcomes.
+
+## Methods
+
+## Publication search
+A thorough search of the Web of Science Core Collection (WoSCC) database was conducted to identify studies on NDDS in LC, covering the period from January 1, 1994, to September 26, 2024. The specific search terms and strategies can be found in Supplementary Table 1. WoSCC was chosen for its extensive collection of high-quality, peer-reviewed journals, making it highly suitable for bibliometric studies. The comprehensive metadata and citation features provided by WoSCC improved the precision of the analysis.
+
+## Inclusion criteria
+
+Only articles and review papers published in English were considered.
+Studies specifically addressing NDDS in the context of LC were included.
+
+## Exclusion criteria
+Publications like meeting abstracts, editorials, conference proceedings, and book chapters were excluded from the analysis.
+
+## Literature screening process
+The initial search returned 2486 records. After limiting the results to English-language publications, 2479 records remained. Screening titles and abstracts further excluded 27 records that did not align with the inclusion criteria, leaving a total of 2452 studies. These comprised 1867 research articles and 585 review papers (Supplementary Fig. 1).
+
+## Data analysis
+We used VOSviewer (version 1.6.19) and CiteSpace (version 6.2 R3) to conduct and visualize the bibliometric analysis.
+VOSviewer was employed to create visual networks, illustrating the influence and relationships between countries, institutions, journals, researchers, and publications [ ]. The software analyzed citation data, co-citation patterns, bibliographic coupling, and co-authorship links. Nodes in the visualizations represented elements such as keywords, regions, or authors, with node size and color indicating quantity and type, and lines showing collaboration or co-citation relationships. Specifically, VOSviewer was used for keyword co-occurrence analysis to identify research hotspots, collaboration network mapping to display global partnerships, and citation network analysis to highlight influential studies and their connections. The visual outputs provided a clear, intuitive understanding of these relationships.
+CiteSpace was used to produce dual-map overlays, which visualize the citation trajectories between references and sources. This analysis highlights how knowledge flows across disciplines and provides insights into the intellectual structure of the field. In addition, CiteSpace identified citation bursts among keywords, references, countries, and institutions, pinpointing significant shifts or emerging trends over time [ , ]. Specifically, the software detected keywords with high citation bursts to track evolving research priorities, and it highlighted references or authors with strong citation impacts, revealing pivotal studies that have shaped the field. These outputs were critical for understanding temporal dynamics and identifying influential research clusters.
+In addition, the R package bibliometrix (version 4.3.1) was used to conduct a detailed bibliometric analysis. This included generating global distribution maps to visualize the geographical spread of research activity, highlighting contributions from different regions [ ]. Thematic maps were also created to identify major research themes and their evolution over time. These analyses provided a comprehensive overview of the field’s development.
+Furthermore, Microsoft Office Excel 2021 was utilized for data cleaning, organizing publication records, and conducting quantitative analyses, such as calculating annual publication trends and key metrics, to ensure accuracy and reliability in the data processing.
+
+## Result
+
+## Quantitative analysis of publications
+The analysis covered 2452 publications by 12,539 researchers from 2689 institutions in 55 countries, published in 551 journals. The data spans 1998 to 2024, showing clear trends in annual output. The first study appeared in 1998, with annual publications fluctuating between 0 and 2 until 2005. Output grew gradually from 2005 to 2009, followed by rapid growth from 2009 to 2018. After 2019, the number of studies briefly declined, then steadily increased, as shown in Fig.  A. Projections suggest publication counts of 327, 356, and 388 for 2024, 2025, and 2026, respectively, reflecting an annual growth rate of approximately 13.6% from 2024 to 2026. This forecast indicates continued growth, showing rising interest and expanding research in the field.
+ 
+
+## Country and institution
+Research on NDDS in LC spans 2689 institutions across 55 countries. As shown in Figs.  B-D, China leads in publications (969 papers), followed by the United States and India (Table  ). However, China’s average citation rate (33.35) is lower than that of the United States, highlighting the importance of research quality over quantity. Figure  C shows China’s strong international collaborations, especially with the United States, India, and Iran, enhancing its global influence. Iran stands out with the highest centrality, reflecting strong international ties. South Korea, Australia, Saudi Arabia, and Germany also perform well in citations and collaboration strength, with Germany excelling despite fewer publications. Overall, while China, the United States, and India lead in output, the United States, Iran, and Germany have the greatest impact and collaboration networks.
+ Among the top 10 institutions, 60% are from China, with the Chinese Academy of Sciences, Shanghai Jiao Tong University, and Sichuan University leading in publication output. The Chinese Academy of Sciences excels in both international collaboration and academic influence, while Shanghai Jiao Tong University shows less engagement globally. Other Chinese institutions, like Sichuan and Soochow University, have high output but average global collaboration. Iran’s Tabriz University of Medical Sciences stands out for its research influence, and institutions like the University of Technology Sydney and Lovely Professional University, despite lower output, benefit from strong international partnerships. Supplementary Fig. 2 emphasizes the role of collaborations in boosting research output and impact.
+
+## Top journals and co-cited journals
+Publications on NDDS in LC were spread across 551 journals, showcasing the field’s interdisciplinary and diverse nature. As shown in Supplementary Table 2, the top 10 journals contributed significantly to the total output. Leading the list is the International Journal of Nanomedicine, which published 80 articles, followed by the Journal of Drug Delivery Science and Technology (73 papers), Journal of Controlled Release (70 papers), International Journal of Pharmaceutics (68 papers), and Pharmaceutics (68 papers). Among these, the Journal of Controlled Release stands out with the highest impact factor (IF) of 10.5, underscoring its critical role in publishing high-impact research. ACS Applied Materials & Interfaces, with an IF of 7.1, also demonstrates considerable influence, particularly in bridging NDDS and LC research. The citation network map (Fig.  A) illustrates how these journals are interconnected, forming clusters that promote knowledge exchange within the NDDS-LC research ecosystem.
+ In terms of co-citations, these journals’ influence is further reinforced. As seen in Supplementary Table 2, 80% of the top 10 co-cited journals have been referenced over 2000 times. Journal of Controlled Release leads with 7230 co-citations, followed by Biomaterials (5573 co-citations) and International Journal of Pharmaceutics (4174 co-citations). Even though some high-impact journals like ACS Nano (IF 15.8), Advanced Drug Delivery Reviews (IF 15.2), and Cancer Research (IF 12.5) publish fewer articles on NDDS in LC, their foundational contributions across related disciplines remain significant. The co-citation network (Fig.  B) highlights these journals’ role in shaping research trends, with Biomaterials showing strong co-citation links to Advanced Drug Delivery Reviews and ACS Nano, indicating their joint efforts in advancing the understanding of NDDS applications in LC.
+The dual-map overlay of journals illustrates the citation associations between journals and co-cited sources [ ]. Supplementary Fig. 3 illustrates four primary citation pathways: the orange path indicates significant citations from articles in the Molecular/Biology/Immunology sections to literature in the Molecular/Biology/Genetics and Chemistry/Materials/Physics sections; a red path shows significant citations from articles in Physics/Materials/Chemistry sections to literature in the Molecular/Biology/Genetics and Chemistry/Materials/Physics.
+
+## Top authors and co-cited authors
+The advancements in NDDS research in LC can be credited to contributions from 12,539 authors. Of the top 10 most prolific researchers, 70% have published at least 13 papers, highlighting their crucial role (Supplementary Table 3). Kamal Dua leads with the highest publication volume, as shown in Fig.  A, followed by Gaurav Gupta and Dinesh-Kumar Chellappan. Kamal Dua’s collaborations with researchers like Gaurav Gupta, Dinesh-Kumar Chellappan, Sachin-Kumar Singh, Keshav-Raj Paudel, and Harish Dureja span multiple countries, promoting international cooperation and strengthening the global research network.
+ Additionally, 90% of the top authors have been co-cited over 200 times, underscoring their significant influence (Supplementary Table 3). Maeda, H is the most co-cited author with 342 co-citations, followed by Zhang, Y with 278, reflecting their pivotal contributions to the field. The co-citation network, shown in Fig.  B, highlights strong interconnections among leading researchers such as Maeda, H, Zhang, Y, Wang, Y, Jemal, A, and Liu, Y, emphasizing their central roles in fostering collaboration and advancing NDDS research in LC.
+
+## Top co-cited references
+The top 10 co-cited references, each cited over 70 times (Supplementary Table 4), represent key studies that have significantly shaped the understanding of NDDS in LC. The co-citation network (Fig.  A) reveals strong connections between these influential works. Notably, “Peer D, 2007, Nature Nanotechnology” is often co-cited with “Matsumura Y, 1986, Cancer Research” and “Patra JK, 2018, Journal of Nanobiotechnology” [ – ], emphasizing the role of nanomedicine in advancing cancer treatment, particularly for LC.
+ Recent advancements in nanotechnology have enabled targeted delivery of therapeutic agents, such as chemotherapeutics and immunotherapies, directly to tumors, improving treatment efficacy and reducing side effects. The enhanced permeability and retention (EPR) effect, where nanoparticles accumulate in tumors due to abnormal vasculature, has been a major focus. While challenges remain in clinical translation, the ability of nanocarriers to selectively target LC cells shows great potential, paving the way for better diagnostics and more effective therapies.
+
+## Reference with citation bursts
+References with citation bursts are those frequently cited within a specific period, indicating a surge in their relevance. Using CiteSpace software, a network of references with strong citation bursts was created, highlighting the top 20 bursts with red bars (Fig.  B). Leading the list is “Sung H., 2021, CANCER J. CLIN” with the strongest burst (strength = 30.76) [ ], followed by “Mitchell MJ, 2021, NAT REV DRUG DISCOV” (strength = 16.6) [ ] and “Patra JK, 2018, J NANOBIOTECHNOL” (strength = 15.51) [ ]. These articles discuss recent advancements in nanoparticle design and nanomedicine, particularly in improving the delivery of therapeutic agents for LC treatment.
+These innovations aim to overcome biological barriers and address patient variability, enabling more targeted and personalized therapies. Nanoparticle systems, such as lipid-based or polymeric carriers, facilitate precise drug delivery to cancerous tissues, enhancing the effectiveness of traditional and emerging treatments while minimizing side effects. As these technologies advance, they offer the potential to further refine drug delivery in LC, promoting more effective and personalized treatment strategies.
+
+## Keyword analysis
+
+## Keyword analysis, thematic development, and future research directions
+The keyword analysis identifies evolving trends and key areas in NDDS for LC, grouped into five major clusters (Fig.  A, Supplementary Table 5). The red cluster focuses on how NDDS have revolutionized LC treatment by enabling precise targeting within the tumor microenvironment. Using materials like lipid nanoparticles and hyaluronic acid, these systems deliver therapies such as chemotherapy, gene therapy, and immunotherapy directly to cancer cells. Advanced techniques, including photodynamic and photothermal therapy, combined with targeted treatments, enhance precision and effectiveness. Theranostics further improves outcomes by integrating diagnosis and treatment in LC.
+ The green cluster highlights how NDDS leverage nanotechnology to enhance drug targeting, improve cellular uptake, and optimize biodistribution, leading to more efficient LC treatments. Encapsulating drugs like erlotinib and gemcitabine in solid lipid or magnetic nanoparticles improves pharmacokinetics and reduces toxicity to healthy tissues. Chitosan-based nanoparticles also support controlled drug release, boosting apoptosis and improving cancer cell death rates.
+The blue cluster explores NDDS’s role in overcoming drug resistance and enhancing cancer treatment effectiveness. Nanomedicine approaches, such as polymeric micelles and PLGA nanoparticles, allow controlled, sustained drug release, useful in combination therapies to address multi-drug resistance, improving outcomes in resistant LC cases.
+The yellow cluster examines how nanocarriers like liposomes, micelles, and polymeric nanoparticles improve biocompatibility and targeted drug delivery. Functionalized with targeting agents such as folic acid, these carriers concentrate therapeutic agents at the tumor site, minimizing harm to healthy tissues and enhancing treatment efficacy.
+Lastly, the purple cluster focuses on inhalation-based NDDS, which deliver therapeutic agents directly to LC cells. This localized delivery, such as with siRNA for gene silencing, bypasses systemic circulation, reducing side effects and increasing drug concentration at the tumor site, offering an effective strategy for LC treatment.
+Keywords with citation bursts reflect emerging trends or growing interest in a research area, as identified through CiteSpace software. The network of keywords with the strongest citation bursts highlights the top 20 terms with red bars (Fig.  B). The three highest bursts were observed for “protein corona” (strength = 4.69), “conjugate” (strength = 4.49), and “anticancer drug delivery” (strength = 4.44). Recent bursts also occurred in areas like “fabrication”, “nanomaterials”, “epithelial-mesenchymal transition (EMT)”, “hydrogels”, and “optimization” (Fig.  B). Additionally, keywords such as “immune checkpoint inhibitors”, “phytoceuticals”, “berberine”, “mucus penetration”, “lipid nanoparticles”, and “immunotherapy” (Fig.  C) indicate growing interest in these topics. These trends highlight the increasing role of nanomaterial fabrication and optimization (e.g., lipid nanoparticles and hydrogels) in advancing NDDS. These systems aim to target biological processes like EMT and improve mucus penetration, enhancing drug delivery to lung tissues. The incorporation of phytoceuticals, such as berberine, into NDDS, along with the use of immune checkpoint inhibitors and immunotherapy, shows great potential in boosting treatment efficacy. These advancements position NDDS as a promising strategy for improving LC therapies.
+The thematic map illustrates the relevance and progress of key topics in the field (Fig.  D). The bottom-right quadrant identifies important but less-developed themes in LC research, focusing on NDDS and the integration of nanoparticles, nanomedicines, and nanotechnology in cancer treatments. These topics include targeted drug delivery, chemotherapy, and nanocarriers like liposomes and chitosan, which enhance anti-cancer effects by improving uptake and inducing apoptosis with agents like gefitinib, camptothecin, and silver nanoparticles. Pulmonary delivery and inhalation therapies are also promising for lung disease treatment, using methods such as spray drying and microparticles. Additionally, factors like biodistribution and drug carriers such as micelles are key to optimizing treatments with agents like cabazitaxel. Together, these underexplored areas offer great potential for improving LC therapies.
+
+## Discussion
+
+## General information
+This study provides the first comprehensive bibliometric analysis of NDDS in LC, highlighting significant research growth since 2009. The increase in publications underscores NDDS’s rising importance in LC treatment, reflecting global institutions' strong commitment and establishing NDDS as a key focus in cancer research.
+The analysis reveals a disparity between publication volume and research impact. While China leads in publications, countries like the United States and European nations achieve higher citation rates despite fewer papers. The U.S., in particular, shows the strongest citation burst (strength = 22) (Supplementary Fig. 4), suggesting China’s research output has not yet matched its global influence. This could be attributed to the differences in research practices and international collaboration. While China has made substantial investments in research funding, the U.S. and European countries benefit from stronger collaborative networks and a focus on publishing in high-impact journals, which amplify their citation rates and global influence.Strengthening partnerships could help close it.
+Additionally, 60% of the top 10 institutions by publication and citation frequency are from China. Citation burst analysis highlights institutions like Saveetha Institute of Medical & Technical Science (strength = 9.33), Soochow University (strength = 8.14), and the Chinese Academy of Sciences (strength = 7.73) (Supplementary Fig. 5) for their rapid international recognition. These Chinese institutions excel due to significant government funding and strategic focus on emerging fields like nanomedicine. However, the citation performance of institutions such as Saveetha suggests that sustained growth in influence will require deeper international collaborations and higher-impact research outputs to match the influence of their Western counterparts.
+In terms of journal impact, the International Journal of Nanomedicine leads in publication volume, while the Journal of Controlled Release excels in co-citation metrics. This difference reflects the distinct focus of these journals: while the International Journal of Nanomedicine caters to a broader audience, the Journal of Controlled Release targets foundational research with higher citation potential. This shows the importance of publishing in journals with strong citation records, like the Journal of Controlled Release, for greater academic influence.
+Regarding author influence, Kamal Dua leads in publication output, while researchers like Maeda, H, Zhang, Y, and Wang, Y, have made foundational contributions. Maeda’s work on SMA copolymer-based micellar drugs [ ] highlighted the EPR effect, improving drug accumulation in metastatic LC. Zhang’s graphene oxide nanoparticle advancements [ ] and Wang’s research on targeting cancer metabolism and telomere dynamics [ , ] have introduced promising strategies for LC therapies. These researchers’ work has solidified their leadership in advancing NDDS for LC.
+
+## Hotspots and frontiers
+Highly co-cited references have played a crucial role in shaping the academic understanding of NDDS in LC (Supplementary Table 4). As shown in Fig.  B, several key themes emerged in 2024, marking current research hotspots [ , , , ]. These highly cited studies highlight cutting-edge trends in NDDS for LC, focusing on personalized treatments, overcoming multidrug resistance, and the optimization and hybridization of nanomaterials. They underscore nanotechnology’s role in enhancing the effectiveness of chemotherapy, targeted therapy, and immunotherapy by specifically targeting cancer cells, thus improving both drug delivery efficiency and patient safety. These studies showcase significant advancements in NDDS for LC and highlight their strong potential for future clinical applications.
+Keywords analyses offer critical insights into the field’s core focus and emerging trends. Figure  C outlines five primary areas of NDDS research in LC treatment: (1) active targeting for precise delivery to tumor cells; (2) optimizing drug delivery systems to enhance targeting, cellular uptake, and biodistribution; (3) addressing drug resistance through combination therapies to improve treatment efficacy; (4) using nanocarriers like liposomes and micelles to improve biocompatibility and precision in drug delivery; and (5) inhalation-based pulmonary drug delivery, which reduces side effects and increases drug concentration at the tumor site. Looking ahead, emerging trends include epithelial-mesenchymal transition, mucus penetration, lipid nanoparticles, hydrogels, and immune checkpoint inhibitors.
+
+## Advancements in NDDS for LC: key strategies and emerging approaches
+
+## Active targeting: improving precision in tumor-specific drug delivery
+Active targeting in nanomedicine, especially for LC, holds great potential. By modifying nanocarriers with ligands like RGD peptides, folic acid, or hyaluronic acid, these systems selectively bind to overexpressed receptors on tumor cells (e.g., integrin αvβ3, folate receptor, CD44), enhancing drug accumulation at tumor sites and reducing systemic toxicity. Unlike passive targeting, which relies on the EPR effect, active targeting improves precision through receptor-ligand interactions, leading to more effective drug delivery.
+For LC, RGD-modified PLGA nanocarriers target integrin αvβ3 receptors on NSCLC cells, improving drug specificity and therapeutic efficacy [ , ]. Similarly, folic acid-modified quantum dots and liposomes target folate receptors, increasing drug delivery and cellular uptake [ ]. Hyaluronic acid-modified systems target CD44 receptors, further enhancing drug delivery to cancer stem cells [ ].
+Future research could explore combining multiple targeting strategies, such as dual targeting with RGD peptides and folic acid, to improve drug accumulation and overcome tumor microenvironment barriers [ , ]. When integrated with treatments like chemotherapy or immunotherapy, these advanced nanotechnologies could greatly enhance LC treatment outcomes.
+
+## Optimizing NDDS: enhancing targeting, cellular uptake, and biodistribution
+Optimizing NDDS requires enhancing targeting, cellular uptake, and biodistribution to maximize therapeutic benefits. Surface modification with targeting ligands like folic acid, transferrin, or EGFR improves tumor-specific recognition, enabling more precise drug delivery and reducing side effects by minimizing toxicity to healthy tissues [ , ].
+Size and surface charge are also key factors. Nanoparticles in the 10–200 nm range enter tumor cells more easily via diffusion and endocytosis, while negatively charged particles often show higher uptake efficiency [ , ].
+Optimizing biodistribution involves adjusting nanoparticle design to influence metabolism and clearance pathways. Changes in size, shape, and surface properties can extend circulation time, reduce rapid kidney clearance, and increase drug accumulation at the tumor site [ ]. These adjustments enhance drug efficacy while lowering systemic toxicity, highlighting NDDS's clinical potential [ ].
+Overall, refining nanoparticle targeting and bioavailability offers promising strategies for improving LC treatment. Future research should continue to focus on these areas for safer and more effective therapies.
+
+## Combating drug resistance: utilizing combination therapies for enhanced efficacy
+NDDS play a vital role in supporting combination therapies to overcome drug resistance in LC. By co-delivering anticancer agents, NDDS integrate chemotherapy, immunotherapy, and targeted therapies to address resistance caused by tumor heterogeneity, the tumor microenvironment, and efflux proteins like P-glycoprotein [ , ]. Nanocarriers penetrate the tumor microenvironment more effectively and reduce drug expulsion by efflux proteins, resulting in higher drug concentrations in resistant tumor cells [ ].
+Additionally, nanotechnology enables controlled drug release and precise targeting, reducing side effects. Research shows nanocarriers can co-deliver multiple drugs while inhibiting resistance-related proteins like ABC efflux pumps, increasing tumor sensitivity to chemotherapy [ ]. Future studies should explore how NDDS-based combination therapies can further improve treatment efficacy and combat multidrug resistance [ ].
+
+## Nanocarriers in NDDS: improving biocompatibility and targeted delivery
+Nanocarriers are key to NDDS, enhancing drug biocompatibility and precision targeting. By optimizing surface modifications, shape, and size, nanocarriers can evade immune detection, extend circulation time, and improve stability and targeting efficiency. Nanostructured lipid carriers (NLCs) and polymer-based nanoparticles are especially effective in cancer therapies, increasing drug solubility and reducing side effects [ , ]. Active targeting, such as functionalizing nanoparticles with ligands like RGD peptides or folate receptors, ensures precise drug delivery to tumor sites. RGD peptides bind to integrin receptors on tumor cells, improving cellular uptake and drug accumulation [ , ]. These strategies enhance treatment efficacy and reduce systemic toxicity, paving the way for future precision therapies.
+
+## Pulmonary drug delivery via inhalation: minimizing side effects and maximizing tumor targeting
+Inhalable NDDS provide key benefits for LC treatment by delivering drugs directly to lung tumors, avoiding systemic side effects like liver and kidney toxicity. Nanocarriers improve drug retention in the lungs, enhance mucus barrier penetration, and increase local drug concentration at tumor sites [ , ]. Optimizing nanoparticle size and surface charge further boosts drug accumulation in lung tumors [ ].
+Challenges remain, such as overcoming the lung's mucus barrier and immune clearance, as well as patient variability in lung function, which affect drug distribution and efficacy [ , ]. Future research should focus on developing more biocompatible and responsive nanocarriers with targeting ligands for improved precision [ , ]. Inhalable NDDS hold great potential for advancing LC therapy.
+
+## Future trends in NDDS for LC
+
+## Epithelial mesenchymal transition in tumor progression
+EMT is a critical process that drives tumor invasion and metastasis. During EMT, epithelial cells lose their polarity and cell-to-cell adhesion, gaining mesenchymal traits like increased motility and invasiveness. This shift not only facilitates tumor spread but also contributes to chemotherapy and radiotherapy resistance by enhancing cancer stem cell characteristics [ , ].
+Targeting EMT through NDDS presents a promising approach to combat drug resistance and prevent metastasis. Nanomaterials can inhibit tumor cell migration and reduce chemotherapy resistance by disrupting EMT-related pathways such as TGF-β, Akt, and Erk1/2 [ , ]. Future research should aim to develop nanocarriers specifically designed to target EMT, offering the potential to improve treatment outcomes while lowering the risk of metastasis [ ].
+
+## Mucus penetration for enhanced drug delivery
+The mucus layer in the lungs acts as a primary defense mechanism, but it also complicates drug delivery due to its high water content and viscoelastic properties, limiting drug absorption and retention [ ].
+Recent innovations in nanocarriers, such as PEGylated nanocarriers and liquid crystal nanoparticles, allow drugs to better penetrate the mucus layer and interact with lung epithelial cells, improving retention and increasing local drug concentrations [ , ]. Some nanocarriers also use adhesion mechanisms or enzymatic actions to break down the mucus structure, further enhancing drug delivery efficiency [ ].
+Future research should focus on developing advanced nanocarrier systems that combine mucus penetration with targeted delivery, addressing therapeutic challenges in LC. This approach could improve drug bioavailability while reducing systemic side effects [ ].
+
+## Lipid nanoparticles in targeted therapy
+Lipid nanoparticles (LNPs) show great potential for targeted LC therapy. By controlling drug release, LNPs can effectively deliver chemotherapy agents like doxorubicin and paclitaxel to tumors while reducing systemic toxicity [ ]. Their biocompatibility and adjustable release properties make them ideal for increasing drug accumulation in tumors and minimizing effects on healthy tissues [ ].
+LNPs can be further optimized by surface modification with ligands like antibodies or receptor-targeting molecules, allowing selective binding to LC cell receptors and improving treatment efficacy [ ]. Beyond chemotherapy, LNPs hold promise for immunotherapy, mRNA vaccines, and CRISPR-based gene editing [ ].
+Advancements in LNP design and manufacturing will likely expand their role in LC therapy, offering more personalized and effective treatments.
+
+## Hydrogels for controlled drug release for LC therapy
+Hydrogels, with their three-dimensional crosslinked structures and high water content, are effective for controlled drug release. By using physical or chemical crosslinking, hydrogels regulate drug release rates, especially for large-molecule therapeutics. Their mesh-like networks allow for prolonged and sustained drug delivery, making them ideal for localized, long-term LC treatment [ , ].
+Hydrogels are biocompatible and can respond to stimuli like pH, temperature, light, or enzymes, enabling controlled drug release in response to the tumor microenvironment [ ]. This responsiveness enhances delivery precision, improving therapeutic effectiveness while reducing systemic side effects (62). As materials science advances, future hydrogels may integrate nanoparticles for enhanced targeting, offering great potential to improve LC treatment outcomes [ , ].
+
+## Combining NDDS with ICIs in NSCLC therapy
+The integration of NDDS with ICIs holds great promise for advancing cancer treatments, particularly in NSCLC. ICIs, such as PD-1 and PD-L1 inhibitors, have improved outcomes by blocking tumor cells from evading immune attacks, but their effectiveness is limited by the immunosuppressive tumor microenvironment, and only a subset of patients responds [ , ].
+Combining ICIs with NDDS can enhance efficacy by precisely delivering drugs to tumors and reducing systemic toxicity. Nanoparticles protect ICIs from rapid degradation, prolonging their action and improving immune responses. For example, dual-functional nanotherapies targeting both PD-L1 and CD47 pathways have shown enhanced activation of both innate and adaptive immune systems, suppressing tumor growth [ , ].
+This combination addresses traditional ICI limitations, reduces resistance, and expands the potential of immunotherapy through nanodelivery systems. As nanotechnology advances, NDDS-ICI combinations are expected to play a key role in LC immunotherapy [ , ].
+
+## Future challenges and emerging technological opportunities in NDDS and LC
+
+## Challenges in translating NDDS to clinical applications for LC
+Several critical challenges must be addressed to successfully translate NDDS into clinical applications for LC. One key issue is the complexity of nanodrugs, which can lead to unpredictable behavior in the body, particularly in varied tumor microenvironments. Differences in drug distribution, metabolism, and clearance among patients complicate the development of a uniform treatment approach [ ].
+NDDS also faces regulatory and safety challenges, particularly regarding long-term toxicity and immune responses. Extended retention of nanoparticles in the body may cause unexpected side effects [ , ].
+Additionally, large-scale production poses difficulties. Maintaining key properties like nanoparticle size and surface charge during mass production is challenging, and batch variations can lead to inconsistent efficacy [ ].
+Future advancements should focus on improving precision in manufacturing processes and implementing standardized quality control to ensure nanodrugs are safe and effective for clinical LC treatments [ , ].
+
+## Emerging technological opportunities for advancing NDDS in LC treatment
+The rapid development of smart nanocarriers is creating new opportunities for LC treatment. Responsive designs, such as pH-, temperature-, or redox-sensitive nanoparticles, allow precise drug release within the tumor microenvironment. Since LC tissues often exhibit acidity, many pH-responsive nanocarriers are engineered to release drugs specifically at the tumor site, improving targeted delivery and reducing harm to healthy tissues [ , ]. These innovations boost drug bioavailability and help overcome tumor drug resistance, leading to better outcomes.
+Combining nanomedicine with immunotherapy also holds great promise for LC. When used with ICIs, nanocarriers can enhance drug accumulation at tumor sites and activate the immune system. Advances in nanotechnology have led to multifunctional nanocarriers capable of co-delivering chemotherapy, immune modulators, and gene-editing tools, supporting effective combination therapies [ ].
+Future research should focus on optimizing nanocarrier designs for personalized treatment strategies, tailoring therapies to each patient’s tumor characteristics for increased effectiveness and fewer side effects.
+
+## Comparative insights: NDDS in LC versus other diseases
+Although the application of NDDS in LC treatment has achieved significant progress, it still faces a series of challenges and opportunities compared to their use in other diseases. For instance, in the field of breast cancer, research on NDDS primarily focuses on HER2-targeted delivery systems to enhance therapeutic specificity and minimize off-target effects [ ]. Similarly, in liver cancer studies, efforts are directed toward developing liver-specific nanoparticles to overcome tumor microenvironment barriers and improve therapeutic outcomes [ ].
+In contrast, LC presents unique therapeutic challenges. These include the need to design delivery systems capable of targeting the pulmonary microenvironment while effectively addressing barriers such as mucus penetration and lung clearance. In this regard, inhalation-based NDDS technologies and advanced active targeting strategies are particularly crucial, as they can significantly enhance local drug concentration while minimizing systemic toxicity [ ]. These distinctions highlight the disease-specific nature of NDDS design and underscore the necessity of adopting tailored strategies in LC treatment.
+This broader analytical perspective not only helps summarize advancements in LC research but also provides a framework for leveraging insights from other cancer therapies to overcome current limitations and explore innovative therapeutic strategies.
+
+## Limitations and future directions
+Despite its valuable contributions, this study has several limitations: (i) The literature search was restricted to the WoSCC due to challenges in standardizing raw data formats from Scopus and PubMed, which prevented a unified analysis. (ii) Only English-language publications were considered, potentially excluding significant non-English research. (iii) Manual standardization was applied to account for variations in terminology, but achieving complete consistency was difficult, potentially resulting in minor discrepancies.
+Future research should focus on integrating data from multiple databases, such as Scopus and PubMed, if a method for harmonizing file formats can be developed. This would enable a more comprehensive analysis. Expanding the inclusion criteria to incorporate non-English studies could also offer a broader global perspective. Additionally, leveraging advanced natural language processing tools for data standardization could enhance the accuracy and consistency of bibliometric analyses. Future studies should also investigate the interactions between NDDS and emerging therapies to identify innovative treatment strategies and address the evolving challenges in LC therapy.
+
+## Conclusion
+This study offers a comprehensive bibliometric analysis of research on NDDS in LC, providing valuable insights into academic trends, collaboration networks, and foundational works. Key research areas identified include “active targeting”, “drug delivery optimization”, “overcoming drug resistance”, “nanocarriers”, and “pulmonary drug delivery”, all of which play a crucial role in advancing LC therapies. The analysis also highlights emerging therapeutic strategies such as “epithelial-mesenchymal transition”, “mucus penetration”, “lipid nanoparticles”, “hydrogels”, and “immune checkpoint inhibitors”, which hold significant potential for further improving LC treatment outcomes.
+
+## Supplementary Information
+
+Supplementary Material 1
+
+## Acknowledgements
+Not applicable.
+
+## Author contributions
+Cao Yu: Methodology, Data curation, Formal analysis, Conceptualization, Writing original draft, Writing—review & editing Chong-Qi Fan: Methodology, Data curation, Formal analysis, Conceptualization, Writing original draft, Writing—review & editing Yao-Xuan Chen: Methodology, Data curation, Formal analysis, Conceptualization, Writing original draft, Writing—review & editing Hao-Han Rao: Methodology, Data curation, Formal analysis Feng Guo: Methodology, Data curation, Formal analysis Peng-Yu Che: Methodology, Data curation, Formal analysis Chun-Jian Zuo: Methodology, Data curation, Formal analysis, Conceptualization, Writing original draft, Writing—review & editing Huan-Wen Chen: Methodology, Data curation, Formal analysis, Conceptualization, Writing original draft, Writing—review & editing All authors contributed to manuscript revision, and read and approved the submitted version.
+
+## Funding
+Not applicable.
+
+## Data availability
+The datasets used and/or analysed during the current study available from the corresponding author on reasonable request.
+
+## Code availability
+Not applicable.
+
+## Declarations
+
+## Ethics approval and consent to participate
+No ethical approval was needed because this is not a human study, but only online information was used.
+
+## Consent for publication
+Not applicable.
+
+## Institutional review board statement
+Not applicable.
+
+## Research involving human participants and/or animals
+None.
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Cao Yu, Chong-Qi Fan and Yao-Xuan Chen contributed equally to this work.
+
+## Contributor Information
+Chun-Jian Zuo, Email: 1126026632@qq.com.
+Huan-Wen Chen, Email: coolstarchw9527@163.com.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Material 1
+
+## Data Availability Statement
+The datasets used and/or analysed during the current study available from the corresponding author on reasonable request.
+Not applicable.

@@ -1,0 +1,147 @@
+pmcInflammationInflammation3814phenaturepg7600105Inflammation0360-39971573-2576pmc-is-collection-domainyespmc-collection-titleSpringer Nature - PMC COVID-19 CollectionPMC8405180PMC8405180.1840518084051803446282910.1007/s10753-021-01518-815181Original ArticleNetwork-Based Integrated Analysis of Transcriptomic Studies in Dissecting Gene Signatures for LPS-Induced Acute Lung Injury
+CaoFangcaof@zmu.edu.cn WangChunyan306824481@qq.com LongDanlinglongdlxlq@163.com DengYujuansjzdyjuan@163.com MaoKaiminmkm444931158@126.com http://orcid.org/0000-0002-9358-1582ZhongHuazhonghua0103@whu.edu.cn 1grid.413390.cDepartment of Cerebrovascular Disease, Affiliated Hospital of Zunyi Medical University, Huichuan District, 149 Dalian Road, Zunyi, Guizhou, 563003 China 2Department of Gastroenterology, Sichuan Provincial Peoples Hospital, University of Electronic Science and Technology, Chengdu, 610000 Sichuan China 3grid.49470.3e0000 0001 2331 6153College of Life Sciences, Wuhan University, Wuhan, 430072 Hubei China 4grid.415869.7Department of Critical Care Medicine, School of Medicine, Renji Hospital, Shanghai Jiaotong University, Shanghai, 200127 China 5grid.443573.20000 0004 1799 2448Department of Stomatology, Taihe Hospital, Hubei University of Medicine, Shiyan, 442000 Hubei China 6grid.440643.10000 0004 1804 1708School of Computer Science and Engineering, Shijiazhuang University, Shijiazhuang, Hebei China 30820212021446388985248624982142021772021300820213108202104022024© The Author(s), under exclusive licence to Springer Science+Business Media, LLC, part of Springer Nature 2021, corrected publication 2021This article is made available via the PMC Open Access Subset for unrestricted research re-use and secondary analysis in any form or by any means with acknowledgement of the original source. These permissions are granted for the duration of the World Health Organization (WHO) declaration of COVID-19 as a global pandemic.Correction to: Network‑Based Integrated Analysis of Transcriptomic Studies in Dissecting Gene Signatures for LPS‑Induced Acute Lung Injury
+45213112021929929InflammationPMC911923634773189
+
+## Abstract–
+Acute lung injury (ALI) is a type of serious clinical syndrome leading to morbidity and mortality. However, the precise pathogenesis of ALI remains elusive. Here, we implemented an integrative meta-analysis of six GEO microarray studies with 76 samples in the ALI mouse model. A total of 958 differentially expressed genes (DEGs) were identified in LPS relative to normal samples. Then, a network-based meta-analysis was used to mine core DEGs and to unfold the interactions among these genes. We found that Ebi3 was the top upregulated genes in the LPS-induced ALI. GO, KEGG, and GSEA analyses were performed for functional annotation. qRT-PCR revealed augmented expression of six candidate genes (Stat1, Syk, Jak3, Rac2, Ripk1, and Traf6) in the established ALI mouse model with LPS exposure. Taken together, our study investigated comprehensively hub DEGs and their networks for LPS-stimulated ALI, which might afford an additional approach to determine biomarkers and therapeutic targets and explore the molecular pathophysiology toward ALI.
+
+## SUPPLEMENTARY INFORMATION
+The online version contains supplementary material available at 10.1007/s10753-021-01518-8.
+
+## KEY WORDS:
+Acute lung injuryLPSBiomarkersGene expression omnibuspmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyesissue-copyright-statement© Springer Science+Business Media, LLC, part of Springer Nature 2021
+
+## INTRODUCTION
+Acute lung injury (ALI) is one of the severe clinical complications distinguished by pulmonary vascular permeability [ ]. Meanwhile, ALI exhibits predisposing and precipitating factors, such as acute pneumonia, acute pancreatitis, and severe trauma, and acute pancreatitis, and ultimately develops into acute respiratory distress syndrome (ARDS) [ ]. To make matters worse, ALI and ARDS are linked to many destructive clinical disorders with high morbidity and mortality rates [ ]. Lipopolysaccharide (LPS) is the main ingredients of the cell wall in gram-negative bacteria which acts as the pathogenic infection resulting in ALI [ ]. Triggered by LPS stimulation, inflammatory cytokines, such as tumor necrosis factor-α (TNF-α) and interleukin-1β (IL-1β), might facilitate ALI development [ , ] Tremendous core genes have been characterized to date and deepen our understanding of the pathogenesis of ALI [ – ]. Nevertheless, the immunological mechanism is still unclear.
+Stunning advances in high-throughput technologies and bioinformatic mining have produced huge volumes of data. Conventional gene expression analysis generally focuses on a specific gene, discounting the effect of interactions among individual genes. Thereby, efficient and robust tools are the key to integrate available data and provide insight into complex diseases. Recently, a comprehensive approach is constructed using protein–protein interaction (PPI) data to interpret the interactive patterns across multiple datasets. This network meta-method has been developed as a feasible way to analyze large gene profiles and successfully applied in the health bioinformatics field [ – ].
+To characterize hub genes and explore the molecular mechanisms of LPS-treated ALI, we built a compendium of genes related to ALI using gene expression profiles from six microarray studies. We then used the above PPI networked comprehensive analysis to detect the hub genes and functional modules. The ALI mice model was performed by intratracheally instilling with LPS. Seven candidate genes were confirmed using an established mouse model of ALI and qRT-PCR validation. The results pave the way for future research into the pathophysiology of ALI, which might influence far-reaching individual anti-ALI treatment. Despite a lot of putative biomarkers were yielded by screening a large amount of data, determining the functional effect of each gene will require in-depth verification in animal models and clinical samples.
+
+## MATERIAL AND METHODS
+
+## Microarray Data Processing
+To mine the related genes of LPS-induced ALI in mice, gene expression microarray studies were derived from the GEO (Gene Expression Omnibus, http://www.ncbi.nlm.nih.gov/geo) repository by following strategies: (1) keyword search: “LPS-induced ALI” and “Mus musculus,” “lung,” and “expression profiling by array”; (2) it contained at least three specimens per group. Consequently, six available profiles (GSE102016, GSE2411, GSE16409, GSE104214, GSE17355, and GSE18341) met the inclusion criteria and were selected for the next analyses [ – ]. Detailed information (GEO ID, platform information, and sample accession) of these datasets is summarized in Table . 
+
+## Integrated Multi-microarray Analysis
+The integrated microarray analysis was conducted through a visual analytics platform NetworkAnalyst 3.0 [ ]. Firstly, all gene probes were converted to Entrez ID. Secondly, we preprocessed the expression profiles by log2 transformation and auto-scaling before quantile normalization. For the meta-analysis based on NetworkAnalyst 3.0, three analytics methods were employed including the Fisher method, fixed-effect model (FEM), and vote-counting (combined p-value < 0.05 or vote counts ≥ 2 were considered to be significant) after adjusting study batch effect. Combined p-value < 0.05 or vote counts ≥ 2 were considered to be significant. In FEM, the estimated effect size (ES) in each group is assumed to come from an underlying true effect size plus measurement error. Finally, the common DEGs defined by above three methods were regarded as the final candidate genes.
+
+## Functional Enrichment Analyses of DEGs
+According to the hypergeometric distribution algorithm, GO (Gene Ontology, http://www.geneontology.org/) enrichment analyses divided into biological process (BP), molecular function (MF), and cell component (CC) were implemented using “enrichGO” function of “clusterProfiler” R package [ ]. To simplify enriched GO results, we then applied “enricher” function to reduce redundant GO terms (The threshold parameter was set by default to “cutoff = 0.7, by = “p.adjust”, select_fun = min”). Furthermore, the pathways of the identified proteins were classified via “enrichKEGG” function of “clusterProfiler” package for KEGG (Kyoto Encyclopedia of Genes and Genomes) annotation.
+To test a set of related genes in coordinated way, GSEA (Gene Set Enrichment Analyses) of GO and KEGG were enforced by “gseGO” and “gseKEGG” functions of “clusterProfiler” R package, separately. The Hallmarks gene set was downloaded from MSigDB v7.1 (Molecular Signatures Database, https://www.gsea-msigdb.org/gsea/msigdb/index.jsp). P-value < 0.05 were considered as statistically significance.
+
+## Network-Based Meta-analysis and Extracting Co-expressed PPI Modules
+A network-based analysis was performed using STRING search function in NetworkAnalyst website (parameters were set to “confidence score cutoff = 900” and “require experimental evidence”). The extended network construction was restricted to include only the original seed proteins. Thus, those with a high level of confidence were retained and regraded as valid interactions. Besides, PPI networks of core seven DEGs were predicted via the STRING v10.5 (Search Tool for the Retrieval of Interacting Genes/Proteins, http://www.string-db.org/). Proteins that linked to each other were detected based on corresponding gene neighborhood, co-occurrence, co-expression, protein homology, experimental determination, curated databases, and text mining.
+
+## The Murine Model Establishment of ALI and qRT-PCR Validation
+The regents used and the detailed procedures of the murine model establishment and qRT-PCR were performed as before [ ]. The H&E immunohistological staining images of the control group and the ALI group are shown in Figure . All experiment protocols conformed to the guidelines of the China Council on Animal Care and Use. These animal studies were approved by the Institutional Animal Research Committee of Union Hospital. Mice were randomly allocated into ten control samples and ten LPS samples and then feeding a week of mice to adapt the environment. Control mice were exposed to an aerosol of phosphate buffer saline (PBS) alone. For acute LPS exposure, mice were exposed to PBS containing 0.5 mg/mL LPS for 2 h, in a custom-built cuboidal chamber. The LPS solution was aerosolized with a constant output ultrasonic nebulizer (model: 402B, Yuwell, China) at a flow rate of 30 ml/h. LPS was purchased from Sigma-Aldrich (extracted from Escherichia coli O55: B5, L2880). The chamber was 18 cm long, 12 cm wide, and 12 cm high. The 2−ΔΔCt method was used, and the PCR reactions were normalized to the GAPDH gene. All primers were sourced from PrimerBank (https://pga.mgh.harvard.edu/primerbank/). The reverse transcription step of qRT-PCR was performed by the UEIris RT mix with DNase (All-in-One) (US Everbright® Inc., Suzhou, China). The qRT-PCR reaction (10 µL) was formulated by the 2 × SYBR Green qPCR Master Mix (US Everbright® Inc., Suzhou, China). All qRT-PCRs were carried out on a CFX96 Touch™ Real-Time PCR Detection System (Bio-Rad, Hercules, CA, USA). The primer sequences are provided in the Supplementary Materials (Table ).
+
+## Statistical Analysis
+The Benjamini–Hochberg application of the FDR (false discovery rate) was applied to correct the p-value. Significantly enriched GO terms and KEGG pathways were distinguished using hypergeometric tests. Statistical analysis of significant differences between groups in qRT-PCR was complied with one-way ANOVA by Prism 7 software.
+
+## RESULTS
+
+## A Compendium of the Eligible Microarrays in This Study
+Under our inclusion criteria, a gene expression compendium was finally built using six independent studies (GSE18341, GSE104214, GSE17355, GSE102016, GSE16409, and GSE2411) from the GEO database. In GSE18341, juvenile (21 day) and adult (16 week) C57BL/6 mice were treated with inhaled LPS (20 mL of 0.1 mg/mL) for 30 min in a sealed aerosol chamber and then spontaneous breathing. Untreated age-matched controls acted as comparison groups. In GSE104214, the experimental group was treated with 5 μg of intranasal LPS at 8 and 24 h. Controls received intranasal PBS. As for GSE17355, injury peaked at day 4 and is almost completely resolved by day 10 in wild type C57BL/6 mice in LPS model of ALI. Total RNA was isolated from mouse lung at times 0, 1, 4, and 10 days following LPS treatment of wild type. In GSE102016, mice were intranasally treated with LPS (20 μg/mouse) to induce pulmonary inflammation and all lung samples were collected after 72 h. In GSE16409, samples were from control or LPS exposed (1.5, 6, and 12 h post exposure). Twenty-four C57/B6 male mice were randomized to control and LPS groups in GSE2411. A total of 47 LPS-challenged and 29 normal mice were included in this study (Table ). Then, we extracted and annotated these six GEO data, yielding a compilation of 2030 genes from 76 samples totally. The entire work flow in this study is depicted in Figure .
+
+## Overlap of Differentially Expressed Genes Among Datasets
+A comprehensive analysis across studies was performed by computing the DEGs per dataset and assessing the overlap of the significant results. As shown in Fig.  A, 3400, 1392, 653, 194, 94, and 13 DEGs were generated in GSE18341, GSE104214, GSE17355, GSE102016, GSE16409, and GSE2411, respectively. Besides, seven overlapped genes (Ifi44, Tnip1, Oasl1, Casp4, Ccl12, Zbp1, and Cxcl13) were tightly associated with LPS among at least five datasets (Fig.  A). Among them, caspase-4 (Casp4) acts as an innate immune receptor for cytoplasmic LPS [ ]. And the inflammatory cytokines and chemokines Ccl12 and Cxcl13 have been reported to participate in the pathogenic mechanism of acute lung injury (ALI) [ ]. These findings implied that these three genes in the five datasets were closely related with the LPS host response in mice. 
+
+## Comprehensive Analysis of GEO Microarrays
+Next, we performed meta-analyses through NetworkAnalyst 3.0 platform. The merged data of this analysis is tabulated in Table . After employing three meta-analysis methods, we validated 1703, 1316, and 996 DEGs by the Fisher method, FEM, and vote counting, respectively. Of those, 958 DEGs were identified via all three methods (Fig.  B; Table ). Thereinto, mRNA levels of 470 (49.1%) DEGs elevated and 488 (50.9%) DEGs were lower in LPS group in comparison with the control. Two heat map visualization of the top 30 up- and downregulated DEGs across the different studies is displayed in Fig.  C and Figure , respectively. In the overlapping DEGS across the six microarray cohorts, Ebi3 was the top upregulated gene followed by F10, and Fmo3 was the most prominently downregulated gene.
+
+## Functional Enrichment and GSEA Analyses of DEGs
+To exploit potential features of DEGs, we analyzed GO function and KEGG pathway enrichment. The top 5 most enriched KEGG pathways of DEGs were involved in osteoclast differentiation, fc gamma R-mediated phagocytosis, MAPK signaling pathway, fluid shear stress and atherosclerosis, and leishmaniasis (Fig.  ). Moreover, we were able to obtain a global perspective of the changes in gene expression patterns In GO enrichment analysis (Table ). In MF term, DEGs were centered on “ubiquitin-like protein ligase binding,” “coenzyme binding,” and “GTPase activity.” As for the BP category, the core DEGs were significantly enriched related to “leukocyte proliferation,” “cytokine-mediated signaling pathway,” and “response to oxidative stress.” In addition, DEGs were enriched in the CC category focused on “membrane region,” “actin cytoskeleton,” and “NADPH oxidase complex” (Fig.  ). 
+In GSEA analysis, the gseGO outcomes showed that DEG expressions were mainly involved in response to a chemical, the immune system process, and response to an external stimulus (Fig.  A). As for gseKEGG results, DEGs were associated with the TNF, IL-17, and C-type lectin receptor signaling pathway (Fig.  B). Of these, the signaling pathways of cytokine-mediated, TNF, and IL − 17 were reported to accumulate in the lung epithelial cells within acute inflammation and serious viral infection [ ]. Since ALI is characteristic of severe inflammation of lungs resulting from uncontrolled inflammatory immune response, the outcomes implied that these DEGs might play essential roles in the pathogenesis and progression of ALI/ARDS. Given the functional enrichment of these DEGs, we delved further into the results in an integrative meta-analysis. 
+
+## Analysis of PPI Networks of DEGs
+We searched for hub genes via NetworkAnalyst which might be useful as biomarkers and therapeutic targets for ALI. The “first-order” PPI network for ALI was difficult to interpret and navigate due to it yielded 3055 nodes and 7107 connection edges. To better present the PPI network, “zero order” network analysis was conducted possessing four subnetworks (at least 5 nodes), including one big subnetwork (subnetwork1 contained 223 nodes and 423 connection edges) and three smaller ones (subnetwork2–4; Table ). We used Cytoscape software to better visualize the subnetwork1 (Fig.  ). DEGs within the subnetwork1 were ranked by the betweenness, and the top 7 DEGs (Stat1, Syk, Jak3, Rac2, Ripk1, Traf6, and Mapk3) were regarded as hub genes whose node degrees ≥ 10. Among them, Mapk3 was the most highly ranked key gene (degree = 12; betweenness = 3910.56) among the downregulated DEGs. Meanwhile, Stat1 was the centermost upregulated gene (degree = 23; betweenness = 10,125.24) followed by Syk (degree = 21; betweenness = 2883.29). 
+
+## Verification of Functional Roles Using an Established Mouse Model
+To next confirm the candidate 7 core DEGs (Stat1, Syk, Jak3, Rac2, Ripk1, Traf6, and Mapk3) screened with this network-based approach, we employed an established ALI mice model through intratracheal instillation of LPS and utilized qRT-PCR validation. The results revealed that the relative mRNA levels for Stat1, Syk, Jak3, Rac2, Ripk1, and Traf6 were increased, while Mapk3 was lower expressed in the LPS group than the control (Fig.  A–G; Table ). Except those in Traf6 (p-value = 0.1544) and Mapk3 (p-value = 0.2156), LPS vs control comparisons in other genes showed the significant differences (p-value < 0.05). Overall, the qRT-qPCR results were in accord with our integrative meta-analysis, suggesting the critical role of the 7 key DGEs that might play in the pathogenic mechanism of ALI/ARDS. We subsequently tested whether these DEGs had an intrinsic relationship in ALI via analyzing the STRING database. We noticed that Traf6 had the most significant connections with other genes followed by Stat1 (Fig.  H). 
+
+## DISCUSSION
+ALI and ARDS are correlated with short-term and long-term syndromes, including physical and cognitive impairments [ , ], as well as poor clinical conditions outcomes with mortality rates as high as 35–55% [ ], whereas the underlying molecular mechanism of ALI/ARDS is far from being understood. In the present study, to reconnoiter the promising gene changes and key mediators that occur in ALI, we built a transcriptional compendium of the genes concerning LPS-induced ALI from six microarray studies that covered 76 tissues in total. Ultimately, 958 overlapping DEGs were confirmed and found to be enriched in several known terms of GO and KEGG pathways related to inflammatory responses and necroptosis. A PPI network-based analysis was used to evaluate the relationship between these genes. This analysis suggested these genes interrelated with four significant subnetworks. We detected 7 hub genes (Stat1, Syk, Jak3, Rac2, Ripk1, Mapk3, and Traf6) with at least 10 node degrees. Among them, Stat1 was the centermost over-expressed gene, followed by Syk. Mapk3 was the most clearly downregulated gene. We verified mRNA levels of these seven genes between LPS-challenged mice and normal mice. These outcomes demonstrated that Stat1, Syk, Jak3, Rac2, Ripk1, and Traf6 were markedly increased in an established aging model, as well as Mapk3 was decreased.
+The innate immune response exerts a profound impact on the pathogenesis of ALI [ ]. Miscellaneous signal transduction pathways partake in mediating lung inflammatory responses, such as the JAK/STAT, NF-κB, and MAPK signaling pathways [ ]. Among them, the JAK/STAT pathway are critical determinants of initiating adaptive immune responses and constraining inflammatory responses eventually [ ]. Janus tyrosine kinase 3 (JAK3), one of the JAK family members, is an attractive selective target for the treatment of immune-mediated disorders [ ]. Inhibiting JAK3 reduces the hyperproduction of cytokine/chemokine [ ]. STAT1 is an important component of inflammation and tumorigenesis. Recent studies have demonstrated that the downregulation of STAT1 might inhibit lung cell apoptosis in ALI [ ]. As for spleen tyrosine kinase (SYK), it modulates inflammatory signaling in various immune cells via classical immunoreceptors [ ]. LPS results in increasing Syk expression in neutrophils and gamma delta (γδ) T cells directed to inflammatory process of ALI [ ].
+Neutrophils, dendritic cell (DC)s, and macrophages are associated with multiple immunological processes and tissue injury by initiating inflammation during ALI [ ]. As a member of the Rho GTPase subfamily, RAC2 acts as a necessary regulator of neutrophil degranulation. In alveolar macrophages and neutrophils, lung injury in response to immune complex deposition is reliant on Rac2 [ ]. MAPK3 is a negative moderator of DC and is necessary for the induction of T cell anergy towards an inflammatory phenotype [ ]. Tumor necrosis factor receptor–associated factor 6 (TRAF6) is a decisive adaptor regulating Toll-like receptors (TLRs), whose polyubiquitination leads to mediate pro-inflammatory cytokines production in ALI [ ]. Moreover, necroptosis, a cell death form modulated by the RIPK1-RIPK3-MLKL signaling, has been implicated in the close relationship between necroptosis and ALI/ARDS [ , ]. As cellular signaling molecules, receptor-interacting protein kinases (RIPKs) are critical for homeostatic signaling in many disease processes [ ]. The activation of RIPK1/3-dependent necroptosis would result in ALI/ARDS and even death [ ].
+In summary, as mentioned above, Stat1, Syk, Jak3, Rac2, Ripk1, and Traf6 were the central upregulated genes in our network analysis. The expression of those DEGs was higher in LPS-induced pathological injury in the lung than control counterparts. The enhanced DEGs may be critical factors in attenuating LPS-stimulated ALI/ARDS. These observations coincided with the earlier reports proving our analyses are reliable and practical. On the other hand, some DEGs like Ebi3 and F10 have been described previously in many other illnesses [ – ], but their regulatory functions in ALI/ARDS have not been fully known. Additionally, this configuration of network analysis may serve as a novel tool to screen for corresponding potential signatures in an attempt to fill the gaps of knowledge about properties and pathogenesis of ALI. To address the limitations in this study, further research using knockout gene mice for each DEGs is indispensable and in urgent need. It will facilitate us to get better acquainted with its role of LPS in aggravating ALI/ARDS.
+
+## SUPPLEMENTARY INFORMATION
+Below is the link to the electronic supplementary material.Supplementary file1 (DOCX 4179 KB)
+Supplementary file2 (PDF 59 KB)
+Supplementary file3 (PNG 89 KB)
+Supplementary file4 (XLSX 10 KB)
+Supplementary file5 (TXT 1852 KB)
+Supplementary file6 (XLSX 215 KB)
+Supplementary file7 (XLSX 488 KB)
+Supplementary file8 (XLSX 17 KB)
+Supplementary file9 (XLSX 12 KB)
+
+## Abbreviations
+ALIAcute lung injury
+ARDSAcute respiratory distress syndrome
+DEGsDifferentially expressed genes
+LPSLipopolysaccharide
+IL-1βInterleukin-1β
+TNF-αTumor necrosis factor-α
+NF-κBNuclear factor kappaB
+GEOGene expression omnibus
+PPIProtein-protein interaction
+VSNVariance stabilizing normalization
+FDRFalse discovery rate
+FEMFixed effect model
+ESEffect size
+MSigDBMolecular Signatures Database
+GSEAGene Set Enrichment Analyses
+GOGene ontology
+BPBiological process
+MFMolecular function
+CCCell component
+KEGGKyoto Encyclopedia of Genes and Genomes
+STRINGSearch Tool for the Retrieval of Interacting Genes/Proteins
+qRT-PCRQuantitative real-time polymerase chain reaction
+Ifi44Interferon induced protein 44
+Tnip1TNFAIP3 interacting protein 1
+Oasl12′-5′-Oligoadenylate synthetase-like 1
+Casp4Caspase-4
+Ccl12Chemokine (C–C motif) ligand 12
+Zbp1Z-DNA-binding protein 1
+Cxcl13C-X-C motif chemokine ligand 13
+Ebi3Epstein-Barr virus–induced 3
+F10Coagulation factor X
+Traf6Flavin-containing dimethylaniline monooxygenase 3
+Stat1Signal transducer and activator of transcription 1
+JAK3Janus tyrosine kinase 3
+Rac2Rac family small GTPase 2
+Ripk1Receptor-interacting serine/threonine kinase 1
+TRAF6TNF receptor–associated factor 6
+TLRsToll-like receptors
+Mapk3mitogenActivated protein kinase 3
+SykSpleen tyrosine kinase
+NADPHNicotinamide adenine dinucleotide phosphate
+GAPDHGlyceraldehyde-3-phosphate dehydrogenase
+IL-17Interleukin 17
+DCDendritic cell
+ANOVAAnalysis of variance
+The original online version of this article was revised: There should be an article note that will indicate that both authors’ Fang Cao and Chunyan Wang contributed equally to the paper.
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Fang Cao and Chunyan Wang contributed equally to this work.
+Change history
+11/13/2021
+A Correction to this paper has been published: 10.1007/s10753-021-01584-y
+
+## Author Contribution
+Hua Zhong and Kaimin Mao conceptualized this study research. Fang Cao performed statistical analyses. Chunyan Wang wrote the manuscript. Danling Long and Yujuan Deng helped in data consolidation and manuscript revision.
+
+## Funding
+The research was financially supported by the National Natural Science Foundation of China (81960230, 81860241, 81960229), Basic Research Project in Guizhou Province (No.〔2019〕1354, No.〔2020〕1Y318), Basic Research Project of Zunyi (No.〔2018〕102), Young talents Found of Zunyi medical University (18zy-005).The project was supported by the National Natural Science Foundation of China (81960230, 81860241, 81960229), Basic Research Project in Guizhou Province (No.〔2019〕1354, No.〔2020〕1Y318), Basic Research Project of Zunyi (No.〔2018〕102), Young talents Found of Zunyi medical University (18zy-005).
+
+## Availability of Data and Materials
+All data generated and described in this article are available from the corresponding web servers, and are freely available to any scientist wishing to use them for noncommercial purposes, without breaching participant confidentiality.
+
+## Declarations
+
+## Ethics Approval and Consent to Participate
+All experiment protocols conformed to the guidelines of the China Council on Animal Care and Use. These animal studies were approved by the Institutional Animal Research Committee of Union Hospital.
+
+## Competing Interests
+The authors declare no competing interests.

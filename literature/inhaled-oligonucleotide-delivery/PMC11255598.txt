@@ -1,0 +1,207 @@
+2992heliyonHeliyonHeliyonElsevierPMC1125559811255598112555983902752210.1016/j.heliyon.2024.e33203Hyper-methylation and DNMT3A mediated LTC4S downregulation promoted lung adenocarcinoma tumorigenesis via mTORC1 signaling pathway
+RenYang ZhangPeng LiLiqun WangMei HuHuiliang ShenYidan XuPing WuQingguo LiFeng aDepartment of Respiratory Disease and Critical Care Medicine, Shanghai Public Health Clinical Center, Fudan University, Shanghai, 201508, ChinabShanghai Institute of Infectious Disease and Biosecurity, Fudan University, Shanghai, 200032, China⁎Corresponding author. Department of Respiratory Disease and Critical Care Medicine, Shanghai Public Health Clinical Center, Fudan University, Shanghai, 201508, China. lifeng@shphc.org.cn
+⁎⁎Corresponding author. wuqingguo@shphc.org.cn
+1These authors contributed equally.
+18620241013e33203e332031872024© 2024 Published by Elsevier Ltd.This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+
+## Background
+Lung adenocarcinoma is a malignancy characterized by high mortality rates and unfavorable prognosis. However, the role of Leukotriene C4 Synthase (LTC4S) in lung cancer remains uninvestigated.
+
+## Methods
+The expression and prognostic value of LTC4S in LUAD were analyzed using the GEPIA online database. Subsequently, the function of LTC4S in lung cancer cells was examined through gain-of function experiments, using assays to evaluate tumor malignant behavior. Subcutaneous xenograft experiments in vivo was used for investigating the functions of LTC4S. Then, tumor hallmark pathways were analyzed by GSEA. Western blot assay was used to validate the impact of LTC4S on mTORC1 pathway. Finally, the correlation of mRNA and methylation of LTC4S were analyzed by cBioPortal. qRT-PCR, ChIP-qPCR and ChIP-Atlas were used to verify the regulation factors of LTC4S low expression in LUAD cells.
+
+## Results
+LTC4S presented significant decreased expression and favorable prognostic significance in LUAD. LTC4S was correlated with clinical stages in LUAD, which showed decreased expression gradually and significantly along with TNM stages. LTC4S-co-expressed genes were closely related to Ras signaling pathway, and MAPK signaling pathway. Overexpression of LTC4S inhibited cancer malignant phenotype and tumor growth in vitro and vivo. GSEA analysis and Western blot assay suggested low expression of LTC4S activated mTORC1 signaling pathway in LUAD. Moreover, the DNA methylation level of LTC4S in LUAD tissue was markedly elevated compared to normal tissue. The hypermethylation of the LTC4S promoter by DNMT3A leads to the decreased expression of LTC4S in LUAD.
+
+## Conclusions
+In conclusion, low expression of LTC4S serves as an unfavorable prognostic marker and the critical function of LTC4S in controlling the progression of LUAD. This highlights the promise for exploring the clinical benefits of manipulating LTC4S in LUAD targeted therapies.
+
+Keywords: Lung adenocarcinoma (LUAD), Leukotriene C4 Synthase (LTC4S), Prognosis, mTORC1 signaling pathway, DNA methylation
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Aug 30; Revised 2024 Jun 16; Accepted 2024 Jun 17; Collection date 2024 Jul 15.
+
+1.
+
+## Introduction
+As the predominant histological subtype of non-small cell lung cancer, lung adenocarcinoma (LUAD) plays a significant role in cancer-related mortality on a global scale [ , ]. Due to late diagnosis and early metastasis are not optimal treatment periods [ ], LUAD exhibits a five-year overall survival rate (OS) of less than 20 % [ ]. Although the rapid development in early diagnosis and improvements of chemotherapy, radiotherapy, and surgical treatment, the prognosis for patients with LUAD remains unfavorable [ , ]. Therefore, conducting further analysis and exploration of the molecular mechanisms underlying LUAD development is crucial in identifying effective prognostic biomarkers and enhancing effective treatment strategy.
+Leukotriene C4 Synthase (LTC4S), also known as Glutathione S-Transferase LTC4, encodes an enzyme that initiates the production of cysteinyl leukotrienes, which are powerful bioactive compounds formed from arachidonic acid [ , ]. LTC4S is involved the production of leukotrienes [ , ]. Leukotriene is a kind of significant immunomodulatory lipid mediators, which plays an established pathogenic role in respiratory inflammatory allergic diseases, especially asthma and hay fever [ ]. Recently, leukotrienes and arachidonic acids metabolic enzymes have emerged as targets for cancer therapy [ , , ]. In breast cancer, the DNA methylation level of LTC4S was reported as one of the five genes with clinical reaction to radiation treatment [ ].In prostate cancer, dysregulated LTC4S expression is linked to predicting tumor invasion area [ ]. However, the role of LTC4S in LUAD remains unexplored.
+This study investigates the clinical significance of LTC4S in lung adenocarcinoma was examined through mRNA level and prognostic relevance analysis in public datasets from TCGA and GEO. Subsequently, the function of LTC4S was explored through gain-of-function assay in A549 and NCI–H1299 cells, by tumor xenograft model. Following this, the molecular mechanisms for LTC4S in LUAD were analyzed and mTORC1 signaling was detected by western blotting assay. Finally, the DNA methylation and DNA methyltransferase DNMT3A for the decreased expression of LTC4S in LUAD were analyzed and verified. Together, weelucidate the in-vitro and vivo function, clinical relevance, and molecular mechanisms underlying the role of LTC4S in LUAD.
+
+2.
+
+## Material and methods
+2.1.
+
+## Analysis of LTC4S expression in LUAD
+LTC4S expression in various cancer types were explored by Boxplot based on the GEPIA2 database (http://gepia2.cancer-pku.cn). The expression levels of LTC4S in LUAD, as well as TNM stage grouped samples was analyzed in LUAD tumor tissues sample and normal tissues sample.
+
+2.2.
+
+## Prognostic significance analysis
+We utilized KM Plotter database (http://kmplot.com/analysis) to investigate the impact of LTC4S on survival in LUAD patients. In addition, GEPIA 2 database was employed to evaluate the overall survival (OS) and Disease free survival (DFS) of LUAD patients [ ]. The median expression value of LTC4S was 162 (cutoff value = 162), in which samples above 162 were defined as the high expression group, and samples below 162 were considered as the low expression group in GSE50081. The median expression value of LTC4S was 71 (cutoff value = 71), in which samples above 71 were considered as the high expression group, and samples below 71 were defined as the low expression group in GSE30219. Two specific gene expression datasets, GSE50081 and GSE30219, were used to explore the gene expression signature and prognosis of LTC4S in lung adenocarcinoma. The GSE50081 dataset contains expression data of 181 early-stage LUAD cases and prognostic information of the cases. The GSE30219 dataset contains 293 lung tumor tissues samples, providing a relatively large independent patient population to validate the correlation between LTC4S level and the prognosis of patients with LUAD.
+
+2.3.
+
+## Co-expression network of LTC4S in LUAD
+To order to explore the expression patterns of the LTC4S gene and its potential regulatory relationships with other genes, Pearson's correlation coefficient was utilized to assess the statistical correlation of co-expression genes associated with LTC4S expression based on the TCGA LUAD, the volcano plot and heat map were draw by using ggplot2 package of R software (version 3.5.0). Function enrichment of co-expressed genes was conducted using the ClusterProfiler package of R software (version 3.14.3) with the criteria of p. adj <0.05 and q value < 0.02 [ ].
+
+2.4.
+
+## Gene set enrichment analysis (GSEA) of LTC4S related pathways
+The median expression value of LTC4S was 0.0801 (cutoff value = 0.0801), in which samples above 0.0801 were defined as the high expression group, and samples below 71 were defined as the low expression group in TCGA-LUAD datasets. GSEA was employed to identify variances in the signature gene sets from MSigDB between the high and low expression groups, including HALLMARK and KEGG signalling pathway.
+
+2.5.
+
+## DNA methylation analysis of LTC4S in lung adenocarcinoma
+DNA methylation profile of TCGA lung adenocarcinoma samples using the Illumina Infinium HumanMethylation450 platform were downloaded and analyzed. Beta values of DNA methylation represent methylation level of probes. The gene methylation levels were represented as the mean of each probe located in the same gene. The methylation level of LTC4S in LUAD was analyzed by cbioportal database (http://www.cbioportal.org/).
+
+2.6.
+
+## Identification of transcription factors and epigenetic regulators associated with LYC4S
+The regulations of transcription factors and target gene LTC4S were identified using the ChIP-seq datasets from ChIP-Atlas [ ]. Briefly, the “histone modifiers module”, “Gene list module” were chosen, and other parameters were set as default.
+
+2.7.
+
+## Cell culture and transfection
+The lung cancer cell line A549 and NCI–H1299 were procured from the Institute of Biochemistry and Cell Biology at the Chinese Academy of Sciences. All cells were incubated a humidified environment at 37 °C with 5 % CO2. According to kit instructions, NC and LTC4S overexpressed plasmid were transfected to lung cell lines by using Lipofectamine 2000 (Invitrogen).To test the transfection efficiency, expression of LTC4S was verified by qRT-PCR.
+
+2.8.
+
+## Quantitative real-time polymerase chain reaction (qRT-PCR)
+Total RNA was extracted using TRIzol reagent (Invitrogen) following the manufacturer's instructions. Subsequently, 1 μg of RNA from each group was reverse transcribed into cDNA using a reverse transcription kit (TaKaRa, Japan). Quantitative real-time PCR (qRT-PCR) was conducted on a QuantStudio™ Dx Real-Time PCR Instrument (Applied Biosystems, USA) using Hieff UNICON®qPCR SYBR Green MasterMix (Yeasen, China), with GAPDH as the internal reference gene. The PCR amplification program included initial denaturation at 95 °C for 30 s, followed by 40 cycles of denaturation at 95 °C for 3 s and annealing/extension at 60 °C for 30 s The mRNA relative expression of target gene was calculated by 2-△△Ct method. The primer sequences for LTC4S and GAPDH were as follows: LTC4S Forward: 5ʹ-CAGGTGAACTGCAGCGAGTA-3ʹ, Reverse: 5ʹ- GACTAGGATGCGGAAGCGAG-3ʹ; GAPDH Forward, 5ʹ- GGAGCGAGATCCCTCCAAAAT -3ʹ; Reverse, 5ʹ- GGCTGTTGTCATACTTCTCATGG -3ʹ.
+
+2.9.
+
+## Cell proliferation assays
+A549 and NCI–H1299 cells were seeded into a 96-well plate at a density of 5 × 103 cells/well and incubated in a 37 °C for 0, 24, 48, and 72 h. Subsequently, 10 μL of CCK-8 reagent was added to each well and incubated for 2 h. The optical density (OD) values were measured at 450 nm using a spectrophotometer.
+
+2.10.
+
+## Flow cytometry for apoptosis detection
+Flow cytometry was employed to investigate the impact of LTC4S on apoptosis in A549 and NCI–H1299 cells. Following transfection and a 24-h incubation period, the cells were detached, washed, and resuspended in PBS. Subsequently, apoptosis was assessed using Annexin V-FITC and PI double staining according to the manufacturer's instructions of an apoptosis detection kit, followed by flow cytometry analysis.
+
+2.11.
+
+## Wound healing assay
+The cell migration was assessed through a wound healing assay. A549 and NCI–H1299 cells were inoculated in a 6-well plate and cultured for 24 h, and then scratch on the plate with the tip of a pipette. The wound healing was observed at 0h and 48h, respectively.
+
+2.12.
+
+## Tumor xenograft model
+The animal experiment protocol described has been reviewed and approved by the Laboratory Animal Welfare & Ethics Committee of Shanghai Public Health Clinical Center, as indicated in Approval Letter No. 2018-A057-02. A total of BALB/c nude mice were divided into two group, including control group (injected with A549 cells), LTC4S-OE (injected with A549 cells with LTC4S overexpression) group. Following subcutaneous inoculation of A549 cells into each mouse, the tumor volume was monitored at 7, 10, 13, 16, 19, and 22 days post-administration. Carbon monoxide gas inhalation was used to humanely euthanize all experimental animals. Subsequently, tumor tissues were harvested, and the tumor weight was recorded.
+
+2.13.
+
+## 5-Aza-2′-deoxycytidine (5-AZA-CdR) treatment
+A549 and NCI–H1299 cells were cultured with 6-well plates. Treatment of the LUAD cancer cells with or without demethylating agent 5-aza-2'deoxycytidine (5-Aza-CdR, 5 μmol/L, Sigma) was performed for 48h as previously reports.
+
+2.14.
+
+## Chromatin immunoprecipitation (ChIP) and PCR analysis
+ChIP was performed using BersinBio™ Chromatin Immunoprecipitation (ChIP) Kit (BersinBio, Catalog Bes5001). Briefly, 2 × 107 cells were harvested for chromatin preparation. The cells were treated with 1 % formaldehyde solution for 10 min at room temperature, followed by two washes with PBS, collected and resuspended in lysis buffer. The DNA was fragmented by sonication, and Anti-DNMT3a (sc-365769, Santa Cruz, USA) or IgG antibodies were added into lysate to generate the protein/DNA complexes. Finally, the complexes were reverse cross-linked to free immunoprecipitated DNA. ChIP-qPCR was conducted on the QuantStudio™ Dx Real-Time PCR Instrument with SYBR green dye. The primers sequences used are provided below: Forward: 5ʹ-CAGGTGAACTGCAGCGAGTA-3ʹ, Reverse: 5ʹ- GACTAGGATGCGGAAGCGAG-3ʹ.
+
+2.15.
+
+## Statistical analysis
+Experimental data were input into Excel software, processed, and analyzed using SPSS version 22.0. Measurement data were presented as Mean ± Standard Deviation (SD), with all experiments performed in triplicate. A significance level of P < 0.05 was considered statistically significant.
+
+3.
+
+## Results
+3.1.
+
+## Lung adenocarcinoma downregulation of LTC4S related to poor prognosis
+Firstly, the expression level and prognostic significance of LTC4S were analyzed. It was interesting to find that the LTC4S was significantly decreased in lung adenocarcinoma (LUAD) ( A). Furthermore, the overall survival (Hazard Ratio, HR = 0.59) and disease-free survival (HR = 0.63) of LTC4S based on TCGA database indicated that LTC4S have favorable prognostic significance in LUAD ( B). To verify the prognostic value of LTC4S, we also analyzed the LUAD datasets GSE50081 and GSE30219. As presented in C, LTC4S was confirmed to be a favorable prognostic gene in GSE50081 (HR = 0.49) and GSE30219 (HR = 0.63). The findings indicated a significant decrease in LTC4S expression, which was associated with a favorable prognostic significance in LUAD.
+ 
+3.2.
+
+## LTC4S expression is negatively correlated with clinical stages in lung adenocarcinoma
+To further investigate the clinical value of LTC4S in LUAD, we also analyzed the expression of LTC4S in different stages of LUAD. The expression of LTC4S decreased gradually and significantly from stage I to IV (P < 0.01) ( A). Besides, LTC4S also decreased gradually and significantly in T stages ( B), N stages ( C) and M stages ( D). These results revealed that LTC4S expression was correlated with clinical stages in LUAD.
+ 
+3.3.
+
+## Enrichment analysis of LTC4S co-expressed genes in LUAD
+Next, Volcano plot depicting the co-expression genes associated with LTC4S. A total 10495 genes were positively associated to LTC4S, and 7691 genes were significantly negatively associated to LTC4S ( A). The top 10 positively correlated genes including USHBP1, FAM193B, LMNTD2, LCAT, PLIN5, KANK3, PRICKLE4, CCDC159, FAM229A and SH2B1; The top 10 negatively correlated genes including ENOPH1, ECT2, TWF1, TMED2, NEK2, MAD2L1, MZT1, MTHFD2, OSTC, and CCNB2. Heatmaps illustrating the expression of the top 50 co-expressed genes in LUAD were presented, showing positively correlated genes ( B) and negatively correlated genes ( C). Pink represents LTC4S high expression, Green represents LTC4S low expression.
+ The co-expressed genes of LTC4S were associated with Gene Ontology biological processes (GO-BP) of Ras protein signal transduction, regulation of cilium assembly, protein localization to cilium, leukotriene signaling pathway and et al. Enriched cell component (CC) include recycling endosome, axoneme, SCF ubiquitin ligase complex and et al. Molecular function (MF) of nucleoside-triphosphatase regulator activity, GTPase regulator activity, leukotriene B4 receptor activity and et al. are significant ( D). KEGG pathway analysis revealed the MAPK signaling pathway, Ras signaling pathway and et al. ( E).
+
+3.4.
+
+## LTC4S inhibits LUAD cells proliferation, migration and tumor growth in vitro and vivo
+In the next step, the cellular assays were conducted to investigate the role of LTC4S in lung cancer cell lines (A549 and H1299). Relative mRNA level of LTC4S was lower in lung cancer cell lines than BEAS-2B, especially in A549 ( A). Hence, we overexpressed the LTC4S in A549 and H1299 cell ( B). The overexpression of LTC4S attenuated the lung cancer cell proliferation remarkably ( C). Furthermore, the flow cytometry assays indicated that the overexpression of LTC4S enhanced the apoptosis rate in A549 and H1299 cell ( D). Through the cell scratch assay, it was no surprised that LTC4S can also inhibit the migration of lung tumor cells ( E). The cellular assays results revealed that LTC4S is a tumor-suppressor in LUAD.
+ In vivo, overexpression of LTC4S suppressed tumor growth compared to the control group, as illustrated in A. Subsequent measurements of tumor volume at 7, 10, 13, 16, 19, and 22 days demonstrated that LTC4S reduced both tumor volume ( B) and tumor weight ( C) when compared to the control group. Overall, these results indicate that LTC4S functions as a tumor suppressor in LUAD.
+ 
+3.5.
+
+## Molecular basis for the role of LTC4S in LUAD
+Next, we used hallmarks pathway for GSEA enrichment analysis and found that 18 pathways were related to LUAD ( A). Similarly, 15 KEGG pathways were found to be associated with lung cancer phenotype ( B). It was interesting to notice that the MYC targets and mTORC1 signaling pathways exhibited enrichment ( C). Therapies targeting MYC inhibition are frequently employed in lung cancer treatment [ ]. Over activation of mTORC1 is associated with cancer progression [ ]. What's more, the tumor related signaling pathways like cell cycle and DNA replication was also enriched by KEGG enrichment analysis. These hallmarks and signaling pathway may serve as the underlying mechanism of LTC4S function in LUAD.
+ MTORC1 is a key intracellular signaling molecule that plays a central role in cell growth, metabolism, proliferation and autophagy in human cancer [ ]. MTORC1 carries out its function by phosphorylating a variety of substrates. For example, mTORC1 can promote protein synthesis by phosphorylating S6K1 and 4EBP. S6K1 activation can promote the initiation of mRNA translation, while phosphorylation of 4EBP relists its repression of eIF4E [ ]. Next, the changes of downstream signaling mTORC1 pathway proteins were detected by WB after overexpression of LTC4S. MTORC1 activity was analyzed by the phosphorylation of its substrates (S6K1, 4EBP1, and S6). Western blot assay confirmed that overexpression of LTC4S significantly inhibited p-S6K1, p-S6 and p-4EBP1protein ( D and E). These results suggested that LTC4S inhibited the malignant phenotype of LUAD cells by inhibiting the activity of mTORC1 signaling pathway.
+
+3.6.
+
+## LTC4S expression was modulated by DNA-methylation and DNMT3A
+To elucidate the mechanism underlying the decrease in LTC4S expression in LUAD, we analyzed the alteration frequency of LUAD is high according to LUAD datasets in CBioPortal ( A). As a result, the genetic alteration frequency of LTC4S in LUAD datasets is rather low, which paves us to explore other possible reason. DNA hypermethylation of tumor suppressor has been well characterized as one of the most common molecular events in lung cancer progression [ ]. Interestingly, we found that the DNA methylation level of LTC4S in LUAD was increased compared to normal tissue ( B). Besides, DNA methyltransferase 3A (DNMT3A) and DNMT3B were negative related to LTC4S ( C). What's more, the mRNA and methylation of LTC4S was positively related to tumor purity ( D). The LTC4S methylation was gradually and significantly increased in T stage ( E). To investigate whether the decreased expression of LTC4S is due to promoter hypermethylation, A549 and NCI–H1299 cells were treated with the demethylation agent 5-AZA-CdR. The treatment with 5-AZA-CdR significantly increased LTC4S mRNA levels in LUAD cells ( F). Subsequently, the knockdown of DNMT3A using specific small interfering RNA (siRNA) resulted in the upregulation of LTC4S expression in LUAD cells ( G). Additionally, a ChIP-qPCR assay was performed to confirm the direct hypermethylation regulation of the LTC4S promoter by DNMT3A. DNMT3A bond to the LTC4S promoter region ( H). Moreover, the ChIP Atlas analysis suggested that histone methyltransferases H3Kme3, H3K4me3 and H3K27ac as transcriptional activators were not enriched in the promoter region of LTC4S, so LTC4S was not transcriptcally activated in LUAD ( F). The results above indicated that low expression of LTC4S is modulated by DNA methylation and DNMT3A.
+ 
+
+4.
+
+## Discussion
+Though the rapid development in diagnosis and improvements in therapeutic strategies, the prognosis for patients with LUAD is still poor [ , ]. The prognosis of patients with lung adenocarcinoma is related to tumor stage and pathological tissue type, with later stages indicating a worse prognosis and lower survival rates [ ]. LTC4S has been reported to be involved in a risk predictive score model in gastric cancer [ ]. Firstly, our results suggested that LTC4S showed significant decreased expression and favorable prognostic value in LUAD. Besides, the expression of LTC4S decreased gradually and significantly from stage I to IV and TNM stages. These evidences revealed that LTC4S might be potential prognostic biomarkers in LUAD.
+In recent years, leukotrienes and arachidonic acids metabolic enzymes have emerged as potential therapeutic targets in cancer [ , , ]. Our results revealed that LTC4S as a tumor-suppressor in LUAD. What's more, it was interesting to notice MYC targets and mTORC1 signaling pathways were negatively correlative with the LTC4S expression. LTC4S inhibited these hallmarks signaling pathways. MYC gene is one of the most studied nucleoprotein oncogenes, and is a transcription factor with a wide range of functions [ ]. MYC inhibition therapy is commonly used in the treatment of lung cancer [ ]. It was reported that Leukotriene D4 (LTD4) promoted the expression of PCNA and c-MYC in SAECs as well as A549 cells [ ]. Over activation of mTORC1 is associated with cancer progression [ ]. The process of mTORC1 activation may contribute to tumorigenesis, which is usually activated when amino acids are sufficient to promote cell growth by promoting anabolism and inhibiting catabolism [ , ]. The MYC targets and mTORC1 signaling pathways may play a role in promoting cancer together. Cai et al. indicated that TRIP13 enhances lung cancer cell proliferation and metastasis via the AKT/mTORC1/c-Myc signaling pathway [ ]. Besides, the tumor related signaling pathways like cell cycle and DNA replication was closely related to the malignant progression of LUAD [ , ]. Our results revealed that LTC4S negatively regulated the tumor related signaling pathways, including cell cycle and DNA replication.
+Dysregulation of mTORC1 signaling is associated with a variety of diseases, including cancer [ ]. In tumors, the excessive activation of mTORC1 is closely associated with the initiation and progression of cancer [ ]. For example, overexpression of eIF4E and S6K1 and phosphorylation of 4EBP are prevalent in a variety of cancers, and they support cancer cell growth and proliferation by promoting translational programs. We confirmed that LTC4S inhibited the activity of MTORC1 signaling related protein. The inhibition of these hallmarks and signaling pathway may serve as the underlying mechanism of LTC4S serve as a tumor-suppressor in LUAD.
+Methylation is one of the earliest discovered modification pathways, which may exist in all higher organisms, and DNA methylation can turn off the activity of some genes [ , ]. Lung cancer development is a complex process involving various factors, stages, and genetic alterations. Among these, DNA methylation plays a crucial role through mechanisms of high/low expression and hyper-/hypo-methylation [ ]. For example, Zhu et al. identified four functional gene clusters controlled by methylation have been identified as potential biomarkers and therapeutic targets for LUAD [ ]. Qiu et al. found that hypo-methylation may lead to the imbalance of ITGB1-DT/ARNTL2 axis and affect the immune microenvironment and the progression of LUAD [ ]. In our results, LTC4S expression was negative correlative with the DNMT3A and DNMT3B. DNMT3A and DNMT3B are crucial enzymes responsible for DNA methylation that are often upregulated in lung cancer, correlating with a poor prognosis [ ]. Further, the methylation LTC4S was increased gradually and significantly during the T1-T4 stages, which was negative correlative with the decreased expression of LTC4S. The tumor purity was also positive correlative with the methylation LTC4S. Further, we verified that DNMT3A direct hypermethylation regulation on LTC4S promoter and downregulated LTC4S in LUAD cells. Together, these evidences revealed that hyper-methylation contributes to reduce LTC4S expression in LUAD.
+
+5.
+
+## Conclusion
+In conclusion, we provide novel insights into the in vitro functionality, clinical significance, and molecular mechanisms underlying the involvement of LTC4S in LUAD. Our findings indicate that LTC4S expression is associated with clinical stages, displaying a significant decrease and favorable prognostic value in LUAD. Through cellular assays and bioinformatics analysis, LTC4S was highlighted as a tumor-suppressor modulating the mTORC1 signaling pathways in LUAD. Besides, hyper-methylation and DNMT3A contributes to reduce LTC4S expression. Together, LTC4S serves as a favorable prognostic marker and attenuates lung adenocarcinoma malignant behavior. This highlights the promise for exploring the clinical benefits of manipulating LTC4S in LUAD targeted therapies.
+
+## Ethics approval and consent to participate
+The Animal experiment protocol listed below has been reviewed and approved by Shanghai Public Health clinical Center Laboratory Animal Welfare & Ethics Committee Approval Letter (No.2018-A057-02).
+
+## Consent for publication
+All authors approved the final manuscript and the submission to this journal.
+
+## Data availability statement
+LUAD datasets GSE50081 and GSE30219 were downloaded from Gene Expression Omnibus (https://www.ncbi.nlm.nih.gov/gds). Data will be made available on request.
+
+## Funding
+This research was supported by Project supported by Shanghai Science and Technology Committee (No. 21Y11901700 and No. 20Z11901002) and Project supported by Shanghai Municipal Science and Technology Major Project (No. ZD2021CY001).
+
+## CRediT authorship contribution statement
+Yang Ren: Writing – original draft, Conceptualization. Peng Zhang: Formal analysis, Data curation. Liqun Li: Methodology, Investigation. Mei Wang: Resources, Methodology. Huiliang Hu: Supervision, Software. Yidan Shen: Validation, Software. Ping Xu: Validation, Methodology. Qingguo Wu: Visualization, Validation. Feng Li: Writing – review & editing, Conceptualization.
+
+## Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+## Acknowledgement
+None.
+
+## Footnotes
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.heliyon.2024.e33203.
+
+## Contributor Information
+Qingguo Wu, Email: wuqingguo@shphc.org.cn.
+Feng Li, Email: lifeng@shphc.org.cn.
+
+Appendix A.
+
+## Supplementary data
+The following are the Supplementary data to this article:
+
+## Multimedia component 1
+Multimedia component 1 
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Multimedia component 1
+Multimedia component 1
+
+## Data Availability Statement
+LUAD datasets GSE50081 and GSE30219 were downloaded from Gene Expression Omnibus (https://www.ncbi.nlm.nih.gov/gds). Data will be made available on request.

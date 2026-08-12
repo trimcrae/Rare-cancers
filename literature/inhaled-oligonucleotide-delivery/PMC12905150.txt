@@ -1,0 +1,191 @@
+1579scirepScientific ReportsSci RepNature Publishing GroupPMC1290515012905150129051504159329710.1038/s41598-026-36833-3YTHDC1 modulates the malignant phenotype of retinoblastoma via SQSTM1-mediated autophagy
+DingJie SunJie WangJinghan MaRuiqi XueKang QianJiang 1Department of Ophthalmology, Eye & ENT Hospital of Fudan University, 83 Fenyang Road, Shanghai, 200031 China 2Shanghai Key Laboratory of Visual Impairment and Restoration, Shanghai, China ✉Corresponding author.
+#Contributed equally.
+271202616629262921522026© The Author(s) 2026, corrected publication 2026Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.This article has been corrected. See Sci Rep. 2026 Apr 30;16:13913.
+
+## Abstract
+Retinoblastoma (RB) is the most common pediatric intraocular malignancy, yet the role of N6-methyladenosine (m6A) regulators in RB progression remains unclear. This study investigated the function and mechanism of the m6A reader YTHDC1 in RB invasion. The RNA-sequencing dataset GSE97508 from Gene Expression Omnibus was analyzed to identify differentially expressed m6A regulators between invasive and non-invasive RB. Their expression was next validated by RT-qPCR, Western blot, and immunohistochemistry. Functional assays including CCK-8, EdU, and Transwell assays were performed to evaluate the effects of YTHDC1 knockdown or overexpression on RB cells in vitro and in vivo. SQSTM1 was predicted to be a downstream target by bioinformatics and experimental validation. RNA stability and RIP-qPCR assays were performed to examine the regulation of SQSTM1 mRNA by YTHDC1. Autophagic flux was evaluated by LC3B Western blotting and mCherry-GFP-LC3B fluorescence imaging. YTHDC1 was significantly downregulated in invasive RB. YTHDC1 knockdown enhanced, whereas its overexpression suppressed, RB cell proliferation and invasion. YTHDC1 promoted SQSTM1 expression by stabilizing its mRNA. Knockdown of SQSTM1 in RB cells promoted cell proliferation, migration, and invasion, and partially counteracted the inhibition of cell function caused by YTHDC1 overexpression. Knockdown of YTHDC1 or SQSTM1 enhanced autophagic flux, and knockdown of SQSTM1 led to a substantial reduction of the mTOR pathway activity. This study highlights the critical role of YTHDC1 and SQSTM1 in the invasive progression of RB. Their downregulation promoted autophagy in RB cells, providing preliminary evidence of their involvement in RB progression.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1038/s41598-026-36833-3.
+
+Keywords: YTHDC1, SQSTM1, Autophagy, Retinoblastoma
+
+Subject terms: Cancer, Cell biology, Molecular biology, Oncology
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Nov 11; Accepted 2026 Jan 16; Collection date 2026.
+
+## Introduction
+Retinoblastoma (RB) is the most common intraocular malignancy in childhood, accounting for approximately 3% of pediatric cancers . RB typically affects children under the age of five, with about 8,000 new cases diagnosed globally each year . Patients with early-stage RB may not present with obvious symptoms. However, advanced-stage RB can spread beyond the eyeball or along the optic nerve into the brain, posing significant life-threatening risks . Although recent therapeutic advances, such as intra-arterial chemotherapy, have significantly improved survival in patients with RB, delays in diagnosis and treatment still lead to worse prognosis in developing countries with limited medical resources . Therefore, investigating the mechanisms of local invasion and metastasis in RB is essential for improving patient prognosis and achieving effective eye-preserving treatments.
+The loss of both alleles of the RB1 gene, resulting in abnormal RB protein expression and function, is considered the primary cause of RB tumorigenesis . However, accumulating evidence indicates that additional genetic and epigenetic alterations, such as RNA methylation, promoter hypermethylation, histone modification, also play critical roles in tumor progression .
+N6-Methyladenosine (m6A) methylation is the most prevalent and abundant RNA modification in eukaryotes, playing a crucial role in nearly all RNA metabolic processes, including mRNA translation, degradation, export, and splicing , . m6A RNA methylation is dynamically reversible, catalyzed by the ‘Writers’, such as METTL3, METTL14, WTAP, and demethylated by the ‘Erasers’, such as FTO, ALKBH5. In addition, RNA-binding proteins, including YTHDF and YTHDC families, are classified as ‘Readers’ and are responsible for recognizing m6A modifications . The abnormal expression of these m6A regulatory proteins is widely observed in various malignancies. They act as oncogenes or tumor suppressors, influencing tumorigenesis, progression, metastasis, and chemotherapy resistance . Recent studies have also highlighted their involvement in ocular tumors, such as uveal melanoma and retinoblastoma, where dysregulation of METTL3 and YTHDF1 has been linked to tumor progression and therapy resistance , . However, research on the role of m6A methylation and its regulators in RB remains limited.
+Here, we identified the abnormally downregulated expression of YTHDC1 in invasive RB and elucidated its effects on RB cell proliferation and invasion. YTHDC1 knockdown activated SQSTM1-mediated autophagy and promoted tumor progression by modulating the stability of SQSTM1 mRNA. These findings provided insights into the molecular characteristics of invasive RB and new perspectives for developing epigenetic therapeutic targets.
+
+## Materials and methods
+
+## Bioinformatics analysis
+The GSE97508 dataset was downloaded from the GEO database (http://www.ncbi.nlm.nih.gov/geo/), and RNA-sequencing data were analyzed using R (http://cran.r-project.org/). Raw data were preprocessed and normalized using the Robust Multi-array Average (RMA) algorithm. Quality control with principal component analysis (PCA) was applied to remove outliers. LIMMA (https://bioconductor.org) was used to assess differential gene expression. The empirical Bayesian approach was used to assess differentially expressed genes (DEGs). Genes with a p-value < 0.05 and |log₂FC| > 1 were considered significant DEGs. The volcano plot and heatmap were generated using the ggplot2 package.
+
+## Patient samples
+Frozen and paraffin-embedded tumor samples of 50 patients with RB were collected from enucleation surgery between 2018 and 2021 at the Eye & ENT Hospital of Fudan University. All the RB patients received enucleation surgery without prior treatment. The diagnosis of RB was confirmed by two experienced pathologists, and the classification of RB was based on the International Intraocular Retinoblastoma Classification (IIRC) . Non-invasive RB was defined as intraocular tumors confined to the retina, with or without subretinal/vitreous seeding. In contrast, invasive RB referred to advanced cases that were confirmed to harbor at least one high-risk histopathological feature. High-risk pathological features of RB were previously defined as pT3 and pT4 categories in the 8th edition of the American Joint Committee on Cancer (AJCC) , including massive choroidal infiltration, postlaminar invasion of the optic nerve, scleral invasion, and extraocular extension.
+All participants provided written informed consent, and the study was approved by the Ethics Committee of Eye & ENT Hospital of Fudan University (2021056).
+
+## Cell lines and cell culture
+Two human retinoblastoma cell lines, WERI-Rb1 and Y79, were obtained from the American Type Culture Collection. All cell lines were cultured in RPMI-1640 (Gibco) supplemented with 10% fetal bovine serum (Gibco) and 1% penicillin-streptomycin (Gibco) at 37°C in a humidified incubator with 5% CO2. All cell lines underwent STR profiling and mycoplasma testing.
+
+## Quantitative real-time PCR
+Total RNA was extracted using EZ-press RNA Purification Kit (EZBioscience) according to the manufacturer’s instructions. RNA concentration and integrity were assessed using NanoDrop ND-1000 spectrophotometer (Thermo Fisher).
+For real-time qPCR, cDNA was synthesized via reverse transcription using PrimeScript RT Reagent Kit (TaKaRa). Real-time qPCR was performed using TB Green™ Premix Ex Taq™ II (TaKaRa). Primer specificity and amplification efficiency were confirmed by melting curve analysis and standard dilution experiments. Gene expression levels were calculated through the 2⁻ΔΔCt method, with GAPDH as the internal reference gene.
+The primer sequences used were as follows: YTHDC1 forward primer, 5′-AACTGGTTTCTAAGCCACTGAGC-3′; YTHDC1 reverse primer, 5′-GGAGGCACTACTTGATAGACGA-3′; SQSTM1 forward primer, 5′-GACTACGACTTGTGTAGCGTC-3′; SQSTM1 reverse primer, 5′-AGTGTCCGTGTTTCACCTTCC-3′; GAPDH forward primer; 5′-GGAGCGAGATCCCTCCAAAAT-3′; GAPDH reverse primer, 5′-GGCTGTTGTCATACTTCTCATGG-3′.
+
+## Western blot
+Total protein was extracted and subsequently quantified using the BCA assay (Beyotime). Equal amounts of protein were subjected to SDS-PAGE and transferred onto PVDF membranes. The membranes were then blocked with 5% skim milk for 1 hour at room temperature and incubated with primary antibodies overnight at 4℃. After incubation of HRP-conjugated secondary antibodies, the protein bands were detected using the ECL system. The intensities of blots were quantified by densitometry using ImageJ software. The antibodies used in this study were as follows: anti-YTHDC1 (CST, cat#77422, 1:1000), anti-SQSTM1 (CST, cat#5114, 1:1000), anti-mTOR (Proteintech, cat#28273-1-AP, 1:1000), anti-p-mTOR (Proteintech, cat# 67778-1-Ig, 1:1000), anti-LC3B (CST, cat#2775, 1:1000) and anti-GAPDH (CST, cat#2118,1:2000).
+
+## Immunohistochemistry (IHC)
+Paraffin-embedded tissue sections were first deparaffinized and rehydrated. The sections were then heated in sodium citrate solution for antigen retrieval, followed by incubation with 3% hydrogen peroxide for 15 minutes to block endogenous peroxidase activity. After blocking nonspecific protein binding, the slides were incubated with primary antibody (YTHDC1, Proteintech cat#14392-1-AP, 1:200) overnight at 4°C. Next, HRP-conjugated secondary antibodies were applied for 1 hour at room temperature. The sections were then developed using the DAB Substrate Kit (Vector Laboratories) according to the manufacturer’s instructions. Finally, the slides were counterstained with hematoxylin and mounted in neutral balsam mounting medium. The IHC staining was quantified using ImageJ software by measuring the average optical density (AOD) of nuclear YTHDC1 staining.
+
+## Lentiviral transduction and RNA interference
+Lentiviral vectors carrying YTHDC1-specific shRNAs and overexpression constructs were generated by HanBio. For lentiviral transduction, target cells were seeded into a 12-well plate at a density of 1×105 cells/well, and then infected with lentivirus at a multiplicity of infection (MOI) of 30. To enhance infection efficiency, 8 µg/mL polybrene was added to the medium, and the plate was centrifuged at 1,200 × g for 1 hour at room temperature. The transduction medium was then replaced with complete medium the next day. Stable cell lines were established by selection with puromycin (4 μg/mL) or neomycin (4 μg/mL). Short-interfering RNAs (siRNAs) were designed and constructed by RiboBio. Cell transfection was conducted using Lipofectamine 3000 according to the manufacturer’s protocol.
+The sequences of shRNAs and siRNAs were as follows: shYTHDC1 #1 (5′-TGGATTTGCAGGCGTGAATTA -3′), shYTHDC1 #2 (5′-TGCCTCCAGAGAACCTTATAA-3′), siSQSTM1 #1 (5′-GGACCCAUCUGUCUUCAAATT-3′), siSQSTM1 #2 (5′-GAUCUGCGAUGGCUGCAAUTT-3′).
+
+## Cell Counting Kit-8 (CCK-8) and EdU assay
+Target cells were seeded into 96-well plates at a density of 10,000 cells/well in 100 μL of medium and cultured for 24, 48, 72, and 96 hours, respectively. Then, 10 μL of CCK-8 reagent (Dojindo) was added to each well. After 2 hours of incubation, the absorbance at 450 nm was measured.
+EdU Cell Proliferation Kit (Beyotime) was used to assess cell proliferation according to the manufacturer’s instructions. Fluorescence images were captured using a fluorescence microscope.
+
+## Transwell assay
+Cells were seeded into the upper chambers with serum-free medium, and migration-inducing medium containing 10% FBS was added to the lower chambers. For the invasion assay, Matrigel was used to coat the top chamber before cells were seeded. After 24 hours of cell culture, the filters were fixed using 4% paraformaldehyde. Cells on the upper side of the membrane were removed, and the migrated cells on the bottom side were stained with crystal violet.
+
+## Autophagic flux assays
+Cells were treated with 20 µM chloroquine for 24 hours, and total proteins were extracted for subsequent experiments. The mCherry-GFP-LC3 lentiviral construct was obtained from Beyotime Biotechnology, and lentiviral transduction was performed as previously described. Fluorescence images were acquired at 488 nm/555 nm. The numbers of autolysosomes (red puncta) and autophagosomes (yellow puncta) were quantified to assess autophagic flux.
+
+## mRNA stability assay
+To determine mRNA stability, Actinomycin D (ACTD), an mRNA synthesis inhibitor, was used to assess mRNA decay. After treatment with ACTD for 0, 2, 4, 6, and 8 hours, RNA samples were collected and qPCR assays were conducted.
+
+## RIP-qPCR
+RB cells were harvested, washed with PBS, and lysed on ice for 30 min in IP lysis buffer (Beyotime, P0013) containing protease inhibitor cocktail and RNase inhibitors. After centrifugation, 10% of the lysate was saved as input. The remaining lysate was then incubated with anti-YTHDC1 (CST, cat#77422)-coated or rabbit IgG-coated beads at 4°C overnight. Next, the beads were washed four times with washing buffer, and then digested with proteinase K. RNAiso Plus (TaKaRa, 9109) was used to purify RNA according to manufacturer’s protocol. Total RNA was analyzed by RT-qPCR as described above.
+
+## Xenograft tumor model
+Male BALB/c nude mice (6 weeks old) were maintained under specific pathogen-free conditions. Each mouse was subcutaneously injected with 1 × 10⁶ RB cells. Tumor formation was monitored, and tumor dimensions were measured weekly using a caliper. The tumor diameter (a) and short diameter (b) were used to calculate the tumor volume, according to the formula a × b2 / 2. At the end of the fourth week, the mice were euthanized by CO₂ inhalation using a gradual-fill rate of approximately 30% of the chamber volume per minute, followed by cervical dislocation. Tumors were then excised, weighed, and checked for signs of abscess or necrosis. All animal experiments were conducted in accordance with the ARRIVE guidelines and were approved by the Institutional Research Ethics Committee of the Eye & ENT Hospital of Fudan University (No. 2021056). All experiments complied with relevant guidelines and regulations.
+
+## Statistical analysis
+Statistical analyses were performed using SPSS 22.0, and graphics were generated by GraphPad Prism 8 software. Statistical differences were assessed using an unpaired, two-tailed Student’s t-test. The χ2 test or Fisher’s exact test was used for categorical variables as appropriate. A p-value < 0.05 was considered significant.
+
+## Results
+
+## YTHDC1 is aberrantly downregulated in invasive RB
+To identify DEGs between invasive and non-invasive RB, we analyzed the GSE97508 dataset from the GEO database. As shown in Figure A,we identified 6,365 DEGs, including 3,794 downregulated and 2,571 upregulated genes in invasive RB compared to non-invasive RB. We next explored the expression profiles of 10 key m6A methylation regulators in GSE97508, including m6A methyltransferases (METTL3, METTL14, and WTAP), m6A demethylases (FTO and ALKBH5), and m6A methylation reader proteins (YTHDF1, YTHDF2, YTHDF3, YTHDC1, and YTHDC2). Our analysis revealed that METTL3 and YTHDC1 were significantly downregulated, whereas FTO and ALKBH5 were upregulated in invasive RB compared to non-invasive RB (Figure B).
+ To further validate the expression of these 10 m6A methylation regulators in RB, we measured their mRNA levels in 12 RB tumor samples, including 6 invasive and 6 non-invasive cases. The results showed that YTHDC1 was significantly downregulated in invasive RB tissues (Figure C). Consistent with this finding, decreased protein levels of YTHDC1 in invasive RB tissues were confirmed using Western blot and IHC analyses (Figures D-G). These findings indicated that YTHDC1 was significantly downregulated in invasive RB and may contribute to tumor invasion and progression.
+
+## Downregulation of YTHDC1 enhances the proliferative and migratory abilities in RB cells
+To investigate the function of YTHDC1 in RB cells, we knocked down its expression in the Y79 and WERI-Rb-1 cell lines using two independent shRNAs (shYTHDC1 #1 and shYTHDC1 #2). The knockdown efficiency was confirmed via qPCR and Western blot (Figure A-B). Both shRNAs effectively reduced YTHDC1 expression in Y79 and WERI-Rb-1 cells, and shYTHDC1 #1 was selected for subsequent experiments.
+ We next investigated the role of YTHDC1 in regulating cellular functions. CCK-8 and EdU assays revealed that YTHDC1 knockdown significantly enhanced the proliferation of Y79 and WERI-Rb-1 cells (Figure C–D). Moreover, Transwell assays showed that YTHDC1 knockdown promoted the migration and invasion ability of RB cells (Figure E). Consistently, xenograft tumors derived from YTHDC1 knockdown Y79 cells exhibited increased tumor volume and weight compared with controls (Figure F). Conversely, YTHDC1 overexpression suppressed proliferation, migration, and invasion in Y79 and WERI-Rb-1 cells (Figure A-E).
+ 
+
+## YTHDC1 regulates SQSTM1 expression via modulating mRNA stability
+To identify the potential downstream targets of YTHDC1, we reanalyzed the GSE97508 dataset, focusing on DEGs between invasive and non-invasive RB. The top 10 upregulated and downregulated genes are shown in Figure A. Subsequently, we utilized the Starbase database (https://rnasysu.com/encori/) to predict RNA-binding protein targets and the RM2Target database (http://rm2target.canceromics.org) to identify m6A-regulated targets among these DEGs. SQSTM1, which was downregulated in invasive RB, was identified as a potential downstream target of YTHDC1 (Figure B).
+ We next assessed SQSTM1 expression in YTHDC1 knockdown and overexpression cells to validate this finding (Figure C-E). In both Y79 and WERI-Rb-1 cells, YTHDC1 knockdown significantly reduced SQSTM1 mRNA and protein levels, whereas YTHDC1 overexpression markedly increased SQSTM1 expression. In addition, RIP-qPCR confirmed the interaction between YTHDC1 protein and SQSTM1 mRNA (Figure F).
+As an m6A reader protein, YTHDC1 directly regulates mRNA expression by influencing its stability. Therefore, we assessed SQSTM1 mRNA stability following Actinomycin D (ACTD) treatment in YTHDC1 knockdown and overexpression cells (Figure G). The results demonstrated that YTHDC1 knockdown significantly reduced the half-life of SQSTM1 mRNA, whereas YTHDC1 overexpression markedly extended it. These findings indicated that YTHDC1 promoted SQSTM1 expression by enhancing its mRNA stability.
+
+## Knockdown of SQSTM1 inhibits the malignant progression of RB cells
+To investigate the role of SQSTM1 in RB cell functions, we silenced SQSTM1 using two independent siRNAs in RB cells. As shown in Figure A-B, both siRNAs efficiently reduced SQSTM1 expression, and siSQSTM1 #1 was chosen for subsequent experiments. We further knocked down SQSTM1 in YTHDC1 overexpressing cells (Figure C) and performed cell functional assays across the four groups.
+ The CCK-8 assay demonstrated that SQSTM1 silencing significantly promoted RB cell proliferation and partially restored cell proliferation suppressed by YTHDC1 overexpression in both Y79 and WERI-Rb-1 cells (Figure D). Consistently, results of the EdU assay supported these findings (Figure E). The transwell assays showed that SQSTM1 silencing enhanced the migration and invasion of RB cells. Moreover, SQSTM1 knockdown partially alleviated the inhibitory effects of YTHDC1 overexpression on these cellular functions. (Figure F).
+
+## Knockdown of SQSTM1 enhances autophagy in RB cells
+SQSTM1, a key molecule in autophagy, acts as a selective substrate for degrading specific cellular components and also functions as a signaling mediator regulating autophagic activity. Therefore, we assessed the autophagic flux in RB cells following SQSTM1 knockdown.
+After treating the cells with chloroquine (CQ) for 24 hours, we examined the levels of LC3B-II, an autophagosome marker, by Western blot. As shown in Figure A-B, SQSTM1 knockdown significantly increased LC3B-II expression compared to the control group. Under CQ treatment, LC3B-II accumulation was further increased, consistent with inhibited lysosomal degradation. Similarly, SQSTM1 knockdown led to an increased number of red-only puncta in RB cells transfected with the mCherry-GFP-LC3B probe, indicating enhanced autolysosome formation (Figure C-D). These results collectively suggested that SQSTM1 knockdown enhanced autophagic flux in RB cells.
+ 
+
+## YTHDC1 regulates autophagic flux in RB cells
+Given the regulatory effect of YTHDC1 on SQSTM1 expression, we next explored whether YTHDC1 influences autophagy in RB cells. After CQ treatment for 24 hours, LC3B-II levels were significantly elevated in YTHDC1 knockdown cells compared to controls, indicating increased autophagic flux (Figure A-B). Moreover, mCherry-GFP-LC3B fluorescence showed a significant increase in autolysosome formation following YTHDC1 knockdown (Figure C-D). Together, these results indicated that YTHDC1 knockdown induced autophagy in RB cells.
+ We further assessed autophagic flux in YTHDC1 overexpression cells. YTHDC1 overexpression markedly reduced LC3B-II levels with or without CQ treatment, suggesting suppressed autophagy (Figure E-F). Consistently, RB cells expressing the mCherry-GFP-LC3B probe displayed a notable decrease in autophagosomes (Figure G-H).
+
+## SQSTM1 may modulate autophagy through the mTOR pathway
+Previous studies have demonstrated that SQSTM1 plays a critical role in regulating the activity of the mTOR signaling pathway , . SQSTM1 interacts with the raptor protein and Rag GTPases, facilitating the translocation of the mTORC1 complex to the lysosomal surface, where mTORC1 becomes activated and subsequently inhibits autophagy. Therefore, we evaluated mTOR pathway activity by measuring the levels of phosphorylated mTOR (p-mTOR) and total mTOR in SQSTM1 knockdown RB cells. As shown in Figure A-B, SQSTM1 knockdown significantly reduced the p-mTOR/mTOR ratio in both Y79 and WERI-Rb-1 cells, suggesting suppressed mTOR pathway activity.
+ 
+
+## Discussion
+Emerging evidence highlights the critical role of m6A methylation in various human cancers. Dysregulation of m6A methylation is implicated in numerous pathological processes, either promoting or suppressing tumor progression . Aberrant expression of m6A regulatory proteins in cancers has been linked to key biological processes, including cell death and metabolism. For example, the m6A methyltransferase METTL3 is upregulated in leukemia, and inhibition of METTL3 effectively suppresses tumor growth in vitro and in vivo .
+Recent studies have revealed that METTL3, YTHDF2, and FTO are involved in the progression of RB, suggesting that m6A regulatory proteins play a crucial role in RB – . Our study found that YTHDC1 was downregulated in invasive RB, consistent with previous findings in renal and breast cancers. Moreover, YTHDC1 expression is associated with prognosis and high-risk clinical features in these tumors. In our study, the functional experiments demonstrated that YTHDC1 suppresses RB cell proliferation and invasion.
+As an m6A ‘reader’, YTHDC1 recognizes and binds to m6A-modified RNA, thereby regulating RNA metabolism processes such as splicing, export, and translation . More importantly, YTHDC1 affects mRNA stability and thereby modulates gene expression and cellular functions. In lung cancer, YTHDC1 has been reported to exert an anti-tumor effect by enhancing the stability of FSP1 mRNA, which alleviates FSP1-mediated inhibition of ferroptosis . To identify potential targets of YTHDC1 in RB, we integrated analyses of the GEO dataset with RNA-binding protein target databases. We identified SQSTM1 as a candidate downstream gene, which was subsequently validated experimentally. Our results showed that YTHDC1 regulated SQSTM1 expression by modulating mRNA stability.
+SQSTM1, also known as p62, is a multifunctional protein involved in various biological processes, including intracellular signal transduction, autophagy, and responses to oxidative stress , . In particular, SQSTM1 plays a pivotal role in autophagy by acting as a selective receptor for autophagic substrates, recognizing and directing excess or damaged proteins and organelles to autophagosomes for degradation. Extensive research has shown that SQSTM1 can function as either an oncogene or a tumor suppressor in various cancers. It serves as a key regulatory factor in cellular autophagy, apoptosis, proliferation, and resistance to chemotherapy and radiation , . In non-small cell lung cancer, elevated SQSTM1 expression is associated with tumor malignancy and poorer patient survival, supporting its role as an independent prognostic factor . In metastatic and recurrent ovarian cancer, SQSTM1 expression is significantly lower than that in primary tumors and is negatively correlated with patient survival. Moreover, low SQSTM1 level is associated with multidrug resistance in ovarian cancer, and overexpression of SQSTM1 enhances tumor cell sensitivity to paclitaxel . Our study found that silencing YTHDC1 reduced SQSTM1 expression, which promoted the malignant behavior of tumor cells. Moreover, SQSTM1 knockdown significantly enhanced RB cell proliferation, migration, and invasion, and partially reversed the inhibitory effects of YTHDC1 overexpression on these cellular functions. This study provides the first evidence supporting the involvement of YTHDC1 and SQSTM1 in the progression of invasive RB, offering new insights into the molecular mechanisms underlying RB invasion.
+Autophagy is a critical cellular process involved in material recycling and energy metabolism. It degrades misfolded proteins and damaged organelles, thereby maintaining cellular and tissue homeostasis. Autophagy plays a dual role in tumorigenesis. In the early stages of tumor development, it acts as a tumor suppressor by eliminating abnormal proteins and maintaining genomic stability. While in advanced cancers, autophagy facilitates tumor progression by recycling intracellular components, which helps tumor cells adapt to hostile conditions such as hypoxia, oxidative stress, and chemotherapy, thereby promoting tumor invasion and metastasis , . Previous studies have demonstrated that m6A regulatory proteins can modulate autophagy through multiple mechanisms. For instance, Wang et al. report that FTO inhibits autophagy and lipid accumulation by regulating the expression of ATG5 and ATG7 . Our study revealed that YTHDC1 knockdown activated autophagic flux in RB cells, whereas YTHDC1 overexpression suppressed it, highlighting the pivotal role of YTHDC1 in regulating autophagy. In the context of RB, autophagy may facilitate tumor progression by enabling cancer cells to tolerate hypoxic and nutrient-deprived conditions, maintain energy supply, and eliminate dysfunctional organelles, thereby enhancing the survival and invasive capacity of RB cells.
+SQSTM1 is a key component of the autophagic process, functioning as a selective autophagy receptor, and it is also degraded in autolysosomes. Emerging evidence indicates that SQSTM1 can directly modulate autophagy in cancers through diverse mechanisms. In colorectal cancer, treatment with heat shock protein 90 (HSP90) inhibitors activates Heat Shock Factor 1, which upregulates SQSTM1 expression and promotes autophagy. This adaptive autophagic response ultimately protects tumor cells and attenuates the therapeutic efficacy of HSP90 inhibitors . Nihira et al. report that silencing SQSTM1 induces the formation of multilayered autophagosomes in lung cancer cells, thereby enhancing autophagy and triggering autophagic cell death . These findings underscore the therapeutic potential of SQSTM1 in cancers. Our study demonstrated that SQSTM1 knockdown activated autophagic flux in RB cells, suggesting that SQSTM1 suppression may modulate RB cell proliferation and invasion via increased autophagic flux.
+Although SQSTM1 has been increasingly recognized as a key regulator of both classical and selective autophagy, the underlying regulatory mechanisms and signaling pathways remain to be fully elucidated. Recent studies have shown that SQSTM1 regulates autophagy and proliferation in prostate cancer cells by promoting TRAF6 recruitment and mTORC1 activation . The mTOR signaling pathway is a key regulator of autophagy. Under conditions with sufficient nutrients and growth factors, activation of mTORC1 inhibits autophagy initiation by suppressing the expression of autophagy-related genes and preventing the formation of autophagosomal precursors. While under nutrient deprivation or other cellular stresses, decreased mTORC1 activity relieves this inhibition and promotes autophagosome formation. This process facilitates the degradation and recycling of intracellular components, enabling cells to maintain homeostasis and adapt to adverse conditions . SQSTM1 regulates mTORC1 activity by interacting with Raptor and Rag proteins to form the p62-Rag complex, which recruits and activates mTORC1 at the lysosomal surface, thereby affecting autophagy and cell proliferation . To further explore the mechanism by which SQSTM1 regulates autophagy in RB cells, we assessed mTOR signaling activity after SQSTM1 knockdown. Our results showed a reduction in the p-mTOR/mTOR ratio, which is consistent with suppressed mTORC1 signaling and may contribute to autophagy induction in RB cells. Based on these findings, our results suggested that in invasive RB, reduced YTHDC1 expression promoted autophagy by downregulating SQSTM1, while changes in mTOR pathway activity may also be involved.
+Our study provides the first insight into the functional role of the m6A reader protein YTHDC1 in invasive RB, demonstrating that YTHDC1 regulates autophagy by modulating SQSTM1 mRNA stability, with possible involvement of mTOR signaling. However, the precise mechanism by which YTHDC1 regulates autophagy, particularly in relation to the mTOR signaling pathway, remains a limitation of this study. Future studies are warranted to elucidate its role in RB progression.
+
+## Conclusions
+In summary, our study demonstrated that YTHDC1 was downregulated in invasive RB. The reduction of YTHDC1 expression promoted autophagy and enhanced the invasive behavior of RB cells by destabilizing SQSTM1 mRNA, which might involve alterations in mTOR signaling. These findings offer new perspectives on the biological mechanisms driving RB invasiveness and may contribute to the development of novel therapeutic strategies for RB.
+
+## Supplementary Information
+
+Supplementary Information 1.
+
+Supplementary Information 2.
+
+## Abbreviations
+AJCCAmerican joint committee on cancer
+ALKBH5AlkB homolog 5
+AODAverage optical density
+ATCCAmerican type culture collection
+CQChloroquine
+DEGsDifferentially expressed genes
+FBSFetal bovine serum
+FTOFat mass and obesity-associated protein
+HSP90Heat shock protein 90
+IHCImmunohistochemical
+IIRCInternational intraocular retinoblastoma classification
+IODIntegrated optical density
+LC3Microtubule-associated protein 1 light chain 3
+m6AN6-Methyladenosine
+METTL14Methyltransferase like 14
+METTL3Methyltransferase like 3
+mTORMammalian target of rapamycin
+NF-κBNuclear factor kappa-light-chain- enhancer of activated B cells
+Nrf2Nuclear factor erythroid 2 related factor 2
+OEOverexpression
+qPCRQuantitative polymerase chain reaction
+RBRetinoblastoma
+shRNAShort hairpin RNA
+siRNASmall interfering RNA
+SQSTM1Sequestosome 1
+WTAPWilms tumor 1 associating protein
+YTHDC1YTH domain containing 1
+YTHDF1YTH N6-methyladenosine RNA binding proteins 1
+
+## Author contributions
+J.D. analyzed data and wrote the paper; J.S. contributed to the sample collection and interpretation of the data. J.W. and R.M. helped collect sample. K.X. revised the paper. J.Q. initiated the study and revised the paper. All authors read and approved the final manuscript.
+
+## Funding
+This study was supported by the National Natural Science Foundation of China (81970835) and the Shanghai Municipal Health Commission (2024ZZ2038).
+
+## Data availability
+The datasets generated during and/or analysed during the current study are available from the corresponding author on reasonable request.
+
+## Declarations
+
+## Competing interests
+The authors declare no competing interests.
+
+## Ethics
+This study adhered to the tenets of the Declaration of Helsinki and was approved by the Institutional Review Board of the Eye and ENT Hospital of Fudan University (2021056).
+
+## Footnotes
+The original online version of this Article was revised: The original version of this Article contained an error in Figure 2, where the image for the shYTHDC1 group in the WERI‑RB‑1 cell invasion assay was inadvertently replaced with an incorrect image during figure preparation in label (E). This error resulted from mislabelling that caused confusion between images from two adjacent wells.
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Jie Ding and Jie Sun contributed equally to this work.
+Change history
+4/30/2026
+A Correction to this paper has been published: 10.1038/s41598-026-49600-1
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Information 1.
+Supplementary Information 2.
+
+## Data Availability Statement
+The datasets generated during and/or analysed during the current study are available from the corresponding author on reasonable request.

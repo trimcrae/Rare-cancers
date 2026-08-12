@@ -1,0 +1,233 @@
+3532isciiScienceiScienceElsevierPMC1296904412969044129690444180905410.1016/j.isci.2026.115074Stage- and cluster-specific regulation of chondrogenic gene programs by Sox9 in mouse embryonic limb buds
+SegaMasayasu UchidaYutaro ChibaTomoki MatsushimaTakahide KitaKohei MiyasakaNaoyuki AsaharaHiroshi 1Department of Systems BioMedicine, Graduate School of Medical and Dental Sciences, Institute of Science Tokyo, 1-5-45, Yushima, Bunkyo-Ku, Tokyo 113-8510, Japan2Comprehensive Reproductive Medicine, Graduate School of Medical and Dental Sciences, Institute of Science Tokyo, 1-5-45, Yushima, Bunkyo-Ku, Tokyo 113-8510, Japan3Department of Molecular and Cellular Biology, The Scripps Research Institute, La Jolla, San Diego, CA 92037, USA∗Corresponding author asahara@scripps.edu
+4These authors contributed equally
+5Lead contact
+18220262931150741150741032026© 2026 The Author(s)This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).
+
+## Summary
+Cartilage formation in the limb is initiated and sustained by Sox9, though how its regulatory outputs evolve across developmental time and cell states remains unclear. Here, we integrate single-cell RNA sequencing of mouse forelimb buds across five stages (E9.5–E13.5) with CUT&RUN profiling of Ty1-tagged Sox9 at E11.5 and E13.5. We identify four Sox9-high populations—three chondroprogenitor clusters and mature chondrocytes—with distinct dynamics, and RNA-velocity infers independent trajectories from each progenitor cluster to maturation. Sox9 chromatin occupancy shows a conserved motif signature but undergoes stage- and cluster-dependent reconfiguration, aligning with shifts in extracellular matrix, cell-cycle, and patterning programs. Integrative analysis links these binding differences with coordinated transcriptional changes, suggesting that Sox9 operates through context-associated regulatory modes rather than a single uniform program. Our study provides a stage-resolved regulatory map of Sox9-associated regulation during chondrogenesis and a resource for limb mesenchyme.
+Subject areas: Molecular biology, Developmental biology, Omics
+
+## Graphical abstract
+ 
+
+## Highlights
+•Three chondroprogenitor clusters and mature chondrocytes show stage-dependent dynamics
+•CUT&RUN of Ty1-tagged Sox9 reveals stage- and cluster-specific chromatin occupancy
+•Integration of CUT&RUN and scRNAseq identifies Sox9 targets in chondrocyte maturation
+•Sox9 regulates transcriptional networks across cartilage developmental stages
+
+Molecular biology; Developmental biology; Omics
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Dec 16; Revised 2026 Jan 22; Accepted 2026 Feb 13; Collection date 2026 Mar 20.
+
+## Introduction
+Limb development is a highly coordinated process in which mesenchymal cells derived from the lateral plate mesoderm interact with the overlying ectoderm and the paraxial mesoderm to give rise to diverse lineages, including cartilage, bone, tendon, muscle, vasculature, and nerves. Among these lineages, the formation of the chondrogenic lineage represents one of the earliest and most dynamic events during skeletal morphogenesis, establishing the foundation for endochondral bone development.
+The transcription factor Sox9 plays a pivotal role in initiating and maintaining the chondrogenic lineage. Sox9 is expressed in mesenchymal progenitors committed to chondrogenesis, where it activates cartilage-matrix genes such as Col2a1 and Acan, , and cooperates with Sox5 and Sox6 to promote chondrogenic differentiation. , , Through these actions, Sox9 is recognized as a master regulator of cartilage formation. Consistent with this central role, genetic studies have shown that Sox9 is indispensable for limb skeletal development. Global deletion of Sox9 results in early embryonic lethality, while limb mesenchyme–specific deletion leads to a failure of chondrogenic condensation and loss of cartilage elements throughout the limb. , Conversely, Sox9 misexpression in limb bud mesenchyme induces ectopic chondrogenesis and disrupts joint formation and limb patterning. Despite these well-established phenotypes, how Sox9-associated regulatory programs differ across developmental stages and mesenchymal subpopulations within the limb bud remains incompletely understood.
+Recent advances in single-cell RNA sequencing (scRNA-seq) have revealed the cellular heterogeneity and transcriptional trajectories underlying limb development. Kelly et al. used scRNA-seq to characterize mesenchymal heterogeneity and identify early chondrogenic lineages during mouse limb bud development. Desanlis et al. used single-cell transcriptomic analysis to visualize the transition from the anterior–posterior (AP) axis to the proximal–distal (PD) axis in the early mouse limb bud by mapping cellular trajectories and gene expression programs. Bastide et al. applied TATTOO-seq, a spatially resolved single-cell transcriptomics method, to map how positional identity and cell-type–specific regulatory programs emerge and integrate during early mouse limb-bud development, including insights into the regulatory landscape around the Sox9 locus. These studies collectively advance our understanding of cellular heterogeneity and positional identity, including those associated with Sox9, during early limb development.
+Comprehensive single-cell atlases have further expanded this understanding to the entire skeletal system. Markman et al. used scRNA-seq to map mesenchymal progenitor diversity in the mouse limb bud, revealing that Sox9+ chondroprogenitors arise from naive populations and drive skeleton formation in a spatially and temporally complex manner. Herpelinck et al. constructed a comprehensive single-cell atlas of the murine limb skeleton spanning development through adulthood. Using in silico Sox9 knockout simulations, they demonstrated that the predicted phenotypes align with in vivo observations, highlighting a critical role for Sox9 in chondrogenic development. These findings reaffirm the essential role of Sox9.
+ChIP-seq studies have mapped Sox9-binding motifs and target genes during cartilage formation, , and human fetal analyses have provided a broader view of skeletal stem and progenitor diversification. Despite these advances, the understanding of how Sox9 dynamically regulates its downstream targets across developmental stages remains incomplete. In particular, a comprehensive, stage-resolved analysis of Sox9-mediated transcriptional programs during chondrogenic lineage specification has been lacking.
+To address these questions, we performed scRNA-seq of mouse embryonic forelimb buds at five developmental stages (E9.5, E10.5, E11.5, E12.5, and E13.5) to delineate the temporal dynamics of chondrogenic differentiation. In parallel, we generated a Ty1-tagged Sox9 knock-in mouse line and performed CUT&RUN assays at E11.5 and E13.5 to map Sox9 binding sites and target genes. By integrating these datasets, we aimed to define the developmental trajectories of chondrogenic differentiation and uncover the stage-specific transcriptional networks orchestrated by Sox9 during embryonic cartilage formation.
+
+## Results
+
+## Single-cell transcriptomic atlas of mouse limb bud development
+We performed single-cell RNA sequencing (scRNA-seq) of mouse forelimb buds at five embryonic stages (E9.5, E10.5, E11.5, E12.5, and E13.5) to identify and characterize cell populations with high Sox9 expression. In parallel, CUT&RUN analysis targeting Sox9 was conducted on limb buds at two developmental stages (E11.5 and E13.5). These analyses aimed to identify Sox9 target genes across developmental stages and to elucidate the transcriptional programs underlying Sox9-mediated cartilage formation during mouse embryogenesis ( ).
+ Integrated clustering of scRNA-seq datasets from all five stages yielded a total of 19,934 cells, including 1,637 from E9.5, 6,055 from E10.5, 4,426 from E11.5, 4,344 from E12.5, and 3,472 from E13.5. The mesenchymal compartment was resolved into ten clusters, comprising seven mesenchymal populations (proximal limb mesenchyme, proliferating mesenchyme 2, early mesenchyme, perichondrial mesenchyme, distal limb mesenchyme, Aldh1a2 positive mesenchyme, and tendon progenitors), and three chondroprogenitor populations. These three chondroprogenitors were identified as follows: chondroprogenitor 1, characterized by the expression of Chrdl1, Ccser1, and Egfr; chondroprogenitor 2, marked by proliferative markers such as Kif4, Cep55, and Mki67; and chondroprogenitor 3, defined by Fgf12, Vcan, and Hoxd13 ( ). Together with the Acan-positive Mature Chondrocyte cluster, a total of 20 clusters were classified ( A), and representative marker genes for each cluster were determined ( B and ).
+ Sox9 expression was enriched in mature chondrocytes and in chondroprogenitors 1–3 ( A). Temporal mapping of these Sox9-high populations revealed a clear developmental progression. Sox9-high cells were scarce at E9.5 but appeared as chondroprogenitors 1 and 2 at E10.5, subsequently giving rise to chondroprogenitor 3 and mature chondrocytes at E11.5, and becoming progressively enriched in mature chondrocytes at E12.5 and E13.5 ( B–3D). RNA velocity analysis incorporating temporal information revealed three major differentiation trajectories: from chondroprogenitor 1 to mature chondrocytes, from chondroprogenitor 2 to mature chondrocytes, and from chondroprogenitor 3 to mature chondrocytes ( E), indicating multiple developmental routes toward cartilage formation.
+ 
+
+## Stage-dependent transcriptional signatures define distinct Sox9-high subpopulations
+To further delineate the transcriptomic signatures of the four Sox9-high populations (chondroprogenitors 1–3 and mature chondrocytes), we performed differential expression analyses using two distinct comparative strategies with a significance threshold of an adjusted p-value <0.01 and a log2 fold-change >1. We initially compared each Sox9-high cluster individually against the Sox9-low mesenchymal clusters to define the core chondrogenic identity. This comparison consistently enriched for canonical chondrogenic genes, including Col2a1, Col9a1, Col11a1, Col27a1, Sox5, and Sox6, across all four populations ( and , , , and ), representing a pan-chondrogenic program common to the lineage. Subsequently, to resolve the heterogeneity within the chondrogenic lineage, we compared each Sox9-high cluster against the remaining three Sox9-high clusters. This analysis revealed stage- and state-specific transcriptional signatures that distinguish each population ( and , , , and ). Based on these cluster-specific DEGs, we identified representative marker genes for each population: chondroprogenitor 1 expressed Hoxd9, Tbx18, Pknox2, Alcam, and Shox2; chondroprogenitor 2 expressed Top2a, Aurkb, Ccna2, Cenpa, Ezh2, and Brca1; chondroprogenitor 3 expressed Hoxd12, Wnt5a, Irx1, Msx1, and Hoxd13; and mature chondrocytes expressed Bmp7, Ihh, Acan, and Comp. Stage-wise analysis revealed progressive upregulation of Col2a1, Col9a1, Col11a1, Col27a1, Sox5, and Sox6 across all populations. In chondroprogenitor 1, Alcam and Pknox2 were upregulated at later stages, whereas Hoxd9, Tbx18, and Shox2 were enriched at earlier stages. In chondroprogenitor 2, Aurkb, Ezh2, and Brca1 were highly expressed at early stages but decreased over time, while Top2a, Ccna2, Cenpa, and Foxm1 increased during development. In chondroprogenitor 3, Wnt5a and Hoxd12 peaked at E11.5 and declined thereafter, whereas Msx1, Irx1, and Hoxd13 increased at later stages. In mature chondrocytes, Ihh, Acan, Comp, and Bmp7 all showed progressive upregulation toward E13.5 ( ).
+ To provide spatial reference for the genes enriched in our clusters, we examined Whole-Mount In Situ Hybridization (WISH) data from the EMBRYS database. (https://www.embrys.jp/). As shown in , genes highly expressed in chondroprogenitor 1 (e.g., Tbx18 and Hoxd9) are generally observed in the proximal-to-middle regions, while genes enriched in chondroprogenitor 3 (e.g., Hoxd13) are restricted to the distal domain.
+
+## Integration of CUT&RUN and single-cell RNA sequencing reveals Sox9 targets in chondrogenesis
+To identify Sox9-bound genomic regions, we generated a Ty1-tagged Sox9 knock-in mouse and performed CUT&RUN assays using an anti-Ty1 antibody on limb buds at E11.5 and E13.5 ( A and ). Fragment length distributions peaked at approximately 150 bp in both stages ( B), and peaks were enriched near transcription start sites (TSSs) ( C), predominantly within 1 kb upstream regions ( D and 5E). Motif analysis revealed the Sox binding motif (A/T)CAA(A/T) in both datasets ( F), consistent with previous reports. , , Comparative analysis identified 2,287 shared Sox9-bound genes between E11.5 and E13.5, with 922 unique to E11.5 and 1,550 unique to E13.5 ( G and ). To validate the quality and consistency of our CUT&RUN data, we compared our binding profiles with previously published Sox9 ChIP-seq datasets derived from developing mouse limbs , and rib chondrocytes. Visual inspection of representative chondrogenic marker genes, such as Col2a1 and Col9a1, revealed a high degree of concordance in peak distribution between our CUT&RUN data and the public ChIP-seq datasets ( ). Furthermore, these conserved Sox9 peaks overlapped with H3K27ac enrichment in E11.5 limb buds, supporting their function as active regulatory elements during chondrogenesis.
+ Finally, to define direct Sox9 target genes specific to each cluster and developmental stage, we integrated the CUT&RUN chromatin occupancy data with the scRNA-seq expression profiles. Integration of the pan-chondrogenic DEGs (genes upregulated in each Sox9-high cluster vs. Sox9-low clusters) with Sox9-bound genes identified a core set of Sox9 targets associated with general chondrogenesis ( A and ). Additionally, integration of the cluster-specific DEGs (genes upregulated in specific Sox9-high clusters vs. other high clusters) with Sox9-binding data identified targets subject to stage- and cluster-specific regulation ( B and ). Visualization of these targets by dot plot demonstrated that the major chondrogenic markers Col2a1, Col27a1, Col11a1, Col9a1, Sox5, and Sox6 were Sox9 targets in all clusters at both E11.5 and E13.5, with particularly high expression in mature chondrocytes. In contrast, distinct Sox9-targeting gene-sets were observed among clusters and stages. In chondroprogenitor 1, Sox9 bound Pknox2 at both stages, Hoxd9 and Tbx18 specifically at E11.5, and Alcam and Rcan1 specifically at E13.5. In chondroprogenitor 2, Sox9 bound Aurkb and Ccna2 at both stages, Cenpu and Myb at E11.5, and Apcdd1 and Haus8 at E13.5. In chondroprogenitor 3, Maml3 was bound at both stages, Frzb and Wnt5a at E11.5, and Pbx1 and Man2a1 at E13.5. In mature chondrocytes, Sox9 bound Mbnl1 and Wif1 at E11.5, and Twist2 and Bmp7 at E13.5 ( C).
+ Together, these results revealed that Sox9 binds to distinct sets of target genes depending on developmental stage and cellular context, delineating dynamic and stage-specific transcriptional programs that orchestrate chondrogenic differentiation during limb development.
+
+## Discussion
+In this study, single-cell RNA sequencing (scRNA-seq) of mouse forelimb buds at five embryonic stages (E9.5–E13.5) identified four Sox9-high clusters—chondroprogenitors 1–3 and mature chondrocytes—and revealed stage-dependent changes in their cell numbers and transcriptional profiles. All of these populations exhibited high expression not only of Sox9 but also of key chondrogenic genes such as Col2a1, Col9a1, Col11a1, Col27a1, Sox5, and Sox6, which are essential for cartilage formation, , , , , , , , , , , distinguishing them from Sox9-low populations.
+Compared with the three chondroprogenitor clusters, mature chondrocytes showed high expression of Ihh, Bmp7, Acan, and Comp, characterizing their maturation status. These cells were rarely observed at E9.5–E10.5 but emerged by E11.5 and increased in number toward E13.5. As shown in and C, the expression of Ihh, Bmp7, Acan, Comp, and Twist2 progressively increased with developmental stage.
+Among the three chondroprogenitors, chondroprogenitor 1 was few at E9.5 but became prominent at E10.5 and persisted through all stages up to E13.5. RNA velocity analysis indicated that this cluster originates from proximal limb mesenchyme (Cluster 0). As shown in and C, Hoxd9, Tbx18, and Shox2 were highly expressed at E9.5–E10.5 but decreased thereafter, whereas Alcam and Pknox2 expression increased from E11.5 to E13.5. WISH data from EMBRYS showed that Tbx18, Hoxd9, and Pknox2 were localized to the central-to-proximal regions of the limb bud ( ).
+Chondroprogenitor 2 also increased in number from E10.5 and persisted throughout development, characterized by high expression of Aurkb, Top2a, Ccna2, Cenpa, Brca1, and Foxm1 from E10.5 to E13.5. These genes are associated with cell cycle and proliferation, suggesting high mitotic activity in this cluster. Consistent with this, histone-related genes, including Cenpa, were also highly expressed. RNA velocity analysis indicated that this cluster originates from proliferating mesenchyme (Cluster 1). WISH data (EMBRYS) showed no distinct spatial localization for Ezh2, Brca1, or Foxm1 in the limb bud ( ).
+Chondroprogenitor 3 first appeared at E11.5 and subsequently increased in number. RNA velocity analysis indicated that this cluster originates from Aldh1a2-positive mesenchyme (Cluster 7). At E11.5, Wnt5a and Hoxd12 were highly expressed, whereas Msx1 and Irx1 became predominant at E13.5. Based on previous literature, the expression profile of this cluster resembles that of distal mesenchymal cells, which express Wnt5a and Hoxd12 at E11.5 and Msx1 and Irx1 at E13.5. , , , , , , WISH data confirmed distal localization of Msx1 and Hoxd12 expression ( ).
+In limb development, Sox9 expression and differentiation have been analyzed by Markman et al., who identified four cell populations—tdTomato+ (Sox9 skeletal lineage), GFP+ (Scx tendon cells), tdTomato+GFP+ double-positive cells, and double-negative progenitors—using MARS-seq, and classified them into proximal progenitors, autopodial progenitors, and progenitors lacking spatial signatures. In our analysis, chondroprogenitor 3, with high Msx1 and Hoxd13 expression, share transcriptomic features with their autopodial progenitors, while chondroprogenitor 1 (Shox2 high) resemble proximal progenitors. Regarding chondroprogenitor 2, although they may partially overlap with the nonspatial progenitor population, they are distinctively characterized by high proliferative activity and cell-cycle genes. Consistent with this, our RNA velocity analysis ( E) suggested that each of the three chondroprogenitor clusters independently differentiates into mature chondrocytes.
+Previous studies have investigated Sox9 targets in chondrogenesis primarily using ChIP-seq. Ohba et al. identified two classes of Sox9-binding sites in the mouse rib cage: Class I sites near promoters of ubiquitously expressed genes, where Sox9 likely acts via interactions with basal transcriptional machinery, and Class II sites corresponding to cartilage-specific enhancers bound by Sox9 dimers that activate transcription of chondrocyte-related genes. Liu et al. showed in rat chondrosarcoma cells that Sox9 cooperates with Sox5 and Sox6 to activate cartilage super-enhancers. Garside et al. performed ChIP-seq for Sox9 in E12.5 heart valves and limb buds, identifying tissue-specific binding sites, while Liu et al. reanalyzed the limb bud dataset and, integrating with RNA-seq and H3K27ac profiles, identified Fam101a, Myh14, Sema3c, and Sema3d as novel precartilaginous condensation markers. Yamashita et al. further demonstrated that Sox9-binding sites in limb buds are evolutionarily conserved between mouse and chick, underscoring the shared regulatory mechanism of chondrogenesis among vertebrates. 
+While ChIP-seq has been widely used, it requires large cell numbers and is limited by background noise from immunoprecipitation. In contrast, CUT&RUN uses antibody-tethered micrococcal nuclease (MNase) to selectively cleave and release DNA fragments adjacent to protein–DNA complexes, allowing high-resolution mapping from limited cell numbers. , , , 
+In this study, we generated a Ty1-tagged Sox9 knock-in mouse to perform CUT&RUN at E11.5 and E13.5 limb buds. Compared with conventional antibodies, the use of a validated peptide tag (Ty1) ensures higher specificity and reproducibility, particularly in small embryonic tissues. Recent studies have adopted similar tag knock-in strategies to define endogenous transcription factor targets. , , , By applying this approach to limb bud tissue, we demonstrated the feasibility and power of tag-based CUT&RUN for high-resolution in vivo mapping of transcription factor binding sites.
+Integration of the scRNA-seq and CUT&RUN datasets enabled identification of Sox9-bound target genes characteristic of each of the four Sox9-high clusters at E11.5 and E13.5.
+In mature chondrocytes, Sox9 bound Col2a1, Col27a1, and Col11a1 at both stages, while Mbnl1 and Wif1 were specifically bound at E11.5 and Bmp7 and Twist2 at E13.5 ( ). These results suggest that Sox9 consistently regulates cartilage matrix genes but modulates distinct transcriptional programs across stages: Wif1 functions as a Wnt antagonist to define the cartilage-mesenchyme interface, suggesting a role for Sox9 in tissue boundary formation. 
+Mbnl1 contributes to splicing regulation in mesenchymal cells, facilitating cellular differentiation. 
+Bmp7 (also known as OP-1) promotes osteo- and chondrogenic differentiation through the SMAD1/5/8 pathway. 
+Twist2 negatively regulates Grem1 and Shh signaling to suppress mesenchymal proliferation and antagonize Sox9-mediated differentiation, suggesting a feedback mechanism in which Sox9 indirectly modulates its own pathway via Twist2.
+ In chondroprogenitor 1, Sox9 bound Pknox2 at both E11.5 and E13.5, while Hoxd9 and Tbx18 were E11.5-specific and Alcam and Rcan1 were E13.5-specific ( ). Forced expression of Pknox2 in transgenic mice inhibits mesenchymal condensation and early chondrogenesis, leading to zeugopod malformations, indicating its role as a mesenchyme at E9.5–E10.5 and regulates zeugopod skeleton formation. 
+Tbx18 is co-expressed with Sox9 in mesenchymal condensations at E10.5 but declines after E11.5. 
+Alcam (CD166) is expressed in prechondrocytic progenitors, and Rcan1 (also known as Calcipressin-1) is known to inhibit calcineurin signaling and contribute to hypoxic adaptation. Additionally, Mkx, a tendon master regulator, was expressed in chondroprogenitor 1 at E13.5, with Sox9 binding detected at its promoter, suggesting Sox9-dependent regulation. Collectively, Sox9 appears to be associated with chondroprogenitor 1 by stage-specific regulation of transcriptional and extracellular matrix genes.
+In chondroprogenitor 2, Sox9 bound Aurkb and Ccna2 at both stages, Cenpu and Myb specifically at E11.5, and Apcdd1 and Haus8 at E13.5 ( ). Aurkb (Aurora kinase B) and Ccna2 (Cyclin A2) are key regulators of cell-cycle progression. , , , 
+Cenpu is a protein essential for centromere assembly during mitosis and is known to contribute to cell proliferation and cell-cycle progression. 
+Myb has been shown to protect against cartilage degradation and osteoarthritis progression by maintaining chondrocyte homeostasis. 
+Apcdd1 is a membrane-bound glycoprotein that functions as a BMP/Wnt signaling pathway inhibitor, , and Haus8, a subunit of the Augmin complex, is essential for mitotic spindle assembly and microtubule generation. These findings suggest that Sox9 contributes to the regulation of cell-cycle and chromatin-related genes in chondroprogenitor 2, thereby maintaining their proliferative state during early chondrogenesis.
+In chondroprogenitor 3, Sox9 bound Maml3 at both stages, Frzb and Wnt5a specifically at E11.5, and Pbx1 and Man2a1 at E13.5 ( ). Maml3 is an essential transcriptional co-activator of Notch signaling. 
+Frzb is a secreted Wnt antagonist, and loss of Frzb in murine articular cartilage causes osteoarthritis by increasing the expression of matrix metalloproteinases. 
+Wnt5a promotes early chondrogenesis via the Ca2+/calcineurin–NFAT pathway while suppressing hypertrophy through IKK–NF-κB signaling. 
+Pbx1 regulates distal limb patterning through the Hox–Shh axis and is indispensable for autopod formation. 
+Man2a1 is a Golgi enzyme involved in the synthesis of complex N-glycans, thereby contributing to the homeostasis of extracellular matrices of chondrocytes. These findings suggest that Sox9 is linked to stage-specific transcriptional programs in chondroprogenitor 3, potentially contributing to distal limb–associated gene expression.
+Together, these results indicate that Sox9 contributes to stage- and context-dependent gene expression programs across limb bud clusters that are characteristic of chondroprogenitors and mature chondrocytes. Sox9 is known to cooperate with cofactors such as Sox5, Sox6, CREB-binding protein (Cbp), PGC1α, and Smad2/3 , , , , to activate cartilage matrix genes and coordinate extracellular matrix assembly and chondrocyte maturation. Our data further suggest that Sox9 acts in a context-dependent manner and is associated with distinct cofactor-related transcriptional programs across developmental stages.
+Although this study focused primarily on cartilage formation, the dataset also includes clusters representing tendon and muscle progenitors, providing a valuable resource for future comparative analyses of limb mesenchymal differentiation.
+Overall, this study presents a stage-resolved integrative framework linking Sox9 chromatin occupancy with transcriptional dynamics during embryonic limb chondrogenesis. Our findings indicate that Sox9-associated regulatory patterns differ across developmental stages and cellular contexts, providing a refined view of how Sox9-related transcriptional programs accompany the transition from chondroprogenitor states to mature chondrocytes. Further analyses incorporating intermediate stages and additional regulators such as Sox5/6 and Runx2 will help clarify how these patterns are established and maintained. Collectively, our results offer a developmental-stage–resolved reference for Sox9-associated transcriptional regulation in limb development and provide a foundation for future studies of skeletal development and cartilage biology.
+
+## Limitations of the study
+Since the developmental trajectories inferred by RNA velocity rely on computational prediction, future studies utilizing lineage-tracing strategies will be essential to definitively validate the transition from specific mesenchymal subpopulations to these distinct chondroprogenitors and subsequently to mature chondrocytes. Moreover, although we analyzed the mature chondrocytes as a single population in this study, this compartment likely harbors further transcriptional heterogeneity. Given that our current sample size (n = 521) limited the resolution for sub-clustering, future studies with larger datasets will be necessary to identify finer subpopulations and to elucidate subpopulation-specific Sox9 target regulation.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the Lead Contact, Hiroshi Asahara (email: asahara.syst@tmd.ac.jp).
+
+## Materials availability
+This study did not generate new unique reagents.
+
+## Data and code availability
+
+•The raw sequencing data have been deposited in the DDBJ database under the following accession numbers: PRJDB37869 and E-GEAD-1154 (scRNA-seq), and PRJDB37870 and E-GEAD-1157 (CUT&RUN).
+•This paper does not report original code.
+•The processed data and analysis scripts used in this study are available from the corresponding author upon request.
+
+## Acknowledgments
+The authors thank Yuya Tokumoto and all the staff of the Department of Systems Biomedicine at the Institute of Science Tokyo for their support and advice. The schematics in and the graphical abstract were created with BioRender (biorender.com) under a publication license.
+This work was supported by Japan Society for the Promotion of Science (JSPS) KAKENHI (Grant Numbers JP20H05696), Japan Agency for Medical Research and Development (AMED) (Grant Numbers JP22gm0010009, JP22ama121045, JP24jf0126010, JP24gm2010002, JP25ek0109836), and National Institutes of Health (NIH) (Grant Number R01AR080127) to H.A.
+
+## Author contributions
+Conceptualization: M.S. and H.A.; methodology: M.S., T.C., T.M., and H.A.; validation: M.S. and T.C.; formal analysis: M.S. and Y.U.; investigation: M.S. and Y.U.; resources: T.M. and K.K.; data curation: Y.U.; writing – original draft preparation: M.S.; writing – review and editing: M.S., Y.U., T.C., T.M., K.K., N.M., and H.A.; visualization: M.S. and Y.U.; supervision: N.M. and H.A.; project administration: H.A.; funding acquisition: H.A.
+
+## Declaration of interests
+The authors declare no competing interests.
+
+## STAR★Methods
+
+## Key resources table
+
+ 
+
+## Experimental model and study participant details
+
+## Animal experiments
+All animal experiments were approved by the Animal Experimental Committee of the Institute of Science Tokyo (A2024-012C5) and conducted in accordance with institutional and national guidelines for the care and use of animals.
+
+## Mouse embryos and forelimb bud collection
+Mice were euthanized by CO2 inhalation followed by cervical dislocation to ensure complete euthanasia. Animals were provided by Sankyo Lab Service (Tokyo, Japan). Pregnant C57BL/6J background mice were used for embryo collection for CUT&RUN and ICR for scRNA-seq. The day when a vaginal plug was observed was designated as embryonic day 0.5 (E0.5). Embryos were dissected at embryonic stages E9.5, E10.5, E11.5, E12.5, and E13.5 under a stereomicroscope (Nikon Corporation, Tokyo, Japan) in cold Hank’s balanced salt solution (HBSS; FUJIFILM Wako Pure Chemical Corporation, Osaka, Japan). Forelimb buds were carefully isolated and transferred into 1.5-mL tubes (Cat. No. LT-0150, BIO-BIK Ina Optica, Osaka, Japan) containing 500 μL of HBSS on ice. The tissues were finely minced using micro-scissors and subjected to mild fixation by adding 13.89 μL of 37% formaldehyde (final concentration 1%; FUJIFILM Wako Pure Chemical Corporation) for 10 min at room temperature. Fixation was quenched by adding 26.3 μL of 2.5 M glycine (FUJIFILM Wako Pure Chemical Corporation), followed by centrifugation at 1000 × g for 5 min at 4 °C. The supernatant was removed, and the pellet was resuspended in 1 mL HBSS, centrifuged again under the same conditions, and resuspended in 500 μL HBSS.
+For enzymatic dissociation, 12.8 μL of collagenase D (Roche Diagnostics, Mannheim, Germany) stock solution (100 mg/mL) was added to achieve a final concentration of 2.5 mg/mL. The samples were incubated at 37 °C with shaking (1000 rpm; Eppendorf ThermoMixer C; Eppendorf, Hamburg, Germany) for 1–2 h until single cells were obtained. The reaction was terminated by adding 500 μL of HBSS supplemented with 10% fetal bovine serum (FBS; Thermo Fisher Scientific, Waltham, MA, USA) and 1% penicillin–streptomycin (PS; FUJIFILM Wako Pure Chemical Corporation). The cell suspension was filtered through a 70-μm cell strainer (Greiner Bio-One, Frickenhausen, Germany) into a 50-mL conical tube (Thermo Fisher Scientific) and the filter was washed with 1 mL HBSS + 10% FBS + 1% PS. Cells were collected by centrifugation at 1500 rpm for 5 min at 4 °C, resuspended in 1 mL HBSS + 1% PS, and centrifuged again under the same conditions. Finally, the pellet was resuspended in 500 μL HBSS + 1% PS for subsequent assays.
+
+## Method details
+
+## Single-cell RNA sequencing and data processing
+Single-cell RNA sequencing (scRNA-seq) was performed using dissociated forelimb bud cells collected at embryonic stages E9.5, E10.5, E11.5, E12.5, and E13.5. Cell multiplexing was conducted using the 10x Genomics 3’ CellPlex Kit (10x Genomics, Pleasanton, CA, USA) according to the manufacturer’s instructions. Cells from E9.5 and E10.5 embryos were labeled with Cell Multiplexing Oligos (CMO304 and CMO305, respectively) and pooled prior to library preparation. Similarly, cells from E11.5, E12.5, and E13.5 embryos were labeled with CMO301, CMO302, and CMO303, respectively, and pooled. Library preparation was performed using the Chromium Next GEM Single Cell 3ʹ Reagent Kits v3.1 (Dual Index) with Feature Barcode technology for Cell Multiplexing (10x Genomics).
+Sequencing was performed on an Illumina NovaSeq X Plus platform (Illumina, San Diego, CA, USA) by an external service (Novogene Japan K.K., Tokyo, Japan). Raw sequencing data were processed using Cell Ranger (v8.0.1; 10x Genomics) with the cellranger multi pipeline and mapped to the mouse reference genome (GRCm39). The resulting gene–cell count matrices were imported into Seurat (v5.1.0) in R (v4.4.0; R Foundation for Statistical Computing, Vienna, Austria) for downstream analysis.
+Low-quality cells were filtered out based on three criteria: (1) fewer than 200 detected genes, (2) more than 12,000 detected genes, or (3) mitochondrial transcript fractions exceeding 5%. These thresholds were applied uniformly across all developmental stages to ensure data quality and consistency.
+Stage-specific Seurat objects (E9.5–E13.5) were merged and integrated using canonical correlation analysis (CCA) implemented in the IntegrateLayers function. The integrated dataset was scaled, principal component analysis (PCA) was performed, and dimensional reduction was visualized using UMAP. To capture the global landscape of limb bud development and assess Sox9 expression specificity relative to non-mesenchymal lineages, clustering was performed on the full dataset without subsetting the mesenchymal population. Clustering was conducted using a resolution of 0.8, and marker genes for each cluster were identified using the FindAllMarkers function with the Wilcoxon rank-sum test. Clusters were annotated based on canonical marker genes to define major cell populations, including proximal and distal mesenchyme, chondroprogenitors, perichondrial cells, tendon progenitors, myogenic progenitors, and endothelial cells.
+Visualization of the single-cell transcriptomic data and inference of cellular trajectories were performed using RNA-velocity analysis. Specifically, spliced and unspliced transcript counts were generated using velocyto (v0.17.17) and exported as a loom file, then trajectory-streamline plots on the UMAP embedding were rendered using scVelo(v0.3.2) in Python.
+
+## Differential gene expression analysis for Sox9-high populations
+To systematically characterize the transcriptomic features of Sox9-expressing populations, we first classified the mesenchymal clusters into “Sox9-high clusters” (Chondroprogenitors 1, 2, 3, and Mature Chondrocytes) and “Sox9-low clusters” (comprising all other mesenchymal clusters: Proximal limb mesenchyme, Proliferating mesenchyme 1, Proliferating mesenchyme 2, Early mesenchyme, Perichondral mesenchyme, Distal limb mesenchyme, Aldh1a2 positive mesenchyme, and Tendon progenitors) based on the Sox9 expression levels observed in the violin plots ( A). Importantly, non-mesenchymal clusters were excluded from these groupings to focus on mesenchymal-specific transcriptomic changes.
+We then performed two distinct types of differential expression analyses using the FindMarkers function in Seurat. For both analyses, genes were defined as differentially expressed genes (DEGs) if they exhibited an adjusted p-value of less than 0.01 and an absolute log2 fold-change greater than 1. To identify genes associated with general chondrogenic identity, we performed differential expression analysis for each of the four Sox9-high clusters individually against the aggregated Sox9-low mesenchymal clusters. The resulting DEGs for each cluster are listed in , , , and ( ). Separately, to characterize the functional heterogeneity and stage-specific features within the chondrogenic lineage, we compared the gene expression of each Sox9-high cluster against the combined population of the remaining three Sox9-high clusters. The resulting cluster-specific DEGs are listed in , , , and ( ).
+
+## Generation of Sox9-Multitag knock-in mice
+Sox9-Multitag knock-in mice were generated using the CRISPR-Cas9 system. Cas9 ribonucleoprotein complexes were formed by incubating Alt-R Cas9 Nuclease V3 with crRNA (5′-CTTTTCTCTTCTCAGGGT-3′) and tracrRNA (all from Integrated DNA Technologies, Coralville, IA, USA). A single-stranded DNA (ssDNA) oligonucleotide donor template (5′-CACAGCCCGCAGCACTGGGAACAACCAGTCTACACACAGCTCACCAGACCCGAGGTGCACACTAATCAAGATCCTCTGGACGGCGCTGTGAGCGGCTGGCGGCTGTTCAAGAAGATTAGCGCGGGCGACTACAAAGACGATGACGACAAGTGAGAAGAGAAAAGCTATGGTGACAGAGCTGATCTTTTTTTTTTTTTTTT-3′), containing sequences encoding TY1, HiBiT, and FLAG tags for insertion at the C-terminus of Sox9, was synthesized by Integrated DNA Technologies. The ssDNA donor and Cas9 complex were delivered into C57BL/6J mouse fertilized eggs by electroporation using the NEPA21 Super Electroporator (NEPAGENE, Chiba, Japan). Genotyping was performed by PCR using the following primers:
+forward primer,5′-TCCCTTCCATCCCGCAGA-3′; reverse primer, 5′-AGATCAGCTCTGTCACCATAGC-3′.
+
+## CUT&RUN assay
+CUT&RUN assays were performed on mouse forelimb buds at embryonic stages E11.5 and E13.5. Fixed cells were used in accordance with the EpiCypher CUTANA Cross-linking protocol and the EpiCypher CUT&RUN protocol (EpiCypher, Durham, NC, USA).
+
+## Bead activation and nuclei preparation
+BioMag Plus Concanavalin A–coated magnetic beads (Bangs Laboratories, Fishers, IN, USA) were activated with Bead Activation Buffer (20 mM HEPES-KOH pH 7.9, 10 mM KCl, 0.1 mM CaCl2, 0.01 mM MnCl2) at 4 °C. Cells were cross-linked with 0.1% formaldehyde for 1 min and quenched with 0.125 M glycine. Nuclei were isolated using Nuclear Extraction Buffer (20 mM HEPES-KOH pH 7.9, 10 mM KCl, 0.1% Triton X-100, 20% glycerol, 0.64 mM spermidine, and protease inhibitor cocktail) and bound to 10 μL of activated beads per reaction. Samples were incubated for 10 min at room temperature.
+
+## Antibody binding
+Bead–nuclei complexes were washed twice with XL Digitonin Buffer (Wash Buffer supplemented with 0.05% digitonin, 0.64 mM spermidine, and protease inhibitor) and resuspended in XL Antibody Buffer (Digitonin Buffer containing 0.1 mM EDTA). For each reaction, 0.5 μg of primary antibody was added and incubated overnight at 4 °C on a nutator. Anti-Ty1 antibody (Cat# MA5-23513, Thermo Fisher Scientific) was employed to target Ty1-tagged Sox9.
+
+## pAG-MNase binding and chromatin digestion
+Samples were washed twice and incubated with 2.5 μL of pAG-MNase (Epicypher, 20× stock) for 10 min at room temperature. Digestion was initiated by adding 1 μL of 100 mM CaCl2 and incubating for 2 h at 4 °C. The reaction was stopped by adding 33 μL of Stop Buffer (68 mM NaCl, 20 mM EDTA, 4 mM EGTA, 50 μg/mL RNase A, 0.05 mg/mL glycogen) containing 0.5 ng of E. coli spike-in DNA (Epicypher) per 5×105 cells, followed by incubation for 10 min at 37 °C.
+
+## DNA purification and library preparation
+Released DNA fragments were treated with 0.8 μL 10% SDS and 1 μL Proteinase K (20 μg/μL) and incubated overnight at 55 °C. DNA was purified using SPRIselect beads (Beckman Coulter, Brea, CA, USA) at a 1.8× ratio, washed twice with 80% ethanol, and eluted in 52 μL of 10 mM Tris-HCl (pH 8.0). DNA concentrations were quantified using a Qubit fluorometer (Thermo Fisher Scientific). DNA libraries were prepared using the NEBNext Ultra II DNA Library Prep Kit for Illumina (New England Biolabs, Ipswich, MA, USA) following the manufacturer’s instructions. Library quality and fragment size distribution (200–700 bp) were evaluated using the Agilent TapeStation D1000 system (Agilent, Santa Clara, CA, USA). Libraries were pooled based on molarity and sequenced on an Illumina platform.
+
+## CUT&RUN sequencing and data processing
+CUT&RUN libraries were sequenced on an Illumina NovaSeq X Plus platform (Illumina) by an external service (Novogene Japan K.K.). Raw sequencing data were processed as follows: adapter sequences were trimmed using TrimGalore(v0.6.10; Babraham Institute, Cambridge, UK), and read quality was assessed with FastQC (v0.12.1) before and after the trimming. Reads were mapped to the mouse reference genome (mm10) using Bowtie2 (v2.5.4), and SAM files were converted to BAM format using SAMtools (v1.21). Duplicate reads were removed, and fragment length distributions were visualized with Picard (v2.27.5; Broad Institute, Cambridge, MA, USA). Coverage tracks in BigWig format were generated with deepTools (v3.5.5) bamCoverage, and peak distributions were visualized using computeMatrix followed by plotProfile and plotHeatmap. Bedgraph files were generated using bedtools (v2.31.1), and peaks were called with SEACR (v1.3) using a threshold of 0.001 in non-stringent mode. Motif enrichment analysis was conducted with HOMER (v5.1). Peaks were annotated in R using ChIPseeker (v1.42.1), referencing the mouse transcript database (TxDb; Bioconductor, USA) and gene annotation database (org.Mm.eg.db; Bioconductor, USA). Each peak was assigned to the nearest gene based on its genomic location relative to the transcription start site (TSS), considering a region spanning 3 kb upstream and 3 kb downstream of the TSS as the promoter region.
+
+## Integration of CUT&RUN and scRNA-seq data
+To identify putative Sox9 target genes, the nearest-gene annotations obtained from ChIPseeker for CUT&RUN peaks were cross-referenced with differentially expressed genes (DEGs) from the scRNA-seq analysis. Genes whose transcription start sites were located within or near Sox9-bound regions were considered potential downstream targets of Sox9 in mouse forelimb bud cells. To identify direct Sox9 targets in specific biological contexts, the DEGs identified in the scRNA-seq analysis (general chondrogenic DEGs and cluster-specific DEGs) were intersected with the Sox9-bound genes identified by CUT&RUN.
+
+## Quantification and statistical analysis
+Figures and statistical analyses were performed using R (v4.4.0; R Foundation for Statistical Computing, Vienna, Austria). For differential expression analysis of scRNA-seq data, significance thresholds were set at an adjusted p-value < 0.01 and a log2 fold change > 1. CUT&RUN peak calling was performed using SEACR (v1.3) using a threshold of 0.001 in non-stringent mode.
+
+Published: February 18, 2026
+
+## Footnotes
+Supplemental information can be found online at https://doi.org/10.1016/j.isci.2026.115074.
+
+## Supplemental information
+
+## Document S1. Figures S1–S6
+
+## Table S1. Marker genes identified by scRNA-seq for each cluster
+
+## Table S2. DEGs of chondroprogenitor 1 compared with Sox9-low clusters
+
+## Table S3. DEGs of chondroprogenitor 2 compared with Sox9-low clusters
+
+## Table S4. DEGs of chondroprogenitor 3 compared with Sox9-low clusters
+
+## Table S5. DEGs of mature chondrocytes compared with Sox9-low clusters
+
+## Table S6. DEGs of chondroprogenitor 1 among Sox9-high clusters
+
+## Table S7. DEGs of chondroprogenitor 2 among Sox9-high clusters
+
+## Table S8. DEGs of chondroprogenitor 3 among Sox9-high clusters
+
+## Table S9. DEGs of mature chondrocytes among Sox9 high clusters
+
+## Table S10. Target genes identified by CUT&RUN assays for Sox9 in E11.5 and E13.5 limb buds
+
+## Table S11. Genes that are both Sox9 CUT&RUN targets and DEGs when comparing Sox9-low and Sox9-high fractions within each cluster
+
+## Table S12. Genes that are both Sox9 CUT&RUN targets and DEGs among Sox9-high clusters
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Document S1. Figures S1–S6
+
+## Table S1. Marker genes identified by scRNA-seq for each cluster
+
+## Table S2. DEGs of chondroprogenitor 1 compared with Sox9-low clusters
+
+## Table S3. DEGs of chondroprogenitor 2 compared with Sox9-low clusters
+
+## Table S4. DEGs of chondroprogenitor 3 compared with Sox9-low clusters
+
+## Table S5. DEGs of mature chondrocytes compared with Sox9-low clusters
+
+## Table S6. DEGs of chondroprogenitor 1 among Sox9-high clusters
+
+## Table S7. DEGs of chondroprogenitor 2 among Sox9-high clusters
+
+## Table S8. DEGs of chondroprogenitor 3 among Sox9-high clusters
+
+## Table S9. DEGs of mature chondrocytes among Sox9 high clusters
+
+## Table S10. Target genes identified by CUT&RUN assays for Sox9 in E11.5 and E13.5 limb buds
+
+## Table S11. Genes that are both Sox9 CUT&RUN targets and DEGs when comparing Sox9-low and Sox9-high fractions within each cluster
+
+## Table S12. Genes that are both Sox9 CUT&RUN targets and DEGs among Sox9-high clusters
+
+## Data Availability Statement
+
+•The raw sequencing data have been deposited in the DDBJ database under the following accession numbers: PRJDB37869 and E-GEAD-1154 (scRNA-seq), and PRJDB37870 and E-GEAD-1157 (CUT&RUN).
+•This paper does not report original code.
+•The processed data and analysis scripts used in this study are available from the corresponding author upon request.

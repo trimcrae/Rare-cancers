@@ -1,0 +1,759 @@
+822acssdACS NanoACS NanoPMC1072260410722604107226043799125210.1021/acsnano.3c07555Biomimetic Macrophage
+Membrane-Camouflaged Nanoparticles
+Induce Ferroptosis by Promoting Mitochondrial Damage in Glioblastoma
+CaoZhengcong LiuXiao ZhangWangqian ZhangKeying PanLuxiang ZhuMaorong QinHaozhe ZouCheng WangWeizhong ZhangCong HeYalong LinWei ZhangYingqi HanDonghui LiMeng GuJintao †State
+Key Laboratory of Cancer Biology, Biotechnology Center, School of
+Pharmacy, The Fourth Military Medical University, Xi’an 710032, China‡Department
+of Neurosurgery, Xijing Hospital, Xi’an 710032, China§Department
+of Urology, Xijing Hospital, Xi’an 710032, China∥Department
+of Radiation Oncology, Xijing Hospital, Xi’an 710032, China*Email: 906812205@qq.com.
+*Email: limeng@fmmu.edu.cn.
+*Email: gujintao@fmmu.edu.cn.
+2211202317232374623746–2376016122023© 2023 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ The increasing understanding of ferroptosis has indicated
+its role
+and therapeutic potential in cancer; however, this knowledge has yet
+to be translated into effective therapies. Glioblastoma (GBM) patients
+face a bleak prognosis and encounter challenges due to the limited
+treatment options available. In this study, we conducted a genome-wide
+CRISPR–Cas9 screening in the presence of a ferroptosis inducer
+(RSL3) to identify the key driver genes involved in ferroptosis. We
+identified ALOX15, a key lipoxygenase (LOX), as an essential driver
+of ferroptosis. Small activating RNA (saRNA) was used to mediate the
+expression of ALOX15 promoted ferroptosis in GBM cells. We then coated
+saALOX15-loaded mesoporous polydopamine (MPDA) with Angiopep-2-modified
+macrophage membranes (MMs) to reduce the clearance by the mononuclear
+phagocyte system (MPS) and increase the ability of the complex to
+cross the blood–brain barrier (BBB) during specific targeted
+therapy of orthotopic GBM. These generated hybrid nanoparticles (NPs)
+induced ferroptosis by mediating mitochondrial dysfunction and rendering
+mitochondrial morphology abnormal. In vivo, the modified MM enabled
+the NPs to target GBM cells, exert a marked inhibitory effect on GBM
+progression, and promote GBM radiosensitivity. Our results reveal
+ALOX15 to be a promising therapeutic target in GBM and suggest a biomimetic
+strategy that depends on the biological properties of MMs to enhance
+the in vivo performance of NPs for treating GBM.
+Keywords: glioblastoma, ferroptosis, macrophage membrane, nanoparticle, ALOX15
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Aug 12; Accepted 2023 Nov 17; Revised 2023 Nov 16; Collection date 2023 Dec 12.
+
+## Introduction
+Glioblastoma (GBM) is the most common
+malignant tumor of the central
+nervous system (CNS), which is characterized by rapid growth, dissemination
+through the normal brain, and resistance to treatment, resulting in
+poor prognosis. Current treatment options
+are limited to maximal surgical resection followed by radiotherapy
+(RT) and adjuvant chemotherapy. The main
+obstacle to treating GBM is the blood–brain barrier (BBB),
+which is composed mainly of endothelial cells, pericytes, astrocytes,
+and microglial cells and functions as a critical protector of the
+CNS microenvironment by preventing waste in the blood from entering
+the CNS and thereby maintaining CNS homeostasis. It is difficult for large-molecule drugs to penetrate the
+BBB and enter the CNS; moreover, even drugs that can enter the CNS
+must overcome the action of efflux pumps such as P-glycoprotein in
+the luminal membrane, which exports drugs out of the CNS to impede
+GBM treatment drug accumulation and reduce their efficacy. , To treat GBM, a higher drug dosage is usually required and high
+dosing may lead to many severe side effects. Therefore, it is crucial
+to investigate methods for enabling drug penetration through the BBB
+and identifying specific therapeutic targets for the diagnosis and
+treatment of GBM.
+Ferroptosis is a complex and highly regulated
+process involving
+the dysregulation of iron homeostasis, glutathione metabolism, and
+lipid peroxidation. Several studies have
+demonstrated the important role of ferroptosis in various tumors,
+including lung cancer, ovarian cancer, leukemia, and glioma. , Furthermore, the selective induction of ferroptosis has been used
+as a potential therapeutic strategy for certain cancers. However,
+ferroptosis activation involves a series of complexes that reciprocally
+regulate redox homeostasis, lipid metabolism, and iron metabolism,
+which are physiological processes equally important for maintaining
+normal cell homeostasis and physiological functions. For example, ferroptosis induction by a GPX4 inhibitor
+leads to a decline in the development and function of the nervous
+system and kidney because the GPX4 gene is fundamental to embryonic
+development and homeostasis in some adult mouse tissues. Therefore, when ferroptosis inducers are administered
+intravenously, they indiscriminately attack cells throughout the body,
+possibly causing severe toxic side effects that limit the specificity
+and clinical application of these drugs. The identification of key
+targets of ferroptosis in tumor cells shows the potential to advance
+the use of ferroptosis-promoting drugs for tumor therapy.
+Several
+genome-wide high-throughput screening methods have been
+applied to unbiasedly identify key genes associated with drug resistance
+in human cancers. Previously, RNA interference (RNAi) screening with
+a short interfering RNA (shRNA) library was performed to identify
+target genes to knock down. However,
+inefficient gene knockdown and off-target effects limit their potential
+applications. Recently, the innovative CRISPR-Cas9 library system
+with genome editing technology provides another opportunity to overcome
+these limitations. CRISPR/Cas9 library
+screening has been used to identify genes associated with cancer cell
+survival, migration, and resistance to therapeutic drug treatment
+in various models. However, CRISPR screens to identify key genes involved
+in ferroptosis have not been reported.
+Recently, increasing
+attention has been paid to biomimetic drug
+delivery systems, especially cell membrane-coated nanoparticles (NPs). Nanoparticles camouflaged by biological cell
+membranes have recently been the focus of attention for their prolonged
+circulation in vivo. Its intrinsic self-recognition
+properties optimize its dynamic properties by masking its contents
+to avoid clearance by the mononuclear phagocyte system (MPS) and immune
+surveillance. Membrane camouflage strategies
+can extend the half-life of nanoparticles in systemic circulation
+and increase tumor adhesion without losing their drug-loading capacity
+or nanosize advantages. Various delivery
+vehicles, such as gold-based nanoplatforms, upconversion nanoparticles,
+and mesoporous silica nanoparticles, have been used in macrophage
+membrane (MM) systems and exhibit high stability in systemic circulation. The intrinsic chemotactic capacity of inflammation-induced
+macrophages may promote the accumulation of vectors in chronic inflammatory
+tumor tissue. However, barriers to targeted medicine delivery by MM-camouflaged
+systems remain.
+In this study, we performed genome-wide screening
+using a CRISPR–Cas9
+genome editing system in GBM cells to explore the genes critical for
+ferroptosis. We identified ALOX15, a key lipoxygenase (LOX) in the
+ferroptosis pathway that promotes peroxidation of polyunsaturated
+fatty acids (PUFAs), as a driver gene of GBM cell ferroptosis. Furthermore,
+we developed Angiopep-2-modified MM-coated biomimetic NPs for use
+in the targeted therapy of GBM. We first encapsulated the small activating
+RNA (saRNA) of ALOX15 in mesoporous polydopamine (MPDA) and then coated
+the saALOX15-loaded MPDA with a modified MM, thereby creating Ang-MMsaNPs
+for use in the targeted and efficient management of GBM. Mechanistically,
+we found that Ang-MMsaNPs led to abnormalities in mitochondrial function
+and a ferroptotic mitochondrial morphology. The biodistribution, pharmacodynamics,
+and general tissue toxicity suggest that the Ang-MMsaNPs offer promise
+for use in GBM therapy.
+
+## Results
+
+## CRISPR–Cas9-Based Screening Identifies ALOX15 as an Essential
+Driver for Ferroptosis in Glioma
+In order to identify the
+critical driver genes involved in ferroptosis, we used a combination
+strategy based on a genome-wide screening of the CRISPR-Cas9 knockout
+library and the transcriptome analysis of RSL3-resistant cell lines
+( A). The asymmetric
+nature of the volcano plot revealed that the statistical power to
+detect depleted sgRNAs was lower than the power to detect enriched
+sgRNAs ( B).
+Therefore, using this strategy, we identified a series of sgRNAs targeting
+418 genes that were significantly enriched in RSL3-treated cells compared
+to dimethyl sulfoxide (DMSO)-treated cells.
+ Parallel to CRISPR–Cas9 knockout library
+screening, we performed
+RNA-seq to monitor the transcriptome changes in LN229 cells after
+RSL3 treatment that was applied for as long as 3 months ( C). Successful development
+of RSL3-resistant cells was demonstrated by increased cell viability
+and reduced ferroptosis rates during the RSL3 treatment ( D). RNA-seq identified
+34 genes associated with ferroptosis among the differentially expressed
+genes (Supplementary Figure S1). Differentially
+expressed genes associated with ferroptosis and identified in the
+transcriptome analysis were then compared with CRISPR–Cas9-knockout
+screened genes. Based on the comparison, two genes (ALOX15 and PCBP1)
+overlapped in the two data sets and were associated with ferroptosis
+in GBM ( E).
+We validated the two genes in the databases of TCGA, Gravendeel, and
+Rembrandt. Notably, ALOX15 levels were significantly correlated with
+poor prognosis, according to the three public databases, while PCBP1
+exerted no effect on prognosis ( F). We therefore chose ALOX15, a key lipoxygenase (LOX)
+in the ferroptosis pathway that promotes the peroxidation of PUFAs,
+for further functional analysis. Six glioma samples were chosen for
+RNA-seq analysis based on their ALOX15 expression levels. Specifically,
+three samples exhibited high ALOX15 expression, while the other three
+samples exhibited low ALOX15 expression ( G). A gene set enrichment analysis (GSEA)
+revealed the activation of ferroptosis in glioma samples with high
+levels of ALOX15 ( H). Consistently, the expression of ALOX15 was closely linked
+with the ACSL4 level in the Gravendeel, Rembrandt, TCGA, and CGGA
+databases (Supplementary Figure S2). To
+further investigate the clinical relationship between ALOX15 expression
+and poor prognosis in glioma patients, we obtained a tissue microarray
+of 180 glioma tumor samples and stained them with anti-ALOX15 and
+anti-4-HNE (a marker of cells undergoing ferroptosis) antibodies.
+Interestingly, decreased ALOX15 levels were observed in glioma patients
+who experienced relapse. When dividing the patients into high and
+low ALOX15 expression groups, using the median expression value as
+the threshold, we observed a significant decrease in the percentage
+of patients exhibiting low ALOX15 expression in the nonrelapsed patient
+group compared to the relapsed patient group, which revealed that
+patients in “ALOX15-low” glioma group were more prone
+to disease relapse ( I). Pearson correlation analysis showed that the ALOX15 expression
+was positively correlated with 4-HNE expression ( J). Kaplan–Meier survival
+analysis showed that lower ALOX15 levels in glioma patients are associated
+with reduced overall survival ( K). These findings further highlight that ALOX15 is
+a critical determinant of ferroptosis in glioma.
+
+## Small Activating RNA-Mediated Activation of ALOX15 Promotes
+Ferroptosis in GBM Cells
+Small activating RNA (saRNA) functions
+by recruiting endogenous transcription complexes to target genes,
+leading to increased expression of mRNAs and upregulation of target
+proteins. saRNAs have been effectively
+utilized in RNA activation (RNAa) to stimulate gene expression in
+cultured cells, and thereby, we reasoned that this emerging technique
+could allow us to develop various biotechnological applications without
+synthesizing dangerous constructs containing an exogenous DNA sequence.
+Therefore, we designed three saRNAs to activate ALOX15 (Supplementary Table S1). A fluorescent reporter
+system was constructed to investigate the activation of the ALOX15
+promoter based on the working principle of the saRNAs. Then, saALOX15-3
+was found to significantly enhance the activation of the mCherry reporter,
+while saALOX15-1 and saALOX15-2 did not exert this effect ( A,B). qRT-PCR and
+immunoblotting also proved that saALOX15-3 upregulated ALOX15 to the
+highest degree ( C and Supplementary Figure S3). We further
+investigated whether saALOX15-3 aggravates ferroptosis in GBM cells.
+Ferroptotic cell death was observed when GBM cells were exposed to
+saALOX15 (representing saALOX15-3), and this effect was attenuated
+by ferroptosis-specific inhibitor ferrostatin-1 ( D). saALOX15 treatment significantly
+increased the proportion of oxidized lipids compared with total lipids
+( E). Liperfluo
+staining was used to visualize lipid reactive oxygen species (ROS),
+the levels of which were increased after the saALOX15 treatment ( F). C11-BODIPY probe
+staining revealed a significant increase in the ratio of oxidized
+to nonoxidized lipids following saALOX15 treatment, as determined
+by two-channel fluorescence analysis ( G). JC-1 staining indicated that the mitochondrial
+membrane potential (MMP, Δψm) was significantly attenuated
+after saALOX15 treatment, as evidenced by an increased ratio of green-to-red
+fluorescence ( H). Taken together, these data support the conclusion that saALOX15
+mediates the activation of ALOX15 to promote ferroptosis to levels
+sufficient to treat GBM cells.
+ 
+
+## Synthesis and Characterization of Ang-MMsaNPs
+Ang-MMsaNPs
+were constructed using the following three-step process: (i) preparation
+of the saALOX15-loaded MPDA NPs, (ii) isolation of the Angiopep-2-modified
+MM, and (iii) covering of the MPDA-saNPs with the Angiopep-2-modified
+MM ( A and Supplementary Figure S4). Immunoblot analysis
+showed that the typical signals of CD11b and chemokine (C–C
+motif) receptor 2 (CCR2) in the MM were clearly observed in the Ang-MMsaNPs
+and RAW264.7 cells but not in the MPDA-NPs ( B). The protein composition in MMs was more
+strongly retained in Ang-MMsaNPs, but no protein signal was detected
+from MPDA-NPs, suggesting the successful translocation and retention
+of natural macrophage cell membranes onto the Ang-MMsaNPs surface
+(Supplementary Figure S5). Compared to
+that of the uncoated MPDA-NPs, the hydrodynamic diameter of the Ang-MMsaNPs
+increased from 104.63 to 115.25 nm, which has been attributed to the
+MM, which had a thickness of approximately 8 nm ( C). Furthermore, the zeta potential
+of the Ang-MMsaNPs (−35.5 mV) was comparable to that of the
+original MM (−39.6 mV) but much higher than that of the unmodified
+MPDA-NPs (−22.7 mV) ( D). The transmission electron microscopy (TEM) image
+confirmed that Ang-MMsaNPs showed a uniform “core–shell”
+morphology ( E). After long-term storage at room temperature, the Ang-MMsaNPs
+remained at a relatively constant size and polydispersity index (PDI),
+indicating satisfactory stability ( F and Supplementary Figure S6). The encapsulation efficiency of the saRNA was similarly
+high in MPDA-NPs and Ang-MMsaNPs (Supplementary Figure S7A). Ang-MMsaNPs demonstrated a sustained release effect,
+possibly due to the formation of a physical barrier by the macrophage
+membrane wrapper, which delayed the release of saRNA (Supplementary Figure S7B). Collectively, these
+data suggest not only the successful envelopment of MPDA-NPs with
+MMs to form Ang-MMsaNPs but also the preservation of the MM composition
+and retention of the tumor-tropism features to facilitate their intratumoral
+delivery. The escape of the NP content during endosomal confinement
+is a requirement for NP functionality, and we examined the in vitro
+endosomal escape capability of Ang-MMsaNPs in LN229 cells via confocal
+microscopy. The Ang-MMsaNPs showed high colocalization with lysosomes
+after a 3 h incubation. Interestingly, after 6 h of incubation, most
+of the Ang-MMsaNPs and lysosomes did not overlap, suggesting that
+Ang-MMsaNPs escaped from lysosomes over time ( G).
+ Subsequently, we evaluated the therapeutic efficacy
+of Ang-MMsaNPs
+in LN229 cells. The ferroptosis-promoting effect of Ang-MMsaNPs was
+determined by calcein-AM and propidium iodide (PI) staining, and in
+contrast to the other groups, the Ang-MMsaNPs group emitted mostly
+red signals and few green signals ( H). The PI-positive (PI+) population also
+increased following Ang-MMsaNPs treatment in patient-derived GBM organoids
+(PDOs) ( I).
+Similarly, the Ang-MMsaNPs promoted ferroptotic functions, including
+massive lipid peroxidation, malondialdehyde (MDA), and lipid ROS accumulation
+( J–M).
+Collectively, this evidence suggests the successful construction of
+Ang-MMsaNPs and their therapeutic effect in vitro.
+
+## Ang-MMsaNP-Induced Ferroptosis Is Caused by Mitochondrial Damage
+To investigate how Ang-MMsaNPs cause GBM cell ferroptosis, a global
+transcriptome analysis was performed. The Gene Ontology (GO) function
+enrichment analysis results indicated significant enrichment in membrane
+rafts, the membrane microdomain, the membrane region, and integral
+components of the membrane ( A). These GO results indicate that Ang-MMsaNPs damage
+the cell membrane, which is also the main mechanism underlying ferroptosis.
+In addition, differentially expressed genes were mainly enriched in
+the KEGG categories of “thermogenesis”, “ferroptosis”,
+“lipid metabolism”, and “oxidative phosphorylation”
+( B). Interestingly,
+a large fraction of downregulated differentially expressed genes 
+encoded mitochondrial electron transport chain (ETC) complexes I (NDUFs),
+IV (COXs), and V (ATPSs), suggesting mitochondrial dysfunction after
+Ang-MMsaNPs treatment ( C). The downregulation of these genes after treatment with
+Ang-MMsaNPs was confirmed at the transcriptional level using qRT-PCR.
+(Supplementary Figure S8).
+ We further investigated whether Ang-MMsaNPs cause
+mitochondrial
+dysfunction. Our research shows that the Ang-MMsaNP-treated group
+had higher levels of JC-1 monomers than the control group, and this
+effect was accompanied by reduced ΔΨm ( D). The levels of mitochondrial
+lipid peroxidation in Ang-MMsaNP-treated and untreated groups were
+assessed by MitoPeDPP, which is specifically oxidized by lipophilic
+peroxides in mitochondria. The Ang-MMsaNPs group showed increased
+mitochondrial lipid peroxidation rates compared to those in the control
+cells ( E).
+To assess the levels of mitochondrial ROS, we captured images of cells
+treated with a MitoSOX Red fluorescent probe. This probe is highly
+sensitive to mitochondrial superoxide radicals and enables measurement
+of increases in mitochondrial ROS levels within cells. By analysis
+of the MitoSOX Green fluorescence of each sample, it was found that
+only 5.97 ± 0.15% of the cells in the control sample had high
+levels of mitochondrial ROS (mtROS). Treatment of LN229 cells with
+Ang-MMsaNPs for 24 h resulted in a highly substantial increase in
+mtROS levels (the increase in cells with high MitoSOX Green fluorescence
+was 67.43 ± 5.23%) ( F). These results are consistent with the abnormal
+mitochondrial function in ferroptotic cells.
+In addition to
+mitochondrial dysfunction, an abnormal mitochondrial
+morphology is also an essential marker of ferroptosis. Electron microscopy
+observed severe deformation of mitochondria, and those in the Ang-MMsaNP–treated
+group presented with fewer mitochondrial ridges, which are characteristic
+of ferroptosis ( G). The reactions associated with oxidative phosphorylation (OXPHOS)
+generate the MMP and drive the majority of ATP production in respiring
+cells. The real-time oxygen consumption rate (OCR), an indicator of
+the mitochondrial OXPHOS rate, was directly measured by using a Seahorse
+XF extracellular flux analyzer. After Ang-MMsaNPs treatment, GBM cells
+treated with Ang-MMsaNPs exhibited obvious respiratory suppression
+at the basal level, maximal respiratory capacity, and nonmitochondrial
+respiration coupled with oxidative respiration in LN229 cells, suggesting
+profound mitochondrial dysfunction triggered by the Ang-MMsaNPs ( H). The vast majority
+of ATP is produced in mitochondria, and Ang-MMsaNPs treatment inhibited
+ATP production ( I). To further validate the relationship between mitochondria dysfunction
+and Ang-MMsaNP-induced ferroptosis, we used a mitochondrion-targeted
+antioxidant (Mito-TEMPO), and we found that Mito-TEMPO alleviated
+Ang-MMsaNP-induced ferroptotic cell death and lipid peroxidation (Supplementary Figure S9). These findings demonstrated
+that Ang-MMsaNPs induced GBM ferroptosis by promoting mitochondrial
+damage.
+
+## Enhanced Tumor Targeting of Ang-MMsaNPs via Mononuclear Phagocytic
+System Escape and Decorated with a Targeting Peptide
+Increasing
+evidence demonstrated that MM-coated nanoparticles inhibit phagocytosis
+via the MPS. The cellular phagocytosis
+of Ang-MMsaNPs was evaluated in the RAW264.7 cells. Confocal laser
+microscopy images showed that both indocyanine green (ICG)-labeled
+MPDA-NPs and Ang-MMsaNPs were internalized by macrophages in a time-dependent
+manner. However, after internalization by the macrophages, much more
+intense red fluorescence emitted by the MPDA-NPs was detected than
+that emitted from the Ang-MMsaNPs at the same time (Supplementary Figure S10). To explore whether Ang-MMsaNPs
+escape phagocytosis mediated by the MPS and thereby show increased
+tumor-targeting specificity in vivo, ICG-labeled MPDA-NPs and Ang-MMsaNPs
+were injected into mice via the tail vein ( A). Generally, dead cells, cellular debris,
+and foreign particles are cleared through efficient phagocytosis by
+the circulating monocytes and other cells. CD11b+ monocytes
+from the blood of control (untreated) mice showed baseline ICG positivity.
+A decrease in the number of circulating ICG+ monocytes
+(indicative of phagocytosis) was observed when the mice were treated
+with Ang-MMsaNPs compared to MPDA-NPs, supporting the idea that the
+MM on the NPs limits their clearance ( B).
+ Angiopep-2 (Ang) can specifically bind to the lipoprotein
+receptor-related
+protein 1 (LRP1) receptor, enhance the transport efficiency of NP
+across the BBB, and deliver drugs to the glioma. − In addition, the overexpression
+of α4 or β1 integrin on the surface of macrophages can
+bind vascular cell adhesion molecule-1 (VCAM-1), promote the penetration
+of the BBB and target gliomas. To assess
+the ability of Ang-MMsaNPs to permeate the BBB, an in vitro model
+was established with Transwell inserts placed in 24-well plates. bEnd.3
+cells were cultured in the upper Transwell compartment, while LN229
+cells were seeded in the bottom compartment. Cy3-labeled MM-NPs (saALOX15
+labeled with FITC) were added to the upper with the bEnd.3 cells with
+minimum shaking for 24 h ( C). Analysis via confocal microscopy demonstrated that
+Ang-MMsaNPs showed significantly more efficient BBB permeation and
+a greater ability to target LN229 cells than the MPDA-NPs ( D and Supplementary Figure S11). To detect the targeted
+delivery of Ang-MMsaNPs to specific organs, we injected ICG-labeled
+MPDA-NPs or Ang-MMsaNPs into the tail vein of mice. Orthotopic LN229-Luc
+tumor-bearing immunocompromised mice injected with Ang-MMsaNPs exhibited
+strong ICG fluorescence in the tumor within 1 h, and the emission
+steadily increased to a maximum at 12 h with fluorescence maintained
+up to 24 h, indicating efficient BBB penetration and tumor accumulation
+and retention. Compared with that of the MPDA-NPs, the distribution
+of Ang-MMsaNPs in the liver, lung, heart, kidney, and spleen was significantly
+reduced, and the distribution in the brain was significantly increased
+( E and Supplementary Figure S12). This result confirms
+that NPs coated with MM reduced the accumulation of NPs in the main
+organs in vivo, reducing the nonspecific toxicity and side effects
+of the MM-coated NPs. Most importantly, there is increased intratumoral
+distribution, as shown by ex vivo imaging. The results of confocal
+image analysis of organ tissue sections are consistent with the in
+vitro fluorescence imaging data ( F). Collectively, Ang-MMsaNPs showed the
+ability to effectively target and accumulate in gliomas due to their
+long-term circulation and specific interactions with glioma, which
+can be attributed to the macrophage-mimicking tumor-tropism feature
+and targeting peptide of the NPs.
+
+## In Vivo Therapeutic Efficacy of Ang-MMsaNPs in Orthotopic GBM
+Mice
+To evaluate the therapeutic potential of Ang-MMsaNPs
+for GBM treatment, we needed to address two major safety concerns
+about nanocapsule therapeutics: their potential toxicity and immunogenicity.
+Routine blood tests demonstrated that mice treated with Ang-MMsaNPs
+or PBS showed similar levels of red blood cells (RBCs), white blood
+cells (WBCs), platelets (PLTs), creatinine (Cr), uric acid (UA), alanine
+aminotransferase (ALT), alkaline phosphatase (ALP), aspartate aminotransferase
+(AST), serum albumin (ALB) and body weight, indicating that Ang-MMsaNPs
+induce negligible toxic effects on the liver or hematological factors
+(Supplementary Figure S13). Together, these
+results indicate that Ang-MMsaNPs cause very few safety concerns.
+Next, we evaluated whether the activation of ALOX15 mediated by
+Ang-MMsaNPs observed in vitro can be translated to therapeutic efficacy
+in vivo. Orthotopic GBM-bearing mice were randomly divided into groups
+and injected with intravenous tail vein injections of Ang-MMsaNPs,
+Ang-MMncNPs, or PBS every 3 days, and tumor growth was evaluated by
+using in vivo bioluminescence imaging ( A). The mice treated with Ang-MMsaNPs displayed
+the smallest tumor volume and the weakest bioluminescence intensity,
+whereas other groups showed no obvious inhibitory effects ( B–D). Furthermore,
+compared with those of other groups, the survival of the mice treated
+with Ang-MMsaNPs was significantly prolonged ( E). Immunoblot demonstrated a significant
+increase in the level of ALOX15 protein expression in the Ang-MMsaNP-treated
+cohort but not in the control treatment groups ( F). The staining for 4-HNE and ACSL4 was
+significantly increased after Ang-MMsaNPs treatment, suggesting that
+Ang-MMsaNPs increased the lipid peroxidation rate of the tumor xenograft
+samples ( G,H).
+Consistent with the increased levels of 4-HNE and ACSL4 in the Ang-MMsaNPs
+group, overexpression of ALOX15 resulted in increased MDA levels,
+suggesting the most potent ferroptosis induction in this group ( I). These data successfully
+confirmed that the biomimetic NPs showed good safety after long-term
+administration in mice without causing any obvious side effects and
+the notable efficacy of Ang-MMsaNPs, which promoted ferroptosis in
+the tumors of orthotopic GBM-bearing mice.
+ 
+
+## Combinatorial Treatment Results in Synergistic Tumor Regression
+In Vivo
+Although RT is the mainstay of GBM treatment, radiotherapy
+resistance is still the main factor leading to radiotherapy failure.
+Subsequently, we detected the therapeutic effect of Ang-MMsaNPs combined
+with RT in a GBM orthotopic mouse model ( A). Bioluminescence imaging showed that tumor
+growth was inhibited to varying degrees after various treatments compared
+with that in the PBS-treated control group ( B). Ang-MMsaNP-treated group showed noticeable
+inhibition of tumor growth compared with the PBS group. When Ang-MMsaNPs
+and RT were combined for treatment, the tumor volume in the combination
+group was significantly smaller than in the single-agent Ang-MMsaNPs
+or RT group ( C,D). Compared to Ang-MMsaNPs or RT monotherapy, the combination
+therapy resulted in a significant delay in tumor progression and prolonged
+overall survival ( E). These data effectively confirmed the notable efficacy
+of Ang-MMsaNPs in synergy with RT. Importantly, Ang-MMsaNPs treatment
+promoted ALOX15 expression, and Ang-MMsaNPs combined with RT treatment
+further increased ALOX15 levels in tumor samples ( F). A pathological analysis
+of ACSL4 expression and 4-HNE via an IHC assay was performed to detect
+any ferroptotic events in GBM orthotopic mode. We observed that RT
+or Ang-MMsaNPs treatment led to an increased ferroptosis rate in GBM
+cells, as measured by ACSL4 and 4-HNE staining intensity and MDA level
+( G–I).
+These data suggest that the RT + Ang-MMsaNPs combination treatment
+is more effective than other treatments in orthotopic GBM models.
+ 
+
+## Discussion
+Numerous studies have substantiated the
+potential value of targeting
+ferroptosis in the treatment of multiple cancer types. The recent determination that RT has the potential
+to trigger ferroptosis further supports the promise of ferroptosis-inducing
+therapeutic agents. Despite the potential
+benefits of ferroptosis inducers, several challenges limit their clinical
+application. These challenges include complex pharmacokinetics and
+biodistribution, compromised selectivity for cancer cells, limited
+understanding of ferroptosis mechanisms, few ferroptotic biomarkers,
+and early stage clinical development. Additional investigation is required to tackle these obstacles and
+bolster the progress of ferroptosis stimulators as efficient and secure
+anticancer therapies.
+Large-scale CRISPR loss-of-function genomic
+screening is an effective
+and unbiased strategy for identifying genes and pathways involved
+in tumorigenesis. In our study, we performed
+a series of CRISPR–Cas9 knockout library screens combined with
+RNA-seq and clinical data analysis to identify ALOX15 as a crucial
+lipid peroxidization enzyme. RNA-seq analysis showed that ALOX15 is
+closely related to the regulation of ferroptosis, and overexpression
+of ALOX15 led to an increased expression of ferroptosis-related genes
+in GBM cells. Our research has revealed a significant correlation
+between decreased ALOX15 expression and unfavorable prognosis in glioma
+patients across various data sets, including those in the TCGA, Gravendeel,
+and Rembrandt databases and glioma tissue microarray data. Furthermore,
+accumulating evidence suggests that the level of ALOX15 and its metabolites
+is reduced in many human cancers, including lung, breast, colorectal,
+and pancreatic cancers. − Re-expression of ALOX15 in human
+cancer cells using protein kinase G activator or plasmids and adenoviral
+vectors inhibited the proliferation of these cells both in vivo and
+in vitro, indicating that ALOX15 is a tumor suppressor. 
+RNAa is a recently discovered small double-stranded
+RNA (dsRNA)-mediated
+gene regulatory mechanism that targets gene regulatory sequences and
+involves transcriptional and epigenetic changes. Despite the presence of several unanswered questions, there
+is mounting evidence indicating that RNAa is not only an approach
+to investigating gene function and regulation but also holds promise
+as a potential treatment method for clinical translation against cancers.
+MTL-CEBPA, a first-in-class compound that reverses CEBPA downregulation
+in oncogenic processes via the action of CEBPA-51 saRNA and is currently
+in clinical trials for the treatment of hepatocellular carcinoma. To activate the expression of ALOX15 in vitro
+and in vivo, we identified a specific sequence (saALOX15) capable
+of activating the ALOX15 expression. We demonstrated that saALOX15
+actively facilitated ferroptosis through the rapid amplification of
+lipid peroxidation, until the toxic products reached lethal levels.
+Nucleic acid drugs, such as antisense oligonucleotides, RNAi agents,
+and aptamers, have shown great promise as therapeutic agents for various
+diseases, including genetic disorders and cancers. However, there
+are several limitations to their clinical application. The most important
+of these limitations stems from the challenge of delivering nucleic
+acid drugs to target cells and tissues because of their large size,
+hydrophilicity, and susceptibility to enzymatic and nuclease degradation. Thus, the development of efficient and safe
+delivery systems and strategies is critical for achieving therapeutic
+efficacy while minimizing off-target effects.
+NPs camouflaged
+by biological cell membranes have recently been
+the focus of attention due to their prolonged circulation in vivo. Their innate self-recognition features optimize
+their dynamic properties by camouflaging the contents to evade the
+elimination of the MPS and the immunological surveillance. The membrane camouflage strategy has led to
+an increased half-life of NPs in systemic circulation and thus increases
+the ability of the drugs to adhere to tumors without loss of the drug
+load capacity or its nanosize advantage. We developed an MM biomimetic
+nanoplatform based on MPDA coloaded with saALOX15 and a targeted ligand
+that crossed the BBB to achieve orthotopic GBM targeting. Ang-MMsaNPs
+showed good in vivo and in vitro targeting, significantly delayed
+the progression of GBM in mice, and enhanced the effects of RT.
+
+## Conclusion
+In conclusion, our study systematically
+identified ALOX15 as a
+key driver of ferroptosis in GBM cells using an unbiased genome-wide
+CRISPR-Cas9 knockout screening pool. Furthermore, the saRNA-mediated
+activation of ALOX15 facilitates ferroptosis through rapid amplification
+of lipid peroxidation to produce lethal levels of toxins. We also
+developed MM-coated saALOX15-loaded MPDA NPs, Ang-MMsaNPs that target
+glioma. Ang-MMsaNPs exhibit immunological camouflage that allows the
+NPs to avoid phagocytosis by the MPS and to promote the uptake of
+NPs by GBM, thereby promoting the ferroptosis of GBM cells. By investigating
+the underlying molecular mechanisms, we found that Ang-MMsaNPs induced
+mitochondrial dysfunction and acquisition of an abnormal mitochondrial
+morphology. In particular, in vivo treatment results illustrated that
+Ang-MMsaNPs significantly delayed the progression of GBM and enhanced
+the effects of RT. Finally, the biomimetic nanoparticles showed a
+good safety profile and did not cause any significant side effects,
+even when administered to mice for a long period. Therefore, Ang-MMsaNPs
+are a potential nanocarrier and are expected to become effective
+targeted drug delivery systems for the treatment of GBM.
+
+## Experimental Section
+
+## Cell Lines
+Human GBM cell lines LN229, mouse RAW264.7
+macrophages, mouse endothelial cells (bEnd.3), and HEK293T cell line
+were obtained from ATCC and were cultured in Dulbecco’s Modified
+Eagle Medium (DMEM) containing with 10% FBS and 1% penicillin/streptomycin
+at 37 °C with 5% CO2. All cells were checked for mycoplasma.
+RSL3 for constructing RSL3-resistant cell lines were obtained from
+TargetMol.
+
+## Genome-Wide CRISPR Screen
+The CRISPR screening was
+performed as described previously. Briefly,
+the genome-wide CRISPR/Cas9 knockout library was infected into LN229
+cells at a low multiplicity of infection (MOI ∼ 0.3). This
+library uses the LentiCRISPR version 2 core vector from Feng Zhang
+(Addgene).
+
+## Western Blot
+Cells were digested through conventional
+digestion to get precipitates, and were lysed in Western and IP lysis
+buffer (NCM) containing protease and phosphatase inhibitor cocktails
+(Proteintech) on ice for 1 h. Then, protein concentration was quantified
+by BCA assay (Thermo Fisher). After boiling with loading buffer, equal
+amounts of samples were run on SDS-PAGE and transferred to PVDF membranes
+(EMD Millipore). Subsequently, the membranes were subjected to overnight
+incubation with primary antibodies at a temperature of 4 °C.
+We then meticulously cleansed the membranes three times, proceeded
+with incubation using a secondary antibody for 1 h at room temperature,
+and again cleaned it three times.
+
+## Immunofluorescence
+Cells grown in a 20 mm Glass Bottom
+Cell Culture Dish or histologic section were washed 3 times with PBS,
+then the tissue samples were immersed in a 4% paraformaldehyde solution
+for a duration of 20 min. Following this, the samples underwent three
+washes with PBS and were subsequently treated with 0.5% Triton X-100
+to promote permeabilization at room temperature for a period of 30
+min. After another three washes with PBS, the samples were subjected
+to an overnight incubation at 4 °C with primary antibodies, following
+a 40 min blocking step using 5% BSA. To visualize the targeted molecules,
+the samples were incubated with fluorescent secondary antibodies for
+1 h and then washed three times with PBS. Finally, a 1 min incubation
+with DAPI was performed to stain the cell nucleus.
+
+## ROS and Lipid Peroxidation Assay
+Cells were seeded
+in 6-well plates with a Glass Bottom (NEST, China) and subjected to
+different treatments. The C11 BODIPY 581/591 assay kit (Dojindo, Japan)
+and Reactive Oxygen Species Assay Kit (Dojindo, Japan) were used following
+the manufacturer’s manual, respectively. Results were analyzed
+by flow cytometry using a Beckman CytoFLEX.
+
+## Transmission Electron Microscopy
+Cells were seeded
+in 75 cm2 flasks washed 3 times with PBS, and then used
+2.5% glutaraldehyde soaking treatment for 5 min in the dark. 1 ×
+107 cells were harvested with a cell scraper, and fixed
+with 2.5% glutaraldehyde at 4 °C for 2 h in the dark. After dehydration
+and embedding, samples were incubated at 60 °C for 48 h. Transmission
+electron microscopy was performed after double staining with uranyl
+acetate and lead citrate.
+
+## RiboGreen Assay
+Quant-iT RiboGreen RNA Kit (Ribobio,
+China) is used to test the encapsulation efficiency according to the
+manufacturer’s manual.
+
+## Establishment of PDOs
+PDOs were established and cultivated
+as described previously. 
+
+## In Vitro BBB Model
+bEnd.3 cells were cultured in the
+upper chamber of Transwell inserts, while LN229 cells were cultured
+in the lower chamber for 7 days in DMEM supplemented with 10% FBS.
+This created a membrane that acts as a blood–brain barrier.
+
+## Measurement of Mitochondrial Lipid Peroxidation
+Cells
+were grown in a 20 mm Glass Bottom Cell Culture Dish (Coring, USA)
+and treated with irradiation or drugs. MitoPeDPP assay kit (Dojindo,
+Japan) to measure the mitochondrial lipid peroxidation and MitoBright
+LT Deep Red assay kit (Dojindo, Japan) to observe mitochondrial morphology;
+the assay kits were used following the manufacturer’s manual.
+
+## Preparation of the Macrophage Membranes
+Ang-overexpressing
+adenovirus with membrane localization signal was used to infect RAW264.7
+cells. RAW264.7 cell membranes were extracted by using a membrane
+protein extraction kit. Briefly, harvested cells were dispersed in
+a buffer for extracting membrane proteins and cooled in an ice bath
+for 15 min. The cell suspension was then transferred to a glass homogenizer
+and homogenized about 30 times. The obtained mixture was subsequently
+centrifuged to obtain the cell membranes. The harvested cells were
+dispersed in a buffer for extracting membrane proteins and cooled
+in an ice bath for 15 min. The cell suspension was then transferred
+to a glass homogenizer and homogenized for about 30 times. The resulting
+mixture was subsequently centrifuged to acquire the cell membranes.
+
+## Preparation of MM Camouflaged MPDA-saNPs (Ang-MMsaNPs)
+Ang-MMsaNPs were prepared by coating MM on the surface of MPDA by
+direct extrusion. Briefly, MM and MPDA vesicles were mixed at a 1:1
+(w/w) ratio of membrane protein to polymer and sonicated for 3 min
+in an ultrasonic bath. The mixture was then extruded 8 times through
+a 0.2 μm porous polycarbonate membrane using an Avestin microextruder
+to collect Ang-MMsaNPs.
+
+## Characterization of the Nanoparticles
+A Malvern Zetasizer
+Nano ZS instrument (Nano ZS, UK) was used to analyze the size distribution
+and zeta potential of MPDA-NPs and Ang-MMsaNPs. NP solutions at a
+concentration of 100 μg/mL were dropped onto carbon-coated grids
+and stained with 1% phosphotungstic acid. TEM was used to observe
+the morphology of MPDA-NPs and Ang-MMsa-NPs. of 200 kV.
+
+## Measurement of Oxygen Consumption Rate (OCR)
+Cellular
+oxidative respiration was measured by Seahorse XF Bioenergetic Assay
+using a Seahorse Cell Mito Stress Assay Kit (Seahorse Bioscience,
+North Billerica, MA, USA). In brief, LN229 cells were seeded onto
+an XFp microplate. After 1 day of incubation, the medium was changed
+to DMEM without sodium bicarbonate and supplemented with 2% fetal
+bovine serum. OCR was measured at steady state, followed by the sequential
+addition of oligomycin (1 μM), carbonyl cyanide-4-[trifluoromethoxy]phenylhydrazone
+(FCCP; 0.5 μM), rotenone (0.5 μM), and imidazole (1 μM).
+Add the mixture to the wells and determine maximal and nonmitochondrial
+respiration rates according to the manufacturer’s instructions.
+
+## Determination of ATP and Malondialdehyde (MDA) Levels
+The fluorometric assay kit (Beyotime, S0026) was utilized to quantify
+the ATP concentration. Evaluation of the MDA concentration was performed
+using a Lipid Peroxidation MDA Assay Kit (Beyotime, S0131).
+
+## Sorting of CD11b Positive Monocytes
+CD11b+ cells were isolated from a single-cell suspension of the mouse spleen
+using CD11b MicroBeads UltraPure, one MS Column, and a MiniMACS Separator.
+Cells were labeled with CD11b-PE and analyzed by using flow cytometry.
+
+## Orthotopic Mouse Xenografts
+GBM cells expressing luciferase
+were digested through conventional digestion to obtain white precipitates
+and suspended with normal saline, and then the cells were intracranially
+transplanted into immunocompromised mice by using microinjectors.
+Briefly, the mice were attached to a brain stereotaxic apparatus,
+exposed to the skull, and three-dimensional coordinates were established
+around bregma; a 0.7 mm diameter drill was used to drill a hole 2.5
+mm to the left of the sagittal suture and 0.5 mm near the suture,
+and the injection depth was 2.5 mm.
+
+## Bioluminescence Imaging (BLI)
+Administration of the
+luciferin substrate: The luciferase substrate, typically d-luciferin, is administered to the animal via intraperitoneal injection,
+oral gavage, or inhalation. After a short period for luciferin to
+distribute throughout the animal’s body, the animal is placed
+in the imaging chamber of a sensitive camera (e.g., IVIS system).
+The camera captured the emitted photons from the luciferase reaction,
+generating a bioluminescent image of the animal. The acquired images
+are quantified using specialized software to calculate the intensity
+and location of bioluminescent signals.
+
+## Histology and Immunohistochemistry
+Collected mouse
+tissues were fixed in 4% paraformaldehyde in PBS buffer overnight.
+They were then gradually dehydrated in ethanol, transferred to xylene,
+and embedded in paraffin. Paraffin-embedded tissues were cut into
+4 μm thick sections and histologically examined by H&E staining
+and immunohistochemistry.
+
+## Statistical Analyses
+Results from cell culture experiments
+were obtained from a minimum of 3 independent replicates. The data
+are presented as the mean ± standard deviation (SD). To compare
+differences between groups, a two-tailed unpaired Student’s t test was performed. A p-value less than
+0.05 was considered statistically significant (*p < 0.05, **p < 0.01, ***p < 0.001, ****p < 0.0001).
+
+## Acknowledgments
+This
+work was supported by the National Natural Science Foundation
+of China (82003220). This study was approved by the FMMU Ethics Committee
+(Xian, China).
+
+## Data Availability Statement
+All data generated
+or analyzed during the course of this research will be included in
+the published article, or upon reasonable request from the relevant
+authors.
+
+## Supporting Information Available
+The Supporting
+Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/acsnano.3c07555.
+Supplementary experimental agents, saRNA sequences,
+and supplementary figures (PDF)
+
+## Author Contributions
+# Z.C., X.L., W.Z.,
+and K.Z. contributed equally to this work
+
+The authors
+declare no competing financial interest.
+
+## Supplementary Material
+nn3c07555_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+nn3c07555_si_001.pdf
+
+## Data Availability Statement
+All data generated
+or analyzed during the course of this research will be included in
+the published article, or upon reasonable request from the relevant
+authors.

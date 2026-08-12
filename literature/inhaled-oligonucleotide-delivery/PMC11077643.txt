@@ -1,0 +1,415 @@
+2933advsciAdvanced ScienceAdv Sci (Weinh)WileyPMC1107764311077643110776433844140610.1002/advs.202307263Programming a Ferroptosis‐to‐Apoptosis Transition Landscape Revealed Ferroptosis Biomarkers and Repressors for Cancer Therapy
+VinikYaron MaimonAvi DubeyVinay RajHarsha AbramovitchIfat MalitskySergey ItkinMaxim Ma'ayanAvi WestermannFrank GottliebEyal RuppinEytan LevSima 
+1
+Molecular Cell Biology Department, Weizmann Institute of Science, Rehovot, 76100, Israel
+2
+The Ruth and Bruce Rappaport, Faculty of Medicine, Technion–Israel Institute of Technology, Haifa, 3525433, Israel
+3
+Metabolic Profiling Unit, Weizmann Institute of Science, Rehovot, 76100, Israel
+4
+Department of Pharmacological Sciences, Mount Sinai Center for Bioinformatics, Icahn School of Medicine at Mount Sinai, New York, NY, 10029, USA
+5
+Neuroblastoma Genomics, German Cancer Research Center (DKFZ), 69120, Heidelberg, Germany
+6
+Cancer Data Science Laboratory, National Cancer Institute, National Institutes of Health, Bethesda, MD, 20892, USA*
+E‐mail: Sima.Lev@weizmann.ac.il
+
+✉Corresponding author.
+532024111723072632307263952024© 2024 The Authors. Advanced Science published by Wiley‐VCH GmbHThis is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Ferroptosis and apoptosis are key cell‐death pathways implicated in several human diseases including cancer. Ferroptosis is driven by iron‐dependent lipid peroxidation and currently has no characteristic biomarkers or gene signatures. Here a continuous phenotypic gradient between ferroptosis and apoptosis coupled to transcriptomic and metabolomic landscapes is established. The gradual ferroptosis‐to‐apoptosis transcriptomic landscape is used to generate a unique, unbiased transcriptomic predictor, the Gradient Gene Set (GGS), which classified ferroptosis and apoptosis with high accuracy. Further GGS optimization using multiple ferroptotic and apoptotic datasets revealed highly specific ferroptosis biomarkers, which are robustly validated in vitro and in vivo. A subset of the GGS is associated with poor prognosis in breast cancer patients and PDXs and contains different ferroptosis repressors. Depletion of one representative, PDGFA‐assaociated protein 1(PDAP1), is found to suppress basal‐like breast tumor growth in a mouse model. Omics and mechanistic studies revealed that ferroptosis is associated with enhanced lysosomal function, glutaminolysis, and the tricarboxylic acid (TCA) cycle, while its transition into apoptosis is attributed to enhanced endoplasmic reticulum(ER)‐stress and phosphatidylethanolamine (PE)‐to‐phosphatidylcholine (PC) metabolic shift. Collectively, this study highlights molecular mechanisms underlying ferroptosis execution, identified a highly predictive ferroptosis gene signature with prognostic value, ferroptosis versus apoptosis biomarkers, and ferroptosis repressors for breast cancer therapy.
+Keywords: apoptosis, biomarkers, breast cancer, classification signature, cancer therapy, ferroptosis, TNBC
+
+Transcriptomic, metabolomics, mechanistic, and computational analyses of programmed ferroptosis‐to‐apoptosis transition landscape identified ferroptosis selective biomarkers, revealed ferroptosis repressors as potential targets for breast cancer therapy, and highlighted ferroptosis‐toapoptosis molecular switches, including the PE/PC lipidomic shift.
+
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2024 Feb 11; Received 2023 Oct 5; Collection date 2024 May.
+
+1.
+
+## Introduction
+Regulated cell death (RCD) pathways can be classified into apoptotic and non‐apoptotic death, such as necroptosis, autophagy, pyroptosis, and ferroptosis.[
+ 
+] Although different RCDs are mediated by distinct molecular mechanisms and characterized by unique morphological changes, increasing evidence suggests that RCDs can be connected through crosstalk and integrated signaling networks.[
+ 
+] Furthermore, different RCDs can be triggered by similar stress inducers, such as oxidative or ER stress, and recent studies suggest that dying cells may display molecular characteristics of more than one type of RCD, implying that “pure” selective or “mixed” RCD may exist.[
+ 
+] These observations highlight the need for a selective response signature for each RCD and specific biomarkers that can distinguish between different death modules, such as ferroptosis and apoptosis.[
+ 
+]
+
+Apoptosis, the most extensively studied RCD, has long been considered a promising target for cancer therapy, particularly since the discovery of B‐cell lymphoma 2 (BCL2) as an anti‐apoptotic oncogene.[
+ 
+] However, many cancer cells can escape apoptotic drugs and develop drug resistance.[
+ 
+] Increasing evidence suggests that ferroptosis could be a powerful therapeutic strategy for certain human cancers,[
+ 
+] and we and others have shown that among the different breast cancer subtypes, triple‐negative breast cancer (TNBC) is particularly susceptible to ferroptosis,[
+ 
+] and tumors from TNBC patients are enriched in ferroptosis‐related genes.[
+ 
+]
+
+Ferroptosis is a unique RCD pathway driven by iron‐dependent lipid peroxidation and severe damage to cellular membranes.[
+ 
+] Labile iron (Fe2+) pool (LIP), polyunsaturated fatty acids (PUFAs), and reactive oxygen species (ROS) are fundamental for lipid peroxidation and ferroptosis execution.[
+ 
+] Unlike apoptosis, which is characterized by cell shrinkage, chromatin condensation, and membrane blebbing,[
+ 
+] ferroptotic cells mainly exhibit morphological changes in the mitochondria.[
+ 
+]
+
+Ferroptosis can be triggered by different mechanisms that modulate intracellular glutathione (GSH) pool, labile iron levels, PUFAs, and the activity of glutathione peroxidase 4 (GPX4), a selenoprotein that reduces phospholipid hydroperoxides (PLOOH) by glutathione.[
+ 
+] Since the initial discovery of erastin as an inhibitor of the cystine/glutamate antiporter (System xc
+−) and a ferroptosis inducer,[
+ 
+] many different ferroptosis inducers (FINs) and inhibitors were identified.[
+ 
+] Canonical FINs trigger ferroptosis through different mechanisms, including GSH depletion (erastin, artesunate), GPX4 inactivation (RSL3, ML210, ML162), or coenzyme Q10 (CoQ10) depletion (FIN56, CIL56).[
+ 
+] However, most of these FINs are effective in vitro but have low efficacy and/or high toxicity in vivo.[
+ 
+] We have recently identified a synthetic lethal drug combination targeting bromodomain‐containing protein 4  (BRD4) and the proteasome, which could also trigger ferroptosis in multiple TNBC cell lines and effectively inhibit tumor growth in xenograft and allograft mice models of TNBC.[
+ 
+]
+
+In this study, we exploited the unique synthetic lethal drug combination targeting BRD4 (by JQ1) and the proteasome (by bortezomib) to induce ferroptosis in TNBC, and concurrently used a drug dose titration to program a continuous phenotypic gradient between ferroptosis and apoptosis. We showed that very low doses of JQ1 and bortezomib (BTZ) induced ferroptosis in basal‐like breast cancer through integrated responses mediated by enhanced lysosomal function, increased ferritinophagy, glutaminolysis, TCA cycle, oxidative phosphorylation, and activation of activating transcription factor 4 (ATF4), a master regulator of the integrated stress response (IRS) and amino acid metabolism.[
+ 
+] Ferroptosis‐to‐apoptosis transition was coupled to enhanced ER stress, XBP1, and ATF4/CHOP activation concomitant with a PE/PC‐ metabolic shift. Analysis of the gradual ferroptosis‐apoptosis transcriptomic landscape together with machine learning, public datasets of ferroptosis and apoptotic responses, as well as transcriptomic data from cancer patients and Patient‐derived xenografts (PDXs), led us to identify a unique Gradient Gene Set (GGS), which classified ferroptosis from apoptosis with high accuracy and could stratify breast cancer patients with poor prognosis. We also identified and validated a set of 24 selective ferroptosis versus apoptosis biomarkers and showed that depletion of PDAP1, a representative gene of the GGS, induced ferroptotic cell death and inhibited tumor growth in the xenograft model of basal‐like breast cancer.
+
+2.
+
+## Results
+2.1.
+
+## Programming a Ferroptosis to Apoptosis Transition Landscape
+We previously showed that very low doses of JQ1 and BTZ induced ferroptosis across multiple TNBC cell lines.[
+ 
+] To further assess the effects of JQ1 and BTZ on ferroptotic cell death, we slightly increased the levels of JQ1 (50–200 nM) and BTZ (2–6 nM), and examined cell viability (Figure  ; Figure  , Supporting Information) and cell death (Figure  ; Figure  , Suppoting Information), in the absence or presence of either ferroptosis inhibitors (liproxstatin‐1, ferrostatin‐1), an apoptotic inhibitor (Z‐VAD) or a necrosis inhibitor (Necrostatin‐1) in two basal‐like breast cancer cell lines; MDA‐MB‐468 (Figure  ; Figure  , Supporting Information) and HCC70 (Figure  , Supporting Information). As shown, the effect of JQ1 (50–200 nM) together with 2 nM BTZ was predominantly rescued by the ferroptosis inhibitors, while JQ1 (50–200 nM) with 3 nM BTZ was partially rescued by both liproxstatin‐1 and Z‐VAD, and JQ1 (50–200 nM) with 6 nM BTZ was mainly rescued by Z‐VAD. These results indicate that a minor gradual increase of BTZ from 2‐to‐3‐to‐6 nM could program a transition from ferroptosis to apoptosis. Accordingly, we proceeded with combinations of fixed, low JQ1 dose (100 nM) and increased doses of BTZ from 2 nM (JB2) to induce ferroptosis, 3 nM BTZ (JB3) to induce an intermediate “ferroapoptosis” state, and 6 nM (JB6) to induce apoptosis (Figure  ). By using death pathway characteristic assays (Experimental Section),[
+ 
+] we showed that JB2 strongly induced lipid peroxidation, a hallmark of ferroptosis[
+ 
+] (Figure  ; Figure  , Supporting Information), JB6 induced strong Annexin V staining (Figure  , Figure  , Supporting Information), upregulation of BIM level (Figure  ) and cleavage of Caspase 3 and PARP (Figure  , Figure  , Supporting Information), all are hallmarks of apoptosis, while JB3 exhibit an intermediate phenotype. We also observed reduced levels of GPX4 and FSP1 proteins in JB2 (Figure ,Supporing Information), and a gradual inhibition in the proteasomal activity from JB2‐to‐JB6 (Figure  ). Notably, Necrostatin‐1 could not rescue the effects of either JB6 or JB2 on cell viability (Figure  , Supporting Information), consistent with our previous report on JB2 and its specific effects on ferroptotic death across multiple TNBC cell lines, but not on normal‐like mammary cells (MCF10A) or luminal breast cancer cell line (MCF7).[
+ 
+] Interestingly, JB6 also had a weaker effect in MCF7 compared to basal‐like cells (Figure  , Supporting Information) and didn't influence the sensitivity to ferroptosis (Figure  , Supporting Information).
+ We next coupled the gradual phenotypic transition of ferroptosis‐to‐apoptosis (JB2‐JB3‐JB6) to transcriptomic profiling. We performed RNAseq for MDA‐MB‐468 and HCC70 cells treated with individual drugs (100 nM JQ1 or 2, 3 or 6 nM BTZ; B2, B3, B6, respectively) and drug combinations (JB2, JB3, JB6) for 6 and 24 h (before cell death onset, Experimental Section). To visualize the transcriptomic changes induced by the different drug treatments, we performed principal component analysis (PCA) (Figure  , Figure  , Supporting Information). While JB2, JB3, and JB6 clustered together, they were distant from the control (DMSO), suggesting a large transcriptomic change in all three. The JB2‐JB3‐JB6 transcriptomic transition was further visualized on a plot whose axes represent gene set enrichment scores of ferroptosis[
+ 
+] versus apoptosis[
+ 
+] responses in TNBC cell lines of publicly available data. Enrichment analysis of the RNAseq data was measured by Gene Set Variation Analysis (GSVA) (Figure  ). As shown, the three JB combinations were found in close proximity, with a gradual transcriptomic transition from ferroptosis (JB2) through the interphase (JB3) and into apoptosis (JB6), consistent with the parallel phenotypic transition. Finally, analysis of significant differentially expressed genes (DEGs) compared to DMSO, demonstrates that JB2, JB3, and JB6 share the vast majority (≈80%) of significant DEGs (Figure  ; Figure  , Supporting Information), which represent a general stress response to the applied drug combinations regardless of the specific cell death module.
+
+2.2.
+
+## Identification of a Ferroptosis Versus Apoptosis Gene Signature
+The transcriptomic landscapes induced by JB2 and JB6 revealed that only ≈20% of the DEGs can be specifically attributed to ferroptosis or apoptosis (Figure  ), suggesting that these DEGs may segregate the transcriptomic response of ‐FINs‐ from apoptosis inducers (AINs).
+To explore this possibility, we used the RNAseq data of JB2 (ferroptosis) and JB6 (apoptosis) at 24 h to generate four gene sets, each containing genes that were significantly up or down‐regulated in either JB2 or JB6 but not in both. For example, the “JB2 Up” set included genes that were significantly upregulated (FDR < 0.05) in JB2 versus DMSO but not significant in JB6 versus DMSO. This gene set was then filtered to include only the genes with the highest significant difference (FDR < 0.05) between JB2 and JB6 (Figure  , Figure  , Supporting Information). Notably, this gene set included genes associated with GSH metabolism, TCA cycle, and lysosome (Figure  , Supporting Information), among others.
+ We then combined the four gene sets (JB2 Up/Down; 146 genes, JB6 Up/Down; 160 genes, a total 306 genes) to form the “Gradient Gene Set” (GGS), a unique gene set of the most differential transcriptomic response between JB2 (ferroptosis) and JB6 (apoptosis) (Figure  , Figure  , Supporting Information). We hypothesized that the GGS can classify the transcriptomic response of ferroptosis distinctly from apoptosis. To test this hypothesis, we collected transcriptomic data from 19 FINs and 26 AINs‐from the GEO datasets (Table  , Supporting Information). In addition, we performed RNAseq analysis of classical FINs (erastin and RSL3) responses in basal‐like breast cancer cell lines (MDA‐MB‐468, HCC70, and HCC38), and combined these five datasets (validation group) to the 45 (19 FINs, 26 AINs) public datasets. UMAP was used to visualize the expression of the 306 GGS genes in these 50 datasets (Figure  ). This analysis generated a map with distinct ferroptosis and apoptosis regions and a clear decision boundary in between. Importantly, the five validation datasets of FINs responses were mapped in the ferroptosis area (Figure  , red dots). Furthermore, a K‐nearest neighbors analysis showed the high classification power of the GGS, which accurately classified the ferroptosis and apoptosis datasets (ROC‐AUC = 0.90) (Figure  ).
+
+2.3.
+
+## Optimization of Ferroptosis Versus Apoptosis Biomarkers
+Although the GGS could classify ferroptosis from apoptosis with high accuracy, it consists of a relatively high number of genes and thus can be useful to classify RNAseq data. To define a smaller subset of genes that can be used as ferroptosis versus apoptosis biomarkers, we selected various gene sets of different sizes according to their differential expression (fold change) between JB2 (ferroptosis) and JB6 (apoptosis) at two‐time points (6 h, 24 h). We then measured the enrichment of each gene set in the 19 FINs and 26 AINs datasets by ssGSEA and scored their classification accuracy by ROC‐AUC.
+We found that the best AUC is given by a set of genes whose transcriptomic gradient shifts from 6 to 24 h: their expression was significantly lower in JB2 versus JB6 at 6 h but significantly higher in JB2 versus JB6 at 24 h (Figure  , Table  , Supporting Information). This set consists of 26 genes and was termed the “Gradient derived” genes set. We assume that the decreased expression at an early time point may induce the onset of ferroptosis, while the increase at a later time may represent an attempt to compensate and protect from ferroptosis. The “Gradient derived” genes set had a strong and significant classification accuracy between the 19 FINs and 26 AINs datasets (AUC = 0.88, Figure  ; Figure  , Supporting Information). It was also highly enriched in the validation group of the 5 FINs response datasets of basal‐like TNBC cell lines (Figure  ) and thus can be considered as a powerful ferroptosis to apoptosis classifier.
+To further corroborate the “Gradient derived” classification capacity, we compared it to the best possible classifier between the 19 FINs and 26 AINs datasets. To this end, we generated a set of 15 genes, termed the “Datasets derived` genes set, by ranking all the genes in the datasets according to their relative expression in the FINs versus the AINs datasets, using a bootstrapped aggregation method (Figure  , Supporting Information). This analysis revealed that the classification accuracy of the top‐ranked 15 genes was very similar (AUC = 0.9) to the top 15 genes of the ‘Gradient derived” set (Figure  ). Nevertheless, increasing the number of the “Datasets derived” genes above 15 (Table  , Supporting Information), concurrently increased the classification accuracy (AUC) (Figure  , Supporting Information) and, thus could also be useful when full transcriptomic data is available.
+Collectively, both the “Gradient derived” and the “Datasets derived” ferroptosis versus apoptosis biomarkers display high classification accuracy between the FINs and AINs datasets (Figure  , Supporting Information), and could accurately classify the JB2, JB3, and JB6 transcriptomic landscape (Figure  , Supporting Information). Furthermore, their enrichment scores in the AINs datasets were negligible (almost zero) (Figure  ), highlighting their specificity to ferroptosis. Of note, a set of 33 genes (Table  , Supporting Information), which was generated in response to erastin in HT‐1080 (“Erastin/HT1080 derived”),[
+ 
+] and is often considered a ferroptotic biomarkers set,[
+ 
+] was found to be highly enriched in the FINs datasets, as expected, but also in several AINs datasets, exhibiting a lower AUC between the FINs and AINs datasets (AUC = 0.72, Figure  , third panel). Similarly, the commonly used “hallmark_apoptosis”, a set of 154 genes (MsigDB), was enriched both in the AINs and the FINs datasets, suggesting a weak specificity (Figure  , fourth panel).
+The high accuracy and specificity of the “Gradient derived” and the “Datasets derived” ferroptosis versus apoptosis biomarkers (Figure  ), which share only two genes (CHAC1, DDIT4) (Figure  ; Table  , Supporting Information), highlight their strength as reliable biomarkers. For validation, we selected the 15 and 12 top‐ranked genes of the “Datasets derived” and “Gradient derived” gene sets and composed a set of 24 genes (2 of the 27 are common, and one gene, SACS, was removed due to high variation in the qRT‐PCR results) with the best ferroptosis versus apoptosis prediction. We then experimentally validated the accuracy of this ferroptosis‐optimized gene set by qPCR (Figure  ). For in vitro validation studies, we used mRNA of MDA‐MB‐468 or HCC70 cells treated with either classical FINs; erastin, FIN56, and RSL3, or with known apoptosis inducers; paclitaxel and staurosporine, as indicated (Figure  ; Figure  , Supporting Information). For the in vivo validation, we established orthotopic xenograft mouse models by implanting MDA‐MB‐468 in the mammary fat pad of nude mice. When tumors reached ≈50 mm3, the mice were treated with either imidazole ketone erastin (IKE) or with paclitaxel (PTX) as described in the experimental section, to induce ferroptosis or apoptosis, respectively (Figure  , Supporting Information), and the expression levels of the 24 biomarkers were assessed by qRT‐PCR (Figure  ). We then calculated the average fold changes for each in vitro and in vivo treatment. As seen in Figure  , the expression of the 24 biomarkers was significantly and specifically increased in response to ferroptosis inducers but not in response to the apoptotic inducers both in vitro and in vivo (Figure  ).
+These results were further corroborated by the high expression levels and ssGSEA enrichment scores of the 24 biomarkers within the 19 FIN datasets and five validation RNAseq datasets of FINs (Figure  ). Overall, our comprehensive validation demonstrates the power, specificity, and predictive value of this optimized list of 24 ferroptosis versus apoptosis biomarkers, which can be used as reliable, universal ferroptosis selective biomarkers and can be tested by several qPCRs.
+Importantly, we propose to validate a few biomarkers instead of individual genes due to different modes of action of various chemical FINs, each displaying slightly different kinetics (Figure  , Supporting Information) and intensity (fold change) in their transcriptomic response of these biomarkers as well as different kinetics in lipid peroxidation (Figure  , Supporting Information). Furthermore, ferroptosis induction by a nonchemical genetic mode (shRNA, gene knockdown, siRNA), might induce lipid peroxidation at different time windows due to adaptation responses. This could influence their transcriptomic response and the enrichment of the 24 biomarkers as shown for the GPX4 knockdown dataset (Figure  , Supporting Information, point #F11).
+
+2.4.
+
+## A GGS Subset Exhibits a Prognostic Value
+We next examined the enrichment of the GGS signature (by ssGSEA) in TNBC patients from the METABRIC cohort (n = 299). UMAP analysis of the enrichment scores revealed two major clusters of patients (Figure  ), which displayed significant differences in the enrichment of the “JB2 Up” subset (Figure  , Supporting Information) and concomitantly in their survival as determined by Kaplan‐Meier analysis (Figure  ). This was further corroborated by univariate (Figure  ) and multivariate (Figure  , Supporting Information) Cox proportional hazard models, which revealed that the “JB2 Up” gene set is highly correlated with poor prognosis in breast cancer patients (TNBC and non‐TNBC). These findings suggest that tumors with high enrichment of the “JB2 Up” genes are more aggressive. Indeed, high enrichment of “JB2 Up” gene set was obtained in chemoresistant breast cancer patients (n = 257)[
+ 
+] (Figure  ) and was further corroborated in 40 PDX models of breast cancer, with known transcriptomic data and response to chemotherapy.[
+ 
+] As shown, we observed a high correlation between the enrichment of “JB2 Up” and the response of the PDXs to docetaxel and carboplatin treatments (Figure  ). Taken together, we identified a subset of GGS, the “JB2 Up” genes, as a potential prognostic gene set for breast cancer aggressiveness and prediction of chemotherapy response.
+ 
+2.5.
+
+## A GGS Subset Contains Potential Ferroptosis Repressors For Breast Cancer Therapy
+The finding that the “JB2 Up” set of 75 ferroptosis upregulated genes has prognostic value (Figure  ) suggests that it may contain ferroptosis repressors. Indeed, a few genes of this subset have already been shown to suppress ferroptosis, such as RRM2,[
+ 
+] DNM1[
+ 
+] and PCK2.[
+ 
+] As a proof of concept, we validated one of these genes, PDAP1 ‐. Previos studies showed that PDAP1 is overexpressed and/or involved in the progression of several cancers including gastric cancer, rectal carcinoma, glioma, and colorectal cancer.[
+ 
+] We selected PDAP1 since it is significantly highly expressed in breast cancer patients, particularly in TNBC (Figure  ). Furthermore, we found that its knockdown (KD) induced a very similar transcriptomic response of GPX4 KD based on the Connectivity Map (Broad,[
+ 
+] Figure  , Supporting Information), and thus, could be a promising candidate for further analysis.
+ Indeed, depletion of PDAP1 expression by shRNA in basal‐like TNBC cell lines MDA‐MB‐468 and HCC70 (Figure  , Supporting Information) markedly reduced cell survival, which could be rescued by liproxstatin‐1 (Figure  ) or ferrostatin‐1 (Figure  , Supporting Information). PDAP1 depletion increased the levels of 4‐hydroxynonenal (4‐HNE) modified proteins, comparable to shGPX4 (Figure  ) and of oxidized BODIPY‐C11 (Figure  , Supporting Information). Similar effects were observed with the doxycycline (DOX) inducible PDAP1 KD (Tet‐pLKO‐shPDAP1) (Figure  ). The increased lipid peroxidation in PDAP1‐depleted cells was accompanied by reduced levels of GPX4 and FSP1 proteins (Figure  ), reduced levels of intracellular GSH (Figure  ), and elevated levels of iron (Figure  ), TFRC (Figure  ), and lipid ROS in the mitochondria (Figure  ), which all can contribute to ferroptosis cell death.
+We further found that exogenous GSH suppressed lipid peroxidation in PDAP1‐KD cells (Figure  , Supporting Information) and almost restored their cell viability (Figure  , Supporting Information), similar to the effect of the iron chelator 2,2′‐bipyridine (Figure  , Supporting Information). The elevated cellular iron levels in PDAP1‐depleted cells were associated with increased intensity of lysosomal staining (Figure  ) and LC3B (Figure  ), an autophagic activity marker, reduced level of ferritin (Figure  ) and increased level of lysosomal iron, as shown by ferro‐orange staining (Figure  , Supporting Information). These results suggest that PDAP1 depletion enhanced ferretinophagy and consequently increased the labile iron pool.
+It is well known that autophagy is negatively regulated by mTOR,[
+ 
+] and previous studies suggest that PDAP1 is an upstream regulator of AKT,[
+ 
+] implying that PDAP1 regulates the AKT‐mTOR pathway. Indeed, we found that PDAP1 KD reduced the phosphorylation of AKT1 (S473), of 4EBP and S6 kinase, two mTORC1 downstream targets (Figure  ; Figure  , Supporting Information). We also observed a reduced level of stearoyl‐CoA desaturase‐1‐(SCD1) protein, the rate‐limiting enzyme of monounsaturated fatty acids (MUFAs) biosynthesis, and of SCD1 transcript (Figure  ; Figure  , Supporting Information), which is regulated by the ‐Sterol regulatory element binding protein 1 (SREBP1) transcription factor, a downstream effector of AKT‐mTOR pathway.[
+ 
+] Importantly, both the protein and mRNA levels of SREBP1 were also reduced in PDAP1‐depleted MDA‐MB‐468 or HCC70 cells (Figure 4O,  ). Collectively, these results suggest that PDAP1 can protect from ferroptotic death through the AKT‐mTOR‐SREBP1‐SCD1 signaling axis. Its depletion increased lysosomal activity, autophagy, and ferritinophagy, thereby elevating labile iron. Concurrently, PDAP1 depletion decreased SREB1 and SCD1 to possibly attenuate the mevalonate pathway and to elevate PUFAs. These effects together with reduced GSH levels, GPX4 and FSP1 can contribute to ferroptosis execution in PDAP1‐KD cells.
+We then examined the impact of PDAP1 depletion on tumorigenesis in a xenograft model of MDA‐MB‐468 cells. MDA‐MB‐468 cells harboring the Tet‐pLKO‐shPDAP1 or shScrambled (control) were orthotopically implanted into the mammary fat pad of athymic nude mice (n = 10 tumors), and tumor growth was monitored over time by caliper as described in methods. When tumors reached ≈50 mm3 (≈3–4 weeks post‐implantation), the mice were randomized into control and doxycycline (DOX) untreated and treated groups to induce PDAP1 KD. As shown, DOX‐treated mice exhibited a significantly reduced tumor growth (Figure  ). Tumor volume and tumor mass were significantly smaller in the DOX‐treated mice expressing the shPDAP1 compared to control groups (‐DOX, shScrambled) at the endpoint (24 days post treatment) (Figure  ).
+
+Ex vivo analysis of xenograft tumors (n = 7/group) revealed enhanced lipid‐ROS in PDAP1‐depleted tumors as determined by 4HNE protein adducts, but not of cleaved PARP (Figure  ), suggesting that KD of PDAP1‐induced ferroptosis not only in vitro but also in vivo. Importantly, the PDPA1‐KD tumors were enriched in the optimized ferroptosis versus apoptosis biomarkers that we discovered (Figure  ) as determined by qPCR (Figure  ; Figure  , Supporting Information), thus further demonstrating the robustness and reliability of the identified biomarkers. Collectively, these results suggest that PDAP1, which belongs to the “JB2 Up” subset, is a ferroptosis suppressor in basal‐like breast cancer and a potential therapeutic target.
+
+2.6.
+
+## Transcriptomic Analysis of JB2‐ and JB6‐Induced Ferroptotic and Apoptotic Responses
+The established JB2 (ferroptosis)‐to‐JB6 (apoptosis) transcriptomic landscape was used to gain mechanistic insights into each death module. To that end, we compared the DEGs induced by JB2, JB3, and JB6 versus DMSO control. As shown in Figure  , ≈80% of the DEGs are common to the three JB‐combinations induced death states, and pathway enrichment analysis (KEGG) of these common genes revealed enrichment of ER stress and the proteasomal pathways in both MDA‐MB‐468 and HCC70 cells (Figure  ). Enrichment analysis of the upregulated genes in ferroptosis versus apoptosis (JB2 vs JB6) revealed high enrichment of glutathione metabolism and the TCA cycle in MDA‐MB‐468 (Figure  ) and of oxidative phosphorylation in HCC70 (Figure  , Supporting Information). Protein processing in the ER, and ribosome‐related genes were upregulated in JB6 versus JB2 (Figure  , Figure  , Supporting Information) in both cell lines.
+ Further analysis of the DEGs of each combination (JB2, JB3, JB6) compared to those of the single drugs revealed robust transcriptomic changes of JB2 in both MDA‐MB‐468 and HCC70 cells (Figure  ; Figure  , Supporting Information), consistent with their synergy.[
+ 
+] The JB2 upregulated genes versus single drugs were enriched for lysosomal components, autophagy, and ribosome (Figure  ). In total, 1872 DEGs were obtained in both cell lines in response to the JB2 combination (vs JQ1 and 2 nM BTZ) at 6 or 24 h post‐treatment (Figure  , Supporting Information). Many of these genes were associated with the ferroptotic response of JB2 and included ferroptosis inducers, suppressors, and markers,[
+ 
+] as well as genes known to be involved in ferroptosis‐related processes, such as iron metabolism, TCA cycle, lipid metabolism, and lysosomal function (Figure  ).
+
+2.7.
+
+## Lysosomal Function is Associated with Ferroptosis
+The significant enrichment for lysosomal genes in JB2‐treated cells (Figure  ) was associated with an increased level of lysosomal characteristic markers and staining, including the ‐lysosomal‐associated membrane protein 1‐(LAMP1) (Figure  ; Figure  , Supporting Information), enhanced LysoTracker staining (Figure  ; Figure  , Supporting Information), increase in acridine orange (AO) acidification as reflected by the red perinuclear spotted signals (Figure  ),[
+ 
+] increased intensity of perinuclear punctate structures labeled by fluorescent dextran (Figure  ), and increase of β‐hexosaminidase activity, a lysosomal enzyme that catalyzes the hydrolysis of ganglioside monosialic 2 (Figure  ).[
+ 
+] Collectively, these results indicate that JB2 enhances lysosomal biogenesis and activity.
+ Among the 96 lysosomal upregulated genes in JB2, 51 are MITF targets and 19 are TFEB targets (Figure  ). MITF, TFEB, TFEC, and TFE3 belong to the microphthalmia‐associated family of basic helix loop helix (b‐HLH) leucine zipper transcription factors (MiT/TFE) which regulate the expression of lysosomal and autophagy genes and modulate lysosomal response.[
+ 
+] The upregulation of MITF/TFEB‐target genes in JB2 and their enrichment compared to JB6 (Figure  , left) was associated with upregulation of MITF expression (Figure  , right), and with MITF/TFEB translocation into the nucleus of JB2‐treated cells (Figure  ; Figure  , Supporting Information). The enhanced lysosomal activity was accompanied by a robust accumulation of ferritin in the lysosome (Figure  ; Figure  , Supporting Information). This accumulation implies that ferritin is degraded in the lysosome of JB2‐treated cells through ferritinophagy[
+ 
+] to increase the labile iron pool. Indeed, we observed a strong increase in lysosomal iron, as detected by Ferro‐orange staining (Figure  , Supporting Information) as well as an increase in total iron levels in JB2‐treated cells which was markedly reduced by Bafilomycin A1 treatment (Figure  ; Figure  , Supporting Information), a drug that prevents lysosomal acidification and ferritinophagy. Bafilomycin A1, as well as the lysosomal inhibitor chloroquine, could partially rescue cell viability of JB2‐ but not of JB6‐treated cells (Figure  , Supporting Information), highlighting the impact of the lysosome on JB2 response.
+
+2.8.
+
+## Ferroptosis‐Apoptosis Transition is Associated with XBP1, JNK and ATF4/CHOP Activation
+The enrichment of ER‐associated pathways was obtained in response to JB2, JB3, or JB6 treatments (Figure  ), most strongly to JB6 (Figure  ). ER‐stress response was reported to be associated with apoptosis, ferroptosis, and their crosstalk,[
+ , 
+] and is known to be induced by proteasomal inhibition. Bortezomib was reported to induce accumulation of misfolded proteins in the ER,[
+ 
+] depletion of intracellular amino acids, and activation of GCN2 (general control nonderepressible 2), which in turn phosphorylates the eukaryotic translation initiation factor 2 (eIF2α) to increase ATF4 translation[
+ 
+] (Figure  ).
+ ER stress commonly triggers the unfolded protein responses (UPR) through three main pathways; the IRE1α (inositol‐requiring protein 1α)‐XBP1 (X box binding protein 1) pathway, PERK (PKR‐like ER kinase)‐ATF4, and the ATF6 (activating transcription factor 6) pathway[
+ 
+] (Figure  ). To evaluate the role of ER‐stress in ferroptotic/apoptotic (JB2/JB6)‐death responses, we examined different arms of the UPR. As shown, JB6 and B6 (6 nM, BTZ), but not JB2, enhanced the RNase activity of IRE1α as indicated by mRNA processing of the unspliced XBP1 into an active spliced isoform (Figure  ).[
+ 
+] Likewise, JNK phosphorylation (Figure  ), which is implicated in apoptosis execution downstream of IRE1α,[
+ 
+] was also increased in response to JB6/B6 treatment concomitant with an increase in IRE1α and PERK levels (Figure  ), while JNK inhibitor (SP600125) substantially restored cell viability of B6/JB6‐ but not of JB2‐treated cells (Figure  ).
+ATF4, a master regulator of stress response, is activated downstream of PERK or GCN2 kinase, which both phosphorylate eIF2α to repress global protein translation and concomitantly enhance translation of a subset of stress‐related mRNAs, including ATF4 (CREB2).[
+ 
+] Cellular fractionation showed enhanced translocation of ATF4 into the nucleus of both JB2‐ and JB6‐treated cells (Figure  , Supporting Information). The nuclear localization of ATF4 was detected earlier in JB6‐treated cells (at 6 h) (Figure  , Supporting Information) and later in JB2‐treated cells (24 h) (Figure  ), suggesting that both ferroptotic (JB2) and apoptotic (JB6) responses are associated with ATF4 activation.
+ATF4 induces transcription of genes involved in amino acid metabolism, glutaminolysis, autophagy, and oxidative stress, and it also regulates the expression of the proapoptotic transcription factor CHOP (GADD153/DDIT3).[
+ 
+] Importantly, CHOP was strongly detected in the nucleus of JB6‐ but not of JB2‐treated cells (Figure  ; Figure  , Supporting Information), consistent with their apoptotic response.
+ATF4 and CHOP cooperate to induce the expression of GADD34 (PPP1R15A) and upregulation of GADD34 (growth arrest and DNA damage‐inducible 34). GADD34 dephosphorylates eIF2α to increase protein synthesis which leads to the overloading of unfolded proteins within the ER and apoptotic cell death.[
+ 
+] We observed strong induction of PPP1R15A expression in JB6‐ versus JB2‐treated cells (Figure  ), concomitant with a decrease in eIF2α phosphorylation (Figure  , Supporting Information). Single‐sample GSEA (ssGSEA) analysis of the combined DEGs in MDA‐MB‐468 and HCC70 revealed a slightly higher enrichment of ATF4‐only target genes[
+ 
+] in JB2, but much stronger enrichment of CHOP‐target genes in JB6 (Figure  ), implying that ATF4/CHOP activation is associated with ER‐stress induced apoptosis, consistent with the nuclear translocation of CHOP (Figure  ; Figure  , Supporting Information). Indeed, the expression levels of many ferroptosis regulators, which are ATF4 targets, were increased by JB2 (Figure  ), while translation‐related genes, mainly those involved in tRNA synthesis, which are known ATF4/CHOP targets,[
+ 
+] were mainly increased in JB6 (Figure  ). Furthermore, known pro‐apoptotic CHOP targets (BCL2L11 [BIM], BBC3 [PUMA], PMAIP1 [NOXA], TRIB3)[
+ 
+] were also upregulated in JB6‐treated cells (Figure  ; Figure  , Supporting Information), highlighting the impact of CHOP on the apoptotic response. Indeed, CHOP knockdown by siRNA (Figure  , Supporting Information) could partially restore cell viability following treatment by JB6/B6, but not JB2 (Figure  ). Likewise, Pioglitazone, which inhibits ER stress ,[
+ 
+] partially rescued the viability of JB6‐ but not of JB2‐treated cells (Figure  , Supporting Information) and concomitantly attenuated translocation of CHOP to the nucleus (Figure  , Supporting Information).
+Collectively, we found that ATF4 is activated both in ferroptosis and apoptosis, possibly in different kinetics, but the concomitant activation of XBP1, JNK, and CHOP switches to chronic ER stress and apoptotic response.
+
+2.9.
+
+## Ferroptotic Response is Associated with Enhanced Glutaminolysis and TCA Cycle
+Several ATF4 target genes, which were upregulated in JB2, regulate glutamine transport or metabolism (Figure  ), including the two glutamine transporters SLC38A2 and SLC1A5 and the glutamate transporter SLC1A4.[
+ 
+] Importantly, glutaminase 1 (GLS), which converts glutamine to glutamate was also upregulated in JB2‐treated cells (Figure  ), implying that glutamine metabolism plays an important role in the JB2 response.
+To assess the impact of glutamine on death response, we incubated MDA‐MB‐468 (Figure  ) or HCC70 cells (Figure  , Supporting Information) in glutamine (Gln)‐free media and assessed cell viability in response to JB2 or JB6 treatment. We found that Gln‐depleted media specifically abrogated JB2‐induced death, while the addition of α‐Ketoglutarate (α‐KG) restored cell death in Gln‐free media (Figure  ; Figure  , Supporting Information). These results suggest that α‐KG, a TCA cycle intermediate, which can be produced from glutamate through glutaminolysis,[
+ 
+] and supports oxidative phosphorylation (OXPHOS), plays a role in the JB2‐ferroptotic response. Indeed, inhibition of α‐KG production from glutamate using the glutamate transaminase inhibitor, aminooxyacetate (AOA) (Figure  ; Figure  , Supporting Information)[
+ 
+] fully suppressed cell death in response to JB2, but not to JB6.
+ α‐KG participates in the TCA cycle, which is highly enriched in the JB2 versus JB6 transcriptomic response (Figure  ) and is also required for electron transport through the mitochondrial electron transfer chain (ETC). We, therefore, evaluated the effects of the ETC inhibitors, Rotenone, a mitochondrial complex I inhibitor, or the mitochondrial uncoupler CCCP (carbonyl cyanide m‐chlorophenyl hydrazine) (Figure  ; Figure  , Supporting Information),[
+ 
+] on JB2‐death response. We found that both ETC inhibitors attenuated the death response of JB2 but not of JB6 or B6. Furthermore, we observed extensive colocalization between oxidized BODIPY‐C11 and MitoTracker in JB2‐ but not in JB6‐treated cells (Figure  ), which was completely abolished in the presence of rotenone (Figure  ). AOA treatment also reduced the level of mitochondrial lipid ROS in JB2‐treated cells (Figure  ). Importantly, MitoTracker staining revealed a unique morphology of swollen mitochondria in JB2‐treated cells (Figure  , Supporting Information), a characteristic feature of ferroptotic cells.[
+ 
+] Collectively these results suggest that JB2‐cell death is mediated by extensive accumulation of lipid ROS in the mitochondria due to a metabolic switch associated with glutamine‐driven OXPHOS. These results are consistent with previous reports demonstrating the role of glutamine on ferroptosis through the TCA cycle.[
+ 
+]
+
+In addition to the anaplerotic role of glutamine in the TCA cycle, glutamine/glutamate are required for biosynthesis of glutathione, for cystine import via the System xc−, for synthesis of several nonessential amino acids (alanine, proline, aspartate, asparagine, and arginine), as well as of pyrimidines, purines, hexosamines, and NAD.[
+ 
+] Importantly, we observed significant decreased levels of GSH in JB2‐treated MDA‐MB‐468/HCC70 cells (Figure  ) concomitant with a substantial decrease in SLC7A11 protein level (a subunit of System xc−) (Figure  ), which both can contribute to ferroptosis execution.
+The impact of glutamine on the TCA cycle and GSH biosynthesis was further corroborated by 13C‐glutamine tracing experiment. MDA‐MB‐468 were incubated with 13C‐glutamine as a tracer and the levels of 13C‐labeled TCA intermediates were examined 16 h post JB2 treatment. We observed significant 13C‐labeling of the TCA cycle intermediates succinate, malate, and fumarate (M4) as well as citrate and cis‐aconitate (Figure  , ). We also observed the labeling of glutathione (GSH) and gamma‐glutamylcysteine (GCC; a GSH biosynthesis intermediate) (Figure  ; Figure  , Supporting Information). Collectively, these results demonstrate the critical role of glutamine in JB2‐induced ferroptosis.
+
+2.10.
+
+## Metabolic State of Ferroptosis and its Transition into Apoptosis is Associated with PE/PC Switch
+To characterize the effects of JB2 on cellular metabolism, we performed metabolomics and lipidomic profiling of MDA‐MB‐468 cells treated with JB2 or JB6 for 16 and 24 h (Tables  , Supporting Information). We observed significant upregulation of purine and pyrimidine metabolites and the TCA‐cycle intermediates in response to JB2 (Figure  ), concomitant with a remarkable downregulation of amino‐acids and derivates at both time points, and further robust reduction in glutamine, argininosuccinate, cystathionine, taurine and hypotaurine at 24 h (Figure  ). Hence, the ferroptotic (JB2)‐death response was associated with global amino‐acids deprivation, and predominantly affected cysteine, glutamine, and arginine metabolism. Although cysteine levels were not measured, cystathionine, an intermediate of cysteine biosynthesis from homocysteine and serine through the transsulfuration pathway[
+ 
+] as well as hypotaurine and taurine, which are generated by the cysteine dioxygenase pathway,[
+ 
+] were markedly reduced. Argininosuccinate, an intermediate in arginine biosynthesis from citrulline and aspartate in the urea cycle,[
+ 
+] was also reduced (Figure  ).
+Similar to JB2‐treated cells, we also observed a global reduction in amino acid levels in JB6‐treated cells (Figure  , Supporting Information) possibly due to the strong inhibition of the proteasome (Figure  ). However, unlike JB6, upregulation of alanine was detected only in JB2‐treated cells, consistent with the enhanced glutaminolysis and glutamate transamination, which can produce alanine from pyruvate by glutamate pyruvate transaminase (GPT).[
+ 
+]
+
+As ferroptosis is mediated by lipid peroxidation of PUFAs,[
+ 
+] and JB2 modulates the expression of lipid metabolic genes (Figure  ), we performed lipidomic profiling of JB2‐ and JB6‐treated cells (Table  , Supporting Information). As seen in Figure  , JB2 treatment increased the level of key lipid species associated with ferroptosis execution, including PE‐containing arachidonic acid (C20:4), linoleic acid (C18:2), and adrenic acid (C22:4),[
+ 
+] whereas none of these lipids were increased in JB6. The level of PE (18:0/20:4), which is highly susceptible to ferroptosis‐driven oxidation,[
+ 
+] was significantly increased in JB2‐treated cells (Figure  ). Moreover, an assessment of PE/PC species indicated that the ferroptosis (JB2)‐to‐ ‐apoptosis (JB6) transition was coupled to a global shift from PE to PC (Figure  ). Together these observations highlight the robust impact of JB2 on metabolic hallmarks of ferroptosis and demonstrate the distinct metabolic switch associated with JB2 compared to JB6.
+
+3.
+
+## Conclusion
+In this study, we used a unique synthetic lethal drug combination targeting BRD4 and the proteasome to induce ferroptosis in basal‐like breast cancer. Subsequently, we established a concentration gradient and systematically reprogrammed a gradual phenotypic, transcriptomic, and metabolomic transition between ferroptosis and apoptosis (Figure  ).
+The integrated omics approach together with mechanistic studies highlighted several key principles related to the three death modules, ferroptosis (JB2), apoptosis (JB6), and the intermediate “ferroapoptosis” (JB3). First, the transcriptomic profile of these JB2‐, JB3‐, and JB6‐induced death states is largely overlapping (≈80%), suggesting that they share a common stress response. Nevertheless, each manifests unique transcriptomic changes to induce a selective response (Figure  ; Figure  , Supporting Information). Second, the synergistic effect of drug combination is associated with robust transcriptomic landscape reprogramming as obtained for JB2 (Figure  ; Figure  , Supporting Information). Third, the different death pathways are associated with differential activities in three cellular organelles, the ER, the lysosome, and the mitochondria (Figure  , , ). Fourth, the transition between death pathways can be mediated by specific transcription factors and is associated with metabolic switch (Figure  and Figure  , Figure  ).
+The GGS, which was generated from the DEGs in the continuous JB2 (ferroptosis)‐to‐JB6 (apoptosis) transcriptomic landscape, is unique, unbiased, and robust. First, it accurately classifies ferroptosis from apoptosis responses of various FINs and AINs across multiple lineages (Figure  ), despite the specific ferroptotic response of JB2 in TNBC,[
+ 
+] suggesting that it represents the core gene set downstream of a convergence point of multiple FINs. Second, it was used to optimize a set of selective ferroptosis biomarkers to distinguish ferroptosis from apoptosis (Figure  ). Third, a subset of GGS, the (“JB2 Up”) is associated with poor prognosis and chemotherapy resistance in breast cancer, particularly in TNBC (Figure  ), and thus can be used for patients’ stratification and treatment decisions.
+The optimized biomarkers, the 26 “Gradient derived” and 15 “Dataset derived” displayed very similar classification accuracy of ferroptosis and apoptosis, despite their different source and biased/unbiased nature (Figure  ). These biomarkers were combined into a list of 24 top‐ranked genes which were robustly validated in vitro and in vivo by qPCR, and further assessed in the 45 public datasets and the 5‐validation datasets of FINs in basal‐like breast cancer cells (Figure  ). This rigorous validation convincingly highlights the strength of these biomarkers as reliable transcriptomic tools to distinguish between ferroptosis to apoptosis death modules. These robust transcriptomic biomarkers might be used together with TfR1 immunostaining which was shown as a powerful approach to distinguish ferroptosis from apoptosis.[
+ 
+] Nevertheless, considering the different kinetic responses of various ferroptosis inducers and the multiple mechanisms to induce ferroptosis (Figure  , Supporting Information), we expect a variable transcriptomic response for each individual biomarker, but concurrently, a significant enrichment of the 24 biomarkers as an entire set in a given time window (Figure  ).
+We found that the lysosomal pathways are specifically enriched in JB2 (Figure  ), and that MITF and TFEB, which are involved in lysosomal biogenesis were upregulated by JB2. Concomitantly, our RNAseq data indicate that c‐MYC was downregulated, and previous reports suggest that MYC competes with MITF/TFEB and suppresses lysosomal biogenesis and autophagy,[
+ 
+] suggesting that the MYC/MITF switch may attribute to lysosomal activation in JB2.
+The ER processing/stress pathway was found to be commonly enriched by JB2‐induced ferroptosis and JB6‐induced apoptosis, albeit more strongly in apoptosis (Figure  , Figure  ). Activation of ATF4 (Figure  ; Figure  , Supporting Information), a major transcription factor of the integrated stress response,[
+ 
+] was also observed by the two death modules. Nevertheless, the JB2 (ferroptosis)‐to‐JB6 (apoptosis) transition was coupled to XBP1, JNK, and ATF4/CHOP activation (Figure  ). Activation of CHOP by ER stress and its further involvement in ER oxidation and apoptotic response was demonstrated by previous studies.[
+ 
+] ATF4‐CHOP overexpression was proposed to increase protein translation by upregulating ribosomal protein expression, which consequently caused to increase in protein synthesis, ATP depletion, oxidative stress, and apoptotic cell death.[
+ 
+] CHOP was also proposed to increase oxidative damage within the ER through upregulation of the ER oxidase 1 (ERO1), which activates the inositol 1,4,5‐triphosphate receptor (IP3R) to release calcium and consequently induce apoptotic cell death.[
+ 
+]
+
+The strong activation of ATF4 by both JB6‐ and JB2‐induced apoptosis and ferroptosis was associated with global amino acids deprivation in response to both death pathways (Figure  ; Figure  , Supporting Information). However, several ATF4 target genes that were strongly changed in ferroptosis play roles in glutamine/glutamate transport. Indeed, we found enhanced glutaminolysis and upregulation in TCA cycle metabolites and genes (Figure  , Figure  , Figure  , Supporting Information). We also found that inhibition of the anapleurotic reactions feeding the TCA cycle or the ETC was sufficient to rescue the cells from ferroptosis (Figure  ), similar to their effects on cysteine deprivation‐induced ferroptosis.[
+ 
+]
+
+Our finding that ER stress is associated with both JB2/JB6‐induced ferroptosis and apoptosis, but more prominent in apoptosis, is possibly related to the gradual inactivation of the proteasome activity over the concentration gradient. While high BTZ (6 nM) concentration strongly inhibited the proteasomal activity (Figure  ) and consequently induced strong ER‐stress response and UPR (Figure  ), low BTZ concentration (B2) had significantly weaker effects on the proteasome activity (Figure  ), ER stress and the overall transcriptome. Nevertheless, in the presence of a low JQ1 dose, both combinations of JB2 and JB6 induced strong stress response reflected by ATF4 activation (Figure  ; Figure  , Supporting Information).
+Importantly, depletion of PDAP1 in B cells also caused a sustained expression of ATF4 and induction of ATF4 stress response transcriptional program,[
+ 
+] and our data showed that PDAP1 depletion in basal‐like breast cancer induced ferroptotic cell death and significantly reduced tumor growth in xenograft model (Figure  ). Knockdown of PDAP1 in colorectal cancer also inhibited tumor growth in PDX model but had a minor effect, if at all, on apoptosis in cultured cells.[
+ 
+] Likewise, PDAP1 depletion in breast tumors was associated with increased 4HNE staining, but not with cleaved PARP (Figure  ), despite that the viability of PDAP1‐depleted MDA‐MB‐468 cells in vitro was partially restored by ZVAD (Figure  , Supporting Information), implying a possible crosstalk between the two death pathways upon PDAP1 knockdown.[
+ 
+] Although the death module imposed by PDAP1 depletion could be cell type‐specific, we found that PDAP1 knockdown in basal‐like breast cancer cells induced canonical hallmarks of ferroptosis.[
+ 
+] Our mechanistic studies suggest that PDAP1 protects from ferroptosis by positively regulating the AKT‐mTOR‐SRBP1‐SCD1 signaling axis (Figure  ; Figure  , Supporting Information). This protective role is associated with the related transcriptomic response of PDAP1 knockdown and GPX4 depletion, as determined by CMAP analysis (Figure  , Supporting Information), and thus introduced PDAP1 as a novel ferroptosis regulator. Indeed, PDAP1 is one of the GGS genes and belongs to the “JB2 Up” subset consisting of potential ferroptosis repressors.
+In summary, by programming a unique continuous ferroptosis (JB2)‐to‐apoptosis (JB6) landscape, we identified critical molecular switches between these death pathways, and defined a gradient gene set, the GGS, as an excellent predictor for ferroptosis and apoptosis classification. The GGS was also used to optimize a list of reliable, validated ferroptosis biomarkers and to predict chemoresistant tumors. Furthermore, the GGS is a unique source of novel ferroptosis regulators, such as PDAP1, which might be used as targets for cancer therapy.
+
+4.
+
+## Experimental Section
+
+## Drugs and Chemicals
+The following drugs and chemicals were used in this study: JQ1 (11187), Bortezomib (BTZ, 10008822), Liproxstatin‐1 (17730), rotenone (13995) and carbonyl cyanide m‐chlorophenyl hydrazine (CCCP, 25458) were purchased from Cayman Chemicals. SP600125 (1496) was from Tocris Bioscience. Imidazole ketone erastin (IKE) was from Taizhou Crene Biotechnology, China. The following were purchased from Sigma: Ferrostatin‐1 (SML0583), zVAD‐FMK (V116), Necrostatin‐1 (N9037), reduced l‐GSH (G6013), 2,2′‐bipyridyl (D216305), staurosporine (S5921), Doxicycline (D9891, D3072) bafilomycin‐A1 (B1793), α‐ketoglutarate (K1128), erastin (E7781), RSL3 (SML2234), FIN56 (SML1740), aminooxyacetic acid (AOA, C13408), pioglitazone (CDS021593), tunicamycin (T7765), paclitaxel (T7402) and chloroquine (C6628).
+
+## Antibodies
+The antibodies list is provided in Supplementary Table  (Supporting Information).
+
+## Cell Culture
+The basal‐like breast cancer cell lines MDA‐MB‐468, HCC70, HCC38, the luminal breast cancer line MCF7, and the human embryonic kidney (HEK) 293T cells were originally obtained from the American Type Culture Collection (USA). MDA‐MB‐468, HCC70, HCC38, and MCF7 were grown in RPMI, while HEK293T cells were grown in Dulbecco's modified Eagle medium (DMEM) (Gibco BRL, USA). Unless otherwise indicated, all cell lines were cultured in a medium containing 10% fetal bovine serum (Gibco BRL, USA), L‐Glutamine (2 mM), and penicillin/streptomycin. Cells were cultured at 37 °C in a humidified incubator of 5% CO2. Cell lines were routinely (once a month) checked for mycoplasma using an RT‐PCR.
+
+## Drugs Treatments
+JQ1 and Bortezomib (BTZ) were dissolved in DMSO (20 mM stock for JQ1, and 10 mM for BTZ), aliquoted, and stored at −20 °C protected from light. Drugs were routinely applied at a cell density of ≈50% confluency, ≈24 h after cell seeding. BTZ was diluted to 20 µM in DMSO and JQ1 was diluted to 200 µM in RPMI media. Drug combinations were freshly prepared at a final concentration (0.1 µM for JQ1 and 2–6 nM for BTZ) in a growth medium before use, by vigorous vortex (3 min). DMSO concentration was maintained below 0.1%. Importantly, batch effects of JQ1 and BTZ might influence the final concentration for each JB combinations and should be carefully calibrated due to the delicate titration and death response. Ferrostatin‐1 (100 mM stock in DMSO), liproxstatin‐1 (25 mM in DMSO), and zVAD‐FMK (20 mM stock in DMSO) were applied 2 h before and during the drugs treatment at a final concentration of 5–10 µM.
+
+## Drug Response Assays
+Various assays were applied in response to drug treatments (cell viability, cell death, lipid peroxidation, qPCR, RNAseq, iron measurements, etc), and were performed at different time points as indicated for each assay and in the corresponding legends. The different time points related to the different kinetics of the various responses, which were calibrated in preliminary experiments. Usually, lipid peroxidation (BODIPY, 4HNE), as well as its effect on other cellular proteins, was measured 16–24 h post‐treatment, while cell death and viability are measured at longer time points, usually 72 h post‐drug treatment.
+
+## Cell Viability and Death Assays
+For MTT assay, 5000 cells were seeded in a 96‐well plate and 24 h later treated with the indicated drugs. Cell viability was measured 72 h later using the MTT (M2128, SIGMA) assay as described previously.[
+ 
+] Results were presented as % cell viability of control untreated (DMSO) cells. For the trypan blue exclusion assay, the cell culture media was collected following drug treatment, combined with the trypsinized cells that remained on the plate, and spun down at 1 200 rpm for 5 min. Pellets were resuspended in PBS, mixed 1:1 with trypan blue, and counted by an automated cell counter (Countess‐II, Invitrogen). A fraction of trypan blue negative cells was used to calculate cell viability compared to the control (mock‐treated cells). Cell death was measured by the CellTox‐green Cytotoxicity assay (G8741, Promega) according to the manufacturer instructions. In brief, 5000 cells/well in 96 wells black plate (Greiner, 655 090) were treated with the indicated drugs in the absence or presence of either liproxstatin‐1 or ZVAD for 72 h. CellTox green reagent was diluted 1:1000 in assay buffer and incubated with the cells (100 µl well−1). Plates were shaken for 1 min using an orbital shaker and then incubated in the dark at room temperature for 10–15 min. The fluorescence signal was measured by the Infinite 200 PRO Tecan fluorometric microplate reader at 490/525 nm (excitation/emission).
+
+## RNA Extraction and Real‐Time PCR
+Total RNA from cell lines was extracted and purified using TRI Reagent (Sigma‐Aldrich). RNA was reverse‐transcribed into complementary DNA (cDNA) using the High‐Capacity cDNA Reverse Transcription Kit (Applied Biosystems; Cat. No. 4368814) with random primers according to the manufacturer's instructions. Real‐time PCR analysis was performed in QuantStudio‐3 Real‐Time PCR system (Applied Biosystems, Thermo Fisher Scientific) using SYBR Green Master Mix reagents (Roche) according to the manufacturer's guidelines. House‐keeping gene β‐acting was used for normalization. The relative levels of mRNA were calculated using the ΔΔC
+T method. The primers list is provided in Table  , Supporting Information.
+
+## RNA Sequencing
+RNAseq was performed for control (DMSO) basal‐like breast cancer cell lines, for cells treated with JB2, JB3, JB6, or single treatments (B2, B3, B6, JQ1), as well as with ferroptosis inducers (erastin, RSL3). DMSO concentration was similar in all samples. Two‐time points were selected for the RNAseq of JQ1/BTZ/JB2/JB3/JB6 treatments, 6 and 24 h, based on qPCR analysis of well‐known ferroptotic upregulated genes (ASNS, CHAC1, DDIT4)[
+ 
+] concomitantly with cell viability assay. At 24 h no effect on cell viability was observed, but the indicated genes were significantly upregulated, while the earlier time point (6 h) represents the initial transcriptomic response to the treatments. All RNAseq samples were done in independent duplicates. Total RNA was extracted as described above. RNA quality was assessed using the Agilent 4200 TapeStation System (Agilent Technologies, Santa Clara, CA). RNA‐seq libraries were generated by applying a bulk adaptation of the MARS‐seq protocol, as previously described.[
+ 
+] Libraries were sequenced by the Illumina Novaseq 6000 using SP mode 100 cycles kit (Illumina). The mapping of sequences to the genome and generation of the count matrix was performed by the UTAP pipeline (Weizmann Institute). Libraries normalization, filtration of low count genes, and discovery of differentially expressed genes were performed using the edgeR and Limma packages in R. PCA plots and a Venn diagram was generated using the factoextra and eulerr packages in R, respectively. KEGG enrichment analysis was performed using the enrichR package; p‐values for KEGG enrichment analysis were determined by Fisher exact test and adjusted for multiple hypotheses testing by the Benjamini‐Hochberg method. Gene set enrichment analysis (single sample) was performed using the GSVA package. Over‐representation of transcription factor targets was performed using ChEA3.[
+ 
+]
+
+## Gene Signatures and Biomarkers
+Computational analysis of the RNAseq to produce the gradient gene set, the specific ferroptosis to apoptosis biomarkers, and their validations using UMAP and ssGSEA were all done in R. The computational methods are detailed in the supplementary text.
+
+## Cell lysates and Western Blotting
+Cell were lysed in lysis buffer containing 0.5% Triton X‐100, 50 mM Hepes (pH 7.5), 100 mM NaCl, 1 mM MgCl2, 50 mM NaF, 0.5 mM NaVO3, 20 mM β‐glycerophosphate, 1 mM phenylmethylsulfonyl fluoride, 10 µg ml−1 leupeptin, and 10 µg ml−1 aprotinin. Freshly isolated tumors were manually chopped with a sterile blade, and 50 mg tissue was homogenized in 400 µl lysis buffer using 4 mm stainless steel beads in a homogenizer device (TissueLyser‐LT, QIAGEN) for 4 min (or until a homogenous solution was obtained). Cell lysates were centrifuged at 14,000 rpm for 15 min at 4 °C, protein concentration of the supernatants was measured by Bradford assay (Bio‐Rad, Hercules, CA). Equal amounts of total protein (30–50 µg per sample) were analyzed by SDS–PAGE (polyacrylamide gel electrophoresis) and Western Blotting (WB) was performed as previously described.[
+ 
+]
+
+## Cell Fractionation
+Nuclear and cytoplasmic extracts were prepared as follows: 1 × 106 cells were seeded in 10 cm plates for ≈24 h, then treated with drugs for the indicated time periods, washed twice with cold PBS, and lysed with 250 µl of cytoplasmic extract (CE) buffer (0.075% (v/v) NP40, 10 mM HEPES, 60 mM KCl, 1 mM EDTA, 1 mM DTT, 1 mM PMSF, 0.5 mM NaVO3, 10 µg ml−1 leupeptin, and 10 µg mL−1 aprotinin, adjusted to pH 7.6). Samples were centrifuged at 1,000 rpm for 5 min at 4 °C and cytoplasmic fractions were collected from the supernatant. Pellets were washed gently with 250 µl of CE buffer without NP40 and spun again. Nuclear fractions were extracted by nuclear extract (NE) buffer (20 mM Tris HCl, 420 mM NaCl, 1.5 mM MgCl2, 0.2 mM EDTA, 1 mM PMSF, 25% (v/v) glycerol, 0.5 mM NaVO3, 10 µg mL−1 leupeptin, 10 µg mL−1 aprotinin, adjusted to pH 8.0). Pellets were resuspended in 100 µL NE buffer containing 400 mM NaCl, vortexed, and incubated on ice for 10 min. The cytoplasmic and nuclear fractions were centrifuged at 14,000 rpm for 15 min at 4 °C. Supernatant from the CE and NE was collected. Protein content was measured by Bradford and samples were analyzed by SDS‐PAGE and WB.
+
+## Fluorescence Staining
+Cells grown on coverslips in a 24‐wells plate were treated with drugs as indicated, washed twice with PBS, fixed in 4% paraformaldehyde (PFA), and processed for immunofluorescence (IF) staining essentially as described previously[
+ 
+] using the following IF blocking buffer (10 mM Tris‐Hcl pH 7.5, 150 mM NaCl, 2% bovine serum albumin (BSA), 10% goat serum, 1% Glycine, 0.05%–0.1% Triton‐X‐100).
+Live cell imaging was performed with MitoTracker (Red‐CMXRos, Invitrogen) or LysoTracker (Red DND‐99 or Green DND‐26, Invitrogen). Cells grown in a 96‐well glass bottom plate (8000 cells/well) were treated with drugs as indicated, washed with PBS, and incubated in either serum‐free RPMI media containing 70 nM of MitoTracker or in full RPMI (10% FBS) media with 70 nM of LysoTracker. Hoechst (1 mM) was also added to the media and the cells were incubated for 30 or 45 min, respectively, in a tissue culture incubator in the dark. The cells were then washed gently in PBS and incubated with 100 µL of live cell imaging solution (Invitrogen) for analysis by confocal microscopy (LSM800, Zeiss). Co‐staining with LysoTracker of fixed cells was performed by staining with LysoTracker (80 nM) as described above, followed by fixation in 4% PFA and blocking in IF blocking buffer containing 0.05% Triton‐X‐100 as described above.
+
+## Acridine Orange
+Cells were incubated in serum‐free RPMI media with 1 µg mL−1 Acridine Orange (AO) (ImmunoChemistry Technologies) and 1 mM Hoechst 33 342 (Sigma‐Aldrich) for 30 min. Cells were then washed with PBS incubated with live cell imaging solution and processed by confocal microscope.
+
+## FITC‐Dextran
+The polysaccharides dextran conjugated to FITC (FD10S, 10 KDa, SIGMA), which accumulates in the lysosome,[
+ 
+] was incubated (1 mg mL−1) with the cells grown on coverslips in complete RPMI media for 2 h. The cells were washed in PBS and incubated in complete RPMI media for an additional 2–3 h, and then treated with drugs as indicated for 24 h. Cells were washed with PBS, fixed with 2% formaldehyde for 25 min at RT, and stained with 1 mM Hoechst in PBS for 5 min. Images were processed by confocal microscope (LSM800, Zeiss).
+
+## Animal Studies
+All animal studies were performed according to protocols approved by the Weizmann Institutional Animal Care and Use Committee (IACUC approval numbers 00350122‐2 for the PDAP1 in vivo experiment, and 08311121–2 for the in vivo validation of the biomarkers).
+For PDAP1 mouse xenograft models, GFP‐luciferase expressing MDA‐MB‐468 cells were infected with Tet‐pLKO‐shPDAP1 lentivirus, selected with puromycin (1 µg ml−1) and then implanted bilaterally into the mammary fat pads (2 × 106 per gland) of the fourth inguinal gland of 5–6 weeks old female athymic nude‐Foxn1nu mice. Tet‐pLKO harboring scrambled sequence was used as control. When tumor size reached an average of ≈50 mm3, mice were randomized into two groups (n = 10 mice per group for shPDAP1, n = 5 for scrambled shRNA); control (regular water) and DOX experimental group (2 mg mL−1 of doxycycline (D9891, SIGMA) in drinking water, DOX was replaced every 4–5 days). Mouse body weights and tumor size were measured every 3–4 days. Tumor volume was measured by a digital Vernier caliper and calculated according to the (width2 × length)/2 formula. Tumor imaging was monitored using Xenogen IVIS Spectrum in vivo bioluminescence. Mice were anesthetized by isoflurane inhalation, and then D‐luciferin (100 µL; 5 mg mL−1; Regis Technologies) was intraperitoneally injected. Bioluminescence images were acquired within 10 min after injection by the charge‐coupled device camera of the IVIS instrument with the Living Image 3.0 software (Xenogen Caliper Life Sciences). At the end of the study, mice were sacrificed, and tumors were excised, weighed, and documented using a digital camera.
+For invivo validation of the selective ferroptosis biomarkers, MDA‐MB‐468 cells were orthotopically implanted into mammary fat pads as described above. When tumor size reached an average of ≈50 mm3, mice were randomized into three groups (n = 3 mice per group): (1) IKE‐ imidazole ketone erastin (Taizhou Crene Biotechnology, China), 3 days 40 mg kg−1, and 80 mg kg−1 on the 4th day (2) PTX‐paclitaxel (#1567‐125, Biovision) 20 mg kg−1, and (3) Ctrl ‐control. IKE was dissolved in HBSS buffer containing 5% DMSO at pH‐4, and paclitaxel was dissolved in HBSS. Drugs were administered intraperitoneal in a dose of 100 µL per mouse (ctrl group received only HBSS/5% DMSO, pH‐4) and 96 h later mice were anesthetized by intraperitoneal injection with a lethal dose of pental (300 µL, 4 ml kg−1). Tumors were excised and immediately processed for RNA purification or WB analysis.
+
+## GSH, Lipid Ros, and Iron measurements
+Methods have been previously described,[
+ 
+] and are included in the Supplementary Methods
+
+## Supplementary Methods
+Gene knockdown, Mitochondrial, ER, and lysosomal manipulations, GSH measurements, Lipid ROS measurements, FACS analysis, iron measurements, proteasomal activity assay, iron staining, β‐hexaminidase activity assay, metabolomics, and glutamine tracing are detailed in the supplementary methods section.
+
+## Statistical Analysis
+The statistical test used to determine the significance levels for each experiment was done in R and is described in the figure legends. In most figures (unless otherwise mentioned in the figure legends), the means ± sd of the repeats are shown, and a two‐sided t‐test was used to measure statistical significance. The sample size for each experiment is described in the figure legends. p‐values lower than 0.05 were considered statistically significant.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Author Contributions
+Y.V. and A.M. contributed equally to this work. Y.V. designed and performed the computational analysis (Figure  , Figure  , Figure  , Figure  , Figure  , Figure  , Figure  , Supporting Information), assisted in writing the manuscript and checked the raw data. A. Maimon designed and performed all the experiments except those mentioned below. V.D. performed the experiments shown in Figure  , Figure  , Figure  , Figure  , (Supporting Information) and prepared the RNA for RNAseq. H.R assisted with the immunofluorescence experiments shown in Figure  , Figure  .. I.A. performed the glutamine tracing experiment (Figure  ). S.M. and M.I. performed the polar metabolites and lipidomics screen. A. Ma'ayan contributed to the discussion and reviewed the paper. F.W. contributed to the discussion and reviewed the paper., E.G., supervised the glutamine tracing experiment. E.R. provided valuable suggestions for the computational studies, and reviewed and edited the manuscript. S.L. designed and supervised the study, contributed to the analysis and interpretation of the data, ensured financial support, was involved in figure preparation, and wrote the manuscript.
+
+## Supporting information
+Supporting Information
+Supplemental Table 1‐6
+
+## Acknowledgements
+S.L. is the incumbent of the Joyce and Ben B. Eisenberg Chair of Molecular Endocrinology and Cancer Research. The authors thank Michael T. Lewis and Lacey E. Dobrolecki, directors of the Patient‐derived Xenograft and Advanced In Vivo Models (Baylor collage, TX), for info regarding PDX models. The authors thank Shubhankar Das for his assistance with the in vivo experiment, forPier Giorgio Puzzovio for his assistance during the revision, and for Yossi Yarden and his team members for productive discussions and suggestions. This study was supported by the Cooperation Program in Cancer Research of the Deutsches Krebsforschungszentrum (DKFZ) and Israel's Ministry of Innovation, Science and Technology (MOST), the Israel Science Foundation (Grant No. 1564/23), Merck KGaA, Darmstadt, Germany, by the Weizmann‐Pasteur collaborative grant, and by a research grant from the Erica Drake Fund.
+
+Vinik Y., Maimon A., Dubey V., Raj H., Abramovitch I., Malitsky S., Itkin M., Ma'ayan A., Westermann F., Gottlieb E., Ruppin E., Lev S., Programming a Ferroptosis‐to‐Apoptosis Transition Landscape Revealed Ferroptosis Biomarkers and Repressors for Cancer Therapy. Adv. Sci.
+2024, 11, 2307263. 10.1002/advs.202307263
+
+## Data Availability Statement
+RNA‐seq data is publicly available in the Gene Expression Omnibus (GEO) repository (https://www.ncbi.nlm.nih.gov/geo/), accession number GSE235201. The code used to generate the computational analysis is available through GitHub (https://github.com/SimaLevLab/A‐continuous‐ferroptosis‐to‐apoptosis‐landscape). All other data generated in this study is available upon request from the corresponding author.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supporting Information
+Supplemental Table 1‐6
+
+## Data Availability Statement
+RNA‐seq data is publicly available in the Gene Expression Omnibus (GEO) repository (https://www.ncbi.nlm.nih.gov/geo/), accession number GSE235201. The code used to generate the computational analysis is available through GitHub (https://github.com/SimaLevLab/A‐continuous‐ferroptosis‐to‐apoptosis‐landscape). All other data generated in this study is available upon request from the corresponding author.

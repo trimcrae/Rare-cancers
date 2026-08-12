@@ -1,0 +1,481 @@
+3946starprotSTAR ProtocolsSTAR ProtocElsevierPMC1249116312491163124911634083943410.1016/j.xpro.2025.104037Protocol for inducible expression of small non-coding RNAs using a tet-on system in Saccharomyces cerevisiae
+NostramoRegina HopperAnita K 1Department of Molecular Genetics & Center for RNA Biology, The Ohio State University, Columbus, OH 43210, USA2Comprehensive Cancer Center, The Ohio State University, Columbus, OH 43210, USA∗Corresponding author nostramo.1@osu.edu
+∗∗Corresponding author hopper.64@osu.edu
+3Technical contact
+4Lead contact
+1982025631040371040374102025© 2025 The AuthorsThis is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+A valuable approach to understanding small non-coding RNA (sncRNA) function is to regulate their expression. However, inducible expression of sncRNAs can be challenging. Here, we present a protocol to express sncRNAs in Saccharomyces cerevisiae using a two-plasmid inducible tet-on system. We describe the steps for generating plasmids and inducing and assessing sncRNA expression. This protocol can be used to express and elucidate the function of tRNA introns and has the potential to identify functions of a wide range of sncRNAs.
+For complete details on the use and execution of this protocol, please refer to Nostramo et al. 
+Subject areas: Cell Biology, Genetics, Model Organisms, Molecular Biology
+
+## Graphical abstract
+ 
+
+## Highlights
+•Instructions for designing plasmids to inducibly express a desired sncRNA
+•Steps for transforming plasmids into S. cerevisiae and inducing sncRNA expression
+•Approaches to assess desired sncRNA expression and localization
+•Guidance for optimizing expression of sncRNAs of differing sequences and lengths
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+A valuable approach to understanding small non-coding RNA (sncRNA) function is to regulate their expression. However, inducible expression of sncRNAs can be challenging. Here, we present a protocol to express sncRNAs in Saccharomyces cerevisiae using a 2-plasmid inducible tet-on system. We describe the steps for generating plasmids and inducing and assessing sncRNA expression. This protocol can be used to express and elucidate the function of tRNA introns and has the potential to identify functions of a wide range of sncRNAs.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoCollection date 2025 Sep 19.
+
+## Before you begin
+With the advancement of RNA sequencing technologies, small non-coding RNAs (sncRNAs) are being discovered at a rapid rate, necessitating novel methodologies to determine their functions. A standard approach to understanding the function of gene products is to assess the impact of their absence or overproduction. While sncRNAs can often be easily deleted from genomes like Saccharomyces cerevisiae, overexpression can be more challenging. Unlike protein-coding genes, which contain defined promoters, terminators and transcriptional start and stop sites needed for RNA polymerase II-mediated transcription, genes encoding sncRNAs lack these components. Furthermore, many sncRNAs are embedded within other gene transcripts.
+We were interested in determining whether tRNA introns could function as sncRNAs in S. cerevisiae and needed a methodology to induce their expression. Since tRNA introns are embedded within tRNA genes, overexpression of any given intron-containing tRNA would have the desired effect of increasing levels of the free intron. However, it would also increase levels of the mature tRNA, altering the overall cellular tRNA pool, which could have global impacts on the proteome. To circumvent this issue, we developed a 2-plasmid, tet-on system to inducibly express the tRNAIle intron, without altering mature tRNAIle levels. Since this publication, we have utilized this system to successfully express other tRNA intron sequences, specifically the tRNATrp intron and the tRNASerCGA intron. Thus, this system is amenable to express likely any sncRNA.
+The protocol consists of four major sections. The first section describes how to obtain and/or design the necessary plasmids to express a sncRNA of interest. Section two explains how to transform these plasmids into S. cerevisiae. The third section details how to induce expression of the sncRNA. Lastly, section four describes how to assess the expression and localization of the sncRNA. Together, this protocol will result in tightly controlled expression of a sncRNA in S. cerevisiae, the effects of which can be analyzed by a range of downstream approaches.
+
+## Plasmid acquisition and design
+
+Timing: variable
+
+This system employs two plasmids, as depicted in . Plasmid #1 is a low-copy plasmid (YCp - Yeast centromere-containing plasmid) that contains the reverse tetracycline transactivator (rtTA) gene under the control of a strong constitutive promoter, and the T7 polymerase gene, modified to contain a nuclear localization signal (NLS), under the control of a tetracycline responsive element (TRE). Plasmid #2 is a high-copy plasmid (YEp - Yeast episomal plasmid) that contains the sequence of the sncRNA of interest under the control of a T7 promoter and terminator.
+ When yeast cells bearing these two plasmids are treated with doxycycline (DOX), a DOX-rtTA complex forms, which alters the confirmation of the rtTA and allows its binding to the TRE. This results in RNA polymerase II-mediated transcription of the T7 polymerase gene. After translation, the T7 polymerase localizes to the nucleus where it binds to the T7 promoter of Plasmid #2. This results in expression of the sncRNA of interest.
+1.Obtain Plasmid #1 from Addgene (Plasmid # 239293). See for plasmid map.
+Note: This plasmid contains the reverse tetracycline transactivator (rtTA) sequence, modified to have high-sensitivity and low leakiness (rtTA-M2-SE-G72P), under the control of the strong, constitutive TDH3 promoter (originally obtained from Addgene Plasmid # 177924). This plasmid also contains the T7 polymerase gene, modified with a SV40 nuclear localization signal (NLS) between amino acids 10 and 11 and to have reduced abortive transcription (P266L; analogous to P278L in the T7 polymerase containing the NLS; originally obtained from the Alper lab ). The T7 polymerase gene is under the transcriptional control of a tetracycline-responsive element (TRE), which is comprised of seven consecutive Tet operator sequences (tetO7) followed by the CYC1 promoter. The auxotrophic marker in this plasmid is HIS3.
+CRITICAL: The rtTA and T7 polymerase genes can be cloned into a different vector background if desired. However, it is important that the rtTA is expressed from a low copy plasmid in order to minimize leakiness. 
+2.Obtain Plasmid #2 from Addgene (Plasmid # 239294) if expressing the tRNAIle intron (see for plasmid map). If expressing a different sncRNA, design primers to generate Plasmid #2, using the following steps.Note: Plasmid #2 should contain the sequence of the sncRNA to be inducibly expressed. Throughout this protocol, this RNA will be referred to as “the desired sncRNA” or “the sncRNA of interest”.
+a.Design and order a forward primer containing the sequence depicted in .Note: This primer should consist of four random nucleotides (for efficient SalI digestion), the SalI restriction site, the T7 promoter, the initially transcribed sequence (ITS), and the DNA sequence of the first 18–20 nt of the desired sncRNA.
+Note: The addition of 2–3 guanosines (G) or the sequence GGGAGA, referred to as the initially transcribed sequence (ITS), to the 5′ end of the desired sncRNA may result in improved expression by the T7 polymerase. , We found that the addition of the ITS sequence to the 5′ end of the tRNAIle intron sequence, referred to as the tRNAITS-Ile intron, yielded the best expression of the tRNAIle intron from Plasmid #2 as compared to the endogenous tRNAIle intron sequence or the 5′ GG-amended tRNAIle intron sequence ( ). However, the ability of the ITS sequence to enhance expression will vary based on the sequence of the desired sncRNA and should be optimized for each RNA (see ).
+
+b.Design and order a reverse primer containing the sequence depicted in .Note: This primer should consist of four random nucleotides (for efficient SalI digestion), the SalI restriction site, the reverse complement sequence of the T7 terminator, and the reverse complement of the DNA sequence of the last 18–20 nt of the desired sncRNA.
+Note: The T7 polymerase is highly processive and is prone to read-through transcription, resulting in RNAs that are longer than desired. By altering the wild-type T7 terminator sequence, the extent of read-through transcription can be altered. However, this is dependent not only on the T7 terminator sequence, but on the sequence of the upstream sncRNA as well. Several T7 terminator sequences, listed in , were assessed for their impacts on read-through transcription of the tRNAIle intron, tRNATrp intron and tRNASerCGA intron, yielding varying results ( ).
+Note: For the tRNAIle intron, a shortened, T-rich terminator, referred to as Var1 ( ), greatly reduced, but did not eliminate, read-through transcription as compared to the wild-type T7 terminator sequence. When three other T7 terminator sequences (Var2, Var3 and Hyb6) were inserted downstream of the full length tRNAIle intron (for Var3 and Hyb6) or a 7-nt 3′ shortened tRNAIle intron (for Var2), RNAs of differing lengths and abundance were observed ( A).
+Note: Additional modifications to the T7 terminator sequence were made when the sncRNA sequence in Plasmid #2 was changed to the tRNASerCGA or tRNATrp intron. The impacts of these terminators on tRNASerCGA or tRNATrp intron expression is shown by northern blot ( B and 7C). These findings highlight the impact of both the T7 terminator sequence and sncRNA sequence on read-through transcription. Therefore, the T7 terminator sequence should be optimized for each desired sncRNA.
+CRITICAL: For successful cloning using the approach described above, it is important that the DNA sequence of the desired sncRNA does not possess a SalI restriction site. If a SalI site is present, any of the other restriction sites in the vector’s remaining multiple cloning site can be used, given that they are absent from the DNA sequence. The most commonly used restriction sites are shown in . For a complete list of available restriction sites, see the sequence at Addgene (Plasmid #239294).
+Note: Since the same restriction sites (SalI) are used in both the forward and reverse primers, the DNA sequence of the desired sncRNA, flanked by the T7 promoter and terminator, can be inserted into the vector during cloning in either orientation. This should not impact expression. However, if a particular orientation is required, either 1) use two different restriction sites in the forward and reverse primers, or 2) screen for the orientation of the insert after cloning.
+
+ 
+
+## Obtaining template DNA
+
+Timing: 14–16 h (for yeast culture growth) and 1 h (for genomic DNA isolation)
+
+This step describes how to obtain genomic DNA from yeast cells that can be used to PCR amplify the desired sncRNA using the Plasmid #2 primers designed in the previous step. Alternatively, if the desired sncRNA is not in the S. cerevisiae genome, a similar protocol can be used to obtain genomic DNA from an appropriate organism. Alternatively, a double stranded oligo containing the DNA sequence of the desired sncRNA can be purchased.
+3.Add 2 mL YEPD (or appropriate selection media) to a test tube and add a small amount of S. cerevisiae from frozen 30% glycerol stocks. Incubate at 23°C–30°C for 14–16 h with gentle shaking or rotation.
+4.Transfer 100–200 μL of culture to a 1.5 mL microcentrifuge tube and centrifuge at 10,500 × g for 1.5 min. Remove supernatant.
+Note: Cells in mid-log phase are easier to lyse than cells in stationary phase. To determine the stage of yeast growth, measure the absorbance at 600 nm, referred to as OD600, using a spectrophotometer. Mid-log phase cells have an OD600 of approximately 0.4–0.8.
+5.To lyse cells, suspend in 100 μL of 200 mM lithium acetate/1% SDS. Incubate for 10 min at 22°C–25°C or for 5 min at 70°C.
+6.To precipitate the DNA, add 300 μL of 100% ethanol and vortex tubes for a few seconds.
+7.Centrifuge at 15,000 × g for 3 min.
+8.Remove the supernatant and wash pellet with 500 μL 70% ethanol. Centrifuge at 15,000 × g for 30 sec.
+9.Remove the supernatant and dissolve the pellet in 100 μL of DNase/RNase-free water or TE buffer.
+10.Centrifuge at 15,000 × g for 30 sec and transfer the supernatant containing genomic DNA to a fresh 1.5 mL microcentrifuge tube. Measure DNA concentration. Store at −20°C.
+Note: DNA concentrations of >100 ng/μL are sufficient for further PCR steps.
+Note: DNA is stable for at least 1 year at −20°C.
+
+## Making competent DH5 alpha E. coli cells
+
+Timing: 2–3 days
+
+This step describes how to generate competent DH5 alpha cells using the Mix & Go! Competent Cells protocol (Zymo Research). Alternatively, DH5 alpha competent cells can be purchased from companies such as Thermo Fisher Scientific or New England Biolabs.
+Note: Protocol can be found at: https://www.zymoresearch.com/pages/mix-and-go-competent-cells.
+11.Grow a culture of DH5 alpha cells for 14–16 h in 2 mL LB media at 37°C.
+12.To a 500 mL flask, add 50 mL ZymoBroth and 0.5 mL of overnight DH5 alpha culture. Incubate culture for 14–16 h at 23°C with shaking (150–250 rpm) until OD600 is 0.4–0.6.
+CRITICAL: For optimal transformation efficiency, harvest cells at an OD600 of 0.2–0.6 and grow at a temperature of 20°C–33°C.
+13.Transfer the flask to ice for 10 min. Pellet the cells by transferring to a 50 mL conical centrifuge tube and centrifuge at 1,000 × g for 10 min at 0°C–4°C.
+14.Remove the supernatant and resuspend the cells in 5 mL ice cold 1× Wash buffer. Re-pellet the cells as above.
+15.Completely remove the supernatant and resuspend the cells in 5 mL ice-cold 1× Competent buffer.
+16.Aliquot 100–200 μL into 1.5 mL microcentrifuge tubes on ice. Store at −80°C.
+Note: Competent cells are stable for at least 1 year if kept at −80°C.
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+ 
+Note: Since yeast strains and plasmids contain auxotrophic selection markers, drop-out amino acid premixes are a convenient and inexpensive way to make media containing only the desired amino acids.
+
+ 
+Note: For plates, add 20 g agar before autoclaving.
+
+ 
+Note: For plates, add 20 g agar before autoclaving.
+
+ 
+Note: For plates, add 20 g agar before autoclaving.
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+## Step-by-step method details
+
+## Generation of plasmid #2
+
+Timing: approximately 1 week
+
+This step uses the primers designed in the previous section to generate a plasmid containing the DNA sequence of the sncRNA of interest under the control of a T7 promoter and terminator.
+1.Perform PCR using Q5 Hot-Start High Fidelity DNA polymerase (New England Biolabs) to amplify the DNA sequence of the desired sncRNA.Note: Protocol can be found at: https://www.neb.com/en-us/protocols/2012/08/30/pcr-using-q5-hot-start-high-fidelity-dna-polymerase-m0493.
+Note: Alternatively, any other High Fidelity DNA polymerase can be used.
+a.Add the following to a 0.1 mL PCR tube. 
+b.Gently mix the reaction and quick spin to collect all liquid to the bottom of the tube.
+c.Transfer the PCR tube to a thermal cycler and begin thermocycling as follows: 
+
+2.Run PCR product on an agarose gel containing ethidium bromide (0.5 μg/mL of agarose gel).
+Note: As an alternative to ethidium bromide, SYBR safe DNA gel stain can be used at a final concentration of 0.1 μL/mL of agarose gel.
+3.Place gel on a UV light box and excise DNA band.a.Using a sterile razor blade, cut out DNA band of the appropriate size.
+b.Place gel fragment in a 1.5 mL microcentrifuge tube.
+
+Pause point: Gel fragment can be stored at −20°C for a few days.
+4.Extract DNA from gel fragment using the QIAquick Gel Extraction Kit (QIAGEN) according to the manufacturer’s protocol.
+Note: DNA concentrations of >10 ng/μL are sufficient for downstream steps.
+Note: Protocol can be found at: https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/dna-clean-up/qiaquick-gel-extraction-kit).
+5.Restriction enzyme digestion of purified DNA and vector using SalI-HF.a.Set up two 1.5 mL microcentrifuge tubes: one for the purified DNA (insert) and one for the vector. Add the following to each tube: Note: Quick CIP phosphatase treatment of the vector is necessary to prevent re-circularization during the ligation step.
+Note: For enhanced expression, the vector backbone for Plasmid #2 should be a high copy plasmid. Additionally, it must contain a different auxotrophic marker than Plasmid #1 to allow for selection of yeast cells containing both plasmids.
+
+b.Gently mix and incubate at 37°C for 15 min.
+c.Heat inactivate SalI-HF by incubating at 65°C for 20 min. For the vector reaction, heat inactivate Quick CIP by subsequently heating at 80°C for 2 min.Pause point: Digested insert and vector can be stored at −20°C.
+
+6.Purify digested insert and vector using the QIAquick Gel Extraction Kit (QIAGEN), as used above, according to the manufacturer’s instructions.
+7.Ligate the SalI-digested insert and SalI-digested, CIP-treated vector using the Hi-T4 DNA ligase (New England Biolabs).a.In a 1.5 mL microcentrifuge tube, combine the following in order: 
+b.Mix by pipetting up and down gently and centrifuge for a few seconds.
+c.Incubate at 25°C–50°C for 10 min.
+d.Heat inactivate by incubating at 65°C for 10 min, then store on ice.Pause point: Ligation products can be stored at −20°C for at least 1 year.
+Note: Protocol can be found at: https://www.neb.com/en-us/products/m2622-hi-t4-dna-ligase.
+
+8.Transform ligation product into competent DH5 alpha cells.a.Thaw competent cells on ice for 5–10 min.CRITICAL: Storage of competent cells at low temperatures is necessary to maintain the permeability of the cell membrane, which is important for efficient DNA uptake. Therefore, cells must be kept on ice to thaw and should not be refrozen after thawing.
+
+b.Add 5 μL ligation product to 50 μL competent cells. Mix by gently tapping. Do not vortex.Note: Remaining ligation products can be stored at −20°C for later use.
+
+c.Incubate tubes on ice for 3–5 min. Then spread onto a LB plate containing 100 μg/mL ampicillin.Note: The pRS426 vector contains an ampicillin resistance cassette. If a vector containing a different drug resistance cassette is used, the appropriate drug should be added to the LB plates.
+
+d.Incubate at 37°C for 14–16 hr.
+e.Start cultures of individual colonies in 2 mL LB containing 100 μg/mL ampicillin and grow at 37°C for 14–16 hr.
+
+9.Screen for insert by PCR.a.Purify plasmid from 2 mL cultures using QIAprep Miniprep kit (QIAGEN).Note: Protocol can be found at: https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/plasmid-dna/qiaprep-spin-miniprep-kit.
+
+b.Perform PCR followed by agarose gel electrophoresis as described in steps 1 and 2 above.Note: Alternatively, the presence of the insert can be screened by restriction enzyme digestion of the purified plasmids using SalI, followed by agarose gel electrophoresis.
+
+10.Sequence the plasmid to confirm that the desired sncRNA sequence is correct.
+Note: The M13 forward and/or M13 reverse primers can be used for sequencing.
+M13F (5′ to 3′): GTAAAACGACGGCCAG.
+M13R (5′ to 3′): CAGGAAACAGCTATGAC.
+
+## Transformation of yeast cells with tet-on plasmids
+
+Timing: 1–1.5 weeks per transformation
+
+This step generates the yeast strains needed to inducibly express the desired sncRNA by introducing Plasmid #1 containing the reverse tetracycline transactivator (rtTA) and T7 polymerase genes and Plasmid #2 containing the DNA sequence of the sncRNA of interest under the control of a T7 promoter and terminator.
+11.Growth of yeast cells.a.Prepare a test tube with 1.5 mL YEPD for each yeast strain to be transformed.
+b.Transfer a small amount of frozen yeast cells using sterile wooden sticks to the test tubes and incubate for 14–16 h at 23°C–30°C with rotation at 150–250 rpm.
+
+Note: Yeast cells should be stored in 30% glycerol at −80°C in cryovials.
+Note: It is important to prevent thawing of the frozen yeast stocks. Therefore, the amount of yeast cells used to start the 1.5 mL culture will vary. This will not impact the transformation efficiency. The next day, transfer cultures to 1.5 mL microcentrifuge tubes and centrifuge at 10,000 × g for 1.5 min to pellet cells.
+12.Transformation using the LiAc/SS carrier/DNA/PEG method. a.Remove supernatant and resuspend cells in 100 μL sterile water or media.
+b.Heat ssDNA at 95°C for 5 min, then place on ice to cool.
+c.To each microcentrifuge tube add 300 μL PEG-3350 (50% w/v), 36 μL 1 M lithium acetate, and 50 μL ssDNA (2 mg/mL), in that order.
+d.Add 34 μL sterile water containing approximately 200–500 μg of Plasmid #1 or #2.Note: Either Plasmid #1 or Plasmid #2 can be transformed first. However, transformation with Plasmid #1 first will yield a strain that can be stored as a glycerol stock to be transformed with a variety of plasmid #2’s to express different sncRNAs.
+Note: Alternatively, cells can be transformed with Plasmids #1 and #2 simultaneously. However, transformation efficiency will be greatly reduced.
+
+e.Gently vortex for 15 sec to mix and incubate at 42°C for 1–3 hrs.Note: If transforming a temperature sensitive yeast strain, incubate at 42°C for 1 h or at 22°C–25°C for 14–16 h.
+
+f.Centrifuge tubes for 5–10 sec and remove all supernatant.
+g.Resuspend cells in 300 μL sterile water and spread on plate containing the appropriate SC selection medium. For example, if transformed with Plasmid #1 containing a HIS3 gene, then spread on SCD plate lacking histidine.
+h.Incubate plates at 30°C for 3–4 days until single colonies appear.
+i.Streak single colonies on a fresh plate containing the appropriate SCD selection medium and let grow at 30°C for 2 days.Note: This step is necessary to ensure the selection of a single colony.
+
+j.Add a single colony to a test tube containing 2 mL of appropriate SCD selection medium and incubate at 30°C for 14–16 h with rotation or shaking.
+k.Make 30% glycerol stocks by combining 500 μL 60% glycerol and 500 μL culture in a cryovial and store at −80°C.
+l.Repeat process to transform cells with the second plasmid.
+
+## Cell growth and doxycycline treatment
+
+Timing: 2 days
+
+This step describes the optimal conditions to inducibly express the desired sncRNA from yeast cells in response to treatment with doxycycline (DOX).
+13.Grow yeast cultures.a.Add yeast cells containing Plasmids #1 and #2 to a test tube containing 2 mL of appropriate SCD selection media.
+b.Incubate at 23°C–30°C for 14–16 h with shaking or rotation.
+c.Transfer a small amount of culture to a 125 mL flask containing 31 mL of appropriate SCD selection media and incubate at 23°C–30°C for 14–16 h with shaking or rotation.Note: A total of 31 mL of culture is needed for each dose of DOX or each DOX treatment time, with 1 mL for measuring the culture OD600, 15 mL for DOX treatment (+DOX), and 15 mL for treatment with the DOX diluent (ethanol) only (–DOX).
+Note: The amount of culture to be added will depend on the strain, incubation temperature and time of incubation.
+
+d.Remove 1 mL of culture and measure the OD600 using a spectrophotometer. Proceed to the next step when cells are in mid-log phase (OD600 of 0.4–0.6).Note: Mid-log phase cultures grown in SCD media contain approximately 1–2 × 107 cells.
+
+14.Preparation of DOX solution.a.Make a stock solution of 5 mg/mL DOX in 100% ethanol. Allow DOX to dissolve by gently mixing at 22°C–25°C for 1 hr.
+b.Dilute DOX stock solution in 100% ethanol to generate a 1 mg/mL working solution.
+
+15.Treatment of yeast cells with DOX.a.Divide each yeast culture into two 50 mL flasks, with 15 mL mid-log phase culture per flask.Note: One culture will be treated with DOX (+DOX) and the other will be treated with diluent (100% ethanol; -DOX).
+
+b.For the +DOX sample, add 1 mg/mL working DOX solution to one flask to a final concentration of 1–10 μg/mL. To the second flask add the same volume of 100% ethanol (-DOX).
+c.Incubate cultures at 23°C–30°C with shaking or rotation for 3 hrs.Note: The concentration of DOX and time of treatment should be optimized for each RNA to be expressed. See for examples.
+
+16.Harvest cultures.a.Pour cultures into 15 mL conical centrifuge tubes and centrifuge at 1,000 × g for 5 min at 4°C.
+b.Remove supernatant and store cell pellet at −80°C or proceed to total RNA isolation.
+
+Pause point: Cell pellets can be stored at −80°C for at least 1 year.
+
+## Total RNA isolation
+
+Timing: 5 h (can be split into 2 days)
+
+This part of the protocol describes how to purify total RNA from yeast cultures.
+17.Glass bead lysis of yeast cells.a.For each frozen 15 mL conical centrifuge tube, prepare a glass test tube (18 mm x 15 mm) on ice containing an equivalent of approximately 500 μL of acid washed glass beads.
+b.Remove conical centrifuge tubes from −80°C freezer and place on ice to thaw for a few minutes.Note: From this point on, keep samples on ice as much as possible to prevent RNA degradation.
+
+c.Resuspend yeast cells in 200 μL cold TSE buffer and transfer to test tubes containing glass beads. Cover each tube with parafilm.
+d.Vortex test tubes at maximum speed for 30 sec. Place tubes back on ice for 30 sec.
+e.Vortex two more times for 30 s each, placing tubes on ice in between rounds.Note: Efficient cell lysis can be assessed by adding a small amount of lysate to a microscope slide and visualizing under a microscope. If cell lysis is incomplete, as evident by the presence of whole cells, vortex for an additional 1–2 rounds.
+
+f.Add 235 μL cold TSE to each tube. Vortex for 15 sec.
+g.Transfer the cell lysate to a 1.5 mL microcentrifuge tube and keep on ice.
+h.Repeat steps f and g to collect any residual cell lysate bound to the glass beads.Note: It is ok if some glass beads are transferred to the microcentrifuge tube.
+
+18.Phenol-chloroform extraction of RNA.a.Add 450 μL TSE-saturated phenol to each 1.5 mL microcentrifuge tube. Mix by inverting tube 5–10 times. Centrifuge at 17,900 × g for 10 min at 4°C.
+b.Transfer the top layer to a new 1.5 mL microcentrifuge tube containing 250 μL TSE-saturated phenol and 250 μL chloroform. Mix by inverting the tube several times.
+c.Centrifuge at 17,900 × g for 10 min at 4°C.Note: After centrifugation, the upper aqueous layer will appear cloudy if the tubes are kept on ice, making it difficult to remove the upper layer without disturbing the interphase or bottom layer. To prevent this, tubes can be kept at 22°C–25°C for this step.
+
+d.Transfer the top layer to a new 1.5 mL microcentrifuge tube containing 175 μL TSE-saturated phenol and 175 μL chloroform. Mix by inverting the tube several times.
+e.Centrifuge at 17,900 × g for 10 min at 4°C.
+f.Transfer the top layer to a new 1.5 mL microcentrifuge tube containing 500 μL cold isopropanol (approximately 1 volume). Keep tubes on ice. Mix by inverting tube several times.Note: 50 μL 3M sodium acetate pH 5.2 (approximately 0.1 volume) can be added to improve the efficiency of RNA precipitation.
+
+g.Store samples at −80°C for 14–16 h or for at least 1 hr.Pause point: At this point, samples can be stored at −80°C indefinitely.
+
+19.Collection and purification of precipitated RNA.a.Remove microcentrifuge tubes from −80°C and allow to thaw for a few minutes at 22°C–25°C.
+b.Centrifuge tubes at 17,900 × g for 20 min at 4°C to pellet RNA.
+c.Prepare a 55°C water bath or heating block.
+d.Aspirate and discard the supernatant without disturbing the pellet.
+e.Add 1 mL of cold 70% ethanol. Centrifuge at 17,900 × g for 5 min at 4°C.
+f.Remove and discard the supernatant. Quick spin the tubes for 5 sec at 22°C–25°C. Remove all remaining ethanol.
+g.Set the tubes in a rack and open the caps. Air dry the pellet for 10–15 min at 22°C–25°C until completely dry.
+h.Add 40–50 μL RNase-free water and incubate at 55°C for 10 min to dissolve the RNA pellet.
+i.Quick spin the tubes and place on ice.
+j.Measure RNA concentration using a Nanodrop. Proceed to the next step or store RNA at −80°C for later use.
+
+Note: For accurate RNA concentration measurements, dilute RNA to a concentration of <2000 ng/μL.
+Note: RNA concentrations of >200 ng/μL are sufficient for subsequent steps.
+Pause point: RNA can be stored at −80°C indefinitely.
+20.RNA quality assessment by agarose gel electrophoresis.a.For each sample, load 5 μg of RNA to the well of a 1% agarose gel containing ethidium bromide.Note: As an alternative to ethidium bromide, SYBR safe DNA gel stain can be used at a final concentration of 0.1 μL/mL of agarose gel.
+
+b.Run the gel and assess the staining intensity of the major ribosomal RNA (rRNA) bands, which are 25S and 18S in S. cerevisiae.Note: Intact RNA will display two crisp, distinct bands at a 2:1 ratio of 25S:18S rRNA. Degraded RNA will display smearing below the 25S and 18S rRNA bands.
+
+## Assessing inducible sncRNA expression by RT-qPCR analysis
+
+Timing: ∼8–10 h
+
+This part of the protocol describes how to assess expression of the desired sncRNA using RT-qPCR. Alternatively, expression can be assessed by northern blot analysis. Detailed step by step instructions for a sensitive non-radioactive Northern blot protocol is described in Wu et al. and therefore will not be described here.
+21.DNase treatment using Turbo DNA-free kit (Invitrogen).Note: Protocol can be found at: https://www.thermofisher.com/order/catalog/product/AM1907.
+a.In a 0.5 mL microcentrifuge tube, add 8000 ng RNA and bring to 40 μL with sterile dH2O.
+b.Add 4 μL 10× Turbo DNase buffer and 1 μL Turbo DNase. Gently mix and incubate at 37°C for 20–30 min.
+c.Add 4 μL DNase inactivation reagent and incubate at 22°C–25°C for 5 min, gently tapping to mix every few minutes.
+d.Centrifuge tubes at 10,000 × g for 1.5 min.
+e.Transfer supernatant to a new 1.5 mL microcentrifuge tube.
+f.Measure RNA concentration using a Nanodrop.Pause point: DNase-treated RNA can be stored at −80°C indefinitely.
+
+22.Reverse transcription using RevertAid RT Reverse Transcription kit (Thermo Scientific).Note: Protocol can be found at: https://www.thermofisher.com/order/catalog/product/K1691.
+a.To 0.1 mL PCR tubes, add 300–1000 ng RNA and 2 μl 10 μM RT primer. Bring to 10.5 μl with sterile dH2O.Note: The RT primer should be complementary to approximately 8–12 nt of the 3′ end of the sncRNA of interest plus 8–12 nts of the 5′ end of the T7 terminator sequence.
+Note: These primers will allow for the detection of the sncRNA expressed from Plasmid #2, but not endogenous RNA. If the desired sncRNA is not expressed in the S. cerevisiae genome, a primer complementary to the 3′ end of the desired sncRNA can be utilized.
+
+b.Incubate tubes at 65°C for 5 min, then place on ice.
+c.To each tube add 4 μL 5× reaction buffer, 0.5 μL RiboLock RNase inhibitor (40 U/μl), 2 μl 10 μM dNTPs, and 1 μL RevertAid Reverse Transcriptase.
+d.Incubate at 42°C for 1 h, then 70°C for 10 min.
+e.Store at −20°C or keep on ice and proceed to qPCR analysis.Pause point: cDNA can be stored at −20°C indefinitely.
+Note: If qPCR will be performed using a standard curve, proceed to the next step. If the comparative CT method is used, skip the next step. Instead, perform an additional reverse transcription reaction using a reverse primer for the housekeeping gene of choice.
+
+23.PCR and agarose gel electrophoresis to generate qPCR standards for the sncRNA of interest.Note: There are two main methods to analyze qPCR data: Relative standard curve analysis and Delta-delta Ct analysis. This step describes how to analyze qPCR data using the relative standard curve method. If the delta-delta Ct method is preferred, see the note at the end of this section for further details.
+a.Set up a PCR reaction using approximately 1–2 μL of cDNA per reaction.Note: The forward primer should be complementary to the 6-nt ITS sequence (or alternative 5′ sequence) plus the first 12–18 nts at the 5′ end of the sncRNA of interest. The reverse primer should be the same as used for reverse transcription.
+Note: qPCR amplicon size should be at least 50 nts in length. If the desired sncRNA is shorter than 50 nts, amplification of the 5′ ITS sequence and/or 3′ terminator sequence can be used to increase the amplicon length.
+
+b.Run PCR in a thermal cycler using the conditions recommended for the Taq DNA polymerase of choice.
+c.Run the PCR products on an agarose gel containing ethidium bromide and visualize under UV light.Note: As an alternative to ethidium bromide, SYBR safe DNA gel stain can be used at a final concentration of 0.1 μL/mL of agarose gel.
+
+d.Cut out bands corresponding to the correct size of the cDNA and purify from gel fragments using QIAquick gel extraction kit (QIAGEN), as described in step 4.
+e.Measure the DNA concentration.Note: DNA concentrations of >10 ng/μL are sufficient for downstream steps.
+
+24.qPCR using PowerUp SYBR Green Master Mix.a.Dilute cDNA 2-fold by adding 20 μL nuclease-free dH2O.Note: Diluting the cDNA helps with pipetting accuracy during qPCR since the RT reaction contains the RT enzyme and RNase inhibitor, both of which are stored in buffers containing glycerol.
+
+b.Make six serial dilutions of the purified cDNA standards.
+c.Make master mix using the forward and reverse primers used in step 23.
+ Note: Each sample should be measured in triplicate. Additionally, each qPCR plate will need a no template control (qPCR mix without cDNA) and a no RT control (cDNA from a RT reaction containing all components except the reverse transcriptase).
+
+d.Distribute 9 μl of master mix per well of 96-well PCR plate.
+e.Add 1 μL of 2× diluted cDNA or serially diluted standards to each well.
+f.Run qPCR on a QuantStudio3 Real-Time PCR System (or other real-time PCR instrument) according to the conditions below. 
+g.Select the standard curve analysis module and the fast run mode. Enter the concentration of each of the serially diluted standards where indicated.
+h.After qPCR run, assess the melting curve for a single peak, indicating the amplification of only a single product.
+i.If only a single peak is present, use the standard curve to determine the concentration of cDNA per sample.Note: If using the comparative CT method, each sample should be assessed for levels of the sncRNA of interest as well as a housekeeping gene. cDNA levels of the sncRNA of interest should be expressed relative to levels of the housekeeping gene in each sample. On the QuantStudio3 instrument, this can be done by selecting the comparative CT method.
+
+## Subcellular fractionation to assess sncRNA localization
+
+Timing: 14–16 h to grow yeast cultures; 2–3 h for fractionation procedure
+
+This part of the protocol describes how to assess sncRNA subcellular localization using subcellular fractionation. In this system, the sncRNA of interest is transcribed by a nuclearly-localized T7 polymerase. Therefore, T7 polymerase-mediated transcription of the sncRNA of interest takes place in the nucleus. If small enough in size, the RNA should passively diffuse through the nuclear pores to the cytoplasm. The following rapid fractionation protocol, which was modified from Neumann et al., will allow for the separation of yeast cells into cytoplasmic and organellar fractions, from which RNAs and proteins can be isolated. Subsequent northern blot or RT-qPCR analysis can then be used to assess sncRNA localization and western blot analysis can be used to assess protein localization to demonstrate fraction purity.
+CRITICAL: RNase and protease inhibitors should be added to buffers just prior to use.
+25.Label sixteen 1.5 mL microcentrifuge tubes per yeast strain, as indicated in the table below.
+ 26.Grow and collect yeast cells.a.For each yeast strain, grow 200 mL cultures of yeast cells to mid-log phase (OD600 of 0.4–0.6). This is approximately 3–4 × 107 cells in YEPD or 1–2 × 107 cells in SCD.Note: Approximately 80–120 OD600 of cells is needed per yeast strain.
+
+b.Split culture into four 50 mL conical centrifuge tubes and centrifuge at 3000 × g for 5 min at 4°C.
+c.Pour off nearly all of the supernatant, leaving just enough to resuspend and transfer cells to 1.5 mL microcentrifuge tubes.
+d.Gently pipet cells up and down to resuspend. Then transfer cells to four 1.5 mL microcentrifuge tubes (Tube #1).Note: At this point, you will have 4 microcentrifuge tubes per yeast culture.
+
+e.Centrifuge at 10,000 × g at 22°C–25°C for 1.5 min.
+f.Remove supernatant and save tubes containing cell pellet.
+
+27.Generate and collect yeast spheroplasts.a.Add 25 U of Zymolyase to 4.5 mL spheroplast buffer (1 M sorbitol, 10 mM EDTA, pH 8.0).Note: For each yeast strain, 4 mL of spheroplast buffer with Zymolyase is needed.
+
+b.Resuspend the cells in each of the four microcentrifuge tubes in 1 mL spheroplast buffer with Zymolyase by gently pipetting up and down.
+c.Incubate the tubes at 22°C–25°C, inverting every 5–10 min to mix.
+d.After 30 min, remove a few microliters of cell culture and place on a microscope slide (diluted in spheroplast buffer if necessary).
+e.Add a cover slip and check for spheroplasts under the microscope.
+f.Repeat every 5 min until approximately 60%–70% of cells are spheroplasts.Note: The time to generate spheroplasts will depend on the cell density and concentration of Zymolyase. Cells with a cell wall will have a bright ring around them. Cells without a cell wall (spheroplasts) will look dark around the cell, with a “cracked egg” phenotype and free flowing particles on the slide.
+Note: During the spheroplast process, many cellular processes are still taking place. For example, intron-containing precursor tRNAs bearing 5′ leader and 3′ trailer sequences are processed by RNase P and RNase Z to yield end-processed intron-containing tRNAs during spheroplasting (See , ).
+
+g.Centrifuge cells at 1,000 × g at 4°C for 5 min. Discard the supernatant.
+h.To two of the four tubes, add 500 μL Ficoll buffer (10 mM HEPES pH 6.0, 18% Ficoll 400) and gently resuspend.
+i.Add the resuspended cells to the remaining two tubes and gently resuspend.Note: You will now have 2 microcentrifuge tubes (Tube #1) per yeast culture, each containing approximately 0.5 mL of spheroplasts.
+
+28.Lyse the spheroplasts and collect whole cell lysate.a.Lyse the spheroplasts by adding 600 μl lysis buffer to each tube (10 mM HEPES pH 6.0, 50 mM NaCl, 1 mM MgCl2) supplemented with RNase inhibitors and a cocktail of protease inhibitors. Mix by inverting.Note: RNase and protease inhibitors should be added just prior to use.
+Note: Tubes should be kept on ice from this point on to prevent RNA and protein degradation.
+
+b.Transfer 100 μL of spheroplast lysate into two new 1.5 mL microcentrifuge tubes (Tubes #2-P and #2-R).
+c.Store microcentrifuge tubes at −80°C for later protein and RNA analysis, respectively.
+d.Centrifuge the remaining sample at 1,500 × g at 4°C for 15 min.
+e.While waiting, prepare NIB buffer.
+
+29.Isolate the cytoplasmic fraction.a.Transfer the supernatant into two new tubes (Tube #3).CRITICAL: To ensure the cell pellet isn’t disturbed, leave a small amount of supernatant in the tube.
+
+b.Save the cell pellets from Tube #1, which consists of organelles and whole cells, storing the tubes on ice until step 30.
+c.Spin the two tubes containing the supernatant (Tube #3) at 1,000 × g at 4°C for 5 min.
+d.Transfer approximately 400 μl of supernatant into each of four tubes, two labeled Tube #4-P and two labeled Tube #4-R, and store at −80°C.Note: These are the cytoplasmic fractions which will be used for protein and RNA analysis, respectively.
+CRITICAL: To ensure the cell pellet isn’t disturbed, leave a small amount of supernatant in the tube.
+
+30.Remove any contaminating whole, unlysed cells.a.Discard all remaining supernatant from the two Tube #1’s containing the cell pellets from step 29.
+b.Resuspend the pellets in 1 mL NIB buffer (17% glycerol, 50 mM MOPS pH 7.5, 150 mM KAc, 2 mM MgCl2, 500 μM Spermidine, 150 μM Spermine and RNase inhibitor).
+c.Spin at 1,000 × g at 4°C for 1.5 min to pellet any contaminating whole cells.
+d.Transfer the supernatant to two new tubes (Tube #5).CRITICAL: To ensure the cell pellet isn’t disturbed, leave a small amount of supernatant in the tube.
+
+e.Repeat this spin to pellet any remaining whole cells (1,000 × g at 4°C for 1.5 min).
+
+31.Isolate the organellar fraction.a.Transfer the supernatant from one of the Tube #5’s into a new 1.5 mL microcentrifuge tube (Tube #6-P). Save the other Tube #5 on ice.Note: Be careful not to disturb the cell pellet.
+
+b.Centrifuge Tube #6-P at 17,900 × g at 4°C for 5 min.
+c.Discard the supernatant, leaving the pellet undisturbed.
+d.Then add the supernatant from the remaining Tube #5 to Tube #6-P.Note: You will now have one microcentrifuge tube per sample.
+
+e.Centrifuge again at 17,900 × g at 4°C for 5 min.
+f.Carefully remove all of the supernatant.
+g.Resuspend the pellet in 400 μL NIB buffer. This is the organellar fraction.
+h.Transfer 50 μl to a new 1.5 mL microcentrifuge tube (Tube #6-R) for RNA isolation.
+i.Store Tubes #6-P and #6-R at −80°C for later protein and RNA analysis, respectively.Note: Protein fractions can be used directly for western blot analysis.
+Pause point: Tubes can be stored at −80°C for at least 1 year.
+
+32.Isolation of total RNA from whole cell lysate, cytoplasmic and organellar fractions.a.Add 400 μL of LETS buffer (10 mM Tris-HCl pH 7.5, 100 mM LiCl, 10 mM EDTA pH 8.0 and 0.2% SDS) to Tubes 2-R, 4-R and 6-R.Note: There will be two tubes of 4-R and one of each 2-R and 6-R per sample.
+
+b.Add 300 μl TSE-saturated phenol (pH 6.6) and 300 μl chloroform. Invert and centrifuge at 17,900 × g for 10 min at 4°C.
+c.Transfer supernatant to a new tube containing 200 μl phenol and 200 μl chloroform. Invert and centrifuge at 17,900 × g for 10 min at 4°C.
+d.Transfer supernatant to a new 1.5 mL microcentrifuge tube containing 500–800 μl isopropanol (1 volume) and 50–80 μl (0.1 volume) sodium acetate (pH 5.2).
+e.Mix by inverting and store tubes at −80°C for at least 1 hr.Pause point: At this point, samples can be stored at −80°C indefinitely.
+
+f.Precipitate and purify the RNA using the procedure in step 19.
+
+ 
+
+## Expected outcomes
+This protocol will result in reliable, inducible expression of likely any sncRNA. However, the extent of sncRNA expression will vary depending on factors such as the yeast strain, the sequence of the sncRNA (particularly the 5′ end), the length of the RNA, and the dose and time of DOX treatment. Alterations in the T7 terminator sequence in Plasmid #2 also results in sncRNA products of varying lengths and expression levels ( ). Examples of how sncRNA expression can be impacted by each of these factors are provided below and should serve as a guide to optimize expression of any sncRNA. Regardless of the extent of sncRNA expression, the ability to compare cells treated with and without DOX makes this a powerful approach to determine sncRNA function.
+Since the sncRNA to be expressed is under the control of a T7 promoter and terminator, it is important to first validate and optimize T7 polymerase expression in response to DOX treatment. For reasons presently unknown, T7 polymerase mRNA levels vary widely based on the yeast strain. For example, in wild-type cells (BY4741) expressing Plasmid #1 and Plasmid #2, either as an empty vector or containing the sequence of the tRNAIle intron, we observed a 150-fold increase in T7 polymerase mRNA levels following 4 h treatment with 10 μg/mL DOX, as compared to untreated controls ( A). In a BY4741 strain lacking the endogenous tRNAIle introns, T7 polymerase mRNA levels increased by only 50-fold under these same conditions, despite expressing the same Plasmids #1 and #2 ( B).
+ Despite the large differences in DOX-induced T7 polymerase mRNA levels between these two strains, levels of the ITS-tRNAIle intron expressed from Plasmid #2 displayed much less variation. For example, when Plasmid #2 contained the sequence of the tRNAITS-Ile intron, treatment with 10 μg/mL DOX for 3 h elicited a 14-fold increase in tRNAITS-Ile intron levels in wild-type cells and a 10-fold increase in cells lacking the endogenous tRNAIle introns ( A). However, this was not the case for all yeast strains. In order to study the contributions of different RNA decay pathways on the tRNAIle intron-mediated regulation of gene expression, we utilized this tet-on overexpression system to express the tRNAITS-Ile intron in yeast strains bearing deletions or temperature sensitive mutations in components of different RNA decay pathways, such as the nuclear and cytoplasmic 5′ to 3′ exonucleases Rat1 and Xrn1, respectively, and the RNA exosome components Dis3, Rrp6 and Ski7. , , Interestingly, strains defective in these various RNA turnover components displayed considerable variation in the levels of the tRNAITS-Ile intron expressed from Plasmid #2. For example, DOX-induced tRNAITS-Ile intron levels were increased by 57-fold in dis3-1 cells, 20-fold in rat1-1 cells, 8-fold in rrp6Δ cells, 5-fold in xrn1Δ cells, and 0.2-fold in ski7Δ cells (as compared to untreated controls) ( B).
+ The RNA sequence also impacts expression levels. For example, DOX-induced levels of tRNAITS-Ile intron displayed small variations when 9 nucleotide stretches in the interior of the 60 nucleotide tRNAIle intron sequence were mutated to the complementary nucleotide (i.e. G to C). For example, changing nucleotides 25–33 of the tRNAIle intron resulted in a 10-fold increase in tRNAITS-Ile intron levels in response to DOX treatment as compared to 14-fold with the wild-type tRNAIle intron sequence ( A). Changing nucleotides 30–38 of the tRNAIle intron had an even larger inhibitory effect on expression, with only a 7-fold increase in tRNAITS-Ile intron levels following DOX treatment. Altering the sequence of the tRNAIle intron also impacted the length of RNAs expressed, as shown by northern blot ( B). This is despite changes only to the sequence of the tRNAIle intron in Plasmid #2, but not the overall length of the intron.
+ Alterations at the 5′ end of the RNA sequence have the greatest impact on expression. This is largely due to the high number of abortive transcripts that are produced by T7 polymerase when the initially transcribed sequence (ITS) of the transcription start site, specifically GGGAGA, is absent. , To circumvent this issue, the addition of 2–3 G’s or the GGGAGA sequence at the 5′ end of the RNA of interest can greatly improve expression. For example, DOX treatment elicited a 0.5-fold increase in tRNAIle intron levels when the 5′ end of the this RNA, which normally begins with a single G, was either unamended or amended to start with 2 additional G’s ( ). When the ITS sequence of GGGAGA was added at the 5′ end, DOX treatment elicited a 7-fold increase. The effect was much different when the 19-nt tRNASerCGA intron sequence was inserted into Plasmid #2. Northern blot analysis shows that the endogenous tRNASerCGA intron sequence, which does not begin with a G, produces a small amount of a product that is >100 nts in length ( ). The addition of 3 G’s or the ITS sequence to the 5′ end yields a major product that is much shorter in length and expressed at much higher levels than the unmodified intron. This product is substantially longer than the endogenous 19-nt intron and much closer in length to the approximately 100-nt end-processed, intron-containing tRNASerCGA. In addition, the presence of the ITS sequence results in many additional read-through transcripts at lengths upwards of >100 nts. Further optimization of the 5′ and T7 terminator sequences, as was done for the tRNAIle intron, would presumably result in an RNA closer to the expected size.
+ Lastly, variations in the expression of the desired sncRNA can also be expected to be dependent on the T7 terminator sequence in Plasmid #2. The native T7 terminator sequence is inefficient, allowing for read-through transcription to serve as a mechanism of T7 phage regulation of gene expression. Mutations to the native T7 terminator sequence in Plasmid #2 will allow for enhanced expression and/or products that are closer to the desired length. The best T7 terminator sequence will vary depending on the sequence of the sncRNA of interest. For example, of the four different T7 terminator sequences that were placed downstream of the tRNAITS-le intron, three (Var1, Var2, Var3) resulted in the expression of a product of the expected size, but at much differing levels. Two terminators (Hyb6 and Var1) yielded products closer in size to that produced by the native T7 terminator ( A). Similar findings were observed with the ITS-tRNASerCGA and ITS-tRNATrp introns ( B and 7C). Alteration of the T7 terminator sequence yielded products of differing lengths and abundance.
+Using this two plasmid tet-on system, it is expected that the desired sncRNA is transcribed in the nucleus since the T7 polymerase gene in Plasmid #1 has been modified to contain a nuclear localization signal. If the size of the desired sncRNA is below the nuclear pore diffusion limit, it should passively diffuse to the cytoplasm after transcription. This was the case for the tRNAITS-Ile intron, as shown by subcellular fractionation ( ). Following DOX treatment, the tRNAITS-Ile intron accumulated in both the cytoplasmic and organellar fractions, with the intron species closest in size to the endogenous tRNAIle intron predominantly found in the cytoplasmic fraction. For larger sncRNAs, subcellular fractionation should be utilized to confirm localization to the cytoplasm.
+
+## Limitations
+Although this system can be utilized to inducibly express any sncRNA, the extent of RNA expression can be greatly affected by the sequence and length of the sncRNA. For many sncRNAs, this can be overcome by adjusting the variables described in detail above, such as the sequence upstream of the 5′ end of the sncRNA, the T7 terminator sequence and the DOX dose and treatment time. There are likely scenarios where sncRNA expression cannot be adequately optimized to yield sufficient expression. For example, in response to DOX treatment, cells lacking the Ski7 gene displayed no induction of tRNAIle intron expression ( B).
+Another limitation of this approach is that the T7 polymerase is prone to transcription read-through, making it difficult to generate a sncRNA with a defined 3′ end. Alterations to the T7 terminator sequence can greatly impact the site of transcription termination, as discussed in detail above. However, depending on the sncRNA sequence and length, this approach may yield single or multiple sncRNA products that are longer than desired. Although sncRNAs below the diffusion limit of nuclear pores should be able to passively diffuse to the cytoplasm after their transcription in the nucleus, longer sncRNAs may not be able to access the cytoplasm and be trapped in the nucleus.
+
+## Troubleshooting
+
+## Problem 1
+The sncRNA is not expressed following DOX treatment.
+
+## Potential solution
+There are several possibilities for the lack of sncRNA expression. To identify and solve the problem, follow these steps in the order listed.
+•Ensure that the T7 polymerase is expressed following DOX treatment. Some yeast strains may display poor T7 polymerase expression in response to DOX treatment and may require higher DOX doses and/or longer treatment times to induce expression.
+•If the T7 polymerase is expressed, amend the sequence upstream of the sncRNA in Plasmid #2. Add the ITS sequence (GGGAGA) or 2–3 G’s to the 5′ end of the sncRNA sequence. Refer to step 2 in “ ” section.
+•Alter the T7 terminator sequence. See for examples of potential terminator sequences. Alternatively, design additional T7 terminator sequences. Examples of additional T7 terminators and their impacts on transcription termination can be found in Calvopina-Chavez et al. (2022). 
+•Alter the dose and/or time of DOX treatment.
+
+## Problem 2
+Yeast strains which previously expressed the desired sncRNA in response to DOX treatment, no longer respond to DOX.
+
+## Potential solution
+One solution is to start with fresh yeast cultures and repeat the transformation with Plasmids #1 and #2. In some instances, mutant yeast strains can lose the ability to respond to DOX over time, particularly if the strain grows poorly or is deficient in an important cellular component. We observed this phenomenon with cells that lacked the endogenous tRNAIle introns. Over time, these cells would lose the ability to express the tRNAITS-Ile intron from Plasmid #2 in response to DOX treatment.
+
+## Problem 3
+The sncRNA is not the correct size.
+
+## Potential solution
+This issue can be addressed by altering the T7 terminator sequence. Several T7 terminator sequences and their impacts on tRNAIle, tRNATrp and tRNASerCGA intron expression are shown in and . Additional T7 terminator sequences and their impacts on transcription termination can be found in Calvopina-Chavez et al. 
+
+## Problem 4
+The rtTA is not expressed in the presence or absence of DOX.
+
+## Potential solution
+Confirm the presence of Plasmid #1 in the yeast strain. If present, sequence the plasmid to confirm that there are no mutations in the rtTA gene.
+
+## Problem 5
+The T7 polymerase is not expressed in response to DOX treatment.
+
+## Potential solution
+Confirm the presence of Plasmid #1 in the yeast strain by PCR using primers designed to amplify the T7 polymerase and/or the rtTA. If present, sequence the plasmid to confirm that there are no mutations in the T7 polymerase gene. If the sequence is correct, alter the dose and time of DOX treatment. Alternatively, utilize a different yeast strain background. For mutant strains, utilize a different mutant allele or generate a mutant strain using an alternative approach (i.e. auxin-inducible degron vs. deletion).
+
+## Resource availability
+
+## Lead contact
+Further information and requests for reagents should be directed to and will be fulfilled by the lead contact, Anita K. Hopper (hopper.64@osu.edu).
+
+## Technical contact
+Technical questions on executing this protocol should be directed to and will be answered by the technical contact, Regina Nostramo (nostramo.1@osu.edu).
+
+## Materials availability
+Plasmids used in this study are commercially available through Addgene as identified in the .
+
+## Data and code availability
+Northern blots and any other additional data reported in this paper will be shared by the upon request. This study did not generate any code or algorithms.
+
+## Acknowledgments
+This work was supported by funding from the National Institutes of Health, grant number GM122884 to A.K.H. We thank the Genomics Shared Resource at The Ohio State University Comprehensive Cancer Center, Columbus, OH, for their Sanger sequencing services.
+
+## Author contributions
+This method was conceptualized by A.K.H. and R.N. and developed by R.N.
+
+## Declaration of interests
+A.K.H. is a member of the scientific advisory board of Zhuhai Codone Biotech. Co., Ltd.
+
+## Contributor Information
+Regina Nostramo, Email: nostramo.1@osu.edu.
+Anita K. Hopper, Email: hopper.64@osu.edu.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+Northern blots and any other additional data reported in this paper will be shared by the upon request. This study did not generate any code or algorithms.

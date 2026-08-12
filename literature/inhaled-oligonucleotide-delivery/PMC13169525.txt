@@ -1,0 +1,223 @@
+80rrRespiratory ResearchRespir ResBMCPMC1316952513169525131695254192826510.1186/s12931-026-03650-1KL-6 assisted subtyping of ARDS: from subtype-specific metabolomics to LPCAT1 as a pathogenic target
+WangXiaowen XueMingshan SuLijun LuoXian LiYouxia FanShaohui HuQiurong LiaoHuizhao JiangChuci ChenJiahong SunBaoqing LiShaoqiang WangHongman 1Department of Respiratory and Critical Care Medicine, The Fifth Affiliated Hospital of Zunyi Medical University, Zhuomolangma Avenue, Doumen District, Zhuhai, Guangdong 519110 China 2Department of Emergency and Critical Care Medicine, The First People’s Hospital of Zunyi. (The Third Affiliated Hospital of Zunyi Medical University), Zunyi, Guizhou 563000 China 3Department of Clinical Laboratory, State Key Laboratory of Respiratory Disease, National Center for Respiratory Medicine, National Clinical Research Center for Respiratory Disease, Guangzhou Institute of Respiratory Health, The First Affiliated Hospital of Guangzhou Medical University, No. 28, Qiaozhong Middle Road, Liwan District, Guangzhou, Guangdong 510000 China 4Guangzhou National Laboratory, Guangzhou, Guangdong 510000 China 5Guangdong Provincial Clinical Research Center for Laboratory Medicine, Guangzhou, Guangdong 510000 China 6The First Ward of Neurosurgery Department, The Affiliated Hospital of Zunyi Medical University, Zunyi, Guizhou 563000 China ✉Corresponding author.
+#Contributed equally.
+242026272072071452026© The Author(s) 2026Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+
+## Background
+Acute lung injury (ALI) and the resulting acute respiratory distress syndrome (ARDS) exhibit marked clinical and biological heterogeneity, hindering subtype identification, biomarker discovery, and targeted therapy development. We used untargeted metabolomics to identify serum and bronchoalveolar lavage fluid (BALF) biomarkers across ARDS subtypes and potential therapeutic targets. We introduce a KL-6–assisted refinement of the Berlin Definition to separate patients with similar PaO₂/FiO₂ ratios but differing degrees of alveolar epithelial damage.
+
+## Methods
+We enrolled 166 participants (137 ARDS, 29 controls). Using the Berlin Definition with KL-6–assisted classification, patients were stratified into common and severe subtypes. Serum metabolomes were compared between ARDS and controls and between subtypes; paired serum–BALF profiles characterized systemic vs. pulmonary features. Overlapping metabolites from four comparisons informed target prediction (SwissTargetPrediction, GeneCards), followed by in vitro and in vivo validation in LPS models.
+
+## Results
+Serum profiles and pathway enrichment differed between ARDS and controls and between subtypes. The severe subtype was enriched in fatty-acid oxidation, dicarboxylic acids, and phospholipid remodeling. Three serum metabolites discriminated severe from other less severe ARDS subtypes (AUC > 0.8). This 3-metabolite panel achieved AUC 0.917 in 10-fold cross-validation. Paired analyses showed predominant systemic alterations with subtype-specific BALF signatures; five BALF metabolites were specific to the severe subtype and correlated with KL-6, oxygenation, inflammation, and CT scores. Five shared LysoPCs highlighted LPCAT1 as the top target. LPS upregulated LPCAT1, and this effect was partially reversed by TAK-242, a TLR4 inhibitor. Knockdown of LPCAT1 reduced inflammatory cytokine and MUC1 (KL-6) release in cell culture supernatants.
+
+## Conclusion
+KL-6–assisted subtyping reveals distinct systemic and pulmonary metabolic signatures. Three serum metabolites provide evidence that justifies KL-6 as a marker of epithelial-injury–informed ARDS classification, and our results suggest that LPCAT1 is a promising therapeutic target for ARDS.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12931-026-03650-1.
+
+Keywords: ARDS, KL-6, Subtype classification, Metabolomics, LPCAT1
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Oct 17; Accepted 2026 Mar 23; Issue date 2026.
+
+## Introduction
+Acute lung injury (ALI)/acute respiratory distress syndrome (ARDS) are acute pulmonary syndromes defined by profound disruption of the alveolar capillary barrier [ ]. Despite therapeutic progress, ARDS still carries a mortality of 40–50% [ ]. A major obstacle to enhancing prognosis is its pronounced clinical and biological heterogeneity [ ]. Defining phenotypes and subtypes anchored in molecular characteristics, and advancing classification-driven approaches to diagnosis and therapy, is critical to improving clinical outcomes.
+Although numerous efforts have been made to stratify ARDS according to clinical parameters, inflammatory biomarkers, or multi-omics profiles, a unified framework has yet to be established [ , ]. Integrating biomarkers with clinical variables may improve delineation of the underlying biological heterogeneity of ARDS [ , ]. Krebs von den Lungen-6 (KL-6), a key marker of alveolar epithelial injury, is widely applied to assess disruption of the alveolar–capillary barrier [ – ]. To improve the precision of ARDS subtype stratification, this study introduced serum KL-6 into the Berlin Definition [ ]-based classification as an auxiliary variable for subtype refinement. Specifically, patients with mild ARDS defined by the Berlin Definition and KL-6 < 500 U/mL were classified as the common subtype, and those with moderate-to-severe ARDS and KL-6 > 500 U/mL as the severe subtype, potentially improving the biological and clinical relevance of traditional grading.
+As a syndrome rather than a single disease, ARDS frequently involves systemic metabolic reprogramming, underscoring the critical role of system-level metabolomic analysis in elucidating its pathobiology. Metabolomics provides a systems-level view of small-molecule alterations associated with defined pathophysiological states [ , ]. Untargeted metabolomics, due to its broad coverage and hypothesis-free approach, enables the identification of subtype-specific signatures and biomarkers [ ]. In respiratory disease, metabolomics delineates discovery of subtype biomarkers and translational targets [ ]. Metabolic studies of ARDS have largely focused on systemic profiles derived from serum or plasma [ , ], whereas inter-subtype comparisons within the lung compartment remain poorly explored. Although metabolomic studies in ARDS have characterized numerous small-molecule alterations, approaches mapping these changes to pulmonary protein targets remain limited. Integrating protein-target analyses could facilitate the identification of clinically relevant molecular targets.
+Within a KL-6–assisted stratification framework, we performed untargeted metabolomics to (i) compare serum profiles between pulmonary infection–induced ARDS and non-ARDS controls, (ii) contrast serum metabolic profiles of common and severe subtypes, and (iii) characterize paired serum and bronchoalveolar lavage fluid (BALF) profiles within each subtype. We then intersected differential metabolites across these comparisons, predicted their protein targets, and evaluated the candidate target LPCAT1 in LPS-induced ALI models both in vitro and in vivo. Guided by an integrative framework linking systemic metabolism, pulmonary metabolism, and protein targets, this study provides insights into subtype-specific mechanisms, identifies candidate biomarkers, and highlights protein targets with potential for precision interventions in ARDS.
+
+## Methods
+
+## Study population
+This study was conducted in accordance with the Declaration of Helsinki and approved by the Ethics Committees of the First Affiliated Hospital of Guangzhou Medical University (ES-2024-120-02) and the Fifth Affiliated Hospital of Zunyi Medical University ([2024]2024KT0001). As an observational study, no new interventions were introduced, and written informed consent was waived because pre-existing cohort samples were used.
+Inclusion criteria were: (1) age > 18 years. (2) pulmonary infection–induced ARDS, defined according to the Chinese Adult CAP Guidelines for severe pneumonia [ ]. (3) ARDS diagnosis based on the Berlin Definition [ ] using PaO₂/FiO₂ ratios. and (4) Patient blood collection and bronchoalveolar lavage procedures were performed at the time of hospital admission. The non-ARDS control group comprised 29 age- and sex-matched healthy volunteers without chronic disease or radiographic abnormalities. Exclusion criteria included: age < 18 years, hospital stay < 48 h, incomplete clinical data, pregnancy or lactation, immunodeficiency or immunosuppressive therapy, malignancy, and active pulmonary tuberculosis.
+Comprehensive demographic, clinical, laboratory, imaging data and serum KL-6 were collected on admission.
+
+## Sample preparation and untargeted metabolomics
+Serum and BALF samples were extracted with four volumes of cold methanol–acetonitrile (1:1, v/v) by vortexing, sonication in ice, protein precipitation at -20 ℃, and centrifugation at 14,000 g for 20 min at 4 ℃. The supernatants were dried under vacuum and reconstituted for LC-MS analysis. Untargeted metabolomic profiling was performed on a UPLC-ESI-Q-TOF-MS system (Agilent 1290 UHPLC coupled with AB Sciex TripleTOF 5600) using hydrophilic interaction chromatography. Data were acquired in both positive and negative ionization modes. Quality control (QC) samples, generated by pooling aliquots of all study samples, and blank samples were injected every six runs to ensure analytical stability. Metabolomics data were processed using standard workflows implemented in MultiQuant software, including peak detection, integration, and quality control.
+Metabolite abundances were reported as peak areas and used for subsequent statistical analyses. Metabolites were annotated by accurate mass (< 25 ppm) and MS/MS spectral matching. Features with > 50% non-zero values in at least one group were retained for subsequent analyses.
+
+## Multivariate statistical analysis
+Multivariate analyses were performed using SIMCA (v14.0, Umetrics, Sweden). Data were mean-centered and Pareto-scaled before PCA, PLS-DA, and OPLS-DA. Model validity was assessed by 200-permutation testing. Differential metabolites were identified based on VIP > 1.0 and p < 0.05, with fold changes log₂-transformed. Hierarchical clustering was conducted in R. QC and blank samples were included throughout to ensure data quality. Missing values below the detection limit were imputed using half of the minimum detected value across the dataset.
+
+## Metabolite-target prediction
+Venn diagrams were constructed to integrate differential metabolites from four comparisons (controls vs. ARDS, common vs. severe subtypes, serum vs. BALF in the common subtype, and serum vs. BALF in the severe subtype), yielding five overlapping metabolites. GeneCards (https://www.genecards.org/, accessed December 2024) was queried with the five metabolites to retrieve and rank candidate genes, with the top-ranked designated as the putative core target. Target of the five metabolites were predicted using the SwissTargetPrediction (SWISS) database (http://www.swisstargetprediction.ch/, accessed in December 2024). A candidate target was identified by both approaches for subsequent validation.
+
+## A549 cultivation
+A549 cells, a human alveolar basal epithelial cells, were obtained from the Chinese Academy of Sciences. Cells were cultured in RPMI-1640 medium supplemented with 10% fetal bovine serum (FBS) under standard conditions (37 °C, 5% CO₂, and 95% relative humidity).
+
+## Peripheral Blood Mononuclear Cells (PBMC) isolation
+PBMCs were isolated from peripheral blood samples of 10 healthy adult volunteers. Venous blood was collected in EDTA tubes, diluted with PBS, and layered onto Ficoll-Urografin (density 1.075 g/cm³; Solarbio, China) for density gradient centrifugation at 400×g for 30 min at room temperature without brake. The PBMC layer was harvested, washed twice with PBS (400×g, 5 min), resuspended in RPMI-1640 medium, and adjusted to 1 × 10⁶ cells/mL using a Countess II FL cell counter for subsequent experiments.
+
+## Inflammation modeling in vitro
+A549 cells were seeded in 24-well plates and cultured for 12 h to allow adherence. PBMCs were then added at an A549:PBMC ratio of 1:10 and co-cultured in RPMI-1640 medium for 24 h. The co-cultures were stimulated with LPS at 5, 10, or 20 µg/mL (Sigma-Aldrich, #L2880, USA), while control wells received vehicle medium. In the inhibitor group, TAK-242 (TLR4 inhibitor, #HY-11109, MedChemExpress, USA) was added together with LPS.
+
+## LPCAT1 siRNA transfection in A549 cells
+LPCAT1 expression in A549 cells was silenced using small interfering RNAs (siRNAs). Briefly, A549 cells were seeded into culture plates and transfected at approximately 60–70% confluence with either LPCAT1-targeting siRNAs (LPCAT1-siRNA-1 or LPCAT1-siRNA-2) or a scrambled siRNA negative control (si-NC). After transfection, cells were incubated for 24 h before being harvested for protein extraction (Western blot) or stimulated with LPS for 24 h followed by collection of culture supernatants for ELISA assays. The nucleotide sequences of all siRNAs used in this study are provided in Supplementary Table S1.
+
+## Cell viability
+A549 cell viability was assessed 24 h after inflammatory stimulation using the Cell Counting Kit-8 (CCK-8; Beyotiam, China). After incubation with the reagent for 1 h according to the manufacturer’s instructions, absorbance (optical density, OD) was measured at 450 nm using a microplate reader(Tecan Group Ltd., Switzerland). Cell viability (%) = [OD(treatment) – OD(blank)] / [OD(control) – OD(blank)] × 100%.
+
+## Western blot
+Proteins were extracted from cells or lung tissues using RIPA buffer and quantified with a BCA assay (Thermo Fisher Scientific, USA). Equal amounts of protein (20 µg) were separated by SDS-PAGE and transferred onto PVDF membranes (Millipore, USA). Membranes were blocked with 5% non-fat milk in TBST for 1 h at room temperature and incubated overnight at 4 °C with the following primary antibodies: LPCAT1 (#16112-1-AP, 1:1000), MUC1 (KL-6 epitope; #23614-1-AP, 1:1000), and β-actin (#20536-1-AP, 1:1000), all purchased from Proteintech (Wuhan, China). After washing, membranes were incubated with HRP-conjugated secondary antibodies (#SA00001, 1:5000) for 1 h at room temperature. Protein bands were visualized using an enhanced chemiluminescence (ECL) system (Thermo Fisher Scientific), and band intensity was quantified by ImageJ software. Uncropped western blot images corresponding to the main figures are available in the Supplementary Materials.
+
+## ELISA
+Cell culture supernatants were collected and clarified by centrifugation. The concentrations of IL-6, IL-1β, TNF-α, and MUC1 were measured using ELISA kits (Jonlnbio, China) according to the manufacturer’s instructions. Absorbance (OD) was read at 450 nm with a microplate reader, and cytokine levels were calculated from standard curves.
+
+## ALI mouse models
+Male C57BL/6 mice (6–8 weeks old, 20–25 g) were purchased from Guangdong Zhiyuan Biomedical Technology Co., Ltd. (Guangzhou, China) and housed under specific pathogen-free (SPF) conditions with free access to food and water. ALI was induced by intratracheal instillation of LPS (5 mg/kg). Mice were randomly divided into three groups (n = 6 per group): control group (PBS), LPS group, and LPS + TAK-242 group (LPS with intraperitoneal injection of TAK-242, 3 mg/kg). After 24 h, animals were sacrificed, and lung tissues were harvested for further analysis.
+
+## Histological and pulmonary edema assessment
+Lung tissues of mice were fixed in 4% paraformaldehyde, embedded in paraffin, and sectioned at 4 μm thickness. Sections were stained with hematoxylin and eosin (HE) according to standard protocols, and histopathological changes were examined under a light microscope (Olympus, Tokyo, Japan). Lung tissue was collected after LPS treatment for 24 h, washed with saline, and blotted dry, weighed immediately to obtain the “wet” weight, and then oven-dried at 65 °C for 48 h to obtain the “dry” weight. Their ratio can indirectly reflect the edema within the lung tissue.
+
+## Statistical analysis
+Statistical analyses were performed using SPSS software (version 23.0). For group comparisons, Mann-Whitney U test or independent-sample t-test was applied for two groups, and one-way ANOVA or Kruskal–Wallis test for multiple groups. Correlations between metabolites and clinical indicators were assessed using Spearman correlation analysis. Receiver operating characteristic (ROC) analysis was performed to evaluate the discriminatory performance of individual biomarkers and combined predictive models. The area under the ROC curve (AUC) with 95% confidence interval (CI) was calculated using the DeLong nonparametric method implemented in the pROC package (version 1.18.5). Comparisons between ROC curves were conducted using DeLong’s test for paired AUCs. To assess model robustness and reduce overfitting, stratified 10-fold cross-validation was applied.
+
+## Result
+
+## Basic characteristics of study subjects
+We enrolled 137 patients with pulmonary infection–induced ARDS (common subtype, n = 87; severe subtype, n = 50) and 29 non-ARDS controls. Age, sex, and smoking history did not differ between ARDS and controls (Table  ). Compared with the common subtype, the severe subtype had a higher proportion of pulmonary infiltration > 50% and use of ≥ 2 antibiotics, lower SpO₂ and neutrophil percentage, and higher serum creatinine and D-dimer levels (Table  ).
+ 
+
+## Serum metabolomic differences: ARDS vs. controls
+A total of 102 differentially expressed metabolites (DEMs) were identified from 311 serum metabolites in 166 subjects (137 ARDS; 29 controls) (p < 0.05, VIP > 1), with 72 upregulated and 30 downregulated in ARDS (Fig.  A; Supplementary Table S2). OPLS-DA showed clear separation with strong performance (R²Y = 0.922, Q²=0.893, Fig. S1A; 200-permutation validation in Fig. S1B). A circular heatmap shows expression of the 102 DEMs across the ARDS and controls, while a complex heatmap highlights the top 30 most discriminative metabolites (Fig. S1C, D). Based on the combined criteria of VIP scores, p-values, and log₂FC, five metabolites showing the strongest discriminatory power were identified, including elevated LysoPC(18:2/0:0), LysoPC(20:4/0:0), and LysoPC(16:0/0:0), and reduced Nonanedioic acid and Arginine (Fig.  B).
+ To investigate ARDS-associated metabolic pathways, we analyzed the classification and enrichment. Pathway mapping indicated that DEMs were enriched in lipid-like molecules and organic acids (Fig. S1E, F). Combined KEGG enrichment and pathway impact analyses revealed alterations in aminoacyl-tRNA biosynthesis, fatty acid biosynthesis, glycine-serine-threonine metabolism, amino acid metabolism, and pyruvate metabolism (Fig.  C, D). A circos plot summarizes the 102 DEMs (class, significance, log₂FC, VIP) and maps their correlation network (Fig. A). Clinically, LysoPCs correlated negatively with D-dimer and positively with the P/F ratio, whereas arginine correlated inversely with fibrinogen (Fig.  E), suggesting that LysoPCs reflect coagulation and oxygenation status, while arginine may be involved in fibrinogen regulation.
+
+## Serum metabolomic differences between severe and common ARDS subtypes
+Based on KL-6–assisted subtyping, 42 DEMs were subsequently identified between the severe (n = 50) and common (n = 87) ARDS subtypes (p < 0.05, VIP > 1), with 29 were upregulated and 13 were downregulated in the severe subtypes (Fig.  A; Supplementary Table S3). OPLS-DA separated groups robustly (R²Y = 0.546, Q²=0.206; Fig. S3A; 200-permutation validation in Fig. S3B). A circular heatmap shows expression of the 42 DEMs across the severe and common subtypes, while a complex heatmap highlights the top 30 most discriminative metabolites (Fig. S3C, D). The top ten key DEMs were prioritized. 8(S)-HETE, kynurenine, undecanoic acid, 3-oxodecanoic acid, hydroxy-tetradecanedioic, dodecanedioic and pentadecanoic acids increased in the severe subtype, whereas malic acid, LysoPC(22:5/0:0), and LysoPC(18:0/0:0) decreased (Fig.  B; Supplementary Table S3).
+ DEMs were mainly enriched in fatty acyls and glycerophospholipids (Fig.  C). KEGG analysis revealed enrichment of NF-κB and ErbB signaling, as well as immune pathways involved in Th1/Th2 differentiation and B-cell receptor signaling (Fig.  D). A circos plot summarizes the 42 DEMs and maps their correlation network(Fig. S2B). Correlation analyses revealed undecanoic and hydroxy-pentadecanoic acids correlated negatively with WBC; hydroxy-dicarboxylic acids correlated positively with CRP and negatively with BUN/Scr; malic acid and LysoPC(22:5/0:0) correlated inversely with fibrinogen (Fig.  E).
+
+## Diagnostic potential
+ROC analysis evaluated the discriminative power of the top 10 DEMs. 6 DEMs exhibited an area under the ROC curve (AUC) value of ≥ 0.7. Notably, 3 DEMs had an AUC value > 0.8: 3-oxodecanoic acid [AUC (95% CI) = 0.854 (0.801, 0.918), p = 1.95E-12], hydroxy-pentadecanoic acid [AUC (95% CI) = 0.832 (0.767, 0.897), p = 8.17E-11], and LysoPC(18:0/0:0) [AUC (95% CI) = 0.842 (0.778, 0.904), p = 2.42E-11], supporting their potential as serum biomarkers for distinguishing the two subtypes. The three-marker combined logistic model demonstrated excellent discriminatory performance in 10-fold cross-validation, with a mean AUC of 0.917 ± 0.055. The full results are included in Fig.  A-J.
+ 
+
+## Paired serum-BALF metabolomic differences: common ARDS subtype
+Paired serum and BALF samples from 66 patients with the common ARDS subtype were collected to assess intra-individual metabolic differences. A total of 125 serum-BALF DEMs were detected, with 113 upregulated in serum and 12 in BALF (Fig.  A; Supplementary Table S4). OPLS-DA separated groups robustly (R²Y = 0.946, Q²=0.907, Fig. S4A; 200-permutation validation in Fig. S4B). A circular heatmap shows expression of the 125 DEMs across the serum and BALF, while a complex heatmap highlights the top 30 most discriminative metabolites (Fig. S4C, D). The top 10 DEMs, all upregulated in serum, included histidine, tryptophan, glutamine, hydroxynonanedioic acid-2, and multiple LysoPCs [18:2/0:0, 20:4/0:0, 22:6/0:0, 22:5/0:0, 16:0/0:0, 20:3/0:0] (Fig.  B; Supplementary Table S4).
+ Metabolite classification indicated a predominance of carboxylic acids and derivatives (36.84%), fatty acyls (24.56%), and glycerophospholipids (10.53%) (Fig.  C). DEMs were mainly enriched in amino-acid biosynthesis/metabolism and sphingolipid, HIF-1, and cAMP signaling (Fig.  D-F). A comprehensive circos plot summarized classification, fold change, significance, and correlation networks across the 125 DEMs (Fig. S5A).
+
+## Paired serum-BALF metabolomic differences: severe ARDS subtype
+Paired serum and BALF samples from 37 patients with the severe ARDS subtype were collected to assess intra-individual compartmentalized metabolic differences. A total of 132 DEMs were identified between serum and BALF, with 118 showing higher levels in serum and 14 in BALF (Fig.  A; Supplementary Table S5). OPLS-DA separated groups robustly (R²Y = 0.963, Q² = 0.907; Fig. S6A; 200-permutation validation in Fig. S6B). A circular heatmap shows expression of the 132 DEMs across the serum and BALF, while a complex heatmap highlights the top 30 most discriminative metabolites (Fig. S6C, D). In this paired serum-BALF comparison within the severe subtype, the top 10 DEMs were consistently higher in serum than in BALF, including DL-Phe(2-Cl)-OH, isobutyric acid, histidine, glutamine, hydroxynonanedioic acid-2, and several LysoPC species [22:6/0:0, 20:3/0:0, 18:1/0:0, 18:2/0:0, 20:4/0:0], indicating a serum-dominant distribution pattern for these metabolites (Fig. 6B; Supplementary Table S5).
+ Metabolite classification indicated a predominance of carboxylic acids and derivatives (30.99%), fatty acyls (30.99%), and glycerophospholipids (16.9%) (Fig. 6C). DEMs were primarily enriched in sphingolipid metabolism and in NF-κB, ErbB, and cAMP signaling pathways. Compared with the common subtype, the severe subtype showed stronger enrichment of unsaturated fatty-acid biosynthesis and weaker enrichment of ammonia recycling and glycine-serine metabolism (Fig.  D-F). A comprehensive circos plot summarized classification, fold change, significance, and correlation networks across the 132 DEMs (Fig. S5B).
+ 
+
+## Subtype-specific systemic and pulmonary metabolic signatures in ARDS
+To delineate intra-individual serum-BALF metabolic differences across ARDS subtypes, paired-sample DEMs from the common and severe subtypes were integrated using a Venn diagram (Fig. S7A; Supplementary Table S6). A total of 100 overlapping metabolites were identified, indicating shared systemic-pulmonary alterations implicated in ARDS pathogenesis. In contrast, 25 metabolites were specific to the common subtype, predominantly short-chain fatty acids, primary amino acid derivatives, benzoic acid analogues, and small bile acids. The severe subtype exhibited 32 specific metabolites, characterized mainly by medium- and long-chain fatty acids, amino acid–derived compounds, conjugated bile acids, metabolic intermediates, and prostaglandin derivatives. These subtype-specific signatures underscore divergent metabolic trajectories underlying ARDS heterogeneity.
+To further define subtype-specific pulmonary metabolic profiles, BALF-upregulated metabolites were visualized by heatmaps. After excluding metabolites shared by both subtypes, five BALF-enriched metabolites were found to be specific to the severe subtype—pentadecanoic acid, malic acid, docosatrienoic acid, docosapentaenoic acid, and aminophenyl-dioxobutanoic acid—whereas the common subtype uniquely exhibited elevations in 12(S)-HEPE, 12(S)-HHTrE, and tolylacetic acid (Fig. S7B, C). These exclusive metabolites delineate distinct metabolic remodeling within the pulmonary microenvironment across ARDS subtypes.
+Spearman correlation analysis revealed that the five severe-specific BALF metabolites were significantly associated with KL-6 levels, oxygenation index, and pro-inflammatory cytokines, with four (except malic acid) also correlating with CT scores (Fig. S7D). These metabolites may constitute BALF-derived biomarkers indicative of the severe subtype.
+
+## Metabolite-target prediction
+The shared differential metabolites across the four comparisons were identified using a Venn diagram, yielding five overlapping candidates-predominantly LysoPCs (Fig. S8A; Supplementary Table S7). Three LysoPC species (18:1/0:0, 20:4/0:0, 22:5/0:0) directly converge on LPCAT1 via SWISS Target Prediction, highlighting it as the central candidate target (Fig. S8B). In parallel, 177 target genes were retrieved from the GeneCards database based on relevance scores (Supplementary Table S8). The top 10 predicted target gene according to the relevance scores are shown in Fig. S8C.
+
+## LPCAT1 expression in LPS-induced cellular and murine ALI models
+To mimic the inflammatory microenvironment and establish an in vitro ALI model, we employed an A549-PBMC co-culture strategy. Compared with both untreated A549 cells and A549 treated with LPS, A549 cells co-cultured with LPS-treated PBMCs showed significantly reduced viability; exposure to 10 µg/mL LPS for 24 h decreased viability by 50% and was selected as the optimal condition (Fig.  A, B). Consistent with the viability data, LPCAT1 protein levels were increased by LPS and further elevated in A549-PBMC co-culture with LPS-treated PBMCs (Fig.  C).
+To validate the role of LPCAT1 in ARDS, firstly, LPCAT1 was knockdown in A549 cells using siRNA (Fig.  D). Additionally, the expression of inflammatory cytokines and MUC1 (KL-6 epitope) were assessed by ELISA. The data show that knocking down LPCAT1 significantly decreased the expression of IL-6, IL-1β, TNF-α and MUC1in A549 following LPS stimulation (Fig.  E-H). TAK-242, TLR4 inhibitor, was used to determine pathway dependence of LPCAT1. LPS significantly increased LPCAT1 levels, whereas TAK-242 partially reversed this effect (Fig.  I).
+In mice, lung injury severity was evaluated by the lung wet/dry ratio and H&E staining. LPS induced significant pulmonary edema, congestion, inflammatory infiltrates, and alveolar septal thickening, accompanied by upregulation of LPCAT1 and MUC1 in lung tissue; TAK-242 partially ameliorated these changes and attenuated LPCAT1 and KL-6 expression. (Fig.  J-L).
+
+## Discussion
+Within the KL-6–assisted subtyping framework, this study applied untargeted LC–MS/MS metabolomics to delineate serum signatures distinguishing ARDS from non-ARDS controls and differentiating severe from common subtypes. Integration of paired serum–BALF analyses further uncovered systemic–pulmonary metabolic disequilibrium. From intersecting key metabolites, LPCAT1 emerged as a candidate target and was experimentally validated at both expression and functional levels in cellular and murine models. Collectively, ARDS exhibits multi-level metabolic heterogeneity across systemic and pulmonary compartments, underpinned by protein regulatory imbalance, which offers mechanistic insight into subtype-specific biomarker and therapeutic-target discovery.
+Distinct metabolic alterations distinguished ARDS from controls, with LysoPCs and azelaic acid and arginine emerging as potential metabolic signatures. LysoPCs have been associated with inflammation and membrane remodeling [ ]. Chang et al. [ ] demonstrated enrichment of glycerophospholipid and sphingolipid pathways with concomitant LysoPC elevation in sepsis-induced ARDS. In contrast, Saballs et al. [ ] demonstrated that serum LysoPC levels were significantly reduced in patients with bacterial-or SARS-CoV-2- induced pneumonia compared with healthy individuals. Similarly, Cho et al. [ ] observed markedly lower LysoPC concentrations in sepsis patients than in healthy controls. These findings suggest that LysoPC alterations are strongly influenced by the infectious disease context and severity, and may reflect differences in systemic metabolic state across clinical contexts, thereby reinforcing the potential of LysoPC as metabolic biomarkers associated with ARDS. In addition, arginine levels indicate disturbances in fatty acid oxidation and nitric oxide biosynthesis [ , ]. Similarly, Reizine et al. [ ] identified dysregulated arginine metabolism in SARS-CoV-2–associated ARDS. These results indicate the involvement of lipid and amino acid metabolic dysregulation in ARDS pathogenesis.
+Within the KL-6–assisted framework, serum metabolomic profiles differed markedly between common and severe ARDS, with two LysoPC species significantly reduced in the severe subtype. Previous studies reported higher serum LysoPC levels in non-severe compared with severe pneumonia patients [ ], as well as lower plasma LysoPC levels in non-survivors of acute respiratory failure [ ]. These studies suggest that depletion of circulating LysoPCs may reflect systemic lipid exhaustion or dysregulated phospholipid remodeling during disease progression. The prior reports and our observation of reduced serum LysoPC species in the severe ARDS subtype support the concept that more severe infection and systemic inflammation are associated with depletion of circulating LysoPCs, whereas compartment- and stage-specific differences may lead to transient or localized LysoPC elevations in earlier or less severe disease states. The severe subtype showed alterations in fatty acid oxidation, dicarboxylic acid metabolism, and phospholipid turnover, enriched in NF-κB and ErbB pathways [ , ]. Correlation analysis linked undecanoic acid and hydroxy-pentadecanoic acid negatively with leukocyte counts, hydroxy-dicarboxylic acids positively with CRP, and reduced malate and LysoPC(22:5/0:0) with fibrinogen. These patterns suggest that lipid and organic acid dysregulation is associated with inflammation, immune status, and coagulation disturbances, yet require confirmation in larger and functional studies. ROC analysis demonstrated that serum levels of 3-oxodecanoic acid, hydroxy-pentadecanoic acid, and LysoPC(18:0/0:0) effectively distinguish severe from common subtype (AUC > 0.8). These serum metabolic alterations may reflect underlying pathogenic processes in the severe ARDS subtype. The three-metabolite panel biologically substantiates the KL-6–assisted subtyping, providing metabolomic evidence that justifies KL-6 as a marker of epithelial-injury–informed ARDS classification and establishes a practical serum-based tool for early clinical grading.
+Comparison of paired serum and BALF revealed systemic and pulmonary metabolic imbalance in ARDS. Metabolites upregulated in both ARDS subtypes highlight shared metabolic disturbances involving amino acid metabolism, fatty acid ω-oxidation, and phospholipid remodeling. Viswan et al. [ ] identified proline, lysine, arginine, taurine, and threonine in BALF of moderate-to-severe ARDS, while glutamate characterized mild disease. Enrichment analysis showed serum-BALF differences in the common subtype mapped mainly to amino acid biosynthesis, whereas the severe subtype was enriched in NF-κB, ErbB, and lipid pathways, reflecting amplified inflammation and membrane remodeling. Analysis of paired serum and BALF in both ARDS subtypes identified 100 overlapping metabolites, highlighting shared systemic–pulmonary metabolic alterations. In contrast, the 25 metabolites specific to the common subtype were enriched in short-chain fatty acids, benzoic acids, and small bile acids, suggesting relatively preserved gut-lung axis related metabolism [ , ]. The 32 metabolites unique to the severe subtype comprised medium- and long-chain fatty acids, conjugated bile acids, and prostaglandins, consistent with lipid remodeling, epithelial stress, and arachidonic acid mediated inflammation, in agreement with previous reports linking long-chain fatty acids and eicosanoids to alveolar injury [ ]. In BALF-specific analyses, pentadecanoic acid, docosatrienoic acid, and aminophenyl-dioxobutanoic acid were uniquely elevated in the severe subtype. These metabolites showed positive correlations with KL-6 levels, oxygenation index, and CT scores, suggesting their potential relevance to pulmonary epithelial injury in severe subtype. Collectively, these results provide a rationale for their evaluation as candidate indicators of disease severity and pulmonary involvement.
+Despite distinct metabolic profiles across comparison groups, overlapping metabolites delineated shared metabolic features characteristic of ARDS, with five LysoPC species constituting the central components of this alteration. Target prediction identified LPCAT1 as the top candidate protein. LPCAT1 is essential for phospholipid metabolism and alveolar epithelial homeostasis [ ], and may act as a key mediator linking metabolic dysregulation to ARDS pathogenesis. In vitro, our findings suggest that LPCAT1 acts as a pro-inflammatory and epithelial-regulatory mediator. LPCAT1 dysregulation has been shown to disturb the LysoPC/PC balance, leading to membrane instability and augmented lipid signaling [ ]. LPS activates Toll-like receptor 4 (TLR4)–dependent inflammatory signaling [ ], a pathway that can likewise be stimulated by LysoPC species to induce pro-inflammatory responses [ ]. Consistent with this shared mechanism, inhibition of TLR4 partially reversed LPS-induced LPCAT1 upregulation, supporting the involvement of this axis in LPCAT1 regulation. In vivo validation confirmed that LPCAT1 upregulation accompanies alveolar injury in LPS-induced ALI, and that TLR4 inhibition mitigates histological injury of lung, reinforcing the mechanistic link established in vitro. Importantly, KL-6 exhibited concordant changes with LPCAT1, consistent with their involvement in a shared injury-inflammation axis. In vitro and in vivo findings support LPCAT1 as a potential target involved in ARDS pathogenesis.
+Notably, LPCAT2 also emerged from our target prediction analysis. Previous studies have shown that LPCAT2 is induced by LPS in macrophages and engages TLR4/TLR2 signaling, promoting pro-inflammatory cytokine release [ ]. Under inflammatory conditions, LPCAT2, rather than LPCAT1, is activated to drive platelet-activating factor (PAF), a pro-inflammatory lipid mediator [ ]. LPCAT1 is predominantly expressed in alveolar epithelial cells, whereas LPCAT2 is mainly expressed in immune cells; although acting in distinct cell types, both may be regulated by TLR4-related signaling and engage different downstream pathways, leading to epithelial structural disruption and amplification of inflammatory cascades, respectively, thereby exacerbating lung injury. In pathological settings where immune and epithelial cells coexist, the respective roles of LPCAT1 and LPCAT2 warrant further investigation. Although LPCAT2 emerged as a candidate target and likely contributes to immune cell–driven inflammation, we did not functionally assess LPCAT2 in this study (e.g., by knockdown), and this remains an important limitation and a key focus for future work, particularly in immune-cell and epithelial–immune co-culture models.
+
+## Limitations
+Several limitations should be acknowledged. (1) The sample size, particularly within the severe paired subgroup, may limit generalizability. (2) In pathway enrichment analyses, upregulated and downregulated metabolites were not analyzed separately due to limited power, precluding a more direct differentiation of activated versus suppressed pathways. In future studies, we will seek to increase sample size to address this limitation. (3) Although preliminary functional experiments supported the involvement of LPCAT1, its precise molecular mechanisms and translational significance remain to be elucidated in future investigations.
+
+## Conclusion
+In conclusion, within a novel KL-6 assisted subtyping framework, this study revealed distinct serum metabolomic profiles distinguishing ARDS patients from controls, and differentiating the common and severe subtypes. Paired serum-BALF analysis revealed both shared and compartment-specific metabolic signatures between the two ARDS subtypes. In the severe ARDS subtype, 3-oxodecanoic acid, hydroxy-pentadecanoic acid, and LysoPC(18:0/0:0) were identified as candidate serum biomarkers, whereas pentadecanoic acid, malate, docosatrienoic acid, docosapentaenoic acid, and aminophenyl-dioxobutanoic acid were identified as candidate BALF biomarkers. LPCAT1 was identified as a key molecular of ARDS pathogenesis. These findings provide a basis for subtype-specific biomarker discovery and targeted intervention strategies for ARDS.
+
+## Supplementary Information
+
+Supplementary Material 1.
+
+Supplementary Material 2.
+
+Supplementary Material 3.
+
+## Acknowledgements
+The authors thank Huiqi Qu (The Center for Applied Genomics, Children’s Hospital of Philadelphia, Philadelphia, USA) for his valuable and professional support during the manuscript revision process.
+
+## Abbreviations
+ALIAcute Lung Injury
+ARDSAcute Respiratory Distress Syndrome
+KL-6Krebs von den Lungen-6
+BALFBronchoalveolar Lavage Fluid
+DEM(s)Differentially Expressed Metabolite(s)
+UHPLCUltra-High Performance Liquid Chromatography
+OPLS-DAOrthogonal Partial Least Squares Discriminant Analysis
+R²/Q²Coefficients of Determination and Predictive Ability (Model Quality Metrics)
+VIPVariable Importance in Projection
+FCFold Change
+HMDBHuman Metabolome Database
+KEGGKyoto Encyclopedia of Genes and Genomes
+AUCArea Under the Curve
+ROCReceiver Operating Characteristic
+SamplePARDS patients
+SampleCnon-ARDS controls
+SampleP-Lcommon ARDS subtype patients
+SampleP-Hsevere ARDS subtype patients
+SampleP-L-BBALF sample from common subtype patients
+SampleP-L-Sserum sample from common subtype patients
+SampleP-H-BBALF sample from severe subtype patients
+SampleP-H-Sserum sample from severe subtype patients
+SWISSSwissTargetPrediction Database
+GeneCardsHuman Gene Database for Gene–Function and Disease Associations
+LPCAT1Lysophosphatidylcholine Acyltransferase 1
+PBMC(s)Peripheral Blood Mononuclear Cell(s)
+ELISAEnzyme-Linked Immunosorbent Assay
+IL-6Interleukin-6
+IL-1βInterleukin-1 Beta
+TNF-αTumor Necrosis Factor-Alpha
+CCK-8Cell Counting Kit-8
+ODOptical Density
+siRNASmall Interfering RNA
+TLR4Toll-Like Receptor 4
+TAK-242Selective TLR4 Signaling Inhibitor
+
+## Authors’ contributions
+Xiaowen Wang and Mingshan Xue have contributed equally to this work. Conception and design of the research: Hongman Wang, Baoqing Sun, Shaoqiang Li; Drafting the manuscript: Xiaowen Wang and Mingshan Xue; Article structure design: Xiaowen Wang and Mingshan Xue; Data analysis: Xiaowen Wang, Mingshan Xue; Samples collection and detection: Lijun Su, Youxia Li, Shaohui Fan, Xian Luo; Acquisition of data: Chuci Jiang, Jiahong Chen; Experimental management: Qiurong Hu, Huizhao Liao; Review and editing: Baoqing Sun, Shaoqiang Li, Hongman Wang.All authors read and approved the final version of the manuscript.Xiaowen Wang 1,2† and Mingshan Xue 3,4,5††These authors contributed equally to this work and share first authorship.
+
+## Funding
+This work was supported by the following grants: the National Natural Science Foundation of China (82560024), the National Natural Science Foundation of China (81960023), the Guizhou Provincial Graduate Research Fund (2024YJSKYJJ309), the Graduate Research Fund of Zunyi Medical University (ZYK256), the Science and Technology Fund of Guizhou Provincial Health Commission (gzwkj2025-241), and the Guangzhou Medical University Research Capacity Enhancement Project (2025SRP013).
+
+## Data availability
+The metabolomics datasets underlying all statistical analyses have been deposited in Science Data Bank (ScienceDB, DOI: 10.57760/sciencedb.35991). Additional data supporting the findings of this study are available from the corresponding author upon reasonable request.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Approval of the research protocol by an institutional review board: This study has been approved by the Ethics Committees of the First Affiliated Hospital of Guangzhou Medical University (ES-2024-120-02) and the Fifth Affiliated Hospital of Zunyi Medical University ([2024]2024KT0001).
+
+## Consent for publication
+All authors agreed to this publication. This study does not include any individual person’s data in any form (such as images, videos, or identifiable clinical information).
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Xiaowen Wang and Mingshan Xue contributed equally to this work.
+
+## Contributor Information
+Baoqing Sun, Email: sunbaoqing@vip.163.com.
+Shaoqiang Li, Email: lishaoqiang86@163.com.
+Hongman Wang, Email: 2496453591@qq.com, Email: 240112318@qq.com.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Material 1.
+Supplementary Material 2.
+Supplementary Material 3.
+
+## Data Availability Statement
+The metabolomics datasets underlying all statistical analyses have been deposited in Science Data Bank (ScienceDB, DOI: 10.57760/sciencedb.35991). Additional data supporting the findings of this study are available from the corresponding author upon reasonable request.

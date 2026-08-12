@@ -1,0 +1,863 @@
+822acssdACS NanoACS NanoPMC9364977936497794134093592152210.1021/acsnano.2c03119Genetically Engineered
+MRI-Trackable Extracellular
+Vesicles as SARS-CoV-2 Mimetics for Mapping ACE2 Binding In Vivo
+GalisovaAndrea ZahradnikJiri Allouche-ArnonHyla MorandiMattia I Abou KaramPaula FislerMichal AvinoamOri Regev-RudzkiNeta SchreiberGideon Bar-ShirAmnon †Department
+of Molecular Chemistry and Materials Science and ‡Department of
+Biomolecular Sciences, Weizmann Institute
+of Science, Rehovot 7610001, Israel*Email: amnon.barshir@weizmann.ac.il.
+3820221681227612276–122891082022© 2022 The Authors. Published by American Chemical SocietyPermits the broadest form of re-use including for commercial purposes, provided that author attribution and integrity are maintained (https://creativecommons.org/licenses/by/4.0/).
+
+## Abstract
+ The elucidation of viral-receptor interactions and an
+understanding
+of virus-spreading mechanisms are of great importance, particularly
+in the era of a pandemic. Indeed, advances in computational chemistry,
+synthetic biology, and protein engineering have allowed precise prediction
+and characterization of such interactions. Nevertheless, the hazards
+of the infectiousness of viruses, their rapid mutagenesis, and the
+need to study viral-receptor interactions in a complex in
+vivo setup call for further developments. Here, we show the
+development of biocompatible genetically engineered extracellular
+vesicles (EVs) that display the receptor binding domain (RBD) of SARS-CoV-2
+on their surface as coronavirus mimetics (EVsRBD). Loading
+EVsRBD with iron oxide nanoparticles makes them MRI-visible
+and, thus, allows mapping of the binding of RBD to ACE2 receptors
+noninvasively in live subjects. Moreover, we show that EVsRBD can be modified to display mutants of the RBD of SARS-CoV-2, allowing
+rapid screening of currently raised or predicted variants of the virus.
+The proposed platform thus shows relevance and cruciality in the examination
+of quickly evolving pathogenic viruses in an adjustable, fast, and
+safe manner. Relying on MRI for visualization, the presented approach
+could be considered in the future to map ligand-receptor binding events
+in deep tissues, which are not accessible to luminescence-based imaging.
+Keywords: ligand−receptor binding, virus mimetics, extracellular vesicle, genetic engineering, SARS-CoV-2, MRI, superparamagnetic iron oxide nanoparticles (SPIONs)
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Mar 30; Accepted 2022 Jul 29; Issue date 2022 Aug 23.
+
+## Introduction
+Virus-receptor recognition is the initial
+step in the infectious
+cycle and is considered to be a key stage in the induction of viral
+pathogenesis. Therefore, the elucidation
+of the interactions of viruses with host cells’ receptors is
+of paramount importance for a better understanding of pathology pathways
+and for the development of antiviral interventions. For example, it
+has been shown that the severe acute respiratory syndrome coronavirus
+2 (SARS-CoV-2), which has caused the current and prolonged coronavirus
+disease 2019 (COVID-19) pandemic, specifically attacks cells expressing
+high levels of angiotensin-converting enzyme 2 (ACE2) receptor. The understanding of the interactions between
+the receptor binding domain (RBD) of the spike-S protein of the virus
+with ACE2 has resulted in the development
+of a wide range of efficient therapeutics and vaccines. − Unfortunately, SARS-CoV-2 has shown an unprecedented ability to
+rapidly introduce mutations to the spike protein and the RBD for improved
+affinity and immune evasion, − which have led to rapid spreading of more transmissible
+variants and compromised effectiveness of available vaccines. Thus, it is clear that there is a need for the
+ability to characterize viruses and their evolving mutants quickly
+and safely and potentially even predict dangerous variants before
+they emerge. Indeed, in silico( ) and in vitro( ) examination of viruses provides crucial insights into virus-receptor
+interactions. Nevertheless, these approaches are limited in the study
+of off-target binding events and are not applicable for spatial and
+real-time mapping of viral-receptor binding in deep tissues. This
+calls for a method with the ability to longitudinally and noninvasively
+monitor and map in vivo viral distribution and receptor
+binding in a safe and rapid way to enhance our ability to study emerging
+viruses and assess biological feedback to therapeutics.
+Several
+types of nonviral nanosized formulations have been proposed
+to elucidate viral-receptor interactions so far, including those for
+studying SARS-CoV-2. , − Among these,
+extracellular vesicles (EVs) offer several advantages over synthetic
+nanoparticles. First, as cellular content nanocarriers, − they are biological substances, suggesting that they can be introduced
+into the body without leading to the side effects often encountered
+with synthetic formulations. Second, they can be genetically engineered
+to present biomolecules on their surface, providing a rapid and general
+method for the display of peptides. − As such, EV targetability
+to a tissue of interest has been enhanced by displaying peptides that
+are not present on the surface of native EVs. − Third, EVs share important similarities
+with enveloped viruses, including comparable sizes and host membrane
+compositions. , − EVs are thus
+attractive noninfectious vehicles for examination of viral uptake
+pathways of cellular cargo delivery, , − or for the development of EV-based vaccines , and related adjuvants. For example,
+EVs presenting the coronavirus S protein or its RBD were proposed
+as potential vaccines already in the mid-2000s for SARS-CoV as well as for the current SARS-CoV-2 pandemic. , , Moreover, they showed efficiency
+as decoys for neutralizing antibodies and as systems for targeted delivery of antiviral agents. In addition, the ease at which EVs can be genetically
+engineered makes these formulations ideal for rapid studies of emerging
+viral mutations as they appear.
+Given that EVs can mimic viruses
+and can be labeled with imageable
+material, , , EVs can potentially
+be used for noninvasive in vivo imaging of viral-receptor
+interactions. In fact, it has been shown that EVs can be fluorescently
+labeled and imaged in vivo; however, these fluorescent
+methods are unable to track EVs in deep tissues and offer limited
+spatial resolution. In contrast, tracking
+of EVs with three-dimensional imaging modalities (such as CT and MRI ) allows
+an assessment of their spatial distribution even in deep tissues.
+In this regard, MRI stands out because of its ability to provide spatial
+information from the introduced EVs that can be overlaid on high-resolution
+anatomical images of the same subject, thus avoiding the need to use
+hybrid multimodal imaging approaches. Here, we show the design, development,
+and implementation of genetically engineered EVs that display the
+RBD of SARS-CoV-2 (EVsRBD) as coronavirus mimetics for
+studying RBD-ACE2 interactions. Magnetically labeled EVsRBD allow mapping RBD-ACE2 binding in vivo and in real-time
+using a clinically translatable MRI setup. Moreover, we demonstrate
+the modifiability of the EV-based formulation by presenting a highly
+potent mutant of RBD (RBD-62) and of
+known SARS-CoV-2 variants, Delta and Omicron. The ability to monitor
+both in vivo biodistribution and the effect of different
+binding affinities of RBD to ACE2 in a fast and safe way highlights
+the potential of our approach in prolonged pandemic eras and for the
+study of other emerging viruses.
+
+## Results and Discussion
+
+## Genetic Design of SARS-CoV-2 Receptor Binding Domain (RBD) Constructs
+Several methods have already been implemented to genetically engineer
+EVs to display peptides on their surface as, e.g., in fusion with
+the Lamp2b EVs membrane protein, , the vesicular
+stomatitis virus G protein (VSVG), or
+the transmembrane domain of platelet-derived growth factor receptor
+(PDGFR) when using the pDisplay vector. Although widely used, Lamp2b showed an inability to express the
+RBD of the SARS-CoV-2 on the membrane efficiently. Starting from the pDisplay vector, which has been extensively
+used for heterologous expression and surface display of cell receptors
+in mammalian cells, we first engineered it for efficient expression
+of viral peptides on the surface of EVs. To this end, and with a purpose
+to create SARS-CoV-2 mimetics, EVRBD ( ), we constructed a pAGDisplay
+plasmid through a three-component assembly of fragments from the widely
+used pDisplay, pLVX-Puro, and pET26b plasmids. There are four main
+benefits of using our designed pAGDisplay plasmid over other alternatives.
+First, it uses the puromycin resistance marker, which is a more potent
+selective antibiotic compared to Geneticin. Second, an IRES sequence,
+which was introduced downstream from the transmembrane domain, allowed
+coexpression of the antibiotic resistance gene and the transmembrane
+domain gene under a single promoter. Third, the fluorescent protein
+eUnaG2 was fused with the C-terminus of PuroR, allowing for easy detection
+of transfected cells. Fourth, we introduced an RFnano protein, an
+MIRFPnano670 derivative (see the section),
+at the C-terminus of the PDGFβ transmembrane domain to allow
+efficient selection of RBD-expressing cells using fluorescence-activated
+cell sorting (FACS). Having designed the pAGDisplay plasmid for efficient
+and versatile surface display of cell receptors, the Wuhan RBD of
+SARS-CoV-2 was first cloned at the N-terminus preceding the transmembrane
+PDGFR domain. Specific tags were added to the obtained constructs
+for further validation of expression with an ALFA tag as a marker
+to the RBD construct and a Myc-tag to the control construct (referred
+to later in the text as noRBD).
+ 
+
+## Parental Cells Display Functional RBD with Wild Type Affinity
+to ACE2
+Human embryonic kidney 293 (HEK293) cells were transfected
+with pAGDisplay-RBD or pAGDisplay-noRBD followed by FACS to select
+cells associated with the highest expression levels of eUnaG2 (green
+fluorescence) and RFnano (red fluorescence). Stable cell lines expressing
+RBD or controls were established under puromycin antibiotics selection
+for 3 weeks. HEK293 cells stably expressing RBD on the membrane surface
+(RBD cells) or control cells (noRBD cells) were obtained and characterized
+using immunostaining, immunoblotting, flow cytometry ( a–c), and confocal microscopy
+(Figure S1). The presence of RBD fused
+to the ALFA tag on the cell surface was confirmed using a designed
+anti-ALFA tag nanobody (DnbALFA, see the section) fused with mNeon Green protein (excitation 506 nm, emission
+517 nm). RBD-expressing cells incubated with the nanobody showed a
+bright signal on the cell surface corresponding to the presence of
+RBD, in contrast to noRBD cells, which showed only a background signal
+of the eUnaG2 protein present in the cytoplasm ( a). The binding of the anti-ALFA tag nanobody
+only to the RBD cells was also confirmed at a single-cell level by
+flow cytometry ( b, p < 0.0001 and Figure S2 for FACS data). Moreover, Western blot analysis of lysed
+cells showed the expression of the RBD-ALFA tag protein only in RBD
+cells ( c).
+ Having demonstrated the presence of RBD on the
+cell surface, we
+then tested its functionality. For this purpose, the recombinant extracellular
+fragment of ACE2 protein (a 723 amino acids length, 83.6 kDa, 7 N-linked
+glycosylation, theoretical pI of 5.26; Figure S3c) was expressed, purified, and conjugated
+to a fluorophore CF640R (excitation 642 nm, emission 662 nm) followed
+by its incubation with either noRBD or RBD cells ( d–f). Fluorescence microscopy
+images showed a clear binding of the ACE2 protein only to RBD cells
+depicted as a higher fluorescent signal compared to controls, confirming
+the presence of a functional RBD on the cell surface ( d). Similarly, flow cytometry
+analysis showed a significantly higher fluorescent signal in RBD cells
+compared to noRBD cells (p < 0.001), corresponding
+to the bound ACE2 protein ( e and Figure S2 for FACS
+data). By incubating the cells with a range of different concentrations
+of fluorescently labeled ACE2 protein and performing a series of FACS
+experiments to determine its affinity to RBD at the cell surface,
+an apparent equilibrium dissociation constant (KD) of 6.7 ± 1.3 nM was determined for RBD cells ( f, Figure S3a,b). This affinity of RBD expressed at the surface
+of HEK293 cells to the ACE2 protein is in accordance with the values
+reported for purified proteins or through a yeast-display assay. , 
+
+## EVsRBD as Functional SARS-CoV-2 Mimetics That Target
+ACE2 Receptors
+Following the validation of the expression
+of functional RBD at the surface of HEK293 cells through ACE2 binding
+assessments ( and Figure S3), secreted EVs of these
+cells were obtained using a standard method of differential centrifugation
+of the cells’ media (with an average yield of 5 × 109 EVs/one million cells) according to MISEV guidelines. The isolated and purified EVs from RBD cells
+or control cells were referred to as EVsRBD or EVsnoRBD, respectively, and were further examined. Western blot
+analysis confirmed the expression of RBD ( a) via detection of the ALFA-tag only in
+EVsRBD, while CD81 and Alix, typical markers of EVs, were detected in both EVsRBD and
+EVsnoRBD ( b). Cryo-transmission electron microscopy (TEM) images revealed
+the spherical morphology and typical size of vesicles for both EVsnoRBD and EVsRBD ( c). Nanoparticle tracking analysis showed
+a homogeneous distribution of size, with an average size of 80.9 ±
+1.8 nm and 90.4 ± 1.6 nm for EVsRBD and EVsnoRBD, respectively ( d), comparable to the size reported for SARS-CoV-2. Before using them for incubation studies, the stability
+of the formulations was studied under the conditions used for their
+long- and short-term storage (4 and −80 °C), fluorescent
+labeling (25 °C), and incubation with live cells (37 °C),
+which showed no change in the representation of the targeting peptide
+(Figure S5).
+ Next, with the aim to examine the binding capabilities
+of EVsRBD to ACE2-expressing (HEKACE2) as compared
+to
+control (HEK) cells, both cell types were incubated with fluorescently
+labeled EVs for 3 h followed by their examination with fluorescence
+microscopy ( e) and flow cytometry ( f,g). The expression of the ACE2 receptors in HEKACE2 cells was confirmed by immunoblotting, FACS analysis, and enzymatically
+(Figure S7). Fluorescent images of the
+examined control cells (HEK) showed no pronounced red fluorescence
+following their incubation with either EVsRBD or EVsnoRBD ( e, top row). In contrast, a pronounced red fluorescence was obtained
+for HEKACE2 after their incubation with fluorescently labeled
+EVsRBD, confirming their extensive binding to ACE2-expressing
+cells ( e, bottom
+row). Note here that the very low red fluorescence found in control
+cells after their incubation with the EVsRBD may be in
+accordance to the expected low expression levels of native ACE2 in
+HEK293 cells. Flow cytometry analysis showed that EVsRBD had significantly greater binding efficiency to ACE2-expressing
+cells (HEKACE2) when compared to EVnoRBD (p < 0.05), while the uptake into control cells (HEK)
+was similar for both EVsRBD and EVnoRBD ( f,g and Figure S4 for FACS data). It is important to
+note that EVsnoRBD showed a basal level of accumulation
+in both HEK and HEKACE2 cells regardless of the presence
+of RBD, showing their natural, but still negligible, ability to be
+internalized or fused to HEK cells (Figure S4). The results summarized in thus confirm the presence and functionality of the
+engineered RBD peptide on the EVsRBD surface and its targeting
+and binding capability to ACE2 receptors expressed on cells. These
+findings show that the engineered EVsRBD can be used as
+SARS-CoV-2 mimetics with ACE2 binding capabilities with a similar
+size and shape to the SARS-CoV-2 virus. Importantly, this EV-based
+formulation, in contrast to a highly infectious SARS-CoV-2 virus, can be used to study RBD-ACE2 interactions at
+a single-cell level under standard laboratory conditions without the
+need for strict safety regulations. This platform may, therefore,
+expand the research of viral-receptor interactions to research institutes
+and industrial setups that do not yet have access to dedicated facilities,
+which must be designated with the highest biosafety level required
+to work with SARS-CoV-2.
+
+## Biodistribution and Targeting of SARS-CoV-2 Mimetics in Mice
+Prior to performing in vivo studies, the toxicity
+effect of the engineered EVs and their biodistribution profiles under
+the used experimental conditions were examined. No detrimental effect
+on the viability of recipient cells was found when incubated with
+EVsRBD (measured by two independent assays, Cell Titer
+Blue and CKK-8, Figure S6). It is important
+to mention here that, in order to examine whether there was any effect
+of the intravesicular content of the EVsRBD, their effect
+on the viability of the incubating cells was compared to their vesicle-ghost
+analogues as well as to liposomes, confirming no effect when assessed
+at the conditions used in this study. These results, which agree with
+previous studies suggest that there is
+no pronounced effect on recipient cells when using EVs. The biodistribution
+of both types of EVs (EVsnoRBD and EVsRBD) was
+examined in immunocompetent C57BL/6 mice after their intravenous administration,
+and both showed very similar profiles, with the vast majority of EVs
+cleared by the spleen and liver as expected ( ). It should
+be stressed, however, that further safety and long-term biodistribution
+examinations of the engineered EVs are required under different experimental
+conditions and in live animals to examine their maximum tolerated
+dose (MTD) for a specific application. Using ghosts of the EVsRBD, which should not contain any biomolecular content (proteins
+or genetic material), may provide an alternative if any safety concern
+is raised in the future, as these ghosts should preserve the outer
+membrane feature of the EVs and, thus, their targeting capabilities.
+Also note that a very recent report showed that lung-derived EVs, which were chemically conjugated to RBD, had
+no safety concerns of such types of viruslike EVs and strengthen the potentiality of the proposed EVsRBD to be used in vivo in other studies.
+ The in vivo targetability of the
+EVsRBD mimetics toward ACE2 receptors was then studied
+in an animal model.
+Several studies have already shown the ability of genetically engineered
+EVs to interact and bind to receptors of interest in vivo, including acetylcholine receptors in the brain, tumor cells, immune cell surfaces, and viral receptors, including ACE2. Since human ACE2 receptors are not naturally
+present in mice, a few transgenic mice models had been proposed, , but they are not readily accessible and therefore are not yet extensively
+used. Therefore, we established a xenograft model to study the in vivo targetability of EVsRBD to ACE2 following
+their systemic administration. For this purpose, control HEK293 cells
+(HEK) and ACE2-expressing HEK293 cells (HEKACE2) were first
+inoculated bilaterally and subcutaneously in two flanks of immunodeficient
+mice to result in tumor-like tissue appearances at the implantation
+sites 2 weeks after cell inoculation. In contrast to the transgenic
+mouse model, the model we used here allows
+for real-time comparison of the accumulation of EVs following their
+administration in both the control and ACE2-expressing cells simultaneously
+in the same animal. Two weeks after cell transplantation, mice were
+injected, intravenously, with fluorescently labeled EVs, either nontargeted
+EVs (EVnoRBD, group 1, n = 5) or ACE2-targeted
+EVs (EVRBD, group 2, n = 5) as schematically
+depicted in a. Six hours after intravenous administration of fluorescently labeled
+(DiR) EVs (3 × 1011 EVs per mouse), the two types
+of tumors were excised for further quantitative analysis of their
+fluorescent signal. Importantly, although introduced systemically
+(through intravenous injection), a clear and statistically significant
+difference in the fluorescence of HEK and HEKACE2 tumors
+was obtained only after the administration of EVsRBD with
+a higher accumulation in the ACE2-expressing cells ( b, c; p <
+0.01; n = 5/group). Importantly, no observable difference
+in the fluorescence of the tumors could be detected after the injection
+of EVsnoRBD, indicating the high targeting ability and
+enhanced specificity of EVsRBD to the ACE2 receptors in vivo ( b,c and Figure S9). Moreover, no
+difference was observed between the accumulation of the two types
+of EVs (EVsRBD and EVsnoRBD) in other organs
+(Figure S9) indicating, once again, the
+specific targetability of EVsRBD to ACE2-expressing cells
+even in vivo after systemic administration ( b,c).
+ 
+
+## MRI Mapping of Magnetically Labeled SARS-CoV-2 Mimetics
+After showing the specific targetability of EVsRBD to
+ACE-expressing cells both in vitro ( ) and in vivo ( ), we aimed
+to examine the ability to map the accumulation in their target cells
+using a noninvasive and three-dimensional imaging modality, such as
+MRI, which was demonstrated to be applicable for monitoring of magnetically
+labeled EVs in vivo. , − To this end, and to load EVs with superparamagnetic iron oxide nanoparticles
+(SPIONs), parental HEK-293 cells stably expressing the RBD ( ) were incubated
+for 24 h with SPIONs added to their culture medium (40 μg of
+iron per mL). Then, the incubating medium was replaced with EVs-free
+medium and the released EVsRBD were collected and purified
+by differential centrifugation ( a) and further characterized. Incorporation of SPIONs
+into the secreted EVsRBD was clearly visualized by cryo-TEM
+as multiple hypointense clusters inside the lumen of the EVs ( b). Solutions containing
+different concentrations of SPIONs-labeled EVsRBD were
+then examined by MRI and showed concentration-dependent T2*-weighted MRI contrast ( c). Importantly, labeling of EVs with SPIONs did not
+compromise their size (84.8 ± 4.3 nm vs 94.8 ± 3.4 nm, d), charge (−18.8
+± 3.9 mV vs −16 ± 1.0 mV, e), or the expression of the RBD ( f).
+ Then, after confirming a successful labeling of
+the EVs with SPIONs,
+we aimed to examine the MRI-detectability of their ACE2 targetability in vivo. To this end, a solution containing 3 × 1011 SPIONs-labeled EVsRBD was injected systematically
+through the mouse tail vein. The preferential accumulation of the
+SARS-CoV-2 mimetics in ACE2-expressing tissue was observed as a reduced
+MRI signal intensity in T2*-weighted images ( g). To quantify the change
+in the MRI signal of the two tumorous-like tissues (HEK vs HEKACE2), mice were scanned before and 4 h after EVs administration
+and the difference in the tissue contrast-to-noise ratio (CNR) obtained
+before and after injection was calculated. As shown in h, a significant (p-value <0.01, n = 5) increase in the CNR difference
+(before vs after SPIONs-labeled EVsRBD injection) was obtained
+in the region of interest (ROI) of the ACE2-expressing cells compared
+to control tissue. Moreover, Prussian blue staining of slices of the
+excised tissues clearly showed iron deposits only at the samples obtained
+from ACE2-expressing cells ( i), confirming the delivery of the SPIONs-labeled EVsRBD to HEKACE2 but not to the controls. Injection
+of SPIONs solution (without EVs) into an additional group of mice
+showed no difference between HEK and HEKACE2 tumors (Figure S10), confirming, once again, the increased
+accumulation of SPIONs when targeted by EVsRBD (at the
+same time point of 4 h after tail vein injection).
+Note here
+that other strategies for labeling EVs should be considered
+in the future to improve their iron content load and, thus, the sensitivity
+of the approach. Labeling secreted EVs through labeling of their parental
+cells might have suffered from low labeling capacity, , and more advanced labeling methods should be developed and employed
+to allow the detection of lower numbers of targeted EVs in future
+studies. In addition to MRI mapping of the targetability of magnetically
+labeled SARS-CoV-2 mimetics to ACE2-expressing cells, our results
+confirm the successful delivery of an intravesical cargo (nanoparticles
+cargo) to a target tissue. It should be noted, however, that SARS-CoV-2
+is a respiratory virus, and the demonstrated platform would better
+mimic the virus biodistribution if administered intranasally or intratracheally.
+Nevertheless, the demonstration that engineered RBD-tagged EVs with
+encapsulated siRNA can be used to suppress SARS-CoV-2 infection in
+a transgenic mouse model of ACE2 expression suggests that our platform can be used to deliver several types
+of cargos in the future, including antiviral or immunosuppressive
+agents to ACE2-expressing tissue. As such, the proposed SARS-CoV-2
+mimetics could be of high importance during the current SARS-CoV-2
+pandemic, where efficient and safe treatment strategies against COVID-19
+are still needed.
+
+## SARS-CoV-2 Mimetics: A Versatile Tool to Study Viral Variants
+As for other RNA viruses as for SARS-CoV-2, the rapid evolution
+and the introduction of diverse mutations at the RBD manipulates not
+only the binding affinity to the host cell receptors and the infectivity
+of the virus but also reduces the efficiency of proposed vaccines
+and other therapeutics. In that regard, one key feature of the SARS-CoV-2
+mimetics presented here is that suspicious mutations or those found
+in rapidly spread variants of a virus of interest can be easily displayed
+at the surface of the EVs through a one-step cloning procedure into
+the pAGDisplay plasmid. This means that the method can provide rapid
+data on the virus mutations as they appear or, perhaps more importantly,
+on predicted mutations that might appear in the future. To examine
+this, and based on our previous experience with predicting SARS-CoV-2
+mutants with extremely high affinity to ACE2, we have engineered EVs
+to express the predicted “62” variant of SARS-CoV-2
+RBD ( , Figure S11 and Supplementary sequences). To this end, the gene encoding for the RBD sequence
+of the predicted “62” variant of SARS-CoV was designed
+and cloned into a pAGDisplay, and HEK-293 cells were transfected to
+obtain a stable cell line (HEKRBD-62). After EVs
+isolation, the difference in the binding capabilities of EVsRBD to EVsRBD-62 to ACE2 receptors expressed at the
+surface of live cells was examined using flow cytometry. As shown
+in , and as
+expected from the extremely high affinity of RBD-62 to ACE2, HEKACE2 cells incubated with engineered
+EVsRBD-62 showed a 4 times higher fluorescence compared
+to that obtained when the same cells were incubated with EVsRBD (the so-called Wuhan variant). In contrast, EVs with RBD of Delta
+(EVsRBD-Delta) or Omicron (EVsRBD-Omicron) mutations, although they showed a higher accumulation in HEKACE2 cells compared to EVsnoRBD, did not show significantly
+higher fluorescence when compared to cells incubated with the Wuhan
+RBD (EVsRBD, Figure S11). These
+results may imply only a small increase in the binding capabilities
+of RBD-Delta and RBD-Omicron to the ACE2 receptor compared to that
+of Wuhan RBD. , Importantly, all these experiments
+( and Figure S11) were performed using a single concentration
+of EVs and may not reflect the difference in the ACE2 binding affinity
+of each of the examined type of EVs. Such a determination would require
+a series of concentrations of the incubating EVs in the same manner
+as that performed for the data shown in f. Nevertheless, the results shown in demonstrate that
+the proposed genetically engineered EVs, which are here used as coronavirus
+mimetics, can be used as a reliable platform for fast and safe examination
+of evolved and predicted mutations of SARS-CoV-2, with the potential
+to be extended to other viruses.
+ 
+
+## Conclusion
+In summary, we showed the design and implementation
+of genetically
+engineered EVs as SARS-CoV-2 mimetics (EVsRBD), which efficiently
+bind the ACE2 receptor both in vitro and in vivo, even after intravenous systemic delivery. The ability
+to load EVsRBD with MRI-trackable material (SPIONs) allowed
+mapping of their targetability in live subjects and, thus, could be
+applied to study viral-receptor interactions in deep tissues, such
+as the lungs, which might have played a significant role in viral
+infectivity and are not accessible to luminescent-based imaging approaches.
+Having demonstrated the modifiability of the approach and proposing
+EVs that mimic additional variants of SARS-CoV-2 show its potential
+to be applied for currently evolving or predicted mutants in a safe
+and reproducible manner without the risk of using infectious material.
+We envision that the demonstrated strategy could be employed to study
+other virus-receptor interactions, beyond SARS-CoV-2-ACE2 demonstrated
+here, by simply engineering a tailored peptide on the EVs surfaces
+and using them in a wide spectrum of viral-induced pathologies. Finally,
+with the increasing interest in EVs research, beyond viral mimetics,
+including their use as cellular-derived nanocarriers, the reported
+visualization strategy could be of high cruciality to enrich our understanding
+of EV targetability to the organ of interest in the context of a live
+organism.
+
+## Methods
+
+## DNA Manipulations
+All DNA fragments were PCR amplified
+using KAPA HiFi HotStart ReadyMix (Roche, Switzerland) and purified
+by NucleoSpin Gel and a PCR Clean-up Kit (Nachery-Nagel, Germany).
+Restriction-free cloning PCR reactions (50 μL, KAPA HiFi HotStart
+ReadyMix) were composed of 100–200 ng of cloned DNA fragment
+and 20 ng of destination plasmid. The assembly PCR reactions consisted
+of 30 cycles of 1 min annealing, at 60 °C, and 6 mins of polymerization
+and 20 s at 98 °C for denaturation. The template DNA was removed
+by using DpnI type IIM restriction enzyme (NEB, USA)
+at 37 °C (1–2 h), and 0.9 μL from the reaction mix
+were electroporated to E. coli Cloni 10G cells (Lucigen,
+USA). Colony PCR and sequencing were used for analysis and verification.
+
+## pAGDisplay Vector Construction
+pDisplay Mammalian Expression
+vector was purchased from Invitrogen (V66020). The pAGDisplay vector
+backbone was assembled by combining a pET28b fragment bearing KanR
+and origin of replication, a pLVX vector fragment bearing WPRE, PuroR,
+and IRES sequences, and a pDisplay CMV promoter with a PDGFRβ
+expression cassette by a restriction-free three-component assembly. In the subsequent restriction-free cloning step,
+the PuroR was fused with eUnaG2 fluorescent protein at the C-terminus. , The full-length pAGDisplay was sequenced to verify its correct assembly.
+
+## pAGDisplay Modification with RFnano Near-Infrared Fluorescence
+Protein
+To increase our spatial resolution, we introduced,
+by restriction-free cloning, a modified near-infrared MIRFP670nano, an RFnano protein, as a cytoplasmic domain at
+the C-terminus of PDGFRβ. The preparation and design of RFnano
+is the subject of a publication currently in preparation. Briefly,
+the PROSS and Rosetta-based stabilization design was combined with S. cerevisiae EBY100 expression and sorting to obtain a
+brighter signal and the same spectral parameters. In total, 23 mutations
+were introduced into the protein.
+
+## Protein Production, Purifications, and Labeling Procedures
+The designed ALFA-tag binding nanobody (DnbALFA) and its mNeonGreen
+fusion protein were expressed by using expression plasmid pET28bdSUMO and E. coli BL21(DE3) cells
+as described previously. Briefly, 200
+mL of 2YT medium (16 g of tryptone, 10 g of yeast extract, and 5 g
+of NaCl, pH 7) was inoculated (1%), grown to the OD600 = 0.6 (37 °C),
+and the expression was initiated by the addition of IPTG to a final
+concentration of 0.5 mM. The expression continued for the next 16
+h at 20 °C. Expressed cells were washed (50 mM Tris-HCl, 200
+mM NaCl buffer, pH 8), disintegrated by sonication, immobilized on
+Ni-NTA agarose (PureCube Ni-NTA agarose, Cube Biotech, Germany), and
+cleaved on a column by using bdSUMO protease. The eluted fraction was further purified by size exclusion chromatography
+on HiLoad 26/600 Superdex 75 using a GE AKTA Purifier FPLC system.
+The soluble his-tagged peptidase domain of ACE2 protein (Q18–S740),
+inserted in pHLsec plasmid, was expressed in an Expi293F cell system
+with an ExpiFectamine 293 Transfection Kit (ThermoFisher, USA) according
+to the manufacturer’s protocol and purified as described previously. The ACE2 or DnbALFA proteins were labeled by
+CF640R succinimidyl ester dye (Biotium, USA, catalog no. 92108) in
+0.1 M bicarbonate buffer using a 1:4 protein to dye ratio. The reaction
+was continued for 1 h at room temperature, and subsequently, the free
+dye was removed by dialysis (GeBAflex-Midi Dialysis Tubes, 8 kDa MWCO,
+Geba, Israel) against PBS buffer (16 h, 4 °C).
+
+## Cell Culture and Transfection
+HEK293, HEK293T, ACE2-expressing
+HEK293T cells, and stable pAGDisplay-RBD cell lines were cultured
+at 37 °C in a 5% CO2 atmosphere in DMEM medium (4.5
+g/L glucose, l-glutamine; Gibco, USA) supplemented with 10%
+fetal bovine serum (FBS) and 1% glutamine (4 mM). Cells were passaged
+2–3 times per week using trypsin EDTA solution A (Biological
+Industries, USA) for cell detachment. The stably expressing ACE2 HEK293T
+cell line was kindly obtained from the lab of Dr. Ron Diskin (Weizmann
+Institute of Science) and kept under puromycin antibiotics (0.5 μg/mL,
+Invitrogen, USA).
+
+## HEK-pAGDisplay-RBD Stable Cell Line Generation
+The
+pAGDisplay-based plasmids expressing RBD (1 μg of DNA) were
+transfected in a 60 mm culture dish with 80% confluent HEK293 cells
+by a JetPrime transfection reagent (Polyplus, France) according to
+the manufacturer’s protocol. After transfection (24 h), cells
+were transferred to a 150 mm culture dish. Subsequently, 48 h after
+transfection, the media was replaced by fresh DMEM medium supplemented
+with 10% FBS and 1 μg/mL puromycin (Invitrogen, USA). Puromycin-resistant
+cells were selected for 1 week with regular replacement of cell media.
+Stably transfected cells associated with the top 1% green fluorescence
+signals (Puro-eUnaG2), were sorted out from the population using the
+S3e Cell Sorter device (Bio-Rad, USA) and further subcultured to single
+colonies.
+
+## Characterization of Parental Cells
+The presence of
+the RBD on the cell surface was measured by fluorescence-activated
+cell sorting (FACS). The cells were cultured until full confluence,
+then they were detached from the plates by PBS and added to the Eppendorf
+tubes. After spinning down (5 min at 500g), the cell
+pellet was resuspended in a labeling solution containing fluorescently
+labeled, purified ACE2 protein in PBS supplemented with 2% FBS. The
+cells were labeled for 1 h on ice and then washed two times with 1
+mL of PBS (spun down each time for 5 min at 500g).
+After the last wash, the cells were resuspended in PBS with 2% FBS
+solution, filtered by 0.45 μm filters, and added to the FACS
+tubes. The fluorescence was measured by the LRSII FACS machine (BD
+Biosciences, USA) and analyzed by the FlowJo software.
+
+## Preparation of Cell Ghost Vesicles
+Vesicles composed
+of plasma membranes of cell ghost were prepared as previously described, with some modifications. Briefly, approximately
+1 × 107 RBD cells were centrifuged at 500g for 10 min, washed once with phosphate buffered saline (PBS), and
+suspended in 0.06% w/v sucrose in 0.25× PBS, supplemented with
+1% v/v penicillin streptomycin antibiotics and 0.5% v/v protease inhibitor
+cocktail, on a shaker overnight at room temperature. The resulting
+cell suspension was subsequently centrifuged at 6000g for 10 min and suspended in 0.06% w/v sucrose in 1× PBS on
+a shaker overnight at room temperature. Subsequently, the cell suspension
+was centrifuged again at 6000g for 10 min and suspended
+in PBS −/–, and extruded sequentially through 10, 5,
+1, and 0.1 μm polycarbonate membrane filters (Whatman) using
+a mini extruder (Avanti Polar Lipids) 5 times each filter.
+
+## Preparation of Large Unilamellar Vesicles (LUVs)
+LUVs
+were prepared composed of DOPC. Lipid solution in chloroform was placed
+in a glass vial, and the organic solvent was evaporated by 12 h of
+vacuum pumping. The lipid film was then hydrated with PBS −/–
+to reach the desired concentration and gently vortexed. The resulting
+MLV suspension was then sonicated for 10 min to disperse larger aggregates
+and the liposomal suspension was extruded 21 times through polycarbonate
+filters (100 nm pore size, Avanti Polar Lipids) using a mini-extruder
+(Avanti Polar Lipids). Size and concentration were verified using
+NTA and the liposomal suspension was used within 2 weeks from extrusion.
+The extruded sample is then pipetted on the top of a 10–50%
+Optiprep band and ultracentrifuged at 100 000g for 2 h at 4 °C using a SW41 rotor. The ghost vesicles are
+then collected from the interface of the gradient and utilized for
+further experiments.
+
+## EV Isolation
+EV-depleted medium was prepared by two
+rounds of ultracentrifugation (100 000g, 16
+h) of DMEM with 20% FBS, diluted to 10% FBS, and supplemented with
+glutamine. For EVs isolation, cells were cultured in EV-free medium
+for 48–72 h, then the medium was collected and processed by
+differential centrifugation (400g, 10 min; 2000g, 10 min; 10 000g, 30 min, all
+at 4 °C). The final supernatant was collected and EVs were pelleted
+at 100 000g at 4 °C for 4 h in an Optima
+ultracentrifuge using the Beckman Ti45 rotor (Beckman Coulter, USA).
+The EVs pellet was washed with PBS and resuspended in 0.22 μm
+filtered PBS. EVs were isolated from the RBD-transfected cells (EVRBD) and control cells (EVnoRBD).
+
+## EV NTA Analysis
+The size and concentration of EVs diluted
+in PBS (1:1000 or 1:5000) was measured by nanoparticle tracking analysis
+using the NanoSight system (Malvern Instruments, U.K.) with a 405
+nm laser by acquiring five, 1 min videos at the camera level 16. Threshold
+5 was used for the analysis in all samples. Protein content was measured
+by the BCA (cells) or microBCA (EVs) protein assay according to the
+manufacturer’s instructions (Sigma-Aldrich, USA).
+
+## Western Blot
+For the Western blot analysis, EVs or
+parental cells were lysed by RIPA buffer (1× for cells, 1:1 in
+PBS for EVs) supplemented with a proteinase inhibitor cocktail. Proteins
+were separated on ExpressPlus PAGE Ready gels 4–20% (A2S, M42015)
+and transferred on the cellulose membrane (300 mA, 90 min) using a
+BioRad blotting device (BioRad, USA). After overnight blocking in
+5% milk in TBST, specific antibodies were applied to the membranes
+for 1 h to detect markers: CD81 (B–II, Santa Cruz, USA); c-myc
+(9E10, Santa Cruz, USA) (all 1:500); and beta-actin (C4, Santa Cruz,
+USA) (1:1000). HRP-conjugated antimouse secondary HRP goat antimouse
+IgG antibody (no. 4053, Biolegend, USA) (1:5000 in TBST) was applied
+for 1 h before imaging using enhanced chemiluminescence substrate
+EZ-ECL Kit (Biological Industries, catalog no. 20-500-120). An ALFA
+tag was detected by a homemade fluorescent anti-ALFA tag nanobody
+and visualized by a fluorescent reader at 642/662 nm wavelength.
+
+## Binding Assays and Affinity Curve Determination Using Cell-Display
+The HEK-pAGDisplay-RBD stable cells grown to 80% confluency were
+gently detached by Accutase (1/2 solution in PBS, 3 min, Sigma-Aldrich
+catalog no. A6964) and washed by PBS with 2 g/L BSA (PBSB). Aliquots
+of detached cells (approximately 2 × 106) were incubated
+with a series of CF640R succinimidyl ester-labeled (Biotium, USA,
+catalog no. 92108) ACE2 extracellular domain (AA Q18–S740)
+solutions (0.2–83 nM) in 1 mL of PBSB for 2 h on ice. After
+the incubation, cells in aliquots were separated by centrifugation
+(500g, 5 min), washed, and resuspended in ice-cold
+PBSB, passed through a cell strainer nylon membrane (100 μM,
+SPL Life Sciences, Korea), and analyzed. The expression (eUnaG2-Puro
+signal, FL-1, excitation 498 nm, emission 527 nm) and binding (CF640R-ACE2,
+FL-4, excitation 642 nm, emission 662 nm) signals were recorded for
+10k gated single-cell events by an S3e Cell Sorter (BioRad, USA).
+Mean FL-4 fluorescence signal values of RBD + cells, subtracted by
+RFnano and the nonspecific signal of the RBD-population, were used
+to determine the KD of binding constants
+using a noncooperative Hill equation and a nonlinear least-squares
+regression using Python 3.7. 
+
+## Cryo-Transmision Electron Microscopy (TEM)
+
+## Sample Preparation
+Lacey carbon EM grids were glow-discharged
+(30 s, 25 mA) in a Pelco EasiGlow system. A volume of 3.5 μL
+of EVs resuspended in PBS −/– at ∼1011 particles/mL concentration were applied onto the EM grid and the
+grid was incubated in the humidity chamber of Vitrobot Mark IV instrument
+(Thermo Fisher Scientific, USA) for 5 min at 100% humidity and at
+room temperature, followed by blotting (4.0 s and −10 Blot
+Force), and plunge-freezing into precooled liquid ethane. Samples
+were imaged using a Talos Arctica G3 TEM/STEM microscope (Thermo Fisher
+Scientific, USA), equipped with a OneView camera (Gatan, USA) at an
+accelerating voltage of 200 kV using SerialEM. Images were recorded at ×73 000 magnification
+(calibrated pixel size 0.411 nm) with a −3.5 μm defocus.
+
+## In Vitro Binding of EVsRBD to the
+ACE2 Receptor
+
+## Flow Cytometry
+To confirm binding and uptake of EVRBD in ACE2-expressing cells, isolated EVsRBD or
+EVnoRBD were fluorescently labeled with 1,1′-dioctadecyl-3,3,3′,3′-tetramethylindotricarbocyanine
+iodide (DiR) (ThermoFischer Scientific, D12731) at a concentration
+of 15 μM by incubation for 1 h at room temperature. EVs were
+then washed three times with the VivaSpin centrifugation filters,
+5 min at 14 000g, and 2 min at 1000g in a reverse position. HEK293T or ACE-expressing HEK293T cells were
+incubated with labeled EVsRBD or EVnoRBD in
+EV-depleted DMEM for 3 h. Then, the cells were detached from the plate
+by PBS, washed twice with PBS in the Eppendorf tubes (spun down five
+min at 500g), filtered by 0.45 μm filters,
+and added to the FACS tubes in FACS solution (PBS with 2% FBS). The
+fluorescence signal (APC-Cy7 filter) of cells was measured using a
+LSRII cell analyzer flow cytometer (BD Biosciences, USA) and analyzed
+by the FlowJo software.
+
+## Fluorescence Microscopy
+For visualization by fluorescence
+microscopy, cells were seeded on 14 mm-diameter coverslips in a 24-well
+plate. The wells were coated with fibronectin by incubation for 45
+min. Then, fibronectin was removed and the wells were washed with
+PBS before seeding the cells. For uptake of EVs in cells, the DiD-labeled
+EVs were dissolved in exosome-free medium and incubated with cells
+for 3 h. Then, the medium was removed, and cells were washed two times
+with PBS. For staining of cell nuclei, DAPI was dissolved in 2.5%
+formaldehyde and the cells were incubated in the solution for 20 min.
+After two washes, the coverslips were carefully transferred and mounted
+on glass slides and the fluorescence was visualized using a wide-field
+microscope (Leica DMI8).
+
+## Detection of ACE2 in Cells
+For confirmation of the
+presence of ACE2 protein in the ACE2-expressing cells, ACE2-expressing
+HEK293T and HEK293T control cells were lysed and the activity of the
+ACE protein was assessed by the SensoLyte 390 ACE2 Activity Assay
+Kit (AnaSpec, USA) according to the manufacturer’s instructions.
+The fluorescence (excitation 330 nm, emission 390 nm) of the final
+product was read within 5–35 min using a plate reader. The
+expression of ACE2 protein in cells was also confirmed by Western
+blot analysis, as described above, using a rabbit monoclonal ACE2
+antibody (ab239924; 1:1000; Abcam, USA). For FACS analysis, the cells
+were seeded in a 6-well plate. Then the cells were detached from wells
+by PBS and incubated with ACE2 primary antibody (ab239924; 1:1000;
+Abcam, USA) for 1 h on ice, washed with PBS and then incubated with
+antirabbit fluorescently conjugated secondary antibody (Alexa Fluor
+647 nm) for 1 h on ice. The cells were then washed with PBS, filtered
+with 0.45 μm filters, and resuspended in PBS with 2% FBS. The
+fluorescence signal (APC filter) of cells was measured by a FACS machine
+(LRS-II) and analyzed by the FlowJo software.
+
+## Toxicity Evaluation
+For the evaluation of the toxicity
+of the vesicles, HEK293T cells were seeded in a 96-well plate a day
+before the addition of EVsRBD or EVsnoRBD. The
+cells were incubated with EVs, vesicle ghosts, and LUVs of different
+concentrations (0.6 × 109 to 2.5 × 109 EVs/well, n = 5 biologically independent replications
+for each sample) for 4 h. The viability of the cells was measured
+with two independent assays, CCK-8 and Cell Titer Blue according to
+the manufacturer’s instructions. 50% DMSO was used as a positive
+control to represent a cell toxicity scenario.
+
+## Production of Magnetically Labeled EVs
+HEK293 cells
+stably expressing RBD or without RBD (control) were seeded into 15
+cm culture plates at 50% confluency. The next day, SPIONs (Molday
+ION Dye Free; 2 mg Fe/mL; BioPal, USA, CL-50Q02-6A-0) were added to
+the culture medium at a final concentration of 40 μg/mL. Then,
+24 h after, medium was discarded, the cells were washed three times
+with 10 mL of PBS, and EV-depleted medium was added to the cells followed
+by another 24-h incubation. Afterward, EVs were isolated from the
+medium according to the standard protocol and resuspended in PBS.
+
+## Zeta Potential Measurement
+The zeta-potential of the
+EVs diluted in PBS (108 EVs/mL) was determined using a
+zeta-potential analyzer Malvern Zetasizer (Malvern Panalytical Ltd.,
+U.K.) according the manufacturer’s instructions.
+
+## Animal Model
+Immunodeficient Hsd:Athymic Nude-Foxn1nu
+mice and C57BL/6 mice (Envigo) were used in the experiments. All animal
+studies were approved in accordance with the Weizmann Institute’s
+Animal Care and Use Committee (IACUC) guidelines and regulations (approval
+number 00580120-3). All animals were kept in a daily controlled room
+at the Weizmann Institute of Sciences animal facility with a surrounding
+relative humidity level of 50 ± 10% and a temperature of 22 ±
+1 °C, with a 12/12 cycle of dark and light phases. Subcutaneous
+xenograft tumors were induced by injection of HEK293T (left side)
+and ACE2-expressing HEK293T cells (right side) under the skin above
+the mouse flank. Mice were kept under isoflurane anesthesia during
+the whole procedure. Each mouse received 10 mil of each cell type
+in 150 μL of PBS. The tumors were allowed to grow for 2–3
+weeks until they reached a sufficient size for imaging (diameter around
+0.5–1 cm). If the tumors reached more than 1 cm or the tumor
+size was not equal, the animals were removed from the experimental
+groups.
+
+## Magnetic Resonance Imaging
+MRI experiments were conducted
+on a horizontal 15.2 T horizontal scanner (in vitro and in vivo) using a 1H volume radiofrequency
+coil with a 23 mm diameter (Bruker BioSpin, Germany).
+
+## Phantom Measurements
+Different concentrations of isolated
+EVs were added to glass tubes and imaged using a Rapid Acquisition
+with Relaxation Enhancement (RARE) sequence with the following parameters:
+time of repetition (TR) 2800 ms; echo time (TE) 42 ms; and resolution
+0.23 × 0.23 × 1 mm3. MR images were analyzed
+by the ImageJ software or by a custom-made script written in MATLAB
+(MathWorks, USA).
+
+## In Vivo MRI of Mice
+Prior to MR imaging,
+a cannula was inserted into a mouse tail. Mice with induced tumors
+were then measured on a 15.2 T MRI scanner before and after injection
+of SPIONs-labeled EVsRBD at a dose of 3 × 1011 EVs in 100 μL of PBS administered through a long tube without
+changing the position of the animal (n = 5). In a
+control experiment, only SPIONs solution (1 mg of iron per kg) was
+injected into the tail vein of mice (n = 4). The
+mice were measured under general isoflurane inhalation anesthesia
+(5% induction, 1% maintenance) up to 4 h after EVs injection using
+a gradient echo Fast Low Angle Shot (FLASH) with the following parameters:
+TR = 300 ms; TE = 2 ms; resolution of 0.23 × 0.23 × 0.7
+mm3. After tuning and matching to the1H frequency,
+shimming of the magnetic field, B0 correction,
+both axial and coronal images of the tumor area were measured followed
+by analysis in the ImageJ software. Regions of interest (ROI) were
+outlined around each tumor, muscle, and a noise area outside of the
+animals. The contrast-to-noise ratios (CNR) were calculated as follows:
+ The CNR difference was calculated as a percentage
+of CNR before and after EV injection.
+
+## Fluorescence Imaging
+Prior to imaging, mice with induced
+subcutaneous tumors (n = 5 for each formulation)
+or C57BL/6 mice (n = 4 for each formulation) were
+retro-orbitally injected with DiR-labeled EVsRBD or EVsnoRBD (dose of 3 × 1011 EVs in 100 μL
+of PBS). Six hours after injection, the mice were intracardially perfused
+with 2.5% formaldehyde solution under general anesthesia induced by
+ketamine (80 mg/kg) and medetomidine (0.6 mg/kg). Organs (liver, kidneys,
+spleen, intestine, heart, lungs, brain) and tumors were excised, fixed
+with 2.5% formaldehyde solution overnight, and then kept in PBS. A
+day after, fixed organs were measured with IVIS Lumina XR optical
+imager (PerkinElmer, USA) with the FOV and exposure time of 1 s (liver),
+10 s (kidney, lungs, spleen, heart), 30 s (brain), or 60 s (tumors).
+For intravital microscopy, an Olympus microscope MVX was used with
+exposure times of 700 ms (Cy7 filter for detection of the DiR signal).
+
+## Histology
+The fixed tumor tissues were kept in 1% formaldehyde
+solutions and then embedded in paraffin blocks according to a standard
+protocol. Tissue slices were cut on a microtome and stained by hematoxylin
+& eosin and Prussian blue. The slides were imaged on a Leica DMI8
+wide-field fluorescent microscope using a standard bright-field filter.
+
+## Statistical Analysis
+All numerical data are presented
+as mean ± standard deviation (s.d.). Statistical analysis was
+performed using GraphPad Prism 8.0 software (GraphPad Software Inc.,
+USA). Comparison of two groups was analyzed by a two-tailed Student’s t test. A p-value of 0.05 and below was
+considered significant: *p-value <0.05, **p-value <0.01, ***p-value <0.001,
+and ****p-value <0.0001.
+
+## Acknowledgments
+This project received funding from the
+following sources:
+European Research Council (ERC-StG Grant No. 677715 to A.B.-S.), the
+Israel Science Foundation (ISF Grant No. 1637/20 to O.A, N.R.-R.,
+and A.B.-S. and Grant No. 1268/18 to J.Z. and G.S.), the Clore Institute
+for High-Field Magnetic Resonance Imaging and Spectroscopy (A.B.-S.),
+the Helen and Martin Kimmel Institute for Magnetic Resonance Research
+(A.B.-S.), and the Ben B. and Joyce E. Eisenberg Foundation (to A.B.-S.
+and O.A.). A.B.-S. is the incumbent of the Helen and Milton A. Kimmelman
+Career Development Chair. O.A is the incumbent of The Miriam Berman
+Presidential Development Chair. O.A also acknowledges funding from
+the Henry Chanoch Krenter Institute for Biomedical Imaging and Genomics.
+Schemes in the figures were prepared using BioRender.
+
+## Supporting Information Available
+The Supporting Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/acsnano.2c03119.
+Confocal images of RBD cells, FACS data and analyses,
+ACE2 binding assay, stability determination of the EV formulations,
+results of toxicity assays, Western blots, fluorescence images of
+tumors, results of biodistribution experiments, MRI data, and analysis
+of mice injected with SPIONs; uptake assay of EVs displaying the RBD
+of different SARS-CoV-2 mutations; supplementary sequences (nucleotide
+sequences) of the used RBDs; and supplementary plasmid map of the
+pAGDisplay-RBD construct used in this study (PDF)
+
+## Author Contributions
+A.G. and
+A.B.-S. designed the study and wrote the manuscript. A.G. carried
+out and analyzed all EV-related experiments, including EVs isolation,
+characterization, cell experiments, tumor inoculation, in
+vivo optical imaging, and MRI experiments (in vitro and in vivo). H.A.-A. assisted with the establishment
+of the MRI experiments. J.Z. and G.S. designed the expression vectors
+of RBD and its variants, established the cell lines, and purified
+the proteins. A.G. and J.Z. performed cell line characterization.
+M.F. assisted with EVs isolation and purification. P.A.K. and N.R.-R.
+guided and assisted with the establishment of EVs isolation, purification,
+and characterization. M.I.M. and O.A. performed the cryo-TEM experiments.
+All authors reviewed the manuscript.
+
+The authors declare no
+competing financial interest.
+
+## Notes
+A preprint version of this work can be found
+in Galisova, A.; Zahradnik, J.; Allouche-Arnon, H.; Morandi, M. I.;
+Abou Karam, P.; Fisler, M.; Avinoam, O.; Regev-Rudzki, N.; Schreiber,
+G.; Bar-Shir, A. Genetically Engineered MRI-Trackable Extracellular
+Vesicles as SARS-CoV-2 Mimetics for Mapping ACE2 Binding In
+Vivo. bioRxiv2022, 2022.03.27.485958,
+DOI: 10.1101/2022.03.27.485958 (accessed March 28, 2022).
+
+## Supplementary Material
+nn2c03119_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+nn2c03119_si_001.pdf

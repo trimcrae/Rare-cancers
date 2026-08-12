@@ -1,0 +1,1033 @@
+822acssdACS Infectious DiseasesACS Infect DisPMC1109187911091879110918793857799410.1021/acsinfecdis.3c00592Inhibitors of
+the Thioesterase Activity of Mycobacterium tuberculosis Pks13 Discovered Using DNA-Encoded
+Chemical Library Screening
+KriegerInna V YalamanchiliSubbarao DicksonPaige EngelhartCurtis A ZimmermanMatthew D WoodJeremy ClaryEthan NguyenJasmine ThorntonNatalie CentrellaPaolo A ChanBetty CuozzoJohn W GengenbacherMartin GuiéMarie-Aude GuilingerJohn P BienstockCorey HartlHajnalka HuppChristopher D JetsonRachael SatohTakashi YeomanJohn T S ZhangYing DartoisVeronique SchnappingerDirk KeefeAnthony D SacchettiniJames C 1Department
+of Biochemistry & Biophysics, Texas
+A&M University, College
+Station, Texas 77843, United States2X-Chem Inc., 100 Beaver Street, Waltham, Massachusetts 02453, United States3Relay
+Therapeutics, 399 Binney Street, Cambridge, Massachusetts 02141, United States4Ipsen Bioscience
+Inc., 1 Main Street, Cambridge, Massachusetts 02142, United States5Valo
+Health, 75 Hayden Avenue, Lexington, Massachusetts 02141, United States6EXO
+Therapeutics, 150 Cambridgepark
+Drive, suite 300, Cambridge, Massachusetts 02140, United States7Department
+of Microbiology and Immunology, Weill Cornell
+Medicine, New York, New York 10021, United States8Center for
+Discovery and Innovation, Hackensack Meridian
+Health, Nutley, New Jersey 07110, United States12Hackensack
+Meridian School of Medicine, Hackensack
+Meridian Health, Nutley, New Jersey 07110, United States9Orogen
+Therapeutics, 12 Gill
+Street, Woburn, Massachusetts 01801, United States10Auron
+Therapeutics, 55 Chapel
+Street, Newton, Massachusetts 02458, United States11Recludix
+Pharmaceuticals, 222
+Third Street, Cambridge, Massachusetts 02142, United States*corresponding authors Email: Anthony
+D. Keefe akeefe@x-chemrx.com, James C. Sacchettini
+.
+*Email: sacchett@tamu.edu
+54202410515611561–15751552024© 2024 The Authors. Published by American Chemical SocietyPermits the broadest form of re-use including for commercial purposes, provided that author attribution and integrity are maintained (https://creativecommons.org/licenses/by/4.0/).
+
+## Abstract
+ DNA-encoded chemical library (DEL) technology provides
+a time-
+and cost-efficient method to simultaneously screen billions of compounds
+for their affinity to a protein target of interest. Here we report
+its use to identify a novel chemical series of inhibitors of the thioesterase
+activity of polyketide synthase 13 (Pks13) from Mycobacterium
+tuberculosis (Mtb). We present three chemically distinct
+series of inhibitors along with their enzymatic and Mtb whole cell
+potency, the measure of on-target activity in cells, and the crystal
+structures of inhibitor-enzyme complexes illuminating their interactions
+with the active site of the enzyme. One of these inhibitors showed
+a favorable pharmacokinetic profile and demonstrated efficacy in an
+acute mouse model of tuberculosis (TB) infection. These findings and
+assay developments will aid in the advancement of TB drug discovery.
+Keywords: DNA encoded chemical library, DEL, TB drug
+discovery, polyketide synthase 13, thioesterase, inhibitor
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Nov 2; Accepted 2024 Feb 29; Revised 2024 Feb 28; Collection date 2024 May 10.
+
+Tuberculosis (TB) is a significant
+global health challenge, causing considerable morbidity and mortality
+worldwide. In 2022 tuberculosis was the leading cause of death from
+infectious diseases resulting in approximately 1.3 million deaths,
+an increase compared to the previous years’ declining trend.
+TB ranks among the top ten causes of death worldwide, underscoring
+its severe impact on public health. This ongoing burden of the disease
+and its spread across different regions and populations is primarily
+attributed to the long and demanding treatment regime and widespread
+drug resistance. For a durable cure, standard TB treatment usually
+lasts for six months, while treatment for drug-resistant TB can extend
+to 9–20 months and has a high relapse rate.
+Despite the
+availability of treatments that lead to a cure for
+most patients, the rise of multidrug-resistant TB (MDR-TB) and extensively
+drug-resistant TB (XDR-TB) has added a new layer of urgency to the
+situation. A recent study indicated that 7.5% of infected individuals
+tested were resistant to the first-line drug rifampicin. In addition, there was a 37% increase in diagnosed
+drug resistant cases documented in 2021 compared to 2020 (WHO). The
+rapid spread of drug-resistant Mycobacterium tuberculosis (Mtb), the causative agent of TB, is a stark reminder of the pressing
+need to repopulate the TB drug discovery pipeline with promising leads.
+Without a steady stream of new antibiotics, we risk losing our ability
+to effectively treat not only TB but also a wide range of other infectious
+diseases.
+While there are many approaches used to identify starting
+points
+for structure-guided drug discovery, DNA-encoded chemical library
+screening (DEL) has emerged over the past decade as a revolutionary
+technology in the field of drug discovery. , It
+offers a highly efficient, rapid, and cost-effective approach to screening
+billions of small molecules for their ability to bind to a specific
+target. Each molecule in the library is
+labeled with a unique oligonucleotide barcode, which serves as a record
+of the chemical building blocks and chemical scheme used to create
+it. This barcode enables the simultaneous
+testing of billions of molecules in a single screening event. The
+enrichment of library molecules binding to a protein target is achieved
+through affinity-mediated selection, followed by amplification of
+the encoding oligonucleotide sequence. Enriched library members can
+then be identified by sequencing the DNA barcodes, providing a direct
+readout of the molecular structure.
+One of the significant advantages
+of DEL screening is its technical
+simplicity, which allows several screening variations to be performed
+in parallel in a single experiment. Indeed, information on the selectivity,
+binding site, and relative affinity of enriched library members can
+be accessed by counterscreening against mutants or orthologs, competitive
+screens in the presence of known substrates or inhibitors, or target
+concentration variation. This information can be used to prioritize
+the synthesis of enriched compounds based on their mode of action,
+selectivity, affinity, and structure activity relationship (SAR) information
+all of which are accessed directly from the screening output.
+High efficiency and an ability to run selections in parallel allows
+for the rapid screening of large sets of targets for their ligandability
+as was demonstrated for 119 targets from Acinetobacter baumannii and Staphylococcus aureus, and for 42 targets from Mycobacterium tuberculosis (Mtb) by Machutta et al. There are also prior reports of successful DEL
+Hit ID screens having been conducted against Mtb targets. Encinas
+et al. report the discovery of one novel
+series of inhibitors to the Mtb enoyl–acyl-carrier protein
+(ACP) reductase, InhA, a validated target for the treatment of tuberculosis
+and the target for the approved drug isoniazid. A range of analogues
+were synthesized, but in vivo efficacy was not achieved.
+Subsequently, Soutter et al. reported
+the discovery of several novel inhibitors to the same target. All
+series were shown to have activity in cellular assays, and X-ray crystallography
+shows that they bind close to NADH and exhibit a range of binding
+modes including some previously unreported.
+In this study, the
+thioesterase domain of Mtb polyketide synthase
+13 (Pks13-TE) was chosen as a target for the DEL screening campaign.
+Mycobacteria, including Mtb, utilize specialized lipids called mycolic
+acids to form an additional protective layer in their cell wall. The mycolic acid biosynthetic pathway has proven to be a great source of Mtb drug targets.
+For example, the enzyme InhA, which is enoyl ACP reductase, is involved
+in synthesizing the fatty acyl precursors of mycolic acids and is
+the target of two approved drugs, isoniazid and ethionamide. , Pks13 is a multidomain enzyme that performs the final step in the
+synthesis of mycolic acids through the condensation of a long-chain
+fatty acid (C24–C26) and a very long-chain fatty acid (C56). The product is transferred from Pks13 to trehalose
+by the Pks13-TE domain. Subsequently,
+trehalose monomycolate is transported across the membrane and used
+to build the outer layer of the cell wall. Pks13 has been shown as
+essential for viability of Mtb by multiple genetic experiments in
+vitro − and in vivo. 
+Pks13-TE
+is a validated target for the development of antibiotics
+for Mtb. − In previous work, we identified TAM16, a potent lead molecule for
+Pks13-TE. TAM16 demonstrated outstanding efficacy in a mouse model
+of tuberculosis comparable to that of the first-line drug isoniazid.
+However, further development of these benzofuran inhibitors was impeded
+by their associated hERG toxicity. This
+work fueled a search for novel chemotypes that better target this
+critical enzyme. − In addition, an inhibitor series based on a thiophene
+core with potent activity against mycobacteria was found to target
+the N-terminal acyl carrier protein domain of Pks13 enzyme. − A screening campaign on Pks13-TE resulted in the discovery of an
+oxadiazole series with potent antimycobacterial activity, but the
+PK properties of these molecules proved to be insufficient for in
+vivo evaluation. Despite efforts by multiple
+laboratories, no new progressable lead has been reported to date.
+This is in part due to the challenges in assaying Pks13, as an assay
+using the natural mycolic acid substrate is not practical. The primary
+method that has been used to measure the Pks13-TE esterase activity
+employs a fluorescent substrate, 4-methylumbelliferyl heptanoate (4-MUH)
+with the 4-MUH linked to a C7 fatty acid via an ester bond that produces
+a fluorescence signal when cleaved by Pks13-TE. 4-MUH is a poor substrate for Pks13-TE. It is converted
+at a slow rate and generates a weak signal. In addition, the ester
+bond is not stable and undergoes hydrolysis in the solution. As a
+result, the 4-MUH-based assay has a poor signal-to-noise ratio and
+is challenging to use as a high-throughput screening (HTS) assay.
+To find novel chemical inhibitors without relying on the 4-MUH-based
+assay, we used a DEL screen to select for molecules that would bind
+to the purified unliganded Pks13-TE and that were competitive with
+TAM16. This strategy permitted us to identify molecules that would
+likely bind at the active site of Pks13-TE. The hits were confirmed
+using a TAMRA activity probe binding displacement assay instead of
+the 4-MUH esterase assay. The most potent hits were expanded into
+chemical series in order to develop structure–activity relationships
+(SAR). Active inhibitors were tested for Mtb growth inhibition, and
+the most potent were evaluated for on-target activity, X-ray crystallography,
+and pharmacokinetics (PK). Our lead compound, X20404, showed efficacy
+in a model of acute TB, significantly reducing bacterial burden in
+lungs of infected mice.
+
+## Results
+
+## Protein Quality Assessment and Screening Conditions Optimization
+Prior to implementing the DEL screen, the purified recombinant
+Pks13-TE domain with a 6 histidine affinity tag at the N terminus
+was characterized by multiple biophysical and biochemical methods
+to verify purity, integrity, and functional state ( ). We used size-exclusion chromatography (SEC) to
+confirm homogeneity and the expected molecular weight ( ). The protein was monodisperse, and
+no aggregates were detected by SEC, which was further corroborated
+by Dynamic Light Scattering (DLS) ( ). Detergent, salts, and carrier DNA are required in selection buffers
+to reduce nonspecific binding. Immobilized Pks13-TE was active in
+the original assay buffer ( ) and
+in an alternative buffer optimized for DEL screening ( ). Pks13-TE retained its enzyme activity in the
+presence of salts and DNA, but a variety of detergents were found
+to inhibit the enzyme. Optimization efforts identified CHAPS as the
+preferred selection buffer detergent ( ). Additional experiments revealed that Pks13-TE activity was also
+inhibited in the presence of the Ni-NTA affinity matrix, and the substrate
+5-MUH was autohydrolyzed in the presence of imidazole ( ). These results helped inform the
+final screening conditions, which were performed on His-cOmplete affinity
+matrix in an imidazole-free buffer. To confirm that Pks13-TE was functional
+under screening conditions, the catalytic activity of the immobilized
+enzyme was measured in the selection buffer using an activity assay. Substrate hydrolysis was observed to be time-dependent,
+demonstrating that Pks13-TE was indeed active while immobilized on
+His-cOmplete resin in selection buffer ( ) and further that it was inhibited by the control compound
+TAM16, as expected.
+
+## DNA-Encoded Chemical Library Screening Using Affinity-Mediated
+Selection
+Fifty-nine DNA-encoded chemical libraries, representing
+about 125 billion unique compounds, were combined and then used for
+parallel screening of Pks13-TE at three protein concentrations of
+0.5, 2, and 10 μM. These included the target protein Pks13-TE
+alone, Pks13-TE precomplexed with a known inhibitor TAM16, and a no-target
+control ( B, ). After preincubation in solution in
+the absence or in the presence of TAM16, Pks13-TE was captured using
+the IMAC affinity matrix His-cOmplete, incubated with the library,
+followed by stringent washing, and heat-elution of retained library
+members. A second round of selection was performed using the output
+of the first round and fresh protein. The selection output was then
+PCR-amplified and sequenced using an Illumina HiSeq in high-output
+mode.
+ Sequenced barcodes were translated into chemical
+structures, and
+the statistical significance of each building block combination was
+calculated for every selection condition. Enriched library members
+were then clustered into families based on structural similarity.
+To prioritize chemical series for synthesis without attached DNA,
+several factors were considered, including clarity of the SAR within
+each cluster and the calculated physicochemical properties of exemplar
+compounds. Compounds prioritized for synthesis showed significant
+enrichment across all three concentrations of Pks13-TE but were not
+enriched in the selection condition where the protein was preincubated
+with TAM16 (50 μM) ( B, ). Visualizations
+of the DEL screen output data as cube plots are shown in A for each hit series,
+depicting the statistically significant enrichment of individual library
+members, along with histograms indicating the extent to which these
+compounds were enriched in each selection condition.
+We then
+synthesized 80 compounds without DNA tags representing
+a total of fifty-nine clusters prioritized based on their selection
+profiles. These compounds were initially tested for enzyme inhibition
+using the 4-MUH-based assay. This assay
+was very challenging, as described above, which prompted us to develop
+an alternative approach to test the analogues using a competitive
+binding assay with a TAMRA fluorophore activity-based probe. This
+TAMRA probe has been typically used to label the serine side chain
+of serine hydrolases. , It is composed of a TAMRA fluorophore
+attached to a C10 hydrocarbon linker followed by a fluorophosphonate,
+a catalytic serine specific reactive group, which we found binds to
+the Pks13-TE active site. Building on the literature of the successful
+use of fluorescence polarization-based assays, − we adapted
+this probe for a competition assay to measure inhibitor affinities
+for the active site of Pks13-TE. There was good correlation in the
+rank order of IC50 values between the two assays in the
+cross-tested subset. Of 80 synthesized and assayed hits from the DEL
+screen, 30 were determined to be active in the biochemical assay (<50
+μM) with 18 exhibiting IC50 values of less than 20
+μM. These were clustered into 5 series.
+Based on their
+ability to potently inhibit Pks13-TE, series 1–3
+(representative compounds are shown in C) were the focus of medicinal chemistry
+efforts to improve potency and develop an initial SAR.
+The DEL
+screen series 1 hit X20403 ( C) came from a library of over 2.8 billion
+compounds. All members of this library (library 1) contain a common
+triazole core. This library was synthesized using three cycles of
+chemistry: installation of primary amines as the first cycle of chemistry,
+followed by acylation of Fmoc-amino acids and a last cycle of triazole
+formation chemistry. X20403 showed potent activity with an IC50 of 57 nM in the Pks13-TE enzyme assay and 0.5 μM in
+the TAMRA binding assay. The truncated molecule X20404 was designed
+based on SAR observed in the selection output and was also synthesized
+( ). Biochemical
+activity data indicated these compounds were approximately equipotent;
+therefore, the lower molecular weight X20404 was used for further
+characterization and SAR exploration of this series.
+ A second series was established by the DEL hit
+X13045, which came
+from library 2 ( C), a 16-million member encoded library. This library was synthesized
+with 3 cycles of chemistry: acylation of aryl-halide containing carboxylic
+acids, followed by SNAr reaction with Boc-diamines. The
+deprotected amine function was then further derivatized with a diverse
+set of carboxylic acids. X13045 showed modest inhibitory activity
+in the Pks13-TE enzyme assay (IC50 = 15 μM) but was
+taken into further optimization based on the indication of whole cell
+activity.
+The screen of library 3 yielded the inhibitor X14146
+( ). All members of series 3 contain
+an
+oxadiazole core. This library was synthesized with 2 cycles of chemistry:
+(1) Cycle B is a set of ∼650 amino acids that undergo a heterocyclization
+reaction to form the oxadiazole core and (2) Cycle C includes a diverse
+set of ∼6000 capping BBs for acylation. While showing reasonable
+enzyme potency of 2.0 μM, X14146 was not active against Mtb.
+Nine analogues were made ( ), and
+the best was X20348 ( C) with anIC50 of 0.47 μM that resulted in
+a complex crystal structure (described below). However, series 3 was
+eventually deprioritized because the inhibitors were not active on
+Mtb. Subsequently, series 1 and 2 became the focus of the study.
+
+## Cell Efficacy and On-Target Activity
+Pks13-TE DEL inhibitors
+with IC50 values below 10 μM in the Pks13-TE activity
+or the TAMRA assay were tested for the growth inhibition of Mtb in
+culture medium. Assays were conducted in parallel with wild-type (WT)
+Mtb H37Rv and an engineered strain of H37Rv in which the native promoter
+of pks13 was exchanged with a strong synthetic promoter
+containing a binding site for the tetracycline repressor TetR. Repression
+of this promoter by TetR was relieved by the addition of anhydrotetracycline
+(ATC). Thus, in the absence of ATC, the mutant is hypomorphic as Pks13
+levels in this strain are depleted by ∼20-fold compared to
+WT H37Rv. In the presence of ATC, Pks13 levels are increased by ∼4-fold
+compared to WT due to inactivation of TetR and the strength of the
+synthetic promoter driving transcription of pks13. TP2, a previously reported Mtb active inhibitor acting on the N-terminal
+ACP domain of Pks13, was used as a positive
+control in each assay to confirm on-target activities against the
+mutant pks13 strain ± ATC compared with WT H37Rv; rifampicin
+was used as a negative control. The whole cell activity of these inhibitors,
+together with their MIC for the modified strain in the absence and
+in the presence of ATC, is listed in . The majority of active molecules showed decreased potency against
+the Pks13-hypermorph (in the range of 1.5 to 17 folds) while the hypomorph
+was more sensitive (ranging from 1.5 to 3.5 folds), demonstrating
+that the inhibitors were on-target.
+
+## Structural Biology of Novel Pks13 Inhibitors
+Representative
+compounds from series 1, 2, and 3 with favorable enzyme potency and
+solubility were cocrystallized with Pks13-TE and used to help guide
+the medicinal chemistry efforts (data collection and refinement statistics
+in ). Consistent with their selection
+profiles, all three DEL series inhibitors were observed to bind to
+the active site of the enzyme, showing strong connected electron density
+( ).
+Pks13-TE was preincubated
+with X20404 (series 1) prior to crystallization. Crystals were in
+the same P21212 space group
+as previously reported for the TAM16 complex. There were two molecules of protein per asymmetric unit, each bound
+to one inhibitor. The crystals diffracted to a resolution of 2.1 Å
+( ). Unlike TAM16, which inhibits
+by blocking the entrance to the catalytic center of Pks13-TE, X20404
+binds closely to the catalytic serine (C23 of the X20404 is 3.25 Å
+from Ser1533 OG) and engages more extensively with the enzyme in a
+hydrophobic channel that likely binds the alkyl chain of the mycolic
+acid ( A,B).
+This channel passes through the central core of the enzyme, extending
+from one solvent-accessible side of Pks13-TE to the other ( A). The channel occupied
+by X20404 was not completely visible in the Pks13-TE-TAM16 structure
+because the side chain of Arg1563 blocked it. To accommodate the R2
+group of X20404 required the displacement of the Arg1563 side chain,
+and an entire segment of the protein from Thr1645 to Gln1649 is also
+shifted by approximately 2.4 Å (as measured at CA of Thr1645)
+to open the channel compared to the TAM16 bound structure, as shown
+in C. Binding
+interactions are dominated by van der Waals (VDW) contacts, which
+are expected given the hydrophobic character of the channel. Four
+hydrogen bonds contribute to the binding energy through the following
+interactions: O29 of R1 with NE2 of His1664; N16 of pyridine of R1
+interacts with water connected to the backbone NH of Ala1564 and,
+through one more water, to the NE of the Arg1563 side chain. The hydroxyl
+of the catalytic Ser1533 is 3.25 Å from the C23 of the R1 phenyl
+and 3.38 Å from the C20 of the linker to the core. The Asn1640
+side chain, an interaction previously described as being crucial to
+the potent activity of TAM16, stacks with the same phenyl ring pi
+electrons. The Phe1670s side chain, which flips to stack with the
+benzofuran core of TAM16, is positioned to form edge-on pi stacking
+interactions with the R2 phenyl of X20404. Only the R2 group of X20404
+overlaps with the binding position of the piperidine and ketoamide
+groups of TAM16 ( B), consistent with the competitive selection profile observed in
+the selection output for this compound.
+ The cocrystal with X20403 solved at 2.0 Å
+resolution demonstrated
+a similar binding pose as X20404 ( B). Interestingly, the cyclopropyl group
+induced a shift of the α-helix formed by residues Lys1572-Lys1588
+( A), pulling
+the C-terminus of the helix closer to the inhibitor by 5.5 Å,
+as measured at the C-alpha of Phe1585. An additional H-bond was observed
+between the terminal methoxy O2 of the compound and ND2 of Asn1640.
+The side chains of Tyr1582 and Phe1585 are within VDW distance to
+C39 of the cyclopropyl group. Likely due to this gross change in the
+overall structure of the protein ( A), crystals obtained for the X20403 complex
+packed differently, and the structure was solved in the P2221 space group, containing two protein molecules in
+the asymmetric unit, each bound to an inhibitor.
+The structure
+of the series 2 compound X20419 in complex with Pks13-TE
+was solved using X-ray diffraction data collected to 2.2 Å resolution.
+Crystals were in the tetragonal P41212 space group with one molecule per asymmetric unit. X20419
+was found to reside within the same channel as that for X20404, extending
+through the core of Pks13-TE via a conformational change in the Arg1563
+side chain, as described above ( C). Most of the contacts between the protein and the
+inhibitor are VDW/hydrophobic interactions with the addition of two
+hydrogen bonds: between the N9 of the indole ring of R1 and the carbonyl
+of Ala1561, at 3.3 Å, and a weak bond between the catalytic Ser1533
+OG to the carbonyl (O21) of the inhibitor, at 3.2 Å. The terminal
+aromatic ring system of R1 forms VDW interactions with the carbons
+of the Arg1563 side chain. Two methoxy substituents on the ring contact
+the Ile1648, Ile1643, and Tyr1686 side chains. The piperidine ring
+of R1 is angled to achieve a pi-stacking interaction between the pyrimidine
+ring and Phe1670. The piperidine overlaps with the position of the
+piperidine in the TAM16-bound structure, while the pyrimidine extends
+into a space occupied by the benzofuran of TAM16, without causing
+the Phe1670 side chain flip. The enamine linker of R2 places the terminal
+phenyl into a hydrophobic pocket created by the side chains of the
+Phe1670, Tyr1637, Arg1572, Arg1641, and Trp1579. The C16 of the piperidine
+is also 3.4 Å away from the catalytic Ser1533 OG, in addition
+to the H-bond to O21, thoroughly blocking substrate access.
+X20348 from series 3 showed reasonable potency against Pks13-TE
+with an IC50 value of 0.9 μM in the TAMRA-based binding
+assay. We did not pursue inhibitors of this series because they did
+not inhibit Mtb growth. However, we included the structure of X20348
+bound to Pks13-TE because of its unusual branched structure. Crystals
+of X20348 bound Pks13-TE formed in the P212121 space group with two molecules per asymmetric
+unit at a resolution of 2.35 Å. The binding site of X20348 was
+in the same channel as that described above for the series 1 and 2
+inhibitors ( D). While an additional copy of X20348 was found to be located at
+the interface between two protein chains ( ), we are most interested in the molecule in the channel.
+The dimethylamino-oxadiazole resides in the same part of the channel
+as the R2 moieties of series 1 and 2, and although it is smaller,
+it induces the same displacement of the Arg1563 side chain as the
+other two inhibitor series. The binding was dominated by VDW interactions
+and several hydrogen bonds with the sulfone: O14 with the ND2 of the
+Asn1640 side chain (2.96 Å), O13–to water (3.15 Å),
+which in turn bonds with the OG of catalytic Ser1533 and the backbone
+nitrogen of Ala1477. The N15 of the inhibitor makes an H-bond with
+the OH of Tyr1674 (3.16 Å), and the carbonyl O25 is also within
+H-bonding distance of the same Tyr1674 (2.84 Å) and a water (3.18
+Å), which links it to OD1 of Asp1644 (3.55 Å) and the N28
+of the oxadiazole core of X20348 (2.93 Å). The catalytic Ser1533
+OG is making VDW contacts with the C16, C24, and C26 (3.27, 3.4, and
+2.9 Å, respectively) of the linker between the oxadiazole ring
+and the sulfonamide. The branched part of X20348 shows a conformation
+in which the benzyl is stacked with the isopentyl-phenyl and is accommodated
+in the more flexible part of the Pks13-TE pocket, with the labile
+1572–1588 aa helix ( A) positioning the Phe1585 side chain to interact with
+the isopentyl.
+
+## Preliminary SAR of Series 1 and 2 Inhibitors of Pks13-TE
+The design of additional inhibitors was informed by data derived
+directly from the DEL screen output along with cocrystal structure
+and enzymatic assay data. Activities against the enzyme and Mtb cells
+for series 1 and 2 founders and analogues are shown in , and full data, with the hypo-
+and hypermorph Mtb activity fold changes for all three series, could
+be found in .
+ Modifications to the R1 region of the series 1
+compound, X20404,
+were explored ( A, ). R1 fits snugly inside the
+binding channel, contributing several VDW interactions, and forms
+three H-bonds to water molecules via N16 of pyridine and O2 and O7
+of two methoxy groups. Modification of the electron-donating methoxy
+groups to either a chloro or trifluoromethyl caused no loss in activity
+( , entries 4, 5, and 9). Some tolerability
+of the pyridine portion of R1 was also observed, as inhibitory activity
+was maintained in the phenyl and pyrimidine analogues ( , entries 3 and 7). However, a significant
+loss in potency occurred when the pyridine was modified to a pyrazole
+or quinoline ( , entries 10–12).
+Furthermore, replacing the dimethoxy-phenyl portion of R1 with azetidine
+or an ether-linked analogue led to a complete loss of activity ( , entries 23 and 24). These data suggest
+that R1 displays a steep SAR with significant loss of inhibitor potency
+when changes are made that modify the planarity and size of R1. Another
+interesting observation is a loss in potency when changing the triazole
+core to an oxadiazole ( , entry 26).
+The empirical data collected from testing these analogues are consistent
+with the crystal structure, where the triaryl ring system is vital
+to binding.
+The amide tail containing R2 of X20404 resides in
+the part of the
+channel that overlaps with the binding site of TAM16. There is a hydrogen
+bond formed between the carbonyl of the amide with side chain of His1664
+and interactions with Phe1670 side chain, with the methyl substituents
+pointing toward the solvent. Modifications at the R2 region can be
+accommodated by this broad, solvent-exposed part of the binding site,
+with added positional flexibility of the 1572–1588 aa helix.
+Several follow-up analogues were synthesized and tested ( A, ). Modification of the para-dimethyl
+amide phenyl to an unsubstituted pyridine maintained activity ( , entry 13). Further changes to the amide,
+including an N-methyl indazole, methyl pyrazole,
+or sulfonamide, showed similar potency to X20404 ( , entries 14, 15, and 16, respectively). Interestingly,
+even significant modifications, such as changing the ethylene linker
+to a pyrrolidine or azetidine, were tolerated ( entries 18, 19, 20, and 27, respectively). These
+data suggested that the R2 portion of Series 1 would be amenable to
+the addition of groups that might improve molecular properties, e.g.,
+kinetic solubility and PK.
+The series 2 inhibitor X13045 showed
+only modest enzyme inhibition
+(IC50 = 15 μM) and weak whole cell activity (MIC
+= 390 μM). Extending the R1 position with bulky aromatic groups
+to fill in the hydrophobic pocket made by the Arg1563 side-chain displacement
+resulted in a 30-fold improvement in enzyme inhibition for compound
+X20419 with indole appended by two methoxy groups and other fused
+heterocycle rings ( B, ). Accurate placement
+of this hydrophobic group is important, as changing the relative angle
+and distance from the pyrimidine core by replacing the piperazine
+ring with a homopiperazine abolished enzyme inhibition ( , entry 17). Consistent with the observation
+in the cocrystal structure, the indole NH forms an important H-bond
+with the carbonyl of Ala1561 ( ,
+entry 7), with an improved inhibitory activity of Pks13-TE and significant
+improvement in antibacterial activity while preserving the on-target
+activity signature. Further SAR exploration of the indole derivative
+is warranted for optimization of this series. Changes to R2 had little
+effect on enzyme inhibition activity, as expected from its proximity
+to the solvent. The phenyl to pyridine replacement ( , entries 4 and 10) as well as truncation of the phenyl
+(entry 12) were both well-tolerated. The amine of R2 resides in a
+narrow part of the pocket (∼3.5 Å to Asn1640 or Phe1670
+closest points), as a loss of activity is observed when benzylic methylene
+is replaced by a bulkier five-membered pyrrolidine ( , entry 15). The ketoamide group of R2 appears to
+be important for binding, making VDW contacts, as its replacement
+with a trifluoromethyl group resulted in a loss of inhibitory activity
+( , entry 16). The R1 region of X13054
+can be modified for additional ligand-protein interactions, while
+the opposite side of the molecule, R2, much like the R2 of series
+1, can be used to affect properties, as many changes are tolerated
+due to the binding position facing the solvent and being surrounded
+by more flexible parts of the protein.
+
+## Selection of Resistant Mutants
+To determine if the
+inhibitor series were targeting Pks13 in Mtb, resistant mutants were
+selected in the presence of X20404 (MIC = 0.25 μM). Because
+the crystal structures indicated that series 1 and 2 compounds bind
+in the same location, we expected to see cross-resistance to inhibitors
+from both series. Resistant colonies were obtained with a frequency
+of resistance (FOR) of 4.7 × 10–7, which is
+similar to the FOR of the Pks13-TE inhibitor, TAM16, and significantly better than the FOR of isoniazid. Eleven colonies were picked from plates containing
+X20404 at 10× its MIC. These colonies were propagated, used
+to quantify the level of resistance, and then used to prepare genomic
+DNA for whole-genome sequencing. All sequenced isolates contained
+point mutations in the thioesterase domain of Pks13 ( , ). Moreover, there were no mutations observed in any other essential
+proteins, confirming that the inhibition
+of Pks13-TE was the mechanism of action. Several of these mutant strains
+showed cross-resistance to X21429 ( ), a series 2 inhibitor with potent Mtb activity (MIC = 0.24 μM).
+A complete list of mutations of all isolates can be found in .
+ Resistant mutant strains provide additional evidence
+of the on-target
+activity of these inhibitors inside of Mtb cells. All X20404 resistant
+mutations map into the inhibitor binding pocket of Pks13-TE ( C), and the level
+of resistance conferred was readily explainable by either the loss
+of binding interactions with the inhibitor or a steric clash with
+the inhibitor. X21429 (a series 2 inhibitor) was also tested on the
+resistant mutant strains. The level of resistance to series 2 compound
+(X21429) was lower compared to X20404 for most of the point mutations
+( ) in Pks13-TE,
+except for two mutations: A1561, which when mutated to a bulkier Val
+likely prevents the accommodation of the core for either series molecules,
+and N1640K, which would clash with R1 of X20404 and the pyrimidine
+core of series 2. The mutations to Alanine or Phenylalanine of V1537,
+which is opposite to A1561 at the core-accommodating part of the active
+site, also provide a moderate (5–8 fold) resistance to series
+2. A1564D introduces both extra atoms and a negative charge which
+likely influences the position of the Y1674 side chain.
+
+## Pharmacokinetics and In Vivo Efficacy
+Two representative
+inhibitors from series 1 (X20403 and X20404) and two from series 2
+(methoxy indole-containing X20419 and methylquinoline-containing X20377)
+were profiled in mouse snapshot PK studies. The results showed that
+X20404 achieved much higher exposure in mouse plasma following a single
+oral (p.o.) dose of 25 mg/kg ( A) compared to the other 3 inhibitors. X20404 showed
+∼10-fold higher maximum concentration in blood compared to
+three other compounds ( A). In vitro and in vivo PK parameters of X20404 are summarized
+in .
+ Dose-escalation PK studies with X20404 up to 200
+mg/kg in mice
+revealed a slightly overproportional exposure-to-dose relationship,
+suggesting saturation of one or more elimination processes at the
+higher doses ( B). After five daily oral doses of 200 mg/kg, plasma concentrations
+were above the MIC (not corrected for plasma protein binding) for
+most of the dosing interval. Since this highest tested dose was well-tolerated
+for 5 consecutive days, we proceeded with an efficacy evaluation in
+a mouse model of acute TB infection. There was no overt toxicity or
+adverse effects noted in the dose-escalation studies.
+An acute
+mouse efficacy study was conducted with X20404 using mice
+that were infected with Mtb H37Rv via the aerosol route with treatment
+initiated 14 days postinfection with X20404 at 100 and 200 mg/kg
+daily for 14 days. Isoniazid (INH) at 25 mg/kg (the human equivalent
+dose) served as a positive control and a cell wall inhibitor reference.
+X20404 achieved a statistically significant and dose-responsive reduction
+in lung bacterial burden after 2 weeks of treatment ( C,D): at 100 mg/kg—approximately
+0.4 log10, and at 200 mg/kg—0.8 log10 reduction of the lung CFU compared to untreated control, with the
+INH control achieving ∼1.5 log10 reduction in CFU
+in the same experiment.
+
+## Discussion
+Inhibitors of cell wall biosynthesis have
+proven to be important
+mainstays in our arsenal of antibacterials. However, many of these
+drugs are reaching the end-of-life status due to widespread resistance
+from decades of use worldwide. This is true for the two TB first-line
+drugs isoniazid and ethambutol, which will be difficult to replace
+because they are inexpensive to produce and are generally well-tolerated
+for months of daily administration. While ethambutol targets the cell
+wall, isoniazid is a prodrug that is activated by a catalase peroxidase
+KatG and targets the enoyl reductase of the type II fatty acid synthase. The enzyme elongates fatty acids to make precursors
+for the Pks13 substrates. Since the activator enzyme KatG is not essential,
+mutations in KatG are common in clinical strains and the barrier to
+isoniazid resistance is low. 
+Pks13
+fulfills a critical function for Mtb by performing a condensation
+reaction of a long-chain fatty acid and a very long-chain meromycolic
+acid to form a mycolic acid. The entire surface of Mtb is coated with
+mycolic acids that are either covalently attached to the cell wall
+or intercalate into this outer membrane-like structure. Thus, mycolic
+acids are in very high demand during the growth and division of the
+bacterium. Therefore, disrupting mycolic synthesis through inhibition
+of Pks13 should undermine bacteria cell growth and viability and make
+it more permeable to other drugs. The outer mycolic acid layer has
+been shown to be responsible, at least in part, for the poor activity
+observed for many FDA-approved antibacterials and lead discovery molecules
+focused on Mtb, and in many cases, this has been attributed to their
+inability to penetrate this waxy coat. The shear mass of mycolates
+that must be made to support growth and cell division is an enormous
+burden for the cell, requiring many enzymes and metabolites. As is
+the synthesis of the very large 1733 amino acid, multidomain enzyme
+Pks13. Other downstream consequences of Pks13 inhibition are likely
+toxicity related to the buildup of fatty acid substrates and their
+degradation products in the cell. , Together these
+outcomes from Pks13 inhibition are likely the reason why it is among
+the proteins most vulnerable to depletion using CRISPRi profiling
+experiments, with the score of minus 9. The vulnerability of Mtb to a Pks13 chemical inhibition was demonstrated
+by our discovery of a potent inhibitor of Mtb Pks13-TE, TAM16, which
+had comparable activity to first-line Mtb drugs, were active against
+a broad panel of TB drug resistant strains, and had a low frequency
+of resistance compared to isoniazid. And
+importantly, treatment with TAM16 was synergistic with a first-line
+antitubercular drug Rifampicin. Unfortunately, the TAM16 series showed
+hERG cardiotoxicity stemming from its apolar nature and a primary
+amine required for potent activity. There has been much effort on
+finding new inhibitors to this very impactful target. − , , , However, a challenging activity assay for
+Pks13-TE has hindered the discovery of new inhibitors using HTS. For
+example, a recent traditional HTS of Pks13-TE of 150,000 compounds
+produced only two confirmed hits and only one of them with a novel
+scaffold, thus underscoring the need
+to turn to larger more highly diverse compound libraries and alternative
+screening approaches, both provided by DEL screening.
+When compared
+to more traditional screening approaches that use
+spatially separated individual compounds, DEL screening permits deeper
+sampling of chemical space and can be conducted in a more time- and
+resource-efficient manner. Individual DNA-encoded chemical libraries
+are constructed by the exhaustive combination of chemical building
+blocks within a defined synthetic scheme. These individual libraries,
+in turn, can be combined and screened as a mixture, thereby permitting
+simultaneous and rapid access to billions of different compounds,
+the vast majority of which will be genuinely novel. Screening compounds
+in a mixture enables parallel testing to inform upon the hit binding
+site, selectivity, and other mechanistic details. Because these libraries
+are synthesized in a combinatorial fashion, binding hits exist in
+clusters of structurally related compounds, and these data may be
+immediately utilized to guide compound advancement, as exemplified
+by the work on series 1–3 reported here.
+In DEL screen
+of Pks13-TE we discovered five chemically distinct
+and novel inhibitor series, three of which demonstrated potency with
+IC50 values in the nanomolar range and a SAR. Surprisingly
+for target-based selected inhibitors, two of the three DEL hits also
+demonstrated potent Mtb inhibitory activity, which often is an unsurpassable
+hurdle in TB drug discovery. Moreover, representative compounds of
+these two series demonstrated no toxicity and reasonable PK. Of the
+four most potent Mtb inhibitors, representing two series, compound
+X20404 was the most suitable for acute TB infection mouse efficacy
+studies from the perspective of AUC/MIC. It was remarkable that the
+screening hit X20404 remained the lead inhibitor through the biochemical,
+in vivo, and PK testing, and when it was dosed to infected mice, it
+showed a dose-dependent reduction in TB burden when compared to the
+vehicle control in an acute model of infection. TAM16 administered
+in a similar mouse model of infection achieved a 0.9 log10 reduction of CFU in the lungs when dosed at 200 mg/kg, while INH
+reduced the burden by 1 log10. X20404 dosed at 200 mg/kg
+reduced lung CFU by 0.8 log10 with the INH control achieving
+∼1.5 log10 reduction. This is not significantly
+worse than the efficacy of the extensively optimized TAM16, especially
+considering that X20404 is a screening hit. X20404 also showed similar
+clearance profiles in animals as TAM16, comparable Tmax and t1/2, and comparable
+microsome stability. The difference that stands out is the plasma
+protein binding, at 73% for TAM16 and 98% for X20404, with the volume
+of distribution for X20404 consequently being low (0.3 L/kg) compared
+to TAM16 (4.2 L/kg). This difference is most likely responsible for
+lower efficacy, and the future optimization of X20404 aimed at reducing
+protein binding is expected to improve the volume of distribution
+and consequently the efficacy.
+X-ray crystallography verified
+that compounds from all three different
+series were binding deep within the active site of Pks13-TE, displacing
+the side chain of Arg1563 with atoms within about 4 Å from the
+catalytic Ser1533 OG. These structures provide potential new contact
+information and also additional conformations of the active site to
+explore in virtual screens and drug design work: Arg1563 side chain
+relocation opening new part of the channel and connection to solvent,
+alternative positions of Phe1670 side chain, and the flexibility of
+the “lid domain” with significant movement of helix
+1572–1588 ( A) changing the shape of the entrance cavity.
+The results
+of DEL screening complemented by the biochemical and
+in vivo testing, in combination with the X-ray crystallography derived
+detailed atomic binding information presented in this paper, could
+serve as a starting point for lead development and optimization projects.
+The larger amount of data derived from DEL screening compared to traditional
+HTS outputs could also constitute a great training set for artificial
+intelligence (AI)-based discovery of new leads. The significant progress
+achieved in the past few years by AI-assisted drug discovery holds
+great promise to accelerate the drug development process and to do
+so in a more cost-effective way, which is especially critical for
+neglected diseases like TB. Discovery of new anti-mycobacterial leads
+and rapid dissemination of data like this is essential to expedite
+the drug development process, potentially bringing life-saving treatments
+to patients faster.
+
+## Materials and Methods
+
+## Pks13-TE Protein Expression and Purification
+Pks13-TE
+domain (residues 1451–1733 of Rv3800c) with N-terminal TEV
+cleavable tag was expressed in Escherichia coli and
+purified as described in ref ( ). For the DEL selection, the His-tag was left intact, and
+the protein was subjected to gel filtration directly after the initial
+Ni column purification step. For the activity assay and crystallization,
+the His-tag was cleaved by TEV protease as described in ref ( ).
+
+## Pks13-TE and Other Essential Proteins
+All protein samples
+were centrifuged at 14,000g for 10 min at 4 °C
+and then filtered using a 0.2 um PES nanofilter vial (Thomson) prior
+to experimentation. Proteins were characterized by analytical Size
+Exclusion Chromatography (SEC) using an Agilent 1260 liquid chromatography
+stack equipped with a UV detector. Molecular weight was determined
+by calculating relative to a protein standard (Bio-Rad Gel Filtration
+Standard, #1511910). 10 μL of a 230 μM sample was injected
+onto a Superdex 200 Increase 5/150 GL column at a flow rate of 0.5
+mL/min in 20 mM Tris pH 8.0 and 100 mM NaCl. Dynamic Light Scattering
+was performed on a Wyatt DynaPro NanoStar instrument at room temperature.
+Seven microliters of 230 μM His6-Pks13-TE was loaded into a
+disposable cuvette, and 5 measurements were recorded, each consisting
+of ten 10-s acquisitions. Data was analyzed in Wyatt’s Dynamics
+software to obtain reported values.
+
+## Pks13-TE Activity Assay
+Enzyme activity of Pks13-TE
+was assessed using 4-methylumbelliferyl heptanoate (4-MUH, Sigma)
+as a fluorogenic substrate in a 96-well plate format. To make initial
+velocity measurements, Pks13-TE (0.5 μM) in 0.1 M Tris-HCl,
+pH 7 buffer was incubated with different concentrations of 4-MUH (0.2–200
+μM in DMSO, 1% DMSO final) in a 100 μL reaction volume,
+and the fluorescence of the hydrolyzed product 4-methylumbelliferone
+was read (excitation at 355 nm and emission at 460 nm) using a PolarStar
+Omega plate reader (BMG Labtech) at 5–10 min intervals over
+120–140 min. The reaction rate was observed to be linear in
+the measured range. 4-MUH in buffer alone was included as a control
+to quantify its background hydrolysis. Data points were plotted as
+an average of duplicates and analyzed using Prism software (GraphPad)
+to determine the kinetic parameters Km, Vmax, and kcat. The experiment was repeated in 20 mM HEPES, 134 mM potassium acetate,
+8 mM sodium acetate, 4 mM sodium chloride, and 0.8 mM magnesium acetate,
+pH 7.2.
+
+## Immobilized Pks13-TE Enzyme Activity Assessment
+His-Pks13-TE
+was immobilized onto His-cOmplete affinity resin in 60 μL of
+Selection Buffer (20 mM HEPES pH 7.2, 134 mM potassium acetate, 8
+mM sodium acetate, 4 mM sodium chloride, 0.8 mM magnesium acetate)
+supplemented with 1 mg/mL Sheared Salmon Sperm DNA, and 0.02% CHAPS.
+Resin was washed three times with Selection Buffer, and then 60 μL
+of substrate (100 μM 4-MUH, 1% DMSO final) was incubated with
+the affinity resin with constant motion to allow reaction with immobilized
+protein. Time points were taken over the course of 190 min, and product
+fluorescence was measured to monitor protein activity.
+
+## DNA-Encoded Library Selection
+Fifty-nine different
+DNA-encoded chemical libraries (DELs) were mixed and incubated with
+His-Pks13-TE in 60 μL of Selection Buffer. Separate tubes were
+prepared to interrogate different DEL screening conditions, including
+a no-target control (NTC) lacking protein, His-Pks13-TE at three concentrations
+(10, 2, and 0.5 μM), and two concentrations of His-Pks13-TE
+(10 and 2 μM) preincubated with 50 μM of a known ligand
+(TAM16) for 45 min prior to library addition (conditions summarized
+in ). 50 pmol
+of each library was added to each condition, and the library mixture
+was allowed to incubate for 1 h with each mixture. The solutions were
+then captured onto 5 μL of pre-equilibrated His-cOmplete IMAC
+matrix embedded within a 200 μL Phytip using the Phynexus ME200
+automated multichannel pipettor. Following 30 min of protein capture
+onto the affinity matrix, the matrices were washed 8 times with Selection
+Buffer. Co-enriched DEL members were eluted from the matrix by heating
+it to 85 °C for 5 min in Selection Buffer. A second round of
+selection was performed using fresh aliquots of protein (and competitor,
+where appropriate) and the round one DEL eluant. The eluant from the
+second round of selection was PCR-amplified using primers that introduce
+READ1 and READ2 sequences for subsequent Illumina Next Generation
+Sequencing. The sequence sample was analyzed using an Illumina 2500
+instrument in high-output mode, yielding 514 million single-end reads
+from all selection conditions and libraries.
+
+## Hit Testing against Pks13-TE with Affinity Probe Competition
+Assay
+The competition binding assay was used to assess compound
+biochemical activity. ActivX TAMRA-FP Serine Hydrolase Probe was purchased
+from ThermoFisher. Covalent binding of the probe to Pks13-TE was used
+to read fluorescence polarization and set up the assay based on that
+signal. The assay was done in all-black
+384-well plates in a total volume of 25 μL. Pks13-TE in 100
+mM Na phosphate buffer at pH 7.4 with 1.6 mM CHAPS at final concentration
+of 2 μM was preincubated with compounds for 10 min at RT, then
+TAMRA fluorescent probe was added to a final concentration of 80 nM,
+mixed and incubated for 40 min, followed by measuring fluorescence
+polarization signal at excitation 540 nm and emission of 590 nm on
+Clariostar BMG Plate reader. Percent inhibition for the dose-response
+plots was calculated using 2% final DMSO as a negative control and
+20 μM TAM16 as a positive control.
+
+## MIC Determination and Comparison for H37Rv and pks13-TetON
+Wild-type (WT) H37Rv and pks13-TetON (which overexpresses
+Pks13 to about 400% of the WT level when grown with Anhydrotetracycline
+[ATc] and under-expresses Pks13 to about 20% of the WT level when
+grown without ATc) were each cultured
+in 10 mL of Middlebrook 7H9 (with Hygromycin [Hyg] at 50 μg/mL,
+Kanamycin [Kan] at 25 μg/mL, and ATc at 500 ng/mL for the mutant
+strain) supplemented with 0.2% (v/v) glycerol, 0.05% (v/v) Tyloxapol
+or Tween 80, and ADNaCl (for 0.5% [w/v] BSA, 0.2% [w/v] dextrose,
+and 0.085% [w/v] NaCl) or 10% (v/v) OADC, in a 25 cm2 tissue
+culture flask with a vented cap. After approximately 7 days at 37
+°C and 5% CO2 in a humidified incubator, growing to
+an OD580 of approximately 1, each of the cultures was washed
+twice with fresh BSA-Free 7H9 supplemented with 0.2% (v/v) glycerol,
+0.05% (v/v) Tyloxapol, 0.03% (w/v) Bacto Casitone, 0.2% (w/v) dextrose,
+and 0.085% (w/v) NaCl. The strains were suspended to an OD580 of 0.05 in 10 mL of BSA-Free 7H9 (with Hygromycin and Kananamycin
+as before for the mutant but both with and without ATc at 500 ng/mL)
+in a 25 cm2 tissue culture flask with a vented cap. After
+a further 5 days at 37 °C and 5% CO2 in a humidified
+incubator, the strains were diluted to an OD580 = 0.01
+in BSA-Free 7H9, with Hygromycin and Kanamycin for the mutant and
+± ATc as appropriate. Compounds were solubilized in DMSO and
+dispensed into black, clear-bottom 384-well tissue culture plates
+using an HP D300e Digital Dispenser as 14-point, 2-fold dilution series
+in triplicate. 50 μL of OD580 0.01 cell suspension
+was pipetted or dispensed using a Thermo Fisher Multidrop Combi Reagent
+Dispenser into each well, and plates were incubated for 7–14
+d at 37 °C in the same conditions as above in stacks of no more
+than six plates wrapped with aluminum foil. Final OD580 values were normalized from 0–100% to the averages of no-drug
+(100%) and no-growth (0%) control wells. MIC values were calculated
+by fitting the log(inhibitor) vs response data in GraphPad Prism to
+a Gompertz model provided by GraphPad (https://www.graphpad.com/support/faqid/1365/), with bottom and span best-fit values constrained to 0 and 100,
+respectively. When the calculated MIC was higher than the highest
+dose tested, it was reported to be greater than that dose. All MIC
+measurements were made at least twice in independent replicate experiments.
+
+## Resistant Mutants Generation, Resistance Confirmation, Sequencing,
+and Analysis
+WT H37Rv was cultured in 10 mL of Middlebrook
+7H9 as described above, growing to an OD580 of approximately
+1. The culture was washed with 7H9 and resuspended to an OD580 of approximately 2. 568 μL of this suspension (approximately
+108 bacteria) was plated on 25 mL of Middlebrook 7H10 agar
+supplemented with 0.5% (v/v) glycerol and 10% (v/v) OADC and containing
+2.0 μM X20404 (approximately 10× its broth MIC) in a standard
+10 cm diameter Petri plate. The initial number of bacteria was determined
+by plating dilutions of the original culture. The plates were bagged
+and incubated at 37 °C for 3 weeks, and colonies were counted.
+The FOR was calculated as the number of CFUs on the compound-containing
+plate divided by the total number of bacteria plated. Eleven of the
+44 colonies counted on the compound-containing plate were picked at
+random and propagated to confirm resistance (sequencing data on all
+isolates can be found in ).
+MIC measurements were performed as above with the exception that
+WT H37Rv and the mutant candidates were cultured directly in BSA-Free
+7H9 to an OD580 of approximately 1, then were diluted to
+OD580 = 0.01 and plated directly into assay-ready 384-well
+tissue culture plates with final OD580 values of the wells
+read on day 14. Data was normalized and MIC values calculated as written
+above.
+Chromosomal DNA was isolated as previously described. Whole genome sequencing (WGS) libraries were
+prepared using the KAPA HyperPlus Kit (Roche catalog number 07962380001,
+07962401001, and/or 07962428001) according to manufacturer’s
+instructions with the following modifications: in Step 1.5, fragmentation
+was carried out at 37 °C for 30 min; in Step A1.1, an additional
+50 μL of molecular grade H2O was added to the 50
+μL of DNA to be size-selected, and the volume of KAPA cleanup
+beads used was 70 μL, for a final volume of 170 μL per
+sample; in Step A1.6, the full 170 μL of supernatant from the
+first size cut was mixed with 20 μL of KAPA cleanup beads, for
+a final volume of 190 μL per sample. (5–10) × 106 50-bp paired-end reads were obtained for each sample on an
+Illumina HiSeq 4000 sequencer at 2 × 100 cycles pair-end reads.
+Postrun demultiplexing and adapter removal were performed by using
+bcl2fastq2 Conversion Software (Illumina). Per-cycle BCL base call
+files were converted into fastq files, and the fastq files were inspected
+using fastqc (http://www.bioinformatics.babraham.ac.uk/projects/fastqc). Trimmed fastq files were then aligned with the reference genome
+(M. tuberculosis str. H37RvCO; NCBI Reference Sequence:
+NZ_CM001515.1) using bwa mem. Bam files
+were sorted and merged using samtools. Read groups were added and bam files deduplicated using Picard tools,
+and GATK best-practices were followed for SNP and indel detection. 
+
+## Co-Crystallization and X-ray Crystallography
+Purified
+Pks13-TE with cleaved His-tag at concentration 5 mg/mL was mixed with
+inhibitors out of 100% DMSO stock solution at final concentration
+250–500 μM and 5% DMSO. Hanging drops were set by adding
+1:1 volume ratio of protein-inhibitor solution with mother liquor
+consisting of 0.1 M Tris-HCl pH 8.5, 1.8–2 M AmSO4 and 2–5%
+of PPG P400.
+X20403, X20419, and X20348 bound crystals were
+collected at the 23ID beamline of Argonne National Lab synchrotron,
+and the X20404 bound crystal was collected at BL502 beamline of Lawrence
+Berkley National Lab synchrotron. Data were indexed, integrated, and
+scaled by the beamline autoprocessing pipeline: XDS, POINTLESS, and AIMLESS software packages. The structure was solved
+by molecular replacement with Molrep software using 5V3Y as a search model. This was followed by iterative cycles
+of refinement with PHENIX.REFINE and
+manual building in COOT. A ligand model
+and restraints were generated using the eLBOW tool. Final rounds of refinement were done with PDB-REDO. The data collection and refinement statistics
+are listed in .
+
+## LC-MS/MS Analytical Methods for PK Parameter Assessments
+Neat 1 mg/mL DMSO stock of X20404 was serially diluted in 50/50 acetonitrile
+(ACN)/Milli-Q water to create standard curves solutions. Standards
+were created by adding 10 μL of spiking solutions to 90 μL
+of drug-free plasma (CD-1 K2EDTA Mouse, Bioreclamation IVT). Five
+μL of control, standard, or study sample were added to 100 μL
+of ACN protein precipitation solvent containing 10 ng/mL of the internal
+standard Verapamil (Sigma-Aldrich). Extracts were vortexed for 5 min
+and centrifuged at 4000 rpm for 5 min. 75 μL of supernatant
+was transferred for HPLC-MS/MS analysis and diluted with 75 μL
+of Milli-Q deionized water.
+LC-MS/MS analysis was performed
+on a Sciex Applied Biosystems Qtrap 6500+ triple-quadrupole mass spectrometer
+coupled to a Shimadzu Nexera X2 UHPLC system to quantify each drug
+in the plasma. Chromatography was performed on an Agilent SB-C8 (2.1
+× 30 mm; particle size, 3.5 μm) using a reverse-phase gradient.
+Milli-Q deionized water with 0.1% formic acid was used for the aqueous
+mobile phase, and 0.1% formic acid in ACN was used for the organic
+mobile phase. Multiple-reaction monitoring of parent-daughter transitions
+in electrospray positive-ionization mode was used to quantify all
+analytes. The following MRM transitions were used for X20404 (458.08/254.00)
+and Verapamil (455.40/165.00). Sample analysis was accepted if the
+concentrations of the quality control samples were within 20% of the
+nominal concentration. Data processing was performed using Analyst
+software (version 1.6.2; Applied Biosystems Sciex).
+
+## Plasma Protein Binding
+DMSO stocks were spiked into
+plasma to a concentration of 10,000 ng/mL. 200 μL of spiked
+plasma was pipetted into the sample chamber of the rapid equilibrium
+dialysis (RED) cartridge. 350 μL of PBS was added to the adjacent
+cartridge. The plate containing the RED inserts was sealed and incubated
+at 37 °C on the thermomixer at 300 rpm for 4 h. After incubation,
+50 μL aliquots of plasma were removed and added to 50 μL
+of blank plasma in a deep well plate (1:1). Similarly, 50 μL
+aliquots of PBS were removed and added to 50 μL of blank plasma.
+This created an identical matrix between buffer and nonbuffer samples.
+Samples were processed and quantified as specified in the LC-MS/MS
+analytical method.
+
+## Metabolic Stability in Mouse Liver Microsomes (MLMs)
+50 mM X20404 and control compound verapamil in DMSO (50:50) were
+prepared and diluted in 50/50 ACN/H2O to a final concentration
+of 500 μM. 100 μL of 200 μM sodium phosphate buffer,
+20 μL of 50 mM MgCl2, 10 μL of 20 mg/mL mouse
+liver microsomes (Xenotech), 48 μL of Milli-Q Water, and 2 μL
+of 500 μM compound stock were combined. The mixture was allowed
+to incubate at 37 °C while mixing at 300 rpm uncovered on a thermomixer.
+After 5 min of incubation, 20 μL of 10 mM NADPH was added to
+activate microsomal metabolism or 20 μL of Milli-Q water was
+added to the no-NADPH controls, and samples were mixed by gentle aspiration
+and dispense. Time points were taken at 0, 5, 15, 30, and 45 min.
+At each time point 10 μL of mixture was pipetted into 100 μL
+of ACN containing 100 ng/mL Labetalol to quench the reaction and extract
+the compounds. Extracts were vortexed for 5 min and subsequently centrifuged
+at 4000 rpm for 5 min. 75 μL of extract was combined with 75
+μL of Milli-Q water for LC-MS/MS analysis, performed as previously
+specified. The Analyst software was used to measure peak areas. The
+peak area ratio (Analyte/IS) was plotted vs time, and a half-life
+(t1/2) was determined using PK solver
+Excel add-in. The intrinsic clearance (Clint) was calculated
+accordingly as Clint = microsomal protein concentration
+(V) × 0.693/t1/2.
+
+## Pharmacokinetics Studies
+Mouse experiments were ethically
+reviewed and approved by the Institutional Animal Care and Use committee
+of Hackensack Meridian Health. CD-1 female mice (22–25 g) were
+used in the oral pharmacokinetic studies. X20404 was initially administered
+as a single intravenous (IV) 5 mg/kg dose in 4% Cremophor EL or an
+oral gavage (PO) 25 mg/kg dose in 5% dimethylacetamide: 60% PEG300:35%
+- 5% Dextrose in water. Serial blood samples (50 μL) were taken
+by puncture of the lateral tail vein from each mouse (n = 3 per route
+and dose) at 1 min, 15 min, 1, 3, 7, and 24 h post dose for IV and
+30 min, 1, 3, and 5 h postdose for PO. Blood was captured in CB300
+blood collection tubes containing K2EDTA and stored on
+ice. Plasma was recovered after centrifugation and stored at −80
+°C until it was analyzed by high-pressure liquid chromatography
+coupled to tandem mass spectrometry (LC-MS/MS). Dose-escalation pharmacokinetic
+profiling of X20404 in 20% Captisol was performed at doses of 25,
+50, 100, and 200 mg/kg after 5 days of oral daily dosing to assess
+exposure linearity and tolerability. X20404 was solubilized in 20%
+Captisol. Pharmacokinetic time points were taken on day 5 of dosing
+at 0.5, 1, 3, 5, 7, and 24 h post dose and processed as specified
+above. Pharmacokinetic parameters were determined with the PK Solver
+Excel add-in using noncompartmental pharmacokinetic analysis.
+
+## Mouse Efficacy Studies
+Nine-week-old female BALB/c
+mice were infected with Mtb H37Rv with a Glas-Col inhalation system.
+An inoculum of 1 × 107 cfu/ml bacteria was added to
+the nebulizer, and the initial bacterial lung load was determined
+by sacrificing four mice after 3 h of infection. After 2 weeks, five
+mice were sacrificed to determine the bacterial burden in the lungs
+before the start of the treatment. Mice were treated daily with 100
+mg/kg X20404, 200 mg/kg X20404, 25 mg/kg isoniazid, or vehicle control
+administered by oral gavage daily 7 days a week for 2 weeks. X20404
+was formulated in 20% Captisol, and INH was formulated in water. The
+mice were then sacrificed, the lungs harvested and homogenized, and
+serial dilutions of the homogenates were spread on Middlebrook 7H11
+agar supplemented with 10% OADC and 0.5% glycerol. Plates were inculcated
+at 37 °C for 3–4 weeks prior to counting.
+
+## Acknowledgments
+We acknowledge the beamline scientists of 23 ID
+station of the Advanced Photon Source synchrotron at Argonne National
+Laboratory, Berkeley Center for Structural Biology scientists of beamline
+502 at the Advanced Light Source at Lawrence Berkeley National Laboratory,
+and Brookhaven National lab NSLS II beamlines AMX and FMX. Funding
+for this work was provided by the Department of Defense grant Chemigenomic
+Drug Discovery for Tuberculosis W81XWH-17-1-0692, NIH TB Structural
+Genomics grant P01AI095208 (to J.C.S.), the Welch Foundation grant
+A-0015 to J.C.S. We also acknowledge the funding from the TB Drug
+Accelerator Program of the Bill and Melinda Gates Foundation.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acsinfecdis.3c00592.
+Target protein quality control, Fo-Fc electron difference
+density Polder omit map, DEL screening conditions, summary of the
+number and behavior of hit series from the Pks13 DEL screen, SAR of
+selected analogues of Series 1 and Series 2, Series 3, data collection
+and refinement statistics, sequencing results (PDF)
+Synthesis of compounds used
+(PDF)
+
+The authors
+declare no competing financial interest.
+
+## Supplementary Material
+id3c00592_si_001.pdf
+id3c00592_si_002.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+id3c00592_si_001.pdf
+id3c00592_si_002.pdf

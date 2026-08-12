@@ -1,0 +1,406 @@
+pmcSTAR ProtocSTAR Protoc3946starprotSTAR Protocols2666-1667ElsevierPMC13010419PMC13010419.113010419130104194186087210.1016/j.xpro.2026.104439S2666-1667(26)00092-41044391ProtocolProtocol for detecting in vitro riboswitch conformational switching using a fluorescence anisotropy single-stranded RNA-targeting approach
+ClairouxAmanda RiveraMaira McKeagueMaureenmaureen.mckeague@mcgill.ca MittermaierAnthonyanthony.mittermaier@mcgill.ca 1Department of Chemistry, Faculty of Science, McGill University, Montréal, QC H3A 0B8, Canada2Pharmacology and Therapeutics, Faculty of Medicine and Health Sciences, McGill University, Montréal, QC H3G 1Y6, Canada∗Corresponding author maureen.mckeague@mcgill.ca∗∗Corresponding author anthony.mittermaier@mcgill.ca3Technical contact
+4Lead contact
+1962026193202672509603104439190320262503202625032026© 2026 The Authors2026https://creativecommons.org/licenses/by-nc/4.0/This is an open access article under the CC BY-NC license (http://creativecommons.org/licenses/by-nc/4.0/).
+
+## Summary
+We present a high-sensitivity fluorescence anisotropy-based protocol (fluorescence anisotropy single-stranded targeting [FASST]) to monitor in vitro ligand-induced conformational switching of riboswitches. We first describe the sequence design of single-stranded fluorescent DNA probes that selectively bind to specific riboswitch conformational states. Next, we describe DNA probe binding affinity and conformational switching measurements using a 96-well plate reader. We then detail the procedures for data analysis. This protocol has the potential to screen novel riboswitch ligands based on their capacity to target functional conformational changes.
+For complete details on the use and execution of this protocol, please refer to Rivera et al. 
+
+## Graphical abstract
+ 
+
+## Highlights
+•Instructions for design of conformationally selective fluorescent DNA probes
+•Steps for probe affinity evaluation
+•Procedures for switching constant determination
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+We present a high-sensitivity fluorescence anisotropy-based protocol (fluorescence anisotropy single-stranded targeting [FASST]) to monitor in vitro ligand-induced conformational switching of riboswitches. We first describe the sequence design of single-stranded fluorescent DNA probes that selectively bind to specific riboswitch conformational states. Next, we describe DNA probe binding affinity and conformational switching measurements using a 96-well plate reader. We then detail the procedures for data analysis. This protocol has the potential to screen novel riboswitch ligands based on their capacity to target functional conformational changes.
+
+## Subject areas
+BiophysicsMolecular/Chemical ProbesChemistrypmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC
+
+## Before you begin
+Riboswitches are structured RNA elements that can regulate gene expression in response to ligands. Ligand binding induces conformational changes to the riboswitch’s secondary and tertiary structures that shift the riboswitch between functional states ( ). , 
+Given the abundance of riboswitches in pathogenic bacteria, considerable efforts have been directed for the development of riboswitch-targeting antimicrobials. , Currently, most in vitro ligand-screening approaches require high RNA concentrations, fluorescently labeled RNA, or are unable to distinguish ligand binding from ligand-induced conformational changes that are critical for bacterial gene regulation. , , , 
+This protocol describes a fluorescence anisotropy-based approach called FASST (Fluorescence Anisotropy Single-Stranded Targeting) for in vitro riboswitch conformational switching quantification. A single-stranded fluorescent DNA probe is designed to selectively bind either the apo (ligand-free) or holo (ligand-bound) riboswitch conformational state ( ). When the DNA probe binds to the riboswitch, fluorescence anisotropy increases, allowing for the detection of riboswitch structural changes. 
+The FASST assay yields a switching constant (S50FASST), which is the concentration of ligand required to shift 50 percent of the riboswitch population to the alternate conformational state. This protocol is optimized for evaluating one riboswitch-ligand pair and can be adapted for high-throughput screening or for evaluating structure-switching aptamers from capture-SELEX. We recommend validating the method using a native ligand known to induce conformational switching before testing additional compounds.
+
+## Innovation
+Rivera et al. (2024) present a sensitive in vitro fluorescence anisotropy-based assay that directly reports on riboswitch conformational switching equilibria. Unlike traditional reporter-based or structure-probing approaches, the assay does not require transcriptional readouts, covalent modification of the RNA or extensive downstream processing. The assay is more cost-effective than NMR or sequencing-based approaches, requiring only standard fluorescence instrumentation and low concentrations of single-stranded fluorescent DNA probes. The FASST assay is amenable to high-throughput small molecule ligand screening and, by isolating riboswitch-ligand interactions from confounding cellular variables inherent to in vivo assays, provides a suitable platform for early-stage riboswitch-targeted drug discovery.
+
+## Design of single-stranded fluorescent DNA probes
+
+Timing: 1 h
+
+1.Gather available structural data for the riboswitch of interest in its apo (ligand-free) conformational states and its holo (ligand-bound) conformational states, ideally including its expression platform, to inform DNA probe design (for example: Rfam, SHAPE-MaP, NMR, PDB or x-ray crystal structures ).
+2.Identify regions in the riboswitch RNA sequence that are single-stranded in one conformational state, and double-stranded in the other conformational state.
+
+Note: These are called switching regions, which are most commonly found within the riboswitch’s expression platform. The switching region can be mostly single-stranded in the apo conformational state and mostly double-stranded in the holo conformational state, or vice versa. .
+
+3.Design a single-stranded complementary DNA probe to hybridize to a switching region, such that the following criteria are satisfied:a.Melting temperatures (Tm) are between 35°C to 40°C (approximately 11–16 nucleotides in length).
+b.Intramolecular secondary structures and self-dimerization are avoided.
+c.Off-target hybridization within the riboswitch RNA sequence is avoided.
+
+Note: You can predict the Tm of the probe designs using Integrated DNA Technologies’ OligoAnalyzer, Sigma-Aldrich’s OligoEvaluator or any other Tm prediction calculator. We used Integrated DNA Technologies’ OligoAnalyzer to evaluate intramolecular secondary structures, self-dimerization and off-target hybridization.
+
+4.Include a fluorophore modification at the 5′ or 3′ end of the DNA probe sequence (we used the 6-fluorescein amidite (6-FAM) on the 5′ end). .
+5.Order or synthesize the DNA probe with HPLC purification.
+
+Note: The DNA probes used in the original research publication were ordered at the 100 nanomole scale with HPLC purification from Integrated DNA Technologies and were shipped dry.
+
+6.Reconstitute the DNA probe at 100 μM in nuclease-free water.
+7.As the fluorescently-labelled DNA probe is light sensitive, store the stock DNA probe solution at −20°C in a nuclease-free tube wrapped with aluminum foil. Alternatively, use brown/opaque microcentrifuge tubes to store light-sensitive solutions.
+
+## Scrambled RNA sequence design for control experiments
+
+Timing: 1 h
+
+A scrambled RNA is used as a negative control to confirm that changes in anisotropy are specific to riboswitch conformational switching. The scrambled RNA is always DNA probe accessible; it is designed to keep the original switching region single-stranded in the absence or presence of ligand ( ).8.Use the riboswitch of interest’s RNA sequence as a design template to keep nucleotide composition consistent.
+9.Keep the original switching region (where the DNA probe binds) intact.
+10.Shuffle the remaining RNA using a sequence randomization tool (e.g., Shuffle DNA in the Sequence Manipulation Suite ), ensuring that the internal complementary sequence of the switching region is fully shuffled.
+11.Use a computational tool (e.g., RNAfold ) to ensure low predicted base-pairing probabilities within the switching region.
+ 
+
+## In vitro synthesis of the riboswitch RNA and scrambled RNA sequences
+
+Timing: 2–3 days (total)
+
+Timing: 20 min (for steps12 and 13)
+
+Timing: 1 h (for steps 14 and 15)
+
+Timing: 17.5 h (for step 16)
+
+Timing: 20 min (for steps 17 and 18)
+
+Timing: 3 h (for steps 19–21)
+
+12.Perform polymerase chain reactions (PCR) to generate DNA templates for in vitro transcription (IVT). Depending on the DNA template sequence, IVT will either yield riboswitch RNA or scrambled RNA.Note: It is also possible to synthesize RNA by performing in vitro transcription to an antisense DNA strand annealed to a T7 promoter sequence. Alternatively, chemically synthesized RNA can be used provided that the RNA sequence is short (typically < 100 nucleotides).
+a.Design DNA templates for PCR reactions.i.Include a T7 promoter for IVT at the 5′ end of the DNA template.
+ii.Immediately downstream of the T7 promoter, add the sequence for the DNA template corresponding to either the riboswitch or the scrambled RNA template.
+
+b.Design forward and reverse primers for PCR, minimizing the Tm difference between primers.
+c.Order or synthesize the DNA templates and PCR primers.
+d.PCR-amplify the DNA templates. We used the Phusion™ High-Fidelity DNA Polymerase and the Deoxynucleotide (dNTP) Solution Mix from New England Biolabs. We performed three 20 μL reactions to have enough yield for IVT (PCR Protocol for Phusion™ High-Fidelity DNA Polymerase).Note: Additional details on template design are available in the original research publication. 
+Pause point: If the following step cannot be done immediately, the samples can be stored at 4°C for up to 24 h.
+
+13.Purify the resulting PCR products using an oligonucleotide clean-up kit. The products from 3 PCR reactions were combined and purified using the Monarch® Spin PCR and DNA Cleanup Kit (5 μg) and was eluted using 8 μL of nuclease-free water.
+14.Measure absorbance at 260 nm (A260) using a spectrophotometer (e.g., Nanodrop) to calculate DNA concentration. Ideal purity ratios are A260/A280 ≈ 1.8 and A260/A230 ≈ 2.0–2.2.
+
+Pause point: If the following step cannot be done immediately, the purified DNA samples can be stored at −20°C until further use.
+
+15.Confirm the PCR products’ presence using agarose gel electrophoresis (3%) with an appropriate DNA ladder.
+16.Store the PCR products at −20°C until further use.
+17.Perform IVT of the purified DNA templates with a T7 RNA polymerase, following the manufacturer’s instructions. We used the MEGAshortscript™ T7 Transcription Kit by Invitrogen™, using two 20 μL IVT reactions per DNA template. The DNA templates were at a 50 ng/μL final concentration.a.For one reaction, mix nuclease-free water (to 20 μL final volume), 2 μL of T7 10X reaction buffer, 8 μL of 75 mM premixed NTP solution and the required volume of DNA template into a nuclease-free microfuge tube.
+b.Add 2 μL of T7 enzyme mix into the microfuge tube and mix by gently flicking the tube. Briefly microfuge.
+c.Incubate the microfuge tube at 37°C for 16 h.
+d.Add 1 μL of TURBO DNase™ to the reaction and mix well. Incubate at 37°C for 30 min to degrade any remaining DNA template.
+
+Note:In vitro transcription can be completed with incubation times as little as 2 h. We used a 16 h incubation using the manufacturer’s kit to maximize RNA yield.
+
+Pause point: If the following step cannot be done immediately, the samples can be stored at 4°C for up to 6 h.
+
+18.Purify the RNA samples using either an RNA purification kit, alcohol precipitation or other experimental approaches. We used the Monarch® Spin RNA Cleanup Kit (50 μg). For each DNA template, 2 IVT reactions were combined and purified on a single column. RNA was eluted using 50 μL of nuclease-free water.
+19.Measure absorbance at 260 nm (A260) using a spectrophotometer (e.g., Nanodrop) to calculate RNA concentration. Ideal purity ratios are A260/A280 ≈ 2.0 and A260/A230 ≈ 2.0–2.2.
+
+Pause point: If not proceeding to the next step immediately, skip to the step 21.
+
+20.Confirm presence and purity of the RNA samples via denaturing polyacrylamide-urea gel electrophoresis with an appropriate single-stranded RNA ladder. A variety of formats, percentages, and sizes are suitable. We used an 8% polyacrylamide gel with 8 M urea (10.0 × 8.0 cm). Electrophoresis was performed using 1X TBE running buffer (Protocol). We stained the gel with SYBR™ Gold.
+21.Store small RNA batches at −20°C and use within a week of preparation. For larger RNA quantities or for long-term storage, aliquot the RNA into small volumes to minimize freeze-thaw cycles and store at −80°C.
+
+Note: While RNase inhibitors and TE buffer can reduce RNA degradation, these were not used to store RNA as they can interfere with downstream functional assays.
+
+## Small-molecule ligand stock solution preparation
+
+Timing: 30 min
+
+22.Confirm the solubility, molecular weight, and molar extinction coefficient (if available) of the small molecule ligand of interest.
+23.If the solubility of the ligand allows it, calculate the amount of compound required to prepare a 10 mM stock solution in nuclease-free water. Weigh the compound, add the calculated volume of nuclease-free water and vortex until the compound is completely dissolved.
+
+Note: If the ligand has limited solubility in aqueous buffers, refer to .
+
+24.Prepare a series of four 10X dilutions of the stock solution for ligand quantification.a.For the initial 10X dilution, add the required volume of the ligand stock solution and an equal volume of 2X FP buffer into a nuclease-free tube.
+b.Fill the remaining volume with 1X FP buffer.
+c.Prepare the remaining 10X dilutions using 1X FP buffer.
+
+25.Measure the absorbance of the stock solution and its dilutions at the compound’s maximum absorption wavelength (λ) using a microvolume spectrophotometer.
+26.Use a dilution with an absorbance within the spectrophotometer’s linear range (approximately 0.1–1.0) to calculate the concentration of the stock solution based on the Beer-Lambert law (see equation).Aλ=ελCla.Aλ is the absorbance, ελ is the molar extinction coefficient, C is the molar concentration of the absorbing compound and l is the optical pathlength.
+
+27.Store the stock solution at −20°C in a nuclease-free tube. Protect from light if the compound is photosensitive.
+
+## Key resources table
+
+ 
+
+Note: To our knowledge, the exact source of each is not critical to this experiment.
+
+## Materials and equipment
+
+## DEPC-treated water
+Store at 20°C–23°C for up to one year.•Fill a thoroughly washed autoclavable bottle with 1 L of Milli-Q water.
+•Add 1 mL of diethyl pyrocarbonate (DEPC) into the water. Close the bottle and shake vigorously.
+•Incubate at 37°C for 16 h.
+•Autoclave the bottle (liquids cycle, 121°C for 45 min) to sterilize the water and degrade the DEPC. Let cool.
+CRITICAL: Diethyl pyrocarbonate is volatile and harmful. Wear protective gloves, eye protection, and face protection to avoid inhalation and skin exposure. Handle only in a chemical fume hood.
+Alternatives: DEPC-treated water is used to make large quantities of nuclease-free water for buffer preparation. Commercial nuclease-free water can be used as a substitute for DEPC-treated water.
+ Alternatives: The fluorescence polarization buffers can be prepared using molecular biology grade HEPES, NaCl and MgCl2 solutions. pH should be monitored and adjusted to 7.4 ± 0.1.
+
+## Step-by-step method details
+
+## Plate setup for KDprobe determination of riboswitch RNA
+Before performing the FASST assay, it is necessary to determine the binding affinities (KDprobe) of the fluorescent DNA probe to the riboswitch RNA, in absence or presence of ligand, to confirm that the DNA probe specifically binds to one of the riboswitch’s conformational states.1.Prepare a 96-well plate setup with the following conditions in triplicate (60 μL per well). Refer to as an example.a.Fluorescent DNA probe (background control).
+b.Fluorescent DNA probe and increasing riboswitch RNA.
+c.Fluorescent DNA probe and saturating ligand (no RNA).
+d.Fluorescent DNA probe, saturating ligand, and increasing riboswitch RNA.
+e.Buffer only (blank control).
+ 
+CRITICAL: The experimental plate setup described above contains only riboswitch RNA and does not include scrambled RNA. Once the DNA probe is determined to exhibit higher affinity to a specific riboswitch conformational state, repeat the KDprobe determination method using the scrambled RNA to verify that changes in probe binding are specific to riboswitch conformational changes.
+Note: Since the scrambled RNA is always accessible for DNA probe binding, the DNA probe should exhibit identical high affinity for the scrambled RNA both in the absence and presence of ligand.
+
+## Sample preparation for KDprobe determination
+
+Timing: 1 h
+
+2.Choose the final working concentration (1X) of the DNA probe between 5 and 50 nM, then prepare a 4X DNA probe solution.Note: The DNA probe concentration can be optimized to maximize signal-to-noise ratios. Low probe concentrations are recommended, as high concentrations may perturb the riboswitch conformational equilibrium.
+a.Thaw the 100 μM DNA probe stock.
+b.Determine the required volume of 4X DNA probe solution; prepare 110% of that amount to cover losses.
+c.Add the required volume of DNA probe stock and an equal volume of 2X FP buffer into a nuclease-free tube.
+d.Fill the remaining volume with 1X FP buffer.
+e.Vortex and briefly spin down the tube.
+f.Wrap the tube with aluminum foil and keep the tube protected from light until use.Note: The DNA probe dilution is prepared in a microcentrifuge tube rather than directly in the 96-well plate (as done per MIC or ELISA) to enable quick pipetting and to minimize light exposure.
+
+3.Choose the 1X saturating concentration of the ligand, then prepare a 2X solution.Note: A saturating concentration refers to a ligand concentration high enough to ensure that most riboswitch molecules are in the ligand-bound (holo) conformational state. In the original research publication, we used concentrations in the micromolar range (50–200 μM).
+a.Thaw the ligand stock at room temperature (20°C–23°C).
+b.Calculate the volume of 2X ligand solution required; prepare 110% of that amount to cover losses.
+c.Add the required volume of stock into a nuclease-free tube and add an equal volume of 2X FP buffer to maintain buffer consistency.
+d.Add 1X FP buffer into the tube to reach the calculated volume.
+e.Vortex and briefly spin down the tube.
+
+4.Prepare 4X riboswitch RNA solutions (3000, 1500, 750, 375, 187.5, 93.8, 46.9, 23.4, 11.7, 5.9 and 2.9 nM) as a 2X dilution series.a.Thaw the RNA stock.
+b.To prepare the highest 4X riboswitch RNA solution:i.Determine the required volume of riboswitch RNA stock for the serial dilutions; prepare 120% of that amount to cover losses. Add the required volume of the stock and the same volume of 2X FP buffer into a nuclease-free tube. Fill the remaining volume with 1X FP buffer. Vortex and briefly spin down the tube.
+ii.Heat the components to 65°C for 10 min to reduce misfolded forms. We used a Digital Dry Bath.
+iii.Remove the tube from heat then allow to cool at room temperature (20°C–23°C) for an additional 10 min to allow for RNA folding.
+
+c.Prepare the 2X serial dilution series.i.Add half the volume of 1X FP buffer calculated in step 4 b. i. into labeled tubes of the desired riboswitch RNA concentrations.
+ii.Add an equal volume of the previous RNA dilution to each tube.
+iii.Repeat until the lowest 4X riboswitch RNA concentration is obtained.Note: Because serial dilutions rely on the accuracy of each preceding step, overall precision can be improved by preparing three or four independent large dilutions, each followed by separate smaller dilutions.
+
+## KDprobe determination assay
+
+Timing: 30 min
+
+5.Remove a 96-well conical black plate and its cover from its packaging.
+6.Wrap the plate lid in aluminum foil. Spray the underside with >95% ethanol and wipe clean using a lint-free laboratory wipe.
+7.Add each component to the 96-well plate in order as per . 
+
+CRITICAL: Work quickly when pipetting the 4X DNA probe solution into wells to minimize photobleaching. Add the DNA probe solution to wells column by column (e.g., rows A–F of column 1, then A–F of column 2). After finishing each column, immediately cover it with the foil-wrapped plate lid to protect from light.
+
+8.Keep the plate covered and protected from light until ready to proceed with the plate read.
+
+## KDprobe determination: Fluorescence anisotropy plate readout
+
+Timing: Variable (up to 18 h)
+
+9.Set up the fluorescence anisotropy read protocol on the plate reader. Any plate reader with fluorescence measurement and polarization capabilities is suitable for this method. We used the BioTek Cytation 5 plate reader with the Gen5 Microplate Reader and Imager Software.a.Set the plate temperature to any desired temperature below the DNA probe’s melting temperature. We used 25°C for our experiments.
+b.Set up a kinetic read, with measurements taken every 10 min for 3 h.i.Before each read, perform a double orbital shake for 20 s at 237 cpm (slow speed).
+ii.Record parallel and perpendicular fluorescence intensities. Use automatic gain and normal read speed.
+
+Note: We used an excitation filter (485/20 nm) and an emission filter (528/20 nm) to detect 6-FAM fluorescence.
+
+CRITICAL: For initial experiments, monitor fluorescence anisotropy at extended time points (e.g., 6 h, 12 h, 18 h). Kinetics are system dependent. Use the earliest time point at which the fluorescence intensities (parallel and perpendicular) stabilize for all further analyses, including the FASST assay.
+
+10.Insert the uncovered 96-well plate into the plate reader.
+11.Start the protocol on the plate reader.
+12.Export fluorescence intensity data from all time points and save as a.xlsx file.
+13.Remove the 96-well plate from the plate reader.
+14.Discard well contents according to institutional biosafety procedures. Dispose of the 96-well plate as per institutional waste guidelines.
+
+## KDprobe data analysis
+Timing: 30 min
+15.Open the fluorescence polarization data (.xlsx file).
+16.From the selected time point (as determined in step 9), extract the parallel ( ) and perpendicular ( ) intensity values for each well of the 96-well plate.
+17.Remove intensity values from the cells corresponding to wells containing no sample.
+18.Calculate the average parallel intensity from the cells corresponding to the blank wells ( ).
+19.Subtract this value from the parallel intensity values of all remaining samples ( ) to obtain blank-corrected parallel intensity values (I∥).
+I∥=I∥sample−I∥buffer20.Repeat steps 18–19 with the perpendicular intensity values for blank correction (I⊥).
+21.Calculate fluorescence anisotropy (r) for each sample using the following equation:
+r=(I∥−I⊥I∥+2I⊥) .
+
+22.Organize anisotropy data (in triplicate) in ascending riboswitch RNA concentration. .
+23.Plot [RNA] vs. anisotropy using a suitable analysis program (e.g., GraphPad Prism). Plot [RNA] using a logarithmic scale. .
+24.Fit a one-site binding model to each condition (with and without ligand) to extract KDprobe values.
+
+r=rmax[RNA]KDprobe+[RNA]+NS[RNA]+Background
+Note:r is the anisotropy value, rmax is the maximum anisotropy signal, NS is the slope from the fit and [RNA] is the nanomolar RNA concentration.
+
+25.Report KDprobe values with their Precision Confidence Interval (PCI) and the Accuracy Confidence Interval (ACI). 
+
+## Setup of 96-well plate and concentrations for the FASST assay
+The FASST assay determines the riboswitch switching constant (S50FASST). It is performed in triplicate using constant riboswitch RNA, scrambled RNA and DNA probe concentrations, while varying the concentration of the ligand.CRITICAL: If the difference in riboswitch-probe affinities (KDprobe) with and without the ligand are sufficiently large and the difference is not observed with the scrambled RNA (see ), proceed with the FASST assay.
+26.Prepare a 96-well plate with the following conditions in triplicate (60 μL per well). Refer to as an example.a.Riboswitch RNA with fluorescent DNA probe.
+b.Riboswitch RNA with fluorescent DNA probe and increasing ligand concentrations.
+c.Scrambled RNA with fluorescent DNA probe.
+d.Scrambled RNA with fluorescent DNA probe and increasing ligand concentrations.
+e.Fluorescent DNA probe (background control).
+f.Buffer only (blank).
+ 
+
+## Sample preparation for the FASST assay
+
+Timing: 1 h
+
+27.Use the same final DNA probe working concentration (1X) and prepare the 4X DNA probe solution as per .
+28.Prepare 2X ligand solutions as a 2X dilution series. Use the saturating ligand concentration as the largest 1X working concentration (i.e., if the 1X saturating ligand concentration is 200 μM, start a 2X serial dilution from 400 μM).a.Thaw the ligand stock solution.
+b.Prepare the highest 2X ligand solution:i.Determine the required volume of ligand stock for the serial dilutions; prepare 120% of that amount to cover losses.
+ii.Add the required volume of the stock and the same volume of 2X FP buffer into a nuclease-free tube.
+iii.Fill the remaining volume with 1X FP buffer.
+iv.Vortex and briefly spin down the tube.
+
+c.Prepare the 2X serial dilution series.i.Add half the volume of 1X FP buffer calculated in step 28 b. i. into labeled tubes of the desired concentrations.
+ii.Add an equal volume of ligand dilution to each tube until the lowest 2X ligand concentration is obtained.
+
+29.Choose the final working concentration (1X) of the riboswitch RNA and scrambled RNA.
+
+CRITICAL: The RNA concentrations to be used within the FASST assay are dependent on the DNA probe’s selectivity (see ). If the DNA probe is highly selective for one riboswitch conformational state, set the 1X RNA concentration to be between the 1X DNA probe concentration as the lower limit and 5-10-fold the ligand affinity as the upper limit (if known). If the DNA probe is only partially selective, the sensitivity of the experiment becomes more strongly dependent on the RNA concentration. To achieve optimal sensitivity, set the RNA concentration to be approximately equal to the DNA probe’s KDprobe values for both the apo and holo states, or the 1X DNA probe concentration, whichever is higher.
+
+30.Prepare 4X RNA solutions for both the riboswitch RNA and scrambled RNA. a.Thaw the riboswitch RNA and scrambled RNA stock solutions.
+b.Per RNA stock:i.Calculate the required volume of RNA stock; prepare 110% of that amount to cover losses.
+ii.Add the required volume of the stock and the same volume of 2X FP buffer into a nuclease-free tube. Fill the remaining volume with 1X FP buffer. Vortex and briefly spin down the tube.
+iii.Heat the components to 65°C for 10 min to reduce misfolded forms. We used a Digital Dry Bath.
+iv.Remove the tube from heat then allow to cool at room temperature (20°C–23°C) for an additional 10 min to allow for RNA folding.
+
+## FASST assay
+
+Timing: 30 min
+
+31.Repeat steps 5–6.
+32.Add each component to the 96-well plate in order as per . 
+
+CRITICAL: Work quickly when pipetting the 4X DNA probe solution into wells to minimize photobleaching. Add the DNA probe solution to wells column by column (e.g., rows A–F of column 1, then A–F of column 2). After finishing each column, immediately cover it with the foil-wrapped plate lid to protect from light.
+
+33.Keep the plate covered and protected from light until ready to proceed with the plate read.
+
+## FASST assay readout on the plate reader
+
+Timing: Variable (up to 16 h)
+
+34.Set the read protocol on the plate reader software as per step 9.a.Take measurements every 10 min up to the earliest time point at which the fluorescence intensities stabilize.
+
+## FASST assay data analysis
+
+Timing: 30 min
+
+Note: The fluorescence intensity data collected by the plate reader is analyzed to obtain a riboswitch switching constant (S50FASST).
+
+35.Repeat steps 15–21. .
+36.Organize the anisotropy data (in triplicate) in ascending ligand concentration. .
+37.Plot the data using a data analysis software. Ligand concentrations should be plotted using a logarithmic scale. .
+38.Fit the following equation to the riboswitch RNA anisotropy data to obtain the switching constant S50FASST.
+
+r=rmax[L]S50FASST+[L]+NS[L]+Background
+Note:r is the anisotropy value, rmax is the maximum anisotropy signal, NS is the slope from the fit and [L] is the ligand concentration in the micromolar range.
+
+Note: This is a one-site binding model in GraphPad Prism 9.
+
+39.Report the riboswitch switching constant (S50FASST) with its Precision Confidence Interval (PCI) and the Accuracy Confidence Interval (ACI). 
+
+## Expected outcomes
+In both the KDprobe determination step and the FASST assay, the blank and background controls should possess minimal fluorescence anisotropy values. .
+In a successful KDprobe determination, fluorescence anisotropy values should increase as riboswitch RNA concentration increases, but only in the conformational state that permits DNA probe binding. . Different fluorescence anisotropy profiles may arise during KDprobe determination, depending on the DNA probe’s selectivity and the riboswitch’s conformational response:Ideal outcome: Anisotropy increases in the riboswitch’s probe-binding competent state but remains unchanged in the non-binding state. If the KDprobe falls in the nanomolar to low micromolar range, this indicates strong and selective binding, making the DNA probe suitable for detecting conformational switching ( A). 
+Partially selective outcome: Anisotropy increases in both conformational states but with a higher signal in one. In this case, the DNA probe binds both conformational states but with different affinities ( B). This can still enable detection of conformational switching, although assay sensitivity may be reduced. .
+
+Identical fluorescence anisotropy profiles from the scrambled RNA in the absence and presence of ligand should confirm that differences in KDprobe result specifically from ligand-induced conformational changes. Otherwise, DNA probe and scrambled RNA redesign is required.
+After a successful KDprobe determination, the FASST assay can be used to find the riboswitch’s switching constant (S50FASST). In the FASST assay, changes in fluorescence anisotropy reflect the shift in riboswitch conformational equilibrium induced by ligand binding. For an apo-specific DNA probe, increasing ligand concentrations should decrease anisotropy down to the blank control anisotropy values ( A). For a holo-specific DNA probe, anisotropy should initially resemble blank control anisotropy values and increasing ligand concentrations should increase anisotropy ( B). If anisotropy never reaches the blank control values, the DNA probe maintains some affinity for the opposite conformational state. Finally, the scrambled RNA should possess a uniformly high fluorescence anisotropy since there is no ligand-induced conformational shift. 
+An S50FASST value is obtained by fitting anisotropy data to a single-site binding model. S50FASST values are typically equal to or greater than ligand binding affinities via orthogonal methods such as SPR, , ITC, , or microarray assays. 
+
+## Limitations
+The FASST assay has several practical and conceptual limitations related to detection range and riboswitch structure. Some ligands have limited solubility in aqueous buffers used for the FASST assay. Up to 8% DMSO can be tolerated in the fluorescence polarization buffer without significantly affecting anisotropy measurements. Picomolar switching constants are not quantifiable using the FASST assay because of limitations in DNA probe concentration (5 nM) for signal detection. Because the riboswitches are fully transcribed and then refolded, the assay is insensitive to transient conformational states that arise during co-transcriptional folding. In addition, the FASST assay requires riboswitches to undergo secondary structure changes that produce distinct single-stranded regions. It is not suitable for riboswitches lacking conformation-specific single-stranded sites (switching regions). Finally, at pH 7, extended high-temperature incubation accelerates 2′-OH-mediated RNA backbone cleavage and chemical degradation, and improper cooling after denaturation can trap misfolded states; each of which can impair riboswitch function.
+
+## Troubleshooting
+
+## Problem 1
+When designing single-stranded DNA probes, there is no known switching region within the riboswitch RNA sequence.
+
+## Potential solution
+Riboswitch RNA sequences can sometimes be modified or truncated to create suitable switching regions. Refer to the original research publication for more details. 
+A panel of DNA probes targeting the riboswitch’s 5′ end and expression platform can also be designed then screened to identify a switching-sensitive region and an appropriate DNA probe.
+
+## Problem 2
+The chosen small molecule ligand has absorption values close to those of the chosen fluorophore on the single-stranded DNA probe.
+
+## Potential solution
+The fluorophore on the DNA probe can be changed for greater sensitivity, provided that it is compatible with the optical filter cube.
+If the fluorophore cannot be changed, all fluorescent readings should be performed with a gain fixed to 50. Within the FASST assay, include DNA probes with increasing ligand concentrations (without RNA) as an additional control.
+
+## Problem 3
+When preparing the small molecule ligand stock, the ligand has limited solubility in nuclease-free water.
+
+## Potential solution
+In this case, dissolve the ligand to 100 mM in anhydrous DMSO and filter using a 0.22 μm syringe filter rated for organic solvents. Determine the minimum DMSO percentage required to maintain the ligand in solution by preparing a series of 5 ligand dilutions (12.5X, 25X, 50X, 100X, 200X) in nuclease-free water.
+The fluorescence polarization buffer can include up to 8% DMSO without significantly affecting anisotropy measurements. Use the previously determined minimum DMSO percentage within the 1X fluorescence polarization buffer. Prepare 2X FP buffer with twice this percentage. Prepare small volumes of DMSO-free 1X and 2X FP buffers to ensure that diluting the 100 mM ligand stock does not lead to any buffer mismatch.
+
+## Problem 4
+During KDprobe determination or in the FASST assay, fluorescence intensities are too low for accurate anisotropy calculations.
+
+## Potential solution
+Always protect solutions/wells containing fluorescent DNA probes from light to prevent any photobleaching.
+Ensure that the gain is set correctly and that the DNA probe concentration is above the detection threshold on your plate reader. If needed, increase the probe concentration slightly. Refer to the original research publication for more details. 
+
+## Problem 5
+Unexpected high or low anisotropy values in all conditions, including controls, during KDprobe determination or in the FASST assay.
+
+## Potential solution
+Contamination with other nucleic acids can cause high anisotropy values. Ensure that pipette tips and tubes are clean and never reuse 96-well plates.
+Nuclease contamination may degrade RNA, leading to unexpectedly low anisotropy values that resemble the background control. Ensure that the bench space and all reagents and lab consumables are nuclease-free.
+
+## Problem 6
+During KDprobe determination or in the FASST assay, anisotropy reads appear noisy or highly variable between replicates.
+
+## Potential solution
+Inadequate mixing of components or pipetting errors can lead to poor reproducibility. Use a multichannel pipette and mix thoroughly. Avoid air bubbles and check that all wells are properly filled and aligned in the plate reader.
+
+## Problem 7
+High anisotropy signals in wells without RNA (background control) during KDprobe determination ( ).
+
+## Potential solution
+This may suggest non-specific DNA probe interactions. Redesign the DNA probe to reduce self-association.
+
+## Problem 8
+No fluorescence anisotropy increase is observed for both riboswitch conformational states during KDprobe determination ( ).
+
+## Potential solution
+The riboswitch RNA may not be correctly folded. Some riboswitches require greater salt concentrations to fold into their native structures. Try optimizing the MgCl2 concentration present in the buffer or testing alternative buffer conditions.
+Probe binding may also be too weak to generate a measurable signal. Redesign the DNA probe to raise its melting temperature (e.g., lengthen the probe, increase GC content, or target a less structured site). Alternatively, redesign the riboswitch to enlarge the switching region and expose a longer single-stranded probe-binding site.
+
+## Problem 9
+Anisotropy shows the same increase for both conformational states during KDprobe determination ( ).
+
+## Potential solution
+The ligand may not induce conformational change. Orthogonal methods such as SPR may help confirm whether the ligand effectively binds to the riboswitch. If no binding occurs, the ligand compound may be degraded. If binding occurs without conformational switching, the ligand may not be functionally relevant.
+The DNA probe may bind to both conformational states in a non-discriminatory manner. In this case, DNA probe redesign is necessary.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Anthony Mittermaier (anthony.mittermaier@mcgill.ca).
+
+## Technical contact
+Technical questions on executing this protocol should be directed to and will be answered by the technical contact, Maureen McKeague (maureen.mckeague@mcgill.ca).
+
+## Materials availability
+This study did not generate any new unique reagents.
+
+## Data and code availability
+This study did not generate any unique datasets or code.
+
+## Acknowledgments
+We thank the following for funding: Natural Sciences and Engineering Research Council of Canada (Discovery Grant 2019-04949 to M.M. and Discovery Grant 2022-03242 to A.M.), NSERC PROMOTE CREATE program (to M.M. and A.C.), Canada Foundation for Innovation (JELF 38209 to M.M.), and Fonds de recherche du Québec (FRQNT-Centre in Green Chemistry and Catalysis, 2020-RS4-265155-CCVC to M.M.). A.C. is supported by a Fonds de recherche du Québec – Nature et Technologies (FRQNT) Master’s Research Scholarship (B1X). M.M. is supported by the Canada Research Chairs program (CRC-2023-00110). A.M. is a member of the PROTEO Regroupement Stratégique, Fonds de recherche du Québec – Nature et Technologies (FRQNT). A.M. and M.M. are members of the Centre de Recherche en Biologie Structurale, Fonds de recherche du Québec – Santé (FRQS). This project also received support from the Canada First Research Excellence Fund awarded to the D2R Initiative at McGill University.
+
+## Author contributions
+A.C. prepared the first draft of this protocol. M.R. and M.M. revised the first draft. A.C. prepared the figures. M.R. developed the protocol. M.M. and A.M. conceptualized the idea, supervised this study, and edited this protocol.
+
+## Declaration of interests
+The authors declare no competing interests.

@@ -1,0 +1,298 @@
+2933advsciAdvanced ScienceAdv Sci (Weinh)WileyPMC1294821912948219129482194139794010.1002/advs.202512362Ferroptosis‐Mediated Hippocampal Neuronal Loss Post‐mTBI: Chromatin Accessibility Profiling and Single‐Nucleus Transcriptomics
+LiManrui YangQiuyun QuShengqiu ChenYang ShenYang XuYang LinXilong SunYihan ChenYing LvMeili ZhangLin YuanZengqiang LiangWeibo ChenXiameng 
+1
+Department of Forensic Genetics, West China School of Basic Medical Sciences and Forensic Medicine, Sichuan University, Chengdu, 610041, China
+2
+Department of Forensic Pathology and Forensic Clinical Medicine, West China School of Basic Medical Sciences and Forensic Medicine, Sichuan University, Chengdu, 610041, China
+3
+Department of Immunology, West China School of Basic Medical Sciences and Forensic Medicine, Sichuan University, Chengdu, 610041, China
+4
+West China Second Hospital, Sichuan University, Chengdu, Sichuan, 610041, China
+5
+Beijing Institute of Basic Medical Sciences, Beijing, 100850, China*
+E‐mail: zqyuan@bmi.ac.cn
+liangweibo@scu.edu.cn
+chenxiameng@scu.edu.cn
+
+✉Corresponding author.
+151220251312e12362e123622822026© 2025 The Author(s). Advanced Science published by Wiley‐VCH GmbHThis is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Neuronal death in the hippocampus following mild traumatic brain injury (mTBI) is a hallmark of cognitive dysfunction, yet the underlying molecular mechanisms remain poorly understood. To address this issue, the hippocampus of eCCI‐modeled mTBI mice is profiled using single‐nucleus RNA‐seq and ATAC‐seq, producing matched, cell‐type‐resolved transcriptomic and chromatin‐accessibility datasets. Gene sets covering major cell‐death pathways are curated and scored for their activity across neuronal subtypes. Ferroptosis emerged as the dominant program. Gene‐set enrichment indicated activation of mitochondrial damage‐related pathways in neurons, a hallmark of ferroptosis. Transcription‐factor analyses, supported by epigenetic data, showed decreased binding of c‐Jun and Rfx3 in dentate granule cells. Functional assays show that the c‐Jun‐regulated gene Tmsb4x protects hippocampal neurons after mTBI. It downregulates Slc2a2, counteracts ferroptosis, and is associated with improved motor and cognitive performance in mice. This study advances understanding of mTBI pathogenesis at single‐cell resolution, identifying ferroptosis as a critical determinant of neuronal death and uncovering Tmsb4x as a promising therapeutic target for mitigating cognitive dysfunction.
+Keywords: ferroptosis, mild TBI, snRNA‐seq, Tmsb4x
+
+Hippocampal single ‐nucleus transcriptomes and chromatin accessibility after mild traumatic brain injury reveal dentate granule neuron vulnerability driven by ferroptosis. The c‐Jun–Tmsb4x–Slc2a2 axis modulates lipid peroxidation and iron dysregulation. Functional assays—including ChIP‐qPCR, in vitro ferroptosis rescue, and TEM—corroborate mechanisms and highlight Tmsb4x/Tβ4 as potential neuroprotective avenues.
+
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2025 Dec 6; Received 2025 Jul 7; Collection date 2026 Feb.
+
+1.
+
+## Introduction
+Mild traumatic brain injury (mTBI) refers to the acute disruption of brain function caused by a blow or impact to the head, accounting for ≈80% of all traumatic brain injuries.[
+ 
+] It is a common neurological injury encountered in clinical practice. mTBI can induce pathophysiological changes in the brain, leading to acute neurological deficits and a range of subsequent acute or chronic sequelae.[
+ 
+] Patients with mTBI often experience a variety of physical and cognitive symptoms, including headaches, dizziness, nausea, memory deficits, difficulty concentrating, reduced learning ability, sleep disturbances, depression, and anxiety.[
+ 
+] Cognitive dysfunction is a prevalent sequela among mTBI patients, lasting from several months to years, and can even result in permanent impairment, significantly impacting the patients' daily social functioning.[
+ 
+]
+
+mTBI presents a wide range of clinical symptoms that reflect the complex pathophysiological changes occurring in brain cells post‐injury. Different brain regions and cell types play distinct roles during the injury and repair processes.[
+ 
+] Notably, hippocampal dysfunction is closely associated with cognitive impairments following mTBI.[
+ 
+] The hippocampus supports learning and memory through circuits that interact with multiple brain regions.[
+ 
+] Damage or loss of hippocampal neurons is common after mTBI and contributes to cognitive deficits.[
+ 
+] Understanding the molecular basis of changes in the hippocampus after mTBI is essential for elucidating its pathogenesis and identifying effective intervention targets.
+Past studies have primarily focused on the overall damage and death of hippocampal neurons.[
+ , 
+] However, due to the high heterogeneity of neurons, such broad analyses may overlook the specific responses of different neuronal subtypes following injury. For instance, Vadim Tashlykov et al. observed diffuse neuronal damage and apoptosis after mTBI, with the most severe injuries occurring in the anterior cingulate cortex and the hippocampal CA3 region.[
+ , 
+] In contrast, Tian et al. did not find significant apoptosis of hippocampal neurons in mTBI mice, suggesting that hippocampal‐related cognitive dysfunction is mainly due to neurodegeneration associated with upregulation of neuronal p‐tau.[
+ 
+] The differing conclusions from these overall analyses of hippocampal damage may affect our understanding of the specific pathophysiological mechanisms occurring in the hippocampus post‐mTBI. Refined approaches, such as single‐nucleus RNA‐seq (snRNA‐seq), can resolve subtype‐specific transcriptional changes after mTBI. snRNA‐seq provides the cell‐type detail needed to interpret hippocampal injury.
+This study employs snRNA‐seq to thoroughly analyze the transcriptional changes in hippocampal neurons at the single‐cell level following mTBI in mice. Specifically, it investigates the activation of cell death pathways and key regulatory molecules in different neuronal subtypes after injury. By exploring the roles and mechanisms of protective molecules in neuronal damage, this research aims to identify new targets and strategies for treating cognitive dysfunction in mTBI patients.
+
+2.
+
+## Results
+2.1.
+
+## Single‐Cell Transcriptomics Reveals Ferroptosis as a Key Cell Death Pathway in Hippocampal Neurons Following mTBI
+We obtained high‐quality single‐nucleus transcriptomic data from 12,478 nuclei of hippocampal samples from the mTBI and sham groups using snRNA‐seq (Figures
+ ; , Supporting Information). We characterized the cell identities of the clusters based on cell‐specific markers: 1) Neurons expressing Meg3, Gria1, and Syt1; 2) Oligodendrocytes expressing Mbp, Plp1, and Mobp; 3) Astrocyte_NSCs expressing Slc1a3, Mertk, and Aqp4; 4) Oligodendrocyte precursor cells (OPCs) expressing Pdgfra; 5) Microglia expressing Csf1r and Cx3cr1; 6) Ependymal cells expressing Dnah11; and 7) Endothelial cells expressing Flt1 and Rgs5 (Figures  ; and Tables and , Supporting Information).
+ To investigate the specific transcriptional changes in hippocampal neurons following mTBI, we isolated and further subdivided hippocampal neurons. Using known hippocampal neuron subtypes and their specific markers, we classified them into eight subtypes: Prox1
++ dentate gyrus granule cells (DG_GC), Mpped1
++ CA1 neurons, Necab2
++ CA2 neurons, Nectin3
++ CA3 neurons, Gad2
++ inhibitory neurons (InN), Reln
++ Cajal‐Retzius cells (CR), Neuronal subtype 1, and Neuronal subtype 2 (Figures  ; and Table , Supporting Information). We found that the number of DG_GC cells significantly decreased after mTBI and that pathways related to axonogenesis were activated (Figures  ; and Table , Supporting Information). To further explore the mechanisms underlying DG_GC loss, we integrated markers for all known modes of cell death and constructed a gene set encompassing 14 distinct cell death pathways, including traditional forms and newer forms (Figure  and Table , Supporting Information).[
+ , , , 
+] We then calculated the activation scores for cell death pathways in different neuronal subtypes after mTBI through gene ranking and area under the curve (AUC) analysis, providing the transcriptional features of cell death in hippocampal neurons (Figure  ). The results revealed that different neuronal subtypes activate distinct cell death pathways. Even within the same neuronal subtype, multiple cell death pathways can be triggered, reflecting the complexity of neuronal damage patterns after injury (Figures  ; and Table , Supporting Information). Notably, ferroptosis was activated in nearly all neuronal subtypes, with activation scores significantly higher than those of other cell death pathways (Figure  and Table , Supporting Information). Moreover, DG_GC showed a significant increase in ferroptosis activity in mTBI versus sham with the largest effect size among subtypes (Figure , Supporting Information). Consistent with prior work linking ferroptosis to TBI‐induced hippocampal injury, including the DG, our single‐cell analysis delineates this vulnerability at subtype resolution.[
+ 
+] These findings suggest that ferroptosis activation may be a critical feature of hippocampal fate regulation following mTBI.
+
+2.2.
+
+## Changes in Chromatin Accessibility of Mitochondrial Damage‐Related Genes Induced by c‐Jun and Rfx3 Transcriptional Regulation are Key Mechanisms of Neuronal Ferroptosis in mTBI
+We further investigated the mechanisms underlying energy metabolism abnormalities and mitochondrial damage related to ferroptosis. Pathways related to energy metabolism and mitochondrial damage, including oxidative phosphorylation, glycolysis, and lipid metabolism, were activated (Figures
+ ; , Supporting Information). These pathways are closely linked to mitochondrial function, the impairment of which is a central feature of ferroptosis.[
+ 
+] Consequently, our results further support the involvement of ferroptosis in neuronal loss following mTBI.
+ Building on these findings, we employed the SCENIC approach to explore the transcriptional regulatory mechanisms underlying the mitochondrial damage in neurons. We observed significant alterations in the activity of transcription factors associated with mitochondrial damage (Figure  ). Notably, the regulatory activity of c‐Jun and Rfx3 exhibited specific changes in the DG_GC neurons, which experienced the greatest loss (Figures  ; , Supporting Information), indicating that these transcription factors may play critical roles in the loss of DG_GC after injury. Interestingly, the decreased regulatory activity of Rfx3 was primarily due to reduced mRNA levels, while no similar phenomenon was observed in c‐Jun transcripts. This leads us to hypothesize that c‐Jun mainly regulates downstream gene expression by modulating the binding strength to target promoters (Figure , Supporting Information). To test this hypothesis, we performed ATAC sequencing to analyze the chromatin accessibility of mitochondrial damage‐related genes, thereby examining epigenetic changes in transcriptional regulation following mTBI. The results indicated that the binding strength of c‐Jun and Rfx3 significantly decreased in the mTBI group (Figure  ), consistent with the single‐cell sequencing findings. Furthermore, we observed increased accessibility of downstream genes related to mitochondrial damage and function (e.g., Cfap97, Fars2, Itsn1, Mtfr1) (Figure  ; Table , Supporting Information).[
+ , , , 
+] This increase aligns with the negative transcriptional regulation exerted by c‐Jun and Rfx3 on multiple downstream genes, corroborating previous research findings.[
+ , 
+] Analysis of the ATAC sequencing and snRNA‐seq data collectively highlights the critical role of c‐Jun and Rfx3 in the transcriptional regulation of mitochondrial damage following mTBI.
+
+2.3.
+
+## c‐Jun‐Mediated Upregulation of Tmsb4x Expression in Neurons is a Key Feature of Neuronal Damage in mTBI
+Tmsb4x is upregulated in almost all neuronal subtypes and contains c‐Jun binding sites (https://www.genecards.org/) (Figure
+ ). In vitro experiments showed that Tmsb4x protein (Tβ4) levels were significantly elevated in c‐Jun knockdown neurons, indicating that c‐Jun negatively regulates Tmsb4x expression (Figure  ). Luciferase assay demonstrated that c‐Jun overexpression significantly reduced Tmsb4x promoter activity, indicating that c‐Jun negatively regulates Tmsb4x transcription. Interestingly, OGD treatment led to an upregulation of Tmsb4x promoter activity (Figure  ; Data File and , Supporting Information), suggesting that OGD mitigated the negative regulation of Tmsb4x by c‐Jun, thereby restoring promoter activation. These findings imply that the enhanced transcription of Tmsb4x following mTBI is linked to a reduction in c‐Jun's negative regulatory effect on the Tmsb4x promoter. Chromatin immunoprecipitation followed by qPCR demonstrated c‐Jun occupancy at the Tmsb4x promoter in vivo, with lower binding at 48 h after mTBI (Figure  ). Database searches revealed that TMSB4X is highly expressed in human hippocampal tissue, with varying expression levels across different hippocampal regions (Figure  ). These findings highlight the importance of studying Tmsb4x in relation to hippocampal diseases, as it may provide new therapeutic insights.
+ In the mouse hippocampus, Tmsb4x immunohistochemistry revealed stronger labeling after mTBI with representative fields taken from anatomically defined subregions (Figure  ); quantification of Tmsb4x‐positive cell density across hippocampal subregions confirmed an overall increase (Figure  ). Consistently, western blotting of hippocampal lysates showed higher Tmsb4x protein levels post‐mTBI (Figure  ). Additionally, ISH analysis confirmed that TMSB4X expression levels in the human hippocampus post‐brain injury were similar to those observed in mice, showing an upward trend (Figures  ; , Supporting Information). This suggests that investigating the upregulation of TMSB4X in hippocampal neuronal damage and its impact on cognitive dysfunction has significant clinical implications and could offer new perspectives for the treatment of hippocampal‐related disorders.
+
+2.4.
+
+## Tmsb4x Knockdown Increases Sensitivity of HT22 Cells to Ferroptosis
+Research has shown that the expression product of Tmsb4x, Tβ4, acts as an endogenous iron chelator with four iron (Fe2⁺ and Fe3⁺) binding domains.[
+ 
+] In vitro, Tβ4 enhances macrophage antioxidant capacity and inhibits glutamate‐induced ferroptosis,[
+ , 
+] with protection comparable to the ferroptosis inhibitor Fer‐1.[
+ 
+] However, the relationship between Tmsb4x and neuronal ferroptosis following mTBI has not yet been reported.
+Our previous data suggested that Tmsb4x may play a role in regulating neuronal ferroptosis after mTBI. To test whether Tmsb4x restrains ferroptosis, we first combined siRNA knockdown with RSL3 and read out viability and biochemical indices (Figure
+ ). Knockdown efficiency is shown in Figure  . RSL3 reduced cell viability (Figure  ) accompanied by a decrease in GSH (Figure  ) and an increase in MDA (Figure  ); si‐Tmsb4x+RSL3 further aggravated these changes compared with NC+RSL3. We next introduced the ferroptosis inhibitor Ferrostatin‐1 (Fer‐1) to test rescue and expanded the readouts accordingly. Transmission electron microscopy (TEM) revealed condensed mitochondria with loss of cristae after RSL3, which were exacerbated by si‐Tmsb4x and alleviated by Fer‐1 (Figure  ). Consistently, MitoTracker live‐cell imaging showed collapse of the tubular mitochondrial network with increased fragmentation under RSL3, worsened by si‐Tmsb4x and partially restored by Fer‐1 (Figure  ). FerroOrange imaging demonstrated an increased labile Fe(II) pool with RSL3 that was further elevated by si‐Tmsb4x and partly normalized by Fer‐1 (Figure  ). Finally, qPCR of ferroptosis‐related genes showed expression patterns consistent with enhanced ferroptotic stress under si‐Tmsb4x+RSL3 and rescue by Fer‐1 (Figure  ). Together, these results indicate that reducing Tmsb4x heightens ferroptotic vulnerability, while pharmacologic inhibition of ferroptosis restores biochemical, ultrastructural, and iron‐handling readouts.
+ 
+2.5.
+
+## Enhanced Susceptibility to Ferroptosis in Tmsb4x‐CKO Neurons Following mTBI
+To investigate the effects of Tmsb4x deletion on neurons in a mouse model of mTBI, we generated a neuron‐specific conditional knockout by crossing Tmsb4xflox mice with Thy1Cre/+ (Tmsb4x‐CKO). Both male (Tmsb4xflox/y;Thy1Cre/+) and female (Tmsb4xflox/flox;Thy1Cre/+) CKO littermates were used, with sex‐matched littermate controls lacking Cre. (Figures
+ ; , Supporting Information). Though Tmsb4x is located on the sex chromosome, we found that gender did not significantly affect Tmsb4x expression levels under the same treatment conditions (Figure , Supporting Information). We induced mTBI in both WT and Tmsb4x‐CKO mice including both males and females and extracted the hippocampus 48 h post‐injury to assess ferroptosis‐related phenotypes. The results showed significant changes in the expression of ferroptosis‐related genes, such as Gpx4, Slc40a1, Slc3a2, Hspb1, Nfe2l2, and Acsl4, in the hippocampus of Tmsb4x‐CKO mice (Figure  ), with expression patterns consistent with our in vitro findings. Additionally, the GSH levels in the hippocampus of Tmsb4x‐CKO mice were significantly lower than those in WT mice (Figure  ), suggesting a reduced antioxidant capacity. Additionally, the MDA levels in the hippocampus of Tmsb4x‐CKO mice were significantly higher than in WT mice, indicating more severe lipid peroxidation (Figure  ). Neuronal morphological analysis indicated that mTBI caused more severe structural damage in the hippocampal neurons of Tmsb4x‐CKO mice, with blurred neuronal boundaries and dissolution of Nissl bodies (Figure  ). Prussian blue staining results showed increased iron deposition in the hippocampus of Tmsb4x‐CKO mice (Figure  ). TEM observations indicated that Tmsb4x‐CKO mice exhibited more severe mitochondrial changes and greater degrees of mitochondrial rupture (Figure  ). Notably, we also observed reduced water content, increased hemorrhage, and metal ion accumulation in the hippocampus of Tmsb4x‐CKO mice in T2 and T2* MRI sequences (Figures  ; , Supporting Information). In conclusion, these alterations of Tmsb4x‐CKO mice indicate the absence of Tmsb4x exacerbates ferroptosis in hippocampal neurons following mTBI.
+ 
+2.6.
+
+## Tmsb4x Protects Neurons from Ferroptosis by Regulating Slc2a2
+We further investigated the protective mechanisms of Tmsb4x against neuronal ferroptosis following mTBI. We generated a neuron‐specific tdTomato red fluorescent protein‐expressing Tmsb4x‐CKO mouse model, Thy‐1Cre/+ROSA26tdTomato/+ Tmsb4xf/y mice. This model specifically knocks out Tmsb4x in neurons while expressing the tdTomato fluorescent protein (Figure , Supporting Information). We subsequently performed FACS to sort hippocampal neurons (Figure , Supporting Information) and extracted tdTomato+ cells for bulk RNA sequencing. The sequencing revealed specific gene expression changes in the hippocampal neurons of CKO mice following mTBI (Figures
+ ; , Supporting Information). By analyzing DEGs and reviewing existing literature, we identified four ferroptosis‐related genes—Slc2a2, Cxcl2, Card11, and Tnfsf13b—that have been reported to be associated with ferroptosis in other studies (Figure  ). Consistently, RT‐qPCR in HT22 cells showed that si‐Tmsb4x increased the mRNA levels of all four genes (Figure  ), supporting a transcriptional link between Tmsb4x and this module. Next, we generated Tmsb4x‐KD neurons by transfecting si‐Tmsb4x and co‐transfected siRNAs targeting each of the four genes individually. We assessed a panel of ferroptosis‐related readouts. The Slc2a2‐KD group showed a higher neuronal survival rate (Figure  ), greater antioxidant capacity (GSH; Figure  ), more intact mitochondrial ultrastructure (Figures  ; , Supporting Information), lower labile Fe(II) (FerroOrange; Figure  ), and reduced lipid peroxidation (C11‐BODIPY; Figure  ) than the other KD groups. These findings indicate that Slc2a2‐KD can mitigate the increased sensitivity to ferroptosis induced by Tmsb4x‐KD, thereby reducing neuronal damage. Consistent with prior reports that Slc2a2/GLUT2 governs glucose transport and metabolic flux,[
+ , 
+] we speculate that Tmsb4x upregulation after mTBI may attenuate GLUT2‐mediated glucose efflux, favoring glycolytic flux to generate NADPH and GSH and thereby buffer lipid‐peroxidation‐driven ferroptosis.[
+ 
+]
+
+ 
+2.7.
+
+## Exogenous Supplementation of Tβ4 Improves Motor and Cognitive Impairments in mTBI Mice
+Previous experiments have demonstrated that the knockout of Tmsb4x increases the susceptibility of hippocampal neurons to ferroptosis, leading to neuronal loss. Therefore, we aimed to protect the neurons of mTBI mice through the exogenous supplementation of the Tmsb4x protein product, Tβ4, and to investigate its potential to ameliorate the exacerbated motor and cognitive impairments following mTBI. We administered Tβ4 injections into the hippocampus of mice after mTBI and began assessing their motor and cognitive functions one month later (Figure
+ ). The results indicated that Tβ4 partially restored motor and balance impairments in CKO mice after injury, as well as somewhat improving learning and memory abilities (Figure  ). Notably, although there was no significant difference in the time spent during the Morris water maze spatial exploration phase between the CKO+mTBI+Tβ4 group and other groups (Figure  ), the CKO+mTBI+Tβ4 mice traveled a longer path in the target quadrant compared to the saline group (Figure  ). This increased distance was attributed to their faster swimming speed (Figure  ), suggesting that their motor abilities had improved. We also found that CKO+mTBI+Tβ4 mice explored longer paths in the Y‐maze experiment, demonstrating increased activity (Figure  ). Furthermore, the novel object recognition test showed that the mice receiving exogenous Tβ4 displayed greater interest in the new object, spending significantly more time exploring it compared to the old object (Figure  ). This indicates that Tβ4 injection into the hippocampus can restore object recognition memory in CKO mice. We further investigated the effects of Tmsb4x loss on neuronal integrity and the potential neuroprotective role of Tβ4 following mTBI. Nissl staining of hippocampal sections (Figure  ) revealed significant neuron loss in the DG region of CKO+mTBI mice, while the treatment with Tβ4 (CKO+mTBI+Tβ4) significantly alleviated these effects, restoring neuronal density and morphology comparable to sham and mTBI controls. Prussian blue staining showed increased DG iron in CKO+mTBI mice, which was reduced by Tβ4 (Figure  ). Overall, these experimental results suggest that exogenous supplementation of Tβ4 can partially restore motor and cognitive function impairments in mTBI mice. Additionally, Tβ4 treatment alleviates neuronal loss and reduces iron deposition in the DG region, supporting its potential to mitigate ferroptosis‐related damage and provide neuroprotection after mTBI.
+ 
+
+3.
+
+## Discussion
+mTBI leads to brain tissue damage in two stages. The first stage involves mechanical damage caused by external forces, such as impacts or shock waves, applied to the skull and brain. This results in shear and compression of brain tissue and blood vessels, leading to contusions, lacerations, ruptured blood vessels, and hemorrhaging. Although these changes are often subtle and difficult to observe directly, they can have significant consequences. The second stage encompasses secondary damage that can persist for months or even years, including ischemia, neuroinflammation, alterations in blood‐brain barrier (BBB) permeability, oxidative stress, and neuronal degeneration and death.[
+ 
+] Due to the absence of fractures and significant hemorrhaging in mTBI patients, CT imaging results are often inadequate for diagnosing mTBI.[
+ 
+] Furthermore, the diagnosis of mTBI lacks relatively objective and effective biological evidence. Neuronal degeneration and death in the hippocampus following mTBI are critical factors contributing to cognitive dysfunction. Therefore, understanding the mechanisms of neuronal death and the associated changes in transcriptional activity is essential for developing effective therapeutic targets to mitigate secondary cognitive impairments after mTBI. The single‐cell transcriptomic and epigenetic maps of the hippocampus in mTBI mice constructed in this study, along with the gene sets related to cell death, provide valuable resources for future research into mTBI and the mechanisms underlying hippocampal neuronal loss.
+Neuronal death can occur through various mechanisms, including necrosis that rapidly follows injury and programmed cell death.[
+ 
+] Most studies on neuronal death following mTBI have focused on apoptosis. For instance, Renana Baratz et al. found that the apoptotic marker BID is significantly upregulated 72 h post‐mTBI, and immediate treatment with 3,6'‐dithiothalidomide can significantly improve neuronal apoptosis and cognitive impairments associated with mTBI.[
+ 
+] However, recent discoveries have identified various novel forms of cell death, such as ferroptosis, characterized by iron overload and lipid peroxidation; cuproptosis, induced by copper ion toxicity; and pyroptosis, mediated by GSDMD‐induced pore formation. Additionally, more complex forms of cell death, such as necroptosis, which exhibit features of both necrosis and apoptosis, and pan‐apoptosis, characterized by elements of apoptosis and necroptosis, have also been identified. These different modes of cell death are interregulated and collectively influence cellular fate.[
+ 
+] In our study, we utilized an established gene set for various forms of cell death, along with published cell death‐specific genes, to construct gene sets for 14 different cell death pathways, allowing us to assess their activity in neuronal death. We found that the activation levels of these cell death‐specific genes varied among different subtypes of hippocampal neurons, with ferroptosis being the most extensively and significantly activated. While ferroptosis has been implicated in hippocampal pathology after TBI, our data extend this literature by resolving subtype‐specific activation patterns at single‐nucleus resolution.[
+ 
+] Therefore, our analysis focused on transcriptomic changes associated with ferroptosis, including transcriptional regulatory features of mitochondrial damage and key regulatory genes involved in neuronal ferroptosis. Notably, we discovered that c‐Jun‐mediated transcriptional regulation of Tmsb4x plays a critical role in neuronal ferroptosis in the hippocampus. Furthermore, exogenous supplementation with Tβ4 helps restore learning and memory functions in mTBI mice, providing important clinical intervention insights for mTBI.
+Within our neuronal subtype clustering, we identified two cell populations that could not be characterized by known hippocampal neuronal subtypes: Neuronal subtype 1 and Neuronal subtype 2. Neuronal subtype 1 exhibited high expression of genes such as Tshz2 and Arpp21, resembling the “Neuronal Subtype 1” identified in single‐cell sequencing of mouse hippocampus by Douglas Arneson and colleagues. Their analysis suggested that this cell group has differentiation and self‐renewal potential. Our findings indicated that this group expresses several genes associated with neuronal development and synaptogenesis, such as Nrxn1 and Cntnap4. GO analysis revealed that the characteristic genes of Neuronal subtype 1 are primarily involved in pathways related to dendrite development, actin filament organization, protein localization to the cell periphery, actin filament bundle assembly, and actin filament bundle organization (Figure , Supporting Information). These pathways are crucial stages in the development and branching of immature neurons, suggesting that this population consists of neurons still undergoing development. In contrast, Neuronal subtype 2 expressed genes related to neuronal migration and axon guidance, such as Tenm2 and Nrg1, indicating that these neurons may be migrating within the hippocampus.
+In our in vivo experiments examining the relationship between conditional knockout of Tmsb4x and neuronal ferroptosis in the hippocampus, we employed the Cre‐LoxP system to construct conditional knockout mice. Given that Tmsb4x is X‐linked, sex may influence its expression. To explore this, we assessed TMSB4X protein levels in the hippocampus of male and female mice. Our results showed no significant sex differences in TMSB4X protein expression in either the sham or mTBI groups (Figure , Supporting Information). This phenomenon can be attributed to X‐chromosome inactivation in female mammals, wherein one of the two X chromosomes undergoes heterochromatinization and becomes inactive, ensuring that gene expression products on sex chromosomes remain largely consistent between males and females.
+Tβ4 is a naturally occurring protein in mammals with various biological functions. Clinically, Tβ4 is primarily used to promote wound healing, tissue regeneration, and anti‐inflammatory effects. Recent studies in neuroscience have demonstrated the protective role of Tβ4 against neuronal degeneration. For example, Patrizia Popoli et al. found that Tβ4 protects neurons in models of excitotoxicity induced by glutamate or kainate,[
+ 
+] while Hao Yang et al. showed that Tβ4 promotes neuronal survival and neurogenesis by enhancing the expression of L1.[
+ 
+] In 2022, Joanna I. Lachowicz first reported that Tβ4 acts as an endogenous iron chelator, inhibiting macrophage ferroptosis and increasing the expression of oxidative stress‐related genes.[
+ 
+] However, the role of Tβ4 in neuronal ferroptosis has not yet been reported. Our study reveals that the knockdown of Tmsb4x expression increases the susceptibility of cells to ferroptosis, a process regulated by changes in c‐Jun transcription factor activity, which subsequently affects Slc2a2 and contributes to neuronal ferroptosis. Tmsb4x‐CKO mice exhibit more severe neuronal ferroptosis and greater impairments in motor and cognitive functions following mTBI, while exogenous supplementation with Tβ4 reverses these changes. This indicates that Tβ4 has a protective role in neuronal ferroptosis, alleviating neuronal loss after mTBI and preserving the integrity of neural circuits and hippocampal function. This finding offers valuable intervention strategies for clinical treatment of cognitive and motor dysfunction related to hippocampal damage after mTBI.
+As a water‐soluble molecule, Tβ4 lacks the ability to passively diffuse across cell membranes. Instead, it enters cells through endocytosis or other active transport mechanisms by binding to receptors or transport proteins on the cell surface. Therefore, for recombinant protein formulations to be effectively applied in human health, it is necessary to conjugate Tβ4 with lipophilic groups or incorporate it into nanoscale delivery systems to enhance its cellular uptake.
+In this study, we successfully constructed comprehensive single‐cell transcriptomic and epigenomic atlas of the hippocampus in the mTBI mice. Based on a self‐established gene set, we discovered distinct fate‐determining patterns of different hippocampal neuron subtypes, with the ferroptosis pathway being widely and significantly activated. Further mechanistic investigations revealed that the c‐Jun‐regulated gene Tmsb4x is upregulated in both mouse and human hippocampal tissues, where it plays a protective role against neuronal ferroptosis. This gene enhances the cell's antioxidant capacity by regulating the energy metabolism‐related gene Slc2a2. Exogenous supplementation with the recombinant protein Tβ4, a product of Tmsb4x, significantly reduced cognitive and motor function impairments in mTBI mice. These findings are crucial for understanding the pathological processes underlying neuronal loss after mTBI and hold promise for identifying new targets for the treatment of mTBI.
+
+4.
+
+## Experimental Section
+
+## Study Design
+Hippocampal single‐nucleus library preparation and sequencing were performed using hippocampal samples from mice in the mTBI (n = 3) and sham (n = 3) groups. ATAC‐seq library preparation and sequencing were conducted on hippocampal samples from the mTBI (n = 3) and sham (n = 3) groups. Bulk RNA‐seq library preparation and sequencing were performed using nuclear samples from three groups of mice: CKO + mTBI (n = 3), WT + mTBI (n = 3), and WT + sham (n = 3). The number of samples and grouping for both in vivo and in vitro experiments were detailed in the corresponding methodological sections or indicated in the relevant figures. To minimize bias, randomization was applied during group assignment, sample processing, and data collection. Mice were randomly assigned to experimental groups before the induction of mTBI or sham procedures. Investigators responsible for data collection, library preparation, sequencing, and analysis were blinded to group allocations. Data analysts were provided with anonymized sample identifiers to ensure an unbiased interpretation of the results.
+
+## Animals
+This study used adult male and female C57BL/6 mice (15–25 g body weight, 8–15 weeks old) or transgenic mice. C57BL/6J‐Tmsb4xem1(flox)Cya mice were purchased from Cyagen (strain number: CKOCMP‐19241‐Tmsb4x‐B6J‐VA). These mice were generated using CRISPR/Cas9‐mediated gene editing, targeting exons 2 and 3 of TMSB4X for conditional deletion. Two distinct CRISPR gRNAs (gR#1 and gR#2) were designed to target different exon regions of TMSB4X, leading to the successful generation of mice carrying the flox‐Tmsb4x allele. The final conditional knockout female mice were designated as Tmsb4xflox+/−. Thy1‐Cre (FVB/N‐Tg(Thy1‐cre)1Vln/J) mice were obtained from Cyagen (stock number: C001306), while the Ai9 transgenic strain (JAX 007909) was acquired from The Jackson Laboratory. All animal housing, maintenance, surgical procedures, post‐experimental monitoring, and behavioral assessments were conducted in accordance with the NIH guidelines for the care and use of laboratory animals. Mice were housed in a controlled environment with a temperature of 19–22 °C, relative humidity of 45–55%, and a 12‐h light/dark cycle. Food and water were provided ad libitum. All animal experiments were approved by the Ethics Committee of Sichuan University (Approval No. K2021024) and conducted under its guidelines for the ethical use of animals in research.
+
+## Human Tissue Samples and Ethics Statement
+Human tissue samples were obtained from the Chengdu Public Security Bureau in compliance with the ethical principles outlined in the Declaration of Helsinki. The collection and use of human samples were approved by the Ethics Committee of West China Hospital, Sichuan University (Approval No. 2022‐153). Hippocampal samples from individuals with traumatic brain injury (TBI) were obtained from deceased individuals diagnosed with TBI (TBI n = 3 / Control n = 3). Postmortem examination revealed bilateral temporal muscle hemorrhage, extensive galeal hematoma, subdural hematoma, and subarachnoid hemorrhage. Negative control hippocampal samples were collected from deceased individuals who died from non‐TBI‐related diseases.
+
+## mTBI Modeling and mNSS Scoring
+To induce anesthesia, an inhalation anesthesia system (RWD Life Science) was used to vaporize isoflurane, enabling rapid induction and recovery. Mice were anesthetized with 4% isoflurane for induction, followed by 1.5% isoflurane for maintenance for 90 s or until the completion of the procedure and suturing. During surgery, mice were placed in a prone position with their heads positioned within an anesthesia mask. A sponge pad was placed beneath the ventral side of the mice to absorb impact forces and prevent skull fractures caused by the injury. mTBI was induced using an electromagnetic‐controlled cortical impactor (eCCI‐6.3, Custom Design & Fabrication, Inc.), following the protocol described by Yang Q. et al.[
+ 
+] The impact parameters were as follows: impactor tip diameter: 3 mm, impact velocity: 3.5 m s−1, impact depth: 1 mm, and dwell time: 150 ms. One hour after injury, the modified Neurological Severity Score (mNSS) was used to assess the severity of brain injury. Mice with mNSS scores of 3–4 were considered to have successfully undergone mTBI modeling.[
+ 
+] The mNSS scoring criteria and assessment protocol were based on the method described by Flierl et al.[
+ 
+] Mice in the sham group underwent anesthesia and scalp suturing but did not receive an impact injury.
+
+## snRNA‐Seq Library Preparation and Sequencing
+Hippocampal single‐nucleus RNA sequencing (snRNA‐seq) was performed on hippocampal samples obtained from male mice in the mTBI (n = 3) and sham (n = 3) groups. Tissue collection was conducted 48 h post‐injury, following cardiac perfusion with saline under anesthesia. The brain was rapidly extracted, and the hippocampus was dissected in ice‐cold PBS. Single‐nucleus isolation and preparation were performed following the protocol described by Yang Q et al.[
+ 
+] Nuclei were counted using trypan blue staining, and the concentration was adjusted to 1000 nuclei / µL. 10× Genomics library preparation and single‐nucleus RNA sequencing were conducted by NovelBio Co., Ltd. (Shanghai, China). Libraries were generated using the 10× Genomics Chromium Controller Instrument and Chromium Single Cell 3' v3 Reagent Kits (10× Genomics, Pleasanton, USA). Sequencing was performed on the NovaSeq 6000 platform (Illumina, USA), following the 2 × 150 bp paired‐end sequencing protocol, as referenced in Li M. et al.[
+ 
+]
+
+## ATAC‐Seq Library Preparation and Sequencing
+Hippocampal samples from mTBI (n = 3) and sham (n = 3) group mice were used for ATAC‐seq library preparation and sequencing. The library construction and sequencing procedures followed the previously established experimental protocol.[
+ 
+] Raw reads were processed as detailed in ATAC‐seq Data Processing.
+
+## Bulk RNA‐Seq Library Preparation and Sequencing
+Bulk RNA sequencing was performed using cell suspensions obtained after fluorescence‐activated cell sorting (FACS) (n = 3 per group). Library preparation and sequencing procedures were conducted according to the previously established experimental protocol.[
+ 
+]
+
+## Cell‐Type Proportion Analysis
+Cell‐type proportions were analyzed by first exporting the number of cells for each cell type using the table function. The prop.table function was then used to calculate the proportion of each cell type. Finally, a bar plot was generated to visualize the cell‐type proportions across different conditions.
+
+## ATAC‐Seq Data Processing
+The processing of ATAC‐seq sequencing data, including differential peak analysis, motif analysis, enrichment of genomic signals around transcription start sites (TSS), and peak visualization, was performed following the methods described in Li M et al.[
+ 
+]
+
+## qPCR Analysis
+Quantitative PCR (qPCR) was performed following the previously used experimental protocol.[
+ 
+] Primer sequences for target genes are provided in Table (Supporting Information).
+
+## Ferroptosis Induction
+Ferroptosis was induced using the ferroptosis activator RSL3 (Selleck, Cat# S8155). Prior to the experiment, RSL3 was dissolved in DMSO to prepare a stock solution, which was further diluted to the desired working concentration. HT22 cells were treated with 3 µm RSL3 at 37 °C for 24 h, while the control group received an equivalent volume of DMSO to account for solvent effects.
+
+## Ferroptosis Inhibition
+For pharmacological inhibition of ferroptosis, cells were treated with Ferrostatin‐1 (Fer‐1, Selleck, #S7243) dissolved in DMSO. Fer‐1 was added at the time of RSL3 addition at a final concentration of 1 µm, with vehicle volumes matched across conditions.
+
+## Ferrous Ion (Fe2⁺) Detection
+Ferrous ion levels in HT22 cells were detected using FerroOrange (Dojindo, Cat# F374). A 1 mM stock solution was prepared as per the manufacturer's recommendations and diluted 1:1000 in PBS to create the working solution. Cells were incubated in the FerroOrange working solution at 37 °C for 30 min. After staining, cells were gently washed 2–3 times with pre‐warmed (37 °C) PBS, and fluorescence imaging was performed using a Zeiss LSM 810 confocal microscope under the Cy3 channel.
+
+## Morris Water Maze (MWM) Test
+The MWM test was conducted to assess cognitive function in mice (n = 5), following previously established protocols.[
+ 
+] The maze consisted of a large circular pool filled with opaque water, concealing a submerged escape platform. The pool was divided into four quadrants. Mice underwent four trials per day to evaluate their ability to locate the hidden platform. Each trial began from one of four designated starting points, with mice being gently placed in the water facing the wall. Mice were given a maximum of 90 s to locate the submerged platform. If a mouse failed to find the platform within this time, it was manually guided onto the platform and allowed to remain for 10 s to familiarize itself with the location. A minimum 4‐min inter‐trial interval was maintained to allow for recovery between consecutive trials. On Day 5, a probe trial was conducted, in which the platform was removed, and the swimming path, the number of entries into the target quadrant (where the platform was previously located), and the time spent in the target quadrant were recorded over 90 s. The primary outcome measures included the latency to find the platform across trials and the time spent in the target quadrant and the number of entries into the previous platform location on Day 5. Shorter latencies and increased time spent in the target quadrant indicated improved spatial learning and long‐term memory, reflecting enhanced hippocampus‐dependent cognitive function.
+
+## Rotarod Test
+The rotarod apparatus consisted of a rotating rod and an infrared recording system. The testing area was dimly lit to minimize mouse anxiety and ensure optimal visibility. Before testing, each mouse underwent an acclimation period to reduce stress‐related variability. On Day 1, mice were individually placed on a stationary rod for 5 min, allowing them to familiarize themselves with the rotarod and testing environment without rotational stress. The test was conducted over three consecutive days. At the beginning of each trial, the rod rotated at 4 rpm and gradually accelerated to 40 rpm over 5 min. Mice were placed on the rod, and the latency to fall (i.e., time before falling off) was recorded. To assess motor coordination and learning progression, each mouse underwent three trials per day, with 15‐min intervals between trials to prevent fatigue. If a mouse clung to the rod and remained stable for the full 5‐min duration, the trial was automatically terminated. Performance on the rotarod test was monitored using an automated tracking system, and fall latency was recorded for each mouse. Videos were captured and analyzed using the BAS‐100 Animal Behavior Analysis System (Techman Co., Shanghai, China).
+
+## Y‐Maze Test
+The Y‐maze consists of three arms positioned at 120‐degree angles and was used to assess spatial working memory in mice. All arms were of equal dimensions to ensure experimental consistency. The maze was placed in a well‐lit and quiet room to minimize external disturbances. On the testing day, each mouse was placed at the end of a designated start arm and allowed to freely explore the maze for 5 min. The entire process was recorded using an overhead camera connected to a tracking system. Alternation behavior was defined as consecutive entries into all three arms (e.g., ABC, CAB, BCA) without repetition, reflecting memory capacity and exploratory curiosity toward novel areas. The alternation rate was calculated using the formula: (alternation times / (total entry times – 2)) × 100%.
+
+## Novel Object Recognition (NOR) Test
+NOR test was performed following the previously established experimental protocol.[
+ 
+]
+
+## Statistical Analysis
+Statistical analyses were performed using GraphPad Prism version 10.1.2 (GraphPad Software, San Diego, CA, USA), and data were presented as means ± SEM. qPCR data were analyzed using the 2‐ΔΔCt method, with target gene expression normalized to the reference gene and expressed as fold change relative to the control group. For comparisons between experimental groups, Student's t‐test was used for two‐group comparisons, while the one‐way ANOVA test followed by Tukey's post hoc test was applied for comparisons involving more than two groups, with Bonferroni correction used for multiple comparisons. For behavioral assays, MWM latency data were analyzed using two‐way repeated‐measures ANOVA to assess the interaction of different factors over time, while Novel Object Recognition (NOR) data were analyzed using an unpaired t‐test to compare the time spent exploring the novel object versus the familiar object. The exact n values (biological replicates for in vitro assays or animals per group for in vivo studies) are indicated in the figure legends. All statistical analyses were performed using R (version 4.0.2) or GraphPad Prism (version 10.1.2), and statistical significance was denoted as follows: *p < 0.05, **p < 0.01, ***p < 0.001, ****p < 0.0001, n.s. not significant.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Ethics Statement
+All animal experiments were approved by the Ethics Committee of Sichuan University (Approval No. K2021024) and conducted under its guidelines for the ethical use of animals in research. Human tissue samples were obtained from the Chengdu Public Security Bureau in compliance with the ethical principles outlined in the Declaration of Helsinki. The collection and use of human samples were approved by the Ethics Committee of West China Hospital, Sichuan University (Approval No. 2022‐153).
+
+## Author Contributions
+M.L., Q.Y., and S.Q. contributed equally to this work. M.L. and Q.Y. were responsible for conceptualization. S.Q. and Y.X. carried out methodology. M.L. and Q.Y. performed the investigation. Y.C. and X.L. handled visualization. M.L., Y.S., Y.C., and Y.S. conducted data analysis. M.L., Z.Y., W.L., X.C., and L.Z. provided supervision. X.C. acquired funding.
+
+## Supporting information
+Supporting Information
+Supplemental Data File
+Supplemental Table Legends
+Supplemental Table 1
+Supplemental Table 2
+Supplemental Table 3
+Supplemental Table 4
+Supplemental Table 5
+Supplemental Table 6
+Supplemental Table 7
+Supplemental Table 8
+
+## Acknowledgements
+This study was supported by the National Natural Science Foundation of China, No. 82202077 (XC).
+
+## Contributor Information
+Zengqiang Yuan, Email: zqyuan@bmi.ac.cn.
+Weibo Liang, Email: liangweibo@scu.edu.cn.
+Xiameng Chen, Email: chenxiameng@scu.edu.cn.
+
+## Data Availability Statement
+The data that support the findings of this study are openly available in Gene Expression Omnibus at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc = GSE292126; https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc = GSE292127; https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc = GSE292715, reference number 292715.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supporting Information
+Supplemental Data File
+Supplemental Table Legends
+Supplemental Table 1
+Supplemental Table 2
+Supplemental Table 3
+Supplemental Table 4
+Supplemental Table 5
+Supplemental Table 6
+Supplemental Table 7
+Supplemental Table 8
+
+## Data Availability Statement
+The data that support the findings of this study are openly available in Gene Expression Omnibus at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc = GSE292126; https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc = GSE292127; https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc = GSE292715, reference number 292715.

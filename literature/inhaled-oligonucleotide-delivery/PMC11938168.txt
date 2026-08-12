@@ -1,0 +1,1429 @@
+4647cbiChemical & Biomedical ImagingChem Biomed ImagingAmerican Chemical SocietyPMC1193816811938168119381684015182210.1021/cbmi.4c00085Advances in Tracing
+Techniques: Mapping the Trajectory
+of Mesenchymal Stem-Cell-Derived Extracellular Vesicles
+LiJingqi WangZhaoyu WeiYongchun LiWenshuai HeMingzhu KangJingjing XuJia LiuDingbin †State
+Key Laboratory of Medicinal Chemical Biology, Tianjin Key Laboratory
+of Molecular Recognition and Biosensing, Frontiers Science Centers
+for Cell Responses and New Organic Matter, College of Chemistry, Nankai University, Tianjin 300071, China‡State
+Key Laboratory for Crop Stress Resistance and High-Efficiency Production,
+Shaanxi Key Laboratory of Agricultural and Environmental Microbiology,
+College of Life Sciences, Northwest A&F
+University, Yangling, Shaanxi 712100, China*E-mail: liudb@nankai.edu.cn.
+22202533137137–1682732025© 2025 The Authors. Co-published by Nanjing University and American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Mesenchymal stem-cell-derived extracellular vesicles
+(MSC-EVs)
+are nanoscale lipid bilayer vesicles secreted by mesenchymal stem
+cells. They inherit the parent cell’s attributes, facilitating
+tissue repair and regeneration, promoting angiogenesis, and modulating
+the immune response, while offering advantages like reduced immunogenicity,
+straightforward administration, and enhanced stability for long-term
+storage. These characteristics elevate MSC-EVs as highly promising
+in cell-free therapy with notable clinical potential. It is critical
+to delve into their pharmacokinetics and thoroughly elucidate their
+intracellular and in vivo trajectories. A detailed
+summary and evaluation of existing tracing strategies are needed to
+establish standardized protocols. Here, we have summarized and anticipated
+the research progress of MSC-EVs in various biomedical imaging techniques,
+including fluorescence imaging, bioluminescence imaging, nuclear imaging
+(PET, SPECT), tomographic imaging (CT, MRI), and photoacoustic imaging.
+The challenges and prospects of MSC-EV tracing strategies, with particular
+emphasis on clinical translation, have been analyzed, with promising
+solutions proposed.
+Keywords: Extracellular vesicles, Optical imaging, Magnetic
+resonance imaging, Computed tomography, In vivo, Stem cells, Theranostics
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Nov 3; Accepted 2025 Jan 3; Revised 2024 Dec 30; Collection date 2025 Mar 24.
+
+1.
+
+## Introduction
+Mesenchymal stem cells
+(MSCs) are adult stem cells derived from
+diverse tissues, including bone marrow, adipose tissue, and umbilical
+cord. The notable self-renewal capacity
+and multipotent differentiation potential have positioned them as
+a promising candidate for clinical translational research. However, empirical evidence gleaned from clinical
+trials has consistently fallen short of anticipated outcomes. , MSC-based therapies are limited by several factors, including low
+postinjection survival rates, immune rejection risks, the potential
+to promote tumor progression, functional instability due to heterogeneity,
+and difficulties in large-scale manufacturing. Additionally, regulatory
+and ethical considerations present significant barriers to their clinical
+translation. Therefore, to overcome these
+problems, researchers have scrutinized the mechanisms by which MSCs
+function through paracrine actions. Gradually, the focus has shifted
+to cell-free therapies dominated by extracellular vesicles (EVs) derived
+from MSCs. − These nanoscale lipid bilayer vesicles, referred
+to as MSC-EVs, serve as conveyors of bioactive factors (including
+genetic material, lipids, growth factors, and regulatory proteins)
+from the parent cell, thereby mediating intercellular communication
+in physiological and pathological settings. , The
+“off-the-shelf” utility of MSC-EVs positions them as
+potent disease interventions. Simultaneously, the inherent advantages
+of MSC-EVs, including low immunogenicity (no pathological reaction
+develops into tumors), efficient delivery, and long-term storage stability,
+circumvent the risks of whole-cell injections described above. , 
+Due to their strong regenerative and modulatory capabilities,
+MSC-EVs
+have emerged as the most promising EV-based therapeutics for clinical
+application. MSC-EVs modulate the microenvironment of injured tissues
+via the active molecules they carry, such as proteins and miRNAs,
+thereby enhancing the efficacy of bone and tissue repair. , In immunomodulation, MSC-EVs reduce inflammatory responses by inhibiting
+T cell activation and modulating macrophage polarization, making them
+suitable for treating conditions such as rheumatoid arthritis. , Moreover, MSC-EVs act as drug delivery vehicles, leveraging their
+intrinsic targeting capabilities to deliver chemotherapeutic agents
+or gene therapy molecules to tumor sites, demonstrating advantages
+in cancer treatment. In neurological
+disorders, MSC-EVs have exhibited promising effects in models of Alzheimer’s
+disease and spinal cord injury (SCI) by protecting neuronal cells
+and promoting neural regeneration. , 
+Despite
+the considerable therapeutic potential of MSC-EVs, thein vivo distribution, metabolism, and targeting mechanisms
+remain incompletely understood, posing challenges to their clinical
+translation. Therefore, the development of advanced tracing techniques
+to elucidate their pharmacological properties and fate within cells
+and organisms is of paramount importance. This includes evaluating
+cellular uptake, biodistribution, pharmacokinetics, biodegradation, in vivo stability, and circulation. These techniques are
+essential for verifying therapeutic reliability (e.g., minimizing
+off-target effects), optimizing administration routes and dosages,
+and enhancing treatment safety. Furthermore, tracing methods facilitate
+studies on interactions between MSC-EVs and target cells, thereby
+deepening our understanding of their underlying mechanisms of action.
+In recent years, tracer strategies for EVs in vitro and in vivo have been extensively investigated,
+primarily categorized by imaging modalities such as fluorescence imaging
+(FLI), bioluminescence imaging (BLI), nuclear imaging, and tomography. − Labeling strategies for EV tracking are broadly categorized into
+direct labeling, involving the labeling of EVs postisolation with
+a suitable reagent, and indirect labeling, wherein parent cells are
+modified with exogenous agents that are subsequently incorporated
+into secreted EVs. Each of these strategies boasts unique advantages
+and disadvantages concerning biocompatibility, depth of penetration,
+spatial and temporal resolution, half-life time, and clearance rate. 
+To date, numerous articles have summarized
+the tracing techniques
+and imaging strategies for EVs. , , , However, a comprehensive and
+systematic review specifically focusing on MSC-EVs has yet to be compiled
+by researchers. Given the emerging role of MSC-EVs as a potent cell-free
+therapy, standing out among various types of EVs with the greatest
+potential for application, it is imperative to comprehensively summarize
+the tracing strategies and outcomes to facilitate their clinical translation.
+To this end, we systematically review the tracing strategies for MSC-EVs,
+categorizing them based on different biomedical imaging modalities
+( ). Initially,
+we summarize the real-time evaluation of the fluorescently labeled
+MSC-EVs targeting distinct components, such as lipids, proteins, and
+RNA. We then provide an overview of the research progress and prospects
+in BLI, nuclear imaging, tomography imaging, photoacoustic imaging
+(PAI), and multimodal imaging of MSC-EVs. Lastly, we discuss the current
+challenges and future directions for MSC-EV tracking, offering promising
+solutions to the hurdles faced in their clinical translation.
+ 
+2.
+
+## FLI
+FLI currently reigns as the predominant
+methodology employed for
+tracing EVs within the scientific community. − This tracing
+technique entails integrating fluorescent tags or nanomaterials, which
+emit fluorescence upon excitation, captured by specialized low-light
+cameras equipped with appropriate filters. In light of the biological functions exhibited by MSC-EVs and their
+immense therapeutic potential in various diseases, the simplicity
+and user-friendly nature of FLI (e.g., color and brightness adjustments)
+have facilitated its extensive adoption in MSC-EV studies. The efficacy
+of FLI primarily depends on the efficiency of fluorescent labeling
+strategies adopted. Thus, the review delineates the various labeling
+strategies employed in FLI of MSC-EVs, encompassing membrane lipid
+labeling, protein labeling, and RNA labeling approaches.
+2.1.
+
+## Membrane Lipid Labeling
+The commercialization
+and widespread utilization of lipophilic dyes have undoubtedly contributed
+to the ease and reliability of achieving FLI of MSC-EVs. , Consequently, studies pertaining to this subject have reached a
+certain level of maturity, establishing a standardized protocol for
+dye labeling and subsequent evaluation. Among the frequently utilized
+dyes, carbocyanine dyes, PKH dyes, and cyanine dyes stand out as the
+most prevalent choices.
+2.1.1.
+
+## Carbocyanine Dyes
+The suite of
+long-chain dialkyl carbocyanine dyes, including DiO (λex = 487 nm/λem = 502 nm; green), DiI (λex = 549 nm/λem = 565 nm; red), DiD (λex = 644 nm/ λem = 665 nm; NIR), and DiR (λex = 748 nm/λem = 780 nm; NIR), represents
+a class of dyes noted for the distinctive molecular structure and
+pronounced hydrophobicity. This inherent hydrophobic nature enables
+them to integrate into the membrane of MSC-EVs through noncovalent
+interactions effortlessly. In turn, diffusion achieves efficient FLI
+across the entire EV profile.
+2.1.1.1.
+
+## DiO
+Due to the limited imaging
+penetration of short-wavelength fluorescence, DiO green fluorescent
+dyes are commonly employed to evaluate the cellular uptake of MSC-EVs. , This is a critical step in assessing their efficacy or predicting
+underlying mechanisms. Typically, a coincubation period of approximately
+6 h is employed, during which DiO-labeled MSC-EVs are allowed to interact
+with the target cells. Following this incubation, phosphate-buffered
+saline (PBS) washing is performed. EV uptake is assessed by subjecting
+the cells to fixation in 4% paraformaldehyde, followed by fluorescence
+visualization subsequent to DAPI staining for 15 min. Furthermore,
+DiO-labeled imaging of superficial tissues can also be achieved. Lin
+et al. evaluated the ability of 3D-printed scaffolds in subcutaneous
+tissues to retain MSC-EVs by DiO labeling. In turn, enhanced demonstration of the efficacy of MSC-EVs bioink
+biology in regenerating cartilage defects was achieved.
+
+2.1.1.2.
+
+## DiI
+DiI, a widely investigated
+fluorescent dye, has been more extensively studied to assess cellular
+uptake capacity than DiO. − The established approach similar to DiO has, in turn, shaped the
+prevailing paradigm in MSC-EV research. Moreover, the red fluorescence
+emission characteristics of DiI dye have facilitated explorations
+into the behavior of MSC-EVs within isolated tissues. , Illustratively, Yang et al. harnessed DiI labeling on MSC-EVs in
+brain tissue sections, demonstrating that miR-124, specifically delivered
+to the injured region by RVG (rabies virus glycoprotein)-modified
+MSC-EVs, achieved notable localization. In contrast, mice injected with unmodified EVs displayed minimal
+DiI fluorescence in the core of the injured region, highlighting the
+efficacy of RVG in crossing the blood-brain barrier (BBB). Furthermore,
+robust fluorescent signals were observed exclusively within the ischemic
+region of mice administered RVG-EVs, with comparably weak signals
+observed in the normal brain. DiI is able to demonstrate the capability
+of MSC-EVs to target pathological areas in in vitro tissue studies. The investigation of in vivo distribution
+still necessitates the development of fluorescent probes with longer
+wavelengths.
+
+2.1.1.3.
+
+## DiD
+The progressive red shift
+in the fluorescence of carbocyanine dyes, attributable to elongation
+in the conjugated structure of the probe molecule, has facilitated
+the development of near-infrared (NIR) fluorescent probes, specifically
+DiD and DiR. DiD provides a visual approach for evaluating the influence
+of pretreatment procedures on the therapeutic efficacy of MSC-EVs.
+Abid et al. conducted an examination of MSC-EV biodistribution through
+different injection methods in myocardial injury, utilizing DiD imaging
+( A and B). They confirmed that intracardiac injection stands
+as the most efficacious means of MSC-EV delivery. Moreover, they successfully
+demonstrated the retention of MSC-EVs in lesioned areas through DiD
+labeling under diverse conditions, including hindlimb ischemia, radiation-induced
+hematopoietic damage in the spleen and bone marrow, and other pertinent
+scenarios. − Capitalizing on the deep tissue penetration capabilities,
+the in vivo imaging of MSC-EVs has been advanced.
+The different labeling methods for MSC-EVs lead to varying imaging
+outcomes. Within this context, the noteworthy work of Camussi et al.
+deserves attention. Their previous studies have demonstrated the ability
+of MSC-EVs to expedite recovery from acute kidney injury (AKI), prompting
+a subsequent investigation on EV biodistribution and renal localization
+in AKI models while concurrently assessing different labeling methods. − Two distinct labeling methods for MSC-EVs were employed: (i) LCD-EVs,
+generated from MSCs preincubated with DiD and subsequently collected
+from the cell supernatants, and (ii) DL-EVs, wherein EVs were directly
+labeled with DiD during ultracentrifugation for purification. Optical imaging revealed a specific accumulation
+of MSC-EVs in the kidneys of AKI mice, as depicted in C. Notably, the direct labeling
+approach exhibited a higher, brighter, and more persistent fluorescence
+signal, albeit accompanied by a relatively higher background signal
+( D). Deep learning
+approaches, including convolutional neural networks and autoencoders,
+for processing fluorescent images significantly improve the signal-to-noise
+ratio.
+ 
+2.1.1.4.
+
+## DiR
+DiR, another more penetrating
+NIR fluorophore, is the most widely used carbocyanine dye for in vivo tracing of MSC-EVs. − To assess the targeting ability of MSC-EVs in therapy, Ju et al.
+undertook an investigation into the migration of MSC-EVs into the
+ischemic brain and their potential protective effects against ischemic
+stroke. MSC-EVs were labeled with DiR
+dye followed by the removal of unlabeled EVs via ultracentrifugation.
+The labeled EVs were then intravenously administered to mice with
+induced ischemic stroke, with their migration monitored using NIR
+fluorescence imaging techniques. The results indicated a marked increase
+in fluorescence within the ischemic brain area, peaking 3 days postinjection
+( E). Interestingly,
+fluorescence accumulation was also noted in the liver. By day 14,
+enhanced signals were observable in the intestine, suggesting that
+MSC-EVs are predominantly excreted through hepatic pathways and ultimately
+expelled via the gastrointestinal tract. ( F and G).
+Similar to DiD, DiR has also
+been used in the assessment of the mode of administration of MSC-EVs.
+To elucidate the pharmacokinetics of DiR-labeled MSC-EVs, Collino
+et al. conducted an investigation employing three different injection
+methods: intravenous (IV), intratracheal (IT), and intranasal (IN). The researchers utilized FLI to monitor the
+distribution of MSC-EVs at 3 and 24 h postinjection. The findings
+unveiled a distinct organ-selective pattern upon local administration
+of MSC-EVs, thereby minimizing the off-target effects on nontarget
+organs. Significantly, MSC-EVs administered intranasally demonstrated
+the capacity to cross the BBB and the choroid plexus epithelium, accumulating
+within the brain. It is essential to acknowledge that the lower signal
+uptake observed in this group may be attributed to inherent challenges
+associated with nasal uptake, including factors such as limited intrinsic
+permeability (e.g., lipophilic-hydrophilic balance), rapid mucociliary
+clearance, and active enzymatic degradation. The conquest of these hurdles holds promise as an imperative approach
+in future therapeutic strategies targeting neurodegenerative diseases.
+Similar findings were corroborated through DiR labeling in murine
+models harboring 4T1 tumors. Intratumoral
+administration of drug-loaded MSC-EVs exhibited enhanced antitumor
+efficacy compared to the conventional intravenous injection route.
+
+2.1.2.
+
+## PKH Dyes
+PKH dyes have gained considerable
+popularity as a widely employed lipophilic dye in the field. Distinguishing
+them from carbocyanine dyes, which typically diffuse throughout the
+membrane, PKH dyes incorporate long aliphatic tails that embed the
+membrane of MSC-EVs. Consequently, the fluorophore becomes exposed
+on the outer surface of the lipid bilayer, enabling effective labeling
+mechanisms. Two PKH dyes have garnered
+substantial attention for their utility in research: PKH26, characterized
+by its red fluorescence (λex = 551 nm/λem = 567 nm), and PKH67, boasting green fluorescence (λex = 490 nm/λem = 502 nm).
+PKH26, a
+red fluorescent dye, has emerged as a tool for both in vitro labeling and long-term in vivo tracking of MSC-EVs,
+owing to the extended lifetime. − For instance, Tabata et al. used PKH26 to label EVs, simultaneously
+validating the cellular uptake in vitro and the efficacy
+in targeted drug delivery in vivo. A challenge encountered in the therapeutic use of MSC-EVs
+lies in the suboptimal tissue targeting in tissue damage, such as
+liver injury, attributable primarily to phagocytic and immunological
+functions of the macrophages. , To tackle this predicament,
+researchers have developed surface modifications of EVs by leveraging
+cationized pullulan polysaccharides, capable of targeting hepatocyte
+desialylate glycoprotein receptors. Consequently, the utilization
+of PKH26 labeling assumes significance in validating the effectiveness
+of the modifications. On the one hand, it facilitates the assessment
+of enhanced internalization of MSC-EVs by HepG2 cells. On the other
+hand, the in vivo tracing effect gauges the potential
+of EVs to selectively target liver-injured tissues, shedding light
+on their therapeutic efficacy. Hence, the straightforward yet powerful
+labeling strategy enables an evaluation of MSC-EVs, furnishing valuable
+insights for advancing and validating their engineered functionalities.
+Despite the growing acceptance of PKH dyes as prominent tools in
+MSC-EV tracing, challenges pertaining to their labeling mechanism
+persist as significant obstacles. An in-depth examination utilizing
+nanoparticle tracking analysis (NTA) has demonstrated that PKH labeling
+leads to a notable increase in EV size and significant alterations
+in zeta potential. These outcomes hold
+substantial implications for the cellular uptake, biodistribution,
+and pharmacokinetics of MSC-EVs, potentially compromising their intended
+biological effects. Consequently, it becomes imperative to address
+these concerns by devising suitable modifications to the structure
+of PKH dyes. For instance, incorporating negatively charged moieties,
+such as glutamate, into the two-armed cyanine scaffold, could optimize
+tailoring PKH-based probes to the intricate membrane architecture
+of MSC-EVs. 
+
+2.1.3.
+
+## Cyanine Dyes
+Cyanine dyes are fluorescent,
+rigid, and planar compounds, including Cy3 (λex =
+550 nm/λem = 570 nm), Cy5 (λex =
+649 nm/λem = 670 nm), and Cy7 (λex = 710 nm/λem = 767 nm). These dyes exhibit a unique structural composition, comprising a
+conjugated chain that is formed by an odd number of electron-deficient
+methane moieties, linking heterocycles at both termini, as well as
+aromatic rings and cyclic olefinic compounds, establishing an extensive
+π-conjugated system. This highly
+adjustable push–pull electronic configuration underpins their
+fluorescence emission, conferring a high molar extinction coefficient
+upon them. Consequently, the dyes offer
+immense potential for achieving heightened signal intensities and
+sensitivities in the context of tracer imaging of MSC-EVs.
+Given
+the excellent fluorescence of Cyanine dyes in the NIR region, tracing
+MSC-EVs in isolated organs and in vivo has shown
+promising applications. To demonstrate
+the role played by EVs derived from human placenta choriodecidual
+membrane-derived MSCs (PC-MSC-EVs) in combating obesity-induced sepsis,
+researchers conjugate the EVs with Cy7 mono NHS ester. Subsequently, by imaging the isolated organ
+to better eliminate background signals, the biodistribution was imaged,
+enabling an in-depth analysis that firmly validated their promise
+for therapeutic use. Similarly, Cy7 labeling was employed to investigate
+the interactions and mechanisms linking human umbilical cord-derived
+MSC-EVs (UC-MSC-EVs) with hepatic glucose/lipid metabolism and autophagy. Following the tail vein injection of Cy7-labeled
+and PBS-treated UC-MSC-EVs, an advanced in vivo imaging
+system (IVIS) was utilized for post-24-h analysis. The results unveiled
+a wide distribution throughout the body.
+Cy5.5 distinguishes
+itself from counterparts like Cy5 and Cy7 by
+incorporating benzoindole as its chromophore rather than indolenine.
+It incorporates an additional benzene ring into its molecular structure,
+facilitating a red-shift in absorption and emission peaks, broadening
+its fluorescence spectrum. This inherent
+property confers a significant advantage for tracing MSC-EVs, unlocking
+new possibilities for investigation. An illustrative example lies
+in the application of Cy5.5 N-hydroxysuccinimide
+(Cy5.5-NHS) monoester for the labeling of MSC-EVs, facilitating targeted
+tracing at wound sites. Notably, the
+results revealed a spatial confinement of the fluorescent signal,
+with Cy5.5 exclusively detected in the vicinity of the treated wounds.
+Even upon maximizing the radiation efficiency, no signal emanated
+from the healthy control areas. However, further investigations are
+imperative to comprehensively assess the acute and chronic toxicity,
+as well as the potential immunogenicity associated with Cy5.5 labeling.
+In addition, MSC-EVs hold promise for the treatment of osteoporosis
+(OP). However, the assessment and enhancement
+of the skeletal targeting ability remain a challenge. To tackle this
+obstacle, Liu et al. modified the Cy5.5 molecule with azide (N3) and the membrane surface of MSC-EVs with a commercially
+available jointed alkyne group (DBCO). Subsequently, these two components were coupled by the click chemistry,
+enabling the evaluation of the EVs’ skeletal targeting ability.
+This provides a new idea for the labeling of fluorescent dyes.
+While Cyanine dyes have proven valuable as tracing markers for
+MSC-EVs, their utility is compromised by several limitations. The
+primary concern is their low fluorescence quantum efficiency combined
+with a propensity for aggregation, leading to false positive signals
+reminiscent of EVs. Mitigating this challenge often necessitates additional
+purification steps, such as ultracentrifugation or size exclusion
+chromatography, to eliminate the aggregation products. However, it
+typically comes at the cost of reduced EV recovery. To tackle the issues, researchers have been developing
+modifications to enhance the hydrophilicity of the molecular framework
+of anthocyanine dyes. The development of analogous MemBright and Mem-family
+dyes has shown the potential to reduce aggregation and improve performance. , Another avenue worth exploring involves fluorescent probes based
+on lipid bilayer mimetic structures of amphiphilic molecular frameworks,
+such as COE, which can also be considered for the exploration and
+application of the functions of MSC-EVs. 
+
+2.1.4.
+
+## AIEgen
+The aforementioned issue
+of false-positive signals due to dye aggregates and micelles formation,
+a consequence of the highly hydrophobic nature of fluorescent dyes,
+has long posed challenges. However, a revolutionary breakthrough emerged
+in 2001 with the discovery of luminescent materials possessing aggregation-induced
+emission properties (AIEgen) by Tang et al. In stark contrast to conventional aggregation-caused quenching (ACQ)
+fluoresceins, AIEgens exhibit a distinct behavior: they remain nonemissive
+in the solution but turn highly emissive when aggregated, due to the
+restriction of molecular motions. , This endows
+AIEgens with the capability to minimize background noise during imaging
+while concurrently exhibiting brightness stability, resistance to
+photobleaching, and biocompatibility. − Amidst the urgent demand
+for mechanistic exploration and clinical translation of therapies
+concerning MSC-EVs, researchers are increasingly focusing on validating
+the reliability of this innovative tracer.
+The surface of EVs
+is a rich array of proteoglycans, sialic acids, and lipids, imparting
+an overall negative charge to their membrane structure. , Recognizing the significance of membrane modification, Wang et al.
+developed a lipophilic, positively charged AIEgen, DPA-SCP ( A), strategically
+tailored for enhancing human placenta-derived mesenchymal stem cell-derived
+EVs (hP-MSC-EVs) through precise imaging and tracking during Acute
+Liver Injury (ALI) and Liver Regeneration Therapy ( B). In the in vitro experiments, the researchers demonstrated
+the efficiency and tracking prowess of DPA-SCP, surpassing the performance
+of well-established commercially available EV dyes, PKH26, and DiI
+( C and D).
+In subsequent in vivo investigations using a mouse
+model of ALI, they observed that DPA-SCP achieved precise and quantitative
+tracking of EVs for 7 days without compromising the targeting efficiency
+toward the liver injury site ( E and F). Expanding their exploration horizon beyond
+labeling, the group applied the same AIEgen to establish real-time in vivo imaging of MSC-EVs in an acute kidney injury (AKI)
+model of ischemia-reperfusion (I/R). The results highlighted the specific accumulation of MSC-EVs within
+the injured kidney, predominantly taken up by the renal proximal tubular
+epithelial cells (TECs). The spatial and temporal resolution and tracking
+capabilities of DPA-SCP are superior to the conventional PKH26, setting
+the stage for further exploration of the associated pathway with interacting
+cells.
+ The AIEgens engrosses researchers with the promise
+of groundbreaking
+advancements. To maximize the potential of AIEgens for MSC-EVs tracking,
+smart designs are imperative. Strategically integrating specific and
+sensitive biomarker response units, for instance, can enhance imaging
+specificity and sensitivity at the target locations. Moreover, AIEgens possess programmability. Incorporating
+strong electron donor/acceptor chromophores into the molecular designs
+can result in enhanced extinction coefficients and extended emission
+wavelengths. The enhancement significantly
+improves tissue penetration and fluorescence intensity for imaging,
+presenting a promising direction for researchers.
+
+2.2.
+
+## Protein Labeling
+2.2.1.
+
+## Fluorescent Protein Labeling (GFP and RFP)
+Typically introduced into parental cells via transfection, fluorescent
+protein reporters are fused with the membrane proteins of EVs, acting
+as genetically encoded fluorophores. − In comparison with
+the dyes mentioned above, this approach ensures unhindered cellular
+secretion of EVs, facilitating labeling and continuous tracking of
+EVs in a more natural manner. Visiting the therapeutic potential of
+MSC-EVs, the spontaneous membrane protein labeling method through
+plasmid transfection can facilitate functional validation and real-time
+spatial and temporal monitoring during the entire therapeutic process.
+The MSC-EVs have demonstrated potential in enhancing neural regeneration
+and functional recovery in animal models of central nervous system
+(CNS) diseases and injuries. , However, the exploration
+of the mechanisms pauses at immune regulatory signaling molecules,
+with the direct or indirect modes of interaction requiring further
+investigation. To this end, Chopp et
+al. sought to monitor the behavior of MSC-EVs during treatment in
+models of inflammatory demyelination and toxic demyelination. They transfected CD63-GFP plasmids into MSCs
+through electroporation. They first transfected CD63-GFP plasmids
+into MSCs by electroporation. Subsequently, the isolated CD63-GFP-carrying
+MSC-EVs were injected into mice via the tail vein. The green signal
+within the CNS affirmed the traversing prowess of MSC-EVs through
+the BBB, finding internalization within the parenchymal cells. Furthermore,
+the colocalization results from double immunofluorescence staining
+showcased the direct targeting of MSC-EVs with oligodendrocyte precursor
+cells, shedding light on potential therapeutic avenues for other neurological
+injury diseases. For example, in cell-free therapy for SCI, a developmental
+engineering strategy was employed to create a bionic spinal repair
+device, named “Spinor,″ based on pulp-derived MSCs (DPMSCs). It mimics the geometric structure of spinal
+tissues and autonomously releases EVs to induce in situ neuroplasticity
+within the spinal cord, facilitating the process of injury repair.
+Employing a stable transfection strategy akin to the above-mentioned
+method, they traced EVs through confocal laser scanning microscopy
+(CLSM). The Spinor group radiated with significantly enhanced green
+EV signals while maintaining similar cytoskeleton expression, surpassing
+the DPMSCs control group ( A). This indirect labeling approach circumvents interference
+with MSC-EVs biogenesis, proffering a reliable solution for assessing
+metrics necessary for the clinical translation of MSC-EVs.
+ Similar to GFP, RFP serves as another fluorescent
+protein reporter
+molecule, facilitating the tracking of MSC-EVs. , Leveraging multichannel fluorescence enables a more comprehensive
+understanding of mechanical probes, such as investigating the mode
+of injection and the paracrine mechanisms of MSCs during cellular
+therapeutic procedures. The labeling
+process for RFP involves genetic modifications through lentiviral
+transduction ( B). The red fluorescent signal specifically binds to the CD63 protein
+on the surface of MSC-EVs, allowing for straightforward visualization
+under optical microscopy. Researchers used different delivery methods,
+such as intramyocardial (IM) injection and intrapericardial cavity
+(IPC) injection, to administer hydrogels containing MSCs. Notably,
+the results revealed that IPC injection extends the paracrine range
+of EVs ( C and
+D), enhancing cardiac repair by exerting more beneficial effects on
+cardiac cells following myocardial infarction. The colocalization
+imaging with EVs-specific proteins further provides new evidence for
+their identification ( E).
+Furthermore, in the growing demand for in
+vivo imaging, the development and application of NIR fluorescent
+proteins
+(e.g., NIR FAP and Janelia fluorogens) hold significant value in this
+field. Specifically, the development
+of corresponding far-red fluorescent proteins with enhanced emission
+penetration has proven instrumental in investigating the communication
+and transport mechanisms of MSC-EVs within the extracellular matrix
+(ECM). In this context, the Katushka2S (K2S) sequence, a far-red fluorescent
+protein, was integrated into a lentiviral construct containing CD63. Following transfection into MSCs, the transport
+dynamics of MSC-EVs were visualized using multiphoton second-harmonic
+imaging. Notably, the excitation and emission spectra of this far-infrared
+probe exhibit minimal overlap with common green and red fluorescent
+probes, ideally suited for multiple fluorescence staining experiments.
+Moreover, it facilitates noninvasive in vivo imaging
+of MSC-EVs within deep tissues and throughout the body, potentially
+accelerating the clinical translation. 
+While fluorescent protein reporters offer a natural tracking
+method
+for MSC-EVs, they possess limitations, such as a tendency to oligomerize,
+reliance on molecular oxygen, and delayed expression of fluorescent
+motifs. Designs incorporating anaerobic
+fluorescent proteins, including FbFPs and UnaGs, can circumvent these
+dependencies, making them more suitable for MSC-EVs tracking. , Given extensive applications of MSC-EVs in tissue damage repair,
+it would be ingenious to exploit the limitations to enable simultaneous
+monitoring of damage conditions. For instance, engineering the protein
+reporter through circular rearrangement or segmentation allows for
+concurrent sensing of pH, oxygen content, calcium ion concentration,
+apoptosis, or protein interactions in the microenvironment, which
+could greatly benefit the further monitoring of the therapeutic process
+of MSC-EVs. 
+
+2.2.2.
+
+## Internal Protein Labeling
+The therapeutic
+potential of MSC-EVs is attributed to the ability to transfer internal
+proteins, nucleic acids, and other biomolecules to recipient cells,
+inducing new behaviors through cell-to-cell communication. Therefore, it becomes crucial to label the
+internal proteins not only to achieve a high abundance signal of the
+EV tracking but also for the simultaneous monitoring of protein-dependent
+communication. To address this need, researchers have developed Exo-Green
+stains for tracking internal proteins in MSC-EVs. − Leveraging the membrane permeability of carboxyfluorescein succinimidyl
+diacetate ester (CFSE), which undergoes hydrolysis by corresponding
+esterases to remove the diacetate moiety upon entering EV membranes,
+Exo-Green allows access to amino terminals of the proteins. Consequently,
+CFSE emits green fluorescence, enabling the simultaneous monitoring
+of protein behavior and EVs. However, this esterase-responsive labeling
+mechanism presents certain limitations and is prone to producing false-positive
+signals in samples.
+
+2.3.
+
+## RNA Labeling
+As essential transporters
+within MSC-EVs, RNAs offer potential as tracers. Oligonucleotides,
+including miRNAs and siRNAs, have been extensively investigated for
+their role in MSC-EVs communication. Their involvement in gene expression
+regulation, RNA interference, and gene silencing processes in target
+cells bestows them with significant biological functions. − To establish the functional profile of EVs, it is imperative to
+trace and label the RNAs, akin to the protein labeling discussed earlier.
+RNA labeling of MSC-EVs is commonly achieved using the Exo-Red
+dye, which possesses an acridine orange framework with high cell permeability. − Through intercalation and electrostatic attraction, respectively,
+it can interact with DNA and RNA, leading to distinct fluorescence
+signals at different excitation and emission wavelengths (DNA: λex = 502 nm/λem = 525 nm; RNA: λex = 460 nm/λem = 650 nm). Employing the typical
+RFP filter set can achieve the effective RNA-mediated tracing of MSC-EVs.
+The endocytic labeling approach exhibits a low off-target rate, making
+it an ideal method to investigate the uptake capability of MSC-EVs
+by recipient cells and assess the associated functions. 
+Another investigation of RNA labeling
+in MSC-EVs is the cyc3 dye,
+which allows for internalized RNA labeling with cyc3-labeled pre-miRNA
+control oligos (cyc3-oligo) that are transfected into MSCs. The pre-miRNAs in this context refer to the
+unsheared and unmatured miRNAs, which are the precursors of miRNAs. To achieve this, cyc3 is covalently linked
+to oligonucleotides through NHS ester chemistry. In a study exploring
+the mechanism of miRNA delivery using engineered MSCs (miR-let7c-MSCs)
+for kidney injury treatment, researchers transfected the cyc3 dye
+into MSCs. Following a 72-h coculture with NRK52E cells (mature rat
+renal tubular epithelial cells), immunofluorescence micrographs revealed
+significant cyc3 staining in the cytoplasm of the target cells. In
+contrast, NRK52E cells treated with the EVs inhibitor GW4869 exhibited
+an absence of fluorescence, indicating that miRNAs from MSCs can enter
+renal epithelial cells through EVs-mediated intercellular delivery.
+Moreover, this study provides evidence supporting the antifibrotic
+effect of miR-let7c in MSC-EVs on NRK52E cells, further validating
+the therapeutic potential of miRNA delivery via MSC-EVs.
+The
+RNA labeling methods mentioned above exhibit high labeling
+efficiency for MSC-EVs, and the imaging operations are easily implementable.
+However, direct RNA labeling strategies might interfere with the intrinsic
+communication pattern of MSC-EVs. To address this concern and enable
+real-time monitoring, developing metabolic labeling-based RNA tracer
+strategies holds promise. It involves
+converting modified nucleotides into nucleoside triphosphates (NTPs)
+and incorporating them into different types of RNA during transcription
+or catalyzing the process using adenosine phosphorothioate sulfate
+(PAPS). It allows for fluorescent labeling via click chemistry. Nonetheless, further exploration is needed
+to ensure the specificity. Moreover, there is potential for its use
+in conjunction with Next-Generation Sequencing (NGS) to study transcription
+kinetics and potential modification kinetics of MSCs, thereby facilitating
+the in-depth exploration of the mechanisms associated with MSC-EVs.
+
+2.4.
+
+## Internal Labeling
+In addition to
+the labeling of MSC-EV-specific structures, internal labeling by fluorescent
+organic dyes or materials has been widely investigated. Calcein-AM
+is a commonly used internal tracer dye for MSC-EVs. − Similar to CFSE, Calcein-AM is hydrolyzed by intracellular esterases,
+removing the acetoxymethyl group (-AM) and converting it into fluorescently
+active green Calcein. However, Calcein-AM does not label intracellular
+proteins, resulting in a more uniform fluorescence signal and improved
+tracing sensitivity. Despite these benefits, the stability of Calcein-AM
+labeling remains a significant challenge, limiting its application
+to short-term imaging studies. Additionally, organic photosensitizers
+such as verteporfin (VER) have also been studied for tracing and synergistic
+treatment with MSC-EVs. Researchers
+have developed a classical indirect labeling method to overcome the
+limitations of traditional dyes related to stability and quantification,
+demonstrating effective uptake by BMSCs and targeted accumulation
+in inflamed lung regions both in vitro and in vivo. The fluorescent properties of nanomaterials, such
+as metal nanoclusters and quantum dots, also facilitate MSC-EV tracking. , Although numerous nanomaterials have been reported to hybridize
+with MSC-EVs, their potential for fluorescence tracing remains largely
+unexplored, representing a promising
+direction for future research.
+
+3.
+
+## BLI
+Given the significant therapeutic
+efficacy exhibited by MSC-EVs
+within biological tissues, the quest for tracers boasting high signal-to-noise
+ratios has emerged as a key research focus. Although GFP expression
+tracing without the need for excitation light has partially fulfilled
+this objective, its low sensitivity and propensity for intracellular
+accumulation limit its suitability for real-time monitoring. , Consequently, researchers have increasingly focused on BLI. Analogous
+to GFP, BLI circumvents the requirement for excitation light, relying
+instead on luciferases, such as Gaussia princeps luciferase (Gluc),
+firefly luciferase (Fluc), and Renilla luciferase (Rluc), in conjunction
+with the corresponding substrates (e.g., coelenterazine, CTZ) that
+react with ATP and Mg2+ or oxygen alone, resulting in the
+emission of luminescent signals through the luciferase-substrate reaction. − Typically, the protein reporter gene encoding the detection signal
+is transduced into MSCs, enabling protein expression within EVs or
+on cellular membranes, thereby facilitating the tracking of MSC-EVs
+with high sensitivity and optimal signal-to-noise ratio.
+Ahn
+et al. employed Rluc as a luciferase to develop the first BLI
+strategy for MSC-EVs. They commenced
+with the stable transduction of the Rluc gene into murine bone marrow-derived
+MSCs by lentiviral particles engineered for Rluc expression. Following
+culture, EVs were isolated, thereby yielding MSC-EVs/Rluc, which were
+subsequently injected intratumorally for visualization within a mouse
+model of lung cancer (LLC-efffuc). The optical signal also enabled
+the simultaneous monitoring of tumors and the assessment of therapeutic
+efficacy. The results marked reductions in LLC-effuc activity, tumor
+weight, and in vitro effluc activity in the MSC-EVs/Rluc
+treated group ( A-E), establishing an ideal system for visualizing both therapeutics
+and targets within the same model. Building upon this, Li et al. expanded
+the repertoire of luciferases employed for MSC-EV tracing by incorporating
+Gluc. In addition, they integrated lactadherin,
+an EV-associated membrane protein, into the labeling system to optimize
+the anchoring of Gluc to the EV membrane, as demonstrated in F. The results indicated
+the improved labeling efficiency exhibited by the fusion protein GlucDlactadherin
+(GlucD) ( G
+and H). More notably, they concurrently achieved the visualization
+of tissue damage treatment by BLI. They engineered the expression
+of Fluc downstream of the vascular endothelial growth factor receptor
+2 (VEGFR2) promoter, thereby integrating angiogenic responses with
+the tracing of MSC-EVs into a cohesive work.
+ Despite BLI has contributed to the specific and
+reliable in in vivo imaging of MSC-EVs in murine
+models, the transition
+to clinical practice remains limited. This is primarily attributed
+to the challenges in the inadequate signal intensity and tissue penetration
+capabilities. , Moreover, the requirement for
+repeated CTZ injections complicates experimental protocols. Compounded
+by the exceedingly short half-life (up to 5 min), the limitations
+restrict the possibility of long-term real-time imaging. Each imaging
+session necessitates prior injections, underscoring the need for rapid
+and accurate imaging systems. A notable
+example is the work of Klose and Paragas, who devised a body-friendly
+animal shuttle alongside a statistical mouse atlas integrated with
+multispectral BL tomography. It enables
+the expeditious quantification of distributed bioluminescent reporter
+genes within living organisms automatically. Moreover, ensuring efficient
+and interference-free gene transduction also remains a challenge within
+the field. Incorporating bioluminescent nanoparticles or CRISPR/Cas
+knock-in methodologies may offer promising solutions. − 
+
+4.
+
+## Nuclear Imaging
+Nuclear imaging, a
+ubiquitous noninvasive technique in clinical
+diagnostics, is celebrated for its high sensitivity and tissue-penetrating
+capabilities, rendering it indispensable. For the tracing of MSC-EVs,
+radioisotopic labeling via coincubation is commonly employed. Subsequently,
+specialized imaging apparatus, such as gamma cameras or PET/CT systems,
+are used to detect radiation signals from the isotopic decay. These
+systems generate detailed three-dimensional images through single
+photon emission computed tomography (SPECT) or positron emission tomography
+(PET). Distinctive dissimilarities between
+the two lie in the selection of radioisotopes and the methods for
+signal detection and conversion into 3D images. For a detailed explanation
+of these principles, along with an analysis of their merits and demerits,
+refer to .
+Additionally, tomographic imaging modalities like computed tomography
+(CT) and magnetic resonance imaging (MRI) are frequently integrated
+with nuclear imaging to enhance understanding of the metabolic profiles
+and biodistribution patterns of MSC-EVs, thus providing a more thorough
+assessment of their clinical implications.
+ 4.1.
+
+## PET
+In MSC-EVs, the employment of
+radionuclide labels unveils an opportunity for PET tracing, wherein
+detecting γ rays indirectly emitted from the radioactive carrier.
+Positrons travel in an energy-dependent trajectory spanning submillimeters
+to a few millimeters before the annihilation by electrons. This process
+generates a pair of γ rays, each with an energy of 511 keV,
+emanating in opposite directions simultaneously. Through a ring detector,
+these γ rays can be captured and accurately mapped at a 180°
+angle, thus achieving coincident detection ( A). − The advantages conferred by
+PET, including its heightened geometric efficiency (a ratio of detected
+to emitted γ rays), refined temporal resolution, and reduced
+concentration of radiotracer requirements, have propelled its clinical
+prevalence, exceeding the practicalities of SPECT. , 
+To enhance the spatial localization of EVs, the integration
+of PET with CT imaging technique, known as PET/CT, is commonly employed.
+In a pioneering study, Hernandez et al. utilized Zr-89 (t1/2 = 78.4 h), a highly efficient and stable radionuclide,
+for labeling MSC-EVs and subsequently tracking them in vivo using PET imaging modality. The labeling
+process involved the conjugation of desferrioxamine, acting as a chelator,
+to BMSC-EVs via isothiocyanate chemistry, followed by isotopic labeling
+with Zr-89 ( A). This membrane-based labeling approach had minimal impact on EV
+size ( B). The
+stability of labeled EVs was preserved at a rate of approximately
+85% even after 72 h in mouse serum ( C). To evaluate the biodistribution and targeting
+efficacy of BMSC-EVs, the researchers established immunodeficiency
+and melanoma mouse models in NSG mice, utilizing PET imaging and Volume-of-Interest
+(VOI) analysis. The outcomes revealed a significant increase in splenic
+uptake of BMSC-EVs, comparable to that observed with human monoclonal
+antibodies ( D-F). Following intravenous administration,
+the tumor uptake efficiency of BMSC-EVs also exhibited an increase,
+which is closely related to the glycosylation of the EV surface. Therefore,
+the impact of the labeling method on the biological characteristics
+of EVs warrants further investigation. , Intriguingly,
+such imaging results suggest the potential of BMSC-EVs as therapeutic
+vectors in both diseases, setting the stage for defining the targeting
+behavior of other MSC-EVs to optimize their therapeutic deployment.
+For instance, an in-depth analysis of different administration routes
+for Umbilical Cord MSC-derived EVs (UC-MSC-EVs) in treating diabetes
+has been undertaken. − Previous investigations have indicated the
+efficacy of intra-arterial injection (I.A.) in precisely targeting
+the pancreas. However, concerns have been raised regarding the potential
+risks of occlusion or embolism. On the other hand, the less invasive
+intravenous (I.V.) administration route presents the challenge of
+off-target effects, whereby uptake in organs such as the spleen and
+lungs may occur. , 
+ To address this issue, Kandeel et al. undertook
+the radioiodination
+of human UC-MSC-EVs using the direct IODOGEN method, employing the
+radioisotope 124I–NaI. With the extended half-life of up to 4.18 days, [124I]
+is among the optimal radionuclides for evaluating therapeutic efficacy
+and targeting. In vivo PET-CT imaging and ex vivo biodistribution analysis demonstrated that the pancreatic
+uptake levels (%ID/gram) of both administration methods were comparable
+(0.20 ± 0.06 for I.V. and 0.24 ± 0.03 for I.A.) ( G and H). Notably,
+the I.V. route exhibited higher spleen uptake, thereby presenting
+potential implications for expanding the immunomodulatory applications
+of UC-MSC-EVs. Nonetheless, the challenge lies in the low stability
+of the carbon–iodine bond in [124I], potentially
+leading to the accumulation of radioactive deiodination in the thyroid
+and stomach, thus introducing signal interference. Hence, exploring
+more robust and dependable labeling techniques remains an ongoing
+pursuit, demanding groundbreaking advancements in probe research.
+PET tracking of MSC-EVs, utilizing straightforward modification
+techniques, enables whole-body imaging and precise quantification
+of signals. Complementary CT imaging provides a reliable technological
+upgrade for further exploring the biodistribution and metabolic pathways,
+propelling its potential for clinical translation. Nonetheless, the
+necessity for complex and costly cyclotrons, while the rapid decay
+of radionuclides poses limitations. To ensure optimal imaging outcomes,
+the timely transportation of radiotracers from production to imaging
+sites becomes imperative, necessitating collaborative efforts from
+instrumentation and radiological sciences experts.
+
+4.2.
+
+## SPECT
+In contrast to PET, SPECT utilizes
+a collimator to detect the decay of gamma photons emitted by a radioisotope. , This process involves the detection of γ radiation from multiple
+gamma cameras positioned at various specific angles (known as views),
+subsequently amplifying the signal and reconstructing the image ( B). It is worth noting that the gamma photons emitted by the
+particular nuclides possess specific energy levels. For instance, 99mTc (t1/2 = 6 h), the most frequently
+employed radioisotope in nuclear medicine, emits gamma photons at
+an energy value of 140 keV. , As previously mentioned,
+despite the notable advantages of PET in terms of performance, when
+combined for assessing clinical translational capabilities, SPECT
+offers cost-effective radiographic contrast and gamma scanning equipment
+compared to PET. Moreover, SPECT enables the utilization of radionuclides
+emitting γ rays with varying energy levels, enabling multiradionuclide
+imaging. Additionally, SPECT radiographic agents generally exhibit
+longer decay times in comparison to PET agents, which aligns with
+the requirement for a prolonged window for tracking MSC-EVs.
+A strategy for labeling EVs in SPECT imaging was initially introduced
+in 2015, as reported by Zhang et al. The researchers successfully radiolabeled B16-BL6 sEVs containing
+streptavidin using biotin-conjugated 125I, specifically
+[125I]I-IBB. Unfortunately, this is not a straightforward
+method of labeling. Despite attempts to enhance the labeling methods
+for 111In and 64Cu by incorporating diethylenetriaminepentaacetic
+acid (DTPA) and PEGylation, respectively, the current techniques still
+struggle to fully meet the requirements for clinical translation of
+MSC-EVs. , To address the issues encountered
+during the labeling process, Liu et al. proposed an alternative strategy
+by a 111In-Oxine-based method for MSC-EVs labeling (t1/2 = 2.8 d). The
+commercial availability of 111In-Oxine proves to be advantageous
+for clinical applications. − It possesses lipophilic properties, allowing
+it to traverse the phospholipid bilayer of EVs. Subsequently, 111In is released from the oxyquinoline complex and decays
+to 111Cd via isomeric transition and electron capture,
+thereby emitting γ photons to facilitate SPECT/CT imaging. Notably,
+they compared the injection of 111In-MSC-EVs with 111In-Oxine as a control ( A and B). Quantitative analyses of the percentage
+of injected dose per cubic centimeter (%ID/cc) were performed on the
+volume of interests (VOIs) obtained from various organs at 1 and 3
+h postinjection. Results demonstrated differential accumulation of 111In-MSC-EVs, with higher levels of uptake in the liver and
+spleen and lower levels in the lung, kidney, and heart ( C and D). This pattern diverged
+markedly from the results obtained in the 111In-Oxine group,
+indicating minimal off-target effects associated with this specific
+labeling approach.
+ Building upon the labeling strategy mentioned above,
+Stice et al.
+conducted an in-depth investigation on the biodistribution and metabolism
+of MSC-EVs in a mouse model subjected to thromboembolic (TE) stroke. The study demonstrated a preferential accumulation
+of EVs in the penumbra region surrounding the injury site, followed
+by significant clearance from the infarct region within 24 h. Nevertheless,
+traces of EVs remained detectable in other organs ( E). These results lay the groundwork
+for optimizing the dosage, injection frequency, and interval between
+MSC-EV administrations within corresponding treatment protocols. Furthermore,
+they provide valuable insights for subsequent analyses, including
+neurological deficit scoring (NDS) and adhesive tape testing (ATT).
+The 111In-Oxine-based labeling approach has been validated
+for its high stability and has also demonstrated the value of MSC-EVs
+in disease models. However, the labeling efficiency of this strategy
+remains limited to just 5%. An urgent need is to develop more efficient
+labeling methods while ensuring rapidity and simplicity. In addition,
+SPECT imaging labeling based on other metal isotopes should also gain
+further practice in MSC-EVs. Given the wide range of applications
+of MSC-EVs, the physical properties of a specific radioactive metal
+should match the biokinetics of disease-specific target molecules. For instance, a high degree of labeling stability
+is essential for oncological targeting, whereas perfusion studies
+may benefit from more dynamic, adaptable labeling properties for the
+observation of the flow and diffusion of drugs or substances. Achieving
+this balance necessitates further research into chemical coordination
+and structural optimization.
+PET and SPECT rely on the radiolabeling
+of MSC-EVs, a process encompassing
+two distinct strategies: surface radiolabeling and intraluminal radiolabeling.
+Undeniably, the investigations mentioned above have yielded substantial
+advancements in follow-up imaging applied to MSC-EVs. Moreover, the
+integration of anatomical imaging modalities like CT and magnetic
+resonance imaging (MRI) has conferred the advantage of precise localization
+of MSC-EVs within deeper tissues. However, several challenges persist.
+The inherent instability of MSC-EVs often introduces confounding signals,
+disrupting the accurate interpretation of results. The rapid clearance and lysis of the EVs may lead to nonspecific
+binding of the radiolabeled marker to proteins, vesicles, and other
+lytic byproducts, thereby generating hot spots beyond EVs. Furthermore,
+instability in radiolabeling during serum verification introduces
+complexities. In instant thin-layer chromatography (ITLC), unstable
+radionuclides tend to migrate, while stably labeled EVs remain at
+the origin (Rf = 0). Proteins tend to precipitate in the
+presence of organic solvents, and radioactive signals chelated with
+serum proteins and other impurities do not migrate either, making
+it challenging to discern whether the radioactivity is associated
+with EVs or serum proteins. Addressing the concerns necessitates further
+strategy refinement, including the direct membrane coupling of bifunctional
+radionuclide complexes and intraluminal labeling using ion carriers
+like oxine.
+
+5.
+
+## Tomographic Imaging
+Tomographic scanning
+represents a technique for the efficient and
+noninvasive imaging of EVs, boasting potential for clinical translation.
+This modality is well-suited for longitudinal imaging of targets.
+To perform tomographic scans, EVs must be labeled with nanoparticles
+as tracers. Commonly employed tomographic imaging devices include
+CT and MRI.
+5.1.
+
+## CT
+In clinical medicine, CT imaging
+has emerged as a cost-effective and efficient technique, primarily
+due to its high temporal and spatial resolution. − Based on the Beer–Lambert Law, this imaging technique utilizes
+X-ray attenuation coefficient imaging, where the Radon transform is
+used to reconstruct 3D images to diagnose relevant diseases. − The advent of nanotechnology has heightened interest in the X-ray
+attenuation properties of nanoparticles, , leading to a proliferation of studies integrating these particles
+with target cells for CT-based tracing. − , Consequently, utilizing similar strategies for tracing MSC-EVs appears
+highly feasible and has already been successfully validated. It is
+noteworthy that the group led by Rachela Popovtzer has made a significant
+contribution in this area, and their findings are expected to facilitate
+the clinical translation of related research.
+The unique ability
+of EVs to traverse the BBB positions them as promising candidates
+for cell-free therapies targeting brain disorders. − MSC-EVs, in particular, demonstrate parallel therapeutic efficacy
+to MSC-based treatments while avoiding the risks associated with MSC
+transplantation. , Nonetheless, further elucidation
+of their biodistribution and pharmacokinetics through tracer markers
+could advance their therapeutic use. While
+fluorescence and optical imaging modalities have limitations in imaging
+and tracer EVs within deep brain structures, CT tracing strategies
+have been developed using gold nanoparticles (GNP) as contrast agents
+for in vivo CT imaging and cell tracking. , Direct labeling of MSC-EVs with GNP for in vivo neuroimaging and tracing has also shown great potential, overcoming
+the inefficiency of indirect labeling methods based on mother cell
+culture and difficulties posed by the size of EVs and the skull barriers. , Researchers have developed an energy-dependent active labeling mechanism
+for EVs mediated by the glucose transporter GLUT-1 and endocytosis
+proteins, wrapping GNPs with a glucose coating ( A). As shown in B, CT imaging clearly revealed the accumulation
+of MSC-EVs in stroke-affected regions of the brain, with distinct
+contrast observed against nonaffected regions within 24 h of intranasal
+administration. This GNP-based labeling method represents the first
+universal CT detection platform for MSC-EV tracking, advancing the
+study and application of MSC-EV-based therapies for various brain
+disorders.
+ Therefore, further research has focused on elucidating
+the specific
+migration and homing mechanisms of EVs in various brain disorders,
+including neurovascular (such as ischemic stroke), neurodegenerative
+(including Parkinson’s and Alzheimer’s), and neuropsychiatric
+(such as autism) diseases. Using the
+previously mentioned platform, researchers have discovered that MSC-EVs
+exhibit 96-h specific accumulation in pathological brain regions of
+murine models. In contrast, they show diffuse migration in healthy
+controls and are cleared within 24 h. This selectivity is attributed
+to the neuroinflammatory signals associated with these diseases, which
+correlate highly with the homing accumulation of MSC-EVs. − Notably, MSC-EVs bypassed glial cells and were selectively internalized
+by neurons in the affected regions, highlighting the potential of
+this approach for diagnosing brain disorders. Previous studies have
+shown that MSC-EVs can reduce neuroinflammation and promote neurogenesis
+and angiogenesis in models of epilepsy. They can also break down spatial learning deficits and improve functional
+recovery in models of traumatic brain injury. With the aid of this tracer platform, it may be possible
+to monitor treatments, substantially advancing the path toward clinical
+translation.
+Interestingly, their subsequent research focused
+on the treatment
+of SCI, a debilitating condition that
+poses a hurdle to successful treatment. − In the postinjury microenvironment, SCI is characterized by limited
+axonal regrowth and a diminished capacity for intrinsic neuronal regeneration.
+This deficiency is primarily attributed to the expression of phosphatase
+and tensin homologue (PTEN) in neurons and regenerating axons, which
+inhibits mammalian target of rapamycin (mTOR) activity, thereby restricting
+axonal growth. − To address this issue, the intranasal administration of PTEN-siRNA-loaded
+MSC-EVs has been demonstrated to be a rapid, cell-free, lesion-specific,
+and effective therapeutic strategy for SCI. Employing GNP-based labeling
+method, researchers utilized microcomputed tomography (micro-CT) and
+inductively coupled plasma (ICP) detection to demonstrate the selective
+accumulation of MSC-EVs in injured spinal cord regions for over 24
+h, a pattern distinct from the diffuse accumulation observed in the
+brains of healthy mice. In addition, flame atomic absorption spectroscopy
+(FAAS) was employed to quantify GNP levels in major organs (i.e.,
+liver, lungs, heart, kidneys, and spleen) within 24-h postadministration.
+The results revealed elevated GNP concentrations in the liver and
+kidneys of healthy rats compared to those in the SCI group, suggesting
+that the reticuloendothelial system facilitates more rapid excretion
+of MSC-EVs in healthy rats than in injured counterparts. Beyond serving
+as contrast agents for EV tracing, GNPs provide critical information
+for monitoring SCI treatment. Thus, elucidating the inorganic information
+and correlating it with other biological changes will undoubtedly
+facilitate the development of EV-mediated cell-free therapies.
+Further expanding the application of MSC-EVs in the treatment of
+neurological diseases remains a focus of future research. Among these
+challenges, head and neck tumors present substantial obstacles, as
+the cranial barrier exacerbates the limitations of optical imaging
+that are not easily quantifiable. Additionally,
+the high metabolic rate of tumors decreases the resolution of nuclear
+imaging. Hence, the use of CT imaging
+is becoming more pronounced. MSC-EVs can potentially be a promising
+carrier for treating head and neck squamous cell carcinoma (HNSCC).
+The tumor-targeting properties of MSC-EVs were confirmed through CT
+imaging validation. In A431 tumor-bearing
+mice, MSC-EVs and A431 squamous carcinoma cell-derived EVs (A431-EVs)
+were longitudinally and quantitatively tracked ( C). As shown in D, the in vitro analysis
+and CT imaging over 48 h exhibited a higher tumor-homing effect of
+MSC-EVs. Furthermore, MSC-EVs could penetrate and disperse within
+the tumor, while free GNPs localized primarily around the tumor periphery
+( E). This study
+marks the first direct evaluation of the therapeutic potential of
+EVs from distinct sources as candidate carriers, emphasizing tumor-targeting
+and penetration capabilities. It pioneers the use of CT-based assessments
+for evaluating EV efficacy in tumor models. Furthermore, it was found
+that A431-EVs exhibited a greater GNP loading capacity, suggesting
+that GNP loading efficiency should be considered as an evaluation
+criterion in future research.
+The “Golden” EVs
+have been shown to have substantial
+benefits in numerous studies, including investigations of brain disease
+mechanisms, therapeutic monitoring, and CT imaging of MSC-EVs with
+excellent resolution and penetration capabilities. However, as with
+any technique, some limitations need to be addressed. One such drawback
+of direct labeling of GNPs loaded in EVs is that they can be freely
+released during circulation, resulting in inaccurate readings of EV
+trajectories. Consequently, the development of more reliable labeling
+materials and modification strategies is essential to mitigate these
+challenges. Additionally, the inherent issue of ionizing radiation
+associated with CT imaging necessitates the development of effective
+solutions to enhance safety.
+
+5.2.
+
+## MRI
+MRI is among the most widely
+utilized imaging modalities in clinical practice. Compared to CT,
+MRI offers superior spatial resolution and superior soft tissue contrast,
+particularly for deep anatomical structures. − Furthermore, the absence of ionizing radiation makes MRI a better
+option for safety. Given the significant involvement of MSC-EVs in
+the paracrine signaling mechanisms of MSCs, elucidating the biodistribution
+and tracking assumes crucial significance in understanding tissue
+repair and other related biological processes. − Consequently, the utilization of MRI, with its unique merits, has
+garnered considerable attention for investigating the tracing of MSC-EVs.
+MRI tracing of MSC-EVs is commonly achieved by utilizing superparamagnetic
+iron oxide nanoparticles (USPIO) as a contrast agent, with iron content
+measurement serving as a means to validate labeling efficiency. The most straightforward method involves the
+electroporation of USPIO into EVs for labeling. Despite achieving
+high labeling efficiency, the electrical pulses can transiently disrupt
+the membranes, potentially altering the composition of the membrane
+and internal cargo, which could compromise their functional integrity. To address this concern, a more common strategy
+involves labeling MSCs with USPIO and subsequently isolating the labeled
+EVs from these cells after cultivation. It originated from research
+aimed at investigating nonspecific MRI signals in cell transplantation.
+Silva et al. were the first to coincubate USPIO with MSCs, leveraging
+the internalization mechanisms of the cells for labeling, followed
+by the induction of starvation stress. Notably, they discovered that EVs released by the labeled cells
+carried the MRI signal and were subsequently internalized by naïve
+cells, thus illuminating the paracrine mechanisms of MSCs. In a subsequent
+study utilizing a similar coincubation strategy, researchers investigated
+ASCs. They observed that labeling was
+dose- and time-dependent, as assessed by metrics including cell viability,
+labeling efficiency, iron content, and MRI contrast. It is worth noting
+that the isolated EVs exhibited discernible MRI signals. For in vivo validation, MSC-EVs were injected intramuscularly into
+mice, while a control group received an equivalent USPIO dosage. The
+comparative analysis demonstrated similar MRI signals between the
+two groups, thereby confirming the high sensitivity of MRI in tracking
+( A-F). Considering
+the extensive range of MSC-EVs’ applicability, forthcoming
+investigations should explore additional related mechanisms, including
+the homing effects and nuanced roles under diverse physiological and
+pathological conditions.
+ USPIO nanoparticles exhibit versatile properties,
+providing a basis
+for multimodal imaging applications. Molday ION, a product developed
+by BioPAL (Worcester, MA, USA), combines USPIO with rhodamine B and
+offers a novel approach to investigate the homing mechanism of human
+bone marrow MSC-derived EVs (hBM-MSC-EVs). The technique circumvents the challenges associated with post-mortem
+identification inherent in electron microscopy, presenting the potential
+for real-time, in vivo monitoring of MSC-EVs. Importantly,
+Molday ION demonstrated a homogeneous distribution within EVs, contrasting
+with the aggregation phenomena commonly reported in previous studies
+involving direct USPIO labeling. Furthermore, USPIO labeling did not
+hinder the endocytosis of hBM-MSC-EVs or the diffusion within the
+cytoplasmic microenvironment. However, the potential release of free
+iron ions poses concerns regarding their impact on cellular processes
+and overall cell physiology. Therefore, further investigations are
+warranted to determine the therapeutic equivalence of labeled EVs
+compared to unlabeled EVs.
+Despite extensive reporting of the
+aforementioned methods, they
+suffer from relatively low efficiency. The challenge lies in the decreasing
+average amount of USPIOs when labeling parent cells as cell populations
+expand, which leads to a dilution effect on the MRI signal. This poses
+difficulties for large-scale labeling and long-term in vivo tracking. To overcome the limitations, Xin et al. deviated from
+traditional USPIOs and drew inspiration from chemiluminescent reporter
+proteins studies previously discussed. They introduced MRI reporter proteins capable of inducing contrast
+changes directly within MSCs, selecting ferritin heavy chain 1 (FTH1)
+and lactadherin, which were delivered via lentiviral transfection.
+FTH1, a candidate regulator of ferritin activity, is widely utilized
+as a functional and reproducible MRI reporter gene in molecular imaging
+studies. , As depicted in G and H, the MRI images demonstrated
+a pronounced contrast enhancement in the hind limb injected with EV-MSC/FTH1.
+Histological analysis of the injected tissue further confirmed the
+presence of FTH1 ( I and J). The persistent expression of this gene during cell
+proliferation offers a viable approach for long-term MRI tracking
+of EVs. Nonetheless, the low abundance and sensitivity of FTH1 can
+potentially impact the efficacy of this strategy. Moreover, FTH1 expression
+may negatively impact MSC proliferation, necessitating further research
+to address these challenges.
+In conclusion, MRI holds considerable
+potential for tracking MSC-EVs.
+Nevertheless, the drawback of low sensitivity demands relatively high
+contrast concentrations. Moreover, the lost retention of USPIOs within
+the original EVs complicates the interpretation of imaging data, leading
+to potential false-positive signals—an ongoing challenge in
+this field. Thus, developing more robust methods for conjugating contrast
+agents to EVs is imperative. Promising approaches may involve concentrating
+exogenously administered contrast agents within MSC-EVs via receptor-mediated
+reporter gene expression, or amplifying imaging signals through interactions
+with activatable MRI contrast agents. − 
+Compared to nuclear
+imaging, tomographic imaging offers inherent
+advantages for tracing MSC-EVs, including faster scanning speeds and
+improved radiation safety (e.g., X-rays for CT and no radiation for
+MRI). − Furthermore, tomographic imaging yields
+high-resolution anatomical images that precisely delineate lesion
+morphology and localization, thereby enabling concurrent imaging and
+monitoring of MSC-EVs in therapeutic process. However, several challenges
+remain. For instance, due to the small size of MSC-EVs, their signals
+may be difficult to distinguish from imaging artifacts and background
+noise, particularly in large animal studies. , The integration of deep learning techniques, such as convolutional
+neural networks (CNNs) and generative adversarial networks (GANs),
+shows promise in enhancing image reconstruction, synthesis, and modality
+conversion—such as generating high-quality images from low-dose
+CT scans—thereby improving image quality while reducing radiation
+exposure. Moreover, the development of contrast agents specifically
+for tomographic imaging of MSC-EVs remains limited. Considering the
+challenges associated with achieving atomic-level precision in metals,
+the development of organic contrast agents that integrate functional
+modifications while ensuring high biocompatibility represents a promising
+direction. , 
+
+6.
+
+## PAI
+PAI represents a noninvasive biomedical
+imaging technique that
+integrates the superior contrast capabilities of traditional optical
+imaging with deep tissue penetration and high spatiotemporal resolution
+characteristic of ultrasound imaging. − This technique operates on the
+principle of the photoacoustic effect, wherein contrast agents absorb
+pulsed laser energy and undergo rapid thermoelastic expansion. This
+expansion generates broadband ultrasound waves, which are subsequently
+detected by ultrasound transducers and converted into electrical signals
+to produce PA images after appropriate processing. To accomplish effective MSC-EV tracing, it is imperative
+that the contrast agents are efficiently incorporated into the EVs
+to enable precise image-guided therapeutic interventions.
+The
+principles outlined above imply that an ideal contrast agent
+should possess specific photophysical properties, including low quantum
+yield, high molar extinction coefficient, and exceptional photostability.
+Additionally, it must exhibit low toxicity, minimal immunogenicity,
+high target affinity and specificity, as well as excellent biocompatibility. − DiR dye, a small molecule NIR-II PA contrast agent, meets these
+criteria. − It has been employed to track the homing effect of MSC-EVs, aiding
+in the treatment of acute myocardial ischemia/reperfusion injury (MI/RI)
+in murine models. To enhance the targeting
+of this contrast agent, researchers employed a membrane fusion strategy
+to modify MSC-EV with monocyte mimics (Mon-Exos) to generate cardiac
+injury-specific adhesion molecules. To evaluate the enhanced targeting
+efficiency, Mon-Exo, Exo, and CD18-blocked Mon-Exo (Block) were labeled
+with DiR. Results indicated that the PA signal in the left ventricular
+anterior wall of the Mon-Exo group was significantly stronger than
+that of the Exo group (1.42-fold) at 2-h postadministration. Notably,
+even the Block group exhibited greater accumulation compared to the
+Exo group (1.14-fold) ( A and B). However, despite the ease of labeling small
+molecule dyes like DiR, they remain short-lived in circulation, susceptible
+to photobleaching, and poorly stable under prolonged laser light exposure.
+Thus, appropriate chemical modification has the potential to address
+the challenges.
+ The modification of polydopamine has emerged as
+a promising approach
+to enhance the photoacoustic (PA) effects of MSC-EVs. − In this context, Gu et al. have developed a thermosensitive hydrogel
+(PDNPs-PELA) composed of polydopamine nanoparticles (PDNPs) via in situ polymerization, which was employed for intrauterine
+injection of ADSC-EVs in the treatment of erectile dysfunction (ED). The PA performance of the hydrogel was evaluated
+under near-infrared (NIR) laser excitation within the range of 680
+to 980 nm. Compared to poly(ethylene glycol)-poly(ε-caprolactone-co-polymer) (PELA), the PDNPs-PELA hydrogel exhibited an
+increased ultrasound signal, with a peak signal intensity of 1.47
+at 805 nm ( C). The gel was subsequently utilized for in vivo PAI-guided intratunical injection. The results indicated that the
+gel was clearly traced by PAI, facilitating precise needle positioning
+adjustment to improve the puncture accuracy ( D). The entire injection process is illustrated
+in detail in E-G. Between 5 and 25 s postinjection, the EXO@PDNPs-PELA suspension
+fully filled the corpus cavernosum. The thermosensitive sol–gel
+transition resulted in gel formation within 3 min ( H). A 3D PA scan conducted
+24 h postinjection revealed band-shaped images indicative of gel formation
+within the lumen ( I). Additionally, the absence of significant differences in
+PA signal intensity suggested a uniform biodistribution of the EVs.
+This study represents the first successful instance of real-time fine
+tracing of MSC-EVs through PA imaging, pioneering their use in guiding
+therapeutic interventions. However, the mechanisms underlying in situ
+polymerization warrant further investigation to enable precise control
+over the polymerization process, including parameters such as particle
+size, morphology, thickness, and byproducts. Furthermore, the preservation
+of EV activity and functionality following release should be confirmed
+to ensure therapeutic efficacy.
+In summary, PAI represents a
+promising technology for tracking
+MSC-EVs within deep tissues, thereby establishing a reliable foundation
+for expanding the therapeutic potential. Nevertheless, the limited
+penetration depth of current PAI systems remains a critical challenge. Most available organic contrast agents lack
+absorption beyond 1064 nm, underscoring the need for advancements
+in NIR-II window technologies and the development of novel contrast
+agents. , In addition, the realization of PAI contrast
+agent encoding, simultaneous imaging of tissues on a tracer basis,
+and monitoring of therapeutic responses with high specificity would
+also fuel a PAI-directed breakthrough in treating MSC-EVs. To achieve the ultimate goal of clinical translation,
+improvements in hardware are equally essential, including the development
+of more cost-effective excitation light sources (e.g., LEDs, laser
+diodes) and enhanced ultrasound transducers. − 
+
+7.
+
+## Multimodal Bioimaging
+Multimodal bioimaging
+is a strategy that amalgamates various imaging
+techniques for tracking MSC-EVs. Each of the above-mentioned tracing
+strategies has its own advantages and disadvantages, as shown in . It combines the
+strengths of diverse imaging modalities to achieve mutual complementarity,
+thereby expanding the utility spectrum of the tracking system and
+augmenting imaging precision. The most classic is the bimodal tracking
+approach involving PET/CT and SPECT/CT, which has been discussed in
+nuclear imaging section. Furthermore, the attributes of NIR fluorescent
+dyes, characterized by the superior tissue penetration and robust
+MSC-EV labeling capabilities, render them ideal companions when juxtaposed
+with techniques like nuclear imaging and tomography imaging, ultimately
+affording an amplification of sensitivity within 3D imagery.
+ Fluorescent and magnetic dual-labeled superparamagnetic
+iron oxide
+(SPIO) nanoparticles were initially employed as a tracer tool for in vitro tracking of MSC-EVs, demonstrating the feasibility
+and utility. Despite the effectiveness
+of this labeling strategy, concerns arise regarding the potential
+release of free iron ions, which could perturb cellular processes
+and compromise cellular physiology. To address these limitations,
+chelation is commonly employed to enhance the stability of contrast
+agents. Linear macromolecules like diethylenetriamine pentaacetic
+acid (DTPA) and cyclic macromolecules like 1,4,7,10-tetraazacyclododecane-1,4,7,10-tetraacetic
+acid (DOTA) are utilized to stabilize gadolinium (Gd), enabling the
+use of high-field MRI (14.1 T). When
+coupled with NIR) dyes, this approach facilitates efficient and safe
+tracking of MSC-EVs. Consequently, a
+high accumulation rate of MSC-EVs in osteosarcoma tissues is unveiled,
+underscoring its potential for metastasis detection.
+Trimodal
+tracing of MSC-EVs, intertwining NIR dyes with PET/CT
+and SPECT/CT, has exhibited promising outcomes in tumor surveillance.
+The intrinsic tumor-targeting capabilities of MSC-EVs significantly
+enhance the efficacy of this imaging strategy. While SPECT/CT facilitates comprehensive whole-body imaging
+with high tissue penetration, it is hindered by relatively long acquisition
+times, short imaging windows, and limited spatial resolution. In parallel,
+NIR fluorescence can provide real-time and high-resolution information
+on tissue structure. An et al. employed hydrazinonicotinamide as a
+chelator for 99mTc and labeled MSC-EVs with Cy7 through
+the DSPE membrane insertion technique. This approach enabled precise delineation of tumor margins and effective
+assessment of MSC-EV biodistribution. However, signal accumulation
+was observed in the liver, spleen, and kidneys, which compromised
+tumor imaging quality. To address this limitation, a pretargeting
+strategy was employed, highlighting the distinct advantages of multimodal
+bioimaging. Initially, MSC-EVs labeled
+with Cy7 and azide (N3) were administered to visualize
+and pretarget tumor tissue, creating bio-orthogonal sites within the
+tumor region. Following a 20-h interval, 68Ga-L-NETA-DBCO
+was introduced as the contrasting agent, orchestrating nuclear labeling
+through bioorthogonal reactions at the pretargeted site. The results
+demonstrated clear visualization of tumors at the primary lesion (right
+abdomen, B and C), thereby aiding surgical guidance, as well as at metastatic
+sites in the liver (liver, D). Histological examination with HE staining further
+validated the presence of colon cancer and liver metastasis ( E and F). This
+investigation harnessed the NIR molecule to determine the optimal
+pretargeting time frame, concurrently devising a strategy for drug
+delivery therapy that balances low toxicity with high efficiency.
+ In conclusion, amalgamating sensitive imaging modalities
+(PET,
+optical, etc.) with those endowed with spatial resolution (MRI, CT,
+etc.) is commonplace. Such combinations, however, typically necessitate
+multiple labeling procedures, wherein the intricacy of labeling directly
+affects MSC-EVs functionality. Ideally, a single labeling strategy
+that achieves multimodal imaging would be most advantageous—an
+idea uniquely enabled by nanoscale labeling of EVs, inspired by the
+metallization of EVs. Gold nanomaterials,
+as an exemplar, amalgamate NIR fluorescence emission, X-ray absorption,
+and unique plasma absorption properties, thereby enabling concurrent
+fluorescence, tomography, and PAI. − The facile composability
+of nanomaterials further positions them as prospective probes for
+multimodal imaging. − Additionally, advances in imaging technologies and instrumentation
+are continuing to drive the development of multimodal imaging for
+MSC-EVs. This encompasses integrating diverse imaging devices into
+a unified apparatus or the advancement of multiplexed holography for
+the simultaneous measurement of multiple physical parameters, including
+polarization, fluorescence, and spectroscopy. , Given the therapeutic potential of MSC-EVs, leveraging the advantages
+of multimodal bioimaging to simultaneously visualize the functional
+molecules within MSC-EVs and the vesicles themselves can be a strategy
+offering heightened reliability in tracking and interaction information.
+
+8.
+
+## Conclusion and Perspectives
+MSC-EVs,
+which are currently the most promising type of EVs for
+clinical translation, have been the focus of an exponential surge
+in research publications. To provide
+researchers with a comprehensive guide to visualizing their fate,
+this article delves into conventional biomedical imaging techniques
+(including FLI, BLI, SPECT, PET, CT, MRI, etc.) alongside an exploration
+of labeling methodologies (including direct and indirect), systematically
+showcasing the progress and potential optimization strategies for
+MSC-EV tracking. This review aspires to promote the standardization
+of MSC-EVs to evolve with the times, supporting the translation of
+related research from bench to bedside. Nonetheless, the fruition
+of the objectives is beset with obstacles. In the ensuing sections,
+we will discuss the quandaries confronting MSC-EVs research and provide
+potential innovative tracing methods for the tracing.
+8.1.
+
+## Quantify Tracing to Establish a Methodological
+Scoring System
+Quantification of tracing efficacy stands
+as a critical metric for evaluating the appropriateness of a given
+methodology. For MSC-EVs, prevalent quantification techniques primarily
+encompass the assessment of optical intensity, magnetic signal, or
+radioactivity of labeled EVs. The sensitivity of the selected tracing
+approach directly influences the required dosage of labeling agents,
+which consequently directly correlates with its biosafety profile. Increased labeling may enhance signal strength
+and prolong the observation window; however, it escalates the risk
+of toxicity and adverse physiological outcomes. For instance, Gd-based
+contrast agents for MRI have been implicated in inducing nephrogenic
+systemic fibrosis in patients with renal dysfunction. , Thus, the deployment in MSC-EVs tracing for renal damage therapy
+necessitates caution. Alternative administration routes other than
+intravenous injection should be considered to bypass renal clearance
+processes, minimizing uptake. Accordingly, a comprehensive assessment
+of a tracing strategy for MSC-EVs in disease-specific applications
+demands a careful balance of multiple factors, including tracing efficiency,
+sensitivity, labeling dosage, administration route, and biosafety.
+Developing a scoring system that integrates these aspects will have
+the potential to advance clinical translation. Assisted data analysis
+techniques such as machine learning are expected to provide solutions
+to this goal.
+
+8.2.
+
+## Simultaneous Visualization of Mechanisms of
+Action
+The concurrent visualization of the recognition, internalization,
+intracellular trafficking, and release of MSC-EVs by recipient cells
+represents an advancing aspect of tracing. Recent studies indicate
+the significant role of key structural attributes—such as the
+glycocalyx, surface charge distribution, and protein corona of MSC-EVs in modulating these processes, potentially influencing
+the biodistribution. The development of molecular probes, tailored
+to these specific surface characteristics, particularly probes capable
+of structural variation, coupled with the application of dynamic imaging
+techniques such as total internal reflection microscopy, is instrumental
+in delineating the mechanisms of MSC-EVs during optical tracing. − Furthermore, the colocalization of MSC-EVs and the cargoes offers
+a potential solution for achieving this objective.
+
+8.3.
+
+## Lack of Standardized Separation and Purification
+Procedures
+The attainment of high-purity isolation and enrichment
+for MSC-EVs poses a persistent challenge. The application of lipophilic
+tracing labels introduces interference from contaminants like lipoproteins,
+engendering false-positive signals. Moreover,
+distinct EV subpopulations, including exosomes, microvesicles, and
+apoptotic bodies, exhibit different functions in physiological and
+pathological states, amplifying the importance of discerning and analyzing
+the activities of specific MSC-EV subpopulations. − Nevertheless, the task of isolating the subpopulations, predicated
+on their physical properties or biochemical composition, confronts
+obstacles, pressing the need for novel and effective isolation strategies. 
+
+8.4.
+
+## Simultaneous Monitoring of Disease States
+MSC-EVs have demonstrated significant therapeutic potential across
+various disease areas, including tissue repair, , , , inflammation
+mitigation, , and fibrosis attenuation. The therapeutic efficacy is primarily attributed
+to the modulatory impacts on immune responses and regenerative processes
+within tissue microenvironments. − Concurrent tracking
+of MSC-EVs alongside real-time imaging of indicative markers, such
+as reactive oxygen species (ROS), which signify the disease status
+in tissue, enables monitoring of the therapeutic intervention.
+
+8.5.
+
+## Development of Labeling Strategies
+Labeling techniques for tracing MSC-EVs encompass two primary categories:
+direct labeling, which involves marking the vesicles through membrane
+association or internalization, and indirect labeling, which relies
+on vesicle release from MSCs. An ideal tracer should preserve the
+biological functionality of MSC-EVs while maintaining stability and
+preventing dissociation throughout the tracking process. , , − Therefore, bioconjugation labeling based on click chemistry has
+attracted widespread attention. − Another aspect of probe design
+is the integration of targeting moieties, aimed at bolstering the
+retention of MSC-EVs within specific tissues, thereby enhancing the
+effectiveness of the labeling process.
+
+8.6.
+
+## Customized Clinical Tracing Protocols and
+Instruments
+Due to limited tissue penetration depth and interference
+from endogenous background signals, optical tracing of MSC-EVs is
+confined to applications predominantly to preclinical studies involving
+cells, tissues, and small animal models. The potential for clinical
+application remains underexploited. Recent advancements in highly
+biocompatible probes operating within the NIR-II, coupled with optimized
+imaging platforms, have shown the potential to bridge the translational
+gap. Clinical imaging modalities such
+as MRI, CT, SPECT, and PET provide a basis for implementing MSC-EV
+tracing in clinical settings. Nevertheless, the inherent sensitivity
+thresholds of the conventional modalities may compromise the efficacy
+of MSC-EV detection. There is a pressing need for the development
+of specialized tracing systems and instruments tailored explicitly
+for MSC-EV visualization.
+
+8.7.
+
+## Evaluating the Therapeutic Potential of MSC-EVs
+from Different Sources Using Tracing Techniques
+MSC-EVs derived
+from various sources, such as BMSC-EVs and ADSC-EVs, exhibit distinct
+functionalities, each with specific
+advantages and limitations for clinical applications, as summarized
+in . For example,
+while BMSC-EVs have been extensively studied, their collection requires
+invasive procedures, which may hinder their practical use. On the
+other hand, ADSC-EVs are easier to collect, but their efficacy and
+heterogeneity remain challenging. Thus, a comprehensive evaluation
+of the therapeutic value of MSC-EVs from different sources across
+various diseases, considering parameters such as efficacy and accessibility,
+is important, in which tracing strategies provide promising tools
+for assessing pharmacokinetics, targeting efficiency, and biodistribution.
+ 
+8.8.
+
+## Design of Theranostic Tracing Agents
+MSC-EVs are frequently employed in treating conditions such as tissue
+repair and tumor therapy. Certain tracing agents, including gold (Au)
+nanomaterials used in CT imaging, exhibit enzyme-like ROS regulatory
+activity and photothermal conversion capabilities. These agents can
+inhibit bacterial growth by generating ROS at the injury site or reduce
+inflammation by scavenging ROS, and they can also be applied in tumor
+photothermal therapy and chemodynamic therapy. Thus, these agents function as tracers for MSC-EVs and
+provide synergistic therapeutic benefits. Additionally, some organic
+drug molecules can be engineered with conjugated structures to achieve
+NIR fluorescence emission for tracing. For instance, photosensitizers
+like verteporfin (VER) have demonstrated the ability to enable visualization
+while concurrently treating lung injury in combination with MSC-EVs. 
+
+The authors
+declare no competing financial interest.
+
+## References

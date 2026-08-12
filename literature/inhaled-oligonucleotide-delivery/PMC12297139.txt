@@ -1,0 +1,221 @@
+pmcDiscov OncolDiscov Oncol4139discon101775142Discover Oncology2730-6011SpringerPMC12297139PMC12297139.112297139122971394071591310.1007/s12672-025-03246-z32461ResearchAssociation between taurine transporter SLC6A6 and breast cancer development and prognosis: a Mendelian randomization analysis
+HuangXinping ShuHailong XuMan KeWeixiao ChenWanting HuangWenbin WangHai ZhuYifan YangYongxiayangyongxia@gdpu.edu.cn 1https://ror.org/02vg7mz57grid.411847.f0000 0004 1804 4300College of Basic Medicine, Guangdong Pharmaceutical University, Guangzhou, 510006 China 2https://ror.org/02vg7mz57grid.411847.f0000 0004 1804 4300College of Medical Information Engineering, Guangdong Pharmaceutical University, No. 280 East Ring Road, University Town, Panyu, Guangzhou, 510006 China 3https://ror.org/02vg7mz57grid.411847.f0000 0004 1804 4300College of Pharmacy, Guangdong Pharmaceutical University, Guangzhou, 510006 China 4https://ror.org/02gr42472grid.477976.c0000 0004 1758 4014Department of Breast Care Surgery, The First Affiliated Hospital of Guangdong Pharmaceutical University, Guangzhou, 510080 China 5Guang Zhou Ch-Rui Health Scientific., Ltd, GuangZhou, 511462 China 6https://ror.org/037p24858grid.412615.50000 0004 1803 6239Department of Thyroid Surgery, The First Affiliated Hospital of Sun Yat-Sen University, Guangzhou, 510080 China 7Guangdong Province Precise Medicine Big Data of Traditional Chinese Medicine Engineering Technology Research Center, Guangzhou, 510006 China 267202512202516478248141431320251872025260720252707202529072025© The Author(s) 20252025https://creativecommons.org/licenses/by-nc-nd/4.0/Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Background
+Breast cancer is the most common malignancy among women worldwide, with early screening and diagnosis being crucial for improving patient prognosis. Taurine, as an important metabolite, shows significant changes during breast cancer development, while the taurine transporter SLC6A6 may play a key role in breast cancer progression.
+
+## Methods
+This study systematically investigated the relationship between taurine level changes and breast cancer development through cell experiments, animal models, and clinical sample analysis. 1H NMR and HPLC techniques were used to measure taurine levels in different breast cancer cell lines, MMTV-PyMT transgenic mouse models, and clinical patient serum. Molecular docking, functional analysis, and immune infiltration analysis were employed to explore the mechanism of SLC6A6. Mendelian randomization (MR) analysis was used to evaluate the causal relationship between immune cell subsets and breast cancer risk.
+
+## Results
+Intracellular taurine levels were elevated, while extracellular taurine levels decreased in breast cancer cells, correlating with malignancy degree. Serum taurine levels in MMTV-PyMT mice and clinical patients decreased continuously with disease progression, with significant changes detectable at the carcinoma in situ stage. Serum taurine demonstrated good diagnostic value as an early breast cancer marker, with ROC analysis showing an AUC of 0.939, sensitivity of 0.900, and specificity of 1.000 in distinguishing benign tumors from carcinoma in situ. SLC6A6 was highly expressed in breast cancer tissues and significantly associated with poor patient prognosis. Mendelian randomization analysis revealed potential causal relationships between specific immune cell subsets (such as naive B cells, TCRgd cells) and breast cancer risk, while CD14+CD16− monocytes showed a protective effect. Single-cell sequencing analysis indicated that SLC6A6 is primarily enriched in endothelial cells and fibroblasts within tumor tissues.
+
+## Conclusion
+Taurine metabolic reprogramming can serve as a potential marker for early breast cancer diagnosis. SLC6A6 participates in breast cancer progression by regulating taurine levels and influencing immune infiltration, representing an independent predictor of breast cancer prognosis and a potential therapeutic target.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1007/s12672-025-03246-z.
+
+## Keywords
+Breast cancerTaurineSLC6A6Metabolic markerEarly diagnosisImmune infiltrationMendelian randomization analysisThe National Natural Science Foundation of China22074024YangYongxiathe National Natural Science Foundation of China21005022YangYongxiaNatural Science Foundation of Guangdong Province2022A1515012045YangYongxiapmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDissue-copyright-statement© Springer Science+Business Media LLC, part of Springer Nature 2025
+
+## Introduction
+Breast cancer (BC) is the most prevalent cancer among women. Every year, over one of every 10 newly diagnosed cancers is breast cancer [ , ]. Breast cancer tends to spread in the lymphatic and blood systems, leading to distant metastases and poor prognosis. The 5-year survival probability for stage 0 and stage I patients is 100%, while for stage IV patients, it drops to just 22% [ ]. However, many breast cancer patients are already at stage II or III when they are first diagnosed [ ], underscoring the importance of early screening and diagnosis to improve survival outcomes.
+Clinical diagnostic approaches of breast cancer encompass mammography, ultrasound, and magnetic resonance imaging (MRI). When examining dense breasts, mammography makes it difficult to distinguish between a non-cancerous lump and a cancerous lump. Ultrasound is operator-dependent and prone to false positives due to subjective interpretation. Although MRI offers high sensitivity, its high cost and inability to visualize calcifications restrict its clinical utility [ ]. The limited diagnostic methods for small tumors in the initial stages make the early detection of breast cancer a huge challenge.
+Metabolomics is an emerging approach that enables the qualitative and quantitative analysis of small molecules in cells or organisms. It allows insight into disease processes, drug responses, and cellular activity at a biochemical level [ , ]. There is increasing evidence that metabolic changes occur at both cellular and molecular levels when the body becomes significantly histologically cancerous [ , ], which provides the possibility for early diagnosis through biomarkers. Studies have shown that plasma caproic acid, stearamide, taurine and linoleic acid can distinguish healthy people from breast cancer patients [ ]. In recent studies, retinol is a serum metabolic marker for breast cancer patients [ ]. Asiago et al. found 11 metabolic markers in the urine of breast cancer patients, 13 months earlier than clinically diagnosed recurrence [ ]. While many metabolomics studies have yielded biomarkers for breast cancer detection, relatively few have focused on early-stage disease. In our previous serum metabolomics analysis of MMTV-PyMT mice, taurine levels were found to significantly decline as early as the carcinoma in situ stage, and continued to decrease as the disease progressed [ ]. This indicates that taurine could serve as a promising metabolic marker for early breast cancer.
+Taurine is a naturally occurring beta-amino acid distributed in various organs and produced in high concentrations by liver to maintain the function of central nervous system, retinal, heart and skeletal muscles [ ]. Taurine undergoes metabolic reprogramming in breast cancer [ , ]. Breast cancer cells create enough energy and nutrients for themselves by regulating glucose, lipid, and amino acid metabolism, alone with other pathways. Taurine is considered to be an important regulator of these metabolic pathways [ , ]. Studies have confirmed that the serum taurine levels in breast cancer patients are significantly lower than those in normal population, and the decrease of taurine is closely related to angiogenesis [ ]. This suggests that a decrease in taurine may act as an early sign of breast cancer occurrence and progression. However, it is not known whether low levels of taurine are present in early stages of breast cancer, and mechanism is unclear.
+Taking taurine as the research object, this study systematically confirmed the close relationship with taurine and the progression of breast cancer from cell, animal and clinical aspects, and revealed the important value of taurine as a promising metabolic marker for early breast cancer diagnosis.
+
+## Experimental methods
+
+## Cell culture
+All the cell lines were bought from Procell Life Science&Technology Co.,Ltd. MCF-10 A (CL-0525) cells were cultured in DMEM/F12 medium.MDA-MB-231(CL-0150B) cells were cultured in DMEM medium supplemented with 10% FBS and 1% penicillin-streptomycin. MCF-7(CL-0149) cells were cultured in MEM medium. SK-BR-3(CL-0211) cells were cultured in McCoy’s 5 A medium. All the cell lines were maintained in a humidified incubator at 37 °C with 5% CO2.
+
+## Medium and cell
+Approximately 106 cells were cultured in 7 mL medium for three days without changing the medium. 3 mL medium was centrifuged for 5 min, and 2 mL of which was taken for lyophilization. The collected 107 cells were mixed with 0.5 mL methanol, 1 mL CCl4 and 0.5 mL H2O to extract metabolites for lyophilization.
+
+## Patients’ population
+Serum samples were collected from individuals diagnosed with breast cancer and benign breast hyperplasia patients admitted to First Affiliated Hospital of Guangdong Pharmaceutical University. In our research, these patients did not receive any treatment before blood collection. After the overnight fast, venous blood was taken, coagulated for 30 min, and centrifuged at 3000 rpm for 10 min. The serum was isolated and stored at −80 ℃ to preserve biological activity until serum taurine, carcinoembryonic antigen (CEA), carbohydrate antigen 15 − 3 (CA15-3), and carbohydrate antigen 12 − 5 (CA12-5) were analyzed. Clinical information about cancer patients, including diagnosis, age, menstrual status, tumor size, hormone receptor status and lymph node involvement, was collected from their medical documents and analyzed in Table  . Cancer embryonic antigen (CEA), carbohydrate antigen 15-3 (CA15-3), and carbohydrate antigen 12-5 (CA12-5) in patient serum were detected using an enzyme-linked immunosorbent assay. The test results were provided by the Clinical Laboratory of the First Affiliated Hospital of Guangdong Pharmaceutical University. Written informed consents was obtained from all patients, and this research received approval from the Ethics Committee of the First Affiliated Hospital of Guangdong Pharmaceutical University (2020, No.29).
+
+ 
+
+## MMTV-PyMT mouse serum sample collection
+MMTV-PyMT mice were obtained from Jackson Laboratory, USA, and subsequently crossed with FVB mice, selected by PCR analysis to obtain 19 mice positive for MMTV genotype identification. The mice were housed in specific-pathogen-free environment with appropriate temperature and humidity, under a standard dark-light cycle. Mice were anesthetized with 2% isoflurane administered via an inhalation chamber. After the procedures, animals were euthanized by CO₂ asphyxiation. Serum sample was performed at 4, 7, 12, and 15 weeks of age. Animal breeding in this study was performed following the Chinese guidelines for ethical review of animal welfare, and received approval from the Ethics Committee of Guangdong Pharmaceutical University. All experiments were conducted in accordance with relevant guidelines and regulations for the use of human samples and animal models.
+
+## 1H NMR experiment
+Serum, medium, and cell lyophilized samples were prepared by centrifugation, and the supernatant was mixed with PBS and D2O for 1H NMR experiments. Serum was acquired by Carr-Purcell-Meiboom-Gill [CPMG, recycle delay-90-(τ−180-τ)n -acquisition] pulse sequence at 298 K using a Bruker AVANCE III 500 MHz superconducting NMR spectrometer (Bruker, Inc.), 1H NMR spectra of culture medium and cell samples. The data were processed using Topspin 4.1.1 and Amix 4.0.2 software. Chemical shifts were calibrated with TSP (δ0.00). The relative concentration of taurine was calculated from its peak area with reference to the TSP concentration.
+
+## HPLC for serum taurine determination
+Taurine standards were used to prepare working solutions (1.63–19.56 µg/mL) for pre-column derivatization, and a standard curve was plotted using concentration and peak area. After deproteinization with acetonitrile and pre-column derivatization with dansyl chloride, 10 µL taurine sample in human serum was separated by ODS-C18 column, with a mobile phase of sodium acetate buffer and acetonitrile mixed solution eluted at 40 °C column temperature. Taurine was measured by fluorescence with an excitation wavelength of 330 nm and emission wavelength of 530 nm and concentration of serum taurine was calculated by using its peak area and the standard curve.
+
+## Cell transfection SiRNA and overexpression plasmids
+The specific siRNA targeting SLC6A6 was purchased from Ribobio. The overexpression plasmid targeting SLC6A6 was purchased from Shanghai Jikai Gene Technology Co. MDA-MB-231 cells were transfected with SLC6A6 si-RNA, overexpression plasmid, and negative control (si-NC, oe-NC) for 48 h according to the protocol provided by the manufacturer. qRT-PCR was performed to detect the expression level of SLC6A6.
+
+## qRT-PCR
+Total RNA was extracted from cells using TRIzol and reverse-transcribed into cDNA according to the manufacturer’s protocol. qRT-PCR was conducted using SYBR Green master mix and primer sequences (ACCURATE) TTTTGTGTCTGGCTTCGCAAT (forward) and GCAGCGGCATCATTGTCA (reverse). The values for SLC6A6 genes were normalized to GAPDH as a housekeeping control gene.
+
+## Cell viability assay
+Cell viability assay was assessed using Cell Counting Kit-8 (CCK-8). 8000 cells per well were inoculated into a 96-well plate, and CCK8 reagent was introduced and incubated for 4 h. The OD value (OD 450 nm) was detected by an enzyme marker (BioTek, USA).
+
+## Invasion assay and transwell migration
+Cells were harvested by the trypsin/EDTA method. Aliquots of cells were placed in plates, scraped vertically the next day, and samples were taken for photographs at 0, 24, and 48 h. Aliquots of cells were seeded into Transwell chambers coated with matrigel on the upper surface, while he lower chamber contained medium with 10% FBS. Cells remaining on the upper surface were cleaned after 48 h. The cells were fixed and the upper surface of the membrane was stained with a mixture of FBS. The cells on the lower surface were fixed and stained with crystal violet, then visualized and counted.
+
+## Analysis of taurine metabolism genes
+Genes related to taurine metabolism were obtained in the Human Metabolome Database (https://hmdb.ca/metabolites/). Breast cancer data from the GSE29431 dataset in geo website (https://www.ncbi.nlm.nih.gov/geo/) were chosen for heat map analysis. Kaplan-Meier Plotter (https://kmplot.com/analysis/) was used to analyze the survival probability of breast cancer patients. The protein structures were obtained from the PDB website and the structure of taurine was obtained by pubchem. Molecular docking was performed using autoduckvina (http://vina.scripps.edu/). We subsequently leveraged the GSE9893 database to explore the prognostic significance of SLC6A6 in breast cancer patients, its potential molecular mechanisms in tumor progression, and its association with immune cell infiltration. Timer (http://timer.cistrome.org/) was employed to assess the prognostic implications and immune cell distribution of SLC6A6 across diverse tumor types. Furthermore, functional analysis of SLC6A6 at the single-cell level was conducted using the TISCH2 website (http://tisch.comp-genomics.org/home/).
+
+## Mendelian randomization (MR)
+Mendelian randomization (MR) analyses were performed to assess the causal effect of 731 immune cell traits on breast cancer risk utilizing GWAS summary statistics (breast cancer: [ebi-a-GCST90018579]). Single nucleotide polymorphisms (SNPs) associated with immune cell traits (p < 5 × 10⁻⁸) were selected as instrumental variables, and independence was ensured by linkage disequilibrium pruning (r² < 0.001). Causal estimates were derived using the inverse variance weighted (IVW) method, with MR-Egger, weighted median, and weighted mode used as sensitivity analyses. Pleiotropy and robustness were tested using leave-one-out analyses, funnel plots, and scatter plots. Statistical analyses were performed using the TwoSampleMR package in R, applying multiple testing adjustments.
+
+## Statistical analysis
+Statistical analysis was conducted by SPSS 26.0 software. All data were analyzed with Student’s t-test. And a P-value < 0.05 was considered statistically significant. ROC analysis was performed using SPSS 26.0. A model with AUC value above 0.5 is considered a competent predictive model. Bioinformatics evaluations of SLC6A6 were conducted by R software (version 4.2) and relevant R packages. The cut-off values, sensitivity and specificity values were determined for the models.
+
+## Results
+
+## Taurine depletion correlates with breast cancer progression
+To explore the link between taurine and breast cancer progression, we analyzed taurine levels in three systems: breast cancer cell lines, MMTV-PyMT transgenic mice, and serum samples from patients. As shown in Fig.  A–C, intracellular taurine concentrations were elevated in all three breast cancer cell lines (MCF-7, SK-BR-3, and MDA-MB-231) compared to the non-tumorigenic epithelial cell line MCF-10 A (p < 0.05). Among them, MDA-MB-231 cells exhibited the highest levels. In parallel, taurine levels in the culture medium declined, especially in the more aggressive cell lines, suggesting increased uptake of extracellular taurine by tumor cells. In the MMTV-PyMT mouse model, serum taurine levels decreased progressively with tumor development, from the proliferative stage (4 weeks) to advanced invasive carcinoma (15 weeks), as shown in Fig.  D–E. A similar pattern was observed in clinical breast cancer samples. Representative 1H NMR and HPLC spectra of serum samples are shown in Fig.  F–G, confirming taurine signal identification. Quantitative analyses using both detection methods demonstrated significantly lower serum taurine levels in breast cancer patients compared to those with benign tumors. Moreover, as clinical stage increased, taurine levels continued to decline, with the lowest levels observed in patients with stage III/IV disease (p all < 0.05 vs. benign, Fig.  H–K). No significant differences were detected among molecular subtypes. Collectively, these results reveal a consistent trend across cell lines, animal models, and human patients—namely, that taurine depletion correlates with increasing malignancy. While these observations support the potential role of taurine as a biomarker of tumor progression, causal relationships remain to be established. Further mechanistic studies are warranted to determine whether taurine alterations contribute directly to tumor biology or reflect broader metabolic shifts in the tumor microenvironment.
+
+ 
+
+## Taurine as a predictor of early breast cancer diagnosis
+To explore the potential value of taurine in distinguishing early-stage breast cancer, we measured serum taurine, CEA, CA15-3, and CA12-5 levels in this study. As shown in Table , CEA, CA15-3, and CA12-5 levels were higher in patients at different stages than in benign patients.ROC analysis was used to evaluate the potential of serum taurine for the early detection of breast cancer (stage CIS and stage I/II) respectively (Fig.  ). Serum taurine levels detected by NMR could distinguish benign tumors from carcinoma in situ, with an excellent prediction accuracy of 0.939 and a sensitivity and specificity of 0.900 and 1.000, respectively (Fig.  A1). The prediction accuracy of serum taurine levels detected by HPLC reached 0.855. The sensitivity and specificity were 0.900 and 1.000, respectively (Fig.  C1). The predictive power of the combination of taurine and CEA, CA15-3 and CA12-5 was not obviously enhanced (Fig.  B1 and D1), underscoring the standalone diagnostic value of taurine in early breast cancer screening.
+
+ 
+
+ 
+
+Further ROC analyses of serum taurine levels were also performed in patients to distinguish benign tumors and stage I/II breast cancer. Results showed that serum taurine levels measured by NMR could effectively differentiate patients with benign and those with stage I/II breast cancer, with AUC, sensitivity and specificity of 0.933, 0.864, and 1.000, respectively (Fig.  A2). The predictive AUC, sensitivity and specificity of serum taurine levels determined by HPLC were 0.855, 0.682 and 0.936, respectively (Fig.  C2). Moreover, taurine levels also exhibited diagnostic potential in differentiating carcinoma in situ from early-stage invasive carcinoma (stage I/II), suggesting its promise as a biomarker for disease progression during early tumor development.
+
+## SLC6A6 significantly impacts the prognosis of breast cancer patients
+To investigate the molecular mechanism of taurine change, we analyzed the expression profiles of taurine-associated genes. The results showed that SLC6A6 was significantly upregulated in breast cancer tissues (Fig.  A, B). The ROC curve analysis indicated that SLC6A6 has moderate predictive value for breast cancer prognosis, with an AUC of 0.709 at 3 years and 0.657 at 5 years (Fig.  C). Analysis using the Kaplan-Meier Plotter website revealed a significant correlation between SLC6A6 expression and the prognosis of breast cancer patients, with higher expression levels associated with poorer outcomes. This finding was further validated by the results from the GSE9893 dataset (Fig.  D, E).
+
+ 
+
+To assess potential functional interactions, molecular docking analysis was performed between taurine and the SLC6A6 protein. The results show that the binding affinity of them is less than − 3.12 kcal/mol, indicating that SLC6A6 and taurine have a good interaction (Fig.  F), which indicates that SLC6A6 can stabilize the active site of binding taurine, and then act on taurine. These results suggest that SLC6A6 is closely related to breast cancer and may play a key role in the change of taurine.
+
+## Expression, prognosis, and functional analysis of SLC6A6
+To explore the pan-cancer relevance of SLC6A6, expression data from TIMER database were analyzed. The analysis revealed that SLC6A6 is significantly overexpressed in multiple tumors, including breast, liver, and colorectal cancers (p < 0.001 for all comparisons vs. adjacent normal tissues; Fig.  A). Additionally, COX regression analysis indicated that SLC6A6 serves as an independent prognostic factor for several tumor types (p < 0.05, Fig.  B-G). These associations were consistent across both gender and clinical staging strata, suggesting that SLC6A6 may contribute to tumor progression through shared biological mechanisms across cancer types.
+
+ 
+
+Subsequently, further mechanistic exploration of SLC6A6 was conducted using transcriptomic data from GSE9893 database. Gene co-expression analysis demonstrated significant correlations between SLC6A6 and multiple genes involved in immune response and cellular signaling (Fig.  A). Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) analyses revealed that genes co-expressed with SLC6A6 are significantly associated with various critical molecular biological functions, such as the regulation of T cells and the ERK1 and ERK2 cascade (Fig.  B-E).
+
+ 
+
+## The relationship between SLC6A6 and immune infiltration in breast cancer cells
+Immune infiltration analysis revealed a significant positive correlation between SLC6A6 expression levels and the overall immuneScore, indicating that higher SLC6A6 expression levels are associated with increased immune cell infiltration within the tumor microenvironment (Fig.  A). Immune cell distribution analysis indicated differences in the distribution of various immune cells between high and low SLC6A6 expression groups, particularly in CD4 + memory T cells, macrophages, and dendritic cells (Fig.  B-C).
+
+ 
+
+Moreover, SLC6A6 showed a strong correlation with multiple immune checkpoints, such as PDCD1, CD274, and LAG3, suggesting a role in immunosuppressive regulation (Fig.  D-E). Correlation analysis further demonstrated significant associations between SLC6A6 expression and immune cells such as M0 macrophages and CD4 T memory cells (Fig.  F-I). Finally, Survival analysis incorporating immune infiltration data showed that high SLC6A6 expression coupled with specific immune cell populations corresponded with poorer prognosis in breast cancer patients (Fig.  J-K).
+
+## Mendelian randomization analysis (immune cells associated with breast cancer)
+To further explore the association between SLC6A6, immune cells, and breast cancer, Mendelian randomization (MR) analyses were performed. Figure  illustrates that TCRgd T cells may have a protective effect against breast cancer, as inferred from multiple MR models. To explore the potential relationship between monocytes and breast cancer risk, we performed MR analysis to evaluate the effect of CD14 on breast cancer CD14 + CD16– monocytes (Fig.  ). These results highlight the potential role of monocytes in regulating taurine metabolism and breast cancer progression, and suggest that SLC6A6 may be involved in immune regulation.
+
+ 
+
+ 
+
+Figure highlights that naive mature B cells may play a role in breast cancer progression, linking SLC6A6-mediated immune infiltration and tumor progression. Taken together, these results suggest that SLC6A6 promotes breast cancer progression by influencing immune infiltration, particularly through its effects on B cells, monocytes, and TCRgd T cells. Consistently, these findings align with the immune cell distribution patterns observed in Fig.  C, further supporting the role of SLC6A6 in shaping the tumor immune microenvironment.
+
+ 
+
+To further explore the role of immune cell subsets in breast cancer risk, we performed a comprehensive MR analysis of different immune cell populations (Fig.  ). The results showed clear associations between specific immune cell types and susceptibility to breast cancer. In particular, B cell subtypes showed significant associations, and specific subsets may affect tumor progression. CD14+ monocytes and other bone marrow-derived immune cells showed trends suggesting a protective role, consistent with their known functions in antigen presentation and immune surveillance. In addition, T cell populations such as CD8+ subsets and regulatory T cells (Tregs) show various associations, reflecting the complex interplay between adaptive immunity and tumor microenvironment dynamics. These findings provide deeper insight into the immune mechanisms behind breast cancer and reinforce the role of immune infiltration in disease progression. The identification of specific immune cell subsets as potential risk or protective factors highlights the importance of immune modulation in breast cancer treatment.
+
+ 
+
+## SLC6A6 expression localization using single-cell sequencing analysis
+Single-cell sequencing analysis of SLC6A6 expression levels was performed using the GSE176078 dataset to determine the cell type-specific expression of SLC6A6 in breast cancer tissues. Cluster analysis identified distinct cell populations (Fig.  A, B), including malignant cells, stromal fibroblasts, endothelial cells, and immune cells. The distribution analysis (Fig.  C, D) indicated that SLC6A6 is predominantly enriched in endothelial and fibroblast cells, rather than immune or epithelial tumor cells. The results revealed that SLC6A6 may contribute to tumor progression by modulating the tumor stroma and vasculature, in addition to influencing immune infiltration (Fig.  E, F).
+
+ 
+
+## Role of SLC6A6 in regulating taurine levels in breast cancer
+As the taurine transporter, SLC6A6 can transport extracellular taurine into intracellular. Whether SLC6A6 plays an important role in the change of taurine has not been reported. To investigate this, we first compared SLC6A6 expression levels across three breast cancer cell lines. According to mRNA expression analysis of the three types of breast cancer cells, the expression of SLC6A6 was significantly higher than MCF10A, especially in triple-negative breast cancer cell MDA-MB-231 (Fig.  A), which was consistent with our observations in breast cancer tissues compared to benign tissues (Fig.  B). In order to further understand the effect of SLC6A6 expression on taurine levels, we measured the changes of intracellular and extracellular taurine levels in MDA-MB-231 cells before and after SLC6A6 inhibition and overexpression. Inhibition of SLC6A6 was found to significantly increase taurine levels in the medium, while intracellular taurine levels were significantly decreased (Fig.  C, D). Meanwhile, overexpression of SLC6A6 led to a significant downregulation of taurine levels in the medium and an increase in intracellular taurine levels (Fig.  E, F). These results suggested that the intracellular and extracellular changes of taurine in breast cancer may be related to changes in SLC6A6 taurine transporter.
+
+ 
+
+## SLC6A6 affects the proliferation, migration and invasion of MDA-MB-231 cells by regulating taurine
+Taurine was found to be time-dependent and dose-dependent on proliferation, migration, and invasion of MDA-MB-231 cells (Fig.  A-C). Subsequently, to further explore the role of SLC6A6 in regulating these processes, we transfected siRNA and overexpressed plasmid to regulate the expression of SLC6A6, and found that the cell proliferation rate was significantly different under the two conditions. Downregulation of SLC6A6 resulted in decreased proliferation of MDA-MB-231 cells, while up-regulation of SLC6A6 resulted in increased proliferation (Fig.  D), confirming the importance of SLC6A6 in cell growth regulation. After downregulation of SLC6A6, its migration and invasion ability were significantly reduced, while those in the overexpressed group were significantly enhanced (Fig.  E, F). Combined with the regulatory effect of SLC6A6 on taurine changes, our data suggest that SLC6A6 affected the proliferation, migration and invasion of MDA-MB-231 cells by regulating taurine levels. This highlights the potential role of taurine-related tumor progression.
+
+ 
+
+## Discussion
+In this study, we found that taurine was elevated in breast cancer cells but significantly decreased in the extracellular culture. It was also observed in MMTV-PyMT mice that serum taurine showed a continuous decrease with the development of pathological process. The serum taurine of clinical breast cancer patients decreased at the stage of carcinoma in situ, and showed a continuous decrease with the increase of the stage. These results indicate that taurine is closely related to the occurrence and development of breast cancer, and can be used as a metabolic marker for early breast cancer. Importantly, the ability of taurine to serve as an early indicator highlights its promising predictive value in clinical settings, particularly in identifying early-stage disease.
+Cancer is accompanied by metabolic reprogramming to meet the bioenergetic and biosynthetic needs of sustained cell proliferation. Significant reprogramming of taurine metabolism occurs during tumor progression. Published studies have shown decreased plasma taurine levels in patients with cervical intraepithelial neoplasia (CIN) and further decreased plasma taurine levels in patients with cervical squamous cell carcinoma (CSCC) [ ]. A GC/MS-based non-targeted metabolomics study in plasma and serum has shown that taurine can be used as a serum and plasma biomarker for lung cancer [ ]. Studies have shown that the serum taurine level of patients decreases with the progression of esophageal cancer and is positively correlated with survival [ ]. Taurine is also considered to be a biomarker in urine for bladder cancer [ ]. Garmire et al. emphasized that taurine metabolism is an important regulatory pathway for breast cancer [ ]. Hameed et al. found that the serum taurine level of breast cancer high-risk groups was reduced, and the serum taurine level of breast cancer patients was further reduced [ ]. The level of taurine detected in breast tissue of patients with metastatic breast cancer is lower than that of healthy patients [ ]. Therefore, taurine is closely related to various tumor development.
+Taurine, as the final product of sulfur metabolism, is considered to be an active substance that regulates normal physiological activities of the body [ ]. Taurine may be involved in protecting cancer cells from excessive damage caused by oxidative stress [ ]. During the proliferation process, tumor cells continuously take up taurine from the microenvironment in response to enhanced oxidative stress to form excessive reactive oxygen species (ROS) [ , ]. In our study, the increased uptake of taurine by breast cancer cells was associated with a reduction in serum taurine levels, contributing to a pro-oxidative environment that may support tumor growth. The observed decrease in circulating taurine aligns with elevated reactive oxygen species (ROS) and oxidative stress, conditions known to facilitate the transformation of normal cells into malignant ones.
+Taurine acts as a cell membrane stabilizer and antioxidant to block the accumulation of ROS in tumor cells, showing strong potential to reduce oxidative damage in cancer [ ]. This finding supports previous studies that taurine inhibits the growth of tumor cell lines by inducing apoptosis [ , ]. Studies have shown that taurine, as an effective free radical scavenger, can improve the oxidative damage induced by methotrexate (MTX) and regulate the immune response. Epidemiological studies have shown that a diet rich in antioxidants is essential to reduce the occurrence of breast cancer [ ].
+This study underscores the critical role of SLC6A6 in breast cancer progression and its potential as a prognostic biomarker and therapeutic target. Our findings show that elevated SLC6A6 expression is associated with poor prognosis and influences taurine metabolism, as evidenced by molecular docking and functional analyses. Gene enrichment and immune infiltration studies revealed its involvement in key pathways, such as T cell regulation and the ERK1/ERK2 cascade, and its impact on immune cell dynamics. Mendelian Randomization (MR) analysis further demonstrated a potential causal relationship between specific immune cell subsets and breast cancer risk, particularly implicating Naïve-mature B cells and TCRgd T cells in tumor progression, while CD14 + CD16– monocytes exhibited a protective effect. Single-cell sequencing localized SLC6A6 to endothelial and fibroblast cells, highlighting its role in the tumor microenvironment. These findings suggest SLC6A6 as a promising target for immunotherapy and future therapeutic interventions.
+SLC6A6 is a protein-coding gene that belongs to the sodium - and chlorine-dependent transporter family and can transport taurine [ ]. It has been reported that SLC6A6 has an important contribution to taurine transport, revealing its mechanism of regulating taurine concentration in vivo [ ]. In this study, we found that breast cancer cells with high SLC6A6 expression exhibited markedly reduced extracellular taurine levels, supporting its key role in taurine transport. Silencing SLC6A6 via siRNA significantly impaired taurine uptake, confirming its functional involvement in regulating taurine dynamics. Conversely, overexpression of SLC6A6 enhanced taurine transport, further validating its role. These findings are consistent with previous reports showing high SLC6A6 expression in gastric cancer, where it has been associated with poor prognosis [ ]. SLC6A6 knockdown makes MCF-7 cells more likely to induce apoptosis, SLC6A6-specific antibodies block taurine uptake, induce cell cycle G2 arrest, and lead to tumor cell death [ ]. Meanwhile, studies have shown that compared with normal colon cells, taurine transporter SLC6A6 is highly expressed in colorectal cancer CRC cells, and knockdown of SLC6A6 reduces cell survival, while enhancing drug sensitivity to 5-fluorouracil (5-FU), doxycycline (DOX) and SN-38 [ ]. In addition, SLC6A6 plays an important role in maintaining CSC properties, thereby promoting cell survival signaling and chemical resistance [ ]. In line with these findings, our study also found that low expression of SLC6A6 has an inhibitory effect on the function of breast cancer cells, suggesting that SLC6A6 is expected to be a potential biological target for breast cancer treatment.
+Although SLC6A6 is known as a taurine transporter involved in cell metabolism, its role in shaping the immune microenvironment of breast cancer remains largely unexplored. In this study, we observed that SLC6A6 expression was associated with the infiltration of key immune subsets, including naïve–mature B cells, TCRγδ T cells, and CD14⁺ monocytes—cell types critical for antitumor surveillance and immune activation. Given taurine’s role in modulating oxidative stress and immune cell behavior, it is plausible that changes in SLC6A6 expression may indirectly influence immune function by altering taurine availability. Prior studies suggest that taurine can affect T cell activation and cytokine production, which may explain how SLC6A6 impacts antitumor immunity [ ]. While research on this mechanism in breast cancer is still limited, our findings point to SLC6A6 as a potential link between tumor metabolism and immune evasion. These results raise the possibility of integrating SLC6A6-targeted approaches with existing immunotherapies to improve clinical outcomes. Further studies are needed to validate this hypothesis and assess its therapeutic potential.
+While this study highlights the important role of SLC6A6 in taurine metabolism and breast cancer progression, several limitations should be considered. Firstly, the findings are based on in vitro experiments, and further in vivo studies are needed to validate the relevance of SLC6A6 in a more complex biological context. Secondly, the precise molecular mechanisms by which SLC6A6 influences immune regulation and tumor progression remain to be fully elucidated. Finally, the clinical application of SLC6A6 as a biomarker or therapeutic target requires validation in larger, more diverse patient cohorts to determine its practical value.
+
+## Conclusion
+This study highlights the relationship between taurine levels and the progression of breast cancer. We found that taurine concentration is linked to the malignancy of breast cancer, as observed in breast cancer cell lines, MMTV-PyMT mice, and clinical samples. Our research also shows that SLC6A6, a transporter involved in taurine uptake, plays an important role in regulating taurine levels in cancer cells. These findings suggest that taurine could be a useful biomarker for early breast cancer detection, and SLC6A6 may serve as a potential target for future therapeutic interventions.
+
+## Electronic supplementary material
+
+Supplementary Material 1
+
+Supplementary Material 2
+
+Supplementary Material 3
+
+Supplementary Material 4
+
+Supplementary Material 5
+
+Supplementary Material 6
+
+Supplementary Material 7
+
+Supplementary Material 8
+
+Supplementary Material 9
+
+Supplementary Material 10
+
+Supplementary Material 11
+
+Supplementary Material 12
+
+Supplementary Material 13
+
+Supplementary Material 14
+
+Supplementary Material 15
+
+Supplementary Material 16
+
+Supplementary Material 17
+
+Supplementary Material 18
+
+Supplementary Material 19
+
+Supplementary Material 20
+
+Supplementary Material 21
+
+Supplementary Material 22
+
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Author contributions
+Xinping Huang: Conceptualization, Methodology, Validation, Formal analysis, Investigation, Writing-original draft, Visualization. Hailong Shu: Conceptualization, Methodology, Validation, Formal analysis, Investigation, Visualization. Man Xu & Weixiao Ke: Methodology, Investigation, Visualization & Editing. Wanting Chen, Wenbin Huang & Hai Wang: Methodology, Software. Yifan Zhu: Conceptualization, Supervision, Project administration. Yongxia Yang: Conceptualization, Supervision, Project administration, Writing- Reviewing & Editing, Funding acquisition.
+
+## Funding
+This study was supported by the National Natural Science Foundation of China (No.22074024, 21005022), Natural Science Foundation of Guangdong Province (No.2022A1515012045, 2023A1515012573).
+
+## Data availability
+The datasets generated and/or analyzed during the current study are available from the corresponding author upon reasonable request. The gene expression data used in this study were obtained from publicly available databases, including the Human Metabolome Database (https://hmdb.ca/metabolites/), GEO datasets (GSE29431, GSE9893, and GSE176078) from the NCBI Gene Expression Omnibus.
+
+## Declarations
+
+## Ethics approval and consent to participate
+This research was conducted in accordance with the ethical principles of the Declaration of Helsinki and received approval from the Ethics Committee of the First Affiliated Hospital of Guangdong Pharmaceutical University (2020, No.29). The patient agrees to participate and signs an informed consent form.
+
+## Consent for publication
+All authors reviewed and approved the final manuscript.
+
+## Competing interests
+The authors declare no competing interests.

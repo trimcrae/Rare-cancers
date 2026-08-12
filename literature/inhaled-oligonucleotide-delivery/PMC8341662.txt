@@ -1,0 +1,359 @@
+331plosgenPLoS GeneticsPLoS GenetPLOSPMC8341662834166283416623435191210.1371/journal.pgen.1009686A ubiquitin-like protein encoded by the “noncoding” RNA TINCR promotes keratinocyte proliferation and wound healing
+NitaAkihiroConceptualization, Data curation, Formal analysis, Investigation, Methodology, Resources, Validation, Writing – original draft MatsumotoAkinobuConceptualization, Data curation, Formal analysis, Funding acquisition, Investigation, Methodology, Project administration, Resources, Supervision, Writing – original draft TangRonghaoFormal analysis, Investigation ShiraishiChisaFormal analysis, Investigation IchiharaKazuyaData curation, Formal analysis, Investigation, Methodology, Software SaitoDaisukeData curation, Formal analysis, Methodology, Software SuyamaMikitaData curation, Software YasudaTomoharuData curation, Formal analysis, Investigation TsujiGakuResources, Supervision FurueMasutakaResources, Supervision KatayamaBumpeiData curation, Formal analysis, Investigation, Methodology OzawaToshiyukiData curation, Formal analysis, Investigation, Methodology MurataTeruasaData curation, Formal analysis, Investigation, Methodology DainichiTerukiData curation, Formal analysis, Investigation, Methodology KabashimaKenjiConceptualization, Project administration, Supervision HatanoAtsushiConceptualization, Data curation, Formal analysis, Investigation, Methodology, Software MatsumotoMasakiConceptualization, Data curation, Formal analysis, Investigation, Methodology, Software, Supervision NakayamaKeiichi IConceptualization, Funding acquisition, Project administration, Resources, Supervision, Writing – original draft BarshGregory SEditor 1Department of Molecular and Cellular Biology, Medical Institute of Bioregulation, Kyushu University, Fukuoka, Japan2Division of Bioinformatics, Medical Institute of Bioregulation, Kyushu University, Fukuoka, Japan3Department of Immunology, Graduate School of Biomedical and Health Sciences, Hiroshima University, Hiroshima, Japan4Department of Dermatology, Graduate School of Medical Sciences, Kyushu University, Fukuoka, Japan5Department of Dermatology, Osaka City University Graduate School of Medicine, Osaka, Japan6Department of Dermatology, Kyoto University Graduate School of Medicine, Kyoto, Japan7Department of Dermatology, Kagawa University Faculty of Medicine, Kagawa, Japan8Department of Omics and Systems Biology, Niigata University Graduate School of Medical and Dental Sciences, Niigata, Japan9HudsonAlpha Institute for Biotechnology, UNITED STATESThe authors have declared that no competing interests exist.
+✉* E-mail: akinobu@bioreg.kyushu-u.ac.jp (AM); nakayak1@bioreg.kyushu-u.ac.jp (KIN)
+582021178e1009686e1009686682021© 2021 Nita et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+
+## Abstract
+Although long noncoding RNAs (lncRNAs) are transcripts that do not encode proteins by definition, some lncRNAs actually contain small open reading frames that are translated. TINCR (terminal differentiation–induced ncRNA) has been recognized as a lncRNA that contributes to keratinocyte differentiation. However, we here show that TINCR encodes a ubiquitin-like protein that is well conserved among species and whose expression was confirmed by the generation of mice harboring a FLAG epitope tag sequence in the endogenous open reading frame as well as by targeted proteomics. Forced expression of this protein promoted cell cycle progression in normal human epidermal keratinocytes, and mice lacking this protein manifested a delay in skin wound healing associated with attenuated cell cycle progression in keratinocytes. We termed this protein TINCR-encoded ubiquitin-like protein (TUBL), and our results reveal a role for TINCR in the regulation of keratinocyte proliferation and skin regeneration that is dependent on TUBL.
+
+## Author summary
+Although, by definition, long noncoding RNAs (lncRNAs) are transcripts that do not encode proteins, recent studies have shown that some lncRNAs actually contain small open reading frames (ORFs) that are translated. Although TINCR (terminal differentiation–induced ncRNA) was originally identified as a lncRNA that contributes to keratinocyte differentiation, recent mass spectrometry–based analysis has suggested that TINCR is translated. Translation of the ORF within the TINCR lncRNA was validated by generating mice that harbor an in-frame insertion of the FLAG epitope tag sequence at the COOH-terminus of the ORF. The TINCR-encoded protein contains a ubiquitin-like (Ubl) domain and was designated TUBL (TINCR-encoded ubiquitin-like protein). TUBL accelerated cell cycle progression in keratinocytes, and TUBL-deficient mice manifested delayed wound healing after injury with a biopsy punch as a result of attenuated keratinocyte proliferation. TUBL plays a key role at the protein level in the maintenance of skin homeostasis after injury through promotion of keratinocyte proliferation.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2021 Apr 30; Accepted 2021 Jun 29; Collection date 2021 Aug.
+
+## Introduction
+Skin has a barrier function that protects it from dehydration, wounding, ultraviolet radiation, and the entry of microbes. The outermost layer of skin, the epidermis, consists of a stratified squamous epithelium of keratinocytes delimited by a basal membrane, but it also contains melanocytes as well as Langerhans and Merkel cells [ , ]. A key property of skin is its high self-renewal capacity. During the wound healing process of skin, the efficient proliferation of epithelial keratinocytes is essential for re-epithelialization of the wound and restoration of barrier function [ – ], with many factors having been shown to contribute to keratinocyte proliferation and skin regeneration [ – ].
+TINCR (terminal differentiation–induced noncoding RNA) was originally identified as a long noncoding RNA (lncRNA) that serves as a positive regulator of human epidermal differentiation [ ]. TINCR binds to the protein STAU1 as well as to a series of mRNAs required for keratinocyte differentiation. These mRNAs interact with TINCR via a 25-nucleotide (nt) motif known as the TINCR box and appear to be stabilized by the TINCR-STAU1 complex. Recent studies have also revealed a role for TINCR in cancer, including breast, lung, liver, esophageal, colon, bladder, prostate, gastric, and oral tumors [ – ]. Forced expression of TINCR promotes cell proliferation and metastasis through activation of the Wnt/β-catenin signaling pathway in oral squamous cell carcinoma [ ]. In addition, TINCR expression is up-regulated in hepatocellular carcinoma, resulting in activation of the phosphoinositide 3-kinase (PI3K)–Akt–mechanistic target of rapamycin (mTOR) signaling pathway through sequestration of the microRNA miR-7-5p [ ]. These findings implicate TINCR in processes that contribute to the development and progression of cancer, such as regulation of the cell cycle.
+Expression of lncRNAs is often restricted to a limited number of tissues, such as brain, testis, blood, liver, and skin [ ]. These RNAs have been implicated in a wide array of cellular processes, including transcriptional regulation as well as cell differentiation and reprogramming [ ]. Similar to mRNAs, many lncRNAs are transcribed by RNA polymerase II and then spliced, capped, and polyadenylated [ ]. We and others have recently shown that some lncRNAs actually encode small functional proteins [ – ], with recent mass spectrometry (MS) analysis also having provided evidence for translation of TINCR [ ]. Given that the data dependent acquisition (DDA) mode of proteomics analysis is associated with a certain number of false positive identifications, however, further investigations with different approaches are required to verify the endogenous expression of this putative TINCR-encoded protein.
+We have now generated mice that harbor an in-frame knock-in of the FLAG epitope tag at the COOH-terminus of the open reading frame (ORF) in TINCR and confirmed translation of the ORF. The encoded protein contains a ubiquitin-like (Ubl) domain, and its forced expression promoted cell cycle progression in normal human epidermal keratinocytes (NHEKs). We therefore named this protein TINCR-encoded ubiquitin-like protein (TUBL). We also generated mice with a 1-bp deletion that abrogates expression of TUBL as a result of a frameshift without affecting the secondary structure of TINCR. The TUBL-deficient mice manifested delayed wound healing after injury with a biopsy punch in association with attenuation of keratinocyte proliferation. Our results thus indicate that TINCR encodes the ubiquitin-like protein TUBL and contributes to skin homeostasis after injury by regulating cell cycle progression in keratinocytes through this protein.
+
+## Results
+
+## TINCR encodes the ubiquitin-like protein TUBL
+PhyloCSF is a comparative genomics method to identify evolutionarily conserved ORFs in silico on the basis of the alignment of nucleotide sequences from multiple species [ ]. We applied this method to many putative lncRNAs in order to identify hidden small proteins encoded by short ORFs. This analysis revealed TINCR to contain a potential ORF, given the consecutive positive signals of PhyloCSF observed for both the human and mouse sequences ( ). The predicted protein consists of 87 amino acids in human and is conserved across amphibians (Xenopus tropicalis), reptiles (Anolis carolinensis), and birds (Gallus gallus) as well as mammals (Homo sapiens, Mus musculus) ( ), although no apparent corresponding orthologs are present in fish or insects. The amino acid sequence of this protein shows a high level of similarity to that of ubiquitin ( ). Hereafter, we refer to this predicted protein encoded by the small ORF of TINCR as TINCR-encoded ubiquitin-like protein (TUBL).
+ To validate translation from this ORF, we transiently transfected HEK293T cells with an expression construct for mouse TINCR with a FLAG epitope tag sequence inserted at the COOH-terminus of the ORF. Immunoblot analysis indeed confirmed the expression of FLAG-tagged TUBL in these cells ( ). Human TINCR contains one potential AUG initiation codon, whereas two potential such codons are present in mouse TINCR ( ). We therefore generated constructs in which one or both AUG codons of mouse TINCR were deleted in-frame and expressed them in HEK293T cells. Expression of TUBL was detected when only one AUG codon was deleted but not when both were ( ), indicating that both codons are capable of initiating translation. Immunofluorescence microscopic analysis revealed that FLAG epitope–tagged TUBL was diffusely distributed throughout the cytoplasm when expressed in HeLa cells ( ).
+Ubiquitin-like proteins are divided into two families, type 1 and type 2 [ ]. Type 1 Ubl proteins contain a diglycine motif at the COOH-terminus and are covalently attached to other proteins through the action of an enzymatic cascade similar to that for ubiquitin, whereas type 2 Ubl proteins lack this motif and are not ligated to other proteins. Indeed, immunoblot analysis with antibodies to the V5 epitope tag revealed that V5-tagged NEDD8, a type 1 Ubl protein, was conjugated to other proteins in HEK293T cells, whereas a mutant form of NEDD8 lacking the diglycine motif was not ( ). The amino acid sequence of TUBL does not contain a diglycine motif ( ), and neither human nor mouse TUBL tagged with the V5 epitope was found to be conjugated to other proteins ( ), indicating that TUBL is type 2 Ubl protein. Addition of the V5 tag at the NH2-terminus appeared to impair expression of mouse TUBL but not that of human TUBL ( ). As mentioned above, unlike that of human or other species, mouse TUBL contains two potential AUG initiation codons ( ). We inserted the V5 tag immediately after the second AUG initiation codon for mouse TUBL ( ), which might have hindered translation initiation. It is also possible that addition of the V5 tag at the NH2-terminus resulted in instability specifically of mouse TUBL by an unknown mechanism.
+To examine endogenous expression of TUBL, we generated knock-in mice that harbor a FLAG epitope tag sequence at the COOH-terminus of the protein. Lysates prepared from mouse epidermis were subjected to immunoprecipitation with antibodies to FLAG, and the resulting precipitates were subjected to immunoblot analysis with the same antibodies. Such analysis confirmed the endogenous expression of TUBL in epidermis ( ), indicating that TINCR indeed encodes a Ubl domain–containing protein, TUBL.
+
+## TUBL promotes cell cycle progression in human keratinocytes
+To investigate the role of TUBL in keratinocytes, we infected NHEKs with a lentivirus encoding human TUBL (including only the coding region of TINCR, without the 5’ and 3’ untranslated regions) or with a virus encoding green fluorescent protein (GFP) as a control, and we then examined the gene expression profiles of these cells. RNA-sequencing (RNA-seq) analysis identified 368 differentially expressed genes: 36 up-regulated and 332 down-regulated genes with a log2[fold change] of >0.5 or <–0.5 and adjusted p value <0.05 in the cells expressing TUBL compared with the control cells ( ). Gene set enrichment analysis (GSEA) revealed that cell cycle–related gene sets were substantially up-regulated and gene sets specific for keratinocyte differentiation were significantly down-regulated in the cells expressing TUBL ( ).
+ To validate the effect of TUBL on the expression of cell cycle–related genes, we examined cell cycle kinetics with a 5-bromo-2’-deoxyuridine (BrdU) incorporation assay. The proportion of cells in S phase of the cell cycle (BrdU+ fraction) was markedly increased for NHEKs expressing TUBL compared with control cells ( ). Furthermore, RNA-seq analysis revealed that the expression of early or late differentiation marker genes was down-regulated in cells expressing TUBL ( ). These results suggested that TUBL promotes the proliferation and attenuates the differentiation of human keratinocytes.
+Whereas we found that TUBL suppressed keratinocyte differentiation, TINCR was previously shown to promote such differentiation [ ]. We therefore performed a calcium-induced in vitro differentiation assay for NHEKs transfected with the small interfering RNA (siRNA) used in this previous study (Lincode) [ ] or with two additional siRNAs (Silencer Select). Reverse transcription (RT) and quantitative polymerase chain reaction (qPCR) analysis confirmed that all of the siRNAs substantially depleted TINCR ( ). However, whereas depletion of TINCR with the siRNA used in the previous study suppressed differentiation, that with the other two siRNAs did not affect the differentiation status of the cells as evaluated on the basis of expression of the gene for the late differentiation marker involucrin ( ). These results suggested that the inhibitory effect of TINCR depletion on differentiation apparent in the previous study might have been attributable to an off-target effect. In addition, we found that the proportion of cells in S phase of the cell cycle was markedly decreased for NHEKs transfected with the siRNAs targeting both TINCR and TUBL compared with those transfected with control siRNAs ( ), consistent with our results for NHEKs stably expressing TUBL ( ).
+
+## TUBL, rather than TINCR, is essential for promotion of the keratinocyte cell cycle
+Although expression of only the TUBL ORF region of TINCR promoted cell cycle progression in keratinocytes, we could not formally exclude the possibility that the corresponding RNA component is responsible for this effect. To demonstrate that the TUBL protein is indeed functional, we introduced a 1-bp deletion (del) in the ORF that induces a frameshift and thereby abrogates TUBL expression while likely preserving the secondary structure of the RNA ( ). We also introduced synonymous mutations (SM) into the ORF that preserve the TUBL amino acid sequence but likely substantially alter the secondary structure of TINCR. Furthermore, we generated an ORF containing both the 1-bp deletion and synonymous mutations, thereby disrupting both protein expression and RNA structure. We then infected mouse primary keratinocytes with retroviruses containing either the wild-type (WT) ORF or one of the three mutant constructs. Expression of WT or SM forms of TINCR resulted in a marked increase in the percentage of cells in S phase of the cell cycle, whereas expression of WT_del or SM_del forms had no such effect ( ).
+ Forced expression of WT or SM forms of TINCR also moderately attenuated expression of the involucrin gene before the induction of differentiation in vitro, whereas such an effect was not observed at 6 days after the onset of differentiation induction ( ), suggestive of a weak or indirect inhibitory effect of TUBL on keratinocyte differentiation. As was apparent in NHEKs ( ), marked up-regulation of TINCR was observed in association with differentiation in control primary mouse keratinocytes as well as in cells expressing WT_del or SM_del mutants ( ). However, this effect was greatly suppressed in cells expressing WT or SM forms of TINCR ( ), suggestive of a negative feedback mechanism by which TUBL suppresses the induction of TINCR during keratinocyte differentiation. To investigate whether TINCR might also affect the expression of TUBL, we transiently transfected HEK293T cells with expression constructs both for TUBL with a COOH-terminal FLAG tag (ORF region only) and for an almost full-length form of TINCR with a 1-bp deletion that disrupts the TUBL ORF (WT_full_del). We found that the expression level of FLAG-tagged TUBL was not affected by the presence of the WT_full_del form of TINCR ( ), suggesting that TINCR is unlikely to contribute to the regulation of TUBL expression. Collectively, these results indicated that TUBL protein, but not the secondary structure of TINCR, is required for function in the regulation of cell cycle progression.
+
+## TINCR is abundant in proliferating keratinocytes
+Given that the abundance of TINCR was up-regulated during keratinocyte differentiation (Figs and ), it might have been expected that TINCR promotes such differentiation. However, we found that overexpression of TUBL promoted keratinocyte proliferation in association with inhibition of differentiation (Figs and ). We therefore examined the tissue distribution of TINCR, and found that it was expressed not only in differentiated keratinocytes but also in actively proliferating primary mouse keratinocytes to a greater extent than in other adult mouse tissues ( ), suggesting that TUBL contributes to cell cycle progression in proliferating keratinocytes. However, given that TINCR was expressed at a higher level in epidermis than in proliferating keratinocytes, TUBL may also function in terminally differentiated keratinocytes, such as in formation of the cornified envelope (see ).
+
+## Generation of TUBL-deficient mice
+We next generated mice deficient in TUBL as a result of the introduction of a 1-bp deletion and consequent frameshift into the mouse genome with the use of the CRISPR-Cas9 system ( ). A 3-bp substitution (GGG → ATT) that generated an EcoRI site for genotyping was also introduced. In silico modeling predicted almost identical secondary structures for the WT and mutant TINCR RNAs ( ), suggesting that the introduced mutations disrupt only protein function. We verified the mutations in the genome by PCR analysis combined with EcoRI digestion ( ). RT-qPCR analysis confirmed that the abundance of TINCR was not reduced in the epidermis of homozygous mutant (Tubl–/–) mice; indeed, it was rather found to be increased ~5-fold compared with that in WT mice ( ), consistent with the proposed negative feedback effect of TUBL observed in mouse primary keratinocytes overexpressing TUBL ( ). We also confirmed the absence of TUBL in Tubl−/− mice with the use of MS-based multiple reaction monitoring (MRM). MRM analysis of epidermal lysates detected two different peptides derived from TUBL in Tubl+/+ mice, but signals corresponding to such peptides were virtually absent in Tubl−/− mice (Figs and ). The TUBL-deficient mice of either sex manifested no obvious differences in skin morphology and histology compared with Tubl+/+ mice at 8 weeks of age ( ). These results suggested that TUBL does not have an indispensable role in skin homeostasis under steady-state conditions.
+ 
+
+## TUBL deficiency results in attenuated cell cycle progression in mouse keratinocytes
+To examine further the role of TUBL in mouse skin, we examined gene expression profiles for the epidermis of Tubl+/+ and Tubl−/− mice. RNA-seq analysis identified 26 genes whose expression was up-regulated (24) or down-regulated (2) in the epidermis of Tubl−/− mice compared with that of Tubl+/+ mice on the basis of a log2[fold change] of >0.4 or <–0.4, respectively, and an adjusted p value of <0.05 ( ). GSEA revealed that cell cycle–related gene sets were substantially down-regulated in the TUBL-deficient epidermis, whereas the expression of gene sets for keratinocyte differentiation did not differ significantly between the two genotypes ( ).
+ We then evaluated cell cycle kinetics with a BrdU incorporation assay in primary keratinocytes established from the two groups of mice. The proportion of cells in S phase of the cell cycle was markedly decreased for the TUBL-deficient primary keratinocytes compared with WT control cells ( ). Examination of the expression of differentiation marker genes by RT-qPCR analysis revealed that the differentiation status of the epidermis was similar for Tubl+/+ and Tubl−/− mice ( ). Furthermore, an in vitro differentiation assay with primary keratinocytes showed no significant difference in expression of the involucrin gene between the two genotypes ( ). Together, these results suggested that the loss of TUBL results in attenuated progression of the cell cycle in mouse keratinocytes.
+
+## Loss of TUBL results in delayed recovery from skin injury
+Delayed cell cycle progression of keratinocytes can affect wound healing after injury in mice [ – ]. We therefore performed biopsy punches on the skin of TUBL-deficient mice in order to evaluate their ability to recover. Tubl–/–mice manifested delayed wound closure from days 4 to 10 postinjury compared with WT control animals, although the extent of wound closure did not differ significantly between the two genotypes thereafter ( ). These results are consistent with the attenuated proliferation of TUBL-deficient keratinocytes ( ) as well as with the fact that re-epithelialization, during which keratinocytes proliferate to cover a wound, generally occurs 3 to 10 days after injury in mice [ ]. Our findings thus suggest that TUBL contributes to the maintenance of skin homeostasis by promoting the proliferation of keratinocytes after injury.
+ 
+
+## TUBL binds to the proteasome complex
+To explore the molecular function of TUBL, we purified protein complexes containing TUBL from NHEKs or HaCaT (human keratinocyte) cells transiently expressing human TUBL with a COOH-terminal FLAG tag. Immunoprecipitates prepared from the cells with antibodies to FLAG were subjected to semiquantitative liquid chromatography and tandem MS (LC-MS/MS) analysis. We identified several proteins that were specifically associated with TUBL in that they were detected specifically in at least one replicate of the TUBL-(C)FLAG samples or the average iBAQ (intensity-based absolute quantification) value for the three TUBL-(C)FLAG replicates was >2-fold as great as that for the control samples ( and ). Gene ontology (GO) term analysis of the TUBL-associated proteins revealed enrichment of several cell cycle–related terms, such as those involving “ubiquitin-protein ligase activity involved in mitotic cell cycle” ( ). However, most genes constituting such GO terms actually encode subunits of the proteasome complex and were commonly identified in both NHEKs and HaCaT cells ( and ).
+ TUBL is a type 2 Ubl protein but does not harbor any other apparent domains. It is therefore a “Ubl-only” protein that associates with the proteasome. In contrast, RAD23 and DSK2, both of which are representative type 2 Ubl proteins, contain a Ubl domain that associates with the proteasome as well as a Uba (ubiquitin-associated) domain that interacts with ubiquitylated proteins, and they therefore facilitate the recruitment of ubiquitylated proteins to the proteasome for efficient proteolysis [ ]. Given its lack of a Uba domain, TUBL is expected to lack such an ability, suggesting that it might function as a negative regulator that modifies the interaction between authentic Ubl-Uba proteins and the proteasome. Elucidation of the detailed molecular mechanism by which TUBL regulates cell cycle progression awaits further study, however.
+
+## Discussion
+TINCR, also known as placenta-specific 2 (non–protein coding), has been recognized as a lncRNA, and it was indeed shown to function as such [ ]. On the other hand, an ORF of TINCR was registered as a predicted protein in the UniProt database (accession number: A0A1B0GVN0). Furthermore, peptide fragments corresponding to the predicted ORF were identified in the cornified envelope of human skin by proteomics analysis in the DDA mode [ ]. The roles of TINCR and the expression of its putative translational product have thus remained unclear.
+We have now shown that the ORF of TINCR encodes a novel ubiquitin-like protein, which we designated TUBL. Insertion of an epitope tag sequence in the endogenous ORF as well as targeted proteomics analysis demonstrated the expression of this protein. Forced expression of TUBL in NHEKs and mouse primary keratinocytes promoted cell cycle progression in a manner independent of the RNA secondary structure of TINCR. Moreover, TUBL-deficient mice manifested a significant delay in wound healing after injury with a biopsy punch, with this delay being associated with attenuation of keratinocyte proliferation.
+The barrier function of skin is conferred by terminally differentiating keratinocytes. This differentiation process is known as cornification, results in formation of the cornified envelope, and occurs in the suprabasal layer of the epidermis. The cornified envelope consists of proteins that are highly cross-linked by transglutaminase and which are surrounded by specific lipids, and it provides a mechanical and permeability barrier [ ]. Whereas TUBL was detected only in the insoluble cornified envelope, not in the soluble fraction of the epidermis, in the study by Eckhart et al. [ ], we detected endogenous TUBL expression in the soluble fraction by both immunoblot and targeted proteomics analyses. Given the apparent high level of expression of TUBL in both proliferating and differentiated keratinocytes, the protein may contribute to cell cycle regulation in the cytoplasm of proliferating keratinocytes, whereas, in terminally differentiated keratinocytes, it might have other functions such as formation of the cornified envelope.
+The abundance of TINCR is up-regulated in various cancers, in which it promotes proliferation of the cancer cells [ – ]. In the present study, we found that forced expression of TUBL promoted keratinocyte proliferation in a manner independent of the RNA secondary structure of TINCR, suggesting that promotion of cancer cell proliferation by TINCR is also likely mediated by TUBL protein rather than by TINCR RNA. It will thus be of interest to generate antibodies specific for TUBL so as to investigate potential changes in the expression of TUBL in human cancers. The development of inhibitors of TUBL might prove beneficial for cancer treatment, whereas TUBL supplementation may be effective for promotion of skin wound healing. The risks and benefits of such potential therapeutic approaches await further investigation.
+
+## Methods
+
+## Ethical statement
+All mouse experiments were approved by the Animal Ethics Committee of Kyushu University (Accession number A20-169).
+
+## Animals
+For generation of TUBL knockout mice and knock-in mice with a FLAG tag sequence at the COOH-terminus of TUBL, ribonucleoprotein (RNP) was prepared by mixing the CRISPR RNA (crRNA) and trans-activating crRNA (tracrRNA) with recombinant Cas9 protein (Integrated DNA Technologies) ( ). Single-stranded oligodeoxynucleotide (ssODN) homology repair templates were synthesized as 200-nt sequences ( ). Mouse zygotes were subjected to electroporation with the RNP and ssODN.
+
+## Cell culture, in vitro differentiation, and transfection
+HEK293T and HeLa cells were obtained from American Type Culture Collection and were checked for mycoplasma contamination with the use of MycoAlert (Lonza). They were cultured under an atmosphere of 5% CO2 at 37°C in Dulbecco’s modified Eagle’s medium supplemented with 10% fetal bovine serum (Life Technologies) and antibiotics. For transient expression of human or mouse TUBL and TINCR, human NEDD8, or mutants of these proteins, cDNAs were subcloned into pcDNA3 (Invitrogen) with the use of a NEBuilder HiFi DNA Assembly Master Mix kit (New England BioLabs) and transfection was performed with the use of the X-tremeGENE 9 DNA Transfection Reagent (Sigma-Aldrich). HaCaT cells were obtained from COSMO BIO and cultured in Dulbecco’s modified Eagle’s medium (calcium free) supplemented with 10% fetal bovine serum (Life Technologies) and antibiotics. NHEKs were obtained from Lonza, and early-passage cells (fewer than seven passages from initial plating) were maintained with the use of a KGM Gold Keratinocyte Growth Medium BulletKit (Lonza). For the in vitro differentiation assay, NHEKs at 100% confluence were exposed to 1.3 mM CaCl2 for 6 days. For siRNA transfection, NHEKs were incubated for 24 h in six-well plates with 5 nM siRNA (Lincode nontargeting pool, Lincode human TINCR [257000] siRNA-SMART, Silencer Select Negative Control No.1 siRNA, Silencer Select Pre-Designed siRNA human TINCR [s48832], or Silencer Select Pre-Designed siRNA human TINCR [s195902]) and with the Lipofectamine RNAiMax reagent (Thermo Fisher Scientific). The cells were subjected to the in vitro differentiation assay.
+
+## RT-qPCR analysis
+The epidermis was isolated by incubation of skin for 30 min at 37°C in 3.8% ammonium thiocyanate. Total RNA was extracted from the epidermis or cells with the use of Isogen (Nippon Gene), purified with the use of a PureLink RNA Mini Kit (Thermo Fisher Scientific), and subjected to RT with the use of ReverTra Ace qPCR RT Master Mix with gDNA Remover (Toyobo). The resulting cDNA was subjected to real-time PCR analysis with Luna Universal qPCR Master Mix (New England BioLabs) and specific primers in a StepOnePlus Real-Time PCR System (Applied Biosystems). The sequences of PCR primers are provided in . The amounts of TINCR or of target mRNAs were normalized by that of glyceraldehyde-3-phosphate dehydrogenase (GAPDH) mRNA.
+
+## Immunoblot analysis
+Protein samples were subjected to SDS–polyacrylamide gel electrophoresis (PAGE) on 5–20% ExtraPAGE One Precast Gels (Nacalai Tesque). Membranes were incubated consecutively with primary antibodies and horseradish peroxidase–conjugated secondary antibodies (Promega), and signals were visualized with SuperSignal West Pico PLUS or Dura (Thermo Fisher Scientific) reagents and a ChemiDoc imaging system (Bio-Rad). Primary antibodies included the following: V5 tag (Thermo Fisher Scientific), FLAG tag (Merck), HSP70 (BD Biosciences), and HSP90 (BD Biosciences).
+
+## Immunoprecipitation assay
+The epidermis was isolated by incubation of skin for 16 h at 4°C in keratinocyte basal medium (EpiLife CF Kit, EpiLife Defined Growth Supplement [EDGS]) containing dispase (4 mg/ml) (Thermo Fisher Scientific). Total protein was extracted from the epidermis and other tissues with the use of a lysis buffer (50 mM Tris-HCl [pH 7.5], 150 mM NaCl, 1% Triton X-100, 1× proteinase inhibitor cocktail (Roche)) and a Biomasher II (BMBio), followed by centrifugation at 20,000 × g for 20 min at 4°C. The resulting supernatant was incubated with rotation for 1 h at 4°C with agarose bead–conjugated antibodies to FLAG (Merck). The beads were washed three times with a wash buffer (50 mM Tris-HCl [pH 7.5], 150 mM NaCl, 0.1% Triton X-100, 1× proteinase inhibitor cocktail), and the bound proteins were eluted from the beads with wash buffer containing FLAG peptide (0.5 mg/ml) (Merck) and then subjected to immunoblot analysis as described above.
+
+## Immunofluorescence staining
+Cells grown on coverslips were fixed with 4% paraformaldehyde in phosphate-buffered saline (PBS) for 10 min at room temperature, washed twice with PBS, and incubated for 16 h at 4°C with antibodies to FLAG (Merck) diluted in PBS containing 0.5% Triton X-100. They were then washed three times with PBS, incubated for 1 h at room temperature in the dark with Alexa Fluor 488–conjugated secondary antibodies (Thermo Fisher Scientific) diluted in PBS containing 0.5% Triton X-100, and then incubated for 5 min at room temperature in the dark with PBS containing DAPI. After two washes with PBS, the coverslips were mounted in Fluoromount and examined with an LSM 700 fluorescence microscope (Zeiss).
+
+## Histopathology
+Tissue was fixed with 4% paraformaldehyde in PBS, embedded in paraffin, sectioned with a cryostat at a thickness of 3 μm, and stained with hematoxylin-eosin. Sections were examined with a differential interference contrast microscope.
+
+## Isolation and culture of primary mouse keratinocytes
+Primary keratinocytes were isolated from the tail of 8-week-old mice. Isolation and culture of the cells were performed as described previously [ ]. The cells were maintained in keratinocyte basal medium (EpiLife CF Kit, EpiLife Defined Growth Supplement [EDGS]) and were plated in dishes coated with the use of a Coating Matrix Kit (Thermo Fisher Scientific) to promote adherence. For the in vitro differentiation assay, keratinocytes at 100% confluence were exposed for 6 days to 1.3 mM CaCl2 in keratinocyte basal medium without EDGS.
+
+## Lentivirus expression system
+GFP or human TUBL cDNA was subcloned into pLVSIN/puro, and the resulting constructs together with pMD2.G, pMDLg/pRRE, and pRSV-Rev (Addgene) were introduced into HEK293T cells with the use of the X-tremeGENE 9 reagent (Roche). Culture supernatants containing recombinant lentiviruses were harvested and used to infect NHEKs for 24 h in the presence of polybrene (2 μg/ml). The cells were then subjected to selection by incubation for an additional 24 h in medium containing puromycin (2.5 μg/ml), cultured without puromycin for 48 h, and then applied to assays.
+
+## Retrovirus expression system
+GFP or WT or mutant mouse TUBL cDNAs were subcloned into pCX4/puro, and the resulting constructs were introduced into Plat E packaging cells with the use of the FuGENE6 reagent (Roche). Culture supernatants containing recombinant ecotropic retroviruses were harvested and used to infect mouse primary keratinocytes by incubation for 24 h in the presence of polybrene (2 μg/ml). The cells were cultured for an additional 24 h in virus-free medium, subjected to selection for 24 h in medium containing puromycin (2.5 μg/ml), and incubated for 72 h in puromycin-free medium before application to assays.
+
+## RNA-seq analysis
+The epidermis was collected by incubation of skin in 3.8% ammonium thiocyanate. Total RNA was extracted from the epidermis or from NHEKs stably expressing GFP or TUBL and was purified with the use of Isogen and a PureLink RNA Mini Kit. The quality of the purified RNA was monitored with a 2100 Bioanalyzer (Agilent), mRNA was selected with the use of a NEBNext Poly(A) mRNA Magnetic Isolation Module (New England BioLabs), and libraries were prepared with the use of a NEBNext Ultra Directional RNA Library Prep Kit for Illumina (New England BioLabs). The cDNAs were sequenced with a HiSeq 1500 system (Illumina). Single-end reads were mapped against the mouse (mm10) or human (hg38) genome with the use of HISAT2, and data normalization was performed with DESeq2. The expression data were analyzed with GSEA v4.1.0 software. The gene sets for GSEA were obtained from the Molecular Signatures Database v4.0 distributed at the GSEA Web site.
+
+## Immunoaffinity purification and LC-MS/MS analysis
+HaCaT cells and NHEKs were collected at 48 h after transfection with the use of the FuGENE HD reagent (Promega). Cell lysates were subjected to immunoprecipitation with antibodies to FLAG and the precipitated proteins were isolated by elution as described above. The purified proteins were fractionated by SDS-PAGE on a 10% gel and stained with silver. Protein bands were excised from the gel and subjected to in-gel digestion with trypsin, and the resulting peptides were dissolved in a solution comprising 0.1% trifluoroacetic acid and 2% acetonitrile for analysis with an LTQ Orbitrap Velos Pro mass spectrometer (Thermo Fisher Scientific) coupled with a nanoLC instrument (Advance, Michrom BioResources) and HTC-PAL autosampler (CTC Analytics). Acquired MS data were analyzed with MaxQuant and the human UniProt KB database. GO analysis was performed with the use of DAVID [ ].
+
+## MRM analysis
+To identify target peptides for MRM analysis, mouse TUBL with a COOH-terminal FLAG tag was immunoprecipitated from transfected HEK293T cells with M2-conjugated agarose beads (Sigma-Aldrich) and then eluted from the beads with the FLAG peptide (0.5 mg/ml). The eluted material was fractionated by SDS-PAGE on a 13.5% gel, and gel slices corresponding to a molecular size of 10 to 15 kDa were subjected to reduction and alkylation followed by digestion with trypsin. The resultant peptides were subjected to LC-MS/MS analysis in the DDA mode with a TripleTOF5600 instrument. Peak lists (mgf) generated by the AB SCIEX MS Data Converter were used to search a database, mouse UniProt containing a mouse TUBL protein sequence, with the use of the Mascot algorithm (Matrix Science). The search was conducted with the following parameter settings: trypsin as enzyme used, an allowed number of missed cleavages of two, and carbamidomethylation of Cys as a fixed modification. Oxidized methionine was searched as a variable modification. Precursor mass tolerance was 50 ppm, and tolerance of MS/MS ions was 0.02. We imported all significant hits into an in-house relational database written in MySQL. MS/MS spectra assigned to peptides with more than six amino acids were selected from the database and converted into MRM transitions and a spectral library for iMPAQT-Quant [ ]. Hexahistidine-tagged mouse TUBL was then expressed in an Escherichia coli expression strain that was auxotrophic for arginine and lysine and grown in the presence of 13C6/15N4-Arg and 13C6/15N2-Lys [ ], and the recombinant protein was purified with the use of Ni-resin (Probond, Invitrogen). The epidermis was isolated by incubation of mouse skin for 16 h at 4°C in keratinocyte basal medium containing dispase (4 mg/ml), extracts prepared with lysis buffer were fractionated by SDS-PAGE on a 13.5% gel, and gel slices corresponding to a molecular size of <13 kDa were subjected to reduction and alkylation followed by digestion with trypsin. The resulting peptides were mixed with tryptic peptides derived from the isotopically labeled recombinant protein and stored until MS analysis. MRM analysis was performed with a QTRAP6500 system (SCIEX) operated in the positive-ion mode. Typical parameters were set as follows: spray voltage of 2300 V, curtain gas setting of 10, collision gas setting of high, ion source gas 1 setting of 30, and interface heater temperature of 160°C. The collision energy (CE) was calculated with the following formulae: CE = (0.044 × m/z1) + 5.5 and CE = (0.051 × m/z1) + 0.5, where m/z1 is the mass/charge (m/z) ratio of the precursor ion, for doubly and triply charged precursor ions, respectively. The collision cell exit potential (CXP) was calculated according to the following formula: CXP = (0.0391 × m/z2)– 2.2334, where m/z2 is the m/z of the fragment ion. The declustering potential (DP) was set to 50, and the entrance potential (EP) was set to 10. Resolution for Q1 and Q3 was set to “unit” (half-maximal peak width of 0.7 Da). The scheduled MRM option was used for all data acquisition with a target scan time of 6.7 s and MRM detection windows of 300 s for verification of MRM assays. Raw data were analyzed by iMPAQT-Quant with the corresponding spectral library. Peak groups were scored on the basis of cosine similarity with the MS/MS spectra obtained in DDA, a peak coelution of at least three fragment ions for each peptide, the presence or absence of interfering ions, and intensity. Finally, all traces were manually checked to eliminate inadequate transitions.
+
+## Cell cycle analysis
+Cells were pulsed with BrdU (10 μg/ml) (Sigma) for 30 min, stained with Alexa Fluor 488– or allophycocyanin-labeled antibodies to BrdU (BioLegend) and with propidium iodide (Nacalai), and then analyzed with a FACSVerse flow cytometer (BD).
+
+## Prediction of RNA secondary structure
+The Vienna RNA package was applied to calculate structures of minimum free energy for each RNA [ ]. The sequences cloned into the pCX4 retrovirus expression vector were 5′- ATGGCCATGGAGGAGCTGCGGCGAGGGCTGTCCCGCTGGAAGCGCTACCACATCAAGGTACACCTAGCCGACGAGGCATTGCTACTGCCACTGACCGTGCGGCCCCGAGACACACTGAGTGACCTGCGCGCACAGCTAGTGGGCCAGGGTGTAAGCTCTTGGCGCAGAACCTTCTACTACAACTCTAGGCCTCTGCCTGACCATCAGACAGTTCGCGAAGCTCGCCTGCAGGACGGCTCAGTATTACTTCTGCTCAGCGACACCAGGTAG-3′ for wild-type (WT) TUBL, 5′- ATGGCCATGGGGAGCTGCGGCGAGGGCTGTCCCGCTGGAAGCGCTACCACATCAAGGTACACCTAGCCGACGAGGCATTGCTACTGCCACTGACCGTGCGGCCCCGAGACACACTGAGTGACCTGCGCGCACAGCTAGTGGGCCAGGGTGTAAGCTCTTGGCGCAGAACCTTCTACTACAACTCTAGGCCTCTGCCTGACCATCAGACAGTTCGCGAAGCTCGCCTGCAGGACGGCTCAGTATTACTTCTGCTCAGCGACACCAGGTAG-3′ for WT TUBL containing a 1-bp deletion (WT_del), 5′- ATGGCCATGGAAGAGTTACGTCGTGGACTTTCCAGATGGAAACGATATCATATAAAAGTACATTTGGCTGATGAAGCTTTACTATTACCACTTACGGTTAGACCCAGAGATACATTGTCTGATCTCCGTGCTCAACTTGTCGGCCAAGGTGTCTCCTCTTGGCGCAGAACCTTTTATTATAATTCTAGACCTCTCCCTGATCATCAAACGGTTCGAGAAGCCAGGCTTCAAGATGGTTCCGTACTCTTACTCCTCTCAGATACCCGTTGA-3′ for the TUBL synonymous mutant (SM), and 5′- ATGGCCATGGAAGAGTTACGTCTGGACTTTCCAGATGGAAACGATATCATATAAAAGTACATTTGGCTGATGAAGCTTTACTATTACCACTTACGGTTAGACCCAGAGATACATTGTCTGATCTCCGTGCTCAACTTGTCGGCCAAGGTGTCTCCTCTTGGCGCAGAACCTTTTATTATAATTCTAGACCTCTCCCTGATCATCAAACGGTTCGAGAAGCCAGGCTTCAAGATGGTTCCGTACTCTTACTCCTCTCAGATACCCGTTGA-3′ for the TUBL synonymous mutant containing a 1-bp deletion (SM_del). Both WT and SM sequences encode the same protein product: MAMEELRRGLSRWKRYHIKVHLADEALLLPLTVRPRDTLSDLRAQLVGQGVSSWRRTFYYNSRPLPDHQTVREARLQDGSVLLLLSDTR.
+
+## Wound healing assay
+A 6-mm punch biopsy tool was used to inflict full-thickness skin wounds on the back of mice that extended through the panniculus carnosus under inhalation anesthesia with isoflurane. A circular silicone splint (inner diameter of 10 mm, outer diameter of 16 mm) was placed on each wound, and adhesive (Aron Alpha high speed EX, Konishi) was then applied to maintain the position of the splint. The use of the splint minimized wound contracture and allowed for healing through re-epithelialization and formation of granulation tissue.
+
+## Statistical analysis
+Quantitative data are presented as means ± SD as indicated and were compared between groups with the two-tailed Student’s t test as performed with Microsoft Excel or JMP Pro software. A p value of <0.05 was considered statistically significant. All numerical data underlying graphs or statistics are provided in .
+
+## Supporting information
+S1 Fig
+
+## Detection of TUBL protein expression in epidermal lysates by MS-based MRM analysis.
+Extracted ion chromatograms are shown for TUBL-derived peptides in MRM analysis. MRM analysis detected two different TUBL-derived peptides with the amino acid sequences AQLVGQGVSSWR (A) and DTLSDLR (B). “Standard” indicates signals for the internal standard, a stable isotope–labeled recombinant TUBL protein expressed in and purified from bacteria. “Endogenous” indicates signals for peptides derived from endogenous TUBL in epidermal lysates prepared from Tubl+/+ or Tubl−/− mice. The purple vertical lines in the Endogenous chromatograms indicate the retention time of each endogenous TUBL peptide.
+(EPS)
+Click here for additional data file.
+S1 Table
+
+## Differentially expressed genes, including up-regulated and down-regulated genes, in NHEKs infected with a lentivirus encoding TUBL compared with those infected with a lentivirus encoding GFP.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## Differentially expressed genes, including up-regulated and down-regulated genes, in epidermis of Tubl−/− mice compared with that of Tubl+/+ mice.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## iBAQ values for TUBL binding proteins identified in HaCaT cells and NHEKs.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## Results for GO term analysis of identified TUBL binding proteins.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## Oligonucleotides used in the present study.
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## All numerical data underlying graphs or statistics.
+(XLSX)
+Click here for additional data file.
+
+## Acknowledgments
+We thank the members of the Department of Molecular and Cellular Biology, Medical Institute of Bioregulation, Kyushu University, and the Research Promotion Unit, Medical Institute of Bioregulation, Kyushu University for technical assistance as well as A. Ohta for help with preparation of the manuscript. Computations were performed in part on the NIG supercomputer at ROIS National Institute of Genetics.
+
+## Data Availability
+The RNA-seq data generated during this study have been deposited in the DDBJ database under accession numbers DRA011760 (mouse epidermis) and DRA011761 (NHEKs). The MS data have been deposited with the ProteomeXchange Consortium (http://proteomecentral.proteomexchange.org) via the JPOST partner repository under the data set identifiers PXD026388 (HaCaT cells), PXD026389 (NHEKs), and PXD026392 (mouse epidermis).
+
+## Funding Statement
+This work was supported in part by KAKENHI grants from Japan Society for the Promotion of Science (JSPS) and the Ministry of Education, Culture, Sports, Science, and Technology of Japan (https://www.jsps.go.jp/english/) to A.M. (20H05928) and to K.I.N. (18H05215). The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1009686.r001Decision Letter 0
+BarshGregory SEditor-in-Chief© 2021 Gregory S. BarshThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+
+## Transfer Alert
+This paper was transferred from another journal. As a result, its full editorial history (including decision letters, peer reviews and author responses) may not be present.
+
+24 May 2021
+
+Dear Dr Nakayama,
+Thank you very much for submitting your Research Article entitled 'The long noncoding RNA TINCR encodes a ubiquitin-like protein (ULCAR) that promotes keratinocyte proliferation and wound healing' to PLOS Genetics.
+The manuscript was fully evaluated at the editorial level and by independent peer reviewers. The reviewers appreciated the attention to an important topic but identified some concerns that we ask you address in a revised manuscript
+We therefore ask you to modify the manuscript according to the review recommendations. Your revisions should address the specific points made by each reviewer.
+In addition we ask that you:
+1) Provide a detailed list of your responses to the review comments and a description of the changes you have made in the manuscript.
+2) Upload a Striking Image with a corresponding caption to accompany your manuscript if one is available (either a new image or an existing one from within your manuscript). If this image is judged to be suitable, it may be featured on our website. Images should ideally be high resolution, eye-catching, single panel square images. For examples, please browse our archive. If your image is from someone other than yourself, please ensure that the artist has read and agreed to the terms and conditions of the Creative Commons Attribution License. Note: we cannot publish copyrighted images.
+We hope to receive your revised manuscript within the next 30 days. If you anticipate any delay in its return, we would ask you to let us know the expected resubmission date by email to plosgenetics@plos.org.
+If present, accompanying reviewer attachments should be included with this email; please notify the journal office if any appear to be missing. They will also be available for download from the link below. You can use this link to log into the system when you are ready to submit a revised version, having first consulted our Submission Checklist.
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email us at figures@plos.org.
+Please be aware that our data availability policy requires that all numerical data underlying graphs or summary statistics are included with the submission, and you will need to provide this upon resubmission if not already present. In addition, we do not permit the inclusion of phrases such as "data not shown" or "unpublished results" in manuscripts. All points should be backed up by data provided with the submission.
+To enhance the reproducibility of your results, we recommend that you deposit your laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. Additionally, PLOS ONE offers an option to publish peer-reviewed clinical study protocols. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols
+Please review your reference list to ensure that it is complete and correct. If you have cited papers that have been retracted, please include the rationale for doing so in the manuscript text, or remove these references and replace them with relevant current references. Any changes to the reference list should be mentioned in the rebuttal letter that accompanies your revised manuscript. If you need to cite a retracted article, indicate the article’s retracted status in the References list and also include a citation and full reference for the retraction notice.
+PLOS has incorporated Similarity Check, powered by iThenticate, into its journal-wide submission system in order to screen submitted content for originality before publication. Each PLOS journal undertakes screening on a proportion of submitted articles. You will be contacted if needed following the screening process.
+To resubmit, you will need to go to the link below and 'Revise Submission' in the 'Submissions Needing Revision' folder.
+[LINK]
+Please let us know if you have any questions while making these revisions.
+Yours sincerely,
+Gregory S. Barsh
+Editor-in-Chief
+PLOS Genetics
+Gregory Copenhaver
+Editor-in-Chief
+PLOS Genetics
+Reviewer's Responses to Questions
+Comments to the Authors:
+Please note here if the review is uploaded as an attachment.
+Reviewer #1: Noncoding RNAs have attracted a lot of research interest and TINCR is one of the most well known lncRNAs after its publication in Nature. It is very important to rigorously test the concept of RNAs the exert regulatory functions without coding for proteins. Nita et al. have performed such an important test and they show that TINCR is NOT NONcoding. This result is of broad interest and important for researchers in the growing field of lncRNA biology.
+The manuscript satisfies Plos Genetics’ citeria of originality, importance to researchers in the field, and broad interest to researchers in genetics and genomics. The authors’ conclusions about the functions of protein are not fully supported. For these conclusions, the methodology should be more rigorous and more substantial evidence is required for the conclusions. Alternatively, the conclusions should be phrased more cautiously, pointing to the need for further investigations.
+The main open question is, by which mechanism does ULCAR accelerate the cell cycle / promote keratinocyte proliferation / wound healing? Full elucidation of the mechanism may be out of scope of this study, but mechanistic evidence and conclusions should match.
+As the mechanism of cell cycle acceleration is uncertain and it is not known if this is the main role of the protein, the proposed name "Ubiquitin-Like Cell cycle AcceleratoR (ULCAR)" remains to be accepted by the research community. "ULCAR" should not be part of the title.
+The title is self-contradictory (noncoding / encodes) and should be changed from
+"The long noncoding RNA TINCR encodes a ubiquitin-like protein (ULCAR) that promotes keratinocyte proliferation and wound healing"
+to
+"A ubiquitin-like protein encoded by the reportedly “noncoding“ RNA TINCR promotes keratinocyte proliferation and wound healing"
+Lines 193-195: the following sentence should be extended by stating that expression in proliferating keratinocytes is lower than in total epidermis – suggesting that expression in differentiated keratinocytes is very significant, "TINCR, and found that it was expressed not only in differentiated keratinocytes but also in actively proliferating primary mouse keratinocytes to a greater extent than in other adult mouse tissues (Fig 3F),"
+Can the authors exclude or confirm that TINCR / ULCAR is expressed in hair follicles? Might its deletion affect the hair cycle and indirectly influence wound healing?
+Reviewer #2: Nita et al. show that the long noncoding RNA TINCR encodes a ubiquitin-like protein (ULCAR) that promotes keratinocyte proliferation and wound healing. Together these results provide a clear and novel story about the function of ULCAR in skin regeneration. The paper is a wonderfully clear and concise description of a real breakthrough, and the experiments are presented in a straightforward and logical fashion. I could suggest more experiments or further quantitation, but I believe the authors have arrived at a correct model, with considerable novelty. The paper is suitable for Plos genetics.
+Reviewer #3: This is a very exciting and novel study showing a new protein the authors termed as ULCAR was identified with the lncRNA TINCR. Using endogenous tagging, the authors convincingly demonstrated the existence of this translated protein. Overexpression of ULCAR increased cell cycle progression and suppressed differentiation in human keratinocytes, which seems not rely on TINCR RNA function. By generating ULCAR-deficient mice, the authors confirmed that loss of ULCAR results in attenuated cell cycle progression in mouse keratinocytes, and subsequently delayed recovery from skin injury. Overall this study clearly reveals a critical role for a new protein ULCAR in regulating keratinocyte differentiation and function. Given that ULCAR protein is buried within the TINCR sequence, the key is to distinguish if the observed effects are derived from ULCAR protein function or TINCR RNA function, or both. The authors did a good job in addressing this. There are several concerns that need to be clarified before publication for this novel study:
+Major concerns:
+1. To distinguish if the observed effects are derived from ULCAR protein function or TINCR RNA function-A good control I would suggest is to generate siRNA/shRNA/sgRNA targeting TINCR but not ULCAR, or both, and examine effects of these loss-of-function experiments.
+2. The authors mentioned that in multiple cancers the abundance of TINCR is up-regulated and UCLAR negatively regulates TINCR- does TINCR also regulate ULCAR levels?
+Minor concerns:
+1. Fig. 1F: It seems that an N-terminal V5 tag abolishes ULCAR expression-can the authors provide some explanations?
+2. Fig. 1G: The Flag signal was not observed in input but in IPs- can the authors provide some explanations?
+3. Fig. 3: it is an elegant design to generate proposed mutants to disrupt either RNA or protein function- however, assays performed in this figure rely on overexpression conditions. The presence of endogenous TINCR and ULCAR may complicate the interpretation of data in this figure.
+4. Fig. 3: Some assays to test if RNA structure changes generated in 3B cause deficient TINCR downstream RNA targeting would be needed.
+5. It will be interesting (the authors may need to discuss this) if the authors can generate a ULCAR specific antibody to demonstrate its tissue distribution, or if its expression changes in human diseases. The former question can be answered by taking advantage of the Flag-knockin mice the authors have generated.
+6. Given that this is a very novel and exciting study revealing the first protein function of ULCAR, it will be necessary to speculate how ULCAR modulates cell cycle progression? Any specific targets or binding partners of ULCAR could explain its function? Or is this related to function from other type 2 ubiquitin like molecules?
+**********
+Have all data underlying the figures and results presented in the manuscript been provided?
+Large-scale datasets should be made available via a public repository as described in the PLOS Genetics
+data availability policy, and numerical data that underlies graphs or summary statistics should be provided in spreadsheet form as supporting information.
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #2: Yes: Michele Pagano
+Reviewer #3: No
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1009686.r002Author response to Decision Letter 0
+582021178e1009686e1009686Collection date 2021 Aug.
+
+22 Jun 2021
+
+AttachmentSubmitted filename: nita_resp_pgrev2.doc
+Click here for additional data file.
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1009686.r003Decision Letter 1
+BarshGregory SEditor-in-Chief© 2021 Gregory S. BarshThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+29 Jun 2021
+
+Dear Dr Nakayama,
+We are pleased to inform you that your manuscript entitled "A ubiquitin-like protein encoded by the “noncoding” RNA TINCR promotes keratinocyte proliferation and wound healing" has been editorially accepted for publication in PLOS Genetics. Congratulations!
+The revised manuscript was seen by reviewers #1 and #3 of the original submission. Both reviewers recommend acceptance. There are some minor concerns remaining that we ask you address during the production process as follows:
+Figures 4 and 5 need to be updated to reflect the change of the protein name from Ulcar to Tubl. Supplementary files should also be checked.
+Before your submission can be formally accepted and sent to production you will need to complete our formatting changes, which you will receive in a follow up email. Please be aware that it may take several days for you to receive this email; during this time no action is required by you. Please note: the accept date on your published article will reflect the date of this provisional acceptance, but your manuscript will not be scheduled for publication until the required changes have been made.
+Once your paper is formally accepted, an uncorrected proof of your manuscript will be published online ahead of the final version, unless you’ve already opted out via the online submission form. If, for any reason, you do not want an earlier version of your manuscript published online or are unsure if you have already indicated as such, please let the journal staff know immediately at plosgenetics@plos.org.
+In the meantime, please log into Editorial Manager at https://www.editorialmanager.com/pgenetics/, click the "Update My Information" link at the top of the page, and update your user information to ensure an efficient production and billing process. Note that PLOS requires an ORCID iD for all corresponding authors. Therefore, please ensure that you have an ORCID iD and that it is validated in Editorial Manager. To do this, go to ‘Update my Information’ (in the upper left-hand corner of the main menu), and click on the Fetch/Validate link next to the ORCID field.  This will take you to the ORCID site and allow you to create a new iD or authenticate a pre-existing iD in Editorial Manager.
+If you have a press-related query, or would like to know about making your underlying data available (as you will be aware, this is required for publication), please see the end of this email. If your institution or institutions have a press office, please notify them about your upcoming article at this point, to enable them to help maximise its impact. Inform journal staff as soon as possible if you are preparing a press release for your article and need a publication date.
+Thank you again for supporting open-access publishing; we are looking forward to publishing your work in PLOS Genetics!
+Yours sincerely,
+Gregory S. Barsh
+Editor-in-Chief
+PLOS Genetics
+Gregory Copenhaver
+Editor-in-Chief
+PLOS Genetics
+www.plosgenetics.org
+Twitter: @PLOSGenetics
+----------------------------------------------------
+Comments from the reviewers (if applicable):
+Reviewer's Responses to Questions
+Comments to the Authors:
+Please note here if the review is uploaded as an attachment.
+Reviewer #1: Thank you for further improving the quality of the manuscript.
+Reviewer #3: The authors have done an impressive work to address all my concerns raised. This is a novel and exciting study. Congratulations.
+**********
+Have all data underlying the figures and results presented in the manuscript been provided?
+Large-scale datasets should be made available via a public repository as described in the PLOS Genetics
+data availability policy, and numerical data that underlies graphs or summary statistics should be provided in spreadsheet form as supporting information.
+Reviewer #1: Yes
+Reviewer #3: Yes
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #3: No
+----------------------------------------------------
+Data Deposition
+If you have submitted a Research Article or Front Matter that has associated data that are not suitable for deposition in a subject-specific public repository (such as GenBank or ArrayExpress), one way to make that data available is to deposit it in the Dryad Digital Repository. As you may recall, we ask all authors to agree to make data available; this is one way to achieve that. A full list of recommended repositories can be found on our website.
+The following link will take you to the Dryad record for your article, so you won't have to re‐enter its bibliographic information, and can upload your files directly: 
+http://datadryad.org/submit?journalID=pgenetics&manu=PGENETICS-D-21-00588R1
+More information about depositing data in Dryad is available at http://www.datadryad.org/depositing. If you experience any difficulties in submitting your data, please contact help@datadryad.org for support.
+Additionally, please be aware that our data availability policy requires that all numerical data underlying display items are included with the submission, and you will need to provide this before we can formally accept your manuscript, if not already present.
+----------------------------------------------------
+Press Queries
+If you or your institution will be preparing press materials for this manuscript, or if you need to know your paper's publication date for media purposes, please inform the journal staff as soon as possible so that your submission can be scheduled accordingly. Your manuscript will remain under a strict press embargo until the publication date and time. This means an early version of your manuscript will not be published ahead of your final version. PLOS Genetics may also choose to issue a press release for your article. If there's anything the journal should know or you'd like more information, please get in touch via plosgenetics@plos.org.
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1009686.r004Acceptance letter
+BarshGregory SEditor-in-Chief© 2021 Gregory S. BarshThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+12 Jul 2021
+
+PGENETICS-D-21-00588R1 
+A ubiquitin-like protein encoded by the “noncoding” RNA TINCR promotes keratinocyte proliferation and wound healing 
+Dear Dr Nakayama, 
+We are pleased to inform you that your manuscript entitled "A ubiquitin-like protein encoded by the “noncoding” RNA TINCR promotes keratinocyte proliferation and wound healing" has been formally accepted for publication in PLOS Genetics! Your manuscript is now with our production department and you will be notified of the publication date in due course.
+The corresponding author will soon be receiving a typeset proof for review, to ensure errors have not been introduced during production. Please review the PDF proof of your manuscript carefully, as this is the last chance to correct any errors. Please note that major changes, or those which affect the scientific understanding of the work, will likely cause delays to the publication date of your manuscript. 
+Soon after your final files are uploaded, unless you have opted out or your manuscript is a front-matter piece, the early version of your manuscript will be published online. The date of the early version will be your article's publication date. The final article will be published to the same URL, and all versions of the paper will be accessible to readers.
+Thank you again for supporting PLOS Genetics and open-access publishing. We are looking forward to publishing your work! 
+With kind regards,
+Andrea Szabo
+PLOS Genetics
+On behalf of:
+The PLOS Genetics Team
+Carlyle House, Carlyle Road, Cambridge CB4 3DN | United Kingdom
+plosgenetics@plos.org | +44 (0) 1223-442823
+plosgenetics.org | Twitter: @PLOSGenetics
+Associated Data
+
+## Supplementary Materials
+S1 Fig
+
+## Detection of TUBL protein expression in epidermal lysates by MS-based MRM analysis.
+Extracted ion chromatograms are shown for TUBL-derived peptides in MRM analysis. MRM analysis detected two different TUBL-derived peptides with the amino acid sequences AQLVGQGVSSWR (A) and DTLSDLR (B). “Standard” indicates signals for the internal standard, a stable isotope–labeled recombinant TUBL protein expressed in and purified from bacteria. “Endogenous” indicates signals for peptides derived from endogenous TUBL in epidermal lysates prepared from Tubl+/+ or Tubl−/− mice. The purple vertical lines in the Endogenous chromatograms indicate the retention time of each endogenous TUBL peptide.
+(EPS)
+Click here for additional data file.
+S1 Table
+
+## Differentially expressed genes, including up-regulated and down-regulated genes, in NHEKs infected with a lentivirus encoding TUBL compared with those infected with a lentivirus encoding GFP.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## Differentially expressed genes, including up-regulated and down-regulated genes, in epidermis of Tubl−/− mice compared with that of Tubl+/+ mice.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## iBAQ values for TUBL binding proteins identified in HaCaT cells and NHEKs.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## Results for GO term analysis of identified TUBL binding proteins.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## Oligonucleotides used in the present study.
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## All numerical data underlying graphs or statistics.
+(XLSX)
+Click here for additional data file.
+AttachmentSubmitted filename: nita_resp_pgrev2.doc
+Click here for additional data file.
+
+## Data Availability Statement
+The RNA-seq data generated during this study have been deposited in the DDBJ database under accession numbers DRA011760 (mouse epidermis) and DRA011761 (NHEKs). The MS data have been deposited with the ProteomeXchange Consortium (http://proteomecentral.proteomexchange.org) via the JPOST partner repository under the data set identifiers PXD026388 (HaCaT cells), PXD026389 (NHEKs), and PXD026392 (mouse epidermis).

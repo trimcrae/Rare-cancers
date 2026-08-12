@@ -1,0 +1,211 @@
+pmcJ Transl MedJ Transl Med214transmedJournal of Translational Medicine1479-5876BMCPMC12859970PMC12859970.112859970128599704146628910.1186/s12967-025-07629-276291Researchm6A-mediated DEC1 upregulation facilitates silica-induced pulmonary fibrosis via PI3K/Akt signaling pathway
+YinHaoyu YangShiyu XieYujia YouXiaojie YaoYuxin ShangBingxin LiuHaoxiang FanXin LinXin MaJixuanmaj@hust.edu.cn 1https://ror.org/00p991c53grid.33199.310000 0004 0368 7223Department of Occupational & Environmental Health, School of Public Health, Tongji Medical College, Huazhong University of Science and Technology, Wuhan, Hubei 430030 China 2https://ror.org/00p991c53grid.33199.310000 0004 0368 7223Key Laboratory of Environment and Health, Ministry of Education & Ministry of Environmental Protection, State Key Laboratory of Environmental Health (Incubating), School of Public Health, Tongji Medical College, Huazhong University of Science and Technology, Wuhan, Hubei 430030 China 29122025202624503727120236202519122025291220250102202601022026© The Author(s) 20252025https://creativecommons.org/licenses/by-nc-nd/4.0/Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Background
+Silicosis is a severe and globally prevalent lung disease characterized by progressive pulmonary fibrosis. Recent studies suggested that N6-methyladenosine (m6A) modification is implicated in the pathogenesis of lung diseases. However, the function role of m6A modification in silicosis is still mostly unknown.
+
+## Methods
+Silica-exposed bronchial epithelial cell model and silicosis mice model were established to determine the role of m6A modification in silica-induced pulmonary fibrosis. Then, a series of experimental methods including dot blot, immunofluorescence, RIP assay, were performed to explore the underlying mechanisms of methyltransferase-like 3 (METTL3)-mediated Differentiated embryo-ehon-drocyte expressed gene1 (DEC1) m6A modification in epithelial-mesenchymal transition (EMT) process and pulmonary fibrosis. Finally, we used small interfering RNAs (siRNAs) and AAV6 vectors targeting METTL3 to investigate the effect of METTL3 in silica-induced pulmonary fibrosis.
+
+## Results
+We found that silica-induced EMT process was accompanied by the increased expression of DEC1. Mechanistically, DEC1 was identified as the downstream effector of METTL3. METTL3 directly recognized and bound to the m6A site on DEC1 mRNA, regulated DEC1 mRNA stability, leading to its post-transcriptional activation. DEC1 then activated PI3K/Akt signaling pathway, and played a critical role in silica-induced pulmonary fibrosis by promoting inflammation and EMT process. In particular, the EMT process and silica-induced pulmonary fibrosis were alleviated by siRNAs and AAV6 vectors targeting METTL3 in vitro and in vivo, respectively.
+
+## Conclusions
+The m6A-mediated regulation of DEC1 overexpression may underlie the pathogenesis of silicosis, suggesting that modulation of METTL3 mediated DEC1 expression represents a promising prevention target.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12967-025-07629-2.
+
+## Keywords
+Silica particlePulmonary fibrosism6A modificationDEC1http://dx.doi.org/10.13039/501100001809National Natural Science Foundation of China82273605824B2097YinHaoyuMaJixuanhttp://dx.doi.org/10.13039/501100003819Natural Science Foundation of Hubei Province2024AFB548MaJixuanOpen Project of Anhui Province Key Laboratory of Occupa-tional Health2024ZYJKA003MaJixuanHUST Outstanding young visiting scholars development projectHUST Outstanding young visiting scholars development projectMaJixuanWuhan Knowledge Innovation Project2023020201020234MaJixuanpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDissue-copyright-statement© BioMed Central Ltd., part of Springer Nature 2026
+
+## Introduction
+Silicosis is a serious interstitial lung disease characterized by chronic inflammation and progressive pulmonary fibrosis [ ]. It is a severe occupational disease worldwide caused by long-term inhalation of silica particles in natural environments and industrial activities [ ]. Unfortunately, due to the pathogenesis of silicosis remains poorly understood, effective prevention and treatment options are still lacking. Thus, it is urgent to identify the effective targets and molecular mechanisms to alleviate the progression of silicosis.
+As the most abundant modification of mRNA in eukaryotic cells, N6-methyladenosine (m6A) modification has been reported to be involved in various fibrotic diseases [ – ]. Factors involved in m6A formation and elimination include “writers,” “erasers”, and “readers,” which together determine and maintain the dynamic balance of m6A modification [ ]. In particular, methyltransferase-like 3 (METTL3) affects the stability of mRNA and its translation into protein, which has been reported to be positively expressed in lung tissues [ ]. Existing reports indicated that the imbalance of m6A contributes to the development of various lung diseases, with METTL3 serving as a potential central regulator [ – ]. However, the function and molecular mechanism of METTL3-mediated m6A modification in silica-induced pulmonary fibrosis have not been thoroughly uncovered.
+According to the results of methylated RNA immunoprecipitation sequencing (MeRIP-seq) and RNA-seq analysis in our previous study, we found that the m6A modification and mRNA expression levels of Differentiated embryo-ehon-drocyte expressed gene1 (DEC1) in silica-exposed mice lung tissues were significantly altered [ ]. DEC1 is a transcription factor that controls cell proliferation, differentiation, apoptosis, and invasion, and has been found to be mainly expressed in epithelial cells [ ]. Studies pointed out that the dysregulation of DEC1 was an early event in the development of lung cancer [ , ]. Additionally, DEC1 played a crucial role in promoting the epithelial-mesenchymal transition (EMT) process during the lung injury [ , ]. However, the functional role of DEC1 mediated by m6A modification in silica-induced pulmonary fibrosis remains elusive.
+In the present study, we found that DEC1 played an important role in silica-induced pulmonary fibrosis by facilitating inflammation and EMT process, accompanied by increased expression of the methyltransferase METTL3. Upregulation of METTL3 in bronchial epithelial cells regulated the mRNA stability of DEC1 by identifying the specific m6A modification site. Remarkably, interventions targeting METTL3 in vitro and in vivo could attenuate silica-induced EMT and pulmonary fibrosis. Our results uncover a novel function of METTL3-regulated m6A mechanisms in pulmonary fibrosis, and establish that targeting METTL3 and DEC1 may be an effective prevention strategy for silica-induced lung injury.
+
+## Materials and methods
+
+## Cell culture and treatment
+Immortalized normal human bronchial epithelial cell line Beas-2B cells were grown in Dulbecco’s Modified Eagle Medium (DMEM) (Gibco, USA) supplemented with 10% fetal bovine serum (Gibco, USA) and 1% penicillin-streptomycin (Gibco, USA). The cells were cultured in a humidified environment with 5% CO2 at 37 °C.
+To construct a silica-exposed bronchial epithelial cell model, Beas-2B cells were treated with silica particles provided by Chinese Center for Disease Control and Prevention (Beijing, China) at 50, 100, 150, 200 µg/mL concentrations for 6 and 12 h, respectively. METTL3 siRNA, DEC1 siRNA, and METTL3 overexpression plasmid were synthesized by GenePharma Company (Shanghai, China), and transfected into cells using Lipofectamine 3000 and P3000 reagent (Thermo Scientific, USA). The sequences of siRNAs are generalized in Table .
+
+## Animal models establishment
+Male C57BL/6 mice (6-week-old, weighing approximately 18–22 g) were purchased from Hubei Provincial Center for Disease Control and Prevention (Wuhan, China). The mice were maintained in specific pathogen-free facilities with a 12-h light/dark cycle, a temperature of 22 °C, and a relative humidity of 50 ± 10%. All experiments and procedures were approved by the ethics committee of Huazhong University of Science and Technology (IACUC number: 3658).
+We constructed a Mettl3-specific silencing mouse model through tracheal instillation using AAV6 short hairpin RNA (shRNA) provided by Obio Technology Company (Shanghai, China). The mice were randomly divided into 6 groups, with 24 mice in each group. Mice in AAV6-negative control shRNA (AAV6-shNC) and AAV6-shNC + silica groups were instilled with 50 µL (1E + 11 viral particles) AAV6-shNC three weeks before silica exposure, while mice in AAV6-Mettl3 shRNA (AAV6-shMettl3) and AAV6-shMettl3 + silica groups were instilled with 50 µL (1E + 11 viral particles) AAV6-shMettl3. Three weeks later, mice in PBS, AAV6-shNC, and AAV6-shMettl3 groups were instilled with PBS (Gibco, USA), mice in silica, AAV6-shNC + Silica and AAV6-shMettl3 + silica groups had silica suspension (50 mg/mL, 2.5 mg total) according to our previous studies [ ]. After exposure to silica particles for 7, 28, and 84 days, eight mice were randomly sacrificed from each group, and their bronchoalveolar lavage fluid (BALF) and lung tissues were collected for further study.
+
+## Cell counting Kit-8 (CCK-8) assay
+Beas-2B cells were transferred onto 96-well plate and treated with different concentrations of silica particles for different time points. CCK-8 (Dojindo, China) assay was applied to estimate the cytotoxicity of silica particles, and the absorbance of each sample was detected at 450 nm using a multidetector microplate reader (Spark, Austria).
+
+## Lactate dehydrogenase (LDH) release assay
+Cells were plated in 96-well plate followed by silica treatment. Briefly, 120 µL of cell supernatant was selected and mixed with 60 µL of LDH working solution (Beyotime, China). After incubating at room temperature in the dark for 30 min, the optical density (OD) at 490 nm was measured by multidetector microplate reader (Spark, Austria).
+
+## Quantitative real-time polymerase chain reaction (qRT-PCR)
+Total RNA was extracted from Beas-2B cells and lung tissues using TRIzol reagent (Invitrogen, USA), and was reverse transcribed to complementary cDNA by incubation with reverse transcriptase at 42 ℃ for 1 h and 70 ℃ for 5 min. The mRNA expression of METTL3, DEC1, Interleukin-6 (IL-6), N-cadherin (N-cad), and E-cadherin (E-cad) was then assessed by QuantStudio7 System (Applied Biosystems, USA) with the SYBR Green Real-time PCR Master Mix (Thermo Scientific, USA), and gene-specific primers (Servicebio, China) are listed in Table . All data obtained were normalized to the transcription of GAPDH. The average fold change of mRNA expression was calculated by the 2−ΔΔCT method.
+
+## Enzyme-linked immunosorbent assay (ELISA) assay
+After collecting supernatants of Beas-2B cells and BALF of mice, the expression of IL-6 was measured using Mouse and Human IL-6 ELISA kits (Neobioscience, China) as per the manufacturer’s instructions, respectively.
+
+## Western blot
+The total protein of Beas-2B cells and mice lung tissues was extracted with radio immuno precipitation assay (RIPA) lysis buffer (Beyotime, China) containing 1% protease inhibitor phenylmethylsulfonyl fluoride (Beyotime, China) and 1% phosphatase inhibitor (Beyotime, China), and quantified using BCA Protein Assay Kit (Beyotime, China). Equal amounts of proteins were separated by SDS-PAGE and transferred to polyvinylidene fluoride (PVDF) membrane (Roche, Germany). After blocking within 5% non-fat milk, the membranes were coated with specific primary antibodies at 4 ℃ overnight. Next day, the membranes were incubated with secondary horseradish Peroxidase (HRP)-conjugated antibodies at room temperature and then reacted with enhanced chemiluminescence (ECL) substrate (Thermo Scientific, USA). The protein expressions were quantified by normalizing to GAPDH. The antibodies used in this study are presented in Table .
+
+## Dot blot
+A total of 400 ng RNA was loaded to nylon membrane (Biosharp, China), followed by irradiation under ultraviolet light for 30 min. After blocking in 5% bovine serum albumin (BSA), the membrane was incubated with m6A antibody overnight at 4 °C. Subsequently, the membrane was hybridized with secondary HRP-conjugated antibodies the next day and visualized using the ECL substrate. Later, it was stained with 0.02% Methylene blue (Biosharp, China) and imaged to ensure the total content of input RNA. The primary antibody used in this study is presented in Table .
+
+## Quantification of total m6A modification level
+The global m6A modification level of RNA was determined using EpiQuik™ m6A RNA Methylation Quantification Kit (Colorimetric) (Epigentek, USA) according to the manufacturer’s protocol. Briefly, RNA was incubated with capture antibody, detection antibody, and working solution. The m6A content was then quantified at 450 nm using multidetector microplate reader (Spark, Austria).
+
+## Immunofluorescence
+Beas-2B cells were intervened with different concentrations of silica particles, then washed, fixed, penetrated, and blocked using PBS, 4% paraformaldehyde, 0.3% Triton X-100, and goat serum, successively. Subsequently, the cells were placed in a wet box and incubated with primary antibody at 4 °C overnight. On the following day, the cells were incubated with the secondary antibody and 50 µL of DAPI (Beyotime, China). Finally, the images were captured using a fluorescence microscope (ZEISS Axio Observer 7, Germany) and the fluorescence intensities of specific proteins were quantified by ImageJ software. The primary antibodies used in this study are presented in Table .
+
+## SELECT assay
+The m6A modification level of DEC1 mRNA was detected using Epi-SELECT™ m6A site identification (Epibiotek, China). The probe used in this experiment was designed based on the m6A modification site predicted through the SRAMP website (http://www.cuilab.cn/sramp). The m6A modification level of the target gene was measured using a single-base elongation- and ligation-based qPCR amplification method (SELECT) based on the manufacturer’s protocol. Table shows the primers used in SELECT assay.
+
+## RNA Immunoprecipitation (RIP) assay
+RIP assay was carried out using RIP kit provided by BersinBio (Guangzhou, China). In brief, cells were divided into IgG, Input and immunoprecipitation (IP) groups. A total of 5 µg of IgG and primary antibody were added to the IgG and IP groups respectively and incubated overnight at 4 °C. The next day, the magnetic beads were collected after incubating with samples for 1 h. Finally, the RNA was extracted as previously mentioned, and qRT-PCR was used to determine the expression level of the target gene.
+
+## Molecular docking
+The crystal structures of METTL3 (PDB ID: AF_AFQ86U44F1) and DEC1 (PDB ID: AF_AFO14503F1) were accessed from the Protein Data Bank (https://www.rcsb.org). Molecular docking models were constructed using Discovery Studio software to molecularly dock the compounds (ZDock).
+
+## Dual-luciferase reporter assay
+A DEC1 fragment containing m6A modification site was synthesized and cloned into luciferase reporter vector. For mutant (Mut) reporter plasmids, adenosine (A) in m6A motif was replaced by cytosine (C). All plasmids used in the dual-luciferase reporter assay were constructed by GenePharma Company (Shanghai, China). After transfecting the METTL3 overexpression and the reporter plasmids into Beas-2B cells for 48 h, the luciferase activity was measured using a Luciferase Reporter Gene Assay Kit (Beyotime, China) according to the manufacturer’s instructions. In short, after lysing the cells and obtaining the supernatant, the renilla fluorescein substrate and firefly luciferase substrate detection reagents were added to each sample, the relative light unit was then measured using a multidetector microplate reader (Spark, Austria). The activity of firefly luciferase was normalized to renilla fluorescein activity.
+
+## mRNA stability assay
+Beas-2B cells were inoculated onto 12-well plate and intervened with the above procedures. Actinomycin D (MCE, America) (5 µg/mL) was added to the cells to terminate mRNA transcription for the stability assay. After 0, 2, 4, and 6 h of actinomycin D treatment, Beas-2B cells were collected and the mRNA expression levels of DEC1 were measured by qRT-PCR.
+
+## Micro-CT
+The mice were anesthetized and fastened on micro-CT scanner SkyScan 1176 (Bruker, Belgium). The images of mice lungs were visualized by NRecon reconstruction software.
+
+## Masson staining
+The lung tissues were fixed in 4% paraformaldehyde and embedded in paraffin. After slicing the lung tissues into sections with a thickness of about 4 μm, the samples were sequentially stained with Masson working solution as previously reported and scanned using microscope (ZEISS Axio Observer 7, Germany) [ ]. The fibrosis scores were estimated based on Ashcroft scoring criteria [ ].
+
+## Hematoxylin and Eosin (H&E) staining
+The lung sections were prepared as described above. Briefly, the sections of mice lung tissues were stained using hematoxylin and eosin dyes and imaged by microscope (ZEISS Axio Observer 7, Germany). The inflammation scores were assessed by Szapiel scoring criteria [ ].
+
+## Immunohistochemistry
+The lung sections were prepared as described above. As previously reported, the sections were incubated with collagen type I (Col1α1) antibody and stained with DAB stock solution and hematoxylin. After cleaning the slices, the lung tissues were imaged using microscope (ZEISS Axio Observer 7, Germany) and analyzed by ImageJ software. The antibody used in this study is presented in Table .
+
+## Immunofluorescence
+The lung sections were prepared as described above. After blocking in 5% BSA solution, the lung tissues were incubated with primary antibodies at 4 ℃ overnight. Next day, the sections were reacted with secondary antibody and the images were captured by microscope (ZEISS Axio Observer 7, Germany). The fluorescence intensity of target genes was measured using ImageJ software. Table lists the antibodies used in Immunofluorescence.
+
+## Statistical analysis
+The experimental data obtained in this study were analyzed and visualized using GraphPad Prism software (version 8.3). All experimental results were expressed as mean ± standard error of mean (SEM). Differences between two groups were compared using Student’s t-test, differences within multiple groups were analyzed using one-way analysis of variance with the Student-Newman-Keuls test. P-value < 0.05 was considered statistically significant.
+
+## Results
+Silica exposure stimulates the inflammation and EMT process in vitro.
+To evaluate the cytotoxicity of silica particles, we first examined the viability of Beas-2B cells. As shown in Fig. A, compared with the control group, we found a significant decrease in cell viability after silica exposure. In contrast, the release of LDH consistently elevated with the increase of silica dose (Fig. B). It is well known that inflammation and the EMT process are the two vital dynamic forces in the pathogenesis of pulmonary fibrosis [ , ]. In this study, we found that after silica exposure, the expression of pro-inflammatory cytokines IL-6 and mesenchymal marker N-cad was gradually upregulated in a dose-dependent manner, while the expression of epithelial marker E-cad was downregulated (Fig. C-F). These results suggested that silica exposure could promote inflammation and EMT process in human normal bronchial epithelial cells.
+
+ 
+
+## Silica-induced EMT process is accompanied by the upregulation of m6A modification
+Since the progressive accumulation of m6A modification is thought to be one of the driving forces that promote EMT process [ , ], we wondered whether silica exposure could lead to the dysregulation of m6A modification and further participate in EMT process. To explore the link between epigenetic regulation and EMT, total m6A modification levels in Beas-2B cells were dynamically determined using dot blot and colorimetric quantification assay, the results showed that exposure to silica particles induced an evident increase of m6A modification levels in Beas-2B cells (Fig. A-B). Meanwhile, we observed that the upregulation of methyltransferase METTL3 was accompanied by EMT process (Fig. C-D). These data demonstrated that the upregulation of METTL3 and total m6A modification were involved in silica-induced EMT process, suggesting that METTL3 might be a key regulator of m6A modification. Since the results showed significant EMT and m6A modification after 6 and 12 h treatment at a 150 µg/mL silica dose, the subsequent mechanistic exploration experiments were conducted under 150 µg/mL dose of silica treatment.
+
+ 
+
+## METTL3 regulates silica-induced inflammation and EMT process
+To further verify the role of METTL3 in the process of silica-induced EMT, experiments with METTL3 inhibition have been performed, and the most effective inhibition rate of small interfering RNAs (siRNAs) targeting METTL3 reached 71.6% in Beas-2B cells (Fig. A). Compared with the silica-treated group, the expression of METTL3 and total m6A modification levels were obviously suppressed in silica + siMETTL3 group (Fig.  A-C). Besides, METTL3 silencing significantly reduced the inflammation levels and inhibited the EMT process, manifested as a decrease in the expression levels of IL-6 and N-cad, while the expression level of E-cad was increased (Fig.  D-G). Altogether, these results displayed that the inhibition of METTL3 suppressed silica-induced inflammation and EMT process, supporting the idea that METTL3 played a crucial role during the above progression.
+
+ 
+
+## METTL3 regulates downstream target gene DEC1 in an m6A-dependent manner
+DEC1, the m6A differentially expressed gene identified in our previous studies [ ], is mainly located in epithelial cells, suggesting that it might be involved in the progression of silica-induced EMT. We first detected the mRNA and protein expression of DEC1, and observed that after silica exposure, DEC1 expression was upregulated in Beas-2B cells (Fig. A-B). Moreover, the specific m6A sites of DEC1 mRNA were predicted through the SRAMP website (http://www.cuilab.cn/sramp), and the highest confidence m6A site was verified using SELECT method, the results showed that the m6A modification level of DEC1 mRNA was increased after silica exposure (Fig. C). However, after intervention with siMETTL3, the expression and m6A modification level of DEC1 in Beas-2B cells were significantly decreased (Fig. D-F). These observations pointed that METTL3 could regulate the m6A modification of DEC1 and further elevate its expression.
+
+ 
+
+To determine the role of METTL3 in post-transcriptional modification of DEC1, using RIP assay, we observed a significantly higher enrichment of METTL3 with DEC1 mRNA relative to IgG control in silica-exposed cells (Fig.  A). The dual immunofluorescent staining showed co-expression of METTL3 and DEC1 in Beas-2B cells, especially in the silica-treated group (Fig.  B). Moreover, molecular docking also offered compelling evidence for the fact that METTL3 targeted on DEC1 (Fig.  C). To further verify the direct interaction between METTL3 and DEC1, a dual-luciferase reporter gene assay was performed in Beas-2B cells. For Mut reporters, adenosine base (A) in the predicted m6A site was replaced by cytosine base (C) to remove the effect of m6A modification, while wild-type (WT) reporter contained the highest confidence m6A modification site. The luciferase activities of WT group were moderately increased under METTL3 overexpression, while those of Mut group had no significant changes after METTL3 overexpression, implying that the regulation of DEC1 was under the control of METTL3-guided m6A modification (Fig.  D). As shown in Fig.  E, we also found that the stability of DEC1 mRNA was weakened after silencing METTL3. Collectively, these data indicated that METTL3 was sufficient to regulate the m6A modification of DEC1 mRNA, and further affected the mRNA stability and expression of DEC1.
+
+ 
+
+## DEC1 regulates silica-induced EMT process via PI3K/Akt signaling pathway
+To uncover the crucial signaling pathway by which silica particles adversely affect epithelial cells, we focused on the PI3K/Akt signaling pathway, which was detected by KEGG analysis in our previous study and has been reported to be regulated by DEC1 [ , ]. We designed three siRNAs and siRNA3 was selected for further experiments because of its silencing efficiency (76.1%) (Fig. B), the results showed that compared to the silica group, the mRNA and protein expression of DEC1 was obviously suppressed in silica + siDEC1 group (Fig. A-B). We then detected the expression of specific biomarkers associated with PI3K/Akt signaling pathway, and found that DEC1 silencing significantly downregulated the protein expression of p-PI3K and p-Akt (Fig. C). Besides, inhibition of DEC1 could suppress the production of pro-inflammatory cytokines, and block EMT progression induced by silica particles in Beas-2B cells (Fig. D-G). Moreover, DEC1 silencing was sufficient to rescue the activation effect of METTL3 overexpression on EMT process (Fig. ). Taken together, these results identified that DEC1 mediated by METTL3 might regulate EMT process caused by silica particles through PI3K/Akt signaling pathway.
+
+ 
+
+## Exposure to silica particles causes an imbalance of m6A homeostasis in vivo
+To investigate the functional role of m6A modification regulated by METTL3 in silica-induced pulmonary fibrosis, we used intratracheal instillation of AAV6 vectors expressing Mettl3 specific shRNA (AAV6-shMettl3) to establish a METTL3 knockdown mouse model, and a silicosis mouse model by instilling silica suspension (Fig.  A). As shown in Fig.  B, we detected the protein expression of METTL3 in lung tissues to verify the transduction efficiency of AAV6. The results showed that silica exposure could significantly upregulate the expression of METTL3 in the lungs of mice, which was remarkably reduced by AAV6-shMettl3 treatment. The study also suggested that knocking down METTL3 could decrease the abnormal m6A modification levels induced by silica particles (Fig.  C). Similar to the in vitro experiments, dual immunofluorescent staining confirmed the co-expression of METTL3 and DEC1 in mice lung tissues, and further validated the knockdown effect of AAV6 on Mettl3 (Fig.  D). Furthermore, the protein expression and m6A modification levels of DEC1 in mice lung tissues treated with AAV6-shMettl3 was identified to be lower compared with those in silica or silica + AAV6-shNC groups (Fig.  E-F). These findings suggested that exposure to silica particles could lead to the abnormal elevation of total m6A modification levels and DEC1 expression in lung tissues, while METTL3 might be a critical regulator during this process.
+
+ 
+
+## Inhibition of Mettl3 attenuates silica-induced pulmonary fibrosis
+We subsequently observed the effect of Mettl3 knockdown on silica-induced pulmonary fibrosis in vivo. Micro-CT imaging showed high-density radiography in the lungs of mice intervened with silica particles, suggesting the fibrotic changes might occurred (Fig.  A). Masson staining showed that collagen fibers were accumulated as indicated by blue areas in the lungs of mice exposed to silica particles, and there was obvious nodule formation starting from day 28, and the fibrosis scores also confirmed that the collagen deposition in the lungs of silica-exposed mice mainly appeared from day 28 and gradually expanded until day 84 (Fig.  B). All these fibrotic changes were significantly alleviated by AAV6-shMettl3, while the usage of AAV6-shNC showed no significant effect (Fig.  A-B). As shown in Fig.  C and S4, we also revealed that AAV6-shMettl3 successfully suppressed the infiltration of inflammatory cells and IL-6 secretion induced by silica particles. Consistent with the in vitro experiments, we found that silica exposure caused upregulation of N-cad and downregulation of E-cad expression in mice lung tissues, while the EMT process was partially blocked in mice intervened with AAV6-shMettl3 (Fig.  D). Furthermore, the expression of Col1α1 in lung tissues was significantly enhanced after silica treatment, especially after 84 days. However, AAV6-shMettl3 significantly mitigated the increase (Fig.  E, ). More importantly, using multiplex immunofluorescence, we observed the co-localization of DEC1, METTL3, and Col1α1 in mice lung tissues exposed to silica particles (Fig.  E). These results demonstrated that METTL3 was a key mediator throughout silica-induced pulmonary fibrosis, and interventions targeting METTL3 could alleviate pulmonary fibrosis induced by silica particles via inhibiting inflammation and EMT process.
+
+ 
+
+## Discussion
+In the present study, we demonstrate that the total m6A modification level is significantly increased due to the upregulation of methyltransferase METTL3 in the pathogenesis of silica-induced pulmonary fibrosis. Mechanistically, METTL3 directly binds to the m6A site on DEC1 mRNA and regulates its stability. DEC1 subsequently promotes the secretion of pro-inflammatory factor IL-6, and mediates EMT in bronchial epithelial cells. During this process, PI3K/Akt signaling pathway might contribute to the progression of pulmonary fibrosis caused by silica exposure.
+The development of silica-induced pulmonary fibrosis is extraordinarily complex, involving multiple molecules and mechanisms. EMT is a process in which epithelial cells transdifferentiate into motile mesenchymal cells, leading to fibroblast accumulation and contributing substantially to pulmonary fibrosis. The importance of EMT in tissue repair and fibrosis has become increasingly recognized and extensively studied [ , ]. Thus, understanding of the molecular basis of EMT process is indispensable to identify the promising anti-fibrosis therapy targets. Epigenetics is a recognized mechanism that mediates the interaction between genes and the environment [ ]. m6A modification can influence RNA metabolism from multiple perspectives, thereby regulating mRNA stability and splicing, translation efficiency, nuclear export, and affecting programmed cell death [ , ]. Recently, the effects of m6A modification on different biological processes have been uncovered [ ]. Importantly, m6A modification has been reported to play regulatory roles in fibrotic disease, including kidney, renal, and pulmonary fibrosis [ , , ]. However, research on m6A modification in silica-induced pulmonary fibrosis is extremely rare. Here, by establishing a silicosis mouse model and silica-exposed bronchial epithelial cell model, we observed that the severe pulmonary fibrosis was accompanied by abnormally elevated m6A modification level. Among the m6A modulators, METTL3 is thoroughly and widely studied in various lung diseases (e.g., lung cancers, acute lung injury, idiopathic pulmonary fibrosis) [ – ]. For example, recent research has found that inhibition of METTL3 through knockdown or targeted inhibition could effectively suppress the lung injury of mice [ ]. Besides, METTL3 has been determined to be involved in the fibroblast-to-myofibroblast transition and further participates in pulmonary fibrosis [ ]. Similar to the previous studies, we found that among numerous methyltransferases, only the expression level of METTL3 continued to increase during the pulmonary fibrosis of mice [ ], while knocking down METTL3 could effectively decrease inflammation levels, block EMT progression, and ultimately alleviate pulmonary fibrosis caused by silica exposure. This discovery suggests us that METTL3 could serve as a potential predictive biomarker for silicosis.
+Using MeRIP-seq and RNA-seq, we found the promising result that DEC1 was the key downstream target of METTL3 in silica-induced pulmonary fibrosis [ ]. DEC1 is reported to be involved in the regulation of cell proliferation, differentiation, and apoptosis of various types of cells, but is mainly expressed in epithelial cells [ , ]. RNA-seq results have shown that the somatic mutations were detected in DEC1 of pulmonary fibrosis patients [ ]. Similarly, we found that DEC1 was positively correlated with EMT process and pulmonary fibrosis induced by silica exposure, while knockdown of DEC1 effectively alleviated the inflammation and EMT process in bronchial epithelial cells, which suggested that DEC1 serves as an essential regulatory factor in silica-induced EMT and fibrotic processes. Mechanistically, METTL3 specifically recognized and bound to the m6A site on DEC1 mRNA, regulated its stability, and further epigenetically activated DEC1 expression via the m6A-dependent manner. In detail, we first identified the highest confidence m6A modification site of DEC1 using the SRAMP website, and then determined an increase in DEC1 mRNA m6A modification levels of human normal bronchial epithelial cells after exposure to silica particles. In particular, the correlation between METTL3 and the target gene DEC1 was confirmed through dual-luciferase reporter assay. Besides, knocking down METTL3 both in vitro and in vivo could inhibit the expression of DEC1 induced by silica exposure. These findings implied that DEC1 mediated by METTL3 played a crucial role in silica-induced pulmonary fibrosis through regulating the EMT process.
+Our study also demonstrates that DEC1-induced hyperactivation of the PI3K/Akt signaling pathway might be a driver of silica-induced EMT and pulmonary fibrosis. EMT is a complex process that may involve multiple signaling pathways [ ]. Based on the existing research, multiple signaling pathways have been regarded as important regulators of EMT process, among them, PI3K/Akt signaling pathway is one of the most important signal transduction pathways in cells [ , ]. It was found that m6A modification could affect EMT process through regulating PI3K/Akt signaling pathway [ ]. Most importantly, previous research showed that DEC1 played a key role in pulmonary fibrosis induced by bleomycin via PI3K/Akt signaling pathway, which suggested that DEC1 might be a key regulatory gene of this signaling pathway [ , ]. We also observed that the differentially methylated gene was enriched in PI3K/Akt signaling pathway in our previous study according to the KEGG analysis. Consistently, we observed that silica exposure activated PI3K/Akt signaling pathway in epithelial cells, while inhibiting DEC1 could decrease the expression of p-PI3K/PI3K and p-Akt/Akt, and further block the EMT process. These findings indicated that DEC1 might regulate silica-induced inflammation and EMT process via PI3K/Akt signaling pathway.
+Taken together, our study proves the role of METTL3-mediated DEC1 in pulmonary fibrosis induced by silica exposure. Mechanistically, METTL3 regulated the mRNA stability and expression of DEC1 in an m6A-dependent manner, which played an essential role in activating PI3K/Akt signaling pathway. In particular, we found that interventions targeting METTL3 could alleviate silica-induced pulmonary fibrosis via inhibiting inflammation and EMT process.
+This study has several strengths. It combines complementary in vivo and in vitro models of silica exposure, uses multiple independent siRNAs with appropriate negative controls, and provides consistent evidence at the mRNA, protein, and signaling pathway levels. These findings collectively support that METTL3-mediated m6A modification stabilizes DEC1 during the silica-induced fibrotic response, and PI3K/Akt might be an important signaling pathway that contribute to the observed effects. However, several limitations should be acknowledged. The sample size was relatively small, and the experiments were restricted to silica-induced fibrosis models, which limits generalization to other types of pulmonary fibrosis. Using gene knockout mice to further confirm the specificity of the observed effects is necessary. In addition, clinical data and validation in independent patient cohorts are lacking, other potential epigenetic and transcriptional regulators have not yet been fully explored. The relationship between the mechanisms we identified our findings and disease progression also needs further investigation.
+
+## Conclusion
+Collectively, we elucidate the essential role of METTL3-mediated m6A modification of DEC1 in silica-induced pulmonary fibrosis, in which this regulatory axis promotes the inflammation and EMT process. The identification of METTL3/DEC1-PI3K/Akt axis and its impacts on EMT process provides new insights into the pathogenesis of silicosis and may facilitate the development of more effective prevention strategies.
+
+## Supplementary Information
+Below is the link to the electronic supplementary material.
+
+Supplementary Material 1
+
+Supplementary Material 2
+
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Haoyu Yin and Shiyu Yang contributed equally to this work.
+
+## Acknowledgements
+None.
+
+## Author contributions
+Haoyu Yin: Writing – original draft, Writing – review & editing, Conceptualization, Methodology, Formal analysis, Investigation, Visualization, Software. Shiyu Yan: Writing – review & editing, Conceptualization, Methodology, Investigation, Visualization, Data Curation. Yujia Xie: Methodology, Investigation, Validation. Xiaojie You: Methodology, Investigation. Yuxin Yao: Investigation, Visualization, Software. Bingxin Shang: Visualization, Software, Formal analysis. Haoxiang Liu: Visualization, Software. Xin Fan: Visualization, Software. Xin Lin: Investigation, Software. Jixuan Ma: Writing – review & editing, Resources, Methodology, Supervision, Conceptualization, Project administration, Funding acquisition.
+
+## Funding
+This work was supported by the National Natural Science Foundation of China (82273605); the National Natural Science Foundation of China (824B2097); the Natural Science Foundation of Hubei Province (2024AFB548); the Open Project of Anhui Province Key Laboratory of Occupational Health (2024ZYJKA003); HUST Outstanding young visiting scholars development project; Wuhan Knowledge Innovation Project (2023020201020234).
+
+## Data availability
+The data that support the findings of this study are available upon request from the corresponding author.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Our research was approved by the local ethics committee based on the Declaration of Helsinki. All experiments and procedures were approved by the ethics committee of Huazhong University of Science and Technology (IACUC number: 3658). Consent to Participate declaration: not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare that they have no competing interests.
+
+## Abbreviations
+m6AN6-methyladenosine
+EMTEpithelial-mesenchymal transition
+ECMExtracellular matrix
+METTL3Methyltransferase-like 3
+MeRIP-seqMethylated RNA immunoprecipitation sequencing
+DEC1Differentiated embryo-ehon-drocyte expressed gene1
+DMEMDulbecco’s Modified Eagle Medium
+siRNASmall interfering RNA
+shRNAShort hairpin RNA
+PBSPhosphate-buffered saline
+BALFBronchoalveolar lavage fluid
+CCK-8Cell Counting Kit-8
+LDHLactate dehydrogenase
+ODOptical density
+IL-6Interleukin-6
+N-cadN-cadherin
+E-cadE-cadherin
+ELISAEnzyme-linked immunosorbent assay
+RIPARadio immuno precipitation assay
+PVDFPolyvinylidene fluoride
+HRPHorseradish peroxidase
+ECLEnhanced chemiluminescence
+SELECTSingle-base elongation- and ligation-based qPCR amplification method
+RIPRNA immunoprecipitation
+IPImmunoprecipitation
+H&EHematoxylin and eosin
+BSABovine serum albumin
+SEMStandard error of mean
+PI3KPhosphoinositide 3-kinase
+NCNegative control
+oeMETTL3METTL3 overexpression plasmids

@@ -1,0 +1,716 @@
+379blackwellopenAdvanced Healthcare MaterialsAdv Healthc MaterPMC92329509232950114810253528516710.1002/adhm.202102600NIHMS1792288Harnessing the Therapeutic Potential of Biomacromolecules through Intracellular Delivery of Nucleic Acids, Peptides, and Proteins
+TianYu TirrellMatthew V LaBelleJames L 
+1
+Pritzker School of Molecular Engineering, The University of Chicago, 5640 S Ellis Ave, Chicago, IL, 60637, USA
+2
+Department of Pediatrics, Section of Hematology/Oncology, The University of Chicago, 900 E 57th St, Chicago, IL, 60637, USA*
+E‐mail: mtirrell@uchicago.edu; jlabelle@peds.bsd.uchicago.edu
+
+✉Corresponding author.
+2332022111221026002102600162023© 2022 The Authors. Advanced Healthcare Materials published by Wiley‐VCH GmbHThis is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## Abstract
+Biomacromolecules have long been at the leading edge of academic and pharmaceutical drug development and clinical translation. With the clinical advances of new therapeutics, such as monoclonal antibodies and nucleic acids, the array of medical applications of biomacromolecules has broadened considerably. A major on‐going effort is to expand therapeutic targets within intracellular locations. Owing to their large sizes, abundant charges, and hydrogen‐bond donors and acceptors, advanced delivery technologies are required to deliver biomacromolecules effectively inside cells. In this review, strategies used for the intracellular delivery of three major forms of biomacromolecules: nucleic acids, proteins, and peptides, are highlighted. An emphasis is placed on synthetic delivery approaches and the major hurdles needed to be overcome for their ultimate clinical translation.
+Keywords: biological drugs, drug delivery, intracellular targets, nanomedicines
+
+One of the current trends in drug research is to exploit the intracellular targets that are traditionally considered undruggable. Novel, synthetic delivery approaches have enabled biomacromolecules to access these intracellular targets for therapeutic intervention. Examples of these approaches and limitations are discussed in this review.
+
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2022 Feb 9; Received 2021 Nov 28; Issue date 2022 Jun.
+
+1.
+
+## Introduction
+U.S. Food and Drug Administration (FDA)‐approved drugs can be categorized into two broad types, small molecules and biologics. Although “biologics” include cellular therapies, such treatments will not be discussed in this review due to their different mechanism of action and manufacturing processes. We instead focus our discussion on biomacromolecules composed of nucleic acids, peptides, and proteins. Consideration of therapeutic targets and their respective druggabilities, differs greatly between small molecule and biomacromolecule during their discovery and development.[
+ 
+] We highlight some of these differences and opportunities to overcome translational challenges below.
+Small molecule drugs have the longest history in the pharmaceutical industry. Because of their small size, they are able to insert into deep hydrophobic pockets within proteins to alter biological functions through competitive binding or allosteric effects. Small molecule drugs also can directly alter the chemical structures of biological molecules, such as DNA alkylating chemotherapeutics. However, these types of actions are often nonspecific leading to unwanted side effects and narrow therapeutic windows. Moreover, the therapeutic targets and functions that can be drugged by small molecules are rather limited. In fact, little has changed in this dynamic since a bioinformatic analysis conducted nearly 20 years ago searched the whole human genome for small molecule druggable sites and found only 600–1500 potential targets.[
+ 
+] The majority of these targets are extracellular receptors or intracellular enzymes.
+While the pharmaceutical industry strove to develop small molecule drugs, rapid advances in basic science research brought by new molecular biology, immunology, and protein structure/function techniques promoted the development of new biologic agents and deepened our understanding of new disease‐associated biological processes to reveal an expansive number of new potential therapeutic targets.[
+ 
+] These targets include disease‐associated protein–protein interactions (PPIs), and the genes encoding them.[
+ 
+] While only a small fraction of these PPIs have been extensively investigated in the laboratory, some have led to game‐changing new treatment strategies.[
+ , 
+] For example, the PPIs responsible for sequestering wild‐type p53, one of the major mechanisms of cancer cell apoptotic evasion, was once considered undruggable but now can be reactivated with small molecule and peptide‐based therapeutics.[
+ , 
+] Similarly, PPIs between overexpressed antiapoptotic BCL‐2 family proteins and cell death effector proteins can be drugged to effectively reactivate apoptosis in a vast array of malignancies.[
+ , , , , 
+] It is worth mentioning that a handful of atypical small molecule PPI inhibitors are currently being used clinically and preclinically,[
+ , , 
+] the most prominent example of which is BCL‐2 protein inhibitor, venetoclax (ABT‐199).[
+ 
+] However, the size of venetoclax and similar BH3 ‐mimetics, are larger than commonly used small molecule drugs. Venetoclax has a molecular weight of 869.45 Da, while Lipinski's rule of five requires molecular weights to be less than 500 Da.[
+ 
+] Therefore, such drugs are referred to as “beyond rule of five molecules.” While these are positive examples, it has been otherwise difficult to drug other complex PPIs with larger interactions surfaces, leaving biomacromolecules exciting options for clinically significant therapeutic candidates.
+Biomacromolecules are potentially ideal tools to drug more complex targets with high specificity. Additionally, they tend to have fewer side effects, preferred in vivo pharmacokinetics, and shorter times to FDA approval.[
+ , 
+] Early examples of biomacromolecular drugs include natural hormones extracted from animals, such as insulin. More importantly, with the development of recombinant DNA technology, an increasing number of recombinant protein therapeutics have become widely available.[
+ , 
+] The most abundant biologic therapeutic currently is the monoclonal antibody, which is able to specifically interact with a wide variety of proteins with great affinity and over a wide therapeutic window. With the sales of biologics surpassing small molecule drugs, the focus of industrial development has been shifting toward biologics, and this trend will likely continue for the foreseeable future.[
+ 
+] However, current targets of biologics are largely limited to extracellular domains. While antibodies have revolutionized medicine, many biological activities occur within the cell. Therefore, there is a great need for new drug candidates to reach the cytosol in sufficient concentrations to impose their therapeutic purpose whether it be modulation of transcription factor complexes, inhibition of cytosolic protein–protein interactions, introduction of exogenous genes, prevention of endogenous protein expression, or corrective editing of defective genes (Figure
+ ).[
+ , , 
+] Unfortunately, current drug hit‐to‐lead optimization principles are generally more well‐suited for small molecule drugs. An example of this is the aforementioned Lipinski's rule of five,[
+ , 
+] or the application of drug permeability assay screening.[
+ 
+] Candidates of biologics often fall outside these “drug‐like” guidelines, which challenges drug developers to break traditional rules. A variety of approaches have been used to overcome such nondrug‐like properties including cellular introduction via viral vectors, modification of therapeutics using shuttle molecules, and encapsulation using nanoparticle carriers (Figure  ).
+ In this review, we focus on synthetic approaches and detailed methods for the intracellular delivery of biomacromolecules in an effort to amplify their therapeutic potentials. An overview of various strategies, and their limitations, are presented to guide future translational research.
+
+2.
+
+## Biological Barriers for Biomacromolecules
+Biologics are most commonly given as parenteral formulations (e.g., intramuscular, subcutaneous or intravenous administration), which generally leads to high bioavailability. However, following drug administration there exist natural barriers (e.g., immune‐mediated phagocytosis, cell membranes, vascular endothelial barriers, serum proteins, proteases, etc.) that pose significant obstacles for biomacromolecular drugs to reach their intracellular targets at sufficient concentrations. These are the challenges that need to be overcome with specific delivery strategies.
+Perhaps the most immediate barrier during circulation of biomacromolecules are the enumerable and variable amounts of serum proteins, which often readily adsorb and alter their pharmacokinetic profiles and biodistributions (Figure
+ ).[
+ , , 
+] For example, the adsorption of opsonins can lead to fast clearance by phagocytes, a process also known as opsonization.[
+ 
+] The binding of apolipoprotein E (apoE) plays an important role in hepatocyte uptake of drug substances through endocytosis.[
+ 
+] While the sequestration of targeted therapeutics by albumin can cause the failure of their action on targets.[
+ 
+] Therefore, some drug candidates, such as protein–protein interaction inhibitors, need go through structure optimization to reduce their serum protein binding.[
+ , 
+] Other drugs however, particularly peptide hormones, apply lipidation to increase albumin binding for longer in vivo circulation.[
+ , 
+] Moreover, for various nanomedicine systems, although some stealth technologies, such as pegylation,[
+ 
+] are typically used, protein adsorption on nanomedicine surfaces are still unavoidable and forms so‐called “protein coronas,” which can alter their cellular interaction, uptake and the ultimate fate of nanoparticles.[
+ , , , , 
+] Therefore, efforts have been made to control the adsorbed protein corona for favorable biodistribution. For instance, a recent study revealed that adsorbed albumin can be denatured to different folding states depending on the nanoparticle surface chemistry. This can lead to their differential recognition by macrophage scavenger receptors and result in sequential distribution changes in different macrophage subgroups.[
+ 
+]
+
+ In addition to the binding and sequestration by serum proteins, abundant enzymes in blood, such as proteases, DNases, and RNases further challenge biomacromolecule stability during circulation and can greatly affect its half‐life (Figure  ). Once degraded, biomacromolecular debris can generally then be renally excreted. In fact, the renal glomerular filtration system allows molecules smaller than 30–50 kDa or ≈5 nm in globular size to diffuse out more easily (Figure  ),[
+ 
+] which also means common peptide drug candidates may not be readily retained once they enter the renal system.
+The most significant barrier specific to biomacromolecular therapeutics however may be cellular membranes and vascular endothelial permeability resistance (Figure  ).[
+ 
+] For most diseases, particularly those of solid organs, it is vital for therapeutics to cross endothelial cell vessel barriers to reach and deeply penetrate target tissues. A heavily restrictive example is the brain‐blood barrier,[
+ , 
+] which limits most biological drugs from reaching the central nervous system. Unfortunately, even after reaching diseased cells, biomacromolecules often have limited cell membrane permeability, thus leaving intracellular therapeutic targets yet further undruggable. Improving the membrane crossing ability of these molecules is paramount for translational success of biological drugs. The following discussion highlights key advances in delivery technology aimed at overcoming such challenges for various biomolecular cargos.
+
+3.
+
+## Delivery of Nucleic Acid‐Laden Therapeutics
+Nucleic acids carry and regulate expression of genetic information in different forms including plasmid DNA, messenger RNA (mRNA), small interfering RNA (siRNA), microRNA, and antisense oligonucleotides.[
+ 
+] The intracellular insertion of nucleic acids has been, for the most part, conducted preclinically at the basic science level (e.g., introduction of plasmid DNA into bacteria for recombinant protein production). Due to high negative charge density, large molecular size, and poor in vivo stability, special conditions, such as heat shock or reduction in serum protein content, need to be applied to increase the intracellular accessibility of nucleic acids. Such conditions are often poorly translated into practical biomedical applications. Although, some nucleic acid applications, such as aptamers, have been developed specifically to bind extracellular receptors rather than becoming internalized. One example is Pegaptanib, an antivascular endothelial growth factor RNA aptamer, FDA approved for the treatment of age‐related macular degeneration.[
+ 
+] However, the majority of promising nucleic acid applications require the cargo to reach cytosol in adequate concentrations.[
+ 
+] Therefore, safe and robust intracellular delivery methods are crucial for nucleic acid therapeutics to achieve their full therapeutic potential. We highlight differences between the leading nucleic acid delivery approaches below.
+3.1.
+
+## Viral Vectors
+Viruses represent a natural delivery method for exogenous genes. Genes of interest can be incorporated into the viral genome and packaged as replication defective virus. Following the infection of targeting cells by recombinant virus the genomic materials are transported to the nucleus. Several types of viral vectors have been used as sophisticated gene delivery systems, including adenovirus, adeno‐associated virus, retrovirus, and herpes virus.[
+ 
+] These viral vectors differ in many ways, including the virus structure (enveloped or not), the type (mRNA, doubled‐stranded DNA, single‐stranded DNA) and size (ranging from several kbp to over 30 kbp) of genome materials they are able to efficiently carry and mechanism of genetic integration (integrated with host genome or not).[
+ , , 
+] As the focus of this review is synthetic delivery vehicles, detailed examples of nucleic acid delivery using viral vectors will not be elaborated here. However, compared with synthetic systems, the main advantage of viral vectors is their high gene delivery efficiency, natural cell tropism, and entry mechanisms.[
+ , 
+] Therefore, viral vectors represent the most commonly used and validated gene delivery method for basic biology research and clinical gene therapies.[
+ , , 
+] In fact, currently, there are over 574 adenovirus‐, 524 retrovirus‐, 304 lentivirus‐, 244 adeno‐associated virus‐, and 99 herpes simplex virus‐mediated clinical gene therapy trials worldwide.[
+ 
+] A relatively small but increasing number of these have become clinically approved treatments.[
+ 
+]
+
+Despite their successes, viral vector delivery platforms have distinct intrinsic disadvantages as well.[
+ , 
+] First, the gene packaging capacity is limited by the overall viral genome size. This can be particularly troublesome for small viral vectors, such as adeno‐associated virus cannot easily carry larger genome materials, such as vectors encoding CRISPR/Cas system.[
+ 
+] Second, because viral vectors have tropism for specific cells within specific organs, there are limitations to the kinds of molecular targets or clinical diseases that can be treated. Additionally, binding and endosomal internalization of viruses depends on specific extracellular receptors and intracellular pathways, both of which may define diseased cells and can thereby become perturbed in disease states. For example, it has been reported that adeno‐associated virus‐mediated gene delivery can be inhibited by a mutation within dynamin, an essential protein in clathrin‐dependent endocytosis.[
+ 
+] Lastly, immunoresponses to viral vectors can also adversely affect gene delivery efficiency.[
+ 
+] To overcome this, some viral vectors have been combined with synthetic delivery systems. As a recent example, a biorthogonal chemistry‐guided approach was used to improve viral transduction used for adoptive T cell engineering.[
+ 
+] Here, T cells were fed N3‐glucose which, following its metabolism, decorated the target cell surface with an azide functional group. This group then provided a click chemistry handle to recombinant lentiviruses coated with DBCO (dibenzocyclooctyne)‐polyethyleneimine (PEI). This strategy was found to improve viral transduction in Jurkat and human primary T cells used for anti‐CD19 chimeric antigen receptor (CAR) T‐cell manufacturing.[
+ 
+]
+
+3.2.
+
+## Lipoplex and Polyplex Nanoparticles
+The most advanced synthetic delivery approach to assist highly negatively charged nucleic acids to cross the cellular membrane is to formulate nucleic acids with cationic lipids to form lipid nanoparticles (e.g., lipoplexes) or with cationic polymers to form polyplexes.[
+ , 
+] These nanostructures share some similarities with natural viral vectors, such as a protective outer layer and similar cellular internalization routes.[
+ 
+] Examples of such strategies that have successfully undergone clinical translation include Patisiran (Onpattro, Alnylam Pharmaceuticals), the first FDA‐approved lipoplex formulation containing siRNA designed to inhibit the synthesis of transthyretin (TTR), for the treatment of transthyretin‐mediated amyloidosis (hATTR).[
+ 
+] Here, an ionizable cationic lipid, heptatriaconta‐6,9,28,31‐tetraen‐19‐yl‐4‐(dimethylamino)butanoate (DLin‐MC30‐DMA or MC3; pKa ≈6.4) is complexed with siRNA by ethanol‐dilution method.[
+ 
+] PEG (polyethylene glycol)‐lipids with short C14 acyl chains (PEG‐DMG) included in the formulation provide a degree of surface protection from serum protein binding, while preserving a relatively fast exchange rate which exposes the lipid core, allowing it to bind apolipoprotein E (ApoE).[
+ 
+] 1,2‐distearoyl‐sn‐glycero‐3‐phosphocholine (DSPC) and cholesterol are also incorporated into the nanoparticle to provide the structural stability control needed for clinical grade lipid nanoparticles.[
+ 
+] The resulted nanoparticle formulation has a multilayer structure, with siRNA captured between cationic lipids, is able to enter hepatocytes by endocytosis, and escapes endosomes assisted by MC3 protonation (Figure
+ ).[
+ 
+] A similar lipoplex‐based delivery technology is currently being used for the intracellular delivery of mRNA in vaccine applications such as those designed against SARS‐CoV‐2 responsible for the COVID‐19 (coronavirus disease of 2019) pandemic.[
+ , , 
+] Broad clinical success of lipoplexes rests on the development of suitable ionizable cationic designer lipids and their detailed formulation.
+ There have been great efforts to increase compatibility and expand delivery options of these types of compounds through focusing upon lipid design via library synthesis and screening.[
+ , , , 
+] The Dahlman group developed a DNA barcode‐based screening system for fast in vivo selection of potent nonhepatocyte‐delivering lipids from hundreds of formulations.[
+ , 
+] Their workflow started with the synthesis of a lipid library by varying the lipid head and tail chemistries followed by formulating these designer lipids with “helper” lipids (cholesterol, DSPC or 1,2‐dioleoyl‐sn‐glycero‐3‐phosphoethanolamine (DOPE), C14PEG2000) and green fluorescent protein (GFP)‐targeting siRNA and DNA barcodes into lipid nanoparticles (Figure
+ ). A pool of formulations were then injected into a GFP transgenic mouse (Figure  ) and tissue‐targeting was evaluated via loss of GFP signal (Figure  ). Sequencing of the barcodes from the cells of various tissues helped to identify lipid formulations that better facilitate siRNA delivery into nonhepatocytes (Figure  ).
+ Lipids are the current “working horses” for nucleic acid delivery in the pharmaceutical arena as they lead to relatively fast drug development. Perhaps the most pertinent example of this was the recent ability to deliver the first clinical trial batch of SARS‐CoV‐2 mRNA/lipid vaccine in just 42 days following antigen protein sequence identification, setting a record for vaccine development during the COVID‐19 pandemic.[
+ 
+] However, lipids are relatively expensive materials which can greatly affect the cost of such drug products.[
+ 
+] Alternative materials, such as cationic polymers and other oligomolecules can form polyplexes (also referred as polyelectrolyte complexes in polymer physics) with nucleic acids and are more economical. In fact, one of the most commercially available materials for nucleic acids complexation and delivery are polylysine and polyethylenimine. However, due to their high positive charge density the compounds can be quite cytotoxic.[
+ 
+] Thereby, there are currently great efforts to develop similar molecules with less nonspecific toxicity and greater biocompatibility.
+In an early study, Pack et al. synthesized a gluconic acid‐modified polyhistidine material (Figure
+ ) with water solubility and the ability to condense DNAs.[
+ 
+] By coformulation with transferrin‐conjugated polylysine, the formed nanoparticles successfully transfected monkey kidney fibroblast‐like COS‐7 cells with beta‐galactosidase plasmid DNA. To facilitate the DNA release, in another example, You and Auguste synthesized pH‐sensitive polymers by copolymerizing dimethylaminoethyl methacrylate (DMAEMA), 2‐hydroxyethyl methacrylate, and tetraethylene glycol dimethacrylate (chemical structures shown in Figure  ), and used them to assemble polyplexes with GFP‐encoding plasmid.[
+ 
+] The pH‐sensitive domain DMAEMA with ionizable tertiary amine motif is subject to hydrolysis in the relatively acidic environment of endosomes/lysosomes and lead to plasmid release. This polymer excipient showed increased gene delivery efficiency and lower cytotoxicity compared to traditional polylysine and polyethylenimine. Another advantage of polyplex‐based delivery systems is their higher overall encapsulation stability compared to lipid nanoparticles. This is due to the multivalency and long backbone of polymers that can bind strongly with nucleic acids in polyplex formulation, which is a salient point as stable formulations can be particularly important for clinical translation given storage requirements. Our group also recently reported successful in vivo treatment of atherosclerosis in mice with the use of polyelectrolyte complex micelles formed by a microRNA inhibitor and PEG‐b‐polylysine block copolymer with a targeting ligand.[
+ 
+]
+
+ To expand the chemical versatility, cationic oligomolecules with different chemical moieties have been designed and studied. For example, Patel et al. synthesized hyperbranched poly(beta amino esters) (hPBAEs, shown in Figure  ) to complex with mRNA; the formed nanoparticles maintain their structural integrity during nebulization, which provided an ideal route for inhaled administration.[
+ 
+] The hPBAEs was also able to capture high doses of luciferase‐encoding mRNA at concentrations approaching 0.5 mg mL−1. Following administration to mice via nebulized inhalation, the lung organs were found to be efficiently transduced, while other major organs including the liver, spleen, kidney, and heart were nonluciferized. Luo et al. designed a oligoaminoamide‐based nucleic acid carrier system.[
+ 
+] The carrier molecule contains ionizable cationic succinoyl‐tetraethylene‐pentamine domain for nucleic acid complexation and endosome escape, azide click‐chemistry handle to conjugate atherosclerotic plaque‐specific peptide‐1 (AP1) to target interleukin‐4 receptor (IL‐4R), and two oleic acid tails connected by disulfide bond to provide additional hydrophobic driving force of the nanoparticle assembly (Figure  ). The cargo molecules of eglin 5‐targeting (EG5) siRNAs conjugated with apoptotic peptides were encapsulated by oligoaminoamides to form polyplexes with excellent structural stability in 90% fetal bovine serum, and successfully induced EG5 gene silencing and cancer cell suppression during in vitro settings.
+
+3.3.
+
+## Ligand‐Cargo Chimaeras
+Endocytosis is a common mechanism for cellular uptake of substances from the surrounding microenvironment.[
+ 
+] Among the various endocytotic pathways, receptor‐mediated endocytosis has been widely utilized in targeted drug delivery in an effort to improve cellular internalization of biomacromolecules. A recent example which has been clinically translated is exemplified by Givosiran (GIVLAARI, Alnylam).[
+ 
+] Givosiran is an siRNA therapeutic that received FDA approval in 2018 to treat acute intermittent porphyria. Givosiran's naked siRNA is directly conjugated with three N‐acetylgalactosamine molecules (GalNac) as an endocytic targeting motif. GalNac binds to the asialoglycoprotein receptor on hepatocytes, which leads to the internalization of the siRNA via receptor‐mediated endocytosis.[
+ 
+] A recent pharmacokinetic/pharmacodynamic (PK/PD) study of subcutaneously administered Givosiran demonstrated fast uptake of siRNA by hepatocytes and low renal clearance (<15%).[
+ 
+]
+
+Another pertinent example is the low density lipoprotein (LDL) receptor responsible for transporting cholesterol from the plasma to the cell.[
+ , 
+] This represents a major mechanism for uptake of lipid nanoparticles. Cholesterol is a common component in many lipid‐based delivery systems, and thereby, lipid nanoparticles can be captured by lipoproteins and shuttled into the cell using this strategy.[
+ 
+] However, this approach may have limited applications to other organs other than the liver because the LDL receptor is mainly expressed on hepatocytes.
+As mentioned above, aptamers can be developed to be used as binding ligands to extracellular receptors. Therefore, aptamer‐cargo chimaeras have also been exploited to utilize the endocytic property of aptamers to assist the cellular internalization of cargo nucleotides.[
+ , , 
+] Such chimaeras are typically constructed by directly conjugating aptamers to nucleic acids of interest or via noncovalent hybridization.[
+ , , 
+] One of the first studies using this strategy used a prostate specific membrane antigen (PSMA)‐binding RNA aptamer conjugated with siRNAs targeting the PLK1 and BCL‐2 genes.[
+ 
+] The aptamer‐siRNA chimeras were cleaved by Dicer proteins following internalization by PSMA‐mediated endocytosis leading to the release of siRNAs into the cytosol. Using a similar approach, Thiel et al. screened RNA aptamers to identify candidates with high affinity to human epidermal growth factor receptor 2 (HER2) followed by its covalent conjugation to siRNA targeting the BCL‐2 gene.[
+ 
+] The designed aptamer‐siRNA chimaera exhibited an effective and specific BCL‐2 silencing in N202.1A cells, a HER2‐expressing mouse mammary carcinoma clonal cell line.
+A key feature of nucleic acid‐based materials is the specific base pairing which enables the precise control the amount of “drug” loaded onto nucleic acid scaffold. This point is particularly salient for the codelivery of a combination of drugs, which has been shown to be more effective than simple coadministration.[
+ , 
+] An example of this was demonstrated through a transferrin‐binding aptamer precisely conjugated to a controlled amount of paclitaxel and camptothecin.[
+ 
+] These aptamer–drug conjugates were specifically internalized by prostate cancer cells and induced synergistic cell death. Such combination codelivery strategies based upon DNA/RNA nanotechnology have also been applied for biomacromolecule drugs, and are particularly suitable for nucleic acid therapeutics.[
+ , , 
+] A term called nucleic acid nanoparticles (NANPs) describing this type of multifunctional therapeutics was coined by Afonin et al. and has been extensively explored.[
+ , 
+] Due to their overall negative charges, NANPs still require cationic delivery agents such as Lipofectamine 2000,[
+ 
+] or conjugated aptamers,[
+ , 
+] and other endocytic ligands[
+ 
+] to assist for intracellular delivery. Interestingly, as reported in a series of works from the Afonin group, the structures and compositions of NANPs can significantly affect their cellular immunorecognition as determined by different subcellular trafficking processes.[
+ , 
+] This creates numerous design potentials for NANPs as drug carriers with minimal unwanted immunoresponses or as specific immunostimulators to activate desired endosomal toll‐like receptors.[
+ , , 
+]
+
+In such ligand‐cargo chimaeras, the linker between ligand and cargo needs careful evaluation during in vitro analysis to improve clinical translation. One of the most commonly used linkers is the disulfide bond. With higher intracellular redox potential than the extracellular environment, the disulfide bond can be effectively reduced to release cargos intracellularly. This is especially true for cancer cells which often have overactive metabolic processes. However, the rate of disulfide bond reduction is dependent upon the various endocytotic‐pathways in different cell types. For example, there has been reported efficient reduction of disulfide bonds through the folate‐receptor mediated endocytosis pathway in human nasopharyngeal epithelial KB cells, which started at around 2 h and completed at around 12 h.[
+ 
+] However, there was not significant disulfide reduction within the HER2‐receptor mediated endocytotic pathway in one type of human breast cancer cells, SKBr3 cells; and there was greater oxidation potential measured within the endosomes of one type of human prostate cancer cells, PC3 cells.[
+ 
+] Other reports have also found that free thiols on the cell‐surface also affect the cellular uptake of ligand‐cargo molecules containing disulfide bonds.[
+ 
+] Lastly, disulfide bonds are often considered unstable in plasma and are thus less frequently used in clinical drug development.[
+ 
+] Therefore, novel linker chemistries are needed for effective clinical translation of this drug class.
+
+3.4.
+
+## Vesicular Nanoparticle Encapsulation
+Another common delivery strategy is to use vesicular nanoparticles to encapsulate biomacromolecules. Representative vesicular nanoparticle delivery systems include liposomes and polymersomes. Both can encapsulate a variety of water soluble components within their lumens.[
+ 
+] Polymersomes generally offer better stability and chemical versatility compared with liposomes. A particularly simple and effective polymersome system can be self‐assembled from a diblock copolymer poly(ethylene glycol)‐disulfide‐poly(propylene sulfide) (PEG‐SS‐PPS) (Figure
+ ).[
+ 
+] The reducible disulfide bond between individual blocks facilitates the dissociation of polymersomes following endocytosis. The hydrophobic PPS domain can then promote endosome escape of the entrapped cargo and can be further oxidized to hydrophilic poly(propylene sulfone) for efficient in vivo clearance. Polymersome fabrication and loading of nucleic acids can be achieved simultaneously via flash nanoprecipitation (schematic shown in Figure  ), during which time, nucleic acids are dissolved in an aqueous impingement or reservoir solution and encapsulated in polymersomes during fast solvent exchange.[
+ 
+]
+
+ The chemical versatility of polymers endows polymersomes with many possible functionalities. An example of building these complex nanocarriers has been shown through the loading of Polo‐like kinase1‐targeting siRNA (siPLK1) into polymersomes as a treatment against lung cancer.[
+ 
+] Here, the reversible, cross‐linkable polymersomes were self‐assembled from poly(ethylene glycol)‐b‐poly(trimethylene carbonate‐co‐dithiolane trimethylene carbonate)‐b‐polyethylenimine (PEG‐P(TMC‐DTC)‐PEI). The outer layer PEG domain provided sheath protection while the inner layer PEI domain efficiently captured siRNA. Moreover, the middle layer dithiolane allowed cross‐linking of the polymersome by disulfide bonds which enabled reversible dissociation of polymersomes within the reducing environment of the cell. The polymersome surface was further modified with an α
+3
+β
+1‐integrin‐binding cyclic NGQGEQ (N‐asparagine, Q‐glutamine) peptide to promote cellular membrane binding and uptake. This polymersome increased in vitro gene silencing over 2.6‐fold compared to nontargeted polymersomes.[
+ 
+] In vivo, this strategy translated to significantly better survival in mice orthotopically challenged with human lung carcinoma compared to treated with naked siRNA. Part of this effect may have also been due to the vastly increased polymersome‐encapsulated siRNA half‐life (≈1.8 h) compared with naked siRNA (0.14 h).
+Taking advantage of certain polymer's chemical properties, other methods of loading nucleic acid products into polymersomes have also been explored.[
+ 
+] For example, a thermoresponsive domain, N‐isopropylacrylamide (NIPAM), an ionizable domain, (diethylamino)ethyl methacrylate, and a cross‐linkable domain, 7‐(2‐methacryloyloxyethoxy)‐4‐methylcoumarin were copolymerized into a PEG‐based copolymer to fabricate polymersomes. At 20 °C, the P(NIPAM) domain of the polymersome surface was hydrated allowing encapsulation of nucleic acids via diffusion. At physiological temperatures, the P(NIPAM) domain became dehydrated and prevented cargo leakage. Upon polymersomes reaching the decreased pH environment within endosomes/lysosomes, the P(DEA) domain became protonated and facilitated endosomal escape and cargo release. pDNA delivered using this system was more efficacious than naked nucleic acids in both in vitro and in vivo models.[
+ 
+]
+
+3.5.
+
+## Solid Nanoparticles
+Solid core nanoparticles can also be used to immobilize and deliver nucleic acids. These nucleic acid cargos can then be internalized after the nanoparticles are taken up by cells. The immobilization method can be physical adsorption or covalent conjugation. One example of such a solid nanoparticle utilized a “layer‐by‐layer” method, assembled multiple‐layers of polyarginine and BCL‐2‐targeting siRNA along with hyaluronic acid on the surface of poly(lactic‐co‐glycolic acid) PLGA nanoparticles.[
+ 
+] The outer layer was further conjugated with an anti‐CD20 antibody targeting element. The researchers further utilized the natural binding of hyaluronic acid to CD44 and demonstrated effective targeting of this nanoparticle system to CD44+ and CD20+ cancer cells, improved siRNA delivery efficiency with greater in vivo efficacy compared to single‐targeted nanoparticles.
+Gold nanoparticles are another widely used delivery system as they can easily form gold–sulfur bonds with nucleic acid cargos modified with thiols. In one example, gold nanoparticles were used to codeliver doxorubicin, cisplatin, and an antisense DNA targeting surviving mRNA to human cancer cells.[
+ 
+] In order to load three different drugs, a pH‐switchable DNA strand was first immobilized onto the gold nanoparticle surface via gold–thiol bonds and used as a drug‐loading scaffold. The antisense DNA conjugated with cisplatin was then hybridized with the scaffold and doxorubicin was loaded through intercalation within the DNA double strands. To achieve targeted delivery to cancer cells, an MUC1‐binding aptamer was conjugated onto the nanoparticle surface. Following clathrin‐independent endocytosis, the surface immobilized pH‐switchable DNA strands released the small molecule drugs and antisense DNA out of endosomes. In vivo, these nanoparticles were found to primarily accumulate within the tumor leading to survivin downregulation and tumor regression.
+Electrostatic complexation and gold–sulfur bonding represent two commonly utilized methods for nucleic acid loading onto solid core nanoparticles. However, there is also a large and growing body of work using inorganic solid core nanoparticles for nucleic acids delivery which has been expertly summarized in a timely review by Luther et al.[
+ 
+]
+
+4.
+
+## Delivery of Protein Therapeutics
+The use of proteins as therapeutics has long been realized, as perhaps best exemplified by the ever growing use of therapeutic monoclonal antibodies. While most antibodies remain extracellular after binding to their membrane‐bound targets, some are internalized within target cells and can be used to develop antibody–drug conjugates (ADCs).[
+ 
+] However, due to their large size, the intracellular delivery of proteins in general remains challenging. While, as discussed previously, gene transfection methods can be used to introduce exogenous proteins within cells as a vehicle to therapeutic intervention, alternative approaches to directly deliver proteins to intracellular targets have also been actively pursued.
+4.1.
+
+## Protein/Polymer and Protein/Lipid Complexed Nanoparticles
+Similar to the inherent charges with nucleic acids, charges, hydrogen bond donors and acceptors within proteins hinder their membrane‐crossing potential. To overcome this challenge, synthetic methods have been developed using polymers complexed with proteins to shield these interactions. For example, polymers have been used to wrap various proteins (including horseradish peroxidase, bovine serum albumin, nerve growth factor, and rituximab) via in situ polymerization of 2‐methacryloyloxyethyl phosphorylcholine (MPC) monomers and poly(lactide)‐b‐poly(ethylene glycol)‐b‐poly(lactide)‐diacrylate triblock polymers (Figure
+ ).[
+ 
+] MPC monomers containing choline and acetylcholine‐like structures are able to interact with the acetylcholine and choline transporters on nerve and brain endothelial cells. This PLA‐based polymer is degradable for protein release and was additionally found to be able to cross the murine blood‐brain barrier (BBB). While in this case, the delivered proteins were acting on extracellular, rather than intracellular targets, the excipient polymer utilized receptor‐mediated transcytosis to penetrate BBB. Therefore, this strategy, or one similar to it, could also be theoretically adapted for intracellular delivery. As an example, caspase‐3 protein wrapped with polymers through in situ polymerization of acrylamide, N‐(3‐aminopropyl) methacrylamide, and bisacryloylated VDEVDTK peptides (caspase‐3 cleavable) was able to induce apoptosis in target cells, presumably due the increased cell permeability arising from the charge‐masking by polymers.[
+ 
+]
+
+ In addition to in situ polymerization, simple mixing of excipient polymers with cargo proteins can also be effective in promoting intracellular delivery.[
+ 
+] A fundamental polymer physics study explored this possibility and found that heteropolymers copolymerized by methyl methacrylate, oligo(ethylene glycol) methacrylate, 2‐ethylhexyl methacrylate, and 3‐sulfopropyl methacrylate could interact with polar and nonpolar patches on the protein surface to form a protective shell.[
+ 
+] This work revealed the importance of matching the ratio of polar/nonpolar protein surface patches with polymers and provided theoretical guidelines for the rational design of excipient polymers.
+Electrostatic interactions have also been utilized to complex charged proteins with oppositely charged polymers or lipids.[
+ 
+] It is well known in polymer physics that microphase separation occurs when mixing charged polymers (i.e., polyelectrolytes) with oppositely charged proteins due to overall entropy gain.[
+ , 
+] When polyelectrolytes are tethered with a PEG domain, micellar nanoparticles can readily form during the complexation.[
+ 
+] This type of nanoparticle encapsulation is also effective in facilitating membrane translocation of proteins and controlling intracellular release. A similar principle also applies when proteins complex with oppositely charged lipids. Furthermore, direct modifications of cargo proteins to enhance nanoparticle complexation efficiency have also been reported. For example, to improve the complexation with cationic lipids, Wang et al. conjugated negatively charged GFPs to Cre recombinases and formed stable complexation with cationic reducible lipids. The resultant nanoparticles achieved efficient gene recombination upon Cre delivery into HeLa cells. With such structure–activity relationships in mind, the same strategy has also been applied for the intracellular delivery of a negatively charged Cas9:sgRNA ribonucleoprotein complex to HEK cells.[
+ 
+]
+
+Wang and Tsourkas took a similar approach to deliver whole IgG proteins into cytosol. However, here IgG was engineered with anionic polypeptide (ApPs) domains by photo‐cross‐linking the Ig heavy chain with a photoreactive antibody–binding domain fused with ApPs (Figure  ).[
+ 
+] Cationic lipids were then complexed with the ApP‐conjugated IgGs to form nanoparticles for improved cellular uptake. The delivery efficiency of these nanoparticles could also be optimized by altering the repeating units of anionic amino acids. As an example, ideal delivery of rituximab, a chimeric monoclonal antibody against CD20, was achieved using 25 repeats of aspartic acid (D25 ApP in Figure  ) or 30 repeats of glutamic acid (E30 ApP in Figure  ). In this study, it was suggested that this could be a universal antibody delivery strategy as evidenced by the successful delivery of a number of other antibodies from various species including human immunoglobulin G2 (IgG2), murine IgG2a, murine IgG2b, murine IgG3, rat IgG2c, and rabbit IgG.[
+ 
+]
+
+4.2.
+
+## Charge Masking by Prodrug Design
+Based on similar principals of shielding a cargo's charge as detailed above, the Raines group applied direct modification on proteins and developed “ghost proteins” that can access the cytosol by esterification of carboxylic acids on anionic proteins (Figure
+ ).[
+ , 
+] In this study, various diazo compounds were tested for their ability to esterify GFP. 2‐diazo‐2‐(p‐methylphenyl)‐N,N‐dimethylacetamide was found to effectively “cloak” the negative charges within GFP to allow for access into cytosol. Interestinlgy, the resultant energy‐independent process and the diffused fluorescence signal pattern (Figure  ) indicated that cytosolic entry was through direct penetration through the cellular membrane rather than through endocytosis.[
+ 
+] Because ester bonds are subject to hydrolysis by endogenous esterases, the esterified proteins can be returned to their native functional state following intracellular hydrolysis. To test the in vitro efficacy and bioreversibility of this design, the same group applied this strategy to the human ribonuclease 1 (RNas1) protein and achieved functional intracellular delivery into a number of human cells following esterification.[
+ 
+] Cell death was observed as caused by functional RNas1 and its ester bond hydrolysis as confirmed through analysis of cellular lysates following treatment.
+ 
+4.3.
+
+## Nanoparticle Encapsulation
+Encapsulation of proteins using nanoparticles has been studied for many years. Liposomes, currently the most clinically successful nanoparticle drug delivery system, have been used to encapsulate a variety of proteins, including insulin, epidermal growth factor receptor, hemoglobin, and other hormone proteins.[
+ 
+] For most of these studies, the goal is to achieve controlled extracellular release. Moreover, because the hollow vesicular structures of liposomes share similarities with enveloped viruses, a subcategory of liposomes called virosomes have also been developed to carry large antigenic proteins for vaccination purposes.[
+ , 
+] In these cases, nonspecific uptake of nanoparticles by professional antigen‐presenting cells (APCs) is necessary to trigger the vaccine‐related immune response. Importantly, the delivered proteins don't have to remain intact, which considerably lessens the design challenges of such a delivery system. However, in cases where the delivered proteins must remain intact for specific binding to intracellular targets, nanoparticle carriers are required to be not only shuttle proteins across membranes, but also to release unaltered protein into the cytosol. One example that is currently being actively pursued is the delivery of intact proapoptotic proteins, such as BAX and BAK, into malignant cells with the goal of inducing mitochondrial depolarization and cellular apoptosis.[
+ , 
+] An early example of such a strategy was the use of liposomes to deliver voltage‐dependent anion channel (VDAC) and BAK proteins to mitochondria within human colon carcinoma cells (HCT 116).[
+ 
+] A one‐step method was employed by directly mixing liposomes and a cell‐free protein expression system to prepare proteoliposomes. Fluorescence microscopy showed colocalization of otherwise cell‐impermeable BAK proteins with mitochondria which resulted in cytochrome c release and apoptotic induction (Figure
+ ). However the protein encapsulation stability of liposome was not addressed and remains a particularly critical challenge for clinical translation.
+ As mentioned previously, polymersomes are also suitable for encapsulating water‐soluble proteins. In fact, polymersomes composed of PEG‐PPS are able to deliver ovalbumin (OVA) to dendritic cells and instigate an anti‐OVA immune response.[
+ 
+] Interestingly, the immunoresponse from polymersome‐encapsulated OVA‐induced stronger CD4+ T cell responses while solid‐core nanoparticle grafted OVA induced a stronger CD8+ T cell responses. Another example demonstrated the intracellular delivery of cytochrome C to human A549 adenocarcinoma cells by polymersomes self‐assembled from PEG‐b‐poly(trimethylene carbonate‐co‐dithiolane trimethylene carbonate)‐spermine (PEG‐b‐P(TMC‐co‐DTC)‐spermine.[
+ 
+] Because of their chemical versatility, polymersomes can be modified to have various functionalities, such as targeting ligands, such as cRGD and the fusogenic peptide GALA.[
+ 
+]
+
+4.4.
+
+## CPP–Protein Chimaeras
+Another major effort in the field is devoted to the use of cell‐penetrating peptides (CPPs) as shuttle molecules to improve the cellular uptake of otherwise cell‐impermeable proteins. CPPs with intrinsic cell‐permeability capabilities were first discovered from the analysis of viral proteins used for cell membrane insertion and transduction of viral contents. CPPs, such as Tat and Penetratin are therefore also referred to as protein transduction domains.[
+ 
+] The mechanisms responsible for CPP‐mediated cell permeability has received much attention and their discovery has taken a winding scientific road. In general, their insertion into membranes can be attributed to an abundance of positive charges (e.g., arginine, lysine) and amphiphilicity.[
+ 
+] Positively charged residues within CPPs have preferred electrostatic interactions with the negatively charged outer cell membrane. Contrary to their natural counterparts, specific amino acid sequences are not required for these types of cationic CPPs. A second type of CPPs is amphipathic in nature and composed of clustered hydrophobic and hydrophilic residues which aid in their partition into membrane lipid bilayers. Newer studies also have found that aromatic functionality[
+ 
+] and helical secondary structure[
+ , 
+] can also aid in CPP permeability. Early conclusions based on fixed cell microscopy led to believing that CPPs directly translocate across membranes. Later studies using live cell confocal microscopy revealed that CPPs, including TAT and Arg‐9, bring in their conjugated cargos via traditional endocytotic mechanisms.[
+ 
+] The current general consensus is that direct membrane translocation of CPPs may occur at high concentrations, while endocytosis may be responsible for cellular internalization at low concentrations.[
+ , 
+]
+
+CPPs used to assist the delivery of other biomacromolecular cargos, in some cases, can be achieved by simple mixing. For example, a CPP of FFLIG‐FFLIG‐R12 (F‐phenylalanine, L‐leucine, I‐isoleucine, R‐arginine) mixed during formulation can improve the intracellular accessibility of cell‐impermeable proteins through caveolae‐mediated endocytosis.[
+ 
+] Moreover, endosomal escape peptide domains (EEDs) can further increase the cytosolic accessibility of cargo proteins.[
+ 
+] As an example, peptides consisting of a cell‐penetrating domain with an endosome escape domain (CPP‐ELD) greatly enhance the in vitro delivery of GFP and CRISPR‐associated nuclease ribonucleoprotein (Cas RNP) into well‐differentiated primary human airway epithelial cells.[
+ 
+] Furthermore, intranasal administration of this formulation to mice can successfully deliver Cas9 RNP and Cas12a into mice large and small airway epithelial cells and resulted in efficient gene editing. There are also a number of examples of CPPs being directly fused or chemically conjugated to proteins. Wadia et al. fused a TAT domain to Cre protein and observed translocation to the nuclei of murine T cells.[
+ 
+] An additional endosome escape peptide (HA2) was further conjugated to these peptide–Cre conjugates and resulted in significantly enhancing the biological activity of Cre protein cargo. Herce et al. also reported a surprisingly cell‐permeable protein through conjugation of a cyclic CPP (Arg10) to a GFP nanobody.[
+ 
+] This cyclic Arg10‐nanobody was quickly taken in and entered the nucleus of cells via a seemingly nonendocytic pathway. The nanobody binding function was maintained and was able to redistribute intracellular GFP to the nucleolus upon internalization. Importantly, extracellular GFP and GFP‐conjugated proteins were also successfully transported into cytosol using this same cyclic nanobody. However, limitations of this work is that high concentrations (20 × 10−6
+m) of the nanobody were required and the overall delivery efficiency was low such that delivered proteins were only detected in only 2–10% of treated cells. The same strategy of, delivering proteins to intracellular environments in an effort to disrupt oncogenic protein–protein interactions has also been investigated in the treatment of cancer.[
+ 
+] In one example, Essafi et al. constructed a TAT‐FOXO3 triply mutated fusion protein (mutations on Akt‐binding domains within FOXO3: T32A/S253A/S315A) to induced apoptosis in human leukemic cell lines.[
+ 
+] The rationale of this potential cancer treatment strategy is straightforward and precise. Further study is warranted in drugging other cancer associated intracellular PPIs.
+Some CPPs alone have also been shown to elicit therapeutic effects. Gupta and co‐workers derived a noncationic 27‐mer peptide, p28, from azurin, a protein responsible for copper metabolism. The p28 peptide can readily entered human cancer cells via caveolae‐mediated endocytosis.[
+ 
+] Importantly, p28 was found to have nanomolar binding affinity to p53, which led to p53 protection from MDM2‐independent proteasomal degradation.[
+ 
+] The potential therapeutic benefits of p28 have been demonstrated by induced cell cycle arrest and the suppressed growth of xenografted tumors.[
+ 
+] This peptide has completed phase 1 clinical trials in patients with advanced solid tumors and was found to have an excellent safety profile.[
+ 
+]
+
+Although widely utilized, there exist a number of potential pitfalls regarding the use of CPPs. First, cationic CPPs and EEDs can have strong electrostatic interactions with negatively charged compounds decorating cell membranes, such as heparan sulfate, which may hamper cellular internalization of membrane‐bound CPPs. These surface‐bound CPPs can also give false‐positive results when evaluating cell uptake by flow cytometry.[
+ , 
+] Additionally, cell fixation can redistribute CPPs to the nucleus, which has led to the false‐positive experimental advancement.[
+ 
+] CPPs must also be carefully evaluated for nonspecific cytotoxicity and membrane‐lytic properties causing nonspecific cell death.[
+ 
+] To overcome this, some effort has been made to develop CPPs with controllable “on‐and‐off” functions. Akishiba et al. designed a “switch‐on” endosome‐lytic peptide, L17E, by substituting a leucine residue with glutamic acid on the hydrophobic face of the normally hemolytic peptide, M‐lycotoxin.[
+ 
+] At physiological pH, glutamic acid is deprotonated which compromised the peptide's overall amphipathic nature and thus prevented its membrane‐lytic behavior. When L17E reached the acidic endosome, the glutamic acid residue was protonated restoring the peptide's amphipathic nature, and facilitating its endosome escape. Cre recombinase and whole antibody (IgG) have been shown to reach the cytosol when mixed with the L17E peptide. However, while successful membrane translocation of these proteins was shown by microscopic analysis, the pKa of glutamic acid is ≈4.5, questioning whether efficient protonation can be achieved within the endosome. In addition to the above limitations, like natural peptides and proteins, CPPs are also subject to proteolytic degradation. And their cell‐penetration efficiency has been shown to be rather variable,[
+ 
+] and more importantly, nonspecific.[
+ 
+] Therefore, it will likely be necessary to package CPPs within a targeted delivery system to achieve high concentration, consistently efficient, and cellular specific delivery during in vivo applications.[
+ 
+] Some early work from the Torchilin group successfully explored this strategy and designed nanocarriers with both targeting ligands and CPP motifs so that the intracellular delivery capability can be preferably directed to target cells.[
+ , 
+]
+
+4.5.
+
+## Other
+Other natural proteins have intrinsic cell permeability capabilities because of their unique tertiary structures or innate biological functions. These properties have been utilized to develop a number of novel protein delivery systems. He et al. took inspiration from a small natural protein, luffin P1, which contains a specific cyclized helix‐loop‐helix tertiary structure.[
+ 
+] As shown by Figure
+ , this group synthesized a new protein, called lupbin, by replacing topologically equivalent domains on luffin P1 with two peptide inhibitors: PMI targeting p53:MDM2/MDMX interactions and a BCL‐9‐based peptide targeting β‐catenin. This tertiary structure scaffold assisted α‐helical folding and the self‐assembly of the dual‐functional protein into oligomers and provided not only proteolytic resistance, but also increased cell‐permeability, and sequential endosome escape (Figure  ). Specific blocking of Wnt/β‐catenin pathway and activation of p53 pathway in human colon carcinoma cells was confirmed in vitro and in murine xenograft models (Figure  ).
+ Other proteins, such as those used by bacteria to deliver toxins, have also been engineered to deliver therapeutic cargo molecules. One example is the PA/LFN delivery platform, where a protective antigen (PA) first binds to its corresponding cell surface receptor, which then induces oligomerization and binding of nonlethal factor (LFN).[
+ 
+] This entire complex is then endocytosed and the acidic endosomal environment induces a structural rearrangement of PA to form pores within the endosomal membranes resulting of cargo release into the cytosol. LFN can be used to conjugate with many protein cargos of interest for equivalent delivery purposes.[
+ 
+] However, the efficient release from LFN through the pores formed by PA requires an extended conformation of cargo molecules which may limit this kind of application to small or noncomplexly folded proteins.
+
+5.
+
+## Delivery of Peptides
+Since the isolation of insulin, peptide hormones have played a critical role in the treatment of various metabolic and gastrointestinal diseases.[
+ , , 
+] An expanded knowledge and recognition of the roles of peptides in the modulation of biological signaling processes have led to their continued growth in pharmaceutical industry. Most FDA‐approved peptide‐based drugs act upon extracellular targets, such as G‐protein‐coupled receptors (GPCRs).[
+ , 
+] A much small number act on intracellular targets, such as the proteasome inhibitor, carfilzomib, which benefits from small molecule‐like properties.[
+ , 
+] Theoretically, peptides possess much greater inherent therapeutic potential than many small molecules because they are natural subdomains of bioactive protein complexes. Thereby, peptides can be used to mimic the natural function of proteins and used as specific PPI inhibitors.[
+ , 
+] Because of their smaller size compared to whole proteins, peptides can also be produced using synthetic methods allowing the incorporation of unnatural functionalities. However, similar to the other biomacromolecules, the major hurdle of expanding the use of peptide therapeutics is their severely limited cytosolic availability. However, several chemical modifications and nanomedicine approaches have been applied to improve the delivery of these promising biomacromolecules.
+5.1.
+
+## Cyclic Peptides
+Peptide cyclization can be applied to improve proteolytic resistance through shielding the peptide backbone from enzymatic recognition. Cyclization can be achieved via head‐to‐tail or side‐chain covalent bonding.[
+ 
+] In addition to having improved stability, macrocyclic peptides are also often more cell‐permeable, potentially due to the improved secondary structures of peptide molecules rendering them more lipophilic and better recognizable by endocytic receptors.[
+ , 
+] For example, cyclization of some CPPs greatly improves their accessibility to cytosols as was measured with the cyclic Arg10‐nanobody discussed earlier. Another well‐known example comes from the Pei group where they designed a cyclized F‐(L‐2‐naphthylalanine)‐RRRRQ (cFΦR4) molecule that exhibited greater cellular uptake followed by fast escape from early endosomes compared to unstructured CPPs (Figure
+ ).[
+ , , 
+] cFΦR4 can be used to deliver various forms of peptide cargos into cells (Figure  ).[
+ , 
+] Importantly, due to their ability to escape early endosomes, these cargo molecules can avoid late endosomal/lysosomal degradation and thus maintain their biological function.[
+ 
+]
+
+ One special type of macrocyclic peptide is stapled peptides.[
+ 
+] Here, cyclization is formed within a short span of the peptide sequence, commonly referred to as intramolecular stapling. Stapling can be achieved via various chemical bonds including, but not limited to, disulfide, lactam, click‐chemistry motifs and all‐hydrocarbon bridges.[
+ 
+] Hydrocarbon stapled α‐helical peptides are one common stapling architecture design. A typical α‐helical peptide contains 3.4 amino acid residues per helical turn. Therefore, stapling positions and length can be carefully chosen (e.g., residues i, i+3; i, i+4; or i, i+7) to match the natural helical pitch of the peptide with one or two turns of the helix being tethered together to constrain the α‐helical secondary structure.[
+ , , , 
+] For example, all‐hydrocarbon stapling can be achieved via the incorporation of olefin‐bearing unnatural amino acids, S‐2‐(4′‐pentenyl) alanine (S5) and R‐2‐(7′‐octenyl) alanine (R8) in the natural peptide sequence (Figure  ). For single stapling, two amino acids with short side chains, such as S5–S5 need to be placed at residue positions i, i+4; or, one with short and another with long side chain, such as S5‐R8 need to be placed at residue positions i, i+7. Following ring‐closing metathesis between two olefin‐bearing sidechains, the staple crossing one or two complete helical turns can be formed to enhance the stability of the natural α‐helical structure. Based on these same principles, multiple staples within a peptide can also be achieved (Figure  ). An important feature imposed by stapling is the creation of new hydrophobic interfaces within the peptide helices making them more amphiphilic. Like CPPs where both amphipathicity and helicity contribute to cell‐permeability, many stapled peptides are able to access the cytosol more easily than their unstapled counterparts. Importantly, hydrocarbon stapled peptides have the capability of mimicking both the natural sequences and secondary structures of α‐helical protein domains, making them ideal candidates to specifically modulate α‐helical intracellular PPIs through molecular mimicry. The Walensky group and others have taken this approach to develop a number of cell‐permeable, stapled peptide PPI inhibitors.[
+ , , , , 
+] In their early work, α‐helical BH3 domains of proapoptotic proteins within the BCL‐2 family were synthesized into stabilized α‐helices of BCL‐2 domains (SAHBs) using a hydrocarbon stapling strategy and used as specific inhibitors of anti‐apoptotic family members including BCL‐XL, BCL‐2, and MCL‐1.[
+ , , 
+] An early example of this strategy was shown using BID SAHB which exhibited 87% helicity in solution and a 29.4 h ex vivo serum half‐life, both significantly greater than unstapled controls. Moreover, BID SAHB entered cells via pinocytosis and resulted in leukemia suppression in vivo.[
+ 
+] Further work by our group and others using a BIM SAHB showed similar in vitro and in vivo efficacy against chemorefractory human hematopoietic tumors.[
+ , , 
+] An example of clinical translation of stapled peptides is reflected in the iteration and medical chemical development of p53‐mimetic stapled peptides. The inhibition of p53 through sequestration by hDM2 or hDMX is commonly observed in various types of cancers.[
+ , 
+] Hydrocarbon stapled α‐helices of p53 (SAH‐p53) were developed in an effort to reactivate p53‐associated apoptotic function through PPI inhibition. Cell‐permeable SAH‐p53 peptides were found to restore WTp53 activities through specific binding to both hDM2 and hDMX.[
+ , 
+] Based upon this promising preclinical work, the parent compound was further developed into a clinical‐grade therapeutic drug called ATSP7041 by Aileron Therapeutics.[
+ 
+] ATSP7041 is currently in Phase II clinical trials for the treatment of acute myeloid leukemia and solid tumors.[
+ 
+]
+
+The unique aspect of hydrocarbon stapling rests upon near biological mimicking of native protein structure while gaining some amount of cell permeability. The research in this arena has steadily grown to include a wide range of intracellular protein target pathways including but not limited to, other members of the BCL‐2 family of proteins,[
+ 
+] disruption of Wnt signaling,[
+ , 
+] inhibition of activator protein‐1 (AP‐1),[
+ 
+] inhibition of NOTCH transactivation complex,[
+ 
+] and inhibition of RAB25:FIP complex.[
+ 
+]
+
+However, cell‐permeability of hydrocarbon stapled peptides is not straightforward or guaranteed. For example, in the initial peptide library of SAH‐p53 designed by Bernal et al., 4 of 8 designs are cell impermeable, while only one of them resulted in biological activity.[
+ 
+] Starting from the wild type peptide template, polarity/charge modifications of amino acid residues[
+ 
+] and staple location scanning are critical to ensure efficient cell permeability and target binding.[
+ , 
+] Furthermore, cell permeability of stapled peptides is “relative.” While they can access the cytosol more readily than unstapled control peptides, they are far less permeable than small molecule drugs. Partly for this reason, while stapled peptides often have low nm target binding affinities in cell‐free assays they will often have much larger in vitro EC50 values in functional cellular assays.[
+ 
+] To better understand the determining parameter of the cellular uptake of stapled peptides, Bird et al. performed sequence iterations and “walking” of staple positions of BIM SAHBs (Figure  ) and measured cellular internalization dynamics.[
+ 
+] Peptides with higher hydrophobicity and with staples located at the polar/nonpolar interface of the helices were found to be more cell permeable without nonspecific membrane disruption (Figure  ). Expansion of the hydrophobic interface of amphipathic peptides was particularly critical to efficient penetration. Similar to CPPs, stapled peptide‐induced cellular cytotoxicity due to membrane‐lysis must be ruled out throughout their development and testing.[
+ , , 
+]
+
+5.2.
+
+## Peptide Amphiphile Nanoparticles
+Learning from the direct partition of detergent molecules on cellular membranes, turning peptides into large amphiphilic molecules using the peptide domain as the polar head appended with fatty acid chains, has also been a promising solution to deliver polar, impermeable peptide therapeutics to the cytosol.
+Our group has designed and synthesized peptide amphiphiles (PAs) with self‐assembly natures to control the display of antigens (peptide/protein) at the nanoscale level and has discovered promising intracellular delivery facilitated by such amphiphilic molecular structures.[
+ , 
+] Moreover, recent advances in solid phase peptide synthesis technologies have allowed for relatively straightforward synthesis of peptide amphiphiles through conjugating single, double, or even multiple fatty acids onto peptides during the peptide synthesis process.[
+ 
+] Akin to conventional detergents or amphiphilic block copolymers, PAs can self‐assemble into micelles when dissolved in aqueous solution at amounts above their critical micelle concentration as primarily driven by hydrophobic interactions.[
+ , 
+] Because hydrophobic domains are wrapped inside, self‐assembled PA micelles share common properties with whole proteins, and have therefore also been referred to as protein analogous micelles (PAMs). We have found that PAs can also protect proteolytic‐sensitive peptide domains from degradation and induce folding of peptide chains into their natural secondary structures.[
+ , 
+] PAMs have commonly been used as carriers for small molecule drugs in an effort to achieve controlled in vivo release.[
+ , 
+] However, we are particularly interested in using PAMs to intracellularly deliver therapeutic peptides to specifically drug intracellular targets. Membrane‐crossing mechanistic studies have been done to support this hypothesis. For example, fatty acid or lipid domains of PAs can insert themselves into the hydrophobic bilayer of cellular membranes and enter cells via lipid rafts.[
+ 
+] In a recent report, fatty acids, especially long‐chain fatty acid‐conjugated peptides, have been shown to become internalized via the fatty acid transport protein 4 (FATP4) pathway.[
+ 
+]
+
+Based upon these findings, our group has attempted to incorporate biologically active peptides into the PA design. For example, Missirlis et al. conjugated palmitic acid to the N‐terminus of p5314‐29 peptide via a amide bond as a single tail PA (Figure
+ ).[
+ 
+] The p53‐PA self‐assembled into worm‐like peptide amphiphile micelles. Significantly increased internalization of p53‐PA into human osteosarcoma cells was measured compared to peptide alone which was completely impermeable (Figure  ). However, confocal microscopic analysis found that p53‐PAs appeared to be trapped within endosomes following internalization, with rare signs of endosome escape, leading ultimately to limited biological effects.
+ In a follow‐up study, Missirlis et al. designed a double‐tailed p5314‐29 peptide amphiphile, where the peptide was conjugated with two palmitic acids via a glutamic acid linker.[
+ 
+] The double‐tailed p53‐PAs self‐assembled into rod‐like micelles and exhibited enhanced cellular internalization in a number of human cancer cell lines. To facilitate endosomal escape, a pulse treatment of sucrose was applied to cell culture. The osmotic change by sucrose led to endosome bursting and release of trapped p53‐PAs, which only then was able to suppress proliferation of target cells in vitro. Importantly this work enabled a detailed investigation and comparison of micelle stability and cellular uptake mechanisms. Trafficking analyses of self‐quenching dye‐labeled PAs found that unimer (single PA molecule) exchange occurs between PAMs or between PAMs and unilamellar vesicles (used to mimic the natural cell membrane bilayer) with similarly slow kinetics at 25 and 37 °C (Figure  ). This data suggested that internalization of PAs occurs via PA unimer‐cell membrane exchange rather than through active uptake of intact PA micelles. The dynamic nature of PAMs was accentuated in the presence of serum proteins where PAMs were quickly dissociated due to adsorption by albumin (Figure  ). This could be particularly troublesome in vivo if nanoparticles dissociated within the vasculature before reaching their desired location. Some groups have used this feature as an advantage where PA binding to albumin facilitated transport of PAs into to lymph nodes.[
+ 
+] However, it is much more difficult to target other tissues. Therefore, we and others have explored strategies to improve the in vivo stability of PAMs through micelle core cross‐linking (Figure
+ ),[
+ , , 
+] incorporating additional peptide coiled‐coil interactions, PEGylation (Figure  ),[
+ , 
+] hydrogen bonding (Figure  ),[
+ , 
+] and π–π stacking.[
+ 
+]
+
+ The morphology of micelle nanoparticles is another important factor that commands consideration during the design process. Worm‐like micelles are not ideal for in vivo nanoparticle circulation as they potentially entangle and form local depots.[
+ 
+] Lipid chain length and addition of molecular spacers, such as PEG or hydrophilic peptides, can be used to modulate the morphology of PAMs to better overcome biological barriers for in vivo delivery. Phagocytosis, nonspecific biological distribution, target organ trafficking, and cellular internalization are in turn also affected by the addition of these motifs. Missirlis et al. found that PEGylation of PAs decreases the cellular internalization of PAMs due to the PEG layer hindering substantive interactions between nanoparticles and cell membranes.[
+ 
+] PAs with different peptide head groups but identical lipid tails are generally internalized by similar clathrin‐independent pathways indicating that, at least generally, the lipid tails dictate internalization pathways. However, endosomal entrapment followed by endosomal recycling and lysosomal degradation remains significant biological barriers for most internalized PAs. This is likely caused by the trapping of lipid tails within endosomal bilayer membranes.[
+ 
+] Thereby, to amplify their biologic effect, therapeutic peptides need to be effectively cleaved from PAs within endosomes. To address this, our group has studied the insertion of endosomally cleavable linkers (e.g., valine‐citrulline (Val‐Cit) dipeptide) into PAs, akin to FDA approved ADC delivery of cytotoxic drugs.[
+ , 
+] Acar et al. constructed a p53‐mimetic PA with a Val‐Cit linker between the therapeutic peptide and the lipid tail.[
+ 
+] The Val‐Cit linker was specifically cleaved by cathepsin B, which is a protease abundantly expressed in endosomes. To analyze the real‐time cleavage of lipids from the p53 reactivating peptide, a pair of förster resonance energy transfer (FRET) dyes were conjugated on each side of the Val‐Cit linker. Rapid disappearance of FRET signal was measured following early endosomal internalization, indicating the successful cleavage process. Importantly, peptide signal accumulated within treated cells, while the lipid tails were exported from the cell via endosomal recycling.[
+ 
+] Moreover, for cases in which micelles are synthesized with targeting ligands to assist their cellular binding and internalization, the manner by which these ligands are displayed also affects their delivery efficiency. For example, as recently reported, targeting ligands with a longer spacing PEG linker can better extend themselves from the micelle surface to avoid the crowded surface environment and allow for engagement with endocytic cell receptors.[
+ 
+]
+
+In addition to conjugating hydrophobic tails onto a single peptide domain, peptide amphiphiles also can be synthesized by polymerizing peptide‐containing monomers into amphiphilic polymer brushes. This concept has been extensively explored by the Gianneschi group, and is named peptide‐polymer amphiphile (PPA).[
+ 
+] Unlike linear polypeptides synthesized by ring‐opening polymerization of α‐amino acid N‐carboxyanhydrides lacking the ability to achieve precise peptide sequence control, PPAs carry sequence‐specific peptides as side chains on polymer brushes at high densities.[
+ 
+] More interestingly, it was found that the homopolymer of these type of peptide brushes can exhibit globular protein‐like conformations in solution with improved proteolytic resistance and surprisingly increased cell‐permeability.[
+ , 
+] These features deem it to be a valuable strategy to deliver peptides to intracellular targets. A newly established company, Grove Biopharma, has raised funds to commercialize the technology.
+The facile formulation process and modular designability of the above mentioned peptide amphiphile systems are particularly useful for the presentation of multiple functional groups such as targeting ligands and cell‐penetrating and endosome escape motifs within a single micelle nanoparticle. However, micelle morphology, stability, and drug release potential remain as barriers that deserve consideration during the peptide amphiphiles design in an effort to make them clinically relevant for drugging intracellular targets.
+
+5.3.
+
+## Nanoparticle Encapsulation
+Similar to nucleic acids and proteins, peptides can theoretically be delivered via vesicular nanoparticle encapsulation. However, successful clinical translation of such therapeutics has been rare thus far. However, two examples that have proceeded to late phase clinical trials are Mifamurtide and Stimuvax, both of which use liposomes to deliver lipidated peptides as antigens for use in cancer immunotherapy and discussed in detail below.[
+ , , , , , , 
+]
+
+Mifamurtide is composed of a lipidated muramyl dipeptide (MDP) encapsulated by multilamellar vesicles. MDP was initially found to activate macrophages and increase cytotoxicity against tumor cells. Liposomal (phosphatidylcholine and phosphatidylserine) encapsulation of MDP was later found to activate macrophages at a much lower doses.[
+ 
+] This was attributed to the tropism of nanoparticles to the reticuloendothelial cells leading to enhanced macrophage internalization.[
+ 
+] Lipidated MDP (phosphatidylethanolamine (MTP‐PE) was incorporated into Mifamurtide liposomes for better encapsulation efficiency and prolonged bioavailability.[
+ 
+] Indeed, systemically administered free MDP, free MTP‐PE, liposome‐encapsulated MDP, and liposome‐encapsulated MTP‐PE exhibit very different in vivo pharmacokinetic and biodistribution profiles.[
+ 
+] Small, hydrophilic MDP was rapidly, renally cleared from circulation that ≈75% of original dose was found in urine within 60 min following administration. Liposome‐encapsulated MDP reduced renal clearance so that less than 35% of drug was found in urine 60 min following administration. It also increased its distribution to the lungs, liver, and spleen, and protected MDP from metabolic degradation. Lipidated MTP‐PE further reduced renal clearance and increased distribution to the liver and within the circulation. Finally, liposome encapsulation further increased MTP‐PE distribution and resulted in lasting accumulation in the lungs, liver, and spleen.[
+ 
+] Based upon these results, Mifamurtide was approved by the European Medicines Agency for the treatment of osteosarcoma.[
+ 
+] However, Mifamurtide failed to gain FDA approval due to insufficient efficacy data.
+Stimuvax directly anchors tumor‐associated antigen MUC‐1‐derived peptides on a liposome surface in an effort to stimulate anti‐tumor T cell responses.[
+ 
+] MUC‐1 protein is a cell‐surface glycosylate phosphoprotein frequently overexpressed by epithelial tumors including nonsmall cell lung cancer (NSCLC) and prostate cancer.[
+ 
+] Similar to Mifamurtide, lipidation modification improved loading stability of MUC‐1 peptides within the liposomes and improved uptake by APCs. Although the Phase III trial of Stimuvax failed to demonstrate durable efficacy in patients with NSCLC, it has not devalued the nanoparticle encapsulation strategy as an effective method to deliver peptides to APCs.[
+ 
+] Measurable treatment effects were noted in certain patient subgroups suggesting that selective patients may benefit from this treatment.[
+ 
+]
+
+Polymersomes also have been used to load therapeutic peptides, usually through surface attachment. In a recent example, Yi et al. demonstrated effective loading of multiple peptides, such as an apoB‐100‐derived peptide P210 as a source of antigen and P‐D2 peptide as a targeting ligand to dendritic cells on the surface of PEG‐PPS polymersomes through thiol–maleimide click chemistry and lipid tail insertion following peptide lipidation, respectively (Figure
+ ).[
+ 
+] Moreover, the hydrophobic anti‐inflammatory agent, 1,25‐dihydroxyvitamin D3, was also encapsulated within the hydrophobic bilayer. The vitamin and peptide‐loaded polymersomes maintained a uniform vesicular structure (Figure  ), were internalized by bone marrow‐derived dendritic cells via micropinocytosis and clathrin‐mediated endocytosis resulting in the ability of surface attached peptides to reach the cytosol. The effective immunomodulation of this polymersome delivery platform was observed by both in vitro and in vivo experiments.
+ Inspired by the use of viral vectors to deliver genes, virus capsid proteins naturally form nanoparticles, which also can be surface decorated to load peptide cargos.[
+ 
+] The Steinmetz group has developed various plant virus‐based nanoparticles that are able to deliver peptide antigens to APCs.[
+ 
+] In a recent report, a heterologous prime‐boost cancer vaccination strategy, composed of a mixture of different plant‐based viruses including cowpea mosaic virus (CPMV), cowpea chlorotic mottle virus (CCMV), and Sesbania mosaic virus (SeMV) carrying the same type of antigen, was tested in the ability to elicit an immune response against HER2+ breast cancer.[
+ 
+] Here, an HER2‐derived peptide epitope, CH401 (YQDMVLWKDVFRKNNQLAPV), was surface‐conjugated to capsid proteins via azide–alkyne click chemistry (Figure  ). The resultant nanoparticles formed by these modified capsid proteins maintained their native spherical morphologies and carried multiple copies of antigens (Figure  ). The CPMV‐CH401 vaccine was found to elicit an effective Th1 immune response, while CCMV‐CH401 and SeMV‐CH401 were found to elicit Th2 immune responses in vitro. In vivo combinatorial use of three vaccines resulted in increased survival in animals challenged with HER2+ tumors.[
+ 
+]
+
+In all cases discussed above, peptides are delivered by nanoparticles designed to act as antigens to simulate immune responses. Specific drugging of intracellular targets using this class of nanoparticles is uncommon. Other types of natural nanoparticles, such as exosomes, bacteria, and red blood cells have also been explored as delivery vehicles for exogenous biomacromolecules and have been extensively reviewed elsewhere.[
+ , 
+] Because these nanoparticles originate from cells, they tend to have better biocompatibility and in vivo stability but their functionalization, heterogeneity, and biological fate require further investigation.
+
+6.
+
+## Challenges and Opportunities
+6.1.
+
+## Endosome Escape
+In this review, we have outlined strategies to improve the internalization of biomacromolecules to drug disease‐causing PPIs with recent and exciting new approaches. One unifying theme throughout these examples is that they almost universally take advantage of endocytosis as a mechanism for cell entry. Unfortunately, entry via endocytosis must subsequently overcome endosomal entrapment before endosome‐to‐lysosome differentiation or cellular exit.[
+ 
+] Endosomal escape remains a critical challenge to the delivery of intracellular biologics and their clinical translation. Certainly the amount of endosomal escape needed for each therapeutic will depend on their mechanism of action and intracellular concentrations of their targets. This has been especially recently highlighted in the clinical success of siRNA lipid nanoparticles where only a small fraction of the siRNA may be needed for a biological response despite most of the delivered siRNAs remain trapped in endosomes.[
+ , 
+]
+
+A commonly used strategy to achieve endosome escape is through the incorporation of cationic ionizable or membrane‐lytic compounds in the nanoparticle formulation which, at least in theory, induce leakage of the endosome. An example of this is the use of cationic amine groups, particularly, tertiary amines. A number of “helper lipids” which contain such functional groups have been used in lipid nanoparticle formulation, including, as previously mentioned, MC3, DOPE, 1,2‐dioctadecenoyl‐3‐trimethylammonium‐propane, and 1,2‐dioleyloxy‐3‐dimethylaminopopane.[
+ 
+] Similarly, a number of endosome‐escaping peptides have been developed, as discussed previously in this review. Bypassing the endosome entirely is also an alternative solution. Some of the early successful examples discussed in this review include esterified “ghost proteins”[
+ 
+] and the cyclic Arg10‐nanobody.[
+ 
+] These compounds show energy‐independent internalization suggesting a possible nonendocytotic mechanism of cellular entry.
+
+6.2.
+
+## Increasing Selective Organ Accumulation
+Many of the above mentioned biomacromolecule delivery strategies use nanoparticles as vehicles with apparent benefits such as high loading capability and additional multifunctionalities. However, “foreign” nanoparticles are rapidly uptaken by the mononuclear phagocyte system. Since a large number of phagocytes reside in the liver, significant amounts of most nanoparticles accumulate there,[
+ 
+] which thereby hinders their delivery to other target tissues. In 2016, a review from the Chan group pointed out that for solid tumor studies in the past 10 years, only 0.7% (median) of the nanoparticles reached their target.[
+ 
+] The ability to reduce liver accumulation can greatly amplify the therapeutic efficacy and clinical translation of these delivery strategies while also improving their safety profiles since the liver is also a major metabolizing organ for general therapeutics. Great effort has been devoted to overcome this particular challenge. One of the early attempts was to use peptides derived from CD47, the “don't eat me” signal, to delay macrophage‐mediated clearance.[
+ 
+] Recently, another strategy was reported that the preadministration of “benign” nanoparticles, those without any therapeutics, can overwhelm the liver's uptake rate thus increasing the therapeutic nanoparticle accumulation on other target tissues.[
+ 
+] Moreover, coadministration of nanoparticles encapsulating macropinocytosis inhibitors has also been reported to reduce phagocyte‐dependent clearance of “effector” nanoparticles carrying therapeutics.[
+ 
+] Lastly, a significant amount of work has also focused on the screening and discovery of materials, such as lipids, with natural tropism to different target organs.[
+ , , 
+] As more investigation is being carried in this direction, increased selective organ accumulation will hopefully be achieved in the future.
+
+6.3.
+
+## Facile Development and Scalable Production
+With the ultimate goal of clinical translation, it is essential for these intracellular delivery vehicles to have a reasonable development pace and scalable production capability. In general, delivery methods requiring the direct modification of cargo molecules needs extensive chemical and engineering developmental efforts, which are often unable to be adapted across dissimilar therapeutic moieties. An example of this is reflected in the use of CPPs conjugated to therapeutic cargo molecules. Not only do such methods require multistep synthesis and purification processes, but such modifications can be heterogeneous in cases where the biomolecule has multiple functional sites or unique physicochemical properties.
+Nanocarrier complexation or encapsulation can provide a more universal solution to overcome these case‐by‐case challenges. For instance, lipids have been used as universal in vitro transfection agents (e.g., iX‐tremeGENE) and lipoplex delivery has achieved clinical success with a number of nucleic acid therapeutics.[
+ , 
+] Vesicular nanoparticle encapsulation, in theory, can also be used for dissimilar molecules where the with internal lumen may suitably retain water soluble molecules while the hydrophobic bilayer holds lipophilic ones. A high encapsulation efficiency, which depends upon the physicochemical properties of cargo molecules, is also thought to be needed for meaningful clinical translation. For example, the chemotherapeutic doxorubicin can reach high levels of loading efficiency (>90%) due to the crystallization of doxorubicin‐sulfate upon loading.[
+ 
+] This is clearly not the case for most biomacromolecules. In fact, our group has found that peptides with high amphipathicity leak out of nanocarriers formed by amphiphilic molecules relatively quickly.
+Other modular nanomedicine systems, such as multicomponent PA micellar nanoparticles, could potentially also be more universally applied to a variety of peptidic‐based therapeutics. An added benefit here is that the function and properties of the PA nanoparticles can be fine‐tuned by different modular building blocks.[
+ 
+] For example, PEGylated lipids control the size of and reduce serum protein binding of such nanoparticles while ionizable lipids endow them with membrane‐lytic property and ligand‐modified lipids give their cellular targeting capability. Lipidation of therapeutic peptides should allow for more universally adaptable incorporation of therapeutics into such nanoparticle. However, the complex nature of such single formulations containing multiple components makes quality control complex. Our group has recently reported the hydrolysis of the lipid ester bond adjacent to the phosphate head group during the peptide resin cleavage and HPLC purification processes, which can lead to heterogeneity of final nanoparticle products.[
+ 
+] This type of issue, particularly with lipid‐based nanocarriers was recently highlighted by the FDA and is commonly overlooked in the preclinical literature and warrants careful examination before proceeding to clinical translation.[
+ , 
+]
+
+6.4.
+
+## Other Macromolecules
+The therapeutic potential of many types of nonbiological macromolecules is also being explored. Those targeting intracellular structures however may face similar delivery challenges as described above. For example, one type of non‐natural oligomers named “foldamers,” with well‐defined secondary structures similar to peptides, are particularly suitable candidates to mimic the binding domains of PPIs.[
+ , 
+] Similar molecular weights and physicochemical properties as peptides make it possible to deliver foldamers using the same methods as described in this review.
+Another attractive example of using macromolecules to drug intracellular disease‐causing proteins is proteolysis‐targeting chimeras (PROTACs). PROTACs are a type of heterobifunctional molecule designed to bind intracellular proteins and recruit E3 ubiquitin ligase in an effort to ubiquitinate proteins and target them for proteosomal degradation.[
+ 
+] A number of promising preclinical studies have demonstrated their therapeutic promise.[
+ , , 
+] Despite current efforts directed at designing PROTAC‐based small molecule ligands, this class of drugs still suffers from challenges highlighted above related to their often large and complex molecular structures.[
+ 
+]
+
+Many of these promising abiotic macromolecular therapeutics remain in the discovery phase. Efficient intracellular delivery techniques will be essential for their ultimate successful clinical translation.
+
+7.
+
+## Conclusion
+In summary, we know that the number of biological drug candidates will continue to increase tremendously, and be the focus of future industrial drug pipelines. The next great challenge will be not only to understand and uncover new disease‐associated mechanisms but to ensure that continuous efforts are made in the development of reliable delivery technologies for promising biomacromolecules to specifically drug such intracellular disease processes in select cells.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Acknowledgements
+This work was supported by NIH R01HL138223 (M.V.T.), Chicago Biomedical Consortium Accelerator Award No. A‐014 (M.V.T.), the U.S. Department of Commerce, National Institute of Standards and Technology (NIST), as part of the Center for Hierarchical Materials Design (CHiMaD) Award 70NANB19H005 (M.V.T.), the Hyundai Hope On Wheels Scholar Hope Award (J.L.L.), American Cancer Society Research Scholar Award (J.L.L.), and the University of Chicago‐AbbVie Collaborative Award (J.L.L.). Graphical abstract image was created with BioRender.com.
+
+## Biographies
+
+Yu Tian received his Ph.D. degree from the Department of Materials Science and Engineering at the University of Delaware. He is currently conducting postdoctoral research at the University of Chicago focusing on the development of novel delivery technologies for biologics. His research interests lie in cancer therapy, and the study of absorption, distribution, metabolism, and excretion of complex drug formulations.
+ 
+
+Matthew V. Tirrell is the Dean of Pritzker School of Molecular Engineering at the University of Chicago, having previously held faculty positions at the University of Minnesota and the University of California. He is also a senior scientist on the staff of the Argonne National Laboratory. His research specializes in polymer self‐assembly, polymer surface properties, and interactions among polymers in heterocharged polymer systems. His work has provided new insight into phenomena such as adhesion, friction, and biocompatibility, and contributed to the development of novel materials based on bio‐inspired self‐assembly.
+ 
+
+James L. LaBelle received his M.D. and Ph.D. degree from the Medical College of Wisconsin before obtaining his clinical training at Boston Children's Hospital and the Dana‐Farber Cancer Institute where he studied cancer chemical biology. He is currently an associate professor of pediatrics at the University of Chicago and Director of the Pediatric Stem Cell and Cellular Therapy Program. His research interests include chemical, biological, and nanotherapeutic approaches for targeted immunologic manipulation and cancer cell apoptosis through disruption of intracellular protein–protein interactions using peptide‐ and small molecule‐based therapeutics.
+ 
+
+Tian Y., Tirrell M. V., LaBelle J. L., Harnessing the Therapeutic Potential of Biomacromolecules through Intracellular Delivery of Nucleic Acids, Peptides, and Proteins. Adv. Healthcare Mater.
+2022, 11, 2102600. 10.1002/adhm.202102600
+
+## Contributor Information
+Matthew V. Tirrell, Email: mtirrell@uchicago.edu.
+James L. LaBelle, Email: jlabelle@peds.bsd.uchicago.edu.
+
+## References

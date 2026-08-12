@@ -1,0 +1,1668 @@
+822acssdACS NanoACS NanoPMC9798869979886997988693652054610.1021/acsnano.2c07312Integration
+of In Vitro and In Vivo Models to Predict
+Cellular and Tissue Dosimetry of Nanomaterials Using Physiologically
+Based Pharmacokinetic Modeling
+LinZhoumeng AryalSantosh ChengYi-Hsien GesquiereAndre J 1Department
+of Environmental and Global Health, College of Public Health and Health
+Professions, University of Florida, Gainesville, Florida 32610, United States2Center
+for
+Environmental and Human Toxicology, University
+of Florida, Gainesville, Florida 32608, United
+States3Department
+of Pharmaceutical Sciences and Health Outcomes, The Ben and Maytee
+Fisch College of Pharmacy, The University
+of Texas at Tyler, Tyler, Texas 75799, United States4Department
+of Anatomy and Physiology, College of Veterinary Medicine, Kansas State University, Manhattan, Kansas 66506, United States5Institute
+of Computational Comparative Medicine, Kansas
+State University, Manhattan, Kansas 66506, United States6Department
+of Chemistry, College of Sciences, University
+of Central Florida, Orlando, Florida 32816, United States7NanoScience
+Technology Center, University of Central
+Florida, Orlando, Florida 32826, United States8Department
+of Materials Science and Engineering, College of Engineering,, University of Central Florida, Orlando, Florida 32816, United States*Email: linzhoumeng@ufl.edu.
+*Email: santosharyal@uttyler.edu.
+*Email: andre@ucf.edu.
+1512202216121972219722–1975430122022© 2022 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Nanomaterials (NMs)
+have been increasingly used in a number of
+areas, including consumer products and nanomedicine. Target tissue
+dosimetry is important in the evaluation of safety, efficacy, and
+potential toxicity of NMs. Current evaluation of NM efficacy and safety
+involves the time-consuming collection of pharmacokinetic and toxicity
+data in animals and is usually completed one material at a time. This
+traditional approach no longer meets the demand of the explosive growth
+of NM-based products. There is an emerging need to develop methods
+that can help design safe and effective NMs in an efficient manner.
+In this review article, we critically evaluate existing studies on
+in vivo pharmacokinetic properties, in vitro cellular uptake and release
+and kinetic modeling, and whole-body physiologically based pharmacokinetic
+(PBPK) modeling studies of different NMs. Methods on how to simulate
+in vitro cellular uptake and release kinetics and how to extrapolate
+cellular and tissue dosimetry of NMs from in vitro to in vivo via
+PBPK modeling are discussed. We also share our perspectives on the
+current challenges and future directions of in vivo pharmacokinetic
+studies, in vitro cellular uptake and kinetic modeling, and whole-body
+PBPK modeling studies for NMs. Finally, we propose a nanomaterial
+in vitro to in vivo extrapolation via physiologically based pharmacokinetic
+modeling (Nano−IVIVE−PBPK) framework for high-throughput
+screening of target cellular and tissue dosimetry as well as potential
+toxicity of different NMs in order to meet the demand of efficient
+evaluation of the safety, efficacy, and potential toxicity of a rapidly
+increasing number of NM-based products.
+Keywords: cellular uptake, in vitro kinetic modeling, in vitro to in vivo extrapolation, nanomaterials, nanoparticles, nanotoxicology, physiologically
+based pharmacokinetic modeling, risk assessment, toxicokinetics
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Jul 22; Accepted 2022 Dec 2; Issue date 2022 Dec 27.
+
+Recent rapid advancements in
+nanotechnology have enabled efficient synthesis of nanomaterials (NMs)
+or nanoparticles (NPs) with a variety of physicochemical properties
+for several different applications, such as consumer products, industrial,
+and medical applications. − As the usage of NMs increases,
+human exposure to these materials inevitably intensifies. The effect
+of NM exposure on human health could be diagnostic, therapeutic, or
+detrimental depending on the NM itself (usually related to its physicochemical
+properties), the drug that the NM carries, the external exposure dose,
+frequency and duration, the internal dose at the target organ and
+cells, as well as the sensitivity of the species, organs, and cells. − Many animal studies have shown that overexposure to NMs can cause
+adverse effects on different organ systems, such as the lungs, liver,
+and blood. − A few human studies have also associated accidental
+or occupational exposure to NMs with adverse effects. − The increasingly widespread use of NMs and the reported toxicity
+data have caused concern on the potential risk of NMs and raised a
+need to develop strategies to properly assess the risk of NMs.
+Multiple studies have attempted to develop methods for risk assessment
+of different NMs, including titanium dioxide, gold, and silver NPs. , − However, existing methods/models are limited to a
+certain type of NMs, and some of the models have not been adequately
+validated due to a lack of in vitro or in vivo data. High variations
+in the type and physicochemical properties of NMs, the type of target
+cells, and the number of cells in the body, as well as the route of
+exposure, create an impossible task to perform risk assessment of
+different NMs using conventional animal toxicity data-based approaches.
+To address this challenge and to keep up with the rapid expansion
+of NMs, mechanistic computational models that can efficiently predict
+NM in vitro and in vivo dosimetry based on its physicochemical properties
+as well as extrapolate in vitro results to in vivo are needed.
+One approach that can help address the challenge of NM risk assessment
+is to build in vitro kinetic models to accurately quantify or predict
+target cellular dose based on physicochemistry, and then extrapolate
+in vitro kinetics and toxicity to in vivo via a whole-body physiologically
+based pharmacokinetic (PBPK) model. − Multiple in vitro kinetic or
+whole-body PBPK modeling studies have been performed for different
+NMs based on either in vitro or in vivo dosimetry, with very few models
+that can integrate in vitro with in vivo. , , In this review article, we discuss: (1)
+the current progress in in vivo pharmacokinetics (PK) or toxicokinetics
+(TK), in vitro kinetic modeling, and whole-body PBPK modeling as well
+as in vitro to in vivo extrapolation (IVIVE) approaches; (2) a NM
+in vitro to in vivo extrapolation via physiologically based pharmacokinetic
+(Nano-IVIVE-PBPK) framework for high-throughput screening of the target
+cellular and tissue dosimetry as well as potential toxicity of different
+NMs solely based on their physicochemical properties; and (3) the
+challenges and our future perspectives in this field.
+In line
+with the objectives of this review article, the manuscript
+is categorized according to different sections: (1) in vivo PK/TK,
+(2) in vitro kinetic modeling, (3) in vivo PBPK modeling, (4) IVIVE,
+and (5) challenges and future perspectives. Within each section, we
+will review the state of the art in each area. In the in vivo PK/TK
+section, we will introduce the PK of NMs that have been widely researched
+in vivo, including metal-based nanoparticulate systems, polymer-based
+NPs, and lipid-based NPs. More specifically, we will focus on gold
+nanoparticles (AuNPs), poly(lactic-co-glycolic) acid
+(PLGA) NPs, and liposomes as representative NPs for different nanocarrier
+systems owing to their demand in clinical use as approved biomaterials
+or biomaterials at various stages of clinical development, − thus human health risk assessment of these NPs is relevant. In the
+sections of in vitro kinetic modeling, in vivo PBPK modeling, and
+IVIVE, we will comprehensively review existing studies on almost all
+types of NPs as these sections are the focus of this review. In the
+last section, besides summarizing the challenges and sharing our future
+perspectives in the field, we will also highlight how this review
+article furthers the knowledge and understanding of the field.
+
+## Pharmacokinetics/Toxicokinetics
+of Nanoparticles In Vivo
+PK or TK characteristics are important
+in the evaluation of the
+safety, efficacy, and potential toxicity of nanoparticulate systems,
+whether through intended (e.g., drug nanocarrier) or accidental exposure.
+PK or TK models are also important tools in human health risk assessment
+as these models can be used to predict the target organ dosimetry
+of the modeled substance, which is directly related to its toxicity
+risk. PK or TK parameters that describe absorption, distribution,
+metabolism, and excretion (ADME) properties of a xenobiotic include
+absorption rate constant (Ka), half-life
+(t1/2), clearance (Cl), volume of distribution
+(Vd), mean residence time (MRT), and area
+under the concentration curve (AUC).
+
+## Gold Nanoparticles
+In metal-based NP systems, plasmonic
+AuNPs have been widely studied because of their variety of diagnostic
+and therapeutic functionalities for biomedical applications. , Moreover, gold is highly biocompatible, which promises successful
+biomedical applications of AuNPs profiting from plasmonic or other
+effects. − Dubaj et al. studied the PK, biodistribution, and
+potential toxic effects of polyethylene glycol (PEG)-coated AuNPs
+after a single intravenous injection. Rats were injected with a single
+dose of 0.7 mg/kg body weight, and the concentrations of PEG-AuNPs
+were examined at 1 h, 4 h, 24 h, 7 days, and 28 days postexposure. They analyzed the kinetics of gold clearance
+using a two-compartment PK model, which revealed a rapid drop in the
+initial amount with a biodistribution half-life of 1.56 h. In contrast,
+the elimination phase showed a considerably longer half-life of 57.0
+h. More than 80% of the PEG-AuNPs injected dose was eliminated from
+circulation within 24 h. Accumulation of AuNPs in blood, lungs, and
+kidneys were found to be decreased, whereas accumulation in the liver
+(1.546 μg/g in 1 h to 2.153 μg/g in 28 days) and spleen
+(2.693 μg/g in 1 h to 4.410 μg/g in 28 days) were found
+to be increased. In another study by Cho et al., AuNPs with similar
+chemistry but smaller in size (13 nm) were studied using 6-week-old
+male BALB/c mice. They found a significant
+increase in liver inflammation with apoptosis of liver hepatocytes,
+which is an indication of NP-induced toxicity. The percentages of
+retained NPs in the liver and spleen at 7 days post-treatment ranged
+from 39% to 45% and from 12% to 20% for doses of 0.85 and 4.26 mg/kg,
+respectively. These AuNPs were found trapped in liver Kupffer cells
+and spleen macrophages. A clear indication of necrosis was observed
+in hepatocytes. Mean maximum plasma NP
+levels were concentration dependent, but the volumes of distribution
+were not affected by dosages. 
+A
+systemic study was done by Bailly et al. to evaluate the PK, biodistribution,
+and safety of laser-ablated dextran-coated AuNPs. These dextran-coated AuNPs were found to be rapidly eliminated
+from the blood circulation and accumulated preferentially in the liver
+and spleen, without inducing liver or kidney toxicity ( A,B). Nearly 50% of the injected
+dose was accumulated in the liver after 14 days postinjection ( B). The authors applied a bicompartmental model to determine
+mean PK parameters, which shows an elimination half-life (T1/2β) of 5.12 h ( C).
+ A detailed kinetic study was performed by De Jong
+et al. where
+the authors focused on the influence of PEGylated AuNPs sizes in in
+vivo tissue distribution. In this study,
+a rat model was intravenously injected via tail vein with AuNPs of
+10, 50, 100, and 250 nm sizes, respectively. Organ analysis was done
+after 24 h postinjection. A difference was observed between the distribution
+of the 10 nm particles and the larger particles, with most of the
+particles in the liver and spleen. This
+study clearly indicated a size-dependent response in the distribution
+with larger particles accumulated more in the liver and spleen. An interesting observation that can be drawn
+from this study is the absence of larger particles in the brain, whereas
+detectable amounts of smaller 10 nm particles were found in the brain.
+The brain is one of the challenging organs to deliver NPs for various
+reasons, with the blood-brain barrier being significantly difficult
+to cross. This study indicated that smaller particles are more suspectable
+to cross such barriers (0.3% injected dose in the brain), therefore,
+could hold promise in drug delivery to the brain.
+A similar
+size-dependent study was done by Sonavane et al. with
+PEGylated AuNPs of average sizes of 15, 50, 100, and 200 nm. Considerable accumulation of particles of all
+sizes was identified in the liver. The major difference in the studies
+between De Jong et al. and Sonavane et
+al. is the blood level of AuNPs between rats and mice. For rats, the
+blood content of AuNPs at 24 h was nearly comparable with the content
+in the main accumulating organs; whereas,
+for mice, the blood level was an order
+of magnitude lower than the contents in the accumulating organs. The
+reason behind these differences was not discussed in the literature;
+however, we assume the differences in blood concentration between
+rats and mice are presumably due to the differences in their blood
+circulation times, excretion, as well as anatomical and immunological
+differences. , Most importantly, both studies
+show the blood-brain barrier penetration potential of AuNPs of a size
+smaller than 20 nm.
+
+## Polymer-Based Nanoparticles
+The
+second NM that has
+been widely used is polymer-based. Among various polymer-based nanoparticulate
+systems, the PLGA , polymeric NP system has been
+extensively used both in laboratory research and preclinical setting
+owing to its great degree of biocompatibility as its degradation produces
+lactic and glycolic acids, which are biogenic and are byproducts of
+various metabolic pathways in the body under normal physiological
+conditions. Acute toxicological analysis
+of PLGA NPs was studied by Chen et al. using healthy mice. These PLGA NPs were surface coated with chitosan
+and are biotinylated to maximize cellular delivery, 218.4 ± 21.0
+nm in size with a ζ potential of 24.15 ± 1.41 mV. Biochemical
+analysis and hematological indexes for both male and female mice between
+all tested groups did not show a significant difference (intravenous
+injected 300 mg/kg PLGA NPs). The histopathological exam also confirmed
+that the tissues were healthy, and the particles were not toxic. After one single intravenous injection of PLGA
+NPs, the elimination half-life was 16.624 h and the mean residence
+time was 19.067 h. 
+Pioneer work
+in cell membrane coating of PLGA was carried out in Prof. Liangfang
+Zhang’s laboratory at the University of California, San Diego. A study on red blood cell membrane-coated PLGA
+NPs highlighted the elimination half-life of 39.6 h in contrast to
+15.8 h for PEG-coated PLGA NPs. Considering
+studies by Chen et al. and Hu et al., RBC membrane coating is superior in retarding
+in vivo clearance compared to the conventional PEG or chitosan stealth
+coating. Nguyen et al. prepared magnetically active PLGA NPs made
+up of phospholipid conjugated gadolinium and coated with RBC membrane. In this case, Nguyen et al. took advantage of
+gadolinium to assay the NP kinetics and found an elimination half-life
+of 11.6 h. This value is significantly shorter than that reported
+by Hu et al., which could be possibly
+due to the presence of surface gadolinium and the analytical technique
+used in the measurement process. These studies highlight the role
+of surface chemistry in PK or TK of NPs.
+Wang et al. studied
+the PK of anticancer drug gemcitabine-loaded
+PLGA NPs with poly(vinyl alcohol) (PVA) coatings of size 241 ±
+36.2 nm using a male Sprague–Dawley rat (180–200 g)
+model and calculated various PK parameters, such as t1/2, AUC, and MRT, which were 5.01 h, 10,986.17 h·μg/L,
+and 4.96 h, respectively. Similar PLGA
+NPs stabilized with PVA with an average size of ∼200 nm show
+an elimination half-life of 8.25 ± 3.19 h in male albino rabbits. In another report, a PLGA end-functionalized
+with glycine was micellized with methotrexate (MTX), forming 110 ±
+5 nm particles. This MTX-loaded particle enhances the biological residence
+of MTX by 2-fold with a drug elimination half-life of 4.30 h (elimination
+half-life of free MTX was 2.47 h). Pitchaimani
+et al., reported the circulation half-life and PK of biomimetic NPs
+made up of PLGA. This NP was coated with
+the membrane of natural killer cells, and PK studies were conducted
+in the MCF-7 tumor-bearing immunodeficient mouse model. The t1/2, AUC, Vd, Cl, and MRT from a two-compartmental model
+were found to be 9.51 ± 6 h, 1069 ± 507 %ID·h·mL–1, 3.85 ± 1.16 mL, 0.28 ± 0.14 mL·h–1, and 13.61 ± 1.38 h, respectively. Rafiei and
+Haddadi conducted a comparative PK study of bare PLGA and PEG-PLGA
+NPs with an aim to enhance the blood residence time of docetaxel. Docetaxel-loaded PEG-PLGA NPs with a hydrodynamic
+size of 186.7 ± 2.9 nm showed an elimination half-life of 15.87
+± 1.66 h, whereas bare PLGA NPs exhibited 6.05 ± 0.78 h,
+indicating the surface passivation with PEG is the key to enhance
+its residence time, confirming the role of PEG in helping NPs evade
+from clearance mechanisms present in the systemic circulation and
+the body. 
+Owing to their ease of
+modification in various functionalities
+and engineering to subcellular size, PLGA NP-based delivery systems
+have a distinct advantage in drug delivery and implantable medical
+devices, such as but not limited to reducing drug dosage while achieving
+pharmaceutical effects, minimizing side effects, protecting the drug
+from degradation, and enhancing drug stability. These NPs can penetrate
+deep into the tissue through fine capillaries or can take advantage
+of leaky vasculature to improve deep tissue drug delivery and are
+generally taken up efficiently by the cells. Studies highlight the
+importance of NP chemistry and size to alter its in vivo kinetics,
+which in turn modifies the kinetics of its cargo. Similarities presented
+in these cited studies are the use of a murine model. In contrast,
+the differences in the size and the surface chemistry of PLGA make
+it challenging to predict a conclusive direction. Therefore, more
+studies with a focus on unified parameters of sizes and surface properties
+are warranted to picture a realistic scenario to better understand
+the PK of PLGA NPs. summarizes the elimination half-life of gold and PLGA polymeric
+nanoparticulate systems.
+ 
+
+## Liposomal Nanoparticles
+The third nanoparticulate system
+that we discuss here is a liposomal NP. Unlike metal and core–shell
+polymeric NPs, liposomes have an aqueous core shield with a phospholipid
+bilayer. Liposomes were discovered by Alec D. Bangham in 1965 and were approved as therapeutic NPs for cancer
+treatment. They represent a large proportion of clinical-stage nanotherapeutics
+due to their biodegradable, biocompatible, nontoxic, and nonimmunogenic
+composition. , − Deng et al.
+discussed the importance of the liposomal formulation of 16-dehydropregnenolone
+(16-DHP), a potent antitumor compound. In this report, the authors evaluated PK by measuring 16-DHP concentrations
+in plasma after a single dose intravenous injection. A liposomal formulation
+of 16-DHP was compared with free 16-DHP administration and found an
+order of magnitude enhancement in the plasma residence time of liposomal
+16-DHP. The calculated t1/2 for liposomal
+16-DHP was 20.49 ± 2.71 h, whereas free administrated 16-DHP
+was 5.99 ± 2.01 h. The first clinically approved liposomal anticancer
+drug is DOXIL, which is a doxorubicin
+(DOX) encapsulated liposome with a PEG surface. The hydrodynamic size
+of DOXIL is ∼100 nm. A comparative study was carried out to
+understand the PK parameters of free DOX and liposomal DOX (DOXIL)
+in rats and dogs. Free DOX displays biphasic nature with a rapid decline
+in concentrations in plasma, and the half-life of the first phase
+is 5–10 min. In contrast, DOXIL has an elimination half-life
+within the range of 20–35 h. The
+DOXIL exhibits plasma concentrations of DOX several hundred-fold greater
+several hours after injection in liposome-treated animals than in
+animals treated with free drug. − It has been identified that the
+drug found in plasma remains encapsulated in the liposome, which is
+not yet bioavailable. Therefore, to enhance its bioavailability, development
+of fast drug releasing liposomes or revisiting DOXIL formulation is
+warranted, which can be achieved by developing NPs sensitive toward
+external or internal stimuli and by enhancing vascular penetration
+of NPs.
+Recently, Han et al. studied the PK of paclitaxel-loaded
+liposomes made up of soy lecithin phospholipid, cholesterol, and PEG2000. These liposomes were functionalized
+with estrone to target positive estrogen receptors (ER) in breast
+cancer. These ER-targeted liposomes showed an elimination half-life
+of 20.98 ± 8.31 h and enhanced drug accumulation in tumor sites.
+Highly studied liposomal hydrophobic drugs include paclitaxel, − 9-nitrocamp-tothecin, − SN-38 (an active metabolite of irinotecan), , docetaxel, cis-Bis-neodecanoato-trans-R,R-1,2-diaminocyclohexane
+platinum(II), − and 7-t-butyldi-methylsilyl-10-hydroxycamptothecin. These liposomal formulations are based on the
+principle of stealth coating with PEG, which is a commercially available
+hydrophilic polymer. This prevents NPs from the reticuloendothelial
+system (RES), hence enhancing the plasma residence time as shown in , which highlights
+the importance of the surface properties of NPs for improving tissue
+distribution and drug PK.
+The aforementioned liposome formulations
+mostly use naturally occurring
+phospholipids. With naturally occurring phospholipids being a major
+component in these formulations, toxicities of liposomes were found
+to arise mainly due to the use of other additives to alter its stability
+or kinetics. The main targets for potential toxic effects of liposomes
+are the RES system and formed elements of the blood upon parenteral
+administration. Platelet aggregation,
+erythrocyte hemolysis, immunological hypersensitivity reaction due
+to repeated administration, etc. are the major safety concern with
+liposomes, which are primarily caused due to the use of nonlipid constituents.
+In addition, the impact on RES cells such as macrophage saturation
+by liposomes leads to immunosuppression and increases the risk of
+infections. For example, administration of DOXIL in mice showed a
+dose-dependent clearance saturation effect due to partial blockade
+of the RES cells in the liver, which was not observed in the case
+of free DOX. Although the liposomal drug
+delivery systems have greatly impacted many medical fields, the use
+of nonlipid additives needs to be carefully analyzed while considering
+risk versus benefit.
+
+## Uptake and Release Kinetics of Nanoparticles
+In Vitro
+Effects of particle size, surface charge, and cell
+type have received
+abundant attention with respect to their effects on NP uptake and
+removal kinetics by cells in vitro. Herein, we review studies on the
+kinetics of in vitro cellular uptake, organized by particle type.
+A brief overview of in silico research that contributed to the understanding
+of NP-cell interaction kinetics is included as well. provides an overview of the
+work discussed.
+ 
+
+## Gold Nanoparticles
+One of the leading
+NPs researched
+is AuNPs due to their potential biomedical and biosensing applications.
+Size and shape effects on AuNP-cell interaction were illustrated by
+differences in kinetics and saturation of cellular dose. For spherical
+particles with citric acid coating, uptake was maximum for 50 nm AuNPs,
+while 14 and 100 nm showed the least uptake in HeLa (cervix carcinoma)
+cells. Uptake for spherical AuNPs saturated
+around 6 h, and uptake half-life was 2.10, 1.90, and 2.24 h for 14,
+50, and 74 nm AuNPs, respectively. This corresponds to rates of 1.72
+× 10–5, 1.63 × 10–3,
+and 1.71 × 10–3 ng/h based on the unit conversion
+from the number of NPs per hour to nanograms per hour reported by
+Chithrani et al. When citric acid was
+replaced with transferrin on the AuNP surface, uptake kinetics showed
+comparable profiles, but the number of transferrin-coated AuNPs internalized
+was three times less compared to the citrate-coated AuNPs. Comparing
+these results with AuNP rods of similar dimensions (74 × 14 nm,
+1:5 aspect ratio), cells internalized spherical 74 and 14 nm AuNPs
+were 500% and 375% more than the rod-shaped particle. Although surface
+chemistry or protein corona formation could play a role, it was noted
+that 1:3 aspect ratio rods internalize more easily. This investigation
+was extended by the investigators to quantify exocytosis for transferrin-coated
+AuNPs while considering a broader group of cell lines in vitro. Smaller AuNPs were exocytosed at a faster rate
+(14 nm two times faster than 74 nm AuNPs) and at a larger fraction
+than larger NPs (fraction of 14 nm AuNPs five times higher than for
+100 nm NPs). Exocytosis kinetics were found to plateau by 1 h for
+the smallest AuNPs, while for larger ones, it took about 5 h. The
+differences were proposed to relate to the thermodynamics of wrapping
+of the NPs and receptor diffusion kinetics, a mechanism that was later
+modeled by Li et al. for spherical particles, see below. Overall, endocytosis and exocytosis were found
+to depend on NP size, but kinetics were different between the two
+processes. In another study, gold nanocages coated with antibodies
+and PEG were evaluated with respect to U87MGwtEGFR glioblastoma cells. About 75% NPs were internalized with the rest
+of the NPs interacting with cells remaining surface-bound. Uptake
+approached saturation quickly by 1 h incubation time, after which
+the uptake rate slowed considerably. An increase in the number of
+antibodies on the Au nanocage surface increased uptake. The uptake
+of Au nanocages was also size-dependent, with the smaller 35 nm NP
+internalizing abundantly and 90 nm NPs internalizing about 60% less.
+The exocytosis of AuNPs coated with two different peptides (KATWLPPR
+and KPRQPSLP) was investigated in human umbilical vein endothelial
+cells (HUVECs). Both types of particles
+show that over half of the particles remain in the cells after 6 h.
+Furthermore, the KATWLPPR AuNPs showed a progressive increase in the
+exocytosis rate until it appears to approach saturation at 6 h, while
+the KPRQPSLP AuNPs show a complex kinetic profile that suggests reuptake
+of NPs after 4 h.
+Recently, AuNPs have also been studied with
+in vitro 3D cell culture. An A549 human
+lung carcinoma 3D model provided the biologically relevant modular
+structure and presence of extracellular matrix for NP localization,
+specifically with respect to these altering the kinetics of NP uptake.
+Slow distribution of AuNPs from the extracellular matrix to intracellular
+space was observed, in contrast to 2D in vitro culture where rapid
+uptake kinetics are observed (see above). The kinetics in 3D culture
+showed two phases, an earlier phase with a relatively higher uptake
+rate and a second phase with a slower uptake rate. Up to 28 days,
+no saturable uptake was observed. An example of correlating in vitro
+kinetics of spherical PEG-coated AuNPs to in vivo observations was
+reported recently as well. Lung epithelial,
+lung bronchial, and liver cells exhibit comparable kinetics of interaction
+with the AuNPs, while the renal proximal tubular epithelial cells
+showed an order of magnitude faster kinetics. The authors modeled
+an equilibrium between culture media and cell space (membrane + internalized)
+and extracted rates of entry and exit from the cell space. The ratio
+of the rates, basically the equilibrium constant for first-order mass
+transfer between media and cell space, was used as the PBPK partition
+coefficient. Notable deviations between prediction and in vivo observations
+were attributed to the nonmechanistic approach used in modeling.
+
+## Polymeric Nanoparticles
+Polymeric NPs have been considered
+extensively as well due to their biocompatibility and potential biodegradability.
+The kinetics of polystyrene NPs were investigated in quantitative
+detail for membrane adsorption, detachment, and cell internalization. Particle size was found to considerably affect
+NP-cell interactions and was attributed to a reduced number of binding
+sites for NPs per cell with increasing particle size. The kinetic
+model applied to determine the corresponding rate constants is based
+on the Wilhelm et al. mass transfer scheme that is based on Langmuir
+adsorption. In this model the number
+of particles adsorbed on the cell membrane is proportional to the
+concentration of NPs in the culture media near the cell membrane,
+noting that NP sedimentation can affect this concentration (discussed
+in the next section). The change in the number of particles bound
+to the cell membrane over time can then be described as
+1 while the number of NPs internalized follows
+from
+2 In these equations Nmem is the number
+of NPs adsorbed on the cell membrane, Nsites is the number of available binding sites
+(varies with time depending on number of NPs bound), Ni is the number of particles internalized, C is the concentration of NPs in the culture media near the cell membrane,
+and ka, kd, and ki are the rate constants for NP
+adsorption, desorption, and internalization, respectively. The rate
+constant ka has units of inverse concentration
+times inverse time, and kd and ki have units of inverse time, where the authors
+expressed time in seconds and the rate constant is in reference to
+a change in the number of particles. The solution to this model yields
+the time evolution of the number of particles bound to the cell membrane
+and the number of NPs internalized:
+3 with B the
+binding capacity
+of the cell and
+4 Sample results of applying this model
+are shown in . Uptake of carboxylated polystyrene NPs by hepatocytes was found
+to depend on time, size, and in vitro environment. For 200 nm NPs, uptake was sparse, with most NPs located
+on the cell surface. The 20 nm NPs were internalized, both earlier
+and more abundantly. Findings were consistent for the different hepatocytes
+studied, although the C3A cell line showed earlier compartmentalization
+of NPs. In addition, after 30 min, 20 nm NPs started to accumulate
+within bile canaliculi leading the authors to conclude that NP excretion
+within bile is the mechanism of elimination. It is noteworthy that
+when cells were incubated with 20 nm NPs in presence of serum that
+uptake increased over time, but in absence of serum, the NPs agglomerated
+which led to reduced NP uptake. For the 200 nm NPs, no effect was
+found on agglomeration and uptake remained low. Interaction of polystyrene
+NPs with murine macrophages was evaluated while taking into account
+the differences between the administered dose and the delivered dose
+via the in vitro sedimentation, diffusion, and dosimetry (ISDD) model. The authors found that only a small fraction
+of the administered dose interacts with cells in vitro regardless
+of particle size. It was speculated that low-density NPs and short
+incubation times exacerbate this effect. Internalized dose correlated
+well with the delivered dose in all cases. 50 and 1000 nm particles
+showed more internalization by macrophages. Macrophages are known
+to prefer the uptake of microparticles, while sub-100 nm particles allow for more cellular interaction through
+a potentially wider scope of internalization pathways. 
+ Uptake of uncoated chitosan particles by mouse
+macrophages and
+fibroblasts was reported to be very rapid, within a few minutes of
+incubation. In contrast, hyaluronic acid
+(HA)-coated chitosan particles required tens of minutes of incubation
+time to observe any appreciable uptake. Uptake kinetics was saturable
+with clear dose dependence and a Michaelis–Menten-like profile
+presaturation. In addition, macrophages exhibited a greater uptake
+capacity for uncoated NPs than fibroblasts, while the uptake capacity
+for HA-coated NPs was 2 orders of magnitude lower. The authors of
+this study reported that HA-coated chitosan particles were stable
+in size and ζ potential. Conversely, the uncoated chitosan NPs
+showed an increase in size with reversal of ζ potential in culture
+media. This was attributed to protein adsorption, which was hypothesized
+to be largely absent for the HA-coated NPs. These results illustrate
+how protein adsorption can drastically change NP properties and experimental
+outcomes in vitro. The size and surface charge dependence of chitosan
+NP uptake by colorectal adenocarcinoma (Caco-2) cells were studied. It was found that increasing particle size led
+to increased positive ζ potential. Uptake of the chitosan NPs
+by Caco-2 cells increased in the 200–600 nm size range, while
+larger particles with slightly higher ζ potential showed less
+uptake. These results suggest complex interactions that affect NP
+uptake other than chitosan NP size.
+Jurney et al. compared the
+in vitro kinetics of nonspherical PEG
+hydrogel NPs between static culture and dynamic cell culture in microfluidic
+devices. Notable outcomes are that in
+the presence of shear flow NP-cell interaction is reversed, likely
+due to increased motion of larger nonspherical NPs that pushes them
+to the cell wall allowing for increased cell interaction. PEGylated
+poly(lactide)-poly(carbonate)-DOX NPs showed first-order kinetics
+with a faster uptake rate in the first hour followed by slower uptake
+rates in the following five hours. Comparing
+three glioblastoma cell lines, uptake was higher for GIN8 than GIN28,
+with U87 showing the lesser uptake.
+Conjugated polymer NPs fabricated
+from the polymer poly(fluorene-alt-benzothiadiazole)
+(PFBT) were tested for their in vitro
+kinetics with J774A.1 macrophages. A
+linear correlation between the applied dose and the internalized dose
+was observed. Similarly, a linear relationship was found between amounts
+of NPs internalized and incubation time. For cationic maltodextrin
+NPs interacting with human bronchial epithelial cells, the endocytosis
+rate was found to exceed NP binding. Further
+research suggests the NP binding to anionic sites on the cell membrane
+is required before their endocytosis. In addition, uptake was saturable
+but trended downward after media replacement, which was attributed
+to the exocytosis of the NPs. The rate of exocytosis increased substantially
+after 1 h. The uptake of a series of poly(alkyl cyanoacrylate) NPs
+was found to depend on polymer composition. Different cell types also
+interacted differently with the NPs, resulting in different internalization
+pathways. The results of another study showed that rat brain endothelial cell line RBE4 internalized significantly
+more poly(butyl cyanoacrylate) (PBCA) and poly(octyl cyanoacrylate)
+(POCA) NPs than prostate cancer cell line PC3. Uptake saturated at
+3 h for RBE4 and the uptake rate for PC3 slowed down around the same
+time without showing saturation. N-Vinyl-2-pyrrolidone
+oligomer amphiphilic NPs showed linear kinetics for uptake by fibroblasts
+and glioblastoma cells, although the uptake was tracked for only 1
+h. The authors of the study speculated
+that due to the particle size and inert surface, macropinocytosis
+and receptor-mediated endocytosis were suppressed. Another amphiphilic
+polymeric NP made from three polymers including N-vinyl-2-pyrrolidone
+polymer was cultured in vitro with HC-a and RAW 264.7 cells. Uptake kinetics were different between the two
+cell types. A linear zero-order kinetic profile was observed for the
+RAW 264.7 macrophages for the duration of the study (24 h). For HC-a,
+a first-order kinetic profile with saturation at 8 h was noticeable.
+The difference was attributed to the phagocytic properties of macrophages.
+
+## Poly(lactic-co-glycolic acid) Nanoparticles
+A study on 97 nm PLGA NPs with vascular smooth muscle cells (VSMC)
+revealed that the NP uptake was dose- and time-dependent, with a fairly
+linear correlation between applied dose and internalization while
+uptake saturated at 4 h. With the removal
+of the NPs from the cell surroundings in vitro exocytosis of NPs took
+place rapidly. Roughly 65% of the internalized fraction was exocytosed
+in 30 min and proceeded more slowly afterward. The work reported by
+the authors suggests that the exocytosis of NPs proceeds through an
+energy-dependent process. The effect of protein corona formation was
+illustrated when exocytosis was not observed in serum-free media,
+indicating that NPs carry media proteins that potentially interact
+with the exocytotic pathway. PLGA NPs of varying sizes (110–950
+nm) with negative ζ potential showed more transepithelial transport
+for the smaller sizes, with a limited effect of the applied dose,
+while the kinetics profile appeared nonsaturable. A similar observation was made for 95 nm PLGA NPs and human
+bronchial epithelial (HBE) cells, although a comparison of the same
+PLGA NPs with opossum kidney (OK) and Caco-2 cells shows that uptake
+was saturable and nearly indistinguishable from control until 24 h,
+respectively. NP uptake by HBE cells
+was found to be slower compared to OK cells, while both cell types
+exhibit exocytosis of PLGA NPs. These observations illustrate the
+role of cell type in cell-NP interactions. In another report, 180
+nm PLGA NPs were found to internalize with a linear kinetic profile
+that did not saturate after 6 h. Exocytosis took place after replacing
+NPs containing media with NP-free media. 80% of NPs were removed from
+cells within 2 h to the basolateral medium. Coating PLGA NPs with
+chitosan increased the rate of uptake and transcellular transport
+for Caco-2 cells, with higher doses showing saturable uptake at 2
+h. 
+
+## Liposomes
+The
+interaction of liposomes loaded with
+8 nm iron oxide NPs with macrophages was studied, and the effect of
+a PEG coating on the liposomes was evaluated. The liposomes bound with J774 macrophages were taken up by endocytosis.
+The PEG coating limited the association of liposomes with the cells,
+which limited internalization. This effect of the PEG coating was
+also reported for AuNPs. However, the
+kinetics of the liposome-macrophage interactions were not affected
+by the polymer coating. Both liposome types showed first-order kinetics
+for endocytosis with identical rate constants. Interestingly, the
+maximum number of liposomes that could be endocytosed per cell as
+determined from the first order kinetic model was lower for the PEG-coated
+liposomes by a factor of 1.5. A recent report by Zhang et al. using
+RAW 264.7 macrophages on the other hand indicates zero-order uptake
+kinetics of liposomes by these macrophages, suggesting effects of
+liposome composition, coating, and cell line. Magentoliposome (ML) in vitro kinetics were studied and
+framed within a mathematical model by Slabu et al. Pancreatic tumor cell uptake kinetics were compared with
+healthy fibroblast cells. MiaPaCa-2 pancreatic tumor cells internalized
+three times more ML than BxPC-3 (another pancreatic tumor cell line)
+and L929 murine fibroblast cells. Notably, these observations were
+made while ML adsorption rate constants were nearly the same. These
+results were modeled as a three-step process including adsorption,
+internalization (endocytosis), and exocytosis. The authors started
+with the model described above and extended this further with the
+inclusion of exocytosis. They introduced the assumptions that (i)
+only a finite fraction (F0) of the cell
+membrane is available for NP internalization, (ii) the same fraction
+of the cell membrane is available for NP exocytosis, and (iii) exocytosis
+follows after endocytosis. The latter is simulated by an activation
+function Θ(t) that varies the delay and magnitude
+of exocytosis. The membrane subfraction participating in endocytosis
+is Fendo and for exocytosis is Fexo. With these conditions is then reworked as follows to represent
+endocytosis and exocytosis, respectively:
+5 6 with Ne the number
+of NPs removed from the cell interior and ke the rate constant for exocytosis. The rate constant ke has units of inverse time with time reported in minutes
+in reference to a change in the number of particles, and the fraction F and activation function Θ are unitless.
+
+## Superparamagnetic
+Iron Oxide Nanoparticles and Other Oxide Nanoparticles
+Wilhelm
+et al. conducted a kinetic analysis of membrane adsorption
+and internalization for 9 nm SPION to compare tumor cell and macrophage
+properties. Neither HeLa cells nor RAW
+macrophages showed a saturable kinetic profile after 12 h incubation
+with SPION, although uptake rates had significantly slowed down. The
+authors also reported a kinetic model to further analyze the results.
+Their reported kinetic model consists of a two-step process involving
+Langmuir adsorption followed by internalization and has formed the
+basis for recent advancements in the modeling of NP-cell interactions
+as discussed above. Binding parameters were consistent between cell
+types, but internalization capacity was 1 order of magnitude greater
+for RAW macrophages. Carboxydextran-coated SPION were incubated with
+blood-derived macrophages to test the effect of particle size. The results of the study show that 60 nm NPs
+are internalized 10 times more effectively than 20 nm NPs of the same
+composition, demonstrating NP size dependence of cell-NP interaction.
+In addition, the internalization was observed to saturate in less
+than 3 h in both cases. In a mathematical model developed by the investigators,
+the uptake mechanism is described as contributions from NP capture
+and NP wrapping by the macrophage cell membrane involving multiple
+receptors, based on the Gao et al. model. The size effect of SPION uptake kinetics by MCF-7 human mammary
+adenocarcinoma epithelial cells was reported recently. Different NP sizes all followed first-order
+kinetics but with saturation at a higher internalized dose for 15
+nm versus 7 and 30 nm.
+Larger (310 nm) silica NPs were found
+to be internalized twice as much by HeLa cells than HUVEC cells after
+24 h. Interestingly, within the first 4 h of NP-cell interaction,
+uptake was much higher for HUVEC cells, after which uptake by HeLa
+cells accelerated 20-fold. , These results illustrate
+differing uptake rates for the same NPs by different cell types, with
+nonlinear kinetic profiles at different incubation times. For another
+type of oxide NPs, ceria, the kinetic profile was vastly different. A strong increase in the number of internalized
+NPs was observed between 3 and 24 h, with no obvious size dependence.
+Even though the particles were smaller, they aggregated into approximately
+300 nm clusters before internalization. When smaller 50 and 100 nm
+silica NPs were incubated with NCI-H292 lymphocytes, a saturable time-
+and dose-dependent internalization kinetics was found, although the
+100 nm particles showed high adsorption on the cell membrane. 
+
+## Quantum Dots and Carbon Nanotubes
+A series of CdSe/ZnS
+QD coated with carboxylate, PEG, and PEG-amine were studied for the
+kinetics of their interaction with malignant and nontumorigenic human
+mammary epithelial cells. Carboxylated
+QD were internalized with a linear kinetic profile up to 40 h incubation
+time, while the PEG coating blocked internalization for both those
+QD types over 12 h of study. Zwitterionic CdSe/ZnS QDs were primarily
+endocytosed via the clathrin-mediated mechanism by HeLa cells with
+accumulation observed on the cell membrane in conjunction with uptake
+saturation. The investigators suggest
+that clusters of particles rather than individual particles need to
+be wrapped for successful completion of internalization, as corroborated
+by computational modeling discussed herein. Exocytosis proceeded partially
+by active transport of QD to the periphery of the cell, and the fraction
+of QD exocytosis saturated at 2 h. The effects of NP size and surface
+charge were studied for a series of QD, liposomes, and polystyrene
+NPs by Yaehne et al. Deposition rate
+constants were found to depend on surface charge when the researchers
+removed effects from particle size. In addition, NP kinetics were
+found to be controllable by size rather than chemistry. We recently
+reported kinetics studies on the interaction of negatively charged
+CdSe/ZnS core–shell QD with a number of cell types using a
+ratiometric assay. , Adsorption and internalization
+were found to dominate the kinetics, with adsorption being about 2
+orders of magnitude slower. In addition, we observed significant NP
+degradation that needed to be taken into account for correct modeling
+of the data. To extract rate constants from the data, we built a chemical
+kinetics model that includes degradation of the NPs for correct modeling.
+The model consists of three compartments representing the culture
+media, cell membrane, and internal cell space. The NP dose evolution
+for the media compartment is represented by
+7 with [Med] and [Mem], the concentration of
+NPs in the culture media and NPs adhered to the cell membrane, respectively,
+reported in nanomolar (nM). The cell membrane compartment separates
+the culture medium from the internal space of the cell. Once adsorbed
+to the cell membrane, NPs can go back to media or enter the cell as
+expressed by
+8 Once NPs
+enter the cell space compartment,
+there is a chance they become degraded. This is expressed with a term
+that contains a first-order rate constant for the degradation process
+(kdeg). If in vitro empirical work shows
+that the NP does not degrade, this kdeg can simply be set to zero so that the degradation term is not included
+in the modeling of the data. The NP dose evolution for the cell space
+compartment is then described as
+9 with [Cell] the concentration
+of NPs (nM)
+in the cell interior at time t. All rate constants
+were reported as per hour in reference to a change in the molar concentration
+of particles. Sample results of applying this model are shown in . The results of
+this in vitro work were applied to in vivo predictions of QD predisposition. The mechanistic approach in the modeling resulted
+in a satisfactory agreement between predicted and observed in vivo
+data for multiple species.
+Interaction of silicon quantum dots
+(Si-QDs) with HUVEC cells resulted
+in near saturation of uptake by 6 h of exposure. The dose-dependent response changed the number of particles
+per cell under those conditions but the kinetic profiles remained
+similar. Removing Si-QDs from the in vitro media was followed by exocytosis
+of the NP from cells with a plateau reached by 2.5 h. A kinetic model
+based on the mass balance of the Si-QDs allowed the authors to extract
+the dissociation constant between receptors in endosomes and Si-QD
+aggregates and was found to be the determinant in NPs remaining in
+cells instead of being removed.
+
+## DNA-Coated Single-Walled
+Carbon Nanotubes
+DNA-coated
+single-walled carbon nanotubes (SWCNT) with sizes ranging from 130
+to 660 nm showed maximum uptake by fibroblasts for intermediate sizes. The investigators reported a model based on
+the Gao et al. model, where the SWCNT
+were reversibly bound to the cell membrane into clusters of receptor-bound
+complexes, which when of sufficient size lowers the elastic energy
+for wrapping enough to be overcome by the free energy reduction resulting
+from the receptor-particle association. From the model, the endocytosis
+rate constant and exocytosis rate constant were obtained for the SWCNT
+and compared to modeling based on literature data for AuNPs , and PLGA NPs. The endocytosis rate
+constant of SWCNT was estimated to be about 1000 times that of AuNPs,
+while the exocytosis rate constants were similar for SWCNT, PLGA,
+and AuNPs, noting that each NP was studied with different cell lines.
+
+## In Silico Evaluation of Nanoparticle-Cell Interactions
+Computational
+modeling has also made significant contributions to
+the understanding and quantification of in vitro NP-cell interactions.
+More commonly used approaches include coarse-grained molecular dynamics
+(CGMD) and dissipative particle dynamics (DPD) as more manageable
+versions of all-atom molecular dynamics (AAMD). In addition, other
+approaches such as thermodynamic models have been reported to study
+NP-cell interactions.
+Recently, Lunnoo et al. studied the interactions
+of AuNPs and AuNP aggregates with cell membranes using CGMD simulations
+while considering size, shape, and surface charge. The investigators calculated rate constants for internalization
+and translocation half-life and found that aggregated AuNPs had less
+ability to transport through the lipid bilayer than the corresponding
+individual NP. Nanohexapods exhibited the highest cellular uptake,
+while spherical AuNPs showed distinct surface charge and size dependence
+of their transport through the plasma membrane. In an earlier study
+by Gupta et al. using CGMD simulations to consider AuNP-membrane interactions
+of uncharged smaller particles, these were found to permeate the membrane
+more easily although all sizes considered entered the lipid bilayer
+with relative ease. Entry was facilitated
+by disruptions of the membrane caused by the NP. However, the charge
+effect on this observation was found to be significant, with small
+cationic and anionic particles showing mainly adhesion and minimal
+permeation. The interplay between NP shape and charge was evaluated
+previously while attempting to maintain NP size consistent. Internalization rates increased over 30 orders
+of magnitude with increasing cationic charge density for prolate NPs
+while the effect increased to 60 orders of magnitude for spherical
+NPs. Negatively charged NPs were repelled from the cell membrane.
+Nonspherical NPs reoriented near the cell membrane to enhance NP-membrane
+contact, with the potential to disrupt the membrane structure. Shape
+and size dependence on the cooperative wrapping of NPs by lipid membranes
+was further studied with CGMD by Xiong et al. The authors reported complex dependencies that resulted
+in various wrapping structures. Interestingly, Shen et al. recently
+reported that deformable spherical NPs require interaction with more
+receptors to induce membrane wrapping, more so with increasing NP
+size. Oblate and prolate NPs on the
+other hand showed more complex behaviors that depend on the orientation
+of the NP on the membrane.
+The effect of particle size and interaction
+strength with membrane
+on endocytosis has also been evaluated with DPD simulations. The investigators found two wrapping modes
+depending on the extent of attraction between the NP and cell membrane.
+Weak interaction resulted in slow and limited wrapping, with larger
+particles accelerating the dynamics of membrane wrapping. For strong
+NP-cell membrane interactions wrapping dynamics accelerated with decreasing
+particle size, however. In another DPD investigation, a cooperative
+effect in NP endocytosis was considered. The researchers reported that smaller particles (2.5 nm) cluster
+to induce membrane deformation and wrapping, while intermediate-size
+particles (4.0 nm) aggregate into pearl-chain arrangements, both internalizing
+in cooperative fashion. Larger particles (6.0 nm) were found to internalize
+individually. The investigators followed this study up with further
+DPD simulations to understand these size effects on the NP internalization
+pathways. The way the NPs aggregate
+on the membrane surface was found to affect the mechanism of internalization.
+Li et al. compared in vitro experimental results with DPD simulations
+to investigate the endocytosis of charged AuNPs in the context of
+cooperativity. Both experiment and theory
+demonstrate that positively charged AuNPs enter the cell together
+through cooperative endocytosis. Even though the like-charged NPs
+repel each other, the investigators conclude that membrane deformation
+counteracts this effect.
+A thermodynamic model to determine
+the optimal size for receptor-mediated
+endocytosis of spherical NPs was reported by Li et al. The model describes the cell membrane during
+receptor-mediated endocytosis with two regions: bound and free membrane
+regions. Receptors on the cell surface behave accordingly, with a
+change of receptor state leading to cell membrane deformation. Thermodynamic
+contributions are then described by receptor binding free energy changes,
+loss of entropy of the receptors, and free energy changes due to cell
+membrane deformation. From this model, it is deduced that receptor
+density and release of energy upon ligand-receptor binding are the
+main factors that control the optimal NP size for receptor-mediated
+endocytosis. Size and interaction-dependent thermodynamics of NP adhesion
+effects on cell membrane were discussed by Ginzberg et al. The researchers found that uncharged or hydrophobic
+NPs cause membrane swelling by incorporating into the membrane. Conversely,
+charged or hydrophilic particles can remove phospholipids from the
+membrane to form micelles, potentially rupturing the membrane and
+leaving nanosized holes. These effects were found to correlate with
+the charge density of the particle surface.
+
+## Physiologically
+Based Pharmacokinetic Modeling of Nanoparticles
+Currently,
+there are approximately 50 PBPK modeling studies for
+different types of NPs in the literature. These PBPK models were developed
+for different applications, such as nanomedicine development and NM
+toxicity and risk assessment. The major features and applications
+for each of these existing PBPK modeling studies are summarized in for inorganic NPs
+and for organic
+NPs and hybrid NPs. Some of these studies only simulate the PK of
+a particular NP, but other studies simulate the PK of both the NP
+itself and the active pharmaceutical ingredient that is carried by
+and released from the NPs. Schematics of representative PBPK model
+structures for different types of NPs are provided in . In the overview below, we
+will discuss the progress of PBPK modeling for different NP types,
+including inorganic NPs, such as QD, AuNPs, titanium dioxide, silver,
+and other metal NPs as well as organic NPs, such as polymeric NPs,
+liposomes, and other organic NPs.
+ 
+
+## Inorganic Nanoparticles
+
+## Quantum Dots
+A PBPK model is described
+in Lin et al. for QD 705 in mice following
+intravenous injection.
+At that time, the PBPK modeling methodology for NMs just started to
+be explored. In this study, based on the most commonly used model
+structure for small molecules, the authors used a perfusion-limited
+model structure for all compartments to simulate the tissue distribution
+of QD in mice. However, unlike small molecules whose extent of tissue
+distribution is described using a constant parameter tissue:plasma
+partition coefficient (or tissue:blood partition coefficient), the
+authors used a nonconstant parameter termed “tissue distribution
+coefficient” to describe the ratio of the affinity of QD to
+a given tissue over that to blood and considered this parameter varied
+with time depending on the respective instantaneous concentrations
+in the individual tissues and blood as well as the microenvironment
+at the tissue site. The authors calculated the tissue distribution
+coefficient value using the AUCtissue/AUCblood method for a specific
+time period, resulting in a time-dependent tissue distribution coefficient
+for each tissue. The authors found that the time-dependent tissue
+distribution coefficient for each tissue was sigmoidal in shape when
+plotting against time, and this sigmoidal curve could be described
+using a modified Hill :
+10 where DCm is time-dependent
+distribution coefficient of QD for each
+tissue, DCmax is the maximum DC, DCT50 is the time reaching half of the maximum
+DC (h), T is the experimental time (h), In is the
+initial value for DC, and n is the Hill coefficient,
+which dictates the overall shape of the curve. The use of a time-dependent
+distribution coefficient for NPs, rather than a partition coefficient
+as a constant represents one of the major differences in PBPK modeling
+between small molecules and NPs. The method of time-dependent distribution
+coefficients was later adapted and further developed by Lin et al. for AuNPs (described below).
+Based on
+the PBPK model for QD 705 in mice by Lin et al., Lee et al. developed a flow-limited
+PBPK model using the same QD 705 data set from Lin et al. and applied this model to test its predictive
+ability across different types of QD (e.g., QD 705, 525, 800, and
+521), species (mice and rats), and routes (intravenous and intradermal).
+The authors reported that the PBPK model that was calibrated based
+on the data for QD 705 was not able to adequately describe the distribution
+for other types of QD in the same or other species following the same
+intravenous administration or other routes of exposure. Therefore,
+the authors concluded that more complex PBPK models are needed to
+better describe the biodistribution of QD in vivo following different
+types, species, and administration routes. Later on, a more complex
+permeability-limited PBPK model developed by Liang et al., based on a more mechanistic PBPK model from
+Lin et al., was able to adequately simulate
+the biodistribution of different types of QD following different routes
+of administration (intravenous and subcutaneous) in mice and rats.
+
+## Gold Nanoparticles
+In the field of PBPK modeling for
+NPs, AuNPs are the most extensively modeled type of NPs. This is in
+part because gold is inert and very stable and does not metabolize
+or degrade in the body (so it is not needed to consider complex metabolism
+and dissolution processes) and analytical methods are available to
+accurately quantify the biodistribution of gold in the body. This
+also makes AuNPs an ideal example NM to explore PBPK modeling methodology
+for NMs.
+Among the published PBPK models for AuNPs, Lin et al. reported a PBPK model for PEG-coated AuNPs
+in mice. In this study, the authors systematically evaluated the performances
+of 14 different model structures for two sizes of AuNPs (a relatively
+small size of 13 nm and a relatively larger size of 100 nm). These
+structures included the traditional perfusion-limited model, traditional
+membrane-limited model, perfusion-limited model with time-dependent
+distribution coefficients, membrane-limited model with time-dependent
+distribution coefficients, perfusion-limited model with endocytosis
+of NPs in liver and spleen described using a linear equation, membrane-limited
+model with endocytosis of NPs in liver and spleen described using
+a linear equation, membrane-limited model with endocytosis of NPs
+in liver, spleen, kidneys, and lungs described using the Hill function,
+etc. The authors concluded that the model structure with the best
+predictive ability was the membrane-limited model with endocytosis
+of NPs in liver, spleen, kidneys, and lungs described using the Hill
+function.
+Compared to the earlier study by Lin et al., the study by Lin et al. also
+used the parameter “distribution coefficient” and further
+suggested that the other parameter “partition coefficient”
+is not applicable to NPs because this parameter represents the ratio
+of concentrations of a dissolved compound between two phases at thermodynamic
+equilibrium, but NPs do not form solutions, but colloidal dispersions,
+which are thermodynamically unstable. However, unlike Lin et al., which used a time-dependent tissue distribution,
+Lin et al. used a constant value for
+the distribution coefficient for each tissue. Instead, Lin et al. proposed that endocytosis of NPs from the blood
+circulation into tissue cells is the major mechanism that determines
+the tissue distribution profiles of NPs, and this process can be described
+with the Hill equation:
+11 where Kup_t (per h) is the uptake rate parameter
+of NPs by phagocytic
+cells in an organ t at a particular time T, T (h) is the simulation time, Kmax_t (per h) is the maximum
+uptake rate parameter in the organ t, K50_t (h) is the time reaching half of Kmax_t, and nt (unitless) is the Hill coefficient.
+This approach was created based on in vitro cellular uptake studies
+(as described above), earlier PBPK models for other types of NPs, , , and after comparing the model
+simulation results of 14 different model structures. This modeling strategy is now commonly used for the PBPK
+modeling of NPs. − 
+The PBPK model for AuNPs in mice was
+later extrapolated to rats,
+pigs, and humans. In this study, the
+authors performed interspecies extrapolation from each of the animal
+species (i.e., mice, rats, and pigs) to humans and found that rats
+and pigs might be more appropriate animal models than mice in animal-to-human
+extrapolation of the PK of AuNPs and the dose and age should be considered
+in this extrapolation. The final optimal human model was derived from
+the rat model. This group of researchers also collected literature
+data on in vitro toxicity of AuNPs in primary human liver and blood
+cells and in vivo toxicity in rats − and then calculated
+human equivalent doses associated with these in vitro and in vivo
+toxicity end points. Human equivalent doses are a crucial component
+in the derivation of a reference dose for chronic exposure to a xenobiotic
+in humans.
+The PBPK model for AuNPs in rats and humans provides a basis for further development of
+toxicity and
+risk assessment approaches for NPs. The same group of researchers
+conducted extensive in vitro toxicity assays of AuNPs using different
+types of primary human cells (i.e., hepatocytes, umbilical vein endothelial
+cells, renal proximal tubule epithelial cells, and keratinocytes). − Based on their PBPK model, in vitro toxicity studies, and additional
+in vivo toxicity data from the literature, they developed a probabilistic
+risk assessment approach for AuNPs. A
+schematic of this approach is provided in . This method can be used to calculate human
+equivalent doses associated with reported points of departure from
+in vitro and in vivo toxicity, to predict the potential risk of exposure
+to AuNPs under different scenarios, and to perform IVIVE and animal-to-human
+exposure.
+ Besides the PBPK models by Lin and colleagues mentioned
+above,
+multiple other groups have also published PBPK models for AuNPs. Bachler
+et al. integrated in vitro and in silico
+methods to evaluate the pulmonary translocation and biodistribution
+of AuNPs using a PBPK model. The authors determined the translocation
+kinetics across the lung epithelial tissue barrier using human and
+mouse alveolar epithelial cell’s exposure to AuNPs of various
+doses (25–200 ng/cm2) and sizes (2–80 nm)
+for different time periods (0–72 h). They found that the translocation
+kinetics of AuNPs across human and mouse lung epithelial cells was
+similar. The translocation fraction was inversely proportional to
+the size of the particle and was independent of the applied dose (up
+to 100 ng/cm2). The authors incorporated the measured in
+vitro translocation kinetics into a PBPK model, and the derived PBPK
+model accurately predicted the in vivo biodistribution of AuNPs following
+inhalational or intratracheal instillation in rats. The authors concluded
+that this combined in vitro and in silico PBPK modeling approach has
+the potential to replace short-term animal studies that aim to assess
+the pulmonary absorption and biodistribution of NPs and to serve as
+a screening tool to identify NPs of toxicity concern.
+Similar
+to the earlier models by Lin et al. and
+Bachler et al., recent
+PBPK models for AuNPs by other groups − had similar model structures,
+in which there was an “endocytosis” subcompartment in
+each major RES tissue compartment that accounted for the mechanism
+of active cellular uptake of NPs by phagocytic cells. The common conclusion
+from these studies was that cell-mediated endocytosis played an important
+role in the biodistribution of NPs in the body. Note that the model
+by Chou et al. was translated to a user-friendly web-based interface
+so that readers can apply this web interface to run PBPK simulations
+to predict the concentrations of AuNPs in plasma and tissues following
+different routes of administration. 
+
+## Silver Nanoparticles
+PBPK modeling for AgNPs is different
+from AuNPs as dissolution and metabolism need to be considered. Bachler
+et al. developed a PBPK model for both
+ionic silver and AgNPs in rats and humans following oral, dermal,
+and inhalational exposures. In this model, two possible pathways were
+considered for the metabolism of AgNPs: (1) AgNPs dissolve and release
+soluble silver species, which are then connected to the ionic silver
+PBPK model; and (2) AgNPs are directly transformed to silver sulfide
+particles as a storage depot in the tissues. The model was calibrated
+with data from intravenous exposure studies and validated with independent
+data following other routes of exposure (dermal, oral, and inhalation).
+The final model was able to successfully simulate the biodistribution
+of both ionic silver and 15–150 nm AgNPs (those that were not
+coated with substances designed to prolong the circulatory time, such
+as PEG) following different routes of administration in all cases
+examined in their study. This model was applied to assess the exposure
+and risk of ionic silver and AgNPs based on five exposure scenarios,
+including dietary intake, oral uptake of AgNPs released from food
+boxes, dermal uptake of AgNPs released from T-shirts, oral uptake
+of emitted AgNPs from a throat spray, and occupational exposure. The
+results showed that in all consumer product scenarios, the silver
+levels of all organs were around or below the dietary background (except
+the lung silver level after the usage of the colloidal silver throat
+spray), indicating that the risk of adverse health effects from exposure
+to AgNPs in consumer products was very small. However, in the occupational
+exposure scenario, the predicted soluble silver levels in different
+organs exceeded the background levels by a large margin with the levels
+in the bone marrow and lung above levels where adverse effects have
+been reported, indicating a significant risk for the occupational
+exposure population.
+
+## Titanium Dioxide Nanoparticles
+Bachler
+et al. also developed a PBPK model for
+titanium dioxide
+NPs (15–150 nm) in rodents following different routes of exposure
+(intravenous, oral, and dermal) with a similar model structure as
+their earlier model for AgNPs. The major
+difference was that dissolution was not considered as titanium dioxide
+NPs are very stable in the body. Route-to-route
+extrapolation from intravenous to oral or dermal was done by including
+an intestinal absorption fraction or percutaneous absorption fraction
+to account for the orally absorbed and dermally absorbed doses, respectively.
+These fractions were estimated by fitting to oral and dermal data
+sets from the literature using the PBPK model. The oral PBPK model
+was then used to assess the internal exposure and potential risk following
+dietary exposure to titanium dioxide NPs for the German population
+divided into six age classes (toddlers [1–2 years], other children
+[3–9 years], adolescents [10–17 years], adults [18–64
+years], elderly [65–74 years], and very elderly [75 years and
+older]) on the basis of three main consumer product groups: (1) foods
+and beverages, (2) drugs and dietary supplements, and (3) toothpastes.
+The results showed that the estimated daily median intake was between
+0.5 and 1.0 mg/kg for all age groups except the age group “other
+children” (∼2.0 mg/kg). The estimated 95th percentile
+titanium organ levels after oral ingestion were <170 ng/g for all
+age groups and in all organs. This value is much lower than levels
+where toxic effects have been reported in most in vitro studies. , , The authors concluded that the
+risk from oral exposure to titanium dioxide NPs via the studied main
+consumer products was small for the German population.
+
+## Other Metal
+Nanoparticles
+Besides the above-mentioned
+models, PBPK models have been developed for other inorganic NPs, such
+as zinc oxide, iron oxide, , ceria, , iridium, , 99mTc-labeled carbon, and
+silica NPs. Readers are referred to and the original
+manuscripts of these models for further details.
+
+## Organic nanoparticles
+
+## Polymeric
+Nanoparticles
+PBPK models have been published
+for different types of polymeric NPs, including PEG-coated polyacrylamide
+(PAA-PEG) NPs, , poly(lactic-co-glycolic) acid (PLGA) with varied content of monomethoxypoly(ethyleneglycol)
+(mPEG) (PLGA, PLGA-mPEG256, PLGA-mPEG153, PLGA-mPEG51, PLGA-mPEG34), poly(l-lactide)-poly(ethylene glycol)
+block-copolymer (PLA-PEG) NPs, and polymeric
+methoxy poly (ethylene glycol)-poly(ε-caprolactone) (mPEG-PCL)
+NPs. , Among these studies, the model by Li et
+al. is one of the most comprehensively
+described. In this study, the model consisted of 9 compartments: blood,
+lungs, spleen, liver, kidneys, heart, brain, bone marrow, and the
+rest of body. Within the blood and each tissue compartment, there
+were three subcompartments representing capillary blood, tissue, and
+phagocytizing cells. The model was built based on the assumption that
+upon entering into the blood circulation, NPs are distributed throughout
+tissues, and a fraction of the NPs entering each tissue is sequestrated
+by phagocytic cells. As the amount of captured NPs increases, phagocytic
+cells can eventually be saturated. The maximum uptake capacity was
+assumed to be organ-specific to reflect the variation in the density
+of phagocytic cells as well as differences in uptake capacity for
+different types of phagocytic cells in different organs. It was also
+assumed that NPs could re-enter the tissue after desorption from phagocytic
+cells by processes of exocytosis. This PBPK modeling strategy was
+adapted by Lin et al. to develop a PBPK
+model for AuNPs described above, and this revised method is now commonly
+used in developing PBPK models for NPs.
+Another representative
+PBPK modeling study for polymeric NPs is the one by Li et al. for PLGA NPs. In this study, experimental data
+sets were available for 5 different types of PLGA NPs with different
+sizes (57.5–133.5 nm), ζ potentials (−4.3 to −54.2
+mV), and number of PEG molecules per unit surface area (0–0.77).
+A PBPK model was developed and used to estimate biodistribution parameters
+for each type of these NPs. Multivariate regression analyses were
+performed to build the relationship between NP properties and biodistribution
+parameters (i.e., organ-specific diffusion coefficients, partition
+coefficients, and excretion coefficients). The resulting multivariate
+regression equations were used to estimate biodistribution parameters
+for a sixth type of PLGA NPs (PLGA-mPEG495) with different physicochemical
+properties, and the PBPK simulated concentrations were compared with
+observed data at 3 h after intravenous injection. The results showed
+that the PBPK-predicted values were close to experimental data for
+all tissues. This study demonstrates that it is possible to develop
+NP property-biodistribution relationship models to estimate biodistribution
+parameters and generate PBPK models for the same type of NPs with
+variations in physicochemical properties.
+
+## Liposomes
+Liposomes
+are a common nanoparticulate formulation
+among the approved nanomedicines. Kagan
+et al. developed a dual PBPK model to describe the disposition of
+both liposomal and nonliposomal formulations of amphotericin B in
+mice and rats following intravenous injection, and then extrapolated
+the model to simulate amphotericin B concentrations in human tissues. The authors started with a PBPK model for a
+nonliposomal formulation of amphotericin B as this is an important
+prerequisite and provides a basis for understanding the PK of the
+liposomal particulate formulations. The
+authors established a compartmental release model to simulate the
+release of amphotericin B from liposomes by fitting to plasma concentration–time
+profiles for total and nonliposomal drug following intravenous administration
+of the liposomal and nonliposomal drug in rats and humans. Next, a
+dual PBPK model was created for liposomal and nonliposomal amphotericin
+B. In this model, liposomal amphotericin B circulates throughout the
+body via blood capillaries and can undergo release to its nonliposomal
+form by a first-order rate constant. This release was assumed to take
+place in both plasma and tissues. The derived human PBPK model-predicted
+concentrations of liposomal and nonliposomal concentrations of amphotericin
+B well corresponded the observed plasma data in humans following intravenous
+injection of a liposomal formulation (AmBisome) and also correlated
+with limited concentration data in various tissues from autopsy reports.
+Since therapeutic success of amphotericin B depends on its concentration
+in target tissues, the authors concluded that this model can be potentially
+utilized to optimize therapeutic plans for AmBisome in humans and
+to investigate pathophysiological factors controlling amphotericin
+B PK and pharmacodynamics.
+
+## Nanocrystals
+Nanocrystals (or nanosuspensions)
+refer
+to a submicron colloidal dispersion system of pure drug particles
+in water. Nanocrystals have many strengths in drug delivery, especially
+for drugs with poor solubility (those in Biopharmaceutics Classification
+System Classes II or IV). These strengths include: (1) a high drug
+load because the drug is suspended in a solid state; (2) no significant
+toxicity concern because only a small quantity of excipient (stabilizer)
+is used; (3) suitability for various administration routes, including
+oral, parenteral, pulmonary, and ocular pathways; and (4) great potential
+in passive targeting and provide a depot effect. Dong et al. developed
+a PBPK model for SNX-2112 (a potential anticancer drug with poor solubility
+in water) and its nanoparticulate formulation as nanocrystals. The
+PBPK model for the nonparticulate drug cosolvent is a standard perfusion-limited
+model; whereas in the PBPK model for the nanocrystals, a species of
+the nanoparticulate drug was included in the plasma, liver, and spleen.
+The in vitro release kinetics of the nonparticulate form of SNX-2112
+from the nanoparticulate form was determined using the bulk-equilibrium
+reverse dialysis method and then described using a first-order rate
+constant. This model was built based on the assumption that uptake
+of nanocrystals only takes place in the liver and spleen (two major
+RES organs), thus the nanoparticulate form of the drug is only present
+in plasma, liver, and spleen. This assumption worked well in their
+model as their model was able to adequately simulate the available
+experimental data. However, this assumption is considered overly simplified
+as phagocytic cells also exist in other organs of the RES systems
+(i.e., lungs, kidneys, and bone marrow), and many PBPK modeling studies
+suggest the endocytosis of NPs should also consider other RES organs,
+such as kidneys and lungs.
+PBPK models have also been developed
+for other nanocrystals. − Similar to the study by Dong et al., these models were developed mainly to support
+the development and evaluation of nanoparticulate formulations of
+poorly soluble drugs. These studies consistently support that PBPK
+models can be a useful tool in correlating in vitro release kinetic
+profile of a poorly soluble drug with in vivo PK profile of the drug
+in either nanoparticulate or nonparticulate forms, thereby helping
+develop nanoparticulate forms of poorly soluble drugs.
+
+## Other Organic
+or Hybrid Nanoparticles
+As described
+above, there are numerous different types of NPs, and the same type
+of NPs could have many variations in physicochemical properties (i.e.,
+differences in sizes, ζ potential, surface coating). As such,
+it is impractical to develop an individual PBPK model for each type
+of NPs (this would be a daunting task) for safety and risk assessment
+purposes. Several research groups have been trying to develop generic
+PBPK models for multiple different types of NPs, including both inorganic
+and organic NPs. Carlander et al. reported
+a generic PBPK model for four types of nondegradable NPs, including
+PEG-coated PAA, uncoated PAA, gold, and titanium dioxide NPs in rats
+following intravenous injection. The same model structure and physiological
+parameter values were applied, whereas NP-specific parameters were
+estimated by fitting to respective experimental time–concentration
+data in various tissues for each type of NPs. The final model adequately
+simulated the observed PK behavior of all four types of NPs despite
+substantial differences in the PK behavior and physicochemical properties.
+Similarly, Price and Gesquiere developed
+a generic PBPK model for many different types of NPs (i.e., QD, gold,
+silica, iron oxide, and polymeric NPs) in healthy animals of several
+species (i.e., mice, rats, and monkeys).
+In addition, Cheng
+et al. developed a generic PBPK model
+that is applicable for a variety of NPs in tumor-bearing mice. This
+model was based on their earlier model for AuNPs in healthy mice. , The authors extended their model to tumor-bearing mice by adding
+a tumor compartment. All physiological parameters and NP-specific
+parameters in nontumor tissues were kept the same as in the healthy
+mice. Only parameters related to the tumor compartment were estimated
+for each type of NPs by fitting to their respective data set from
+the literature (summarized and published as an Excel file termed Nano-Tumor
+Database). The model was used to simulate
+distribution kinetics in the tumor tissue for different types of NPs
+and the performance was evaluated against 376 data sets. The model
+was able to adequate simulate >83% of the data sets (with a determination
+coefficient of R2 > 0.75 in the regression
+analysis between predicted and observed data). The authors conducted
+multivariate regression analyses to determine the relationship of
+tumor delivery efficiency with physicochemical properties and targeting
+strategies and cancer types. It was found that low tumor delivery
+efficiency of ∼0.7% injected dose was associated with low distribution
+and permeability coefficients at the tumor site. This study demonstrates
+that PBPK modeling can be an effective tool to identify determinants
+associated with target tissue dosimetry in tumors or normal tissues.
+
+## In Vitro to In Vivo Extrapolation of Cellular and Tissue Dosimetry
+of Nanoparticles
+IVIVE is a well-established approach for
+PBPK modeling of small
+molecules. The latest PBPK modeling guideline from Organisation for
+Economic Cooperation and Development (OECD) provides strategies to
+develop and evaluate or validate a PBPK model for a chemical only
+based on in vitro and in silico data, without relying on in vivo PK
+data for the model validation. One approach
+to address the above-mentioned limitation to account for cell-mediated
+endocytosis of NPs in a PBPK model is to measure the cellular uptake
+and release kinetic parameters using in vitro cell models and then
+translate the in vitro results to in vivo based on cell type and cell
+density of individual organs. Some studies have successfully implemented
+this approach. For example, Bachler et al. determined the translocation
+kinetics of AuNPs across human and mouse lung epithelial cells and
+then incorporated this parameter into a PBPK model; the model-predicted
+pulmonary translocation and biodistribution correlated with the observed
+data well. 
+Price and Gesquiere measured the in
+vitro uptake, degradation, and release kinetics of different NPs in
+different cells. A step-by-step process of the IVIVE in this study
+is illustrated in . The overall simulation was based on a three-compartment
+model that included the medium compartment, cell membrane compartment,
+and cell space compartment as described in detail above. The in vitro
+cell kinetics was translated to whole-body simulations based on the
+in vitro assay results using a computational fluid dynamic model to
+predict NP distribution into individual tissue cells. In the body,
+the transport of a NP from the blood supply to cells of a particular
+tissue was simulated through the computational fluid dynamic theory
+primarily obtained from a hydrodynamic simulation of solutes through
+cell membrane pores captured by modeling a reflection coefficient,
+σ. When the reflection coefficient approaches 0, NPs can enter
+the pathways to interstitial space or cell space through the cell
+membrane. When it approaches 1, the membrane pore excludes the NP
+and it remains outside the pores. Variable reflection coefficients
+were calculated using a fluid dynamic model to account for differences
+in NP size, animal species, and capillary membrane pore diameters.
+The final model was validated against 15 preclinical data sets, which
+included different dosing scenarios (0.029 to 64.3 mg/kg body weight),
+NP types (polymer, QD, metal, and antibody), and sizes (4 to 197 nm
+diameter) in mice, rats, and nonhuman primates. The authors concluded
+that this in vitro- and in silico-based PBPK modeling strategy provides
+a viable platform to refine, reduce, and replace animal testing in
+nanomedicine development and safety evaluation.
+ However, not all studies successfully
+implemented this IVIVE of
+the cellular uptake and release kinetics. For example, Dubaj et al. determined the internalization and exclusion
+of PEG-coated AuNPs in several human cell lines (TH1, A549, Hep G2,
+and 16HBE), modeled these processes with first-order rate equations,
+and then translated the in vitro uptake and release parameters to
+in vivo using a perfusion rate-limited PBPK model. However, there
+were notable differences between the observed internalized amount
+of gold in individual cell lines and the corresponding tissues in
+vivo. The authors concluded that researchers should be cautious when
+extrapolating in vitro kinetic data to predict tissue biodistribution
+of NPs in vivo.
+
+## Challenges and Future Perspectives
+
+## Challenges
+and Future Perspectives on In Vivo Pharmacokinetic
+Study of Nanoparticles
+NPs have been identified as promising
+candidates for many biological and biomedical applications. Because
+of their small particle sizes, versatile physicochemical properties,
+and ease of their fabrication involving bottom-up and top-down approaches,
+NPs have been widely used, more specifically, as a drug delivery system.
+Special properties arise due to nanosize, including a high surface-to-volume
+ratio has given us tremendous room to envision it as a multimodality
+system. Despite its vast potential benefit in the biomedical field,
+there are technical challenges to map their tissue bioavailability
+and toxicology. Commonly synthesized NPs are often characterized in
+the ranges of sizes, although unifying their size distribution and
+segregating uniform size is possible but results in low product yield
+for clinical application. While efforts have been made to study the
+size effect on tissue distribution and toxicity, less attention has
+been given to the systematic challenges arising due to the protein
+corona formation that significantly alters the NP’s PK and
+TK. The formation of protein corona over the surface of NPs in circulation
+affects NP uptake and diffusion throughout the surrounding tissue;
+hence, it is crucial to design experimental and mathematical approaches
+to account for these variations. Fluorescence probes have been used
+to account for the distribution of NPs in tissues, cells, and residence
+in plasma; whereas less attention is given to using multimodality
+techniques to map its distribution accurately. Therefore, future studies
+should be based on the question raised, such as distribution differences
+for NPs with different sizes, chemistry, and functionalities, which
+are central questions that apply to any enveloped NP systems and have
+parallels to the structural changes and interactions seen for many
+NPs, and so the results will clarify some of the underlying rules
+about how NPs interact with their host ligands to target intended
+sites, thereby helping assess the potential risk of different NPs
+with target site dosimetry.
+
+## Challenges and Future Perspectives on In
+Vitro Nanoparticle-Cell
+Interaction Kinetics Research
+The in vitro NP kinetics work
+reviewed above demonstrates that in vitro studies allow for the discovery
+of pharmacological end points including NP uptake and removal with
+associated kinetics. Care should be taken however to ensure reproducible
+data are interpreted correctly.
+First, studies by Kim et al.
+have shown that cellular uptake of NPs is affected by the cell cycle. While uptake rates stayed consistent in different
+cell cycle phases, it was found that the dose of NPs internalized
+in each cell in a population was dependent on the phase of the cell
+cycle. It was also found that the absence of uptake saturation was
+related to cell division rather than the expulsion of NPs.
+Second,
+corona formation can strongly alter the kinetics of NP-cell
+interactions. The effect of corona formation on NP-cell interaction
+kinetics was investigated for carboxylated polystyrene and silica
+NPs. The authors reported that protein
+adsorption on the NP surface significantly reduced NP adhesion on
+the cell surface compared to the bare NPs for the case of nonspecific
+interactions. This was attributed to the lower surface energy of the
+NPs when they have a protein corona, illustrating the importance of
+the biological environment on NP-cell interaction kinetics. With the
+rational design of NPs, the formation and composition of protein corona
+can be controlled as demonstrated by Yang et al. Changing the fraction of zwitterionic and charged lipids
+in liposomes was demonstrated to affect the amount and type of serum
+proteins adsorbed on the NPs in vitro. Moreover, the different liposome
+formulations also resulted in varying uptake kinetics. These findings
+suggest the potential to tune NP design to achieve desired cell uptake
+properties through the engineering of the protein corona.
+Third,
+the effect of diffusion and sedimentation phenomena on cellular
+uptake of NPs was studied in depth by Cho et al. for AuNPs of varying
+shapes cultured in vitro under upright and inverted configurations. The researchers concluded that for particles
+that sediment faster there was a greater difference in cellular uptake
+between the upright and inverted in vitro configurations, in particular
+where the ratio between the sedimentation and diffusion velocities
+is >1. Some AuNPs (54 nm nanospheres and 62 nm nanocages) did show
+back diffusion due to concentration gradient so this has to be considered
+carefully as well. In a later study, Bancos et al. further validated
+that assay preparation and conditions affect quantitative outcomes
+and thus need to be carefully considered. Such reports indicate that some issues with unexpected or inexplicable
+results from in vitro assays can be traced to sedimentation of larger
+or dense NPs. For instance, Bancos et al. found that increasing the
+applied dose of AuNPs leads to increased uptake rates, and that certain
+media conditions could lead to particle aggregation. Since sedimentation of dense particles typically results
+in a higher exposure dose of cells to NPs, not considering this effect
+could lead to unexpected or misunderstood results. A similar conclusion
+was made by Rischitor et al., noting that NP deposition occurs in
+two phases, where phase 1 is cellular uptake driven by NP-cell affinity
+and phase 2 is the deposition of NPs on the cell membrane. The authors also suggest that particle size
+and exposure duration play their part in these phenomena together
+with the liquid height in the wells for in vitro assays. Conversely,
+a recent study by Bitounis et al. for larger cellulose NPs demonstrates
+that only 26% of the applied dose could reach within 100 μm
+from the bottom of a well after 24 h, where cells would be located. 
+This was addressed in particular by Teeguarden
+et al. and Hinderliter et al. in their ISDD model built on the work by Limbach
+et al. Gravitational sedimentation and
+particle aggregation
+were considered in the calculation of the true delivered NP dose,
+which can differ from the applied dose in an in vitro assay. The In
+vitro Sedimentation, Diffusion, Dissolution, and Dosimetry (ISD3)
+model extends this work to include particle dissolution. Along similar lines, Cohen et al. propose a
+further study on particle-media interactions that NP dispersion protocols
+should be standardized to ensure that in vitro research shows less
+variation between studies. This was
+more recently corroborated by Moore et al. when the authors reported
+that the method of applying AuNPs in vitro affected the fraction of
+NPs deposited on cells. Note that the
+ISDD and ISD3 models , are mainly used to predict the
+delivered dose on the membrane of cells at the bottom of the cell
+culture well based on the physicochemical properties of NPs and the
+in vitro cell culture and exposure conditions. This is different from
+the in vitro cellular kinetic models reviewed in this article, which
+are mainly used to simulate uptake and release of NPs into and out
+of cells and can be used to predict intracellular dose of NPs. However,
+the connection of these two types of models is that the delivered
+dose predicted from the ISDD or ISD3 model can serve as a more accurately
+input dose parameter to the in vitro cellular kinetic model to predict
+intracellular dose.
+Fourth, Serpooshan et al. have made a case
+for the importance of
+considering the effect of cell sex on in vitro NP kinetics. The researchers discovered that differences
+exist in NP uptake for human amniotic stem cells, with greater uptake
+of NPs by female cells. When this study was replicated with fibroblast
+the opposite effect of cell sex was found.
+
+## Challenges and Future Perspectives
+on PBPK Modeling and IVIVE
+of Nanoparticles
+Unlike PBPK modeling for small molecules
+and macromolecules such as monoclonal antibodies for which the methodology
+is well-established, , PBPK modeling for NPs is an
+emerging field, and the methodology is still under development. While
+there are around 50 published PBPK models for different NPs, many
+of these studies use different methods. Based on existing studies,
+there are many differences in PBPK modeling methods between small
+molecules and NPs, as summarized in . All of these have caused a challenge for
+the field to progress and also raised a need to comprehensively evaluate
+different strategies to determine the best PBPK modeling methods for
+NPs. In this review article, several key points are discussed below
+along with our perspectives.
+ 
+
+## Endocytosis
+One major difference in PBPK modeling between
+small molecules and NPs is the consideration of endocytosis in organs
+of the RES system. The very early NP PBPK models did not consider
+this mechanism in part because of a lack of mechanistic information
+at that time. , Later on, most NP PBPK models
+included this mechanism, but with variations in how to account for
+this mechanism, with some studies considering endocytosis in all compartments, , some only considered it in major RES organs, , and some only considered it in liver and spleen. , Also, the mathematical equations of the endocytosis among these
+studies are somewhat different (e.g., first-order linear process vs
+saturable process). While the inclusion of cell-mediated endocytosis
+in organs of the RES system results in a more physiologically realistic
+model, it also requires multiple cellular uptake and release kinetics
+parameters for each organ, and these parameter values are dependent
+on the type of NPs. Experimentally determined values of these parameters
+are usually not available, thus these parameters have to be estimated,
+resulting in increased uncertainty of the model. To minimize this
+uncertainty, one research group did not include endocytosis mechanisms
+in their PBPK model for AuNPs. While
+a consensus approach remains to be established, most of the existing
+studies suggest that (1) cell-mediated endocytosis in organs of the
+RES system plays an important role in the biodistribution of NPs,
+and should be included in a whole-body PBPK model; (2) the uptake
+process appears to be better described as a saturable process; whereas
+the release process can be simplified as a first-order linear process;
+and (3) ideally the uptake and release rate parameters should be determined
+using in vitro or in vivo approaches to minimize the uncertainty of
+the PBPK model.
+
+## In Vitro to In Vivo Extrapolation
+Unlike small molecules
+of which the IVIVE methodology is well-established, the IVIVE strategies
+for NPs remain to be developed. Currently, there are only a few studies
+that have attempted to perform IVIVE for NPs, with some studies showing
+IVIVE is feasible for NPs, , whereas another study
+suggests that direct IVIVE may produce suboptimal results for NPs
+and thus may require further optimization of the methodology. Additional studies are needed to develop and
+validate IVIVE methodology for NPs. We term the process of “nanomaterial
+in vitro to in vivo extrapolation via physiologically based pharmacokinetic
+modeling” as Nano-IVIVE-PBPK ( ). We think this framework is important for
+high-throughput screening of the target cellular and dosimetry as
+well as potential toxicity of different NMs based on their physicochemical
+properties. Specifically, in vitro cellular uptake and release studies
+should be performed in several major cell types in rodents and humans,
+and the in vitro kinetics should be modeled using approaches that
+are compatible with PBPK modeling, similar to our recent study. Next, IVIVE can be performed via a PBPK model,
+and the PBPK-simulated in vivo kinetic profiles in plasma and tissues
+should be evaluated and validated with in vivo PK data in rodents.
+Depending on the evaluation results, the IVIVE approach may be optimized
+as needed. Once the IVIVE approach is established in rodents, it can
+be extrapolated to humans. This methodology development will require
+in vitro, in silico modeling, and in vivo PK studies using the same
+type of NPs to avoid compounding by other variables and uncertainty.
+Once the methodology is developed for one NP, subsequent evaluation
+with other NPs should be done to develop a general methodology for
+NPs.
+
+## Route-to-Route Extrapolation
+Route-to-route extrapolation
+is a standard application for PBPK modeling of small molecules. For
+NPs, several studies have performed route-to-route extrapolation,
+typically from intravenous to an extravascular route, by assuming
+all parameters remained the same and only estimating the route-specific
+parameter (e.g., oral absorption fraction or rate constant). This
+is a default approach for small molecules, but whether this approach
+is suitable to NPs remains to be tested. Upon entering into the body
+following different routes of administration, NPs will be in contact
+with different biological fluids, resulting in different protein coronas
+that lead to different PK properties. Therefore, the default route-to-route
+extrapolation approach for small molecules may not be applicable for
+NPs. To test this, one recent study developed a PBPK model for different
+sizes of AuNPs following different routes of administration, including
+intravenous, oral, inhalational, and intratracheal exposures in rats. The in vivo data sets following different routes
+of exposure were collected from the same laboratory using the same
+measurement method and same NPs, making them an ideal data source
+to assess the route-to-route extrapolation of NPs. The authors compared
+the model predictive performance between two approaches: a traditional
+approach that is commonly used for small molecules by directly extrapolating
+the model from intravenous to other routes of exposure and a proposed
+route-specific approach for NPs to calibrate the model using route-specific
+data. The authors found that the multiroute model derived from the
+proposed route-specific approach had a much more accurate prediction
+than that from the traditional approach. This study demonstrated that
+the traditional route-to-route extrapolation approach for PBPK modeling
+of small molecules is not applicable to NPs. For NPs, multiroute PBPK
+models should be established using route-specific data. This study
+suggests that PBPK modeling methods for NPs could be quite different
+from small molecules, and a more systematic evaluation of PBPK modeling
+methods for NPs is needed.
+Another question is whether the lymphatic
+system and protein corona formation kinetics are needed and how to
+incorporate them into a PBPK model for NPs. It is a standard practice
+to include the lymphatic system into a PBPK model for macromolecules,
+such as monoclonal antibodies. It is
+known that the lymphatic system plays an important role in the biodistribution
+of NPs. However, among existing NP PBPK models, only a few included
+the lymphatic system. , Many PBPK models have acceptable
+model predictive performance without including the lymphatic system
+( and ). The performance of a PBPK model with and without
+the lymphatic system has not been systematically evaluated, and this
+should be done in order to figure out whether it is necessary to describe
+the lymphatic system in a PBPK model for NPs. Regarding protein coronas,
+it is well-recognized that protein corona formation plays an important
+role in the PK of NPs, but protein corona formation kinetics has not
+been incorporated into existing NP PBPK models. This is in part because
+of the complexity of describing protein corona formation in vivo and
+the differences in the formation kinetics between in vitro and in
+vivo systems. This remains a critical barrier to be explored in future
+studies.
+
+## Generic PBPK Models
+For PBPK modeling
+of small molecules,
+it is a general trend to develop generic models that work for multiple
+chemicals as it is impractical to develop an individual PBPK model
+for each chemical given a large number of chemicals in commerce whose
+safety and risk need to be evaluated. This trend also applies to NPs.
+A few studies have tried to develop generic PBPK models for several
+types of NPs. , , , However, these models were calibrated
+using particle-specific data sets, thus it still requires an in vivo
+data set for each type of NPs to be included in the model framework.
+For small molecules, it is common to build quantitative structure–property/activity
+relationship (QSPR or QSAR) models to estimate parameters for chemicals
+based on chemical structures. For NPs, Li et al. have demonstrated that it is feasible to build multivariate
+linear regression equations to predict model parameters for a different
+PLGA NP based on physicochemical properties. Similarly, in our recent
+study, we constructed several multivariate linear regression equations
+that can be used to predict PBPK model parameters (e.g., maximum uptake
+rate and capacity parameters) for AuNPs. To build more robust models, machine learning and artificial intelligence
+approaches may be applied, , but this will require
+a larger amount of training data to avoid overfitting of the model.
+
+## Interspecies Extrapolation
+Finally, one of the reasons
+PBPK modeling is very useful in small molecular chemical risk assessment
+is its ability to extrapolate PK and toxicity data from animals to
+humans. Several NP PBPK models have attempted to conduct extrapolation
+from one species to another using the traditional approach for small
+molecules. , , , , The study
+by Lin et al. suggested that rats and
+pigs may be more suitable animal models for extrapolating the PK of
+AuNPs to humans. In addition, the PBPK model in mice by Aborig et
+al. was extrapolated to rats by adapting
+physiological parameters to represent rats, and the resulting rat
+model adequately simulated PK and tissue distribution data of citrated-capped
+AuNPs in rats. These studies support the potential of interspecies
+extrapolation of NM PK using PBPK modeling. Nevertheless, interspecies
+extrapolation of PBPK modeling remains to be evaluated for other types
+of NPs, and the exact methodology remains to be developed.
+
+## Summary of How This Article Furthers the Knowledge and Understanding
+of the Field
+This review article summarizes the state of
+the art and the research challenges in the field of in vivo PK, in
+vitro cellular kinetic modeling, and in vivo PBPK modeling as well
+as IVIVE of NPs. We share our perspectives on how to address these
+challenges. We also propose an emerging research paradigm for NPs,
+i.e., Nano-IVIVE-PBPK ( ). All of this information will help us better understand
+the progress, challenges, and potential solutions in this field, which
+will further help design future studies to ensure in vitro and in
+vivo studies are useful within the Nano-IVIVE-PBPK framework to move
+this field forward. In the long term, the research strategies described
+in this article will be instrumental to refine, reduce, and replace
+animal experimentation in the field of nanoscience.
+
+## Acknowledgments
+The authors would like to acknowledge
+funding support
+from the National Institute of Biomedical Imaging and Bioengineering
+(NIBIB), US National Institutes of Health (NIH) (grant nos.: R01EB031022,
+R15EB030815, and R03EB026045), and the Faculty Start-up funds from
+the University of Florida, Gainesville, Florida, and the University
+of Texas at Tyler, Texas. The authors also acknowledge assistance
+from Dr. Qiran Chen at Department of Environmental and Global Health
+and Center for Environmental and Human Toxicology at the University
+of Florida for helping prepare the figures.
+
+## Glossary
+
+## Vocabulary
+Target cellular and tissue dosimetrythe amount or the concentration of a substance, such as a chemical
+and a nanoparticle that reaches the cell or the target organ in the
+body and directly interacts with target cellular components to induce
+responses at the molecular, cellular, organ and/or whole-body level
+in vitro to in vivo extrapolation
+(IVIVE)a process of extrapolating data, such as pharmacokinetic
+and toxicity data that are generated using in vitro cell culture systems
+to in vivo conditions
+nanomaterial
+in vitro to in vivo extrapolation via physiologically based pharmacokinetic
+modeling (Nano-IVIVE-PBPK)an emerging research paradigm
+in which cellular uptake kinetic parameters of a nanoparticle are
+collected using in vitro model systems, and then these parameters
+are extrapolated to in vivo and incorporated into a whole-body physiologically
+based pharmacokinetic model to simulate the biodistribution of the
+nanoparticle in the body
+pharmacokineticsthe science of studying the rate and extent of absorption,
+distribution, metabolism, and excretion processes of a drug and its
+metabolites in the body as well as the factors that control the time
+course of these processes using experimental or mathematical modeling
+approaches
+physiologically based
+pharmacokinetic (PBPK) modelinga computational simulation
+process that describes the absorption, distribution, metabolism, and
+excretion of a substance, such as an environmental chemical, drug,
+and nanoparticle and/or its metabolites in an organism based on interrelationships
+among key physiological, biochemical, and physicochemical determinants
+using mathematical equations
+risk
+assessmenta process to characterize the nature and
+magnitude of potential risks of exposure to a chemical, a nanoparticle
+or other stressors on human health
+toxicokineticssimilar to pharmacokinetics, but it
+is focused on toxicants, instead of drugs
+
+The authors
+declare no competing financial interest.
+
+## References

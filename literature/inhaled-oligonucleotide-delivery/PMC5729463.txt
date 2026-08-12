@@ -1,0 +1,102 @@
+BMC Pulm MedBMC Pulm Med64bmcpmBMC Pulmonary Medicine1471-2466BMCPMC5729463PMC5729463.1572946357294632923742610.1186/s12890-017-0524-15241Research ArticleLong non-coding RNA MALAT1 protects preterm infants with bronchopulmonary dysplasia by inhibiting cell apoptosis
+CaiChengcaicheng2004@163.com ].Supplemental oxygen can be life-saving in preterm infants, but may also increase the risk of getting BPD. BPD can be developed into multi-organ disorder, which affects up to 50% of extremely low birth weight infants (ELBWI) <1000 g [ ]. Most of extremely preterm infants are in the saccular stage of lung development. BPD is caused by the dysfunctional of lung development in this critical period. The diagnosis is associated with lifelong long-term pulmonary problems and abnormal neurodevelopment outcome [ ]. However the underlying pathogenesis is not fully understood and few evidence-based strategies to prevent or treat BPD are currently available.
+Oxidative stress is considered as contributor of oxygen radical disease in neonates including necrotizing enterocolitis (NEC), intraventricular hemorrhage (IVH), periventricular leukomalacia (PVL), retinopathy of prematurity (ROP) and neonatal BPD [ ] . Because premature infants have little antioxidant protection, they are particularly prone to oxygen free radical damage [ ]. In particular, these premature infants often need to receive oxygen therapy after birth. Oxidative stress activates inflammatory cells and increases proinflammatory cytokines, and causing damage to the respiratory tract epithelium and inactivating surfactant [ ]. Above all, oxidative stress induced cell death plays a very important role in the occurrence and development of BPD in premature infants.
+Long non-coding RNAs (lncRNAs) are a newly defined class of non-coding RNAs with length greater than 200 nucleotides, and play important roles in various biological processes including cell proliferation, cell death, oxidative stress resistance [ ]. Previous studies have found that MALAT1 is significantly highly expressed in non–small cell lung carcinoma (NSCLC) patients and regulates invasion, migration, and tumor growth in many other cancer types [ ]. However, the mechanism by which functional MALAT1 modulates the pathogenesis of BPD is not well understood. We report here that MALAT1 is up-regulated in BPD newborn mice and BPD patients, and MALAT1 knockdown induce apoptosis in A549 cell. Our results may reflect an important role for MALAT1 during the development of BPD. Therefore, this study of MALAT1 has important clinical value for the protective effect of BPD in premature infants.
+
+## Methods
+
+## GEO bioinformatics
+Gene chip datasets which this study used in the bioinformatics analysis were both downloaded from GEO (Gene Expression Omnibus). Dataset GSE25286 was based on lung tissue from wild type (WT) (n = 4) and BPD Mice (n = 6) with two time points (Day 14 and Day 29) [ ].The mice model of hyperoxia-induced bronchopulmonary dysplasia was described in previous paper [ ]. Dataset GSE43830 used WI38 cell (human diploid lung fibroblasts) in which MALAT1 was knocked down as materials, comparing their gene expressions with normal WI38 cell (knocked down samples: 4, control samples: 2) [ ]. The differential expression analysis was done by Transcriptome Analysis Console software. The differential expressed genes were defined as (Fold Change < −2 or Fold Change >2, ANOVA p-value <0.05). We used the minus sign to indicate the down-regulation. The KEGG enrichment analysis was done by R package clusterProfiler [ ].
+
+## Subjects and sample collection
+A total of 20 premature infants with BPD according to the National Institute of Child Health and Human Development (NICHD) guidelines [ ] and 20 non-BPD age-matched controls were enrolled from clinic at department of neonatology in Shanghai Children Hospital. The study was approved by the Ethics Committee of the Shanghai Children Hospital. Human peripheral blood samples were obtained from these patients and written informed consent was obtained from the guardians of the patients.
+
+## Total RNA isolation and Realtime q-PCR verification
+Total RNA was isolated from patient blood samples (BPD infants and controls) using TRIzol reagent (Invitrogen, Carlsbad, USA) according to the manufacturer’s instructions. RNA was quantified using NanoDrop ND-2000 Spectrophotometer (NanoDrop Wilmington DE). Reverse transcription (RT) reactions and real-time PCR were carried out as we previously described [ ]. The relative expression of MALAT1 and CDC6 compared to β-Actin was calculated with the 2-ΔΔCt method. Primers are listed in Table  . 
+
+## Cell culture
+A549 cells (Human Type II alveolar epithelial cells) (ATCC, CCL-185, USA) were grown in Roswell Park Memorial Institute medium (RPMI 1640) (Gibco; Carlsbad, CA, USA) supplemented with 10% fetal bovine serum (FBS) (Gibco) in 5% CO2 at 37 °C.
+
+## Measurement of cell apoptosis by flow cytometry
+A549 cells transfected with shRNA of MALAT1 were plated in six-well plates. After 24-h incubation, apoptosis was measured by ApopNexin™ fluorescein isothiocyanate (FITC) Apoptosis Detection Kit (APT750, Millipore, Temecula, CA) as previously described. Fluorescence due to FITC and PI staining was measured in a flow cytometer (Cytomics FC 500, Beckman Coulter, Brea, CA).
+
+## Statistics
+Experimental data were analyzed with the Student’s t-test. t-test: *, p < 0.05. * *, p < 0.01.Throughout the paper, values are represented as the mean ± standard deviation of at least 3 independent experiments.
+
+## Results
+
+## LncRNA MALAT1 is significantly up-regulated in the lung tissue of BPD mice
+According to GSE25286 dataset, microarray profiling revealed 1616 differentially expressed genes, with 962 up-regulated and 654 down-regulated genes in the BPD mice lungs compared to the WT mice (Fig.  and Additional file : Table S1). Surprisingly, MALAT1 was the only lncRNA found abundant in BPD mice than in WT mice based on GSE25286 (Table  ). Next, we compared MALAT1 expression between BPD and WT mice at two time points (Day 14and Day 29 mice) respectively. The results showed that MATAL1 expression was significantly up-regulated in BPD mice at both Day 14 Mice (p < 0.001) and Day 29 Mice (p = 0.005) (Fig.  ). 
+ 
+ 
+
+## Realtime q-PCR verification of MALAT1 expression in BPD patients.
+We thus verified the GEO dataset result by q-PCR verification of MALAT1 in peripheral blood samples from BPD patients. To our notice, the expression of MALAT1 was also significantly increased in premature infants with BPD, compared with normal premature infants (Fig. ).
+
+## Knockdown MALAT1 in WI-38 cells promotes cell apoptosis
+According to GSE43830 dataset result, RNA-seq revealed 570 differentially expressed genes, with 305 up-regulated and 265 down-regulated genes in lncRNA MALAT1depleted WI-38 (human diploid lung fibroblasts) cells compared with WT (Fig.  and Additional file : Table S2). To identify the biological pathways that are active in the MALAT1 depleted WI-38 cells, we mapped the genes to the heat map. To our notice, the result of KEGG pathway enrichment analysis confirmed that the differentially expressed genes do enrich in apoptosis pathway (P = 0.002) (Fig.  ). Furthermore, we found a number of differentially expressed genes are distributed in apoptosis related pathway (Fig.  ). MALAT1 knockdown in WI-38 cells significantly decreased expression of CDC6 (FC = −2.37, P = 0.040) and q-PCR results in peripheral blood samples of BPD patient verified above data (P = 0.017).(Figure4). Taken together, MALAT1 down-regulation showed induction of cell apoptosis in WI-38 cells. 
+ 
+ 
+ 
+
+## Silencing of MALAT1 promotes cell apoptosis in A549cells
+We next investigated whether MALAT1 knockdown in A549 cells could also affect apoptosis. The apoptosis levels of A549 cells transfected with shMALAT1 or shRNA negative control were analyzed. FACs results showed that inhibition of MALAT1 expression can induce apoptosis (Fig. ). Thus, these results indicate that down-regulation of MALAT1 can promote apoptosis levels in A549 cells.
+
+## Discussion
+To date, little is known on the function of lncRNA MALAT1 in murine model and patients with BPD and its possible role during BPD development process. We found significantly higher expression of MALAT1 in lung tissue of BPD mice model compared to WT mice. Further, we demonstrate that MALAT1 is differentially regulated in peripheral blood cells from patients with BPD compared to normal ones. In addition, we identified deregulation of apoptosis related genes in WI-38 cells with MALAT1 depletion. Our data also showed a significant increase in apoptosis in A549 cells when MALAT1 was knocked down.
+In last two decades, with the rapid development of perinatal medicine, the survival rate of premature infants of very low birth weight infants (VLBWI) and extremely low birth weight infants (ELBWI) has significantly improved [ ]. Of all births in the US, babies born at <32 weeks gestation account for 1.9% of live births, resulting in more than 75,000 babies admitted to neonatal intensive care unit (NICU) each year [ ]. Despite many advances in neonatal ventilation techniques, widespread use of surfactant and antenatal corticosteroids, the incidence of bronchopulmonary dysplasia (BPD) has remained the same or even increased slightly.
+The development of premature lung is immature, 30%–50% premature infants with gestational age less than 32 weeks premature need to use a variety of oxygen therapy after birth, such as oxygen inhalation, the humidified high flow nasal cannula (HHFNC) and nasal continuous positive airway pressure (NCPAP), or mechanical ventilation treatment which provide high concentration oxygen exposure opportunities and very easily lead to lung injury [ ]. BPD has become one of the most difficult problems in NICU. BPD is the most common chronic respiratory disease in infants and a devastating condition that disrupts the developmental process of the lung secondary to preterm birth [ ].In the US, BPD is the leading cause of chronic lung disease (CLD) in babies and the third leading cause in children, but the exact mechanism of BPD has not been fully elucidated.
+Long non-coding RNA (lncRNA) refers to a class of non-coding RNA longer than 200 nucleotides and devoid of an open reading frame that can be translated into a protein. LncRNA was recently demonstrated to play functional roles in the regulation of gene expression by means of dosage compensation, imprinting, transcriptional regulation and nuclear organization. MALAT1 named after its initially discovered function, is lncRNA of over 8000 bp [ ]. MALAT1 was later identified to be anunclear enriched abundant transcript [ ] and expressed in the lungs, pancreas, nerve system and other healthy organs [ , ]. Abnormal expression of MALAT1 has also been detected in various types of cancers, including lung cancer, endometrial stromal sarcoma, hepatocellular carcinoma, breast cancer and pancreatic cancer [ , ].
+Over past years of research, there has been reorganization of lncRNA involvement in gene silencing and playing an important role in a variety of biological processes [ ]. Our study found that lncRNA MALAT1expression was up-regulated in lung tissue of BPD mice at Day 14 and Day 29 compared with WT mice according to microarray data set GSE25286. The q-PCR verification results showed the expression of MALAT1 in peripheral blood of preterm infants of BPD was also up-regulated compared with normal premature infants. Taken together, the experimental results show that MALAT1 should play an important role in protecting the occurrence and development process of BPD.
+To clarifying MALAT1 function in regulating detailed cell biological process, we analyzed differentially expressed gene distribution in WI-38 cells with MALAT1 depletion. Cell division cycle 6 (CDC6) is required for the initiation of DNA replication protein, its main function is to participate in the “pre replication complex assembled (pre-RC)” [ ]. The inhibition mechanism of CDC6 induced apoptosis has not been fully elucidated. Under normal circumstances, CDC6 enter the nucleus pre-RC the assembly will be cyclin dependent kinase 2 (CDK2) phosphorylation and transported out of the nucleus. Recent studies have found that CDC6 itself has a role in inhibiting apoptosis, complex CDC6 through its ATPase domain and apoptosis protease activating factor Apaf-1 to form stable, blocking the formation of apoptotic bodies [ ]. Previous study indicated that cell apoptosis plays an important role in the occurrence and development process of premature BPD [ ]. Our study showed that MALAT1 depletion in WI-38 cells induces cell apoptosis. The expression level of CDC6 was down-regulated. Furthermore, q-PCR results of BPD patients and MALAT1 silencing in A549 cells verified WI-38 data. Moreover, the results of A549 cells apoptosis analyzed by flow cytometry showed that, after MALAT1 was knocked down, apoptosis in A549 cells was significantly increased. As mentioned above, our data suggests MALAT1 participate in an important role in preterm BPD infants.
+There are some limitations to our study. Ideally, we would like to confirm RNA-Seq data obtained in WI-38 cells in primary human alveolar type II cells instead of A549 cells. However, such cells are difficult to obtain and cultured for their requirement of fresh isolation from human lung tissue. Although rodent type II cells are more readily available, the functional differences from human type II cells are noteworthy. Furthermore, although we have demonstrated that the enhanced uptake of MALAT1 in these experiments is probably due to protect effect of inhibiting apoptosis; it is unclear whether this is the primary effect of MALAT1 on these cells. As such, the primary effect of MALAT1 on BPD remains to be elucidated.
+
+## Conclusions
+In conclusion, MALAT1 may protect preterm infants with BPD by inhibiting apoptosis, and provide a new strategy for the prevention and treatment of premature BPD.
+
+## Additional files
+
+Additional file 1: Table S1.List of differentially expressed genes in GSE25286 (XLSX 157 kb)
+
+Additional file 2: Table S2.List of differentially expressed genes in GSE43830 (XLSX 56 kb)
+
+## Abbreviations
+BPDBronchopulmonary dysplasia
+CDC6Cell division cycle 6
+CONBlank Control Group
+GEOGene Expression Omnibus
+IVHIntraventricular hemorrhage
+KDMALAT1 knock down Group
+lncRNALong non-coding RNA
+MALAT1Metastasis associated in lung adenocarcinoma transcript 1
+NCNegative Control Group
+NECNecrotizing enterocolitis
+PVLPeriventricular leukomalacia
+ROPRetinopathy of prematurity
+RT-PCRReal time-PCR
+Electronic supplementary material
+The online version of this article (10.1186/s12890-017-0524-1) contains supplementary material, which is available to authorized users.
+
+## Acknowledgements
+The authors thank their newborns for participating in this study. Special thanks are also due to the NICU nurses who have made this study possible.
+
+## Funding
+This work was supported by grants from the National Natural Science Foundation of China (81571467).
+
+## Availability of data and materials
+The datasets used and/or analysed during the current study are available from the corresponding author on reasonable request.
+
+## Authors’ contributions
+QG, CYH, SZJ and LJ made substantial contributions to conception and design, or acquisition of data, or analysis and interpretation of data; GXH, been involved in drafting the manuscript or revising it critically for important intellectual content; CC and QJJ revised the manuscript and gave final approval of the version to be published. Agreed to be accountable for all aspects of the work in ensuring that questions related to the accuracy or integrity of any part of the work are appropriately investigated and resolved. All authors read and approved the final manuscript.
+
+## Ethics approval and consent to participate
+All parents of patients signed the informed consent of the study. This study was approved by Shanghai Children’s Hospital ethics committee (2015RY009-F01).
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+All authors certify that they have no affiliations with or involvement in any organization or entity with any financial interest, or non-financial interest in the subject matter or materials discussed in this manuscript.
+
+## Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.

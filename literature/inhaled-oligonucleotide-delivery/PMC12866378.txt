@@ -1,0 +1,387 @@
+379blackwellopenMass Spectrometry ReviewsMass Spectrom RevPMC1286637812866378128663783987142510.1002/mas.21924Thermometer Ions, Internal Energies, and In‐Source Fragmentation in Ambient Ionization
+BertrandEmilie GabelicaValérie 
+1
+School of Pharmaceutical Sciences, University of Geneva, Geneva, Switzerland*
+
+Correspondence: Valérie Gabelica (valerie.gabelica@unige.ch)
+
+✉Corresponding author.
+2712025452260260–281422026© 2025 The Author(s). Mass Spectrometry Reviews published by Wiley Periodicals LLC.This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## ABSTRACT
+Ionization and fragmentation are at the core of mass spectrometry. But they are not necessarily separated in space, as in‐source fragmentation can also occur. Here, we survey the literature published since our 2005 review on the internal energy and fragmentation in electrospray ionization sources. We present new thermometer molecules to diagnose and quantify source heating, provide tables of recommended threshold (E
+0) and appearance energies (E
+app) for the survival yield method, and attempt to compare the softness of a variety of ambient pressure ionization sources. The droplet size distribution and desolvation dynamics play a major role: lower average internal energies are obtained when the ions remain protected by a solvation shell and spend less time nakedly exposed to activating conditions in the transfer interface. Methods based on small droplet formation without charging can thus be softer than electrospray. New dielectric barrier discharge sources can gas‐phase ionize small molecules while conferring barely more internal energy than electrospray ionization. However, the tuning of the entire source interface often has an even greater influence on ion internal energies and fragmentation than on the ionization process itself. We hope that this review will facilitate further research to control and standardize in‐source ion activation conditions, and to ensure the transferability of data and research results in mass spectrometry.
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2025 Jan 2; Received 2024 Jul 8; Accepted 2025 Jan 4; Issue date 2026 Mar-Apr.
+
+1.
+
+## Introduction
+It is hard to think of more fundamental subjects in mass spectrometry than ionization mechanisms and ion activation/fragmentation. But these processes are not always decoupled. Soft ionization methods such as electrospray ionization (ESI) (Yamashita and Fenn  ) and matrix‐assisted laser desorption/ionization (MALDI) (Karas et al.  ) revolutionized mass spectrometry, notably because they were much softer than electron ionization (EI) and chemical ionization (CI). But although intact molecular ions are effortlessly produced by ESI and MALDI, ions just emitted from ESI or MALDI are hotter than the ambient temperature (~500–600 K for ESI (Carpenter et al.  ; Drahos et al.  ; Naban‐Maillet et al.  ), ~800–1000 K for MALDI (Gabelica, Schulz, and Karas  ; Schulz et al.  )). More importantly, for atmospheric pressure ionization, the transfer interface modulates this ion internal energy further, through collisional activation/deactivation processes that depend on source pressure, hardware geometry and voltages applied. Thus, using ESI does not guarantee against in‐source activation and in‐source fragmentation.
+Analytical chemists now come to realize this the hard way: Siuzdak and collaborators claim that, in metabolomics, in‐source fragments make up over 70% of ions selected for automatic MS/MS and interpreted as if they were intact molecular ions (Giera et al.  ). This causes massive problems for annotation and quantification. All molecular classes are concerned: metabolites (Xu, Lu, and Rabinowitz  ), and particularly lipids (Criscuolo, Zeller, and Fedorova  ; Gathungu et al.  ; Hu et al.  ), nucleosides (Chen et al.  ), N‐glycans (Liew, Chen, and Ni  ), modified amino acids (Mamani‐Huanca et al.  ), but also organic pollutants (Xie et al.  ) and natural compounds (Chen et al.  ). These recent references illustrate a pressing analytical problem. Internal energy qualification and standardization can be the solution.
+The present festschrift volume honoring Prof. Zenobi was the perfect occasion to summarize the literature that appeared since our 2005 review of internal energy and fragmentation in electrospray ionization sources (Gabelica and Pauw  ). Studying ion internal energy as a function of the ionization method and tuning parameters was often considered a niche fundamental topic, but there was a revival of interest in using the survival yield of thermometer ions to compare ion internal energies obtained from the variety of atmospheric pressure ionization methods developed over the last 20 years. The Zenobi group was very active in developing alternative ambient ionization sources and characterizing their softness through internal energy distributions (Gyr et al.  ; Huba, Mirabelli, and Zenobi  ; Kaeslin et al.  ; Nudnova, Zhu, and Zenobi  ; Schmitz et al.  ; Touboul, Jecklin, and Zenobi  ). Here we will systematically compare internal energy distributions obtained with a wide variety of ambient ionization sources. However, we will not cover all recent developments in desorption/ionization sources, or ion activation in MS/MS experiments.
+The first attempts to quantify ion internal energy in ion sources used ions with sequential neutral losses (e.g., CO losses from ferrous complexes) (Cooks et al.  ; DeKrey et al.  ; Hand, Majumdar, and Graham Cooks  ; Kenttämaa and Cooks  ). Later, De Pauw proposed instead to use series of Benzylpyridinium ions, each fragmenting via pyridine loss, with barriers depending on the substituent (Collette and De Pauw  ; De Pauw et al.  ; Derwa and Pauw  ; Derwa, De Pauw, and Natalis  ). During the last 20 years, several classes of thermometer ions, i.e., ions used to quantify the internal energy imparted to them, were also developed as complements to the benzylpyridinium salts. Benzylammonium ions are useful to characterize ambient ionization methods that require volatile analytes and not salts (Stephens et al.  ). We also survey these new thermometer molecules and gathered the highest quality values of their bond dissociation energies and threshold energies for the appearance of the fragments.
+The methods to determine or model internal energy distributions were already established 20 years ago, and there was no progress on these fundamental aspects besides a re‐evaluation of the threshold energies. The reader is encouraged to consult sections IV and VI.A and VI.B of our past review for a detailed tutorial on the theoretical aspects (Gabelica and Pauw  ). The key definitions and concepts can be summarized as follows:
+
+1.
+Thermometer ions are ions for which we know the threshold dissociation energy
+
+E
+
+0
+, which is the minimum energy required for dissociation to occur. Each selected thermometer ion has a different E
+0. E
+0 values can be either calculated, or measured with guided ion beam mass spectrometry (GIBMS) (Armentrout  ). E
+0 is easiest to calculate for a simple bond cleavage leading to a neutral loss. Quantum chemical calculations provide E
+0 values.
+2.
+Kinetic shift. If we would impart an amount of energy just equal to E
+0, the ions would require a much longer time to fragment than the time the ions take to travel from the source to the mass analyzer. This is because the total internal energy E is redistributed among all vibrational degrees of freedom of the ion (N = number of atoms; 
+DOF
+ = 3
+
+N
+
+‐6), while only a single combination of vibrations leads to dissociation. It is hard to estimate the ion residence time; in most electrospray sources, a crude estimation is that the time scale for dissociation
+
+τ
+ = 10−4 s. The kinetic shift (ks) is the difference between E
+0 and the actual appearance energy
+
+E
+
+app
+ (E
+app = E
+0 + ks), the energy above which the dissociation rate constant
+
+k
+ is equal to 1/τ.
+3.
+The Rise‐Ramsperger‐Kassel‐Marcus (RRKM) theory is a probabilistic model allowing to calculate 
+k
+
+(
+
+E
+
+), i.e., how the dissociation rate k depends on the internal energy
+
+E
+ (Figure  ). RRKM calculations require knowing the threshold E
+0, but also the vibrational frequencies of the precursor ion (this is easy to calculate and can be measured in limited cases) and the vibrational frequencies of the transition state (this harder to calculate (Rodgers, Ervin, and Armentrout  ) and cannot be measured). RRKM calculations are required to determine E
+app.
+4.
+Internal energy distributions
+
+P
+
+(
+
+E
+
+): not all ions have the same internal energy E. An ion population has an internal energy distribution: a distribution of probabilities to have an energy E. <
+
+E
+
+int
+
+> is the average energy of the internal energy distribution
+
+P
+
+(
+
+E
+
+). The most common type of internal energy distribution is the Boltzmann distribution, to which a temperature can be associated. Ideally, the internal energy distribution should be a symmetrical Boltzmann distribution but in practice, with different environments, pressure and sources, the shape of the distribution can deviate from the Boltzmann distribution.
+5.
+The survival yield method (Figure  ) is the simplest way to determine the internal energy distribution: the survival yield (SY = fraction of intact precursor ion) is measured for a set of thermometer ions with similar DOF but different E
+app. For each experimental condition, the SY of each molecule is plotted as a function of E
+app (Figure  ). The first derivative gives P(E) (Figure  ). Given that the x‐axis of Figure  is E
+app, assuming that this derivative represents P(E) means that one is assuming that all thermometer ions have exactly the same internal energy, and that the dissociation is 100% complete if E > E
+app and absent if E < E
+app (for fuller discussion of the assumptions, see (Gabelica and Pauw  ). Many groups used E
+0 values instead of E
+app values, because E
+app would require RRKM calculations and knowing τ. With this simplification, the internal energies are systematically underestimated, but comparisons between different sources or conditions on the same instrument can still be made. Moreover, the SY curve is fitted by a sigmoid and this regression function is derived to give P(E). However, fitting by a symmetric sigmoid will automatically give a symmetric P(E). Revealing the asymmetry in P(E) requires using asymmetric sigmoid functions and having enough data to do so (Gabelica, De Pauw, and Karas  ). In the last 20 years, everyone used symmetric sigmoids, but note that this assumption is not justified when internal energy distributions deviate from the Boltzmann distribution.
+6.The characteristic temperature (
+
+T
+
+char
+
+) of an ion is the temperature of the Boltzmann distribution that would give the same survival yield as the experimental one (Drahos et al.  ; Drahos and Vékey  ). In contrast to the survival yield method, the characteristic temperature can be calculated for each thermometer ion. Characteristic temperatures obtained for a series of thermometer ions having the same number of DOF usually agree. T
+char can be obtained by programming the RRKM and P(E) functions. The MassKinetics software includes the T
+char determination, but also more advanced master equation modeling of internal energy distributions, adapted to MS/MS (Drahos and Vékey  ).
+ 
+2.
+
+## Thermometer Ions
+2.1.
+
+## Benzylpyridinium Ions and Their Derivatives
+2.1.1.
+
+## Fragmentation Pathways of Benzylpyridinium Ions
+Benzylpyridinium ions were initially chosen for internal energy distribution determinations because the C‐N simple bond cleavage, resulting in a benzylium ion and pyridine, is the predominant fragmentation reaction (Collette and De Pauw  ). Several studies focused on other fragmentation pathways of benzylpyridiniums, and how they should be taken into account in the survival yield method.
+One question was whether the predominant fragment ion was a benzylium ion as initially assumed, or a tropylium ion, which would entail a rearrangement (Figure  ). Pieces of evidence for tropylium are based on kinetic energy release experiments (Zins et al.  ) and gas‐phase reactivity of the fragment ion (Zins, Pepe, and Schröder  ; Zins et al.  ). The benzylium ion can indeed make adducts with solvent molecules such as acetonitrile (Gabelica et al.  ; Lecchi et al.  ; Morsa et al.  ). If this happens, for the survival yield method the adducts peaks must be summed with their respective fragments. Infrared multiple photon dissociation (IRMPD) spectroscopy demonstrates that the formation of benzylium or tropylium depends of the activation regime (Morsa et al.  ). In summary, the benzylium ion forms first, and rearrangement into a tropylium ion occurs subsequently, if the reaction time and collision energy are sufficient. Thus, even if a fraction of the fragment ion is in the tropylium form when arriving at the detector, the rate‐limiting step to form the fragment ion remains the simple bond cleavage, the relevant transition state is as assumed in the initial concept, and the calculated bond dissociation energies are correct when assuming the simple bond cleavage.
+ Besides, benzylpyridinium ions such as para‐ethoxybenzylpyridinium (p‐OEt‐Bz), para‐isopropoxybenzylpyridinium (p‐OiPr‐Bz) or para‐tert‐butoxybenzylpyridinium (p‐OtBu‐Bz) can form other fragments than the expected benzylium ion (Ieritano and Hopkins  ). As shown in Figure  , this unexpected fragment results from an intermolecular elimination formed via a four‐membered transition state.
+ Alternative fragmentation pathways of p‐nitrobenzylpyridinium are most prominent. A degradation of the nitro group can be observed in similarly energetic conditions as the N‒C bond cleavage (Asakawa and Saikusa  ; Barylyuk et al.  ; Carpenter et al.  ) (Figure  ). Barylyuk et al. listed all the fragments of benzylpyridinium ions observed in CID experiments (Barylyuk et al.  ) (Table  ). They compared internal energy calculation performed either by considering only the direct bond cleavage between C and N, or by summing up all fragment ion intensities. The presence of additional fragments influences the ion internal energy calculations, especially at higher internal energies where the alternatives dissociation mechanisms become predominant. The consecutive fragmentation pathways of the p‐NO2 BzPy were also studied by guided ion beam MS/MS (Carpenter et al.  ), and the energy parsing validates the approach of summing the fragments ion intensities at m/z = 106, 90 and 78 with the benzylium fragment, while the m/z 169 signal should be summed with the precursor.
+ As an alternative to the p‐NO2 benzylpyridinium, Asakawa and collaborators searched for a benzylpyridinium ion with a high dissociation threshold but less secondary fragmentation. They propose pentafluorobenzylpyridinium, with an E
+0 value of 2.95 eV calculated at the CCSD(T)/6‐311 + + G(d,p)//M06‐2X‐D3/6‐311 + + G(d,p) level of theory. Its dissociation mechanism is shown in Figure  . The C7HF4
++ fragment observed at m/z 161 is minor compared to the F5‐Bz+ fragment and should be summed up with the latter. It does not introduce errors in the survival yield values.
+ 
+2.1.2.
+
+## New E
+0 and E
+app Values for Benzylpyridinium Ions
+One difficulty in estimating the internal energy distribution or internal temperature quantitatively is to estimate the bond dissociation energies (E
+0) and kinetic shifts. Until 2017, only calculated (predicted) values were available. As the computational cost of such calculations decreased over the years, values at higher levels of theory and with larger basis sets (therefore, more accurate values) were obtained. DeBord and collaborators showed how the E
+0 values converge as the level of theory increases, and published a very complete set of E
+0 values at the CCSD(T) level with a 6‐311 + + G(d,p) basis set (geometry optimization at the B3LYP level with a 6‐311 + + G(2 d,p) basis set) (DeBord et al.  ).
+There were also attempts to determine E
+0 values experimentally (Gatineau et al.  ). The most accurate first‐principles experimental determination of E
+0 values and activation entropy were obtained using guided ion beam tandem mass spectrometer (GIBMS, results in Table  ) (Carpenter et al.  ). The four measured E
+0 values agree with the calculations of DeBord, and with E
+0 calculations at the MP2(full)/6‐311 + G(2 d,2p) level with correlation of all electrons and with counterpoise correction for the basis set superposition error (Carpenter et al.  ). The GIBMS study confirms that the hypothesis of the loose transition state is valid. In its supporting information, the same paper also provides frequency sets for the precursor ion and for the transition state of p‐OCH3, p‐CH3, p‐H and p‐NO2 benzylpyridiniums that match the activation entropies but are derived from a variational study and not by a rough scaling of the precursor ion frequencies. These frequency lists are precious for RRKM calculations, which are necessary to calculate kinetic shifts, use the characteristic temperature method, or for any type of master equation modelling.
+An implication of these new studies is that, when comparing internal energies or effective temperatures determined using benzylpyridinium ions over the years, it is important to scrutinize which E
+0 values were used. Values obtained at a lower level of theory are usually lower, meaning that internal energies were underestimated in older publications. Upon reviewing articles that have used the survival yield method with benzylpyridiniums to study internal energy in sources, we found that most were using E
+0 values calculated at the AM1 level in 2004, and only few recalculated E
+0 values at high level (typically, CCSD(T)). Also, very few studies included the kinetic shift effect, further underestimating the internal energies. Table  summarizes the most accurate, recommended E
+0 values (calculated at the CCSD(T) level) for a large set of benzylpyridinium ions.
+ 
+2.1.3.
+
+## Substituted Benzhydrylpyridinium Ions (R,R'‐Bhpy+)
+To lower E
+0, the key idea was to add a second aryl group to benzylpyridiniums to weaken the C‐N bond (Figure  ) (Rahrt et al.  ). Quantum chemical calculations at the DLPNO‐CCSD(T)/CBS//PBE0‐D3BJ level give E
+0 between 0.70 and 1.74 eV (Table  ). The calculated value were confirmed by GIBMS. The dissociation energy is lower because the fragment is more stable than the classical R‐BnPy+. The study also provides appearance energies, considering the kinetic shift at different time scales.
+ 
+2.1.4.
+
+## Benzylpyridinium‐Substitued Porphyrins
+In 2017, the Kappes group introduced benzylpyridinium‐substituted porphyrins (cationized or not) as higher‐mass, multiply charged thermometer ions (Brendle et al.  ). The H2P4+ derivative (Figure  ) has 384 degrees of freedom. They fragment by the successive losses of pyridine molecules. The bond dissociation energies calculated using the BP86 functional and def‐SVP basis set range between 1.30 eV (HP3+, first pyridine loss) to 3.11 eV (H2P4+, third pyridine loss). The molecules were used to evaluate bond dissociation energies in a linear ion trap, but to date, they were not used to evaluate internal energies in ionization sources.
+ 
+
+2.2.
+
+## New Classes of Thermometers Ions
+Critical energy values of benzylpyridinium ions are still rather high and do not always allow for reconstructing a nice survival yield curve in the softest ion production and ion transfer conditions. Several groups proposed new classes of thermometer ions with lower threshold energies, yet with the same advantages as the benzylpyridinium ions, such as a predominant simple bond cleavage fragmentation pathway, and a set of substituted molecules with similar masses, structures and numbers of degrees of freedom.
+2.2.1.
+
+## Protonated Esters
+Besides benzylpyridinium ions, the Tabet group proposed a series of protonated esters, shown in Figure  (Naban‐Maillet et al.  ). The E
+0 energies defined as shown on the figure are lower than with benzylpyridinium ions with the corresponding substituents. However, fragmentation proceeds through a rearrangement, which makes it harder to define the transition state and therefore to calculate accurate E
+0 values, let alone the kinetic shifts which require the full RRKM curves. Without a confirmation of the proposed values by GIBMS, we do not recommend using protonated esters as thermometer ions for quantitative purposes. They can still be used for comparisons.
+ 
+2.2.2.
+
+## Phenethylamines
+Asakawa and collaborators published several reports on the in‐source fragmentation of protonated phenylethylamine metabolites (Asakawa et al.  ; Asakawa and Saikusa  ; Asakawa et al.  ), as well as tryptophan‐ (Asakawa et al.  ) or histidine‐derived metabolites (Asakawa, Todoroki, and Mizuno  ). Several protonated ions of these families lose a small neutral molecule (NH3, H2O,…) in ESI source conditions typically used in metabolomics studies, and are more fragile than the p‐OCH3 benzylpyridinium ion. An extensive study of 15 molecules established the E
+0 values at the highest level of theory possible (CCSD(T)/cc‐pVTZ//MP2(full)/6‐311 + + G(d,p), see Table  (Asakawa and Saikusa  )), then tested numerous density functionals to delineate which of these less computationally expensive methods would give the best calculated survival yield values (this requires both accurate E
+0 and good k(E) functions, and thus a good description of the transition states). The authors conclude that the B3LYP functional (the most traditionally used by chemists) underestimates E
+0 values. In contrast, wB97‐XD, M06‐2X‐D3, MN11, MN12‐SX and MN15 give values close to CCSD(T) for a fraction of the computational cost. Double hybrid functionals were also reliable.
+ 
+2.2.3.
+
+## Substituted Benzylammonium Ions
+The fragmentation of ammonium‐containing metabolites (Chai et al.  ) also inspired the development of a series of benzylammonium thermometer ions, with different benzyl substituents. These thermometer ions were more adequate than benzylpyridinium salts to characterize the internal energies of ions generated by Low Temperature Plasma (LTP) and Atmospheric Pressure Chemical Ionization (APCI) (Stephens et al.  ), which require sufficient analyte volatility. The activation of benzylammonium species leads to the formation of a benzyl cation via C‐N cleavage (Figure  ). Calculations at the CCSD(T)/cc‐PVTZ//M06‐2X‐D3/6‐311 + + G(d,p) level of theory give their dissociation energies (Table  ). As detailed further in Section  , benzylammonium ions have been adopted widely to estimate the internal energies of ions in other sources than the ESI (Bouza et al.  ; Dumlao, Khairallah, and Donald  ; Kaeslin et al.  ; Stephens et al.  ). Asakawa and Saikusa showed that benzylammoniums and benzylpyridiniums could be combined in the survival yield method (using E
+app values for both) to reconstruct a single survival yield sigmoidal curves (Asakawa and Saikusa  ).
+ 
+2.2.4.
+
+## Phenyl Sulfate Derivatives
+These thermometer ions were developed to characterize the internal energy distribution in negative ion mode (Asakawa  ). Figure  presents the structure of the phenyl sulfate derivatives ions. The fragmentation pathway of H‐Ph‐OSO3
+− is shown in Figure  the phenolate anions are produced from the phenyl sulfates by simple S‐O bond dissociation and formation of sulfur trioxide. The E
+0 values of phenyl sulfate derivatives, calculated by CCSD(T)/6‐311 + + G(2df,p)//M06‐2X‐D3/6‐311 + + G(d,p) level of theory, are gathered in Table  . Frequencies for RRKM calculates are provided in the article's supporting information (Asakawa  ).
+ 
+2.2.5.
+
+## Peptides
+A first reason for using peptides, besides classical thermometer ions, was to have a molecular class closer to some analytes of interest, i.e., with a higher number of degrees of freedom, and formed by protonation (in contrast to, e.g., benzylpyridinium ions, which are permanent cations). Leucine enkephalin (YGGFL, 228 degrees of freedom) is the most widely used thermometer peptide (Alexander and Boyd  ; Goeringer, Asano, and McLuckey  ). The first dissociation channel is the formation of the b
+4
++ ion. The threshold energy (E
+0 = 1.19 ± 0.05 eV), ground state and transition state frequencies (allowing to calculate k(E) curves with the RRKM model, and thus E
+app) were re‐evaluated in 2010 (Sztaray et al.  ). It is important to note, however, that most papers using YGGFL as thermometer ions for electrospray ionization sources predate this review (Drahos et al.  ; Guo et al.  ; Naban‐Maillet et al.  ; Pak et al.  ), and therefore the internal energy or characteristic temperatures values may suffer from a systematic bias.
+Larger peptides such as LDIFSDF (351 DOF) and LDIFSDFR (420 DOF), with E
+0 values previously determined by time‐ and energy‐resolved surface‐induced dissociation (Bailey, Laskin, and Futrell  ), were also used in internal energy and characteristic temperature determination in electrospray sources (Pak et al.  ). Finally, the in‐source fragmentation of LPISASHpSpSKTR was studied by the Xia group in nano‐electrospray (Wang, Ouyang, and Xia  ), although not for quantitative internal energy determination. Note that the experimental E
+0 values of cationized amino acids and small peptides have been determined by guided ion beam mass spectrometry (reviewed in (Armentrout  )). However, these were not used for ionization source characterizations.
+
+3.
+
+## Internal Energy in Electrospray Ionization: The Last 20 Years
+3.1.
+
+## Degrees of Freedom Effect
+Naban‐Maillet et al. used MassKinetics besides the survival yield method to obtain the mean internal energies of ions <E
+int> in an ESI triple‐quadrupole instrument (Micromass Quatro I) (Naban‐Maillet et al.  ). They compared the results obtained with thermometer ions of different nature and numbers of degrees of freedom: benzylpyridinium ions (69 < DOF < 81), protonated ester ions (72 < DOF < 84) and protonated leucine enkephalin (DOF = 228). The E
+0 values were obtained at the B3LYP/6‐31 G* level of theory, except for leucin enkephalin. At low collision energies, small molecules (69 < DOF < 228) had similar < E
+int > , thus the charging process (protonation vs. permanent cations) and DOF of the molecules did not significantly influence their internal energy.
+Later, the same group studied the internal energy distribution of larger peptide thermometer ions (228 < DOF < 441) (Pak et al.  ): leucine enkephalin, LDIFSDF, LDIFSDFR, and RLDIFSDF. The mean internal energy increases linearly with the cone voltage, and the slope depends on the DOF of the ions. The intercept at 0 V on the cone is supposed to reflect the ionization contribution to the internal energy. The intercept was much lower for m‐CH3 BzPy and leucin enkephalin than for the larger peptides. Retrospectively, we conclude that the difference could be due either to differences in the ionization mechanism (charged residue mechanism for benzylpyridiniums vs. ion evaporation or chain ejection for larger peptides; see Section  ), or to biases in the E
+0 values used at the time. The E
+0 values of the benzylpyridinium ions used in MassKinetics were indeed underestimated compared to the values we can now recommend (Tables  and  herein).
+
+3.2.
+
+## Effect of the Desolvation and Ion Transfer Interface
+The same ESI‐triple‐quadrupole mass spectrometer was used to evaluate the effect of the collision cell pressure on the CID spectra of leucine enkephalin. Three models (threshold, thermal and collisional) are implemented with MassKinetics, and the thermal model best reproduces the experimental data (Ichou et al.  ), in line with the common practice to compare internal energy distributions to a “thermal‐like” Boltzmann distribution (Drahos and Vékey  ). This assumption was contradicted initially by Rondeau et al. who found using an ESI source interfaced with a sector mass spectrometer that distributions were narrower than the thermal distribution (Rondeau et al.  ). Of note, the average energies reported in that study were rather high, so the dissociation may be much faster than the energy exchange, and the internal energy distribution may be truncated at high energies. A later study by the same group considered the desolvation chamber of the ESI source as a collision area and used a partially elastic multiple collision model to account for the accumulation of internal energy in the ions. Here, the internal energy distribution of ions could be compared to a thermal distribution for characteristic temperatures in the range 1020–1550 K (Rondeau, Drahos, and Vékey  ).
+The gas flow regimes in the source can influence the internal energy distributions as well. Hampton et al. reported on the effect of an air amplifier setup, that focuses the ion beam and improves ion transmission, based on the Venturi effect (Hampton et al.  ). Adding the air flow did slightly increase the average internal energy of electrosprayed ions, when produced from methanol solutions. The effect was even larger for ions produced with the AMUSE source (see Section  ).
+Results obtained with different instruments can sometimes appear contradictory. Asakawa highlighted the impact of the capillary interface (capillary‐skimmer vs. capillary‐RF Lens) of an ESI‐triple quadrupole tandem mass spectrometer (Asakawa et al.  ) With a capillary‐skimmer interface, the internal energy distributions of ions are much lower and narrower (blue curve in Figure  ) than with the capillary‐RF lens interfaces (yellow and red curves in Figure  ). The effect is huge: the average internal energy can vary by a factor of two. In addition, the gas throughput into the first vacuum stage also influences the internal energy distribution of the ions (Asakawa et al.  ). The density of molecules and atoms, present in ion transfer/focusing electrodes in the first vacuum stage, increased with the gas throughput. As a result, the ion's mean path in the first vacuum stage decreases, and the energy of ions decreases by decreasing the collision energy. The ion pressure in ESI did not affect the internal energy distribution of ions in this instrument configuration. These results highlight the relevance of performing experimental estimations of internal energies on each instrument, because the ionization step is only one contributor to the observed internal energy distribution.
+In conclusion, the ion transmission devices between the source and mass analyzers influence the ion population's internal energy and in‐source fragmentation. Contemporary instruments increasingly use RF‐based ion guides including traveling wave ion guides and ion funnels. When used at high gas pressure, these ion guides can cool down the ion effective temperature close to the gas temperature (Tolmachev et al.  ), even if higher internal temperatures were reached in the source region where the ions were produced. A quantitative example is given by Carpenter et al. , who deduced that benzylpyridinium ions reached ~650 K in the source, then were thermalized at 300 K in an RF hexapole (Carpenter et al.  ). Note that traveling wave ion guides (Morsa, Gabelica, and De Pauw  ,  ), differential mobility analyzers (Ieritano et al.  ) and trapped ion mobility interfaces (Morsa et al.  ; Morsa et al.  ; Naylor et al.  ) can also substantially heat the ions, but this subject will not be covered here.
+
+3.3.
+
+## Solvent Effects
+Solvent effects on the ion internal energy in ESI were first evidenced with water/glycerol mixtures giving higher internal energies than water/methanol (Collette and De Pauw  ). Rahrt et al. ( ) showed that the internal energy of ions produced by a ESI source with a quadrupole‐TOF hybrid mass spectrometer had been calculated by using five different benzhydrilpyridinium ions diluted in dichloromethane or methanol. The survival yield analysis led to internal energy distribution with maxima at 2.06 ± 0.13 eV in dichloromethane and 1.88 ± 0.11 eV in methanol, suggesting that the solvent effect had a small but significant influence. The higher evaporation enthalpy of methanol may enhance the evaporative colling.
+The study by Bertrand et al. ( ) did not show a major influence of methanol versus acetonitrile on internal energies reached in electrospray, on the contrary to cold spray ionization (see Section  ). Hampton et al. ( ) also did not find a significant difference between electrospray from purely aqueous and 50:50 H2O:MeOH, in the absence of Venturi air amplifier. With the amplifier, the internal energy distribution was slightly higher in energy and narrower in the presence of 50% methanol, which could be ascribed to incomplete desolvation from purely aqueous solution (the Venturi effect accelerates the droplets, but does not cause enough turbulences for droplet desolvation). This contrasts with another study of the same group, without Venturi air amplifier and a different MS inlet, which showed lower internal energies in 50% methanol than in pure aqueous solutions (Harris et al.  ). These examples illustrate the difficulty of drawing general conclusions from isolated small‐scale studies performed with specific source interfaces.
+
+3.4.
+
+## Comparison of Positive and Negative Ion Modes
+Ion internal energy distributions P(E) had been determined in positive and negative ESI mode on a linear ion trap‐orbitrap hybrid mass spectrometer (Asakawa  ). H‐Ph‐OSO3
+−, CH3‐Ph‐OSO3
+−, NO2‐Ph‐OSO3
+− and CMR‐Ph‐OSO3
+− were diluted in water/acetonitrile (1:1). The kinetic shifts were considered. A supporting information figure compares the survival yields obtained using benzylpyridinium positive ions with the sigmoidal curves of the negative mode. The internal energies obtained in the two ionization modes are close, yet slightly lower in positive mode. Positive and negative thermometer ions can be considered as having the same internal energy distribution, as the small difference can be attributed to uncertainties in the RRKM calculations of the kinetic shift, or to the slightly different numbers of DOF.
+
+3.5.
+
+## Ion Production Mechanisms
+In 2005, we hypothesized that if ions are expelled from the surface of the droplet at an early stage after droplet production, these ions may undergo more collisions and could end up with higher internal energies (Gabelica and Pauw  ). The same conclusions are reached independently on ionic liquid electrospray emitters, used in the pure ionic regime (pure ion evaporation) for aerospace propulsion applications. By combining molecular modeling with retarding potential analysis of emitted ionic liquid clusters, Schroeder et al. deduced that ionic liquid dimers were evaporated with an internal temperature between 590 and 690 K, and trimers with a temperature between 990 and 1090 K (Schroeder et al.  ).
+Standard electrospray and nanospray are often defined in terms of flow rates (arbitrarily set at several µL/min for electrospray vs. in the nL/min range for nano‐electrospray). However, the source regime, a notion beautifully reviewed recently (Marginean  ), could be relevant to the ion production regime and to internal energy differences. All high‐flow sprays requiring a nebulizing gas to aid droplet desolvation and gas‐phase ion production fall into the jetting regime, where the droplets are not well‐calibrated. In contrast, in nano‐capillary electrospray (static nano‐electrospray), a cone‐jet mode is established wherein the electrophoretic current suffices to sustain the production of monodisperse droplets charged close to the Rayleigh limit. When the emitter tips are narrow enough, each droplet contains on average one or zero analyte molecule, and ion suppression or adduct formation is not as prominent as in high‐flow electrospray (Juraschek, Dülcks, and Karas  ; Juraschek et al.  ; Susa, Xia, and Williams  ). Droplet size and droplet initial charge might influence the ion internal energy: larger droplets may travel further down through the source interface and the analytes may be protected from collisions by a solvent shell. That holds if the ions are produced via a charged residue scenario from relatively large droplets.
+The Zenobi group (Touboul, Jecklin, and Zenobi  ) determined the internal energy distributions of ions produced by nano‐ESI, standard ESI, and sonic spray ionization (SSI). The latter does not use any voltage, and thus droplets are charged only to a low level (just statistically) and ions are supposedly produced only through a charge residue scenario. The internal energy distributions obtained with all three ionization methods were found overlap (the one with ESI is only slightly higher in energy). The authors concluded that benzylpyridinium ions in ESI and nano‐ESI are also produced via a charged residue scenario.
+In contrast, specific nano‐electrospray effects were observed for peptides and proteins (Shepherd et al.  ; Wang, Ouyang, and Xia  ). First, the nanospray emitter position influences the voltage at which peptides dissociate or at which proteins unfold downstream the mass spectrometer, showing some degree of in‐source activation depending on the tip positioning (Shepherd et al.  ). Even more intriguing, when nano‐electrospray is conducted in high conductivity and low‐flow rate conditions (not the conditions that provide the highest ion signal), peptide fragmentation occurred in the source (Wang, Ouyang, and Xia  ). This was attributed to peptide ion emission directly from tiny first‐generation highly charged droplets, i.e., to an ion evaporation scenario. For peptides, the charged residue and ion evaporation mechanism compete (Aliyari and Konermann  ), and the sequence determines the propensity to overcharging by ion evaporation or chain ejection (Xu et al.  ). Thus, internal energy increase and fragmentation might indeed indicate the prevalence of an ion evaporation mechanism for some peptides.
+In summary, source internal energy studies contradict the common intuition that small ions are produced via ion evaporation scenario whereas large ions are produced via the charged residue scenario: benzylpyridinium ions are smaller than peptides, but are produced via the charged residue mechanism, while peptides can be produced by ion evaporation or chain ejection. This could be at the origin of different characteristic temperatures observed for these two ion classes (Pak et al.  ), although, as noted above, biases related to the E
+0 values used could also explain the difference. Further quantitative studies would thus be needed to shed a light on this matter. It would be interesting for example to study the interconnected effects of the emitter tip diameter, the electrothermal supercharging effect (Sterling et al.  ), and supercharging (Iavarone and Williams  ; Ogorzalek Loo, Lakshmanan, and Loo  ) or stabilizing additives (Bagal et al.  ; Sun, Kitova, and Klassen  ), from an ion internal energy point of view. Studying pure ion emission at reduced pressure instead of at atmospheric pressure could also prove interesting.
+
+4.
+
+## Internal Energy Comparisons Between Atmospheric Pressure Ionization Methods
+4.1.
+
+## Methodology
+We compiled the literature values reported with either benzylpyridinium or benzylammonium thermometer ions. We used average energy values written in the article. When the values were absent, but a figure of P(E) was given, we determined the <E> of the center of the distribution from the Figure. However, the values of <E> cannot be compared directly between articles because different levels of theory were used to obtain the E
+0 values, and most studies did not take the kinetic shift into account. To compare <E> values from articles using different thermometer ion series, we recalculated the <E> by taking the kinetic shift into account.
+For benzylammonium ions, the values first reported by Donald's group (Stephens et al.  ) (converted to eV) agree perfectly with values later recalculated by CCSD(T). We thus converted E
+0 to E
+app with a reaction time τ = 10−4 s using
+
+(1)Eapp,BzAm=1.506×E0/CCSD(T)–0.364,a regression obtained from the values provided by (Asakawa and Saikusa  ). For benzylpyridinium ions, when the E
+0 values had been obtained at the CCSD(T) level, the conversion was
+
+(2)Eapp,BzPy=1.483×E0/CCSD(T)–0.272,a regression obtained from the p‐OCH3, p‐CH3 and ‐H values (Carpenter et al.  ) (the p‐NO2 values diverged from the linear regression). However, even up to recent years, most groups used the AM1 values reported back in 2004 (Gabelica, De Pauw, and Karas  ), without kinetic shift. For these data we used:
+
+(3)Eapp,BzPy=2.66×E0/AM1,2004–1.594,a regression obtained from the p‐OCH3, p‐CH3 and p‐NO2 ions.
+Yet comparing all sources in terms of <E> using E
+app still does not guarantee proper comparison of what happens at the ionization level, because ion transfer influences the survival yield (see Section  ). We thus proceeded by comparison, using only data that compared <E
+int> values obtained with different ionization methods on the same MS interface, and divided the <E
+int> values obtained with that of ESI. The results are shown in Figure  , which highlights ionization methods softer than ESI (> 90%), ionization methods giving similar energies to ESI (90%–110%), and ionization methods more energetic than ESI (> 110%).
+ 
+4.2.
+
+## Cold‐Spray Ionization (CSI)
+Cold‐spray ionization (CSI) is a variant of electrospray ionization wherein the nebulizing gas is cooled to –40°C with liquid nitrogen (Sakamoto et al.  ). CSI‐MS allows to characterize labile noncovalent complexes unobservable by ESI, to detect reaction intermediates, to uncover the solvated structure of organometallics compounds, or to understand the organization of deep eutectic solvents (Chen et al.  ; Miras, Wilson, and Cronin  ; Percevault et al.  ; Yamaguchi  ). Recently, the softness of CSI compared to ESI was evaluated quantitatively on an AccuTOF CS mass spectrometer equipped with a dual ESI/CSI source (Bertrand et al.  ). The thermometer ions were substituted benzylpyridiniums using the survival yield method and MassKinetics. The thermometer ions were diluted in acetonitrile or methanol and a solvent effect was observed for CSI. The internal energies obtained in CSI are 79% and 73% those obtained in ESI with acetonitrile and methanol, respectively, while there is no significant difference between these solvents in ESI. In CSI, ions are cooler when produced from methanol than from acetonitrile. It can be linked to the surface tension (higher for acetonitrile than for methanol), although a larger solvent series would have been necessary to conclude on this. The reasoning is that, during the desolvation process, frictions between the charged droplets and the drying gas induce more heating with acetonitrile. This heating is then converted into thermal energy of the droplets and internal energy of the ions. In summary, in cold spray ionization, the droplets evaporate and disintegrate more slowly. The ions are protected better from collisions at the MS interface better than standard electrospray.
+
+4.3.
+
+## Methods With Droplet Formation Decoupled From Ion Production
+Here we gather quantitative internal energy reports on sources where droplets are charged statistically instead of by applying a voltage to the emitter, and for which significantly lower average internal energies were observed than for ESI in the same interface and mass spectrometer settings. Other qualitative reports can be found on mechanospray ionization (Dugan and Bier  ), Kelvin spray ionization (Özdemir et al.  ), and vibrational sonic spray ionization (Li et al.  ): these methods typically produce ions of lower charge states than electrospray, which favor the preservation of noncovalent complexes, and are thus thought to be softer than electrospray.
+4.3.1.
+
+## Sonic Spray Ionization (SSI), Compared to Electrosonic Spray Ionization (ESSI)
+Sonic spray ionization (SSI) uses a high nebulizing gas flow rate associate to a supersonic jet, and despite no voltage is applied to the capillary (Hirabayashi, Sakairi, and Koizumi  ,  ), droplets are charged statistically. ESSI is the same as SSI, but with a voltage applied to the capillary. The charge‐state distributions obtained with ESSI are narrower than in ESI (Takáts et al.  ). The greater softness of these two techniques compared to ESI had been suggested by analyses of folded proteins, protein complexes, enzyme or protein‐ligand interactions (Hirabayashi, Sakairi, and Koizumi  ; Jecklin et al.  ; Takáts et al.  ; Wiseman et al.  ). This softness was then assessed quantitatively and compared to ESI through the determination of internal energy distributions with the survival yield method using benzylpyridinium ions (Nefliu et al.  ; Touboul, Jecklin, and Zenobi  ). In the study of Nefliu et al. on a Thermo LTQ with a heated capillary inlet, the mean internal energy in ESSI was 109% of the one in ESI (Nefliu et al.  ).
+Touboul et al. studied benzylpyridinium salts diluted in water/methanol (50:50) on a hybrid quadrupole time‐of‐flight mass spectrometer equipped with a Waters Z‐spray interface (Touboul, Jecklin, and Zenobi  ). The normalized internal energies obtained in SSI and ESSI are both equal to 93% of that of ESI, and the distributions were slightly narrower, more similar to nano‐ESI (Figure  ). We can see that a shift of 10% in the mean internal energy actually corresponds to quasi overlapping distributions. The authors thus considered that ESI, ESSI and SSI have intrinsically a similar ionization softness, but small differences could arise from the droplet sizes obtained in each setup. Touboul et al. highlighted the fact that in SSI, the gaseous ion formation can only be based on the charge residue model (CRM) because the formation of charged droplets is based on a statistical charging model, and each droplet contains few excess charges. Given that the shapes of the internal energy distributions were similar in SSI, ESSI and ESI, they concluded that the benzylpyridinium ion productions follows the charged residue scenario (Touboul, Jecklin, and Zenobi  ).
+ 
+4.3.2.
+
+## Solvent‐Assisted Ionization Inlet (SAII)
+In solvent assisted ionization inlet (SAII), the liquid sample is introduced directly in a heated inlet tube, with no applied voltage. The ionization mechanism is based on a heat‐induced (statistical) charge separation at sub‐atmospheric pressure. The resulting desolvation process is then similar to the desolvation process in ESI. It was thus postulated that the internal energies of ions generated from these two ionization modes should be close (Pagnotti, Chubatyi, and McEwen  ; Trimpin et al.  ). A survival yield comparison between SAII and ESI was performed using substituted benzylpyridinium ions and an Orbitrap Exactive mass spectrometer (Fenner and McEwen  ). The SAII was softer than the ESI, and the magnitude of the difference depends on the voltage applied to the tube lens and skimmer. The average internal energy obtained by SAII was 87% or 65% of that obtained by ESI, and the difference was greater at large skimmer voltages. This means that these voltages influence more the ion internal energies in ESI than SAII. The interpretation is that SAII droplets are less charged on average, take longer to desolvate, and therefore, ions are protected longer from direct in‐source collisional activation.
+
+4.3.3.
+
+## Surface Acoustic Wave Nebulization (SAWN)
+In surface acoustic wave nebulization (SAWN), surface acoustic waves are produced via a piezoelectric substrate, which will interact with the liquid analyte put on the substrate to generate little droplets (Figure  ). Analytes are nebulized as the droplets are charged statistically. The allure of the mass spectra is then similar to those obtained by ESI (Heron et al.  ). The internal energy distribution of ions produced by SAWN has been investigated (Huang et al.  ; Song et al.  ). Huang et al. measured the survival yield of substituted benzylpyridinium ions, and results were compared with ESI (Huang et al.  ). The experiments were performed with a LTQ mass spectrometer where ESI and SAWN sources were placed in front of the heated capillary inlet, with the same mass spectrometers settings.
+ SAWN is softer than the ESI: the normalized internal energy obtained by SAWN is 74% of that obtained in ESI. The magnitude of the difference depends on the capillary temperature and is greater at higher temperature. This suggests that ions are produced from droplets that desolvate faster in ESI than in SAWN, and thus that ions produced by ESI are exposed to heating in the capillary for more extended periods than in SAWN. In SAWN, the droplets are larger; the heating is dissipated in the desolvation process instead of being converted into excess internal energy.
+
+4.3.4.
+
+## Array of Micromachined Ultrasonic Electrospray (AMUSE)
+In the Array of Micromachined UltraSonic Electrosprays (AMUSE) (Aderogba et al.  ), the process of droplet formation and droplet charging are decoupled: an RF signal transmitted to a piezoelectric transducer. The ultrasonic wave in the sealed analyte reservoir forms a pressure gradient that emits droplets from the microarray (Figure  ). Droplet charging is further induced by applying a DC potential difference between the array and the mass spectrometer entrance.
+ Hampton et al. compared the internal energy distributions obtained with RF‐only AMUSE (statistical droplet charging), DC‐AMUSE (droplet polarity enrichment) and regular ESI, in front of the heated capillary inlet of a Thermo LTQ mass spectrometer (Hampton et al.  ). They also compared the measurements in the absence or in presence of an air amplifier based on Venturi gas flow, which increases the ion signal. RF‐only AMUSE was the softest ionization method, followed by DC‐AMUSE, both softer than ESI (Figure  ). However, Venturi air flow assistance abolished these differences: the internal energy distributions are all slightly higher in energy and are now almost superimposed (Figure  ).
+
+4.3.5.
+
+## Summary
+These results highlight one caveat of the comparison studies: the differences in softness due specifically to the ionization method can be evidenced only with the softest possible ion transfer interfaces, i.e., in conditions different from those giving the best ion signal. Like SSI, SAWN, SAII and RF‐only AMUSE all operate without voltage, and the droplets can only be charged statistically. The fact that the study on SSI, ESSI and ESI failed to detect significant differences in internal energy distributions (Touboul, Jecklin, and Zenobi  ) could also be due to heating in the source interface, causing sufficient droplet desolvation and ion production for all sources, and thermalization of the ion population to the same level.
+
+4.4.
+
+## Ambient Ionization Methods Involving Analyte Pick‐Up by Electrospray Droplets
+4.4.1.
+
+## Secondary Electrospray Ionization (SESI)
+Secondary electrospray ionization mass spectrometry was developed for untargeted metabolomics analyses such as online breath analysis (Bruderer et al.  ). SESI is a variant of ESI based on the observation that, during ESI, compounds present in the ionization region can be also ionized. A secondary ionization can be induced when the primary ions formed by ESI are brought into contact with the gas‐phase molecules. Figure  illustrates the principle of SESI‐MS. The spray formed by nano‐ESI is composed of additives to increase the conductivity and generate primary ions. Collisions between these primary ions and the gaseous analytes lead to proton‐transfer reactions.
+ SESI was presumed to be a soft technique because for various chemical classes, the molecular ions is predominantly observed (Martinez‐Lozano Sinues, Criado, and Vidal  ; Vidal‐de‐Miguel and Herrero  ). Kaeslin et al. quantitatively evaluated the softness degree of SESI via the survival yield method (Kaeslin et al.  ). They used a Q Exactive Plus mass spectrometer with two different ion sources: a standard ESI source and a SESI source. For SESI, the benzylamines were dissolved in ACN and their headspace vapors were brought in contact with the electrospray plume inside the SESI source. Then both for ESI and SESI, the electrospray liquids were H2O + 0.1% formic acid. The normalized internal energies calculated depend on the soft tuning: average internal energies in SESI were 75% of those in ESI in the softest source conditions (low transfer capillary and low S lens RF voltage) but only 95% of those in ESI in usual conditions. The authors interpret the results in terms of ion embedding in the protective shell of a droplet for most of their trajectory in the source and are thus less subjected to collision activation.
+
+4.4.2.
+
+## Desorption Electrospray Ionization (DESI)
+Desorption electrospray ionization (DESI), developed first by the Cooks group (Cooks et al.  ; Takáts, Wiseman, and Cooks  ; Takáts et al.  ), is a variant of ESI where solid samples are analyzed by spraying charged solvent droplets onto them (see Figure  ). The ESI droplets pick up analytes from the surface.
+ Nefliu et al. compared the internal energy distribution of ion generated by DESI, ESI and ESSI (Nefliu et al.  ), using the survival yield method with benzylpyridinium cations. With optimal settings defined as a tube lens voltage of 100 V and a capillary voltage ranged between 70 and 100 V, similar shapes of internal energy distribution were obtained. The different droplet history in ESI, ESSI and DESI had thus only a limited effect on the internal energy distribution (<E
+int> in DESI was 109% of that in ESI), indicating that the final desolvation stage of the ionization process (ion evaporation or charge residue mechanism) is similar for the three ionization methods. The authors also tested the effect of the nebulizing gas pressure, the solvent flow rate and the distance from the sprayer tip or surface impact spot to the MS inlet. The parameters related to the droplet flux were less important than those related to the MS interface.
+The effect of nonaqueous spray solvents on the internal energy of ions generated from DESI was also investigated (Badu‐Tawiah et al.  ). The internal energy of ions generated by a nonaqueous solvent (CHCl3/THF (50/50)) was lower than from an aqueous solvent such as MeOH/H2O (50/50). During the desolvation process, volatile spray solvents can dissipate heat by evaporation. The surface temperature of the droplet decreases and then the internal energy of ions decreases.
+Hartmanova et al. investigated the internal energy of ions generated by nano‐DESI, a variant of DESI wherein the emitter diameter is smaller (Hartmanová et al.  ). The mean internal energy of ions generated by nano DESI was 89% of that obtained in ESI. The authors suggest that the two source designs may affect how droplets are transferred through the heated capillary inlet. Also, the distributions overlap to a significant extent. Given the discrepancy of results between DESI (appearing slightly more energetic than ESI) and nano‐DESI (appearing slightly less energetic than ESI), we conclude that variations of <E
+int> in the order of 10% are largely within uncertainty due to different droplet size regimes, and thus that DESI has similar softness as ESI.
+
+4.4.3.
+
+## Electrospray Pick‐Up of Laser‐Desorbed Analytes
+We will not cover here all desorption/ionization sources (some recent contributions about internal energies can be found in the following references: (Fu et al.  ; Luo et al.  ; Milasinovic et al.  ; Shea et al.  ; Woods, Miller, and Baer  )), but only those involving laser desorption at atmospheric pressure followed by pick‐up by electrospray droplets. The following sources were directly compared with ESI: atmospheric‐pressure mid‐infrared laser ablation ESI (LAESI) (Nemes, Huang, and Vertes  ), infrared matrix‐assisted laser desorption/ionization (IR‐MALDESI) (Tu and Muddiman  ), femtosecond 800‐nm laser ESI (LEMS) (Flanigan et al.  ), and 355‐nm UV laser ablation‐liquid vortex capture ESI (LA‐LVC) (Cahill et al.  ). In brief, the survival yield method confirms that the softness of these methods is like that of ESI (from 97% to 113%, always with largely overlapping distributions). The only exception is when femtosecond 800‐nm laser ESI is performed on dried benzylpyridinium salts (dry‐LEMS, 139%) instead of on wetted samples (liquid‐LEMS, same as ESI).
+
+4.5.
+
+## Electric Discharge or Plasma‐Based Sources
+Plasma‐based sources are ionization methods using electric discharges or plasmas to produce charged species (Smoluch, Mielczarek, and Silberring  ). The best‐known source using this technology is atmospheric pressure chemical ionization (APCI). The principle of this atmospheric pressure ionization method is the formation of a spray, assisted by strong gas flow and high temperature, followed by an electric discharge to produce ions. Other sources emerged based on the same concept, but using a plasma to aid ionization, such as flexible microtube plasma (FµTP), dielectric barrier discharges ionization (DBDI), low‐temperature plasma (LTP) and the active capillary plasma ionization (ACaPI), developed by the Zenobi group (Nudnova, Zhu, and Zenobi  ). The principle of these Dielectric Barrier Discharges (DBD) sources is to apply a high voltage alternating waveform between two electrodes separated by an insulator. It results in a plasma, which characteristics depend on the operating pressure, geometric configuration, size and density (Niu et al.  ). The main differences between source configurations are summarized in Figure  . A great advantage of these sources is their possible coupling to GC‐MS and the ionization of nonpolar compounds (Ayala‐Cabrera et al.  ; Mirabelli, Wolf, and Zenobi  ).
+ 4.5.1.
+
+## Atmospheric Pressure Chemical Ionization (APCI)
+Donald's group evaluated the internal energies of ions generated through a DBD‐based ion source using substituted benzylammonium ions (Bouza et al.  ; Dumlao, Khairallah, and Donald  ; Stephens et al.  ). The mass spectrometer was a linear quadrupole ion trap mass spectrometer. A first study compared the influence of LTP and APCI sources on the ion's internal energies (Stephens et al.  ). With a 35 V in‐source CID and a capillary temperature of 250°C, LTP was significantly softer than APCI. ESI was not included in the comparison, but LTP was compared to ESI in a subsequent study (Bouza et al.  ). We thus deduced stepwise that the average internal energy in APCI was from 230% (at 150°C) to 330% (at 250°C) of that in ESI at 250°C.
+
+4.5.2.
+
+## Dielectric Barrier Discharge (DBD) Sources
+Vibrational and rotational temperatures can be determined directly from the rovibrational spectra of small ions produced in these sources. For example, the rotational temperature of a flowing atmospheric‐pressure afterglow (FAPA) source was estimated around 1100 K (Shelley, Chan, and Hieftje  ). For a home‐made DBD source, the rotational temperature was 300 K while the vibrational temperature was 5000 K (Furter and Hauser  ).
+In terms of comparisons with ESI, the internal energy distributions obtained with the four DBD‐based ion source presented above (Bouza et al.  ). The normalized internal energies obtained for DBDI, LTP, FµTP and ACaPI are respectively 185%, 172%, 192% and 117% of those in ESI. Parameters such as the distance between the DBD plasma jet and the source, as well as the capillary nature, strongly influence the ion fragmentation yields. The largest effect came from the positioning of the plasma device: placing the device on‐axis resulted in a decrease of internal energy for DBDI, LTP, and FµTP to ~160% of that in ESI.
+Remarkably, ACaPI is the softest DBD‐based ion source, barely more energetic than ESI (117% in the softest settings). ACaPI is already on‐axis, and the internal energy distribution does not change according to the shape of the waveforms (Dumlao et al.  ). To maximize softness, it is important that ions in the ACaPI source pass through the center of the ring (Gyr et al.  ), “like a lion in the ring of fire” (Bouza et al.  ). If ions pass through the halo of the plasma rather than in the center, or if the voltage is increased, the internal energy in ACaPI increases up to ~170% of that in ESI.
+Some readers might be interested in the SICRIT device. The brand name itself suggests SICRIT imparts little internal energy. SICRIT is a variant of ACaPI. Unfortunately, the publication reporting internal energy distributions in SICRIT (Huba, Mirabelli, and Zenobi  ) did not include a direct comparison with electrospray on the same mass spectrometer. We thus made the gross approximation that the MS tuning approach in the SICRIT study would be similar to those in the SESI study (Kaeslin et al.  ), also by the Zenobi group on benzylammonium ions, despite that different mass spectrometers were used. With this caveat in mind, SICRIT was found to impart internal energies only slightly higher than ESI (120% to 130% with dry gases, and similar to the ESI study when adding humidity to the N2 gas stream). These estimations agree with the ACaPI results and confirm that SICRIT is nearly as soft as ESI. Further studies with both sources on the same interface, and interface tuning to the softest possible transfer conditions, would be required for better quantitative comparisons.
+
+4.5.3.
+
+## Direct Analysis in Real Time (DART)
+DART is an ambient MS ionization technique developed by JEOL (Cody, Laramée, and Durst  ). The ionization process is divided into two steps (Figure  ). The gas plasma is formed where the gas (helium, argon or nitrogen) enters a discharge chamber and comes into contact with a discharge needle (typically 1–5 kV). Then, the hot plasma gas is transferred to the ion source where it interacts with the sample and transfers its charges to the analyte molecules. Several ionization processes can occur in the DART source, such as Penning ionization, proton transfer or charge transfer (Gross  ; Guo et al.  ; Harris et al.  ).
+ Two articles investigated the internal energies of ions generated by DART‐MS (Dumlao, Khairallah, and Donald  ; Harris et al.  ). Harris et al. calculated the internal energy distributions of substituted benzylpyridinium diluted in nanopure water (Harris et al.  ). The mass spectrometer used was a commercial DART ionization source and a JMS‐100TLC orthogonal acceleration time‐of‐flight. The mean internal energy obtained with DART was 142% of that obtained with the ESI source. The thermal contribution was higher in DART than ESI. That same conclusions are reached in the work of Dumlao et al. where the internal energies of substituted benzylammonium are estimated by using a linear quadrupole ion‐trap mass spectrometer (Dumlao, Khairallah, and Donald  ). However, here the mean internal energy in DART was 410% of that obtained in ESI on the same instrument. The modes of operation of DART are very diverse, but this ionization source is clearly more energetic than ESI. Humidity also decreases fragmentation in DART (Newsome, Ackerman, and Johnson  ).
+
+5.
+
+## Conclusions
+Sources wherein droplet formation is decoupled from electrophoretic charging (e.g., SAII, AMUSE or SAWN) can be softer than electrospray sources. However, no major differences in internal energies were found for ions produced from different variants of ESI, except for cold spray ionization (CSI). Among methods wherein the analytes are collected by ESI droplets, secondary electrospray ionization (SESI) is the softest, while desorption electrospray ionization (DESI) or electrospray of laser‐desorbed analytes are energetically similar to electrospray. Finally, although plasma and discharge‐based sources such as atmospheric pressure chemical ionization (APCI) or direct analysis in real time (DART) are more energetic than electrospray, new variants of dielectric barrier discharge sources, such as ACaPI and its commercial variant SICRIT, are capable to ionize gas‐phase molecules while conveying barely more internal energy than ESI.
+It was, however, difficult to draw general conclusions by piecing together all small‐scale studies reviewed here. One reason is that almost each study is performed with a different source interface. Probing the outcome of the electrospray process in the mass analyzer is like trying to deduce the entire movie plot from just the last scene. Droplet size and desolvation history matter enormously because ions that traverse the harshest parts of the transfer interface while being protected by a solvent shell, which dissipates internal energy upon evaporation, will end up with less internal energy than those ejected “naked” early in the source.
+Ions produced via the charged residue mechanism have less internal energy than ions produced by ion evaporation right after droplet formation. Sources that decouple droplet formation from droplet charging, and that charge the droplets less on average, are thus also more favorable for native MS applications: the preservation of the noncovalent complexes is favored by keeping the solvent around as late as possible and by minimizing Coulomb repulsion. Future source developments aimed at maximizing large ion production from lowly charged droplets should benefit the field of structural biophysics. However, characterizing the internal energy of ions produced in conditions adequate for desolvating macro‐ions will require larger thermometer ions. The GIBMS measurement of E
+0 values requires well‐controlled single‐collision conditions, yet attaining dissociation, which becomes increasingly difficult as the size of the ions increases because of the magnitude of the kinetic shift. Determining their E
+0 values experimentally for ions larger than tripeptides will require new approaches, such as modeling of collisional heating and cooling combined with ion trajectory calculations (Donor, Shepherd, and Prell  ; Hoxha et al.  ; Prell  ). The availability of more massive computer power and new functionals will certainly help to calculate E
+0 values for thermometer ions with a larger number of DOFs, to calibrate instrumental conditions relevant to molecules of wider ion mobility and m/z ranges.
+As for small molecule analytes, in‐source fragmentation effects are of paramount importance for correct data interpretation. Think about problems arising with database searches or machine learning algorithms are trained on datasets recorded with different activation conditions. Although several authors proposed to use thermometer ions to monitor, standardize and control in‐source fragmentation (Bristow et al.  ; Hopley et al.  ; Lecchi et al.  ), they were probably right too soon, and their recommendations were not acted upon. The urgency is however now recognized, and in the wake of recent efforts to standardize MS/MS activation conditions (Hoang et al.  ), it is urgent to tackle the problem of internal energies and fragmentation at the interfaces of supposedly “soft” ionization sources.
+To do so, we would need further thermometer ions, with a chemical nature more relevant to the applications. Benzylamine metabolites and peptides are a good start, but fragile lipids, oligonucleotides and large peptides/small proteins or model polymers would be useful. Currently, multiply charged thermometer ions, and large thermometer ions with sufficiently low E
+0 values are in need. Efforts to develop widely applicable internal energy calibrants are under way in our laboratory.
+
+## Author Contributions
+
+Emilie Bertrand: data curation, formal analysis, investigation, methodology, writing–original draft and editing. Valérie Gabelica: conceptualization, data curation, investigation, methodology, project administration, supervision, visualization, writing–original draft, writing–review and editing.
+
+## Acknowledgments
+We would like to thank Frédéric Rosu, Sergey Girel, Asher Newsome, Jerôme Kaeslin, and reviewer 3 for comments on our preprint or for suggesting additional references. Open access publishing facilitated by Universite de Geneve, as part of the Wiley ‐ Universite de Geneve agreement via the Consortium Of Swiss Academic Libraries.
+
+## References

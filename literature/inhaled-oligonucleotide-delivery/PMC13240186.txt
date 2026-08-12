@@ -1,0 +1,158 @@
+pmcClin Transl MedClin Transl Med1991clintransmedCTM2Clinical and Translational Medicine2001-1326WileyPMC13240186PMC13240186.113240186132401864220483810.1002/ctm2.70705CTM2707051Research ArticleResearch ArticleMulti‐omics reveals a novel Cxcr4+ subpopulation of alveolar macrophages and therapeutic effect of AMD3100 in mice with advanced silicosis
+MU et al.
+MuMinhttps://orcid.org/0000-0002-0833-0683 LiBing CaoHangbinghttps://orcid.org/0000-0002-1500-4173 ZouYuanjie YanRuiqing WangFei ZhaoYehong XieZihao DuMiaomiao WuXiaolong TaoXinronghttps://orcid.org/0000-0002-2106-6039 xrtao1116@hotmail.comWangJianhua jianhuaw2007@qq.com
+
+1
+
+School of Public Health
+Anhui University of Science and Technology
+Huainan
+China
+
+2
+
+Key Laboratory of Industrial Dust Control and Occupational Health of the Ministry of Education
+Anhui University of Science and Technology
+Huainan
+China
+
+3
+
+State Key Laboratory of Safe Mining of Deep Coal and Environmental Protection
+Huainan Mining (Group)
+Huainan
+China
+
+4
+
+Medical school of Anhui University of Science and Technology
+Huainan
+China
+
+5
+
+Anhui Shendong Biotechnology Development Co., Ltd.
+Huainan
+China
+
+6
+
+Cancer Institute
+Fudan University Shanghai Cancer Center
+Fudan University
+Shanghai
+China
+
+*
+Correspondence
+Xinrong Tao and Jianhua Wang, School of Public Health, Anhui University of Science and Technology, 168 Taifeng Road, Huainan, China. Email: xrtao1116@hotmail.com and jianhuaw2007@qq.com
+
+27520266202616651509110.1002/ctm2.v16.6e70705
+1252026
+2222026
+2152026
+270520260606202606062026© 2026 The Author(s). Clinical and Translational Medicine published by John Wiley & Sons Australia, Ltd on behalf of Shanghai Institute of Clinical Bioinformatics.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+## Background
+Silicosis is a work‐related condition resulting from breathing in crystalline silica particles, marked by persistent inflammation and abnormal healing mechanisms in the lungs. Our previous studies demonstrated that inhibition of Cxcr4 with Plerixafor (AMD3100) markedly attenuates pulmonary fibrosis.
+
+## Methods
+By integrating single‐cell RNA sequencing with spatial transcriptomics, we analysed lung tissues from a mouse model of pneumoconiosis. Using the Robust Cell Type Decomposition algorithm to deconvolve spatial transcriptomic data, we identified Cxcr4+ macrophages and Cxcl12+ fibroblasts as central drivers of pulmonary fibrosis progression, revealing a distinct spatial co‐localisation pattern between these cell populations. To further delineate macrophage heterogeneity and functional specialisation during silicosis progression, we focused on key macrophage subpopulations.
+
+## Results
+AMD3100 dynamically remodels the alveolar macrophages (AMs) niche, promoting the restoration of AM homeostasis and significantly reducing both co‐expression and spatial co‐localisation of Cxcr4/transforming growth factor‐β (TGF‐β) signalling within macrophages, thereby modulating the fibrotic immune microenvironment. Mechanistically, silica dust stimulation in vitro upregulates Cxcr4 expression in the AM cell line MH‐S, which in turn promotes the release of TGF‐β and pro‐inflammatory factors, driving fibroblast activation. Activated fibroblasts further enhance the pro‐fibrotic phenotype of macrophages via secretion of Cxcl12, reinforcing the Cxcr4 signalling axis and establishing a stable positive‐feedback loop.
+
+## Conclusion
+Our findings suggest that silicosis‐associated fibrosis progresses through a positive feedback loop involving interactions between Cxcr4+ AM macrophages and Cxcl12+ fibroblasts. These findings highlight the therapeutic promise of targeting the Cxcl12/Cxcr4 axis with AMD3100 as an innovative approach for silicosis treatment.
+
+## Key points
+
+Targeting Cxcr4 with AMD3100 alleviates silica‐induced pulmonary fibrosis, improves lung function, and restores the dysregulated cellular ecosystem in vivo.
+Multi‐omics analyses reveal that the Cxcl12/Cxcr4 axis drives a pathogenic positive feedback loop between macrophages and fibroblasts in silicosis.
+AMD3100 disrupts the macrophage‒fibroblast crosstalk by blocking the Cxcl12/Cxcr4/transforming growth factor‐β signalling axis, providing a mechanistic basis for therapeutic intervention.
+
+The progression of silicosis‐associated fibrosis relies on a positive feedback loop mediated by crosstalk between Cxcr4+ macrophages and Cxcl12+ fibroblasts and the therapeutic potential of targeting the Cxcl12/Cxcr4 axis with AMD3100 as a novel strategy for treating silicosis.
+ 
+
+alveolar macrophagesAMD3100multi‐omicssilicosis
+Natural Science Foundation of China10.13039/501100001809
+82304112
+Research Funds of Joint Research Center for Occupational Medicine and Health of IHM
+OMH‐2023‐01OMH‐2023‐03
+Clinical Medical Research Transformation Project of Anhui Province
+202304295107020035202304295107020041202427b10020085
+The Clinical Medical Research Transformation Project of Anhui Province
+ Analysis of collagen in mice demonstrated that lung tissue fibrosis was considerably more severe in those exposed to SiO2 compared to the N group. In contrast, the A group showed a substantially reduced level of fibrosis relative to the S group (Figure  ). These results suggest that the Cxcr4 antagonist AMD3100 has a significant therapeutic potential against silicosis. We propose that increased Cxcr4 expression is a key factor in the development of silicosis.
+
+3.2
+
+## Single‐cell transcriptomics uncovers how AMD3100 influences the cellular environment in a mouse model of silicosis
+To explore the diverse cell types present in mouse lung tissue and to analyse the variations and relationships between different cell populations, we performed scRNA‐seq on nine lung tissue samples from mice. The samples were divided into three categories: N, S and A, with three samples in each group, leading to the development of a detailed scRNA‐seq atlas (Figure  ). After applying initial quality control procedures, we obtained scRNA‐seq data from 26 500 cells in the N group, 27 914 cells in the S group and 39 593 cells in the A group (Figure  ). To assess the cellular makeup related to silicosis, we conducted PCA on the variable expression genes from all cells, revealing 24 primary cell clusters. These clusters were then further investigated using correlation‐based clustering analysis (Figure  ). Subsequently, differential gene expression analysis was conducted to identify cell‐cluster‐specific marker genes, enabling the characterisation of each cell cluster. This analysis identified a total of 10 distinct types of lung tissue cells (Figure  ). The following cell populations were clearly identified: fibroblasts (Dcn+, Col1a1+), epithelial cells (Krt18+, Krt17+), endothelial cells (Cdh5+, Pecam1+), dendritic cells (Cd80+, Flt3+), mono‐macrophages (Cd14+), neutrophils (Cst3r+, Cd14+), B cells (Cd79a+, Pecam1+), natural killer cells (Nkg7+), T cells (Cd3+, Cd3g+) and doublet populations (Cd79a+) (Figure  ). Among these, T cells, monocytes and fibroblasts exhibited a significant increase in numbers following silica exposure, whereas neutrophils showed a decrease. Administration of AMD3100 led to a decrease in the quantity of mononuclear macrophages and neutrophils within the lung tissue of mice. This suggests that extended silica exposure triggers persistent inflammatory reactions in the lungs, which in turn facilitates the initiation and advancement of pulmonary fibrosis. By reducing the buildup of mononuclear macrophages and easing pulmonary inflammation, AMD3100 could potentially lessen or suppress the development of pulmonary fibrosis (Figure  ). To summarise, we discovered multiple cell populations exhibiting unique distribution profiles across various tissue specimens. These populations are likely to have a significant function in the mouse model of silicosis.
+ 
+3.3
+
+## In the context of pulmonary fibrosis, macrophages and fibroblasts demonstrate a close spatial correlation
+To thoroughly investigate the spatial distribution characteristics of cells in silicosis, we obtained lung tissue specimens from six mice, comprising two normal control groups (N1 and N2), two groups exposed to SiO2 (S1 and S2), and two groups subjected to both silica exposure and AMD3100 treatment (A1 and A2). The lesion areas of each sample were scanned and analysed using H&E staining alongside gene expression profiling, resulting in the identification of 10 distinct spots (Spot). The clustering proportion of each Spot varied among the samples (Figure  ‒ ). By dividing lung tissue into distinct areas according to gene expression patterns and recognising that each sampling spot contains multiple cells, we utilised a feature‐based method to combine ST with scRNA‐seq data to approximate the different cell types present at every capture location. The results showed a considerable rise in macrophage numbers within the fibrotic areas of the lungs in silica‐exposed mice relative to the N group. After administration of AMD3100, a decrease in the macrophage proportion was noted, suggesting that macrophages could have a central function in the development of pulmonary fibrosis (Figure  ). Importantly, macrophages and fibroblasts exhibit a high level of spatial co‐localisation and gather notably in zones of SiO2 accumulation in lung tissue. Additionally, it is clear that the count of epithelial cells in the non‐affected lung regions of silica‐exposed mice is substantially reduced, while the number of neutrophils is greatly increased, implying their role in driving inflammation (Figure  ). Therefore, we suggest that the rise in macrophages might be a key element in triggering pulmonary fibrosis.
+ 
+3.4
+
+## Identifying different macrophage populations in silicosis
+To explore the connection between macrophages and fibroblasts and to further validate the essential function of macrophages in silicosis, we conducted an examination of macrophage subpopulations. Utilising scRNA‐seq data, we identified and categorised macrophage subpopulations into six distinct groups: naive macrophages (naive‐AMs), Cd11b+ interstitial macrophages (Cd11b+ IMs), activated macrophages (Activated_AMs), resident monocytes (Resident_Monocyte), C1qa+ macrophages (C1qa+ IMs) and other macrophages (unclassified macrophages) (Figure  ). Following exposure to SiO2, there was a marked increase in the number of macrophages in the lungs of mice, including the proliferation of IMs and AMs, which further facilitated the onset and progression of pulmonary fibrosis. Notably, the number of IMs was particularly elevated. Treatment with AMD3100 significantly reduced the accumulation of IMs, thereby mitigating the progression of pulmonary fibrosis to some extent (Figure  ). Further analysis indicated a substantial increase in the number of activated AMs in mouse lung tissue, with associated GO pathways primarily related to the regulation of fibroblast aggregation (GO:0014905) and neutrophil synthesis (GO:0019370) (Figure  ). Flow cytometry results demonstrated a significant increase in both AMs and IMs following SiO2 exposure. Initially, live single leukocytes (Cd45+) were gated, followed by the selection of Cd11b+Ly6g− myeloid cells. AMs were characterised as Ly6c−Cd11b− Siglec F+Cd11c+ cells and IMs as F4/80+Cd11b+ cells. Neutrophils, identified as Cd11b+Ly6g+, served as a reference population (Figure ). Additionally, the proportion of neutrophils increased partially after SiO2 exposure and decreased following AMD3100 treatment. Following exposure to SiO2, the quantity of AMs did not exhibit a statistically significant increase; however, a significant increase was observed subsequent to AMD3100 treatment. Conversely, the number of IMs significantly rose after SiO2 exposure and significantly declined following AMD3100 treatment. Consequently, the AMs/IMs ratio experienced a significant reduction after SiO2 exposure and a significant elevation after AMD3100 treatment. These findings imply that IMs are more stringently regulated post‐SiO2 exposure, whereas AMs undergo only moderate regulation in terms of their numbers (Figure  ). Of particular interest is the Cxcr4+ AM population, which demonstrates relatively high expression levels of TGF‐β in group S, yet these levels diminish in group A (Figure  ).
+ 
+3.5
+
+## AMD3100 treatment downregulates expression of Cxcl12 in activated fibroblasts
+Upon exposure to SiO2, fibrotic lesions demonstrated a notable accumulation of fibroblasts, aligning with the recruitment and activation of myofibroblasts aimed at encapsulating the silica particles. This phenomenon was associated with a pronounced upregulation of TGF‐β within the fibrotic regions, indicative of a strong inflammatory and pro‐fibrotic response. Administration of AMD3100 significantly reduced this inflammation and cellular recruitment, thereby alleviating the overall fibrotic pathology (Figure  ‒ ). ST analysis further identified a high degree of spatial co‐localisation between pro‐fibrotic macrophages and activated fibroblasts, a finding substantiated by immunofluorescence staining. Notably, treatment with AMD3100 significantly disrupted this spatial clustering of macrophages and fibroblasts (Figure  ‒ ). These findings collectively indicate that exposure to SiO2 activates macrophages, which subsequently phagocytose particles and secrete factors that recruit and activate fibroblasts, thereby initiating an encapsulation process. The administration of AMD3100 mitigates fibrosis by disrupting this essential macrophage aggregation and the subsequent interaction with fibroblasts.
+ 
+3.6
+
+## Macrophages crosstalk with fibroblasts via Cxcl12/Cxcr4 signalling axis
+Our analysis of cell‒cell interactions uncovered a robust communication network between macrophages and fibroblasts, indicating a pivotal role for macrophages in facilitating fibroblast activation and the development of pulmonary fibrosis (Figure  ). Further investigation revealed a significant interaction specifically between monocyte‐derived macrophages (Mono_Macro) and fibroblasts, predominantly mediated by the Cxcl12/Cxcr4 chemokine axis in the silica‐exposed group (Figure  ). This finding suggests that fibroblasts secrete Cxcl12 to recruit Cxcr4‐expressing Mono_Macro to fibrotic lesions. The effectiveness of this recruitment was confirmed through transwell assays, which demonstrated a pronounced migratory response of AMs to Cxcl12; this response was notably diminished in monocyte‐derived macrophages (Figure ). These results highlight a primary role for AMs in driving fibrosis. Importantly, treatment with AMD3100, a Cxcr4 antagonist, effectively disrupted this cellular recruitment and mitigated fibrotic progression (Figure  ‒ ).
+ 
+3.7
+
+## AMD3100 treatment inhibits Cxcl12+ fibroblast‐mediated chemotaxis of AMs and formation of silicotic nodules
+Our research clarifies the essential function of the Cxcl12/Cxcr4 signalling pathway in the development of silica‐induced pulmonary fibrosis. Examination of fibrotic lung samples showed a marked increase in Cxcr4 levels within invading immune cells, including macrophages, neutrophils and T cells. In contrast, fibroblasts and endothelial cells demonstrated only negligible receptor expression. Notably, Cxcr4 expression was largely unaltered by AMD3100 treatment. In contrast, the expression of the ligand Cxcl12 was spatially restricted, primarily localised to stromal cells, including fibroblasts and endothelial cells (Figure  ). Importantly, AMD3100 treatment significantly reduced Cxcl12 expression in fibroblasts, with a less pronounced effect in endothelial cells. This ligand‐specific downregulation was further supported by immunofluorescence analysis, which showed a marked induction of Cxcl12 in pulmonary fibroblasts following SiO2 exposure, an effect significantly attenuated by AMD3100 treatment (Figure  ‒ ). Collectively, our findings illuminate a central pathogenic mechanism whereby fibroblasts act as the primary source of Cxcl12, facilitating the recruitment of Cxcr4‐expressing immune cells to the site of injury. Our validation results utilising MH‐S cell lines in vitro corroborated the hypothesis that AMs exhibit elevated expression of TGF‐β and Cxcr4 following silica exposure. Subsequently, we treated the L929 cell line with TGF‐β. The intervention led to a significant increase in α‐SMA and Cxcl12 expression within fibroblasts (Figure ). These observations indicate that AM activation occurs through the Cxcr4 signalling cascade, triggering TGF‐β release. This, in turn, promotes the transformation of fibroblasts into myofibroblasts, a process that advances the development of pulmonary fibrosis.
+ 
+
+4
+
+## DISCUSSION
+Silicosis is a progressive and ultimately fatal fibrotic lung disease for which no disease‐modifying therapies are currently available. Although dysregulated factors derived from macrophages are recognised as significant contributors, the precise cellular interactions that initiate and sustain fibrosis remain inadequately understood. Through an integrated multi‐omics approach that combines single cell and ST, our research suggest the presence of a self‐amplifying macrophage‒fibroblast circuit between macrophages and fibroblasts that drives the progression of silicosis. The principal findings of our study include the notable spatial co‐localisation of a specific pro‐fibrotic macrophage subpopulation with activated myofibroblasts within the fibrotic niche, as well as the identification of the Cxcl12/Cxcr4 chemokine axis as a central component of this pathogenic communication network.
+The interplay between macrophages and fibroblasts is central to the control of fibrotic processes, and its presence across multiple organ systems underscores its essential nature. Research by Zhang et al. shows that within the setting of cardiac fibrosis linked to heart failure with preserved ejection fraction (HFpEF), Cxcr4+ macrophages serve as key drivers of inflammation and fibroblast stimulation, and their elimination reduces the advancement of the disease. From physical injury to radiation to autoimmunity, inflammation is the common pathway driving disease progression. This makes it a key therapeutic target: blocking inflammatory pathways could effectively treat a wide range of diseases. , , Correspondingly, recent studies indicate that within the tumour microenvironment of triple‐negative breast cancer, cancer‐associated fibroblasts exploit the Cxcl12/Cxcr4 signalling pathway to recruit monocytes and transform them into immune‐suppressive, lipid‐associated macrophages, thereby fostering a pro‐fibrotic niche. , 
+
+ST validated scRNA‐seq cell types and visualised macrophage‒fibroblast interactions within lung microanatomy. Macrophages accumulated at silica deposits, while fibroblasts showed spatially consistent distribution, revealing their cooperative role in fibrosis. Previous studies have shown that macrophages play a pivotal role as orchestrators in the pathogenesis of pulmonary fibrosis, influencing disease progression through immune modulation, regulation of apoptosis and direct cellular interactions. In the context of silicosis, there is a notable shift in macrophage polarisation towards a persistent M2‐like phenotype, which collectively contribute to a pro‐fibrotic environment. Previous studies have clearly demonstrated that monocytes have been shown to significantly promote the progression of pulmonary fibrosis. However, a detailed characterisation of the Cxcr4+ macrophage subset remains lacking. Therefore, systematic identification and functional analysis of Cxcr4+ macrophage subpopulations using single‐cell sequencing technology would not only fill an important gap in our current understanding but also offer new insights into the immune mechanisms underlying pulmonary fibrosis. Such an approach may further provide key clues for the development of novel diagnostic markers and therapeutic targets.
+Our study introduces a critical, spatially resolved perspective to this understanding. We identify a distinct subpopulation of Cxcr4+ macrophages that spatially co‐localises with fibroblasts within fibrotic niches, acting as a key driver of the disease. This finding is consistent with previously characterised pro‐fibrotic macrophage populations, such as the Mmp12hi subset in silicosis and monocyte‐derived macrophages that repopulate the lung in bleomycin‐induced fibrosis models. , The involvement of Cxcr4+ macrophages in promoting pathological fibrosis is consistently observed across various conditions, such as cancer and myocardial disease. , This study elucidates a self‐perpetuating cycle mediated by this axis: silica‐activated AMs secrete TGF‐β, which stimulates fibroblast activation and their subsequent release of Cxcl12. This chemokine subsequently attracts additional Cxcr4+ macrophages, thereby intensifying the cycle. The distinctive pathophysiology associated with silica exacerbates this cycle; its lysosomal toxicity triggers macrophage necroptosis or pyroptosis, leading to the release of damage‐associated molecular patterns, silica particles that perpetuate inflammation and facilitate the continuous recruitment of monocyte‐derived IMs. , Fibroblasts endeavor to encapsulate the particles; however, persistent Cxcl12/Cxcr4 signalling undermines these reparative processes. As a result, a significant alteration in macrophage populations was observed, characterised by a reduction in homeostatic AMs and an increase in recruited, pro‐fibrotic IMs. The therapeutic potential of disrupting this signalling axis is twofold. First, our findings corroborate that the Cxcl12/Cxcr4 interaction is a pivotal component of the fibrotic pathway, aligning with previous research indicating that its inhibition mitigates fibrosis through the suppression of TGF‐β. Second, we demonstrate that the Cxcr4 antagonist AMD3100 effectively disrupts this cycle. By inhibiting recruitment, AMD3100 decreases the density of pro‐fibrotic IMs, attenuates TGF‐β signalling, and weakens the crucial macrophage‒fibroblast interaction, ultimately reducing fibrosis. A recent study indicates that silica exposure induces RANKL‐dependent differentiation of pulmonary osteoclast‐like cells from monocytes and macrophages, which express TRAP and CTSK, thereby promoting fibrosis through sustained protease and hydrochloric acid release. Our findings elucidate a mechanistic model for the feed‐forward loop in which silica phagocytosis initiates the activation and pyroptosis of AMs. This process results in a population shift from homeostatic AMs to a substantial expansion of pro‐inflammatory, monocyte‐derived IMs, a population recently identified as phenotypically and functionally distinct. We further establish the pivotal role of these cells in fibrosis. They serve as a significant source of TGF‐β and, as demonstrated by Zhou et al., release matrix metalloproteinase 12, leading to endothelial dysfunction and matrix accumulation that perpetuates tissue injury. Therapeutically, targeting the Cxcl12/Cxcr4 axis with AMD3100 effectively disrupts this macrophage‐driven amplification loop, thereby reducing TGF‐β signalling, IM recruitment and fibrosis. This therapeutic strategy shows synergy with interventions targeting RANKL or Notch3, highlighting the potential of multi‐level approaches in addressing this complex disease. , , 
+
+The pathological significance of the Cxcl12/Cxcr4 axis is definitively highlighted by our interventional studies. Administration of the Cxcr4 antagonist AMD3100 effectively disrupted the identified macrophage‒fibroblast circuit. AMD3100 demonstrated a dual mechanism of action: it directly inhibited the Cxcl12/Cxcr4 interaction and, crucially, suppressed Cxcl12 expression at its primary cellular source‐activated fibroblasts. AMD3100 mobilises haematopoietic stem cells by directly antagonising the Cxcl12/Cxcr4 axis. Recent evidence reveals an indirect effect: AMD3100 also reduces Cxcl12 expression in source cells. In lung fibrosis, activated fibroblasts overexpress Cxcl12 due to Twist1 loss and RelB activation; AMD3100 decreases this expression via intercellular feedback. Similarly, in acute lung injury, regulatory T cells lower epithelial Cxcl12 to mitigate fibrosis—an effect mimicked by AMD3100, suggesting immune modulation. Thus, AMD3100 exerts dual direct and indirect actions, with potential therapeutic implications beyond stem cell mobilisation.
+We hypothesised that reduced Cxcr4 expression may limit macrophage activation and TGF‐β secretion. Lower TGF‐β suppressed fibroblast activation and Cxcl12 production, creating a positive feedback loop that amplifies inhibition of the fibrotic response to SiO2. , This combined effect led to a substantial reduction in the recruitment and activation of Cxcr4+ macrophages, along with a concomitant decrease in TGF‐β‐driven fibroblast activation and myofibroblast differentiation. Consequently, there was a significant attenuation of both fibrosis and the formation of silicotic nodules, which are pathologically characterised by dense subpleural fibrosis. Naturally, the molecular mechanisms governing interactions between fibroblasts and macrophages also encompass the CSF1‒CSF1R signalling pathway, thereby influencing disease onset and progression. The central role of this macrophage‒fibroblast amplification axis is reinforced by emerging literature on pro‐fibrotic macrophage subpopulations, not only in silicosis but also in other fibrotic contexts, such as the role of AXL+ monocytes in bleomycin‐induced lung injury. , Our findings define a critical pathogenic loop in silicosis: a TGF‐β/Cxcl12‐mediated macrophage‒fibroblast amplification axis, initiated by silica‐induced macrophage activation and sustained by Cxcr4‐driven recruitment. The efficacy of AMD3100 in disrupting this self‐perpetuating cycle highlights the Cxcl12/Cxcr4 axis as a promising therapeutic target for interrupting the progressive fibrotic cascade in this debilitating disease.
+While we have demonstrated that fibroblast‐derived Cxcl12 facilitates the recruitment of pro‐fibrotic Cxcr4+ macrophages, the complete functional repertoire of these macrophages and the full spectrum of downstream pro‐fibrotic cascades they activate remain to be comprehensively elucidated. Additionally, the Cxcl12/Cxcr4 axis likely represents just one of several parallel pro‐fibrotic pathways. Fibrotic macrophages display high heterogeneity that extends beyond the conventional M1/M2 classification, driven largely by epigenetic and metabolic factors. This diversity gives rise to distinct subgroups, such as Spp1+ macrophages, which promote fibrogenesis, immune suppression and angiogenesis. , , , Within this regulatory network, Cxcr4 functions as a central node, mediating bidirectional crosstalk between macrophages and fibroblasts via the Cxcl12/Cxcr4/Pi3k/Akt axis. Under stimulation by TGF‐β, fibroblasts upregulate Cxcl12, which in turn induces M2 polarisation of macrophages. These polarised macrophages secrete additional TGF‐β, further driving myofibroblast differentiation. The Mif/Cxcr4 axis further links this loop to angiogenesis and metastasis. Thus, Cxcr4 serves as a key bridge connecting fibrosis, immunity and tumour progression, making it a promising therapeutic target. The Cxcl12/Cxcr4/Cxcr7 axis is actively being investigated for its roles in tumour progression and immune cell recruitment. Targeting this pathway has enabled combination therapy strategies using Cxcr4/Cxcr7 inhibitors alongside other anticancer agents. Beyond oncology, Cxcr4 antagonists also exhibit significant anti‐inflammatory effects, broadening their therapeutic potential. These findings support the rationale for developing drugs targeting the Cxcr4/Cxcl12 axis for both cancer and inflammatory diseases. 
+
+AMD3100, an FDA‐approved Cxcr4 antagonist, shows novel anti‐fibrotic effects. Systemic use may disrupt haematopoietic stem cell homing, but local pulmonary delivery offers a safer alternative by increasing lung exposure while minimising systemic risks, warranting further preclinical and clinical validation. However, several limitations of this study should be acknowledged. First, due to technical cost constraints, the sample size was relatively small, which may limit the statistical power of the findings. Second, this study focused exclusively on the early stages of silicosis, without including observations from the late stages; consequently, whether AMD3100 exerts therapeutic effects in advanced disease remains unknown. Future research should prioritise: delineating the precise functional subpopulations within the Cxcr4+ macrophage pool, mapping the comprehensive interaction networks between macrophages and other structural and immune cells, and investigating combined therapeutic strategies that target this axis in conjunction with other key fibrotic pathways.
+
+5
+
+## CONCLUSION
+In summary, our multi‐omics analysis reveals a self‐perpetuating macrophage‒fibroblast circuit driven by the Cxcl12/Cxcr4 axis in silicosis. Disrupting this loop with AMD3100 significantly reduces fibrosis, positioning Cxcr4 as a promising therapeutic target for this disease.
+
+## AUTHOR CONTRIBUTIONS
+
+Funding acquisition, methodology and writing—original draft: Min Mu. Data curation and writing: Bing Li and Hangbing Cao. Software: Yuanjie Zou and Xiaolong Wu. Methodology: Ruiqing Yan and Zihao Xie. Validation: Fei Wang, Yehong Zhao and Miaomiao Du. Conceptualisation: Xinrong Tao. Supervision and writing—review and editing: Jianhua Wang.
+
+## CONFLICT OF INTEREST STATEMENT
+No potential conflict of interest was reported by the authors.
+
+## ETHICS STATEMENT
+This project has been approved by the committee on the ethics of Anhui University of Science and Technology Laboratory Animals (no. GZ2024‐070).
+
+## Supporting information
+Supporting Information
+
+## ACKNOWLEDGEMENTS
+We extend our gratitude to OE Biotech Co., Ltd. (Shanghai, China) for supplying the single‐cell RNA‐seq data. We also thank Xiaohua Yao for his support with the bioinformatics analysis, and acknowledge Lu Meiyun and Guo Pengyu for performing the single‐cell and idle‐state analyses. This work was supported by the 
+Natural Science Foundation of China (82304112), Research Funds of Joint Research Center for Occupational Medicine and Health of IHM (nos. OMH‐2023‐01 and OMH‐2023‐03) and Clinical Medical Research Transformation Project of Anhui Province (nos. 202304295107020035, 202304295107020041 and 202427b10020085).
+
+## DATA AVAILABILITY STATEMENT
+The data produced in this investigation are not accessible to the public because they include confidential details belonging to the industry partner that financed and participated in the study. However, they can be obtained from the corresponding author upon a justified and reasonable inquiry.

@@ -1,0 +1,487 @@
+pmcFront ChemFront Chem2396frontchem101627988Front. Chem.Frontiers in Chemistry2296-2646Frontiers Media SAPMC13132857PMC13132857.113132857131328574207987010.3389/fchem.2026.179319317931931ReviewAntibody–drug conjugates for infectious and neglected tropical diseases: chemical design principles, target biology, and translational challenges
+Reddy et al.
+10.3389/fchem.2026.1793193
+ReddyDesigan Writing - review and editingSupervisionConceptualizationJeenaVineet Writing - review and editingPapoTshephiso R. Writing - review and editingOhaekenyemEmmanuel C. Writing - review and editingWriting - original draftConceptualization
+1
+Discipline of Chemistry, School of Agriculture and Science, University of KwaZulu-Natal, Durban, South Africa
+
+2
+Pure and Industrial Chemistry Department, Nnamdi Azikiwe University, Awka, Anambra, Nigeria
+
+*Correspondence: Desigan Reddy, reddyd2@ukzn.ac.za; Emmanuel C. Ohaekenyem, ohaekenyeme@ukzn.ac.za, ec.ohaekenyem@unizik.edu.ng
+17420262026145067281793193211202616220261632026170420260205202610052026Copyright © 2026 Reddy, Jeena, Papo and Ohaekenyem.2026Reddy, Jeena, Papo and Ohaekenyemhttps://creativecommons.org/licenses/by/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.Antibody–drug conjugates (ADCs) are established precision treatments in oncology. Nevertheless, their application to infectious diseases and neglected tropical diseases (NTDs) is still an emerging field. In contrast to cancer cells, pathogens exhibit dynamic surface features and distinct intracellular environments, necessitating a complete redesign of the ADC architecture. This review combines chemical concepts and biological insights to outline a “pathogen-centric” framework for bacterial, viral, and parasite illnesses. We analyze target selection across various diseases, emphasizing structural accessibility and antigen stability as critical factors. A comprehensive evaluation of ADC chemical architecture is provided, focusing on linkers that respond to pathogen-specific enzymatic or environmental triggers, alongside a range of non-cytotoxic payloads, notably redox-active metallo-drugs designed to overcome antimicrobial resistance. We rigorously analyze the shift from empirical screening to AI-enhanced and structurally-informed design processes. Lastly, we look at the particular translation concerns in this field, such as the Payload Paradox and the complications that come with internalization. We discuss also sustainable biomanufacturing methods that will ensure equitable and fair access to the products. This study offers a chemistry-based framework that outlines the essential ideas required for the advancement of antibody-drug conjugates (ADCs) as targeted anti-infectives for major global infections.
+
+antibody–drug conjugateschemical design principlesinfectious diseasesneglected tropical diseasestarget biologytranslational challengesmetallo-drugsThe author(s) declared that financial support was not received for this work and/or its publication. Consequently, the design of antibody–drug conjugates for infectious disorders (ID-ADCs) necessitates novel thought rooted in the principles of chemical biology, structural microbiology, and pathogenesis. A multidisciplinary strategy is essential for effective ID-ADC development, integrating medicinal chemistry and bioinorganic techniques to create stable conjugations and build pathogen-responsive linkers ( ). Simultaneously, progress in structural biology allows researchers to delineate epitopes on pathogen surfaces, discern antigenic variations, and create novel payloads specifically for ID-ADCs. In this context, the disease biology influencing infection environments—factors such as pH, redox state, and protease activity—must be meticulously considered to guide linker activation and payload release ( ; ).
+Effective infectious disease–targeting antibody–drug conjugates (ID-ADCs) require complex integration across multiple scientific disciplines, reflecting design considerations that differ substantially from conventional oncology ADCs. The significance of medicinal and bioinorganic chemistry in developing stable conjugations and engineering pathogen-responsive linkers is paramount, particularly as these modifications directly influence release kinetics, payload activation, and target specificity ( ). Unlike oncology ADCs, which predominantly rely on lysosomal processing following internalization into tumor cells, ID-ADCs may require extracellular or pathogen-triggered release mechanisms tailored to infection-specific biological cues.
+Techniques in structural biology, such as cryo-electron microscopy and computational modeling platforms (e.g., AlphaFold), are essential for identifying accessible and conserved pathogen epitopes while elucidating their structural dynamics ( ). These structural insights are particularly critical in infectious diseases, where antigen variability and resistance mechanisms necessitate precise epitope selection. The findings from such investigations aid in identifying optimal antigens and improving therapeutic selectivity.
+Furthermore, a comprehensive understanding of pathogen biology requires consideration of the distinctive characteristics of the infection microenvironment, including localized pH shifts, enzymatic activity, biofilm formation, and the presence of reactive species, all of which directly influence ID-ADC stability and efficacy ( ). The deliberate integration of chemistry, structural biology, and pathogen biology therefore advances ID-ADCs from theoretical adaptations of oncology platforms to purpose-built antimicrobial therapeutics, significantly enhancing their translational potential in combating infectious diseases.
+This thorough study seeks to examine the domain of antibody–drug conjugates designed for infectious and neglected tropical diseases (ID-ADCs), consolidating material from recent years, namely from 2018 to 2025. This period signifies a transition from theoretical proposals to focused preclinical investigation of ID-ADCs. Although fundamental oncology literature is cited for necessary context, our emphasis is on recent advancements crucial for delineating the present technological landscape and prospective trajectories ( ).
+This review’s key components involve evaluating the molecular architecture of ID-ADCs, emphasizing the distinctive design constraints dictated by pathogen biology, and differentiating them from Onc-ADCs. We will assess preclinical initiatives targeting bacterial, viral, and parasitic infections, highlighting not only achievements but also significant chemical and biological differences from conventional cancer treatments. Particular emphasis is placed on advancements in linker technology and the investigation of innovative non-cytotoxic payloads, such as metallo-drug complexes with distinct biochemical processes ( ; ). Finally, a contemporary computational framework for the design of ID-ADCs will be introduced, accompanied by an assessment of sophisticated in vitro and in vivo models essential for predictive testing.
+This review seeks to synthesize insights from structural biology, medicinal chemistry, pathogenesis, and translational pharmacology to identify critical knowledge gaps and propose novel, integrated solutions for advancing ID-ADCs into clinical applications for some of the most resilient infectious diseases globally.
+While Onc-ADCs are well established in oncology, their application to infectious diseases and neglected tropical diseases (NTDs) remains insufficiently synthesized. Current literature predominantly elucidates linker chemistries, cytotoxic payloads, and pharmacokinetics tailored to tumor biology ( ; ). Existing research into ID-ADCs often attempts to mirror oncology frameworks without addressing the unique biological hurdles of infection ( ; ).
+This review addresses this knowledge deficiency by integrating pathogen biology, inorganic chemistry, and translational pharmacology. It provides a prospective analysis across four unique pillars:Pathogen-Centric Chemical Design: We analyze how the distinct biology of bacteria, viruses, and parasites—including surface antigen profiles and intracellular environments—dictates the design of specialized antibodies, linkers, and payloads for ID-ADCs.
+Structural Biology as a Design Engine: We underscore the role of cryo-electron microscopy and computational tools (e.g., AlphaFold) in epitope mapping and the rational design of pathogen-responsive components for ID-ADCs ( ; ).
+Beyond Cytotoxicity: Metallo-Drug Payloads: We emphasize non-cytotoxic payloads, specifically bioinorganic complexes like tetraaza macrocycles and phenanthroline systems, as therapeutic strategies in ID-ADCs to circumvent traditional resistance ( ).
+Integrated Translational Roadmap: We unify advanced models (organ-on-chip, 3D granulomas), AI-driven frameworks, and regulatory strategies into a cohesive development pipeline for ID-ADCs ( ; ).
+
+By synthesizing these fields, this study offers a specialized framework to transition ID-ADCs from conceptual design to clinical candidates for the world’s most challenging infections ( ; ).
+
+2
+
+## Molecular architecture of anti-infective ADCs (ID-ADCs)
+Conventional oncology ADCs are designed around three core principles: (i) antibodies targeting tumor-associated antigens with high internalization rates, (ii) linkers cleaved under lysosomal conditions, and (iii) highly potent cytotoxic payloads that induce apoptosis in rapidly dividing host cells ( ). These principles evolved in the relatively homogeneous and host-derived environment of solid tumors. In contrast, infectious diseases present heterogeneous, extracellular or intracellular pathogens with distinct biochemical microenvironments. Consequently, the molecular architecture of ID-ADCs must be fundamentally reconfigured at each structural level—antibody, linker, and payload—to account for the dynamic pathogen environment ( ).
+2.1
+
+## Antibody engineering: recognition and penetration
+Antibodies for infectious diseases (ID-ADCs) must balance high specificity with optimal tissue kinetics. Variable domains (Fab) target epitopes uniquely associated with the pathogen or infected host cell, prioritized by epitope conservation to prevent resistance through antigenic drift ( ). Binding affinity requires precise calibration; excessively high affinity can impede deep tissue penetration or trigger sequestration on extracellular pathogens, particularly in high-burden chronic infections ( ).
+The Fc region provides secondary therapeutic value via antibody-dependent cellular cytotoxicity (ADCC) ( ). Furthermore, modifying Fc-neonatal receptor (FcRn) affinity can extend serum half-life—a benefit for chronic tuberculosis management—though rapid clearance may be preferred in acute sepsis scenarios ( ). Unlike oncology, where antigen overexpression drives targeting, ID-ADCs must prioritize epitope conservation, accessibility across pathogen life stages, and avoidance of antigenic variation.
+
+2.2
+
+## Linker chemistry: pathogen-responsive triggers
+In contrast to the host-centric lysosomal triggers (low pH, cathepsins) used in oncology (Onc-ADCs), ID-ADCs increasingly utilize “biosensing” linkers cleaved by pathogen-specific fingerprints. These include pathogen-derived proteases such as Leishmania GP63 or malaria falcipains, or the localized reactive oxidative stress (ROS) characteristic of bacterial inflammatory niches ( ; ; ). This transition ensures the “molecular fuse” remains stable in systemic circulation while facilitating rapid release only upon interaction with the targeted pathogen environment ( ). Thus, ID-ADCs require pathogen-responsive rather than host-lysosomal activation logic.
+
+2.3
+
+## Payload design: beyond cytotoxicity
+The payload objective shifts from inducing apoptosis in host cells (Onc-ADCs) to selective pathogen lethality (ID-ADCs) ( ). While traditional cytotoxins like auristatins remain useful for eradicating infected reservoirs, the emphasis is moving toward:Targeted Antimicrobials: High-concentration delivery of antibiotics, antivirals, or antiparasitics (ID-ADCs) ( ).
+Alternative Modalities: Immunomodulators (e.g., TLR agonists) and metallo-drug complexes that utilize redox-active mechanisms to bypass traditional resistance (ID-ADCs) ( ; ).
+
+This represents a paradigm shift from host-cell cytotoxicity to pathogen-selective lethality.
+
+2.4
+
+## Site-specific conjugation
+To avoid the heterogeneous drug-to-antibody ratios (DAR) of stochastic lysine/cysteine conjugation, precision engineering is essential for both Onc-ADCs and ID-ADCs ( ; ). Techniques utilizing modified cysteines, unnatural amino acids (e.g., p-acetylphenylalanine), and enzymatic labels (Sortase, Transglutaminase) allow for defined DAR and strategic payload positioning away from antigen-binding sites ( ; ). Bioorthogonal copper-free click chemistry further enables the stable attachment of sensitive, non-traditional payloads ( ).
+
+2.5
+
+## Structural biology and computational design
+Structural biology provides the atomic-resolution framework necessary for rational ID-ADC design. Cryo-EM and X-ray crystallography delineate targetable epitopes and clarify antibody-antigen binding modes ( ; ). These are augmented by AlphaFold2/3, which predicts structures for antigens lacking experimental data, and Molecular Dynamics (MD), which simulates linker flexibility and susceptibility to premature cleavage within specific enzymatic pockets ( ; ). For example, structural and computational analyses of the Leishmania surface metalloprotease GP63 have identified conserved extracellular domains suitable for antibody targeting, while docking and MD simulations have characterized accessibility and stability within parasite-specific proteolytic niches, illustrating how structural mapping can directly inform epitope selection and activation logic in ID-ADC development ( ). This integrated computational-experimental pipeline transforms ADC design from empirical trial-and-error into a systematic engineering science ( ; ).
+
+3
+
+## Structural biology of antigen selection in infectious diseases
+The initial phase in the creation of antibody-drug conjugates (ID-ADCs), which involves the selection of an appropriate target antigen, is considerably more intricate than for Onc-ADCs. In cancer, targets are generally overexpressed self-proteins characterized by very stable structures. Conversely, pathogen targets may display significant diversity, are alien to the host organism, and are presented within the dynamic framework of host-pathogen interactions.
+Thus, structural biology is not simply an auxiliary instrument in this process; it is crucial for transforming antigen selection into a logical, physics-oriented design challenge. The distinct obstacles differ significantly among pathogen groups, as comprehensively outlined in , which assesses the molecular ‘locks’ that delineate the current Frontier of anti-infective (ID-ADC) research.
+ 3.1
+
+## Structural requirements of an ideal pathogen antigen
+To qualify for ID-ADC development, an antigen must meet a rigorous and comprehensive array of biophysical and biological parameters, all of which can be evaluated by structural techniques. Surface accessibility and epitope exposure are essential; the target antigen must be solvent-exposed and not obstructed by glycans, adjacent proteins, or densely arranged surface structures. Methods such as cryo-electron tomography (cryo-ET) can proficiently delineate the “antigenic landscape” of pathogens, facilitating the distinction between concealed domains and accessible surfaces ( ; ).
+Furthermore, a high copy number and dense clustering of antigens are frequently essential for promoting effective ID-ADC binding and internalization. These properties can be measured using techniques such as quantitative fluorescence microscopy and single-particle analysis ( ). Moreover, conservation among strains and throughout the pathogen’s life cycle is crucial to avert therapeutic evasion; hence, comparative structural bioinformatics can be utilized to pinpoint invariant areas within otherwise changeable proteins ( ).
+Moreover, a crucial characteristic of the chosen antigen is its capacity for internalization; the antibody-antigen combination must be endocytosed effectively. This requirement frequently necessitates that the antigen be integrated into a native endocytic pathway. Studies on structural dynamics can elucidate whether antibody binding prompts conformational alterations conducive to internalization ( ).
+
+3.2
+
+## Cryo-EM and crystallographic mapping of pathogen epitopes
+High-resolution structural methods are transforming the identification and characterization of targetable epitopes for ID-ADCs. Cryo-electron microscopy (cryo-EM), especially in the context of Fab-bound pathogen surface complexes, has become an essential technique for de novo epitope mapping. Cryo-EM is particularly adept at identifying conformational epitopes, which consist of residues assembled by protein folding and are frequently undetected by linear peptide assays. This property is crucial for targeting intricate viral glycoproteins, including the HIV Envelope trimer and the SARS-CoV-2 Spike protein, as well as the variable surface glycoprotein (VSG) layers present in trypanosomes ( ; ).
+X-ray crystallography of antigen-Fab complexes offers atomic-level insights into the specific chemical interactions, including hydrogen bonds and salt bridges, that characterize the paratope-epitope interface. This precise knowledge is essential for elucidating the structural basis of antibody neutralization and provides a platform for the engineering of affinity-matured antibody variants ( ).
+
+3.3
+
+## Conformational masking and antigenic variation
+Pathogens often utilize structural dynamics as a principal mechanism for immune evasion, presenting significant obstacles for ID-ADC targeting. Conformational masking is a strategy in which epitopes are temporarily concealed. An exemplary case is the influenza hemagglutinin (HA), which experiences significant conformational alterations during membrane fusion; certain conserved epitopes are exclusively revealed in the post-fusion state ( ; ). Likewise, specific viral proteins assume “closed” conformations that obscure conserved areas from immune detection ( ). This underscores the need for novel targeting strategies in the development of ID-ADCs against infectious pathogens.
+Furthermore, antigenic variation, as demonstrated by the PfEMP1 protein in malaria, entails the genetic control of surface protein expression. This unpredictability hinders the identification of stable target epitopes ( ). Structural investigations of various variations can uncover conserved subdomains or pivotal structural “linchpins” crucial for protein function and stability, hence offering possible targets for ID-ADCs. Methods like time-resolved structural biology and the examination of antigen-antibody complexes under diverse settings are essential for addressing these evasion strategies ( ; ).
+
+3.4
+
+## Identification of ADC-compatible epitopes using structural bioinformatics
+In the absence of experimental structures—frequently encountered with viruses causing neglected tropical diseases—computational predictions are crucial. AlphaFold2 and RoseTTAFold are capable of producing high-confidence three-dimensional models for a wide array of pathogen proteins, offering an essential preliminary assessment of overall folding and surface topology ( ). Consequently, in silico epitope scanning techniques can forecast immunogenic regions; nonetheless, for ID-ADC creation, the analytical emphasis must evolve.
+In this context, the focus transitions from general immunogenicity to structural appropriateness, preferring rigid, well-ordered loops over flexible linkers. Evaluating solvent accessibility and the closeness of putative epitopes to the membrane is essential for identifying possible internalization signals ( ). Molecular dynamics (MD) simulations enhance this approach by assessing the flexibility and conformational stability of anticipated epitopes over time. A rigid, stable epitope is favored for reliable and high-affinity ID-ADC binding, whereas a highly flexible loop may lead to poor binding kinetics and reduced selectivity ( ).
+
+3.5
+
+## Case in point: the contrast with oncology targets
+This systematic, structured methodology highlights the essential distinction in antigen selection between viral illnesses and cancer. A typical cancer target (Onc-ADC), like HER2, is a unique, stable human protein distinguished by a precise structure and persistent overexpression in tumor cells. Conversely, an ID-ADC target for Plasmodium falciparum may pertain to a particular conformational state of the hypervariable antigen PfEMP1, which is only produced on the membrane of infected red blood cells during the blood stage of infection. For Mycobacterium tuberculosis, the target may be a complex arabinogalactan structure within the resilient cell wall, requiring antibodies that identify specific polysaccharide patterns. This presents a uniquely distinctive structural barrier compared to conventional protein-epitope recognition commonly observed in oncology ( ; ).
+Consequently, the antigen selection phase for ID-ADCs transcends a mere screening process; it necessitates an extensive structural and biophysical analysis of the pathogen-host interface. This procedure necessitates a cohesive pipeline that amalgamates high-resolution imaging, computational forecasting, and dynamic simulation to discern rare epitopes that meet both biological significance and chemical feasibility ( ; ).
+
+4
+
+## Current advancements of ADCs in infectious diseases
+The translational landscape for ID-ADCs is marked by innovative proof-of-concept studies that collectively affirm the therapeutic potential of this strategy while exposing considerable hurdles specific to its implementation. Advancements differ significantly among pathogen categories, affected by factors like antigen accessibility, the presence of suitable in vivo models, and the degree to which disease biology conforms to or deviates from recognized Onc-ADC frameworks. This section examines significant advancements in bacterial, viral, and parasite diseases, evaluated through the combined lenses of chemistry, structural biology, and pathogen-specific biology. delineates the translational environment, demonstrating the application of customized antibody formats and pathogen-responsive linkers to address the shortcomings of traditional therapies, emphasizing both encouraging proofs-of-concept and significant disparities with cancer medicines.
+ 4.1
+
+## Bacterial antibody-drug conjugates: addressing resistance and intracellular environments
+The advancement of bacterial ID-ADCs is chiefly motivated by two objectives: addressing pervasive antimicrobial resistance (AMR) and facilitating the delivery of active medicines into difficult-to-access intracellular compartments. Advanced instances illustrate a “Trojan horse” technique; for example, ID-ADCs targeting Staphylococcus aureus employ antibodies against the conserved cell wall component lipoteichoic acid (LTA), coupled to a rifamycin analogue. This architecture allows the ID-ADC to be ingested by infected phagocytes, immediately delivering the antibiotic payload to the intracellular milieu of methicillin-resistant S. aureus (MRSA) ( ; ). An ID-ADC aimed at the Psl exopolysaccharide of Pseudomonas aeruginosa, linked to ciprofloxacin, has shown improved effectiveness against biofilms in vivo, where conventional antibiotics are ineffective ( ).
+These examples underscore a significant transition towards focusing on conserved, non-protein surface components (such as polysaccharides or teichoic acids), a choice influenced by the structural biology of bacterial cell envelopes. Nevertheless, appropriate and conserved protein targets that consistently enable internalization are predominantly unrecognized for numerous priority AMR pathogens, including Acinetobacter baumannii and carbapenem-resistant Enterobacteriaceae, highlighting a substantial knowledge deficiency in the domain ( ).
+
+4.2
+
+## Viral ID-ADCs: pursuing the infected cell
+In the domain of viral ID-ADCs, techniques often adopt a “cell suicide” methodology akin to Onc-ADC principles, with the objective of eradicating virus-producing or latently infected host cells. Initial endeavors with HIV entailed conjugating antibodies that target gp120 or host CD4 to protein toxins such as pseudomonas exotoxin A (PE). Despite the efficacy of these immunotoxins in eradicating HIV-infected cell lines in vitro, they encounter significant translational obstacles, such as the immunogenicity of bacterial toxin payloads and challenges in penetrating and targeting the latent viral reservoir within anatomical sanctuaries ( ; ).
+An advanced candidate is an ID-ADC targeting Respiratory Syncytial Virus (RSV), whereby the monoclonal antibody palivizumab is linked to the DNA-alkylating cytotoxin duocarmycin. This construct has demonstrated enhanced viral reduction relative to the unmodified antibody in animal studies. Nonetheless, its dependence on a traditional Onc-ADC payload reveals a fundamental conflict: although it demonstrates effective cytotoxicity against infected cells, the associated risks of host cell toxicity may be tolerable for severe RSV cases in high-risk infants but problematic for wider therapeutic or prophylactic applications ( ; ).
+
+4.3
+
+## Parasitic ID-ADCs: innovative pathogen-responsive chemistry
+Significant advancements in parasitic ID-ADCs are being made, especially concerning intracellular parasites, where linker chemistry can be meticulously customized to align with pathogen biology. An exemplary case is the ID-ADC for visceral leishmaniasis, which connects antibodies targeting the surface protease GP63 or lipophosphoglycan (LPG) to amphotericin B through a GP63-cleavable peptide linker. This method illustrates a sensible, pathogen-informed design: the parasite’s plentiful surface protease acts as the catalyst for payload release, guaranteeing activation mostly at the site of infection ( ; ). Proof-of-concept studies for malaria have shown that antibodies directed against variant surface antigens on infected red blood cells (iRBCs), when conjugated to artemisinin derivatives, selectively eliminate iRBCs in vitro. The challenge resides in antigenic variation; the principal target, PfEMP1, demonstrates significant diversity, requiring either the identification of conserved subdomains via computational methods or the formulation of ID-ADC cocktails, thereby complicating both development and manufacturing ( ; ).
+
+4.4
+
+## Insights from structural biology regarding variations with Onc-ADCs
+An examination of these case studies uncovers essential operational distinctions between Onc-ADCs and ID-ADCs. The characteristics of the antigen vary significantly: oncology targets are often “self” proteins with stable structures, whereas infectious illness targets may consist of alien non-protein polymers or highly changeable proteins. Secondly, the purpose of the payload differs fundamentally; in oncology, it targets the host cell’s machinery, whereas in infectious diseases, it must directly interact with the pathogen or disrupt the host-pathogen interaction, frequently resulting in pharmacological discrepancies in cytotoxic effects ( ; ).
+The rationale for the linker design is fundamentally redefined. Onc-ADC linkers utilize universal host-cell pathways, such as lysosomal proteases and low pH, whereas the most promising linkers for ID-ADCs, including GP63-cleavable variations, are engineered to be triggered by pathogen-specific enzymes ( ). This design approach requires an in-depth comprehension of pathogen biochemistry and signifies a significant shift from conventional oncology paradigms. Although the existing preclinical portfolio is constrained, it underscores an essential principle: success necessitates not only adherence to the oncology framework but also a reorientation towards structurally characterized pathogen epitopes, pathogen-activated linker chemistries, and targeted payloads directed at infectious agents ( ).
+
+4.5
+
+## The current clinical landscape: a comparative analysis of Onc-ADCs and ID-ADCs
+By late 2025, the antibody-drug conjugate (ADC) sector exhibits a significant imbalance in development between oncology and infectious illnesses. Although cancer has entered a prosperous “Golden Age,” evidenced by 15 FDA-approved Onc-ADCs and more than 200 candidates in clinical development, the application for infectious and neglected tropical diseases (NTDs) is still in a revolutionary preclinical and early clinical phase. The “Translational Gap” arises not from technology shortcomings, but from the heightened stability and safety standards required in the non-oncological context.
+4.5.1
+
+## The oncology benchmark: commercial maturity
+Between 2018 and 2025, oncology witnessed the approval of numerous significant medications, including Trastuzumab deruxtecan (Enhertu) and Sacituzumab govitecan (Trodelvy). These “Third-Generation” Onc-ADCs employ site-specific conjugation and powerful Topoisomerase I inhibitor payloads. The recent introductions in 2025—Datopotamab deruxtecan and Telisotuzumab vedotin—enhance the progression towards more sophisticated linker chemistries and varied targets such as TROP-2 and c-Met. This established success offers a structural and regulatory framework that infectious disease experts are beginning to adopt.
+
+4.5.2
+
+## The ID-ADC landscape: emerging pathogen-centric strategies
+Although there is no FDA-approved ID-ADC, the period from 2021 to 2025 has signified a crucial strategic shift. The discipline has transitioned from simply replicating oncology paradigms to adopting pathogen-centric methodologies, emphasizing pathogen-responsive linkers, novel non-cytotoxic payloads, and target antigens validated through structural biology. This evolution sets the stage for the next-generation of anti-infective therapeutics, informed by lessons learned from Onc-ADCs while addressing the distinct pharmacological and safety requirements of infectious disease applications.Significant Advancement in Viral Prophylaxis: The foremost development is CD388 (Cidara Therapeutics), a Drug-Fc Conjugate (DFC) now undergoing Phase 3 studies for universal influenza prevention. In 2025, CD388 reached a significant milestone by finalizing target enrollment for its pivotal ANCHOR study, indicating that the inaugural approval for a non-oncology bioconjugate is forthcoming. This represents a landmark achievement for ID-ADC development in viral diseases.
+DSTA4637S (Genentech): Continues to be the structural innovator for targeting bacterial reservoirs in diseases. Utilizing a THIOMAB antibody platform to target wall teichoic acid on S. aureus, this ID-ADC effectively eradicates intracellular bacterial reservoirs that evade conventional antibiotics, demonstrating the value of pathogen-responsive design principles.
+The NTD and HIV Frontier: Recently (2024–2025), focus has shifted toward chronic and neglected diseases. The ID-ADC VRC01-ADC is under investigation for HIV “Shock and Kill” tactics, while novel preclinical candidates for leishmaniasis are integrating metallo-drug payloads (e.g., Cu-Cyclam complexes) to generate catalytic reactive oxygen species and circumvent conventional resistance mechanisms. These developments underscore the emerging pipeline of ID-ADCs informed by structural biology and pathogen-centric chemistry.
+
+The data presented in and visualized in (Comparative Analysis of the ADC Global Landscape) and (The Path to First Approval) demonstrate a significant clinical disparity. Despite the “Approved” column for infectious diseases being vacant, the “Phase 3” and “Preclinical” categories are witnessing unprecedented investment in ID-ADCs, indicating a strategic shift in the field from oncology imitation (Onc-ADCs) to pathogen-focused, infection-targeted development.
+ 
+
+5
+
+## Chemistry of linkers for non-oncology ADCs
+The linker is an essential element of an antibody-drug conjugate (ADC), serving as the molecular connector that determines the accuracy and effectiveness of therapeutic activity. In oncology, this fuse is intended to be ignited within the global milieu of human lysosomes (Onc-ADCs). Nonetheless, this paradigm is found to be inaccurate and potentially hazardous for infectious diseases. Thus, there is an urgent requirement to develop “smart” linkers that remain inactive throughout systemic circulation but rapidly and selectively cleave upon detecting certain biochemical signals linked to viruses or their infected environments. The transition from a host-centric to a pathogen-centric activation strategy is crucial for attaining the therapeutic window required for successful anti-infective ADCs.
+5.1
+
+## pH-sensitive linkers and infectious microenvironments
+Acidic environments are typical of numerous pathogenic processes and offer targetable physicochemical signals for facilitating selective payload release. Conventional acid-labile motifs, such hydrazones and acetals, have been utilized; nevertheless, they frequently exhibit instability in plasma. Next-generation designs seek to enhance the equilibrium between stability and activity. The β-thiopropionate linker exhibits enhanced plasma stability owing to its sterically hindered configuration, while facilitating swift cleavage through intramolecular cyclization in moderately acidic environments (pH 4.5–5.5) commonly present in phagosomes and endosomes ( ). The trimethyl lock lactonization system features a sterically triggered cyclization that is highly sensitive to mild acidification, rendering these linkers suitable for targeting intracellular pathogens such as Mycobacterium tuberculosis and Leishmania species, which inhabit acidified phagosomal compartments.
+The efficacy of these pH-sensitive linkers is fundamentally reliant on the pronounced pH gradient between the neutral bloodstream and the acidic environments of pathogens, a gradient that is typically more stable and distinct than the fluctuations present in the tumor microenvironment (Onc-ADCs) ( ).
+
+5.2
+
+## Pathogen-specific enzymatically cleavable linkers
+Linkers designed for cleavage by pathogen-specific enzymes exemplify the highest level of selectivity in antibody-drug conjugate design. This strategy directly utilizes the distinctive biochemical characteristics of the pathogen, effectively converting pathogen biology into medicinal chemistry designed for targeted therapeutic applications for ID-ADCs.
+5.2.1
+
+## GP63-specific linkers (Leishmania)
+The zinc-metalloprotease GP63 is highly expressed on the surfaces of Leishmania promastigotes and amastigotes. Linkers that integrate substrate recognition sequences specific to GP63, including oligopeptides with hydrophobic residues, are effectively cleaved upon interaction with the parasite or within its parasitophorous vacuole ( ). Structural investigations of GP63 have yielded insights that guide the optimization of these sequences for enhanced cleavage kinetics and specificity against host proteases ( ).
+
+5.2.2
+
+## Falcipain-cleavable linkers (malaria)
+The cysteine proteases falcipain-2 and -3 from Plasmodium falciparum are essential for hemoglobin degradation and exhibit significant activity in the parasite’s acidic food vacuole. Dipeptide linkers containing amino acids like Arg or Leu in the P2 position (e.g., Leu-Arg) are effectively processed by these enzymes ( ). This mechanism can be strategically employed in ID-ADCs aimed at infected red blood cells (iRBCs): following internalization and subsequent trafficking, the linker is cleaved by falcipains, thereby releasing the therapeutic payload within the parasite ( ).
+
+5.2.3
+
+## HIV protease-cleavable linkers
+The HIV-1 protease is a crucial viral enzyme necessary for replication, present in elevated concentrations within the cytoplasm of productively infected cells. Linkers that encode the protease’s native cleavage sites, obtained from the Gag-Pol polyprotein, can be employed to construct ID-ADCs that specifically deliver their payload to infected cells. This method incorporates a biological rationale, guaranteeing that payload activation predominantly transpires in cells that are actively facilitating viral replication ( ; ).
+
+5.3
+
+## Reactive oxygen species-responsive linkers in inflamed tissues
+Chronic infections and inflammatory conditions are generally marked by oxidative stress, leading to increased levels of reactive oxygen species (ROS), such as hydrogen peroxide (H2O2). This dynamic offers a unique chemical trigger independent of enzymatic activity. Arylboronic esters serve as prominent structures for ROS-sensitive release; upon oxidation by H2O2, the arylboronic acid transforms into a phenol, which swiftly undergoes 1,6-elimination to liberate the payload. Thioketal linkers are likewise cleaved by reactive oxygen species (ROS), yielding a ketone and thiols ( ). These mechanisms are especially relevant to diseases characterized by pronounced granulomatous inflammation, such as tuberculosis and specific fungal infections, wherein an ID-ADCs can maintain stable circulation while swiftly releasing its payload upon entering the reactive oxygen species (ROS)-rich core of the lesion, thereby ensuring accurate spatial control ( ; ).
+
+5.4
+
+## Structural insights into linker stability and cleavage mechanisms
+The design of rational linkers is closely associated with structural biology and computational chemistry. Molecular docking and dynamics simulations are crucial methodologies for elucidating the interactions between a candidate peptide linker and the active sites of pathogen proteases such as GP63 or falcipain. These simulations facilitate the prediction of binding modes, the calculation of interaction energies, and the guidance of modifications to improve cleavage rates and specificity. Computational studies can model oxidation and elimination pathways for ROS-sensitive linkers, offering insights for the design of more stable or rapidly responsive variants. Moreover, simulating the entire ADC structure can reveal whether the linker is solvent-exposed or embedded inside the antibody surface, so directly affecting its stability in plasma and accessibility to the activating trigger. This integrated structural and computational methodology converts linker design for ID-ADCs from empirical trial-and-error process into a predictive engineering discipline, essential for the advancement of the next-generation of infection-responsive ADCs ( ; ; ; ).
+The diverse chemical strategies for achieving selective payload release in infectious disease settings are summarized in , which catalogs linker classes, their activation triggers, and representative applications across ID/NTDs.
+ 
+
+6
+
+## ADC payloads for infectious diseases: advancing beyond cytotoxicity
+The therapeutic aim of an infectious disease ADC (ID-ADC) requires a fundamental rethinking of the payload’s function. In contrast to oncology ADCs (Onc-ADCs), which seeks to eliminate target human cells, the objective here is the selective eradication of the pathogen while ideally preserving the host cell. This paradigm shift necessitates a transition from the highly potent cytotoxins that prevail in cancer therapy to a varied array of payloads with mechanisms specifically designed for microbial physiology. The augmentation of this arsenal signifies a pivotal and new Frontier in the domain, including targeted antimicrobials, immunomodulators, host-directed medicines, and novel chemotypes.
+This paradigm shift necessitates a transition from cytotoxins to a diverse array of non-cytotoxic payloads with mechanisms specifically tailored to microbial physiology, as summarized in .
+6.1
+
+## Antimicrobial payloads
+A fundamental approach in the development of infectious disease antibody-drug conjugates (ADCs) is the employment of current antibiotics or their derivatives as payloads. This method aims to enhance the pharmacokinetics and distribution of established medications by conjugating them to antibodies designed for certain illnesses. For example, associating an antibiotic such a rifamycin derivative with targeting Staphylococcus aureus illustrates how these conjugates can attain localized high concentrations, overcoming the difficulties presented by biofilms and inadequate uptake into infected host cells ( ). Incorporating traditional antibiotics into ID-ADC designs improves targeted delivery and seeks to mitigate the systemic toxicity frequently linked to broad-spectrum antibiotics (Matsuda et al., 2025).
+The difficulty involves altering intricate antibiotic structures to integrate stable linkers while preserving their pharmacophoric characteristics. The evolution of linker chemistry that preserves drug integrity while facilitating attachment is essential, as evidenced by progress in linker design ( ). Understanding drug-target interactions guides the modifying process to maintain the drug’s efficacy ( ).
+
+6.2
+
+## Immune-modulating payloads
+ADCs can utilize immune-modulating payloads that augment the host’s immune response to infections rather than directly eradicating the germs. For instance, agonists of Toll-like receptors (TLRs) or STING pathway activators can be precisely administered to infected cells. This targeted administration enhances localized immune responses, converting an immunosuppressive environment into one that actively combats the pathogen while reducing the likelihood of systemic side effects ( ). This targeted immune regulation depends significantly on the design of payloads that elicit a strong response, highlighting the equilibrium between efficacy and safety in their use ( ).
+
+6.3
+
+## Host-directed therapeutic payloads
+Host-directed therapy (HDT) is an innovative strategy that focuses on host characteristics critical for the survival and reproduction of pathogens. This technique reduces the likelihood of resistance emergence by utilizing non-mutating host cell mechanisms. Efficient HDT payloads comprise autophagy modulators and small compounds that interfere with pathogen-adaptive mechanisms by targeting host kinases ( ). The precision of ADCs in targeting these therapeutics to the infectious microenvironment guarantees enhanced treatment effectiveness with diminished off-target effects, requiring thorough understanding of host-pathogen interactions ( ).
+
+6.4
+
+## Attachment chemistries: preserving payload integrity and potency
+The design of the linker-payload interface is a crucial factor in therapeutic efficacy. emphasize that a linker must preserve systemic stability while ensuring that its attachment does not undermine the structural integrity or biological efficacy of the medication. This has been accomplished in the current landscape using three principal chemical strategies: bio-orthogonal “click” handles, self-immolative spacers, and structural silencing of non-essential functional groups.
+The strategic approaches to conjugate these diverse payloads while preserving their integrity are compared in .
+ 6.4.1
+
+## Bio-orthogonal and site-specific attachment
+Conventional stochastic conjugation to lysine or cysteine residues often resulted in heterogeneous drug-to-antibody ratios and potential masking of the payload’s active site. Modern ID-ADC methodologies employ bio-orthogonal chemistry, such as Strain-Promoted Azide-Alkyne Cycloaddition (SPAAC). By introducing an azide “handle” at a non-pharmacophoric position on the payload, the linker can be precisely attached via a “click” reaction. This approach preserves the native structure and pharmacophore of the therapeutic agent because the bio-orthogonal functional groups are inert and absent from both human and pathogen proteomes, ensuring minimal interference with drug activity. This conjugation strategy is illustrated in .
+Payload–N3+Cyclooctyne–Linker → Payload–1,2,3−triazole–Linker
+(1)
+
+6.4.2
+
+## The role of self-immolative spacers
+For payloads that diminish efficacy with modest structural alterations, self-immolative spacers (e.g., p-aminobenzyloxycarbonyl or PAB) function as a chemical “disappearing act.” These spacers are positioned between the cleavage site and the drug. When activated by a pathogen-specific enzyme or a pH change, the spacer undergoes a spontaneous 1,6-elimination or cyclization cascade. This leads to the liberation of the original, unaltered medication into the pathogen’s microenvironment, guaranteeing that the warhead attains its target with complete restoration of its native integrity. The general structure of such linker–spacer–payload systems is represented in .
+Linker–NH–CO–O–CH2–p−phenyl–NH–CO–Payload
+(2)
+
+6.4.3
+
+## Structural silencing and interaction mapping
+Advancements in drug-target interaction mapping, facilitated by AI-driven docking and high-resolution cryo-electron microscopy, enable the intentional “silencing” of binding sites. By pinpointing the precise “face” of the medication that engages with the pathogen’s protein (the pharmacophore), chemists can choose an attachment site on the corresponding, “silent” side. This guarantees that the substantial antibody-linker complex does not sterically impede the drug’s capacity to bind its target upon internalization. The general structure of such linker–spacer–payload systems is represented in .
+Solvent/Linker exposed← Silent face—Active face→ binds protein
+(3)
+
+Payload–NH–CO–Linker; Payload−O−CO−Linker; Payload–CH2–O–Connector
+
+6.5
+
+## Structural biology and payload-target interactions
+The successful integration of novel payloads into ID-ADCs fundamentally relies on structural biology, which enables rational design by elucidating specific interactions between the payload and its target. High-resolution structural studies of antibiotic-target complexes can inform the strategic positioning of linkers while maintaining binding efficacy ( ). This rational design strategy transitions ID-ADC creation from conventional trial-and-error to a systematically engineered methodology, crucial for creating effective therapeutic medicines against infections ( ).
+It is essential to transition to new chemotypes that investigate bioinorganic compounds as prospective next-generation ID-ADC payloads to combat adaptable infections. Metallo-drug payloads present distinct modes of action; yet, their development encounters considerable hurdles concerning stability and conjugation optimization ( ). Ongoing research in ADC technology is yielding potential advancements in innovative therapeutic options for combating infectious infections.
+
+7
+
+## Metallo-drugs as emerging ADC payloads
+The necessity to create innovative anti-infective agents that evade known resistance pathways requires investigation beyond conventional organic chemistry ( ). Bioinorganic complexes, metallo-drugs, present a fundamentally unique and predominantly unexplored chemical domain. Distinguished by distinctive three-dimensional structures, complex redox chemistry, and modes of action that diverge from traditional antibiotics, metallo-drugs offer an intriguing avenue for advancements in ID-ADC payloads ( ; ). Their incorporation into specialized delivery systems signifies a collaborative fusion of synthetic inorganic chemistry, medicinal design, and pathogen biology, with the capacity to provide a novel category of precision treatments for resistant diseases.
+This improvements have enabled the development of a wide range of metal-containing therapies, several of which have moved to clinical usage, demonstrating the translational feasibility of metallo-drugs as prospective ID-ADC payloads. As demonstrated in , platinum-based complexes—including cisplatin (1), carboplatin (2), nedaplatin (3), and oxaliplatin (4), remain fundamental to ONC-ADC chemotherapy. Beyond oncology, gold complexes such as auranofin (6) have proven antibacterial efficacy, while antimony-based medicines, notably meglumine antimoniate (7) and sodium stibogluconate (8), are established therapies for leishmaniasis. In parallel, metal-based agents derived from ruthenium, iron, and platinum continue to advance through experimental clinical evaluation for cancer, and ferroquine (5) has reached clinical testing for malaria ( ) ( ).
+ Metal coordination can markedly augment the biological activity of established chemical ligands. Clotrimazole (CTZ) and ketoconazole (KTZ) display intrinsic antiparasitic action against Trypanosoma cruzi; however, their efficiency is considerably increased upon complexation with metals such as ruthenium, copper, rhodium, platinum, and gold. Notably, RuCl2(CTZ)2 (9) and Ru(η6-p-cymene)Cl2(CTZ) (10) display much stronger inhibition of T. cruzi epimastigote growth than the free CTZ and KTZ ligands. Similarly, the gold complex [Au(dppz)2]Cl3 (12) demonstrates improved leishmanicidal activity ( ).
+These examples highlight how strategic chemical modifications of payloads, including redox-active metallo-drugs, directly satisfy the unique ID-ADC design criteria, such as selective pathogen lethality, stability in systemic circulation, and compatibility with pathogen-responsive linkers, distinguishing them from conventional oncology ADC payloads. These examples highlight how strategic chemical modifications of payloads, including redox-active metallo-drugs, directly satisfy the unique ID-ADC design criteria, such as selective pathogen lethality, stability in systemic circulation, and compatibility with pathogen-responsive linkers, distinguishing them from conventional oncology ADC payloads. Collectively, these instances demonstrate the molecular diversity, clinical precedence, and potency amplification achievable through metal coordination. When translated into ID-ADC architectures, metallo-drugs combine target specificity with metal-driven modes of action, presenting them as attractive payload options for next-generation anti-infective and ONC-ADC therapies. The mechanistic diversity and clinical precedent of metallo-drugs are presented in , which exhibits selected architectures from clinically used medications to experimental candidates, demonstrating their potential as modular ID-ADC payloads.
+7.1
+
+## Rationale for using metal complexes in ADCs
+The impetus behind integrating metallo-drugs into ID-ADC frameworks originates from their various mechanistic paths, which are often unreachable by organic molecules. For instance, metallo-complexes such as those containing iron or copper can catalyze processes that form reactive oxygen species (ROS) through Fenton-type chemistry. This potential can be leveraged to destroy pathogen cells directly within their niche, employing the altered redox conditions typical of infections ( ). Furthermore, these metal complexes can disrupt genetic material by intercalating into or altering pathogen DNA/RNA structures, causing to replication failures or fatal mutations ( ).
+Additionally, the unusual physicochemical features of metallo-drugs allow them to evade existing pathogen resistance pathways. For instance, infections generally possess efflux pumps that eject organic medications; yet, the variable charge and size of metal complexes can bypass these defenses ( ). Furthermore, the tunability of metal coordination permits rational design targeted to target certain biological vulnerabilities by altering redox potentials, lipophilicity, and stability ( ).
+
+7.2
+
+## Structural features of tetraaza macrocycles and phenanthroline systems
+Among the classes of metallo-drug payloads, tetraaza macrocycles and phenanthroline-based systems stand out for their prospective applications inside ID-ADCs. Tetraaza complexes, such as those based on cyclam, give significant kinetic inertness in biological settings. This characteristic guarantees that the hazardous metal remains bound until it reaches its intended target, minimizing off-target effects that can come from premature release ( ). The capacity of these complexes to create stable contacts with polyanionic biological materials, such as DNA or microbial surfaces, highlights their potential as targeted therapeutic agents.
+On the other hand, phenanthroline-based complexes offer a significant advantage due to their aptitude for DNA intercalation. The metal ion (e.g., Cu or Fe) can be selected based on the desired action—redox-active metals can increase oxidative DNA cleavage, whereas transition metals like nickel can hinder critical enzyme processes ( ). Such tactics boost the therapeutic efficacy of the ID-ADCs by exploiting numerous mechanisms against pathogenic pathogens, therefore complicating the development of resistance ( ).
+
+7.3
+
+## Mechanistic basis: ROS production, DNA binding, and enzyme inhibition
+The therapeutic benefits of metallo-drug payloads in ID-ADCs stem from three basic mechanisms: ROS production, DNA binding/cleavage, and enzyme inhibition. The creation of ROS is particularly effective against pathogens residing within phagocytic cells, where the redox environment can be exploited to induce localized oxidative stress ( ). This is paired with the ability for metallo-drugs to bind to and break pathogen DNA, leading in interruption of critical processes such as replication, especially in fast proliferating bacterial or parasite infections ( ).
+Moreover, metallo-drugs can also serve as transition-state analogs or act as inhibitors that displace critical metals from enzymes required for pathogen survival. Such tactics ensure a multi-target approach to disruption, significantly lowering the probability of resistance evolution ( ). By harnessing the unique qualities of metallo-drugs, researchers can boost the effectiveness and specificity of ID-ADCs in battling illnesses that are increasingly challenging to treat with traditional medicines.
+
+7.4
+
+## Potential application in TB, leishmaniasis, HIV, and malaria
+The distinctive qualities of metallo-drugs correlate closely with the therapeutic needs of various high-burden infectious illnesses such as tuberculosis (TB), leishmaniasis, HIV, and malaria. These diseases present significant pathophysiological obstacles, making them great candidates for new metallo-drug methods within the ID-ADC framework.
+Tuberculosis (TB) offers a tough challenge due to the peculiar hypoxia and oxidative stress-prone environment of tuberculous granulomas. Redox-active chemicals have been explored for their ability to selectively target niches within Mycobacterium tuberculosis, triggering deadly DNA damage ( ). The selective action of these metallo-drugs holds promise for boosting the efficacy of existing TB medicines, allowing for focused intervention that mitigates off-target symptoms often associated with traditional therapies ( ).
+In the context of leishmaniasis, metallo-drugs can exploit specific enzymatic weaknesses such as the zinc protease GP63, which is crucial for the survival and reproduction of Leishmania parasites. Designing metallo-drug payloads that inhibit this enzyme or harness it for controlled release through linker cleavage may provide potent selective targeting and treatment of leishmaniasis ( ). This dual method optimizes payload delivery efficacy while lowering the chance of developing resistance.
+Metallo-drugs offer a novel approach to target the integrated proviral DNA within latent reservoirs of HIV, where traditional antiretroviral medications frequently prove ineffective ( ). Metallo-drugs that can impair latent DNA or destroy reservoir cells offer a novel approach for HIV eradication techniques, potentially overcoming a significant obstacle in HIV treatment ( ). This mechanistic approach highlights the growing emphasis on innovative medicines capable of penetrating deeper into infection reservoirs.
+Metallo-drugs show potential in tackling the issues presented by artemisinin-resistant pathogens in the fight against malaria. Complexes engineered to induce oxidative damage in the feeding vacuole of Plasmodium or impede heme detoxification can interfere with essential survival mechanisms of the malaria parasite, signifying a novel approach in malaria treatment ( ). By focusing on distinct metabolic pathways exclusive to the parasite, these metallo-drugs can markedly diminish the probability of resistance emergence in therapeutic protocols ( ).
+The translational potential of metal-based compounds for key infectious diseases is cataloged in , while provides a direct comparative analysis of metallo-drugs against their organic counterparts, underscoring advantages in potency and resistance evasion.
+ 
+7.5
+
+## Conjugation challenges and opportunities
+The incorporation of metallo-drugs into ID-ADC frameworks presents synthetic problems that require inventive solutions. A significant problem is attaining stable conjugation while maintaining the intrinsic characteristics of the metal complex. Conventional bioconjugation techniques utilizing thiols or amines may result in competition with endogenous donors for binding to the metal center, potentially causing trans-chelation and compromising the integrity of the metal ion during conjugation ( ).
+To address these challenges, it is essential to develop ligand scaffolds incorporating bioorthogonal conjugation sites, such as azides or alkynes appropriate for copper-free click chemistry, that are positioned away from the coordination sphere. This separation method can improve the stability of the metallo-drug, guaranteeing good distribution upon activation ( ). Alternatively, formulating the metallo-drug as a prodrug, wherein the linker functions as an auxiliary ligand, may enable pathogen-specific cleavage that activates the drug solely within the disease milieu. This method guarantees regulated release and may facilitate alterations in the drug’s coordination geometry or redox state, thus transforming an inert chemical into an active form ( ).
+Effectively addressing these conjugation problems will allow researchers to harness the complete potential of metallo-drugs as novel payloads in ID-ADC techniques, thus expanding the treatment alternatives for persistent infectious illnesses.
+
+7.6
+
+## Coordination chemistry and mechanistic versatility of metallo-pharmaceutical payloads
+The shift from organic cytotoxins to metallo-drug payloads introduces a novel aspect of therapeutic regulation: geometric and electrical tunability. In contrast to organic molecules, the reactivity of a metal complex can be accurately adjusted by altering the metal center, its oxidation state, and the configuration of surrounding ligands.
+7.6.1
+
+## Structural scaffolds: macrocycles and polypyridyl complexes
+The advancement of ID-ADC has progressively concentrated on refining the structural scaffolds employed for payloads. Two notable scaffolds have garnered attention for their significant thermodynamic stability and kinetic inertness in systemic circulation:
+7.6.1.1
+
+## Tetraaza macrocycles (e.g., cyclams)
+Tetraaza macrocycles, including cyclams, function as essential ligands that stabilize transition metals such as Ni2+ or Cu2+. These immobilized metal complexes are frequently engineered with “pendant arms” that enhance bioconjugation with antibodies. The distinctive mechanism of action for these complexes is the potential to produce localized reactive oxygen species (ROS) via processes similar to Fenton chemistry in pertinent settings. The resilience of cyclams is notable, as they may endure systemic circulation, so guaranteeing the intact delivery of the payload to the designated target ( ; ; ).
+
+7.6.1.2
+
+## Polypyridyl complexes (e.g., Ru(bpy)3
+2+ or Cu(phen)2
+2+)
+Polypyridyl complexes, distinguished by their octahedral or square-planar geometry, are acknowledged for their potential DNA intercalation capabilities. When coupled to antibodies, these complexes may provide tailored delivery techniques. Nonetheless, evidence about their direct effectiveness against multi-drug resistant (MDR) bacteria remains a field of active investigation, and assertions regarding irreversible DNA strand cleavage require validation through additional investigations ( ; ; ). The emphasis on structural scaffolds that augment stability is essential for enhancing treatment efficacy against drug-resistant bacteria.
+
+7.6.2
+
+## The “linker-metal” interface
+A significant problem in the creation of ID-ADCs pertains to the attachment site of the linker to the metal complex. To guarantee the stability of the metal complex during circulation, it is essential that the linker binds to the ligand backbone instead of the metal core. This configuration markedly diminishes the probability of premature metal dissociation prior to arriving at the designated target ( ; ; ). Innovative methodologies, including click-chemistry approaches such as Strain-Promoted Azide-Alkyne Cycloaddition (SPAAC), facilitate the accurate conjugation of azide-functionalized macrocycles to alkyne-tagged antibodies, maintaining the stability of the metal complex until it reaches its intended destination ( ; ).
+The primary benefits of metallo-drugs compared to conventional antibiotics, together with instances of innovative complexes, are encapsulated in , , underscoring their justification as a next-generation class of therapeutics for ID-ADCs.
+ 
+
+8
+
+## Computational design pipeline for infectious disease ADCs
+The rational development of infectious disease ADCs increasingly relies on computational pipelines that replace empirical screening with predictive, multi-scale design. Structural bioinformatics, molecular simulations, and AI-driven modeling collectively enable systematic optimization of antigens, antibodies, linkers, and payloads, accelerating translational readiness while reducing experimental burden. These computational and structural approaches exemplify a design-driven paradigm, where antigen selection, epitope accessibility, and linker positioning are optimized specifically for infectious microenvironments, rather than relying on empirical oncology-focused strategies.
+8.1
+
+## Structural bioinformatics for antigen discovery
+Computational surfaceome analysis enables the prioritization of ID-ADC-suitable pathogen antigens by identifying proteins bearing signal peptides, transmembrane domains, or GPI anchors, followed by conservation analysis across clinical strains ( ; ). Structural prediction of surface-exposed loops further refines epitope selection by identifying geometries favorable for antibody engagement, reducing large proteomes to experimentally tractable target sets ( ; ).
+
+8.2
+
+## AI-driven antibody and antigen complex design
+Advances in protein structure prediction, including AlphaFold2, enable accurate modeling of pathogen antigens lacking experimental structures, facilitating epitope mapping for highly variable targets such as malaria and HIV ( ; ). Generative tools such as RFdiffusion allow de novo antibody or nanobody design against defined epitopes, while in silico affinity maturation optimizes binding strength within ranges compatible with ID-ADC internalization and trafficking ( ; ).
+
+8.3
+
+## Molecular dynamics for linker stability and cleavage
+All-atom molecular dynamics simulations assess the conformational stability and solvent exposure of IgG–linker–payload assemblies under physiological conditions, identifying linkers prone to premature cleavage ( ). Docking and MD studies further enable the rational design of pathogen-responsive linkers for ID-ADCs by modeling interactions with pathogen proteases such as Leishmania GP63 while minimizing off-target cleavage by host enzymes ( ; ).
+
+8.4
+
+## QSAR/QSPR and docking for payload optimization
+QSAR and QSPR modeling correlate physicochemical and quantum-derived descriptors of antimicrobial and metallo-drug payloads with biological activity and cytotoxicity, guiding iterative payload refinement for ID-ADC ( ). Molecular docking identifies linker attachment sites that preserve target engagement, while elucidating DNA or enzyme binding modes relevant to both organic antibiotics and metal-based payloads ( ).
+
+8.5
+
+## Systems-level and multi-scale modeling
+Multi-scale PK/PD models integrate ID-ADC binding, internalization, linker cleavage, payload release, and pathogen response into predictive frameworks that simulate in vivo efficacy ( ). Sensitivity analyses identify dominant design parameters governing therapeutic outcome, while microenvironmental modeling captures the impact of pH, oxygen tension, and nutrient gradients within granulomas or biofilms ( ; ). Together, these approaches unify chemical design and biological response into a coherent translational pipeline ( ).
+ 
+
+9
+
+## Advanced models for ADC evaluation: integrating chemical design and translational efficacy
+The effective development and validation of antibody-drug conjugates (ID-ADCs) aimed against infectious diseases depend on proving their selective efficacy in settings that effectively represent human pathophysiology. Conventional models, including two-dimensional monocultures and routine animal testing, frequently do not accurately mimic the intricate spatial structures and dynamic metabolic gradients present in real infection sites. To address these constraints, there is an increasing demand for sophisticated, human-relevant testing systems that can mitigate the risks associated with ID-ADC candidates, clarify their mechanisms of action, and furnish predictive data to inform clinical translation. This section examines various next-generation models crucial for the thorough evaluation of infectious disease ID-ADCs.
+9.1
+
+## Organ-on-chip models for niche-specific infectious biology
+Microfluidic organ-on-chip (OoC) technologies signify a substantial progression, enabling the accurate replication of human organ functionality, encompassing regulation of fluid dynamics, mechanical characteristics, and cellular interactions. These systems possess significant potential for ID-ADC testing by accurately recreating the particular biological barriers and niches relevant to infection processes. A lung-on-a-chip model can replicate the alveolar environment by incorporating a bilayer of alveolar epithelial and endothelial cells exposed to cyclical mechanical stretching. This paradigm is essential for investigating ID-ADCs targeting pulmonary tuberculosis or Pseudomonas aeruginosa infection. This allows researchers to evaluate barrier permeability, specifically monitoring the capacity of an administered ID-ADC to traverse from the vascular channel into the alveolar airspace, where infected macrophages or biofilms are located ( ).
+Moreover, including biosensors into these organ-on-chip systems facilitates real-time monitoring of essential parameters, including pH and reactive oxygen species (ROS), thereby confirming the activation of microenvironment-responsive linkers in the context of an infection. A liver-on-a-chip model that includes hepatocytes, Kupffer cells, and stellate cells can function as a distinctive platform to assess ID-ADCs aimed at hepatic-stage malaria hypnozoites or the amastigotes of Leishmania donovani. These sophisticated models are revolutionary, providing insights into ID-ADC biodistribution, target engagement, and activation that closely resemble human physiology ( ). Representative advanced in vitro models and the specific ID-ADC metrics they are designed to evaluate are detailed in .
+ 
+9.2
+
+## Three-Dimensional (3D) granuloma and biofilm models
+Chronic infections are frequently marked by intricate three-dimensional formations like granulomas and biofilms, which operate as substantial physical and chemical obstructions that hinder drug infiltration. Developing three-dimensional human granuloma models using Mycobacterium TB-infected primary human macrophages embedded in collagen or fibrin matrix replicates the multicellular structure of tuberculosis lesions. In these models, the penetration kinetics of fluorescently labeled ID-ADCs can be visualized through confocal microscopy, enabling researchers to determine whether the conjugates can effectively diffuse into the hypoxic and necrotic core of the granuloma or if they are restricted to the more permeable peripheral layers ( ).
+
+In vitro biofilm models that replicate the shear stress and nutrition gradients of clinical situations, such as catheter-associated infections or cystic fibrosis-related lung infections, are essential for evaluating ID-ADC efficacy against biofilm-embedded bacteria. Assessing an anti-biofilm ID-ADC in these models offers insights on its capacity to infiltrate dense extracellular matrices and eradicate metabolically inactive bacteria, a difficulty often faced by traditional antibiotics ( ). Integrating these 3D models into the ID-ADC testing procedure enables researchers to obtain crucial spatial pharmacokinetic data necessary for comprehending drug action in intricate infection microenvironments.
+
+9.3
+
+## Humanized murine models for systemic and immune-responsive assessment
+Traditional in vitro and ex vivo models frequently inadequately replicate systemic pharmacokinetics, biodistribution, and interactions with the human immune response in the pursuit of effective ID-ADCs for infectious illnesses. These elements are essential for comprehending the functionality of ID-ADCs in authentic biological situations. Consequently, in vivo systems, especially humanized mouse models, are becoming essential for these assessments.
+Humanized mouse models, particularly NSG-SGM3 mice engrafted with human hematopoietic stem cells, exhibit a functionally human immune system comprising myeloid and lymphoid lineages. These models are especially proficient in assessing ID-ADCs that depend on human Fc effector activities, such as antibody-dependent cellular cytotoxicity (ADCC) or antibody-dependent cellular phagocytosis (ADCP), for the elimination of infected cells. ID-ADCs targeting HIV-infected cells or Leishmania-infected macrophages can only be accurately evaluated in hosts with the appropriate human Fcγ receptors on immune effector cells, facilitating a genuine assessment of immune-mediated pathogen clearance ( ).
+Furthermore, sophisticated models that incorporate both human liver tissue and a fully formed human immune system are being developed for critical illnesses, such as visceral leishmaniasis. These dual-humanization models yield essential insights into the organ-specific targeting of ID-ADCs and their related toxicities, establishing a more comprehensive framework for assessing the therapeutic efficacy and safety of novel ID-ADCs in the treatment of complex infections, such as those caused by Leishmania species ( ).
+
+9.4
+
+## Advanced imaging and omics for mechanistic deconstruction
+To obtain more refined insights beyond basic endpoint measures like pathogen burden reduction, sophisticated analytical methods must be employed to clarify the specific mechanisms of ID-ADC action at both molecular and cellular levels. Techniques such as spatial pharmacology, namely multiplexed ion beam imaging (MIBI) or imaging mass cytometry (IMC), facilitate the concurrent observation of many parameters on a single tissue section from infected mice. This comprehensive study may concurrently identify the ID-ADC, the target antigen, apoptotic markers in afflicted cells, a cleavage-activated fluorescent reporter for payload release, and diverse immune cell subsets ( ).
+High-dimensional spatial analyses produce intricate maps that elucidate both the operational areas of the ID-ADC and the particular cell populations it influences, along with the resultant consequences on the microenvironment. This is additionally enhanced by single-cell transcriptomics and proteomics (e.g., scRNA-seq, CyTOF), which can clarify the diverse cellular responses to treatment. This research delineates the precise populations, including infected macrophages and bystander T cells, that ingested the ID-ADC, identifies activated cell death or stress pathways, and evaluates potential larger modulations in immune signaling networks ( ).
+The integration of spatial imaging and single-cell analytics transforms ID-ADC testing from a rudimentary efficacy assessment to a comprehensive mechanistic analysis of therapeutic effects and adverse reactions, facilitating more informed decision-making in the development and implementation of these targeted therapies.
+
+10
+
+## Challenges and knowledge gaps
+The translation of ID-ADCs from oncology to infectious diseases is limited by fundamental biological, chemical, regulatory, and economic differences between self-derived tumors and foreign, evolving pathogens. These constraints are structural rather than incremental and define the current boundaries of infectious disease ADC development.
+10.1
+
+## Antigen discovery and accessibility
+A major bottleneck is the scarcity of well-characterized, ID-ADC-suitable pathogen antigens. Many pathogens actively obscure surface targets through antigen masking, such as the glycolipid-rich envelopes of mycobacteria, or through rapid antigenic variation, as observed in malaria and trypanosomes ( ). For numerous neglected tropical diseases and antimicrobial-resistant organisms, comprehensive antigenic atlases and structurally validated surface targets remain unavailable, restricting ID-ADC development to a narrow set of empirically identified antigens.
+
+10.2
+
+## Internalization and payload delivery barriers
+Even when suitable antigens are identified, productive internalization is not guaranteed. Unlike oncology, receptor-mediated endocytosis is not universal in infectious diseases, as bacterial capsules and surface glycocalyxes frequently impede antibody-mediated uptake. Intracellular pathogens such as Mycobacterium tuberculosis and Leishmania spp. can further disrupt phagolysosomal maturation, limiting exposure to linker-cleaving conditions ( ). Consequently, ID-ADCs may be misrouted to non-permissive compartments, resulting in insufficient payload release and impractically high dosing requirements ( ).
+
+10.3
+
+## Structural and biochemical knowledge gaps
+Rational ID-ADC design is constrained by limited structural and biochemical data. High-resolution structures of pathogen-derived enzymes suitable for selective linker activation are available for only a small fraction of relevant targets ( ). This limitation is compounded by the lack of quantitative in vivo measurements describing infectious microenvironments, including pH gradients in granulomas, redox conditions within parasitized phagosomes, and protease activity in bacterial biofilms, which are often inferred rather than directly measured ( ; ).
+
+10.4
+
+## The payload paradox
+Payload selection presents a persistent trilemma between potency, selectivity, and conjugatability. Many conventional antimicrobials lose activity upon linker attachment, while emerging payload classes, including nucleotide analogues and metal-based complexes, frequently exhibit altered pharmacokinetics or aggregation when conjugated ( ). In particular, metallo-drug payloads are susceptible to coordination sphere disruption or trans-chelation during standard bioconjugation, potentially leading to inactivation or off-target toxicity ( ). Addressing this paradox requires payloads designed specifically for ID-ADC use, incorporating built-in conjugation handles and optimized physicochemical properties ( ; ).
+
+10.5
+
+## Manufacturing and scale-up constraints
+Current ADC manufacturing models, optimized for oncology, are poorly aligned with the economic realities of neglected tropical diseases and antimicrobial resistance, particularly in low- and middle-income countries ( ). The lack of decentralized manufacturing infrastructure and sustainable business models represents a translational barrier comparable to scientific limitations ( ). Without innovations such as plant-based expression systems, continuous manufacturing, or supply-chain-resilient formulations, equitable deployment of ID-ADCs remains unlikely (Mckertish and Kayser, 2021).
+
+10.6
+
+## Regulatory uncertainty
+Regulatory frameworks for ADCs remain largely oncology-centric, providing limited guidance on acceptable safety margins, immunogenicity assessment, and efficacy endpoints for antimicrobial payloads ( ; ). Uncertainty regarding appropriate preclinical models, particularly for chronic versus acute infections, further increases development risk and cost ( ), discouraging investment and slowing translation of ID-ADCs ( ).
+
+10.7
+
+## The translational valley of death
+The convergence of scientific, manufacturing, and regulatory challenges culminates in a pronounced translational “valley of death,” especially for neglected tropical diseases. While academic studies often demonstrate promising ID-ADC proof-of-concept, advancement commonly stalls during lead optimization, pharmacokinetic and toxicological evaluation, or GMP process development due to limited resources and infrastructure ( ). As a result, many potentially transformative ID-ADC strategies remain confined to the literature ( ).
+The multifaceted translational barriers facing infectious disease ID-ADCs, alongside proposed interdisciplinary solutions, are synthesized in .
+ 
+
+11
+
+## Future directions and roadmap
+The development of ID-ADCs for infectious diseases is at a pivotal juncture. While proof-of-concept studies demonstrate feasibility, translating ID-ADCs into effective therapeutics requires interdisciplinary approaches that integrate structural biology, computational modeling, and equitable translational strategies. This roadmap outlines strategic priorities for advancing ID-ADCs from concept to accessible therapies, emphasizing systems-level integration, metal-based payloads, multi-specific constructs, and AI-driven design pipelines. Collectively, these strategies illustrate how future ID-ADC development will integrate rational antibody, linker, and payload design with predictive modeling, pathogen-specific triggers, and scalable translational pipelines, ensuring that design principles guide all stages from discovery to deployment.
+11.1
+
+## Digital and structural target discovery
+A central challenge in infectious disease ID-ADC development is identifying suitable target antigens. Large-scale mapping of the “druggable surfaceome” of pathogens should combine experimental structural biology with computational predictions. High-throughput cryo-electron microscopy (cryo-EM) and tomography, coupled with surface biotinylation and proteomics, can catalog accessible epitopes ( ; ). Integration with AI-based predictive tools like AlphaFold2 enables identification of conserved external loops suitable for ID-ADC targeting.
+This approach should extend to advanced computational-experimental pipelines:AI-Driven Antibody Design: Machine learning can forecast antibody-antigen interactions, enhancing selection and optimization for ID-ADCs ( ).
+Molecular Dynamics Simulations: In silico modeling of full ID-ADC structures evaluates stability and interactions in biological contexts ( ).
+Systems Pharmacology: Integrated PK/PD models predict ID-ADC distribution in complex infection environments, including granulomas and biofilms ( ).
+Coupled Validation: Organ-on-chip and 3D infection models provide experimental feedback that refines computational predictions ( ).
+By combining structural mapping with AI and modeling, researchers can accelerate target identification, optimize ID-ADC design, and enhance the predictive power of preclinical studies ( ; ).
+
+11.2
+
+## Directed evolution of pathogen-responsive linker chemistry
+Linker design must evolve beyond oncology-inspired motifs to exploit pathogen-specific characteristics. Directed evolution and combinatorial peptide libraries can identify highly specific cleavage sequences for pathogens such as Mycobacterium tuberculosis or multidrug-resistant bacteria ( ).
+Chemical linkers responsive to pathogen-specific signals—such as bacterial β-lactamases or parasite glycosidases—and “AND-gate” or “OR-gate” designs that require dual cues for payload release, can enhance selectivity and minimize off-target effects in ID-ADCs ( ; ).
+
+11.3
+
+## Metal-based ADC payloads
+Metal-containing drugs offer unique mechanisms that bypass traditional antimicrobial resistance. Research priorities for ID-ADCs include:Library Synthesis: Generating diverse libraries of inert, redox-active macrocyclic and phenanthroline-derived complexes for high-throughput screening against intracellular pathogens ( ).
+Bioorthogonal Conjugation: Developing chemistries that preserve metal-ligand coordination to maintain activity in ID-ADCs ( ).
+Kinetics and Stability Assays: In vitro studies replicating physiological conditions to evaluate ID-ADC payload release and stability ( ).
+High-Throughput Screening: Identifying lead compounds with optimal selectivity, potency, and safety in host-cell models ( ).
+Mechanistic Elucidation: Structural and computational studies to clarify modes of action and guide rational ID-ADC design ( ; ).
+
+11.4
+
+## Host-directed and multi-specific ADCs
+Host-directed therapies can complement pathogen-targeting strategies by engaging receptors upregulated in infected cells or pathways critical for pathogen survival. Bispecific ADCs that simultaneously bind pathogen antigens and host receptors may improve internalization and payload precision ( ; ).
+Multi-specific ID-ADCs reduce risks of immune evasion and resistance, while synthetic biology and CRISPR-Cas9 can enable dynamic, context-responsive antibodies. Combining these strategies with immune checkpoint modulators may further enhance T-cell-mediated clearance ( ; ).
+
+11.5
+
+## Translational strategies and accessibility
+To ensure global reach, particularly in LMICs, several translational priorities must be addressed:Developability: ID-ADCs should utilize stable, high-expression antibodies, thermally resilient linkers, and cost-effective payloads ( ; ).
+Public-Private Partnerships: Strategic collaborations among governments, NGOs, and industry enable infrastructure and funding for scalable ID-ADC production ( ).
+Innovative Manufacturing: Investment in LMIC-adapted platforms, such as plant-based or yeast expression systems, reduces production costs and accelerates output ( ).
+Regulatory Engagement: Continuous dialogue with agencies like WHO, FDA, and EMA streamlines preclinical and clinical development for ID-ADCs ( ; ; ).
+Sustainability and Access: Supply chain optimization and equitable pricing ensure affordability and availability of ID-ADCs for populations most in need ( ; ).
+
+The strategic progression necessary in all aspects of infectious disease ADC development, from discovery to deployment, is encapsulated in . This integrated pipeline delineates the transition from basic technologies to the sophisticated, egalitarian solutions required by 2030 and beyond for ID-ADCs.
+ 
+
+12
+
+## Conclusion
+Antibody-drug conjugates exemplify a model of precision medicine, with potential applications that extend well beyond the oncology domain in which they were initially developed. For infectious and neglected tropical diseases, hindered by medication toxicity, resistance, and inaccessible pathogen reservoirs, ID-ADCs present a revolutionary strategic framework: the precise delivery of potent therapeutic agents directly to the site of infection. This review has systematically outlined that translating this concept into successful medicines necessitates comprehensive re-engineering from foundational principles.
+The fundamental structure of an ID-ADC cannot merely replicate targets from the oncology framework. It necessitates a profound synthesis of pathogen biology, structural understanding, and innovative chemistry. The antibody must be engineered to target conserved, internalizing epitopes on complex pathogen surfaces, guided by cryo-EM and computational modeling. The linker must transition from a stable tether to a biosensor, designed to cleave in response to distinctive chemical signatures—such as specific proteases, acidic pH, or oxidative stress—present in infectious microenvironments. The payload must evolve from cytotoxic agents that eliminate human cells to pathogen-specific antimicrobials, immunomodulators, or innovative chemotypes such as redox-active metallo-drugs, which possess distinct mechanisms capable of overcoming existing resistance.
+The future remains fraught with obstacles, including antigen identification challenges, intracellular transport impediments, the complexity of metallo-drug conjugation, and the difficulty of large-scale manufacturing for global health deployment. Nevertheless, these gaps delineate a clear and compelling research agenda. Success depends on a cooperative, interdisciplinary approach that leverages contemporary computational frameworks for rational ID-ADC design, incorporates sophisticated organ-on-chip and 3D infection models for human-relevant testing, and establishes sustainable translational pathways.
+The exploration of ID-ADCs for infectious disease treatment is only beginning. By grounding development in a chemistry-driven, structurally informed, and physiologically sophisticated methodology, the field can move beyond promising prototypes. The overarching objective is to establish a new class of precision anti-infectives—advanced molecular systems capable of identifying and eradicating infections within complex host environments. Achieving this goal will not only generate novel therapies for persistent diseases such as tuberculosis, drug-resistant malaria, and visceral leishmaniasis, but will also create a flexible platform adaptable to future pandemic threats. This study delineates the convergence of chemistry, biology, and translational science as the foundational framework for this undertaking.
+
+Edited by:
+Graham Chakafana, Hampton University, United States
+
+Reviewed by:
+Krishna Jadhav, Institute for Bioengineering of Catalonia (IBEC), Spain
+
+Tatini Debnath, Maulana Abul Kalam Azad University of Technology West Bengal Library, India
+
+Gu Yilin, Sichuan University, China
+
+## Author contributions
+DR: Writing – review and editing, Supervision, Conceptualization. VJ: Writing – review and editing. TP: Writing – review and editing. EO: Writing – review and editing, Writing – original draft, Conceptualization.
+
+## Conflict of interest
+The author(s) declared that this work was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Generative AI statement
+The author(s) declared that generative AI was used in the creation of this manuscript. The authors used Grammarly (a generative AI tool) for grammatical editing and linguistic refinement to improve the clarity and flow of the manuscript. Following the use of this tool, the authors reviewed and edited the content as needed and take full responsibility for the final version of the manuscript.
+Any alternative text (alt text) provided alongside figures in this article has been generated by Frontiers with the support of artificial intelligence and reasonable efforts have been made to ensure accuracy, including review by the authors wherever possible. If you identify any issues, please contact us.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.

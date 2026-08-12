@@ -1,0 +1,705 @@
+pmcACS NanoACS Nano822acssdnnACS Nano1936-08511936-086Xwww.acsnano.orgpmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC12874650PMC12874650.112874650128746504126909010.1021/acsnano.5c120801ArticleLipid Nanoparticle
+Library Screen Reveals Lymphatic
+Endothelial Cell-Targeting Lipid Nanoparticle for Delivering Vascular
+Endothelial Growth Factor C mRNA after Lymphatic Injury
+7363579MichalakiEleftheria and S1). We selected
+specific lipid components based on their availability and physicochemical
+properties, including lipid type and charge. For ionizable lipids,
+we used multitail structures with varying tail lengths (C10, C12,
+and C13) and different stereoisomers, as well as cKK-E12. A, S3 and Tables S1 and S2). We then confirmed the LEC delivery
+of the LNPs individually by intradermally injecting them into the
+paws of mice and quantifying the aVHH+ LECs in the axillary
+lymph node (ALN), brachial lymph node (BLN), and popliteal lymph node
+(PLN) using flow cytometry. We found that LNP1, LNP2, and LNP7 led
+to consistently high percentages of aVHH+ LECs in all examined
+LNs (ALN: LNP1 45%, LNP2 47%, LNP7 28% ( B); BLN: LNP1 44%, LNP2 34%, LNP7 32% ( C); PLN: LNP1 39%,
+LNP2 42%, LNP7 53% ( D)). Among these, LNP7 yielded the highest uptake by LECs
+in the PLN. The PLN is the primary draining lymph node of the hindlimb
+and is a well-established site for evaluating lymphatic targeting
+and function, as numerous murine and rat lymphedema models rely on
+popliteal lymph node dissection to induce sustained edema and quantify
+therapeutic effects.
+ A).
+ To assess the contribution and relevance of each
+feature, we extracted
+coefficients from the linear regression model and feature importance
+scores from the tree-based models ( B and S5). Based
+on performance metrics, XGB was chosen for subsequent analysis, as
+it achieved higher R
+2 scores and lower
+MSE compared to the other models ( A). Local attribution plots were generated
+for the XGB model to visualize feature-level contributions (Figure S5c).
+From the Shapley additive
+explanation (SHAP) analysis, the importance
+of features was listed based on the absolute mean of their Shapley
+values, reflecting their relative importance in predicting total LN
+LEC delivery. The helper lipid molar ratio and neutral helper lipidsparticularly
+DOPEwere ranked as the first and second highest absolute mean
+of their Shapley values, identified as the primary determinants driving
+LEC uptake in this screening. Considering that no lymphatic-specific
+LNP candidates were formulated with DOTAP or DDAP, and that lower
+feature values (in this case, 0 or not included in that LNP) were
+associated with positive SHAP values, cationic helper lipids are not
+expected to be favorable options for lymphatic-targeting LNPs, which
+is also supported by the low LEC cell number in screen 2, which included
+the cationic helper lipid DOTMA (Figures S1 and S2). Notably, neutral 18:1 cap PE also showed a negative correlation
+with LEC delivery, suggesting that the presence of a cap at the headgroup
+may reduce delivery efficiency.
+Although DOPE is present in
+both high- and low-performance formulations,
+SHAP analysis showed that its inclusion was positively correlated
+with lymphatic endothelial delivery. The variability observed among
+DOPE-containing LNPs likely reflects the influence of additional features,
+such as helper lipid ratios and the absence of cationic helper lipids.
+Thus, while DOPE is generally favorable, delivery efficiency is dependent
+on the overall lipid composition.
+As ApoE-mediated uptake has
+previously been identified as a promising
+mechanism for lymphatic delivery of LNPs, ). In this
+study, we injected only one hindlimb, which allowed us to use the
+lymph nodes that drain the remaining limbs as controls for off-target
+delivery. After 12–16 h of administration, we isolated the
+PLN draining the injection site (PLN Injected) from the injection
+site and the ALN, the BLN, and the contralateral PLN (PLN Contralateral)
+from the noninjected sites and quantified the percentage of LEC that
+express aVHH using flow cytometry ( , Tables S3 and S4). LNP7 led to the highest mRNA delivery to LECs in the PLN Injected
+(saline 2%, free aVHH 2%, MC3 5%, LNP7 31%). There was no significant
+difference in functional mRNA delivery when comparing LNP7 and MC3
+in nodes that drain the noninjected sites (ALN, BLN, and PLN Contralateral),
+demonstrating that the enhanced LEC delivery of LNP7 is specific to
+LECs of the lymph node that directly drains the injection site (Figure S6). In an additional study, we dissected
+the afferent popliteal LVs (PLV) and, upon quantification with FACS,
+found that LNP7 consistently led to the highest cargo delivery to
+LECs in collecting LVs (saline 1%, free aVHH 2%, MC3 10%, LNP7 37%)
+( A and Table S3). In addition, we investigated the delivery
+of LNPs in other endothelial and immune cell populations that reside
+in the draining and nondraining LNs using a 12-channel flow cytometry
+with a gating strategy detailed in the provided Supporting Information. aVHH expression remained low (below
+∼15%) for all examined cell populations except for dendritic
+cells (cDC2 and cDC1), where we saw a significant uptake of LNP7 in
+the injected PLN (∼42% and ∼28%, respectively ( B and S6). aVHH expression also remained low for all
+cell populations in the nondraining lymph nodes (Figure S6). We then evaluated LNP7 on LEC viability in vitro and found no evidence of overt toxicity at all
+of the doses tested (Figure S7).
+ 
+
+## 
+In Vivo Mouse Biodistribution Studies Revealed
+No Significant Systemic Spillover Following Intradermal Injection
+of LNPs
+To elucidate the time-dependent biodistribution of
+the LNPs, mice were intradermally administered 1 μg of miRNA
+conjugated with Cy3 into the right paw and sacrificed at 1, 4, and
+24 h postinjection. Isolated lymph nodes (popliteal lymph node at
+the injection site (PLNI), popliteal lymph node at the contralateral
+site (PLNC), axillary lymph node at the injection site (ALN), and
+brachial lymph node at the injection site (BLN)), spleens, and livers
+were imaged using the In Vivo Imaging System (IVIS)
+to quantify Cy3 fluorescence. Representative images ( A) and their quantification
+of the average radiant efficiency ( B) showed that Cy3 uptake by the PLN injection
+site (PLNI) peaked 4 h after injection for all groups, and LNP7 showed
+the highest uptake at the PLNI without showing systemic spillover
+to the spleen and liver compared to the PBS group. Interestingly,
+the MC3-based LNP, known to be a liver-targeting LNP when delivered
+intravascularly, showed no difference in the liver uptake, implying
+that the administration route is a more significant factor than chemistries
+or lipid ratios. LNP7 showed either overall higher uptake or no difference
+when compared to MC3 at the other LNs that do not serve as the primary
+lymph node draining the injection site (PLN at the contralateral side
+(PLNC), BLN, and ALN) ( B).
+ 
+
+## LEC Targeting Has No Benefit at the Injection Site
+Before
+proceeding to the injury model, to ensure the effect of VEGFC
+mRNA-LNPs on lymphatic growth and LEC proliferation, we injected 1
+μg of VEGFC mRNA encapsulated in LNPs intradermally into the
+ear dermis. Given that the objective of these experiments was to determine
+if there was a functional effect of the respective LNP platform when
+loaded with VEGF-C mRNA, in this and subsequent VEGF-C mRNA experiments,
+we always included an LNP7 loaded with aVHH mRNA and no VEGF-C mRNA.
+The rationale for this choice was to have an LNP with similar properties
+to ensure the effect was not due to the LNP itself but rather the
+VEGF-C mRNA. Lymphatic growth ( A–C) and LEC proliferation as measured by EdU
+( D) were assessed
+14 days after injection and compared with LNP7-aVHH mRNA. Harvested
+ear samples were whole-mounted, IF-stained, and imaged by confocal
+microscopy.
+ Both MC3 and LNP7 encapsulating
+VEGFC mRNA (MC3-VEGFC
+mRNA and
+LNP7-VEGFC mRNA) significantly increased the PDPN+/DAPI+ LEC area compared to LNP7-aVHH mRNA. MC3-VEGFC mRNA exhibited
+a slightly higher PDPN+/DAPI+ area but showed
+no significant difference compared to that of LNP7-VEGFC mRNA.
+The proliferation of LEC was also quantified based on the cell
+counts colocalized between PDPN, PROX1, DAPI, and EdU ( B,D). Similarly, the higher
+proliferation of LEC from VEGFC mRNA-encapsulating LNPs was observed
+compared to LNP7-aVHH mRNA, with no difference between VEGFC mRNA-LNPs.
+
+## Lymphatic-Targeting LNP Induces Higher VEGFC Secretion in the
+Downstream Fluid in the Popliteal Dermal and Subcutaneous Region
+To investigate the time-dependent secretion of VEGFC at both the
+injection site and the downstream popliteal region, 1 μg
+of VEGFC mRNA encapsulated in LNPs was intradermally injected into
+the hindlimb mouse paw. At specified time points (1, 4, 7, and 14
+days postinjection), VEGFC protein levels in the subcutaneous and
+dermal layers of the popliteal region and in the paw skin at the injection
+site were quantified by ELISA ( ).
+ Overall, the LNP7-VEGFC
+mRNA exhibited higher VEGFC
+secretion in
+the popliteal downstream fluid ( A,C). In contrast, the injection site showed no significant
+differences in VEGFC secretion across all groups ( ). Consistent with the trend
+observed in the ear ( ), these results indicate that different LNP formulations
+produce distinct VEGFC concentration profiles at distal and local
+regions. Notably, VEGFC concentrations at the injection site did not
+differ between those of the VEGFC mRNA-LNPs (LNP7 and MC3) and even
+the LNP7-aVHH mRNA control. This suggests that LEC uptake of LNP7
+downstream of the injection siterather than local uptake or
+interaction at the injection sitewas the dominant mechanism
+responsible for the improved efficacy of VEGFC mRNA delivery by LNP7.
+While we cannot exclude the possibility that nonlymphatic endothelial
+cells (e.g., fibroblasts or dendritic cells) also take up VEGFC mRNA-LNPs
+at the injection site and secrete VEGFC into downstream fluid, the
+higher VEGFC levels observed with LNP7 compared to MC3 in the popliteal
+region, coupled with the absence of significant differences at the
+injection site, support the conclusion that lymphatic endothelial
+uptake is an important mechanism.
+Thus, LNP7 would be expected
+to generate a stronger VEGFC gradient
+downstream, particularly at sites of injury. Regarding temporal dynamics,
+the popliteal downstream fluid in the VEGFC mRNA-LNP7 group peaked
+at 1 day after injection and was significantly elevated up to 4 days
+after injection ( ).
+
+## Optimization of LNP VEGFC mRNA Dose for Enhancing Lymphatic
+Repair and Function
+After identifying several LNP formulations
+with high lymphatic delivery when administered intradermally compared
+with free mRNA and MC3-based LNPs, we next investigated whether LNP7
+would improve the potential therapeutic efficacy of VEGFC mRNA delivery
+for lymphatic regeneration and restoration of lymphatic pump function.
+We hypothesized that local VEGF-C mRNA delivery using LNP7 to LECs
+within vessels draining the site of injury would improve therapeutic
+outcomes compared to no treatment, free VEGF-C mRNA, or delivery with
+VEGF-C mRNA with an LNP with poor LEC delivery. To test this, we decided
+to utilize a mouse tail lymphatic injury model previously developed
+by our lab, where one chain of lymphangions is damaged while the parallel
+lymphangion chain on the adjacent side of the tail remains intact.
+First, we determined the potential effect of varying doses of LNP7-loaded
+VEGFC mRNA delivery on lymphatic function and regeneration after lymphatic
+injury. We used 4 different dosages of VEGFC mRNA (0.04 μg,
+0.2 μg, 1 μg, and 5 μg) loaded into LNP7 and LNP7
+without VEGFC mRNA (LNP7 loaded with aVHH mRNA instead of VEGF-C mRNA)
+to serve as a control. Mice were intradermally administered a single
+injection of LNP7 at the respective dose into the tail 3 days after
+injury, a few days after injury, but before swelling can be detected
+in this injury model.
+To analyze how lymphatic transport in
+the intact collecting vessel
+changed over time after treatment, we utilized NIR imaging to quantify
+functional metrics of lymphatic contractility both before injury and
+7 days after surgery in each treatment group. Administration of 5
+μg significantly increased the packet frequency of lymphatic
+contraction, while lower VEGFC mRNA doses (namely, 0.04 μg,
+0.2 μg, and 1 μg) had no significant effect on lymphatic
+function ( ).
+ We next evaluated lymphangiogenesis
+by investigating
+histological
+changes in the tail. Circular cross-sections were taken from the wound
+site and the distal portion of the tail from blank and 5 μg
+treatment groups and stained for podoplanin (PDPN), an LEC marker,
+and EdU to measure cell proliferation. We demonstrated the presence
+of PDPN-positive and EdU-positive cells in both the wound and distal
+sites in the 0 μg of VEGFC mRNA (aVHH mRNA-LNP7) and 5 μg
+of VEGFC mRNA (VEGFC mRNA-LNP7) groups ( A). Upon quantification, we observed higher
+PDPN/EdU colocalization only in the wound site (where lymph leakage
+occurs) of mice treated with 5 μg of VEGFC mRNA-LNP7 ( B). Quantification
+of total PDPN+ LECs revealed no significant differences
+between groups, although VEGFC mRNA-LNP7 treatment showed a slight
+increase ( C).
+This finding indicates that the observed increase in PDPN/EdU colocalization
+reflects enhanced proliferation rather than a reduction in the number
+of nonproliferating LECs.
+ 
+
+## LNP7 Delivery of VEGF-C mRNA Improves Lymphatic Function up
+to 14 Days after Injury
+After demonstrating that a VEGFC
+mRNA dosage of 5 μg increases lymphatic pump function and lymphangiogenesis
+4 days after administration (7 days after injury), we administered
+this same dose to determine the persistence of improvement on lymphatic
+pump function and the benefit compared to that of an LNP that does
+not target LECs. Mice received either LNP7 loaded with aVHH mRNA (LNP7-aVHH
+mRNA), 5 μg of MC3 loaded with VEGFC mRNA (MC3-VEGFC mRNA),
+or 5 μg of LNP7 loaded with VEGFC mRNA (LNP7-VEGFC mRNA) into
+the tail.
+Lymphatic transport metrics were measured presurgery
+and 7 and 14 days postsurgery. Although both MC3-VEGFC mRNA (8.7302
+± 0.2538/s) and LNP7-VEGFC mRNA (9.7136 ± 0.3300/s) therapies
+improved lymphatic contractile activity compared to LNP7-aVHH mRNA
+(7.6732 ± 0.2194/s) treatment 7 days postinjury, only VEGFC mRNA-LNP7
+showed a significant improvement compared to the aVHH control at 14
+days postinjury ( A). Thus, LNP7-VEGFC mRNA treatment (9.6949 ± 0.2078/s)
+increases lymphatic function by increasing LV contraction frequency
+compared to the LNP7-aVHH mRNA (8.8629 ± 0.3432/s) and MC3-VEGFC
+mRNA (7.9016 ± 0.3530/s) treatments 14 days postinjury ( A–D) implying
+that contraction frequency increased by 22.7% with LNP7-VEGFC mRNA
+compared to the aVHH control, whereas MC3-VEGFC mRNA increased contraction
+frequency by 12.2% relative to the aVHH control.
+ Next, we examined the effect of the treatments
+on the tail swelling.
+To do so, we used the tail images obtained 3, 7, and 14 days postsurgery.
+Modeling the tail as a series of truncated cones (36), we calculated
+total tail volume and determined the corresponding percentage of tail
+volume change. None of the treatments led to statistically significant
+changes in tail swelling ( E). In addition, after fitting a linear regression
+model (y = β1
+x +
+β0), we found no difference in the swelling rate
+of mice receiving LNP7-aVHH mRNA, MC3-VEGFC mRNA, or LNP7-VEGFC mRNA
+treatments (β1, aVHH = 0.04183, β1, MC3/VEGFC = 0.05497, and β1, LNP7/VEGFC = 0.04563) ( E). Therefore, the use of LNP7-VEGFC mRNA is not sufficient to reduce
+swelling over this time course in this particular animal model. This
+aligns with our previous reports and is likely due to the presence
+of an intact outflow route from the tail, minimizing the impact of
+the surgery on swelling. A and S8). Neither MC3-VEGFC mRNA nor LNP7-VEGFC mRNA
+treatment significantly modified the lymphatic network density 14
+days after mouse tail single LV surgery in the wound or distal sites in vivo ( B–E).
+ The lymphatic system is part of the circulatory
+system, ) were intradermally injected
+into the tip of the tail with aVHH-loaded LNPs at a dose of 5 μg
+of aVHH to match the LNP dose of the maximum VEGF-C mRNA dose that
+was delivered. The number of mice was 6, 5, 5, 4, and 8 for 0 μg,
+0.04 μg, 0.2 μg, 1 μg, and 5 μg VEGFC mRNA-LNP7,
+respectively.
+To monitor the therapeutic effect on lymphatic
+function by VEGFC
+mRNA-LNP7, lymphatic injury-induced mice by single LV surgery were
+injected intradermally at the tip of the tail with empty LNP7 and
+5 μg (mRNA dosage) of VEGFC mRNA-LNP7 on day 3 postsingle LV
+ligation surgery. The numbers of mice were 6 and 7 for saline and
+5 μg of VEGFC mRNA-LNP7, respectively. The difference in number
+between groups for the various lymphatic injury experiments was due
+to some mice having to be withdrawn from the study due to IACUC endpoint
+criterion from poor tissue healing in response to the surgery, which
+occasionally occurs due to the artery accidentally being injured during
+cauterization of the tail wound. Mice were randomized after injury
+to determine which therapeutic treatment they would receive.
+
+## Tissue
+Collection
+For LNP screening and characterization,
+tails, LNs, and LVs were isolated 12–16 h after nanomedicine
+administration (Figure S11). During lymphedema
+studies, tails were collected 7 and 14 days postinjury for all treatment
+groups. For each tail, two 1 cm-long tissue samples were harvested
+at the wound and distal to the site of injury. Harvested tails were
+fixed in 10% neutral buffered formalin (3800600; Leica Biosystems,
+Wetzlar, Germany) and cryo-sectioned into 10 μm sections.
+
+## Tissue Dissociation for Flow Cytometry and SANDS
+Isolated
+LNs and LVs were washed in 1 mL of PBS (21-030-CV; VWR International)
+on ice. LNs were added to 500 mL of Collagenase D solution (1 mg/mL
+in PBS; 11088866001; Sigma-Aldrich)/DNase I (40 μg/mL in PBS;
+10104159001; Sigma-Aldrich) and incubated for 1 h at 37 °C on
+a rocker/vortex at 300 rpm. LVs were added in 500 μL of Dispase
+II/Collagenase I mixture (Dispase II (50 mg; 4942078001; Sigma-Aldrich),
+Collagenase I (20 mg; 17-100-017; Thermo Fisher Scientific), and BSA
+(0.1 g; A7906; Sigma-Aldrich) in 10 mL of DMEM (11039-047; Thermo
+Fisher Scientific). The cell suspension was passed through a 70 μm
+strainer (07-201-431; Thermo Fisher Scientific). Any remaining tissue
+samples were gently disrupted using a syringe plunger. Filtered cells
+were centrifuged at 300 g for 5 min at 4 °C. Suspended cells
+were then used for subsequent experiments.
+
+## Flow Cytometry
+Suspended cells prepared as above were
+stained for live/dead cell quantification with the Zombie NIR Fixable
+Viability Kit following the manufacturer’s protocol (1:100
+dilution, 423111; BioLegend, San Diego, CA). Subsequently, cells were
+washed with FACS buffer (10 mg/mL BSA (A7906; Sigma-Aldrich) in PBS).
+Antibodies were prepared in the FACS buffer, and cells were stained
+on ice for 30 min in the dark. Information on the corresponding laser,
+concentration, and vendor information on antibodies used for the flow
+panel in this study was as follows: (i) Live/Dead (BV510, 1:100, 423111;
+BioLegend), (ii) CD31 (AF647, 1:100, 102416; BioLegend), (iii) PDPN
+(AF488, 1:100, 156208; BioLegend), (iv) aVHH (APC, 1:100, A01994;
+GenScript, Piscataway, NJ), (v) CD45 (PE, 1:100, 147712; BioLegend),
+(vi) CD54 (PE-Cy7, 1:300, 116122; BioLegend), (vii) CD309 (PER-CP-Cy5-5,
+1:100, 121918; BioLegend), (viii) CD11b (BV421, 1:100, 101236; BioLegend),
+(ix) MHCII (BV650, 1:1500, NBP2-00462; Novus Biologicals, Littleton,
+CO), (x) CD11c (BV786, 1:10, 117335; BioLegend), (xi) CD64 (BV711,
+1:100, 139311; BioLegend), and (xii) F4-80 (APC-Cy7, 1:100, 157315;
+BioLegend). Compensation controls for antibodies were made using UltraComp
+eBeads Compensation Beads (01-2222-42; Thermo Fisher Scientific).
+Data was acquired on the BD FACS Aria III Cell Sorter (BD Biosciences)
+and analyzed with FlowJo Software. The gating strategy is described
+in Figures S12 and S13. Relevant cell counts
+are presented in Tables S1, S2, and S3.
+
+## 
+In Vivo EdU Labeling
+During lymphatic
+injury studies, EdU labeling and its detection were followed with
+the protocol of the Click-iT EdU Cell Proliferation Kit for Imaging
+Alexa Fluor 594 dye (C10639; Thermo Fisher Scientific). Briefly, 10
+mM of EdU was prepared by diluting EdU with 2 mL of DMSO. Twenty-five
+mg/kg of EdU (25 mg/kg) was injected intradermally into the tail 16
+h prior to tail harvest.
+
+## EdU Detection and Immunofluorescence Staining
+For antigen
+retrieval, tail sections were incubated in sodium citrate at 90 °C
+for 30 min. Sections were permeabilized with 0.5% Triton X-100 (X100–5
+ML; Sigma-Aldrich) in PBS at room temperature for 20 min. EdU was
+detected with Click-iT Reaction cocktail for 30 min at room temperature
+protected from the light. Afterward, DNA was stained with Hoechst
+solution for 30 min at room temperature in the dark.
+After washing
+the Hoechst solution on tissues with PBS, nonspecific binding was
+blocked with 10% goat serum (G9023; Sigma-Aldrich) in PBS for 1 h
+at room temperature. Slides were probed with hamster IgG monoclonal
+anti-PDPN (1 mg/mL in PBS; ab11936; Abcam, Cambridge, UK) at 1:100
+dilution in PBS solution overnight at 4 °C. The following day,
+the slides were washed with PBS and incubated in the dark with Alexa
+Fluor 488-conjugated goat antihamster IgG (2 mg/mL; A21110; Thermo
+Fisher) at 1:200 dilution in PBS solution for 4 h at room temperature.
+For nuclei staining and mounting sections, an Invitrogen ProLong Gold
+AntiFade with DAPI (Thermo Fisher) was used.
+A Zeiss Axio Observer
+fluorescent microscope was used to image
+slides after staining, and analysis was performed on high-powered
+sections (20× objective) with at least 5 high-powered fields
+(hpf) per location (i.e., wound or distal) per mouse.
+
+## BCA Protein
+Concentration and ELISA for VEGFC Secretion Measurement
+The
+subcutaneous and dermal layers of the popliteal region were
+harvested, and the paw skin was sonicated for 2 min with RIPA buffer
+with protease inhibitor (G-Bioscience (VWR); 786-108). Fluids were
+collected after 5 min of centrifuging at 12,000 × g at 4 °C, and total protein concentration was measured using
+the Pierce BCA Protein Assay Kit (Thermo Fisher 23250). VEGFC secretion
+at specified time points (1-, 4-, 7-, and 14-days postinjection) of
+tissues was measured using the VEGFC Rat ELISA Kit (Invitrogen, BMS626-2)
+following the manufacturer’s instructions. The total amount
+of protein loaded into each well was 30 μg. Optical density
+values were normalized to those of the LNP7-aVHH mRNA group.
+
+## Whole-Mount
+Staining and Confocal Imaging
+After harvest,
+the posterior ear skin was exposed to the face and fixed with a 4%
+paraformaldehyde solution (PFA; Electron Microscopy Science 15710).
+To determine lymphatic growth and LEC proliferation, immunofluorescent
+staining was performed using anti-PROX1 (1:200; ab199359), anti-PDPN
+(1:100; ab11936), and NucBlue (Invitrogen; R37606) to label LECs.
+After the whole-mount assay, the posterior ears were imaged at 5×
+and 20× using a confocal laser scanning microscope (Zeiss LSM
+980 NLO). Raw z-stacked confocal images were maximum-intensity projected
+and postprocessed using ImageJ and Fiji, software developed by the
+National Institutes of Health (NIH), to reduce background noise and
+enhance image contrast.
+
+## Data Preparation, Visualization, and the
+Application of Machine
+Learning Models on the SANDS Library
+SANDS sequencing data,
+which included lipid types and their corresponding molar ratios of
+each LNP, was used for the analysis. Since Screening 2 data due had
+a very low number of aVHH+ LECs (Figure S2), it was not moved on for sequencing of barcode reads. In addition,
+non-QC-passed LNPs (>200 nm) were not included in the dataset.
+One-hot
+encoded categorical lipid type variables and molar ratios were stored
+as input features. The product of normalized PLN, ALN, and BLN barcode
+readouts, generated using a custom-built Python script for SANDS analysis,
+was used as the label representing total LN LEC delivery.
+For
+visualization, a histogram of total lymph node LEC delivery counts
+was generated to characterize the distribution of delivery efficiencies
+across all of the LNP candidates. The x-axis represents
+the total LN LEC delivery. A log scale was applied to the x-axis to accommodate the wide dynamic range of delivery
+values. A threshold of 100 total LN LEC deliveries was selected to
+differentiate candidates with high LEC targeting from those with lower
+performance. The threshold was visualized as a vertical dashed red
+line. Histogram bins were colored to highlight candidates exceeding
+this threshold and annotated with the identifiers of the selected
+LNPs.
+Uniform Manifold Approximation and Projection (UMAP) was
+performed
+to visualize similarities in lipid nanoparticle composition across
+the tested formulations. and ); this
+captures not only the magnitude but also the direction of each feature’s
+influence.
+3
+ i’s Shapley value=ϕi(ϑ)=∑S⊆D{i}|S|!(|D|−|S|−1)!|D|!(ϑ(S∪{i})−ϑ(S))
+
+## NIR Imaging for Monitoring Lymphatic Function In Vivo
+
+NIR lymphatic imaging was performed according
+to previously
+published methods. Before lymphatic vessel
+imaging, LI-COR IRDye 800CW (929-70021; LI-COR Biosciences, Lincoln,
+NE) was diluted in DMSO to a concentration of 10 mg/mL. Then, 10 μL
+of the dye solution was injected intradermally into the tip of the
+tail.
+The lymphatic vessel imaging was recorded with a customized
+imaging system consisting of a Lambda LS Xenon arc lamp (LB-LS; Sutter
+Instrument, Novato, CA), an Olympus MVX-ZB10 microscope (Olympus Corporation,
+Japan), a 769 nm band-pass excitation filter (49 nm full-width half-maximum;
+FWHM), an 832 nm band-pass emission filter (45 nm FWHM), and an 801.5
+nm long-pass dichroic mirror. Images were acquired with a Photometrics
+Evolve Delta 512 EM-CCD instrument (Teledyne Photometrics, Tucson,
+AZ). The field of view was centered on the mouse’s tail 7 cm
+downstream toward the base of the tail from the injection site at
+the tip of the tail. Animals were imaged continuously from the time
+of injection until 20 min postinjection with a 50 ms exposure time
+and a frame rate of 10 fps. Baseline NIR metrics and tail images were
+collected in all groups prior to surgery (day 0). For the dosage optimization
+study, NIR functional metrics were again measured after surgery on
+day 7 prior to euthanasia and tissue collection. When we measured
+the therapeutic effect of VEGFC mRNA-LNP, NIR functional metrics were
+measured after surgery on days 7 and 14. Tail volume measurements
+were taken after surgery on days 3, 7, and 14. Animals were euthanized,
+and tissue was collected on day 14.
+
+## NIR Analysis for Quantifying
+Lymphatic Function
+Analysis
+of NIR functional metrics was performed during the steady-state period
+ranging from 5 to 20 min after injection, as defined previously. Packets of fluorescence were detected by identifying
+peaks and troughs in the fluorescence signal over time. These measurements
+were used to calculate previously reported metrics for this model,
+such as packet frequency, amplitude, integral, and transport.
+,
+ All data were normalized to the baseline NIR intensity. Sample sizes
+for each experiment are included in the corresponding figure caption.
+
+## Single LV Ligation Lymphatic Injury Model
+To induce
+lymphatic injury on the mice tail, single LV ligation surgery was
+performed.
+,
+ Briefly, animals were anesthetized
+with 5% isoflurane and maintained on 2–2.5% isoflurane during
+the entire surgery. Prior to surgery, NIR dye was injected intradermally
+to the tail for the visualization of both the dominant and nondominant
+LVs. Animals received incisions 1.6 cm from the base of the tail,
+spanning 80–90% of the circumference of the tail. The nondominant
+vessel was left untouched, and function was verified after injury
+via imaging. Animals in which LVs were improperly ligated or blood
+vessels were damaged were excluded from the study. For tissue collection,
+animals were euthanized using CO2.
+
+## Quantification of Microscopic
+Images
+Images of mouse
+tails were segmented in ImageJ, and the corresponding diameters and
+lengths were measured. Total tail volume was calculated by a truncated
+cone volume equation for each segment, summed. Absolute tail volume
+change was calculated by subtracting the corresponding tail measurement
+obtained in all groups prior to surgery (day 0), and normalized tail
+volume by dividing by this measurement. The sample size for each experiment
+is included in the corresponding figure caption.
+Subsequently,
+the total LV area, LV perimeter, and LV number per square mm were
+measured in ImageJ for at least 5 hpf per location (i.e., wound, distal)
+per mouse. LVs were identified by positive staining for PDPN. LVs
+were manually selected, and the area and perimeter of each selection
+were measured. The number of LVs was determined as the number of distinct
+selections per hpf. For EdU staining, lymphatic-specific proliferation
+was identified by quantifying the colocalization of PDPN and EdU.
+Specifically, the ImageJ plugin “JACoP” and the Pearson’s coefficient were used. A minimum of five specimens was
+analyzed per condition/tissue sample. Actual numbers of samples are
+included in the corresponding figure caption.
+
+## Statistical Analysis
+To compare lymphatic uptake among
+the lead LEC-specific LNPs, one-way ANOVA was used, combined with
+robust regression and outlier removal (ROUT). To compare uptake by
+LNs and LVs among saline, free aVHH, MC3, and LNP7, two-way ANOVA
+was used with Tukey’s method to correct for multiple comparisons.
+To compare uptake among different cell types, an ordinary one-way
+ANOVA was used. To compare the effect of different dosages of VEGFC
+mRNA in NIR metrics, one-way ANOVA was used with Tukey’s multiple
+comparisons correction. To compare the effect of different LNPs loaded
+with VEGFC mRNA in NIR metrics, mixed-effects analysis was used with
+Tukey’s multiple comparisons correction. To compare absolute
+tail volume change, two-way ANOVA with Geisser–Greenhouse correction
+was used with Tukey’s multiple comparisons correction. To compare
+the normalized tail volume, a simple linear regression model was used.
+All histological measurements were compared between groups by nested
+one-way ANOVA with Tukey’s multiple comparisons test after
+ROUT to remove outliers within an individual specimen and tissue location.
+An unpaired t-test was used to compare different
+types of administration. Each data point corresponds to either an
+independent experiment or the average of each corresponding condition,
+as stated in the figure caption. Data were analyzed by using GraphPad
+Prism 7 (GraphPad Software, San Diego, CA). Reported p-values are multiplicity adjusted to account for multiple comparisons.
+For all cases, significance was defined as p <
+0.05 (*), p < 0.01 (**), p <
+0.001 (***), or p < 0.0001 (****).
+
+## LNP Formulation
+Nucleic acids (mRNA and DNA barcodes)
+were diluted in 10 mM citrate buffer, pH 3, while lipomer, PEG, cholesterol,
+and helper lipids were diluted in ethanol. The compounds and their
+molar ratios for the lipid phase of the lead LEC-specific LNPs and
+MC3-based LNPs (MC3) were listed in Table S1. LNPs were formulated by injecting
+the citrate and lipid phase into a microfluidic device as previously
+described (Figure S14).
+−
+
+ The flow rates
+of the citrate and lipid phases are 600 and 200 μL/min, respectively.
+The syringes (Hamilton Company) for injection to the microfluidic
+device were controlled by syringe pumps (Harvard Apparatus) programmed
+using FLOWCONTROL software (Harvard Apparatus). The weight ratio of
+lipomer to mRNA in this study was maintained at 10:1.
+The ionizable
+lipids used in this study were stereopure lipomers (C12S, C12R, C13S,
+and C13R were provided from the Dahlman lab), MC3 (555308; MedKoo
+Biosciences, Inc., Morrisville, NC), and cKK-E12 (BP-29590; BroadPharm,
+San Diego, CA). All PEG, cholesterol, and helper lipids were purchased
+from Avanti Polar Lipids (Alabaster, AL).
+
+## LNP Characterization
+After LNPs were diluted in sterile
+1× PBS to a concentration of ∼0.06 μg/mL, the hydrodynamic
+diameter (nm), polydispersity (PD), and polydispersity index (PDI)
+of the LNP were measured using dynamic light scattering (DLS) using
+DynaPro Plate Reader II (Wyatt Technology). LNPs were included in
+the experimental design if they met all of the following criteria:
+(i) diameter >20 nm, (ii) diameter <150 nm, (iii) correlation
+function
+with one inflection point, and (iv) PDI < 0.4.
+Quality-controlled
+LNPs were dialyzed with 1× PBS using dialysis cassettes with
+membranes (87735 and 87734; Thermo Fisher Scientific, Waltham, MA)
+for 90 min. Dialyzed LNPs were sterile-filtered with a 0.22-μm
+filter (371-2115-OEM; Foxx Life Sciences, Londonderry, NH).
+The nucleic acid concentration of the filtered LNPs was measured
+using a NanoDrop (ND-ONE-W; Thermo Fisher Scientific). To quantify
+the nucleic acid concentration inside the LNP, the LNP was loaded
+in a 96-well plate (675097; Greiner Bio-One), and the RiboGreen assay
+was performed following manufacturer’s protocol (R11490; Invitrogen,
+Waltham, MA).
+
+## Zeta Potential
+Formulated lipid
+nanoparticles (LNPs)
+were diluted in ultrapure water to a final concentration of 100 ng/μL.
+A total volume of 1 mL of the diluted LNP solution was loaded
+into a folded capillary zeta cell (DTS1070; Malvern Panalytical).
+Zeta potential measurements were performed at 25 °C using
+a Zetasizer Nano ZS (Malvern Panalytical Ltd., Worcestershire, UK).
+The refractive index (RI) and absorption of the particle material
+were set to 1.40 and 0.01, respectively. The dispersant (water) was
+assigned a viscosity of 0.8872 cP and a refractive index of
+1.330. Each experiment was measured in triplicate and analyzed under
+Zetasizer Software version 8.02 (Malvern Panalytical Ltd., Worcestershire,
+UK).
+
+## SANDS (Species Agnostic Nanoparticle Delivery Screening)
+In the screening of LNPs to identify LEC-specific LNPs, SANDS was
+conducted as previously described. Briefly,
+150 LNPs with varying lipid compositions were formulated with 56-nucleotide-long
+ssDNA sequences serving as DNA barcodes and aVHH mRNA. Each ssDNA
+sequence contained a unique 8-bp barcode sequence in its center, and
+these sequences were purchased from Integrated DNA Technologies. Quality-controlled
+LNPs were screened in female C57Bl/6 mice via intradermal injection
+in each paw of the mice at a dosage of 1.5 mg/kg, and aVHH+/podoplanin+
+LECs from lymph nodes (ALN, BLN, and PLN) were isolated and sequenced
+using Illumina Miniseq with primers from Nextera XT adapter sequences.
+Lymphatic uptake was quantified based on the normalized barcode counts
+for each LN using a custom Python-based tool.
+
+## Cell Culturing and LNP
+Transfection
+Human dermal LECs
+were isolated from human foreskin tissue following the protocol published
+by Rogic and coworkers. The cells were
+seeded in a 24-well plate (353047; Thermo Fisher Scientific) at a
+density of 15,000 cells/well. After 24 h, LNP7 was added with a total
+aVHH mRNA dose of 4, 20, or 100 ng in eight separate wells. Six h post-transfection, the media was removed
+and replaced with fresh media. Cells cultured with physiological endothelial
+basal medium (EBM; CC-3121; Lonza, Switzerland) with recommended supplements
+and 10% DMSO (D2650; Sigma-Aldrich) served as negative and positive
+controls, respectively.
+
+## 
+In Vitro Toxicity Study
+of LNP7 Using Live/Dead
+Staining and AlamarBlue Assay
+The viability of monolayers
+after treatment was determined using a viability kit (L3224; Thermo
+Fisher) to distinguish live (Calcein-AM) and dead cells (Ethidium
+homodimer-1). Staining was performed following the manufacturer’s
+instructions; cells were incubated with calcein-AM and ethidium homodimer-1
+for 20 min at 37 °C. Then, monolayers were rinsed with PBS before
+imaging on an inverted microscope (AxioObserver.Z1; Zeiss). Tile images
+of individual wells were acquired using a 1× tube lens and a
+2.5× objective (Plan-Neofluar 2.5×/0.075 Pol). Zen Black
+software was used to stitch tile images with a 10% overlap to reconstruct
+the image of the entire well. Images were then processed by using
+ImageJ (NIH), where the “watershed” function was utilized
+to segment individual cells. Following processing, the “analyze
+particle” function in ImageJ was used to count individual cells
+in the live (green) and dead (red) channels with thresholds set to
+0–25 and 0–80, respectively. Viability was further confirmed
+using the alamarBlue cell viability reagent (DAL1025; Thermo Fisher).
+According to the manufacturer’s instructions, 1× alamarBlue
+reagent was added to the cell media of monolayers after treatment
+and incubated for 6 h at 37 °C. Fluorescence intensity was measured
+with an excitation of 530 nm and an emission of 590 nm using a plate
+reader (Synergy H4; BioTek). The average background fluorescence was
+subtracted, and the individual fluorescence intensity per well was
+reported.
+
+## Supplementary Material
+
+We thank
+Dr. Philip J. Santangelo (Georgia Institute
+of Technology and Emory University) for providing custom-made aVHH
+mRNA. The TOC graphic was created using Biorender.com.
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acsnano.5c12080.Supplementary figures:
+outline of total LNPs with their
+compositions for screens, LEC and LEC/aVHH+ counts for
+screens, SANDS library visualization via histogram and UMAP, relationship
+between LNP parameters and lymphatic node delivery, coefficient and
+feature importance analyses for LNP parameter contribution to LEC
+delivery, lymphatic-specific uptake of LNP7, LNP7 in vitro toxicity test, Immunofluorescence controls in tail sections, characterization
+of MC3 and LNP7 loaded with different mRNA cargos, effect of the route
+of administration of LNP delivery, schematic of engineer LEC-targeting
+LNPs, gating strategies for FACS in LNs and LVs, schematics of LNP
+formulation and quality assessment, compounds and molar ratios of
+lead LEC-LNP candidates, and average cell counts. Supplementary tables:
+compounds and molar ratios of lead LEC-specific LNP candidates, and
+flow cytometry cell counts (PDF)
+
+Conceptualization:
+E.M., J.E.D., and J.B.D. Investigation: E.M., K.J., R.C., Z.Q., L.L.,
+Y.G.-V., E.S.E., and K.P. Funding acquisition: E.M., J.E.D., and J.B.D.
+Project administration: E.M. and J.B.D. Supervision: E.M., J.E.D.,
+and J.B.D. Writingoriginal draft: E.M. Writingreview
+and editing: K.J., L.L., E.S.E., B.J.T., N.P., J.E.D., and J.B.D.
+American Heart
+Association Postdoctoral Fellowship Grant 829544 (American Heart Association,
+Michalaki) and National Institutes of Health Grant R01HL133216 (Dixon),
+and National Research Develeopment and Innovation Office Hungary K139165
+(Jakus).
+A preprint version of
+this work was previously published online: Eleftheria Michalaki; Rachel
+Chin; Kiyoung Jeong; Zhiming Qi; Lauren N. Liebman; Yarelis González-Vargas;
+Elisa Schrader Echeverri; Kalina Paunovska; Hiromi Muramatsu; Norbert
+Pardi; Beth Jiron Tamburini; Zoltan Jakus; James E. Dahlman; J. Brandon
+Dixon. Lymphatic endothelial cell-targeting lipid nanoparticles delivering
+VEGFC mRNA improve lymphatic function after injury. 2024, 2024.07.31.605343.
+bioRxiv. 10.1101/2024.07.31.605343 (accessed October 23, 2025).
+The
+authors
+declare the following competing financial interest(s): Dahlman, Dixon,
+Michalaki, and Tamburini are authors on a patent application associated
+with this work.

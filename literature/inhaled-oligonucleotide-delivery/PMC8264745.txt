@@ -1,0 +1,337 @@
+3946starprotSTAR ProtocolsSTAR ProtocElsevierPMC8264745826474582647453427833310.1016/j.xpro.2021.100647Optimized protocol for single-molecule RNA FISH to visualize gene expression in S. cerevisiae
+PatelHeta P BrouwerIneke LenstraTineke L 1Division of Gene Regulation, The Netherlands Cancer Institute, Oncode Institute, 1066CX Amsterdam, the Netherlands∗Corresponding author h.patel@nki.nl
+∗∗Corresponding author t.lenstra@nki.nl
+2Technical contact
+3Lead contact
+672021231006471006471672021© 2021 The AuthorsThis is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+Single-molecule RNA fluorescence in situ hybridization (smFISH) allows subcellular visualization, localization, and quantification of endogenous RNA molecules in fixed cells. The spatial and intensity information of each RNA can be used to distinguish mature from nascent transcripts inside each cell, revealing both past and instantaneous transcriptional activity. Here, we describe an optimized protocol for smFISH in Saccharomyces cerevisiae with optimized lyticase digestion time and hybrization steps for more homogenous results.
+For complete details on the use and execution of this protocol, please refer to .
+Subject areas: single-molecule assays, cell biology, single cell, microscopy, model organisms, molecular biology, gene expression, in situ hybridization
+
+## Graphical abstract
+ 
+
+## Highlights
+•Optimized protocol for single-molecule RNA FISH in S. cerevisiae
+•Includes sample preparation, imaging setup, and image analysis
+•Visualizes mature and nascent transcripts inside each cell
+
+Single-molecule RNA fluorescence in situ hybridization (smFISH) allows subcellular visualization, localization, and quantification of endogenous RNA molecules in fixed cells. The spatial and intensity information of each RNA can be used to distinguish mature from nascent transcripts inside each cell, revealing both past and instantaneous transcriptional activity. Here, we describe an optimized protocol for smFISH in Saccharomyces cerevisiae with optimized lyticase digestion time and hybrization steps for more homogenous results.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoCollection date 2021 Sep 17.
+
+## Before you begin
+
+## Order RNA FISH probes, make buffers, and streak strains
+Timing: 2–4 h
+1.Design and order RNA FISH probes (using Stellaris RNA FISH probes from Biosearch Technologies)a.Website: https://www.biosearchtech.com/support/tools/design-software/stellaris-probe-designer
+b.Select genes of interest and use the Stellaris Probe Designer to design oligonucleotides probes. The probe designer takes an input nucleotide sequence and outputs a maximum of 48 20-mer probe sequences, designed with optimal binding characteristics ( ). For reliable detection of the signal above background, it is recommended to design a mixture of at least 25 20-mer probes, with a probe spacing of at least 2 nucleotides and a probe GC content of at least 45% to ensure uniform binding efficiency. Select organism ‘other’ with masking level 2.Note: In general, this protocol can be used to probe for any RNA, including non-coding RNAs, given that the RNA is long enough to design a sufficient number of probes and does not have strong homology with other RNAs.
+
+c.Select fluorophores to conjugate to the nucleotides (based on available filter sets in the microscope)Note: In combination with DAPI to stain DNA, Quasar570 (with excitation and emission wavelengths similar to Cy3) and Quasar670 (with excitation and emission wavelengths similar to Cy5) make an optimal dye combination for 3-color imaging. Although we have not tried to image more than three colors, it is theoretically possible to include more than two probe sets, assuming the fluorophores used are spectrally well-separated and optical filter sets in the microscope separate the wavelengths well.
+
+d.Probes should be dissolved in 1× Tris-EDTA pH 8.0 (TE) buffer, with a final stock concentration of 25 μM and a working solution of 2.5 μM. Aliquot and store at −20°C for several years.Note: To optimize the signal-to-noise ratio, it is recommended to test different probe concentrations by making serial dilutions (1:250, 1:500, 1:1000 and 1:2000) from the stock solution ( ). For us, 1:250 dilution factor yields the best signal-to-noise ratio with the BioSearch Stellaris probes.
+
+2.Make the following buffers ahead of time (see for instructions):a.Synthetic complete (SC) medium
+b.1× buffer B
+c.1.4× buffer B
+d.Hybridization buffer
+
+3.Streak cells on yeast extract peptone dextrose (YPD) or selective plates and grow cells for at least 3–4 days, so single colonies can be inoculated and cultured.
+Note: This protocol is based on previous smFISH methods ( ; ) and has been optimized for the S. cerevisae S288C background strain using a diploid (BY4743) with PP7 stem-loops at the endogenous GAL10 gene ( ).
+
+## Key resources table
+ 
+
+## Materials and equipment
+Hazardous substances indicated by asterisk (∗). More information can be found in the CRITICAL notes.
+Synthetic complete (SC) medium:
+•In a 500 mL bottle, mix the following:-3.35 g Yeast Nitrogen Base (YNB) without Amino Acids (AA), Carbohydrates and with Ammonium Sulfate (AS)
+-1.0 g of Drop-Out Mix Complete w/o YNB (or another drop-out mix, if the yeast strains require additional selective pressure)
+-450 mL Milli-Q water (adjust according to the stock concentration of the carbon source. The indicated volume is for a 20% (w/v) stock)
+
+•Sterilize by autoclaving at 121°C for 20 min.
+•For immediate use, let media cool to approximately 55°C before adding 50 mL of a 20% (w/v) filtered carbon source (D-glucose, D-raffinose or D-galactose). The final concentration of the carbon source may vary depending on the experiment but 2% is standard.
+•Store the SC media at 18°C–22°C in the dark, and without a carbon source, to keep stable for up to a month and add the carbon source to the media right before the experiment. Alternatively, store the media at 4°C for up to several months.
+YPD (yeast extract peptone dextrose) plates:
+•In a 500 mL bottle, add 10 g of Bacto-agar and in another 250 mL bottle, add 5 g of yeast extract and 10 g of peptone.
+•Divide 450 mL of Milli-Q water between the two bottles.
+•Autoclave at 121°C for 20 min.
+•Pour the YEP (yeast extract peptone) medium into the bottle with agar and manually swirl to ensure thorough mixture.
+•Let the mixture cool in a 55°C water bath for about 1 h.
+•Add 50 mL of filtered 20% D-glucose (dextrose) and manually swirl to mix in the glucose.
+•Pour the YPD agar mixture into plates with roughly 25 mL of the agar mixture in each plate.
+•Leave the plates to dry at 18°C–22°C for three days. Store plates upside down at 4°C for several months.
+CRITICAL: For all smFISH buffers, work RNAse free as much as possible. Wear gloves, use clean bottles and use fresh MilliQ.
+100 mM potassium phosphate buffer pH 7.5
+•Prepare a 1M solution of potassium phosphate monobasic (KH2PO4) by dissolving 136.08 g of KH2PO4 in 1L of Milli-Q. Store at 18°C–22°C for multiple uses.
+•Prepare a 1M solution of potassium phosphate dibasic (K2HPO4) by dissolving 174.17 g of K2HPO4 in 1L of Milli-Q. Store at 18°C–22°C for multiple uses.
+•Dilute both solutions 10-fold with Milli-Q to make 100 mM solutions.-Prepare 900 mL of 100 mM potassium phosphate monobasic (KH2PO4) solution by diluting 90 mL of 1M KH2PO4 solution with Milli-Q to a final volume of 900 mL.
+-Prepare 166 mL of 100 mM potassium phosphate dibasic (K2HPO4) solution by diluting 16.6 mL of 1M K2HPO4 solution with Milli-Q to a final volume of 166 mL.
+
+•To get approximately 1L of 100 mM potassium phosphate buffer pH 7.5, start with 166 mL of the 100 mM potassium phosphate dibasic (K2HPO4) solution and slowly add the 100 mM potassium phosphate monobasic (KH2PO4) solution while measuring the pH until the pH reaches 7.5. Theoretically, 834 mL of the monobasic solution will need to be added, but this may vary.
+•Filter sterilize and store at 18°C–22°C, for up to several years.
+140 mM potassium phosphate buffer pH 7.5
+•Dilute 1M potassium phosphate monobasic (KH2PO4) and 1M potassium phosphate dibasic (K2HPO4) to 140 mM solutions.-Prepare 900 mL of 140 mM potassium phosphate monobasic (KH2PO4) solution by diluting 126 mL of 1M KH2PO4 solution with Milli-Q to a final volume of 900 mL.
+-Prepare 166 mL of 140 mM potassium phosphate dibasic (K2HPO4) solution by diluting 23.24 mL of 1M K2HPO4 solution with Milli-Q to a final volume of 166 mL.
+
+•To get approximately 1L of 140 mM potassium phosphate buffer pH 7.5, start with 166 mL of the 140 mM potassium phosphate dibasic (K2HPO4) solution and slowly add the 140 mM potassium phosphate monobasic (KH2PO4) solution while measuring the pH until the pH reaches 7.5. Theoretically, add 834 mL of the monobasic solution will need to be added, but this may vary.
+•Filter sterilize and store at 18°C–22°C, for up to several years.
+1× buffer B
+For 1L of 1× buffer B, dissolve (without using heat) 218.60 g of D-sorbitol in 1L 100 mM potassium phosphate buffer pH 7.5 (see recipe above) for a final D-sorbitol concentration of 1.2M. Filter sterilize and store at 4°C for multiple uses.
+1.4× buffer B
+For 1L of 1.4× buffer B, dissolve (without using heat) 309.69 g of D-sorbitol in 1L 140 mM potassium phosphate buffer pH 7.5 (see recipe above) for a final D-sorbitol concentration of 1.7M. Filter sterilize and store at 4°C for multiple uses.
+ Note: Store the buffer at 18°C–22°C. This buffer is used to dissolve the lyticase lyophilized powder, after which the mixture should be stored at −20°C.
+ Note: Dissolve 1 g of dextran sulfate in 7 mL Milli-Q water until solution is clear (can take up to an hour). Add the SSC and formamide and fill up to 10 mL with Milli-Q water. Divide in aliquots of 500 μL and store at −20°C. Avoid freeze-thaw cycles.
+Note: Addition of BSA or tRNA to the hybridization buffer, as recommended in other protocols ( ; ; ; ), results in more heterogeneous RNA intensities.
+CRITICAL: Formamide is a teratogen that is easily absorbed through the skin and should be used in the fume hood since the inhalation of large amounts may require medical attention. Dispose the formamide according to institutional regulations. Let the formamide warm to 18°C–22°C before opening the bottle to avoid oxidation of formamide.
+ Note: Indicated quantities are for one sample. Prepare fresh spheroplasting buffer on the day of experiment and keep on ice. Only add lyticase immediately before use.
+CRITICAL: β–mercaptoethanol is considered a toxic substance and if inhaled, can irritate the nasal passages and respiratory tract. It can also irritate the skin and, if ingested, can cause vomiting and stomach pain. Wear gloves and work under the fume hood and dispose the β–mercaptoethanol according to institutional regulations.
+1× Poly-L-Lysine Coating Coverslips (homemade)
+These coverslips can be bought commercially (see ) or they can be prepared in the lab:
+•Boil and stir coverslips for 30 min in 600 mL Milli-Q with 6 mL hydrochloric acid (HCl).
+CRITICAL: HCl is a corrosive acid that may cause damage if inhaled, ingested, or exposed to skin and eyes. The mist and vapor can be extremely irritating to the eyes and respiratory tract. Protect any exposed skin, wear gloves, work under the fume hood, and dispose according to institutional regulations.
+•Rinse 10 times with Milli-Q. Use immediately or autoclave for long term storage at 4°C.
+•Lay coverslips on chromatography paper; aspirate excess water and air-dry.
+•Coat each coverslip with 300 μL of 1× Poly-L-Lysine (in Milli-Q) (final concentration 0.01% w/v). Incubate the coverslips for 2 min, aspirate and air-dry.
+•Wash the coverslips three times with 350 μL of Milli-Q for 10 min and air-dry.
+•Place each coverslip into a single well of a six-well tissue culture dish and store the dish at 4°C for up to three months.
+ Note: Leftover wash buffer can be frozen at −20°C and reused.
+CRITICAL: Formamide is a teratogen that is easily absorbed through the skin and should be used in the fume hood as the inhalation of large amounts may require medical attention. Let the formamide warm to 18°C–22°C before opening the bottle.
+
+## Step-by-step method details
+
+## Day 0: Prepare cultures
+Timing: 1 h
+
+## Prepare cultures for the experiment
+1.In the morning:a.Inoculate a single colony in 3 mL synthetic (complete or selective) yeast media.
+b.Incubate tubes at 30°C in rotating wheel.
+
+CRITICAL: Use synthetic complete (SC) medium. Do not use YPD media since YPD has a high level of autofluorescence, which interferes with the actual signal during imaging. For ade- strains, supplement media with extra adenine to prevent high levels of autofluorescence.
+2.In the evening (8–9 h after the inoculation of morning cultures):a.Measure the OD600 of the cultures.
+b.Dilute yeast in 25 mL of SC media such that the cultures are at OD600 of 0.5 the next morning.i.The dilution varies, depending on the growth condition and growth rates of different strains. This step may require some optimization, or one can make a dilution series. As a starting point, wildtype yeast has a doubling time of approximately 1.5 h in SC+2% glucose. With a starting OD600 of ∼0.0008, a 25 mL SC+2% glucose culture will reach OD600 of 0.5 in ∼14 h.
+
+c.Incubate the cultures in a 30°C orbital shaker at 200 rpm overnight and harvest each sample when the OD600 is 0.45–0.55 the next morning.
+
+CRITICAL: It is important to keep the cells at a low optical density at 600 nm (OD600) (i.e., OD600<1.0). Cells with OD600>1.0 are in diauxic shift or stationary phase, during which the carbon source becomes exhausted causing the cells to switch to aerobic respiration. In these growth phases, cells have been observed to have higher autofluorescence levels and are more resistant to cell wall digestion (next step).
+
+## Day 1: Fix and spheroplast yeast cells
+Timing: 3–8 h (depending on number of samples and density of cultures)
+
+## Cells are cross-linked using formaldehyde to trap all the interactions and the cell walls are digested to allow the entry the fluorescent oligonucleotides during hybridization (day 2)
+3.Cool tabletop centrifuge to 4°C and prepare two buckets of ice for the subsequent steps—one bucket for a bottle of buffer B and the other bucket for the samples.
+4.Check the OD600 and proceed with fixation when the OD600 of each sample is ∼0.5.
+CRITICAL: It is important to let the cultures grow until they reach OD600 ∼0.5 before fixing them with formaldehyde. If the OD600 >0.6, it is best to dilute these cultures to a lower OD600 such that they have 1–2 division cycles for recovery before fixation. Since the concentration of lyticase (in the spheroplasting step) has been optimized for an OD600 ∼0.5 culture, cells in a culture with a OD600>0.5 may be underdigested, whereas cells in a culture with a OD600<0.5 may be overdigested. Furthermore, the overgrown cells exhibit autofluorescence when imaged.
+5.For each sample, add 4 mL of 32% PFA to a 50 mL falcon tube.
+6.Add 21 mL of each yeast culture to the PFA (5% final concentration) and incubate samples at 18°C–22°C for 20 min, inverting the tubes every 5 min.
+7.Spin the culture at 3000 × g for 3 min at 4°C and decant the media. Quickly remove excess media by laying the 50 mL falcon tube upside down on tissues. Gently tap off any excess media and place the samples on ice.
+Note: It is optional to use low adhesion tubes as they can significantly reduce cell loss during the subsequent washes.
+CRITICAL: Keep the samples on ice for the remainder of the Day 1 protocol.
+8.Carefully resuspend each pellet with 10 mL of ice-cold 1× buffer B and spin at 3000 × g for 3 min at 4°C. Decant the media and remove excess media by laying the falcon tubes upside down on tissues.
+9.Repeat step (8) two more times.
+10.After the third wash step, dissolve the pellet in 1 mL 1× buffer B and transfer to a 2 mL eppendorf tube.
+Pause point: Cells can be stored on ice for a few hours, until all samples have been fixed and washed. Cells can also be stored at 4°C overnight.
+11.Cool microcentrifuge to 4°C and prepare fresh spheroplasting buffer (keep on ice).
+12.Spin down cells at 845 × g for 3 min at 4°C.
+13.Decant the media and resuspend each sample in 500 μL of spheroplasting buffer, containing 300U of lyticase per sample.
+14.Incubate samples in a 30°C thermoshaker for 5 min (100–300 rpm).
+CRITICAL: The units of lyticase and digestion time have been optimized for the number of cells at OD600 0.5. Incubating with lyticase for too long results in overdigestion of the cell walls, resulting in RNA leakage from cells. On the other hand, underdigestion of the cell wall prevents the probes from entering the cells. This step can be optimized by checking the digestion of cells at different times with a phase contrast microscope or a brightfield microscope. In a phase contrast microscope, undigested cells appear as dark cells, whereas digested cells are transparent. Alternatively, in a brightfield microscope, undigested cells will have a clear cell outline whereas the digested cells will lack an outline ( ). Ultimately, approximately 80% of cells should be digested.
+ 15.Spin samples for 4 min at 160 × g at 4°C.
+16.Decant the spheroplasting buffer and gently wash the pellet once with 1 mL ice-cold 1× buffer B. Spin at 160 × g at 4°C for 4 min.
+CRITICAL: Do not vortex the cells after the lyticase treatment since cells are very sensitive to mechanical distortion and lysis.
+17.Decant the buffer and resuspend samples in 1 mL ice-cold 1× buffer B.
+18.Gently pipet ∼400 μL of sample onto an 18 mm poly-L-lysine coated coverslips in a 12-well plate.
+19.Incubate at 4°C for 30 min to let the cells adhere to the coverslips. While the cells are incubating, make 70% ethanol and cool at −20°C.
+20.Gently wash the coverslip wells with ice-cold 1× buffer B. Aspirate.
+Note: Since the cells are not stably adhered to the coverslip, pipet the 1× buffer B onto the wall of the well to avoid pipetting directly on the cells.
+21.Add 2 mL of cold 70% ethanol to each well and incubate for at least one hour at −20°C before use.
+Pause point: Seal the plates with parafilm and incubate overnight at −20°C. Samples can be left at −20°C in 70% ethanol for months.
+
+## Day 2: Hybridization with fluorescent probes
+Timing: 6–7 h (including a 4 h incubation period)
+
+## Cells are hybridized with the fluorescent oligonucleotides, washed, and mounted onto coverslips.
+22.Prepare:a.Petri dish for coverslipsi.Label the base of the dish with sample names. Each dish can fit four samples.
+ii.Cut circles of parafilm such that it fits inside a 10 cm petri dish.
+iii.Fold a kimwipe into a small square and dampen it with Milli-Q water. Place the moist kimwipe to the side of the dish, away from samples. This is to maintain humidity and prevent the coverslips from drying out (see ).
+
+b.Probe hybridization solutioni.Thaw aliquots of hybridization buffer (precalculate the number of aliquots needed based on the number of samples and the number of probes—see (ii) for volumes) and probes at 18°C–22°C.
+ii.Make a hybridization solution master mix:One probe: for each sample, mix 52.8 μL of hybridization buffer and 2.2 μL of 2.5 μM of probe
+Two probes: for each sample, mix 50.6 μL of hybridization buffer + 2.2 μL of 2.5 μM probe1 + 2.2 μL of 2.5 μM probe2
+
+iii.Vortex well and store at 18°C–22°C in the dark until ready to use.
+
+c.Wash buffer (check section) at 18°C–22°C
+
+23.Take samples from the −20°C and aspirate the ethanol.
+24.Rehydrate the coverslips with 2 mL of wash buffer (at 18°C–22°C) and incubate at 18°C–22°C for 5 min.
+CRITICAL: Perform the following steps without direct light and, when stated, use aluminum foil to prevent the bleaching of the dyes.
+25.Pipet drops of ∼50 μL (for 18 mm coverslip) of probe hybridization solution in the petri dish, on the parafilm (see ). Avoid air bubbles or remove them by pipetting.
+26.Gently remove the coverslips from the 12-well plate with forceps and position them vertically (letting them rest on the side of a tip box on kimwipes works well—see ) for a few seconds to allow the fluid to naturally accumulate at the base of the coverslip.
+CRITICAL: Do not leave the coverslips to airdry completely as this can dry out the sample.
+27.Quickly and gently tap off any excess liquid from the coverslips and place cell side DOWN onto the drop of probe mixture on the petri dish. Avoid bubbles. If bubbles are visible below the coverslip, gently tap on the coverslip to remove them (see ).
+28.Seal the petri dish with parafilm and place in a humid 37°C incubator for 4 h in the dark.
+Pause point: (Optional) Hybridization can be continued overnight at 37°C but this may result in increased background fluorescence.
+29.At 3.5 h, place wash buffer in 37°C incubator or water bath.
+30.Place coverslips into 12-well plates (cell side UP) and add 2 mL of pre-warmed 37°C wash buffer to each well. Incubate the plate at 37°C for 30 min in the dark.
+31.Aspirate the wash buffer and add another 2 mL of pre-warmed 37°C wash buffer to each well. Incubate the plate at 37°C for 30 min in the dark.
+32.During the second 30 min incubation period:a.thaw Prolong Gold with DAPI media at 18°C–22°C
+b.make 2×SSC by diluting 20×SSC with Milli-Q water 10-fold (2×SSC can be stored at 18°C–22°C and can be reused)
+c.label microscope slides
+
+33.Aspirate the wash buffer and rinse coverslips with 2×SSC by adding the 2X SSC solution to each well and aspirating it again.
+34.Add 2 mL of 1× PBS to each well and incubate for 5 min at 18°C–22°C (cover plate with foil to avoid photobleaching).
+35.Gently remove the coverslips from the 12-well plate with forceps and position them vertically (tip box on kimwipes works well—see ) to allow the fluid to fall down naturally.
+Note: Do not allow the coverslips to airdry completely and keep them covered with foil.
+36.For an 18 mm coverslip, pipet (dispense until first stop) 12–15 μL of Prolong Gold mounting media onto the microscope slide. Using a new pipet tip, pipet off any visible bubbles and gently place coverslip face down on mounting media. Place the slide in the dark once the sample has been mounted.
+CRITICAL: To avoid bubbles, it is crucial to depress the plunger of the pipet to the first stop (and not the second stop!) to dispense the Prolong Gold onto the microscope slide. Additionally, before use, spin the Prolong Gold at 2000 × g for about 5 min before use to force the air bubbles to the surface.
+37.Cover the mounted slides with foil and let them dry on a flat surface at 18°C–22°C for 24 h before imaging.
+Note: after 24 h, the slides can be imaged or can be stored at −20°C for months. Since the smFISH slides are mounted in mounting media, loss of image quality over time is very minimal, in contrast to protocols that rely on antifade buffers ( ; ; ), which require immediate imaging for good image quality.
+
+## Methods video S1. How to hybridize coverslips with fluorescent probes, related to steps 22–27
+
+## Day 3: Imaging
+Timing: 15–60 min per coverslip, depending on number of positions.
+
+## Coverslips are imaged and the recommended acquisition settings are outlined
+38.Image a rectangular region of the coverslip with several fields of view using the image tiling option of your microscope setup, such that a few thousand cells are imaged. Here are the recommended specifications for the imaging equipment:a.Microscope: Standard wide-field inverted fluorescence microscope (e.g., Zeiss AxioObserver or Nikon TE2000 or Ti)Note: Although confocal microscopes offer several advantages, they are not recommended for smFISH imaging because they use high intensities of light, which can rapidly bleach the smFISH signals. Additionally, pinholes in confocal microscopes significantly decrease the amount of light that reaches the detector, and smFISH protocols aim to collect the maximum number of photons emitted by the smFISH probes.
+
+b.Light source: We use an LED lamp (Lumencor SpectraX) but a well-aligned laser, a mercury lamp or a metal-halide lamp will also suffice. Using excitation light with a narrow wavelength range (less than 30 nm wide) is recommended as they will have high excitation of the specific signal and limited excitation of autofluorescent sources.
+c.Objective: smFISH signal is difficult to detect due to the intrinsically low signal from each transcript and its sub-diffraction limit size. Therefore, a high numerical objective (NA>=1.3) with a high magnification (50–65×) (i.e., Zeiss Plan-Apochromat 40×/1.40 Oil with 1.25× or 1.6× optovar) is recommended to ensure optimal optical resolution and section thickness. Since the NA determines the resolving power of the objective, high-NA objectives produce images which are highly resolved and contain more details compared to low-NA objectives. Furthermore, the NA has a significant impact on the optical section thickness and objectives with NA>1 allow for thinner optical sectioning.
+Additionally, choose a final magnification such that the pixel size is at least 100 nm. For example, for a camera (i.e., sCMOS) with a chip pixel size of 6.5 μm, the final magnification should be approximately 50×–65×. Since magnification decreases the image intensity, it is optimal to use a lower magnification if intensity information is more important for the research question, compared to positional information.
+d.Filter sets: For each channel, an excitation, dichroic, and emission filters are needed for each fluorophore. Choose the correct filters based on the fluorophores used. To prevent crosstalk between fluorophores, use narrow bandpass filters. For Quasar570 and Quasar670, these filter sets work well (see for additional information):i.For excitation filters: 395/25 for DAPI, 550/15 for Quasar570 and 640/30 for Quasar670
+ii.For emission filters: 460/50 for DAPI, 595/50 for Quasar570 and 697/60 for Quasar670.
+iii.For dichroic mirrors: 350/550 for DAPI, 550/700 for Quasar570 and 550/800 for Quasar670Note: We recommend to start imaging from the longest wavelength to the shortest wavelength, as shorter wavelengths result in more photobleaching.
+
+e.Camera: Novel sCMOS cameras have a high dynamic range and are sensitive enough for low-light level imaging. Several sCMOS cameras have a small pixel size (6.5 μm) and a large field of view (2048 × 2048), which are ideal specifications for imaging large areas. Using an EM-CCD camera is also possible, but although they are more sensitive than sCMOS, the images will have more noise and a lower dynamic range. For optimal resolution, use 1 × 1 binning in the camera settings.
+f.Imaging software: Standard microscope software that allows tiling and z-stacks, such as MicroManager. If tiling is not an option, the alternative is to manually image different positions on the coverslip.
+g.Set acquisition conditions in imaging software:i.Excitation power and exposure time: for each smFISH signal, it is recommended to use maximum (100%) power. The exposure depends on the light source and can vary between 250 ms and 1000 ms. For the DAPI channel, a low power setting (20%) and a very short exposure time will likely suffice. The user may need to adjust the exposure time to optimize spot detection. Note that longer exposure means better signal detection, but also increased background detection and bleaching, which may actually reduce the signal-to-noise ratio.
+ii.Z-stacks: In order to detect RNA spots throughout the whole cell volume, multiple z-slices need to be acquired. It is recommended to use 300 nm z-steps and collect at least 21 sections to image diploid yeast. During acquisition, image all z-sections in one channel before switching to another channel.CRITICAL: All slides from the same experiment should be imaged using the same conditions.
+
+## Expected outcomes
+If the protocol is followed precisely, one should see clear diffraction-limited fluorescent spots about 200–300 nm in size. The spots should be sharp and distinct in shape and readily identifiable by eye. There should be low background fluorescence and high signal-to-noise ratio. See for sample images.
+ The expected results are distributions of the mature mRNA count per cell and nucleus and a distribution of the nascent RNAs at the transcription sites. For examples, see F, 4G, and 4I.
+ 
+
+## Quantification and statistical analysis
+Timing: depends on experimental design
+
+## Images are analyzed and relevant information is extracted
+While the analysis approach may vary depending on the research goal, here are the steps for RNA quantification:
+1.Visually check the images for high signal-to-noise ratio and even background: To extract reliable information from the images, it is imperative that the images have a high signal-to-noise ratio where clear spots are discernable above background. In addition to being able to visualize single diffraction-limited spots, the images should have low and even background. For example, bubbles in the mounting media or technical issues, such as insufficient washes post-hybridization, can result in high and uneven background, (see ) which can lead to incorrect results from the succeeding steps. For tips on how to avoid uneven background, check the section.
+Note: We have a custom smFISH python code, which processes steps 2–7 described below, available on GitHub—github.com/Lenstralab/smFISH. Our custom code allows for flexibility in the analysis and provides integration of all the steps into a single pipeline, but all described steps are also possible with other software, as indicated below. With automated image acquisition and such integrated analysis pipelines, it is feasible to analyze thousands of cells per experiment. We recommend imaging and analyzing at least 1000 cells, in order to get sufficient statistics for the mRNA and nascent RNA distributions.
+2.Maximum intensity projection: compute maximum intensity projections of the z-stacks and save as TIFF files. This can be done in ImageJ ( ).
+3.Cell and nuclear segmentation: Image segmentation is a useful step to partition the cell to localize mRNA expression in parts of the cell. The DAPI signal and the FISH signal can be used to assign the nuclear and the cellular boundaries, respectively (see B). If using multiple probes, it is best to use FISH signal of the highest expressed gene to segment the cells. Generally, we recommend first detecting the nuclei of each cell as primary objects, and subsequently using these to identify cells as the secondary objects in the FISH signal. Additionally, disregard cells and nuclei at the image borders. This segmentation can be performed in CellProfiler ( ), ImageJ or MATLAB (Image Processing toolbox or FISH-quant, ). The output are images in which every nucleus and cell have a unique number, or cell outlines.
+4.Spot detection and semi-automated selection of threshold: In smFISH images, the RNAs should be significantly (at least 1.5 times) brighter than the background and should have the width of a point spread function. Therefore, individual spots are detected by bandpass or Gaussian filtering and, specifically, by identifying regions in the bandpass image where the pixel values are higher than a specified threshold value. For the bandpass filtering, it is highly recommended to determine the threshold values by performing a systemic screening of minimum to maximum intensity values, in incremental steps. For each threshold, identify the total number of spots (in other words, the number of connected regions wherein all pixels are above the threshold value) and plot the total spot count as a function of varying intensity thresholds ( ; C). If the imaging data is of high quality, the plot will start high at the lower threshold values and plateau towards the higher threshold values. The optimal threshold is at the position where the number of spots detected is constant and parallel to the actual number of smFISH spots ( C). Additionally, the histogram of all the intensities of the local maxima pixels in the images can be plotted to validate that the optimal threshold is selected between the background and the signal ( D).
+5.Fitting spot intensities: FISH spot analysis can be done by using various applications, such as FIJI (GaussFit_OnSpot) and MATLAB (FISH-quant, ). To measure the intensity of each diffraction-limited spot, the detected spot needs to be fitted with a 2D or 3D Gaussian fitting algorithm with background subtraction using a tilted background plane. We recommend fixing the width of the 2D or 3D gaussian to the theoretical PSF width, to prevent fitting of low-quality spots that arise from background noise, which usually have wider width. In addition, for proper intensity fitting, the spots need to be suffiently spaced. 3D fittings allows for better separation of spots than 2D fitting, because spots in different z planes are not merged. Still, the small size of yeast cells limit the maximum number of detected transcript to approximately 25 spots per cell, if the spots are localized in 2D and 40 spots per cell, if the spots are localized in 3D. E shows an example of detected and fitted spots. The result is a list or table of the location and intensity of each spot.
+6.Counting RNAs: Spot counting in different regions of the cell can be achieved by overlaying the segmentation mask images from step 3 and spot detection data from step 5 to get a distribution of RNAs within a whole cell ( F), within the cytoplasm only (not shown) or within the nucleus only ( G). Such distributions can be made with the custom code or MATLAB (FISH-quant, ).
+7.Counting nascent RNAs: Additionally, one may be interested in calculating the number of nascent RNAs at the transcription site, the site of RNA synthesis. If transcription of a gene is sufficiently high, multiple nascent RNAs will be simultaneously present at the transcription site. In that case, the transcription site will have a higher intensity than cytoplasmic RNA, and this property, together with its localization in the nucleus, can be used to distinguish the transcription site from single RNAs. After determining the transcription site in each cell by selecting the brightest nuclear spot, its raw intensity can be used to reveal the number of nascent transcripts at each transcription site by normalizing its intensity with the intensity of a single RNA. Assuming most spots in the cytoplasm are single RNAs, we can determine the intensity representing a single RNA from the cytoplasmic spots. First, plot a distribution of the intensities of the cytoplasmic spots from all the cells in the sample. Note that this distribution should have a sharp and narrow peak around a specific value, which represents the intensity of a single RNA ( H). In this case, a narrow peak is defined as a distribution where >90% of the spot intensities fall between 0.5–1.5 times the intensity of a single RNA. The lower intensity spots (<0.5 times the intensity of a single RNA) may represent degrading RNAs and the higher intensity spots (>1.5 times the intensity of a single RNA) may represent colocalized unresolvable RNAs or misclassified transcription sites. Second, either fit the cytoplasmic intensity distribution with a Gaussian and take the mean or, preferably, take the median value of the distribution, which represents the intensity of a single RNA. Third, to calculate the number of RNAs at the transcription site, normalize the intensity of the brightest nuclear spot in each cell by the median intensity of cytoplasmic RNAs ( I). Since the resulting transcription site intensities are continuous rather than discrete, we recommend generating a nascent RNA distribution with bins 0.5–1.5, 1.5–2.5, 2.5–3.5, etc. This nascent RNA distribution can, for example, be compared to different theoretical models to reveal transcription dynamics ( , , ).
+ 
+
+## Limitations
+
+## Probes
+To successfully perform smFISH, it is essential to have a good probe set and confirm that this approach is reliable and successful for your gene of interest. For each new smFISH probe set library, it is important to perform the proper controls to validate that the results match the expected expression levels (determined with an independent assay, such as qRT-PCR). To test for probe specificity we recommend testing a new probeset in a strain or condition where the target gene is deleted or not expressed as a negative control. Not all probe sets work and some genes are too small to design a sufficient number of probes. Additionally, when testing a new probe set, it is recommended to perform 2-probe smFISH, where one of the probes is a control probe for RNAs that are present in every cell. smFISH is only reliable with probe sets that yield a high signal-to-noise ratio. If the gene is sufficiently long, the signal-to-noise ratio of single RNAs can be increased by increasing the number of probes that hybridize to an mRNA. This is preffered over increasing the exposure time above 1000 ms during image acquisition since longer exposure times will bleach the fluorescence signal ( ; ).
+
+## Expression level of the gene
+When measuring the nascent RNA distribution, the expression level of a gene is another important consideration. The nascent RNA distribution is most reliable for genes with intermediate expression levels. To calculate the nascent RNA distribution, the intensity of the transcription site, which is the genomic site of RNA synthesis, is normalized by the median intensity of a cytoplasmic RNA. The nascent RNA distribution for genes with high expression levels may be challenging if the transcription site intensity is saturating the signal or if there are too many diffraction-limited RNAs in the cell. The latter can result in improper localization and quantification of individual cytoplasmic RNAs and, therefore, in an incorrect scaling of the nascent transcription site distribution (see A). On the other hand, for lowly transcribed genes, it can be difficult to determine which spot corresponds to the transcription site since the intensity of a transcription site may resemble the intensity of a single RNA ( B). In general, the inability to distinguish a transcription site from a single RNA (nuclear localization and intensity) may result in an underestimation of the percentage of non-transcribing cells. A possible solution to distinguish the transcription sites and single RNAs for lowly expressed genes could be to combine RNA FISH with a DNA labeling technique, such as DNA FISH.
+ 
+
+## Troubleshooting
+One of the challenges of this protocol is that the consequences of the technical mistakes made on Days 1 and 2 will only be visualized on Day 3, when the slides are imaged under the microscope. There could be technical errors, such as overdigestion or underdigestion of the cells, hybridization issues, high background levels, bubbles, etc. Possible solutions for some of these issues have already been offered within the protocol. Here are some additional issues one may encounter, along with possible solutions that may help with optimization.
+
+## Problem
+No signal or low signal.
+
+## Potential solution
+For first experiments with new probe sets, it is important to take along a control sample, or a control probe, to exclude technical errors and artifacts. The control sample should display the expression of the gene in a majority of cells.
+If there is no signal or low signal, these could be possibilities:
+Low spheroplasting efficiency: if many cells do not show signal, it is possible that the yeast cell wall was not efficiently digested or overdigested. Correct digestion is a crucial step so that the probes can enter the cells, and can be optimized by checking the digestion of cells at different times with a phase contrast microscope or a brightfield microscope. Check the CRITICAL comment after step (14) for additional details. In addition, it is recommended to take along a control probe of a housekeeping gene (PAB1 in glucose conditions and GAL3 in galactose conditions work well for us; sequences in ), to ensure that cell wall digestion and hybridization were performed correctly.
+Hybridization solution was not properly mixed, or a higher concentration of probes is required.
+Old formamide: Deionized formamide should be fresh. Old formamide can affect probe binding during hybridization and washing steps, resulting in inefficient binding.
+Low probe binding: Some probe sets do not bind well to the target RNA, which could be solved using higher probe concentrations, increasing hybridization time, lowering hybridization temperature, or by ordering a different probe set with a higher or lower GC content.
+Degradation of RNA: The presence of RNAse in one of the buffers can result in the degradation of the RNA. Make fresh buffers.
+Photobleaching: Using high intensities of light and long exposure times (>1000 ms) can bleach the fluorescence signal. A possible solution is to reduce the intensity of the illumination as well as the exposure time.
+Additionally, lower signal can be caused by inappropriate mounting media (we recommend ProLong Gold), wet mounting media (we recommend drying slides for at least 24 h), unstable fluorophores (we recommend Quasar570 and Quasar670) or bad illumination conditions such as background light or inproper filter sets (see 38d).
+
+## Problem
+Saturated signal from, for example, bright transcription sites.
+
+## Potential solution
+If the signal is saturated, shorten the exposure time or lower the illumation power.
+
+## Problem
+Nonspecific signal.
+
+## Potential solution
+Some probe sets bind nonspecifically to other RNAs. To test this, the same probe set can be used on a deletion strain for that target RNA, or in a strain where the gene is not expressed. A possible solution to reducing nonspecific signal is to design probes with higher homology to the RNA sequence, add competing probes to the mix in excess and use shorter hybridization times.
+Nonspecific signal could be due to high background, autofluorescence or bleedthrough. Check below for possible solutions for these problems.
+
+## Problem
+High fluorescent background ( ).
+
+## Potential solution
+Here are a few possibilities:
+Overgrown yeast: please refer to the notes after steps (2) and (4).
+Overfixation: It is important to keep the fixation time to 20 min and to wash off the fixative as quickly as possible to terminate the fixation.
+Insufficient washing after hybridization: additional wash steps can be included so repeat step (29) one or two more times.
+Bubbles: oftentimes, there are microbubbles in the mounting media and this leads to bubbles on the coverslip. If these bubbles are near the region of interest, they can diffract light, which results in out-of-focus light that can diffuse background fluorescence in the focal plane (see ). To prevent bubbles when pipetting the mounting media, do not pipet further than the first stop of your pipet. Be sure to remove all visible bubbles from the mounting media with a pipet before mounting the coverslip. Additionally, image away from the bubbles.
+
+## Problem
+Autofluorescence.
+
+## Potential solution
+Autofluorescent spots show up in multiple channels with similar intensities, whereas an smFISH spot should show up in the channel coupled to the fluorophore. To prevent autofluorescence, make sure the yeast is in the mid-log growth phase and the culture at an optimal optical density. For ade- strains, the medium should be supplemented with additional adenine. Without extra adenine, the yeast cells will start to turn slightly red, leading to increased levels of background fluorescence during imaging.
+
+## Problem
+Bleedthrough.
+
+## Potential solution
+Bleedthrough can occur when spots in one channel are extremely bright and they show up as pseudo spots in other channels with different fluorescence intensities. These pseudospots can make it appear as if spots from different channels are often colocalized but the differences in intensities can help one distinguish the real signal and the bleedthrough pseudospots. To avoid bleedthrough between channels, choose fluorophores that are spectrally well-separated, and choose optical filter sets that separate the wavelengths well. Additionally, image the different channels sequentially, starting with the channel with the longest wavelength.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Tineke Lenstra (t.lenstra@nki.nl).
+
+## Materials availability
+This study did not generate new unique reagents.
+
+## Data and code availability
+Our custom python code, mentioned in the section, is available on GitHub—github.com/Lenstralab/smFISH.
+
+## Acknowledgments
+This work was supported by the Netherlands Organization for Scientific Research (NWO, 016.Veni.192.071 and gravitation program CancerGenomiCs.nl), Oncode Institute, which is partly financed by the Dutch Cancer Society, and the European Research Council (ERC Starting Grant 755695 BURSTREG).
+
+## Author contributions
+H.P.P., I.B., and T.L.L. conceived and optimized the protocols. H.P.P. and T.L.L. wrote the manuscript. H.P.P., I.B., and T.L.L. revised and edited the manuscript.
+
+## Declaration of interests
+The authors declare no competing interests.
+
+## Footnotes
+Supplemental information can be found online at https://doi.org/10.1016/j.xpro.2021.100647.
+
+## Contributor Information
+Heta P. Patel, Email: h.patel@nki.nl.
+Tineke L. Lenstra, Email: t.lenstra@nki.nl.
+
+## Supplemental information
+
+## Table S1. smFISH probe sequences
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Methods video S1. How to hybridize coverslips with fluorescent probes, related to steps 22–27
+
+## Table S1. smFISH probe sequences
+
+## Data Availability Statement
+Our custom python code, mentioned in the section, is available on GitHub—github.com/Lenstralab/smFISH.

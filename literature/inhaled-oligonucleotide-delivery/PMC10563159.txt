@@ -1,0 +1,470 @@
+822acssdJournal of Proteome ResearchJ Proteome ResPMC1056315910563159105631593773395510.1021/acs.jproteome.3c00389IL18R1-Related
+Molecules as Biomarkers for Asthma
+Severity and Prognostic Markers for Idiopathic Pulmonary Fibrosis
+LinKun WangTing TangQingqin ChenTingsang LinMeishan JinJieyu CaoJun ZhangSheng XingYanru QiaoLongwei LiangYuting †Department
+of Laboratory Medicine, The Affiliated Hospital of Putian University, Putian University, Putian, Fujian Province 351100, China‡Center
+for Reproduction and Genetics, School of Gusu, The Affiliated Suzhou Hospital of Nanjing Medical University, Suzhou
+Municipal Hospital, Nanjing Medical University, Suzhou 215008, China§Center
+for Clinical Laboratory, The First Affiliated
+Hospital of Soochow University, Suzhou 215006, China∥Department
+of Pulmonary and Critical Care Medicine, The Affiliated Hospital of Putian University, Putian University, Putian, Fujian Province 351100, China⊥Basecare
+Medical Device Co., Ltd., Suzhou 215000, China*Email: qiaolongwei1@126.com.
+*Email: liangyuting666@126.com.
+2192023221033203320–333111102023© 2023 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ To determine the role of inflammation-related proteins
+in predicting
+asthma severity and outcome, 92 inflammation-related proteins were
+measured in the asthmatic serum using Olink analysis. Different bioinformatics
+algorithms were developed to cross analyze with the single-cell or
+transcriptome data sets from the Gene Expression Omnibus database
+to explore the role of IL18R1 and related genes in asthma and idiopathic
+pulmonary fibrosis (IPF). Olink identified 52 differentially expressed
+proteins in asthma. They were strongly linked to the cytokine–cytokine
+receptor interaction, TNF, and NF-κB signaling pathway. Seven
+proteins were found in both single-cell RNA and Olink analyses. Among
+them, IL18R1 was predominantly expressed in mast cells, and the results
+suggested enhanced communication between mast cells and CD 8+ T cells. IL18R1 was upregulated in serum and induced sputum and
+bronchoalveolar lavage fluid of patients with uncontrolled or severe
+asthma. IL18R1 was positively correlated with TNFSF1 and OSM and S100A12.
+The diagnostic efficacy of these serum IL18R1-related molecules for
+asthma ranged from 0.839 to 0.921. Moreover, high levels of IL18R1,
+TNFSF1, OSM, and S100A12 were significantly associated with shorter
+survival times and worse lung function. IL18R1-related molecules may
+serve as biomarkers for monitoring uncontrolled or severe asthma and
+as prognostic markers for IPF.
+Keywords: asthma, idiopathic pulmonary fibrosis, IL18R1, biomarker, prognosis
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Jun 30; Collection date 2023 Oct 6.
+
+## Introduction
+Asthma is a chronic respiratory inflammatory
+disease that affects
+more than 300 million people worldwide. Asthma symptoms are caused by airway inflammation, which triggers
+airway hyperresponsiveness (AHR), mucus production, and airway remodeling. Up to 10% of adults and 2.5% of children have
+severe asthma with persistent symptoms or frequent exacerbations despite
+adequate treatment with high-dose inhaled glucocorticoids, long-acting
+β2 agonists, or long-acting muscarinic antagonists. , , Severe asthma with repeated episodes
+of allergen exposure and dysregulated mucosal surface inflammation
+can lead to collagen deposition, increased numbers of myofibroblasts,
+angiogenesis, and ultimately, subepithelial fibrosis. Mast cells (MCs) are the effector cells in the pathophysiology
+of allergy. Emerging evidence indicates a role for IgE-independent
+MC activation in the late-stage asthmatic response as well as in nonallergic
+airway diseases including chronic obstructive pulmonary disease (COPD),
+and idiopathic pulmonary fibrosis (IPF). Tissue remodeling and fibrosis are major features of many pulmonary
+diseases, including asthma and IPF. The
+prognosis of patients with IPF is poor, with a 5 year survival rate
+of less than 40%. , Therefore, it is important to
+develop new biomarkers that can accurately predict disease outcome
+(predictive biomarkers) and early markers of treatment responses (monitoring
+biomarkers) for severe asthma and to determine whether these markers
+can allow for early identification of patients with IPF with a poor
+prognosis.
+Serum inflammation-related proteins are associated
+with asthma
+development and progression. Elevated IL-6 levels have been reported
+in the bronchoalveolar lavage fluid (BALF), serum, and induced sputum
+of asthmatic patients and are associated with asthma severity, impaired
+lung function, and airway remodeling response. IL-18 is a proinflammatory factor that promotes the production
+of T helper (h)2 cytokines (e.g., IL-4, IL-5, IL-9, and IL-13) and
+is closely associated with Th2 cell differentiation, IgE production,
+and AHR formation. – Recent work identified an IL-18 association with
+the pathogenesis of asthma, wherein increased IL-18 and IL-18R expression
+was found in the serum and lung tissue of patients with asthma, , suggesting that IL-18 may participate in the development of asthma.
+In addition, sustained stimulation by these inflammatory factors leads
+to asthmatic airway remodeling, bronchial epithelial damage, and secretion
+of growth factors by activated epithelial cells, including IL-13,
+IL-1β, and TGF-β, all of which activate the underlying
+mesenchymal cells, ultimately leading to subepithelial fibrosis, basement
+membrane thickening, and smooth muscle hyperplasia. The recruitment of fibroblasts and release of excess extracellular
+matrix (ECM) components, such as fibronectin and proteoglycans, subsequently
+lead to pulmonary fibrosis. , Thus, inflammatory
+activation plays an important role in the pathogenesis of asthma and
+IPF. However, the correlation between inflammation-related proteins
+and asthma and the prognostic value of these specific biomarkers remain
+unclear.
+In this study, Olink proteomics, which has shown excellent
+reproducibility
+and stability in the detection of proteins in plasma samples, was
+used to explore new biomarkers for asthma, generate insights into
+the pathogenesis of asthma, and guide asthma treatment. We used the
+Gene Expression Omnibus (GEO) database to assess the relationship
+between these signature molecules, lung function, and prognosis in
+patients with IPF.
+
+## Materials and Methods
+
+## Analysis of Inflammation-Related Biomarkers in Asthmatic Patients
+Using Olink Multiplex Arrays
+This study was conducted in
+compliance with the 1975 Declaration of Helsinki and was approved
+by the Medical Ethics Committee of the Affiliated Hospital of Putian
+University (approval no. [2020]17). The inclusion criteria for poorly
+controlled asthma patients (n = 24) refer to previous
+studies. Participants without asthma
+(n = 29) were included as controls. Approximately
+2 mL of blood per patient was collected into serum separation tubes,
+and the serum was then extracted by centrifugation at 1500 rpm for
+10 min and frozen in an −80 °C refrigerator until assayed.
+The serum samples were analyzed using Olink multiplex arrays according
+to the manufacturer’s instructions, allowing analysis of 92
+inflammation-associated proteins in a single test. Briefly, each inflammation-related
+protein was recognized by antibodies and coupled with its specific
+complementary oligonucleotide barcode, which was subsequently detected
+and quantified using PCR. The final assay results are presented as
+normalized protein expression values and log2-transformed.
+
+## Functional Enrichment Analyses for Differentially Expressed
+Proteins for the Olink Data
+Differentially expressed proteins
+in the Olink data were analyzed using the limma package with the following
+criteria: p < 0.05. A heat map and volcano plot
+were drawn using the ggplot package. , Functional
+enrichment analyses, including gene ontology (GO) and Kyoto Encyclopedia
+of Genes and Genomes (KEGG) pathway analyses, were performed using
+ggplot2. Protein–protein interaction (PPI) networks of differentially
+expressed proteins were constructed and visualized using STRING and
+Cytoscape (version 3.9.1). , 
+The Spearman
+correlation of the differentially expressed proteins was calculated,
+and a heat map of the correlation was plotted using ggplot.
+
+## Analysis of scRNA-seq Data
+The single-cell RNA (scRNA)-seq
+data of GSE164015 were analyzed using R package “Seurat”
+(4.0.3). Cells with <200 genes, >2500 feature RNAs, or >20%
+mitochondrial
+genes were excluded. The “LogNormalize” method was used
+to normalize gene expression. After normalization, 2000 highly variable
+genes (HVGs) were obtained. Subsequently, significant principal components
+were then identified using PCA, and the distribution of P-values was plotted using the JackStraw and ScoreJackStraw functions.
+The FindClusters function was used to classify the cells into 26 principal
+clusters with a resolution of 0.25. Based on cluster-specific cell
+markers, nine clusters were identified and presented using uniform
+manifold approximation and projection (UMAP), and irGSEA (https://github.com/chuiqin/irGSEA) was used to assess whether the gene sets were enriched in a particular
+cell subpopulation. CellChat (https://htmlpreview.github.io/github.com/sqjin/CellChat/blob/master/tutorial/CellChat-vignette.html) was used to assess cellular communication between the cell subpopulations.
+
+## Analysis of IL18R1 Expression in Patients with Asthma
+Four data sets (GSE137268, GSE41863, GSE45111, and GSE76262) and
+the clinical features of induced sputum samples were downloaded and
+analyzed. To investigate the differential expression of IL18R1 between
+asthma patients and controls across different types of asthma, we
+used the limma function to analyze the data. Moreover, the ssGSEA
+score was used to explore immune infiltration in the GSE76262 data
+set samples, which was calculated according to the marker genes of
+23 types of immune cells. The Spearman
+correlation between IL18R1 and the MC score was also evaluated.
+
+## IL18R1-Related Coexpression Genes and Differentially Expressed
+Genes Analysis
+Coexpression of genes correlated with IL18R1
+expression in the GSE76262 microarray data of patients with severe
+asthma was investigated. The Pearson correlation coefficient was calculated,
+and a volcano plot of the coexpressed genes was generated using ggplot.
+Patients with severe asthma from the GSE76262 data set were divided
+into two groups (IL18R1low and IL18R1high) based
+on the median value of IL18R1 mRNA. The limma package in R was used
+to analyze and plot a volcano map of the DEGs between the IL18R1low and IL18R1high. IL18R1-related KEGG enrichment
+analysis was performed using WebGestalt (http://www.webgestalt.org/) for gene set enrichment analysis (GSEA). DrawVenn (http://bioinformatics.psb.ugent.be/webtools/Venn/) was used to explore the overlapping genes between coexpressed genes,
+DEGs, and the 52 Olink inflammation-related circulating biomarkers.
+The diagnostic efficiency of overlapping genes was evaluated according
+to the area under the curve (AUC) of the Olink data set. The association
+of IL18R1 with well-known asthma treatment-related genes (FKBP5 and
+IL13RA1) was further analyzed using the GSE76262 data set.
+
+## Prognostic and Lung Function Analysis
+Kaplan–Meier
+analysis and the log-rank test of L18R1, TNFSF1, OSM, and S100A12
+was used to compare survival among different groups using the R package
+for Kaplan–Meier survival from the GSE70866 data set (BAL gene
+expression profile from 212 IPF patients and 20 healthy donors). IPF
+patients were divided into high- and low-expression groups according
+to the optimal cutoff value of gene expression. The correlations between
+L18R1, TNFSF1, OSM, and S100A12 and lung function, including the predicted
+FVC %, DLCO %, and FEV1%, in the GSE47460 data set (lung tissue gene
+expression profile from 582 subjects including 254 interstitial lung
+disease, 220 COPD, and 108 controls) were also calculated.
+
+## Results
+
+## Analysis of Olink Inflammation-Related Biomarkers in Asthma
+Ninety-two inflammation-related proteins were evaluated using the
+Olink analysis in asthmatic and nonasthmatic subjects. A total of
+52 inflammation-related proteins were differentially expressed between
+the asthma and control groups, of which 50 were upregulated and 2
+were downregulated in the asthma group ( A). A heat map of these differentially expressed
+proteins is shown in B, and a box plot comparing the expression levels of the 52
+inflammation-related proteins between the asthma and control groups
+is shown in C,D. Among them, IL-18 pathways, including IL-18, IL18R1, EN-RAGE
+(S100A12), and OSM, and TNFSF14, were markedly upregulated in the
+asthma group.
+ 
+
+## Functional and Pathway Enrichment Analyses for Differentially
+Expressed Inflammation-Related Biomarkers
+To further explore
+the potential function and pathway enrichment of differentially expressed
+proteins, we performed GO and KEGG analyses . GO enrichment analysis
+for biological processes (BP) indicated that these differential proteins
+were associated with inflammatory response, cytokine-mediated signaling
+pathway, and neutrophil chemotaxis ( A). KEGG pathway analysis showed that the
+differential proteins were strongly linked to the cytokine–cytokine
+receptor interaction, the TNF signaling pathway, and the NF-κB
+signaling pathway ( B). Additionally, PPI networks were used to explore the interactions
+among the differentially expressed inflammation-related biomarkers.
+As shown in C, NF-κB signaling pathways, such as TNF and IL-18, had high
+scores in the PPI network, suggesting that these molecules play important
+roles in asthma. Critically, IL-18, an upstream activator of NF-κB,
+and its receptor IL-18R1 are closely associated with severe asthma. Moreover, S100A12, HGF, OSM, TNFSF14, MCP-3,
+and AXIN1 were positively correlated with IL18-R1 expression ( D), suggesting that
+these molecules may be closely associated with severe asthma.
+ 
+
+## Inflammation-Related Biomarkers in Single-Cell RNA Sequencing
+Data from Asthma Patients
+To explore the pathogenic mechanisms
+of inflammatory molecules in asthma, an scRNA sequencing data set
+(GSE164015) of bronchial cells from eight human BALF samples who had
+asthma was analyzed for normalization, clustering, and high-variance
+gene screening. The top 10 high-variance genes are identified in A. Nine distinct
+cell clusters were assigned to cell lineage marker genes and visualized
+using UMAP analysis ( B). A total of 1939 differentially expressed genes (DEGs)
+from each cluster were obtained, and intersections were taken with
+the Olink differentially expressed inflammation-related biomarkers.
+Seven inflammation-related biomarkers, including IL18 and IL18R1 were
+identified in both the scRNAs and the Olink data ( C). The expression of these
+seven inflammation-related biomarkers in the scRNA clusters is shown
+in D. Notably,
+IL18 and IL18R1 were predominantly expressed in MCs, which are the
+main effector cells in asthma development ( E,F). Moreover, we also found activation
+of multiple signaling pathways in MCs, such as MYC-targets, PI3K-AKT-mTOR
+signaling, and TNFA-signaling-via-NF-κB ( G). To explore the cell–cell interaction
+network in the BALF of asthma patients, the CellChatDB package was
+used to analyze cell–cell communication in different cell types.
+We observed enhanced communication between MCs and CD 8+ T cells ( H).
+ 
+
+## IL18R1 Expression in Patients with Asthma
+Consistent
+with our results, previous studies also demonstrated that IL18R1 is
+upregulated in patients with asthma. However,
+the role of IL18R1 in different asthma types is not well understood.
+To explore the role of IL18R1 in asthma, four data sets were downloaded
+from the GEO database. The mRNA level of IL18R1 was significantly
+upregulated in the induced sputum of patients with asthma compared
+to that in healthy controls ( A,G,J). Moreover, IL18R1 expression was slightly increased
+in uncontrolled or moderate asthma ( B,F,K) and significantly increased in severe
+asthma compared to healthy controls ( B,F,K). We also explored the relationship
+between IL18R1 expression and airway inflammatory subtypes, which
+correlated closely with the response to inhaled glucocorticoid therapy. We did not find any differences in IL18R1 expression
+across the airway inflammatory infiltration subtypes, even after adjusting
+for asthma severity ( C–E,H,I). The scRNA results showed that IL18R1 was
+predominantly expressed in MCs. We found a significant increase in
+MCs in asthmatic sputum and further confirmed a positive correlation
+with the expression of IL18R1 ( L,M).
+ 
+
+## Functional Enrichment Analysis of IL18R1-Related Genes in Asthma
+To further investigate the mechanism of IL18R1 in severe asthma,
+DEGs between the IL18R1high and IL18R1low groups
+were compared in severe asthma. As shown in A, 1442 DEGs were identified (P < 0.05, |log2 FC| ≥ 0.5), of which 451 were upregulated
+and 991 were downregulated in the IL18R1high group. To
+further investigate the pathways altered in severe asthma between
+the IL18R1high and IL18R1low groups, GSEA was
+performed using WebGestalt (http://www.webgestalt.org/). Natural killer cell-mediated cytotoxicity,
+the TNF signaling pathway, and the C-type lectin receptor signaling
+pathway were activated in the gene sets, further suggesting that the
+TNF signaling pathway involving IL18R1 plays an important role in
+the pathogenesis of severe asthma ( B,C). Next, the coexpressed genes in conjunction
+with IL18R1 in the GSE76262 data set were investigated. The results
+show that 4108 coexpressed genes were highly correlated with IL18R1
+expression in severe asthma (P < 0.05, |cor.|
+≥ 0.3) ( D). We also compared the 1442 DEGs of IL18R1 and 4108 coexpressed
+genes with the 52 Olink inflammation-related circulating biomarkers
+by DrawVenn diagram, and we identified four overlapping genes associated
+with the IL18R1 signaling pathway ( E). IL18R1 showed a strong positive correlation
+with TNFSF1 and the OSM and a slightly positive correlation with S100A12,
+which was strongly positively correlated with the OSM ( F). We also explored the diagnostic
+value of these four biomarkers and IL18R1 in the serum of patients
+with asthma. The results showed that IL18R1, IL18, TNFSF1, OSM, and
+S100A12 levels were significantly higher in the asthma group, with
+AUCs ranging from 0.839 to 0.921 ( G). The association of IL18R1 with some well-known
+asthma treatment-related genes was further analyzed, and the results
+show that IL18R1 was positively associated with FKBP5, the expression
+of which was associated with high levels of corticosteroid use, and
+IL13RA1, a lebrikizumab receptor that blocks IL-13 signaling ( H,I).
+ 
+
+## Prognostic and Lung Function Effects of IL18R1 as a Characteristic
+Asthma Molecule in IPF
+A previous study indicated that asthmatic
+airway remodeling, bronchial epithelial damage, and the secretion
+of growth factors by activated epithelial cells ultimately lead to
+IPF. However, prognostic and lung function
+effects of IL18R1 signaling (IL18R1, TNFSF1, OSM, and S100A12) as
+a characteristic asthma biomarker in IPF are still unclear. K–M
+survival analysis was performed for IL18R1, TNFSF1, OSM, and S100A12
+in the BALF of patients with IPF from the GSE70866 data set. Patients
+with IPF were divided into high- and low-expression groups according
+to the optimal cutoff value of gene expression. The results show that
+patients with high expression of IL18R1, TNFSF1, OSM, and S100A12
+had significantly shorter survival times than those with low expression
+( A–C).
+Moreover, IL18R1, TNFSF1, OSM, and S100A12 were significantly negatively
+correlated with lung function indicators including the predicted FVC
+%, DLCO %, and FEV1% in the lung tissue gene expression profiling
+data set GSE47460 ( D).
+ 
+
+## Discussion
+The identification of clinically available
+biomarkers, such as
+serum markers, to provide an early indication of asthma control will
+greatly facilitate the development of therapies for severe asthma,
+reduce recurrent acute lung injury resulting from asthma exacerbations
+leading to IPF, and may be important for the early identification
+of patients with IPF who have poor prognosis. In this study, we found
+that IL18R1 was predominantly expressed in MCs according to scRNA-seq
+and was upregulated in serum and induced in the sputum of patients
+with uncontrolled or severe asthma. Based on proteomic and transcriptome
+analyses, it was not associated with airway inflammatory infiltration
+subtypes. The reason maybe that IL18R1 was not enriched in eosinophils
+and neutrophils. Moreover, we found that IL18R1 and its coexpressed
+genes (IL18, TNFSF1, OSM, and S100A12) are not only of high diagnostic
+value in asthma but are also closely associated with lung function
+and poor prognosis in IPF.
+Fifty-two inflammation-related proteins
+were differentially expressed
+in serum between the asthma and control groups using the Olink inflammation
+panel assay. Several of these proteins were strongly associated with
+asthma progression and were reported to be significantly altered in
+serum. , Among them, IL-6, a biomarker of systemic
+inflammation, was proved to be elevated in the serum and airways of
+asthmatic patients. , The IL-6 family cytokines has
+recently been found to be increased in the plasma of patients with
+severe asthma associated with obesity and blood neutrophilia, possibly
+originated from increased production by inflammatory macrophages in
+the adipose tissue of obese patients. , OSM induced
+by bacterial dysregulation triggers asthma-related symptoms, including
+airway inflammation and mucus secretion. Blocking OSM with antibodies
+reduces the symptoms associated with severe asthma in mice after exposure
+to bacterial stimuli. OSM enhanced MC
+growth through fibroblast-dependent pathway in mice. Our results indicated that the OSM had a role in T-cell-mediated
+inflammatory processes in asthma and MCs were also involved. MMP10
+is overexpressed in bronchial biopsies and serum from asthmatic subjects
+with eosinophilic airway inflammation and is associated with fatal
+asthma attacks in children. , , NF-κB signaling pathway is one central pathway involved in
+airway remodeling processes in IPF. 
+We explored the potential functional and pathway enrichment for
+differentially expressed proteins and found that they were strongly
+linked to the TNF and NF-κB signaling pathways, which are master
+regulators of inflammatory responses associated with asthma progression. We further explored the pathogenic mechanisms
+of these differential inflammation-related proteins in asthma using
+scRNA sequencing and found that IL18R1 was predominantly expressed
+in MCs, which are closely associated with asthma severity, suggesting that the IL18R1 signaling pathway
+may be involved in the underlying pathophysiological processes of
+asthma in MCs. Consistent with our results, IL-18 was found to increase
+the number of IL-18R + MCs in the BALF of OVA-sensitized mice. IL-18/IL-18R1 was proved to promote circulating
+fibrocyte differentiation. Moreover,
+we found that IL18R1 was up-regulated in the induced sputum of patients
+with uncontrolled or severe asthma. Previous studies have confirmed
+that IL18R1 is highly expressed in the bronchial epithelium of patients
+with severe asthma and that NF-κB and AP-1 are involved in IL18R1
+receptor downstream signaling. Our results
+further highlight the IL18R1 axis as a potential key inflammatory
+pathway associated with severe asthma, which is significantly elevated
+in the serum and sputum of patients with asthma and may serve as a
+new biomarker. The functions and mechanisms of IL18R1 in severe asthma
+were explored by using enrichment analyses. As expected, the current
+GSEA analysis indicated that the function of IL18R1 was primarily
+related to the activation of the TNF signaling pathway. The Venn diagram
+further identified three of the Olink differential proteins (TNFSF1,
+OSM, and S100A12) that are closely related to the IL18R1 signaling
+pathway and that these molecules have high diagnostic efficacies for
+asthma. S100A12 has been previously shown to cause degranulation of
+mucosal and tissue MCs and amplify IgE-mediated responses that may
+exacerbate allergic inflammation and asthma. How these molecules work together in the underlying pathophysiological
+processes in asthma needs to be further explored.
+Repeated airway
+epithelial damage, chronic airway inflammation,
+epithelial-mesenchymal transformation, and airway remodeling play
+important roles in the pathology of asthma and IPF, suggesting similarities
+between the two diseases. A previous study found that IL18R1 was expressed
+in bronchoalveolar epithelial and alveolar macrophages from control
+subjects and was strongly expressed in mesenchymal cells from patients
+with IPF. S100A12 is mainly expressed
+in monocytes and its expression is high in both the blood and BALF
+of patients with IPF. , Additionally, S100A12 provokes
+MC activation, indicating that these key asthma molecules play an
+important role in the IPF progression. Here, Kaplan–Meier analysis
+of IL18R1, TNFSF1, OSM, and S100A12 in the BALF of patients with IPF
+as characteristic asthma molecules for survival was performed using
+the GSE70866 data set. Patients with high expression of IL18R1, TNFSF1,
+OSM, and S100A12 had survival times significantly shorter than those
+with low expression levels. Moreover, IL18R1, TNFSF1, OSM, and S100A12
+were significantly negatively correlated with lung function, including
+the predicted FVC %, DLCO %, and FEV1%, in the lung tissue GSE47460
+data set. Thus, IL18R1-related molecules may be potential biomarkers
+for predicting severe asthma and lung fibrosis.
+
+## Conclusions
+IL18R1 was predominantly expressed in MCs,
+which suggested an enhanced
+communication between MCs and CD 8+ T cells. IL18R1-related
+molecules were upregulated in serum, induced sputum, and BALF of patients
+with uncontrolled or severe asthma. These molecules exhibited high
+diagnostic efficacy in asthma and were significantly associated with
+shorter survival times and worse lung function.
+
+## Acknowledgments
+We thank all the families for participating in this
+research project.
+
+## Supporting Information Available
+The
+Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.jproteome.3c00389.
+Olink raw data (XLSX)
+
+## Author Contributions
+K.L., T.W.,
+and Q.T. contributed equally to this work. K.L. and T.W.: design,
+collection, and assembly of data. Q.T., T.C., and M.L.: administrative
+support. J.J., J.C., S.Z., and Y.X.: provision of study materials
+or patients. L.Q., and Y.L.: data analysis and interpretation. All
+authors read and approved the final manuscript.
+
+This study was
+supported by the Fujian Natural Science Foundation Project (2020J011262);
+the National Natural Science Foundation of China (grant nos. 81901632
+and 82001576); and the Primary Research & Development Plan of
+Jiangsu Province (BE2022736).
+
+The data sets
+used and/or analyzed during the current study are available from the
+corresponding author on reasonable request.
+
+The authors
+declare no competing financial interest.
+
+## Notes
+Ethics
+approval and consent to participate:
+donors and patient provided written informed consent.
+
+## Notes
+Consent
+for publication: all authors consent
+for publication.
+
+## Supplementary Material
+pr3c00389_si_001.xlsx
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+pr3c00389_si_001.xlsx

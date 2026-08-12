@@ -1,0 +1,230 @@
+pmcAnal ChemAnal Chem822acssd0370536acAnalytical Chemistry0003-27001520-6882pubs.acs.org/acpmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC13044879PMC13044879.113044879130448794185612310.1021/acs.analchem.5c025671ArticleSpatial Multiomics
+Combining Lipids and Gene Expression
+Using MALDI ISH MSI
+7273933VanderschootKyle A. . While the selected m/z value may vary depending on the composition
+of the multiplexed tag set, the selected m/z represents the most intense and analytically robust photoproduct
+for each gene.
+Ion images were generated using identical preprocessing
+parameters
+and root-mean-square (RMS) normalization using SCiLs Lab to calculate
+the intensity within each experiment. Custom Python scripts were developed
+and implemented to enumerate and calculate the m/z values for all chemically plausible peptide-derived ions,
+including photocleavage products, synthetic truncations, and common
+MALDI adducts. A second script was used to cross reference the library
+of theoretically plausible m/z values
+with the experimentally observed m/z values, using a 5 ppm mass error tolerance and selecting a single
+representative ion per gene using the criteria described above.
+For multiomic and higher multiplexed experiments, RNA-associated
+mass tag ion images were coregistered and overlaid with untargeted
+lipid ion images acquired using consistent spatial coordinates from
+the same tissue. Feature finding was preformed using SCiLS Lab T-REX2 algorithm, and spatial segmentation was carried out using
+a bisecting k-means algorithm and applied to the overlaid layers to
+define regions of interest for receiver operating characteristic (ROC)
+analysis and intensity comparison.
+
+## Results and Discussion
+Here, we describe a customizable
+method for the multiplexed spatial
+detection of RNA and endogenous metabolites using a shared MALDI MSI
+workflow. This approach builds upon a prior mass tagging strategy
+to enable multiomic assessment of gene expression and metabolomic
+signatures within a single, fresh frozen tissue section ( ). Our approach involves
+the incorporation of peptide-encoded mass tags to the nucleic acid
+hybridization moieties capable of being analyzed by MALDI MSI. By
+incorporating a photocleavable linker between the nucleic acid sequence
+and the correlated synthetic peptide tags, mass tags can be temporally
+released after being delivered to their appropriate spatial location.
+In brief, our method for mass labeling mRNA probes is designed in
+a flexible, modular format, allowing tags and probes to be mixed and
+matched in a cost-effective, scalable synthesis and application. We
+synthesized an o-nitrobenzylic azide photocleavable
+linker (SI Scheme 1) that is compatible
+with standard Fmoc protected peptide synthesis (SI Scheme 2). With the goal of having a flexible, modular,
+and expandable design. An azide-modified linker allows for copper-catalyzed
+azide–alkyne cycloaddition (CuAAC) click chemistry, which enables
+orthogonal and efficient labeling. ; SI Figures 8.1–8.6). Although
+some of the proposed structures are transient or potentially radical-containing,
+it is plausible that the MALDI matrix facilitates their stabilization,
+serving as a protonation sink and enabling detection.
+ .
+ To assess whether peptide mass tag–labeled
+probes can be
+applied simultaneously without ionization efficiency interference,
+we compared relative signal intensity and spatial localization between
+single-plex and multiplex MALDI ISH experiments (SI Figure 9). A single-plex experiment was run in parallel
+to a 3-plex mixture containing the same probe, enabling a direct evaluation
+of multiplex-associated ion suppression and spatial fidelity. We observe
+that the signal intensity and localization in the single-plex and
+multiplexed experiments are preserved under multiplexed conditions,
+indicating that coapplication of multiple gene-targeted probe sets
+does not compromise detectability or spatial information. These results
+support the feasibility of scaling MALDI ISH to higher multiplex levels
+and establish a foundation for subsequent multigene and multiomic
+imaging experiments presented in this study.
+We also evaluated
+the linearity and sensitivity of the MALDI ISH
+assay by titrating the concentration of mass-tagged probes and quantifying
+the resulting ion signal intensities (SI Figure 10). By doing so, we observed a clear, linear dose–response
+relationship across a range of hybridization concentrations (R2 = 0.95). This linearity confirms that MALDI ISH enables semiquantitative
+detection of transcript abundance without sacrificing spatial specificity.
+While inherent pixel-to-pixel variability arises from tissue heterogeneity
+and off-tissue regions during MADLI analysis, mean signal intensities
+remained proportional to probe concentration, demonstrating the assay’s
+reproducibility. Multiplexed experiments at 50 ng/μL further
+confirmed that simultaneous hybridization of multiple probes maintains
+signal intensity and spatial fidelity comparable to single-plex experiments.
+To further evaluate the reproducibility and spatial consistency
+of MALDI ISH signal across biological replicates, we analyzed the
+intensity and spatial consistency of mass tag distribution across
+two sections of WT mouse brain tissue coming from four different animals
+(SI Figure 11). Consistent ion intensities
+were observed for the shared tags and the associated linker variants
+across all eight sections, with box plots demonstrating low variability
+in signal intensity. Ion images for each shared tag also revealed
+conserved spatial localization patterns across replicates, confirming
+that the peptide mass tag labeling is both technically reproducible
+and spatially robust across biological specimens. For visualization,
+the most intense m/z value among
+the related linker variants derived from each peptide mass tag was
+selected to represent the spatial distribution, ensuring that the
+displayed images reflect the predominant and most analytically stable
+species detected.
+
+## MALDI ISH in Canavan’s Disease Mouse Model
+The
+multiplexing and multiomic capabilities of MALDI ISH was demonstrated
+using a 33-plex gene panel of a sagittal section of wild type (WT)
+mouse brain, where untargeted lipid analysis and gene expression were
+analyzed serially from the same tissue section ( ). First, the tissue was thawed under a vacuum
+and coated with a DHA matrix before being analyzed for lipids in negative
+ion mode at 20 μm. The matrix was subsequently removed during
+the fixation and ethanol dehydration steps. After hybridization with
+mass-tagged probes (SI Table 8), washing,
+and UV cleavage, the tissue was resprayed with DHA for analysis in
+positive mode. While data in this study were primarily at 20 μm
+spatial resolution, imaging at 10 μm is also achievable (SI Figure 12). Feature finding of the RNA-associated
+average mass spectra revealed 2,163 features and cross-referenced
+against 3,600 theoretical sequence and truncation products. The custom
+python script then applied the selection criteria for depicting the
+correct m/z within the 5 ppm error
+mass tolerance and S/N ratio >3 (SI Table 9).
+ While each ion image has a visually different localization,
+we
+have compared our MALDI ISH images to smFISH (SI Figure 14). Although hybridization between poly­(dU) tails
+of the probe and endogenous RNA poly­(A) tails is theoretically possible,
+such duplexes are among the weakest of all nucleic acid interactions,
+which is further discouraged by the applied hybridization conditions.
+We do not thoroughly test this here and acknowledge that we do not
+rule it out, but plan to address this more thoroughly in consecutive,
+validation studies. Fully synthesized mass tag probe constructs are
+precipitated and washed with 80% ethanol prior to their use in the
+assay, minimizing unbound azide-modified peptides that could nonspecifically
+adsorb to the tissue and generate false-positive signals (SI Figure 15). Further, the probes generated
+for CuAAC attachment have the theoretical potential to hybridize with
+the poly­(A) tails of endogenous mRNA; however, the calculated melting
+temperatures of such poly­(dU):poly­(A) interactions are less than those
+of the designed binding sequence and do not produce significant alteration
+to signal-to-noise ratio. A.1, B.1). WT and CD tissues were segmented simultaneously
+using the same list of m/z features, segmenting lipids
+and RNA as separate overlaid layers to define regions of the aligned
+imaging data sets because of the differences in intensity. Similar
+clusters were acquired for each sample, including clusters associated
+with the corpus callosum, brain stem, cerebellar granular and molecular
+layers, neocortex, and hippocampus (SI Figure 16.1 and SI Figure 16.2). Gene expression
+differences were most pronounced in the thalamus, a region that experiences
+vacuolization and loss of spatial organization in CD. Within this
+region, Meis2, a transcription factor critical for
+neurogenesis and neuronal maturation demonstrates the expected neuronal
+loss associated with the vacuolization in CD (SI Figure 13). The Meis2 cluster in the thalamus
+was then selected for lipidomic analysis by overlaying ISH-defined
+boundaries onto the same tissue’s lipidomic data ( A.3, B.3). Spatial correlation between
+the two data sets reveals that the thalamic subregion demonstrates
+both increases and decreases in sulfatide expression. Receiver operating
+characteristic (ROC) scores were calculated to determine the most
+discriminating features found from the segmented regions. In summary,
+SHexCer­(d40:1), PI(38:2), SHexCer­(t40:1), SHexCer­(t36:1), and SHexCer­(d38:1)
+were calculated to be discriminating features (ROC > 0.8).
+ Sulfatides are enriched in myelin sheaths and synthesized
+by mature
+oligodendrocytes, and their dysregulation is linked to white matter
+disease and neuroinflammation.
+ A.3, B.3). This midlength hydroxylated
+fatty acid chain SHexCer species has been observed in isolated pro-oligodendroblasts,
+supporting the hypothesis of glial compensation.
+ A.4), highlighting
+several peptide mass tags from the 33-plex experiment and the top-ranking
+ROC scoring lipids. Corresponding intensity boxplots ( B.4) further illustrate the
+differential abundances of the discriminating lipids between WT and
+CD animals. More detailed spectra and single-ion images are provided
+in SI Figure 13.
+While additional
+biological replicates are needed to validate and
+quantify these findings, the results presented here demonstrate another
+framework for integrated spatial multiomics. By combining multiplexed
+ISH with untargeted MADLI MSI, we demonstrate the ability to simultaneously
+visualize changes in gene expression and lipid composition. Unlike
+conventional untargeted lipidomic workflows that rely on anatomical
+landmarks or morphological features, our approach leverages gene expression
+to define regions of interest. This enables more accurate lipidomic
+analysis and a more biologically relevant interpretation to disease-specific
+changes. This strategy can further be expanded to capture cell-type-specific
+changes, whether related or unrelated to underlying genetic mutations,
+offering a robust and flexible method for interrogating complex tissue
+heterogeneity in health and disease.
+
+## Conclusions
+Here, we demonstrate a method for performing
+MALDI ISH MSI on the
+murine brain, targeting 33 genes through a cost-effective, flexible,
+and modular synthesis platform. We leverage a CuAAC-compatible linker
+that is capable of being incorporated with standard Fmoc peptide synthesis
+and undergoes photolysis efficiently. While we have leveraged the
+power of this technique using a small set of hybridization sequences
+correlated to a single peptide mass tag, the indiscriminate labeling
+chemistry can be applied in a smFISH-like assay using a modified nucleobase
+tailing strategy. Additionally, this mass tagging approach could be
+used as a substitute for fluorescent oligonucleotide detection probes
+in more elaborate nucleic acid architectures, such as those used in
+MERFISH, Xenium, RNAscope, and others.
+Furthermore, we demonstrated
+the capability to integrate untargeted
+lipidomics with targeted gene expression data, derived from the same
+tissue section. The use of a mass spectrometer enables multiomic detection
+of lipids and mRNA features that allows for cell type information
+to give additional context to the cell’s lipid profile. This
+serial approach can easily be applied to incorporate the detection
+of small polar metabolites, drugs, and secondary metabolites. Additionally,
+the high resolving power of the mass spectrometer allows for simultaneous
+multiplexing like never before. While a small sampling has been shown
+here, the modular design allows for easy expansion to include any
+gene target of choice. This approach can be further expanded and complemented
+further to simultaneously detect both genes and proteins in a combined
+workflow MALDI IHC and MALDI ISH to cover entire biochemical pathways.
+Finally, it should be noted that MALDI ISH is not limited to MALDI
+ionization and that different ionization sources may be easily integrated
+to this kind of photocleavable mass tagging strategy.
+Future
+efforts will be aimed at optimizing the platform to address
+the extraneous m/z values that were
+identified due to the photolysis reaction. The simplicity and compatibility
+of the synthesis were attractive options; however, the additional m/z values generated from the cyclization
+and loss of water was not anticipated and complicate the design of
+the peptide mass tags. Additionally, the synthesis and purification
+of the peptide mass tags can be improved, eliminating truncation products
+and helping reduce the possible number of overlapping m/z values. We hope the system can further what we
+are then able to further investigate more complex systems and diseases,
+helping reveal unseen relationships between gene expression and metabolomic
+signatures.
+
+## Supplementary Material
+
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.analchem.5c02567.Additional experimental data, including MALDI spot tests
+and MS/MS spectra of peptide mass tags, analysis of photocleavage
+kinetics, LC-MS characterization of CuAAC products, validation of
+MALDI ISH probe performance, spatial ion images for individual gene
+targets, and smFISH comparisons across wild-type and CD mouse brain
+tissues (PDF)
+
+The authors
+declare no competing financial interest.

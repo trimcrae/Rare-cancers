@@ -1,0 +1,250 @@
+3912bioprotBio-protocolBio ProtocBio-protocol, LLCPMC1141760811417608114176083931532110.21769/BioProtoc.5063FixNCut: A Practical Guide to Sample Preservation by Reversible Fixation for Single Cell Assays
+WangShuoshuo Jiménez-GraciaLaura De AmaralAntonella Arruda VlachosIoannis S PlummerJasmine HeynHolger MartelottoLuciano G 
+1Spatial Technologies, Beth Israel Deaconess Medical Center, Harvard Medical School, Boston, MA, USA
+2Broad Institute of MIT and Harvard, Cambridge, MA, USA
+3Centro Nacional de Análisis Genómico (CNAG), Barcelona, Spain
+4Universitat de Barcelona (UB), Barcelona, Spain
+5Omniscope, Barcelona, Spain
+6Center for Spatial Omics, St Jude Children’s Research Hospital, Memphis, TN, USA
+7Department of Developmental Neurobiology, St Jude Children’s Research Hospital, Memphis, TN, USA
+8Department of Cellular and Molecular Biology, St Jude Children’s Research Hospital, Memphis, TN, USA
+9Comprehensive Cancer Center, St Jude Children’s Research Hospital, Memphis, TN, USA
+10Adelaide Centre for Epigenetics (ACE), University of Adelaide, Adelaide, South Australia, Australia
+11South Australian immunoGENomics Cancer Institute (SAiGENCI), University of Adelaide, Adelaide, South Australia, Australia§Technical contact
+✉*For correspondence: luciano.martelotto@adelaide.edu.au
+
+5920241417e5063e50632392024©Copyright : © 2024 The Authors; This is an open access article under the CC BY-NC license This is an open access article under the CC BY-NC license (https://creativecommons.org/licenses/by-nc/4.0/).
+
+## Abstract
+
+The quality of standard single-cell experiments often depends on the immediate processing of cells or tissues post-harvest to preserve fragile and vulnerable cell populations, unless the samples are adequately fixed and stored. Despite the recent rise in popularity of probe-based and aldehyde-fixed RNA assays, these methods face limitations in species and target availability and are not suitable for immunoprofiling or assessing chromatin accessibility. Recently, a reversible fixation strategy known as FixNCut has been successfully deployed to separate sampling from downstream applications in a reproducible and robust manner, avoiding stress or necrosis-related artifacts. In this article, we present an optimized and robust practical guide to the FixNCut protocol to aid the end-to-end adaptation of this versatile method. This protocol not only decouples tissue or cell harvesting from single-cell assays but also enables a flexible and decentralized workflow that unlocks the potential for single-cell analysis as well as unconventional study designs that were previously considered unfeasible.
+
+Key features
+
+• Reversible fixation: Preserves cellular and molecular structures with the option to later reverse the fixation for downstream applications, maintaining cell integrity
+• Compatibility with single-cell assays: Supports single-cell genomic assays such as scRNA-seq and ATAC-seq, essential for high-resolution analysis of cell function and gene expression
+• Flexibility in sample handling: Allows immediate fixation post-collection, decoupling sample processing from analysis, beneficial in settings where immediate processing is impractical
+• Preservation of RNA and DNA integrity: Effectively preserves RNA and DNA, reducing degradation to ensure accurate transcriptomic and genomic profiling
+• Suitability for various biological samples: Applicable to a wide range of biological samples, including tissues and cell suspensions, whether freshly isolated or post-dissociated
+• Enables multi-center studies: Facilitates collaborative research across multiple centers by allowing sample fixation at the point of collection, enhancing research scale and diversity
+• Avoidance of artifacts: Minimizes stress or necrosis-related artifacts, preserving the natural cellular physiology for accurate genomic and transcriptomic analysis
+Keywords: Single cell, Tissue, Fixation, Lomant's reagent, DSP, Sample preservation, Single-cell sequencing
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Jun 1; Revised 2024 Jul 28; Accepted 2024 Jul 30; Collection date 2024 Sep 5.
+
+## Graphical overview
+
+ 
+
+## Background
+Single-cell techniques have revolutionized biological and clinical research by quantitatively capturing the genomic and transcriptomic state of individual cells at unprecedented resolution and scope [1]. This approach moves beyond averaging the bulk population, which consists of various cell types. However, the technical and logistical challenges of acquiring or generating high-viability single-cell suspensions have limited the application of single-cell genomics and transcriptomics.
+Multi-center clinical studies often involve sample collection from remote areas lacking processing infrastructure [2,3]; additionally, longitudinal and cohort recruitment of patients occurs over the years, subject to patient availability and logistics constraints. Moreover, even in advanced clinical centers, the urgency of tissue harvesting during surgical procedures, biopsies, or autopsies can depend on factors such as the type of surgery, the purpose, and the specific protocol followed, as well as the transfer procedures between surgery and histopathology [4,5]. In basic research using organoids, embryos, or rare specimens, the limited cell number poses a significant bottleneck for conducting scientifically meaningful and economically feasible single-cell analysis.
+In many experimental setups typical for clinical research, the freeze-thaw process remains the predominant option for sample collection en masse. However, freezing will physically damage the cell membrane, impact the post-thaw viability, and disrupt intracellular compartments where endogenous RNases are sequestered, leading to RNA degradation. In addition, cryopreservation may lead to the loss of certain cell types and induce cellular stress response [6]. Moreover, variably staggered freezing and thawing through aliquoting cells for parallel orthogonal assays, for example, single-cell mass cytometry (CyTOF), single-cell RNA-Seq, single-cell ATAC-Seq, and additional multiomic assays, can lead to inconsistency, introducing technical artifacts and batch-wise noise to the data. Recently, the fixed RNA (flex) assay has been gaining popularity due to its robustness; however, so far probes are only available for humans and mice and do not target immunologically and clinically paramount transcripts such as joining and variable regions in B and T-cell receptor (BCR and TCR), Killer cell immunoglobulin-like receptors (KIRs), and human leukocyte antigen (HLA), nor polyadenylated non-coding RNA.
+Notably, many important immune cells—such as neutrophils, dendritic cells, monocytes, macrophages, and lymphocytes (B cell and T cells), as well as cells with higher intrinsic mechanical integrity such as epithelial cells—are considered fragile for single-cell applications due to their susceptibility to mechanical damage during sample preparation, including cell sorting or tissue dissociation [7–9]. Loss of these cells often leads to underrepresentation in downstream analysis. Therefore, identifying a method allowing the stabilization of fragile cells without perturbing RNA integrity will enhance the recovery of these important populations.
+The ideal fixative must possess several characteristics: first, it should be small and able to penetrate the cell membrane and tissues. Second, it should preserve the structure and integrity of cells. Third, it should not destroy RNA integrity and should, ideally, inhibit RNase activity at least temporarily. Currently, one of the most common options for single-cell assays is using either standard or modified methanol fixation [10–14]. Methanol works by dehydrating samples and denaturing proteins in a gentle manner, similar to histology fixation. However, methanol as a standalone fixative has raised concerns regarding biased results or ambient RNA leakage in single-cell RNA-Seq [6]. A possible mechanistic explanation is the irreversible intracellular compartment disruption resulting in the loss of normal lipid and protein structure during dehydration–rehydration cycles. In addition, incomplete reverse transcription of mRNAs with more complex secondary structures was suggested as a major caveat [15].
+In contrast, dithio-bis-succinimidyl propionate (DSP), known as Lomant's reagent [16], has been traditionally used for histological tissue fixation to stabilize cellular integrity and structures through covalent crosslinking of free amine groups found at the N-terminus of polypeptide chains (diagrammatic molecular basis is depicted in Figure 1 of Akaki et al. [17]). It has been repurposed for single-cell RNA sequencing by maintaining RNA integrity and yield in bulk RNA extractions [18–20]. The cell and membrane permeability have been proven to be particularly useful in detecting rare cell populations such as tissue-resident immune cells. Certain T-cell populations can exist in very low numbers upon activation, making them difficult to isolate and analyze with conventional single-cell methods. A protocol called CLInt-Seq (crosslinker regulated intracellular phenotype sequencing) was developed to overcome the hurdle by crosslinking intracellular cytokines [21]. This technique combines and improves upon existing techniques to collect and genetically sequence rare T cells. The reversibility of DSP-induced crosslinking is a key feature allowing cells and tissue to be further processed or dissociated for downstream applications. However, a recent study concluded that de-crosslinking the DSP-fixed samples is optional, and additional handling steps of de-crosslinking may contribute counterproductively to cell loss [22].
+Recently, we developed the further optimized FixNCut protocol and demonstrated its robustness and benefits systematically by comparing fresh and fixed lung, colon, and pancreas samples from different species even under cryopreservation for an extended period [23,24]. Here, we provide an end-to-end solution in the form of a practical guide on the implementation of this method, to remove practical barriers by streamlining the transport of samples and scheduling of shared instruments for downstream single-cell isolation and processing.
+
+## Materials and reagents
+
+Biological materials
+
+Tissue samples and cell suspensions can both be used. For cells, the protocol is set up for up to 2 × 106 cells. For more cells, scale up the fixation accordingly. Tissues larger than 3 mm in diameter or edge length need to be partitioned into smaller pieces to facilitate fixative penetration
+
+Reagents
+
+DSP (Dithio-bis-succinimidyl propionate), also known as Lomant's reagent (Thermo Fisher, catalog number: 22586)
+DMSO, anhydrous (Thermo Fisher, Molecular Probes, catalog number: D12345)
+LiberaseTM research grade, 10 mg (Roche, catalog number: 5401119001)
+Protector RNase inhibitor (40 U/μL) (Roche, catalog number: RNAINH-RO)
+UltraPureTM 1 M Tris-HCI buffer, pH 7.5 (Thermo Fisher, Invitrogen, catalog number: 15567027)
+10× PBS buffer, pH 7.4 (Invitrogen, catalog number: AM9624 or AM9625)
+Ambion nuclease-free water (Invitrogen, catalog number: AM9932)
+Bovine serum albumin (BSA) solution, sterile filtered and cell-culture tested (Sigma Aldrich, catalog number: A1595)
+Tris base, UltraPure Tris buffer (powder format) (Thermo Fisher, Invitrogen, catalog number: 15504020)
+
+Solutions
+
+Fixation concentrate stock solution (1 mL, for 100 standard assays) (see Recipes)
+PBS with 1% BSA (see Recipes)
+1 M Tris pH 7.5 (optional, if not using ready-made buffer) (see Recipes)
+
+Recipes
+
+Fixation concentrate stock solution (1 mL, for 100 standard assays)
+
+ 
+
+PBS with 1% BSA
+
+ 
+
+1 M Tris pH 7.5 (optional, if not using ready-made buffer)
+
+Start with 30 mL of water and adjust pH to 7.5 by adding 5 M HCl to a final volume of 50 mL.
+
+ 
+
+Laboratory supplies
+
+DNA LoBind tubes 1.5 mL (Eppendorf, catalog number: 022431021)
+DNA LoBind tubes 2.0 mL (Eppendorf, catalog number: 022431048)
+Flowmi® cell strainers, porosity 40 μm, for 1000 μL pipette tips (Sigma, Scienceware, catalog number: BAH136800040)
+pluriStrainer mini 70 μm (pluriSelect, catalog number: 43-10070-40)
+Falcon conical centrifuge tubes (Corning, catalog number: 352070 for 50 mL, 352095 for 15 mL)
+Sterile serological pipettes with pipettor
+Rainin Pipet-Lite LTS pipette tips (Rainin, catalog number: 30389240, 30389213, 30389226)
+
+## Equipment
+Centrifuge 5810/5810R (Eppendorf, catalog number: EP022628188) with rotor S-4-104
+Rotor F-35-6-30 (Eppendorf, catalog number: EP5427716009)
+S-4-104 rotor adapters for 50 × 1.5/2 mL tubes (Eppendorf, catalog number: 58-257-40009)
+Standard heavy-duty vortex mixer (VWR or Fisherbrand, catalog number: 97043-562)
+ThermoMixer C (Eppendorf, catalog number: 05-412-503) or thermoblock with minimal temperature fluctuation
+Ice bucket with cool blocks or Cool Rack CFT30 (Corning, catalog number: CLS432052)
+Automated cell counter, e.g., Luna-FX7 (Logos Biosystems) or hemocytometer
+CoolCell freezing container for 12 × 1 mL or 2 mL cryogenic vials (Corning, catalog number: 432000) or Mr. Frosty freezing container (Thermo Scientific, catalog number: 5100-0001)
+Tissue-Tek cold plate (VWR Scientific, catalog number: 25608-942)
+
+## Procedure
+
+50× fixation concentrate stock preparation (50 mg/mL)
+
+DSP equilibration
+Thoroughly equilibrate the DSP package to room temperature for 30 min prior to first opening. Critical: Only open the package after equilibration.
+
+Note: The NHS-ester of DSP is susceptible to hydrolysis upon contact with the humid atmosphere and is therefore moisture sensitive. Thorough equilibration is crucial in preventing condensation and premature inactivation of DSP.
+
+50× working solution stock preparation
+Dissolve 50 mg of DSP in 1 mL of high-quality anhydrous DMSO for best performance. Final concentration: 50 mg/mL.
+Working stock storage
+For short-term storage, dispense 10 μL from the stock into 1.5 mL or 2 mL Eppendorf safe-lock microtubes and store at -80 °C in a sealed container or bag with desiccants.
+Alternatively, 10 μL aliquots can be stored in cryogenic vials with compression O-rings to prevent moisture absorption. Avoid freeze-thaw cycles by limiting the size of aliquots (up to 100 μL). Any opened and unused stock must be discarded.
+
+Working solution preparation (1 mg/mL)
+
+Note:
+
+Time-sensitive step.
+
+Prepare fresh working solution immediately before the fixation process.
+
+Using a P200 pipette, slowly and drop-by-drop add 490 μL of PBS to an Eppendorf tube containing 10 μL of 50× stock while vortexing (Video 1).
+
+Caution: Choose “touch mode” and maximal speed (3,500 rpm or no less than 2,500 rpm) on the vortex instead of the “on mode”. Using a P1000 pipette is acceptable too, but adding the PBS too fast will cause DSP to precipitate, which perturbs the effectiveness of fixation. It is not concerning to see tiny precipitates on the wall of the tube initially; however, in case of substantial precipitates, repeat by slowing down the PBS addition or start with a new DSP aliquot.
+
+ 
+
+Filter the working solution once using a 40 μm Flowmi strainer and transfer it to a new 1.5 or 2 mL tube to remove larger precipitates.
+
+Critical: Working solution standing for more than 10 min should not be used and must be discarded. If sample preparation takes longer than 10 min, prepare the working solution during the process to avoid leaving it standing.
+
+Fixation
+
+Note: For this section, follow instructions based on your sample type.
+
+Fixation of tissue samples
+For larger tissue samples or organoids (3 mm or larger in diameter/edge length), finely cut or mince the tissue with a sterile razor blade on a cold plate to facilitate working solution penetration. For effective fixation, tissue samples should be no thicker than 3 mm, with 1–2 mm being preferable for uniformity. This is because fixatives penetrate through passive diffusion, and the higher molecular weight of DSP (14.5-fold paraformaldehyde and 4-fold glutaraldehyde) significantly reduces its penetration speed and depth in tissue.
+
+Note: Fine mincing without separating the tissue minimizes sample loss during washing and transferring into a new tube.
+
+Add the minced tissue to a new Eppendorf tube containing 500 μL of working solution and incubate at ambient temperature for 30–45 min.
+Gently invert the tube every 15 min. For certain tissue types, if the tube becomes overly bloody or cloudy, consider replenishing once with fresh working solution.
+Fixation of cells
+Wash the cells in cold, sterile RNase-free PBS.
+Centrifuge the cells using an appropriate speed depending on type and fragility: usually between 150× g for 3 min (large cells) and 600× g for 10 min (small cells). Keep the cell pellet and remove the supernatant. Resuspend in cold, sterile RNase-free PBS.
+Repeat this step for a minimum of two washes.
+
+Note: Remnant media containing FBS (see General notes, Tip 4), storage additives, or sheath fluid components may interfere with the crosslinking.
+
+Pellet the cells, resuspend in 500 μL of working solution, and incubate for 30 min at ambient temperature.
+Gently invert the tube once at the 15-min mark.
+
+Quenching of reactive DSP
+
+Note: For this section, follow instructions based on your sample type.
+
+For cells
+Add 10 μL of 1 M Tris-HCl pH 7.5. Then, mix thoroughly on a vortex for 2–3 s followed by a 15 min incubation at room temperature.
+
+Note: As an amine-reactive crosslinker, excessive reactive DSP must be quenched with Tris-HCl buffer before proceeding. The quantity is stoichiometrically optimized and must be adjusted accordingly if more fixative was used for larger tissues or a higher number of cells.
+
+Centrifuge at 500× g for 5 min at ambient temperature. Remove supernatant.
+Resuspend the cell pellet in 1,000 μL of PBS. Mix by vortexing for 2–3 s.
+Centrifuge at 500× g for 5 min at ambient temperature. Remove the supernatant.
+Repeat steps D1c–D1d for a total of two washes.
+Resuspend the cells in 0.5–1 mL of cold PBS with 1% BSA.
+
+Note: For maximal RNA integrity, add 0.2–1 unit/μL RNase inhibitor to the final resuspension buffer.
+
+Filter the final resuspension through an appropriately sized filter for the cell type. Commonly used mesh sizes for single-cell suspensions are between 40 and 70 μm.
+Count cells, bring concentration to 1,000–1,500 cells per microliter, and proceed to encapsulation.
+For tissues
+Add 10 µL of 1 M Tris-HCl pH 7.5. Then, mix thoroughly on a vortex for 2–3 s followed by a 15 min incubation at room temperature.
+Centrifuge at 500× g for 20 s or for 5–10 s in a mini spinner and remove supernatant.
+Add 1 mL of 200 μg/mL Liberase in PBS.
+Incubate the tissue with digestion buffer at 37 °C for 30 min with agitation at 800 rpm on a ThermoMixer C with heated lid.
+
+Note: The length of digestion may need to be optimized according to tissue type.
+
+Pipette to mix the sample 5–10 times every 15 min to facilitate digestion.
+After digestion is completed, filter the sample through a 70 μm filter and into a 15 mL falcon tube to remove coarse debris.
+Add 10 mL of ice-cold PBS and mix well.
+Centrifuge the sample at 500× g for 5 min in a pre-cooled centrifuge with swinging bucket rotor.
+Discard the supernatant and resuspend the pellet again in 10 mL of ice-cold PBS with 1% BSA. Mix well.
+Repeat steps D2g–D2h for three washes.
+Filter cells with an appropriate filter depending on cell size and resuspend the cells in 0.5–1 mL cold PBS with 1% BSA. Count cells, bring the concentration to 1,000–1,500 cells per microliter, and proceed to encapsulation.
+
+Note: For maximal RNA integrity, add 0.2–1 unit/µL RNase inhibitor.
+
+Cryopreservation of samples (Optional)
+
+Resuspend the cell pellet in 500 μL of fresh PBS or media.
+Count and record the cell number.
+Add an appropriate volume of chilled cryopreservation medium to obtain a cell concentration of 1–2 × 106 cells per milliliter.
+Dispense cell suspension aliquots of 1–2 mL into pre-cooled cryovials and place the cryovials inside a pre-cooled cell freezing container, e.g., CoolCell FTS30, to ensure gradual freezing.
+Place the cell freezing container in a -80 °C freezer for ≥4 h. After 4 h, transfer the cryovials to liquid nitrogen for long-term storage.
+Thaw in a 37 °C water bath and wash cells twice with PBS + 0.5%–1% BSA before proceeding to cell encapsulation.
+
+## Validation of protocol
+The current protocol has been routinely performed as a standard protocol on human, mouse, and rat tissues and primary cells at the Spatial Technologies Unit, Beth Israel Deaconess Medical Center, Harvard Medical School, being considered robust and reproducible. The whole procedure was repeated once after the completion of this manuscript by a person without previous knowledge using the current version to ensure details are correct, comprehensible, and executable.
+Additional verification has been conducted in various studies, as documented, and systematically tested and optimized in Jiménez-Gracia et al. [23] (Figures 1–7) and in Aney et al. [24] (Figure 1).
+Authors have validated the following sample types with successful single-cell RNA sequencing: human PBMC, mouse pancreas, mouse and rat liver, mouse lung, mouse colon, human colon biopsies, and human prostate.
+
+## General notes and troubleshooting
+
+General notes
+
+Tip 1: Only use freshly prepared DSP
+
+Make single-use aliquots (20–50 μL) for 2–5 fixations. Do not re-freeze leftovers. Keeping the stock fixative away from water is key because it neutralizes the NHS-esters quickly. Currently, this can be a limitation in clinical settings, since clinical staff requires bandwidth, proper instrument setup, and training for the fixation process.
+
+Tip 2: Avoid using Tris, glycine, or any other amine-active buffer to prepare the fixative
+
+Avoid buffer components with primary amines such as Tris and glycine buffers, as they compete with proteins in the sample. DSP reacts with non-protonated aliphatic amine groups, including the N (amine) terminus of polypeptides and the ε-amino group of lysine (K) side chain.
+
+Tip 3: Never bypass the stock preparation step by directly dissolving DSP solid powder in PBS
+
+DSP is hydrophobic and needs to be dissolved in DMSO before being added to the aqueous reaction mixture. Besides the 50 mg (22586) size, DSP is also available in 10 × 1 mg (A35393) or 1 g (22585) packaging. Although a smaller size unit is more expensive per sample, consider using a smaller size matching the experimental scale to avoid exposure to moisture absorption. Lot-to-lot differences in DSP may exist; testing one aliquot on the optimization sample from the batch can be a QC option.
+
+Tip 4: DSP crystal formation is normal but needs to be controlled; not all crystals are from DSP
+
+DSP does not possess a charged group; it is lipophilic and membrane-permeable, making it suitable for intracellular and intramembrane crosslinking. However, it is water-insoluble and can form crystal precipitates when preparing the working solution. These crystals are removed by filtering in step B3. However, usage of BSA and even a high percentage of FBS are common to promote cell survival and boost viability. Still, calcium oxalate crystals can often be found in commercial fetal bovine serum (FBS) [25], being mistakenly perceived as DSP crystals. Using BSA is not concerning but a high percentage of BSA will deplete reactive DSP and lead to cloudy samples.
+
+Tip 5: Calculate viability before fixation and re-count before storage
+
+Viability is no longer a good measure for single-cell sample quality because DSP permeabilizes the cell membrane. Therefore, it is advisable to measure viability immediately before the fixation. Some cells will inevitably be lost during wash steps, so recounting cells before freezing and storage is necessary. Because fixed cells are not alive, no additive beyond DMSO or glycerol is required, such as FBS, ascorbic acid, or cell culture media components.
+
+Tip 6: Pay attention to other potentially interfering components
+
+The list here is not exhaustive and only includes common examples. With the incorporation of new components into the FixNCut workflow, caution is advised. The central disulfide bridge in DSP provides a reducible link that can be cleaved by reducing agents such as DTT (dithiothreitol) or β-mercaptoethanol. In single-cell assays, DTT is commonly used to inhibit RNase activity, inactivate reverse transcription inhibitors, and dissolve gel beads by breaking their disulfide bonds, thus releasing oligonucleotides essential for mRNA capture. However, DTT also de-crosslinks DSP-induced fixation. DTT, often used with sodium dodecyl sulfate (SDS), can rapidly break down cells. Therefore, even fixed cells should not be left in the reaction mix for more than a few min before chip loading. In contrast, EDTA in cell sorting buffer does not interfere with the crosslinking process. Once cells are fixed, EDTA cannot alter intracellular protein structure through chelating divalent cations or prevent cell clumping by inhibiting calcium-dependent adhesion, making its use in FACS buffer non-essential.
+
+Final remark: As a reactive compound, DSP esters can cause eye and skin irritation and may be harmful if swallowed or inhaled. Therefore, it should be handled with care in a controlled laboratory environment. Always follow safety guidelines when handling chemicals, including wearing appropriate personal protective equipment and working in a well-ventilated area. The waste generated in this protocol is inactive but contains trace contents of DMSO and should be disposed of according to local regulations.
+
+## Acknowledgments
+This project has received funding from the Innovative Medicines Initiative 2 Joint Undertaking (IMI 2 JU) under grant agreement No 831434 (3TR; Taxonomy, Targets, Treatment, and Remission). The JU receives support from the European Union’s Horizon 2020 research and innovation program and EFPIA. Also, this project has received funding from the European Union’s H2020 research and innovation program under grant agreement No. 848028 (DoCTIS; Decision On Optimal Combinatorial Therapies In Imids Using Systems Approaches), and the Commonwealth Standard Grant Agreement 4-F26M8TZ. L.J.-G. has held an FPU PhD fellowship (FPU19/04886) from the Spanish Ministry of Universities. Australian Prostate Cancer BioResource (APCB) collection in Adelaide is supported by funding from the South Australian Immunogenomics Cancer Institute and the South Australian Health and Medical Research Institute. S.W., A.A.A. and I.S.V. acknowledge support from Spatial Technologies Unit of Precision RNA Medicine Core (RRID:SCR_024905), as well as the National Institutes of Health under award number P01AI179405 and U54HL165440. The authors further thank Dr. Tatsuyuki Sato and Dr. Joji Fujisaki for their valuable feedback and discussion. The graphics were created with BioRender.com.
+
+## Competing interests
+H.H. is a co-founder and shareholder of Omniscope, a scientific advisory board member of MiRXES and Nanostring, and a consultant to Moderna and Singularity. L.G.M is an advisor and shareholder of Omniscope, and advisor for ArgenTAG and BioScryb. Omniscope has filed a patent related to the application of the FixNCut protocol. All other authors declare no competing interests.
+
+## References

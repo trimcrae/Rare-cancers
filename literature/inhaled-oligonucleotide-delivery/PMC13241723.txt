@@ -1,0 +1,748 @@
+3946starprotSTAR ProtocolsSTAR ProtocElsevierPMC1324172313241723132417234221376910.1016/j.xpro.2026.104602Protocol for generating endogenous degron tags in essential transcription factors in human iPSCs via CRISPR-Cas9
+LiZiwei RobertsArthur NimseUtkal VuLucas FeiJia 1Department of Molecular Biology and Biochemistry, Rutgers University, Piscataway, NJ, USA2Rutgers Cancer Institute, New Brunswick, NJ, USA∗Corresponding author ziwei.li@rutgers.edu
+∗∗Corresponding author jia.fei@rutgers.edu
+3Technical contact
+4Lead contact
+285202672104602104602762026© 2026 The Author(s)This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+Precise genome engineering in human pluripotent stem cells remains inefficient, limiting endogenous fluorescent tagging needed to study phase-separated membraneless nuclear compartments. Here, we present a protocol for generating precise knockin alleles of essential genes in human induced pluripotent stem cells (iPSCs) via CRISPR-Cas9 editing. We describe steps for combining transient p53 inhibition, optimized transfection conditions, and fluorescence-activated cell sorting. This protocol enables recovery of viable edited clones that would otherwise be lost due to editing-induced stress or essential gene perturbation.
+For complete details on the use and execution of this protocol, please refer to Li et al. 
+Subject areas: Cell Biology, Genomics, Molecular Biology
+
+## Graphical abstract
+ 
+
+## Highlights
+•Instructions for designing gRNA and donor templates for precise genome editing
+•Steps for cloning Cas9-gRNA plasmids and assembling donor constructs
+•Guidance on transfecting iPSCs with p53 inhibition and optimized conditions
+•Procedures for sorting, expanding, and validating edited single-cell clones
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+Precise genome engineering in human pluripotent stem cells remains inefficient, limiting endogenous fluorescent tagging needed to study phase-separated membraneless nuclear compartments. Here, we present a protocol for generating precise knockin alleles of essential genes in human induced pluripotent stem cells (iPSCs) via CRISPR-Cas9 editing. We describe steps for combining transient p53 inhibition, optimized transfection conditions, and fluorescence-activated cell sorting. This protocol enables recovery of viable edited clones that would otherwise be lost due to editing-induced stress or essential gene perturbation.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoCollection date 2026 Jun 19.
+
+## Before you begin
+Efficient CRISPR/Cas9-mediated genome editing in human pluripotent stem cells depends critically on careful guide RNA (gRNA) and donor template design. In this protocol, gRNA sequences are cloned into Cas9 and gRNA co-expression plasmids to enable transient but robust Cas9 activity during the editing window.
+Donor plasmids are constructed using NEBuilder HiFi Assembly or an equivalent Gibson-style cloning strategy. For degron-based protein degradation systems, the E3 ligase auxin receptor F-box protein (AtAFB2) is commonly introduced by viral transduction or safe harbor locus knockin. However, viral methods can cause variable expression and promoter silencing, leading to cellular heterogeneity. We therefore attempted knockin at the safe harbor Adeno-associated virus integration site 1 (AAVS1) locus, but this did not yield robust expression in our system. To obtain stable expression, we integrated AtAFB2 downstream of the endogenous SUPT16H gene using an Internal Ribosome Entry Site (IRES), enabling simultaneous SUPT16H tagging and AtAFB2 expression in a single knockin step ( ).
+ gRNA target sites are selected such that the Cas9 cleavage site lies within 50 bp of the intended insertion site, with optimal efficiency typically observed when the cut site is within approximately ±25 bp. Based on repeated empirical observations, knockin efficiency is highest for insertions smaller than 3 kb, although larger insertions can still be recovered using fluorescence-activated cell sorting-based enrichment.
+For studies involving phase-separated condensates or live-cell imaging, careful selection of fluorescent tags is critical. GFP variants are bright and suitable for low-abundance proteins, whereas commonly used red fluorescent proteins, such as mCherry, are dimmer and often limit resolution. For single-molecule or ligand-based imaging, self-labeling tags such as HaloTag may be preferable. Tag choice should also consider endogenous expression levels and spectral separation when labeling multiple proteins.
+When incorporating degron-based perturbations, the choice of degradation system should be carefully matched to protein abundance and experimental requirements. The auxin-inducible degron (AID) system provides efficient and reversible protein depletion and is particularly well suited for essential genes, as degradation can be titrated by adjusting auxin concentration. , However, for highly abundant proteins, AID-mediated depletion may be incomplete or slow. In such cases, alternative systems such as dTAG (degradation tag, an FKBP12_F36V-based degron) can achieve more rapid and robust degradation. These advantages must be balanced against potential limitations, including higher cost, prolonged effects after ligand removal, and reliance on endogenous E3 ligases, which may perturb native ubiquitin-proteasome pathways.
+An additional key consideration in degron design is the choice of N- or C-terminal tagging. Tag placement can significantly influence protein stability, localization, and function (For example, , ), and should therefore be evaluated in the context of the protein’s structure and biological role. Careful assessment of tagging strategy is essential to ensure effective degradation while preserving native protein behavior prior to induction.
+
+## Innovation
+Mechanistic studies of transcription and chromatin regulation have often relied on mouse embryonic stem cells (mESCs), as precise genome engineering remains inefficient in human pluripotent stem cells due to low homology-directed repair (HDR) efficiency and poor survival after single-cell dissociation. As a result, endogenous fluorescent tagging of transcription factors in native human chromatin, which is required to study phase-separated nuclear condensates, has been difficult to achieve.
+Targeting essential genes such as SUPT16H or Nucleosome Destabilizing Factor (NDF, also called Glyr1) further exacerbates these challenges, as the combined stress of Cas9-induced double-strand breaks and single-cell isolation frequently triggers p53-dependent apoptosis before edited clones can be recovered. , , , , This protocol mitigates these barriers through three key modifications. First, transient suppression of the p53 response is achieved by co-transfection of the dominant-negative p53 construct pCE-mp53DD, reducing apoptosis during the critical editing window without permanently altering checkpoint control. Second, DNA repair outcomes are biased toward homology-directed repair through the use of the non-homologous end joining (NHEJ) inhibitor SCR7, thereby increasing the likelihood of precise knockin events. Finally, survival during single-cell isolation is supported by the use of CloneR2 or RevitaCell Supplement, which is essential for maintaining viability during FACS-based clonal selection. Together, these features enable reliable recovery of precise knockin clones at essential loci in human iPSCs.
+
+## Institutional review board approval
+All procedures for the derivation, use, and genetic modification of human iPSCs were approved by Rutgers University and carried out in compliance with relevant regulations.
+
+## Maintain human iPSCs under optimal culture conditions
+
+Timing: 2–3 days
+
+Before initiating genome editing experiments, it is important to establish appropriate culture conditions for human iPSCs. Cells should be maintained under feeder-free conditions using a defined medium such as Essential 8 (E8 or E8 Plus; Thermo Fisher Scientific) or an equivalent formulation (e.g., TeSR; STEMCELL Technologies). , Alternative approaches, including homemade E8 formulations supplemented with defined growth factors, may also be used if properly optimized. , 
+Culture conditions should be selected to support stable pluripotency, minimize spontaneous differentiation, and ensure high cell viability, particularly prior to transfection. Maintaining cells at appropriate density and avoiding excessive mechanical stress are critical, as both overconfluency and harsh dissociation can compromise cell health and reduce editing efficiency.
+For genome editing applications, cells should be in a robust proliferative state with consistent morphology and minimal differentiation. Optimization of culture conditions, including medium choice, coating substrate, and passaging strategy, may be necessary depending on the cell line and experimental design.
+Detailed step-by-step procedures for iPSC culture and maintenance are provided in the following section.
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+ 
+ 
+CRITICAL: Thaw Matrigel or Geltrex at 4 °C for 8–24 h. Pre-chill Eppendorf tubes and pipette tips at −20 °C for 20 min. Aliquot 400 μL into each tube on ice and store at −20 °C for up to 6 months. Keep one aliquot at 4 °C for short-term use (within 1–5 days). We recommend working quickly during aliquoting, as Matrigel and Geltrex are highly temperature sensitive.
+
+ 
+ 
+ 
+CRITICAL: Avoid inhalation, contact with eyes, skin, and clothing. Suspected of causing cancer. Wear protective gloves, wear protective eyewear, and do not mix with bleach.
+
+ 
+ 
+ 
+Note: The pH will be 12.0 for the Alkaline Lysis Buffer.
+
+ 
+Note: The Neutralization buffer can be diluted from the Tris-HCl buffer and further adjusted to pH 5.0 with Hydrochloric acid (HCl). HCl is corrosive and should be handled in a chemical fume hood with appropriate personal protective equipment.
+
+ 
+Note: Aliquot the buffer and store at −20 °C. Warm to appropriate temperature before use. SDS is an irritant and should be handled to avoid inhalation and contact with skin and eyes with protective equipment. β-mercaptoethanol is toxic and has a strong odor; it should be handled in a chemical fume hood with appropriate personal protective equipment.
+
+ 
+Note: No pH adjustment is necessary, and the final solution has a pH of ∼8.3
+
+ 
+
+Note: Store at 4 °C to pre-chill the buffer before use. SDS is an irritant and should be handled to avoid inhalation and contact with skin and eyes.
+
+ 
+ 
+
+## Step-by-step method details
+
+## Obtain gene sequence
+
+Timing: 15 min
+
+1.Retrieve the genomic sequence of the target gene, including exon–intron structure and annotated transcripts, using a genome browser such as Benchling.com.
+
+Note: Benchling provides access to the current human reference genome (Homo sapiens GRCh38) and an integrated interface for visualization of coding regions, untranslated regions, and gRNA design.
+
+2.Confirm that the correct genome build and transcript are selected before proceeding.
+
+Note: The retrieved sequence will be used for gRNA selection, donor template design, and primer design for downstream genotyping.
+
+## Genomic DNA extraction
+Column-based genomic DNA extraction using DNeasy Blood & Tissue Kit.
+This section describes two alternative approaches for genomic DNA extraction from human iPSCs. Column-based purification yields high-quality genomic DNA suitable for sequencing, cloning, and detection of low-frequency genome editing events, whereas the HotSHOT method provides a rapid and low-cost preparation compatible with PCR-based genotyping of clonal cell lines. However, due to its lower sensitivity, the HotSHOT method is not suitable for detecting low-frequency editing events in bulk cell populations after transfection.
+
+## Column-based genomic DNA extraction using DNeasy Blood & Tissue Kit (QIAGEN 69506) (high purity)
+
+Timing: 1 h for steps 3–12
+
+HotSHOT gDNA extraction using the HotSHOT alkaline Lysis Buffer.
+3.Pellet no more than 5 million iPSC cells by centrifugation and aspirate the supernatant completely.
+4.Resuspend the cell pellet in 200 μL DPBS, then add 20 μL Proteinase K and mix gently by pipetting.
+5.Add 200 μL Buffer AL, vortex thoroughly, and incubate at 56°C for 10 min.
+6.Add 200 μL ethanol (96-100%) and mix thoroughly by vortexing.
+7.Transfer the entire lysate to a DNeasy Mini spin column placed in a 2 mL collection tube and centrifuge at ≥6,000 x g for 1 min. Discard the flow-through and place the column in a new 2 mL collection tube.
+8.Add 500 μL Buffer AW1 and centrifuge at ≥6,000 x g for 1 min. Discard the flow-through and place the column back to the 2 ml collection tube.
+9.Add 500 μL Buffer AW2 and centrifuge at 20,000 x g for 1 min. Discard the flow-through and place the column back to the 2 ml collection tube.
+10.Centrifuge the column once more at 20,000 x g for 2 min to remove the residual wash buffer.
+11.Transfer the column to a clean 1.5 mL microcentrifuge tube.
+12.Apply 200 μL Buffer AE directly to the membrane, incubate at room temperature for 1 min, then centrifuge at ≥ 6,000 x g for 1 min to elute genomic DNA.
+Pause point: Purified genomic DNA can be stored at −20 °C for long-term storage.
+
+## HotSHOT gDNA extraction using the HotSHOT alkaline lysis buffer (rapid method)
+
+Timing: 0.5 h for steps 13–17
+
+13.Pellet approximately 1x 105 iPSC cells by centrifugation and wash once with DPBS.
+14.Resuspend the cell pellet in 50 μL HotSHOT Alkaline Lysis Buffer.
+15.Transfer the suspension to a PCR tube and incubate at 95 °C for 15 min in a thermocycler.
+16.Remove the tube from the thermocycler and immediately add 50 μL Neutralization Buffer. Mix thoroughly by pipetting to obtain crude genomic DNA lysate.
+17.Use 1 μL lysate directly for PCR-based genotyping.
+
+Note: Do not use more than 1 μL lysate per 25 μL PCR reaction. Excessive cell numbers or excessive lysate volume will inhibit PCR amplification.
+
+## Plasmid cloning and preparation of genome-editing constructs
+
+Timing: 1–2 weeks
+
+This section describes the design and cloning of gRNA–Cas9 expression plasmids and donor plasmids for genome editing in human iPSCs.
+
+## Construction of gRNA-Cas9 expression plasmids
+
+Timing: 2–3 days
+
+18.Identify proper gRNA sequences using Benchling (https://www.benchling.com/) or CHOPCHOP (https://chopchop.cbu.uib.no/), selecting high-ranking guides positioned appropriately relative to the desired edit.
+
+Note: Representative examples include the gRNA 5′-tatgtaggctcggtacacgg-3′ for NDF knockin, 5′-tcgggccgtggctctaaccgtgg-3′ for SUPT16H knockin, and 5′-CTCTTGGGCTCTTTTCAGAG-3′ for introduction of the NDF K161A mutation.
+
+19.Order complementary single-stranded DNA oligonucleotides encoding the selected gRNA target sequence with compatible overhangs for BbsI cloning ( ).
+
+Note: gRNA oligonucleotides do not require 5′ phosphorylation.
+
+20.Resuspend each gRNA oligonucleotide in 1x TE’ to a final concentration of 25 μM.
+21.Prepare the annealing reaction in a PCR tube as follows:
+
+ 
+ 
+22.Incubate the reaction in a thermocycler at 95 °C for 4 min to denature the oligos, then cool to 37 °C at a rate of 2 °C per min to 37 °C in a thermocycler.
+
+Note: Use the annealed oligos immediately or store at −20 °C.
+
+23.Digest the Cas9 expression plasmid PX459 or PX458-mCherry with BbsI-HF restriction enzyme.a.Set up the digestion reaction as follows: 
+b.Incubate at 37 °C for 16 h to ensure complete digestion.
+
+24.Resolve the digestion reaction on a 1% agarose gel and excise the linearized plasmid band (∼9 kb) using a clean, sharp blade.
+
+Note: When using a blue-light gel imager, wear appropriate eye protection and avoid direct exposure to light.
+
+25.Purify the excised gel fragment using the QIAquick Gel Extraction Kit according to the manufacturer’s instructions.
+26.Measure the concentration of the purified linearized plasmid using a UV spectrophotometer.
+27.Set up the ligation reaction as follows:
+
+ 
+
+Note: A high insert-to-plasmid ratio is required because the gRNA oligonucleotides are not phosphorylated.
+
+Note: Include a mock ligation reaction without insert to assess background vector religation.
+
+28.Incubate the ligation reaction at 25 °C for 5 min.
+
+Note: Extending the ligation time may help improve ligation efficiency.
+
+29.Chill the ligation reaction on ice and add 2-5 μL of ligation product to 100 μL DH5α chemically competent cells. Mix gently and incubate on ice for 30 min.
+30.Heat-shock the cells at 42 °C for 45 s, then place immediately on ice for 2 min.
+31.Plate transformed cells onto LB agar plates containing 100 μg/mL ampicillin and incubate at 37 °C for 16–20 h.
+
+Note: PX459 and PX458 are ampicillin-resistant; therefore, a recovery incubation before plating is not required. Ampicillin is used for the selection of positive clones.
+
+32.Pick 2-3 colonies into LB medium containing 100 μg/mL ampicillin and culture for 14–16 h at 37 °C with shaking.
+33.Purify plasmid DNA using the QIAprep Spin Miniprep Kit (QIAGEN 27106) according to the manufacturer’s instructions.
+34.Validate gRNA insertion by Sanger sequencing using a standard U6 sequencing primer and store confirmed plasmids at −20 °C.
+
+Note: All plasmids (including the donor plasmids described below) used for cell transfection must be prepared with endotoxin-free purification kits. Include an RNase A treatment during the miniprep (as provided or recommended by the kit) to remove RNA contamination. If the plasmid yield is insufficient, perform a midiprep or maxiprep. Do not use ethanol precipitation to purify or concentrate the plasmid DNA, as residual salts from ethanol precipitation reduce cell viability during DNA transfection. If concentration is required without a maxiprep, use ethanol-free methods such as vacuum concentration (SpeedVac) or column-based DNA cleanup with a low elution volume, and confirm plasmid purity by A260/A280 and A260/A230 measurements before transfection.
+
+Pause point: The plasmids can be stored at −20°C for at least one year.
+
+## Construction of donor plasmids
+
+Timing: 3 days (hands-on time: ∼3 h)
+
+35.Primer design for each fragment amplification ( A and 1C) can be facilitated using the NEBuilder online tool (https://nebuilder.neb.com/), with overlapping regions typically spanning 15–30 base pairs to ensure efficient NEB HiFi assembly (>20 bps is recommended). Donor constructs typically consist of the following fragments: backbone vector, left homology arm (HA), degron or reporter tag, and right homology arm.
+
+Note: Homology arms are PCR amplified from purified, high-quality genomic DNA. Backbone vectors are typically small, high-copy plasmids (such as pUC19 or pGEM vectors), which can improve transfection efficiency. Reporter or degron tags are commonly PCR amplified from existing plasmids, which can be obtained from repositories such as Addgene.
+
+Note: Each fragment is amplified separately by PCR, gel purified, and subsequently assembled into the backbone vector using NEBuilder HiFi DNA Assembly. Homologous arms are typically designed to be at least 500 bp in length to ensure efficient homology-directed repair. Primers for amplification of homology arms from genomic DNA can be designed using tools such as NCBI Primer-BLAST to minimize the off-target amplification.
+
+36.Prepare the PCR reaction mixes for amplification of each fragment (e.g., backbone, left HA, degron/reporter and right HA) as follows:
+
+ 
+
+Note: Minimize the amount of plasmid template DNA used if it carries the same antibiotic selection marker as the backbone vector, to reduce the risk of false-positive colonies after NEBuilder HiFi Assembly. The template sources for fragment amplification ( ) are listed in .
+
+ 
+Note: For amplification of left and right HA, which are derived from genomic DNA, high-quality genomic DNA should be prepared using a column-based extraction method, such as the QIAGEN DNeasy Blood & Tissue Kit, as described above.
+
+37.Set up the PCR program as follows:
+
+ 
+
+Note: The Thermo Fisher 2× Phusion Plus PCR system uses a universal annealing temperature, allowing amplification of different fragments under the same PCR conditions, which simplifies the workflow. For amplification of genomic DNA, alternative high-fidelity DNA polymerases (such as Q5) may be used if the 2× Phusion Plus system does not yield optimal results. When using other polymerases, the annealing temperature should be determined based on primer design using tools such as the NEB Tm Calculator (https://tmcalculator.neb.com/).
+
+38.Resolve the PCR products on a 1% agarose gel and excise the band corresponding to the expected size, as predicted based on the template sequence and primer positions.
+39.Visualize the gel using a blue-light gel imager and excise the bands of interest using a clean, sharp blade.
+
+Note: When using the blue light imager, attention should be taken to protect your eyes from UV light.
+
+40.Purify the gel strips using the QIAquick Gel Extraction Kit according to the manufacturer’s instructions.
+41.Measure the concentration of the DNA fragments using a UV spectrophotometer.
+42.Set up the NEBuilder HiFi Assembly mix as follows:
+
+ 
+
+Note: NEBuilder HiFi Assembly should be performed according to the manufacturer’s recommendations. For example, optimal cloning efficiency is achieved using 50–100 ng of vector with a 2-fold molar excess of each insert, and a 5-fold molar excess for inserts smaller than 200 bp. Donor constructs typically require assembly of multiple PCR fragments, including the backbone vector, left homology arm, degron or fluorescent reporter tag, and right homology arm. Additional elements may be included depending on experimental design (e.g., selection markers, linkers, or epitope tags). In C; six fragments were assembled in a single reaction.
+
+43.Incubate at 50°C for 30 min.
+
+Note: Extended incubation up to 60 min may help to improve assembly efficiency in some cases.
+
+44.Cool the assembly reaction on ice, then follow steps 29-33 for transformation and plasmid extraction.
+45.Verify each donor plasmid by Sanger sequencing of the junctions or the entire insert to confirm fidelity.
+
+## iPSC culture in E8 medium
+
+Timing: 2.5 h (hands-on time: 30 min)
+
+## Preparing plates
+These steps describe the preparation of tissue culture plates for iPSC maintenance and downstream applications, including cell sorting.
+
+## Preparation of Matrigel-coated plates
+
+46.Thaw one Matrigel aliquot on ice. Complete thawing may take several hours. Keep the aliquot on ice at all times during and after thawing.
+
+CRITICAL: All Matrigel handling steps should be performed on ice using pre-chilled tips, tubes and dilution media to prevent premature polymerization.
+
+47.Pre-chill all required equipment, including pipette tips, conical tubes, and reagent reservoirs, at 4 °C or in a −30 °C freezer before use.
+48.Add an appropriate volume of ice-cold DMEM/F12 to a pre-chilled conical tube, depending on the culture vessel size.
+
+Note: Matrigel can be diluted in other media. However, dilution in DMEM/F12 is recommended, as it matches the base medium used for culture and helps maintain stable pH conditions.
+
+49.Dilute Matrigel 1:100 (v/v) in ice-cold DMEM/F12 using pre-chilled pipette tips. Keep the diluted Matrigel solution on ice to prevent premature polymerization.
+
+Note: The optimal dilution factor may vary between batches and should be adjusted based on the Matrigel stock's protein concentration to achieve a final concentration of ∼90 μg/mL.
+
+50.Gently mix the Matrigel solution by slow inversion. Avoid bubble formation.
+51.Add 1 mL of diluted Matrigel solution to each well of a 6-well plate. Adjust the volume proportionally for other plate formats as indicated in .
+52.Gently move the plate back and forth and side to side to ensure uniform coating of the well surface.a.Place the plate in a humidified incubator at 37 °C with 5% CO2.
+b.Incubate the plate for at least 2 h before use.
+
+CRITICAL: Matrigel-coated plates must remain moist and should not be allowed to dry. Coated plates may be stored at 37 °C for up to 2–3 days if kept moist or sealed and stored at 4 °C for up to 1 week. Wells showing uneven coating or dry areas should not be used for further cell culture.
+
+Note: Growth factor–reduced Matrigel is recommended for routine iPSC culture. As an alternative, Geltrex (Thermo Fisher Scientific) may be used for coating culture plates. During single-cell culture following fluorescence-activated cell sorting, Geltrex has been reported to provide improved cell attachment and survival compared with Matrigel and may therefore be preferred for clonal recovery. However, Geltrex is more sensitive to temperature fluctuations and may gel prematurely even when stored at 4 °C. Careful temperature control and handling are therefore required when using Geltrex.
+
+ 
+
+## Thawing and freezing cells
+These steps describe thawing human iPSC lines to generate healthy colonies suitable for downstream applications such as cell transfection, as well as freezing iPSC lines for long-term storage. The procedures are described for one well of a 6-well plate. See for other plate formats.
+
+## Thawing of iPSC cell line
+
+Timing: 1 h (hands-on time: 30 min)
+
+53.Warm 4 mL of E8 medium at room temperature for approximately 30 min. Alternatively, E8 medium may be warmed in a 37 °C water bath for up to 5 min immediately before use.
+
+CRITICAL: Certain growth factors in E8 medium, including Fibroblast Growth Factor 2 (FGF2), are temperature sensitive and lose activity upon prolonged exposure to 37 °C. Therefore, warming time should be minimized, and only the required volume of medium should be warmed immediately before use. Any unused warmed medium should be discarded.
+
+54.Supplement the warmed E8 medium with ROCK inhibitor to a final concentration of 10 μM by adding 4 μL of 10 mM stock solution.
+
+Note: Inclusion of ROCK inhibitor is critical to reduce actin-myosin contraction during cell plating, thereby decreasing anoikis-associated cell death and promoting cell attachment. After cells have attached to the plate and established stable cell-cell contacts, typically within 24 h after plating, ROCK inhibitor can be removed from the culture medium.
+
+55.Remove a cryovial containing frozen iPSCs from liquid nitrogen and immediately immerse the vial in a 37 °C water bath without submerging the cap. Gently swirl the vial until the cell suspension is completely thawed.
+
+Note: Submerging the cryotube cap in the water bath will increase the likelihood of contamination. And keeping the cryotube in the water bath too long will reduce cell viability.
+
+56.Disinfect the exterior of the cryovial with 70% ethanol, then transfer it to a biosafety cabinet. Using a sterile pipette, gently transfer the thawed cell suspension into a 15 mL conical tube containing 2 mL of warmed E8 medium.
+57.Centrifuge the cells at 200 × g for 2 min at room temperature. Aspirate the supernatant carefully. At the same time, aspirate the coating solution from a pre-prepared Matrigel-coated well of a 6-well plate.
+58.Gently resuspend the cell pellet in 2 mL of E8 medium supplemented with 10 μM ROCK inhibitor. Slowly dispense the cell suspension into the Matrigel-coated well.
+59.Return the plate to a humidified incubator at 37 °C with 5% CO2. Gently move the plate in short back-and-forth and side-to-side motions to evenly distribute the cells across the well surface.
+
+## Freezing of iPSCs
+
+Timing: 1 h
+
+These steps describe freezing iPSCs for long-term storage in liquid nitrogen.
+60.Prepare freezing medium consisting of 90% KnockOut Serum Replacement (Thermo Fisher Scientific) and 10% DMSO. Approximately 500 μL of freezing medium is needed per cryovial. Freezing medium may be stored at −20 °C for several months.
+Note: In many protocols, DMSO is added to the cell suspension immediately before freezing, a step that can generate localized heat and requires careful handling. In this protocol, DMSO is pre-mixed with the storage medium to a final concentration of 10%, which simplifies handling and improves reproducibility. Under these conditions, no adverse effects on post-thaw cell viability or pluripotency were observed. Pre-mixing DMSO also reduces variability associated with manual addition immediately before freezing.
+61.Ensure that a Mr. Frosty freezing container is equilibrated to room temperature before use.
+Note: Using a cold container alters the cooling rate and reduces cell viability.
+62.Warm Versene to 37 °C in a water bath before use.
+Note: Versene may also be used at room temperature; however, cell dissociation may require a longer incubation time under these conditions.
+63.Aspirate culture medium from the well to be frozen and wash once with 2 mL of pre-warmed Versene. Aspirate the wash and add a second 2 mL of pre-warmed Versene. Incubate the plate at room temperature for approximately 4 min, or until cells begin to detach.
+Note: If cells were maintained in medium containing ROCK inhibitor before freezing, detachment may require longer incubation. Monitor cell detachment under a microscope to ensure efficient dissociation. Versene incubation time may require optimization depending on the cell line. If cells detach rapidly, reduce the incubation time in future passages. If detachment is inefficient, extend incubation slightly.
+64.Aspirate the Versene.
+65.Gently resuspend the cells in 1 mL of freezing medium by pipetting up and down three to four times until a homogeneous suspension is obtained.
+Note: Excessive pipetting can reduce cell viability. Limit pipetting to the minimum number required to resuspend the cells.
+Note: Enzymatic dissociation using reagents such as TrypLE is possible; however, this requires additional steps, including neutralization with E8 medium and centrifugation at 200 × g for 2 min to remove the enzyme before resuspension in freezing medium. Because these extra manipulations can reduce viability, enzymatic dissociation is generally not recommended for routine freezing of iPSCs.
+66.Adjust the cell suspension to a final volume of 500 μL freezing medium per cryovial. We recommend freezing at least 2 × 105 cells per cryovial. Aliquot immediately into cryovials, cap securely, and place the vials into the Mr. Frosty container.
+Note: Do not overtighten the container lid.
+67.Transfer the freezing container to a −80 °C freezer for 8-24 h to allow controlled cooling. On the following day, move cryovials to liquid nitrogen for long-term storage.
+Note: Prolonged storage at −80 °C is not recommended.
+
+## Maintenance of iPSCs
+These steps describe daily maintenance of human iPSCs and passaging using Versene. iPSCs are typically passaged at approximately 60-70% confluency every 2–3 days, with split ratios commonly around 1:6 unless otherwise noted. The GM25256 iPSC line has an approximate doubling time of ∼18 h during exponential growth in E8 medium; therefore, split ratios may be adjusted depending on experimental timing and downstream applications.
+Note: Because key growth factors in E8 medium are temperature sensitive, the culture medium should be replaced daily. For extended culture intervals, such as over weekends, E8 Flex medium (Thermo Fisher Scientific) may be used due to its increased growth factor stability, allowing maintenance without daily medium changes for up to 48 h. When using E8 Flex, cell density should be carefully controlled to maintain optimal cell health.
+Note: Ensure iPSCs are in an optimal state before genome editing. Cells should display uniform, compact colony morphology with minimal spontaneous differentiation and be at appropriate confluency, as overgrown or stressed cultures can significantly reduce editing efficiency.
+
+## Daily maintenance of human pluripotent stem cells
+
+Timing: 40 min (hands-on time: 10 min)
+
+68.Warm E8 medium at room temperature for approximately 30 min.
+69.Aspirate spent medium from each well of a 6-well plate and replace with 2 mL of fresh warmed E8 medium. Repeat medium replacement daily until cells are ready for passaging.
+
+## Passaging iPSCs using Versene
+
+Timing: 40 min (hands-on time: 20 min)
+
+70.Prepare a Matrigel-coated 6-well plate in advance (see above).
+71.Warm E8 medium at room temperature for approximately 30 min.
+72.Transfer 3 mL of E8 medium to a 15 mL conical tube and supplement with Y-27632 ROCK inhibitor to a final concentration of 10 μM by adding 3 μL of 10 mM stock solution.
+73.Loosen cells from the culture plate using Versene by following steps 62-63.
+74.Aspirate the Versene and gently resuspend the cells with 1 mL of E8 medium supplemented with ROCK inhibitor.
+75.Transfer 200 μL of the cell suspension into the conical tube containing the remaining E8 medium supplemented with ROCK inhibitor and gently mix to achieve the desired split ratio.
+76.Aspirate the coating solution from a fresh Matrigel-coated 6-well plate.
+77.Seed 2 mL of the diluted cell suspension into one well of the Matrigel-coated 6-well plate.
+78.Return the plate to a humidified incubator at 37 °C with 5% CO2. Gently move the plate in short back-and-forth and side-to-side motions to evenly distribute cells across the well surface.
+79.On the day following seeding, assess cell attachment and morphology by microscopy and replace the medium with fresh pre-warmed E8 medium without ROCK inhibitor.
+
+Note: The optimal split ratio may vary depending on cell line and growth rate. When using Versene, split ratios between 1:5 and 1:10 are commonly appropriate. Adjust the split ratio based on colony morphology and density. If colonies appear crowded, increase the split ratio; if sparse, decrease it. Under optimal conditions, iPSCs should be passaged every 2–3 days.
+
+Note: For cell lines that exhibit poor survival or increased sensitivity during passaging, supplements such as RevitaCell (Thermo Fisher Scientific) or CloneR2 (STEMCELL Technologies) may be used in place of Y-27632. These formulations provide more selective ROCK inhibition and include additional components, described by the manufacturers as antioxidants or free-radical scavengers, as well as pro-survival factors, which may improve cell viability during passaging of difficult-to-culture iPSC lines.
+
+## Cell transfection using Lipofectamine STEM
+
+Timing: 0.5 h
+
+## Cell seeding for transfection
+
+80.Inspect cell morphology and confluency before passaging.
+
+Note: Avoid overconfluency, as optimal cell health is essential for efficient downstream transfection.
+
+81.Prepare two wells of a Matrigel-coated 12-well plate in advance.
+82.Warm Versene in 37 °C water bath and E8 medium at room temperature for approximately 30 min.
+83.Transfer 3 mL of E8 medium to a 15 mL conical tube and supplement with Y-27632 ROCK inhibitor to a final concentration of 10 μM by adding 3 μL of a 10 mM stock solution.
+84.Aspirate the culture medium from one well of a 6-well plate containing iPSCs and wash once with 2 mL of pre-warmed Versene.
+85.Aspirate the wash and add a second 2 mL aliquot of pre-warmed Versene. Incubate the plate at room temperature for approximately 4 min, or until cells begin to loosen.
+86.Aspirate the Versene and gently resuspend the cells with 1 mL of E8 medium supplemented with ROCK inhibitor prepared in step 83.
+87.Count cells using a hemocytometer.
+88.Transfer 2 × 105 cells into a conical tube and add E8 medium supplemented with ROCK inhibitor to a final volume of 2 mL. Gently pipette to mix.
+
+CRITICAL: Cell number at this stage is a key determinant of downstream transfection success. Excessive cell density reduces transfection efficiency, whereas insufficient cell numbers compromise post-transfection viability.
+
+89.Aspirate the coating solution from the Matrigel-coated 12-well plate.
+90.Seed 1 mL of the cell suspension into each well without swirling the plate.
+
+Note: Cells are typically seeded into two wells to ensure a sufficient number of cells for downstream transfection and subsequent cell sorting, as sorting requires a large pool of cells and low cell numbers may compromise recovery. Using multiple wells also reduces the likelihood of recovering duplicate clones derived from the same edited cell.
+
+Note: Some protocols use enzymatic dissociation, such as TrypLE, to generate single-cell suspensions prior to transfection. Although this may increase cell surface exposure, enzymatic dissociation also introduces additional cellular stress. In our experience, Versene-based dissociation yields sufficient transfection efficiency while preserving cell viability.
+
+91.Return the plate immediately to a humidified incubator at 37 °C with 5% CO2. Minimize disturbance for at least 1 h after seeding, as vibrations can cause cell aggregation.
+
+CRITICAL: Do not swirl the plate and minimize disturbance for at least 1 h after seeding, as these cause cells to aggregate toward the center of the well and result in uneven cell distribution. Uniform cell distribution at this stage is essential for achieving optimal and reproducible transfection efficiency.
+
+## Transfection of the iPSCs using Lipofectamine STEM
+
+Timing: ∼1 h (hands-on time: ∼30 min)
+
+92.16–20 hours after seeding, warm Opti-MEM medium (Thermo Fisher Scientific) in a 37 °C water bath for approximately 10 min.
+93.For transfecting two wells, transfer 2 mL of Opti-MEM into a 15 mL conical tube and supplement with Y-27632 ROCK inhibitor to a final concentration of 10 μM by adding 2 μL of a 10 mM stock solution.
+
+Note: Inclusion of ROCK inhibitor is recommended to reduce cell contraction, thereby increasing the effective surface area of cells and increasing transfection efficiency.
+
+94.Aspirate the medium from each well of the 12-well plate and replace it with 1 mL of pre-warmed Opti-MEM prepared in step 93. Return the plate to a humidified incubator at 37 °C with 5% CO2.
+
+Note: Cells can be maintained in Opti-MEM for several hours without affecting viability or pluripotency.
+
+95.Prepare the transfection mix in two separate tubes as follows:
+
+ 
+
+Note: DNA amounts and combinations may be optimized by titration to maximize knockin efficiency while maintaining post-transfection viability. In Lipofectamine Stem-based transfection, DNA concentration can influence efficiency, and overly dilute DNA may reduce transfection efficiency. However, this method is less sensitive to DNA volume relative to the final mixture compared to nucleofection, and optimization is typically based on total DNA amount per well. For users new to this technique, the PX458-Cas9-mCherry vector may be used to monitor transfection efficiency one day after transfection. The pCE-mp53DD vector encodes a dominant-negative p53 fragment. In human iPSCs, p53 activity is strong, and Cas9-mediated DNA double-strand breaks can trigger cell death. Temporary inhibition of endogenous p53 through expression of p53DD increases cell viability and is important for successful genome editing. 
+
+96.Add the DNA mixture from Tube 1 to the transfection reagent mixture in Tube 2. Immediately mix by pipetting or brief vortexing, then briefly centrifuge to collect the liquid to the bottom of the tube.
+
+Note: To promote efficient formation of DNA-transfection reagent complexes, the DNA mixture should be added rapidly to the transfection reagent. In our experience, brief vortexing yields higher transfection efficiency than pipetting.
+
+97.Incubate the transfection mixture at room temperature for 15 min to allow lipid-DNA complex formation.
+98.Add 100 μL of the transfection mixture dropwise across the well to ensure uniform distribution over the entire surface.
+
+CRITICAL: Do not swirl the plate, as centripetal force causes lipid-DNA complexes to aggregate in the center of the well, resulting in poor transfection uniformity and localized toxicity.
+
+99.Return the plate immediately to a humidified incubator at 37 °C with 5% CO2 without disturbing the plate.
+100.Four hours post-transfection, gently overlay each well with 1 mL of E8 medium and supplement with SCR7 to a final concentration of 0.1 μM to inhibit non-homologous end-joining–mediated DNA repair. 
+
+Note: Addition of CloneR2 to the E8 overlay medium is strongly recommended, as it dramatically increases cell viability during transfection.
+
+Note: It is possible to perform transfection using 0.5 mL Opti-MEM supplemented with 0.5 mL E8 containing CloneR2. Although this reduces reagent usage, we observed substantially increased cytotoxicity under these conditions.
+
+101.Return the plate to a humidified incubator at 37 °C with 5% CO2.
+102.16 to 20 h after transfection, replace the medium with fresh E8 medium supplemented with 10 μM Y-27632.
+
+Note: Cells are typically ready for sorting approximately 40 h post-transfection. Transfection efficiency can be assessed when using PX458-Cas9-mCherry. In our hands, 30–40% mCherry-positive cells are typically achieved. Higher transfection efficiency can be obtained by increasing the amount of Lipofectamine Stem reagent. However, cell viability decreases substantially under these conditions.
+
+Note: 16 to 20 h after transfection, replacing the medium with E8 supplemented with CloneR2 is strongly recommended to further improve cell viability.
+
+Note: Cells should be passaged at least once prior to cell sorting. Cell death is common after transfection and passage. If cell death persists after passage and medium replacement, transfection conditions such as DNA amount or DNA quality should be optimized. If cell death subsides one day after passage, cells are generally stable and suitable for sorting, expansion, storage, or genotyping.
+
+## Cell transfection using 4D-Nucleofector (electroporation)
+
+Timing: 1 h
+
+This section describes an alternative method for transfecting human iPSCs using the Lonza 4D Nucleofector system. This approach is suitable for cell lines or experimental conditions where lipid-based transfection yields low efficiency.
+103.Ensure that iPSCs are healthy and free of visible differentiation on the day of transfection.
+Note: Cells should be cultured in E8 medium without ROCK inhibitor for at least 2 h before nucleofection.
+104.Prepare a Matrigel-coated 6-well plate in advance, following the coating procedure described above.
+105.Pre-warm DPBS in a 37 °C water bath. Warm E8 medium at 37 °C for approximately 5 min immediately before use. Allow the Nucleofector solution to equilibrate to room temperature in the biosafety cabinet for approximately 20 min.
+106.Prepare plasmid DNA in nuclease-free water in 1.5 mL tubes. Use the same ratio of Cas9, donor, and p53DD plasmids as described above.
+Note: For one nucleofection reaction using approximately 1 × 106 cells per cuvette, prepare a total of 2 μg DNA in a final volume of up to 10 μL. DNA amount may be increased to a maximum of 4 μg when using program CA-137, depending on DNA quality and toxicity. However, the total DNA volume per reaction must not exceed 10 μL.
+107.Prepare 70% TrypLE by mixing 3.5 mL TrypLE with 1.5 mL DPBS. Prepare fresh E8 medium supplemented with ROCK inhibitor and add 2 mL per well to the Matrigel-coated 6-well plate for post-nucleofection recovery.
+Note: Use of a defined supplement such as CloneR2 instead of Y-27632 is strongly recommended, as it markedly improves cell viability after electroporation.
+108.Wash each well of iPSCs with 2 mL of pre-warmed DPBS and aspirate completely. Add 1 mL of 70% TrypLE per well and incubate at room temperature for approximately 3 min.
+109.Gently tap or shake the plate side to side until approximately 70–80% of cells detach. Do not exceed 4 min of TrypLE exposure, as prolonged incubation can increase cell death and release genomic DNA.
+110.Immediately add 1 mL of pre-warmed E8 medium to each well, gently resuspend cells using a P1000 pipette, and transfer the suspension to a 15 mL conical tube. If multiple wells are used, pool cells gently and avoid harsh pipetting.
+111.Mix the cell suspension gently and remove a 10 μL aliquot for cell counting. Aim for approximately 1 × 106 cells per nucleofection reaction.
+112.Transfer the required number of cells into a new tube and centrifuge at 200 × g for 2 min at room temperature.
+113.Meanwhile, prepare the nucleofection solution by mixing 82 μL of Nucleofector solution with 18 μL of Supplement from the P3 Primary Cell 4D-Nucleofector X Kit (Lonza). This volume is sufficient for one reaction and can be scaled as needed.
+114.Turn on the Lonza 4D Nucleofector device and select program CA-137.
+115.Carefully aspirate the supernatant from the cell pellet using a P1000 or P100 pipette, removing as much liquid as possible without disturbing the pellet. Gently resuspend the pellet once in approximately 90 μL of nucleofection solution. A small residual volume of supernatant is acceptable, resulting in a final volume of ∼100 μL.
+116.Transfer 90 μL of the cell suspension into a 1.5 mL tube. Add 10 μL of the prepared DNA solution and gently pipette once to mix.
+Note: If DNA is prepared at a higher concentration, a smaller DNA volume may be used. Scale the volume of cell suspension accordingly so that the final mixture volume is 100 μL.
+117.Transfer the 100 μL cell-DNA mixture into a nucleofection cuvette chamber. Gently tap the cuvette against the benchtop to remove air bubbles, close the lid, and insert the cuvette into the Nucleofector device.
+118.Run program CA-137. The electrical pulse lasts less than 1 s.
+119.Immediately after nucleofection, use the Lonza transfer pipette to transfer electroporated cells from the cuvette to Matrigel-coated 6-well plate containing the 2 ml E8 supplemented with ROCK inhibitor or CloneR2 as prepared in step 104.
+120.Gently move the plate in a crosswise back-and-forth and side-to-side motion to allow even cell distribution before placing it in the incubator.
+121.Incubate cells overnight under standard culture conditions.
+122.Replace the medium with fresh E8 medium supplemented with ROCK inhibitor the following morning.
+123.Maintain the cells for an additional day. ROCK inhibitor may be removed after this stage. Cells are then ready for sorting, expansion, storage, or genotyping.
+Note: Lonza recommends seeding cells into smaller culture formats after electroporation, such as 12-well plates, to increase viability due to enhanced cell-cell contact. In our experience, no substantial difference was observed between 6-well and 12-well plate seeding. Some cell death is commonly observed the day after electroporation; however, surviving cells typically show 70-80% transfection efficiency, as assessed by mCherry expression when transfecting PX458-Cas9-mCherry plasmid DNA.
+Note: Program CA-137 typically yields higher DNA uptake per cell than other stem-cell-specific programs and often achieves >80% transfection efficiency, but may reduce viability by approximately 10–20% depending on the cell line.
+Note: ROCK inhibitor should always be included immediately after nucleofection and may be maintained longer than 24 h for particularly sensitive cell lines.
+CRITICAL: DNA quality is critical for successful nucleofection. Plasmids should be endotoxin-free and free of RNA, salts, or residual organic solvents.
+
+## Cell sorting
+These steps describe preparation of culture plates for single-cell sorting and dissociation of iPSCs for fluorescence-activated cell sorting (FACS).
+
+## Coating 96-well plates for single-cell sorting
+
+Timing: 0.5 h
+
+124.Add an appropriate volume of ice-cold DMEM/F12 to a pre-chilled conical tube.
+125.Thaw one Geltrex aliquot on ice and dilute it 1:100 (v/v) in ice-cold DMEM/F12 using pre-chilled pipette tips.
+
+Note: Geltrex effectively supports single-cell survival and clonal expansion following flow cytometry-based sorting. 
+
+126.Gently mix the diluted Geltrex solution by inversion and transfer it into a sterile pre-chilled 50 mL reagent reservoir.
+127.Using a multichannel pipette, dispense 50 μL of diluted Geltrex solution into each well of a 96-well plate.
+128.Gently tap the plate against the benchtop to ensure complete coverage of each well, and place the plate in a humidified incubator at 37 °C with 5% CO2 for at least two hours.
+
+Note: In our routine workflow, Geltrex-coated plates for cell sorting are prepared by incubating the plates overnight at 37 °C before sorting. Under these conditions, no adverse effects on single-cell survival were observed.
+
+## Single-cell dissociation and FACS sorting of genome-edited cells
+
+Timing: ∼2 h
+
+Note: FACS sorting should be performed within 30 min after single-cell dissociation to maximize cell viability. To minimize delays between dissociation and sorting, we routinely perform single-cell dissociation directly in the cell sorting facility.
+
+129.Pre-warm DPBS in a 37 °C water bath. Warm E8 medium at room temperature (15–25 °C) for approximately 20 min.
+
+Note: Prepare sufficient E8 medium for sorting, using 100 μL per well of a 96-well plate, and calculate the total volume accordingly.
+
+130.Transfer 5 mL of pre-warmed E8 medium into a 15 mL conical tube and supplement with RevitaCell (1:100 dilution), DAPI (final concentration 1 μg/mL), MgCl2 (final concentration 1 mM), and DNase I (final concentration 1 μg/mL). This supplemented E8 medium will be used to resuspend cells prior to sorting.
+
+Note: DAPI is used to label dead cells, and DNase I is added to digest released DNA and prevent cell clumping. Reagents should be pathogen-free or filtered through a 0.2 μm filter prior to use.
+
+131.Supplement additional pre-warmed E8 medium with RevitaCell only (1:100 dilution), according to the manufacturer’s instructions. This E8 medium will be used to prepare the 96-well sorting plates (100 μL per well).
+
+Note: RevitaCell provides improved survival following single-cell dissociation. 
+
+132.Transfer the RevitaCell-supplemented E8 medium into a sterile 50 mL reagent reservoir.
+133.For pre-coated 96-well plates, remove the coating solution in a biosafety cabinet immediately before use.
+134.Using a multichannel pipette, dispense 100 μL of RevitaCell-supplemented E8 medium at room temperature into each well of the 96-well plate.
+
+CRITICAL: To prevent drying of the plate, removal of the coating solution should be performed immediately before adding E8 medium.
+
+Note: The 96-well plate containing E8 medium should be prepared in advance and equilibrated at room temperature or 37 °C for at least 1 h prior to sorting.
+
+135.Aspirate the culture medium from iPSC cultures in a 6-well plate and wash cells once with 2 mL DPBS per well.
+136.Remove DPBS and add 1 mL of 0.75× TrypLE Select (prepared in DPBS) to each well.
+137.Incubate the plate at room temperature for approximately 3 min. Gently tap or shake the plate intermittently to facilitate cell dissociation.
+138.Add 1 mL of E8 medium supplemented with RevitaCell and gently resuspend the cells by pipetting.
+139.Transfer the cell suspension to a 15 mL conical tube and centrifuge at 200 × g for 2 min at room temperature.
+140.Carefully discard the supernatant and resuspend the cell pellet in 1 mL of the supplemented E8 medium prepared in step 130.
+141.Pass the suspension through a 40 μm nylon mesh cell stainer filter (Falcon) to remove clumps.
+
+Note: Adjust the resuspension volume as needed to achieve the optimal cell density for sorting.
+
+142.Set up the BD Influx cell sorter (BD Biosciences) for single-cell sorting into 96-well plates.a.Use a 140 μm nozzle tip with a sheath pressure of 5.0 psi.
+b.Configure the lasers at 488 nm, 405 nm, and 561 nm to excite GFP, DAPI, and mCherry, respectively.
+c.Collect fluorescence using 530/40, 440/40, and 615/24 emission filters.
+
+Note: The stream-in-air configuration of the BD Influx provides gentler sorting conditions and improves recovery of human iPSCs. The sorter is contained in a biosafety enclosure with an aerosol management system. These are necessary for working with human cells. The use of personal protective equipment, including gloves, goggles, fit-tested N95 respirator, and lab coat are also required.
+
+143.Align the lasers to the stream using SpheroTech UltraRainbow beads.a.Determine drop delay using AccuDrop beads (BD Biosciences).
+b.Set the drop drive frequency to 9–11 kHz.
+c.Adjust the piezo amplitude to 5–20 V to achieve a stable drop break-off.
+d.Set the stream charge to 60 V.
+e.Use the SweetSpot software utility to maintain a constant drop break-off position.
+
+Note: At a low sheath fluid pressure of 5.0 psi, the sheath fluid jet and droplets move much slower and are therefore exquisitely sensitive to extraneous electric fields; even minor ones can misdirect the streams, potentially causing sorted droplets to miss their intended wells, resulting in suboptimal recovery. To minimize these effects, ensure that components near the stream are electrically conductive and properly grounded, avoid placing plastic materials close to the nozzle, and keep all instrument parts in their normal operating positions when adjusting drop delay and stream targeting.
+
+144.Select the 1-drop single sort mode with a phase mask of 0.5 drop. Gate cells on forward scatter versus side scatter to identify the main cell population. Exclude doublets using forward scatter height versus width and height versus area.
+145.Gate viable cells based on DAPI exclusion. Identify GFP- and/or mCherry-positive cells using non-genome-edited cells as negative controls.
+
+Note: It is essential to include non-genome-edited cells as negative controls when establishing sorting gates. This control is critical for accurate discrimination of positive and negative populations.
+
+146.Sort GFP- and/or mCherry-positive cells into the 96-well plates at one cell per well ( ). Typical sorting time is 2–10 min per plate.
+
+ 
+
+## Maintenance of single-cell colonies
+
+Timing: 0.5 h
+
+These steps describe the procedures for maintaining the single-cell clones.
+147.On day 2 post-sorting, add 50 μL of fresh E8 medium supplemented with RevitaCell to each well.
+148.On day 4 post-sorting, remove 50 μL of medium and replace it with 50 μL of fresh E8 medium.
+149.On day 6 post-sorting, add 50 μL of fresh E8 medium.
+150.On day 8 post-sorting, remove 50 μL of medium and replace it with 50 μL of fresh E8 medium.
+151.On day 10 post-sorting, add 50 μL of fresh E8 medium.
+Note: Single-cell-derived colonies may become visible as early as 3 days post-sorting. Colonies are typically ready for passaging around day 10 post-sorting ( ).
+ 
+CRITICAL: Exercise extreme care during medium changes to prevent contamination. When using a multichannel pipette, contamination in a single well can rapidly spread to the entire plate and to additional plates.
+
+## Passaging single-cell-derived colonies
+
+Timing: ∼1 h
+
+These steps describe procedures for passaging single-cell-derived colonies and reserving cells for subsequent genotyping.
+152.On the day of passaging, coat a 24-well plate with Matrigel for at least 1 h as described above.
+153.Aspirate the coating solution and add 0.5 mL of pre-warmed E8 medium supplemented with 10 μM Y-27632 ROCK inhibitor to each well.
+154.Using a pipette, carefully remove the medium from wells containing colonies in the 96-well plate.
+Note: Do not use vacuum aspiration, as rapid removal may dry the cells and negatively affect cell viability.
+155.Add 100 μL pre-warmed Versene to each well.
+156.Incubate the plate at 37 °C with 5% CO2 for 6–10 min.
+Note: Extended incubation facilitates complete colony detachment. Versene is relatively gentle and allows longer incubation without significantly compromising cell viability.
+157.Gently resuspend the cells in the 100 μL Versene solution. Transfer 10 μL of the suspension to a PCR tube for genomic DNA extraction, and transfer the remaining 90 μL directly into the corresponding well of the prepared 24-well plate from step 153.
+Note: The number of cells obtained is sufficient for genomic DNA extraction and subsequent genotyping analyses.
+158.Place the 24-well plate in a humidified incubator at 37 °C with 5% CO2 and culture under standard conditions.
+
+## Colony genotyping
+
+Timing: 3–4 h (hands-on time: 1 h)
+
+These steps describe procedures for identifying correctly edited colonies for tag-fusion knock-in and point-mutation knock-in.
+
+## Identify tag-fusion knockin
+
+159.Add 50 μL of alkaline lysis buffer to each PCR tube containing 10 μL single-cell–derived colonies collected in step 157.
+160.Mix the tubes briefly and incubate in a thermocycler at 95 °C for 15 min to lyse cells and release genomic DNA.
+161.Add 50 μL of neutralization buffer to each tube to neutralize the alkaline lysis reaction. Mix gently.
+162.Prepare PCR reactions using primers spanning the genome-edited region. Set up the PCR reaction mix as follows.
+
+ 
+
+Note: PCR primers span the genome-edited region, and the resulting amplicon should not be excessively large. For wild-type (WT) alleles, an amplicon size of approximately 500–1,000 bp is recommended to ensure reliable amplification. Colonies that fail to yield a PCR product should be carefully re-evaluated, as they may be homozygous but fail to amplify due to the increased amplicon length caused by the inserted sequence. In such cases, an additional primer located within the inserted sequence can be used for further confirmation.
+
+163.Perform PCR using the following thermocycling conditions
+
+ 
+
+164.Resolve PCR products on a 1% agarose gel at 150 V for approximately 30 min, or until adequate band separation is achieved.
+165.Visualize DNA bands using a blue-light gel imager ( A).
+166.Evaluate whether the observed PCR product matches the expected size, for a successful genome-editing event. If the band size is consistent with the predicted amplicon (based on the template sequence and primer positions, for example ), excise the band and proceed with DNA purification and sequencing to confirm the intended edit at the target locus.
+
+Note: When using a blue-light gel imager, appropriate eye protection should be used to minimize UV exposure.
+
+167.Purify excised gel fragments using the QIAquick Gel Extraction Kit according to the manufacturer’s instructions, followed by Sanger sequencing.
+168.Maintain and expand colonies exhibiting the expected PCR amplicon and sequence-confirmed genome edits.
+
+ 
+
+## Identify point-mutation knockin
+
+Note: Point mutations are identified based on sequence differences between the wild-type (WT) and mutant alleles. Primers are designed using dCAPS Finder, which introduces one or two mismatches into the primer when required. The introduced or existing mutation creates a restriction enzyme recognition site such that either the WT or mutant amplicon can be digested by a specific restriction enzyme, while the other cannot.
+
+169.Input no more than 60 nt of both wild-type (WT) and mutant DNA sequence into the dCAPS Finder website (http://helix.wustl.edu/dcaps/), ensuring that the mutated locus is positioned near center of the sequence.
+170.Submit the analysis after specifying the number of mismatches introduced to the primer. Test different numbers of mismatches as needed.
+171.Select candidate primers from the output list.
+
+Note: Choose primers based on the restriction enzyme availability, digestion efficiency and restriction site position. Avoid primers with mismatches at the last nucleotide 3′ end, as these often impair PCR amplification. Multiple primers may need to be tested.
+
+172.Design a second primer to pair with the selected dCAPS primer.
+
+Note: Design primers such that the expected size difference after restriction enzyme digestion is greater than 10% of the amplicon size to ensure clear resolution on an agarose gel. Excessively large amplicon may obscure digestion difference.
+
+173.Test the primer pairs and restriction enzyme combinations using the WT and mutated DNA template following the PCR steps 162-163.
+
+Note: If mutant genomic DNA is unavailable, generate a mutant plasmid in advance to serve as a template.
+
+174.Run the PCR products on a 2.5% agarose gel to confirm successful amplification.
+175.Once primers are validated, digest the PCR product with the corresponding restriction enzyme as follows:
+
+ 
+
+Note: For digestion testing, gel purification of the PCR product is recommended, as residual salts, dNTP and proteins in the PCR reaction may inhibit restriction enzyme activity.
+
+176.Run the digestion products on a 2.5% agarose gel to verify restriction enzyme digestion ( B).
+177.Select the primer pair and restriction enzyme combination that provides clear and reliable discrimination for the single-clone genotyping and confirm positive samples by Sanger sequence ( C).
+
+Note: Always include both wild-type (WT) and mutant allele controls to ensure that the assay is functioning correctly.
+
+## Fluorescence detection
+
+Timing: 1 h
+
+When a fluorescent tag is knocked into an endogenous protein-coding gene, fluorescence microscopy serves as an efficient primary screening tool to rapidly identify positive clones. However, the feasibility and sensitivity of visual screening depend on several factors. First, plate material and optical properties strongly influence signal detection. Although 96-well plates are convenient for clone expansion, they are suboptimal for detecting weak endogenous fluorescent signals. The small well diameter creates a pronounced liquid meniscus that introduces optical distortion and light reflection, and standard polystyrene plastic exhibits relatively high autofluorescence. Second, the effectiveness of visual screening is directly determined by the endogenous expression level of the target gene. For example, proteins with nuclear concentrations on the order of ∼0.5 μM, such as NDF, produce a distinct but very faint GFP signal. For proteins expressed at low levels, clones could be transferred to glass-bottom imaging dishes and, if necessary, fixed and imaged using a high-sensitivity widefield or confocal microscope to reliably confirm successful knockin events.
+178.Coat a CELLview cell culture dish (Greiner) with Matrigel as described above.
+179.Seed the cells to be analyzed onto the coated CELLview dish and culture under standard conditions.
+180.16-20 hours after seeding, fix cells with 4% formaldehyde for 10 min at room temperature.
+181.Permeabilize cells with 0.3% Triton X-100 for 5 min at room temperature.
+182.Aspirate the Triton X-100 solution and wash cells three times with DPBS.
+183.Stain cells with DPBS containing DAPI at a final concentration of 1 μg/mL for 5 min at room temperature.
+Note: DAPI staining enables rapid visualization of nuclei. Protect DAPI-stained samples from light to prevent photobleaching.
+184.Wash cells three times with DPBS.
+185.Leave 500 μL of DPBS in each well or dish to prevent drying of the fixed cells during imaging.
+186.Image cells using an epifluorescence or confocal microscope to assess fluorescent tag expression.
+Note: An inverted microscope should be used for imaging, as iPSCs do not attach efficiently to glass surfaces, even when coated with Matrigel. Specialized glass-bottom dishes with surface treatments can improve cell attachment; however, antifade mounting media cannot be used under these conditions, and samples must remain hydrated. Fixed cells on these dishes should therefore not be allowed to dry and are not suitable for long-term dry storage.
+
+## Validation by Immunoblotting
+
+Timing: 2 days
+
+187.Expand single-cell-derived iPSC clones in a 6-well plate under standard culture conditions.
+188.When cells reach 60–70% confluency, aspirate the culture medium and wash cells once with DPBS.
+189.Aspirate DPBS and add 400 μL of 1× SDS-PAGE sample loading buffer directly to each well to lyse the cells.
+
+Note: For degron-tagged cell clones, treat cells with 0.5 mM auxin for 1 h, 2 h, or 4 h, with DMSO-treated cells as controls, before adding the loading buffer.
+
+190.Transfer the lysate to a 1.7 mL microcentrifuge tube and sonicate twice for 10 s each to shear genomic DNA and reduce sample viscosity.
+
+Pause point: Protein samples may be stored at −20 °C for several weeks before proceeding.
+
+191.Boil the protein samples at 95°C for 5 min.
+192.Load protein samples onto a 10% SDS-PAGE gel and electrophorese at 150 V for approximately 70 min, or until the bromophenol blue dye reaches the gel front.
+193.Transfer proteins to PVDF membrane.a.Prepare pre-chilled 1× transfer buffer and a PVDF membrane with a pore size of 0.45 μm.
+b.Activate the PVDF membrane by wetting it in methanol for 30 s, then equilibrate it in transfer buffer.
+
+Note: Methanol is flammable and toxic. Handle in a well-ventilated area away from heat or open flames. Alternative wet or semi-dry transfer methods may also be used.
+
+c.Transfer proteins to the PVDF membrane using a semi-dry transfer system at 100 mA for 60 min.
+
+194.Block the membranes in the blocking buffer for 1 h at room temperature.
+195.Incubate the membrane with the primary antibody diluted in antibody dilution buffer at 4 °C for approximately 16 h.
+196.Wash the membrane three times with 1x TBST for 10 min per wash.
+197.Incubate the membrane with protein A-HRP (1:10,000 dilution in blocking buffer) for 1 h at room temperature.
+198.Wash the membrane three times with 1x TBST for 10 min per wash.
+199.Prepare enhanced chemiluminescence (ECL) substrate by mixing solution A and solution B according to the manufacturer’s instructions. Add approximately 1 mL of ECL substrate to the membrane and image using a ChemiDoc Imaging System (Bio-Rad).
+
+## Expected outcomes
+This protocol enables recovery of viable human iPSC clones carrying precise knockin alleles at essential transcription factor loci. By combining transient p53 inhibition using p53DD and suppression of non-homologous end joining with the SCR7 inhibitor, approximately 0.1–1% of parental cells can be successfully edited and sort out by fluorescence-activated single-cell sorting ( ).
+Recovered clones maintain characteristic iPSC morphology, normal growth behavior, and expression of pluripotency markers after expansion. Endogenously fluorescently tagged proteins are expressed at physiological levels and display subcellular localization patterns consistent with known biology, with signal intensity varying according to endogenous protein abundance and fluorophore choice (for example, ). For degron-tagged alleles, ligand addition induces robust and reversible protein depletion within 1-4 h, with depletion kinetics depending on protein abundance and the degradation system used. In Western blot analysis, this is reflected by a progressive decrease in target protein levels with increasing ligand concentration or time (for example, Fig. 6e of the ref. ).
+
+## Limitations
+Insertion size strongly influences editing efficiency; insert larger than ∼3 kb significantly reduces the frequency of edited cells as assessed by FACS. Targeting essential genes can compromise cell viability, further decreasing overall editing efficiency.
+Knockin efficiency in human iPSCs remains substantially lower than in mouse embryonic stem cells. For point-mutation knockins, hundreds of Cas9-mCherry-positive cells typically must be isolated and expanded to identify correctly edited clones, which requires substantial hands-on time and effort.
+When the E3 ligase is expressed as a fusion with an endogenous gene, its expression level depends on that of the host gene. As a result, the efficiency and kinetics of degron-mediated protein degradation may vary between targets.
+
+## Troubleshooting
+
+## Problem 1
+Extensive cell death after transfection or nucleofection (Steps 92-123).
+
+## Potential solution
+High mortality typically results from poor DNA quality, excessive nucleic acid dosage, or inadequate post-transfection survival support. Human iPSCs are uniquely sensitive to impurities and the physical stress of membrane disruption. To mitigate toxicity, ensure all plasmids are prepared using endotoxin-free kits with an A260/A280 ≈ 1.8–2.0 and A260/A230 > 2.0. High concentrations of DNA or transfection reagents often drive apoptosis. Therefore, titrating the total DNA amount by 25%–50% while maintaining component ratios can significantly improve viability. Ensure iPSCs are healthy, undifferentiated, and seeded at 60–70% confluency before transfection. Avoid over-dissociation and include ROCK inhibitor, CloneR2, or RevitaCell during the post-transfection recovery period.
+
+## Problem 2
+Low frequency of edited or fluorescent cells detected by FACS (Step 146).
+
+## Potential solution
+Low editing efficiency is typically driven by poor gRNA design, sub-optimal donor template architecture, or inherent biological constraints such as low target gene expression and protein intolerance to terminal tagging. Select gRNAs with high predicted on-target activity and position the Cas9 cut site within ±25 bp of the intended insertion site. Ensure donor templates include sufficiently long homology arms and incorporate PAM- or gRNA-disrupting mutations to prevent re-cutting. Reduce insertion size if feasible. Seed cells at the recommended density (60–70% confluency) and ensure the cells are evenly distributed prior to transfection to optimize DNA uptake and editing efficiency. Prior to FACS, validate editing via microscopy or PCR. However, note that low-abundance proteins may not yield detectable fluorescence at this stage. If the signal remains undetectable, reconsider the tagging terminus (N- vs. C-terminal) to avoid disrupting protein stability or folding. While antibiotic selection can enrich for edited populations, iPSCs are highly sensitive to selection pressure. Thus, fluorescent-based enrichment is preferred. For low-expression genes, ensure imaging equipment is optimized for high signal-to-noise ratios to distinguish true positives from autofluorescent background.
+
+## Problem 3
+Poor survival or few colonies formation after single-cell sorting (Steps 147-151).
+
+## Potential solution
+Low clonal recovery is usually caused by physical damage during cell preparation, the high pressure of the sorting machine, or poor growth conditions after sorting. Human iPSCs are large and fragile; additionally, cells that are still stressed from the initial transfection are often unable to survive the added pressure of being dissociated and sorted into single wells.
+To improve survival, minimize the time cells spend in dissociation reagents and perform FACS immediately after preparation. Add DNase I to the buffer to prevent clumping and handle the cells gently by pipetting slowly. Avoid using tip-mounted strainers, as these create high pressure that can kill fragile cells. We highly recommend passaging the cells at least once after transfection but before sorting. This “recovery passage” allows the most stressed cells to be cleared out naturally, ensuring you only sort the healthiest, most robust cells. During sorting, use a large nozzle (e.g., 100 μm) to reduce shear stress. While specialized recovery media is expensive, we found that using 100 μL per well in a 96-well plate increases colony formation by 20% compared to using 50 μL. Under these conditions, you should expect to recover 20–30 colonies per 96-well plate. For the best recovery, ensure plates are freshly and evenly coated with Geltrex. Supplement the recovery media with RevitaCell or CloneR2 during and after the sorting process. It is important to continue including these supplements in the media to support the developing colonies.
+
+## Problem 4
+Incomplete or slow degron-mediated protein depletion (Step 199).
+
+## Potential solution
+Confirm that the degron tag is correctly integrated. For example, sequencing the junction to rule out frame-shifts that might reduce AID function. Confirm AFB2/E3 ligase expression by immunoblotting or RT-PCR if possible. If AFB2 expression is low, the host gene context might not produce enough ligase; consider alternate strategies such as a stronger promoter or using a different degron system, such as dTAG, if appropriate. Extending the auxin treatment time or increasing the auxin concentration within non-toxic ranges may increase the rate of degradation. Note that degradation kinetics may vary between targets.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Jia Fei (jia.fei@rutgers.edu).
+
+## Technical contact
+Technical questions on executing this protocol should be directed to and will be answered by the technical contact, Ziwei Li (ziwei.li@rutgers.edu).
+
+## Materials availability
+The plasmids and cell lines are available upon request to the lead contact. This study did not generate other unique reagents.
+
+## Data and code availability
+This study did not generate datasets or codes.
+
+## Acknowledgments
+We thank Rick I. Cohen (Rutgers) for initial suggestions on iPSC culture. Z.L. acknowledges support for postdoctoral training from the Gordon and Betty Moore Foundation. This work was supported by NIH grant R01GM145748 to J.F.
+
+## Author contributions
+Methodology and investigation, Z.L., A.R., and J.F.; writing – original draft, Z.L., A.R., and J.F.; writing – review and editing, all authors; supervision, J.F.
+
+## Declaration of interests
+The authors declare no competing interests.
+
+## Contributor Information
+Ziwei Li, Email: ziwei.li@rutgers.edu.
+Jia Fei, Email: jia.fei@rutgers.edu.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+This study did not generate datasets or codes.

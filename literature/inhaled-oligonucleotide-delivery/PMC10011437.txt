@@ -1,0 +1,201 @@
+2171redoxRedox BiologyRedox BiolElsevierPMC1001143710011437100114373686794410.1016/j.redox.2023.102646Real-time redox adaptations in human airway epithelial cells exposed to isoprene hydroxy hydroperoxide
+PenningtonEdward R MasoodSyed SimmonsSteven O DaileyLisa BrombergPhilip A RiceRebecca L GoldAvram ZhangZhenfa WuWeidong YangYi SametJames M aOak Ridge Institute for Science and Education, Oak Ridge, TN, USAbCurriculum in Toxicology and Environmental Medicine, University of North Carolina at Chapel Hill, Chapel Hill, NC, USAcNational Center for Computational Toxicology, U.S. Environmental Protection Agency, Research Triangle Park, NC, USAdPublic Health and Integrated Toxicology Division, U.S. Environmental Protection Agency, Chapel Hill, NC, USAeCenter for Environmental Medicine, Asthma, and Lung Biology, University of North Carolina at Chapel Hill, Chapel Hill, NC, USAfDepartment of Environmental Sciences and Engineering, Gillings School of Global Public Health, University of North Carolina at Chapel Hill, Chapel Hill, NC, USAgSchool of Public Health, Xinxiang Medical University, Xinxiang, Henan Province, ChinahShanghai Collaborative Innovation Center for Biomanufacturing Technology, East China University of Science and Technology, Shanghai, China∗Corresponding author. EPA Human Studies Facility, Chapel Hill, NC, 27514, USA. samet.james@epa.gov
+2522023611026461026461532023This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+While redox processes play a vital role in maintaining intracellular homeostasis by regulating critical signaling and metabolic pathways, supra-physiological or sustained oxidative stress can lead to adverse responses or cytotoxicity. Inhalation of ambient air pollutants such as particulate matter and secondary organic aerosols (SOA) induces oxidative stress in the respiratory tract through mechanisms that remain poorly understood. We investigated the effect of isoprene hydroxy hydroperoxide (ISOPOOH), an atmospheric oxidation product of vegetation-derived isoprene and a constituent of SOA, on intracellular redox homeostasis in cultured human airway epithelial cells (HAEC). We used high-resolution live cell imaging of HAEC expressing the genetically encoded ratiometric biosensors Grx1-roGFP2, iNAP1, or HyPer, to assess changes in the cytoplasmic ratio of oxidized glutathione to reduced glutathione (GSSG:GSH), and the flux of NADPH and H2O2, respectively. Non-cytotoxic exposure to ISOPOOH resulted in a dose-dependent increase of GSSG:GSH in HAEC that was markedly potentiated by prior glucose deprivation. ISOPOOH-induced increase in glutathione oxidation were accompanied by concomitant decreases in intracellular NADPH. Following ISOPOOH exposure, the introduction of glucose resulted in a rapid restoration of GSH and NADPH, while the glucose analog 2-deoxyglucose resulted in inefficient restoration of baseline GSH and NADPH. To elucidate bioenergetic adaptations involved in combatting ISOPOOH-induced oxidative stress we investigated the regulatory role of glucose-6-phosphate dehydrogenase (G6PD). A knockout of G6PD markedly impaired glucose-mediated recovery of GSSG:GSH but not NADPH. These findings reveal rapid redox adaptations involved in the cellular response to ISOPOOH and provide a live view of the dynamic regulation of redox homeostasis in human airway cells as they are exposed to environmental oxidants.
+Keywords: Air pollution, Oxidative stress, Live cell imaging, Isoprene hydroxy hydroperoxide, Glutathione, NADPH
+
+## Graphical abstract
+ 
+
+## Highlights
+•ISOPOOH exposure increases GSSG:GSH in fully differentiated primary HAEC.
+•Increased GSSG:GSH by ISOPOOH is concomitant with decreased NADPH in HAEC.
+•G6PD KD in HAEC did not impair glucose-mediated recovery of baseline GSH or NADPH.
+•Glucose-mediated recovery of GSH, but not NADPH, was impaired in a G6PD KO model.
+•HAEC may utilize alternate NADPH pathways under conditions of oxidative stress.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Jan 13; Revised 2023 Feb 22; Accepted 2023 Feb 23; Collection date 2023 May.
+
+## Abbreviations
+(GSH)Reduced Glutathione
+(GSSG)Oxidized Glutathione
+(GSSG:GSH)Ratio of Oxidized Glutathione to Reduced Glutathione
+(HAEC)Human Airway Epithelial Cells
+(ISOPOOH)Isoprene Hydroxy Hydroperoxide
+(SOA)Secondary Organic Aerosols
+(pHAEC)Primary Human Airway Epithelial Cells
+(ALI)Air-Liquid Interface
+(G6PD)Glucose-6-Phosphate Dehydrogenase
+(PPP)Pentose Phosphate Pathway
+(NADPH)Nicotinamide Adenine Dinucleotide Phosphate
+(GAPDH)Glyceraldehyde-3-Phosphate Dehydrogenase
+(2-DG)2-Deoxy-d-glucose
+
+1.
+
+## Introduction
+Pollutants emitted into the atmosphere from anthropogenic and biogenic sources contribute to the formation of secondary organic aerosol (SOA) which is a major component of ambient fine particulate matter (PM2.5), a leading cause of global morbidity and mortality [ , , ]. Isoprene, a biogenic volatile organic compound, represents the largest non-methane hydrocarbon emitted into Earth's atmosphere [ ]. Additionally, isoprene is a major contributor to PM2.5 through rapid oxidation by ambient hydroxyl radical to low volatility oxygenated products [ , , , , ]. Isoprene-derived SOA contains high levels of oxidizing species, including peroxides which have been demonstrated to induce oxidative stress, as well as inflammatory and adaptive gene expression changes in human airway epithelial cells (HAEC) [ , , ].
+One of the major first-generation oxidation products of atmospheric isoprene is isoprene hydroxy hydroperoxide isomer 2-hydroperoxy-but-3-en-1-ol (1,2-ISOPOOH; hereafter referred to as ISOPOOH) [ ]. Recently, we reported that glutathione oxidation is an early response following exposure to ISOPOOH that it is potentiated in HAEC deprived of glucose [ ]. These results point to the bioenergetic status of the cell as a pivotal determinant of the early oxidative response of HAEC to ISOPOOH. As a follow up to our previous work, this study explores the dynamic interplay between glucose metabolism, NADPH availability and glutathione oxidation under conditions of ISOPOOH-induced oxidative stress.
+Intracellular oxidative stress often arises as a result of increased reactive oxygen species (ROS) and a consequent dysfunction in antioxidant systems, such as glutathione. While low levels of ROS are essential in regulating physiological redox processes, supra-physiological levels of ROS create an imbalance in the intracellular redox homeostasis, which promotes prolonged oxidative stress and inappropriate oxidation of important regulatory thiols. The ratio of oxidized glutathione to reduced glutathione (GSSG:GSH) is an index of intracellular redox homeostasis that is maintained through the activity of glutathione reductase at the expense of NADPH [ , ]. Developments in the field of redox biology have afforded a class of genetically encoded fluorogenic biosensors that allow real-time monitoring of various intracellular processes involved in regulating redox homeostasis, including glutathione oxidation, NADPH flux and H2O2 signaling [ ]. Coupled with the high temporal resolution afforded by live cell microscopy, the fluorogenic biosensors Grx1-roGFP2, iNAP1 and HyPer serve as powerful tools for monitoring fleeting and reversible intracellular redox events involved in xenobiotic-induced oxidative stress [ , ].
+Using this approach, in the present study we monitored changes in GSSG:GSH, NADPH and H2O2 in HAEC exposed to ISOPOOH [ ]. We report rapid and reversible changes in ISOPOOH-induced glutathione oxidation that are reflected by dynamic changes in intracellular NADPH and thereby glucose metabolism. Our results demonstrate real time adaptations of HAEC in the response to ISOPOOH-induced oxidative stress that are modulated by glucose availability and dampened G6PD expression.
+
+2.
+
+## Materials and methods
+2.1.
+
+## Materials
+Basic laboratory supplies and reagents were purchased from Thermo Fisher Scientific (Waltham, MA, USA). Minimum essential media with GlutaMAX (MEM GlutaMAX), Dulbecco's phosphate buffered saline (DPBS), and fetal bovine serum (FBS) were purchased from Gibco, and bovine type 1 collagen was obtained from Fisher Scientific, Thermo Fisher Scientific. 35 mm black glass-bottom (#1.5) dishes were used for live cell confocal microscopy (WillCo Wells; Amsterdam, Netherlands) and were purchased from Ted Pella (Redding, California, USA). Hydrogen peroxide (H2O2), dithiothreitol (DTT), hexadimethrine bromide (polybrene), D-(+)-glucose, 2-deoxy-d-glucose (2-DG), succinic acid, Triton x-100, penicillin-streptomycin solution, human fibronectin, and fatty acid free fraction V bovine serum albumin (BSA) were purchased from Sigma-Aldrich (St Louis, MO, USA). Calcein-AM was purchased from Invitrogen, Thermo Fisher Scientific.
+
+2.2.
+
+## Synthesis of ISOPOOH
+ISOPOOH was synthesized by perhydrolysis of commercially available 2-methyl-2-vinyloxirane (Sigma-Aldrich) with H2O2, as previously described [ ]. Pure ISOPOOH fractions (>98%) were free of residual H2O2 as determined by 1H NMR. Aliquots of pure ISOPOOH were stored at −80 °C until use.
+
+2.3.
+
+## Cell culture
+SV-40 transformed human bronchial epithelial cell line 16HBE14 (16-HBE) [ ] was gifted from the laboratory of Dr. Ilona Jaspers (UNC Chapel Hill, NC, USA). BALB/c WT cells (TIB-73) and BALB/c F4 G6PD knockout cells (CRL-3309) were purchased from ATCC (Manassas, VA, USA). 16-HBE and BALB/c cells were cultured in MEM GlutaMAX media which was supplemented with 10% FBS and 1% penicillin-streptomycin solution (complete growth media). All containers used to culture cells were coated with a matrix containing 30 μg/mL bovine type 1 collagen, 0.01% BSA, and 1% human fibronectin in LHC Basal Medium. Cells were cultured at 37 °C in a humidified environment containing 5% carbon dioxide (CO2). For live cell imaging, cells were cultured in 35 mm black glass-bottom dishes.
+For experiments involving primary human airway epithelial cell (pHAEC) cultures, cells were obtained from healthy volunteers during bronchoscopy. The protocol and consenting materials were approved by the University of North Carolina School of Medicine Committee on the Protection of the Rights of Human Subjects and by the US Environmental Protection Agency. Cells were expanded and grown at ALI as described previously [ ] using uncoated 12-well transwell inserts with a pore size of 0.4 μm (Costar; Tewksbury, MA, USA). For studies involving pHAEC expressing Grx1-roGFP2, a lentiviral transduction was performed at a multiplicity of infection (MOI) of 1–1.5 in the presence of 10 μg/mL polybrene immediately prior to plating pHAEC on the transwell inserts. pHAEC were seeded at a density of 200,000 cells per transwell. Once differentiated and fully ciliated, cells were maintained in ALI culture for a minimum of 5 days before use in exposure experiments.
+
+2.4.
+
+## Genetically encoded redox sensors
+The plasmid for the genetically encoded glutaredoxin-linked roGFP (Grx1-roGFP2) sensor was a generous gift from Dr. Tobias Dick (German Cancer Research Center, Heidelberg, Germany). When expressed within cells, the redox biosensor Grx1-roGFP2 works through an enzymatic relay ( ) and reports on the ratio of oxidized to reduced glutathione (GSSG:GSH) according to a published procedure [ , ].
+The plasmid for the genetically encoded iNAP1 sensor was described previously [ ]. Briefly, when expressed within cells, the redox biosensor iNAP1 directly binds and reports on intracellular NADPH flux [ ].
+The plasmid for the genetically encoded HyPer sensor was purchased from Evrogen (Farmingdale, NY, USA). When expressed within cells, the redox biosensor HyPer is a highly sensitive probe for detecting intracellular H2O2 flux [ ].
+
+2.5.
+
+## shRNA design
+shRNA hairpin oligonucleotides shown below were designed by selecting an 18-bp site from the human G6PD complete mRNA (NCBI Reference Sequence: BC000337.2) optimized for siRNA targeting of the G6PD mRNA or a random 18-bp sequence (Scramble) with no predicted homology to human genomic or transcript sequences:
+G6PD: 5′- GTGGAGGGCATTCATGTG -3′
+Scramble: 5′- ACTCTCGCCCAAGCGAGA -3′
+Single stranded synthetic 97-bp oligonucleotides (Invitrogen, Thermo Fisher Scientific) incorporating both sense and antisense sequences in a stem-loop motif were PCR amplified using the primers forward: 5′-AGTCACTCGAGTGCTGTTGACAGTGAG-3′ and reverse: 5′-AAGTCAGGATCCTCCGAGGCAGTAGG-3'. The resulting PCR products were subcloned into a modified lentiviral transfer vector, pRIPZ (Dharmacon; Birmingham, AL) between XhoI and BamHI restriction sites. The resulting shRNA expression constructs were verified by fluorescent DNA capillary sequencing. This cloning strategy nests the shRNA fragments between 5′ and 3′ miRNA30 adaptors within the 3′ untranslated region of a polycistronic red fluorescent protein reporter gene under the control of a CMV promoter.
+
+2.6.
+
+## Lentiviral vector production and titering
+HEK293T cells were co-transfected with purified transfer vector plasmids and lentiviral packing mix (Dharmacon) according to manufacturer's instructions, as outlined previously [ ].
+
+2.7.
+
+## Lentiviral transduction of cells
+Stable intracellular expression of the genetically encoded fluorescent redox sensors was achieved through lentiviral transduction of cells at 50% confluency, as previously described [ ].
+Stable shRNA expression of G6PD knockdown using a MOI of 2 followed the lentiviral transduction protocols. Cells expressing shRNAs were used for up to 10 passages before repeating the G6PD knockdown lentiviral transduction.
+
+2.8.
+
+## Live cell imaging exposure conditions
+Live cell exposures were conducted on 16-HBE or BALB/c cells expressing the genetically encoded fluorescent redox sensors at 70–80% confluency. For initial experiments conducted under glucose supplied conditions, cells were equilibrated for 30 min in Locke's Buffer ((+) glucose) [ , ]. For experiments conducted under glucose deprived conditions, cells were equilibrated for 2 h in Locke's Buffer ((−) glucose). All exposures took place on a confocal microscope equipped with a live cell imaging chamber that was maintained at 37 °C with 5% CO2 and ≥95% relative humidity.
+Each live cell experiment consisted of six distinct intervals, which are slightly modified depending on the experiment: (1) 5 min untreated baseline, (2) 5 min vehicle exposure, (3) 5–15 min ISOPOOH exposure, (4) 5–15 min addition of glucose, (5) 5 min 100 μM H2O2 as a maximal control (data not shown), and (6) 5 min addition of 5 mM DTT (data not shown) to reduce sensor signal back to baseline.
+
+2.9.
+
+## Live cell imaging acquisition and analysis
+All live cell imaging acquisition was conducted on a Nikon Eclipse C1si spectral confocal imaging system or a Nikon A1R-HD25 confocal imaging system using 404 nm, 488 nm, and 561 nm primary lasers (Nikon Instruments; Melville, NY, USA). The objective was a 60× 1.49 NA APO TIRF violet-corrected, oil-immersion lens.
+Cells expressing Grx1-roGFP2, iNAP1, or HyPer were monitored in time-series experiments with temporal resolution of 30 s−1 and were performed by sequential excitation at 488 nm and 405 nm. Fluorescent emission was monitored using a 525/30 nm band-pass filter (Chroma; Bellows Falls, VT, USA). Excitation laser power and pixel dwell time were held constant for all experiments. Detector power was optimized prior to starting image acquisition and was held constant during each experiment.
+Regions of interests (ROI) were drawn for 10 individual cells within a single 512 × 512 image and monitored for the duration of the experiment. Peak emission intensity (510 nm) data collected from each experiment was expressed as the ratio of emission at 510 nm from laser excitation at 405 nm and 488 nm. The emission ratios at 405/488 nm excitation were determined for each cell and normalized to the individual cell baseline. 100 μM H2O2 followed by 5 mM DTT was administered as a control at the end of each experiment to test the integrity of the Grx1-roGFP2 relay (data not shown). The normalized 405/488 nm ratios for each individual ROI were averaged and represent one independent experiment.
+
+2.10.
+
+## Cell viability assay
+Cell viability was determined by Calcein-AM staining. Cells were washed twice with 1X DPBS prior to glucose starvation for 2 h. After 90 min, the Locke's Buffer ((−) glucose) was aspirated and cells were incubated with 0.5 μM Calcein AM in Locke's Buffer ((−) glucose) for 30 min at 37 °C with 5% CO2. After incubation, cells were washed twice with 1X DPBS and replenished with Locke's Buffer ((−) glucose). Cells were then transferred to the microscope stage top and placed in the live cell imaging chamber. Cells underwent 9 μM ISOPOOH exposure schedule to assess cell viability during the experimental time frame. 0.1% Triton x-100 was used as a positive control. Calcein-AM fluorescent intensities were monitored using 488 nm excitation and a 525/30 nm emission band pass filter. Changes in Calcein-AM signal were normalized to the initial 5-min baseline.
+
+2.11.
+
+## Western blot analysis
+Total protein concentration was determined by a modified Bradford Assay (Bio-Rad, Hercules, CA, USA). Glucose-6-phosphate dehydrogenase (G6PD) expression in scramble and G6PD knockdown cells was determined by SDS-PAGE. Initially, whole cell lysate in Laemmli buffer was thawed and boiled for 5 min, followed by centrifugation at 16,000×g for 1 min. Proteins were separated on a 4–20% polyacrylamide gel using SDS/Tris/glycine running buffer. Samples were normalized for protein content prior to loading gel. Electrophoresed proteins were electrotransferred onto nitrocellulose, and the blots were blocked with 5% BSA in 1X tris-buffered saline containing 0.1% tween-20 (TBST) at 4 °C for 1 h. Blots were incubated overnight at 4 °C with an anti-G6PD (Cell Signaling Technology; Danvers, MA, USA; cat# D5D2) monoclonal antibody (1:1000) in TBST containing 5% BSA. Blots were washed three times (5 min each) in TBST and were then incubated with an HRP-conjugated goat anti-rabbit IgG (Jackson ImmunoResearch; West Grove, PA, USA; cat# 111-035-003) secondary antibody (1:10000) in TBST containing 5% BSA for 1 h at room temperature. Bands were detected using Clarity™ Western ECL Substrate (Bio-Rad; Hercules, CA, USA) and visualized using a FujiFilm LAS-3000 Luminescent Image Analyzer (Fujifilm; Stamford, CT, USA).
+
+2.12.
+
+## Statistical analysis
+All microscopy images were quantified using the NIS-Elements AR software (Nikon Instruments). All data were normalized to individual cell baseline and expressed as MEAN ± SEM for n = 3–6 independent experiments. The rate at which fluorescent changes occurred was performed by linear regression analysis on data points within the following time frames: linear analysis for ISOPOOH-induced onset slope of Grx1-roGFP2 and iNAP1 signal was measured using data points collected between 9.5 and 10.5 min, while the recovery slope was measured using data points collected between 10 and 24.5 min. Linear analysis for glucose-mediated onset slope of Grx1-roGFP2 and iNAP1 signal was measured using data points collected between 24.5 and 25.5 min, while the recovery slope was measured using data points collected between 25 and 29.5 min. Linear regression slopes are expressed as MEAN ± SEM for n = 3–6 independent experiments and is reported as normalized fluorescence intensity per unit time (Δ 405/488 signal/min). All statistical analyses were performed using Graphpad PRISM 9.1 (Graphpad Software; La Jolla, CA, USA).
+
+3.
+
+## Results
+3.1.
+
+## Glucose deprivation sensitizes HAEC to ISOPOOH-induced glutathione oxidation
+Exposure of HAEC to 1–9 μM ISOPOOH in glucose-supplied medium induced relatively minor changes in GSSG:GSH that were short-lived and resolved to baseline spontaneously ( A). Consistent with our previous study [ ], glucose deprivation of HAEC for 2 h greatly sensitized HAEC to ISOPOOH exposure ( B). In preliminary experiments, concentrations of ISOPOOH as low as 300 nM ISOPOOH produced detectable glutathione oxidation in glucose deprived HAEC (data not shown). Depriving unexposed HAEC of glucose for 2 h did not induce detectable glutathione oxidation ( ). Subsequent experiments throughout this study were performed following 2 h glucose deprivation.
+ Compared to glucose supplied conditions, exposing glucose-deprived HAEC to 1, 3, or 9 μM ISOPOOH resulted in a greatly potentiated, dose-dependent increase in GSSG:GSH ( B). Linear regression analyses supported these observations, showing that the onset rate of ISOPOOH-induced changes in GSSG:GSH was dependent on the concentration of ISOPOOH ( ). Exposure to 9 μM ISOPOOH, and the subsequent reintroduction of glucose, did not impact HAEC viability ( ). Experiments using the H2O2 sensor HyPer showed that ISOPOOH exposure does not result in an increase in intracellular H2O2 ( ). The observations in the glucose-deprived low-dose ISOPOOH exposure model used in this study were consistent with our previous report showing that higher concentrations of ISOPOOH in a glucose-supplied model increased GSSG:GSH through a mechanism that does not involve H2O2 [ ].
+ As shown in B, HAEC exposed to the lower doses (1 and 3 μM) of ISOPOOH exhibited spontaneous recovery of baseline GSH over a period of approximately 15 min from the peak response, with the 3 μM dose of ISOPOOH showing a slower rate of recovery. However, the increased GSSG:GSH response following exposure to the highest dose (9 μM) of ISOPOOH showed minimal spontaneous recovery over the same period, remaining at a level close to the peak response. In marked contrast, the addition of 1 mM glucose to HAEC exposed to 9 μM ISOPOOH produced an immediate reversal in GSSG:GSH, resulting in rapid restoration of baseline intracellular GSH ( B). These results pointed to glucose availability as a major determinant of the oxidative response of HAEC to ISOPOOH-induced redox stress.
+
+3.2.
+
+## Glucose rescues ISOPOOH-induced reductions in NADPH
+Given the effectiveness of glucose in reversing ISOPOOH-mediated changes in GSSG:GSH, and the dependence of glutathione reductase activity on NADPH availability, we next monitored the effect of ISOPOOH exposure on NADPH flux in HAEC expressing the NADPH sensor iNAP1. As reported by ratiometric changes in iNAP1 fluorescence intensity, glucose deprivation alone for 2 h resulted in an initial sharp decrease in NADPH that appeared to stabilize over the remainder of the 2 h monitoring period, effectively setting a new baseline for intracellular NADPH ( ).
+As shown in , HAEC treated with 1–9 μM ISOPOOH showed a marked decrease in intracellular NADPH. The initial decrease in NADPH flux induced by the different concentrations of ISOPOOH were indistinguishable from one another ( ). However, linear regression analysis revealed that following introduction of the highest concentration of ISOPOOH (9 μM) the rate of change in NADPH flux occurred faster relative to changes in NADPH induced by lower doses of ISOPOOH ( ). The spontaneous recovery of NADPH across the lower concentrations of ISOPOOH tested were similar, although the spontaneous rate of recovery in NADPH following 9 μM ISOPOOH treatment was slower ( ). Furthermore, when comparing glucose-mediated recoveries of NADPH, ISOPOOH dose-dependency was observed ( ). The data showing that glutathione oxidation is accompanied by a decrease in NADPH suggested that the latter effect is driven by cells rapidly consuming NADPH to reduce glutathione oxidized by ISOPOOH exposure. Separate experiments conducted in HAEC expressing iNAPc support the findings observed with iNAP1 cells, where ISOPOOH-induced fluctuations appear to be predominantly driven by changes in intracellular NADPH and not alterations in pH (data not shown).
+ To gain additional insight into the immediate bioenergetic response to ISOPOOH-induced oxidative stress, we next determined the concentration of glucose necessary to effect a reversal of glutathione oxidation and restore NADPH flux in HAEC acutely exposed to 9 μM ISOPOOH. As shown in , 90 μM glucose rapidly and completely restored baseline GSH and NADPH following exposure to 9 μM ISOPOOH, while the addition of 30 μM glucose produced a recovery that was slower, unstable, and failed to reach baseline. The lowest glucose concentration tested, 10 μM, was ineffective in reversing the oxidative effects of 9 μM ISOPOOH in HAEC ( ). HAEC were also able to use the glucose analogue 2-deoxyglucose (2-DG) to reverse changes in ISOPOOH-induced glutathione oxidation, and to some extent NADPH, albeit less efficiently ( ). However, the rate of baseline GSH and NADPH recovery following the addition of 2-DG ( ) was clearly dampened and considerably slower relative to that induced by glucose ( , , respectively).
+ 
+3.3.
+
+## Diminished expression of G6PD sensitizes cells to ISOPOOH
+Given that the pentose phosphate pathway (PPP) is a major source of NADPH, we next examined the effect of ISOPOOH exposure on GSSG:GSH and NADPH in HAEC in which the expression of glucose-6-phosphate dehydrogenase (G6PD), a rate limiting enzyme in the PPP, was suppressed. Western blot analysis confirmed that G6PD expression was reduced following transduction with a shRNA lentiviral construct (G6PD KD HAEC) relative to cells expressing a scrambled control ( ). Relative to WT HAEC ( B), G6PD KD HAEC showed marked sensitization to ISOPOOH-induced glutathione oxidation at all concentrations tested ( A). This was evinced by faster rates of glutathione oxidation mediated by 1–9 μM ISOPOOH in G6PD-KD-HAEC ( A) relative to WT HAEC ( B), as inferred from the steeper onset slopes of changes in normalized Grx1-roGFP2 fluorescence intensity over time ( , , respectively).
+ Exposing iNAP1-expressing G6PD KD HAEC to ISOPOOH also resulted in a marked decrease in the concentration of NADPH ( B). While the onset rate of ISOPOOH-induced changes in NADPH were similar between G6PD KD HAEC and WT HAEC at a dose of 1 μM and 3 μM ISOPOOH, the rate of NADPH change following 9 μM ISOPOOH was approximately 25% slower in G6PD KD HAEC relative to WT HAEC ( , , respectively). Similarly, the rates of spontaneous recovery following 1 μM and 3 μM ISOPOOH were comparable between G6PD KD HAEC and WT HAEC, while the rate of spontaneous recovery of NADPH following 9 μM ISOPOOH was approximately 60% slower in G6PD KD HAEC relative to WT HAEC ( , , respectively).
+The introduction of 1 mM glucose effectively reversed ISOPOOH-induced-oxidative effects on GSSG:GSH and NADPH in G6PD KD HAEC ( ). Similar changes in the rate of glucose-mediated recovery of GSSG:GSH following ISOPOOH exposure were observed in G6PD KD HAEC relative to WT HAEC ( , , respectively). Surprisingly, the rate of glucose-mediated recovery of NADPH following ISOPOOH exposure was faster in the G6PD KD cells than in the WT HAEC ( , , respectively), suggesting the presence of compensatory mechanisms in the G6PD KD cells.
+Considering that the shRNA knockdown was unlikely to have resulted in a complete ablation of G6PD activity in HAEC, we next tested the effect of ISOPOOH exposure on glutathione oxidation and NADPH in a knockout model of G6PD. As shown in , exposure of G6PD KO BALB/c cells to ISOPOOH resulted in comparable dose dependent changes in GSSG:GSH and NADPH ( A and C, respectively) relative to WT BALB/c cells ( B and D, respectively). The rate of spontaneous recovery of ISOPOOH-induced glutathione oxidation in G6PD KO BALB/c cells was similar to that of the WT BALB/c cells ( ). Notably, the rate of baseline GSH recovery mediated by 1 mM glucose following 9 μM ISOPOOH exposure was markedly impaired by approximately 90% in the G6PD KO cells ( A & ) relative to WT cells ( B & ).
+ Similarly, the apparent spontaneous recovery of ISOPOOH-induced changes in NADPH in G6PD KO BALB/c cells was not different from that in WT BALB/c cells ( ). However, the rate of glucose-mediated recovery of NADPH in G6PD KO cells was slower than that in WT BALB/c cells ( ). Taken together, these observations evince the capability of G6PD-deficient cells to rapidly synthesize NADPH to meet increased demand, suggesting that pathways for NADPH synthesis, other than the PPP, are available under conditions of ISOPOOH-induced oxidative stress.
+ 
+3.4.
+
+## ISOPOOH increases GSSG:GSH in primary human airway epithelium
+The limited availability and finite life span of primary human airway tissue cultures precluded a detailed mechanistic study of the oxidative effects of ISOPOOH in a primary human model, thus leaving open the question of the relevance of immortalized cell lines used in this study to the effects of ISOPOOH on the human airway. To address this concern, we focused on recapitulating a central finding of this study using fully differentiated ciliated primary human airway epithelial cells cultured at an air-liquid interface (pHAEC-ALI). When exposed to ISOPOOH, pHAEC-ALI showed a dose-dependent increase in GSSG:GSH ( ), reflecting oxidation of cytosolic glutathione. Relative to the immortalized cells, the primary cells displayed robust spontaneous recovery such that the recovery of baseline GSH was minimally impacted by the addition of 1 mM glucose. The ability of pHAEC-ALI cell cultures to spontaneously recover may reflect inherent differences in the properties of the primary cells relative to an immortalized cell line.
+ 
+
+4.
+
+## Discussion
+As we reported previously, exposure of human airway epithelial cells to the environmental peroxide ISOPOOH induces rapid oxidation of glutathione that is enhanced by glucose deprivation of the cells [ ]. Several studies have shown that limiting glucose availability induces oxidative stress in cells [ , , ]. However, under the conditions utilized in the present study, glucose deprivation alone did not result in oxidative stress, as demonstrated by the fact that the 2 h withdrawal of glucose did not result in oxidation of the glutathione pool in HAEC, as measured by Grx1-roGFP2 ( ). While Grx1-roGFP2 is an effective tool for monitoring GSSG:GSH, by itself the sensor presents a useful but incomplete perspective on the redox status of the glutathione pool as pointed out by Berndt et al. [ ], specifically what is absent from our analyses are the absolute concentrations of GSSG and GSH.
+The finding that NADPH flux is lowered by glucose deprivation in HAEC is consistent with the notion that limiting glucose availability reduces NADPH synthesis by the pentose phosphate pathway (PPP) [ ]. It should be noted, however, that recent studies have shown that glucose deprivation results in transcriptional up-regulation of genes involved in glucose metabolism, resulting in the upregulation of PPP enzymes [ , ]. Under conditions of extreme oxidative stress, metabolic shunting of glucose into the PPP can be seen as a survival adaptation [ , ]. Specifically, glucose-6-phosphate-dehydrogenase (G6PD) activity is critical for synthesizing NADPH to provide reducing equivalents to support multiple antioxidant enzymes in the ascorbate-glutathione system, thioredoxin and glutaredoxin systems [ ].
+In the current study, we establish that exposure of HAEC to ISOPOOH induces glutathione oxidation whose reduction, at the expense of NADPH, is rapidly reversed upon the introduction of glucose. Analysis of the kinetic features describing these effects is made possible by the high temporal resolution afforded by live cell microscopy of cells expressing genetically encoded reporters. Using similar approaches, changes in GSSG:GSH and NADPH have been reported in a recent study by Tao et al., where exposure to diamide resulted in glutathione oxidation and decreased flux of NADPH in glucose-deprived HeLa cells [ ].
+Given the role glyceraldehyde-3-phosphate dehydrogenase (GAPDH) as a regulator of glucose utilization, our results demonstrating that glucose rapidly reverses the effects of ISOPOOH on GSSG:GSH and NADPH suggest that inhibition of GAPDH mediates glucose shunting from glycolysis to the PPP [ ]. Oxidation of specific cysteinyl thiols of GAPDH has been shown to be a critical post-translational modification that inhibits its activity, thereby shunting glucose from glycolysis to the PPP [ ]. Recent studies have revealed in detail the function of GAPDH as a redox switch, with oxidation by H2O2 resulting in reversible inactivation of the enzyme [ , ]. Other studies have also suggested a role of GAPDH in acting as a redox switch that acts to regulate metabolic processes [ , ]. Future studies are warranted to determine whether metabolic responses to oxidative stress induced by ISOPOOH exposure involve redox modifications of GAPDH.
+The dynamic interplay between glycolysis and the PPP has been well characterized, especially in the context of oxidative stress and disease [ , , ]. The participation of glucose in redox processes is an important aspect of the metabolic relationship between glycolysis and other intracellular pathways such as the PPP, tricarboxylic acid cycle and the electron transport chain [ ]. In this study, we report that the availability of glucose is an important determinant of the capacity of HAEC to oppose ISOPOOH-induced oxidation of glutathione. In particular, the addition of 30 μM glucose to HAEC exposed to 9 μM ISOPOOH ( ) elicited a distinct bimodal recovery of baseline GSH. This bimodal recovery suggests redox-dependent heterogeneity among ostensibly genetically homogenous cell populations [ , ], and may reflect underlying variance in the antioxidant profile of cells as a result of limited glucose availability [ ].
+G6PD, the rate limiting enzyme in the PPP [ ] is critical to providing NADPH reducing equivalents for opposing oxidative stress [ , , ]. Our findings showing that glucose mediates the reversal of ISOPOOH-induced changes in NADPH in G6PD KD HAEC are consistent with a role of the PPP. However, studies have also demonstrated that pathways other than the PPP are involved in NADPH production [ ]. For example, considerable amounts of NADPH are synthesized through folate-dependent NADPH pathways [ , ], as well as cytosolic isocitrate dehydrogenase 1 and malic enzyme 1 [ ]. In addition to their cytosolic counterparts, there are also mitochondrial isoforms of these enzymes that produce NADPH [ , ].
+The observation of glucose-mediated recovery of NADPH in cells that were G6PD deficient was unexpected. Notably, in G6PD KO BALB/c cells, exposure to the higher dose of ISOPOOH induced sustained glutathione oxidation that was not reversed by 1 mM glucose, although NADPH flux was restored to baseline ( ). Studies have shown that decreased activity of G6PD in metastasizing tumors may lead to compensatory increases in the function and activity of other NADPH-generating enzymes, including malic enzyme 1 and isocitrate dehydrogenase 1 [ , , ]. For instance, Mailloux and Harper have demonstrated glucose regulation of mitochondrial sources of NADPH in skeletal muscle [ ]. In particular, under conditions of low glucose availability, cells rely more heavily on mitochondrial metabolism as the principal site for NADPH production. Here, our results support the notion that under conditions of glucose deprivation, and low G6PD expression, mitochondrial NADPH production may be a critical source of NADPH reducing equivalents for combating ISOPOOH-induced oxidative stress. In the current study, we tested the ability of several TCA cycle intermediates to reverse ISOPOOH-induced changes in GSSG:GSH and NADPH. We determined that the introduction of succinic acid was capable of partially reversing ISOPOOH-induced changes in GSSG:GSH and NADPH ( ), suggesting a prominent role of mitochondria in regulating intracellular oxidative stress arising from ISOPOOH exposure.
+Taken together, our data suggest that cells adapt to their environment for survival under conditions of oxidative stress, especially when antioxidant systems are compromised and there is high demand for reducing equivalents such as NADPH. Future studies are warranted to better understand the how NADPH-producing enzymes other than those in the PPP regulate intracellular redox homeostasis in the face of exposure to environmental peroxides.
+
+5.
+
+## Conclusion
+In summary, we describe changes in intracellular redox events induced by exposure of HAEC to the environmental peroxide ISOPOOH, with implications for the effects of other oxidizing components of PM2.5. Our results, observed in real time, reveal adaptive mechanisms of HAEC in response to ISOPOOH-induced oxidative stress. We show that under conditions of low glucose availability and dampened G6PD expression, HAEC can utilize alternative pathways for the rapid synthesis of NADPH needed to combat oxidative stress. Real time monitoring of these initiating redox events, and their kinetic features, is made possible by the high temporal resolution afforded by live cell imaging using genetically encoded fluorogenic redox reporters, such as Grx1-roGFP2, iNAP1 and HyPer. Thus, this approach is ideally suited for future investigation of oxidative toxicological events arising from environmental exposures.
+
+## Disclaimer
+The research described in this article has been reviewed by the Center for Public Health and Environmental Assessment, U.S. Environmental Protection Agency, and approved for publication. Approval does not signify that the contents necessarily reflect the views and policies of the Agency, nor does the mention of trade names of commercial products constitute endorsement or recommendation for use.
+
+## Funding sources
+This work was supported by NSF
+AGS 2001027 (A.G.) and NIEHS T32ES007018 (R.R.).
+
+## Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+## Footnotes
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.redox.2023.102646.
+
+Appendix A.
+
+## Supplementary data
+The following is the Supplementary data to this article:
+
+## Multimedia component 1
+Multimedia component 1
+
+## Data availability
+Data will be made available on request.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Multimedia component 1
+Multimedia component 1
+
+## Data Availability Statement
+Data will be made available on request.

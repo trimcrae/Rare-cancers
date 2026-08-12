@@ -1,0 +1,553 @@
+PLoS BiolPLoS Biol212plosbiol101183755plosPLoS Biology1544-91731545-7885PLOSPMC7935315PMC7935315.1793531579353153362124210.1371/journal.pbio.3001138PBIOLOGY-D-20-009401Research ArticleMedicine and Health SciencesOncologyCancers and NeoplasmsBreast TumorsBreast CancerMedicine and Health SciencesOncologyCancers and NeoplasmsGenitourinary Tract TumorsProstate CancerMedicine and Health SciencesUrologyProstate DiseasesProstate CancerMedicine and Health SciencesOncologyCancers and NeoplasmsMalignant TumorsMedicine and Health SciencesOncologyCancers and NeoplasmsBiology and Life SciencesDevelopmental BiologyCell DifferentiationNeuronal DifferentiationMedicine and Health SciencesOncologyCancers and NeoplasmsColorectal CancerMedicine and Health SciencesOncologyCancers and NeoplasmsLung and Intrathoracic TumorsBiology and life sciencesMolecular biologyMolecular biology techniquesSequencing techniquesRNA sequencingResearch and analysis methodsMolecular biology techniquesSequencing techniquesRNA sequencingSilencing of SRRM4 suppresses microexon inclusion and promotes tumor growth across cancers
+SRRM4 silencing promotes tumor growth across cancershttps://orcid.org/0000-0002-8942-7785HeadSarah A.Formal analysisFunding acquisitionInvestigationValidationVisualizationWriting – original draftWriting – review & editing https://orcid.org/0000-0001-8633-499XHernandez-AliasXavierFormal analysisInvestigationValidationVisualizationWriting – review & editing https://orcid.org/0000-0001-9910-3170YangJae-SeongData curationFormal analysis https://orcid.org/0000-0002-3309-2402CiampiLudovicaInvestigation Beltran-SastreVioletaInvestigation https://orcid.org/0000-0002-1241-8629Torres-MéndezAntonioFormal analysisInvestigation IrimiaManuelMethodologySoftware https://orcid.org/0000-0001-7503-6364SchaeferMartin H.ConceptualizationData curationFormal analysisSupervisionValidationWriting – original draftWriting – review & editing https://orcid.org/0000-0002-5276-1392SerranoLuisConceptualizationFunding acquisitionProject administrationSupervisionWriting – review & editing 1
+Centre for Genomic Regulation (CRG), The Barcelona Institute of Science and Technology, Barcelona, Spain2
+Centre de Recerca en Agrigenòmica, Consortium CSIC-IRTA-UAB-UB, Cerdanyola del Vallès, Barcelona, Spain3
+Universitat Pompeu Fabra (UPF), Barcelona, Spain4
+ICREA, Barcelona, Spain5
+IEO European Institute of Oncology IRCCS, Department of Experimental Oncology, Milan, ItalyMisteliTomAcademic Editor , ]. In contrast to normal exons, microexons are generally too short to contain standard exonic splicing enhancers and thus require a specialized machinery to facilitate their recognition and inclusion. This is mediated primarily by the SF Serine/Arginine Repetitive Matrix 4 (SRRM4, aka nSR100), which has been reported to be expressed at high levels only in neurons [ , ]. SRRM4 plays a critical role in regulating neuronal differentiation, as knockdown and knockout experiments have revealed morphological and functional deficits in cultured neurons as well as the nervous systems of zebra danio and mice [ – ]. In addition, SRRM4 was shown to be down-regulated in the brains of some autistic patients, resulting in a global misregulation of microexon splicing [ ], further implicating SRRM4 as a critical factor in brain development. However, the role of microexons in nonneural tissues, if any, has been relatively unexplored to date.
+Dysregulation of AS has been implicated in numerous human diseases, including cancer [ ]. Loss of splicing fidelity is extremely common in cancer, due either to mutations that directly affect splice sites or regulatory regions within pre-mRNAs or alterations in SF expression or activity [ – ]. These changes may result in the expression of protein isoforms that confer selective advantages to cancer cells, either by increasing tumorigenic activity or decreasing tumor suppressive activity. Large-scale studies of AS alterations in cancer have been aided greatly in recent years by consortia such as The Cancer Genome Atlas (TCGA), which has collected multiomic data from thousands of patient samples. The availability of raw RNA sequencing (RNA-seq) data from both tumor and corresponding normal tissues has facilitated comparative analyses of SF expression and AS, revealing widespread dysregulation of splicing in cancer [ – ]. However, microexons are usually systematically ignored in such analyses, due to their small size and the resulting difficulty in detecting and separating them from background noise. Special computational approaches are therefore required to accurately quantify microexon inclusion [ , – ].
+Here, we use public data from TCGA to analyze changes in SRRM4 expression and microexon inclusion between tumor and normal samples from 9 different tissues ( ). Surprisingly, we find that not only are SRRM4 and its microexon program globally down-regulated in cancer despite having low basal inclusion in normal nonneural tissues, but also in fact SRRM4 is the most consistently down-regulated across tumor types out of all SFs analyzed. We map this decreased expression to a strong increase in methylation of SRRM4 promoters, indicative of epigenetic silencing of SRRM4 expression in cancer. We show that SRRM4 expression and exon inclusion changes anticorrelate with mitotic gene expression in tumors, signifying an inverse relationship with cancer cell proliferation. Correspondingly, we observe marked inhibition of cancer cell proliferation with SRRM4 overexpression both in vitro and in a mouse xenograft model, accompanied by induction of neuron-like splicing and expression patterns. We conclude that the splicing program controlled by SRRM4 acts as a brake on proliferation by promoting differentiation and that tumors gain a proliferative advantage by cutting off this brake.
+ 
+
+## Results
+
+## SRRM4 expression is silenced in cancer with high consistency across tumor types
+Using publicly available, preprocessed RNA-seq data from TCGA, we first analyzed changes in SRRM4 expression between primary tumor (PT) and solid tissue normal (STN) samples. Nine tissue types were selected that had a sufficiently large number of tumor and matched normal samples to perform conclusive statistics (N ≥ 20 each), as well as available raw RNA-seq files for quantification of splice variants ( ). In accordance with the known neural specificity of SRRM4, we found that expression levels in the normal samples were generally low, with median values ranging from 0.0 (liver) to 8.3 (thyroid) RNA-Seq by Expectation-Maximization (RSEM) normalized expression units. Remarkably, the median expression levels of SRRM4 were significantly lower in tumors from all tissues, with the exception of liver that had median expression of 0.0 in both tumor and normal samples (p < 0.001; Wilcoxon–Mann–Whitney test; , ; details of the statistical tests are found in the Methods section under “Statistical information”). To investigate the mechanism underlying this down-regulation, we used DNA promoter methylation array data to assess gene regulation at the epigenetic level [ ], as promoter methylation is a well-established mechanism of gene silencing. Consistent with the down-regulated expression, we found an increase in SRRM4 promoter methylation that was highly significant in tumors from all tissues, even in liver (p < 0.001; Wilcoxon–Mann–Whitney test; , ). Taken together, these results suggest a global silencing of SRRM4 in cancers, beyond their normally low inclusion levels in nonneural tissues.
+ Despite the high frequency of AS alterations in cancer, the degree of consistency of SRRM4 silencing across tissues was particularly striking. Other members of the SRRM family (SRRM1–3) did not show the same pattern of consistent change (significant and in the same direction) across tissues at either the expression or the promoter methylation level ( , and ). In fact, from a list of 202 known SFs (see “Definition of splicing factor list” in ), only SRRM4 had significantly decreased expression and increased promoter methylation across all tumor types ( , and ). While 4 other SFs had consistently increased expression (SNRPB, RNPS1, RBM34, and ELAVL1), the absolute magnitude of the change in expression was higher for SRRM4 (mean fold change of 3.67×) compared with the other 4 (1.25 to 1.78×) ( ). At the promoter methylation level, one other SF was found to be hypermethylated in all tissues, and to a similar extent as SRRM4 (RALYL; ), but this hypermethylation did not translate to decreased expression in all tissues. Taken together, these findings demonstrate a global and significant pattern of silencing of SRRM4 in cancer.
+
+## Inclusion of SRRM4 target exons is decreased in tumors
+To evaluate the effects of SRRM4 dysregulation at the level of microexon inclusion, we implemented a computational pipeline for the quantification and statistical evaluation of exon inclusion levels from RNA-seq data. Our pipeline makes use of vast-tools [ ], a toolset for profiling AS from sequencing data that is capable of accurately quantifying inclusion levels (defined by “percent spliced in” or PSI) of exons as small as 3 nucleotides. We ran this pipeline on 6,264 PT and 644 STN samples from TCGA ( ). Inclusion levels were quantified for 219,018 cassette exons, and, for each event, statistical comparisons were performed between tumor and corresponding normal samples in each of the 9 tissues. These results have been uploaded to VastDB [ ] as a public resource (http://vastdb.crg.eu).
+For each tissue type, we next defined a list of differentially spliced cassette exons between tumor and normal samples (|ΔPSI| > 5 and q < 0.01, Wilcoxon–Mann–Whitney test; ). The resulting list comprised between 468 and 1,884 exons depending on the tissue type, of which between 6.6% (head and neck cancer) and 12.7% (colorectal cancer) were microexons (summary in ). These differentially spliced exons were significantly enriched for experimentally determined SRRM4 targets ( ; Methods) in every cancer type tested (p < 10−6; Fisher test).
+As SRRM4 promotes inclusion of its target exons, we hypothesized that down-regulation of SRRM4 in tumors would lead to decreased inclusion levels of known SRRM4-regulated exons [ ]. In support of this hypothesis, we found that over 70% of significantly changing SRRM4 target exons across tissues were decreased in tumors compared with normal samples ( , and Figs). This result is particularly remarkable given that around two-thirds of known SRRM4-regulated exons are not included in healthy nonneural tissues, meaning they cannot possibly decrease further in tumors ( ). Of the remaining one-third of SRRM4 target exons with an average PSI > 5 in normal nonneural tissues, a majority (64%) were found to significantly decrease in at least 1 tumor type ( , red points). For each individual tissue, the number of SRRM4-regulated exons significantly decreasing in tumors was also larger than those increasing in tumors ( ). Using all significantly changing exons as a reference, the fraction of decreased SRRM4 target exons was larger than expected by chance in 5 of the 9 tissue types (lung, breast, prostate, uterus, and colorectal; p < 0.05; Fisher test). In agreement with the known role of SRRM4 as a key regulator of microexon splicing, we found that a majority of the differentially included SRRM4 targets were ≤27 nucleotides in length, and the proportion significantly decreasing in tumors was larger than those increasing for every tumor type ( ). Furthermore, the SRRM4 targets with decreased average inclusion levels in tumors were more highly enriched in microexons (63%) as compared with those increasing in tumors (39%) ( ).
+ To further demonstrate the regulatory impact of SRRM4 activity on SRRM4 target inclusion levels, we correlated the expression levels of SRRM4 with the PSI of its target exons across TCGA tumor samples. The median Spearman correlation was larger than 0 in all cancer types ( ). To determine if the consistently positive correlation levels were larger than expected by chance, we generated background distributions of median correlations between the PSI of SRRM4 target exons and the expression levels of random genes. In 5 of the 9 cancer types, we found that the median correlation was larger than expected by chance (lung, breast, prostate, head and neck, and colorectal; p < 0.05; randomization test). Similar results, but in the opposite direction, were obtained when considering the methylation status of SRRM4 instead of its expression ( ). These observations demonstrate that the inclusion of SRRM4 target exons is generally down-regulated in tumors as a functional consequence of decreased SRRM4 expression.
+Taken together, these results suggest that the observed down-regulation of microexon inclusion is a general phenomenon across a wide variety of cancer types. Indeed, a recent study of splicing changes between glia and glioblastoma also reported decreased microexon inclusion in glioblastoma [ ], which is consistent with our findings in tumors from nonneural tissues and further suggests the generalizability of these findings to different cancer types.
+
+## SRRM4 expression is inversely related to cell proliferation
+To investigate the potential functional consequence of SRRM4 target exon down-regulation, we performed gene ontology (GO) term enrichment analysis [ ] on the genes with decreased exon inclusion in tumors. The most significantly overrepresented biological processes among these genes were plasma membrane bounded cell projection organization, generation of neurons, cell morphogenesis involved in neuron differentiation, and neuron development ( , ). These functions are consistent with the known role of SRRM4 in promoting neuronal differentiation and suggest that decreased expression of SRRM4 might decrease differentiation-related activities in tumors.
+ Because neuronal differentiation is accompanied by cell cycle withdrawal and cessation of cell division [ ], we hypothesized that tumors might benefit from down-regulating these neuronal differentiation–related processes to gain a proliferative advantage. To assess proliferation in tumor samples, we monitored the mitotic index (MI), an mRNA expression signature that has been shown to correlate with the mitotic activity of cancer cells and is therefore used as an expression-based marker for cell proliferation [ ]. In support of our hypothesis, we observed a negative correlation (RSpearman = −0.36, p < 2.2e-16, ) between the MI and SRRM4 expression in tumor samples, while a positive correlation was observed at the promoter methylation level (RSpearman = 0.45, p < 2.2e-16, ). This result suggested that SRRM4 expression might negatively affect the proliferation of tumor cells. Furthermore, for each individual SRRM4 exon, we calculated a Spearman correlation coefficient between the PSI of the exon and MI across tumor samples and found a strong negative association between the direction of this correlation for each exon and its ΔPSI in tumors (p = 3.68e-16, binomial test). In agreement, the vast majority (83.9%) of SRRM4 target exons with a negative MI correlation in tumors from a given tissue also had significantly decreased inclusion in tumors from that tissue ( ), supporting the hypothesis that decreased inclusion of these exons is likely to be associated with increased proliferative activity. Furthermore, a majority of the SRRM4 target exons with significant negative MI correlations were ≤27 nucleotides in length, while those with positive correlations tended to be longer ( ). This finding suggests that SRRM4 target microexons may contribute more to the antiproliferative phenotype than longer SRRM4 target exons; however, we cannot rule out the possibility that longer SRRM4 targets also contribute.
+We further tested whether SRRM4 expression correlates with other tumor features apart from proliferation. We did not observe any clear trend of SRRM4 expression changes across different tumor/node/metastasis (TNM) stages ( ) nor was there a significant correspondence of SRRM4 expression levels with patient survival in any tissue type (Kaplan–Meier method, q < 0.05, false discovery rate [FDR] corrected). There was also no correlation with tumor purity, as measured by 2 different methods: ESTIMATE [ ] (RSpearman = −0.04) and CPE [ ] (RSpearman = 0.038) ( ). We did detect significant associations between SRRM4 expression and mutations in certain cancer genes, where the presence of mutations in those genes are generally associated with a lower expression of SRRM4. In particular, out of 15 cancer genes tested, 10 of them raised significant associations (p < 0.05), with the presence of 8 of them being associated with a lower SRRM4 expression ( ). These observations are consistent with the association of most cancer gene mutations with MI, which in 9/10 cases change in the opposite direction as SRRM4 ( ).
+
+## SRRM4 overexpression inhibits cancer cell growth in vitro and in vivo
+To test the hypothesis that SRRM4 expression affects cancer cell proliferation, we generated several stable cell lines with tetracycline-inducible expression of SRRM4. Six different commonly used cancer cell lines were chosen: HeLa (cervical cancer), MCF7 (estrogen receptor–positive breast cancer), MDA-MB-231 (triple negative breast cancer), HCT116 (colon cancer), DU145 (prostate cancer), and SH-SY5Y (neuroblastoma). We also generated control cell lines using empty vector (EV) and an inactive SRRM4 deletion mutant (DM) missing 39 amino acids in the carboxyl terminus enhancer of microexons (eMIC) domain essential for splicing activity [ ]. In all 6 cases, the addition of increasing concentrations of doxycycline to the cells dose-dependently inhibited cell growth only in the wild-type (WT) SRRM4 expressing cells, and not in the EV or DM control lines ( , and Figs). Similar antiproliferative effects were observed in the non-tumor-derived, immortalized kidney cell line, HEK293 ( and Figs). These results demonstrate that increased SRRM4 expression leads to decreased cell proliferation across cell lines. These antiproliferative effects are mediated by SRRM4 SF activity, as evidenced by the fact that the inactive mutant has no such effects.
+ Although the antiproliferative effects of SRRM4 are evident in this 4-d growth assay, we observed that the levels of overexpression achieved at the highest doxycycline concentrations in these experiments (between 70- and 500-fold, depending on the cell line; ) are much larger than those observed in tumors (between 1.5- and 7-fold, ). We hypothesized that small changes in SRRM4 expression would have measurable effects on proliferation over a longer period of time, such as during tumor evolution, which occurs on a timescale of years instead of days. In this scenario, cells with lower SRRM4 expression would have a proliferative advantage and would be selected for over time, eventually coming to dominate the population.
+To experimentally mimic the competition between cells with high and low SRRM4 expression during tumor evolution, we performed a coculture experiment where MDA-MB-231 cells with inducible expression of either WT or DM SRRM4 were mixed at a 1:1 ratio. The cocultures were then passaged for several weeks in the presence of varying levels of doxycycline, such that the lowest concentration (31.3 ng/mL) achieved a similar level of SRRM4 induction as the change in SRRM4 expression observed between tumors and healthy tissues (2.6-fold, ). Samples of the cocultures were taken weekly, and the proportion of each cell line in the population was monitored by PCR using primers flanking the deleted region of SRRM4, allowing cells expressing WT or DM SRRM4 to be differentiated by the size of the PCR product. Compared to the ratio of WT to DM cells at Day 1, we observed a dose- and time-dependent decrease in the WT/DM ratio that was significant after 2 wk of coculture at all concentrations tested ( ). Similar but even stronger effects were seen in HCT116 ( ), although the levels of SRRM4 induction were higher in this cell line with the same concentrations of doxycycline ( ). Taken together, these results strongly suggest that the changes in SRRM4 expression observed between tumors and normal tissues are sufficient to provide a growth advantage to tumor cells with lower SRRM4 expression.
+To further validate the finding that SRRM4 expression affects tumor growth, we performed a mouse xenograft experiment using the MDA-MB-231 cells with inducible SRRM4 expression (WT or DM). Mammary fat pads of athymic female nude mice were implanted orthotopically with the inducible breast cancer cells, and tumors were allowed to grow to 60 and 80 mm3 before induction with 2 mg/mL doxycycline in drinking water ( ). In agreement with the in vitro experiments, induction of WT-SRRM4 tumors with doxycycline significantly decreased the rate of tumor growth compared with uninduced tumors ( ). In contrast, induction of DM-SRRM4 had no significant effect on tumor growth ( ). Overall, these results validate the hypothesis that SRRM4 splicing activity can influence tumor growth in vitro and in vivo.
+ 
+
+## SRRM4 expression induces neuron-like expression and splicing patterns in cancer cells
+To evaluate the functional consequences of altered SRRM4 expression in the above cancer cell lines, we performed RNA-seq after 24 h induction of SRRM4 expression. Using the inactive mutant as a reference, we detected increased inclusion (ΔPSI ≥ 25) of between 271 and 376 exons, depending on the cell line ( ). In total, we found 708 exons with increased inclusion in at least one of the 6 cell lines and 131 that were shared between all 6 cell lines ( ). Of these, a majority (70.2%) were microexons ( inset). Although these 131 shared exons generally display low inclusion in normal nonneural tissues compared with neural ( ), enrichment analysis confirmed that they were significantly overrepresented among the exons decreasing in all 9 cancer types (p < 0.05, 1-sided Fisher Exact test), further validating the silencing of SRRM4 target exons in tumors.
+ Six microexons were chosen for further validation, based on their decreased inclusion in multiple TCGA tumor types ( – Figs, panel a) and their differential splicing between WT and DM cells in all 6 cell lines ( – Figs, panel b). In all cases, PCR with primers flanking the microexon confirmed the differential splicing observed by RNA-seq for all cell lines ( – Figs, panel c). We also found that each exon had significant negative correlations with MI gene signature in a majority of tumor types ( ), suggesting that down-regulation of these exons might contribute to the growth advantage obtained by tumors with decreased SRRM4.
+In addition to splicing changes, we also monitored changes in gene expression in the 6 cell lines after 24 h induction of WT or DM SRRM4 expression, and two of the cell lines (MDA-MB-231 and SH-SY5Y) after 7 d of induction. Compared to the DM control, WT SRRM4-expressing cells showed an up-regulation of a large number of neuronal-specific genes. Among the genes found up-regulated (≥2-fold) in all 6 cell lines after 24 h were those with functions related to neurotransmitter release (AP3B2, BSN, CPLX1, STX1A, and SYP), neurotransmitter receptors (CHRM4, CHRNB2, and GABRR2), and other genes with neural-specific expression patterns [ ] (CARMIL3, MAPK8IP2, NAPB, TMEM145, TMEM151A, and RUNDC3A) ( , ). We further performed a global comparison of expression changes in the SRRM4-expressing cancer cells (WT versus DM) with a published dataset of human embryonic stem cells (ESCs) differentiated into neurons in vitro (mature neurons [50 d post-differentiation] versus proliferating neuronal progenitor cells [ ]). This comparison revealed a significant positive association in all cell lines at both 24 h and 7 d induction time points (p < 0.005, binomial test; ), where a majority of genes with increased expression during neuronal differentiation were also found to increase with WT SRRM4 induction. A similar positive association was also seen for changes in exon inclusion between datasets in all cell lines (p < 10−8, binomial test; , ), in agreement with a previous study comparing splicing differences between neural and nonneural tissues with those seen in the brains of SRRM4 KO mice [ ]. The similarity between changes observed in the neuronal differentiation dataset and the cell lines with SRRM4 overexpression further supports the hypothesis that SRRM4 promotes differentiated neuron-like expression and splicing patterns in cancer cells.
+We additionally performed RNA-seq on a small sample of tumors from the mouse xenograft experiment, comprising 1 uninduced tumor (U19) and 2 induced tumors (I2 and I14). As expected, both induced tumors had significantly increased inclusion of all microexons, and SRRM4 target exons specifically, compared to the uninduced tumor ( ), as well as up-regulated expression of neural genes similar to that observed in the cell lines in vitro ( ). Likewise, the differences in both gene expression and exon inclusion between induced and uninduced tumors also showed a highly significant positive association with changes seen in the neuronal differentiation dataset (p < 10−12, binomial test; and Data). These results confirm that the differentiation-promoting program induced by SRRM4 has antiproliferative effects on cancer cells in vivo.
+Consistent with the observed changes in gene expression and exon inclusion, we also observed striking morphological changes in SH-SY5Y upon SRRM4 overexpression, where cells developed numerous membrane projections after 1 wk of induction ( ). This morphological change is reminiscent of SH-SY5Y cells that have undergone neuronal differentiation with retinoic acid (RA) and brain-derived neurotrophic factor (BDNF) treatment [ – ]. Indeed, the expression changes observed in both SH-SY5Y and MDA-MB-231 after 7 d induction displayed a strong positive association with a published dataset of in vitro differentiation of SH-SY5Y cells using RA/BDNF [ ] (p < 10−7, binomial test; ). While we did not observe such morphological changes in the other cancer cell lines, the consistent up-regulation of neural expression and splicing patterns across lines suggests that these cells are shifting toward a more neural differentiation–like state but may not be primed for developing morphological changes, at least after 7 d. However, a recent study reported an increase in cell projections and decreased cell body size in DU145 cells after constitutive long-term SRRM4 overexpression [ ], implying that such changes can occur over longer periods of time.
+Overall, the above results demonstrate that expression of SRRM4 in cancer cells leads to an up-regulation of microexon inclusion and neuron-like expression and splicing patterns, which occurs concomitantly with a decrease in cell proliferation. Taken together, these findings provide a mechanistic explanation for the observed decrease of SRRM4 expression and microexon inclusion in cancer.
+
+## Discussion
+In this study, we demonstrate that tumors exhibit down-regulated expression of the microexon SF SRRM4 and inclusion of its target exons, with remarkably high consistency across tissues. Our results suggest that this down-regulation provides tumors with a growth advantage, as decreased SRRM4 expression in tumors is correlated with an increase in mitotic gene expression, and up-regulation of SRRM4 in cancer cell lines dose-dependently decreases proliferation. This antiproliferative activity is also linked to the induction of neuronal differentiation–related genes and splicing patterns, in accordance with the known function of SRRM4 in promoting neuronal differentiation. Proliferation and differentiation are widely considered to be distinct and antagonistic cell states, where terminal differentiation is normally accompanied by exit from the cell cycle and loss of proliferative capacity, and conversely, cancer cells evade pro-differentiation programs to promote their proliferation and self-renewing abilities [ , – ]. We therefore surmise that silencing of SRRM4 provides a selective advantage to cancer cells by shifting the cell state away from differentiation and toward proliferation.
+SRRM4 is largely considered to be a neural-specific SF, and as such its basal expression and inclusion of its target exons are very low outside of the brain. Therefore, our finding that SRRM4 is further silenced in cancers of nonneural origin suggests that low levels of SRRM4 outside of the brain do have a physiologic role as proliferation brakes. Although the effect of down-regulating an already lowly expressed gene might be expected to be minimal, any small proliferative advantage would be amplified over time, eventually dominating the cell population. Moreover, despite the fact that around two-thirds of SRRM4-regulated exons are not included outside of the brain, we observe that a majority of these exons that change in cancer are decreased in tumors, implying that the one-third of SRRM4 exons that are nonzero outside of the brain are sufficient to promote this antiproliferative effect.
+While it is well documented that differentiating neurons stop dividing and enter a postmitotic, terminally differentiated state upon reaching maturity, the molecular mechanisms mediating this proliferation arrest are incompletely understood. Interestingly, mature neurons cannot be induced to reenter the cell cycle without resulting in cell death, and accordingly, terminally differentiated neurons are unable to form tumors without first undergoing dedifferentiation [ – ]. It is noteworthy that increased SRRM4 expression and microexon inclusion occur concomitantly with a cessation of cell division during differentiation [ , , ]. We therefore speculate that SRRM4, in addition to suppressing growth in nonneural tissues, may be involved in mediating proliferation arrest during neuronal differentiation; however, this possibility remains to be explored in future studies.
+Unlike AS events that add or remove entire functional protein domains, microexons are thought of as modulators that “fine-tune” protein activity and protein–protein interaction interfaces [ ]. As such, while each individual microexon may have moderate effects on individual processes, modulation of the entire program by the central regulator SRRM4 is a more efficient driver of differentiation by affecting many processes at once. Accordingly, although we find that SRRM4-regulated exons on the whole are down-regulated in tumors across all tissues, we do not find any individual SRRM4 exon that changes significantly in every tissue, supporting the idea that the antiproliferative phenotype is likely due to a combined effect of multiple exons that promote neural differentiation. However, we cannot rule out the existence of exons that did not satisfy our ΔPSI cutoff in all tissues but still have biological significance. Differences across tissues for individual exons could also be due to varying expression levels of the SRRM4 target genes or additional layers of regulation by other SFs.
+Other SFs aside from SRRM4 have been shown to be involved in the regulation of microexon splicing, including SRRM3, SRSF11, RBFOX, and PTBP1 [ , , ]. While SRRM4 is the only one of these factors that changes significantly and in the same direction across all tumor types included in our study, others also display significant expression changes in specific tumor types ( ). Therefore, we cannot rule out their potential involvement in the regulation of individual microexons in certain tissues. Interestingly, our results suggest that SRRM3 is not involved, despite being thought to regulate similar targets as SRRM4, as its expression is increased in a majority of tumor types ( ). This supports the idea of differing roles for SRRM3 and SRRM4 in vivo, as has been previously proposed by others [ ]. In addition to the factors mentioned, it is likely that other SFs identified here as having consistent changes across all tumor types (SNRPB, RNPS1, RBM34, ELAVL1, and RALYL; ) could contribute to tumor-associated splicing events in the analyzed datasets. Due to the high degree of splicing dysregulation in cancer generally, as well as the complex crosstalk between SFs which often regulate each other’s activity [ , ], it is very difficult to attribute observed splicing changes in cancer to one specific factor. Nevertheless, our findings of consistently decreased SRRM4 expression across tumor types ( ), coupled with the correlation of SRRM4 expression with inclusion of its target exons in tumors ( ), and their significant overlap with exons increasing after SRRM4 overexpression in different cancer cell lines, provide strong evidence that SRRM4 dysregulation contributes substantially to the observed splicing changes in cancer.
+Among the microexons identified with differential splicing in both the tumors and cell lines, several have reported functions in proliferation and tumorigenesis. For example, TEAD2 is a transcription factor that regulates gene expression downstream of the hippo signaling pathway, a key regulator of cell proliferation that is frequently dysregulated in cancer [ ]. The inclusion of a 12-nucleotide exon in TEAD2 (event ID: HsaEX0064372) is one of the most consistently decreased microexons in tumors (6/9 tissue types in our dataset; ) and is SRRM4 regulated, as evidenced by its up-regulation in all 6 cancer cell lines after SRRM4 overexpression ( ). Although the function of this particular microexon has not been studied, inclusion of a paralogous microexon in TEAD1 has been shown to disrupt DNA binding and thereby inhibit cell proliferation in hepatocytes [ ]. Other examples of cancer-related genes with differentially spliced microexons include SPTAN1 ( ), a ubiquitously expressed cytoskeletal protein which has recently been shown to affect tumor growth by enhancing cell proliferation and migration [ ]; DOCK7 ( ), which regulates the RAGE-Cdc42 pathway that promotes cancer progression [ ] and glioblastoma cell invasion [ ]; and PSAP ( ), which has been implicated in the tumorigenesis of glioblastoma [ ], prostate [ , ], and breast cancer [ ]. In support of possible antiproliferative roles for these exons, we find significant negative correlations between their inclusion and MI across multiple tumor types ( ). Thus, microexon splicing changes affecting the activity of multiple genes with known roles in cancer likely contribute to the antiproliferative phenotype of SRRM4. Our ongoing work aims to identify the roles of individual microexons in proliferation and tumorigenesis.
+Prior studies of SRRM4 in cancer to date have focused exclusively on a rare class of tumors known as neuroendocrine (NE) tumors (0.5% to 2% of malignancies in adults), due to their shared properties with neural or NE tissues [ ]. A series of recent studies have suggested that SRRM4 may play a role in the progression of small-cell lung cancer and NE prostate cancer by inactivating the RE1-silencing transcription factor (REST), in turn promoting expression of neuronal genes [ , – ]. This program appears to promote transdifferentiation and is associated with poor prognosis in these tumors [ , , ]. In fact, it has been suggested that SRRM4 mediates increased SOX2 expression, driving prostate cancer cells to a pluripotent phenotype and favoring tumor growth [ ]. While we show that SRRM4 overexpression inhibits cell proliferation in all cancer cell lines tested (including the prostate cancer cell line DU145), in our experiments, SRRM4 did not induce SOX2 expression, which could explain the apparent contradiction. NE tumors with SOX2 expression are therefore likely the exception to the here-described selection for silencing of SRRM4 in cancer. Notably, our findings suggest that prostate cancers and lung cancers on the whole follow the opposite trend as has been shown by others for their NE subtypes [ , ].
+Previous studies of AS alterations in cancer have not specifically taken microexons into account, due to the technical challenges presented by their detection as well as a long-standing underappreciation of their biological relevance. As such, the finding that SRRM4 and its microexon splicing program are silenced in tumors contributes an important new element to the overall picture of splicing dysregulation in cancer. Furthermore, the unusual discovery of such a highly consistent mechanism spanning diverse tissue types may provide novel opportunities for therapeutic intervention in a wide range of cancers. With the advent of splice-switching antisense oligonucleotides that are now being used therapeutically to affect exon inclusion levels [ ], this knowledge could guide the development of new strategies for cancer treatment.
+
+## Methods
+
+## Statistical information
+Differential expression/methylation of SFs and differential exon inclusion were determined by 2-tailed unpaired Wilcoxon–Mann–Whitney test, using the Benjamini–Hochberg method to correct for multiple testing. The numbers of samples per group are indicated in , and p- and q-values are reported in – . For the distributions shown in , significance was determined by 1-tailed randomization test of the median correlation of SRRM4-regulated events among the corresponding background. For the GO analysis, we used the Cytoscape plug-in in ClueGO (v2.5.4) [ ]. From the list of genes containing down-regulated exons, we applied a 2-sided hypergeometric test to identify enriched GO terms (between the hierarchical GO levels 3 and 5), with Bonferroni step down correction. All terms containing a minimum of 10 genes and constituting at least 1% of the term were included. Binomial tests for associations between changes in different RNA-seq datasets used cutoffs of ≥2-fold change in gene expression or ΔPSI ≥ 5 for exon inclusion, and p-values were calculated using the binom.test function in R version 3.4.4. Exact gene expression/exon inclusion values, sample sizes, and p-values for each binomial test performed can be found in , , and – .
+
+## TCGA molecular tumor data
+We retrieved publicly available and preprocessed RNA-seq gene expression from FireBrowse and methylation quantification from MethHC [ ]. Raw sequencing data in fastq format were retrieved from the GDC legacy archive after obtaining the necessary permissions from dbgap. Tumor grades and mutation status of cancer driver genes were obtained from FireBrowse. Tumor purity estimates were retrieved from [ ].
+
+## Detection of differentially included exons in tumors
+To determine differential microexon splicing, we analyzed raw RNA-seq files using VAST-TOOLS v2.0, a computational pipeline designed specifically for the quantification of microexon inclusion levels [ ]. We ran VAST-TOOLS on 6,908 samples ( ). Using VAST-TOOLS align, we first mapped the reads to the human reference genome hg38 and to quantify PSI levels for each exon and sample. We used VAST-TOOLS tidy to remove exon quantifications with very low quality. We additionally required that PSI levels were determined in at least 20 of both tumor and matched healthy control samples. We then determined differentially spliced exons by testing for differences in the PSI distributions between tumor and control samples using the Wilcoxon–Mann–Whitney test. We performed FDR correction and considered exons significantly spliced for q-values < 0.01 and an absolute PSI difference between the 2 distributions ≥5.
+
+## Definition of splicing factor list
+The list of 202 SFs used in this study was derived from a published list of known SFs in mice [ ] for which 1:1 orthologs could be identified in humans, plus 6 manual additions of human genes with evidence of SF activity or family members thereof: ARGLU1 [ ], PCBP2 [ ], PRPF18 [ ], SNIP1 [ ], SRRM3 [ ], and SFRS2 [ ]. The complete list can be found in .
+
+## Definition of SRRM4 target exon list
+For this study, we generated independent biological replicates for the HEK293 line overexpressing WT SRRM4 as well as a control line overexpressing green fluorescent protein [ ] and performed RNA-seq (Sequence Read Archive accession number PRJNA474911). We used VAST-TOOLS to quantify AS in these samples and the corresponding matching samples from a previous study [ ] (SRX4193731 and SRX4193721). A list of 314 exons with increased inclusion, i.e., ΔPSI between WT SRRM4 and control ≥25 in both replicates, was defined as SRRM4 targets and subsequently used in further analyses.
+
+## Correlation between SRRM4 activity and target exon PSI levels
+SRRM4 target exon PSI was correlated against the expression and methylation of a set of background genes, in order to determine the significance of SRRM4 correlation by a randomization test. Three different background sets were included: (1) a random set of genes (5,000 in expression background, 500 in methylation background); (2) 425 genes that are GO related to splicing; and (3) 233 genes that are reported to regulate microexons [ ].
+
+## Plasmids
+The cloning of human WT and DM (ΔeMIC) SRRM4 was described previously [ ]. SRRM4 was amplified by PCR using attB-containing primers ( ) and reacted with the gateway donor vector pDONR223 by using BP clonase II (11789020, Thermo Fisher Scientific, Madrid, Spain). The resulting entry clones containing SRRM4 WT and DM were reacted with the gateway destination vector pCW57.1 (a gift from David Root, Addgene plasmid #41393) using LR clonase II (11791020, Thermo Fisher Scientific).
+
+## Cell lines and lentivirus production
+HEK293 cells were purchased from ATCC (CRL-1573, Manassas, Virginia, United States of America). DU145 were a gift from Luciano Di Croce (CRG). All other cell lines were obtained from the CRG cell line repository. The sex of each cell line is as follows: DU145 Male; HeLa Female; HEK293 Female; MCF7 Female; MDA-MB-231 Female; SH-SY5Y Female; and HCT116 Male. All cell lines were cultured at 37°C and 5% CO2 in DMEM (H3BE12-604F/U1, Lonza Group AG [Cultek S.L.U, Madrid, Spain]) supplemented with 10% tetracycline-free FBS (631106, Clontech, [Conda Laboratories, Torrejon de Ardoz, Spain]) and 1% penicillin/streptomycin (15140122, Life Technologies S.A., [Fisher Scientific, Madrid, Spain]).
+To generate lentivirus, low passage HEK293T cells were plated in 6-well plates at 800,000 cells/well in 3 mL media. The following day, cells were co-transfected with 0.9 μg pCW57.1 (EV, SRRM4 WT, or SRRM4 DM), 0.6 μg psPAX2 (a gift from Didier Trono, Addgene plasmid #12260), and 0.3 μg pMD2.G (a gift from Didier Trono, Addgene plasmid #12259) per well using Lipofectamine 2000 transfection reagent (11668027, Thermo Fisher Scientific) according to the manufacturer’s instructions. After 48 to 72 h, viral supernatant was harvested, filtered through a 0.45 um PVDF filter (SLHV033RS, Merck Chemicals and Life Science S.A, Madrid, Spain), and transferred to the target cell line growing in a 6-well plate at approximately 70% confluence. After 48 h, the target cells were trypsinized and replated in 6-cm dishes in media containing 2 μg/mL Puromycin (P8833, Sigma-Aldrich Quimica S.A., Madrid, Spain). Selection media was changed every 48 to 72 h for a minimum of 1 wk before cell lines were frozen in 50% FBS and 10% DMSO and stored in liquid nitrogen for later use. The generation of HEK293 with inducible WT SRRM4 expression is described elsewhere [ ].
+
+## RNA extraction and sequencing
+Cell extracts were harvested by direct addition of QIAzol lysis reagent (79306, Qiagen [WERFEN ESPAÑA, S.A.U. L’Hospitalet de Llobregat, Barcelona]) to the culture plate and incubation for 5 min at room temperature (RT) followed by collection in 1.5 mL eppendorf tubes. RNA was isolated using the miRNeasy mini kit (217004, Qiagen [WERFEN ESPAÑA, S.A.U.]) according to the manufacturer’s instructions. For isolation of RNA from mouse tumor tissue, tumors frozen in RNAlater stabilization solution (AM7020, Thermo Fisher Scientific) were thawed in QIAzol and disrupted using a Polytron PT1200E homogenizer (VWR [Llinars de Vallés, Spain]), before RNA extraction using the RNeasy Plus Mini Kit (74134, Qiagen [WERFEN ESPAÑA, S.A.U.]). Purified RNA was stored at −80°C before sequencing. RNA quality control, library preparation, and sequencing were performed by the CRG Genomics Unit. RNA concentration and quality were assessed by nanodrop and bioanalyzer. An average of 90 million 125-nucleotide paired-end reads were generated for each sample. Raw sequencing data were submitted to the Sequence Read Archive (accession number PRJNA551123).
+
+## RT-PCR
+RNA was reverse transcribed into cDNA using SuperScript II Reverse Transcriptase (18064, Thermo Fisher Scientific) with random hexamer primers (SO142, Thermo Fisher Scientific) according to the manufacturer’s instructions. PCRs for quantification of microexon inclusion (shown in – Figs, panel c) and competition growth assay (shown in and ) were performed using Q5 Hot Start High-Fidelity 2X Master Mix (M0494, New England Biolabs [Ipswitch, Massachusetts, USA]) according to the manufacturer’s instructions. Microexon PCR products were separated on 3% agarose gel with TBE buffer, while WT/DM SRRM4 PCR products were separated on 1.2% agarose gel with TAE buffer. PCR primer sequences are shown in .
+
+## qPCR
+Quantitative PCR (qPCR) reactions were carried out with the Roche Light Cycler 480 system, using Power SYBR-Green PCR Master Mix (4367659, Thermo Fisher Scientific) according to the manufacturer’s instructions. Expression quantification data, obtained from the different samples and treatments, are expressed in terms of cycle threshold (Ct). The GAPDH gene was used as endogenous reference control. Ct values were averaged for each in-plate technical triplicate. The averaged Ct was normalized as difference in Ct values (ΔCt) between the analyzed gene and each reference gene in each sample in the analysis. The ΔCt values of each sample were then normalized to the ΔCt values of the control (ΔΔCt). The variation was reported as fold change (2−ΔΔCt). qPCR primer sequences are shown in .
+
+## Resazurin growth assays
+Resazurin sodium salt (R7017, Sigma-Aldrich Quimica S.A.) stock was prepared at 0.2 mg/mL in PBS and sterilized by filtration through a 0.22 um PVDF filter (SLGP033RS, Merck Chemicals and Life Science S.A). Cells were seeded in 4 flat-bottom 96-well plates (353072, Corning B.V. [Fisher Scientific, Madrid, Spain]) at a density of 1,000 cells/well in 200 μL of tetracycline-free media, containing 2-fold serial dilutions of doxycycline (D9891-1G, Sigma-Aldrich Quimica S.A.) (1000–62.5 ng/mL final concentration) with each condition in triplicate. Every 24 h, resazurin was added to 1 plate (10 μL/well), and fluorescence intensity was measured after 5 h using an Infinite M-Plex plate reader from Tecan (Ibérica Instrumentación S.L, Barcelona, Spain) (ex = 560 nm, em = 590 nm). Within each experiment, values were normalized to the mean fluorescence of uninduced cells at the 96 h time point. Three replicate experiments were performed for each cell line. The results were graphed using GraphPad Prism v. 7.04 and are presented as normalized means with error bars representing the standard error of the means.
+
+## Competition growth assays
+Cells with inducible expression of WT or inactive DM SRRM4 were seeded at 100k cells/well each into 6-well plates containing 2 mL of media supplemented with varying concentrations of doxycycline (500, 250, 125, 63, 31, or 0 ng/mL) on Day 0. The cocultures were split at Day 1 and a sample taken for RNA extraction, while the remaining cells were replated in media with the same concentrations of doxycycline for continued culture. The cocultures were split every 2 to 3 days into fresh media with doxycycline and were harvested every week for RNA extraction for up to 3 wk. RNA extraction, cDNA preparation, and PCR were performed as described in the reverse transcription PCR (RT-PCR) section. The signal intensity of WT and DM bands was quantified by densitometry using ImageJ software. To account for the apparent difference in PCR efficiency between the 2 bands, WT/DM ratios were normalized to the ratio observed at Day 1 for each doxycycline treatment condition. PCR primer sequences are shown in .
+
+## Western blotting
+Cell extracts were harvested by direct addition of 2X SDS sample buffer (1610747, Bio-Rad Laboratories, Alcobendas, Spain) containing 100 mM DTT to the culture plate and incubation on ice for 10 min, followed by collection in 1.5 mL eppendorf tubes and denaturation for 5 min at 95°C. Lysates were subjected to SDS-PAGE in Criterion TGX Stain-Free Precast Gels (567–8124, Bio-Rad Laboratories) and transferred to nitrocellulose membranes (IB301001, Thermo Fisher Scientific) by iBlot Dry Blotting System (Thermo Fisher Scientific). Membranes were blocked in 5% milk in TBS with 0.05% Tween-20 for 1 h at RT before addition of primary antibodies (SRRM4, HPA052783, Sigma-Aldrich Quimica S.A.; GAPDH, sc-47724, Santa Cruz Biotechnology [Dallas, Texas, USA]) diluted 1:1,000 in blocking buffer, followed by overnight incubation at 4°C. Membranes were washed 3 × 5 min in TBS-T, followed by 1 h incubation at RT in secondary antibodies (Anti-Rabbit: A0545; Anti-Mouse: A6782, Sigma-Aldrich Quimica S.A.) diluted 1:10,000 in blocking buffer, and 3 more 5 min washes with TBS-T. Finally, membranes were developed by the addition of HRP substrate (34096, Thermo Scientific, [Fisher Scientific, Madrid, Spain]) and exposed using a LAS-3000 Imaging System from Fujifilm (Tokyo, Japan).
+
+## Mouse xenograft model
+Mouse experiments were performed by Axis Bioservices (Coleraine, Northern Ireland). Female athymic nude mice aged 5 to 7 wk weighing approximately 23 to 30 g were bred in house and housed in individually ventilated cages (IVCs) (up to 5 mice per cage) with individual mice identified by tail mark. Holding conditions were maintained as follows: RT 20 to 24°C, humidity 30% to 70%, and 12 h light/dark cycle. All animals had free access to standard a certified commercial diet and water, and cages were changed once a week with food and water replaced when necessary. Animals were randomly allocated to treatment groups using GraphPad. MDA-MB-231 cells with inducible SRRM4 expression, generated as described above, were cultured in DMEM with 10% tetracycline-free FBS, 1% penicillin/streptomycin, and 1 μg/mL puromycin. Cells were orthotopically implanted into the inguinal mammary fat pad of the mice using a 25G needle (5 × 106 cells in Matrigel 1:1, 1 tumor implanted per mouse). When tumors reached approximately 60 to 80 mm3, mice were randomly assigned to treatment groups using GraphPad and treated with or without doxycycline diluted to a concentration of 2 mg/mL in drinking water. Tumor volume was measured 3 times per week using digital calipers, and measurements continued for 4 wk after induction with doxycycline. The length and width of the tumor were measured, and volume was calculated using the following formula: volume = (length × width2)/2. The bodyweight of all mice was measured and recorded 3 times per week, and mice were observed daily for any signs of distress or changes to general condition. After 28 d post-doxycycline induction, animals were humanely killed via carbon dioxide inhalation, and tumors were resected and weighed before being placed into RNAlater stabilization solution and frozen at −80°C for later analysis.
+
+## Ethics statement
+All animal protocols were approved by the Axis Bioservices Animal Welfare and Ethical Review Board (project license number PPL2862), and all procedures were carried out under the guidelines of the Animal (Scientific Procedures) Act 1986.
+
+## Supporting information
+S1 Fig
+
+## Average ΔPSI (Tumor − Normal) across tissues for each SRRM4 target exon.
+Error bars represent the standard error of ΔPSI across the 9 cancer types. Only significantly changing exons (q < 0.01) with ΔPSI ≥ 5 are shown. Data underlying this figure can be found in figures. PSI, percent spliced in; SRRM4, Serine/Arginine Repetitive Matrix 4.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## Distribution of ΔPSIs of all differentially spliced exons between normal and tumor samples in the TCGA datasets (related to ).
+Only significantly changing exons (q < 0.01) with ΔPSI ≥ 5 are shown. Data underlying this figure can be found in . PSI, percent spliced in; TCGA, The Cancer Genome Atlas.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Changes in inclusion level of SRRM4 target exons with respect to exon length.
+Blue points are SRRM4 target exons increased in tumors (T) vs. normal tissue (N); red are SRRM4 target exons decreased in tumors; gray are non-SRRM4 targets. Only significantly changing exons (q < 0.01) with ΔPSI ≥ 5 are shown. Vertical dotted line separates microexons (≤27 nt) from non-microexons (>27 nt). Data underlying this figure can be found in . nt, nucleotide; PSI, percent spliced in; SRRM4, Serine/Arginine Repetitive Matrix 4.
+(TIF)
+Click here for additional data file.
+S4 FigMedian Spearman correlation of (A) SRRM4 expression and (B) SRRM4 methylation with SRRM4 target exons PSI across TCGA tumor samples. The significance of the correlation was determined based on a randomization test within a background of 5,000 random genes background, as well as 2 other backgrounds of 425 GO splicing–related genes and 233 microexon-related genes. Data underlying this figure can be found in figures. GO, gene ontology; PSI, percent spliced in; SRRM4, Serine/Arginine Repetitive Matrix 4; TCGA, The Cancer Genome Atlas.
+(TIF)
+Click here for additional data file.
+S5 Fig
+
+## Histogram of MI correlations for microexons (≤27 nt) vs. non-microexons (> 28 nt).
+Only exons with |ΔPSI| > 5 and q < 0.01 are shown. Data underlying this figure can be found in figures. MI, mitotic index; nt, nucleotide; PSI, percent spliced in.
+(TIF)
+Click here for additional data file.
+S6 Fig
+
+## Association of SRRM4 expression with tumor-related features of all TCGA cancer types.
+(A) SRRM4 expression across different TNM tumor stages. (B) Scatter plots and Spearman correlations between SRRM4 and 2 tumor purity estimates (ESTIMATE and CPE). (C) Association of SRRM4 expression with the presence or absence of mutations in cancer driver genes. Significance is determined by a 2-tailed unpaired Wilcoxon–Mann–Whitney test: *p < 0.05, ** p < 0.01, *** p < 0.001, **** p < 0.0001. Data underlying this figure can be found in figures. SRRM4, Serine/Arginine Repetitive Matrix 4; TCGA, The Cancer Genome Atlas; TNM, tumor/node/metastasis.
+(TIF)
+Click here for additional data file.
+S7 Fig
+
+## Growth curves of cell lines with inducible SRRM4 expression.
+Cells were transduced with EV, WT SRRM4, or DM SRRM4 and treated with indicated concentrations of doxycycline (ng/mL). All lines were generated by lentiviral transduction (see ) except for HEK293, which was generated by a Flp-In system [ ]. Results shown are averages of 2–3 independent experiments, and error bars indicate SEM. Data underlying this figure can be found in figures. DM, deletion mutant; EV, empty vector; SEM, standard error of the mean; SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(TIF)
+Click here for additional data file.
+S8 Fig
+
+## Western blot of SRRM4 (WT) or DM SRRM4 induction by doxycycline.
+Cells were treated for 24 h with the indicated concentrations of doxycycline. Results shown are representative of 2 independent experiments. DM, deletion mutant; SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(TIF)
+Click here for additional data file.
+S9 Fig
+
+## Expression levels of SRRM4 in cancer cell lines after 24 h induction with 1 μg/mL of doxycycline.
+SRRM4 overexpression relative to uninduced cells was quantified by qPCR using the ΔΔCt method, with GAPDH as internal control. Error bars represent SEM of 2–3 independent experiments. Data underlying this figure can be found in figures. Ct, cycle threshold; qPCR, quantitative PCR; SEM, standard error of the mean; SRRM4, Serine/Arginine Repetitive Matrix 4.
+(TIF)
+Click here for additional data file.
+S10 FigExpression levels of SRRM4 in (A) MDA-MB-231 cells and (B) HCT116 cells after 24 h induction with indicated concentrations of doxycycline. SRRM4 overexpression relative to uninduced cells was quantified by qPCR using the ΔΔCt method, with GAPDH as internal control. Error bars represent standard deviation of 2 independent experiments. Data underlying this figure can be found in figures. Ct, cycle threshold; qPCR, quantitative PCR; SRRM4, Serine/Arginine Repetitive Matrix 4.
+(TIF)
+Click here for additional data file.
+S11 Fig
+
+## Dose- and time-dependent decrease in the WT/DM ratio of HCT116 cocultures, as monitored by PCR.
+WT/DM ratios quantified by densitometry are shown below each sample. Results shown are representative of 2 experiments. DM, deletion mutant; WT, wild-type.
+(TIF)
+Click here for additional data file.
+S12 Fig
+
+## Differential splicing of a 12-nt microexon in TEAD2.
+(A) The microexon (VastDB event ID: HsaEX0064372) displays significantly decreased inclusion in 6/9 cancer types (2-tailed unpaired Wilcoxon–Mann–Whitney test, * p < 0.05, ** p < 0.01, *** p < 0.001, **** p < 0.0001). No data are shown for normal liver due to a lack of sufficient read coverage in at least 20 samples. Genomic coordinates shown are from human genome reference build hg38. Data underlying this figure can be found in figures. (B) The microexon displays increased inclusion in all 6 cancer cell lines after WT SRRM4 expression, relative to DM SRRM4, as assessed by RNA-seq. Data underlying this figure can be found in . (C) PCR validation of the microexon inclusion changes in the 6 cancer cell lines. PSIs quantified by densitometry are shown below each sample. DM, deletion mutant; nt, nucleotide; PSI, percent spliced in; RNA-seq, RNA sequencing; SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(TIF)
+Click here for additional data file.
+S13 Fig
+
+## Differential splicing of a 15-nt microexon in SPTAN1.
+(A) The microexon (VastDB event ID: HsaEX0061551) displays significantly decreased inclusion in 8/9 cancer types (2-tailed unpaired Wilcoxon–Mann–Whitney test, * p < 0.05, ** p < 0.01, *** p < 0.001, **** p < 0.0001). Genomic coordinates shown are from human genome reference build hg38. Data underlying this figure can be found in figures. (B) The microexon displays increased inclusion in all 6 cancer cell lines after WT SRRM4 expression, relative to DM SRRM4, as assessed by RNA-seq. Data underlying this figure can be found in . (C) PCR validation of the microexon inclusion changes in the 6 cancer cell lines. PSIs quantified by densitometry are shown below each sample. DM, deletion mutant; nt, nucleotide; PSI, percent spliced in; RNA-seq, RNA sequencing; SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(TIF)
+Click here for additional data file.
+S14 Fig
+
+## Differential splicing of a 15-nt microexon in DOCK7.
+(A) The microexon (VastDB event ID: HsaEX0020638) displays significantly decreased inclusion in 6/9 cancer types (2-tailed unpaired Wilcoxon–Mann–Whitney test, * p < 0.05, ** p < 0.01, *** p < 0.001, **** p < 0.0001). Genomic coordinates shown are from human genome reference build hg38. Data underlying this figure can be found in figures. (B) The microexon displays increased inclusion in all 6 cancer cell lines after WT SRRM4 expression, relative to DM SRRM4, as assessed by RNA-seq. Data underlying this figure can be found in . (C) PCR validation of the microexon inclusion changes in the 6 cancer cell lines. PSIs quantified by densitometry are shown below each sample. DM, deletion mutant; nt, nucleotide; PSI, percent spliced in; RNA-seq, RNA sequencing; SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(TIF)
+Click here for additional data file.
+S15 Fig
+
+## Differential splicing of a 9-nt microexon in PSAP.
+(A) The microexon (VastDB event ID: HsaEX0050522) displays significantly decreased inclusion in 7/9 cancer types (2-tailed unpaired Wilcoxon–Mann–Whitney test, * p < 0.05, ** p < 0.01, *** p < 0.001, **** p < 0.0001). Genomic coordinates shown are from human genome reference build hg38. Data underlying this figure can be found in figures. (B) The microexon displays increased inclusion in all 6 cancer cell lines after WT SRRM4 expression, relative to DM SRRM4, as assessed by RNA-seq. Data underlying this figure can be found in . (C) PCR validation of the microexon inclusion changes in the 6 cancer cell lines. PSIs quantified by densitometry are shown below each sample. DM, deletion mutant; nt, nucleotide; PSI, percent spliced in; RNA-seq, RNA sequencing; SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(TIF)
+Click here for additional data file.
+S16 Fig
+
+## Differential splicing of a 6 nt-microexon in NSFL1C.
+(A) The microexon (VastDB event ID: HsaEX0043901) displays significantly decreased inclusion in 5/9 cancer types (2-tailed unpaired Wilcoxon–Mann–Whitney test, * p < 0.05, ** p < 0.01, *** p < 0.001, **** p < 0.0001). Genomic coordinates shown are from human genome reference build hg38. Data underlying this figure can be found in figures. (B) The microexon displays increased inclusion in all 6 cancer cell lines after WT SRRM4 expression, relative to DM SRRM4, as assessed by RNA-seq. Data underlying this figure can be found in . (C) PCR validation of the microexon inclusion changes in the 6 cancer cell lines. PSIs quantified by densitometry are shown below each sample. DM, deletion mutant; nt, nucleotide; PSI, percent spliced in; RNA-seq, RNA sequencing; SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(TIF)
+Click here for additional data file.
+S17 Fig
+
+## Differential splicing of a 9 nt-microexon in MTSS1L.
+(A) The microexon (VastDB event ID: HsaEX0040737) displays significantly decreased inclusion in 7/9 cancer types (2-tailed unpaired Wilcoxon–Mann–Whitney test, * p < 0.05, ** p < 0.01, *** p < 0.001, **** p < 0.0001). Genomic coordinates shown are from human genome reference build hg38. Data underlying this figure can be found in figures. (B) The microexon displays increased inclusion in all 6 cancer cell lines after WT SRRM4 expression, relative to DM SRRM4, as assessed by RNA-seq. Data underlying this figure can be found in . (C) PCR validation of the microexon inclusion changes in the 6 cancer cell lines. PSIs quantified by densitometry are shown below each sample. DM, deletion mutant; nt, nucleotide; PSI, percent spliced in; RNA-seq, RNA sequencing; SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Tissues and number of PT and normal solid tissue samples analyzed from TCGA.
+PT, primary tumor; TCGA, The Cancer Genome Atlas.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## Spearman correlations of exon PSI vs. MI gene signature across tumor samples.
+Cells highlighted in red indicate negative correlations, and blue indicate positive. Only significant correlations are shown (p < 0.05). NA = not available (gray); ns = not significant (white). MI, mitotic index; PSI, percent spliced in.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## Primer sequences for cloning, RT-PCR, and qPCR experiments.
+qPCR, quantitative PCR; RT-PCR, reverse transcription PCR.
+(XLSX)
+Click here for additional data file.
+S1 Data
+
+## Differential analysis of the expression of 202 SFs using Wilcoxon rank sum test.
+SF, splicing factor.
+(XLSX)
+Click here for additional data file.
+S2 Data
+
+## Differential analysis of the methylation of 202 SFs using Wilcoxon rank sum test.
+SF, splicing factor.
+(XLSX)
+Click here for additional data file.
+S3 Data
+
+## List of significantly differentially included exons between tumor and normal samples from TCGA.
+TCGA, The Cancer Genome Atlas.
+(XLSX)
+Click here for additional data file.
+S4 Data
+
+## List of 314 differentially included exons (ΔPSI ≥ 25) upon SRRM4 overexpression in HEK293.
+PSI, percent spliced in; SRRM4, Serine/Arginine Repetitive Matrix 4.
+(XLSX)
+Click here for additional data file.
+S5 Data
+
+## GO term enrichment analysis of genes with SRRM4 target exons with decreased inclusion in tumors.
+GO, gene ontology; SRRM4, Serine/Arginine Repetitive Matrix 4.
+(XLSX)
+Click here for additional data file.
+S6 Data
+
+## List of differentially included exons (ΔPSI ≥ 25) upon WT SRRM4 overexpression in MCF7, MDA-MB-231, DU145, HeLa, HCT116, and SH-SY5Y.
+PSI, percent spliced in; SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(XLSX)
+Click here for additional data file.
+S7 Data
+
+## List of differentially expressed genes (fold change ≥2) upon WT SRRM4 overexpression in MCF7, MDA-MB-231, DU145, HeLa, HCT116, and SH-SY5Y.
+Units of expression shown are cRPKM. SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(XLSX)
+Click here for additional data file.
+S8 Data
+
+## Binomial test results for associations of gene expression changes (|fold change| ≥2) between cell lines with SRRM4 overexpression (WT vs. DM) and a neuronal differentiation dataset (mature neurons vs. neuronal precursor cells).
+DM, deletion mutant; SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(XLSX)
+Click here for additional data file.
+S9 Data
+
+## Binomial test results for associations of exon inclusion changes (|ΔPSI ≥ 5|) between cell lines with SRRM4 overexpression (WT vs. DM) and a neuronal differentiation dataset (mature neurons vs. neuronal precursor cells).
+DM, deletion mutant; PSI, percent spliced in; SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(XLSX)
+Click here for additional data file.
+S10 Data
+
+## List of differentially expressed genes (|fold change| ≥2) upon WT SRRM4 induction in MDA-MB-231 xenografts in mice.
+Units of expression shown are cRPKM. SRRM4, Serine/Arginine Repetitive Matrix 4; WT, wild-type.
+(XLSX)
+Click here for additional data file.
+S11 Data
+
+## Binomial test results for associations of exon inclusion changes (|ΔPSI| ≥ 5) between MDA-MB-231 xenografts after SRRM4 induction and a neuronal differentiation dataset (mature neurons vs. neuronal precursor cells).
+PSI, percent spliced in; SRRM4, Serine/Arginine Repetitive Matrix 4.
+(XLSX)
+Click here for additional data file.
+S12 Data
+
+## Binomial test results for associations of gene expression changes (|fold change| ≥2) between MDA-MB-231 xenografts after SRRM4 induction and a neuronal differentiation dataset (mature neurons vs. neuronal precursor cells).
+SRRM4, Serine/Arginine Repetitive Matrix 4.
+(XLSX)
+Click here for additional data file.
+S13 Data
+
+## Binomial test results for associations of gene expression changes (|fold change| ≥2) between cell lines with SRRM4 overexpression and an SH-SY5Y differentiation dataset.
+SRRM4, Serine/Arginine Repetitive Matrix 4.
+(XLSX)
+Click here for additional data file.
+S1 Data Figures
+
+## This file contains the data behind all figures in the main text and Supporting information as indicated in the figure legends.
+(XLSX)
+Click here for additional data file.
+S1 Raw Images
+
+## This file contains the uncropped and unedited images of all gels shown in the manuscript figures indicated.
+(PDF)
+Click here for additional data file.
+
+We thank Patryk Polińksi, Reza Sodaei, and Sophie Bonnal for advice and provision of reagents; Juan Valcarcel for critical reading of the manuscript; Joseph DiBartolo for assistance with data processing; and the CRG Genomics Unit for assistance with RNA sequencing services. The results published here are in part based upon data generated by the TCGA Research Network: https://www.cancer.gov/tcga.
+
+## Materials and correspondence
+Further information and requests for reagents may be directed to Luis Serrano (luis.serrano@crg.eu).
+
+## Abbreviations
+ASalternative splicing
+BDNFbrain-derived neurotrophic factor
+Ctcycle threshold
+DMdeletion mutant
+eMICenhancer of microexons
+ESCembryonic stem cell
+EVempty vector
+FDRfalse discovery rate
+GOgene ontology
+IVCindividually ventilated cage
+MImitotic index
+NEneuroendocrine
+PSIpercent spliced in
+PTprimary tumor
+qPCRquantitative PCR
+RAretinoic acid
+RESTRE1-silencing transcription factor
+RNA-seqRNA sequencing
+RSEMRNA-Seq by Expectation-Maximization
+RTroom temperature
+RT-PCRreverse transcription PCR
+SFsplicing factor
+SRRM4Serine/Arginine Repetitive Matrix 4
+STNsolid tissue normal
+TCGAThe Cancer Genome Atlas
+TNMtumor/node/metastasis
+WTWILD-TYPE
+ 10.1371/journal.pbio.3001138.r001Decision Letter 0
+WijayatilakeHashiSenior Editor© 2021 Hashi Wijayatilake2021Hashi WijayatilakeThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version0
+14 Apr 2020
+
+Dear Dr Serrano, 
+Thank you for submitting your manuscript entitled "Hypersilencing of SRRM4 suppresses basal microexon inclusion and promotes tumor growth across cancers" for consideration as a Research Article by PLOS Biology.
+Your manuscript has now been evaluated by the PLOS Biology editorial staff as well as by an academic editor with relevant expertise and I am writing to let you know that we would like to send your submission out for external peer review.
+However, before we can send your manuscript to reviewers, we need you to complete your submission by providing the metadata that is required for full assessment. To this end, please login to Editorial Manager where you will find the paper in the 'Submissions Needing Revisions' folder on your homepage. Please click 'Revise Submission' from the Action Links and complete all additional questions in the submission questionnaire.
+Please re-submit your manuscript within two working days, i.e. by Apr 16 2020 11:59PM.
+Login to Editorial Manager here: https://www.editorialmanager.com/pbiology
+
+During resubmission, you will be invited to opt-in to posting your pre-review manuscript as a bioRxiv preprint. Visit http://journals.plos.org/plosbiology/s/preprints for full details. If you consent to posting your current manuscript as a preprint, please upload a single Preprint PDF when you re-submit. 
+Once your full submission is complete, your paper will undergo a series of checks in preparation for peer review. Once your manuscript has passed all checks it will be sent out for review. 
+Given the disruptions resulting from the ongoing COVID-19 pandemic, please expect delays in the editorial process. We apologise in advance for any inconvenience caused and will do our best to minimize impact as far as possible.
+Feel free to email us at plosbiology@plos.org if you have any queries relating to your submission.
+Kind regards,
+Hashi Wijayatilake, PhD,
+Managing Editor
+PLOS Biology
+10.1371/journal.pbio.3001138.r002Decision Letter 1
+WijayatilakeHashiSenior Editor© 2021 Hashi Wijayatilake2021Hashi WijayatilakeThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version1
+8 Jun 2020
+
+Dear Dr Serrano,
+Thank you very much for submitting your manuscript "Hypersilencing of SRRM4 suppresses basal microexon inclusion and promotes tumor growth across cancers" for consideration as a Research Article at PLOS Biology. Your manuscript has been evaluated by the PLOS Biology editors, an Academic Editor with relevant expertise, and several independent reviewers. We thank you again for your patience and understanding during the delays.
+As you will see from the comments below, the reviewers find the manuscript interesting and intriguing. Reviewer 1 and 2 do however have a number of importance concerns that should be addressed. In particular, Rev. 2 questions the functional relevance of the transcript-level effects observed and Rev. 1 questions why altering SRRM4 levels and microexon inclusion would alter tumor cell growth. We will not be able to accept the current version of the manuscript, but we would welcome re-submission of a much-revised version that takes into account the reviewers' comments. The Academic Editor has provided helpful guidance regarding the requests and revisions, which can be found below the reviews.
+Please note that we cannot make any decision about publication until we have seen the revised manuscript and your response to the reviewers' comments. Your revised manuscript is also likely to be sent for further evaluation by the reviewers.
+We expect to receive your revised manuscript within 2 months. Please email us (plosbiology@plos.org) if you have any questions or concerns, or would like to request an extension. At this stage, your manuscript remains formally under active consideration at our journal; please notify us by email if you do not intend to submit a revision so that we may end consideration of the manuscript at PLOS Biology.
+**IMPORTANT - SUBMITTING YOUR REVISION**
+Your revisions should address the specific points made by each reviewer. Please submit the following files along with your revised manuscript:
+1. A 'Response to Reviewers' file - this should detail your responses to the editorial requests, present a point-by-point response to all of the reviewers' comments, and indicate the changes made to the manuscript. 
+*NOTE: In your point by point response to the reviewers, please provide the full context of each review. Do not selectively quote paragraphs or sentences to reply to. The entire set of reviewer comments should be present in full and each specific point should be responded to individually, point by point.
+You should also cite any additional relevant literature that has been published since the original submission and mention any additional citations in your response. 
+2. In addition to a clean copy of the manuscript, please also upload a 'track-changes' version of your manuscript that specifies the edits made. This should be uploaded as a "Related" file type. 
+*Re-submission Checklist*
+When you are ready to resubmit your revised manuscript, please refer to this re-submission checklist: https://plos.io/Biology_Checklist
+To submit a revised version of your manuscript, please go to https://www.editorialmanager.com/pbiology/ and log in as an Author. Click the link labelled 'Submissions Needing Revision' where you will find your submission record. 
+Please make sure to read the following important policies and guidelines while preparing your revision:
+*Published Peer Review*
+Please note while forming your response, if your article is accepted, you may have the opportunity to make the peer review history publicly available. The record will include editor decision letters (with reviews) and your responses to reviewer comments. If eligible, we will contact you to opt in or out. Please see here for more details:
+https://blogs.plos.org/plos/2019/05/plos-journals-now-open-for-published-peer-review/
+*PLOS Data Policy*
+Please note that as a condition of publication PLOS' data policy (http://journals.plos.org/plosbiology/s/data-availability) requires that you make available all data used to draw the conclusions arrived at in your manuscript. If you have not already done so, you must include any data used in your manuscript either in appropriate repositories, within the body of the manuscript, or as supporting information (N.B. this includes any numerical values that were used to generate graphs, histograms etc.). For an example see here: http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1001908#s5
+
+*Blot and Gel Data Policy*
+We require the original, uncropped and minimally adjusted images supporting all blot and gel results reported in an article's figures or Supporting Information files. We will require these files before a manuscript can be accepted so please prepare them now, if you have not already uploaded them. Please carefully read our guidelines for how to prepare and upload this data: https://journals.plos.org/plosbiology/s/figures#loc-blot-and-gel-reporting-requirements
+
+*Protocols deposition*
+To enhance the reproducibility of your results, we recommend that if applicable you deposit your laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. For instructions see: https://journals.plos.org/plosbiology/s/submission-guidelines#loc-materials-and-methods
+
+Thank you again for your submission to our journal. We hope that our editorial process has been constructive thus far, and we welcome your feedback at any time. Please don't hesitate to contact us if you have any questions or comments.
+Sincerely,
+Hashi Wijayatilake, PhD, 
+Managing Editor
+PLOS Biology
+*****************************************************
+REVIEWS:
+Reviewer #1: 
+This is an interesting manuscript which identifies that the splicing factor SRRM4 is greatly silenced in tumor cells compared to normal cells. SRRM4 is a regulator of microexon inclusion and inclusion of SRRM4 target exons is generally downregulated in tumors. These results are novel. The major weakness of the manuscript are as follows:
+1) It is not clear why altering SRRM4 levels and microexon inclusion would alter tumor cell growth. Are there specific microexons whose inclusion are critical to the growth regulatory effects of altering SRRM4 levels? 
+2) It would be helpful to show a few examples of splicing events (eg by RNA-seq coverage plots, Sashimi plots, or RT-PCR for example) regulated by SRRM4 in the cell line experiments performed here. 
+3) Can the authors demonstrate that methylation of the SRRM4 promoter reduces SRRM4 mRNA/protein levels? 
+4) Does downregulation of SRRM4 in non-malignant, non-neuronal cells alter their growth?
+5) The suggestion that altering SRRM4 levels in somatic cancer cells makes them "neuron-like" seems to be a stretch for non-neuronal cells. The idea that a transformed epithelial will grow projections that having anything to do with axons by altering SRRM4 levels is hard to believe. This point needs to be softened in the manuscript. 
+---
+Reviewer #2: 
+Head et al. investigate the role of SRRM4, a neuronal splicing factor that regulates micro-exons, in human cancers. Although SRRM4 has been implicated in neuronal tissue development and in neuronal diseases, whether SRRM4 can contribute to disease pathogenesis in non-neuronal tissue was unknown. Here, the authors analyze RNA-seq data from >6,900 TCGA cancer patients and demonstrate that SRRM4 is expressed at lower levels and is hypermethylated in tumor vs. adjacent normal tissues. They identify a small set of SRRM4-regulated micro-exons that are differentially spliced in several tumor types. They show that overexpression of SRRM4 WT but not of a deletion mutant decreases growth of cancer cell lines in vitro, as well as tumor xenograft growth in vivo in a breast cancer murine model. Finally, they uncover a set of exons more included across multiple cancer cell lines with SRRM4 overexpression. 
+Overall, the findings presented here are interesting, represent a considerable amount of work, and provide the first evidence of the molecular role of SRRM4 mutants in non-neuronal tissues. However, the experimental design, computational and statistical analysis are insufficiently described, making it difficult to fully grasp the validity of some of the study findings. In addition, several key questions should be addressed before the proposed research is ready for publication. Importantly, the paper is based on the observation that SRRM4 transcripts are expressed at lower levels in tumors vs. normal tissue, that relies on data that most scientists would consider as noise in RNA-seq experiments. Therefore it is critical that the authors demonstrate that this level of change in transcript expression leads to protein changes in tumors and has a functional consequence in cell lines. Their experiments use overexpression at >20-100 fold protein changes that are likely not to be physiologically relevant given the baseline SRRM4 expression in tumors and normal tissues.
+Major comments:
+1) As stated by the authors and shown in Fig. 2, SRRM4 transcripts are expressed at very low levels in non-neuronal tissues (median RSEM expression ~4 in normal tissues, ~0.6 in tumors). Those values are typically filtered out from a differential expression analysis because of the low confidence of these reads which are usually considered as noise. As a comparison median expression of SSRM1 transcripts is ~1,500, SSRM2 ~10,000, SRRM3 ~50 RSEM counts This raises the question of the sensitivity and accuracy of SRRM4 transcripts detection using RNA-seq data, especially considering that TCGA data has overall rather poor read coverage. Therefore, one wonders if these small changes in SRRM4 transcript levels can actually have any physiological consequences and lead to detectable changes in SRRM4 protein expression in tumors vs. normal tissues. This is a critical question as all the paper relies on this assumption.
+The authors compare expression in tumors vs. normal tissues, yet the details of how the differential analysis was performed or what is the magnitude of fold change are not provided; these details should be provided. Fig 2A should also indicate whether the data is plotted as median or mean, and what the quartile ranges are. 
+Additionally, the authors claim that other SRRM genes (SRRM1-3) are not differentially expressed in tumors. Yet the data presented in Dataset 1 show significant P-values, even lower than for SRRM4, for SRRM1-3 transcripts in many other tumors types. The authors need to clarify this discrepancy between the data presented in the Fig 2C and Dataset 1. 
+Given the low baseline SRRM4 transcripts expression, even a slight change in counts would be accounted as a major expression change. Therefore, for Fig. 2D, one wonders if SRRM4 is the top hit because if its low expression. We recommend the authors demonstrate that other splicing-factor genes expressed at low levels (within the same RSEM values) in non-neuronal tissues do not exhibit expression differences between tumors vs. normal tissues.
+2) Although SRRM4 is mostly expressed in neuronal cell types, the author focus their analysis on non-neuronal tumor types. Yet they state "the most striking decrease was observed in glioblastoma, likely due to the higher inclusion of SRRM4 targets in glia than other normal cell types", suggesting that SRRM4 might play a role in tumors of neuronal origin. Given the availability of RNA-seq data from neuronal tumors in TCGA, as well as normal samples in GTEX, the authors should explain why they did not investigate the role of SRRM4 in these tumors. The author state they use RNA-seq data from TCGA for which paired normal samples are available and therefore would exclude neuronal TCGA tumors. Yet since they do not performed paired analysis for each patient, they could very well include data from normal GTEX neuronal tissues, which would permit the analysis of neuronal tumor types for which no TCGA data from normal tissue would be available. 
+3) The authors focus on a set of spliced isoforms regulated by SRRM4 in neuronal cell types (Fig. 3). Whether these exons are relevant in non-neuronal cells remains to be determined. First, the authors should explain where does the list of SRRM4 targets comes from? The authors claim that tumor spliced exons are "significantly enriched" in SRRM4 targets. How many of these are micro-exons? Fig. 3A seems to indicate <50 SRRM4 targets are spliced-out in tumor vs. normal, which is not very impressive, especially given that none of them is detected across all tumor types. 
+The authors perform differential splicing analysis on tumor vs. normal samples using a cut-off of >5% splicing change is within the limit of biological and technical noise. Yet, when analyzing data from cell lines they use a cut-off of >25%. We recommend using the same cut-off measuring at least >10% of splicing change differences.
+Given the known genomic intra- and inter-tumor heterogeneity, and since Fig. 2A indicates widespread differences in SRRM4 transcripts levels within tumors, the authors could have divided the tumors into low- and high-SRRM4 expression, and compared the splicing targets within these two classes. This approach could potentially additional SRRM4 targets that are not diluted in a mixture of low- and high-SRRM4 expressing samples. 
+Also, the authors should consider the possibility that these spliced isoforms can be regulated by other splicing factors, for example SRRM3 which regulate very similar targets to SRRM4 (Gonatopoulos-Pournatzis et al. 2018), as well as SRSF11, RBFOX or PTBP1 which also regulate micro-exons (Gonatopoulos-Pournatzis et al. 2018, Li et al, 2015). Whether these genes are differentially expressed along with SRRM4 in tumors vs. normal tissues should be determined. Finally, given the fact that 2-fold changes in SF-levels are sufficient to lead to splicing changes, the authors should at least discuss the possibility that other SFs, including SRNPB, RBM34, RNPS1, ELAVL1 an RALYL, could contribute to tumor-associated splicing events in the analyzed datasets.
+4) Does SRRM4 regulate other exons that are not micro-exons? The author imply this but don't say it. Isn't it possible that these non-microexons are contributing to phenotype? The splicing analysis in tumors should highlight separately the findings from micro-exons and non micro-exons in Fig 3. Similarly, one wonders if the gene enrichment analysis in Fig 4 relates to all SRRM4 targets or just microexons?
+5) In Fig 4, the authors correlate SRRM4 transcript expression with the mitotic index, but fail to indicate whether SRRM4 expression correlates with other tumor features, including tumor grade, presence of know cancer driver alterations (e.g., TP53, PTEN, MYC etc), patient overall survival, as well as tumor purity. This last point is particular relevant given high intra-tumor heterogeneity in solid cancers, raising the question whether decreases SRRM4 expression detected in tumor samples is due to changes in stromal or immune cell composition in tumors vs. normal tissues rather than in cancer epithelial cells. 
+6) In Fig. 5-7, the authors test the consequences of SRRM4 overexpression in cancer cell lines. Do these cell lines all have virtually no SRRM4 protein expression at baseline? It would be nice to see qPCR so that we can compare with the fold changes in tumors vs. normal tissues to the levels of overexpression achieve in the cell lines. If there is no baseline expression at all, then the levels of overexpression are way beyond physiological, and way beyond the changes detected in tumors. Since splicing factors act in dose dependent manner, this raises the question whether this level of expression is physiologically relevant and how it really mimics the changes between tumor and normal tissues. Indeed, in all cell lines, SRRM4 induction with 62 or 125 ng/ml of DOX leads to very mild phenotypic differences. Thus relevance of this data is difficult to grasp in the absence of a quantification of the SRRM4 protein expression in tumors vs. normal tissues. Furthermore, a western at baseline and one of the DOX concentration for all cell lines on one blot is needed so one can compare the expression levels and the effects on cell growth across multiple cell lines as presented in Fig 5E. The levels look widely different in Fig S5, raising the question whether difference in Fig 5E are due to differences in SRRM4 levels. Finally, the level of expression of SRRM4 WT and SRRM4 DM are different in Fig 5D, raising the question whether the lack of effect with SRRM4 in vitro and in vivo is due to lower expression. 
+Finally, the authors should provide RT-PCR or QPCR validations for their top SRRM4-regulated splicing events in cancer cell lines to demonstrate the accuracy of their splicing analysis, and illustrate the false positive detection rate.
+7) Comparing expression and splicing changes DOX treated vs. DOX untreated tumor samples can be confounded by DOX-induced expression and splicing as previously described (Ahler et al. 2013, Park et al. 2019). Therefore, events induced by DOX in empty vector control should be removed from the dataset in Fig 7f.
+8) The author claim that SH-SY5Y cells expressing SRRM4 form "dendrite-like" projections, "reminiscent of SH-SY5Y cells that have undergone neuronal differentiation with retinoic acid (RA) and brain-derived neurotrophic factor (BDNF) treatment" based on a representative bright field picture. Have the authors used any neuronal differentiation cell markers to demonstrate that these are "dendrite-like"?
+Minor comments
+1) Figures 1-7 legends should be updated to include a better description of the data presented (mean, medina, range, etc.) as well as statistical test and relevant p-values and symbols shown in the figures. Figure labels and graph axes should be made readable throughout the text, and axes should be labelled with better descriptions. For example Fig. 5E what exacly is "Max % inhibition (4days)?"
+2) Fig. 2E shows increased fold change in SSRM4 expression in tumors vs. normal tissues, yet the remaining figures show decrease expression. The scale/legend should be probably be corrected.
+3) Fig. 2 - where does the list of 202 splicing factors comes from?
+4) Fig. 3A the dual scale is confusing; this should be plotted separately. What is the dark red color?
+5) Fig. 3D - please clarify what this figure is comparing cancer cell lines vs. non transformed cell lines? If this is cancer cell lines vs. normal tissues, then this comparison is not acceptable as cell lines are known to be different from primary tissues and exhibit distinct gene expression and splicing profiles. 
+6) The authors state "The resulting list comprised between 468 exons in head and neck cancer to 1,884 in lung cancer, of which between 6.6% (head and neck cancer) and 12.7% (colorectal cancer) were micro-exons". Is the 12.7% in colorectal or lung? Is this a typo?
+7) The level of SRRM4 in vivo in tumor xenograft experiment should be shown in Fig 6.
+8) Fig. 7C needs statistics and the results of the differential gene expression analysis should be provided as table.
+9) Supplemental Fig. 6 is cited but it is not in the document.
+10) The discussion states "Notably, we find that prostate cancers and lung cancers taken as a whole follow the opposite trend as their neuroendocrine subtypes." - this is a potentially very exciting statement, but one would love to see that data in the paper.
+---
+Reviewer #3 (Steve Mount): 
+This paper presents evidence that SRRM4 silencing in tumors promotes growth and is associated with reduced inclusion of microexons. The two principal claims (first, that SRRM4 is silenced in tumors; second, that this decreased expression affects growth and induction of SRRM4 expression inhibits proliferation) are well supported.
+The paper is well-written. I read it very carefully and have no significant suggestions for revision (which is extremely unusual for me).
+The one suggestion I would make (not mandatory) is to consider logit(PSI) in order to identify those events whose altered splicing occurs in the context of nearly complete skipping or nearly complete inclusion (delta-logit(PSI) can be significant when delta-PSI is not).
+---
+ACADEMIC EDITOR COMMENTS:
+1) Referee 2, point 1: This is a key point. The SRRM4 levels indeed are very low and the authors need to provide convincing evidence that the observed differences between normal and tumor are not noise. The referee suggests several ways to do this: 1) compare SRRM4 changes to changes of other very low abundance transcripts, 2) demonstrate changes at the protein level and 3) provide more detailed statistical analysis to demonstrated significance. Showing only 3) would not be sufficient. 
+2) Referee 2, point 4: This is another key point. There is the possibility that the observed phenotypes are due to effects that occur via SRRM4 but not via micro-exons. The authors should demonstrate and discuss the effect of SRRM4 on exons other than micro-exons and provide evidence that they do not contribute to phenotype, for example, by demonstrating that non-microexon events do not occur in cancers.
+3) Physiological relevance: This is a difficult point to fully resolve, but I agree with Referee 1, point 4 that it would be reassuring to see that downregulation in non-malignant cells has an effect. The flipside of this is referee 2, point 6, highlighting that the overexpression experiments compare apples to oranges by introducing SRRM4 at much higher levels than physiologically observed, making its interpretation difficult. The suggested PCR analysis would give a better sense of how far off the comparison is.
+10.1371/journal.pbio.3001138.r003Author response to Decision Letter 1
+Submission Version2
+17 Nov 2020
+
+AttachmentSubmitted filename: Response to reviewers.docx
+Click here for additional data file.
+10.1371/journal.pbio.3001138.r004Decision Letter 2
+Alvarez-GarciaInesSenior Editor© 2021 Ines Alvarez-Garcia2021Ines Alvarez-GarciaThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version2
+7 Jan 2021
+
+Dear Luis,
+Thank you for submitting your revised Research Article entitled "Hypersilencing of SRRM4 suppresses basal microexon inclusion and promotes tumor growth across cancers" for publication in PLOS Biology. Thank you also for your patience as we completed our editorial process, and please accept again my apologies for the delay in providing you with our decision. I have now obtained advice from two of the original reviewers and have discussed their comments with the Academic Editor. 
+Based on the reviews, we will probably accept this manuscript for publication, assuming that you will modify the manuscript to address the remaining points raised by Reviewer 2. Please also make sure to address the data and other policy-related requests noted at the end of this email.
+We expect to receive your revised manuscript within two weeks. Your revisions should address the specific points made by each reviewer. 
+To submit your revision, please go to https://www.editorialmanager.com/pbiology/ and log in as an Author. Click the link labelled 'Submissions Needing Revision' to find your submission record. Your revised submission must include the following:
+-  a cover letter that should detail your responses to any editorial requests, if applicable
+-  a Response to Reviewers file that provides a detailed response to the reviewers' comments (if applicable)
+-  a track-changes file indicating any changes that you have made to the manuscript. 
+NOTE: If Supporting Information files are included with your article, note that these are not copyedited and will be published as they are submitted. Please ensure that these files are legible and of high quality (at least 300 dpi) in an easily accessible file format. For this reason, please be aware that any references listed in an SI file will not be indexed. For more information, see our Supporting Information guidelines:
+https://journals.plos.org/plosbiology/s/supporting-information  
+*Published Peer Review History*
+Please note that you may have the opportunity to make the peer review history publicly available. The record will include editor decision letters (with reviews) and your responses to reviewer comments. If eligible, we will contact you to opt in or out. Please see here for more details:
+https://blogs.plos.org/plos/2019/05/plos-journals-now-open-for-published-peer-review/
+*Early Version*
+Please note that an uncorrected proof of your manuscript will be published online ahead of the final version, unless you opted out when submitting your manuscript. If, for any reason, you do not want an earlier version of your manuscript published online, uncheck the box. Should you, your institution's press office or the journal office choose to press release your paper, you will automatically be opted out of early publication. We ask that you notify us as soon as possible if you or your institution is planning to press release the article.
+*Protocols deposition*
+To enhance the reproducibility of your results, we recommend that if applicable you deposit your laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. For instructions see: https://journals.plos.org/plosbiology/s/submission-guidelines#loc-materials-and-methods 
+Please do not hesitate to contact me should you have any questions.
+Best wishes,
+Ines
+--
+Ines Alvarez-Garcia, PhD,
+Senior Editor,
+ialvarez-garcia@plos.org,
+PLOS Biology
+------------------------------------------------------------------------
+ETHICS STATEMENT:
+-- Thank you for including the name of the ethics committe. Please also include the license or approval number.
+------------------------------------------------------------------------
+DATA POLICY:
+Many thanks for submitting the data file to comply with our data policy, however we are still missing the data underlying the following figures:
+Fig. 2C-G; Fig. 3A, B, D; Fig. 4A-D; Fig. 5A-C, E; Fig. 7D, E; Fig. S2; Fig. S3; Fig. S5; Fig. S7; Fig. S9 and Fig. S10A, B
+Please provide it and indicate in the figure legends where the underlying data can be found, and ensure your supplemental data file/s has a legend. If any of the data are already deposited in a database, please indicate this clearly also in the figure legends.
+Please ensure that your Data Statement in the submission system accurately describes where your data can be found.
+---------------------------------------------------------------
+Reviewers’ comments
+Rev. 1:
+The authors have addressed my prior concerns and the manuscript is improved. I have no further issues with the manuscript.
+Rev. 2:
+The authors have considerably revised and improved the manuscript.
+A few points should still be clarified before publication.
+Major comments
+1) The author added a new experiment in Fig. 5e-f. The authors state they mixed WT or DM SRRM4 cells at a 1:1 ratio, yet at day 1 the ratio detected by PCR is not 1:1, raising the question of how quantitative and reproducible this assay is. Moreover, this experiment shows only one replicate and no control for the effects of doxycycline. Finally, the interpretation of this growth competition assay in Fig.5, as well as the xenograft assays in Fig.6, is challenging because the DM cell line grows more slowly, even without DOX (induced), compared to the WT cell line. As show in Fig. 6, uninduced WT and DM cells reach a tumor volume of a 100 at 20 and 40 days respectively. Therefore experiments in Fig. 5e-f should either be removed, or repeated with appropriate controls. The current version shows the growth difference between the two clones, and does not point out necessarily to an effect of SRRM4.
+2) In Fig. 7 from their response, the authors show that indeed the level of expression of SRRM4 WT and SRRM4 DM are different at the same doxycycline concentration. Therefore they should acknowledge in the text that the lack of effect of the DM SRRM4 on cell proliferation could be due to lower expression.
+Minor comments
+1) As part of best reproducibility practices, please add versions of computation tools, links to github pages if available, and specific parameters used.
+2) The word 'hypersilenced' should be replaced by 'silenced' throughout the text and title.
+3) The title should be edited to reflect more accurately the findings described in the paper. What is the meaning of basal micro-exons in the title?
+10.1371/journal.pbio.3001138.r005Author response to Decision Letter 2
+Submission Version3
+20 Jan 2021
+
+AttachmentSubmitted filename: Response to reviewer 20210120.docx
+Click here for additional data file.
+10.1371/journal.pbio.3001138.r006Decision Letter 3
+Alvarez-GarciaInesSenior Editor© 2021 Ines Alvarez-Garcia2021Ines Alvarez-GarciaThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version3
+3 Feb 2021
+
+Dear Luis,
+Thank you for submitting your new revised Research Article entitled "Silencing of SRRM4 suppresses microexon inclusion and promotes tumor growth across cancers" for publication in PLOS Biology. I have now discussed it with the Academic Editor. 
+While we are mostly satisfied with your responses to the pending issues, we would like you to include in the Figure 5 legend a statement indicating the reason for the deviation from the expected 1:1 ratio in the PCR reaction. We think it is a fairly obvious discrepancy and readers may wonder about it.
+We expect to receive your revised manuscript within one week.
+NOTE: If Supporting Information files are included with your article, note that these are not copyedited and will be published as they are submitted. Please ensure that these files are legible and of high quality (at least 300 dpi) in an easily accessible file format. For this reason, please be aware that any references listed in an SI file will not be indexed. For more information, see our Supporting Information guidelines:
+https://journals.plos.org/plosbiology/s/supporting-information  
+Please do not hesitate to contact me should you have any questions.
+Best wishes,
+Ines
+--
+Ines Alvarez-Garcia, PhD,
+Senior Editor,
+PLOS Biology
+ialvarez-garcia@plos.org
+10.1371/journal.pbio.3001138.r007Author response to Decision Letter 3
+Submission Version4
+4 Feb 2021
+
+AttachmentSubmitted filename: Response to reviewer 20210120.docx
+Click here for additional data file.
+10.1371/journal.pbio.3001138.r008Decision Letter 4
+Alvarez-GarciaInesSenior Editor© 2021 Ines Alvarez-Garcia2021Ines Alvarez-GarciaThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version4
+4 Feb 2021
+
+Dear Luis,
+On behalf of my colleagues and the Academic Editor, Tom Misteli, I am pleased to say that we can in principle offer to publish your Research Article entitled "Silencing of SRRM4 suppresses microexon inclusion and promotes tumor growth across cancers" in PLOS Biology, provided you address any remaining formatting and reporting issues. These will be detailed in an email that will follow this letter and that you will usually receive within 2-3 business days, during which time no action is required from you. Please note that we will not be able to formally accept your manuscript and schedule it for publication until you have made the required changes.
+Please take a minute to log into Editorial Manager at http://www.editorialmanager.com/pbiology/, click the "Update My Information" link at the top of the page, and update your user information to ensure an efficient production process.
+PRESS
+We frequently collaborate with press offices. If your institution or institutions have a press office, please notify them about your upcoming paper at this point, to enable them to help maximise its impact. If the press office is planning to promote your findings, we would be grateful if they could coordinate with biologypress@plos.org. If you have not yet opted out of the early version process, we ask that you notify us immediately of any press plans so that we may do so on your behalf.
+We also ask that you take this opportunity to read our Embargo Policy regarding the discussion, promotion and media coverage of work that is yet to be published by PLOS. As your manuscript is not yet published, it is bound by the conditions of our Embargo Policy. Please be aware that this policy is in place both to ensure that any press coverage of your article is fully substantiated and to provide a direct link between such coverage and the published work. For full details of our Embargo Policy, please visit http://www.plos.org/about/media-inquiries/embargo-policy/.
+Thank you again for supporting Open Access publishing. We look forward to publishing your paper in PLOS Biology. 
+Sincerely, 
+Ines
+--
+Ines Alvarez-Garcia, PhD 
+Senior Editor 
+PLOS Biology
+ialvarez-garcia@plos.org

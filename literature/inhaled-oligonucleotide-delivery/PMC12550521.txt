@@ -1,0 +1,855 @@
+pmcBio ProtocBio Protoc3912bioprotBio ProtocBio-ProtocBio-protocol2331-8325Bio-protocol, LLCPMC12550521PMC12550521.112550521125505214114164010.21769/BioProtoc.5475e547554751Methods ArticleBiologyClinical ProtocolsEffective Gene Silencing in Plants by Synthetic Trans-Acting siRNAs Derived From Minimal Precursors
+CisnerosAdriana E. AlarciaAna Instituto de Biología Molecular y Celular de Plantas (Consejo Superior de Investigaciones Científicas–Universitat Politècnica de València), Valencia, Spain*For correspondence: acarbonell@ibmcp.upv.es; aecisneros8@gmail.com
+20102025201020251520499365e5475126202509920250992025201020252510202527102025©Copyright : © 2025 The Authors; This is an open access article under the CC BY license 2025https://creativecommons.org/licenses/by/4.0/This is an open access article under the CC BY license (https://creativecommons.org/licenses/by/4.0/).Syn-tasiR-VIGS: virus-based targeted RNAi in plants by synthetic trans-acting small interfering RNAs derived from minimal precursors
+5351932025gkaf183Nucleic Acids Research10.1093/nar/gkaf183PMC1192079840105245Synthetic trans-acting small interfering RNAs (syn-tasiRNAs) are 21-nucleotide small RNAs designed to induce highly specific and efficient gene silencing in plants. Traditional approaches rely on the transgenic expression of ~1 kb TAS precursors, which limits their use in non-model species, under strict GMO regulations, and in size-constrained expression or delivery systems. This protocol describes a rapid workflow for the design, assembly, and delivery of syn-tasiRNAs derived from much shorter precursors, referred to as minimal precursors. The pipeline includes in silico design of highly specific syn-tasiRNA sequences, cloning of minimal precursors into plant expression or potato virus X (PVX)-based viral vectors through Golden Gate or Gibson assembly, and delivery to plants through Agrobacterium-mediated expression or by spraying crude extracts containing recombinant PVX expressing the minimal precursors. These methodologies make syn-tasiRNA-based tools more accessible and broadly applicable for plant research and biotechnology across diverse species and experimental contexts.
+
+Key features
+
+• Syn-tasiRNAs allow the simultaneous silencing of multiple genes with high specificity, as they are computationally designed to avoid off-target effects.
+• This protocol describes the design and obtention of syn-tasiRNAs for the simultaneous silencing of one or several endogenous genes in any plant species.
+• This protocol also describes a non-transgenic alternative for applying syn-tasiRNAs to plants using a viral vector to induce whole-plant gene silencing.
+• This protocol can also be applied to induce antiviral protection against pathogenic viruses, reducing viral mutational escapes when expressing multiple syn-tasiRNAs targeting different viral sites.
+
+Plant gene silencingsyn-tasiRNAsArtificial small RNAsTransgene-freeVirus-based expressionpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyes
+
+## Graphical overview
+
+Steps to generate and apply synthetic trans-acting small interfering RNA (syn-tasiRNA) minimal precursors for either transgenic or transgene-free virus-based expression in plants. The protocol begins with the computational design of syn-tasiRNAs, followed by the generation of the corresponding expression constructs, and concludes with the evaluation of silencing efficacy by real-time quantitative PCR (RT-qPCR) quantification of target mRNA levels. (A) For transgenic expression, the syn-tasiRNA insert is cloned into a pMDC32B-B/c-based vector and transformed into Agrobacterium tumefaciens for either stable or transient expression. (B) For transgene-free, virus-based expression, the syn-tasiRNA insert is cloned into a Potato virus X (PVX)-based vector and transformed into A. tumefaciens for leaf agroinoculation. Once systemic PVX infection is established, upper leaves are collected and homogenized to produce a crude extract, which is then sprayed into a new set of plants to induce whole-plant gene silencing.
+
+## Background
+RNA interference (RNAi) is a regulatory mechanism involved in multiple plant biological processes such as stress responses, development, defense, or reproduction [1]. RNAi is characterized by the sequence-specific degradation of RNA molecules mediated by complementary small RNAs (sRNAs). These sRNAs are generated from double-stranded RNA (dsRNA) precursors processed by DICER-Like (DCL) ribonucleases into 20–24 base pair (bp) duplexes. One strand of the duplex is then loaded into an ARGONAUTE (AGO) protein, which guides the complex to sequence-complementary target RNAs, leading to their degradation or translational repression [2]. Initially, several classic RNAi-based tools using long dsRNAs were developed for targeted gene silencing in plants. Although widely used, these strategies lacked high specificity, as DCL-mediated processing of long dsRNAs generates a heterogeneous population of sRNAs that can unintentionally target nonspecific transcripts. To overcome this limitation, a second generation of more specific silencing tools based on 21-nucleotide (nt) artificial sRNAs (art-sRNAs) was developed. Current bioinformatic tools typically design multiple art-sRNA sequences based on the target region and off-target probability, increasing specificity over previous silencing techniques but without completely eliminating off-target risks [3].
+Synthetic trans-acting small interfering RNAs (syn-tasiRNAs) are a class of art-sRNAs generated from modified TAS transcripts, in which the endogenous tasiRNA sequences are substituted by the designed syn-tasiRNAs. Upon transcription, the modified TAS transcript is recognized and cleaved by a miRNA-AGO complex containing a 22-nt endogenous microRNA (miRNA), a critical step that initiates the phase processing and release of the syn-tasiRNAs from the cleaved fragment ( ). Importantly, a single modified TAS transcript can produce one or several syn-tasiRNAs, allowing for the simultaneous silencing of multiple genes. Syn-tasiRNAs are typically expressed in plants through Agrobacterium tumefaciens–mediated transformation, leading to the generation of transgenic plants, limiting their applications in non-model species or under strict GMO regulations. Furthermore, the considerable size of conventional TAS precursors (900–1,000 nt) greatly hampers the use of alternative expression systems like viral vectors.
+ Very recently, a minimal syn-tasiRNA precursor of only 54 nt was developed and proved to be as efficient and accurately processed as canonical TAS precursors [4]. This minimal precursor consists of 22-nt from the miRNA target site (TS), an 11-nt spacer, and 21-nt of the syn-tasiRNA, with the possibility of multiplexing if desired ( ). The initial version incorporated AtmiR137a TS for use in Arabidopsis thaliana (Arabidopsis), followed by a second variant containing the NbmiR482a TS for Nicotiana benthamiana applications ( ). The minimal precursor design enhances cost-efficiency in both in vitro and in vivo production systems for topical delivery applications. Additionally, miRNA TS swapping facilitates adaptation across species, particularly in those expressing an abundant 22-nt miRNA trigger. Importantly, the compact size of the minimal precursor allows its expression from size-restricted systems, such as RNA-based viral vectors, which can only be applied in host species. Furthermore, this approach allows the non-transgenic systemic expression of syn-tasiRNAs following topical application [4]. This protocol describes the steps for the in silico design of highly specific syn-tasiRNAs, the generation of minimal syn-tasiRNA precursors containing either AtmiR137a or NbmiR482aTS, or a customizable TS. Two different application strategies are proposed: i) transgenic expression through genetic transformation, and ii) a transgene-free method based on the exogenous application of Potato virus X (PVX)-based vectors carrying the minimal precursor.
+ 
+
+## Materials and reagents
+
+Biological materials
+
+1. pMDC32B-AtmiR173aTS-B/c (plasmid #227965 Addgene Watertown, MA, USA)
+2. pMDC32B-NbmiR482aTS-B/c (plasmid #227967; Addgene Watertown, MA, USA)
+3. pMDC32B-B/c (plasmid #227963; Addgene Watertown, MA, USA)
+4. pLBPVXBa-M (plasmid #229079; Addgene Watertown, MA, USA)
+5. Electrocompetent cells of Escherichia coli ccdB-sensitive strain DH5α (homemade, 1 × 106 CFU/μg DNA, see Protocol S1 for details)
+6. Electrocompetent cells of Agrobacterium tumefaciens strain GV3101 (homemade, 6 × 106 CFU/μg DNA, see Protocol S2 for details)
+
+Reagents
+
+1. Liquid nitrogen
+2. Sterile Milli-Q water
+3. Peat (Kekkilä profesional)
+4. Perlite (Projar)
+5. GeneArtTM Gibson Assembly HiFi Master Mix (Invitrogen, catalog number: A46627)
+
+Note: Store at -20 °C, shelf life 1.5 years.
+
+6. T4 DNA ligase (5 U/μL) (Thermo Fisher Scientific, catalog number: EL0011)
+
+Note: Store at -20 °C, shelf life 2 years.
+
+7. Zymo-Spin I columns (Zymo Research, catalog number: C1003-250)
+8. GeneJET Plasmid Miniprep kit (Fisher Scientific, catalog number: K0481)
+9. Kanamycin monosulfate (Duchefa Biochemie, catalog number: K0126.0005)
+
+Note: Store at RT, shelf life 5 years.
+
+10. Rifampicin (Duchefa Biochemie, catalog number: R0146.0005)
+
+Note: Store at 2–8 °C, light-sensitive, shelf life 4 years.
+
+11. Agarose (Pronadisa, catalog number: 8016)
+12. Red Safe (iNtRON Biotechnology, catalog number: 21141)
+13. Agar (INtRON biotechnology, catalog number: 25999)
+14. Yeast extract (INtRON biotechnology, catalog number: 48045)
+15. Tryptone (INtRON biotechnology, catalog number: 46046)
+16. BsaI (10 U/μL, New England Biolabs, catalog number: R3733S)
+
+Note: Store at -20 °C, shelf life 2 years.
+
+17. MluI (10 U/μL) (Thermo Fisher Scientific, catalog number: ER0561)
+
+Note: Store at -20 °C, shelf life 2 years.
+
+18. Dithiothreitol (DTT) (from SuperScriptTM IV kit, Invitrogen, catalog number: 18091050)
+
+Note: Store at -20 °C, shelf life 2 years.
+
+19. NaCl (ITW Reagents, catalog number: 131659.1211)
+20. MgCl2 (Vidra FOC, catalog number: 131396)
+21. CaCl2 (PanReac, catalog number: 131232)
+22. Na2HPO4 (PanReac, catalog number: 131678)
+23. KH2PO4 (PanReac, catalog number: 121509)
+24. NH4Cl (PanReac, catalog number: 131121)
+25. MgSO4 (PanReac, catalog number: 127113)
+26. KCl (PanReac, catalog number: A2939)
+27. HCl (PanReac, catalog number: 131020)
+28. KOH (PanReac, AppliChem, catalog number: 121515.1211)
+29. NaOH (PanReac, catalog number: 131687.1211)
+30. Acetosyringone (3’,5’-dimethoxy-4’-hydroxy-acetophenone) (Aldrich, catalog number: D13,440-6)
+
+Note: Store at RT, shelf life 2 years.
+
+31. Tris (ITW reagents, catalog number: A1086,1000)
+32. EDTA (Sigma, catalog number: E5134-500)
+33. Acetic acid glacial (PanReac, catalog number: 131008.1611)
+34. Glucose (D-glucose) (Duchefa, catalog number: D0802)
+35. Sucrose crystallized (Duchefa Biochemie, catalog number: S0809.1000)
+36. 6-benzylaminopurine (BAP) (Duchefa Biochemie, catalog number: B0904.0001)
+37. MES (Duchefa, catalog number: M1503)
+38. Silwet L-77 (BioWorld, catalog number: 30630216-1)
+39. Polyvinylpyrrolidone 10 (PVP) (PanReac AppliChem, catalog number: A2258,0250)
+40. Polyethylene glycol 6000 (PEG) (Merck, catalog number: 81260-1KG)
+41. 2-mercaptoethanol 14.3 M (BME) (Sigma-Aldrich, catalog number: M6250)
+
+Note: Store at 2–8 °C, light-sensitive, shelf life 3 years.
+
+42. Dimethylsulfoxide (DMSO) (Sigma, catalog number: D8418-100 mL)
+
+Note: Store at RT, shelf life 2 years.
+
+43. Sodium acetate (3H2O) (PanReac AppliChem, catalog number: 131632.1211)
+44. Guanidine thiocyanate (PanReac, catalog number: A4335,1000)
+45. Ammonium thiocyanate (PanReac, catalog number: 131143.1210)
+46. Glycerol 87% (PanReac AppliChem, catalog number: 122329.1211)
+47. Phenol 90% (Scharlab, catalog number: FE04791000)
+
+Note: Store at 4 °C; light-sensitive; shelf life 1 year.
+
+48. Chloroform (Fisher Scientific, catalog number: 10071970)
+
+Note: Light-sensitive, shelf life 3 years.
+
+49. Isopropanol (PanReac AppliChem, catalog number: 1.310.901.214)
+50. Ethanol 96% (PanReac AppliChem, catalog number: 141085.1214)
+51. TURBO DNA-Free kit (Thermo Fisher, catalog number: AM1907)
+
+Note: Store at -20 °C.
+
+52. PrimeScript RT Reagent kit (Takara, catalog number: RR037Q)
+
+Note: Store at -20 °C.
+
+53. TB Green Premix Ex Taq (TliRNaseH Plus) (Takara, catalog number: RR420A)
+
+Note: Long-term storage at -20 °C. Once opened, store at 4 °C and use within 6 months; light-sensitive.
+
+Solutions
+
+1. Soil mix (see Recipes)
+2. Liquid Luria Broth (LB) (see Recipes)
+3. Solid LB (see Recipes)
+4. Kanamycin 50 mg/mL (see Recipes)
+5. Rifampicin 50 mg/mL (see Recipes)
+6. 1 M KOH (see Recipes)
+7. 10 M NaOH (see Recipes)
+8. 1 M Tris-HCl pH 7.5 (see Recipes)
+9. 1 M MgSO4 (see Recipes)
+10. 1 M CaCl2 (see Recipes)
+11. 1 M KCl (see Recipes)
+12. 3 M NaCl (see Recipes)
+13. 1 M MgCl2 (see Recipes)
+14. 0.5 M KH2PO4 pH 8 (see Recipes)
+15. Glucose 20% (see Recipes)
+16. 3 M sodium acetate pH 5.5 (see Recipes)
+17. 1 M MES buffer pH 5.2 (see Recipes)
+18. 0.1 M acetosyringone (see Recipes)
+19. 0.5 M EDTA pH 8 (see Recipes)
+20. Super Optimal broth + catabolic repressor (SOC) (see Recipes)
+21. Oligonucleotide annealing buffer (see Recipes)
+22. TAE 10× (see Recipes)
+23. M9 medium (see Recipes)
+24. Vir induction medium (see Recipes)
+25. Infiltration solution (see Recipes)
+26. Sucrose solution (see Recipes)
+27. Inoculation buffer (see Recipes)
+28. Saturated phenol (see Recipes)
+29. Phenol/guanidine-based extraction buffer (see Recipes)
+30. Ethanol 75% (see Recipes)
+
+Recipes
+
+1. Soil mix
+
+ 
+
+2. Liquid Luria Broth (LB)
+
+ 
+
+Divide the final volume into two 500 mL bottles and autoclave. Store at RT.
+
+3. Solid LB
+
+ 
+
+Divide the final volume into two 500 mL bottles, add 7.5 g of agar and a stir bar to each, and autoclave. Right after sterilizing, add the appropriate amount of antibiotic, mix with a magnetic stirrer, and pour 20–25 mL into each Petri dish, under sterile conditions. Store Petri dishes upside down, covered in plastic film, at 4 °C for up to 2–3 weeks.
+
+4. Kanamycin 50 mg/mL
+
+ 
+
+Dissolve and sterilize by filtration in a laminar flow cabinet. Store in 1 mL aliquots at -20 °C.
+
+5. Rifampicin 50 mg/mL
+
+ 
+
+Dissolve and sterilize by filtration in a laminar flow cabinet. Distribute in 1 mL aliquots, cover the tubes in aluminum foil, and store at -20 °C.
+
+6. 1 M KOH
+
+ 
+
+Autoclave and store at room temperature (RT).
+
+7. 10 M NaOH
+
+ 
+
+Autoclave and store at RT.
+
+8. 1 M Tris-HCl pH 7.5
+
+ 
+
+Dissolve in 80 mL of Milli-Q water and adjust the final pH to 7.5 with HCl. Add Milli-Q water up to the final volume and autoclave. Store at RT.
+
+9. 1 M MgSO4
+
+ 
+
+Autoclave and store at RT.
+
+10. 1 M CaCl2
+
+ 
+
+Autoclave and store at RT.
+
+11. 1 M KCl
+
+ 
+
+Autoclave and store at RT.
+
+12. 3 M NaCl
+
+ 
+
+Autoclave and store at RT.
+
+13. 1 M MgCl2
+
+ 
+
+Autoclave and store at RT.
+
+14. 0.5 M KH2PO4 pH 8
+
+ 
+
+Dissolve in 80 mL of water, set pH to 8 with 1 M KOH, and add water to the final volume. Autoclave and store at RT.
+
+15. Glucose 20%
+
+ 
+
+Sterilize by filtration and store at RT.
+
+16. 3 M sodium acetate pH 5.5
+
+ 
+
+Dissolve in 60 mL of Milli-Q water and adjust pH with acetic acid. Add Milli-Q water up to the final volume, autoclave, and store at RT.
+
+17. 1 M MES buffer pH 5.2
+
+ 
+
+Add the MES to 50 mL of water and warm up to 37 °C to dissolve. Set the pH to 5.2 with 1 M KOH and add the rest of the water. Sterilize by filtration and store at RT.
+
+18. 0.1 M acetosyringone
+
+ 
+
+Sterilize by filtration and store in 1 mL aliquots at -20 °C until use.
+
+19. 0.5 M EDTA pH 8
+
+ 
+
+Dissolve the EDTA in 200 mL of Milli-Q water and adjust the pH with 10 M NaOH. Heat the solution to completely dissolve EDTA and add Milli-Q water up to the final volume. Autoclave and store at RT.
+
+20. Super Optimal broth + catabolic repressor (SOC)
+
+ 
+
+Adjust pH to 7 with 10 M NaOH and add Milli-Q water to the final volume. Distribute into four 250 mL bottles and autoclave. After sterilizing, add the remaining reagents under sterile conditions, distribute in 8 mL aliquots, and store at RT.
+
+21. Oligonucleotide annealing buffer
+
+ 
+
+Prepare under sterile conditions, distribute in 200 μL aliquots, and store at -20 °C until use.
+
+22. TAE 10×
+
+ 
+
+No need to adjust pH as it should be ~8.5. Autoclave and store at RT. Dilute to 1× prior to use. Store the diluted TAE at RT.
+
+23. M9 medium
+
+ 
+
+Adjust pH to 5.2 using HCl and add Milli-Q water to the final volume. Autoclave and store at RT.
+
+24. Vir induction medium
+
+ 
+
+Prepare under sterile conditions.
+
+Critical: Prepare right before use and do not store the leftover solution.
+
+25. Infiltration solution
+
+ 
+
+Prepare under sterile conditions.
+
+Critical: Prepare right before use and do not store the leftover solution.
+
+26. Sucrose solution
+
+ 
+
+Mix reagents until fully dissolved.
+
+Critical: Prepare right before use and do not store the leftover solution.
+
+27. Inoculation buffer
+
+ 
+
+Autoclave and store at RT.
+
+Critical: Add the BME right before use. Do not store the leftover solution after adding BME.
+
+28. Saturated phenol
+
+ 
+
+Mix thoroughly and store at 4 °C in a topaz bottle.
+
+Caution: Phenol is toxic if swallowed, in contact with skin, or if inhaled. Prepare the mix with gloves, glasses, and a mask inside a fume hood.
+
+29. Phenol/guanidine-based extraction buffer
+
+ 
+
+Dissolve the guanidine thiocyanate and the ammonium thiocyanate in 200 mL of Milli-Q water. Add the rest of the reagents until fully dissolved. Add Milli-Q water up to volume and store at 4 °C in a topaz bottle.
+
+Caution: Phenol is toxic if swallowed, in contact with skin, or if inhaled. Prepare the mix with gloves, glasses, and mask inside a fume hood.
+
+30. Ethanol 75%
+
+ 
+
+Store at RT.
+
+Laboratory supplies
+
+1. Nitrile gloves (StarGuard, catalog number: EcogenSG-N-M-200)
+2. Protective coat (LabBox, catalog number: GOSW-00M-001)
+3. Protective glasses (Epica S.L., catalog number: 1034)
+4. Protective mask (LabBox, catalog number: MASK-002-010)
+5. 20 μL pipette (Eppendorf, catalog number: 3123000039)
+6. 200 μL pipette (Eppendorf, catalog number: 3123000055)
+7. 1,000 μL pipette (Eppendorf, catalog number: 3123000063)
+8. 200 μL tubes (UVAT, catalog number: F-0302-01)
+9. 1.5 mL tube (SARSTEDT, catalog number: 72690001)
+10. 2 mL tube (SARSTEDT, catalog number: 72.691)
+11. 2 mL SafeSeal tube (SARSTEDT, catalog number: 72695500)
+12. 13 mL tubes (SARSTEDT, catalog number: 60540500)
+13. 15 mL conical tubes (SARSTEDT, catalog number: 62.554.502)
+14. 50 mL conical tubes (LabBox, catalog number: CTGP-050-050)
+15. 96-well PCR plate (SARSTEDT, catalog number: 72.1981)
+16. 250 mL glass Erlenmeyer flasks (LabBox, catalog number: EFN3-250-012)
+17. 1 L glass Erlenmeyer flasks (LabBox, catalog number: EFN3-1K0-006)
+18. 250 mL plastic Beckman tube (Beckman Coulter, catalog number: 356011)
+19. Petri dish (SARSTEDT, catalog number: 821473)
+20. Round container 20–20 cm wide
+21. Mortar and pestle (Porcelaine, LabBox, catalog number: MORK-100-001)
+22. Zirconia beads (Biospec Products, catalog number: 11079124zx)
+23. Electroporation cuvette (Thermo Fisher, catalog number: 12338212 (5510-11))
+24. Spectrophotometer cuvette (Kartell, catalog number: 425-001938)
+25. 1 mL needle-less disposable syringes (Vidra FOC, catalog number: 875/01)
+26. Miracloth (Millipore; Vidra FOC, catalog number: 475855)
+27. 30 mL high-density polyethylene vaporizer (Yizhao)
+28. 15 cm pots (Mena Agrícola, catalog number: 750103)
+29. Filter 0.2 μm (SARSTEDT, catalog number: 83.1826.001)
+30. 100 mL Pyrex bottle (LabBox, catalog number: SBG3-100-001)
+31. 500 mL Pyrex bottle (LabBox, catalog number: SBG3-500-001)
+32. 500 mL topaz bottle (LabBox, catalog number: SBGA-500-001)
+33. Measuring cylinder (Vitlab)
+34. Beaker (LabBox, catalog number: BKLP-1K0-006)
+35. Spoon (LabBox, catalog number: SPSS-150-005)
+
+## Equipment
+1. Millipore Milli-Q Direct 16 Water Purification System
+2. Computer connected to the internet
+3. Balance (Kern, catalog number: EG2200)
+4. Stir bar (lbx, catalog number: MAGC-040-005)
+5. Magnetic stirrer (VWR, catalog number: 442-0551)
+6. Autoclave (P Selecta)
+7. GeneExplorer thermal cycler (Bioer, catalog number: BYQ6617E)
+8. Electroporator (Eppendorf, catalog number: 4309000019)
+9. Mini Sub Cell GT System with 7 × 10 cm gel tray + mini gel caster + PowerPac supply (Bio-Rad, catalog number: 164-0300)
+10. 37 °C walk-in growth chamber
+11. 28 °C walk-in growth chamber
+12. 37 °C dry bath (Fisher, catalog number: 15387928)
+13. 1.5 mL tube centrifuge (Eppendorf, catalog number: 30215964) with rotor (Eppendorf, catalog number: FA-24x2)
+14. 50 mL conical tube centrifuge (Eppendorf, catalog number: 5428000205) with rotor (Eppendorf, catalog number: F35-6-30)
+15. 250 mL Beckman centrifuge (Avanti J-HC, catalog number: 367502) with rotor (JA-14 Fixed-Angle Aluminum Rotor, 339247)
+16. Orbital shaker (VWR, catalog number: 444-0268)
+17. Biowave cell density meter wavelength 600 nm (WPA, catalog number: CO8000)
+18. Plant walk-in growth chamber
+19. Laminar flow cabinet (Telstar Aeolus H6)
+20. Fume hood (Flowtronic AFA 1000)
+21. pH meter (ViciTac, HACH.LPV200.98.0002)
+22. Transilluminator (Cleaver Scientific, model: EZEE geloue)
+23. NanoDrop (Thermo Fisher Scientific, model: ND-2000)
+24. QuantStudio 3 Real-Time PCR system, 96-well (Thermo Fisher Scientific, catalog number: A28567)
+25. Bead beater mixer mill (Retsch, model: MM400)
+
+## Procedure
+
+A. Syn-tasiRNA insert design
+
+A1. Computational design of syn-tasiRNAs
+
+Highly specific syn-tasiRNAs, including a 5′U nucleotide, a C at position 19, and a mismatch with the target transcript at position 21, can be designed to target endogenous or exogenous genes using the Plant Small RNA Maker Suite (P-SAMS) web app or script (https://github.com/carringtonlab/p-sams), as described before [5]. See General notes 1–5.
+
+A2. Insert design for plant genetic transformation
+
+1. Follow the next steps if the target species is either Arabidopsis or N. benthamiana:
+a. For Arabidopsis plant transformation, order the pMDC32B-AtmiR173aTS-B/c from Addgene. For N. benthamiana plant transformation, order the pMDC32B-NbmiR482aTS-B/c vector from Addgene.
+b. Order the following oligonucleotides containing the previously designed syn-tasiRNAs (2, as in ):
+
+ 
+
+X1–X21 is the syn-tasiRNA-1 sequence.
+
+X1–X21
+ is the syn-tasiRNA-2 sequence.
+
+Y21–Y1
+ is the reverse complement of syn-tasiRNA-2
+Y21–Y1 is the reverse complement of syn-tasiRNA-1.
+2. Follow the next steps in the case of using a 22-nt miRNA TS of choice:
+a. Order the pMDC32B-B/c vector from Addgene.
+b. Order the following oligonucleotides containing the 22-nt miRNA TS of interest and the previously designed syn-tasiRNAs ( ; as in ):
+ 
+ 
+
+X1–X22
+ is the 22-nt miRNA TS.
+X1–X21 is the syn-tasiRNA-1 sequence.
+
+X1–X21
+ is the syn-tasiRNA-2 sequence.
+
+Y21–Y1
+ is the reverse complement of syn-tasiRNA-2.
+Y21–Y1 is the reverse complement of syn-tasiRNA-1.
+
+Y22–Y1
+ is the reverse complement of the 22-nt miRNA TS.
+
+A3. Insert design for transgene-free virus-based expression
+
+1. Follow the next steps to design a syn-tasiRNA-based insert for minimal precursor expression from a PVX-based vector.
+a. Order the pLBPVXBa-M vector from Addgene.
+b. Order a dsDNA molecule as an ultramer with the following sequence, including the 22-nt miRNA of choice and the previously designed syn-tasiRNAs ( ; in the following example):
+agaggtcagcaccagctagcX1X2X3X4X5X6X7X8X9X10X11X12X13X14X15X16X17X18X19X20X21X22
+TAGACCATTTAX1X2X3X4X5X6X7X8X9X10X11X12X13X14X15X16X17X18X19X20X21
+X1X2X3X4X5X6X7X8X9X10X11X12X13X14X15X16X17X18X19X20X21
+agggtttgttaagtttccct
+
+X1-X22
+ is the 22-nt miRNA TS.
+X1-X21 is the syn-tasiRNA-1 sequence.
+
+X1-X21
+ is the syn-tasiRNA-2 sequence.
+x is the tail complementary to the PVX sequence and required for the Gibson-based assembly.
+See General note 6.
+ 
+B. Syn-tasiRNA construct generation
+
+1. For syn-tasiRNA cloning into pMDC32B-based “B/c” vectors through Golden Gate assembly for plant transformation, follow the next steps ( ).
+ a. Resuspend the two oligonucleotides in sterile Milli-Q water to a final concentration of 100 μM.
+b. Assemble the oligonucleotide annealing reaction in a 200 μL tube as described in .
+
+ 
+
+c. Transfer the tube to a thermocycler set to heat the annealing reaction for 5 min at 94 °C and then cool down to 20 °C at a rate of 0.05 °C/s.
+
+Note: Alternatively, the annealing reaction can be done in a water bath or a thermoblock by heating for 5 min at 94 °C and then turning off the apparatus. Let the reaction cool down until it reaches RT.
+
+d. To perform the digestion-ligation reaction with a balanced insert/vector ratio, dilute the annealed oligonucleotides to a final concentration of 0.15 μM by adding 3 μL of the annealed oligonucleotides to 37 μL of sterile Milli-Q water.
+
+Critical: Do not store diluted oligonucleotides.
+e. Assemble the digestion-ligation reaction as described in .
+
+ 
+
+f. Mix the reactions by pipetting and incubate for 5 min at 37 °C.
+
+Note: The incubation time of the digestion-ligation reaction can be increased up to 30 min if necessary.
+
+Pause point: Reactions can be stored at 4 °C until use.
+g. Use 1–5 μL of the digestion-ligation to electroporate a ccdB-sensitive E. coli strain. Plate all the culture in a solid LB (see Recipes) Petri dish containing kanamycin 50 μg/mL (final concentration). Leave at 37 °C overnight. See Troubleshooting 1.
+h. Use a sterile 1 μL pipette tip to pick two colonies per construct and grow in 4 mL of liquid LB (see Recipes) with kanamycin (50 μg/mL final concentration) in a 13 mL tube at 37 °C overnight on a shaker incubator.
+i. Purify plasmids from the grown culture with a Miniprep kit.
+j. Digestion of good clones with XbaI yields two bands of 9,970 and 225 bp.
+k. Confirm clone identity by Sanger sequencing with the following oligonucleotides ( ):
+
+ 
+
+Note: If cloning a single syn-tasiRNA, positive clones will include the 54-bp insert (containing the miRNA TS of interest, a spacer, and the designed syn-tasiRNA), located 29 bp downstream of the forward oligonucleotide (AC-285) binding site. Sequencing with the reverse AC-286 oligonucleotide can be done to confirm the sequence.
+
+2. To clone syn-tasiRNA into pLBPVXBa-M through Gibson assembly, for viral vector-mediated expression and subsequent generation of non-transgenic plants, follow these steps ( ):
+ a. Add the corresponding amount of sterile water to each duplexed ultramer oligonucleotide to get a final concentration of 1 μg/μL.
+b. Digest an aliquot of pLBPVXBa-M with MluI as described in .
+
+ 
+
+c. Set at 37 °C for at least 1 h. See Troubleshooting 2.
+d. Gel purify the 9,934 bp band corresponding to the linearized plasmid.
+e. Assemble the Gibson reaction in a 200 μL tube as described in .
+
+ 
+
+aThe optimal volume of the linearized vector is 50–100 ng.
+
+bAdd the proper volume of insert for an insert/vector molar ratio of 5 since the insert is less than 200 bp.
+
+Critical: Total DNA amount must be within the range of 0.02–0.5 pmol.
+
+Note: Mass to mole conversion can be calculated
+
+here
+
+.
+f. Incubate reactions at 50 °C for 1 h in a thermocycler. Purify the reactions with a DNA-binding spin column like Zymo-spin columns.
+g. Use 1–4 μL of the cleaned reaction to electroporate E. coli DH5α cells. Plate all the culture in a solid LB (see Recipes) Petr dish containing kanamycin (50 μg/mL final concentration). Leave at 37 °C overnight.
+h. Use a sterile 1 μL pipette tip to pick two colonies per construct and grow in 4 mL of liquid LB (see Recipes) with kanamycin (50 μg/mL final concentration) in a 13 mL tube at 37 °C overnight on a shaking incubator.
+i. Purify plasmids from the grown culture with a Miniprep kit.
+j. Digestion of good clones with ApaI and XhoI yields two bands of 8,595 and 1,374 bp.
+k. Confirm clone identity by Sanger sequencing with the following oligonucleotides ( ):
+
+ 
+
+Note: If cloning a single syn-tasiRNA, good clones will include the 54-bp insert (containing the miRNA TS of interest, a spacer, and the designed syn-tasiRNA), located 108 bp downstream of the forward oligonucleotide (AC-654) binding site. Sequencing with the reverse AC-655 oligonucleotide can be done to confirm the sequence. See Troubleshooting 3.
+
+C. Agrobacterium tumefaciens transformation
+
+1. Use 0.5 μL of each purified plasmid to electroporate A. tumefaciens GV3101 cells. Plate 1/10 of the culture in a solid LB Petri dish containing rifampicin and kanamycin (50 μg/mL final concentration).
+2. Incubate the plate at 28 °C for 48 h.
+3. Store the plate with grown colonies at 4 °C until use.
+
+D. Transgenic expression of syn-tasiRNAs (Option I)
+
+See General note 7.
+
+1. Agroinfiltration for transient expression in N. benthamiana
+
+a. From a fresh plate, use a sterile 1 μL pipette tip to pick a single colony of A. tumefaciens transformed with the corresponding pMDC32B-based syn-tasiRNA construct and transfer to a 13 mL tube containing 5 mL of liquid LB with rifampicin and kanamycin (50 μg/mL final concentration).
+b. Incubate the starter culture at 28 °C for 24 h on a shaker incubator (200 rpm). See Troubleshooting 4.
+c. Transfer 4 mL of the starter culture to 50 mL of liquid LB containing kanamycin (50 μg/mL final concentration) in 250 mL flasks.
+d. Incubate on a shaker incubator (200 rpm) at 28 °C for 4–6 h until the culture optical density at 600 nm (OD600) reaches ~0.5.
+e. Transfer 45 mL of the culture to a 50 mL conical tube and centrifuge in an Eppendorf F35-6-30 rotor (brake ON) for 10 min at 3,354× g.
+f. Remove the supernatant and resuspend the pellet in 45 mL of Vir induction medium (see Recipes) by gentle shaking. Do not add antibiotics to Vir induction medium.
+g. Transfer back to 250 mL flasks and leave at 28 °C on a shaker incubator (200 rpm) overnight.
+h. Initial OD600 after overnight incubation should be ~1.1–1.2. After measuring the OD600 of all cultures, calculate the centrifugation volume for a final volume of 15 mL at a final OD600 of ~1.1.
+i. Transfer the calculated volume to a 50 mL conical tube and centrifuge in an Eppendorf F35-6-30 rotor (brake ON) for 10 min at 2,795× g.
+j. Remove the supernatant and resuspend the pellet in 15 mL of infiltration solution (see Recipes) by gentle shaking.
+k. Measure the OD600 and normalize cultures to a final OD600 1.0.
+
+Note: 0.8 is also an acceptable OD600.
+
+l. Mix each syn-tasiRNA culture with an equal volume of A. tumefaciens culture including an empty vector or control construct such as pMDC32-GUS [6].
+
+Caution: Use protective glasses to infiltrate.
+m. Infiltrate the whole surface of the fourth and fifth leaves (counting from the bottom) of 3–4-week-old N. benthamiana plants. See General notes 8 and 9. See Troubleshooting 5.
+
+2. Total RNA isolation from N. benthamiana leaves
+
+a. Typically 2–3 days post-agroinfiltration, collect and combine the two infiltrated leaves from each individual plant.
+
+Caution: Liquid nitrogen can cause severe cryogenic burns; manipulate with protective gloves and glasses.
+b. Snap-freeze leaves in liquid nitrogen.
+
+Pause point: Frozen leaves can be stored at -80 °C until use.
+
+Critical: Tissue must remain frozen throughout the grinding process. Pre-chilling the mortar and pestle with liquid nitrogen before placing the tissue helps prevent sample from thawing.
+c. Place the leaves in a porcelain mortar and pour 30–50 mL of liquid nitrogen.
+
+Critical: Perform the following steps on ice.
+
+Caution: The following steps involve using hazardous reagents; use protective gloves and glasses and work in a fume hood.
+d. Lightly crush leaves after liquid nitrogen has completely evaporated; grind vigorously until tissue is powdered.
+e. Add 5 mL of phenol/guanidine-based extraction buffer (see Recipes) and continue homogenization to mix the partially frozen sample.
+f. Transfer the homogenized sample to a pre-chilled 15 mL plastic conical tube.
+g. Centrifuge at 4 °C for 10 min in an Eppendorf F35-6-30 rotor (brake ON, using 15 mL tube adapters) at 5,478× g to pellet cell debris.
+h. Pour off the supernatant to a new pre-chilled 15 mL plastic conical tube.
+i. Add 3 mL of cold chloroform, close tubes tightly, and shake vigorously for 20 s.
+j. Incubate for 3 min at RT.
+k. Centrifuge at 4 °C for 10 min in an Eppendorf F35-6-30 rotor (brake ON, using 15 mL tube adapters) at 5,478× g to separate phases.
+
+Critical: Handle tubes gently to avoid mixing separated phases.
+l. Use a 1,000 μL pipette to carefully transfer the aqueous (upper) phase to a new pre-chilled 15 mL plastic conical tube.
+m. Add 5 mL of cold isopropanol and close tubes.
+n. Invert 5–10 times and incubate for 10 min at RT.
+o. Centrifuge at 4 °C for 10 min in an Eppendorf F35-6-30 rotor (brake ON, using 15 mL tube adapters) at 11,180× g to pellet total RNA.
+p. Pour off supernatant and wash the pellet with 1 mL of cold 75% ethanol (see Recipes) by adding and immediately removing with a pipette.
+q. Air-dry for 2 min and remove the residual ethanol with a pipette.
+r. Air-dry for 2 min and add 100–200 μL of sterile Milli-Q water. Resuspend the pellet by pipetting up and down.
+s. Transfer to a pre-chilled 1.5 mL tube and quantify RNA concentration with a NanoDrop.
+t. Store at -80 °C until use.
+
+3. Floral dipping for stable expression in Arabidopsis
+
+See General note 10.
+a. In the morning, from a fresh plate, using a sterile 1 μL pipette tip, pick two isolated colonies of each A. tumefaciens transformed with the corresponding pMDC32B-based syn-tasiRNA construct. Transfer to a 13 mL tube containing 5 mL of liquid LB with rifampicin (100 μg/mL final concentration) and kanamycin (50 μg/mL final concentration).
+b. Incubate the starter culture at 28 °C for 24 h on a shaker incubator at 200 rpm.
+c. The next morning, transfer both 5 mL starter cultures to a 1 L Erlenmeyer flask containing 250 mL of liquid LB with kanamycin (50 μg/mL final concentration).
+d. Incubate at 28 °C with shaking (200 rpm) for 6–8 h until the OD600 reaches ~0.8.
+
+Note: After 4 h, monitor the OD600 frequently. See General note 11.
+
+e. Transfer the culture to a 250 mL Beckman tube and centrifuge for 10 min in a Beckman JA-14 Fixed-Angle Aluminum rotor (brake ON) at 6,574× g.
+f. Discard the supernatant and resuspend the pellet in the appropriate volume of sucrose solution (see Recipes) to obtain a final OD600 of ~0.8.
+
+Note: Resuspend in 200 mL of sucrose solution and then adjust OD600 to 0.8.
+
+g. Check the final OD600 and adjust to 0.8.
+h. Add 0.01% Silwet (0.1 μL/mL final solution) and mix well by inverting.
+i. Pour all the solution into a 20–25 cm wide round container.
+j. Submerge the inflorescences of 3–4-week-old Arabidopsis plants into the A. tumefaciens–sucrose solution for 10–20 s. Mix the solution while submerging to ensure all flowers get in contact with the A. tumefaciens solution.
+
+Critical: Ensure that all unopened flowers are fully submerged to maximize transformation efficiency.
+k. Cover the pot with a dark plastic bag or a tray to exclude light.
+l. Leave the plants in darkness for 12–24 h.
+m. Uncover the plants and water them.
+n. Harvest seeds once plants reach senescence, typically 4–6 weeks post-transformation.
+
+Critical: The drier the plant, the easier it is to collect seeds. See General note 9.
+
+4. Total RNA isolation from Arabidopsis inflorescences
+
+a. Collect 10–20 inflorescences of 4–6-week-old T1 plants into a 2 mL SafeSeal tube containing 4–8 Zirconia beads.
+
+Caution: Liquid nitrogen can cause severe cryogenic burns; manipulate with protective gloves and glasses.
+b. Snap freeze tubes in liquid nitrogen.
+
+Pause point: Frozen inflorescences can be stored at -80 °C until use.
+c. Grind the tissue in a bead beater.
+
+Note: If a bead beater is unavailable, grind the tissue in a cold porcelain mortar as described in steps E2–E3.
+
+Caution: The following steps involve using hazardous reagents; use protective gloves and glasses and work in a fume hood.
+d. Add 1.3 mL of phenol/guanidine-based extraction buffer (see Recipes) and continue to grind the mixture until the sample is fully thawed and translucent.
+e. Transfer the homogenate to a 2 mL tube.
+f. Centrifuge at 4 °C for 5 min in an Eppendorf FA-24x2 rotor (brake ON) at 10,956× g to pellet cell debris.
+g. Transfer the supernatant to a pre-chilled 2 mL tube.
+h. Add 500 μL of cold chloroform and shake vigorously for 20 s.
+i. Incubate at RT for 5 min.
+j. Centrifuge at 4 °C for 5 min in an Eppendorf FA-24x2 rotor (brake ON) at 10,956× g to separate the phases.
+
+Critical: Handle tubes gently to avoid mixing phase separation.
+k. Use a 200 μL pipette to transfer the aqueous (upper) phase to a new pre-chilled 2 mL tube.
+l. Add 1 mL of cold isopropanol and mix gently by inversion.
+m. Incubate at RT for 10 min.
+n. Centrifuge at 4 °C for 10 min in an Eppendorf FA-24x2 rotor (brake ON) at maximum speed to pellet RNA.
+o. Carefully discard the isopropanol supernatant.
+p. Wash the pellet with 300 μL of cold 75% ethanol (see Recipes).
+q. Centrifuge at 4 °C for 1 min in an Eppendorf FA-24x2 rotor (brake ON) at maximum speed and remove the ethanol using a 1,000 μL pipette.
+r. Briefly spin the tubes for 5 s and remove any residual ethanol using a 20 μL pipette.
+s. Air-dry for 10 min.
+t. Resuspend pellet in 50–100 μL of sterile Milli-Q water.
+u. Transfer to a pre-chilled 1.5 mL tube and quantify RNA concentration using a NanoDrop.
+v. Store at -80 °C until use.
+
+5. Real-time RT-qPCR
+
+a. Set up the DNase I reaction in a 1.5 mL tube as described in .
+
+ 
+
+*From TURBO DNA-free Kit.
+b. Incubate the reactions for 30 min at 37 °C.
+c. Add 2 μL of inactivation buffer (from TURBO DNA-free Kit) and incubate for 5 min at RT.
+
+Note: It is recommended to vortex softly during the incubation time as the inactivation buffer tends to accumulate at the bottom of the tube.
+
+d. Centrifuge for 2 min in an Eppendorf FA-24x2 rotor (brake ON) at 5,590× g.
+e. Transfer 9 μL of the supernatant to a new 1.5 mL tube and quantify RNA concentration with a NanoDrop.
+f. Assemble the cDNA synthesis reaction in a 200 μL tube as described in .
+
+ 
+
+*From PrimeScript RT Reagent Kit.
+g. Incubate the reactions under the following conditions ( ):
+
+ 
+
+h. Transfer the tubes to ice and prepare a 1:5 dilution of each tube using sterile Milli-Q water.
+i. Prepare the RT-qPCR reaction mix in a 96-well plate as shown in .
+
+ 
+
+*From TB Green Premix Ex Taq.
+j. Set up the reaction steps as shown in .
+
+ 
+
+k. To determine target mRNA accumulation from the data set generated after the qPCR reaction, see the Data analysis section. See General notes 12 and 13.
+
+E. Transgene-free virus-based syn-tasiRNA expression (Option II)
+
+1. Agroinoculation
+
+a. Follow the instructions described in steps D1–D10 to obtain A. tumefaciens cultures transformed with the corresponding pLBPVXBa-M-based syn-tasiRNA construct.
+b. Measure the OD600 and normalize cultures to a final OD600 of 0.5.
+c. Infiltrate one patch in the central region of the fourth and fifth leaves (counting from the bottom) of 3–4-week-old N. benthamiana plants.
+
+Critical: Place the inoculated plants to ensure they remain separated and their leaves do not contact.
+
+2. Preparation of crude extract and spray inoculation
+
+Note: Plants start displaying PVX symptoms around 4–5 days post-inoculation (dpi), reaching a maximum between 6 and 8 dpi; then, symptoms start to disappear. PVX symptoms are characterized by a mild chlorotic mosaic, which is more evident in upper leaves.
+
+a. Collect 1–2 apical leaves (1 g) displaying PVX symptoms from each plant at 4–5 dpi.
+
+Caution: Liquid nitrogen can cause severe cryogenic burns; manipulate with protective gloves and glasses.
+b. Snap-freeze collected leaves in liquid nitrogen.
+
+Pause point: Infected leaves can be stored at -80 °C until use.
+
+Critical: Tissue must remain frozen throughout the grinding process. Pre-chilling the mortar and pestle with liquid nitrogen before crushing helps to prevent the sample from thawing.
+
+Caution: The following steps involve using hazardous reagents; use protective gloves and glasses and work in a fume hood.
+c. Grind the tissue with a porcelain mortar and pestle until obtaining a fine powder and homogenize it with 5 mL of cold inoculation buffer (see Recipes).
+d. Use a 5 mL pipette with cut tips to filter the extract through a sterile Miracloth placed on top of a pre-chilled 50 mL conical tube.
+e. Transfer the filtered extract to a pre-chilled 30 mL vaporizer.
+
+Critical: After grinding, always keep the extract on ice until spray applications.
+f. Spray the third and fourth leaves (counting from the bottom) of 3–4-week-old N. benthamiana plants at a 5–10 cm distance ( ). Perform 2–4 applications to each leaf. After the application, a visible residue of carborundum remains on the surface of the leaf; do not rinse. See Figure S1 for visual details on the spraying procedure.
+
+Critical: Shake the crude extract/vaporizer prior to each application.
+
+Critical: Spray each plant isolated from the rest to avoid cross-contamination.
+
+Caution: When spraying, use protective glasses, gloves, and a mask, and avoid contact of the extract with the skin. Spray in a well-ventilated room.
+ See Troubleshooting 6 and General note 14.
+
+3. Total RNA isolation
+
+a. Plants start displaying PVX symptoms of leaf curling around 4–5 days post-spraying (dps) and become more intense at 6–8 dps; then, they start fading. Later PVX symptoms are characterized by a mild chlorotic mosaic, which is more evident in upper leaves. Gene silencing phenotypes (if present) are mainly localized in upper leaves. Collect two apical leaves from each plant at 7–14 days after the spray inoculation.
+
+Caution: Liquid nitrogen can cause severe cryogenic burns; manipulate with protective gloves and glasses.
+b. Snap-freeze leaves in liquid nitrogen.
+
+Pause point: Infected leaves can be stored at -80 °C until use.
+c. Follow steps E2–E19.
+
+4. Real-time RT-qPCR
+
+a. Follow the steps described in Section H.
+
+## Data analysis
+For the analysis of the data generated from the qPCR reaction (Section H):
+1. For statistical robustness, it is recommended to infiltrate/inoculate at least three N. benthamiana plants per syn-tasiRNA construct.
+2. To assess pipetting accuracy, each biological replicate is measured in duplicate (technical replicates).
+3. Target mRNA accumulation is calculated using the comparative delta cycle threshold (CT) method (ΔΔCT), which compares the normalized CT (ΔCT) of the sample to that of a reference gene.
+4. The ΔΔCT is calculated using the arithmetic mean of all measurements from a biological block, which contains both technical replicates for each biological replicate.
+5. The relative expression level is then determined as 2^ΔCT.
+6. The copy number of each sample is represented relative to a control sample, which is typically a plant agroinfiltrated/agroinoculated with the pMDC32-GUS construct.
+
+## Validation of protocol
+This protocol has been entirely validated in the following research article:
+• Cisneros et al. [4]. Syn-tasiR-VIGS: virus-based targeted RNAi in plants by synthetic trans-acting small interfering RNAs derived from minimal precursors. Nucleic Acids Research, 2025.
+In this article, minimal syn-tasiRNA precursor validation in Arabidopsis is shown in , displaying results from plants expressing minimal syn-tasiRNA precursors targeting two different endogenous genes. The ability to express several syn-tasiRNAs simultaneously from a minimal precursor is validated in . On the other hand, the use of the minimal syn-tasiRNA precursor in N. benthamiana is validated in , targeting an endogenous gene. In all cases described above, syn-tasiRNA silencing efficiency is validated by RT-qPCR performed over three independent biological replicates. The control sample in each case is the minimal syn-tasiRNA construct targeting E. coli’s β-glucuronidase GUS gene, which acts as a negative control. Statistical differences are determined by a pairwise Student’s t-test, with p < 0.05 being significantly different.
+Validation of the transgene-free approach in N. benthamiana is represented in and C, where an endogenous gene is targeted. In this case, data is validated by RT-PCR detection of syn-tasiRNA minimal precursor and PVX genome in three independent biological replicates. Finally, the transgene-free approach is also validated by targeting an exogenous gene in a multiplexed precursor, ultimately conferring resistance against a pathogenic virus ( and E). Plant viral resistance is also validated by determining viral protein accumulation by western blot in three independent biological replicates ( ).
+
+## General notes and troubleshooting
+
+General notes
+
+1. Gene silencing efficiency of the syn-tasiRNA-based construct could vary between plant species, genes, and target regions. Therefore, it is highly recommended to test the individual silencing efficiency of different syn-tasiRNAs designed to distinct target regions in the species of interest, prior to assembling a multiplexed syn-tasiRNA construct.
+2. When aiming to achieve antiviral resistance using a combination of syn-tasiRNAs, it is recommended to first test the antiviral activity of each art-sRNA individually. Once identified, the art-sRNAs with the highest antiviral activity are combined in a single syn-tasiRNA construct. A specific protocol for a fast-forward identification of art-sRNAs with high antiviral activity is provided here [7].
+3. When expressing multiple syn-tasiRNAs (up to four syn-tasiRNAs can be efficiently expressed simultaneously from the same precursor), keep in mind that those positioned farther from the miRNA TS tend to accumulate less in vivo, resulting in weaker target gene silencing. This positional effect can be used to fine-tune gene expression. A detailed protocol on how to apply this strategy can be found here [8].
+4. Other tools that could be used to design art-sRNAs are WMD3 (http://wmd3.weigelworld.org/cgi-bin/webapp.cgi) [9] and pssRNAit [10].
+5. In vivo off-target effects of syn-tasiRNAs can be assessed, for example, by combining genome-wide transcriptome profiling with 5′ RNA ligase-mediated rapid amplification of cDNA ends (5′RLM-RACE, as done before for amiRNAs [11]).
+6. An alternative way to generate the pLBPVXBa-M-based construct is to amplify the syn-tasiRNA minimal precursor from a previously generated pMDC32B-based construct using the oligonucleotides below ( ). The resulting PCR product can then be cloned into pLBPVXBa-M following the steps detailed in Section B.
+
+ 
+
+7. Sow N. benthamiana seeds in a seedbed. After 1 week, transplant four plants into a 15-cm pot. Grow plants in a growth chamber at 25 °C with a 12/12 h light/dark photoperiod. Typically, three plants are used from each pot after 3–4 weeks.
+8. If the targeted gene induces a visible phenotype when silenced, it is recommended to infiltrate small patches in a few leaves of a second batch of plants to easily evaluate silencing efficiency.
+9. Depending on the number of infiltrated leaves, the final culture volume can be scaled up or down, as long as the final OD600 is maintained. This also applies to Section F.
+10. Sow Arabidopsis Col-0 seeds in a seedbed. After 1 week, transplant 10–12 plants into a 15-cm pot. Grow plants in a growth chamber at 22 °C with a 16/8 h light/dark photoperiod. Use 4–6 pots per construct for floral dipping.
+11. To reduce the number of wild-type seeds, it is helpful to remove all siliques and open flowers from 3–4-week-old Arabidopsis plants prior to transformation. This step can be performed while the culture is growing.
+12. Target mRNA levels are measured relative to a reference gene, such as NbPP2A and AtACT2 for N. benthamiana and Arabidopsis, respectively. Use the following oligonucleotides for RT-qPCR when using NbPP2A or AtACT2 as the reference gene ( ).
+
+ 
+
+13. Syn-tasiRNA production can be determined through several techniques. Detection of sRNAs by Northern blot is one option; a specific protocol is provided here [12]. Detection of the syn-tasiRNA precursor is another option, which can be performed by RT-PCR to determine its presence in treated tissues.
+14. To confirm PVX infection in agroinoculated (Section I) and sprayed plants (Section J), perform PCR over cDNA samples generated from collected tissue (steps described in Sections E and H) with the oligonucleotides in . In samples from infected plants, a 627 bp band will be amplified, which will be absent in non-infected plants.
+
+ 
+
+Troubleshooting
+
+Problem 1: No or low E. coli colonies are obtained after transformation.
+Possible cause: The reaction contains impurities or is too diluted.
+Solution: Purify the digestion-ligation reaction using a nucleic acid purification column such as Zymo spin columns.
+Problem 2: Insufficient amount of linearized plasmid for Gibson assembly.
+Possible cause: The circular plasmid concentration is too low, or the digestion was incomplete.
+Solution: Digest a larger amount of plasmid, perform multiple parallel digestions, and purify them together. Extend the digestion time to ensure complete linearization.
+Problem 3: High proportion of empty clones after Gibson assembly.
+Possible cause 1: The vector was not completely linearized.
+Solution: Refer to the solution for Problem 2.
+Possible cause 2: The insert/vector ratio is too low.
+Solution: Make sure to add the proper amount of insert indicated by the manufacturer, considering the insert length.
+Problem 4: The starter culture is not saturated after 24 h.
+Possible cause: The plate used to inoculate the culture was too old.
+Solution: Use a fresh plate (1–3 days old) to initiate the starter culture.
+Problem 5: Leaves do not take up the infiltration volume.
+Possible cause: Leaves are too rigid or turgid (contain excess water).
+Solution: Avoid watering plants on the day of infiltration. If the problem persists, puncture the leaf with a 1 μL pipette tip and infiltrate through the orifice.
+Problem 6. No symptom appearance or low rate of infection in sprayed N. benthamiana plants.
+Possible cause 1: Low PVX concentration in the crude extracts.
+Solution: Symptom detection and leaf collection times in agroinoculated plants are critical to ensure a highly infectious crude extract. If the problem persists after meticulously following protocol steps and collection times, consider increasing the amount of tissue collected from agroinoculated plants to 2–3 g. If doing so, make sure to scale up the rest of the protocol volumes.
+Possible cause 2: Incorrect handling of crude extract.
+Solution: Make sure the extract is constantly on ice and reduce to a minimum the time between crude extract generation and spray application. Increase the number of spray applications in each leaf.
+
+## Supplementary information
+The following supporting information can be downloaded here:
+1. Protocol S1. Preparation of E. coli (strain DH5α) electrocompetent cells.
+2. Protocol S2. Preparation of A. tumefaciens (GV3101 strain) electrocompetent cells.
+3. Figure S1. Spray inoculation of crude extracts on N. benthamiana plants.
+
+A.E.C. conceived and developed the protocol. A.C. supervised the study. A.E.C. and A.C. wrote the manuscript with feedback from A.A. and M.J.M. All authors reviewed and approved the final version of the manuscript. This work was supported by grants or fellowships from MCIN/AEI/10.13039/501 100 011 033 and/or by the European Union NextGenerationEU/PRTR (PID2024-155602OB-I00, PID2021-122186OB-100, CNS2022-135107, and RYC-2017-21648 to A.C.; PRE2019-088439 and PRE2022-103177 to A.E.C. and M.J.M, respectively). The following figures were created using BioRender: Graphical overview, Carbonell, A. (2025) https://BioRender.com/rqx96od. The original research paper in which the protocol was first described and validated is Cisneros et al. [4]. Part of the transgene-free section of this protocol was initially developed and described in a previous research article, Cisneros et al. [13].
+
+## Citation
+Readers should cite both the Bio-protocol article and the original research article where this protocol was used.
+
+## Q&A
+Post your question about this protocol in Q&A and get help from the authors of the protocol and some of its users.
+
+## Competing interests
+The authors declare no conflicts of interest.

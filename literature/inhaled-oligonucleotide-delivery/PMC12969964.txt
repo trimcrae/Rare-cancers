@@ -1,0 +1,327 @@
+pmcCurr ProtocCurr Protoc379blackwellopen101773894CPZ1Current Protocols2691-1299pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC12969964PMC12969964.112969964129699644180091310.1002/cpz1.70339CPZ1703391ProtocolProtocolAntisense Oligonucleotide Pulldown and Silencing of Circular RNA Nfix In Vivo in Neonatal Mouse Lungs
+Das et al.DasPragnyahttps://orcid.org/0000-0003-4818-2387 dasp@rowan.edudas-pragnya@cooperhealth.eduShyamalSharmistha BhandariVineet PandaAmaresh C. 
+
+1
+
+Department of Pediatrics
+Cooper University Hospital
+Camden
+New Jersey
+
+2
+
+Cooper Medical School of Rowan University
+Camden
+New Jersey
+
+3
+
+Institute of Life Sciences
+Bhubaneswar
+India
+
+4
+
+National Institute for Reproduction Biology and Child Health
+Mumbai
+India
+
+5
+
+These authors contributed equally to this work
+
+*Corresponding author: dasp@rowan.edu; das-pragnya@cooperhealth.edu
+
+0932026320266350907810.1002/cpz1.v6.3e70339090320261003202610032026© 2026 The Author(s). Current Protocols published by Wiley Periodicals LLC.https://creativecommons.org/licenses/by-nc/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## Abstract
+RNA‐based therapeutics are emerging as a powerful platform for disease treatment, and one of the novel RNA molecules with therapeutic potential is circular RNA (circRNA). The ubiquitously expressed circRNAs are covalently closed, single‐stranded RNA molecules formed by backsplicing and are known to regulate gene expression by either sponging microRNAs (miRNAs) or sequestering RNA‐binding proteins. Several assays, including computational prediction, luciferase reporter, circRNA silencing, and pulldown assays, have been developed for functional characterization of these circRNAs. In this study, we performed a pulldown assay using a biotin‐labeled antisense oligonucleotide (ASO) against circNfix to confirm the interaction of circNfix with miR204‐5p in neonatal mouse lungs. Furthermore, we designed a specific GapmeR targeting circNfix and delivered it intranasally to newborn mouse pups to evaluate the effect of this specific RNA silencing on the downstream pathway in the lungs of pups exposed to hyperoxia. This is the first time a circNfix GapmeR has been targeted in vivo in an experimental neonatal disease model by intranasal delivery. © 2026 The Author(s). Current Protocols published by Wiley Periodicals LLC.
+
+Basic Protocol 1: Designing divergent primers
+
+Basic Protocol 2: Designing biotin‐labeled ASO to pulldown circNfix and check its association with miR204‐5p
+
+Basic Protocol 3: Designing circNfix GapmeR and intranasal administration in neonatal mouse pups
+
+antisense oligocircular RNAGapmeRmicroRNAneonatal lungspulldown
+New Jersey Health Foundation10.13039/100001774
+PC55‐25 
+2From the annotated output, select circNfix, located on chr8:84771783–84772315|‐(mm10) with a splice length of 532 nt, for further study.
+3Extract the mature splice sequence of circNfix from RNA‐seq annotation data using bedtools (https://github.com/arq5x/bedtools2) or from UCSC Genome Browser (https://genome.ucsc.edu/) (Fig. ).
+4To design specific forward and reverse primers that span the BSJ, pick the mature circNfix sequence and create the BSJ spanning PCR template sequence by joining 100 nt from the 5’ end to the 100 nt sequence at the 3’end in a separate FASTA file (Fig. ).
+
+ 
+5Input the above 200 nt BSJ sequence in Primer3 (https://bioinfo.ut.ee/primer3/) to design primers with a restriction of product length between 120 and 180 bp.
+Alternatively, you can design primers using NCBI primer blast tool (https://www.ncbi.nlm.nih.gov/tools/primer‐blast/).
+6After Primer3 selects the primer pairs spanning circNfix BSJ, recheck the exact location of both the forward and reverse primers in Gene Runner (https://www.generunner.net) where circNfix sequence is already fed as the input sequence (Fig. ). The alignment of the PCR primer pairs on circNfix sequence will confirm if the forward primer is placed downstream of the reverse primer. This arrangement will confirm the “divergent nature” of the primers designed (Fig. ).
+7Perform reverse transcriptase polymerase chain reaction (RT‐PCR) of lung sample cDNA as described below.
+
+## Complementary DNA (cDNA) synthesis
+
+8Use 2 µg of lung RNA as the starting material and proceed to cDNA synthesis using the Maxima H Minus cDNA Synthesis Master Mix kit, as per the manufacturer's instructions in the kit manual.
+9The reaction product of the first strand cDNA synthesis can be used directly in a PCR reaction.
+
+## Quantitative PCR (qPCR)
+
+10Dilute the synthesized cDNA from step 8 in a ratio of 1:5.
+This dilution may vary depending on the abundance of target circRNA in the organ to be studied. For circNfix, this dilution gave the best cT values in a real time PCR reaction.
+11Use forward and reverse primers (described above in steps 5 and 6).
+12Proceed to the PCR reaction using Power SYBR Green PCR Master Mix, as per the manufacturer's instructions in the kit manual.
+13Analyze the PCR product and run it on 2% agarose gel to confirm the product size (Fig. ).
+14Cut the PCR product from the agarose gel, purify the excised band using QIAquick gel extraction kit, as per the manufacturer's instructions and process it for Sanger Sequencing using one of the divergent primers to confirm there is only amplification of the BSJ sequence (Fig. ). This is characteristic of Nfix circRNA and not Nfix mRNA.
+For Sanger sequencing, we used commercial sequencing vendors like Genewiz and used their instructions for sample preparation prior to submitting the purified PCR product. Users can do the sequencing in‐house or submit it to any external commercial sequencing service providers.
+
+Basic Protocol 2
+
+## DESIGNING BIOTIN‐LABELED ASO TO PULLDOWN circNfix AND CHECK ITS ASSOCIATION WITH miR204‐5p IN NEONATAL MOUSE PUPS
+This protocol describes the steps to design a circNfix‐specific GapmeR that can silence circNfix when delivered intranasally to neonatal mouse pups.
+
+NOTE: Follow the Institution's approved IACUC protocol. All procedures should be done under a biological safety cabinet.
+
+## Materials
+
+Mouse pups (wildtype C57Bl6 P14 male pups, born in‐house in Cooper University Hospital vivarium)
+Anesthesia (as approved by your IACUC)
+Polysome extraction buffer (PEB) (see recipe)
+RNase inhibitor (Invitrogen, cat. no. 10777‐019)
+Phosphatase + protease inhibitor cocktail (MP Biomedicals, cat. no. 08W00017)
+2× Tris‐EDTA‐NaCl‐Triton (TENT) buffer (see recipe)
+Magnetic streptavidin beads (Dynabeads, Thermo Fisher Scientific, cat. no. 6560D)
+1× TENT buffer (see recipe)
+TRIZOL (Qiazol lysis solution, Qiagen, cat. no. 1038703)
+Chloroform
+Isopropanol
+GlycoBlue co‐precipitant (Thermo Fisher Scientific, cat. no. AM9516)
+100% ethanol (Decon Labs, cat. no. 2716GEA)
+H2O, nuclease‐free
+Maxima H Minus cDNA Synthesis Master Mix kit (Thermo Fisher Scientific, cat. no. M1681)
+miRCURY cDNA synthesis kit (Qiagen, cat. no. 339347)
+2× SYBR Green mix (Qiagen, cat. no. 339346)
+miR204‐5p primer (Qiagen, cat. no. YP00206072)
+
+Computer with internet access and Microsoft Excel and GraphPad Prism
+Petri dish
+Ice bucket with ice
+Razor blade
+Sterile scissors
+1.5‐ and 2‐ml sterile microcentrifuge tubes
+Homogenizer
+40‐µm nylon mesh filter insert (Corning)
+12‐well sterile tissue culture dish
+1‐ml sterile tubulin syringe plunger
+Refrigerated centrifuge, 4°C
+Tube rotator (Numix)
+Magnetic tube stand
+Vortex mixer
+Microfuge
+96‐well plate
+qPCR machine
+
+1Analyze the mature circNfix sequence (532 nt), as described in Basic Protocol 1, step4, to locate the BSJ.
+The BSJ sequence is unique to circNfix and is not present in Nfix mRNA.
+This step is necessary to ensure that the oligonucleotide sequence binds to the BSJ‐sequence and does not hybridize with linear Nfix mRNA.
+2Select a 20 to 30 nt ASO, complementary to the BSJ, in such a way so that the oligonucleotide sequence should span the BSJ to ensure targeted capture and enrichment of circNfix during the pulldown procedure (Fig. ).
+Longer sequences will result in non‐specific binding to the parent mRNA, while shorter sequences may not be sufficient for stable hybridization. Make sure the probe is designed with balanced GC content (i.e., 55% to 60%) to promote stable binding under physiological conditions, and with minimal predicted secondary structure to ensure accessibility of the BSJ sequence).
+ 
+3BLAST (https://blast.ncbi.nlm.nih.gov/Blast.cgi) the candidate ASO sequence against the mouse genome to exclude any potential off‐target interactions with linear RNAs or unrelated transcripts.
+4To facilitate downstream target capture, synthesize the ASO with a 3′‐biotin modification (Fig. ).
+It is important to add a spacer like TEG to maximize hybridization of the ASO with the target BSJ sequence and binding to the beads with minimal steric hindrance. The Biotin‐labeled ASO can be synthesized at different scales depending on the user's requirement through any oligo synthesizing commercial vendors or in‐house facilities. For this study, we used Integrated DNA Technologies with the necessary customized modification, as explained above. The lyophilized ASO is resuspended in nuclease‐free H2O to a final concentration of 100 µM. The solution is stable at −20°C for up to 6 months.
+
+## Tissue harvesting and lysate preparation
+
+5Anesthetize the pups with the necessary anesthetic drug as approved by the Institution's IACUC protocol.
+6Sacrifice the pups on P14 to harvest the lungs.
+7Perfuse the heart via cardiac puncture with sufficient (∼5 ml) PEB until the lungs look clean, translucent, and free from any residual blood clots. For the current study, lungs from two P14 mice pups were pooled (total weight 400 mg) (Fig. ).
+Users should decide how much tissue is needed for their experimental plan, depending on the abundance of the transcripts being studied.
+
+ 
+8Mince the lungs (on a sterile Petri dish placed over ice) into tiny chunks (∼1 × ∼1–mm cubes) using a new razor blade and/or sterile scissors (Fig. ) and transfer the chopped tissue into a sterile 2‐ml microcentrifuge tube containing 500 µl PEB.
+9Homogenize briefly for 1 min over ice. Place the homogenized tissue chunks over a 40‐µm nylon mesh filter insert overlaying a 12‐well sterile tissue culture dish (Fig.  ) and carefully dissociate the residual tissue chunks with the aid of the backside of a sterile 1‐ml tubulin syringe plunger.
+This process allows uniform dissociation of the minced tissue leaving aside fibrous residual tissue over the filter insert (which can be discarded).
+10Rinse the wire mesh filter with additional 500 µl PEB (with the filter insert still over the 12‐well tissue culture plate) and collect the flowthrough in a sterile 2‐ml microcentrifuge tube (Fig. ).
+11Centrifuge 2 min at 12,000 × g, 4°C, and collect the supernatant in a fresh 1.5‐ml microcentrifuge tube. Discard the pellet.
+12To the supernatant (from step 11), add 5 µl RNase inhibitor and 50 µl of 20× protease inhibitor.
+13Mix well by pipetting up and down, and keep on ice for 15 min, pipetting or vortexing for a few seconds every 4 to 5 min to completely lyse the cells.
+The PEB helps in the rupture of the cell membrane to release all the cytosolic components.
+14Centrifuge the lysate 10 min at 12,000 × g, 4°C, and collect the supernatant (∼900 µl) into a fresh new 1.5‐ml sterile microcentrifuge tube. Discard the pellet (if any).
+15Proceed to the hybridization step.
+
+## ASO hybridization
+
+16Add an equal volume (900 µl) of ice‐cold 2× TENT buffer to the supernatant collected in step 14 in a 2‐ml microcentrifuge tube and divide the mixture into two 1.5‐ml tubes (one for the control‐ASO pulldown and the other for the circNfix‐ASO pulldown) (Fig. ).
+17Add 1 µl of 100 µM control‐ASO and 1 µl of 100 µM circNfix‐ASO to each of the individual lysate tubes, respectively.
+18Incubate the reactions on a Numix tube rotator at 30 RPM for 2 hr, room temperature (Fig. ).
+Depending on the abundance of the transcripts, the ASO hybridization reaction can be performed at 4°C to facilitate ASO binding to target circRNA. In the present study, we tried both conditions and did not find any difference in the PCR results.
+
+## Streptavidin bead preparation
+Prepare this 30 min before the completion of ASO hybridization step.
+
+19Mix the stock magnetic streptavidin beads vial well (by tapping) and pipette 100 µl beads into a new 1.5‐ml tube (Fig. ).
+Cut the tip of a micropipette tip prior to pipetting the beads or alternatively use a wide bore pipette tip for this purpose.
+20Place the tube with the magnetic beads on a magnetic stand for 2 min and discard the supernatant.
+21Resuspend the magnetic beads in 500 µl ice‐cold 1× TENT buffer and place the tube on the magnetic stand for 1 min (Fig. ). This will attract the beads to the side of the tube, and the supernatant can be easily removed by pipetting.
+22Repeat the above step two more times to wash the beads. Discard the supernatant.
+23Resuspend the magnetic streptavidin beads in 100 µl ice‐cold 1× TENT buffer.
+
+## CircRNA pulldown
+
+24Add 50 µl washed magnetic streptavidin beads from step 23 into each hybridization reaction tube (one for control‐ASO tube and the other for circNfix‐ASO tube) after completing the 2‐hr hybridization step.
+25Add 1 µl RNase inhibitor + 5 µl 20× protease inhibitor to the tubes and mix well by pipetting.
+26Rotate both the tubes at room temperature for 30 min on the Numix tube rotator at 30 RPM.
+27Centrifuge the tubes 15 s at 1000 × g, 4°C, to bring all the liquid samples to the bottom of the tube without pelleting the beads.
+Avoid centrifuging at maximum speed as it may pellet the beads and affect the subsequent washing process.
+28Place the tubes on the magnetic rack for 1 min and discard the supernatant.
+29Resuspend the magnetic beads in 500 µl ice‐cold 1× TENT buffer and place the tube on the magnetic stand for 1 min.
+30Repeat two more times to wash the beads. Discard the supernatant.
+The number of washes may be decided depending on the fold enrichment of the target circRNA. We found that three washes are sufficient to enrich circNfix in our pulldown assay.
+31After the last wash, centrifuge the tube 15 s at 1000 × g, 4°C, to allow the beads settle at the bottom of the tube.
+32Place the tube on the magnetic stand for 1 min and discard the remaining supernatant (Fig. ).
+
+## RNA extraction from the pulldown sample
+
+33Add 250 µl TRIZOL directly to the beads from step 32 and mix well by gently pipetting up and down (Fig. ).
+Do not use columns for RNA extraction in this step.
+34Add 50 µl chloroform to the sample and vortex for 15 s.
+35Centrifuge 15 min at 12,000 × g, 4°C.
+36Collect the aqueous layer (∼100 µl) into a 1.5‐ml new tube and add an equal volume of isopropanol (100 µl) and 0.5 µl GlycoBlue as a co‐precipitant.
+37Mix thoroughly by inverting the tube and let it sit at room temperature for 10 min, then centrifuge 10 min at 12,000 × g, 4°C.
+38Discard the supernatant by gently draining it off and add 500 µl of 75% ethanol to the RNA pellet, and vortex the tube for a few seconds.
+39Centrifuge 5 min at 12,000 × g, room temperature.
+40Discard the supernatant and air‐dry the RNA pellet for 5 min with the cap open.
+Ensure that the alcohol has evaporated completely and the pellet is dry enough to be resuspended. Excessive drying of the RNA pellet or residual ethanol on the sides of the tube may inhibit the solubility of the pellet.
+41Dissolve the pellet in 20 µl nuclease‐free water. The RNA can now be stored at –80°C for future use or used immediately for cDNA synthesis.
+It is not necessary to measure the RNA concentration at this step as this is an enriched pulldown sample.
+
+## cDNA preparation of circNfix from the pulldown RNA sample
+
+42Prepare a 20 µl cDNA synthesis reaction (Fig. ) for circNfix containing:
+13 µl extracted RNA from step 41
+4 µl of 5× RT buffer
+1 µl of 10 mM dNTP mix
+1 µl random primers
+0.5 µl RNase inhibitor
+0.5 µl Maxima reverse transcriptase.
+
+43Save the remaining 7 µl RNA to prepare miRNA cDNA.
+44Mix the reaction gently and incubate for 10 min at room temperature followed by 1 hr at 50°C.
+45Incubate the reaction at 85°C for 5 min to inactivate the reverse transcriptase. Pulse‐spin the tubes in a microfuge, and save the reaction at –20°C until further use.
+46Prepare a similar cDNA reaction mix for control‐ASO sample.
+
+## cDNA preparation of miR204‐5p from the pulldown RNA sample
+
+47Prepare a 10 µl cDNA synthesis for miR204‐5p containing the remaining 7 µl extracted RNA (from step 43) + 2 µl RT buffer + 10× RT enzyme mix using the miRCURY GapmeR cDNA synthesis kit following the kit instructions (Fig. ).
+48Prepare a similar cDNA reaction mix for control‐ASO sample.
+
+## CircNfix enrichment analysis by RT‐qPCR
+
+49Dilute stock circNfix ASO‐treated cDNA (from step 47 for the cDNA preparation of miR‐204‐5p) in nuclease‐free water to 1:100.
+50Dilute the forward and reverse circNfix primers to a working concentration of 1 µM (stock concentration is 100 µM).
+51Prepare 20 µl reactions in a 96‐well plate containing 5 µl diluted cDNA + 5 µl primer mix (F + R, 1 µM) + 10 µl of Qiagen 2× SYBR Green mix.
+52Include a reaction for a reference gene (Vinculin in this study).
+53Perform PCR reaction (Fig. ) using the following conditions:
+a.95°C for 2 min.
+b.50 cycles of 95°C for 5 s, 60°C for 2 s, and 72°C for 10 s.
+
+## miR204‐5p enrichment analysis by RT‐qPCR
+
+54Dilute stock miR204‐5p ASO–treated cDNA (from cDNA preparation of miR204‐5p step 47) in nuclease‐free water in a ratio of 1:50.
+This dilution may vary for different users depending on the abundance of the miRNA of interest.
+55Prepare 10 µl master mix reactions in a 96‐well plate following the kit instructions as follows:
+3 µl diluted cDNA from step 54
+1 µl miR‐204‐5p primer
+0.5 µl Rox Dye
+0.5 µl H2O
+10 µl Qiagen 2× SYBR Green mix.
+
+56Prepare a similar reaction for the reference gene (U6 in this study).
+57Perform PCR reaction as follows:
+a.95°C for 2 min.
+b.40 cycles of 95°C for 10 s and 56°C for 1 min (as per manufacturer's instructions).
+
+## circNfix‐miR204‐5p enrichment data analysis
+
+58After the completion of PCR run, export all Ct values with appropriate labels in an Excel spreadsheet.
+59Calculate the average Ct between technical replicates and biological replicates.
+60Normalize each experimental group's Ct value to the Ct value of the reference gene to account for sample preparation differences. For example, in the circNfix‐ASO group, the Ct value of circNfix (experimental gene) should be normalized with the Ct value of Vinculin (reference gene).
+61Use the 2‐∆∆Ct method (Livak & Schmittgen, ) to analyze the enrichment of target circNfix and miR204‐5p in the circNfix‐ASO pulldown sample and compare with the control pulldown using appropriate reference genes as mentioned above.
+62Plot the graph to compare Fold Enrichment in the target circRNA (circNfix) and miRNA (miR‐2045p) groups after normalizing with respective reference genes in both these groups. (Fig. K).
+While plotting the graph, it should be kept in mind that the control ASO group should be used as the denominator for Fold‐Change comparisons between reference genes as well as enriched components.
+
+Basic Protocol 3
+
+## DESIGNING circNfix GapmeR AND INTRANASAL ADMINISTRATION IN NEONATAL MOUSE PUPS
+This protocol details the procedure to design a biotin‐labeled antisense circNfix oligonucleotide to specifically pulldown circNfix from lung lysates for quantifying its expression using RT‐qPCR.
+The BSJ was chosen as the specific target site since it uniquely defines circNfix and ensures that the GapmeR sequence can discriminate between circNfix and the linear Nfix transcript and hybridize directly across the BSJ of circNfix to offer high selectivity for the circular isoform while simultaneously avoiding recognition of overlapping linear sequences (Fig. ).
+ 
+NOTE: All procedures should be done under a biological safety cabinet. Prepare the GapmeR solution ahead of time by resuspending the lyophilized powder in nuclease‐free water to a stock concentration of 100 µM. Make a sufficient working solution at 20 µM, enough to last for 3 days with multiple dosing, and store at –20°C. Before the intervention, take the entire mouse cage, along with the newborn litter (usually 6 to 7 pups for the C57BL/6 strain), to the hood. Also, keep an empty cage ready with adequate bedding material and sufficient cotton nestles to keep the pups warm for the short time they are separated from the mother. Keep an external light source adjusted at a sufficient height over the cage to keep the pups warm when they are separated from their mother.
+
+## Materials
+
+See Basic Protocol 
+
+1To design circNfix GapmeR, select the BSJ sequence spanning 10 nt on either side of the junction and design the antisense sequence that can specifically target the circNfix BSJ.
+2While designing the oligonucleotide sequence for circNfix GapmeR, introduce a central DNA “gap” flanked by chemically modified nucleotides at both ends so that this modified architecture can enhance affinity and stability while enabling RNase H recruitment at the DNA core for targeted cleavage.
+3Introduce phosphorothioate linkages (*) along the backbone of the GapmeR sequence to confer nuclease resistance and improve in vivo half‐life (Fig. ).
+4Align this candidate sequence with the mouse transcriptome using BLAST to ensure exclusive silencing of circNfix, without off‐target binding.
+For experimental use, circNfix‐ GapmeR can be commercially synthesized at different scales depending on the user's requirement through any oligo synthesizing commercial vendors. For this study, we used Integrated DNA Technologies with the necessary customized modification, as explained above.
+
+## Intranasal delivery of GapmeR
+
+5Remove all the P2 pups from the mother and transfer them to the empty cage. Keep the mother aside in the original cage and remove the cage to a different location so as not to disturb her during the intervention process.
+All pups should be removed from the mother at the same time; removing them one by one will only disturb the mother and make her feel very restless.
+6Bring one pup outside of the cage by pinching it gently from the neck and holding it within the non‐dominant palm while firmly supporting its body so that the pup is securely positioned without minimal movement. Position the head of the pup by tilting your non‐dominant palm/wrist at an angle such that pups face the ceiling and the nostrils are at an elevated angle to visualize the external nares (Fig. ).
+7With the dominant hand, position the micropipette tip just at the entrance of the nasal opening ensuring not to venture too deep, and pipette 3 µl of GapmeR solution into each external nare by carefully placing the droplet (see Fig. 5). The droplet should look like a tiny bubble.
+8The liquid GapmeR is inhaled into the nostrils spontaneously as the pup inspires. Hold the pup in this position for 2 to 3 min until the time the droplet disappears by inhalation and there is no bubbling of the liquid during the exhalation process.
+9Loosen the pup from its neck and place it between both the palms to provide instant warmth and immediate relief. Hold the pup loosely between the palms for 2 to 3 min.
+10Transfer the pup to its cage and place the cage under a light source for an additional 5 min. Make sure there is adequate bedding material in the cage for the pup to provide warmth and comfort.
+11Repeat steps 5 to 10 for all the pups in the litter.
+12After the procedure is complete, transfer all pups to the mother's cage. Repeat steps 5 to 10 on P4 and P6.
+
+## Checking the silencing effect of circNfix
+
+13Anesthetize the pups with the Institution's approved IACUC protocol.
+14Sacrifice the pups on P14 to harvest the lungs (Fig. ).
+15Mince the lungs and homogenize the tissue chunks as described in Basic Protocol  , step 8 (Fig. ).
+16Extract RNA using TRIZOL, followed by cDNA synthesis and RT‐qPCR to analyze the silencing of circNfix and the effect on target Ntrk2 mRNA as described in Basic Protocol , steps 33 to 40 (Fig. ).
+
+## REAGENTS AND SOLUTIONS
+
+Use RNase‐free 50‐ml conical tubes to make all solutions. Unless otherwise noted, all routine solutions, chemicals, and buffers should be nuclease‐free and can be procured from local vendors.
+
+## Polysome extraction buffer (PEB)
+
+For 250 ml:
+5 ml of 1 M Tris·HCl, pH 7.5 (20 mM final; Current Protocols, )
+12.5 ml of 2 M KCl (100 mM final; Current Protocols, )
+1.25 ml of 1 M MgCl2 (5 mM final; Current Protocols, )
+12.5 ml of 10% (v/v) Nonidet P‐40 (0.5% v/v final; Thermo Fisher Scientific, cat. no. J60766.AP)
+Bring volume up to 250 ml with nuclease‐free water
+Store up to 2 weeks at 4°C
+
+## Tris‐EDTA‐NaCl‐Triton (TENT) buffer, 1×
+Dilute 2× TENT buffer (see recipe) with equal volume of PEB (see recipe). Store up to 2 weeks at 4°C.
+
+## TENT buffer, 2×
+
+For 100 ml:
+2 ml of 1 M Tris·HCl, pH 8.0 (20 mM final; Current Protocols, )
+0.4 ml of 0.5 M EDTA, pH 8.0 (2 mM final; Current Protocols, )
+10 ml of 5 M NaCl (500 mM final; Current Protocols, )
+1 ml of 100% Triton X‐100 (1% v/v final; Current Protocols, )
+Bring volume up to 100 ml with nuclease‐free water
+Store up to 2 weeks at 4°C
+
+## COMMENTARY
+
+## Author Contributions
+
+Pragnya Das: Conceptualization; data acquisition; writing—original draft; writing—review and editing. Sharmistha Shyamal: Data acquisition; writing—original draft; writing—review and editing. Vineet Bhandari: Writing—review and editing. Amaresh Panda: Writing—original draft; writing—review and editing.
+
+## Conflict of Interest
+Authors declare no conflict of interest.
+
+## Acknowledgements
+This work was supported by a grant from New Jersey Health Foundation (PC55‐25, P.D.).
+
+## Data Availability Statement
+Data sharing is not applicable to this article as no new data was generated.

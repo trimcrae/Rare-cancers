@@ -1,0 +1,172 @@
+1579scirepScientific ReportsSci RepNature Publishing GroupPMC1152556711525567115255673947803110.1038/s41598-024-76724-zSilencing CCT3 induces ferroptosis through the NOD1-NF-κB signaling pathway in bladder cancer
+HuangJianlin LuoYizhao WangYu WangShize HuangRunhua AnYu 1Department of Urology, Sichuan Provincial People’s Hospital, School of Medicine, University of Electronic Science and Technology of China, No. 32, West Section 2, 1st Ring Road, Qingyang District, Chengdu City, 610072 Sichuan Province China ✉Corresponding author.
+#Contributed equally.
+3110202414261882618831102024© The Author(s) 2024Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+Bladder cancer (BCa) is a lethal malignancy of the urinary system and exhibits a poor prognosis. Chaperonin-containing tailless complex polypeptide 1 subunit 3 (CCT3) acts as an oncogene in various tumors, whereas its effect on BCa remains unknown. We identified the ferroptosis-associated differentially expressed genes through bioinformatic analysis and selected CCT3 for further verification. The levels of cell viability, apoptosis, migration, invasion, and proliferation were measured to clarify the effect of silencing CCT3 on BCa cells. Then we evaluated the role of CCT3 knockdown in vivo. Ferroptosis was assessed by the expression detection of the ferroptosis-related proteins. The underlying mechanism was predicted by RNA sequencing and verified by an agonist for nucleotide-binding and oligomerization domain 1 (NOD1). Western blotting was conducted to detect the protein expression of NOD1, nuclear factor kappa B (NF-κB) inhibitor alpha (IκBα), and phospho-IκBα (p-IκBα). In vitro, down-regulation of CCT3 suppressed the cell viability, migration, invasion, and proliferation, as well as induced apoptosis of BCa cells. In vivo, silencing CCT3 elevated the body weight of mice and suppressed the BCa progression. In addition, CCT3 knockdown could induce ferroptosis in vitro and in vivo. CCT3 knockdown suppressed the expression of NOD1 and p-IκBα/IκBα and the NOD1 agonist could reverse the effect of CCT3 suppression on BCa in vitro and in vivo. In summary, our findings demonstrate that silencing CCT3 inhibits BCa via induction of ferroptosis and suppression of the NOD1-NF-κB pathway. 
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1038/s41598-024-76724-z.
+
+Keywords: Bladder cancer, CCT3, Ferroptosis, The NOD1-NF-κB signaling pathway
+
+Subject terms: Biochemistry, Cancer, Cell biology, Chemical biology, Biomarkers, Nephrology
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Jun 28; Accepted 2024 Oct 16; Collection date 2024.
+
+## Introduction
+Bladder cancer (BCa) is the most prevailing kind of lethal malignancy of the urinary system . By 2024, it is projected that 83,190 new BCa cases and 16,840 mortality are expected to emerge in the United States . Based on tumor invasion depth, BCa can be divided into the non-muscle invasive BCa, with minimal effects on survival, and the muscle-invasive BCa, with serious impairments in survival . Clinically, transurethral resection is the cornerstone treatment for non-muscle invasive BCa , while platinum-based neoadjuvant chemotherapy is the standard of care for patients with muscle-invasive BCa . Nevertheless, despite these treatments, the survival rates of BC patients have not improved significantly over the past two decades . Hence, it is of great importance to find effective therapeutic targets for BCa.
+Ferroptosis represents a unique form of programmed cell death driven by the accumulation of lipid peroxidation in an iron-dependent manner . Among its primary positive regulators are malondialdehyde (MDA) and ferrous iron (Fe2+), whereas the negative include glutathione (GSH), superoxide dismutase (SOD), ferritin heavy polypeptide 1 (FTH1), recombinant solute carrier family 7, member 11 (SLC7A11) and glutathione peroxidase 4 (GPX4) . Recent research has increasingly illustrated the efficacy of enhancing ferroptosis in tumor cells as an anti-tumor strategy, due to its contribution to reversing drug resistance , tumor microenvironment , cancer metabolism , etc. Abnormal expression levels of various ferroptosis-related genes have been observed in BCa specimens , and inducing ferroptosis has been found to repress the progression of BCa and even lead to the elimination of BCa cells , , indicating the pivotal role of ferroptosis in BCa. Therefore, it is of great importance to find new therapeutic targets for BCa based on the regulatory mechanism of ferroptosis in BCa.
+Chaperonin-containing tailless complex polypeptide 1 subunit 3 (CCT3) has been implicated in a series of biological processes, as well as the initiation and progression of different malignant tumors . Elevated expression levels of CCT3 have been positively correlated with carcinogenesis . The knockdown of CCT3 has been shown to stimulate apoptotic pathways in breast and prostate cancers , and to promote cervical cancer cell death via down-regulation of fibronectin 1 . Knockdown of CCT3 represses the progression of lung adenocarcinoma by inhibiting the function of glycolysis . In addition, Wang et al. have reported that the overexpression of CCT3 can inhibit ferroptosis in lung adenocarcinoma, leading to tumor growth . Nevertheless, the role of CCT3 in the progression of BCa is unclear.
+Herein, CCT3 was identified as a key ferroptosis-related differentially expressed gene (DEG) in BCa by bioinformatics analysis and its effect on BCa was explored both in vitro and in vivo by down-regulating its expression. Our research, for the first time, revealed the anti-BCa potential of silencing CCT3 via inducing ferroptosis through suppressing the NOD1-NF-κB signaling pathway, which could offer a novel and promising therapeutic target for BCa treatment.
+
+## Materials and methods
+
+## Data acquisition and processing
+The original gene expression data was sourced from the Gene Expression Omnibus (GEO) database (https://www.ncbi.nih.gov/geo/). The search was conducted using the term “carcinoma of bladder” as a query, with the organism limited to “Homo sapiens”. The inclusion criteria specified the follows: (1) the comparison involves human bladder tumor samples vs. normal bladder tissue samples; (2) the expression profiling method by array or high-throughput sequencing; (3) the sample size in each group must be at least 3; (4) raw data is available. Finally, the datasets GSE133624 and GSE42089 that met the above criteria were selected. GSE42089 comprised 18 samples (10 urothelial carcinoma samples and 8 para-carcinoma tissue samples) based on GPL9828 [HG-U133_Plus_2] Affymetrix Human Genome U133 Plus 2.0 Array. Meanwhile, GSE133624 contained 65 samples (36 urothelial carcinoma samples and 29 para-carcinoma tissue samples) based on the GPL20795 HiSeq X Ten (Homo sapiens) were chosen for further analysis. The DEGs between carcinoma samples and normal tissue samples (control) were identified by GEO2R (https://www.ncbi.nlm.nih.gov/geo/geo2r) and all identified DEGs met adjusted p-value ≤ 0.05 and |log2(Fold-change)| ≥ 0.8.
+The Genecards database (https://www.genecards.org/cgi-bin/carddisp) was used to retrieve ferroptosis-related genes. The FDEGs were then defined as DEGs from GSE42089 and GSE133624 that overlapped with the list of ferroptosis-related genes in the Venn diagram.
+
+## Functional and pathway enrichment analysis
+We uploaded the above FDEGs to the Database for Annotation, Visualization, and Integrated Discovery (DAVID, https://david.ncifcrf.gov/summary.jsp) for Gene Ontology (GO) function enrichment analysis, which consisted of biological process, cellular component, and molecular function, and the Kyoto Encyclopedia of Gene and Genome (KEGG) functional pathway enrichment analysis. The enriched GO terms and KEGG pathways with the minimum p-value, were shown with histograms and bubble plots.
+
+## Construction of the protein-protein interaction (PPI) network and acquisition of hub genes
+The PPI analysis was performed by the Search Tool for the Retrieval of Interacting Genes (STRING, http://string-db.org/) with a confidence score of 0.4 and was visualized as a network in the Cytoscape (https://www.cytoscape.org/). Subsequently, we used the Cytoscape plug-in molecular complex detection (MCODE) to filter the significant modules (gene clusters) and selected innovative genes as hub genes.
+
+## Hub gene analysis
+A principal component analysis was conducted using the expression levels of hub genes from the GSE133624 dataset. Then a ridgeline plot was generated to visually represent the abundance and distribution of expression data of hub genes within the GSE133624 dataset. Furthermore, correlation coefficients between the hub genes were calculated, based on which the matrix analysis diagram was plotted, revealing the internal correlation of hub genes in GSE133624. The Gene Expression Profile Interactive Analysis (GEPIA) database (http://gepia.cancer-pku.cn/) was used for hub gene expression verification.
+
+## Cell culture and treatment
+The human BCa cell lines (T24 and 5637) along with the immortal ureteral epithelium cell (SV-HUC-1) were purchased from iCell Bioscience Inc (Shanghai, China). T24 and 5637 cell lines were cultured in Roswell Park Memorial Institute (RPMI)-1640 medium (Gibco, Grand Island, NY, USA) and SV-HUC-1 was in F-12 K medium (Thermo Fisher Scientific, Inc.USA). Both RPMI-1640 and F-12 K mediums contained 10% fetal bovine serum (FBS, Gibco), 10 U/mL penicillin (Gibco), and 100 µg/mL streptomycin (Gibco).
+To knock down the expression of CCT3, the T24 and 5637 cell lines were transfected with small interfering RNA (siRNA) targeting CCT3 (si-CCT3-1/2–3) using the Lipofectamine 3000 kit (Thermo Fisher Scientific). The si-NC was transfected into cells using the same methodology. The primer sequences were listed in Supplementary Table 1. In addition, T24 cells were exposed to 5 µg/mL N-acetyl-muramyl-L-ala-y-D-glutamyl-meso-diaminopimelic acid (M-TriDAP, InvivoGen, Toulouse, France), an agonist for nucleotide-binding and oligomerization domain 1 (NOD1), for 24 h to activate the NOD1-nuclear factor kappa B (NF-κB) signaling pathway . Therefore, the cells were divided into the following 3 groups: si-NC, si-CCT3, and si-CCT3 + M-TriDAP groups.
+
+## Real-time quantitative polymerase chain reaction (RT-qPCR)
+Firstly, we extracted total RNAs from cells or tumor tissue samples of different groups by TRIZOL reagent (Invitrogen Carlsbad, CA, USA). RNAs with an optical density ratio at 260/280 nm ranging between 1.9 and 2.0 were selected to reverse transcribed into cDNAs. Then RT-qPCR was performed on StepOnePlus Real-Time PCR System (Applied Biosystems, Foster City, CA, USA), adhering to the instructions. The reaction conditions were set as follows: at 95℃ for 30 s initial denaturation, followed by 40 amplification cycles (95℃, 10 s, and 60℃, 30 s). The sequences of primers were supplied in Supplementary Tables 1 and the mRNA relative expression levels were calculated using the 2−∆∆Ct formula using GAPDH as an internal standard.
+
+## Cell viability determination
+T24 and 5637 cells from different groups were seeded into 96-well plates (3 × 103 cells/well). The cell count kit-8 (CCK-8) reagents were added to each well after 0, 24, 48, and 72 h of culture, followed by an incubation period at 37℃ for 2 h. Then the optical density of each well was recorded at 450 nm wavelength.
+
+## Apoptosis assay
+T24 and 5637 cells from different groups were inoculated into a six-well plate. After 24 h of incubation, the cells were exposed to fluorescein isothiocyanate-conjugated anti-annexin V antibody (Solarbio, Beijing, China) and propidium iodide (Solarbio) for 15 min. With a flow cytometer, we measured the fluorescence intensity which was quantified using FlowJo software (Becton Dickinson, Ashland, OR, USA).
+
+## Wound healing assay
+T24 and 5637 cells from different groups were inoculated into a six-well plate. A scratch was then introduced on the surface of the cell layer once the cell confluence reached 80%, followed by 24 h of culture. At 0 h and 24 h, with a microscope (Olympus, Tokyo, Japan), we captured the cell migration status which was then processed by Image-J software.
+
+## Transwell assay
+Briefly, T24 and 5637 cells (5 × 104/chamber) were seeded onto the upper chamber (Corning, Kennebunk, ME, USA), which has been pre-coated with a 1: 8 diluted Matrigel. The lower chamber was filled with 500 µL of RPMI-1640 medium supplemented containing 20% FBS. After 24 h, the invasive cells in the bottom of the upper chamber were fixed with 4% paraformaldehyde and stained with 0.1% crystal violet. Finally, cells in the bottom of the upper chamber were counted under a microscope (Olympus).
+
+## Determination of MDA, SOD, GSH, and Fe2+
+Measurements of GSH, SOD, and MDA were conducted with the help of corresponding Enzyme-linked immunosorbent assay (ELISA) kits (Esebio, Shanghai, China). Additionally, the iron assay kits (Abcam, Cambridge, USA) were applied to detect the ferrous iron levels. All procedures were conducted in strict accordance with the instructions in the manual.
+
+## Western blotting
+Total proteins extracted from T24 and 5637 cells or tumor tissues were separated by 10% sodium dodecyl sulfate-polyacrylamide gel electrophoresis and transferred onto a polyvinylidene fluoride membrane (Millipore, Danvers, MA, USA). The membrane with the proteins was blocked with 5% skim milk and then incubated with primary antibodies, including anti-FTH1 (ab65080; 1:1,000; Abcam), anti-SLC7A11 (ab307601; 1:1,000; Abcam), anti-GPX4 (ab125066; 1:2,000; Abcam), anti-NOD1 (ab189409; 1:1,000; Abcam), anti-NF-κB inhibitor alpha (IκBα; ab32518; 1:2,000; Abcam), anti-phospho-IκBα (p-IκBα; ab92700; 1:1,000; Abcam), and anti-GAPDH (ab181602; 1:10,000; Abcam) antibodies at 4℃ overnight. After washing, the membrane was incubated with a horseradish peroxidase-conjugated anti-rabbit secondary antibody (ab288151; 1:5,000; Abcam) at room temperature. Finally, the protein bands were visualized using a Tanon 5200 chemiluminescence imaging system (Tanon, Shanghai, China).
+
+## Proliferation assay
+A 5-ethynyl-2-deoxyuridine (Edu) staining proliferation kit (Abcam) was utilized to detect the proliferation level of T24 cells. Edu, incorporated into newly synthesized DNA, was subsequently combined with a green fluorescent called iFluor 488 azide. DAPI (Abcam) was also added to stain DNA blue. Images were captured using fluorescence microscopy, wherein an increased relative expression of green fluorescence indicated a heightened capacity for cell proliferation.
+
+## RNA- sequencing and data analysis
+RNA samples extracted from cells of the si-NC and si-CCT3 groups underwent transcriptome sequencing, with the aim of identifying DEGs between the above groups. DEGs were defined as |log2(Fold-change)| > 1 with adjusted p-value ≤ 0.05. The heatmap of cluster analysis of DEGs was mapped using the R package “Pheatmap”, which relied on measures of similarity, complete linkage, and the Euclidean distance. Using the R language ggplots2 software package, a volcano plot of DEGs was drawn to show gene distribution and differences in gene expression levels using the R package “ggplots2”. Finally, to predict the downstream regulatory pathway of silencing CCT3, we subjected the DEGs to GO functions and KEGG pathways enrichment analysis.
+
+## Establishment of BCa mice model
+A total of 18 female Balb/c nude mice (6-week-old, 18–20 g) were obtained from SPF (Beijing) Biotechnology Co., Ltd. (Beijing, China). Lentiviruses harboring either empty vectors (LV-NC) or interfering RNA lentiviral vectors (LV-CCT3) were purchased from GeneChem Co., Ltd. (Shanghai, China). A total of 4 × 107 T24 cells, either infected with corresponding lentiviral vectors or treated with M-TriDAP, were diluted in 80 µL of sterile PBS. These cells were then subcutaneously injected into the right flank of mice, which were divided into 3 groups, namely LV-NC, LV-CCT3, and LV-CCT3 + M-TriDAP groups (n = 6) . The body weight of mice was detected every 7 days. After 4 weeks, all mice were anesthetized by inhalation of isoflurane and then sacrificed by cervical dislocation for collection of tumor tissues . All mouse experiments were approved by the local Use and Care of Animals Committee.
+
+## Hematoxylin and Eosin (H&E) staining and immunohistochemical staining
+The tumor tissue samples, which were initially fixed in 4% paraformaldehyde and then embedded in paraffin, were sliced into 4 μm sections. These sections underwent H&E staining to assess the extent of inflammatory infiltration of tumor tissues. In addition, the sections were exposed to the rabbit anti-Ki67 antibody (ab16667; 1:100; Abcam) at 37℃ overnight, followed by incubation with anti-rabbit IgG (ab150077; 1:200; Abcam). Then, the sections reacted with 3.3-diaminobenzidine. Finally, all the sections were observed by a microscope (Olympus).
+
+## Statistical analysis
+Data were presented as multiple groups of repeated data or as means ± standard deviation and were analyzed using GraphPad Prism 7.0 statistical software (GraphPad, San Diego, CA, USA). For comparisons between two groups, Student’s t-test was employed, whereas for comparisons involving multiple groups, one-way ANOVA with Tukey’s post hoc analysis was conducted. A p-value less than 0.05 was deemed statistically significant.
+
+## Results
+
+## Identification of DEGs
+We selected the original gene expression profiles from the GSE42089 and GSE133624 datasets for further screening. There were 5,944 DEGs in the GSE133624, including 2,793 up-regulated and 3,151 down-regulated genes in tumor samples compared to normal samples. Similarly, there were 2,159 DEGs in the GSE42089, including 1,035 up-regulated and 1,124 down-regulated genes. Volcano plots were conducted to visualize the DGEs (Fig.  A). Additionally, the top 15 up-regulated and down-regulated DEGs in the GSE133624 and GSE42089 datasets were shown using heatmaps (Supplementary Fig. 1A). Then we achieved data correction and standardization for the selected samples from both datasets using boxplots (Supplementary Fig. 1B) to ensure data consistency.
+ The results of GSEA were listed in Fig.  B. In addition, a total of 30 up-regulated and 23 down-regulated FDEGs were obtained after Venn diagram analysis (Fig.  C), which were selected for GO and KEGG analysis. The top 10 GO terms and KEGG pathways with the minimum p-value were shown with histograms and bubble plots (Supplementary Fig. 2A-2D).
+
+## PPI network construction and hub gene selection
+The interaction information of 30 up-regulated and 23 down-regulated FDEGs was obtained by the STRING database (Supplementary Fig. 3A and 3 C). We imported the above FDEGs into Cytoscape and identified 2 gene clusters by the plug-in MCODE (Supplementary Fig. 3B and 3D). On the basis of innovation, we selected CCT3, cell division cycle 25 A (CDC25A), protein regulator of cytokinesis 1 (PRC1), diaphanous 3 (DIAPH3), and kruppel-like factor 2 (KLF2) as hub genes for the following analysis.
+
+## Hub gene analysis
+The raw expression data of the 5 hub genes within the GSE133624 dataset were used for hub gene analysis. A total of 2 principal component axes (PC1 and PC2) were generated after principal component analysis, collectively explaining 87.7% of the variance between the Control group and the Tumor group (Fig.  A). The ridge plot of hub gene expression demonstrated that CCT3 possessed the highest expression level and the most tightly distributed expression data (Fig.  B). The correlation among hub genes was shown in Fig.  C, with CCT3 exhibiting the lowest correlation with the remaining four genes. Then we validated the expression of CCT3 in tumor samples compared with normal samples using GEPIA2 and found that its expression level was higher in BCa tissues compared to normal tissues (p < 0.05, Fig.  D). Subsequently, RT-qPCR displayed that CCT3, CDC25A, PRC1, and DIAPH3 had significantly upregulated expression whereas KLF2 had significantly downregulated expression in human BCa cell lines, T24 and 5637, compared to the normal bladder cell line SVHUC-1 (all p < 0.001, Fig.  ). Then based on our results, corroborated with existing literature, we chose CCT3 for experimental validation.
+ 
+
+## Silencing CCT3 inhibits cell growth, invasion, and migration and promotes apoptosis of BCa cells
+The transfection efficiency of si-CCT3-1/2/3 in T24 and 5637 was assessed through RT-qPCR and the results showed that si-CCT3-1/2/3 transfection could significantly reduce the mRNA level of CCT3 in both T24 and 5637 cells (all p < 0.001, Fig.  A). Given its superior transfection efficiency, si-CCT3-1 was selected for further experimentation. The cell viability, invasion ability, and migration rate of T24 and 5637 were significantly reduced whereas the apoptosis rate was significantly increased in the si-CCT3 group compared to the si-NC group (p < 0.001 or p < 0.01, Fig.  B- E).
+ 
+
+## Silencing CCT3 induces ferroptosis in BCa cells
+Compared with the si-NC group, increased levels of MDA and Fe2+ alongside decreased levels of GSH and SOD were found in both T24 and 5637 cells of the si-CCT3 group (all p < 0.001, Fig.  A and B). The results of western blotting revealed that the protein expression levels of FTH1, GPX4, and SLC7A11 in T24 and 5637 were significantly reduced by down-regulation of CCT3 (all p < 0.001, Fig.  C).
+ 
+
+## Selection of the NOD-like receptor signaling pathway
+The DEGs between the si-NC and si-CCT3 groups were identified through transcriptome sequencing, and a heatmap displaying the cluster analysis of these DEGs was present in Fig.  A. As evident from the volcano plot, cells with silenced CCT3 expression exhibited 77 up-regulated DEGs and 273 significantly down-regulated DEGs (Fig.  B). The top 10 up-regulated and down-regulated DEGs were listed in Supplementary Table 2. Then GO and KEGG enrichment analyses were conducted to calculate the distribution of these DEGs. The top 10 GO terms with the minimum p-value were shown in Fig.  C, demonstrating that silencing of CCT3 mostly influenced the extracellular region, carboxylic acid transmembrane transporter activity, and positive regulation of cholesterol transport. Furthermore, the top 20 KEGG pathways with the minimum p-value were present im Fig.  D, from which the NOD-like receptor signaling pathway was selected for further validation.
+ 
+
+## Activating the NOD1-NF-κBsignaling pathway reverses the effect of CCT3 knockdown on BCa cells
+The NOD-like receptor pathway was validated using the NOD1 agonist M-TriDAP. Compared with the si-CCT3 group, the mRNA expression level of CCT3 in T24 was significantly elevated in the si-CCT3 + M-TriDAP group (p < 0.001, Fig.  A). Based on CCK-8 assay results, we found that M-TriDAP promoted the cell viability of T24, which had been suppressed by CCT3 silencing(p < 0.05 or p < 0.001, Fig.  B). The cells in the si-CCT3 + M-TriDAP group exhibited a lower apoptosis rate and higher proliferation, migration, and invasion rates compared to the si-CCT3 group (p < 0.001 or p < 0.01, Fig.  C- F). In addition, compared to the si-CCT3 group, reduced levels of MDA and Fe2+, alongside elevated levels of GSH, SOD, GPX4, SLC7A11, and NOD1, were noted in the si-CCT3 + M-TriDAP group (p < 0.001 or p < 0.01, Fig.  G- I), indicating that NOD1 activation suppressed ferroptosis which had been induced by silencing CCT3. In addition, we detected the expression levels of IκBα and p-IκBα, two key proteins of the NF-κB signaling pathway mediated by NOD1. Compared to the si-NC group, the p-IκBα/IκBα ratio in the si-CCT3 group was significantly down-regulated (p < 0.001, Fig.  I), consistent with NOD1 expression level, which indicated the inhibition of the NOD1-NF-κB signaling pathway. However, upon M-TriDAP treatment, the p-IκBα/IκBα ratio was up-regulated (p < 0.001, Fig.  I). Therefore, we suggested that silencing CCT3 promoted ferroptosis by inhibiting the NOD1-NF-κB signaling pathway, which suppressed cell growth, invasion, and migration and promoted apoptosis of BCa cells.
+ 
+
+## Silencing CCT3 induces ferroptosis to suppress BCa progression in mice by inhibiting the NOD1-NF-κB signaling pathway
+To further confirm the effect and regulatory mechanism of CCT3 in BCa, we established a subcutaneous xenograft tumor model. Compared to the LV-NC group, the LV-CCT3 group displayed an obvious increase in body weight, with a substantial decrease in tumor weight and volume (p < 0.001, Fig.  A- C). Notably, these effects were reversed by M-TriDAP activating the NOD1-NF-κB signaling pathway (p < 0.05 or p < 0.001, Fig.  A- C). RT-qPCR analysis showed that the mRNA level of CCT3 was reduced in the LV-CCT3 group compared to the LV-NC group, whereas it was upregulated in the LV-CCT3 + M-TriDAP group compared to the LV-CCT3 group (all p < 0.001, Fig.  D). The images from H&E staining showed alleviation of inflammatory infiltration in the tumor tissue of the LV-CCT3 group, which was reversed in the LV-CCT3 + M-TriDAP group (Fig.  E). Moreover, Ki67 staining demonstrated that the Ki67 positive rate decreased with the down-regulation of CCT3, but increased by M-TriDAP activating the NOD1-NF-κB signaling pathway (p < 0.01 or p < 0.05, Fig.  F). Western blotting further confirmed the down-regulation of CCT3 protein in the LV-CCT3 group compared to the LV-NC group and its up-regulation in the LV-CCT3 + M-TriDAP group compared to the LV-CCT3 group (all p < 0.001, Fig.  G). In addition, enhanced expression levels of MDA and Fe2+ and reduced expression levels of GSH, SOD, GPX4, SLC7A11, NOD1, and p-IκBα/IκBα were found in mice after knockdown of CCT3 (all p < 0.001, Fig.  H- J), which were all reversed in the LV-CCT3 + M-TriDAP group (p < 0.001 or p < 0.01 or p < 0.05, Fig.  H- J).
+ 
+
+## Discussion
+BCa, especially muscle-invasive BCa, impairs the survival and quality of life of patients seriously . Thus, it is necessary to develop a novel anti-BCa target. Recently, ferroptosis has emerged as a potential approach to oncotherapy . In this study, we first obtained DEGs in BCa which were related to ferroptosis, and screened out 5 hub genes by bioinformatics analysis. Then, CCT3 was further selected for verification. The results demonstrated that silencing CCT3 could suppress the progression of BCa by stimulating ferroptosis via inhibiting the NOD-like signaling pathway.
+Currently, bioinformatics methods exhibit myriad possibilities for the acquisition of potential therapeutic targets for many diseases, including BCa , . In our study, a total of 5 hub genes were screened out by bioinformatics methods, namely CCT3, CDC25A, PRC1, DIAPH3, and KLF2. Fan et al. have reported that CDC25A overexpression is involved in the process of phospholipase C epsilon promoting tumorigenesis in BCa . Additionally, PRC1 suppression also can reduce BCa cell viability and induce cell cycle arrest at the G2/M phase by inhibiting the cyclin-dependent kinases1/ Cyclin B1 axis . DIAPH3 has been reported as an inducer of tumor growth and cisplatin resistance in muscle-invasive BCa, linked to the NF-κB and epithelial-mesenchymal transition pathways . Small nucleolar RNA host gene 1 improves the progression of BCa by inhibiting KLF2 transcription , thereby suggesting KLF2 as an antioncogene in BCa. Moreover, down-regulation of CCT3 has exhibited anti-tumor potential in increasing types of tumors, such as liver cancer and hepatocellular carcinoma . However, the role of CCT3 in BCa remains unclear now. Therefore, we selected CCT3 for further research and discovered that silencing CCT3 suppressed BCa progression both in vitro and in vivo, exhibiting the inhibitory effect of CCT3 knockdown in BCa.
+Accumulating evidence has suggested that inducing ferroptosis represents a potential approach to oncotherapy, accompanied by a lethal accumulation of lipid peroxides caused by iron . Downregulation of phosphoglycerate dehydrogenase promotes ferroptosis, leading to the suppression of malignant progression in BCa . Lung cancer-associated transcript 1 has emerged as a novel oncogenic player due to its ability to suppress ferroptosis in BCa . Conversely, overexpression of fibronectin leucine-rich transmembrane protein 2 suppresses tumor growth and metastasis by promoting lipid peroxidation and ferroptosis in BCa . Liu et al. have reported arachidonate 5-lipoxygenase deficiency facilitates BCa resistance to ferroptosis, thereby contributing to BCa progression . Additionally, Poly C binding protein 1 has been found to facilitate BCa growth by inhibiting ferroptosis . In this study, we found that silencing CCT3 induced ferroptosis in BCa cells, suggesting that down-regulation of CCT3 inhibited BCa progression via the induction of ferroptosis.
+As an important member of the NOD-like receptors, NOD1 is involved in diverse aspects of tumor development, such as tumorigenesis, metastasis, chemoresistance, and stemness. For instance, Bacteroides fragilis enterotoxin-1 directly binds to NOD1, stabilizing its expression and thereby improving breast cancer cell stemness and chemoresistance . Conversely, membrane-associated ring-CH-type finger 7 reduces NOD1 by promoting its ubiquitin-proteasome degradation, thereby inhibiting the stem-like capacities of bladder tumor cells . Myeloid-intrinsic NOD1 sustains intra-tumor arginase-1 levels to promote the formation of tumor immunosuppressive microenvironment which contributes to tumorigenesis . The NF-κB signaling pathway is one of the downstream effectors of NOD1. Activation of the NOD1 signaling facilitates the proliferation and invasion of ovarian cancer cells by promoting the NF-κB signaling pathway . Suppression of the NOD1-NF-κB signaling pathway inhibits the proliferation and metastasis of triple-negative breast cancer . Additionally, upregulation of NOD1 triggers the NF-κB signaling pathway, leading to the tumorigenicity and metastasis of human squamous cervical cancer . In this study, CCT3 knockdown suppressed the expression levels of both NOD1 and p-IκBα/IκBα ratio. Notably, NOD1 agonist M-TriDAP could reverse the effect of CCT3 suppression on tumor growth and ferroptosis in BCa, demonstrating that silencing CCT3 suppressed BCa by inhibiting the NOD1-NF-κB signaling pathway.
+In conclusion, CCT3 was identified as an oncogenic gene in BCa by bioinformatics methods, and CCT3 knockdown effectively repressed the progression of BCa by inducing ferroptosis and suppressing the NOD1-NF-κB signaling pathway. This discovery uncovered the anti-BCa potential of CCT3 suppression, suggesting CCT3 as a promising therapeutic target for BCa.
+
+## Supplementary Information
+
+Supplementary Material 1
+
+Supplementary Material 2
+
+Supplementary Material 3
+
+## Acknowledgements
+Not applicable.
+
+## Author contributions
+Jianlin Huang and Yizhao Luo: Conceptualization; Formal analysis; Methodology; Writing - original draft; Validation; Resources; Yu Wang , Shize Wang, Runhua Huang and Yu An: Formal analysis; Methodology; Validation; All authors have read and approved the manuscript.
+
+## Funding
+Project supported by the Sichuan Natural Science Foundation, No. 2023NSFSC0331.
+
+## Data availability
+The datasets used and/or analysed during the current study are available from the corresponding author on reasonable request. GSE133624:https://www.ncbi.nlm.nih.gov/geo/browse/GSE42089: https://www.ncbi.nlm.nih.gov/geo/browse/.
+
+## Declarations
+
+## Ethics approval and consent to participate
+The experiments conformed to the Guide for the Care and Use of Laboratory Animals. Animal study has been approved by the Animal Ethics Committee of Sichuan Provincial People’s Hospital. All methods are reported in accordance with ARRIVE guidelines.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare no competing interests.
+
+All methods are reported in accordance with ARRIVE guidelines.
+
+## Footnotes
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Jianlin Huang and Yizhao Luo contributed equally.
+
+## Contributor Information
+Runhua Huang, Email: huangrunhua120@163.com.
+Yu An, Email: anyu0403@163.com.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Material 1
+Supplementary Material 2
+Supplementary Material 3
+
+## Data Availability Statement
+The datasets used and/or analysed during the current study are available from the corresponding author on reasonable request. GSE133624:https://www.ncbi.nlm.nih.gov/geo/browse/GSE42089: https://www.ncbi.nlm.nih.gov/geo/browse/.

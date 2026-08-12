@@ -1,0 +1,423 @@
+PLoS OnePLoS One440plosone101285081plosPLoS ONE1932-6203PLOSPMC8174720PMC8174720.1817472081747203408169210.1371/journal.pone.0250786PONE-D-20-304931Research ArticleBiology and Life SciencesOrganismsEukaryotaPlantsFlowering PlantsBuckwheatBiology and Life SciencesGeneticsGenomicsPeople and PlacesGeographical LocationsAsiaChinaBiology and Life SciencesGeneticsPlant GeneticsCrop GeneticsBiology and Life SciencesPlant SciencePlant GeneticsCrop GeneticsBiology and Life SciencesAgricultureAgronomyPlant BreedingBiology and Life SciencesEvolutionary BiologyEvolutionary SystematicsPhylogeneticsPhylogenetic AnalysisBiology and Life SciencesTaxonomyEvolutionary SystematicsPhylogeneticsPhylogenetic AnalysisComputer and Information SciencesData ManagementTaxonomyEvolutionary SystematicsPhylogeneticsPhylogenetic AnalysisBiology and Life SciencesMolecular BiologyMolecular Biology TechniquesArtificial Gene Amplification and ExtensionPolymerase Chain ReactionResearch and Analysis MethodsMolecular Biology TechniquesArtificial Gene Amplification and ExtensionPolymerase Chain ReactionBiology and Life SciencesAgricultureCrop ScienceCropsCereal CropsDevelopment of 50 InDel-based barcode system for genetic identification of tartary buckwheat resources
+Identification of tartary buckwheat resourcesSohnHwang-BaeConceptualizationData curationFormal analysisInvestigationMethodologyValidationVisualizationWriting – original draftWriting – review & editing KimSu-JeongConceptualizationFunding acquisitionInvestigationMethodologyProject administrationResourcesValidationVisualization HongSu-YoungResources ParkSin-GiData curationFormal analysis https://orcid.org/0000-0003-1526-9814OhDong-HaData curationFormal analysis LeeSunghoonConceptualization NamHwa YeunWriting – original draft NamJung HwanResources https://orcid.org/0000-0002-7126-923XKimYul-HoConceptualizationData curationFormal analysisFunding acquisitionInvestigationMethodologyProject administrationResourcesSupervisionValidationVisualizationWriting – review & editing 1
+Highland Agriculture Research Institute, National Institute of Crop Science, Pyeongchang, Gangwon-do, Republic of Korea2
+TheragenEtex Bio Institute, TherageneEtex Inc., Suwon, Gyeonggi-do, Republic of Korea3
+Department of Biological Science, Louisiana State University, Baton Rouge, LA, United States of America4
+EONE-DIAGNOMICS Genome Center Co. Ltd., Incheon, Republic of KoreaSharmaHimanshuEditor files.
+
+## Data Availability
+All relevant data are within the paper and its files.
+
+## Introduction
+The eudicot family Polygonaceae consists of 27 reported species, including the 2 cultivated species, common buckwheat (Fagopyrum esculentum Moench) and tartary buckwheat (F. tataricum Gaert.) [ , ]. Buckwheats (F. esculentum and F. tataricum) are cultivated, as short-season pseudo-cereals, in many countries and regions, including China, Nepal, Russia, Europe, Korea, and Japan [ , ]. Following domestication in upland southwestern China, a multitude of tartary buckwheat landraces were created by ancient farmers through both artificial and natural selection [ ]. After cultivation in China, these landraces were first dispersed to Nepal, Russia, Europe, Korea, and Japan [ – ]. Several characteristics of tartary buckwheat, such as its self-pollinating nature and ability to adapt to various regions (ranging from high altitude zones to lowland), led to both morphology and genetically divergent pockets of landraces [ – ]. These landraces have been largely replaced by fewer landraces with specific desired characteristics such as high-yield, drought resistance, and flavor [ , ].
+Tartary buckwheat is a major food crop in high altitude zones (e.g., high mountain areas of southern China and the Himalayan hills) due to its frost tolerance under poor soil conditions. Tartary buckwheat has also been used more recently for a variety of purposes, ranging from various transitional food products to medical use [ , ]. The grain of tartary buckwheat is considered to be an ideal functional food source for humans because it is richer in proteins, fats, vitamins, rutin, quercetin, and other flavonoids than common buckwheat [ – ]. The popularity of tartary buckwheat has been steadily increasing, and its cultivation has broadened into areas far outside its original region [ , , , ]. This is a testament to tartary buckwheat’s adaptability, which will be crucial in Earth’s changing climate [ ]. Breeding for commercial varieties of tartary buckwheat improves agricultural traits, such as lodging, late maturity, and low yield [ , ]; however, this cultivation resulted from a narrow genetic base from a few varieties only, which have produced modern varieties that are not well adapted to a variety of growing environment. The narrow genetic diversity within a commercial variety is due to the rigid quality required by farmers and processors, the finite use of exotic germplasm, restricted breeding strategies, and individual plant selection [ – ]. Thus, more genetic variation among tartary buckwheat genotypes could be used to improve a specific trait of interest due to the narrow genetic diversity of modern commercial varieties [ , , ].
+The identification of tartary buckwheat germplasms is vital to the enhancement of genetic diversity. Researchers have been focused on developing molecular markers using germplasms and morphological descriptors to provide high discrimination power. There are many methods for variety discrimination based on DNA polymorphisms, such as random amplification of polymorphic DNA (RAPD), amplified fragment length polymorphism (AFLP), inter-simple sequence repeat (ISSR), simple sequence repeats (SSRs), and sing nucleotide polymorphism (SNP). Insertion-deletion polymorphisms (InDels) are gaining more attention among molecular breeding scientists because they are easy to use, co-dominant (fully informative), and relatively abundant [ – ]. In tartary buckwheat, SSR [ ], AFLP [ ], RAPD [ , ], ISSR [ ] and SNP [ , ] have been used to assess genetic variation, but no study has used a variety of discrimination methods with InDel markers due to the difficulty of finding DNA polymorphisms in tartary buckwheat accessions.
+Until recently, a lack of large-scale genome sequencing information made the introduction of InDels as genetic markers in non-model species (e.g., common and tartary buckwheat) difficult. In recent years, published studies have provided the draft genomes of common buckwheat [ ], and a tartary buckwheat cultivar “Pinku1” [ ] in the family Polygonaceae. More importantly, a wealth of polymorphism data can now be obtained from a massive amount of sequencing data using high-throughput sequencing technologies [ ]. In addition, Sohn et al. [ ] reported that the InDel-based barcode system focuses on usability, and provided an efficient resource management system. In addition to the InDel-based barcode system, morphological descriptors are now emerging that aim to identify tartary buckwheat accessions, which can be used to verify key genomic factors that explain or predict major agronomic traits.
+We present a high-quality draft genome assembly and annotation for the tartary buckwheat. F. tataricum cv. “Daegwan 3–7.” Using comparative genomics approaches, we revealed 171,926 homogeneous InDels and 53,755 heterogeneous InDels found in 26 tartary buckwheat accessions, which we compared to the draft genomes of the tartary buckwheat cultivar “Daegwan 3–7.” Among them, 50 polymorphic InDels from the 26 accessions were selected by gel electrophoresis, which were converted to barcodes by comparing amplicon polymorphisms with the reference sequence. We also revealed the geographical distribution of 73 accessions through population structure analysis using the barcodes. For the genetic identification of tartary buckwheat resources, we made a user-friendly barcode system based on 50 InDel-based genotypes of 73 accessions. As a user-friendly system, the homology between the accessions can be predicted in both one (1D) and two-dimensions (2D) as blocks. Our platform could be used in genetic research and breeding programs, as well as for efficient resource management systems for tartary buckwheat.
+
+## Materials and methods
+
+## Plant materials
+The accessions of 73 tartary buckwheat plants ( ) were provided by the National Agrobiodiversity Center (Jeonju, Republic of Korea) and the Highland Agriculture Research Institute (Pyeongchang, Republic of Korea). The accessions were planted in a greenhouse located at the Highland Agriculture Research Institute (37°68′N and 128°73′E, 779 m altitude), Gangwon Province, Republic of Korea. These were self-pollinated 3 times by the single seed descent (SSD) method by growing the individual plants in flowerpots (10cm in diameter) [ ]. We grew an additional four generations of HLB1001 using the SSD method, which resulted in the selection of a progeny, “Daegwan 3–7” for a draft genome of tartary buckwheat. A total of 26 accessions were collected (China, India, Nepal, Bhutan, Pakistan, and USA).
+To investigate the biodiversity and comparative relationships between the accessions, collected accessions were sown in 2017 and grown in the greenhouse at the Highland Agriculture Research Institute. We separated the plants by developmental stage: the vegetative growth stage (1–40 days after planting, DAP), flowering stage (40–80 DAP), and yield stage (80–90 DAP). At the yield stage, the color of the seed coat turned black, indicating that the seeds were completely maturated [ ].
+
+## Measurement of rutin and quercetin content
+The yield stage seeds were used to measure their rutin and quercetin content. First, the mature seeds from the 76 accessions were milled into a fine powder, then the samples were immediately flash-frozen in liquid nitrogen and stored at −80°C until further use. A total of 0.10 g dry powder for each sample was mixed with 1 ml methanol, then was extracted at 80°C for 1 hr in a conventional Soxhlet apparatus. The extract was filtered through a 0.20 μm syringe filter (PTFE 13 mm, PALL Life Sciences, Ann Arbor, MI) for rutin content [ ]. Ultra-performance liquid chromatography (Waters Corporation, Milford, MA, USA) was performed on an Acquity 1-class using a C18 column (2.1 mm × 100 mm, 1.7 μm) (Waters Corporation, USA) at 30°C. The mobile phase (1% formic acid in water/0.1% formic acid in acetonitrile) flowed by the gradient elution method ( ) at a flow rate of 0.25 ml/min with a total injection volume of 10 ㎕. Rutin quantity was estimated based on the linear calibration curve of standard rutin and quercetin (Extrasynthese, France) under a detection wavelength of 259 nm. Three independent sample analyses were performed for each sample. All statistical analyses were performed using ver. 3.6.1 of the R software.
+
+## DNA sequencing and de novo assembly
+After 21 DAP, the leaves in the third node of the progeny “Daegwan 3–7” were used to create a draft genome. First, 3-week-old leaves from the bulk of 10 plants were collected for genomic DNA extraction using a standard CTAB (cetyl trimethylammonium bromide) protocol [ , ]. Both short read (Illumina) and long read (PacBio) libraries were prepared according to the manufacturer’s instructions for the entire genome of F. tataricum. A short insert paired-end (PE) library was prepared using a Illumina TruSeq Nano DNA Sample Preparation Kit (Illumina Inc., San Diego, Ca, USA) and 1~3 ㎍ of DNA. A library profile analysis was performed with an Agilent 2100 Bioanalyzer (Agilent Technologies, USA) and qPCR quantification, then the libraries were sequenced to 2 × 100 bp on the Illumina HiSeq 2500 platform (Illumina, USA) from the TheragenEtex Bio Institute (TheragenEtex Inc., Suwon, Republic of Korea). PacBio SMRTbell libraries (2 kb, 5 kb, 10 kb, and 15 kb inserts) were prepared with the standard PacBio library preparation protocols, which are available at http://pacificbiosciences.com/. The sequencing was conducted on a PacBio RS II (Pacific Biosciences, USA) system using C4 chemistry and 240 min movies by the TheragenEtex Bio Institute.
+The short and long reads were assembled separately. The de novo assembly of the PacBio long reads was performed using Fast Alignment and CONsensus [ ] with default parameters. The short reads were assembled with SOAPdenovo2 [ ] with default parameters. The initial contigs were merged using HaploMerger2 [ ]. Both short and long reads were then used to construct scaffolds with SSPACE [ ], which led to the superscafold-scale draft genome of tartary buckwheat cv. “Daegwan 3–7.” The N50 length of the final genome assemblies was evaluated.
+
+## Identification and validation of the polymorphic InDels
+Genomic DNA was extracted for whole-genome resequencing from the 26 accessions that had self-pollinated 3 times using the SSD method. Three-week-old leaves from the bulk of 10 plants were collected for genomic DNA extraction using a standard CTAB protocol [ , ]. The data consisted of 101-bp reads, which were generated using the HiSeq 2500 sequencer. The Short Oligonucleotide Alignment Program 2 (SOAP2) was used to map the raw pair-end reads onto the reference genome (tartary buckwheat cv. “Daegwan 3–7”). For each accession, more than 93% of the reads were properly aligned to the reference genome. Insert size was estimated by mapping the reads to the reference genome using the Burrows-Wheeler Aligner algorithm (bwa) [ ] ver 0.5.9. The aligned reads were realigned at InDel positions using the GATK InDelRealinger algorithm [ ] enhance the mapping quality. The base quality scores were recalibrated using the GATK TableRecalibration algorithm. The primer pair used to amplify each of the InDels were selected by the Primer3 software (http://primer3.sourceforge.net). We selected InDels with more than 10 bp and designed the primers accordingly to match the characteristics of each InDel using the Primer 3 software.
+
+## Amplicon polymorphism assay and bar-coding process
+PCR analysis was performed using 10 ㎕ reaction mixtures containing 20 ng of total genomic DNA, 2 pM of primer, and 5 ㎕ of GoTaq Green Master Mix (Promega, Madison, WI, USA). The PCR was performed at 95°C for 5 min, followed by 35 subsequent rounds at 94°C for 30 sec, 45°C for 30 sec and 72°C for 30 sec, using a Mastercycler pro 384 (Eppendorf, Germany). The PCR products were separated by electrophoresis in 3% gels of certified low range ultra-agarose (Bio-rad) followed by LoadingSTAR staining (Dynebio, Republic of Korea). For the limitation of the number of candidates, we chose primer pairs that amplified PCR products that were 150–231 bp long. The allelic diversity of the InDels with the e-PCR products in 26 tartary buckwheat genomes were assessed via PIC (Polymorphism Information Content), which was defined as PIC , where p ij is the frequency of the jth pattern for the ith marker [ , ].
+The 50 InDel markers were selected according to their genotyping success and PCR band size. The discriminating power of the selected 50 InDel set for tartary buckwheat identification was evaluated using the 76 tartary buckwheat accessions. Primers were designed by targeting the InDel region in such a way that the genotypes of tartary buckwheat accessions would produce the same or different (insertion or deletion) amplicons relative to the reference genome, “Daegwan 3–7.” Based on the results of InDel marker amplification, the same result with the reference genome was represented by an “a” while other results were represented by a “b.” For bar-coding representation of the results, “a” and “b” were converted to white and black, respectively. The homology of the accessions were calculated after PCR amplification of all 50 InDels.
+
+## Phylogenetic analysis and population structure among 73 tartary buckwheat accessions
+The discriminating power of the selected 50 InDel set for tartary buckwheat identification were evaluated using the 76 tartary buckwheat accessions. The analysis was carried out with POWERMARKER Ver. 3.23 (Liu and Muse 2005; http://www.poxermarker.net). A phylogenetic tree for the 73 accessions was drawn based on the genotypes defined with the 50 InDels using the weighted neighbor-joining method with simple matching coefficients in the DARwin software [ ]. To delineate clusters of individuals on the basis of their genotypes, the model-based STRUCTURE 2.3.4 [ ] was used with the admixture model, a burn-in period of 100,000 iterations, and data from the 50 InDel loci. The number of clusters (k) was set to five, as this number maximized the Δk (ad hoc criterion) parameter. We used simulations with k values ranging from 2 to 10 with 5 replications, to calculate the LnP(D) value. The optimal k value can be chosen based on the maximum LnP(D) that provides a distinct population structure. On this basis, we chose K = 3 (three ancestral groups) for the tartary buckwheat populations. To check the quality of these analyses, a phylogenetic tree and a population structure for the 26 re-sequenced accessions were drawn based on the genotypes defined using the 6,622 non-synonymous SNPs.
+
+## Results
+
+## Genome assembly and whole-genome sequencing of tartary buckwheat accessions
+We grew seven generations of tartary buckwheat cv. “Daegwan” using the SSD method and an isolated individual (designated as “Daegwan 3–7”) to exclude any possible heterogeneity in the original seed lot. We produced a total of 43.83 and 32.17 Gb sequences from Illumina PE and Single-Molecule Real-Time (SMRT) sequencing platforms, respectively, which corresponded to 78x (Illumina PE, ) and 58x (SMRT, ) coverages ( ) for the reference genome. Combining the sequencing strategies of PacBio and Illumina Hiseq2500, we obtained a final draft assembly of 569.37 Mb in 2,886 scaffolds with 50% of the total sequence captured in 156 scaffolds larger than 886,968 bps ( , N50).
+ We selected 26 tartary buckwheat accessions for whole-genome resequencing. These accessions originated or were popularized in different Asian and international regions, including 15 landraces from China, 4 from Nepal, 4 from India, 1 from the USA, 1 from Bhutan and 1 from Pakistan ( ). After 3 additional generations were grown using the SSD method, a panel of the 26 genotypes showed a broad extent of rutin content and phenotype variation (Figs and ). The 26 accessions showed a various distribution of rutin content compared to those of the 73 accessions ( ). In particular, HLB1013 had the highest rutin content (1,921 mg/100g·DW), while HLB1006 had the lowest (1,250 mg/100g·DW) among the 26 accessions. Large differences were found in seed shape and seed coat color among the 26 accessions ( ). Seed information conformed to the known the genetic variation of the 26 accessions.
+ We produced paired-end DNA reads at 23–27-fold depths ( ) for the 26 accession genomes and mapped them to the reference genome (“Daegwan 3–7”). The sequencing qualities of all the samples were high: 93%–95% of the accession sample reads were mapped to the reference genome, and 96%–97% of the reference genome was covered ( ). The genetic variations (SNPs and small InDels) among the 26 accessions collected from the six countries were individually identified by Samtools and the Genome Analysis Tollkit GATK (see ). To increase the accuracy of the prediction, only the variations predicted by both methods were used for subsequent analysis. Bioinformatic analysis revealed 171,926 and 53,755 homogeneous and heterogeneous InDels, respectively ( ). The heterozygous rates of all accessions were around 10%, reflecting the possibility of cross-pollination although self-fertilization was used ( ).
+ 
+
+## Selection of 50 InDels and constructing barcode-type database of 73 accessions
+Sequence comparison at the nucleotide level of the tested genomes with the reference genome revealed InDels that could be easily used to identify tartary buckwheat resources in common laboratories. Consistent with what has been found in other organisms [ , ], the great majority of homogeneous InDels from all accessions were short with a dominance of 4-bp or fewer events ( ). From this polymorphism data, we chose InDels with more than 10-bp for further analysis to help us identify them by PCR and gel-electrophoresis. We tested 100 primer sets, focusing on their ability to amplify PCR products in the 26 genome types, since this study aimed to establish PCR-based markers applicable for all tartary buckwheat accessions. PCR primers were designed to generate amplicons of varying sizes within the 150–231 bp interval ( ). Among them, 50 InDel loci were widely distributed on whole chromosomes in the reference genome (“Pinku 1”) reported previously ( ). We selected the 50 InDels to validate the prediction accuracy and found that 98.2% of the PCR results in the 26 accessions were consistent with the predicted results. The results of the InDel analyses were highly accurate ( and Tables). This high accuracy provided a solid foundation for our data analyses and provides high-quality data for future data mining.
+ Primers were designed by targeting the InDel region, in such a way that the genotypes of the 26 accessions would produce the same or different (insertion or deletion) amplicons relative to the reference genome ( ). By using the previously reported barcode method [ , ], identical results to the reference genome “Daegwan 3–7” were represented by an “a,” while the other results were represented by “b,” which were presented as “white” and “black” barcodes, respectively. shows the barcode system applied to the tartary buckwheat accessions HLB1007 and HLB1008, which were converted to the standard 1D and widely-used 2D barcode types by comparing their amplicon polymorphisms to the reference genome, “Daegwan 3–7.” This result highlights that the barcode types can be effectively used to investigate the degree of marker difference in tartary buckwheat accessions ( ). The creation, stability and quality of the barcode system for genetic identification using the selected 50 InDels is thoroughly evaluated below.
+ By building a database of the 50 InDel polymorphisms for the 73 tartary buckwheat accessions ( ), we have established a more stable foundation for utilizing the barcode system to provide a promising tool for identifying the genetic resources of tartary buckwheat. Allele frequencies and average PIC value of the 50 InDel loci are shown in . The major allele frequencies ranged from 0.5616 at the TB42 locus to 0.9863 at the TB48 locus. The average PIC value was 0.1532, with a range of 0.0267–0.3712, which implied that the selected InDels could be applied for investigating polymorphisms of tartary buckwheat accessions ( ). The genotypes of the 73 tartary buckwheat accessions were constructed with a two-dimensional barcode, and genotypic discrimination was analyzed by comparing it with the accessions of the barcode system. The average difference between the analyzed accessions was 7 InDels from a total of 50 InDels, while 6 accessions had differences in 12 InDels compared to the reference genome, “Daegwan 3–7.” By comparing the two-dimensional barcodes of the accessions, different blocks could be visually distinguished with ease, so that the genotype differences of the accessions could be determined ( ). The discrimination power of genetic resources was high enough to broaden our understanding of both phylogenetic signals and population-level variation.
+
+## Phylogenetic analysis and population structure in tartary buckwheat accessions
+Phylogenetic analysis of the 6,622 non-synonymous SNP variants and population structure subdivided the panel into 2 primary populations ( ): the reference group and the non-reference group. A similar result was attained with the SSR data, which indicated two separate group clusters of tartary buckwheat [ ]. The 23 accessions had 4 subgroups within the non-reference group, and were classified according to their collection area. The phylogeny resolved subgroup 2 (3 Nepal, 1 Bhutan, and 2 China) as closer to subgroup 1 (8 China and 1 India) than subgroup 3 (3 India, 1 Pakistan, and 1 Nepal).
+ To validate the reliability of the 50 InDel markers for discriminating between tartary buckwheat accessions, bin maps were constructed for 73 tartary buckwheat accessions using the InDels ( ). We analyzed the population structures of the studied accessions and reference groups. The result are shown in . At K = 3, the clusters were anchored to Southeast Asia and China. Among subgroup 1, the accessions in Southeast Asia were almost entirely composed of the red component, while the Chinese accessions were composed of the red, green, and blue components. Subgroup 1 mainly consisted of accessions from Southeast Asia (65.4%), while subgroup 2 was comprised of Chinese accessions (71.4%), and subgroup 3 consisted of Chinese accessions (97.0%). At the same time, the Chinese accessions in subgroup 1 and 3 showed a mixed composition of both red, green, and blue components. A PCA also provided similar results, with the accessions forming a tight cluster separated by collection region.
+ Weighted neighbor-joining (NJ tree) relationships with bin maps revealed 3 groups (G1, G2, and G3) that contained 40, 16, and 17 accessions, respectively ( ). The accessions collected in Nepal and Bhutan demonstrated substructure within group 1, being the genotypes closest to the reference group. A different result revealed that two separate groups were clustered by using non-synonymous SNP variants ( ). The color-coded branches supported the classification of the 73 accessions by the collection region ( ). In the phylogenetic analysis, PCA and population structure indicated that the tartary buckwheat accessions segregated into different groups that reflected their geographical distribution. With the evidence relating the 50 InDels to environmental adaptability, these results are consistent with the segregation of the tartary buckwheat into different groups according to their geographical distribution. These results show the practicability of the barcode system, which can be used to identify genetic variation associated with phenotypic variation of functional relevance, as well as markers that can be used in crop breeding.
+
+## Discussion
+Tartary buckwheat is an important crop that is poised to be the target of many future breeding efforts. It is a crop species of interest for various reasons, including its higher levels of rutin compared to the common buckwheat [ , , ]. For breeding commercial varieties of tartary buckwheat, the elite germplasm needs to be expanded by adding various genetic resources. This is a field that is still under-represented at the genetic level, despite its vast germplasm diversity and its importance in stress adapted resources [ – ]. Particularly, since these resources possess many distinct traits, we used 73 genetic resources of tartary buckwheat to create a framework for comparative analysis. These resources differ in seed morphology ( ) and rutin content ( ). These differences might result in distinct responses to UV-B, drought [ ], and salt stress [ ]. A recent publication of tartary buckwheat genomes provided the reference genome needed to study the molecular markers to distinguish between these genetic resources [ ]. The narrow genetic diversity seen within a commercial variety has various causes, including the rigid quality required by farmers and processors [ , ]. Thus, molecular markers are imperative to understand the genetic differences of tartary buckwheat accessions, which could be used to broaden the genetic resources of commercial breeding programs. To address this, we made a user-friendly barcode system using 50 InDel-based genotypes of 73 accessions. Our barcode system could be used in genetic research, breeding programs, and efficient resource management systems for buckwheat.
+High-throughput sequencing technologies [ ] offer immense possibilities for generating a massive amount of sequencing data from hitherto uncharacterized genomes, which facilitates the introduction of InDels as genetic markers in non-model crops, like tartary buckwheat. Given that the existing reference genome for “Pinku 1” was from China [ ], we constructed a new superscaffold-scale reference genome for a variety of “Daegwan 3–7” from the Republic of Korea by combining the sequencing strategies of PacBio and Illumina Hiseq2500. Using this integrated approach, we obtained an N50 scaffold size of 463,432 bps for the draft genome of “Daegwan 3–7” ( ). To explore the genomic variation of tartary buckwheat accessions, we performed whole-genome sequencing for 26 accessions across the reference genome (“Daegwan 3–7”) ( ). Significantly, the depth (23 × – 27 ×) of sequence coverage indicates that it was well-suited for the sequence analysis of the 26 genetic resources. From these genome comparisons, 171,926 homogeneous InDels and 53,755 heterogeneous InDels were obtained with an InDel density of 2 for every 1 kb through pairwise comparison with the reference genome ( and ). Among them, 50 polymorphic InDels were selected by gel electrophoresis, which PCR results were 98.2% matched with the predicted results ( and Tables). Moreover, the 49 InDels were distributed widely in the whole genome of “Pinku 1.” Considering that the TB8 locus was not found in “Pinku 1,” the two reference genomes for “Pinku 1” and “Daegwan 3–7” can provide backbones and references for developing the pan-genome to reduce reference bias. We plan to continue improve the draft genome of tartary buckwheat cv. “Daegwan 3–7” for use in the pan-genome. Our results suggest that superscaffold-scale de novo draft genomes usually facilitate the introduction of InDels as genetic markers in non-model crops, like tartary buckwheat.
+To efficiently identify tartary buckwheat accessions, we developed the barcode system using 50 InDels selected from 26 landrace genomes using a resequencing strategy. The 2D-barcode system (Figs and ) is a powerful tool to compare the genotypes of tartary buckwheat accessions [ – ]. The landrace genomes collected from six countries, contained a wealth of genetic diversity adapted to wide-ranging environmental conditions ( ). Through the application of 50 InDels to this collection, we found that both geographical and environmental factors have shaped the genetic diversity of tartary buckwheat landraces ( ). In the 73 accessions, the population structure analyses using the DNA barcode data revealed their geographical distribution ( ), which is geared for adaptation in the diverse topographic conditions of the agroecosystem [ – ]. In the phylogenetic analysis using non-synonymous SNPs, the 26 accessions showed a close relationship with those from Bhutan and Pakistan. ( ). This observation is consistent with a previous study, which found that population genetic structure analysis using SSR data clustered one group that was mainly distributed in Nepal, Bhutan, and the Yunnan-Guizhou Plateau regions of China and the other group principally derived from the Loess Plateau regions, Hunan and Hubei of China and the USA [ ]. These findings were consistent with the previously suggested method of seed exchange within a close geographic distance [ , ]. Altogether with SSR [ ], AFLP [ ], RAPD [ , ], and ISSR [ ], the barcode system using InDels can complement current research and broaden our understanding of both phylogenetic signals and population-level variations [ – ]. These phylogenetic and structural analyses in the tartary buckwheat accessions will serve as a significant resource to gain more insight into the evolution of lineage-specific gene networks associated with the environmentally-specific developmental and adaptive traits of tartary buckwheat landraces.
+According to their position in unigenes, the 50 InDels were divided into five types: coding region, 5′ untranslated region, 3′ untranslated region, splice region and intergenic region ( ). The InDels may be biased toward changes in gene expression via cis-regulatory mutations [ ]. The InDels of certain genes, e.g., RPP4 [ ], UGT73B5 [ ], TPS4 [ ], and DREB3 [ ] have been postulated to play a role in different responses to environmental stresses during growth and survival. With the evidence relating the 50 InDels to environmental adaptability, these results are consistent with the segregation of the tartary buckwheat into different groups according to their geographical distribution.
+Despite self-fertilizing the tartary buckwheat, through 3 additional generations using the SSD method, around 10% heterogeneous InDels were detected in the genomic DNA from the 26 progenies ( ). Previous studies have shown that farmers cultivated several tartary buckwheat landraces suitable for the multiple local microclimates and environmental conditions [ ], which could drive the gene flow of landraces within a region [ ]. In this study, we uncovered strong support for allogamy among landraces that contributes to heterogeneous InDels in tartary buckwheat, which might drive the genetic diversity of landraces within a region. Considering the effect of heterozygous InDel on the increase of single nucleotide mutation rate [ , ], it might be an important characteristic that allows tartary buckwheat to adjust to the diverse topographic conditions of the agroecosystem. These results suggest that the divergent gene expression of the InDel loci may affect its adaptation to environmental conditions.
+We found that tartary buckwheat accessions could be distinguished by 50 InDels based on genotype according to location with the differing environment (Figs and ). Tartary buckwheat is a diverse crop in which separate domestication events happened in each gene pool followed by race and market class diversification that has resulted in different morphological characteristics in each commercial market class [ ]. Combining multiple data types can compensate for missing or unreliable information in any single data type. Importantly, complete resource management is only likely to be discovered if the genotype, phenotype and chemotype of tartary buckwheat accessions are considered in an analysis. To make a user-friendly common platform for genotype, phenotype, and chemotype resources, we plan to incorporate genotypic data with that phenotype and chemotype (rutin content) data for tartary buckwheat accessions ( ). Our platform could be used in genetic research, breeding programs, and for efficient resource management systems for buckwheat. Increasing tartary buckwheat productivity will require adapting the crop to the agricultural environment of new locations. The barcode system can assist tartary buckwheat breeders in identifying germplasm accessions and can be used as donor parents for breeding tartary buckwheat cultivars.
+
+## Supporting information
+S1 Fig
+
+## The draft genome assembly process using Fagopyrum tataricum cv. “Daegwan 3–7”.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## Agarose gels showing the separation of alleles of 50 InDels in 73 tartary buckwheat accessions.
+(PDF)
+Click here for additional data file.
+S3 Fig
+
+## Application of barcode system to tartary buckwheat accession, HLB1003.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## List of 73 tartary buckwheat accessions used for evaluating the selected InDels.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## A gradient UPLC method for the simultaneous determination of rutin and quercetin.
+(DOCX)
+Click here for additional data file.
+S3 Table
+
+## Statistics of filtered raw data for evaluating Illumina paired read quality in 26 tartary buckwheat accessions.
+(DOCX)
+Click here for additional data file.
+S4 Table
+
+## Number of InDels showing alternative genotype in 26 re-sequenced genomes.
+(DOCX)
+Click here for additional data file.
+S5 Table
+
+## The 50 InDel markers developed to discriminate tartary buckwheat accessions.
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## A diagram of PCR band patterns of 73 tartary buckwheat accessions obtained using 50 InDel markers.
+(XLSX)
+Click here for additional data file.
+S7 Table
+
+## Statistics of the 50 InDels in tartary buckwheat accessions (n = 73).
+(DOCX)
+Click here for additional data file.
+
+Sincere thanks to Misook Lee for the cultivation of tartary buckwheat resources, Juyoung Shim for the DNA extractions of samples, and Hyeongjin Shin for the technical assistance in the laboratory. The authors would like to thank Enago (www.enago.co.kr) for the English language review.
+ 10.1371/journal.pone.0250786.r001Decision Letter 0
+SharmaHimanshuAcademic Editor© 2021 Himanshu Sharma2021Himanshu Sharmahttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version0
+5 Nov 2020
+
+PONE-D-20-30493
+Development of 50 InDel-based barcode system for genetic identification of tartary buckwheat resources
+PLOS ONE
+Dear Dr. Kim,
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+Please submit your revised manuscript by Dec 20 2020 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosone@plos.org. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+Please include the following items when submitting your revised manuscript:
+A rebuttal letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+
+If you would like to make changes to your financial disclosure, please include your updated statement in your cover letter. Guidelines for resubmitting your figure files are available below the reviewer comments at the end of this letter.
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: http://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols
+We look forward to receiving your revised manuscript.
+Kind regards,
+Himanshu Sharma
+Academic Editor
+PLOS ONE
+Additional Editor Comments:
+Authors have done good work, for the genetic improvement in buckwheat, and the manuscript entitled "Development of 50 InDel-based barcode system for genetic identification of tartary buckwheat resources" has been extensively reviewed by the reviewers, They suggested revision of the manuscript, So the authors extensively revised the manuscript according to the suggestions of the reviewer.So there are chances of the improvement in the current manuscript.
+Journal Requirements:
+When submitting your revision, we need you to address these additional requirements.
+1. Please ensure that your manuscript meets PLOS ONE's style requirements, including those for file naming. The PLOS ONE style templates can be found at
+https://journals.plos.org/plosone/s/file?id=wjVg/PLOSOne_formatting_sample_main_body.pdf and
+https://journals.plos.org/plosone/s/file?id=ba62/PLOSOne_formatting_sample_title_authors_affiliations.pdf
+2. Thank you for stating the following in the Competing Interests section:
+"The authors have declared that no competing interests exist."
+We note that one or more of the authors are employed by a commercial company: TherageneEtex Inc. and EONE-DIAGNOMICS Genome Center Co. Ltd.
+2.1. Please provide an amended Funding Statement declaring this commercial affiliation, as well as a statement regarding the Role of Funders in your study. If the funding organization did not play a role in the study design, data collection and analysis, decision to publish, or preparation of the manuscript and only provided financial support in the form of authors' salaries and/or research materials, please review your statements relating to the author contributions, and ensure you have specifically and accurately indicated the role(s) that these authors had in your study. You can update author roles in the Author Contributions section of the online submission form.
+Please also include the following statement within your amended Funding Statement.
+“The funder provided support in the form of salaries for authors [insert relevant initials], but did not have any additional role in the study design, data collection and analysis, decision to publish, or preparation of the manuscript. The specific roles of these authors are articulated in the ‘author contributions’ section.”
+If your commercial affiliation did play a role in your study, please state and explain this role within your updated Funding Statement.
+3.2. Please also provide an updated Competing Interests Statement declaring this commercial affiliation along with any other relevant declarations relating to employment, consultancy, patents, products in development, or marketed products, etc.  
+Within your Competing Interests Statement, please confirm that this commercial affiliation does not alter your adherence to all PLOS ONE policies on sharing data and materials by including the following statement: "This does not alter our adherence to  PLOS ONE policies on sharing data and materials.” (as detailed online in our guide for authors http://journals.plos.org/plosone/s/competing-interests) . If this adherence statement is not accurate and  there are restrictions on sharing of data and/or materials, please state these. Please note that we cannot proceed with consideration of your article until this information has been declared.
+Please include both an updated Funding Statement and Competing Interests Statement in your cover letter. We will change the online submission form on your behalf.
+Please know it is PLOS ONE policy for corresponding authors to declare, on behalf of all authors, all potential competing interests for the purposes of transparency. PLOS defines a competing interest as anything that interferes with, or could reasonably be perceived as interfering with, the full and objective presentation, peer review, editorial decision-making, or publication of research or non-research articles submitted to one of the journals. Competing interests can be financial or non-financial, professional, or personal. Competing interests can arise in relationship to an organization or another person. Please follow this link to our website for more details on competing interests: http://journals.plos.org/plosone/s/competing-interests
+4. PLOS ONE now requires that authors provide the original uncropped and unadjusted images underlying all blot or gel results reported in a submission’s figures or Supporting Information files. This policy and the journal’s other requirements for blot/gel reporting and figure preparation are described in detail at https://journals.plos.org/plosone/s/figures#loc-blot-and-gel-reporting-requirements and https://journals.plos.org/plosone/s/figures#loc-preparing-figures-from-image-files. When you submit your revised manuscript, please ensure that your figures adhere fully to these guidelines and provide the original underlying images for all blot or gel data reported in your submission. See the following link for instructions on providing the original image data: https://journals.plos.org/plosone/s/figures#loc-original-images-for-blots-and-gels.
+In your cover letter, please note whether your blot/gel image data are in Supporting Information or posted at a public data repository, provide the repository URL if relevant, and provide specific details as to which raw blot/gel images, if any, are not available. Email us at plosone@plos.org if you have any questions.
+[Note: HTML markup is below. Please do not edit.]
+Reviewers' comments:
+Reviewer's Responses to Questions
+Comments to the Author
+1. Is the manuscript technically sound, and do the data support the conclusions?
+The manuscript must describe a technically sound piece of scientific research with data that supports the conclusions. Experiments must have been conducted rigorously, with appropriate controls, replication, and sample sizes. The conclusions must be drawn appropriately based on the data presented. 
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Partly
+**********
+2. Has the statistical analysis been performed appropriately and rigorously? 
+Reviewer #1: Yes
+Reviewer #2: N/A
+Reviewer #3: Yes
+**********
+3. Have the authors made all data underlying the findings in their manuscript fully available?
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+4. Is the manuscript presented in an intelligible fashion and written in standard English?
+PLOS ONE does not copyedit accepted manuscripts, so the language in submitted articles must be clear, correct, and unambiguous. Any typographical or grammatical errors should be corrected at revision, so please note any specific errors here.
+Reviewer #1: No
+Reviewer #2: No
+Reviewer #3: Yes
+**********
+5. Review Comments to the Author
+Please use the space provided to explain your answers to the questions above. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. (Please upload your review as an attachment if it exceeds 20,000 characters)
+Reviewer #1: Comments on the manuscript PONE-D-20-30493
+The manuscript PONE-D-20-30493, entitled “Development of 50 InDel-based barcode system for genetic identification of tartary buckwheat resources”, developed 50 InDels to instruct a barcode system to increase the genetic diversity of tartary buckwheat. The results are interesting for identification and assessment of genetic diversity of tartary buckwheat resources. However, there are some problems in this manuscript. I suggest that this manuscript should make a major revision before being accepted for publication.
+1. The language of this manuscript should be improved by a native English speaker, or a professional language editing service. There are a lot of grammar errors in this manuscript, such as Lines 94-97.
+2. The 50 InDel-based barcode system has a bias for genetic identification of tartary buckwheat resources. The amount of 50 InDel-based genotypes of 73 accessions is not enough.
+Reviewer #2: Dear Authors,
+You have generated substantial information on developing INDEL barcode system in tartary buckwheat which can be improve the reliability of identifying genetic diversity among buckwheat germplasm. I found this study quite helpful in targeting future buckwheat breeding programs but have some minor concerns before formally accepting it from my end:
+Abstract has been casually written in terms of language used, especially lines 41-45. Please modify accordingly.
+What age plant material was used for measuring the rutin and quercetin contents? Mature….how many years?
+What do you mean by ‘etc.’ in Fig. 2? I am sorry but you can’t use such terms especially describing a figure. Correct it in figure legend as well as in the figure itself. You can add country names as and what available.
+In Fig. 3, replace the word ‘InDel’ by ‘InDels’ as you are dealing with a large no.
+References need thorough rechecking as per journal standards. Maintain uniformity while citing edited books, chapters and/or proceedings.
+Lastly, rectify the grammatical mistakes and sentence framing. Authors seemed to be in a hurry while compiling this analysis. It will be better if help of some native English speaker could be taken.
+Regards
+Reviewer #3: In this manuscript, the authors used combination of Pacbio long reads and Illumina short reads for draft genome assembly of tartary buckwheat cv. ‘Daegwan 3-7a and through whole-genome resequencing of 26 accessions had identified 171,926 homogeneous and 53,755 heterogeneous InDels. The technical approach chosen for this study is sound and the processing steps presented are commonly used for this kind of study.
+However, there are few major concerns in the current manuscript, which authors should address
+A. The authors write that they have represented a high quality draft genome assembly and annotation for tartary buckwheat. They do not provide the needed analysis results to backup this assertion, as they have not compared their assembly with previously available assemblies.
+B. There is a need to include a large number of accessions representing any countries and indels for genetic identification of tartary buckwheat resources.
+There are also some minor points need to be addressed
+1. The material and methods section of the manuscript is not precise enough and does not contain all the processing steps presented in the result section. Such as the conditions for structure analysis should be detailed, with parameter settings.
+2. The manuscript needs to be rechecked for grammatical errors and spelling mistakes.
+3. Resolution of the all the figures should be checked to comply quality parameters of the journal.
+4. In figure 5 A author must include a DNA base pair ladder.
+5. In Figure 8 B there is a need to represent the differentiate accessions in their respective subgroups by encircling them.
+**********
+6. PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #2: No
+Reviewer #3: Yes: Pradeep Singh
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com/. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Registration is free. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email PLOS at figures@plos.org. Please note that Supporting Information files do not need this step.
+10.1371/journal.pone.0250786.r002Author response to Decision Letter 0
+Submission Version1
+4 Feb 2021
+
+We greatly appreciate the reviewer’s efforts to carefully review our manuscript and the valuable suggestions offered, which were invaluable in helping us to make improvements. We have revised and modified our manuscript to clarify and strengthen its content, after taking into consideration all of the reviewers’ comments. Please find our responses to each of the reviewers’ comments in the uploaded file.
+AttachmentSubmitted filename: Response to reviewers.docx
+Click here for additional data file.
+10.1371/journal.pone.0250786.r003Decision Letter 1
+SharmaHimanshuAcademic Editor© 2021 Himanshu Sharma2021Himanshu Sharmahttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version1
+23 Feb 2021
+
+PONE-D-20-30493R1
+Development of 50 InDel-based barcode system for genetic identification of tartary buckwheat resources
+PLOS ONE
+Dear Dr. Yul-Ho Kim
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+Please submit your revised manuscript by Apr 09 2021 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosone@plos.org. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+Please include the following items when submitting your revised manuscript:
+A rebuttal letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+
+If you would like to make changes to your financial disclosure, please include your updated statement in your cover letter. Guidelines for resubmitting your figure files are available below the reviewer comments at the end of this letter.
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: http://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols
+We look forward to receiving your revised manuscript.
+Kind regards,
+Himanshu Sharma
+Academic Editor
+PLOS ONE
+Journal Requirements:
+Please review your reference list to ensure that it is complete and correct. If you have cited papers that have been retracted, please include the rationale for doing so in the manuscript text, or remove these references and replace them with relevant current references. Any changes to the reference list should be mentioned in the rebuttal letter that accompanies your revised manuscript. If you need to cite a retracted article, indicate the article’s retracted status in the References list and also include a citation and full reference for the retraction notice.
+Additional Editor Comments (if provided):
+Based on the recommendations of the reviewer's authors had significantly revised the manuscript, and by analyzing the the revised manuscript the suggested that manuscript can be accepted for publication.
+But my question is that authors have not deposit the sequencing data in Public repositories like NCBI or any other. Firstly authors submit data into NCBI and put SRA number or any ID, Because I don't get the details for the same in the manuscript and I am not satisfied with this, I only accept the manuscript if authors provide these details.
+[Note: HTML markup is below. Please do not edit.]
+Reviewers' comments:
+Reviewer's Responses to Questions
+Comments to the Author
+1. If the authors have adequately addressed your comments raised in a previous round of review and you feel that this manuscript is now acceptable for publication, you may indicate that here to bypass the “Comments to the Author” section, enter your conflict of interest statement in the “Confidential to Editor” section, and submit your "Accept" recommendation.
+Reviewer #1: All comments have been addressed
+Reviewer #2: All comments have been addressed
+Reviewer #3: All comments have been addressed
+**********
+2. Is the manuscript technically sound, and do the data support the conclusions?
+The manuscript must describe a technically sound piece of scientific research with data that supports the conclusions. Experiments must have been conducted rigorously, with appropriate controls, replication, and sample sizes. The conclusions must be drawn appropriately based on the data presented. 
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+3. Has the statistical analysis been performed appropriately and rigorously? 
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+4. Have the authors made all data underlying the findings in their manuscript fully available?
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+5. Is the manuscript presented in an intelligible fashion and written in standard English?
+PLOS ONE does not copyedit accepted manuscripts, so the language in submitted articles must be clear, correct, and unambiguous. Any typographical or grammatical errors should be corrected at revision, so please note any specific errors here.
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+6. Review Comments to the Author
+Please use the space provided to explain your answers to the questions above. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. (Please upload your review as an attachment if it exceeds 20,000 characters)
+Reviewer #1: The authors have revised their manuscript according to the reviewers' comments. So I suggest that the manuscript should be accepted now.
+Reviewer #2: All the concerned queries have been addressed satisfactorily. While language was a constraint initially, it has also been improved.
+Reviewer #3: (No Response)
+**********
+7. PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #2: Yes: Dr. Nikhil Malhotra, ICAR-National Bureau of Plant Genetic Resources Regional Station, Shimla, India
+Reviewer #3: Yes: Pradeep Singh
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com/. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Registration is free. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email PLOS at figures@plos.org. Please note that Supporting Information files do not need this step.
+AttachmentSubmitted filename: Comments_PLoS Revision.docx
+Click here for additional data file.
+AttachmentSubmitted filename: PONE-D-20-30493_R1_Edit.pdf
+Click here for additional data file.
+10.1371/journal.pone.0250786.r004Author response to Decision Letter 1
+Submission Version2
+22 Mar 2021
+
+Dear Editor,
+We greatly appreciate the reviewer’s efforts to carefully review our manuscript and the valuable suggestions offered, which were invaluable in helping us to make improvements. We have revised and modified our manuscript to clarify and strengthen its content, after taking into consideration all of the Editor’ comments. Please find our responses to each of the Editor’ comments below.
+----------------------------------------------------------------------------------------------------------------------------------------------
+Please review your reference list to ensure that it is complete and correct. If you have cited papers that have been retracted. Please include the rationale for doing so in the manuscript text, or remove these references and replace them with relevant current references. Any changes to the reference list should be mentioned in the rebuttal letter that accompanies your revised manuscript. If you need to cite a retracted article, indicate the article’s retracted status in the References list and also include a citation and full reference for the retraction notice. 
+---------------------------------------------------------------------------------------------------------------------------------------------
+The changed references are as follows. In addition, the changes have been indicated in the file (Revised Manuscript with Track Changes.docx).
+Line 30 to 31:
+We developed PCR-based and co-dominant insertion/deletion (InDel) markers to discriminate tartary buckwheat genetic resources.
+Line 101 to 103:
+In addition, Sohn et al. [38] reported that the InDel-based barcode system focuses on usability, and provided an efficient resource management system.
+Line 130 to 133:
+We grew an additional four generations of HLB1001 using the SSD method, which resulted in the selection of a progeny, “Daegwan 3-7” for a draft genome of tartary buckwheat. A total of 26 accessions were collected (China, India, Nepal, Bhutan, Pakistan, and USA).
+Line 528 to 530:
+Ohnishi O, Matsuoka Y. Search for the wild ancestor of buckwheat II. Taxonomy of Fagopyrum (Polygonaceae) species based on morphology, isozymes and cpDNA variability. Genes Genet Syst. 1996;71:383-390. doi: 10.1266/ggs.71.383 
+Line 540 to 542:
+Huang W, Jarvis D, Ahmed S, Long C. Tartary buckwheat genetic diversity in the Himalayas associated with farmer landrace diversity and low dietary dependence. Sustainability. 2017;9(10):1806. doi: 10.3390/su9101806
+Line 543 to 545:
+Fagopyrum esculentum Moench. X. Diffusion routes revealed by RAPD markers. Genes Genet Syst. 1996;71:211-218. doi: 10.1266/ggs.71.211 
+Line 546 to 549:
+Ohnishi O. Search for the wild ancestor of buckwheat III. The wild ancestor of cultivated common buckwheat, and of tatary buckwheat. Econ Bot. 1998;52(2):123-133. Available at http://www.jstor.com/stable/4256049.pdf. Accessed 18 September 2020
+Line 553 to 556:
+Hou S, Sun Z, Linghu B, Xu D, Wu B, Zhang B, et al. Genetic diversity of buckwheat cultivars (Fagopyrum tartaricum Gaertn.) assessed with SSR markers developed from genome survey sequences. Plant Mol Biol Report. 2016;34(1):233–241. doi: 10.1007/s11105-015-0907-5
+Line 565 to 568:
+Liu M, Ma Z, Zheng T, Sun W, Zhang Y, Jin W, et al. Insights into the correlation between physiological changes in and seed development of tartary buckwheat (Fagopyrum tataricum Gaertn.). BMC Genomics. 2018;19(1):648. doi: 10.1186/s12864-018-5036-8
+Line 569 to 571:
+Spengler R. Anthropogenic seed dispersal: Rethinking the origins of plant domestication. Trends Plant Sci. 2020;25(4):340-348. doi: 10.1016/j.tplants.2020.01.005
+Line 582 to 584:
+Fabjan N, Rode J, Košir IJ, Wang Z, Zhang Z, Kreft I. Tartary buckwheat (Fagopyrum tataricum Gaertn.) as a source of dietary rutin and quercitrin. J Agric Food Chem. 2003;51(22):6452-6455. doi: 10.1021/jf034543e
+Line 604 to 606:
+Wang Y, Campbell CG. Tartary buckwheat breeding (Fagopyrum tataricum L. Gaertn.) through hybridization with its rice-tartary type. Euphytica. 2007;156(3):399-405. doi: 10.1007/s10681-007-9389-3
+Line 616 to 618:
+Hyten DL, Song Q, Zhu Y, Choi IY, Nelson RL, Costa JM, et al. Impacts of genetic bottlenecks on soybean genome diversity. Proc Natl Acad Sci U S A. 2006;103(45):16666–16671. doi: 10.1073/pnas.0604379103
+Line 619 to 621:
+Bhandari HR, Bhanu AN, Srivastava K, Singh MN, Shreya, Hemantaranjan A. Assessment of genetic diversity in crop plants – an overview. Adv Plants Agric Res. 2017;7(3):279-286. doi: 10.15406/apar.2017.07.00255
+Line 624 to 626:
+Hughes AR, Inouye BD, Johnson MTJ, Underwood N, Vellend M. Ecological consequences of genetic diversity. Ecol Lett. 2008;11(6):609-623. doi: 10.1111/j.1461-0248.2008.01179.x
+Line 630 to 632:
+Väli Ü, Brandström M, Johansson M, Ellegren H. Insertion-deletion polymorphisms (indels) as genetic markers in natural populations. BMC Genet. 2008;9(1):8. doi: 10.1186/1471-2156-9-8
+Line 639 to 642:
+Meng HT, Zhang YD, Shen CM, Yuan GL, Yang CH, Jin R, et al. Genetic polymorphism analyses of 30 InDels in Chinese Xibe ethnic group and its population genetic differentiations with other groups. Scientific Reports. 2015;5(5):8260. doi: 10.1038/srep08260
+Line 639 to 642:
+Tsuji K, Ohnishi O. Phylogenetic position of east Tibetan natural populations in tartary buckwheat (Fagopyrum tataricum Gaertn.) revealed by RAPD analyses. Genet Resour Crop Evol. 2001;48(1):63–67. doi: 10.1023/A:1011286326401
+Line 639 to 642:
+Zhang A, Zhao L. Molecular characterization of genetic diversity of underutilized crops; Buckwheat as an example. Acta Hortic. 2013;979:407-419. doi: 10.17660/ActaHortic.2013.979.44
+Line 718 to 720:
+Liu K, Muse SV. PowerMarker: an integrated analysis environment for genetic marker analysis. Bioinformatics. 2005;21(9):2128-2129. doi: 10.1093/bioinformatics/bti282
+Line 721 to 722:
+Perrier X, Jacquemoud-Collet JP. DARwin software. 2006. Available at http://darwin.cirad.fr/
+Line 728 to 731:
+Jiang P, Burczynski F, Campbell C, Pierce G, Austria JA, Briggs CJ. Rutin and flavonoid contents in three buckwheat species Fagopyrum esculentum, F. tataricum, and F. homotropicum and their protective effects against peroxidation. Food Res Int. 2007;40(3):356-364. doi: 10.1016/j.foodres.2006.10.009
+Line 741 to 743: 
+Germ M, Brenznik B, Dolinar N, Kreft I, Gaberščik A. The combined effect of water limitation and UV-B radiation on common and tartary buckwheat. Cereal Res Commun. 2013;41(1):97-105. doi: 10.1556/CRC.2012.031
+Line 744 to 747: 
+Pandey V, Niranjan A, Atri N, Chandrashekhar K, Mishra MK, Trivedi PK, Misra P. WsSGTL1 gene from Withania somnifera, modulates glycosylation profile, antioxidant system and confers biotic and salt stress tolerance in transgenic tobacco. Planta. 2014;239(6):1217-1231. doi: 10.1007/s00425-014-2046-x
+Line 762 to 764: 
+Tian D, Wang Q, Zhang P, Araki H, Yang S, Kreitman M, et al. Single-nucleotide mutation rate increases close to insertion/deletions in eukaryotes. Nature. 2008;455:105-108. doi: 10.1038/nature07175
+Line 765 to 768: 
+van der Biezen EA, Freddie CT, Kahn K, Parker JE, Jones JDG. Arabidopsis RPP4 is a member of the RPP5 multigene family of TIR-NB-LRR genes and confers downy mildew resistance through multiple signaling components. Plant J. 2002;29(4):439-451. doi; 10.1046/j.0960-7412.2001.01229.x
+Line 769 to 772: 
+Langlois-Meurinne M, Gachon CM, Saindrenan P. Pathogen-responsive expression of glycosyltransferase genes UGT73B3 and UGT73B5 is necessary for resistance to Psudomonas syringae pv tomato in Arabidopsis. Plant Physiol. 2005;139(4):1890-1901. doi: 10.1104/pp.105.067223
+Line 773 to 776: 
+Attaran E, Rostás M, Zeier J. Pseudomonas syringae elicits emission of the terpenoid (E,E)-4,8,12-trimethnyl-1,3,7,11-tridecatetraene in Arabidopsis leaves via jasmonate signaling and expression of the terpene synthase TPS4. Mol Plant Microbe Interact. 2008;21(11):1482-1497. doi: 10.1094/MPMI-21-11-1482 
+Line 777 to 779: 
+Islam MS, Wang MH. Expression of dehydration responsive element-binding protein-3 (DREB3) under different abiotic stresses in tomato. BMB Rep. 2009;42(9):611-616. doi: 10.5483/bmbrep.2009.42.9.611 
+Line 780 to 782: 
+Bellucci E, Bitocchi E, Rau D, Nanni L, Ferradini N, Giardini A, et al. Population structure of barley landrace populations and gene-flow with modern varieties. PLoS ONE. 2013;8(12):e83891. doi: 10.1371/journal.pone.0083891 
+Line 783 to 785: 
+Hollister JD, Ross-Ibara J, Gaut BS. Indel-associated mutation rate varies with mating system in flowering plants. Mol Biol Evol. 2010;27(2):409-416. doi: 10.1093/molbev/msp249 
+Line 786 to 787: 
+Leishman MR, Westoby M, Jurado E. Correlates of seed size variation: a comparison among five temperate floras. J Ecol. 1995;83(3):517-529. doi: 10.2307/2261604
+----------------------------------------------------------------------------------------------------------------------------------------------
+My question is that authors have not deposit the sequencing data in Public repositories like NCBI or any other. Firstly authors submit data into NCBI and put SRA number or any ID. Because I don’t get the details for the same in the manuscript and I am not satisfied with this, I only accept the manuscript if authors provide these details.
+----------------------------------------------------------------------------------------------------------------------------------------------
+I agree with your opinion. But, the draft genome has limitations. First, the draft genome of tartary buckwheat cv. “Daegwan 3-7” showed 43,771 gene models compared to 30,386 in “PinKu1.” Second, “Daegwan3-7” matched 80% of showed 80% gene matches compared to 89% in “Pinku1” out of 1,375 BUSCOs. Thus, we’re currently working with Professor Dong-Ha Oh of Louisiana State University to improve gene models and BUSCOs of the draft genome. In addition, we will try to present de novo assembly of the 26 genomes by using the improved gene models and BUSCOs of the draft genome. It would be possible to perform pan-genome analysis of the 26 genomes, enabling identification of the core and expanded subgenomes of tartary buckwheat. 
+In the future, we will deposit the improved sequencing data in public repositories. These results will lead to the discovery of a larger number of genome-wide markers which will help researchers to genetically characterize the tartary buckwheat genome at high resolution. Furthermore, genome sequences, as well as orthologous genes and gene families identified as uniquely in tartary buckwheat through comparative analysis, provide an essential resource for studying the adaptation, specialized metabolism, and the genomic basis of the strikingly high rutin content in this interesting crop species.
+It is clear that the 50-InDel based barcode system should be efficient, fast and low-cost approach for the genetic identification of tartary buckwheat accessions. We believe that these modifications have strengthened the manuscript and hope that the revised manuscript is suitable for publication in PLOS ONE.
+AttachmentSubmitted filename: Response to editor.docx
+Click here for additional data file.
+10.1371/journal.pone.0250786.r005Decision Letter 2
+SharmaHimanshuAcademic Editor© 2021 Himanshu Sharma2021Himanshu Sharmahttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version2
+14 Apr 2021
+
+Development of 50 InDel-based barcode system for genetic identification of tartary buckwheat resources
+PONE-D-20-30493R2
+Dear Dr. Kim,
+We’re pleased to inform you that your manuscript has been judged scientifically suitable for publication and will be formally accepted for publication once it meets all outstanding technical requirements.
+Within one week, you’ll receive an e-mail detailing the required amendments. When these have been addressed, you’ll receive a formal acceptance letter and your manuscript will be scheduled for publication.
+An invoice for payment will follow shortly after the formal acceptance. To ensure an efficient process, please log into Editorial Manager at http://www.editorialmanager.com/pone/, click the 'Update My Information' link at the top of the page, and double check that your user information is up-to-date. If you have any billing related questions, please contact our Author Billing department directly at authorbilling@plos.org.
+If your institution or institutions have a press office, please notify them about your upcoming paper to help maximize its impact. If they’ll be preparing press materials, please inform our press team as soon as possible -- no later than 48 hours after receiving the formal acceptance. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information, please contact onepress@plos.org.
+Kind regards,
+Himanshu Sharma
+Academic Editor
+PLOS ONE
+Additional Editor Comments (optional):
+Authors have addressed all the queries raised by reviewer and Academic Editor and putting one note that in future when this genome sequence is annotated and completed they must submit the sequence in public repositories. Now the manuscript is looking good, but there are always possibilities of correcting the mistakes which authors will take care at the time of proofread.
+Reviewers' comments:
+10.1371/journal.pone.0250786.r006Acceptance letter
+SharmaHimanshuAcademic Editor© 2021 Himanshu Sharma2021Himanshu Sharmahttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+7 May 2021
+
+PONE-D-20-30493R2 
+Development of 50 InDel-based barcode system for genetic identification of tartary buckwheat resources 
+Dear Dr. Kim:
+I'm pleased to inform you that your manuscript has been deemed suitable for publication in PLOS ONE. Congratulations! Your manuscript is now with our production department. 
+If your institution or institutions have a press office, please let them know about your upcoming paper now to help maximize its impact. If they'll be preparing press materials, please inform our press team within the next 48 hours. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information please contact onepress@plos.org.
+If we can help with anything else, please email us at plosone@plos.org. 
+Thank you for submitting your work to PLOS ONE and supporting open access. 
+Kind regards, 
+PLOS ONE Editorial Office Staff
+on behalf of
+Dr. Himanshu Sharma 
+Academic Editor
+PLOS ONE

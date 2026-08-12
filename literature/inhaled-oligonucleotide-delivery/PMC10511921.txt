@@ -1,0 +1,516 @@
+3946starprotSTAR ProtocolsSTAR ProtocElsevierPMC1051192110511921105119213743690210.1016/j.xpro.2023.102432A histological protocol for quantifying the birthrates of specific subtypes of olfactory sensory neurons in mice
+HossainKawsar SmithMadeline SantoroStephen W 1Department of Pediatrics, Section of Developmental Biology, University of Colorado School of Medicine, Aurora, CO 80045, USA2Molecular and Cellular Life Sciences Program, University of Wyoming, Laramie, WY 82071, USA∗Corresponding author stephen.santoro@cuanschutz.edu
+3Technical contact: kawsar.hossain@cuanschutz.edu
+4Lead contact: stephen.santoro@cuanschutz.edu
+1172023431024321024322292023© 2023 The Author(s)This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+Mammals typically have hundreds of distinct olfactory sensory neuron subtypes, each defined by expression of a specific odorant receptor gene, which undergo neurogenesis throughout life at rates that can depend on olfactory experience. Here, we present a protocol to quantify the birthrates of specific neuron subtypes via the simultaneous detection of corresponding receptor mRNAs and 5-ethynyl-2′-deoxyuridine. For preparation prior to beginning the protocol, we detail procedures for generating odorant receptor-specific riboprobes and experimental mouse olfactory epithelial tissue sections.
+For complete details on the use and execution of this protocol, please refer to van der Linden et al. (2020). 
+Subject areas: Developmental biology, Neuroscience
+
+## Graphical abstract
+ 
+
+## Highlights
+•Riboprobes are designed to identify specific olfactory sensory neuron subtypes
+•New olfactory sensory neurons are birthdated using EdU
+•Subtype-specific birthrates are quantified via combined RNA-FISH and EdU staining
+•Experience-driven changes in the birthrates of specific neuron subtypes are assessed
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+Mammals typically have hundreds of distinct olfactory sensory neuron subtypes, each defined by expression of a specific odorant receptor gene, which undergo neurogenesis throughout life at rates that can depend on olfactory experience. Here, we present a protocol to quantify the birthrates of specific neuron subtypes via the simultaneous detection of corresponding receptor mRNAs and 5-ethynyl-2′-deoxyuridine. For preparation prior to beginning the protocol, we detail procedures for generating odorant receptor-specific riboprobes and experimental mouse olfactory epithelial tissue sections.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoCollection date 2023 Sep 15.
+
+## Before you begin
+The following protocol describes a procedure for quantifying, within the olfactory epithelia (OE) of mice, the neurogenesis rates of specific olfactory sensory neuron (OSN) subtypes, each of which is defined by the expression of a single one of the > 1000 odorant receptor (OR) genes encoded in the mouse genome. , , , Here we outline how this protocol may be used to quantify changes in the birthrates of specific OSN subtypes as a result of olfactory deprivation, exposure to discrete odorants, sex, or age, and how it may be used to quantify the subtype-specific survival of OSNs following neurogenesis.
+
+## Institutional permissions
+All procedures involving mice were carried out in accordance with NIH standards and approved by the University of Colorado, Anschutz Medical Campus Institutional Animal Care and Use Committee (IACUC). Users of this protocol should note that approval for conducting experiments on mice must be acquired in advance from the relevant institutions.
+
+## Generation of riboprobes for specific odorant receptor mRNAs
+
+Timing: 1–2 weeks
+
+The following procedure can be used to design and generate antisense riboprobes for detecting mRNAs encoding specific ORs. The procedure involves the design of OR-gene specific PCR primers, extraction of RNA from the mouse OE, reverse transcription-PCR amplification of a fragment of cDNA corresponding to an OR gene of interest, molecular cloning of the PCR amplicon into a plasmid vector, sequencing and linearization of the plasmid to generate a template, and in vitro transcription of the template to generate a labeled antisense riboprobe. As an example, we outline how to design and generate riboprobes that detect the Or9k7 (Olfr827) mRNA, but similar steps may be used to design riboprobes that detect transcripts corresponding to almost any OR or non-OR gene. Moreover, the protocol for quantifying the birthrates of specific OSN subtypes could potentially be adapted for use with alternative types of fluorescence in situ hybridization (FISH) probes that can be used with tyramide signal amplification (TSA) (e.g., RNAscope), in which a fluorophore is covalently linked to biomolecules in the vicinity of mRNA targets. FISH detection methods that require the preservation of nucleic acids (e.g., hybridization chain reaction) may not be compatible with EdU labeling, which has been found to result in the degradation of nucleic acids. 
+1.Design primer pairs to amplify riboprobe template sequences.a.Go to the Ensembl genome browser (https://ensembl.org/index.html) and select “Mouse” in the “All genomes” menu on the left side of the browser.
+b.Type “Or9k7” in the “Search Mouse” search bar and select “Go”.
+c.On the next page, select “Or9k7 (Mouse Gene, Strain: reference (CL57bl6))” from the options list.Note: To find the Or9k7/Olfr827 gene for mouse strains other than C57bl6, enter “Olfr827” in the “Search Mouse” bar and click “Go”. You will be directed to a page where you can select the Olfr827 gene for the desired mouse strain from the options list.
+
+d.On the next page, select the “Show transcript table” option. In the “transcript ID” column, select the longest transcript that codes for a protein.
+e.On the following page, select “cDNA” in the “Transcript-based displays” column at the left side of the browser; select “Download sequence”.
+f.In the new window under “Settings”, deselect all “Included sequences” except “cDNA (transcripts)”; select “Download”.Optional: We recommend importing the sequence into a DNA editing software application such as SnapGene Viewer (https://www.snapgene.com/snapgene-viewer) or Benchling (https://www.benchling.com/), free applications that enable the analysis and annotation of DNA sequences. Alternatively, the downloaded sequence can be opened using a standard text editing software application (e.g., Microsoft Word or Notepad).
+
+g.Analyze the target mRNA to identify regions that are not highly similar (<70% nucleotide identity) to transcripts corresponding to other OR genes using NCBI Nucleotide BLAST tool (https://blast.ncbi.nlm.nih.gov/).Note: Many mouse ORs show high sequence homology at the mRNA level, particularly within the CDS region. In such cases, targeting the 3′- or 5′-untranslated regions of mRNAs may result in more specific probes, as these regions tend to exhibit less sequence homology between ORs. Although it is possible to target intronic regions of a nascent OR mRNA, we have found that this approach typically yields small punctate signals within the nucleus that can be challenging to visualize. In our experience, targeting mRNA regions with <70% identity to off-target transcripts yields probes that are usually highly selective for the target. However, we advise testing probes prior to final use. The observation of homogeneous staining intensities across labeled OSNs indicates that a probe is selective for a single OR mRNA target, while extensive heterogeneity across OSNs may indicate inadequate probe selectivity. Examples of DNA oligonucleotide primers for generating riboprobes that we have found to be highly selective are listed in the KRT and in our previous publication. 
+
+h.Using the Primer-BLAST tool (https://www.ncbi.nlm.nih.gov/tools/primer-blast/), design primer pairs to generate amplicons of a desired length (typically 500–1000 bp, but see note below; defined using the “PCR product size” parameters) within desired regions of the transcript (defined using the “Range” parameters), with the organism set to “Mus musculus (taxid:10090)” and other parameters kept default.Note: We have found that probes between 500 and 1000 bp in length yield robust signals. For targets that are highly similar to other mRNAs (>70% identity), we recommend designing probes between 500 and 600 bp in length in order to minimize the detection of off-target mRNAs.
+
+i.Order primers from an oligonucleotide manufacturer such as Integrated DNA Technologies (https://www.idtdna.com/).Note: We have found that the minimum synthesis scale of 25 nmole with standard desalting purification yields primers that work efficiently and are sufficient for hundreds of PCR reactions.
+Optional: To increase the likelihood of generating a riboprobe that robustly and specifically detects a single OR mRNA, we recommend designing two or three riboprobes that target non-overlapping regions within the target.
+
+2.Extract total RNA from a mouse OE (see “ ”) using the Trizol Reagent according to the manufacturer’s protocol. For , see .
+3.Purify a portion of the extracted RNA using the RNeasy MinElute Cleanup Kit according to the manufacturer’s protocol, taking care not to exceed the capacity of the column (45 μg), and store the purified RNA at −80°C.
+Pause point: Purified RNA can be stored at −80°C for several years.
+4.Using the purified RNA as template, generate cDNA using the QuantiTect Reverse Transcription Kit according to the manufacturer’s protocol.
+Pause point: cDNA samples can be stored at −20°C for several years.
+5.Using the primer pairs designed in step 1 and cDNA (0.25 μL/ reaction) prepared in step 4, amplify the riboprobe template sequences via PCR using the Expand™ High Fidelity PCR System according to the manufacturer’s protocol.
+Note: If primers were designed to target intronic regions, mouse genomic DNA (e.g., from a tail snip) should be used as input. Genomic DNA may also be used as input to amplify sequences contained within single exons.
+6.Analyze PCR amplicons (1–3 μL) alongside a DNA ladder via electrophoresis on a 1% agarose gel to verify that the sizes of the amplicons are correct.
+7.Purify PCR amplicons using the MinElute Reaction Cleanup Kit according to the manufacturer’s protocol.
+8.Analyze the purified amplicons (0.5 μL) alongside a DNA ladder via electrophoresis on a 1% agarose gel to verify that the purification was successful.
+Pause point: PCR amplicons can be stored at −20°C for several years.
+9.Using the TOPO™ TA Cloning™ Kit, Dual Promoter, with One Shot™ TOP10 chemically competent E. coli cells, clone the purified PCR amplicons into the pCRII-TOPO vector and transform chemically competent E. coli cells according to the manufacturer’s protocol. For , see .
+10.Isolate plasmid DNA from at least three clones per target riboprobe using the QIAprep Spin Miniprep Kit according to the manufacturer’s protocol, with an elution volume of 100 μL.
+11.Quantify plasmid DNA concentrations using a spectrophotometer (e.g., NanoDrop).
+Optional: We recommend confirming the presence and correct sizes of inserts via EcoRI restriction digestion of the plasmid DNA (500 ng) ( ), followed by analysis of the digested products alongside a DNA ladder via electrophoresis on a 1% agarose gel.
+ 
+12.Submit plasmids for Sanger sequencing using the M13R primer.
+
+Note: We have found that sequencing from one end of the insert is usually sufficient to read the entire insert. For longer inserts, sequencing from the other end of the insert (using, e.g., the M13F primer) may be necessary to read the whole sequence. Alternatively, whole plasmid sequencing may be used.
+
+13.Using the “Align two or more sequences” function within the NCBI Nucleotide BLAST tool (https://blast.ncbi.nlm.nih.gov/), with each clone sequence as the “Query Sequence” and the target mRNA (obtained in step 1f) as the “Subject Sequence”, analyze each clone to confirm the presence of the desired insert and its orientation relative to the M13R primer binding site within the vector.
+
+Note: If the insert sequence is in the same (sense) orientation as the target mRNA, it is in the forward orientation relative to the M13R primer binding site. If the sequence is in the orientation opposite (antisense) that of the target mRNA, it is in the reverse orientation relative to M13R.
+
+CRITICAL: Identifying the orientation of the insert within the TOPO™ vector is critical for generating a riboprobe that is antisense to the target mRNA, as it will determine which restriction sites can be used to properly linearize the plasmid DNA (step 14) and which RNA polymerase should be used to generate the riboprobe (step 15) ( ).
+
+Pause point: Plasmid DNA can be stored at −20°C for several years.
+
+14.Prepare DNA templates for generating riboprobes.a.For each target riboprobe, linearize 5 μg of plasmid DNA from a single clone using 100 units of an appropriate restriction enzyme ( ).Note: We recommend using BamHI or HindIII to linearize plasmids with inserts in the forward orientation and NotI to linearize those with inserts in the in the reverse orientation ( ). For more details on restriction enzymes that can be used, refer to the TOPO ® TA Cloning® Kit user guide. To ensure complete linearization of plasmid DNA, reaction conditions are designed to over-digest the plasmid 20-fold. However, the presence of residual circular plasmid DNA is not expected to adversely affect downstream processes.
+CRITICAL: Care should be taken to ensure that the selected restriction enzyme does not cut within the insert. This can be done by searching for potential restriction sites within the insert sequence using a DNA analysis application such as SnapGene Viewer or Benchling.
+
+b.Purify linearized plasmid DNA using the MinElute Reaction Cleanup Kit according to the manufacturer’s protocol, with elution of purified DNA using 2 × 20-μL volumes of EB buffer.
+c.Analyze the purified DNA (0.5 μL) alongside a DNA ladder via electrophoresis on a 1% agarose gel to verify that linearization and purification were successful and to estimate the concentration of purified template by comparison to a 1 kb ladder, which has rungs of known concentrations ( A).Note: In our experience, purification of linearized template DNA via the MinElute Reaction Cleanup Kit is highly efficient, resulting in a concentration that is typically 100–125 ng/μL.
+Optional: The concentration of purified template may be measured using a spectrophotometer (e.g., NanoDrop).
+Pause point: Linearized template DNA can be stored at −20°C for several years.
+
+15.Generate DIG-labeled antisense riboprobes.a.For each riboprobe to be generated, combine the following reagents to make a 20-μL in vitro transcription (IVT) reaction mixture. Note: T7 RNA polymerase should be used for inserts in the forward orientation relative to M13R; Sp6 RNA polymerase should be used for inserts in the reverse orientation ( ).
+
+b.Mix components thoroughly by pipetting.
+c.Incubate at 37°C for 2 h.
+d.Add 2 μL RQ1 RNase-Free DNase.
+e.Mix components thoroughly by pipetting.
+f.Incubate at 37°C for 20 min.
+g.Purify the DIG-labeled riboprobe via ethanol precipitation by combining the following in a 1.5-mL microcentrifuge tube. 
+h.Mix components thoroughly by vortexing.
+i.Incubate at –20°C for at least 1 h.Pause point: Incubation at –20°C may be extended indefinitely.
+
+j.Spin microcentrifuge tubes containing the precipitated riboprobes at 4 °C at 21,000 × g for 20 min in a fixed-angle microcentrifuge, with the hinge of the lid oriented outward.
+k.Immediately following centrifugation, place tubes on ice and carefully decant supernatant by pipetting, taking care not to disrupt pellet, which should be located near the bottom of the tube on the side closest to the hinge but may not be visible.
+l.Carefully wash the pellets and sides of tubes with 100 μL of cold 75% ethanol.Note: Removal of as much liquid as possible is recommended to avoid extended drying times.
+
+m.With tube lids open, allow pellets to air-dry at 22°C–26°C until no liquid is visible (typically 15 min).
+n.Dissolve pellets containing riboprobes in 30 μL/ tube of RNAase-free water.
+o.Incubate tubes for 15 min at 22°C–26°C.
+p.Vortex tubes for 30 s.
+q.Measure riboprobe concentrations using a spectrophotometer (e.g., NanoDrop).Note: Stock riboprobe concentrations obtained are typically 1–2 μg/μL. For most probes, hybridization at a final concentration of 1.3–2.6 ng/μL (750-fold dilution) yields robust FISH signals.
+
+r.Analyze 0.5 μL of each riboprobe alongside a DNA ladder via electrophoresis on a 1% agarose gel ( B).Note: Riboprobes should be visible as bright narrow smears with apparent lengths of 0.8–1.2 kb relative to a double-stranded DNA ladder ( B).
+
+s.Store riboprobes at –80°C.Pause point: Riboprobes can be stored at –80°C for several years.
+
+ 
+
+## Preparation of mouse OE tissue
+
+Timing: Variable
+
+The following steps outline procedures for experience manipulation (if necessary), EdU-birthdating of newborn OSNs, dissection and freezing of OEs, and preparation of slides containing OE cryosections. EdU is a thymidine analog used to label cells that are undergoing division at the time of EdU exposure. , , When analyzed ∼ 7 days-post injection, EdU can be used to identify newborn OSNs by click-chemical conjugation of a fluorophore. 
+16.If necessary for the experimental question being addressed, perform experiments to manipulate mouse olfactory experience.
+Note: Olfactory experience may be manipulated by reducing airflow on one side of the olfactory epithelium via unilateral naris occlusion (UNO) , , , or by exposing mice to specific odorants or olfactory environments, , , , , typically for 2–3 weeks ( A and ). UNO can be performed on young mice (P0–P14) by permanently closing one naris via electrocauterization. Alternatively, UNO can be performed reversibly on older mice using nose plugs. , Appropriate controls (e.g., non-occluded or unexposed mice) should be included in the experimental design.
+17.Birthdate newborn OSNs using EdU.a.Remove a mouse from its home cage and weigh it.
+b.Clean the mouse’s abdominal fur and skin with 70% ethanol.
+c.Inject 50 mg/kg EdU intraperitoneally using a 31-gauge Insulin syringe. A 10-gram mouse, for example, would require 50 μL of 10 mg/mL EdU solution.
+d.Replace the mouse in its home cage.
+e.3–4 h after the first EdU injection, repeat steps a–d to administer a second dose of EdU.
+f.For adult mice (> 8 weeks), repeat steps a–e for two additional days.
+
+Note: Although toxicity has not been observed using the doses of EdU described in this protocol, , , mice should be carefully monitored both during and after EdU administration for adverse effects, including hunched posture and weight loss greater than 15%. Animals exhibiting adverse effects should be euthanized in accordance with animal care and use standards. The timing and number of EdU injections depend on an animal's age, which is inversely correlated with OSN birthrate. Thus, while we administer two doses of EdU to juveniles (e.g., P28; A and A), we typically administer six doses to adults (e.g., P56; B) to compensate for their lower OSN birthrate.
+18.Prepare cryomolds, one for each OE to be dissected, by marking with sample information, including the dorso-ventral orientation in which the tissue will be placed within the cryomold.
+19.Prepare a freezing apparatus.a.Add 0.8–1.2 L of liquid nitrogen to a 1900-mL glass Dewar flask.
+b.Fill a 500-mL glass beaker with 100 mL of isopentane.
+c.Place the beaker into the Dewar flask to submerge the bottom portion in liquid nitrogen.Note: The precise sizes of the flask and beaker are not critical, but the beaker should be able to fit inside the flask and accommodate the cryomold. The volume of isopentane needed depends on the size of the beaker and should be sufficient to submerge the cryomold to a depth of 1 cm.
+
+d.Fill an ice bucket half-way with dry ice pellets or powder and cover.
+
+20.Euthanize experimental mice via isoflurane inhalation, followed by cervical dislocation or decapitation.
+Note: To quantify subtype-specific OSN birthrates, we typically euthanize mice 7 days post-EdU. However, the time point may be varied depending on the experimental question being addressed.
+21.If applicable, assess and document the completeness of unilateral naris closure using a dissecting microscope.
+Note: If UNO was successful, the electrocauterized nostril should appear completely closed ( ).
+ 
+22.Dissect the olfactory epithelium ( ).Note: Successful dissection of a mouse OE requires a basic level of dissection experience. We recommend practicing on non-precious samples prior to dissecting experimental ones. Equipment required for this step include a dissecting microscope, small surgical scissors, and fine-tipped forceps.
+a.Using scissors, detach the head from the body by cutting between the maxilla (upper jaw) and mandible (lower jaw) and through the neck.
+b.Remove the skin from the head and cut the incisors (front teeth) flush with the jawbone ( A).
+c.Place the head, dorsal side up, in a new polystyrene petri dish under a dissecting microscope.
+d.Remove eyes and associated connective tissue with scissors and forceps, respectively.
+e.Using fine scissors, carefully cut the skull along the midline starting from the occipital bone at the base of the skull to the middle of the frontal bone.
+f.Remove the interparietal and parietal bones from the two sides of the midline using forceps ( B and 4B′).
+g.Gently remove the rest of the frontal bone, which covers the olfactory bulb on both sides of the midline by lifting with closed forceps ( C).
+h.Remove the nasal bone that resides on the top of OE with forceps ( D).
+i.Remove the temporal bone and gently lift the posterior portion of the brain from of the base of the skull and turn the head 90° along the anterior-posterior axis to allow the posterior brain to detach and place tension on the nerve fibers connecting the OE to the OB ( E).
+j.Carefully detach the fibers between the OE and olfactory bulb (OB) at the cribriform plate with closed forceps. Remove the OB and brain.
+k.Loosen the connections between the OE and zygomatic bones and pull out only the left zygomatic bone ( F).
+l.Detach the maxilla bone from the anterior side of the OE, hold the right zygomatic bone with one pair forceps, and remove the OE with another pair of forceps by pushing from the left.
+m.Remove any connective tissue adhered to the OE using forceps ( G).Note: Special care should be taken when dissecting OEs from younger (< 2 weeks of age) or older mice (> 6 weeks of age), as the hardness of the bones inside and surrounding the OE varies with age.
+
+23.Freeze the dissected OE.a.Fill the labeled cryomold (from step 18) with optimal cutting temperature (OCT) compound to a depth of 1 cm.
+b.Holding the OE by the anterior end with forceps, submerge it, posterior end-down, into the OCT with a dorso-ventral orientation corresponding to labels on the cryomold.
+c.Adjust the OE position with forceps so that its posterior end is flush with the bottom of the cryomold and the anterior end points up.Note: The presence of air within the OE can cause it to float out of position within the liquid OCT. This can be avoided by freezing the block quickly after the OE has been properly positioned.
+
+d.When the isopentane within the freezing apparatus (prepared in steps 19b, c) has begun to freeze, remove the beaker from the liquid nitrogen and place it on dry ice.
+e.Partially submerge the cryomold into the cold isopentane and allow it to completely freeze (5–7 min).CRITICAL: Avoid allowing isopentane to flow into the cryomold and mix with OCT, as this can result in cracking of the tissue block and accumulation of isopentane at the bottom of the cryomold. Rapid and complete freezing of the tissue block is critical for obtaining tissue sections with good morphology. Partial or prolonged freezing may result in the formation of ice crystals in the tissue, which can cause tearing and adversely affect the morphology of the resulting cryosections.
+
+f.Place the frozen tissue block into a zip-locked plastic bag.
+g.Store frozen tissue blocks at –80°C until ready for cryosectioning.Pause point: Tissue blocks can be stored in tightly-sealed plastic bags at –80°C for several years.
+
+24.Cryosection the frozen OE.a.For each OE to be sectioned, use a mechanical pencil to label 20–25 slides with sample information.
+b.Check that the chamber temperature of the cryostat is set to –20°C and the section thickness is set to 12 μm.
+c.Place an anti-roll plate into and a new sectioning blade in their respective holders at least 15 min prior to sectioning.
+d.Place a new razor blade and a specimen chuck within the cryostat chamber at least 15 min prior to sectioning.Note: An OE section thickness of 12 μm has been found to work well in this protocol, irrespective of animal age at the time of OE dissection.
+CRITICAL: The cryosectioning temperature is critical for obtaining sections with good morphology. The optimal cutting temperature can vary among cryostats. We recommend testing the temperature using a non-precious tissue sample. For more information, see , , , and .
+
+e.Remove the tissue block from the cryomold.
+f.Dispense a thin layer of OCT onto the specimen chuck and then immediately place the tissue block on the liquid OCT layer, with the anterior end of the OE down.
+g.If necessary, dispense additional OCT to secure the block to the specimen chuck.
+h.Place the tissue-mounted specimen chuck on the freezing shelf for at least 30 min to allow its temperature to equilibrate with that of the cryostat chamber.
+i.Place the tissue-mounted specimen chuck into the chuck holder.
+j.Adjust the orientation of the tissue block so that the dorsal side of the OE is facing up and the posterior end is perpendicular to the blade.
+k.If the posterior OE is not visible, slowly cut and discard sections until it can be seen.
+l.If necessary, adjust the angle of the specimen chuck so that the posterior end of the OE is level and not tilted to the right, left, dorsal, or ventral sides relative to the microtome blade.
+m.Using a cold razor blade, carefully trim excess OCT from the sides of the block to a 1-cm square encompassing the OE.
+n.Sequentially collect OE sections on slides (prepared in step 24a) such that each slide contains a series of 8–10 sections spanning the posterior to anterior ends of the OE.Note: Slides should be kept at 22°C–26°C while acquiring sections.
+
+o.Immediately after cryosectioning, place the tissue-mounted slides in a secure slide box and store at –80°C until use.Pause point: Tissue-mounted slides can be stored at –80°C for several years.
+
+ 
+
+## Preparation of equipment for combined RNA-FISH and EdU staining
+
+Timing: 40–50 min
+
+25.Pre-heat a hybridization oven and a heat block to 65°C and 95°C, respectively.
+26.Pre-cool a microcentrifuge to 4°C.
+27.Clean a slide submersion chamber with ultrapure (e.g., Milli-Q-purified) water before use and allow to air dry.
+28.Prepare a humidified horizontal slide chamber ( ).Note: The horizontal slide chamber can be prepared by cutting two pairs of 2-mL serological pipettes to a length of 20 cm each (from the top) and gluing them using a cyanoacrylate adhesive (e.g., “Super Glue”) to the bottom of a 24.5 cm × 24.5 cm × 2.5 cm bioassay dish such that each pair is spaced 3 cm apart and 3 cm from the chamber edge ( ). Optionally, the lid can be wrapped with aluminum foil to protect the chamber from light. Commercial horizontal slide chambers can also be purchased (please see ).
+a.Clean the horizontal slide chamber with ultrapure water.
+b.Cut absorbent paper (e.g., filter paper or paper towel) into strips (20 cm × 2 cm) and place them between the glued cut pipettes ( ).
+c.Add 20–30 mL of an appropriate buffer, as detailed in the protocol, to the absorbent paper.
+d.Close the chamber until ready to load experimental slides.
+
+29.Prepare a humidified hybridization chamber ( ).a.Clean a hybridization chamber with ultrapure water and allow it to air-dry completely.
+b.Place a clean, blank slide in position 1 and slip two tightly folded Kim Wipes between the slide and the bottom of the box ( ).
+c.Add 4 mL of 50% formamide in 5× SSC to the folded Kim Wipes.Optional: If using multiple riboprobes in the same experiment, we recommend separating slides receiving different riboprobes by creating partitions within the chamber consisting of two adjacent blank slides sandwiching a folded Kim Wipe ( ) or preparing multiple chambers.
+
+d.Close the chamber until ready to load experimental slides.
+
+ 
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+ 
+Note: Dissolve EdU by incubating at 37°C with agitation. Divide the solution into 1 mL aliquots and store at –20°C for up to 6 months. Before use, thaw one aliquot and redissolve by heating at 37°C with agitation.
+
+ 
+Note: Prepare immediately before use.
+
+CRITICAL: To avoid exposure to formaldehyde gas and liquid, fix solution should be prepared in a fume hood with use of appropriate personal protective equipment.
+
+ 
+Note: Store at 22°C–26°C for up to 6 months.
+
+ 
+Note: Ultrapure water is purified using a water purification system such as Milli-Q®. Store 20% SDS at 22°C–26°C for up to 6 months.
+
+ 
+Note: Store at 22°C–26°C for up to 6 months.
+
+ 
+Note: Store at 22°C–26°C for up to 6 months.
+
+ 
+Note: Store at 22°C–26°C for up to 6 months.
+
+ 
+CRITICAL: Components should be combined and thoroughly mixed immediately before use. To prevent exposure to acetic anhydride vapors, acetylation solution should be prepared in a fume hood using appropriate personal protective equipment.
+
+ 
+Note: Store at 22°C–26°C for up to 6 months.
+
+ 
+Note: Molecular biology grade water, which is available commercially, is certified to be highly pure, sterile, and nuclease-free. Hybridization solution should be stored at –20°C for up to one year.
+
+ 
+Note: Store at 22°C–26°C for up to 6 months.
+
+ 
+Note: Prepare immediately before use.
+
+ 
+Note: Store at 22°C–26°C for up to 6 months.
+
+ 
+Note: Prepare immediately before use using 30% hydrogen peroxide that is no older than 6 months from initial opening.
+
+ 
+Note: Store at 22°C–26°C for up to 6 months.
+
+ 
+Note: Add blocking reagent slowly to TN with agitation, incubate at 55°C with continuous agitation (30–60 min), and store at –20°C for up to 1 year. Before use, thaw an aliquot and centrifuge the required volume at 4°C for 1 min at 21,000 × g to remove insoluble precipitates.
+
+ 
+Note: Immediately before use, centrifuge at 4°C for 1 min at 21,000 × g to remove insoluble precipitates.
+
+## TSA Plus Fluorescein stock solution
+Dissolve TSA Plus Fluorescein in 150 μL dimethyl sulfoxide (DMSO) per tube.
+ Note: Prepare immediately before use using 1× amplification reagent at a temperature of 22°C–26°C.
+ Note: Store at –20°C for up to one year.
+ Note: Store at 4°C indefinitely.
+ Note: Store at –20°C indefinitely.
+ Note: Prepare immediately before use.
+ Note: Add components in the order listed and immediately before use.
+ Note: Prepare immediately before use.
+
+## Step-by-step method details
+
+## Combined RNA-FISH and EdU staining
+
+Timing: 3–5 days
+
+The following is a detailed protocol for the simultaneous detection of subtype-specific OR mRNA transcripts, via FISH, and EdU incorporated into the genomic DNA of birthdated cells via click-chemical conjugation of a fluorophore. This protocol enables the identification of OSNs of specific subtypes born at defined times. Using appropriate tissues and riboprobes, it can be applied to the study of the birthrates and/or survival rates of OSNs of essentially any subtype and how they change as a function of experience.
+Note: Steps of this protocol involving the transfer of slides from one solution to another can be performed either by decanting the solution from the slide submersion chamber and adding new solution, or by moving the slides to a different submersion chamber containing new solution. Steps involving the transfer of slides from the submersion chamber to the humidified horizontal slide chamber should be done with care to avoid drying of tissue sections. For these steps, we recommend removing one slide at a time, gently tapping an edge of the slide on a paper towel to remove excess wash solution, wiping the bottom and side edges of the slide on a dry paper towel, placing the slide into the horizontal chamber, carefully adding the required solution dropwise to cover all sections on the slide as evenly as possible, and, If applicable, placing a #1 coverslip on the slide by gently letting it fall onto the solution starting from the bottom edge. After all slides have been processed, the chamber should be closed. The steps involved in detection of FISH riboprobes were adapted and from the TSA Plus Fluorescence Kits manual.
+1.Re-hydrate OE tissue sections.a.Transfer slides from the –80°C freezer to an open horizontal slide chamber.
+b.Incubate slides: 5 min, 37°C.
+c.Equilibrate slides in 1× PBS (pH 7.2) in a slide submersion chamber: 3 min, 22°C–26°C.
+
+CRITICAL: For this step, do not allow slides to exceed 3 min in 1× PBS, as this may result in the diffusion of mRNA transcripts out of the unfixed sections and a reduced FISH signal intensity.
+2.Fix and permeabilize tissue sections.a.Immerse slides in fix solution: 10 min, 22°C–26°C.CRITICAL: All steps involving fix solution should be performed in a fume hood with appropriate personal protective equipment.
+
+b.Wash slides in 1× PBS: 3 min, 22°C–26°C.
+c.Immerse slides in 0.5% Triton X-100 in 1× PBS: 10 min, 22°C–26°C.
+d.Wash slides in 1× PBS: 3 min, 22°C–26°C.
+e.Immerse slides in 1% SDS in 1× PBS: 3 min, 22°C–26°C.
+f.Wash slides in 1× PBS: 3 × 3 min, 22°C–26°C.
+g.Immerse slides in acetylation solution: 10 min, 22°C–26°C.CRITICAL: Steps involving acetylation solution should be performed in a fume hood with appropriate personal protective equipment.
+
+h.Wash slides in 1× PBS: 5 × 3 min, 22°C–26°C.
+
+3.Prepare tissues for FISH riboprobe hybridization.a.Transfer slides to a horizontal slide chamber humidified with 5× SSC (see step 28 in the “ ” section).
+b.Pre-hybridize tissues by applying 500 μL of hybridization solution to each slide.
+c.Cover horizontal chamber.
+d.Incubate slides: 30 min, 22°C–26°C.
+
+4.Prepare FISH riboprobe for hybridization.a.Dilute the stock FISH riboprobe to a concentration of 1.3–2.6 ng/μL (typically, 1:750) in hybridization solution and mix thoroughly by vortexing.
+b.Denature the diluted riboprobe: 2.5 min, 95°C, then place immediately on ice.
+
+5.Hybridize FISH riboprobe to OR-specific mRNAs in OE tissue sections.a.Decant hybridization solution from slides.
+b.Apply 115 μL of the diluted riboprobe to each slide and cover with a #1 coverslip.Note: The riboprobe concentration may require adjustment to optimize the signal-to-noise ratio. If FISH signals are reproducibly weak and background is low, raising the probe concentration by 1.5–2-fold is recommended. In cases in which background is high, reducing probe concentration by 1.5–2-fold is recommended. For more information, see , .
+CRITICAL: We recommend that gloves be changed when switching between different riboprobes to avoid cross-contamination.
+
+c.Carefully transfer coverslipped slides to a hybridization chamber humidified with 50% formamide in 5× SSC (see step 29 in the “ ” section).Note: With the chamber standing on-end vertically, slides should be placed into the chamber like shelves in a bookcase.
+
+d.Carefully seal the chamber using tape with a thermosetting rubber adhesive.
+e.Carefully place the sealed hybridization chamber vertically inside the pre-heated hybridization oven.
+f.Incubate slides: 12–16 h, 65°C.
+g.Allow coverslips to detach from slides by immersing coverslipped slides in prewarmed (65°C) 5× SSC in a slide submersion chamber.
+h.Rinse slides in 0.2× SSC: 15 s, 22°C–26°C.Note: 0.2× SSC can be kept at 65°C between washes by storing in the 65°C hybridization oven.
+
+i.Wash slides in 0.2× SSC: 4 × 20 min, 65°C.
+j.Wash slides in 0.2× SSC: 5 min, 22°C–26°C.
+k.Wash slides in TN: 5 min, 22°C–26°C.
+
+6.Prepare tissues for detection of FISH riboprobes.a.Quench endogenous peroxidases by incubating slides in freshly prepared 3% hydrogen peroxide in TN: 10 min, 22°C–26°C.
+b.Rinse slides in TNT: 15 s, 22°C–26°C.
+c.Wash slides in TNT: 5 × 3 min, 22°C–26°C with gentle rocking (70 RPM).
+d.Processing slides one-at-a-time, transfer each to a horizontal chamber humidified with TN and apply 500 μL TNB.
+e.Cover horizontal chamber and incubate slides: 30 min, 22°C–26°C.
+f.Processing slides one-at-a-time, remove each slide from the horizontal chamber, drain TNB, place slide back into the horizontal chamber, and apply 500 μL of anti-DIG-POD antibody in TNB.
+g.Cover horizontal chamber and place on a level surface: 12–16 h, 4°C.
+h.Decant antibody solution and rinse slides in TNT: 15 s, 22°C–26°C.
+i.Wash slides in TNT: 4 × 15 min, 22°C–26°C, with gentle shaking (70 RPM).
+
+7.Generate fluorescent signals corresponding to OR mRNA.a.Processing slides one-at-a-time, transfer each to a horizontal chamber humidified with TN.
+b.Apply 200 μL of TSA Plus Fluorescein working solution.
+c.Cover horizontal chamber and incubate slides: 12 min, 22°C–26°C.Note: If processing multiple slides, stagger reaction start and end times by 30–40 s so that all slides have the same reaction time.
+
+d.Wash slides in TNT: 2 × 5 min, 22°C–26°C with gentle shaking (70 RPM).
+
+8.Generate fluorescent signals corresponding to EdU.a.Wash slides in BSA wash buffer: 2 × 5 min, 22°C–26°C, with gentle rocking (70 RPM).
+b.Processing slides one-at-a-time, transfer each to a horizontal chamber humidified with 1× PBS.
+c.Apply 500 μL of click chemistry reaction cocktail.
+d.Cover horizontal chamber and incubate slides: 30 min, 22°C–26°C.
+e.Rinse slides in BSA wash buffer: 2 × 15 s, 22°C–26°C.
+f.Wash slides in TNT: 2 × 5 min, 22°C–26°C, with gentle shaking (70 RPM).
+g.Counterstain nuclei by immersing in DAPI solution: 5 min, 22°C–26°C.
+h.Wash slides in TNT: 2 × 3 min, 22°C–26°C, with gentle shaking (70 RPM).
+i.Processing slides one-at-a-time, transfer each to a horizontal chamber.
+j.Apply 50 μL of Vectashield dropwise around tissue sections.
+k.Cover with a #1.5 coverslip.
+l.Seal all edges with clear nail polish.
+m.Allow to dry for at least 20 min before imaging.
+
+Alternatives: For detecting the signals of OR-specific mRNAs and EdU, we typically use FITC and Cy3 fluorophores, respectively. Alternative reagents with compatible excitation/emission spectra may be used.
+Pause point: Sealed slides can be stored at 4°C for up to 1 month before imaging.
+9.Acquire images.Note: For imaging we use the Zeiss LSM 900 Airyscan confocal microscope with a 10× objective and the ZEN software application.
+a.Open the “ZEN” software application, select the "Locate" tab and choose "Eyepiece" to enable observation of the slide through the microscope oculars.
+b.In the "Microscope" module on the right, select the 10× objective.
+c.Clean the slide with ultrapure water and place it on the stage.
+d.On the left panel, select "DAPI" and focus on a tissue section by viewing through the oculars.
+e.Assess the quality of OR mRNA and EdU signals by successively observing tissue sections using the green and red channels, respectively.Note: High-quality staining is indicated by the distinct and bright labeling of a subset of cells located within the neuroepithelium (see ).
+
+f.To capture images, select the "Acquisition" tab and use the "Smart Setup" option on the left side panel to configure the channels corresponding to OR mRNA, EdU, and nuclear DNA (typically FITC, Cy3, and DAPI, respectively).
+g.Check the signal intensity of each channel by selecting “Live” in the “Acquisition” tab and adjust the laser power as needed.Note: We typically use the following initial laser settings so that most of the dynamic range of the detector is used and most pixels are maintained on-scale. FITC (400 nm laser): 1%–3% power, master gain: 700 V; Cy3 (560 nm laser): 1%–2% power, master gain: 650 V; DAPI (405 nm laser): 0.5%–1% power, master gain: 650 V. For all channels, the pinhole is typically set to 460 μm/21.63 AU but may be reduced to enhance optical resolution.
+
+h.Acquire mosaic images of stained tissue sections using tile scanning (9 × 9) and stitch the mosaic images.Note: Ensure that the focus is adjusted separately for each section of the slide based on OR staining (FITC). As tile scans are used for imaging, a good strategy is to scroll across each section to ensure that all areas are in focus.
+Alternatives: Other confocal or epifluorescence microscopes that are equipped with an automated stage (to enable the acquisition of mosaic images) and the appropriate filters (to enable the detection of the appropriate fluorophores) may be used with this protocol.
+
+10.Count EdU-labeled OSNs of a specific subtype.a.Open a CZI image file using the ZEN (lite or full) software application.Note: ZEN lite, which can be freely downloaded and installed on Windows computers, can be used to visualize and annotate CZI files.
+
+b.From each slide, select for quantification all OE sections that have highly intact and symmetrical morphologies.Note: For analysis of mice that have been manipulated via UNO, both halves of the OE sections should be symmetrical and intact.
+Alternatives: Other imaging software applications that allow adjusting white/black levels may be used for image visualization and quantification. We typically use green, red, and blue pseudo-colors to visualize OR mRNA, EdU, and DAPI staining, respectively ( B), but alternative color combinations may also be used.
+
+c.To enhance signal visualization, adjust the gamma levels for FITC (OR mRNA) and DAPI (DNA) channels to 1.5 and 0.45, respectively.
+d.Adjust the black levels to 2%–5% of the dynamic range for all channels.
+e.Adjust the white levels to 12%–15% of the dynamic range for FITC (OR mRNA), 14%–16% for Cy3 (EdU), and 35%–40% for DAPI (DNA).Note: Signals corresponding to OR mRNA (FITC) and EdU (Cy3) should appear as distinct, bright, round cell-sized structures surrounding a DAPI-labeled nucleus within the epithelial region of the OE. FITC-positive cells represent OSNs of a specific subtype (green puncta in B, top panel) and Cy3-positive cells represent newly generated cells (red puncta in B, mid panel). Cells positive for both FITC and Cy3 represent newly generated OSNs of a specific subtype (yellow puncta marked by white arrows in B, bottom-left panel). For common problems and solutions related to OR mRNA and EdU staining, refer to , , and .
+
+f.Count and record the number of FITC-positive cells in each half-OE section to determine the abundance of all OSNs of the subtype of interest.
+g.Count and record the number of cells positive for both FITC and Cy3 in the epithelial region of each half-OE section to determine the abundance of newly generated OSNs of the subtype of interest.
+h.Repeat steps f and g for each selected section.Note: To count a cell as a newly generated OSN of a specific subtype, we require that the OR mRNA staining encompass at least 50% of the pixels corresponding to an EdU-labeled nucleus. This threshold is based on the expected incomplete colocalization of OR mRNA, which is concentrated in the cytoplasm, and EdU, which is confined to the nucleus. To minimize potential bias, we recommend that quantification be performed with the investigator blinded to the identities of experimental groups.
+
+## Expected outcomes
+The protocol outlined above enables quantification of the neurogenesis rates of specific OSN subtypes and the measurement of potential changes in these rates resulting from alterations in olfactory experience. For example, we have used this technique to investigate the effects of olfactory deprivation on the birthrates of specific OSN subtypes ( ). Olfactory deprivation via UNO was found to reduce the birthrate of Or9k7 (Olfr827) OSNs by ∼ 5-fold ( C, left), but had no effect on the birthrate of Or6b3 (Olfr1414) OSNs ( C, right). 
+The protocol may also be used to evaluate how the birthrates of distinct OSN subtypes change as a function of developmental or life stage (e.g., infancy, adolescence, adulthood, etc.). For instance, quantification of the birthrates of three OSN subtypes [Or52u1 (Olfr654), Or52a33 (Olfr622), and Or8c10 (Olfr250)] in mice that were EdU-injected at 4 or 8 weeks of age ( A and 8B) revealed varying degrees of birthrate reduction with age ( C–8E). Specifically, while Or52u1 and Or52a33 OSNs exhibited a ∼ 4-fold reduction at 8 weeks compared to 4 weeks ( C and D), Or8c10 OSNs exhibited only a ∼ 2-fold reduction ( E). These findings suggest that although OSN neurogenesis rates generally decrease with age, as has been reported previously, , , this decrease may not be not uniform across all OSN subtypes.
+The protocol presented here may also be used to analyze the relative neurogenesis rates of different OSN subtypes. For example, quantification of the birthrates of 10 subtypes revealed differences spanning ∼ 7-fold, from the subtype with the lowest birthrate, Or4f60, to the one with highest, Or6z3 ( ). These results are consistent with previous studies reporting substantial variability among OR expression levels and subtype-specific OSN abundances within the mouse OE. , , 
+ The protocol outlined above may also be adapted to investigate the survival rates of newborn OSNs of specific subtypes and how they are affected by experience. For example, we have varied the time between EdU injection and OE dissection to assess the effects of olfactory deprivation on the survival rates of newborn OSNs of five subtypes: three previously found to undergo stimulation-dependent neurogenesis [Or7g35 (Olfr855), Or9k7 (Olfr827), and Or13ae2 (Olfr1325)], and two previously found to undergo stimulation-independent neurogenesis [Or6z3 (Olfr1336) and Or6b3 (Olfr1414)] ( ). Subtypes that undergo stimulation-dependent neurogenesis tended to show lower frequencies of newborn OSNs on the closed side of the OE compared to the open beginning from the earliest time point at which robust OR expression is observable (4 days post-EdU labeling) ( B–10D), while stimulation-independent subtypes showed no such differences throughout the time course ( E and 10F). On both sides of the OE, frequencies of newborn OSNs of all subtypes peaked 7–12 days post-EdU and declined sharply thereafter ( ). Interestingly, open-side survival rates appear to differ among subtypes, with Or7g35 and Or6b3 OSNs showing a greater surviving fraction compared to the other three subtypes at 21–28 days post-EdU. While these results agree with previous findings that a majority of adult-born OSNs do not survive past 4 weeks of age, they indicate that survival rates may differ among subtypes.
+
+## Quantification and statistical analysis
+The following are step-by-step details for the statistical analysis of subtype-specific neurogenesis rates on the open and closed sides of the OE of a UNO-treated mouse ( ; ).
+1.Enter the number of cells that are double-positive for EdU and a specific OR mRNA on the open and closed sides of selected OE sections from experimental mice ( , columns 3 and 4).
+Note: To ensure adequate statistical power, at least 4 representative OE sections from each of at least 4 mice are required for comparisons within animals (e.g., open versus closed sides of the OE) for an OR expression frequency of at least 0.1% and an effect size of at least 2-fold. For comparisons between animals, 8 representative half-sections from each of at least 5 mice are required for the same OR expression frequency and effect size. These sample size estimations are based on our previous studies. , If the OR expression frequency and/or effect size are lower, additional samples may be required.
+2.Calculate the mean number of double-positive cells/ half OE section for each side and mouse ( , column 5 and 6) and use these data for following analyses:a.Calculate the mean number of double-labeled cells/ half OE section/ mouse for each side of the OE ( , columns 7 and 8).
+b.Calculate the standard error of the mean (SEM) for the number of double-labeled cells on each side of the OE ( , columns 9 and 10).
+c.Using a two-tailed, paired t-test (pairing the open and closed sides of the OE of each mouse), test for a subtype-specific difference in OSN birthrate on the two sides ( , column 11).
+d.Based on a p-value threshold of 0.05, determine whether there is a statistically significant subtype-specific difference in OSN birthrate. With p = 0.001, the data in support the conclusion that the birthrate of Or9k7 OSNs is lower on the closed side of the OE compared to the open.
+
+Note: For experimental questions requiring comparisons of OEs from mice in different treatment or age groups, statistical significance can be tested using a two-tailed, unpaired t-test. is available as , which may be used as a template for data analysis.
+ 
+
+## Limitations
+Limitations of this protocol include the following: 1) The targeting of OR mRNAs with high (>70%) nucleotide identity throughout the transcript may result in the staining of off-target OSN subtypes. 2) FISH detection methods that require the preservation of nucleic acids (e.g., hybridization chain reaction) may not be compatible with EdU detection, which has been found to result in the degradation of nucleic acids. 3) As described, this protocol can be used to assess the birthrates of only a single OSN subtype in each experiment. However, it is possible that the protocol may be adapted for use with multiplexable FISH probes to enable simultaneous quantification of the birthrates of multiple subtypes. 4) This protocol enables subtype-specific assessment of OSN birthrates no earlier than 2–4 days post-EdU, the time frame during which the expression of a single dominant OR begins to be robustly detectable. , , , Prior to this time frame, OSN precursors have been found via scRNA-seq to express low levels of multiple OR transcripts, , , , which we have found to be undetectable using the methods outlined in this protocol.
+
+## Troubleshooting
+
+## Problem 1
+Poor RNA quality (step 2 in “ ”).
+
+## Potential solution
+Poor RNA quality may result from the use of an excessive amount of tissue, RNase contamination, prolonged isolation time, or extended exposure of purified RNA to elevated temperatures. This problem may be resolved by.
+•Using no more than the recommended amount of tissue in the RNA isolation protocol.
+•Using RNase-free reagents and maintaining a clean workspace.
+•Minimizing RNA isolation time.
+•Avoiding prolonged exposure of purified RNA to elevated temperatures.
+
+## Problem 2
+Insert cloning yields few or no colonies (step 9 in “ ”).
+
+## Potential solution
+Insufficient insert concentration, suboptimal ligation conditions, and poor-quality competent cells can cause this issue. This problem may be resolved by.
+•Increasing the amount of purified PCR product in the ligation reaction.
+•Always using purified PCR products for cloning.
+•Strictly following the ligation conditions outlined in the kit manual.
+•Always storing competent cells in –80°C and avoiding freeze-thaw cycles.
+
+## Problem 3
+Tissue cryosections are folded or curled (step 24 in “ ”).
+
+## Potential solution
+This problem may be caused by a below-optimal cryostat temperature set point or failure to use an anti-roll plate. This problem may be resolved by.
+•Raising the set point by 1 or 2°C and then allowing the chamber and tissue block to equilibrate for 10–15 min before resuming cryosectioning.
+•Ensuring the use of an anti-roll plate.
+
+## Problem 4
+Tissue cryosections are crumpled (step 24 in “ ”).
+
+## Potential solution
+This problem may be caused by an above-optimal cryostat temperature. It may be resolved by lowering the set point by 1 or 2°C and then allowing the chamber and tissue block to equilibrate for 10–15 min before resuming cryosectioning.
+
+## Problem 5
+Tissue cryosections are torn or shredded (step 24 in “ ”).
+
+## Potential solution
+This problem may be caused by the formation of ice crystals during tissue freezing, especially if the freezing process is prolonged. It may be alleviated by ensuring that the isopentane within the freezing apparatus is sufficiently cold and that tissue blocks are allowed to remain submerged within the isopentane until completely frozen.
+
+## Problem 6
+Poor FISH signal-to-noise ratio (steps 5 and 10).
+
+## Potential solution
+This problem may be caused by a variety of factors, including non-specific binding of the riboprobe to tissue sections, insufficient riboprobe concentration, poor tissue quality, excessive drying of tissue sections between experimental steps, spilling or wicking of riboprobe or antibody solutions from slides, and a non-optimal TSA reaction temperature. This problem may be resolved by.
+•Optimizing the riboprobe concentration and/or design. For example, if the background signal is high, try reducing the probe concentration 2-fold. If the FISH signals are weak with minimal background, try increasing the probe concentration 2-fold.
+•Redesigning riboprobes to target different regions of the OR mRNA.
+•Ensuring that hybridization and horizontal chambers are properly humidified during incubation steps.
+•Properly sealing hybridization chambers prior to 12–16-h incubation.
+•Using care when placing coverslips on slides prior to hybridization to avoid loss of hybridization solution.
+•Transferring hybridization chambers to the hybridization oven with care to prevent the loss of hybridization solution or the displacement of coverslips from slides.
+•Ensuring that chambers are on a level surface during incubation to prevent solution drainage.
+•Removing excess liquid from the bottom and sides of the slides before applying riboprobe and antibody solutions to prevent wicking.
+•Preparing TSA plus working solution using 1× amplification reagent that has been allowed to come to 22°C–26°C.
+
+## Problem 7
+Poor EdU signal-to-noise ratio (step 10).
+
+## Potential solution
+The issue may be due to the use of sodium ascorbate that was not prepared immediately before addition to the reaction cocktail, or from combination of reaction components out of the recommended order, which could cause inactivation of the reaction cocktail. This problem may be resolved by.
+•Preparing 1 M sodium ascorbate immediately before use.
+•Preparing the click chemistry reaction cocktail by adding components in the order listed and immediately before use.
+
+## Problem 8
+Cellular OR mRNA staining intensity and/or area vary excessively within a section (step 10).
+
+## Potential solution
+This issue may result from riboprobe cross-reactivity with other highly similar OR transcripts (> 70% nucleotide identity). This problem may be resolved by.
+•Designing riboprobes from regions of the target mRNA that have <70% nucleotide identity with other transcripts.
+•Excluding OR-positive cells for which the intensity or area of OR mRNA signals are <50% of maximal.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Stephen Santoro (stephen.santoro@cuanschutz.edu).
+
+## Materials availability
+This study did not generate new unique reagents.
+
+## Acknowledgments
+This work was supported by the National Science Foundation under project IOS-1943528.
+
+## Author contributions
+Conceptualization, K.H., S.W.S.; investigation, K.H., M.S.; writing, K.H., M.S., S.W.S.; supervision, funding acquisition, S.W.S.
+
+## Declaration of interests
+The authors declare no competing interests.
+
+## Footnotes
+Supplemental information can be found online at Mendeley Data: https://doi.org/10.1016/j.xpro.2023.102432.
+
+## Supplemental information
+
+## Table S1. Template for quantification of subtype-specific neurogenesis on open and closed sides of the OEs of UNO-treated mice
+
+## Data and code availability
+This study did not generate/analyze new datasets/code. has been deposited in Mendeley Data as Supplementary File 1 (https://doi.org/10.17632/jpj9gpxzr4.2).
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Table S1. Template for quantification of subtype-specific neurogenesis on open and closed sides of the OEs of UNO-treated mice
+
+## Data Availability Statement
+This study did not generate/analyze new datasets/code. has been deposited in Mendeley Data as Supplementary File 1 (https://doi.org/10.17632/jpj9gpxzr4.2).

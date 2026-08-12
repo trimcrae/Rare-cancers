@@ -1,0 +1,178 @@
+2080ijgInternational Journal of GenomicsInt J GenomicsWileyPMC1278054512780545127805454152358010.1155/ijog/5902518Pancancer Analyses of KISS1 as a Potential Biomarker for Tumor Metastasis and Immunotherapy and Therapeutic Target for Breast Cancer
+WuChunbiao JiangHao XuWei LiBo ZhangHao ZhangLong LiZhenxi XiaoJianru ZhangPengpeng
+
+1
+
+Institute of Orthopedic Biomedical and Device Innovation, School of Health Science and Engineering, University of Shanghai for Science and Technology, Shanghai, China, usst.edu.cn
+
+2
+
+Department of Orthopedic Oncology, Shanghai Changzheng Hospital, Naval Medical University, Shanghai, China, smmu.edu.cn
+✉Corresponding author.
+812026202659025185902518912026Copyright © 2026 Chunbiao Wu et al. International Journal of Genomics published by John Wiley & Sons Ltd.This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Emerging evidence highlights the pivotal role of KISS1 in cancer metastasis; however, there remains a dearth of pancancer analyses, particularly concerning immunotherapy. Here, we conducted a comprehensive investigation of KISS1 across various cancers, with a specific focus on breast cancer, using TCGA and GTEx datasets. We observed a tissue context‐dependent role function of KISS1 in tumor metastasis, which exhibited suppressive effects in various tumors but promoted the metastatic phenotype in breast cancer. Our study revealed a noteworthy disparity between KISS1 expression at the mRNA and protein levels, indicating potential posttranslational modifications within cancer cells. Moreover, KISS1 is significantly associated with immune cell infiltration and immunosuppressive cells, suggesting its crucial role in modulating tumor immunotherapy. Intriguingly, our investigation also elucidated KISS1’s involvement in promoting breast cancer metastasis, thereby providing valuable insights into the molecular underpinnings of this process. Furthermore, we validated the presence of posttranslational modifications of KISS1 in breast cancer, adding to our understanding of its role in tumorigenesis. By shedding light on the tissue context‐dependent function of KISS1 and its implications for immunotherapy, our pancancer study offers novel perspectives on the oncogenic roles of KISS1 and provides potential avenues for the development of targeted therapies and diagnostic biomarkers.
+Keywords: biomarker, breast cancer, immune infiltration, KISS1, posttranslational modification, tumor metastasis
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2025 Jul 14; Received 2025 Jun 18; Accepted 2025 Aug 25; Collection date 2026.
+
+## 1. Introduction
+The durable control of cancers remains a challenge for medical workers, especially when metastases develop, although there has been a revolution in cancer treatment and early detection [ ]. Metastasis to other organs, even a preference for some specific organs [ ], represents a major obstacle in cancer therapies [ ]. Drug resistance of tumor cells accounts for the major reason that leads to an unsatisfactory outcome for neoplastic disease treatment [ ], and drug resistance is associated with the promotion of metastatic ability with the occurrence of epithelial‐to‐mesenchymal transition (EMT) [ ]. The development and outgrowth of cancer metastasis depend on several positive and negative regulators [ ], including metastasis suppressor genes or proteins that are subjected to modifications during gene transcription and protein translation [ ]. Thus, several metastasis suppressors have been described [ ], and among them, KISS1 raised our interest for its still controversial role in tumor metastasis [ ].
+Physiologically, KISS1 binds to the G protein‐coupled receptor (GPR54, also known as KISS1R) to activate the hypothalamic–pituitary–gonadal axis, which regulates puberty and reproductive functions [ ]. Originally, its metastasis suppressor role was identified in melanoma cells, in which cancer metastasis was suppressed by the introduction of the human chromosome 6 [ ]. Concordantly, other studies have confirmed the metastasis–suppressive role of KISS1 in the lung, prostate, and pancreas, mainly due to the KISS1 receptor and the negative regulation of CXCR4 (CXC chemokine receptor 4) [ ]. However, KISS1 has been reported to promote the metastatic capacity of estrogen receptor (ER) negative mammary epithelial and breast cancer cells [ ]. Therefore, the role in cancer metastasis of KISS1 is context‐dependent, and further studies are needed to elucidate the underlying mechanisms.
+Given all the previous studies, there are no studies on KISS1 in the entire cancer spectrum. Here, we conducted a pancancer study using public databases to acquire a more efficient understanding of KISS1 in terms of its molecular mechanisms and predictive value in tumor biology [ ]. Technologically, we included a number of factors, such as gene expression, protein expression, survival status, immune infiltration, immunosuppressive cells, cell experiments, and posttranslational modifications (PTMs) to investigate the potential molecular mechanism of KISS1 in the pathogenesis and clinical prognosis of various cancers [ ].
+
+## 2. Materials and Methods
+
+## 2.1. mRNA and Protein Expression Analysis
+For mRNA expression, we downloaded 10,535 pancancer samples from The Cancer Genome Atlas (TCGA) and 15,776 data combined with the Genotype‐Tissue Expression (GTEx) (https://commonfund.nih.gov/GTEx/) from the University of California, Santa Cruz (UCSC) (https://xenabrowser.net/) database. The mRNA sequencing data for KISS1 in 34 tumors and 31 normal tissues were transformed by log2(x + 0.001) [ ]. The protein expression analysis of the CPTAC (Clinical Proteomic Tumor Analysis Consortium) dataset was conducted on the UALCAN portal (the University of ALabama at Birmingham CANcer data analysis Portal) (http://ualcan.path.uab.edu/analysis-prot.html) [ ]. In addition, we explored protein expression status using immunohistochemical samples from the Human Protein Atlas (HPA) web (https://www.proteinatlas.org/) [ ].
+
+## 2.2. Correlations Between KISS1 Expression and Clinical Features
+Analysis of the relationship between clinical stage, metastasis status, and KISS1 expression was performed using R software (Version3.6.4) and obtained violin plots of KISS1 expression in different pathological stages of some indicated tumors using the GEPIA2 (Gene Expression Profiling Interactive Analysis, Version 2) web server (http://gepia2.cancer-pku.cn/#analysis) [ ].
+
+## 2.3. Survival Prognosis Assessment
+The prognostic value of KISS1 in various cancers was assessed by two types of clinical outcomes: overall survival (OS) and disease‐free survival (DFS). High‐quality prognostic expression data were picked up from the pancancer expression data, and the results were visualized using “Quick select” section on the cBioPortal web (https://www.cbioportal.org/) [ ].
+
+## 2.4. Relationship Analysis of Immune Traits
+We explored the association between KISS1 and immune infiltrates in pancancer from TCGA by the “Immune‐Gene” module of the TIMER2 (Tumor Immune Estimation Resource) web server (http://timer.cistrome.org/) [ ]. The StromalScore, ImmuneScore, and ESTIMATE scores were obtained using the R package “ESTIMATE” for all tumor samples [ ]. KISS1 and 8 immune checkpoint pathway genes were collected from a pancancer gene expression dataset [ ]. Regarding the relationship with immunosuppressive cells, we selected myeloid‐derived suppressor cells (MDSCs) and regulatory T cells (Tregs) for analysis [ ]. The CIBERSORT, CIBERSORT‐ABS, XCELL, and EPIC algorithms were applied for immune infiltration estimations [ ]. We performed the purity‐adjusted Spearman’s rank correlation test to obtain the p values and partial correlation values. These data are demonstrated as a heatmap and scatter plot.
+
+## 2.5. Cell Culture, Transfections, Immunoblotting (IB), and Immunoprecipitation
+MDA‐MB‐231 was purchased from the American Type Culture Collection (ATCC), and highly bone‐metastatic (BM) derivatives were obtained from Dr. Zhenxi LI (Changzheng Hospital, 415 Feng Yang Road, Shanghai 200003, People’s Republic of China). All cell lines were authenticated by STR profiling and compared with results in the ATCC database. Also, the cell lines were tested for mycoplasma contamination using GENEWIZ. The cells were cultured in DMEM (BasalMedia, L110KJ) supplemented with 10% FBS (Ylesa, S211201) and 1% 100x penicillin–streptomycin solution (Yeasen, 60162ES76) and grown at 37°C in a 5% CO2 incubator. Human KISS1 was cloned into the pLVX‐neo vector (Clontech) for overexpression, and annealed sense and antisense shRNA oligonucleotides were cloned into the pLKO.1‐puro vector (Addgene) for the knockdown of human KISS1. The shRNAs used were TRCN0000059065 (#1), TRCN0000059064 (#2), and TRCN0000059067 (#3). Flag‐WWP1 was transfected into MDA‐MB‐231 cells using PEI (Polysciences, 24765‐100) according to the manufacturer’s protocol. During immunoprecipitation assays, cells were lysed with RIPA (Beyotime, P0013D) containing protease inhibitors (Sigma), and immunoprecipitations were performed using anti‐Flag M2 beads (Sigma, M8823) at 4°C. The immunoprecipitates were washed with NETN buffer. IB analysis was performed using specific antibodies and related secondary antibodies, and visualization was obtained using chemiluminescence. The antibodies used in IB analysis were anti‐KISS1 (Sigma‐Aldrich, MABC60), anti‐GAPDH (Abcam, ab8245), and anti‐Flag (Abcam, ab205606).
+
+## 2.6. Cell Colony Formation and Transwell Assay
+Cells were positioned on a six‐well plate and cultured for 2 weeks, during which time the medium was changed every 3 days. Formed colonies were fixed in 4% paraformaldehyde for 30 min, stained with crystalline violet (Sigma‐Aldrich, C0775) for 10 min, and photographed and analyzed by ImageJ software. As for the transwell assay, 8000 cells were inoculated into each transwell chamber (Corning, CLS3378), with 200 μL DMEM containing 1% FBS, and 600 μL culture medium containing 20% FBS was added to the lower chamber.
+
+## 2.7. Nude Mice Experiments
+All animal experiments were conducted in strict accordance with the ethical guidelines of the Experimental Animal Ethics Committee of Yangzhou University (Approval No. 202504008) and followed the ARRIVE guidelines for reporting animal research. Six‐week‐old female BALB/c nude mice were housed under specific pathogen‐free (SPF) conditions with a 12‐hour light/dark cycle and provided ad libitum access to food and water. Mice were anesthetized with isoflurane (2‐3% induction, 1‐1.5% maintenance in oxygen) to minimize pain and distress during procedures. Euthanasia was performed via gradual carbon dioxide inhalation in compliance with the guidelines of the American Veterinary Medical Association (AVMA) for humane euthanasia: medical‐grade CO2 was delivered at a flow rate of 10–30% of the chamber volume per minute to gradually increase the concentration to 70–80% (avoiding rapid CO2 elevation, which may cause respiratory distress). The mice were maintained in the CO2 atmosphere for at least 5 minutes after the cessation of spontaneous respiration. Death was further confirmed by the absence of heartbeat (via palpation of the chest) and pupillary reflex to ensure no residual vital signs. Intra‐iliac artery injections were performed as previously described [ ]. In brief, 1 × 106 luciferase‐labeled cells were injected in into right iliac artery.
+
+## 2.8. Statistical Analysis
+Gene expression differences were compared using the Kruskal–Wallis and Wilcoxon rank‐sum tests. Correlations between the two groups were calculated using the Spearman or Pearson correlation analysis. Survival curves were generated using the Kaplan–Meier (KM) method and Cox regression analysis. Categorical variables were analyzed using the chi‐square test and Fisher’s exact test. Statistical significance was determined using the log‐rank test, and the level of significance was set at  ∗
+p < 0.05,  ∗∗
+p < 0.01, and  ∗∗∗
+p < 0.001. The above visualization was performed using R software (Version 3.6.4), GraphPad Prism 9, and Sangerbox web (http://www.sangerbox.com/) [ ].
+
+## 3. Results
+
+## 3.1. Gene Expression of KISS1 in Pancancer
+To obtain the expression status of KISS1 in pancancer, we analyzed 33 cancers based on TCGA database. The KISS1 was significantly upregulated in 13 cancers, including LUAD, COAD, COADREAD, BRCA, STES, STAD, UCEC, LIHC, THCA, READ, PAAD, BLCA, and CHOL (Figure ) (abbreviations could be seen in Supporting Information 1: File ). However, we also found that the KISS1 was downregulated in KIRP, KIPAN, and LUSC (Figure ). Furthermore, we explored the GTEx database to evaluate the difference in KISS1 expression between normal and tumor tissues. As shown in Figure , the KISS1 was upregulated in 19 cancers, such as UCEC, BRCA, CESC, LUAD, ESCA, STES, COAD, COADREAD, STAD, LIHC, BLCA, THCA, READ, OV, PAAD, UCS, ALL, ACC, and CHOL, and downregulated in 13 cancers, including GBM, GBMLGG, LGG, KIRP, KIPAN, PRAD, KIRC, LUSC, WT, SKCM, TGCT, LAML, and KICH (Figure ).
+ 
+
+## 3.2. Protein Expression of KISS1 in Pancancer
+These results made us interested in the protein expression status of KISS1 in various cancers. Unfortunately, there is no public database available from the CPTAC dataset [ ], which indicates that the recognition of KISS1 remains superficial. In terms of the protein expression level in human tissues, KISS1 could be physiologically detected in tissues like syncytiotrophoblasts (HPA035542), mainly located in the cytoplasmic and membranous compartments within cells, but nearly no expression was observed in other tissues like lung (CAB017775) (Figure ). Surprisingly, according to the databases in the HPA database, except for breast duct carcinoma (CAB017775), no KISS1 protein was detected in cancers like colon adenocarcinoma (HPA035542), hepatocellular carcinoma (HPA035542), lung adenocarcinoma (HPA035542), and prostate adenocarcinoma (HPA035542) (Figure ). The contradictory results between mRNA and protein expression in pancancers call for further investigation of KISS1, especially in terms of PTMs.
+
+## 3.3. Expression Analysis of KISS1 in Different Pathological and Clinical Stages
+In a prospective view of pancancer, we assessed the importance of KISS1 expression at different clinical and pathological stages. In COAD, COADREAD, BRCA, KIRP, KIPAN, and KIRC, KISS1 demonstrated a differential expression status in different clinical and pathological stages (Figure ). Detailed information on COAD, COADREAD, BRCA, KIRP, KIPAN, and KIRC is shown in Figure . In addition, as KISS1 has been reported as a metastasis suppressor [ ], we investigated the expression differences between different metastasis statuses in pancancers. Interestingly, according to datasets from TCGA, only in COADREAD, KIPAN, HNSC, PAAD, and SKCM does it make sense (Figure ); the detailed information is shown in Figure . However, KISS1 has been reported to suppress the metastasis of various cancers, such as melanoma, bladder cancer, and lung cancer [ ]. These contradictions indicate that the analysis of KISS1 is underexplored, especially in terms of its prognostic value.
+ 
+
+## 3.4. Survival Analysis
+For prognostic value, we first adopted the Cox regression model and KM survival analysis of KISS1 in OS and DFS [ ]. According to the expression levels of KISS1, all the cancer cases in TCGA and GEO were divided into two groups: high‐ and low‐expression groups. We then investigated the correlation between KISS1 expression and patient prognosis from these datasets. Within TCGA project, high expression of KISS1 contributed to a poor prognosis of OS for cancers of KIRP, KIRC, and LUAD. However, the poor prognosis of OS in BLCA patients is related to the low expression of KISS1 (Figure ). Besides, high KISS1 expression was a risk factor for DFS in patients with CESC, COAD, KIRP, and PAAD (Figure ). These relationships between KISS1 and OS and DFS were further demonstrated by KM survival analysis curves (Figure ). In comparison, KISS1 expression was correlated with both OS and DFS in KIRP.
+ 
+
+## 3.5. KISS1 Is Significantly Related to Immune Infiltration
+To investigate the potential role of KISS1 in the tumor microenvironment (TME), we explored the relationship between KISS1 and the level of immune infiltration in various cancers from TCGA using three immune scores and selected the four most significant ones. First, according to the StromalScore [ ], KISS1 expression in STAD (N = 388, R = −0.25, p = 6.8e − 7), BRCA (N = 1077, R = −0.13,p = 2.6e − 5), and LIHC (N = 363, R = −0.25, p = 1.5e − 6) was negatively correlated with immune infiltration (Figure ). In HNSC (N = 517, R = 0.15, p = 5.6e − 4), KISS1 expression positively correlated with immune infiltration (Figure ). Then, as for the ImmuneScore [ ], the expression of KISS1 was significantly negatively correlated with immune infiltration in COAD (N = 282, R = −0.20, p = 6.1e − 4), COADREAD (N = 373, R = −0.21, p = 4.2e − 5), and STAD (N = 388, R = −0.30, p = 1.4e − 9) and positively correlated with immune infiltration in PRAD (N = 495, R = 0.20, p = 5.1e − 6) (Figure ). Lastly, by the EstimateScore, KISS1 expression in SARC (N = 258, R = −0.22, p = 4.1e − 4), STAD (N = 388, R = −0.30, p = 1.4e − 9), and LIHC (N = 363, R = −0.20, p = 1.4e − 4) was negatively correlated with immune infiltration (Figure ). There was a positive correlation between KISS1 expression and immune cell infiltration in PRAD (N = 495, R = 0.19, p = 2.6e − 5) (Figure ). In summary, we found a consistent trend that KISS1 negatively regulates TME in most cancers from TCGA, and KISS1 expression and immune infiltration were both highly expressed in cancers such as PRAD. However, the relationship between KISS1 expression and immune infiltration requires further investigation before we can make a clear conclusion.
+ 
+
+## 3.6. KISS1 Interacts Evidently With Immunosuppressive Cells
+Previously, we found that KISS1 expression may negatively regulate TME. Furthermore, we explored the importance of KISS1 in the suppressive tumor microenvironment (STM) through the relationship between KISS1 expression and the infiltration level of MDSCs and Tregs [ ]. As a result, we observed a statistically significant positive correlation of KISS1 expression and immune infiltration of MDSCs in tumors of BRCA, BRCA‐Basal, BRCA‐LumA, BRCA‐LumB, CESC, KIRC, KIRP, LGG, LIHC, MESO, PAAD, SARC, SKCM, SKCM‐Metastasis, STAD, TGCT, and UVM but also a negative correlation for tumors only in BLCA and ESCA (Figure ), based on TIED algorithms. The scatterplot data of BLCA, ESCA, BRCA, BRCA‐Basal, BRCA‐LumA, BRCA‐LumB, PAAD, and STAD are listed in Figure .
+ Following by MDSCs, we analyzed the relationship between KISS1 expression and Tregs infiltration. According to the CIBERSORT and CIBERSORT‐ABS algorithms, we found a statistically positive correlation between the immune infiltration of Tregs and KISS1 expression in tumors of ACC, BRCA, BRCA‐LumA, ESCA, HNSC, HNSC (HPV [human papillomavirus]‐), KIRC, KIRP, LUAD, LUSC, MESO, and THCA (Figure ), and the scatterplot data of ACC, BRCA‐LumA, HNSC, HNSC (HPV‐), KIRC, KIRP, ESCA, and LUAD are shown in Figure . Interestingly, there was no negative correlation between Tregs infiltration and KISS1 expression in pancancers according to the CIBERSORT and CIBERSORT‐ABS algorithms.
+Indeed, the infiltration of immunosuppressive cells could be a major reason for undermining the therapeutic efficacy of ICIs (immune checkpoint inhibitors) [ ]. Therefore, we further analyzed the correlation of KISS1 expression with eight immune checkpoint pathway genes in diverse cancer types using TCGA [ ]. As illustrated in Figure , KISS1 was mostly negatively correlated with the immune checkpoint genes in TGCT, UCEC, STAD, COAD, BLCA, and BRCA and positively correlated with THCA and PRAD. Besides, CD274 had a relatively strong correlation with KISS1 and was mainly negatively related in pancancer, indicating that CD274 may be a potential checkpoint in cancers that have abnormal KISS1 expression [ ].
+
+## 3.7. Role of KISS1 in Phenotypic Behavior of Breast Cancer Cells
+Based on these results, we conclude a preliminary conclusion that KISS1 affects breast cancers differently from other cancers, which is consistent with previous studies [ ]. To further investigate the biological functions and mechanisms of KISS1, we decide to carry out basic experiments using breast cancer cells. First, we explored KISS1 gene expression statuses in different breast cancer lines using the database from CCLE (Cancer Cell Line Encyclopedia) [ ] and found that nearly two‐thirds of the cell lines had a high KISS1 gene expression (Figure ). We then verified the protein expression status in MDA‐MB‐231 cells, which have a high capacity to metastasize. Indeed, the KISS1 protein expression level was higher in MDA‐MB‐231 cells than in 293T (Figure ). Importantly, the highly BM derivatives of MDA‐MB‐231 had even higher protein expression levels (Figure ). Furthermore, we generated KISS1‐knockout (KISS1‐KO) derivatives of MDA‐MB‐231 and MDA‐MB‐231 (BM) cells (Figures , , , and ). First, we compared the self‐renewal potential of these cells by assaying their colony formation capacity [ ]. KISS1 deficiency reduced the number of cell clones, and ectopic expression of KISS1 in the KISS1‐KO MDA‐MB‐231 cells restored the clone numbers (Figure ). We got a similar result in BM derivatives of MDA‐MB‐231 (Figure ). These results suggested that KISS1 may promote the stemness of breast cancer cells to some extent. As the tumor‐initiating capacity contributes to the metastasis of a primary tumor, the clone assay may suggest a role of KISS1 in cancer metastasis [ ]. We then designed transwell assays to confirm this assumption. From Figure , we can see that the migration ability was significantly reduced when KISS1 was knocked out, whereas ectopic expression of KISS1 restored the migration ability statistically. Together, these results confirm the critical role of KISS1 in promoting the metastasis of breast cancer cells.
+ 
+
+## 3.8. The Potential PTMs of KISS1 in Tumors
+Based on the above results, we were motivated to clarify why the mRNA expression level is different from that of the protein in the online databases. PTMs may play a nonnegligible role in the stability of KISS1 within cells [ ]. Indeed, ubiquitination plays a dominant role in the stabilization of proteins [ ]. Thus, KISS1 may undergo ubiquitination in a context‐dependent manner, which may explain the difference in its effect on metastasis in different cancers. To test this hypothesis, we performed a binding assay to determine whether some well‐known E3 ubiquitin ligases could bind to KISS1 [ ]. Initially, we selected WWP1 (WW domain‐containing E3 ubiquitin protein ligase 1) as the candidate E3 ubiquitin ligase for its well‐known roles in regulating protein ubiquitination [ ]. Interestingly, WWP1 could interact with KISS1 in MDA‐MB‐231 cells (Figure ). Although a binding assay could not confirm that ubiquitination of KISS1 within cells contributes to the influence of protein stability [ ], this indeed indicates the promising role of ubiquitination of KISS1 in cancer therapy.
+
+## 3.9. Knockdown of KISS1 Suppresses Breast Cancer Cell Metastasis In Vivo
+To further verify the biological role of KISS1 in the phenotypic behavior of breast cancer cells, we compared KISS1 loss‐ and gain‐of‐function cells for tumor formation in vivo by employing subcutaneous injections. WT or KISS1‐knockdown showed the same tumor volume, which indicated that KISS1 did not affect tumor growth (Figure ). We then validated the functional role of KISS1 in bone metastasis using an IIA injection model [ ]. KISS1 knockdown significantly reduced cancer cell signal at 2 weeks in the hind limbs of nude mice (Figure ). Consistently, KISS1 overexpression in KISS1‐silenced MDA‐MB‐231 cells increased bone metastasis in the same model. These results show that KISS1 promotes breast cancer metastasis by affecting tumor growth in vivo.
+ 
+
+## 4. Discussion
+Metastasis events account for the majority of cancer‐related deaths and challenge the outcomes of tumor therapy [ ]. Although immunotherapies have reduced recurrences of various cancers, after prolonged latency, a proportion of patients developed metastases [ ]. Given the low response rate of immunotherapy, more potential immunological biomarkers that can regulate tumor metastasis are needed. KISS1 has been reported to be a tumor metastasis suppressor in several cancer types [ , , ]. However, some studies have shown that KISS1 may contribute to breast cancer metastasis [ ]. In this study, we analyzed the physiological and pathological effects of KISS1 in pancancer based on TCGA and GTEx databases. First, we confirmed that KISS1 was highly expressed in most cancers, except for KIRP, KIPAN, and LUSC. However, the protein expression levels were not consistent with gene expression status. It could only be detected in breast cancer tissues according to the HPA datasets. These results indicate that KISS1 is highly expressed in breast cancer tissues, but not in other cancer tissues, such as glioma, lung cancer, and pancreatic cancer. This may partly explain the controversial role of KISS1 in the regulation of metastasis in various cancers.
+The difference in the expression of KISS1 among various cancers may suggest the biomarker potential of KISS1, and we further tested this potential in the background of clinical and metastatic stages. In the same tumor, KISS1 was expressed differently in various pathological stages. In terms of different metastasis statuses, the difference in KISS1 expression only makes sense in COADREAD, KIPAN, HNSC, PAAD, and SKCM. These results, based on the gene expression database from TCGA, were in contrast to some basic researches [ , ], which is partly explained by the occurrence of modifications of the KISS1 protein in cancer cells after translation [ ].
+To our knowledge, this is the first study to analyze the prospective role of KISS1 in pancancer metastasis. Based on the relationship between KISS1 expression and immune cell infiltration, we adopted three immune scores: StromalScore, ImmuneScore, and EstimateScore [ ]. In summary, KISS1 correlated strongly with all three scores, and the correlation was mostly negative. For example, in BRCA, the immune cell infiltration level was lower, while there was a higher expression level of KISS1 according to the three immune scores. However, this may partly explain the crucial role of KISS1 in various cancers, including breast cancer. Accordingly, the conclusions presented by the three scores may provide a conceptual map of immune and stromal cells in various cancers, which may explain the differential role of KISS1 in the metastasis of malignancies [ ]. Based on this, we next targeted the STM, as the preexistence of immunosuppressive cells is a major reason for the failure of immunotherapy for tumors [ ]. We analyzed the potential immunomodulatory effects of KISS1 by evaluating its efficacy on MDSCs and Tregs [ ]. Comparisons between these results suggested that the immunosuppressive cells infiltrate highly in BRCA, BRCA‐LumA, KIRC, KIRP, and MESO, where there is high KISS1 expression too. Take BRCA, especially the LumA subtype, for example, the infiltrations of MDSC and Tregs are positively correlated with KISS1 expression according to the TIED, CIBERSORT, and CIBERSORT‐ABS algorithms. It is assumed that this may be related to breast cancer metastasis, especially bone preference [ ]. Further investigations into these mechanisms might help to explain the higher frequency of bone metastasis in luminal‐like breast cancer subtypes. Thus, novel effective immunotherapies exclusive of cancer metastasis may come out [ ]. However, as the infiltration of immunosuppressive cells may compromise the therapeutic efficacy of ICIs, the study was followed by an analysis of the correlation of KISS1 expression and ICI‐related genes [ ]. A significant positive correlation was found. Interestingly, CD274 (PD‐L1) showed a relatively strong correlation with KISS1 expression. Concordantly, PD‐L1 plays an important role in immunotherapy of breast cancers [ ], reinforcing the potential role of KISS1 in the treatment of breast cancer.
+Given the unique role of KISS1 in breast cancer, we further analyzed whether KISS1 may be an independent predictor of tumor metastasis in patients with breast cancer. We then tested the possibility that knocking down KISS1 could statistically reduce the metastatic capacity of MDA‐MB‐231 cells, which implied that the EMT process of tumor cells was influenced, to some extent, by KISS1.
+In summary, our first pancancer analysis and experiments of KISS1, once reported as a metastasis suppressor that expressed differently in various tumors, implied a statistical correlation of KISS1 expression with clinical prognosis; immune cell infiltration, including immunosuppressive cells and lymphocytes; and tumor metastasis capacity, which adds to the understanding of the epigenetic regulatory mechanism in terms of clinical tumor samples. Our study confirmed the therapeutic and prognostic potential of KISS1 and indicates the potential as an immunotherapy target for tumor metastasis. However, the lack of in‐depth clinical and basic experiments restricts the verification of its role as an immunotherapeutic target and calls for further in‐depth studies.
+
+## 5. Conclusions
+In this article, we analyzed the potential role of KISS1 in pancancer metastasis using online databases from TCGA, GTEx, and GEO and verified the prometastasic role in breast cancer cells, which is unique to other cancer cells. Besides, we assessed the correlation between KISS1 expression and immune cell infiltration, immunosuppressive cells, and immune checkpoint genes, which may aid in immunotherapy for tumor metastasis. Furthermore, we initially analyzed the potential PTMs of KISS1 within cells, which may affect the phenotype of tumor cells in a text‐dependent manner.
+
+## Consent
+The authors have nothing to report.
+
+## Disclosure
+All authors approved the submitted manuscript. A preprint has been previously published [ ].
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Author Contributions
+C.W., H.J., and W.X. designed this manuscript and performed the experiments. B.L. and H.Z. drafted this manuscript and prepared the figures. L.Z., Z.L., and J.X. edited and revised the manuscript and provided the project funding. C.W., H.J., and W.X. have contributed equally to this work and share first authorship.
+
+## Funding
+This study was funded by the National Natural Science Foundation of China (No. 82372853) to Long Zhang and the Shanghai Magnolia Pujiang Talent Program (No. 23PJ1409800) to Long Zhang.
+
+## Supporting Information
+Additional supporting information can be found online in the Supporting Information section.
+
+## Supporting information
+
+Supporting Information 1 File S1: Abbreviations (word). Alphabetical list of all abbreviations used in the manuscript, with full terms and units.
+
+Supporting Information 1 File S2: Western blot source data (word). Corresponding original, uncropped western blot images for manuscript blots, with each blot labeled by its corresponding number.
+
+## Acknowledgments
+We acknowledge the open databases TCGA, GEO, GTEx, and UCSC. We sincerely thank all the online databases and statistical analysis tools referenced in this article.
+
+Wu, Chunbiao
+, 
+
+Jiang, Hao
+, 
+
+Xu, Wei
+, 
+
+Li, Bo
+, 
+
+Zhang, Hao
+, 
+
+Zhang, Long
+, 
+
+Li, Zhenxi
+, 
+
+Xiao, Jianru
+, 
+Pancancer Analyses of KISS1 as a Potential Biomarker for Tumor Metastasis and Immunotherapy and Therapeutic Target for Breast Cancer, 
+International Journal of Genomics, 2026, 5902518, 18 pages, 2026. 
+10.1155/ijog/5902518
+
+Guest Editor: Pengpeng Zhang
+
+## Contributor Information
+Long Zhang, Email: zhlongfriends01@163.com.
+Zhenxi Li, Email: zhenxili.ecnu@gmail.com.
+Jianru Xiao, Email: xiaojr83@163.com.
+Pengpeng Zhang, Email: iahmad@wiley.com.
+
+## Data Availability Statement
+The original data comes from TCGA (https://portal.gdc.cancer.gov/), GEO (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE22138), GTEx (https://commonfund.nih.gov/GTEx/), UCSC (https://xenabrowser.net/), CPTAC (https://proteomic.datacommons.cancer.gov/pdc/), UALCAN (http://ualcan.path.uab.edu/analysis-prot.html), HPA (https://www.proteinatlas.org/), GEPIA2 (http://gepia2.cancer-pku.cn/#analysis), cBioPortal (https://www.cbioportal.org/), GDC (https://portal.gdc.cancer.gov/), and TIMER2 (http://timer.cistrome.org/); public databases and the data were accurate. Other original contributions shown in the study are included in the article and supporting information, and the corresponding authors can be contacted for further inquiries. The reagents, tools, and materials generated in this study are available from the corresponding authors upon request.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Supporting Information 1 File S1: Abbreviations (word). Alphabetical list of all abbreviations used in the manuscript, with full terms and units.
+
+Supporting Information 1 File S2: Western blot source data (word). Corresponding original, uncropped western blot images for manuscript blots, with each blot labeled by its corresponding number.
+
+## Data Availability Statement
+The original data comes from TCGA (https://portal.gdc.cancer.gov/), GEO (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE22138), GTEx (https://commonfund.nih.gov/GTEx/), UCSC (https://xenabrowser.net/), CPTAC (https://proteomic.datacommons.cancer.gov/pdc/), UALCAN (http://ualcan.path.uab.edu/analysis-prot.html), HPA (https://www.proteinatlas.org/), GEPIA2 (http://gepia2.cancer-pku.cn/#analysis), cBioPortal (https://www.cbioportal.org/), GDC (https://portal.gdc.cancer.gov/), and TIMER2 (http://timer.cistrome.org/); public databases and the data were accurate. Other original contributions shown in the study are included in the article and supporting information, and the corresponding authors can be contacted for further inquiries. The reagents, tools, and materials generated in this study are available from the corresponding authors upon request.

@@ -1,0 +1,240 @@
+pmcJ Chem EducJ Chem Educ822acssdedJournal of Chemical Education0021-9584pubs.acs.org/jchemeducpmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC12895410PMC12895410.112895410128954104169373410.1021/acs.jchemed.5c007951Laboratory ExperimentIlluminating
+the Interface of Blocc Chemistry and
+Data Science: Maximizing Function with ML-Guided Discovery and a Digital
+Molecule Maker
+7704335GreenNolan M. ). If students have not yet
+covered bond-line structures, an additional primer on reading bond-line
+structures is provided. In the activity, students are shown a variety
+of target molecules. Students identify the type of repeated chemical
+bonds, the applicable automated synthesis platform, and the number
+of reactions necessary to construct their targets. We found that having
+the teaching assistant talk through the oligophenylene example helped
+students feel more confident in the activity once they were released
+to work in small groups. Interesting discussion can arise while determining
+the “correct” number of bonds for “Ratanhine,”
+as small two-carbon blocks may be synthetically feasible and rational;
+however, incorporation of small blocks increases the total reaction
+count, which may lower overall yields. This gray area led to conversations
+with students around considerations when planning a synthetic route
+and how leveraging different sized building blocks or symmetric building
+blocks could also be correct.
+ 
+
+## Down-selecting Synthesis
+and Quality Modules
+
+## Pedagogic Logic
+Understanding the
+functional capacity
+of small molecules enforces the student connection to the power and
+application of molecules across diverse fields. In this activity,
+students explore data from a real-world, AI-guided functional optimization
+campaign toward the discovery of top-in-class organic laser materials. ). Then, students follow along in their lab handout to learn
+how an international team of researchers partnered with AI to discover
+new, best-in-class lasers. The core concept is that AI was utilized
+to rapidly learn how molecular structure relates to molecular function
+via rational down-selection of a large chemical space containing 155,520
+possible molecules. Students learn the concept of chemical space and
+are asked to analyze a chemical space plot to determine where in the
+chemical space the researchers found the highest-performing laser
+molecules. To familiarize students with the laser structures and enforce
+their ability to identify iterations, students first analyzed a previous
+gold standard organic laser. Then, students move on to an analysis
+of selected lasers from the data set.
+ Each organic laser consists of three functional
+modules: electron
+donor cap, pi-bridge, and lynchpin core. Each module has three building-block
+options and a curated list of nine lasers, in which each of the three
+options has three representative lasers. Each laser is listed alongside
+its experimental emission gain cross section value. Students calculate
+the average emission gain cross sections across lasers that share
+a common building block to determine which option is the highest performing.
+Based on their optimized building blocks, students use iterative synthesis
+logic to assemble their highest performing lasers which should result
+in students reconstructing the highest performing laser in the recent
+report. ). Students identify
+iteration on an example OPV to reinforce connecting target molecules
+to the iterative synthesis platforms needed. Then, students follow
+along in their handouts to learn about how researchers partnered with
+AI/ML to rapidly characterize the function via a series of active
+learning cycles. After each batch of molecules were synthesized, the
+team provided the collected function data to the AI model, which then
+proposed the next structures to synthesize. After only 44 total molecules
+were synthesized from a possible 2,200 molecules, the team optimized
+their desired function. Using AI-predicted function data for the entire
+data set, the students enter the DMM to design OPV candidates.
+ Students then entered the DMM to design five OPV
+candidates. They
+do this by dragging and dropping their selected building blocks from
+the left-hand block pallet into the workspace. The graph in the upper
+right of the interface will live-update with the remaining achievable
+function properties. The DMM at the time of implementation was only
+accessible on a laptop, but a mobile version is in development. Students
+rather quickly were able to pick up how to use the DMM as we saw most
+students complete this entire section of the activity within about
+30 min. Students tended to quickly understand the goals of the platform.
+The most common student concerns regarded small technical challenges
+such as errors in case-sensitity in class codes, which we plan to
+address in the next round of programming development.
+In their
+notebooks, they record the predicted Spectral Overlaps
+(SO), T-80 lifetimes, and Photostability, defined as the product of
+SO and T-80. To visualize the data, students plot their molecules
+on a graph for their T-80 lifetime and SO. After designing five molecules,
+students predict their highest performing molecule based on maximized
+photostability and submit the molecule to the group cart. To complete
+the activity, students draw their optimized molecules in their notebooks
+and rationalize their selection.
+
+## Rapid Suzuki-Miyaura Cross-Coupling
+and General Purification
+
+## Pedagogic Logic
+Automated, iterative
+synthesis is greatly
+enabled by strategies for general purification. With oligonucleotide,
+oligopeptide, and oligosaccharide synthesizers, on-resin chemistry
+enables excess reagents to be washed away after each coupling. It
+has been challenging to use this same approach for iterative carbon–carbon
+bond formation. The unique binary affinity of MIDA and TIDA boronates
+to silica gel provided an alternative and highly effective solution
+by enabling general purification via catch-and-release chromatography
+( B). C and D). Statistical significance was determined using a
+Wilcoxon signed-rank text between students’ pre- and post-
+responses.
+ Chemistry-focused questions saw marked improvement
+in concept understanding
+around automated synthesis and how to predict high-performing molecules
+from their building blocks. Notably, we saw an average decreased response
+to “I think that organic synthesis is intimidating”
+by 0.38 and 0.64 points ( E and E and F) whereas
+AGII students decrease agreement. One intention of the Maximizing
+Lasers section is to portray rational experiment down-selection with
+AI assistance. This is explained in the introduction text, and the
+AGCII had comprehension questions associated with the introductory
+text, whereas the GCII students did not in this most recent round
+of pilots. This contradiction may be attributable to students not
+fully reading the introductory materials and skipping the activity.
+We also collected student responses to each activity section with
+regard to enjoyment, connection to chemistry research, and connection
+to AI/ML ( A
+and B). The main disparity is in student enjoyment between GCII and
+AGCII, and although that is a reasonable baseline expectation given
+the inherent difference in student populations. However, we believe
+this might be amplified by the additional challenge presented of needing
+some familiarity with bond-line structure, and going forward, we plan
+to develop more scaffolding around bond-line structure and functional
+groups in the prelab materials. If this lab were to be implemented
+in an organic chemistry setting, this lab may be more accessible with
+less introductory content. Students saw the connection between this
+lab and chemistry research across the board. GCII students saw the
+connection to AI/ML most in the Optimizing OPVs section whereas AGCII
+students saw the connection to AI/ML most in the Identifying Iteration
+section. Comparing GCII responses to their GCI counterparts, we see
+generally less enjoyment for the lab overall. We hypothesize again
+that this may just be a more challenging lab with the addition of
+organic structures whereas the GCI lab technical skills are simpler.
+Students in GCII saw comparable connections to chemistry research
+as GCI students, but GCII students did see more connection to AI/ML
+than the GCI cohort.
+
+## Conclusions
+The goal of this activity
+was to introduce automatable blocc chemistry
+to undergraduate students prior to significant experience with organic
+chemistry. We leveraged real-world examples where chemists utilized
+automated, iterative synthesis coupled with AI/ML tools to rapidly
+explore functional space. In doing so, we developed a laboratory experience
+that introduces automated synthesis platforms, challenges students
+to identify repeating chemical subunits, modularize organic lasers
+into functional building blocks, and then reconstruct organic laser
+candidates with optimized lasing properties, developed an online Digital
+Molecule Maker platform for exploration of blocc chemistry, and synthesized
+a collection of small molecules amenable to general purification methods.
+To accompany the written materials, video instruction enables the
+teaching of unfamiliar theory and direct instruction of the activity
+goals.
+We postulate that blocc chemistry increases accessibility
+of organic
+chemistry such that anyone, including nonexperts and computers, can
+engage with the design and synthesis of functional molecules. Blocc
+chemistry simplifies synthesis by design in order to be 1) friendly
+to automation, 2) friendly to AI, and 3) friendly to anyone. Blocc
+chemistry for iterative carbon–carbon bond formation was designed
+based on inspiration from other automated synthesizers that perform
+iterative carbon-heteroatom or heteroatom-heteroatom bond formation,
+which rely on iteration of a single reaction and general purification
+for efficient synthesis of oligomers. These two fundamental characteristics
+of automation were developed for blocc chemistry to make small molecule
+synthesis friendly to automation. The focus of this lab module is
+to highlight the need for general purification strategies for automation.
+Blocc chemistry also simplifies synthesis in a way that makes chemistry
+inherently friendly to AI. ChatGPT and other large language models
+have largely been successful based on the choice to tokenize information
+at the word, rather than letter, level. We view blocc chemistry as
+an analogous strategy, where molecules are tokenized into molecular
+building blocks, each with a predicted contribution to a molecule’s
+function, using a new modular Chemical Language Model (mCLM). Through training AI models about the function
+of molecular building blocks, new molecules with the desired functions
+can be proposed. With continued research in this area, we are writing
+a new “language” for molecule making that can be interpreted
+by AI and executed by automated iterative synthesis machines. The
+Molecule Maker Lab Institute is eagerly working toward a future where
+anyone can meaningfully engage with the design of new molecules that
+fit their needs, regardless of their background. Analogous to how
+block-based coding (e.g., Scratch) made coding accessible to nonexperts,
+we aim to make block-based synthesis of functional molecules accessible
+to nonexperts. This course was implemented in General Chemistry 2,
+and students were expected to have little background in organic chemistry
+concepts. Through blocc chemistry, they were able to meaningfully
+interact with functional molecules and organic synthesis. Through
+the development of this course series, we aim to include undergraduates
+in this frontier research space at the interface of small molecule
+synthesis, automation, and AI.
+To date, over 2,340 students
+at the University of Illinois Urbana–Champaign
+have completed a version of the dry lab portion of this activity.
+A limitation of the wet lab activity is the need for teaching assistants
+to synthesize the custom-building blocks and run the student reactions.
+Therefore, we only offer the Suzuki-Miyaura coupling and purification
+activities for our accelerated track students, of which over 350 students
+have completed. This lab is the second of a three-part series being
+developed at UIUC that is illuminating the interface of automation-friendly
+blocc chemistry and AI by making research programs and processes accessible
+to introductory chemistry students.
+
+## Supplementary Material
+
+This work was supported by the
+University of Illinois
+Urbana–Champaign’s School of Chemical Sciences and the
+Molecule Maker Lab Institute, an AI Research Institutes program supported
+by the US National Science Foundation under grant no. 2019897. MDB
+also acknowledges NIH R35 GM118185. The authors would like to thank
+Alejandro Ibarra, Solomon Davenport, Tillie Pines, and Manuela Montoya
+Ramirez for help with the filming and editing of the instructional
+videos. The authors also like to thank all of the TA’s for
+running these lab sections, the students for being a part of the design
+process, and Dylan Brandt, Kameron Medine, Prajakt Pande, Amanda Henderson,
+and Karthik Submaranian for helpful discussions in the development
+of this lab and the Digital Molecule Maker.
+The Supporting Information is
+available at https://pubs.acs.org/doi/10.1021/acs.jchemed.5c00795.Synthetic procedures for
+building blocks and products, 1H and 13C NMR
+for building blocks and products,
+and student assessments (PDF, DOCX)
+Lab handout
+for students (PDF, DOCX)
+Lab handout answer key
+(PDF, DOCX)
+Identifying iteration video (MP4)
+Maximizing
+lasers video (MP4)
+Optimizing OPVs and DMM video (MP4)
+General purification video (MP4)
+
+The authors declare the
+following competing financial interest(s): MDB is an inventor for
+patent applications related to MIDA and TIDA boronates, and these
+patents have been licensed to Excelsior Sciences, for which MDB is
+a scientific founder and shareholder.

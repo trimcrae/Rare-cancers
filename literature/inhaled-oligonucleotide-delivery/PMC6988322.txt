@@ -1,0 +1,132 @@
+80rrRespiratory ResearchRespir ResBMCPMC6988322698832269883223199229210.1186/s12931-020-1295-4Expression of SMARCD1 interacts with age in association with asthma control on inhaled corticosteroid therapy
+McGeachieMichael J SordilloJoanne E DahlinAmber WangAlberta L LutzSharon M TantisiraKelan G PanganibanRonald LuQuan SajuthiSatria UrbanekCydney KellyRachel SaefBenjamin EngCeleste OhSam S KhoAlvin T Croteau-ChonkaDamien C WeissScott T RabyBenjamin A MakAngel C Y Rodriguez-SantanaJose R BurchardEsteban G SeiboldMax A WuAnn Chen 1Channing Division of Network Medicine, Department of Medicine, Brigham and Women’s Hospital and Harvard Medical School, Boston, MA USA 2PRecisiOn Medicine Translational Research (PROMoTeR) Center, Department of Population Medicine, Harvard Pilgrim Health Care Institute and Harvard Medical School, 401 Park Drive, Suite 401, Boston, MA 02215-5301 USA 3Program in Molecular and Integrative Physiological Sciences, Departments of Environmental Health and Genetics & Complex Diseases, Harvard T.H. Chan School of Public Health, Boston, MA USA 4Center for Genes, Environment and Health, Department of Pediatrics, National Jewish Health, Denver, CO USA 5Department of Medicine, University of California San Francisco, San Francisco, CA USA 6Computational Health Informatics Program, Boston Children’s Hospital, Boston, MA USA 7Division of Pulmonary and Respiratory Diseases, Boston Children’s Hospital, Boston, MA USA 8Centro de Neumologia Pediatrica, San Juan, PR USA ✉Corresponding author.
+28120202131313112020© The Author(s). 2020Open AccessThis article is distributed under the terms of the Creative Commons Attribution 4.0 International License (http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were made. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated.
+
+## Abstract
+
+## Background
+Global gene expression levels are known to be highly dependent upon gross demographic features including age, yet identification of age-related genomic indicators has yet to be comprehensively undertaken in a disease and treatment-specific context.
+
+## Methods
+We used gene expression data from CD4+ lymphocytes in the Asthma BioRepository for Integrative Genomic Exploration (Asthma BRIDGE), an open-access collection of subjects participating in genetic studies of asthma with available gene expression data. Replication population participants were Puerto Rico islanders recruited as part of the ongoing Genes environments & Admixture in Latino Americans (GALA II), who provided nasal brushings for transcript sequencing. The main outcome measure was chronic asthma control as derived by questionnaires. Genomic associations were performed using regression of chronic asthma control score on gene expression with age in years as a covariate, including a multiplicative interaction term for gene expression times age.
+
+## Results
+The SMARCD1 gene (SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily D member 1) interacted with age to influence chronic asthma control on inhaled corticosteroids, with a doubling of expression leading to an increase of 1.3 units of chronic asthma control per year (95% CI [0.86, 1.74], p = 6 × 10− 9), suggesting worsening asthma control with increasing age. This result replicated in GALA II (p = 3.8 × 10− 8). Cellular assays confirmed the role of SMARCD1 in glucocorticoid response in airway epithelial cells.
+
+## Conclusion
+Focusing on age-dependent factors may help identify novel indicators of asthma medication response. Age appears to modulate the effect of SMARCD1 on asthma control with inhaled corticosteroids.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2019 Oct 2; Accepted 2020 Jan 14; Issue date 2020.
+
+## Background
+Asthma affects over 300 million persons globally and costs more than $50 billion annually in the U.S. [ ] Despite effective treatment options, exacerbations from asthma account for substantial preventable morbidity [ ]. Most individuals with asthma respond to inhaled corticosteroids (ICS), the most effective asthma controller medication, with significant symptom improvement; however, approximately one third of individuals respond minimally or not at all [ ]. Furthermore, age appears to modify ICS response, with increasing treatment failures for each year over the age of 30 [ ]. While genetics explains substantial variability in asthma drug disposition and effects [ , ], the field of pharmacogenomics has not addressed the role of age in modulating response to asthma medications.
+Asthma pharmacogenomic studies to date have shed light on biological mechanisms. For example, a genomic study characterizing transcriptomes identified multiple genes involved in the inflammatory pathway that influence ICS response including Cysteine Rich Secretory Protein LCCL Domain Containing 2 (CRISPLD2) [ ]. CRISPLD2 mRNA has been shown to strongly vary with age [ ], and protein levels were shown to increase in response to treatment with a known pro-inflammatory cytokine, interleukin 1 beta (IL1β). Moreover, a transcriptomic study of ORMDL Sphingolipid Biosynthesis Regulator 3 (ORMDL3) found that a variant in that gene might influence the route of anti-inflammatory action of glucocorticoids by modifying the transcriptional activation of ORMDL3 in subjects with asthma [ ]. As ORMDL3 is associated with childhood-onset asthma, ORMDL3’s influence on the inflammatory pathway may be age-dependent; however, no published studies have examined this [ ].
+Global gene expression levels are known to be highly dependent upon gross demographic features including age [ , ], yet identification of age-related genomic indicators has yet to be comprehensively undertaken in an asthma-specific context. The objective of this study was to discover genomic indicators specific to response to ICS in individuals with asthma by accounting for age-dependent genomic interactions.
+
+## Methods
+
+## Populations
+We studied populations with available gene expression data on subjects with asthma and ICS use. Data from subjects in the Asthma BioRepository for Integrative Genomic Exploration (Asthma BRIDGE) were used in this study as the discovery population. Asthma BRIDGE participants are taken from the EVE network of asthma genetic studies [ ]. In particular, the present analysis focused on ICS-using participants from the CARE [ , ], CAG, and GRAAD [ ] studies. These are described in greater detail in the Additional file  . Secondary data analysis of these cohorts was approved by the Partners Healthcare IRB, approval number HL-71392-2. The replication population included Puerto Rico islanders who were recruited as part of the ongoing Genes environments & Admixture in Latino Americans (GALA II) study described elsewhere [ , ]. Asthma was defined by a physician’s diagnosis and the presence of 2 or more symptoms of coughing, wheezing, or shortness of breath in the 2 years before enrollment. Subjects who reported ICS use in the past year were included. The study was approved by local institutional review boards, and written assent/consent was received from all subjects and their parents.
+
+## Outcomes
+We used a series of questions to assess asthma severity and asthma control during the 6 months preceding blood draw for the Asthma BRIDGE expression data. Eleven questions regarding asthma severity and control were combined into a single aggregate Chronic Asthma Control Score (CACS). These questions were based on the Asthma Control Questionnaire [ ] and the Asthma Control Test [ ] questions, and are detailed in the Additional file . The CACS score ranged from 0 (excellent asthma control) to 44 (very poor asthma control).
+In GALA II, the Childhood Asthma Control Test (C-ACT) and the Asthma Control Questionnaire (ACQ) [ ] were used to derive a measure of asthma control. Both the C-ACT and ACQ measure how well-controlled a subject’s asthma is and can detect any changes in their control, due to either spontaneous occurrence or resulting from treatment. Each questionnaire consists of 5 domains: nighttime symptoms, daytime symptoms, activity limitations, use of rescue medication, and lung function. The five domains were each categorized into three levels of control: controlled (0), not well controlled (1), or very poorly controlled (2). The asthma control was determined to be the maximum value across the five domains, with higher values indicating worse control. Complete details are in Additional file : Table S2. In this analysis, only subjects taking ICS in the previous year were included, and the cohort was dichotomized into the controlled group (0) and the poorly-controlled group (1 or 2).
+
+## Expression data
+We used mRNA expression data from CD4+ lymphocytes from the Asthma BioRepository for Integrative Genomic Exploration (Asthma BRIDGE). This data was previously processed on Illumina Human HT-12 v4 arrays, according to manufacturers’ protocol (Illumina, San Diego CA). This array assays 47,036 different mRNA features. These data were processed through quality control metrics at Brigham and Women’s Hospital, as described previously [ ]. Asthma BRIDGE contains gene expression data on several different cell types, and for greatest power, we chose the CD4+ lymphocytes as an asthma-relevant cell type that contains the highest number of samples spanning an adult age-range. These expression data have been previously described [ ].
+The GALA II expression data were obtained using methods for nasal epithelial cell collection and processing developed in collaboration with the National Institutes of Health/National Institute of Allergy and Infectious Diseases–sponsored Inner City Asthma Consortium, optimizing for collection and confirmation of columnar epithelial cell type, RNA yield, and specimen-collector training [ ]. Briefly, nasal epithelial cells were collected from behind the inferior turbinate with a cytology brush using a nasal illuminator. The collected brush was submerged in RLT Plus lysis buffer plus β-mercaptoethanol and frozen at − 80 °C until extraction. mRNA in samples were then quantified using RNA-seq. The total read count of SMARCD1 was size factor-normalized followed by variance-stabilized transformation using the software package DESeq2 [ ] prior to modeling.
+
+## Statistical analysis
+Clinical and demographic data were compared across cohort subdivisions using analysis of variance (ANOVA) for continuous outcomes and chi square tests for discrete outcomes (Table  ).
+
+ Genomic associations were performed using linear regression of CACS on log base 2 transformation of gene expression with age in years as a covariate, including a multiplicative interaction term for gene expression times age. This interaction term was of principal interest to the current study. Significance of association was assessed by linear regression test using a significance threshold of < 0.05 after Bonferroni correction. All operations were performed in MATLAB R2018a (MathWorks, Natick, MA).
+Replication of the SMARCD1 interaction with age in GALA II was conducted with multinomial logistic regression analysis using multinom R package with the asthma control category as the outcome with the well-controlled group as the baseline.
+Individual top age times gene expression interaction hits were interrogated using NDEX, a publically available catalogue of biological networks [ ].
+
+## In vitro verification
+A549/NF-κB-luc reporter cells were transfected with either scramble control or one of two SMARCD1 small interfering RNAs (siRNA). These cells are responsive to IL-1β stimulation, which is reduced by dexamethasone, a glucocorticoid receptor agonist, indicating that these cells exhibit glucocorticoid-mediated tethered trans-repression of NF-κB [ ]. 48 h post-transfection, the cells were stimulated with 5 ng/mL IL-1β ± 5 nM Dexamethasone. Luciferase assays were performed after 18 h treatment. The luciferase activity was normalized to its own untreated scramble control. The luciferase activities of cells treated with IL-1β + Dex and transfected with siRNAs were calculated and compared to that of cells treated with IL-1β + Dex and transfected with scramble control. All experimental conditions were completed in three replicates (n = 3).
+
+## Results
+There were 118 subjects with gene expression data passing quality control from CD4+ lymphocytes in Asthma BRIDGE who reported taking inhaled corticosteroids as a controller medication in the previous year. These subjects had mean Chronic Asthma Control Scores (CACS) of 10.8 (+/− 6.9), shown in Fig.  . A general trend emerged showing increasing CACS with increasing age (increase of 0.15/year, 95% confidence interval [0.079, 0.22], p = 3.4 × 10− 5), indicating worsening asthma control with advancing age. This trend remained significant when stratified by sex, and no significant difference was observed in males (increase of 0.17/year, 95% CI [0.065, 0.28], p = 0.0012) versus females (increase of 0.12/year, 95% CI [0.011, 0.22], p = 0.03).
+
+ In Asthma BRIDGE, the SMARCD1 gene (SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily D member 1) strongly interacted with age to indicate higher CACS on inhaled corticosteroids, with a doubling of expression associated with an increase of 1.3 units of CACS per year increase in age (95% CI [0.86, 1.74], p = 6 × 10− 9), indicating increasing importance of SMARCD1 with advancing age (Fig.  ). In the replication population, GALA II, the age-by-SMARCD1 interaction was associated with poorly-controlled asthma compared to subjects with controlled asthma, with a ratio of odds ratios relative to control of 1.72 (95% CI [1.42, 2.10], p = 3.8 × 10− 8), indicating increasing probability of being in the poorly-controlled group with age.
+
+ We observed that both the specific study within Asthma BRIDGE and self-identified race were strongly split by age (Table ): GRAAD and CAG are adult studies and CARE is a study of children. Similarly, CARE is predominantly non-Hispanic white with a minority population of Hispanic white; while GRAAD and CAG are mostly African American. Since we wanted to focus on the interaction between gene expression and age in asthma control, we did not include either of these demographic variables in our main analysis. However, there was no significant association of race or study with SMARCD1 expression after adjustment for age (ANOVA, p = 0.29 and p = 0.3, respectively).
+For completeness, we also considered SMARCD1-age interaction in other cell types available in ABRIDGE. These included (1) Alveolar Macrophages (n = 33, p = .75), although these samples did not span a similar age range (ages 8 to 22 years). (2) Bronchial Epithelium (n = 16, p = .2), Bronchoalveolar cells (n = 12, p = .22), and whole blood (n = 4, p not computed), although these had low sample sizes. Finally (5) CD4+ lymphocytes stimulated with hemagglutinin (n = 139, p = .01), although this stimulation may not be representative of asthma biology.
+To investigate whether SMARCD1 plays a role in the inflammatory response as well as in the anti-inflammatory action of corticosteroids in vitro, we knocked down SMARCD1 in a human lung epithelial cell line (similar to the replication samples which were enriched for airway epithelium) stably expressing nuclear factor-kappa B (NF-κB) luciferase reporter [ ]. We transfected this reporter cell line with two different SMARCD1 siRNAs. One of these resulted in a large (greater than 80%) reduction of SMARCD1 expression relative to scramble-control siRNA transfection (Fig.  ). In this successful knockdown of SMARCD1, we observed a significant increase in luciferase activity relative to scramble-control in response to both IL-1β stimulation (p < 0.01) and IL-1β plus dexamethasone (p < 0.01) (Fig.  ). This verified that, at least in vitro, SMARCD1 is an important part of the inflammatory response and its absence increases the anti-inflammatory action of corticosteroid treatment.
+
+ In addition to performing pathway enrichment studies using our own results (see Additional file ), we also investigated connections of the SMARCD1 gene and its protein product (also labeled SMARCD1) in NDEX, a searchable collection of gene expression and protein-protein interaction networks from multiple network and pathway databases [ ]. A search on SMARCD1 revealed the following biologically relevant network for our phenotype of interest, ICS response, in the current analysis: The glucocorticoid receptor regulatory network (a protein-protein interaction network) was derived from the latest BioPAX3 version of the Pathway Interaction Database. A portion of the larger network including our gene of interest (the one-step adjacent network surrounding SMARCD1) is shown in Fig.  . This diagram indicates that cortisol is a controller of SMARCD1, and that expression of SMARCD1 is related to SGK1 (glucocorticoid regulated kinase 1) the glucocorticoid receptor Nuclear Receptor Subfamily 3 Group C Member 1 (NR3C1).
+
+ 
+
+## Discussion
+Our study has three key findings. First, age appears to modulate the association of SMARCD1 with chronic asthma control. Secondly, focusing on age-dependent factors is likely to yield important indicators of asthma medication response. Third, interactions between age and expression of SMARCD1 in CD4+ lymphocytes were replicated in nasal samples enriched for respiratory epithelial cells, suggesting that the potential age-dependent effects of SMARCD1 on asthma control could be mediated by systemic as well as locally induced changes in the airways. That SMARCD1 interacts with age to affect asthma control on ICS, across two different cell types, in two different racial ancestry groups, and using two different measures of asthma control, indicates a robust effect.
+SMARCD1, a member of the SWI/SNF chromatin remodeling complex family, regulates gene transcription by binding specific transcriptional factors and altering local chromatin structure [ ]. To our knowledge, SMARCD1 has not been reported as associated with ICS response in prior studies, although it has been found to be associated with asthma in a prior analysis that used GEO data from adult cohorts of the Unbiased Biomarkers for the Predictions of Respiratory Disease Outcomes (U-BIOPRED) research study [ ]. Protein-protein interaction network data support the role of SMARCD1 in modulating asthma control while on ICS. Synthetic glucocorticoid medications (such as inhaled budesonide and dexamethasone) are potent inducers of glucocorticoid signaling, exerting their anti-inflammatory effects through glucocorticoid receptor binding [ ]. A search of NDEX [ ] shows SMARCD1 as a key effector and regulatory protein within the glucocorticoid receptor regulatory network. In protein-protein interaction studies, SMARCD1 complexes with NRC31 (nuclear receptor subfamily 3 group C member 1), a glucocorticoid receptor [ ]. We further validated the in vitro role of SMARCD1 in the inflammatory process and the action of dexamethasone on that process.
+In addition to its direct involvement in glucocorticoid signaling, SMARCD1 is also associated with apoptosis pathways [ , ]. Interestingly, in vitro studies of ICS response have identified apoptosis as a potential protective mechanism associated with resolution of asthmatic inflammation [ – ]. An analysis of gene regulatory networks for ICS response in mid-childhood identified enrichment of pro-apoptosis pathways in good ICS responders, and anti-apoptosis pathway enrichment in poor ICS responders. While cellular apoptosis is a natural process occurring at all stages of human development, changes in expression of apoptosis genes occur with age [ , ]. In our study, alterations in SMARCD1 expression with age may relate to its involvement in apoptosis pathways. Future studies will be required to understand whether age-associated changes in apoptosis pathways underlie the age-related effects of SMARCD1 on ICS response in asthmatics.
+Our study has several strengths. Our gene expression analysis was appropriately timed to recent inhaled corticosteroid use. In our discovery analysis, asthma control while on ICS was assessed using a questionnaire based on the ACT criteria, which accounts for multiple aspects of control, including symptoms, quality of life metrics (missed school/work), medication use and health care utilization (emergency room/doctor visits for asthma). In addition to replication across tissue types, we found replication of the SMARCD1 by age interaction across multiple racial ethnic groups, which contributes to the generalizability of our findings. Our study also had some limitations. Assessment of asthma control was somewhat different in the discovery and replication cohorts, which may have affected our ability to replicate additional age-by-gene expression interactions in models of asthma control while on ICS. Although our in vitro validation demonstrated a biological relationship between SMARCD1, NF-kB, and dexamethasone, the nature of the experiment with cell lines precludes the assessment of age; thus this result does not directly support a differential effect of SMARCD1 with increasing age. Furthermore, this effect was in the opposite direction as one might expect: SMARCD1 knockdown increased NF-kB, which generally increases inflammation, which generally increases asthma symptoms, and would lead to higher CAC. We speculate that this difference in effect direction could be due to differences between in vitro and in vivo conditions, the inability to include age in the cell lines, or differences between airway epithelial cells and CD4+ lymphocytes. However, our strongest evidence indicates that increasing SMARCD1 is associated with worsening asthma control.
+
+## Conclusions
+In conclusion, our study provides evidence that focusing on age-dependent factors may help identify novel indicators of asthma medication response. Age appears to modulate the association of SMARCD1 with asthma control in subjects taking inhaled corticosteroids.
+
+## Supplementary information
+
+Additional file 1. Supplementary Methods, Results, Discussion, and Tables.
+
+## Acknowledgements
+Not applicable.
+
+## Abbreviations
+ACQAsthma Control Questionnaire
+ANOVAAnalysis of Variance
+Asthma BRIDGEAsthma BioRepository for Integrative Genomic Exploration
+CACSChronic Asthma Control Score
+C-ACTChildhood Asthma Control Test
+CAGChicago Asthma Genetics study
+CAREChildhood Asthma Research and Education
+CRISPLD2Cysteine Rich Secretory Protein LCCL Domain Containing 2
+GALA IIGenes environments & Admixture in Latino Americans II
+GRAADGenomic Research on Asthma in the African Diaspora
+ICSInhaled Corticosteroids
+mRNAMessenger RNA; messenger Ribonucleic Acid
+NR3C1Nuclear Receptor Subfamily 3 Group C Member 1
+ORMDL3ORMDL Sphingolipid Biosynthesis Regulator 3
+SGK1Serine/Threonine-Protein Kinase
+siRNAsSmall interfering RNA
+SMARCD1SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily D member 1
+U-BIOPREDUnbiased Biomarkers for the Predictions of Respiratory Disease Outcomes
+
+## Authors’ contributions
+MJM and ACW contributed substantially to the study design, analysis, interpretation, funding, and writing of the manuscript. JES, AD, ALW, SML, RP, QL, SS, CU, RK, BS, CE, SSO, ATK, and DCCC contributed substantially to the study design, analysis, interpretation and writing of the manuscript. KGT, STW, BAR, ACYM, JRRS, EGB, and MAS contributed substantially to the study design, funding, interpretation, and critical revisions of the manuscript. All authors read and approved the final manuscript.
+
+## Funding
+Funding was provided by National Institutes of Health (NIH) grants: R01HL118455, and RC2 HL101543. R01 HD085993 (ACW), R00 HL109162 (JES), R01 HL139634 (MJM), K01 HL125858 (SML), K01 HL127265 (DCCC). Funding agencies had no input on the results, analysis, or reporting of data presented herein.
+
+## Availability of data and materials
+Gene expression and phenotype data from ABRIDGE are publicly available to download from the Database of Genotypes and Phenotypes (dbGaP accession number pending) or from the Gene Expression Omnibus (GEO accession number GSE22324), respectively.
+
+## Ethics approval and consent to participate
+The secondary data analysis of these cohorts conducted in this study was approved by the Partners Healthcare IRB, approval number HL-71392-2. GALA II was approved by local institutional review boards, and written assent/consent was received from all subjects and their parents.
+
+## Consent for publication
+Not Applicable.
+
+## Competing interests
+The authors declare that they have no competing interests.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Supplementary information
+Supplementary information accompanies this paper at 10.1186/s12931-020-1295-4.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Additional file 1. Supplementary Methods, Results, Discussion, and Tables.
+
+## Data Availability Statement
+Gene expression and phenotype data from ABRIDGE are publicly available to download from the Database of Genotypes and Phenotypes (dbGaP accession number pending) or from the Gene Expression Omnibus (GEO accession number GSE22324), respectively.

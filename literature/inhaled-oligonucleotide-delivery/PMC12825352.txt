@@ -1,0 +1,866 @@
+pmcSmall MethodsSmall Methods379blackwellopenSMTDSmall Methods2366-9608pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC12825352PMC12825352.112825352128253524043418810.1002/smtd.202401632SMTD2024016321ReviewReviewLipid Nanoparticles for Delivery of CRISPR Gene Editing Components
+WuFan LiNei XiaoYudian PalankiRohan YamagataHannah MitchellMichael J.https://orcid.org/0000-0002-3628-2244 mjmitch@seas.upenn.edu HanXuexianghttps://orcid.org/0000-0003-0011-5222 xuexiang.han@sibcb.ac.cn 
+
+1
+
+Key Laboratory of RNA Innovation
+Science and Engineering
+Center for Excellence in Molecular Cell Science
+Shanghai Institute of Biochemistry and Cell Biology
+Chinese Academy of Sciences
+University of Chinese Academy of Sciences
+Shanghai
+200031
+China
+
+2
+
+Department of Bioengineering
+University of Pennsylvania
+Philadelphia
+PA
+19104
+USA
+
+*E‐mail: mjmitch@seas.upenn.edu; xuexiang.han@sibcb.ac.cn
+
+2852025221202610250578110.1002/smtd.v10.22401632
+0552025
+3092024
+220120262301202623012026© 2025 The Author(s). Small Methods published by Wiley‐VCH GmbHhttps://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## Abstract
+Gene editing has emerged as a promising therapeutic option for treating genetic diseases. However, a central challenge in the field is the safe and efficient delivery of these large editing tools, especially in vivo. Lipid nanoparticles (LNPs) are attractive nonviral vectors due to their low immunogenicity and high delivery efficiency. To maximize editing efficiency, LNPs should efficiently protect gene editing components against multiple biological barriers and release them into the cytoplasm of target cells. In this review, the widely used CRISPR gene editing systems are first overviewed. Then, each component of LNPs, as well as their effects on delivery, are systematically discussed. Following this, the current LNP engineering strategies to achieve non‐liver targeting are summarized. Finally, preclinical and clinical applications of LNPs for in vivo genome editing are highlighted, and perspectives for the future development of LNPs are provided.
+
+The review presents a comprehensive overview of each component of lipid nanoparticles（LNPs）and their effects on editing efficiency. It specifically highlights strategies for achieving non‐liver delivery, aiming for broader applications in gene editing. Furthermore, this review summarizes the applications of LNPs in gene editing and offers insights for their future development. Created in BioRender.
+ 
+
+deliverygene editinggene therapylipid nanoparticles
+Strategic Priority Research Program of the Chinese Academy of Science
+XDB0570000
+National Natural Science Foundation of China10.13039/501100001809
+32471401
+Shanghai Sci‐Tech Inno Center for Infection & Immunity
+ssIII‐2024B01 Many innovative CRISPR‐associated tools are being developed, with the hope of enabling better applications of gene editing.[
+ , , 
+] Base editors fuse an inactivated Cas nuclease with a DNA deaminase enzyme to introduce single‐nucleotide alterations (Figure  ).[
+ , 
+] Base editors are divided into two main classes: cytosine base editors (CBEs), which convert C•G base pairs to T•A base pairs, and adenine base editors (ABEs), which change A•T base pairs to G•C base pairs.[
+ , 
+] The accuracy and safety editing of base editors make them suitable for correcting single‐nucleotide polymorphisms associated with human diseases.[
+ 
+] Prime editing is another genome editing technology that can achieve all types of single‐nucleotide changes, DNA sequence insertions, or deletions in a precise manner.[
+ 
+] Prime editors fuse the Cas9 nickase domain with an engineered reverse transcriptase domain, allowing for synthesis of the DNA sequence based on the prime editing guide RNA (pegRNA) template (Figure  ).[
+ 
+] As prime editing can introduce insertions, deletions, and all types of genetic substitutions, it has the potential to correct any mutation associated with hereditary disease.[
+ , 
+] In conclusion, genome editing is a robust and versatile approach that can provide long‐lasting therapeutic benefits after a single treatment.[
+ 
+]
+
+Safe and efficient delivery of genome editing tools to organs or cells of interest is one of the main bottlenecks for the clinical application of gene editing.[
+ 
+] To overcome this hurdle, numerous delivery technologies, including viral and nonviral vectors, have been developed and tested in preclinical and clinical studies.[
+ , 
+] Viral vectors, such as lentiviruses, adenoviruses, and adeno‐associated viruses (AAVs), have also been engineered for in vivo delivery. Although they are efficient in delivering gene editing tools in some diseases, such as Duchenne muscular dystrophy and HIV, the immunogenicity against capsid, potential carcinogenesis, persistent Cas9 expression, and limited packaging capacity have restricted their applications in gene editing.[
+ , 
+] Nonviral vectors hold significant advantages, including lower immunogenicity, the ability to prevent gene integration, and high packaging capacity, which are more suitable for genome editing.[
+ 
+] This review mainly focuses on lipid nanoparticles (LNPs), the most clinically advanced nonviral nucleic acid delivery platform. Readers who are interested in other nonviral vectors can refer to detailed reviews elsewhere.[
+ , 
+]
+
+The success of the siRNA‐LNP drug (Onpattro) and two COVID‐19 mRNA‐LNP vaccines has demonstrated that LNPs are safe and efficient vectors that can deliver various therapeutic nucleic acids in vivo.[
+ , , , 
+] When intravenously administered, LNPs can absorb apolipoprotein E (ApoE), and the complex is subsequently taken up by hepatocytes through endocytosis mediated by low‐density lipoprotein receptors (LDLR) on the cell surface. Therefore, most LNPs accumulate in the liver,[
+ , 
+] making extrahepatic gene editing mediated by LNPs a significant challenge. To achieve gene editing beyond the liver, novel LNPs with high delivery efficiency and specificity are required. Therefore, this review discusses the recent advances in LNP‐based gene editing and the impact of the four‐component structure of LNPs on delivery and gene editing efficiency. We further summarize current methods for LNP‐mediated extrahepatic targeting, which could be promising for extrahepatic gene editing.
+
+2
+
+## Lipid Nanoparticles
+LNPs have grown increasingly popular as non‐viral vehicles for delivering various therapeutic nucleic acids in vivo. Typically, LNPs are formulated from four key components: ionizable lipids, phospholipids, cholesterol, and polyethylene glycol (PEG) lipids.[
+ , 
+] In the standard formulation process, lipid components dissolved in ethanol are rapidly combined with mRNA in an acidic solution using a microfluidic device.[
+ 
+] Although various methods, such as pipetting, vortexing, and microfluidic mixing, can be used to prepare LNPs, microfluidic mixing is the preferred method due to the batch‐to‐batch reproducibility of LNPs.[
+ 
+] However, microfluidic mixing is challenging to reconcile with very small laboratory‐scale batches, leading to the waste of lipid materials and nucleic acids.[
+ 
+] Generally, for high‐throughput in vitro studies, pipette mixing is recommended, whereas microfluidic mixing is favored for in vivo applications.[
+ 
+] The encapsulation of the cargo within LNPs is facilitated by the electrostatic attraction between the negatively charged nucleic acids and the positively charged ionizable lipids during the self‐assembly process.[
+ , 
+] Then, mRNA‐LNPs undergo dialysis to exchange their solution with the neutral buffer before storage.[
+ , 
+] Since LNP composition can significantly affect delivery and editing potency, we will discuss each component individually with the hope of guiding the rational design of LNP to maximize the gene editing efficiency.
+2.1
+
+## Ionizable Lipid
+Ionizable lipids are positively charged during LNP formulation to promote polyanionic mRNA entrapment and become neutral during blood circulation to limit toxicity.[
+ , 
+] Ionizable lipids become protonated after cellular uptake in the acidic organelle, generating endosomal escape and releasing cargo into the cytoplasm.[
+ , 
+] Initially, LNP formulations used permanently cationic lipids, which were later replaced by ionizable lipids due to their reduced hemolytic activity and improved delivery efficiency.[
+ 
+] Ionizable lipids carry a positive charge due to their amino head group, and they also encompass linkers and hydrophobic tails.[
+ 
+] In general, each structural part of ionizable lipid influences the delivery efficiency of LNPs.[
+ 
+] Ionizable lipids can be categorized based on their structure into biodegradable, multi‐tail, unsaturated, and branched ones (Figure
+ ).[
+ 
+] Currently, two strategies are used to synthesize ionizable lipids: medicinal chemistry and combinatorial chemistry. The multistep organic synthesis strategy is widely used for ionizable lipids, which involves combining the ionizable head, linker, and hydrophobic tail parts step‐by‐step via multiple chemical reactions. This strategy yielded DLin‐MC3‐DMA (Figure  ), SM‐102 (Figure  ), and ALC‐0315 (Figure  )—all ionizable lipids used in clinical products.[
+ 
+] However, the labor‐intensive synthesis and numerous purification steps lead to substantial costs in the development of ionizable lipids.[
+ 
+] To address these challenges, Boldyrev and co‐workers successfully streamlined the synthesis routes for ALC‐0315.[
+ 
+] Their approach simplified the reaction steps and boosted the efficiency of the purification process, leading to a more efficient and cost‐effective production method.[
+ 
+] In addition to refining synthetic routes, there has been a notable shift in the field toward combinatorial chemistry for the rapid synthesis of ionizable lipids.[
+ , , , 
+] Combinatorial chemistry offers a distinct advantage over traditional methods by allowing the assembly of ionizable lipids from the head, linker, and hydrophobic tail in a one‐pot reaction.[
+ , , 
+] This simplifies the synthesis and dramatically reduces the effort and time.[
+ , , 
+] Using combinatorial chemistry, researchers can quickly generate a library of ionizable lipids with diverse structures and then screen for optimal ones with high delivery efficiency and low toxicity, which can be used for subsequent gene editing studies.[
+ , , , 
+]
+
+ Ideal ionizable lipids should be degraded immediately after releasing the payload, and the metabolites should not be toxic to the organism. Currently, biodegradable linkers, such as ester bonds and disulfide bonds, are introduced to accelerate the metabolism of ionizable lipids.[
+ 
+] TT3 (Figure  ), multi‐tail ionizable lipid, was the first to encapsulate the whole components required for gene editing, reducing ≈40% of serum antigen levels in hepatitis B virus (HBV)‐infected mice.[
+ 
+] However, TT3 lipid is not suitable for clinical application due to its nondegradable structure. Various biodegradable derivatives of TT3 were synthesized through reductive amination.[
+ 
+] For example, FTT5 (Figure  ) was optimized based on the structure of TT3 lipid, which showed 1.32‐fold higher editing efficiency than TT3 by delivering ABE mRNA/PCSK9 sgRNA at the same dose.[
+ 
+] Other ionizable lipids, including L319,[
+ 
+] SM‐102,[
+ 
+] ALC‐0315,[
+ 
+] OF‐Deg‐Lin,[
+ 
+] CL4H6,[
+ 
+] and 93‐O17S,[
+ 
+] contain ester bonds as well, and most of which have been shown to have strong potency in delivering gene editing tools. Additionally, disulfide bonds, as a nontraditional degradable linker, can also accelerate the degradation of ionizable lipids through thiol exchange reaction in a reductive intracellular environment.[
+ 
+] Xu et al. were the first to incorporate disulfide bonds into ionizable lipids.[
+ 
+] They further screened various ionizable lipids with bioreducible disulfide bonds by altering different amines and identified the best‐performing lipid in the library, BAMEA‐O16B (Figure  ), which could reduce green fluorescent protein (GFP) expression by 90% in HEK‐GFP cells at a Cas9 mRNA concentration of 160 ng mL−1.[
+ 
+] However, only partial cleavage of the disulfide bonds was achieved,[
+ 
+] which could limit their clinical application. Tanaka et al. found that the addition of the palmitic acid‐4‐methylumbelliferone ester could accelerate the metabolism of ssPalms lipids with disulfide bonds through hydrolysis accelerated by intra‐particle enrichment of reactant.[
+ 
+] The best‐performing unsaturated ionizable lipid ssPalmO‐Phe (Figure  ) achieved more than 95% reduction of transthyretin (TTR) after delivering Cas9 mRNA/sgRNA at a dose of 0.75 mg kg−1.[
+ 
+] While ionizable lipids containing disulfide bonds hold promise, their synthesis and purification are difficult.[
+ 
+] Additionally, their premature degradation and release could limit their application.[
+ 
+] All in all, when selecting ionizable lipids for in vivo gene editing, their degradability needs to be considered.
+Theoretically, ionizable lipids with strong membrane‐disrupting capability could release more gene editing tools into the cytoplasm, thereby enhancing editing efficiency. Therefore, the rapid optimization of ionizable lipids continues to be a substantial challenge. The structure–activity relationship (SAR) summary of lipids can greatly facilitate this optimization process. For example, the design of CL4H6 (Figure  ) benefited from previously summarized SAR,[
+ 
+] which was applied to edit HBV and TTR.[
+ , 
+] Yusuke et al. found that the hydrophilic head group of their previously developed pH‐sensitive unsaturated cationic lipid YSK12‐C4 (Figure  ) could affect its pKa, which greatly affected intrahepatic distribution and endosomal escape.[
+ 
+] The hydrophobic tail of lipids could affect intrahepatic distribution.[
+ 
+] Thus, they rationally designed the ideal pH‐sensitive cationic lipid, CL4H6 (Figure  ), based on the SAR to achieve the desired performance,[
+ 
+] in which CL4H6 LNP showed a higher editing efficiency than AAV2 at the same dose.[
+ 
+] Similarly, many valuable SARs were identified during the discovery of cKK‐E12 (Figure  ), C12‐200 (Figure  ), and 246C10 (Figure  ),[
+ , , 
+] which were suitable for gene editing applications.[
+ , , , 
+] The summary of SAR is based on the synthesis and screening of numerous and various ionizable lipids. However, the synthesis of ionizable lipids with unique structures can be challenging, which may hinder the screening and optimization processes. New rapid and cost‐efficient construction methods are necessary. Han et al. developed an elegant method, using a one‐pot, two‐step, three‐component reaction for synthesizing degradable branched ionizable lipids with extended alkyl branch tails, which are typically difficult to synthesize.[
+ 
+] This reaction allows for independent control of the head, body, tail, and branched tail, making it easier to summarize the SAR. They identified important design rules, including a total tail carbon number of 18, a symmetrical tail structure, and a primary amine separated by 2 or 3 carbons from other amines.[
+ 
+] The lead ionizable lipid 11‐10‐8 (Figure  ) was selected for the gene editing study.[
+ 
+] 11‐10‐8 LNP achieved 30% TTR editing at 1 mg kg−1, whereas the FDA‐approved MC3‐LNP only achieved ≈7% TTR editing.[
+ 
+] In general, the structure of ionizable lipids significantly influences their editing efficiency, making the design, optimization, and screening of ionizable lipids essential. Furthermore, for ionizable lipids with unique structures, the development of more convenient synthetic methods is necessary. The SAR of ionizable lipids can provide valuable insights for guiding the design of next‐generation ionizable lipids.
+
+2.2
+
+## Phospholipid
+Phospholipid, also known as helper lipid, typically contains one irreversible zwitterion and two hydrophobic tails that can mediate LNP formulation, membrane fusion, and endosomal escape.[
+ , 
+] The most commonly used phospholipids are saturated 1,2‐distearoyl‐sn‐glycero‐3‐phosphocholine (DSPC) (Figure
+ ) and unsaturated 1,2‐dioleoyl‐sn‐glycero‐3‐phosphoethanolamine (DOPE) (Figure  ).[
+ 
+] Previous studies showed that DSPC, together with cholesterol, resided in the outer layers of empty LNPs, whereas it was partially internalized together with RNA molecules in RNA‐loaded LNPs.[
+ 
+] All commercial LNP products, including the mRNA‐1273 and BNT162b2 COVID‐19 vaccines, incorporate DSPC[
+ 
+] and exhibit good stability. Kulkarni and colleagues demonstrated that formulations containing DSPC showed enhanced endocytosis in vitro compared to those with DOPE.[
+ 
+] However, in some studies, LNPs incorporating DOPE exhibit excellent mRNA delivery efficiency and enhance protein production.[
+ , , 
+] When it comes to DNA delivery, LNPs incorporating DOPE are more effective in facilitating the entry of DNA‐based genetic materials into cells.[
+ , 
+] DSPC tends to form a lamellar phase, which helps to stabilize the LNP structure, while DOPE prefers to create an inverted hexagonal H (II) phase, facilitating greater endosomal escape.[
+ , 
+] Zhang et al. found that LNPs containing DOPE preferentially accumulated in the liver, whereas DSPC induced more spleen accumulation.[
+ 
+] Therefore, formulations containing DOPE may be more suitable for liver gene editing, while DSPC‐containing formulations could be better suited for gene editing in splenic immune cells. Another naturally occurring phospholipid, phosphatidylserine (PS), in the cell membrane[
+ 
+] may be used for the preparation of LNPs.[
+ 
+]
+
+ A series of alcohol‐soluble PS derivatives were synthesized by replacing the fatty acid chains with linoleoyl groups to increase their solubility in ethanol, allowing for the direct incorporation of PS into LNPs.[
+ 
+] Formulations containing PS are preferentially taken up by macrophages;[
+ 
+] this formulation may be suitable for macrophage editing. The structure modification of phospholipids is also essential for improving delivery efficiency. Liu et al. developed multi‐tailed ionizable phospholipids (iPhos) to overcome the structural inflexibility of traditional phospholipids. The iPhos with one zwitterionic head and three alkyl tails was more likely to form a cone in the endosome, subsequently facilitating membrane hexagonal conversion and cargo release.[
+ 
+] They showed that the lead iPhos, 9A1P9 (Figure  ), achieved 40‐ and 965‐fold higher transfection efficacy than DSPC and DOPE.[
+ 
+] Moreover, 9A1P9 exhibited the highest level of splenic gene editing and could edit PTEN in 28.3% of cells at a dose of 0.75 mg kg−1.[
+ 
+] In another study, Gan et al. found that incorporating the adamantyl group into phospholipids could enable LNPs to selectively target immune cells in the liver, indicating the possibility of cell‐specific gene editing.[
+ 
+] Overall, the selection of phospholipids should be carefully considered to maximize transfection and editing efficiency in specific cell types.
+
+2.3
+
+## Cholesterol
+Cholesterol, as a natural component of cellular membranes, can stabilize LNPs and increase endosomal escape.[
+ , 
+] The ratio of cholesterol in the LNP formulation can impact delivery efficiency, with cargo release improving as the percentage of cholesterol increases.[
+ 
+] β‐sitosterol, a naturally occurring phytosterol, demonstrated higher transfection efficiencies compared to LNPs formulated with cholesterol.[
+ 
+] Patel et al. observed that the β‐sitosterol‐LNP formulation exhibited extended retention in endocytic vesicles by live‐cell imaging, resulting in enhanced endosomal escape.[
+ 
+] Additionally, MC3 LNP with β‐sitosterol showed 2.5‐fold higher gene editing efficiency than that with cholesterol due to the enhanced release of Cas9 mRNA.[
+ 
+] Palanki et al. demonstrated that gene editing was enhanced with β‐sitosterol compared to cholesterol, suggesting that β‐sitosterol may be more suitable for delivering gene editing tools.[
+ 
+] Aside from this, cholesterol derivatives are utilized in the formulation of LNPs. For instance, 3β[L‐histidinamide‐carbamoyl] cholesterol‐derived lipids boosted the delivery of LNPs.[
+ 
+] Similarly, cationic cholesterol gemini exhibited exceptional efficiency.[
+ 
+] Furthermore, researchers have discovered that cholesterol analogs can assist in the development of cholesterol‐free LNPs, which may improve tumor cell uptake and facilitate endosomal escape.[
+ 
+] Additionally, LNPs formulated with other analogs have demonstrated the capability for extrahepatic delivery,[
+ 
+] potentially enabling gene editing outside the liver. The structure modification of cholesterol is also essential. Kalina and colleagues noted that LNPs incorporating 20α‐hydroxycholesterol (Figure  ) preferentially target mRNA to endothelial cells and Kupffer cells over hepatocytes, thus offering new avenues for gene editing in these specific cell types.[
+ 
+] They further explored the esterification of cholesterol and identified that LNPs with cholesteryl oleate could efficiently deliver cargo to hepatic endothelial cells in vivo, leading to 41% GFP editing in these cells.[
+ 
+] Another study showed that partial replacement of cholesterol with 7α‐hydroxycholesterol (Figure  ) reduced the endosomal recovery of LNPs, which improved mRNA delivery.[
+ 
+] Since cholesterol derivatives can impact the delivery efficiency and tropism of LNPs, different derivatives can lead to enhanced or cell/tissue‐specific gene editing. Therefore, the selection of cholesterol or its derivatives should be carefully considered.
+
+2.4
+
+## PEG‐Lipids
+LNPs typically include 1–2.5 mol% PEG‐lipids of total lipids, which reside in the outer shell of LNPs due to their hydrophilicity.[
+ , 
+] They can create a barrier to prevent nanoparticle aggregation and clearance by the mononuclear phagocyte system.[
+ , 
+] Different proportions of PEG‐lipids in LNPs affect surface charge and particle size, which eventually affect the tropism and potency of LNPs in vivo.[
+ , , 
+] Kim et al. found that LNPs with 5% PEG‐lipids exhibited a lower binding affinity with ApoE than LNPs with 1.5% PEG‐lipids.[
+ 
+] Thus, the ratio of PEG is crucial for effective delivery, as excessive PEG‐lipids can impede the interaction between LNPs and serum proteins.[
+ 
+] Additionally, the PEG layer can reduce the Brownian motion of LNPs in mucus when directly administered to the trachea, thereby enhancing the stability of the lipid nanoparticles.[
+ , , 
+] However, this layer also inhibits endocytosis and endosomal escape.[
+ , , 
+] Overall, an appropriate ratio of PEG lipids should be chosen for effective delivery. DMG‐PEG2000 (Figure  ) and ALC‐0159 (Figure  ) are separately used in Onpattro (patisiran), mRNA‐1273, and BNT162b2.[
+ 
+] Both of them consist of a hydrophilic PEG chain and two alkyl chains with 14 carbons in each.[
+ , 
+] In 2013, Mui et al. found that PEG‐lipids with long alkyl chains enabled a longer circulation time of LNPs compared to those with short alkyl chains.[
+ 
+] Long‐circulating LNPs allow more gene editing payload to be delivered to non‐liver cells for efficient on‐target editing.[
+ 
+] Interestingly, Palanki et al. found that using neutral PEG‐lipids resulted in higher editing efficiency, which might be attributed to fewer charge interactions between PEG‐lipids and encapsulated mRNA cargo.[
+ 
+] For optimal gene editing, the structure optimization of PEG‐lipids is essential. Although PEG‐lipids play an important role in LNPs, pre‐existing anti‐PEG antibodies can speed up the clearance of LNPs and potentially trigger a hypersensitivity response, raising concerns about their efficacy and safety.[
+ , 
+] Anti‐PEG antibodies may hinder the clinical application of LNPs for genome editing as well. To address these issues, optimization of PEG‐lipids structure to reduce the immune response, and inclusion of anti‐inflammatory moieties could be considered.[
+ 
+]
+
+2.5
+
+## Other Excipients
+Conventional LNPs typically consist of four components. However, some studies have introduced an additional fifth component to improve the transfection and tropism of LNPs. Ma et al. found that adding tannins to LNPs could improve LNP endosomal escape due to their high affinity for nucleic acids.[
+ 
+] Similarly, the inclusion of poly (γ‐glutamic acid) facilitates the release of cargo such as mRNAs, Cas9 RNPs, or siRNAs, resulting in a two‐fold improvement in editing efficiency.[
+ 
+] Hyaluronan (HA) is one of the natural ligands for the CD44 receptor, so HA‐coated LNPs can be mainly taken up and internalized by tumors.[
+ 
+] The fifth component can also be introduced to enhance mRNA translation. Under hypoxic conditions, researchers found that mRNA translation decreased compared to normal conditions, which was associated with low intracellular adenosine triphosphate (ATP).[
+ 
+] To address this, Ma used ATP as an additional component of LNPs to provide cells with extra energy, which led to a 79‐fold increase in mRNA‐encoded protein expression in vitro and a 24‐fold increase in vivo compared to normal LNPs.[
+ 
+] This strategy could be applied to enhance gene editing efficacy if mRNA forms are delivered.
+The additional component can also be used to modulate the surface charge of LNPs to achieve organ tropism. For example, Cheng et al. found that introducing additional permanently cationic lipids can achieve lung targeting, while introducing negatively charged lipids resulted in spleen tropism.[
+ 
+] These LNPs are known as SORT LNPs. In another study, Han et al. developed a novel amidine‐incorporated degradable lipid, which served as an excellent fifth component to redirect liver‐tropic LNPs to the lung or spleen by altering the surface charge.[
+ 
+] Overall, adding a fifth component could be a promising strategy to enhance gene editing efficiency and modify the tropism of LNPs for targeting specific tissues and cells. However, the increased complexity of LNPs must be taken into account for translational applications.
+
+3
+
+## Strategies for Non‐Liver Targeting
+LNPs often end up in the liver following intravenous administration due to their inherent hepatic tropism, which restricts the delivery of gene editing tools to non‐hepatic organs. In this section, we will summarize various methods that enable LNPs to target extrahepatic tissues, which may provide insights for gene editing beyond the liver. These approaches involve utilizing specific routes of administration, changing the physicochemical properties of LNPs, using cell/tissue‐selective ionizable lipids, and conjugating targeting moieties onto LNPs.
+3.1
+
+## Utilizing Specific Routes of Administration
+Shifting from intravenous injection to local administration provides a straightforward way to avoid the intrinsic liver accumulation of LNPs while simultaneously increasing local concentrations in targeted organs (Figure
+ ). For instance, LNPs can be directly injected into target sites, such as intratumoral injection. The encapsulated gene editing tools can be physically limited within the tumor due to its high extracellular matrix density and poor vasculature organization.[
+ , 
+] For example, Rosenblum et al. delivered Cas9 mRNA and sgRNA targeting PLK1 following intratumoral injection, which achieved ≈70% gene editing efficiency.[
+ 
+] However, this approach is mainly suited for superficial tumors that are easily accessible. The tumor microenvironment, characterized by a dense extracellular matrix, solid stress, and abnormal vascular structures, can significantly hinder the accumulation of nanoparticles within tumors.[
+ , 
+] Only ≈0.7% of injected nanoparticles can reach solid tumors.[
+ 
+] To improve delivery efficiency, several strategies have been developed. Researches have focused on optimizing various parameters, including the size, shape, surface chemistry, and stiffness of nanoparticles,[
+ 
+] to enhance accumulation in tumor.[
+ 
+] Overall, optimization of LNPs to enhance the infiltration at tumor sites is crucial.
+ For gene editing in the lungs, nebulization is considered an optimal method, as it minimizes off‐target effects in other organs and allows for direct access to the pulmonary system.[
+ , 
+] Nonetheless, ensuring LNP stability during nebulization and effective mucus penetration is critical for successful delivery to the lungs.[
+ 
+] Several studies have adjusted LNP formulations by replacing the ionizable lipid with cationic lipids or cholesterol with β‐sitosterol, which showed improved pulmonary LNPs delivery compared to the original LNPs.[
+ , 
+] More recently, Jiang et al. found that the additional hydrophilic polymeric excipient, bPEG20K, could help resist nebulization‐induced aggregation of LNPs, leading to improved delivery into the lung.[
+ 
+] Collectively, these strategies may be suitable for enhancing gene editing via nebulized LNPs. Successful gene editing in the mouse retina has been reported through the use of locally administrated lipid‐encapsulated RNPs,[
+ , 
+] highlighting their potential for treating ophthalmic diseases. Whether injected subretinally or intravitreally, LNPs have struggled to penetrate the neural retina,[
+ 
+] and protein expression is primarily confined to the phagocytic retinal pigment epithelium cells and Müller glia,[
+ 
+] which limits gene editing in the photoreceptors. Therefore, more efficient LNPs or conjugating with antibodies to achieve more profound ocular delivery is essential. In the case of the blood–brain barrier, intracerebroventricular injection offers a method to bypass this barrier, allowing LNPs to reach the perinatal brain more effectively.[
+ 
+] Optimized LNP formulations can increase transfection capabilities in the fetal and neonatal mouse brain, showing successful editing in Idua G→A (W392X) mice.[
+ 
+] When LNPs are administered via intramuscular or subcutaneous injections, they are primarily distributed at the injection site and lymph nodes, which have been effectively utilized to elicit immune responses to antigens in the context of mRNA vaccines and may also be appropriate for genome editing applications.[
+ 
+] In conclusion, local administration remains the most direct method for delivering LNPs to target‐specific organs and tissues.
+
+3.2
+
+## Changing the Physicochemical Properties of LNPs
+In addition to direct administration routes, the physicochemical properties of LNPs significantly affect their targeting capabilities. Typically, LNPs are neutral and ≈100 nm in size; these features make them prone to filtration through fenestrated liver sinusoids and subsequent uptake by hepatocytes.[
+ 
+] Therefore, it is viable to achieve extrahepatic targeting by changing the physicochemical properties of LNPs (Figure  ). The proportion of injected LNPs in the liver and other organs is highly dependent on the size of the LNPs. When 45 nm‐LNPs were injected intravenously, 70% of the LNPs were found in the liver.[
+ 
+] In contrast, nanoparticles between 1 and 3 microns are suitable for pulmonary administration due to the accessibility of the lung.[
+ 
+] However, it is difficult to generate such large LNPs, especially using microfluidics. The surface charge of LNPs also critically affects biodistribution.[
+ 
+] Several studies have found that positively charged LNPs tend to localize in the lung, while negatively charged LNPs are prone to accumulate in the spleen.[
+ 
+] The surface charge of LNPs is closely related to the pKa.[
+ 
+] Ionizable lipid‐supplemented SORT LNPs that target the liver have an apparent pKa of 6–7, while those targeting the lung (cationic lipid‐supplemented SORT LNPs) have a higher apparent pKa (greater than 9), and those targeting the spleen (anionic lipid‐supplemented SORT LNPs) have a lower pKa (between 2 and 6).[
+ 
+] Interestingly, they observed that the absorbed serum proteins on these three SORT LNPs were different.[
+ 
+] SORT LNPs targeting the liver were mainly enriched in ApoE, whereas those targeting the spleen and lungs were enriched in β2‐glycoprotein I and vitronectin, respectively.[
+ 
+] Thus, the SORT‐lipid endows organ selectivity by altering the apparent pKa and absorbed serum proteins of LNPs.[
+ 
+] SORT LNPs exhibited persistent gene editing in the lung and achieved >70% lung stem cell editing in activatable tdTomato mice,[
+ 
+] showing their potential to cure related diseases. It is worth mentioning that adjusting the physicochemical properties of LNPs to achieve extrahepatic targeting is a facile technique, yet LNPs can only reach limited organs (e.g., lung and spleen) and increase the component complexity.
+
+3.3
+
+## Using Cell/Tissue‐Selective Ionizable Lipids
+As a crucial component of LNPs, the chemical structure of ionizable lipids can influence the endogenous targeting of LNPs to specific organs and cell types (Figure  ). Zhao et al. reported that imidazole‐containing ionizable lipids were particularly effective in T lymphocyte transfection, and their lead lipid 93‐O17S formulated LNPs could transfect 8.2% and 6.5% of CD4+ and CD8+ splenic T lymphocytes in vivo, respectively.[
+ 
+] Additionally, piperazine rings can confer LNPs spleen tropism.[
+ 
+] LNP‐A10, the most effective LNP with piperazine rings, can transfect 50% of Kupffer cells, 23% of splenic macrophages, and 26% of splenic dendritic cells.[
+ 
+] Overall, LNPs formulated with ionizable lipids with specific structures may help ex vivo/in vivo genome editing in immune cells. OF‐Deg‐Lin represents another unique ionizable lipid that was shown to transfect splenic B lymphocytes (≈7%) in vivo.[
+ 
+] Interestingly, although OF‐Deg‐Lin LNPs could deliver mRNA to the liver, these LNPs failed to induce protein production.[
+ 
+] This may be due to more rapid degradation in the liver compared to other organs.[
+ 
+] Therefore, rationally designed degradable ester bonds in ionizable lipids may help to achieve targeted mRNA delivery beyond the liver.
+In addition to the spleen, some ionizable lipids can target the lungs. For instance, 7C1, a polymer–lipid, exhibited strong tropism for endothelial cells in the lungs, delivering therapeutic RNAs to aberrant endothelial cells.[
+ , , 
+] Interestingly, Qiu et al. found that N‐series ionizable lipids (containing amide bonds) enabled lung‐selective mRNA delivery by changing the absorbed protein corona.[
+ 
+] The lead lung‐targeted 306‐N16B formulated LNP was enriched in serum albumin, fibrinogen beta chain, and fibrinogen gamma chain, which was different from the liver‐targeted LNP.[
+ 
+] In the case of the 306‐N16B LNP, 33.6% of the pulmonary endothelium was successfully transfected; in contrast, only 1.5% of the epithelial cells and 1.9% of the macrophages were transfected.[
+ 
+] Additionally, zwitterionic amino lipid ZA3‐Ep10 (Figure  ), containing a sulfobetaine head group, also showed lung tropism.[
+ 
+] It is worth noting that although these LNPs exhibit pulmonary tropism, they are still less specific compared with local administration (e.g., inhalation), as previously discussed. Nevertheless, rational design of ionizable lipids by incorporation of specific structures could be promising to achieve organ‐selective targeting. One strategy to facilitate the screening of these ionizable lipids involves DNA or mRNA barcode technology. Dahlman and coworkers first used DNA barcodes to screen LNPs in vivo, and they found LNPs with 80 mol% 7C1 and 15–20 mol% C18PEG2000 or 80 mol% 7C1 and 0.1–10 mol% cholesterol showed bone marrow endothelial cell tropism.[
+ 
+]
+
+Another efficient method to design ionizable lipids with cell/tissue tropism is to introduce ligands that have a strong affinity to receptors highly expressed in cells or tissues into ionizable lipids. Ma et al. developed a series of neurotransmitter‐derived lipidoids based on the fact that neurotransmitters can cross the BBB through active transport.[
+ 
+] They identified that tryptamine‐derived ionizable lipids could efficiently deliver cargo into the brain.[
+ 
+] In another study, ionizable lipids modified with bisphosphonates (BPs) have been shown the bone, since BPs have a strong binding affinity to the bone surface.[
+ 
+] The lead BP‐modified ionizable lipid 490BP‐C14 formulated LNP achieved more accumulation in the bone microenvironment with enhanced mRNA expression compared to unmodified LNPs.[
+ 
+] Ligand‐conjugated ionizable lipids have also been reported to target hepatic stellate cells.[
+ 
+] Due to the interaction between anisamide with sigma receptors, anisamide‐conjugated ionizable lipids could selectively target activated fibroblasts with overexpressed sigma receptors.[
+ 
+] The lead ionizable lipid AA‐T3A‐C12 formulated LNPs showed improved siRNA delivery compared to MC3 LNPs,[
+ 
+] which could potentially deliver gene editing tools to activated fibroblasts. Overall, ionizable lipids with specific structures could confer organ or cell tropism, which is promising due to the simplicity of LNP formulation.
+
+3.4
+
+## Conjugating Targeting Moieties onto LNPs
+In addition to the inherent targeting capabilities of LNPs, surface modification with targeting moieties—such as antibodies, peptides, and aptamers—can enhance specific extrahepatic organ targeting by the interactions with antigens or receptors on target cells. Currently, several modification methods have been employed to conjugate antibodies with reactive PEG‐lipids on the surface of LNPs. In the first approach, free thiols in reduced antibodies can react with maleimide‐PEG‐lipids via maleimide‐thiol chemistry to achieve conjugation, which is easy to operate under mild conditions.[
+ 
+] It should be noted that the reaction times and ratios can affect the conjugation efficiency.[
+ 
+] Anti‐CD117‐LNPs targeting hematopoietic stem cells (HSCs) and anti‐CD3‐LNPs targeting T cells were developed using this method.[
+ 
+] Billingsley et al. removed the potentially inflammatory Fc region of antibodies and conjugated the Fab fragment with maleimide‐LNPs to target pan‐T cell markers, highlighting the value of Fab fragments.[
+ 
+] A second approach uses the Diels–Alder reaction, in which a cyclopentadiene derivative of lysine is introduced into the antibody and reacts with maleimide‐PEG‐lipid to achieve antibody conjugation.[
+ 
+] The Diels–Alder reaction was used to conjugate plasma membrane vesicle‐associated protein 1 with LNPs to enhance caveolae‐mediated endocytosis.[
+ 
+] This method exhibited greater LNP stability than that using the maleimide‐thiol method.[
+ 
+] A third approach uses N‐succinimidyl S‐acetylthioacetate (SATA)‐maleimide conjugation chemistry.[
+ 
+] In this method, the antibody is functionalized with SATA to produce sulfhydryl groups, allowing conjugation to maleimide‐PEG‐lipids.[
+ 
+] This method has been used to produce anti‐CD117 LNPs (targeting HSCs),[
+ 
+] anti‐CD31 LNPs (targeting endothelial cells),[
+ 
+] as well as anti‐CD4 LNPs and anti‐CD5 LNPs (targeting T cells).[
+ 
+] Anti‐CD117‐LNPs encapsulating adenine base editing systems could rescue 88% of HSCs with sickle cell disease at a dose of 10 pg/cell.[
+ 
+] The fourth approach uses a recombinant protein to conjugate the antibody Fc domain to LNPs,[
+ 
+] which has been shown to improve leukocyte targeting.[
+ , 
+] More approaches (e.g., click chemistry) are used for antibody conjugation, but are not discussed due to the scope of this review. Although conjugating antibodies can enhance the targeted delivery of LNPs, it raises several concerns. The incorporation of antibodies can significantly increase the cost of LNPs, and additional quality control is required to ensure consistency. Due to the additional conjugation and purification steps, antibody‐modified LNPs generally show lower loading efficiency.[
+ 
+] Therefore, optimizing conjugation methods to improve the LNPs‐to‐antibody ratio is essential.[
+ 
+] Furthermore, the immunogenicity of antibodies is a crucial consideration that cannot be overlooked.[
+ , 
+] Peptide conjugation can reduce cost and immunogenicity compared to antibody conjugation,[
+ 
+] which renders them a safer alternative. pMHCI molecule‐modified LNP can target CD8+ T cells[
+ 
+] while the conjugation of RGD peptide enables LNPs to target tumors.[
+ , 
+] However, it is important to note that both conjugated antibodies and peptides can still lead to allergic reactions or other immune‐related adverse effects.[
+ 
+] Additionally, off‐target effects may result in other undesired reactions.
+Aptamers represent another high‐affinity motif interacting with much flatter receptors with their unique 3D structures.[
+ 
+] LNPs with G‐rich sequences tended to traffic to the spleen.[
+ 
+] Similarly, LNPs modified with an aptamer targeting the epithelial cell adhesion molecule (EpCAM) could efficiently deliver CRISPR plasmids to edit the EpCAM gene, leading to superior in vivo tumor suppression efficacy compared to the naked plasmid.[
+ 
+] Moreover, LNPs conjugated with specific aptamers have been shown to target tumors.[
+ , 
+] However, the instability of aptamers may limit their wider application.[
+ 
+] One effective approach to mitigate this issue is the use of nucleotide‐modified aptamers.[
+ 
+] Additionally, aptamers also exhibit some cross‐reactivity. To overcome these limitations, small molecules have been used to change the tropism of LNPs. Coupling with glucose has been demonstrated to facilitate LNPs to cross the BBB following fasting.[
+ 
+] However, this approach is limited. Due to the high expression of adenosine receptors in the brain, Xiao et al. showed that adenosine‐conjugated LNPs could deliver the payload to the brain when the BBB was disrupted during traumatic brain injury.[
+ 
+] However, the interaction between small‐molecule ligands and receptors is typically weak.[
+ 
+] Although surface conjugation with targeting moieties broadens the applicability of LNPs, achieving non‐hepatic tropism is still limited by the variability of conjugation reactions, cost, and specificity to cells of interest. Therefore, further work in optimizing the compositions of LNPs, both in vitro and in vivo, is essential to achieve non‐hepatic delivery.
+
+4
+
+## Application of LNPs for Gene Editing
+LNPs have gained popularity for delivering gene editing tools in vivo. LNP‐based gene editing is now being used in several clinical trials and has become the ideal nonviral delivery platform for many in vivo gene editing applications. Most intravenously administered LNPs are taken up by the liver due to the absorption of ApoE lipoprotein.[
+ , 
+] For these reasons, LNPs have primarily been used to deliver gene editing tools to the liver, while non‐hepatic delivery continues to pose a significant challenge for LNPs. Several strategies for non‐hepatic delivery have been summarized above. Although not all methods have been employed for non‐hepatic gene editing, they still serve as references. When delivering the gene editing tools, off‐target effects should be minimized.[
+ , 
+] Therefore, both delivery vectors and editing tools should be degraded transiently after gene editing is complete. There are three forms of gene editing tools that can be delivered by LNPs, including plasmids, mRNA, and RNP (Figure
+ ). In this section, we summarize the recent advances in LNP‐based gene editing by delivering these payloads (Table
+ ). We highlight the application of Cas9 mRNA and sgRNA for gene editing and discuss their modification methods, which can be used as a reference for subsequent selection of RNAs as cargo for high translation/editing efficiency.
+ 4.1
+
+## Gene Editing in Liver
+4.1.1
+
+## LNP‐Based CRISPR/Cas9 System
+The CRISPR/Cas9 system is a powerful tool to achieve gene editing at specific sites in the genomic DNA of mammalian cells.[
+ 
+] The large size of the plasmids renders them challenging to encapsulate (Figure  ).[
+ 
+] Zhang et al. developed a method to encapsulate plasmids within LNPs by adding protamine and chondroitin sulfate with a high‐density anionic charge, which formed a stable negatively charged core with the plasmids.[
+ 
+] They further delivered the CRISPR/Cas9 system in a plasmid targeting PLK1 into actively dividing tumor cells and achieved 46.7% growth inhibition.[
+ 
+] However, plasmids are more complicated for genome editing. Therefore, Cas9 mRNA/sgRNA and RNPs become the main cargo to be delivered via LNPs. Researchers have used C12‐200 LNP to deliver Cas9 mRNA alone, while the rest of the CRISPR/Cas9 system (i.e., sgRNA and the repair template) was delivered using an AAV8 vector.[
+ 
+] This co‐delivery system corrected 6.2% of hepatocytes in fumarylacetoacetate hydrolase (FAH) mutant mice.[
+ 
+] The unedited hepatocytes could eventually be replaced with corrected edited hepatocytes, which hold the potential to cure hereditary tyrosinemia type I.[
+ 
+] In another study, Lee and coworkers used the 246C10 LNP‐CRISPR‐antithrombin (AT) and AAV donor to knock out the AT gene and knock in the human factor 9 gene at the same site, which reduced 67% of serum AT. This study demonstrated the potential of this combinatorial delivery strategy to treat hemophilia A and B caused by mutations in the coagulation factor.[
+ 
+]
+
+However, the combination of LNPs and AAVs is not ideal due to the potential risk of gene insertion caused by AAVs. Therefore, more research has focused on using LNPs alone to deliver CRISPR/Cas9 systems. Compared to RNPs, the combination of Cas9 mRNA and sgRNA could exhibit higher editing efficiency during gene knock‐in and knock‐out, since mRNA‐LNPs should be smaller and offer better protection against degrading enzymes (Figure  ).[
+ , 
+] LNPs can deliver Cas9 mRNA and sgRNA separately or together. Dong et al. used their previously designed TT3 LNPs, consisting of a phenyl ring, three amide linkers, and three lipid chains,[
+ 
+] to separately deliver Cas9 mRNA and sgRNA specific for PCSK9 (sgPCSK9), which resulted in ≈50% reduction of serum PCSK9 in mice.[
+ 
+] Since co‐delivery demonstrates high editing efficiency and is less complicated than delivering each component separately, it has become the primary approach for LNP‐mediated gene editing.[
+ 
+] The TT3 LNPs reduced antigen expression by ≈40% in HBV‐infected mice by co‐delivering the CRISPR/Cas9 system.[
+ 
+] The SORT LNPs, discussed above, also showed greater liver specificity and could co‐deliver gene editing systems.[
+ , 
+] For clinical applications, the fast degradation of LNPs can improve safety, especially in multi‐dosing settings.[
+ 
+] Tanaka et al. used biodegradable ssPalmO‐Phe LNPs to deliver the CRISPR/Cas9 system, achieving more than 95% reduction of serum TTR at a dose of 0.75 mg kg−1.[
+ 
+] For this target, other biodegradable LNPs (e.g., 11‐10‐8 LNP and LNP‐INT01) also demonstrated their feasibility in gene editing.[
+ , 
+] Additionally, the biodegradable LNPs, BAMEA‐O16B‐LNPs and 306‐O12B‐LNPs, contain disulfide bonds.[
+ 
+] BAMEA‐O16B‐LNPs could decrease PCSK9 down to 20% in mice at the dose of 9 mg kg−1,[
+ 
+] and 306‐O12B‐LNPs could edit Angiopoietin‐like 3 (Angptl3) with a reduction of 65.2% in serum.[
+ 
+] Commercially available biodegradable SM‐102 LNP exhibited its potential in delivering Cas9 mRNA and sgHBV in AAV‐HBV1.04 mice with no off‐target editing.[
+ 
+] Moreover, this treatment respectively reduced HBcAg, HBsAg, and cccDNA by 53%, 73%, and 64% at doses of 1.5 mg kg−1, indicating that gene editing therapy can effectively clear cccDNA.[
+ 
+] These results indicate that LNPs could safely deliver gene editing tools into HBV‐infected hepatocytes, with the potential to clear the virus. Moreover, LNPs accelerate translational applications of gene editing therapy to cure intractable diseases. The 246C10 LNP‐CRISPR system showed potential to treat hemophilia and lead to a 40% reduction of blood mAT concentration in hemophilia A mice and a 70% reduction in hemophilia B mice, with an enhanced generation of thrombin at a dose of 1.2 mg kg−1.[
+ 
+] Glycogen storage disease type‐Ia, a disease characterized by a glucose‐6‐phosphatase‐α (G6PC) mutation, can be restored by CRISPR/Cas9 LNPs through the insertion of double‐stranded DNA oligonucleotides in a G6pc‐R83C mouse model at a dose of 3 mg kg−1.[
+ 
+]
+
+RNPs can directly induce DNA cleavage after nuclear transfer, bypassing steps such as the translation of Cas9 mRNA and the assembly of Cas9 protein and sgRNA (Figure  ).[
+ , 
+] Therefore, it is suitable for fast gene editing. Furthermore, using RNPs has shown less off‐target effects and lower immunogenicity compared to other cargo formats.[
+ 
+] However, RNPs are easy to denature in acidic solutions, making them difficult to encapsulate into LNPs.[
+ , 
+] To address this issue, Wei et al. introduced an additional cationic lipid into the LNP formulation to allow the encapsulation of RNPs at neutral pH, which largely reduced the denaturation of RNPs.[
+ 
+] Additionally, Walther and colleagues found that different neutral buffers could affect RNPs,[
+ 
+] indicating that suitable buffers are needed.[
+ 
+] Suzuki et al. prepared RNP‐LNPs by adding ssODNs to endow RNP with negative charges via base pairing formation between sgRNAs and ssODNs.[
+ 
+] They used CL4H6‐LNP for gene editing in HBV‐infected cells, which reduced 80% of covalently closed circular DNA (cccDNA).[
+ 
+] Additionally, they found that the melting temperature between sgRNA and ssODN would affect in vivo gene editing efficiency, highlighting that an appropriate melting temperature was essential.[
+ 
+] Near room temperature, the CL4H6‐LNP‐based RNP system showed the highest knockout activity and led to ≈80% TTR knockout in mice at a dose of 2 mg RNP/kg.[
+ 
+] Overall, LNPs demonstrate efficient delivery of various forms of the CRISPR/Cas9 system into the liver.
+
+4.1.2
+
+## LNP‐Based Base Editors and Prime Editing
+While the CRISPR/Cas9 system can perform gene alteration at specific sites in the genomic DNA, base editors and prime editors can achieve precise edits without introducing DSBs.[
+ , 
+] Zhang et al. used FTT5 LNPs to deliver ABE and corrected 60% of the mutated PSCK9 gene at a dose of 1 mg kg−1.[
+ 
+] SM‐102 LNP was also employed to edit phenylalanine hydroxylase (PAH) in two mutated types of mice by encapsulating ABE, resulting in the reduction of serum phenylalanine levels.[
+ , 
+] Similarly, C12‐200 LNPs delivered codon‐optimized ABE6.3 mRNA and sgRNA specific for fumarylacetoacetate hydroxylase (FAH) to correct mutant FAH, an enzyme of the tyrosine catabolic pathway.[
+ 
+] However, only 0.44% of hepatocytes were edited in this study.[
+ 
+] Due to the low editing rate, the authors attempted to use chemically modified ABE6.3 mRNA with 5‐methoxyuridine and capping to increase its stability, which ultimately showed widespread FAH‐positive patches.[
+ 
+] Base editors have also been applied in HBV infection, as proprietary LNPs were used to encapsulate CBE mRNA and two sgRNAs targeting different parts of HBV in HBV minicircle mice, and no HBV viral rebound was observed in this group compared to entecavir treatment.[
+ 
+] Compared to other therapeutic modalities for HBV treatment, gene editing therapy theoretically can cure diseases permanently. Therefore, LNPs with high delivery efficiency warrant further investigation for eliminating cccDNA at low doses with low toxicity. Alpha‐1 antitrypsin deficiency (AATD) is a refractory disease characterized by a pathogenic mutation in alpha‐1 antitrypsin (AAT) that could be permanently cured by base editors.[
+ 
+] Two strategies have been employed to repair loss‐of‐function in AAT, including direct correction of the pathogenic mutation or introduction of another compensatory mutation to restore AAT.[
+ 
+] Packer et al. found that direct editing was more effective.[
+ 
+] Thus, they developed LNP‐based gene editing medicine BEAM‐302 to correct AAT.
+In addition to mice, two teams also validated the safety and efficacy of the LNP‐based gene editing system in primates. Wu et al. encapsulated ABE8.8 mRNA and sgPCSK9 in proprietary LNPs with liver tropism.[
+ 
+] The sgRNA was designed to retain intron 1, and the translation of PCSK9 was terminated at this site.[
+ 
+] In a long‐term study, the levels of plasma PCSK9 and LDL‐C were stably reduced by ≈90% and 60% over eight months.[
+ 
+] The LNPs and ABE mRNA were cleared within two weeks, and no off‐target editing was identified.[
+ 
+] Enzymes representing liver function, aspartate aminotransferase and alanine aminotransferase, were transiently elevated and returned to baseline levels.[
+ 
+] They first evaluated the safety and feasibility of LNP‐based base editors in nonhuman primates, thereby accelerating the clinical application of LNP‐delivered gene editing tools. In another study, Tan et al. also employed LNPs to deliver gene editing tools, and plasma PCSK9 and LDL levels were stably reduced by 32% and 14% in macaques at a dose of 1.5 mg kg−1.[
+ 
+] These promising preclinical results suggest that LNPs could be used in the future to mediate in vivo liver gene editing.
+Prime editing is a comprehensive genome editing technology that enables the precise insertion, deletion, and correction of all types of point mutations.[
+ 
+] Jiang et al. used their optimized LNPs‐mediated prime editing and corrected 0.76% of mutated FAH hepatocytes in the tyrosinemia I mouse model,[
+ 
+] highlighting the potential of prime editing in correcting genetic diseases. When choosing prime editing, it is essential to consider the PE mRNA (≈6.5 kb in length), which may lead to a higher probability of degradation and reduced translation during the covalent adduct formation between the ionizable lipid and RNA.[
+ , 
+] The LNP‐based prime editing system has been used to knock out the stop codon of the reporter gene in cells, indicating that prime editing can be delivered by LNPs and function properly.[
+ 
+] Furthermore, Herrera‐Barrera and coworkers found that the polymorphic structure and membrane fluidity of LNPs at low pH affected transfection efficiency.[
+ 
+] Consequently, they replaced all cholesterol with β‐sitosterol,[
+ 
+] and their LNP‐based prime editing system achieved a 12.97% reduction of PCSK9 in immunodeficient mice.[
+ 
+] However, the efficacy was limited in wild‐type mice.[
+ 
+] Therefore, it is worth optimizing LNPs specifically for the prime editing system to achieve the desired editing effect.
+
+4.1.3
+
+## Chemical Modifications of the Cargo
+Within the three forms of gene editing payload discussed above, mRNA represents the main choice in gene editing due to its facile packaging and decent editing efficiency.[
+ 
+] For ideal editing, mRNA and sgRNA need to be chemically modified to enhance their stability.[
+ 
+] The pseudouridine (Ψ) modification has been demonstrated to increase the stability and translatability of mRNA.[
+ 
+] Ψ‐modified mRNA was used in TT3 LNPs and achieved 39.6% PCSK9 editing.[
+ 
+] N(1)‐methylpseudouridine (m1Ψ)‐modified mRNAs are also widely used, which has been verified by two COVID‐19 vaccines.[
+ , 
+] Compared to Ψ, m1Ψ‐modified mRNA could induce less intracellular innate immunogenicity by evading TLR3 activation and produce more protein by increasing RNA stability.[
+ 
+] Therefore, m1Ψ‐modified Cas9 mRNA and base editor mRNA are the main choices. Therefore, m1Ψ‐modified Cas9 mRNA and base editor mRNA could be good choices. The 5moU modification is also employed to modify Cas9 mRNA, which has been demonstrated to enhance gene expression, reduce antiviral responses, and improve gene editing.[
+ , 
+]
+
+Apart from mRNA, chemical modifications of sgRNAs are also essential for in vivo editing efficiency. Two sgRNA modifications explored by researchers are modifications with a 2′ O‐methyl ribonucleotide and a phosphorothioate bond.[
+ 
+] In a study, except for ≈20 nucleotides that interact with the Cas9 protein, all nucleotides were chemically modified with 2′ O‐methyl ribonucleotide and phosphorothioate bonds, thereby increasing their stability without affecting the formation of loops and RNPs.[
+ 
+] When this highly modified sgRNA was delivered by cKK‐E12 LNPs along with mRNA, it achieved ≈100% PCSK9 reduction and 35–40% total cholesterol reduction in the serum, highlighting the prospect of highly modified sgRNA using this approach.[
+ 
+] Finn et al. investigated three modification levels of sgRNA and found that the highly modified sgRNA exhibited robust efficiency.[
+ 
+] They modified fewer bases and showed robust editing when delivered by LNP‐INT01, which was composed of unsaturated ionizable lipid LP01.[
+ 
+] They observed a 97% reduction in serum TTR that persisted for 12 months at an RNA dose of 3 mg kg−1, demonstrating the durability of gene editing in vivo.[
+ 
+] Overall, it is essential to investigate more modification strategies.
+
+4.1.4
+
+## Clinical Trials
+LNPs offer several advantages over viral vectors, particularly in delivering gene editing payloads.[
+ 
+] Therefore, LNPs accelerate gene editing therapy toward clinical application. NTLA‐2001, an LNP‐based CRISPR/Cas9 system, is designed to treat transthyretin amyloidosis by knocking out TTR.[
+ 
+] When tested in clinical studies, no serious adverse events were observed in patients, and the highest reduction in TTR was 87% at a dose of 0.3 mg kg−1.[
+ 
+] Nevertheless, long‐term follow‐up is needed to detect any potential off‐target effects. In a Phase II trial, all patients who received a 0.3 mg kg−1 dose or higher observed a 91% reduction in median serum TTR,[
+ 
+] and the 55 mg dose was selected for further evaluation in the upcoming pivotal Phase III study.[
+ 
+] In addition to NTLA‐2001, NTLA‐2002, another LNP‐based gene editing medicine targeting the gene encoding kallikrein B1 (KLKB1) and developed for hereditary Angioedema, reduced the frequency of monthly episodes of angioedema by an average of 95%.[
+ 
+] Familial hypercholesterolemia, another inherited disorder, is treated by VERVE‐101, an LNP‐based base editing therapy.[
+ 
+] Different doses of VERVE‐101 were tested in patients, and the two doses of 0.45 and 0.6 mg kg−1 showed better editing efficiency, with a reduction of serum PCSK9 levels of 47%, 59%, and 84%.[
+ 
+] Although four minor infusion‐related reactions and two adverse cardiovascular events occurred in this clinical trial, it is important to note that these adverse reactions were not exclusively related to this medicine.[
+ 
+] A randomized Phase II trial is planned for 2025.[
+ 
+] Some medicines are still in the exploratory stage, such as BEAM‐301 for glycogen storage disease 1a and BEAM‐302 for alpha‐1 antitrypsin deficiency.[
+ 
+] The safety and efficacy of in vivo gene editing applications significantly depend on LNPs. Therefore, it is essential to explore more efficient and cell‐specific LNPs. When LNPs are clinically used, patients lacking sufficient LDLR need to be considered who do not benefit from conventional LNPs. Specific LNPs should be developed to overcome this issue.[
+ 
+] To meet this need, N‐acetylgalactosamine (GalNAc)‐LNPs were designed, which can enter hepatocytes via the asialoglycoprotein receptor pathway by GalNAc rather than via the LDLR.[
+ 
+] Consequently, GalNAc‐LNPs can deliver therapeutic mRNA to patients lacking adequate LDLR.[
+ 
+] One study showed that the most effective GalNAc‐LNPs contain 36 units of PEG‐spacing and lysine‐based scaffold, which is more flexible than the former TRIS scaffold used for the delivery of siRNA.[
+ 
+] The optimized GalNAc‐LNPs could dramatically increase Angptl3 editing from 5% to 61% in LDLR‐deficient nonhuman primates compared with conventional LNPs. This specific LNP has been applied in VERVE‐102 and VERVE‐201.[
+ 
+] Overall, these data demonstrate that LNPs can be safely and efficiently used in humans and hold the potential for extensive use for in vivo gene editing.
+
+4.2
+
+## Gene Editing Beyond the Liver
+4.2.1
+
+## Tumor Cells
+The treatment of tumors is making significant strides through the development of genome editing tools[
+ 
+] by disrupting relevant genes to inhibit tumor invasion and metastasis,[
+ 
+] correcting oncogenes to restore normal function,[
+ 
+] or activating cytotoxic T cells to kill tumor cells.[
+ 
+] LNPs have been used to deliver the CRISPR/Cas9 system to edit Polo‐like kinase 1 (PLK1) in mice with liver cancer, which is highly expressed in tumor cells at the G2 stage.[
+ 
+] Moreover, this system was more effective than other nucleic acid‐based approaches, such as siRNA, in inhibiting tumor growth.[
+ 
+] Wang et al. successfully delivered the CRISPR/Cas9 system targeting the legumain (LGMN) in lung cancer using SORT LNPs, thereby reducing the implantation and migration of cancer cells when co‐injected with tumor cells.[
+ 
+] Similarly, Rosenblum et al. intracerebrally injected the CRISPR‐LNPs editing PLK1, which improved glioblastoma mouse survival by 30%.[
+ 
+] To facilitate the delivery of the LNP to disseminated tumors, LNPs were conjugated with the antibody targeting epidermal growth factor receptor,[
+ 
+] which enabled them to be selectively taken up by disseminated ovarian tumors following intraperitoneal injection.[
+ 
+] Anthiya et al. conjugated Lyp‐1 to LNPs to interact with the neurofibrillary protein‐1 receptor expressed in pancreatic cancer cell lines, thereby achieving tumor tropism.[
+ 
+] They co‐delivered siFAK and the gene editing system targeting PD‐1. The siFAK could reduce tumor mechanics and ECM stiffness, thereby increasing endocytosis and tissue penetration of LNPs, which in turn facilitates the release of more gene editing tools into the cytoplasm.[
+ 
+] Consequently, the efficacy of the gene editing was enhanced by more than 10‐fold in tumors as a result of FAK knockdown.[
+ 
+] Overall, gene editing tools delivered by LNPs hold the promise to inhibit tumor growth and are worth further investigation.
+
+4.2.2
+
+## Hematopoietic Stem Cells
+Engineered HSCs have demonstrated the potential to treat various anemias.[
+ 
+] Currently, two main strategies for engineering HSCs using gene editing are being explored to produce enough hemoglobin: the direct correction of point mutations in the hemoglobin subunit beta (HBB) for sickle cell anemia[
+ 
+] or the silencing of the BCL11A transcription factor to activate fetal hemoglobin, which is inactivated in adulthood.[
+ 
+] Strategies for achieving hematopoietic stem cell tropism with LNPs have been discussed above. Breda et al. used the CD117‐LNPs‐mediated ABE system, correcting 88% of point mutations at a dose of 10 pg/cell, and HSCs transfected with LNPs still can maintain their differentiation characteristics.[
+ 
+] Although electroporation can also deliver the editing system into the cells, Vavassori et al. found that the activity and clonogenicity of cells transfected by LNP were superior to those of cells transfected with electroporation.[
+ 
+] Therefore, LNP may be more suitable for stem cells. Lian et al. recently developed bone marrow‐homing LNPs, which can transfect at least 14 types of cells in the BM by introducing additional covalent lipid species.[
+ 
+] Among these, the BM‐homing LNPs have been used to deliver the CRISPR/Cas system to disrupt the BCL11A transcriptional repressor binding motif in the HBG1/HBG2 gene promoter and edited 5.2% of cells in homozygous sickle cell disease Townes (HBBS/S) mice or deliver ABE and correct 2.43% of point mutation in HBBS/S mice, demonstrating the potential of LNPs for direct editing of hematopoietic stem cells in vivo.[
+ 
+]
+
+4.2.3
+
+## Lung Cells
+LNP‐based gene editing in the lung is of great interest. Li et al. screened novel LNPs that could be nebulized.[
+ 
+] Their LNPs exhibited greater efficacy than the two previously identified nebulized LNPs and a dual AAV system.[
+ 
+] To improve the stability of the LNP and its ability to pass through the lung mucosa, Wei et al. achieved lung targeting by using their SORT LNPs to modify the charge, which represents another method for lung targeting.[
+ 
+]They achieve 15.1% PTEN gene editing within the lung at an RNA dose of 2.5 mg kg−1.[
+ 
+] Furthermore, SORT LNP has been used to edit lung basal cells, which is significant for the long‐term repair of lung epithelial cells.[
+ 
+] Furthermore, the HDR correction efficiency was maintained at a high level of 16% with the SORT LNP‐HDR treatment in patient‐derived human bronchial epithelial (HBE) cells with the F508del CF transmembrane conductance regulator (CFTR) mutation.[
+ 
+] Recently, SORT LNP‐mediated CRISPR/Cas9 editing was observed in >70% of lung stem cells and >80% of lung epithelial cells for 660 days in activatable tdTomato mice.[
+ 
+] In addition, it‐mediated base editing corrected 50% of lung stem cells in CF mice.[
+ 
+] Additionally, Han et al. achieved 2.5% TTR gene editing efficiency in the lung using their lung‐targeted LNP system, which was higher than SORT LNP[
+ 
+] by introducing amidine‐incorporated degradable lipid as the fifth component. To facilitate gene editing in the lungs, the initial step involves screening for lung‐targeting LNPs. Xue et al. employed the DNA barcoding approach for high‐throughput screening of LNPs in vivo.[
+ 
+] LNP‐CAD9 lipid exhibited superior editing efficiency of vascular endothelial growth factor (VEGF) compared to SORT‐LNPs in a tumor model.[
+ 
+] Meanwhile, Haley et al. found that high‐throughput b‐DNA screening is not reliable for DOTAP‐related LNPs, as the low single LNP dose (77 ng ssDNA/mouse) may not have triggered a significant coagulation response, preventing the high‐throughput screening from accurately reflecting DOTAP's lung‐targeting characteristics.[
+ 
+] Nevertheless, their study identified an efficient lung‐editing A14 LNP, which showed no liver editing in the TTR editing model.[
+ 
+] Furthermore, this LNP is capable of editing both endothelial and epithelial cells in the lungs, achieving up to 20% indels after a single dose.[
+ 
+]
+
+4.2.4
+
+## Muscle Cells
+The LNPs' tropism for muscle cells enables safer and more effective applications of gene editing in these cells. LNPs with specially structured ionizable lipids could target muscle cells in mice after intramuscular injection.[
+ , 
+] Kenjo et al. found that the delivery of the CRISPR/Cas9 system with a TCL053 LNP can sustain edited function in the muscle for a period exceeding 1 year.[
+ 
+] Moreover, this platform showed sustained efficacy even after multiple injections, whereas delivery by viral vectors did not show any observable effect after the second injection.[
+ 
+] The TCL053 LNP‐CRISPR system was also observed in ≈10% of mutated exons skin and restored dystrophin expression.[
+ 
+] In contrast, Zhu et al. employed the RNP/ssODN to repair mutant dystrophin.[
+ 
+] For the delivery of RNP, they designed GD‐LNPs, which consisted of guanidinium groups with strong affinity to RNPs and disulfide bonds for the rapid release of RNP.[
+ 
+] The GD‐LNPs produced 3.5% indels and 0.77% HDR efficiency in the targeted region of genomic DNA from the LNP‐injected muscles.[
+ 
+]
+
+4.2.5
+
+## Other Cells
+In addition to the previously mentioned HBV, gene editing tools are also valuable for the elimination of HIV in CD4+T cells.[
+ 
+] LNPs have been demonstrated to deplete HIV from T cells when employed in the form of plasmids,[
+ 
+] although these constructs are relatively superfluous and less clinically translatable in comparison to RNP or mRNA. For skin gene editing, the barrier properties of the skin have limited the in situ injection of LNPs.[
+ 
+] Bolsoni et al. demonstrated that microneedles and ablative lasers enabled 5% skin base editing in autosomal recessive congenital ichthyosis patient cells.[
+ 
+] LNPs could also be used for gene editing in the cornea. Researchers have achieved 6.2 ± 2.9% editing in the corneal stromal and endothelial cells in tdTomato mice.[
+ 
+] Herrera‐Barrera et al. used oligomer peptides to confer LNPs the ability to permeate into the neural retina.[
+ 
+] Recently, Hołubowicz et al. discovered that the optimized SM‐102 LNP can achieve ideal encapsulation of ABE or PE RNP.[
+ 
+] They observed an average of 0.30% precise correction of retinal pigment epithelium‐specific 65 kDa protein (Rpe65) genomic DNA by ABE and an average of 0.12% precise correction by PE through retinal injection of the LNP‐RNP complex, along with rescue of both scotopic dark‐adapted flash electroretinography (ERG) a‐ and b‐wave.[
+ 
+] Consequently, they highlighted that the inclusion of 2.5% DMG‐PEG 2000 enhanced the encapsulation of RNP and improved delivery efficiency both in vitro and in vivo.[
+ 
+] To achieve better packaging and delivery of RNP, the pKa of ionizable lipids should be above 6, but their toxicity is also a concern.[
+ 
+] Among them, 2.5% DMG‐PEG 2000 demonstrates better encapsulation of RNP and improved delivery efficiency both in vitro and in vivo.[
+ 
+] Overall, LNP−CRISPR therapeutics will expand into multiple therapeutic diseases in the near future.
+
+5
+
+## Conclusion
+The rapid evolution of gene editing tools has driven major advances in the life sciences, especially in the treatment of genetic diseases. To enhance their application, gene editing tools should be capable of correcting large segments without DSB and effectively addressing various mutation types within a specific gene to achieve versatility. Such improvements will enhance the precision and safety of gene editing, paving the way for its broader clinical application. However, all genome editing tools face a common problem, i.e., in vivo delivery. They need vectors to encapsulate all the necessary components and deliver them safely and efficiently to the cell or organ of interest. Consequently, the development of reliable delivery platforms is essential to expedite the clinical implementation of CRISPR‐based gene editing.
+LNPs are non‐viral vectors that can encapsulate various gene editing forms and overcome biological barriers for in vivo delivery. Intravenously administered LNPs are effectively taken up by the liver, providing opportunities for gene editing in the liver. However, gene editing beyond the liver is still challenging. Understanding the mechanisms behind non‐hepatic LNP formulations is essential to rationally design next‐generation LNPs with desired targeting capabilities. Moreover, the SARs of ionizable lipids summarized in previous studies can aid in the design of ionizable lipids and serve constructive roles in the development of next‐generation LNPs. Using DNA or mRNA barcoding technology for in vivo screening can further accelerate the identification of cell/tissue‐tropic LNPs. While plasmid, mRNA, and protein can all be delivered by LNPs for gene editing purposes, mRNA is more favorable due to its good compatibility with LNPs. Finally, the verification of LNPs for clinical gene editing applications requires better pre‐clinical models (e.g., humanized mouse models and non‐human primates) to translate more directly from animals to humans.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Acknowledgements
+This work was supported by the Strategic Priority Research Program of the Chinese Academy of Science (XDB0570000), National Natural Science Foundation of China (32471401), and Shanghai Sci‐Tech Inno Center for Infection & Immunity (ssIII‐2024B01).
+
+Michael J. Mitchell is an Associate Professor of Bioengineering at the University of Pennsylvania and the Lipid Nanoparticle Delivery Systems Group Leader at the Penn Institute for RNA Innovation. He received a B.E. in Biomedical Engineering from Stevens Institute of Technology in 2009 and a Ph.D. in Biomedical Engineering with Prof. Michael King from Cornell University in 2014. He was a Postdoctoral Fellow in Chemical Engineering with Prof. Robert Langer at MIT from 2014–2017. The Mitchell Lab engineers new lipid and polymeric nanoparticle platforms for the delivery of different nucleic acid modalities to target cells and tissues across the body.
+ 
+Xuexiang Han is a Principal Investigator and a Professor in the Center for Excellence in Molecular Cell Science, Shanghai Institute of Biochemistry and Cell Biology, Chinese Academy of Sciences. He received a B.E. in Chemical Engineering from Shanghai University in 2014 and a Ph.D. in Chemistry from Tsinghua University in 2019. He spent four years as a Postdoctoral Fellow in the Department of Bioengineering at the University of Pennsylvania before he set up the lab in February 2024. His research focuses on lipid nanoparticles for RNA delivery.

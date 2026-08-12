@@ -1,0 +1,419 @@
+3810mtbioMaterials Today BioMater Today BioElsevierPMC1281312112813121128131214156078510.1016/j.mtbio.2025.102631Interferon-stimulated gene 15 small interfering RNA-loaded polarized mesoporous silica nanocarriers remodel the immune microenvironment to ameliorate post-myocardial infarction heart failure
+ShenJianfen FanZhongbao RenLina ChengYanbin WuChunwei aDepartment of Cardiology, The First Hospital of China Medical University, Shenyang 110001, ChinabDepartment of Hepatobiliary Surgery, People's Hospital of China Medical University, Liaoning Provincial People's Hospital, Shenyang 110016, ChinacDepartment of Geriatric Cardiology, The First Hospital of China Medical University, Shenyang 110001, ChinadDepartment of Cardiovascular Ultrasound, The First Hospital of China Medical University, Shenyang 110001, China⁎Corresponding author. Department of Cardiology, The First Hospital of China Medical University, 155 Nanjing North Street, Heping, Shenyang 110001, Liaoning Province, China. 20072119@cmu.edu.cn
+3122025361026311026312012026© 2025 Published by Elsevier Ltd.This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+This study developed polarized mesoporous silica nanocarriers (pMSNCs) loaded with interferon-stimulated gene 15 (ISG15) small interfering RNA (siRNA) to modulate inflammation and immune cell activation in the cardiac microenvironment post-myocardial infarction (MI) and to evaluate their therapeutic efficacy in heart failure (HF). Single-cell RNA sequencing (scRNA-seq) and bulk RNA-seq analyses in mouse and rat models identified key cell clusters, differentially expressed genes (DEGs), and prognostically relevant hub genes, including ISG15. The synthesized pMSNC@ISG15 siRNA nanoparticles effectively suppressed ISG15 expression in cardiac cells, exhibited excellent biocompatibility, and inhibited immune cell activation in vivo. In the post-MI HF rat model, treatment with pMSNC@ISG15 siRNA led to significant improvements in cardiac function, reduced fibrosis, and increased M2-type macrophages, highlighting its potential as a nanomedicine-based therapeutic strategy for HF. The study provides valuable insights into the use of nanocarriers for targeted gene therapy in cardiac diseases.
+Keywords: Interferon-stimulated gene 15, Functionalized silica nanoparticle, Heart failure, Myocardial infarction, RNA interference, Immune remodeling
+
+## Graphical abstract
+Graphic Abstract. Schematic representation of the mechanism by which pMSNC@ISG15 siRNA regulates macrophage polarization and improves post-MI HF.
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Aug 4; Revised 2025 Nov 19; Accepted 2025 Dec 2; Collection date 2026 Feb.
+
+1.
+
+## Introduction
+Myocardial infarction (MI) is a leading cardiovascular event contributing to the global increase in mortality and disability, with chronic heart failure (HF) frequently developing as a long-term consequence [ , ]. Although revascularization, pharmacological treatment, and mechanical circulatory support have advanced considerably [ ], post-MI cardiac remodeling and functional deterioration remain substantial clinical challenges [ , ]. MI induces extensive myocardial cell death and initiates a complex immune-inflammatory response that aggravates tissue injury and fibrosis [ ]. During both the acute inflammatory and reparative phases, immune cells, particularly macrophages, play pivotal roles in amplifying inflammation and directing tissue remodeling [ ]. M1 macrophages are highly proinflammatory and intensify myocardial injury [ ], whereas M2 macrophages exhibit anti-inflammatory and reparative functions [ ]. Maintaining an appropriate balance between these two phenotypes is critical for cardiac recovery [ ]. Therefore, precise regulation of the local immune microenvironment and correction of macrophage polarization imbalance are essential strategies for mitigating HF progression.
+Interferon-stimulated gene 15 (ISG15) is a key inflammatory response factor that shows markedly increased expression in both infectious and non-infectious diseases [ ]. Through ISGylation, a ubiquitin-like post-translational modification, ISG15 modulates protein stability, intracellular signaling, and immune regulation [ , ]. Recent studies have demonstrated that ISG15 not only mediates antiviral immunity but also broadly influences monocyte-macrophage function, cytokine release, and immune cell activation [ , , ]. In cardiovascular disease models, elevated ISG15 expression has been closely linked to the activation of proinflammatory pathways [ ]. MI-induced alterations in the immune milieu may lead to aberrant ISG15 expression [ ], which contributes to myocardial damage and the progression of chronic HF by modulating macrophage polarization [ ]. However, systematic investigation of ISG15 function in the cardiac microenvironment after MI remains limited, and its precise mechanisms and therapeutic potential require further clarification.
+Small interfering RNA (siRNA) serves as a precise tool for silencing specific genes and holds significant potential in immunoregulation and disease therapy [ ]. However, its clinical translation remains limited due to poor in vivo stability, limited membrane permeability, and susceptibility to enzymatic degradation [ ]. In recent years, functionalized nanocarriers have emerged as effective platforms for RNA drug delivery [ ]. Among these, silica nanoparticles have emerged as promising vectors for RNA interference therapy due to their structural stability, high drug-loading capacity, and excellent biocompatibility [ ]. In particular, the polarized mesoporous silica nanocarrier (pMSNC) structure enables efficient siRNA loading and targeted release through surface chemical modification [ ]. Multiple studies have demonstrated that pMSNC-based siRNA delivery systems can effectively mediate gene silencing and improve therapeutic outcomes in both cancer and immune-related diseases [ ]. Therefore, constructing an ISG15 siRNA-loaded pMSNC (pMSNC@ISG15 siRNA) may offer a novel therapeutic strategy for modulating local cardiac inflammation.
+This study aimed to clarify the critical role of ISG15 in post-MI inflammatory responses and immune cell activation, with a focus on its underlying immunopathological mechanisms and therapeutic potential in HF. The pMSNC@ISG15 siRNA system was employed to restore immune balance within the cardiac microenvironment, suppress deleterious inflammation, promote tissue repair, and ultimately improve cardiac function following MI. A comprehensive evaluation spanning in vitro cellular experiments and in vivo animal models was conducted to define the functional significance of ISG15 in post-MI immune regulation. This investigation addresses a key gap in current inflammation-targeted therapeutic research. In addition, the pMSNC-based delivery platform demonstrated the potential of siRNA-based interventions in cardiovascular diseases, offering new theoretical and technical support for the clinical translation of RNA interference therapies. This work provides critical scientific evidence for the precise modulation of HF-related inflammatory pathways and the development of novel nanomedicine-based therapeutic strategies, potentially advancing the paradigm of cardiovascular disease treatment toward targeted and personalized approaches.
+
+2.
+
+## Materials and methods
+2.1.
+
+## Public data acquisition
+Single-cell RNA sequencing (scRNA-seq) data for MI were obtained from the publicly available dataset GSE227191, comprising cardiac tissue samples from three MI model mice (GSM7092910, GSM7092916, GSM7092924) and three sham-operated controls (GSM7092911, GSM7092917, GSM7092925). Data were analyzed using the “Seurat” package in R. Quality control was performed using the criteria 200 < nFeature_RNA <5000 and percent.mt < 20. The top 2000 highly variable genes were selected for downstream analyses. As all data were obtained from a public database, ethical approval and informed consent were not required.
+
+2.2.
+
+## scRNA-seq analysis
+In this study, scRNA-seq data from a mouse model of MI were retrieved from the GEO database. Dimensionality reduction, clustering, and cell-type annotation were conducted to characterize cellular composition and functional alterations in the cardiac microenvironment. The dataset included three MI groups (1, 7, and 30 days post-surgery) and three corresponding Sham controls. Using the Seurat package, high-quality cells were filtered based on thresholds for nFeature_RNA, nCount_RNA, and percent.mt, yielding an expression matrix containing 19,044 genes and 46,849 cells ( ). Data were normalized, linearly reduced, and batch effects corrected using Harmony ( ). Principal component analysis (PCA) was performed on the top 2000 highly variable genes, and 20 principal components were selected using the ElbowPlot function for downstream analysis ( ). Uniform manifold approximation and projection (UMAP) identified 37 cell clusters, with cluster resolution visualized using clustree ( ).
+Major cell subpopulations were identified using the FindClusters function (resolution = 1). Marker genes were determined in Seurat, and cell types were annotated based on known lineage-specific markers, integrating information from the CellMarker database and the SingleR package. Differentially expressed genes (DEGs) were identified using the Limma package, with thresholds of |log2FoldChange| > 0.25 and p < 0.05.
+
+2.3.
+
+## Gene ontology (GO) and kyoto encyclopedia of genes and genomes (KEGG) enrichment analysis
+Functional enrichment analysis was performed to identify biological processes and pathways associated with the target gene set. GO annotations from the org.Hs.eg.db R package (version 3.1.0) were used as the background reference. Enrichment of biological processes (BP) was analyzed using the clusterProfiler package (version 3.14.3).
+For KEGG pathway enrichment, the latest pathway gene annotations were obtained via the KEGG REST API (https://www.kegg.jp/kegg/rest/keggapi.html) and used as the background. Enrichment analysis was conducted with clusterProfiler (version 3.14.3), applying minimum and maximum gene set sizes of 5 and 5,000, respectively. Significance thresholds were set at p < 0.05 and false discovery rate (FDR) < 0.25. Data visualization was performed using the ggplot2 package.
+
+2.4.
+
+## High-throughput transcriptome sequencing
+Cardiac tissues were collected from rats in the Sham and MI groups (n = 3 per group). Total RNA was extracted using the RNeasy Kit (74004, Qiagen, Hilden, Germany) with DNase I treatment, and quantified with the Qubit RNA HS Assay Kit (Q32852, Thermo Fisher, USA). Samples were diluted to 100 ng/μL, and RNA integrity was assessed using the Fragment Analyzer (Agilent 5400, USA). Only samples with RNA quality scores ≥6 were used for library construction. RNA libraries were prepared under ISO/IEC-17025 certification using the TruSeq RNA Library Preparation Kit v2 (RS-122-2302, Illumina, USA). mRNA was enriched with oligo-dT magnetic beads (MS04T, Weidu Biotechnology, Suzhou, China), followed by fragmentation, cDNA synthesis, adapter ligation, and PCR amplification. Paired-end sequencing (126 bp) was performed on the Illumina HiSeq 2500V4 platform, generating approximately 50 million reads per sample with a minimum yield of 12.5 Gbp. Base calling and quality control were conducted using RTA v1.18.64 and Bcl2fastq v1.8.4, and RNA-seq reads were output in compressed Sanger FASTQ format. DEGs between Sham and MI groups were identified using the Limma package in R (|logFC| > 1, adjusted p < 0.05). Volcano plots were generated with ggplot2, and all analyses were performed in R version 4.3.1 (R Foundation for Statistical Computing).
+
+2.5.
+
+## Least absolute shrinkage and selection operator (LASSO) regression analysis
+To identify key genes associated with the progression of MI, we performed LASSO regression analysis on bulk RNA sequencing (bulk RNA-seq) DEGs using the “glmnet” package in R. The cv.glmnet(.) function was applied with ten-fold cross-validation to determine the optimal regularization parameter (lambda.min). Genes with nonzero coefficients at this lambda value were extracted as potential signature genes for subsequent analyses.
+
+2.6.
+
+## Immune infiltration
+Immune cell infiltration was estimated based on gene expression profiles using the CIBERSORT algorithm, combined with the e1071 and preprocessCore packages in R. Infiltration scores for 22 immune cell types were calculated, and statistical analyses and visualizations were conducted in R version 4.2.1 using the ggplot2 package.
+
+2.7.
+
+## Venn diagram
+Venn diagrams were generated in the R environment using the “VennDiagram” package (version 1.6.20) to visually depict the intersection of DEGs between two groups.
+
+2.8.
+
+## ISG15 expression validation
+ISG15 expression was examined in both single-cell and bulk RNA sequencing datasets. In the scRNA-seq dataset, the VlnPlot function in Seurat was used to visualize ISG15 expression across different cell clusters. In the bulk RNA-seq dataset, the plotCounts function in DESeq2 was employed to display ISG15 expression levels among groups. All plots were exported as high-resolution images for downstream analysis.
+
+2.9.
+
+## Preparation pMSNCs
+MSNCs were synthesized using a two-step base-selective etching method. In the first step, trilayer hybrid silica nanoparticles were prepared by adding 0.5 mL tetraethyl orthosilicate (TEOS) dropwise to a mixture of 20 mL of 28 % NH3·H2O and 60 mL ethanol under continuous stirring for 10 min. TEOS (1 mL) and N-(3-trimethoxysilylpropyl)ethylenediamine (200 μL) were co-added to build the intermediate layer, and an additional 1 mL of TEOS was then introduced to form the outer layer. In the second step, solid silica nanoparticles were etched in an aqueous NaOH solution (1 mmol/mL) under magnetic stirring at room temperature for different time periods, then washed thoroughly with water to obtain MSNCs. For fluorescent labeling, fluorescein isothiocyanate (FITC) was conjugated with 3-aminopropyltrimethoxysilane (APTMS) for 24 hours under light-protected conditions. During nanoparticle formation, 200 μL of APTMS-conjugated FITC was co-added with TEOS to produce FITC-labeled silica cores. All subsequent steps were identical to the non-fluorescent synthesis.
+For PEGylation, MSNCs (10 mg) were combined with mPEG SC (5 kDa, 5 mg) and stirred at room temperature for 24 hours. Excess polyethylene glycol (PEG) molecules were removed by three cycles of washing and centrifugation.
+
+2.10.
+
+## Loading of ISG15 siRNA
+The siRNA targeting the ISG15 gene (sense strand: 5′-GCACCAGCAUGAAGACAUATT-3′; antisense strand: 5′-UAUGUCUUCAUGCUGGUGCTT-3′) was synthesized by Shanghai GenePharma Co., Ltd. For fluorescence tracking, the 5′ end was labeled with Cy3. pMSNCs were resuspended in DEPC-treated RNase-free water, and the siRNA was added and incubated for 30 min. Binding affinity was evaluated by pre-incubating pMSNCs with siRNA at various N/P ratios. The complexes were separated on a 1.5% agarose gel containing GelRed, run at 120 V for 15 minutes, and visualized using a Bioimaging system (UVP, Upland, CA). Absorbance at 260 nm was recorded to calculate siRNA concentration. To test siRNA stability against nuclease digestion, RNase A (30 ng) was added to 10 mL of free siRNA or NP complex suspension (NP ratio = 15). After incubation, 3 mL heparin solution (150 mg/mL) was used to release siRNA, followed by agarose gel electrophoresis to evaluate degradation.
+
+2.11.
+
+## Dynamic light scattering (DLS) and zeta potential measurement
+Particle size distribution and zeta potential of pMSNCs were determined using a DLS analyzer (Malvern Instruments, UK). Nanocapsules were dispersed in deionized water (1 mg/mL), and measurements were performed at 25 °C in triplicate. Average values were reported.
+
+2.12.
+
+## Transmission electron microscopy (TEM) observation
+The morphology and size of pMSNCs were characterized using TEM (JEOL, Japan). Nanocapsules were dispersed in ethanol (0.1 mg/mL), and 5 μL of suspension was dropped onto copper grids and air-dried before imaging. TEM micrographs were acquired to measure particle size and assess uniformity.
+
+2.13.
+
+## High-resolution transmission electron microscopy (HRTEM) observation
+The structural characteristics of functionalized pMSNCs were examined using HRTEM (Philips, USA). Samples were prepared as described for TEM. High-resolution images were collected to analyze the crystalline and mesoporous structure of the nanocarriers.
+
+2.14.
+
+## Fourier transform infrared (FT-IR) spectroscopy
+FT-IR spectroscopy (PerkinElmer, USA) was performed to identify characteristic functional groups of PEGylated pMSNCs. Samples were mixed with dried KBr at a fixed ratio and pressed into pellets. Infrared absorption spectra were recorded over the range of 4000–400 cm−1 to detect specific peaks corresponding to PEG modification.
+
+2.15.
+
+## Specific surface area and pore size distribution
+Nitrogen adsorption–desorption isotherm analysis was carried out on dried MSNC samples using an automated surface area analyzer (ASAP 2020, Micromeritics, USA). Samples were degassed under vacuum at 120 °C for 12 h to remove moisture and impurities. The specific surface area was calculated using the Brunauer–Emmett–Teller (BET) method within a relative pressure range of 0.05–0.3, while pore size distribution and pore volume were determined by the Barrett–Joyner–Halenda (BJH) model from the desorption branch.
+
+2.16.
+
+## Stability evaluation of pMSNC@ISG15 siRNA
+The colloidal stability of pMSNC@ISG15 siRNA was assessed in vitro by dispersing the complexes in complete culture medium (high-glucose DMEM supplemented with 10 % fetal bovine serum and 1 % penicillin–streptomycin; Gibco, USA). Samples were incubated at 37 °C in a humidified incubator (Thermo Fisher Scientific, USA) and collected at 1, 3, 7, and 14 days. At each time point, aliquots were analyzed using DLS (Zetasizer Nano ZS90, Malvern Instruments, UK) to determine particle size distribution. Before measurement, samples were gently vortexed and sonicated (Sonics & Materials, USA) to ensure uniform dispersion.
+
+2.17.
+
+## RNase a degradation assay
+The protective effect of functionalized nanocapsules on siRNA was evaluated using an RNase A degradation assay. Free siRNA and pMSNC@ISG15 siRNA complexes were incubated with RNase A (30 ng; Solarbio, China) at 37 °C for 0, 6, 12, 24, 48, and 72 h. At each time point, nuclease activity was terminated by adding 25 mM SDS and incubating for 5 min at ambient temperature. Samples were then subjected to 1.5 % agarose gel electrophoresis containing GelRed (Biotium, USA) at 120 V for 15 min to assess siRNA integrity. Gel images were captured using a UVP gel documentation system (USA).
+
+2.18.
+
+## Isolation and grouping of primary rat bone marrow-derived macrophages (BMDMs)
+Primary BMDMs were isolated from 8-week-old male Sprague–Dawley rats (250–300 g; Charles River Laboratories, USA). All rats were housed under standard conditions (22 ± 1 °C, 12-h light/dark cycle, ad libitum access to food and water) and acclimated for one week. Prior to the procedure, rats were fasted for 12 h with free access to water, anesthetized with 2 % isoflurane (Sigma-Aldrich, USA), and euthanized by cervical dislocation. Under sterile conditions, femurs and tibias were harvested and rinsed in ice-cold phosphate-buffered saline (PBS; Gibco, USA). Bone marrow was flushed using a 10 mL syringe with a 27-gauge needle (BD Biosciences, USA), and the resulting suspension was centrifuged at 1000 rpm for 5 min. The pellet was treated with red blood cell lysis buffer (Sigma-Aldrich, USA) for 5 min, followed by washing and resuspension in RPMI 1640 medium (Gibco, USA) supplemented with 10 % FBS and 1 % penicillin–streptomycin (Thermo Fisher, USA). Macrophages were enriched by density gradient centrifugation using Ficoll-Paque (GE Healthcare, USA) at 2000 rpm for 20 min. Mononuclear cells were collected, washed twice with PBS, and resuspended in RPMI 1640 containing 20 ng/mL macrophage colony-stimulating factor (M-CSF; PeproTech, USA). Cells were plated in culture dishes (Corning, USA) and incubated for 7 days at 37 °C in a humidified 5 % CO2 incubator (Thermo Fisher, USA). The medium was refreshed every two days to maintain viability and promote macrophage differentiation. Differentiated BMDMs were assigned to four experimental groups for subsequent assays: PBS group, pMSNC group, ISG15 siRNA group, and pMSNC@ISG15 siRNA group. The treatment conditions were as follows: PBS (control, 200 μL), pMSNC (200 μg/mL pMSNC, 200 μL), ISG15 siRNA (50 nM ISG15 siRNA, 200 μL), and pMSNC@ISG15 siRNA (200 μg/mL pMSNC@ISG15 siRNA, 200 μL). Cells were incubated with the respective treatments for 24 h, as previously described [ ].
+
+2.19.
+
+## Isolation of primary rat cardiomyocytes (PRCMs)
+PRCMs were isolated from 1–3-day-old neonatal Sprague–Dawley (SD) rats (Charles River Laboratories, USA), with 10 neonates per group. Neonates were breastfed by their dams and did not require fasting prior to the procedure. Following anesthesia via ice bath, thoracotomy was performed, and the hearts were rapidly excised and placed in ice-cold Hank's Balanced Salt Solution (HBSS; Gibco, USA). Hearts were minced into small fragments and digested in a solution containing 0.1 % trypsin (Thermo Fisher, USA) and 0.1 % collagenase II (Sigma-Aldrich, USA) at 37 °C with gentle agitation for 30 min. The mixture was pipetted every 10 min to facilitate tissue dissociation. The digested suspension was filtered through a 200-mesh cell strainer (BD Biosciences, USA), and the filtrate was neutralized with DMEM containing 10 % FBS (Gibco, USA). The cell suspension was centrifuged at 1000 rpm for 5 min, and the pellet was resuspended in fresh culture medium before seeding into 6-well plates (Corning, USA). Cells were incubated at 37 °C in a humidified 5 % CO2 incubator (Thermo Fisher, USA). After 2 h, the culture medium was replaced to remove non-cardiomyocytes. The cardiomyocyte-enriched cultures were maintained for an additional 48 h before use in co-culture experiments with BMDMs.
+
+2.20.
+
+## Co-culture and hypoxia treatment of PRCMs and BMDMs
+A Transwell co-culture system (0.4 μm pore size; Corning, USA) was used to investigate the interactions between PRCMs and BMDMs under hypoxic conditions. BMDMs were seeded into Transwell inserts and treated with one of the following: PBS (control, 200 μL), pMSNC (200 μg/mL, 200 μL), ISG15 siRNA (50 nM, 200 μL), or pMSNC@ISG15 siRNA (200 μg/mL, 200 μL). Inserts were then placed in 6-well plates containing PRCMs previously seeded at 1 × 105 cells/well and incubated for 24 h. During co-culture, the two cell types exchanged soluble factors without direct contact. After 24 h, Transwell inserts were removed, and PRCMs were exposed to 100 μM cobalt chloride (CoCl2; Sigma-Aldrich, USA) to simulate hypoxia. PRCMs were divided into five experimental groups: PBS (control, 200 μL), CoCl2 (100 μM, 200 μL), CoCl2 + pMSNC (100 μM CoCl2 + 200 μL BMDM supernatant from the pMSNC-treated group), CoCl2 + ISG15 siRNA (100 μM CoCl2 + 200 μL BMDM supernatant from the ISG15 siRNA-treated group), CoCl2 + pMSNC@ISG15 siRNA (100 μM CoCl2 + 200 μL BMDM supernatant from the pMSNC@ISG15 siRNA-treated group). After 24 h of hypoxia treatment, PRCMs were harvested for subsequent analyses.
+
+2.21.
+
+## Intracellular drug distribution
+To investigate the distribution of functionalized nanocapsules in cardiomyocytes and macrophages, PRCMs and BMDMs were separately seeded onto 24-well plates containing glass coverslips at a density of 1.2 × 105 cells/well and cultured in DMEM supplemented with 10 % FBS and 1 % penicillin-streptomycin for 24 h. FITC-labeled pMSNC@ISG15 siRNA complexes were added and incubated for 3, 6, 12, and 24 h. For lysosomal localization analysis, cells were stained with LysoTracker Red DND-99 (125 nM; Invitrogen, USA) for 40 min, washed with PBS, and mounted using Fluoromount (Sigma-Aldrich, USA). Imaging was performed using a Leica TCS-SP5 confocal microscope equipped with a 63 × oil immersion objective. FITC was excited at 488 nm (emission: 500–550 nm), and LysoTracker Red at 561 nm (emission: 580–620 nm). Image processing and co-localization analysis were conducted using LAS AF Lite software, with Pearson's correlation coefficient (Rr) used to quantify co-localization.
+
+2.22.
+
+## Intracellular drug release
+The intracellular release behavior of siRNA from pMSNC@ISG15 siRNA complexes was evaluated using Cy3-labeled ISG15 siRNA (siRNA-Cy3; GenePharma, China). PRCMs and BMDMs were cultured in DMEM supplemented with 10 % FBS at 37 °C in a humidified 5 % CO2 incubator. Cells were seeded in 24-well plates at a density of 1.2 × 105 cells/well and incubated for 24 h before treatment with pMSNC@ISG15 siRNA-Cy3 complexes containing 100 nM siRNA-Cy3 for 3, 6, and 12 h. After incubation, cellular localization was observed using a Leica TCS-SP5 LSCM equipped with a 63 × oil immersion objective. pMSNC-FITC and siRNA-Cy3 were excited at 488 nm and 550 nm, with emission collected at 500–550 nm and 560–610 nm, respectively. Imaging parameters were standardized across all samples. Co-localization was analyzed using ImageJ (NIH, USA), and R was used to quantify overlap between siRNA and nanocarriers.
+
+2.23.
+
+## Immunofluorescence (IF) staining
+IF staining was performed on BMDMs and cardiac tissue sections. CSamples were fixed with 4 % paraformaldehyde for 20 min, washed with PBS, and permeabilized using 0.1 % Triton X-100 for 10 min at ambient temperature. Non-specific binding was blocked with 5 % normal goat serum for 1 h. Samples were then incubated overnight at 4 °C with primary antibodies, including: iNOS (1:500, ab178945), Arg-1 (1:100, ab96183), CD206 (1:200, ab64693), α-SMA (1:500, ab32575), Collagen I (1:2000, ab270993), or CD86 (1:200, ab2201884), CD206 (1:2000, AB64693), and -cTnT (1:2000, AB209813) (all from, Abcam, UK). On the following day, sections were incubated in the dark at ambient temperature for 1 h with secondary antibodies: Goat Anti-Rabbit IgG H&L (Alexa Fluor® 488, ab150077) or Alexa Fluor® 594 (ab150080). Nuclei were counterstained with DAPI (1 μg/mL). For paraffin-embedded tissues, standard deparaffinization and rehydration were followed by antigen retrieval in pH 6.0 citrate buffer under high-temperature conditions for 15 min. Frozen sections (6–8 μm) from OCT-embedded samples were processed without antigen retrieval. Finally, images were captured using a Leica confocal microscope (Leica Microsystems, Germany), and the proportion of positive cells and fluorescence intensity was quantified using ImageJ software.
+
+2.24.
+
+## Flow cytometry
+Cardiomyocyte apoptosis was assessed using Annexin V-FITC/PI dual staining (BD Biosciences, USA), and data were acquired on a BD FACSCanto II flow cytometer to analyze early and late apoptotic cell populations.
+To evaluate the effects of pMSNC@ISG15 siRNA on macrophage polarization and cardiomyocyte apoptosis, flow cytometric analysis was performed on BMDMs, PRCMs, and rat cardiac tissue after 24 h of treatment. BMDMs were divided into four groups: PBS, pMSNC, ISG15 siRNA, and pMSNC@ISG15 siRNA. PRCMs were co-cultured and treated under the following conditions: PBS, CoCl2, CoCl2 + pMSNC, CoCl2 + ISG15 siRNA, and CoCl2 + pMSNC@ISG15 siRNA. Cells were harvested, washed twice with cold PBS, and resuspended in PBS containing 1 % BSA. After blocking non-specific binding in the dark for 30 min, BMDMs were stained with anti-iNOS (PE-conjugated, BioLegend, USA) and anti-CD206 (FITC-conjugated, BioLegend, USA) antibodies (1:100) for 30 min to determine the proportions of M1 and M2 macrophages.
+For analysis of macrophage phenotypes in cardiac tissue, left ventricular tissue was minced and digested with a mixture of collagenase I/II and hyaluronidase at 37 °C for 60 min. The resulting cell suspension was filtered through a 100 μm mesh, centrifuged, and resuspended in PBS to obtain a single-cell suspension. A 100 μL aliquot was incubated with F4/80 (APC, BioLegend), CD86 (FITC, Thermo Fisher), and CD206 (PE, Abcam) antibodies (each at 1:100) for 30 min on ice in the dark, followed by three PBS washes. Cells were resuspended in 500 μL PBS and analyzed on a BD FACSAria flow cytometer to determine the percentages of F4/80+CD86+ (M1) and F4/80+CD206+ (M2) macrophages. All flow cytometry data were analyzed using FlowJo software (v10.8.1) to quantify the proportion of marker-positive cells.
+
+2.25.
+
+## Enzyme-linked immunosorbent assay (ELISA)
+Cell culture supernatants or tissue homogenate supernatants were collected and centrifuged at 4 °C, 300×g for 10 min to remove cellular debris. The resulting supernatants were used for ELISA analysis. Inflammatory cytokines (IL-10, TGF-β, TNF-α, and IL-1β) were quantified using ELISA kits from R&D Systems (catalog numbers R1000, DB100C, RTA00-1, and RLB00-1, respectively). Cardiac injury markers, including creatine kinase (CK) (MAK116-1 KT, Sigma-Aldrich), cardiac troponin I (cTnI) (FT-PD6982S, Fantai Biotech), and lactate dehydrogenase (LDH) (11644793001, Sigma-Aldrich), were measured following the manufacturers' protocols. The assay procedures involved sample loading, incubation, washing, addition of enzyme-labeled antibodies, color development, and reaction termination. Absorbance was measured at 450 nm using a microplate reader. All samples were tested in triplicate, and cytokine concentrations were calculated based on standard curves.
+
+2.26.
+
+## Cell viability assay
+Cardiomyocyte viability was evaluated using the Cell Counting Kit-8 (CCK-8; Dojindo Molecular Technologies, Japan). PRCMs were seeded in 96-well plates at a density of 1 × 104 cells per well and incubated for 24 h following treatment. Subsequently, 10 μL of CCK-8 reagent was added to each well, and the plates were incubated in the dark at 37 °C for 2 h. Absorbance was recorded at 450 nm using a microplate reader (BioTek Epoch 2, USA). The viability of the control group (PBS-treated) was set as 100 %, and the relative viability of experimental groups was calculated based on their absorbance values.
+
+2.27.
+
+## Detection of reactive oxygen species (ROS) using DCFH-DA fluorescent probe
+Intracellular ROS levels in cardiomyocytes were measured using the DCFH-DA fluorescent probe (Beyotime, China). DCFH-DA was dissolved in DMSO to prepare a 10 mM stock solution and diluted in serum-free DMEM to a working concentration of 10 μM. Cells were washed twice with PBS and incubated with the working solution at 37 °C in the dark for 30 min. After staining, cells were washed three times with PBS to remove excess probe. Fluorescence was observed using a Leica fluorescence microscope (Leica Microsystems, Germany) with an excitation wavelength of 488 nm and emission at 525 nm. Fluorescence intensity was quantified using ImageJ software, and ROS levels were expressed as mean fluorescence intensity (MFI).
+
+2.28.
+
+## Live/dead fluorescence staining
+The in vitro cytotoxicity of pMSNC@ISG15 siRNA was evaluated using a Live/Dead Cell Staining Kit (L3224, Thermo Fisher Scientific, USA). The staining solution containing Calcein AM and Ethidium Homodimer-1 was prepared according to the manufacturer's instructions. Calcein AM stains viable cells green, whereas Ethidium Homodimer-1 stains nonviable cells red. Cells were incubated with the staining solution at 37 °C in the dark for 30 min. Fluorescence images were captured using a Nikon fluorescence microscope (Japan) at appropriate excitation and emission wavelengths. The numbers of live (green) and dead (red) cells were quantified using ImageJ software, and cell viability was calculated relative to the PBS-treated control group, which served as the baseline for biocompatibility assessment.
+
+2.29.
+
+## In vivo biocompatibility evaluation
+To assess the in vivo biocompatibility of pMSNC@ISG15 siRNA, male SD rats (6–8 weeks, 250 ± 20 g; Charles River Laboratories, USA) were housed under specific pathogen-free (SPF) conditions for 1 week to acclimate. The environment was maintained at 22 ± 2 °C, 55 % ± 10 % humidity, and a 12-h light/dark cycle, with free access to food and water.
+Animals were randomly assigned to groups and administered either pMSNC@ISG15 siRNA (50 mg/kg) or an equal volume of normal saline via tail vein injection. Throughout the study, rats were monitored daily for behavioral and physiological indicators, including activity level, food and water intake, respiration, and coat condition. Body weight was recorded weekly.
+On days 7, 14, 21, and 28, blood samples were collected from the tail vein. Serum was isolated for biochemical analysis (ALT, AST, BUN, Cr), and whole blood was used for hematological testing. At the end of the study, animals were euthanized, and major organs, including the heart, liver, spleen, lungs, and kidneys, were harvested and fixed in 4 % paraformaldehyde. Paraffin-embedded sections were prepared and subjected to hematoxylin and eosin (H&E) staining to examine tissue architecture for signs of inflammatory infiltration, necrosis, or other pathological changes.
+
+2.30.
+
+## In vivo imaging system (IVIS)
+The biodistribution and organ-targeting capacity of pMSNC@ISG15 siRNA were assessed using a Cy5.5-labeled pMSNC@ISG15 siRNA formulation (10 mg/kg) administered to SD rats (250 ± 20 g) via tail vein injection. At 1, 4, 24, and 48 h post-injection, rats were euthanized, and major organs (heart, liver, spleen, lungs, kidneys, and brain) were harvested. Fluorescence distribution images were captured using an IVIS Spectrum imaging system (PerkinElmer, USA) with excitation/emission wavelengths of 675/720 nm. To evaluate nanoparticle circulation time, blood samples were collected from the tail vein at 1, 4, and 24 h. Plasma was separated, and fluorescence intensity was measured using a microplate reader (Synergy H1, BioTek, USA). Quantitative analysis of fluorescence levels was performed to assess nanoparticle kinetics.
+
+2.31.
+
+## H&E and Masson's trichrome staining
+At the end of the experiment, major rat organs (liver, kidney, spleen, heart, and lungs) were harvested and fixed in 10 % neutral-buffered formalin for 24–48 h. Tissues were then dehydrated through a graded ethanol series (70 %, 80 %, 90 %, 95 %, and 100 %), cleared with xylene, and embedded in paraffin. Paraffin blocks were sectioned into 4–5 μm slices using a microtome (Leica RM2235, Germany), mounted on slides, and baked at 65 °C for 1 h.
+After deparaffinization with xylene and rehydration through ethanol, sections were stained sequentially with hematoxylin, differentiated with acid alcohol, blued, and counterstained with eosin. Slides were dehydrated, cleared with xylene, and sealed with neutral resin. Tissue morphology, structural integrity, and inflammatory responses were examined under an Olympus BX53 microscope (Japan), and histological injury scores, inflammatory cell infiltration, and architectural disruption were quantitatively analyzed using ImageJ software.
+Masson's Trichrome staining was performed according to the manufacturer's instructions (Abcam, ab150686). After standard deparaffinization and rehydration, sections were stained for nuclear, collagen, and acidic differentiation, followed by dehydration and clearing. Fibrotic areas and MI size were assessed microscopically, and collagen deposition area ratios were quantitatively analyzed using image analysis software to evaluate the degree of myocardial remodeling.
+
+2.32.
+
+## Establishment of MI-induced HF model
+Male SD rats (8 weeks old, 250–280 g; Charles River Laboratories, USA) were used to establish a post-MI HF model. Rats were acclimatized for 7 days in a SPF facility under controlled conditions (temperature 22 ± 2 °C, humidity 55 % ± 5 %, 12-h light/dark cycle) with free access to food and water. Before surgery, rats were anesthetized via inhalation of 2–3 % isoflurane. After achieving adequate anesthesia, a tracheotomy was performed, and rats were intubated and connected to a ventilator (1 L/min, 80 breaths/min) to maintain respiration. Following fixation in the supine position, a left thoracotomy was performed between the third and fourth intercostal spaces to expose the heart. The left anterior descending coronary artery (LAD) was ligated near its origin using a 6-0 Prolene suture (Ethicon, USA), and successful MI induction was confirmed by visible blanching of the distal myocardium. In the Sham group, the suture was placed without ligation. After ligation, the chest wall and skin were sutured layer by layer, and rats were allowed to recover in a 37 °C thermostatic chamber. Postoperative monitoring included daily assessment of body weight, activity, food intake, and respiratory function to evaluate recovery. Following MI induction, cardiac function was continuously monitored and evaluated [ ].
+
+2.33.
+
+## Animal grouping
+Seven days after MI surgery, rats were randomly assigned into four groups (n = 10 per group): (1) Control group, administered an equal volume of saline via tail vein injection; (2) Empty pMSNC@ISG15 siRNA group, receiving blank silica nanoparticles (50 mg/kg) via tail vein injection; (3) Free ISG15 siRNA group, injected with free ISG15 siRNA (1 mg/kg) [ ]; and (4) pMSNC@ISG15 siRNA group, treated with silica nanoparticles loaded with ISG15 siRNA (50 mg/kg) via tail vein injection.
+
+2.34.
+
+## Echocardiography and electrocardiography (ECG)
+Transthoracic echocardiography (Vevo 2100, VisualSonics, Canada) and ECG (PowerLab, ADInstruments, Australia) were performed on days 0, 7, 14, and 28 post-MI to monitor dynamic changes in cardiac function. Rats were anesthetized with 2–3 % isoflurane and maintained under 1–1.5 % isoflurane during the procedure. Animals were positioned supine on a temperature-controlled platform, chest hair was removed, and ultrasound gel was applied. B-mode and M-mode images were acquired using a high-frequency MS400 transducer, and short-axis views across multiple cardiac cycles were collected. Left ventricular ejection fraction (LVEF) and fractional shortening (LVFS) were automatically calculated using Vevo LAB software. Simultaneously, limb-lead ECGs were recorded to evaluate heart rate (HR) and rhythm morphology.
+
+2.35.
+
+## Detection of myocardial ROS levels via dihydroethidium (DHE) fluorescence staining
+To evaluate ROS accumulation in myocardial tissues from different treatment groups, DHE fluorescence staining was performed. Freshly harvested hearts were immediately washed in cold PBS, embedded in optimal cutting temperature (OCT) compound (Sakura Finetek, USA) within a dry ice mold, and rapidly frozen at −80 °C. Heart tissues were cryosectioned at 8 μm thickness using a cryostat (CM1950, Leica Biosystems, Germany), mounted onto glass slides, and stored at −20 °C until use. Before staining, slides were equilibrated to ambient temperature for 10 min, followed by PBS incubation for 5 min. Sections were then incubated with 100 μL of 10 μM DHE working solution (Sigma-Aldrich, USA) in the dark at 37 °C for 30 min in a humidified chamber. DHE reacts with superoxide anions to form ethidium, which intercalates into DNA and emits red fluorescence. After incubation, slides were gently washed three times with PBS to remove excess dye, coverslipped, and imaged using a Leica DMi8 fluorescence microscope (Germany) at an excitation wavelength of 510–530 nm and emission wavelength of 580–620 nm.
+
+2.36.
+
+## Western blot (WB) analysis
+To assess ISG15 protein expression in the MI cell model, WB was performed. All procedures were conducted on ice to prevent protein degradation. Total protein was extracted using RIPA lysis buffer (Beyotime, China), quantified via the BCA assay (Thermo Fisher Scientific, USA), and 30 μg of protein per sample was separated by SDS-PAGE and transferred to PVDF membranes (Millipore, USA). Membranes were blocked with 5 % non-fat milk at ambient temperature for 1 h, followed by overnight incubation at 4 °C with primary antibodies against ISG15 (1:3000, ab227541, Abcam, UK), MYH (1:3000, ab37484, Abcam, UK), BNP (1:3000, ab309127, Abcam, UK), and GAPDH (1:10000, ab8245, Abcam, UK). After washing with PBST, membranes were incubated with HRP-conjugated secondary antibody (Goat Anti-Rabbit IgG H&L, ab6721, Abcam) at ambient temperature for 1 h. Bands were visualized using ECL substrate (Thermo Fisher Scientific, USA), and band intensities were quantified with ImageJ software to determine the relative expression of ISG15.
+
+2.37.
+
+## Quantitative Real-Time PCR (RT-qPCR) analysis
+Total RNA was extracted from cells and cardiac tissues using TRIzol reagent (Invitrogen, USA). RNA concentration and purity were measured with a NanoDrop 2000 spectrophotometer (Thermo Fisher Scientific, USA), ensuring an A260/A280 ratio between 1.8 and 2.0. cDNA was synthesized using the PrimeScript RT reagent kit (Takara, Japan). RT-qPCR was performed using SYBR Green Master Mix (Thermo Fisher Scientific, USA) to assess the expression of GATA4, Nkx2.5, α-MHC, and ISG15, with GAPDH serving as the internal control. Primer sequences are listed in . Each sample was run in triplicate using the ABI 7500 Real-Time PCR System (Applied Biosystems, USA). Relative gene expression was calculated using the 2−ΔΔCt method. Data analysis and visualization were performed using GraphPad Prism software (GraphPad Software, USA).
+
+2.38.
+
+## Statistical analysis
+Statistical analyses were conducted using GraphPad Prism software. Comparisons between two groups were performed using unpaired t-tests, while multiple group comparisons were analyzed using one-way ANOVA followed by least significant difference (LSD) post hoc testing. Data are presented as mean ± standard error of the mean (SEM). A p-value <0.05 was considered statistically significant.
+
+3.
+
+## Results
+3.1.
+
+## Identification of key immune cells involved in Post-MI HF by scRNA-seq analysis
+We annotated the 37 clusters identified from scRNA-seq data using SingleR and manual curation, resulting in the classification of 12 distinct cell types ( & A). A heatmap of the top five highly expressed genes in each cell type confirmed the robustness of the clustering results ( ). Among these, macrophages, fibroblasts, and endothelial cells represented significant proportions. Myocardial injury following MI initiates within the first hour, triggering immune activation via inflammatory signaling pathways. Macrophages emerged as one of the most functionally active cell types at all stages post-MI, playing key roles in cardioprotection, inflammation, and tissue repair [ ]. Based on canonical markers of M1 and M2 polarization, macrophages were further subclassified into pro-inflammatory M1 and anti-inflammatory M2 phenotypes ( B–C).
+ We examined the proportions of the 12 identified cell types across samples and found that in the MI group, the proportion of cardiomyocytes decreased from 0.82 % on day 1 to 0.56 % on day 7, but increased to 1.33 % by day 30 ( ). These ratios are primarily used for background information, as low capture efficiency and batch variation of cardiomyocytes in scRNA-seq limit their quantitative interpretation. Histological staining and HF biomarkers provided stronger evidence of myocardial remodeling and HF development. The progression from MI to HF is closely linked to ventricular remodeling, typically manifested by changes such as myocardial hypertrophy [ , ]. Based on these observations, we hypothesize that by day 30 post-MI, the mice may begin to show HF-related symptoms. We also analyzed macrophage populations over time and found that, compared to the Sham group, the number of M1 macrophages was significantly elevated in the MI group on days 1 and 7, but decreased below Sham levels by day 30 ( D–E). These findings suggest that day 7 post-MI may represent a critical phase of disease progression, during which the pathological process begins to transition toward HF.
+To investigate the potential role of M1 macrophages in the transition from MI to HF, we performed differential gene expression analysis on M1 macrophages. A total of 506 DEGs were identified, including 251 downregulated and 255 upregulated genes ( ). KEGG pathway enrichment analysis revealed that these DEGs were mainly involved in oxidative phosphorylation, leukocyte transendothelial migration, and cardiac muscle contraction ( ). In GO enrichment analysis, BP terms were enriched in processes such as localization, immune response, and leukocyte activation ( ). Cellular component (CC) analysis showed enrichment in extracellular regions and spaces ( ), while molecular function (MF) terms were related to enzyme binding, structural molecule activity, and cell adhesion molecule binding ( ).
+Comprehensive scRNA-seq analysis of the MI mouse model uncovered significant changes in both the cellular composition and functional landscape of the cardiac microenvironment. Our findings suggest that dynamic changes in macrophage populations and their subtypes play a pivotal role in the progression from MI to HF. Additionally, differential gene analysis identified several key genes and pathways that may offer new insights into the underlying mechanisms of post-MI pathology and serve as potential therapeutic targets.
+
+3.2.
+
+## scRNA-seq combined with bulk RNA-seq analysis reveals ISG15 as a potential driver of Post-MI HF
+To identify key genes involved in the progression from MI to HF, we established an MI rat model and extracted total RNA from both the Sham and MI groups (n = 3) for transcriptomic sequencing ( A). In the MI model induced by LAD ligation, we monitored cardiac function on days 3 and 7 post-surgery ( ). Echocardiography and ECG results revealed significant impairment in left ventricular systolic function in the MI group compared with the Sham group ( ). Additionally, pro-inflammatory cytokines TNF-α and IL-1β were significantly upregulated in the MI group, while anti-inflammatory cytokines IL-10 and TGF-β were notably downregulated ( ). Serum levels of LDH and cTnI were also markedly elevated in the MI group ( ).
+ Differential gene expression analysis identified a total of 2284 genes, with 1126 significantly upregulated and 1158 significantly downregulated in the MI group ( B). Immune infiltration analysis revealed substantial differences in immune cell populations between the two groups ( C). Specifically, monocytes and M1 macrophages were significantly enriched in the MI group, whereas resting NK cells and M2 macrophages were significantly reduced ( D). These findings suggest that alterations in immune cell composition are closely associated with the onset and progression of post-MI HF.
+To narrow the candidate genes, we performed regression analysis on the 2284 DEGs to eliminate highly collinear variables and identify key features. LASSO regression was applied to model the candidate genes as a binary classification problem. The glmnet function was used, and cross-validation determined the optimal lambda value ( E). Genes corresponding to non-zero coefficients at the optimal lambda were considered key factors associated with disease status, resulting in the identification of six feature genes: Mrc1, Isg15, Kcnk2, Paqr9, Fkbp7, and Tlr4 ( F).
+Next, we intersected these six feature genes (DEGs-LASSO) with the DEGs identified in M1 macrophages from the single-cell dataset (scRNA-seq-DEGs), yielding three overlapping genes ( G). The expression profiles of these three genes in the transcriptomic data revealed that, compared with the Sham group, Mrc1 was significantly downregulated, while Isg15 and Tlr4 were significantly upregulated in the MI group, with Isg15 showing the most pronounced differential expression ( H). Immune infiltration analysis further demonstrated that Isg15 was significantly correlated with 22 immune cell types, showing strong positive correlations with M1 macrophages and monocytes, and strong negative correlations with M2 macrophages and resting NK cells ( I). These findings further support the critical role of Isg15 in modulating immune responses.
+In the scRNA-seq dataset, Isg15 expression was markedly elevated in the MI group compared with the Sham group ( J). Comparative analysis revealed significantly increased Isg15 expression in M1 macrophages at day 1 and day 7 post-MI ( K), suggesting a time-dependent pattern of ISG15 activation. Low but detectable Isg15 expression was also observed in cardiomyocytes ( J), and its inducibility was confirmed in the PRCM hypoxia model using WB and RT-qPCR ( B–D). Consequently, our schematic illustration emphasizes macrophages as the principal effector cells, while cardiomyocytes are identified as a secondary, low-expression population.
+ In summary, ISG15 may drive the progression from MI to HF by regulating immune and inflammatory responses. Therefore, ISG15 represents a promising therapeutic target for post-MI HF and offers new insights into the development of treatment strategies for this condition.
+
+3.3.
+
+## pMSNC@ISG15 siRNA exhibit excellent stability
+MSNCs were synthesized using a two-step base-selective etching process. In the intermediate layer of the initially formed three-layer solid silica nanoparticles, amino side chains from organosilanes were incorporated into the Si-O tetrahedral framework. An alkaline etchant was applied instead of an acidic reagent to selectively remove the inner and outer silica layers, yielding hollow MSNCs ( A). Typically, 310 nm solid silica nanoparticles were etched with NaOH at ambient temperature. When etching time was extended from 0 to 12 h, the particle size continuously decreased, but no hollow structures formed. Between 12 and 20 h, hollow cavities began to emerge and progressively enlarged with longer etching times ( ). After 20 h of etching, MSNCs with an average diameter of 222.9 ± 16 nm were obtained ( B & ). TEM images revealed a rough surface with visible pores. To enhance nanoparticle stability, some amino groups were conjugated with PEG, producing pMSNCs ( C). DLS analysis showed that the hydrodynamic diameters of MSNCs and pMSNCs were 235.1 nm (polydispersity index = 0.06) and 256.2 nm (polydispersity index = 0.06), respectively, indicating narrow size distributions conducive to favorable systemic circulation. The zeta potential of MSNCs was measured at +34.53 ± 0.71 mV, and after PEGylation, it decreased to +22.74 ± 1.23 mV.
+ The residual amino groups served as anchoring sites for negatively charged siRNA. The conjugation of PEG to MSNCs was characterized by HRTEM and FT-IR spectroscopy. HRTEM images revealed an additional low-contrast nanolayer on the particle surface in pMSNCs, which was absent in non-pMSNCs ( ). FTIR spectra displayed additional bands at at 1740 cm−1 (carboxyl stretching), 1468 cm−1 (-CH2 bending), and 1344 cm−1 (-CH3 bending) after PEGylation, confirming successful surface modification ( ).
+Unlike polyethyleneimine (PEI), which is commonly used for siRNA delivery but often associated with high cytotoxicity, native amino groups on MSNCs enabled direct siRNA adsorption without the need for PEI ( ). The BET surface area and pore volume of MSNCs were measured at 248.3 m2/g and 0.997 cm3/g, respectively ( D). These MSNCs exhibited a broad mesopore size distribution ranging from 3 to 14 nm ( E), enabling the co-delivery of therapeutic agents with varying molecular sizes.
+pMSNC@ISG15 siRNA was formed via electrostatic interactions. The binding efficiency between siRNA and pMSNCs was evaluated using agarose gel electrophoresis at different nanoparticle-to-nucleic acid ratios (N/P, w/w) ( F). At N/P ratios of 4 and 8, substantial unbound siRNA was detected. At an N/P ratio of 16, the amount of free siRNA decreased, and at N/P ratios of 32 and 64, unbound siRNA was nearly undetectable. Quantitative analysis confirmed that over 85 % of siRNA was bound to pMSNCs at an N/P ratio of 32 ( G). The drug-loading efficiency of pMSNCs was calculated at 80 % ( H). The siRNA loading amounts at various N/P ratios are detailed in .
+
+3.4.
+
+## pMSNC@ISG15 siRNA enables stable release of ISG15 siRNA under various conditions
+pMSNC@ISG15 siRNA was incubated in cell culture medium. DLS measurements showed no significant change in particle size distribution at different incubation time points (1, 3, 7, and 14 days), indicating good stability across physiological conditions ( ) and confirming that functionalized pMSNCs retain their physicochemical properties in biological environments.
+RNase A digestion results showed that naked siRNA was rapidly degraded within 6 h and was nearly undetectable after 72 h. In contrast, siRNA encapsulated within pMSNCs remained visible on the gel for up to 72 h, indicating that the pMSNC structure significantly enhances siRNA stability in enzymatic environments ( ). We also evaluated the stability of siRNA adsorbed onto the pMSNC surface. During incubation in PBS at 37 °C for 6, 24, and 72 h, the pMSNCs/siRNA complexes remained retained in the sample wells due to their high molecular weight, suggesting successful binding between pMSNCs and siRNA. No detectable siRNA bands were observed in the gel lanes, further confirming efficient siRNA loading. Moreover, eluted siRNA maintained its intact molecular weight and relative concentration, similar to free siRNA. A second round of heparin elution effectively released residual siRNA from the nanoparticles, preserving its molecular integrity ( ). These results demonstrate that siRNA is stably loaded onto pMSNCs and remains protected in circulation until cellular uptake of pMSNC@ISG15 siRNA occurs.
+Collectively, these findings suggest that pMSNCs with mesoporous/hollow structures serve as efficient nanocarriers for siRNA delivery and provide protection against biodegradation.
+
+3.5.
+
+## pMSNC@ISG15 siRNA enables efficient intracellular release of ISG15 siRNA and silencing of ISG15 expression
+The intracellular distribution of functionalized FITC-labeled pMSNC@ISG15 siRNA complexes in PRCMs and BMDMs was visualized using LSCM. After 3 h of incubation, distinct green fluorescence signals from pMSNCs were observed, confirming successful cellular uptake of pMSNC@ISG15 siRNA, with the complexes primarily localized within lysosomes. Co-localization of FITC-labeled pMSNC@ISG15 siRNA with LysoTracker Red DND-99-labeled lysosomes resulted in a Pearson's Rr of 0.41, which increased to 0.65 and 0.79 at 12 and 24 h, respectively. This trend suggests prolonged retention of pMSNCs within lysosomes ( & ). These results confirm that the internalized pMSNC@ISG15 siRNA complexes predominantly localize to lysosomal compartments.
+To further assess intracellular siRNA release, siRNA-Cy3 was used. After 3 h of incubation, strong co-localization between siRNA-Cy3 and FITC-pMSNCs was observed, with an Rr of 0.71. At 6 and 12 h, the siRNA fluorescence gradually separated from the pMSNCs, with Rr values decreasing to 0.27 and near zero, respectively, indicating time-dependent intracellular release of siRNA ( & ). These findings demonstrate that the functionalized pMSNC@ISG15 siRNA complexes effectively release siRNA within cells. Subsequently, RT-qPCR was employed to evaluate the gene silencing efficiency of the functionalized pMSNC@ISG15 siRNA complexes in vitro. Compared with the untreated group, pMSNC@ISG15 siRNA significantly downregulated ISG15 gene expression in both PRCMs and BMDMs ( ).
+
+3.6.
+
+## pMSNC@ISG15 siRNA effectively promotes reparative macrophage polarization and alleviates cardiomyocyte injury
+We evaluated the cytotoxicity and biocompatibility of pMSNC@ISG15 siRNA in vitro using Live/Dead fluorescence staining at different incubation times (0, 8, 16, and 24 h) in PRCMs and BMDMs. Cell viability remained comparable to the control group across all time points within 24 h, with no significant cell death observed ( A), confirming the favorable biocompatibility of pMSNC@ISG15 siRNA and its lack of significant cytotoxicity.
+ To verify the regulatory effect of pMSNC@ISG15 siRNA on M2 macrophage activation, BMDMs were co-incubated with PBS, pMSNC, ISG15 siRNA, or pMSNC@ISG15 siRNA ( B). Flow cytometry analysis revealed a significant increase in the proportion of M2 macrophages in the pMSNC@ISG15 siRNA treatment group ( C–D). IF analysis of iNOS (M1 marker) and Arg-1 (M2 marker) further supported these findings. While neither the pMSNC group nor the ISG15 siRNA group showed significant changes, likely due to insufficient siRNA uptake, the pMSNC@ISG15 siRNA group exhibited a marked upregulation of Arg-1 and a downregulation of iNOS, indicating effective polarization towards the M2 phenotype ( E–F). ELISA analysis revealed that levels of anti-inflammatory cytokines IL-10 and TGF-β were significantly elevated, while pro-inflammatory cytokines TNF-α and IL-1β were markedly reduced in the pMSNC@ISG15 siRNA group ( G–J).
+To further investigate the mechanism by which pMSNC@ISG15 siRNA promotes M2 macrophage polarization and reduces cardiomyocyte loss, a transwell co-culture system was established using PRCMs and BMDMs. A hypoxic model was induced with CoCl2 to simulate the MI-induced HF microenvironment ( A). WB and RT-qPCR analyses revealed that ISG15 expression was significantly upregulated in the CoCl2-treated hypoxia model ( B–D).
+After removing the transwell inserts, the co-cultured cells were divided into five groups for further experimentation: PBS (control, 200 μL), CoCl2 (100 μM, 200 μL), CoCl2 + pMSNC (100 μM CoCl2, 200 μL BMDM supernatant from 200 μg/mL pMSNC-treated group), CoCl2 + ISG15 siRNA (100 μM CoCl2, 200 μL BMDM supernatant from 200 μg/mL ISG15 siRNA-treated group), and CoCl2 + pMSNC@ISG15 siRNA (100 μM CoCl2, 200 μL BMDM supernatant from 200 μg/mL pMSNC@ISG15 siRNA-treated group). ELISA was used to quantify inflammatory cytokines in the co-culture supernatant. Compared with the PBS group, the CoCl2 group showed a significant increase in pro-inflammatory cytokines (TNF-α and IL-1β) and a decrease in anti-inflammatory cytokines (IL-10 and TGF-β). Notably, in the CoCl2 + pMSNC@ISG15 siRNA group, levels of TNF-α and IL-1β were significantly reduced, while IL-10 and TGF-β were markedly increased compared to the CoCl2 group ( E).
+As shown in F, levels of CK and CK-MB were elevated in the CoCl2 group, but their release was reduced in the CoCl2 + pMSNC@ISG15 siRNA group. Similarly, LDH release ( G) and cTnI levels ( H) were significantly decreased in the CoCl2 + pMSNC@ISG15 siRNA group, suggesting reduced cellular injury. CCK-8 assay results ( I) and flow cytometry analysis of apoptosis ( A–B) demonstrated that pMSNC@ISG15 siRNA restored cell viability suppressed by CoCl2 and reduced cardiomyocyte apoptosis. Intracellular ROS levels assessed using the DCFH-DA fluorescent probe were significantly lower in the CoCl2 + pMSNC@ISG15 siRNA group ( C–D). RT-qPCR analysis of cardiomyocyte-specific genes (GATA4, Nkx2.5, and α-MHC) revealed that their expression was markedly upregulated in the CoCl2 + pMSNC@ISG15 siRNA group compared to the CoCl2 group, indicating improved cardiomyocyte function ( E). Although ISG15 siRNA alone also alleviated cardiomyocyte injury, its effects were less pronounced than those observed with pMSNC@ISG15 siRNA.
+ 
+3.7.
+
+## pMSNC@ISG15 siRNA exhibits favorable in vivo biocompatibility and cardiac tissue targeting
+To evaluate the in vivo biocompatibility of pMSNC@ISG15 siRNA, rats were randomly assigned to groups and administered the compound via tail vein injection. Body weight was monitored throughout the experiment to assess systemic tolerance. No significant differences in body weight were observed among the groups ( ), indicating that pMSNC@ISG15 siRNA did not adversely affect growth or development. Weekly blood samples were collected for hematological and biochemical analyses. White blood cell (WBC), red blood cell (RBC), and platelet (PLT) counts remained within normal ranges across all groups ( ), and liver and kidney function markers (ALT, AST, BUN, Cr) showed no abnormalities ( ). These findings suggest that pMSNC@ISG15 siRNA does not induce notable hematological or biochemical disturbances in vivo. At the end of the experiment, major organs (liver, kidney, spleen, heart, and lung) were harvested for H&E staining and histopathological evaluation. No significant pathological changes, such as structural disruption, inflammatory infiltration, or necrosis, were observed in any organ from the pMSNC@ISG15 siRNA-treated group ( ), further confirming its excellent in vivo biocompatibility.
+To evaluate the in vivo biodistribution of pMSNC@ISG15 siRNA, fluorescently labeled nanoparticles were administered via tail vein injection, and their distribution was monitored using an IVIS ( ). The blood circulation time of pMSNC@ISG15 siRNA was initially assessed. Results showed that the nanoparticles exhibited prolonged circulation, with strong fluorescence signals still detectable in the blood 24 h post-injection, indicating their stability in circulation ( ). Subsequently, IVIS imaging was performed at 1, 12, 24, and 48 h after injection. The nanoparticles were primarily distributed in the MI region, as well as in the liver, spleen, and kidneys ( ). Quantitative fluorescence analysis ( ) revealed that at 1 h post-injection, fluorescence signals were concentrated in the liver and spleen, indicating early-phase systemic distribution. By 12 h, fluorescence intensity increased significantly and was predominantly localized to the infarcted myocardium, with strong signals also observed in the liver and spleen, suggesting accumulation at the site of cardiac injury and demonstrating MI-targeting capability. At 24 h, fluorescence in the heart reached its peak, suggesting substantial nanoparticle enrichment in the damaged cardiac tissue. Although signals in the liver and spleen remained strong, they were weaker than those in the heart. At 48 h, fluorescence persisted at the infarct site, albeit at reduced levels, indicating sustained retention of nanoparticles in the affected myocardium. Meanwhile, fluorescence in the liver and spleen remained relatively stable, while renal fluorescence progressively declined. These results demonstrate that pMSNCs possess favorable MI-targeting ability and are gradually cleared by the liver and spleen.
+To further evaluate the in vivo distribution of pMSNC@ISG15 siRNA, major organs were collected post-experiment for tissue sectioning and fluorescence microscopy. The results showed that fluorescence signals were primarily localized in the heart and liver, indicating nanoparticle accumulation in these organs ( ). The strong fluorescence at the site of MI highlighted the potential of pMSNCs for targeted cardiac delivery, whereas hepatic accumulation suggested that the liver serves as the primary organ for nanoparticle clearance. LSCM was used to visualize the distribution of FITC-labeled pMSNC@ISG15 siRNA complexes in cardiac tissue. Co-localization was observed between the green fluorescence of pMSNCs and cTnT-labeled cardiomyocytes as well as CD206-labeled macrophages, confirming efficient intracellular delivery of pMSNC@ISG15 siRNA ( ).
+These findings demonstrate that pMSNCs possess favorable biodistribution properties and biocompatibility in vivo and are capable of effectively targeting infarcted myocardial tissue.
+
+3.8.
+
+## pMSNC@ISG15 siRNA significantly improved HF outcomes following MI
+In the MI rat model, we evaluated the therapeutic efficacy of pMSNC@ISG15 siRNA in mitigating HF progression ( A). Due to the limited in vivo uptake of free ISG15 siRNA, the PBS, unloaded pMSNC, and ISG15 siRNA groups showed no significant differences across most indicators. In contrast, the pMSNC@ISG15 siRNA group exhibited marked therapeutic benefits in multiple parameters.
+ Cardiac ultrasound and ECG analyses revealed that pMSNC@ISG15 siRNA treatment significantly improved left ventricular function, demonstrating superior enhancement of cardiac output compared to all other groups ( B–E). Inflammatory cytokine profiling indicated that treatment with pMSNC@ISG15 siRNA effectively elevated IL-10 and TGF-β levels while significantly suppressing TNF-α and IL-1β secretion ( F). Regarding myocardial injury markers, this treatment group showed notably reduced serum levels of LDH and cTnI ( G–H), and also alleviated oxidative stress in myocardial tissue, as detected by the DHE fluorescence probe ( I).
+Furthermore, H&E and Masson staining revealed that the infarct size was reduced and myocardial fibrosis was markedly attenuated in the pMSNC@ISG15 siRNA group ( A–B). IF analysis confirmed the downregulation of α-SMA and type I collagen (Collagen I), suggesting suppression of the fibrotic process ( C–E). Concurrently, the upregulation of cardiac marker genes GATA4, Nkx2.5, and α-MHC indicated the restoration of cardiomyocyte phenotype and function ( F). Both protein and mRNA analyses validated that pMSNC@ISG15 siRNA treatment effectively silenced ISG15 expression in myocardial tissue, whereas free siRNA did not exert a silencing effect ( F–G). WB analysis further demonstrated that treatment with pMSNC@ISG15 siRNA reduced the expression of HF-related markers BNP and MYH7 ( J), indicating restoration of cardiomyocyte phenotype and function.
+ With respect to the immune microenvironment, flow cytometry and IF staining demonstrated that pMSNC@ISG15 siRNA significantly increased the proportion of reparative (M2) macrophages while suppressing the infiltration of pro-inflammatory (M1) macrophages ( A). Additionally, we also examined ISG15 expression in the liver and spleen, and the results showed that following pMSNC@ISG15 siRNA treatment, ISG15 protein expression was significantly downregulated in both organs ( ), indicating that this delivery system effectively modulates macrophage polarization and alleviates inflammatory responses.
+
+4.
+
+## Discussion
+This study systematically elucidates the critical role of ISG15 in post-MI inflammatory responses and immune cell activation, offering new insights into its function in non-infectious cardiovascular diseases. As a key downstream effector in the type I interferon signaling pathway, ISG15 has been extensively studied in the context of antiviral defense and tumor immunity [ , ]. However, its role under pathological cardiac conditions remains poorly understood [ ]. While some studies have suggested that ISG15 may be involved in the inflammatory cascade following myocardial ischemia-reperfusion injury, most evidence is limited to the tissue level, with little understanding of its function within specific cellular subsets [ ]. In this study, scRNA-seq analysis revealed that ISG15 is predominantly upregulated in M1 macrophages, with peak expression observed on day 7 post-MI, suggesting that ISG15 is not merely a byproduct of inflammation but may serve as a key mediator in sustaining immune activation. This finding provides empirical support for the immunological function of ISG15 and identifies it as a potential therapeutic target for controlling post-MI inflammation.
+Macrophage polarization plays a pivotal regulatory role in myocardial repair and remodeling after MI [ ]. While M1-type macrophages dominate the early inflammatory phase, M2-type macrophages facilitate tissue repair and antifibrotic responses [ ]. Previous studies have largely focused on promoting M2 polarization via cytokines or pharmacological agents, but the mechanisms underlying sustained M1 activation remain inadequately understood [ ]. This study is the first to reveal, at the molecular level, a potential role of ISG15 in maintaining M1 polarization. Functional experiments further demonstrated that ISG15 siRNA intervention increased the proportion of M2 macrophages, accompanied by reduced levels of pro-inflammatory cytokines. These results highlight the central role of ISG15 in the dynamic regulation of macrophage polarization, offering a novel strategy for correcting inflammatory imbalance at its origin and addressing a critical gap in the search for polarization-regulating molecular targets.
+Compared to conventional bulk RNA-seq, this study employed scRNA-seq in combination with bulk RNA-seq and the CIBERSORT immune infiltration algorithm to comprehensively map the immune microenvironment following MI. This multi-layered data integration approach not only enhanced resolution but also improved the accuracy of key gene identification. Previous transcriptomic studies on MI have been limited by sample heterogeneity and cell-type admixture, making it difficult to precisely delineate the dynamic changes and functional states of immune cell populations [ ]. In this study, differential gene screening via cluster-based analysis and a machine learning algorithm (LASSO) established an association between ISG15 and maladaptive immune responses, providing a robust data foundation for subsequent target-based interventions and demonstrating the translational value of multi-omics integration in biomedical research.
+Although siRNA holds significant therapeutic potential as a tool for precise gene silencing, its clinical application has long been constrained by delivery challenges [ , ]. In this study, pMSNCs were used as carriers to address critical limitations in siRNA stability and tissue specificity in vivo. Compared with traditional lipid- or polymer-based systems, pMSNCs offer superior structural stability, biocompatibility, and surface modifiability [ ]. Through EDC/NHS-mediated coupling, siRNA-Cy3 was successfully loaded and released in a controlled manner. At the cellular level, pMSNC-mediated delivery significantly outperformed free siRNA in both uptake efficiency and sustained gene silencing. This platform thus provides a promising foundation for the targeted delivery of RNA interference therapeutics in cardiovascular diseases.
+This study conducted comprehensive validation at both cellular and animal levels to ensure the reliability and reproducibility of the experimental findings. In vitro, using PRCM and BMDM models, pMSNC@ISG15 siRNA significantly suppressed ISG15 expression and improved macrophage polarization. In the MI rat model, the treatment group exhibited markedly improved cardiac function, as evidenced by increased LVEF and LVFS, alongside reduced tissue fibrosis and immune cell infiltration. Notably, the nanoparticles demonstrated excellent biocompatibility and cardiac tissue-targeted distribution, with no observable toxic effects. Collectively, these results confirm the delivery system's integrated advantages in functional modulation, tissue repair, and safety, supporting its further development as a translational therapeutic tool.
+Our study identified that ISG15 was highly expressed in M1-type macrophages following MI, where it played a pivotal role in maintaining the pro-inflammatory state. Silencing ISG15 through the pMSNC nanodelivery system effectively improved cardiac repair; however, its deeper molecular mechanisms warrant further exploration. Based on published evidence, we summarized three potential mechanistic pathways and corresponding future research directions: (1) ISGylation-mediated signaling: ISG15 may regulate M1 macrophage activation through ISGylation of key signaling proteins (e.g., STAT1, NF-κB pathway components, or glycolytic enzymes such as HK2/PFK1), thereby enhancing JAK–STAT/NF-κB activity or metabolic reprogramming toward glycolysis to sustain the M1 phenotype [ , ]. (2) Cytokine-like signaling: Free ISG15 may act as an intracellular scaffold to amplify inflammatory signaling or be secreted as a cytokine, binding to receptors such as LFA-1 to recruit additional immune cells and exacerbate inflammation [ , ]. (3) Epigenetic regulation: ISG15 may influence histone modifications, thereby epigenetically “locking” pro-inflammatory gene programs. To deepen mechanistic understanding, future studies may focus on: Using proteomic approaches (Co-IP–MS) to identify and validate ISG15-specific downstream targets in M1 macrophages; Constructing ISGylation-deficient mutants and conducting free-form rescue experiments to dissect the functions of distinct ISG15 forms; Employing cell type–specific knockout mouse models (e.g., myeloid- versus cardiomyocyte-specific deletion) to determine ISG15's role in different cell types; Integrating metabolomic and epigenetic profiling to elucidate the ISG15 regulatory network; Extending clinical sample validation and large-animal studies to assess long-term efficacy and safety; Developing combination therapy strategies, such as co-treatment with M2 polarization inducers, to enhance cardiac repair and accelerate translational applications.
+Our results suggested that ISG15 served as a key molecular regulator in maintaining M1 polarization. As a ubiquitin-like modifier, its biological functions depend on both covalent conjugation (ISGylation) and non-covalent signaling mechanisms [ ]. Future investigations into specific interacting partners of ISG15 (particularly in its free form) in M1 macrophages, such as STAT1 and JAK, could lead to the design of peptide or small-molecule inhibitors that selectively block these interactions. This approach may offer a more drug-like, orally available therapeutic strategy compared to RNAi. Combining ISG15 knockdown with M2 polarization inducers (e.g., IL-4/IL-13 mimetics or PPARγ agonists) offers a “disrupt-and-rebuild” strategy, in which M1 maintenance mechanisms are disrupted while promoting M2 polarization. This approach would rapidly remodel the immune microenvironment and enhance cardiac repair. Positioning ISG15 as an “enabling target” could amplify the effects of other reparative therapies and lay a strong theoretical foundation for the development of synergistic combination treatments. Future research will follow a systematic progression: mechanistic exploration (identifying downstream effectors), dimensional expansion (developing therapeutic, diagnostic, and combinatorial strategies), and clinical advancement (large-animal validation and process optimization).
+Compared to current mainstream pharmacological and cell-based therapies, this strategy offers clear advantages in targeting specificity, mechanistic clarity, and delivery efficiency. Traditional anti-inflammatory drugs often lack cell-type specificity and may induce widespread immunosuppression, while stem cell therapies, although showing some immunomodulatory potential, face challenges such as allogeneic rejection and donor variability. In contrast, this study targeted the key regulatory gene ISG15 at the molecular level and achieved precise control via structurally optimized inorganic nanoparticles, offering a more focused mechanism of action and enhanced clinical applicability in terms of delivery efficiency and safety. This approach provides a successful model for integrating nanomedicine and RNA interference therapy in cardiovascular research.
+In conclusion, this study identified the aberrant upregulation of ISG15 in macrophages after MI through scRNA-seq analysis and confirmed its strong association with cardiac immune activation. By constructing pMSNC@ISG15 siRNA, we achieved specific gene silencing, effectively reprogrammed the cardiac immune microenvironment, and improved cardiac function. This is the first study to establish ISG15 as a therapeutic target for immune intervention in HF and to demonstrate the successful application of RNA interference via pMSNCs in cardiovascular disease, highlighting its significant scientific and translational potential. Nevertheless, certain limitations remain: (1) the lack of validation of ISG15 expression trends in clinical samples; and (2) the absence of long-term efficacy and biodistribution studies in large animal models. Future research should integrate clinical sample analyses, cardiac-targeted modifications, and intelligent release systems to accelerate the clinical translation of ISG15-targeted RNA interference therapy and provide innovative solutions for the personalized treatment of post-MI HF. In addition, we plan to further investigate the mechanisms by which ISG15 regulates MI healing, thereby facilitating a deeper clinical understanding of MI pathophysiology.
+
+5.
+
+## Conclusion
+In this study, pMSNC@ISG15 siRNA was constructed. It exhibited strong stability under various physiological conditions and demonstrated efficient siRNA release under acidic environments. Both in vitro and in vivo experiments confirmed that the functionalized pMSNCs effectively delivered ISG15 siRNA to the cardiac microenvironment, significantly suppressed inflammation and immune cell activation, and improved cardiac function following MI-induced HF. These findings offer a novel strategy for the nanotherapeutic treatment of HF and highlight the promising potential of nanotechnology in precision medicine (Graphic Abstract).
+
+## CRediT authorship contribution statement
+Jianfen Shen: Writing – original draft, Visualization, Resources, Methodology, Investigation, Formal analysis, Data curation, Conceptualization. Zhongbao Fan: Writing – original draft, Visualization, Software, Methodology, Formal analysis, Data curation. Lina Ren: Writing – original draft, Visualization, Software, Investigation, Formal analysis, Data curation. Yanbin Cheng: Writing – review & editing, Validation, Supervision, Project administration, Methodology, Conceptualization. Chunwei Wu: Writing – review & editing, Validation, Supervision, Software, Resources, Project administration, Funding acquisition, Conceptualization.
+
+## Ethical statement and consent to participate
+All experiments involving mice were approved by the Animal Ethics Committee of The First Hospital of China Medical University (No. CMUXN2023038).
+
+## Consent for publication
+Not applicable.
+
+## Funding
+This study was supported by by 2021-N-15 project of China International Medical Foundation.
+
+## Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+## Acknowledgment
+Not applicable.
+
+## Footnotes
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.mtbio.2025.102631.
+
+## Abbreviations
+
+APTMS3-Aminopropyltrimethoxysilane
+BETBrunauer-Emmett-Teller
+BMDMsBone Marrow-Derived Macrophages
+BJHBarrett-Joyner-Halenda
+BPBiological Processes
+CCCellular Component
+CCK-8Cell Counting Kit-8
+cDNAComplementary DNA
+CKCreatine Kinase
+CoCl2Cobalt Chloride
+cTnICardiac Troponin I
+DHEDihydroethidium
+DEGsDifferentially Expressed Genes
+DLSDynamic Light Scattering
+ECGElectrocardiography
+ELISAEnzyme-Linked Immunosorbent Assay
+FBSFetal Bovine Serum
+FDRFalse Discovery Rate
+FITCFluorescein Isothiocyanate
+FT-IRFourier Transform Infrared
+GOGene Ontology
+H&EHematoxylin and Eosin
+HBSSHank's Balanced Salt Solution
+HFHeart Failure
+HRTEMHigh-Resolution Transmission Electron Microscopy
+HRHeart Rate
+IFImmunofluorescence
+IHCImmunohistochemistry
+ISG15Interferon-Stimulated Gene 15
+IVISIn Vivo Imaging System
+KEGGKyoto Encyclopedia of Genes and Genomes
+LADLeft Anterior Descending Coronary Artery
+LASSOLeast Absolute Shrinkage and Selection Operator
+LDHLactate Dehydrogenase
+LMSCNLaser-Scanning Confocal Microscopy
+LVEFLeft Ventricular Ejection Fraction
+LVFSLeft Ventricular Fractional Shortening
+M-CSFMacrophage Colony-Stimulating Factor
+MFMolecular Function
+MFIMean Fluorescence Intensity
+MIMyocardial Infarction
+mPEG-SCMethoxy Polyethylene Glycol Succinimidyl Carbonate
+NaOHSodium Hydroxide
+PCAPrincipal Component Analysis
+PBSPhosphate-Buffered Saline
+PEGPolyethylene Glycol
+PEIPolyethyleneimine
+Pearson's RrPearson's Correlation Coefficient
+PLTPlatelet
+pMSNCPolarized Mesoporous Silica Nanocarriers
+pMSNC@ISG15 siRNAInterferon-Stimulated Gene 15 Small Interfering RNA-Loaded Polarized Mesoporous Silica Nanocarriers
+PRCMsPrimary Rat Cardiomyocytes
+RBCRed Blood Cell
+ROSReactive Oxygen Species
+RT-qPCRQuantitative Real-Time PCR
+scRNA-seqSingle-Cell RNA Sequencing
+SDSprague-Dawley
+siRNASmall Interfering RNA
+siRNA-Cy3Cy3-Labeled ISG15 siRNA
+SPFSpecific Pathogen-Free
+TEOSTetraethyl Orthosilicate
+TEMTransmission Electron Microscopy
+UMAPUniform Manifold Approximation and Projection
+WBCWhite Blood Cell
+
+Appendix A.
+
+## Supplementary data
+The following are the Supplementary data to this article:
+
+## Multimedia component 1
+Multimedia component 1 
+
+## Data availability
+Data will be made available on request.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Multimedia component 1
+Multimedia component 1
+
+## Data Availability Statement
+Data will be made available on request.

@@ -1,0 +1,982 @@
+822acssdMolecular PharmaceuticsMol PharmPMC1295834712958347129583474170161910.1021/acs.molpharmaceut.5c01220TRIPODD
+Enables Single-Cell Quantification of Therapeutic
+Efficacy
+McMahonNathan P SolankiAllison MontañoAntonio R OzdemirE Sila SamkoeKimberley S WangLei G GibbsSummer L 
+
+†Biomedical
+Engineering Department, 
+‡Knight Cancer Institute, 
+§Cancer Early Detection Advanced Research
+Center, Oregon Health & Science University, Portland, Oregon
+97201, United States
+
+∥Thayer School of Engineering at Dartmouth College, 
+⊥Department of Surgery,
+Geisel School
+of Medicine at Dartmouth College, Dartmouth
+College, Hanover, New Hampshire
+03755, United States
+
+#
+Biomedical
+Engineering, Illinois Institute of Technology, Chicago, Illinois
+60616, United States
+*
+Email: gibbss@ohsu.edu. Phone: 503-494-8940.
+172202623315721572–1585532026© 2026 The Authors. Published by American Chemical SocietyThis article is licensed under CC-BY-NC-ND 4.0
+
+## Abstract
+Targeted, small-molecule therapeutics have improved patient
+survival
+across cancer types, with >20 tyrosine kinase inhibitors (TKIs)
+receiving
+FDA approval as cancer therapies. While the initial TKI response is
+often promising, it is typically transient due to tumor evolution
+and subsequent therapeutic resistance driven by primary or acquired
+resistance mechanisms. While resistance mechanisms vary, there are
+currently no spatially resolved methodologies that provide a quantitative,
+mechanistic understanding of drug delivery and therapeutic response
+across therapeutic modalities (e.g., chemotherapy, radiotherapy, TKIs,
+immunotherapy) to enable personalized cancer therapy. Herein, we utilize
+our previously reported fluorescence imaging platform, Therapeutic Response Imaging through Proteomic and Optical Drug Distribution (TRIPODD), which is a quantitative
+protocol capable of interpreting the relationship between drug delivery
+and therapeutic response within the spatial context of a tumor to
+evaluate single-cell response and resistance to epidermal growth factor
+receptor TKI therapy. In this study, we applied TRIPODD to quantify
+the therapeutic response of EGFR-TKI-sensitive nonsmall cell lung
+cancer (NSCLC) xenografts to erlotinib, as a proof of concept for
+the platform. Through these studies, we were able to identify unique
+signatures of therapeutic response linked to the accumulation and
+engagement of erlotinib on a single-cell basis, demonstrating the
+utility of our TRIPODD platform technology in evaluating the treatment
+response and resistance at the single-cell level in heterogeneous
+tumors.
+Keywords: intracellular paired agent imaging, fluorescence imaging, drug target availability, cyclic immunofluorescence, cancer heterogeneity
+
+ 
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Aug 19; Accepted 2025 Dec 5; Revised 2025 Dec 5; Collection date 2026 Mar 2.
+
+## Introduction
+The discovery and advancement of targeted,
+small-molecule therapeutics
+have improved patient survival across cancer types. Enthusiasm for
+molecularly targeted therapy is demonstrated by the Food and Drug
+Administration’s (FDA) approval of >20 tyrosine kinase inhibitors
+(TKIs), a class of small-molecule therapeutics, for the treatment
+of numerous cancers. However, while initial
+response in patients treated with TKIs is often promising, it is also
+typically transient due to tumor evolution and subsequent therapeutic
+resistance driven by primary or acquired resistance mechanisms. One potential acquired resistance mechanism is
+the temporal and spatial variation in blood flow, impacting drug delivery
+both directly into a tumor and in its surrounding tumor microenvironment
+(TME). Abnormal vasculature is a recognized phenotype of solid tumors,
+resulting in impaired blood supply and increased tumor interstitial
+pressure.
+,
+ These phenomena can result in hypoxic conditions
+that promote genetic instability and may prevent antitumor immune
+activity while also limiting therapeutic delivery and therefore efficacy. TME modulation strategies are under investigation
+to increase tumor drug penetration and improve drug delivery to its
+target. For example, the inhibition of vascular endothelial growth
+factor (VEGF-A) has demonstrated the ability to renormalize vasculature
+in various solid tumor types.
+,
+ However, there are currently
+no spatially resolved methodologies that provide a quantitative, mechanistic
+understanding of drug delivery and therapeutic response across treatment
+modalities (e.g., chemotherapy, radiotherapy, TKIs, and immunotherapy)
+to enable personalized cancer therapy.
+We have previously reported
+a fluorescence imaging platform, Therapeutic Response Imaging through Proteomic and Optical Drug Distribution (TRIPODD),
+,
+ which
+is a quantitative protocol capable of interpreting the relationship
+between drug delivery and therapeutic response within the spatial
+context of a tumor. TRIPODD concomitantly provides single-cell quantification
+of drug presence and spatial proteomic therapeutic response through
+the combination of two complementary technologies: intracellular paired
+agent imaging (iPAI) and oligonucleotide-conjugated antibody (Ab-oligo)
+cyclic immunofluorescence (cyCIF).
+−
+
+ To account for off-target drug
+accumulation, iPAI utilizes a combination of spectrally distinct,
+fluorescently labeled targeted and control (untargeted) TKI drug derivative
+imaging agents to measure drug target availability (DTA). To account for nonspecific drug accumulation
+that often obfuscates quantitative molecular cancer imaging due to
+variable enhanced permeability and retention (EPR) effects, the ratio of the targeted to the untargeted
+agent enables assessment of drug uptake and retention (i.e., DTA).
+When the targeted agent is administered at a “trace”
+level (i.e., <5% of target sites are occupied by the targeted agent),
+the resulting value can be shown to be proportional to the concentration
+of targets available for binding.
+,
+ We have previously
+established that as the concentration of the administered parent drug
+increases, DTA will decrease, as potential drug-binding sites are
+occupied by the parent drug administered therapeutically.
+,
+ Importantly, the iPAI probes have a similar binding affinity to
+their parent drug and are intended only for DTA quantification after
+completion of treatment with the parent drug. The iPAI technique is,
+therefore, capable of assessing spatially resolved DTA heterogeneity
+across tumor tissues.
+Therapeutic response can be linked to
+DTA using cyCIF performed
+on the same tissue sample from which iPAI was quantified. The cyCIF-defined
+spatial proteome can characterize treatment response mechanisms at
+the single-cell level, such as perturbed cell signaling, pro- or antiapoptotic
+signatures, and patterns
+of immune cell recruitment, phenotype, and localization within the
+TME.
+−
+
+ Previously, we have demonstrated the feasibility of collecting both
+iPAI and cyCIF imaging data on the same tissue section using our DNA
+barcoded cyCIF methodology (i.e., Ab-oligo cyCIF), as proof-of-concept
+for the TRIPODD platform. We have also
+shown the flexibility of the Ab-oligo cyCIF methodology for integration
+with a variety of immunofluorescence techniques and have developed novel fluorophore technology (i.e.,
+OregonFluor probes) optimized for iPAI in live cells and tissues. Herein, we report on the first use of the TRIPODD
+platform to evaluate the therapeutic response in tumors dosed longitudinally
+with clinically approved therapeutics. In the current study, we applied
+the TRIPODD platform to quantify therapeutic response of epidermal
+growth factor (EGFR)-TKI-sensitive nonsmall cell lung cancer (NSCLC)
+xenografts to erlotinib, a first-generation EGFR TKI, treatment using
+a limited cyCIF-staining panel to quantify EGFR, phosphorylated EGFR,
+and cell state (i.e., proliferation and apoptosis). Using the TRIPODD
+platform, we were able to identify unique signatures of therapeutic
+response linked to accumulation and engagement of erlotinib on a single-cell
+basis, demonstrating the utility of our platform technology to evaluate
+treatment response and resistance at the single-cell level in heterogeneous
+tumors.
+
+## Materials and Methods
+
+## iPAI Probe Synthesis
+The targeted and untargeted (control)
+intracellular paired agent imaging (iPAI) agents were derivatives
+of erlotinib (Erl), a first-generation, reversible TKI targeting EGFR.
+Briefly, site selection for the synthesis of erlotinib derivates
+to generate targeted and untargeted drug imaging agents was guided
+by the structure of the parent drug bound to the EGFR crystal structure.
+,
+ Our novel OregonFluors (OF), OF550 and OF650, were selected for
+agent labeling due to their spectral separation, overall charge, charge
+distribution, molecular weight, structural similarity, and stability
+in varied biological environments. OF550
+has maximum excitation and emission peaks at 552 and 575 nm, respectively.
+OF650 has maximum excitation and emission peaks at 649 and 668 nm,
+respectively. This novel class of rhodamine derivatives enables maintained
+biodistribution similarity between the targeted and untargeted agents,
+with stable fluorescence emission in varied biological environments. OF550 and OF650 were used as labels to synthesize
+cell membrane-permeant targeted (T) and untargeted (UnT) iPAI agents,
+resulting in four unique probes: (1) OF550Erl(T), (2) OF650Erl(T), (3) OF550Erl(UnT), and (4) OF650Erl(UnT).
+
+## Cell Lines
+The human NSCLC cancer cell line HCC827,
+containing the exon 19 deletion EGFR mutation, used in this study
+was purchased from ATCC (Manassas, VA). The HCC827 cell line was selected
+due to its therapeutic sensitivity to EGFR TKIs.
+,
+ The HCC827 cells were maintained at passage numbers <25 throughout
+experimentation and were regularly tested for mycoplasma contamination.
+The HCC827 cell line was expanded in Roswell Park Memorial Institute
+(RPMI) 1640 medium (Thermo Fisher Scientific, Waltham, MA) containing
+10% fetal bovine serum (FBS) and 1% penicillin/streptomycin/glutamine
+(Thermo Fisher Scientific) and grown in a 37 °C, 5% CO2 incubator.
+
+## In Silico Molecular Dynamics Studies of Erlotinib and iPAI Agents
+In silico molecular dynamics (MD) studies were conducted to assess
+the binding of erlotinib and iPAI erlotinib agents to the EGFR protein.
+The crystal structure of EGFR in complex with erlotinib has been previously
+reported. MolView (molview.org), an open-source
+tool, was used to obtain the structures for the four iPAI agents (OF550Erl(T), OF650Erl(T), OF550Erl(UnT), and
+OF650Erl(UnT)). AutoDock Vina (version 1.1.2, Linux) was
+used to model the docking of erlotinib and iPAI erlotinib agents to
+EGFR. Hydrogen atoms were added to all
+receptors, and grid box dimensions were defined specific to the size
+of the receptor-binding pockets or interfaces. All-atom AMBER-type
+force-field parameters were generated for the four iPAI agents and
+the parent erlotinib. AMBER tools were used to generate gromacs-type
+force fields for the protein–drug complexes and calculate partial charges at HF/6-31G (AM1-BCC). The General AMBER Force Field (GAFF) was used to calculate the bonded and van der
+Waals interactions in the appropriate molecular protonation state.
+A total of six initial configurationsEGFR alone, EGFR + erlotinib,
+EGFR + OF650Erl(T), EGFR + OF650Erl(UnT), EGFR
++ OF550Erl(UnT), and EGFR + OF650Erl(UnT)were
+simulated for 100 ns using the GROningen MAchine for Computer Simulations
+(GROMACS-2018) on a cloud computing cluster at Oregon Health and Science
+University (OHSU, Portland, OR). MD simulations were carried out in
+an aqueous environment. The TIP3P water model was used to solvate
+the system in an aqueous environment, with counterions (Na+ or Cl–) added to ensure charge neutrality. A 3D
+periodic box was used to center the complex within at least 1 nm of
+the edge, accounting for >2 nm of solvent buffer. The equilibration
+and production runs were completed in an isothermal–isobaric
+(NPT) ensemble, where the temperature was maintained at 300 K and
+the pressure was maintained at 1 bar using a V-rescale thermostat and a Parrinello–Rahman barostat, respectively.
+The MD simulations employed a leapfrog algorithm with a 2 fs time
+step to integrate the equations of motion. The long-ranged electrostatic
+interactions were calculated using the particle mesh Ewald (PME) algorithm with a real-space cutoff of 1.2 nm.
+Lennard–Jones (LJ) interactions were also truncated at 1.2
+nm. Root-mean-square deviations (RMSDs) of the complex structures
+were calculated as a function of time to monitor when the systems
+reached equilibration. To study the fluctuations in EGFR residues
+upon interaction with different probes, the RMSF was calculated using
+GROMACS functions as follows.
+The average binding free energy
+was derived from the Gibbs free energy, G
+
+1G=Ebnd+Eel+EvdW+Gpol+Gapol−TS2G=GMM+Gpol+Gapol−TSwhere G
+MM, G
+pol, and G
+apol represent
+the molecular mechanics, polar, and apolar contributions, respectively.
+E
+
+bnd
+ represents the bond energy, E
+el represents
+the electrostatic energy, and E
+vdW represents
+the van der Waals energy. The entropic contribution (TS) was not included
+in our calculations. The GROMACS g_mmpbsa package
+was used to obtain the G
+MM, G
+pol, and G
+apol contributions.
+,
+ This package allowed the user to define the protein and ligand during
+the calculation and measure the average binding free energy between
+the ligand and protein, ΔG, as follows
+3ΔG=Gcomplex−(Gprotein+Gligand)where G
+complex represents the free energy of the ligand–protein complex, G
+protein represents the free energy of the protein
+in its unbound state, and G
+ligand represents
+the free energy of the ligand in its unbound state.
+
+## In Vitro iPAI Studies
+Cells were plated in phenol-red-free
+media at a density of 1 × 105 cells/ml (100 μL/well)
+in 96-well glass-bottomed cell culture plates. After equilibrating
+cells for 24 h at 37 °C and 5% CO2, cells were stained
+with Cetuximab (Eli Lilly and Co., Indianapolis, IN) that was directly
+conjugated to Alexa Fluor 488 (AF488, Thermo Fisher Scientific, final
+concentration = 5 μg/mL with a dye-to-protein ratio of 3.3)
+for 45 min at 37 °C and at 5% CO2, followed by brief
+rinsing in prewarmed phosphate-buffered saline (PBS). iPAI-targeted
+agents (OF650Erl(T) and OF550Erl(T)) and iPAI
+control agents (OF550Erl(UnT) and OF650Erl(UnT)) were applied to distinct cells at the following equal molar concentrations:
+paired targeted agents at 250 nM; and paired control agents at 2 μM.
+iPAI agents were allowed to incubate for 1 h at 37 °C and 5%
+CO2. The media in all wells were briefly washed five times
+with 100 μL per wash using phenol-red-free media and then replaced
+with fresh media prior to imaging on a Zeiss AxioObserver (Carl Zeiss
+AG, Oberkochen, Germany) modified with a Yokogawa CSU-X1 spinning
+disk confocal unit outfitted with a 20x-0.8 PlanApo objective. The
+following exposure times and excitation (x) and emission (m) filter
+combinations were utilized for image collection: AF488 at 2000 ms,
+470/40x, 525/50m; OF550 at 2000 ms, 550/25x, 605/70m; and OF650 at
+2000 ms, 640/30x, 690/50m.
+
+## MTS Assay Validation
+To determine the in vitro half-maximal
+inhibitory concentration (IC50), cells were trypsinized,
+counted, and plated in 96-well glass-bottomed cell culture plates
+(Cellvis, Mountain View, CA) at a density of 5 × 104 cells/ml (100 μL/well). Cells were allowed to adhere and equilibrate
+overnight at 37 °C and 5% CO2. The culture medium
+was then replaced with increasing concentrations of the parent drug,
+OF650Erl(T), or OF550Erl(UnT) (0–10 μM)
+and allowed to incubate at 37 °C and 5% CO2. After
+72 h, 20 μL of the MTS CellTiter 96 AQueous One Solution
+Cell Proliferation Assay Reagent (Promega, Madison, WI) was added
+to each well and gently mixed. The cells were incubated for an additional
+3 h at 37 °C with 5% CO2. The plates were read for
+absorbance at 490 nm (SpectraMax M5, Molecular Devices, Sunnyvale,
+CA). The wells containing only media were used as a positive (untreated)
+control for cell viability signal, and cells permeabilized with 0.1%
+Triton-X served as a negative control. GraphPad Prism (La Jolla, CA)
+was used to analyze the resulting dose–response curves.
+
+## Kinase Binding Assay
+In vitro binding affinity was
+evaluated for the fluorescently labeled EGFR iPAI agents and parent
+erlotinib using the Z’-LYTE kinase assay via the Thermo Fisher
+Scientific SelectScreen Kinase Profiling Service. Briefly, the individual
+compounds were screened over a titration curve starting at 10 μM
+against purified EGFR and the associated Tyr04 fluorescent ligand.
+The resulting inhibition behavior was analyzed by using GraphPad Prism.
+
+## In-Cell Western Assay
+HCC827 cells were seeded at 4
+× 104 cells/well into a black-walled 96-well plate
+(Greiner) using culture media and incubated overnight at 37 °C
+and 5% CO2. The cells were then incubated with either parent
+erlotinib (0–5 μM), OF650Erl(T) (0–50
+μM), or OF550Erl(UnT) (0–50 μM) for
+24 h. Control cells were treated with human epidermal growth factor
+(GE Biosciences, Piscataway, NJ) at 100 ng/mL for 30 min at 37 °C
+and 5% CO2 prior to the initiation of the in-cell western
+assay. After incubation and between each of the following steps, the
+wells were washed three times with Dulbecco’s phosphate-buffered
+saline (DPBS) containing Mg2+ and Ca2+. Cells
+were fixed in a 4% paraformaldehyde (PFA) solution for 15 min, permeabilized
+with 0.1% Triton-X-100 in PBS containing Mg2+ and Ca2+ for 45 min, and blocked with intercept blocking buffer for
+1 h at room temperature. The cells were incubated with primary anti-EGFR
+(Thermo Fisher Scientific) and anti-pEGFR (Cell Signaling Technology,
+Danvers, MA) antibodies overnight at 4 °C. Wells were subsequently
+incubated with IRDye 800CW-labeled goat antimouse and VRDye 490-labeled
+goat antirabbit IgG secondary antibodies at room temperature for 2
+h. After washing, 100 μL of DPBS containing Mg2+ and
+Ca2+ was added to each well for imaging. The plate was
+scanned on Odyssey M (LI-COR Biosciences, Lincoln, NE) using the plate
+scanning function in the 488 and 800 nm channels, and the mean fluorescence
+of each well was determined using Empiria Studio (LI-COR Biosciences).
+
+## Animal Care and Use
+All animal experiments were approved
+by the OHSU Institutional Animal Care and Use Committee (IACUC) and
+conducted under approved protocol TR04_IP00000202. Mice were housed
+in an OHSU vivarium, an IACUC and AAALAC-approved facility, and were
+inspected daily and supplied with standard food and water to ensure
+that they were not in pain or distress throughout the duration of
+the experiments. At least 1 week prior to tumor resection, mice were
+placed on a chlorophyll-free diet (Animal Specialties, Inc., Hubbard,
+OR). All rodent surgical procedures were carried out under full anesthesia,
+utilizing a 90/10 mixture of ketamine/xylazine. Ketamine (Hospira
+Inc., Lake Forest, IL) was administered at a dose of 100 mg/kg, and
+xylazine (AnaSed, Shenandoah, IA) was administered at a dose of 10
+mg/kg by intraperitoneal (IP) injection. The toe pinch method confirmed
+the depth of anesthesia and ensured a lack of reactivity prior to
+the commencement of any surgical procedures. Mice euthanasia was initiated
+by standard carbon dioxide inhalation under full anesthesia at the
+end of each experiment. Euthanasia of all mice was confirmed by physical
+examination to ensure that heartbeat and respiration had ceased. This
+method of euthanasia is humane, rapid, and consistent with the recommendations
+of the Panel on Euthanasia of the American Veterinary Medical Association.
+
+## Mouse Xenograft Models
+Athymic nude mice (Homozygous
+490, Charles River Laboratories, Wilmington, MA) were implanted with
+HCC827 cells to generate a cell line-derived xenograft (CDX) model
+for in vivo erlotinib dosing studies. Cultured cells were first trypsinized
+and resuspended in RPMI phenol-red-free media without serum to a concentration
+of 3 × 107 cells/ml. Cells were implanted into the
+rear flanks of anesthetized mice at a final concentration of 1.5 ×
+106 cells/flank in 50% (v/v) Matrigel (Corning Inc., Corning,
+NY), resulting in two tumors per mouse. A total of two athymic nude
+mice were implanted for two cohorts included in an in vivo competitive
+binding study: iPAI agent (OF650Erl(T) and OF550Erl(UnT)) injected mice or iPAI agent (OF650Erl(T) and OF550Erl(UnT)) plus parent erlotinib injected mice. A total of n = 12 athymic nude mice were implanted for two dosing cohorts:
+one for erlotinib treatment and one for control mice without erlotinib
+treatment. Mice were monitored daily after implantation for tumor
+growth and body weight. Tumor growth was recorded every 3 days until
+tumors reached ∼300 mm3.
+
+## In Vivo Competitive Binding
+HCC827 xenograft-bearing
+mice were systemically administered parent erlotinib via tail vein
+injection 24 h prior to systemic administration of equivalent doses
+of parent erlotinib and OF650Erl(T) and OF550Erl(UnT) (all at 2.5 mg/kg) 4 h prior to mouse euthanasia and tumor resection.
+The resected tumor tissues were immediately frozen in optimal cutting
+temperature compound (OCT; Fisher Scientific, Hampton, NH) in blocks
+prior to sectioning at a thickness of 10 μm. Tissue sections
+were subsequently imaged on a Zeiss AxioScan.Z1 slide scanner (detailed
+below) using the Cy2 channel (for autofluorescence focal map generation),
+Cy3 channel (for OF550Erl(UnT)), and Cy5 channel (for OF650Erl(T)). After image acquisition, a custom MATLAB script was
+used to calculate DTA images on a per-pixel basis for each tissue
+image.
+,
+ DTA was calculated as
+4drugtargetavailability(DTA)=αITIUTwhere I
+
+T
+ represents the signal from the targeted agent OF650Erl(T), I
+
+UT
+ represents the
+signal from the untargeted agent OF550Erl(UnT), and α represents a scaling factor to account for the signal
+intensity difference between the target and untargeted agents caused
+by collection in their respective fluorescence imaging channels. The
+scaling factor was determined by imaging the stock-injected solutions
+of targeted and untargeted agents at titrated concentrations on the
+Zeiss AxioScan.Z1 to generate linear calibration trend lines for each
+agent, where the ratio of the slope of the untargeted agent trend
+line to the slope of the targeted agent trend line was defined as
+the scaling factor. DTA for each tissue section was quantified by
+calculating the tissue mean DTA through manual segmentation of the
+tissue using ImageJ version 1.51 (National Institutes of Health, Bethesda,
+MD) and extracting the mean DTA from the tissue sections. The mean
+fluorescence signal or DTA value from each section was divided by
+the highest mean fluorescence or DTA value, respectively, to calculate
+the relative fluorescence intensity or DTA values.
+
+## In Vivo Erlotinib Treatment Studies
+Parent erlotinib
+(LC Laboratories, Woburn, MA) was resuspended in vehicle (0.3% w/v
+sodium carboxymethylcellulose +0.1% v/v Tween 20) and administered
+at 100 mg/kg qd via oral gavage to n = 6 mice until tumors regressed to roughly half their starting volume
+or toxicity was observed.
+−
+
+ Control mice (vehicle-only [n =
+3] or no administration [n = 3]) were treated accordingly
+until the tumors doubled in volume (∼600 mm3). Tumor
+volume was defined as [width2 x length]/2. Mouse weights
+were recorded daily, and any visible signs of toxicity were noted.
+Twenty-four hours following the last erlotinib administration, iPAI
+agents (2.5 mg/kg of both OF650Erl(T) and OF550Erl(UnT)) were coadministered systemically via the tail vein. To serve as
+an additional control, one mouse per treatment cohort was not administered
+the iPAI agent. Tumors were resected 4 h following iPAI agent administration,
+and the tissue was fresh-frozen immediately into the OCT compound.
+All imaging was performed ex vivo after tumor resection
+and tissue sectioning onto glass slides as described below.
+
+## TRIPODD: iPAI + Ab Panel Staining and Imaging
+Frozen
+tissue blocks were sectioned at a thickness of 10 μm (Leica
+Biosystems cryostat, Wetzlar, Germany) onto SuperFrost Plus glass
+slides (ThermoFisher Scientific). To acquire full tissue iPAI fluorescence
+images, unmounted slides were imaged on the Zeiss AxioScan.Z1 slide
+scanner microscope equipped with a Colibri 7 light source (Carl Zeiss
+AG) and Orca Flash4 v.2 (Hamamatsu Photonics, Hamamatsu, Shizuoka,
+Japan). Images were collected with a 20x-0.8 M27 PlanApo objective
+using the following exposure times and excitation (x) and emission
+(m) filter combinations for image collection: OF550 at 300 ms, 550/25x,
+605/70m; and OF650 at 500 ms, 640/30x, 690/50m. Following iPAI imaging,
+tissue sections were fixed in 4% PFA for 10 min at room temperature
+(RT) and stained with an antibody (Ab) viability and EGFR status panel
+using standard immunofluorescence protocols. Briefly, slides were
+washed thrice in PBS for 5 min, followed by trypsinization with 0.3%
+Triton-X-100/PBS for 10 min at RT. Antibodies were introduced in two
+stages. First, upon an additional PBS wash step (3 × 5 min),
+the tissue was incubated with phospho-EGFR mAb (Tyr1068, D7A5, Cell
+Signaling Technology) for 1 h at RT. This was followed by one wash
+with PBS containing Tween 20 detergent PBS-T (1 × 5 min) and
+two washes with PBS (2 × 5 min). The tissue was then stained
+with donkey antirabbit secondary + Alexa Fluor 546 (AF546, Thermo
+Fisher Scientific) for 45 min at RT. Subsequent PBS-T (1 × 5
+min) and PBS (2 × 5 min) washes preceded additional staining
+with a three Ab panel consisting of the following directly conjugated
+mAbs for 1 h at RT: cleaved caspase 3 (CC3, Asp175) + Alexa Fluor
+488 (AF488, Cell Signaling Technology), Ki67 (D3B5) + Alexa Fluor
+647 (AF647, Cell Signaling Technology), and Cetuximab + Cy7 (Eli Lilly
+& Company, Indianapolis, IN; Lumiprobe, Hunt Valley, MD). Tissues
+were washed in PBS and postfixed with 4% PFA for 10 min at RT, prior
+to DAPI staining for nuclear visualization (Sigma-Aldrich, St. Louis,
+MI) and mounting with Fluoromount-G (SouthernBiotech, Birmingham,
+AL). Full tissue Ab panel fluorescence images were acquired on the
+AxioScan.Z1 using the following imaging conditions: UV (DAPI) at 5
+ms, 392.5/12.5x, 445/35m; AF488 (CC3) at 600 ms, 470/40x, 525/50m;
+AF555 (pEGFR) at 1000 ms, 550/25x, 605/70m; AF647 (Ki67) at 200 ms,
+640/30x, 690/50m; and Cy7 (EGFR) at 1000 ms, 710/75x, 810/90m. Tumor
+area and viability were further assessed with standard histology by
+hematoxylin and eosin (H&E) staining. For all whole-slide imaging,
+image tiles were captured with 10% overlap and stitched together using
+Zeiss Zen software to produce a single tissue map.
+
+## TRIPODD Image Analysis
+After iPAI and immunofluorescence
+image data were collected from each tissue section, the image data
+sets were spatially registered. The targeted and untargeted iPAI agent
+images were utilized to generate DTA tissue maps for each section,
+as described in .
+Targeted, untargeted, and DTA images were then manually registered
+to their corresponding EGFR immunofluorescence images, which served
+as fiducial markers for image registration of the iPAI and immunofluorescence
+data sets. Registration of the iPAI and immunofluorescence image data
+was performed with the built-in ImageJ registration plugin, “Align
+image by line ROI.” Cell segmentation and feature extraction
+of the fully registered data sets were performed with QiTissue software
+(QiBiotech Inc., Raleigh, NC). The features that were extracted included
+nuclear size and mean intensity for each marker. Nuclear size was
+used for outlier filtering, where cells smaller than the fifth and
+larger than the 95th quantile of nuclear size were excluded from further
+analysis.
+To equivalently scale the single-cell feature data
+from the segmented cells, the values for each protein marker, targeted
+iPAI agent (OF650Erl(T)) image, untargeted iPAI agent (OF550Erl(UnT)) image, and DTA image were z-scored using the median
+and standard deviation across all cells from untreated tissues for
+each marker. Unsupervised clustering utilizing Euclidean distance
+was applied to assess the potential for administration of vehicle-only
+treatment or iPAI injection to influence protein expression compared
+to the no-treatment administration and no iPAI probe injection groups,
+respectively. Unsupervised clustering was applied to all cells from
+all samples, with no knowledge of the cohort applied to the clustering
+algorithm. K-means clustering (k = 5) was applied
+to all cells from all samples that received iPAI injection to identify
+signatures of therapeutic response or no response. The k = 5 selection was made empirically after evaluating clustering outcomes
+across a range of values (k = 2–7). Lower
+values (e.g., k = 2–3) resulted in overly
+coarse separation that primarily reflected treatment versus control
+status without capturing within-group heterogeneity, whereas higher
+values (k > 5) produced oversegmentation and unstable,
+biologically redundant clusters. Cluster stability was assessed qualitatively
+by comparing cluster composition across independent replicates.
+
+## Results
+
+## In Silico Molecular Dynamics of Erlotinib and iPAI Probe Binding
+Molecular dynamics (MD) simulations were performed to evaluate
+the targeted agent (T) and untargeted agent (UnT) binding behavior
+of the erlotinib iPAI agents ( A) into the EGFR ATP-binding pocket compared with the
+binding of the erlotinib parent drug. The four agent configurations
+that were simulated included (1) OF650Erl(T), (2) OF650Erl(UnT), (3) OF550Erl(T), and (4) OF550Erl(UnT). The iPAI-targeted agents (OF650Erl(T) and OF550Erl(T)) demonstrated binding modes similar to the parent erlotinib
+drug-binding mode ( B). Binding free energies (ΔG) were
+calculated for EGFR bound to the parent erlotinib drug, OF650Erl(T), and OF550Erl(T) ( C). Normalized ΔG for
+EGFR bound to parent erlotinib was −81.84 kJ/mol and −36.44
+kJ/mol for EGFR bound to OF650Erl(T) and −47.71
+kJ/mol for EGFR bound to OF550Erl(T). The molecular dynamics
+of binding between the iPAI-untargeted agents (OF650Erl(UnT) and OF550Erl(UnT)) and EGFR was also assessed. However,
+after minimization, OF650Erl(UnT) completely dissolved
+from EGFR, while OF550Erl(UnT) stayed intact but was pulled
+out from the EGFR-binding pocket, showing their untargeted behavior
+(Figure S1A,B). Since the control agents
+did not bind to EGFR, the binding free energies could not be reliably
+calculated.
+ 
+
+## In Vitro iPAI Agent Binding and Targeted Activity Characterization
+Targeted and untargeted behavior of erlotinib iPAI agents was evaluated
+in vitro by costaining cells with the iPAI agents and EGFR immunofluorescence
+to compare iPAI agent cellular localization to that of the EGFR protein.
+The untargeted iPAI agents (OF550Erl(UnT) and OF650Erl(UnT)) demonstrated diffuse intracellular localization within
+the cytoplasm ( D). Overlaid images of the untargeted iPAI agents and EGFR immunofluorescence
+showed that both untargeted iPAI agents had similar cytoplasmic localization,
+while EGFR localized to the cell membrane showed minimal colocalization
+of the EGFR protein with either of the untargeted iPAI agents. The
+targeted iPAI agents (OF550Erl(T) and OF650Erl(T)) were observed to primarily stain cell membranes, with some intracellular,
+cytoplasmic localization observed. Overlays of the targeted iPAI agents
+and EGFR immunofluorescence images demonstrated colocalization of
+membrane-specific signals, while the intracellular signal from the
+targeted iPAI agents showed minimal colocalization with EGFR antibody
+staining ( D).
+Notably, both colors (i.e., OF550 and OF650) of the targeted and untargeted
+iPAI agents exhibited highly colocalized in vitro staining patterns,
+permitting selection of a single pair for additional characterization,
+where the OF650Erl(T) and OF550Erl(UnT) iPAI
+pair were used in subsequent studies.
+Targeted activity was
+further characterized by quantifying therapeutic efficacy and binding
+affinity, as quantified using percent inhibition and pEGFR/EGFR ratios
+of the selected iPAI-targeted and untargeted pair, OF650Erl(T) and OF550Erl(UnT), compared to the unlabeled parent erlotinib.
+Therapeutic efficacy was quantified in the erlotinib-sensitive HCC827
+cells. The untargeted iPAI agent, OF550Erl(UnT), showed
+minimal effect on cell proliferation at doses ranging from 0 to 10
+μM. The targeted iPAI agent, OF650Erl(T), demonstrated
+dose-dependent proliferation inhibition in HCC827 cells but exhibited
+lower therapeutic efficacy than unlabeled, parent erlotinib ( A). Percent inhibition
+quantification showed that parent erlotinib exhibited dose-dependent
+kinase binding and superior affinity to either the targeted or untargeted
+iPAI agents. The targeted iPAI agent exhibited a greater kinase binding
+affinity than the untargeted iPAI agent, which showed a minimal kinase
+binding affinity ( B). Binding efficiency was also quantified as the ratio of
+pEGFR to EGFR expression measured by immunofluorescence for cells
+treated with either parent erlotinib, OF650Erl(T), or OF550Erl(UnT). Parent erlotinib showed substantially greater binding
+efficiency than either iPAI agent, where low pEGFR/EGFR ratios were
+observed with doses >10 μM of the parent erlotinib. Similar
+to other validation assays, OF650Erl(T) showed a greater
+binding efficiency than OF550Erl(UnT). Cells dosed with
+OF650Erl(T) showed pEGFR/EGFR ratios that decreased with
+increasing dose. However, for cells treated with OF550Erl(UnT), there was no observable dose-dependent relationship between pEGFR/EGFR
+ratios and administered dose. further validating the targeted and
+untargeted behavior of each iPAI agent ( C).
+ 
+
+## In Vivo Competitive Binding of iPAI Agents and Erlotinib Parent
+Drug
+Competition for the erlotinib EGFR-binding site was
+assessed for the targeted iPAI agent and parent erlotinib via in vivo
+administration in tumor-bearing mice. HCC827 xenograft-bearing mice
+were administered either the erlotinib iPAI agent pair only or the
+erlotinib iPAI probe pair plus the parent erlotinib TKI. Targeted
+and untargeted iPAI agent intensities were measured on whole-tissue
+section images, enabling the quantification of relative fluorescence
+intensities and calculation of DTA for each representative image ( D). The relative
+targeted iPAI agent intensity was highest in the HCC827 tissue following
+erlotinib iPAI agent administration without parent erlotinib. The
+HCC827 tissue that received both the erlotinib iPAI agents and erlotinib
+parent TKI exhibited a 27% lower relative targeted iPAI agent intensity.
+In contrast, the relative untargeted iPAI agent signal was only 10%
+lower in the HCC827 tissue that received both the erlotinib iPAI agents
+and parent erlotinib compared to the HCC827 tissue that received only
+the iPAI agents. DTA tissue maps were calculated for each tissue section
+and scaled equivalently by applying the same contrast settings to
+both DTA tissue maps. Calculated relative DTA showed a 42% increase
+in the tissue that received the erlotinib iPAI agents only vs coadministration
+of the agents with parent erlotinib, demonstrating that the targeted
+iPAI agent competes for the same EGFR-binding sites as the parent
+erlotinib. Comparing the relative targeted iPAI probe intensities
+alone (i.e., 73%) to the binding difference by DTA (i.e., 58%) suggests
+that there is ∼15% more bound parent erlotinib when measured
+by DTA compared to when measured by targeted iPAI probe intensity
+alone. This suggests that nonspecific accumulation of the targeted
+iPAI probe can skew results and cause underestimation of the targeted
+bound drug, in this case, erlotinib ( B).
+
+## Erlotinib Treatment of HCC827 CDX Mice
+After HCC827
+xenografts reached ∼300 mm3, mice were randomly
+selected for placement into one of the following cohorts: (1) 100
+mg/kg erlotinib treatment, (2) vehicle-only, or (3) no treatment (n = 4 mice per group). Once tumors doubled in volume (600
+mm3) or shrank to 100 mm3, mice were euthanized,
+tumors were resected, and the tissue was processed for TRIPODD analysis
+( A). The treated
+cohort demonstrated sensitivity to erlotinib, as evidenced by a rapid
+decrease in tumor volume, while the control mice displayed a notable
+increase in tumor volume ( B). Bodyweight also decreased in the erlotinib-treated
+cohort compared with the control mice whose body weight remained stable
+( C). Similar
+trends in tumor volume growth and body weight change were observed
+between the two control cohorts (Figure S2).
+ All tissues were processed by using the TRIPODD
+analysis platform.
+Following spatial registration, cell segmentation, and processing
+of iPAI and immunofluorescence imaging data, unsupervised clustering
+of the cells revealed that there was minimal difference in protein
+expression between the vehicle-treated and no-treatment populations
+within the control cohorts. Therefore, samples from the vehicle-treated
+and no-treatment groups were considered as a single control cohort
+in downstream analyses (Figure S3A). Unsupervised
+clustering comparing mice injected with iPAI agents and mice not injected
+with iPAI agents further revealed that the single iPAI dose had minimal
+effect on protein expression (Figure S3B).
+K-means clustering of single-cell feature data revealed
+five distinguishable
+cell populations ( A). Clusters 1 and 3 were largely composed of cells from the
+control group and shared similar EGFR, pEGFR, and Ki67 levels as markers
+of cell viability. The major observed differences between clusters
+1 and 3 were the increased levels of cleaved caspase 3 (CC3), targeted
+and untargeted iPAI agent signals, and DTA. Cells from tissues treated
+with 100 mg/kg erlotinib were separated into three distinct clusters
+(i.e., clusters 2, 4, and 5). Cluster 2, 4, and 5 were all composed
+of cells with decreased cell viability proteomic signatures (i.e.,
+EGFR, pEGFR, and Ki67) relative to the median value of control tissues.
+Clusters 2, 4, and 5 also all exhibited targeted and untargeted iPAI
+agent levels greater than the median value of vehicle-treated cells.
+Cluster 2 was composed of cells largely with CC3 expression near the
+median level in vehicle-treated cells and DTA below the median value
+of vehicle-treated cells. Cluster 4 contained cells with a high expression
+of CC3, relative to the median levels of vehicle-treated cells, indicative
+of cells undergoing apoptosis. Additionally, cells in cluster 4 generally
+exhibited DTA values below the median DTA of cells from the control
+cohort. Cluster 5 showed a similar distribution of CC3 to cluster
+2, but the cells largely exhibited DTA values higher than the median
+DTA from control tissue cells.
+ Visualization of DTA and EGFR spatial patterns
+in a representative
+region of interest from a treated tissue demonstrated lower DTA within
+the tumor cells (EGFR+) relative to the nontumor tissue areas (EGFR–, B). This spatial
+pattern observation aligns with the fact that systemically administered
+iPAI agents were delivered to the xenograft tumor cells through the
+nontumor, mouse vasculature. In these nontumor areas, DTA would be
+higher, as few drug targets would be expressed and minimal drug would
+bind. Additionally, while there were many tumor cells present, as
+delineated by the EGFR+ signal, there were a few proliferating cells,
+consistent with the K-means clustering results. Furthermore, H&E
+staining revealed a loss of tumor cell organization and a decrease
+in the overall population of viable tumor cells ( C). In contrast, a representative
+image from a control tissue showed a greater proportion of Ki67+ tumor
+cells (Figure S4A) and a more organized,
+viable tumor sample (Figure S4B). A scatter
+plot of cell locations within a treated sample, with each cell color-coded
+by cluster identity, revealed a mixture of clusters within a single
+sample ( D,E).
+As shown by the overall K-means cluster results, the three main clusters
+present in the treated sample were clusters 2, 4, and 5, which were
+all largely composed of cells from treated samples. A similar scatter
+plot of cell locations from a representative control sample revealed
+a mixture of clusters 1 and 3, which were composed of untreated cells
+(Figure S4C). In both representative spatial
+plots of the clustering results, distinct regions of tissue were also
+identified, where cells from the same cluster were predominantely
+located together, suggesting that features of the tumor and its TME
+drive proteomic expression, iPAI agent distribution, and DTA levels.
+Signal intensity of all markers was also visually assessed in representative
+ROIs from the control, no-treatment cohort, and the treated cohort
+( ). Height
+maps of DTA signals permitted three-dimensional (3D) visualization
+of DTA intensity, where the height per pixel represented the quantified
+level of DTA at that pixel. Height maps in all images were scaled
+equivalently across the control and treated images for qualitative
+comparison ( A,B). Additionally, the contrast level of
+each immunostained biomarker and DTA was set equivalently across all
+images from both cohorts to enable qualitative assessment. DTA height
+maps between the treated and control images revealed differences in
+the pattern of DTA distribution and in the level of DTA present in
+each cohort. In the control tissue, DTA height map topography and
+pixel pseudo-color intensity were relatively consistent across the
+image ( A).
+Additionally, in the control tissue, expression of EGFR ( A, orange box) and
+pEGFR ( A, pink
+box) were consistent across the images. Cell proliferation, as visualized
+by Ki67 expression, was homogeneous across the control tissue ROI,
+while cell apoptosis, as visualized by CC3, was not readily observed
+in this representative ROI. In contrast to the control tissue, the
+DTA map for the treated sample showed substantially more heterogeneity
+in the DTA height map topography and pixel intensity ( B). Furthermore, positive EGFR
+( B, orange
+box) and pEGFR ( B, pink box) signals were present but were more heterogeneous than
+in the control sample. Additionally, in the treated sample, Ki67 expression
+appeared more limited, while CC3 expression was readily visible. Notably,
+these qualitative observations on the ROIs of representative images
+were in alignment with the quantified results ( and S4).
+ 
+
+## Discussion
+Accurate quantification of drug localization
+within the TME is
+paramount to understanding and predicting therapeutic outcomes for
+patients. Many molecularly targeted therapeutics bind to intracellular
+targets, which are not readily accessible in live cells due to the
+plasma membranes. Furthermore, current drug engagement measurements
+are largely limited to bulk sampling (e.g., plasma analysis) and indirect
+measurements of therapeutic response (e.g., western blotting). Efficiently
+modifying standard-of-care therapeutics with fluorescent readouts
+provides a unique opportunity to probe high-affinity, small-molecule
+targeted drugs with direct relevance to the clinic. As such, cell
+membrane-permeant, fluorescently labeled small molecules targeting
+intracellular domains afford the unique opportunity to probe the intracellular
+proteome and quantify therapeutic efficacy. Herein, fluorescently labeled erlotinib probes were utilized to
+quantitatively evaluate DTA of the EGFR kinase signaling cascade,
+an attractive therapeutic target, owing to the aberrant nature of
+this pathway in many diseases. The TRIPODD platform provides an opportunity
+to fill an unmet need by combining spatially resolved iPAI and cyclic
+immunofluorescence on a single tissue.
+,
+
+The validation
+of targeted and untargeted iPAI agent activity,
+as well as extension of the TRIPODD platform to assess longitudinal
+therapeutic response, was evaluated. The on-target binding activity
+of two targeted and two untargeted (control) erlotinib iPAI agentsOF650Erl(T), OF550Erl(T), OF650Erl(UnT), and
+OF550Erl(UnT)to the EGFR ATP-binding pocket was
+assessed using in silico molecular docking studies. Both targeted
+agents, OF650Erl(T) and OF550Erl(T), displayed
+EGFR binding modes similar to those the parent erlotinib drug, demonstrating
+their affinity for the EGFR target ( B). Validation of the untargeted agents,
+OF650Erl(UnT) and OF550Erl(UnT), was also demonstrated,
+as neither agent bound appreciably to the EGFR ATP-binding pocket
+(Figure S1A,B). Binding free energy (ΔG) calculations of all iPAI agent configurations confirmed
+that both targeted agents retain EGFR-binding affinity, while the
+ΔG could not be calculated for either untargeted
+agent since neither successfully bound to the EGFR ATP-binding pocket
+( C and S1). Root-mean-square fluctuation (RMSF) of parent
+erlotinib and all iPAI probe configurations confirmed that all erlotinib
+iPAI agent configurations facilitated some conformational changes
+in EGFR around the protein residues 845–852 (Figure S1C,D).
+Further iPAI probe validation was assessed
+in vitro by costaining
+HCC827 cells with an EGFR extracellular domain-targeted antibody and
+either the targeted iPAI probes, OF650Erl(T) and OF550Erl(T), or the untargeted iPAI probes, OF650Erl(UnT) and OF550Erl(UnT) ( D). Minimal colocalization with the cell membrane-specific
+staining pattern of the EGRF antibody was observed for both untargeted
+agent configurations (i.e., OF650Erl(UnT) and OF550Erl(UnT)), demonstrating their untargeted activity and reduced
+EGFR-binding affinity. In contrast, substantial cell membrane-specific
+staining patterns, colocalized with the EGFR antibody, were observed
+for the targeted agent configurations (i.e., OF650Erl(T) and OF550Erl(T)). Additionally, no major difference in
+the staining pattern was observed between the two targeted agent configurations.
+Observed colocalization between the targeted probes and the EGFR antibody
+provided in vitro validation of the on-target activity of the targeted
+iPAI agents. Considering this in vitro result along with the in silico
+molecular docking studies, the optimal iPAI agent pair configuration
+was determined to be OF650Erl(T) and OF550Erl(UnT) for subsequent studies utilizing iPAI agents.
+Therapeutic
+efficacy of the optimal iPAI agent pair, OF650Erl(T) and
+OF550Erl(UnT), was assessed to determine
+the extent to which therapeutic efficacy was perturbed after erlotinib
+fluorophore modification. The half-maximal inhibitory concentration
+(IC50) values for unlabeled, parent erlotinib, and OF650Erl(T) and OF550Erl(UnT) were quantified ( A). Parent erlotinib
+demonstrated the greatest IC50 concentration value, 0.27
+nM, followed by OF650Erl(T), 8.62 nM. Notably, the IC50 value of OF550Erl(UnT) could not be calculated,
+as no concentration of OF550Erl(UnT) demonstrated an observable
+in vitro inhibitory effect. Notably, the targeted agent, OF650Erl(T), demonstrated proliferation inhibitory activity (IC50 = 8.62 μM), albeit with reduced efficacy compared
+to the parent erlotinib (IC50 = 0.27 μM). A similar
+result was also observed in a kinase binding assay comparing parent
+erlotinib with OF650Erl(T) and OF550Erl(UnT) for EGFR kinase binding affinity in vitro ( B). Kinase binding affinity, measured by
+percentage kinase inhibition, demonstrated that OF550Erl(UnT) had the lowest kinase binding affinity of 3.73 μM, while OF650Erl(T) exhibited substantially greater kinase binding affinity
+of 16.84 nM, although this remained lower than that of parent erlotinib,
+which demonstrated a kinase binding affinity of 0.40 nM. The binding
+free energy of OF650Erl(T) was ∼55% lower than that
+of parent erlotinib, indicating that OF650Erl(T) had lower
+binding affinity for the EGFR ATP-binding pocket and therefore lower
+efficacy than parent erlotinib. Together, these in vitro binding studies
+confirmed the targeted iPAI agent reliably maintained binding affinity
+to EGFR as a robust readout for erlotinib localization, while the
+untargeted, the control iPAI agent had the expected disrupted binding
+affinity to mimic nonspecific therapeutic binding.
+In vivo validation
+of targeted and untargeted iPAI agent activity
+was quantified through a competitive binding study in xenografted
+tumor tissue ( D). There was a greater relative decrease in fluorescence signal
+intensity in the targeted agent imaging channel compared to the untargeted
+agent imaging channel in the tissues when the iPAI probes were coadministered
+with parent erlotinib (i.e., competitive binding tissues). This suggested
+that the targeted agent competed with parent erlotinib for the EGFR
+ATP-binding sites. Furthermore, the calculated relative DTA in the
+competitive binding tissue was 42% lower than that of tissues that
+received only the iPAI agents without the parent erlotinib. This data,
+in conjunction with our previously reported studies,
+,,
+ demonstrated the potential of
+the DTA metric to detect the presence of parent erlotinib and therefore
+the potential for the TRIPODD platform to characterize drug-binding
+spatial distribution during the treatment course.
+As a proof-of-principle
+to assess therapeutic response using the
+TRIPPODD platform, HCC827 xenograft-bearing mice were divided into
+either control or erlotinib treatment cohorts, where iPAI agents were
+injected just prior to euthanasia. Unsupervised cluster analysis revealed
+that iPAI injection had minimal influence on biomarker expression
+(Supporting Figure 2A). Following tumor
+tissue resection, image collection (i.e., iPAI and immunofluorescence
+imaging), and downstream analysis, most control cohort cells retained
+similar “cell viability” biomarker expression, defined
+herein as EGFR, pEGFR, and Ki67 ( A). However, the control tissue cells displayed
+variability in cleaved caspase 3 (CC3), targeted and untargeted iPAI
+agent uptake, and DTA, which resulted in statistical separation of
+clusters 1 and 3. This observation was additionally evident through
+the spatial distribution of iPAI agents. Therefore, the heterogeneous
+erlotinib parent drug distribution in untreated xenograft tissues
+may be due to key features of tissue architecture, such as vasculature
+and lymphatics, for transport.
+The iPAI signatures of the treated
+cells fluctuated across three
+unique clusters, demonstrating the variability of drug delivery and
+subsequent distribution across tissues. Notably, DTA was decreased
+in the presence of parent erlotinib, indicating an inverse relationship
+between DTA and the presence of parent erlotinib. However, a comparison
+of the full TRIPODD signature (i.e., iPAI + immunofluorescence single-cell
+intensities) suggested that cluster 4 was composed mostly of apoptotic
+cells (CC3-positive), demonstrating that DTA alone was insufficient
+to characterize the therapeutic effect. A comparison of the nonapoptotic
+TRIPODD signatures observed in clusters 2 and 5 revealed similar cell
+viability signatures, while EGFR, pEGFR, and Ki67 were quantified
+at subcontrol levels. This was in line with the measured sensitivity
+of HCC827 cells to erlotinib treatment. However, the major difference
+between clusters 2 and 5 was in their DTA levels. The TRIPODD signature
+in cluster 2 suggested that while exhibiting the effects of treatment
+with measurable erlotinib still present in the cells as measured by
+DTA, these cells were not yet undergoing apoptosis. Therefore, the
+TRIPODD signature in cluster 5 suggested that a sublethal dose of
+erlotinib had reached these cells, as apoptosis did not appear to
+be ongoing based on the CC3 levels. This sublethal dose delivery resulted
+in suppressed cell viability, which subsequently resulted in a more
+rapid clearance of the lower drug concentration from the cells, which
+led to elevated DTA levels. The spatial variability of DTA in treated
+tissues was visualized as variable DTA levels ( B). Interestingly, there were regions of
+high DTA in the nontumor cell regions that were identified by the
+lack of EGFR. Since the nontumor cell regions were mouse stromal tissue
+where erlotinib and iPAI agents were delivered through the mouse vasculature,
+spatial mapping of the various cluster identities per cell was identifiable,
+where a mix of clusters was observed on a single tissue section, demonstrating
+the potential for inter- and intratumoral variability of drug delivery
+( E).
+Notably, the signatures of DTA and protein expression were also
+visualized in representative ROIs from a control, untreated tissue
+sample, and a treated tissue sample ( ). The 3D height map of DTA from the control
+sample showed baseline DTA topography ( A). In the control samples where erlotinib
+was not present, it was evident that DTA was roughly equivalent across
+the ROI with slight variations, as visualized by the DTA height map,
+which was supported by the clustering of untreated cells to clusters
+1 and 3 ( A).
+Importantly, clusters 1 and 3 did not exhibit marked differences in
+proteomic expression. Comparison of the DTA topography in the treated
+tissue versus that in the control tissue showed substantially greater
+DTA heterogeneity in the treated samples ( B). Importantly, the areas with low DTA were
+largely composed of viable tumor cells, which were positive for EGFR,
+pEGFR, and Ki67, and dying cells, which were positive for CC3. This
+was indicative of bound erlotinib in these areas where the molecular
+target was present and likely to bind in the erlotinib-sensitive HCC827
+xenografts. The surrounding areas, where DTA was elevated, showed
+some CC3-positive cells but mostly appeared as cells devoid of positive
+signal for any of the stained biomarkers, suggesting that they may
+have been mouse stromal tissue infiltrate or areas of dead cells that
+no longer expressed CC3, and erlotinib was no longer present. Notably,
+these qualitative observations were in alignment with the results
+of the performed cluster analyses. Clusters 2 and 5 were largely composed
+of tumor cells that had not yet undergone apoptosis, with the major
+difference being in the DTA levels. Inspection of the treated tissue
+DTA maps revealed that some areas of viable tumor were adjacent
+to nontumor areas with high DTA, while other viable tumor cells appeared
+to have lower DTA. It is unclear what factors influenced the difference
+in DTA between clusters 2 and 5 in the current work and will be investigated
+further in subsequent studies. The confirmation of the quantitative
+cluster analysis results and the qualitative observations in the representative
+ROIs provided evidence that DTA can be a spatially resolved metric
+for assessing a single-cell therapeutic response for the first time
+in a longitudinal treatment study ( ).
+ This proof-of-principle longitudinal erlotinib treatment
+study
+in HCC827 xenograft tissues demonstrated the utility of the TRIPODD
+platform to identify unique signatures of therapeutic response and
+nonresponse using the combination of iPAI and immunofluorescence signatures.
+The relatively small sample size was intentional for this proof-of-principle
+study, where future studies will require an increased sample size
+to evaluate the TRIPODD platform’s ability to identify unique
+signatures of therapeutic response. The increased sample size will
+also enable exploration into the impact that reduced affinity by the
+targeted probe relative parent drug has on analysis results in cases
+where DTA fails to correlate with biomarker signatures. The limited
+immunofluorescence panel in this proof-of-principle study did not
+facilitate further spatial analysis of tissue architecture to assess
+this observation and identify key tissue architectural features (e.g.,
+vasculature and lymphatic vessels) that may play a role in variable
+drug delivery. Future studies will incorporate extended immunofluorescence
+panels to study downstream cell signaling in the EGFR cascade, as
+well as the role that tissue architecture plays in the TRIPODD signatures
+to enhance spatial analyses of local neighborhoods of similar TRIPODD
+signatures and the use of more sophisticated clustering approaches,
+facilitating greater resolution of TRIPODD signatures.
+−
+
+ Additionally, the HCC827 xenograft model was employed for the development
+and validation of the TRIPODD platform, but future studies will incorporate
+immune-competent model systems to assess the role of the TME and immune
+infiltrate in drug delivery and efficacy. Additionally, future studies
+will incorporate later-generation EGFR TKIs (e.g., osimertinib), which
+are superior to erlotinib in effectively treating EGFR-mutated NSCLC, increasing the generalizability of the TRIPODD
+platform. The data presented herein provide validation of the TRIPODD
+imaging platform’s capability to characterize in situ therapeutic
+response and mechanisms of therapeutic resistance. The TRIPODD platform
+can be readily applied to a broad range of model systems, where further
+development of platform will enable the study of novel therapeutic
+strategies.
+
+## Supplementary Material
+
+## Acknowledgments
+The authors would like to thank Dr. Stefanie
+Kaech Petrie,
+Dr. Crystal Chaw, Dr. Brian Jenkins, Dr. Felice Kelly, and Ms. Hannah
+Bronstein in the Advanced Light Microscopy at OHSU for technical and
+acquisition assistance with AxioScan.Z1 slide scanning microscopy
+studies. This work was funded by an ASPIRE Award from the Mark Foundation
+for Cancer Research (Gibbs) and R21CA257942 from the NIH/NCI (Gibbs).
+
+The Supporting Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/acs.molpharmaceut.5c01220.
+In silico molecular docking studies for the untargeted
+erlotinib agents, tumor growth and weight curves demonstrating that
+vehicle treatment did not affect either parameter, clustering results
+showing that neither vehicle injection nor iPAI injection affected
+measured protein expression, and TRIPODD platform characterization
+of the control tumor tissues (PDF)
+
+∇.N.P.M. and A.S. contributed equally to this
+work.
+
+The authors declare
+the
+following competing financial interest(s): L.G.W., A.R.M. and S.L.G.
+are inventors on patent application PCT/US21/53806, Zwitterionic cell-permeant
+and water-soluble rhodamine dyes for quantitative imaging applications,
+submitted to the World Intellectual Property Organization and held
+by Oregon Health and Science University that covers the composition
+and methods of use of the ORFluor compounds used herein.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials

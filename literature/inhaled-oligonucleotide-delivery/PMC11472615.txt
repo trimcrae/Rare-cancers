@@ -1,0 +1,393 @@
+3946starprotSTAR ProtocolsSTAR ProtocElsevierPMC1147261511472615114726153935664010.1016/j.xpro.2024.103336Protocol for simultaneous detection of mRNAs and (phospho-)proteins with ARTseq-FISH in mouse embryonic stem cells
+HuXinyu van SluijsBob García-BlayÓscar HuckWilhelm TS HansenMaike MK 1Institute for Molecules and Materials, Radboud University, Heyendaalseweg 135, 6525 AJ Nijmegen, the Netherlands2Oncode Institute, Nijmegen, the Netherlands∗Corresponding author w.huck@science.ru.nl
+∗∗Corresponding author maike.hansen@ru.nl
+3Technical contact
+4Lead contact
+11020245410333610333614102024© 2024 The Author(s)This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).
+
+## Summary
+Understanding the molecular signatures of individual cells within complex biological systems is crucial for deciphering cellular heterogeneity and uncovering regulatory mechanisms. Here, we present a protocol for simultaneous multiplexed detection of selected mRNAs and (phospho-)proteins in mouse embryonic stem cells using spatial single-cell profiling. We describe steps for employing single-stranded DNA (ssDNA)-labeled antibo'dies, padlock probes, and rolling circle amplification to achieve simultaneous visualization of mRNAs and (phospho-)proteins at subcellular resolution. This protocol has potential application in identifying cells in heterogeneous biological microenvironments.
+For complete details on the use and execution of this protocol, please refer to Hu et al. 
+Subject areas: Single Cell, Genomics, RNA-seq, Molecular Biology, Gene Expression, Antibody, In Situ Hybridization
+
+## Graphical abstract
+ 
+
+## Highlights
+•Guidelines for probe design and instructions for antibody conjugation
+•Optimized protocol for combining the hybridization of selected mRNAs and proteins
+•Image-based multiplexed detection of mRNAs and (phospho-)proteins in single cells
+•Application of ARTseq-FISH for other cell lines and detection approaches (FACS)
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+Understanding the molecular signatures of individual cells within complex biological systems is crucial for deciphering cellular heterogeneity and uncovering regulatory mechanisms. Here, we present a protocol for simultaneous multiplexed detection of selected mRNAs and (phospho-)proteins in mouse embryonic stem cells using spatial single-cell profiling. We describe steps for employing single-stranded DNA (ssDNA)-labeled antibodies, padlock probes, and rolling circle amplification to achieve simultaneous visualization of mRNAs and (phospho-)proteins at subcellular resolution. This protocol has potential application in identifying cells in heterogeneous biological microenvironments.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoCollection date 2024 Dec 20.
+
+## Before you begin
+The protocol below describes the steps for simultaneously profiling of message ribonucleic acid (mRNAs), proteins, and phosphoproteins in individual mouse embryonic stem cells (mESCs). The method is antibody and mRNA targeting sequential fluorescence in situ
+hybridization (ARTseq-FISH). ARTseq-FISH detects mRNAs and proteins at the same resolution and is scalable, which enables analysis without the need to integrate transcriptomic and proteomic data.
+ARTseq-FISH requires antibodies conjugated with a single stranded deoxyribonucleic acid (ssDNA) sequence, a series of ssDNA probes, and enzymatic reactions. In this protocol, we describe the antibody conjugation, design of the probes, step-by-step procedure of ARTseq-FISH, and the visualization of the detected signals. We optimized ARTseq-FISH on mESCs and provide the specific workflow of performing ARTseq-FISH on mESCs to quantify 67 mRNAs and (phospho-)proteins in micropatterned mESCs during the exit of pluripotency. Furthermore, this technique was partially validated in MCF7 and 3T3 cells and we expect it to be readily adaptable to any cell-type or tissue type. We visualized the detected signals either by microscopy or flow cytometry.
+
+## Institutional permissions
+No experiments were performed on live vertebrates or higher invertebrates - institutional permissions are not required.
+
+## Probe design
+
+Timing: 1–2 days, variable depending on the number of targets selected
+
+In ARTseq-FISH, we make use of the color barcode scheme described in previous work , , , to scale up the multiplexing capacity. To combine the protocol of sequential mRNA and protein detection via FISH, we utilized ssDNA-labeled antibodies ( A), and padlock probes (PLPs) ( B). The limited length of the ssDNA sequence conjugated to antibodies requires an amplification step, which is also necessary to combine the detection of mRNA and protein. Therefore, we adopted the rolling circle amplification (RCA) of PLPs as previous reported. To this end, we designed a unique 36 nucleotides (nt) ssDNA oligonucleotide with a 10 nt polyadenylate linker for each protein target ( ). For mRNA targets, the PLPs are directly complementary to a 36 nt targeting region on the endogenous mRNA. On each PLP, there are one target-specific identical (ID)-sequence of 28 nt and one universal RCA primer binding region of 20 nt. Two successive different ligation reactions will seal the respective gaps between the 5′- and 3′-arms of the mRNA PLPs and the antibody PLPs. After PLPs circularization (through ligation), the RCA reaction will amplify the sequence of the PLPs by generating a long amplification product that contains a repetitive complementary sequence of each PLP. Each target-specific bridge probe (BrP) can hybridize to the ID-sequence from their respective PLP, followed by the hybridization of the readout probe (RoP) to the BrP in a target-specific combination throughout the hybridization rounds ( B–1D; , , and ). Each target is associated with four different RoPs labeled with three different fluorophores (i.e., ATTO 488, TAMRA, and CY5). These fluorophores were chosen based on the available fluorescent channels in our spinning disc confocal microscope. During sequential hybridization, each color (i.e., channel of the fluorophores) represents multiple targets. For example, in our experiment, one color represented up to 16 targets in a single hybridization round. We distinguish the targets through a barcoding system that combines the sequence of hybridization rounds with the corresponding fluorophore colors. Specifically, target 1 has a barcode of R (Red), B (Blue), G (Green), R (Red). This means that if a spot appears as a red dot in the first round, blue in the second round, green in the third round, and red in the fourth round, then this spot corresponds to target 1.
+ With five rounds of sequential hybridization, we measured 67 targets including 30 mRNAs and 37 (phospho-)proteins ( ). In the fifth round, we used two channels to repeat the targets detected in the first round. This allowed us to determine the reproducibility of the sequential hybridization. The other 4 rounds were included as a proof of principle, to show that multiple rounds were possible to allow for targeting more than 67 targets. Notably, the number of hybridization rounds can be amended according to the needs of the experiment. For other applications of this technique, we recommend integrating high-abundance and low-abundance targets within a single channel to prevent optical crowding.
+This part provides the instructions to designing specific probes.
+1.The 5′- and 3′- arm sequence of antibody-tagging ssDNA and antibody PLPs:a.Obtain the orthogonal DNA sequences from previous published dataset to generate a set of 36 nt probes for each protein target.Note: These sequences can be downloaded from Database: https://elledgelab.med.harvard.edu/?page_id=638. Each probe should have the first 18 nt corresponding to the 5′ arm and the last 18 nt corresponding to the 3′ arm of the antibody-tagging ssDNA ( A).
+
+b.Use the online OligoAnalyzer Tool (Integrated DNA technologies, https://eu.idtdna.com/pages/tools/oligoanalyzer) to get the reverse complementary sequence (See the screenshot below).Note: The first 18 nt sequences of the complementary sequence is the 5′- and the other 18 nt sequence is the 3′- arm of the antibody PLPs.
+ 
+c.Use NCBI Nucleotide BLAST (https://blast.ncbi.nlm.nih.gov/Blast.cgi) to identify and eliminate sequences with contiguous homology regions more than 70% to the mouse transcriptome. See the screenshot below: CRITICAL: The 5′ end of antibody-tagging ssDNAs needs to be modified with azide to facilitate the conjugation reaction.
+CRITICAL: The 5′ end of PLP needs to be phosphorylated to facilitate the following ligation reactions.
+
+2.The 5′- and 3′- arm sequence of mRNA PLPs ( B):a.Obtain the mRNA sequences of interest from NCBI website (Mus musculus). Refer to the example of the Nanog mRNA sequence obtained from NCBI in the screenshot below: 
+b.Utilize the Stellaris Probe Designer from Biosearch Technologies (https: //www.biosearchtech.com/support/tools/design-software/stellaris-probe-designer) to generate a set of 36 nt probes that are complementary to the target mRNA sequence.Note: As shown in the screenshot below, set up the requirements for the probes. For example, type the probe name (i.e., Nanog_mRNA), choose the organism (i.e., Mouse), oligo length (i.e., 18 nt), and the Min. spacing length (i.e. 0 nt).
+ 
+Set the minimum spacing to 0 nt, as we aim to select a 36 nt probe from two neighboring 18 nt probes, such as Probe #1 and Probe #2, or Probe #3 and Probe #4 in the screenshot below. Each probe has the first 18 nt corresponding to the 5′ arm and the last 18 nt corresponding to the 3′ arm of the mRNA padlock probes ( B). 
+c.Use NCBI Nucleotide BLAST (https://blast.ncbi.nlm.nih.gov/Blast.cgi) to ensure that the selected target sequence is unique and not present in other mRNAs within the same organism. CRITICAL: The 5′ end of PLP needs to be phosphorylated to facilitate the following ligation reactions.
+Note: Alternatively, write custom scripts or employ other tools for mRNA probe design.
+
+3.The remaining sequences on the PLPs:a.Download the orthogonal DNA sequences from previous published dataset (Database: https://elledgelab.med.harvard.edu/?page_id=638) for the 28 nt ID sequences of each target ( B).
+b.Obtain a 20 nt orthogonal DNA sequence from previous published dataset (Database: https://elledgelab.med.harvard.edu/?page_id=638) for the RCA primer binding region on the PLPs ( B).Note: Both RNA and protein targets share the same RCA primers.
+
+c.Use NCBI Nucleotide BLAST (https://blast.ncbi.nlm.nih.gov/Blast.cgi) to identify and eliminate sequences with contiguous homology regions more than 70% (see screen shots below: Query cover) to the mouse genomic and transcript databases. 
+
+4.BrPs and RoPs sequences:a.Obtain 13 different 18 nt sequences from previously published orthogonal DNA sequences (Database: https://elledgelab.med.harvard.edu/?page_id=638) as RoPs. RoPs are conjugated with fluorophores, i.e., ATTO488, TAMRA, and CY5 ( D; ).
+b.The four-overhang regions of the 18 nt sequences on BrPs are complementary to the four RoPs of each target. Use the online tools: OligoAnalyzer Tool (Integrated DNA technologies, https://eu.idtdna.com/pages/tools/oligoanalyzer) to get the reverse complementary sequences of RoPs ( C).
+c.Use BLAST to identify and eliminate sequences with contiguous homology regions more than 72% (see screen shots below: Query cover) to the mouse genomic and transcript databases.
+
+ 5.Purchase all the probes with the GC content within 45%–65% from an available supplier (e.g., Integrated DNA technologies (IDT)). The sequences of the probe are listed in .
+6.Resuspend probes in Nuclease-free H2O (or TE buffer: 10 mM Tris pH 8.0, 0.1 mM EDTA) to a stock concentration of 10 μM. Store the probes at −20°C for a few years.
+7.Aliquot out in multiple Eppendorf tubes and protect the fluorophore-labeled probes from the light by aluminum foil.
+CRITICAL: Avoiding repeated freeze-thaw cycles to maintain the fluorescence stability of RoPs.
+
+## Antibody conjugation
+
+Timing: 2 days
+
+This section outlines the protocol to conjugate 5′-azide modified ssDNA to an antibody. Each antibody is paired with its specific target ssDNA.
+8.Prepare buffers - Day 1.a.0.2 M NaHCO3 solution: dissolve 0.336 g NaHCO3 in 20 mL MilliQ water and adjust the PH to 8–9. Prepare this solution freshly every time.
+b.1 mM DBCO-s-s-NHS: add 1.7 mL dimethylsulfoxide (DMSO) to 1 mg DBCO-s-s-NHS and mix well. Aliquot small volume (usage for once, for example: 10–50 μL per tube) into Eppendorf tubes Prepare this solution freshly every time.
+
+Note: DBCO-s-s-NHS is moisture-sensitive. To avoid moisture condensation onto the product always let the vial equilibrate to room temperature (i.e., around 22°C–25°C) before opening; be careful to limit exposure to moisture and restore under an inert atmosphere.
+9.Buffer exchange for the antibodies in the form of solution - Day 1.a.Take out the antibodies (from their storage temperature, e.g., 4°C or –20°C) and equilibrate them to room temperature (i.e., around 22°C–25°C).Note: Antibodies are purchased from supplier with the requirements of being in lyophilized form or in PBS solution containing azide. The antibodies in a solution with bovine serum albumin (BSA) or glycerol cannot be used in this conjugation protocol.
+
+b.Calibration of the ZebaSpin column.i.Take ZebaSpin out from refrigerator.
+ii.Remove the bottom plastic part to allow liquid to pass through the solid phase during centrifugation and put the ZebaSpin in an Eppendorf tube.
+iii.Loosen the cap of the tube.
+iv.Centrifuge the ZebaSpin 40k (kilodaltons, kDa) column centrifuge unit for 1 min at 1500 rcf (relative centrifugal force).
+v.Wash 1: Discard the liquid in the Eppendorf tube and put the column back to the Eppendorf tube. Add 300 μL NaHCO3 buffer to the column. Centrifuge for 1 min at 1500 rcf.
+vi.Wash 2: Discard the liquid in the Eppendorf tube and put the column back to the Eppendorf tube. Add 300 μL NaHCO3 buffer to the column. Centrifuge for 1 min at 1500 rcf.
+vii.Wash 3: Discard the liquid in the Eppendorf tube and put the column back to the Eppendorf tube. Add 300 μL NaHCO3 buffer to the column. Centrifuge for 2 min at 1500 rcf.
+viii.Perform paper blotting: take Kimtech tissue and gently remove liquid from the tip of column.
+ix.Put ZebaSpin in a new Low-bind protein tube to collect antibody into the Low-bind Eppendorf.
+
+c.Buffer exchange:i.Add 100 μL antibody (50 μg antibody in total, in this case, the concentration of the antibody is 0.5 μg/μL) to the central part of the column.Note: The volume of the antibody dilution is not as relevant as its concentration. For this reason, it is recommended to utilize antibodies with starting concentrations between 0.5 μg/μL to 1 μg/μL.
+
+ii.Centrifuge for 2 min at 1500 rcf.CRITICAL: For lyophilized antibodies, buffer exchange is not required, and they can be directly dissolved in the buffer.
+
+10.Functionalization of antibodies - Day 1.a.Add 10× molar excess of DBCO-s-s-NHS to 50 μg antibody.i.Add 3.3 μL DBCO-s-s-NHS (1 mM in DMSO) to 50 μg antibody (333.5 pmol antibody in 100 μL NaHCO3 pH > 8).
+
+b.Leave the mixed solution at room temperature (i.e., around 22°C–25°C) for at least 1 h in darkness.
+
+CRITICAL: This is a light sensitive reaction.
+11.Buffer exchange for the functionalized antibodies and removal of excessed DBCO-s-s-NHS - Day 1.a.Take out ZebaSpin 40k column from the refrigerator.
+b.Calibration of the ZebaSpin column.i.Remove the bottom plastic part to allow liquid to pass through the solid phase during centrifuge and put the ZebaSpin in an Eppendorf tube.
+ii.Loosen the cap of the tube.
+iii.Centrifuge the ZebaSpin 40k column centrifuge unit for 1 min at 1500 rcf.
+iv.Wash 1: Discard the liquid in the Eppendorf tube and put the column back to the Eppendorf tube. Add 300 μL NaHCO3 buffer to the column. Centrifuge for 1 min at 1500 rcf.
+v.Wash 2: Discard the liquid in the Eppendorf tube and put the column back to the Eppendorf tube. Add 300 μL NaHCO3 buffer to the column. Centrifuge for 1 min at 1500 rcf.
+vi.Wash 3: Discard the liquid in the Eppendorf tube and put the column back to the Eppendorf tube. Add 300 μL NaHCO3 buffer to the column. Centrifuge for 2 min at 1500 rcf.
+vii.Perform paper blotting: take Kimtech tissue and gently remove liquid from the tip of column.
+viii.Put ZebaSpin in a new Low-bind protein tube to collect antibody into the Low-bind Eppendorf.
+
+c.Buffer exchange:i.Add all the functionalized antibody to the central part of the column.
+ii.Centrifuge for 2 min at 1500 rcf.
+
+12.Conjugation of the antibodies to ssDNA - Day 1.a.Mix 50 μL target-specific ssDNA (100 μM) with 50 μg functionalized antibodies by pipetting more than 20 times.Note: The molar ratio of antibody and the ssDNA is 1:15.
+
+b.Incubate at room temperature (i.e., around 22°C–25°C) for 1 h first and then move them to 4°C for overnight (about 16 h).
+
+13.Preparation of buffers - Day 2.a.2× concentrated antibody (Ab) solution: 50 mL DPBS with 200 μL 2 mM Ethylenediaminetetraacetic acid (EDTA) and 500 μL 0.1% Sodium azide.
+
+Note: Prepare this freshly every time. 0.1% Sodium azide is stored at 4°C. Sodium azide is extremely toxic. Handle with appropriate PPE and dispose of it according to hazardous waste guidelines.
+14.Quench the conjugation reaction -Day 2.a.Add 100 μL 2× concentrated Ab solution to the sample.
+
+15.Cleanup the conjugated antibodies - Day 2.a.Pre-wet the filter by adding 400 μL Blocking buffer in a Amicon ultra 100k centrifuge unit.
+b.Centrifuge for 5 min at 14000 rcf.
+c.Remove the flow-through.
+d.Add 400 μL 2× concentrated Ab solution (if the sample volume is less than 400 μL, top up with antibody buffer)
+e.Centrifuge for 10 min at 14000 rcf.
+f.Wash 1: Discard the flow through and add 400 μL 2× concentrated Ab solution.
+g.Centrifuge for 10 min at 14.000 rcf.
+h.Wash 2: Discard the flow through and add 400 μL 2× concentrated Ab solution.
+i.Centrifuge for 10 min at 14.000 rcf.
+j.Place the column up-side-down in a new Low-bind protein Eppendorf tube.
+k.Centrifuge for 10 min at 1000 rcf.
+l.The conjugated antibody solution is collected in the Low-bind protein Eppendorf tube.
+
+Note: If the loss is around 50%, the final concentration of the antibody will be around 25 μg in 50 μL, i.e., 0.5 μg/μL.
+Note: To confirm the successful conjugation of the antibodies, perform polyacrylamide gel electrophoresis (PAGE). Successful conjugation leads to a slight increase in the molecular weight of the antibody heavy chain, which can be easily detected by a noticeable upward shift on a gel.
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+Fixation buffer: Dilute formaldehyde to a 4% final concentration in 1× phosphate-buffered saline (PBS). Aliquot 40 mL into each 50 mL tube and store at −20°C. Once thawed, keep it at 4°C.
+CRITICAL: Handle formaldehyde safely by wearing appropriate personal protective equipment and working in well-ventilated areas, while minimizing exposure through dilution and proper storage. Adhere to regulatory guidelines and emergency procedures to ensure a safe working environment.
+Permeabilization solution: Aliquot 40 mL into each 50 mL tube and store 100% methanol at −20°C.
+CRITICAL: Exercise caution when handling methanol by wearing appropriate personal protective equipment, working in well-ventilated areas, and avoiding inhalation and skin contact. Store methanol in tightly sealed containers away from heat and ignition sources and follow proper disposal procedures to minimize environmental impact.
+Blocking buffer: Dissolve 0.5 g BSA in 10 mL 1× PBS to make a 5% BSA solution stock. Aliquot 1 mL in Eppendorf tubes and store at −20°C. Avoid thawing and freezing cycles.
+Deionized formamide: Dilute 100% formamide with nuclease-free H2O to achieve a final concentration of 20% for hybridization reactions as shown in the following steps.
+Note: Formamide should be stored according to manufacturer-recommended conditions to maintain a deionized state.
+CRITICAL: When working with formamide, prioritize safety by utilizing appropriate personal protective equipment, ensuring adequate ventilation, and minimize direct contact with skin or inhalation of vapors. Store formamide in tightly sealed containers in a cool, well-ventilated area, and adhere to proper disposal guidelines to mitigate environmental risks.
+Wash buffer (2× SSC, saline sodium citrate): Dilute 20× SSC to 2× SSC with nuclease-free H2O.
+
+## Step-by-step method details
+
+## Fixation and permeabilization of cells
+
+Timing: 10 min + 10 min
+
+## Day 1
+This step details the fixation and permeabilization of cellular samples in preparation for subsequent antibody staining. The protocol offers three options for permeabilization, allowing for optional hybridization.
+1.Fix samples with 4% formaldehyde at room temperature (i.e., around 22°C–25°C) for 10 min.a.Remove the cell culture medium from the samples.Note: Add wash step before fixation if the background is high.
+
+b.Add 4% formaldehyde (equivalent volume to cell culture medium) to the samples.
+c.Incubate in fixation solution for 10 min at room temperature (i.e., around 22°C–25°C).
+d.Remove fixation solution from the samples.
+e.Wash the samples three times with 1× PBS.Note: Mouse embryonic stem cells are used as samples in this study. For the optimization experiments, there are 5∗10ˆ4 cells seeded in each well of the μ-Slide 15 Well 3D (formerly μ-Slide Angiogenesis). Cells are fixed 24 h after seeding.
+Note: Samples that are co-cultured in the same slide or plate, even when in different wells, must be fixed in parallel (at the same time). Otherwise, the vapors from fixing one well will affect the outcomes of wells that remain unfixed.
+
+2.Permeabilize samples with pre-chilled (at −20°C) 100% methanol for 10 min at −20°C.a.Remove 1× PBS solution from the samples, corresponding to last wash.
+b.Add pre-chilled 100% methanol (equivalent volume to cell culture medium) to each sample.
+c.Incubate in 100% methanol for 10 min at −20°C.
+d.Remove fixation solution from the samples.
+e.Wash the samples three times with 1× PBS.
+
+Alternatives: Alternative permeabilization strategies, such as using 70% ethanol or 0.1%–0.5% Triton X-100, can also be employed to simultaneously detect both protein and mRNA targets ( ). However, the concentration of Triton X-100 may need optimization for optimal results.
+ 
+
+## Blocking and primary antibodies incubation
+
+Timing: 5 h
+
+This step describes the blocking and antibody incubation procedures of ARTseq-FISH as a general immunofluorescence method. Blocking reduces the unspecific antibody binding.
+3.Add blocking buffer (equivalent volume to cell culture medium) to samples.
+4.Incubate for 1 h at room temperature (i.e., around 22°C–25°C).
+5.Incubate with ssDNA-conjugated antibody.a.Prepare antibody solution: dilute ssDNA-conjugated antibodies with a ratio of 1:4000 in blocking buffer.
+b.Remove the blocking buffer from the sample.
+c.Add 30 μL antibody solution per well.
+d.Incubate for 4 h at room temperature (i.e., around 22°C–25°C).
+
+CRITICAL: We have optimized the order of antibody incubation and the mRNA PLP hybridization. When combined, perform the antibody incubation first followed by the mRNA PLP hybridization for a better outcome.
+
+## mRNA padlock probe (PLP) hybridization
+
+Timing: 16 h (overnight)
+
+This step provides the protocol of the hybridization of mRNA to the PLPs. This is an essential step for the detection efficiency. The concentration of PLPs and the incubation temperature are critical to this step.
+6.Prepare the mRNA PLP hybridization solution as below:
+ 7.Remove the antibody solution from the samples.
+8.Wash the samples three times with 30 μL 1× PBS.
+9.Add 30 μL of the mRNA PLP hybridization solution prepared in step 6 to each sample.
+10.Wrap the samples with Parafilm to prevent evaporation and aluminum foil prevented from light.
+11.Incubate at 37°C overnight (about 16 h).
+
+## mRNA padlock probe (PLP) ligation
+
+Timing: 4 h
+
+## Day 2
+This step describes the ligation of mRNA PLPs, which is another challenging step in this technique. The ligase and ligase buffer, the incubation time and temperature are critical for the efficiency of this step.
+12.Prepare the mRNA PLP ligation solution as below:
+ 13.Remove the mRNA PLP hybridization solution from the samples.
+14.Wash the samples three times with 30 μL 2× SSC.
+15.Add 30 μL of the solution prepared above in step 12 to the samples.
+16.Wrap the samples with Parafilm to prevent evaporation and aluminum foil to protect from light.
+17.Incubate for 4 h at room temperature (i.e., around 22°C–25°C).
+
+## Antibody padlock probe (PLP) hybridization and ligation
+
+Timing: 2 h
+
+Unlike mRNA PLP, antibody PLP hybridization and ligation can be performed simultaneously in a single reaction. This section describes these steps.
+18.Mix the reagent for antibody PLPs hybridization as the table shown below:
+ 19.Wash the samples three times with 30 μL 2× SSC.
+20.Add 30 μL of the solution made in step 18 to each sample.
+21.Wrap the slide with Parafilm to prevent evaporation and aluminum foil prevented from light.
+22.Incubate samples for 30 min at 37°C, then incubate for 90 min at 45°C.
+
+## Rolling circle amplification (RCA)
+
+Timing: 16 h (overnight)
+
+This reaction will produce a long DNA amplification product containing repetitions of the complementary sequence of the PLP. The concentration of Phi29 enzyme and the reaction duration will influence the yield of this reaction. The different steps involved in RCA are described below.
+23.Combine the reagents for RCA as shown in the table below:
+ 24.Remove the PLPs ligation solution from each sample.
+25.Wash the samples three times with 30 μL 2× SSC.
+26.Add 30 μL of the solution prepared in step 23 to each sample.
+27.Wrap the slide with Parafilm to prevent evaporation and aluminum foil prevented from light.
+28.Incubate the samples at 37°C for 30 min, then 30°C and incubate overnight (about 16 h).
+
+## Bridge probe (BrP) hybridization
+
+Timing: 1 h
+
+## Day 3
+This section describes the steps involved in BrP hybridization. The concentrations of the BrPs are essential for hybridization yield.
+29.Make fresh 4× hybridization buffer (HB) every time:
+ 30.Prepare the solution for BrP hybridization as below:
+ 31.Wash samples twice with 30 μL 2× SSC.
+32.Remove the RCA solution from the samples.
+33.Add 30 μL of the BrP hybridization solution prepared in step 30 to the sample.
+34.Wrap the slide with Parafilm to prevent evaporation and aluminum foil prevented from light.
+35.Incubate the samples at room temperature (i.e., around 22°C–25°C) for 2 h on a rocker (50 cycles per minute).
+CRITICAL: We have optimized this step by using different concentrations of BrPs (50 nM and 100 nM). The higher concentration of BrP resulted in more spots ( ).
+ 
+
+## Readout probe (RoP) hybridization
+
+Timing: 1 h
+
+The steps below describe the RoP hybridization. The concentrations of the RoPs are essential for the yield of the hybridization.
+36.Remove the BrP hybridization solution.
+37.Wash the samples three times with 2× SSC.
+38.Post-fixation after the BrP hybridization:a.Remove the 2× SSC buffer from the samples.
+b.Add 30 μL of 4% PFA solution to each sample.
+c.Incubate the samples for 10 min at room temperature (i.e., around 22°C–25°C).
+d.Remove the fixation solution from the samples.
+e.Wash the samples three times with 30 μL 1× PBS.
+
+39.Prepare the RoP hybridization solution as below during the post-fixation step (step 38):
+ 40.Remove the washing buffer from the sample.
+41.Add 30 μL of readout probe hybridization solution made in step 39 to each sample.
+42.Wrap the slide with Parafilm to prevent evaporation and aluminum foil prevented from light.
+43.Incubate for 1 h at room temperature (i.e., around 22°C–25°C), on a rocker.
+Note: Post-fixation with 4% PFA for 10 min is necessary if the sequential hybridization will be performed after the image acquisition of the first-round hybridization.
+CRITICAL: We have optimized this step by using different concentrations of RoPs (10 nM, 20 nM, 40 nM, 60 nM, 80 nM and 100 nM). The higher concentration of RoPs resulted in more detected spots ( ).
+
+## Image acquisition
+The below steps describe the imaging of the samples prepared in the previous steps. The specific optics, lasers, and model of the microscopes will influence how the parameters are determined.
+44.Wash the samples three times with 30 μL 2× SSC.
+45.Add 30 μL photo-protective buffer to each sample. The photo-protective buffer contains 50% glycerol, 75 μg/mL glucose oxidase, 520 μg/mL catalase and 0.5 mg/mL Trolox.
+46.Images of sequential hybridization were acquired with a spinning disk confocal microscope (OLYMPUS, PlanXApo 60×/1.40- numerical aperture (N.A.) oil-immersion objective, and Andor iXon camera). DAPI was excited by 405 nm, and ATTO 488, TAMRA, CY5 was excited by 475 nm, 540 nm and 638 nm lasers respectively. The distance of Z-stacks was set as 0.5 μm. The exposure time and laser intensity were set differently in different channels to obtain the same maximum intensity value of spots.
+CRITICAL: Increasing laser power or exposure time should be a first quick check when detecting a target for the first time.
+Note: We aligned the images from different hybridization rounds based on the DAPI images, as previous reported. More details about this is described in the supplementary section “Computational pipeline development of ARTseq-FISH” in our original publication. It is also possible to register the coordinates with TetraSpeck beads (T7279, Thermo Fisher Scientific). 
+
+## Sequential hybridization
+This section describes the protocol of stripping off the RoPs, sequential hybridization of a new set of RoPs, and acquiring images.
+47.Incubate the samples with 30 μL 55%–65% formamide for 5–15 min.
+48.Wash the samples three times with 30 μL 2× SSC.
+49.Add 30 μL of a new set of RoPs solution prepared as shown in step 39 to each sample.
+50.Incubate for 1 h and prevent from the light during the incubation.
+51.Wash the samples three times with 30 μL 2× SSC.
+52.Repeat steps 47–51 for four times (i.e., five rounds of imaging).
+Note: The signals obtained from ARTseq-FISH can also be detected with a wide-field microscope, making this technique more accessible.
+CRITICAL: We do not recommend pausing once the protocol has started.
+Note: It is recommended to image the samples as soon as possible. However, if the samples are wrapped with Parafilm and aluminum foil and stored at 4°C, the signal can be detected even after a couple of weeks. Image acquisition for sequential hybridization should be performed in a single session. Do not acquire images from different rounds of hybridization on different days.
+
+## Flow cytometry
+This part provides an optional alternative measurement of mRNAs and (phospho-)proteins detected by ARTseq-FISH.
+53.If the samples will be measured via flow cytometer, then the cells should be detached by trypsin before fixation.
+Note: Use Eppendorf tube to collect samples with 1 mL fixation and permeabilization solution. Blocking buffer, antibodies mix and washing solutions are 200 μL per tube. The reaction solution in the step 6, 12, 18, 23, 30, 39 mentioned above is 150 μL per tube. Place samples on a shaker (50 cycles/min) for all the steps.
+CRITICAL: All the washing steps in the previous procedures should be performed with centrifugation. To prevent cell adhesion to the surface of Eppendorf tubes, it is advisable to use a 0.2 mg/mL BSA solution in PBS in all the washing steps.
+54.Measure the sample after the Step 1- 43 as shown previously with appropriate fluorescence lasers and filters as per fluorophore of readout probe.
+55.Analyze the fluorescent signal from ARTseq-FISH probes using an Alexa Fluor 488 (488 nm) and Alexa Fluor 647 (627–640 nm) laser, 517/493 and 669/53 filter ( ).
+CRITICAL: It is not possible to achieve multiplexed detection by flow cytometry because the loss of localization information makes downstream decoding impossible.
+ 
+
+## Expected outcomes
+The protocol can simultaneously multiplex the detection of selected proteins and mRNAs at the same resolution ( , and ). This protocol can also be applied to simultaneously detect the mRNA, protein, and phosphorylated protein of a single target ( ). The intensity of the spots did not change much; however, the number of the spots decrease a bit in the combined protocol. ARTseq-FISH results can also be measured by flow cytometry ( ).
+ 
+
+## Quantification and statistical analysis
+We do not include the quantification, statistical analysis and decoding. The software for image analysis can be found at Hansen-Labs GitHub at http://github.com/Hansen-Labs/ARTseqFISH, code archived, see archive https://doi.org/10.5281/zenodo.10723692 or github.com/Hansen-Labs/ARTseqFISH. For more detail, refer to the Supplementary Information of the previous study. 
+
+## Limitations
+ARTseq-FISH relies on a series of probes to detect both mRNAs and proteins, therefore, the design of probes is essential for the detection.
+There is risk that the selected probes are not specific or have low binding efficiency (especially for mRNA targets). There are methods using for instance 5 PLPs for one mRNA target, , which increases the robustness of the signals; however, it is also more expensive and time-consuming. More importantly, more PLPs for one mRNA target generate bigger spots of detected mRNAs than detected proteins, which makes the image analysis more difficult. Using one padlock probe per mRNA provides the same detected resolution for mRNAs and proteins, but the probes need to be tested to know their performance in the experiments. We recommend detecting all the targets individually before applying their conjugated antibodies and probes in the final panel.
+Another efficiency limitation in this method is the ligation reaction, i.e., mRNA PLP. The ligation of chimeric sequences with both DNA and RNA is challenging. The choice of ligase and ligation buffer is optimized in this protocol to increase the efficiency.
+Although this technique has the potential to detect DNA (i.e., single nucleotide polymorphisms (SNPs)), miRNAs, , viral RNA, and proximity of proteins , or even proximity of RNA and protein, it is unable to detect double strand RNA and antisense RNA.
+This protocol is optimized for mESCs, and some validation experiments were performed on MCF7, 3T3 cell lines. Additional optimization is needed for thick sections or paraffin embedded tissue sections. Lastly, imaging of sequential hybridization was performed manually in this protocol. An automated and robust imaging flow system will be helpful for multiplexing the detection.
+
+## Troubleshooting
+
+## Problem 1
+No signals for mRNA targets. If the mRNA was not detected with one PLP, the problem could be in the targeted sequence by the PLP of choice. As shown in the , we designed three PLPs for Sox2 and Nanog mRNA with different targeting regions on their mRNA sequences. Two PLPs of Sox2 did not show positive signals comparing to the third one. Although all three PLPs of Nanog detected signals, the detection efficiency is variable.
+ 
+
+## Potential solution
+
+•Design different PLPs to target different regions of the mRNA target. See step 2 in Probe design.
+•Five PLPs per mRNA target is generally recommended. 
+
+## Problem 2
+The number of spots for a particular target is less than expected.
+
+## Potential solution
+We optimized several steps by performing the reactions under different conditions, with different reagents or different concentrations of reagents.
+•The detection efficiency correlates with the concentrations of PLPs (both mRNA and protein) ( ). Increased concentration of PLPs (both mRNA and protein) will result in higher detection yield of spots per cell. We chose the lowest concentration of PLP in our study, because we sought to examine the relative counts of each target and compared the changes of the relative counts over time during the exit of pluripotency. In addition, this also avoids optical crowding and reduces the cost. See step 6 in mRNA padlock probe (PLP) hybridization and step 18 in antibody padlock probe (PLP) hybridization and ligation.
+•The detection efficiency is also correlated with the concentrations of BrPs ( B) and RoPs ( A). Increased concentrations of BrPs and RoPs will detect more spots per cell. We chose the highest concentrations of BrPs and RoPs we have tested; therefore, it is possible to use even higher concentrations of BrPs and RoPs to get more counts. See step 30 in and step 39 in .
+•The duration and concentration of Phi29 polymerase could also influence the counts ( ). We used the Phi29 polymerase from NEB, if use other brand or homemade Phi29 polymerase, the concentration of this enzyme could be adjusted to find a better working concentration. See step 23 in .
+ 
+
+## Problem 3
+After removing the readout probe, fewer spots are detected in the sequential hybridization with the same readout probes.
+
+## Potential solution
+
+•Add a post-fixation step after BrP hybridization as suggested in the step-by-step protocol. See step 38 in .
+•Optimize the concentration of formamide and the incubation time of formamide. Different sequences of readout probes may need different incubation times to be removed. See step 47 in .
+
+## Problem 4
+The detected spots are too crowded in one channel during the sequential FISH; therefore, it is difficult to decode the spots.
+
+## Potential solution
+
+•The optical crowding issue is mainly caused by protein detection. Diluting antibodies could be one option if relative counts are being measured. See step 5 in .
+•Assign to the same channel of one hybridization round, targets that are expected to be highly expressed together with those that are expected to be lowly expressed targets. See .
+•Assign fewer targets to be simultaneously detected in one channel in one hybridization round.
+
+## Resource availability
+
+## Lead contact
+Maike M. K. Hansen (maike.hansen@ru.nl).
+
+## Technical contact
+Xinyu Hu (xinyu.hu@ru.nl).
+
+## Materials availability
+This study did not generate new unique reagents.
+
+## Data and code availability
+All relevant data supporting the key findings of this study are available within the research article and its Supplementary Information files. Sample images to test software are provided together with software, see archive https://doi.org/10.5281/zenodo.10723692 and github.com/Hansen-Labs/ARTseq-FISH. Raw imaging data is stored on a local drive. Original data have been deposited to both the Github repository and archived on Zenodo as 'Source data (publication).xlsx'. The data used to train the SVM models which detects nuclei and the point spread functions of hybridized signals can also be found in the archive. , , , , and are taken and adapted from supplementary figures in Hu et al. 
+
+## Acknowledgments
+We thank members of the Huck and Hansen laboratories for the thoughtful discussion and suggestions; Aigars Piruska for technical assistance with the spinning disk confocal; and Erik van Buijtenen and Kinga Matuła for sharing the antibody conjugation protocols, and fruitful discussions and suggestions from Erik van Buijtenen. We also thank Hendrik Marks for the mESC-E14. We acknowledge generous support from Radboud University (W.T.S.H.), the Christine Mohrmann fellowship (M.M.K.H.), the European Union (ERC, ChOICE, 101041939, M.M.K.H.), the Netherlands Organization for Scientific Research (NWO) (Spinoza grant, W.T.S.H.), and Oncode Institute, which is partly financed by the Dutch Cancer Society (M.M.K.H.). X.H. acknowledges financial support from the China Scholarship Council (CSC).
+
+## Author contributions
+X.H., B.v.S., W.T.S.H., and M.M.K.H. conceived and designed the study. X.H. developed and optimized the experimental procedure for ARTseq-FISH. B.v.S. developed the software for ARTseq-FISH. Ó.G.-B. helped with probe design and optimization of ARTseq-FISH workflow. X.H. wrote the manuscript, and Ó.G.-B., B.v.S., W.T.S.H., and M.M.K.H. edited the manuscript.
+
+## Declaration of interests
+The authors declare no competing interests.
+
+## Contributor Information
+Wilhelm T.S. Huck, Email: w.huck@science.ru.nl.
+Maike M.K. Hansen, Email: maike.hansen@ru.nl.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+All relevant data supporting the key findings of this study are available within the research article and its Supplementary Information files. Sample images to test software are provided together with software, see archive https://doi.org/10.5281/zenodo.10723692 and github.com/Hansen-Labs/ARTseq-FISH. Raw imaging data is stored on a local drive. Original data have been deposited to both the Github repository and archived on Zenodo as 'Source data (publication).xlsx'. The data used to train the SVM models which detects nuclei and the point spread functions of hybridized signals can also be found in the archive. , , , , and are taken and adapted from supplementary figures in Hu et al.

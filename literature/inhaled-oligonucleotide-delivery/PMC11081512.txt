@@ -1,0 +1,566 @@
+pmcPLoS BiolPLoS Biol212plosbiol101183755plosPLOS Biology1544-91731545-7885PLOSPMC11081512PMC11081512.111081512110815123868387310.1371/journal.pbio.3002259PBIOLOGY-D-23-016771Research ArticleBiology and Life SciencesOrganismsBacteriaActinobacteriaMycobacterium TuberculosisBiology and Life SciencesCell BiologyCellular TypesAnimal CellsBlood CellsWhite Blood CellsMacrophagesBiology and Life SciencesCell BiologyCellular TypesAnimal CellsImmune CellsWhite Blood CellsMacrophagesBiology and Life SciencesImmunologyImmune CellsWhite Blood CellsMacrophagesMedicine and Health SciencesImmunologyImmune CellsWhite Blood CellsMacrophagesMedicine and Health SciencesPathology and Laboratory MedicinePathogensIntracellular PathogensPhysical SciencesChemistryChemical ElementsZincPhysical SciencesMathematicsStatisticsStatistical DataResearch and Analysis MethodsAnimal StudiesExperimental Organism SystemsModel OrganismsMouse ModelsResearch and Analysis MethodsModel OrganismsMouse ModelsResearch and Analysis MethodsAnimal StudiesExperimental Organism SystemsAnimal ModelsMouse ModelsBiology and Life SciencesGeneticsGene ExpressionMedicine and Health SciencesMedical ConditionsInfectious DiseasesBacterial DiseasesTuberculosisMedicine and Health SciencesMedical ConditionsTropical DiseasesTuberculosisA host-directed oxadiazole compound potentiates antituberculosis treatment via zinc poisoning in human macrophages and in a mouse model of infection
+Potentiating anti-tuberculosis treatment by increasing host resistance through zinc intoxicationMaureAlexandraConceptualizationFormal analysisInvestigationMethodologyValidationVisualizationWriting – review & editing LawaréeEmelineFormal analysisInvestigationMethodologyWriting – review & editing FiorentinoFrancescoInvestigationResources PawlikAlexandreInvestigation GonaSaideepFormal analysis Giraud-GatineauAlexandreFormal analysis EldridgeMatthew J. G.Investigation DanckaertAnneFormal analysis HardyDavidFormal analysis FriguiWafaInvestigation KeckCamilleValidation GutierrezClaudeConceptualizationMethodology NeyrollesOlivierConceptualizationMethodology AulnerNathalieFunding acquisitionSupervision MaiAntonelloFunding acquisitionResourcesSupervision HamonMélanieInvestigationSupervision BarreiroLuis B.Supervision BrodinPriscilleSupervision BroschRolandFunding acquisitionSupervision RotiliDanteFunding acquisitionResourcesSupervision https://orcid.org/0000-0003-3931-1052TailleuxLudovicConceptualizationFormal analysisFunding acquisitionInvestigationSupervisionVisualizationWriting – original draftWriting – review & editing 1
+Institut Pasteur, Université Paris Cité, CNRS UMR 6047, Unit for Integrated Mycobacterial Pathogenomics, Paris, France2
+Department of Drug Chemistry and Technologies, Sapienza University of Rome, Rome, Italy3
+Department of Genetic Medicine, University of Chicago, Chicago, Illinois, United States of America4
+Institut Pasteur, Université Paris Cité, CNRS UMR 6047, Biology of Spirochetes Unit, Paris, France5
+Institut Pasteur, Université Paris Cité, Chromatine et Infection unit, Paris, France6
+Institut Pasteur, Université Paris Cité, UTechS BioImaging-C2RT, Paris, France7
+Institut Pasteur, Université Paris Cité, Histopathology Platform, Paris, France8
+Institut de Pharmacologie et de Biologie Structurale, IPBS, Université de Toulouse, CNRS, UPS, Toulouse, France9
+Pasteur Institute, Cenci-bolognetti Foundation, Sapienza University of Rome, Rome, Italy10
+Université de Lille, CNRS, INSERM, CHU Lille, Institut Pasteur de Lille, U1019 - UMR 9017 - CIIL - Center for Infection and Immunity of Lille, Lille, FrancePálCsabaAcademic Editor files. The RNA-Seq fastq files have been deposited in NCBI’s Gene Expression Omnibus and are accessible through GEO Series accession number GSE222412.
+
+## Data Availability
+All relevant data are within the paper and its files. The RNA-Seq fastq files have been deposited in NCBI’s Gene Expression Omnibus and are accessible through GEO Series accession number GSE222412.
+
+## Introduction
+Antibiotics have considerably extended human’s life span by changing the outcome of bacterial infections. With this medical breakthrough came the emergence of antimicrobial resistance worldwide, representing one of the biggest threats to human health. Tuberculosis (TB) is no exception, with the clock ticking for TB care and prevention. TB is a disease caused by the bacterium Mycobacterium tuberculosis (MTB), which is spread from person to person through the air. Although significant progress has been made to tackle TB over the last few decades, with the discovery of major antituberculosis drugs [ ], the disease still kills over 1.6 million people annually [ ]. Worryingly, multidrug resistant (MDR) strains of MTB, which are resistant to both the frontline anti-TB drugs rifampicin (RIF) and isoniazid (INH), have emerged and are widespread worldwide. In 2022, 410,000 patients were diagnosed with RIF-resistant TB or MDR-TB [ ]; 20% of those patients also show resistance to fluoroquinolones, an important drug class for the treatment of drug-resistant TB [ ]. Typically, drug-sensitive TB can be cured by a 6-month treatment, combining up to 4 antibiotics, namely, INH, RIF, ethambutol, and pyrazinamide. Curing MDR-TB is more difficult, despite recent advances [ ]. While new antibiotics are being developed and brought to the clinic, resistance to these molecules is rapidly detected. New strategies are thus urgently needed to prevent the emergence of drug resistance and to shorten treatment duration.
+Host-directed approaches are a promising strategy to be used in adjunct with existing or future antibiotics [ , ]. Several host-directed therapies (HDTs) to treat TB have been developed and mostly act in (i) the manipulation of host antimycobacterial pathways that are blocked or altered by MTB to promote its survival; (ii) the potentiation of antimicrobial host immune defense mechanisms; or (iii) the amelioration of immunopathology [ ]. Macrophages represent a prime target for HDT as they play a key role in the outcome of a mycobacterial infection. On one hand, they orchestrate the formation of granulomas, present mycobacterial antigens to T cells and can kill the bacillus upon IFN-γ activation [ ]. On the other hand, macrophages are the primary host niche for MTB, which has developed different strategies to survive and multiply inside the macrophages’ phagosome. These include prevention of phagosome acidification [ ], inhibition of phagolysosomal fusion [ ], and phagosomal rupture [ , ].
+Some in vitro studies have demonstrated that HDT-compounds are indeed effective at increasing macrophage resistance to MTB infection [ ]. These molecules include repurposed FDA-approved drugs or new compounds that have been identified by high-throughput screening of MTB-infected cells. Most of them promote phagosome maturation (for instance, tyrosine kinase inhibitors), activate autophagy (such as inhibitors of the mechanistic target of rapamycin (mTOR)), induce antimicrobial peptides, or inhibit lipid body formation [ ]. Here, we identified new molecules able to limit MTB growth in human macrophages by inducing zinc remobilization inside cells, resulting in bacterial poisoning. Interestingly, these compounds also potentiate the activity of known anti-TB drugs not only in vitro but also in vivo in a TB mouse model.
+
+## Results
+
+## Identification of a compound that inhibits the intracellular MTB growth
+We and others have previously shown that numerous epigenetic modifications occur in myeloid cells upon MTB infection [ – ]. These changes are either part of the initiation of the host response or an immune escape mechanism from MTB. MTB indeed manipulates epigenetic host-signaling pathways to subvert host immunity [ ]. Reprogramming the host immune system by a compound targeting the host epigenome may thus lead to a better control of the bacterial infection [ ]. To tackle this hypothesis, we screened an in-house library of 157 epigenetics-related compounds in MTB-infected macrophages using high-content imaging. This library comprises activators and inhibitors of enzymes that carry out various epigenetic modifications. For instance, it includes molecules that modulate the activity of DNA methyltransferases, histone methyltransferases and demethylases, histone acetyltransferases and deacetylases, and poly (ADP-ribose) polymerases ( ).
+Briefly, human monocyte-derived macrophages were infected with MTB expressing green fluorescent protein (GFP) at a multiplicity of infection (MOI) of 0.5, before being seeded in a 384-well plate; each well contained a different compound at a final concentration of 10 μM. RIF was used as a positive control. After 96 h of infection, cells were fixed and nuclei were stained with Hoechst 33342. Fluorescence was analyzed by automated confocal microscopy. Cell toxicity was determined by comparing the number of nuclei stained by Hoechst 33342 in treated wells to the negative control well (0.1% DMSO). No macrophage toxicity or any adverse effects of DMSO on the growth of MTB were observed at this concentration of DMSO ( ). The quality of our assay was determined by calculating the Z’-factor (15). The Z’-factor was superior to 0.5 indicating the robustness of our high-content screening ( ). Only compounds associated with a cell viability greater than 75% were considered for further analysis. A total of 106 molecules were nontoxic to human macrophages ( ). Inhibition of intracellular MTB growth in presence of the remaining compounds was then assessed by determining the GFP area per cell, which is correlated to the amount of intracellular MTB ( ). We identified 1 molecule, MC3465, which reduces the bacterial growth by 55% compared to the control ( ). To validate MC3465 as a promising hit, we repeated the same experiment with 8 replicates of DMSO, RIF, and MC3465. We then calculated the z-score. The z-score was less than −5 ( ), indicating that MC3465 consistently and significantly affected intracellular MTB growth. This result was confirmed by enumerating the number of bacteria inside macrophages treated with MC3465 for 24 h and 96 h. MC3465 appears to be bacteriostatic or at least significantly reduces the growth of MTB. A 2.25- and 4-fold reduction in colony-forming units (CFUs) was observed after 24 and 96 h of treatment, respectively, compared to the DMSO control ( ). There are substantial differences in the virulence of MTB strains. These differences could lead to an attenuated activity of our compound. We thus tested the efficacy of MC3465 in macrophages infected with highly virulent clinical isolates of MTB, namely, CDC1551, GC1237, and Myc5750 (the last 2 belonging to the Beijing family) [ – ]. After 96 h treatment, we observed a substantial decrease in bacterial survival rates with MC3465 ( ). This compound did not show any cell toxicity, even at higher concentration (50 μM) over an incubation period of 7 d ( ). MC3465 was equally active in macrophages differentiated in the presence of granulocyte-macrophage colony-stimulating factor (GM-CSF) or macrophage colony-stimulating factor (M-CSF), 2 cytokines known to prime toward pro-inflammatory (M1) and alternatively activated (M2) phenotypes [ ] ( ).
+ We next tested whether MC3465 also inhibited the intracellular bacterial growth of other bacteria. Macrophages were infected with Listeria monocytogenes, Salmonella enterica serovar Typhimurium, and Escherichia coli for 24 h, in presence of MC3465 (10 μM) or with DMSO alone. Cells were then lysed and CFUs were enumerated. Our results show that MC3465 does not impede the intracellular growth of L. monocytogenes, S. Typhimurium, and E. coli, indicating that the action of this compound could be specific to MTB-infected cells (Figs and ).
+MC3465 is supposed to act as an inhibitor of the human NAD+-dependent deacetylase sirtuin 2 (SIRT2) [ ]. However, it could have a direct inhibitory effect on the bacteria. To verify the host-directed effect of this molecule, we monitored the MTB growth in liquid medium by measuring the optical density (OD600 nm) or by counting the number of CFUs at different time points. Even at a higher concentration (50 μM), MC3465 does not affect MTB growth (Figs and ). To further confirm that MC3465 targets only intracellular MTB, bacteria were cultivated (i) within macrophages; (ii) in presence of macrophages, without any direct contact with the host cells; or (iii) alone. After 96-h treatment, the number of bacteria was enumerated in each condition. As shown in , MC3465 only limits the multiplication of intracellular MTB. This observation suggests that MC3465 is not metabolized by macrophages in an active form that could target extracellular bacteria.
+
+## MC3465 inhibits MTB growth in a SIRT2-independent manner
+MC3465 or 3-(4-bromophenyl)-5-(3-bromopropyl)-1,2,4-oxadiazole is described to be a specific human SIRT2 inhibitor, with no activity against SIRT1, SIRT3, and SIRT5 [ ]. It has been published that the expression of SIRT2 is up-regulated upon MTB infection and that inhibition of SIRT2 by AGK2 leads to a decrease of intracellular MTB survival in Raw 264.7 macrophages and murine peritoneal macrophages [ ]. To assess if MC3465 limits MTB intracellular growth through SIRT2 inhibition, we incubated MTB-infected macrophages with either DMSO, MC3465, or with the 2 commonly used human SIRT2 inhibitors: AGK2 and SirReal2 [ ]. Cells were lysed 96 h postinfection, and the number of bacteria was determined by CFUs. While MC3465 decreased the number of viable intracellular MTB in a dose-dependent manner, AGK2 and SirReal2 had no effect on bacterial growth, suggesting MC3465 acts in a different way to the SIRT2 inhibitors ( ). It may also suggest that SIRT2 plays a different role in human and mouse macrophages during MTB infection. To keep investigating if SIRT2 is the putative target of MC3465, we inactivated SIRT2 expression in human macrophages using siRNA-mediated gene silencing [ ]. The level of SIRT2 expression decreased by about 70% upon silencing ( ). In SIRT2-silenced cells, MC3465 restrained the intracellular multiplication of MTB as well as in cells expressing normal level of SIRT2 ( ). Moreover, MC3465 was still active on intracellular MTB in mouse SIRT2−/− embryonic fibroblasts, to a similar level as the wild-type (WT) cells ( ). Altogether, our results strongly demonstrate that SIRT2 is not the target of MC3465. They also argue against a role of SIRT2 in the interactions between MTB and human macrophages. The role of SIRT2 in MTB infection remains thus unclear, with additional complexities highlighted by Cardoso and colleagues [ ], who found that SIRT2 deletion in the myeloid lineage transiently increased MTB load in the lungs and liver of conditional mice but did not impact long-term infection.
+Sirtuins are a family of NAD+-dependent lysine deacetylases highly conserved from bacteria to humans. MTB has a NAD+-dependent protein deacetylase, namely, Rv1151c [ ]. While Rv1151c is a nonessential gene for in vitro growth of MTB [ ], we cannot exclude a role in macrophage parasitism. We generated a Rv1151c deletion mutant in H37Rv (ΔRv1151c) ( ). As expected, there was no difference in growth between ΔRv1151c and the WT MTB strain in liquid culture medium ( ). We then infected macrophages with both strains and treated the cells with MC3465. After 96 h of infection, the cells were lysed and the number of intracellular bacteria was enumerated. ΔRv1151c was able to grow intracellularly at a similar level as the WT strain and was as susceptible to MC3465 as the WT ( ). This result excludes an inhibition of the mycobacterial SIRT2-like protein by MC3465.
+
+## MC3465 and its analog MC3466 alter zinc homeostasis, resulting in bacterial poisoning
+Autophagy is a well-established key factor for host defense against MTB [ ], and several autophagy activating drugs have been used to restrict MTB survival [ ]. We therefore tested whether MC3465 activated the formation of autophagosomes and autolysosomes. MTB-infected macrophages were stained with an antibody against microtubule-associated protein light-chain 3B (LC3B), and the fluorescence was analyzed by confocal microscopy. We observed minimal difference in the number of LC3B puncta per cell at 4 h and 48 h posttreatment ( ). On the contrary, we observed a decrease in the number of puncta per cell 4 h after treatment with MC3465. This decrease was no longer observed after 48 h of treatment. During autophagy, LC3 undergoes a series of modifications, leading to the generation of 2 forms: LC3-I and LC3-II. Once lipidated, the cytoplasmic form LC3-I is converted to LC3-II and associates with the autophagosomal membrane. We therefore investigated the presence of these 2 forms of LC3 in MC3465-treated cells. Western blot analysis revealed no difference between DMSO- and MC3465-treated cells ( ). Bafilomycin A1 (BAF) was used as a control. It is a specific inhibitor of the vacuolar-type H+-ATPase (V-ATPase), which blocks the acidification of lysosomes and prevents the fusion of autophagosomes with lysosomes. As a result, LC3-II accumulates within the autophagosomes, leading to an increase in its intracellular levels. As expected, we observed an increase of LC3-II in BAF-treated cells during 4 and 48 h. To confirm this data, we used well-characterized autophagy inhibitors such as 3-methyladenine (3-MA), BAF, or chloroquine (CQ) and tested their effect on MTB-infected macrophages treated with MC3465. Intracellular bacteria were collected and plated to enumerate the CFUs 96 h postinfection. Our data show that autophagy inhibitors 3-MA, BAF, or CQ do not inhibit the effect of MC3465 ( ). MC3465 activity is thus not related to an induction of autophagy.
+Reactive oxygen species (ROS) are fundamental for macrophages to eliminate pathogens. We thus evaluated investigated whether MC3465 induces ROS production in both mitochondria and the broader cellular environment. ROS were visualized using 2 different fluorescent probes: MitoSOX and CellROX. MC3465 did not induce the production of ROS in MTB-infected macrophages at 4 and 24 h posttreatment ( ). As expected, treatment with the antioxidants, glutathione (GSH) and its precursor N-Acetyl-L-cysteine (NAC), did not inhibit the efficacy of MC3465 ( ).
+To further understand the molecular mechanism of action of MC3465 to restrain intracellular MTB growth, we performed a transcriptome analysis upon MC3465 treatment. We infected macrophages from 4 healthy donors with MTB and then treated them with MC3465. After 4 h and 24 h treatment, we characterized the genome-wide gene expression profiles of macrophages by RNA-seq, with DMSO-treated cells serving as a control. The expression of 181 genes was differentially regulated following MC3465 treatment (p-value < 0.05, log FC ≥ 0.5 and ≤ -0.5) after 4 h, with 53 being up-regulated and 128 being down-regulated ( ). The expression of more genes was affected after 24 h treatment. A total of 224 genes were up-regulated and 652 genes down-regulated (p-value < 0.05, log FC ≥ 0.5 and ≤ -0.5) ( and – Tables).
+ We classified the differentially expressed genes by performing gene-set enrichment analysis using ClueGO cluster analysis [ ]. The gene set down-regulated by MC3465 at 4 h was significantly enriched for genes associated with chemotaxis and cellular zinc ion homeostasis and cell chemotaxis ( and Figs and ). The limited number of genes up-regulated by MC3465 hindered the identification of specific GO categories. At 24 h, most of the down-regulated genes belongs to the innate immune response and the cytokine response, with many genes belonging to the type I interferon (IFN) pathway (Figs and ).
+ Maintaining intracellular zinc homeostasis is essential for all domains of life, as zinc serves as cofactor for enzymes and other proteins involved in different fundamental cellular processes. In this context, nutritional immunity is a well-known mechanism deployed by the host cell to limit the availability of essential metals to starve pathogens and, hence, impedes the intracellular growth of the pathogens [ ]. In contrast, intracellular bacteria can be intoxicated by an excess of free metal ions, namely, zinc and copper [ , ]. Our transcriptomic data in MTB-infected and naive macrophages suggested that MC3465 alters zinc sequestration. The expression of genes coding for metallothioneins was down-regulated upon treatment ( ). Metallothioneins are cysteine-rich metal-binding proteins that are important for zinc and copper homeostasis, protection against oxidative stress, DNA damage, and heavy metals toxicity [ ]. Their down-regulation in treated cells could, therefore, be associated with an increase of intracellular free zinc.
+To test this hypothesis, naive and MTB-infected macrophages were treated with MC3465 during 4 h and stained with FluoZin 3-AM, a fluorescent Zn2+-selective indicator [ , ]. Cells treated with the zinc-chelating cell-permeant agent TPEN [ ] were used as control. TPEN treatment significantly decreased FluoZin 3-AM fluorescence to near background levels. Conversely, treatment with MC3465 resulted in a rapid increase in FluoZin 3-AM signal whether the cells were infected or not (Figs , ). The labeling was as strong as in cells cultured in medium supplemented with high concentrations of ZnSO4 ( ). This increase in free zinc staining persisted for up to 4 d ( ). Moreover, we also found numerous associations between the FluoZin 3-AM signal and DsRed-expressing MTB, indicating a zinc accumulation in bacteria-containing phagosomes after 4 h of MC3465 treatment ( ). We next tested whether MC3465 limited intracellular MTB growth through the influx of zinc into the phagosome. MTB-infected macrophages were treated with TPEN, which inhibited the increase in the FluoZin 3-AM signal ([ ]; ). After 1 h of treatment, cells were incubated with MC3465 and the number of bacteria was determined by CFUs at 96 h posttreatment. As shown in , TPEN abolished the effect of MC3465, demonstrating that zinc release is required for better control of MTB upon MC3465 treatment. The cells then became highly susceptible to MTB infection, regardless of whether the cells were treated with MC3465. This result suggests that zinc may be present in the phagosome at levels undetectable by FluoZin 3-AM in the absence of TPEN and that this may, in part, limit MTB growth.
+ MC3465 treatment may also modulate the intracellular levels of other metals such as Cu. MTB-infected cells were treated with MC3465. After 4 and 24 h of treatment, cells were labeled with the BioTracker Green copper dye. This is a fluorescent probe that detects Cu+, which is a dominant redox state of copper in an intracellular reducing environment. We observed no change in staining by MC3465 compared to DMSO ( ).
+It has been shown that zinc exposure leads to rapid induction of the putative heavy metal efflux P1-type ATPase ctpC (Rv3270) [ ]. We therefore analyzed the expression of ctpC by quantitative reverse transcription PCR (RT-qPCR) in cells incubated with MC3465 or the positive control ZnSO4 during 4, 24, and 96 h. The expression of ctpC was increased in response to both compounds ( ).
+ CtpC colocalizes with PacL1, and the 2 proteins form high molecular weight complexes [ ]. Evidence indicates that the presence of PacL1 is essential for maintaining high levels of CtpC and resistance to zinc intoxication [ ]. A MTB strain with elevated expression levels of both PacL1 and ctpC should thus exhibit decreased sensitivity to MC3465. To test this hypothesis, we generated a triple mutant in which the 3 operons pacL1 (Rv3269)-ctpC, pacL2 (Rv1993c)-ctpG, and pacL3 (Rv0968)-ctpV have been deleted and which expressed PpacL1-driven CtpC and anhydrotetracycline (Atc)-inducible PacL1. As expected, the triple mutant was sensitive to zinc at 200 μM ( ), and zinc resistance was restored in the presence of Atc ( ). We then infected macrophages with this strain and treated the cells with DMSO or MC3465 in the presence or absence of Atc. After 96 h of infection, the cells were lysed, and the number of intracellular bacteria was enumerated. In the absence of Atc, MC3465 inhibited the growth of MTB. However, in the presence of Atc, the mutant was able to grow intracellularly at a level similar to bacteria treated with DMSO ( ). Overall, these results indicated that MTB is exposed to a high concentration of zinc during treatment with MC3465.
+
+## Structure–activity relationship study of MC3465 allowed the identification of MC3466, a more potent analog, effective against clinical strains of MTB
+We then sought to develop a more effective yet endowed with low toxicity compound such as MC3465. Structure–activity relationship study is a key aspect of any drug design and development campaign [ ]. MC3465 is a 1,2,4-oxadiazole derivative bearing a 4-bromophenyl moiety at C3 and a 3-bromopropyl chain at C5. We tested 29 analogs of MC3465 (structures in ) for their ability to restrain MTB growth within human macrophages, as described in . These compounds possess different substitutions on the phenyl moiety at C3 and alkyl, haloalkyl, alkoxy, alkylaryl, or carboxamide chains at the C5 position, with 2 of them also having central cores different from the original 1,2,4-oxadiazole one. Using high-content screening confocal microscopy, we identified active and inactive analogs of MC3465 ( and ). This approach allowed us to identify the presence of an electron-withdrawing group at the para position of the C3-phenyl ring as very important for compound activity. Furthermore, the 3-bromopropyl chain guaranteed the best compound activity, and switching to other kinds of side-chains was detrimental, except for compound MC3617, which has a carboxamide on C5.
+ Interestingly, we identified MC3466 as the most effective molecule of this series, with higher potency than MC3465, and the capability to reduce the area of GFP-expressing bacteria by 69% compared to the control ( ). Although the structures of MC3466 and MC3465 are very similar, MC3466 differs from MC3465 for the presence of a methoxy group, rather than a bromine atom, at the para position of the C3-phenyl ring ( ). We confirmed this result by counting the number of bacteria inside macrophages treated with MC3466 for 96 h ( ). MC3465 and MC3466 decreased MTB growth by 50% and 67%, respectively. As MC3465, the analog MC3466 did not affect cell viability and had no effect on the growth of MTB in liquid culture medium at 10 μM nor at a higher concentration (50 μM) (Figs and ). We next assessed the half-maximal inhibitory concentration (IC50) of both MC3465 and MC3466. Briefly, macrophages were infected with MTB and treated with a range of concentration of MC3465 and MC3466 for 96 h. The IC50 was estimated using CFU-based assay or image-based analysis with dose–response curve (DRC) as previously described [ ]. We obtained similar results with these 2 methods, with estimated IC50 values for MC3465 of 4.5 or 5.9 μM and 2.5 or 3.2 μM for MC3466, respectively ( ). As described for MC3465, MC3466 induced an increase in free zinc in macrophages ( ). Inhibition of this release by TPEN cancels out the compound’s effects on intracellular MTB growth ( ). As a control, no zinc release was induced in cells treated with MC3465 analog, which do not inhibit intracellular growth of MTB ( ).
+
+## MC3466 potentiates the activity of known anti-TB drugs
+HDT aims to increase the success of TB treatment. However, HDT agents are more likely to be used in addition to conventional anti-TB drugs that directly target the bacteria [ ]. Our data have shown that MC3465 and MC3466 help human macrophages to control the growth of MTB but are insufficient to eradicate the bacteria. We therefore investigated whether MC3466 could act together with some anti-TB drugs to improve the efficacy of the treatment. We first tested the association between MC3466 and the anti-TB drugs, RIF, and bedaquiline (BDQ) in liquid culture medium. As expected, we showed no synergy between MC3466 and RIF or BDQ on the growth of MTB ( ). We then focused on MTB-infected macrophages treated with MC3466 and different concentrations of the 2 drugs. After 96 h treatment, cells were lysed and bacteria counted. As expected, both anti-TB drugs alone induced a decrease in bacterial numbers compared to untreated cells in a dose-dependent manner ( ). However, in the presence of MC3466, RIF and BDQ showed a higher bactericidal activity. At low concentration of the 2 antibiotics (0.1 μg/ml), MC3466 increased the efficiency of RIF by 93% and BDQ by 97%. This effect seems to go far beyond an additional effect of the compound and these anti-TB drugs; MC3466, RIF, and BDQ alone reduced the bacterial load by 65%, 65%, and 79% compared to DMSO, respectively ( ).
+ We next used the Bliss independence model to confirm these results. This model is widely used to determine independence, synergy, or antagonism between 2 compounds [ ]. It provides a theoretical framework to predict the expected effect of combining 2 drugs based on their individual effects when used alone. The model assumes that the drugs act independently, and any deviation from the predicted effect may indicate synergy (greater-than-expected effect) or antagonism (less-than-expected effect). A positive Excess over Bliss score indicates synergy. Conversely, a negative Excess over Bliss score indicates antagonism. MTB-infected macrophages were treated with a wide concentration range of MC3466 alone or associated with different concentrations of RIF or BDQ. After 96 h treatment, intracellular GFP-expressing MTB growth was assessed by determining the GFP area per cell. We confirmed that the combination of MC3466 with RIF or BDQ was highly bactericidal on MTB. This effect was not the result of an additive effect between the 2 drugs, but of a synergy ( ).
+
+## MC3466 potentiates the efficiency of RIF in the mouse model of TB
+Many drugs with high in vitro efficacy fail to produce significant effects in vivo. Many factors affect their absorption, distribution, or metabolism. Before testing our compounds in vivo in mice, we checked whether our molecules allowed murine macrophages to control MTB infection. Raw 264.7 cells (a murine macrophage cell line) were infected with MTB and treated with both MC3465 and MC3466. After 48 h, cells were lysed and bacteria were enumerated by CFU. Both molecules were equally active in murine and human cells ( ).
+We next tested the toxicity of MC3465 and MC3466 in naive mice. We injected intraperitoneally MC3465 and MC3466, 6 d a week for 2 wk in uninfected C57BL/6J mice. No loss of weight and abnormal behavior was observed during treatment ( ). After 2 wk, total blood was collected to quantify the level of liver enzymes, which might indicate inflammation or hepatocyte injury. No difference between the groups treated with the compounds and the control group was observed for the level of alanine aminotransferase (ALT) and aspartate aminotransferase (AST) ( ). These results suggest that both MC3465 and MC3466 treatments are well tolerated in vivo.
+Our in vitro results showed that our compound enabled macrophages to fight MTB. We therefore wanted to assess efficacy in a mouse model where innate immunity plays a key role in controlling infection. We tested our molecule in MTB-infected mice in an acute infection model, alone or in combination with RIF. C57BL/6J mice were infected via the aerosol route. After 1 wk, mice were treated for 2 wk, 6 d a week with MC3466 with or without RIF. Lungs were harvested, and the bacterial load was assessed by CFUs ( ). On average, the number of bacteria after treatment with MC3466 was reduced by 5 times, although we observed important heterogeneity among treated mice. As observed in vitro, the combination of RIF and MC3466 was the most effective in decreasing the bacterial load ( ). The bacterial load was 31 times lower in MC3466/RIF-treated mice than in RIF-treated mice.
+ Histopathological observations of MTB-infected mice treated with RIF, MC3466, or both molecules confirmed these results. We observed large differences between the different groups, especially regarding the severity and organization of inflammatory lesions ( ). Lung sections of MC3466- or RIF-treated mice displayed significant interstitial syndrome and alteration of the bronchiolar epithelium; lungs of RIF-treated mice were less inflammatory. However, lungs of mice treated with both MC3466 and RIF resembled the lungs of healthy mice, with only residual inflammation. These results are consistent with the levels of Il-1β found in lung lysates from treated mice. As shown in , treatment with MC3466 resulted in a reduction in IL-1β levels, although to a lesser extent than observed with RIF alone. The combination of RIF and MC3466 did not further reduce IL-1β levels compared to RIF alone. This reduction is likely attributed to a decrease in bacterial load rather than an anti-inflammatory effect of MC3466.
+
+## Discussion
+Widespread antimicrobial resistance poses a threat to public health that requires prompt and adaptable approaches. High-throughput screening has been extensively used to identify potential targets for antimycobacterial agents [ ] or drug candidates that inhibit MTB growth [ , ]. However, this approach rapidly showed some limitations as drugs inhibiting MTB growth in culture medium may be ineffective on intracellular MTB. For instance, host drug-metabolizing enzymes and transporters may influence antimicrobial pharmacokinetics and pharmacodynamics, thereby impacting their efficacy and/or toxicity [ ]. The development of resistance to these molecules is also only a matter of time. In contrast, HDT is instead less prone to bacterial resistance and could also be used to reduce disease severity and mortality. Increasing the natural resistance of macrophages, the primary cell target of MTB, is indeed a promising avenue in the context of TB. Here, using high-content imaging on human MTB-infected macrophages, we identified 1,2,4-oxadiazole-based compounds, with no effect on MTB growth in liquid culture, but able to inhibit the intracellular mycobacterial growth inside the host in a concentration-dependent manner. Interestingly, these compounds have no similarity to other published 1,2,4-oxadiazole derivatives with activity on MTB [ – ].
+Although the exact host target of MC3465 remains elusive, our data suggest that MC3465’s mechanism of action is different from those previously described for HDTs. Indeed, most of the HDTs render macrophages less permissive to MTB [ , ] by favoring phagosome–lysosome fusion, activating autophagy, or inducing antimicrobial peptides. Our data clearly showed that there is no activation of autophagy in presence of MC3465. However, we demonstrated that, upon treatment with MC3465, the expression of genes encoding metallothioneins was down-regulated in macrophages and associated with an increase of free zinc inside the cells and a relocation inside the phagosome, leading to MTB metal poisoning. This defense mechanism is commonly used by macrophages, overloading the phagosome with copper and zinc rendering the vacuolar environment unsuitable for bacterial survival [ , ]. Botella and colleagues showed that the expression of several metallothionein-encoding genes was induced upon MTB infection. It has been suggested that these genes were activated in response to the early burst of zinc inside the cells, aiming to decrease free zinc concentration and detoxify the cell. Our results indicate that treatment with MC3465 reduces metallothionein expression, preventing infected cells from efficiently eliminating the released free zinc. Metallothionein transcription is regulated by the zinc responsive transcription factor MTF-1 [ ]. We did not observe any effect of MC3465 treatment on the expression and nuclear translocation of MTF-1. Metallothionein expression is also subject to regulation through epigenetic mechanisms, specifically DNA methylation of the promoter region, which can inhibit their expression [ , ]. It is tempting to speculate that MC3465 might interfere with the epigenetic mechanisms involved in metallothionein transcription.
+MTB has developed different strategies to protect itself from metal poisoning [ ]. For instance, following zinc intoxication from macrophages, it has been shown that MTB up-regulates the expression of genes encoding heavy metal efflux P-type ATPases CtpC, CtpG, and CtpV [ ]. Our data show that MTB indeed increases the expression of ctpC in MC3465-treated macrophages. Additionally, we observed that an MTB strain with elevated expression levels of both PacL1 and CtpC displayed reduced sensitivity to MC3465. Altogether, our results demonstrate a novel mechanism of action of MC3465 as an HDT, related to zinc poisoning of the bacterial pathogen.
+MC3465-treated macrophages control the growth of the laboratory MTB strain H37Rv and more virulent clinical MTB isolates, but they are still permissive to L. monocytogenes or S. Typhimurium infection. This result is likely due to the difference of lifestyle in the host cells between mycobacteria, L. monocytogenes, and S. Typhimurium. Upon uptake by macrophages, L. monocytogenes is engulfed in a phagosome but rapidly escapes to the cytosol where it multiplies [ ]. S. Typhimurium resides in a late endosome-like vacuole characterized by projection of filaments [ ]. The maturation of the mycobacterial phagosome is arrested at an early stage of biogenesis by exclusion of the V-ATPase. Under certain circumstances, S. Typhimurium and MTB may also translocate into the cytosol [ ]. Because of their very different intracellular lifestyle, MTB, L. monocytogenes and S. Typhimurium are thus likely exposed differently to different zinc concentrations following MC3465 treatment. Moreover, MTB, L. monocytogenes, and S. Typhimurium have different sensitivity to zinc as they have developed their own strategies to sequester essential transition metals and protect themselves from toxicity. As an example, Salmonella appears to be less sensitive to the increase in cellular zinc levels following infection, as zinc supplementation and inactivation of metallothioneins 1 and 2 (which increased free zinc levels in macrophages), favor Salmonella survival [ ]. Different intracellular lifestyles associated to different resistances to zinc poisoning would explain the specificity of MC3465 towards mycobacterial strains. E. coli has been described as sensitive to intracellular zinc. However, we did not observe any effect of MC3465 on E. coli survival in macrophages. It should be noted that macrophages are capable of efficiently eliminating E. coli, with almost no bacteria detected 24 h after infection. This rapid bacterial clearance may explain the lack of effect of our compound, as the macrophage response with the zinc burst was likely already optimized for efficient E. coli elimination.
+In the fight against TB, there is growing interest in the development of effective antibacterial drug combinations for better therapeutic results [ , ]. Experimental drug regimens have been tested in vitro and optimized for their use in vivo [ ]. Recently, drug combinations using an already approved drug with an adjuvant such as small molecules, have been exploited for the design of new drug regimens. These molecules are also called boosters, activators, or enhancers depending on the study [ ]. For example, several 1,2,4-oxadiazoles were tested for their potency to boost the antibacterial activity of ethionamide [ , ]. HDT, associated to pathogen-targeted approaches, is a very promising approach for overcoming antimicrobial resistance. One of the striking findings of our study is the potentiation of classical anti-TB drugs, in vitro and in vivo, by the treatment of MC3465 or its analog MC3466. Indeed, we demonstrated that suboptimal concentrations of first- and second-line anti-TB drugs, RIF or BDQ, respectively, in combination with our compounds were more effective in preventing intracellular growth of MTB than those used alone. More importantly, this synergistic effect was also demonstrated in vivo for RIF in a mouse model of TB. In parallel, we also showed there is no weight loss nor indication of inflammation and hepatocyte injury, as the level of ALT and AST remains stable following 2 wk of treatment with our compounds. MC3466 was tested in an acute infection model. It would be interesting to test its efficacy in a chronic infection model, including various genetic backgrounds with different susceptibility phenotypes. The localization of the compound within the lesions could be studied by taking advantage of the bromine atom contained in the molecule, using an approach similar to that used for BDQ [ ].
+One of the possible applications of HDT in TB is to limit inflammation and tissue damage [ ]. Histological analysis of lungs of MTB-infected mice treated with RIF, MC3466, or both revealed that association of RIF with MC3466 considerably reduced the number and severity of lesions. This is likely due to the greater efficacy of RIF when used in combination with MC3466 but may also be due to the down-regulation of the type I IFN pathway upon treatment with our compound. Indeed, our transcriptomic analysis of MC3465-treated macrophages showed indeed that genes involved in the type I IFN pathway are also down-regulated after 24-h treatment. Several studies have demonstrated that type I IFN overexpression is deleterious for the host during MTB infection [ ]. In vitro, type I IFN and its downstream signaling cascade inhibited the antimicrobial response induced by type II IFNs in human monocyte [ ]. In patients with active TB, blood transcriptional gene signatures with overexpression of type I IFN–related genes have been correlated with disease severity and are down-regulated following successful treatment [ , ]. Targeting the type I IFN pathway may be used as HDT. In the absence of IL-1, PGE2 failed to inhibit type I IFNs. The resulting overexpression of these cytokines leads to increased lung pathology. Administration of PGE2 and zileuton, a 5-LO inhibitor, negatively regulates type I IFN in vivo and confers protection in Il1α, Il1β−/− mice infected with MTB [ ].
+In summary, we identified new compounds based on 1,2,4-oxadiazole scaffold, which allow human macrophages to control MTB replication and to potentiate the efficacy of 2 potent anti-TB drugs, namely, RIF and BDQ. These observations suggest that MC3465 and its analogs merit further investigation as potential HDTs.
+
+## Materials and methods
+
+## Ethics statement
+Buffy coats were obtained from the French Blood Bank (Etablissement Français du Sang) under an agreement with the Institut Pasteur (C CPSL UNT, n°12/EFS/134 and n°15/EFS/023). Anonymous healthy donors signed a written informed consent to donate their blood for research purposes. In accordance with French regulations, each blood donation is systematically screened for agents responsible for the following pathologies: AIDS, hepatitis B, hepatitis C, syphilis, and pathologies associated with HTLV. Latent TB infection is not tested. Animal studies were performed in agreement with European and French guidelines (Directive 86/609/CEE and Decree 87–848 of 19 October 1987). The study was approved by the Institut Pasteur Safety Committee (Protocol 11.245) and the ethical approval by local ethical committees “Comité d’Ethique en Experimentation Animale Institut Pasteur N° 89 (CETEA)” (CETEA dap 200037).
+
+## Μacrophages and cell lines
+Blood mononuclear cells were isolated from buffy coats by Lymphocytes Separation Medium centrifugation (Eurobio). CD14+ monocytes were isolated by positive selection using CD14 microbeads (Miltenyi Biotec) and were cultured at 37°C and 5% CO2 in RPMI-1640 medium (Gibco) supplemented with 10% heat-inactivated fetal bovine serum (FBS; Dutscher), and 2 mM L-glutamine (Gibco) with M-CSF (20 ng/mL; Miltenyi Biotec) (hereafter defined as complete medium). After 6 d of differentiation, the resulting macrophages were incubated in a buffer solution containing PBS, 2 mM ethylenediaminetetraacetic acid (EDTA), at 37°C and 5% CO2 for 15 min before being harvested and counted.
+THP-1 cell line was cultured in RPMI-1640 medium (Gibco) supplemented with 10% FBS and L-glutamine (Gibco). Mouse embryonic fibroblasts (MEFs) and Henrietta Lacks (HeLa, ATCC, CCL-2) cells were cultured in Dulbecco’s Modified Essential Medium supplemented with L-glutamine (Gibco) and 10% FBS. Cells were incubated at 37°C, 5% CO2, and the culture medium was changed every 2 d.
+
+## Bacterial strains
+L. monocytogenes strain WT EGD, number BUG600, was grown in brain–heart infusion medium (BHI; Difco Laboratories) at 37°C. E. coli (strain HB101) and S. enterica serovar Typhimurium (strain Keller) were grown in Luria Bertani (LB) medium. Mycobacteria were grown at 37°C in Middlebrook 7H9 medium (Becton-Dickinson) supplemented with 10% albumin dextrose catalase (ADC, Difco Laboratories) and 0.05% Tween 80. Hygromycin B was added to the culture medium of strains containing a plasmid encoding gfp or dsred gene. MTB strains used in this study include MTB strain H37Rv transformed with an Ms6-based integrative plasmid pNIP48 harboring GFP or DsRed protein [ ], M. bovis BCG Pasteur, CDC1551, GC1237, Myc5750, and BDQ-resistant MTB strain H37Rv [ ]. RIF-resistant MTB strain was provided by Anne-Laure Roux and Jean-Louis Herrmann (Assistance Publique Hôpitaux de Paris, Hôpital Ambroise Paré, France).
+
+## Construction of MTB mutants
+RvΔ1151c knock-out strain was obtained by performing DNA recombination. Briefly, 750-bp fragments of the upstream and downstream regions of Rv1151c gene were amplified by PCR from H37Rv genomic DNA. Primers used for Rv1151c upstream region are 5′-tgatgtacctacaacccgaac-3′ and 5′-gactgagcctttcgttatttaaataatccgttcttgtcatcgcggaacgtcggt-3′. Primers used for Rv1151c downstream region are 5′-cgttccactgagcgatttaaattgatcgaagtcaatcccgagcccacgccg-3′ and 5′-ggtggattccacgaacgtgc-3′. The zeocin cassette was also amplified by PCR using primers 5′-atttaaataacgaaaggctcagtc-3′ and 5′-atttaaatcgctcagtggaacg-3′. A linear fragment composed of the zeocin cassette flanked by the Rv1151c upstream and downstream regions was amplified by PCR using 5′-aaaatatgatattcgcatggcg-3′ and 5′-aaagctcgaaagccgctggt-3′. This linear fragment was then electroporated into H37Rv harboring the pJV53-kanamycin plasmid, previously grown in 7H9 medium supplemented with 0.2% acetamide for 24 h. After electroporation, 1 ml of 7H9 medium is added to the bacteria followed by an incubation step at 37°C for 48 h. Transformants are then plated on 7H11 containing both kanamycin and zeocin antibiotics. After 3 wk of incubation at 37°C, kanamycin-zeocin-resistant clones were screened by PCR using 3 different couples of primers: 5′-actacagctggatggattccg-3′ and 5′-atttaaatcgctcagtggaacg -3′ (amplification for if WT H37Rv: 0 bp, amplification if H37RvΔ1151c: 1531 bp), 5′- atttaaataacgaaaggctcagtc-3′ and 5′- acacgccagcgtcagcaatc-3’ (amplification for if WT H37Rv: 0 bp, amplification if H37RvΔ1151c: 1857 bp), 5′-actacagctggatggattccg-3′ and 5′-acacgccagcgtcagcaatc-3′ (amplification for if WT H37Rv: 2,616 bp, amplification if H37RvΔ1151c: 2,550 bp). The Rv1151c knock-out gene was confirmed by sequencing.
+Mutant strains of MTB H37Rv were constructed by allelic exchange using the recombineering technology [ ], as described previously [ ]. Strain H37Rv ΔpacL1-ctpC::dif6 ΔpacL2-ctpG::dif5 ΔpacL3-ctpV::dif4 is a triple mutant in which the 3 operons pacL1 (Rv3269)-ctpC, pacL2 (Rv1993c)-ctpG, and pacL3 (Rv0968)-ctpV have been deleted from the chromosome and replaced by a 78-bp cassette harboring a variant of the chromosomal dif site [ ]. This strain was transformed with plasmid pGMCS-TetR-P1-pacL1flag-PpacL1-ctpCHis6, an integrative vector expressing PpacL1-driven his-tagged CtpC and anhydrotetracycline (Atc)-inducible flag-tagged PacL1 [ ].
+
+## Bacterial infection
+Before infection, MTB were washed and resuspended in 4 mL PBS. Clumps were eliminated by passing through a 10-μm filter. The density of bacteria in the supernatant was verified by measuring the OD600 and aliquot volumes defined to allow 1 bacterium per 2 cell infections. After 2 h of incubation at 37°C, infected cells were washed 3 times in PBS and treated with amikacin (50 μg/ml). After 1 h, cells were washed and incubated in fresh complete medium.
+Infection of macrophages with the fast-growing bacteria E. coli, L. monocytogenes, and S. Typhimurium requires higher MOI values, consistent with the literature [ – ]. Briefly, E. coli, L. monocytogenes, and S. Typhimurium were grown to exponential phase. Bacteria were washed twice in PBS and added to cells at a MOI of 50:1. After 1 h, cells were washed in PBS, and gentamycin (50 μg/ml) was added to kill extracellular bacteria. After 1 h, cells were washed and incubated in fresh complete medium containing gentamycin (5 μg/ml).
+
+## Compound synthesis
+Compounds MC3465, MC3466, MC3209, MC3581, MC3582, MC3469, MC3453, MC3564, MC3565, MC3617, MC3459, MC3220, MC3212, MC4214, and MC4209 were synthesized as previously reported [ ]. Full details regarding the synthesis and physico-chemical characterization of compounds MC3618, MC3586, MC3610, MC3577, MC3579, MC3735, MC3738, MC3775, MC3750, MC3748, MC3903, MC3904, MC3905, MC3573, and MC3578, will be reported elsewhere. All new compounds had spectral (1H-NMR, ESI-MS) data in agreement with their chemical structures.
+
+## Image-based high-content screening
+Macrophages were infected with GFP- or DsRed-expressing H37Rv (MTB-GFP) and were cultured in 384-well plate (Cellcarrier plate, PerkinElmer); each well containing a compound resuspended in DMSO (0.1%) at a final concentration of 10 μM. Each compound was tested in triplicates. DMSO (0.1%) and RIF (1 μg/mL) were used as negative and positive controls, respectively. Cells were fixed with 4% paraformaldehyde at room temperature (RT) 96 h postinfection. After 1 h, cells were washed and stained with HCS CellMask Blue stain (2 μg/mL, Thermo Fisher) and Hoechst 33342 (5 μg/mL, Thermo Fisher) in PBS for 30 min at RT, washed twice with PBS, and stored at 4°C until acquisition. Images were acquired using the automated confocal microscope Opera Phenix High-Content Screening System (Perkin Elmer Technology) with a 40×/NA 1.1 water objective followed by image analysis (Columbus Conductor Database, Perkin Elmer Technologies). The association between dsRed and FluoZin 3-AM signals was performed using the “Find Spots” building block. The intensity of the FluoZin 3-AM signal was then calculated within these spots. Data analysis was carried out to obtain numbers of cells, percentages of infected cells, and quantified areas of intracellular bacteria (px2: pixels2).
+
+## Cell viability assay
+Cell viability was determined using the MTT assay kit (Abcam), according to manufacturer’s instructions.
+
+## Resazurin assay determination of the minimal inhibitory concentration (MIC)
+The microdilution test was performed in 96-well plates as previously described [ , ]. Briefly, MTB were cultured in 7H9 liquid medium containing 2-fold dilutions of antibiotics during 6 d. The dye resazurin (Sigma-Aldrich) at 0.02% (wt/vol) was then added to each well. After 24 h, the absorbance was measured at 570 nm.
+
+## Determination of bacterial counts
+Macrophages were lysed in distilled water with 0.1% Triton X-100. The number of bacteria was determined by plating 10-fold serial dilutions of the lysate, in triplicate, onto 7H11 agar plates. CFUs were scored after 3 wk at 37°C. L. monocytogenes and S. Typhimurium were plated on BHI and LB agars, respectively. CFUs were counted after 24 h at 37°C.
+
+## Indirect immunofluorescence
+Macrophages were cultivated on coverslips in 24-well tissue culture plates for 24 h. Cells were infected with MTB-GFP and treated with MC3465. After 4 h and 48 h, cells were fixed with 4% paraformaldehyde for 1 h at RT. LC3 labeling was performed as previously described [ ]. LC3B puncta were analyzed using a Leica TCS SP8 confocal microscope and quantified using ImageJ. Dot plots represent the mean values of at least 100 cells. Error bars depict the standard deviation.
+
+## Western blot analysis
+Cells were lysed with RIPA buffer (Thermo Fisher) containing protease inhibitor cocktails (Roche) and stored at −80°C. Protein concentration was determined using the BCA protein assay kit (Thermo Fisher) following the manufacturer’s instructions. About 10 μg of protein was loaded onto a NUPAGE 4% to 12% Bis-Tris polyacrylamide gel (Thermo Fisher) and transferred to PVDF membranes (iBlot 2, Thermo Fisher). The membranes were blocked with TBS-0.1% Tween20, 5% nonfat dry milk for 1 h at RT and then incubated overnight with primary antibodies against α-β-Tubulin (Cell Signaling) and LC3 (Abcam). Membranes were washed in TBS-Tween and incubated with secondary HRP-conjugated antibody (GE Healthcare) at RT for 1 h. Membranes were washed and incubated with ECL reagents (Thermo Fisher). Band detection was performed using the iBright CL1500 Imaging System (Thermo Fisher).
+
+## RNA isolation, library preparation, and sequencing
+Total RNA from macrophages was extracted using QIAzol lysis reagent (Qiagen) and purified over RNeasy columns (Qiagen). The quality of all samples was assessed with an Agilent 2100 bioanalyzer (Agilent Technologies) to verify RNA integrity. Only samples with good RNA yield and no RNA degradation (ratio of 28S to 18S, >1.7; RNA integrity number, >9) were used for further experiments. cDNA libraries were prepared with the Illumina TruSeq Stranded mRNA and the IDT for Illumina TruSeq UD Indexes and were sequenced on an Illumina NovaSeq 6000 systems at the CHU Sainte-Justine Integrated Centre for Pediatric Clinical Genomics (Montreal, Canada). Raw reads derived from the sequencing instrument are clipped for adapter sequence, trimmed for minimum quality (Q30) in 3′ and filtered for minimum length of 32 bp using Trimmomatic [ ]. Surviving read pairs were aligned to GRCh38 by the ultrafast universal RNA-seq aligner STAR [ ] using the recommended 2 passes approach. Aligned RNA-Seq reads were assembled into transcripts, and their relative abundance was estimated using Stringtie [ ]. All of the above processing steps were accomplished through the GenPipes framework [ ]. Exploratory analysis was conducted using various functions and packages from R and the Bioconductor project [ ]. Differential expression was conducted using both edgeR [ ] and Limma [ ].
+
+## Intracellular zinc and copper labelling
+Cells were fixed and stained with the cell permeant fluorescent FluoZin 3-AM (Thermo Fisher; 2 μg/mL) for 50 min in PBS at RT. Cu+ was labeled using the fluorescent BioTracker Green copper dye (Sigma-Aldrich, 5 μM) for 3 h at 37°C. Subsequently, cells were washed and fixed before analysis. Images were acquired with the automated fluorescence microscope Opera Phenix High-Content Screening System, with a 40×/NA 0.6 water objective. Fluorescence intensity was analyzed in Columbus Conductor or Signals Image Artist software (PerkinElmer) on at least 400 different cells.
+
+## ROS assay
+Cells were incubated with MitoSOX Red (5 μM, Thermo Fisher) for 10 min at 37°C or with CellROX (5 μM, Thermo Fisher) for 30 min at 37°C. The cells were then washed with PBS and fixed. Images were captured using an automated fluorescence microscope, Opera Phenix High-Content Screening System, with a 40×/NA 0.6 water objective. Fluorescence intensity was analyzed using Signals Image Artist software (PerkinElmer).
+
+## Quantitative reverse transcription PCR (RT-qPCR)
+Reverse transcription of mRNA to cDNA was done using SuperScript III Reverse Transcriptase (Thermo Fisher) followed by amplification of cDNA using Power SYBR Green PCR Master Mix (Thermo Fisher). Reactions were performed using a StepOnePlus Real-Time PCR System Thermal Cycling block (Applied Biosystems). The relative gene expression levels were assessed according to the 2−ΔCt method [ ].
+The primers used in this study are ctpC (ctpC-F: TCACCATTTTCACCGGGTAT; ctpC-R: GATGTTGAGCAACCACAGGA), ftsZ (ftsZ-F: CGGTATCGCTGATGGATGCTTT;ftsZ-R: CGGACATGATGCCCTTGACG), gapdh (gapdh-F: AATGAAGGGGTCATTGATGG; gapdh-R: AAGGTGAAGGTCGGAGTCAA), and sirt2 (sirt2-F: TCACACTGCGTCAGCGCCAG; sirt2-R: GGGCTGCACCTGCAAGGAG).
+
+## Bliss independence model
+Bliss independence model was used to calculate the excess over Bliss model for growth inhibition [ ]. The model’s formula is expressed as:
+
+ ŷab=ya+yb-yayb
+
+where ŷab is the Bliss-predicted response when drugs A and B are combined; ya is the observed response to drug A alone; and yb is the observed response to drug B alone.
+The Excess over Bliss score (I) was then calculated as .
+The sign of I indicates the nature of the drug interaction:
+I = 0: The drugs act independently.
+I > 0: Synergistic interaction (greater-than-expected effect).
+I < 0: Antagonistic interaction (less-than-expected effect).
+
+## In vivo administration of MC3465 and MC3466
+Seven-week-old female C57BL/6J mice were purchased from Charles River Laboratories and maintained according to Institut Pasteur guidelines for laboratory animal husbandry.
+Compounds were solubilized daily in 0.5% DMSO + 4.5% Cremophor EL + 90%NaCl. Mice were treated with MC3465 and MC3466 by intraperitoneal injections for 2 wk, 6 d per weeks. Mice were deeply anesthetized with a cocktail of ketamine (Merial) and xylasine (Bayer) before cardiac puncture. Blood was collected in heparin-coated tubes. AST and ALT were quantified using the RefloverPlus analyser.
+Mice were infected via aerosol, generated from a suspension containing 5 × 106 CFUs/ml of H37Rv to obtain an expected inhaled dose of 100 to 200 bacilli/lungs. One day after infection, 2 mice were killed, and the numbers of CFU were determined. After 7 d, mice were treated with MC3466 by intraperitoneal injections and/or with rifampicin (10 mg/kg) by gavage for 2 wk, 6 d per weeks. CFUs in lungs of infected animals were determined after 21 d postinfection.
+
+## Histopathology
+Lung samples were fixed in formalin for 7 d and embedded in paraffin. Paraffin sections (4-μm thick) were stained with hematoxylin and eosin (HE). Slides were scanned using the AxioScan Z1 (Zeiss) system, and images were analyzed with the Zen 2.6 software. Histopathological lesions were qualitatively described and when possible scored, using (i) distribution qualifiers (i.e., focal, multifocal, locally extensive, or diffuse); and (ii) a 5-scale severity grade, i.e., 1: minimal, 2: mild, 3: moderate, 4: marked, and 5: severe. The analysis was conducted by a trained pathologist from the histopathology core facility at the Institut Pasteur, who was blinded to the treatment group status of individual animals. For the histological heatmaps, the scores were determined as follows: the percentage of abnormal zone was estimated from low magnification images of scanned slides. All other scores were established at higher magnification (20 to 40× in the Zen program); the interstitial and alveolar syndrome scores reflected the extent of the syndrome, while the inflammation seriousness represented an evaluation of the intensity of the inflammatory reaction, i.e., abundance of inflammatory cells and exudate, conservation, or disruption of the lung architecture; the bronchiolar epithelium alteration score was derived from both the extent and the severity of the lesions.
+
+## Enzyme-linked immunosorbent assay, ELISA
+The concentration of IL-1β in lung lysates was determined in duplicate by specific sandwich ELISA as described by the manufacturer (R&D Systems).
+
+## Quantification and statistical analysis
+Data were expressed as mean ± standard deviation (shown as error bar). Statistical analyses were performed with Prism software (GraphPad Software), using the t test and one-way analysis of variance (ANOVA) as indicated in the figure legends. Differences between groups were examined statistically as indicated (*p < 0.05, **p < 0.01, ***p < 0.001, and ****p < 0.0001). Results were considered statistically significant with a p-value < 0.05.
+
+## Supporting information
+S1 Table
+
+## Epigenetics compound library used in this study.
+(DOCX)
+S2 Table
+
+## List of differentially expressed genes by uninfected macrophages after 4 h of MC3465 treatment.
+(XLSX)
+S3 Table
+
+## List of differentially expressed genes by MTB-infected macrophages after 4 h of MC3465 treatment.
+(XLSX)
+S4 Table
+
+## List of differentially expressed genes by uninfected macrophages after 24 h of MC3465 treatment.
+(XLSX)
+S5 Table
+
+## List of differentially expressed genes by MTB-infected macrophages after 24 h of MC3465 treatment.
+(XLSX)
+S6 Table
+
+## List and structure of MC3465 analogs.
+(PDF)
+S1 Fig
+
+## Experimental validation of the quality of the high-throughput screening.
+(A) Human macrophages were cultured in a 384-well plate and treated with different concentrations of DMSO. After 96-h treatment, cells were labeled with Hoechst 33342 and HCS CellMask Blue. Fluorescence was analyzed by the Opera Phenix Plus High-Content Screening System. Enumeration of cells per well was performed using Columbus image analysis software. (B) MTB was grown in culture liquid medium in the presence of various concentration of DMSO. The number of intracellular bacteria was enumerated at 96 h posttreatment. (C) MTB-infected macrophages in a 384-well plate were treated with DMSO or RIF. After 96 h of treatment, cells were labeled as in (A). Fluorescence was analyzed by the Opera Phenix Plus High-Content Screening System. Quantification of GFP staining and enumeration of cells were performed using Columbus image analysis software. Each dot represents a well. (D, E) Macrophages were infected with MTB at various MOI. The number of intracellular bacteria was enumerated at 96 h postinfection by (D) counting the number of CFU or (E) calculating the GFP area as determined in (C). (F) MTB-infected macrophages in 384-well plate were treated with DMSO, MC3465 (10 μM), or RIF (1 μg/ml). After 96 h treatment, cells were labeled as in (A). Each dot represents a well. The z-score was calculated. Panels A-F: One representative experiment (of at least 2) is shown. t Test was used. Error bars represent the mean ± SD. ****p < 0.0001. The data underlying the graphs shown in the figure can be found in .
+(EPS)
+S2 Fig
+
+## MC3465 was nontoxic and limited intracellular growth of MTB, independently of macrophage polarization.
+(A) Naive macrophages were treated with different concentrations of MC3465. After 96 h, cell viability was assessed using the MTT assay according to the manufacturer’s instructions. (B) Human monocytes were differentiated with GM-CSF or M-CSF for 6 d. Cells were then infected with MTB and treated with MC3465 (10 μM) for an additional 4 d. Cells were lysed and bacteria were enumerated by CFU. (C) Macrophages were infected with E. coli (strain HB101). After 1 h, cells were washed in PBS, and gentamycin (50 μg/ml) was added to kill extracellular bacteria. After an additional 1 h, cells were washed and incubated in fresh complete medium containing gentamycin (5 μg/ml) with DMSO or MC3465 (10 μM). Intracellular bacteria were enumerated at 0, 4, and 24 h postinfection. (D) MTB was grown in culture liquid medium in the presence of various concentration of MC3465. The number of intracellular bacteria was enumerated at 96 h posttreatment through CFU counting. Panels A-D: One representative experiment (out of 2) is shown. Error bars represent the mean ± SD. t Test was used. ** p < 0.01, *** p < 0.001. The data underlying the graphs shown in the figure can be found in .
+(EPS)
+S3 Fig
+
+## MC3465 constrained the intracellular growth of MTB independently of SIRT2.
+(A) MTB-infected macrophages were treated with different concentrations of MC3465 and of 2 SIRT2 inhibitors, namely, AGK2 and SirReal2. After 96 h, cells were lysed and bacteria were enumerated by CFU. (B) Macrophages were preincubated with AGK2 (10 μM) and MC3465 (10 μM). After 2 h, the cells were infected with MTB in the continuous presence of AGK2 and MC3465. The enumeration of intracellular bacteria was performed 96 h after infection. (C, D)
+SIRT2 expression was down-regulated in macrophages using siRNA-mediated gene silencing. (C) Relative SIRT2 expression measured by RT-qPCR in SIRT2-silenced cells. Relative expression levels were normalized to the GADPH gene. Scramble siRNA (scRNA) was used as a negative control. (D) WT and SIRT2-silenced macrophages were infected with MTB and treated with MC3465 (10 μM). After 96 h, the number of intracellular bacteria was counted. (E) WT MEFs or SIRT2−/− MEFs were infected with MTB and treated with MC3465 (10 μM). After 48 h, cells were lysed and the number of intracellular bacteria was enumerated. Panels A-E: One representative experiment (of 2) is shown. One-way ANOVA test (S3A and S3B) and t test (S3E) were used. Error bars represent the mean ± SD. ns, not significant, **p < 0.01, ***p < 0.0001. The data underlying the graphs shown in the figure can be found in .
+(EPS)
+S4 Fig
+
+## The MC3465 treatment did not reduce intracellular MTB growth through the inhibition of the mycobacterial SIRT2-like protein, Rv1151c.
+(A) RvΔ1151c knock-out strain was obtained by performing DNA recombination. Three different couples of primers were used: 5′-actacagctggatggattccg-3′ and 5’′-atttaaatcgctcagtggaacg -3′ (amplification for if WT H37Rv: 0 bp, amplification if H37RvΔ1151c: 1531 bp), 5′- atttaaataacgaaaggctcagtc-3′ and 5′- acacgccagcgtcagcaatc-3′ (amplification for if WT H37Rv: 0 bp, amplification if H37RvΔ1151c: 1857 bp), 5′-actacagctggatggattccg-3′ and 5′-acacgccagcgtcagcaatc-3′ (amplification for if WT H37Rv: 2616 bp, amplification if H37RvΔ1151c: 2550 bp). (B) Growth of MTB H37Rv or RvΔ1151c in liquid culture medium, determined by OD600. (C) Human monocyte-derived macrophages were infected with either MTB WT (H37Rv) or a Rv1151c null mutant (RvΔ1151c). Cells were then treated with MC3465 and MC3466 (10 μM). After 0 or 96 h, bacteria were enumerated by CFU. One representative experiment (of 2) is shown. t Test was used. Error bars represent the mean ± SD. ****p < 0.0001. The data underlying the graphs shown in the figure can be found in .
+(EPS)
+S5 Fig
+
+## MC3465 did not induce autophagy in MTB-infected macrophages.
+(A) Detection by indirect immunofluorescence of LC3 (red) in MTB (green) infected macrophages, treated with MC3465 (10 μM) for 4 h (scale bar: 10 μm). DAPI (blue) was used to visualize nuclei. (B) Determination of the number of LC3-positive puncta per cell (unpaired t test) after 4 h and 48 h treatment with MC3465 (10 μM). (C) Western blot analysis of LC3 and α/ß-tubulin in MTB-infected cells treated with MC3465 (10 μM) and bafilomycin A1 (BAF, 100 nM) for 4 and 48 h. (D) MTB-infected macrophages were left untreated or incubated with MC3465 (10 μM) plus BAF (100 nM), 3-MA (5 mM), or CQ (40 μM). After 4 d, the number of intracellular bacteria was enumerated. Panels A-D: One representative experiment (of at least 2) is shown. Error bars represent the mean ± SD. t Test was used. ns, not significant, *** p < 0.001. The data underlying the graphs shown in the figure can be found in .
+(EPS)
+S6 Fig
+
+## MC3465 treatment did not increase intracellular reactive oxygen species (ROS) levels.
+MTB-infected macrophages were cultured in a 384-well plate and treated with DMSO or MC3465 (10 μM). Total and mitochondrial ROS staining were performed after 4 and 24 h using respectively CellROX deep red (5 μM) (A, B) or MitoSOX (5 μM) (C, D). Fluorescence was analyzed by the Opera Phenix Plus High-Content Screening System. Enumeration of cells per well was performed using Columbus image analysis software. Scale bar, 20 μm. (E) MTB-infected cells were treated with MC3465 with either the antioxidant GSH (1 mM) or with its precursor NAC (10 mM). The number of intracellular bacteria was enumerated at 96 h posttreatment. Panels A-E: Data are representative of 2 independent experiments. Error bars represent the mean ± SD. The data underlying the graphs shown in the figure can be found in .
+(EPS)
+S7 Fig
+
+## Gene ontology enrichment analysis of genes down-regulated by MC3465 treatment.
+Gene ontology enrichment analysis of genes whose expression is down-regulated by MC3465 treatment in MTB-infected cells, using the Cytoscape app ClueGO (p.value<0,05; LogFC<-0,5 or LogFC>0,5) after 4 h (A) and 24 h (B).
+(EPS)
+S8 Fig
+
+## Free zinc is released upon MC3465 treatment.
+Naive macrophages were incubated with ZNSO4 (50 and 100 μM), MC3465 (10 and 50 μM), or the zinc-chelating agent TPEN (2.5 μM) during 4 h. (A) Cells were fixed and stained with FluoZin 3-AM. Scale bar, 20 μm. (B) Average FluoZin 3-AM signal intensity, for at least 400 cells per condition. (C, D) MTB-infected macrophages were treated with MC3465 (10 μM) during 24 h and 96 h. Cells were then fixed and stained with FluoZin 3-AM. (C) Representative images of FluoZin 3-AM staining. Scale bar, 20 μm. (D) Average FluoZin 3-AM signal intensity for at least 400 cells per condition. Panels A-D: Data are representative of 3 independent experiments. One-way ANOVA test was used. Error bars represent the mean ± SD. **p < 0.01, ****p < 0.0001. The data underlying the graphs shown in the figure can be found in .
+(EPS)
+S9 Fig
+
+## The treatment with MC3465 did not induce a burst of copper.
+(A) MTB-infected macrophages were treated with MC3465 (10 μM) for 4 and 24 h, and copper ions (Cu+) were subsequently stained using the fluorescent probe BioTracker Green Copper dye (5 μM) as described by the manufacturer. Scale bar, 10 μm. (B) Average signal intensity of BioTracker Green Copper Dye, calculated for at least 400 cells per condition. Data are representative of 2 independent experiments. One-way ANOVA test was used. Error bars represent the mean ± SD. ns, not significant. The data underlying the graphs shown in the figure can be found in .
+(EPS)
+S10 Fig
+
+## Treatment with inactive MC3465 analogs does not result in free zinc released.
+(A) MTB was grown in culture liquid medium in the presence of MC3466 (10 and 50 μM). The number of intracellular bacteria was enumerated at 96 h posttreatment through CFU counting. (B) Structures of inactive MC3465 analogs. (C) Macrophages were infected with GFP expressing MTB and incubated with inactive MC3465 analogs identified in (10 μM). After 96-h treatment, cells were labeled with Hoechst 33342 and HCS CellMask Blue. Fluorescence was analyzed by the Opera Phenix Plus High-Content Screening System. Quantification of GFP staining was performed using Columbus image analysis software. The areas of intracellular bacteria (px2: pixels2) were expressed as the percentage in compound-treated cells compared to cells incubated with DMSO. (D) Representative image of FluoZin 3-AM staining. MTB-infected macrophages were incubated with MC3465 analogs (10 μM) during 24 h. Cells were then fixed and stained with FluoZin 3-AM. (E) Average FluoZin 3-AM signal intensity for at least 400 cells per condition. Panels C-E: One representative experiment (of 2) is shown. Error bars represent the mean ± SD. The data underlying the graphs shown in the figure can be found in .
+(EPS)
+S11 Fig
+
+## Susceptibility and resistance of MTB strains to MC3465, MC3466, RIF, and BDQ.
+(A-C) WT MTB H37Rv was incubated in liquid culture medium with different concentrations of MC3465 or MC3466 (A), RIF (B), or BDQ (C) alone or in association with MC3465 or MC3466 (10 μM). The growth was determined by OD600. One representative experiment (of at least 3) is shown. Error bars represent the mean ± SD. The data underlying the graphs shown in the figure can be found in .
+(EPS)
+S12 Fig
+
+## MC3465 and MC3466 were well tolerated in mice.
+(A) The murine macrophage cell line, RAW 264.7, was infected with MTB and treated with MC3465 or MC3466 (10 μM). After 0 or 48 h, bacteria were enumerated by CFU. (B-D) Eight-week-old female C57BL/6J mice received different concentrations of MC3465 and MC3466 by intraperitoneal injection 6 d per week during 2 wk. (B) Weight was evaluated before each injection. (C, D) Blood was drawn before mouse killing. (C) ALT and (D) AST levels were measured according to the manufacturer’s instructions. Error bars represent the mean ± SD. One-way ANOVA test was used. ns, not significant, ***p < 0.001, ****p < 0.0001. The data underlying the graphs shown in the figure can be found in .
+(EPS)
+S1 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S2 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S3 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S4 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S5 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S6 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S7 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S8 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S9 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S10 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S11 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S12 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S13 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S14 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S15 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S16 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S17 Data
+
+## Supporting data files for .
+These files contain the numerical values used to generate the graphs in , the statistical analyses, and the p-value.
+(XLSX)
+S1 Raw Images
+
+## Raw images.
+(PDF)
+
+We thank Charles Privé (CHU Sainte-Justine Integrated Centre for Pediatric Clinical Genomics, Montreal, Canada) for his technical support.
+
+## Abbreviations
+3-MA3-methyladenine
+ADCalbumin dextrose catalase
+ALTalanine aminotransferase
+ANOVAanalysis of variance
+ASTaspartate aminotransferase
+Atcanhydrotetracycline
+BAFBafilomycin A1
+BDQbedaquiline
+BHIbrain–heart infusion
+CFUcolony-forming unit
+CQchloroquine
+DRCdose–response curve
+EDTAethylenediaminetetraacetic acid
+FBSfetal bovine serum
+GFPgreen fluorescent protein
+GM-CSFgranulocyte-macrophage colony-stimulating factor
+GOgene ontology
+GSHglutathione
+HDThost-directed therapy
+HEhematoxylin–eosin
+HeLaHenrietta Lacks
+IFNinterferon
+INHisoniazid
+LBLuria Bertani
+LC3Blight-chain 3B
+M-CSFmacrophage colony-stimulating factor
+MDRmultidrug resistant
+MEFmouse embryonic fibroblast
+MICminimal inhibitory concentration
+MOImultiplicity of infection
+MTB
+Mycobacterium tuberculosis
+
+mTORmechanistic target of rapamycin
+NACN-Acetyl-L-cysteine
+RIFrifampicin
+ROSreactive oxygen species
+RTroom temperature
+RT-qPCRquantitative reverse transcription PCR
+SIRT2sirtuin 2
+TBtuberculosis
+V-ATPasevacuolar-type H+-ATPase
+WTwild-type
+ 10.1371/journal.pbio.3002259.r001Decision Letter 0
+Jauregui, PhDPaulaSenior Editor© 2024 Paula Jauregui, PhD2024Paula Jauregui, PhDhttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version0
+19 Jul 2023
+
+Dear Dr Tailleux, 
+Thank you for submitting your manuscript entitled "An oxadiazole-based compound potentiates anti- tuberculosis treatment by increasing host resistance via zinc poisoning" for consideration as a Research Article by PLOS Biology.
+Your manuscript has now been evaluated by the PLOS Biology editorial staff, as well as by an academic editor with relevant expertise, and I am writing to let you know that we would like to send your submission out for external peer review.
+However, before we can send your manuscript to reviewers, we need you to complete your submission by providing the metadata that is required for full assessment. To this end, please login to Editorial Manager where you will find the paper in the 'Submissions Needing Revisions' folder on your homepage. Please click 'Revise Submission' from the Action Links and complete all additional questions in the submission questionnaire.
+Once your full submission is complete, your paper will undergo a series of checks in preparation for peer review. After your manuscript has passed the checks it will be sent out for review. To provide the metadata for your submission, please Login to Editorial Manager (https://www.editorialmanager.com/pbiology) within two working days, i.e. by Jul 21 2023 11:59PM.
+If your manuscript has been previously peer-reviewed at another journal, PLOS Biology is willing to work with those reviews in order to avoid re-starting the process. Submission of the previous reviews is entirely optional and our ability to use them effectively will depend on the willingness of the previous journal to confirm the content of the reports and share the reviewer identities. Please note that we reserve the right to invite additional reviewers if we consider that additional/independent reviewers are needed, although we aim to avoid this as far as possible. In our experience, working with previous reviews does save time. 
+If you would like us to consider previous reviewer reports, please edit your cover letter to let us know and include the name of the journal where the work was previously considered and the manuscript ID it was given. In addition, please upload a response to the reviews as a 'Prior Peer Review' file type, which should include the reports in full and a point-by-point reply detailing how you have or plan to address the reviewers' concerns. 
+During the process of completing your manuscript submission, you will be invited to opt-in to posting your pre-review manuscript as a bioRxiv preprint. Visit http://journals.plos.org/plosbiology/s/preprints for full details. If you consent to posting your current manuscript as a preprint, please upload a single Preprint PDF. 
+Feel free to email us at plosbiology@plos.org if you have any queries relating to your submission.
+Kind regards,
+Paula
+---
+Paula Jauregui, PhD, 
+Senior Editor
+PLOS Biology
+
+pjaureguionieva@plos.org
+
+10.1371/journal.pbio.3002259.r002Decision Letter 1
+Jauregui, PhDPaulaSenior Editor© 2024 Paula Jauregui, PhD2024Paula Jauregui, PhDhttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version1
+5 Sep 2023
+
+Dear Dr. Tailleux,
+Thank you for your patience while your manuscript "An oxadiazole-based compound potentiates anti- tuberculosis treatment by increasing host resistance via zinc poisoning" was peer-reviewed at PLOS Biology. It has now been evaluated by the PLOS Biology editors, an Academic Editor with relevant expertise, and by several independent reviewers. 
+In light of the reviews, which you will find at the end of this email, we would like to invite you to revise the work to thoroughly address the reviewers' reports.
+As you will see below, the reviewers find your work interesting, but they all find issues that would need to be solved before further consideration at PLOS Biology. In particular, we think it is important that you address the causation between the compound and zinc intoxication with additional experiments.
+Given the extent of revision needed, we cannot make a decision about publication until we have seen the revised manuscript and your response to the reviewers' comments. Your revised manuscript is likely to be sent for further evaluation by all or a subset of the reviewers.
+We expect to receive your revised manuscript within 3 months. Please email us (plosbiology@plos.org) if you have any questions or concerns, or would like to request an extension. 
+At this stage, your manuscript remains formally under active consideration at our journal; please notify us by email if you do not intend to submit a revision so that we may withdraw it.
+**IMPORTANT - SUBMITTING YOUR REVISION**
+Your revisions should address the specific points made by each reviewer. Please submit the following files along with your revised manuscript:
+1. A 'Response to Reviewers' file - this should detail your responses to the editorial requests, present a point-by-point response to all of the reviewers' comments, and indicate the changes made to the manuscript. 
+*NOTE: In your point-by-point response to the reviewers, please provide the full context of each review. Do not selectively quote paragraphs or sentences to reply to. The entire set of reviewer comments should be present in full and each specific point should be responded to individually, point by point.
+You should also cite any additional relevant literature that has been published since the original submission and mention any additional citations in your response. 
+2. In addition to a clean copy of the manuscript, please also upload a 'track-changes' version of your manuscript that specifies the edits made. This should be uploaded as a "Revised Article with Changes Highlighted" file type. 
+*Re-submission Checklist*
+When you are ready to resubmit your revised manuscript, please refer to this re-submission checklist: https://plos.io/Biology_Checklist
+To submit a revised version of your manuscript, please go to https://www.editorialmanager.com/pbiology/ and log in as an Author. Click the link labelled 'Submissions Needing Revision' where you will find your submission record. 
+Please make sure to read the following important policies and guidelines while preparing your revision:
+*Published Peer Review*
+Please note while forming your response, if your article is accepted, you may have the opportunity to make the peer review history publicly available. The record will include editor decision letters (with reviews) and your responses to reviewer comments. If eligible, we will contact you to opt in or out. Please see here for more details:
+
+https://blogs.plos.org/plos/2019/05/plos-journals-now-open-for-published-peer-review/
+
+*PLOS Data Policy*
+Please note that as a condition of publication PLOS' data policy (http://journals.plos.org/plosbiology/s/data-availability) requires that you make available all data used to draw the conclusions arrived at in your manuscript. If you have not already done so, you must include any data used in your manuscript either in appropriate repositories, within the body of the manuscript, or as supporting information (N.B. this includes any numerical values that were used to generate graphs, histograms etc.). For an example see here: http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1001908#s5
+
+*Blot and Gel Data Policy*
+We require the original, uncropped and minimally adjusted images supporting all blot and gel results reported in an article's figures or Supporting Information files. We will require these files before a manuscript can be accepted so please prepare them now, if you have not already uploaded them. Please carefully read our guidelines for how to prepare and upload this data: https://journals.plos.org/plosbiology/s/figures#loc-blot-and-gel-reporting-requirements
+
+*Protocols deposition*
+To enhance the reproducibility of your results, we recommend that if applicable you deposit your laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols
+Thank you again for your submission to our journal. We hope that our editorial process has been constructive thus far, and we welcome your feedback at any time. Please don't hesitate to contact us if you have any questions or comments.
+Sincerely,
+Paula
+---
+Paula Jauregui, PhD, 
+Senior Editor
+PLOS Biology
+
+pjaureguionieva@plos.org
+
+------------------------------------
+REVIEWS:
+Reviewer #1: Tuberculosis and antimicrobial resistance
+Reviewer #2: Mouse and rabbit models of tuberculosis
+Reviewer #1: The manuscript by Maure et al. reports the identification of a novel 1,2,4-oxadiazole-based compound that restricts the growth of Mycobacterium tuberculosis in macrophages, likely through zinc intoxication. In combination with known TB drugs, this compound reduces MTB burden when administered in mice in the acute phase of infection. The manuscript is cogent, the results presented are overall solid and the conclusions sound. However, some of the points below must be addressed while others—although there shouldn't be necessarily addressed—may strengthen the overall robustness of the data presented in the manuscript.
+Major points that should be addressed/discussed:
+- Figure 1: To demonstrate that MC3465 might have specificity towards MTB, the authors show that MC3465 is inactive against Salmonella and Listeria. As accumulation of intracellular concentration of zinc has been shown to be bactericidal against E. coli (Ref. 27), why has the compound not been tested on E. coli?
+- Figure 3: Why do similar intracellular concentrations of zinc (panel B: - TPEN - MC3465 and + TPEN + MC3465) lead to such differences in CFU counts (panel F)? 
+- Figure 4: To add to the lack of correlation between zinc intracellular concentrations and the inhibitors' efficacy, MC3465 is static while MC3466 is cidal, although the former leads to higher accumulation of intracellular zinc than the latter; if this is due to experimental variability, both compounds should be tested in the in same experiment for their effect on the level of intracellular zinc and CFU counts.
+- As MC3465 must have been used as a reference, please indicate where MC3465 is in panel 4A.
+- Figure 6: Does the compound have an effect when administered during the chronic phase of infection? Is the treatment intended for prophylaxis? The rationale of the design of the experiment should be unambiguously stated. In Panel B, the addition of arrows would help guide the naïve eye. 
+- Page 16: "improves the healing of lesions". This is an overstatement; the authors did not show that there were any lesions in the first place.
+Minor points that should be addressed:
+- "Epigenetic compounds" -reformulate. 
+- In page 5, in the sentence that says: "A 25% and 55% decrease of CFUs", are these numbers correct? For clarity, all variations should be expressed in n fold-reduction.
+- Figure 4: MC3465 seems to have less of an effect as compared to panel 1C—is it because the DMSO control grew less? If so, this should be mentioned. 
+Non-essential, additional work that would strengthen the manuscript:
+- In figure 4, including an inactive analog as a negative control would have been appropriate.
+- Does the CtpC mutant that cannot efflux zinc have increased sensitivity to MC3465 in macrophage?
+- Would the authors anticipate that mutants with mutations in ctpC that leads to overexpression of CtpC could be a mechanism of resistance to MC3465? Are there any such mutants found in clinical isolates—that evolved to counter host immunity—that could be tested for their sensitivity to MC3465?
+Reviewer #2: In the manuscript, the authors have screened a library of 157 epigenetic-modifying molecules to identify novel drugs that restrict Mtb growth in macrophages. The authors propose that the top hit molecules MC3465 and MC3466 are not inhibitors of the SIRT2 histone deacetylase, but rather they induce Zn accumulation inside macrophages to inhibit Mtb replication. Additionally, MC3466 was shown to potentiate the lethality of rifampicin inside macrophages and in an acute mouse model of TB disease. 
+Major Concerns:
+1. While the study shows that MC3465 and MC3466 lead to Zn accumulation in cells which is inhibitory to Mtb, the study falls short of identifying a mechanism for the drug-mediated increase intracellular Zn levels and decrease in metallothionein levels. It would be valuable to know if MC3465 modulates the intracellular levels of other metals such as Cu and Fe? In Mtb -infected macrophages, the Fluozin-3 signal was inhibited by apocynin, an inhibitor of the NADPH phagocyte oxidase, strongly suggesting that the oxidative burst observed during mycobacterial infection leads to the dissociation of zinc from intracellular Zn2+-MT complexes. Does MC3465 induce phox expression and/or its activity?
+2. Fig. 1a. High throughput screen. A z-value should be provided to measure the robustness of the HTS assay shown in Figure 1A (PMID: 10838414). Also, the data on positive control and negative controls used in the screen should be included. Additionally, in this imaging-based assay, controls where the GFP area/cell are correlated with CFU and MOI would be important to include.
+3. Fig. 1a. Human MDMs were used. Were these donors tested for latent TB infection (LTBI) by TST and/or IGRA? The authors should mention this in the methods.
+4. P. 5, first full paragraph. It is not clear how molecule-induced cytotoxicity was determined by Hoechst 33342 staining. This dye is cell-permeant and stains both live and dead cells. 
+5. Fig. 1C, 4C: Mtb CFU increase in the presence of MC3465. But the CFU increase is slower than it is with no drug. The authors need to state this clearly. Also, on p. 11 lines 8-13, how can one calculate an IC50 when the bacillary count is actually increasing? Presumably, this was done by setting up proportions to the CFU counts of untreated controls at each time point. In any event, the authors need to state clearly how IC50 was determined.
+6. The authors should demonstrate that MC3465 does not directly inhibit SIRT2 activity in vitro as shown in Ref. 18 to rule out this possibility. The previous study (ref. 18) also shows that AGK2 decreases Mtb CFU burden; however, this killing activity was absent in Figure S2A. The authors should address this apparent discrepancy.
+7. Figure 2A. The authors state there are 4 groups: DMSO-naive, DMSO-infected, MC3465-naive, MC3465 infected; however, it is not clear what the comparator groups are in Fig. 2a. Please clarify this. Additionally, the cutoff should be at least >1.5 absolute-fold change (log2 FC>0.6) and FDR <0.05, not p-value, so these data should be re-analyzed with appropriate cutoff values. Also, the list of DEGs is not present as a supplementary file, and this list should be added. 
+8. The authors did not mention why downregulated genes were selected for analysis and what the upregulated genes in the RNA-Seq analysis were. On p. 8, second to last sentence, the term "significantly enriched" is used; the p-values associated with this statement should be provided. Figures 2b and 2c are cytoscape images that do not add meaningful information; these could easily be moved to the supplement
+9. Page 9, paragraph 1. Ref 27 shows elevated metallothionein (MT) gene expression during Mtb infection is associated with high Zn levels in host cells. Thus, the literature suggests that MT genes are induced at higher concentrations of Zn. The authors therefore need to clarify their claim that lower metallothionein gene expression leads to high labile Zn. Additionally, high concentrations of Zn induce many epigenetic changes and numerous signaling mechanisms in human cells that can indirectly affect host-bacteria interaction and this confounder should at least be discussed (PMID: 26959009)
+10. Figure 3. While Zn is highly accumulated at 4 h, the CFU analysis is done at 96 h. Zn accumulation and CFU should be done at the same timepoints. The authors should provide the Zn levels at later time points (96 h) where there is a bacteriostatic effect to provide direct proof of Zn intoxication.
+11. Figure 3c and 3d. Are the results shown also observed at 96 h? How exactly the phagosomes were counted/determined? 
+12. Figures 3E and 3F. The concentrations of ZnSo4 and MC3465 needs to be stated. The upregulation of ctpC is marginal and it is unclear if it is statistically significant. Multiple timepoints need to be tested for this experiment. In Ref. 27, the addition of 0.5 mM Zn led to very high ctpC expression, and the authors should offer explanations for the very modest induction reported here. Additionally, either 16S or sigA gene expression is usually used for normalization, rather than the blank which in this case is DMSO. 
+13. Fig. 6. For mouse infection experiments, the day 0 CFU data would be helpful. Additionally the authors should address the 1000-fold variation in bacterial burden after MC3466-only treatment. For Fig. 6c and p. 23, the authors should clarify who performed the histopathological analysis (was it a trained pathologist?) and whether or is not the scorer was blinded to the identity of the samples.
+14. RNA seq data show reduced expression of genes involved in TNF, type I IFN signaling, and innate immunity alterations. This can reduce inflammation and tissue damage inside the host leading to better treatment outcomes during Mtb infection. Authors should check levels of these cytokines in lungs and also, Zn levels inside mice to support their in vitro data of Zn toxicity to Mtb and disprove other possible reasons. 
+15. Statistical analysis and scientific rigor. Please show the number of biological and technical replicates; this information is missing in many experiments. For Fig 1 and Fig. 3 it is impossible to tell which panel used T-test and which used ANOVA The data figures would be strengthened by showing all data points in addition to the SD . In Fig. 4c, 5a, and 5b it is unclear which groups are being compared for the p values shown. 
+Minor Concerns:
+16. P. 3, lines 15-16. MDR-TB is now readily treatable with the BPaL regimen. Please see Conradie et al NEJM 2022 PMID 36053506
+17. Fig. S3b and P. 8, line 4: The figure shows that LC3B puncta are lower in MC3465-treated cells at the early time point (p< 0.001), while the text states that there was a minimal difference. Also, there is a discrepancy between the figure (which says the early time point is 4 h) and the text (which says that the early time point is 24 h). Additionally, a Western blot must be done to see unchanged LC3 I and II levels to detect alterations in autophagy at 4h and 96 h.
+18. P. 12 line 15-17. Neither the figure nor the text state what the Bliss scores are. Please provide the actual score. The methodology should be properly written so that others can repeat the experiment if required. The color code does not match or is not clear to me.
+19. P. 13, lines 5-8. It is noted that there were no adverse effects on AST and ALT, but as a dru
+10.1371/journal.pbio.3002259.r003Author response to Decision Letter 1
+Submission Version2
+21 Feb 2024
+
+AttachmentSubmitted filename: Maure_response to reviewers.pdf
+10.1371/journal.pbio.3002259.r004Decision Letter 2
+HodgeRichardSenior Editor© 2024 Richard Hodge2024Richard Hodgehttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version2
+27 Feb 2024
+
+Dear Dr Tailleux,
+Thank you for your patience while we considered your revised manuscript "An oxadiazole-based compound potentiates anti- tuberculosis treatment by increasing host resistance via zinc poisoning" for publication as a Research Article at PLOS Biology. This revised version of your manuscript has been evaluated by the PLOS Biology editors and the Academic Editor.
+Based on our Academic Editor's assessment of your revision, I am pleased to say that we are likely to accept this manuscript for publication, provided you satisfactorily address the remaining comments raised by the Academic Editor, pasted below my signature (labelled 'Comments from the Academic Editor'). In addition, please also make sure to address the following data and other policy-related requests that I have provided below (A-G):
+(A) We would like to suggest the following modification to the title: 
+“A host-directed oxadiazole compound potentiates anti-tuberculosis treatment via zinc poisoning in human macrophages and in a mouse model of infection"
+(B) In the human ethics statement in the Methods section, please provide the specific approval number provided by the local ethics committee that reviewed and approved your study. In addition, please clarify that the participants provided a written informed consent. 
+(C) You may be aware of the PLOS Data Policy, which requires that all data be made available without restriction: http://journals.plos.org/plosbiology/s/data-availability. For more information, please also see this editorial: http://dx.doi.org/10.1371/journal.pbio.1001797
+
+Note that we do not require all raw data. Rather, we ask that all individual quantitative observations that underlie the data summarized in the figures and results of your paper be made available in one of the following forms:
+-Supplementary files (e.g., excel). Please ensure that all data files are uploaded as 'Supporting Information' and are invariably referred to (in the manuscript, figure legends, and the Description field when uploading your files) using the following format verbatim: S1 Data, S2 Data, etc. Multiple panels of a single or even several figures can be included as multiple sheets in one excel file that is saved using exactly the following convention: S1_Data.xlsx (using an underscore).
+-Deposition in a publicly available repository. Please also provide the accession code or a reviewer link so that we may view your data before publication. 
+Regardless of the method selected, please ensure that you provide the individual numerical values that underlie the summary data displayed in the following figure panels as they are essential for readers to assess your analysis and to reproduce it:
+Figure 1A, 1C-G, 3B, 3D-E, 4A-C, 5A, 5C-F, 5H-I, 6A-D, 7A, 7C-D, S1A-F, S2A-C, S3A-E, S4B-C, S5B, S5D, S6B, S6D-E, S8B, S8D, S9B, S10A, S10C, S10E, S11A-C, S12A-D
+NOTE: the numerical data provided should include all replicates AND the way in which the plotted mean and errors were derived (it should not present only the mean/average values).
+(D) Thank you for depositing the RNA-seq in the GEO database (GSE222412). However, I note that the data is currently on hold and scheduled for release on June 1st 2024. We ask that you please make this data publicly available before publication.
+(E) Please also ensure that each of the relevant figure legends in your manuscript include information on *WHERE THE UNDERLYING DATA CAN BE FOUND*, and ensure your supplemental data file/s has a legend.
+(F) We require the original, uncropped and minimally adjusted images supporting all blot and gel results reported in the following Figures:
+Figure S4A, S5C
+We will require these files before a manuscript can be accepted so please prepare and upload them now. Please carefully read our guidelines for how to prepare and upload this data: https://journals.plos.org/plosbiology/s/figures#loc-blot-and-gel-reporting-requirements
+(G) Please ensure that your Data Statement in the submission system accurately describes where your data can be found and is in final format, as it will be published as written there. 
+------------------------------------------------------------------------
+As you address these items, please take this last chance to review your reference list to ensure that it is complete and correct. If you have cited papers that have been retracted, please include the rationale for doing so in the manuscript text, or remove these references and replace them with relevant current references. Any changes to the reference list should be mentioned in the cover letter that accompanies your revised manuscript.
+We expect to receive your revised manuscript within two weeks. 
+To submit your revision, please go to https://www.editorialmanager.com/pbiology/ and log in as an Author. Click the link labelled 'Submissions Needing Revision' to find your submission record. Your revised submission must include the following:
+- a cover letter that should detail your responses to any editorial requests, if applicable, and whether changes have been made to the reference list
+- a Response to Reviewers file that provides a detailed response to the reviewers' comments (if applicable, if not applicable please do not delete your existing 'Response to Reviewers' file.)
+- a track-changes file indicating any changes that you have made to the manuscript. 
+NOTE: If Supporting Information files are included with your article, note that these are not copyedited and will be published as they are submitted. Please ensure that these files are legible and of high quality (at least 300 dpi) in an easily accessible file format. For this reason, please be aware that any references listed in an SI file will not be indexed. For more information, see our Supporting Information guidelines:
+https://journals.plos.org/plosbiology/s/supporting-information
+
+*Published Peer Review History*
+Please note that you may have the opportunity to make the peer review history publicly available. The record will include editor decision letters (with reviews) and your responses to reviewer comments. If eligible, we will contact you to opt in or out. Please see here for more details:
+
+https://blogs.plos.org/plos/2019/05/plos-journals-now-open-for-published-peer-review/
+
+*Press*
+Should you, your institution's press office or the journal office choose to press release your paper, please ensure you have opted out of Early Article Posting on the submission form. We ask that you notify us as soon as possible if you or your institution is planning to press release the article.
+*Protocols deposition*
+To enhance the reproducibility of your results, we recommend that if applicable you deposit your laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols
+Please do not hesitate to contact me should you have any questions.
+Sincerely,
+Richard
+Richard Hodge, PhD
+Senior Editor, PLOS Biology
+
+rhodge@plos.org
+
+COMMENTS FROM THE ACADEMIC EDITOR
+After checking the revision and the ‘Response to Reviewers’, I believe the authors did a very careful job of addressing the reviewers' concerns. I have two minor comments regarding the response to reviewer 1:
+"As shown in the figure below, MC3465 treatment had no effect on bacterial load. However, it is important to note that E. coli was rapidly eliminated by macrophages. At 24 hours post infection, we detected almost no bacteria. This may explain why MC3465 has no effect while E. coli is sensitive to zinc. The macrophage response with the zinc burst was probably already optimal for killing E. coli ".
+"We thank the reviewer for raising this issue. Treatment with the zinc chelator TPEN rapidly and dramatically decreased FluoZin-3 AM fluorescence to near background levels, regardless of whether the cells were treated with MC3465. The cells then became highly susceptible to MTB infection. With the technique we used, we cannot precisely quantify the amount of intracellular zinc. We can speculate that zinc may be present in the phagosome at levels undetectable by FluoZin-3 AM in the absence of TPEN, and that this may in part limit MTB growth"
+These arguments - even though they are somewhat speculative - should be part of the manuscript.
+10.1371/journal.pbio.3002259.r005Author response to Decision Letter 2
+Submission Version3
+11 Mar 2024
+
+AttachmentSubmitted filename: Maure_response to reviewers.pdf
+10.1371/journal.pbio.3002259.r006Decision Letter 3
+HodgeRichardSenior Editor© 2024 Richard Hodge2024Richard Hodgehttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version3
+13 Mar 2024
+
+Dear Ludovic,
+On behalf of my colleagues and the Academic Editor, Csaba Pál, I am pleased to say that we can in principle accept your manuscript for publication, provided you address any remaining formatting and reporting issues. These will be detailed in an email you should receive within 2-3 business days from our colleagues in the journal operations team; no action is required from you until then. Please note that we will not be able to formally accept your manuscript and schedule it for publication until you have completed any requested changes.
+Please take a minute to log into Editorial Manager at http://www.editorialmanager.com/pbiology/, click the "Update My Information" link at the top of the page, and update your user information to ensure an efficient production process.
+PRESS
+We frequently collaborate with press offices. If your institution or institutions have a press office, please notify them about your upcoming paper at this point, to enable them to help maximise its impact. If the press office is planning to promote your findings, we would be grateful if they could coordinate with biologypress@plos.org. If you have previously opted in to the early version process, we ask that you notify us immediately of any press plans so that we may opt out on your behalf.
+We also ask that you take this opportunity to read our Embargo Policy regarding the discussion, promotion and media coverage of work that is yet to be published by PLOS. As your manuscript is not yet published, it is bound by the conditions of our Embargo Policy. Please be aware that this policy is in place both to ensure that any press coverage of your article is fully substantiated and to provide a direct link between such coverage and the published work. For full details of our Embargo Policy, please visit http://www.plos.org/about/media-inquiries/embargo-policy/.
+Thank you again for choosing PLOS Biology for publication and supporting Open Access publishing. We look forward to publishing your study. 
+Kind regards, 
+Richard
+Richard Hodge, PhD
+Senior Editor, PLOS Biology
+
+rhodge@plos.org
+
+PLOS
+Empowering researchers to transform science
+Carlyle House, Carlyle Road, Cambridge, CB4 3DN, United Kingdom
+ORCiD I plosbio.org I @PLOSBiology I Blog
+California (U.S.) corporation #C2354500, based in San Francisco

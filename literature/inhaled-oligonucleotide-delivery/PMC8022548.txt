@@ -1,0 +1,167 @@
+32bmcgenoBMC GenomicsBMC GenomicsBMCPMC8022548802254880225483382380110.1186/s12864-021-07572-8Genome-scale analyses of transcriptional start sites in Mycobacterium marinum under normoxic and hypoxic conditions
+HuangShaojia ZhouWei TangWei ZhangYong HuYangbo ChenShiyun 1CAS Key Laboratory of Special Pathogens and Biosafety, Wuhan Institute of Virology, Center for Biosafety Mega-Science, Chinese Academy of Sciences, Wuhan, 430071 China 2University of Chinese Academy of Sciences, Beijing, 100049 China ✉Corresponding author.
+64202122235235742021© The Author(s) 2021Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated in a credit line to the data.
+
+## Abstract
+
+## Background
+Hypoxic stress plays a critical role in the persistence of Mycobacterium tuberculosis (Mtb) infection, but the mechanisms underlying this adaptive response remain ill defined.
+
+## Material and methods
+In this study, using M. marinum as a surrogate, we analyzed hypoxic responses at the transcriptional level by Cappable-seq and regular RNA-seq analyses.
+
+## Results
+A total of 6808 transcriptional start sites (TSSs) were identified under normoxic and hypoxic conditions. Among these TSSs, 1112 were upregulated and 1265 were downregulated in response to hypoxic stress. Using SigE-recognized consensus sequence, we identified 59 SigE-dependent promoters and all were upregulated under hypoxic stress, suggesting an important role for SigE in this process. We also compared the performance of Cappable-seq and regular RNA-seq using the same RNA samples collected from normoxic and hypoxic conditions, and confirmed that Cappable-seq is a valuable approach for global transcriptional regulation analyses.
+
+## Conclusions
+Our results provide insights and information for further characterization of responses to hypoxia in mycobacteria, and prove that Cappable-seq is a valuable approach for global transcriptional studies in mycobacteria.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12864-021-07572-8.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2020 Dec 23; Accepted 2021 Mar 26; Collection date 2021.
+
+## Introduction
+Mycobacterium tuberculosis (Mtb), the etiologic agent of tuberculosis (TB), is one of the most successful bacterial pathogens of humans. It is estimated that one-third of the world’s population is infected by Mtb, of whom 90% will develop latent TB infection (LTBI) [ ], presenting a heavy burden for TB prevention. Through inhalation of aerosol droplets containing bacilli, Mtb reaches lung airways and is engulfed by alveolar macrophages, which then recruit mononuclear cells and T lymphocytes to form granulomas [ ]. In both macrophages and granulomas, Mtb encounters hypoxic stress [ , ], which has been shown to be important for inducing the transition to dormancy, a nonreplicating and drug-resistant state [ , ].
+Several in vitro models have been established to investigate how Mtb adapts to hypoxic stress, such as the Wayne model [ ] and the defined hypoxia model [ , ]. In the Wayne model, bacterial cells are grown in sealed and stirred tubes with a defined headspace-to-culture ratio, allowing the gradual exhaustion of oxygen [ ]. Compared with the defined hypoxia model, which requires a constant flow of low oxygen gas over the culture to maintain hypoxia [ , ], the Wayne model is relatively simple to set up in the laboratory [ , , ].
+It has been reported that the two-component response regulator DosR is critical for the initial hypoxic response [ , ], and hundreds of genes are subsequently upregulated independent of DosR, defining the enduring hypoxic response (EHR) [ ]. The regulatory networks of Mtb during hypoxia and re-aeration have been reconstructed based on ChIP-Seq analyses [ ]. These studies suggest that transcriptional regulators play essential roles in hypoxic responses. In addition to transcriptional regulators, sigma factors have also been known to regulate gene transcription in stress responses. Sigma factor (σ) first reconstitutes with the RNA polymerase (RNAP) core enzyme to form a holoenzyme, which can recognize specific promoter sequences in the transcription initiation process [ ]. Bacterial promoters of the σ70 family contain − 10 and − 35 elements located upstream of transcriptional start sites (TSSs) [ ]. Therefore, global identification of TSSs would provide valuable information for promoter characterization. The Mtb genome encodes 13 sigma factors, most of which are critical for survival under stress conditions [ – ]. Among them, sigB and sigE have been shown to be upregulated under hypoxic stress [ ], although their functions in hypoxic responses have not been completely characterized.
+In recent studies, different methods have been developed for the global analysis of TSSs in bacteria, such as differential RNA-seq (dRNA-seq) [ ] and Cappable-seq [ ]. In prokaryotes, primary transcripts reflecting TSSs constitute less than 5% of the total RNA; the vast majority are processed ribosomal RNAs. Taking advantage of the distinctive 5′ triphosphate ends of primary transcripts, dRNA-seq and Cappable-seq use different strategies to enrich for primary transcripts. dRNA-seq relies on 5′ monophosphate-dependent terminator exonuclease (TEX) to deplete processed transcripts, thus enhancing the relative content of primary transcripts [ ]. In Cappable-seq, vaccinia capping enzyme (VCE) is used to label 5′ triphosphorylated RNA with a biotin derivative, and then the primary transcripts are captured on streptavidin beads [ ]. Global characterizations of TSSs in different mycobacterial species have also been documented [ – ], but the influences of different stresses on the strength of these TSSs in mycobacteria are not well defined.
+M. marinum has been used as a surrogate for Mtb to overcome its slow-growing nature and to avoid the requirement of a biosafety level 3 (BSL-3) facility. More importantly, M. marinum also forms granulomas during zebrafish infection [ , ]. In this study, we characterized the transcriptional regulation of M. marinum under normoxic and hypoxic conditions by quantifying the strength of TSSs using Cappable-seq [ ], which provides insights and information for further characterization of hypoxic responses in mycobacteria.
+
+## Results
+
+## Hypoxic treatment of M. marinum
+To test the hypoxic response of M. marinum, we applied the Wayne low-oxygen model to mimic hypoxic conditions [ , ]. In this model, an oxygen-responsive dye, methylene blue, was added to the medium to indicate the depletion of oxygen. As shown in Fig.  a, the dye changed from blue to colorless when incubated at 32 °C for 24 h. M. marinum cell cultures with and without hypoxic treatment were collected. Colony forming units (CFU) were increased approximately 3-fold after 24 h under oxygen limitation (Fig. b), suggesting that the cells successfully coped with hypoxic stress. As positive controls, the induction of the dormancy regulator dosR and one of its activated genes, tgs1 [ ], under hypoxic conditions was confirmed using qRT-PCR analysis. Consistent with a previous report [ ], the expression level of inhA, which is known to be involved in mycolic acid biosynthesis [ ], was decreased (Fig. c).
+
+ To further confirm the hypoxic responses of M. marinum in the Wayne low oxygen model, we performed regular RNA-seq and found a total of 5112 and 5362 coding sequences (CDSs) with fragments per kilobase per million mapped fragments (FPKM) values of ten or more under normoxic and hypoxic conditions, respectively (Table S ). We observed numerous differentially expressed genes, among which 1087 were upregulated and 1791 were downregulated in response to hypoxic stress (Fig. d, Table S ). Several transcriptional regulators, such as dosR, sigE, and sigB, were upregulated, whereas most ribosomal genes were downregulated (Fig. d). These results confirm that M. marinum cells experienced hypoxic stress in our Wayne model.
+
+## Global mapping of TSSs in M. marinum under normoxic and hypoxic conditions
+To facilitate a detailed regulatory analysis of the transcriptional regulation of M. marinum under hypoxic stress, we next identified TSSs at the genome-scale under normoxic and hypoxic conditions by Cappable-seq [ ]. On average, over one million reads were uniquely mapped to the M. marinum genome outside of the ribosomal and tRNA regions. By analyzing the first nucleotide at the 5′ end of the mapped reads, we identified a total of 6808 TSSs (Fig. e, Table S ). Consistent with other reports [ , ], purine bases were enriched at the + 1 position (A + G, 95.8%), and pyrimidine bases were enriched at the − 1 position (C + T, 72.8%) (Fig. f). Moreover, 2046 out of 6808 of TSSs identified in our study matched completely and 636 out of 6808 TSSs matched with 1 bp or 2 bp difference compared with data from a previous dRNA-seq analysis [ ] (Table S ). These data corroborate that Cappable-seq is a valuable approach for TSS identification.
+
+## Characterization of M. marinum promoters
+To gain insight into the transcriptional organization of M. marinum, we classified TSSs into five categories according to genome position and TSS strength as previously reported [ ]: primary TSS (pTSS), secondary TSS (sTSS), internal TSS (iTSS), antisense TSSs (aTSS) and orphan TSS (oTSS) (Fig.  a and b). A total of 2959 pTSSs were identified, which covered more than half of the 5557 genes in M. marinum. Among them, 2490 pTSSs were found under both normoxic and hypoxic conditions, and 229 pTSS were identified only under hypoxic conditions (Fig. c), indicating stress-induced transcription. Moreover, a total of 1853 iTSSs, 1375 aTSSs, 385 oTSSs, and 1490 sTSSs were identified. Notably, some aTSSs and oTSSs may initiate the transcription of small noncoding RNAs or represent the products of spurious transcription initiation, which requires further investigation.
+
+ To characterize the common features of M. marinum promoters, we used 50 bp sequences upstream of 2490 pTSSs to search for conserved motifs using MEME [ , ]. A − 10 motif was found upstream of 80% (1988/2490) of the pTSSs, among which YANNNT (1547/2490, 62%) was the most commonly identified sequence (Fig. d). We could not detect a consensus − 35 motif, which is consistent with previous reports in Mtb and M. smegmatis [ , , ]. Furthermore, T−15G− 14N (TGN) has been described to form an extended − 10 consensus in several bacterial promoters, and G− 14 or G− 13 together with the − 10 consensus has been characterized as a minimal promoter type in mycobacteria [ , ]. We analyzed the frequency of TGN, G− 14 or G− 13 upstream of the − 10 motif, and found that only 12% (193/1547) of YANNNT motifs were preceded by TGN and 88% (1368/1547) of YANNNT motifs were preceded by G− 14 or G− 13 (Fig. e). It is possible that the relatively high percentage of G− 14 or G− 13 motif compensates for the deficiency of the − 35 motif in mycobacteria [ , ].
+
+## Widespread leaderless transcripts in M. marinum
+Although the mechanism of translation from leaderless mRNA has not been completely characterized, leaderless transcripts have been reported as a prominent feature in both Mtb and M. smegmatis [ , ]. To determine whether this feature exists in M. marinum, we analyzed the length of the 5′ untranslated region (5′ UTR) associated with pTSSs. A large number of 5′ UTR sequences are shorter than 10 nt, suggesting a possible richness of leaderless RNAs in M. marinum (Fig.  a). To characterize the relationship between 5′ UTR length and translational efficiency, we tested the expression of eGFP with 5′ UTR lengths ranging from 0 to 12 nt (Fig. b). Interestingly, we found that transcripts with a 5′ UTR less than 4 nt could be efficiently translated (Fig. c), suggesting that transcripts with a 0–3 nt 5′ UTR could be defined as functional leaderless transcripts. Based on these analyses, we revealed that a total of 1288 TSSs initiate leaderless transcripts in M. marinum (Table S ), and 991 of these TSSs were reported [ ]. Interestingly, 39.8% (1088/2730) and 38.4% (1045/2719) of pTSSs initiate functional leaderless transcripts under normoxia and hypoxia respectively (Fig. d).
+
+ 
+
+## Transcriptional regulation in response to hypoxic stress
+By quantifying the strength of TSSs under normoxic and hypoxic conditions, we analyzed the global transcriptional regulation of M. marinum in hypoxic responses. Of the 6808 TSSs identified under either condition, 9 TSSs were specifically detected under hypoxic conditions and 23 TSSs were specifically detected under normoxic conditions (Fig. e, Table S ). In addition, 1103 TSSs were significantly upregulated and 1242 TSSs were significantly downregulated in response to hypoxic stress (fold change ≥2, FDR p-value < 0.05; Fig.  a) (Table S ). Table  shows the top 15 upregulated and downregulated pTSS meeting the criterion of a relative read score (RRS) of 20 or more in all three replicates. Among them, the pTSS of sigB was in the top 15 upregulated pTSSs, which is consistent with our observation in regular RNA-seq data that the mRNA level of sigB was increased under hypoxic conditions. For the 15 most downregulated pTSSs, 2 genes downstream of these pTSSs encoded synthetases, which is consistent with the low metabolic activity observed under hypoxic conditions.
+
+ Altering the ratio of alternative sigma factor with primary sigma factor could regulate the transcription of many genes and is a common strategy used by bacteria to survive in diverse harsh conditions [ ]. Consistent with previous reports that the expression of sigE and sigB was induced in Mtb under hypoxic stress [ ], we observed that the pTSS of sigB was one of the most upregulated TSSs under hypoxic conditions in M. marinum (Table ). As the promoter of the sigB gene was activated by SigE [ ], we further analyzed whether other SigE-dependent promoters were activated under hypoxia. We took advantage of the reported SigE-dependent promoter consensus GGGAACY-N16–17-CGTT [ ] to search for promoters recognized by SigE. In total, we obtained 59 TSSs of different categories (Fig. b) that were elevated in response to hypoxia (Table S , Fig. a, c).
+
+## Comparison of Cappable-seq and regular RNA-seq in global transcriptional regulation analyses
+We next compared the data in Cappable-seq with our data in regular RNA-seq to confirm the efficiency of Cappable-seq in the global analysis of transcriptional regulation. Among 2490 pTSSs expressed under both normoxia and hypoxia, 2387 corresponded to genes whose transcripts were detected in regular RNA-seq. We compared the fold-changes of RNA levels with TSS strength, and a moderate correlation was observed (r = 0.45; Fig.  a). As expected, most of the genes showed similar patterns of regulation in both methods (Fig. a). The small differences observed may be due to posttranscriptional regulation or other unknown factors. Together, these analyses indicate that Cappable-seq is a valuable method for transcriptional analysis.
+
+ Inconsistencies between Cappable-seq and regular RNA-seq may represent genes that are subject to posttranscriptional regulation. Therefore, we selected genes with a ratio of fold-change (H/N) of RNA levels to fold-change (H/N) of TSS strength greater than 3 or less than 0.33. Interestingly, a total of 568 genes (Fig. a), including 393 upregulated genes (ratio > 3) and 175 downregulated genes (ratio < 0.33), were suggested to be regulated at the posttranscriptional level under hypoxic conditions. Considering its function and homology to Mtb, we chose one of upregulated gene, fadA5, to validate posttranscriptional regulation. FadA5 is involved in fatty acid metabolism and is a leaderless transcript in both M. marinum and Mtb [ ]. We respectively constructed the fadA5 promoter and translational fusions to egfp using the integrative vector pMV306 [ ]. M. marinum carrying egfp fusion plasmids was grown under normoxia and hypoxia. In qRT-PCR assays to detect egfp mRNA levels, we did not observe a significant difference in fadA5 promoter activity in response to hypoxic stress (Fig. b), but the level of the translational fusion fadA5::egfp increased 1.5-fold in response to hypoxic stress (Fig. c). These results suggested that the stability of fadA5 mRNA might be increased under hypoxic conditions and supported our proposal that combining regular RNA-seq with Cappable-seq could provide a means to globally investigate posttranscriptional regulation.
+
+## Discussion
+M. marinum has been used as a surrogate for Mtb [ , , ]. Compared with M. smegmatis, M. marinum is more closely genetically related to Mtb, and an M. marinum-zebrafish infection model has been established to study latent infection [ , ]. Recently, genome-scale mapping of TSSs in M. smegmatis during aerobic growth and under hypoxia has been reported [ ], but how hypoxic stress affects the strength of TSSs in M. marinum is still unclear. In this study, we applied Cappable-seq to quantifiably identify the changes in TSSs in M. marinum and globally analyze transcriptional regulation in response to hypoxic stress. We totally identified 6808 TSSs. Among them the strength of 1112 TSSs were upregulated and 1265 TSSs were downregulated under hypoxic stress. Moreover, comparing the performance of Cappable-seq and regular RNA-seq, we demonstrated that Cappable-seq is a valuable method for global transcriptional analysis.
+Developed from regular RNA-seq, several other modified methods have been performed to study specific characteristics of the transcriptome. dRNA-seq and term-seq have been used to identify the 5′ and 3′ boundaries of transcripts, respectively, at genome-scale [ , ]. Cappable-seq is a recently developed high-throughput method to determine TSSs, which has been applied in E. coli, Streptococcus pneumoniae and Photorhabdus luminescens [ , , ]. In this study, nearly half of TSSs characterized by Cappable-seq were also identified by dRNA-seq analysis [ ], suggesting that these methods are highly reliable and reproducible. In addition, Cappable-seq was reported to have higher sensitivity than dRNA-seq, and thus could reveal novel TSSs that are weakly expressed in E. coli [ ]. In M. marinum, we also found a higher number of TSSs in Cappable-seq specific TSS that were not identified in dRNA-seq [ ].
+Recently, the transcriptional regulation of M. marinum at different time points of resuscitation from hypoxia-induced dormancy has been characterized [ ], which revealed that 8 transcription factors, i.e., MMAR_0923, MMAR_1394, MMAR_1653, MMAR_4219, MMAR_4852 (kmtR), MMAR_4874 (cosR), MMAR_5170 (whiB4) and MMAR_5405 (ethR), were significantly downregulated upon resuscitation from dormancy. In our study, 4 of these transcription factors (MMAR_0923, MMAR_4219, kmtR and cosR) were highly upregulated in regular RNA-seq (Table S ) and 5 of these genes (MMAR_0923, MMAR_1394, MMAR_1653, cosR and kmtR) contained TSSs that were upregulated under hypoxic conditions (Table S ), confirming the importance of these transcription factors in coping with hypoxic stress. Importantly, our Cappable-seq data provided the sequences of these regulated promoters, which could facilitate research on target identifications as well as functional analyses of these transcription factors.
+Several studies have performed transcriptomic analyses of Mtb under hypoxic conditions [ , , ]. The expression of transcription factors, such as Rv0081, Rv1353c and cosR (Rv0967), was reported to be induced in response to hypoxia [ , , ]. In our Cappable-seq data, pTSSs of these homologous genes (MMAR_1653, MMAR_4019 and MMAR_4874) were identified and the strength of these pTSSs was all upregulated under hypoxia (Table S ). These results suggest that Mtb and M. marinum exploit similar transcriptional regulation mechanisms to cope with hypoxic stress. In addition, although SigE was shown to be upregulated under hypoxic conditions [ ] and 9 transcriptional units directly regulated by SigE after SDS exposure were defined using a DNA microarray [ ], the global regulatory targets of SigE in hypoxic responses are still largely unclear. We identified 4 (sigB, htpX, fxsA and clgR) of 9 pTSSs previously defined as SigE regulatory units, which illustrated the reliability of transcriptional regulation characterization by Cappable-seq. Moreover, we identified 59 SigE-dependent TSSs, which broadened the knowledge related to the regulatory role of SigE in hypoxic responses.
+Leaderless transcripts have been identified in different bacterial species. In our study, we found that over 38% of pTSSs initiate leaderless transcripts in M. marinum, higher than the frequencies in Mtb and M. smegmatis (approximately 25%) [ , , ]. Further studies are needed to elucidate the roles of these leaderless transcripts and the differences of M. marinum with Mtb and M. smegmatis. Moreover, we found that transcripts with 5′ UTR of 4 nt or longer would not be efficiently translated (Fig. c); the role of this phenomenon would be worthy of further study. A recent study tried to elucidate the impact of leaderless transcript structures on translation efficiency, transcript stability, and transcription rates in M. smegmatis [ ], but the roles of leaderless transcripts remain to be further investigated.
+In summary, our study globally mapped the transcriptional regulation of M. marinum in response to hypoxia, providing valuable information for future studies of how Mtb transits into dormancy and potential new approach for global transcriptional investigations.
+
+## Materials and methods
+
+## Bacterial strains and growth conditions
+The bacterial strains and plasmids used in this study are listed in Table S and oligonucleotides are summarized in Table S . M. marinum cells were grown in Middlebrook 7H9 broth (Difco) supplemented with 0.5% (V/V) glycerol, 0.05% (W/V) Tween-80 and 10% (V/V) OADC (Difco) at 32 °C, 100 rpm or on Middlebrook 7H10 agar (Difco) supplemented with 0.5% (V/V) glycerol and 10% (V/V) OADC (Difco). M. smegmatis used for the eGFP reporter assay was cultured in 7H9 broth supplemented with 0.2% (V/V) glycerol, 0.05% (W/V) Tween-80, 0.2% (W/V) glucose and 15 mM NaCl at 37 °C, 200 rpm or on 7H10 agar plates supplemented with 0.5% glycerol. E. coli DH5α used for cloning was routinely grown at 37 °C in Luria-Bertani (LB) broth or on LB agar plates. The concentration of kanamycin used was 20 μg/ml for mycobacteria and 50 μg/ml for E. coli DH5α.
+
+## Hypoxic treatment of M. marinum
+The Wayne model [ ] was applied for hypoxic treatment. Briefly, M. marinum and its derivative strains were aerobically grown to mid-exponential phase (OD600 = 0.6), and then diluted into fresh media containing 1.5 μg/ml methylene blue to a starting OD600 of 0.05. A volume of 24 ml diluted culture was transferred into a 36 ml screw-cap tube (2.5 cm × 8 cm). The solid cap with a latex liner was tightly screwed down and sealed with paraffin wax. After 24 h of incubation, the methylene blue had become completely decolorized, and the OD600 had reached 0.3. For the normoxic control, 96 ml of the same diluted culture was aerobically incubated in a 250 ml conical flask. Samples were also collected when the bacterial OD600 reached 0.3.
+
+## M. marinum survival under hypoxic stress
+M. marinum cultures prior to and after 24 h of hypoxic incubation were collected and serially diluted 10-fold. Specifically, 50 μl samples were diluted with 450 μl PBST80 (PBS supplemented with 0.05% Tween-80). Then, 100 μl aliquots of 10− 4 or 10− 5 dilution were spread onto 7H10 plates in triplicate. After 7 days of incubation at 32 °C, the number of colonies was counted. These tests were independently performed in triplicate.
+
+## RNA extraction and qRT-PCR
+RNA extraction and qRT-PCR were performed as described previously [ , ]. Briefly, four copies of 24 ml of M. marinum subjected to hypoxic treatment or 96 ml M. marinum growing under normoxic conditions were harvested by centrifugation at 7500 rpm for 10 min at 4 °C and then frozen immediately in liquid nitrogen. After grinding in liquid nitrogen, the samples were transferred to 2 ml tubes containing 1 ml TRIzol (Invitrogen). RNA was extracted according to the manufacturer’s protocol. For qRT-PCR experiments, 2 μg of RNA was digested with RNase-free DNase I (Promega) and then reverse transcribed to cDNA using M-MLV reverse transcriptase (Promega). iTaq Universal SYBR Green Supermix (Bio-Rad) was used to perform qRT-PCR reactions in duplicate. The relative RNA levels of the tested genes were normalized to the levels of sigA. The mean values and standard error of mean (SEM) from biological triplicates are shown. Data comparisons between two groups were performed using Student’s t-test.
+
+## Construction of regular RNA-seq libraries and sequencing
+Regular RNA-seq was performed as previously described [ ]. The rRNA in total RNA extracted from triplicate normoxic and hypoxic cultures was removed by a Ribo-off rRNA Depletion Kit (Vazyme), and libraries were constructed using the NEBNext Ultra Directional RNA Library Prep Kit for Illumina (NEB). Sequencing was performed on the Illumina HiSeq X Ten platform using 2 × 150 bp paired-end sequencing. Fold changes were calculated by comparing the fragments per kilobase per million mapped fragments (FPKM) between two conditions.
+
+## Construction of Cappable-seq libraries and sequencing
+RNA samples from triplicate normoxic and hypoxic cultures were subjected to enrichment for primary transcripts as previously described [ ], with minor modifications. First, 1.8× Agencourt AMPure XP beads (Beckman) were used to purify RNA in all procedures. Second, to obtain enough primary transcripts for subsequent library construction, enrichment procedure using hydrophilic streptavidin magnetic beads (NEB) was performed for one time. The NEBNext Small RNA Library Prep Set for Illumina (NEB) was used to generate Cappable-seq libraries. To reduce the concentration of adaptor dimer, the 3′ SR adaptor and 5′ SR adaptor were both used at 4-fold dilutions. After 21 cycles of PCR amplification, the libraries were purified using a QIAquick PCR Purification Kit (QIAGEN) and 1.5× Agencourt AMPure XP beads (Beckman). The concentration and size distribution of the libraries were determined by Qubit 3 (Invitrogen) and Bioanalyzer DNA 1000 (Agilent) respectively. Sequencing was performed by the Illumina HiSeq X Ten platform.
+
+## Identification and classification of TSSs
+Clean reads of Cappable-seq were mapped to the M. marinum strain M ATCC BAA-535A genome (NC_010612.1 and NC_010604.1). The first nucleotides at the 5′ ends of the mapped reads were extracted as candidate TSSs. Candidate TSSs located within genes encoding rRNA or tRNA were excluded from further analyses. Based on the number of reads mapped to the subsequent 50 bp, the strength of candidate TSSs was calculated as the relative read score (RRS) according to a previous description [ ]. Briefly, RRS was calculated as (Rns/Rt) × 106, with Rns being the number of trimmed reads mapped to position n in the M. marinum genome on either strand (− or +) and Rt being the total number of reads mapped to the M. marinum genome. TSSs were classified into five categories according to genome position and TSS strength as previously described [ ]. A TSS was classified as a primary TSS when it was located within ≤500 bp upstream of the annotated ORF. A secondary TSS was associated with the same ORF but had a lower RRS than the primary TSS. Internal TSSs assigned to TSSs were located inside an ORF on the same strand, and antisense TSSs were also located inside an ORF but on the opposite strand. A TSS was classified as an orphan TSS when it could not be assigned to any of the above four categories.
+
+## Promoter motif search
+To analyze the promoter motifs, 12 bp (− 5 to − 16 relative to TSS) and 16 bp (− 25 to − 40 relative to TSS) sequences of promoters were extracted to search for − 10 and − 35 motifs, respectively, using MEME version 5.3.0 (http://meme-suite.org/tools/meme) online [ , ].
+
+## Construction of plasmids
+The eGFP reporter plasmids were constructed by inserting a fragment containing a synthetic promoter and egfp gene into the integrative plasmid pMV306 [ ]. Different lengths of 5′ UTRs were introduced using the QuikChange II XL site-directed mutagenesis kit (Stratagene). Two aspects are considered for the introduced 5′ UTR sequences. First, the introduction of these sequences would not create potential ribosomal binding sites. Second, the introduction of these sequences would not change the secondary structure of egfp mRNA. Fragments of the fadA5 gene were amplified from the genomic DNA of M. marinum strain M ATCC BAA-535A. PCR fragments were inserted into the linearized promoterless vector pMV306-egfp using a ClonExpress II One Step Cloning Kit (Vazyme).
+
+## eGFP reporter assay
+The eGFP reporter plasmids were transformed into M. smegmatis. Transformants from 7H10 agar plates were grown to an OD600 of 0.8 in 7H9 medium, harvested and resuspended in PBST. Cells were transferred to black 96-well plates to test the fluorescence intensities using Bio-TEK Synergy HT (Bio TEK) as described previously [ ]. The eGFP expression levels are indicated by relative fluorescence units (RFU, fluorescence intensities per OD600). Two transformants in each group were tested in duplicate. Experiments were independently performed twice.
+
+## Comparison of Cappable-seq and regular RNA-seq data
+To test the efficiency of Cappable-seq in characterizing transcriptional regulation, pTSSs expressed under both normoxic and hypoxic conditions were chosen, and then the expression of genes downstream of these pTSSs was determined in regular RNA-seq. For comparison of the fold-changes of RNA levels with pTSS strengths, GraphPad Prism 8.0.2 was used to compute the nonparametric Spearman correlation.
+
+## Statistical analyses of regular RNA-seq and Cappable-seq data
+For multiple testing correction, FDR-adjusted p-values were obtained using DESeq2 [ ] implemented in R (version 3.2.2). Genes or TSSs were considered to be differentially expressed at fold change ≥2 and adjusted p < 0.05.
+
+## Supplementary Information
+
+Additional file 1.
+
+Additional file 2.
+
+Additional file 3.
+
+Additional file 4.
+
+Additional file 5.
+
+## Acknowledgements
+We thank Dr. Jun Liu from University of Toronto for providing the M. marinum ATCC BAA-535 strain, Dr. Jiaoyu Deng from WIV for providing M. smegmatis mc2155 strain, Dr. K Heran Darwin from New York University for providing pMV306 plasmid, and Lei Zhang from the Core Facility and Technical Support of WIV for help in preparing libraries for RNA-seq analyses.
+
+## Authors’ contributions
+S.H. and W.Z. performed the research and analyzed the data, S.H., Y.H. and S.C. designed the research and wrote the manuscript, W.T. and Y.Z. provided reagents. All authors reviewed the manuscript. The author(s) read and approved the final manuscript.
+
+## Funding
+This work was supported by grants from the National Science Foundation of China (#81861148019 to S.C and #31870133 to Y.H.) and the Youth Innovation Promotion Association CAS (Y201750, Y.H.).
+
+## Availability of data and materials
+The RAW data for Cappable-seq assays are available in SRA: PRJNA684793. The RAW data for regular RNA-seq assays are available in SRA: PRJNA684796.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare that there are no conflicts of interest.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Contributor Information
+Yangbo Hu, Email: ybhu@wh.iov.cn.
+Shiyun Chen, Email: sychen@wh.iov.cn.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Additional file 1.
+
+Additional file 2.
+
+Additional file 3.
+
+Additional file 4.
+
+Additional file 5.
+
+## Data Availability Statement
+The RAW data for Cappable-seq assays are available in SRA: PRJNA684793. The RAW data for regular RNA-seq assays are available in SRA: PRJNA684796.

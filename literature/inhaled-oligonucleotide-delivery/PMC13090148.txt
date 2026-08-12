@@ -1,0 +1,254 @@
+3295bbprBiochemistry and Biophysics ReportsBiochem Biophys RepElsevierPMC1309014813090148130901484200453310.1016/j.bbrep.2026.102561Exercise rejuvenates bone marrow mesenchymal stem cells associated with the inhibition of inflammatory factors and senescence-related factors
+DongXiu-juan ZhaoQi ZhangWei-min LiuJian-gang ZhangXin-ding YiRong aCollege of Physical Education, Hainan Normal University, 570100, ChinabDepartment of Neurology, No 1. Affiliated Hospital, Kunming Medical University, Yunnan, 650032, ChinacDepartment of Neurosurgery, Brain Hospital of Hunan, Changsha City, Hunan Province, 410007, ChinadResearch unit of Psychiatry, Southwest Medical University, Sichuan, 646000, ChinaeDepartment of Neurosurgery, Shenzhen Hospital, Southern Medical University, Shenzhen, Guangdong, China⁎Corresponding author. liujiangang0605@126.com
+⁎⁎Corresponding author. College of Physical Education, Hainan Normal University, China zhangxd36@163.com
+⁎⁎⁎Corresponding author. Department of Psychiatry, Southwest Medical University, Sichuan, 646000, China. 13378204998@163.com
+1These authors contributed equally to this work.
+2These authors contributed equally to this work.
+442026461025611025611942026© 2026 The AuthorsThis is an open access article under the CC BY-NC license (http://creativecommons.org/licenses/by-nc/4.0/).
+
+## Abstract
+
+## Objective
+To investigate the effects of exercise on bone marrow stem cells (BMSCs) and determine underlying molecular network mechanisms through bioinformatics analysis combined experimental validation.
+
+## Methods
+Target genes related to exercise and BMSCs were retrieved from the Gene Cards database and deduplicated, then performed bioinformatics analysis including Venny analysis, Gene Ontology (GO), Kyoto Encyclopedia of Genes and Genomes (KEGG), protein-protein interaction (PPI) and cystoscope to find hub genes. In animal experiment, 9-month-old male C57BL/6J mice were subjected to 4 months of treadmill exercise training (12 m/min, 1 h/day, 5 days/week) and the BMSCs from femur were cultured in vitro, and cell viability, the expression of cell senescence-related factors (P16, P21) and inflammatory factors (IL-6, IL-1β) were detected, and the vital role of IL-6, IL-1β was determined in vitro study.
+
+## Results
+131 common targets were found via Venn diagram analysis. The STRING database and Cytoscape software identified several core molecules such as IL-1β, IL6, TNF, and stat3, etc. GO enrichment analysis revealed that these common targets were primarily involved in biological processes such as negative regulation of oxidative stress-induced neuron intrinsic apoptotic signaling pathway, leukocyte chemotaxis, and positive regulation of protein phosphorylation; cellular components such as extracellular space and lysosome; and molecular functions such as receptor ligand activity and chemokine activity. KEGG pathway analysis showed that the related genes were enriched in pathways including diabetic cardiomyopathy, IL-17 signaling pathway, and HIF-1 signaling pathway. Moreover, treadmill exercise results in a significant cell viability increase, which is related to the inhibition of IL-1β, IL-6 and P16, P21. Whereas the knockdown of IL-1β, IL-6 confirmed their vital role in the status of BMSC's rejuvenation.
+
+## Conclusion
+The present data concluded that running exercise increase effectively the physical viability to rejuvenate BMSCs, and underlying mechanism is associated with the inhibition of inflammatory factors and senescence-related factors.
+
+Keywords: Bioinformatics analysis, Bone marrow mesenchymal stem cells, Inflammatory factors, Senescence-related factors, Exercise
+
+## Highlights
+•Exercise enhances BMSC viability by inhibiting inflammatory factors IL-6 and IL-1β.
+•Running reduces senescence markers P16 and P21 in BMSCs, delaying cell aging.
+•Bioinformatics reveals IL-17 and HIF-1 pathways mediate exercise-induced BMSC rejuvenation.
+•Exercise-trained BMSCs show increased CD44+ expression, indicating improved proliferation.
+•Combined experimental and bioinformatics analysis uncovers exercise-BMSC molecular networks.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Jul 19; Revised 2026 Jan 26; Accepted 2026 Mar 18; Collection date 2026 Jun.
+
+1.
+
+## Introduction
+Physical activity has long been recognized as a cornerstone of health enhancement and disease prevention. Emmons R et al. found that exercise training partially counteracts the negative effects of obesity on hematopoietic stem and progenitor cells (HSPC) and their niche after radiation exposure by increasing HSPC subpopulations and improving the bone marrow environment, while obesity reduces HSPC subpopulations [ ]. Additionally, Baker JM et al. found that endurance exercise training significantly promotes hematopoiesis by improving medullary niche architecture and increasing hematopoietic cytokine production in skeletal muscle [ ], which highlights the significance of exercise in enhancing marrow environment.
+Bone marrow stem cells (BMSCs) are in specific niches within the bone marrow and play critical roles in maintaining the homeostasis of the hematopoietic and immune systems. Wang T investigated the culture of BMSCs from GFP transgenic mice to explore their fate in vivo, which showed BMSCs exhibited characteristic round, spindle, and pterygoid shapes with CD44 positive staining confirming their mesenchymal stem cell characteristics. The successful culture and identification of BMSCs from GFP mice make them an ideal source for future studies on migration and differentiation in vivo (Wang T, 2022). Furthermore, Xu Y reported that BMSC-derived supernatant effectively protects cortical neurons from hemoglobin-induced damage by enhancing viability and reducing apoptosis [ , , ]. Yan SS et al. highlights clinical trials involving BMSCs, typically administered intravenously or to the putamen, which have shown positive effects on neural and motor functions with good safety profiles over follow-up periods of 3 months to 5 years [ ]. Cai G et al. found that mechanical stretching, detected by Piezo1 through mechanical strain, leads to acetylation and deacetylation of p53 in macrophages, polarizes macrophages towards the M2 phenotype, and induces the secretion of TGF-β1, which subsequently stimulates the migration, proliferation, and osteogenic differentiation of BMSCs (Cai G et al., 2023). De Lisio M et al. showed that exercise training increases the quantity of hematopoietic stem cells (HSCs) in the bone marrow niche, especially in the vascular niche (De Lisio M et al., 2012). Sun P et al. reveals Lgr4 regulates osteogenic, adipogenic, and myogenic gene expression, making it a potential key protein for stem cell therapy and a promising drug target for related diseases [ ]. Liu L et al. found that exercise regulates the osteogenic differentiation of BMSCs through the Antxr1/LncRNA H19/Wnt/β-catenin axis, thereby alleviating bone loss caused by ovariectomy and enhancing bone strength [ ]. Although several studies have explored the effects of exercise on HSCs, the role of exercise and related BMSCs and associated molecular network mechanisms remain to be elucidated. Especially, whether exercise can rejuvenate BMSCs and underlying molecular network mechanism is largely unknown.
+Bioinformatics is beneficial to find core genes, by integrating comparison, selecting and calculating to expound the core molecules. Li used network pharmacology and bioinformatics analyses to explore the mechanisms of opioids in abdominal pain associated with T-cell lymphoma, suggesting that bioinformatics analyses are available to the gene screen [ ]. In this study, by integrating computational predictions with subsequent experimental validation, we acquired logical integration to ensure that our findings are not only data-driven but also biologically relevant, significantly enhancing the depth and translational potential of our conclusions. Summarily, we aim to identify the effects of exercise in rejuvenating BMSCs and explore associated molecular network mechanisms, hoping to provide a theoretical basis for developing exercise-based interventions for the prevention and treatment of BMSCs related diseases.
+
+2.
+
+## Methods
+2.1.
+
+## Collection of targets related to exercise and BMSCs
+The targets associated with BMSCs were retrieved from the Gene Cards database (https://www.genecards.org) using the keywords “Bone Marrow Mesenchymal Stem Cells” and “BMSCs.” The retrieved target information was imported into an Excel spreadsheet, and duplicates were removed. Additionally, targets related to exercise, running, and swimming were identified using the keywords “Exercise,” “Running,” and “Swimming,” respectively. All targets collectively were also imported into an Excel spreadsheet, merged, and duplicated, Then merged as the Exercise target list, with marked as “Homo sapiens.”
+
+2.2.
+
+## Venn Diagram of exercise and BMSCs targets
+The Venn diagram was generated using the online tool from Micro-Bioinformatics (http://www.bioinformatics.com.cn) to identify the intersection of targets between exercise and BMSCs. The target data were imported into the tool, and the overlapping targets were visualized in a Venn diagram.
+
+2.3.
+
+## Protein-protein interaction (PPI)Network analysis
+The intersection of targets from exercise and BMSCs was analyzed using the STRING database (https://string-db.org/) to construct a protein-protein interaction network. The “Multiple Proteins” tool was used for network topology analysis, with the species restricted to “Homo sapiens.” The resulting PPI network data in tsv format were imported into Cytoscape 3. 10. 1 software. The cytoHubba plugin was used to perform topological analysis of the network interactions, and key targets were identified using the MCC algorithm. A PPI network illustrating the interactions of targets influenced by exercise on BMSCs was constructed.
+
+2.4.
+
+## Gene Ontology (GO)Enrichment and KEGG pathway analysis
+The DAVID Bioinformatics Resource (https://david.ncifcrf.gov/) was utilized to conduct GO enrichment and KEGG pathway analysis on the overlapping targets of exercise and BMSCs. Comprehensive analyses were performed for biological processes (BP), cellular components (CC), and molecular functions (MF). The species was set to “Homo sapiens,” and the type was set to OFFICIAL_GENE_SYMBOL. A P-value of 0. 05 was used to filter and download the final enrichment results. The top 5 most significant GO-BP-DIRECT, GO–CC–DIRECT, and GO-MF-DIRECT terms (or all if fewer than 5) were selected, while other parameters were retained at their default values. The results were visualized as bubble plots.
+
+2.5.
+
+## Construction of the active-target-KEGG (A-T-K) network
+A-T-K network was constructed using an Excel spreadsheet to organize data related to behavior, location, active targets, and KEGG pathways. This data was imported into Cytoscape 3. 10. 1 software, and the network was visualized by customizing node sizes, styles, and colors. The resulting network was exported as an image.
+
+2.6.
+
+## Animals and grouping
+Male C57BL/6J mice at 9 months of age were purchased from experimental animal of Kunming Medical University. The mice were housed in SPF-certified facilities with individually ventilated cages. The room temperature was maintained at 20-25 °C, humidity at 30%-70%, and a 12-h light-dark cycle was implemented. Meanwhile, the usage of animals was approved by the Animal Ethics Committee of Kunming Medical University (Ethical number: KMMUD20242042) and conducted in accordance with the U.K. Animals (Scientific Procedures) Act, 1986 and associated guidelines, EU Directive 2010/63/EU for animal experiments. All mice were randomly divided into control and exercise groups, with 6 mice in each group of PCR detection and 5 mice in each group of WB detection.
+
+2.7.
+
+## Model establishment
+Exercise training was conducted using an electric rodent treadmill (JD-20170620023, Shanghai Xinruan). The mice were acclimated to the treadmill before undergoing 1 h of exercise training per day at a speed of 12 m/min, 5 days per week. After each training session, the animals were allowed to rest for 10 min to feed and drink. Control group mice were placed on a stationary treadmill for 1 h in the same environment. Mouse body weight was measured and recorded at a fixed time every Saturday during the 4-month treadmill exercise training period.
+
+2.8.
+
+## Culture and identification of BMSCs
+2.8.1.
+
+## Sample collection
+After exercise training, mice were anesthetized with 3% isoflurane. For euthanasia, the mice were subjected to inhaled anesthetic isoflurane in accordance with the Guidelines for the Euthanasia of Animals (2020) issued by the American Veterinary Medical Association (AVMA). The mice were placed in a sealed anesthesia chamber and administered 3–5% isoflurane with 1–2 L/min oxygen until respiratory arrest occurred, followed by at least one additional minute of ventilation. No additional analgesic drugs were required. To minimize distress and stress, the mice rapidly lost their righting reflex within 1–3 min of exposure. In the supine position with sterile conditions in a biosafety cabinet, the bilateral femurs were taken, and the two ends were opened. Then, bone marrows were aseptically collected for cell culture. Tissue collection was completed within 5 min after confirming death to maximize tissue integrity and experimental data reliability. Euthanasia was immediately performed after the experiment.
+
+2.8.2.
+
+## BMSCs incubation
+After the marrow cavity was repeatedly flushed with complete culture medium to collect bone marrow (Oricell, RAXMX-90011), the collected bone marrow flush was dispersed gently by using dissected method, then transferred directly into a cell culture flask and incubated at 37 °C with 5% CO2. Subsequently, the first medium replacement was performed within the initial 48 h of culture. Lastly, the medium was refreshed every 2 days based on its condition.
+
+2.8.3.
+
+## BMSCs identification
+Cultured BMSCs were air-dried for 15 min and washed three times in PBS. Retrieval was performed using EDTA antigen retrieval buffer (pH 6. 0). BMSCs were blocked with 3% goat serum and 0. 3%Triton X-100 at 37 °C for 30 min, then incubated with primary antibodies CD44(rabbit anti-CD44,Bioss, bs-1666R,1:100), CD90 (mouse anti-CD90,Bioss, bs-0778R,1:100),CD45(rabbit anti-CD45,Bioss, bs-0523R,1:100) overnight at 4 °C. The next day, cells were washed three times and incubated with specific secondary antibodies Alexa Fluor 488 labeled anti-rabbit IgG(Abcam, ab150077,1:200)or Alexa Fluor 594 labeled anti-mouse IgG(Abcam, ab150120,1:200)for 1 h at room temperature. Images were captured using a confocal laser scanning microscope with NIS-Elements AX software (Nikon).
+
+2.8.4.
+
+## IL-1β and IL-6 RNA inteference
+In order to determine the role of IL-1β and IL-6 in MBSC rejuvenation, we performed cell experiments from marrow cavities which consist of 4 groups, namely normal control group; exercise model group; nonspecific sequences that can be called random sequences control group (NC), and IL-1β-siRNA and IL-6-siRNA group. IL-1β-RNAi were added into cell model + IL-1β-siRNA group. CCK-8 cell viability assay was performed according to protocol. The absorbance value (OD value) at 490 nm was detected by an enzyme marker (Varioskan LUX, Thermo), and the OD value was used for statistical analysis.
+
+2.9.
+
+## Polymerase Chain Reaction (PCR) detection
+BMSCs of mice were homogenized, and RNA was extracted using the Trizol method. The homogenate was mixed with Trizol reagent and incubated on ice for 15 min. Chloroform (300 μL) was added and mixed vigorously, followed by incubation on ice for 15 min. The mixture was centrifuged at 12, 000 rpm for 15 min at 4 °C. The aqueous phase (500 μL) was transferred to a new 1. 5 mL tube, and 750 μL of isopropanol were added. The mixture was incubated at-20 °C for 12 h to precipitate RNA. After centrifugation at 12, 000 rpm for 10 min at 4 °C, the supernatant was discarded, and the RNA pellet was washed with 1 mL of 80%ethanol treated with DEPC. The sample was centrifuged again at 12, 000 rpm for 10 min at 4 °C, and the ethanol was removed. Then, the RNA pellet was air-dried for 15 min and then dissolved in 50 μL of DEPC-treated water. The RNA solution was briefly centrifuged at high speed for 5-6 s. The total RNA concentration was measured using a spectrophotometer (Thermo, VARIOSKAN LUX) and the SkanIt RE for Mu software. The RNA was reversely transcribed into cDNA, and qPCR was performed using a SybrGreen qPCR Master Mix kit and a real-time PCR thermocycler. Lastly, the Bio-Rad CFX Manager software was used for data analysis. As shown in , the following genes were detected, which included IL-6, IL-1β, P16 and P21.
+ 
+2.10.
+
+## Statistical analysis
+Data was analyzed using SPSS 24.0 statistical software, and results are expressed as the mean ± standard deviation. In addition, comparisons between two groups were performed using the independent samples t-test. For comparisons of latency in the water maze test, one-way analysis of variance (ANOVA)for randomized block design was used. If the variances were equal, differences between groups were compared using the LSD test; if the variances were unequal, Dunnett T3 was used for pairwise comparisons. P < 0.05, P < 0.001, and P < 0.0001 indicated statistically significant differences.
+
+3.
+
+## Results
+3.1.
+
+## Acquisition of relevant targets
+The keyword “Bone Marrow Mesenchymal Stem Cells” was used to identify 495 related targets in the Gene Cards database and the keyword “BMSCs” was used to identify 274 related targets. After merging and removing duplicates, a total of 591 bone marrow mesenchymal stem cell-related targets were obtained. Then, the keyword “Exercise” and “Swimming” were used to identify 5 exercise-related targets and 925 swimming-related targets respectively. Meanwhile, by using the keyword “Running,” 1 running-related target was identified. After merging and removing duplicates, a total of 930 exercise-related targets were obtained and downloaded into a local Excel spreadsheet.
+
+3.2.
+
+## Venn Diagram analysis of exercise and BMSCs
+After merging and removing duplicates using the keywords “Exercise,” “Swimming,” and “Running,” a total of 930 exercise-related targets were obtained. After merging and removing duplicates using the keywords “Bone Marrow Mesenchymal Stem Cells” and “BMSCs,” a total of 591 targets were obtained. The intersection of exercise and BMSCs included 131 common gene targets ( ).
+ 
+3.3.
+
+## Construction of the PPI network for intersection targets
+The 98 “intersection targets” identified from the Venn diagram of exercise and BMSC targets were imported into the STRING database (https://string-db.org/). The “Multiple Proteins” tool was used to perform network topology analysis, with the species restricted to “Homo sapiens.” The resulting PPI network was visualized ( ). The PPI network data were then imported into Cytoscape 3.10.1 software to construct the target protein interaction map for exercise and BMSCs. The CytoHubba plugin in Cytoscape was used to identify the top 10 core molecules based on the MCC algorithm. According to the MCC ranking, the top 10 targets with the strongest connectivity were IL-β, IL-6, TNF (Tumor Necrosis Factor), GAPDH (Glyceraldehyde-3-Phosphate Dehydrogenase), INS (Insulin), MMP9 (Matrix Metalloproteinase 9), ALB (Albumin), STAT3 (Signal Transducer and Activator of Transcription 3), IFNG (Interferon-γ) and CXCL8 (C-X-C Motif Chemokine Ligand 8).
+ 
+3.4.
+
+## GO Enrichment Bubble Plot
+In the STRING database (string-db. org), the targets were searched and identified. The top 15 enriched terms were selected for visualization, with Fold Enrichment on the X-axis, count represented by the size of the bubble, and p-value indicated by the color bar. The targets were plotted on the Y-axis. The larger the bubble, the higher the value; the redder the bubble, the higher the p-value. GO enrichment analysis was performed for BP, CC, and MF. The GO analysis results showed a total of 505 BP functions, 49 CC functions, and 81 MF functions. The top 5 results, sorted by p-value in ascending order, were visualized. The BP terms were mainly enriched in insulin receptor signaling pathway, response to wounding, liver regeneration, response to tumor necrosis factor and endothelial cell proliferation. The CC terms were mainly enriched in plasma membrane, endocytic vesicle membrane, focal adhesion, Chromatin and euchromatin. The MF terms were mainly enriched in signaling receptor binding, protein sequestering activity, sequence-specific DNA binding, DNA-binding transcription activator activity and RNA polymerase II-specific, and peptide hormone receptor binding ( ).
+ 
+3.5.
+
+## KEGG pathway analysis
+The KEGG pathway analysis revealed a total of 147 enriched pathways. The top 10 pathways were selected for visualization based on p-value in ascending order. Most genes were primarily enriched in pathways such as ErbB signaling pathway, neurotrophin signaling pathway, VEGF signaling pathway, thyroid hormone signaling pathway, growth hormone synthesis and secretion and action, prion disease, viral carcinogenesis, autophagy-animal, hepatocellular carcinoma and inflammatory mediator regulation of TRP channels. The intersection targets of exercise and BMSCs, the results of PPI interaction analysis, and the top 10 KEGG pathways (based on p-value in ascending order) were combined to construct the “Active Target-KEGG Pathway” network ( ).
+ 
+3.6.
+
+## “Active Target-KEGG pathway” network
+This network provides a visual representation of the targets influenced by exercise on BMSCs and their corresponding KEGG signaling pathways. Specific pathway names and their corresponding details are provided in the supplementary tables. The schematic of this network serves as a reference for future research ( )
+ 
+3.7.
+
+## Cell identification
+Culture of BMSCs were identified by several specific markers including CD90, CD44, CD45, which confirmed they exhibited the character of BMSCs including the positive staining of CD90, CD44, and the negative staining of CD45 ( ).
+ 
+3.8.
+
+## Cell viability detection
+Cell viability from 3 animals was explored and it exhibited a growth with strong viability in exercise group than control one, confirming that exercise increases the capacity of BMSCs with rejuvenating status. CD44+ Immunofluorescence staining showed a significant increase in the number of CD44+ in exercise group, indicating that exercise training promoted the proliferation marker expression of BMSCs. Additionally, statistical analysis confirmed that BMSCs exhibited growth with stronger ability in exercise group than in control group, which confirmed that exercise increases the capacity of BMSCs with rejuvenating status ( )
+ 
+3.9.
+
+## Change of genes and proteins on the level of IL-1β, IL-6, P16 and P21
+PCR and WB results showed that the level of gene and protein of inflammatory factors IL-6 and IL-1β was significantly downregulated in BMSCs from the exercise group compared to the control group (P < 0. 05), indicating that exercise training inhibited the expression of IL-1β and IL-6 in BMSCs, meanwhile, the expressional levelof cell senescence-related factors P16 and P21 was significantly reduced in the exercise group (P < 0. 05), indicating that exercise training delayed cell senescence ( ).
+ 
+3.10.
+
+## Detection of core role in the IL-1β and IL-6 in BMSCs of all groups
+Compared with the sham group, the cell viability in the BMSC with exercise showed an increased viability and there is a statistic significance(p < 0.01). Whereas IL-1β-RNAi results in a significant increase of cell viability that is a statistical significance when compared with the exercise with on IL-1β-RNAi(p < 0.01). The effect of IL-6-RNAi is similar with that of the IL-1β-RNAi, in which, the difference was statistically significant(p < 0.01) ( ).
+ 
+
+4.
+
+## Discussion
+In this study, through searching in the Gene Cards database, relevant targets for exercise and BMSCs were obtained, laying a foundation for subsequent research. The determination of these targets is of great significance. Baker JM et al. found that endurance exercise training significantly promotes hematopoiesis by improving medullary niche architecture and increasing hematopoietic cytokine production in skeletal muscle. As a result, it increases the quantity of hematopoietic stem and progenitor cells in the bone marrow and peripheral circulation [ ]. This is related to the target information obtained in this study, suggesting a close connection between exercise and BMSCs. Emmons R et al. found that exercise training partially counteracts the negative effects of obesity on HSPC and their niche after radiation exposure by increasing HSPC subpopulations and improving the bone marrow environment, while obesity reduces HSPC subpopulations [ ]. This further reflects the importance of studying the relevant targets of exercise and BMSCs. Cai G et al. found that mechanical stretching affects the migration, proliferation, and differentiation of bone marrow mesenchymal stem cells by regulating macrophages (Cai G et al., 2023), which may be related to the targets obtained in this study and provides a direction for subsequent research.
+4.1.
+
+## Venn intersection analysis of Exercise-BMSCs
+The Venn intersection analysis of the targets of exercise and BMSCs yielded 131 common targets, which reveals a close connection between them. Li et al. discussed the potential of neural stem cells (NSCs), hematopoietic stem cells, mesenchymal stem cells, and supportive cells like astrocytes and microglia in treating neurological deficits through cell transplantation. It highlights how these cells can replace lost neurons, reconstruct neural circuits, and secrete factors that aid in restoring nervous system balance and reducing inflammation [ ]. Sasaki Y et al. found in a study on a rat stroke model that the combined treatment of exercise and mesenchymal stem cells has a synergistic effect on improving behavioral function [ ]. Yamaguchi S et al.’s research showed that exercise can enhance the repair effect of rat mesenchymal stem cells on cartilage [ ]. González LM et al. found that both exercise and the mesenchymal stem cell secretome have immunomodulatory and neurorepair potential in multiple sclerosis [ ]. Krogh LM et al. found that resistance training can enhance the function of osteoblast progenitors and improve osteoporosis [ ]. These findings collectively demonstrate that exercise and BMSCs play a crucial role in tissue repair, and them may share common molecular targets.
+
+4.2.
+
+## Construction of PPI of intersection targets
+The constructed PPI network screened out key targets such as IL6 and IL-1β, which are of great significance in the cellular physiological process. Previously, given knowledge showed that inflammatory factors play a crucial role in cell damage and tissue repair, as well as drug intervention. Immune responses in the central nervous system (CNS) are tightly regulated and mediated by microglia, astrocytes, and infiltrating lymphocytes, which maintain homeostasis through phagocytosis and cytokine release, including pro-inflammatory IL-1β and IL-6, while their dysregulation leads to excessive neuroinflammation and therefore contributes to neurodegenerative diseases such as Alzheimer's disease, Parkinson's disease, and amyotrophic lateral sclerosis [ ]. In addition, Atherosclerosis (AS) is involving in a major cause, particularly related to the pro-inflammatory mediators IL-1β and IL-6 that play critical roles in regulating vascular smooth muscle cell (VSMC) phenotypic transformation [ ]. For drug intervention, Liu used network pharmacology analysis to explore the role of berberine in MODS-induced lung disease by integrating target screening, protein–protein interaction network construction, and GO and KEGG enrichment analyses. Thirty-three overlapping genes were identified, with 10 core targets (IL6, IL1B, TNF, TLR4, CASP3, HIF1A, PTGS2, NFKB1, STAT3, and INS) mainly enriched in inflammatory and immune-related pathways, indicating that berberine may exert protective effects through multi-target modulation [ ]. Moreover, Zhu J et al. found that exercise-induced irisin can promote the osteogenic differentiation of BMSCs by regulating factors such as IL6 [ ], directly indicating the important regulatory role of IL6 in the process of exercise affecting BMSCs. Peng H et al. found that exercise promotes bone marrow macrophages to secrete reticulocalbin-2, activating the cAMP-PKA signaling pathway and affecting the function of BMSCs, and this process may involve the targets in the PPI network [ ]. In summary, these studies highlight IL6 and IL-1β as critical regulators mediating the exercise-induced enhancement of BMSC function.
+
+4.3.
+
+## GO analysis
+The GO enrichment analysis shows that the co-existing intersection targets of exercise and BMSCs are significantly enriched in multiple biological processes, cellular components, and molecular functions. Cai G et al. found that mechanical stretching regulates macrophages through Piezo1, and then affects BMSCs, which is related to the cell signaling and cell-cell interaction involved in the enrichment results (Cai G et al., 2023). De Lisio M et al. found that exercise training increases the number of hematopoietic stem cells in the bone marrow microenvironment, which is related to cell proliferation in the enrichment results (De Lisio M et al., 2012). Menuki K et al. found that climbing exercise affects the differentiation of osteoblasts and adipocytes by regulating the expression of PTH/PTHrP receptors in bone marrow cells, which is related to the cell differentiation function in the enrichment results [ ]. Liu L et al. found that exercise affects the osteogenic differentiation of BMSCs by regulating the expression of related genes, which is related to biological processes and molecular functions in the enrichment results [ ]. Taken together, GO enrichment reveals that exercise modulates BMSC activity through diverse biological processes, particularly in cell signaling, proliferation, and differentiation.
+
+4.4.
+
+## KEGG pathway
+The KEGG pathway analysis reported a total of 147 enriched pathways. Of these, inflammatory mediator regulation and aging signal have been involved. Krogh LM et al. found that resistance training can improve osteoporosis, which may be related to the bone metabolism-related pathways involved in the KEGG pathway analysis [ ]. Jiang XH et al.’s research found that treadmill exercise combined with exosomes derived from mesenchymal stem cells can improve the neurological function of rats after ischemia-reperfusion injury, which may be related to the enriched signaling pathways [ ]. Yabuno S et al. found that the combination of intracerebral transplanted cells and exercise can improve the neurological function recovery of rats after ischemic stroke, which is related to the nerve-related pathways involved in the KEGG pathway analysis [ ]. Jeong DH et al. found that exercise combined with adipose-derived mesenchymal stem cells can improve the muscle mass and function of aged rats, which may be related to the relevant KEGG pathways [ ]. Eshaghi-Gorji R et al. found that exercise combined with bone marrow stromal cells can improve the anxiety-like behavior of rats with post-traumatic stress disorder, which may be related to the relevant nerve and immunomodulatory pathways in the KEGG pathway analysis [ ]. Together, KEGG pathway analysis suggests that exercise exerts its beneficial effects on BMSCs primarily through metabolic and inflammatory signaling pathways.
+
+4.5.
+
+## Cell activity and immunofluorescence staining
+Our study found that exercise enhanced BMSCs viability and proliferation, with increased CD44+ cells versus controls. Previously, in male patients with chronic patellar tendinopathy, BMSCs therapy showed significantly greater therapeutic efficacy than leukocyte-poor platelet-rich plasma across multiple clinical endpoints. At 3-, 6-, and 12-month follow-ups, BMSCs administration resulted in superior tissue remodeling, mechanical property restoration, and pain alleviation compared to Lp-PRP treatment. [ ]. Moreover, quantitative analysis confirmed superior growth kinetics, indicating exercise-induced rejuvenation. Fang S et al. found that physical exercise enhances mitochondrial function and metabolic activity in retinal and optic nerve tissues, mediated by TET3 upregulation, which promotes cellular regeneration through activity-dependent mechanisms. [ ]. Collectively, our results demonstrate exercise promotes BMSC activation and regenerative capacity.
+
+4.6.
+
+## Implication of genes and proteins
+PCR detection indicated that exercise has the effects of anti-inflammation, which promotes the rejuvenation of BMSCs, and delaying cell senescence. Lee SI et al. induced sepsis in male C57BL/6 mice and found that simultaneously blocking IL-6 and programmed cell death protein 1 (PD-1) can reduce neutrophil infiltration, lymphocyte apoptosis, and bacterial load, while maintaining tissue integrity [ ]. Hirano S et al. found that asbestos and silica (exogenous danger signals) and adenosine triphosphate (ATP, an endogenous danger signal molecule) can synergistically increase the release of IL-1β in lipopolysaccharide (LPS)-pretreated macrophages [ ]. In addition, Sun J et al. found that p16INK4a affects the proliferation of cardiomyocytes by regulating CDK4/6 and ROS-related autophagy, and then affects myocardial regeneration and repair, and it may be a potential target for regenerative therapy after myocardial injury [ ]. Georgakilas AG et al. found that p21 has a dual role in cancer: in the presence of wild type p53, p21 plays an anti-cancer role by inhibiting the cell cycle; however, in the environment of p53 deletion or mutation, p21 may promote tumor cell proliferation and drug resistance [ ]. Peng H et al. found that exercise promotes bone marrow macrophages to secrete factors that affect the function of BMSCs [ ], which is related to the regulatory effect of exercise on BMSCs in this study. Deng et al. showed thyroid degeneration in aged rhesus and identified 66 intersecting genes related to thyroid aging and BMSC treatment, revealing that BMSCs may exert an anti-aging effect on the thyroid through immune response modulation and cell metabolism involving multiple pathways [ ]. Collectively, our PCR results demonstrate that exercise modulates key inflammatory and senescence-related markers to enhance BMSC proliferation and differentiation, corroborated by mechanistic insights from these referenced studies.
+In the level of protein detection, it exhibits similar tendency to the genes, indicating the role of exercise on the regulation of proteins. Pandolfi F et al. found that the inflammatory pathway involving IL-6 is also closely related to the occurrence and progression of rheumatoid arthritis (RA), making it a potential target for the treatment of RA[ ]. Li H et al. found that IL-6-induced cGGNBP2 (a circular RNA) and its encoded protein cGGNBP2-184aa interact with STAT3 and activate the IL-6/STAT3 signaling pathway [ ]. Tian J et al. found that the expression of osteopontin (OPN) in chondrocytes of osteoarthritis (OA) is decreased, and the deletion of OPN exacerbates the senescence and apoptosis of chondrocytes and upregulates the expression of OA-related genes (such as COL10A1, IL-1β, TNF-α, MMP-13, and ADAMTS5), thus accelerating the progression of OA [ ]. Peng H et al. found that exercise promotes bone marrow macrophages to secrete reticulocalbin-2, which affects the function of BMSCs, and this may also be reflected in the results of WB detection [ ]. Together, integrated with our data from WB detection, it robustly validates that exercise activates osteogenic and anti-apoptotic pathways in BMSCs, while suppressing inflammatory mediators, aligning with the cited evidence of exercise-induced microenvironmental remodeling.
+
+4.7.
+
+## Implication of P16 in BMSCs after exercise
+Elevated p16INK4a (p16) expression is directly associated with cellular senescence and is a powerful biomarker of aging in humans. Steve D. Guzman revealed that targeted removal of senescent cells expressing p16 INK4A yields moderate enhancements in physiological function and mitigates age-related muscle loss during later life stages [ ]. Moreover,it has been reported that p16is a pivotal senescence marker and regulator, whose expression and functional output are orchestrated by multiple intersecting signal pathways during aging [ ]. MAPK pathways integrating stress signals to regulate p16 is linked the chronic activation of p38 MAPK by oxidative stress or inflammation enhances p16 expression, whereas ERK pathway inhibition suppresses p16 to extend cellular lifespan [ ]. It is clear that targeting p16-regulating pathways (e.g., mTOR inhibition or epigenetic remodeling) emerges as a strategy to mitigate aging [ ], as it can reverse p16-driven cell cycle arrest and senescent phenotypes. In our observation, P16 expression was downregulated both gene and protein under exercise condition, supporting the exercise rejuvenates BMSC is associated with inhibition of P16.
+
+4.8.
+
+## The implication of P21
+p21 is a marker for cellular senescence. The cyclin-dependent kinase inhibitor p21, produced by the CDKN1A gene, plays a role in transient cellular senescence across diverse tissues, irrespective of organismal age [ ], including up regulation in myenteric neurons of the mouse intestine following short-term caloric restriction [ ]. In the study of Battistini JI exams the impact of voluntary wheel running on subventricular zone (SVZ) neurogenesis and neural repair mechanisms in p21-deficient mice following traumatic brain injury (TBI), which found that p21 knockout animals demonstrated marked improvements across multiple neurorestorative parameters [ ]. On the other hand, running, when combined with p21 gene knock out, plays an active role in neuronal recovery following TBI. In addition, the p21 is a core mediator of aging, and its expression and functional activity are tightly regulated by multiple signal pathways [ ]. It has been approved that the p53-p21 signaling pathway is the most classic regulatory axis for aging: DNA damage or oxidative stress activates p53, which directly binds to the p21 promoter to induce its transcription, thereby arresting cell cycle progression and promoting cellular senescence. The Wnt/β-catenin pathway interacts with p21 in aging regulationin that in senescent cells, impaired Wnt signaling reduces β-catenin nuclear translocation, which normally represses p21 transcription—this loss of repression leads to p21 accumulation and accelerated aging [ , ]. Taken together, targeting pathways that regulate p21 (e.g., inhibiting mTOR or activating AMPK) [ ] has become a potential strategy to delay aging, as it can reduce p21 accumulation and restore the function of senescent cells and tissues. Our data supported that P21 is a crucial molecule in BMSC rejuvenation after exercise.
+
+4.9.
+
+## The potential mechanism of exercise in promoting BMSCs
+BMSCs can secret several factors to help cell survival. Chen used bioinformatics methods to identify common genes and pathways shared the genes of BMSCs were mainly involved in cell survival, apoptosis, and stem cell pluripotency, with enrichment in TNF, apoptosis, and ErbB signaling pathways [ ]. Xu Y et al. reported that BMSC-derived supernatant effectively protects cortical neurons from hemoglobin-induced damage by enhancing viability and reducing apoptosis (Xu Y et al., 2024). It is clear that BM-MSCs senescence, marked by halted proliferation and abnormal function, is closely regulated by the Wnt signaling pathway [ , ], with both canonical (β-catenin-dependent) and non-canonical branches involved. It is well documented and evident that replicative senescence of BMSCs during long-term culture correlates with declined Wnt3a expression; activating Wnt3a/β-catenin signaling reduces p53/PRb levels and enhances telomerase activity to delay senescence [ ]. And suppression of Wnt/β-catenin via DKK1 or β-catenin siRNA accelerates BM-MSC senescence, whereas GSK-3β inhibitors (e.g., SB-216763) activate the pathway to preserve MSC vitality [ ]. Better understanding of the physiological and pathological role of Wnt signaling and will make Wnt signaling a more suitable target for bone disease therapy [ ]. In addition, the endocrine effect of asprosin on BM-MSC aging involves binding to its receptor, olfactory receptor 78 (OLFR78), on BM-MSCs, which activates downstream cAMP-PKA signaling to promote senescence-associated β-galactosidase (SA-β-gal) activity. Asprosin-mediated endocrine-metabolic dysregulation representsa novel mechanism linking systemic aging (e.g., adiposity and insulin resistance) to BM-MSC senescence, providing a potential therapeutic target for age-related bone and metabolic disorders [ ].
+As to talk about the effect of exercise on the mechanism of BMSCs rejuvenation in adult and early stage, there are almost no reports to address this issue. Previously, there are reports that the therapeutic potential of BMSCs have shown in clinical trials involving patients with stroke and Parkinson's disease, mainly through intravenous or putaminal administration [ ], and A BMSCs subpopulation expressed CD56+CD271+ enhanced significantly pro-chondrogenic and anti-senescence capabilities compared to conventional BMSCs, which is linked with increased matrix deposition, and suppressed the expression of matrix metalloproteinase-1 and senescence markers (p16/p21/p53) [ ]. It seems that p16 and p21 can be expressed specifically BMSCs, but the mechanism of BMSCs rejuvenating under exercise is not involved, our data provided new evidence to address the issue in this topic.
+
+5.
+
+## Conclusion
+This study showed that exercise training can improve activity of mice in BMSCs, therefore providing a scientific basis for the application of exercise to rejuvenate BMSC in related fields. Importantly, the detailed molecular mechanism by which exercise affects BMSCs still involved in the inhibition of IL-1β, IL-6, P16 and P21. These crucial findings provided basial evidence for future research that can further explore the relevant signaling pathways and regulatory mechanisms to solid theoretical foundation for exercise intervention in related diseases.
+
+## Ethical approval and consent for participation
+The animal experiment was approved by the Animal Ethics Committee of Kunming Medical University (Ethics No. kmmu20241023). Meanwhile, this study is in accordance with the U.K. Animals (Scientific Procedures) Act, 1986 and associated guidelines, EU Directive 2010/63/EU for animal experiments.
+
+## Funding
+This study was supported by A Grant of Hainan Provincial Youth Fund Project, No 2026-117, together with Shenzhen Science and Technology Program (grant number: JCYJ20220530154001003)
+
+## CRediT authorship contribution statement
+Xiu-juan Dong: Investigation, Validation. Qi Zhao: Data curation, Validation. Wei-min Zhang: Investigation, Validation. Jian-gang Liu: Investigation, Validation. Xin-ding Zhang: Conceptualization, Writing – review & editing. Rong Yi: Conceptualization, Writing – review & editing.
+
+## Declaration of competing interest
+Dong Xiujuan, Qi Zhao, Wei-min Zhang, Yi Rong, Jian-gang Liu and Xin-ding Zhang declare no competing interests.
+
+## Acknowledgements
+We would like to express our gratitude to Professor Ting-Hua Wang, and others who helped us during the writing of this article.
+
+## Contributor Information
+Xiu-juan Dong, Email: 1207212231@qq.com.
+Qi Zhao, Email: zhaoqi761229@163.com.
+Wei-min Zhang, Email: weiminzhang093@126.com.
+Jian-gang Liu, Email: liujiangang0605@126.com.
+Xin-ding Zhang, Email: zhangxd36@163.com.
+Rong Yi, Email: 13378204998@163.com.
+
+## Data availability
+The data that has been used is confidential.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+The data that has been used is confidential.

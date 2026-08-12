@@ -1,0 +1,456 @@
+pmcAnal ChemAnal Chem822acssd0370536acAnalytical Chemistry0003-27001520-6882pmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC11483345PMC11483345.111483345114833453928747510.1021/acs.analchem.4c030751ArticleDEPICT-seq:
+Single-Cell Transcriptomic Analysis of
+Rare Cell Subsets Isolated via Nucleic Acid Cytometry
+https://orcid.org/0000-0002-4502-0545BaoKaixuan JiangXiaochun HuHong-min LiuTiemin ZhangJingwei †State
+Key Laboratory of Genetic Engineering, Human Phenome Institute, Department
+of Endocrinology and Metabolism, School of Life Sciences, Zhongshan
+Hospital, Fudan University, Shanghai 200438, China‡ImmuXell
+Biotech Ltd., Shanghai 201315, China§School
+of Life Sciences, Inner Mongolia University, Hohhot, Inner Mongolia 010020, China∥State
+Key Laboratory of Genetic Engineering, School of Life Sciences, Fudan University, Shanghai 200438, China⊥School
+of Exercise and Health, Shanghai University
+of Sport, Shanghai 200438, China#Zhejiang
+Lab, Hangzhou, Zhejiang 311121, China*Email: jingwei_zhang@fudan.edu.cn.*Email: tiemin_liu@fudan.edu.cn.170920241510202496414729591623616243150620241009202409092024171020241810202409022026© 2024 The Authors. Published by American Chemical Society2024The Authorshttps://creativecommons.org/licenses/by-nc-nd/4.0/Permits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/). 
+The ability to dive deep into specific rare cell populations
+is
+critical for understanding tissue physiology and pathology across
+various biological domains. As single-cell RNA-seq flourishes, many
+newly discovered cell subtypes are defined by their transcriptomic
+markers. However, our ability to retrieve and analyze cells based
+on their nucleic acid markers remains underdeveloped. Here, we present
+Double Emulsion PCR-Initiated Cell sorting and Transcriptomic Sequencing
+(DEPICT-seq), a high-throughput droplet nucleic acid cytometry method
+that integrates batch cell fixation for cellular information preservation,
+double emulsion digital PCR-based cell sorting to target nucleic acid
+markers of interest, and in-depth full-length transcriptomic analyses
+at single-cell resolution. We utilize DEPICT-seq to isolate and characterize
+T cell receptor (TCR)-engineered T cells within a mixed population
+and also demonstrate a variation of the workflow by incorporating
+an RNase H-dependent PCR step to enrich full-length TCR sequences
+for paired single-cell TCR sequencing and transcriptomic profiling.
+
+National Natural Science Foundation of China10.13039/50110000180932070948Frontiers Science Research Base of Exercise and Metabolic HealthNANAFaculty Resources Project of College of Life Sciences, Inner Mongolia UniversityNA2022-102Science and Technology Innovation Plan Of Shanghai Science and Technology Commission10.13039/50110001862523J21901100National Key Research and Development Program of China10.13039/5011000121662020YFA0803800National Key Research and Development Program of China10.13039/5011000121662019YFA0801900National Key Research and Development Program of China10.13039/5011000121662018YFA0800300Science and Technology Commission of Shanghai Municipality10.13039/5011000033992023SHZDZX02National Natural Science Foundation of China10.13039/50110000180992357304National Natural Science Foundation of China10.13039/50110000180992249302National Natural Science Foundation of China10.13039/50110000180961904105pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDdocument-id-old-9ac4c03075document-id-new-14ac4c03075ccc-priceCells, the fundamental functional
+units of life, exhibit diverse phenotypes under spatial and temporal
+control within a heterogeneous context. The capacity to categorize
+cell subtypes is intricately linked to cell profiling methods. − 
+However, our ability to simultaneously retrieve and analyze
+cell
+subtypes based on nucleic acid markers remains underdeveloped. For
+instance, fluorescence in situ hybridization coupled with fluorescence-activated
+cell sorting (FACS) has facilitated cell isolation through the direct
+detection of RNA markers, yet the hybridization
+probes and cascades of signal amplification precluded downstream single-cell
+RNA-seq library construction. , Emulsion PCR has the
+potential to achieve cell sorting with single-molecule sensitivity , and distinguish transcript-splicing isoforms. , However,
+most droplet-based analysis or screening studies focus on digital
+nucleic acid analysis, single-cell genotyping, or a limited subset
+of mRNA transcripts in a cell (Figure S1), without access to each cell’s holistic phenotypic profiles. , , − These single-cell droplet sorting methods suffer from mRNA degradation
+during cell lysis or thermocycling, which impairs full transcriptomic
+analysis after sorting. − The recent nucleic acid cytometry
+in semipermeable capsules provides a new technology route with its
+analytical versatility and promises great potential, although its transcriptomic analysis power is yet to be
+demonstrated. FIND-seq − is among the first attempts to offer a complete workflow
+from RNA cytometry to whole transcriptomic sequencing: Fresh cells
+are processed right after tissue dissociation by using two-step sequential
+microfluidic droplet devices. The single cells are lysed along with
+a compartmentalized agarose bead matrix, where their mRNAs are captured
+by agarose-conjugated poly dT oligonucleotides and reverse-transcribed
+into cDNA upon emulsion breakage. Droplet digital polymerase chain
+reaction (dPCR) is then performed on cDNA immobilized on agarose beads
+that get re-encapsulated in a single emulsion (SE). The SE droplets
+are sorted based on dielectrophoresis implemented in custom microfluidic
+instrumentations. Currently, FIND-seq adoption is restricted to a
+select few laboratories. , − , − 
+Here, we present a nucleic acid cytometry analytical
+workflow that
+integrates cellular state preservation, target detection, and in-depth
+single-cell analysis, termed Double Emulsion PCR-Initiated Cell sorting and Transcriptomic Sequencing (DEPICT-seq). The
+procedure is technodissemination friendly by design and has the potential
+to greatly upgrade our ability to comprehend unique rare cell subpopulations
+and their contributions to tissue physiology and pathology. First,
+DEPICT-seq substitutes the initial droplet single-cell encapsulation
+step with cell fixation, which enables both sample preservation and
+multistep biochemical conversion to be performed in a massively parallel
+manner. Second, DEPICT-seq uses double emulsion (DE) dPCR for sorting,
+which is compatible with the flow cytometry core infrastructure in
+most research institutions. Lastly, to enhance single-cell transcriptomic
+analysis, we conducted a benchmark comparison among three whole transcriptomic
+amplification methods, followed by a cross-contamination analysis
+to demonstrate the purity of the library. As a variation of the workflow,
+we added an RNase H-dependent PCR (rhPCR) step to enrich full-length TCR sequences from the DEPICT-seq cDNA
+library, achieving paired analysis of TCR sequences and cellular phenotypes
+following single cells sorted by the defined RNA marker. This demonstrates
+the adaptability and versatility of DEPICT-seq in meeting domain-specific
+requirements and accommodating diverse sample preparation methods.
+
+## Experimental Section
+Experimental details for standardized
+procedures, including cell
+culture, device fabrication, cell pretreatment condition test, sequencing,
+and analysis, are included in the Supporting Information.
+
+## Methanol Fixation
+Cells were resuspended in ice-cold
+PBS-BSA-DEPC (1× PBS and 0.5% BSA (Thermo Fisher, 37525) and
+1% diethylpyrocarbonate (DEPC; Sangon Biotech, B600154)). The cells
+were then passed through a 40 μm strainer into a 15 mL falcon
+tube. Four milliliters of ice-cold methanol (Thermo Fisher, M/4000/17)
+was then dropwise added to 1 mL of cells. Cells were fixed at −20
+°C for 20 min.
+
+## In Situ Reverse Transcription
+After two additional
+washes (500 g, 4 °C, 3 min) with 1 mL of ice-cold PBS-BSA-RRI
+(1× PBS, 0.5% BSA, and 0.8 U/μL RiboLock (Thermo Fisher,
+EO0382)), the fixed cells were filtered through a 40 μM cell
+strainer and then resuspended in 100 μL of reverse transcription
+(RT) mix: 0.5 mM dNTP (Thermo Fisher, R0191), 10 U/μL Maxima
+H minus reverse transcriptase (Thermo Fisher, EP0753), 2 U/μL
+RnaseOUT (Thermo Fisher, 10777019), 1× RT buffer (Thermo Fisher,
+EP0753), 5 mM dithiothreitol (Thermo Fisher, 707265 ML), and 2 μM
+STRT-P1-T31 oligo (Table S1, GENEWIZ).
+The RT was incubated as follows (with a heated lid set to 60 °C):
+50 °C for 10 min, 3 cycles of [8 °C for 12 s, 15 °C
+for 45 s, 20 °C for 45 s, 30 °C for 30 s, 42 °C for
+2 min, 50 °C for 3 min], and 50 °C for 5 min and then stored
+at 4 °C.
+
+## Double Emulsion Generation
+DE droplets were generated
+using four syringe pumps for cell suspension and inner, oil, and outer
+sheath solutions. The oil phase was composed of an HFE-7500 fluorinated
+oil (3M) and a 2% PEG–PFPE amphiphilic block copolymer surfactant
+(Zhejiang ThunderBio Innovation Ltd.). The carrier phase contained
+1% Tween-20 (Bio-Rad, 1610781) and 2% Pluronic F68 (Thermo Fisher,
+24040032) in 1× PBS. The PCR mix contained 1× AceTaq Mg2+ Plus buffer (Vazyme, P401), 0.2 U/μL AceTaq DNA Polymerase
+(Vazyme, P401), 1% Tween-20, 2% PEG8000 (Promega, V3011), 0.1% Triton
+X-100 (Thermo Fisher, 85111), 1.2 μM forward primer, 1.2 μM
+reverse primer, and 0.6 μM probe (Table S1). The typical flow rates were 400:120:120:2000 μL/h
+(oil/cells/reagents/outer).
+
+## Single-Cell DE-PCR
+Given the shell permeability of
+DE droplets, the outer phase would be replaced by DE-PCR outer buffer
+(1× AceTaq Mg2+ Plus buffer, 1% Tween-20, 2% Pluronic
+F68). Finally, a 20 μL droplet pellet was placed in 20 μL
+of DE-PCR outer buffer with an additional 2.4 mM MgSO4 (NEB,
+B1003S) to increase Taq activity. PCR reactions were performed as
+follows: 95 °C 5 min denature, followed by 40 cycles of [95 °C
+30 s, 60 °C 30 s, 72 °C 30 s].
+
+## DE Flow Cytometry
+Single-cell DEs were analyzed via
+FACS using the sdDE-FACS workflow. , 
+
+## Nucleic Acid Release and Recovery
+Droplets were sorted
+into a dry PCR plate and left for 1 min to evaporate flow cytometry-derived
+aerosolized droplets; the change in interfacial tension spontaneously
+drove DE breakage. Then, 10 μL of cell lysis mix containing
+50 mM Tris pH 8.0 (Thermo Fisher, AM9855G), 50 mM NaCl (Thermo Fisher,
+AM9760G), 0.02% SDS (Thermo Fisher, AM9823), 0.4 μg/μL
+proteinase K (Thermo Fisher, AM2546) was mixed with each sample and
+incubated at 55 °C for 2 h. One microliter of 100 μM PMSF
+(Sigma-Aldrich, P7626) was added to inactivate proteinase K and incubated
+at room temperature for 10 min. The biotinylated cDNA was collected
+by MyOne C1 Dynabeads (Thermo Fisher, 65001).
+
+## Transcriptomic Amplification
+MyOne C1 Dynabeads were
+resuspended in 10 μL of modified FLASH-seq WTA mix (1.2 mM dNTP mix, 1 U/μL RnaseOUT, 5 mM dithiothreitol,
+0.45 mM dCTP (Thermo Fisher, R0151), 1.84 μM FS-TSO (Table S1), 4% Ficoll-400 (Sigma-Aldrich, F5415),
+9.2 mM MgCl2 (Thermo Fisher, AM9530G), 0.25 U/μL
+Maxima H minus reverse transcriptase, and 1× Kapa HiFi HotStart
+Master Mix (Roche, KK2602); the WTA PCR reaction was carried out under
+the following conditions: 50 °C 60 min for incubation and 95
+°C 3 min denature, followed by 5 cycles of [98 °C 30 s,
+65 °C 45 s, 72 °C 3 min]. The beads were removed, and extra
+cycles were carried out under the following conditions: 20 cycles
+of [98 °C 30 s, 65 °C 20 s, 72 °C 3 min].
+
+## Results
+
+## Design of DEPICT-seq
+A pivotal challenge in the investigation
+of specific cellular subtypes lies in achieving efficient target detection
+and comprehensive molecular RNA profiling. To mitigate the loss of
+transcriptomic information due to mRNA degradation, to enhance the
+accuracy and sensitivity of nucleic acid–based sorting, and
+to ensure single-cell transcriptomic sequencing quality, we devised
+a four-step workflow, as illustrated in : (1) information preservation, wherein cell
+methanol fixation and permeabilization are performed in bulk, concurrently facilitates in situ RT − while inactivating cellular components that may impede subsequent
+dPCR. Biotin-modified poly(T) oligonucleotides were employed to capture
+and convert polyadenylated mRNA into more stable biotinylated cDNA,
+critical for purification during the later single-cell library prep;
+(2) compartmentalization, the fixed cells and PCR master mix are coflowed
+into a single-layer microfluidic device, achieving high-throughput
+encapsulation by DEs; (3) detection, target-specific DE-dPCR exponentially
+amplified nucleic acid during thermocycling, generating high sensitivity
+fluorescence signals; and (4) sorting and analysis, DEs containing
+target-specific fluorescence are sorted using widely available commercial
+flow cytometers, such as SONY SH800. Subsequently, biotinylated nucleic
+acids are purified with streptavidin beads, followed by whole transcriptome
+amplification for comprehensive analysis.
+ 
+
+## Cell Fixation and In Situ RT for Improved Compatibility with
+qPCR and RNA-seq
+The utilization of single-cell dPCR within
+minute droplets (<1 nL) has previously encountered challenges stemming
+from nonspecific probe hydrolysis, therefore leading to unintended
+background fluorescence, induced by high-concentration cell lysates. − Our initial endeavor involved screening various fixation formulations
+to identify an optimal protocol that not only enhances detection efficiency
+by inactivating endogenous inhibitory components but also maximizes
+transcript integrity. We analyze a sample of Jurkat cells and qPCR
+TaqMan probe targeting CD45 to identify a specific transcript produced
+by these cells (Table S1). Fixation and
+permeabilization procedures allow for the conversion of delicate mRNA
+molecules into more stable cDNA, which are retained within the fixed
+cells ( A).
+Previous literature has described successful reverse transcription
+polymerase chain reaction (RT-PCR) from single cells in droplets,
+achieved through either diluting cell lysates before RT or employing
+physical or chemical inactivation methods. , − To evaluate the impact of fixation formulations on signal detection,
+we compared the effects of live cell lysates, alkaline-lysis cell
+lysates, heat-inactivation cell lysates, and paraformaldehyde (PFA)
+fixation alongside methanol-fixed cells on probe integrity. After
+probe incubation, increased fluorescence signals attributable to probe
+cleavage were observed in all groups except the methanol-fixed cells ( B and S2), with live cell lysates
+exhibiting the most pronounced probe cleavage. While alkaline lysis,
+heat inactivation, and PFA fixation partially mitigated cell lysate-induced
+inhibition, methanol fixation exhibited superior efficacy in eliminating
+high-concentration cell lysate-induced probe cleavage (1 × 105 cells per μL, equivalent to 1 cell in a 35 μm
+droplet). We then proceeded to assess the PCR performance on methanol-fixed
+cells, revealing a highly correlated fluorescence signal with cell
+density ( C).
+To elucidate the impact of fixation on transcriptomic integrity, single
+live or postfixation cells were sorted into well plates and subjected
+to standard FLASH-seq. Profiling of cDNA
+revealed that methanol fixation, when combined with a commercial protein
+RNase inhibitor, led to substantial mRNA degradation, consistent with
+prior findings. , We postulated that methanol may
+accidentally inactivate the commercial protein RNase inhibitor, allowing
+extracellular and intraorganellar ribonucleases to infiltrate the
+cytoplasm and degrade RNA before enzyme denaturation occurs. Upon
+substitution of the commercial protein RNase inhibitor with DEPC,
+mRNA degradation during fixation was mitigated ( D). The methanol fixation-based cell encapsulation
+method, which simultaneously fixes and permeabilizes cells, offers ease of handling, maximizes transcript
+preservation, and holds promise as a preferred storage method for
+single-cell transcriptomic samples.
+ 
+
+## Single-Cell Encapsulation and DE-dPCR
+To compartmentalize
+post-RT cells, we designed a one-layer, one-step microfluidics chip
+( A and S3), which obviates the need for intricate 3D
+alignment in multilayer microfluidic chip assembly, , , thereby enabling accessible chip fabrication
+on a homemade soft lithography platform (Figure S4). Following device bonding, an extended baking process ensures
+the hydrophobic recovery of PDMS to facilitate proper encapsulation
+at the first junction. Plasma treatment is administered to render
+the second junction hydrophilic ( B). The visible demarcation line between
+the cell solution and the dPCR Mastermix facilitates fine-tuning of
+each inlet’s flux ratio ( B). The droplets generated at the first nozzle traverse
+the serpentine channel for proper mixing and arrive at the second
+nozzle, where excess oil is sheared by the outer phase to yield thin-shell
+DEs and oil droplets ( B). Both thin-shell DEs and HFE7500 oil-in-water single droplets
+are generated, yet a simple gravitational separation step allows for
+efficient enrichment of the DEs above the droplet pellet (Figure S5). To achieve flow cytometry compatibility,
+we produce DEs of sufficiently small dimensions (33.46 ± 0.47
+μm in inner diameter and 42.08 ± 0.70 μm in outer
+diameter; C).
+Comparative analysis demonstrates that DEs exhibit greater thermal
+stability than SEs (Figure S6). The Jurkat
+and NIH3T3 cell mixtures and TaqMan PCR mix targeting CD45 were introduced
+to yield DEs. Following thermocycling, DEs undergo slight swelling
+(42.26 ± 1.03 μm in inner diameter and 50.15 ± 1.07
+μm in outer diameter; D,E), likely to maintain osmotic equilibrium across
+the inner and outer aqueous phases. Subsequent digital image analysis
+of post-PCR DEs reveals that the biological membrane remains intact
+and forms a distinct, spatially confined fluorescence pattern ( F), likely attributable
+to nonspecific adsorption of fluorescent probes to intracellular contents. In contrast, the fluorescence emanating from
+PCR amplicons is uniformly distributed throughout the entire DE volume
+( G). Consequently,
+profiling the fluorescence across the entire DE affords a distinct
+and highly sensitive means of accurately discerning partitions carrying
+cells and segregating them from those containing cell-free nucleic
+acid molecules. 
+ 
+
+## Flow Cytometry for Rare Cell Target Sorting
+Building
+upon the microscopy features, we conducted flow cytometry on post-PCR
+DEs containing either Jurkat cells, NIH3T3 cells, or a mixture of
+both, employing a flow cytometry instrument ( A). Following a brief pickup delay, DEs were
+gated based on the forward scatter area (FSC-A) versus the side scatter
+area (SSC-A) to analyze larger particles and discard signals arising
+from residual oil droplets ( B). Next, gating was applied based on fluorescence
+signal (FAM) intensity to identify DEs carrying cells ( C), which differs from the
+Dim DEs with weak and diffuse fluorescence signals (Figure S7A). In the final step, gating was performed based
+on FAM-H versus FAM-A to isolate DEs with fluorescence distributed
+throughout the entire droplet volume ( D). To ensure high positive predictive value
+of our method, about 30% positive droplets were inadvertently excluded
+(Figure S7B,C). Improvements in signal
+acquisition (e.g., using an imaging flow cytometer) or enhancement
+of the signal-to-noise ratio of the assay (e.g., using double-quenched
+probes) might help better separate positive droplets from negative
+ones. Figure S7C showcases RNA cytometry
+of NIH3T3 cells spiked with various dilutions of Jurkat cells, highlighting
+the potential of DE-based RNA cytometry in identifying low-abundance
+cell subtypes. Subsequent examination of each well under the microscope
+confirmed reliable sorting of positive DE droplets (Figure S8). , 
+ 
+
+## Optimization of Single-Cell mRNA Profiling
+Following
+sorting, biotinylated cDNA from target cells is purified with streptavidin
+beads. Previous investigations have demonstrated the efficacy of SMART-seq-like
+methodologies for constructing libraries from cDNA bound to streptavidin
+beads. − To optimize library construction efficiency from
+streptavidin bead-collected cDNA, we compared three modified transcriptomic
+library approaches, comprising two template switch-based methods,
+namely, SMART-seq3 -like and FLASH-seq -like methods, alongside a TdT tailing -based method (Figure S9A). Analysis was conducted on 10 samples (4 FLASH-seq-like samples,
+3 SMART-seq3-like samples, and 3 TdT tailing-based samples). Subsequent
+analysis demonstrated that the FLASH-seq-like method exhibited a superior
+exon mapping ratio (Figure S9C) and greater
+library complexity (Figure S9B–E). Given its advantages in both labor and performance, we adopted
+the FLASH-seq-like method as the standard protocol for DEPICT-seq.
+To validate the specificity and accuracy of DE-based dPCR flow cytometry,
+we sorted 16 DEs carrying cells and amplified the cDNA released from
+the DEs exhibiting either positive or negative amplicon fluorescence
+signals. In a mixed species experiment, the Jurkat and NIH3T3 populations
+distinctly segregate ( A). This attests to the recoverability of cDNA from each droplet
+postsorting, devoid of major material loss or cross-contamination
+from emulsion breakage. Our analysis
+shows that all positive DEs exclusively contain Jurkat cells, whereas
+negative DEs encompass not only NIH3T3 cells but also Jurkat cells
+( A, B). This
+observation suggests that partial DEs harboring Jurkat cells might
+not exhibit fluorescence signals, aligning with flow cytometry results
+( E).
+ 
+
+## Characterization of Genetically Engineered Cells
+Previous
+studies indicate that the activation potency of TCR-T cells may not
+directly correlate with high pMHC binding affinity, presenting challenges
+for low-affinity TCR-T cell isolation using pMHC multimer staining
+methods. By targeting the transfection
+payload of sequence of recombinant TCR-T cells rather than cell surface
+TCRs, we used DEPICT-seq to isolate TCR-T cells in an artificial spike-in
+cell mixture (TCR-T/NIH3T3 = 1:100). To gauge both potential technical
+biases and the protocol’s efficacy in delineating cell populations,
+we integrated TCR-T single-cell RNA sequencing (scRNA-seq) data obtained
+from standard FLASH-seq (Live, n = 7) and DEPICT-seq
+(n = 9) with Jurkat (n = 50, 10×
+Genomics Chromium) and human peripheral
+blood mononuclear cell (PBMC_1K_V3, 10× Genomics Chromium) scRNA-seq
+data. The larger cell population enabled us to annotate major cell
+types based on population-specific markers ( C and S10). tSNE
+visualization demonstrated that different methods yielded inferred
+biological states maintaining consistent population structures and
+biological information ( C), and the increasing sequence depth enhanced the library
+complexity of DEPICT-seq ( D). Notably, DEPICT-seq performed better with higher
+RNA quantities (Figure S11), suggesting
+an input-sensitive optimum. As shown in E, ribosomal reads constituted a substantial
+portion of detected transcripts (37.2%) from 10× Genomics, which
+was 80 times higher than those from DEPICT-seq (0.45%), and the significantly
+lower ribosomal reads of DEPICT-seq might result from multiple washes
+after streptavidin bead collection and mRNA capture efficiency between
+protocols.
+To enhance the utility of DEPICT-seq in T-cell biology
+research, we adopted rhPCR to amplify
+full-length TCR sequences from the cDNA library post DE sorting (Figure S12A,B). Both full-length TCRα and
+TCRβ sequences were successfully retrieved, allowing for the
+reconstruction of TCRs recognizing specific MHC–antigen complexes
+(Figure S12C). In addition to TCR discovery,
+paired single-cell TCR sequencing and transcriptomic profiling enable
+the joint analysis of T-cell clonality and phenotype. This approach
+uses the TCR sequence as a unique barcode for tracking T-cell clones
+over time or across PBMCs and different tissues.
+
+## Discussion
+In this work, we introduce DEPICT-seq, a
+democratized method that
+integrates cellular information preservation, detection, and isolation
+based on specific nucleic acid markers, and comprehensive transcriptomic
+sequencing analysis and elucidate vital details in its development:
+Leveraging the TaqMan system, DE-dPCR enables nucleic acid marker-assisted
+cell sorting in a highly specific manner, encompassing both endogenous
+(DNA, including SNP, mRNA, spliced transcripts, noncoding RNA, etc.)
+and exogenous (natural viral RNA, transfected plasmids, artificial
+oligos, etc.) targets. After amplification, the droplets containing
+the target exhibit diffuse fluorescence, enabling the absolute quantification
+of positive cells and facilitating sorting. Although the reason for
+the intracellular enrichment of fluorescent dyes in DE-dPCR remains
+unclear (another assay utilizing Cy3 dye also exhibits a similar effect),
+this characteristic enables accurate recapitulation of the total cell
+count, thereby keeping the original frequency information on cell
+subtypes.
+Compared to the method based on semipermeable capsules or agarose beads, , DEPICT-seq
+decouples the first sample fixation and RT steps from the downstream
+microfluidic DE formation and droplet sorting steps, which allows
+for decentralized sample preparation and microfluidic-specialized
+streamline processes. Longitudinal studies may also benefit since
+samples could go through cellular information preservation at separate
+time points, while the library preparation steps can be performed
+on the same day to allow for homogeneous quality control. Our modified
+single-cell FLASH-seq workflow greatly
+diminishes the labor, time, and cost of DEPICT-seq, thereby producing
+high-quality transcriptional data. Fixed cells have been demonstrated
+to be compatible with various additional in situ molecular biology
+reactions, such as T4 ligation and Tn5
+tagmentation. , These capabilities enhance the
+potential of DEPICT-seq for epigenomic profiling of targeted cell
+subpopulations or for utilizing the split-pool method to prebarcode
+fixed cells, enabling high-throughput profiling of desired cell subpopulations.
+We further demonstrated a variation of the DEPICT-seq workflow
+for paired single-cell TCR sequencing and transcriptomic profiling.
+The ability to isolate specific T-cell subpopulation based on RNA
+markers and track their in vivo biology could provide valuable insights
+into the etiology and pathology of immune-mediated diseases or track
+infused therapeutic subpopulation during cell therapies for mechanistic
+studies and improved engineering strategies. Combined with antigen-specific cell transfections, , viral payload-targeted DEPICT-seq can potentially decode the interaction
+between the TCR and presented antigens in biological or clinical samples.
+
+## Conclusions
+In summary, DEPICT-seq is capable of isolating
+cell subpopulations
+defined by nucleic acid signatures, followed by deep molecular profiling.
+This approach is akin to conducting a wet-lab experimental BLAST (Basic
+Local Alignment Search Tool) query on initial shallow single-cell
+RNA-seq of a large number of cells, which invites the revelation of
+lead markers that trigger deeper analysis using DEPICT-seq to uncover
+additional RNA markers. This iterative loop, from RNA-seq to RNA-targeted
+cell sorting, can be integrated with downstream chemical or genetic
+perturbations and biochemical experiments, presenting a novel and
+potent method for investigating biologically significant subpopulations.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.analchem.4c03075.Additional experimental details, materials and methods,
+representative studies of nucleic acid cytometry, cell lysate-induced
+fluorescence differences across different experimental conditions,
+layout of microfluidic devices for double emulsion generation, DIY
+soft lithography platform, isolation of sheared oil droplets from
+the emulsion mixture, single and double emulsion experience thermocycling,
+true positive and false positive events cross various cell densities,
+plate-sorting image for DE droplets, profiles of cDNA derived from
+the FLASH, SM3, and TdT protocols, single-cell subtype label strategy,
+comparison of the effect of cell input on library complexity, TCR
+enrichment analysis, impact of proteinase K treatment, PCR cycle affects
+WTA, and primer design (PDF)
+
+## Supplementary Material
+ac4c03075_si_001.pdf
+
+The authors
+declare no competing financial interest.
+
+## Acknowledgments
+This research was funded by the National Key R&D
+Program of China (2020YFA0803800, 2019YFA0801900), the National Natural
+Science Foundation of China (32070948, 61904105, 92357304, 92249302),
+the Project from Shanghai Science and Technology Commission (23J21901100),
+the Faculty Resources Project of College of Life Sciences, the Inner
+Mongolia University (2022-102), and the Shanghai Municipal Science
+and Technology Major Project (Grant No. 2023SHZDZX02).

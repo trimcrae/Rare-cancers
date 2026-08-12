@@ -1,0 +1,539 @@
+3946starprotSTAR ProtocolsSTAR ProtocElsevierPMC8749294874929487492943503695210.1016/j.xpro.2021.101042High-throughput in vitro processing of human primary microRNA by the recombinant microprocessor
+KimKijun KimV Narry 1Center for RNA Research, Institute for Basic Science, Seoul 08826, Korea2School of Biological Sciences, Seoul National University, Seoul 08826, Korea∗Corresponding author wonderful@snu.ac.kr
+∗∗Corresponding author narrykim@snu.ac.kr
+3Present address: Department of Bionanoscience, Kavli Institute of Nanoscience, Delft University of Technology, 2629HZ Delft, the Netherlands
+4Technical contact
+5Lead contact
+612022311010421010421312022© 2021 The Author(s)This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+We describe a protocol to conduct a high-throughput in vitro processing assay, using 1,881 human primary microRNAs (pri-miRNAs) and recombinant Microprocessor complex, followed by deep sequencing library generation. This comprehensive approach allows the mapping of cleavage sites and the measurement of processing efficiency of a large number of substrates simultaneously. Our protocol is readily modifiable to investigate the effects of chemicals and regulatory proteins. Moreover, cis-acting elements can be examined by replacing the wild-type pri-miRNAs with mutant variants.
+For complete details on the use and execution of this profile, please refer to .
+Subject areas: Bioinformatics, Sequencing, Molecular Biology, Protein Biochemistry
+
+## Graphical abstract
+ 
+
+## Highlights
+•In vitro processing of human pri-miRNAs by the recombinant Microprocessor
+•Construction of cDNA libraries for high-throughput assay of pri-miRNA processing
+•This protocol allows mapping of cleavage sites and measuring processing efficiency
+
+We describe a protocol to conduct a high-throughput in vitro processing assay, using 1,881 human primary microRNAs (pri-miRNAs) and recombinant Microprocessor complex, followed by deep sequencing library generation. This comprehensive approach allows the mapping of cleavage sites and the measurement of processing efficiency of a large number of substrates simultaneously. Our protocol is readily modifiable to investigate the effects of chemicals and regulatory proteins. Moreover, cis-acting elements can be examined by replacing the wild-type pri-miRNAs with mutant variants.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoCollection date 2022 Mar 18.
+
+## Before you begin
+
+## Overview
+This protocol describes how to (1) conduct a high-throughput in vitro pri-miRNA processing assay and (2) generate a sequencing library for the processed RNA fragments and input substrates in order to map the processing sites and measure the processing efficiency. For this, we prepare 1,881 human pri-miRNAs registered in miRBase version 21 by in vitro transcription. The DNA templates for transcription had been commercially synthesized on a massive parallel synthesis platform (Celemics). During the DNA synthesis, error-free clones were identified by next-generation sequencing and retrieved by laser pulse ( ). We also purify the “full-length” recombinant Microprocessor complex using HEK293E suspension culture ( ). We used a full-length complex in case that the truncated proteins may lack processing activity on certain pri-miRNAs. Human pri-miRNAs are incubated with the recombinant Microprocessor, after which both the input and the processing products are subjected to sequencing. To alleviate the ligation bias from sequence preference and secondary structure, we exploit polyethylene glycol (PEG) and the adapters with degenerate bases in sequencing library construction ( ).
+
+## Preparation of human pri-miRNA substrates
+
+Timing: 3 days
+
+1.PCR amplification of the synthetic DNA templates to attach T7 promoter
+2.In vitro transcription of pri-miRNAs using T7 polymerase
+3.RNA 5′ polyphosphatase reaction on in vitro transcribed pri-miRNAs
+4.Gel purification of the RNA 5′ polyphosphatase-treated pri-miRNAs
+5.Quantification of the pri-miRNAs
+
+## Ectopic expression of DROSHA and DGCR8 in HEK293E suspension cells
+
+Timing: 5 days
+
+6.Co-transfection of the DROSHA and DGCR8 constructs using linear polyethylenimine (PEI) and DMSO
+7.Supplement of final 0.5% tryptone to suspension culture
+8.Cell harvest and lysis
+9.Collection and aliquot of the supernatant
+
+## Purification of human microprocessor complex
+
+Timing: 1 day
+
+10.FLAG-Immunoprecipitation (IP) using anti-FLAG affinity gel
+11.Elution using 3× FLAG-peptide
+12.Quantification of the recombinant Microprocessor
+
+## In vitro processing of human pri-miRNAs
+
+Timing: 4 h
+
+13.Incubation of the substrates with the recombinant Microprocessor
+14.Phenol-chloroform extraction of the products
+
+## Construction of cDNA library from processing products
+
+Timing: 4 days
+
+15.3′ adapter ligation of the products
+16.Gel purification of the 3′ adapter-ligated products
+17.5′ adapter ligation of the gel purified RNA
+18.Reverse transcription of the adapter-ligated products
+19.PCR amplification of cDNA
+20.Gel purification of the library
+21.Quantification of the library
+
+## Construction of cDNA library from input substrates
+
+Timing: 2 days
+
+22.Reverse transcription of the substrates
+23.PCR amplification of cDNA
+24.Gel purification of the library
+25.Quantification of the library
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+•5× TBE stock solution
+
+ 
+•6% denaturing polyacrylamide stock solution
+
+ 
+•10% denaturing polyacrylamide stock solution
+
+ 
+•1 M Tris-HCl pH 7.5
+
+ 
+•10% tryptone solution
+
+ 
+•Composition of DMEM for HEK293E suspension culture (custom order)
+
+ 
+•Custom oligonucleotides used in this protocol
+
+ 
+
+## Step-by-step method details
+
+CRITICAL: Perform experiments in RNase-free environments (see ).
+
+Note: DNAs and RNAs are diluted in triple distilled water (TDW) or DNase/RNase-free distilled water.
+
+Alternatives: DNase/RNase-free distilled water can substitute TDW in this protocol.
+
+## Preparation of human pri-miRNA substrates
+
+Timing: 3 days
+
+In this section, you obtain over 1,800 human pri-miRNAs by in vitro transcription from the T7 templates followed by RNA 5′ polyphosphatase reaction and gel purification.
+1.Perform PCR to attach T7 promoter to the 5′ end of DNA templates (161 bp; 1,881 species) that harbor 125 nt human pri-miRNA sequences flanked by common sequences, 18 nt each, at 5′ and 3′ ends (5′ common sequence = 5′-GCC TAT TCA GTT ACA GCG-3′, 3′ common sequence = 5′-CGT ACT GAA GCT AGC AAC-3′).a.Dilute the DNA templates to 5 ng/μL
+b.PCR mixture 
+c.PCR cycling conditions CRITICAL: Check the length of T7 templates (see ).
+
+d.Purify PCR products using QIAquick PCR purification kit (QIAGEN) following manufacturer's instructions and elute in 50 μL of TDW ("T7 templates"; 180 bp).Alternatives: Gel purification of T7 products can be performed instead of spin column-based purification (see ).
+
+2.Perform in vitro transcription reaction for T7 templates (180 bp) using MEGAscript T7 Transcription kit (Thermo Fisher Scientific).a.Dilute the T7 templates to 50 ng/μL
+b.In vitro transcription mixture 
+c.Incubate at 37°C for 6 h.
+d.Add 1 μL of TURBO DNase and then incubate at 37°C for 15 min.Pause point: Store the reaction at −80°C.
+
+3.Purify in vitro transcription products (163 nt) using MEGAclear Transcription Clean-up kit following manufacturer's instructions, which gives you 100 μL eluate (“in vitro transcription products”).
+Optional: Perform ethanol (EtOH) precipitation with 5 M ammonium acetate using MEGAclear Transcription Clean-up kit following manufacturer's instructions to concentrate the column purified in vitro transcription products. Dissolve the pellet using the desired volume of TDW.
+Alternatives: Other column-based RNA purification kits can be used instead.
+4.Perform RNA 5′ polyphosphatase (Lucigen) reaction to convert triphosphate at the 5′ end of RNA into monophosphate.a.RNA 5′ polyphosphatase reaction 
+b.Incubate at 37°C for 1 h.Note: This step is required for 5′ adapter ligation during the library preparation (Related to section " ").
+
+5.Transfer the reaction to a 1.7 mL microcentrifuge tube.
+6.Add 20 μL of 2× RNA loading dye (NEB) to the reaction.
+7.Prepare 6% denaturing polyacrylamide gel (Hoefer gel apparatus, SE400; 18 × 16 cm glass plates, 1.0 mm spacer, 15-well comb).a.6% denaturing polyacrylamide gel CRITICAL: TEMED should be added last and in a fume hood. TEMED is toxic if inhaled and causes severe skin burns and eye damage.
+
+8.Pre-run the gel at 300 V for 1 h using 1× TBE as the running buffer.
+9.Prepare 20 μL of 1× RNA loading dye containing 0.25 μL of Century-Plus RNA Markers (Thermo Fisher Scientific).
+10.Heat all samples with 2× RNA loading dye at 70°C for 5 min and spin down the tubes.
+11.Load RNA 5′ polyphosphatase-treated RNA sample and size markers on the gel.
+12.Run the gel at 300 V for 1 h 30 min using 1× TBE as the running buffer.
+13.Detach the gel from the cassette and move it to the glass tray containing 100–200 mL of 1× TBE.
+14.Add 10 μL of SYBR Gold nucleic acid gel stain (Thermo Fisher Scientific) to the glass tray.
+15.Stain the gel for 5 min.
+16.Prepare a razor to cut the gel.a.Clean the razor using laboratory wipers with 75% EtOH and then with RNaseZap (Thermo Fisher Scientific).
+
+17.Clean Safe Imager 2.0 blue-light transilluminator (Thermo Fisher Scientific) using laboratory wipers with 75% EtOH and then with RNaseZap (Thermo Fisher Scientific).
+18.Transfer the gel to the Safe Imager 2.0 blue-light transilluminator (Thermo Fisher Scientific).
+19.Wear Safe Imager viewing glasses and illuminate the gel to visualize RNA and size markers.
+20.Cut the 163-nt size band (“human pri-miRNA substrates”) using a razor.
+21.Transfer the gel slice into a gel breaker tube (Istbiotech).
+22.Centrifuge the gel breaker tube at 20,000×g, 4°C for 2 min.
+23.Add 500 μL of 0.3 M NaCl solution to the ground gel.
+24.Incubate the tube in the ThermoMixer C (Eppendorf) at 4°C and 1,500 rpm overnight (≥16 h).
+Pause point: Overnight (O/N) incubation.
+25.Transfer the eluate containing gel debris to the Corning Costar Spin-X centrifuge tube filters (MilliporeSigma).
+26.Centrifuge the Spin-X tube at 14,000×g, 4°C for 5 min.
+27.Transfer the column filtered eluate (∼500 μL) to a new 1.7 mL microcentrifuge tube.
+28.Add 1 mL of 100% EtOH, 50 μL of 3 M sodium acetate (NaOAc), and 1 μL of GlycoBlue coprecipitant (Thermo Fisher Scientific) to the eluate.
+29.Store the tube at −80°C for 1 h.
+30.Centrifuge at 20,000×g, 4°C for 30 min.
+31.Discard the supernatant and wash the pellet twice using 1 mL of 75% EtOH.a.Centrifuge the tube at 20,000×g, 4°C for 3 min between wash.
+
+32.Spin down the tube and completely and carefully discard the residual EtOH.
+33.Air-dry the pellet for 3 min and dissolve it in 10 μL of TDW.
+34.Measure RNA concentration using NanoDrop spectrophotometer (Thermo Fisher Scientific).
+35.Store the RNA (“human pri-miRNA substrates”) at −80°C.
+
+## Ectopic expression of DROSHA and DGCR8 in HEK293E suspension cells
+
+Timing: 5 days
+
+In this section, you obtain the HEK293E cell lysate containing the ectopically expressed human Microprocessor complex with affinity tags.
+36.Maintain HEK293E suspension culture (3.0E5 cells/mL) in Dulbecco’s Modified Eagle’s Medium (Welgene) supplemented with 5% fetal bovine serum (Welgen) and 50 μg/mL G418 (MilliporeSigma) at 37°C, 8% CO2, and 130 rpm.
+Note: For optimal aeration during suspension culture, we keep the media volume below 20% of that of the culture bottle.
+37.After cell doubling (i.e., 6.0E5 cells/mL), add the plasmids (pX-DROSHA-FLAG and pX-DGCR8-HA constructs) ( ) to the final concentration of 0.15 μg/mL each (together 0.3 μg/mL DNA) directly to the suspension culture and then shake the culture bottle briefly.
+38.Add linear polyethylenimine (PEI) to the suspension culture (final 3 μg/mL) and then shake the culture bottle briefly.
+39.Add 1/100 volume of dimethyl sulfoxide (DMSO) to the suspension culture (final 1% DMSO) and then shake the culture bottle briefly.
+CRITICAL: Add DNA, PEI, and DMSO separately to the cell culture. Do not premix the DNA and PEI, which results in DNA precipitation.
+40.Incubate the suspension culture at 33°C, 8% CO2 and 130 rpm for 48 h.
+41.Add 1/20 volume of 10% tryptone to the suspension culture (final 0.5% tryptone).
+42.Incubate the suspension culture for an additional 48 h.
+43.Harvest the cells by centrifugation at 500×g and 4°C for 15 min.
+44.Discard the supernatant and resuspend the pellet using a lysis buffer in 1/20 volume to the suspension culture (e.g., 20 mL of lysis buffer to the pellet from 400 mL suspension culture).a.Lysis buffer: 500 mM NaCl, 50 mM Tris-HCl pH 7.5, protease inhibitor cocktail (MilliporeSigma)
+
+45.Sonicate the lysate in 60 cycles of 35% amplitude, 2 s ON, and 8 s OFF cycle (VCX-750 Ultrasonic Processor, Sonics).
+46.Centrifuge the lysate at 35,000×g, 4°C, for 1 h (Avanti J-26 XPI, Beckman Coulter).
+47.Aliquot the supernatant in 1 mL per single 1.7 mL microcentrifuge tube.
+48.Freeze the aliquots in liquid nitrogen and store them at −80°C.
+
+## Purification of human microprocessor complex
+
+Timing: 1 day
+
+In this section, you purify the recombinant Microprocessor complex by using FLAG-IP and 3× FLAG-peptide elution.
+Note: The following purification procedure has been optimized for 1 mL aliquot. We found that scaling-up does not proportionally increase the yield of purification.
+49.Transfer 40 μL of anti-FLAG M2 affinity gel (50% slurry, net 20 μL) (MilliporeSigma) to a 1.7 mL microcentrifuge tube.
+50.Wash the affinity gel three times with T500 buffer (500 mM NaCl and 50 mM Tris-HCl pH 7.5).a.Centrifuge at 500×g, 4°C for 1 min between the washes.
+
+51.Discard the T500 buffer while leaving some buffer (∼100 μL) to keep the gel wet.
+52.Thaw 1 mL aliquot of the HEK293E lysate containing overexpressed Microprocessor ("supernatant") on ice.
+53.Add the supernatant to the washed affinity gel (net 20 μL) and rotate the tube at 4°C for 1 h 30 min.
+54.Centrifuge the sample at 500×g, 4°C for 1 min and discard ∼90% of the supernatant.
+CRITICAL: Not to cause the loss of the affinity gel and the associated Microprocessor, do not completely discard the supernatant and wash buffers. Instead, leave ∼100 μL buffer at each step to avoid the loss.
+55.Wash the affinity gel twice with T500 buffer supplemented with NP40 (final 0.1%).a.Centrifuge at 500×g, 4°C for 1 min between the washes.
+
+56.Wash the affinity gel three times with a T500 buffer.a.Centrifuge at 500×g, 4°C for 1 min between the washes.
+
+57.Prepare 100 μL of elution buffer (T500 buffer supplement with final 0.5 mg/mL 3× FLAG peptide).
+58.Completely drain the residual T500 buffer from the affinity gel using 1 mL syringe with the 30G needle.
+CRITICAL: If you have residual T500 buffer, the elution efficiency may dramatically drop (see ).
+59.Immediately add a 100 μL elution buffer to the affinity gel.
+60.Incubate the elution mixture in the ThermoMixer C (Eppendorf) for 30 min at 4°C and 1,000 rpm.
+61.Centrifuge the elution mixture at 500×g, 4°C for 1 min.
+62.Collect the eluate ("recombinant Microprocessor complex") using 1 mL syringe with the 30G needle.
+63.Add 1 μL of 0.1 M dithiothreitol (DTT) to make the final 1 mM DTT.
+64.Aliquot the recombinant Microprocessor complex in fresh 1.7 mL microcentrifuge tubes.
+65.Freeze the aliquots in liquid nitrogen and store them at −80°C.
+66.Calculate the concentration of a recombinant Microprocessor.a.Run the 20 μL of recombinant Microprocessor on SDS polyacrylamide gel with BSA standards; 2, 1, 0.5, 0.25, and 0.125 μg.
+b.Stain the gel overnight (≥16 h) using InstantBlue Coomassie protein stain (Abcam) in the glass tray.Pause point: O/N incubation.
+
+c.Destain the gel using TDW for 15 min.
+d.Take a picture of gel using a Molecular Imager such as ChemiDoc XRS+ (BioRad).
+e.Make a standard curve from BSA standards using imaging software such as Image Lab (BioRad), or MultiGauge (Fujifilm), or ImageJ (NIH).
+f.Quantitate the amount of DROSHA considering the relative molecular weight to BSA. Of note, a Microprocessor complex contains one copy of DROSHA and two molecules of DGCR8.
+g.Calculate the concentration of a recombinant Microprocessor considering the loading volume.
+
+## In vitro processing of human pri-miRNAs
+
+Timing: 4 h
+
+In this section, you perform in vitro pri-miRNA processing and then phenol-chloroform extraction to isolate processed RNA fragments.
+67.Make an in vitro processing mixture in 5× scale.a.1× scale reaction (25 μL) 
+b.Assemble 5× scale reaction (total 125 μL) in 200 μL PCR tube.
+c.Incubate the 5× scale reaction in the thermocycler at 37°C for 1 h.Note: If you use radiolabeled pri-RNA substrates to check cleavage patterns on the denaturing gel, perform 0.5× scale reaction (12.5 μL) and stop the reaction by adding 1 μL of 20 mg/mL Proteinase K and 13.5 μL of 2× TBE-Urea sample buffer (BioRad). Then incubate the mixture at 37°C for 30 min and then 50°C for 30 min. Heat the sample and Decade markers (Thermo Fisher Scientific) or equivalent radiolabeled size markers at 95°C for 3 min and then load them on the 10% denaturing polyacrylamide gel (see step 111).
+
+68.Transfer the 5× scale reaction (total 125 μL) to a 1.7 mL microcentrifuge tube.
+69.Stop the reaction by adding 75 μL of TDW and 200 μL of RNA elution buffer (2% SDS, 0.3 M NaOAc).
+70.Briefly vortex the mixture and spin down the tube.
+71.Add 400 μL of Acid-Phenol:Chloroform pH 4.5 (with IAA, 125:24:1) (Thermo Fisher Scientific).
+72.Briefly vortex the mixture and incubate at room temperature (25°C) for at least 10 min until two distinct phases are visible.
+73.Centrifuge the mixture at 15,000×g, 25°C for 5 min.
+74.Transfer the upper aqueous phase (≤400 μL) to a new 1.7 mL microcentrifuge tube.
+75.Add 1 mL of 100% EtOH, 40 μL of 3 M NaOAc, and 1 μL of GlycoBlue coprecipitant (Thermo Fisher Scientific).
+76.Incubate the mixture at −80°C for 1 h.
+77.Centrifuge the mixture at 20,000×g, 4°C for 1 h.
+78.Discard the supernatant and wash the pellet twice using 1 mL of 75% EtOH.a.Centrifuge the tube at 20,000×g, 4°C for 3 min between the washes.
+
+79.Spin down the tube and completely and carefully discard the residual EtOH.
+80.Air-dry the pellet for 3 min and dissolve it in 5 μL of TDW ("in vitro processing products").
+81.Keep the in vitro processing products at −80°C.
+
+## Construction of cDNA library from processing products
+
+Timing: 4 days
+
+In this section, you construct a cDNA library from the processed RNA fragments. This part is based on protocols modified from the Illumina TruSeq Small RNA Library Preparation Kit and using custom adapters.
+82.Prepare 6% denaturing polyacrylamide gel (Hoefer gel apparatus, SE260; 10 × 10.5 cm glass plate & notched alumina plate, 1.0 mm spacer, 10-well comb).a.6% denaturing polyacrylamide gel CRITICAL: TEMED should be added last and in a fume hood. TEMED is toxic if inhaled and causes severe skin burns and eye damage.
+
+83.Add 5 μL of 2× RNA loading dye (NEB) to the in vitro processing products dissolved in 5 μL of TDW (step 80).
+84.Separately, prepare the size marker by mixing the 10 μL of 1× RNA loading dye with 0.5 μL of Low Range ssRNA Ladder (NEB).
+85.Heat the in vitro processing products and the size marker at 70°C for 5 min and spin down the tubes.
+86.Load the in vitro processing products and the size marker on the gel.
+87.Run the gel at 150 V for 30 min using 1× TBE as the running buffer.
+88.Detach the gel from the cassette and move it to the glass tray containing 100–200 mL of 1× TBE.
+89.Add 10 μL of SYBR Gold nucleic acid gel stain (Thermo Fisher Scientific) to the glass tray.
+90.Stain the gel for 5 min.
+91.Prepare a razor to cut the gel.a.Clean razor using laboratory wipers with 75% EtOH and then with RNaseZap (Thermo Fisher Scientific).
+
+92.Clean Safe Imager 2.0 blue-light transilluminator (Thermo Fisher Scientific) using laboratory wipers with 75% EtOH and then with RNaseZap (Thermo Fisher Scientific).
+93.Transfer the gel on Safe Imager 2.0 blue-light transilluminator (Thermo Fisher Scientific).
+94.Wear Safe Imager viewing glasses and illuminate the gel to visualize RNA and size markers.
+95.Cut the gel containing processed RNA fragments ∼30–150 nt RNA using razor ( ).
+96.Transfer the gel slice into a gel breaker tube (Istbiotech).
+97.Centrifuge the gel breaker tube at 20,000×g, 4°C for 2 min.
+98.Add 500 μL of 0.3 M NaCl solution to the ground gel.
+99.Incubate the tube in the ThermoMixer C (Eppendorf) at 4°C and 1,500 rpm overnight (≥16 h).
+Pause point: O/N incubation.
+100.Transfer the eluate containing gel debris to the Corning Costar Spin-X centrifuge tube filters (MilliporeSigma).
+101.Centrifuge the Spin-X tube at 14,000×g, 4°C for 5 min.
+102.Transfer the column filtered eluate (∼500 μL) to a new 1.7 mL microcentrifuge tube.
+103.Add 1 mL of 100% EtOH, 50 μL of 3 M NaOAc, and 1 μL of GlycoBlue coprecipitant (Thermo Fisher Scientific) to the eluate.
+104.Store the tube at −80°C for 1 h.
+105.Centrifuge at 20,000×g, 4°C for 30 min.
+106.Discard the supernatant and wash the pellet twice using 1 mL of 75% EtOH.a.Centrifuge the tube at 20,000×g, 4°C for 3 min between the washes.
+
+107.Spin down the tube and completely and carefully remove the residual EtOH.
+108.Air-dry the pellet for 3 min and dissolve it in 3 μL of TDW ("processed RNA fragments").
+109.Transfer the processed RNA fragments to the 200 μL PCR tube.
+110.Perform 3′ adapter ligation.a.Add the customized 3′ adapter to the processed RNA fragments. 
+b.Incubate the mixture in the thermocycler at 70°C for 2 min.
+c.Immediately move the tube on the ice and rest for 3 min.
+d.Add the following reagents to the mixture. CRITICAL: 50% PEG8000 is viscous. Mix thoroughly the reaction components by multiple pipetting more than 10 times (see ).
+
+e.Incubate the mixture in a thermocycler at 25°C overnight (≥16 h) ("3′ adapter ligation reaction").Pause point: O/N incubation.
+
+111.Prepare 10% denaturing polyacrylamide gel (Hoefer gel apparatus, SE400; 18 × 16 cm glass plates, 1.0 mm spacer, 15-well comb).a.10% denaturing polyacrylamide gel CRITICAL: TEMED should be added last and in a fume hood. TEMED is toxic if inhaled and causes severe skin burns and eye damage.
+
+112.Pre-run the gel at 370 V for 1 h using 0.5× TBE as the running buffer.
+113.Add 10 μL of 2× RNA loading dye (NEB) to the 3′ adapter ligation reaction and transfer to a new 1.7 mL microcentrifuge tube.
+114.Prepare two types of size markers in 20 μL of 1× RNA loading dye; one containing 0.25 μL of Century-Plus RNA Markers (Thermo Fisher Scientific) and another containing 0.5 μL of Low Range ssRNA Ladder (NEB).
+115.Heat the 3′ adapter ligation reaction samples and the size markers at 70°C and spin down the tubes.
+116.Load the 3′ adapter ligation reaction samples and the size markers on the gel.
+117.Run the gel at 370 V for 40 min using 0.5× TBE as the running buffer.
+118.Detach the gel from the cassette and move it to the glass tray containing 100–200 mL of 0.5× TBE.
+119.Add 10 μL of SYBR Gold nucleic acid gel stain (Thermo Fisher Scientific) to the glass tray.
+120.Stain the gel for 5 min.
+121.Prepare a razor to cut the gel.a.Clean razor using laboratory wipers with 75% EtOH and then with RNaseZap (Thermo Fisher Scientific).
+
+122.Clean Safe Imager 2.0 blue-light transilluminator (Thermo Fisher Scientific) using laboratory wipers with 75% EtOH and then with RNaseZap (Thermo Fisher Scientific).
+123.Transfer the gel on Safe Imager 2.0 blue-light transilluminator (Thermo Fisher Scientific).
+124.Wear Safe Imager viewing glasses and illuminate the gel to visualize RNA and size markers.
+125.Cut the gel containing 3′ adapter-ligated fragments (50–200 nt) using a razor ( ).
+126.Transfer the gel slice into a gel breaker tube (Istbiotech).
+127.Centrifuge the gel breaker tube at 20,000×g, 4°C for 2 min.
+128.Add 500 μL of 0.3 M NaCl solution to the ground gel.
+129.Incubate the tube in the ThermoMixer C (Eppendorf) at 4°C and 1,500 rpm overnight (≥16 h).
+Pause point: O/N incubation.
+130.Transfer the eluate containing gel debris to the Corning Costar Spin-X centrifuge tube filters (MilliporeSigma).
+131.Centrifuge the Spin-X tube at 14,000×g, 4°C for 5 min.
+132.Transfer the column filtered eluate (∼500 μL) to a new 1.7 mL microcentrifuge tube.
+133.Add 1 mL of 100% EtOH, 50 μL of 3 M NaOAc, and 1 μL of GlycoBlue coprecipitant (Thermo Fisher Scientific) to the eluate.
+134.Store the tube at −80°C for 1 h.
+135.Centrifuge at 20,000×g, 4°C for 1 h.
+136.Discard the supernatant and wash the pellet twice using 1 mL of 75% EtOH.a.Centrifuge the tube at 20,000×g, 4°C for 3 min between the washes.
+
+137.Spin down the tube and completely and carefully discard the residual EtOH.
+138.Air-dry the pellet for 3 min and dissolve it in 3 μL of TDW ("3′ adapter-ligated products").
+139.Transfer the 3′ adapter-ligated products to a 200 μL PCR tube.
+140.Perform 5′ adapter ligation.a.Add the customized 5′ adapter to the 3′ adapter-ligated products. 
+b.Incubate the mixture in the thermocycler at 70°C for 2 min.
+c.Immediately move the tube on the ice and rest for 3 min.
+d.Add following reagents to the mixture. CRITICAL: 50% PEG8000 is viscous. Mix thoroughly the reaction components by multiple pipetting more than 10 times (see ).
+
+e.Incubate the mixture in the thermocycler at 37°C for 1 h.
+
+141.Transfer the reaction to a 1.7 mL microcentrifuge tube.
+142.Stop the reaction by adding 190 μL of RNA elution buffer (2% SDS, 0.3 M NaOAc).
+143.Add 200 μL of Acid-Phenol:Chloroform pH 4.5 (with IAA, 125:24:1) (Thermo Fisher Scientific).
+144.Briefly vortex the mixture and incubate at room temperature (25°C) for at least 10 min until two distinct phases are visible.
+145.Centrifuge the mixture at 15,000×g, 25°C for 5 min.
+146.Transfer the upper aqueous phase (≤200 μL) to a new 1.7 mL microcentrifuge tube.
+147.Add 1 mL of 100% EtOH, 20 μL of 3 M NaOAc, and 1 μL of GlycoBlue coprecipitant (Thermo Fisher Scientific).
+148.Incubate the mixture at −80°C for 1 h.
+149.Centrifuge the mixture at 20,000×g, 4°C for 30 min.
+150.Discard the supernatant and wash the pellet twice using 1 mL of 75% EtOH.a.Centrifuge the tube at 20,000×g, 4°C for 3 min between the washes.
+
+151.Spin down the tube and completely and carefully discard the residual EtOH.
+152.Air-dry the pellet for 3 min and dissolve it in 10 μL of TDW ("adapter-ligated products").
+153.Transfer the adapter-ligated products to a fresh 200 μL PCR tube.
+154.Perform reverse transcription reaction using SuperScript III reverse transcriptase (Thermo Fisher Scientific).a.Mix the following reagents. 
+b.Incubate the mixture in a thermocycler at 65°C for 5 min.
+c.Immediately place the tube on ice and rest for 3 min.
+d.Add the following reagents to the mixture. 
+e.Incubate the mixture in a thermocycler at 55°C for 1 h and then 70°C for 15 min ("cDNA; processing products").
+
+155.Perform PCR to generate cDNA library for Illumina sequencing.a.Use half of the cDNA (10 μL) for PCR reaction.
+b.Mix the following reagents (for 1× scale reaction; 50 μL). 
+c.PCR cycling conditions 
+d.Transfer the PCR products to a fresh 1.7 mL microcentrifuge tube.Note: You can perform 0.1× scale “Test PCR” to determine the optimal PCR cycle number, which yields sufficient cDNA library without amplifying the adapter dimer excessively ( ). (The adapter dimer originated from ligation between random 5′ adapters and random 3′ adapters usually get partially co-purified with the 3′ adapter-ligated products.) Once you determine the optimal cycle "N" for 0.1× scale PCR, perform the 1× scale PCR with cycle "N−3" considering the ten-times increased reaction scale.
+
+156.Add 150 μL of TDW, 1 mL of 100% EtOH, 20 μL of 3 M NaOAc, and 1 μL of GlycoBlue coprecipitant (Thermo Fisher Scientific) to the 50 μL PCR reaction.
+157.Store the tube at −80°C for 1 h.
+158.Centrifuge at 20,000×g, 4°C for 30 min.
+159.Discard the supernatant and wash the pellet twice using 1 mL of 75% EtOH.a.Centrifuge the tube at 20,000×g, 4°C for 3 min between the washes.
+
+160.Spin down the tube and completely and carefully discard the residual EtOH.
+161.Air-dry the pellet for 3 min and dissolve it in 5 μL of TDW ("cDNA PCR products").
+162.Add 2 μL of 10× DNA loading dye (Cold Spring Harbor Protocols) to the 5 μL cDNA PCR products.
+163.Prepare the mixture containing 2 μL of 10× DNA loading dye, 4.5 μL of TDW, and 0.5 μL of High Resolution Ladder (Illumina, TruSeq Small RNA Library Preparation Kit) or equivalent DNA ladders such as O'RangeRuler 10 bp DNA ladder (Thermo Fisher Scientific) and GeneRuler low range DNA ladder (Thermo Fisher Scientific).
+164.Prepare 6% non-denaturing polyacrylamide gel (Hoefer gel apparatus, SE260; 10 × 10.5 cm glass plate & notched alumina plate, 1.0 mm spacer, 10-well comb).a.6% non-denaturing polyacrylamide gel CRITICAL: TEMED should be added last and in a fume hood. TEMED is toxic if inhaled and causes severe skin burns and eye damage.
+
+165.Load the PCR products and DNA ladder on the gel.
+166.Run the gel at 160 V for 50 min using 1× TBE as the running buffer.
+167.Detach the gel from the cassette and move it to the glass tray containing 100–200 mL of 1× TBE.
+168.Add 10 μL of SYBR Gold nucleic acid gel stain (Thermo Fisher Scientific) to the glass tray.
+169.Stain the gel for 5 min.
+170.Prepare a razor to cut the gel.a.Clean razor using laboratory wipers with 75% EtOH.
+
+171.Clean Safe Imager 2.0 blue-light transilluminator (Thermo Fisher Scientific) using laboratory wipers with 75% EtOH.
+172.Transfer the gel on Safe Imager 2.0 blue-light transilluminator (Thermo Fisher Scientific).
+173.Wear Safe Imager viewing glasses and illuminate the gel to visualize DNA and size markers.
+174.Cut the gel containing cDNA library (140–300 bp) using a razor ( ).
+175.Transfer the gel slice into a gel breaker tube (Istbiotech).
+176.Centrifuge the gel breaker tube at 20,000×g, 4°C for 2 min.
+177.Add 500 μL of 0.3 M NaCl solution to the ground gel.
+178.Incubate the tube in the ThermoMixer C (Eppendorf) at 25°C and 1,500 rpm overnight (≥16 h).
+Pause point: O/N incubation.
+179.Transfer the eluate containing gel debris to the Corning Costar Spin-X centrifuge tube filters (MilliporeSigma).
+180.Centrifuge the Spin-X tube at 14,000×g, 4°C for 5 min.
+181.Transfer the column filtered eluate (∼ 500 μL) to a new 1.7 mL microcentrifuge tube.
+182.Add 1 mL of 100% EtOH, 50 μL of 3 M NaOAc, and 1 μL of GlycoBlue coprecipitant (Thermo Fisher Scientific) to the eluate.
+183.Store the tube at −80°C for 1 h.
+184.Centrifuge at 20,000×g, 4°C for 1 h.
+185.Discard the supernatant and wash the pellet twice using 1 mL of 75% EtOH.a.Centrifuge the tube at 20,000×g, 4°C for 3 min between the washes.
+
+186.Spin down the tube and completely and carefully discard the residual EtOH.
+187.Air-dry the pellet for 3 min and dissolve it in 10 μL of TDW ("cDNA library; processing products").
+188.Quantitate the cDNA library using NEBNext Library Quant Kit for Illumina (NEB) or equivalent kits following manufacturer's instructions.
+ 
+
+## Construction of cDNA library from input substrates
+
+Timing: 2 days
+
+In this section, you construct a cDNA library from the input substrates (“human pri-miRNA substrates” that are not incubated with the Microprocessor). This part is based on a protocol modified from the Illumina TruSeq Small RNA Library Preparation Kit using custom RT & PCR primers. This library is used to measure the processing efficiency of individual pri-miRNAs by comparing the amounts of input substrates and cleavage products obtained from the cDNA library of processing products. Of note, the custom primers have 1–3 internal degenerate bases to increase nucleotide diversity during sequencing by synthesis (SBS) step in Illumina sequencing platform (see https://support.illumina.com/bulletins/2016/07/what-is-nucleotide-diversity-and-why-is-it-important.html).
+Note: You can perform the experiments in this section parallel with the RT reaction (step 154) in the section " ."
+189.Perform reverse transcription reaction using SuperScript III reverse transcriptase (Thermo Fisher Scientific).a.Mix the following reagents. 
+b.Incubate the mixture in a thermocycler at 65°C for 5 min.
+c.Immediately place the tube on ice and rest for 3 min.
+d.Add the following reagents to the mixture. 
+e.Incubate the mixture in a thermocycler at 55°C for 1 h and then 70°C for 15 min ("cDNA; input substrates").
+
+190.Perform PCR to generate cDNA library for Illumina sequencing.a.Use half of the cDNA (10 μL).
+b.PCR mixture (1× scale reaction; 50 μL) 
+c.PCR cycling conditions 
+d.Transfer the PCR products to a fresh 1.7 mL microcentrifuge tube.
+
+191.Add 150 μL of TDW, 1 mL of 100% EtOH, 20 μL of 3 M NaOAc, and 1 μL of GlycoBlue coprecipitant (Thermo Fisher Scientific) to the 50 μL PCR reaction.
+192.Store the tube at −80°C for 1 h.
+193.Centrifuge at 20,000×g, 4°C for 30 min.
+194.Discard the supernatant and wash the pellet twice using 1 mL of 75% EtOH.a.Centrifuge the tube at 20,000×g, 4°C for 3 min between the washes.
+
+195.Spin down the tube and completely and carefully discard the residual EtOH.
+196.Air-dry the pellet for 3 min and dissolve it in 5 μL of TDW ("cDNA PCR products").
+197.Add 2 μL of 10× DNA loading dye to the 5 μL cDNA PCR products.
+198.Prepare the mixture containing 2 μL of 10× DNA loading dye, 4.5 μL of TDW, and 0.5 μL of High Resolution Ladder (Illumina, TruSeq Small RNA Library Preparation Kit) or equivalent DNA ladders such as O'RangeRuler 10 bp DNA ladder (Thermo Fisher Scientific) and GeneRuler low range DNA ladder (Thermo Fisher Scientific).
+199.Prepare 6% non-denaturing polyacrylamide gel (Hoefer gel apparatus, SE260; 10 × 10.5 cm glass plate & notched alumina plate, 1.0 mm spacer, 10-well comb).a.6% non-denaturing polyacrylamide gel CRITICAL: TEMED should be added last and in a fume hood. TEMED is toxic if inhaled and causes severe skin burns and eye damage.
+
+200.Load the PCR products along with the DNA ladder on the gel.
+201.Run the gel at 160 V for 50 min using 1× TBE as the running buffer.
+202.Detach the gel from the cassette and move it to the glass tray containing 100–200 mL of 1× TBE.
+203.Add 10 μL of SYBR Gold nucleic acid gel stain (Thermo Fisher Scientific) to the glass tray.
+204.Stain the gel for 5 min.
+205.Prepare a razor to cut the gel.a.Clean razor using laboratory wipers with 75% EtOH.
+
+206.Clean Safe Imager 2.0 blue-light transilluminator (Thermo Fisher Scientific) using laboratory wipers with 75% EtOH.
+207.Transfer the gel on Safe Imager 2.0 blue-light transilluminator (Thermo Fisher Scientific).
+208.Wear Safe Imager viewing glasses and illuminate the gel to visualize DNA and size markers.
+209.Cut the gel containing cDNA library (283–287 bp) using a razor ( ).
+210.Transfer the gel slice into a gel breaker tube (Istbiotech).
+211.Centrifuge the gel breaker tube at 20,000×g, 4°C for 2 min.
+212.Add 500 μL of 0.3 M NaCl solution to the ground gel.
+213.Incubate the tube in the ThermoMixer C (Eppendorf) at 25°C and 1,500 rpm overnight (≥16 h).
+Pause point: O/N incubation.
+214.Transfer the eluate containing gel debris to the Corning Costar Spin-X centrifuge tube filters (MilliporeSigma).
+215.Centrifuge the Spin-X tube at 14,000×g, 4°C for 5 min.
+216.Transfer the column filtered eluate (∼500 μL) to a new 1.7 mL microcentrifuge tube.
+217.Add 1 mL of 100% EtOH, 50 μL of 3 M NaOAc, and 1 μL of GlycoBlue coprecipitant (Thermo Fisher Scientific) to the eluate.
+218.Store the tube at −80°C for 1 h.
+219.Centrifuge at 20,000×g, 4°C for 1 h.
+220.Discard the supernatant and wash the pellet twice using 1 mL of 75% EtOH.a.Centrifuge the tube at 20,000×g, 4°C for 3 min between the washes.
+
+221.Spin down the tube and completely and carefully discard the residual EtOH.
+222.Air-dry the pellet for 3 min and dissolve it in 10 μL of TDW ("cDNA library; input substrates").
+223.Quantitate the cDNA library using NEBNext Library Quant Kit for Illumina (NEB) or equivalent kits following manufacturer's instructions.
+ 
+
+## Expected outcomes
+The total amount of human pri-miRNA substrates after the gel purification is 1.0–1.5 μg (step 34). As they are dissolved in 10 μL of TDW, the concentration ranges from 100 ng/μL (1.91 μM) to 150 ng/μL (2.86 μM). The concentration of the recombinant Microprocessor is about 0.1 μM (33.4 ng/μL, total 3.34 μg in 100 μL) (step 66) (see ). The concentration of cDNA libraries from processing products (step 188) and input substrates (step 223) is 5–20 pM (10 μL each), which is enough to run Illumina sequencing that requires at least 5 μL of 4 nM library as a starting material (see ).
+
+## Limitations
+We found that the “full-length” recombinant Microprocessor is not compatible with the commercial concentration filters, as it attaches to the filter membrane, possibly due to the intrinsically disordered N-termini of DROSHA and DGCR8. Therefore, the recombinant Microprocessor could not be used in a concentration higher than 0.1 μM. Alternatively, one can purify and use N-termini truncated Microprocessor ( ), compatible with the concentration filters.
+We recommend adding RNA spike-ins, which were omitted in the current protocol, from the beginning of cDNA library construction. Those spike-ins would enable more accurate quantification among processing products and input substrates from different miRNA species.
+
+## Troubleshooting
+
+## Problem 1
+RNA degradation.
+
+## Potential solution
+Care should be taken to avoid RNase contamination, which is ubiquitous in the laboratory environment. Wear a clear lab coat, face mask, and gloves. Clean your table and pipette s before the experiments. Use fresh pipette tips, tubes, reagents, and DNase/RNase-free distilled water.
+
+## Problem 2
+Generation of longer PCR products (>180 bp) (step 1c).
+
+## Potential solution
+Reduce the number of PCR cycles. In our experimental condition, >10 PCR cycle yields chimeric or elongated amplicons. These products seem to originate from the miRNAs in the same family, which share conserved sequences.
+
+## Problem 3
+Low yield of in vitro transcription products from gel purified T7 templates (step 1d).
+
+## Potential solution
+Ultraviolet (UV) irradiation damages DNA stained with ethidium bromide (EtBr), making them poor templates for in vitro transcription. Do not use UV light and EtBr for gel purification. Instead, stain the gel after the electrophoresis with dyes optimal for blue light transilluminators, such as SYBR Gold nucleic acid gel stain (Thermo Fisher Scientific). Use Safe Imager 2.0 blue-light transilluminator (Thermo Fisher Scientific) or an UV-to-blue light converter to visualize PCR products (T7 templates).
+
+## Problem 4
+Too low yield of the recombinant Microprocessor (step 58).
+
+## Potential solution
+This could be due to inefficient elution. Make sure that you completely drain the T500 buffer from the anti-FLAG affinity gel, which you can tell by the change of gel color; from opaque to white.
+
+## Problem 5
+cDNA library concentration lower than 4 nM (the minimum requirement for Illumina sequencing) (steps 110d and 140d).
+
+## Potential solution
+When assembling the ligation reaction, make sure that 50% PEG8000 is not precipitated. If so, incubate the tube at 37°C for 5 min, vortex, and spin down. Repeat this until the precipitation disappears. It is also critical to mix the ligation reaction components thoroughly by multiple pipetting, as 50% PEG8000 is viscous. If you still encounter the low cDNA concentration issue, you can increase the PCR cycle for library amplification. It is always recommended to perform the 0.1× scale “Test PCR” to determine the optimal PCR cycle.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, V. Narry Kim (narrykim@snu.ac.kr).
+
+## Materials availability
+Plasmids and DNA templates used in this study are available from the lead contact.
+
+## Acknowledgments
+We thank Jae-Sung Woo and Yeon-Gil Choi for helping with the mammalian suspension culture system; Young-Yoon Lee for optimizing the transfection condition. We also thank Eunji Kim for technical support; Soomin Son and Harim Jang for carefully reading the manuscript. This research was supported by the Institute for Basic Science funding from the Ministry of Science and ICT of Korea (IBS-R008-D1 to K.K. and V.N.K.).
+
+## Author contributions
+K.K. designed the protocol and performed all experiments. K.K and V.N.K. wrote the manuscript.
+
+## Declaration of interests
+The authors declare no other competing interests.
+
+## Contributor Information
+Kijun Kim, Email: wonderful@snu.ac.kr.
+V. Narry Kim, Email: narrykim@snu.ac.kr.
+
+## Data and code availability
+The sequencing data generated by using this protocol are available at GEO under accession number GSE174223 ( ).
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+The sequencing data generated by using this protocol are available at GEO under accession number GSE174223 ( ).

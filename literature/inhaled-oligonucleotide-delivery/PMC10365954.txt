@@ -1,0 +1,402 @@
+pmcSTAR ProtocSTAR Protoc3946starprot101769501STAR Protocols2666-1667ElsevierPMC10365954PMC10365954.110365954103659543745306710.1016/j.xpro.2023.102446S2666-1667(23)00413-61024461ProtocolProtocol for automated multivariate quantitative-image-based cytometry analysis by fluorescence microscopy of asynchronous adherent cells
+BesseLaetitia RumiacTyphaine Reynaud-AngelinAnne MessaoudiCédric SolerMarie-Noëlle LambertSarah A.E.sarah.lambert@curie.fr PennaneachVincentvincent.pennaneach@curie.fr 1Institut Curie, Université PSL, CNRS UAR2016, Inserm US43, Université Paris-Saclay, Multimodal Imaging Center, 91400 Orsay, France2Institut Curie, Université PSL, CNRS UMR3348, Orsay, France3Université Paris-Saclay, CNRS UMR3348, Orsay, France4Equipe Labélisée Ligue Nationale Contre Le Cancer, 91400 Orsay, France5Inovarion, 75005 Paris, France∗Corresponding author sarah.lambert@curie.fr∗∗Corresponding author vincent.pennaneach@curie.fr6These authors contributed equally
+7Technical contact: vincent.pennaneach@curie.fr
+8Lead contact: vincent.pennaneach@curie.fr
+1592023137202343438586102446130720232607202316072024© 2023 The Author(s)2023https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+Here, we present a protocol for multivariate quantitative-image-based cytometry (QIBC) analysis by fluorescence microscopy of asynchronous adherent cells. We describe steps for the preparation, treatment, and fixation of cells, sample staining, and imaging for QIBC. We then detail image analysis with our open source Fiji script developed for QIBC and present multiparametric data visualization. Our QIBC Fiji script integrates modern artificial-intelligence-based tools, applying deep learning, for robust automated nuclei segmentation with minimal user adjustments, a major asset for efficient QIBC analysis.
+For complete details on the use and execution of this protocol, please refer to Besse et al. (2023). 
+
+## Graphical abstract
+ 
+
+## Highlights
+•Pipeline solution for typical quantitative-image-based cytometry (QIBC) analysis
+•Cost-effective widefield fluorescence microscope configuration
+•Open source Fiji script for QIBC integrating modern artificial-intelligence-based tools
+•Automated individual-cell multi-parameter extraction
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+Here, we present a protocol for multivariate quantitative-image-based cytometry (QIBC) analysis by fluorescence microscopy of asynchronous adherent cells. We describe steps for the preparation, treatment, and fixation of cells, sample staining, and imaging for QIBC. We then detail image analysis with our open source Fiji script developed for QIBC and present multiparametric data visualization. Our QIBC Fiji script integrates modern artificial-intelligence-based tools, applying deep learning, for robust automated nuclei segmentation with minimal user adjustments, a major asset for efficient QIBC analysis.
+
+## Subject areas
+Cell-based AssaysMicroscopySignal Transductionpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-ND
+
+## Before you begin
+The development of high-content fluorescence microscopy approaches for cell-cycle staging of adherent cells from large asynchronous population, , , , , , referred to as Quantitative Image-Based Cytometry (QIBC), , have allowed to extensively examine stress response at a single cell level. , , , , , , However, QIBC mainly relies on proprietary dedicated high-content microscopy and image analysis platforms. The challenges of QIBC are the implementation of automatic image acquisition and analysis that requires reliable single nucleus segmentation together with multi-parameters information extraction in an unbiased manner. For this, modern artificial intelligence-based tools applying deep-learning for robust automated nuclei segmentation are major assets for efficient QIBC analysis.
+Here we describe an open-source QIBC pipeline solution for widefield fluorescence microscope configuration for automated multi-color acquisition and in house developed Fiji-scripts (macro) for parameters extraction. The first step of the analysis is based on StarDist, a modern deep-learning tool trained to recognize nuclei. Unlike the classical threshold method that uses only the fluorescence intensity parameter to segment nuclei, the StarDist segmentation calls for multiple nuclei features, which provides highly accurate and fully automated segmentation of crowded nuclei with low user intervention. The segmentation step is followed by automated individual cell multi-parameter extraction, including nuclei DNA content and EdU mean signal intensity, allowing for cell-cycle staging. In addition, extracted parameters for the proteins of interest include mean signal intensity and/or foci count per nucleus. Nuclear area (and nuclear volume) does not fully correlate with the nuclear DNA content during cell-cycle progression. Indeed, a significant increase in nuclear volume occurs in a variety of mammalian cells during the G1 phase before the entry into the S phase and DNA replication initiation. , , , For this reason, the measurement of the DAPI total intensity of the nucleus parameter (annotated “RawIntDen” in Fiji), is used as a proxy for nuclei DNA content.
+Using a data visualization software, the protein parameters can be cross-analyzed in the context of the cell-cycle at the individual cell level, thus providing in depth information from asynchronous cell populations. The detection by immunofluorescence technics of γH2AX and 53BP1 signals according to cell-cycle stage has provided important information about the molecular processes underlying the DNA damage response. , For this the QIBC pipeline solution was applied to γH2AX and 53BP1 signal analysis.
+
+## Cell culture
+
+Timing: 3–5 days (for steps 1 to 10)
+
+Keep the cells at an optimal density for continued growth.1.Thaw U-2 OS cells in DMEM Complete Medium equilibrated at 37°C (DMEM Complete Medium cell culture media can be stored at 4°C for a maximum of three months).
+2.Remove the cryovial containing the cells from liquid nitrogen storage and immediately place it into a 37°C water bath.
+3.Quickly thaw the cells by gently swirling the vial in the water bath for 1 min.
+4.Transfer the vial into a biosafety cabinet.
+5.Transfer the vial’s content into a 15 mL centrifuge tube containing 10 mL of pre-warmed DMEM Complete Medium.
+6.Centrifuge the cell suspension at 200 × g for 5 min at 22°C.
+7.Discard the supernatant and resuspend the cells in 5 mL of DMEM Complete Medium.
+8.Transfer the contents into a T25 flask and incubate at a 37°C in a 5% CO2 incubator for 24 h.
+9.Aspirate out medium from the T25 flask and refresh with 5 mL pre-warmed DMEM Complete Medium the following day.
+10.Maintain the cultures and allow cells to grow until 90% confluency is reached.
+
+## Fiji installation and plugins implementation
+
+Timing: 30 min (for steps 11 to 16)
+
+The Fiji software is installed and set for the Stardist plugin.11.Download the Fiji software at https://imagej.net/software/fiji/downloads.
+12.Download Fiji updates, go to Menu>Help>Update.
+13.Click on Manage update sites.
+14.Scroll down through the list and tick the checkboxes for CSBDeep and StarDist. Note that if StarDist is missing from the list, click Update URLs to refresh the list.
+15.Click the Close button.
+16.ImageJ 1.53d or later versions must be used, if necessary, update ImageJ, go to Help>Update ImageJ>upgrade to select version 1.53 or later.
+
+## Download the in house developed Fiji-scripts for QIBC analysis
+
+Timing: 30 min (for steps 17 to 21)
+
+Images are analyzed by Fiji with in-house developed scripts (Macros) available for download on the Zenodo platform (https://doi.org/10.5281/zenodo.8014997). Multiple parameters are extracted from the automatically defined nuclei ROI on the selected channels. Then, for the protein of interest, the mean signal intensity per nucleus is extracted along with the protein foci count per nucleus, with the find maxima function in Fiji, when discrete foci are formed. The measured parameters are exported in an Excel file.
+
+17.Download the “Macros.zip” file containing the Fiji-script “00_Convert Files to TIF”.
+
+Note: Fiji-scripts for QIBC analysis require “.tif” or “.TIF” image files extensions. Microscope company provide different type of image file saving formats. For this reason we propose the open source Fiji-script “00_Convert Files to TIF” adapted from a script developed by Olivier Burri, BioImaging and Optics Platform – EPFL, to convert your microscope file (.LIF; .CZI; .VSI; .ND2) into individual “.tif” image files to fit the requirement for QIBC analysis by two in house developed Fiji-scripts. Each image channel is saved as a separate image file which name must include the letter “C” or “c” followed by the channel number (C1, C2, C3, C4 or c1, c2, c3, c4). Image analysis for QIBC experiment is done on 2D images (no Z series are accepted).
+
+18.Download the “Macros.zip” file containing the Fiji-script “01_Shading-Dark correction_v2.ijm”.
+
+Note: The in house developed Fiji-script (01_Shading-Dark correction_v2.ijm) applies dark and illumination corrections on all images. , The Dark-current image is first subtracted from each sample image and from the shading image. In a second step, an illumination correction image is generated for which an illumination factor for each pixel is determined. For this, the intensity of each pixel of the shading image is divided by the mean pixel intensity of the shading image. The illumination correction image is used to calculate the corrected sample image obtained by dividing the sample image by the illumination correction image. The corrected image files automatically generated by the Fiji-script (01_Shading-Dark correction_v2.ijm) are copied in a new folder distinct from the folder containing the raw image files.
+
+19.Download the “Macros.zip” file containing the Fiji-script “02_StarDist-QIBC_v12.ijm”.
+
+Note: The in house developed Fiji-script (02_StarDist-QIBC_v12.ijm) is applied on all corrected sample images. DAPI channel is used to automatically extract nuclei as region of interest (ROI) with the «Versatile fluorescent nuclei » model present in the Fiji plugin for StarDist and are added to the ROI manager window. Training automated nucleus segmentation tools using modern deep-learning approaches requires collecting annotated examples. The 2018 Data Science Bowl created a resource of diverse nuclei images contributed by numerous biological laboratories and manually annotated by a team of expert biologists at the Broad Institute. The StarDist versatile fluorescent nuclei model was trained on a subset of images and is well suited for robust U-2 OS nuclei segmentation.
+
+20.Download the Spotfire® canvas template.
+21.Download the Spotfire® tutorial video for help on how to execute QIBC multiparametric data visualization.
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+## Image acquisition system
+
+•A widefield inverted microscope allowing for the acquisition of large number of nuclei per image. It is equipped with an adaptive focus control system that detects the surface of the coverslip to correct focal drift throughout multidimensional acquisition.
+•A dry 40× objective, plan Apo correction, numerical aperture 0.95 was selected. The use of a dry objective facilitates XY stage displacement. The high numerical aperture for the dry objective allows for smaller structures to be visualized, protein foci in this particular protocol. Coverslips with 0.16–0.19 mm (#1½) thickness are used to match the objective coverslip correction.
+•The Lumen 200S Fluorescence Illumination System is the high-power metal halide fluorescent lamp used as the light source.
+•To reduce pixel shift between wavelengths and optimize multi-wavelength acquisition, our system is equipped with two fast filter wheels and a quad band dichroic mirror mounted on an empty bloc filter adapted for the widefield inverted microscope. Excitation and emission filters bandpass are:•DAPI filters (AHF-Chroma, excitation 350/50, emission 455/50).
+•FITC filters (AHF-Chroma, excitation 490/20, emission 525/36).
+•Cy3 filters (AHF-Chroma, excitation 555/25, emission 605/52).
+•Cy5 filters (AHF-Chroma, excitation 645/30, emission 705/72).
+
+•ORCA-Fusion Digital sCMOS camera with pixel size of 6.5 μm2 was combined with the selected objective for maximum image resolution. The effective pixel size on the image is 0.1625 μm.
+•Motorized stage enabling automatic capture of multiple fields of view (XY dimension, no Z series are captured). The nD-SCAN module is the software implemented in the imaging software MetaMorph® (Version 7.10.4.407) to set up the 2D scanning area during multidimensional acquisition.
+
+Alternatives: Acquisition systems including widefield inverted microscope implemented with an autofocus system, a motorized scanning stage, fast filter wheel and a high-resolution digital camera is compatible with multidimensional acquisition for QIBC.
+
+ 
+•10 mM EdU stock solution: dissolve 50 mg of EdU in 20 mL of DMSO.
+•10 mM camptothecin (CPT) stock solution: dissolve 100 mg of CPT in 28.7 mL of DMSO.
+•4% and 3% Paraformaldehyde (PFA) Fixation solution: dilute 1 volume of PFA 16% (v/v) in 3 volumes of Phosphate Buffered Saline (PBS) or in 4.33 volumes of PBS respectively. The PAF-PBS fixation solution requires extemporaneous preparation. Unused 16% PFA can be stored at -20°C for several weeks and should not be refrozen after thawing.
+
+CRITICAL: paraformaldehyde is toxic. Please read the MSDS before working with this chemical. Gloves and safety glasses should be worn and solutions must be handled inside a fume hood.
+
+ 
+•CSK-Triton buffer: CSK buffer supplemented with 0.5% Triton X-100.
+
+CRITICAL: Triton is dangerous in case of eye contact, if swallowed or inhaled.
+
+•1 mM Alexa-Fluor-488-Azide stock solution: dissolve 5 mg of Alexa-Fluor-488-Azide in 0.58 mL of DMSO. Store in aliquots at −20°C for up to one year, protect from light.
+•1 M Sodium ascorbate solution: dissolve 198.11 mg of sodium ascorbate in 1 mL PBS, requires extemporaneous preparation. Limit air exposure and place on ice until use.
+
+## Click-it reaction mix
+
+ 
+CRITICAL: Strictly respect the order of solutions addition, requires extemporaneous preparation.
+
+•2% BSA saturation buffer: dissolve 2 g of BSA in 100 mL PBS, requires extemporaneous preparation.
+
+## Mowiol-mounting media
+
+ 
+Note: put 6 g of glycerol in a 50 mL plastic centrifuge tube and a small stir bar, add 2.4 g Mowiol 4–88 and stir to mix. While stirring, add 6 mL of UltraPure™ DNase/RNase-free distilled water and leave for 2 h at 18°C–22°C. Add 12 mL of 0.2 M Tris-HCl buffer, pH 8.5. The final volume will be 24 mL. Incubate the tube in a 50°C water bath for 10 min, repeat several times until the majority of the Mowiol powder goes into solution (this can take several hours). Add 2.5% (w/v) DABCO and vortex until dissolved. Centrifuge at 5000 g for 15 min to remove any undissolved solids. Carefully remove the supernatant and aliquot into 1.5 mL tubes. Store in aliquots at −20°C. The refractive index (RI) of Mowiol-mounting media should be close to 1.4. For quality control, RI of frozen Mowiol-mounting media should be compared with a refractometer to that of the freshly prepared batch with a refractometer. Mowiol-mounting media RI varies between batches and increases during hardening.
+
+•DAPI stock solution: dissolve 5 mg of DAPI in 1 mL of UltraPure™ DNase/RNase-free distilled water. Store in aliquots at −20°C for up to one year.
+•1 μg/mL DAPI working solution: dilute the DAPI stock solution by a factor of 5000 in PBS, requires extemporaneous preparation.
+
+## Step-by-step method details
+
+## Part 1: Cells preparation
+
+Timing: 1 h + 48 h for cell growth (for steps 1 to 7)
+
+Plate cells on coverslips for the negative controls and the experimental samples.Note: Activation of the DNA-damage response (DDR) consists in a cascade of events initiated by the loss of DNA integrity. At the center of the DDR is the chromatin component histone 2A variant (H2AX) that is phosphorylated on the serine residue 139 forming the DNA damage mark γH2AX. Gamma irradiation-induced DNA damages activates PI3K-like kinases, a family including ataxia telangiectasia mutated (ATM), ataxia telangiectasia and Rad3-related (ATR) and DNA-dependent protein kinase (DNA-PK), , which in turn leads to γH2AX foci formation ( ). The histone mark γH2AX is also induced by perturbation of the DNA replication process, known as replication stress. Treatment with agents that deplete the nucleotide pool (hydroxyurea), inhibit DNA polymerases (aphidicolin), induce DNA crosslinks and bulky lesions (cisplatin) or target topoisomerase I and II (camptothecin and etoposide, respectively), impair the progression of DNA replication forks. The pattern of γH2AX signal can vary from the formation of discrete foci to global nuclear staining referred to as pan-nuclear staining ( ). Spreading of the γH2AX mark over large chromosomic regions surrounding an unrepaired double-strand break (DSB) promotes chromatin binding of other DDR factors including the TP53-binding protein 1 (53BP1) , ( and ). The recruitment of 53BP1 at DSB involves several reader domains interacting with specific histone marks. , 53BP1 recruitment at damaged DNA involves direct interaction of the two 53BP1 BRCA-carboxyterminal (BRCT) repeats with locally induced γH2AX , and the recognition by the ubiquitin-dependent motif (UDR) of the DNA damage-induced ubiquitylated H2AK15 marks. The TUDOR domain of 53BP1 can interact with the di-methylated histone H4 (H4K20me2) , that are unmasked in response to DNA damage , and the dilution of H4K20me2 with H4K20me0 during DNA replication reduces the recruitment 53BP1 to DBSs in the S/G2 phase. , These DNA damage specific histone marks along with the 53BP1 oligomerization , domain and liquid–liquid phase separation (LLPS) condensates , , stimulate the assembly of 53BP1 compartments around the damaged chromatin, and these biomolecular condensates are proposed to provide an environment protecting from DNA end-resection that favors DSB repair by non-homologous end-joining (NHEJ) during the G1 phase of the cell-cycle.
+1.Start with a logarithmically growing U-2 OS cells culture. 
+2.Remove the medium and rinse once with PBS.
+3.Cover the cells with Accutase to dissociate the cells.
+4.Count the cells with a BioRad cell counter.
+5.Place one 22 mm diameter coverslip per well of a 6 wells plate.
+6.Rinse the coverslip with 2 mL of PBS, aspirate the PBS so that the coverslips hold by capillary action to the bottom of the well. Seed 105 cells per well in 2 mL of cell culture medium.
+7.Incubate the cells in a CO2 incubator for 48 h.
+Note: The number of plated cells need to be optimized for each cell line to ensure a log-phase growth on the day of the EdU pulse.
+CRITICAL: Negative controls must be included in the experimental set up. Negative controls are essential to identify the delimitation between negative and positive signals during QIBC analysis (see Multiparametric data visualization section, B and B). The control samples are treated identically to the experimental group except for the variable being tested (see steps 8, 14 and 17, B, B, and ).
+
+## Part 2: Cells treatments and fixation
+
+Timing: 1 h 25 min to 2 h 15 min (for steps 8 to 10)
+
+The cells are treated and fixed to prepare the negative controls and experimental samples.8.EdU pulseCRITICAL: To position the delimitation between the EdU negative and EdU positive nuclei, an EdU-pulse free negative control should be included ( ).
+a.Replace the medium with 2 mL of 37°C pre-warm medium containing 25 μM EdU. Store the 10 mM EdU stock in aliquots at −20°C for up to one year, protect from light.
+b.Incubate the cells for 8 min in the CO2 incubator.
+c.Remove the EdU containing medium.
+d.Rince the cells once with 37°C pre-warmed fresh medium and proceed with cells treatment with camptothecin (step 9a.) or cells irradiation (step 9b.).
+
+9.Cells treatment.a.Cells treatment with camptothecin (CPT).CRITICAL: Camptothecin is a carcinogen and toxic if swallowed.
+i.Add 2 mL of pre-warmed fresh medium supplemented with 1 μM CPT for the treated cells or 2 mL of pre-warmed fresh medium without CPT for untreated (control) sample. Store the 10 mM CPT stock in aliquots at −20°C for up to three months, protect from light.
+ii.Incubate the cells for 1 h in the CO2 incubator at 37°C.
+iii.Remove the medium.
+iv.Place the culture plate on an ice bed and proceed with step 10.
+
+b.Cells irradiation at 2 Gy.i.Add 2 mL of pre-warmed fresh medium and proceed with the 2 Gy irradiation, the irradiation step is omitted for the unirradiated (control) sample.
+ii.Incubate the cells for 30 min in the CO2 incubator.
+iii.Remove the medium.
+iv.Place the culture plate on an ice bed and proceed with step 10.
+
+10.Cell fixation for γH2AX detection or 53BP1 detection.Note: culture plate containing the coverslip should remain on ice bed for step 10.
+CRITICAL: For the detection of strongly chromatin-bound proteins or chromatin components including γH2AX, nuclear soluble-proteins could be pre-extracted by treating the cells with Triton-containing buffer prior to paraformaldehyde fixation. For this procedure, users are invited to continue with step 10.a. For the detection of proteins that are forming nuclear condensates and/or, are associated with chromatin (including 53BP1), or for the detection of nuclear soluble proteins, cells should be fixed with paraformaldehyde prior to permeabilization to avoid protein wash out (also see the troubleshooting section). For this, users are invited to continue with step 10.b.
+a.Pre-extraction and fixation for γH2AX detection.i.Rince the cells twice with 2 mL of ice-cold PBS.
+ii.Rince the cells with 2 mL of ice-cold CSK buffer. Store the CSK buffer in aliquots at −20°C for several weeks.
+iii.Cells are permeabilized for 5 min with 2 mL of ice-cold CSK-T buffer with agitation on orbital shaker at 45 rpm. Store the CSK-T buffer at −20°C for several weeks.
+iv.Wash the cells with 2 mL of ice-cold CSK buffer for 1 min with agitation (45 rpm).
+v.Rince the cells once with 2 mL of PBS at 18°C–22°C.
+vi.Incubate the cells in 1.5 mL of freshly prepared PFA 4% (v/v) fixation solution for 20 min at 18°C–22°C without shaking.
+vii.Wash the cells three times for 5 min with 2 mL of PBS at 18°C–22°C .
+viii.Proceed with cells staining (Part 2).Pause point: Alternatively, fixed cells can be preserved in PBS at 4°C for up to a week.
+
+b.Fixation and permeabilization for 53BP1 detection.i.Rince the cells twice with 2 mL of ice-cold PBS.
+ii.Incubate the cells in 1.5 mL of freshly prepared PFA 3% (v/v) fixation solution for 15 min at 18°C–22°C without shaking.
+iii.Wash the cells three times for 5 min with 2 mL of PBS at 18°C–22°C .
+iv.Cells are permeabilized for 5 min with 2 mL of PBS supplemented with 0.2% Triton X-100 at 18°C–22°C with agitation (45 rpm).
+v.Wash the cells with 2 mL of PBS with agitation (45 rpm) at 18°C–22°C .
+vi.Proceed with cells staining (Part 2).Pause point: Fixed cells can be preserved in PBS at 4°C for up to a week.
+
+## Part 3: Sample staining
+
+Timing: 1 h 15min + 16 h incubation + 3 h 30 min (for steps 11 to 23)
+
+EdU staining and immunolabeling of the negative controls and the experimental samples.11.Click-it reaction for EdU detection.Note: Samples are protected from light during incubation time.
+a.Transfer coverslips in the humidity chamber with the side containing the cells facing up.
+b.Cover the sample with 250 μL of freshly prepared Click-it solution, incubate for 1 h at 18°C–22°C.
+c.Wash the coverslip once with PBS (0.5 mL/cm2) for 5 min with agitation (45 rpm).Note: For convenience washes are performed in 6-well tissue culture plates in 2 mL of PBS for 22 mm diameter coverslip.
+
+12.Samples are saturated with 250 μL of freshly prepared 2% BSA saturation buffer for 16 h at 4°C.
+Note: Alternatively, the samples can be incubated 1 h at 18°C–22°C in 2% BSA saturation buffer.
+13.Wash 2 times with 2 mL PBS for 5 min with agitation (45 rpm).
+14.When γH2AX is detected, cover the sample with 250 μL of anti-γH2AX antibody at 1:500 dilution in freshly prepared 2% BSA saturation buffer. When 53BP1 is detected, cover the sample with 250 μL of anti-53BP1 antibody at 1:750 dilution in freshly prepared 2% BSA saturation buffer.
+CRITICAL: Controls for primary antibody specificity controls should be included. For illustration, the specificity of the γH2AX primary antibody is confirmed by the detection of γH2AX foci induced in all phase of the cell cycle in response to IR, and by the specific induction of the γH2AX signal in S-phase cells by replication stress ( and ).
+CRITICAL: Primary antibodies that have not previously been characterized in QIBC analysis should be validated using gene-knockout cells or siRNA-mediated knockdown. As an example, the specificity of the 53BP1 primary antibody was confirmed by applying the QIBC pipeline to 53BP1 siRNA treated cells and to control siRNA treated cells ( ).
+15.Sample covered with the primary antibody dilution are incubated in the humidity chamber for 1 h at 18°C–22°C .
+Note: Alternatively, when samples are incubated in 2% BSA saturation buffer for 1 h (step 12), then incubate the samples 16 h at 4°C with the primary antibody dilution.
+16.Wash 2 times with 2 mL PBS for 5 min with agitation (45 rpm).
+17.Incubate the sample with 250 μL of freshly prepared anti-Mouse Alexa Fluor 647 secondary antibody diluted at 1:500 in 2% BSA saturation buffer, for 1 h at 18°C–22°C, in the humidity chamber.
+CRITICAL: Negative control is recommended to validate the secondary antibody specificity by incubating the dedicated sample in 2% BSA saturation buffer without primary antibody (step 14, and ) and subsequently incubate this sample with the secondary antibody dilution (step 17).
+Note: The present protocol describes single protein immunofluorescence staining. However, the same protocol can be applied for dual protein staining if the cell preparation procedure for immunostaining is compatible with two proteins detection (step 10). For immunostaining, the sample is incubated with a mix of the two primary antibodies specifically directed against each protein and raised in different host species (step 14). The sample is then incubated with a mix of the two secondary antibodies (step 17) directed against the corresponding host and coupled to distinct fluorophore.
+18.Wash with 2 mL of PBS 2 times for 5 min with agitation (45 rpm).
+19.Label the nuclei with 1.5 mL of freshly prepared 1 μg/mL DAPI working solution for 20 min at 18°C–22°C in the dark. Store the 5 mg/mL DAPI stock solution in aliquots at −20°C for up to one year.
+20.Wash with 2 mL PBS 2 times for 5 min with agitation (45 rpm).
+21.Dispense 20 μL of Mowiol mounting medium for fluorescence on the top of a microscope slide and mount the coverslips with cells in contact with the mounting medium. Mowiol mounting media is stored in aliquots at −20°C for up to 1 year.
+CRITICAL: Bubbles in the mounting media interferes with the automatic focusing. Allow for Mowiol hardening at 18°C–22°C, protected from light, before acquisition or sample storage at 4°C.
+22.Seal the edges of the slides with nail polish to prevent drying.
+23.Proceed with sample imaging step 24.
+Pause point: Coverslips mounted on microscope slide can be store at 18°C–22°C for few days or at 4°C for long term storage.
+
+## Part 4: Sample imaging for quantitative image-based cytometry
+
+Timing: 30 min + ≈10 min per condition
+
+24.Start the acquisition system.a.Turn on the fluorescence lamp, the microscope and the camera at least 20 min before starting the session to allow for the system to stabilize.
+b.Let the sample slides equilibrate at 18°C–22°C for 20 min before the acquisition to reduce drift due to temperature variation between the microscope room and the slides.
+c.Select the 40× dry objective and adjust the focus on the DAPI signal.
+d.Run the stage calibration.
+
+Note: Performing the stage calibration prevents contiguous images overlapping during X and Y displacement of the stage when performing software-controlled automatic acquisition of multiple fields of view.
+
+25.Select the appropriate filters for sequential fluorescent signal acquisition starting with the longest and ending with the shortest wavelength.
+
+Note: To reduce pixel shift between wavelengths and optimize multiwavelength acquisitions, two filter wheels equipped with single-band filters are used in combination with a quad dichroic mirror.
+
+26.Adjust the exposition time for each wavelength such that the maximum dynamic range is filled to 80%.
+
+Note: For a camera in 16-bits, the grayscale pixel values should range from 0 to 52 000.
+
+CRITICAL: All samples of the experiment should be quickly controlled to set up the fluorescence lamp intensity and the camera exposure according to the highest signal for each wavelength in samples across the experiment.
+
+27.Move the objective to the center of the coverslip.
+28.Randomly define 10 × 10 images acquisition zone around this position.
+
+CRITICAL: At least 3000 nuclei are required for suitable cell-cycle phase assignment, this is usually met with 100 images per sample, if not, the number of images should be adjusted accordingly.
+
+29.Activate the hardware adaptive focus control.
+30.Start the acquisition.
+
+CRITICAL: The fluorescence lamp intensity and the exposition time are kept identical for all samples across the experiment. Samples that are part of an experiment must all be imaged during the same acquisition session.
+
+31.Sample shading images are generated for each experimental wavelength at the end of the acquisition session.
+
+Note: Heterogeneous field illumination due to widefield acquisition needs to be corrected for accurate quantitative QIBC analysis. Field illumination correction requires shading images for the execution of the Fiji-script “01_Shading-Dark correction_v2.ijm” (step 35). The shading images are generated for each experimental wavelength by averaging three frames and are obtained by imaging an autofluorescent plastic slide (Chroma®) at an exposure time and lamp power adjusted such that grayscale pixel values do not exceed 52 000 for a camera in 16 bits.
+
+32.Dark-current images are generated for each experimental wavelength at the end of the acquisition session.
+
+Note: Correction to remove the noise intensity value coming from the electronic of the camera requires dark-current images for the execution of the Fiji-script “01_Shading-Dark correction_v2.ijm” (step 35). Dark-current images are generated for each experimental wavelength by averaging three frames and are acquired for each wavelength with the fluorescent lamp switch OFF with the exposure time used during samples acquisition.
+
+## Part 5: Image analysis and data extraction
+
+Timing: 2 h per condition
+
+Note: Proceed directly to step 34 if the images files extensions are “.tif” or “.TIF” and that each channel is saved as a separate image file which name includes the letter “C” or “c” followed by the channel number (C1, C2, C3, C4 or c1, c2, c3, c4).
+
+33.Execute the Fiji-script “00_Convert Files to TIF”.a.drag and drop the script file in Fiji and click on the RUN button.
+b.Select the folder containing the microscope file.
+c.Select from the list the type of microscope image files.
+d.A folder is automatically created where each channel image file is saved individually with the extension (c1, c2, c3, c4). From this step, you can start the analysis with the two Fiji-scripts for QIBC analysis.
+
+Note: If foci count per nucleus is to be extracted with the “Number of Foci/Spots” Fiji-script function, then proceed with step 34 to determine the prominence value that is the value used to define local maxima where a maxima is considered as a foci/spot. Otherwise go directly to step 35.
+
+34.Determine the prominence value for foci/spot count. a.Open a channel image from which the foci/spot count is to be extracted.
+b.Apply background subtraction: go to Process>Subtract background (rolling ball: 20; uncheck light background).
+c.Draw a region of interest (ROI) containing one nucleus, zoom in to facilitate foci/spot visualization.
+d.Open the maxima function: go to Process>Find Maxima, uncheck light background, for the output type select Point Selection, check Preview point selection to directly highlight the maxima from the selected nucleus.
+e.Adjust the prominence value such that all visualized foci/spots are adequately detected by the Find Maxima function.
+f.Repeat this process on 4 to 5 channel images of an experimental condition to confirm that the selected prominence value allows for the detection of foci/spot.
+g.Verify that the selected prominence value is not leading to fauls positive foci/spot by running the Find Maxima function on the experimental negative control images (samples where the EdU pulse was omitted or sample where the primary antibody was omitted).
+h.Repeat steps 34 for all channel images from which the foci/spot count is to be extracted.
+
+35.Execute the Fiji-script “01_Shading-Dark correction_v2.ijm”.a.drag and drop the script file in Fiji and click on the RUN button.
+b.Define the analysis settings in the opening dialogue box:i.Select the image folder using the "Browse" menu.
+ii.Check the image channel corresponding to the experiment.
+iii.Specify the channels name. Keep the text box empty for unused channels.
+iv.If the images are not calibrated, tick the calibration option and specify the pixel size in microns. Otherwise, skip this step.
+v.Click OK.
+vi.Users are prompted to "Select a Shading image" and click OK. This step is repeated for each channel.
+vii.Users are then prompted to "Select a Dark-current image" and click OK. This step is repeated for each channel.
+viii.Images correction is completed when the message "Done" appears.
+
+ 
+CRITICAL: It is essential that the selected “Shading image” and “Dark-current image” are corresponding to the channel requested in the dialogue box title to avoid faulty corrections that would invalidate the generated images for the following analysis steps.
+
+Note: The corrected image files are copied in the sub-folder “Corrected” automatically created by the Fiji-script in the folder containing the raw image files.
+
+36.Execute the Fiji-script “02_StarDist-QIBC_v12.ijm”.a.Drag and drop the script file in Fiji and click on the RUN button.
+b.Define the analysis settings in the opening dialogue box:i.In the “Image directory” select the “Corrected” image folder generated step 35 using the "Browse" menu.
+ii.Specify the name of the analyzed condition (e.g., Untreated, Irradiated).Note: The selected name is attributed to the results containing excel spread sheet generated by the analysis.
+
+iii.From the list of numbers, select the number corresponding to the DAPI signal channel.
+iv.Specify the minimum nucleus diameter, only objects with a calculated surface area above the indicated specification are included in the analysis.Note: Defaults minimum nucleus diameter is set at 8 μm and objects area smaller than 50.2 μm2 are ignored from the analysis.
+
+v.When "Add manual step for selection of nucleus ROI" is ticked, users are prompted to manually validate, for each image of the folder the nucleus ROI detected by StarDist.Note: This step allows for manual elimination from the nuclei ROI list of any miss-segmented objects. Untick this box for fully automated analysis. Information about the objects included in the nuclei ROI list are automatically exported in the results table.
+
+vi.Select the channels number (1 corresponding to the image C1) to be analyzed, the DAPI channel must not be included.
+vii.Click OK.Note: in addition to object size filtration using the minimum nucleus diameter parameters (iv), objects that are in contact with the edge of the image are automatically excluded.
+ 
+
+37.Define the settings for StarDist nuclei segmentation in the opening dialogue box.
+
+ 
+Note: From the scrolling menu, select the StarDist model to be applied for nuclei segmentation. Robust nuclei segmentation from U-2 OS cells is obtained by applying the “versatile (fluorescent nuclei)” built-in model, a model adapted for the automated segmentation ovoid-round nuclei, with the default parameters (Percentile low 0, Percentile high 100, Probability score 0.5, 0verlap Threshold 0.4, Number of tiles 1 and Boundary Exclusion 2). Users are referred to the Fiji plugin for StarDist web page (https://imagej.net/StarDist) parameters guidelines. Alternatively, users can apply the QIBC analysis on cell lines requiring StarDist integrated models “DSB 2018 (from StarDist 2D paper)” or any other open source available model by selecting the “Model (.zip) from File”.
+
+38.In the next “Settings for C1 analysis” dialogue window users are prompted to define additional settings related to the analysis of the corresponding channel image.a.In the Channel 1 name (C1), users are prompted to specify a name for the signal analyzed in channel 1 (e.g., EdU, γH2AX).Note: The indicated name is included in the column header’s name in the results excel spread sheet.
+
+b.Tick the boxes to validate the parameters to be extracted.
+c.Tick “Number of Foci/Spots” if necessary.
+d.When the box “Number of Foci/Spots” is ticked, users must indicate the previously determined prominence value.CRITICAL: Follow the prerequisite section (step 34) to determine the prominence value.
+
+e.Click OK. 
+
+39.Repeat step 38 for all other image channels selected (step 36.b.vi.).
+40.The Fiji-script automatically executes the QIBC analysis for all corrected images of the selected folder.
+
+Note: When the "Add manual step for selection of nucleus ROI" is ticked (step 36.b.v.), users are invited to validate the segmented objects. Objects from the ROI list can be removed. For this, the object ROI is selected on the image and the “delete” button of the ROI manager window is clicked. The manual editing process is repeated for all images.
+
+41.The fully automated analysis is complete when the message "All images in the folder have been analyzed with StarDist plugin" is displayed.
+
+Note: Automatically extracted parameters are saved in a new Excel spread sheet called “Results.xls” generated during the Fiji-script execution. The analyzed images QIBC Fiji-script extracted parameters are detailed in the . The “Results.xls” file is saved in the folder “image folder” under the "QIBC_analysis" folder.
+
+42.The Fiji-script execution generates a new “Label-Image” folder. 
+
+Note: The “Label-Image” folder generated by the execution of the Fiji-script contains for each analyzed image an image on which StarDist segmented object are colored. The “ROI” folder contains for each image the ROI list in a “.Zip“ extension file. To open the ROI, drag and drop the “.Zip” file into Fiji. The ROI will automatically be loaded to the ROI manager window.
+
+## Part 6: Multiparametric data visualization with Spotfire® software (TIBCO)
+
+Timing: 1 h to 2 h
+
+The use of data visualization tool, such as Spotfire, allows users to cross-analyze the protein parameters in the context of the cell cycle at the individual cell level, thus providing in depth information from asynchronous cell populations.Note: The dot plots of asynchronous cell populations presented in , , , and were generated with Spotfire® software (TIBCO). Cell cycle staging based on total DAPI intensities and Mean EdU intensities was performed to discriminate cells into 3 sub-populations (G1, S and G2). A second multidimensional analysis was then applied on the number of 53BP1 or γH2AX foci or on the mean γH2AX intensities in the context of the cellcycle stage of the cell. For visualizing discrete data in scatterplots, mild jittering (random displacement of data points along the discrete data axes) was applied in order to demerge overlapping data points. A template (canvas) of Spotfire® dedicated to QIBC experiment is available for download on the Zenodo platform. Follow the instructions provided in the video tutorial to execute the QIBC multiparametric data visualization for QIBC experiment (https://doi.org/10.5281/zenodo.8014997).
+
+## Expected outcomes
+The QIBC pipeline protocol was applied to γH2AX and 53BP1 in the context of the ionizing radiation (IR) induced DNA Damage Response, for which we quantified about twice as many γH2AX foci in G2 irradiated cells as compared with G1 irradiated cells ( ), as previously reported. This is consistent with direct relationship between the cell’s DNA content which doubles from G1 to G2 and the numbers of γH2AX foci formation after DNA damage induced by IR. In addition, camptothecin-induced replication stress specifically activated γH2AX in S-phase cells from an asynchronous treated population ( ). We also observed that the 53BP1 protein signal level remains stable after IR and yet the protein is redistributed within the nucleus to form foci ( ). This clearly illustrates the usefulness of the multiparametric comparison offered by the QIBC approach. Finally, our observations recapitulate previous studies , showing that the number of 53BP1 foci normalized to nucleus DNA content is higher in G1 and gradually decline as cells progress through the cell cycle, in both untreated and IR-treaded cells ( and ). Overall, our QIBC pipeline protocol including publicly made available QIBC-scripts for Fiji, is providing a rapid and automated analysis with minimal end-user intervention for unbiased nuclei segmentation and multi-parameter extraction.
+
+## Limitations
+Unbiased multi-parameters extraction for QIBC analysis relies on robust single nucleus segmentation a function provided by the Fiji-plugin for StarDist that is implemented in the open source QIBC-script for Fiji presented here. StarDist includes multiple deep-learning based models for automated objects segmentation. Applying the “versatile (fluorescent nuclei)” built-in model with default parameters is well adapted for the automated nuclei segmentation of cell lines with ovoid-round nuclei such as the U-2 OS or RPE1-hTERT cells. However, the authors have not yet applied the script to other cell lines. Users who wish to apply this QIBC pipeline to cell lines with non-ovoid-round nuclei are invited to refer to the StarDist plugin web page (https://imagej.net/StarDist) for StarDist parameters and/or for StarDist models selection.
+The cross-analysis of DAPI total intensity per nucleus and mean EdU intensity per nucleus parameters allows for cell-cycle staging of individual cells from asynchronously growing adherent cells. Additional information about proteins of interest such as the mean signal intensity per nucleus or protein foci count per nucleus can be extracted and cross analyzed with cell-cycle parameters. Foci count per nucleus can be extracted using the Fiji Find Maxima function with a user defined prominence value. However, the identification of discrete foci in samples showing high intensity, high foci density or heterogeneous foci intensity and density is challenging. This is illustrated in the camptothecin treated sample resulting in global nuclear staining for γH2AX in S-phase cells (see ). Therefore, users are advised to apply the “Number of Foci/Spots” Fiji-script function with careful consideration.
+In this protocol, the Spotfire® software (TIBCO) was used to generate the Multivariate data visualizations presented in the figures. However other analytic platforms for business (including GoodData, Oracle Analytics Server, Zoho Analytics) or the free software environment for statistical computing and graphics R or Google Charts could also be used.
+
+## Troubleshooting
+
+## Problem 1
+The detected DAPI intensity is outside the optimum dynamic range (related to step 26).
+
+## Potential solution
+
+•For samples showing high DAPI intensity, the concentration of the DAPI working solution is reduced to meet users working environment and cell line requirements (step 19).
+•For samples showing low DAPI intensity, users are invited to increase the exposition time and if necessary, increase the lamp intensity output %.
+•The exposition time for all the wavelengths must be adapted such that the maximum dynamic range is filled to 80% (for a camera in 16 bits, the grayscale pixel values should be ranging from 0 to 52 000).
+
+## Problem 2
+Proteins pre-extraction before fixation step can introduce a bias in the analysis (related to step 10).
+
+## Potential solution
+
+•The detection of strongly chromatin-bound proteins or chromatin components including γH2AX, nuclear soluble protein can be pre-extracted by treating the cells with Triton-containing buffer prior to paraformaldehyde fixation (step 10a).
+•The detection of proteins that are forming nuclear condensates and/or are associated with chromatin (including 53BP1), or for the detection of nuclear soluble proteins, cells are fixed with paraformaldehyde prior to permeabilization to avoid protein wash out (step 10b).
+•The authors have compared the 53BP1 mean intensity per nucleus from samples pre-extracted before fixation (step 10a) and from samples fixed before permeabilization (step 10b). It was observed that the 53BP1 mean intensity per nucleus was nearly 50% lower in untreated samples pre-extracted before the fixation as compared to that of samples fixed before permeabilization (53BP1 mean signal intensity per nuclei is 2172 A.U. and 4007 A.U., respectively).
+
+## Problem 3
+Unexpected distribution of the cells in the G1, S and G2 phases of the cell cycle. Be aware that when performing extended EdU pulse, the progression of the G1 cells into S phase and of the S phase cells into G2 will result in miss cell cycle staging (related to step 8).
+
+## Potential solution
+
+•The incubation time after the EdU pulse (step 8), prior to cell fixation should not exceed 1 h (step 10). The cell cycle staging precision is improved by reducing the timing between the EdU pulse and the cells fixation.
+•Verify that, more than one log difference in the EdU signal between the EdU negative and the EdU positive nuclei is obtained with 1 h incubation in fresh media after the EdU pulse (step 8).
+
+## Problem 4
+Focus loss during multipositioning acquisition (related to step 30).
+
+## Potential solution
+
+•Air bubbles in the mounting media will interfere with the automatic focusing. If bubbles are present in the Mowiol solution, wait until the bubbles rise to the surface before using for coverslip mounting at step 21.
+•Avoid using excess mounting media. Typically, 20 μL of Mowiol is dispensed on a glass slide for a 22 mm2 coverslip mounting at step 21.
+•Mowiol is self-hardening once it is applied to the sample. Allow to harden for 6–16 h at 18°C–22°C before samples acquisition or placing the samples at 4°C after step 21.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by Vincent Pennaneach (Vincent.Pennaneach@curie.fr).
+
+## Materials availability
+No unique material were generated during this study, any information on the equipment reported in this study should be directed to Vincent Pennaneach (Vincent.Pennaneach@curie.fr).
+
+## Data and code availability
+The open-source Fiji-script reported in this study (00_Convert Files to TIF) and the in house developed Fiji-scripts (01_Shading-Dark correction_v2.ijm) and (02_StarDist-QIBC_v12.ijm) are available from the open repository Zenodo. Additional files available from the open repository Zenodo, include corrected image files from each of the experimental condition described in this protocol article and generated from the raw images using the Fiji-script (01_Shading-Dark correction_v2.ijm). Corrected images are ready for data extraction using the Fiji-script (02_StarDist-QIBC_v12.ijm), the corresponding excel file generated by this Fiji-script (Corrected Images and QIBC analysis.zip) are also available. A solution with ready to use template (Canevas Spotfire) accompanied by instructions (Spotfire_Application to QIBC) applicable for data visualization and cross parameter analysis is proposed. All the forementioned files are downloadable from the Zenodo platform (https://doi.org/10.5281/zenodo.8014997).
+
+ 
+
+## Acknowledgments
+This study was supported by grants from the 10.13039/501100010463Institut Curie, the 10.13039/100012681CNRS, and the Fondation LIGUE Nationale Contre Le Cancer “Equipe Labellisée 2020 (EL2020LNCC/Sal) to S.A.E.L. The equipment used in this work was supported by the Fondation pour la Recherche Médicale (FRM N° DGE20111123020), by the "Dispositif d’aide urgente aux laboratoires pour financement immédiat, 2021", Faculty of Sciences, Université Paris-Saclay and by the Unit UMR 3348. The authors are very grateful to Frédéric Coquelle, head of the Multimodal Imaging Center Imaging Facility, for support and useful advice on the microscope and image processing. We thank Pierre-Marie Girard and Frédérique Megnin-Chanet for their help with sample irradiation.
+
+## Author contributions
+T.R. performed the experiments, analyzed the data, prepared the multiparameter data visualizations, and wrote the protocol; L.B and M-N.S. set the microscopy equipment; L.B. generated the QIBC-macro for Fiji, analyzed the data, and wrote the tutorials; C.M. helped on QIBC-macro generation; C.M. and M-N.S. read the manuscript; A.R-A. set up the protocol and analyzed the data; V.P. analyzed the data, prepared the multiparameter data visualizations, wrote the manuscript, and wrote the tutorials; S.A.E.L designed the experiments and edited the manuscript.
+
+## Declaration of interests
+The authors declare no competing interests.

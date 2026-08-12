@@ -1,0 +1,241 @@
+pmcAllergyAllergy379blackwellopen7804028ALLAllergy0105-45381398-9995pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC9796060PMC9796060.1979606097960603571364410.1111/all.15412ALL15412ALL-2022-00189.R11Eaaci Position PaperEaaci Position PapersOmics technologies in allergy and asthma research: An EAACI position paper
+RADZIKOWSKA et al.RadzikowskaUrszulahttps://orcid.org/0000-0002-7341-9764 BaerenfallerKatjahttps://orcid.org/0000-0002-1904-9440 Cornejo‐GarciaJosé Antoniohttps://orcid.org/0000-0003-3465-8735 KaraaslanCagatayhttps://orcid.org/0000-0003-4857-0857 BarlettaElena SaracBasak Ezgihttps://orcid.org/0000-0003-1181-4598 ZhakparovDamir VillaseñorAlmahttps://orcid.org/0000-0002-6652-2739 Eguiluz‐GraciaIbonhttps://orcid.org/0000-0002-3774-931X MayorgaCristobalina SokolowskaMilenahttps://orcid.org/0000-0001-9710-6685 BarbasCoral BarberDomingohttps://orcid.org/0000-0002-5488-5700 OllertMarkus ChivatoTomas AgacheIoanahttps://orcid.org/0000-0001-7994-364X EscribeseMaria M.https://orcid.org/0000-0001-5057-5150 mariamarta.escribesealonso@ceu.es
+
+1
+
+Swiss Institute of Allergy and Asthma Research (SIAF)
+University of Zurich
+Davos
+Switzerland
+
+2
+
+Christine‐Kühne Center for Allergy Research and Education (CK‐CARE)
+Davos
+Switzerland
+
+3
+
+Swiss Institute of Bioinformatics (SIB)
+Davos
+Switzerland
+
+4
+
+Research Laboratory
+IBIMA, ARADyAL Instituto de Salud Carlos III, Regional University Hospital of Málaga, UMA
+Málaga
+Spain
+
+5
+
+Department of Biology, Molecular Biology Section
+Faculty of Science
+Hacettepe University
+Ankara
+Turkey
+
+6
+
+Centre for Metabolomics and Bioanalysis (CEMBIO)
+Department of Chemistry and Biochemistry
+Facultad de Farmacia
+Universidad San Pablo‐CEU, CEU Universities
+Madrid
+Spain
+
+7
+
+Institute of Applied Molecular Medicine Nemesio Diaz (IMMAND)
+Department of Basic Medical Sciences
+Facultad de Medicina
+Universidad San Pablo CEU, CEU Universities
+Madrid
+Spain
+
+8
+
+Allergy Unit
+Hospital Regional Universitario de Málaga
+Málaga
+Spain
+
+9
+
+Allergy Research Group
+Instituto de Investigación Biomédica de Málaga‐IBIMA
+Málaga
+Spain
+
+10
+
+Andalusian Centre for Nanomedicine and Biotechnology – BIONAND
+Málaga
+Spain
+
+11
+
+Department of Infection and Immunity
+Luxembourg Institute of Healthy
+Esch‐sur‐Alzette
+Luxembourg
+
+12
+
+Department of Dermatology and Allergy Center
+Odense Research Center for Anaphylaxis
+Odense University Hospital, University of Southern Denmark
+Odense
+Denmark
+
+13
+
+Department of Clinic Medical Sciences
+Facultad de Medicina
+Universidad San Pablo CEU, CEU Universities
+Madrid
+Spain
+
+14
+
+Transylvania University
+Brasov
+Romania
+
+*
+Correspondence
+
+Maria M. Escribese, Universidad CEU San Pablo, Urb. Monterprincipe s/n, Edificio MED. Despacho 2.01, 28668 Madrid, Spain.
+Email: mariamarta.escribesealonso@ceu.es
+
+3062022102022771042463810.1111/all.v77.1028882908
+3052022
+2322022
+0662022
+281220222812202229122022© 2022 The Authors. Allergy published by European Academy of Allergy and Clinical Immunology and John Wiley & Sons Ltd.https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## Abstract
+Allergic diseases and asthma are heterogenous chronic inflammatory conditions with several distinct complex endotypes. Both environmental and genetic factors can influence the development and progression of allergy. Complex pathogenetic pathways observed in allergic disorders present a challenge in patient management and successful targeted treatment strategies. The increasing availability of high‐throughput omics technologies, such as genomics, epigenomics, transcriptomics, proteomics, and metabolomics allows studying biochemical systems and pathophysiological processes underlying allergic responses. Additionally, omics techniques present clinical applicability by functional identification and validation of biomarkers. Therefore, finding molecules or patterns characteristic for distinct immune‐inflammatory endotypes, can subsequently influence its development, progression, and treatment. There is a great potential to further increase the effectiveness of single omics approaches by integrating them with other omics, and nonomics data. Systems biology aims to simultaneously and longitudinally understand multiple layers of a complex and multifactorial disease, such as allergy, or asthma by integrating several, separated data sets and generating a complete molecular profile of the condition. With the use of sophisticated biostatistics and machine learning techniques, these approaches provide in‐depth insight into individual biological systems and will allow efficient and customized healthcare approaches, called precision medicine. In this EAACI Position Paper, the Task Force “Omics technologies in allergic research” broadly reviewed current advances and applicability of omics techniques in allergic diseases and asthma research, with a focus on methodology and data analysis, aiming to provide researchers (basic and clinical) with a desk reference in the field. The potential of omics strategies in understanding disease pathophysiology and key tools to reach unmet needs in allergy precision medicine, such as successful patients’ stratification, accurate disease prognosis, and prediction of treatment efficacy and successful prevention measures are highlighted.
+
+allergybiomarkeromicprecision medicinesystems biology The first step is to prepare a DNA‐fragment collection (library), representing a target region or the entire genome, through physical or enzymatic methods. These fragments are connected to platform‐specific synthetic nucleotide sequences (adapters) to create known begins and ends and are further selected according to a platform‐specific requirement. , , , DNA fragment(s)–adapter(s) are linked to solid support containing sequences that are complementary to those from the adapters, and DNA is then amplified by PCR. The type of support and the amplification and sequencing methods are also platform specific. , , , During PCR different signals that are interpreted by the sequencer as specific nucleotides are generated (by pyrosequencing or pH changes). , , , 
+
+Data generated by NGS require an in‐depth bioinformatics data handling, which starts with signal analysis (raw data detection and evaluation), base calling (generation of legible sequencing reads), and scoring base quality (Figure  ). After raw signal measurements, a fast analysis of sequences toolbox quality (FASTQ) file is usually provided as output, which also contains potential sequencing errors according to a logarithmic error probability called the Phred score. The quality of the raw sequences may be assessed by different tools, with FastQC being one of the most commonly used, which provides information such as base and sequence quality, base/GC content, sequence length distribution, and duplications. Low‐quality sequences and adapters can be cleaned using different tools, like Trimmonatic, TopHat, and Cufflinks. , Reads are aligned to the reference human genome, with Bowtie 2 being among the most used aligners. 
+De novo assembly, in which read assembling does not rely on an external reference genome, is less frequent in clinical genetics. Post‐alignment processing is performed to improve the accuracy and quality of downstream steps (duplicate reads removal, local realignment of reads, and base quality score recalibration), using tools like SAMtools and Genome Analysis Toolkit (GATK). Such tools help also to identify variants (variant calling). Finally, identified variants are connected with the specific clinical phenotype through a process including variant annotation and filtering, prioritisation, and data visualisation. Variant annotation provides biological information of all variants, including functionality, amino acid conservation, protein structure, and prediction of how they can affect structure/functionality. Among the most frequently used annotation tools are SIFT, PolyPhen‐2, ANNOVAR, and variant effect predictor. Additional information can be found through various genome browsers, such as Ensembl, UCSC, and 1000 Genomes Project. , Recent, genomic studies in the field of allergic diseases are summarized in Table  (DNA‐based approaches).
+During the past two decades, a great interest has been devoted to metagenomics, i.e., the analysis of all genomes of the microbiota (metagenome). Microbiota refers to all the microorganisms living in a specific place of the body, which encompasses a diversity of bacteria, archaea, viruses, fungi, and protozoans. In addition to the complexity of associations between humans and these microorganisms, research carried out in this field has also emphasised their essential role in preserving human health. Over recent years, a number of studies have focused on the utility of metagenomics for deciphering the underlying mechanisms in allergic diseases, with intriguing data available for atopic dermatitis, allergic rhinitis, asthma, , and food allergy, among others. The main high‐throughput sequencing technologies used in microbiota characterisation include PCR amplicon‐based sequencing (16S and 18S rRNA and internal transcribed spacer, ITS, sequencing), DNA‐based shotgun metagenomic sequencing, RNA‐based metatranscriptomic sequencing, and virome sequencing. 
+
+16S rRNA sequencing consists in the amplification of the hypervariable regions of the 16S ribosomal RNA subunit genes, which are unique for specific bacterial genera. Quality control evaluation of sequencing reads is similar to these already described. Taxonomic assignment is usually based on sequence similarity or on the analysis of amplicon sequences before introducing amplification and sequencing errors, with different methods and packages being recently described. 
+
+Concerning fungi, the18S rRNA amplicon sequencing, which also focusses on hypervariable regions, and sequencing the ITS region, a 500–700 bp nuclear ribosomal DNA sequence, are the methods most commonly used for their identification. , In contrast to PCR‐guided strategies, shotgun metagenomics sequencing does not require specific primers, avoiding potential biases, and allows the identification of all types of microorganisms, which makes it the most effective method for obtaining structural and functional information. After quality control examination, sequencing analysis may be performed through the alignment and reads comparison to known reference genomes or by database searching, or through de novo assembly; however, both approaches are recommended to be used to obtain most precise results. , 
+
+The amplicon‐based approach is not useful for viruses sequencing due to their great diversity and the lack of universal marker genes, so metagenomics sequencing is the preferred procedure. Previous to sequencing, for RNA viruses a reverse transcription step is needed to obtain cDNA as RNA is easily degradable. Once the reads have been obtained, quality control analysis includes the elimination not only of human sequence reads but also those of 16S and 18S rRNAs. Although an alignment‐based method could be used, the number of available genomes is weak and deposited sequences may be not correctly annotated. Thus, de novo assembly is normally preferred. , , 
+
+4.2
+
+## Epigenomics
+Epigenomics is a branch of omics science that analyzes an epigenetic profile of a cell (epigenome). Epigenetic regulation refers to the reversible alterations in gene expression that do not involve changes in the DNA sequence. , Epigenetic re‐arrangements include chemical modifications of DNA and DNA‐related proteins (histones). , The main mechanisms involved in the epigenome spectrum are (i) alterations in chromosomal structures, (ii) chromatin accessibility (iii) DNA methylation, and (iv) histone modifications, all of which regulate DNA accessibility and gene expression (Figure  ). , , , Epigenetic processes control the functional output of the information stored in the genome and directly shape cell development, function, and fate. , 
+
+ Factors that affect epigenome profiles during the lifetime include developmental programs, differentiation, and pathophysiological mechanisms, circadian cycles, environmental exposures, including effects of host‐microbiome profiles, and the internal hormonal and metabolic milieu. , , , Epigenetic changes can be mitotically (cellular memory) or meiotically (parental imprinting) heritable and can be passed through generations. Interestingly, already the prenatal and early postnatal period can influence the development of diseases such as allergy in adulthood. , Several recent, epigenomic studies in the field of allergic diseases allowed identification of epigenetic signatures of asthma/allergy and are summarized in Table  . , , , , , , , Additionally, epigenetic mechanisms involved in the development, course, and control of allergic diseases are in detail reviewed elsewhere. , , , , , 
+
+Epigenomes can be analyzed from a broad range of samples, including cells, tissues, and body fluids (Figure  ). Constant development in the field of omics research allows for sensitive and specific measurements from lower sample quantities. Depending on the scientific question, certain experimental and biostatistical pipelines for bulk or single‐cell analysis can be implemented. Understanding the proper technique prior to sample collection is crucial to obtain reliable data. Chromosome structures can be investigated with the use of HiChIP (protein‐centric chromatin conformation method), which allows for analyzing the 3D architecture of chromatin in the chromosomes by capturing long‐range interactions associated with a protein of interest (Figure  ). Accessible chromatin (“open frames”) can be analyzed with the use of ATAC‐sequencing (ATAC‐seq). ATAC‐seq enables isolation of genome regions, which are available for the transcriptional machinery (Figure  ). , Histone PTMs apply to chemical alterations (methylation, acetylation, phosphorylation, sumoylation, and/or ubiquitylation) of genome‐associated proteins, which modulate histone‐DNA interactions and lead to opening or closing of chromatin and changes accessibility. The CUT&RUN (Cleavage under targets and release using nuclease) technology uses antibodies targeting the specific PTMs of interest and allows for genome‐wide profiling of histones. , Mass spectrometry (MS) approaches allow to obtain a comprehensive and quantitative view of histone PTMs (Figure  ). DNA methylation (addition of methyl–5mC or hydroxymethyl–5hmC group inside and outside CpG islands) is responsible for the silencing of gene transcription. TAB‐seq (Tet‐assisted bisulfate sequencing) is a novel technique allowing to determine the abundance of 5hmC modifications across the genome (Figure  ). 5mC modifications can be assessed with use of whole‐genome bisulphate sequencing (WGBS). However, methylation profiling microarrays are the most frequently used technology in the allergic diseases research field (Table  ). , , , , , , , Notably, the recent development of the CRISP/Cas9 technology provides a powerful editing and control toolbox for obtaining a better understanding of epigenetic mechanisms. , For a broad overview of all available approaches in epigenetics, refere to the mentioned references. , , , , , , 
+
+Epigenomics is a dynamically developing field of research, which allows understanding the functional regulation of gene expression, and its consequences for health and disease. Epigenetic therapies (epidrugs) are already approved in cancer treatment. , Controlled alteration of epigenetic mechanisms in allergic patients has potential for clinical applications and needs further investigations. 
+
+4.3
+
+## Transcriptomics
+The transcriptome represents the set of all RNA molecules, including protein‐coding RNAs and noncoding RNAs (ncRNAs) produced by transcription of the genome under a specific circumstance, in a specific tissue or cell. NcRNAs are defined to not encode proteins longer than 100 amino acids and can be divided into two groups: (i) short (represented here by microRNAs) and (ii) long noncoding RNA (lncRNAs). Peripheral blood, bronchial tissue, and sputum cells are the primary sources used for transcriptomic profiling in asthma and allergic diseases (Figure  ). 
+
+ Nowadays, three methods are mainly used in transcriptome analyses. The microarray technique involves the hybridisation of oligonucleotide probes deposited in a predetermined spartial order to their corresponding cDNA fragments derived from cellular RNAs (Figure  ). This approach is relatively cost‐effective, but is dependent on predefined probe sets, which limits its usability. Furthermore, the hybridization‐based approach suffers from background noise, due to cross‐hybridisation and limited dynamic range. In recent years, next‐generation RNA‐seq technology has been widely used in transcriptome profiling, as it is more accurate and sensitive technique and requires less RNA sample (Figure  ). Unlike microarrays, this technology does not depend on predesigned probes and therefore enables rapid, deep, and high‐throughput transcriptome analyses, studying transcription initiation and alternative splicing events, and cataloguing antisense and gene fusion transcripts. , The latest approach is single‐cell RNA‐seq, which includes the isolation of a single cell from a population and then assesses the gene expression differences between individual cells. This approach offers the opportunity to uncover rare events in a population that can be overlooked when the whole population is considered. , , Single‐cell transcriptomics, when combined with other single‐cell omic techniques including genomics, epigenomics, and proteomics in the same cell, create a great potential to discover new cell types and states. MicroRNAs can be identified with the use of small RNA sequencing, whereas lncRNAs that are often capped and polyadenylated can be analyzed together with mRNAs with the use of standard RNA‐seq approaches (Figure  ). , , Global transcriptome analysis in allergic diseases allows the identification of distinct biomarkers and endotypes.
+Blood transcriptomics has been widely used in molecular analyses and assessing treatment responses in allergic diseases (Table  , RNA‐based approaches). , , , Bigler et al. showed that genes associated with chemotaxis, migration, and myeloid cell trafficking were highly expressed in severe asthmatics, while genes associated with B lymphocyte development and hematopoietic progenitor cells and lymphoid organ hypoplasia showed decreased transcript expression according to pathway analyses. Subgroups among severe asthmatics showed different responses to oral corticosteroids. Transcriptome profiling of nasal and bronchial tissues can be vital to develop a deeper understanding of the pathobiology of allergic diseases. Analysis of nasal epithelium collected from healthy individuals and allergic patients demonstrated striking differences with 94 transcripts differentially expressed in allergic patients in nonchallenged (winter) and 85 in challenged (spring) season. Interestingly, upon house dust mite stimulation nasal epithelium of allergic individuals showed enrichment in protease inhibitor activity pathway (GO:0030414), with upregulated expression of SPINK5, SPINK6, SPINK7, SERPINB3, WFDC5, and downregulation of C3. Transcriptomic analyses of bronchial tissue have been performed to identify different endotypes and potential biomarkers, predicting treatment response in allergic diseases, especially in asthma. , , , For example, Singhania et al. stated that activated T cells might be responsible for neutrophilic inflammation and for the steroid insensitive IL‐17 response in severe asthma. Nie et al. analysed ten eligible bronchial tissue microarray datasets, revealing that CEACAM5, CLCA1, POSTN, CPA3, SERPINB2, KRT6A, CD44, and MUC5AC transcript expression was up‐regulated, while LTF and MUC5B expression was down‐regulated in asthmatics. Sputum is another crucial source for transcriptomic analyses , , , , and in asthmatic patients can be used in asthmatic patients to unravel asthma endotypes. A study revealed that CLC, CPA3, DNASE1L3, IL1B, ALPL, and CXCR2 transcript levels could discriminate inflammatory asthma phenotypes. The transcript levels of these genes were also reported to predict the response to inhaled corticosteroid treatment. Overall, eosinophilic airway inflammation (also called T2‐high) has been correlated with higher expression of CLC, CLCA1, CPA3, DNASE1L3, POSTN, and SERPINB2; neutrophilic airway inflammation has been associated with higher expression of IL1B, ALPL, and CXCR2. , , Numerous studies have reported that ncRNAs, including miRNA and lncRNAs also contribute to the pathogenesis of asthma. An RNA‐seq analysis revealed that lncRNAs, including LINC01771, LINV02145, and GUSBP2 are closely associated with asthma‐related genes, and participate in apoptosis, inflammation, and the immune response, suggesting that ncRNAs are involved in asthma pathogenesis.
+Profiling gene expression may unveil the molecular mechanisms in allergic diseases. Transcriptomic studies investigating treatment responses have been reported. , , Thus, integrating transcriptomics and the other complementary omics technologies in daily clinical practise may contribute to tailor‐made therapies for each individual by predicting potential efficiency and responses to a particular treatment. This will allow us to develop a deeper understanding of why treatment approaches fail to treat some patients and how to tailor treatments to individual patients.
+
+4.4
+
+## Proteomics
+Proteomics aims at characterizing proteins, and proteomics methods can be broadly divided into a small subset, or multiplex protein analyses, and MS‐based proteomics (Figure  ).
+ 4.4.1
+
+## 
+MS‐based and non‐MS‐based proteomics approaches
+Methods aimed at characterizing a defined subset of proteins are usually based on antibody recognition followed by read‐out using conjugated secondary antibodies producing a signal (Figure  ). In novel multiplex immunological assays (e.g., Olink) a defined panel of target proteins are bound by pairs of antibodies conjugated with oligonucleotides, and therefore allow to work with microliters of the sample. In MS‐based proteomics, top‐down and bottom‐up approaches can be distinguished. In top‐down proteomics, single intact low‐mass proteins are analyzed to detect protein isoforms and PTM patterns. In the much more widely applied bottom‐up proteomics, the proteins are subjected to proteolytic digestion to form peptides before MS analysis.
+
+4.4.2
+
+## Bottom‐up proteomics requires protein extraction, proteolysis, peptide purification, and separation
+At the outset of a proteomics experiment are sample lysis and protein extraction. Proteins can be isolated from body fluids, cells, or tissues, and either total protein extracts can be analyzed, or sub‐fractions such as protein interaction partners or post‐translationally modified proteins (Figure  ). Further sample preparation usually involves reduction of disulfide bonds followed by carbamidomethylation of cysteine sulfhydryl groups, and protein digestion with an endoproteolytic enzyme such as trypsin, either in‐gel after electrophoretic separation on 1D‐ or 2D‐SDS‐PAGE, in‐solution or on columns. Before the purified and resuspended peptides enter the MS, they are usually fractionated using a reverse phase C18 columns (Figure  ).
+
+4.4.3
+
+## At the mass spectrometer: peptide ionization, mass analysis of the ions, and ion detection
+In electrospray ionization (ESI), the positively charged peptide droplets emerging from the tip of the column are evaporated until the peptides are getting into the gas phase. The peptide ions then enter the MS, where their mass over charge (m/z) is determined making use of physical properties of the ions that are directly related to their m/z, such as their time‐of‐flight (TOF), stability in an electromagnetic field (Ion Trap), or rotation around an electromagnetic rod (Orbitrap). This results in the generation of a MS1 mass spectrum in which each of the peaks represents an ion with a specific m/z. In order to get sequence information for the measured ions, tandem MS (MS/MS or tandem MS) is performed. To this end, selected ions are isolated inside the mass spectrometer and then fragmented, typically through collision‐induced dissociation (CID) or higher‐energy collisional dissociation (HCD). The energy of the collision is thereby set such that each peptide molecule should only break once, usually at the amide peptide bond. The m/z of the fragment ions is then recorded in the MS2 or fragment spectrum (Figure  ).
+
+4.4.4
+
+## From MS spectra to list of identified and quantified peptides and proteins
+Assignment of peptide sequences to the measured spectra is then performed by protein database‐dependent searching with search algorithms that implement different methods (Figure  ). While in data‐independent acquisition (DIA) usually the most intense ions in MS1 are selected and fragmented, data‐dependent acquisition (DDA) focuses on predefined lists of peptides. In selected reaction monitoring (SRM), the mass spectrometer only measures ions that are comprised in a predefined list of peptides, and a number of specific fragment ions for each peptide. In parallel reaction monitoring (PRM), the full fragment spectra of the predefined peptides are monitored. , , In the DDA method termed SWATH, all precursors found in a specific m/z isolation window are selected and fragmented, and all the fragments are recorded in a complex fragmentation spectrum before moving on to the subsequent isolation window. Deconvolution of the complex fragment spectra is then based on fragmentation information contained in spectral libraries (Figure  ). , For MS‐based protein quantitation, label‐based and label‐free methodologies are available. Label‐free methods rely on differences in the areas under elution curves of the peptides over retention time or on the number of MS2 spectrum counts. Labelling of either proteins or peptides is a common quantitation strategy. Peptide labelling often makes use of mass‐balanced label sets with different reporter ions such as iTRAQ or TMT. , A method for labelling proteins is SILAC in which proteins in cultured cells are first labelled with isotopically light, heavy, or medium‐heavy amino acids before the cultures are perturbed to induce changes in the proteome (Figure  ). 
+
+4.4.5
+
+## Biological data mining
+Typical proteomics experiments will generate lists of identified proteins for which fold changes between experimental conditions are indicative for the quantitative changes. A series of subsequent statistical and functional analyses then serves to obtain relevant information from these lists that addresses the scientific questions and hypotheses of the experiments (Figure  ).
+The considerable improvements regarding sensitivity, applicability, and versatility of proteomics technologies have led to their wider application also in the field of allergy (Table  ). Recent applications range from the quantification of one single protein in bronchoalveolar lavage, to high‐throughput protein identification in tear fluid, skin swabs, sputum, serum, , , , or even mouse lungs. In addition, proteomics methods were applied to identify immunoreactive proteins, , , or changes in N‐glycan modification patterns. With this broad spectrum of potential applications, it is expected that proteomics results will be central to many future research studies in the allergy field.
+
+4.5
+
+## Metabolomics
+Metabolomics is the science focused on the study of metabolism in living organisms. The molecules that comprise the metabolic pathways are called metabolites. These are involved in biological functions and cellular processes, thus, can reveal the relationship between metabolism and phenotype. The metabolism under specific biological conditions, such as a disease can be altered, leading to the dysregulation of some metabolites; glucose in diabetes would here be a classical example. Among the metabolites, the studying of the lipids—lipidomics—has become an important field, as lipids have important roles in immune response regulation, and participate in cell signaling, growth, differentiation, and apoptosis. They have also shown to be altered in atopic dermatitis and asthma. , , As an example, ceramide was elevated in mice lungs after allergen challenge, contributing to reactive oxygen species generation, apoptosis and neutrophilic infiltrate, which characterize the severe asthmatic phenotype. 
+
+Metabolomics studies can be carried out either in noninvasive samples such as urine, faeces, saliva, and breath, in minimally invasive samples such as blood (serum and plasma) or in tissue biopsies (Figure  ). Regarding faeces, this sample combines information from intestinal microbiota and host metabolisms. Additionally, microbiota in the lung, skin, or gut seems to play a key role in several allergic diseases (food allergy, atopic dermatitis, allergic rhinitis) and asthma. , , 
+
+ Due to the diverse physicochemical properties of the different metabolites, metabolomics needs sophisticated analytical techniques, which permit the characterization of the metabolites (Figure  ). These techniques comprise MS—usually coupled with a separation technique for complex samples, such as liquid and gas chromatography (LC‐MS and GC‐MS, respectively)—and nuclear magnetic resonance spectroscopy (NMR).
+Metabolomics approaches can be nontargeted and targeted. In the first one, the aim is to detect as many metabolites as possible in a single analysis in each patient from the study, and to identify those with statistical differences between the groups. In the targeted analysis, specific metabolites are selected based on previous knowledge are analyzed and frequently quantified. The nontargeted approach is often explorative with the aim to detect metabolic changes to better understand the molecular mechanisms in the pathology. This can result in the identification of potential biomarkers, which after validation can be used in the clinic for diagnosis or prognosis (Figure  ).
+Understanding the molecular mechanisms is still the best way to improve diagnosis, prognosis, and therapeutic strategies. In this sense, metabolomics has been applied in the study of different asthma phenotypes, such as in paediatric food allergy with or without asthma, and in adult obesity‐associated asthma. Additionally, this is complemented with metabolomic studies of gut and airway microbial‐derived metabolites involved in asthma. The main metabolites identified across different studies from various body compartments were related to immune reactions, inflammatory processes, tricarboxylic acid cycle, oxidative stress, hypoxia, and lipid metabolism pathways (Table  ).
+
+4.6
+
+## Single‐cell omics
+Many inflammatory and structural cells are involved in the pathology of allergies and airway diseases. It is extremely important to understand the contribution of these cells and their responses to the onset, development, and severity of the disease. However, there are heterogeneity and unique variations among individual cells; therefore, cells in a population may not respond in the same way under every circumstance. Traditional sequencing approaches have great importance due to their ability to analyze bulk data from whole populations and represent a common pattern for various diseases. However, rare events in minor subpopulations can be overlooked when the whole population is taken into account. Single‐cell multiomics approaches are used to identify single‐cell genome, transcriptome, proteome, or other multiomic information, including DNA or histone modifications, chromatin accessibility, small RNAs, and chromosomal conformation. Analyzing single‐cell data allows for investigating cell‐to‐cell variations and evolutionary relationships, distinguishing unusual events in rare populations, identifying sub‐populations or disease endotypes, and potentially leading to new biological discoveries. Single cells can be isolated using different methods, such as manual cell picking, magnetic‐ or fluorescence‐activated cell sorting (MACS or FACS), laser capture microdissection (LCM), and microfluidics. The isolation method can be chosen according to different parameters required for research of interest. Integrating single‐cell multiomic analyses, including metabolomics, transcriptomics, proteomics, and other cellular information allow to reveal the biological events occurring within a single cell. However, despite its obvious advantages, such as uncovering rare events and barcoded profiling, interpreting single‐cell sequencing data is relatively more challenging than bulk sequencing. 
+
+5
+
+## EXPOSOMICS: THE ROLE OF EXPOSOME IN PRECISION MEDICINE
+Exposomics is a research field investigating the effect of the exposome (environmental, nongenetic exposures) on health and disease. The definition of exposome is very broad, therefore, multiple tools are required to sufficiently investigate those heterogeneous environmental exposures. , Exposome is divided into two subgroups: internal and external exposome. Internal exposome can be assessed in various biospecimens with the use of described previously techniques, including genomics, transcriptomics, epigenomics, and proteomics. Microbiome is another factor influencing internal exposome. Notably, microbial dysbiosis is linked with an increased prevalence of chronic diseases, including allergy. External exposome includes many indoor and outdoor exposures, such as diet, stress, lifestyle (smoking, pets, detergents), economic status, air quality, pollutants, climate, and social factors. Investigation of external exposome is very complex and often requires assessment of multiple exposures, using various techniques. Questionnaires might be helpful to register diet preferences or smoking habits. However, preferably, should be coupled with a biological biomarker for validation (i.e., cotinine for tobacco). Air sample quality can be measured by air samplers. Social, cultural, and lifestyle data can be collected from social media platforms, smartphone‐linked diaries, and other wearable devices (smartwatches). , Protocol integrating biotic and abiotic exposures has been recently published. Exposome has a significant impact on the development of allergic diseases. , , Integrating exposome into the concept of precision medicine will further improve patients' diagnosis and treatment.
+
+6
+
+## SYSTEMS BIOLOGY: INTEGRATION OF OMICS AND NONOMICS DATA
+The rapid growth of data acquisition techniques has made it possible to introduce Big Data into life science and biomedicine areas. Many different options in the design of precision medicine treatment approaches and improved patient care are now becoming a reality (Figure  ).
+ Big Data in biomedicine can be separated into two large data categories: omics and nonomics data. Nonomics data can be described as a multitude of highly variable data including epidemiological information, clinical, laboratory test, imaging or morphologic parameters, environment biomonitoring, electronic health records, all registered by healthcare professionals. In contrast, omics data sets are obtained using high‐throughput biological platforms and provide thousands of features characterising biological processes at different levels (DNA, RNA, proteins, or metabolites levels). 
+
+The heterogeneity of nonomics data poses a major challenge for data integration. Only a minority of proposed models have a decent predictive ability that could be implemented in practice. This obstacle arises from several important properties of both nonomics and omics data. First, nonomics data acquisition is usually not standardised. This can heavily affect data quality, which in turn will downgrade the modelling performance. Second, clinical features (e.g., degree of illness severity) are still usually subjectively defined, introducing biases into datasets. Another source of bias may appear at an evaluation stage as assessment of clinical variables depends on the skills and competencies of a healthcare professional. On the other hand, omics data are generally free of these biases, because they are normalized and homogenous within one dataset. However, omics data impose great challenges in data integration as well due to the complexity, heterogeneity, dynamics, uncertainty, and inherited high‐dimensionality. The combined analysis of different omics datasets that aims at identifying complex interactions between all the features in the dataset regardless of their nature therefore usually requires custom analytical tools and is limited by the lack of experimental standardisation. As the different omics data acquisition and analysis technologies are further developed, increased experimental standardisation, and advanced data integration and modelling approaches are expected to enhance the usefulness of omics data sets in gaining biomedically relevant insights.
+In order to overcome the challenges in integrating omics and nonomics data, several strategies have been developed (Table  ). The most straightforward approach is independent data integration, when both omics and nonomics datasets are analysed separately, the most important variables are selected and integrated into a final model. However, this method has a major downside as it does not consider interactions between different data sets are crucial in the context of biomedicine. During conditional modelling, omics variables are combined with clinical ones, and afterwards, dimensionality reduction is performed on the omics data set. The major drawback is that those techniques are computationally costly, requiring dedicated strong computers. Lastly, joint modelling on the combined datasets is a promising technique, even though the information on its application is quite scarce. , , 
+
+After the data have been successfully integrated, the next step is to build a model for machine learning. This is a powerful approach that can be applied to a broad variety of tasks, whether it is to identify patterns associated with an illness, use as a diagnostic tool to predict disease status, or predict response to an intervention. The heterogeneous multilayered network (HMLN) has proven successful in integrating diverse biological data for the representation of the hierarchy of the biological system. The HMLN provides unparalleled opportunities but imposes new computational challenges on establishing causal genotype‐phenotype associations and understanding environmental impact, especially important for complex diseases like allergic diseases and asthma. Several other artificial intelligence approaches can be used depending on the purpose: disease subtyping, mechanistic insights, or biomarker prediction. , Recent successful applications showed their utility in understanding the endotypes of asthma and allergy. , , , , 
+
+Omics and nonomics data combination is still a challenging task, but the resulting inference or predictive models are quite promising. Potentially, such models can change the healthcare workflow, allowing for efficient resource management, improved diagnostics, and new insights on pathogenesis.
+
+7
+
+## CLINICAL APPLICATION AND CHALLENGES OF OMIC‐BASED STUDIES
+Initial omics studies have mainly relied on GWAS, which, despite their limitations, have shown to be a useful tool in pharmacogenomics. For example, in some populations they have led to specific recommendations before the administration of several drug types to prevent severe allergic reactions, and some polymorphisms have been also associated with the response to inhaled corticosteroids , and to long‐acting β2 adrenoceptor agonists in asthmatics. , , 
+
+Nowadays, data from high‐throughput omics technologies are substantially improving our knowledge on the mechanisms underlying allergic diseases, which should ideally shunt diagnosis and treatment from a clinical phenotype‐based approach towards a clinical endotype‐based strategy. In fact, the advances achieved over recent years in molecular biology and bioinformatics have increasingly emphasised that biomarkers ascertained from a single “omics” may be insufficient to define all endotypes, which highlight the need of multiomics data integration not only for pathogenesis understanding but especially for predicting treatment response. Although still in its infancy, some information concerning omics data integration is already available for allergy. Thus, the combination of metabolomics and transcriptomics has allowed the definition of different signatures in grass pollen mono and polysensitised patients receiving sublingual immunotherapy. Another study using both metabolomics and transcriptomics has also found specific patterns and biomarkers in severe grass‐allergic patients, supporting a role for altered energy metabolism and systemic uncontrolled inflammation, which could be taken into account to decide which type of patients is eligible for immunotherapy. Finally, considering the complexity of phenotypes/endotypes, the great challenge for an effective multiomics data integration for valuating treatment options would need to include cohorts of extensively characterised patients and integrate both clinical and molecular information through modern bioinformatics tools, including machine learning.
+There are several features, which need to be considered prior to the experiment and will help the researchers to plan and perform a successful multiomics analysis and draw a meaningful clinically applicable conclusion. It is recommended to perform the pilot study, as preliminary data will help to identify potential cofounders and sources of variations, which subsequently will help to assess the statistical power and sample size of planned analyses. Sample size in omic studies is always a limitation. Mainly because they are expensive techniques, complex to analyze, and need further validation and quantification. That is why omics analysis usually begins with small cohorts from pilot studies, to identify potential targets, biomarkers, or biological routes. Afterward, analytical validation takes place to ensure quantification of the molecular, and finally bigger cohorts are recruited to test the potential candidates. It is beneficial for researchers to use standard operating procedures (SOPs) and to consult experts in the field, to assist in practical aspects, such as correct sample collection, processing and storage, stability of the data sets over time/impact of applied therapies, and further data and analysis pipelines sharing. Validation is the final stage of the biomarker identification process and is necessary if the identified molecule is to reach clinical practice. The validation method involves conducting large collaborative studies with thousands of patients preferably. It directly tests each candidate biomarker with the collected new independent set of samples from the target population. In allergic disease some validations studied have been performed. , However, now the identified biomarkers need to be translated into clinical practice. Translation of omics data into the clinical trials requires fulfillment of strict criteria and beforehand planning. McShane et al highlighted the most important principles to performing saucerful omics‐based clinical studies. , Major ethical, methodological, and practical challenges that will need to be considered are summarized in Table  . , , , , Multidisciplinary collaborations between researchers, whether clinical, translational, or computer scientists are important and required to understand molecular phenotypes of the diseases and their potential in precision medicine. 
+
+ 
+8
+
+## SUMMARY AND CLOSING REMARKS
+Omics data are generated by high‐throughput biotechnological platforms delivering hundreds of thousands of raw (nonelaborated) variables that have revolutionized biomedical research. Most of the studies are using a single omic approach to characterize biological features. Genomics, epigenomics, transcriptomics, proteomics, and metabolomics have been widely applied to identify biological variants (e.g., biomarkers and biological pathways), to characterize complex biochemical systems, and study pathophysiological processes. The potency of omic analysis will significantly increase if we are able to integrate them to generate a complete molecular profile of what is happening in a specific sample. Connections between genes and their outputs can provide some clues to what’s happening in complex and multifactorial diseases as is the case of allergy and asthma. Furthermore, integrating omics datasets with nonomics data can reveal a much more complete view of biological activities and will allow us to classify and identify biomarkers, and predict disease progression and prognostic risk. Together, these approaches will provide the opportunity to get insights into biological systems of health and disease, and to conduct precision medicine.
+
+## CONFLICT OF INTEREST
+AV is a Secretary of the EAACI IG on Allergy Diagnosis & Systems Medicine. CK is a member of the EAACI working group Genomics and Proteomics. IA is an Associate Editor of Allergy and CTA. KB reports: The Center for Precision Proteomics providing partial salary funding is funded through the Swiss canton of Grisons. Salary payments are made through the institution and are part of the regular salary. KB has been funded by the Earth Vision nonprofit corporation for chairing an event, performing a study and manuscript writing. The funding has been made to SIAF; the resulting manuscript has been published https://doi.org/10.3390/microorganisms8040498; the topic has no overlap with the study presented here. KB is a member of the board of directors of the Swiss Institute of Bioinformatics, member of the EAACI working group Genomics and Proteomics and president of the bioinformatics intersection of LS2 and member of LS2. MME is a Chair of EAACI WG on Genomics and Proteomics and report lecture fees from Diater and Stallergenes. MS reports grants from SNSF, GSK, Novartis; payments from AstraZeneca, and position of European Academy of Allergy and Clinical Immunology (EAACI) Basic and Clinical Immunology Board Secretary. MO reports personal consulting honoraria received from Hycor Biomedical; Member‐at‐Large 2019‐2022, Executive Committee, European Academy of Allergy and Clinical Immunology (EAACI). UR is a Secretary of the EAACI WG on Genomics and Proteomics. All other authors report no conflict of interest regarding this manuscript.
+
+## Supporting information
+
+Appendix S1
+
+Click here for additional data file.
+
+## ACKNOWLEDGEMENTS
+The authors would like to thank the European Academy of Allergy and Clinical Immunology (EAACI) for support enabling the development and publication of this paper. Figures created with Biorender.com Open access funding enabled and organized by ProjektDEAL.

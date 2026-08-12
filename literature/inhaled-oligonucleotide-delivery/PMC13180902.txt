@@ -1,0 +1,311 @@
+4781fddevFrontiers in Drug DeliveryFront Drug DelivFrontiers Media SAPMC1318090213180902131809024215833710.3389/fddev.2026.1783113Oral delivery of biologics: from barrier-limited formulation to active convective transport
+NiaziSarfaraz KConceptualization, Data curation, Formal Analysis, Investigation, Methodology, Project administration, Resources, Software, Supervision, Validation, Visualization, Writing - original draft, Writing - review and editing 1
+Pharmaceutical Sciences, University of Illinois Chicago College of Pharmacy, Chicago, IL, United States
+*
+Correspondence: Sarfaraz K. Niazi, sniazi3@uic.edu
+
+4520266178311317831131952026Copyright © 2026 Niazi.This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+## Abstract
+Biologic therapeutics have transformed the treatment of chronic and life-threatening diseases, yet their clinical use depends almost entirely on parenteral administration. Oral delivery is the preferred route for patients, but it remains challenging for proteins, peptides, and other macromolecules. The gastrointestinal tract blocks their absorption through size exclusion at tight junctions, the hydrophobic lipid bilayer of enterocytes, restricted receptor-mediated uptake, and enzymatic degradation in the lumen and at the brush border. Decades of work on formulation strategies and chemical permeation enhancers have yielded only modest, inconsistent gains. For most biologics, absolute oral bioavailability stays below 1% under physiological conditions. These limitations have prompted a shift from passive transport strategies to active, force-based delivery. Over the past decade, ingestible device platforms have advanced along a clear developmental sequence: early microneedle systems established feasibility in animals, mucus-clearing robotic capsules and liquid-injection auto-injectors extended the approach to liquid biologics in large-animal models, and self-pressurized convective capsules introduced an excipient-driven mechanism requiring no moving parts. This progression culminated in the first Phase 1 human study, which showed that device-based oral delivery of a full-length IgG antibody can match the bioavailability of subcutaneous injection. That result confirms that mechanical bypass of gastrointestinal barriers is achievable in humans and sets a reference point for the field. This review traces the development of active oral biologic delivery systems from early preclinical work to clinical supply, with a focus on convective, force-enabled approaches using self-pressurized capsule technologies. We describe the gastrointestinal barriers that passive strategies cannot overcome, compare device-based platforms by mechanism and evidence, and examine the physical and engineering principles underlying self-pressurized capsule design. We also propose criteria for selecting candidate drugs and address safety, regulatory classification, and manufacturing requirements. The analysis places convective oral delivery within the broader class of force-based platforms and identifies what each system requires to advance.
+Keywords: active delivery systems, barrier-limited epithelial permeability, biologics, convective transport, gastrointestinal barriers, ingestible devices, oral drug delivery, pharmaceutical manufacturing
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2026 Jan 7; Revised 2026 Mar 24; Accepted 2026 Mar 24; Collection date 2026.
+
+1.
+
+## Introduction
+Biologic drugs, including peptides, proteins, enzymes, antibodies, and nucleic acid-based therapeutics, now account for approximately 40%–50% of pharmaceutical market value ( ; ). They represent most newly approved first-in-class therapies and more than half of global blockbuster drug sales ( ; ) FDA CDER, 2018–2023. Their clinical value rests on a degree of target specificity and potency that small-molecule drugs rarely achieve.
+Three terms used throughout this review require brief definition. Convective force refers to pressure-driven transport of molecules through a medium via bulk fluid motion. Convective transport describes the mass transfer process mediated by that bulk flow. Convective delivery denotes the pharmaceutical application of convective transport to move drugs across biological barriers. These terms are used consistently to distinguish pressure-driven from diffusion-limited mechanisms.
+Biologics share a practical limitation: they are not compatible with oral administration. Patients rely on subcutaneous injections, intravenous infusions, or implantable systems. Injection-related pain, needle phobia, sharps disposal, dependence on clinical infrastructure, poor adherence in chronic disease, and limited access in low-resource settings all follow from this requirement ( ; ).
+Oral dosing is convenient, safe, and supports adherence, but the gastrointestinal tract is structured to exclude macromolecules. Tight junction size exclusion, the hydrophobic lipid bilayer of enterocytes, limited receptor-mediated transcytosis, and enzymatic degradation act together to block absorption ( ; ; ). Epithelial permeability to intact proteins is near zero under normal conditions, and oral bioavailability for most biologics falls below 1%, making conventional oral dosing impractical ( ; ).
+Progress in the field has followed a sequence of increasingly capable approaches. Formulation strategies and chemical permeation enhancers produced real but modest improvements. That experience shifted attention toward active delivery systems that apply physical force to bypass gastrointestinal barriers. Development proceeded from early microneedle proof-of-concept work ( ) through mucus-clearing robotic and liquid-injection platforms ( ; ) and self-pressurized convective capsules ( ) to the first human Phase 1 study with the RT-111 RaniPill system ( ). That study reported 81% relative bioavailability of a full-length IgG versus subcutaneous injection in healthy volunteers, the most advanced clinical result in oral biologic delivery to date.
+Self-pressurized oral capsules occupy a distinct position within this field. Effervescence-driven gas generation inside a conventional capsule produces a brief, high-velocity convective pulse that carries drug across the mucus barrier and deposits it at the intestinal epithelium. The system requires no stored mechanical energy, no electronics, and no moving parts, which makes it compatible with standard pharmaceutical manufacturing ( ). The OSPRAE capsule, developed by at Georgia Tech, is the primary example of this approach. This review examines the broader class of self-pressurized, gas-driven capsule systems using convective oral delivery as its central analytical framework and places each platform within the translational field.
+
+2.
+
+## Physiological barriers to oral delivery of biologics
+2.1.
+
+## Chemical and enzymatic degradation in the gastrointestinal tract
+Biologics are immediately subject to chemical and enzymatic attack after ingestion. Gastric pH drops below 2, denaturing proteins and accelerating hydrolysis. In the small intestine, trypsin, chymotrypsin, elastase, carboxypeptidases, and brush-border peptidases anchored to enterocytes continue this degradation ( ). Between 90% and 99% of orally administered protein may be destroyed before reaching the absorptive epithelium ( ; ). Enzyme inhibitors reduce degradation but introduce risks of impaired digestion, mucosal irritation, and variable pharmacokinetics ( ).
+ Chemical stabilization through PEGylation, lipidation, or amino-acid substitution can improve proteolytic resistance. Each approach carries trade-offs: compromised receptor binding affinity ( ), altered pharmacokinetic profiles ( ), or immunogenic neoepitopes ( ). These modifications also increase molecular heterogeneity and manufacturing costs, thereby complicating regulatory approval.
+
+2.2.
+
+## The mucosal barrier: structure, function, and transport limitations
+Past the enzymatic environment lies the intestinal mucus barrier, a viscoelastic hydrogel composed primarily of the gel-forming mucin MUC2 secreted by goblet cells throughout the small and large intestine ( ; ). It consists of two layers: a firmly adherent inner layer approximately 50–200 μm thick in the human colon, and an outer layer extending an additional 100–700 μm. Total mucus thickness in the small intestine ranges from approximately 100–500 μm, depending on the anatomical region ( ).
+Mucus is a substantial barrier to drug delivery. Protein diffusivity in intestinal mucus is 10–100-fold lower than in aqueous buffer ( ; ). Large molecules and nanoparticles move slowly and become trapped by steric hindrance, electrostatic interactions, or hydrophobic binding. The outer mucus layer turns over every 1–4 h ( ), while the inner adherent layer is replaced more slowly ( ; ).
+
+2.3.
+
+## The epithelial cell layer and tight junction regulation
+Under the mucus lies the epithelial cell layer, a single sheet of enterocytes joined by tight junctions that regulate paracellular transport. Tight junctions are multiprotein assemblies of claudins, occludin, zonula occludens proteins, and junctional adhesion molecules whose composition varies along the crypt-villus axis ( ; ). Their effective pore radius is measured in angstroms to a few nanometers, far smaller than any intact biologic.
+Attempts to transiently open tight junctions with chemical permeation enhancers have produced modest permeability gains, but clinical translation has been limited by formulation complexity, narrow absorption windows, and variable bioavailability. Some programs have reached approval: oral semaglutide (Rybelsus®) and MYCAPSSA are marketed products, and the SNAC-based candidate MK-0616 is in Phase III development, confirming that chemical enhancement can meet regulatory requirements ( ; ; ). Even so, barrier-limited epithelial permeability keeps achievable bioavailability below 1%–2% for most biologics.
+
+3.
+
+## The active delivery field: a historical developmental arc
+The past decade brought rapid development of ingestible systems for gastrointestinal biologic delivery. Progress moved through a clear sequence: preclinical proof-of-concept, large-animal validation, and, most recently, human clinical study. The gap between passive and active approaches is quantifiable. Nanoparticle-based systems reach absolute bioavailabilities of 0.1%–2% for most biologics ( ; ); SNAC-formulated oral semaglutide achieves 0.4%–1% ( ). Device-based systems that mechanically bypass the epithelial barrier have achieved substantially higher systemic exposure, with the RT-111 Phase 1 study as the current upper bound ( ).
+3.1.
+
+## First generation: microneedle and luminal unfolding systems (2019)
+The first ingestible biologic delivery devices established that mechanical penetration of the gastrointestinal mucosa is achievable in living animals. The SOMA (Self-Orienting Millimeter-scale Applicator), reported by , uses asymmetric mass distribution to align with the gastric wall, then deploys drug-loaded milli-posts into the gastric submucosa. In the same report, the LUMI (Luminal Unfolding Microneedle Injector) unfolds arms to press microneedle patches against the small intestinal wall, with feasibility demonstrated in swine and ex vivo human tissue. Both systems confirmed that mechanical mucosal penetration can result in measurable systemic macromolecular absorption. At that stage, evidence was limited to preclinical models, and payloads were restricted to solid or semisolid forms.
+
+3.2.
+
+## Second generation: liquid injection and mucus-clearing systems (2022)
+Two 2022 platforms extended the first-generation work in different directions. The L-SOMA, the liquid-injecting successor to SOMA, adapted the gastric auto-injector concept to liquid formulations and delivered full-length IgG antibodies into the gastric submucosa of swine with absolute bioavailability of up to 80% ( ). That was the first evidence that an ingestible device could achieve systemic IgG levels approaching those of subcutaneous injection in a large-animal model.
+The RoboCap system ( ) took a different approach. A rotating capsule geometry mechanically clears the mucus layer and deposits the payload on the exposed epithelial surface, without penetrating tissue. Bioavailability for insulin and vancomycin improved 20–40-fold over conventional oral delivery in rodent and swine models. Those results showed that mucus clearance alone can produce meaningful absorption gains.
+
+3.3.
+
+## Third generation: convective and CO2-Driven systems (2024–2025)
+The third generation introduced excipient-driven gas generation as the source of delivery force, eliminating needles and rotating elements. The OSPRAE (Oral Self-Pressurized Aerosol) capsule, developed by in the Prausnitz laboratory at Georgia Tech, uses a sodium bicarbonate-citric acid effervescent reaction to build internal pressure. When pressure reaches the failure threshold of a calibrated orifice, a high-velocity gas and drug plume is released at 10–50 m s-1 toward the intestinal epithelial surface. In preclinical rodent studies, pressurized delivery at 100–170 kPa drove nanoparticles deep into the mucus barrier. The fraction of payload within 30 μm of the epithelial cell layer increased by an order of magnitude compared with passive deposition, and pharmacodynamic outcomes for insulin matched subcutaneous injection ( ) ( ).
+ 
+ provided independent validation of effervescent chemistry as a delivery force. They demonstrated a rectally administered in situ bioadhesive foam for colonic delivery of an anti-TNF-α antibody fragment (Fab) in an inflammatory bowel disease model. CO2 generation simultaneously expanded the formulation into foam and acted as a transient permeation enhancer. Rectal Fab foam produced higher plasma Fab concentrations than a solution at a comparable dose and showed therapeutic activity across colitis mouse models. This confirmed that the same gas-generating chemistry can be adapted across different GI segments and delivery modes.
+
+3.4.
+
+## Clinical milestone: the RT-111 RaniPill system (2026)
+The most advanced clinical result in the field comes from the RT-111 RaniPill platform, a compressed-gas-driven ingestible injector that deploys a needle within the intestinal wall. reported 81% relative bioavailability of a full-length ustekinumab biosimilar versus subcutaneous injection in a Phase 1 human study (ClinicalTrials.gov NCT05890118), with no serious adverse events. This is the first published human pharmacokinetic study demonstrating that device-based oral delivery of a full-length IgG can match subcutaneous injection.
+The pharmacokinetic profile from the RT-111 study carries broader implications. RT-111 produced a Tmax of 3 days versus 10 days for subcutaneous injection. The slow subcutaneous Tmax reflects lymphatic transit from the hypodermal depot; the faster RT-111 Tmax is consistent with direct vascular entry following intestinal wall penetration. The study did not include thoracic duct cannulation or lymphatic-versus-portal sampling, so the absorption pathway has not been experimentally confirmed. The RT-111 Phase 1 data nonetheless establish a clinical benchmark for the field.
+
+3.5.
+
+## Comparative platform assessment
+Each active oral delivery platform has distinct trade-offs. No single technology is superior across all applications. provides a chronological comparison of all platforms, from approved permeation enhancers through the RT-111 human Phase 1 data.
+
+3.6.
+
+## Lymphatic routing as an emerging pharmacokinetic consideration
+One aspect of pharmacokinetics has received little attention across active delivery platforms: the route by which absorbed drug reaches systemic circulation. Microneedle injectors, jet systems, and convective capsules alike produce portal venous absorption, resulting in hepatic first-pass exposure equivalent to that of conventional oral dosing. This has not been a deliberate design choice; it reflects how oral pharmacology has historically been modeled.
+The small intestine contains an extensive lymphatic network, the lacteals, which run parallel to the portal vasculature and drain into the thoracic duct. Lymphatic absorption bypasses hepatic first-pass entirely. In subcutaneous pharmacokinetics, macromolecules above approximately 10 nm in effective diameter preferentially enter lymphatic over blood capillaries from interstitial depots, because lymphatic capillary junctions (100–500 nm) are far wider than blood capillary fenestrations (6–12 nm) ( ; ; ). For subcutaneous IgG, the established dominant mechanism is lymphatic transport from the hypodermal interstitium.
+Whether intramucosal deposition of appropriately formulated macromolecules can result in preferential lymphatic drainage from the jejunal lamina propria remains an open question. No published study has directly measured vascular versus lymphatic partitioning of any molecule above 50 kDa deposited at this site. The question is testable by standard thoracic duct cannulation. Convective delivery systems that deposit the drug into the lamina propria interstitium, rather than onto the luminal surface, create the anatomical conditions under which preferential lymphatic entry could occur. If it does, hepatic first-pass elimination would be reduced or eliminated, and the systemic distribution pattern would more closely resemble subcutaneous injection. This question has direct implications for the design trajectory of active oral delivery systems.
+
+4.
+
+## Limitations of barrier-limited transport and chemical enhancement strategies
+Most oral biologic delivery technologies share an underlying premise: that incremental improvements in epithelial transport will eventually produce useful absorption. This premise has shaped nanoparticle engineering, muco-penetrating coatings, enzyme inhibitors, and permeation enhancers for decades ( ). The dominant barriers, tight junction size exclusion, lipid bilayer impermeability, limited transcytosis, and enzymatic degradation, are structural and biological rather than diffusional. Formulation optimization cannot overcome them.
+ Clinical data support this conclusion. Oral semaglutide (Rybelsus®), the most successful oral peptide formulation approved to date, achieves approximately 0.4%–1% bioavailability in human pharmacokinetic studies despite extensive optimization ( ). Its SNAC absorption enhancer transiently raises local gastric pH and promotes transcellular absorption of semaglutide across the gastric epithelium ( ). The product requires strict fasting, reflecting the narrow, fragile absorption window of chemically enhanced transport. Even with full formulation optimization, barrier-limited permeability caps what is achievable.
+Convective transport, the movement of material by bulk fluid or gas flow, has been applied for decades in jet injection and microneedle-assisted delivery. Self-pressurized oral capsules bring this principle into a standard pharmaceutical format. Convective force can be generated in situ using simple excipients within a conventional capsule architecture, with burst pressure reproducibility of ±15% CV at 100–170 kPa ( ). This reframes oral biologic delivery as a controlled physical transport problem rather than a permeability problem ( ). Repeat-dose safety data and chronic inflammatory biomarker assessments have not yet been established.
+
+5.
+
+## Convective force as a transport mechanism in the gastrointestinal tract
+5.1.
+
+## Physical basis of convective delivery: Ex Vivo and preclinical evidence
+Two physical barriers govern convective transport in the gastrointestinal tract: the mucus layer and the epithelial cell layer. Intestinal mucus is a viscoelastic, non-Newtonian hydrogel ( ; ). Its resistance to penetration falls under sufficiently high localized force because of its shear-thinning properties. The epithelial cell layer can tolerate brief, localized mechanical disruptions and undergoes rapid restitution afterward ( ; ; ).
+In the convective delivery model, a brief, high-velocity gas plume displaces mucus through momentum transfer, creating a transient crater that exposes the epithelial surface. In ex vivo porcine intestine, pressurized delivery at 100–170 kPa drove nanoparticles deep into the mucus barrier and increased the fraction of payload within 30 μm of the epithelial cell layer by an order of magnitude compared with passive deposition ( ). The 30 μm zone corresponds to the firmly adherent inner mucus layer, which turns over slowly and retains deposited material longer, improving the opportunity for epithelial uptake ( ).
+
+5.2.
+
+## Distinction between convective force and ballistic penetration
+Convective oral delivery does not depend on ballistic penetration by drug particles ( ; ). The OSPRAE mechanism uses a gas-driven convective front to clear fluid and mucus from the delivery path. Drug particles are carried in the moving gas stream and deposited at or near the epithelial surface; they are not projected as projectiles. This has practical consequences for safety and scalability. Payload size (20–1,000 nm in reported studies) does not substantially affect delivery efficiency across the tested pressure range, so different payload types can be used without redesigning the platform.
+
+5.3.
+
+## Self-pressurization as an enabler of oral convective delivery
+The key practical contribution of the convective delivery approach is the generation of the required force in situ from pharmaceutical excipients, without stored mechanical energy ( ; ). The reaction of sodium bicarbonate and citric acid in water produces CO2 in a controllable and pressurizable manner. This requires no electronics, batteries, or moving parts. The capsule remains inert during manufacturing, storage, and gastric transit, and activates only upon contact with intestinal fluid. Compatibility with standard pharmaceutical production and disposal follows directly from this design.
+Effervescent CO2 generation has been applied independently in the OSPRAE convective capsule ( ) and in bioadhesive foam systems for colonic delivery ( ), confirming the pharmaceutical tractability of this chemistry across platforms. The same gas-generating reaction can drive capsule rupture, foam expansion, or mucoadhesive depot formation, depending on the system’s design.
+
+5.4.
+
+## Pharmacokinetic implications of convective intestinal delivery
+Insulin delivered to the intestinal epithelium via self-pressurized capsules produces rapid reductions in blood glucose with kinetics comparable to those of subcutaneous injection, despite lower systemic insulin exposure ( ; ). The explanation lies in intestinal physiology: insulin absorbed from the small intestine enters the portal circulation and reaches the liver before it reaches the systemic circulation. This portal-first pharmacology resembles endogenous insulin secretion more closely than subcutaneous injection does and may carry metabolic advantages beyond route convenience.
+This portal-first advantage applies to all active oral delivery systems that deposit the drug into the small intestinal wall. It is distinct from lymphatic routing, which would bypass the liver entirely. In principle, the two mechanisms are complementary: a fraction of payload could be absorbed via the portal vein, producing a rapid onset and hepatic targeting, while another fraction enters the lymphatics with a delayed onset and no hepatic first-pass, depending on formulation properties and depot-site anatomy ( ).
+ 
+5.5.
+
+## Platform generalization
+Convective force is a generalizable transport mechanism, not a drug-specific workaround ( ; ). Because the driving force is physical, convective delivery is independent of molecular structure, receptor affinity, or enzymatic susceptibility at the point of transport. Drug candidates can therefore be selected by therapeutic relevance and dose requirements rather than by permeability, a criterion that does not apply to force-driven transport.
+
+6.
+
+## Engineering principles, design attributes, and translational challenges
+Active force-based oral delivery systems differ from passive formulation approaches in how they bypass biological barriers. This section examines engineering attributes and failure modes shared across convective capsule systems, mucus-clearing robotic devices, and needle-free jet systems, drawing on the systems described in . Specific published data are cited where available; attributes that apply broadly across platforms are presented as class properties. The goal is a practical engineering and quality framework for any active oral delivery program.
+6.1.
+
+## Payload containment and protection of labile biologics
+All active oral delivery systems face the same primary challenge: preserving the integrity of a fragile macromolecule through manufacturing, storage, and gastrointestinal transit until delivery. In convective capsule systems, the drug and the effervescent excipients occupy separate compartments connected by a porous interface. CO2 passes freely while the drug stays contained until burst-driven entrainment ( ). In the L-SOMA, the drug sits in a liquid reservoir sealed from gastric fluid by a multilayer capsule architecture and is released only after self-orientation and actuation ( ). In robotic mucus-clearing systems, the payload is isolated from the luminal environment during mucus removal and deposited topically on the exposed epithelium ( ). In every case, the payload compartment must withstand gastric acid, luminal enzymes, and mechanical agitation while releasing on a defined trigger.
+Drug content uniformity is a shared critical quality attribute across all platforms. Target specifications require 90%–110% of label claim with a relative standard deviation below 6%, consistent with ICH Q6B. This applies to liquid reservoir filling in injection-based systems and to dry-powder or lyophilized payloads in convective systems ( ; ; ) ( ).
+ 
+6.2.
+
+## Capsule shell integrity, material selection, and gastric protection
+Every ingestible delivery system needs an outer shell that survives gastric transit intact and triggers in the proximal small intestine. In self-pressurized effervescent systems, the shell must withstand internal pressurization before controlled rupture, which requires reinforcement beyond standard capsule specifications. UV crosslinking of gelatin increases mechanical strength and enzymatic resistance while preserving eventual degradability ( ). In liquid-injection systems such as L-SOMA and RT-111, the capsule houses a spring or gas reservoir and must stay watertight through gastric transit until actuation, relying on multilayer enteric coatings with defined pH-dissolution thresholds ( ; ). In jet systems, the capsule must hold compressed gas or spring elements without premature release ( ).
+Across all platforms, prototype materials must be replaced with pharmacopeial accepted components before clinical use. UV-crosslinked gelatin may require separate biocompatibility justification beyond standard monographs. Prototype coatings, lacquers, experimental polymers, and non-standard adhesives must give way to enteric polymers with established regulatory status, such as Eudragit or HPMCAS. All materials that contact the gastrointestinal mucosa or the systemic circulation require biocompatibility assessment under ISO 10993-1 for GI-contact devices ( ).
+
+6.3.
+
+## Controlled actuation and deterministic failure mechanics
+When and how force is applied is the central engineering challenge for all active delivery systems. In convective capsule systems, a calibrated delivery orifice and a zone of selectively reduced wall thickness or coating serve as the designed failure site. Capsule rupture occurs predictably at a defined pressure and location ( ). Orifice diameter (0.5–2.0 mm) and shell crosslinking density together determine the burst pressure, which is tunable to 30–170 kPa in the OSPRAE system. The failure mode is elastic-to-plastic: the orifice deforms outward before rupture, reducing fragmentation risk. This is analogous to pressure-relief design used in industrial vessels and microelectromechanical systems.
+In needle-based and jet-based systems, actuation depends on spring release, compressed gas discharge, or a staged mechanical sequence triggered by pH, temperature, or humidity. The L-SOMA uses a two-spring mechanism that first extends a needle then injects the payload. Timing is critical: premature or incomplete actuation delivers drug into the lumen rather than tissue ( ). In cephalopod-inspired jet systems, compressed CO2 drives a collimated liquid jet; the pressure profile governs penetration depth and delivered-dose fraction ( ). In the RoboCap system, motor-driven rotation clears mucus; rotational speed and timing determine how much mucus is removed before payload release ( ). Across all platforms, actuation must remain reproducible despite variability in GI transit time, pH, fluid volume, and motility.
+
+6.4.
+
+## Gas-generating excipient chemistry and its cross-platform applications
+Effervescent reactions between bicarbonate salts and organic acids offer a practical route to generating mechanical force inside the gastrointestinal tract without external power or stored energy. In self-pressurized convective capsules, this reaction builds pressure until the orifice failure threshold is reached, releasing a high-velocity gas-drug plume that penetrates the mucus layer. Bench testing shows burst-pressure reproducibility with a coefficient of variation of ±15%, and ex vivo measurements record delivery velocities of 10–50 m s-1 at the orifice exit ( ).
+
+ applied the same chemistry in a different format: a rectally administered in situ bioadhesive foam for colonic delivery of an anti-TNF-α antibody fragment to treat inflammatory bowel disease. Potassium bicarbonate and citric acid react on contact with rectal fluid, producing CO2 that simultaneously aerates the formulation into foam and transiently disrupts the colonic mucus and epithelial barrier. In a non-everted rat gut ex vivo model, a single exposure improved macromolecule transepithelial flux by more than tenfold. In vivo, rectal Fab foam produced higher plasma Fab concentrations than a Fab solution at comparable dose and showed therapeutic activity in acute and chronic colitis mouse models. The independent application of effervescent chemistry across convective capsules, foam-based colonic delivery, and other gas-driven systems confirms CO2 generation as a broadly applicable excipient-based force delivery strategy.
+
+6.5.
+
+## Device orientation, mucosal apposition, and delivered-dose efficiency
+Device orientation at the time of force application is an unsolved engineering problem shared by all active delivery platforms. The consequences differ by mechanism. In needle-injection systems, incorrect orientation sends the needle into the lumen rather than tissue, with complete dose loss. In convective plume systems, the drug is ejected into the luminal fluid rather than toward the epithelium. In mucus-clearing systems, the rotating element fails to contact the mucosal surface.
+Several engineering solutions have been developed. Asymmetric mass distribution exploits gravity to orient the device toward the dependent wall (L-SOMA, SOMA). Self-righting geometry based on the leopard tortoise allows reorientation from any starting position ( ; ). Multi-orifice or radially symmetric jet configurations deliver force in all directions, reducing orientation dependence ( ). Mucoadhesive anchor elements fix the device to the wall before actuation. Density-asymmetric capsule designs address orientation in convective systems ( ). Rough estimates suggest a single fixed orifice achieves correct mucosal apposition in one-quarter to one-third of delivery events; multi-orifice or asymmetric designs may raise this to one-half to two-thirds. These estimates require empirical confirmation in physiologically relevant intestinal models before they can be used as design specifications.
+Delivered-dose fraction, the share of nominal payload reaching the epithelial surface rather than luminal fluid, capsule remnants, or shed mucus, is uncharacterized for all active delivery platforms under physiologically relevant conditions, including fed versus fasted state, variable motility, and mucosal disease. Quantitative mass-balance studies using radiolabeled tracers, fluorescent nanoparticle payloads, and pharmacokinetic deconvolution are required for any IND-enabling development program.
+
+6.6.
+
+## Critical quality attributes for active oral delivery systems
+Critical quality attributes for active oral delivery systems cover both device performance and drug product quality, and must be defined in alignment with ICH Q8, Q9, and Q10 ( ). lists CQAs applicable across the platform classes in this review, with target ranges drawn from published data where available.
+ 
+6.7.
+
+## Failure mode and effects analysis
+
+ presents a cross-platform failure mode and effects analysis covering failure modes common to the major categories of active oral delivery systems. Severity rankings are qualitative. Formal Risk Priority Number calculations should be performed during product-specific development in accordance with ICH Q9 ( ).
+ 
+6.8.
+
+## Tissue interaction, safety profile, and epithelial recovery
+The safety of force-based oral delivery depends on the degree, depth, and reversibility of tissue disruption at the delivery site. Histological evaluations across multiple active delivery platforms consistently show disruptions confined to areas smaller than approximately 1 mm2, with preservation of surrounding villi, crypt architecture, and submucosal integrity ( ; ; ). Disruptions affect the apical epithelial surface rather than the deeper regenerative compartments. Epithelial restitution follows within minutes to hours through migration of adjacent cells, a proliferation-independent repair mechanism that operates continuously in healthy intestinal tissue ( ; ; ). No persistent ulceration, crypt damage, or inflammatory infiltration has been reported following pressurized delivery.
+Jet-based systems produce disruption profiles that vary with jet velocity, nozzle diameter, and fluid viscosity. At the pressures used in the cephalopod-inspired system, tissue penetration was sufficient for systemic macromolecule absorption in large animals with no evidence of perforation. Needle-based systems such as L-SOMA and RT-111 produce puncture sites of defined diameter and depth; the RT-111 Phase 1 study reported device remnant clearance by Day 3 in all participants with no serious adverse events ( ). RoboCap produces surface abrasion from mucus clearing rather than deep penetration, with no mucosal injury in preclinical models ( ). Bioadhesive foam systems cause epithelial contact without mechanical disruption; colitis mouse models showed no additional mucosal injury from the formulation ( ).
+A direct comparison of the barrier-compromise area, duration, and cumulative effects between convective delivery and chemical enhancers has not been performed. This comparison is mechanistically plausible but experimentally unconfirmed. Chronic safety data for repeat dosing are absent for all active delivery platforms. Chronic-use indications will require repeat-dose GI toxicology studies of at least 6 months in rodents and 9–12 months in non-rodent species, with endpoints including serial histopathology, inflammatory biomarkers, barrier permeability markers, endotoxin levels, and microbiome composition ( , ).
+
+6.9.
+
+## Manufacturing complexity, scalability, and regulatory classification
+Active oral delivery systems differ substantially in manufacturing complexity. Needle-based and robotic systems with spring assemblies, electronics, or precision microneedle arrays require micron-scale tolerances and multi-step assembly, which are difficult to scale for high-volume pharmaceutical production. Retained hardware, electronics, or non-biodegradable components add regulatory complexity beyond standard combination product requirements, and may require additional biocompatibility characterization, device testing under ISO 11135/11607, or post-market surveillance for device residues.
+Self-pressurized convective capsule systems are at the simpler end of this spectrum. Gelatin shell, effervescent excipients, and standard coating materials are individually conventional and available from established pharmaceutical suppliers at a commodity scale. The manufacturing steps, UV crosslinking, selective orifice formation, and dual-compartment filling, operate within millimeter-scale tolerances achievable with modified standard capsule-filling equipment ( ). Effervescent foam systems ( ) require only formulation-level process control, with no device assembly required.
+All active oral delivery systems will be classified as drug-device combination products requiring formal designation by the FDA Office of Combination Products (21 CFR Part 3). Lead center assignment, CDER or CDRH, depends on the primary mode of action and requires a formal Pre-Request for Designation interaction. IND-enabling packages must include device performance characterization, biocompatibility data, and targeted GI safety studies alongside standard drug development requirements ( ; ).
+
+6.10.
+
+## Critical appraisal: limitations and translational barriers
+The evidence base for all active oral delivery platforms shares structural limitations. In vivo pharmacodynamic data come from a small number of model drugs, predominantly insulin and, more recently, IgG, in a small number of species. Extension to other biologics, other patient populations, and the full range of human GI physiology will require broad validation. The most advanced human clinical data come from the RT-111 injection system ( ). No convective or robotic platform has yet published human pharmacokinetic data.
+Capsule orientation under realistic GI conditions, including variable luminal diameter, peristaltic contraction, fluid volume, and luminal contents, is incompletely characterized across platforms. The delivered-dose fraction and its variability under fed versus fasted conditions, altered GI motility, and mucosal disease states are not established. Regulatory pathways have not been formally defined through agency interaction for any force-based platform covered in this review, other than the RT-111 program.
+Active delivery is not appropriate for all drugs. Poor candidates include drugs requiring daily doses above 50–100 mg, molecules with narrow therapeutic windows where delivery variability would be harmful, and agents susceptible to mechanical shear or aggregation during force-driven ejection. Conditions associated with disrupted mucosal architecture, altered mucus properties, or unpredictable GI transit, including active inflammatory bowel disease, radiation enteritis, and short bowel syndrome, may reduce delivery efficiency or raise local safety risk. These exclusion criteria apply to the platform class.
+
+7.
+
+## Rational selection of target drugs for convective oral delivery
+7.1.
+
+## Reframing target selection beyond permeability
+Conventional oral drug development starts with a permeability screen: molecules that fail Caco-2 or PAMPA assays are dropped early. Convective oral delivery reverses this logic. Transport is driven by physical force, not molecular permeability, so intrinsic permeability no longer determines candidacy. Selection is guided instead by dose feasibility, pharmacodynamic potency, absorption-site relevance, and therapeutic index ( ; ).
+
+7.2.
+
+## Candidate drug selection criteria matrix
+
+ presents a scoring framework for prioritizing candidate drugs. Total score ≥20 indicates high-priority candidates; 12–19 moderate-priority; below 12 low-priority or unsuitable. Scores are illustrative and require validation against empirical delivery data.
+ 
+7.3.
+
+## Protein and peptide therapeutics: Prime candidates
+
+ lists drug classes best suited to convective oral delivery based on the selection framework. Full-length IgG antibodies represent the highest unmet need. The RT-111 Phase 1 data ( ) confirm that bioavailability comparable to subcutaneous injection is achievable for this class ( , ).
+ 
+7.4.
+
+## Non-protein drugs with historically poor oral bioavailability
+The platform also applies to small molecules that fail oral delivery due to extensive first-pass metabolism, rapid luminal degradation, or solubility-limited absorption. Dry-powder or lyophilized formulations can be entrained in the delivery plume ( ).
+
+7.5.
+
+## Drugs unsuitable for convective oral delivery
+Drugs are unsuitable when they require daily doses above 50–100 mg, have a narrow therapeutic window in which delivery variability poses clinical risk, cause local tissue toxicity on mucosal contact, or require continuous rather than pulsed systemic exposure.
+
+8.
+
+## Regulatory classification and pathway considerations
+No direct regulatory precedent exists for effervescence-driven oral drug-device combination products. The requirements described below are anticipated based on analogous products and existing frameworks. Formal agency interaction is required to establish the precise expectations for any specific platform.
+8.1.
+
+## Combination product classification: United States
+Force-based oral delivery systems combine a pharmacologically active substance with a mechanical delivery mechanism, placing them within combination product regulation. In the United States, the Office of Combination Products assigns primary regulatory oversight based on the product’s primary mode of action ( ). For platforms where therapeutic effect is mediated by the drug, the primary mode of action is typically pharmacological, pointing to lead review by CDER or, for biologics, CBER. Assignment proceeds under 21 CFR Part 3 ( ). Sponsors should initiate the Pre-RFD/RFD process early and must not assume combination product classification without formal agency interaction ( ).
+Core IND-enabling expectations include CMC and device performance data covering burst pressure, activation time, plume characteristics, and delivered-dose fraction; biocompatibility per ISO 10993-1 ( ); and targeted nonclinical GI safety evaluation. Routine systemic animal toxicology may be waivable when the biologic has an established systemic safety profile, and risk is primarily local or mechanical, consistent with the FDA Modernization Act 2.0 ( ). Comparative efficacy trials may be unnecessary when exposure-response relationships are established, and PK/PD profiles are matched ( ). Manufacturing requirements for combination products follow cGMP regulations, which require harmonization of drug and device quality systems ( ). Pre-IND or Type B meetings are advisable before submitting the IND ( ).
+For IgG antibody payloads, the RT-111 Phase 1 study ( ) has advanced the regulatory landscape by confirming that the FDA engages with ingestible drug-device combination products targeting the intestinal wall and that a regulatory framework for this product class exists. Specific requirements still depend on formal Pre-RFD interaction.
+
+8.2.
+
+## European Union framework
+In the European Union, these products are regulated under the EMA framework for medicinal products incorporating medical devices, as integral drug-device combinations in which the medicinal product constitutes the primary mode of action ( ). Device components must comply with the Medical Device Regulation (EU) 2017/745, including conformity assessment and, where required, notified body involvement ( ). The EMA guideline on quality requirements for drug-device combinations sets out expectations for device characterization, performance testing, and integration into the medicinal product dossier ( ).
+
+8.3.
+
+## International harmonization and ICH framework
+At the international level, ICH Q8 (pharmaceutical development), Q9 (quality risk management), and Q10 (pharmaceutical quality systems) provide the overarching quality framework for development and lifecycle management of complex products ( ; ; ). These guidelines call for risk-based approaches, design space characterization, and integration of product and process understanding, all of which apply directly to combination systems in which device performance affects drug delivery and clinical outcomes.
+
+8.4.
+
+## Risk-benefit considerations and regulatory maturity
+Regulatory uncertainty around force-based oral delivery reflects early field maturation, not a development block. FDA, EMA, and ICH frameworks provide a working foundation, but applying them to these platforms requires interpretation and, in some areas, extension. Until standardized evaluation paradigms are established, including validated in vitro and in vivo delivery performance models and defined bioequivalence criteria, regulatory review will proceed on a case-by-case basis. Iterative engagement between sponsors and regulatory agencies will be necessary to build precedents for future programs.
+For patients requiring lifelong injections, modest risks of localized, transient epithelial disruption may be acceptable when weighed against improved adherence and quality of life. Portal-first pharmacokinetics may translate into better long-term outcomes for certain drug classes ( ; ). The risk-benefit calculation is indication-specific, depends on the therapeutic index, and must be assessed formally in clinical development.
+
+9.
+
+## Commercial manufacturing, cost of goods, and global accessibility
+9.1.
+
+## Manufacturing philosophy
+The OSPRAE platform adds delivery functionality without a proportional increase in manufacturing complexity ( ; ). Compared with microneedle or robotic capsule systems, self-pressurized convective capsules require no micron-scale fabrication, no electronics assembly, and no sterile component handling beyond standard biologic filling.
+
+9.2.
+
+## Unit operations and scalability
+Manufacturing involves capsule shell preparation with UV crosslinking, external coating, selective orifice formation, excipient filling, drug compartment fabrication, and final assembly. None of these steps requires micron-scale alignment ( ). lists the materials and their regulatory status.
+ 
+9.3.
+
+## Materials cost, cost of goods, and global accessibility
+All materials are available at metric-ton scale from multiple global suppliers at costs far below those of precision-machined device components. Convective oral delivery eliminates the need for sterile injection infrastructure, reduces dependence on the cold chain, and simplifies packaging, comparable to conventional oral solid dosage forms. The platform suits biosimilar developers, lifecycle management programs, and global health initiatives, particularly in settings where injectable biologics are impractical due to infrastructure limitations.
+
+10.
+
+## Future directions and platform expansion
+The most immediate applications for convective oral delivery are reformulations of currently injectable biologics with favorable dose-potency profiles, established systemic safety records, and chronic injection burdens that reduce patient compliance. GLP-1 agonists, insulin, PTH, and selected cytokines are the leading candidates.
+Expansion opportunities include capsule miniaturization for pediatric and geriatric patients, enteric targeting for regional delivery, multi-compartment architectures for sequential payload release, and extension to nucleic acid therapeutics (mRNA, ASOs, siRNA), live biologics, bacteriophages, and microbiome-modulating agents ( ; ).
+An open question relevant to both convective and injection-based systems is whether formulation design can shift post-deposition absorption from portal to lymphatic routing. As discussed in , size-dependent interstitial partitioning suggests that appropriately sized lipid-associated particles deposited in the lamina propria interstitium could preferentially enter lacteals rather than blood capillaries, thereby eliminating hepatic first-pass. Thoracic duct cannulation experiments in lamina propria-injection models are a near-term experimental priority that could redirect delivery system design across platforms.
+Digital health integration can correlate delivery events with patient-specific physiological states and add monitoring tools without modifying the capsule. Platform evolution should be guided by target engagement, potency, and safety, not by incremental improvement of passive transport within constraints that the active delivery paradigm has already replaced ( ).
+
+11.
+
+## Conclusion
+Oral delivery of biologics has been treated as an unsolved problem for decades, limited by the structural and biological barriers of the gastrointestinal tract. Strategies that work within those barriers have produced incremental progress without changing the fundamental picture. The past decade altered this by establishing a clear developmental arc: multiple ingestible platforms demonstrated systemic macromolecular absorption in animal models, and the RT-111 Phase 1 data ( ) confirmed that device-based oral IgG delivery at clinically meaningful levels is achievable in humans. A first milestone of clinical supply has been reached.
+Self-pressurized oral capsules offer a distinct approach within this field. Simple pharmaceutical excipients combined with engineered mechanical failure produce transient, localized convective delivery events that bypass biological barriers without complex devices, electronics, or invasive hardware. Preclinical evidence shows effective delivery of fragile biologics, such as insulin, with pharmacodynamic outcomes that match injection and tissue disruption, well within the repair capacity of the intestinal epithelium. Critical knowledge gaps remain in the quantitative characterization of delivered-dose fraction and mass balance; orientation effects on delivery probability; chronic safety under repeat dosing; barrier function impacts beyond acute epithelial repair; and clinical validation of preclinical pharmacodynamic findings.
+Beyond convective delivery, the field’s most consequential open question is whether intramucosal deposition combined with appropriate formulation design can redirect absorption from the portal vasculature to the intestinal lymphatics. An affirmative answer would move the field from barrier bypass to deliberate pharmacokinetic control of the oral absorption route. Answering it requires direct experimental measurement in relevant animal models and does not depend on any specific device platform.
+Convective oral delivery has the potential to change how drugs are administered, designed, selected, and deployed. By shifting the focus from molecular permeability to physical transport, this platform extends the reach of oral dosing to biologics previously confined to needles and infusion lines.
+
+## Funding Statement
+The author(s) declared that financial support was not received for this work and/or its publication.
+
+## Footnotes
+
+Edited by:
+David J. Brayden, University College Dublin, Ireland
+
+Reviewed by:
+Shyam Lal Mudavath, University of Hyderabad, India
+
+Sahil Malhotra, American College Dublin, Ireland
+
+Anusha Kusuma, AKRG College of Pharmacy, India
+
+## Author contributions
+SN: Conceptualization, Data curation, Formal Analysis, Investigation, Methodology, Project administration, Resources, Software, Supervision, Validation, Visualization, Writing – original draft, Writing – review and editing.
+
+## Conflict of interest
+The author is an equity holder in RNA Therapeutics, DEI Biopharma, Abyolo, and BioRx.
+
+## Generative AI statement
+The author(s) declared that generative AI was used in the creation of this manuscript. Grammar check, figure drawing.
+Any alternative text (alt text) provided alongside figures in this article has been generated by Frontiers with the support of artificial intelligence and reasonable efforts have been made to ensure accuracy, including review by the authors wherever possible. If you identify any issues, please contact us.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+## References

@@ -1,0 +1,681 @@
+pmcAdv Sci (Weinh)Adv Sci (Weinh)2933advsci101664569ADVSAdvanced Science2198-3844WileyPMC8895156PMC8895156.1889515688951563502332110.1002/advs.202104426ADVS33551ReviewReviewsBiomarkers and Detection Platforms for Human Health and Performance Monitoring: A Review
+SimDanielhttps://orcid.org/0000-0002-3702-7245 BrothersMichael C.https://orcid.org/0000-0002-8239-2399 SlocikJoseph M.https://orcid.org/0000-0001-5824-7709 IslamAhmad E.https://orcid.org/0000-0002-4233-1233 MaruyamaBenji GrigsbyClaude C. NaikRajesh R.https://orcid.org/0000-0002-7677-928X KimSteve S.https://orcid.org/0000-0002-9519-077X steve.kim.13@us.af.mil 
+
+1
+
+Air Force Research Laboratory
+711th Human Performance Wing
+Wright‐Patterson Air Force Base
+OH 45433
+USA
+
+2
+
+Research Associateship Program (RAP)
+the National Academies of Sciences, Engineering and Medicine
+Washington
+DC
+20001
+USA
+
+3
+
+Integrative Health & Performance Sciences Division
+UES Inc.
+Dayton
+OH
+45432
+USA
+
+4
+
+Air Force Research Laboratory
+Materials and Manufacturing Directorate
+Wright‐Patterson Air Force Base
+OH 45433
+USA
+
+5
+
+Air Force Research Laboratory
+Sensors Directorate
+Wright‐Patterson Air Force Base
+OH 45433
+USA
+
+*E‐mail: steve.kim.13@us.af.mil
+
+1212022320229740235110.1002/advs.v9.72104426
+19112021
+06102021
+120120221003202223082024© 2022 The Authors. Advanced Science published by Wiley‐VCH GmbHhttps://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Human health and performance monitoring (HHPM) is imperative to provide information necessary for protecting, sustaining, evaluating, and improving personnel in various occupational sectors, such as industry, academy, sports, recreation, and military. While various commercially wearable sensors are on the market with their capability of “quantitative assessments” on human health, physical, and psychological states, their sensing is mostly based on physical traits, and thus lacks precision in HHPM. Minimally or noninvasive biomarkers detectable from the human body, such as body fluid (e.g., sweat, tear, urine, and interstitial fluid), exhaled breath, and skin surface, can provide abundant additional information to the HHPM. Detecting these biomarkers with novel or existing sensor technologies is emerging as critical human monitoring research. This review provides a broad perspective on the state of the art biosensor technologies for HHPM, including the list of biomarkers and their physiochemical/physical characteristics, fundamental sensing principles, and high‐performance sensing transducers. Further, this paper expands to the additional scope on the key technical challenges in applying the current HHPM system to the real field.
+
+Detecting biomarkers with novel or existing sensor technologies is emerging as critical human monitoring research. This review provides a broad perspective on the state‐of‐art biosensor technologies for human health and performance monitoring, including the list of biomarkers and their physiochemical/physical characteristics, fundamental sensing principles, high‐performance transducers, and the key technical challenges in applying the current system to the real field.
+ 
+
+biosensor technologieshuman health and performance biomarkershuman health and performance monitoringAir Force Research Laboratory
+10.13039/100006602National Academies of Sciences, Engineering, and Medicine
+10.13039/100009643 
+2
+
+## Human Health and Performance Biomarkers
+Biomarkers widely range in their appearance, secretion location, molecular weights, and physicochemical properties. We chose human body fluids, exhaled breath samples, and physical signatures as the representative biomarker types, and show a comprehensive list of these in Table  . This table provides an outlook of the range of biomolecules/analyte concentrations and measuments, aiming to help the readers glance into the scientific requirements and technical criteria for the corresponding biomarker sensor and monitor development. The four biomarker types: 1) biomarkers in body fluid (noninvasive), 2) biomarkers in body fluid (minimally invasive), 3) vapor‐phase biomarkers, and 4) noninvasive physical biomarkers on the skin, are described further to provide an insight into the recent research progress.
+ 2.1
+
+## Biomarkers in Body Fluid (Noninvasive)
+The gold standard for health‐based diagnostics is blood‐based, filtration‐free monitoring of biomarkers that regulate or are regulated by psychophysiological changes. However, direct insertion of sensors or devices into blood vessels is not practical for many reasons. Therefore, noninvasive biofluids (e.g., sweat, saliva, urine, and tears) are preferred pathways to sample biofluids. Many of these biomarkers either are signaling molecules such as hormones and cytokines, or are part of signaling pathways such as blood clotting markers. These biomarkers can range dramatically in terms of their phase/partitioning, size, charge density, and volatility. Aqueous‐phase analytes of interest vary from monoatomic ions, small molecules (e.g., steroid hormones and metabolites), and proteins (e.g., cytokines and chemokines). Neurotransmitters and hormones (both steroid and protein‐based) have been commonly looked at due to their ability to control and modulate physiological functions. Additionally, metabolites report on physiological activity and can be informative of biological processes. Urine detection is typically only used for point‐of‐care diagnostics for small molecules due to its variable dilution, low protein content, and periodic production. Therefore, for real‐time diagnostics, saliva, sweat, and tears are preferred biofluids for wearable sensing platforms. One of the existing challenges is that sweat, saliva, and urine have substantially decreased sample concentrations of typical protein biomarkers (<0.01 × compared to blood) due to filtration effects, especially for endogenous markers with HHP. Other biomarkers have unknown correlations; for example, it has been demonstrated that hormones found in saliva (cortisol, aldosterone, and testosterone) are currently unable to be correlated to concentrations in blood and serum.[
+ 
+] It has been hypothesized that sweat has levels of these hormones similar to concentrations of free hormones observed in the blood. However, many of the hormones of interest such as testosterone, have not yet been detected in eccrine sweat, which is more readily sampled and does not require collection on follicle‐ridden regions (i.e., armpits).
+
+2.2
+
+## Biomarkers in Body Fluid (Minimally Invasive)
+Sample variability due to the dilution of analyte levels from the filtration effect has led researchers to explore interstitial fluid (ISF), which is more invasive than monitoring excretory fluids. ISF has biomarker concentrations within an order of magnitude similar to that of blood/serum samples, making it a prime candidate for wearable biofluid sensors.
+ISF exists primarily in the dermis, ≈1–4 mm deep from the skin surface,[
+ 
+] thus the most difficult to extract than other body fluids. ISF flows around skin physiological elements such as sweat glands and capillary vessels,[
+ 
+] considered the most biologically rich. Mass spectral data have suggested that at least 80% of proteins found in serum are also found in ISF.[
+ , 
+] Other studies performed on rats have suggested that the protein expression similarities may be more significant than 95%, with additional similarities in the transcriptome (>75%); the transcriptome is even more similar if we assume that ISF is a combination of biomarkers from plasma and blood (>90%). More importantly, the concentration of these proteins is similar to blood (substantially higher than in noninvasive body fluids), with a comparison ratio ranging between 1:2 and 2:1 (ISF:Blood) protein concentrations. ISF in some cases has been demonstrated to be enriched in biomarkers in some mammals. For example, in rats, while the proteome itself was highly similar between blood and ISF samples, exosome proteins are found in an order of magnitude higher concentrations in ISF.[
+ 
+] Identification of biomarkers in ISF and the development of additional sensors for ISF both suffer from an inability to reproducibly extract ISF and deliver sufficient volumes (>10 s of μLs) to collectors and devices piercing capillaries and thus extracting blood. To solve these challenges, many types of research have explored the use of fluid manipulation techniques (e.g., microneedles and microfluidics) that can increase the sample's extraction reliability and integrity.[
+ , , 
+]
+
+2.3
+
+## Vapor‐Phase Biomarkers
+Breath analysis biomarkers include common gases such as O2, CO2 (hyperoxia/hypoxia), CO (inflammation),[
+ 
+] and NO (inflammation),[
+ 
+] as well as volatile and semivolatile organic compounds (VOCs and SVOCs). VOCs are defined as molecules with boiling points less than 250 °C, whereas SVOCs have boiling points between 250 and 400 °C. There are more than 1000 VOCs potentially offering abundant information about human status in exhaled breath. For breath VOCs and SVOCs, we observe hydrocarbons indicative of metabolic byproducts (i.e., acetone),[
+ 
+] isoprene,[
+ 
+] isopropyl alcohol (IPA),[
+ 
+] or fatty acid derivatives (i.e., pentane)[
+ 
+] that in some cases are indicative of inflammation (i.e., isoprostane).[
+ 
+] Substantial work is needed to correlate these biomarkers to the physiological state, but they remain promising.
+Some more recent studies have begun to demonstrate that VOCs serve as promising biomarkers to assess HHP. For example, changes in breath isoprene levels can indicate hypoxia, as it has been found to have a close correlation to acute hypoxic stress.[
+ 
+] IPA levels affect cognitive ability of the individual[
+ 
+] as IPA exposure contaminates breathing air and acts as an anesthetic to the central nervous system. Acetone is related to metabolic rate;[
+ 
+] The profile of acetone exhalation aligned well with the results from clinical studies of serum glucose regulation (metabolic activity). Toluene is related to chronic systemic intoxication;[
+ 
+] It causes mucous membrane irritation, decrements in central nervous system function and endocrine disruption. The current challenge for VOC detection is the ultralow concentration of biomakers in the exhaled breath. Due to the rapid movement of inhalation and exhalation (≈6 L min−1), the concentrations of breath analytes range within the ppt to ppb range requiring highly sensitive sensor modalities.
+
+2.4
+
+## Noninvasive Physical Biomarkers on Skin
+Noninvasive physiological measurements on human skin surfaces have been utilized mainly in clinical sectors due to their simplicity in measurement and ease of access. The skin physiological data have provided preliminary health information to the clinicians within a short period of time. For example, clinical sectors have utilized these physiological signals to monitor patient's vital signs in real‐time during surgery. A number of skin physiological readouts, such as temperature, conductance, elasticity, cardiac pulse wave, etc., can serve as biomarkers,[
+ , 
+] reflecting thermal/psychological stress levels. This section presents a few examples of physiological signals serving as biomarkers that can be noninvasively and physically measured on a skin surface.
+2.4.1
+
+## Mean Skin Temperature and Skin Conductance
+Mean skin temperature (MST) has been used as an indicative parameter for thermal comfort and stress levels[
+ , 
+] due to its close correlation to core body temperature. MST is calculated from 3 to 21 skin sites depending on the MST models. While the requirement of multiple temperature sensors is rather cumbersome for real‐time human status measurement, the MST is one of the most accessible and cost‐effective biomarkers to detect. The skin conductance is an excellent alternative to MST, reflecting thermal comfort levels and psychological stress levels depending on the skin region where the electrical probe is in contact. Skin conductance can be correlated to several physiological changes, such as sweat secretion.[
+ 
+] The electrical activity of palmar and plantar skin has shown to be strongly related to psychological stress.[
+ 
+] For example, skin conductance on the palm and volar wrist was positively related to chronic or acute stress levels.[
+ 
+] In the psychophysiology study, a variation in skin conductance change was shown to be an essential indicator of a sudden emotional change.[
+ , 
+] While skin conductance is easy to measure (similar to skin temperature), one is required to select the dermal area carefully and account for any motion artifacts due to the inherent nature of electrical measurement vulnerable to external noise sources (e.g., body movement and muscle activity).[
+ 
+]
+
+2.4.2
+
+## Mechanical Properties of Skin
+Mechanical properties of skin (e.g., skin elasticity and skin hardness) are widely used in dermatology and cosmetology to assess skin age or skin diseases.[
+ , 
+] A recent paper reported that skin hardness could serve as a physiological biomarker indicating human thermal status.[
+ 
+] The study focuses on hair follicles‐connected arrector pili muscles[
+ 
+] that contract and expand depending on human thermal status, providing measurable changes in skin hardness. Another paper demonstrated that morphological changes in arrector pili muscles known as “goose bump” could serve as a biomarker indicating sudden emotional changes.[
+ , 
+] Although such mechanical biomarkers are detectable, a sensitive detection scheme is required due to the narrow and low range of measurand.
+
+2.4.3
+
+## Arterial Pulse Wave
+The arterial pulse wave is a physiological phenomenon of the arterial system during blood circulation, including systolic and diastolic blood‐flowing activities.[
+ , , 
+] Arterial pulse wave has been one of the most representative biomarkers for estimating human physical and psychological states. The arterial pulse wave can indicate heart rate, which is essential information for human physical activity. The arterial pulse wave data is transformed to heart rate variability (HRV), defined as variations in time intervals between peaks of arterial pulsation. HRV is controlled by the autonomic nervous system, representing psychological stress changes and stress vulnerability.[
+ 
+] Cutaneous blood flow relates to the amount of blood, whereas arterial pulse wave is related more closely to a frequency domain. As the thermoregulation process in the human body controls blood flow, cutaneous blood flow in peripheral body regions such as fingertips and toes is closely related to the human thermal status. When a person feels hot or cold, peripheral blood flow increases or decreases to control core body temperature. While such noninvasive skin biomarkers can serve as a relatively straightforward tool to withdraw human status levels, they are susceptible to motion artifacts.
+
+2.4.4
+
+## Sweat Rate
+Sweat rate, the amount of water mass generated from the skin within a specific time and area,[
+ 
+] can serve as a thermal status‐related biomarker. The sweat rate has shown a linear relationship with core body temperature,[
+ 
+] implying its close relationship to human thermal comfort status. The sweat rate has the advantage of being measured on a small part of the skin and being insensitive to the motion artifact. However, sweat rate can only be applicable for the situations when people feel warm or hot. The reduction of sweat secretion in cold or cool weather inhibits the precise sweat rate measurement.
+The noninvasive skin physical biomarkers enable a straightforward measure of human status in real‐time. Thus, it is crucial to establish in‐vivo measuring schemes to capture such biomarkers appropriately. Skin sensor research has employed various sensing principles suitable for wearables to detect these physical biomarkers from the skin surface efficiently.
+
+3
+
+## Biomarker Sensing Principles
+Detection of biomarkers relies on determining changes in optical, mechanical, electrical, or electrochemical properties. Detection of analytes in biofluids is typically based on immunoprecipitation. Biorecognition elements (BREs) (Figure  .1‐2)[
+ 
+] are used to recognize the analytes. When enzymes are used, a biochemical reaction can generate a byproduct proportional to the analyte, providing another pathway toward detection (Figure  ). Of the sensing modalities available, electrical or electrochemical interrogation is often demonstrated due to the availability of mature technology for both generation and detection of electrical pulses, where sensor outputs correspond to analyte concentration including current, resistance, or potential changes (Figure  ). Fluorophore‐ and chromophore‐labeled detections are also available for optical measurement. In some cases, a reaction can then be leveraged to generate or amplify a signal using transducers (Figure  ). Several physical sensing principles based on optical, electrical, or mechanical properties detect the physical biomarkers. The following sections discuss the interplay between specific classes of biomarkers and sensing mechanisms for selective detection (Table
+ ).
+ 3.1
+
+## Direct Detection of Redox‐Active Analytes
+A limited number of redox‐active biomarkers exist in the body and can be detected without the addition of a BRE. They, instead, are detected directly by direct oxidation/reduction. These are small molecules and include the neurotransmitters of serotonin, epinephrine, norepinephrine, serotonin, dopamine, and specific hormones such as melatonin. Typically, these molecules contain substituted conjugated double bond systems (e.g., catechol) that allow for more labile transfer of electrons at specific electrochemical potentials. The potential of the oxidation/reduction then informs on the species, which can be determined by either square wave voltammetry (SWV) or fast scan cyclic voltammetry. To increase local concentrations at the electrodes, the sensor can be coated in negatively charged matrices that absorb the positively charged neurotransmitters. In wearable form, detection of norepinephrine has been demonstrated using a smart‐phone based SWV system[
+ 
+] leveraging Bluetooth communication with the reduction in size of potentiostats in conjunction with the increase in computational power in smart phones.[
+ 
+]
+
+3.2
+
+## Potential‐Based Measurements for Detection of Ions Using Ionophores
+Ions, by their nature, have a charge and thus can change the electrostatic environment upon binding to a BRE. Ionophores are BREs that recognize ions. Ionophores are primarily hydrophobic, allowing them to embed into hydrophobic membranes while retaining a polar binding pocket with a shape and charge density enabling selectivity to ions of interest (Figure  ).[
+ 
+] Detectable ions include oxygen‐rich functional groups such as ketones, ethers for positively charged ions, amine groups for negatively charged ions, and other reactive functionalities.[
+ , 
+] Numerous ionophores have been identified for various ions of interest, each with excellent selectivity toward the ions they bind. Commercially available ionophores have generally been demonstrated to have a selectivity of 2–3 orders of magnitudes toward the ion of interest.[
+ 
+]
+
+Most papers in the literature demonstrating real‐time biochemical analysis have used these ionophores in potentiometric sensors. The binding of an ionic analyte to the ionophore creates a charge separation and a measurable potential. Ion‐selective electrodes (ISEs) have been used for measurement of sodium (Na+),[
+ , , , , 
+] potassium (K+),[
+ , , 
+] calcium (Ca2+),[
+ 
+] and pH.[
+ 
+] In an exemplary case, the feedback provided from these ISEs has been used to correct the output signal of enzymatic sensors.[
+ 
+] ISEs have been incorporated successfully into microfluidic channels or patches in multiple cases, enabling temporal resolution.[
+ , , 
+]
+
+3.3
+
+## Current‐Based Measurements for Detection of Metabolites Using Enzymatic BREs
+Enzymes are among the most abundant BREs in nature for both multicellular and unicellular organisms. They can also be engineered for enhanced stability and/or turnover rate through genetic engineering.[
+ 
+] For biosensors, enzymes commonly show that the by‐product of catalytic conversion of the analyte is capable of being detected (Figure  ). Enzymatic sensors can be commonly classified into three generations based on the mechanism of electron transfer, and thus the compounds detected.[
+ 
+] 1st generation sensors use oxygen as the electron acceptor from the enzymatic cofactor (most commonly NADH, FADH2), and thus directly monitor the formation of hydrogen peroxide. 2nd generation sensors leverage a redox mediator, most commonly Prussian Blue, as the electron acceptor from the enzymatic cofactor. 3rd generation sensors create a conductive matrix in close enough proximity to the cofactor to enable direct electron transfer and detection; in many cases, this requires deglycosylation of the enzyme.[
+ , 
+] In alternative enzymatic detection schemes, the byproduct of an enzymatic reaction can be directly detected (such as when thiols are produced) or can be detected after a second enzymatic reaction. The second approach has been done for measuring acetylcholine, where the molecule is first cleaved to form choline plus acetate and then further oxidized to betaine aldehyde producing a redox‐active hydrogen peroxide molecule.[
+ 
+]
+
+Currently, wearable enzymatic sensors have demonstrated detections of lactate using lactate oxidase (LOx), FADH2 cofactor,[
+ 
+] glucose using glucose oxidase (GOx), FADH2 cofactor,[
+ , 
+] and ethanol using alcohol oxidase, FADH2 cofactor.[
+ 
+] These sensing demonstrations have been made using sweat derived through physical exertion and iontophoretic stimulation of sweat using a biochemical agent. In a more recent study, pH, temperature, and humidity were compensated to sensing signals to enhance the accuracy of the sensor.[
+ 
+] In most second‐generation sensors, Prussian blue has served as the redox mediator.
+While these initial proof of concept tests are promising, multiple problems have yet to be fully solved to confound sensor outputs for enzymatic measurements. For example, enzymes are known to have their activity impacted by salinity, pH, and temperature. For sampling interstitial fluid or blood, changes in salinity and pH are not observed due to the homeostasis of the fluid composition with respect to these parameters. However, for excretory fluids such as sweat and saliva, simultaneous measurement and compensation for the salinity, pH, and temperature is imperative to ensure accurate measurements. Additionally, enzymatic kinetics are highly flow‐rate dependent, especially for high‐turnover enzymes that locally deplete the target substrate. Sweat can vary with regards to flow rate by over two orders of magnitude. Therefore, monitoring of flow rate is imperative to proper enzymatic sensor function for sweat.[
+ , , 
+]
+
+Enzymes are prone to proteolysis and unfolding over time, especially upon losing their redox cofactors FADH2 and NADH. These cofactors have been shown to have low nm to high pm affinity for their substrates, with NADH cofactors bound more weakly than FADH2 cofactors. Sweat typically contains proteases that are important for the defensive characteristics of the skin barrier. Therefore, time compensation for loss of enzymatic activity must be accounted for or prevented through incorporating stabilization strategies on the immobilized enzyme onto a solid‐state matrix, such as a metal electrode.
+
+3.4
+
+## Impedimetric Measurements Based on Immunoprecipitation BREs
+Immunoprecipitation uses BRE to bind its analyte of interest (such as a protein or steroid hormone). The binding event triggers an electrochemical signal using redox‐active transducers (Figure  ). In nature, antibodies and membrane‐associated receptor proteins can rapidly sense and respond to multiple targets, detect environmental stimuli, and operate efficiently in complex biofluids by using an assortment of highly specialized biomolecules with high binding affinities and precise biological structures. Similarly, BREs have been widely used in biosensors to mimic the binding activity and function of naturally occurring biomolecules.[
+ 
+] The BREs include 1) biomolecules derived from natural sources (i.e., antibodies, odorant‐binding peptides), 2) peptides and DNA/RNA aptamers identified from large combinatorial libraries (>109 random sequences) including modified and nonnative nucleic acids, and 3) biomolecules designed in silico. Recently, in silico approaches were successfully used to increase the binding affinity of a troponin‐binding peptide (K
+d = 0.23 × 10−9
+m) to detect human cardiac troponin. The screening of combinatorial libraries has revealed new and unique target‐specific peptide sequences against viruses, bacteria, and HHPB.[
+ 
+] Consequently, for wearable sensors, the use of BREs is highly appealing to enhance and augment the overall performance and functionality of devices, achieve lower detection limits of targets, obtain greater target specificity and selectivity, and increase sensor response times, and eliminate fewer false positives. More specifically, fluorinated RNAs or hydrophobically modified DNAs[
+ , , , 
+] have provided higher selectivity and sensitivity, enabling lower limits of detection.
+Many high‐affinity receptors are membrane proteins or membrane‐associated proteins, as they bind, creating signaling cascades critical to intercellular communications.[
+ 
+] Membrane proteins are inherently challenging to synthesize as they require screening for detergents to solubilize and stabilize the membrane protein to maintain its functionality. Even then, the stability of the membrane protein and sensitivity to external conditions present challenges.[
+ 
+] Therefore soluble proteins are preferred as protein receptors.
+The traditional soluble protein BRE is the antibody, which is 150 kDa and is produced from recombining exon fragments to identify sequences that bind to the receptor of interest. However, size and stability issues have caused the exploration of smaller fragments. Nanobodies or single domain nanobodies are simply subfragments of antibodies from the variable chain region,[
+ 
+] retaining a high level of specificity to their substrate. Whilst numerous studies have used protein BREs in electrochemical sensors, very few have demonstrated them in a wearable platform. Most recently, cortisol was measured in graphene utilizing a cortisol antibody as a receptor for a competitive assay. An antibody was grafted onto the graphene surface, and both free and HRP modified cortisol competed for the antibody binding site using a “reagent‐added” scheme.[
+ 
+] This schematic used for offline analysis could still be deployed into a wearable device.
+The integration and effectiveness of current BREs with wearable devices suffer from multiple challenges to date. These include achieving reliable and reproducible biofunctionalization of wearable device components and complementing material surface chemistries with BREs. Also, there is a need to increase the thermal stability and shelf‐life of BREs to extend the operation of wearable devices. To overcome biofunctionalization issues, BREs have been engineered for material binding by the addition of graphene‐ and gold‐binding peptides,[
+ , , , 
+] synthesis of thiolated aptamers, and cysteine modified peptides,[
+ , 
+] and by the introduction of ligands or cross‐linkable groups for immobilization to sensing material.[
+ , 
+] For example, carbon nanotubes were biofunctionalized with an odorant‐binding peptide from honeybees by creating a fusion peptide with a carbon nanotube binding peptide to detect trinitrotoluene.[
+ 
+] The use of transducers for converting binding events into measurable signals will be discussed in Section 4.
+
+3.5
+
+## Direct Detection of Noninvasive Physical Biomarkers on Skin
+Noninvasive physical biomarkers on the skin can be measured by several conventional electrical, thermal, mechanical, optical, or fluidic sensing principles depending on the target biomarkers. The direct biomarker measurements on the skin need to comply with the product biocompatibility and safety standards and use only minimally chosen measurable skin parameters as sensing stimuli. This section briefly describes representative sensing principles for a few such physical biomarkers satisfying above requirements (Figure  ).
+ Skin temperature measurements mainly utilize a thermocouple or a resistance temperature detector (RTD) due to their benefit of simplicity and manufacturability as a miniaturized platform. The thermocouple method[
+ 
+] consists of two different metal wires where one end is opened (physically disconnected) and the other end is electrically connected. The voltage difference between the metal wires occurs depending on the temperature at the connected end spot. The other open ends are used as electrodes to capture the voltage difference. An RTD utilizes a single metal material where the resistance of the metal is changing depending on the temperature (Figure  ).[
+ , 
+] Commonly used metals are platinum and copper due to their high temperature coefficient of resistance.
+Meanwhile, skin conductance measurements mainly utilize the 2‐wire resistance principle (Figure  ),[
+ 
+] which is the simplest and easiest way to measure epidermal resistance by Ohm's law (resistance expressed by voltage divided by current). By applying a constant voltage to a specific skin region, the measured current can provide a resistance value indicating the skin conductance value. It is also possible to detect skin impedance by measuring AC profile to provide skin depth information. Skin conductance measurements have specific guidelines in terms of size and distance of electrodes as well as the skin interface method used to ensure reliability and accuracy.
+Measurement of skin mechanical properties requires the careful design of the sensors since the skin is highly elastic and is not rigid. Thus, the skin sensor needs to record the skin modulus at much higher sensitivity than a typical solid mechanical characterization sensor. The most widely used principles to measure skin mechanical property are based on suction method[
+ 
+] and indentation method.[
+ 
+] The suction method applies negative pressure to a specific region of the skin surface to observe pressure‐induced skin deformation. Increased deformation indicates more elastic skin properties and vice‐versa. The indentation method (Figure  )[
+ 
+] uses sharp indenters to push the skin surface allowing for the detection of repulsive force from skin.[
+ 
+] This force is produced due to the response from indentation where the higher skin hardness provides the stronger the repulsive force.
+For the indirect and noninvasive estimation of blood circulation conditions, arterial pulse waves can be measured using either optical principles using photoplethysmography (PPG) or mechanical principles using a piezoelectric membrane. PPG utilizes two components, a light source and a photodetector (Figure  ).[
+ 
+] When the light source exposes lights to the skin, the reflected or transmitted light density changes depending on blood flow. The photodetector then captures the change in light density which directly reflects the arterial pulse wave. Piezoelectric membranes detect pressure differences in blood vessels between systolic and diastolic events where the pressure differences cause deflection of the membrane.[
+ 
+] Depending on the deflection, piezoelectric membranes generate voltages producing pulse wave signals. Since a normal blood pressure range sits between 40 and 120 mmHg at the frequency of 0.83–3.66 Hz,[
+ 
+] piezoelectric membranes should be sensitive with a fast response time for deflection.
+Sweat rate measurement generally focuses on the amount of sweat evaporated from the skin surface.[
+ 
+] Sweat rate measurements use humidity collecting chambers and humidity sensors to measure the amount of evaporated sweat, water vapor. The sweat rate parameter is obtained by the change in humidity when the humidity chamber collects water evaporated from the skin. Dramatic changes in humidity mean an increased rate of sweat production (Figure  ).[
+ 
+] There are a number of sweat rate measurement types, such as open‐chamber type and closed‐chamber type, where open‐chamber type is more straightforward but less stable, and close‐chamber is more stable but needs additional components to ventilate the chamber regularly.[
+ 
+] Recently, microfluidics‐based sweat rate measurements[
+ , 
+] have been developed. Capillary force results in sweat on the skin into a microchannel, and the total volume of sweat is calculated based on the channel length filled with water. Microfluidics‐based sweat rate measurements have become a promising platform due to their compatibility with biochemical sweat sensing.
+
+4
+
+## Transducers
+A transducer is a device that converts energy from one form to another. BRE‐based biomarker sensors (typically for label‐free BREs) require appropriate transducers to convert binding events between receptors and targets into measurable signals. As BRE research has emerged as a promising technology for selective sensing, the selection of transducer and its specific design dominantly determine the key features of the sensing platform as a wearable or portable monitoring system in terms of a type of signal output and size of the overall platforms. Therefore, understanding the principle and fundamental structure of transducers is important to design BRE‐based sensor platforms. Among several types of transducers, we choose the most broadly used transducers that include 1) electrochemical impedance spectroscopy/square wave voltammetry, 2) field‐effect transistors, 3) quartz crystal microbalances and cantilevers, 4) enhanced surface plasmon resonance, and 5) colorimetric principles. The following sections discuss working principles and recent advances of these transducers that have been utilized for human status monitoring applications (Table  ).
+ 4.1
+
+## Electrochemical Impedance Spectroscopy and Square Wave Voltammetry
+Impedance‐based biosensors (Figure  )[
+ 
+] rely on the use of AC waveforms to interrogate the real and imaginary impedance of a given chemical system.[
+ 
+] Impedance sensors have been deployed for a variety of targets (e.g., proteins,[
+ 
+] small molecules,[
+ , , 
+] and oligonucleotides)[
+ 
+] where both the redox reporter was in solution and directly attached to the BRE. For sensing applications, reagent‐less detection is preferred as it mitigates the requirement to add and partition a reagent, circumventing the need for complicating microfluidics. However, reagent‐less detection often requires selecting structure‐switching aptamers and re‐engineering aptamers.[
+ 
+]
+
+ To date, little work has been done on in vivo/wearable sensors for large analytes. One of the most promising recent studies measured the aminoglycoside kanamycin in an ambulatory rat.[
+ 
+] This study developed multifrequency techniques to minimize the impact of drift, demonstrating antifouling techniques such as the filtering of proteins. Other promising work has demonstrated the efficacy of these sensors using anti‐fouling self‐assembled monolayers (Figure  ),[
+ 
+] suggesting that this platform is translatable to a wearable device. Electrochemical impedance spectroscopy (EIS) and SWV have been demonstrated recently on flexible platforms using interdigitated electrodes and an integrated sensor with interdigitated wedges.
+The development of BREs that are compatible with this technique is the primary challenge to implementing these sensors in sweat, saliva, and ISF. The concentration of analytes that are preferred to be detected using impedance‐based methodologies ranges drastically, from micromolar concentrations for select hormones to sub‐picomolar concentrations for most protein biomarkers. The development of high‐affinity aptamers with dissociation constants at time scales consistent with real‐time measurements will be critical for long‐term applicability and deployment. Additionally, pH variability needs to be addressed as pH[
+ , , 
+] levels impact the binding event and the most commonly used methylene blue reporter tag.
+
+4.2
+
+## Field‐Effect Transistors
+A field‐effect transistor (FET) (Figure  )[
+ , 
+] became popular in the 1980s[
+ 
+] as it could offer rapid electrical detection of charged molecules (targets) in a label‐free manner. FET‐based sensors promised low power consumption, miniaturization, portability, and the potential for on‐chip integration for sensing targets with a positive or negative charge. Although initial work on FETs started with conventional planar FETs,[
+ 
+] nonplanar geometries such as nanowires and nanotubes[
+ , 
+] have demonstrated better sensitivity and soon became more attractive for FET development. Generally, the sensitivity of FET depends on electrostatic modulation (using an electrolyte gate) of charged carriers in the conduction channel (which can be a semiconductor or semimetal) by the charges present in the target. Such modulation can be detected by flowing current through the conduction channel using source and drain electrodes. For a fixed number of charges in the target, an FET will show a higher sensitivity when there is an equivalent number of charged carriers in the channel. Therefore, target biomarkers can be sensed at a very low concentration (e.g., pm) using dimensionally constraint FET channels with large surface areas and shallow channel thickness as available in FET‐based sensors made with nanowire, nanotube, or monolayers of 2D materials like graphene and MoS2. Sensitivity in such a sensor can be increased by reducing the free carriers by introducing defects in the channel or forming a channel whose conduction is near the percolation threshold for conduction. In addition to sensitivity, the dimension of the channel also affects the response time measured in an FET. Generally, a low‐dimension channel requires a shorter response time due to the smaller diffusion time needed for targets to reach a smaller dimension channel surface.[
+ 
+] Measurement of electrical response for an FET is generally performed in DC mode by applying a DC voltage across two electrodes (source and drain) that connect the channel.[
+ , 
+] Alternately, a heterodyne AC signal and lock‐in amplifier can be used to measure the response.[
+ , 
+] Sensor response in DC mode is measured by monitoring either the voltage shift at a particular current level or the current change at a particular voltage. For voltage shift estimations, quantities like threshold voltage shift (for conventional FET) and Dirac voltage shift (for graphene FET) are often used. The magnitude of these voltage shifts depends on the electrostatic interactions between the target and charged carriers in the channel and are estimated using electrochemical analysis of the liquid‐solid interface present at the sensing surface of the FET. The Gouy–Chapman–Stern model[
+ , 
+] is advantageous to analyze this liquid‐solid interface and allows one to explain the log‐linear sensor response (similar to the Nernst equation used in general electrochemistry) of the FET measured by varying concentration of targets. At a fixed concentration, only the charges from the portion of the target molecule lying within a screening length are detected by the FET. Targets lying outside this length are screened by the ions in the electrolyte solution and not sensed.[
+ , , 
+] The screening length equals the thickness of the Stern layer and electrical double layer (the second layer is called the Debye length) formed by the ions in the electrolyte solution. As the screening length varies with the composition and the concentration of the electrolyte used in the FET,[
+ , 
+] ions in electrolyte critically define the sensitivity of the FET (in fact, any potentiometric) sensor. A recent study shows the reduction in the response of FETs (made with graphene channels) with the increase in the ionic concentration of the electrolyte for a wide range of targets (Figure  ).[
+ 
+] The response can be improved by relaxing the screening effects when a heterodyne AC signal and a DC bias are applied to the FET to measure the response. The response can also be improved using a permeable polymer layer at the sensor surface that effectively increases the screening length.[
+ , 
+] This method allows measuring the response from the change in source/drain current monitored at a gate bias near the subthreshold region of the FET[
+ 
+] or using an inherently charged BRE that changes conformation, and thus the electrostatic environment closest to the electrode (APTA‐FET). The reduction of charge screening effects will make FETs more desirable for real‐time sensing of charged targets.
+
+4.3
+
+## Quartz Crystal Microbalances and Cantilevers
+Acoustic transducers generate signals in the form of frequencies. Measurable change in resonance frequency occurs depending on the mass changes due to binding events between receptors and target biomarkers. Frequency signals are fundamentally sensitive to target detection and provide real‐time and continuous measurements.[
+ 
+] Representative acoustic transducers are quartz crystal microbalance (QCM) and cantilever. A QCM (Figure  )[
+ 
+] is a generally used acoustic transducer with a standard structure and dimensions composed of a piezoelectric quartz crystal sandwiched between two gold electrodes. A QCM captures a mass variation in a specific area by detecting the changes in the frequency of a quartz crystal resonator.[
+ 
+] By immobilizing receptors onto the surface of the acoustic resonator, the resonance changes by the addition of a small mass due to biomarkers binding.[
+ 
+] QCMs have broad applicability to HHPM as they operate under vacuum as well as gas and liquid phases.[
+ 
+] Some examples of research progress include a twin QCM system integrated with flow injection analysis for the sequential detection of cortisol,[
+ 
+] an aptamer‐functionalized QCM for the detection of thrombin,[
+ 
+] and a peptide‐functionalized QCM for the detection of trypsin.[
+ 
+]
+
+The cantilever method can be used in both static and dynamic modes.[
+ 
+] Static mode is related to the electromechanical principle that uses deflection of the cantilever membrane due to a binding event on the cantilever surface. This deflection of the flexible cantilever beam is measured by piezomaterials located at the edge of the cantilever. Dynamic mode is related to acoustic measurement. In this mode, cantilevers act as harmonic oscillators, and resonance frequency changes are measured when additional biomarker molecules are attached to the oscillating cantilever. The cantilever (Figure  )[
+ , 
+] generally offers a more customized structure and reduced dimensions than QCM.[
+ 
+] A few review papers specifically dealt with cantilever biosensors, including micro/nano‐fabricated structures[
+ 
+] and dynamic modes.[
+ 
+]
+
+Whilst several cantilever‐based sensors have targeted biological and chemical analytes such as proteins and RNAs, not many researchers have focused on the detection of HHPB. One of the studies for HHPB utilized a conjugated polymer (oxaborole polymer + glycopolymer) as a sensing material to detect dopamine[
+ 
+] selectively. This polymer was deposited onto a cantilever surface to induce deflection change due to dopamine displacement on the polymer layer. While it achieved high sensitivity with a limit of detection of 5 × 10−11 mol L−1, the authors indicated that microcantilevers need to overcome challenges associated with response time and stability. Other study deposited a chitosan layer onto a cantilever surface to detect dopamine. By using an oxidizing process, dopamine's oxidation product was reacted with a chitosan sensing material resulting in cantilever bending with a tensile stress of 1.7 MPa.[
+ 
+] It also demonstrated chitosan's selectivity to dopamine by comparing it with ascorbic acid with little to no response. Some study utilized antibodies to detect the cardiac biomarkers creatine kinase and myoglobin.[
+ 
+] Cantilever surface stress was generated by antigen–antibody molecular interaction, resulting in a sensitivity of 20 µg mL−1. This work utilized an array‐type cantilever to detect multiple proteins and form a reference cantilever to eliminate noise factors such as thermal drifts and turbulences from undesired external events. While having favorable characteristics of continuous measurement and miniaturized size, cantilever‐based sensors still have challenges in practical aspects such as stability, durability, response time, and reproducibility. A recent study demonstrated a 3D printed microcantilever for biosensing applications (Figure  ).[
+ 
+] This work suggested a one‐step printing strategy to fabricate cantilever arrays with intrinsic functionalization, showing promising results that can overcome reproducibility and fabrication complexity issues.
+
+4.4
+
+## Enhanced Surface Plasmon Resonance
+Plasmonically active metals (Ag, Au) respond to changes in the local surrounding environment (electronic, polarization, and refractive index) from binding events near the metal surface. These binding events come in the form of intense localized surface plasmon resonances (LSPR) for single metal nanostructures or surface plasmon resonances (SPR) in thin metallic films (Figure  ).[
+ 
+] Additionally, plasmonic metals also participate in surface‐enhanced Raman scattering and plasmonic enhancement of fluorescence by exhibiting intense electromagnetic field enhancements that result in single molecule detection and amplification of fluorescence. LSPR measurements have been extensively used to determine binding affinities of antibody–antigen interactions with high accuracy, limits of detection, and as a basis for the fabrication of a variety of biosensors.[
+ 
+] However, their use in wearable sensors is much more limited in practice due in part to the sensitivity of optical properties of the environmental (temperature) and mechanical forces (stress, strain). More so, miniaturization requirements of components (spectrometer, light source) for integration with plasmonic sensing elements[
+ 
+] continue to provide issues for functional sensing platforms. Conceptually, LSPR measurements of single nanostructures overcome issues associated with mechanically induced optical changes from bending or stretching and, as a result, are more amenable to the development of wearable plasmonic biosensors. Notably, LSPR offers label‐free and real‐time measurements, low cost, high sensitivities, and compatibility with multiple fabrication methods and substrates.[
+ 
+] Recent advancements in the controlled synthesis of gold nanostructures have enabled tunable plasmonic properties, high monodispersity, and uniformity with respect to nanomaterial size, shape, and the ability to be scaled up to gram quantities.[
+ 
+] In all, these advancements in nanomaterial processing steps will lead to greater device reproducibility, increased manufacturability on a commercially viable scale, better performance and rapid development, and deployment of wearable plasmonic biosensors.
+For the fabrication of wearable plasmonic biosensors, paper (cellulose), optical fibers (silica), and polydimethylsiloxane (PDMS)‐based microfluidics (lab‐on‐a‐chip) represent the most promising platforms for plasmonic devices and pertinent examples of current plasmonic sensing technologies. Paper substrates offer a simple, inexpensive, flexible, robust, and disposable platform to stabilize optically active gold nanostructures against aggregation for microfluidics and separation of chemical compounds. For example, the immobilization of gold nanomaterials on filter paper imparted stabilization to particles against acids, bases, salts, alcohols, heating, freezing, and organic solvents.[
+ 
+] To create plasmonic paper, gold nanostructures are adsorbed onto paper substrates with high nanoparticle loading by exploiting the simple adsorption and wicking processes of paper. Consequently, this produced a highly sensitive plasmonic paper device, when functionalized with BREs, to sense and detect biological targets.[
+ 
+] For example, the LSPR response of peptide‐functionalized gold nanorods immobilized on paper was utilized to detect low pm concentrations of human cardiac troponin.[
+ 
+] In addition to paper, dielectric waveguides in the form of optical silica fibers are ideally adapted for plasmonic measurements by directly coupling light propagation through an optical fiber to an LSPR active metal coating. In this optical configuration, the light source is integrated with an optical fiber and gold film to yield a responsive plasmonic sensor capable of interrogating binding interactions on the gold‐coated optical fiber tip by monitoring changes in the extinction spectra. As a result, optical plasmonic fibers have been effectively used as implantable sensors, medical diagnostics, and portable devices for environmental and food testing. Tilted fiber Bragg gratings imprinted on optical silica fibers were coated with a 50 nm gold film via sputter coating and functionalized with an antibody against a cancer antigen for SPR detection and diagnosis of cancer (Figure  ).[
+ 
+] Additionally, fiber optic‐SPR sensors modified with borate polymers were used for the selective detection of glucose.[
+ 
+] Similar to paper and optical fibers, the integration of gold with PDMS has enabled the creation of microfluidic plasmonic chips for lab‐on‐chip applications. Generally, these platforms offer low sample volume, complex microfluidic designs, low cost, and high‐throughput manufacturing. For sensing, plasmonic‐based microfluidic sensors were created to detect bovine growth hormones using in situ grown gold nanoparticles functionalized with antibodies deposited within microfluidic channels.[
+ 
+] In this system, the plasmonic lab‐on‐chip device showed a sensitivity of 74 nm per RIU (refractive index units) and a detection limit of 185 × 10−12
+m for growth hormones.
+Collectively, these examples demonstrate the potential benefits of utilizing plasmonic materials on paper, optical fibers, and PDMS for wearable optical devices. By comparison to other nonoptical methods, the benefits of plasmonic sensors include lower limits of detection due to sensitivity of LSPR, ease of functionalization with BREs using gold surface chemistry, detection of a broad spectrum of biomarkers, ability to operate in complex biological fluids and simple integration on a variety of different substrates. The remaining challenges include 1) balancing the level of sensitivity with the distance between the optically active gold surface and the bound target imposed by the size of the BRE, 2) integration of plasmonic sensing platforms with off‐the‐shelf wearable components, and 3) needed improvements in miniaturization and packaging to accommodate a wearable and lightweight platform. In the near future, we envision the development and uses of alternative plasmonic materials beyond Au and Ag for wearable optical biosensors such as Al and Cu, bimetallic alloys and nanoparticle superlattices, reliance on machine learning for better plasmonic sensor design and performance, and continued miniaturization of components with an emphasis on micro‐spectrometers and smart phone compatibility.
+
+4.5
+
+## Colorimetric Measurement
+Colorimetric measurement detects a target biomarker through color changes observed by bare eyes or optical detectors for the quantitative measure. Generally‐used common colorimetric materials include color‐responsive dyes and metal nanoparticles that change their colors in response to target biomarkers. Color‐responsive dyes are usually used in either enzymatic sensors where the specific dyes interact with byproducts produced by enzyme binding events[
+ 
+] or photonic sensors where the chemically designed dyes interact with specific wavelength.[
+ 
+] The use of metal nanoparticles such as gold and silver nanoparticle is based on the plasmonic effect resulting in colorimetric shift.[
+ 
+] For example, gold nanoparticles with purple color in ionic solution change their color to red in the presence of a target molecule (dsDNA) due to the plasmonic absorption of the dispersed nanoparticles (Figure  ).[
+ 
+]
+
+The Rogers group has intensively focused on colorimetric materials to detect biomarkers. The biomarkers were temporally resolved either through the use of microfluidic channels that progress clockwise around a patch with colorimetric sensors or through a continuous flow of sweat in a well containing saturated pH or chloride‐sensitive dye that can be used to measure flow rate analyte concentration.[
+ , , 
+] Enzymatic sensors can be created by relying on first‐generation principles, where the generation of hydrogen peroxide reacts with iodide in the presence of peroxidase to yield a color change from yellow to brown for glucose. The redox mediator NADH is consumed by formazans using diaphorase enzyme catalysis to mediate the generation of colorimetric changes (Figure  ).[
+ 
+]
+
+The benefits of these methodologies are simplicity and the potential for a low cost. The drawback to this methodology is the need for the user to take a picture, thus reducing the ability to obtain real‐time data and the loss of time resolution from using larger pooled samples by definition averaged over time. For enzyme applications, the same limitations apply, as discussed in the above section on enzymatic sensors.
+
+5
+
+## Practical Challenges on Wearable Human Heath and Performance Monitoring Sensors
+Due to many physical, chemical, and biological variables in the operational setting, the biomarker sensors should have additional specific features to mitigate such environmental challenges. The features discussed below focus on wearing comfort, fluid manipulation, and enhanced sensor performances for stability/durability, continuous operation, and power management.
+5.1
+
+## Skin‐Conformal Platforms
+Flexible and stretchable substrates can be directly applied to the skin with conformal contact, which offers significant advantages over rigid substrates in the direct measurement of biomarkers from the skin surface. A number of representative research groups have demonstrated a variety of flexible and stretchable platforms noninvasively detecting biomarkers found on the skin.
+One of the research groups has demonstrated nanoscale ultrathin silicon substrates offering flexible mechanical characteristics to the semiconductor channel.[
+ 
+] Nanometer‐thick flexible semiconductor substrates, along with flexible materials such as polyimide (PI), ecoflex, and polyethylene terephthalate (PET), the group has shown various wearable skin sensors reporting physical biomarkers including skin temperature[
+ , , , 
+] skin impedance (hydration),[
+ , , 
+] sweat rate,[
+ , , 
+] blood flow,[
+ , 
+] skin mechanical property,[
+ , 
+] and cardiogram.[
+ 
+] An epidermal electronic system was built to measure the thermal properties of human skin (Figure  ).[
+ 
+] This epidermal system utilized an ecoflex silicone layer as a substrate on which PI insulation layers sandwiched gold electrodes. The 100 µm thin structure enabled a skin‐conformal thermometer capable of monitoring the blood flow and hydration status.
+ Another group has utilized flexible substrates such as PET, PDMS, and polyetherimide to build wearable sweat sensors detecting electrochemical biomarkers including Ca2+,[
+ 
+] pH,[
+ 
+] glucose,[
+ , 
+] Na+,[
+ 
+] K+.[
+ 
+] While focusing on sweat compositions, the group recently worked on tactile sensors targeting physical biomarkers on human skin (Figure  ).[
+ 
+] Microfluidics‐based diaphragm pressure sensors with a Wheatstone bridge design enabled measuring low ranges of pressure stimulation from pulse waves and tactile forces. To realize the detection limit of sub‐100 Pa pressure, a Galinstan‐filled 70 µm microchannel was utilized to form diaphragm‐type pressure sensors. The tactile sensor was used to report heart rate and haptic information as gloves or wristband‐type platforms.
+Tattoo‐type skin sensors[
+ 
+] have been developed by another group, where temporary transfer tattoo‐based paper is used as the main substrate. The group has shown tattoo‐like sensors detecting Na+,[
+ 
+] glucose,[
+ , , , 
+] and lactate[
+ , 
+] in sweat and saliva. One of their more recent work showed tattoo‐type sensors utilizing a sweat‐based epidermal enzymatic biosensor to assess Vitamin C levels (Figure  ) on the skin.[
+ 
+] An immobilized ascorbate oxidase on the tattoo‐based flexible substrate was used to electrochemically monitor time‐dependent nutrition level from the saliva or tear samples.
+While skin‐conformal sensors have emerged as promising wearable platforms, fabrication faces challenges due to the time‐consuming and complicated procedures with low yield rates and poor reproducibility. Recent flexible skin biomarker sensors started widely adapting advanced fabrication techniques such as roll‐to‐roll printing, screen printing, and 2D inkjet printing techniques, which significantly simplify and expedite the fabrication process without conventional MEMS cleanroom facilities. One example of such printing techniques utilized roll‐to‐roll gravure printed electrodes with a minimum width of 0.5 mm, which potentially enabled mass fabrication with up to 150 m PET substrate roll and simplified the fabrication procedures[
+ 
+] while producing high‐quality sensor units. The demonstrated electrochemical sensors fabricated by this method also measured potassium, sodium, and glucose. We anticipate that such advanced fabrication techniques will play significant roles.
+
+5.2
+
+## Body Fluidics
+Sample collection is a critical step in any real‐time analysis. However, most noninvasive biofluids are not typically produced or extracted at sufficiently high rates. While the human body typically produces between 0.5 and 1.5 L of saliva per day and thus continuously provides a moist environment for embedding a sensor,[
+ 
+] sweat and ISF extraction produce additional problems that have been addressed using multiple methods. The problem with a sampling of sweat is that sweat rate varies drastically, even within an individual, depending on hydration level, heat stress, and exertion. Under many conditions, the sweat rate will be too low to enable noninvasive sampling. Therefore, artificial stimulation of sweat has been explored using small molecules (e.g., carbachol[
+ 
+] and pilocarpine[
+ , , , 
+]) that stimulate either the muscarinic or nicotinic receptors within the sweat gland. These drugs are delivered into the sweat gland to stimulate sweating using iontophoresis, typically performed for sweat rate tests that enable the detection of cystic fibrosis. Pilocarpine is known to have a relatively short half‐life compared to carbachol, a homolog to acetylcholine that uses a carbamate instead of an ester functional group, prolonging half‐life by preventing hydrolysis by acetylcholine esterase; This results in a sweat response that lasts on the order of hours instead of minutes.[
+ 
+] Few research works have demonstrated the analyte changes upon stimulated sweat secretion versus natural sweat secretion and which (if either) serves as a better biofluid for monitoring biomarker changes. In theory, both simulated and natural sweats should have the same analyte ratios, as it is hypothesized that analyte secretion into the sweat gland occurs through a sweat rate‐independent pathway. The secretion of molecules into the sweat is constant, and therefore as sweat rate increases, the concentration in the sweat decreases.[
+ 
+] Therefore, analyte concentration and their relative ratios may be used in lieu of sweat rate measurements to correlate biomarker expression to physiological states.
+Iontophoresis has been applied previously to enhance analyte flux from the analyte‐rich interstitial fluid to sweat, most notably the Glucowatch,[
+ 
+] to measure flux and link it to physiological events. In short, the flow of sodium ions toward the anode coating the negatively charged surface of the cellular membranes produces an ionophoretic field that causes nonpolar molecules to migrate toward the electrochemical cathode. However, the flux is relatively small, consistent with the extracellular matrix of cells, providing a high resistance path to extract analytes of interest. Recent efforts on miniaturizing iontophoresis devices to a tattoo made them easier to implement as wearable sensors.[
+ 
+] Improvements are still needed to further increase the analyte flux to levels close to those found in interstitial fluid. Iontophoretic delivery of a chelating agent could break apart the tight junctions through sequestration of calcium, substantially increasing the flux of analytes in conjunction with reverse iontophoresis (Figure  ).[
+ 
+] A similar approach has been used previously in gut epithelium to improve drug delivery,[
+ 
+] but never for analyte extraction. More systematic work remains to obtain controlled parameters or understand the link between analyte concentration in sweat and iontophoretic current. Nonetheless, the ability to enrich sweat using a combination approach is highly promising and shows great potential in bridging the gap between sensor performance and analyte concentration.
+ ISF provides a compromise between invasive biofluids such as blood and noninvasive biofluids such as sweat. ISF requires piercing of the skin, typically via microneedles, into the dermis, through the epidermis. However, the shallowness of the needles prevents the piercing of capillaries and, thus, the extraction of blood. Moreover, the risk of blood‐borne pathogens in the resulting regions bypassing the intrinsic defenses of the skin barrier (proteases, antimicrobial peptides, and tight junctions[
+ 
+]) remains a critical challenge. ISF must be extracted, allowing for the control of flow rates to the device. Often, this relies on wicking principles to overcome the ISFs viscosity, especially in the fibrous extracellular matrix created by the collagen matrix. Both hollow needles[
+ 
+] and hydrogels have been explored for fluid extraction. The use of hollow needles has demonstrated substantially greater extraction of ISF, hypothesized to be due to the inherent flow restrictions with any polymer‐based methodology (Figure  ).[
+ 
+] Additionally, hollow needles are presumed to be free of analyte filtration effects that may be problematic with any polymeric matrix. Osmotic pumping has been demonstrated to increase extraction rates that can be simulated by applying a vacuum or other pressure‐based forces.[
+ 
+] However, the difficulty of integrating these recent findings into wearable/portable real‐time sensors has prevented their deployment. To date, the sensor is embedded as part of the microneedle (most typically for enzymatic[
+ 
+] and potentiometric[
+ 
+] sensors), and perfusion is used to pump and extract the ISF[
+ 
+] actively.
+
+5.3
+
+## Miniaturization Strategies
+Aside from sampling and sensing of biomarkers, integration into wearable platforms poses a significant challenge for sensor development, particularly when packaging into the suitable form factor. More device per unit area of skin demands smaller electronics, patches, interconnects, communication, and power systems. Recent progress in nano/microfabrication techniques has dramatically enabled the miniaturization of such systems suitable for portable/wearable sensor platforms.[
+ 
+] It has been essential to integrate multiple biomarker sensors, and thus the design of an efficient device structure has been emphasized to maintain the total platform size. One example is to design multilayers or efficient form factors to integrate multiple sensors to increase space efficiency and reduce sensing area.
+A few research works deployed this specific multilayer structure to realize multimodality without size increment. For example, physical/chemical sensor arrays demonstrated a capability of measuring three biomarkers on a biopsy needle (Figure  ).[
+ 
+] Electrodes for a conductivity sensor were patterned in the middle of each electrode for glucose and pH sensing applications, achieving the fabrication of the multimodal sensors placed on the surface of the small‐diameter needle. This multi‐insulation layer‐based design allowed the downsizing the sensing platform to fit the needle. A recent work demonstrated the fabrication of a stress monitoring patch with a size comparable to that of a stamp (25 mm × 15 mm × 72 µm) while measuring multiple physical biomarkers such as skin temperature, skin conductance, and pulse wave (Figure  ).[
+ 
+] This monitoring patch utilized multi‐layer integration on the pulse wave sensor by using a polyimide substrate with windows to make strategic stacking of add‐ons (i.e., temperature and conductance sensors), resulting in a multimodal patch with high flexibility. Meanwhile, the design of a specific form factor has also been deployed to optimize multimodality. One of the recent studies demonstrated a skin probe that enabled three different biomarker measurements (Figure  ).[
+ 
+] The skin probe included a truncated hollow cone probe[
+ 
+] housing a force sensor, a thermometer, and a conductance sensor with the capability to measure a sweat rate. The narrow end and closed hollow structure characteristics enabled adequate skin hardness and sweat rate detections, enabling one to measure three different physical biomarkers simultaneously.
+ The above research progress implies that multilayer structure and form factor‐efficient design integrated with multiple biomarker sensors are promising strategies to achieve miniaturized wearables conforming to the body for maximum user comfort.
+
+5.4
+
+## Environmental Stability
+Biomarker sensors for either wearable or on‐site detection in the operational setting commonly face inconsistent environmental/chemical exposures, unlike controlled laboratory settings. Moreover, the human body adds movement as an additional physical interference factor that affects the stability of the wearable sensor. In particular, physical biomarkers such as pulse waves and blood flow are heavily valuable to body movement. For example, contact force variation causes more than 70% differences in measurement results for the pulse wave measurement.[
+ 
+] While conventional methods address this issue by applying a constant pressure using a spring clip, it commonly fails to prevent measurement variations from body movement‐induced contact force changes. Integration of the force sensor into pulse wave or blood flow sensors was utilized to compensate the measurement depending on the level of the force measured in parallel with pulse wave or blood flow measurement.[
+ 
+] However, adding force sensor does not fundamentally solve the contact force effect since the compensation coefficient differs from person to person and site to site. The integration of a force regulator with a PPG sensor (Figure  )[
+ 
+] was demonstrated to solve this issue. The integrated force regulator keeps a constant contact force between skin and a PPG sensor, realizing consistent and stable PPG measurement results independent of body movements.
+ Biochemical sensors that utilize binding receptors rely on the physicochemical reactions and are thus critically affected by surrounding environmental conditions such as temperature, humidity, ions, and pH. In order to obtain accurate detections under such environmental variations, several research groups have integrated additional sensing elements that report the ambiance. One study, for example, implemented a temperature sensor next to the sensing modules (Figure  ).[
+ 
+] Micro‐RTD as temperature sensors calibrated responses from metabolites and electrolytes and measured skin temperature to understand human physiological states. Other study implemented not only temperature sensors but also humidity and pH sensors to obtain more accurate glucose measurement results (Figure  ).[
+ 
+] The three environmental sensors were monolithically integrated with the glucose monitor on the flexible substrate, where the temperature and humidity levels were measured using RTD and impedance methods, respectively. The pH sensor utilized a polyaniline‐deposited working electrode and a Ag/AgCl electrode to measure the open‐circuit potential between the two electrodes. The results indicated that pH‐based compensation processes enhance accuracy in the glucose level measurement.
+Nano/microfabrication technology has been enabling the integration of additional complementary sensors into biomarker sensor platforms. Further studies are expected to build reliable calibration curves for compensation processes from the complex data obtained from such multiplexed monolithic sensing systems.
+
+5.5
+
+## Sensor Recovery
+Chronological sensor data with proper intervals allows the users to prepare appropriate diagnostic and mitigation measures. In order to enable continuous biomarker measurements, the degree and rate of sensor recovery need to be accounted. In particular, biochemical and chemical sensors have preferred strong affinity receptors due to their high sensitivity and selectivity. However, high‐affinity receptors can also be the source of irreversibility on the operating sensor, thus prohibiting continuous sensing once detection events occur. Several methods have been adapted to improve the recovery processes of biomarker sensors. For example, carbon nanotube (CNT) gas sensors showing a strong binding affinity to NO2 and taking longer than 12 h recovery time[
+ 
+] in ambient temperature were applied with either increased temperature or UV light[
+ 
+] to facilitate the desorption. In addition, self‐recovering gas sensors was demonstrated, where CNTs served as both the sensing element and heater (Figure  ).[
+ 
+] By applying a voltage to the CNT sensing element, recovery processes significantly improved in terms of baseline drift and response time compared to applying an external temperature of 80 °C. Such self‐heating features have been used in many gas sensing applications[
+ , 
+] due to their benefit to the faster recovery time and power management.
+ Contrary to the chemical/biochemical sensors, most sensors tailored to physical biomarkers such as temperature and pressure tend to show fast response time and recovery time, reporting near real‐time chronological data. However, certain physical biomarkers, such as sweat rate, inherently encounter long sensor recovery time. For example, sweat rate measurements using a closed chamber consist of a humidity sensor placed inside a chamber and measures humidity change to derive sweat rate. Since the humidity chamber requires a ventilation process to refresh the humidity level, the closed chamber method typically shows inconsistency in continuous sweat rate measurements. In order to mitigate such ventilation issues, a sweat rate measurement module was integrated with a thermopneumatic actuator.[
+ , 
+] The actuator lifts the humidity chamber away from the skin, enabling continuous measurements by enhancing the ventilation. Recently, microfluidics has been rising as a skin‐attachable sweat rate sensor. The microfluidics are cost‐effective and compatible with several biochemical sensing elements. Microfluidics‐based sweat rate sensors often use capillary force, enabling quantitative detection of the amount of water generated from the skin by monitoring the length of the channel sweat passed through. One of the recent microfluidics‐based sweat rate sensors introduced paper‐based microfluidic skin patches where channels are patterned and radially arranged with different lengths to realize the discrete real‐time measurement of sweat secretion (Figure  ).[
+ 
+] Other study presented sweat collection through microchannels where the passive valves were used for chronometric collection of sweat, resulting in time‐dynamic analysis of sweat analysis using galvanic stopwatches (Figure  ).[
+ 
+] This microfluidics‐based stopwatch sensor integrated chloride and pH sensing elements for the semicontinuous measurement of multiple biomarkers.
+
+5.6
+
+## Power
+Small commercial batteries such as coins or lithium batteries have been commonly applied to power a sensor. Such batteries tend to be relatively heavy and bulky for skin‐conformal wearable applications and show minimal power capacities to operate sensors for a prolonged period of time (about 24 h). Advanced power generation, storage, and management technologies have emerged to solve these power issues, and some well‐organized review papers[
+ , , , 
+] have already been published. Here, we show a few most recent advancements (since 2018) that have successfully integrated power sources with biomarker sensors and exhibiting wireless operation.
+Near‐field communication (NFC) served as a power supply system that was integrated with the skin temperature sensor (Figure  ).[
+ 
+] The NFC device consisted of inductive coils on a flexible PCB board enabling wireless power harvesting and other electronic components for NFC data transmission. This method allowed the thermal actuator and sensor to be wirelessly operated by a nearby smartphone or radio‐frequency reader without using a tangible power source upon the platform. Another example utilizing NFC technology was a neonatal monitoring device.[
+ 
+] Here, all sensor elements were placed upon infant skin surfaces and wirelessly powered by the external sources placed underneath the crib. This sensing mode allows for improved efficiency and comfort for both infants and guardians.
+ Flexible photovoltaics served as self‐powered conformal skin sensors.[
+ 
+] An organophotovoltaic (OPV) power source was integrated with a sensing element in the form of an electrochemical transistor to measure cardiac signals from human skin (Figure  ).[
+ 
+] A flexible OPV element was composed of a specific photoactive layer and a layer of zinc oxide nanoparticles (ZnO NPs). This structure served as the electron‐transporting platform demonstrating a good power‐conversion efficiency of 10.49% and power‐per‐weight of 11.46 W g−1 (an adequate amount of power for mobile device applications). This self‐powered conformal sensor integrated with a cardiac sensor successfully exhibited high performance (40.02 decibels of signal‐to‐noise ratio) of human physiological signals.
+Electronic skin based on a nanofiber triboelectric nanogenerator (TENG) was demonstrated. TENG served as an energy harvester converting mechanical energy into electricity based on the coupling effect of contact electrification and electrostatic induction (Figure  ).[
+ 
+] TENG consisted of the silver nanowire electrode sandwiched between a polylactic‐co‐glycolic acid layer on the top and a triboelectric layer of polyvinyl alcohol as the bottom substrate surface. The TENG‐based e‐skin exhibited a maximum peak power density of 0.013 mW cm−2 and pressure sensitivity of 0.011 kPa−1, realizing the self‐powered monitoring of physiological signal (e.g., pulse wave and respiration) and joint movement.
+Lactate biofuel cells (BFCs) demonstrated a battery‐free, perspiration‐powered electronic skin (PPES) that harvests energy from human sweat (Figure  ).[
+ 
+] Consisting of 0D to 3D nanomaterials, BFCs enabled continuous monitoring of key metabolic biomarkers and wirelessly transmitted the personalized information to a user interface via Bluetooth low energy.[
+ 
+] The PPES exhibited a power density of 3.5 mW cm−2 for lactate BFCs cells in human sweat and a 60 h continuous operation. It selectively monitored key metabolic analytes (e.g., urea, NH4
++, glucose, and pH) and skin temperature during prolonged physical activities and wireless transmission of data to the user interface using Bluetooth.
+A protein nanowire demonstrated power generation obtained from ambient humidity (Figure  ).[
+ 
+] The thin film was fabricated based on the conductive protein nanowire from the bacteria called Geobacter. A protein nanowire film with a thickness of 7 µm could provide about 8.5 mW cm−2. The power generation mechanism used an ambient water molecule as a charge carrier based on the humidity gradient inside the film to provide voltage output. This nanowire device was able to operate LED and LCD panels by stacking several films to increase power generation.
+Along with the above studies introduced so far, piezoelectric[
+ , 
+] and thermoelectric[
+ , 
+] have also been widely investigated to self‐power biosensors. Although most of the energy harvesting research revealed is not capable of harvesting large amounts of power density for real‐time detection (e.g., 30 Hz sampling), near real‐time discrete detection (e.g., periodic sampling for every 2 min) of biomarkers seems to be a real possibility for future and current technologies.
+
+5.7
+
+## Commercial Products
+Recently, the market for wearables has been immense and expanding dramatically. For example, worldwide spending on wearable devices was ≈$81.5 billion in 2021, an 18.1% increase from $69 billion in 2020, according to the report from Gartner, Inc. (www.gartner.com). The most widely commercialized wearable sensors are watch‐type platforms such as Apple Watch (Apple Inc., Cupertino, CA, USA) and Galaxy Watch (Samsung Electronics, Suwon, South Korea). The watches monitor and report health or activity status primarily by sensing physical traits such as heart rates and blood oxygen level, using optical emitters and detectors. While these optical devices provide rapid and abundant physical data, they suffer significant inaccuracy or inability to report higher HHPM other than the traits mentioned above. Both the proliferating market of the established wearables and their lack of precision make the demand for highly accurate and physiologically/psychologically relevant HHPM sensors extremely high.
+One of the most established commercially developed wearable sensors has been focused on glucose monitoring in body fluids.[
+ 
+] Wearable glucose sensors initially started with the blood‐based optical or thermal detection methods with a form factor of a clip such as Gluco Track (Integrity Applications, Or Yehuda, Israel) or a waistband such as Optical Glucose Meter (C8 MediSensors, Inc., San Jose, CA, USA). However, such platforms rely on indirect detection of blood composition underneath the skin layer, and thus glucose estimation accuracy could be low compared to the direct blood sampling method. For better access to body fluid, minimally invasive ISF‐based glucose wearable sensors have developed a patch form factor such as Freestyle Libre (Abbott, Chicago, IL, USA) and CGM (Nurisense, Chicago, IL, USA). In addition, for direct access to body fluid, some wearable sensors focused on tears using a contact lens such as Google Smart Contact Lense (Google, Moutain View, CA, USA). This platform used a miniaturized wireless chip and sensor embedded in the contact to measure glucose levels constantly. However, one of the critical challenges for tear‐based biosensor platforms was the weak correlation between the concentration of metabolites in biofluid and blood. Therefore, a fundamental study on in‐depth biomarker analysis to probe the correlation between biomarkers and HHP is crucial to realizing reliable and consistent monitoring capability. More recently, wearable sweat‐based biomarker sensors have emerged. For example, Gx Sweat Patch (Epicore Biosystems, Cambridge, MA, USA) is a sweat‐based patch to monitor athletes' hydration and exercise levels. This wearable patch uses microfluidic technology and colorimetric detection, captures sweat throughout the exercise, and measures sweat rate and sodium composition, showing cost‐effective and practical sweat sample collection features. We anticipate that more commercial platforms will be on the market by expanding the biomarkers and achieving practical solution strategies for continuous real‐time monitoring.
+
+6
+
+## Conclusions
+Here, a broad range of biosensor technologies that should be accounted for in the HHPM applications were reviewed. Moreover, this paper addressed the HHPBs found in body fluid either minimally or noninvasively, in breath, or on the skin to provide perspectives in the HHPB characteristics such as concentrations/measurands ranges, HHP relevance, and pros/cons. We looked into biomarker sensing principles using ionophores, BREs, and other direct detection methods depending on the types of HHPBs. We then addressed the widely used transducers including EIS/SWV, FET, QCM/cantilever, SPR, and colorimetric method to understand their form factors and working principles transducing BRE activity into measurable signals. Lastly, we identified practical challenges and mitigation strategies by discussing skin‐conformal platforms, body fluidics, miniaturization strategies, environmental stability, sensor recovery, power, and commercial products.
+While recent progress on biosensor technologies is noticeable toward enabling HHPM, it is crucial to appropriately leverage such technologies to realize successful monitoring systems. This review paper presents 1) multimodality and 2) reconfigureable modules, as the prospects and the future development trends in biomarker sensing.
+Multimodality is to leverage multiple biomarkers to complement the pros/cons of each type of biomarkers for highly reliable HHPM. For example, we could carefully choose the list of biomarkers optimized for the specific area of interest on HHPM. For example, the biochemical biomarkers such as ions, metabolites, and neurotransmitters are likely to offer in‐depth insights and accurate estimations on human status. However, their measurement is relatively slow and errors from fouling, nonspecific binding, and chemical degradation. On the other hand, physical biomarkers, such as pulse waves and skin impedance, offer straightforward measurements and immediate responses with near real‐time detection. However, these only provide systemic responses and not the underlying biological processes that fully report on human status. Therefore, a future development trend would be building multimodal biosensors capable of detecting both biochemical and physical biomarkers, such as chemical‐electrophysiological hybrid biosensors[
+ 
+] (measuring lactate and electrocardiograms) and microfluidic sweat analysis patches[
+ 
+] (measuring ions, metabolites, and sweat rate).
+Reconfigurable modules provide various modular, interchangeable, and compatible components for meeting the wide range of end‐user demands in commercializing wearable HPPM. Figure  shows a schematic illustration of such modular biomarker sensing platforms. Here, the HHPM product consists of sensor modules (body fluid, breath, or skin surface‐based sensors), processors/add‐ons, and power sources. The universal monitoring system is amendable to adding/removing/replacing with proper sensor modules matching to the operational environments and the targets of interest. Also, appropriate add‐ons (e.g., pressure sensor) and power modules (e.g., solar cell) can be added to the specific operational environments. This modular product could be future trends to offer cost‐effective manufacturing for product transition by utilizing portable and tractable module elements. To further show a comprehensive concept of this sensor module strategy, we show various examples of sensor modules suitable for several applications (i.e., airmen, first responders, athletes, and cyber operators). In this regard, it is important to broadly understand biosensor technologies to realize such leveraged product platforms.
+ In conclusion, despite the technical challenges, the advances in miniaturized electronics, material science, and human biology/physiology, along with the progress in the multitude of advanced sensor approaches tailored for the biomarkers of interest, the scientific community is rapidly moving closer to the ultimate goal of real‐time HHPM.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Acknowledgements
+The authors acknowledge funding support from the U.S. Air Force Research Laboratory. S.S.K. acknowledges S. Asebrook for assistance literature search. This research was performed while D. Sim held an NRC Research Associateship award at the U.S. Air Force Research Laboratory.
+
+Daniel Sim is a UES Research Scientist at Air Force Research Laboratory (AFRL). He is expertise in designing, fabricating, and characterizing sensors and actuators based on nano/microfabrication techniques. He received a Ph.D. degree from the Korea Advanced Institute of Science and Technology (KAIST) in 2016. He joined AFRL in 2018 and currently develops portable/wearable platforms for human health and performance monitoring. He was awarded Postdoctoral Fellowship (by the Korean Ministry of Education) and National Research Council Fellowship (by the National Academies of Science, Engineering, and Medicine) in 2017 and 2018.
+ 
+Michael C. Brothers has a Ph.D. in Chemical Biology from the University of Illinois Urbana‐Champaign. He is currently a Technical Program Manager for UES Inc., overseeing contract research efforts for the 711th Human Performance Wing at the Air Force Research Laboratory. He leads investigations on both point‐of‐care as well as real‐time atmospheric and biochemical sensors and devices. He also oversees a team of ≈25 scientists working in the fields of biomarker discovery, field engineering, and sensor platforms.
+ 
+Ahmad E. Islam is an Electronics Device Engineer at Air Force Research Laboratory and is working with the Device Research Group in the Sensors Directorate at WPAFB. His research interests include microfabrication, microelectronics, and electronic‐grade dielectric development for MOSFET applications. He obtained Ph.D. degree in Electrical Engineering from Purdue University in 2010 and Bachelors in Electrical and Electronic Engineering from Bangladesh University of Engineering and Technology in 2004. He is a Senior Member of IEEE and is the recipients of NRC postdoctoral fellowship (2014), Intel foundation Ph.D. fellowship (2009), IEEE EDS Ph.D. fellowship (2008), and Kintar‐Ul‐Haque Gold Medal (2005).
+ 
+Claude C. Grigsby an analytical chemist, board certified medical technologist, and former Air Force clinical laboratory officer with over 30 years of experience in environmental sample analysis, mass spectrometry based biomarker discovery, proteomics, metabolomics, bioinformatics, and clinical diagnostics. For the two years he has served as the Medical and Operational Biosciences Core Technical Competency lead, 711th Human Performance Wing, Air Force Research Laboratory whose mission is to discover, demonstrate, and transition capabilities from the full spectrum of biomedical sciences to optimize, safe‐guard, and restore the health and performance of the multidomain Airman and Guardian in all environments.
+ 
+Steve S. Kim serves as a Research Physical Scientist and a Program Manager within the Airman Biosciences Division at the 711th Human Performance Wing, Air Force Research Laboratory (AFRL) Wright‐Patterson AFB, OH. He obtained his Ph.D. degree in Polymer Science from the University of Connecticut (2007). After completing National Research Council Postdoctoral Fellow (2007‐2010), he continued to work as a contract research scientist at AFRL (2010–2016). His research interest is developing electronic/electrochemical/optical molecular biomarker and chemical sensors for human performance monitoring and force health protection. He leads research on developing an electronic biosensor platform for trace level cognitive molecular biomarkers, a crucial piece of information to increase the human performance monitoring/assessment capability for the United States Air Force (USAF).

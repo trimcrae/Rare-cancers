@@ -1,0 +1,193 @@
+pmcBMC BioinformaticsBMC Bioinformatics13bmcbioi100965194BMC Bioinformatics1471-2105BMCPMC8772045PMC8772045.1877204587720453504582410.1186/s12859-021-04286-242861MethodologyDetect the early-warning signals of diseases based on signaling pathway perturbations on a single sample
+HuoYanhao ZhaoGeng RuanLuoshan XuPeng FangGang ZhangFengyue http://orcid.org/0000-0002-6376-7124BaoZhenshenbzsbao@163.com LiXinxin.li@whu.edu.cn 1grid.411863.90000 0001 0067 3588Institute of Computational Science and Technology, Guangzhou University, Guangzhou, 510006 Guangdong China 2Netease Youdao Information Technology (Hangzhou) Co., Ltd., Hangzhou, 310000 Zhejiang China 3grid.464387.a0000 0004 1791 6939School of Computer Science of Information Technology, Qiannan Normal University for Nationalities, Duyun, 558000 Guizhou China 4grid.43555.320000 0000 8841 6246Department of Biomedical Engineering, School of Life Science and Technology, Beijing Institute of Technology, Beijing, 100081 China 5grid.412632.00000 0004 1758 2270Department of Gynecology, Renmin Hospital of Wuhan University, Wuhan, 430000 Hubei China 2012022202222Suppl 12398962Publication of this supplement has not been supported by sponsorship. Information about the source of funding for publication charges can be found in the individual articles. The articles have undergone the journal's standard peer review process for supplements. The Supplement Editors declare that they have no competing interests.367572021672021200120222001202229052026© The Author(s) 2021https://creativecommons.org/licenses/by/4.0/Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated in a credit line to the data.
+
+## Background
+During the pathogenesisof complex diseases, a sudden health deterioration will occur as results of the cumulative effect of various internal or external factors. The prediction of an early warning signal (pre-disease state) before such deterioration is very important in clinical practice, especially for a single sample. The single-sample landscape entropy (SLE) was proposed to tackle this issue. However, the PPI used in SLE was lack of definite biological meanings. Besides, the calculation of multiple correlations based on limited reference samples in SLE is time-consuming and suspect.
+
+## Results
+Abnormal signals generally exert their effect through the static definite biological functions in signaling pathways across the development of diseases. Thus, it is a natural way to study the propagation of the early-warning signals based on the signaling pathways in the KEGG database. In this paper, we propose a signaling perturbation method named SSP, to study the early-warning signal in signaling pathways for single dynamic time-series data. Results in three real datasets including the influenza virus infection, lung adenocarcinoma, and acute lung injury show that the proposed SSP outperformed the SLE. Moreover, the early-warning signal can be detected by one important signaling pathway PI3K-Akt.
+
+## Conclusions
+These results all indicate that the static model in pathways could simplify the detection of the early-warning signals.
+
+## Keywords
+Pre-disease stateEarly warning signalsSingle sampleSignal perturbationSignaling pathwayhttp://dx.doi.org/10.13039/501100001809National Natural Science Foundation of China6207212862002079XuPengThe International Conference on Data Science, Analytics, and Engineering (IDSAE) 2020/2021IDSAE 2020/2021Virtual24-25 January 2021pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© The Author(s) 2021
+
+## Background
+Theoretical considerations and computational studies suggest that many types of complex dynamical systems may have a critical points between an ordered and a disordered dynamical regime [ , ]. This regime provides complex systems to have an optimal balance between robustness and adaptability. Specifically, they can execute normal functions in a variable environment while being responsive to specific changes in the environment. Studies of human brain oscillations [ ], computer network traffic and the Internet [ , ], financial markets [ ], forest fires [ ], ecosystems [ , ], climate systems [ , ], economics and global finance [ ], neuronal networks [ ], and biological macroevolution have all revealed such critical dynamics [ ].
+Mathematically, the dynamic behavior of complex systems can be characterized by state space. One state can be represented as the behavior of the composite elements in the system. In a relatively long time, some initial states of the system will eventually settle down to one of a limited set of stable states. Bifurcation theory demonstrates that complex systems may undergo a sudden state transition under some critical continuous perturbations of various internal or externals. Such a change often occurs at a critical threshold, or the so-called ‘‘tipping point’’, at which the system shifts abruptly from one state to another.
+The time evolution of complex diseases may follow the bifurcation theory, that is, a sudden health deterioration will occur during these diseases’ gradual progression at a tripping point time [ – ]. For example, it takes at least a decade or even decades for cancers to develop before getting worse [ , ]. According to these concepts, the disease progression can be divided into three states: the normal state, the disease state, and the pre-disease state between them [ ]. The normal state represents a relatively healthy stage during which the disease is under control, in an incubation period or a chronic inflammation period. The disease stage represents a continuous health deterioration that is hard to reverse. The pre-disease stage is a relatively unstable and reversible state which may transition to the normal state if appropriate treatment is applied [ , – ]. From the perspective of disease prevention and a better understanding of disease progression, detecting the early-warning signals for the pre-disease state is an important issue in clinical practice [ ].
+The execution of various physiological processes in cells is carried out by complex biomolecular systems. The massively parallel dynamics of complex molecular networks furnish the cell with the ability to process information from its environment and mount appropriate responses [ , ]. Therefore, one direct way is determining the pre-disease state based on the state transition based on a complex network model. However, this is limited by the curse of a high dimension of genomic data and the lack of data for a single sample. The model-free direction is to identify a group of biomarkers and define a measurement based on the single sample expression data. Due to the rapid development of high-throughput technologies, innovative biomarkers are identified as the unprecedented rich information of genotypes and phenotypes of diseases. Molecular biomarkers, for example, genes, RNAs, proteins, and metabolites, are widely adopted traditional model-driven method and still play an important role in analyzing data, because of their simplicity of measurement and implementation [ – ]. Because the progression process of diseases is affected by the complications and variations of genetic, epigenetic, and environmental factors, the molecular biomarkers have a high false-positive rate and low coverage. To surmount these shortages, network biomarkers are proposed [ , ]. Network biomarkers are considered to be more robust because a complex disease is generally caused not by the malfunction of individual molecules but by a network that contains the interplay of a group of correlated molecules [ ]. However, molecular biomarkers and network biomarkers are mainly used to distinguish the disease state from the normal state by the great distinction between them [ ]. Thus, they are not suitable for detecting the early-warning signals. To solve this problem, Chen and Liu et al. proposed a dynamic network biomarker (DNB), which could be applied to different application scenarios. The DNBs-based method and its subsequent modifications have been used to identify the pre-disease states of several diseases [ – ]. These methods have also been applied to detect the tipping points of cell fate decision and differentiation [ , ], and the immune checkpoint blockade [ ]. A DNB must appear and satisfy three statistic conditions which require multiple samples from an individual [ ]: i.e. correlations between the variables among this group rapidly increase, correlations between this group and other variables rapidly decrease and standard deviations of the variables among this group drastically increase. The calculation of correlations and standard deviations limits the application of DNBs-based methods not fit to single case samples in clinical practice but appropriate for multiple samples. Recently, Liu et.al. proposed a new conception named the single-sample landscape entropy (SLE) based on DNB theory to detect the early-warning signals of diseases (detailed information can be seen section materials and method) [ ]. The limitation of SLE lies in the following two aspects. First, the lack of definite biological meanings in PPI makes SLE indirectly depict the deviation of an individual at a time point from the health state based on the Pearson correlation change. Second, the calculation of various correlations between genes using reference samples from an individual is time consuming and suspect.
+Signaling pathways in the KEGG database include a series of validated enzymatic reactions from biological experiments. And they can transmit the extracellular molecular signals into cells to exert effects through specific biological functions. The development of diseases results from the continuous perturbation of the various abnormal signals in some of these pathways. Therefore, Tarca et al. proposed a signaling pathway impact analysis (SPIA) method to determine significant disease-related signaling pathways by normal and disease samples [ ]. From the perspective of system biology, signaling pathways are a kind of static biological model of the corresponding functions. In this paper, we adapt the signal perturbation to study the propagation of the early-warning signals based on the signaling pathways in the KEGG database. We name it as single-sample signal perturbation (SSP). We applied SSP to three datasets (an individual-sample dataset of influenza virus infection, the TCGA dataset of lung adenocarcinoma, and a dataset of acute lung injury). our results show that SSP outperforms SLE in predicting the early-warning signals. Also, SSP is relatively simple to avoid calculating the correlation between genes in the large PPI network. Furthermore, SSP can be further simplified by using some crucial pathways, i.e., the PI3K-Akt signaling pathway.
+
+## Results
+Complex diseases arise is due to the accumulation of differential expressions and signal perturbations in a subgroup of genes allowing uncontrolled biological functions. The accumulation of differential expressions and signal perturbations in signaling pathways is an invertible dynamic process before the biological functions become uncontrolled. Thus, when the accumulation changes in signaling pathways, it will signal a piece of pre-disease information. We use three single-sample datasets to illustrate how SSP works, including influenza virus infection (GSE30550), lung adenocarcinoma (LUAD) from the TCGA database, and acute lung injury (GSE2565). In this paper, we download 178 signaling pathways of human and 174 mmu signaling pathways from the KEGG PATHWAY dataset (https://www.kegg.jp/kegg/pathway.html). The pathways in KEGG dataset are all hand-painted and validated by scientific pieces of literature. In this section, we compare the early-warning signals detection of the proposed SSP with SLE using all these signaling pathways.
+The PI3K-Akt is an important signaling pathway associated with many complex diseases, such as the later stages of influenza virus infection [ ], acute lung injury [ – ], non-small cell lung cancer [ ]. To demonstrate the simplicity of the proposed SSP method, we also present the predicted results on the three datasets by only using this pathway instead of all the signaling pathways.
+
+## Early-warning signals of individual influenza infection
+For each subject in the individual influenza infection dataset (GSE30550), the gene expression profiles of the first four time points, i.e., Baseline, 0, 5, and 12 h are regarded as reference samples. Figure  A shows the global SSP scores of the 14 subjects by all signaling pathways. First, the SSP scores of the symptomatic subjects are relatively higher and more unstable than that of the asymptomatic subjects. Second, there is a drastic increase of SSP scores of the symptomatic subjects at some middle time points, which provides an early-warning signal for these subjects. Figure  A shows the predicted warning signals for the 14 subjects of SLE, SSP with all signaling pathways, and SSP with only PI3K-Akt pathway. 
+Figure  B presents the predicted warning signals by the SLE method, SSP with all signaling pathways, and only the PI3K-Akt pathway. For the seven symptomatic subjects, three predicted warning signals by SSP with all signaling pathways are earlier than that by the SLE method. The other four warning signals are predicted at the same time point which including two signals are overlapped with the appearance of the symptom. For the SSP with only PI3K-Akt pathway, four predicted warning signals are earlier than that by the SLE method, one later and two equals. These observations indicate that the proposed SSP method has a better performance than the SLE method.
+Figure  shows the curves of the SSP scores and SLE scores of the seven symptomatic subjects with times. The two score curves present a similar trend across all time points. Figure  shows the curves of the SSP scores by only PI3K-Akt pathway with times which also has a similar trend with the previous two. Compared with the SLE method, the proposed SSP methods capture the significant change of the development of diseases based on the signal perturbation in signaling pathways while the former detect it based on the correlation change between genes. Despite their difference, the results indicate that the two kinds of scores could detect the underlying molecular interaction changes in the development of diseases. However, the SSP score is easier to understand as it directly integrates the underlying molecular interactions models. Therefore, this score is more believable and easier to understand than the SLE scores. 
+As the perturbations of upstream genes usually contribute abnormal signals in a signaling pathway, we present the fold change of the 30 upstream genes in the PI3K-Akt signaling pathway in Fig.  by Subject 01. We can see that some genes are significantly highly expressed at time 29 h, which is consistent with the detected warning signal for Subject01 in Fig.  . Therefore, the pathway-based method may further help to uncover the underlying mechanisms for the pre-disease state and to predict a more precise warning signal in the future. 
+
+## Early-warning signals of lung adenocarcinoma (LUAD)
+For dataset LUAD, the 58 tumor adjacent (TA) samples are considered as reference samples. Because of no individual-based samples across all time points, the expressions of genes are obtained by their average value in each time point. Metastasis is the culprit behind most cancer-related deaths and the ultimate challenge in our effort to fight cancer as a life-threatening disease [ ]. Stage II means cancer may have spread from the lung to the nearby lymph nodes and stage IV means the tumor cells have invaded into distant tissues of other organs [ ].
+Figure  A shows the predicted warning signals by the SLE and SPP with all signaling pathways. the former only correctly give the warning signals before stage IV, while the latter can correctly give the warning signals for both stage II and IV. Figure  B shows that the same results can even be obtained by SSP with only PI3K-Akt pathway. Therefore, the proposed SSP method gives better prediction performance than the SLE method. In practice, the precise warning signals will help to take chemotherapy and radiotherapy timely to prevent serious deterioration or slow down cancer progression [ ]. 
+
+## Early-warning signals of acute lung injury
+For the acute lung injury dataset GSE2565, the samples collected from the air- or phosgene-exposed mice at 0 h are considered as reference samples. Because of no individual-based samples across all time points, the expressions of genes are obtained by their average value in each time point.
+Figure  A shows that both the SLE and SPP with all signaling pathways predict the warning signals at 8 h after exposure which is 4 h before the happening of acute lung injury. Figure  B shows the predicted warning signal just at the observed happening time by SSP with only the PI3K-Akt pathway. The original experiment found that the most severe phosgene-induced acute lung injury ranged from 4 to 12 h after exposure. Especially, the main physiological effects occurred within the first 8 h after exposure, resulting in common observations of enhanced bronchi alveolar lavage fluid (BALF) protein levels, increased pulmonary edema, and ultimately decreased survival rates [ ]. Therefore, the predicted signals are consistent with the actual disease development. In addition, in Fig.  A, b, the SSP score from time point 0.5 to 8 h has a down behavior. The expressions of genes are obtained by their average value of all samples at the time point in each time point. Thus, the noise may be introduced in the SSP score and will result in this case. But this case does not influence the predicted signals. 
+
+## Discussion
+In the progression of complex diseases, a sudden health deterioration (pre-disease state) usually occurs due to the gradual accumulating effect of various internal or external factors. An early warning signal before this deterioration is essentially important for clinical practice. Some effective treatments could be applied to prevent the happening of the irreversible process of diseases. In recent years, Chen et al. developed a new framework to tackle this issue. Especially the SLE method can detect early warning signals based on the time point expression data of an individual through the correlation changes between genes.
+In this paper, we apply the signal perturbation in pathways to this framework to predict the early warning signals of complex diseases. Results from three datasets demonstrate that the proposed method SSP outperforms the SLE method in both the influenza virus infection dataset and LUAD dataset, and equals in the acute lung injury dataset. The consideration of the static model of pathways provides the proposed SSP method a relatively concrete biological mechanism to detect the essential changes. In addition, it reduces the computation complexity of the proposed SSP compared with the SLE method. Finally, based on the result by only the PI3K-Akt signaling pathway, the proposed method SSP can be further simplified by using some crucial pathways if enough data is available.
+However, the SSP method still has its limitations. SSP mainly relies on the signaling pathways from KEGG datasets. The biological information included in these pathways is incomplete. Thus, the SSP score may have a fluctuation under some circumstances. The noise in initial gene expression data is also the reason for the fluctuation of the SSP score. In addition, the strength of the interactions between genes in pathways is not considered in SSP. This may result in the loss of some real biological information.
+
+## Conclusions
+In this paper, a method called SSP to identify the pre-disease state of complex diseases is presented. SSP adapted a static biological model (signaling pathways with specific biological functions) to a dynamic system to character the dynamic change of system for an individual sample, which has a better performace than previous method SLE. Besides, benefiting from the use of static signaling pathways, the calculation of SSP method takes less time than previous method SLE. Therefore, SSP can identify the pre-disease state in less time that previous methods cannot.
+
+## Methods
+
+## Datasets
+We download three time-course or stage-course datasets including the the microarray data of influenza virus infection process (GSE30550) and acute lung injury induced by phosgene inhalation(GSE2565) from the NCBI GEO database (www.ncbi.nlm.nih.gov/geo), and data of the lung adenocarcinoma (LUAD) from the TCGA database. For all these omics genomic data, we discard the probes without the corresponding NCBI Entrez gene symbol. For each gene mapped by multiple probes, the average value is employed as the gene expression.
+The dataset GSE30550 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE30550) records influenza virus infection of 16 human adult subjects inoculated with live H3N2/ Wisconsin influenza virus [ ]. Each subject includes 16 time point gene expression samples (Baseline, 0, 5, 12, 21, 29, 36, 45, 53, 60, 69, 77, 84, 93, 101, and 108 h). The gene expression profiles are measured on whole peripheral blood at an interval of 8 h post-inoculation (hpi) through 108 hpi. We only analyze 14 subjects because the other 2 subjects lack data at some time points. The 14 subjects include 7 subjects with clinical symptoms of influenza infection and 7 subjects without any clinical symptom at all-time points.
+The lung adenocarcinoma (LUAD) dataset includes 518 tumor samples and 58 tumor-adjacent samples. The tumor samples are divided into different stages based on clinical (stage) information from TCGA. Based on clinical information, the samples are grouped into ten stages, i.e., stage I, IA, IB, II, IIA, IIB, IIIA, IIIB, and IV of lung cancer (Table ). 
+The dataset GSE2565 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE2565) comprises expression profiles of the mouse with acute lung injury induced by phosgene inhalation. These lung tissues are collected from air- or phosgene-exposed mice at 0, 0.5, 1, 4, 8, 12, 24, 48, and 72 h after exposure (Table ) [ ]. RNA is extracted from the lung and used as starting material for the probing of oligonucleotide microarrays to determine changes in gene expression following phosgene exposure. 
+
+## Algorithm to detect the pre-disease state based on SSP
+Because it is hard to characterize the health degree of an individual using one time point expression data, Chen et al. developed a novel framework that indirectly depicts the deviation of an individual at time point from the health state based on the Pearson correlation changes between two groups of samples. Specifically, the first is the reference group composed of samples with a normal/healthy state, the other is the mixed group composed of the reference samples and one sample at a time point . Given gene and its th neighbor gene (total neighbor genes) in a PPI network, the local entropy of the gene at time point t is defined as
+1\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\it {\text{H}}^{n} (g_{i} ,t) = - \frac{1}{\log M}\sum\limits_{k = 1}^{M} {p_{k}^{n} (t)\log } p_{k}^{n} (t)$$\end{document}Hn(gi,t)=-1logM∑k=1Mpkn(t)logpkn(t) 
+with2\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$p_{k}^{n} (t) = \frac{{\left| {PCC^{n} (g_{i}^{n} (t),g_{ik}^{n} (t))} \right|}}{{\sum\limits_{j = 1}^{M} {\left| {PCC^{n} (g_{i}^{n} (t),g_{ij}^{n} (t))} \right|} }}$$\end{document}pkn(t)=PCCn(gin(t),gikn(t))∑j=1MPCCn(gin(t),gijn(t)) 
+where represents the Pearson Correlation Coefficient between the gene and the th neighbor gene based on reference samples. and respectively denote the expressions of genes and at time point based on reference samples. Then for a single sample at the time point , SLE mixes it with the reference samples. The local entropy of the gene at the time point of the mixed samples is calculated in a similar way to that in Eq. (1) and Eq. (2), but is based on the mixed samples instead of n reference samples.
+They also measured the expression perturbation of gene at time point by the differential standard deviation3\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\Delta SD(g_{i} ,t) = \left| {SD^{n + 1} (g_{i} ,t) - SD^{n} (g_{i} ,t)} \right|$$\end{document}ΔSD(gi,t)=SDn+1(gi,t)-SDn(gi,t) 
+where and are the standard deviations of the gene respectively based on the reference samples and the mixed samples.
+Then, the absolute differential entropy of the gene at the time point between the local entropies and is weighted by as4\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\Delta H(g_{i} ,t) = \Delta SD(g_{i} ,t)\left| {H^{n + 1} (g_{i} ,t) - H^{n} (g_{i} ,t)} \right|$$\end{document}ΔH(gi,t)=ΔSD(gi,t)Hn+1(gi,t)-Hn(gi,t) 
+Finally, the abnormal score of an individual at the time is the summation of for all genes as5\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\Delta H(t) = \frac{1}{Q}\sum {\Delta H(g_{i} ,t)}$$\end{document}ΔH(t)=1Q∑ΔH(gi,t) 
+As the development of disease results from the abnormal molecular perturbation through some important signaling pathways, Tarca et al. proposed a signaling pathway impact analysis (SPIA) method to determine the significant disease-related signaling pathways by normal and disease samples [ ]. They defined the signal perturbation of a gene in a specific signaling pathway as6\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$PF(g_{i} ) = FC(g_{i} ) + \sum\limits_{k} {\beta_{ik} \frac{{PF(g_{k} )}}{{N_{k} }}}$$\end{document}PF(gi)=FC(gi)+∑kβikPF(gk)Nk 
+where gene is the direct upstream gene of gene in the specific signaling pathway. is the signal perturbation of the gene . is the number of the direct downstream genes of gene . is the strength of the interaction between gene and . is 1 when the interaction between the two genes is activated. is −1 when the interaction between the two genes is inhibited. is the fold change of the expression of the gene by normal and disease samples.
+Signaling pathways in the KEGG database can transmit the extracellular molecular signals into cellcells to exert effects through specific biological functions. Complex diseases always associate with the abnormal biological functions that direct impacted by the most downstream genes. The accumulation of differential expressions and signal perturbations in signaling pathways is an invertible dynamic process before the biological functions become uncontrolled. The upstream genes in signaling may be very differential expression in the pre-disease state. As demonstrated by SPIA, the amount of signal perturbations in signaling pathways are directly impact by the expression value of upstream genes. Therefore, following SPIA, we adapt the dynamic time-series expression data to static signaling pathwaysin the same wayinstead of the correlations calculated in SLE.7\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$PF(g_{i} ,t) = FC(g_{i} ,t) + \sum\limits_{k} {\beta_{ik} \frac{{PF(g_{k} ,t)}}{{N_{k} }}}$$\end{document}PF(gi,t)=FC(gi,t)+∑kβikPF(gk,t)Nk 
+where gene is the direct upstream gene of gene in the specific signaling pathway. is the signal perturbation of the gene at a time point t. is the number of the direct downstream genes of gene in the specific signaling pathway. is the strength of the interaction between gene and . is 1 when the interaction between the two genes is activated. is −1 when the interaction between the two genes is inhibited. is the fold change of the gene at a time point .8\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$FC(g_{i} ,t) = \log_{2} \frac{{g_{i} (t)}}{{\overline{E}}}$$\end{document}FC(gi,t)=log2gi(t)E¯ is the expression of the gene at the time point . is the average expression of all reference samples.
+Then, the weighted signal perturbation (SSP score) for all genes in all signaling pathways at the time point is calculated, i.e.9\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\Delta {{PF}}(t) = \sum {\left| {PF(g_{i} ,t)} \right|} \cdot \Delta SD(g_{i} ,t)$$\end{document}ΔPF(t)=∑PF(gi,t)·ΔSD(gi,t) 
+If the SSP score has a sharp increase from the previous time point to a time point , the time point will be considered as an early-warning signal for the disease. Figure  shows the schematic diagram of the proposed SSP method. The main difference between SSP and SLE based method is that SSP directly describes the deviation of an individual at a time point from a normal state by adapting the signal perturbation transmitted in static signaling pathways instead of the indirect way in SLE. 
+
+## Abbreviations
+SLESingle-sample landscape entropy
+PPIProtein- Protein Interaction
+SSPSingle-sample signal perturbation
+DNBDynamic network biomarker
+SPIASignaling pathway impact analysis
+LUADLung adenocarcinoma
+BALFBronchi alveolar lavage fluid
+TATumor adjacent
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Acknowledgements
+Not applicable
+
+## About this supplement
+This article has been published as part of BMC
+Bioinformatics Volume 22 Supplement 12 2021: Explainable AI methods in
+biomedical data science. The full contents of the supplement are available at
+https://bmcbioinformatics.biomedcentral.com/articles/supplements/volume-22-supplement-12.
+
+## Authors' contributions
+ZB contributed to the conception of the study. YH performed the experiment. ZB, GZ, and PX contributed significantly to analysis and manuscript preparation. ZB and YH performed the data analyses and wrote the manuscript. GF helped perform the analysis with constructive discussions. LR and FZ helped revise the manuscript. XL made a great contribution to the revision of the paper. All authors read and approved the final manuscript.
+
+## Funding
+This work was funded in part by the National Natural Science Foundation of China (grant nos. 62072128, and 62002079). The funding agency provided funds for the article processing fees, but had no role in study design, in data collection, analysis and interpretation, or in manuscript preparation.
+
+## Availability of data and materials
+SSP is available and open source at https://github.com/ZhenshenBao/SSP. The datasets used and/or analyzed during the current study are available and are listed in the manuscript.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare that they have no competing interests.

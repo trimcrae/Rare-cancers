@@ -1,0 +1,458 @@
+2005f1000resF1000ResearchF1000ResFaculty of 1000 LtdPMC7468567PMC7468567.2746856774690833293480610.12688/f1000research.23996.22Prediction of repurposed drugs for treating lung injury in COVID-19
+HeBingConceptualization, Data Curation, Investigation, Methodology, Resources, Software, Visualization, Writing – Original Draft Preparation GarmireLanaFunding Acquisition, Investigation, Project Administration, Resources, Supervision, Visualization, Writing – Review & Editing 
+1Department of Computational Medicine and Bioinformatics, Medical School, University of Michigan, Ann Arbor, 48105, USAaEmail: lgarmire@med.umich.edu
+No competing interests were disclosed.
+2682020960960915620201492020PMC7468567.11562020PMC7468567.22682020Copyright: © 2020 He B and Garmire LThis is an open access article distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Previous version available: This article is based on a previously available preprint posted on ArXiv on March 30, 2020: "Prediction of repurposed drugs for treating lung injury in COVID-19".
+
+## Abstract
+
+Background: Coronavirus disease (COVID-19) is an infectious disease discovered in 2019 and currently in outbreak across the world. Lung injury with severe respiratory failure is the leading cause of death in COVID-19, caused by severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). However, there still lacks efficient treatment for COVID-19 induced lung injury and acute respiratory failure.
+
+Methods: Inhibition of angiotensin-converting enzyme 2 (ACE2) caused by the spike protein of SARS-CoV-2 is the most plausible mechanism of lung injury in COVID-19. We performed drug repositioning analysis to identify drug candidates that reverse gene expression pattern in L1000 lung cell line HCC515 treated with ACE2 inhibitor. We confirmed these drug candidates by similar bioinformatics analysis using lung tissues from patients deceased from COVID-19. We further investigated deregulated genes and pathways related to lung injury, as well as the gene-pathway-drug candidate relationships.
+
+Results: We propose two candidate drugs, COL-3 (a chemically modified tetracycline) and CGP-60474 (a cyclin-dependent kinase inhibitor), for treating lung injuries in COVID-19. Further bioinformatics analysis shows that 12 significantly enriched pathways (P-value <0.05) overlap between HCC515 cells treated with ACE2 inhibitor and human COVID-19 patient lung tissues. These include signaling pathways known to be associated with lung injury such as TNF signaling, MAPK signaling and chemokine signaling pathways. All 12 pathways are targeted in COL-3 treated HCC515 cells, in which genes such as RHOA, RAC2, FAS, CDC42 have reduced expression. CGP-60474 shares 11 of 12 pathways with COL-3 and common target genes such as RHOA. It also uniquely targets other genes related to lung injury, such as CALR and MMP14.
+
+Conclusions: This study shows that ACE2 inhibition is likely part of the mechanisms leading to lung injury in COVID-19, and that compounds such as COL-3 and CGP-60474 have potential as repurposed drugs for its treatment.
+Keywords: COVID-19, SARS-CoV-2, lung injury, ACE2, COL-3, CGP-60474
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoAccepted 2020 Aug 18; Collection date 2020.
+
+## Version Changes
+Revised.
+
+## Amendments from Version 1
+According to comments from Dr. Xia Yang, we revised the formula that calculates the importance of genes and updated figure 4, added discussion of top ranked drugs for H1N1 virus infection and revised the conclusion sentence in that section, added annotation to table 2, clarified method for FDR calculation and clarified definition of n_consistent genes, added year to the date "12th May". According to comments from Dr. Leng Han and Dr. Shengli Li, we added more discussion on “narciclasine and geldanamycin are significant in HCC515 cells at 6h after treatment but no longer significant in cells at 24h after treatment”. We also added statistics of genes that were deregulated in the same direction in both ACE2 inhibition-treated HCC515 cell line and COVID-19 patient lung tissue.
+
+## Abbreviations
+COVID-19: coronavirus disease 2019, SARS-CoV-2: severe acute respiratory syndrome coronavirus 2, ACE2: angiotensin-converting enzyme 2, AGER: advanced glycosylation end-product specific receptor, LBP: lipopolysaccharide binding protein, SCGB1A1: secretoglobin family 1A member, SFTPD: surfactant protein D, RAS: renin–angiotensin system, Ang II: angiotensin II, Ang-(1-7): angiotensin (1-7), ARDS: acute respiratory distress syndrome, ACE2i: inhibition of ACE2, NS: not significant, NA: not available.
+
+## Introduction
+Coronavirus disease 2019 (COVID-19) is an infectious disease discovered in 2019 and currently in outbreak across the world, resulting in more than 4.3 million infections and over 291,354 deaths as of 12
+th May, 2020. It is causing tens of thousands of new infections and thousands of mortalities every day. Patients with COVID-19 present with respiratory symptoms. Severe viral pneumonia related lung injury with acute respiratory failure is the main reason for COVID-19 related death
+ . However, there still lacks efficient treatment for COVID-19 induced lung injury and acute respiratory failure.
+Coronaviruses (CoVs), are a large family of enveloped, positive-sense, single-stranded RNA viruses, which can be found in many vertebrates, such as birds, pigs and humans, and cause various diseases. A novel CoV, termed severe acute respiratory syndrome (SARS)-CoV-2, is the cause of COVID-19. Lung injury with acute respiratory failure was also the main reason for death in patients with SARS
+ . The spike protein of SARS-CoV-2 shares 79.5% sequence identity with the SARS-CoV virus
+ –
+ , which caused the SARS pandemic in 2002, resulting in 774 deaths in 8096 confirmed patients in 29 countries
+ . SARS-CoV-2 uses angiotensin-converting enzyme 2 (ACE2) as the entry receptor and cellular serine protease TMPRSS2 for S protein priming to allow fusion of viral and cellular membranes
+ , similar to SARS-CoV
+ ,
+ . Since in SARS-CoV infection, the spike protein of SARS-CoV inhibits ACE2 to cause severe lung injury and acute respiratory failure
+ ,
+ , it is highly likely that SARS-CoV-2 uses the same mechanism. Inhibition of ACE2 may be part of the pathogenic mechanism in SARS-CoV-2 induced lung injury and acute respiratory failure. Therefore, a drug repurposing pipeline aiming to reverse the gene expression pattern due to ACE2 inhibition may be a candidate for treating lung injury in COVID-19.
+Towards this goal, we performed drug repositioning analysis to identify drugs and compounds for treating SARS-CoV-2 induced lung injury. To explore the mechanisms of proposed drug treatment, we further investigated deregulated genes and pathways in both human lung cells treated with ACE2 inhibitor and human lung tissues from patients deceased from COVID-19. Our results revealed that lung injury related molecular mechanisms are shared between ACE2 inhibition and SARS-CoV-2 infection. Moreover, our proposed drugs can target key genes in these mechanisms, and therefore may prevent lung injury in COVID-19.
+
+## Methods
+
+## Data preparation
+RNA-Seq data from human lung tissues from two COVID-19 deceased patients and age-matched healthy lung tissues, as well as human lung A549 cells with or without H1N1 infection, were downloaded from Gene Expression Omnibus (GEO) database (accession number:
+GSE147507), as reported by Melo
+et al.
+ . Level 5 LINCS L1000 data, a collection of gene expression profiles for thousands of perturbagens at a variety of time points, doses, and cell lines, were downloaded from the GEO database (accession numbers:
+GSE70138 and
+GSE92742). Gene expression profiles in lung cells were extracted from the downloaded L1000 dataset using R scripts (code is available on
+GitHub)
+ . The extracted data include 37,366 treatments of 12,706 drugs in 13 lung cell lines at different time points and doses. Two lung cell lines, A549 and HCC515, were treated with 10 µM moexipril, a homologue of ACE2 that inhibits ACE2 and ACE. Gene expression profiles were collected from A549 and HCC515 cells at six and 24 hours after treatment. Upon moexipril treatment, ACE2 level decreased with time in HCC515 as expected; however, levels increased in A549. This prompted us to focus the analysis on the HCC515 line, which showed the inhibition effect of moexipril. Differential expression of genes was measured by z-score
+ .
+
+## Gene and pathway analysis
+The RNA-Seq data were analyzed using DESeq2
+ (version: 1.26.0). Differential gene expressions were identified by comparing cases and controls (e.g. COVID-19 lung tissue vs. the healthy lung tissue, or cells with H1N1 infection vs. those without H1N1 infection). The top 1000 differential expressed genes were selected by the absolute z-score value. These genes were then used for pathway enrichment analysis using Database for Annotation, Visualization and Integrated Discovery (DAVID) v6.8
+ . Significant pathways (P-value <0.05) were compared between HCC515 cells with ACE2 inhibitor inhibition and lung tissues from COVID-19 deceased patients. A gene is called “consistent”, if it shows changes in the same direction (increase or decrease) with ACE2 inhibitor treatment and SARS-CoV-2 infection. There are 5390 genes deregulated in the same direction in both ACE2 inhibition-treated HCC515 cell line and COVID-19 patient lung tissue. Among them, 797 genes are in top 1000 differentially expressed genes in either ACE2 inhibition-treated HCC515 cell line or COVID-19 patient lung tissue, and 119 genes are in significantly enriched pathways. The importance of pathways was ranked using the following score:
+
+ScorePathway=−log⁡PvalueACE2i+PvalueCOVID192nconsistent
+
+Pvalue
+ACE2i is the P-value from pathway enrichment analysis for the top 1000 differentially expressed genes in HCC515 cells treated with ACE2 inhibitor.
+Pvalue
+COVID19 is the P-value from pathway enrichment analysis for the top 1000 differentially expressed genes in human lung tissue infected by SARS-CoV-2.
+n
+consistent is the number of consistent genes in that pathway among top 1000 differential expressed genes for both HCC515 cells with ACE2 inhibitor treatment and lung tissues of deceased COVID-19 patients.
+The importance of genes was ranked by the following score:
+ScoreGene=ZscoreACE2i2+ZscoreCOVID1922
+Zscore
+ACE2i is the z-score of the gene in HCC515 cells treated with ACE2 inhibitor.
+Zscore
+COVID19 is the z-score of the gene in human lung tissue infected by SARS-CoV-2.
+
+## Drug repositioning analysis
+The differential gene expression list was transformed into a gene rank list. An effective drug treatment is one that reverts the aberrant gene expression in disease back to the normal level in health. DrInsight Package
+ (version: 0.1.1) was used for this purpose, and the outlier-sum (OS) statistic was retrieved, which models the overall disease-drug connectivity by aggregating disease transcriptome changes with drug perturbation. The Kolmogorov–Smirnov (K-S) test was then applied to the OS statistic, to show the significance level of one drug treatment relative to the background of all other drugs and compounds in the reference drug dataset. The reference drug dataset contains gene rank lists from 12,706 drug treatments in the LINCS L1000 data, as mentioned above. The Benjamini-Hochberg (BH) false discovery rate (FDR) was used to adjust P-values from the K-S test to avoid false significance due to multiple comparisons. FDR<0.05 was used as the threshold to select significant drug candidates for the disease.
+
+## Figure preparation
+
+ and
+ were generated in Microsoft PowerPoint 2016.
+ and
+ were generated in R (version: 3.6.3) with ggplot2 package (version: 3.3.0)
+ .
+ was generated in Cystoscope (version: 3.7.2)
+ .
+ 
+
+## Results
+
+## Feasibility test of the drug repositioning pipeline using influenza A (H1N1) infection data
+Our drug repositioning is based on the assumption that if a drug can reverse the abnormality of gene expression pattern in the disease, the drug should be able to treat the disease
+ ,
+ . Towards this we have implemented the computational framework as shown in
+ . We collected differential gene expression patterns in the disease and in cells with drug treatment. Then we searched reversible genes whose expression changes in drug treatment are opposite to those in disease to estimate the effect of a drug for the disease. We further compared effect of every drug to all other candidates to estimate the significance of a drug for treating the disease.
+As COVID-19 is an emerging disease with much unknown, we first demonstrate the feasibility of the drug repositioning pipeline using H1N1 virus infection, where much more research has been done and multiple drugs are approved by the United States Food and Drug Administration. We computed the differentially expressed genes from RNA-Seq data of A549 lung cells with or without H1N1 virus infection. We then identified the best candidates that could reverse the expression pattern of these differentially expressed genes, by analyzing 12,706 drugs and compounds from LINCS L1000 pharmacogenomics data
+ . The results show that CGP-60474 (FDR= 2.514×10
+-4), sirolimus (FDR= 3.040×10
+-4), COL-3 (FDR= 9.452×10
+-4), PIK-75 (FDR= 0.002), geldanamycin (FDR= 0.001), and wortmannin (FDR= 0.046) could significantly (FDR<0.05) reverse the gene expression in H1N1 infection in A549 lung cells (
+ ). Sirolimus, the second-best candidate by FDR, also known as rapamycin, is a potent immunosuppressant that acts by selectively blocking the transcriptional activation of cytokines, thereby inhibiting cytokine production. It was previously shown clinically effective in H1N1 infected patients with severe pneumonia and acute respiratory failure
+ as adjuvant treatment with steroids. PIK-75, a PI3K inhibitor, exhibits potent antiviral activity against H1N1 virus
+ . Geldanamycin is a Hsp90 inhibitor, while wortmannin is an inhibitor of actinin-4. Both geldanamycin and wortmannin can inhibit H1N1 virus replication
+ ,
+ . In summary, our drug repositioning pipeline has shown promise through the example of H1N1 infection.
+ 
+
+## Repurposed drugs for treating lung injury in COVID-19
+To repurpose drugs for inhibition of ACE2, we conducted differential gene expression analysis in HCC515 and A549 lung cells with the inhibition of ACE2 by moexipril, from the LINCS L1000 project
+ using a similar approach as for H1N1 infection described above. Upon examination of ACE2 expression at different time points (six and 24 hours), we opted to focus on HCC515 cells, which have reduced ACE2 expression upon treatment with moexipril, an ACE2 inhibitor. At six hours after treatment with moexipril, narciclasine (FDR=0.006) and geldanamycin (FDR=0.006) could significantly reverse the gene expression changes due to the ACE2 inhibitor (
+ ). At 24 hours post treatment of moexipril, the effect of CGP-60474 (FDR=1.337×10
+-7), panobinostat (FDR=2.443×10
+-05), trichostatin-a (FDR=3.546×10
+-03) and COL-3 (FDR= 0.002) became significant (
+ ). Among these predicted drugs, narciclasine and geldanamycin are significant in HCC515 cells at 6h after treatment but no longer significant in cells at 24h after treatment. Both narciclasine and geldanamycin have anti-inflammatory effects and can reduce lung injury caused by other diseases in animal model
+ ,
+ . On the other hand, in HCC515 cells treated with moexipril, the ACE2 level at 24h is lower than that at 6h, suggesting that ACE2 inhibition is enhanced over time. Thus drugs such as narciclasine and geldanamycin that are effective in early treatment may not be suitable for sustained administration.
+To further confirm if these effects shown in cell lines are physiologically relevant for human lung injury due to COVID-19, we analyzed the RNA-Seq data of human lung tissues from two COVID-19 deceased patients with age-matched normal lung tissues, as reported by Melo
+et al.
+ Gene expression of individual markers for lung injury, advanced glycosylation end-product specific receptor (AGER), lipopolysaccharide binding protein (LBP) and secretoglobin family 1A member (SCGB1A1)
+ is up-regulated in the HCC515 cell line treated with ACE2 inhibitor and human COVID-19 patient lung tissue (
+ ), whereas expression of surfactant protein D (SFTPD), a gene encoding a protein involved in the innate immune response to protect the lungs against inhaled microorganisms and chemicals, is decreased. This indicates the similarity between ACE2 inhibition by moexipril in the cell line and lung injury from COVID-19. Next we extracted the differentially expressed genes in COVID-19 lung tissues vs. normal lungs and used them as target genes to be reversed by the same drugs and compounds in the drug repositioning framework as shown in
+ . The results show that sirolimus (FDR=0.003), COL-3 (FDR=0.003), CGP-60474 (FDR=0.003), staurosporine (FDR=0.003) and mitoxantrone (FDR=0.003) are significant in reversing the target genes’ expression in the human lung tissues due to COVID-19 mentioned earlier (
+ ). Thus, together COL-3 and CGP-60474 show consistent effects for reversing gene expression changes in both the HCC515 cell line treated with ACE2 inhibitor and human COVID-19 patient lung tissue (
+ ). Moreover, COL-3 and CGP-60474 both can reversely decrease the expression of marker genes for lung injury, AGER, LBP, SCGB1A1, and reversely increase SFTPD expression in HCC515 cell line pre-treated with ACE2 inhibitor moexipril. CGP-60474 (0.12 µM) appears to be more potent than COL-3 (2.5 µM). In conclusion, COL-3 and CGP-60474 show promise as potential purposeful drugs to treat lung injury in COVID-19.
+
+## Pathway comparison between inhibition of ACE2 and infection of SARS-CoV-2
+We performed pathway enrichment analysis with the top 1000 deregulated genes in HCC515 cells with ACE2 inhibitor inhibition and human COVID-19 patient lung tissues. It was found that 12 significantly enriched pathways (P-value <0.05) overlap between HCC515 cells with ACE2 inhibitor inhibition and human COVID-19 patient lung tissues (
+ ,
+ ). As expected, multiple pathways involved in virus infection are enriched. Various signaling pathways, such as the TNF signaling pathway, MAPK signaling pathway and chemokine signaling pathway, with well-known associations with lung injury, are also enriched
+ –
+ . Moreover, other pathways related to cancers (e.g. ‘viral carcinogenesis’ and ‘proteoglycans in cancer’), or cardiovascular diseases (e.g. ‘viral myocarditis’) also show up significantly enriched in the results (
+ ,
+ ). A total of 66 genes in these overlapped pathways show consistent changes between the ACE2 inhibited lung cell line and SARS-CoV-2 lung tissues (
+ ).
+ We further analyzed the genes and pathways associated with the two drugs COL-3 and CGP-60474, which show coherent effects in reversing the gene expression patterns in HCC515 cells with ACE2 inhibitor inhibition and human COVID-19 patient lung tissues (
+ ). For COL-3, from the molecular point of view, it leads to decreased expression of many genes including RHOA, RAC2, FAS and CDC42 in lung cells, as part of the mechanisms to protect lung from injury (
+ ). These genes are important players in pathways such as the chemokine signaling pathway (for CCL2, ADCY7, GNG11, PXN, CDC42, RAC2, RHOA, WAS), TNF signaling pathway (for CCL2, MMP3, JUN, BCL3, FAS, MAP2K6) and MAPK signaling pathway (for HSPA1A, CDC42, RAC2, PAK2, FAS, MAP2K6, JUN, GADD45B, GADD45A). All 12 significantly enriched pathways in
+ are also observed in COL-3 treatment. CGP-60474 shares 13 gene targets with COL-3, including RHOA, WAS, HSPA1A, SNX2, RAB8A, IL2RG, MMP3, BCL2L1, JUN, HIST1H2BK, GNG11, IQGAP1 and MYL12B. It also has a unique set of target genes related to lung injury, such as CALR and MMP14 (
+ ). It decreases the expression of CALR, a multifunctional protein that acts as a major Ca(2+)-binding (storage) protein in the lumen of the endoplasmic reticulum
+ . It also increases the expression of MMP14, a member of the matrix metalloproteinase (MMP) family with anti-inflammatory properties. CGP-60474 treatment affects 11 out of 12 significantly enriched pathways in COL-3, but not the viral myocarditis pathway. More details on the molecular mechanisms of the target genes and pathways of these two drug candidates are discussed below.
+
+## Discussion
+The inhibition of ACE2 promotes lung injury via the renin–angiotensin system (RAS)
+ . In pulmonary RAS, ACE2 converts angiotensin II (Ang II), an octapeptide hormone, to Ang-(1-7), an heptapeptide hormone (
+ ). Ang II triggers pulmonary inflammation and activates the TNF signaling pathway and MAPK signaling pathway to promote lung injury
+ ,
+ . On the other hand, Ang-(1–7) inhibits inflammation and protects lungs from injury
+ by inhibiting the MAPK signaling pathway
+ , lowering cytokine release
+ and downregulating the RHOA/ROCK pathway
+ . Thus, inhibition of ACE2 will increase Ang II levels, decrease Ang-(1–7), and deregulate various downstream pathways, such as TNF and MAPK signaling pathways to promote lung injury (
+ ). Our pathway analysis on the HCC515 lung cell line confirmed that inhibition of ACE2 by moexipril can deregulate TNF signaling, MAPK signaling and cytokine signaling pathways. We further showed that these pathways are also deregulated in human lung tissues of deceased COVID-19 patients (
+ ). Moreover, inhibition of ACE2 induced similar expression patterns of lung injury markers to that in human lung tissues of deceased COVID-19 patients (
+ ). This evidence suggests that inhibition of ACE2 may indeed be part of the molecular mechanisms of lung injury in COVID-19. Moreover, other pathways related to cancers (e.g. ‘viral carcinogenesis’ and ‘proteoglycans in cancer’), or cardiovascular diseases (e.g. viral myocarditis) also show up significantly enriched in the results (
+ ). These results may help to explain the increased risks of fatality among COVID-19 patients with underlying conditions (cancers, heart diseases)
+ ,
+ . Additionally, myocarditis has been clinically observed in a patient with COVID-19
+ , showing a direct link between the two conditions.
+Our drug repositioning analysis suggested five possible drugs based on RNA-Seq data from patients deceased from COVID-19. Among them, clinical trial has started for treating patients with COVID-19 pneumonia with sirolimus (
+NCT04341675). Two other drugs (or compounds), COL-3 and CGP-60474, also have additional evidence of effectiveness from the L1000 data of the lung HCC515 cell line treated with ACE2 inhibitor moexipril. Moreover, both COL-3 and CGP-60474 could reverse the expression patterns of lung injury markers in HCC515 cells with ACE2 inhibitor inhibition and human COVID-19 patient lung tissues (
+ ). This phenotypic evidence suggests that COL-3 and CGP-60474 may be effective in treating lung injury in COVID-19 (
+ ). Therefore, we further analyzed the target genes and pathways of these two drugs in treating lung injury in COVID-19. 
+COL-3, also known as incyclinide or CMT-3, is a chemically modified tetracycline. It reversed the expression patterns of many lung injury related genes and pathways, such as RHOA, RAC2 and FAS in the chemokine signaling pathway, TNF signaling pathway and MAPK signaling pathway (
+ ). RHOA, also known as ras homolog family member A, is a member of the Rho family of small GTPases. The activation of RHOA is crucial for lung injury
+ . Inhibition of RHOA is a promising approach to acute lung injury treatment
+ . RAC2, also known as Ras-related C3 botulinum toxin substrate 2, is a member of the Ras superfamily of small guanosine triphosphate (GTP)-metabolizing proteins. Rac2 plays an important role in inflammation-mediated lung injury
+ ,
+ . FAS, also known as Fas cell surface death receptor, is a member of the TNF-receptor superfamily. FAS activation is essential in inducing acute lung injury
+ . Small interfering RNA targeting Fas reduced lung injury in mice
+ . Previous results from many pre-clinical animal models have supported the role of COL-3 in reducing lung injury and improves survival of experimented animals. For example, COL-3 prevented lung injury and acute respiratory distress syndrome (ARDS) in a clinically applicable porcine model
+ –
+ . It also improved acute respiratory distress syndrome (ARDS) survival in an ovine model
+ . Given all the evidence, COL-3 may be an attractive candidate for a clinical trial treating severe viral pneumonia related lung injury with respiratory failure in COVID-19 (
+ ).
+CGP-60474, on the other hand, is an inhibitor of cyclin-dependent kinase (
+ ). CGP-60474 not only shared target genes with COL-3, such as RHOA, WAS, HSPA1A, SNX2, RAB8A, IL2RG, MMP3, BCL2L1, JUN, HIST1H2BK, GNG11, IQGAP1 and MYL12B, but also has unique target genes that related to lung injury, like CALR and MMP14 (
+ ). Blocking CALR activity attenuated murine acute lung injury by inducing polarization of M2 subtype macrophages, which are anti-inflammatory
+ . MMP14 was shown to trigger the anti-inflammatory proteolytic cascade to prevent lung injury in mice
+ . Interestingly, so far only a few studies have reported some biological functions of CGP-60474
+ –
+ . One drug reposition study using L1000 data also pointed to CGP-60474 as the most potent drug based on anti-inflammatory effects
+ . The authors then experimentally showed that CGP-60474 alleviated tumor necrosis factor-α (TNF-α) and interleukin-6 (IL-6) levels in activated macrophages, downregulated the NF-κB activity, and reduced the mortality rate in lipopolysaccharide induced endotoxemia mice. Another
+in silico drug prediction study suggested that CGP-60474 could target multiple cancers, though no experiments were conducted
+ . Although cyclin-dependent kinase inhibition by another drug, seliciclib, reduced lung damage in a mouse model of ventilator-induced lung injury
+ , further
+in vivo investigation of CGP-60474 is needed to test its role in treating lung injury.
+In summary, we propose two candidate drugs, COL-3 and CGP-60474, which can reverse the gene expression patterns in COVID-19 lung injury and a lung cell line with ACE2 being inhibited. We further analyzed potential molecular and biological mechanisms of lung injury in COVID-19. The work will hopefully gain the interest of the biomedical and clinical community for further validations
+in vivo for both candidate drugs, and even possibly clinical trials on COL-3 to save lives from severe respiratory failure in COVID-19.
+
+## Data availability
+
+## Source data
+RNA-Seq data from Gene Expression Omnibus, Accession number GSE147507:
+https://identifiers.org/geo:GSE147507
+
+Phase I LINCS L1000 data from Gene Expression Omnibus, Accession number GSE92742:
+https://identifiers.org/geo:GSE92742
+
+Phase II LINCS L1000 data from Gene Expression Omnibus, Accession number GSE70138:
+https://identifiers.org/geo:GSE70138
+
+## Underlying data
+Zenodo: lanagarmire/COVID19-Drugs-LungInjury: Prediction of repurposed drugs for treating lung injury in COVID-19.
+https://doi.org/10.5281/zenodo.3823277
+ 
+
+This project contains the following underlying data:
+- HCC515_6_data_for_drug.csv (Differential expression of genes in HCC515 cell at 6 h after treatment of ACE2 inhibitor)
+- HCC515_24_data_for_drug.csv (Differential expression of genes in HCC515 cell at 24 h after treatment of ACE2 inhibitor)
+- COVID19-Lung_data_for_drug.csv (Differential expression of genes in lung tissues with COVID-19)
+- HCC515_6_drug.csv (Drugs for HCC515 cell at 6 h after transfection of ACE2 inhibitor)
+- HCC515_24_drug.csv (Drugs for HCC515 cell at 24 h after transfection of ACE2 inhibitor)
+- COVID19-Lung_drug.csv (Drugs for lung tissuse from COVID-19 patients)
+- COL-3_single_treatment_response_data.csv (Differential expression of genes in HCC515 cell at 24h after treatment of COL-3)
+- CGP-60474_single_treatment_response_data.csv (Differential expression of genes in HCC515 cell at 24h after treatment of CGP-60474)
+Data are available under the terms of the
+Creative Commons Attribution 4.0 International license (CC-BY 4.0).
+
+## Code availability
+Source code available from:
+https://github.com/lanagarmire/COVID19-Drugs-LungInjury
+
+Archived source code at time of publication:
+https://doi.org/10.5281/zenodo.3822923
+ 
+
+License:
+GNU General Public License v3.0
+
+## Funding Statement
+This research was supported by the National Institute of Environmental Health Sciences through funds provided by the trans-NIH Big Data to Knowledge (BD2K) initiative [K01ES025434]; the US National Library of Medicine [R01 LM012373, R01 LM12907]; and the National Institute of Child Health and Human Development [R01 HD084633; to L.X. Garmire].
+
+[version 2; peer review: 2 approved]
+
+## References
+ 
+
+F1000ResearchF1000Res10.5256/f1000research.28930.r70268Reviewer response for version 2
+YangXiaReferee 
+1Department of Integrative Biology and Physiology, University of California, Los Angeles, Los Angeles, CA, USA
+Competing interests: No competing interests were disclosed.
+292020Copyright: © 2020 Yang XThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Recommendation: Approved.
+
+The authors have sufficiently addressed my comments.
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Partly
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Partly
+Are the conclusions drawn adequately supported by the results?
+Yes
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+Bioinformatics, systems biology, complex diseases
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+F1000ResearchF1000Res10.5256/f1000research.28930.r70269Reviewer response for version 2
+HanLengReferee LiShengliCo-referee 
+1Department of Biochemistry and Molecular Biology, The University of Texas Health Science Center at Houston McGovern Medical School, Houston, TX, USA
+Competing interests: No competing interests were disclosed.
+2682020Copyright: © 2020 Han L and Li SThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Recommendation: Approved.
+
+I have no further comments to make.
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Yes
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Yes
+Are the conclusions drawn adequately supported by the results?
+Yes
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+Computational biology
+We confirm that we have read this submission and believe that we have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+F1000ResearchF1000Res10.5256/f1000research.26472.r65750Reviewer response for version 1
+HanLengReferee LiShengliCo-referee 
+1Department of Biochemistry and Molecular Biology, The University of Texas Health Science Center at Houston McGovern Medical School, Houston, TX, USA
+Competing interests: No competing interests were disclosed.
+1072020Copyright: © 2020 Han L and Li SThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Recommendation: Approved.
+
+He
+et al. implemented a computational framework of drug repositioning to identify drug candidates for COVID-19 lung injury treatment. The authors first proved feasibility of drug repositioning pipeline in H1N1 infection data. They extracted genes that showed differential expression in ACE2 inhibitor-treated cell line and COVID-19 patients. The authors next screened drugs that could reverse expression of these differential genes, wherein COL-3 and CGP-60474 showed the most potent to treat lung injury in COVID-19.
+
+In the moexipril-treated HCC515 cell line, the effects of narciclasine and geldanamycin disappeared at 24 hours post treatment, which could significantly reverse the gene expression changes at six hours after treatment. Please provide more discussion on this.
+How many genes (key genes) were deregulated in the same direction in both ACE2 inhibition-treated HCC515 cell line and COVID-19 patient lung tissue?
+For referring drug candidates, did you use all the differentially expressed genes in COVID-19 lung tissues vs. normal lungs, or only part of differential genes?
+In Table 1, column "SARS-CoV-2 infection Human lung tissue", the P values of effective drugs are the same, please provide more details to explain.
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Yes
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Yes
+Are the conclusions drawn adequately supported by the results?
+Yes
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+Computational biology
+We confirm that we have read this submission and believe that we have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+F1000ResearchF1000ResHeBing 1University of Michigan, USA
+Competing interests: No competing interests were disclosed.
+1782020He 
+et al. implemented a computational framework of drug repositioning to identify drug candidates for COVID-19 lung injury treatment. The authors first proved feasibility of drug repositioning pipeline in H1N1 infection data. They extracted genes that showed differential expression in ACE2 inhibitor-treated cell line and COVID-19 patients. The authors next screened drugs that could reverse expression of these differential genes, wherein COL-3 and CGP-60474 showed the most potent to treat lung injury in COVID-19.
+
+In the moexipril-treated HCC515 cell line, the effects of narciclasine and geldanamycin disappeared at 24 hours post treatment, which could significantly reverse the gene expression changes at six hours after treatment. Please provide more discussion on this.
+
+Response: Thank you for your comment. We have added more discussion on this according to your suggestion.
+"Among these predicted drugs, narciclasine and geldanamycin are significant in HCC515 cells at 6h after treatment but no longer significant in cells at 24h after treatment. Both narciclasine and geldanamycin have anti-inflammatory effects and can reduce lung injury caused by other diseases in animal model. On the other hand, in HCC515 cells treated with moexipril, the ACE2 level at 24h is lower than that at 6h, suggesting that ACE2 inhibition is enhanced over time. Thus drugs such as narciclasine and geldanamycin that are effective in early treatment may not be suitable for sustained administration.”
+ 
+
+How many genes (key genes) were deregulated in the same direction in both ACE2 inhibition-treated HCC515 cell line and COVID-19 patient lung tissue?
+  
+
+Response: There are 5390 genes deregulated in the same direction in both ACE2 inhibition-treated HCC515 cell line and COVID-19 patient lung tissue. Among them, 797 genes are in top 1000 differentially expressed genes in either ACE2 inhibition-treated HCC515 cell line or COVID-19 patient lung tissue, and 119 genes are in significantly enriched pathways. We have added these statistics into the manuscript according to your comment.
+ 
+
+For referring drug candidates, did you use all the differentially expressed genes in COVID-19 lung tissues vs. normal lungs, or only part of differential genes?
+
+Response: We used all differentially expressed genes in drug repurposing analysis.
+ 
+
+In Table 1, column "SARS-CoV-2 infection Human lung tissue", the P values of effective drugs are the same, please provide more details to explain.
+
+Response: Good question. Table 1 shows BH FDR adjusted P value for every drug. The raw p value for the top 5 drugs are 5.11e-7,6.38e-7,9.02e-7,1.21e-6 and 1.34e-6. There are 12706 drugs. Since FDR=(Number of drugs x P.value)/Drug rank , FDR for the top 5 drugs are 0.00649, 0.00405,0.00382,0.00385 and 0.00340. According to BH procedure, if FDR of a drug is bigger than the FDR of the next lower ranked drug, the FDR of that drug is reset to the FDR of next lower ranked drug. So the FDR for the top 4 drugs are set to the FDR of the fifth drug, which is 0.00340. This is a conservative measure. That’s why FDR of all top 5 drugs are 0.00340, which is rounded to 0.003 in table 1.
+F1000ResearchF1000Res10.5256/f1000research.26472.r64847Reviewer response for version 1
+YangXiaReferee 
+1Department of Integrative Biology and Physiology, University of California, Los Angeles, Los Angeles, CA, USA
+Competing interests: No competing interests were disclosed.
+3062020Copyright: © 2020 Yang XThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Recommendation: Approved with Reservations.
+
+In this study, He and Garmire utilized publicly available gene expression datasets on COVID-19 lungs and drug treatment studies in lung cell lines to conduct drug repositioning analysis. They found that the genes and pathways altered by an AEC2 inhibitor in the HCC515 lung cell line mimic those of COVID-19 lungs, supporting that ACE2 inhibition likely underlines the lung injury induced by the SARS-CoV2 virus. They used the gene profiles from these datasets to identify drugs in the L1000 database that can reverse the genes and pathways affected by ACE2 inhibition and in COVID-19 lungs and prioritized two drugs, COL-3 and CGP-60474, that have such properties and may have the potential to treat COVID-19. The study was well-designed and executed, the paper was well-written and easy to follow, and the findings are interesting and promising. The genes, pathways, and drugs uncovered offer insights into COVID-19. Overall a very timely study to address a critical health issue. There are some technical aspects to be addressed, as detailed below.
+ Major:
+
+Some of the statistical analyses need justification. The arbitrary use of top 1000 genes instead of any statistical cutoff is unconventional. Pathway analysis used raw p values instead of FDRs, which is also unconventional. Please justify.
+Unclear what type of genes are considered in n_consistent in the pathway score calculation. Among top 1000 genes in both ACE2i and COVID19? If so, state it clearly.
+As many curated pathways that are closely related (e.g., inflammation pathways) share overlapping genes, they tend to show coordinated over- or under-enrichment in pathway analysis. The use of n_pathway in the gene score calculation can be misleading due to such overlaps in non-independent pathways.
+Which method was used in the FDR calculation for drug repositioning analysis? Please clarify.
+Datasets related to H1N1 was used as a positive control to test the drug repositioning pipeline since numerous FDA-approved drugs are available. This is a good design but only one of the drugs predicted was discussed. What about the other top ranked drugs? Any evidence for H1N1 treatment effect for the other top ranked drugs? What about the FDR approved drugs for H1N1? Were they retrieved by the analysis? These are unclear based on the results descriptions. If not, the conclusion "our drug repositioning pipeline has shown merit in discovering effective drugs through the example of H1N1 infection" is too strong.
+For genes in Table 2, not sure if the direction of changes is consistent. Please clarify.
+ Minor:
+
+Add year to the date "12th May".
+It is interesting that the ACE2 inhibitor only inhibited ACE2 in HCC515 cell line but not the A549 cell line. Any explanation on why the drug did not inhibit ACE2 in A549?
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Partly
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Partly
+Are the conclusions drawn adequately supported by the results?
+Yes
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+Bioinformatics, systems biology, complex diseases
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard, however I have significant reservations, as outlined above.
+F1000ResearchF1000ResHeBing 1University of Michigan, USA
+Competing interests: No competing interests were disclosed.
+1782020In this study, He and Garmire utilized publicly available gene expression datasets on COVID-19 lungs and drug treatment studies in lung cell lines to conduct drug repositioning analysis. They found that the genes and pathways altered by an AEC2 inhibitor in the HCC515 lung cell line mimic those of COVID-19 lungs, supporting that ACE2 inhibition likely underlines the lung injury induced by the SARS-CoV2 virus. They used the gene profiles from these datasets to identify drugs in the L1000 database that can reverse the genes and pathways affected by ACE2 inhibition and in COVID-19 lungs and prioritized two drugs, COL-3 and CGP-60474, that have such properties and may have the potential to treat COVID-19. The study was well-designed and executed, the paper was well-written and easy to follow, and the findings are interesting and promising. The genes, pathways, and drugs uncovered offer insights into COVID-19. Overall a very timely study to address a critical health issue. There are some technical aspects to be addressed, as detailed below.
+Major:
+
+Some of the statistical analyses need justification. The arbitrary use of top 1000 genes instead of any statistical cutoff is unconventional. Pathway analysis used raw p values instead of FDRs, which is also unconventional. Please justify.
+
+Response: Thank you for your comments. We got gene expression data in response to AEC2 inhibitor in the HCC515 lung cell line from LINC1000 project. It only provides differential gene expression levels measured in Z-score. So we can only select differential genes by using top n genes. To be consistent, in this study, we also transformed all differential expressions in Z-score and used top n to select differentially expressed genes. Top 1000 differentially expressed genes in HCC515 cell with AEC2 inhibitor treatment and COVID-19 lungs mapped to 43 and 54 kegg pathways, respectively. The FDR for the most significantly pathway in HCC515 cell with AEC2 inhibitor treatment is 0.21. If we use FDR instead of p value in pathway analysis, then no further analysis could be performed in this study.
+ 
+
+Unclear what type of genes are considered in n_consistent in the pathway score calculation. Among top 1000 genes in both ACE2i and COVID19? If so, state it clearly.
+
+Response: Thank you for the comment. We have revised the manuscript accordingly. “
+n_
+consistentis the number of consistent genes in that pathway among top 1000 differential expressed genes, for both HCC515 cells with ACE2 inhibitor treatment and lung tissues of deceased COVID-19 patients”.
+ 
+
+As many curated pathways that are closely related (e.g., inflammation pathways) share overlapping genes, they tend to show coordinated over- or under-enrichment in pathway analysis. The use of n_pathway in the gene score calculation can be misleading due to such overlaps in non-independent pathways.
+
+Response: Thank you for your comment. We removed n_pathway from gene score calculation according to your suggestion, and updated figure 4 according to new gene score.
+ 
+
+Which method was used in the FDR calculation for drug repositioning analysis? Please clarify.
+
+Response: The FDR calculation used Benjamini-Hochberg (BH) procedure. We have clarified this in the manuscript according to your comment.
+ 
+
+Datasets related to H1N1 was used as a positive control to test the drug repositioning pipeline since numerous FDA-approved drugs are available. This is a good design but only one of the drugs predicted was discussed. What about the other top ranked drugs? Any evidence for H1N1 treatment effect for the other top ranked drugs? What about the FDR approved drugs for H1N1? Were they retrieved by the analysis? These are unclear based on the results descriptions. If not, the conclusion "our drug repositioning pipeline has shown merit in discovering effective drugs through the example of H1N1 infection" is too strong.
+
+Response: Thank you for your comments. Our drug response data in lung cells are collected from LINC1000 project, which unfortunately do not include treatment using current four FDA approved drugs (peramivir, zanamivir, oseltamivir phosphate, and baloxavir marboxil) for H1N1. We have toned down the statement to “our drug repositioning pipeline has shown promise through the example of H1N1 infection". We also added discussion of other top ranked drugs and revised the conclusion according to your suggestions. 
+ 
+
+For genes in Table 2, not sure if the direction of changes is consistent. Please clarify.
+
+Response: Yes, all genes listed in table 2 have same direction in both HCC515 cell with AEC2 inhibitor treatment and COVID-19 lungs. We have added the annotation to the table 2.
+Minor:
+
+Add year to the date "12th May".
+
+Response: We added the year according to your suggestion.
+
+It is interesting that the ACE2 inhibitor only inhibited ACE2 in HCC515 cell line but not the A549 cell line. Any explanation on why the drug did not inhibit ACE2 in A549?
+
+Response: The ACE2 inhibitor inhibited ACE2 in both HCC515 cell and A549 cell. But in A549 cell, Z-score of ACE2 at 24h after treatment is higher than that at 6h, rather than being lower as expected (if ACE2 inhibitor is effective). This implies the inhibitor is not effective in A549 cell for some reason. Due to the concern of data quality, we didn’t use data from A549 cell.
+Associated Data
+
+## Data Availability Statement
+
+## Source data
+RNA-Seq data from Gene Expression Omnibus, Accession number GSE147507:
+https://identifiers.org/geo:GSE147507
+
+Phase I LINCS L1000 data from Gene Expression Omnibus, Accession number GSE92742:
+https://identifiers.org/geo:GSE92742
+
+Phase II LINCS L1000 data from Gene Expression Omnibus, Accession number GSE70138:
+https://identifiers.org/geo:GSE70138
+
+## Underlying data
+Zenodo: lanagarmire/COVID19-Drugs-LungInjury: Prediction of repurposed drugs for treating lung injury in COVID-19.
+https://doi.org/10.5281/zenodo.3823277
+ 
+
+This project contains the following underlying data:
+- HCC515_6_data_for_drug.csv (Differential expression of genes in HCC515 cell at 6 h after treatment of ACE2 inhibitor)
+- HCC515_24_data_for_drug.csv (Differential expression of genes in HCC515 cell at 24 h after treatment of ACE2 inhibitor)
+- COVID19-Lung_data_for_drug.csv (Differential expression of genes in lung tissues with COVID-19)
+- HCC515_6_drug.csv (Drugs for HCC515 cell at 6 h after transfection of ACE2 inhibitor)
+- HCC515_24_drug.csv (Drugs for HCC515 cell at 24 h after transfection of ACE2 inhibitor)
+- COVID19-Lung_drug.csv (Drugs for lung tissuse from COVID-19 patients)
+- COL-3_single_treatment_response_data.csv (Differential expression of genes in HCC515 cell at 24h after treatment of COL-3)
+- CGP-60474_single_treatment_response_data.csv (Differential expression of genes in HCC515 cell at 24h after treatment of CGP-60474)
+Data are available under the terms of the
+Creative Commons Attribution 4.0 International license (CC-BY 4.0).
+
+## Code availability
+Source code available from:
+https://github.com/lanagarmire/COVID19-Drugs-LungInjury
+
+Archived source code at time of publication:
+https://doi.org/10.5281/zenodo.3822923
+ 
+
+License:
+GNU General Public License v3.0

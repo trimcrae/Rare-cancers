@@ -1,0 +1,896 @@
+822acssdACS Applied Materials & InterfacesACS Appl Mater InterfacesPMC1099687810996878109968783851837510.1021/acsami.3c18830Harnessing RNA Technology
+to Advance Therapeutic Vaccine
+Antigens against Chagas Disease
+MancinoChiara PolletJeroen ZingerAssaf JonesKathryn M VillarMaria José LeaoAna Carolina AdhikariRakesh VersteegLeroy Tyagi KunduRakhi StrychUlrich GiordanoFederica HotezPeter J BottazziMaria Elena TaraballiFrancesca PovedaCristina †Center
+for Musculoskeletal Regeneration, Houston
+Methodist Academic Institute, Houston, Texas 77030, United States‡Orthopedics
+and Sports Medicine, Houston Methodist Hospital, Houston, Texas 77030, United States§Department
+of Pediatrics, Division of Tropical Medicine, Baylor College of Medicine, Houston, Texas 77030, United States∥Texas
+Children’s Hospital Center for Vaccine Development, Houston, Texas 77030, United States⊥Department
+of Molecular Virology and Microbiology, Baylor College of Medicine, Houston, Texas 77030, United States#Cell Biology
+and Immunology Group, Wageningen University
+& Research, Wageningen 6708 PB, The Netherlands¶Department
+of Biology, Baylor University, Waco, Texas 76798, United States∇Laboratory
+for Bioinspired Nano Engineering and Translational Therapeutics, Department
+of Chemical Engineering, Technion−Israel
+Institute of Technology, Haifa 3200003, Israel○Cardiovascular
+Sciences Department, Houston Methodist Academic
+Institute, Houston, Texas 77030, United States⧫Neurosurgery
+Department, Houston Methodist Academic Institute, Houston, Texas 77030, United States*Email: assafzinger@technion.ac.il.
+*Email: ftaraballi2@houstonmethodist.org.
+*Email: cristina.poveda@bcm.edu.
+223202416131583215832–158462232025© 2024 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Chagas disease (CD) (American trypanosomiasis caused
+by Trypanosoma cruzi) is a parasitic
+disease endemic
+in 21 countries in South America, with increasing global spread. When
+administered late in the infection, the current antiparasitic drugs
+do not prevent the onset of cardiac illness leading to chronic Chagasic
+cardiomyopathy. Therefore, new therapeutic vaccines or immunotherapies
+are under development using multiple platforms. In this study, we
+assessed the feasibility of developing an mRNA-based therapeutic CD
+vaccine targeting two known T. cruzi vaccine antigens (Tc24—a flagellar antigen and ASP-2—an
+amastigote antigen). We present the mRNA engineering steps, preparation,
+and stability of the lipid nanoparticles and evaluation of their uptake
+by dendritic cells, as well as their biodistribution in c57BL/J mice.
+Furthermore, we assessed the immunogenicity and efficacy of two mRNA-based
+candidates as monovalent and bivalent vaccine strategies using an
+in vivo chronic mouse model of CD. Our results show several therapeutic
+benefits, including reductions in parasite burdens and cardiac inflammation,
+with each mRNA antigen, especially with the mRNA encoding Tc24, and
+Tc24 in combination with ASP-2. Therefore, our findings demonstrate
+the potential of mRNA-based vaccines as a therapeutic option for CD
+and highlight the opportunities for developing multivalent vaccines
+using this approach.
+Keywords: Chagas disease, mRNA vaccine, lipid nanoparticles, biodistribution, immunogenicity
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Dec 15; Accepted 2024 Mar 1; Revised 2024 Feb 29; Collection date 2024 Apr 3.
+
+## Introduction
+The neglected tropical disease known as
+Chagas disease (CD) arises
+after infection with the flagellated protozoan parasite Trypanosoma cruzi (T. cruzi). Now endemic in 21 countries in the
+Americas, CD accounts for ∼56,000 new infections yearly, a
+total of nearly 6–7 million infected individuals. − It is now spreading to nonendemic countries due to globalization. Worldwide estimates show how CD accounts for
+about 10,000 deaths and 800,000 “Disability Adjusted Life Years”
+(DALYs) annually. 
+T. cruzi is transmitted principally
+via a triatomine vector, although it can also spread via oral transmission,
+as well as through organ transplants, contaminated food sources, blood
+transfusions, and congenitally. CD starts
+with a short acute phase characterized by high proliferation of T. cruzi. , Following this acute
+phase, parasitemia subsides during the chronic phase, leaving most
+patients asymptomatic even though patients remain seropositive to T. cruzi antigens and T. cruzi DNA can be detected in their blood by polymerase chain reaction.
+Such patients are presumed to maintain the infection, and they are
+clinically recognized as having what is commonly referred to as an
+“indeterminate status”. Unfortunately, 30–40%
+of infected and indeterminate patients will progress to cardiac and
+gastrointestinal complications (determinate CD) between 10 to 30 years
+postacute phase, with the worst cases leading to death. , Available treatment strategies rely on two main drugs, nifurtimox
+and benznidazole, whose benefits are significant only when intervention
+occurs during the early stages of infection. Moreover, their efficacy is tied to a lengthy treatment regimen
+(up to 60 days), during which patients experience many side effects
+that often lead to patients dropping the treatment regimen. Therefore,
+there is currently little to offer to determine patients who are diagnosed
+late in their illness, especially individuals showing signs and symptoms
+of chronic Chagasic cardiomyopathy (CCC). CCC is characterized by
+the presence of arrythmias, cardiac aneurysms, and heart failure as
+well as strokes and other complications. Through these mechanisms,
+CCC is an important cause of mortality in disease-endemic regions.
+For such chronically infected CD patients, efforts to develop a
+therapeutic vaccine are ongoing, with the potential of use as an immunotherapy
+to delay or prevent cardiac complications in patients with chronic T. cruzi infection. Different
+vaccine strategies have been evaluated through animal models of CD,
+ranging from traditional approaches using live attenuated parasites,
+recombinant proteins formulated with adjuvants and immunostimulants,
+genetic vaccinations, and the delivery of DNA via different vectors. , However, one of the main challenges for a successful CD vaccine
+development strategy is the selection of the target antigen, which
+ideally should demonstrate immunogenicity and efficacy across different
+parasite strains or developmental life-history stages. , For example, targeting the infective metacyclic trypomastigote,
+transferred from vector to host, could potentially prevent parasitemia
+development, causing sterile immunity. However, this parasite stage
+is highly specialized in its immune system evasion thanks to the ability
+of antigen diversification as the mechanism used by the parasite for
+host cell invasion. , Therefore, targeting the later
+stages of T. cruzi, such as the intracellular
+amastigote and extracellular trypomastigote forms, could also help
+control parasitemia in later stages of infection, leading to improved
+patient outcome.
+In this context, two well-explored antigens,
+the amastigote surface
+antigen 2 (ASP-2) and the flagellar calcium-binding flagellar protein
+Tc24 (highly expressed in the trypomastigote stage), present a unique
+opportunity to evaluate them alone or in combination by utilizing
+mRNA-based vaccine technology. Both antigens have been evaluated as
+DNA or recombinant protein antigens in a variety of preclinical animal
+models, including mice, dogs, and even nonhuman primates. , , , They
+were shown to stimulate the CD4+-mediated production of
+Interferon-γ (IFN-γ), as well as activation of cytotoxic
+T cells (CD8+). Specifically, it has been shown that recombinant
+ASP-2 associated with CpG oligodeoxynucleotides or alum elicited a
+strong CD8+ T cell response, subsequently leading to protective
+immunity in mice. In addition, recombinant
+Tc24 used in association with MPLA (monophosphoryl-lipid A) or other
+Toll-like receptor 4 adjuvants, including glucopyranosyl lipid A or
+E6020, resulted in a balanced Th1/Th2 response with increased levels
+of IFN-γ in mice. , Accordingly, a recombinant Tc24-based
+therapeutic CD vaccine is under development and advancing to human
+trials. As an alternative or as a complementary
+approach to administering recombinant protein-based CD vaccines, DNA
+for these antigens was also explored, being delivered to the cell’s
+nuclei either naked, via plasmids, or using a wide variety of viral
+vectors. − With the global successes in administering mRNA (mRNA) vaccines
+for COVID-19, new opportunities are available to accelerate product
+and clinical development for other infectious diseases. Researchers
+have already recognized the potential of mRNA-based vaccines in addressing
+challenges associated with traditional vaccine development for CD. , 
+In this study, we assessed the feasibility of developing an
+mRNA-based
+therapeutic CD vaccine targeting two T. cruzi vaccine antigens (Tc24 and ASP-2). The most widespread approach
+for mRNA delivery relies on nanomedicine: lipid nanoparticles (LNPs)
+are lipid-based vesicles that can be loaded with mRNA payloads. LNPs are usually administered intramuscularly,
+where they are taken up by antigen-presenting cells (APCs) [primarily
+dendritic cells (DCs)]: LNPs release the mRNA cargo in the cytoplasm
+and trigger protein translation, leading to the production of functional
+antigens that resemble those presented by pathogens during a natural
+infection to the immune system, thus mimicking the mechanism of natural
+infection. Here, we outlined the mRNA
+synthesis process and the preparation and stability assessment of
+the LNPs, and examined their uptake by DCs, as well as their biodistribution
+in C57BL/J mice. Furthermore, we comprehensively assessed the mRNA-based
+monovalent and bivalent vaccines by measuring their impact on early
+cardiac damage caused by T. cruzi infection,
+effects on parasite burden, and vaccine-specific immune response (as
+summarized in a,b). With this work, we evaluated the concept of delivering multiple
+mRNA antigens within the same LNP delivery system for CD. Bivalent
+vaccination can offer several advantages by enhancing protection against
+different stages of pathogens, potentially providing more robust responses.
+ 
+
+## Results and Discussion
+
+## LNPs Loaded with Tc24, ASP-2, and Tc24 + ASP-2 mRNA Are Homogeneous
+and Stable
+LNPs containing the mRNA encoding Tc24, ASP-2,
+and Tc24 in combination with ASP-2 were synthesized using the microfluidic
+system benchtop NanoAssemblr, which exploits a microfluidic cartridge
+that mixes an organic phase, usually containing lipids dissolved in
+ethanol, and an aqueous phase, containing the synthesis buffer alongside
+the cargo. , LNPs were synthesized with the
+ionizable lipid known as DLin-MC3-DMA, previously approved by the
+FDA to deliver siRNA. Briefly, an N/P ratio (quaternary nitrogen of
+DLin-MC3-DMA/phosphate of mRNA) of 5.6 allowed for successful complexation
+of the ionizable lipid with the following mRNA constructs: (i) Tc24
+mRNA, (ii) ASP-2 mRNA, and (iii) a combination of Tc24 and ASP-2 mRNA
+(1:1 w/w ratio). Empty LNPs were used as the control. The stability
+of the physio-chemical properties of LNPs was evaluated with dynamic
+light scattering (DLS) for up to 28 days upon storage at 4 °C.
+The average LNP size was around ∼100 nm independently of
+the construct used (80.13 ± 8.12 nm for empty LNPs, 91.27 ±
+0.51 nm for Tc24 LNPs, 86.96 ± 3.84 nm for ASP-2 LNPs, and 81.6
+± 9.45 nm for Tc24 + ASP-2 LNPs, as shown in a), and it was maintained stable
+for up to a month after synthesis. Size distribution was homogeneous
+and consistent over time, as indicated by the low polydispersity indexes
+(PDIs <0.2, b). Finally, the surface charge of LNPs was always negative, with
+a slight decrease of zeta potential (ZP) over time for loaded LNPs
+(from −3.34 ± 1.91 mV to −8.43 ± 1.83 mV for
+Tc24 LNPs, from −2.73 ± 1.3 mV to −9.52 ±
+0.54 mV for ASP-2 LNPs, and from −4.27 ± 0.89 mV to −8.87
+± 0.62 mV for Tc24 + ASP-2 LNPs, as shown in c), which is hypothesized to
+be related to a rearrangement of the contents of the solid core of
+the LNPs, with the mRNA constructs moving closer to the surface of
+the LNPs. The encapsulation efficiency (EE %), evaluated with Ribogreen,
+revealed that over 75% of the genetic cargo was successfully encapsulated
+by our LNPs ( d). In detail, LNPs prepared with the Tc24 construct had the highest
+EE % (116.89 ± 12.80%), while only 86.88% ± 1.27% of the
+ASP-2 mRNA was successfully encapsulated. Consistently with these
+results, LNPs with the combination of the two constructs had an average
+EE %, accounting for the lower efficiency present for the ASP-2 construct
+(108.23 ± 8.27%). The size and presence or absence of the genetic
+cargo were confirmed by CryoTEM, as indicated by the electron-dense
+areas in the LNPs loaded with genetic cargo compared with empty LNPs
+( e).
+ Notably, results show that all the LNPs were stable
+for up to 28
+days postsynthesis when stored at 4 °C, indicating that the LNPs
+are a very robust system for storing genetic cargo. The stringent
+storage conditions, requiring ultralow temperatures (−20/-80
+°C) for certain COVID-19 vaccines, pose significant logistical
+challenges, particularly in tropical countries. − Maintaining
+the cold chain demands specialized infrastructure, reliable transportation,
+and constant monitoring, which may be limited in regions with warmer
+climates. This difficulty in maintaining the required storage conditions
+can lead to delays and complexities in vaccine distribution, especially
+in remote or underserved areas. Moreover, the economic burden associated
+with establishing and sustaining the necessary cold chain infrastructure
+raises concerns about equity in vaccine access. To address these challenges,
+some countries have opted for vaccines with flexible storage requirements.
+Ongoing efforts are focused on innovations in storage technology,
+potentially leading to the development of vaccines that are not as
+reliant on ultralow temperatures. These advancements aim to enhance
+the accessibility and distribution of COVID-19 vaccines, ensuring
+that vaccination campaigns can effectively reach diverse populations
+worldwide. Hence, we evaluated the feasibility of maintaining our
+proposed mRNA vaccine under 4 °C storage, providing evidence
+of stability of physiochemical properties and mRNA integrity, despite
+some possible rearrangement of the cargo within the LNP structure
+indicated by the decrease in ZP. In fact, our observations are supported
+by the readouts over construct integrity obtained via Bioanalyzer
+( f): both LNPs
+loaded with single constructs (either Tc24 or ASP-2) or their combination,
+successfully protected the mRNAs from degradation, as shown by the
+absence of bands at lower molecular weights than the ones corresponding
+to the constructs. Moreover, these agarose gels confirmed the presence
+of both constructs when LNPs were loaded with a combination of Tc24
+and ASP-2, while fainter bands were observed for the ASP-2 construct,
+supporting our hypothesis for the lower EE % of this specific construct.
+
+## In Vitro Toxicity and Uptake
+Prior to advancing to
+in vivo preclinical studies, it is essential to assess the safety
+and effectiveness of a formulation through in vitro evaluations. These tests allowed us to identify any potential
+toxicity related to the formulation itself. In addition, it allows
+for a more cost-effective and rapid way to test for formulation efficacy
+preliminarily. Hence, given that the target cell type for mRNA-based
+vaccines is represented by DCs, we assessed the cytotoxicity of our
+delivery system (empty LNPs) in DCs at different lipidic concentrations
+(0, 12.5, 25, 50, and 100 μM) using a murine DC line. Results
+revealed a threshold of 50 μM (lipidic concentration) over which
+a significant drop in cell viability was observed only 40% of the
+cells survived at a 50 μM concentration, as shown in a. Therefore, the
+50 μM concentration was selected to evaluate the uptake of the
+LNPs by DCs after treatment with rhodamine labeled LNPs. Results revealed
+a 6-fold increase in uptake signal after 24 h of treatment ( b,c), confirming
+the ideal formulation to advance to in vivo studies. While the exact
+mechanisms of DC uptake of LNPs are still under investigation, our
+in vitro experiment with the DC2.4 cell line shows that this target
+cell type can successfully uptake the LNPs. This is of utmost importance
+for vaccine applications, where uptake of LNPs by APCs is the first
+step toward achieving immunity. Once internalized in endosomes, LNPs
+can be released in the cytoplasm thanks to the intrinsic physio-chemical
+properties of the ionizable lipid. The acidic pH of the endosome triggers
+the protonation of the ionizable lipid (DLin-MC3-DMA), which, in turn,
+interacts with the negatively charged lipids of the endosomal membrane,
+disrupting the LNP structure and causing the release of the genetic
+cargo in the cytoplasm, where it is available for protein translation. Validation of the successful translation of
+the Tc24 antigen has been provided in our previous publication by
+Poveda et al., 2023, where Western Blotting has been used to measure
+Tc24 protein expression upon delivery of 1 μg of Tc24 mRNA to
+DCs through the same LNP formulation characterized here. 
+ 
+
+## In Vivo Toxicity and Biodistribution
+Drug delivery
+systems for mRNA delivery aim at protecting the genetic cargo while
+ensuring lower construct immunogenicity and successful delivery of
+the cargo to target cells and tissues for protein expression. Therefore, evaluating the LNP performance in
+vivo is essential, since different applications might require different
+administration routes. With this in mind, LNPs’ toxicity and
+biodistribution were assessed in vivo in C57BL/6J mice using four
+different administration routes: (i) intravenous (IV), (ii) subcutaneous
+(SC), (iii) intramuscular (IM), and (iv) intraperitoneal (IP). In
+detail, mice were administered Luciferase mRNA loaded LNPs, so that two readouts could be gathered from the experiment:
+fluorescently labeled LNPs allowed us to appreciate the biodistribution
+of nanoparticles in different organs (representative images in a), while a luminescence
+signal was used to confirm the success of mRNA translation upon administration
+of the luciferase substrate (representative images in b). Results from the fluorescence
+reading at 18 h postinjection showed significant differences in LNPs
+biodistribution for the four administration routes ( c). As expected for vesicles
+of ∼100 nm size, (i) IV administration revealed the highest
+accumulation in the liver (1.12 × 109 ± 3.19
+× 108 p/s/cm2/sr), spleen (5.33 ×
+108 ± 1.91 × 108 p/s/cm2/sr), and lungs (1.22 × 108 ± 2.43 × 107 p/s/cm2/sr), respectively. The highest protein expression (obtained from the luminescence
+signal arising from luciferase expression) was found in the same organs
+(5.02 × 106 ± 1.53 × 106 p/s/cm2/sr for liver, 1.31 × 105 ± 6.48 ×
+104 p/s/cm2/sr for spleen, and 2.54 × 104 ± 8.44 × 103 p/s/cm2/sr for
+lungs, d). (ii) SC administration gave a minimal signal for fluorescence
+(the highest signal was present in the liver: 3.37 × 107 ± 4.98 × 106 p/s/cm2/sr) and bioluminescence
+(the liver signal being 2.65 × 104 ± 4.43 ×
+104 p/s/cm2/sr), suggesting that this administration
+route might not be suitable for targeting a broader range of organs.
+Nevertheless, the SC route has been widely explored in literature
+for vaccination purposes, and we have shown that SC-administered LNPs
+loaded with Tc24 are capable of eliciting robust immune responses. (iii) IP administration showed how LNPs mainly
+accumulated within the organs that populate the peritoneum, with the
+liver, spleen, lungs, and kidneys having the highest signal (3.64
+× 106 ± 1.71 × 106 p/s/cm2/sr, 4.14 × 105 ± 2.53 × 105 p/s/cm2/sr, 9.71 × 104 ±
+8.21 × 104 p/s/cm2/sr, and 7.79 ×
+104 ± 4.73 × 104 p/s/cm2/sr, respectively). The protein expression signal followed the same
+trend (3.64 × 106 ± 1.71 × 106 p/s/cm2/sr, 4.14 × 105 ± 2.53 ×
+105 p/s/cm2/sr, 9.71 × 104 ±
+8.21 × 104 p/s/cm2/sr, and 7.79 ×
+104 ± 4.73 × 104 p/s/cm2/sr, respectively). Finally, (iv) IM administration gave a high signal
+in the injection site, followed by the one in the left lymph node
+proximal to the injection site (6.15 × 108 ±
+4.98 × 108 p/s/cm2/sr for fluorescence
+and 1.09 × 106 ± 9.79 × 105 p/s/cm2/sr for luminescence). Despite the absence of evident fluorescence
+in the liver, some protein expression was detected in the liver: this
+could be related to the local uptake of the LNPs within the bloodstream
+upon IM administration. LNPs that enter the bloodstream are quickly
+brought to the liver (as seen for IV administration), where hepatocytes
+can take up the vesicles and trigger protein translation. Histological
+sections of organs from these animals did not show any evidence of
+inflammation or acute toxicity (Figure S1a,b).
+ While IV administration could lead to the highest
+protein production,
+as shown by our biodistribution study, vaccines usually exploit parenteral
+administration for a variety of reasons that go beyond reduced training
+needed to perform these injections and decreased risks for infections. In fact, SC and IM routes are preferred because
+those areas are rich in APCs and lymphatic vessels, which could potentially
+trigger stronger immune responses compared to IV or IP routes. Additionally,
+we previously demonstrated that the SC route could elicit a strong
+response for a monovalent Tc24 mRNA vaccine, giving us compelling
+evidence to support the choice of the SC route. 
+
+## Vaccine Efficacy: Bivalent ASP-2 + Tc24 mRNA Vaccine Reduces
+Parasite Burden in a Chronic CD Mouse Model
+In order to assess
+the efficacy of our drug delivery systems for vaccine purposes, we
+evaluated the immunogenicity and efficacy of our mRNA-based therapeutic
+vaccine targets in T. cruzi-infected
+chronic mouse model of CD. Female C57BL/6J mice were infected with T. cruzi and, 70 days postinfection (DPI), were divided
+into six groups (n = 15 per group) as described in . Adopting a therapeutic
+vaccine strategy, animals were administered three doses, once a week,
+starting at 70 DPI, during the early chronic phase of infection, following
+the treatment regimen represented in a and comparing therapeutic vaccination strategies
+described in b. In detail, we wanted to compare the efficacy of a therapeutic
+vaccination strategy involving LNPs loaded with a single antigen or
+with both antigens. Hence, we collected blood, heart, and muscle tissues
+at 14- and 126 DPB after all animals had completed the three-dose
+treatment regimen. We also measured the parasite burden in the heart
+and skeletal muscle and parasitemia in the blood. While no change
+was observed for the parasite load in the heart ( a,b), a reduction in the parasite
+burden was observed in the skeletal muscle of the mice infected and
+vaccinated therapeutically with the vaccine antigens ASP-2 and Tc24
+as a monovalent and bivalent vaccine at 14 DPB ( c), with significant reduction for mice vaccinated
+with the Tc24 antigen. At 126 DPB ( f), there was no reduction of parasite burdens
+in the heart or skeletal muscle. However, an overall reduction in
+the parasitemia was found in the animals vaccinated with the monovalent
+vaccine Tc24 and ASP-2, as well as the bivalent formulation Tc24 +
+ASP-2 at 126 DPB.
+ 
+
+## Vaccine Efficacy: Therapeutic Mono- or Bivalent Vaccination
+with ASP-2 and Tc24 mRNA Protects against Early Chronic Cardiac Inflammation
+Clinical outcomes of CD involve cardiac complications related to
+parasite burden in the tissue, which triggers chronic cardiac inflammation. , Concurrently, inflammation and fibrosis can arise in the skeletal
+muscle. Here, a measurement of the heart and skeletal muscle cellular
+infiltrate at 14- and 126-DPB allowed us to evaluate whether therapeutic
+vaccination with the ASP-2 and Tc24 mRNAs as monovalent or bivalent
+vaccines protected the tissues in the mice infected with T. cruzi. At 14 DPB, the group immunized with the
+bivalent vaccine ASP-2 + Tc24 showed a lower amount of cell infiltration
+compared with the unvaccinated animals (control) and the mice treated
+with empty LNPs (Figure S2a). However,
+the groups vaccinated with the Tc24 mRNA or ASP-2 vaccine had no significant
+reduction. Additionally, the fibrosis detected in the tissues remained
+consistent across treatment strategies. Interestingly, both the cardiac
+cellular infiltration and fibrosis increased at 126 DPB (Figure S2b), suggesting that vaccination with
+a bivalent vaccine could have a short-term protective effect on the
+cardiac damage caused by infection with T. cruzi. No significant differences were detected in the levels of cardiac
+fibrosis (Figure S2c,d). Interestingly,
+vaccination had no effect on inflammation and fibrosis in skeletal
+muscle (Figure S3).
+
+## Vaccine Immunogenicity: Evaluation of Cytokines Secreted by
+Splenocytes
+The rationale behind the use of a bivalent vaccine
+was to utilize surface proteins expressed in multiple stages of the
+parasite, specifically the trypomastigote
+and the amastigote stages, to generate a more robust immune response
+capable of recognizing T. cruzi throughout
+its life cycle. Previous evaluations of these antigens as individual
+vaccine candidates had already yielded promising results. , − In this study, we assessed the efficacy of our therapeutic vaccination
+strategy in vivo, which involved administering three doses of either
+the monovalent or the bivalent mRNA vaccines at 70, 77, and 84 DPI.
+The spleen, characterized by the presence of various leukocyte populations,
+including T cells, B cells, DCs, and macrophages, plays a crucial
+role in immune response regulation, encompassing innate and adaptive
+immune system responses. Therefore, we
+conducted a cytokine release assay using splenocytes from vaccinated
+mice to determine the cytokines secreted upon restimulation with the
+vaccine antigen in a monovalent or bivalent mRNA vaccine. We evaluated seven cytokines, categorized as
+proinflammatory (IFN-γ, TNF-α, IL-2, IL-22, and IL-6)
+and anti-inflammatory (IL-4 and IL-10). IL-13 and IL-17A were also measured, albeit at levels below the
+assay’s sensitivity. A successful vaccine profile is expected
+to yield a T-helper 1 cell (Th1-type) response, characterized by the
+production of the pro-inflammatory cytokines IFN-γ, TNF-α,
+and IL-2, which are crucial for controlling T. cruzi infection, involved in activating immune cells, promoting inflammation,
+and enhancing the generation of a specific immune response. , In detail, IFN-γ and TNF-α promote the activation of
+macrophages and other immune cells.
+Meanwhile, IL-2 plays a
+role in the activation and proliferation of T cells and in maintaining
+the T cell memory. Finally, IL-6 is involved in B-cell activation
+and antibody production. Conversely, a Th2-type response characterized
+by the production of IL-4, IL-5, and IL-10 is associated with susceptibility
+to T. cruzi infection and the development
+of chronic CD. However, anti-inflammatory
+cytokines such as IL-4, IL-10, and proinflammatory cytokine IL-22
+regulate and control the immune response to vaccines, with IL-4 promoting
+antibody production by B cells and IL-10 suppressing excessive inflammation
+and preventing damage to healthy tissue. Maintaining a balance between
+Th1 and Th2 immune responses is essential for an effective immune
+response while mitigating the risks of excessive inflammation. Our
+results demonstrated specific immune responses in mice vaccinated
+with Tc24 and ASP-2 individually at 14 DPB ( a,c), with a subsequent decline in the response
+between 14- and 126-DPB ( b,d). Splenocytes from mice treated with monovalent
+vaccines restimulated with the corresponding antigens yielded high
+levels of proinflammatory cytokines (IFN-γ, TNF-α, IL-2,
+IL-22, and IL-6) and of and anti-inflammatory cytokines (IL-4 and
+IL-10) 14 DPB (Figures S4 and S6), only
+for those levels to decrease 126 DPB (Figures S5 and S7).
+ In contrast, mice immunized with the bivalent vaccine
+Tc24 and
+ASP-2 exhibited a specific response at 126 DPB; splenocytes restimulated
+with both antigens showed an increase of both proinflammatory and
+anti-inflammatory cytokines from 14 to 126 DPB ( e,f, S8, and S9), demonstrating the potential of a bivalent vaccination strategy
+in providing a more robust response. We hypothesize that the antigens
+Tc24 and ASP-2 became less prevalent, evading the immune response
+over time and posing challenges for recognition by the immune system
+in animals vaccinated with monovalent but not bivalent vaccines, which
+contain antigens for both forms of the parasite. Alternatively, the induced immune response may have waned
+over time due to a decline in the number or quality of memory cells
+or a general decrease in the immune response quality.
+Understanding
+the dynamics of mRNA vaccine-induced immune responses
+and their durability is crucial for optimizing vaccination strategies
+against CD. The immune response to the Tc24 and ASP-2 monovalent mRNA
+vaccines exhibited a specific cytokine secretion pattern 2 weeks after
+the last immunization. However, over time, the immune system’s
+response to the vaccine may have weakened or declined, leading to
+a loss of protection. The duration of vaccine-induced protection varies
+depending on factors such as the pathogen, the individual’s
+immune system, and vaccine type. This decline in the level of protection
+can be attributed to a series of factors. For instance, a decrease
+in the number of memory cells or changes in the quality and specificity
+of the immune response could contribute to that outcome. In the case
+of the monovalent vaccine, the loss of a specific immune response
+at 126 DPB, 16 weeks after last immunization, could be attributed
+to antigenic drift or shift, which can reduce the vaccine’s
+effectiveness, especially if the antigens no longer match the circulating
+strains of the parasite. 
+
+## Conclusions
+While vaccines have successfully prevented
+and controlled many
+infectious diseases caused by bacteria and viruses, developing effective
+vaccines against eukaryotic parasites poses unique challenges. Parasites often have large genomes and complex
+life cycles involving multiple developmental stages, which sometimes
+alternate between different hosts. Each stage may express unique antigens,
+making it challenging to identify suitable vaccine targets that provide
+broad protection across all life cycle stages. Moreover, many parasites,
+including Trypanosoma, employ antigenic
+variation. They can rapidly change the surface antigens they express,
+evading the host’s immune response. This requires identifying conserved antigens as vaccine targets
+that can trigger an immune response with the ability to overcome antigenic
+variation. However, there is a limited
+understanding of the specific immune responses that are required to
+confer protection in many parasitic infections. Without clear correlates
+of protection, it is challenging to determine the efficacy of vaccine
+candidates during preclinical and clinical trials. Finally, logistical
+challenges further complicate the design of immunization campaigns,
+particularly when targeting remote or resource-limited areas where
+parasitic infections are widespread. , The delivery
+of vaccines to such locations presents significant obstacles and hurdles.
+Despite the promise of global access and affordability, the mRNA-based
+vaccine technology faces significant hurdles before the ecosystem
+of global manufacturers can learn to adopt it: such technology is
+important to be assessed to build preclinical regulatory-enabling
+evidence of its value toward the use for preventing or treating neglected
+and infectious diseases of importance in the low- and middle-income
+countries.
+Overall mRNA-based vaccines do offer many advantages,
+including
+the feasibility of manufacturing speed, scalability, long-term storage,
+regulatory flexibility, safety, efficacy. However, their successes have mostly been restricted to preventing
+viral illness. One approach to expand the mRNA vaccine platform to
+nonviral or more complex pathogens, including eukaryotic parasites,
+is to consider bivalent or multivalent approaches. Multivalent vaccination
+approaches have also shown to have many benefits, including the possibility
+of increasing protection against the same or different pathogens by
+elucidating immune response to two or multiple antigens. Moreover, when compared to the traditional therapeutic
+approach to CD (which involves drugs with significant side effects,
+Benznidazole and Nifurtimox, that prompt ∼40% of the patients
+to discontinue treatment), global vaccination efforts dedicated to
+the Covid-19 pandemic with mRNA-based technology have saved tens of
+millions of lives, while the spectrum of their side effects, spanning
+from mild reactogenicity to exceptionally rare severe illnesses, was
+much lower in incidence. 
+In this
+work, we explored combining the use of mRNA-technology
+with a bivalent vaccine target approach. For the first time we assessed
+the production and proof-of-concept immunogenicity and efficacy study
+of a bivalent mRNA-based vaccine for T. cruzi. We assessed the homogeneity and stability of the LNP formulations,
+as they play a crucial role in successfully translating the platform
+and subsequent production and storage processes. Additionally, the
+toxicity, uptake, and biodistribution studies offered valuable insights
+into potential variations in target organs resulting from different
+routes of administration. These findings are particularly significant
+for determining the potential therapeutic effectiveness of the vaccine.
+The route choice depends on the vaccine’s characteristics,
+the desired immune response, the target population, and the availability
+of appropriate administration methods. Each route has its considerations
+regarding stability, delivery efficiency, and potential side effects.
+It was further noted that a higher distribution of LNPs does not always
+correlate with a better expression of the mRNA. This can be observed
+from , where
+the LNPs reaching the spleen did not produce a Luciferase signal as
+strong as in other organs (i.e., liver). Efficient spleen targeting
+in vaccines can improve immune responses, including increased antibody
+production, enhanced cellular immunity, and prolonged antigen presentation. , 
+Our results show promising outcomes not only in reducing the
+parasite
+burden in the chronic phase of CD but also in reducing the early cardiac
+damage caused by T. cruzi infection.
+We evaluated the immunogenicity and effectiveness of Tc24 and ASP-2
+mRNA-based candidates, as both monovalent and bivalent vaccine strategies,
+employing an in vivo chronic mouse model of CD. The reduction in the
+cardiac parasite burdens in the mice vaccinated with bivalent vaccine
+Tc24 + ASP-2 suggests a synergist effect, where the presence of one
+antigen enhances the immune response triggered by the other, as well
+as an increase in the recognition of the parasite stages, boosting
+its elimination (ASP-2 amastigotes and Tc24—trypomastigotes
+and amastigotes). Finally, our results show a long-lasting effect
+in the bivalent group at 126 DPB but not in the monovalent groups
+of Tc24 mRNA or ASP-2 mRNAs alone. An added challenge in CD management
+is the therapeutic effect on cardiac tissue. The therapeutic goals
+include reductions of parasite load (amastigotes and trypomastigotes)
+in the heart cardiac, with simultaneous decreases in host inflammatory
+responses and collagen deposition leading to cardiac fibrosis. An
+ideal target product profile for a CD therapeutic vaccine includes
+all three performance features, or at the very least no exacerbation
+of either inflammation or fibrosis that could worsen therapeutic outcomes.
+While the present study represents the first proof of concept of the
+feasibility of using multivalent mRNA vaccination strategies for CD,
+there is room for improvement in different areas. For example, improving
+the LNP formulation and the purity of the mRNA could significantly
+boost the effectiveness of the treatment. Additionally, exploring
+different antigen dosages, as well as adding a third booster to the
+schedule, would provide a better picture of the potential of our mRNA-based
+therapeutic vaccine. Nevertheless, this is the first study demonstrating
+partial efficacy of a multivalent mRNA based therapeutic vaccine against
+CD, which induced a desirable immune response and reduced cardiac
+pathology. This is the first study demonstrating partial efficacy
+of a multivalent mRNA based therapeutic vaccine against CD, which
+induced a desirable immune response and reduced cardiac pathology.
+This shows promise for developing next generation therapeutic vaccines
+to improve cardiac health for CD patients, using mRNA or potentially
+mRNA-protein prime-boost approaches. However, we need further optimization
+in terms of vaccine dose, delivery, and formulation in order to achieve
+maximal protection and minimal cardiotoxicity.
+
+## Methods
+
+## mRNA Production
+ASP-2 and Tc24 mRNA production was
+assess as previously described. Tc24
+and ASP-2 sequences were cloned into pTNT (Promega) to facilitate
+mRNA transcription. To improve the ribosome binding and expression
+efficacy, the codon usage was optimized. A KOZAK sequence (GCCRCCAUGG)
+was added ahead of Tc24 and ASP-2 ORF to assist in the initiation
+of the translation process. The plasmid was cloned in Escherichia coli. Linearization is required to avoid
+infinite transcription around the circle. Hence, the plasmid is digested
+with restriction-endonuclease BAMHI. Then, the linearized plasmids
+were purified on MaXtract High-Density columns (Qiagen) and by precipitation
+in ethanol. The integrity, yield, concentration, and purity of the
+linearized plasmids were measured by the absorbance at 260 nm on a
+Nanodrop spectrophotometer. In vitro transcription of Tc24 and ASP2-encoding
+mRNA was executed with T7 RNA polymerase (RiboMAX Large Scale RNA
+Production Systems, Promega) according to the manufacturer’s
+instructions; we replace the uridine for modified N1-methylpseudouridine-5′-triphosphate.
+These RNAs were purified by precipitation in ammonium acetate and
+capped using a ScriptCap m7G Capping System (CellScript) to enhance
+cell RNA stability and translation. Before use, the mRNA quality was
+assessed by agarose gel electrophoresis. All RNAs were stored at −80
+°C until use.
+
+## LNPs Synthesis
+LNPs were synthesized with the NanoAssemblr
+Benchtop system, which exploits a microfluidic cartridge equipped
+with a staggered herringbone geometry to efficiently mix organic and
+aqueous phases efficiently. The choice of the lipidic composition
+described here is rooted in the nature of LNPs: extensive literature
+has demonstrated that successful genetic cargo encapsulation occurs
+when at least 50% of the molar percentage of the lipidic composition
+is represented by an ionizable cationic lipid, that is, a lipid that
+displays a positive charge at the acidic pH of synthesis, therefore
+triggering complexation with the negatively charged mRNA, while losing
+that charge after purification (https://www.mdpi.com/2076-393X/11/3/658). Discovery of ionizable lipids has allowed great flexibility in
+terms of genetic cargo delivery, while maintaining a good safety profile
+of the formulation, thanks to the neutral charge displayed by the
+final drug delivery system (10.1016/j.addr.2023.115175). Addition of other “helper lipids” in the formulation
+(DSPC, Cholesterol, and DMG-PEG2000) is necessary to achieve proper
+packaging of the genetic cargo during the nanoprecipitation process
+(in the case of DSPC and Cholesterol) as well as proper colloidal
+stability (in the case of DMG-PEG2000). Here, DLin-MC3-DMA, DSPC,
+cholesterol, and DMG-PEG2000 (50:10.5:38:1.5 molar ratios, respectively)
+were dissolved in ethanol for a final lipidic concentration of 10
+mM to make the organic phase. In contrast, the aqueous phase consisted
+of sodium acetate buffer (50 mM) at pH 4 used alone (for empty LNPs)
+or combined with the mRNA of interest. In detail, an N/P ratio of
+5.6 was used for the following formulations (according to the construct
+size of 624 bases for Tc24 and 723 bases for ASP-2): (i) 300 μg
+of Tc24 mRNA, (ii) 300 μg of ASP-2 mRNA, or (iii) a combination
+of 150 μg of Tc24 and 150 μg of ASP-2 mRNAs. The following
+synthesis parameters were selected: the TFR was set at 9 mL/min, the
+FRR was 1:3 (organic: aqueous), and the initial and final waste was
+100 μL. After synthesis, LNPs were dialyzed against 1×
+PBS overnight and then filtered with 0.22 μm syringe filters
+to ensure sterility and remove potential aggregates.
+
+## LNPs Characterization
+Size (nm), PDI (au), and ZP (mV)
+were measured via DLS using Malvern Zetasizer for 28 days postsynthesis.
+Samples for size and PDI measurements were prepared by adding 10 μL
+of NPs and 990 μL 1× PBS to a semimicrovolume disposable
+cuvette. In comparison, samples for ZP were prepared by adding 10
+μL of sample to 90 μL of 1× PBS and 900 μL
+of double distilled water (ddH2O, salt concentration was
+lower to avoid damage to the electrodes of the ZP cuvette used for
+the measurement). For both size and ZP, three measures of 15 runs
+each were acquired and then averaged to obtain the final value for
+each formulation.
+mRNA encapsulation efficiency (EE %) was evaluated
+by using the Ribogreen RNA assay. When the dye binds to nucleic acids,
+its fluorescence increases proportionally and can be used to detect
+the concentration of mRNA encapsulated in the LNPs. Due to the nature
+of LNPs, it is possible to see some mRNA grafted on the outer part
+of the vesicles: of course, this mRNA will not be functional due to
+exposure to the outer side of the vesicles. To remove unencapsulated
+mRNA (both the one released after dialysis and the one grafted outside
+the LNPs) from the quantification, the signal from intact LNPs was
+subtracted from the signal obtained from burst LNPs. LNP samples were
+first diluted 1:100 in 1× TE buffer, followed by 50 μL
+of each diluted sample added to either 50 μL of 1× TE buffer
+or 100 μL of 2% Triton-X in 1× TE buffer (this step ensures
+bursting of LNPs). RNA standard curve, ranging from 0.1 to 2.5 μg/mL,
+was prepared using a combination of 2% Triton-X 100 in 1× TE
+buffer and 1× TE buffer as the diluent. All samples were run
+in duplicate and incubated at 37 °C for 10 min. Ribogreen reagent
+was diluted 1:100 in 1× TE buffer with 100 μL added to
+each well. Following a 10 min incubation at room temperature, the
+plate was read at Ex/Em of 480 nm/520 nm.
+The stability of the encapsulated
+mRNA was assessed for 28 days
+postsynthesis. First, the RNA was extracted from LNPs by using a lithium
+chloride precipitation method to evaluate mRNA integrity. Briefly,
+100 μL of empty or loaded LNPs were mixed with 300 μL
+of lithium chloride in pure ethanol (34 mg/mL solution). The solution
+was centrifuged at 12,000g for 10 min (4 °C).
+After the supernatant was removed, the pellet was dissolved in 500
+μL of 70% ethanol in RNase-free water, and another centrifugation
+(12,000g, 10 min, 4 °C) step followed. Finally,
+the supernatant was removed, and the pellet was dissolved in 30 μL
+of RNase-free water. After measuring the RNA concentration with Nanodrop,
+samples were diluted to a concentration of 50 ng/μL and processed
+through a Bioanalyzer. Samples corresponding to RNA controls (mRNA
+constructs loaded within LNPs) and RNA extracted at 0, 7, 14, 21,
+and 28 days from LNPs were submitted to assess RNA integrity.
+
+## Cell Viability Assay and Uptake
+DCs were purchased
+from Millipore and maintained in complete media (DMEM, 10% FBS, and
+1% Pen/Strep). For cytotoxicity experiments, DCs have seeded a 96-well
+plate at a seeding density of 8000 cells/well. After 24 h, LNPs were
+resuspended in media and added to the cells at the following lipidic
+concentrations: 0, 12.5, 25, 50, and 100 μM (n = 8 wells for each concentration). The toxicity of NP treatment
+was evaluated using an MTT [3-(4,5-dimethylthiazol-2-yl)-2,5- diphenyltetrazolium]
+assay at 24 h according to the manufacturer’s instructions.
+Briefly, media was aspirated and replaced with MTT resuspended in
+complete media at 0.5 mg/mL concentration. After 2 h, the MTT reagent
+was aspirated and replaced with equal volume DMSO. Following 30 min
+of gentle agitation at room temperature, absorbance was measured at
+570 nm with an excitation wavelength of 630 nm. Cell viability (%)
+was calculated as follows: (absorbancesample)/(absorbancecontrol) × 100. The optical density of each well was measured
+using a Spark multimode microplate reader (Tecan). For the uptake
+evaluation, DCs were seeded in 4-well chamber slides at a concentration
+of 35,000 cells/well. The following day, cells were treated with rhodamine-labeled
+empty LNPs (50 μM lipidic concentration): after overnight incubation,
+cells were washed with PBS, fixed with 4% paraformaldehyde for 10
+min, and washed twice with HBSS (Hank’s Balanced Salt Solution).
+Next, cells were stained first with 5 μg/ml WGA S-10 Alexa Fluor
+488 Conjugate (Invitrogen) for 10 min at 37 °C, washed twice
+in HBSS, and then stained with 1 μg/mL DAPI (Abcam) for 3 min
+at room temperature. Images were acquired with a Keyence BZ-X800 All-in-one
+Fluorescence Microscope and processed using Fiji Is Just ImageJ (FIJI,
+version 1.53c) software.
+Values for cellular uptake of LNPs
+were calculated as follows: uptake = number of “Rhod+” pixels, numbers of “WFA+” pixels, where the nominator represents the signal from LNPs
+that have been uptaken by DCs. In contrast, the denominator represents
+the area occupied by the cells.
+
+## Ethics Statement
+Animal experiments related to the
+biodistribution of LNPs were approved by the Institutional Animal
+Care and Use Committee (IACUC), assurance number A4555–01,
+at the Houston Methodist Research Institute. Animal experiments related
+to vaccine efficacy were performed in full compliance with the Guide
+for the Care and Use of Laboratory Animals, eighth edition, under a protocol approved by Baylor College
+of Medicine’s IACUC, assurance number D16-00475.
+
+## In Vivo Biodistribution and Optimization of Administration Route
+Two months old female C57BL/6J were purchased from Charles River
+and allowed a 72 h acclimation period in the dedicated comparative
+medicine program facility. Mice were administered DID-stained Luciferase-loaded
+LNPs (Trilink, 40 μg per mouse) using four different administration
+routes: (i) intravenous (IV, n = 5), (ii) subcutaneous
+(SC, n = 5), (iii) intraperitoneal (IP, n = 5), and (iv) intramuscular (IM, n = 5). Upon
+administration, mice were briefly anesthetized using 2.5% isoflurane
+inhalation: for (i) intravenous injection, the bloodstream was accessed
+via retro-orbital sinus (RO); (ii) subcutaneous injection was performed
+using the back of the mice; (iii) IP injection was performed accessing
+the lower-right quadrant of the peritoneum; (iv) IM injection was
+delivered in the quadriceps of the left leg. 18 h postinjection, mice
+were euthanized, and their organs were imaged ex vivo using the IVIS
+Spectrum CT equipment. The formulation composition made an immediate
+readout of the LNPs biodistribution and protein translation available.
+Organs were imaged with a sequence including a fluorescence reading
+(Ex/Em = 644/663
+nm) and a bioluminescence reading, able to detect the luciferase protein
+expression if present. If the Luciferase mRNA is successfully delivered
+to the cytosol by the LNPs, then mice will express the protein Luciferase
+(mainly in the tissues where higher LNP accumulation occurs). Luciferase’s
+substrate, Luciferin, can be injected intraperitoneally (200 μL,
+solution concentration of 15 mg/mL) to cause the bioluminescence reaction
+to occur within 10 min from the Luciferin injection.
+
+## Toxicity Evaluation: Histology
+Organs extracted from
+mice that were administered LNPs for biodistribution studies were
+harvested for histology. Following IVIS imaging, organs (heart, lungs,
+liver, spleen, and kidneys) were immediately transferred in 10% buffered
+formalin and fixed overnight at 4 °C under stirring conditions.
+Once fixed, organs were rinsed in ddH2O and stored in 70% ethanol
+until further processing. Tissues were then processed in a Shandon
+Excelsior ES Tissue Processor and embedded in paraffin on a Shandon
+HistoCenter Embedding System, using the manufacturer’s standard
+processing and embedding protocols. Organ slides were sectioned at
+20 μm thickness and stained with hematoxylin, eosin (H&E),
+and Masson trichrome (MTC). Toxicity was evaluated by visual inspection
+of the histology slides.
+
+## Parasite and Mice
+Ninety female C57BL/6J mice (Jackson
+Laboratories), aged 5–8 weeks, were used for the vaccine efficacy
+studies. For infection experiments, T. cruzi strain H1 clone K68 was used. Trypomastigotes were obtained from
+the blood of infected immunodeficient male ICR-SCID mice (Taconic
+Biosciences), animals were injected intraperitoneally with the parasite,
+and trypomastigotes were isolated from blood at day 35 postinfection.
+
+## Infection and Therapeutic Vaccination Strategy
+All
+mice were infected with 5000 blood-form trypomastigotes of T. cruzi H1 clone K68 by intraperitoneal injection.
+At 70 days postinfection (DPI), animals were randomly divided into
+six groups of 15 mice each ( ). Therapeutic vaccination started in the early chronic
+phase of the disease. All the mice received three immunizations subcutaneously
+once weekly (70, 77, and 84 DPI). The initial evaluation was 2 weeks
+after the final vaccination at 14 DPB (5 mice per group), and the
+final evaluation was at 126 DPB (10 mice per group). The mice were
+humanely euthanized, and their blood, heart, and skeletal muscle were
+collected for parasitological evaluation, and spleens were collected
+to measure antigen-specific immune response.
+
+## DNA Isolation
+DNA was obtained using the kit PDQeX
+Nucleic Acid Extractor (Microgem) following the manufacturer’s
+directions for DNA purification, “Tissues or Blood”
+programs. DNA was purified from 5 μL of blood and 5 mg of cardiac
+tissue. DNA was quantified in a Nanodrop (Thermo Scientific) and stored
+at −80 °C.
+
+## Parasite Burden Determination by Quantitative Real-Time PCR
+qPCR was conducted with DNA from blood, skeletal muscle, and cardiac
+tissue, following the method described by Piron et al., 2007. Briefly, qPCR Master Mix TaqMan Fast Advanced
+Master Mix (Life Technologies, CA, USA) was used in qPCR reactions
+with oligonucleotides derived from T. cruzi satellite DNA using the following primers and probe: primers 5′
+ASTCGGCTGATCGTTTTCGA 3′ and 5′ AATTCCTCCAAGCAGCGGATA
+3′, probe 5′ 6-FAM CACACACTGGACACCAA MGB 3′;
+Life Technologies, CA, USA. Data were normalized to glyceraldehyde-3-phosphate
+dehydrogenase (GAPDH) (primers 5′ CAATGTGTCCGTCGTGGATCT 3′
+and 5′ GTCCTCAGTGTAGCCCAAGATG 3′, probe 5′ 6-FAM
+CGTGCCGCCTGGAGAAACCTGCC MGB 3′; Life Technologies, CA, USA).
+qPCR was performed by using a Quant Studio 3 thermocycler (Applied
+Biosciences). Parasite equivalents were calculated from a standard
+curve of known parasite numbers.
+
+## Inflammation and Fibrosis in Heart and Skeletal Muscle
+Hearts and skeletal muscles harvested from mice dedicated to vaccination
+experiments were processed as described above. The histopathology
+slides images were collected with AmScope United Scope LLC, CA, USA
+ME580 brightfield microscope equipped with LMPLAN40-065 × 40
+objective using an 18-megapixel camera at fixed upper and lower light
+levels. Images were analyzed using the ImageJ software (available
+at https://www.nih.gov/). To
+determine the total area of the tissue being examined, the white background
+was selected and then subtracted from the total pixel count in each
+image. For each image, a specific area of interest was selected based
+on the color of the staining technique used. For example, Hematoxylin
+& Eosin (H&E) stains cell nuclei deep blue-purple, while Masson’s
+Trichrome (MTC) stains collagen in blue. The selected area was then
+divided by the total tissue area, resulting in a ratio indicating
+the degree of inflammation or fibrosis in the tissue.
+
+## Splenocyte Preparation
+Spleens were transferred to
+a gentle MACS C Tube containing 3 mL of sterile PBS and homogenized
+on a gentle MACS Dissociator (Miltenyi Biotech). Red blood cells from
+the spleen homogenates were lysed with ACK lysis buffer (Lonza, 10-548E).
+The lysis solution was diluted 5-fold with RPMI medium supplemented
+with 10% fetal bovine serum FBS, 1× penicillin–streptomycin
+(Pen–Strep), and l-glutamine (cRPMI medium). Splenocytes
+were then pelleted by centrifugation for 5 min at 300g. Next, splenocytes were resuspended in 5 mL of cRPMI medium and
+passed through 40 μm strainers (BD Biosciences, 352,340). Next,
+cells were counted using acridine orange-propidium iodide live/dead
+dye and a Cellometer Auto 2000 (Nexcelom Bioscience) automated cell
+counter. Then, for each sample, 1 × 106 live splenocytes
+were incubated in a 96-well nontissue culture plate with either 10
+μg/mL recombinant Tc24-C4 protein, 20 ng/mL, ASP-2 Peptide 20
+ng/mL, phorbol 12-myristate 13-acetate (PMA)–1 μg/mL
+ionomycin, or cRPMI only for 48 h at 37 °C in 5% CO2 .
+
+## Antigen-Specific Cytokines Luminex
+After 48 h, the
+cell-free supernatant of restimulated splenocytes was collected and
+stored at −80 °C until use. Using a Luminex-based assay,
+the secreted cytokines levels of IL-2, IL-4, IL-6, IL-10, IL-13, IL-17A,
+IL-22, IFN-γ, and TNF-α from supernatants were quantified,
+as previously described. The levels of
+IL-13 and IL-17A concentrations were below the detection limit. The
+values of the splenocytes restimulated from the medium-stimulated
+cells served as the background. They were then divided by the measurement
+of the same mouse’s antigen-stimulated cells to obtain the
+fold change.
+
+## Statistical Analysis
+For each parameter measured, data
+were plotted using GraphPad Prism 9.4.1 software (GraphPad). Treatments
+were compared to infected untreated controls using a Kruskal–Wallis
+one-way ANOVA. P values ≤0.05 were considered
+significant.
+
+## Acknowledgments
+This work was funded by the Robert J. Kleberg Jr.
+and Helen C. Kleberg Foundation (P.J.H.). In addition, this project
+was supported by the Human Tissue Acquisition and Pathology Core at
+Baylor College of Medicine with funding from the NIH (P30 CA125123),
+the Pathology and Histology Core at Baylor College of Medicine with
+funding from the NIH (P30 CA125123), and the Cytometry and Cell Sorting
+Core at Baylor College of Medicine with funding from the NIH (NIAID
+P30AI036211, NCI P30CA125123, and NCRR S10RR024574) and the assistance
+of Joel M. Sederstrom. Illustrations were created with Biorender.com. CryoEM data
+was collected at the Baylor College of Medicine CryoEM ATC, which
+includes equipment purchased under support of CPRIT Core Facility
+Award RP190602. This work was done in collaboration with the Encapsulation
+and Validation Core of the Houston Methodist Academic Institute, which
+provided the LNP encapsulation services.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acsami.3c18830.
+Results of histology and raw data from the Luminex assay
+(PDF)
+
+## Author Contributions
+CP, KMJ, JP,
+PJH, US, CM, AZ, FT, and MEB conceived and designed the study. CP,
+CM, ACL, RA, DMN, MJV, AZ, FG, and LV conducted the experiments. RK
+carried out plasmid linearization and mRNA production. CM and AZ carried
+out LNPs formulation. CP, ACL, CM, and RA collected data. CP, KMJ,
+CM, AZ, and JP analyzed the data. JP and MEB provided reagents. CM,
+CP, ACL, KMJ, JP, US, PJH, and MEB wrote the manuscript. F.T. and
+C.P. senior authors contributed equally to this manuscript.
+
+The authors
+declare no competing financial interest.
+
+## Supplementary Material
+am3c18830_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+am3c18830_si_001.pdf

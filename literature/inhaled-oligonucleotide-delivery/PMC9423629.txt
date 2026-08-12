@@ -1,0 +1,376 @@
+pmcPLoS Negl Trop DisPLoS Negl Trop Dis532plosntd101291488plosPLoS Neglected Tropical Diseases1935-27271935-2735PLOSPMC9423629PMC9423629.1942362994236293603718510.1371/journal.pntd.0010659PNTD-D-22-003911Research ArticleBiology and Life SciencesOrganismsBacteriaBurkholderiaBurkholderia PseudomalleiBiology and Life SciencesMicrobiologyMedical MicrobiologyMicrobial PathogensBacterial PathogensBurkholderiaBurkholderia PseudomalleiMedicine and Health SciencesPathology and Laboratory MedicinePathogensMicrobial PathogensBacterial PathogensBurkholderiaBurkholderia PseudomalleiBiology and Life SciencesMolecular BiologyMolecular Biology TechniquesArtificial Gene Amplification and ExtensionRecombinase Polymerase AmplificationResearch and Analysis MethodsMolecular Biology TechniquesArtificial Gene Amplification and ExtensionRecombinase Polymerase AmplificationBiology and Life SciencesBioengineeringGenome EngineeringSynthetic Genome EditingCrisprEngineering and TechnologyBioengineeringGenome EngineeringSynthetic Genome EditingCrisprBiology and Life SciencesSynthetic BiologySynthetic GenomicsSynthetic Genome EditingCrisprEngineering and TechnologySynthetic BiologySynthetic GenomicsSynthetic Genome EditingCrisprBiology and Life SciencesGeneticsGenomicsBiology and Life SciencesMicrobiologyBacteriologyBacterial GeneticsBacterial GenomicsBiology and Life SciencesGeneticsMicrobial GeneticsBacterial GeneticsBacterial GenomicsBiology and Life SciencesGeneticsGenomicsMicrobial GenomicsBacterial GenomicsBiology and Life SciencesMicrobiologyMicrobial GenomicsBacterial GenomicsBiology and Life SciencesGeneticsGenomicsHuman GenomicsBiology and Life SciencesMolecular BiologyMolecular Biology TechniquesArtificial Gene Amplification and ExtensionPolymerase Chain ReactionResearch and Analysis MethodsMolecular Biology TechniquesArtificial Gene Amplification and ExtensionPolymerase Chain ReactionBiology and Life SciencesBiochemistryProteinsRibonucleoproteinsHighly specific and sensitive detection of Burkholderia pseudomallei genomic DNA by CRISPR-Cas12a
+Highly specific and sensitive detection of Burkholderia pseudomallei by CRISPR-Cas12ahttps://orcid.org/0000-0002-3169-5509WongpaleeSomsakul PopConceptualizationFormal analysisFunding acquisitionInvestigationSupervisionWriting – review & editing ThananchaiHathairatConceptualizationWriting – original draft ChewapreechaClaireConceptualizationFormal analysisResourcesSoftwareWriting – review & editing RoslundHenrik B.Formal analysisSoftware ChomkatekaewChalitaFormal analysisSoftware TananupakWarunyaInvestigation BoonklangPhumrapeeInvestigationResources PakdeeratSukritpongInvestigationResources SengRathaninResources ChantratitaNarisaraResources TakarnPiyawanResources KhamnoiPhadungkiatResources 1
+Department of Microbiology, Faculty of Medicine, Chiang Mai University, Chiang Mai, Thailand2
+Mahidol Oxford Tropical Medicine Research Unit (MORU), Faculty of Tropical Medicine, Mahidol University, Bangkok, Thailand3
+Parasites and Microbes Programme, Wellcome Sanger Institute, Hinxton, United Kingdom4
+Department of Microbiology and Immunology, Faculty of Tropical Medicine, Mahidol University, Bangkok, Thailand5
+Microbiology Unit, Diagnostic Laboratory, Maharaj Nakorn Chiang Mai Hospital, Chiang Mai, ThailandTorresAlfredo G.Editor files.
+
+## Data Availability
+All relevant data are within the manuscript and its files.
+
+## Introduction
+Burkholderia pseudomallei is an environmental Gram-negative bacillus found mostly in soil and water, and a causative agent of melioidosis—a rapidly fatal infectious disease endemic in many tropical and subtropical countries [ – ]. Septicemic melioidosis can lead to death in less than 48 hours if not diagnosed and treated properly [ , ]. Human hosts can acquire B. pseudomallei by skin inoculation, ingestion of contaminated food or water supply, or inhalation of aerosolized bacterium. Infected individuals can display a variety of clinical manifestations ranging from pneumonia, organ abscesses to septicemia [ , ], which make clinical diagnosis challenging. The mortality rate of infected patients is high, reported as 35–40% in Thailand, despite availability of antibiotic treatments [ , ]. This is, in part, due to delayed- or missed diagnosis, which often leads to delayed correct treatments. The gold standard laboratory diagnosis for melioidosis remains the culturing of B. pseudomallei from clinical specimens, followed by a panel of biochemical tests [ , ]. This diagnosis can take several days, requires an enhanced biosafety level 2 (BSL2 enhanced) laboratory and sometimes generates inconsistent results [ , ]. Since timely and optimal treatments of melioidosis affect outcomes of the disease [ , , , ], rapid and accurate identification of B. pseudomallei is much needed.
+Serological diagnosis of B. pseudomallei-specific antigens or antibodies, such as indirect hemagglutination (IHA), enzyme linked immunosorbent assay (ELISA), immunochromatographic assay (ICT) and lateral flow immunoassay (LFI) have been developed [ – ]. However, interpretation of these serological tests have proven to be complicated in endemic areas where past infection or prior exposure to the bacteria causes seroconversion without active infection [ , , , ]. In addition, heterogeneity in antibody response to B. pseudomallei was reported in patients, thereby requiring testing of multiple antigens to confirm the result [ ]. Moreover, some B. pseudomallei culture-confirmed patients were seronegative during acute infection [ ]. Together, these limit the application of serological assays as diagnostic tools for melioidosis.
+In addition to serological assays, real-time polymerase chain reaction (real-time PCR)-based assays have been developed to detect the DNA of B. pseudomallei [ – ]. Although these methods showed high sensitivity and specificity, real-time PCR-based assays require expensive real-time PCR machines, which may not be readily available in many laboratories. As alternatives, isothermal DNA amplifications such as loop-mediated isothermal amplification (LAMP) [ , ] and recombinase polymerase amplification (RPA) [ – ] have been developed to overcome this dependency on expensive equipment. Both assays exhibit very sensitive detection. RPA, for example, has a limit of detection (LOD) from between 25–50 copies of B. pseudomallei genomic DNA. Albeit promising, these assays are based on primers designed to target a genomic locus, such as the type 3 secretion system-1 (T3SS-1), of few selected reference strains. Their detection coverage on broader B. pseudomallei population is currently unknown. Furthermore, specificity of RPA assay remains to be further determined as it can tolerate some mismatches in primer sequences [ , ].
+Cluster regularly interspaced short palindromic repeat (CRISPR) is an adaptive defense system in bacteria and archaea that provides sequence-specific immunity against invading nucleic acids such as bacteriophages or plasmids [ , ]. A CRISPR locus incorporates remnants of genetic material from past infections and uses them for RNA-guided endonuclease against future infections. This RNA-guided endonuclease, known as a CRISPR-Cas complex, consists of a CRISPR RNA (crRNA) and CRISPR-associated (Cas) nuclease(s). The complex recognizes a target site through crRNA-mediated base-pairing complementarity before initiating its cleavage. Various CRISPR-Cas systems have been identified, each having a unique property toward nucleic acid [ , ]. One prominent system is CRISPR-Cas9, a system that has been exploited for precise genome editing both in research fields and in gene therapy [ – ], and for potential therapeutics for infectious diseases such as human immunodeficiency virus (HIV) and hepatitis B virus (HBV) [ – ]. CRISPR-Cas12a and -Cas13a are among recently discovered members of the CRISPR-Cas family, which recognize DNA and RNA targets, respectively. Their initial target recognitions activate their non-specific endonucleases that collaterally cut other non-target nucleic acids in their vicinity [ , ]. This collateral cleavage property of the two CRISPR-Cas systems has been used as a biosensor to induce cleavage of fluorescent nucleic acid probes, allowing a sensitive and a quantifiable readout of the actual target nucleic acids [ , ]. By coupling this property of CRISPR-Cas12a or -13a with another signal enhancement step such as metal-enhanced fluorescence (MEF), autocatalysis-driven feedback amplification or an isothermal pre-amplification of nucleic acids, the CRISPR-Cas systems can be used as detection platforms that offer superior sensitivity and specificity [ , – ]. Examples are detection assays called DNA endonuclease-targeted CRISPR trans reporter (DETECTR) and specific high-sensitivity enzymatic reporter unlocking (SHERLOCK), which couple isothermal pre-amplification of nucleic acids with the CRISPR-Cas12a and -Cas13a systems, respectively [ , ]. In addition, adapting a lateral flow dipstick as an assay readout further simplifies these detections to be performed rapidly in a regular laboratory setup. Consequently, both CRISPR-Cas systems have gained momentum from their applications to diagnoses of infectious diseases and biomarkers such as microRNA, circulating tumor DNA (ctDNA) and single nucleotide polymorphism (SNP) [ , – ]. This CRISPR-Cas-based diagnostic technology has been successfully applied in the detection of various pathogens including Zika virus, Dengue virus, human papillomavirus (HPV), Staphylococcus aureus, Pseudomonas aeruginosa and most recently SARS-CoV-2, at attomolar concentrations [ – , , , ].
+In this study we developed a CRISPR-Cas12a diagnostic technology for B. pseudomallei genomic DNA. We used bioinformatic analyses to guide the design of the target site of CRISPR-Cas12a to ensure extensive coverage of the diverse B. pseudomallei population and to reduce cross reactions with other pathogens. We retrieved eight potential target sites of CRISPR-Cas12a from the analyses, of which the crBP34 site was programmed into CRISPR-Cas12a for further characterization. When coupling crBP34-targeting CRISPR-Cas12a with RPA in the DETECTR assay, we found that our detection platform could detect as low as 40 copies of the input B. pseudomallei genomic DNA. This limit of detection is comparable to the sensitivity of real-time PCR. The crBP34 target site exhibited 100% specificity when tested with DNA of B. pseudomallei and non-B. pseudomallei clinical isolates. With high specificity, sensitivity and short assay time to detect B. pseudomallei DNA, this detection platform is a potential diagnostic tool for melioidosis, that warrants future developments for its application to clinical specimens.
+
+## Methods
+
+## Expression and purification of MBP-LbCas12a
+pMBP-LbCas12a (from Lachnospiraceae bacterium species) was a gift from Jennifer Doudna (Addgene, USA, #113431). The plasmid was transformed into E. coli Rosetta 2 (DE3) (Novagen, USA, #70954). 500-mL of Luria-Bertani (LB) culture was grown at 37°C until O.D.600 reached 0.4–0.6. MBP-LbCas12a expression was induced by growing the culture in the presence of 0.1 mM IPTG overnight at 16–18°C. Bacterial cells were harvested by centrifugation, washed with PBS and resuspended in 40 mL a lysis buffer (1000 mM NaCl, 20 mM imidazole, 20 mM Tris-HCl, 5% glycerol, 1 mM DTT and 1 mM PMSF). The cells were sonicated in an ice bath using Vibra-Cell VCX 500 sonicator (Sonics & Materials, USA) at a frequency 20 kHz with 60% amplitude for 3 minutes, using 1-second pulse, 7-second rest. Cell lysate was cleared by centrifugation at 20,000 g at 4°C for 1 hour and filtered through a 0.22 um PES membrane. All protein purification steps were performed using the AKTA Pure 25 M1 FPLC system (GE Healthcare, Sweden). First, the protein was affinity-purified on a 5-mL HisTrap HP column (GE Healthcare, Sweden, #17524802) with a His binding buffer (20 mM Tris-HCl pH 7.5, 1000 mM NaCl, 5% glycerol, 1 mM DTT, 20 mM imidazole), washed with a washing buffer (20 mM Tris-HCl pH 7.5, 1000 mM NaCl, 5% glycerol, 1 mM DTT, 50 mM imidazole) and eluted with an elution buffer (20 mM Tris-HCl pH 7.5, 1000 mM NaCl, 5% glycerol, 1 mM DTT, 300 mM imidazole). Peak fractions were collected and dialyzed overnight in a dialysis buffer (20 mM Tris-HCl pH 7.5, 125 mM NaCl, 5% glycerol, 1 mM DTT, 1 mM PMSF). Soluble protein was recovered and loaded into a 5-mL HiTrap SP HP cation exchange column (GE Healthcare, Sweden, #17115201), pre-equilibrated with a binding buffer (20 mM Tris-HCl pH 7.5, 125 mM NaCl, 5% glycerol). The column was washed with the binding buffer, and protein was eluted with an ion exchange buffer (20 mM Tris-HCl pH 7.5, 5% glycerol, 125–2000 mM NaCl gradient). Fractions containing MBP-LbCas12a were combined, concentrated and injected into a HiLoad 16/600 Superdex 200 pg size exclusion column (GE Healthcare, Sweden, #28989335), pre-equilibrated with a gel filtration buffer (50 mM Tris-HCl pH 7.5, 500 mM NaCl, 5% glycerol). Protein was eluted with the same buffer. Fractions containing MBP-LbCas12a were concentrated to ~500 μl. Glycerol and DTT were added to achieve final concentrations of 20% v/v and 2 mM, respectively. The protein was aliquoted, snap frozen in liquid nitrogen and stored at -80°C.
+
+## Searching for optimal CRISPR-Cas12a target sites
+All command codes used were open-source at GitHub (https://github.com/henrikroslund/crispr-cas12a/releases/tag/BP_V2). In the first step, CRISPR selection, one of 30 representative B. pseudomallei genome ( ), namely bb2, was used to generate an initial pool of all possible LbCas12a target sites by scanning for TTTVN1….N20 (PAM is indicated in bold; V is non-T nucleotide, and N1 to N20 is spacer sequence of any nucleotides). Duplicate target sites or target sites with spacer regions that contained quadruple nucleotides or GC content outside 40–65% were removed. This resulted in 26,661 candidate target sites, which were subsequently aligned to the other 29 representative B. pseudomallei genomes. 15,448 candidate target sites were found to be 100% conserved in all 30 genomes and were processed to the CRISPR filtering step to remove potential cross reactions with other pathogens ( ). First, a pool of CRISPR-Cas12a target sites TTTNN1….N20 from 1,071 complete genomes of non-B. pseudomallei pathogens was generated. The 4th position of PAM was relaxed, so that weaker cross-reactive target sites were generated [ ]. The candidate target sites from B. pseudomallei were aligned to target sites from non-B. pseudomallei pathogens using only N1 to N20, and candidates with 100% match were removed. This initial filtering step significantly trimmed down the number of B. pseudomallei candidate target sites to 1,982. The resulting candidates were further filtered out by re-mapping to the above pool of target sites from non-B. pseudomallei pathogens. Mappability was defined as having at least 15 nucleotides matching in N1 to N20. Mapped candidates were analyzed for mismatches relative to their cross-reactive target sites. Candidates that failed to fulfill the following ‘mismatch criteria’ at any mapped sites were immediately removed: (i) 2 consecutive in Seed (N1 to N6), or (ii) 3 or more in Seed, or (iii) 4 or more in N7 to N20. The remaining candidates and candidates that were unable to be mapped to any cross-reactive target sites were considered as the final candidates ( ). Spacer regions (excluding PAM) were later engineered into crRNA.
+
+## crRNA synthesis
+DNA templates were synthesized and desalted by IDT DNA technologies (Singapore). All crRNAs were in vitro transcribed from annealed oligo templates using a HiScribe T7 High Yield RNA Synthesis Kit (NEB, USA, #E2040S), in accordance with the manufacturer’s protocol. DNAse I (RNase-free) (NEB, USA, #M0303S) was added to the reaction, and the tube was incubated at 37°C for 20 minutes to enable the degradation of the DNA template. crRNAs were purified in 12% v/v urea-PAGE (29:1) (in 7.5 M urea, 0.5x TBE), eluted in a gel elution buffer (300 mM sodium acetate pH 5.2, 1 mM EDTA pH 8.0, 0.1% v/v SDS) and precipitated in ethanol. crRNA was resuspended in a folding buffer (10 mM Tris-HCl pH 7.5, 50 mM NaCl), folded by heating in a metal heat block at 90°C for 2 minutes and allowed to slowly cool down at room temperature. crRNA was aliquoted and stored at -80°C until used.
+
+## Identification of representatives for major B. pseudomallei lineages
+A global collection of B. pseudomallei (n = 3,341) was compiled from the public database [ – ] and other short-read sequenced data ( ). When the assemblies were not available, short reads were de novo assembled using Velvet [ ], giving a median of 136 contigs (range 60–434), and an average total length of 7,140,818 bps (min = 6,989,389 bps and max = 7,441,976 bps). Gene predictions and annotations of assemblies were performed using Prokka [ ]. With an average of 5,850 (range 5685–6275 per each genome) predicted coding sequences (CDS) assigned, the assemblies fall in a similar range of 6,332 CDS and length of 7,247,547 bps as reported in the reference genome K96243 [ ]. Population structure was defined using three independent approaches–PopPUNK [ ], a phylogenetic tree, and multi-dimensional scaling as described previously [ ]. All three methods showed high consistency and resolved the B. pseudomallei population into 324 lineages, many of which are singletons or lineages with a small number of isolates. We noted that there are 22 major lineages dominating the global B. pseudomallei population (2,429/3,341 isolates representing 73% of the dataset). To ensure that the CRISPR-Cas targets cover the genetic diversity of the entire population, candidate genomes were selected to represent each major lineage (Burkholderia Bayesian cluster (bb) 1 to 22 ( ), except for bb3 and bb4 which shared close ancestry with bb5 where one representative was selected to represent three lineages. We also randomly selected candidate genomes outside the major lineages. Collectively, a total of 30 genomes were selected. On average, each candidate could be assembled into 92 contigs, thereby enabling a fair length of conserved regions for the searching of CRISPR-Cas targets. The PopPUNK phylogenetic tree ( ) was visualized and annotated with the metadata using Tree of Life Tools [ ].
+
+## In silico detection of CRISPR-Cas targets across the genomes of B. pseudomallei population, the human reference genome and the representative bacterial genomes from NCBI database
+An in silico validation of CRISPR-Cas targets were performed by mapping the designed RPA primers and target sequences for CRISPR-Cas12a against the assemblies of 3,341 B. pseudomallei genomes ( ) using BLAT v. 36. To enable mapping of sequences with low complexity, the command “blat -minScore = 10 -tileSize = 8 <assembly> <candidate target> <out.psl>” was employed. As CRISPR-Cas12a recognition seems to be flexible at the 4th position of PAM [ ] and seem to allow one sequence mismatch in the position N1 to N20 (though the activity is reduced) [ , ], we further conditioned the BLAT results to allow for two types of mismatch. For the sequence target TTTVN1N2N3….N20, we allowed for (i) a mismatch at position V; or (ii) a mismatch at any of the position from N1 to N20; or a combination of (i) and (ii).
+To test for possible cross-reactivity of these CRISPR-Cas12a target sequences with human host DNA or other bacterial species, we additionally mapped them against a human reference genome GRCh38 [ ] and 40,827 bacterial reference genomes archived in NCBI repository [ ] (date retrieved 5th May, 2022). To reduce computational load, the search was performed using NCBI web BLASTN with results filtered to allow for (i) a mismatch at position V; or (ii) a mismatch at any of the position from N1 to N20; or a combination of both as outlined earlier. None of the hits passed the filtering threshold and are unlikely to be recognized by CRISPR-Cas12a, given that a single mismatch in N1 to N20 already significantly reduces the enzyme’s function [ , ]. The analysis was summarized as and Figs.
+
+## Recombinase Polymerase Amplification
+RPA reagent was purchased from TwistDx (USA). All RPA primers ( ) were 35-nt long with amplicon length less than 500 base-pairs (ideally 100–200 base-pairs), as recommended by TwistDx. These primers were manually designed and checked for their secondary structures and homo-/hetero- duplex using RNAfold (http://rna.tbi.univie.ac.at/cgi-bin/RNAWebSuite/RNAfold.cgi) and IDT OligoAnalyzer (https://www.idtdna.com/pages/tools/oligoanalyzer), respectively. Primers were synthesized and purified by standard desalting by Macrogen (Korea). TwistAmp Basic (TwistDx, USA, #TABAS03KIT) and TwistAmp Liquid Basic (TwistDx, USA, #TALQBAS01) were both used in this study in accordance with the manufacturer’s protocols, with the following modifications: (i) total volume of an RPA reaction was adjusted to 30–50 μl and (ii) incubation was done at 39°C for 30 minutes. For the specificity test ( ), ~10,000 copies of bacterial genomic DNA were used in each reaction. The copy number was approximated from the median genomic size of each bacterial species. For the sensitivity test ( ), the accurate copy number of B. psuedomallei (isolate 13D) genomic DNA stock was determined by real-time PCR against purified standards. The genomic DNA was then diluted to appropriate concentrations and immediately used in the RPA reaction. For detection of clinical isolates ( ), 1 ng of DNA was used per RPA reaction. All RPA reactions were stored at -20°C until used.
+
+## DETECTR assay with fluorescence readout
+CRISPR reactions were performed in a final 100-μl volume that contained 100 nM crRNA, 200 nM MBP-LbCas12a, 500 nM FAM-Quencher probe and 1x CR buffer 1 (10 Tris-HCl pH 8.0, 50 mM NaCl, 13 mM MgCl2, 1% v/v glycerol). First, CRISPR-Cas12a ribonucleoprotein (RNP) was pre-assembled in 30-μl volume with crRNA, MBP-LbCas12a and CR buffer 1. The reaction was incubated at room temperature for 15 minutes. A 70-μl mixture of FAM-Quencher probe with various amounts of RPA (see figure legends) was added to the RNP. This CRISPR reaction was transferred to a fluorescence plate reader Synergy H4 (BioTek, USA) and read at 483/530 nm (excitation/emission) every 3 minutes for 3 hours at 37°C.
+
+## DETECTR assay with lateral flow dipstick readout
+RNP complex assembly and CRISPR reactions were combined and performed in a final 50-μl volume that contained 1x CR buffer 1, 100 nM crRNA, 200 nM MBP-LbCas12a, 100 nM FAM-Biotin probe and 5 μl RPA. The reaction was incubated at 37°C for 20 minutes. A HybriDetect lateral flow dipstick (Milenia Biotek, Germany, #MGHD1) was directly dipped into the reaction and allowed to develop for 2–5 minutes.
+
+## Real-time PCR
+Real-time PCR primer ( ) were reported previously [ ]. The primers were synthesized and desalted by Macrogen (South Korea). 20-μl real-time PCR reactions were prepared using Maxima SYBR Green/ROX qPCR Master Mix (ThermoFisher Scientific, USA, #K0221) in accordance with the manufacturer’s instruction. Real-time PCR analysis was performed on the 7500 Fast Real-Time PCR System (Applied Biosystems) with the following conditions: 95°C (10 minutes); 40 cycles of 95°C (15 seconds), 61°C (30 seconds), 72°C (30 seconds). Standard melting curve analysis was also performed at the end of the PCR. ΔRn threshold was automatically calculated by the built-in program.
+
+## Bacterial isolates, culture and genomic DNA extraction
+Non-B. pseudomallei clinical isolates were obtained from Diagnostic Laboratory, Maharaj Nakorn Chiang Mai hospital. Colonies were directly scrapped off sheep-blood agar plates and resuspended in 200 μl water. A GeneJet genomic DNA purification kit (ThermoFisher Scientific, USA, #K0721) was used to extract genomic DNA in accordance with the manufacturer’s protocols. B. pseudomallei clinical isolates were obtained from 33 cases of melioidosis patients admitted to Sunpasitthiprasong hospital in Ubon Ratchathani, Thailand. Samples came from either blood, urine, or throat swabs of melioidosis patients and cultured on Ashdown’s agar to select for the growth of B. pseudomallei [ ]. For each sample, a single colony was picked and streaked on a Columbia agar and incubated at 37°C overnight. A loop full of B. pseudomallei from the Columbia agar was then inoculated in 3 mL Luria-Bertani broth and incubated at 37°C with shaking at 200 rpm for 16–18 hours in the biosafety level 3 laboratory. B. pseudomallei was harvested and lysed for genomic DNA extraction using QIAmp Mini kit protocol (QIAGEN, Germany, #51304).
+
+## Results
+
+## Designing CRISPR-Cas12a specific to B. pseudomallei
+CRISPR-Cas12a is an RNA guided-ribonucleoprotein (RNP) complex that recognizes its target DNA through base-pairing complementarity [ – ]. Recognition and cleavage of the target transform the RNP complex into a non-specific nuclease that collaterally cleaves single-stranded DNA (ssDNA) in vitro [ , ]. This collateral cleavage property and programmability of CRISPR-Cas12a offer an adaptation for highly specific and sensitive detection of DNA [ , , , – ]. Therefore, we aimed to apply this CRISPR diagnostic platform to the detection of B. pseudomallei DNA.
+ A key to the specificity of CRISPR-Cas12a-based detection is a spacer region of the crRNA [ , ], which base-pairs to target DNA ( ). Since B. pseudomallei is highly recombinogenic with constant reshuffling of genomic contents [ , – ], a well-designed spacer to target a DNA sequence that is present in all B. pseudomallei is needed to ensure high coverage of detection. Thus, we performed a phylogenetic analysis of 3,341 B. pseudomallei genomes from a global collection ( ). The analysis classified the B. pseudomallei population into 22 major lineages ( ). We then selected a representative from each major lineage and eight other outsider representatives for our in-house bioinformatic pipeline, which searches for CRISPR-Cas12a candidate target sites ( ).
+In this pipeline, we first generated a pool of optimal target sites that are common among the 30 B. pseudomallei representative genomes. These target sites contain TTTV (V is A, C or G) as a protospacer adjacent motif (PAM) on the 5’ end followed by a 20-nt long spacer ( ). The resulting candidate target sites were then filtered through 1,071 genomes of various bacterial pathogens that cause frequent infections or those that are closely related to B. pseudomallei including B. cepacia, B. mallei and B. thailandensis. This final step yielded candidate sites that either are unique to B. pseudomallei or contain significant mismatches to those cross-reactive pathogens; both of which could be highly specific target sites for CRISPR-Cas12a. The results showed that after executing the bioinformatic pipeline, we retrieved eight elite target sites, each found as a single copy in a B. pseudomallei genome ( ). These target sites are located in both coding and non-coding regions of the genome. Using in silico search for potential cross-reactive sites against the NCBI genomic database [ ] (data retrieved on May 5th, 2022), we further confirmed a high specificity of all target sites with no cross-reaction with human [ ] or other bacterial genomes [ ] ( and Figs, and Materials and Methods). In contrast, when analyzing coverage of these eight target sites on a B. pseudomallei global population, we found that all of them can be found in at least in 97% of the population ( ).
+
+## Highly specific detection of B. pseudomallei DNA by crBP34, 36 and 38
+To verify that the identified target sites can be used with CRISPR-Cas12a to detect B. pseudomallei genomic DNA, we engineered CRISPR-Cas12a to contain target sites in the spacer region of crRNA and applied these modified CRISPR-Cas12a enzyme to DETECTR assay ( ). In the DETECTR assay, the pathogen’s DNA is pre-amplified by an isothermal method before being combined with pre-assembled CRISPR-Cas12a RNP in a CRISPR reaction [ ]. This reaction contains an excess amount of short ssDNA probes modified with fluorescein and quencher on the 5’ and 3’ ends (FAM-Quencher probe), respectively. In the presence of the pathogen’s DNA, a programmed CRISPR-Cas12a RNP complex recognizes an intended target and activates itself into a non-specific ssDNAse that cleaves the probes in trans. Liberation of the fluorescein from the quencher results in an emission of fluorescence, a proxy for detection of the pathogen’s DNA.
+ We designed 35-nt primers ( ) and performed RPA on only seven target sites. The exception was crBP33 of which optimal primers could not be designed due to highly repetitive sequences and GC-rich nature in this region. The result showed that RPA of target sites crBP34, crBP36 and crBP38 yielded good amplification products among the seven target sites ( ). Therefore, we selected these candidate target sites and engineered their 20-nt sequences (excluding PAM) into the spacer region of the crRNA ( ). The 7-nt RNA extension was also added to the 3’ end of the crRNA, as it has been shown to increase collateral cleavage activity [ ]. Genomic DNA from 11 pathogens that are common causes of bacterial infections in melioidosis endemic areas, including S. pyogenes, S. epidermidis, K. pneumoniae, S. agalactiae, P. aeruginosa, B. thailandensis, S. pneumoniae, E. coli, S. aureus, A. baumannii and B. pseudomallei were pre-amplified using RPA and tested with each crRNA. The results of fluorescence activation showed that all three crRNAs could specifically detect B. pseudomallei, but not other pathogens ( ). Encouragingly, all three crRNAs could discriminate effectively against B. pseudomallei’s close relative B. thailandensis. This specificity exceeded our expectation since fluorescent signals from non-B. pseudomallei bacteria were barely above the background level, in contrast to that from B. pseudomallei which exhibited 4-order of magnitude of intensity. Since there is the potential to use this platform to diagnose melioidosis in humans, we also tested crBP34, 36 and 38 with human genomic DNA. We found that all three crRNAs did not cross-react with human DNA ( ). These results validated our crRNA design pipeline that excluded cross-reaction from non-B. pseudomallei DNA ( ). In addition, we noticed that each crRNA exhibited differing kinetics of detection. crBP34 had the strongest signal that reached a maximum at 24 minutes, while crBP36 reached a maximum at 48 minutes. crBP38, on the other hand, displayed the most delayed maximum at 108 minutes. These variations could be a result of cumulative differences in both RPA efficiency and the intrinsic property of each crRNA. Regardless, all three crRNAs displayed specific signals above the background in less than 10 minutes into the reaction. Since crBP34 possesses the strongest signal and the fastest kinetics, we selected crBP34 for the subsequent experiments.
+
+## Sensitive and rapid detection of B. pseudomallei DNA by crBP34
+One important feature of a reliable diagnostic tool is sensitivity. To investigate the ability of crBP34-coupled DETECTR in detecting trace amounts of genetic material, frequently present in clinical samples, we determined the limit of detection (LOD) of this CRISPR platform. A known copy number of genomic DNA of B. pseudomallei was serially diluted and used in the assay as described above. The result showed that our CRISPR-Cas12a detection platform has an LOD at 40 copies of B. pseudomallei genomic DNA per reaction ( ). In fact, the assay could detect as low as four copies of input genomic DNA; however, at this lower DNA amount, detection was inconsistent, and the fluorescent signal was weaker and had a more delayed rate of detection (maximum at 55 minutes). For comparison, we also performed real-time PCR—a sensitive standardized method for nucleic acid detection. When comparing the LOD of crBP34-DETECTR to that of real-time PCR, we found that our detection platform performed equally well as did this standard method, which showed reliable detection at 40 copies per reaction ( ). In addition, we tested this detection platform with B. pseudomallei genomic DNA spiked with different amounts of human genomic DNA. As expected, the result showed that the sensitivity was negatively impacted by the presence of human DNA background, especially at LOD of the assay ( ).
+ To obviate the requirement of an expensive laboratory setup, we replaced detection of fluorescence with a lateral flow dipstick for the assay readout. Consequently, the FAM-Quencher ssDNA probes were substituted by FAM-Biotin ssDNA probes in the CRISPR reaction. Afterwards, a sample pad of a lateral flow dipstick was directly immersed into the CRISPR reaction. This sample pad contains gold-conjugated anti-FAM antibodies, which label FAM moieties for visualization—both in intact probes and in cleaved probes ( ). In the absence of B. pseudomallei target DNA, the probes are intact and trapped at the streptavidin line by biotin-streptavidin interaction. However, in the presence of the target DNA, collateral activity of CRISPR-Cas12a degrades the probes, liberating the FAM-antibody complexes from biotin so that they can diffuse further on the dipstick to bind to the anti-IgG line. We tested this readout with various amounts of B. pseudomallei genomic DNA and found that the sensitivity of this readout correlates well with that of the fluorescence readout, with an LOD at 40 copies per reaction ( ). Therefore, the lateral flow dipstick can be used to give a sensitive readout of the assay, providing an easy method for detection of B. pseudomallei.
+
+## crBP34 unambiguously detects B. pseudomallei DNA from clinical isolates
+In silico analysis indicated that all eight identified CRISPR-Cas12a target sites were highly conserved. crBP34 has sequences that match 3,335 out of 3,341 B. pseudomallei genomes ( ) and were shown to be very specific in our preliminary data ( ). To verify that our designed crBP34 can specifically detect other B. pseudomallei isolates, we tested our CRISPR diagnostic platform with various clinically isolated bacteria, specifically B. pseudomallei and common non-B. pseudomallei pathogens. The results showed that crBP34 could accurately detect all B. pseudomallei isolates (n = 33) ( ). Importantly, the assay discriminated against all other DNA from the non-B. pseudomallei pathogens (n = 88). The fluorescence signals from this latter group of pathogens remained at a baseline, at the same level of the background (water-input RPA, ‘None’). Together, these data suggest that crBP34 exhibits 100% specificity and could potentially be used to detect B. pseudomallei from different geographical areas.
+ 
+
+## Discussion
+Nucleic acid detection by isothermal amplification assays such as RPA and LAMP have had increased usages in research communities due to their high sensitivity and simplicity. Nevertheless, LAMP demands a series of six to eight primers to work together in an optimal locus [ ]. This requirement could possibly limit its broad usage in the detection of B. pseudomallei, which is heterogenous and GC-rich in its genome. RPA, on the other hand, can tolerate significant mismatches in primers [ ], making it less specific. We often observed non-specific amplification in our RPA reactions. In comparison, the DETECTR assay combines RPA and CRISPR-Cas12a. It utilizes CRISPR-Cas12a as a sequence-specific DNA reader to verify the identity of pre-amplified DNA from RPA reaction. This adds an extra stringency to RPA while maintaining its high sensitivity. As a result, our crBP34-DETECTR assay is highly specific and sensitive. The assay has an LOD at 40 copies per reaction, comparable to that of real-time PCR ( ), LAMP [ ] and RPA [ , ].
+The specificity of the crBP34-DETECTR may arise from the designed crRNA—crBP34, which was a result of large-scale phylogenetics and bioinformatics analyses to remove cross-reactivity ( ). This contrasts with previously reported detection assays using real-time PCR [ – ], LAMP [ , ] or RPA [ – ], in which primers were designed based on selected genomic loci or limited bioinformatics analysis on few reference strains. Testing crBP34 and the other crRNAs with B. pseudomallei isolates from other geographical areas remains for further examination to assess their universal application. However, the coverage analysis predicted that both the CRISPR-Cas12 target sites ( ) and RPA primers ( ) are present in more than 97% of the global B. pseudomallei population. This gives a high probability of detection by our designed crRNAs.
+Even though we are reporting here that our stand-alone crBP34-DETECTR performed exceptionally well in the detection of the DNA from clinically isolated B. pseudomallei, direct application of this platform to clinical specimens such as sputum, blood or urine is not presented in this study. Not only is DNA extraction from these samples laborious and challenging, but it also does yield an overwhelming amount of human DNA that negatively impacts sensitivity and specificity of subsequent nucleic acid detections [ – ]. When mixing human DNA with B. pseudomallei DNA, we observed a reduction of the RPA product, resulting in a subsequent loss of collateral activity of the CRISPR-Cas12a ( ). Hence, DNA extraction methodology that selectively enriches pathogens from clinical samples will play a crucial role in the detection. Although commercial kits are available, the added extra steps and high cost for diagnosis have prevented their usage in facilities with limited resources. Therefore, development of a streamlined method for processing bacterial genomic DNA from clinical specimens is much needed, especially one that is compatible with the DETECTR assay; this is a subject of our future study.
+In conclusion, we have developed a novel method for the detection of B. pseudomallei genomic DNA using CRIPSR-Cas12a. Our detection platform, crBP34-DETECTR, is highly specific for B. pseudomallei as it detected all clinical isolates of endemic B. pseudomallei, while discriminating against human and other pathogens including its closely related species B. thailandensis ( , ). The adaptation of a lateral flow dipstick for a readout enabled this assay to be performed in a regular laboratory, without the requirement of specific instruments and the loss of sensitivity ( ). This crBP34-DETECTR platform will facilitate point-of-care or field-deployable diagnoses in the future.
+
+## Supporting information
+S1 Fig
+
+## RPA product of each target site.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## Effects of human genomic DNA on RPA reaction.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Targets of crBP sequence in other bacterial species.
+(TIF)
+Click here for additional data file.
+S4 Fig
+
+## Targets of crBP sequence in the human genome.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Global B. pseudomallei genome collection.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## 30 B. pseudomallei representatives.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## DNA oligonucleotides and probes.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## Coverage of RPA primers in a global B. pseudomallei genome collection.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## 1,071 complete genome assemblies of Non-B. pseudomallei bacteria.
+(XLSX)
+Click here for additional data file.
+
+The authors thank the Erawan HPC Project of the Information Technology Service Center (ITSC), Chiang Mai University, Chiang Mai, Thailand for providing computational resources. In addition, we thank Dr. Chayasith Uttamapinant (VISTEC, Thailand) for providing useful suggestions and reagents, and Dr. Direk Limmathurotsakul (MORU, Thailand) for a helpful discussion.
+ 10.1371/journal.pntd.0010659.r001Decision Letter 0
+TorresAlfredo GSection Editor© 2022 Alfredo G Torres2022Alfredo G Torreshttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version0
+26 Apr 2022
+
+Dear Dr. Wongpalee,
+Thank you very much for submitting your manuscript "Highly Specific and Sensitive Detection of Burkholderia pseudomallei Genomic DNA by CRISPR-Cas12a" for consideration at PLOS Neglected Tropical Diseases. As with all papers reviewed by the journal, your manuscript was reviewed by members of the editorial board and by several independent reviewers. In light of the reviews (below this email), we would like to invite the resubmission of a significantly-revised version that takes into account the reviewers' comments. 
+We cannot make any decision about publication until we have seen the revised manuscript and your response to the reviewers' comments. Your revised manuscript is also likely to be sent to reviewers for further evaluation.
+When you are ready to resubmit, please upload the following:
+[1] A letter containing a detailed list of your responses to the review comments and a description of the changes you have made in the manuscript. Please note while forming your response, if your article is accepted, you may have the opportunity to make the peer review history publicly available. The record will include editor decision letters (with reviews) and your responses to reviewer comments. If eligible, we will contact you to opt in or out.
+[2] Two versions of the revised manuscript: one with either highlights or tracked changes denoting where the text has been changed; the other a clean version (uploaded as the manuscript file). 
+Important additional instructions are given below your reviewer comments.
+Please prepare and submit your revised manuscript within 60 days. If you anticipate any delay, please let us know the expected resubmission date by replying to this email. Please note that revised manuscripts received after the 60-day due date may require evaluation and peer review similar to newly submitted manuscripts.
+Thank you again for your submission. We hope that our editorial process has been constructive so far, and we welcome your feedback at any time. Please don't hesitate to contact us if you have any questions or comments.
+Sincerely,
+Alfredo G Torres
+Deputy Editor
+PLOS Neglected Tropical Diseases
+Alfredo Torres
+Deputy Editor
+PLOS Neglected Tropical Diseases
+***********************
+Reviewer's Responses to Questions
+
+Key Review Criteria Required for Acceptance?
+
+As you describe the new analyses required for acceptance, please consider the following:
+
+Methods
+
+-Are the objectives of the study clearly articulated with a clear testable hypothesis stated?
+-Is the study design appropriate to address the stated objectives?
+-Is the population clearly described and appropriate for the hypothesis being tested?
+-Is the sample size sufficient to ensure adequate power to address the hypothesis being tested?
+-Were correct statistical analysis used to support conclusions?
+-Are there concerns about ethical or regulatory requirements being met?
+Reviewer #1: The manuscript entitled with " Highly Specific and Sensitive Detection of Burkholderia pseudomallei Genomic DNA by CRISPR-Cas12a" submitted by Wongpalee et.al., presents a novel method that circumvents long time amplification issues by utilizing CRISPR-Cas12a coupled with isothermal amplification of a target DNA. Although the article has scientific rigor, few flaws need to be corrected before it can be considered for publication.
+• Aspects of CRISPR technology for diagnostics and treatment needs more advanced elaboration.
+https://link.springer.com/article/10.1007/s40097-022-00472-7
+
+• Define the “frequency” and the time duration for sonication in the method protocol.
+• Report the length, melting temperature and probes of the primers used in the RPA and the region used for the amplification.
+• Correct the “µl” spelling throughout the document
+• Define the importance of the target sites “crBP34”, “crBP36”, “crBP38” and its role as a controlling factor for melioidosis.
+• Are the researchers making any modifications in the purification protocol, as there is a lack of component “sodium phosphate” in both the binding and eluting buffer. The researchers are requested to share the purification profile 
+• “The results showed that all three crRNAs could specifically detect B. pseudomallei, but not other pathogens”. Are the authors taking any range level to specify the detection limit, as it is observed form the Figure 2B: the fluorescence intensity is detected for the “S. epidermidis” and “B. thailandensis” as well apart from “B. pseudomallei”; and in Figure 2C: the fluorescence intensity is detected for the “S. pneumoniae” and “S. aureus ATCC” also on a lower scale.
+Reviewer #2: The authors had robust methods that were thoroughly explained. My concerns/questions regarding the methods are listed below.
+Line 136: Define LB. Was Lennox broth or Luria Bertani broth used? Line 290 defines LB as Luria-Bertani but it would be useful to have LB defined on line 136 as well.
+It was unclear to me how the authors selected crBP34, 36 and 38 from the list of candidate target sites from Fig 1D. 
+Fig 1 was a very helpful figure to understand the design process for the Bp specific CRISPR RNA. I was happy to see that the authors screened the possible CRISPR sites against cross-reactive pathogens and I have two questions about this step. 1) Why did the authors not in-silico screen the final target (crBP34) against all available bacterial pathogens from NCBI. 2) If the ultimate goal of this assay is to test clinical samples why were the targets not screened against the human genome to look for interactions?
+--------------------
+
+Results
+
+-Does the analysis presented match the analysis plan?
+-Are the results clearly and completely presented?
+-Are the figures (Tables, Images) of sufficient quality for clarity?
+Reviewer #1: The manuscript entitled with " Highly Specific and Sensitive Detection of Burkholderia pseudomallei Genomic DNA by CRISPR-Cas12a" submitted by Wongpalee et.al., presents a novel method that circumvents long time amplification issues by utilizing CRISPR-Cas12a coupled with isothermal amplification of a target DNA. Although the article has scientific rigor, few flaws need to be corrected before it can be considered for publication.
+• Aspects of CRISPR technology for diagnostics and treatment needs more advanced elaboration.
+https://link.springer.com/article/10.1007/s40097-022-00472-7
+
+• Define the “frequency” and the time duration for sonication in the method protocol.
+• Report the length, melting temperature and probes of the primers used in the RPA and the region used for the amplification.
+• Correct the “µl” spelling throughout the document
+• Define the importance of the target sites “crBP34”, “crBP36”, “crBP38” and its role as a controlling factor for melioidosis.
+• Are the researchers making any modifications in the purification protocol, as there is a lack of component “sodium phosphate” in both the binding and eluting buffer. The researchers are requested to share the purification profile 
+• “The results showed that all three crRNAs could specifically detect B. pseudomallei, but not other pathogens”. Are the authors taking any range level to specify the detection limit, as it is observed form the Figure 2B: the fluorescence intensity is detected for the “S. epidermidis” and “B. thailandensis” as well apart from “B. pseudomallei”; and in Figure 2C: the fluorescence intensity is detected for the “S. pneumoniae” and “S. aureus ATCC” also on a lower scale.
+Reviewer #2: The results are described and presented in a clear manner. The figures are detailed and provide a nice visual of the design and validation process.
+--------------------
+
+Conclusions
+
+-Are the conclusions supported by the data presented?
+-Are the limitations of analysis clearly described?
+-Do the authors discuss how these data can be helpful to advance our understanding of the topic under study?
+-Is public health relevance addressed?
+Reviewer #1: The manuscript entitled with " Highly Specific and Sensitive Detection of Burkholderia pseudomallei Genomic DNA by CRISPR-Cas12a" submitted by Wongpalee et.al., presents a novel method that circumvents long time amplification issues by utilizing CRISPR-Cas12a coupled with isothermal amplification of a target DNA. Although the article has scientific rigor, few flaws need to be corrected before it can be considered for publication.
+• Aspects of CRISPR technology for diagnostics and treatment needs more advanced elaboration.
+https://link.springer.com/article/10.1007/s40097-022-00472-7
+
+• Define the “frequency” and the time duration for sonication in the method protocol.
+• Report the length, melting temperature and probes of the primers used in the RPA and the region used for the amplification.
+• Correct the “µl” spelling throughout the document
+• Define the importance of the target sites “crBP34”, “crBP36”, “crBP38” and its role as a controlling factor for melioidosis.
+• Are the researchers making any modifications in the purification protocol, as there is a lack of component “sodium phosphate” in both the binding and eluting buffer. The researchers are requested to share the purification profile 
+• “The results showed that all three crRNAs could specifically detect B. pseudomallei, but not other pathogens”. Are the authors taking any range level to specify the detection limit, as it is observed form the Figure 2B: the fluorescence intensity is detected for the “S. epidermidis” and “B. thailandensis” as well apart from “B. pseudomallei”; and in Figure 2C: the fluorescence intensity is detected for the “S. pneumoniae” and “S. aureus ATCC” also on a lower scale.
+Reviewer #2: The discussion is concise and describes the power of the newly developed crBP34-DETECTR in both sensitivity and specificity. The authors also reiterated that the assay is currently validated for the detection of Bp DNA after isolation from a clinical sample and more work is needed to validate the assay on complex clinical samples.
+--------------------
+
+Editorial and Data Presentation Modifications?
+
+Use this section for editorial suggestions as well as relatively minor modifications of existing data that would enhance clarity. If the only modifications needed are minor and/or editorial, you may wish to recommend “Minor Revision” or “Accept”. 
+Reviewer #1: The manuscript entitled with " Highly Specific and Sensitive Detection of Burkholderia pseudomallei Genomic DNA by CRISPR-Cas12a" submitted by Wongpalee et.al., presents a novel method that circumvents long time amplification issues by utilizing CRISPR-Cas12a coupled with isothermal amplification of a target DNA. Although the article has scientific rigor, few flaws need to be corrected before it can be considered for publication.
+• Aspects of CRISPR technology for diagnostics and treatment needs more advanced elaboration.
+https://link.springer.com/article/10.1007/s40097-022-00472-7
+
+• Define the “frequency” and the time duration for sonication in the method protocol.
+• Report the length, melting temperature and probes of the primers used in the RPA and the region used for the amplification.
+• Correct the “µl” spelling throughout the document
+• Define the importance of the target sites “crBP34”, “crBP36”, “crBP38” and its role as a controlling factor for melioidosis.
+• Are the researchers making any modifications in the purification protocol, as there is a lack of component “sodium phosphate” in both the binding and eluting buffer. The researchers are requested to share the purification profile 
+• “The results showed that all three crRNAs could specifically detect B. pseudomallei, but not other pathogens”. Are the authors taking any range level to specify the detection limit, as it is observed form the Figure 2B: the fluorescence intensity is detected for the “S. epidermidis” and “B. thailandensis” as well apart from “B. pseudomallei”; and in Figure 2C: the fluorescence intensity is detected for the “S. pneumoniae” and “S. aureus ATCC” also on a lower scale.
+Reviewer #2: Minor:
+Line 105, uncapitalize “Initial”
+Line 270: uncapitalize “Primers”
+Line 288: It looks like “incubate” should be in the past tense “incubated”
+Line 465: “figure 2a” instead of Fig 2a
+--------------------
+
+Summary and General Comments
+
+Use this section to provide overall comments, discuss strengths/weaknesses of the study, novelty, significance, general execution and scholarship. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. If requesting major revision, please articulate the new experiments that are needed.
+Reviewer #1: The manuscript entitled with " Highly Specific and Sensitive Detection of Burkholderia pseudomallei Genomic DNA by CRISPR-Cas12a" submitted by Wongpalee et.al., presents a novel method that circumvents long time amplification issues by utilizing CRISPR-Cas12a coupled with isothermal amplification of a target DNA. Although the article has scientific rigor, few flaws need to be corrected before it can be considered for publication.
+• Aspects of CRISPR technology for diagnostics and treatment needs more advanced elaboration.
+https://link.springer.com/article/10.1007/s40097-022-00472-7
+
+• Define the “frequency” and the time duration for sonication in the method protocol.
+• Report the length, melting temperature and probes of the primers used in the RPA and the region used for the amplification.
+• Correct the “µl” spelling throughout the document
+• Define the importance of the target sites “crBP34”, “crBP36”, “crBP38” and its role as a controlling factor for melioidosis.
+• Are the researchers making any modifications in the purification protocol, as there is a lack of component “sodium phosphate” in both the binding and eluting buffer. The researchers are requested to share the purification profile 
+• “The results showed that all three crRNAs could specifically detect B. pseudomallei, but not other pathogens”. Are the authors taking any range level to specify the detection limit, as it is observed form the Figure 2B: the fluorescence intensity is detected for the “S. epidermidis” and “B. thailandensis” as well apart from “B. pseudomallei”; and in Figure 2C: the fluorescence intensity is detected for the “S. pneumoniae” and “S. aureus ATCC” also on a lower scale.
+Reviewer #2: In the introduction the authors set up the issue well and why they aimed to find a cheaper, specific, fast alternative to detect Bp in clinical samples. The authors reviewed the literature and although there have been other studies that have developed a lateral flow recombinase polymerase amplification (LF-RPA) for the detection of Bp the authors of this study point out that the previously published studies did not investigate the specificity of the targets were not tested on a wider Bp population. Additionally, this study is unique from the other studies since it also uses CRISPR-Cas12a for the detection of Bp which has been validated on other pathogen species. 
+This study seems like a big step in the right direction for a cheaper, faster alternative for Bp detection in the clinic. The only major limitation I see with this study is the lack of validating the assay in the presence of a human DNA background. The authors speak to the limitation of the study in that clinically isolated Bp and not clinical samples (blood, urine, etc.) were not tested (lines 529-530) but they don’t speak of the potential interactions that may occur with the human DNA background present in most clinical samples. With this said it should be noted that the authors do not make claims that their assay detects anything more than Bp DNA. The title is quite clear that this assay is detecting Bp genomic DNA.
+The abstract is a bit misleading since the authors say that the assay can be achieved in less than 1 hour (line 34) but fail to mention that this is after isolating Bp from a clinical sample (24-48 hours) and after a DNA extraction on that pure isolate (1-4 hours). 
+I think the authors need to be clearer about the input material required for the assay. For example, lines 36-37 make claims of this assay being used in “poor-resourced clinical settings” which may be true one day but that is not the case yet since the assay has not been validated on clinical samples, DNA extractions from clinical samples, or mock clinical DNA samples of Bp DNA with a human DNA background. Where lines 527-530 in the discussion are clearer about this limitation. I would like to see something more like lines 527-530 in the abstract instead of lines 36-37.
+--------------------
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #2: No
+Figure Files:
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email us at figures@plos.org.
+Data Requirements:
+Please note that, as a condition of publication, PLOS' data policy requires that you make available all data used to draw the conclusions outlined in your manuscript. Data must be deposited in an appropriate repository, included within the body of the manuscript, or uploaded as supporting information. This includes all numerical values that were used to generate graphs, histograms etc.. For an example see here: http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1001908#s5.
+Reproducibility:
+To enhance the reproducibility of your results, we recommend that you deposit your laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. Additionally, PLOS ONE offers an option to publish peer-reviewed clinical study protocols. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols
+10.1371/journal.pntd.0010659.r002Author response to Decision Letter 0
+Submission Version1
+21 Jun 2022
+
+AttachmentSubmitted filename: Response to reviewers comments.pdf
+Click here for additional data file.
+10.1371/journal.pntd.0010659.r003Decision Letter 1
+TorresAlfredo GSection Editor© 2022 Alfredo G Torres2022Alfredo G Torreshttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version1
+12 Jul 2022
+
+Dear Dr. Wongpalee,
+We are pleased to inform you that your manuscript 'Highly Specific and Sensitive Detection of Burkholderia pseudomallei Genomic DNA by CRISPR-Cas12a' has been provisionally accepted for publication in PLOS Neglected Tropical Diseases.
+Before your manuscript can be formally accepted you will need to complete some formatting changes, which you will receive in a follow up email. A member of our team will be in touch with a set of requests.
+Please note that your manuscript will not be scheduled for publication until you have made the required changes, so a swift response is appreciated.
+IMPORTANT: The editorial review process is now complete. PLOS will only permit corrections to spelling, formatting or significant scientific errors from this point onwards. Requests for major changes, or any which affect the scientific understanding of your work, will cause delays to the publication date of your manuscript.
+Should you, your institution's press office or the journal office choose to press release your paper, you will automatically be opted out of early publication. We ask that you notify us now if you or your institution is planning to press release the article. All press must be co-ordinated with PLOS.
+Thank you again for supporting Open Access publishing; we are looking forward to publishing your work in PLOS Neglected Tropical Diseases.
+Best regards,
+Alfredo G Torres
+Section Editor
+PLOS Neglected Tropical Diseases
+Alfredo Torres
+Section Editor
+PLOS Neglected Tropical Diseases
+***********************************************************
+Reviewer's Responses to Questions
+
+Key Review Criteria Required for Acceptance?
+
+As you describe the new analyses required for acceptance, please consider the following:
+
+Methods
+
+-Are the objectives of the study clearly articulated with a clear testable hypothesis stated?
+-Is the study design appropriate to address the stated objectives?
+-Is the population clearly described and appropriate for the hypothesis being tested?
+-Is the sample size sufficient to ensure adequate power to address the hypothesis being tested?
+-Were correct statistical analysis used to support conclusions?
+-Are there concerns about ethical or regulatory requirements being met?
+Reviewer #2: Yes
+Reviewer #3: Yes
+Reviewer #4: The objectives are clearly highlighted in the manuscript.
+**********
+
+Results
+
+-Does the analysis presented match the analysis plan?
+-Are the results clearly and completely presented?
+-Are the figures (Tables, Images) of sufficient quality for clarity?
+Reviewer #2: Yes
+Reviewer #3: Yes
+Reviewer #4: Yes, the results are sufficient, clearly presented.
+**********
+
+Conclusions
+
+-Are the conclusions supported by the data presented?
+-Are the limitations of analysis clearly described?
+-Do the authors discuss how these data can be helpful to advance our understanding of the topic under study?
+-Is public health relevance addressed?
+Reviewer #2: Yes
+Reviewer #3: Yes
+Reviewer #4: Please improve the conclusion:
+1. Please add the recombinase polymerase amplification in the conclusion.
+2. Please summarise the comparison between the RPA-CRISPR Cas12a-LFA
+3. Please add the heating block or water bath for RPA
+**********
+
+Editorial and Data Presentation Modifications?
+
+Use this section for editorial suggestions as well as relatively minor modifications of existing data that would enhance clarity. If the only modifications needed are minor and/or editorial, you may wish to recommend “Minor Revision” or “Accept”.
+Reviewer #2: Accept
+Reviewer #3: (No Response)
+Reviewer #4: Suggestion: to change the title to ‘highly specific and sensitive lateral flow assay based-detection of Burkholderia pseudomallei via recombinase polymerase (RPA)-CRISPR-Cas12a-Lateral flow assay
+**********
+
+Summary and General Comments
+
+Use this section to provide overall comments, discuss strengths/weaknesses of the study, novelty, significance, general execution and scholarship. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. If requesting major revision, please articulate the new experiments that are needed.
+Reviewer #2: The authors have addressed all of my previous comments and concerns.
+Reviewer #3: I very much enjoyed reviewing this article. The authors should be commended for the thoroughness of experimentation with regards to sensitivity and specificity. The clear explanation of all methodology is refreshing. Having additionally read the initial reviewer comments, I believe this revision is excellent. I look forward to the follow-up experimentation direct from clinical specimen, which will be of even greater use.
+Major comments:
+Line 79 – 80: a positive serological assay in a patient with prior seroconversion may not be a false positive. Rather, this would may be a true positive that represents past exposure as opposed to active infection.
+Line 288: first mention of the DETECTR which is the method created by Chen J et al. It appears ambiguous from the text that this method was created by the authors. Would suggest a simple clarification in the introduction.
+Minor comments:
+The first use of abbreviations throughout this manuscript should be reassessed. There are several instances where first use of abbreviation was not accompanied with the full description. Examples can be found in line 146, 151, 152, 157, 182.
+There are multiple occasions where the instrument or reagent manufacturer is incompletely referenced. Please include the company name and location. Examples include line 154, 158, 269.
+Line 248: To enable
+Reviewer #4: The author should emphasis on the development of a diagnostic method by utilisation of recombinase polymerase amplification (RPA), CRISPR-Cas12a and lateral flow assay.
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #2: Yes: Carina M Hall
+Reviewer #3: No
+Reviewer #4: Yes: Ismail Aziah
+AttachmentSubmitted filename: Draft 9 PLOS_marked up-IA reviewed.docx
+Click here for additional data file.
+10.1371/journal.pntd.0010659.r004Acceptance letter
+TorresAlfredo GSection Editor© 2022 Alfredo G Torres2022Alfredo G Torreshttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+12 Aug 2022
+
+Dear Dr. Wongpalee,
+We are delighted to inform you that your manuscript, "Highly Specific and Sensitive Detection of Burkholderia pseudomallei Genomic DNA by CRISPR-Cas12a," has been formally accepted for publication in PLOS Neglected Tropical Diseases.
+We have now passed your article onto the PLOS Production Department who will complete the rest of the publication process. All authors will receive a confirmation email upon publication.
+The corresponding author will soon be receiving a typeset proof for review, to ensure errors have not been introduced during production. Please review the PDF proof of your manuscript carefully, as this is the last chance to correct any scientific or type-setting errors. Please note that major changes, or those which affect the scientific understanding of the work, will likely cause delays to the publication date of your manuscript. Note: Proofs for Front Matter articles (Editorial, Viewpoint, Symposium, Review, etc...) are generated on a different schedule and may not be made available as quickly.
+Soon after your final files are uploaded, the early version of your manuscript will be published online unless you opted out of this process. The date of the early version will be your article's publication date. The final article will be published to the same URL, and all versions of the paper will be accessible to readers.
+Thank you again for supporting open-access publishing; we are looking forward to publishing your work in PLOS Neglected Tropical Diseases. 
+Best regards,
+Shaden Kamhawi
+co-Editor-in-Chief
+PLOS Neglected Tropical Diseases
+Paul Brindley
+co-Editor-in-Chief
+PLOS Neglected Tropical Diseases

@@ -1,0 +1,218 @@
+214transmedJournal of Translational MedicineJ Transl MedBMCPMC1296460712964607129646074163988410.1186/s12967-026-07768-0EP300 promotes hepatocellular carcinoma proliferation, migration and in vivo tumorigenicity revealed by integrated experimental and bioinformatic analyses
+LiuZhipeng WangJunbin WuXia ShiHong DingYouming LiuXuejian 1Department of Hepatobiliary Surgery, Renmin Hospital of Wuhan University, Wuhan, Hubei 430060 China 2The Second Clinical Medical College, Shandong University of Traditional Chinese Medicine, Jinan, Shandong 250355 China 3Cancer Center, Shandong Provincial Third Hospital, Shandong University, Jinan, Shandong 250031 China 4Cancer Center, The First Rehabilitation Hospital of Shandong Province, Linyi, Shandong 276300 China ✉Corresponding author.
+#Contributed equally.
+42202624329329732026© The Author(s) 2026Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+
+## Background
+Hepatocellular carcinoma (HCC) remains a lethal malignancy with high heterogeneity and limited effective biomarkers for risk stratification. EP300 (p300), a central histone acetyltransferase and transcriptional co-activator, is frequently dysregulated in cancer, yet its integrated multi-omic and functional roles in HCC require further clarification.
+
+## Methods
+We integrated transcriptomic and clinical data from TCGA-LIHC, proteomic data from CPTAC, and public survival resources, and validated EP300 expression in ten paired HCC tumors and adjacent tissues by RT-qPCR and western blotting. EP300 was silenced by siRNA in Huh-7 and SK-hep-1 cells followed by CCK-8, colony formation, wound-healing, and Transwell assays. Tumorigenicity was evaluated using a subcutaneous xenograft model. Immune associations were explored using established deconvolution algorithms.
+
+## Results
+EP300 was significantly upregulated in HCC at both the mRNA level (TCGA unpaired: p = 2.3 × 10− 5; paired: p = 2.2 × 10− 5) and the protein level (CPTAC, n = 165 tumors vs 165 normals: p = 6.7006 × 10− 3 6), and was higher in clinically high-risk strata (AFP > 400 ng/mL: p = 0.01; stage III–IV vs I–II: p = 0.04). High EP300 expression was associated with inferior overall survival in Kaplan–Meier analysis (HR = 1.43, 95% p < 0.05), while the association was attenuated after adjustment for key clinical covariates (multivariable Cox: p = 0.511). Functionally, EP300 knockdown reduced proliferation and clonogenicity (p < 0.0001) and impaired migration/invasion, and suppressed xenograft tumor growth. EP300 expression also correlated with an immunosuppressive tumor microenvironment signature in bulk RNA-seq analyses.
+
+## Conclusion
+EP300 is consistently upregulated in HCC and supports malignant phenotypes in vitro and in vivo. Its prognostic signal appears context-dependent after multivariable adjustment, suggesting EP300 is better interpreted as a progression-associated marker and potential therapeutic vulnerability. Immune-microenvironment associations derived from bulk data are hypothesis-generating and warrant orthogonal validation.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12967-026-07768-0.
+
+Keywords: Hepatocellular carcinoma, EP300, Epigenetics, Metabolic reprogramming, Therapeutic target
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Oct 28; Accepted 2026 Jan 22; Collection date 2026.
+
+## Introduction
+Hepatocellular carcinoma (HCC) is a major global health problem and a leading cause of cancer-related mortality. Cancer development is widely recognized as a multifactorial process influenced not only by genetic and molecular alterations but also by environmental and societal determinants [ ]. Recent estimates reported 866,136 new liver cancer cases and approximately 783,000 deaths worldwide in 2022, with a disproportionate burden in East Asia and sub-Saharan Africa; the incidence is expected to rise further with population aging and the increasing prevalence of metabolic dysfunction–associated fatty liver disease [ , ].
+Curative-intent options (resection, ablation, and transplantation) are restricted to early-stage disease, whereas most patients present with intermediate-to-advanced HCC and rely on locoregional and systemic treatments. Although systemic therapy has evolved rapidly, durable benefit remains limited for many patients, and classical cytotoxic chemotherapy has historically shown modest activity in HCC in part due to intrinsic chemoresistance and compromised liver reserve [ – ]. Drug repurposing has therefore attracted increasing attention in oncology, with thalidomide representing a classic example of a once-banned drug successfully repositioned as an anticancer agent [ ]. Therefore, mechanism-based targets and biomarkers that capture aggressive tumor biology are urgently needed. In parallel, advanced drug delivery strategies, particularly nanocarrier-based systems, have emerged as promising approaches to enhance therapeutic efficacy while reducing systemic toxicity in cancer treatment [ ].
+At the molecular level, epigenetic reprogramming is a hallmark of liver tumorigenesis. EP300 (p300; KAT3B) is a canonical histone acetyltransferase and transcriptional co-activator that integrates oncogenic signaling into enhancer and promoter acetylation programs, thereby coordinating chromatin accessibility and lineage-specific transcription [ , ]. Unlike non-enzymatic driver alterations, EP300 is an enzymatic and scaffold-type regulator with direct druggability, and emerging small-molecule CBP/p300 inhibitors highlight its translational relevance [ , ].
+However, the role of EP300 in HCC remains incompletely resolved. Prior reports are often limited by single-layer data, restricted clinical annotation, or lack of causal functional validation, and the relationship between EP300-linked transcriptional programs, metabolic remodeling, and the tumor immune microenvironment is particularly underexplored [ ]. In addition, the clinical interpretability of EP300 is complicated by potential confounding with established prognostic variables (e. g., stage and tumor status) [ ].
+Here, we performed an integrated analysis combining TCGA transcriptomics, CPTAC proteomics, and paired clinical tissue validation, followed by siRNA-based functional assays in two HCC cell models and in vivo xenografts. We further characterized EP300-associated co-expression modules and immune correlates using established deconvolution frameworks. Collectively, our study provides a rigorous multi-omic and experimental framework that positions EP300 as a progression-associated driver in HCC and a plausible therapeutic vulnerability, while transparently delineating current evidentiary limitations.
+
+## Materials and methods
+
+## Bioinformatic analyses
+
+## Data sources and processing.
+HTSeq-FPKM RNA-seq and clinical annotations for TCGA-LIHC were downloaded from the Genomic Data Commons (GDC) (Project ID: TCGA-LIHC; permanent link: https://portal.gdc.cancer.gov/projects/TCGA-LIHC; accessed 27 Aug 2025). FPKM values were converted to TPM (TPM = FPKM/∑FPKM × 10^6) and log2-transformed as log2(TPM + 1) [ ]. We performed pan-cancer and LIHC-specific analyses (≈371 tumors; ≈50 normals). Unpaired tumor–normal comparisons used Mann–Whitney tests, and ≈50 matched pairs used paired Wilcoxon tests. Logistic regression assessed clinicopathologic associations, and survival was analyzed by Kaplan–Meier and Cox models (see §2.10) [ , ]. For proteomics, CPTAC (HCC) data were accessed via UALCAN (https://ualcan.path.uab.edu). Survival analyses drawing on external cohorts were performed via Kaplan–Meier Plotter (https://kmplot.com/analysis). We did not directly download or reprocess GEO datasets; any GEO-derived results were used through the Kaplan–Meier Plotter portal only. Unless otherwise stated, tests were two-sided; exact n and test types are indicated in figure legends; effect sizes and 95% CIs are reported where applicable; multiplicity for multiple correlations used BH-FDR; units follow Supplementary_Table_ , with tumor dimensions in cm and volumes in cm3.
+
+## Proteomics and portals.
+EP300 protein abundance was queried via UALCAN-CPTAC (Z-values, two-sided tests) [ ]. Kaplan–Meier Plotter evaluated PFS/RFS/OS with median or auto cutoffs (log-rank, HR with 95% CI) [ ].
+
+## Immune infiltration and enrichment.
+TIMER2.0 and CIBERSORTx (LM22, 1000 permutations) estimated immune fractions; Spearman correlations were BH-FDR corrected [ , ]. EP300 co-expression used Spearman correlations in LIHC; FDR < 0.05 genes defined positive/negative modules. STRING (v11+, score≥0.4) and Cytoscape visualized PPI; clusterProfiler performed GO/KEGG and MSigDB Hallmark/C2 enrichment (FDR < 0.05) [ – ].
+
+## Cell lines, culture, and transfection
+
+## Cell lines
+Human HCC cell lines Huh-7 (RRID: CVCL_0336; Homo sapiens, male; liver/hepatocellular carcinoma) and SK-HEP-1 (RRID: CVCL_0525; Homo sapiens, male; liver ascites adenocarcinoma; endothelial-like phenotype) were obtained from the Cell Bank of the Chinese Academy of Sciences (Shanghai, China). Cells were maintained in high-glucose DMEM supplemented with 10% FBS and 100 U/mL penicillin/streptomycin at 37 °C in 5% CO₂.
+
+## Authentication and contamination control.
+Both lines were authenticated by short tandem repeat (STR) profiling and tested mycoplasma-negative in February 2025. To the best of our knowledge, the cell lines are not misidentified and are free from contamination; we acknowledge the literature re-classification of SK-HEP-1 toward an endothelial-like origin, which does not affect the conclusions of this study.
+
+## Transfection.
+Cells were transfected with si-EP300-1/2/3/4 or si-NC using PLUS reagent (GenePharma, Shanghai, China). Knockdown efficiency was assessed at 24 h and 48 h by qRT-PCR and Western blot.
+
+## RT-qPCR (cells and paired tissues)
+
+## Specimens and ethics.
+Ten paired HCC tumor and adjacent tissues archived at Renmin Hospital of Wuhan University (2022–2023) were used for RT-qPCR validation of EP300 expression; IRB approval DW2025001, written consent obtained, compliant with the Declaration of Helsinki (2013).
+
+## Procedures.
+Total RNA was extracted with commercial kits; purity/quantity measured by NanoDrop (Thermo). cDNA was synthesized from 1 μg RNA (Vazyme); SYBR-based qPCR used GAPDH as internal control. Relative expression was computed by 2^−ΔΔCtfollowing MIQE key items (specificity, melt curves, efficiency) [ , ].
+
+## Primers.
+EP300-F: 5’-TCCATACCGAACCAAAGCCC-3’; EP300-R: 5’-GAGGGCAGTCAGAGCCATAC-3’; GAPDH-F: 5’-GGAGTCCACTGGAGTCTTCA-3’; GAPDH-R: 5’-GTCATGAGTCCTTCCACGATACC-3’ (Biosune).
+
+## Western blot (cells and paired tissues, concise)
+
+## Lysates and quantification.
+Cells or tissues (~20–50 mg) were lysed on ice in RIPA containing protease/phosphatase inhibitors, clarified at 12,000×g (10 min, 4°C), and quantified by BCA (Beyotime).
+
+## Electrophoresis/transfer.
+30–50 μg protein per lane was resolved by SDS-PAGE (6–10% or 4–12% gradient gels) and transferred to PVDF (0.2 μm; recommended for high-MW EP300).
+
+## Immunoblotting and detection.
+Blocking with 5% BSA (1 h, RT) was followed by primary incubation (EP300 1:2000; GAPDH 1:2000; Proteintech) overnight at 4 °C and HRP-secondary (1:10000) for 2 h at RT. Signals were detected by ECL and quantified in ImageJ normalized to GAPDH. Paired tumor/adjacent tissues were always run on the same gel/membrane and imaged together; each assay was performed in ≥2 independent runs [ , ].
+
+## CCK-8 proliferation
+Cells (1 × 10^4/well) were seeded in 96-well plates; 10 μL CCK-8 was added at 0/24/48/72 h and incubated for 4 h at 37 °C. Absorbance at 450 nm was recorded; ≥3 independent repeats.
+
+## Colony formation
+Cells (1000/well) were seeded in 6-well plates for 10–14 days (≥50 cells/colony), fixed with 4% PFA, stained with crystal violet, imaged and counted. Clonogenic efficiency = colonies/seeded cells.
+
+## Transwell migration/invasion
+Transwell inserts (8 μm, LABSELECT): 2 × 10^4–5 × 10^4 cells in serum-free medium (200 μL) were loaded in the upper chamber; 500 μL medium containing 10–20% FBS was placed in the lower chamber. For invasion, the upper membrane was Matrigel-coated. After 48 h, cells were fixed (4% PFA), stained (crystal violet), and counted in five random fields.
+
+## Wound-healing
+Confluent monolayers (~85%) in 6-well plates were scratched with a 200-μL tip, washed with PBS, and incubated in serum-free medium. Images at 0/24/48 h were analyzed; wound closure (%) = (initial area − area_t)/initial area × 100%, quantified in a blinded manner.
+
+## Subcutaneous xenografts
+Huh-7 or SK-hep-1 cells (si-EP300 or si-NC) were injected subcutaneously (5 × 10^6 cells in 100 μL PBS) into the right axilla of female BALB/c nude mice (4–6 weeks old; 18–22 g; n = 3 per group). Mice were housed under SPF conditions with ad libitum access to food and water and were purchased from Huachuang Xinnuo Pharmaceutical Technology Co., Ltd., Jiangsu, China (License SYXK（Lu）20230014). For tumor cell inoculation and any procedures requiring restraint, mice were anesthetized with isoflurane (3% induction; 1.5–2% maintenance in oxygen) using a precision vaporizer. Tumor length (L) and width (W) were measured every 3 days with digital calipers in centimeters (cm); tumor volume V (cm3) = 0.5 × L × W2 (L and W in cm). At 4 weeks or upon reaching humane endpoints, mice were euthanized by gradual-fill CO₂ inhalation followed by cervical dislocation; tumors were excised and weighed. All procedures complied with ARRIVE 2.0 guidelines and were approved by the IACUC of The First Rehabilitation Hospital of Shandong Province (Approval No. DW2025001) [ ].
+
+## Statistics
+Analyses/figures used GraphPad Prism 10 and SPSS 29.0.1.0; R (v4.3+) was used for omics (TCGAbiolinks, sva, survival, survminer, clusterProfiler, org. Hs. eg. db, enrichplot, ggplot2). Normality (Shapiro–Wilk) and homoscedasticity (Levene) were assessed. Student’s t-test was used for normal/equal-variance data; otherwise, Mann–Whitney U; paired data used paired t-test or Wilcoxon signed-rank. Multi-group comparisons used one-way ANOVA (Tukey) or Kruskal–Wallis (Dunn). Correlations used Spearman’s rho with BH-FDR control. Survival curves used log-rank; Cox models reported HRs (95% CI), tested proportional hazards (Schoenfeld residuals) and multicollinearity (VIF). For paired tissue WB, paired tests and paired effect sizes were reported. Two-sided p < 0.05 was considered significant. All quantitative plots are presented with clearly displayed error bars (SEM) where applicable. For quantitative panels, error bars indicate SEM unless otherwise specified; experiments were performed with ≥3 independent replicates.
+
+## Data and code availability
+TCGA/LIHC data are available via GDC; CPTAC proteomics via UALCAN; KMplotter analyses are reproducible online. In-house RT-qPCR and WB raw data are available upon reasonable request; R scripts will be deposited upon acceptance.
+
+## Results
+
+## Expression pattern of EP300 and its association with clinical parameters in HCC
+
+## EP300 is transcriptionally upregulated in HCC based on pan-cancer analysis
+To define the global expression profile of EP300 across human malignancies, we performed a pan-cancer analysis using TCGA data from 34 solid tumor types. We found that EP300 expression exhibited considerable heterogeneity among cancer types. Notably, EP300 was significantly upregulated in cholangiocarcinoma (CHOL), esophageal carcinoma (ESCA), head and neck squamous cell carcinoma (HNSC), stomach adenocarcinoma (STAD), and particularly in liver hepatocellular carcinoma (LIHC), while lower expression levels were observed in breast cancer (BRCA), colon cancer (COAD), kidney clear cell carcinoma (KIRC), kidney papillary carcinoma (KIRP), and thyroid carcinoma (THCA) (Fig. A). Focusing on HCC, EP300 mRNA levels were substantially higher in tumor tissues compared with normal liver samples (p < 0.01). This finding was validated in the entire LIHC cohort using both unpaired and paired comparisons. The unpaired analysis confirmed significant overexpression in tumors (p = 2.3 × 10^−5, Fig. B), and this was further supported by paired differential expression analysis of 50 matched tumor and adjacent tissues (p = 2.2 × 10^−5, Fig. C), indicating a consistent and consistent upregulation of EP300 in HCC at the transcriptional level.
+ 
+
+## EP300 protein expression is also elevated in HCC
+To determine whether the transcriptional upregulation of EP300 was reflected at the protein level, we analyzed proteomics data from the CPTAC cohort. We observed a marked elevation of EP300 protein abundance in HCC tissues compared to adjacent normal liver tissues, with a highly significant difference (p ≈ 7.60 × 10^−36, Fig. D). This observation corroborates the mRNA-level data and indicates that EP300 overexpression in HCC is not merely transcriptional but extends to its functional protein product, suggesting its potential involvement in oncogenic processes.
+
+## EP300 expression correlates with high-risk clinical features
+To examine the clinical relevance of EP300 expression, we performed stratified analyses based on key clinicopathological features in the LIHC cohort. EP300 expression was significantly higher in female patients compared to males (p = 0.0096, Fig. E). Moreover, patients with elevated serum alpha-fetoprotein (AFP > 400 ng/mL), a marker of tumor aggressiveness in HCC, also exhibited increased EP300 levels (p = 0.01, Fig. F). Further analysis across pathological stages revealed that EP300 expression was elevated in patients with advanced-stage disease (stage III–IV) compared to early-stage disease (stage I–II), with statistical significance observed in the overall stratification (p = 0.04, Fig. G). These data suggest that EP300 overexpression is associated with multiple high-risk clinical factors, including tumor progression and biomarker elevation.
+
+## High EP300 expression is associated with poor overall survival
+To evaluate the prognostic implications of EP300, we conducted survival analysis using the Kaplan–Meier Plotter database. We found that patients with high EP300 expression had significantly reduced overall survival (OS) compared with those in the low-expression group. The hazard ratio was 1.43, with a 95% confidence interval of 1.00–2.06 (log-rank p = 0.05, Fig. A), indicating that elevated EP300 is a potential negative prognostic factor in HCC.
+ To determine whether EP300 is an independent prognostic factor, we performed Cox proportional hazards modeling. In the univariate model, high EP300 expression showed a borderline association with worse OS (HR = 1.383, 95%CI: 0.977–1.958, p = 0.067; n = 370). After adjusting for pathologic T stage, pathologic M stage, and tumor status (with/without tumor), EP300 was no longer significant in the multivariable model (HR = 1.164, 95%CI: 0.740–1.832, p = 0.511), whereas T stage remained a consistent independent risk factor (T3: HR = 2.523, 95%CI: 1.461–4.358, p < 0.001; T4: HR = 4.907, 95%CI: 1.801–13.368, p = 0.002; n = 367) and tumor status (“with tumor”) was also independently associated with poorer OS (HR = 1.965, 95%CI: 1.225–3.153, p = 0.005; n = 351). Pathologic M stage did not retain significance in the multivariable model (M1: HR = 0.747, 95%CI: 0.143–3.912, p = 0.730; n = 270). These data indicate that, although high EP300 expression correlates with inferior survival on Kaplan–Meier analysis, its prognostic effect attenuates after adjustment for tumor burden–related covariates (notably T stage and tumor status), suggesting EP300 is more likely a progression-associated marker rather than a standalone predictor; nevertheless, it may additively refine risk stratification when combined with established clinical variables (Table ).
+ 
+
+## EP300 expression is associated with an immunosuppressive microenvironment
+Considering the critical role of immune infiltration in HCC progression, we next investigated the correlation between EP300 expression and immune cell subsets. We found that EP300 expression was positively correlated with several T cell populations, including helper T cells (R = 0.401), central memory T cells (Tcm), and effector memory T cells (Tem). Conversely, EP300 was negatively associated with plasmacytoid dendritic cells (pDC, R = −0.388), cytotoxic T lymphocytes (R = −0.345), NK CD56^dim cells, and B cells (Fig. B). These data suggest that EP300 may contribute to the establishment of an immunosuppressive tumor microenvironment by skewing immune infiltration away from cytotoxic and antigen-presenting cell populations, thereby promoting immune evasion in HCC.
+
+## Co-expression and functional enrichment reveal dual-axis metabolic and epigenetic regulation
+To define the putative action pathways of EP300, we constructed a Spearman correlation–based co-expression network and performed GO/KEGG enrichment, stratifying EP300-associated genes by correlation direction into Module 1 (positively correlated) and Module 2 (negatively correlated). The heatmap indicated a coordinated shift whereby Module 1 genes were collectively upregulated and Module 2 genes downregulated in EP300-high samples (Fig. A). Functionally, Module 1 was significantly enriched for mitochondrial bioenergetics and electron transport, including oxidative phosphorylation, respiratory chain/respirasome, and mitochondrial inner membrane terms (Fig. B); representative genes included COX4I1, COX6C, UQCRQ, NDUFA3, NDUFB1/8, ETFB, MRPL41, TMEM256, and ATP5ME, consistent with a programmatic enhancement of OXPHOS in the EP300-high state. In contrast, Module 2 was enriched for chromatin and transcriptional regulation, encompassing transcriptional coregulator activity, histone acetyl-/methyltransferase complexes, SWI/SNF-like chromatin-remodeling complexes, and nuclear speck, and extended to KEGG pathways such as regulation of the actin cytoskeleton, neurotrophin and thyroid hormone signaling, and lysine degradation (Fig. C), indicating a concerted downtrend of this gene set when EP300 is elevated. All enrichments were multiple-testing adjusted (P_adj). Together, these findings support a model in which EP300 promotes HCC progression by coupling augmented mitochondrial oxidative metabolism (Module 1 up) with remodeling and relative suppression of chromatin-linked transcriptional programs (Module 2 down).
+ 
+
+## Tissue-level validation confirms upregulation of EP300 in clinical HCC samples
+To independently validate the upregulation of EP300 observed in large-scale datasets, we performed qRT-PCR analysis on ten pairs of freshly collected HCC tumor and adjacent non-tumor tissues. We found that EP300 mRNA levels were significantly higher in tumor tissues compared to matched peritumoral samples (p < 0.001, Fig. A). This finding corroborates both the TCGA transcriptomic and CPTAC proteomic data, reinforcing the notion that EP300 overexpression is a consistent and reproducible feature of HCC at the tissue level.
+ 
+
+## In vitro functional assays reveal oncogenic roles of EP300 in HCC
+
+## Efficient silencing of EP300 in HCC cell lines
+To investigate the functional relevance of EP300 in HCC, we employed RNA interference to transiently silence its expression in two well-established HCC cell lines, SK-hep-1 and Huh-7. Four siRNA constructs targeting EP300 were tested, and among them, si-EP300-1 and si-EP300-4 consistently achieved the most effective knockdown at both mRNA and protein levels, as confirmed by qPCR and Western blot analyses (Fig. B–E). These two siRNAs were subsequently used in all downstream assays to ensure reproducibility and minimize off-target effects.
+
+## EP300 promotes HCC cell proliferation and clonogenic potential
+The impact of EP300 on HCC cell proliferation was evaluated using the CCK-8 assay. Both SK-hep-1 and Huh-7 cells transfected with si-EP300-1 or si-EP300-4 exhibited a significant reduction in cell viability starting from 48 hours post-transfection, with maximal inhibition observed at 72 hours (p ≤ 0.01, Fig. A–B). Furthermore, colony formation assays demonstrated that EP300 knockdown substantially suppressed the clonogenic capacity of both cell lines. The number and size of colonies were significantly reduced in the silenced groups compared to controls (p < 0.0001, Fig. C–F), indicating that EP300 is essential for maintaining the long-term proliferative capacity of HCC cells.
+ 
+
+## EP300 enhances HCC cell migration and invasion
+To evaluate whether EP300 contributes to the migratory and invasive behavior of HCC cells, we first conducted wound healing assays. EP300-depleted cells displayed substantially slower wound closure rates at both 24 and 48 hours compared to negative control groups, with significant reductions observed in both SK-hep-1 and Huh-7 cell lines (p ≤ 0.005, Fig. A–D). These results were further supported by Transwell assays, where EP300 knockdown led to a profound inhibition of both migration (uncoated chambers) and invasion (Matrigel-coated chambers). Quantification revealed a dramatic decrease in the number of cells traversing the membrane in both cell lines (p < 0.0001, Fig. A–D), confirming that EP300 facilitates HCC cell motility and matrix penetration, key processes in tumor dissemination.
+ 
+
+## In vivo knockdown of EP300 suppresses tumor growth
+To validate the oncogenic role of EP300 in an in vivo context, we established a subcutaneous xenograft model using nude mice. Huh-7 and SK-hep-1 cells transfected with either si-EP300-4 or si-NC were injected subcutaneously, and tumor growth was monitored over time. In both models, EP300 knockdown significantly suppressed tumor growth kinetics compared to control groups, as evidenced by reduced tumor volumes (Fig. B). At the endpoint, tumors derived from si-EP300-treated cells were substantially smaller in weight (p < 0.0001, Fig. D–E). Importantly, no significant difference in body weight was observed between groups throughout the experiment (Fig. C), suggesting that EP300 silencing did not adversely affect the overall health status of the animals. These data provide strong in vivo evidence that EP300 is required for efficient HCC tumor formation and progression (Supplementary Table S1).
+ 
+
+## Summary of findings
+Collectively, our results provide a comprehensive characterization of EP300 as an oncogenic driver in HCC. Multi-omics data integration revealed consistent upregulation of EP300 in HCC tissues at both the transcript and protein levels, which was validated in independent clinical samples. High EP300 expression was strongly associated with advanced clinical features and poor survival outcomes. Immunologically, EP300 correlated with a distinct immune infiltration pattern suggestive of immune suppression. Functional experiments demonstrated that EP300 promotes cell proliferation, migration, invasion, and in vivo tumor growth, while mechanistic analyses pointed to dual roles in mitochondrial metabolism and chromatin regulation. These findings establish EP300 not only as a molecular hallmark of HCC progression but also as a promising candidate for diagnostic and therapeutic targeting.
+
+## Discussion
+In this study, we present convergent evidence across bulk multi-omics, clinical correlations, and functional assays showing that EP300 is consistently upregulated in hepatocellular carcinoma (HCC) and contributes to malignant phenotypes. EP300 expression was enriched in clinically high-risk strata (e. g., higher AFP and advanced pathological stage), supporting its value as a readout of aggressive tumor biology. While Kaplan–Meier analysis indicated poorer overall survival for EP300-high tumors (HR = 1.43, p = 0.05), the association attenuated after adjustment in multivariable Cox models (Table ; p = 0.511). Accordingly, we interpret EP300 not as a stand-alone independent prognostic marker, but as a progression-associated molecular feature that may improve composite risk stratification when integrated with established clinical variables.We strengthened the manuscript’s clinical interpretation by explicitly highlighting the subgroups in which EP300 elevation is most marked (AFP > 400 ng/mL and stage III–IV; Fig. F–G) and by discussing how future, adequately powered cohorts could test whether EP300 provides added value within specific strata (e. g., advanced stage, residual tumor, or high AFP).
+From a molecular standpoint, EP300 is a canonical histone acetyltransferase and transcriptional co-activator that drives enhancer activation, super-enhancer reprogramming, and broad transcriptional sculpting [ – ]. Notably, diverse classes of anticancer agents, including metal-based complexes, have been shown to exert antiproliferative effects through direct DNA interaction and chromatin-associated mechanisms, underscoring the relevance of epigenetic regulation in tumor cell growth and survival [ ]. Across malignancies, copy-number gain or overexpression of EP300 associates with aggressive phenotypes and poor outcomes, and in HCC, amplification/gain frequently co-occurs with high expression, supporting an oncogenic role [ – ]. In our cohorts, EP300 upregulation was concordant at both transcript and protein levels and validated by qPCR/protein assays; clinically, EP300 correlated positively with female sex, elevated AFP, and advanced pathologic stage. Prognostically, Kaplan–Meier analyses showed significantly shorter progression-free survival (PFS) in the EP300-high group, consistent with our pro-migratory/invasive phenotypes in vitro and enhanced tumor growth in vivo; by contrast, in multivariable Cox models for overall survival (OS) adjusting for tumor-burden covariates (pathologic T stage, with-tumor status, M stage), EP300’s independent effect attenuated and lost significance. These findings are complementary: PFS more sensitively captures near-term progression dynamics and thus the coupling between EP300 and aggressive biology, whereas OS is diluted by subsequent therapies and follow-up, reducing EP300’s marginal contribution after burden adjustment. Overall, EP300 is best interpreted as a progression-linked molecular readout; notably, in multivariable models using PFS as the endpoint (adjusting for stage, sex, AFP), EP300 remains an independent adverse predictor, and—when integrated with stage, AFP, or radiomics—may enhance risk stratification and longitudinal monitoring, particularly in early/borderline disease [ ].
+Network analyses in our data resolve two coupled axes accompanying high EP300 expression: (i) a coordinated elevation of mitochondrial oxidative phosphorylation (OXPHOS) and respiratory chain programs; and (ii) remodeling of chromatin/transcriptional regulators. The former dovetails with the renewed appreciation that invasive HCC cells can consolidate respiratory ATP production to meet the energetic and plasticity demands of migration, while the latter fits EP300’s enhancer-centric role. Notably, EP300 cross-talks with prototypical oncogenic circuits: cross-cancer evidence shows EP300 strengthens YAP transcription through H3K27ac, and HCC studies have implicated EP300 in EMT/aPKC-ι and Wnt/β-catenin-driven progression [ – ]. Our enrichment patterns thus unify “metabolism–chromatin” coupling with pro-migratory phenotypes in a single framework. Importantly, these immune findings are derived from bulk RNA-seq correlation/deconvolution and should be viewed as hypothesis-generating; orthogonal validation using immunohistochemistry (e. g., CD8+ TILs, NK cells, pDCs) or spatial approaches is warranted.
+Immunologically, EP300-high tumors exhibited correlations suggestive of an immunosuppressive niche (reduced cytotoxic T cells, pDCs, NK CD56^dim, and B cells; enrichment of helper/memory T cells). At the mechanism level, the CBP/p300 bromodomain and H3K27ac are required for the activity of PD-L1 and other immune checkpoint enhancers, attenuating T-cell-mediated antitumor responses [ ]. EP300-mediated acetylation of autophagy core components (e. g., LC3) constrains autophagic flux and may impair antigen processing/presentation, further enabling immune escape [ – ]. In parallel, the tumor lactate–lactylation axis offers both substrate and “writer” roles to EP300; histone lactylation intersects with hypoxia/HIF signaling and has been implicated in transcriptional rewiring and immune modulation across pathologic settings [ – ]. Overall, our data and prior literature support a model wherein EP300 promotes immune evasion through a coupled epigenetic–metabolic–immune circuitry.
+Functionally, silencing EP300 in SK-hep-1 and Huh-7 cells consistently suppressed proliferation, clonogenicity, migration, and invasion, and attenuated xenograft growth without overt systemic toxicity—findings consonant with pharmacologic or genetic disruption of the CBP/p300 axis that diminishes tumor plasticity, restores drug sensitivity, or alleviates T-cell exhaustion [ ]. We posit that EP300 operates less as a linear “switch” and more as a network “amplifier” positioned at the intersection of metabolism, chromatin, and immunity; modest perturbation can trigger broad transcriptional and energetic cascades.
+Limitations include: (i) the prognostic signal of EP300 is attenuated in multivariable models in our TCGA-based analysis, and larger prospective multi-center cohorts are needed to define the contexts (patient subgroups and clinical endpoints) in which EP300 adds independent value; (ii) immune-microenvironment associations were inferred from bulk transcriptomes and were not validated by IHC/flow cytometry or spatial profiling; (iii) although co-expression and enrichment analyses suggest EP300 may regulate representative target programs via chromatin acetylation (e. g., H3K27ac-linked enhancer activity), we did not perform ChIP-qPCR/ChIP-seq to provide direct locus-specific evidence; and (iv) functional assays used two HCC cell models, and generalizability across molecular subclasses warrants further validation.
+
+## Conclusion
+This study integrates transcriptomic and proteomic profiling with paired clinical tissue validation and functional perturbation experiments to clarify the role of EP300 in hepatocellular carcinoma. EP300 is consistently elevated in tumors and supports proliferation, migration/invasion, and xenograft growth, indicating a tumor-promoting role. Clinically, EP300 associates with high-risk features and shows a context-dependent survival signal that is attenuated after multivariable adjustment, suggesting it is best interpreted as a progression-associated biomarker rather than a stand-alone independent predictor. These findings support EP300 as a biologically grounded therapeutic vulnerability and motivate future work to validate immune and chromatin mechanisms using orthogonal assays and stratified prospective cohorts.
+
+## Electronic supplementary material
+Below is the link to the electronic supplementary material.
+
+Supplementary material 1
+
+Supplementary material 2
+
+Supplementary material 3
+
+Supplementary material 4
+
+## Acknowledgements
+We thank Professor Youming Ding (Y. D.) and Professor Xuejian Liu (X. L.) for guidance and support. We also acknowledge technical assistance from XIANTAO (https://www. xiantaozi. com/.) and the contributions of all laboratory members. We appreciate the constructive feedback provided by the editors and reviewers.
+
+## Authors contributions
+Study conception and design: Y. D., X. L. Bioinformatic analysis: J. W., Z. L. Experimental investigations: X. W., H. S. Data analysis and interpretation: Z. L., J. W., Y. D. Manuscript drafting: Z. L., Y. D. Critical revision and intellectual input: all authors. Final approval of the manuscript: all authors.
+
+## Funding
+No specific funding was received for this work.
+
+## Data availability
+Public datasets analyzed in this study are available as follows: TCGA-LIHC via the Genomic Data Commons (GDC) (Project ID: TCGA-LIHC; permanent link: https://portal. gdc. cancer. gov/projects/TCGA-LIHC); CPTAC (HCC) proteomics accessible via UALCAN (https://ualcan. path. uab. edu); and survival analyses reproducible via the Kaplan–Meier Plotter portal (https://kmplot. com/analysis). Raw experimental data generated in this work—including xenograft caliper measurements (length/width in cm; volume in cm3), RT-qPCR raw Ct tables and primer sequences, and uncropped Western blot images with exposure/acquisition metadata—are available from the corresponding author upon reasonable request. R scripts used for TCGA processing and downstream analyses will be deposited in a public repository upon acceptance; meanwhile, they are available upon reasonable request.
+
+## Declarations
+
+## Ethics approval and consent to participate
+The study involving human tissues and animal experiments complied with relevant guidelines and regulations. Human RT-qPCR validation on paired hepatocellular carcinoma (HCC) tumor and adjacent tissues was approved by the Institutional Review Board of The First Rehabilitation Hospital of Shandong Province (Approval No. DW2025001), and written informed consent was obtained from all participants in accordance with the Declaration of Helsinki (2013). All animal procedures (subcutaneous xenografts in BALB/c nude mice) were approved by the Institutional Animal Care and Use Committee of The First Rehabilitation Hospital of Shandong Province (Approval No. DW2025001) and adhered to ARRIVE 2.0 guidelines.
+
+## Consent for publication
+Not applicable. The manuscript does not include any individual person’s data (including images or videos) requiring consent for publication.
+
+## Competing interests
+The authors declare that they have no competing interests.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Zhipeng Liu and Junbin Wang contributed equally to this work.
+
+## Contributor Information
+Youming Ding, Email: dingym62@163.com.
+Xuejian Liu, Email: lxj15562663553@163.com.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary material 1
+Supplementary material 2
+Supplementary material 3
+Supplementary material 4
+
+## Data Availability Statement
+TCGA/LIHC data are available via GDC; CPTAC proteomics via UALCAN; KMplotter analyses are reproducible online. In-house RT-qPCR and WB raw data are available upon reasonable request; R scripts will be deposited upon acceptance.
+Public datasets analyzed in this study are available as follows: TCGA-LIHC via the Genomic Data Commons (GDC) (Project ID: TCGA-LIHC; permanent link: https://portal. gdc. cancer. gov/projects/TCGA-LIHC); CPTAC (HCC) proteomics accessible via UALCAN (https://ualcan. path. uab. edu); and survival analyses reproducible via the Kaplan–Meier Plotter portal (https://kmplot. com/analysis). Raw experimental data generated in this work—including xenograft caliper measurements (length/width in cm; volume in cm3), RT-qPCR raw Ct tables and primer sequences, and uncropped Western blot images with exposure/acquisition metadata—are available from the corresponding author upon reasonable request. R scripts used for TCGA processing and downstream analyses will be deposited in a public repository upon acceptance; meanwhile, they are available upon reasonable request.

@@ -1,0 +1,283 @@
+pmcPharm ResPharm Res365springeropen8406521Pharmaceutical Research0724-87411573-904Xpmc-is-collection-domainyespmc-collection-titleSpringerPMC8602220PMC8602220.1860222086022203467192010.1007/s11095-021-03118-531181Research PaperPharmacokinetic/Pharmacodynamic Modeling of a Cell-Penetrating Peptide Phosphorodiamidate Morpholino Oligomer in mdx Mice
+MukashyakaMarie Clairecmukashyaka@sarepta.com WuChia-Ling HaKristin ZhangJianbo WoodJenna FoleySamantha MastisBryan JungelsNino SunHuadong ShadidMohammad HarrimanShawn HadcockJohn R. 1grid.423097.b0000 0004 0408 3130Translational Sciences Group, Sarepta Therapeutics, Inc., 215 First St., Cambridge, MA 02142 USA 2grid.423097.b0000 0004 0408 3130Biology Group, Sarepta Therapeutics, Inc., Cambridge, MA USA 3grid.423097.b0000 0004 0408 3130Clinical Pharmacology Group, Sarepta Therapeutics, Inc., Cambridge, MA USA 20102021202138103940681731174524520212192021201020210312202117022022© The Author(s) 2021https://creativecommons.org/licenses/by/4.0/Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.
+
+## Purpose
+Peptide-conjugated phosphorodiamidate morpholino oligomers (PPMOs) have shown promise in treating Duchenne muscular dystrophy (DMD). We evaluated a semi-mechanistic pharmacokinetic (PK) and pharmacodynamic (PD) model to capture the relationship between plasma and muscle tissue exposure/response in mdx mice treated by mouse surrogate PPMO.
+
+## Methods
+A single or repeated (every 4 weeks for 20 weeks) intravenous PPMO dose was administered to mdx mice (n = 6/timepoint). A PK/PD model was built to characterize data via sequential modeling. A 2-compartment model was used to describe plasma PK. A simultaneous tissue PK/PD model was subsequently developed: 2-compartment model to describe muscle PK; linked to an indirect response model describing stimulation of synthesis of skipped transcript, which was in turn linked to stimulation of synthesis of dystrophin protein expression.
+
+## Results
+Model performance assessment via goodness-of-fit plots, visual predictive checks, and accurate parameter estimation indicated robust fits of plasma PK and muscle PK/PD data. The model estimated a PPMO tissue half-life of 5 days—a useful parameter in determining the longevity of PPMOs in tissue and their limited accumulation after multiple doses. Additionally, the model successfully described dystrophin expression after single dosing and associated protein accumulation after multiple dosing (increasing ~ twofold accumulation from the first to last dose).
+
+## Conclusions
+This first PK/PD model of a PPMO in a DMD disease model will help characterize and predict the time course of PK/PD biomarkers in mdx mice. Furthermore, the model framework can be used to develop clinical PK/PD models and can be extended to other exon-skipping therapies and species.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1007/s11095-021-03118-5.
+
+## Keywords
+Duchenne muscular dystrophyPeptide-conjugated phosphorodiamidate morpholino oligomersPhosphorodiamidate morpholino oligomersPharmacokinetic/pharmacodynamic modelSimulationSarepta Therapeuticspmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© Springer Science+Business Media, LLC, part of Springer Nature 2021
+
+## Introduction
+Duchenne muscular dystrophy (DMD) is a rare, X-linked, fatal, degenerative neuromuscular disease affecting ~ 1 in every 3500 to 5000 males born worldwide [ – ]. DMD is caused by mutations in the DMD gene, resulting in little or no production of full-length dystrophin [ , – ]. Dystrophin, a 427 kDa cytoskeletal protein required for muscle fiber stability, links the sarcomere and the extracellular matrix. In the absence of dystrophin, the dystrophin-associated protein complex is destabilized, resulting in repeated muscle degeneration and regeneration, and replacement of muscle fibers by fat and fibrosis. DMD manifests in patients as progressive muscle weakness, with many patients losing ambulation by age 8 to 14, and generally leads to life-threatening complications including respiratory and cardiac failure [ , ].
+Antisense oligonucleotide (ASO) therapy has been approved by FDA for treatment of some populations of DMD, and is rationally designed to induce skipping of specific exons at the pre-mRNA level to restore the reading frame, producing truncated—yet functional—dystrophin [ , , – ]. Phosphorodiamidate morpholino oligomers (PMOs), a class of exon skipping therapies, are an established treatment for patients with DMD; peptide-conjugated PMOs (PPMOs) enhance cell permeability and have also shown promise in treating these patients [ , – ]. The time-courses of pharmacokinetics (PK) and pharmacodynamics (PD) have been characterized for other ASO classes, such as 2ʹ-O-methyl phosphorothioates targeting exon skipping [ , ], 2ʹ-O-(2-methoxyethyl) modified ASOs targeting mRNA gene knockdown [ – ], and siRNA targeting aminolevulinate synthase 1 mRNA [ ]. Here, we report the first semi-mechanistic PK/PD model for PPMO in mdx mice using RC-1001, a mouse-surrogate PPMO. RC-1001 induces skipping of DMD exon 23 containing a point mutation, resulting in a stop codon in the DMD gene, restoring the reading frame in mdx mice.
+RC-1001 was used to develop a plasma PK model to describe plasma concentration over time, and was also used to develop an integrated plasma-tissue PK/PD model to predict tissue concentration, dystrophin production and its intermediate biomarker, skipped transcript. In patients with DMD, muscle biopsy for analysis of treatment response is complicated and not feasible for longitudinal sampling. A PK/PD model describing time-course of tissue exposure and response would be helpful in understanding and predicting the treatment response in patients over time. Additionally, the current model—when scaled to clinical settings—can be used in simulations to inform the design of clinical dosage paradigms of PPMO molecules.
+
+## Materials and Methods
+
+## Chemicals
+RC-1001, a mouse-specific surrogate PPMO, was manufactured at Sarepta Therapeutics, Inc. by conjugating a proprietary cell-penetrating peptide to M23D (+7–18) PMO sequence. All RC-1001 doses were formulated in saline before administration.
+
+## Animals
+mdx male mice (C57BL/10ScSn-DMDmdx/J, stock #001801; The Jackson Laboratory, n = 3 per timepoint for saline-treated control and n = 6 per timepoint for PPMO-treated groups) and male wild-type (WT) mice (C57BL/6J, The Jackson Laboratory, n = 3 per timepoint) were housed at the Sarepta animal facility and given food (Labdiet 5P76; ScottPharma Solutions) and water ad libitum. After 3 days’ acclimation, 6- to 8-week-old mice were randomized into treatment groups. All procedures were approved by and conducted under guidance from Sarepta’s Institutional Animal Care and Use Committee.
+
+## Animal Experiments
+
+## Single Dose to Measure Plasma PK
+RC-1001 at doses of 10, 40, and 80 mg/kg was administered to WT mice (n = 3 per dose per timepoint) via tail vein intravenous (IV) bolus injection. Blood samples of 0.5 mL were collected in K2EDTA tubes containing 10 µL of 200 mM 4-(2-Aminoethyl) benzenesulfonyl fluoride hydrochloride (AEBSF) in total volume of 500 µL, with a final concentration of 4 mM AEBSF. Blood samples were collected from three animals at 5 and 30 min and 2, 4, 8, 12, and 24 h post-injection via cardiac puncture. Each animal contributed to one datapoint. Samples were mixed gently and centrifuged (10 min, 4 °C, 1400×g). Resulting plasma was separated and stored at − 80 °C until analysis.
+
+## Single Dose for Longitudinal PK/PD
+RC-1001 was administered to mdx mice at doses of 0, 40, and 80 mg/kg (n = 6 and n = 3 per dose per timepoint in RC-1001- and control-treated groups, respectively). Age- and sex-matched WT control mice received vehicle control via IV bolus (n = 3 per timepoint). Mice were euthanized at 1, 2, 5, 7, 10, 14, and 28 days post-injection by carbon dioxide inhalation/anesthesia, followed by exsanguination. Each animal contributed to one corresponding PK and PD datapoint. Tissue concentration was measured in quadriceps, and exon skipping and dystrophin were measured in biceps. Tissue samples (quadriceps and biceps) were collected, flash-frozen in liquid nitrogen, and stored at − 80 °C until analysis.
+
+## Repeated Dose for Longitudinal PK/PD
+mdx mice received repeated IV bolus injections of RC-1001 at time zero, then at 4-week intervals for a total of 20 weeks at 0, 40, and 80 mg/kg (n = 3 and n = 6 per dose per timepoint in saline control- and RC-1001-treated groups, respectively). Age- and sex-matched WT control mice received once every 4-weeks repeated bolus IV of saline control treatment (n = 3 per timepoint). Mice that received 1, 2, 3, 4, 5, and 6 treatments were euthanized 28, 56, 84, 112, 140, and 168 days, respectively, after the first injection. Each animal contributed to one corresponding PK and PD datapoint. Quadriceps and biceps were dissected, flash-frozen in liquid nitrogen, and stored at − 80 °C until analysis. Tissue concentration was measured in quadriceps after first and last dose (days 28 and 168); exon skipping and dystrophin were measured in biceps at each time point.
+
+## Measuring Plasma and Tissue Concentrations of PPMO
+A liquid chromatography–tandem mass spectrometry method was developed to determine RC-1001 in mouse K2EDTA plasma treated with 4 mM AEBSF; NG-12-0064 was the internal standard. RC-1001 and the internal standard were extracted by solid-phase extraction and filtration from mouse plasma. Reversed-phase high-pressure liquid chromatography separation was achieved with a Waters XBridge column and sample analysis in TIS positive mode of SCIEX API 5000. The calibration curve range was from 10 to 2000 ng/mL with low, mid and high quality controls included. The lower limit of quantification was 10 ng/mL, with the coefficient of variation (%CV) less than 15%.
+RC-1001 tissue samples were collected and homogenized in 50 mM Tris–HCl pH 7.5 buffer. Homogenates were then subjected to proteinase-K/Trypsin digestion to convert all potential metabolites to one end product of PMO-Gly before solid-phase extraction. Digested homogenates and internal standard were loaded and washed with ammonium acetate buffer, then eluted with H2O/ACN/FA (70/30/5) twice in Waters HLB SPE 96-well plates. The eluate was concentrated under nitrogen gas, then injected to ultra-performance liquid chromatography–high-resolution mass spectrometry, followed by parallel reaction monitoring mass spectrometry (Thermo Fisher Q Exactive Plus Hybrid Quadrupole-Orbitrap) quantitation. Lower limit of quantification of all tissues was 60–100 ng/g based on the type of tissue, with the %CV less than 25%.
+
+## Measuring Exon Skipping Levels in Muscle Tissues
+Tissue samples were homogenized using Matrix S by a FastPrep-24 5G instrument (MP Biomedicals). Homogenates were centrifuged (10 min, 4 °C, 12,000×g). Resultant supernatant lysates were loaded onto a 96-well Illustra RNAspin 96 RNA isolation column (GE Healthcare Life Sciences); total RNA was isolated per the manufacturer’s instructions. After eluting with 50 μL of RNase-free water, total RNA concentration from each sample was measured using a NanoDrop 2000 spectrophotometer (Thermo Fisher Scientific). 250 ng of total RNA were reverse transcribed for cDNA using SuperScript IV First-Strand Synthesis Kit (Invitrogen, Cat#18091200) with random hexamers. The cDNA samples were diluted 1:5 with DNase- and RNase-free water; 3 µL diluted cDNA was added into each digital droplet polymerase chain reaction (ddPCR) using ddPCR Supermix for Probe (Bio-Rad Laboratories, Inc.) with these primer probe sequences: FW-GGATCCAGCAGTCAGAAAG, RV-ACCAACTAAAAGTCTGCATTG, FAM-AGA CTC GGG AAA TTA CAG AAT CAC (skipped transcript), and HEX-TTG AAG AGA TTG AGG GGC AC (unskipped transcript).
+After droplet generation (automated droplet generator, Bio-Rad QX200), PCR cycling was conducted by a C1000 Touch thermocycler (Bio-Rad Laboratories, Inc.) using these parameters: enzyme activation (95 °C, 10 min), denaturation (94 °C, 30 s), annealing/extension (55 °C, 1 min), repeating for denaturation and annealing/extension for 60 cycles, enzyme deactivation (98 °C, 10 min), and holding at 4 °C until data acquisition by a QX200 Droplet Reader (Bio-Rad Laboratories, Inc.). Positive and negative droplet numbers were analyzed by QuantaSoft Software (Bio-Rad Laboratories, Inc.); copy number per microliter of skipped and unskipped transcript levels were quantified.
+
+## Measuring Dystrophin in Muscle Tissues
+For protein extraction, frozen tissues were disrupted in homogenization buffer (4 M urea, 125 mM Tris, 4% sodium dodecyl sulfate) with one protease inhibitor cocktail tablet (Roche Applied Science) using a cordless pellet pestle (Kimble Chase Life Science). Protein concentrations were quantified using Pierce BCA Protein Assay (Thermo Fisher Scientific) or RC DC Protein Assay (Bio-Rad Laboratories, Inc.) kits, per the manufacturers’ instructions.
+For western blot analysis, 50 µg of protein from each lysate or 15 μL of HiMark prestained high-molecular–weight marker (Thermo Fisher Scientific) were loaded onto individual wells of 3% to 8% polyacrylamide Tris–acetate gels (Thermo Fisher Scientific; Bio-Rad Laboratories, Inc.). Antibody dilutions were prepared using anti-dystrophin ab15277, 1:500 (Abcam); anti-alpha actinin (sarcomeric), 1:10,000 (Sigma-Aldrich); horseradish peroxidase (HRP)-conjugated goat anti-rabbit immunoglobulin G (IgG), 1:10,000 (Bio-Rad Laboratories, Inc.); and HRP-conjugated goat anti-mouse IgG, 1:10,000 (Bio-Rad Laboratories, Inc.). Images were captured and band intensities were analyzed using Chemidoc Imaging System and Image Lab software v5.2 (Bio-Rad Laboratories, Inc.).
+For dystrophin quantification, pooled protein lysates from WT mice were used as positive controls and lysates from mdx mice were used as negative controls. To quantify dystrophin levels, a standard curve with an appropriate range was applied to each gel. The serial diluted points of the standard curve were obtained by mixing the same concentration of the WT and DMD protein lysates. The standard curve was used to determine percentage of WT dystrophin production.
+
+## Noncompartmental Analysis
+Noncompartmental analysis (NCA) of the averaged plasma concentration per timepoint was performed in Phoenix WinNonlin (v8.2; Certara USA) using a linear log trapezoidal method. The area under the plasma-time curve (AUC) was calculated with uniform weighting. Elimination half-life (T1/2) was calculated by linear regression using logarithmic values of concentration–time data in the terminal phase. Maximum observed concentration (Cmax), plasma clearance (CL), and volume of distribution at the steady state (Vss) parameters were also calculated.
+
+## Plasma PK Linearity Analysis
+Dose-proportionality of plasma PK was assessed using a power model to define the relationship between PK parameter (y) and dose as follows: , where α and β correspond to proportionality constant and exponent. The exponent β in the power model was estimated by regressing the natural log-transformed dose. To confirm dose-proportional PK, the estimated power exponent should be close to 1 and a suitable confidence interval (90% CI) should be contained within a prespecified interval ( ). This prespecified interval was calculated using an equivalence criterion interval of 0.5–2 suggested by Hummel et al. for exploratory PK linearity assessment as , where and are lower and higher Hummel’s equivalence criterion of 0.5 and 2, and r is the ratio of the highest- to lowest-tested dose levels [ ]. Additionally, to assess dose proportionality, plasma PK exposure parameters AUC and Cmax were normalized to dose level and ANOVA was used to test for a significant difference in dose-normalized PK exposures between dosing groups.
+
+## PK/PD Modeling
+The RC-1001 PK/PD model includes: (1) IV dosing, (2) PPMO plasma disposition (distribution + elimination), (3) uptake/distribution into skeletal muscle tissue, (4) target engagement with pre-mRNA to generate exon skipping, and (5) transcription of the skipped mRNA, producing dystrophin. Figure  provides detailed mechanisms built in the model and corresponding parameters. Based on previous work showing similar plasma PPMO exposure in WT and mdx mice (unpublished data), the plasma PK model was developed using WT mouse data. A sequential modeling approach was used to link the plasma PK model to the tissue PK/PD model. A plasma PK model was first developed to fit a dataset at 10, 40, and 80 mg/kg single IV bolus dose. A plasma PK model and estimate parameters were used to link plasma PK to tissue PK/PD in a subsequent model. A linear 2-compartment model (Fig.  ) was used to fit the plasma data (Eqs.  – ).1\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\frac{d{A}_{c}}{dt}={k}_{21}\cdot {A}_{per}-\left({k}_{el}+{k}_{12}\right)\cdot {A}_{c} \quad {A}_{c}\left(0\right)=Dose$$\end{document}dAcdt=k21·Aper-kel+k12·AcAc0=Dose 2\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${C}_{p}=\frac{{A}_{c}}{{V}_{c}}$$\end{document}Cp=AcVc 3\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\frac{d{A}_{per}}{dt}={k}_{12}\cdot {A}_{c}-{k}_{21}\cdot {A}_{per}\quad {A}_{per}\left(0\right)=0$$\end{document}dAperdt=k12·Ac-k21·AperAper0=0 where Ac represents drug amount in the central compartment, Aper: amount in the peripheral compartment, Cp: plasma concentration, k12 and k21: first-order rate constants for distribution from central to peripheral compartments and vice-versa, kel: first-order rate constant for elimination, and Vc: apparent volume of distribution in the central compartment (plasma). Total plasma and intercompartmental clearances (CL and CLd) and volume of distribution in peripheral compartment (V2) were calculated as derived parameters from model parameter estimates: \documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$CL = {k}_{el}\bullet {V}_{c}, C{L}_{d}={k}_{12}\bullet {V}_{c},\ and\ {V}_{2}=\frac{C{L}_{d}}{{k}_{21}}$$\end{document}CL=kel∙Vc,CLd=k12∙Vc,andV2=CLdk21 
+Estimated parameters by the plasma PK model were fixed for subsequent modeling.
+A tissue PK/PD model was developed and fit to mdx mice tissue PK/PD data from both the single and repeated dose studies. Tissue (skeletal muscle) was modeled as a “biophase” compartment to describe exposure and PD. Plasma concentration is not detectable beyond 24 h, whereas tissue concentration is detectable 28 days after dosing. Hence, tissues may act as a PPMO depot where there is limited redistribution from tissues back to plasma. A similar model was developed for other ASO molecules by Shimizu et al. [ ]. Tissue concentration was characterized by a 2-compartment model to describe the biexponential decline in tissue concentration (Eqs.  – ).4\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\frac{d{A}_{t}}{dt}={k}_{pt}\cdot {A}_{c}+{k}_{t2}\cdot {A}_{1}-\left({k}_{t1}+k\right)\cdot {A}_{t}\quad {A}_{t}\left(0\right)=0$$\end{document}dAtdt=kpt·Ac+kt2·A1-kt1+k·AtAt0=0 5\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${C}_{t}=\frac{{A}_{t}}{{V}_{t}}\quad {C}_{t}\left(0\right)=0$$\end{document}Ct=AtVtCt0=0 6\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\frac{d{A}_{1}}{dt}={k}_{t1}\cdot {A}_{t}-{k}_{t2}\cdot {A}_{1}\quad\quad { A}_{1}\left(0\right)=0$$\end{document}dA1dt=kt1·At-kt2·A1A10=0 7\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${C}_{1}={A}_{1}\bullet \frac{{k}_{t1}}{{k}_{t2}\bullet {V}_{t}}\quad\quad { C}_{1}\left(0\right)=0$$\end{document}C1=A1∙kt1kt2∙VtC10=0 where At and A1 are the amounts in the tissue central and distribution (peripheral) compartments, C1: drug concentration in the tissue peripheral (distribution) compartment, Ct: drug concentration in the tissue central compartment, k: first-order elimination rate constant in muscle, kpt represents first-order distribution rate constant from the plasma central compartment to the muscle’s central compartment, kt1 and kt2: first-order tissue inter-compartmental rate constants, and Vt: volume of distribution in muscle central compartment. PPMO molecules in target tissue organs (skeletal muscle in this model) distribute to the nucleus and engage with pre-mRNA to exert exon skipping. The concentration in the peripheral compartment (C1) was assumed as the driver of measured PD effect (exon skipping). Drug concentration in the peripheral tissue compartment was used as the PD driver instead of the central compartment due to observed hysteresis of exon skipping in relation to measured tissue concentration; better performance of the model using the peripheral compartment as the PD driver; and suitability of the PPMO’s mechanism of action, where the drug distributes to a tissue sub-compartment (nucleus) and complementarily binds with pre-mRNA to cause exon skipping.
+The measured tissue concentration in quadriceps muscle was assumed to be the concentration in the central compartment of the skeletal muscle model. Because biceps muscle tissue from a single mouse could not yield sufficient homogenate to assess all biomarkers, tissue concentration was measured in the quadriceps, whereas PD biomarkers (exon skipping and dystrophin) were measured in the biceps. Based on previous studies showing comparable tissue concentrations in skeletal muscles (quadriceps and biceps; unpublished data), quadriceps tissue concentration was used in the current model and linked to PD effect (exon skipping and dystrophin) in the biceps muscle after single- and multiple-dose studies.
+For the PD model, skipped mRNA message was modeled with a semi-mechanistic indirect response (IDR) model. The mechanism of action of the PPMOs used in this study involves binding to pre-mRNA of a target exon and alternatively splicing out the targeted exon. The resultant mature mRNA with the skipped exon, also referred to as “skipped transcript,” was characterized by an IDR model representing a response resulting from the stimulation of synthesis in the response variable (IDR model 3) [ ]. Baseline copy numbers for skipped messages were set to observed values from mdx mice receiving vehicle control.
+Skipped transcript is transported to the cytoplasm for translation of truncated but functional dystrophin. The skipped transcript was used as the driver of dystrophin synthesis. A linear IDR model 3 was used to describe dystrophin. Because expressed protein in untreated mdx mice is below limit of quantification of western blot, the baseline for dystrophin was estimated by the model during early model development, and the estimated value (0.1% WT) was fixed in the final model to reduce the number of estimated parameters. This value was close to %WT (0.07% WT) obtained when the signal in vehicle-treated mice is extrapolated beyond the accurate limit of quantification. Differential equations used to model PD data are presented in Eqs.  – .
+Skipped transcript:8\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\frac{d\left[sk.mRNA\right]}{dt}={k}_{in,s}\bullet \left(1+\frac{{S}_{max}\bullet {C}_{1}^{{\gamma }_{s}}}{S{C}_{50}^{{\gamma }_{s}}+{C}_{1}^{{\gamma }_{s}}}\right)-{k}_{out,s}\bullet [sk.mRNA]$$\end{document}dsk.mRNAdt=kin,s∙1+Smax∙C1γsSC50γs+C1γs-kout,s∙[sk.mRNA] 9\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$sk.mRNA \left(0\right)=sk.mRN{A}_{0}$$\end{document}sk.mRNA0=sk.mRNA0 10\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${k}_{in,s}=sk.mRN{A}_{0}\bullet {k}_{out, s}$$\end{document}kin,s=sk.mRNA0∙kout,s 
+Dystrophin:11\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\frac{d[Dys]}{dt}={k}_{in,Dys}\left(1+{S}_{Dys}\bullet \left[sk.mRNA-sk.mRN{A}_{0}\right]\right)-kou{t}_{Dys}\bullet [Dys]$$\end{document}d[Dys]dt=kin,Dys1+SDys∙sk.mRNA-sk.mRNA0-koutDys∙[Dys] 12\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$Dys\left(0\right)=Dy{s}_{0}$$\end{document}Dys0=Dys0 13\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${k}_{in,Dys}=Dy{s}_{0}\bullet {k}_{out,Dys}$$\end{document}kin,Dys=Dys0∙kout,Dys where kin,S represents zero-order synthesis rate constant for skipped message, kout,S: first-order rate constant for turnover of skipped message, Smax: maximum drug-induced effect on the production of skipped mRNA, SC50: drug concentration that produces 50% of Smax in the muscle tissue. is hill coefficient for skipped message, kin,Dys: zero-order rate constant for synthesis of dystrophin, SDys: the linear slope of translation of skipped mRNA to protein, and kout,Dys: first-order rate constant for turnover of dystrophin. sk.mRNA, sk.mRNA0, Dys, and Dys0 represent change and baseline of number of skipped transcript and dystrophin.
+
+## Data Analysis
+A sequential modeling approach was used, in which the plasma PK model was first developed and fixed in the subsequent tissue PK/PD model. The plasma PK model was fit to the single-dose dataset and the tissue PK/PD model was fit to pooled data at each timepoint from both the single- and repeat-dose PK/PD studies. All parameters were estimated using a maximum likelihood estimator (Stochastic Approximation Expectation–Maximization algorithm) in Monolix2020R2 (Lixoft), allowing estimation of fixed effects for each parameter and residual error modeling in one step. Naïve pooled analysis was performed where inter-individual variability was not estimated. Each mouse corresponds with a single datapoint; therefore, it is challenging to estimate individual variability. Data at each dose-level group were treated as coming from a single mouse. Either a proportional model or a combined constant and proportional model was used to describe residual uncertainty in the datasets based on inspection of diagnostic plots. The proportional residual error model assumes that the amount of noise in data is proportional to observed data, whereas the constant error model assumes a constant amount of noise in every observation. The proportional residual error model was used to evaluate plasma and tissue PK data, and dystrophin data. The combined constant and proportional error model was used to evaluate skipped transcript data. An interval data-censoring method built into Monolix was used to handle data below the limit of quantification (BQL). This method, similar to Method 4 in NONMEM, is based on simultaneous modeling of continuous and categorical data, where BQL data are treated as categorical data. The likelihood of BQL observations are maximized with respect to model parameters; and the likelihood of these observations is taken to be the likelihood that these data are indeed BQL [ , ]. The method censors the BQL data and conditions their likelihood that these observations range from 0 and BQL value (60 ng/g in current analysis). The likelihood of the uncensored data (above BQL data) are conditioned that the observations are greater than 0.
+To determine the goodness of fit for the model, predicted vs observed, individual/population fitting, and other diagnostic plots (e.g., plots of residuals) were assessed. Relative standard error (RSE) of each parameter was determined to assess accuracy, where RSE < 50% was considered an accurate estimate. For model validation, visual predictive check (VPC) plots were generated to assess the ability of the model to regenerate data. 1500 simulations were compared with observed data in VPC plots; the 10th, 50th and 90th percentiles of both observed and simulated data were calculated and compared.
+GraphPad Prism 8 was used to analyze PK linearity/dose-proportionality by the power model and test of ANOVAs.
+
+## Results
+
+## Noncompartmental Analysis
+Plasma exposure parameters were determined for 10, 40, and 80 mg/kg doses by NCA (Table ). T1/2 ranged from 0.32 to 0.74 h, and Vss ranged from 177.4 to 278.9 mL/kg. The systemic CL showed a trending decrease with increasing dose, with average CL of 608.8 mL/h/kg, 587.9 mL/h/kg and 426.8 mL/h/kg at 10, 40, and 80 mg/kg, respectively. This trend is consistent with the slightly more-than-dose–proportional increase in AUC, suggesting that an elimination mechanism is being saturated as dose increases. 
+
+## Plasma PK Linearity Analysis
+As the NCA-estimated CL showed a decreasing trend with increasing dose, plasma PK linearity was assessed using a power model and ANOVA. To conclude linear PK, the power model estimated power exponent/slope ( ) value should be close to 1; the estimated 90% CI around should include 1 and be contained within the calculated Hummel’s equivalence criterion interval (HCI). The power model with critical equivalence criterion shows that plasma PK is linear based on Cmax, with =1.16, 90% CI 0.98–1.38, HCI 0.67–1.33 (Fig.  A). On the other hand, the plasma PK is nonlinear based on AUC with =1.40, and 90% CI 1.20–1.64 (Fig.  B). 
+To further assess plasma PK dose-dependence, an ANOVA test was performed on dose-normalized PK exposure. Plots of dose-normalized Cmax show dose proportionality, as there is no significant difference between dose-normalized Cmax at tested doses (10, 40, and 80 mg/kg) (Fig.  C). By contrast, an ANOVA test on dose-normalized AUC shows a significant difference between 80 mg/kg and other tested dose levels (10 mg/kg, p = 0.0108 and 40 mg/kg, p = 0.0137), suggesting nonlinearity at 80 mg/kg (Fig.  D). These results agree with power model analysis showing dose-proportional increases plasma concentration based on Cmax and greater-than-dose–proportional increases based on AUC.
+
+## Plasma PK Modeling Analysis
+Based on the possibility of nonlinearity from the plasma PK linearity analysis, both linear and nonlinear models were assessed. The nonlinear model showed poor data fitting and parameter estimation compared with the linear model. It is possible that the tested dose range did not fully saturate the nonlinear elimination process. The linear 2-compartment model indicated a robust fit with plasma concentration data and accurately estimated parameters (Fig.  , Table ). The high estimated distribution and elimination rate constants correspond to fast distribution and elimination of PPMOs, where plasma concentration is not detectable 24 h post-dose in most animals. This corresponds well with the quick plasma half-life (< 1 h) observed for these molecules. Due to fast dissipation of plasma concentration relative to tissue concentration (plasma undetectable at 24 h, while tissue concentration is detectable up to 28 days post dose), the distribution to tissue PK model was assumed to be a one-way process through parameter kpt. The plasma-model estimated parameters were fixed in the subsequent tissue PK/PD model. 
+
+## Semi-mechanistic Tissue PK/PD Model Development and Validation
+No tissue concentration was detected in control-treated mice, hence not used in the analysis. Exon skipping in control-treated mice was substantially lower than in PPMO-treated mice. The average of these values were fixed to baseline skipped copies (sk.mRNA0) in the model. Dystrophin expression in vehicle-treated mdx mice was below the limit of detection of western blot. Though undetectable by western blot, mdx mice express low amounts of dystrophin, hence the baseline value was first estimated and then fixed to the estimated value (0.1%) in the final model. Additionally, when extrapolated, the faint dystrophin signal in vehicle-treated mice corresponded to approximately 0.07% WT, which is close to 0.1. For tissue concentration, a 2-compartment model was used to describe a bi-exponential decline in observed tissue concentration.
+A semi-mechanistic PK/PD model was constructed based on data from single- and multiple-dose studies. IDR models were used to characterize PD effects (skipped transcript and dystrophin level), with skipped transcript as an intermediate biomarker. The model described the data reasonably well and accurately estimated parameters, as indicated by low RSE values (Table ). Concentration vs time plots show good agreement between model prediction and observed data for tissue concentration, skipped mRNA transcript, and dystrophin levels (Fig.  ). Additionally, plots of predicted versus observed show good alignment around the line of identity (Fig.  S). Other diagnostic plots, including individual weighted residuals versus time and individual weighted residuals versus observed data, confirm good performance of the model (Fig.  S). Model validation through analysis of VPC plots shows that the observed data generally align with the simulated data (Figs.  and S). The VPC plots show some outlier areas, but these are consistent with the inherent variability associated with terminal sampling at each timepoint. Some variability may be attributed to the current datasets being from 2 different studies. Use of tissue peripheral compartment concentration (C1) instead of central compartment (Ct) as the PD driver was proven appropriate as we see good profile alignment of C1 and skmRNA (Fig.  S). The plasma concentration profile falls BLQ (10 ng/mL) 8 h post-dose. The model estimated rate constant of elimination in the tissue PK model (k) suggests a tissue PPMO half-life of 5 days, relating to observed limited concentration accumulation after multiple dosing. The dispassion rate constant of skipped transcript (kout,s) corresponds to a half-life of 5 h, corresponding to no accumulation in this biomarker after multiple dosing. On the other hand, the dissipation rate constant for dystrophin expression (kout,Dys) corresponds to a half-life of 16 days, corresponding to observed dystrophin accumulation after multiple dosing (from 18%WT to 44%WT at 40 mg/kg and from 50%WT to 80%WT at 80 mg/kg from first to 6th dose) and delay in reaching steady state levels observed after the 6th dose. 
+
+## Discussion
+This is the first PK/PD model for a PPMO. This next-generation PPMO technology may offer increased cell penetration, exon skipping, and prolonged duration of dystrophin restoration in patients with DMD with a mutation amenable to exon skipping. Using this semi-mechanistic PK/PD model built based on the mechanism of action of PPMOs, we were able to link RC-1001 dosing to plasma concentrations to muscle tissue distribution, then to exon skipping, and finally to dystrophin expression using single- and repeat-dose PK/PD studies. Furthermore, the developed PK/PD model may help describe the time course of the PK and PD of future PPMOs for DMD and other disease states. Similar models were used to describe the PK and PD of other ASOs, including an apolipoprotein B-reducing ASO [ ] and a survivin mRNA-inhibiting ASO (LY2181308) [ ]. With inhibitory mechanisms of action, IDR models describing inhibition of synthesis (IDR model 1) or stimulation of dissipation (IDR model 4) were used to describe their PD data. In contrast, PPMOs lead to synthesis of skipped transcripts, which translate to a functional protein. Therefore, IDR models describing stimulation of synthesis (IDR model 3) were used to describe skipped transcript and dystrophin.
+After IV administration of RC-1001, the estimated plasma half-life was 0.32–0.74 h, which is typical for arginine-rich CPP-conjugated PMOs [ ]. The short half-life of RC-1001 is due to quick renal excretion [ ], rapid drug distribution in different tissue organs, and abundant peptidase enzymatic activity in plasma that cleave the CPP. Additionally, absorption, distribution, metabolism and excretion studies show that more than 50% of administered PPMO molecules are excreted in urine within 24 h of IV dosing (unpublished data).
+RC-1001 showed different dose-proportionality behavior in plasma based on either total (AUC) or maximum (Cmax) exposure. RC-1001 shows linear plasma PK up to 80 mg/kg based on Cmax, but linear (dose-proportionality) plasma PK up to 40 mg/kg based on AUC. The AUC was slightly more than dose-proportional at 80 mg/kg, suggesting that a possible elimination process is being saturated. PPMO molecules are metabolized by proteases that remove the peptide [ ]. The linear 2-compartment plasma PK model showed superiority over nonlinear PK despite the nonlinearity observation. It is possible that the tested dose range did not saturate the nonlinear elimination process, thereby preventing accurate estimation of nonlinear parameters. The developed 2-compartment PK model characterized bi-exponential decline in tissue concentration data well, suggesting a barrier to distribution of PPMO to a tissue subcompartment; possibly the nucleus, where the molecule exerts its PD effect by binding to pre-mRNA for exon skipping. The IDR models also described both exon skipping (skipped transcripts) and dystrophin levels. The model parameters were well estimated by the current models as shown by low RSE values.
+The developed IDR model follows the mechanism of action of exon skipping PPMOs; it characterizes the synthesis/production of skipped transcript after molecules complementarily bind to a dystrophin pre-mRNA sequence to alter splicing of exon 23, which translates into truncated dystrophin.
+The estimated parameters reflect quick synthesis of transcript as shown by a high kin,S value. This rapid synthesis of skipped transcript was observed in other studies where skipping was measurable 2 h post-injection (unpublished data). The estimated degradation rate constant of skipped transcript reflects at a half-life of 5 h, which is close to the measured 16 h half-life of human full dystrophin mRNA in fetal human myotubes [ ]. The difference between estimated and literature half-life values may be explained by some discrepancies between the current study and the literature: for example, differences in metrics (PPMO-mediated exon 23 skipped transcript vs full-length transcript); study setup (in vitro vs in vivo); and/or species (mouse model vs human transcript).
+The skipped transcript translocates to the cytoplasm, where it is translated to a truncated, in-frame dystrophin. Dystrophin, a structural protein that links the intracellular cytoskeleton to transmembrane components of the dystrophin glycoprotein complex, is an important biomarker in DMD [ , ]. This model described observed dystrophin and accumulation of dystrophin in a monthly dosing regimen. Unlike skipped transcript production, dystrophin synthesis is a slow process, as reflected by low kin,Dys values. This was also reflected in other experiments, in which dystrophin is not detectable until 2 days post-injection [ ]. The estimated rate constant of loss of dystrophin led to an estimated dystrophin half-life of approximately 15 days, which is lower than the > 3-month half-life described in the literature [ ]. This may be due to underestimation of half-life based on the short sampling time in the current study, where the longest time was 28 days post-injection. Additionally, VPC plots show agreement between observed and simulated data, further supporting the potential of this model for predicting dystrophin production in mdx mice. Restoration of dystrophin can be challenging to quantify in clinical settings, as this assessment can require open biopsy. It is helpful to have a model that can describe the time-course of dystrophin expression utilizing sparse biopsy data. The current model is able to characterize the time-course of this important DMD biomarker and can be used to predict dystrophin levels after different dosing regimens. By applying inter-species scaling methods such as allometric scaling or concomitant translational modeling incorporating preclinical and clinical data, the current model scheme/framework can be scaled to model and describe clinical exon skipping candidate molecules in patients with DMD. Additionally, the model supports that less frequent dosing (once every 4 weeks) may be feasible for PPMOs, despite their short half-life in plasma. In the clinical setting, less frequent dosing has the potential to reduce patient burden for patients with DMD and their caregivers.
+
+## Conclusion
+This model characterizes PK/PD profiles of a PPMO and dystrophin accumulation in muscle after single or repeated monthly dosing, and provides a mechanistic explanation for various phases of PK/PD responses observed in mdx mice. This first PK/PD model of a PPMO offers a framework for other PPMO molecules and exon skipping ASOs. If applied to other species, it has potential to inform development of future PPMO clinical programs.
+
+## Supplementary Information
+Below is the link to the electronic supplementary material.Fig. 1S: Observed versus prediction plots of tissue concentration (a), skipped transcript (b), and dystrophin in percent of WT mice (c). Line represents unit line and dots represent individual datapoint from each mouse. Abbreviations: MD, multiple dose; SD, single dose; WT, wild-type. Supplementary file1 (PNG 63 kb)
+Supplementary file2 (PNG 80 kb)
+Supplementary file3 (PNG 60 kb)
+Fig. 2S: Plots of residuals for tissue concentration (a), skipped transcript (b), and dystrophin (c). Abbreviations: Ct, predicted muscle tissue concentration; Dys, predicted dystrophin; IWRES, individual weighted residuals; MD, multiple dose; SD, single dose; sk.mRNA, predicted skipped transcript. Supplementary file4 (PNG 69 kb)
+Supplementary file5 (PNG 89 kb)
+ Fig. 3S: Tissue concentration (a) and exon skipping (b) VPC plots. The blue and pink shaded areas represent 90% predictive interval around 10th (lower blue area), 50th (middle orange area), and 90th (upper blue area) percentiles. The blue lines (and dots) represent linear connections of empirical percentiles (10th, 50th, and 90th) of observed data. The black dashed lines represent linear connections of percentiles of simulated data between selected time intervals (bins). Red dots and shading represents the outlier datapoints and areas. Abbreviations: MD, multiple dose; SD, single dose; VPC, visual predictive check. Supplementary file6 (PNG 77 kb)
+Supplementary file7 (PNG 77 kb)
+Fig. 4S: Profiles of simulated plasma (Cp), tissue central (Ct) and peripheral (C1) compartments concentrations and skipped transcript (skmRNA) after single dose. Plasma concentration falls below limit of quantification (10 ng/mL) after 8 hours, whereas Ct, C1, and skmRNA are still detectable 28 days after dosing. The left y-axis represents tissue central and peripheral compartments concentration (ng/g) and plasma concentration (ng/mL). The right y-axis represents copy numbers of skipped transcripts per 30 ng RNA as measured by ddPCR. The x-axis represents time (day). Supplementary file8 (PNG 292 kb)
+Supplementary file9 (PNG 163 kb)
+
+## Abbreviations
+AEBSF4-(2-Aminoethyl)benzenesulfonyl fluoride hydrochloride
+ASOAntisense oligonucleotide
+AUCArea under the plasma-time curve
+BQLBelow the limit of quantification
+CIConfidence interval
+CLPlasma clearance
+CmaxMaximum observed concentration
+CPPCell-penetrating peptide
+CVCoefficient of variation
+ddPCRDigital droplet polymerase chain reaction
+DMDDuchenne muscular dystrophy
+HRPHorseradish peroxidase
+HCIHummel’s equivalence criterion interval
+IDRIndirect response
+IgGImmunoglobulin G
+IVIntravenous
+NCANoncompartmental analysis
+PDPharmacodynamics
+PKPharmacokinetics
+PMOPhosphorodiamidate morpholino oligomer
+PPMOPeptide-conjugated phosphorodiamidate morpholino oligomer
+RSERelative standard error
+T1/2Elimination half-life
+VPCVisual predictive check
+VssVolume of distribution
+WTWild-type
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Acknowledgements
+The authors are thankful to Stephanie Garcia, who performed monitoring of the mice used in this study, and assisted with all injections and tissue sample collections. Medical writing and editorial support were provided by Katherine Alfond, PharmD, RPh of Sarepta Therapeutics, Inc.; and Purvi Kobawala Smith, MS, MPH, and Clare Sonntag, MA of Health & Wellness Partners, LLC, Upper Saddle River, NJ, funded by Sarepta Therapeutics, Inc.
+
+## Funding
+The current study was sponsored by Sarepta Therapeutics, Inc.
+
+## Declarations
+
+## Conflict of interest
+MC Mukashyaka, C Wu, K Ha, J Zhang, J Wood, S Foley, B Mastis, N Jungels, H Sun, M Shadid, S Harriman, and JR Hadcock were employees of Sarepta Therapeutics, Inc. at the time of this study and during manuscript preparation, and may own stock/option in the company.

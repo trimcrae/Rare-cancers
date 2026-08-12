@@ -1,0 +1,336 @@
+440plosonePLoS ONEPLoS OnePLOSPMC4581630458163045816302640291610.1371/journal.pone.0138008Different Stress-Induced Calcium Signatures Are Reported by Aequorin-Mediated Calcium Measurements in Living Cells of Aspergillus fumigatus
+
+MuñozAlberto BertuzziMargherita BettgenhaeuserJan IakobachviliNino BignellElaine M ReadNick D GoldmanGustavo HenriqueEditor 1Manchester Fungal Infection Group, Institute of Inflammation and Repair, University of Manchester, Manchester, United Kingdom2Fungal Cell Biology Group, Institute of Cell Biology, University of Edinburgh, Edinburgh, United Kingdom3Centre for Molecular Bacteriology and Infection, Department of Medicine, Imperial College London, London, United Kingdom4Universidade de Sao Paulo, BRAZILCompeting Interests: The authors have declared that no competing interests exist.
+Conceived and designed the experiments: AM MB JB NI EMB NDR. Performed the experiments: AM MB JB NI. Analyzed the data: AM MB JB NI EMB NDR. Contributed reagents/materials/analysis tools: EMB NDR. Wrote the paper: AM MB EMB NDR.
+¤aCurrent address: The Sainsbury Laboratory, Norwich Research Park, Norwich, United Kingdom
+¤bCurrent address: Division of Nanoscopy, M4I (Maastricht multimodal molecular imaging institute), Maastricht University, Maastricht, Netherlands
+✉* E-mail: Nick.Read@manchester.ac.uk (NDR); Elaine.Bignell@manchester.ac.uk (EMB)
+#Contributed equally.
+2492015109e0138008e01380081102015© 2015 Muñoz et alThis is an open-access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are properly credited.
+
+## Abstract
+
+Aspergillus fumigatus is an inhaled fungal pathogen of human lungs, the developmental growth of which is reliant upon Ca2+-mediated signalling. Ca2+ signalling has regulatory significance in all eukaryotic cells but how A. fumigatus uses intracellular Ca2+ signals to respond to stresses imposed by the mammalian lung is poorly understood. In this work, A. fumigatus strains derived from the clinical isolate CEA10, and a non-homologous recombination mutant ΔakuB
+KU80, were engineered to express the bioluminescent Ca2+-reporter aequorin. An aequorin-mediated method for routine Ca2+ measurements during the early stages of colony initiation was successfully developed and dynamic changes in cytosolic free calcium ([Ca2+]c) in response to extracellular stimuli were measured. The response to extracellular challenges (hypo- and hyper-osmotic shock, mechanical perturbation, high extracellular Ca2+, oxidative stress or exposure to human serum) that the fungus might be exposed to during infection, were analysed in living conidial germlings. The ‘signatures’ of the transient [Ca2+]c responses to extracellular stimuli were found to be dose- and age-dependent. Moreover, Ca2+-signatures associated with each physico-chemical treatment were found to be unique, suggesting the involvement of heterogeneous combinations of Ca2+-signalling components in each stress response. Concordant with the involvement of Ca2+-calmodulin complexes in these Ca2+-mediated responses, the calmodulin inhibitor trifluoperazine (TFP) induced changes in the Ca2+-signatures to all the challenges. The Ca2+-chelator BAPTA potently inhibited the initial responses to most stressors in accordance with a critical role for extracellular Ca2+ in initiating the stress responses.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2015 May 29; Accepted 2015 Aug 24; Collection date 2015.
+
+## Introduction
+
+Aspergillus fumigatus causes multiple human and animal diseases, the manifestations of which depend upon a complex interplay between pathogen- and host-mediated activities [ – ]. Due to their small size, airborne spores (conidia) can penetrate deep into lung alveoli; however, in healthy individuals inhaled spores are likely to be efficiently silenced by coordinated innate immune mechanisms including the involvement of macrophages and neutrophils [ ]. Antifungal defences are impaired in immunocompromised individuals (e.g. recipients of allogenic hematopoietic stem cell- or solid organ-transplants) in whom fungal colonies can become established following spore inhalation [ – ]. This can give rise to the most lethal form of infection, invasive aspergillosis (IA), which annually causes around 200,000 deaths worldwide [ ]. The total burden of aspergillus-related diseases, including chronic, semi-invasive and allergic disease, is estimated as being > 2 million cases annually in Europe alone [ ]. In the case of pre-existing structural lung defects, fungal balls (or aspergilloma) can form in pulmonary cavities [ , ]. For patients with asthma, cystic fibrosis or immunological lung defects, disease manifests [ – ] as allergic broncopulmonary aspergillosis (ABPA), which might progress into chronic, semi-invasive, pulmonary aspergillosis (CPA). In comparison to colonised patients with similar underlying disease, CPA has been demonstrated to reach mortality rates of 42.8% over an observation period of 2 to 3 years [ ].
+Despite the potentially life-threatening consequences of A. fumigatus-related disease, the early stages of colony formation have not been studied in detail. When airborne spores enter the human body and initiate colony formation, they do so in challenging and dynamically changing microenvironments, containing multiple stressors [ ]. Germinating spores may be exposed to host immune attack, heightened temperature, alkalinity, osmotic stress, fluctuations in the carbon dioxide to oxygen ratio, oxidative stress, mechanical perturbation, iron limitation or varying extracellular ion concentrations, including that of free Ca2+ [ , ].
+Calcium is universally recognised as a crucial mediator of intracellular signalling in eukaryotes [ ]. In filamentous fungi, it is well established that Ca2+-mediated signalling is important for hyphal growth and pathogenicity, but the mechanistic basis of its involvement is poorly understood. Several processes relevant to colony initiation in filamentous fungi were found to involve Ca2+-signalling. These include hyphal tip growth, hyphal branching and septation [ – ], tolerance of oxidative stress [ ], mechanosensing [ ], and spore germination [ ]. In addition, Ca2+-mediated signalling and/or homeostasis is fundamental for A. fumigatus pathogenicity as shown, in a leukopenic model of infection, by the reduced virulence of isolates lacking: the voltage-gated Ca2+-channel Cch1 [ ], the stretch-activated Ca2+-channel Mid1 [ ], the vacuolar Ca2+-channel Yvc1 [ ], the Ca2+-transporter PmcA [ ], the catalytic subunit of calcineurin CalA/CnaA [ , ] or the Ca2+-responsive transcription factor CrzA [ , ]. Most of these mutants also show increased susceptibility to commercially available antifungal drugs. For instance deletion, mutation or inhibition of calcineurin activity enhances the sensitivity of A. fumigatus to echinocandins and nikkomicin Z [ , ]. Other compounds have been shown to display antifungal activity by targeting Ca2+-signalling, for example the antiarrhythmic drug amiodarone [ ]. Calcium is therefore an integral component of the signal transduction network involved in colony initiation and the establishment of infection and thus may prove useful as a therapeutic target, either alone or in combination with existing compounds.
+A routine method for cell population-level measurements of cytosolic free calcium ([Ca2+]c) dynamics was previously developed for living cells of filamentous fungi (Aspergillus niger, Aspergillus awamori and Neurospora crassa) using synthetic codon-optimized aequorin as a bioluminescent Ca2+-reporter [ ]. The aims of the current study were to: (i) achieve useful levels of aequorin expression in A. fumigatus cells for routine [Ca2+]c measurement by multiwell plate luminometry during the early stages of colony initiation; (ii) characterise the dynamic intracellular Ca2+-signatures produced by the fungus in response to a range of environmental stimuli that might be experienced by A. fumigatus during lung infection; (iii) determine the influence of extracellular Ca2+ and calmodulin on generating these Ca2+-signatures; and (iv) analyse the effects of these environmental challenges and pharmacological treatments on the growth of the fungus.
+
+## Materials and Methods
+
+## Strains and Culture Conditions
+
+Aspergillus fumigatus strains used in this study are listed in . They were cultured at 25°C and 37°C in Aspergillus Minimal Medium (AMM) or Aspergillus Complete Medium (ACM) [ ]. Conidia were harvested in sterile H2O from cultures grown at 37°C on solid ACM for 5 days and the conidial suspensions were filtered using Miracloth (Calbiochem). They were spun for 10 min at 4000 rpm, and washed twice with sterile H2O prior to enumeration using a Nikon Eclipse 80i microscope and a haemocytometer. Conidial counts were adjusted to 106 conidia per ml for experimentation. Growth of pyrimidine auxotrophic transformants was supplemented with 50 mM uridine and 25 mM uracil.
+ 
+
+## Plasmid Construction
+All plasmids used and generated are shown in . In all instances, the ampicillin resistance marker (bla) was used for selection and maintenance in bacterial cells. Oligonucleotides used to construct, and validate, the plasmids are indicated in . The synthetic codon-optimized apoaequorin gene (aeqS) was obtained from the plasmid pAEQ1-15 [ ].
+ To generate pAEQ(I), the aeqS gene was amplified by PCR from the plasmid pAEQ1-15 using the primers AeqF and AeqR. Subsequently, the aeqS cassette was blunt-ended, phosphorylated and ligated into PmeI-digested, dephosphorylated pSK379 [ , ]. The resulting pAEQ(I) plasmid contains a sequence encoding the promoter region (from -433 to -1 with respect to the ATG) of the constitutively expressed Aspergillus nidulans glyceraldehyde-3-phosphate dehydrogenase gene (ANIA_08041) designated gpdA
+P; and a 1997 bp targeting sequence identical to the region intergenic to the A. fumigatus genes AFUA_3G05360 and AFUA_3G05370.
+The plasmid pAEQ(II) was assembled using GeneArt technology and pUC19 (both from Invitrogen). The plasmid comprises the aeqS gene, also (as above) fused downstream of gpdA
+P. This expression cassette [gpdA
+P
+-aeqS] was flanked by 800 bp of the 5’ and 3’ regions of the akuB
+KU80 gene (AFUA_2G02620) to direct homologous recombination to the akuB
+KU80 locus. The 5’ flank is identical to the genomic DNA sequence occurring at -800 to -1 bp of the region upstream of the akuB
+KU80 ATG codon, and the 3’ flank is identical to the DNA sequence occurring at +188 to +988 bp of the region downstream of the akuB
+KU80 stop codon [ ]. The gpdA
+P
+-aeqS cassette was amplified by PCR from the plasmid pAEQ(I) using the oligonucleotides P1 and P2. Flanks were amplified by PCR using A. fumigatus genomic DNA and the oligonucleotides P3 and P4 or P5 and P6, for 5’ and 3’ respectively. Once purified via gel extraction, inserts were added to the linearized pUC19 vector and GeneArt reactions were performed according to the manufacturer’s instructions (Life Technologies). Oligonucleotides P3 and P6 included a SfiI restriction site in order to allow the excision of the gene replacement cassette.
+Both plasmids were fully sequenced ( ) and deposited into the collection of the Manchester Fungal Infection Group (pMFIG1 and pMFIG2).
+
+## Generation of Aequorin-Expressing A. fumigatus Strains
+
+A. fumigatus transformation was performed according to the protocol described in Szewczyk et al., 2007 [ ]. For the AEQCEA10 strain, A. fumigatus CEA10 protoplasts were transformed with circular pAEQ(I). Pyrithiamine resistant A. fumigatus transformants were selected by supplementing the media with 0.5 μg/ml pyrithiamine hydrobromide (Sigma) [ ]. The presence and site of genomic integration of aeqS were verified by PCR using the oligos P7-P8 and P20-P8 respectively. Copy number was checked by Southern analysis. For this purpose, genomic DNA was digested with EcoRI and probed with an aequorin-specific hybridisation probe generated using the oligonucleotides P7 and P8. For the AEQΔakuB strain, A. fumigatus ΔakuB
+KU80 protoplasts were transformed with a gel-purified ku80
+5’-aeqS-ku80
+3’ cassette obtained by SfiI-mediated digestion of pAEQ(II). The original ΔakuB
+KU80 used for this study was created by replacement of the akuB
+KU80 locus (AFUA_2G02620) with the pyrG
+Af
+-zeo cassette [ ]. As targeted integration of the ku80
+5’-aeqS-ku80
+3’ cassette would result in direct replacement of the resident A. fumigatus pyrG
+Af
+-zeo cassette, A. fumigatus transformants were selected by supplementing the media with 1 μg/ml 5-fluoroorotic acid (5-FOA), 5 mM uracil and 10 mM uridine (Sigma). The presence and site of genomic integration of aeqS were verified by PCR using the oligos P7-P8 and P18-P19 respectively. Copy number was checked by Southern analysis as described for AEQCEA10. Both strains were deposited in the collection of the Manchester Fungal Infection Group (MFIG2 and MFIG3).
+
+## Phenotypic Analyses
+For phenotypic analysis on solid media, 103 conidia (in 5 μl of distilled water) were inoculated onto AMM in triplicate. Radial growth of the aequorin-expressing strains was measured after 3 or 4 days at 25°C and compared to that of parental strains. Images were captured using a Nikon Coolpix 990 digital camera.
+Conidial germ tube formation was imaged and quantified using a Nikon TE2000E inverted microscope with a 60x (1.2 NA) water immersion, plan apo objective (Nikon, Kingston-Upon-Thames, UK) and differential interference contrast (DIC) optics. For these analyses, 200 μl of a conidial suspension containing 106 conidia per ml, in liquid AMM medium, was placed in each well of an eight-well slide culture chamber (Nalge Nunc International, Rochester, NY) and incubated at 37°C. Imaging and quantification of germinated conidia was performed at 5, 7, 9 and 11.5 h following inoculation. Three technical replicates were analysed for each time point and treatment. Percentages of conidial germination were calculated as an average ± SD for each strain.
+To assess the impact of stress on the growth of mature germlings, fungal growth during the initial 96 h of incubation at 25°C was determined using a 96-well microtitre plate assay method by measurement of the optical density (OD) at 610 nm in a multimode plate reader (Berthold Technologies TriStar LB 941). 100 μl per well of a solution of 106 conidia per ml in liquid AMM was incubated for 21 h in a clear 96-well plate with round bottomed wells. Three wells were analysed for each treatment. At the 21 h time point, 100 μl per well of medium inducing the different stressing conditions was added and then growth recorded at ~ 72 h post-stress. Results were calculated as an average ± SD for each experimental treatment.
+
+## Protein Extraction and Western Blotting Analysis
+For protein extraction, 106 conidia were inoculated in 50 ml ACM and incubated at 25°C for 16 or 20 h. Mycelia were collected by filtering through Miracloth, snap-frozen in liquid nitrogen and lyophilised. The extraction of the proteins was performed as previously described [ ]. The total protein concentration was determined using the commercially available bicinchoninic acid assay (BCA) assay (Sigma) according to manufacturer's instructions. Protein samples were separated on 15% SDS-PAGE gels. Recombinant aequorin was detected using a polyclonal rabbit anti-aequorin antibody (1:2000, Abcam) coupled with an HRP conjugated goat anti-rabbit IgG antibody (1:10000, Santa Cruz, USA).
+
+## Analysis of [Ca2+]c Dynamics following Exposure to Stressors
+Conidia of the A. fumigatus strains expressing AeqS were suspended in liquid AMM containing 2.5 μM (AEQCEA10) or 5 μM (AEQΔakuB) of the co-enzyme coelenterazine (Biosynth AG, Rietlistr, Switzerland). A 100 μl cell suspension was dispensed to each well of a white 96-well microtitre plate (Thermo Fischer, United Kingdom). Each treatment was performed as six replicates in the same multiwell plate. The plate was wrapped in aluminium foil to protect the light-sensitive co-enzyme and incubated at 25°C for 15 h, 18 h, 21 h or a maximum of 24 h for AEQCEA10 or 28 h for AEQΔakuB strains. A multimode plate reader (Berthold Technologies TriStar LB 941) was used to measure bioluminescence at 25°C over a time course of 12 min, taking measurements of the relative light units (RLUs) per well for 84 cycles (a cycle being the time it takes to measure all wells in the experiment). For each cycle the standard measurement time per well was 1 second and the standard cycle time was ~ 7.5 sec for all luminometry. During the eighth measurement cycle 100 μl of a stress-inducing solution was injected into relevant wells. Different stress treatments were applied by injecting 100 μl of the stimulating solutions to reach the following final concentrations of stressors: (1) isotonic AMM (mechanical perturbation), (2) AMM diluted in dH2O [52.5% v/v] (hypo-osmotic shock), (3) 5 mM, 20 mM or 200 mM of CaCl2 in AMM (high external Ca2+), (4) 2.5 mM, 5 mM, 10 mM and 20 mM H2O2 in AMM (oxidative stress), (5) 12.5%, 25% or 50% v/v human serum diluted in AMM (exposure to human serum), or (6) 50 mM, 250 mM or 500 mM mannitol in AMM (hyper-osmotic stress). The Ca2+-chelator 1,2-bis-(o-aminophenoxy)-ethane-N,N,N’,N’-tetraacetic acid) tetrapotassium salt (BAPTA) (5 mM) and the calmodulin antagonist trifluoroperazine (TFP) (50 μM) were obtained from Sigma (St. Louis, MO, USA). Stock solutions were prepared in water as appropriate and BAPTA and TFP were added as a pretreatment for 30 min prior to exposure to each stress condition.
+
+## Calibration of Aequorin Bioluminescence
+To convert relative light units (RLUs) into dynamic measurements of micromolar [Ca2+]c in populations of conidial germlings during an experiment, the following empirically derived equation from Bonora et al., 2013 [ ] was used:
+
+[Eq 1]Ca2+(μM)=(LLmax×λ)1n+((LLmax×λ)1n×KTR)−1KR−((LLmax×λ)1n×KR)×106
+Where the mathematical constants K
+R (= 7230000), K
+TR (= 120), λ (= 1) and n (= 2.99) refer, respectively, to the Ca2+-bound and-unbound states of aequorin, aequorin consumption at saturating [Ca2+] and the number of Ca2+ binding sites on aequorin molecule, all of which are assumed to be identical to values previously described [ ]. L is defined as background subtracted light intensity of an empty well at the sampling time point, and Lmax, defined in [ ], is the cumulative total of light emitted, between time zero and the sampling time point. The L
+max value at any particular cycle N (L
+max
+N) was calculated by subtracting the cumulative total of incrementally measured light emissions (iL), as measured up until the sampling time point (N), from the sum total of detected light (Total RLUs) per experiment. Thus:
+
+[Eq 2]LmaxN=TotalRLUs−∑i=1NiLN
+The quantification of Total RLUs was performed subsequent to all other data collections, via complete discharge of the total cellular aequorin, achieved by injecting 100 μl of a discharge solution (3 M CaCl2 in 20% ethanol) into each well in six parallel wells at the end of the experiment. The discharge solution permeabilizes the fungal plasma membrane allowing entry of an excess of CaCl2. At this point a further capture of RLUs was conducted over a similar n = 84 measurement cycle. Total RLUs emitted by a sample at discharge was calculated as the sum of (n = 84) incrementally measured light emissions (iL) each of which was calculated as:
+
+[Eq 3]iL=(tN−tN−1)×(LN−LN−12)
+where N = measurement cycle, t = time, and L = background subtracted light intensity at sampling time. A correction factor of 1.24 was applied to account for ethanol-mediated quenching of aequorin luminescence [ ]. Therefore,
+
+[Eq 4]TotalRLUs=∑N=184iL×1.24
+An Excel spreadsheet for the conversion of RLUs into [Ca2+]c using the above formulae has been included as , and an exemplar dataset (mechanical stress) has been included as .
+
+## Results
+
+## Construction and Characterisation of A. fumigatus Aequorin-Expressing Isolates
+To assess the utility of aequorin as a tool for measuring [Ca2+]c dynamics in A. fumigatus, we constructed a Ca2+-reporter strain in two different A. fumigatus genetic backgrounds, the wild-type clinical isolate CBS 144–89 (CEA10) and a non-homologous end re-joining mutant ΔakuB
+KU80, a null mutant in the AFUA_2G02620 locus, which exhibits significantly heightened homologous integration frequencies compared to non-mutated A. fumigatus isolates [ ].
+The Ca2+-reporter strain in the wild-type clinical isolate CEA10, named AEQCEA10, was constructed via transformation with circular pAEQ(I) ( ). This vector contains a sequence of 1997 bp (termed his2A
+t) which is identical to that occurring immediately downstream of the AFUA_3G05360 (his2A) stop codon, thereby directing targeted insertion of the plasmid into the A. fumigatus genome ( ).
+Using the same strategy and the pAEQ(I) vector, initial attempts at producing an A. fumigatus aequorin-expressing strain in the non-homologous end re-joining mutant ΔakuB
+KU80 failed repeatedly. Although viable transformants, having undergone homologous integration of the plasmid were obtained, AeqS expression was undetectable. Further analysis indicated that the pAEQ(I) construct was unsuitable for ΔakuB
+KU80 strain construction due to spontaneous rearrangement of the target locus in 100% of transformants, leading to the excision of the gpdA
+P and a 5’ region of the AeqS coding sequence (data not shown). For the ΔakuB
+KU80 background, we therefore took an alternative approach ( ) using the plasmid pAEQ(II), and exploiting the counter-selectable nature of pyrimidine auxotrophy. This involved the replacement of the pyrG
+Af
+-zeo cassette resident at the akuB
+KU80 locus (AFUA_2G02620) with the aequorin cassette ( ). As the resultant aequorin expressing isolate, named AEQΔakuB, maintains a ΔakuB
+KU80 genotype, the non-homologous end-joining phenotype remains exploitable and can therefore be used for subsequent mutant constructions. The expression of recombinant AeqS in the AEQCEA10 and AEQΔakuB isolates was verified by western blotting using an aequorin specific antibody ( ).
+To ensure normal rates and efficiency of germination in the recombinant isolates, the germination rates of the parental isolates CEA10, ΔakuB
+KU80, and the two aequorin expressing strains (AEQCEA10 and AEQΔakuB) were assessed by incubation for 5, 7, 9 and 11.5 h in AMM at 37°C in eight-well slide culture chambers in the presence of the aequorin substrate coelenterazine at 2.5 or 5.0 μM (see ).
+
+Aspergillus fumigatus conidia undergo isotropic growth before becoming polarized to produce a germ tube. The swollen conidia were classified as “germinated” as soon as they became polarised and a germ tube protrusion was visible. Relative to progenitor isolates, a slight delay in germination was observed in the aequorin transformants at the 7 and 9 h time points of growth at 37°C ( and ). However, after 11.5 h the germination of all strains was more-or-less equivalent: 98 ± 0.3% in the CEA10 strain, 99 ± 0.8% in the AEQCEA10, 99 ± 0.6% in the ΔakuB
+KU80 strain, and 94 ± 1.2% in the AEQΔakuB strain ( and Figs).
+The growth rate and morphology of the aequorin expressing strains and respective parental isolates were compared after growth on agar plates in AMM at 37°C ( ). Plates were inoculated with 103 conidia in 5 μl of water and the colony diameters were measured at 48 h post-inoculation ( ). When supplemented with 50 mM uridine and 25 mM uracil, the auxotrophic AEQΔakuB strain achieved growth comparable to wild type levels. Therefore, for all experiments involving AEQΔakuB, and for all growth temperatures reported in this study, supplementation of the medium with 50 mM uridine and 25 mM uracil was used.
+
+## Quantitation and Optimisation of [Ca2+]c Concentration Measurements
+AEQCEA10 spore germination and germ tube growth results in a proportional increase in fungal biomass which is reflected by an increase in the total aequorin present in the cells ( ). Time-course analysis of AEQCEA10 spore germination for a period of 24 h at 25°C in AMM showed that > 80% of the conidia had germinated after 21 h of incubation ( ). This correlated with the maximal amount of aequorin expression in germlings, as measured by the maximum amount of aequorin luminescence detected ( ).
+ The [Ca2+]c concentration prior to stimulation, known as resting [Ca2+]c, in eukaryotic cells, is typically between 0.05 and 0.1 μM [ ]. In order to determine the minimum level of aequorin expression required to produce reliable measurements of [Ca2+]c in the 0.05–0.1 μM concentration range, we discharged all of the aequorin present in ten independent aequorin expressing transformants (obtained in both of the CEA10 and the ΔakuB
+KU80 backgrounds) at a range of developmental time-points, temperatures and in different media ( ). These total RLUs values were then plotted against the pre-stimulatory resting level of [Ca2+]c concentration (as calculated by using ). shows that the calculations of the pre-stimulatory [Ca2+]c resting level conforms to the expected range of 0.1–0.05 μM when the Total RLUs were > ~ 1 x 107 RLUs, but becomes unreliable at RLU values lower than this threshold. Thus, we concluded that the amount of aequorin expressed in conidia and conidial germ tubes at ≤ 15 h of incubation is too low (as shown by the Total RLUs at the 15 h time point in ) to obtain reliable [Ca2+]c measurements under the culture conditions used in this study
+
+## Ca2+-Signatures in Response to Hypo-Osmotic Shock and Mechanical Perturbation Are Growth-Dependent
+Previous studies involving aequorin-based, multiwell plate luminometry measurements in A. awamori and N. crassa have demonstrated that transient [Ca2+]c increases, with reproducible Ca2+-signatures, are induced when these fungi are: (i) mechanically perturbed (by a rapid injection of iso-osmotic growth medium); (ii) exposed to hypo-osmotic shock (by injecting diluted 5% growth medium); or (iii) treated with a high (0.05–50 mM) concentration of external Ca2+ (by injecting growth medium containing these different concentrations of Ca2+ [ , , – ]. In this study, a plate luminometer incorporated into a multimode plate reader, and having built-in injectors, was utilised to subject A. fumigatus aequorin-expressing isolates to similar physiochemical perturbations. Each of these environmental challenges was found to produce a unique, and reproducible, Ca2+-signature in A. fumigatus ( and ).
+ In response to mechanical perturbation and hypo-osmotic shock the dynamic nature and magnitude of the Ca2+-signature was found to correlate directly with the growth stage of the conidial germlings ( and ). The amplitude of the [Ca2+]c response was greater for hypo-osmotic shock than mechanical stress and increased as conidial germlings matured. A distinct [Ca2+]c transient in response to hypo-osmotic shock was detectable after 18 h of incubation and successively increased in amplitude after 21 and 24 h, respectively ( ). After 24 h of incubation the amplitude of the [Ca2+]c response to hypo-osmotic shock was 0.42 μM. In contrast, [Ca2+]c responses to mechanical perturbation were only observed after 21 h and the amplitude of the [Ca2+]c response increased to a maximum of 0.35 μM after 24 h of incubation. The amount of spore germination increased from ~ 60% at 18 h to ~ 90% at 24 h of incubation ( ). Thus the increased amplitudes of the Ca2+-signatures in response to hypo-osmotic shock and mechanical perturbation are growth-dependent. The AEQΔakuB strain also showed a growth-dependent [Ca2+]c response to hypo-osmotic shock and mechanical perturbation, the magnitude of which was similar to that observed in AEQCEA10 in terms of the extent of germination and germ tube growth ( ). However longer incubation times were needed to achieve a maximal [Ca2+]c response which was coincident with the increase in incubation time that was necessary to achieve equivalent levels of germination and germ tube lengths (see insets in. ). Having optimised the method, subsequent analyses of stress responses were primarily conducted with the AEQCEA10 isolate.
+
+## Responses to Extracellular Stresses Are Dose- and Stimulus-Dependent
+The main focus of this study was on sensory perception and responses to stressors during the initiation of fungal infection. During mammalian infection the infecting fungal cell must balance, and appropriately integrate, homeostatic and stress-responsive adaptations. In order to assess the environmental challenges that fungal cells might encounter during lung infection, the following stimuli were studied: (1) hyper-osmotic shock (with 500 mM mannitol), (2) high extracellular Ca2+ (200 mM CaCl2), (3) oxidative stress (with 20 mM hydrogen peroxide); and (4) exposure to human serum (50%). In each case these environmental challenges were delivered by injecting modified growth medium into wells of the 96-well plate containing conidial germlings that had been pre-incubated, in the absence of stressor, for 21 h.
+Each stressor prompted immediate and distinctly different [Ca2+]c transients and thus different Ca2+-signatures ( and ), the amplitudes of which were dose-dependent with respect to each stressing stimulus. Following an initial rapid response to hyper-osmotic shock and serum treatments, there was a recovery of [Ca2+]c to the pre-stimulatory [Ca2+]c resting levels detected before the application of the stress stimulus. However, in response to high Ca2+ (5–200 mM) or oxidative stress (5–20 mM) the [Ca2+]c did not fully recover to the pre-stimulatory resting levels within 10 min of the initial application of the stress stimulus (see below). The highest [Ca2+]c amplitude was prompted by treatment with 200 mM extracellular CaCl2 ( and ), which provoked an increase in [Ca2+]c to ~ 0.9 μM. The magnitude of responses from high to low was highest for the high extracellular Ca2+ treatment and smallest for mannitol challenge (Ca2+ > H2O2 > serum > mannitol). Similar results were also achieved using the AEQΔakuB strain (data not shown).
+ Following a [Ca2+]c increase, fungal cells activate Ca2+-pumps and-transporters in order to attempt to restore [Ca2+]c to a resting level of 0.05–0.1 μM [ ]. The kinetics of the [Ca2+]c decreases following the application of each stressor varied between the different types of stimuli applied. After exposure to 500 mM mannitol (hypertonic shock), [Ca2+]c slowly decreased to resting level over ~ 3 min ( and ). In contrast, [Ca2+]c more rapidly decreased after stimulation with 200 mM CaCl2 or 20 mM H2O2, to a constant elevated level 0.15–0.2 mM but failed to regain the pre-stimulatory resting [Ca2+]c (0.05–0.1 mM) within the 10 min of measurement ( and ).
+
+## Calcium Modulatory Drugs Affect the Response to External Stimuli
+A large number of Ca2+-signalling proteins and effectors, supporting the complexity of Ca2+ signalling and homeostasis in filamentous fungi, have been previously identified [ , ]. Two of the major components that commonly orchestrate Ca2+ signalling are extracellular Ca2+ and the Ca2+-binding protein calmodulin, which is a multipurpose, intracellular Ca2+ receptor that can relay [Ca2+]c signals to regulate numerous cellular processes. In order to understand the respective roles played by extracellular Ca2+ and calmodulin during adaptation of A. fumigatus to extracellular stresses, two drugs were used to perturb stress responses: the cell impermeant Ca2+ chelator 1,2-bis-(o-aminophenoxy)-ethane-N,N,N’,N’-tetraacetic acid tetrapotassium salt (BAPTA) and the calmodulin antagonist trifluoperazine (TFP). BAPTA chelates Ca2+ ions in the extracellular medium thereby preventing the fungus from using extracellular Ca2+ during Ca2+-signalling. TFP, upon binding to calmodulin, induces a major conformational change in the Ca2+-calmodulin complex which results in its inability to interact with target enzymes [ ].
+The maximum [Ca2+]c amplitude following application of the different stressors, and the post-stimulatory [Ca2+]c resting levels at 10 min after stressor application, were analysed in untreated, BAPTA (5 mM) and TFP (50 μM) pre-treated samples ( and ). A. fumigatus showed very different [Ca2+]c responses to each stressor with regard to [Ca2+]c amplitude and post-stimulatory [Ca2+]c resting levels ( and ). Pre-treatment with BAPTA or TFP radically altered [Ca2+]c responses in both stressor- and drug-dependent ways. To standardise comparisons between treatments, variations in maximal [Ca2+]c values were expressed as fold changes relative to challenge in the absence of drug ( ). BAPTA pre-treatment significantly reduced the maximal [Ca2+]c amplitude after exposure to hypo-osmotic shock (5% growth medium), hyper-osmotic shock (500 mM mannitol), oxidative stress (20 mM H2O2) and 50% human serum ( and ). Thus the [Ca2+]c responses to these environmental challenges are likely to involve influx of extracellular Ca2+. The post-stimulatory [Ca2+]c resting level rarely changed significantly, except in the case of hypo-osmotic shock where a > 1 fold reduction, relative to pre-stimulatory resting level, was observed ( ). The effect of BAPTA on exposure to high extracellular Ca2+ was not performed because the use of a Ca2+-chelator is incompatible with this type of treatment.
+ TFP pre-treatment prompted a significantly reduced [Ca2+]c amplitude (relative to untreated cells) after exposure to high (200 mM) extracellular Ca2+ and oxidative stress (20 mM H2O2) suggesting that [Ca2+]c responses are mediated by calmodulin in response to these treatments ( and ). Additionally, TFP pre-treatment led to a marked increase in the post-stimulatory [Ca2+]c resting level following exposure to oxidative stress suggesting a role for calmodulin in regulating the return of the [Ca2+]c concentration to its normal resting level ( and ) following oxidative stress.
+In order to assess the effects of stressors upon A. fumigatus growth, and the role of extracellular Ca2+ in adapting to such challenges, a phenotypic growth assay was implemented ( ). To assess colonial phenotypes the different stressors were added to solid AMM medium, serial dilutions of spores (105, 104, 103 and 102 spores) in 5 μl of water were inoculated and colonial size and morphology evaluated after 72 h of growth at 25°C ( ). In a separate analysis aimed at understanding stresses applied in the same multiwell plate liquid AMM environment utilised for aequorin-mediated measurement of Ca2+-signalling ( ), the different stressors were applied to untreated and BAPTA pre-treated 21 h-old fungal cultures, and their growth monitored over the next 72 h. All stressors prompted significant growth perturbations when applied on solid ( ) or in liquid ( ) media. Growth was greatly enhanced by addition of 50% human serum, consistent with one or more components of this complex substrate providing nutrients for the growing pathogen ( ). This observation was also supported by analyses of radial growth which indicated more robust growth in response to serum ( ). In contrast, fungal growth was highly sensitive to 2.5 mM H2O2 and concentrations higher than 2.5 mM were found to be toxic to the cells in the 21–72 h period between stimulation and growth measurement ( ). Highlighting the importance of extracellular Ca2+ for A. fumigatus growth (Loss and Bertuzzi et al., submitted), BAPTA treatment decreased hyphal growth rate in liquid culture in the absence of a challenge. Most importantly, consistent with a role for extracellular Ca2+ in mediating the response of A. fumigatus to these stresses, BAPTA treatment significantly perturbed hyphal growth rate in liquid culture when hyphae were challenged with H2O2 and 50% human serum ( ). In the presence of BAPTA, oxidative stress and human serum caused approximately a 10 fold decrease and a 2 fold increase respectively, relative to unchallenged A. fumigatus fungal growth ( ). Similar experiments were also performed in the presence of the calmodulin inhibitor TFP. However, no significant inhibition/modulation of the fungal growth by TFP was observed during the 21–72 h period (data not shown). This observation of the differential growth inhibitory effect of BAPTA and TFP is consistent with our observations that showed a greater impairment of the [Ca2+]c responses when BAPTA was added ( ) in comparison to the TFP pretreatment ( ).
+ 
+
+## Discussion
+Calcium is an extraordinarily dynamic and versatile signal molecule [ ] that acts as a second messenger in regulating diverse processes in filamentous fungi. These processes include: spore germination, hyphal growth and orientation, sporulation, antifungal drug resistance and pathogenicity [ , , – ].
+The bioluminescent Ca2+ reporter aequorin has proven a useful methodology in filamentous fungi for routine measurements of [Ca2+]c dynamics in living cells at the cell population level in response to different stimuli, stresses, antifungal drugs and peptides [ , , , , – ]. Our calibration gave no indication that the aequorin in our aequorin-expressing strains is measuring [Ca2+]c concentrations other than those of the cytosol. The resting (unstimulated) level of [Ca2+]c measured was 0.05–0.1 μM which undoubtedly does not correspond to the high free Ca2+ concentration present in organelles such as vacuoles, reported to be roughly 2.5 mM, which is 25,000-fold higher than the concentration in the cytosol (46). Moreover, no targeting sequence was added to the aequorin gene and thus we expect the aequorin to be exclusively cytosolic. In this study, an A. fumigatus aequorin-expressing strain was constructed by modification of the clinical isolate CBS 144–89 (CEA10), thereby achieving a targeted and single integration of the aequorin gene into the A. fumigatus genome ( ). In order to promote future mutational analyses of Ca2+-signalling we also generated an A. fumigatus aequorin-expressing strain in a ΔakuB
+KU80 background ( ). The ΔakuB
+KU80 strain has been extensively used for the generation of mutants in A. fumigatus because targeted recombination of exogenous DNA is facilitated by an increased homologous recombination frequency. This is due to the absence of the akuB gene (AFUA_2G02620), the product of which governs the rejoining of non-homologous DNA fragments. The resultant AEQΔakuB strain provides a recipient reporter strain, in which targeted deletion of desired genes can be easily achieved using standard molecular techniques and repair of pyrimidine auxotrophy. This auxotrophic recipient achieves similar growth to prototrophic isolates when supplemented with uridine and uracil (50 mM and 25 mM, respectively).
+We next assessed the utility of the isolates as reporters of [Ca2+]c dynamics by challenging the cells with an array of different stressors, likely to be encountered by A. fumigatus conidial germlings in the environment and in the mammalian lungs during infection. The Ca2+ signatures associated with each physico-chemical treatment was found to be distinct, suggesting the involvement of a different combination of Ca2+-signalling machinery components in each stress response (Figs and ). Furthermore, the conidial germlings of the pathogen produced dose- and growth-dependent Ca2+-signatures in response to each type of stressor ( ). Interestingly in the case of exposure to human serum which contains ~ 2 mM extracellular Ca2+, the signature observed was different and greater than the that recorded by supplementing the media with 5 mM Ca2+ only, thereby indicating that other factors apart from Ca2+ in the serum contribute to the Ca2+-signature.
+Previously, we have reported that conidial germlings and vegetative hyphae of N. crassa, A. awamori and A. niger also respond to mechanical perturbation, hypo-osmotic shock and high external Ca2+ [ , , , ] by producing distinctly different Ca2+-signatures. However, the [Ca2+]c values reported in these studies were low and inaccurate. The [Ca2+]c values reported in the present study, and a previous one on N. crassa [ ], are much more precise as the calibration method to convert RLUs into [Ca2+]c concentrations using the aequorin reporter has been significantly improved [ ]. In the present investigation, A. fumigatus germlings were found to exhibit a [Ca2+]c resting level of 0.05–0.1 μM and to undergo transient [Ca2+]c changes with amplitudes that ranged from 0.15 up to 0.9 μM depending on the stress applied.
+Application of both the Ca2+-chelator BAPTA and the calmodulin antagonist TFP, both of which have been previously used with filamentous fungi [ , ], significantly impacted observed Ca2+-signatures. The chelation of external Ca2+ with BAPTA resulted in a significant reduction of the maximal [Ca2+]c amplitude in response to hypo-osmotic shock, hyper-osmotic shock, oxidative stress and 50% human serum ( ). Thus the [Ca2+]c responses to these environmental challenges are likely to involve influx of extracellular Ca2+. TFP reduced the maximal [Ca2+]c amplitude in response to high extracellular Ca2+ and oxidative stress suggesting that Ca2+-influx is mediated by calmodulin in response to these treatments ( ).
+Taken together, our results show that A. fumigatus responds to specific stressors via transient increases in [Ca2+]c exhibiting stress-specific signatures. Extracellular Ca2+ and the primary intracellular Ca2+-receptor calmodulin play different roles in generating these specific Ca2+-signatures and in regulating [Ca2+]c homeostasis. How the biochemical machinery of the fungal cell is able to decode these Ca2+-signatures and convert them into specific cellular responses is thus far unclear. However, certain types of environmental stress (e.g. high extracellular Ca2+) result in the recruitment of the transcription factor, CrzA, to nuclei, which up- and down-regulates a range of genes which support stress adaptation (Loss and Bertuzzi et al., submitted,[ , ]. In our study, exposure to the stressors tested of the fungus grown on solid medium in Petri dish cultures ( ) or in liquid medium in multiwell plates ( ) resulted in significant growth inhibition, with the exception of human serum, which stimulated growth, possibly as a result of increasing the nutrient status of the medium ( ). However, perturbation of growth in response to the same challenges was found to be only dependent on extracellular Ca2+ for oxidative stress and the addition of human serum.
+Upon challenge with H2O2, oxidative stress was found to prompt a Ca2+-signature dependent upon entry of extracellular Ca2+ into A. fumigatus cells ( ). Accordingly, BAPTA-mediated chelation of extracellular Ca2+ significantly reduced the maximal [Ca2+]c amplitude ( and ). TFP treatment prompted a comparable reduction in maximal [Ca2+]c amplitude, but also significantly elevated the post-stimulatory [Ca2+]c resting level ( and ), suggesting a role for calmodulin in mediating both Ca2+-influx and the return of the [Ca2+]c concentration to its normal resting level following exposure to oxidative stress. Oxidative stress, imposed by the addition of 2.5 mM H2O2, was the only challenge found to significantly reduce fungal growth ( ), an effect which was significantly potentiated by BAPTA-mediated chelation of extracellular Ca2+ ( ). Taken together, these data suggest that A. fumigatus is highly sensitive to oxidative stress, and that tolerance of oxidative stress requires Ca2+-mediated signalling. Concordant with this hypothesis, A. fumigatus null mutants ΔcchA, ΔmidA, and ΔcchAΔmidA have been found to be sensitive to paraquat, an oxidative stress inducer [ ].
+In the pathogenic yeast Candida albicans, a similar mechanistic basis for oxidative stress tolerance is suggested by heightened sensitivity, relative to untreated cells, of C. albicans to H2O2 in the presence of BAPTA, or the L-type voltage-gated Ca2+-channel blocker verapamil [ , ]. In addition, C. albicans mutants lacking CCH1, MID1 or ECM7 (involved in [Ca2+]c homeostasis) show increased sensitivity to oxidative stress caused by H2O2 or menadione, and decreased expression of oxidative stress response genes, such as GLR1 (glutathione reductase), TRR1 (thioredoxin reductase) and IPF7817 (NAD(P)H oxidoreductase family protein). In Schizosaccharomyces pombe, deletion of cmk2, which encodes a serine-threonine kinase related to Ca2+/calmodulin-dependent kinases, results in hypersensitivity to oxidative stress [ ]. Similarly, growth of a C. albicans cmk1Δ/Δcmk2Δ mutant is severely inhibited by H2O2 treatment [ ]. In light of the dependency of A. fumigatus upon extracellular Ca2+ for growth and stress tolerance, and as previously proposed by various authors [ , , , ], the Ca2+ signalling machinery is a plausible target for the development of novel antifungal therapies. In this work we have developed the tools to measure and analyse [Ca2+]c, and have demonstrated correlations between external stimuli, specific changes in [Ca2+]c and either the inhibition or stimulation of growth. The mechanistic basis of how specific [Ca2+]c signals are generated, and converted into specific responses, in filamentous fungi remains to be addressed. The recent development of genetically encoded Ca2+-sensitive probes that can be used to image subcellular [Ca2+]c dynamics in filamentous fungi [ ] will play critical roles in furthering our understanding of Ca2+-signalling in filamentous fungi. Such studies, already underway in our laboratories, will also fuel the development of improved antifungal therapies against deadly fungal pathogens.
+
+## Supporting Information
+S1 Data
+
+## Sequence of plasmids constructed in this study.
+(PDF)
+Click here for additional data file.
+S1 Fig
+
+## Design and construction of the A. fumigatus reporter strain AEQCEA10.
+(A) pAEQ(I) directs the expression of the aeqS gene under the control of the constitutive A. nidulans promoter gpdA
+P. (B) Targeted genomic integration of circular pAEQ(I) is directed by his2A
+t. (C) Single, targeted integration of the aequorin expression construct in AEQCEA10, as verified by Southern blotting using an aeqS-specific probe. (D) Southern blotting strategy. No band is expected for the wild type isolate, whereas a single band, ranging from 1865 to 3862 bp, dependent upon the precise site of integration, is expected for the reporter strain.
+(PDF)
+Click here for additional data file.
+S2 Fig
+
+## Design and construction of the A. fumigatus reporter strain AEQΔakuB.
+(A) In pAEQ(II), the gpdA
+P-aeqS expression cassette is sandwiched between 1 kb, 5’ and 3’ flanking regions of the KU80 gene (AFU_2G02620). (B) Strategy for targeting of the ku80
+3’-aeqS-ku80
+5’ cassette to the KU80 genetic locus. (C) Single, targeted integration verified by Southern blotting using an aeqS-specific probe. (D) Southern blotting strategy. No band is expected for the wild type isolate, whereas a single band of 13576 bp is expected for the reporter strain.
+(PDF)
+Click here for additional data file.
+S3 Fig
+
+## Aequorin expression in the reporter strains.
+
+A. fumigatus protein extracts were prepared after growth of the strains at 25°C for 16 or 20 h. Western blotting analysis of A. fumigatus protein extracts demonstrates robust expression of recombinant aequorin protein in both AEQCEA10 and AEQΔakuB isolates. Aequorin was detected using a polyclonal rabbit anti-aequorin antibody (Abcam).
+(PDF)
+Click here for additional data file.
+S4 Fig
+
+## Comparison of spore germination efficiency in aequorin expressing strains AEQCEA10 and AEQΔakuB and progenitor isolates CEA10 and ΔakuB
+KU80.
+Percentages of ungerminated and germinated conidia were microscopically quantified at different times (5 h to 11.5 h) whilst incubated in AMM at 37°C.
+(PDF)
+Click here for additional data file.
+S5 Fig
+
+## Phenotypic analysis of the aequorin expressing strains.
+(A) Microscopic visualization of germinated conidia and germlings of the parental and transformant strains after 11.5 h of incubation at 37°C. (B) Radial growth phenotype on solid agar plates after 48 h of incubation at 37°C and (C) colony diameter measurements (in mm). Bar: 10 μm.
+(PDF)
+Click here for additional data file.
+S6 Fig
+
+## Data shown in with error bars shown.
+(PDF)
+Click here for additional data file.
+S7 Fig
+
+## Ca2+-signatures in response to mechanical perturbation and hypo-osmotic shock in the aequorin expressing strain AEQΔakuB are similar to those of the AEQCEA10 strain.
+Each stressor was applied at two time-points of growth (24 and 28 h) at 25°C. Cultures were also microscopically analysed in order to compare the stage of conidial germination and germ tube growth with the [Ca2+]c response. Average values ± SD error for six technical replicates are shown. The arrows indicate the point at which each stress was applied via the injectors of the plate reader. Bar: 10 μm.
+(PDF)
+Click here for additional data file.
+S8 Fig
+
+## Data shown in with error bars shown.
+(PDF)
+Click here for additional data file.
+S9 Fig
+
+## Impact of the Ca2+-modulators BAPTA and TFP on the transient [Ca2+]c signature caused by the exposure to stresses.
+
+A. fumigatus AEQCEA10 cultures were pre-treated for 30 min with either 5 mM BAPTA or 50 μM TFP prior to challenge with stressors (applied at points indicated by arrows). Note the influence of the modulators on the [Ca2+]c amplitudes and post-stimulatory [Ca2+]c resting levels. Statistical comparisons between untreated and treated samples are presented in .
+(PDF)
+Click here for additional data file.
+S1 Table
+
+## Effect of the available aequorin on the [Ca2+]c resting level.
+(PDF)
+Click here for additional data file.
+S2 Table
+
+## Excel spreadsheet for the conversion of RLUs into [Ca2+]c.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## Exemplar dataset (mechanical perturbation) and conversion of RLUs into [Ca2+]c.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## Raw data for timescale of germination for A. fumigatus strains used in this study.
+(XLSX)
+Click here for additional data file.
+
+## Data Availability
+All relevant data are within the paper and its Supporting Information files.
+
+## Funding Statement
+This work was supported by grants to EMB and NDR from the Wellcome Trust (WT093596/A/10/Z and WT093596/C/10/Z, respectively), and in part by grants to EMB from the Medical Research Council (G0501164) and the BBSRC (BB/G009619/1). The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+S1 Data
+
+## Sequence of plasmids constructed in this study.
+(PDF)
+Click here for additional data file.
+S1 Fig
+
+## Design and construction of the A. fumigatus reporter strain AEQCEA10.
+(A) pAEQ(I) directs the expression of the aeqS gene under the control of the constitutive A. nidulans promoter gpdA
+P. (B) Targeted genomic integration of circular pAEQ(I) is directed by his2A
+t. (C) Single, targeted integration of the aequorin expression construct in AEQCEA10, as verified by Southern blotting using an aeqS-specific probe. (D) Southern blotting strategy. No band is expected for the wild type isolate, whereas a single band, ranging from 1865 to 3862 bp, dependent upon the precise site of integration, is expected for the reporter strain.
+(PDF)
+Click here for additional data file.
+S2 Fig
+
+## Design and construction of the A. fumigatus reporter strain AEQΔakuB.
+(A) In pAEQ(II), the gpdA
+P-aeqS expression cassette is sandwiched between 1 kb, 5’ and 3’ flanking regions of the KU80 gene (AFU_2G02620). (B) Strategy for targeting of the ku80
+3’-aeqS-ku80
+5’ cassette to the KU80 genetic locus. (C) Single, targeted integration verified by Southern blotting using an aeqS-specific probe. (D) Southern blotting strategy. No band is expected for the wild type isolate, whereas a single band of 13576 bp is expected for the reporter strain.
+(PDF)
+Click here for additional data file.
+S3 Fig
+
+## Aequorin expression in the reporter strains.
+
+A. fumigatus protein extracts were prepared after growth of the strains at 25°C for 16 or 20 h. Western blotting analysis of A. fumigatus protein extracts demonstrates robust expression of recombinant aequorin protein in both AEQCEA10 and AEQΔakuB isolates. Aequorin was detected using a polyclonal rabbit anti-aequorin antibody (Abcam).
+(PDF)
+Click here for additional data file.
+S4 Fig
+
+## Comparison of spore germination efficiency in aequorin expressing strains AEQCEA10 and AEQΔakuB and progenitor isolates CEA10 and ΔakuB
+KU80.
+Percentages of ungerminated and germinated conidia were microscopically quantified at different times (5 h to 11.5 h) whilst incubated in AMM at 37°C.
+(PDF)
+Click here for additional data file.
+S5 Fig
+
+## Phenotypic analysis of the aequorin expressing strains.
+(A) Microscopic visualization of germinated conidia and germlings of the parental and transformant strains after 11.5 h of incubation at 37°C. (B) Radial growth phenotype on solid agar plates after 48 h of incubation at 37°C and (C) colony diameter measurements (in mm). Bar: 10 μm.
+(PDF)
+Click here for additional data file.
+S6 Fig
+
+## Data shown in with error bars shown.
+(PDF)
+Click here for additional data file.
+S7 Fig
+
+## Ca2+-signatures in response to mechanical perturbation and hypo-osmotic shock in the aequorin expressing strain AEQΔakuB are similar to those of the AEQCEA10 strain.
+Each stressor was applied at two time-points of growth (24 and 28 h) at 25°C. Cultures were also microscopically analysed in order to compare the stage of conidial germination and germ tube growth with the [Ca2+]c response. Average values ± SD error for six technical replicates are shown. The arrows indicate the point at which each stress was applied via the injectors of the plate reader. Bar: 10 μm.
+(PDF)
+Click here for additional data file.
+S8 Fig
+
+## Data shown in with error bars shown.
+(PDF)
+Click here for additional data file.
+S9 Fig
+
+## Impact of the Ca2+-modulators BAPTA and TFP on the transient [Ca2+]c signature caused by the exposure to stresses.
+
+A. fumigatus AEQCEA10 cultures were pre-treated for 30 min with either 5 mM BAPTA or 50 μM TFP prior to challenge with stressors (applied at points indicated by arrows). Note the influence of the modulators on the [Ca2+]c amplitudes and post-stimulatory [Ca2+]c resting levels. Statistical comparisons between untreated and treated samples are presented in .
+(PDF)
+Click here for additional data file.
+S1 Table
+
+## Effect of the available aequorin on the [Ca2+]c resting level.
+(PDF)
+Click here for additional data file.
+S2 Table
+
+## Excel spreadsheet for the conversion of RLUs into [Ca2+]c.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## Exemplar dataset (mechanical perturbation) and conversion of RLUs into [Ca2+]c.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## Raw data for timescale of germination for A. fumigatus strains used in this study.
+(XLSX)
+Click here for additional data file.
+
+## Data Availability Statement
+All relevant data are within the paper and its Supporting Information files.

@@ -1,0 +1,435 @@
+349plospathPLOS PathogensPLoS PathogPLOSPMC9904497990449799044973670139210.1371/journal.ppat.1011131Targeting RNA G-quadruplex with repurposed drugs blocks SARS-CoV-2 entry
+TongQiyuData curation, Formal analysis, Investigation, Writing – original draft, Writing – review & editing LiuGengData curation, Formal analysis, Funding acquisition, Investigation, Writing – original draft, Writing – review & editing SangXiongboData curation, Methodology ZhuXinyueData curation FuXiaoliData curation, Methodology DouChaoData curation JianYueFormal analysis ZhangJianiFormal analysis ZouSailanMethodology ZhangGuixiangFormal analysis DuXiaoFormal analysis LiuDanFormal analysis, Funding acquisition QiShiqianFormal analysis ChengWeiFormal analysis, Visualization TianYanConceptualization, Funding acquisition, Methodology, Resources, Supervision, Writing – review & editing FuXianghuiConceptualization, Funding acquisition, Investigation, Methodology, Resources, Supervision, Writing – original draft, Writing – review & editing HaagmansBart LEditor 1Division of Endocrinology and Metabolism, National Clinical Research Center for Geriatrics, State Key Laboratory of Biotherapy and Cancer Center, West China Hospital, Sichuan University and Collaborative Innovation Center of Biotherapy, Chengdu, Sichuan, China2Division of Pulmonary and Critical Care Medicine, State Key Laboratory of Biotherapy and Cancer Center, West China Hospital, Sichuan University, Chengdu, Sichuan, China3Department of Gastrointestinal Surgery, West China Hospital, Sichuan University, Chengdu, Sichuan, China4Division of Pulmonary and Critical Care Medicine, West China Hospital, Sichuan University, Chengdu, Sichuan, China5Department of Urology, Institute of Urology (Laboratory of Reconstructive Urology), State Key Laboratory of Biotherapy and Cancer Center, West China Hospital, Sichuan University, Chengdu, Sichuan, China6Erasmus Medical Center, NETHERLANDSThe authors declare no competing interest.
+✉* E-mail: tyfxh@163.com (YT); xfu@scu.edu.cn (XF)
+#Contributed equally.
+2612023191e1011131e1011131822023© 2023 Tong et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+
+## Abstract
+The rapid emergence of SARS-CoV-2 variants of concern, the complexity of infection, and the functional redundancy of host factors, underscore an urgent need for broad-spectrum antivirals against the continuous COVID-19 pandemic, with drug repurposing as a viable therapeutic strategy. Here we report the potential of RNA G-quadruplex (RG4)-targeting therapeutic strategy for SARS-CoV-2 entry. Combining bioinformatics, biochemical and biophysical approaches, we characterize the existence of RG4s in several SARS-CoV-2 host factors. In silico screening followed by experimental validation identify Topotecan (TPT) and Berbamine (BBM), two clinical approved drugs, as RG4-stabilizing agents with repurposing potential for COVID-19. Both TPT and BBM can reduce the protein level of RG4-containing host factors, including ACE2, AXL, FURIN, and TMPRSS2. Intriguingly, TPT and BBM block SARS-CoV-2 pseudovirus entry into target cells in vitro and murine tissues in vivo. These findings emphasize the significance of RG4 in SARS-CoV-2 pathogenesis and provide a potential broad-spectrum antiviral strategy for COVID-19 prevention and treatment.
+
+## Author summary
+The rapid emergence of SARS-CoV-2 variants of concern, the complexity of infection, and the functional redundancy of host factors, underscore an urgent need for novel broad-spectrum antiviral strategies. RNA G-quadruplex (RG4), a non-canonical RNA secondary structure, has been recently implicated in the regulation of SARS-CoV-2 and host factors. Here, we further characterize the existence and functional importance of RG4s in several host factors, including ACE2. Moreover, we identify that Topotecan and Berbamine, two approved drugs, can function as RG4-stabilizing agents to repress RG4-containing host factors and protect cells and mice against SARS-CoV-2 pseudovirus entry. Together, this work highlights the significance of RG4 in SARS-CoV-2 pathogenesis and provide an attractive broad-spectrum antiviral strategy for COVID-19 prevention and control.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Sep 1; Accepted 2023 Jan 18; Collection date 2023 Jan.
+
+## Introduction
+The unprecedented pandemic of coronavirus disease 2019 (COVID-19), caused by the novel severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2), remains a global health crisis. Within the past two years, several SARS-CoV-2 variants of concern (VOCs) with escape mutations have emerged, which might evade the immunity induced by infection or vaccination, and thus jeopardize the effectiveness of currently approved vaccines and treatments [ ], underscoring an urgent need for bioavailable broad-spectrum antivirals. Owing to reduced time-consuming and decreased developmental risk, drug repurposing has been substantially explored as a viable therapeutic strategy to rapidly harness the devastating COVID-19 threat, and several repurposed drugs have been approved for immediate clinical application [ ]. However, some of the therapies had little or no beneficial effect on inpatients with COVID-19 in a large clinical trial [ ]. To meet the above challenges from SARS-CoV-2 VOCs and limited effectivity of current medical interventions, a better understanding of molecular mechanisms underlying SARS-CoV-2 infection is urgently needed.
+SARS-CoV-2 infection is initiated by binding of the spike (S) protein to its receptor, angiotensin-converting enzyme 2 (ACE2) at the target cell surface, followed by the fusion of viral and host membranes mediated by host proteases, such as TMPRSS2 [ ], resulting in viral RNA release. In addition to ACE2 and TMPRSS2, an increasing number of host factors play an indispensable or redundant role in SARS-CoV-2 infection [ ], including AXL [ ], CD147 [ ], CTSL [ ], DPP4 [ ], FURIN [ ], and NRP1 [ , ]. In addition, several host factors may be relevant for SARS-CoV-2 infection, such as alpha7-nAChR [ ], GOLGA7 [ ], GRP78 [ ], TLR4 [ ], and ZDHHC5 [ ]. Given the complexity of viral entry, the functional redundancy of host factors, and the multi-organ tropism of SARS-CoV-2, as well as the rapid emergence of VOCs, mechanism-based simultaneous targeting of multiple host factors, together with the virus per se, would offer a potentially more effective and broader paradigm for preventing and treating COVID-19.
+Recent findings from ours and others revealed the presence of RNA G-quadruplex (RG4) in both SARS-CoV-2 and host factors (such as TMPRSS2), suggesting an attractive candidate for broad-spectrum antiviral therapy [ – ]. RG4 is a stable four-stranded conformation formed by self-recognition of guanines (Gs) to generate two or more layers of G-quartets. RG4 is enriched in viral RNA genomes [ ] and also broadly exists in regions of biological relevance across human transcriptome [ ]. RG4 is able to regulate gene expression at multiple levels, including RNA maturation, mRNA transport, localization, stability, and translation [ ]. Correspondingly, RG4 is emerging as a promising target for human diseases [ ], such as neuron degenerations [ ], infectious diseases [ ], cancers [ ], and metabolic disorders [ ]. Specifically, multiple RG4 structures have been reported in SARS-CoV-2 RNA genome by bioinformatics prediction and/or experimental identification, including the non-structural protein 3 (Nsp3) [ ], Nsp10 [ ], S [ ], and nucleocapsid (N) genes [ ], indicating a potential role in viral replication and assembly. Furthermore, we recently showed that a RG4 structure within Tmprss2 can significantly repress Tmprss2 translation and prevent SARS-CoV-2 entry, exemplifying the regulation and importance of RG4 on host factors and virus infection [ ]. More intriguingly, the RG4-stabilizing ligand pyridostatin (PDS) is capable of attenuating SARS-CoV-2 entry both in vitro and in vivo. These results collectively suggest that simultaneous targeting RG4 in both SARS-CoV-2 genome and host factors may provide a novel and powerful strategy to overcome the dilemma of COVID-19 pandemic. To explore this idea, the existence of RG4 in newly characterized host factors and the identification of RG4-stabilizing ligands from repurposed drugs merit careful investigation.
+In this study, we determine the potential of RG4 for a series of SARS-CoV-2 host factors and characterize its existence in several molecules, including ACE2, AXL, and FURIN. Using in silico virtual docking method, we then identify topotecan (TPT) and berbamine (BBM), two clinical approved drugs, as RG4-stabilizing agents with repurposing potential for COVID-19. Both TPT and BBM can stabilize RG4 formation and reduce the protein level of RG4-containing host factors, including ACE2, AXL, FURIN, and TMPRSS2. More intriguingly, TPT and BBM efficiently block SARS-CoV-2 pseudovirus entry into cells and mouse tissues. These results not only highlight the significance of RG4 in SARS-CoV-2 pathogenesis, but also provide a new mechanism-based broad antiviral strategy for COVID-19 prophylactic and therapeutic.
+
+## Results
+
+## RG4 exists in multiple SARS-CoV-2 host factors
+We previously reported a role of RG4 in TMPRSS2 expression and function [ ]. Recently, numerous proviral host factors have been suggested to participate in SARS-CoV-2 entry [ , , ]. Herein, we first reinforced the implication of RG4 in a series of newly identified SARS-CoV-2 host factors. To this end, we performed in silico analysis to define putative RG4 sequences (PQSs) in these host factors ( and ). The combined multiparameter analysis of G-sore, G4H and G4NN revealed 11 PQSs with higher scores in 6 host factors, namely Ace2 (PQS-1682, PQS-1762 and PQS-2302), Axl (PQS-91), Dpp4 (PQS-2933), Furin (PQS-1234, PQS-1276 and PQS-3562), Golga7 (PQS-60), and Zdhhc5 (PQS-2981 and PQS-3726) ( and ). These PQSs are also presented in various mammals, suggesting strong evolutionary conservation (Figs and ).
+ These 11 PQSs were then used for experimental verification via circular dichroism (CD) spectroscopy, a standard method for characterizing G-quadruplex (G4) topology. K+, but not Li+, is required for the stabilization and maintenance of RG4 structure. 5 PQSs (PQS-1682, PQS-2302, PQS-91, PQS-1234 and PQS-1276) displayed a characteristic spectrum of a parallel G4 structure with ellipticity maximum and minimum at 264 and 238 nm, respectively, in the presence of KCl, while this pattern was diminished in LiCl buffer ( ). In contrast, the remaining PQSs showed comparable CD spectrum in both KCl and LiCl buffer, indicative of reduced potential for RG4 formation ( ). Two G4-binding fluorescent dyes, Thioflavin T (ThT) and N-methyl mesoporphyrin IX (NMM), were applied to further confirm the capability of these 5 PQSs for RG4 formation based on the fluorescence intensity. The fluorescence of both ThT and NMM for PQS-2302, PQS-91, PQS-1234 and PQS-1276 were higher in the presence of KCl than that of LiCl, albeit the difference of NMM fluorescence for PQS-91 was slight with unknown reason ( ). PQS-1682 displayed relatively weak RG4 features, as evidenced by ThT and NMM fluorescence probes ( ). Based on the combined results of three different analyses, 4 PQSs (PQS-2302 of Ace2, PQS-91 of Axl, and PQS-1234 and PQS-1276 of Furin) were chosen for further analysis.
+Next, RG4-mutant RNAs were recruited to verify the sequence dependency of these PQSs for RG4 formation ( ). Under 150 mM KCl condition, G4-mutant (MUT) RNAs of these 4 PQSs had varying degrees of shift in CD peak wavelengths compared with wide type (WT) RNAs ( ). Importantly, both ThT and NMM assays recapitulated these observations ( ).
+Together, these results not only suggest the presence of RG4 in multiple SARS-CoV-2 host factors, but also exemplify the potential of PQS-2302 in Ace2, PQS-91 in Axl, and PQS-1234 and PQS-1276 in Furin, to form RG4 structure in vitro ( ).
+
+## A drug-repurposing screening identifies TPT and BBM as RG4-targeting agents
+Our data presented in this and previous studies [ ] collectively demonstrated the existence of RG4 in at least four host factors (Ace2, Axl, Furin, and Tmprss2) that are considered as potential therapeutic targets for COVID-19. Given the enrichment of RG4 in both SARS-CoV-2 genome and host factors, as well as the inhibitory effect of RG4 on gene expression, we hypothesized that RG4 stabilization might represent as an attractive broad-spectrum strategy to prevent and treat COVID-19. To explore this, we initially taken an unbiased approach to identify potential G4-binding compounds by consulting a G4 ligand library [ ] and searching literature. This combined analysis identified a list of 69 pharmacological compounds with G4-binding potential, including 9 drugs approved by US Food and Drug Administration (FDA) and/or National Medical Products Administration (NMPA) ( and ).
+ Given that drug repurposing has been extensively used to meet the unmet need for COVID-19, we focused on those 9 approved drugs. Among them, adriamycin, epirubicin, mitoxantrone, and bleomycin were excluded from further investigation, due to their severe side effects on heart and/or lung function [ – ]. For the remaining 5 drugs, we utilized an in silico virtual docking method to assess the interaction between the drug and RG4 structure. Because the high-order structures of RG4 sequences identified in this study remained unknown, two canonical RG4 structures formed by human TERRA sequences [ , ] were obtained from PDB (2KBP and 2M18) and used for docking stimulation. Among the drugs analyzed, TPT and BBM ranked as the top 2 candidates with great potential to bind both 2KBP and 2M18 ( and ), and thus they were chosen for further study.
+To validate the above in silico results, the TERRA, PQS-2302 of Ace2, and PQS-675 of Tmprss2 were fluorescently labelled with CY5 and used to evaluate the RG4-binding ability of TPT and BBM via microscale thermophoresis (MST) ( ). The sigmoid binding curves verified the high-affinity binding of these two drugs with both canonical and newly characterized RG4 structures. Intriguingly, the binding affinity of BBM for PQS-675 (Tmprss2) (dissociation constant (KD) = 10.78 nM) and PQS-2302 (Ace2) (KD = 264.76 nM) was about 1000-fold and 40-fold higher than that of the TERRA (KD = 11.55 μM), respectively ( ). Importantly, these interactions were diminished by the mutation of RG4 sequences ( ), supporting the direct binding of TPT and BBM to these RG4s.
+Taken together, the combined computational and experimental analyses demonstrate that both TPT and BBM can directly bind to RG4s in the host factors and suggest a potential role in SARS-CoV-2 entry.
+
+## TPT and BBM inhibit the expression of SARS-CoV-2 host factors
+Next, we determined whether TPT and BBM could repress the expression of SARS-CoV-2 host factors via stabilizing RG4 structures. Because the aforementioned PQS-1682, PQS-2302 and PQS-1276 are located in the open reading frame (ORF), we generated pcDNA3.1 plasmids containing the full-length ORF of Ace2 and Furin, respectively. In parallel, their RG4 mutants were generated, in which guanines in each G-tracts of PQS-1682, PQS-2302 and PQS-1276 were substituted with adenines ( ), which were designed to eliminate the RG4 formation with synonymous substitution. Since PQS-91 is localized in the 5’UTR of Axl, we inserted the full-length or RG4 region mutant 5’UTR of Axl before its ORF ( ). These plasmids were transfected into H1299 cells respectively, and cells were harvested 24 hrs later for QPT-PCR and western blot analysis. Transfection of G4WT and G4MUT plasmids led to comparable increases in the mRNA levels of Ace2, Axl, Furin and Tmprss2 ( ). However, protein levels of ACE2, AXL, and FURIN, as well as TMPRSS2 described in our previous study [ ], were higher in G4MUT cells than in G4WT cells (Figs and ), suggesting a post-transcriptionally inhibitory effect of RG4 structure on host factor expression. Notably, TPT and BBM led to considerable decreases in the protein levels of ACE2, AXL, FURIN, and TMPRSS2 in G4WT cells (Figs and ). This inhibition was abolished in G4MUT cells (Figs and ), suggesting that TPT/BBM-mediated suppression on host factor expression depends on RG4 formation.
+ Moreover, we confirmed the effect of TPT and BBM on the endogenous expression of host factors in two SARS-CoV-2 susceptible cell lines, namely H1299, and Vero-E6 (lack of endogenous Tmprss2). Western blot analysis showed that both TPT and BBM markedly reduced the protein levels of these RG4-containing host factors (Figs and ). In contrast, TPT and BBM appeared to have no effect on the mRNA levels of these factors, as exemplified by Tmprss2 ( ), consistent with the post-transcriptional regulatory mode of RG4 [ ], as well as our previously identified RG4-mediated translational inhibition on Tmprss2 [ ].
+Altogether, these results suggest that TPT and BBM can potently inhibit the expression of several SARS-CoV-2 host factors at the post-transcriptional level through stabilizing RG4 formation.
+
+## TPT and BBM block both SARS-CoV-2 and VOCs pseudovirus entry into target cells
+Given the positive correlation between host factor expression and SARS-CoV-2 entry, we subsequently assessed the influence of TPT and BBM in preventing SARS-CoV-2 pseudovirus entry. hACE2-293T cells were pretreated with an increasing dose of these two repurposed drugs (TPT and BBM), as well as PDS that was used as a positive control stabilizing RG4 and blocking virus entry [ ], for 5 hrs prior to infection with a recently established SARS-CoV-2 pseudovirus system [ ]. Under the precondition of safety concentration ( ), both TPT and BBM significantly reduced pseudovirus entry efficiency in a dose-dependent manner ( ). Intriguingly, TPT and BBM with low dosage exhibited higher inhibition efficiency than the positive control PDS. Specifically, TPT (1.5 μM) dramatically blocked pseudovirus entry into hACE2-293T cells, leading to over 20-fold greater efficiency than that of PDS (20 μM). These observations were recapitulated in H1299 and Vero-E6 cells ( ). Compared with PDS, TPT and BBM resulted in about a 2-fold and 4-fold decrease in pseudovirus entry efficiency in H1299 and Vero-E6 cells, respectively, indicating a cellular heterogeneity of virus entry inhibition. These results collectively suggest a broad-spectrum antivirus capability of BBM and TPT across different cells.
+ Next, we tested whether the inhibitory impact of TPT and BBM on SARS-CoV-2 pseudovirus entry relies on RG4s in host factors. In line with enhanced protein levels ( ), simultaneously transfection of ACE2, AXL, FURIN and TMPRSS2-G4MUT plasmids into hACE2-293T cells led to an increase in pseudovirus entry efficiency, compared with their corresponding G4WT plasmids ( ). Moreover, both TPT and BBM markedly inhibited pseudovirus entry in G4WT cells, and this inhibition was significantly, but not completely, abolished in G4MUT cells ( ), suggesting that RG4 may predominantly mediate the effects of these two chemicals.
+The emergence of SARS-CoV-2 VOCs has raised concern that some of these new strains may evade current vaccines. Unlike viral genes, host genes often have a low propensity to mutate, representing an attractive therapeutic strategy for combating SARS-CoV-2 VOCs. P.1 (Gamma) and B.1.617.2 (Delta) are two dominant circulating variants that led to worldwide concern in 2021 [ ]. Interestingly, TPT and BBM significantly reduced both P.1 (Gamma) and B.1.617.2 (Delta) pseudovirus entry efficiency in all three SARS-CoV-2 susceptible cells, albeit considerable variations were observed in different cell types ( ).
+Altogether, these data underline the potential of RG4-based drugs, especially TPT and BBM, as a pan-variant antiviral strategy against emerging SARS-CoV-2 VOCs.
+
+## TPT and BBM protect mice against SARS-CoV-2 pseudovirus entry
+Finally, we investigated the effect of TPT and BBM on SARS-CoV-2 pseudovirus entry in mouse models. As mentioned above, PQSs in human Axl and Furin are highly conserved in the mouse genome ( and ). Notably, the sequence of PQS-91 in human Axl is identical to that of PQS-151 in mouse homolog ( ). Additionally, we have previously shown that the murine Tmprss2 is also regulated by RG4 [ ]. The conserved existence and function of RG4 within SARS-CoV-2 host factors (Axl, Furin, and Tmprss2) makes it possible to determine the impact of RG4-targeting drugs on SARS-CoV-2 pseudovirus entry in vivo. It is worth noting that the mouse ACE2 is incapable of mediating SARS-CoV-2 entry [ ], therefore the potential contribution of Ace2 RG4 on SARS-CoV-2 pseudovirus entry in mouse models was neglected in this study.
+ We then evaluated the effect of RG4-targeting agents (TPT and BBM) by using a recently established mouse model [ ]. Briefly, C57BL/6J mice were injected with adeno-associated virus 9 (AAV9)-hACE2 and infected with VSV-SARS-2-S-luc 7 days after. From -1 day post infection (DPI), mice were administrated with TPT (1 mg/kg) or BBM (50 mg/kg) daily for 10 days ( ). In vivo fluorescent imaging was conducted at 4 and 8 DPI, respectively. Administration of TPT and BBM led to a 40% reduction in fluorescence signal at 4 DPI compared with the placebo ( ). At 8 DPI, there were 80% and 50% reduction for TPT and BBM treatment, respectively ( ), indicating decreased pseudovirus entry. In line with this, TPT- and BBM-treated mice had reduced AXL, FURIN and TMPRSS2 protein levels in mouse lungs, with TPT being more efficient on host factor inhibition ( ). In parallel, TPT and BBM administration had no obvious effect on the mRNA levels of Axl, Furin and Tmprss2 ( ), further supporting a post-transcriptional regulation on host factor expression. Consistent with previous reports [ , ], TPT- and BBM-treated mice did not have clinically significant adverse changes in histological or hematological parameters ( ), suggesting that these treatments were safe, and the above observations may not result from drug-induced toxicity.
+Together, these results suggest that TPT and BBM may prevent SARS-CoV-2 pseudovirus entry in vivo, providing potential RG4-based therapeutic agents to beat COVID-19 pandemic.
+
+## Discussion
+In this study, we explore the potential of RG4-targeting therapeutics on SARS-CoV-2 infection. Several SARS-CoV-2 entry factors harbor multiple evolutionarily conserved PQSs with high potential for RG4 formation. Moreover, we identify that TPT and BBM, two approved drugs, can function as RG4-stabilizing agents to reduce the expression of these host factors. Intriguingly, both TPT and BBM are sufficient to prevent SARS-CoV-2 pseudovirus entry in vitro and in vivo ( ). These findings emphasize the importance of RG4 in SARS-CoV-2 pathogenesis and highlight a fascinating strategy for COVID-19 prevention and treatment.
+ Current treatments for COVID-19 can roughly be divided into two categories: direct-acting antivirals and host-directed therapies [ , ]. Direct-acting antivirals, such as vaccines and antibodies, target the virus components and their efficacy are assumed to be weakened by viral mutations conferring resistance. Indeed, the emergence of SARS-CoV-2 VOCs represents as a major challenge for direct-acting antivirals. For example, the P.1 (gamma) and B.1.135 (beta) VOCs with S protein mutations markedly impaired the neutralizing capacity of the antibody cocktail (bamlanivimab and etesevimab) [ ], while the currently dominating B.1.1.529 (omicron) VOC may reduce the efficacy of most monoclonal antibody treatments [ ]. Conversely, host-directed therapies that target components of the host cell are not susceptible to virus mutations, making them more advantageous than direct-acting antivirals for harnessing VOCs. Currently, available host-directed therapies are quite limited and restricted to dampen infection-triggered deregulated inflammatory response [ ]. Given the emergence of VOCs, as well as the complexity of viral entry and diversity of host factor usage, it is an unmet need to explore novel host-directed therapeutic strategies to beat the COVID-19 pandemic. Recently, we and others have suggested a regulatory role of RG4 in SARS-CoV-2 genome and Tmprss2 [ – , ]. Here, we expanded the presence of RG4 in other newly identified host factors, including Ace2, Axl, and Furin. ACE2, a coronavirus receptor, is essential for the entry of SARS-CoV-2 into the host cell [ ]. Interestingly, it has recently been indicated that AXL can facilitate SARS-CoV-2 entry into ACE2-deficient cells [ ]. The cleavage of S protein by host proteases, such as FURIN [ , ], is a prerequisite for virus membrane fusion. In this regard, it is reasonable to imagine that RG4 may modulate many steps of SARS-CoV-2 infection. Of note, although Ace2 PQS-2302 with moderate G-score is likely to form a non-canonical RG4 structure with two quarters ( ), its formation can significantly reduce the levels of ACE2 protein ( ). Intriguingly, numerous PQSs with similar G-score were predicted in multiple host factors, including Cd147, Ctsl, Nrp1, Alpha7-nAChR, and Tlr4 ( ), albeit they have not been experimentally investigated in this study. It is possible that some of them might have an ability to form RG4 structure and regulate SARS-CoV-2 infection. Taken together, the prevalent existence of RG4 in host factors, as well as in SARS-CoV-2 genome, strongly suggests a broad-spectrum antiviral strategy.
+We conducted a series of experiments to explore the clinical implication of this attractive antiviral strategy. Repurposing of known drugs could substantially accelerate the deployment of new therapies for COVID-19, due to the validated side effects, and previously optimization for safety [ ]. In this regard, we initially identified TPT and BBM, two approved drugs, as direct stabilizers of RG4 structure. A combination of in silico molecular docking and MST analysis demonstrated a direct interaction between these two drugs and representative RG4s within SARS-CoV-2 host factors. Importantly, TPT and BBM can potently reduce the protein levels of ACE2, AXL, FURIN, and TMPRSS2, likely due to their effect on stabilizing RG4 structure. Moreover, both TPT and BBM significantly prevented SARS-CoV-2 pseudovirus entry into all susceptible cell lines that we examined. Intriguingly, TPT- and BBM-mediated inhibition efficiency was much higher than PDS ( ), the latter had a comparable impact on SARS-CoV-2 pseudovirus entry with camostat, a known anti-COVID-19 drug, as we described previously [ ]. Accordingly, administration of TPT and BBM in mice led to a reduction in pseudovirus entry in vivo, accompanied with obvious decreases in the protein levels of host factors containing RG4 PQSs, such as AXL, FURIN, TMPRSS2. Interestingly, comparative effects of BBM and TPT in vitro and in vivo appeared to be different. That is, BBM was more effective for inhibiting pseudovirus entry in cultured cells ( ), but was less in mouse models than TPT ( ). This observation might be associated with the differences of these two drugs in optimized dose, and the rate of drug absorption and metabolism in vivo, which awaits further investigation. Taken together, these results strongly suggest a potent inhibitory role of TPT and BBM in SARS-CoV-2 pseudovirus entry.
+Several SARS-CoV-2 VOCs have been emerged since September 2020, which dominate the continuous pandemic. Gamma and Delta in 2021, and Omicron in 2022, have become the dominant circulating variant which reduced vaccine efficacy and worse infection outcomes [ ]. Host-directed therapies provide a reduced chance of resistance development and the potential for broad action against viral variants [ ]. Indeed, our results showed that BBM and TPT significantly reduced the entry efficiency of Gamma and Delta pseudovirus ( ), two available commercial variants when we executed the study. Of note, RG4 PQSs are also presented in the ORFs of several SARS-CoV-2 genes, including the Nsp3 [ ], Nsp10 [ ], S [ ], and N genes [ ]. Moreover, base conservation analysis showed that these PQSs remain unchanged in all dominating SARS-CoV-2 variants that we examined, including Alpha (B.1.1.7), Beta (B.1.351), Gamma (P.1), Delta (B.1.617.2), and Omicron (B.1.1.529, XBB, BQ.1, BA.5 and BA.2.75.2) ( ), suggesting that RG4-based therapeutics may also act as direct-acting antivirals. Additionally, it is well known that RG4 is enriched in numerous viruses [ , ], including Ebola virus [ ], hepatitis C virus [ ], human immunodeficiency virus [ ], and SARS-CoV [ ], and is extensively implicated in virus pathogenesis and infectious diseases. Given the broad existence of RG4 in both virus genome and host factors, as well as the low evolvement of RG4 sequences, RG4-targeting drugs, such as TPT and BBM, may act as broad-spectrum strategies to combat multiple virus diseases, even future viral pandemics.
+The natural compound BBM is a critical anti-tumor drug that targets CAMKIIγ [ ]. TPT, a FDA-approved topoisomerase 1 (TOP1) inhibitor, has been used in the treatment of small cell lung cancer [ ]. Besides these traditional targets and effects, recent reports have suggested their regulatory roles in DNA G-quadruplex (DG4) formation. BBM has highly binding affinity toward the (GGA)8 [ ] and telomere DG4s [ ], while TPT can induce DG4 formation in the promoter of c-myb, an oncogene for many cancers [ ]. In this study, we found that BBM and TPT are also capable of stabilizing RG4 structure, probably due to a similar folding topology shared by RG4 and DG4. However, elimination of RG4 structures in Ace2, Axl, Furin and Tmprss2 was unable to completely abolish the inhibitory effect of TPT and BBM on SARS-CoV-2 pseudovirus entry ( ), suggesting a potential involvement of RG4-independent mechanisms. Indeed, during the preparation of the manuscript, both BBM and TPT have been implicated in the treatment of COVID-19. BBM can inhibit SARS-CoV-2 entry by compromising the transient receptor potential mucolipin channels (TRPMLs)-mediated endolysosomal trafficking of ACE2 [ ], and blocking S protein-mediated membrane fusion [ ]. In addition, BBM has been recently shown to repress SARS-CoV-2 prototypic and Delta variant infection, [ ], consistent with our results. TPT may suppress SARS-CoV-2 infection-induced inflammation and death in mouse models [ ], but its role in virus entry remains unclear. Moreover, there is an ongoing clinical trial to investigate the antiviral effect of TPT on COVID-19. Our results, together with these recent advances, strongly implicate the great potential of BBM and TPT in the prevention and treatment of COVID-19, although their underlying mechanisms, as well as potential side effects, merit further study.
+Nevertheless, several limitations remain to be addressed in the future. For instance, the screening library of DG4/RG4 ligands used in this study is relatively small. With the recent development of a large database containing >3200 G4 ligands [ ], it is highly anticipated that more potential RG4-stabilizing agents with antiviral activity would be characterized in the future. In addition, because the pseudovirus system can only mimic the processing of viral entry, it is of great interest to confirm the beneficial effect of BBM and TPT on the infection of authentic SARS-CoV-2 and its variants, including Omicron, in animal models and clinical trials.
+In summary, this study identifies targeting RG4 as a broad-spectrum host-directed and direct-acting antiviral therapy and highlights the potential clinical translation of RG4-based drugs for COVID-19 prevention and treatment.
+
+## Materials and methods
+
+## Ethics statement
+All animal related studies were approved by the Institutional Animal Care and Use Committee of West China Hospital, Sichuan University (protocol number: 20220125002).
+
+## Animals
+The C57BL/6J mice (male, 6- to 8- weeks) were purchased from Nanjing Biomedical Research Institute. Mice were maintained in grouped cages (22°C, 12 hrs light-dark cycle), and fed with standard chow diet and water ad libitum. All mouse related studies were approved by the protocols approved by the Institutional Animal Care and Use Committee of West China Hospital, Sichuan University.
+
+## Cell culture
+H1299 (CRL-5803) and Vero-E6 (CRL-1586) were obtained from the American Type Culture Collection (ATCC). hACE2-293T were constructed as previously described [ ]. Cells were maintained in Dulbecco’s Modified Eagle Medium (Gibco, 10569044) supplemented with 10% fetal bovine serum (Gibco, 30044184) and 1% Penicillin-Streptomycin (Gibco, 15140122) at 37°C and 5% CO2.
+
+## Oligonucleotides and antibodies
+DNA and RNA oligonucleotides ( and Tables) were purchased from Beijing TSINGKE Biological Technology and Shanghai GenePharma Corporation respectively. Antibodies used in this study were listed as follows: anti-ACE2 (Abcam, ab108252), anti-AXL (ABclone, A17874), anti-FLAG (ABclone, AE004), anti-FURIN (Abcam, ab183495), anti-GAPDH (Proteintech, 60004–1), anti-HA (CST, 3724S) and anti-TMPRSS2 (Abcam, ab280567).
+
+## SARS-CoV-2 pseudovirus entry for mouse
+Mouse ACE2 is incapable of mediating SARS-CoV-2 entry, thus mice were heterogeneously expressed of hACE2 via adenoassociated virus (hACE2-AAV9) (Delivectory Biosciences) and challenged with SARS-CoV-2 pseudovirus (Delivectory Biosciences). The SARS-CoV-2 pseudovirus VSV-SARS-2-S-luc consist of a lentiviral core with Renilla, and the SARS-CoV-2 S protein on its envelope. Therefore, cells/animals infected with pseudoviruses can be examined via luciferase activity. The SARS-CoV-2 pseudovirus mouse model was performed according to our previous study [ ]. In brief, mice were injected with 5 × 1011 genomic copies (GCs) of AAV9-hACE2, and then challenged with 2.5 × 108 relative light units (RLUs) of SARS-CoV-2-S-luc pseudovirus (Delivectory Biosciences) 7 days later. For drug intervention, from −1 to 8 DPI, mice were injected with TPT (1 mg/kg body weight, Cayman Chemical, 2076-91-7) and BBM (6 mg/kg body weight, MCE, HY-N0714), respectively, through intraperitoneal administration once a day.
+
+## In vivo imaging
+In vivo imaging measurements were performed on day 4 and day 8 post infection. During the measurement, mice were anesthetized using 30% isoflurane inhalation before imaging, and intraperitoneally injected with D-Luciferin (Promega, P1041) in PBS at a 150 mg/kg body weight dose. 5 to 10 min later, the bioluminescence imaging was captured using the IVIS Spectrum imaging system (PerkinElmer). Bioluminescence values are indicated as Total Flux and Luminescence via the Living Image Analyze 12.0 (PerkinElmer).
+
+## Hematoxylin and eosin (H&E) staining
+The fresh tissues of lung, liver, kidney, and heart from mice were fixed in 10% neutral-buffered formalin, embedded in paraffin and sectioned into 4 μm-thick. Then, these slides were stained with H&E for morphological analyses as described previously [ ].
+
+## Serum biochemistry
+Blood samples were obtained by cardiac puncture and centrifuged at 3,000 × g for 15 min at 4°C. Biochemical tests were detected with Cobas8000 automatic analyzer (Roche).
+
+## Plasmids and transfection
+The full-length ORF of human Ace2, Axl and Furin was PCR amplified and inserted into pcDNA3.1 vector respectively (G4WT). Their corresponding G4-mutant (G4MUT) plasmids were generated by site-directed mutagenesis, in which guanines in each G-tracts of PQSs were substituted with adenines. Additionally, the wild type or RG4 region mutant 5’UTR of Axl was inserted before its ORF, since the PQS of Axl is localized in its 5’UTR.
+For plasmids transfection, cells were seeded into 6- or 12-well plates and transfected with indicated plasmids via Attractene (QIAGEN, 1051563) following the manufacturer’s protocol.
+
+## SARS-CoV-2 pseudovirus entry for cell culture
+The in vitro SARS-CoV-2 pseudovirus assay was performed according to our previous study [ ]. In brief, cells were cultured in 96-well plates, and inoculated with pseudovirus at a multiplicity of infection (MOI) of 1 at 60–80% confluence. For drug intervention, PDS (MCE, HY-15176A), TPT and BBM at indicated dose were added to cells respectively 5 hrs before transduction. For plasmids transfection, cells were transfected with indicated plasmids 24 hrs before transduction. After 16 hrs post transduction, the culture medium was replaced with a fresh medium. Transduction efficiency was then quantified 48 hrs post transduction by measuring luciferase activity in cell lysates using the ONE-Glo Luciferase Assay (E6120, Promega, USA) according to the manufacturer’s instructions.
+
+## Cell ability assay
+1.5 × 104 cells were cultured in 96-well plates and stimulated with PDS, TPT and BBM compounds at the indicated dose for 24 hrs. The cell ability was assessed using the CellTiter 96 AQueous Non-radioactive Cell Proliferation Assay (Promega, G5421).
+
+## Western blot
+Cells were washed once in ice-cold PBS and harvested using RIPA buffer (ThermoFisher, 89901) with protease inhibitors (Roche, 11873580001). Cell lysis was performed on ice for 30 min, and samples were centrifuged. Then supernatants were denatured at 100°C for 10 min with SDS sample buffer, separated on SDS-PAGE and transferred to PVDF membranes (GE, A10122278). The membrane was blocked in 5% non-fat milk, incubated with primary and HRP-conjugated secondary antibodies, and then developed using Pierce ECL Western Blotting Substrate (ThermoFisher, 34076).
+
+## RNA extraction and QRT-PCR
+Total RNAs were harvested using Tri-Reagent (MRC, TR118) and converted to cDNA using M-MLV Reverse Transcriptase (ThermoFisher, 28025021) as described previously [ ]. QRT-PCR was performed using QuantiNova SYBR Green PCR Kit (QIAGEN, 208052) and fold-inductions of target mRNA ( ) levels were calculated using 2–ΔΔCt taking mock non-stimulated readings as the basal level sample and Gapdh as the control.
+
+## CD spectrum measurement
+CD spectrum was performed according to our previous study [ ]. In brief, RNAs ( ) were prepared at a final concentration of 5 μM in 10 mM Tris-HCl (pH 7.5) buffer containing 150 mM KCl or LiCl, heated at 95°C for 5 min, and then gradually cooled down to 4°C. The spectra were recorded from 220 to 320 nm at a 1 nm interval by Chirascan-Plus CD Spectrometer (Applied Photophysics).
+
+## Fluorescence emission spectrum measurement
+2 μM RNAs ( ) were folded in 150 mM KCl or LiCl as described above and added with 2 μM and NMM (Frontier Science, NMM580) or ThT (MCE, HY-D0218). Then samples were excited at 393 nm or 425 nm for NMM and ThT, respectively, and measured from 550–700 nm for NMM and 450–650 nm for ThT using Hybrid Multi-Mode Reader (Bioteck).
+
+## MST measurement
+CY5-labelled RNAs ( ) were folded in 150 mM KCl as described above. 160 μM TPT and 80 μM BBM were prepared in 150 mM KCl respectively, and a series of 16–1:1 dilution for each ligand were prepared in the same buffer. Then RNA samples and ligands were mixed in a 1:1 radio, which led to a final ligand concentration in the μM to nM range. The mixtures were loaded into MO-K003 Monolith NT.115 hydrophobic capillaries (Nano Temper) and measured at 20% LED and medium MST power.
+
+## Molecular docking
+To predict the potential interaction of drug candidates and RG4, the CDOCKER module in Discovery Studio (Accelrys Software Inc.) was applied to our molecular docking algorithm. The three-dimensional (3D) structures of human telomeric RNA (TERRA) quadruplex (PDB code: 2M18 and 2KBP) were selected from Protein Data Bank (PDB) (https://www.rcsb.org/). The 3D structure of Berbamine (CID: 275182), Berberine (CID: 2353), Palmatine (CID: 19009), Tetrandrine (CID: 73038) and Topotecan (CID: 60700) were downloaded from The PubChemProject (https://pubchem.ncbi.nlm.nih.gov/). The top affinity scored hits were subjected to visual inspection.
+
+## Sequence conservation analyses
+Sequences of host factors were retrieved from the National Center for Biotechnology Information (NCBI) Nucleotide (https://www.ncbi.nlm.nih.gov/nuccore). Sequences of ancestral SARS-CoV-2 (Accession: MN908947.3) and nine variants, namely B.1.1.7 (Accession: OV054768), B.1.351 (Accession: OM463433.1), P.1 (Accession: MZ477859), B.1.617.2 (Accession: OK091006), B.1.1.529 (Accession: OM287553.1), XBB (Accession: OP954981), BQ.1 (Accession: OP954976), BA.5 (Accession: OP955457), and BA.2.75.2 (Accession: OP955194), were derived from NCBI Virus (https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/). The sequence alignments of PQSs were performed by using the WebLogo software (https://weblogo.threeplusone.com/).
+
+## Statistical analysis
+All data represented at least three independent experiments and were shown as mean ± SEM. GraphPad Prism 9 was used for graph preparation and statistical analysis. Two-tailed unpaired Student’s t test was used to determine the difference between two independent groups unless otherwise indicated, and p < 0.05 was considered significant.
+
+## Supporting information
+S1 Fig
+
+## Identification of RG4s in SARS-CoV-2 host factors.
+(A) RG4 potential of all experimental verified and bioinformatic predicted SARS-CoV-2 host factors in this study. PQSs are identified by QGRS-mapper. (B) Graphical representations of RG4 sequence conservation of PQSs in Ace2, Dpp4, Furin, Golga7 and Zdhhc5. (C, D) ThT (C) and NMM (D) fluorescence emission spectra for PQS-1682 (first panel), PQS-2302 (second panel), PQS-91 (third panel), PQS-1234 (fourth panel) and PQS-1276 (fifth panel) under KCl or LiCl conditions. (E) The WT and RG4 mutant (MUT) sequences of PQS-2302, PQS-91, PQS-1234, and PQS-1276 RNA used for RG4 characterization. (F) Schematic representation of RG4 structures in PQS-2302, PQS-91, PQS-1234, and PQS-1276.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## TPT and BBM inhibit expressions of SARS-CoV-2 host factors at post-transcriptional level.
+(A) mRNA levels of Ace2, Axl, Furin or Tmprss2 in H1299 cells transfected with ACE2/AXL/FURIN-G4WT or their corresponding G4MUT plasmids. (B) Replicated images of western blot for . (C) mRNA levels of Tmprss2 in H1299 cells transfected with TMPRSS2-G4WT (left panel) or -G4MUT (right panel) plasmids in the presence of TPT or BBM. (D) mRNA levels of Tmprss2 in H1299 cells treated with TPT or BBM. Data are represented as mean ± SEM, n = 3. *p < 0.05, ns, not significance (Two-tailed Student’s t test).
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Toxicity analysis of TPT and BBM on VSV-SARS-2-S-luc-infected mice.
+(A) Sequence conservation of PQSs in Axl and Furin between human and mouse. The bold letters represent the G-tracts. (B) The hematological parameters of ALT (left panel), AST (middle panel), and CKMB (right panel) from the peripheral blood of the mice treated with TPT or BBM. (C) Representative H&E staining of lungs, kidneys, livers and hearts from mice treated with TPT or BBM. Scale bars, 100 μm. Data are represented as mean ± SEM, n = 6.
+(TIF)
+Click here for additional data file.
+S4 Fig
+
+## Sequence alignments of PQSs from the ancestral SARS-CoV-2 and nine VOCs.
+The sequence alignments of PQSs from the ancestral SARS-CoV-2 and nine variants, Alpha (B.1.1.7), Beta (B.1.351), Gamma (P.1), Delta (B.1.617.2), and Omicron (B.1.1.529, XBB, BQ.1, BA.5 and BA.2.75.2) derived from the National Center for Biotechnology Information (NCBI) using WebLogo software.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Putative RG4s in SARS-CoV-2 host factors.
+(DOCX)
+Click here for additional data file.
+S2 Table
+
+## Summary of G4 stabilizer candidates.
+(DOCX)
+Click here for additional data file.
+S3 Table
+
+## Docking scores between RG4s and ligands.
+(DOCX)
+Click here for additional data file.
+S4 Table
+
+## Putative RG4s in mouse Axl and Furin.
+(DOCX)
+Click here for additional data file.
+S5 Table
+
+## Primers used in this study.
+(DOCX)
+Click here for additional data file.
+S6 Table
+
+## Sequences of oligomers used in this study.
+(DOCX)
+Click here for additional data file.
+
+## Acknowledgments
+We thank the staff from Institute of Clinical Pathology (Li Li, Fei Chen, and Chunjuan Bao) of West China Hospital for their continuous support. We also thank Dan Zhou from Division of Pulmonary and Critical Care Medicine, West China Hospital, for his technical support of MST.
+
+## Data Availability
+Yes - all data are fully available without restriction.
+
+## Funding Statement
+This work was supported by National Natural Science Foundation of China (92157205 and 81970561 to X.F.; 82172986 to Y.T.; 82173182 to D.L.; 82000547 to G.L.); the National Key R&D Program of China (2018YFC2000305), the 1.3.5 Project for Disciplines of Excellence, West China Hospital, Sichuan University (ZYJC18049 to X.F.; ZYYC20007); National Clinical Research Center for Geriatrics, West China Hospital, Sichuan University (Z20201003); the Fellowship of China Postdoctoral Science Foundation (2020TQ0215 and 2021M690112 to G.L.); and Sichuan University Postdoctoral Interdisciplinary Innovation Fund to G.L. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+PLOS PathogensPLoS Pathog10.1371/journal.ppat.1011131.r001Decision Letter 0
+FouchierRon A MSection EditorHaagmansBart LGuest Editor© 2023 Fouchier, HaagmansThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+12 Oct 2022
+
+Dear dr. Xianghui Fu,
+Thank you very much for submitting your manuscript "Targeting RNA G-quadruplex with repurposed drugs blocks SARS-CoV-2 infection" for consideration at PLOS Pathogens. As with all papers reviewed by the journal, your manuscript was reviewed by members of the editorial board and by several independent reviewers. In light of the reviews (below this email), we would like to invite the resubmission of a significantly-revised version that takes into account the reviewers' comments.
+Although the observations made are of interest, the reviewers raised some important questions especially with regard to the use of pseudotyped viruses to validate their findings. The authors are asked to consider to perform experiments with SARS-CoV-2 viruses in vitro and in vivo.
+We cannot make any decision about publication until we have seen the revised manuscript and your response to the reviewers' comments. Your revised manuscript is also likely to be sent to reviewers for further evaluation.
+When you are ready to resubmit, please upload the following:
+[1] A letter containing a detailed list of your responses to the review comments and a description of the changes you have made in the manuscript. Please note while forming your response, if your article is accepted, you may have the opportunity to make the peer review history publicly available. The record will include editor decision letters (with reviews) and your responses to reviewer comments. If eligible, we will contact you to opt in or out.
+[2] Two versions of the revised manuscript: one with either highlights or tracked changes denoting where the text has been changed; the other a clean version (uploaded as the manuscript file).
+Important additional instructions are given below your reviewer comments.
+Please prepare and submit your revised manuscript within 60 days. If you anticipate any delay, please let us know the expected resubmission date by replying to this email. Please note that revised manuscripts received after the 60-day due date may require evaluation and peer review similar to newly submitted manuscripts.
+Thank you again for your submission. We hope that our editorial process has been constructive so far, and we welcome your feedback at any time. Please don't hesitate to contact us if you have any questions or comments.
+Sincerely,
+Bart L. Haagmans
+Guest Editor
+PLOS Pathogens
+Ron Fouchier
+Section Editor
+PLOS Pathogens
+Kasturi Haldar
+Editor-in-Chief
+PLOS Pathogens
+​orcid.org/0000-0001-5065-158X
+Michael Malim
+Editor-in-Chief
+PLOS Pathogens
+
+orcid.org/0000-0002-7699-2064
+
+***********************
+Although the observations made are of interest, the reviewers raised some important questions especially with regard to the use of pseudotyped viruses to validate their findings. The authors are asked to consider to perform experiments with SARS-CoV-2 viruses in vitro and in vivo.
+Reviewer's Responses to Questions
+
+Part I - Summary
+
+Please use this section to discuss strengths/weaknesses of study, novelty/significance, general execution and scholarship.
+Reviewer #1: The manuscript by Tong et al. reports the potential of RG4-targeting drugs on SARS-CoV-2 infection. Initially, the authors screened numerous SARS-CoV-2 host factors by bioinformatic analysis to predict potential RG4s, and then characterized novel RG4s within three host factors, including Ace2, Axl and Furin by a combination of several biochemical and biophysical methods. Subsequently, the authors identified TPT and BBM, two approved clinical drugs, as RG4-stabilizing agents by in silico screening of G4 ligand library and literature searching, followed by microscale thermophoresis validation. Next, the authors performed a series of experiments to verify that RG4s inhibited the expression of ACE2, AXL and FURIN, as well as the previous known RG4-containing TMPRSS2. Importantly, the authors provided strong evidence to demonstrate that both TPT and BBM can effectively repress the expression of ACE2, AXL, FURIN, and TMPRSS2 through the RG4 sequence, and potently reduce the infection of SARS-CoV-2 pseudovirus. Finally, they confirmed the inhibitory effect of TPT and BBM on SARS-CoV infection in mouse models in vivo.
+This study not only expands the existence of RG4 in SARS-CoV-2 host factors, but also provides a novel, to my knowledge, RG4-targeting strategy for COVID-19 prevention and therapy. This manuscript is well designed, and the data are solid. Overall, this timely and novel study is of interest and importance to the pathophysiology and treatment of COVID-19, which could offer new insights to beat the ongoing pandemic.
+Reviewer #2: This is an interesting study.
+The technical investigations seem fine.
+The real problem is in the redaction of the article and the conclusions regarding efficacy.
+This requires completely different experiments and it is highly ambiguous to write that "TPT and BBM block SARS-CoV-2 infection in pseudovirus cell systems and mouse models." SARS-CoV-2 infection is different from pseudovirus infection and a pseudovirus experiment in mice cannot provide a realistic picture of efficacy in vivo.
+Therefore,
+- either this study positions itself as a fundamental study aimed at highlighting biological mechanisms and characterising them (which it does very well and which is commendable), and part of the article should then be rewritten with this in mind, limiting itself to the results obtained
+- or it intends to position itself as a study of the efficacy of molecules with antiviral potential, and it is then necessary to carry out complementary in vitro and in vivo studies with SARS-CoV-2 viruses and an adapted animal model and methodology.
+It is important to note that the results presented are not usable to infer drug efficacy, but also that the results presented are not suggestive at this stage of a very high inhibitory potential.
+The potential use of the drug studied to prevent infection would also deserve a lot of precaution, as the molecules mentioned are not harmless and the benefit/risk balance cannot be assessed from the data provided
+Reviewer #3: The approach of developing antiviral therapy, but the experimental design and presented results are not sufficient to support the conclusions.
+**********
+
+Part II – Major Issues: Key Experiments Required for Acceptance
+
+Please use this section to detail the key new experiments or modifications of existing experiments that should be absolutely required to validate study conclusions.
+Generally, there should be no more than 3 such required experiments or major modifications for a "Major Revision" recommendation. If more than 3 experiments are necessary to validate the study conclusions, then you are encouraged to recommend "Reject".
+Reviewer #1: 1. It has clearly showed that the mutations of RG4 sites can increase the protein levels of exogenous host factors, including ACE2, AXL, FURIN, and TMPRSS2 (Fig. 3A). These data are critical to demonstrate that the formation of RG4 structure can repress the expression of these host factors. However, it remains unclear whether the increase in protein level is due to the difference of transfected plasmid or not. In this regard, the authors should provide the mRNA levels of these host factors after transfection.
+2. Both TPT and BBM showed considerable inhibition on ACE2-G4WT expression (Fig. 3B). However, an inhibitory effect was also seen on ACE2-G4MUT expression (Fig. 3C). What is the potential explanation? It is better to perform additional experiments to strengthen this conclusion, if applicable.
+Reviewer #2: No key new experiment if the paper is limited to the study of pseudoviruses and removes any reference to efficacy.
+If demonstration of efficacy is the objective:
+- antiviral EC50 and EC90 determination in relevant cells (eg TMPRSS2 vero cells + primary explantation bronchial cells) using real virus and different variants
+- in vivo experiments in a relevant real virus mouse model or in hamsters
+Reviewer #3: 1. In figure 3, the authors concluded that TPT and BBM inhibited the protein expression levels of some host factors of SARS-CoV-2 by showing western blotting images. To consolidate this conclusion, it is essential to repeat the experiment with sufficient number of replicates, which should enable performing quantification and statistic analysis.
+2. In figure 3, no data actually prove that TPT and BBM indeed inhibit these proteins through targeting RNA G-quadruplex (RG4).
+3. As mentioned in the Introduction, the authors explained that both SARS-CoV-2 and host factors contain RG4. It is evident that many other genes which may or may not relevant to SARS-CoV-2 could also contain RG4. There is no experimental data provided in this study demonstrating which RG4-containing factors (viral or host) actually (partially) mediated the antiviral effects of TPT and BBM. There is only association of TPT and BBM treatment with protein levels of some host factors presented in figure 3.
+4. Pseudovirus was used throughout the study. It is essential to be validated using infectious virus strains.
+**********
+
+Part III – Minor Issues: Editorial and Data Presentation Modifications
+
+Please use this section for editorial suggestions as well as relatively minor modifications of existing data that would enhance clarity.
+Reviewer #1: 1. It is better to insert S2A-C Fig to Fig. 3. It would be easier for the readers to understand the mutations.
+2. The authors should perform the immunohistochemical assay of certain host factors to further confirm the inhibitory effect of TPT and BBM on RG4-containing host factors.
+3. Since the in vivo function of TPT and BBM were determined in mouse models, the sequence conservation of the human ACE2, AXL, FURIN RG4s in the corresponding murine mRNAs should be provided. If the sequence conservation is low, the authors should provide experimental data to verify the existence of RG4s within these murine host factors.
+4. BBM showed a better effect on SARS-CoV-2 infection than TPT in cultured cells, but seemed to be less than TPT in mouse models. The authors should appropriately discuss this point.
+5. Recent findings concerning BBM and TPT on COVID-19 should be introduced in more details, and appropriately discussed with the results presented in this study.
+6. The base conservation analysis on SARS-CoV-2 variants should be updated, based on the emergence of novel variants, if possible.
+7. Some important methods may be described in a little bit more details.
+8. S3 Fig B: “Kiney” should be “Kidney”.
+Reviewer #2: minor edits, eg simulation vs stimulation
+Reviewer #3: The introduction section, especially the first paragraph can be shortened.
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #2: No
+Reviewer #3: No
+
+Figure Files:
+
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email us at figures@plos.org.
+
+Data Requirements:
+
+Please note that, as a condition of publication, PLOS' data policy requires that you make available all data used to draw the conclusions outlined in your manuscript. Data must be deposited in an appropriate repository, included within the body of the manuscript, or uploaded as supporting information. This includes all numerical values that were used to generate graphs, histograms etc.. For an example see here on PLOS Biology: http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1001908#s5.
+
+Reproducibility:
+
+To enhance the reproducibility of your results, we recommend that you deposit your laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. Additionally, PLOS ONE offers an option to publish peer-reviewed clinical study protocols. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols
+PLOS PathogensPLoS Pathog10.1371/journal.ppat.1011131.r002Author response to Decision Letter 0
+2612023191e1011131e1011131Collection date 2023 Jan.
+
+16 Dec 2022
+
+AttachmentSubmitted filename: Response letter to Reviewers.pdf
+Click here for additional data file.
+PLOS PathogensPLoS Pathog10.1371/journal.ppat.1011131.r003Decision Letter 1
+FouchierRon A MSection EditorHaagmansBart LGuest Editor© 2023 Fouchier, HaagmansThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+18 Jan 2023
+
+Dear dr Fu,
+We are pleased to inform you that your manuscript 'Targeting RNA G-quadruplex with repurposed drugs blocks SARS-CoV-2 entry' has been provisionally accepted for publication in PLOS Pathogens.
+Before your manuscript can be formally accepted you will need to complete some formatting changes, which you will receive in a follow up email. A member of our team will be in touch with a set of requests.
+Please note that your manuscript will not be scheduled for publication until you have made the required changes, so a swift response is appreciated.
+IMPORTANT: The editorial review process is now complete. PLOS will only permit corrections to spelling, formatting or significant scientific errors from this point onwards. Requests for major changes, or any which affect the scientific understanding of your work, will cause delays to the publication date of your manuscript.
+Should you, your institution's press office or the journal office choose to press release your paper, you will automatically be opted out of early publication. We ask that you notify us now if you or your institution is planning to press release the article. All press must be co-ordinated with PLOS.
+Thank you again for supporting Open Access publishing; we are looking forward to publishing your work in PLOS Pathogens.
+Best regards,
+Bart L. Haagmans
+Guest Editor
+PLOS Pathogens
+Ron Fouchier
+Section Editor
+PLOS Pathogens
+Kasturi Haldar
+Editor-in-Chief
+PLOS Pathogens
+​orcid.org/0000-0001-5065-158X
+Michael Malim
+Editor-in-Chief
+PLOS Pathogens
+
+orcid.org/0000-0002-7699-2064
+
+***********************************************************
+Reviewer Comments (if any, and for reference):
+Reviewer's Responses to Questions
+
+Part I - Summary
+
+Please use this section to discuss strengths/weaknesses of study, novelty/significance, general execution and scholarship.
+Reviewer #1: The authors have satisfactorily addressed all my concerns and revised the manuscript accordingly. Therefore, I recommend publication of this manuscript in Plos Pathogens.
+Reviewer #3: The authors have made great efforts to revise and address the comments. The study has been improved.
+**********
+
+Part II – Major Issues: Key Experiments Required for Acceptance
+
+Please use this section to detail the key new experiments or modifications of existing experiments that should be absolutely required to validate study conclusions.
+Generally, there should be no more than 3 such required experiments or major modifications for a "Major Revision" recommendation. If more than 3 experiments are necessary to validate the study conclusions, then you are encouraged to recommend "Reject".
+Reviewer #1: (No Response)
+Reviewer #3: (No Response)
+**********
+
+Part III – Minor Issues: Editorial and Data Presentation Modifications
+
+Please use this section for editorial suggestions as well as relatively minor modifications of existing data that would enhance clarity.
+Reviewer #1: (No Response)
+Reviewer #3: (No Response)
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #3: Yes: Qiuwei Pan
+PLOS PathogensPLoS Pathog10.1371/journal.ppat.1011131.r004Acceptance letter
+FouchierRon A MSection EditorHaagmansBart LGuest Editor© 2023 Fouchier, HaagmansThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+23 Jan 2023
+
+Dear Dr. Fu,
+We are delighted to inform you that your manuscript, "Targeting RNA G-quadruplex with repurposed drugs blocks SARS-CoV-2 entry," has been formally accepted for publication in PLOS Pathogens.
+We have now passed your article onto the PLOS Production Department who will complete the rest of the pre-publication process. All authors will receive a confirmation email upon publication.
+The corresponding author will soon be receiving a typeset proof for review, to ensure errors have not been introduced during production. Please review the PDF proof of your manuscript carefully, as this is the last chance to correct any scientific or type-setting errors. Please note that major changes, or those which affect the scientific understanding of the work, will likely cause delays to the publication date of your manuscript. Note: Proofs for Front Matter articles (Pearls, Reviews, Opinions, etc...) are generated on a different schedule and may not be made available as quickly.
+Soon after your final files are uploaded, the early version of your manuscript, if you opted to have an early version of your article, will be published online. The date of the early version will be your article's publication date. The final article will be published to the same URL, and all versions of the paper will be accessible to readers.
+Thank you again for supporting open-access publishing; we are looking forward to publishing your work in PLOS Pathogens. 
+Best regards,
+Kasturi Haldar
+Editor-in-Chief
+PLOS Pathogens
+​orcid.org/0000-0001-5065-158X
+Michael Malim
+Editor-in-Chief
+PLOS Pathogens
+
+orcid.org/0000-0002-7699-2064
+
+Associated Data
+
+## Supplementary Materials
+S1 Fig
+
+## Identification of RG4s in SARS-CoV-2 host factors.
+(A) RG4 potential of all experimental verified and bioinformatic predicted SARS-CoV-2 host factors in this study. PQSs are identified by QGRS-mapper. (B) Graphical representations of RG4 sequence conservation of PQSs in Ace2, Dpp4, Furin, Golga7 and Zdhhc5. (C, D) ThT (C) and NMM (D) fluorescence emission spectra for PQS-1682 (first panel), PQS-2302 (second panel), PQS-91 (third panel), PQS-1234 (fourth panel) and PQS-1276 (fifth panel) under KCl or LiCl conditions. (E) The WT and RG4 mutant (MUT) sequences of PQS-2302, PQS-91, PQS-1234, and PQS-1276 RNA used for RG4 characterization. (F) Schematic representation of RG4 structures in PQS-2302, PQS-91, PQS-1234, and PQS-1276.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## TPT and BBM inhibit expressions of SARS-CoV-2 host factors at post-transcriptional level.
+(A) mRNA levels of Ace2, Axl, Furin or Tmprss2 in H1299 cells transfected with ACE2/AXL/FURIN-G4WT or their corresponding G4MUT plasmids. (B) Replicated images of western blot for . (C) mRNA levels of Tmprss2 in H1299 cells transfected with TMPRSS2-G4WT (left panel) or -G4MUT (right panel) plasmids in the presence of TPT or BBM. (D) mRNA levels of Tmprss2 in H1299 cells treated with TPT or BBM. Data are represented as mean ± SEM, n = 3. *p < 0.05, ns, not significance (Two-tailed Student’s t test).
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Toxicity analysis of TPT and BBM on VSV-SARS-2-S-luc-infected mice.
+(A) Sequence conservation of PQSs in Axl and Furin between human and mouse. The bold letters represent the G-tracts. (B) The hematological parameters of ALT (left panel), AST (middle panel), and CKMB (right panel) from the peripheral blood of the mice treated with TPT or BBM. (C) Representative H&E staining of lungs, kidneys, livers and hearts from mice treated with TPT or BBM. Scale bars, 100 μm. Data are represented as mean ± SEM, n = 6.
+(TIF)
+Click here for additional data file.
+S4 Fig
+
+## Sequence alignments of PQSs from the ancestral SARS-CoV-2 and nine VOCs.
+The sequence alignments of PQSs from the ancestral SARS-CoV-2 and nine variants, Alpha (B.1.1.7), Beta (B.1.351), Gamma (P.1), Delta (B.1.617.2), and Omicron (B.1.1.529, XBB, BQ.1, BA.5 and BA.2.75.2) derived from the National Center for Biotechnology Information (NCBI) using WebLogo software.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Putative RG4s in SARS-CoV-2 host factors.
+(DOCX)
+Click here for additional data file.
+S2 Table
+
+## Summary of G4 stabilizer candidates.
+(DOCX)
+Click here for additional data file.
+S3 Table
+
+## Docking scores between RG4s and ligands.
+(DOCX)
+Click here for additional data file.
+S4 Table
+
+## Putative RG4s in mouse Axl and Furin.
+(DOCX)
+Click here for additional data file.
+S5 Table
+
+## Primers used in this study.
+(DOCX)
+Click here for additional data file.
+S6 Table
+
+## Sequences of oligomers used in this study.
+(DOCX)
+Click here for additional data file.
+AttachmentSubmitted filename: Response letter to Reviewers.pdf
+Click here for additional data file.
+
+## Data Availability Statement
+Yes - all data are fully available without restriction.

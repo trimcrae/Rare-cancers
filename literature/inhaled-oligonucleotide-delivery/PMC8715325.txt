@@ -1,0 +1,507 @@
+pmcSTAR ProtocSTAR Protoc3946starprot101769501STAR Protocols2666-1667ElsevierPMC8715325PMC8715325.1871532587153253500564010.1016/j.xpro.2021.101058S2666-1667(21)00764-41010581ProtocolOptimized CRISPR-RfxCas13d system for RNA targeting in zebrafish embryos
+Hernandez-HuertasLuislherhue@upo.es KushawahGopal Diaz-MoscosoAlejandro Tomas-GallardoLaura Moreno-SanchezIsmael da Silva PescadorGabriel BazziniAriel A.arb@stowers.org Moreno-MateosMiguel A.mamormat@upo.es 1Andalusian Center for Developmental Biology (CABD), Pablo de Olavide University/CSIC/Junta de Andalucía, Ctra. Utrera Km.1, 41013 Seville, Spain2Department of Molecular Biology and Biochemical Engineering, Pablo de Olavide University, Ctra. Utrera Km.1, 41013 Seville, Spain3Stowers Institute for Medical Research, 1000 E 50th Street, Kansas City, MO 64110, USA4Proteomics and Biochemistry Unit, Andalusian Center for Developmental Biology (CABD) Pablo de Olavide University/CSIC/Junta de Andalucía, Ctra. Utrera Km.1, 41013 Seville, Spain5Department of Molecular and Integrative Physiology, University of Kansas Medical Center, 3901 Rainbow Boulevard, Kansas City, KS 66160, USA∗Corresponding author lherhue@upo.es∗∗Corresponding author arb@stowers.org∗∗∗Corresponding author mamormat@upo.es6Technical contact
+7Lead contact
+18320222312202131395710101058231220210601202230052026© 2021 The Authors2021https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+CRISPR-Cas systems have been used to induce DNA mutagenesis for gene function discovery. However, the development of tools to eliminate RNAs provides complementary and unique approaches to disrupt gene expression. Here, we present a workflow to perform specific, efficient, and cost-effective mRNA knockdown in zebrafish embryos using our in vivo optimized CRISPR-RfxCas13d (CasRx) system. Although the described protocol focuses on mRNA knockdown in zebrafish embryos, it can also be applied to other vertebrates.
+For complete details on the use and execution of this protocol, please refer to .
+
+## Graphical abstract
+ 
+
+## Highlights
+•CRISPR-RfxCas13d optimized protocol for RNA targeting in zebrafish embryos
+•Step-by-step protocol from gRNA design to mRNA targeting and validation
+•Two alternative approaches including using RfxCas13d mRNA or purified protein
+•Different strategies for mRNA knockdown validation
+
+CRISPR-Cas systems have been used to induce DNA mutagenesis for gene function discovery. However, the development of tools to eliminate RNAs provides complementary and unique approaches to disrupt gene expression. Here, we present a workflow to perform specific, efficient, and cost-effective mRNA knockdown in zebrafish embryos using our in vivo optimized CRISPR-RfxCas13d (CasRx) system. Although the described protocol focuses on mRNA knockdown in zebrafish embryos, it can also be applied to other vertebrates.
+
+## Subject areas
+Biotechnology and bioengineeringCRISPRDevelopmental biologyGene ExpressionGeneticsModel OrganismsMolecular Biologypmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-ND
+
+## Before you begin
+Despite the importance of the maternal-to-zygotic transition (MZT), the role of individual maternal mRNAs during early embryogenesis remains largely unknown. Zebrafish is an ideal system to study this early developmental transition but reliable knockdown strategies, to evaluate maternal RNA function have remained elusive. Knockdown reagents such as morpholino or antisense oligonucleotides have shown limited success, but factors of cost, toxicity, and recent concerns regarding specificity, have precluded their use in functional and systematic screenings. The CRISPR-Cas system has been extremely useful for the generation of mutants. However, understanding the role of different maternal factors in early development during MZT would require what are known as maternal (M) or maternal-zygotic (MZ) mutants that would have no maternal contribution. M and MZ mutants are still much more complicated to generate than zygotic mutants and might also be sterile as genes have an essential function for the female germ line, which makes the study of MZT more challenging. As an alternative, we have recently optimized the CRISPR-RfxCas13d system to efficiently and specifically target maternal RNAs in animal embryos. The protocol below describes the specific steps for zebrafish (Danio rerio) embryos. However, the efficiency of this protocol has been also tested for other animal embryos such as medaka (Oryzias latipes), killifish (Nothobranchius furzeri), and mouse (Mus musculus) ( .). First, we describe the design of gRNAs and their production as well as production and purification of protein and mRNA for RfxCas13d. Finally, we detail the microinjection of the CRISPR-RfxCas13d system into zebrafish embryos. This protocol is optimized for one-cell stage zebrafish embryo microinjection. Therefore, a microinjection station is required.
+In summary, our optimized system emerges as a powerful technology to knockdown mRNA in vertebrates allowing to quickly and elucidate not only the role of the maternal mRNAs but also early expressed developmental genes. In addition, this tool could be used to target non-coding RNAs expressed during MZT. Moreover, the adaptation of the system to generate transgenic animals can be performed but it will imply further optimizations since toxicity has been observed in flies expressing RfxCas13d constitutively ( ).
+
+## Experimental model
+All experiments involving zebrafish at CABD conform national and European Community standards for the use of animals in experimentation and were approved by the Ethical committees from the University Pablo de Olavide, CSIC and the Andalusian Government. Zebrafish wild type strains AB/Tübingen (AB/Tu) were maintained and bred under standard conditions ( ). Wild-type zebrafish embryos were obtained through natural mating of AB/Tu zebrafish of mixed ages (5–18 months). Selection of mating pairs was random from a pool of 20 males and 20 females. Zebrafish embryos were staged in hours post-fertilization (hpf) as described ( ). Zebrafish experiments at Stowers Institute were done according to the IACUC approved guidelines. Zebrafish embryos for microinjections were coming from random parents (AB, TF and TLF, 6–25 months old) mating from 4 independent strains of a colony of 500 fish. The embryos were pooled from random 24 males and 24 females for each set of experiments.
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+ 
+ 
+Note: Adjust pH to 6.5
+
+ 
+Note: Filter through 0.45 μm PES
+
+ 
+Note: Filter through 0.45 μm PES
+
+ 
+Note: Filter through 0.45 μm PES
+
+ 
+Note: Adjust the pH to 7.2 with NaOH. Autoclave. To make a 1× E3 buffer, dilute 16.5 mL of the 60× stock to 1 L. Next, add 100 μL of 1% methylene blue (Sigma-Aldrich) as a fungicide.
+
+Note: All reagents were purchased from commercial suppliers, stored under vendor indicated conditions, and employed without further purification.
+
+Note: ddH2O is always autoclaved.
+
+CRITICAL: Hazard Note-
+
+Kanamycin – Harmful if inhaled or ingested. Potential skin irritant. Wear gloves. Chloramphenicol – Harmful if inhaled. Potential skin irritant. Wear gloves. IPTG – Harmful if swallowed or inhaled. Potential skin irritant. Wear gloves. DTT – Harmful if swallowed or inhaled. Potential skin irritant. Wear gloves.
+
+## Step-by-step method details
+
+## mRNA target sequence
+
+Timing: 10 min
+
+1.Select your target mRNA sequence in Ensembl Genome Browser (https://www.ensembl.org/):a.Select: Zebrafish.
+b.Search for a specific gene or genomic coordinates (e.g.,: tbxta, Chromosome 19: 14,187,540–14,191,592; GRCz11),
+c.Click on your transcript of interest.
+d.Select: cDNA (left sidebar).
+e.Select: Download cDNA sequence in FASTA format. This includes 5′ and 3′ UTRs.
+
+Note: The transcript selection could be a problematic situation due to different splicing versions; therefore, we recommend selecting the longest transcript and then choose exons that are shared in all splice variants. If RNAseq data is available, it is convenient to select exons where RNA is clearly detected. And the targeted sequence can be analyzed to rule out potential mutations; however, as it will be discussed later that this step is not required.
+
+## gRNAs design
+
+Timing: 30 min
+
+So far, there is not a systematic method or algorithm to design CRISPR-RfxCas13d gRNA to be injected into animal embryos. Two alternative methods have been tested with variable gRNA activity in vivo. First, gRNA design can be based on target accessibility according to the data in mammalian cell culture where gRNA activity is highly associated with target accessibility based on the three-dimensional conformation of the mRNA targets ( ; )) (option 1). Alternatively, there is a new approach for gRNA design according to an analysis in mammalian cell culture experiments that also proposes new gRNAs optimizations ( ). This gRNA design tool efficiently predicts CRISPR-RfxCas13d activity in mammalian cell culture experiments where gRNA and RfxCas13d expression is driven by constitutive promoters ( ) (option 2). Additionally, the tool also predicts potential off-targets in silico (0, 1, 2 mismatches between gRNA and RNA target). While this algorithm can efficiently predict CRISPR-RfxCas13d in mammalian cell culture, it has not been systematically tested in animal embryos. Therefore, in this protocol, we detail the different steps for the gRNAs design for both methods. Since none of the methods ensures that selected gRNAs are highly efficient in vivo, we recommend designing 3 gRNAs for each gene in the coding sequence region where the targeting is generally more efficient ( ; ) with 50 nt of distance between them to avoid potential competition between gRNAs to access the target.Note: We highly recommend designing and using an additional set of 3 gRNAs that can help to validate and confirm potential phenotypes and rule out off-target effects (see section).
+Note: If you choose to follow option 1 (gRNAs design based on target accessibility), proceed to step 2 and then follow steps 4–75. If you want to use option 2 (gRNAs design based on ) proceed to step 3 and then follow to steps 4–75.
+
+## Option 1 – Target accessibility in silico
+
+2.To find the most convenient mRNA region to be targeted, an in silico analysis is performed using RNAfold software (http://rna.tbi.univie.ac.at//cgi-bin/RNAWebSuite/RNAfold.cgi) ( ):a.Copy your cDNA sequence and paste it into the box.
+b.Select the following options: minimum free energy (MFE) and partition function, avoid isolated base pairs, interactive RNA secondary structure plot, RNA secondary structure plots with reliability annotation (Partition function folding only) and Mountain plot.
+c.Select: Proceed.
+d.Select: color by base-pairing probability.
+e.Search for protospacers of 22–23 nt with higher accessibility in silico (low base-pairing probability from minimum free energy predictions), blue or green regions, that belong to the Coding Sequence (CDS) and select 3 different protospacer spaced out across the transcript with a minimum distance of 50 nt between them to avoid an overlap between gRNAs, whenever possible ( ). 
+
+Note: Recently, spacers of 23 nt and with a disruption in the first base-pair of the gRNA proximal stem loop have been shown to enhance the mRNA targeting in mammalian cell culture ( ). We have tested this enhanced gRNA version with a spacer of 23 nt and the stem loop disruption in zebrafish embryos ( A) and we have also observed a slightly higher efficiency ( B) that can be translated in higher phenotype penetrance ( C). However, we have found that these optimized gRNAs are frequently in vitro transcribed at lower efficiency (likely due to the modification in the stem loop disruption) potentially limiting their use ( D). For this reason, we normally generate gRNAs containing a spacer of 22–23 nt with the wild-type stem loop by in vitro transcription (IVT) and we preferentially order chemically synthesized gRNAs when they have the stem loop disruption and a spacer of 23 nt. In this protocol, we will detail the generation of gRNA by IVT for the CRISPR-RfxCas13d system with the 22 nt spacer and the wild-type stem loop structure.
+
+## Option 2 – Mammalian cell culture-based algorithm
+
+3.Search for https://cas13design.nygenome.org/ to the gRNA design according to .a.Select the model organism and select your model of interest.
+b.Introduce the transcript ID of your interest target gene. (Also, you can search the transcript ID in the table using the gene symbol or gene name).
+c.Introduce the Ensembl transcript ID in the search box.
+d.Select the top 3 gRNAs targeting the Coding Sequence since gRNAs targeting UTR are less efficient ( ; ).
+
+Note: Selected gRNAs using this approach will have spacers of 23 nt.
+
+4.The DNA template to generate the gRNA is produced by fill-in-PCR with a universal primer and a specific primer.
+The universal primer () contains the T7 promoter (in pink) and the processed direct repeat for RfxCas13d crRNAs (in blue) preceded by 5′GG. Specific primer () contains the binding specific sequence (in green) and 20 nt of the repeat sequence in reverse complement orientation (in blue) ( ).Note: The “5-GG” in the universal primer is required for the efficient in vitro transcription reaction mediated by T7 RNA polymerase.
+Note: Spacers can have 23 nt with the wild type stem loop but we did not systematically compare the efficiency of this formulation to others discussed here.
+Note: If a gRNA with the stem loop disruption wants to be generated, the universal would be: 
+Note: For example, injection of the mRNA encoding for RfxCas13d with gRNA targeting tbxta mRNA in zebrafish embryos should compromise notochord formation as well as a lack of posterior structures (no-tail phenotype). We selected 3 protospacers (22 nt) for the targeting of tbxta after the in-silico analysis: (in this case we selected them based on option 1 corresponding to regions with low probability of base pairing in ). To generate the DNA Template, we order the following primers:
+a.Universal primer: This sequence contains the T7-promoter and the processed direct repeat for RfxCas13d preceded by 5′GG: 
+Specific primers: This sequence contains 22nt of the specific protospacer and 20 nt of the repeat sequence in reverse complement orientation. Example primers for targeting tbxta mRNA: Note: gRNAs oligos can be ordered through companies such as IDT (www.idtdna.com). Oligos can be purchased as desalted and in minimal amounts.
+Alternatives: gRNAs can be ordered as chemically synthesized directly through companies such as Synthego (https://www.synthego.com/company). In that case, it is not necessary to include the 5′-GG, and the gRNA sequence is the correspond tail (processed direct repeat, ) of RfxCas13d gRNAs () plus the reverse-complement of the 22–23 nt protospacer sequence (in green). Indeed, we mainly order chemically synthesized enhanced gRNAs (mentioned above) containing the stem loop disruption and a spacer of 23 nt ( ).
+
+Example of enhanced chemically synthesized gRNAs for targeting tbxta mRNA: CRITICAL: Currently, the design of gRNAs for RfxCas13d for targeting in vivo has some limitations, since there is not a validated strategy predictions model to design and select efficient gRNAs for in vivo approaches, and we have found gRNAs with low activity. To increase the probability of having a high level of depletion, we use 3–4 gRNAs together targeting the same RNA. In addition to using 3–4 gRNAs, we also recommend using individual gRNAs that have been tested to show higher mRNA depletion (see section), to minimize potential off-target effects and to provide reproducible results independent of the guide used.
+Note: We have observed that chemically synthesized gRNAs, either with wild type or disrupted stem loop, enhance the targeting of maternally provided in zebrafish embryos ( ). That could be related with the highly purity and quality of these gRNAs and their more robust production since in vitro transcription may have byproducts and frequently show variability in the gRNA production among different DNA templates for distinct gRNAs ( D).
+
+ 
+
+## DNA template generation
+
+Timing: 3 h
+
+5.Anneal universal primer and specific primer.a.Mix the following reagents: 
+b.Enter the following program in a thermocycler: Note: If several gRNAs are used to target one gene in the same injection, the specific gRNA primers can be mixed in equimolar concentrations and then use 5 μL of this mix (100 μM of the total gRNA primer content) in the PCR reaction and a single in vitro transcription reaction is performed in the next step. Alternatively, each gRNA can be generated individually and be purified together in the same column (considering the maximal amount of RNA that each column can purify). Finally, gRNAs can be individually produced, purified and quantified and mixed at equal concentrations to generate the pool.
+Note: To increase the amount of DNA template, several replicates of the PCR can be performed and then mixed to carry out a single purification.
+Note: Since each gRNA-DNA template will be different, annealing temperature could be modified. Negative controls with universal or specific primers alone can be run to ensure that PCR bands are correct.
+Alternatives: Another DNA Polymerase could be used to generate the DNA -template, in that case, follow the protocol according to the manufacturer’s directions.
+
+c.Run PCR products (5 μL) plus 1 μL of Loading Dye (6×) in a 2% agarose gel, in TAE Buffer 1×. A single specific band of less than 100 nt is expected if the Fill-in-PCR has been successful ( ).
+
+6.Purify the rest of the PCR product (at least 20 μL) using PCR/DNA Purification Kit (FavorPrep GEL/ PCR Purification Kit; FAGCK 001). Follow the manufacturer’s instructions. Briefly:a.Transfer up to 100 μL of PCR product to a microcentrifuge tube (not provided) and add 5 volumes of FADF Buffer, mix briefly by vortexing.Note: For example, for 100 μL of PCR product, add 500 μL of FADF Buffer.
+Note: The maximum volume of PCR product is 100 μL. Do not exceed this limit. If a PCR product is more than 100 μL, divide it into multiple tubes.
+
+b.Place a FADF column into a collection tube.
+c.Transfer the sample mixture to the FADF Column. Centrifuge at 11,000 g for 30 s, then discard the flow-through.
+d.Add 750 μL of wash buffer (ethanol added) to the FADF column. Centrifuge at 11,000 g for 30 s, and then discard the flow-through.Note: Make sure that ethanol (95%–100%) has been added to the wash buffer, when it is being opened first.
+
+e.To remove residual ethanol, centrifuge at 18,000g for 3 min at room temperature (22°C–25°C). Place the FADF column in a new microcentrifuge tube (not provided).
+f.Add 40 μL of nuclease free water to the center of the FADF membrane column. Stand the FADF Column for 1 min at room temperature.CRITICAL: For effective elution, make sure that the elution solution is dispensed onto the membrane center and is absorbed completely.
+CRITICAL: Elution should be performed with nuclease free water to avoid RNase contamination.
+Note: To work with a more concentrated template 30 μL of water can be used to elute, but we do not recommend using less than 30 μL because this could reduce the yield of DNA elution.
+
+g.Centrifuge at full speed (∼18,000g) for 1 min to elute the DNA.Pause point: DNA template product can be kept at −20°C for several months.
+
+7.Quantify the purified PCR template by a spectrophotometer (Nanodrop).
+
+Note: A minimum concentration of 50 ng/μL is enough to carry out the in vitro transcription reaction. Ideally, we use a total of 500–1000 ng (80–160 ng/μL) per in vitro transcription reaction (see below).
+
+Alternatives: Another purification kit for PCR products can be also tested and used. In that case, follow the specific protocol provided in the kit.
+
+ 
+
+## In vitro gRNA transcription
+
+Timing: 2 days
+
+CRITICAL: From this step use nuclease free water and RNase free micropipette filter tips. We recommend cleaning the benchtop using RNase away before work.
+
+8.gRNA for RfxCas13d system generation using AmpliScribe T7 Flash Transcription Kit (Epicentre, Lucigen # ASF3257) ( ).a.Mix the following reagents:CRITICAL: Setup IVT reaction at room temperature while keeping the enzyme solution in a −20°C cooler.
+ 
+b.Incubate at 37°C for 12–16 h (overnight).
+c.Day 2: Add 1 μL of TURBO DNase (2 U/μL).
+d.Incubate at 37°C for 20 min.
+
+9.gRNA Precipitation.a.Add 80 μL of nuclease free water to the IVT product.
+b.Add 10 μL of 3M sodium acetate pH 5.2 and mix by vortexing.
+c.Add 300 μL RNA-grade 95%–100% ethanol and mix by vortexing.
+d.Incubate at least for 1 h at −80°C, alternatively incubate 5–6 h at −20°C.
+e.Centrifuge at 16,100g for 30 min at 4°C.Note: A white pellet should be observed after centrifugation.
+
+f.Discard the supernatant carefully and add 750 μL 75% ethanol to rinse without pipetting.
+g.Centrifugate at 16,100g for 5 min at 4°C.
+h.Repeat steps f–g.
+i.Remove the supernatant carefully and dry the pellet 5 min to evaporate the ethanol.
+j.Resuspend in 50 μL of nuclease free water. Make several aliquots with 10 μL and store in nuclease-free 1.5 mL tubes at −80°C.Alternatives: Despite we have not tested it, gRNAs could also be purified using small RNA purification kits.
+
+10.gRNA quantification using the Qubit RNA BR (Broad-Range) assay kit (ThermoFisher, #Q10210)
+
+CRITICAL: The use of spectrophotometer (nanodrop) for gRNAs quantification will overestimate the gRNA concentration. Qubit RNA BR (Broad-Range) assay kit is necessary for accurate quantification.
+
+11.Check the gRNA integrity by running an aliquot in a 2% agarose gel in 1× TAE Buffer. A single specific gRNAs band of 72 nt should be seen as shown in .a.Mix 1 μL of sgRNA, 4 μL Nuclease free water and 1 μL of Gel Loading Buffer II (Invitrogen, #8546G).
+b.Incubate the mix at 70°C for 10 min and place it on ice.
+c.Run the gel at 100 V for 20 min.
+ 
+
+Note: To avoid RNase contamination, run the gel in a new 1× TAE Buffer and clean the tray and the comb properly with RNase away before use. The electrophoresis system can be cleaned with water and soap and rinsed with abundant water before use.
+
+Note: When the in vitro transcription reaction worked successfully, expected yield of gRNAs was approximately between 300 and 1000 ng/μL.
+
+Pause point: gRNAs could be stored for several months at −80°C. However, we recommend having several aliquots of each gRNAs (5–10 μL each one) to avoid more than 3–4 freeze-thaw cycles.
+
+Note: See section for possible solutions to low gRNA production
+
+ 
+
+## mRNA RfxCas13d production
+
+Timing: 6 h
+
+There are two alternative approaches to use the RfxCas13d system: The mRNA encoding Rfx-Cas13d or the purified Rfx-Cas13d protein that enhances the mRNA targeting for maternal products ( ), see details below. If you choose the use of mRNA-RfxCas13d follow steps 12–15 and then proceed to steps 61–75. If you want to use the RfxCas13d protein follow steps 16–75.12.Order the pT3TS-RfxCas13d-HA plasmid ( ) from Addgene (Plasmid #141320, http://www.addgene.org/141320/) needed to perform the in vitro transcription of RfxCas13d (Human codon-optimized). 
+Note: This plasmid is owned by Moreno-Mateos Lab (CABD, Seville, Spain) and Bazzini Lab (Stowers Institute for Medical Research, Kansas City, MO, USA).
+13.RfxCas13d linearization.a.Mix the following reagents for a 30 μL reaction. Alternatives: Other enzymes could be used to linearize the plasmid. Use enzymes with unique restriction sites after 3′UTR, such as Kpn1, Acc65l, SfiI, PstI, or vSbpf1.
+
+b.Incubate the reaction for 2 h at 37°C.
+c.Run 2–3 μL of the reaction in a 1% agarose gel in 1× TAE Buffer. A single specific band of 6.1 kb should be observed.
+d.Purify the linearized plasmid using a FavorPrep Gel/PCR Purification Kit (FavorPrep GEL/ PCR Purification Kit; FAGCK 001). Follow the manufacturer’s protocol as in step 6.
+e.Quantify the linearized plasmid concentration using a spectrophotometer/fluorometer (nanodrop/Qubit).Note: An aliquot of the purified linearized plasmid could be run in a 1% agarose gel in 1× TAE Buffer to verify the efficiency of the purification kit.
+Pause point: The purified linearized plasmid can be stored at −20°C for several months.
+Alternatives: Another purification kit for PCR products can be also tested and used. In that case, follow the specific protocol provided in the kit.
+
+14.RfxCas13d in vitro transcription.Note: The following protocol is based on the mMESSAGE mMACHINE™ T3 Transcription Kit (#ThermoFisher, Ambion, AM1348)
+a.Mix the following reagents: CRITICAL: Setup the IVT reaction at room temperature while keeping the enzyme at −20°C in a benchtop cooler because the spermidine in the 10× reaction buffer can precipitate if the buffer is chilled, which can cause the reaction to fail.
+Note: 6 μL of reaction should contain up to 1 μg of linear DNA template.
+
+b.Incubate the reaction for 2 h at 37°C.
+c.Add 1 μL TURBO DNase (2 U/μL).
+d.Incubate for 20 min at 37°C.Pause point: Stop the reaction by freezing the tube in liquid nitrogen and store it at −80°C, or continue with the mRNA purification immediately, step 15.
+
+15.Purify the mRNA of RfxCas13d using RNeasy Mini Kit (Qiagen, # 74104). All the reagents required are provided in the kit.a.Add 80 μL Nuclease free water to the IVT sample from step 14.
+b.Add 350 μL Buffer RLT and mix well.
+c.Add 250 μL 96%–100% ethanol and mix by pipetting. Do not centrifugate. Proceed immediately to the next step.
+d.Transfer the sample to a RNeasy Mini Spin Column placed in a 2 mL collection tube (provided in the kit). Centrifuge for 15 s at 8000g. Discard the flowthrough.
+e.Add 500 μL Buffer RPE to the column and centrifugate for 2 min at 8000g. Discard carefully the flowthrough.
+f.Place the RNeasy Mini Spin Column in a new 2 mL collection tube and centrifugate at maximum speed to eliminate any possible carryover of buffer RPE.
+g.Place the RNeasy Mini Spin Column in a new 1.5 mL collection tube and add 30 μL of Nuclease free water to the spin column membrane and centrifugate at 8000g to elute the RNA.
+h.Add the elute from the previous step to the used column and centrifugate again for 1 min at 8000g to elute the RNA.
+i.Quantify the mRNA concentration using a spectrophotometer/fluorometer (nanodrop/Qubit). The mRNA concentration used to be between 500 and 1000 ng/μL.
+j.Make several aliquots of 5–10 μL in nuclease-free 1.5 mL tubes and store at −80°C.
+
+Pause point: The mRNA aliquots of RfxCas13d could be kept at −80°C for several months but we recommend having several aliquots with 5–10 μL each one to avoid possible RNA degradation by repeated freeze-thaw cycles. 3 freeze-thaw cycles should be the maximum allowed to ensure mRNA activity.
+Alternatives: RfxCas13d-HA mRNA version with NLS can be produced as described above (Plasmid #141320, http://www.addgene.org/141321/). RfxCas13d-NLS can be useful to target mRNAs that are exclusively or preferentially localized in the nucleus such as some lncRNAs, pri-miRNAs, etc. Although we have not systematically tested this RfxCas13d version, we have observed that the targeting efficiency of Rfx-Cas13d-NLS may be lower in zebrafish embryos compared to RfxCas13d without NLS ( ). However, this is not due to a lower in vivo translation ( ) or a lack of robust nuclear localization (data not shown) that could potentially reduce RNA targeting activity in the nucleus.
+Note: See section for potential solutions related to low RfxCas13d mRNA production.
+
+## Preparation of RfxCas13d protein expressing bacterial colonies
+
+Timing: 3 days
+
+The RfxCas13d protein could be purified using Histidine tag and directly injected in zebrafish embryos at 1-cell stage. It has been demonstrated that the use of RfxCas13d protein enhances the maternal mRNA targeting in zebrafish embryos ( ).
+In this step, the E. coli Rosetta DE3 pRARE strain is chemically transformed ( ). Other transformation methods or E. coli strains can be employed to afford RfxCas13d producing bacteria (i.e., we tested other E. coli BL21 DE3 based strains with positive induction results). However, induction parameters (temperature, IPTG concentration, and incubation time) have been optimized for this strain and chemical transformation.16.Prepare the following items:a.Autoclaved 25 mL of liquid LB broth ( ); 2 × 50 mL Erlenmeyer flasks; 2 × 1.5 mL microcentrifuge tubes.
+b.Petri dish with LB-Agar-Chloramphenicol; 2 × Petri dish with LB-Agar-Chloramphenicol-Kanamycin A.
+c.TSS 2× buffer (see for recipes).
+
+Note: Antibiotic final concentrations are: 15 μg/mL for Chloramphenicol; 25 μg/mL for Kanamycin A for both the agar plates and LB.
+17.Streak the E. coli Rosetta DE3 pRARE on a LB petri dish with Chloramphenicol 15 μg/mL.
+18.Incubate the Petri dish at 37°C (16–18 h).
+Pause point: After this period, the Petri dish with grown colonies can be stored at 4°C up to 3 weeks.
+19.Pick up a single colony from the previous culture and inoculate 10 mL of liquid LB-Chloramphenicol in a 50 mL Erlenmeyer flask.
+20.Cap and incubate the flask at 37°C (16–18 h) while shaking at 180 rpm.
+21.Next morning, dilute 100 μL of the previous culture with 10 mL of liquid LB-Chloramphenicol into a new 50 mL Erlenmeyer flask.
+22.Cap and incubate the flask at 37°C while shacking up at 180 rpm until an OD600 of 0.3–0.4 is reached (2 h approx.)
+23.At OD600 = 0.3–0.4, spin 2× 1 mL of the culture into microcentrifuge tubes (1 mL per tube) at 16000 × g for 30 s at 4°C.
+24.Remove the supernatants and resuspend the pellets in 75 μL of cold LB. Keep the tubes on ice for 5 min.
+25.Add 75 μL of cold TSS 2× buffer to each tube and mix well with a pipette. Keep the tubes on ice for 5 min.
+26.Add 0.2–1 μg of plasmid pET-28b-RfxCas13d-His ( ) (Addgene #141322) to one of the tubes and mix well with a pipette. The other tube is a negative control. Keep the tubes on ice for 30 min.
+27.Incubate the tubes at 42°C for 40 s in a thermo block. Keep both tubes on ice for 1 min.
+28.Add 1 mL of LB to each tube and incubate at 37°C for 1.5 h.
+29.Centrifuge at 16,000 × g for 1 min at room temperature.
+30.Remove the supernatant without touching the pellet and resuspend them in 100 μL of LB.
+31.Spread the transformed bacteria onto a selective LB-Agar-Chloramphenicol-Kanamycin A petri dish and incubate at 37°C (16–18 h).
+CRITICAL: After this period, one plate should have colonies (the sample that included the plasmid) and the other one should have none (negative control without plasmid).
+Pause point: The Petri dish with colonies can be stored at 4°C for up to 2 weeks. It is not recommended to store the transformed Rosetta strain in glycerol as it can accumulate mutations.
+CRITICAL: Hazard Note: Dispose all E. coli cultures following the biosafety protocols and indications that apply in your work institution.
+
+## RfxCas13d protein expression
+
+Timing: 1.5 days
+
+In this step, RfxCas13d protein production will be induced in cultures of previously transformed bacteria. Here we describe the protocol for a 500 mL culture but, if the appropriate equipment is available, it can be scaled up to bigger volumes (e.g.,: in our lab, we have handled up to 2 L of culture at once).32.Prepare the following items:a.Autoclaved: 520 mL of liquid LB broth; 2 × 50 mL Erlenmeyer flasks; 2 L Erlenmeyer flask.
+Solutions:
+b.Isopropyl Beta -D-1 thiogalactopyranoside (IPTG) solution 1M; Tris·HCl solution 20 mM pH 7.5 (see for recipes).
+c.A 10% poly-acrylamide gel.
+
+33.Pick up a single colony from the plate of Rosetta cells previously transformed with pET28b-RfxCas13d and inoculate 10 mL of liquid LB-Chloramphenicol-Kanamycin A in a 50 mL Erlenmeyer flask.
+34.Cap and incubate the flask at 37°C (16–18 h) while shaking at 180 rpm.
+35.Next morning, dilute 5 mL of the culture in 500 mL of liquid LB-Chloramphenicol-Kanamycin A in a 2 L Erlenmeyer flask.
+36.Cap and incubate the flask at 37°C while shaking at 180 rpm.
+37.Measure the culture OD600 periodically (at least every 30 min) using a spectrophotometer and LB as reference blank.
+38.At OD600 = 0.45–0.55 (annotate the data. It takes approx. 3 h):a.Transfer 1 mL of the culture into a 1.5 mL microcentrifuge tube.
+b.Spin at 16,000 × g for 1 min at 4°C, completely remove the supernatant and store the pellet at −20°C (this will be the pre-induction reference).
+c.Add 50 μL of 1M IPTG to the Erlenmeyer flask containing the bacterial culture (final IPTG concentration = 0.1 mM) and continue the incubation at 37°C while shaking at 180 rpm for 3 h.
+
+39.Measure the culture OD600 at this point and annotate it.
+The OD600 should be between 1.5 and 2.15:a.Transfer 1 mL of the culture to a 1.5 mL microcentrifuge tube.
+b.Spin the tube at 16,000 × g for 1 min at 4°C, completely remove the supernatant and store the pellet at −20°C (this will be the post-induction reference).
+
+40.Centrifuge the 500 mL culture at 8,000 × g for 15 min at 4°C.
+41.Discard the supernatant and resuspend the pellet in 20 mL of Tris·HCl 20 mM (pH 7.5).
+42.Centrifuge at 8,000 × g for 15 min at 4°C.
+43.Discard the supernatant and store the pellet at −80°C.
+CRITICAL: Pre-induction and post-induction references (see previous steps 38a-b and 39a-b) must be run in an SDS-PAGE gel to confirm protein induction. A typical example is shown in .
+Pause point: The cell pellet can be stored at −80°C for up to 6 months. It can probably be stored for longer without affecting protein quality, but we have not tested this.
+
+ 
+
+## RfxCas13d protein purification
+
+Timing: 2 days
+
+RfxCas13d protein (113 kDa) is purified from the frozen cell pellets prepared in the previous step. The pellets are lysed by sonication and the protein purified by two consecutive chromatography steps (Ni-affinity chromatography followed by size exclusion chromatography).44.Prepare the following items:a.Buffers: 300 mL of lysis/binding buffer; 100 mL of elution buffer; 500 mL of dialysis buffer (see for recipes).
+b.4 × 10% polyacrylamide gels (prepared freshly right before use or stored up to 7 days at 4°C).
+c.Prepare the chromatography system by properly washing and equilibrating the whole system (including columns) with the corresponding buffer, as well as preparing necessary recipes and microtubes for collecting eluates.
+
+45.Thaw the bacterial pellet from the previous step on ice for 10 min.
+46.Resuspend the pellet in 50 mL of lysis/binding buffer.
+47.Place the cell suspension into a cooling cell in an ice bath and sonicate it with a horn sonicator displaying the following settings: Pulse program, 3 s ON, 10 s OFF, 120 cycles, 30% amplitude.
+Note: Previous settings are optimized for our sonicator (Branson SFX 550) with its “Rosette Glass Cooling Cell” and the “High Gain Horn” (see for details). If other equipment is employed, settings might need to be adapted accordingly.
+CRITICAL: Hazard Note: Wear appropriate hearing protection when the sonicator is active.
+
+48.Centrifuge the sonicated mixture at 10,000 × g for 15 min at 4°C.
+
+CRITICAL: After centrifugation, the supernatant must remain slightly colored (transparent yellowish) and the pellet must be clearly smaller than before sonication.
+
+49.Filter the supernatant through a 0.45 μm PES filter. Save 10 μL of the filtrate as “input reference” for SDS-PAGE, stored on ice.
+50.Flow the lysate through a His-Trap FF column, pre-equilibrated with lysis/binding buffer, at 1 mL/min and 8°C. Monitor the UV absorbance at 280 nm and collect the flow through in a clean container. Take 10 μL of the output as “flow through reference” for SDS-PAGE, store on ice.
+51.Wash with 5 column volumes of lysis/binding buffer and collect the eluate in a separate container. Take 10 μL of the output as “wash reference” for SDS-PAGE, store on ice.
+52.Flow elution buffer at 1 mL/min and 8°C to recover bound proteins and collect 1.5 mL fractions of the eluate until the 280 nm UV absorbance line reaches the baseline.
+
+CRITICAL: A peak must show in the 280 nm UV absorbance record (see ). Store all fractions on ice
+
+53.Take 5 μL aliquots of all elution fractions and run them in SDS-PAGE electrophoresis, together with input, flow through and wash references previously collected (A typical example is shown in B). 
+
+Pause point: At this point, elution fractions containing RfxCas13d can be stored on ice inside the fridge overnight or continue with the next steps.
+
+54.Put together all fractions corresponding to the previous elution peak (F4, F5 and F6 in this example, for a total volume of 4.5 mL) and load the mixture into a SuperLoop. Save 5 μL of the mixture as “input reference” for SDS-PAGE, stored on ice.
+55.Flow the sample on a HiPrep 16/60 Sephacryl S-200 HR column, pre-equilibrated with dialysis buffer, at 1 mL/min and 8°C. Monitor the UV absorbance at 280 nm.
+56.Keep eluting the sample with a dialysis buffer at 1 mL/min and collect 2 mL fractions of the eluate until the 280 nm UV absorbance line reaches the baseline.
+
+CRITICAL: A peak must show in the 280 nm UV absorbance record (see A). Store all fractions at 0°C–8°C.
+
+57.Take 10 μL aliquots of all elution fractions and run them in SDS-PAGE electrophoresis, together with input reference previously collected (a typical example is shown in B). 
+58.Put together all elution fractions with a significant amount of RfxCas13d (in B example, F11 to F15) and concentrate the mixture in a centrifugal filter with 30 KDa molecular weight cut-off. Spin the sample at 4,000 × g at 4°C until the volume reduces to about 1 mL.
+59.Quantify protein concentration as described in step 60 and stop concentrating when sample reaches ∼3 mg/mL. Make 5 μL aliquots (∼200 1.5 mL tubes) and store them at −80°C. We recommend single use 5 μL aliquots. Additional thaw-frozen cycles can reduce RfxCas13d activity. We recommend to quickly store the aliquots at −80°C and not keep them at 4°C more than the needed time to make the aliquots. Storage at 4°C or −20°C will negatively affect RfxCas13d activity.
+
+Optional: Although it is not strictly necessary, for the sake of quality control and reproducibility, we strongly recommend the quantification of the sample.
+
+60.Quantify the amount of purified RfxCas13d by Bradford densitometry on SDS-PAGE gel employing BSA as reference. RfxCas13d samples must be diluted in a dialysis buffer in a 1 to 20 ratio, loading 2–6 μL of the diluted sample in the gel. With this protocol, we usually obtain a sample concentration of ∼3 mg/mL (a typical example is shown in ). 
+
+CRITICAL: If RfxCas13d must be diluted for any reason, always dilute it using a dialysis buffer. RfxCas13d precipitates if diluted with water.
+
+Alternatives: Other quantification methods (e.g.: Lowry or BCA based, UV absorption) can be employed instead of the Bradford densitometry. Particularly, we have also quantified RfxCas13d with the RC-DC Protein Assay Kit II (Bio-Rad, #5000122).
+
+Note: See section for potential solutions to low RfxCas13d protein production.
+
+## Microinjection of CRISPR-RfxCas13d system in zebrafish embryos
+
+Timing: 2 days
+
+61.Day 1. Zebrafish Breeding. Separate adult zebrafish of at least 3–4 months old (male/female) in 1 L breeding tanks, using a separating barrier, in the afternoon. We recommend separating 5 males and 5 females in group mating, in a ratio of 1:1.
+
+Note: Females differ from males by having a bigger belly size, lighter silverish stripes and by the presence of a membrane in the anal fin .
+
+Note: See section for possible solutions to low zebrafish embryo production.
+
+62.Prepare several agarose plates at 1% of agarose in E3 medium for the maintenance of zebrafish embryos. Plates for microinjection are prepared by adding 2% agarose to E3 medium and placing a plastic mold (teeth down) to make the different lines where the embryos will be placed, while the agarose is still hot (before solidifying). Store the plates upside down at 4°C 1 week as maximum. To avoid potential medium contamination, we recommend not to reuse the plates.
+63.Day 2. Needle calibration. In the morning, thaw the RfxCas13d mRNA/protein (300 ng/μL and 3 μg/μL, respectively) and gRNAs on ice. Pipette 2 μL of the RfxCas13d mRNA/protein and load into the needle (Harvard, apparatus, 1.0 OD × 0.58 ID × 100 L mm #30-0019 Capillaries GC100F-10) and calibrate the needle using a micrometer calibration slide microscope with 0.01 mm ruler. Using a microinjector (Narishige IM-300) and a stereomicroscope (Leica KL300) and with the help of forceps open the needle end to an adequate size opening. Calibrate the system in order to obtain a bubble of 0.01mm that corresponds to an injection volume of 0.5 nL.
+
+Note: RfxCas13d mRNA could be diluted in Nuclease-free water meanwhile the RfxCas13d protein must be diluted using the dialysis buffer (see for recipes).
+
+Note: Needles need to be prepared from glass capillaries with the Flaming/Brown Micropipette Puller (or similar horizontal pullers) and the following conditions: Pull (150), Vel (70), Time (80), Heat (590). Heat temperature is calculated with the Run-Test function that results in the RAMP value, Heat = RAMP value + 30. These conditions may change between different Micropipette Pullers and should be adjusted to the specific model.
+
+Note: Microinjector pressure should be between 2.0 and 10.0 psi. We recommend a pressure of 6.0–7.0 psi depending on the needle pore size.
+
+Note: RfxCas13d protein calibration could be more complicated due to glycerol content that can clog the needle. We recommend widened needle pore size and inject with a lower pressure (3.0–5.0 psi). If the needle is clogged during the injection, we suggest opening more of the needle and recalibrating it again.
+
+64.When the zebrafish facility lights turn on in the morning, remove the separating barriers between males and females from the breeding tank. Wait until eggs are laid and collect them from the tank using a strainer. This typically takes about 5–10 min but it can vary.
+65.Dechorionate the embryos using pronase at 1 mg/mL in E3. Incubate the embryos in 3 mL of pronase solution for approximately 2 min.
+
+Note: Touch a few embryos with the forceps to assure whether the pronase solution is causing a proper dechorionation, if the solution has worked optimality the corium will be removed when is touched with the forceps. We highly recommend to dechorionate the embryos. This will facilitate that the RfxCas13d mRNA/protein and gRNAs are injected into the cell and not in the yolk, which enhances the mRNA targeting. Alternatively, chorionated embryos can be injected but it is important to inject always into the cell.
+
+66.Carefully wash the embryos several times (5–7 washes approximately) with new E3 medium in a 250 mL glass beaker and carefully remove the dechorionated embryos with a glass pipette. Repeat this step until most of the embryos are dechorionated.
+
+CRITICAL: Dechorionated embryos must always be handled with glass material or with agarose gel as alternative.
+
+67.Place 60–70 embryos in each row of the microinjection plate (prepared the day before) with a glass pipette and add a thin overlay of E3 medium to the plate.
+
+Note: You can flame the glass pipette tip just enough to polish it and create a smooth surface that improves embryo survival during manipulations.
+
+68.Inject each one-cell stage embryo with 1 nL of mix of RfxCas13d purified protein (3.0 μg/L) or mRNA (200–300 ng/μL) and 300–900 ng/μL (individual or mix gRNA final concentration) of gRNA (optimal conditions tested) using the microinjector stereomicroscope. This provides 3 ng of protein or 200–300 pg of mRNA and 300–900 pg of gRNAs per embryo. RfxCas13d protein or mRNA can be mixed in one tube with gRNAs at concentrations described above or to maximize the reagents concentrations two injections can also be performed, 1 nL for RfxCas13d (protein or mRNA) and 1 nL for gRNAs. This can be done when it is not possible to have the optimized concentrations described before in one solution. We have not observed differences between two approaches
+69.Transfer the embryos to 1% agarose coated plates with E3-medium and keep them at 28°C.
+
+Note: To enhance the mRNA targeting with the RfxCas13d system we strongly recommend injecting directly 1 nL in the cell of one-cell-stage embryos and we suggest to inject at least 60–70 embryos for each condition.
+
+CRITICAL: The first cell division takes place 40 min after fertilization in zebrafish embryos but if the embryos are in two-cell-stage it is possible to inject 0.5 nL in each cell. We do not recommend injecting the embryos after the two-cell-stage (1 hpf) because the targeting efficiency can be affected.
+
+Note: Inject 60–70 embryos with RfxCas13d protein or mRNA without gRNA as a control for the early development. These embryos must have a normal development such as a non-injected embryo. gRNAs alone can be also injected as a second control. An additional control could be to inject RfxCas13d mRNA or protein plus a gRNA targeting a sequence that is absent from the Zebrafish Genome.
+
+Note: As a positive control injecting 3 ng of RfxCas13d purified protein or 200 pg RfxCas13d mRNA and 300 pg of in vitro transcribed gNTL-ctr (tbxta-4, stem loop disrupted and spacer of 23 nt version, Protospacer: 5′CUUUGCUGAAAGAUACGGGUGCT) per embryo. This will generate 80%–90% of zebrafish embryos with extreme no-tail phenotype.
+
+## Embryos care
+
+Timing: 24 h
+
+70.Keep the injected embryos in an incubator at 28°C in 1% agarose plates with E3 medium.
+71.Remove the unfertilized egg and dead embryos from the plate at 2 hpf.
+72.Repeat step 71 at 4 and 6 hpf. If the experiment goes beyond the first 7–8 hpf we recommend to transfer all viable embryos to a new 1% agarose plate with E3 fresh medium prewarm at 28°C
+
+Note: During these cleaning steps E3 medium will be also removed from the plate. Thus, fresh E3 medium prewarm at 28°C can be added to the plate if needed
+
+Note: See section for possible solutions to percentage of zebrafish embryo survival.
+
+## mRNA knockdown validation
+
+Timing: 1–4 weeks (qPCR, independent gRNA or mRNA injections) or 1–3 months (RNA-seq)
+
+Different alternatives and complementary methods are proposed here to validate the efficiency of the mRNA knockdown.73.Employ a mix of different gRNAs targeting the same mRNA to validate the possible phenotype, decrease in mRNA levels and off-target effects obtained with the RfxCas13d system.
+Alternatives: Perform mRNA knockdown experiments using new gRNAs or individual gRNAs from the mix injected independently. The use of new gRNAs could confirm the developmental and molecular phenotype in an independent experiment. As an alternative, gRNAs from the mix could be injected independently to confirm the mRNA knockdown and the phenotype but also to analyze what gRNA has the highest efficiency. This single and highly efficient gRNA can be used for future experiments instead of the mix. This can help to reduce potential off-targets from the mix where more gRNAs are used
+74.Analyze the mRNA relative levels or your target gene by qPCR analysis or ideally by RNA-seq analysis that will show the whole transcriptome.
+75.Inject a mRNA version resistant to gRNA (with mutations not altering the amino acid sequence) to rescue the phenotype. A titration will be required to ensure that overexpression does not cause any developmental defect. We recommend injecting different concentrations (from 10 to 200 pg per embryo, for example) of resistant mRNA to evaluate overexpression effects and phenotype rescue.
+Note: See section for possible solutions to low or no mRNA depletion.
+
+## Expected outcomes
+The CRISPR-RfxCas13d system is a powerful technique for mRNA depletion in vertebrate embryos. Either mRNA coding for RfxCas13d or purified RfxCas13d protein efficiently and specifically induces mRNA degradation. The purified protein leads to faster mRNA target depletion but the protein purification requires more specialized equipment and resources than using RfxCas13 mRNA. Specific outcomes have been detailed in each section showing examples and figures.
+
+## Limitations
+In our hands the CRISPR-RfxCas13d system has been shown to be very efficient in animal embryos, despite a variable activity among different gRNAs. However, this can be bypassed by using several (3–4) gRNAs targeting the same mRNA, which usually results in a high level of depletion. Although a tool to predict CRISPR-RfxCas13d activity in mammalian cell culture models is available ( ), it has not been systematically tested in vivo with in vitro transcribed or chemically synthesized gRNAs together with mRNA or purified protein RfxCas13d ( ). Indeed, significant differences in efficiency have been shown for other CRISPR-Cas prediction tools when distinct approaches and models are used ( ; ). Therefore, an algorithm able to predict CRISPR-RfxCas13d activity in zebrafish and other animal embryos would be helpful to select the most efficient gRNAs in vivo.
+On the other hand, RfxCas13d mRNA is less convenient to eliminate maternally provided RNA in zebrafish embryos than using the purified protein ( ). Purified protein injections accelerate RNA degradation and increase the penetrance of the phenotypes ( ). However, as with other RNA knock-down approaches, CRISPR-RfxCas13d cannot maternally target the provided protein in animal embryos.
+
+## Troubleshooting
+Most problems with this system arise from RNA/protein degradation. To verify if that is the case, check the purity and integrity of in vitro transcribed gRNAs and RfxCas13d mRNA and RfxCas13d protein (agarose and acrylamide gels). Include positive controls of gRNAs previously shown to be efficient, in the embryo injections. We suggest using tbxta gRNAs as a control to measure the toxicity and quantify the phenotype ( A) ( ). In addition, to test earliest knockdown activity of RfxCas13d, we suggest using nanog gRNAs as a positive control ( ).
+Potential problems and detailed explanation of solutions are listed below.
+
+## Problem 1
+Low gRNA concentration (expected yield between 300 and 1000 ng/μL) (steps 4–9).
+
+## Potential solution
+Cas13d system efficiency could be severely affected due to a low gRNA concentration. Here, we describe potential solutions to increase the gRNA concentration:
+The ideal DNA template concentration used for an IVT reaction should be between 500 and 1000 ng. A Low yield of fill-in PCR could be caused by a wrong primer’s selection or wrong PCR settings. We suggest reviewing the sequence of the primers used in the fill-in-PCR (step 4) and check all the reagents and PCR programs as suggested in the protocol or follow the manufacturer’s instructions for other DNA polymerases different from Q5® High-Fidelity DNA Polymerase (New England Biolabs #M0491) (step 5). Also, several replicates of the PCR can be performed and then mixed to increase the amount of DNA template.
+gRNA production efficiency may vary along different DNA templates because of their sequence or secondary structures. However, inefficient in vitro transcription could be due to 10× reaction buffer precipitation. Therefore, it is critical to set up the IVT reaction at room temperature or heat the tube to 37°C for 5 min and mix thoroughly to resuspend the precipitate (step 8).
+gRNA degradation during IVT reaction is not frequent but it can be possible. To avoid RNA degradation, clean the laboratory bench and pipettes with RNase away and make sure all products and reagents used are RNase-free (step 8). Also, make sure all the traces of ethanol have been eliminated from the tube and allow the RNA pellet to dry up to 5–7 min in the last step of gRNA precipitation (step 9).
+
+## Problem 2
+Low RfxCas13d mRNA production (step 13–14).
+
+## Potential solution
+Inefficient mRNA synthesis can be caused due to a low mRNA plasmid linearization or a low efficiency of the in vitro transcription reaction.
+There are some possible solutions to optimize mRNA synthesis:
+To increase the amount of the IVT template, more than one plasmid linearization reaction can be performed and purified together (step 13).
+Similarly, as we described for gRNA production, RfxCas13d mRNA inefficient in vitro transcription could be due to 10× reaction buffer precipitation for this reason it is critical to setup the IVT reaction at room temperature or heat the tube to 37°C for 5 min and mix thoroughly to resuspend the precipitate (step 14).
+To avoid RNA degradation, clean all the surfaces and pipettes with RNase away and make sure all products and reagents used are RNase-free.
+
+## Problem 3
+Low RfxCas13d protein production (steps 16–56).
+
+## Potential solution
+Several problems could be noticed during RfxCas13d protein purification. Here we describe possible solution to problems related with bacterial transformation (steps 16–31), wrong protein binding to HisTrap columns (steps 49–50) or protein purification after size exclusion chromatography (SEC) (steps 54–56)
+The presence of bacteria in the negative control plate or the absence of no transformed bacteria indicates problems related with the transformation protocol. We suggest checking that the proper antibiotics solutions are being added or prepare fresh antibiotics solutions and to check that buffers correct composition or prepare fresh buffers (steps 16–31).
+If the protein is not binding or poorly binding to HisTrap column, it could be due to several problems. Some of the potential solutions for such problems are described below (steps 32–50):
+Wrong protein induction: Check the IPTG concentration or use fresh IPTG stock (step 32, see for recipes).
+Excessive lysis: Check that protein is in the soluble fraction (After step 49)
+Sample too viscous: Dilute the sample with lysis buffer (After step 49).
+Too high loading flow rate: Reduce flow rate during sample loading (step 50).
+Wrong buffer pH: Check and adjust buffer pH (step 50–52, see for recipes).
+Clogged column: Filter sample and buffers through 0.45 μm PES filter (In steps 50–52).
+Saturated resin: Clean and restore the resin according to the manufacturer instructions. Use a bigger column or reduce the amount of sample loaded. (In steps 50–52).
+If RfxCas13d protein is not efficiently eluted from HisTrap column check and adjust buffer pH and the imidazole concentration (See for recipes) or prepare fresh buffer.
+Also, increasing the washing volume can reduce the presence of contaminants in the elution fraction (step 51).
+Poor protein purification could be related to inadequate settings in the SEC system (steps 54–56), we indicate the following potential issues and solutions:
+Inadequately packed column: Perform a column performance test and repack if necessary (step 55).
+Inadequate system settings: Minimize system tubing (diameter and length) (step 55–56).
+Excessive sample volume: Check column’s recommendations and reduce sample volume (step 55–56).
+Inadequate flow rate: Optimize flow rate. We suggest increasing the flow rate if peaks are too wide or reduce if the sample eluted too soon (step 55–56).
+The observation of several bands in the final SDS-PAGE could suggest protein degradation (step 60), to avoid protein degradation, keep the samples on ice (or refrigerated at 4°C) during the whole purification process. Also, it is crucial to dilute the samples with a protein dialysis buffer because RfxCas13d protein precipitates in distilled water.
+
+## Problem 4
+Low zebrafish embryo production (step 61).
+
+## Potential solution
+Low zebrafish embryo production could be related to wrong male and female separation or by an inadequate water parameter in the zebrafish facility. Check water parameters such as temperature, pH, conductivity, noise, light-dark cycle, fish density in breeding tanks and other factors such as severe inbreeding or old age in the fish that could also affect the embryo production (step 61).
+
+## Problem 5
+A low percentage of embryo survival (step 62–72).
+
+## Potential solution
+Low percentage of embryo survival could affect the quality and robustness of the experiments. Here, we suggest a possible solution to increase the percentages of survival embryos until 24hpf. (Steps 62–72):
+Review that the incubator temperature is at 28°C, before you start your experiments.
+When using dechorionated embryos, long pronase incubation and/or pronase concentration can lead to low embryo viability. We strongly recommend using the correct concentration of pronase solution for a given time as indicated in the protocol (step 65).
+Inefficient embryo manipulation using a broken glass pipette may reduce embryo viability. Use new and flamed glass pipette tip as indicated in the protocol. Keep the plates clean during the whole experiment and keep on removing dead embryos every 2 h and transfer the embryos to a new 1% agarose coated plates with E3 medium till 7–8 h post fertilization and for 24 h incubations at 28°C (step 72).
+
+## Problem 6
+Low or no RNA depletion (step 74).
+
+## Potential solution
+If low or no mRNA depletion is observed after following the protocol without any issue, this might be due to the lack of gRNAs activities or technical problems related with the microinjection procedures:
+Check that the gRNAs are properly designed either by the option 1 or option 2 as described in this protocol and review that gRNAs are targeting an isoform of the mRNA that is present in the embryo.
+Adjust the horizontal puller conditions to generate needles with an optimal pore size (that could variate between different models) and adjust the microinjection pressure to obtain the correct bubble size when calibrating the needles (step 63).
+Inefficient mRNA targeting can be due to a low gRNA concentration. Make sure that the gRNA quantification has been done using Qubit RNA Broad Range Assay because the use of nanodrop will overestimate the gRNA concentration (step 10). In addition, an increased amount of gRNAs can be injected to the zebrafish embryos (step 68).
+Make sure that the RfxCas13d mRNA or protein and gRNAs are injected into the animal pole of one cell stage embryo. This will increase the mRNA targeting. Phenol red solution may help to visualize the injected material into the cell (step 68).
+If the inefficient mRNA targeting persists, use a new combination of 3–4 gRNAs. Also, check how many times gRNAs have been frozen and thawed (avoid more than 3–4 cycles).
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Miguel A. Moreno-Mateos (mamormat@upo.es).
+
+## Materials availability
+Plasmids used in this study have been deposited to Addgene, pT3TS-RfxCas13d-HA (#141320), pT3TS-RfxCas13d-NLS-HA (#141321) and pET-28b-RfxCas13d-His (#141322).
+
+ 
+
+## Data and code availability
+Software resources used in this study http://rna.tbi.univie.ac.at//cgi-bin/RNAWebSuite/RNAfold.cgi and https://cas13design.nygenome.org/ are freely available.
+Original data underlying this manuscript can be accessed from the Stowers Original Data Repository at https://www.stowers.org/research/publications/libpb-1653.
+
+## Acknowledgments
+This work was supported by Ramon y Cajal (RyC-2017-23041), PGC2018-097260-B-I00 grant and MDM-2016-0687 program (10.13039/100014440Spanish Ministerio de Ciencia, Innovación y Universidades, and European Union), Universidad Pablo de Olavide (UPO) Research and the Springboard programs from UPO and CABD, respectively (M.A.M.-M.). This study was supported by the 10.13039/100007795Stowers Institute for Medical Research. A.A.B. was awarded a Pew Innovation Fund and the 10.13039/100000002US National Institutes of Health (R01 GM136849). This work was performed as part of the research for the obtainment of a G.dS.P degree., Graduate School of the Stowers Institute for Medical Research. The CABD is an institution funded by Pablo de Olavide University, 10.13039/501100003339Consejo Superior de Investigaciones Científicas (CSIC), and 10.13039/501100011011Junta de Andalucía. L.H.-H. is a recipient of a predoctoral fellowship from Ministerio de Ciencia. We thank Alejandra Cano for their technical assistance.
+
+## Author contributions
+Conceptualization, L.H.-H., A.A.B., and M.A.M.-M.; methodology, L.H.-H. with the contribution of A.D.-M., L.T.-G., G.K., I.M.-S., and G.dS.P.; resources, A.A.B. and M.A.M.-M.; writing – original draft, L.H.-H. and A.D.-M.; writing – review & editing, G.K., G.dS.P., L.T.-G., A.A.B., and M.A.M.-M.; supervision, A.A.B. and M.A.M.-M.; project, A.A.B. and M.A.M.-M; funding acquisition, A.A.B. and M.A.M.-M.
+
+## Declaration of interests
+The authors declare no conflict of interest.

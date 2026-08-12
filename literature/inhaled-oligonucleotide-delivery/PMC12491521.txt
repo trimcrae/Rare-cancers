@@ -1,0 +1,311 @@
+3946starprotSTAR ProtocolsSTAR ProtocElsevierPMC1249152112491521124915214094491510.1016/j.xpro.2025.104075Protocol for permanent gene repression by CRISPR-adenine base editing of promoter CCAAT motifs
+DaliriKarim ClementKendell 1Institute for Neurophysiology, Centre for Physiology and Pathophysiology, Medical Faculty and University Hospital of Cologne, University of Cologne, 50931 Cologne, Germany2Department of Biomedical Informatics, University of Utah, Salt Lake City, UT, USA∗Corresponding author karimdaliri@gmail.com
+3Technical contact
+4Lead contact
+1192025631040751040754102025© 2025 The Author(s)This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).
+
+## Summary
+Here, we present a protocol to achieve permanent downregulation of gene expression by editing the CCAAT box in promoter regions using CRISPR-adenine base editors (ABEs). We outline steps for guide RNA (gRNA) design, transfection, genomic DNA extraction, Sanger sequencing, and gene expression quantification. The protocol is optimized for mammalian cell lines (e.g., NIH3T3). It allows for precise disruption of transcription factor binding site without double-strand breaks and offers a novel alternative to RNAi or CRISPR interference (CRISPRi).
+For complete details on the use and execution of this protocol, please refer to Daliri et al. 
+Subject areas: Cell Biology, Health Sciences, Genetics, Genomics, Sequencing, Molecular Biology, Gene Expression, CRISPR
+
+## Graphical abstract
+ 
+
+## Highlights
+•Instructions for selecting sgRNAs and optimal ABEs to target promoter motifs
+•Steps for Sanger sequencing of CCAAT box inside promoter wild and edited site
+•Guidance on transfection, clonal expansion, and gene repression quantification in NIH3T3
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+Here, we present a protocol to achieve permanent downregulation of gene expression by editing the CCAAT box in promoter regions using CRISPR-adenine base editors (ABEs). We outline steps for guide RNA (gRNA) design, transfection, genomic DNA extraction, Sanger sequencing, and gene expression quantification. The protocol is optimized for mammalian cell lines (e.g., NIH3T3). It allows for precise disruption of transcription factor binding site without double-strand breaks and offers a novel alternative to RNAi or CRISPR interference (CRISPRi).
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoCollection date 2025 Sep 19.
+
+## Before you begin
+
+## Innovation
+Traditional gene repression methods such as RNAi, shRNA, or CRISPRi often rely on transient expression systems, lack precision, and are limited by variability in silencing efficiency. To address these limitations, we developed a base-editing approach that targets highly conserved promoter motifs—specifically the CCAAT box—to achieve irreversible transcriptional silencing. This protocol utilizes a Cas9-derived adenine base editor (ABE8e), which enables A-to-G conversions without introducing double-strand breaks or requiring donor templates. By integrating motif-specific guide RNA design with an optimized, selection-free workflow, this protocol allows researchers to precisely modulate gene expression at the epigenetic interface of promoter function. A key innovation is the motif-based targeting logic, which focuses on functionally validated transcription factor binding elements rather than arbitrary upstream regions. Additionally, the protocol is designed to work in multiple mammalian cell types, making it adaptable and scalable. The method preserves genome integrity, eliminates the need for clonal selection, and is particularly valuable in systems where long-term repression is required without persistent transgene expression. The simplicity, durability, and reproducibility of this base-editing framework open new avenues in studying transcriptional regulation, validating disease-associated regulatory elements, and developing preclinical gene-silencing strategies for hard-to-drug targets. While most gene editing strategies focus on coding regions to disrupt gene function, this protocol introduces a regulatory-centric paradigm by editing non-coding promoter elements. Promoter regions often contain multiple overlapping transcription factor binding sites; among them, the CCAAT motif is one of the most conserved and widely used. By selectively editing adenines within this motif, the protocol enables stable suppression of gene transcription without affecting the downstream coding sequence. This mechanism avoids complications such as frameshift mutations or nonsense-mediated decay and instead simulates a naturally repressed transcription state. Such a strategy is highly relevant for disease modeling in contexts like fibrosis, cancer, and neurodegeneration—where pathological gene expression often stems from regulatory dysregulation rather than coding mutations. In preclinical research, this protocol can be used to investigate the functional importance of non-coding regulatory elements in gene networks. Furthermore, it lays the groundwork for therapeutic gene repression in scenarios where long-term silencing of disease-driving genes is desired—without the risks associated with genome fragmentation or off-target effects of RNAi. For example, sustained downregulation of extracellular matrix genes in fibrotic disorders, metabolic regulators in obesity or diabetes, or aberrant transcription factors in cancers could be achieved by promoter editing. In the future, with further refinement and delivery improvements (e.g., via AAV or LNPs), this platform may contribute to precision epigenetic therapies that act at the level of transcriptional initiation—offering a novel layer of control in gene therapy design.
+Promoter Modulation by Base Editing (PMBE) is a targeted strategy that allows for precise and permanent regulation of gene expression by editing cis-regulatory elements—such as the CCAAT box—within promoter regions ( )⁠. This approach leverages CRISPR-Cas9 adenine base editors (ABEs) to convert adenine to guanine without inducing double-strand breaks or requiring donor DNA templates. By disrupting key promoter motifs, PMBE achieves sustained downregulation of gene transcription. Unlike transient gene regulation techniques such as RNA interference (RNAi) ⁠ or CRISPR interference (CRISPRi), PMBE introduces irreversible nucleotide changes that result in stable modulation of gene activity. PMBE has the potential for broad applications in functional genomics, disease modeling, and therapeutic development, including potential use in modulating the expression of oncogenes, neurodegeneration-associated genes, or metabolic regulators. Its ability to achieve durable gene repression through minimal genomic intervention makes PMBE a powerful alternative to conventional gene knockdown tools.
+ 
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+ 
+CRITICAL: Agarose (when molten): Causes burns on contact. Handle hot solutions with heat-resistant gloves.
+
+Note: peqGREEN dye and Loading dye: Store at −20°C (long term) or 4°C (short term, up to 1 month) protected from light.
+
+ 
+CRITICAL: SDS (Sodium dodecyl sulfate): Harmful if inhaled, ingested, or absorbed through the skin. Causes skin and eye irritation. Always wear gloves, lab coat, and safety goggles when handling. Work in a fume hood when preparing stock solutions to avoid inhalation of powder or aerosol.
+
+Note: The lysis buffer can be stored at 25°C, up to 6 months.
+
+## Step-by-step method details
+
+## Sanger sequencing of promoter in wild-type cells
+
+Timing: 2 days
+
+This section describes how to amplify and sequence the promoter region of the target gene in wild type cells. Confirming the sequence context is essential for accurate sgRNA design and successful base editing of CCAAT motifs ( ).
+1.To identify the promoter region of the gene of interest, first locate the transcription start site (TSS) using the Eukaryotic Promoter Database (EPD: https://epd.epfl.ch/), which provides curated promoter annotations for many eukaryotic species.
+2.Select a promoter region approximately −200 to +100 bp, ensuring that it includes at least one CCAAT box.
+Note: In some genes, multiple or redundant CCAAT boxes may exist—preferably select one within the −75 to −85 bp range relative to the TSS. Promoters lacking a CCAAT box (e.g., TATA-less promoters) should be noted, as editing efficiency and relevance may be lower.
+3.Use the “Search Motif” tool in EPD (https://epd.epfl.ch/motif_search.php) or manually scan the sequence for the CCAAT consensus sequence within the promoter.
+4.Choose a 300–400 bp region that contains the CCAAT box as centrally as possible.
+5.Design primers for this region using Primer-BLAST (https://www.ncbi.nlm.nih.gov/tools/primer-blast).
+Pause point: Place the expected base edit site near the center of the amplicon.
+Note: In genes with multiple CCAAT boxes, consider designing more than one sgRNA targeting different boxes, if necessary.
+6.Order the oligonucleotide primers from a commercial provider (e.g., IDT: https://www.idtdna.com/) with standard purification (desalted).
+7.Dilute the Fwd and Rev-designed primers to a final concentration of 10 μM.
+Pause point: Dilute 10 μl primer stock with 90 μl ddH2O; store at −20°C.
+8.Extract DNA from a cell pellet using the DNA extraction kit, following the manufacturer’s instructions.
+9.Set up a master-mix for all the PCR products in a 0.5 ml microcentrifuge tube for each reaction.
+10.Conduct PCR on a thermocycler using the OneTaq Hot Start Master Mix with Standard Buffer (NEB, Cat#M0486) and the reaction conditions specified in and .
+CRITICAL: The optimal annealing temperature must be determined experimentally for each primer pair and target site.
+11.Analyze PCR products by agarose gel electrophoresis as follows:
+CRITICAL: Run electrophoresis at 120 V for 45 minutes. You should see a single sharp band of the expected size (300–500 bp).
+12.Purify the PCR product.
+ 
+
+## sgRNA design and selection of base editor variants
+
+Timing: 1 week
+
+This section provides instructions for designing sgRNA and selecting the appropriate adenine base editor (ABE) variant for efficient and specific targeting of CCAAT motifs in the promoter region.
+13.Determine which targeted base conversion is necessary for your experiment.
+14.For CCAAT motif targeting, use ABEs for A:T-to-G:C or T-to-C conversions.
+15.Select a high-activity base editor, such as ABE8 or ABE8e, to maximize editing efficiency.
+Note: Synthetic mRNA encoding ABE8e were synthesized in the laboratory of Prof. David R. Liu (Broad Institute, Harvard University).
+16.Design guide RNAs for mutagenesis using CHOPCHOP v.2 (https://chopchop.cbu.uib.no/).
+17.Select target sites adjacent to an NGG PAM (SpCas9) with a spacer length of 20 nucleotides.
+18.Prioritize sgRNAs that position the target adenine centrally within the editing window.
+Note: To ensure optimal editing efficiency with Cas9-ABE8e, select a target adenine located within positions 4 to 9 nucleotides of the target sequence. This range has been identified as the canonical editing window for ABE8e. Among these, positions 5–6 are often reported to yield the highest editing activity.
+19.Select the sgRNA expression vector.
+Pause point: The bacterial sgRNA expression vector (Addgene ID: 132777) is available from Addgene.
+20.Clone the sgRNA oligonucleotides into the sgRNA plasmid to target the desired genomic loci.
+Note: To save time, consider ordering pre-cloned sgRNA constructs from a preferred supplier (e.g., GenScript).
+
+## Targeted gene repression in NIH3T3 cells
+
+Timing: 4 days
+
+This section details the process for culturing and preparing NIH3T3 cells to achieve optimal confluency and health prior to transfection, ensuring efficient delivery of gene editing components and successful targeted gene repression.
+21.Culture NIH3T3 cells in a 6-cm dish using high-glucose DMEM.
+22.Culture NIH3T3 cells in high-glucose DMEM.
+23.Seed cells one day prior to transfection to achieve 70%–80% confluency on the day of transfection (18–24 hours before transfection), as follows:a.Remove the culture medium from the dish.
+b.Gently wash the cells with 1× PBS buffer.
+c.Add fresh growth medium and adjust cell density as needed.
+
+24.Add 2 ml of TrypLE and incubate at 37°C for 5 minutes.
+25.Add 4 ml of freshly warmed DMEM.
+26.Mix thoroughly by pipetting up and down to ensure the cells are completely dissociated.
+CRITICAL: Avoid growing cells beyond 80% confluency or using them beyond passage 15.
+27.Plate NIH3T3 cells for transfection as follows:a.Seed cells in 12- or 24-well plates 16–24 hours before transfection.
+b.Adjust the cell density to 0.8 × 105 cells/mL per well.
+c.Add a total volume of 500 μL growth medium per well.
+
+## Delivery of the sgRNA and base editor
+
+Timing: 1 day
+
+This section describes the preparation and delivery of sgRNA and adenine base editor components into NIH3T3 cells to facilitate efficient gene editing. Proper handling and timing of reagent mixing are essential for optimal transfection efficiency.
+28.Use a microscope to ensure the cells are 70%–80% confluent.
+29.Replace DMEM medium in wells with fresh DMEM and place cells back in the incubator.
+30.Warm transfection materials such as optiMEM and plasmids to 25°C 15 min before starting.
+31.Prepare volumes as described below (per well of a 24-well plate, see ).
+32.Mix thoroughly with a pipette and incubate for 5 minutes at 25°C.
+CRITICAL: Exceeding 5 minutes of incubation is not recommended, as it could potentially decrease the efficacy of the transfection process.
+Note: This indicates the required vector quantities per well for 24-well plates. For other plate sizes, adjust the masses of all volumes proportionally.
+33.Add 50 μl to each well of the plate, gently swirl, and return the plates to the incubator.
+CRITICAL: Perform transfections in triplicate and include appropriate controls (GFP or mCherry) for accuracy.
+34.Assess plates by observing GFP or mCherry expression using a fluorescence microscope after 24 hours.
+Pause point: Typically, more than 70% of cells are transfected.
+35.Aspirate and replace with fresh DMEM to reduce lipid toxicity.
+36.Incubate the cells for 48–72 hours before passaging for subsequent applications.
+ 
+
+## Preparation of cells for Sanger sequencing
+
+Timing: 1 day
+
+This section outlines the preparation of cell lysates for gDNA extraction suitable for Sanger sequencing, including an efficient lysis buffer recipe for small-scale samples.
+Note: For extracting DNA from a small number of cells, you can use e lysis buffer for sequencing applications. DNA extraction with this solution involves simple cell lysis without the need for subsequent purification.
+37.Mix proteinase K (NEB) into the cell lysis buffer at a dilution ratio of 1:1,000 (vol/vol).
+CRITICAL: Store proteinase K at −20°C for up to 12 months.
+38.Add lysis buffer directly to plates from Step 30.
+Pause point: In general, 150 μl of lysis buffer is sufficient for each well of a 24-well plate.
+39.Incubate the plates at 37°C for 1 hour.
+40.Transfer the lysis mixture to PCR strips and deactivate the proteinase K by heating at 80°C for 20 minutes.
+CRITICAL: The DNA can be temporarily stored at 8°C for two weeks or frozen at −80°C for months.
+41.Assess the quality and quantity of the extracted DNA using a NanoDrop spectrophotometer.
+Note: The concentration of the isolated DNA of 50–100 ng/μl indicates an acceptable yield.
+CRITICAL: The absorbance ratios (260/280 nm) should range from 1.8 to 2.2.
+42.Perform Sanger sequencing of the product using the same sequencing primers (Keep diluted primers in −20°C for 6 months) used to sequence the genomic target site (Steps 1–10) in unedited NIH3T3.
+43.Determine base editing efficiencies from Sanger sequence chromatograms using EditR.
+
+## Isolation of clonal cell lines by dilution approach
+
+Timing: 10 days
+
+This section describes the steps for isolating single-cell-derived clonal lines from edited cell populations by limiting dilution, enabling downstream analysis of genetically uniform clones.
+44.Dissociate the cells from the transfected wells 48 hours after transfection as follows:a.Add Trypsin-EDTA (0.05%) to the wells.
+b.Incubate the cells at 37°C for 3–5 minutes until detachment is observed.
+c.Gently pipette the cells to ensure complete dissociation.
+d.Pass the cell suspension through the mesh cap of a cell strainer tube to obtain a single-cell suspension.
+
+CRITICAL: Examine the dissociated cells under a microscope to confirm successful dissociation.
+45.Count the cells in each 24-well plate and perform serial dilutions in DMEM medium to achieve a final concentration of 0.5 cells per 100 μl,
+Note: To minimize the presence of multiple cells per well. It is suggested to use 70 cells in 12 ml for each 96-well plate and to plate at least three 96-well plates for each transfected population.
+46.Using a multichannel pipette, dispense 100 μl of the diluted cells into each well of a 96-well plate and
+Pause point: Place the 24-well plate in the CO2 incubator at 37°C.
+47.Inspect the colonies for a clonal appearance approximately one week after plating.
+48.Return the cells to the incubator.
+49.Allow cells to expand for about 2 weeks.
+50.After 2 weeks, passage each colony into a new 96-well plate by duplicate (1:2).
+51.After 3–4 days use one well to extract DNA.
+52.Determine the sequence at the target site by PCR and Sanger sequencing as described in Steps 4–9.
+53.Confirm the presence of the desired mutation in the genotype of the new cell lines.
+54.Determine the sequences at these off-target sites through PCR and Sanger sequencing, as detailed in Steps 1–9.
+Note: Examine clonal lines for editing at off-target loci. For each locus, we recommend Cas-OFFinder with default parameters for S. pyogenes Cas9 against the species reference sequence to identify the top three predicted off-target sites.
+
+## Cryopreservation of PMBE-edited cell lines
+
+Timing: 1 h
+
+This section details the procedures for freezing and storing PMBE-edited cell lines to ensure long-term preservation and viability of gene-edited populations for future experiments.
+Note: Once the cells have reached approximately 80% confluence, they are ready for cryopreservation.
+55.Remove the medium from the wells designated for banking and add 1 mL of Trypsin.
+56.Incubate the plates at 37°C for 5 minutes.
+57.Use a P200 micropipette to rinse the wells and collect the cells.
+58.Transfer the cell suspension to a 15 mL conical flask and add an equal volume of DMEM medium.
+59.Centrifuge the mixture at 200 × g for 5 minutes.
+60.Aspirate and discard the supernatant without disturbing the cell pellet.
+61.Resuspend the cell pellet in a freezing medium (90% FBS and 10% DMSO at a density of 1 × 106 cells/ml).
+62.Label the cryovials and transfer 1 ml of the cell suspension into each cryovial.
+63.Place the cryovials in a Mr. Frostie container and immediately transfer them to a −80°C freezer.
+64.The following day, transfer the cryovials to liquid nitrogen storage for long-term preservation.
+
+## Specific gene downregulation in edited cells
+
+Timing: 1 day
+
+This section describes how to assess specific gene downregulation in edited cells by performing relative qPCR analysis to compare gene expression levels between edited and non-edited samples.
+CRITICAL: Use a relative qPCR quantification method to quantify the level of the repressed gene of interest in edited cells compared to non-edited cells.
+65.Use primer Database: Search database like RTPrimerDB (http://medgen.ugent.be/rtprimerdb) for pre-validated qPCR primer sets targeting your gene of interest.
+66.Input the target nucleotide sequence into a BLASTn search (http://www.ncbi.nlm.nih.gov/blast) using the default parameters.
+67.Order primers from a supplier.
+Pause point: Ideally, three different sets of oligonucleotides should be ordered and tested.
+
+## qPCR experiments
+
+Timing: 4 h
+
+This section outlines the steps for conducting qPCR experiments to assess gene expression changes, including RNA extraction, cDNA synthesis, and qPCR setup in edited and control samples.
+CRITICAL: RNA is sensitive to temperature; therefore, avoid repeated thawing and freezing.
+68.Extract RNA from cells and quantify RNA using a NanoDrop spectrophotometer.
+Note: An OD260/280 ratio of 1.8–2.0 signifies high- quality RNA.
+69.Determine RNA integrity using 1% agarose gel electrophoresis.
+CRITICAL: Store RNA on ice during handling; store at −80°C for up to 12 months.
+Pause point: The presence of two distinct bands for the large and small subunit ribosomal RNAs (rRNA), with the larger band being about twice as intense as the smaller one, indicates intact RNA.
+70.Use 1 μg of RNA as the template for synthesizing complementary DNA (cDNA)).
+Pause point: The cDNA can be stored at −20°C for up to 6 months.
+71.Dilute cDNA to a total of 100 μl with ddH2O for qPCR experiments.
+72.Use 1 μl of the cDNA for a 10 μl PCR amplification.
+CRITICAL: Use stable reference genes (e.g., GAPDH) for qPCR data normalization.
+73.Make a qPCR mastermix by adding the reagents in the order shown in the .
+Note: Perform the reactions in duplicate.
+74.Add 10 μl of master mix to each reaction tube,
+75.Gently mix by pipetting up and down several times without creating bubbles.
+76.Centrifuge the tubes at 200 × g for 10 seconds.
+77.Run in qPCR instrument using a three-step protocol ( ).
+Note: The exact cycling conditions will vary based on the enzyme and instrument used. The following conditions are generally accepted for conventional block systems and are suitable for the Applied Biosystems Fast 7500 Real-Time PCR System ( ).
+ 
+ 
+
+## Data analysis and visualization
+
+Timing: 1 h
+
+This section describes how to analyze and visualize qPCR data, including assessment of PCR specificity, use of real-time PCR analysis software, and interpretation of gene expression results.
+CRITICAL: To ensure reaction specificity, the PCR product should be analyzed. A melt curve analysis at the end of the PCR cycles will confirm primer annealing specificity, indicated by a single sharp peak ( B).
+78.Analyze data using real-time PCR analysis software.
+CRITICAL: All qPCR instruments come with data analysis software, and the 2–ΔΔCT method.
+
+## Expected outcomes
+This protocol can be applied to achieve permanent gene expression modification in mammalian cells by targeting adenine base editing to the CCAAT box within the promoter of the gene of interest. The CCAAT box plays a crucial role in the gene expression of cells, and mutations in the CCAAT motif cause a several-fold decrease in transcription activity both in vitro and in vivo. The CCAAT box is crucial for the binding of transcription factors that facilitate the initiation of transcription. When mutations occur in this region, the binding affinity of these transcription factors may be diminished, leading to a decrease in transcriptional activity and, consequently, lower levels of mRNA production. This reduction in mRNA expression can be accurately quantified using quantitative PCR (qPCR). By comparing the qPCR results of the mutated CCAAT box with those of the unedited, wild-type sequence, researchers can measure the extent of transcriptional repression caused by the mutation. This comparative analysis can be used to understand the functional impact of specific mutations on gene expression. Due to the robustness of base editing technology, multiple targeting and delivery strategies can be employed, increasing the likelihood of achieving the desired editing properties for a specific application. In an amenable cell line, such as NIH3T3, a minimum editing rate of 15% in bulk-sorted populations should be achieved. If editing rates are lower, it is not recommended to proceed with single-cell clonal expansion. In cases of low editing efficiencies in bulk-sorted or clonal cell populations, it is advised to optimize the transfection protocol by adjusting the total amount of DNA delivered and the sgRNA-to-BE ratios. Additionally, users may need to evaluate alternative sgRNA sequences or base editors to enhance targeting levels. In this protocol, we targeted the Col1a1 promoter using a validated sgRNA in NIH3T3 cells, achieving approximately 18% editing efficiency as confirmed by Sanger sequencing. This gene was chosen because COL1A1 encodes the most abundant structural protein in the human body, and NIH3T3 fibroblasts are an established model for collagen-related studies. Sanger sequencing and RT-qPCR analysis confirm successful base editing of the Col1a1 promoter and a marked reduction in Col1a1 mRNA levels ( ).
+ 
+
+## Quantification and statistical analysis
+All qPCR data were analyzed using Microsoft Excel and GraphPad Prism software (GraphPad, https://www.graphpad.com/). Gene expression levels were normalized to GAPDH and calculated using the ΔΔCt method. Statistical comparisons between groups were performed using unpaired two-tailed t-tests in GraphPad Prism. Data should be presented as mean ± standard deviation (SD) unless otherwise specified. A p-value < 0.05 are considered statistically significant.
+
+## Limitations
+While Promoter Modulation by Base Editing (PMBE) offers a precise and permanent approach to modulate gene expression, it does have certain limitations. One significant limitation is the dependency on the presence of a protospacer adjacent motif sites within promoter regions. , This limitation can hinder the ability to target specific regulatory elements if the necessary PAM sequence is not present. Additionally, the editing window of base editors is relatively narrow, typically spanning positions 4 through 8 within the protospacer, which can limit the flexibility in targeting specific bases within promoters. , Furthermore, unintended edits, such as bystander edits within the same protospacer or off-target (PAM) sequence, which is required for the CRISPR-Cas9 system to recognize and bind to the target DNA. , The most commonly used Cas9 from Streptococcus pyogenes requires an NGG PAM sequence, which can restrict the availability of target hits (or sites) at other genomic loci, remain a concern. , These unintended edits can result from the deaminase activity affecting multiple accessible adenines within the editing window, leading to undesired mutations. Additionally, the efficiency of base editing can be influenced by the local chromatin environment and DNA accessibility, which may vary between different genomic contexts, potentially affecting the consistency and reliability of CRISPR-based methods. , The long-term effects and potential unintended consequences of permanent promoter modifications also need to be thoroughly evaluated to ensure safety and efficacy in therapeutic applications. , 
+
+## Troubleshooting
+
+## Problem 1
+Non-specific PCR products may result from poor primer design or suboptimal PCR conditions (related to Step: 11).
+
+## Potential solution
+Design primers carefully. Perform melt curve analysis to check for specific products.
+
+## Problem 2
+No base for conversion in the window (No PAM) so genomics sequence not optimal (related to Step: 17).
+
+## Potential solution
+Check minus strand for editable guide sequence.
+
+## Problem 3
+Low transfection efficiency can result from suboptimal transfection conditions, poor DNA quality, issues with the cell line, improper incubation conditions, or high cell confluency (above 85%) (related to Step: 27).
+
+## Potential solution
+Optimize conditions. Use high-quality DNA. Choose a suitable cell line. Use efficient reagents. Ensure proper incubation. Ensure that cells are less than 85% confluent before transfection.
+
+## Problem 4
+Sanger sequencing shows noisy or mixed peaks at the editing site (related to Step: 43).
+
+## Potential solution
+Clone PCR products into plasmid vectors followed by individual colony sequencing to distinguish edited from unedited alleles. Use analysis tools such as EditR or TIDE for accurate quantification of editing efficiency. Optimize transfection and editing conditions to increase editing rates before sequencing.
+
+## Problem 5
+No effect on gene expression may be due to unreliable gene expression data, such as poor RNA quality or quantity, use of an inappropriate reference gene, or misinterpretation of the data (related to Step: 71).
+
+## Potential solution
+Ensure the experimental setup includes appropriate controls (e.g., untreated cells, vehicle controls) for comparison with treated samples. Confirm that the cells remain healthy and viable throughout the experiment. Carefully analyze and interpret gene expression data, taking into account statistical significance and biological relevance. Verify that the data normalization methods are appropriate.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Karim Daliri (karimdaliri@gmail.com).
+
+## Technical contact
+Technical questions on executing this protocol should be directed to and will be answered by the technical contact, Karim Daliri (karimdaliri@gmail.com).
+
+## Materials availability
+This protocol did not generate new materials.
+
+## Data and code availability
+This protocol did not generate/analyze new datasets or code.
+
+## Acknowledgments
+We gratefully acknowledge the financial support of the Neurophysiology Institute at the Faculty of Medicine, University of Cologne, Germany, for providing technical assistance and access to research facilities during the course of this project.
+
+## Author contributions
+K.D. conceived, initiated, and led the project; designed and conducted the experiments; analyzed and interpreted the data; and wrote the first draft of the manuscript. K.C. contributed to data analysis, prepared the figures and tables, and reviewed the manuscript. All authors read and approved the final version of the manuscript.
+
+## Declaration of interests
+The authors declare a patent application related to this work.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+This protocol did not generate/analyze new datasets or code.

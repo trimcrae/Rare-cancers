@@ -1,0 +1,165 @@
+326epidinfectEpidemiology and InfectionEpidemiol InfectCambridge University PressPMC8220514822051482205143403220010.1017/S0950268821001229Design of a new multi-epitope vaccine against Brucella based on T and B cell epitopes using bioinformatics methods
+ChenZhiqiang ZhuYuejie ShaTong LiZhiwei LiYujiao ZhangFengbo DingJianbing 1Department of Immunology, College of Basic Medicine, Xinjiang Medical University, Urumqi, 830011
+Xinjiang, China2Department of Reproductive Assistance, Center for Reproductive Medicine, The First Affiliated Hospital of Xinjiang Medical University, No. 393, Xinyi Road, Urumqi, 830011
+Xinjiang, China3Clinical Laboratory Center, Xinjiang Uygur Autonomous Region People's Hospital, Urumqi, 830001
+Xinjiang, China4Department of Clinical Laboratory, The First Affiliated Hospital of Xinjiang Medical University, No. 393, Xinyi Road, Urumqi, 830011
+Xinjiang, China5State Key Laboratory of Pathogenesis, Prevention, Treatment of Central Asian High Incidence Diseases, the First Affiliated Hospital of Xinjiang Medical University, No. 393, Xinyi Road, Urumqi, 830011
+Xinjiang, China✉Author for correspondence: Jianbing Ding, E-mail: 1601379937@qq.com; Fengbo Zhang, E-mail: 765219598@qq.com
+*These authors contributed equally to this work.
+2552021149e136e136172021© The Author(s) 2021This is an Open Access article, distributed under the terms of the Creative Commons Attribution licence (http://creativecommons.org/licenses/by/4.0/), which permits unrestricted re-use, distribution, and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Brucellosis is one of the most serious and widespread zoonotic diseases, which seriously threatens human health and the national economy. This study was based on the T/B dominant epitopes of Brucella outer membrane protein 22 (Omp22), outer membrane protein 19 (Omp19) and outer membrane protein 28 (Omp28), with bioinformatics methods to design a safe and effective multi-epitope vaccine. The amino acid sequences of the proteins were found in the National Center for Biotechnology Information (NCBI) database, and the signal peptides were predicted by the SignaIP-5.0 server. The surface accessibility and hydrophilic regions of proteins were analysed with the ProtScale software and the tertiary structure model of the proteins predicted by I-TASSER software and labelled with the UCSF Chimera software. The software COBEpro, SVMTriP and BepiPred were used to predict B cell epitopes of the proteins. SYFPEITHI, RANKpep and IEDB were employed to predict T cell epitopes of the proteins. The T/B dominant epitopes of three proteins were combined with HEYGAALEREAG and GGGS linkers, and carriers sequences linked to the N- and C-terminus of the vaccine construct with the help of EAAAK linkers. Finally, the tertiary structure and physical and chemical properties of the multi-epitope vaccine construct were analysed. The allergenicity, antigenicity and solubility of the multi-epitope vaccine construct were 7.37–11.30, 0.788 and 0.866, respectively. The Ramachandran diagram of the mock vaccine construct showed 96.0% residues within the favoured and allowed range. Collectively, our results showed that this multi-epitope vaccine construct has a high-quality structure and suitable characteristics, which may provide a theoretical basis for future laboratory experiments.
+Key words: Brucella, multi-epitope vaccine, Omp22, Omp19, Omp28
+
+Abbreviations: Omp22, outer membrane protein; Omp19, outer membrane protein 19; Omp28, outer membrane protein; NCBI, National Center for Biotechnology Information; DNA, desoxyribonucleic acid; LPS, lipopolysaccharide; Cu/Zn SOD, Cu-Zn superoxide dismutase; TCR, T cell receptor; BCR, B cell receptor; C-score, confident score; HBHA, heparin-binding haemagglutinin; TM, template modelling; RMSD, root mean square deviation; MHC, major histocompatibility complex; GRAVY, grand average of hydropathicity; 3D, three-dimensional; HLA, human leucocyte antigen; CTLs, cytotoxic T lymphocytes; ACC, auto cross covariance; E. coli, Escherichia coli
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2020 Oct 31; Revised 2021 May 14; Accepted 2021 May 17; Collection date 2021.
+
+## Introduction
+Brucella is a Gram-negative intracellular pathogen that causes brucellosis [ ], it usually can be divided into 12 species in nature, including six so-called classic Brucella species, namely B. melitensis, B. abortus, B. suis, B. canis, B. ovis and B. neotomae, and six newly discovered Brucella species from wild mammals, amphibians and fish, namely B. microti, B. pinnipidialis, B. ceti, B. inopinata, B. papionis and B. vulpis. In the genus Brucella, B. melitensis, B. abortus and B. suis have good clinical significance [ – ]. Brucellosis in animals manifests itself in miscarriages and reduced fertility and is transmitted to humans by inhaling aerosolised bacteria or ingesting contaminated derivatives. Clinical symptoms of human brucellosis include undulant fever, arthritis and general weakness [ , ]. At the present medical level, it is difficult to completely eliminate Brucella [ ]. Therefore, the vaccine is an ideal way to prevent Brucella infection [ ]. Currently, there are no Brucella vaccines for humans, and the live-attenuated vaccines designed for animals have many defects, including interference with serological testing and human infectivity [ ]. Therefore, the subunit vaccine with no hidden danger and good protective effect has become a new hotspot in brucellosis research. The research of Brucella subunit vaccine mainly includes desoxyribonucleic acid (DNA) vaccines, lipopolysaccharide (LPS) vaccines and protein vaccines [ , ]. With the rapid development of bioinformatics technology, epitopes of different antigens can be constructed as a novel vaccine with good immune effects.
+In previous studies, a series of different proteins from Brucella has been used to identify immunodominant antigens against Brucella infection, including outer membrane proteins [ ], flagellar proteins [ – ], L7/L12 ribosomal proteins [ ] and Cu−Zn superoxide dismutase (Cu/Zn SOD) [ ], etc. The Omp22 protein is an immunodominant antigen, belonging to the Omp25/Omp31 family of proteins. It is highly conserved among various species of Brucella and is related to the infectivity of Brucella. Studies have shown that the Omp22 protein is similar to the LPS of Brucella and induces an immune response in the body [ ]. The Omp19 is exposed at the cell surface of Brucella spp, and it can be employed for protection against Brucella [ ]. The Omp28 is also an important outer membrane protein of Brucella. It is highly conserved among various genera. It has been reported that the Omp28 peptide with CpG oligonucleotide as an adjuvant can induce an immune response mediated by IgG2a type, indicating that the Omp28 can induce the body to produce large amounts of IgG antibodies [ ]. It has been known that vaccines constructed from a single protein stimulate poor immune responses and that multiple protein combinations enhance the vaccine's immune response [ ]. Therefore, in this study, based on the T/B epitopes of Omp22, Omp19 and Omp28, a multi-epitope vaccine against Brucella was constructed. To verify the availability of the vaccine construct, the tertiary structure, secondary structure, physical and chemical properties, solubility, antigenicity and allergenicity of the vaccine construct were analysed by various bioinformatics software. The results indicated that the multi-epitope vaccine construct could be used as a candidate protein against Brucella.
+
+## Methods
+
+## Amino acid sequence of the protein
+The amino acid sequences of the Omp22, Omp19, Omp28 were searched in the GenBank database (https://www.ncbi.nlm.nih.gov/genbank/).
+
+## Prediction of signal peptide
+SignalP-5.0 Server [ ] was used to predict the signal peptide of the protein sequence. SP (Sec/SPI) is related to the type of signal peptide predicted; CS represents the cleavage site; Other: the probability that the sequence does not have any kind of signal peptide.
+
+## Identification of hydrophilic residues and surface accessible
+Immunoglobulins usually bind to the water-accessible regions of antigens. Thus, the predicted epitopes should ideally be located in the highly hydrophilic region with many accessible residues. Surface accessible and hydrophilic regions of the protein were determined using the ProtScale software [ ] and marked these areas through UCSF Chimera software [ ].
+
+## Prediction of tertiary structure
+The I-TASSER server [ ] automatically generated high-quality tertiary structure models of protein molecules from amino acid sequences. The structure and function of proteins were predicted by I-TASSER based on analytic hierarchy process. Here, we used the confidence score (C score) to evaluate the predictive model quality. The C score is in the range of – 5 to 2, where the higher C score, the higher credibility of the model. The template modelling (TM) score was used to deal with some error-sensitive root mean-square deviation (RMSD) problems. A TM score <0.17 indicates random similarity, and only a TM score>0.5 could indicate a correct topology model. These cutoff values did not depend on the length of the protein.
+
+## B cell epitope prediction
+To ensure the accuracy of the prediction of B cell epitopes, we used various prediction software, including COBEpro (http://scratch.proteomics.ics.uci.edu/), SVMTriP (http://sysbio.unl.edu/SVMTriP/prediction.php) and BepiPred (http://www.cbs.dtu.dk/services/BepiPred-1.0/). The overlapping sequences of the top 10 from at least two software were chosen as B cell dominant epitopes.
+
+## T cell epitope prediction
+T cells can be divided into CD4+ T cells and CD8+ T cells, which are restricted by the major histocompatibility complex (MHC) in identifying epitopes. Human MHC is called the human leucocyte antigen (HLA) gene complex. CD4+ T cells recognise antigenic epitopes consisting of 9–22 amino acid residues, which are limited by their HLA-II molecules and differentiate into T helper cells after activation. CD8+ T cells recognise epitopes consisting of 8–12 amino acid residues, which are limited by HLA-I molecules, and differentiate into cytotoxic T lymphocytes (CTLs) after activation. Therefore, it was necessary to predict CD4+ and CD8+ T cell epitopes, respectively, when predicting T cell epitopes. We selected HLA-A * 0201 and HLA-A * 2402 discerned by HLA-I and HLA-DRB * 0701 and HLA-DRB * 0901 discerned by HLA-II, which were the four most common alleles in North China. Some different online software was used to predict T cell epitopes, including IEDB (http://www.iedb.org/home_v3.php), SYFPEITHI (http://www.syfpeithi.de/bin/mhcserver.dll/epitopeprediction) and RANKPEP (http://imed.med.ucm.es/Tools/rankpep.html). We listed the top 10 high-score epitopes for each prediction software and selected three software overlapping sequences as T cell dominant epitopes for the proteins.
+
+## Predicting immunogenicity and antigenicity of CD8+ T cell epitopes
+Epitope/HLA complexes should be capable of eliciting strong immune responses. Therefore, we used the HLA I immunogenicity prediction tool of the IEDB server, the parameters were set to default. The antigenic properties of all CD8+ T cell epitopes were analysed using VaxiJen 2.0 Server [ ] with a threshold of 0.5. Finally, we selected CD8+ T cell epitopes with immunogenicity and antigenicity for the next step (http://tools.immuneepitope.org/immunogenicity/).
+
+## Multi-epitope vaccine sequence construction
+The predicted T/B dominant antigen epitopes were linked by some amino acid linkers. To enhance the immunogenicity of the epitope vaccine, heparin-binding haemagglutinin (HBHA) conservative sequences were added to epitope sequences as the carrier [ ]. It is also known that the PADRE peptides can induce CD4+ T cells and enhance the immune function of the vaccine construct [ ].
+
+## Assessment of allergenicity, antigenicity and solubility
+The allergenicity of the vaccine construct was predicted by SDAP [ ]. SDAP can predict the cross-reactivity of candidate vaccines and known allergens through the allergenicity rules of WHO. We chose the default parameter, which was a similarity of more than 35% for full-length sequences, and an E cutoff of 0.01 when the sliding window was aligned to 80 amino acids, and 6 adjacent short amino acid sequences matched with known allergens. The antigenicity of the vaccine construct by VaxiJen 2.0 server. This server relies on auto cross covariance (ACC) transformation, and alignment-independent predicted antigenic epitopes by physiochemical properties of proteins. The SOLpro [ ] was used to predict the solubility of the vaccine construct. Based on the multiple representation of the first-order amino acid sequence，two-stage SVM architecture was adopted. The final result is to summarise the prediction with 74% overall accuracy at the corresponding probability (³0.5).
+
+## The secondary structure prediction
+The proportions and distributions of Alpha helix, Beta turn, Random coil, Extended strand in vaccine construct sequence were predicted and analysed using SOPMA online analysis software [ ].
+
+## Prediction of various physicochemical properties
+The online tool ProtPararm from Expasy (http://www.expasy.org/protparam/) was used to analyse the physicochemical properties of the vaccine, including theoretical isoelectric points, molecular weight, hydrophilicity, atomic composition and extinction coefficient. The physical and chemical properties from the pk values of amino acids were calculated by ProtPararm software.
+
+## Construction of the tertiary structure of the vaccine construct
+The I-TASSER online software was used to construct the vaccine's tertiary structure, which was validated by Ramachandran diagrams in the RAMPAGE webserver. (http://mordred.bioc.cam.ac.uk/~rapper/rampage.php). The Ramachandran plot is a method to show the allowed and disallowed dihedral angles psi (ψ) and phi (ϕ) of amino acid. It is calculated according to van der Waal radius of the side chain.
+
+## Results
+
+## Amino acid sequence of protein
+Obtaining the Omp22 protein sequence from GenBank (Accession: AAS84601.1): MFKRSITAAALGAAVMAFAGSAFAADMMGGTDYTYNDPVAAGPHDWSGNYVGAQVGGSSSKFPSPFASRTGALGGIVVGKNMQNGNIVFGAELEGNFAEAEHRIGHGGTLQQSWNGNAKGKVGYTFDKTLVYGTAGYGVTRFKAKDNTTSASGWEGGVLIGAGVEQALSGPLSVKAEYDFQRFNDVKSQVNGIEQRNNLKNHSIKAGLNYKF Obtaining the Omp19 protein sequence from GenBank (Accession: ERU25360.1): MGISKASLLSLAAAGIVLAGCQSSRLGNLDNVSPPPPPAPVNAVPAGTVQKGNLDSPTQFPNAPSTDMSAQSGTQVASLPPASAPDLTPGAVAGVWNASLGGQSCKIATPQTKYGQGYRAGPLRCPGELANLASWAVNGKQLVLYDANGGTVASLYSSGQGRFDGQTTGGQAVTLSR Obtaining the Omp28 protein sequence from GenBank (Accession: AEF59021.1): MNTRASNFLAASFSTIMLVGAFSLPAFAQENQMTTQPARIAVTGEGMMTASPDMAILNLSVLRQAKTAREAMTANNEAMTKVLDAMKKAGIEDRDLQTGGINIQPIYVYPDDKNNLKEPTITGYSVSTSLTVRVRELANVGKILDESVTLGVNQGGDLNLVNDNPSAVINEARKRAVANAIAKAKTLADAAGVGLGRVVEISELSRPPMPMPIARGQFRTMLAAAPDNSVPIAAGENSYNVSVNVVFEIK
+
+## Signal peptide of proteins
+The signal peptides of Omp22, Omp19 and Omp28 were predicted separately by the SignalP-5.0. Signal peptide sequence of the Omp19 was MGISKASLLSLAAAGIVLA ( ); signal peptide sequence of the Omp22 was MFKRSITAAALGAAVMAFAGSAFA ( ); signal peptide sequence of the Omp28 was MNTRASNFLAASFSTIMLVGAFSLPAFA ( ). All of the three signal peptide sequences were removed from the epitope prediction of Omp22, Omp19 and Omp28.
+
+ 
+
+## Accessible and hydrophilic region of the proteins
+The accessibility and hydrophilic regions of the Omp22 protein residues and their locations in three-dimensional structures are shown in × and c. Amino acids 61–62 and 75–82 are considered highly unreachable residues due to a surface accessibility score below 5.0 ( ). Amino acids 49–54 and 132–140 were estimated to be highly hydrophobic fragments ( ). In the prediction of T/B epitopes, the residual regions of hydrophobicity and inaccessibility are neglected and they are unlikely to bind to specific antibodies.
+
+ The accessibility and hydrophobic residues of the Omp19 protein and their positions in the 3D structure are shown in and c. Amino acids 102–107 were considered highly inaccessible areas ( ). The residues between amino acids 70–78 were predicted to be highly hydrophobic fragments ( ).
+
+ The accessibility and hydrophobic residues of the Omp28 protein and their positions in the 3D structure are shown in × and c. Amino acids 75–79 and amino acids 179–194 were considered highly inaccessible areas ( ). The residues between amino acids 27–33 were predicted to be highly hydrophobic fragments ( ).
+
+ 
+
+## Tertiary structure of proteins
+The I-TASSER online program was employed to model the 3D structure of proteins ( ). The C score of the Omp22 prediction model was shown as −0.56, and the TM score and the RMSD of the model are shown as 0.64 ± 0.13 and 6.4 ± 3.9 Å, respectively, so it had high reliability ( ). The prediction model of the Omp19 was not highly reliable ( ), and its C score was shown as −3.12. The TM and RMSD were 0.36 ± 0.12 and 12.0 ± 4.4 Å, respectively. The prediction model of the Omp28 was very reliable, with a C score of 0.94. The TM and RMSD are shown as 0.84 ± 0.08 and 3.7 ± 2.5 Å, respectively ( ).
+
+ 
+
+## Prediction of B-cell epitopes
+We used online software COBEpro, SVMTriP and BepiPred to screen the predicted Epitopes of B cells and displayed them in tabular form. The B cell epitopes for Omp22, Omp19 and Omp28 are shown in , respectively.
+
+ 
+
+## Prediction of T cell epitopes
+
+## CD8+ T cell epitopes
+Online software SYFPEITHI, IEDB and RANKpep were employed to analyse the CD8+ T cell epitope of the proteins. The analysis results of the Omp22 are shown in . The analysis results of the Omp19 are shown in . The analysis results of the Omp28 are shown in .
+
+ 
+
+## CD4+ T cell epitopes
+Online software SYFPEITHI, IEDB and RANKpep were employed to analyse the CD4+ T cell epitope of the proteins. The analysis results of the Omp22 are shown in . The analysis results of the Omp19 are shown in . The analysis results of the Omp28 are shown in .
+
+ 
+
+## Overlapping epitopes
+These results were compared to find selected sequences with overlapping regions that were identified as dominant B and T epitopes of proteins ( ).
+
+ 
+
+## Class I immunogenicity and antigenic prediction
+The immunogenicity and antigenicity analysis of CD8+ T cell dominant epitopes were performed by the MHC I immunogenicity prediction tool of the IEDB server and VaxiJen 2.0 server, respectively. Both immunogenicity and antigenicity were positive for epitope, which could be further analysed. The results are shown in .
+
+## Design of the multi-epitope vaccine construct
+To construct the final chimaeric subunit vaccine sequence, the predicted epitope of B cells was used as a template and compared with the T cell epitope. Epitopes whose sequences overlap with the B cell epitope were preferentially chosen for the final vaccine construct ( ). Finally, six sequences were selected as constructs, including sequences 120–138, 154–174 of Omp22, and epitope sequences 24–47, 109–130, 142–153 of Omp19 and sequence 41–73 of Omp28. These epitopes were connected by amino acid linkers. HEYGAEALERAG and GGGS linkers bind the T-epitopes and the B-epitopes, while the carrier sequences connect the N-terminal and C-terminal via the EAAAK linker ( ).
+
+ 
+
+## Allergenicity, antigenicity and solubility evaluation
+The online software SDAP was employed to predict the allergenicity of the vaccine construct. The similarity (%) between the sequence of the construct and the most similar template was between 7.37 and 11.30, which was lower than the threshold of 35%, so the vaccine construct was considered non-allergenic. The antigenicity of this vaccine sequence was analysed using VaxiJen 2.0 service software. The antigen value of 0.788 was predicted, which was higher than the threshold value of 0.5, so the vaccine construct was considered to have good antigenicity. The vaccine construct was soluble with SOLpro SVM value 0.866, which was considered to have good solubility ( ).
+
+## Prediction of the secondary structure of the vaccine construct
+Using SOPMA server to analyse the secondary structure of the vaccine. The results have shown that the structure had 67.32% alpha-helix, 3.39% extended strand, 7.62% Beta turn and 21.13% random coil ( ).
+
+ 
+
+## Physicochemical analysis of the vaccine construct
+The vaccine construct was made up of 407 amino acids and had a molecular weight of approximately 43 kDa. The molecular formula was C1855H2947N551O612S4. The theoretical pI value was 4.95 and contained 45 strongly alkaline ( + ) amino acids (K, R) and 61 strongly acidic (–) amino acids (D, E). The instability index was 29.87 (the instability index of the stable protein <40), which was predicted to be a stable protein. The grand average of hydropathicity (GRAVY): −0.439 (GRAVY ranges from −2 to 2, negative values indicate hydrophilic proteins) and were classified as a hydrophilic construct. The results show that the vaccine construct has good characteristics of initiating an immunogenic response.
+
+## Prediction and verification of the 3D structure of the vaccine construct
+The results showed that the C-score of the three-dimensional (3D) model was shown as −1.52, and the TM score and RMSD of the model were 0.53 ± 0.15 and 10.4 ± 4.6 Å, respectively ( ). The structure validation was achieved by Ramachandran graph analysis. The results showed that there were 86.4%, 9.6% and 4.0% residues in favourable, allowable and outlier regions, respectively ( ).
+
+ 
+
+## Discussion
+Brucellosis is a serious infectious disease with low cure rate and complex clinical symptoms. At present, vaccine is considered to be the most effective measure to prevent Brucellosis [ ]. In this study, we used bioinformatics methods to design a multi-epitope vaccine construct, which provided detailed insights into the initial stages of vaccine development.
+Based on previous studies, the Omp22, Omp19 and Omp28 were evaluated as having good immunogenicity and inducing immune protection in vivo. Moreover, Omp22 and Omp28 were highly conservative, stable and not easily degraded, which provides favourable conditions for later vaccine construction. Therefore, it is of great significance to select the Omp22, Omp19 and Omp28 as candidate proteins for constructing a multi-epitope vaccine against Brucella. As far as we know, there is no multi-epitope vaccine design based on these three candidate proteins.
+SignalP-5.0 server was employed for predicting the signal peptide of the Omp22, Omp19 and Omp28. We respectively removed the signal peptide sequences of Omp22, Omp19 and Omp28, namely 1–24 aa (MFKRSITAAALGAAVMAFAGSAFA), 1–19 aa (MGISKASLLSLAAAGIVLA) and 1–28 aa (MNTRASNFLAASFSTIMLVGAFSLPAFA). Signal peptides were usually located at the start of the protein translation region, affecting protein expression. To predict T/B epitopes more accurately, it was necessary to remove the signal peptide. It was found that the highly hydrophilic region of the antigen was conducive to the interaction with the antibody binding sites, and the more accessible residues on the surface of the antigen, the more conducive to the binding of the antibody [ ]. Therefore, we screened out highly hydrophobic and inaccessible regions of these outer membrane proteins to ensure that the epitopes were located on the more hydrophilic and accessible residues ( and ).
+The key to preparing an epitope vaccine is to obtain the epitopes of relative antigen [ ]. Therefore, in this study, the T cell and B cell epitopes of three candidate proteins were screened by the variety of epitope prediction software, which improved the accuracy of epitope prediction [ ], then dominant epitopes with both T and B cell were elected. The immune response of Brucella mainly depends on active T cells. However, many vaccines can only induce B cell immunity [ ]. CD8+ T cells can effectively lyse and kill infected cells, thus exposing Brucella to the outside of cells and triggering other germicidal mechanisms. Therefore, we analysed the antigenicity and immunogenicity of CD8+ T cell epitopes to ensure that the epitope vaccine can effectively activate CD8+ T cells. Considering that CD4 + T cells are needed to induce appropriate antibody immune response, we also included CD4 + T cell epitopes in the vaccine construct. Our multi-epitope vaccine was designed based on T/B cell epitopes, it is possible to selectively activate specific B cells, CTL and T helper cells to achieve a fully protected and sustained immune response. Finally, six dominant epitopes were identified by a series of comparisons. There were two dominant epitopes (120–138, 154–174) from the Omp22, three dominant epitopes (24–47, 109–130, 142–153) from the Omp19 and one dominant epitope (41–73) from the Omp28.
+As shown in , our vaccine construct is composed of HBHA，PADRE (as a carrier) located at the N- and C-terminal end of the vaccine sequence，six sets of T/ B cell epitopes in the middle of the vaccine construct, which were connected to each other by appropriate linkers. Using GSSS and HEYGAEALERAG cleavable linkers to separate these three domains from each other to enhance the expression of epitopes. These linkers have two key roles in the structure of epitope vaccines: firstly, to prevent the generation of binding epitopes (new epitopes) for the designed epitope vaccine; secondly, to promote immune processing and presentation of HLA-II binding epitopes [ ]. Besides, for linker sequences, we usually use glycine (G) and serine (S) as component amino acids of linker sequences [ ]. Because glycine (G) and serine (S) are the smallest of all amino acids and the most flexible，have no chiral carbon and can be placed between epitope sequences without affecting the conformation and function of either sides. Moreover, due to the functional characteristics of HBHA, the EAAAK linker was used to connect HBHA to the N terminal of vaccine construct as a carrier to ensure the interaction between HBHA and other vaccine fragments was minimised and provides better separation [ ]. PADRE sequence has been reported to reduce the effect of human HLA-DR polymorphism and can enhance the long-term immune response by inducing CD4+ T cells [ ]. Therefore, we added the PADRE sequence to the vaccine construct.
+Finally, we constructed a multi-epitope vaccine with a length of 407 amino acids. The physicochemical, structural and immunological properties of the vaccine construct were predicted by various bioinformatics methods. It is necessary to examine any possible allergenicity at the early stage of vaccine design [ ]. Our vaccine construct was shown to be non-allergenic on SDAP software, making it more effective as a candidate vaccine. The multi-epitope vaccine construct showed higher scores of antigenicity on the VaxiJen 2.0 server. The vaccine construct showed the solubility of more than 0.5 (0.886), which exhibited that the vaccine construct will be highly soluble during its heterologous expression in E. coli. The solubility of recombinant protein in E. coli is the key to many biochemical and functional studies. In short, the vaccine construct is soluble, non-allergic and antigenic peptides.
+The molecular weight (MW) of the final protein is estimated to be 43 kDa. The estimated theoretical pI was 4.95, indicating that the vaccine construct was acidic. The predicted value of the instability index was 29.87, which indicated that the protein was very stable after expression, thus further confirmed its possibility. The predicted score of the GRAVY was −0.439，which shows that the protein would be a hydrophilic construct. The results show that the vaccine construct has good characteristics of initiating an immunogenic response. Analyses of the secondary structure showed that the protein mainly contained 67.32% alpha helices, with 7.62% extended strand, and they have been identified as important ‘structural antigens’ types. The 3D structure of the vaccine construct was modelled by I-TASSER. RMSD and TM scores are index to evaluate the reliability and accuracy of the prediction model. A TM-score more than 0.5 always shows the correct topology model, and C-score was used to show its confidence. Expected TM score of 0.53 ± 0.15 validated the accuracy of the model. The chimaeric structure displayed appropriate characteristics based on the Ramachandran plot's results. Ramachandran plot analysis indicates that 96% of the residues are initiated in the favoured and allowed regions, with fewer (4%) residues in the outlier region. This indicated that the quality of the whole model is acceptable. In this study, a multi-epitope vaccine construct was designed against brucellosis by immunodominant epitopes from antigens of Brucella, including Omp22, Omp19 and Omp28 using the combination of online bioinformatics servers. However, there is a lack of confirmation of the protective efficacy of the vaccine construct in animal models. More studies with both in vivo and in vitro methods would be designed in the future to assess the potency of the vaccine construct.
+In conclusion, this study uses a large number of immunoinformatic approaches to find the vaccine construct to fight against Brucella infection, which provides a theoretical basis for future laboratory experiments.
+
+## Acknowledgements
+The authors are thankful to the State Key Laboratory of Pathogenesis, Prevention, Treatment of Central Asian High Incidence Diseases, The First Affiliated Hospital of Xinjiang Medical University, PR China.
+
+## Authors' contributions
+This study was conceived and designed by Jianbing Ding and Fengbo Zhang. Bioinformatic analysis was performed by Zhiqiang Chen and Tong Sha. The manuscript was drafted by Zhiqiang Chen and Fengbo Zhang and edited by Jianbing Ding. Ethics approval and consent to participate.
+
+## Financial support
+This study was supported by grants (No. 81860352, No. 81860375, No.81560322) from the National Natural Science Foundation of China and funds for the Xinjiang Key construction Project of the 13th Five-Year Plan (basic medicine).
+
+## Ethical standards
+This article does not contain any studies using human participants or animals.
+
+## Conflict of interest
+The authors declared no potential conflicts of interest.
+
+## Data availability statement
+The authors confirm that the data supporting the findings of this study are available within the article and its references.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+The authors confirm that the data supporting the findings of this study are available within the article and its references.

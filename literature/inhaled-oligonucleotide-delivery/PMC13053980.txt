@@ -1,0 +1,379 @@
+pmcSTAR ProtocSTAR Protoc3946starprotSTAR Protocols2666-1667ElsevierPMC13053980PMC13053980.113053980130539804189439610.1016/j.xpro.2026.104467S2666-1667(26)00120-61044671ProtocolProtocol for pro-inflammatory microRNA motif discovery using machine learning
+LinChien-Yu RenBoyang YangShiming KozarRosemary ZouLin WilliamsBrittney ChaoWeiwchao@som.umaryland.edu HuPeterph@som.umaryland.edu 1Center for Shock, Trauma and Anesthesiology Research, University of Maryland School of Medicine, Baltimore, MD, USA∗Corresponding author wchao@som.umaryland.edu∗∗Corresponding author ph@som.umaryland.edu2These authors contributed equally
+3Technical contact
+4Lead contact
+1962026253202672509603104467250320260804202608042026© 2026 The Author(s)2026https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+Here, we present a protocol to identify nucleotide motifs that predict the pro-inflammatory property of microRNAs (miRNAs) using machine learning. We describe steps for cell culture, miRNA transfection, pro-inflammatory classification, and k-mer discovery. We detail procedures for combining in vitro macrophage assays with exhaustive motif searches and least absolute shrinkage and selection operator (LASSO) regression to define nucleotide sequence features that distinguish pro-inflammatory miRNAs. This workflow enables systematic motif discovery and biomarker prioritization directly from miRNA sequences, streamlining translational applications without extensive functional screening.
+For complete details on the use and execution of this protocol, please refer to Ren et al. 
+
+## Graphical abstract
+ 
+
+## Highlights
+•Cell culture and RNA transfection steps are provided to test miRNA activities
+•In vitro assay of MIP-2 production defines inflammatory microRNAs
+•Exhaustive search algorithm identifies nucleotide motifs linked to inflammatory miRNAs
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+Here, we present a protocol to identify nucleotide motifs that predict the pro-inflammatory property of microRNAs (miRNAs) using machine learning. We describe steps for cell culture, miRNA transfection, pro-inflammatory classification, and k-mer discovery. We detail procedures for combining in vitro macrophage assays with exhaustive motif searches and LASSO regression to define nucleotide sequence features that distinguish pro-inflammatory miRNAs. This workflow enables systematic motif discovery and biomarker prioritization directly from miRNA sequences, streamlining translational applications without extensive functional screening.
+
+## Subject areas
+BioinformaticsSequence analysisCell BiologyCell cultureCell-based AssaysImmunologyMolecular BiologyGene Expressionpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-ND
+
+## Before you begin
+Recent evidence demonstrates that certain extracellular microRNAs (miRNAs) function as damage-associated molecular patterns (DAMPs) to activate innate immune response via Toll-like receptor 7 (TLR7) signaling. , However, determination of the pro-inflammatory property of miRNA relies on an in vitro readout of cytokine production in a cell culture, which involves miRNA mimic transfection and enzyme-linked immunosorbent assay (ELISA). To predict if a given miRNA possesses such pro-inflammatory property, we employed a machine learning-guided computer exhaustive search algorithm to identify specific nucleotide sequences (i.e., motifs) that are uniquely present in pro-inflammatory, but not in non-inflammatory, miRNA structures. The set of miRNA motifs identified via this protocol predicts the pro-inflammatory property of a miRNA with 80–90% sensitivity and 70–80% specificity. The newly identified miRNA motifs help identify pro-inflammatory miRNAs and guide selection of miRNA candidates for biomarker discovery.
+The current protocol describes the complete experimental and computational workflow of miRNA pro-inflammatory motif discovery, including miRNA mimic synthesis, macrophage transfection, cytokine detection, binary outcome classification, motif discovery, and performance evaluation. The protocol provides a standardized approach for generating custom training and validation datasets of pro-inflammatory and non-inflammatory miRNAs and for executing the motif discovery algorithm to identify sequence motifs uniquely enriched in pro-inflammatory miRNAs. In addition, the computational algorithm and associated code can be adapted to discover sequence motifs across any oligonucleotide sequence dataset with binary classification outcomes (e.g., 0 and 1).
+
+## Innovation
+This protocol employs a machine learning strategy to identify nucleotide motifs that predict pro-inflammatory property of miRNAs. By leveraging motif-based classification, it enables efficient biomarker prioritization directly from sequence thus reducing the need for extensive functional screening.
+
+## Design and synthesis of microRNA mimics
+
+Timing: 1 week
+
+1.Prepare pro-inflammatory miR-146a-5p.Note: MiR-146a-5p has been shown to stimulate immune responses and induce dose-dependent cytokine production in cultured macrophages. 
+Note: Here we use miR-146a-5p as a positive control for determination of inflammatory response and classification.
+a.Enter https://www.mirbase.org, type “miR-146a-5p” in the search box,
+b.Click the human sequence name: hsa-miR-146a-5p and get the sequence as:UGAGAACUGAAUUCCAUGGGUU
+
+c.Add phosphorothioate (PS) bond modification to the ribonucleic backbone for enhanced stability. (∗: PS modification, r: RNA)rU∗rG∗rA∗rG∗rA∗rA∗rC∗rU∗rG∗rA∗rA∗rU∗rU∗rC∗rC∗rA∗rU∗rG∗rG∗rG∗rU∗rU
+
+2.Prepare the training set of miRNAs.
+
+Note: The training set miRNAs consists of 33 miRNAs that are upregulated in the plasma of mice with blunt trauma. , Prepare each miRNA in the training set by following the same procedure described in step 1 for miR-146a-5p.
+
+3.Prepare the non-redundant test set of miRNAs.
+
+CRITICAL: The miRNAs in the test set should be different from those in the training set to ensure effective validation of the identified motifs.
+
+Note: The test set miRNAs consists of 38 miRNAs upregulated in plasma of human trauma cohorts. Prepare each miRNA in the test set by following the same procedure described in step 1 for miR-146a-5p.
+
+Note: The list of training and testing set of miRNAs can be found in training_testing_sequence.xlsx. The detailed pro-inflammatory test results can be found in the published paper. 
+
+4.Synthesize miRNA mimics.
+
+Note: miRNA mimics were ordered from Integrated DNA Technologies (IDT) as custom single-stranded RNA oligonucleotides using standard desalt purification service. The products are typically delivered within a week from ordering, although delivery times may vary depending on manufacturer’s schedule and shipping location.
+
+Note: Synthesized miRNAs should be delivered as lyophilized or reconstituted at a concentration of at least 100 μM to achieve the starting concentration for transfection.
+
+5.Reconstitute miRNA mimics with sterile nuclease-free water to a stock concentration of 100 μM.
+
+Note: Due to enhanced nuclease resistance and risk of cellular uptake, treat miRNA mimics as biohazardous materials. Use personal protective equipment (PPE), avoid inhalation or aerosolization, dispose as biohazard waste.
+
+## RAW 264.7 cell culture
+
+Timing: 3–4 days
+
+Note: RAW 264.7 cells (ATCC, TIB-71) are loosely adherent and may pile up when confluent, subculture in 10-cm dish at 1:3 ratio twice a week.
+
+CRITICAL: Prepare the following medium in a biological safety cabinet using sterile technique to avoid contamination. Wear personal protective equipment, avoid inhalation or skin contact, and follow institutional biosafety protocols.
+
+6.Initial culture of RAW 264.7.a.Take out the vial from liquid nitrogen tank carefully, immerse in 37°C water bath 1 to 2 min until just melted, wipe exterior with 70% ethanol.
+b.Transfer contents to 10 mL pre-warmed complete culture medium in a 50mL conical tube.
+c.Centrifuge at 300 g for 5 min at 20°C–25°C (room temperature).
+d.Remove supernatant, resuspend cell pellet with 10mL complete culture medium.
+e.Transfer to a 10-cm dish, incubate at 37°C with 5% CO2 for 24 h.
+
+7.Subculture of RAW 264.7.a.When cells grow at 70%–80% confluency, aspirate medium, add 2mL DPBS.
+b.Gently scrape with sterile cell lifter, pipette 10 times slowly with 1 mL pipette tip to break clumps, transfer to a 50mL conical tube.
+c.Centrifuge at 300 g for 5 min at 20°C–25°C.
+d.Resuspend and seed at 1:3 and allow for 1 to 2 day growth.
+
+Note: Normally 2–5 × 106 cells can be obtained from one 10-cm dish at 70%–80% confluency, cells after at least one passage can be used for plating in 96-well plate.
+
+## Computational environment
+
+Timing: 2 h
+
+8.Download and install the latest Python 3 version of Anaconda from https://www.anaconda.com/docs/getting-started/anaconda/install.
+9.Open Anaconda Navigator.
+10.Create a virtual environment (called “Motif” here) with python version 3.12.12 and install required python packages through the environment.
+
+Note: Follow the steps in https://www.anaconda.com/docs/tools/anaconda-navigator/tutorials/manage-packages. Confirm the following packages are installed: pandas, numpy, xlsxwriter, scikit-learn, matplotlib, and openpyxl. If any are missing, install the missing packages through Anaconda Navigator as described in the webpage.
+
+11.Verify the installation.a.Install and launch the latest version of Spyder through Anaconda Navigator/Home.Note: Set the environment by clicking the wrench option on the toolbar. Click Python interpreter, choose Selected interpreter, then select the Python under the Motif folder and click Apply.
+
+b.Run the following command for each package, confirm that the package appears in the output with a version number.Note: If the output does not display the package along with its version number, the active environment is missing that package.
+>conda list pandas
+
+Alternatively, open a terminal, activate the Conda Motif environment by running the following code (if not activated by default).>conda activate Motif
+
+Then run the command for each package, confirm the package appears in the output with a version number.>conda list pandas
+Note: If the output does not display the package and its version number, the active environment is missing that package.
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+CRITICAL: Prepare the following culture medium, 5% BSA stock and starvation medium in a biological safety cabinet using sterile technique. Wear personal protective equipment, avoid inhalation or skin contact, and follow institutional biosafety protocols.
+
+ 
+Alternatives: Fetal bovine serum (FBS) lot can alter cell growth and attachment behavior. Use a qualified lot that has been pre-tested with cell growth and attachment, keep the same lot for all experiments within the study.
+
+ 
+Alternatives: DPBS (1×) can be obtained from other vendors provided it is sterile, or it can be prepared from individual components and sterilized by autoclaving.
+
+ 
+Alternatives: Lipofectamine 3000 alternatives (such as Lipofectamine 2000) were not tested and may require optimization.
+
+•CXCL2 detection: mouse CXCL2/MIP-2 DuoSet ELISA kit (R&D, DY452, storage: 4°C until expiration date) and clear microplate (R&D, DY990).
+
+Alternatives Other CXCL2 ELISA kits (5–1000 pg/mL range) may be substituted, though untested in this protocol. Each microplate consists of twelve removable strips of 8 wells and a frame, giving assay flexibility and minimizing the waste.•Cell culture plate: Flat-bottom 96-well plate (Falcon #353072, cell culture-treated).
+Alternatives: Other 96-well plates with tissue culture treatment are expected to perform similarly. Non-treated plates do not support optimal RAW 264.7 attachment and may alter cell responses, hence not recommended.
+
+## Step-by-step method details
+
+## Macrophage transfection with miRNA mimics
+
+Timing: 2 days
+
+CRITICAL: Procedures from steps 1–15 should be performed in a biological safety cabinet using sterile technique.
+
+1.Culture RAW 264.7 mouse macrophages in 10-cm cell culture dish until 80% confluency.
+2.Scrape off cells using a cell lifter with soft rubber blade and transfer cell suspension into a 50 mL conical tube.
+3.Centrifuge at 300 g for 5 min at 20°C–25°C.
+4.Remove supernatant and resuspend cells in 5 mL culture medium.
+5.Mix cells 1:1 (v/v) with Trypan Blue, count viable (non-blue) cells using a hemocytometer, then dilute to a final density of 3×105/mL.
+6.Dispense 100 μL cells per well into non-edge wells of a 96-well plate as shown below.
+7.To maintain consistent humidity and minimize edge effects, fill the outermost wells of the plate with PBS (or water).
+8.Incubate cells at 37°C with 5% CO2.
+9.On the next day, cells are ready for transfection. 
+
+Note: Check the cell morphology and density under microscope at 10x objective. Optimal conditions are around 70% confluency ( ), and cells typically appear bright and round. Confluency <50% at transfection may lead to suboptimal growth conditions and cell loss/detachment during medium changes.
+
+10.Cell starvation.a.Remove the previous medium carefully from the well, slowly add 100 μL pre-warmed starvation medium.
+b.Incubate for 30 s.
+c.Remove starvation medium, add 90 μL starvation medium.
+d.Keep culturing for 2 h before transfection.
+
+CRITICAL: Work quickly to prevent cell desiccation when aspirating medium and add fresh medium gently along the flask wall to avoid detaching cells.
+
+Note: Confirm cells are not detached after starvation under 10x objective microscope.
+
+11.miRNA working solution preparation.a.Add 18 μL DMEM in a series of 3 tubes (labeled as tube A1, B1 and C1).
+b.Add 2 μL 100 μM miRNA stock solution to tube A1.Note: For positive control, add 2 μL hsa-miR-146a-5p; For test group, add 2 μL miRNA mimics; For negative control, add 2 μL DMEM.
+
+c.Mix tube A1 with vortex, transfer 2 μL of tube A1 solution to tube B1.
+d.Mix tube B1 with vortex, transfer 2 μL of tube B1 solution to tube C1.
+e.Mix tube C1 with vortex.
+
+12.Lipofectamine working solution preparation.a.Add 0.15 μL lipofectamine 3000 is used for transfection per well.
+
+Note: To prepare Lipofectamine for 60 wells of transfection as shown above, add 9 μL lipofectamine 3000 into 291 μL of DMEM, gently mix. (Scale accordingly to sample size.) An extra 10% of reagent is typically prepared to account for potential pipetting errors.
+
+13.Nucleic acid-lipofectamine complex preparation.a.Dispense 12.5 μL of miRNA working solution from tube A1, B1 and C1 into new tubes A2, B2 and C2 respectively.
+b.Dispense 12.5 μL lipofectamine working solution to each of the tube A2, B2, C2. Mix gently by flicking the tube.
+c.Incubate the mixture for 15 min at 20°C–25°C.
+
+14.Transfection.a.Dispense 10 μL miRNA-lipofectamine 3000 complex from the tube A2 into the appropriate RAW 264.7 well for a final transfection concentration of 500 nM. The complexes are enough for duplicate wells.
+b.Dispense 10 μL complex from tube B2 to wells for 50 nM.
+c.Dispense 10 μL complex from tube C2 to wells for 5 nM.
+
+15.Incubate at 37°C with 5% CO2.
+16.18 h later, carefully transfer 60 μL of supernatant from each well into centrifuge tubes without disturbing the cell layer at the bottom.
+17.Centrifuge at 400 g for 10 min at 4°C.
+18.Transfer the supernatant to new tubes.
+19.The supernatant samples can be used immediately for the next step.
+
+Pause point: Save supernatant samples in −80°C freezer. Samples are stable for at least 2 months.
+
+## Pro-inflammatory response quantification and classification
+
+Timing: 2 days
+
+20.Quantify the mouse pro-inflammatory chemokine CXCL2 by ELISA following manufacturer’s instructions. 
+
+Note: We used CXCL2 DuoSet ELISA kit from R&D, the manual can be found at: https://resources.rndsystems.com/pdfs/datasheets/dy452.pdf.
+
+Note: Begin with 1:150 dilution of cell culture supernatant prior to ELISA to achieve concentrations with the 15.6–1000 pg/mL detection range of the kit.
+
+Note: ELISA stop solutions are classified as skin/eye irritants or corrosives due to strong acid. Collect all stop solution waste in designated chemical waste containers labeled “Acidic ELISA waste” and dispose via institutional hazardous waste guideline.
+
+21.Classify pro-inflammatory versus non-inflammatory miRNA.Note: A miRNA is classified as pro-inflammatory if it meets both of the following criteria, otherwise it is classified as non-inflammatory:
+a.Dose-dependent increase: CXCL2 levels in culture medium show a continuous increase across 5 nM to 50 nM and 50 nM to 500 nM.
+b.Fold-change threshold: There is at least a 1.5-fold increase in CXCL2 production between any two adjacent tested miRNA concentrations. (50 nM vs 5nM, or 500 nM vs 50 nM). Example of pro-inflammatory classification based on different dose-dependent responses and fold-changes is shown in .
+
+22.Summarize miRNA, sequence and pro-inflammatory classification, make a summary table as in . 
+
+Note: A demonstrative classification table for downstream analysis can be found in supplemental file as: training_testing_sequence.xlsx. The “train” sheet includes the 33 miRNAs used for motif discovery, while the “test” sheet contains the 38 sequence-distinct miRNAs used to validate the ability of identified motifs to predict pro-inflammatory miRNAs.
+
+23.Save the file with the file name “training_testing_sequence.xlsx” and retain the “train” and “test” sheets exactly as specified in the demonstrative table.
+
+Note: From now on, we will describe the on how to use the automatic motif finding algorithm. The algorithm consists of two major scripts: k-mer discovery and optimization process, and essential motif finding and validation process. The detailed instruction of each part is demonstrated in the following sections.
+
+## K-mer discovery and optimization (K-mer_discovery.py)
+
+Timing: <1 min with parallel computing enabled for calculating 2- to 10-mers
+
+Note: In this part, we generate all theoretical k-mers that include wildcard positions within miRNAs from Step 23, where k is a value defined by the user. The value of k can range from 2 to N (any integer within the length of miRNA). While k can start at 2, using a very small value may yield low-complexity motifs that are common across various miRNAs. Additionally, N should be determined based on the available computational resources, as the number of candidate motifs increases exponentially with k. To manage memory usage and reduce processing time, only motifs that meet the specified criteria in the provided sequences are retained for further analysis.
+
+Required input file: training_testing_sequence.xlsx: Provide the Excel sheet containing summary of miRNA nucleotide sequences and classification results (Step 23). Ensure that the file is accessible.Note: We list only the critical steps of the k-mer discovery workflow here. K-mer_discovery.py contains the full implementation, including non-critical code and variable/parameter handling.
+24.Configure parameters.Note: Configure the required parameters before executing the Python script “K-mer_discovery.py”.
+a.k-mer range (kmin, kmax): Set the inclusive bounds for the search and ensure that kmin is less than or equal to kmax.
+b.Tolerance (tol): Define the group-frequency threshold, which states that a motif must occur in at least N_pos × tol miRNA sequences linked to a positive outcome. The value ranges from 0 to 1.
+c.Parallel computing (is_parallel): Enable multiprocessing (TRUE) for faster processing or run in single-core mode (FALSE).
+d.Result export (is_save_to_file), Output file (save_to_file): Decide whether to save outputs to an Excel file (TRUE) or not (FALSE). Specify the destination Excel filename when saving is enabled.
+
+25.Generate K-mer candidates.a.Define the input sequence.i.Read the training sequences from the input Excel sheet and store them in a pandas DataFrame.
+ii.Convert all sequences from the input Excel sheet to lowercase and concatenate them into one continuous string, adding a prefix to each sequence to signify the beginning of a new sequence.>df['sequence'’] = df['sequence'].str.lower()
+>prefix = "!"
+>prefix_seq = [prefix + sub for sub in seqs]
+>prefix_seq = ''.join(prefix_seq)
+
+b.Slide a length-K window across the sequence to enumerate all substrings.>def k_length_substrings(s, k):
+>  for i in range(len(s)-k+1):
+>   yield s[i:i+k]
+># Extract K length substrings
+>res = list(k_length_substrings(prefix_seq, K))
+
+c.Filter the substrings by removing any entry that contains the specified prefix token.>res_remove_prefix = [s for s in res if prefix not in s]
+
+d.Deduplicate the remaining substrings to produce a unique k-mer list.>res_unique = list(set(res_remove_prefix))
+
+26.Expand motif candidates with wildcards.
+Note: Given a set of unique k-length strings, we generate all possible wildcard patterns by replacing any subset of positions with the dot character (.). We first define a list of positions where the wildcards can be applied, and then we create the full power set of these positions, which includes all possible combinations (masks). For each input motif candidate, we apply each mask to produce a pattern with dots inserted at the specified masked positions. Finally, we eliminate any duplicate motifs by storing them in a set.
+>wildcard_positions = list(range(K))
+>output_set = set()
+>for key in res_unique:
+>  combinations = [[]]
+>  for pos in wildcard_positions:
+>   combinations += [c + [pos] for c in combinations].
+>  for comb in combinations:
+>   this_str = list(key)
+>   for index in comb:
+>    this_str[index-1] = '.'
+>   output_set.add(''.join(this_str))
+27.Calculate motif presence and counts across groups.a.For each candidate motif, conduct a regular expression search across all sequences to create binary presence/absence profiles for each sequence.>exist_array_group = [1 if re.search(pattern, string) else 0 for string in seqs]
+
+b.Summarize the profiles separately for the positive and negative groups. Retain a k-mer only if it is frequent in the positive group (meeting the specified tolerance threshold) and completely absent in the negative group.
+c.For all retained k-mers, calculate per-sequence counts of overlapping matches to capture abundance and store both the presence/absence profiles and the counts.>exist_count_in_neg = sum(list(compress(exist_array_group, ind_neg)))
+>exist_count_in_pos = sum(list(compress(exist_array_group, ind_pos)))
+>if (exist_count_in_pos >= cutoff_count_pos and not exist_count_in_neg) or (exist_count_in_neg >= cutoff_count_neg and not exist_count_in_pos):
+>  count_array_group = [my_subfunc.my_overlappingcount(pattern, string) for string in seqs]
+>  count_list.append(count_array_group)
+>  kmer_pool.append(pattern)
+>  occurrence_list.append(exist_array_group)
+
+d.Assemble output tables.i.Construct an existence matrix, where rows represent motifs and columns indicate whether each motif exists in miRNA sequences.
+ii.Create a count table, where rows are motifs and columns show the abundance count of each motif within the miRNA sequences.>df_kmer = pd.DataFrame(occurrence_list, columns=list(df['miRNA']),index=[kmer_pool])
+>df_count = pd.DataFrame(count_list, columns=list(df['miRNA']),index=[kmer_pool])
+
+e.Save the output tables to the specified Excel file if the save option is enabled.>if is_save_to_file:
+>  writer = pd.ExcelWriter(save_to_file, engine='xlsxwriter')
+>  df_kmer.to_excel(writer, sheet_name='existence')
+>  df_count.to_excel(writer, sheet_name='count')
+>  writer.close()
+Note: You can choose whether to use parallel computing or not. If you decide to run the process without parallel computing, the script evaluates candidates sequentially across all k values. On the other hand, if you opt for parallel computing, it evaluates candidate k-mers concurrently using a worker pool. After processing, the script will merge the returned k-mers, presence/absence profiles, and the count vectors into the same two tables and provide the option to export them as well. Using parallel computing is beneficial when calculating larger k-mers, as it may significantly speed up the processing time.
+
+## Essential motif finding and validation (Automatic_motif_finding.py)
+
+Timing: <1 min, the duration may vary depending on the number of LASSO modules being trained
+
+Required input file: 1. training_testing_sequence.xlsx (Step 23), 2. K-mer_candidates.xlsx (generated after processing K-mer_discovery.py).28.Prepare training dataset for machine learning.a.Read the training dataset from the sequence workbook, converting all sequences to lowercase for consistency.
+b.Load the motif workbook (the existence sheet from Part 3) and remove duplicate rows, so each motif has a single, unique presence/absence profile.
+c.Transpose the motif-by-sequence matrix to create a feature table, with sequences as rows and motifs as columns, for training purposes.
+d.Scale features using min-max normalization, fit on the training set only, and apply the same transformation to all downstream data.
+e.Apply the previous steps for the testing sequences and labels for subsequent prediction and evaluation.
+
+29.Determine the final motif list using LASSO.
+Note: We train a Lasso model using five-fold cross-validation on the motif panel derived from the positive training group. We explore the regularization strength by scanning a logarithmic grid ranging from 0.01 to 1, using 42 values. For each value, we record the training F1 score, the number of non-zero coefficients, and the corresponding list of selected motifs (motifs with non-zero coefficients). We determine the final model by ranking according to the highest training F1 score, resolving ties first by preferring models with fewer selected motifs, and subsequently by choosing the model with the larger regularization value. The outputs include the fitted model, the selected motif coefficients, performance metrics across the grid, and tables that link each lambda value to its corresponding set of selected motifs in the Excel file. In addition, the code outputs the final motif list and visualizes the LASSO hyperparameter-tuning results in the Spyder IDE.
+>nsample = 42
+>alphas = np.logspace(-2, 0, nsample)
+>lassocv = LassoCV(cv=5, max_iter=10000)
+>exp1_df_final, exp1_coefs, exp1_df_perfmetrics, exp1_df_motif_alpha_list = my_subfunc.my_LASSO(X_train_pos_motif, y_train, df_seq_test, y_test, alphas, lassocv)
+>results = {'alphas’: alphas, 'train_f1': exp1_df_perfmetrics['train_f1'], 'N_nonzeros': exp1_df_perfmetrics['N_nonzeros']}
+>df_results = pd.DataFrame(results)
+> df_results.sort_values(by=['train_f1’,'N_nonzeros','alphas'], ascending=[False, True,False], inplace = True, ignore_index=False)
+># get the final motif list
+>final_decision_idx = df_results.index[0]
+>s = exp1_df_motif_alpha_list['‘ListIndex']
+>matching_idx = s.index[s.eq(final_decision_idx)]
+>final_decision_motifList = exp1_df_motif_alpha_list.loc[matching_idx, 'motifs']
+>final_decision_alpha = df_results[‘alphas’][final_decision_idx]
+>print("The final motif list: ", final_decision_motifList.tolist())
+30.Enable the save option.
+Note: By enabling the save option, we write the fitting results from LASSO to an Excel file with separate sheets for future reference or in-depth analysis of the individual machine learning models.
+>if is_save_to_file:
+>  writer = pd.ExcelWriter(save_to_file, engine='xlsxwriter')
+>  exp1_df_motif_alpha_list.to_excel(writer, sheet_name='perfmetric')
+>  exp1_df_perfmetrics.to_excel(writer, sheet_name=‘motif’, index=False)
+>  writer.close()
+31.Expected results in the working directory.a.LASSO models selection results (LASSO_model_selection.png).
+b.Analysis results for motif selection (automatic_motif_finding_results.xlsx).
+c.Final motif list (final_motifs.txt).
+
+Note: This script automatically reports the final motifs based on the model selection criteria outlined in the manuscript. We identify the final LASSO model by selecting the model that achieves the highest F1 score while maintaining the fewest motifs and the highest lambda value. In “automatic_motif_finding_result.xlsx”, sort by the columns “train_f1”, “N_nonzeros”, and “Lambda” to locate the final model. To use different metrics to determine the optimal model for the project, use this workbook to adjust the selection criteria. Once the model number is identified, refer to the “motif” sheet to find the motifs with non-zero coefficients for the model of interest.
+Note: By the example dataset, the final motifs should be: (1) .a.....uu. (2) g.uu. (3) u..uu. (4) uu...u and (5) .uuc, where “.” represents a wild card of any of the a, u, g or c. The results are printed out on the screen and saved in the generated file: final_motifs.txt located in the current working directory.
+32.Evaluate performance using testing dataset.a.Import the testing dataset (training_testing_sequence.xlsx, sheet: Test) that is non-redundant from the training set used for motif discovery.
+b.Obtain the experimental classification based on Part 1 to 2.
+c.Obtain the motif-guided prediction from the final motifs on the testing data.Note: Pro-inflammatory miRNA prediction is based on the presence of at least one motif from the final motif list (final_motifs.txt).
+>occurrence_list = []
+>for selected_motif_ind in selected_motif:
+>  exist_test_group = [1 if re.search(selected_motif_ind, string) else 0 for string in test_seq]
+>  occurrence_list.append(exist_test_group)
+>df_motif_test = pd.DataFrame(occurrence_list, columns=df_seq_test.iloc[:,0].tolist(),index=[selected_motif])
+
+d.Calculate the classification performance metrics.Note: Performance metrics for evaluating the classification model such as True Positives (TP), True Negatives (TN), False Positives (FP), False Negatives (FN), Sensitivity (Sens), Specificity (Spec), False Negative Rate (FNR), False Positive Rate (FPR), Accuracy, and F1-score are calculated.
+>pred_test_bool = df_motif_test.any(axis=1)
+>y_test_pred = pd.DataFrame([1 if item == True else 0 for item in pred_test_bool],columns=['pred_group'],index=[df_seq_test.iloc[:,0]])
+>test_performance_metrics = my_subfunc.my_confusion_matrix(y_test, y_test_pred)
+Note: Automatic_motif_finding_results_testingset.xlsx located in the current working directory. The performance metrics included in the file are described in .
+Note: We also export the existence table for each motif in the testing dataset in the same workbook.
+ 
+
+## Expected outcomes
+This protocol generates a validated set of nucleotide motifs that predict pro-inflammatory activity of miRNAs directly from sequence. Expected outcomes include a validated LASSO model for classifying pro-inflammatory miRNAs, a ranked list of sequence features enabling flexible feature selection, and 5 essential motifs distinguishing pro-inflammatory from non-inflammatory miRNAs. The pipeline produces highly reproducible results with motifs, model coefficients, and performance metrics. This approach streamlines therapeutic miRNA candidate screening by eliminating extensive wet-lab functional assays.
+
+## Limitations
+We utilize a mouse macrophage cell line to assess the pro-inflammatory property of miRNAs. While previous research has demonstrated conserved mechanisms of miRNA sensing between mouse and human immune cells, incorporating human cell lines in future experiments may enhance the predictive reliability of motif-guided miRNA classification for human applications.
+For motif discovery, we have derived over half a million motifs from 33 training miRNAs in our study. To identify motifs relevant to inflammation, we employed LASSO regression. This approach is effective because the features with non-zero coefficients in the LASSO model are the most important factors for predicting the outcome. However, this method may not fully capture the complexities of motif interactions. Other machine learning approaches, such as Elastic Net or deep learning techniques, may offer improved motif discovery by recognizing complicated motifs and interactions. In addition, the optimization of hyperparameters, such as the regularization parameter λ (denoted as alpha in the code script) in the LASSO model, plays a crucial role in the model’s performance. While we optimized these parameters based on our training dataset, further research is needed to explore the robustness of our findings across different hyperparameter values and to identify the optimal settings.
+
+## Troubleshooting
+
+## Problem 1
+Low CXCL2 production. In RAW 264.7 macrophage cells transfected with PS-modified hsa-miR-146a-5p as positive control, CXCL2 concentration should follow a dose-dependent pattern. In our previous experience, the expected concentrations (mean ± SD) would be 5 nM miR: 5136 ± 1530 pg/mL, 50 nM miR: 30202 ± 12777 pg/mL, 500 nM miR: 67016 ± 28383 pg/mL (summarized from six independent transfections, with each transfection performed in two wells). If the measured CXCL2 is significantly lower than the above range, consider following the solutions below for troubleshooting.
+
+## Potential solution
+Allow cells to grow for an extended period (24–48 h) before seeding them into the 96-well plate (step 1). Slightly increase the initial cell seeding density (step 5) and ensure that the plates used are cell- or tissue-culture treated (step 6). If cells consistently show poor attachment, reduce the starvation period to approximately 1 h (step 10). Check for microbial contamination (step 1) and assess cell viability with Trypan Blue staining: if viability is low, optimize growth conditions so that live (unstained) cells account for more than 90% of total cells (step 5). For lyophilized miRNA mimics, centrifuge briefly at >10,000 g for 1 min before opening to prevent sample loss, then add water, mix thoroughly, and incubate at 20–25°C for 10 min to ensure complete resuspension before use (Before You Begin, step 5).
+
+## Problem 2
+Cell detachment during culture or plate handling.
+
+## Potential solution
+Add medium slowly and at an angle by pipetting gently against the plate wall (step 10). Always use pre-warmed medium when refreshing cultures (step 10). For a full 96-well plate or larger setups, use multichannel pipettes to minimize air-drying time between procedures, or refresh the medium in regional passes to reduce cellular stress (step 10). If cells detach before starvation, check for microbial contamination and confirm that the plate surface is properly cell-culture coated (step 9). If detachment occurs after transfection, reduce the amount of Lipofectamine used for each transfection (steps 12–15).
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Dr. Wei Chao (wchao@som.umaryland.edu).
+
+## Technical contact
+Technical issues and troubleshooting requests should be directed to and will be fulfilled by the technical contact, Boyang Ren (bren@som.umaryland.edu).
+
+## Materials availability
+This protocol does not involve the use or development of new reagents, and all reagents and assays are described in the . This protocol uses commercially available reagents and standard lab equipment listed in the key resources table. Common reagents (DMEM, FBS, DPBS, Trypan Blue, and BSA) and equipment (cell culture plate and cell lifters) can be obtained from Thermo Fisher Scientific, Sigma-Aldrich, Corning, Falcon, or equivalent vendors. Similar alternatives were not systematically tested but are expected to perform equivalently if they are treated for cell culture and sterile. Custom phosphorothioate-modified RNA mimics are available from IDT or similar oligo providers. No unique reagents were generated.
+
+## Data and code availability
+The example miRNA dataset and the code generated during this study are available at https://zenodo.org/records/18408808.
+
+## Acknowledgments
+This work was supported in part by the National Institutes of Health (10.13039/100000002NIH), United States, grant R35-GM140822 (W.C.). Elements of the graphical abstract, including the macrophage, microRNA, 96-well plate, microRNA sequence, and machine learning “brain” icons, were created with Biorender.com.
+
+## Author contributions
+Conceptualization, P.H. and W.C.; methodology, C.-Y.L., B.R., and S.Y.; investigation, C.-Y.L., B.R., L.Z., B.W., P.H., and W.C.; writing – original draft, C.-Y.L. and B.R.; writing – review and editing, R.K., L.Z., B.W., P.H., and W.C.; funding acquisition, W.C.; resources, L.Z., B.W., W.C., and P.H.; supervision, P.H. and W.C.
+
+## Declaration of interests
+B.R., S.Y., P.H., and W.C. are listed as inventors on US patent application no. 19/420,493 entitled “Extracellular miRNA Motifs for Inflammation, Methods of Discovery and Uses Thereof.”
+
+ 
+
+## Supplemental information
+
+## Data S1. Code and example dataset
+
+Supplemental information can be found online at https://doi.org/10.1016/j.xpro.2026.104467.

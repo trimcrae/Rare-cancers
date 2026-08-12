@@ -1,0 +1,444 @@
+pmcSTAR ProtocSTAR Protoc3946starprotSTAR Protocols2666-1667ElsevierPMC12816853PMC12816853.112816853128168534151187910.1016/j.xpro.2025.104323S2666-1667(25)00729-41043231ProtocolProtocols to evaluate mutant specificity of an oncogene-targeting siRNA using orthogonal in vitro and in vivo approaches
+StanlandLyla J. PorrelloAlessandro EgliMartin PecotChad V.pecot@email.unc.edu 1EnFuego Therapeutics Inc., Morrisville, NC 27560, USA2UNC RNA Discovery Center, Chapel Hill, NC 27599, USA3Lineberger Comprehensive Cancer Center, University of North Carolina at Chapel Hill, Chapel Hill, NC 27599, USA4Department of Biochemistry, Vanderbilt University, Nashville, TN 37232, USA5UNC Division of Oncology, Chapel Hill, NC 27599, USA∗Corresponding author pecot@email.unc.edu6Technical contact
+7Lead contact
+2032026081202671503894104323080120262101202621012026© 2025 The Authors2025https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+RNA interference (RNAi) is a promising new approach for oncogene targeting for “undruggable” targets, including KRAS. Here, we present a protocol for evaluating mutant selectivity of KRAS small interfering RNAs (siRNAs) using orthogonal in vitro and in vivo techniques. We describe steps for structural analyses of siRNA complexes, utilization of isogenic HA- and luciferase-tagged cell lines, RNA sequencing for off-target effects, and in vivo evaluation of mutant selectivity. This protocol has potential application for the development of mutant-specific siRNA molecules targeting any oncogene.
+For complete details on the use and execution of this protocol, please refer to Stanland et al. 
+
+## Graphical abstract
+ 
+
+## Highlights
+•Procedure for evaluation of thermodynamic binding of siRNA to target mRNA
+•Steps for in vitro analysis of siRNA by RT-qPCR, western blotting, and luciferase assays
+•Instructions for in vitro analysis of off-target effects of siRNA using RNA sequencing
+•Steps for in vivo analysis of siRNA targeting by RT-qPCR in tumor and somatic tissues
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+RNA interference (RNAi) is a promising new approach for oncogene targeting for “undruggable” targets, including KRAS. Here, we present a protocol for evaluating mutant selectivity of KRAS small interfering RNAs (siRNAs) using orthogonal in vitro and in vivo techniques. We describe steps for structural analyses of siRNA complexes, utilization of isogenic HA- and luciferase-tagged cell lines, RNA sequencing for off-target effects, and in vivo evaluation of mutant selectivity. This protocol has potential application for the development of mutant-specific siRNA molecules targeting any oncogene.
+
+## Subject areas
+sequence analysiscell Biologycell-based assayscancerRNA-seqCRISPRbiotechnology and bioengineeringpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyes
+
+## Before you begin
+The protocol has been optimized to fully evaluate mutant selectivity of an oncogene-targeting, fully chemically modified siRNA molecule using cancer cell lines in vitro and in vivo. The protocol begins from Part 1, which uses thermodynamic and computational modeling to evaluate the structural basis of mutant selectivity. These techniques evaluate both siRNA:mRNA duplex structures, and siRNA loading into Ago2, which is critical for RNAi activity.
+Part 2 describes the use of isogenic lung cancer cell lines expressing either KRAS wild type (WT) or mutant KRAS G12V containing either an HA tag or dual firefly/renilla luciferase reporter for in vitro evaluation of the siRNA. These isogenic cell lines enable highly specific evaluation of either the WT or mutant KRAS allele and are also used in Part 4, which describes in vivo evaluation of the siRNA. We used the A431 cell line for several key reasons. First, this cell line is not dependent on endogenous KRAS for survival and therefore tolerated CRISPR/Cas9-mediated knockout of the endogenous KRAS allele and engineered expression of HA-tags and luciferase reporters. Second, for in vivo delivery, our siRNA molecules are conjugated to GE11, an EGFR linear ligand, which enables targeted delivery to tumor tissue with minimal delivery to somatic tissues. , , , Importantly, A431 cells express uniformly high levels of EGFR, ensuring that these cell lines can be used in vivo for pharmacokinetic and pharmacodynamic studies.
+Part 3 details RNA-sequencing performed in a heterozygous colon cancer cell line, SKCO1, to explore potential off-target effects. We performed RNA-sequencing at an early timepoint following in vitro transfection to minimize differential gene expression due to downstream effects of silencing KRAS. Further, we used a heterozygous cell line to enable clear delineation of KRAS WT and G12V alleles.
+As discussed above, Part 4 describes in vivo evaluation of a GE11-conjugated siRNA following systemic administration into mice bearing isogenic HA-tagged A431 G12V tumors. , An additional advantage of this model system was that we were able to distinguish on-target mutant KRAS G12V silencing and eliminate background signal from murine KRAS WT stroma.
+
+## Innovation
+This protocol specifically describes how to evaluate the mutant selectivity of an oncogene-targeting siRNA. Current protocols to evaluate target silencing and efficacy of siRNAs do not include specific steps to evaluate mutant selectivity versus wild type targeting. Mutant specific oncogene targeting is emerging as an important aspect of therapeutics as wild type signaling can be important in normal tissues. Therefore, maintaining wild type signaling while inhibiting mutant oncogene signaling specifically can improve efficacy and limit off-tissue toxicities associated with pan-targeting therapies.
+Additionally, this protocol uses customized cell line models that express KRAS WT and KRAS G12V with either an HA tag, or fused to a luciferase reporter. These cell line models enable simple and clear delineation of the WT and G12V alleles and can be used for in vitro and in vivo evaluations. Most cancer cell lines have heterozygous genotypes, and traditional assays including RT-qPCR and western blotting will result in the detection of both the WT and mutated oncogene alleles. The cell lines were built using custom retroviral and lentiviral constructs in a non-KRAS dependent cell line. These models are critical for the protocols described, and unique models could be built using other oncogenes to evaluate novel siRNA designs.
+
+## Institutional permissions
+For all experiments performed using mice, it is critical to obtain appropriate approvals and follow all guidelines set forth by the American Association for Accreditation of Laboratory Animal Care and the U.S. Public Health Service policy on Human Care and Use of Laboratory Animals or other relevant institutions. All mouse studies included in the development of this protocol were approved and supervised by the University of North Carolina at Chapel Hill Institutional Animal Care and Use Committee (IACUC).
+
+## Generation of isogenic A431-HA- and A431-Luc-tagged cells engineered to express either KRAS WT or mutant KRAS G12V
+
+Timing: 6 weeks
+
+Because most cancer cell lines have a heterozygous KRASWT/G12V genotype, RT-qPCR analyses using KRAS primers or western blotting using KRAS antibodies will result in detection of both the WT and G12V mutant mRNAs or proteins, respectively. Thus, we focused on the creation of an isogenic model system containing either KRAS WT or G12V mutations. In this section we describe the development of isogenic A431 cell lines engineered to express either KRAS WT or mutant KRAS G12V tagged with HA or a dual luciferase reporter. These cells are invaluable to evaluating the mutant selectivity of the siRNA and can be used in vitro and in vivo. The HA tag enables us to probe for HA by western blot rather than KRAS which improves western blot quality. Furthermore, the HA tag enables us to probe for the KRAS protein expressed in the tumor cells only following excision of tumors in vivo, thereby eliminating any background from mouse stromal cells within the tumor microenvironment. Lastly, the removal of the endogenous KRAS allele ensures that we only evaluate the exogenous KRAS alleles by RT-qPCR.
+We selected A431 lung cancer cells for these models because these cells are not dependent on endogenous KRAS for survival, allowing us to generate viable CRISPR/Cas9 knockout clones. These cells additionally have excellent growth properties in vitro and show excellent tumorigenicity rates in mouse models, making them a useful model for many experiments.1.Generate KRAS(WT/G12V)-HA retroviral particles ( A).a.Bring cell culture media (DMEM + 10% FBS), 1× PBS, Trypsin-EDTA and Opti-MEM media to 37°C.
+b.Aspirate medium in flasks and wash HEK293T cells once with 1× PBS (5 mL for T75 and 10 mL for T175) to remove residual medium.
+c.Add Trypsin-EDTA to cells (2 mL for T75 and 4 mL for T175) and place in incubator for 2 minutes.
+d.Add 10 mL culture media to flask and mix by pipetting up and down. Move cell mixture to conical tube.Note: Complete transfections in cell media without antibiotics added as antibiotics can negatively affect transfection efficiency. If cells are normally cultured in media with antibiotics, seed cells for transfections in antibiotic-free media.
+
+e.Count cell concentration using a Hemocytometer.Alternatives: Countess Automated Cell Counter.
+
+f.Seed 300,000 HEK293T cells per 6 cm dish.
+g.Incubate at 37°C for 24 hours to allow cells to attach to plate.
+h.In one Eppendorf tube, dilute 6.25 μL Lipofectamine 2000 reagent in 125 μL Opti-MEM.
+i.In a separate Eppendorf tube, dilute DNA in 125 μL Opti-MEM.i.Add 1.25 μg pBABE-puromycin-KRAS WT or pBABE-puromycin-KRAS G12V, and 1.25 μg/μL PCL10A packaging vector.
+
+j.Add diluted DNA to diluted Lipofectamine 2000 reagent at 1:1 ratio.
+k.Incubate at 18°C–24°C for 5 minutes.
+l.Add transfection complex to pre-seeded dish with HEK293T cells.
+m.Incubate at 37°C for 24 hours.
+n.After 24 hours, aspirate the medium and discard. Replace with 5 mL fresh medium without antibiotics.CRITICAL: Perform this step gently to avoid detachment of the HEK293T cells from the plate.
+
+o.After an additional 24 hours, remove and keep the medium (this is the viral supernatant) and replace with 5 mL fresh medium without antibiotics. Keep the viral supernatant at 4°C.Note: Viral supernatant can be stored for short-term at 4°C however once all viral supernatant is collected, it should be stored at −80°C to preserve quality.
+
+p.After an additional 24 hours, remove and keep the medium combining with medium collected from the prior day.
+q.Pass viral supernatant through a 0.45 μM filter.
+r.Store at 4°C short-term and −80°C long-term.
+
+2.Generate KRAS(WT/G12V)-Luc lentiviral particles ( B).a.Seed HEK293T cells by following protocol outlined in Step 1a–1g.
+b.In one Eppendorf tube, dilute 8 μL Lipofectamine 2000 reagent in 125 μL Opti-MEM.
+c.In a separate Eppendorf tube, dilute 2.4 μg DNA in 125 μL Opti-MEM.i.Mix plasmids in a ratio of 4 (transfer – lentiviral vector with KRAS(WT/G12V)-Luc): 3 (packaging – psPAX2): 1 (membrane protein – pMD2.G) based on DNA weight.Note: We used custom designed KRAS(WT/G12V) ORF expression clones in lentiviral vectors with N-terminally fused firefly luc + SV40-RLUC-IRES-puromycin provided by GeneCopoeia.
+
+d.Add diluted DNA to diluted Lipofectamine 2000, incubate at 18°C–24°C for 20 minutes.
+e.Add transfection complex to pre-seeded dish with HEK293T cells.
+f.Incubate at 37°C for 24 hours.
+g.After 24 hours, aspirate the medium and discard. Replace with 5 mL fresh medium without antibiotics.
+h.Harvest and filter lentivirus following protocol outlined in Steps 1o–1r.
+
+3.Generate KRAS knockout A431 cells using CRISPR/Cas9 ( C).a.Culture A431 cells in DMEM + 10% FBS to be 70%–90% confluent on the day of transfection.
+b.Cotransfect plasmid expressing KRAS sgRNA (atccGTAGTTGGAGC- TGGTGGCGTGTTTTAGAGCTAGAAATAGCAAGTTAA- AATAAGGCTAGTCCGTTATCAACTTGAAAAAGTG- GCACCGAGTCGGTGCTTTTTT), and plasmid expressing Cas9 with Neon Electroporation Transfection system following manufacturer’s instructions for adherent cells.
+c.Incubate transfected cells at 37°C in medium without antibiotics for 72 hours.
+d.Complete single cell cloning to isolate successful KRAS knockout cells using limiting dilution cloning methods in a 96-well plate.
+e.Screen single cell clones by PCR followed by Sanger sequencing for loss of the endogenous KRAS allele.
+
+4.Transduce cells with retrovirus (KRAS-HA) or lentivirus (KRAS-Luc) ( D).a.Bring cell culture medium (DMEM + 10% FBS), 1× PBS, Trypsin-EDTA and Opti-MEM medium to 37°C.
+b.Aspirate medium in flasks and wash cells once with 1× PBS (5 mL for T75 and 10 mL for T175) to remove residual medium.
+c.Add Trypsin-EDTA to cells (2 mL for T75 and 4 mL for T175) and place in incubator for 2 minutes.
+d.Add 10 mL culture medium to flask and mix by pipetting up and down. Move cell mixture to conical tube.
+e.Count cell concentration using a Hemocytometer.
+f.Seed 300,000 A431 cells per well of a 6-well plate and incubate at 37°C for 24 hours to allow cells to attach to plate.
+g.After 24 hours, add 1 mL of filtered retrovirus (either KRAS-WT-HA or KRAS-G12V-HA) or 1 mL of filtered lentivirus (either KRAS-WT-Luc or KRAS-G12V-Luc) and 10 μg/mL Polybrene to each well.
+h.Incubate at 37°C for 48 hours.
+i.Aspirate medium and replace with 3 mL fresh medium. Incubate at 37°C for 24 hours.
+j.Aspirate medium and replace with 3 mL fresh medium containing 1 μg/mL puromycin to select for transduced cells. Continue to aspirate and add fresh medium containing puromycin every 3–4 days until all non-transduced cells are killed by selection medium (approximately 1–2 weeks).
+k.Maintain cell cultures under 1 μg/mL puromycin selection during passaging to maintain exogenous retroviral or lentiviral expression system. .
+
+ 
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+ 
+
+This buffer should be stored at 4°C. For 5% milk or BSA in 1× TBST, add 5 grams of skim milk powder or BSA per 100 mL 1× TBST and mix thoroughly.
+
+## Step-by-step method details
+
+## Thermodynamics and modeling of siRNA
+
+Timing: 1 week
+
+In this section we describe the use of UV melting experiments and in silico modeling to evaluate the mutant specificity of the KRAS siRNA at the structural level. We provide details to investigate and visualize the structure of the mutant selective siRNA and its’ binding within Argonaute2 (Ago2) to the target KRAS mRNA.1.UV melting experiments.a.Prepare RNA duplexes by mixing solution to a final volume of 1 mL and pH of 7.4. 
+b.Anneal strands by heating samples in a water bath to 85°C for 2 minutes, followed by slow cooling to 18°C–24°C and 4°C for 16–24 hours.
+c.Measure absorbance using a Cary 100 Bio UV-vis spectrophotometer (Agilent Technologies, INC.) equipped with a temperature controlled multicell holder and a Cary temperature controller.i.Acquire absorbance versus temperature profiles by monitoring the absorbance at 260 nm between 15 and 90°C with a ramp rate of 0.5°C per minute.
+ii.Measure A260 values at 0.5°C intervals and extract melting temperatures TM as the maxima of the first derivatives of smoothened melting curves (filter 5) using the Cary WinUV software (Version 3.0, Agilent Technologies Inc.). Run in triplicate. .
+iii.Plot the melting temperature data using GraphPad Prism.
+
+2.Modeling of the seed region of the antisense siRNA paired with mRNA and bound to Argonaute2a.Retrieve the coordinates of the crystal structure of human Argonaute2 (Ago2) bound to guide and passenger RNAs from the Protein Data Bank http://www.rscb: PDB ID 4w5t. 
+b.Change the bases of the guide strand to those in the sequence of the siRNA that you are evaluating along with backbone modifications in the UCSF Chimera Suite using the swapna and build/modify functions. 
+c.Change the passenger strand bases with bases that are either fully complementary to the guide seed region, or feature a single mismatch pair.Note: To evaluate the KRAS G12V siRNA, we changed the AS5 base to match either the G12V (A:U), WT (A:G), or G12D (A:A) mRNA.
+
+d.Remove water molecules and complete energy minimization with Amber (ffl4) using the steepest descent and conjugate gradient modes until convergence for the Ago2 “guide siRNA:mRNA” complex models. 
+
+## Evaluation of mutant selectivity in vitro with RT-qPCR, western blotting, and luciferase assays
+
+Timing: 3 weeks
+
+In this section we describe in vitro evaluation of siRNA mutant selectivity using A431-HA and A431-Luc cell lines to differentiate between KRAS WT and KRAS G12V targeting. We describe in vitro transfection of fully modified siRNAs, collection and preparation of samples and analysis by RT-qPCR and western blotting, as well as luciferase experiments. Below we provide a flow chart to describe this process ( ).3.Passage A431-KRAS(WT/G12V)-HA cells so that they will be 40%–60% confluent on the day of transfection.
+Note: It is important that cells are at a low passage number (under 25), and 40%–60% confluent to ensure that the cells are in growth phase and will take up the transfection complexes. Both high passage number and high confluence can negatively affect transfection efficiency.
+4.Bring cell culture media (DMEM + 10% FBS), 1× PBS, Trypsin-EDTA and Opti-MEM media to 37°C.
+Note: Complete transfections in cell media without antibiotics added as antibiotics can negatively affect transfection efficiency. If cells are normally cultured in media with antibiotics, seed cells for transfections in antibiotic-free media.
+5.Prepare transfection complexes by pipetting Opti-MEM into Eppendorf tube.
+6.Pipette appropriate volume of siRNA into each Eppendorf tube, mix by inverting.
+7.Incubate at 18°C–24°C for 5 minutes, then add Lipofectamine RNAiMAX reagent to each Eppendorf tube and mix by inverting.
+8.Continue mixing by inversion every 10–15 minutes for 45–60 minutes at 18°C–24°C.
+ 
+
+9.While transfection complexes are incubating, prepare cells.a.Aspirate medium in flasks and wash cells once with 1× PBS (5 mL for T75 and 10 mL for T175) to remove residual medium.
+b.Add Trypsin-EDTA to cells (2 mL for T75 and 4 mL for T175) and place in incubator for 3–5 minutes.
+c.Add 10 mL culture medium to flask and mix by pipetting up and down. Move cell mixture to conical tube.
+d.Count cell concentration using a Hemocytometer.Alternatives: Countess Automated Cell Counter.
+
+e.Prepare cells at concentration to plate 600,000 cells/6 cm dish for 48-hour collection and 500,000 cells/6 cm dish for 72-hour collection.Note: These cell counts are optimized for A431 cells. Other cell types may require different starting cell number to account for different growth rates.
+
+10.After transfection complexes have incubated for 45–60 minutes, add 500 μL to each 6 cm plate.
+11.Add appropriate volume of cells to each plate and swirl plate to mix.
+12.Place in incubator and allow cells to settle and transfection to occur.
+13.After 6 hours, aspirate medium and replace with fresh medium (DMEM + 10% FBS without antibiotics). Incubate until specified collection time. For RNA, collect cells after 48 hours and proceed to Step 14. For protein, collect cells after 72 hours and proceed to Step 23.
+14.After 48 hours, aspirate media from plates (13) and wash cells with 1 mL 1× PBS, brought to 18°C–24°C.
+15.Add 350 μL RNA lysis buffer (Zymo Quick-RNA Miniprep Kit) directly to plates.
+16.Allow cell lysis at 18°C–24°C for 3–5 minutes, then use a cell scraper to mechanically lift cells from the plate.
+17.Transfer cell lysis mixture to a fresh Eppendorf tube.
+18.Follow manufacturer’s instructions (Zymo Quick-RNA Miniprep Kit) to isolate RNA and elute in 100 μL DNase/RNase-free water.
+
+Alternatives: Qiagen RNeasy Kit.
+
+19.Quantify eluted RNA with a Nanodrop or other plate reader.
+
+Note: We use the Quantifluor RNA kit and the Promega Explorer plate reader.
+
+20.Prepare master mix and RNA using the iScript cDNA Synthesis kit following manufacturer’s instructions.
+
+Alternatives: SuperScript cDNA Kit, High-Capacity cDNA Reverse Transfection Kit.
+
+21.Following iScript cDNA Synthesis kit instructions, run in thermal cycler for: 5 minutes at 25°C, 20 minutes at 46°C, 1 minute at 95°C hold at 4°C. cDNA can be stored at 4°C short-term and −20°C long-term.
+
+ 
+
+22.Run RT-qPCR for relative mRNA quantification using PowerUp SYBR Green master mix.a.Follow manufacturer’s instructions to prepare master mix. 
+b.Run plates on QuantStudio or another RT-qPCR machine.
+c.Include genes of interest (ex. KRAS and DUSP6) and endogenous control gene (GAPDH).Note: We evaluated KRAS and DUSP6, which is a downstream transcriptional target of ERK1/2 and can be used to evaluate silencing of ERK1/2.
+CRITICAL: Identify an endogenous control gene that displays < 3 Ct change across all samples for downstream data analysis.
+
+d.Use 2-ΔΔCT analysis method to calculate mRNA fold change. 
+
+23.After 72 hours, prepare 1× RIPA lysis with Halt phosphatase and protease inhibitors and keep on ice.
+
+Note: Prepare enough buffer for 100 μL per sample.
+
+24.Aspirate medium from plates (Step 13) and wash cells with 1 mL ice cold 1× PBS.
+25.Add 100 μL RIPA lysis buffer and place plates on ice or for 5 minutes.
+26.Use a cell scraper to mechanically lift cells from the plate.
+27.Transfer cell lysis mixture to a fresh Eppendorf tube and keep on ice.
+28.Sonicate lysate at 30 amp with 2–3 short pulses (∼2 seconds). Repeat twice and keep samples on ice between sonicating.
+
+Note: We use the Fisherbrand Model 50 Sonic Dismembrator.
+
+29.Clear lysates by centrifugation at 14,000 × g for 10 minutes at 4°C.
+30.Collect supernatant and move to a fresh Eppendorf tube.
+31.Quantify protein lysate concentration using BCA.
+
+Alternatives: Bradford Assay.
+
+32.Follow standard immunoblotting procedures with the following guidelines. .a.Run SDS-PAGE gel with samples collected in Step 30.
+b.Transfer protein to membrane using iBlot2 following manufacturer’s instructions.Alternatives: Trans-Blot Turbo System.
+
+c.Block membranes with SuperBlock Blocking Buffer for one hour at 18°C–24°C.Alternatives: Block in 5% milk in 1× TBST.
+
+d.Incubate in primary antibody dilutions for 16–24 hours at 4°C.CRITICAL: For phosphorylated antibodies, make primary antibody dilutions in 5% BSA in 1× TBST.
+
+e.Wash membranes 3 times for 10 minutes each with 1× TBST at 18°C–24°C.
+f.Incubate with secondary antibodies conjugated to horseradish peroxidase for one hour at 18°C–24°C at 1:5000 dilution in 5% BSA in 1× TBST.
+g.Wash membranes 3 times for 10 minutes each with 1× TBST 18°C–24°C.
+h.Visualize blots with LI-COR Odyssey Fc Imager or another imager using SuperSignal West Pico PLUS chemiluminescent substrate.Alternatives: Use SuperSignal West Femto substrate for maximum sensitivity.
+
+i.Quantify densitometries using LICOR ImageStudio or other software and normalize to endogenous control (ex. vinculin) to determine relative protein expression.
+j.If imaging phosphorylated proteins followed by total protein (ex. Phospho-ERK > total ERK), wash membrane once with 1× TBST for 10 minutes at 18°C–24°C after imaging to remove chemiluminescent substrate.
+k.Strip bound antibodies for 10 minutes at 18°C–24°C with Restore PLUS Western Blot Stripping Buffer.
+l.Resume at Step 32c and re-block membrane.
+m.Probe with total protein primary antibody and follow Steps 32h–32i to image.
+
+33.For luciferase experiments, passage A431-KRAS(WT/G12V)-Luc cells so they will be 40%–60% confluent on the day of transfection.
+34.Bring cell culture media (DMEM + 10% FBS), 1× PBS, Trypsin-EDTA and Opti-MEM media to 37°C.
+35.Prepare 40 nM transfection complexes to use for highest dose and serial dilutions.Note: Complete transfections in cell media without antibiotics added as antibiotics can negatively affect transfection efficiency. If cells are normally cultured in media with antibiotics, seed cells for transfections in antibiotic-free media.
+a.Calculate total number of wells and double volume for each siRNA at 40 nM in triplicate and make master mix for each siRNA to be tested.
+b.Pipette Opti-MEM medium into Eppendorf tube.
+c.Pipette volume of siRNA into each Eppendorf tube, mix by inverting.
+d.Incubate at 18°C–24°C for 5 minutes, then add Lipofectamine RNAiMAX reagent to each Eppendorf tube and mix by inverting.
+e.Continue mixing by inversion every 10–15 minutes for 45–60 minutes at 18°C–24°C. 
+
+36.Prepare extra RNAiMAX only Opti-MEM media for serial dilution by assuming a ratio of 0.4 μL RNAiMAX to 60 μL SFM. Calculate total number of wells assuming 8 siRNA dilutions and a no siRNA control.
+37.Pipette 60 μL SFM into all wells (columns 2–10) of 96-well plate except for first column (column 1) which will be 40 nM.
+
+CRITICAL: Fill the outermost wells of the plate with PBS to limit evaporation of test material ( B).
+
+38.While transfection complex is incubating, prepare A431-Luc cells.a.Aspirate medium in flasks and wash cells once with 1× PBS (5 mL for T75 and 10 mL for T175) to remove residual medium.
+b.Add Trypsin-EDTA to cells (2 mL for T75 and 4 mL for T175) and place in incubator for 3–5 minutes.
+c.Add 10 mL culture medium to flask and mix by pipetting up and down. Move cell mixture to conical tube.
+d.Count cell concentration using a Hemocytometer or other cell counting device.
+e.Prepare cells at concentration to plate 3,500 cells per well in 140 μL media.
+
+39.After transfection complexes have been incubating for 45–60 minutes, add 120 μL of 40 nM siRNA to column 1 of 96-well plate.
+40.Complete a 1:2 dilution series in columns 2–9 ( B) using a multichannel pipette. Remove 60 μL from column 1 and mix with SFM in column 2 by pipetting up and down. Remove 60 μL from column 2 and mix with SFM in column 3. Repeat this dilution until column 9 and discard the last 60 μL, leaving column 10 with SFM only.
+41.Add 140 μL cell mixture to each well using a multichannel pipette.
+42.Incubate plates for 3 days at 37°C.
+43.For luciferase readout, use Luc-Pair Duo-Luciferase HT Assay Kit or other luciferase assay kit.a.Thaw Luc-HT buffer 1 (Firefly) and Luc-HT buffer 2 (Renilla) at 18°C–24°C, and vortex for 3–5 seconds.
+b.Calculate final volume of buffers required for experiment using 45 μL per well.
+c.Dilute Luc-HT buffer 1 and Luc-HT buffer 2 1:5 in sterile water to make 1× solutions.
+d.Prepare FLuc and RLuc working solution by diluting Luc-HT Substrate 1 and Luc-HT Substrate 2 into 1× Luc-HT buffer 1 and 1× Luc-HT buffer 2, respectively. Mix the tube by inverting.
+e.Incubate at 5 minutes at 18°C–24°C protected from light.
+f.Remove plates from incubator and remove 120 μL of media from each well.
+g.Add equal volume (45 μL) of FLuc working solution to each well.
+h.Place the plate on a rocking platform or orbital shaker with gentle rocking/shaking for 10 minutes at 18°C–24°C. Ensure that plate is protected from light.
+i.Measure FLuc with plate reader at 530 nm excitation and 590 nm emission.
+j.After measurement is complete, add equal volume (45 μL) RLuc working solution.
+k.Incubate at 18°C–24°C for 2–5 minutes and proceed with same measurement on plate reader.
+
+44.Calculate the ratio of Firefly Luciferase (FLuc) to Renilla Luciferase (RLuc) and normalize to control (no siRNA, column 10).
+45.Analyze data in GraphPad Prism or another software and calculate GI50.
+
+## RNA sequencing for off-target effects in heterozygous mutant cells
+
+Timing: 8 weeks
+
+In this section we describe evaluation of off-target effects using RNA-sequencing in a colon cancer cell line, SKCO1, that is heterozygous for KRASG12V/WT. We describe transfection with fully modified siRNAs, collection and preparation of RNA, sequencing and analysis. By using a heterozygous mutant cell line, we can separately evaluate the effect of the mutant selective siRNA on the KRAS G12V and WT alleles.46.Bring cell culture media (EMEM + 10% FBS), 1× PBS, Trypsin-EDTA and Opti-MEM media to 37°C.
+Note: Complete transfections in cell media without antibiotics added as antibiotics can negatively affect transfection efficiency. If cells are normally cultured in media with antibiotics, seed cells for transfections in antibiotic-free media.
+47.Prepare transfection complexes.a.Pipette Opti-MEM media into Eppendorf tube.
+b.Pipette volume of siRNA into each Eppendorf tube, mix by inverting.
+c.Incubate at 18°C–24°C for 5 minutes, then add Lipofectamine RNAiMAX reagent to each Eppendorf tube and mix by inverting.
+d.Continue mixing by inversion every 10–15 minutes for 45–60 minutes at 18°C–24°C.
+
+ 
+
+48.While transfection complex is incubating, prepare cells.a.Aspirate medium in flasks and wash cells once with 1× PBS (5 mL for T75 and 10 mL for T175) to remove residual medium.
+b.Add Trypsin-EDTA to cells (2 mL for T75 and 4 mL for T175) and place in incubator for 3–5 minutes.
+c.Add 10 mL culture medium to flask and mix by pipetting up and down. Move cell mixture to conical tube.
+d.Count cell concentration using a Hemocytometer or other cell counting device.
+e.Prepare cells at concentration to plate 1 × 106 cells per 10 cm dish for 24-hour collection.
+
+Note: These cell counts are optimized for SKCO1 cells. Other cell types may require different starting cell number to account for different growth rates.
+
+49.After transfection complexes have incubated for 45–60 minutes, add 500 μL to each 10 cm plate.
+50.Add appropriate volume of cells to each plate and swirl plate to mix.
+51.Place in incubator and allow cells to settle and transfection to occur.
+52.After 6 hours, aspirate medium and replace with fresh medium without antibiotics.
+53.After an additional 18 hours, aspirate medium from plates and wash cells with 1 mL 1× PBS warmed to 37°C.
+54.Following manufacturer’s instructions (Zymo Quick-RNA MiniPrep Kit), add 350 μL RNA lysis buffer directly to plates.
+55.Allow cell lysis at 18°C–24°C for 3–5 minutes, then use a cell scraper to mechanically lift cells from the plate.
+56.Transfer cell lysis mixture to a fresh Eppendorf tube.
+57.Follow manufacturer’s instructions to isolate RNA and elute in 100 μL DNase/RNase-free water.
+58.Quantify eluted RNA with a Nanodrop or other plate reader.
+
+CRITICAL: Ensure that RNA concentrations are above 100 ng/μL and have a 260/280 value of ∼2.0 to guarantee high quality RNA for sequencing.
+
+59.Sequence RNA with Illumina NextSeq 2000 sequencing system for paired-end following manufacturer’s instructions.
+60.Perform alignment to the hg38 human reference genome using STAR 2.7.6a (--outSAMunmapped Within; --outSMtype BAM Unsorted; --quantMode TranscriptomeSAM). 
+61.Quantify transcripts using Salmon 1.4.0, based on the human transcriptome defined by GENCODE, Release 22. 
+62.Create a cohort-wide matrix showing the expression of the complete set of gene IDs of all samples.
+63.Remove alphabetically sorted gene IDs with lower average count across sequenced samples to restruct the expression matrix to dene IDs belonging to the upper fourth decile (value rounded by excess) of the two comparisons of interest ((i) control siRNA vs. mutant selective KRAS siRNA and (ii) control siRNA vs. pan-KRAS siRNA), separately.
+64.Perform differential expression analysis of rounded count data with DESeq 1.36.0 within the R (4.2) software environment. Preliminarily, install and load these two R packages: DESeq2 and apeglm.a.Collect baseMean, p-value, and adjusted p-value (padj) using the ‘results’ function of DESeq2, with alpha = 0.0001
+b.Calculate gene fold change (expressed as log2 fold change) with the apeglm 1.18.0 R package. 
+c.Remove genes (g(i)), 1 = 1,2,…,N, such that padj(g(i)) = NA, with N cardinality of the set of genes whose padj does not belong to the [0,1] interval.
+d.Replace null values for p-value and padj with the corresponding lowest values found in the analysis, conservatively.
+e.Using apeglm log2 fold changes and standard padj of DESeq2, create volcano plots with log2(fold change) on the x-axis and -log10(padj) on the y-axis in GraphPad Prism.
+
+65.Generate estimates of the abundance of the KRASWT and KRASG12V transcripts and perform ad hoc differential gene expression analysis. All following steps are independently performed for the two comparisons: (i) control siRNA vs. mutant selective KRAS siRNA and (ii) control siRNA vs. pan-KRAS siRNA.a.Identify the nucleotide that is mutated between WT and G12V on human chromosome 12, in the region where KRAS is located.
+b.Quantify the number of reads in the BAM files that support the human WT or G12V transcript.
+c.Use these read values to proportionally split the total KRAS counts between WT and G12V, separately for each sample.
+d.Do not modify the count values of the new matrix for all other genes. Create a new count matrix with an extra row (one entry for KRASWT and one for KRASG12V).
+e.Run DESeq2 again on rounded count values to produce additional output variables including distinct padj and fold changes for the two KRAS forms, similar to the analysis performed for total KRAS.
+f.Display data by volcano plots (x-axis: log2(fold change) and y-axis: -log10(padj)) with one data point for KRASWT and one for KRASG12V.
+
+## Evaluation of mutant selectivity in vivo with RT-qPCR in tumors and mouse somatic tissues
+
+Timing: 6 weeks
+
+In this section we describe evaluation of siRNA mutant selectivity in vivo using A431-HA tagged cells in athymic nude mouse xenograft models ( ).66.Bring cell culture media (DMEM + 10% FBS), 1× PBS, Trypsin-EDTA and HBSS to 37°C. Thaw Matrigel on ice.
+CRITICAL: Matrigel must be thawed on ice and kept on ice as it can rapidly polymerize at 18°C–24°C.
+67.Aspirate medium in flasks and wash cells once with 1× PBS (10 mL for T175) to remove residual medium.
+68.Add Trypsin-EDTA to cells (4 mL for T175) and place in 37°C incubator for 3–5 minutes.
+69.Resuspend cells in culture medium and mix by pipetting up and down. Move cell mixture to 50 mL conical tubes.
+70.Count cell concentration using a Hemocytometer or other cell counting device.
+71.Prepare cells at concentration of 2.5 × 106 per 50 μL of a 1:1 mixture of HBSS and Matrigel.
+72.Inject cells subcutaneously into athymic nude mice (between 8–12 weeks of age).
+73.Allow tumors to form and measure using a caliper until they measure approximately 100 mm3, as determined using the following formula: volume = (L × W × W)/2, where L equals the greatest dimension of the tumor and W equals the perpendicular measurement of the tumor.
+74.Once tumors have reached 100 mm3 (approximately 1–2 weeks post-injection), randomly distribute mice to groups for the following treatments: 1) PBS negative control, 2) 2.5 mg/kg (mpk) ligand-conjugated siRNA, 3) 5 mg/kg ligand-conjugated siRNA and 4) 10 mg/kg ligand-conjugated siRNA.
+75.Dose animals subcutaneously at the nape of the neck or in the flank.
+76.Sacrifice mice at 24 hours, 48 hours, 72 hours and 96 hours post-dose.a.Euthanize mice in a CO2 chamber, by cervical dislocation or other method that is approved in animal protocols and follow recommendations of AVMA Guidelines for the Euthanasia of Animals.
+
+77.Collect xenograft tumors and murine somatic tissue (kidney, bladder and skin - away from the injection site) from a cross-sectional necropsy.
+78.Snap-freeze tissues in liquid nitrogen and store at −80°C until processing.
+79.On dry ice, weigh tumors and somatic tissues. Cut 30–50 mg section using surgical blade and place into Bead Mill tube pre-filled with 1.4 mm ceramic beads.
+Note: This can be a stopping point and tissues can be stored at −80°C in bead mill tubes.
+80.Move to wet ice or cold block, add 1 mL TRIzol Reagent.
+CRITICAL: Perform Step 80 in a chemical fume hood with proper ventilation.
+81.Using a Bead Mill Homogenizer, lyse the tissue at 30 second pulses at 3.7 m/s until the tissue is full dissociated. Chill the tubes on wet ice or in cold block for 2 minutes between each pulse.
+Note: The total number of pulses required to dissociate tissue will differ between tissue types but generally we found that 10–20 pulses are adequate.
+CRITICAL: It is important to put the samples on ice in between pulses to prevent heating up of the tissues.
+82.Centrifuge tubes for 60 seconds at 10,000 × g to pellet beads.
+83.Collect all the volume and transfer tissue lysate to a new Eppendorf tube.
+CRITICAL: Perform Steps 83–98 in a chemical fume hood with proper ventilation to prevent inhalation of toxic vapors.
+84.Incubate for 5 minutes at 18°C–24°C.
+85.Add 200 μL chloroform per 1 mL TRIzol used for lysis and mix by inverting.
+86.Incubate at 18°C–24°C for 2–3 minutes.
+87.Centrifuge for 15 minutes at 12,000 × g. The mixture will separate into a lower phenol-chloroform, an interphase and a colorless upper aqueous phase. ( ).
+88.Transfer the aqueous phase to a new tube by angling the tube at 45 degrees and pipetting the solution out.
+Note: Avoid transferring any of the interphase or organic layer into the pipette. Discard the interphase and organic layer in appropriate chemical waste containers.
+89.Add 30 μg of RNase-free glycogen to the aqueous layer as a co-precipitant. Mix by inverting.
+90.Add an equal volume of isopropanol to amount of TRIzol used for lysis. Mix by inverting.
+91.Incubate at 18°C–24°C for 20 minutes.
+92.Centrifuge for 10 minutes at 12,000 × g. The total RNA precipitate will form a white pellet at the bottom of the tube. ( )
+93.Discard the supernatant with a micropipettor, careful not to disturb the RNA pellet.
+94.Resuspend the pellet in 1 mL of 75% ethanol.
+95.Vortex the sample briefly, then centrifuge for 5 minutes at 7,500 × g.
+96.Remove and discard the supernatant with a micropipettor, careful not to disturb the RNA pellet.
+97.Air dry the pellet for 5–10 minutes at 18°C–24°C.
+98.Repeat steps 94–97.
+99.Resuspend the pellet in 100 μL of nuclease-free water.
+100.Incubate in a heat block set to 55°C for 10–15 minutes to fully solubilize the RNA. Mix by pipetting up and down.
+101.Quantify RNA using preferred method. .
+102.Synthesize cDNA and perform RT-qPCR for KRAS and DUSP6 (a downstream transcriptional target of ERK transcription factor) in tumor (using human specific primers) and mouse somatic tissues (using murine specific primers).a.Prepare master mix and RNA using the iScript cDNA Synthesis kit or other cDNA synthesis kit following manufacturer’s instructions.
+b.Run in thermal cycler for: 5 minutes at 25°C, 20 minutes at 46°C, 1 minute at 95°C, hold at 4°C as per manufacturer’s instructions.
+
+ 
+
+103.Run RT-qPCR for relative mRNA quantification using PowerUp SYBR Green master mix.a.Follow manufacturer’s instructions to prepare master mix. 
+b.Run plates on QuantStudio or another RT-qPCR machine.
+c.Include genes of interest (ex. KRAS and DUSP6) and endogenous control gene (GAPDH).
+d.Use 2-ΔΔCT analysis method to calculate mRNA fold change. 
+
+## Expected outcomes
+This protocol provides instructions for the evaluation of mutant selective siRNAs using several orthogonal methods including in vitro, in vivo, and in silico assays. For the UV melting experiments, we observed a 6°C shift in the melting temperature of the antisense strand of the K12V siRNA complexed with mutant KRAS G12V mRNA when compared to the WT and KRAS G12D mRNA, indicating differential thermodynamics ( A). In silico modeling of these KRAS mRNA pairings with the G12V siRNA when loaded into Ago2 enabled us to visualize structural implications of the single nucleotide mismatch present in the G12V siRNA. 
+For the in vitro evaluation by RT-qPCR, western blotting and luciferase assays using A431-HA tagged or luciferase reporter cells expressing either KRAS WT or KRAS G12V, we observed target silencing of KRAS G12V protein and inhibition of downstream pERK signaling ( B). The KRAS G12V siRNA showed efficient on target silencing of KRAS G12V while sparing KRAS WT, while pan-KRAS targeting inhibited both KRAS WT and KRAS G12V. We also observed this at the mRNA level ( C). Lastly, using the luciferase reporter cell lines, we found that pan-KRAS targeting equally inhibited KRAS WT and KRAS G12V, while the KRAS G12V siRNA inhibited KRAS G12V and spared KRAS WT ( D).
+For the RNA-sequencing to evaluate off-target effects of the mutant selective siRNA, we found excellent on-target silencing of KRAS ( E, left). When we looked at the mutant and WT alleles in the heterozygous cell line separately, we found that the G12V allele was significantly downregulated, while the WT allele was spared ( E, right).
+For the in vivo studies evaluating KRAS gene expression in tumor and somatic tissues, we found that the G12V siRNA significantly reduced both KRAS and DUSP6 mRNA expression in almost all conditions tested ( A and 5B). Importantly, the G12V siRNA showed minimal and generally non-significant effects in somatic tissues that express WT KRAS ( C–5E). Together these assays indicate the mutant selectivity of this siRNA. 
+
+## Quantification and statistical analysis
+Graphs and statistical analyses were performed using GraphPad Prism 10 (GraphPad Software, Inc., San Diego, CA). Four mice were assigned per treatment group and results were compared using Student’s t test (for comparison of two groups) and analysis of variance (ANOVA) (for multiple group comparisons). All results are presented as mean + standard error of the mean (SEM), and a p value < 0.05 was considered statistically significant.
+Details for statistical analysis of RNA-sequencing data is included in Section 3.
+
+## Limitations
+The in vitro and in vivo protocols described here in sections 2 and 4 are optimized for the A431 cell line and therefore, further testing is required to apply these protocols to other cell lines. Importantly the A431 cell line is not KRAS dependent and therefore we were able to generate KRAS knockout clones to re-engineer the HA-tagged and Luciferase systems. These protocols were also completed to evaluate KRAS siRNAs specifically, and additional assays or targets may be needed to evaluate siRNAs targeting other genes and mutations. Because KRAS is highly conserved between humans and mice, we were able to evaluate the impact of our KRAS siRNA in somatic mouse tissues in our in vivo experiments due to sequence complementarity, however, other targets that are not as well conserved between species may not allow for this same application.
+
+## Troubleshooting
+
+## Problem 1
+No success generating KRAS expressing clones following transduction with retroviral and lentiviral particles (Step 4k).
+
+## Potential solution
+
+•Retroviral/lentiviral stocks may be low concentration. Retroviral/lentiviral stocks can be concentrated by ultracentrifugation.○Pour the filtered supernatant into ultracentrifuge tubes and spin at 100,000 g for 1.5 to 2 hours at 4°C.
+○After spin is complete, there will be a small white pellet at the bottom of the tube, this is the viral pellet.
+○Carefully aspirate and discard the supernatant.
+○Resuspend the viral pellet at 50–100× concentration of original volume in media.
+
+•Puromycin concentration may be too high. Use a drug-kill curve assay to identify the concentration of puromycin at which cell growth is inhibited for the cell line that will be used.
+•Perform a spinfection after Step 4g by spinning the 6-well plates at 800 × g for 1 hour at 18°C–24°C. Resume protocol as normal at Step 4h
+
+## Problem 2
+Poor quality data generated or no measurement in UV melting experiment (Step 1c).
+
+## Potential solution
+
+•Warm up the instrument for the recommended time before starting measurements.
+•Make sure that all optical components such as lenses and cuvette windows are clean.
+•Check that the reference and sample cuvettes are properly filled.
+•Degas solutions to avoid formation of air bubbles that interfere with absorbance measurements.
+
+## Problem 3
+Poor quality western blot images (Step 32).
+
+## Potential solution
+
+•If protein appears as a smear, re-sonicate and re-clear lysate.
+•If high background and light protein bands:○Make sure all reagents and buffers are made fresh.
+○Increase total protein loaded into gel (ex. If using 25 μg protein, increase to 40 μg protein).
+○Decrease antibody dilution factor for both primary and secondary antibody (ex. If using dilution of 1:1000, try 1:500 or 1:250 for primary antibody. If using dilution 1:5000, try 1:1000 for secondary antibody).
+○If using 5% milk in 1× TBST for primary or secondary antibody dilutions, use 5% BSA in 1× TBST instead.
+○If using 5% milk in 1× TBST for blocking, use a commercially available blocking buffer instead.
+
+## Problem 4
+Low RNA yield following TRIzol isolation from tissues (Step 101).
+
+## Potential solution
+
+•Ensure that you start with at least 30 mg tissue and fully dissociate tissue during homogenization.
+•Do not skip mix by inversion step following glycogen and isopropanol addition.
+•Ensure that the pellet fully air dries as residual ethanol can affect the quality of the RNA.
+•After heating to solubilize the RNA, pipet up and down to ensure that RNA goes into solution.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Chad V. Pecot (pecot@email.unc.edu).
+
+## Technical contact
+Technical questions on executing this protocol should be directed to and will be answered by the technical contact, Chad V. Pecot (pecot@email.unc.edu).
+
+## Materials availability
+Any unique biological materials generated in this study are available upon request.
+
+## Data and code availability
+This study did not generate any original code. All sequencing data are available at the Gene Expression Omnibus (GEO): GSE278020. Original western blot images have been deposited at Mendeley Data: https://doi.org/10.17632/sbb397pkvc.1.
+
+## Acknowledgments
+C.V.P. was supported in part by the National Institutes of Health (NIH) R01CA215075, 1R01CA279532, 1R41CA246848, and 1R44-CA284932, a UCRF Innovator Award, Kickstarter Venture Services Commercialization awards, Lung Cancer Initiative of North Carolina Innovation and Alumni Awards, and a North Carolina Biotechnology Translation Research Grant (NCBC TRG). We also thank SynOligo and Avecia for helpful discussions with conjugation strategies and oligonucleotide synthesis. Genomics project management was performed by the Lineberger Office of Genomics Research (OGR) at the University of North Carolina-Chapel Hill, which is supported in part by the Lineberger University Cancer Research Fund, the NIH NCI 5UG1CA233333 grant, and the UNC Center for Environmental Health and Susceptibility (UNC-CEHS) P30ES010126 grant. mRNA library construction and sequencing were performed by the Lineberger Translational Genomics Lab (TGL) (RRID: SCR_025231), which is supported by the Lineberger University Cancer Research Fund. Finally, we acknowledge the UNC Lineberger Bioinformatics Core for providing the computational resources and workflow used for the RNA-seq data processing.
+
+## Author contributions
+Conception and design, C.V.P.; development of methodology, L.J.S., A.P., M.E., and C.V.P.; acquisition of data (provided animals, performed experiments, provided facilities, etc.), L.J.S., A.P., M.E., and C.V.P.; analysis and interpretation of data (e.g., statistical analysis, biostatistics, and computational analysis), L.J.S., A.P., M.E., and C.V.P.; writing, review, and/or revision of the manuscript, all authors; administrative, technical, or material support (i.e., reporting or organizing data and constructing databases), L.J.S., A.P., and C.V.P.; study supervision, C.V.P.
+
+## Declaration of interests
+C.V.P. holds intellectual property interests on this work. C.V.P. is the founder of EnFuego Therapeutics, Inc., and holds equity in the company. L.J.S. was an employee of EnFuego Therapeutics at the time of this work.
