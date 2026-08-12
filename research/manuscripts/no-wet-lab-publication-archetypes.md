@@ -474,7 +474,9 @@ it is the larger half of the work, and it converts 17 unread candidates into a g
 | 4 | **Register on PROSPERO before analysing.** | trimcrae (account) / me (protocol text) | **$0** | the credibility step that separates this from pooled numbers | registration requires a named person; it is an account, not an affiliation |
 | 5 | **Quantify the ICD-O-3 9231/3 split** before any SEER work. | me | **$0** | whether a 9231/3 cohort is an EMC cohort at all | already scoped as `RT-DIAGNOSTIC-PATHWAY`; unchanged by this survey |
 | 6 | **Obtain SEER Research base tier** — valid email, online form, DUA acknowledgement, ~2 business days, no fee. | **trimcrae** | **$0** | population denominators and treatment patterns | ⚠ needs a **Windows** environment for SEER\*Stat. Do **after** step 5, not before |
-| 7 | **Targeted evidence pass on archetypes 3–7** — the coverage hole, where recommendations currently outrun evidence. | me | **$0** | verified exemplars, venue policies, CACHE entry terms | *(running now)* |
+| 7 | ⚠ **RUN, AND IT DID NOT CLOSE THE GAP.** Archetypes C/D/E and all three open questions still unverified — see §6. | me | **$0** | (A) and (B) closed; the rest unchanged | **egress blocking + an exhausted search budget** |
+| 8 | ⭐ **Re-run the remaining retrieval THROUGH CI, not through another deep-research pass.** The only findings that survived came off a GitHub Actions runner. | me | **$0** | archetypes C/D/E, venue policies, CACHE terms, the EMC substrate census | nothing — this is the corrected next action |
+| 9 | ⛔ **Grade the care-delivery questions against SEER's actual fields BEFORE step 6.** First-course only; no clean untreated denominator for RT or chemo. | me | **$0** | which questions SEER can answer at all | nothing |
 
 ### 5.2a · ⛔ What step 1 established, and the trap it walked into
 
@@ -619,3 +621,88 @@ independent hosts per identifier, which is materially weaker than reading the pa
 ⛔ **One verifier flagged CIRCULAR PROVENANCE:** for one quote the only reachable home was this repo's own
 cache, committed earlier in the same session. An artifact is not independent corroboration of itself, and
 that claim's confidence was capped for it.
+
+---
+
+## 6 · The second pass, what it settled, and what it did not
+
+A second run (113/113 agents, 0 errors) was commissioned **only** to close archetypes 3–7 and three named
+open questions. ⛔ **It did not close them, and it says so plainly:** zero verified claims for trial
+design, mathematical modelling or perspective papers, and zero for all three open questions. All seven
+surviving claims sit in evidence synthesis and registry access. **More than half the commissioned scope is
+unchanged, and §1's grades for archetypes 5, 6 and 7 remain judgements rather than sourced findings.**
+
+⭐ **Why it failed is the actionable part.** Its caveats name the cause: the egress proxy 403'd every major
+publisher and index, *and* the session exhausted its 200-call search budget, so many verification votes
+graded internal soundness rather than re-retrieving. **The two strongest findings were rescued by routing
+fetches through a GitHub Actions runner** — CLAUDE.md §6's own escape hatch. A third blocked pass would hit
+the same wall; **the remaining gap is a CI-routing job, not another deep-research run.**
+
+### 6.1 · ⛔ A correction to §5: the at-risk table is a FIDELITY modifier, and OUR gate is stricter than the method
+
+**IPDfromKM treats numbers at risk, total patients and total events as OPTIONAL arguments.** They
+materially improve reconstruction quality and preprocessing can fail to converge without them — but a
+curve lacking them is *lower fidelity*, **not illegal to reconstruct**.
+
+⚠ **So §5 was conflating two different things.** `emc_ipd_survival.py` sets `REQUIRE_RISK_TABLE = True` and
+refuses such curves outright. **That is this programme's own deliberate stricter choice, not a constraint
+inherited from the method**, and it should be visible as a choice. It is defensible — Guyot's hard
+conditional is that without numbers at risk *or* total events the 97.5% bound admits a hazard-ratio error
+factor of **4.7** — but a future reader must be able to see that the gate was set here rather than handed
+down. **The admissibility question is therefore really a fidelity question with a policy threshold on top.**
+
+### 6.2 · ⭐ A checkable statistical trap that lands directly on this disease's n
+
+When pooling tiny series **as proportions**, the **Freeman-Tukey double-arcsine transformation is a
+documented hazard, not a safe default** *(3-0, and one of only two findings read directly off a primary
+page)*. Back-transformation requires substituting a single sample size, and the harmonic mean degenerates
+across studies of very unequal size. In the published case study, back-transformed prevalences **and their
+confidence limits came out exactly zero**, with sample sizes between roughly 10 and 120 returning zero.
+
+⛔ **That window is where almost every EMC series lives.** The candidate list runs n = 5 to 270 with the
+bulk between 10 and 120. **Generalized linear mixed models are the named alternative, and a sensitivity
+analysis across sample sizes is called mandatory.** ⚠ The 10–120 endpoints are *not* a universal property —
+they depend on the pooled set — so this is a check to run, not a number to quote.
+
+### 6.3 · What SEER can and cannot answer, before anyone signs for it
+
+- **Treatment data is FIRST COURSE ONLY** — no post-progression, relapse, second-line or salvage therapy is
+  abstracted. Later lines exist only in SEER-Medicare, a separate product needing an institutional
+  application. ⚠ *(single-host retrieval, not cross-checked)*
+- ⛔ **Radiation and chemotherapy collapse "did not receive" with "unknown" into one category**, so **no
+  clean untreated-versus-treated denominator is constructible** for those modalities. **Surgery is not
+  affected** — SEER carries a separate "reason no cancer-directed surgery" field. ⚠ *(2-1; the primary page
+  was never fetched, corroborated structurally from SEER\*Stat dictionary files)*
+- ⭐ **This bites before access does.** Several care-delivery questions assume treatment detail SEER does
+  not carry. **Grade the questions against the fields before step 6 is taken, not after.**
+
+### 6.4 · NCDB, confirmed closed — with the one door that exists
+
+The PUF is restricted to investigators **affiliated with a CoC-accredited cancer program**, with a DUA
+signed before download and sharing confined to that facility *(3-0, direct page read)*. ⭐ **The blocking
+condition is the affiliation of the APPLICANT** — so being named personnel on a CoC-affiliated
+investigator's approved application is the route, and it is a collaborator ask rather than a purchase.
+
+### 6.5 · ⭐ The medical-integrity gate answered an open question the research could not
+
+Committing §6 turned gate 3 red. The cause was substantive rather than clerical: the evidence artifact had
+picked up **`CVCL_1238`** — and this repository already records that object as **identity-disputed**.
+
+⛔ **That is the answer to open question 3's cell-line half, and the repo's own register gives it more
+sharply than either research pass did.** The single DepMap model carrying the OncotreeSubtype
+"Extraskeletal Myxoid Chondrosarcoma" is `OBJ-LINE-HEMCSS` / H-EMC-SS / `CVCL_1238`, its identity is
+disputed, and **the curated record contradicts its carriage of the EMC fusion**. An 18-locus STR profile
+exists, so the line is a real profiled entity — *the open question is what it is, not whether it exists.*
+
+**Consequence for §1's grade of archetype 2.** Public-omics reanalysis was graded *"partly done,
+under-exploited"* with the binding constraint given as "EMC has ~no molecular samples". That is now
+sharper and worse: **the one model that would carry EMC-labelled dependency or expression signal cannot be
+used to ground an EMC property at all.** The DepMap leadership's own honest framing applies exactly —
+absence of a model class means absence of evidence — and here the apparent presence of one is the trap.
+⭐ **Class-borrowing across FET-fusion sarcomas is not a convenience for this route; it is the only form it
+can take.**
+
+⚠ **The use in the evidence artifact is classified `unaffected`** and registered in
+`emc-systems-map.json` → `read_by`, because that file names the identifier only as a retrieval source and
+grounds no biological property on the model. It would become `invalidated` the moment any claim here rested
+on it.

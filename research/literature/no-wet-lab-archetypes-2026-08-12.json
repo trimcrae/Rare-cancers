@@ -1699,5 +1699,384 @@
   "⛔_coverage_caveat_is_the_headline": "All 17 surviving claims rest on SIX primary papers and cluster on archetypes 1, 2, 8 and 9. Archetypes 3 (evidence synthesis / reconstructed IPD), 4 (registry access), 5 (trial design / external controls / Bayesian borrowing), 6 (mathematical modelling) and 7 (perspective papers) produced NO claim that survived verification. That is an ABSENCE OF EVIDENCE IN THIS SURVEY, not evidence those archetypes fail -- but the memo's recommendations 1-6 lean on exactly those archetypes and need a fresh targeted literature pass before anything is staked on them.",
   "⚠_no_journal_policy_was_ever_retrieved": "No journal's stated policy on requiring experimental validation was retrieved. Every 'which venue accepts this archetype' statement is INFERRED from where exemplars were published.",
   "⚠_verification_was_degraded_by_egress": "Only three claims were confirmed against a genuinely fetched primary full text (the CMap paper and both PLOS Comput Biol claims), routed out through GitHub Actions runs 31592017890 / 31594039131 / 31594360640 with artifacts committed to origin/literature-cache -- the repo's own s6 escape hatch, used by the harness. Everything else was confirmed from search-result rendering cross-checked across at least two independent hosts per identifier, which is materially weaker than reading the page."
+ },
+ "second_pass_targeted_at_the_gap": {
+  "_what": "A second deep-research run (wf_7d966671-5e9) commissioned ONLY to close archetypes 3-7 and three named open questions. 113/113 agents, 0 errors.",
+  "⛔_it_did_not_close_the_gap_and_says_so": "ZERO verified claims for (C) trial design / external controls, (D) mathematical modelling, (E) hypothesis and perspective papers, and ZERO for all three named open questions (CACHE entry terms, journal experimental-validation policy text, the EMC/NR4A3 public-sample and cell-line census). All seven surviving claims sit in (A) evidence synthesis and (B) registry access. More than half the commissioned scope is UNCHANGED and remains inferred rather than sourced.",
+  "⭐_why_it_failed_which_is_the_actionable_part": "Its own caveats name the cause: the egress proxy 403'd nature.com, PMC, PubMed, Europe PMC, Wiley, Crossref, ScienceDirect, Springer, CRAN, seer.cancer.gov, facs.org, OpenAlex, Semantic Scholar and the search HTML endpoints, AND the session exhausted its 200-call WebSearch budget, so many verification votes graded internal soundness instead of re-retrieving. ⭐ THE TWO STRONGEST FINDINGS WERE RESCUED BY ROUTING FETCHES THROUGH A GITHUB ACTIONS RUNNER. That is CLAUDE.md s6's escape hatch, and it is the fix: a third blocked deep-research pass would hit the same wall. Route the remaining retrieval through CI.",
+  "summary": "This targeted run did NOT close the stated gap: it produced seven verified claims, all of which fall inside archetypes (A) clinical evidence synthesis and (B) registry access, and ZERO verified claims for (C) trial design / external control arms, (D) mathematical and mechanistic modelling, or (E) hypothesis and perspective papers — and zero for all three specific open questions (CACHE entry requirements, journal experimental-validation policies, the EMC/NR4A3 public-sample and cell-line census). What was established is a clean split: archetype (A) is genuinely executable by an unaffiliated solo researcher at ~$0, because reconstruction of individual patient data from published Kaplan-Meier curves (IPDfromKM, Liu/Zhou/Lee 2021) operates only on published figures and their at-risk tables, requiring no patient contact, IRB or data-use agreement — with a specific, checkable statistical trap to avoid when pooling tiny series (Freeman-Tukey double-arcsine back-transformation is documented to return values and confidence limits of exactly zero at small n, with GLMM the recommended alternative). Archetype (B) is largely CLOSED at the point of access and further limited in what it could answer even if opened: the NCDB Participant User File is restricted by first-party policy (Terms of Agreement stamped \"Last Updated: May 2026\") to investigators affiliated with a CoC-accredited cancer program, a hard eligibility gate rather than a fee or IRB hurdle; and SEER's treatment fields are confined to first-course therapy and collapse \"did not receive\" with \"unknown\" for radiation and chemotherapy, so no salvage/second-line question and no clean untreated-vs-treated denominator is recoverable. The concrete first step for this researcher is therefore archetype (A): assemble every published EMC/NR4A3 Kaplan-Meier figure, check each for a numbers-at-risk table (which determines reconstruction fidelity, not legality), and reconstruct IPD — but the EMC-specific figure census that step depends on remains unanswered by this run.",
+  "findings": [
+   {
+    "claim": "Archetype (A) is executable with no institutional access: IPDfromKM (Liu N, Zhou Y, Lee JJ, BMC Med Res Methodol 2021;21:111) defines a two-stage workflow — Stage 1 extracts raw coordinates from a published Kaplan-Meier figure, Stage 2 reconstructs individual patient data — whose inputs are published figures and published aggregate numbers only, so it requires no patient contact, no IRB and no data-use agreement. Reconstruction FIDELITY, however, depends on ancillary published quantities (numbers at risk at 5-10 time points, total patients, total events); these are optional arguments, so the method runs on coordinates alone but degrades materially without them. This makes the presence of an at-risk table a QUALITY precondition, never a legal or access one.",
+    "confidence": "high",
+    "vote": "3-0",
+    "sources": [
+     "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-021-01308-8",
+     "https://pubmed.ncbi.nlm.nih.gov/34074267/",
+     "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8168323/"
+    ],
+    "evidence": "Identifiers cross-agree on four independent hosts (PubMed PMID 34074267; PMC8168323; biomedcentral.com and link.springer.com both serving DOI 10.1186/s12874-021-01308-8; scholar listing giving volume 21, page 111). Abstract wording — 'an easy-to-use, two-stage approach to reconstruct individual patient data (IPD) from published Kaplan-Meier (K-M) curves, where Stage 1 extracts raw data coordinates and Stage 2 reconstructs IPD' — reproduced across three independent search renderings written by different queries. Method: search-result rendering ONLY; every direct fetch (biomedcentral, springer, PMC, PubMed, CRAN, ResearchSquare, scite.ai, OpenAlex, Crossref, Semantic Scholar, MD Anderson Pure) returned EGRESS_BLOCKED or a 403 at the proxy CONNECT layer, so the quote is UNVERIFIED-verbatim. Currency confirmed: CRAN still ships IPDfromKM with a package manual dated 21 July 2025, and 2025-2026 derivative work exists. An adversarial search for access-side objections (IRB, DUA, figure-rights permission) found NONE — every documented criticism retrieved concerns ACCURACY (digitization operator error, preprocessing error degrading reconstructed HRs/CIs, algorithm non-convergence, single-analyst reconstruction risk), not permission."
+   },
+   {
+    "claim": "When pooling tiny published rare-cancer series as proportions, the Freeman-Tukey double-arcsine transformation is a documented hazard rather than a safe default: back-transforming a pooled FT estimate can be seriously misleading, and the primary methods paper concludes the transformation should be used only with special caution for meta-analysis of single proportions, with generalized linear mixed models named as the promising alternative and a sensitivity analysis over other sample sizes called mandatory.",
+    "confidence": "high",
+    "vote": "3-0",
+    "sources": [
+     "https://pubmed.ncbi.nlm.nih.gov/30945438/",
+     "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6767151/",
+     "https://doi.org/10.1002/jrsm.1348"
+    ],
+    "evidence": "VERIFIED BY DIRECT FETCH, not snippet: the sandbox proxy 403s PubMed/PMC/Europe PMC/OpenAlex/Crossref/doi.org, so retrieval was routed through a GitHub Actions runner (fetch-literature.yml, run 31608213313, completed success with a known-positive PMID assertion that would have failed the build had Europe PMC not returned PMID 30945438). Two independent retrievals agree: Europe PMC core metadata abstract and the PMC OA full text PMC6767151.txt. Full-text Discussion line 41: 'the Freeman-Tukey double arcsine transformation should only be used with special caution for the meta-analysis of single proportions due to potential problems in the back-transformation of meta-analysis results. In our view, a sensitivity analysis using other sample sizes is mandatory for this transformation. GLMMs seem to be a promising alternative.' Record: Schwarzer G, Chemaitelly H, Abu-Raddad LJ, Rücker G, Research Synthesis Methods 2019, 'Seriously misleading results using inverse of Freeman-Tukey double arcsine transformation in meta-analysis of single proportions', Brief Method Note, CC-BY; PMID/DOI/PMCID cross-agree inside the fetched full-text header. Directly on point for rare-cancer pooling: the demonstration case is literally five studies."
+   },
+   {
+    "claim": "The failure mechanism of Freeman-Tukey back-transformation is specific and checkable rather than vague: back-transformation requires substituting a single sample size, and the harmonic mean degenerates across studies of very unequal size. In the published case study, sample sizes ranged from 29 to more than 200,000, the harmonic mean was 85, and back-transformed prevalences AND confidence limits came out exactly equal to zero; in that analysis, sample sizes between about 10 and 120 returned exactly zero.",
+    "confidence": "medium",
+    "vote": "3-0",
+    "sources": [
+     "https://pubmed.ncbi.nlm.nih.gov/30945438/"
+    ],
+    "evidence": "Source quote: 'The results using the inverse of the Freeman-Tukey double arcsine transformation based on the harmonic mean of 85 are highly irregular with HCV prevalences and confidence limits exactly equal to zero ... the harmonic mean of 85 is \"obviously the wrong choice\" in this meta-analysis with sample sizes ranging from 29 to more than 200,000 ... For sample sizes between 10 and around 120, results are exactly zero.' Every numeric element of the claim appears verbatim in the quote; the two interpretive additions (that the inverse double-arcsine is a function of n and so a pooled estimate needs one n substituted; that 'degenerates' renders 'highly irregular' plus 'obviously the wrong choice') are correct statements of Miller's inverse double-arcsine. Confidence capped at medium: the verifying voter could run no search or fetch (WebSearch budget exhausted at 200/200; all nine cross-check hosts EGRESS_BLOCKED), so the PMID-to-text binding for THIS quote rests on the submitting pass, and the ~10-to-~120 zero-window is NOT a universal property of the transformation — its endpoints depend on the pooled double-arcsine value in that specific meta-analysis. The window figure must stay inside its case-study frame or it becomes false as stated."
+   },
+   {
+    "claim": "SEER cannot answer treatment-sequence questions for a rare sarcoma: registry treatment data is limited to FIRST COURSE therapy (chemotherapy, hormonotherapy, immunotherapy, radiation, surgery, or a decision to initiate active surveillance), so no post-progression, relapse, second-line or salvage therapy is abstracted. First-course multimodality sequencing (neoadjuvant chemo to surgery to adjuvant RT) is partially recoverable; later lines are recoverable only through SEER-Medicare linked claims, a separate product requiring an institutional application and DUA and therefore out of reach for an unaffiliated individual.",
+    "confidence": "medium",
+    "vote": "3-0",
+    "sources": [
+     "https://seer.cancer.gov/data/treatment.html"
+    ],
+    "evidence": "Custodian text: 'SEER treatment data is currently limited to the first course treatment modalities, and the time from diagnosis to treatment is the time to the first course treatment, which could be chemotherapy, hormonotherapy, immunotherapy, radiation therapy, surgery, or decision to initiate active surveillance.' The quote nearly tautologically entails the claim; the modality list in the claim is a verbatim restatement. Source is the primary data custodian and the assertion is among the most routinely restated caveats in SEER-based epidemiology, so a single primary source is proportionate. Currency is low-risk — this is a stable structural property of registry abstraction and the source's own wording is 'currently limited'. WEAKNESSES that cap confidence at medium: retrieval was search-snippet rendering on ONE host (seer.cancer.gov EGRESS_BLOCKED to direct fetch) with no second-host cross-check, and the verifier could obtain no contradicting evidence because WebSearch was exhausted and every candidate host was blocked — an absent reading, not a reading of absence. The original claim's absolutism ('a hard ceiling on ANY treatment-sequence question') was narrowed by the verifier to subsequent-line/relapse/salvage specifically, and that narrowed wording is what is reported here."
+   },
+   {
+    "claim": "SEER's radiation and chemotherapy fields cannot distinguish 'did not receive' from 'unknown' — the two are collapsed into one category — so no clean untreated-vs-treated denominator can be constructed in SEER for those modalities. Surgery is NOT affected in the same way, because SEER carries a separate 'Reason no cancer-directed surgery' field.",
+    "confidence": "medium",
+    "vote": "2-1",
+    "sources": [
+     "https://seer.cancer.gov/data/treatment.html",
+     "https://github.com/murphyhjohn/IBC-subtype-survival",
+     "https://github.com/jsemprini/SEERHPV-time2tx",
+     "https://github.com/radivot/SEERaBomb"
+    ],
+    "evidence": "Custodian text: 'The SEER Program collects data on the first course of cancer treatment, but no and unknown receipt of treatment cannot be distinguished for radiation therapy (RT) and chemotherapy.' seer.cancer.gov is egress-blocked and WebSearch was exhausted, so corroboration was obtained on an INDEPENDENT host (github.com) via code search over SEER*Stat-GENERATED case-list dictionary (.dic) files, which reproduce SEER's own variable and value labels. Chemotherapy: the collapse is in the variable name itself — 'Chemotherapy recode (yes, no/unk)' appears in machine-generated dictionaries (murphyhjohn/IBC-subtype-survival caselist_2024.11.dic Var15Name; jsemprini/SEERHPV-time2tx hpv_case.dic Var29Name) and in radivot/SEERaBomb fieldNames.html mapping field 366 CHEMO_RX_REC; the single value label 'No/Unknown' is confirmed in two independent analysis repos. Radiation: 'Radiation recode' carries the single combined value 'None/Unknown' across four independent repos (R, Python, one-hot enumerations). No separate 'No' or 'None' level exists in either variable. Currency: the corroborating dictionary is the November 2024 SEER*Stat release, with sibling repos referencing 'RX Summ--Surg Prim Site (1998-2022)' and 2023-adjusted income, so the structure persists in current releases. Confidence held at medium because the vote was split 2-1 and the primary page itself was never fetched; the auxiliary cross-reference PMC12599503 cited by the submitting pass is UNVERIFIED."
+   },
+   {
+    "claim": "The NCDB Participant User File is CLOSED to an unaffiliated individual by a hard eligibility gate, not by a fee or an IRB requirement: PUFs are available only through an application process to investigators associated with a Commission on Cancer (CoC)-accredited cancer program, the file is framed as a perquisite of accreditation, and a Data Use Agreement must be signed electronically before download with sharing confined to the CoC-accredited facility. The blocking condition is the affiliation of the APPLICANT, so collaborating as named personnel on a CoC-affiliated investigator's approved application remains the standard workaround.",
+    "confidence": "high",
+    "vote": "3-0",
+    "sources": [
+     "https://www.facs.org/quality-programs/cancer-programs/national-cancer-database/puf/",
+     "https://www.facs.org/media/vf3lza5k/puf-terms-of-agreement.pdf",
+     "https://www.facs.org/quality-programs/cancer-programs/national-cancer-database/"
+    ],
+    "evidence": "VERIFIED BY REAL PAGE READ of the primary custodian, not snippet: facs.org is EGRESS_BLOCKED in-sandbox (WebFetch blocked; curl 'CONNECT tunnel failed, response 403') and WebSearch was exhausted, so the fetch was routed through a GitHub Actions runner (fetch-literature.yml, run 31612958596, success; manifest records HTTP 200 for all three URLs — landing page 9,773 chars, terms PDF 7,377 chars, NCDB home 8,369 chars; artifacts committed to origin/literature-cache at literature/ncdb-puf-eligibility-verify/). VERBATIM on the landing page: 'NCDB PUFs are only available through an application process to investigators associated with CoC-accredited cancer programs. The Request for Applications is open year round...' and 'The PUFs are designed to provide investigators associated with CoC-accredited cancer programs with a data resource...'. CURRENCY: the Terms of Agreement PDF is stamped 'Last Updated: May 2026' and references 'targeted PUFs for the June 2026 RFA ... diagnosis year 2004-2024' — current as of 2026-08-12. 'NOT A FEE OR IRB HURDLE' is confirmed mechanically: a case-insensitive grep for fee|charge|payment|IRB|institutional review across all three fetched documents returns ZERO hits. Terms text: 'Since the PUF is a perquisite of CoC accreditation, the clinical investigator of a facility that loses or withdraws from accreditation for any reason, will agree to destroy the data file(s)' and 'I agree not to share data outside of my CoC-accredited facility.' No non-CoC, unaffiliated, paid or public tier appears anywhere. DEFECT CARRIED FORWARD: one sentence quoted by the submitting pass ('Any Principal Investigator (PI) seeking to obtain or use the data ... must be representing a CoC-accredited cancer program...') appears in NEITHER the landing page NOR the Terms PDF (grep for 'representing' returns zero hits in all three fetched files) — it belongs to the separate PUF Data Use Agreement document and must NOT be attributed to the /puf/ URL; its substance is independently corroborated by the Terms PDF. Cross-checking was two documents on ONE host, which is appropriate here because facs.org IS the custodian and the authority on its own eligibility rule."
+   },
+   {
+    "claim": "Synthesis of the above for the stated use case: of the five archetypes this run was asked to close, none of C, D or E was established at all, and the two that were touched split cleanly — (A) evidence synthesis from published curves is fully executable by an unaffiliated solo researcher at essentially zero cost with no gatekeeper, while (B) registry epidemiology is blocked at the door for NCDB and, for SEER, is constrained in WHAT it could answer even setting access aside. The first concrete step is therefore in (A), not (B): enumerate published EMC/NR4A3 series carrying Kaplan-Meier figures, record for each whether a numbers-at-risk table and total-events count are printed, and reconstruct IPD with IPDfromKM — pooling any resulting proportions with a GLMM rather than a Freeman-Tukey back-transformation.",
+    "confidence": "medium",
+    "vote": "derived",
+    "sources": [
+     "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-021-01308-8",
+     "https://pubmed.ncbi.nlm.nih.gov/30945438/",
+     "https://seer.cancer.gov/data/treatment.html",
+     "https://www.facs.org/quality-programs/cancer-programs/national-cancer-database/puf/"
+    ],
+    "evidence": "This finding is DERIVED from the six verified findings above, not from a separate retrieved source, and is labelled medium for that reason. Its two operative recommendations each rest on a verified finding: the no-gatekeeper property of curve reconstruction (finding 1, high, identifiers on four hosts) and the documented failure of FT back-transformation at small and unequal n with GLMM named as the alternative by the primary methods paper (findings 2-3, one verified by direct full-text fetch). The blocking half rests on findings 4-6. CRITICAL DEPENDENCY UNRESOLVED: the enumeration this first step requires — every published EMC clinical series containing a Kaplan-Meier figure, and whether each prints a numbers-at-risk table — was specifically asked for by this run and produced ZERO verified claims, so the step is well-founded in method but has no target list yet."
+   }
+  ],
+  "caveats": "SCOPE FAILURE IS THE HEADLINE CAVEAT. This run was commissioned to close archetypes 3-7 (C trial design and external control arms, D mathematical/mechanistic modelling, E hypothesis and perspective papers) and to answer three named open questions. It returned ZERO verified claims for C, D and E, and ZERO for all three named questions — CACHE entry requirements for an unaffiliated solo participant, journal experimental-validation policy text, and the EMC/NR4A3 public-repository sample and cell-line census. The seven surviving claims all sit inside (A) and (B). The gap is therefore unchanged for more than half the commissioned scope, and any downstream statement about C, D or E remains inferred rather than sourced.\n\nENVIRONMENTAL CONSTRAINTS SHAPED WHAT SURVIVED, AND THEY BIASED TOWARD (A) AND (B). The egress proxy blocked direct fetches to nature.com, PMC, PubMed, Europe PMC, Wiley, Crossref, ScienceDirect, Springer, CRAN, seer.cancer.gov, facs.org, OpenAlex, Semantic Scholar and the DuckDuckGo/Bing HTML endpoints, returning 403 at the CONNECT layer. Separately, the session exhausted its 200-call WebSearch budget, so two of the three verification votes on several claims could run neither a search nor a fetch and graded internal soundness rather than re-verifying retrieval. Two claims were rescued by routing fetches through a GitHub Actions runner (the Freeman-Tukey paper via Europe PMC and PMC OA full text; the NCDB pages via direct HTTP 200 reads) — those are the strongest evidence here. Everything else is search-result rendering.\n\nRETRIEVAL METHOD PER FINDING, STATED PLAINLY. Direct page read on an unrestricted runner: Freeman-Tukey (finding 2), NCDB PUF (finding 6). Search-result rendering with multi-host identifier cross-check: IPDfromKM (finding 1) — identifiers confirmed on four hosts, quote UNVERIFIED-verbatim. Search-result rendering, SINGLE host, no cross-check: SEER first-course limitation (finding 4). Search-result rendering plus independent structural corroboration on github.com over SEER*Stat-generated dictionary files: SEER no/unknown collapse (finding 5) — the primary page itself was never fetched.\n\nSPECIFIC WORDING DEFECTS CARRIED FORWARD. (i) 'Only inputs are a published K-M figure' overstates IPDfromKM — numbers at risk, total patients and total events are optional but materially improve fidelity, and preprocessing can fail to converge without them; this affects reconstruction QUALITY, never legal executability. (ii) The '~10 to ~120 returns exactly zero' Freeman-Tukey window is NOT a universal property; its endpoints depend on the pooled double-arcsine value in that one case study, and lifting it out of the case-study frame makes it false. (iii) The original SEER claim's 'any treatment-sequence question' was narrowed to subsequent-line/relapse/salvage; first-course multimodality sequencing IS partially recoverable, and SEER-Medicare linked claims DO capture later lines (that qualification is UNVERIFIED-by-fetch, healthcaredelivery.cancer.gov being blocked). (iv) One sentence attributed to the NCDB /puf/ landing page appears in neither that page nor the Terms PDF and belongs to the separate DUA document — it must be re-anchored or dropped. (v) The NCDB gate blocks the APPLICANT; an unaffiliated person as named personnel on a CoC-affiliated investigator's application is not foreclosed. (vi) PMC12599503, cited as a second host for the SEER collapse, is UNVERIFIED.\n\nTIME-SENSITIVITY. The NCDB terms are stamped May 2026 and reference a June 2026 RFA, so that finding is current but reissued per data-release cycle and should be re-checked before any submission. SEER's structure is stable and the collapse was confirmed against the November 2024 SEER*Stat release. IPDfromKM remains live on CRAN (manual dated 21 July 2025). The Freeman-Tukey conclusion is a 2019 statement of a paper's own content and cannot go stale, though the wider methodological consensus has since moved further toward GLMM/logit defaults, which strengthens rather than weakens it.\n\nSEVERAL PLAUSIBLE-LOOKING CLAIMS WERE REFUTED AND MUST NOT BE REINTRODUCED, notably: that SEER's Research Plus tier rejects free/personal email providers by name; that SEER itself explicitly forbids comparative-effectiveness analysis; that NCDB requires a Cancer Committee Chair letterhead signature; specific accuracy benchmarks and corpus sizes from a 2025 Contemporary Clinical Trials Communications reconstruction-methods paper (two search renderings gave CONFLICTING DOIs for the same article); and specific case counts from a 2025 Neurosurgical Review case-report pooling exemplar. Each failed adversarial verification and none should be treated as background knowledge.",
+  "open_questions": [
+   "ARCHETYPES C, D AND E ARE ENTIRELY UNADDRESSED and need a dedicated run: (C) which externally controlled or synthetic control arms have actually supported a regulatory approval, what FDA and EMA guidance states, and whether a design-methodology paper generating zero new patient data is a confirmed publishable form; (D) whether adaptive therapy, QSP, PK/PD dose-schedule optimisation or radiotherapy fractionation modelling has demonstrably informed real treatment and whether any of it is reproducible from public or published data alone; (E) named hypothesis/perspective papers that changed practice without the authors generating data, and what makes such a paper credible rather than speculative. This is more than half the commissioned scope and remains at zero verified claims.",
+   "CACHE BLIND PREDICTION CHALLENGE — entry requirements for an unaffiliated solo participant remain genuinely unresolved: is admission open on application, is institutional affiliation required, and WHO BEARS compound-procurement and assay cost in the current round? A prior claim that CACHE covers this cost for every participant was refuted, and this run produced no replacement evidence. This is the single highest-value unanswered item for the stated researcher because it is the only route on the board that converts compute into wet-lab validation without a lab.",
+   "JOURNAL EXPERIMENTAL-VALIDATION POLICIES — no actual author-guideline or editorial-policy text was retrieved for J Chem Inf Model, PLOS Computational Biology, Molecular Oncology, eLife, Briefings in Bioinformatics, British Journal of Cancer, or any rare-cancer or evidence-synthesis specialist journal. Every venue recommendation therefore remains inferred rather than sourced, which is exactly the state the prior pass was in. Worth noting these are precisely the publisher domains the proxy blocks, so this needs to be routed through a GitHub Actions runner rather than retried in-sandbox.",
+   "EMC / NR4A3 SUBSTRATE CENSUS — unanswered on all three parts: (a) how many molecular samples exist in GEO, SRA, ArrayExpress, cBioPortal and TCGA-SARC, with accessions; (b) whether ANY EMC or NR4A3-fusion cell line exists in DepMap, Cell Model Passports, Cellosaurus or ATCC, with identifiers; (c) every published EMC clinical series carrying a Kaplan-Meier figure and whether each prints a numbers-at-risk table. Part (c) is the direct blocking dependency for the recommended first concrete step, since finding 1 establishes that at-risk tables govern reconstruction fidelity — the method is ready and the target list does not exist.",
+   "APPLIED RARE-CANCER EXEMPLARS FOR CURVE RECONSTRUCTION are still missing: no verified sarcoma or rare-cancer paper that reconstructed IPD from published K-M curves and drew a treatment conclusion survived verification, nor did any evidence on what reviewers demand (PRISMA-IPD, PROSPERO registration, risk-of-bias tooling), nor on one-stage versus two-stage pooling models, minimum-n inclusion floors, or whether formal aggregation of published CASE REPORTS is respected practice for ultra-rare tumours. Two candidate case-report-pooling exemplars were put forward and both were refuted, so the standing of that specific method at the extreme tail of rarity — the EMC situation — is unknown rather than negative."
+  ],
+  "refuted": [
+   {
+    "claim": "The algorithm is an explicit successor to Guyot et al. 2012 (\"modified iterative K-M estimation\", modified-iKM), and its accuracy depends on ancillary reported numbers — the numbers-at-risk table (typically 5–10 time points beneath the x-axis), the total number of patients and the total number of events. This is the concrete reporting precondition that determines whether a given rare-cancer/sarcoma paper's K-M figure is reconstructable at all. [Search-result rendering only; page fetch blocked — UNVERIFIED-verbatim.]",
+    "vote": "0-3",
+    "source": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-021-01308-8"
+   },
+   {
+    "claim": "The paper's credibility architecture is benchmarking against known quantities rather than assertion: the authors validate reconstruction accuracy for event counts, numbers at risk, survival probabilities, median survival times and hazard ratios via simulation plus real-data application. This is the accuracy-assessment step reviewers expect an unaffiliated author to report alongside a reconstructed-IPD analysis. [Search-result rendering only; page fetch blocked — UNVERIFIED-verbatim.]",
+    "vote": "0-3",
+    "source": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-021-01308-8"
+   },
+   {
+    "claim": "The tooling is free, public and requires no institutional software licence: an open R package (IPDfromKM, on CRAN) plus a hosted web Shiny application (search results give the host as https://www.trialdesign.org, and an app user guide by Zhou, Liu and Lee at biostatistics.mdanderson.org), covering extraction, reconstruction, visualisation, accuracy assessment and secondary analysis in one pipeline — i.e. archetype A is executable at ~$0 by a solo unaffiliated researcher. [Search-result rendering only; both the CRAN page and the Shiny guide PDF were themselves fetch-blocked — UNVERIFIED-verbatim.]",
+    "vote": "0-3",
+    "source": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-021-01308-8"
+   },
+   {
+    "claim": "IDENTITY (cross-checked, page never fetched): the URL resolves to a 2025 peer-reviewed methods paper 'Reconstructing patient level survival data from published Kaplan-Meier curves' by Jaromme Geebum Kim, Prabhakar Chalise and Jianghua He (University of Kansas Medical Center), published in Contemporary Clinical Trials Communications and deposited open-access in PubMed Central as PMC12409465. NOTE: two independent search renderings gave CONFLICTING DOIs for the same article (10.1016/j.conctc.2025.101542 vs 10.1016/j.conctc.2025.101567) — both are UNVERIFIED; only the PII S2451865425001164 and the PMC ID PMC12409465 appeared as literal identifiers in retrieved result URLs. Method used: search-result rendering only; ALL direct and mirror fetches (sciencedirect.com, pmc.ncbi.nlm.nih.gov, ncbi.nlm.nih.gov, papers.ssrn.com, api.openalex.org, api.semanticscholar.org, colab.ws, ouci.dntb.gov.ua) returned EGRESS_BLOCKED.",
+    "vote": "0-3",
+    "source": "https://www.sciencedirect.com/science/article/pii/S2451865425001164"
+   },
+   {
+    "claim": "As of 2025 there was no established practical guidance on which of the several competing KM-curve reconstruction methods to use, and no extensive performance evaluation of them — i.e. the method an unaffiliated researcher would apply in archetype (A) was, until this paper, unbenchmarked. UNVERIFIED (abstract text reached via search rendering only).",
+    "vote": "0-3",
+    "source": "https://www.sciencedirect.com/science/article/pii/S2451865425001164"
+   },
+   {
+    "claim": "The paper reports an empirical accuracy benchmark: reconstructed hazard ratios reproduced published HRs closely, with mean and median absolute percentage differences of 2.85% and 2.14% across 58 reconstructed hazard ratios. CAUTION — the two independent search renderings disagree on the corpus size ('46 published KM curves' in one, '58 reconstructed IPD and corresponding hazard ratio estimates' in the other); the 2.85%/2.14% figures appeared in only ONE rendering and are UNVERIFIED.",
+    "vote": "0-3",
+    "source": "https://www.sciencedirect.com/science/article/pii/S2451865425001164"
+   },
+   {
+    "claim": "The paper states a concrete, checkable limitation of curve reconstruction: fidelity is conditional on the graphical quality of the published curve (noise) and on correct preprocessing of the extracted coordinates — meaning reconstruction error is driven by figure quality, not only by the reconstruction algorithm. This is directly relevant to rare-cancer/sarcoma series, whose KM figures are often small, low-resolution and heavily censored. UNVERIFIED (search rendering only).",
+    "vote": "0-3",
+    "source": "https://www.sciencedirect.com/science/article/pii/S2451865425001164"
+   },
+   {
+    "claim": "Formal pooling of individual patient data drawn from published case reports is a peer-reviewed, publishable method for ultra-rare tumours: this 2025 Neurosurgical Review paper (Zuo P, Zou W, Wang Y, et al., Neurosurg Rev 48:543, DOI 10.1007/s10143-025-03704-w) combined 7 institutional cases with 17 cases extracted from the literature into a single 24-patient IPD analysis. NOTE: title/DOI/journal confirmed on two independent hosts (Springer Nature Link result listing and Google/Bing-rendered search summaries); abstract text obtained via search-result rendering only, as link.springer.com, api.semanticscholar.org and ouci.dntb.gov.ua are all blocked by this environment's proxy.",
+    "vote": "1-2",
+    "source": "https://link.springer.com/article/10.1007/s10143-025-03704-w"
+   },
+   {
+    "claim": "For an ultra-rare entity, the entire world literature usable for pooling can be on the order of 17 published cases spanning ~35 years, and single case reports are accepted as IPD units — i.e. no minimum-n inclusion floor was applied to the included publications. This directly answers whether aggregation of case reports is respected practice at the extreme tail of rarity (the EMC/NR4A3 situation).",
+    "vote": "0-3",
+    "source": "https://link.springer.com/article/10.1007/s10143-025-03704-w"
+   },
+   {
+    "claim": "The paper's stated premise is that case reports are routinely excluded from systematic reviews while rare-disease patients depend disproportionately on individualized strategies — i.e. it is a published, peer-reviewed argument that case-report evidence has legitimate standing in rare-disease evidence synthesis, which is exactly the methodological warrant question (A) asks about for ultra-rare tumours. UNVERIFIED as verbatim text: this is search-engine rendering of the abstract, not fetched source prose.",
+    "vote": "1-2",
+    "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7558586/"
+   },
+   {
+    "claim": "A directly relevant companion paper exists and is a stronger exemplar for question (A) than this source: \"Agreement between results of meta-analyses from case reports and clinical studies, regarding efficacy and safety of idursulfase therapy in patients with mucopolysaccharidosis type II (MPS-II). A new tool for evidence-based medicine in rare diseases\", Orphanet J Rare Dis, DOI 10.1186/s13023-019-1202-6, PMC6805333 — i.e. a published formal meta-analysis OF CASE REPORTS whose results were benchmarked against a meta-analysis of clinical studies. Identifier seen on three independent hosts (ojrd.biomedcentral.com, link.springer.com, ncbi.nlm.nih.gov/pmc). Full text not fetched (all three hosts blocked), so its methods, pooling model and quality-assessment tools remain unread.",
+    "vote": "0-3",
+    "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7558586/"
+   },
+   {
+    "claim": "The failure occurs precisely in the regime a rare-cancer pooling exercise occupies — few studies, small n, near-boundary proportions. The five-study case study had HCV prevalence ranging 0% to 18.4% with a median of 0.5%, and the paper fits generalized linear mixed models with a logit link alongside the transformation-based generic inverse-variance analyses, making a GLMM the documented alternative when Freeman-Tukey back-transformation is unsafe.",
+    "vote": "0-3",
+    "source": "https://pubmed.ncbi.nlm.nih.gov/30945438/"
+   },
+   {
+    "claim": "SEER Research Plus (the tier carrying the more detailed case-level fields) requires user authentication through an eRA Commons or HHS account, and that account must be tied to an institutional email address (.edu, .gov, .org, or work address) — meaning an unaffiliated solo researcher cannot authenticate at all for the Research Plus tier. RETRIEVAL CAVEAT: seer.cancer.gov is blocked by this environment's egress proxy; the target page was never fetched. Text below is search-result rendering, corroborated across three independent queries in which access.html was a returned hit.",
+    "vote": "0-3",
+    "source": "https://seer.cancer.gov/data/access.html"
+   },
+   {
+    "claim": "SEER explicitly rejects requests submitted from free/personal email providers (Gmail, iCloud, 163.com are named), and requires an email address affiliated with a self-identified institution or corporation — an affiliation gate, not merely a contact-address preference. This is the single decisive fact for archetype (B) for an unaffiliated individual. RETRIEVAL CAVEAT: search-result rendering only; direct fetch blocked.",
+    "vote": "0-3",
+    "source": "https://seer.cancer.gov/data/access.html"
+   },
+   {
+    "claim": "Institutional affiliation for SEER data access is verified through NIH/HHS identity infrastructure administered by the Office of Data Sharing — specifically eRA Commons accounts or HHS PIV cards — and all correspondence about the request and its approval uses the institutional email. This means the affiliation requirement is enforced by a federal identity system, not by self-attestation on a form, so it cannot be satisfied by a solo researcher asserting independent-researcher status. RETRIEVAL CAVEAT: search-result rendering only; direct fetch blocked.",
+    "vote": "0-3",
+    "source": "https://seer.cancer.gov/data/access.html"
+   },
+   {
+    "claim": "SEER itself explicitly advises against comparative-effectiveness analysis and outcome comparisons conditioned on treatment, because determinants of treatment (patient preference, physician recommendation, comorbidity, provider proximity) are not captured in the registry — i.e. the archetype 'compare treatment A vs B in SEER for a rare sarcoma' is disallowed by the data owner, not merely difficult. [Search-result rendering of the Nov 2023 submission page]",
+    "vote": "0-3",
+    "source": "https://seer.cancer.gov/data/treatment.html"
+   },
+   {
+    "claim": "The application requires an institutional signature that a solo researcher cannot self-supply: a letter of support on hospital or cancer-program letterhead from the Cancer Committee Chair on record with the CoC (or, if the applicant is the Chair, from the Cancer Program Administrator), plus a 2-page-or-less biosketch.",
+    "vote": "0-3",
+    "source": "https://www.facs.org/quality-programs/cancer-programs/national-cancer-database/puf/"
+   },
+   {
+    "claim": "Facility-level and geographic questions are not recoverable from the PUF: the file is de-identified beyond 45 CFR 164.514, does not identify hospitals or providers, and geographic information is deliberately excluded — though aggregated patient characteristics (education, income, travel distance) and facility characteristics are retained.",
+    "vote": "0-3",
+    "source": "https://www.facs.org/quality-programs/cancer-programs/national-cancer-database/puf/"
+   }
+  ],
+  "sources": [
+   {
+    "url": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-021-01308-8",
+    "quality": "primary",
+    "angle": "IPD reconstruction and rare-cancer evidence synthesis (A)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.sciencedirect.com/science/article/pii/S2451865425001164",
+    "quality": "primary",
+    "angle": "IPD reconstruction and rare-cancer evidence synthesis (A)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.equator-network.org/reporting-guidelines/prisma-ipd/",
+    "quality": "secondary",
+    "angle": "IPD reconstruction and rare-cancer evidence synthesis (A)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://link.springer.com/article/10.1007/s10143-025-03704-w",
+    "quality": "primary",
+    "angle": "IPD reconstruction and rare-cancer evidence synthesis (A)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7558586/",
+    "quality": "primary",
+    "angle": "IPD reconstruction and rare-cancer evidence synthesis (A)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://pubmed.ncbi.nlm.nih.gov/30945438/",
+    "quality": "primary",
+    "angle": "IPD reconstruction and rare-cancer evidence synthesis (A)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://seer.cancer.gov/data/access.html",
+    "quality": "primary",
+    "angle": "Registry access rules for an unaffiliated individual (B)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://seer.cancer.gov/data/treatment.html",
+    "quality": "primary",
+    "angle": "Registry access rules for an unaffiliated individual (B)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.facs.org/quality-programs/cancer-programs/national-cancer-database/puf/",
+    "quality": "primary",
+    "angle": "Registry access rules for an unaffiliated individual (B)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.facs.org/media/vf3lza5k/puf-terms-of-agreement.pdf",
+    "quality": "primary",
+    "angle": "Registry access rules for an unaffiliated individual (B)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://iknl.nl/en/ncr/apply-for-data",
+    "quality": "primary",
+    "angle": "Registry access rules for an unaffiliated individual (B)",
+    "claimCount": 5
+   },
+   {
+    "url": "http://rarecarenet.istitutotumori.mi.it/",
+    "quality": "primary",
+    "angle": "Registry access rules for an unaffiliated individual (B)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.fda.gov/media/164960/download",
+    "quality": "unreliable",
+    "angle": "Trial design, external controls and regulatory acceptance (C)",
+    "claimCount": 0
+   },
+   {
+    "url": "https://link.springer.com/article/10.1007/s43441-021-00302-y",
+    "quality": "primary",
+    "angle": "Trial design, external controls and regulatory acceptance (C)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://ascopubs.org/doi/10.1200/PO.21.00394",
+    "quality": "primary",
+    "angle": "Trial design, external controls and regulatory acceptance (C)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://arxiv.org/pdf/2307.05050",
+    "quality": "secondary",
+    "angle": "Trial design, external controls and regulatory acceptance (C)",
+    "claimCount": 2
+   },
+   {
+    "url": "https://www.nature.com/articles/s41467-017-01968-5",
+    "quality": "primary",
+    "angle": "Modelling and theory as therapeutic contribution (D and E)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7804309/",
+    "quality": "primary",
+    "angle": "Modelling and theory as therapeutic contribution (D and E)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://elifesciences.org/articles/84263",
+    "quality": "secondary",
+    "angle": "Modelling and theory as therapeutic contribution (D and E)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3313464/",
+    "quality": "primary",
+    "angle": "Modelling and theory as therapeutic contribution (D and E)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.nature.com/articles/ncponc0560",
+    "quality": "secondary",
+    "angle": "Modelling and theory as therapeutic contribution (D and E)",
+    "claimCount": 4
+   },
+   {
+    "url": "https://web.expasy.org/cellosaurus/CVCL_1238",
+    "quality": "primary",
+    "angle": "EMC / NR4A3 public data and cell-line inventory (open question 3)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9813045/",
+    "quality": "primary",
+    "angle": "EMC / NR4A3 public data and cell-line inventory (open question 3)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://doi.org/10.1158/1055-9965.epi-20-0447",
+    "quality": "primary",
+    "angle": "EMC / NR4A3 public data and cell-line inventory (open question 3)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://www.sciencedirect.com/science/article/pii/S2468294222000211",
+    "quality": "primary",
+    "angle": "EMC / NR4A3 public data and cell-line inventory (open question 3)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://conscience.ca/frequently-asked-questions-cache-challenges/",
+    "quality": "primary",
+    "angle": "CACHE entry terms and journal validation policies (open questions 1 and 2)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://conscience.ca/event/cache8/",
+    "quality": "primary",
+    "angle": "CACHE entry terms and journal validation policies (open questions 1 and 2)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://cache-challenge.org/sites/default/files/downloadable/forms/CACHE-Terms-of-Participation.pdf",
+    "quality": "unreliable",
+    "angle": "CACHE entry terms and journal validation policies (open questions 1 and 2)",
+    "claimCount": 0
+   },
+   {
+    "url": "https://researcher-resources.acs.org/publish/author_guidelines?coden=jcisd8",
+    "quality": "primary",
+    "angle": "CACHE entry terms and journal validation policies (open questions 1 and 2)",
+    "claimCount": 5
+   },
+   {
+    "url": "https://journals.plos.org/ploscompbiol/s/journal-information",
+    "quality": "primary",
+    "angle": "CACHE entry terms and journal validation policies (open questions 1 and 2)",
+    "claimCount": 5
+   }
+  ],
+  "stats": {
+   "angles": 6,
+   "sourcesFetched": 30,
+   "claimsExtracted": 136,
+   "claimsVerified": 25,
+   "confirmed": 7,
+   "killed": 18,
+   "unverified": 0,
+   "afterSynthesis": 7,
+   "urlDupes": 0,
+   "budgetDropped": 6,
+   "agentCalls": 113
+  },
+  "⚠_retrieval_strength_per_finding": "Direct page read on an unrestricted runner (STRONGEST): Freeman-Tukey (F2), NCDB PUF (F6). Search-result rendering, identifiers cross-checked on four hosts, quote unverified verbatim: IPDfromKM (F1). Search-result rendering, SINGLE host, no cross-check: the SEER first-course limitation (F4). Search-result rendering plus structural corroboration over SEER*Stat dictionary files on github.com, primary page NEVER fetched: the SEER no/unknown collapse (F5). Grade accordingly."
  }
 }
