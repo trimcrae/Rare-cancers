@@ -1,0 +1,902 @@
+2005f1000resF1000ResearchF1000ResFaculty of 1000 LtdPMC11269977PMC11269977.211269977112740553905609510.12688/f1000research.135164.22On the limits of inferring biophysical parameters of RBP-RNA interactions from in vitro RNA Bind’n Seq data
+SchlusserNielsData Curation, Formal Analysis, Investigation, Methodology, Software, Validation, Visualization, Writing – Original Draft Preparation, Writing – Review & Editing ZavolanMihaelaConceptualization, Methodology, Project Administration, Resources, Supervision, Validation, Writing – Review & Editing 
+1Biozentrum, Universitat Basel, Basel, Basel-Stadt, 4056, SwitzerlandaEmail: mihaela.zavolan@unibas.ch
+No competing interests were disclosed.
+29520241274274226620232572024PMC11269977.12662023PMC11269977.22952024Copyright: © 2024 Schlusser N and Zavolan MThis is an open access article distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+We develop a thermodynamic model describing the binding of RNA binding proteins (RBP) to oligomers
+in vitro. We apply expectation-maximization to infer the specificity of RBPs, represented as position-specific weight matrices (PWMs), by maximizing the likelihood of RNA Bind’n Seq data from the ENCODE project. Analyzing these public data we find sequence motifs that can partly explain the data for more than half of the studied 111 RBPs, and for 48 of the proteins these motifs are consistent with the known specificity. Our code is publicly available, facilitating analysis of RBP binding data.
+Keywords: Systems biology, bioinformatics, computational biology, machine learning, maximum entropy method, Bayesian statistics, RNA binding proteins, RNA Bind'n'Seq
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoAccepted 2024 May 8; Collection date 2023.
+
+## Version Changes
+Revised.
+
+## Amendments from Version 1
+Following the suggestion of Johannes Söding, we reduced the degree of the Markov model to compute the sequence frequency priors. Consequently, we could confirm a lot more binding motifs obtained from our model with data from other sources. Therefore, we decided to expand the application of our model from just a few examples of public RNA Bind'n Seq data sets (RBFOX2, CELF1, hnRNPD, hnRNPK, MBNL1, hnRNPL, FUS, TAF15) to the entirety of publicly available Bind'n Seq data sets (111 RBPs in total on ENCODE). As a result, the run statistics are much more comprehensive (Fig. 1), and we added (Fig. 2) as a comparison of binding affinities and the respective motifs. Beyond that, we expanded the number of discussed RBP examples (Subsec. 4.1-4.14, Fig. 3-15). A derivation of relative binding affinities from our model terminology is appended to Sec. 2 and serves as a measure of comparison between PWMs of different length instead of the previous BIC and AIC. Following the suggestions of the reviewers, we clarified the derivation of the model (Sec. 2) and the EM procedure (Subsec. 3.2). We reflect the changes to our work in slight changes in the abstract to highlight the different outcome compared to version 1. We removed Appendix A since a list of used data sets is anyway given in the metadata of the article.
+
+## 1. Introduction
+RNA-binding proteins (RBPs) interact with RNAs at every step of their life cycle. Due to their modular structure, usually consisting in an assortment of RNA-binding domains, RBPs interact with both RNAs and proteins, and couple various layers of gene expression.
+
+ 
+ While
+ RBPs are currently known, most remain to be functionally characterized. A first step in this process is to determine the interaction partners and the sequence/structure specificity of the RBP. Many RBPs recognize their targets in a sequence-specific manner, although the accessibility of binding sites within the targets also plays a role.
+
+ 
+ The sequence specificity is usually represented by a position weight matrix (PWM), which specifies the probability of finding each of the four nucleotides at each position in the RBP binding site. This is an obvious simplification, as dependencies between positions in the binding site likely occur. However, training more complex models requires substantially more data, which are often not available. Moreover, in the case of another class of nucleic acid binding proteins, transcription factors, the improvement in binding site predictability by more complex models is modest, at least in the case of other nucleic acid binding proteins, transcription factors.
+
+ 
+ With the realization that the presence of a canonical RNA-binding domains is not necessary for the ability of a protein to bind RNAs
+
+ 
+ came a pressing need to determine the determinants of RNA-RBPs interactions and the sequence/structure specificity of the proteins newly found to interact with RNAs.
+The past two decades have seen the development and broad application of experimental methods for RBP target identification. They include
+in vivo high-throughput approaches such as HITS-CLIP, PAR-CLIP, iCLIP and eCLIP (reviewed in Refs.
+ ,
+ ), and more recently-developed
+in vitro approaches such as RNA Bind’n Seq.
+
+ 
+ While the CLIP methods rely on the sequencing of RNAs that interact with and can therefore be crosslinked to RBPs
+in vivo, RNA Bind’n Seq relies on the affinity-dependent interaction of RBPs with random RNAs
+in vitro. The oligonucleotides selected in this experiment are computationally analyzed to identify short sequence motifs that mediate the interaction with the RBP. So far, analyses of such data involved the identification of enriched kmers (short oligonucleotide sequences of a specified length,
+ ), and then a greedy alignment procedure yielded PWM representations of the RBP binding motifs. This left open the question of whether the derived PWMs accurately predicted the interaction energies of RBPs with their binding sites. In contrast, the aim of our work was to develop a biophysics-anchored method to directly infer the PWMs from RNA Bind’n Seq data. Our paper is organized as follows:
+ explains how we derive our thermodynamical model. We comment on the practical implementation of this model in
+ , where we also explain how we account for sequence composition biases in the pool of oligomers. Results for different RBPs are presented in
+ , where we also comment on the accuracy of the results obtained from this type of data for different RBPs. Concluding remarks are given in
+ .
+
+## 2. Model
+Our model is an adaptation of a Bayesian, thermodynamic model that was constructed to infer di-nucleotide weight tensors from SELEX data.
+
+ 
+ In the following, we derive the log-likelihood of Bind’N Seq data given the PWM for the RBP of interest, which will be inferred by expectation-maximization as described in
+ .
+
+## 2.1 Derivation of the data likelihood
+We assume that an RBP binds an oligomer over a binding site
+ of length
+ and that the likelihood of binding taking place, according to Boltzmann’s law, goes as
+ , where
+ is the nucleotide at position
+ , so
+ . Therefore, each element of the position weight matrix (PWM)
+ can be identified with
+ , with columns being normalized as
+ .
+Additionally, we account for the fact that there are genuinely two different ways of binding, sequence-specific binding as described by the PWM, and unspecific binding to RNAs with a probability
+ . Combining these two possibilities, we arrive at the probability of a site
+ being bound by the RBP
+
+(2.1)P(bound|s,c,M,E0)=c(eE(s)+eE0)1+c(eE(s)+eE0),where the 1 in the denominator represents the (constant) chance of the RBP being unbound. Assuming that the binding of RBPs to oligomers is not saturated, i.e.
+ , we can linearize
+ 
+
+(2.2)P(bound|s,c,M,E0)≈c(eE(s)+eE0).Consequently, the chance of an RBP being bound somewhere on a longer oligomer
+ with
+ is
+
+(2.3)P(bound|S,c,M,E0)=∑s∈SP(bound|s,c,M,E0)≈c(eE(S)+(LS−Lw+1)eE0),where
+ is the sum over all possible
+ -mers
+ in
+ . The probability to observe each read
+ in the pool of oligomers that were selected by the interaction with the RBP is
+
+(2.4)P(IP|S,c,M,E0)=fSP(bound|S,c,M,E0)∑σ∈DfσP(bound|σ,c,M,E0)≈fS(eE(S)+(LS−Lw+1)eE0)∑σ∈Dfσ(eE(σ)+(Lσ−Lw+1)eE0),with
+ being the data set of reads, IP being a binary variable indicating if the read is immuno-percipitated or not, and
+ a frequency prior that corrects for the fact that the pool of oligomers has a non-uniform nucleotide composition. Note that, due to the linearization in
+ ,
+ is independent of the protein concentration
+ , which cancels out as an overall prefactor in both numerator and denominator.
+ is essentially a formulation of Bayes’ theorem, with
+ being the likelihood of having a read
+ being immuno-percipitated,
+ being the likelihood of the read
+ in the input, and having an overall normalization in the denominator.
+Eventually, the log-likelihood of the entire library of oligomers
+ explained by the specific binding to the RBP described by the PWM
+ of length
+ as well as unspecific binding described by parameter
+ is given by
+
+(2.5)logP(D|M,E0)≈∑S∈DnSlog[fS(eE(S)+(LS−Lw+1)eE0)∑σ∈Dfσ(eE(σ)+(Lσ−Lw+1)eE0)],where
+ is the number of copies of read
+ in the library.
+
+## 2.2 Relationship to the dissociation constant
+K
+
+D
+
+The log-likelihood of binding derived in the previous section can be related to the dissociation constant
+ known from the formalism of chemical reactions as follows. The concentration
+ of RBP bound to a multivalent oligomer with concentration
+ is given by
+
+ 
+
+(2.6)[RBP]bound=n[S]KD[RBP]+1,where
+ is the dissociation constant and
+ is the number of binding sites on the oligomer. We make the simplification of considering binding sites to be in principle identical and their maximum number be given by the total number of configurations in which the RBP can contact the oligomer, i.e.
+ .
+Further assuming that the probability to observe individual oligomers in the sequencing pool is proportional to their relative abundance in complex with the RBP (which can only hold when at most one RBP molecule is bound to an individual oligomer), i.e.
+ , we can re-express
+ in terms of
+ as
+
+(2.7)logP(D|M,E0)=C+∑S∈DnSlog(n[S]KD[RBP]+1)=C+∑S∈DnSlog(fS(LS−Lw+1)KD[RBP]+1),where we used that the concentration
+ of any given oligomer
+ is proportional to
+ ,
+ is a proportionality constant independent of the binding specificity. Under the assumption that the binding is typically of low affinity, i.e.
+ , we arrive at
+
+(2.8)logP(D|M,E0)≈C′+∑S∈DnSlog([RBP]KDfS(LS−Lw+1)).Hence, we can rank interactions by the dissociation constants relative to some reference PWM
+ and
+ 
+
+(2.9)log(KDKDref)=1∑S∈DnS[logP(D|Mref,E0ref)−logP(D|M,E0)+∑S∈DnSlog(LS−Lw+1LS−Lwref+1)].As expected, the result corrects for the library size-dependence of
+ by dividing by the total foreground reads
+ , and for differences in binding domain or read length by the last term. Assuming a random oligomer of length
+ for which there is no unspecific binding (
+ ) as reference allows us to bring
+ into the simple closed form
+
+(2.10)logP(D|Mref,E0)=∑S∈DnSlog[fS(LS−Lwref+1)∑σ∈Dfσ(Lσ−Lwref+1)].Combining
+ with
+ , the output of the optimization procedure, and the reference
+ allows us to compute the logarithm of the dissociation constant of the RBP-RNA binding for a representative RBP binding site relative to a random oligomer of length
+ , a typical size for an RBP binding site. Relative
+ ’s also provide a measure to rank different binding specificities, even of different lengths, for a given RBP.
+
+## 3. Implementation
+Our goal is to identify the parameters that maximize the likelihood of the library of oligomers given in
+ . This is equivalent to optimizing
+ , or rather its logarithm to avoid underflows. While the library
+ , the copy number of a read
+ , the read and binding site lengths
+ and
+ , and – with some limitations – the frequency priors
+ are given from our data, the position-specific binding of the RBP described by the PWM and the position-unspecific binding described by
+ have to be inferred. Eventually, we want to obtain the PWM, whereas
+ represents a hidden parameter which will be inferred via the expectation-maximization procedure. In principle, this would also apply to the concentration
+ but none of our final expressions depend on
+ any more due to linearization. Before diving into the details of the EM procedure’s implementation we would like to comment on how to infer the frequency priors
+ .
+
+## 3.1 Construction of the frequency priors
+f
+
+S
+ from a Markov model
+RNA Bind’n Seq data does not only comprise libraries of reads pulled down by specific RBPs at non-vanishing RBP concentrations, but also libraries of input reads. The oligonucleotides that were used for RBP affinity-based selection were short, typically 20 nucleotides in length (c.f. Ref.
+ ). The number of possible 20mers is
+ , much larger than the library sizes of
+ . Thus, even in the absence of selection (
+ ), the expected overlap of two libraries is extremely small.
+To preserve the statistical power of the foreground pool, i.e. use all the reads detected in the foreground sample in the analysis, even though they were not represented in the background sample, we have to predict the frequency of foreground reads under the assumption of no selection for binding the RBP. A commonly used approach for this type of problem is to train a Markov model from the background pool and construct the expected frequency of each read in the foreground from the trained model, just as in Ref.
+ . For an completely unbiased process of oligomer synthesis, capture and sequencing the degree
+ of the Markov model would be
+ , i.e. each base would be equally likely to occur at any position in the oligomer, and all 20mers would have the same prior frequency of occurrence
+ . However, various types of biases can lead to some sequences, with specific composition of short nucleotide motifs, being present in the data more often than others. In principle, the higher the degree of the Markov model, the larger the sequence context that can be resolved. However, an over-parametrization of the Markov-model needs to be avoided. As binding specificities of RBPs tend to be short and our main aim is to appropriately detect enrichment of motifs on this length scale, we used a Markov model of
+ , which seemed to give a good tradeoff between the accuracy of the background read frequency prediction, size of Bind’n Seq libraries, and available compuational resources. The predicted frequency priors
+ – and kmer-frequencies, accordingly – need to be normalized such that their sum over the background frequency pool
+ satisfies
+ .
+
+## 3.2 Inferring PWMs by expectation maximization
+Having constructed our model with the final expression
+ , as well as the background frequencies
+ described in the subsection above, the remaining task is to identify the PWM and
+ maximize the log-likelihood
+ . To this end, we rely on the expectation maximization algorithm.
+
+ 
+
+,
+
+ 
+ Provided that only some of our model parameters can be directly inferred from the data, the algorithm optimizes the”hidden” parameters to maximize
+ . The expectation-maximization procedure (EM) can be divided into the following steps:
+
+1.Initialize
+ and the PWM elements
+ with respectively well-defined real numbers, i.e.
+ and
+ . This can either be done in an entirely unbiased way or by pre-determining some motifs and initializing PWMs with values reflecting those motifs.
+2.Recalculate
+ to maximize
+ holding the PWM fixed, which amounts to finding the root of
+(3.1)∂∂E0logP(D|M,E0)=∑S∈DnS(LS−Lw+1)eE0eE(S)+(LS−Lw+1)eE0−∑S∈DnS∑ρ∈Dfρ(Lρ−Lw+1)eE0∑σ∈Dfσ(eE(σ)+(Lσ+Lw+1)eE0)=!0.
+
+We employ a Brent minimization algorithm from the GSL library
+
+ 
+ to the negative value of the log-likelihood in
+ to maximize it.
+3.Updating the PWM with the new
+ from the previous step, splitting the data set into
+ -mers
+ (on a read
+ ) and adding the weight
+(3.2)P(s|c,M,E0)P(S|c,M,E0)=nSeE(s)eE(S)+eE00(LS−Lw+1)to all entries in the PWM corresponding to
+ . Repeat that for all
+ in
+ , and over all
+ in
+ . Renormalize the PWM again by enforcing
+ .
+4.Repeat the previous two steps until convergence. We terminate the iteration when the quadratic difference between the current and the updated PWM is less than
+ on average per entry, i.e. for
+ the quadratic difference is less than
+ . Usually, this takes
+ iterations.
+Our code is written in C++ and python and is publicly available.
+
+ 
+
+## 4. Results
+We analyzed all RNA Bind’n Seq data available in ENCODE
+
+ 
+ for 111 RBPs. For each RBP, we investigated 11 different binding site lengths,
+ nts, where the lower limit was chosen as
+ in agreement with the literature, and the upper limit of
+ nts was determined by the available RAM. Moreover, as most reads are
+ nts long, a larger
+ approaching this value would also not be warranted. For each of pair of RBP and
+ , we set up 16 runs with randomly initialized parameters and 4 runs in which the initial PWM was set close to the reported consensus motif (from RBP Bind’n Seq data).
+
+ 
+ We generally used four CPUs with three hours of maximum walltime per RBP, and eight CPUs when necessary (e.g. because the read length was larger than
+ nts. For the overwhelming majority of runs we found these resources to be sufficient, though a few runs did not complete during this time, thus not all RBPs had exactly the same number of finished runs.
+ gives an overview of the run statistics. As a local minimum was not found in all randomly initialized runs, the figure shows the fraction of “convergent” runs, i.e. runs in which the final log-likelihood was larger than the initial one. In addition, we observed that even convergent runs were sometimes dominated by the unspecific binding term
+ . Since in this case the inferred PWM is not meaningful as it does not explain the data as well as the sequence-unspecific term, we report the “specific” cases, where
+ . As shown in
+ all RBPs with a large fraction (
+ ) of convergent runs, led to the recovery of a specific motif. In contrast, RBPs with a low fraction (
+ ) of convergent runs had solutions dominated by unspecific binding.
+ Following
+ , we calculated the dissociation constants
+ s for all convergent and specific outcomes of the EM procedure. Dissociation constants were given relative to a PWM of length
+ , with equal probabilities for all four nucleotides (
+ ) disregarding unspecific binding i.e.
+ . This allows us to compare the binding strength of different motifs for an RBP with each other and also of motifs for different RBPs, as done in
+ . Below we highlight the motif and relative
+ s for the motifs with the lowest and highest
+ from random initialization, as well as the motif with the lowest
+ obtained by initializing with the consensus PWM provided for the respective RBP by Ref.
+ . As a first plausibility check, we find that longer motifs tend to have lower
+ s, i.e. higher binding affinities, which is expected due to the larger number of bonds the larger binding sites can form with the RBP. We found convergent and specific results in 82 of 111 cases. Comparing the lowest
+ motifs to the ones obtained by starting from the motifs found by kmer-enrichment analysis,
+
+ 
+ we found that the consensus motif is contained in or differs in at most one position in 48 cases. 19 of the highest affinity motifs did not contain the ENCODE consensus; in 17 of these cases our algorithm found a less complex motif (mostly poly(A)), while in two cases (for CPEB1 and EIF4H) the motifs found by our algorithm are more complex. In 14 cases, the motif found by our algorithm appeared related to the consensus, but it was less polarized or differed from consensus in more than one position. For one RBP, PTBP3, no motif was reported based on RNA Bind’n-Seq data, while we found a convergent and specific poly(A) motif. The seemingly large bias towards poly(A) in case of no other motif found is consistent with adenine being the most prominent nucleotide in all of the investigated libraries.
+ Below we assess the correspondence of the results given by our model with prior knowledge for a few proteins that have been extensively studied. Examples where we found motifs consistent with prior literature are RBFOX2, NOVA1, PUM1, PUF60, ELAVL4, hnRNPC, and PCBP1. In contrast, for CELF1, EWSR1, hnRNPD, and hnRNPK we either did not obtain a convergent and specific result or the result was clearly different from the reported consensus. We also discuss CPEB1, EIF4H, and PTBP3 as cases where our model appears to deliver new information. Note that as we start our analysis from sequenced DNAs we use T in the sequence logos, though of course, the RNA oligonucleotides contained U’s.
+
+## 4.1 RBFOX2
+RBFOX2 is a key regulator of alternative splicing
+
+ 
+ that was extensively studied with a variety of methods (e.g. Ref.
+ ). The RBFOX2 Bind’n Seq dataset
+
+ 
+ consists in nine libraries obtained using nine different protein concentrations and two protein-free control libraries, all containing reads of
+ nucleotides (nts) in length, including the adaptor. RBFOX2 is widely used to benchmark computational analysis methods (c.f. Ref.
+ ) and thus the corresponding dataset was carefully generated, to include multiple, high-quality libraries. Established techniques like kmer-enrichment analysis and the streaming-kmer-algorithm (SKA) predict a consensus 6mer TGCATG as the most prominent motif followed by other GCATG-containing 6mers.
+
+ 
+ Our results in
+ reproduce the importance of the GCATG morif, but also the slight T bias at the preceding position, see
+ . Moreover, we find the subdominant PWM
+ which shares a CATG core with the highest affinity motif, but over-emphasizes the A bias downstream. These results demonstrate that our algorithm identifies the known consensus for RBFOX2.
+ The log-values of relative
+ ’s are in the range
+ -
+ , meaning that the two motifs shown in
+ and
+ differ by
+ fold in their
+ . The unspecific binding term in the run that yielded the motif from panel (A) was
+ , while the one from the panel (B) run was
+ . The overall log-likelihoods of the dataset were
+ vs.
+ , respectively. Thus, the higher affinity motif corresponds to a higher peak in the likelihood landscape, and accounts for a more specific interaction. The binding specificity of RBFOX2 in
+ is similar to that of the closely related RBFOX3 (c.f.
+ ).
+
+## 4.2 NOVA1
+The neuro-oncological ventral antigen 1 (NOVA1) is a neuron-specific RBP
+
+ 
+ found by SELEX experiments to bind a triple CAT-repeat.
+
+ 
+ This is confirmed by the motif identified by our algorithm (
+ ). In contrast, the streaming kmer-enrichment analysis of RNA Bind’n Seq data in ENCODE predicted a single CAT.
+
+ 
+
+ Relative log-
+ values ranged from
+ to
+ , the unspecific binding term was
+ for
+ and
+ for
+ , and the log-likelihoods of the data were
+ and
+ , respectively.
+
+## 4.3 PUM1
+Pumilio homolog 1 is a well-studied member of the PUF famility of proteins, which binds to 3’UTRs of a variety of mRNAs and regulates their translation.
+
+ 
+ While immunoprecipitation (IP) experiments found its binding specificity to be TGTAHATA,
+
+ 
+ SKA analysis of RNA Bind’n Seq yielded TGTAH without further context.
+
+ 
+ In contrast, we do find the full motif in the Bind’n Seq data (
+ ). All obtained motifs are related to each other via shifts and show only gradual differences at single positions, which also reflects in characteristic numbers (
+ ,
+ , and
+ ) being distributed only over a narrow range. The relative log-dissociation constants for
+ are
+ ,
+ , and
+ , where the former two differ by only
+ . The corresponding unspecific binding strengths are
+ ,
+ , and
+ . The log likelihoods of the data range from
+ to
+ .
+ 
+
+## 4.4 PUF60
+A representative from the same family of RBPs is the Poly(U)-binding splicing factor PUF60,
+
+ 
+ which regulates both transcription and translation.
+
+ 
+ Our algorithm finds the expected motif (poly(T)) as having the highest affinity
+ . The relative log-
+ values for T-rich motifs are
+ , with
+ and
+ . Different variations (see
+ ) of the poly(T) motif are found, having in common the alternating pattern of very polarized – less polarized T (the latter blended with C). Poly(A)-containing motifs (c.f.
+ ) also appear at
+ and
+ , with
+ . The motif with the highest dissociation constant obtained from random initializations is shown in
+ , has
+ , and corresponds to
+ and
+ .
+ 
+
+## 4.5 ELAVL4
+The ELAV-like protein 4 (ELAVL4) is an RBP that is exclusively expressed in neurons.
+
+ 
+ It binds A/T-rich elements according to genome-wide IP experiments,
+
+ 
+
+,
+
+ 
+ a pattern that we also observe in PWMs from our model (see
+ ). Relative log-
+ ’s range from
+ to
+ , unspecific binding strength from
+ to
+ , and the log-likelihood of the data from
+ to
+ .
+ 
+
+## 4.6 HNRNPC
+Turning towards another large familiy of RBPs, the heterogeneous nuclear ribonucleoproteins (hnRNPs), we highlight hnRNPC,
+
+ 
+ a protein that is involved pre-mRNA processing.
+
+ 
+ It is known to bind to poly(U) motifs, typically pentamers, found in both SKA analysis of RNA Bind’n Seq data
+
+ 
+ and in electrophoretic mobility shift assays.
+
+ 
+ Our model does recover the dominant poly(T) motif at
+ ,
+ , and
+ . Mildly subdominant motifs are A-rich and less repetitive (
+ ) with
+ ,
+ , and
+ , as well as
+ ,
+ , and
+ .
+ 
+
+## 4.7 PCBP1
+As a last example of RBPs of which we predict a motif that agrees with prior data, we highlight the poly (rC)-binding protein 1 (PCBP1).
+
+ 
+ Its binding specificity consists of a few very polarized C’s linked by A/T-enriched sequence.
+
+ 
+ This pattern is clearly reproduced by our highest affinity motif in
+ (
+ ) with
+ and
+ . The lowest affinity motif (
+ ) that random PWM-initialization yielded had
+ ,
+ ,
+ .
+ 
+
+## 4.8 CELF1
+CELF1 is an RBP of the CUG-binding CELF family,
+
+ 
+
+,
+
+ 
+ that participates in multiple steps of post-transcriptional processing of RNAs, including splicing, translation and decay.
+
+ 
+ CELF1 requires UGU motifs for high-affinity interaction with RNAs.
+
+ 
+ The corresponding Bind’n Seq dataset
+
+ 
+ consists of libraries generated for seven different RBP concentrations, each containing
+ reads of
+ .
+Since
+ runs with completely random PWM intialization for
+ did not yield any local optimum of the probability landscape we decided to test whether the biased initialization of the PWM with the known motif (TGT), which was found as as enriched 3-mer in RNA Bind’n Seq
+
+ 
+ enables the recovery of longer motifs. However, our model predicted only poly(A) stretches as convergent optima of the probability landscape, see
+ . The relative log-dissociation constants were
+ , unspecific binding was characterized by
+ , and the likelihood of the daat was between
+ and
+ .
+ 
+
+## 4.9 EWSR1
+EWSR1, or Ewing’s sarcoma protein, forms fusions with a number of other proteins and serves as a transcriptional activator in human solid tumors like Ewing’s sarcoma and malignant melanoma.
+
+ 
+ Information about its binding specificity is scarce, while SKA analysis of RNA Bind’n Seq data predicts G-rich elements.
+
+ 
+ Our investigation lead to different varieties of poly(A) motifs (
+ and
+ ), which vary in relative dissociation constants
+ in log-
+ , unspecific binding energy
+ , and data likelihoods
+ .
+ 
+
+## 4.10 HNRNPD
+Within the class of heterogeneous ribonucleoproteins (hnRNPs), hnRNPD (also known as AUF1) is a well-known A/U-rich element RNA binding protein with important role in RNA decay.
+
+ 
+ HNRNPD has been reported to bind clusters of AUUUA elements.
+
+ 
+ The ENCODE-database
+
+ 
+ lists AUAAU as another possible binding site for hnRNPD. We find poly(A) stretches of different lengths as convergent and specific binding motifs (see
+ ). While A is the dominating nucleotide at every position, it is followed consistently by T, which fits the reported A/U-rich binding domains in the literature. We find unspecific binding terms in the range
+ , where
+ corresponds to the highest affinity motif (
+ ) for which
+ . The two motifs shown in
+ come from a range of dissociation constants
+ and data likelihoods
+ . Direct initialization with the kmer-enrichment consensus ATAAT did not lead to any convergent and specific result.
+ 
+
+## 4.11 HNRNPK
+We were also interested in determining whether we can recover G/C-rich binding motifs from the data and therefore applied the model to heterogeneous nuclear ribonucleoprotein K (hnRNPK), a member of the poly(C) binding family of proteins.
+
+ 
+ We could only recover one of the two consensus motifs reported in the ENCODE analysis of these data (GCCCA, from SKA)
+
+ 
+ when specifically initializing the PWM with this motif. The second reported motif, with the CACGC consensus, could not be found by our algorithm even when the PWM was initialized with the motif itself and even when sequences containing the first motif were eliminated, indicating that this motif does not correspond to a local maximum of the likelihood function. We did not find any PWMs of
+ in this data set, whether we used random initialization or shorter motif-guided initialization.
+
+## 4.12 CPEB1
+The cytoplasmic polyadenylation element-binding protein 1 (CPEB1)
+
+ 
+ serves as a translational regulator by binding specific U-rich sequences in 3’UTRs inducing cytoplasmic adenylation. The streaming kmer algorithm predicts a poly(T) motif from RNA Bind’n Seq data, which is what we recover as the lowest affinity motif in
+ with
+ ,
+ , and
+ . The penta(T) is also part of a higher affinity motif (see
+ ) with
+ ,
+ , and
+ . More complex motifs with higher affinity, but less specificity are displayed in
+ with
+ ,
+ , and
+ and in
+ with
+ ,
+ , and
+ . While the difference in affinity between the first three motifs shown in
+ is negligible, while the penta(T) motif alone (
+ differs from the highest affinity one by
+ -fold, which is quite substantial.
+ 
+
+## 4.13 EIF4H
+As a representative of the family of eukaryotic translation initiation factors, we highlight the eukaryotic translation initiation factor 4H (EIF4H).
+
+ 
+ SKA enrichment studies of RNA Bind’n Seq data predict a poly(G) motif for this protein,
+
+ 
+ but we did not find corroborating data obtained with other approaches. Our model identified only one convergent and specific motif shown in
+ , which is pyrimidine-rich. The relative log-
+ is relatively high,
+ , as is the contribution of unspecific binding,
+ .
+ .
+ 
+
+## 4.14 PTBP3
+Polypyrimidine tract-binding protein 3 (PTBP3) is involved in the regulation of numerous steps of protein production, i.e. splicing, alternative 3’ end processing, mRNA stability and RNA localization.
+
+ 
+ Data on PTBP3 binding specificity is lacking, and enriched kmer was reported by the SKA from RNA Bind’n Seq data.
+
+ 
+ Our model predicts different variations of poly(A), see
+ . The predicted binding specificities with the lowest
+ features
+ ,
+ , and
+ . The motif corresponding to the highest
+ had
+ ,
+ , and
+ . Thus, compared to other RBPs (c.f.
+ ), the specificity of PTBP3 remains to be better defined.
+ 
+
+## 4.15 Other RBPs
+There are other proteins covered in the Bind’n Seq data
+
+ 
+ whose specificity was studied before. For example, we analyzed the data corresponding to MBNL1,
+
+ 
+ hnRNPL,
+
+ 
+ FUS,
+
+ 
+ TAF15.
+
+ 
+
+Random and consensus intialization did result in convergent and specific binding specificities for FUS, however, these were poly(A) motifs which do not agree with the GGUG consensus from SELEX experiments.
+
+ 
+ For the other threee proteins our model did not deliver any convergent results, even when the PWM was directly initialized with the expected consensus motif. This indicates that the enrichment did not work equally well for all the RBPs studied with the Bind’n Seq method or that our method does not identify well motifs that are very short (
+ nts, observed in the SKA enrichment analysis). In this analysis, kmer enrichments are computed by counting the number of occurrences of every possible kmer in the foreground samples (RBP concentration
+ ) and in the background samples (RBP concentration
+ ), and finally normalizing the foreground abundances by the background to extract the respective enrichment. The higher the enrichment of a given kmer, the higher the likelihood of it being bound by the RBP used in the experiment is thought to be. We computed these enrichments for 6mers, as done in the ENCODE studies. The results, shown in
+ indicate that only RBFOX2 has a very clear hierarchy of top enriched 6mers, while the other investigated RBPs show a much flatter hierarchy of motif enrichments. An analysis of the Levenshtein distance of these motifs showed no clear difference in the pattern of distances among the leading motifs across the investigated RBPs. This suggests that these motifs correspond to many local minima of comparable depth, which precludes our algorithm finding clear PWMs representing the binding sites. Conversely, it becomes unclear whether the specificity of these RBPs would be well represented as weight matrices, or whether another model, for e.g. clusters of short, degenerate motifs may better represent the specificity of these RBPs.
+ 
+
+## 5. Conclusion
+We constructed a thermodynamic model that can be used to infer characteristic position weight matrices for the binding domains of RBPs from data obtained from affinity-based enrichment of oligonucleotides. Since we directly model the RBP-binding specificity as PWMs, our method bypasses arbitrary choices in the alignment of kmers found to be individually enriched in the data. We evaluate our model on 111 RNA Bind’n Seq data sets in the public domain,
+
+ 
+ finding convergent and specific motifs for 82 RBPs. For 48 of these there is complete agreement with previously reported motifs, 14 partly agree, 19 disagree, and one did not have a reported motif (PTBP3). In most cases of disagreement, our model predicts the binding element to be, in fact, poly(A), while in two cases (CPEB1 and EIF4H), we predict more complex motifs than previously reported.
+Many of the RBPs for which we did not recover a PWM tend to be more degenerate motif than RBPs for which some motif emerged. E.g. ESRP1, EWSR1, FUS and other proteins have been shown to bind G-repeats, which are relatively rare in the Bind’n Seq libraries. It is likely that to identify such motifs it is crucially important that the background model is accurate. How to best construct this model remains to be determined in future work. In addition, it is possible that the binding sites of these proteins are not contiguous, linear motifs, but rather contain variable length spacers of form structures such as G-quadruplexes. It will thus be important to explore other types of models in the future, e.g. models that allow more flexible spacing of RBP contact points on RNAs in the future.
+
+## Acknowledgements
+We would like to thank Erik van Nimwegen for useful conversations and fruitful suggestions. Calculations were performed at sciCORE (
+http://scicore.unibas.ch/) scientific computing core facility at University of Basel.
+
+## Funding Statement
+This work was funded by the Swiss National Fund under grant number 310030_204517
+
+The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+[version 2; peer review: 1 approved
+
+## Data availability
+
+## Underlying data
+ 
+
+## Software availability
+Source code available from:
+https://git.scicore.unibas.ch/zavolan_group/pipelines/bind-n-seq-pwms
+
+ 
+
+Archived source code and results of runs at time of publication of version 2:
+https://doi.org/10.5281/zenodo.11072860
+
+ 
+
+License: MIT
+
+## References
+ 
+
+F1000ResearchF1000Res10.5256/f1000research.165610.r284353Reviewer response for version 2
+ZhangJunReferee 
+1Texas Tech University Health Science Center El Paso (TTUHSCEP), El Paso, USA
+Competing interests: No competing interests were disclosed.
+2472024Copyright: © 2024 Zhang JThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.The revision has addressed the issues in the first version.
+Is the rationale for developing the new method (or application) clearly explained?
+Partly
+Is the description of the method technically sound?
+Yes
+Are the conclusions about the method and its performance adequately supported by the findings presented in the article?
+Partly
+If any results are presented, are all the source data underlying the results available to ensure full reproducibility?
+No source data required
+Are sufficient details provided to allow replication of the method development and its use by others?
+No
+Reviewer Expertise:
+RNA-binding protein, structural biology.
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+F1000ResearchF1000Res10.5256/f1000research.165610.r299542Reviewer response for version 2
+SchlundtAndreasReferee 
+1Institute for Biochemistry, University of Greifswald, Greifswald, Germany
+Competing interests: No competing interests were disclosed.
+2272024Copyright: © 2024 Schlundt AThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.This manuscript by Schlusser and Zavolan provides a bioinformatic approach to infer PWM representations in motifs targeted by RNA-binding proteins. It uses available RBnS data from the ENCODE database. Its suggested strength and improvement over the canonical way to infer consensus motifs in RBnS is that it bypasses the prior definition of kmers for the alignment procedure of enriched sequences.
+ As a result the authors present convergent and specific motifs for 82 RBPs (out of 111 in the database). For 48 of these there is complete and for 14 partial agreement with previously reported motifs considering the RBnS database as the correct reference.
+ The current manuscript version had undergone a prior round of revision with visible improvement. Although I am not an expert in the bioinformatic background I can nevertheless clearly see the (functionally relevant) motivation of the approach and highly appreciate it in light of the need to try to exploit the in-depth information of HTS-derived motifs of RBPs beyond the current standards. Still, I feel the approach misses to address or at least discuss the most obvious challenge (which could on the longer run be implemented?): the majority of RBPs uses more than one domain for interacting with RNA and individual domains may contribute with orders of magnitude difference in affinity to the combined specific target motif, while only this combined motif is the functionally relevant specific one. While this is an ongoing challenge in the interpretation of all CLIP and RBnS data, I wonder how much the herein presented may address this issue a bit more realistic.
+ Together with this, here are my concrete points I suggest to address and clarify:
+ 1) The authors themselves mention the possible role of spaced elements targeted by multiple domains within one RBP. Similar to RBnS, a proper analysis towards this direction is challenging, but could e.g. include the consideration of multiple motifs. Have the authors thought about this? I suggest a bit more discussion into this direction. Mixed motifs with weighted contributions from relative affinities of domains will remain a major point to address in the future.
+ 2) In line with above: Considering multiple binding sites of an RBP on an oligo may mean more than one RBP binding to it OR multiple domains of one RBP binding to one combined element. I may not have fully understood how the estimation of Kd values according to the formula (2.6) may take this into consideration?
+ 3) Why is (page 5) the assumption that RBP binding is usually of low affinity in order to simplify the equation? Many RBPs bind in the low nM range, which is pretty strong, be it specific or not.
+ 4) Is there any particular way to treat motifs that are apparently part of RNA structure (Rc3h1)? This should be highly converging and specific reg. the central 5mer, but likely not in a larger context (i.e. the stem beneath the 3-5 nt loop). There may be less such structured motifs according to our expectations, but on the other there could be more of them hidden the RBnS data and we just neglect their fold context.
+ 5) For the les converging/specific RBPs: is there a correlation to their amount of domains present? And adding to that: seeing the motifs shown in Fig. 2, some seem to show large differences between the low vs. high K
+D. Could this correlate with the number of RBDs in the RBP, such that the affine ones come from the strong-binding domains and the other one from the subordinate domains? And: could also the occurrence of polyA relate to the number of domains and thus too many parallel motifs (e.g. for the IGF2BPs)? Apparently exactly those ones would need the definition of a motif cluster, while current approaches merely provide a weighted motif, which in the end is not precisely the right one for any of the six domains.
+ 6) Have the authors specifically taken into consideration the different concentrations of RBPs in the RBnS data? Esp. when there are multiple concentrations tested? Sorry if I have missed this.
+ 7) Could the authors in the end provide a somewhat fair discussion of how their inferred motifs now should be seen relative to RBnS motifs?! Do they suggest to question RBnS logos (which in the end still could be "wrong”) or do they just claim to have provided a faster and more efficient, user-friendly way to derive logos from RBnS data?
+Is the rationale for developing the new method (or application) clearly explained?
+Yes
+Is the description of the method technically sound?
+Yes
+Are the conclusions about the method and its performance adequately supported by the findings presented in the article?
+Partly
+If any results are presented, are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Are sufficient details provided to allow replication of the method development and its use by others?
+Partly
+Reviewer Expertise:
+Structural biochemistry/biophysics of multi-domain RNA-binding proteins and their target RNAs centered around solution methods NMR and SAXS
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard, however I have significant reservations, as outlined above.
+F1000ResearchF1000Res10.5256/f1000research.165610.r299537Reviewer response for version 2
+WangJunbaiReferee 
+1University of Oslo, Campus AHUS/Oslo, Norway
+Competing interests: No competing interests were disclosed.
+972024Copyright: © 2024 Wang JThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Manuscript by Schlusser N and Zavolan M describe a biophysical model for inferring motifs of RNA-binding proteins. They describe the derivation of LL function to the proposed EM algorithm for predicting enriched RNA binding motifs in sequences. The method was tested on RNA Bind’n Seq data from Encode with success on 7 RNA-binding proteins but failed on the other 4 RNA-binding proteins mentioned in the main text. In total, authors tested the method on 111 RNA-binding datasets, 82 of them obtained results where 48 with good agreement but 34 with either marginal or poor agreement. In summary, the success rate of this new method on 111 datasets is only around 43%, which is very low when compared to many public tools in DNA/RNA motif analysis. There are three major problems in the manuscript:
+
+The theory behind their proposed biophysical model for motif finding is very unclear to me. Authors claim that their method is based on Boltzmann machine, which has been used many decades in protein-DNA interaction theory such as a classical paper in biophysics published in 1987 Berg OG et.al.,(ref 1 ), several applications of it in DNA sequences analysis in Djordjevic M et.al., 2003 (Ref 2) and Foat BC et.al., 2006 (Ref 3), and new development in more advanced Fermi-Dirac form of protein-DNA interactions by considering protein concentration with a Bayesian solution Wang J et.al., 2009 (Ref 4) Yang M et.al., 2023 (Ref 5) for DNA motif finding. From my point of view, there is not a clear association between the authors’ sections (2.1 ,2.2) and the biophysical theory of aforementioned works that have been applied successfully in numerous datasets and applications. In particular, I am completely lost when authors describing “combine (2.9) with (2.5), the output of the optimization procedure, and the reference (2.10) allows us to compute the logarithm of the dissociation constant of RBP-RNA binding …” in section 2.2 because I do not understand the reason for combining these two equations. After going through sections 3.1 and 3.2, I feel that the proposed method is actually in analogy to k-mer motif enrichment tests such as a paper in Ghandi M et.al. 2014 (Ref 6)
+The manuscript describes motif prediction in RNA-binding proteins, but all of the figures are showing DNA binding motifs where T shall be replaced by U in the RNA sequence. It is very weird that the paper describes RNA-binding proteins but all sequence logo are DNA binding motifs. Authors have to correct these errors in all sequence logo figures. As we all know methods for motif finding in either DNA or RNA sequences are almost the same, but the prediction results (e.g., DNA-binding motif, RNA-binding motif) are not the same in biology.
+ 3)  I am not able to compile and run cpp code that authors provided in the github, nor can I find demo input data to reproduce their results. Authors need to provide compiled cpp binary code (e..g,, Linux and MAC version) as well as relevant demo data for readers to reproduce some of their predictions in the manuscript.
+Is the rationale for developing the new method (or application) clearly explained?
+No
+Is the description of the method technically sound?
+No
+Are the conclusions about the method and its performance adequately supported by the findings presented in the article?
+No
+If any results are presented, are all the source data underlying the results available to ensure full reproducibility?
+No
+Are sufficient details provided to allow replication of the method development and its use by others?
+No
+Reviewer Expertise:
+Theoretical Physics, Computational biology, Bioinformatics, Applied Mathematics, Algorithm
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to state that I do not consider it to be of an acceptable scientific standard, for reasons outlined above.
+
+## References
+ 
+
+F1000ResearchF1000Res10.5256/f1000research.165610.r284354Reviewer response for version 2
+SödingJohannesReferee 
+1Campus-Institut Data Science (CIDAS), Georg-August-Universitat Gottingen, Göttingen, Lower Saxony, Germany
+2Quantitative and Computational Biology, Max Planck Institute for Multidisciplinary Sciences, Göttingen, Germany
+Competing interests: No competing interests were disclosed.
+572024Copyright: © 2024 Söding JThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.I am glad to see that the method appears to work well after the adjustment to the background model.
+ 1. What other methods or software tools exist that can analyze Bind’n’seq data?
+ 2. How does your tool compare (quantitatively) with others to analyze Bind’n’seq data?
+ Minor comments:
+ 3. Equation (2.4):  P(IG|S,c,M,E_0)  = … =>  P(S |  bound, c, M, E₀) =
+ As a simple general rule, when you sum over all possible outcomes of all variables on the left of the conditioning bar |, you have to get 1. Here, summing over all possible sequences S in your library gives 1, thanks to the normalization in the denominator from Bayes’ rule.
+ Same notation in the text a few lines below the equation.
+ 4. A bit below: P(S) = f_s is *not* a likelihood but a prior probability.
+ 5. In the conclusion, you wrote” In addition, it is possible that the binding sites of these proteins are not contiguous, linear motifs, but rather contain variable length spacers of form structures such as G-quadruplexes.” You could cite these manuscript here:
+ (Jolma A, et al., 2020 [Ref 1]), ( Sohrabi-Jahromi S, 2021 [Ref 2])
+Is the rationale for developing the new method (or application) clearly explained?
+Yes
+Is the description of the method technically sound?
+Yes
+Are the conclusions about the method and its performance adequately supported by the findings presented in the article?
+No
+If any results are presented, are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Are sufficient details provided to allow replication of the method development and its use by others?
+No
+Reviewer Expertise:
+Biophysics, statistical modeling
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard, however I have significant reservations, as outlined above.
+
+## References
+ 
+
+F1000ResearchF1000Res10.5256/f1000research.148267.r215390Reviewer response for version 1
+ZhangJunReferee 
+1Texas Tech University Health Science Center El Paso (TTUHSCEP), El Paso, USA
+Competing interests: No competing interests were disclosed.
+22112023Copyright: © 2023 Zhang JThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.The manuscript presents a thermodynamic model for scrutinizing RNA motifs associated with RNA-binding proteins, utilizing position-specific weight matrices. Although the method effectively characterizes the RNA-binding specificity of RBFOX2, its application to other RNA-binding proteins, such as CELF1, HNRNPD, and HNRNPK, proves unsuccessful. The manuscript, categorized as a method paper, lacks comprehensive details about the model's development and fails to adequately address why the method specifically succeeds for RBFOX2.
+ Key areas of improvement are outlined below:
+
+Unclear Definition of Parameter PIP:
+
+  
+The manuscript lacks a clear definition of the parameter PIP. Providing a concise explanation will enhance reader understanding and facilitate the application of the method.
+
+Determination of Parameter c and its Relation to Protein Concentrations:
+
+  
+Clarify how the parameter c is determined and elaborate on its relationship with the concentrations of RNA-binding proteins. A more in-depth explanation will contribute to the method's transparency.
+
+Thermodynamic Model Explanation:
+
+  
+Offer a more detailed explanation of the thermodynamic model to eliminate the necessity for readers to consult the original reference. This will enhance accessibility and comprehension for a wider audience.
+
+Derivation of Equation 2.1:
+
+  
+Clearly outline the derivation of Equation 2.1 to provide readers with insights into the model's foundational principles. This will aid in understanding the method's inner workings.
+
+Computation Time Information:
+
+  
+Include information about the expected computation time, as this is crucial for users assessing the feasibility of implementing the method in their own studies.
+
+Evidence for Data Quality Variation:
+
+  
+While the manuscript attributes the method's failure for CELF1, HNRNPD, and HNRNPK to lower data quality, provide concrete evidence supporting this claim. Offer a detailed analysis of the data quality disparities between RBFOX2 and the other proteins.
+
+Consideration of Variable Spacer Length in RNA-Binding Proteins:
+Acknowledge the fact that many RNA-binding proteins, including CELF1, HNRNPD, and HNRNPK, bind to RNA with variable spacer lengths. The manuscript should discuss why the PWM method, assuming a fixed RNA motif length, may be inadequate for proteins with multiple RNA-binding domains connected by long linkers. This acknowledgment will help users understand the method's limitations and guide appropriate applications.
+
+ In conclusion, addressing these points will significantly enhance the manuscript's clarity, transparency, and utility, providing a more comprehensive understanding of the developed method and its limitations.
+Is the rationale for developing the new method (or application) clearly explained?
+Partly
+Is the description of the method technically sound?
+Yes
+Are the conclusions about the method and its performance adequately supported by the findings presented in the article?
+Partly
+If any results are presented, are all the source data underlying the results available to ensure full reproducibility?
+No source data required
+Are sufficient details provided to allow replication of the method development and its use by others?
+No
+Reviewer Expertise:
+RNA-binding protein, structural biology.
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to state that I do not consider it to be of an acceptable scientific standard, for reasons outlined above.
+F1000ResearchF1000Resschlusserniels
+Competing interests: No competing interests were disclosed.
+2272024Dear Reviewer, 
+ We apologize for the delay in submitting the answer to your valuable comments. The delay was caused by a technical issue with the web portal.
+ Thank you for the insightful comments and questions related to our paper, which we have
+ taken into careful consideration in revising our manuscript. We believe the manuscript is
+ much improved as a result. Below we comment on the most significant changes.
+ As a result of the revised terminology and calculation of frequency priors f_S, some of the
+ comments have become superfluous. Nevertheless, the main comments were addressed as
+ follows:
+
+We clarified the definition of P_IP in and around Eq. (2.4), and the notation has changed.
+Around Eq. (2.1), we elaborated on the role of the ratio of concentrations of bound and unbound RBP c.
+We explained the derivation of the thermodynamic model in greater detail (c.f. above comments) so that it does not require the reader to consult the cited reference of [1].
+We also gave more detail around Eq. (2.1) (c.f. item 2).
+Information about the computation time is given in the first paragraph of Sec. 4 ”results”.
+Regarding the evidence for data quality variation: we have applied the model to the entire set of RBPs assayed by RNA Bind’n Seq and, with the revised prior calculation we recovered the consensus motifs for 48 out of 82 RBPs. While in response to the comments of reviewer #1 we also tried initialization with the consensus motif/enriched kmers, the results for the 34 proteins for which random initialization did not lead to the recovery of meaningful, non-poly(A) motif, have not improved. Thus, our model is, in principle, able to recover the expected binding motifs.
+The reviewer suggested that the PWM model may be inadequate for many RBPs that bind to discontinuous motifs. While a large body of prior work uses the PWM representation of RBP binding sites, there are known example where structure plays a role. How to appropriately represent structured binding sites is an open problem that we think is beyond the scope of our work. Nevertheless, we added a comment about this possibility explaining some of our results in the discussion.
+ We hope we have adequately responded to your comments.
+ Yours sincerely,
+ The authors
+ References
+ [1] S. Omidi, M. Zavolan, M. Pachkov, J. Breda, S. Berger, and E. van Nimwegen, Automated incor-
+ poration of pairwise dependency in transcription factor binding site prediction using dinucleotide
+ weight tensors, PLOS Computational Biology 13 (2017) 1.
+F1000ResearchF1000Res10.5256/f1000research.148267.r192424Reviewer response for version 1
+SödingJohannesReferee 
+1Campus-Institut Data Science (CIDAS), Georg-August-Universitat Gottingen, Göttingen, Lower Saxony, Germany
+2Quantitative and Computational Biology, Max Planck Institute for Multidisciplinary Sciences, Göttingen, Germany
+Competing interests: No competing interests were disclosed.
+3182023Copyright: © 2023 Söding JThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.The manuscript describes a method to learn  position-weight matrices (PWM) to describe the sequence specific binding of an RBP given Bind'n'seq data for this RBP. The method is based on a biophysically motivated, statistical model for the likelihood of Bind'n'seq data given the PWM to describe the sequence specific binding of the RBP to the library DNA oligomers. The model parameters (PWM and non-specific binding energy E₀) are learned using an expectation maximization algorithm. The method is applied to Bind'n'seq data for 9 RBPs. For some RBPs correct PWMs are retrieved. For others, the most likely PWM does not describe the known binding motif but is rather an unrelated, low-complexity motif that appears to reflect simple sequence biases in the experiment.  
+ The statistical model is very sound and the manuscript is well written. The results are disappointing, in particular since it is not clear whether the negative results for a good part of the data sets are due to the inadequacy of the statistical model or some bug in the implementation. 
+ 1. My guess is the following. The method uses a Markov model of order d to model the prior probability P(S) = f_S for a sequence S to be part of the background library (before enrichment). It was found that "the better the prediction of likelihood of sequences in the foreground samples." This led the authors to set d=14. A Markov model of order d=14 has 3*4^28 ~ 10^9 parameters, around the same number as 14-mers in the entire sequencing library of around 10^7 reds. This means the Markov model is hopelessly over-parameterized and the reason that the likelihood was increasing for increasing d is simply that the overlap between the (d+1)-mers in the background and foreground libraries decreases with increasing d. A reasonable choice of d is around 4, certainly not more than 8. The overfitting of the pior probability model could explain the many weird local optima observed by the authors, since it adds enormous noise to the sequence space such that a single mutation can change the f_s dramatically, resulting in many spurious PWM  minima.
+ 2. The notation in equations (2.1) to (2.4) is quite "unstatistical" and confusing. The way (2.1) and  (2.3) are written, the left hand side would need to sum to one when summing over all sequences s or S, respectively. This is of course not the case. What the authors rather meant to write on the left hand side of eq (2.1) is P(bound | s,c,M,E₀), with a variable  bound in {0,1} indicating whether the sequence on the right side of the conditioning is bound by the RBR or not. The left hand side of eq. (2.3) should read P(bound | S,c,M,E₀).
+ With this corrected notation and using f_S = P(S) for the prior probability of finding a sequence S in the background library (with ∑_S P(S) = 1), equation (2.4) turns into the correct Bayes theorem,
+    P(S | bound,c,M,E₀) = P(bound | S,c,M,E₀)  P(S) /  ∑_σ  P(bound | σ,c,M,E₀)  P(σ) .
+ Please correct the text accordingly: 
+ "(2.4) is essentially a formulation of Bayes’ theorem with conditional probability P_b(S|c,M,E₀) of having a read S bound by an RBP, the likelihood of finding a read S in the pool washed over the RBP, fS, and an overall normalization (denominator)." 
+ =>
+ "(2.4) is essentially a formulation of Bayes’ theorem with the likelihood P(bound | S,c,M,E₀) of having a read S bound by an RBP, the likelihood of finding a read S in the pool washed over the RBP, P(S)=f_S, and an overall normalization in the denominator." 
+ 3. To improve the search for the global optimum, the authors could compute the most highly enriched 6-mers and start their PWM optimization from a soft version of each of the top 20 or so 6-mers. 
+ 4. Please derive the EM update equations transparently.
+Is the rationale for developing the new method (or application) clearly explained?
+Yes
+Is the description of the method technically sound?
+Yes
+Are the conclusions about the method and its performance adequately supported by the findings presented in the article?
+No
+If any results are presented, are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Are sufficient details provided to allow replication of the method development and its use by others?
+No
+Reviewer Expertise:
+Biophysics, statistical modeling
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard, however I have significant reservations, as outlined above.
+F1000ResearchF1000Resschlusserniels
+Competing interests: No competing interests were disclosed.
+2642024Dear reviewer,
+ Thank you for the insightful comments and questions related to our paper, which we have
+ taken into careful consideration in revising our manuscript. We believe the manuscript is
+ much improved as a result. Below we comment on the most significant changes.
+ Addressing your feedback:
+ 1. You suggested that we do not over-parameterize the background model, but
+ rather use a Markov model of order 4−8. We followed this suggestion, setting d = 4 and
+ adapting the normalization of frequency priors accordingly. While implementing this
+ suggestion we also noticed a mistake in the initial implementation of the normalization,
+ which likely contributed to higher order background giving improved results initially.
+ As a result of these changes we found non-trivial motifs for a larger proportion of the
+ RBPs, which led us to apply the model to all RBP RNA Bind’seq datasets in ENCODE
+ (111 in total).
+ 2. You also pointed out some sloppiness in our initial notation, which we have
+ now corrected, along with the text referring to the respective equation (2.4).
+ 3. We did try various ways of initializing the PWM from enriched kmers and consensus
+ motifs, but the number of cases where this led to the convergence to the expected motif,
+ while the random initialization did not, was very small.
+ 4. We elaborated more on the derivation of the EM update equations, in particular, we
+ give the derivative whose root is calculated.
+ We hope we have adequately responded to your comments.
+ Yours sincerely,
+ Mihaela Zavolan and Niels Schlusser
+Associated Data
+
+## Data Availability Statement
+
+## Underlying data

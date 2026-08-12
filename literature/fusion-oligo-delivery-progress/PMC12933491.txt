@@ -1,0 +1,774 @@
+4647cbiChemical & Biomedical ImagingChem Biomed ImagingAmerican Chemical SocietyPMC1293349112933491129334914175677510.1021/cbmi.5c00068Lighting Up Endogenous
+RNA: Fluorescent Aptamer Sensors
+for Live-Cell Imaging
+MaZhe Kulsoom WangFu 1
+Department of Urology, The Second Affiliated Hospital of Xi’an Jiaotong
+University, Xi’an
+710004, China
+2
+Institute of Medical Engineering,
+Department of Biophysics, School of Basic Medical Sciences, Xi’an Jiaotong University, Xi’an
+710061, China
+*
+E-mail: wangfu@xjtu.edu.cn
+
+268202542130130–1432622026© 2025 The Authors. Co-published by Nanjing University and American Chemical SocietyThis article is licensed under CC-BY-NC-ND 4.0
+
+## Abstract
+Endogenous RNAs orchestrate cellular processes through
+precise
+spatiotemporal regulation, and live-cell imaging of these molecules
+is essential for dissecting their roles in gene expression, disease
+progression, and cellular homeostasis. While traditional methods rely
+on exogenous labeling or fixation, fluorescent RNA aptamer-based sensors
+have emerged as transformative tools for visualizing endogenous RNAs
+in their native context. These sensors allow real-time tracking of
+mRNA localization, miRNA activity, and RNA–protein interactions
+with minimal disturbance. However, challenges such as the requirement
+for exogenous fluorogenic dyes, limited brightness, photostability,
+and target specificity in complex cellular environments hinder their
+wider application. This review provides a comprehensive overview of
+recent advances in fluorescent RNA aptamer-based sensors, discussing
+the design principles, mechanisms of fluorescence activation, and
+their application in live-cell RNA imaging. We also address the current
+limitations and future directions for improving these sensors, highlighting
+their transformative potential in RNA biology and their implications
+for diagnostic and therapeutic strategies.
+Keywords: RNA Aptamers, Imaging, Biosensors, RNA Dynamics, Fluorogenic Dyes
+
+ 
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 May 28; Accepted 2025 Aug 15; Revised 2025 Aug 12; Collection date 2026 Feb 23.
+
+1.
+
+## Introduction
+RNA molecules are critical
+in cellular and gene expression regulation. They adopt specific structures to impact transcription,
+RNA processing, translation, and turnover. RNA types include mRNA, tRNA, rRNA, and regulatory RNAs, with mRNA-encoding proteins and other RNAs involved
+in chromosomal organization, DNA repair, and metabolic regulation.
+,
+ Some RNAs also have catalytic activity, similar to enzymes. RNA structures play a significant role in various
+physiological and pathological processes. The dynamic behavior of
+endogenous RNAs, such as mRNA trafficking to specific subcellular
+compartments or miRNA-mediated gene silencing, underpins critical
+biological events ranging from embryogenesis to cancer metastasis.
+For instance, the asymmetric distribution of β-actin mRNA in
+migrating fibroblasts regulates cell polarity, while dysregulated
+miRNA-21 expression in tumors drives oncogenic signaling. Imaging the localization and dynamics of RNAs
+helps uncover their function and reveals novel mechanisms at single-cell
+resolution. RNA imaging has highlighted the importance of post-transcriptional
+mechanisms like mRNA localization, but challenges remain due to technological
+limitations and RNA biology complexity. While protein imaging is routine,
+RNA imaging in live cells has been less explored, though recent advances
+in RNA binding proteins and chemical biology have improved visualization
+tools. Notwithstanding these advancements, unresolved challenges persist
+in achieving high-fidelity real-time visualization of endogenous RNA
+within intact mammalian systems, alongside comprehensive monitoring
+of spatiotemporal RNA dynamics and functional interactions in native
+biological contexts.
+Current RNA imaging techniques are primarily
+divided into fixed
+and live-cell RNA imaging. Unlike FISH-based fixed-cell imaging, live-cell
+RNA imaging provides temporal information, enabling the analysis of
+gene expression regulation and dynamic RNA processes.
+−
+
+ This approach establishes a multidimensional analytical framework
+for investigating RNA lifecycle processesspanning biosynthesis,
+spatial distribution, regulatory mechanisms, intracellular retention,
+and disposal pathwaysin diverse cellular populations.
+,
+ In vivo RNA imaging technologies fall into two main categories:
+fluorescent protein-based systems, such as the MS2/MCP,
+−
+
+ PP7/PCP system,
+−
+
+ box B/λN22 system,
+−
+
+ PUM-HD system,
+,
+ CRISPR/dCas13 system,
+,
+ Pepper/tDeg system, fluorescent dye-based technologies, including
+molecular beacons
+−
+
+ and fluorescent RNA aptamer/fluorescent dye systems. Each live-cell RNA imaging technology offers
+distinct advantages and limitations, shaping their suitability for
+different biological questions. MS2/PP7-like systems rely on coexpression
+of an RNA-binding protein fused to a fluorescent protein (FP) and
+require insertion of multiple cognate RNA stem-loops into the target
+RNA. They provide high specificity and brightness from the FP but
+necessitate significant genetic modification of both the RNA and the
+cell, potentially perturbing RNA function, and suffer from background
+from unbound FP. Molecular Beacons (MBs) are dual-labeled oligonucleotide
+probes (fluorophore-quencher) that fluoresce upon hybridization to
+a complementary target RNA. They require no genetic modification and
+can be delivered synthetically. While offering rapid detection, they
+suffer from poor cellular delivery, nuclease sensitivity, potential
+off-target binding, and inability to distinguish nuclear/cytoplasmic
+RNA effectively. CRISPR/dCas13-FP systems use a catalytically dead
+Cas13 protein fused to an FP and programmed with a guide RNA (gRNA)
+to bind specific RNA sequences. They offer high programmability and
+specificity without modifying the target RNA itself but require delivery/expression
+of large dCas13-FP and gRNA components, and FP background can be significant.
+Fluorogenic Dyes with RNA-Binding Proteins combine a genetically encoded
+protein component that degrades the fluorophore unless bound to its
+target RNA sequence. They offer high contrast but involve complex
+protein engineering and delivery. However, the development of fluorescent
+RNA aptamers has been a significant breakthrough in recent years,
+offering noninvasive insights into RNA biology.
+When tracing
+the origins of the fluorescent aptamer/dye system,
+green fluorescent protein (GFP) is an essential mention. In live-cell
+protein imaging, the success of GFP established the paradigm of genetically
+encoded, target-specific fluorescence activation. This motivated the
+search for analogous tools for RNA. A pivotal conceptual leap was
+the proposal and realization of creating ’RNA mimics of GFP’.
+Using SELEX against the GFP fluorophore derivative 3,5-difluoro-4-hydroxybenzylidene
+imidazolinone (DFHBI), Jaffrey and his team isolated the first practical
+fluorescent RNA aptamer. They named it ″Spinach″ due
+to its green fluorescence. Spinach demonstrated
+that RNA scaffolds could specifically bind to and dramatically enhance
+the fluorescence of small fluorophores that would otherwise be dim,
+thereby enabling genetically encoded RNA tagging. However, initial
+Spinach variants encountered issues such as misfolding and magnesium
+dependence. This spurred intensive engineering efforts, resulting
+in improved derivatives such as Baby Spinach, iSpinach and the more robust Broccoli. Parallel exploration identified aptamers that
+bind to distinct fluorophores, expanding the color palette: The red-shifted
+Mango aptamers that bind thiazole orange (TO) derivatives, the orange/red SRB-2/SR-DN system,
+,
+ the yellow Corn aptamer that binds DFHO, the near-infrared SiRA, the cyan Squash, the dimeric Beetroot, and, most recently, the exceptionally bright Pepper aptamers that
+span green to red, Okra, and Clivia. This continuous
+evolution, driven by the need for brighter, more stable and more spectrally
+diverse systems that are easier to deliver, has firmly established
+fluorescent RNA aptamers as indispensable tools for live-cell RNA
+biology.
+RNA aptamers offer advantages over antibodies, including
+ease of
+synthesis, chemical stability, low molecular weight, specific targets
+with high affinity and specificity and
+lack of immunogenicity. These aptamer-based
+fluorescent sensors provide exciting opportunities for sensitive detection
+and quantification of various analytes, including cancer biomarkers,
+small molecules, and other biomolecules. However, exogenous RNA labeling requires complex genetic manipulation,
+which may affect RNA activity. As research progresses, improvements
+are being made to enable the imaging of endogenous RNA in its natural
+state without genetic manipulation.
+,
+ Recent breakthroughs
+in aptamer engineeringsuch as split-probe designs and fluorogenic
+dye optimizationhave further enabled the visualization of
+low-abundance miRNAs and single-molecule mRNA movements, positioning
+these sensors as indispensable tools for unraveling RNA-mediated mechanisms
+in live cells. It would be helpful to visualize RNAs in cells
+−
+
+ and enable the visualization of RNA in situ, which is key to studying
+the temporal and spatial regulation of gene expression during development. Crucially, while these sensors require the addition
+of exogenous fluorogenic dyes, they enable visualization of endogenous,
+unmodified RNA transcripts in their native cellular context, circumventing
+the need for genetic manipulation of the target RNA itself. This review summarizes recent advances in fluorescent
+RNA aptamer-based sensors for imaging endogenous RNA in live cells,
+highlighting their applications, challenges, and potential in RNA
+biology and molecular diagnostics.
+
+2.
+
+## Fluorescent RNA Aptamers: Design and Mechanism
+Fluorescent RNA aptamers are single-stranded RNA molecules that
+bind specific fluorogenic ligands, enhancing fluorescence. These aptamers
+are valuable tools for RNA detection, imaging, and biosensing applications.
+The design of fluorescent RNA aptamers typically involves in vitro
+selection methods such as SELEX (Systematic Evolution of Ligands by
+Exponential Enrichment) to isolate sequences with desired binding
+and fluorescence properties. The mechanism
+of fluorescence enhancement in RNA aptamers often relies on base quadruples
+(tetrads) to constrain the photoexcited chromophore. Structural studies reveal that these quadruplexes form
+rigid binding pockets. The planar chromophore of the dye stacks between
+the faces of these tetrads or within a cavity formed by them. This
+constrained environment significantly restricts rotational and vibrational
+freedom of the dye molecule in its excited state, a major pathway
+for nonradiative energy loss. This restriction minimizes internal
+conversion and promotes radiative decay, leading to the dramatic fluorescence
+enhancement characteristic of these aptamers. This structural feature is shared among unrelated fluorogenic RNAs,
+highlighting its importance in fluorescence activation. Additionally,
+some aptamers can be designed as ″structure-switching signaling
+aptamers,″ which undergo conformational changes upon ligand
+binding, resulting in increased fluorescence.
+
+2.1.
+
+## Principles of RNA Aptamer Design for Fluorescence
+RNA aptamers designed for fluorescence applications typically employ
+structure-switching mechanisms and specific binding interactions to
+generate detectable signals. These aptamers can be rationally designed
+or selected through in vitro evolution to bind nonfluorescent dyes
+and activate their fluorescence, making them valuable tools for biosensing
+and molecular imaging ( ). The design principles of
+fluorescent RNA aptamers often involve the use of base quadruples
+(tetrads) to constrain the photoexcited chromophore, as revealed by
+3D structural studies of fluorogenic RNAs crucial for efficient fluorescence
+activation.
+
+ For fluorescence-based applications, RNA aptamers
+can be designed
+to interact with a fluorophore or a fluorescent dye that enables them
+to emit light upon excitation. The aptamers are usually modified by
+attaching a fluorophore at specific positions within the RNA sequence,
+often through covalent linkage at the RNA’s 3′ or 5′
+ends. Alternatively, RNA aptamers can be designed to include specific
+fluorescent probe structures, such as the 2-aminopurine (2-AP) nucleotide,
+which fluoresces upon binding to a specific target molecule. The optimization of RNA aptamers for fluorescence
+typically involves the balancing of factors such as binding affinity,
+selectivity, and fluorescence intensity to achieve optimal performance
+in real-time imaging. Understanding the
+precise structural basis of dye binding and fluorescence activation,
+as revealed by crystallography and NMR studies, is crucial for rational
+engineering efforts aimed at improving these parameters.
+
+2.2.
+
+## Mechanism of Fluorescence Activation upon
+RNA Binding
+Fluorescence activation upon RNA binding involves
+complex mechanisms that vary depending on the specific RNA-fluorophore
+system. The fluorescence mechanism of RNA aptamers largely depends
+on incorporating fluorophores that either emit fluorescence directly
+upon excitation or undergo conformational changes that activate fluorescence. Different RNA aptamers employ distinct mechanisms
+for fluorescence activation ( ).
+
+Fluorophore-quencher pairs: Some RNA aptamers
+are designed to bring a fluorophore and a quencher nearby when bound
+to their target, leading to fluorescence quenching in the free state.
+Upon target binding, the aptamer undergoes a conformational change
+that separates the fluorophore from the quencher, restoring fluorescence. This mechanism is commonly seen in molecular
+beacons, where the RNA aptamer functions as a “sensor”.
+
+Fluorophore stabilization:
+In other cases,
+the fluorophore is embedded within the aptamer structure so that its
+fluorescence is initially suppressed due to interactions with the
+RNA itself or neighboring bases. Binding to a target induces a structural
+rearrangement that releases the fluorophore from its quenching environment,
+leading to a fluorescence ″turn-on″ effect. This design is helpful in bioimaging for detecting
+specific cellular biomarkers or monitoring molecular interactions
+in live cells.
+
+Aptamer-target-induced
+conformational changes: RNA aptamers may undergo large-scale
+conformational changes upon
+binding to a specific target. These structural transitions can lead
+to the exposure or de-exposure of fluorophores embedded in the aptamer,
+causing fluorescence to either increase or decrease, depending on
+the nature of the binding molecules. This mechanism is central to
+the functionality of RNA-based sensors in imaging applications.
+
+ The common thread among these mechanisms, underpinned
+by structural
+insights, is the aptamer’s ability to impose a specific, rigid
+conformation on the fluorophore upon binding. This conformational
+constraint, often facilitated by interactions within pockets formed
+by base quadruples or other tertiary structures, effectively suppresses
+nonradiative decay pathways that dissipate energy as heat. Consequently,
+the probability of radiative decay increases dramatically, enabling
+sensitive detection.
+
+3.
+
+## Fluorescent RNA Aptamer-Based Sensors for Imaging
+Endogenous RNA
+Imaging endogenous RNA within live cells has
+become an essential
+tool for understanding the dynamics of RNA biology in real time. The
+ability to visualize RNA molecules directly offers insights into critical
+cellular processes, including transcription, splicing, transport,
+localization, and degradation. Fluorescent RNA aptamers have enabled
+the detection and visualization of endogenous RNA species with high
+spatial and temporal resolution ( ).
+ 3.1.
+
+## Imaging Endogenous mRNAs
+The ability
+to track endogenous mRNAs in live cells is critical for understanding
+their roles in cellular polarization, stress responses, and disease.
+Traditional methods such as MS2-GFP require genetic modification,
+which may alter RNA dynamics. Fluorescent RNA aptamers overcome this
+limitation through direct, label-free imaging.
+3.1.1.
+
+## Aptamer-Initiated Fluorescence Complementation
+Method (AiFc)
+Green fluorescent protein (GFP) emits green
+fluorescence, and primarily used in advance bioscience research as
+in vivo reporter protein. GFP contains a 4-hydroxybenzimidazolinone
+(HBI) fluorophore. HBI and denatured GFP obtained by chemical synthesis
+are nonfluorescent and only upon refolding the folded GFP protein
+specifically contact the fluorophore, thereby preventing intramolecular
+motion and restoring GFP fluorescence. 2011, Jaffrey et al. designed
+a new HBI derivative 3,5-difluoro-4-hydroxybenzylidene imidazolinone
+(DFHBI) was screened for its corresponding RNA aptamer by exponential
+enrichment ligand phylogenetic techniques (SELEX) and named ″Spinach″
+because of its green color of luminescence. Spinach was shown to fuse with the 3′ end of 5S, a noncoding
+RNA, and effectively label it, resulting in the observation of green
+fluorescence in cells shortly after Spinach transcription. Following
+the discovery of Spinach and DFHBI, the system was continuously refined.
+Additional DFHBI analogs with distinct fluorescence spectra were developed,
+and various Spinach aptamer variants. Broccoli, a 49nt variant of Spinach, emerged as an improved version
+due to its reduced dependence on magnesium ions, higher intracellular
+folding efficiency, and increased brightness, which has gained significant
+attention ( ).
+ To use fluorescent aptamers to image endogenous
+mRNAs, researchers
+have explored a variety of applications. The strategy of disassembling
+the intact RNA aptamer to make the fluorescence disappear and then
+designing it to bind to the target RNA close to each other to restore
+the aptamer structure and thus direct the fluorescence to turn on
+is very effective. The ″Split-Spinach″ concept was proposed
+by Rogers et al. in 2015, who found that Spinach aptamers could be
+split in half at a suitable site in a third stem, and fluorescence
+could be restored after assembly. However,
+although he showed that splitting Spinach aptamers is a potential
+tool for monitoring artificial or natural RNA, he did not apply it.
+2018, Wang et al. reported an aptamer-initiated fluorescence complementation
+method (AiFc) for RNA imaging. They split
+an intact RNA aptamer into two parts at suitable sites, each part
+tandem with a part of the complementary sequence of the target RNA,
+and only in the presence and hybridization of the target RNA can the
+two luminescent RNA aptamer parts be drawn together thereby restoring
+them to their fluorescent form. They split Baby Spinach and Broccoli
+by screening cleavage sites and successfully used them for imaging
+several different endogenous mRNAs. The AiFc splitting strategy essentially
+reduces the presence of background signal, and the hybridization region
+of the target RNA can be replaced with a variety of RNAs, significantly
+increasing its versatility ( ). To use AiFc to other fluorescent RNA aptamers should
+potentially expand its application in RNA multicolor imaging.
+ 
+3.1.2.
+
+## Inert Pepper System (iPepper)
+Pepper-based
+fluorescent RNA aptamer sensors have emerged as powerful tools for
+imaging and detecting various targets in live cells. These sensors
+exhibit superior brightness, photostability, and signal-to-background
+ratio compared to other fluorescent light-up RNA aptamers (FLAPs). The Pepper aptamer folds into a unique monomeric
+non-G-quadruplex tuning-fork-like architecture, which allows for efficient
+fluorophore binding and activation. Chen
+et al. developed the fluorescent dye HBC, featuring a rigid electron
+acceptor and a strong electron donor. HBC remains nonfluorescent in
+solution but regains fluorescence upon binding to the Pepper RNA aptamer.
+By modifying donor–acceptor properties, they created HBC analogs
+emitting fluorescence from green to red, all compatible with Pepper.
+Their experiments demonstrated Pepper’s potential for real-time
+RNA tagging and imaging, offering improved stability, higher binding
+affinity, and enhanced fluorescence compared to previous aptamers.
+
+Wang et al. introduced the inert Pepper
+system (iPepper), modifying the original aptamer by adding complementary
+sequences at its 5′ and 3′ ends ( ). This design enables fluorescence activation
+only in the presence of target RNA. They also developed iPepper tandem
+arrays, significantly enhancing fluorescence intensity and enabling
+effective imaging of low-expression endogenous mRNAs.
+
+ 
+3.1.3.
+
+## INSIGHT System
+To amplify the signal
+while preserving the localization information of the target mRNAs,
+Ren et al. designed a genetically encoded in situ amplification strategy
+called INSIGHT. By dividing the broccoli
+into two parts, using a hybridization chain reaction (HCR) related
+design, so that the system trigger cascade hybridization of the hairpin
+structure only in the presence of the target RNA binding, thus activating
+the amplified fluorescent signal, and at the same time the designed
+broccoli strand will be associated with the target RNA strand to achieve
+real-time localization of the target RNA. The INSIGHT system has been
+demonstrated to apply to RNA imaging of bacterial cells and living
+mammalian cells ( ).
+ 
+3.1.4.
+
+## Co-expressing RNA Sensor Based on SRB-2
+The SRB-2 aptamer, initially identified against sulforhodamine
+B, exhibits exceptional adaptability in attaching to a range of dyes
+displaying diverse hues, leading to either an enhancement or suppression
+of fluorescence. This characteristic
+positions SRB-2 as a promising candidate for fluorescence microscopy
+and biological analyses. By conducting a thorough examination of fluorophore
+structural components and dissociation constants, researchers have
+successfully engineered a novel, vivid, orange fluorescent turn-on
+probe termed TMR-DN. This probe facilitates nonwash live-cell RNA
+imaging, featuring a notably enhanced signal-to-background ratio.
+In a study by Sunbul et al., a sensor was created in which specific
+RNA aptamers engage with fluorophore-quencher conjugates to regenerate
+fluorescence. The researchers employed sulfonyl rhodamine B (SR) and
+its corresponding aptamer, SRB-2, in conjunction with dinitroaniline
+(DN) as a triggering agent, thereby establishing the SRB-2/SR-DN system.
+
+Ying et al. designed an RNA sensor based
+on a single promoter system for mRNA ratio imaging. By coexpressing
+SRB-2 aptamer and GFP in a single transcript, they avoided the issues
+of signal misalignment between dual promoters ( ). To ensure proper fluorescence, they incorporated
+a substrate site cleaved by Dicer enzyme and an mRNA-stabilizing triplex
+to prevent rapid GFP mRNA degradation. This system improved proportional
+imaging and provided a more reliable approach for RNA aptamer-GFP
+coexpression.
+
+ 
+
+3.2.
+
+## Detecting miRNAs in Live Cells
+MicroRNAs
+(miRNAs) regulate gene expression at post-transcriptional levels,
+and their dysregulation is linked to diseases such as cancer. Fluorescent
+aptamers offer a powerful tool for real-time miRNA detection.
+
+3.2.1.
+
+## Sensor “Pandan”
+To
+enable the imaging of natural RNA without genetic manipulation, researchers
+have explored modifications to fluorescent RNA aptamers. Aw et al.
+introduced additional stem-loops into Spinach and changed its 3′
+and 5′ ends to include two sequence-variable stem-loops encoding
+complementary sequences of the target microRNA. Only after binding target microRNA, the reconstruction
+of the RNA scaffold can be reconstituted for DFHBI binding and fluorescence
+emission, which finally triggers a substantial enhancement of fluorescence.
+They named this new circular bimolecular sensor ″Pandan″
+and accomplished the detection of miRNA in vitro. Although Pandan did not complete the detection of intracellular
+miRNAs, this hybridization-induced structural repair of RNA aptamers
+and, thus, restoration of fluorescence provided a new idea for aptamers
+uses.
+
+3.2.2.
+
+## FASTmiR Probes
+Huang et al., designed
+FASTmiR by using similar strategy of hybridization-induced structural
+repair as Pandan. They accomplished rapid
+quantification of microRNAs in vitro and direct detection and localization
+of microRNAs in vivo by generating a tandem repeat sequence of a sensor
+stabilized by a three-way junction (SWJ) based on Spinach. The system
+has been validated to complete detection using both miR122 and miR171
+as targets, demonstrating its potential to detect various microRNAs
+with modified binding site region sequences specifically.
+
+3.2.3.
+
+## Sensor Based on the SRB-2/SR-DN System
+Based on the SRB-2/SR-DN system, Ying et al. reported a microRNA
+sensor for live mammalian cell imaging, incorporating a complementary
+sequence of the target microRNA into the SRB-2 aptamer. This disrupted
+the aptamer’s structure, preventing SR-DN fluorescence recovery
+until the target microRNA was present. The aptamer was protected with
+a tRNA structure to ensure stability in cells. This system enabled
+the correct folding of SRB-2 and fluorescence restoration only in
+the presence of the target microRNA. They
+also designed a coexpression system with RNA sensors and GFP for proportional
+imaging of microRNAs in tumor cells.
+
+3.3.
+
+## Visualization of Other Noncoding RNAs
+3.3.1.
+
+## CHARGE Circuit
+Karunanayake et
+al. designed genetically encoded RNA-based catalytic hairpin assembly
+circuit, CHARGE, for sensitively detecting low-abundance RNA in cells. They divided Broccoli into two nonfluorescent
+parts, which were bound to the ends of two catalytic hairpin assemblies
+(CHA), and the target RNA served as a catalyst. The presence of the
+target RNA causes the two catalytic hairpins to assemble and simultaneously
+restore the fluorescence of Broccoli ( ). In contrast, the target RNA catalyze the
+activation of tens to hundreds of Broccoli fluorescence, enabling
+highly sensitive detection of sRNA, and the circuit has been demonstrated
+in bacterial cells. However, although the CHARGE circuit is highly
+sensitive, but cannot provide information about the location of the
+target RNA because the target RNA is shed after the end of catalysis.
+ 
+3.3.2.
+
+## Corn-Based Fluorescent Light-Up Biosensor
+Song et al. synthesized DFHO, an RFP fluorophore mimic, based on
+RFP’s structure.
+,
+ DFHO, containing a
+N-acyl imine substituent, demonstrated lower background fluorescence,
+low cytotoxicity, and enhanced photostability, making it ideal for
+cellular applications. A fluorescent RNA aptamer, named ″maize″
+due to its yellow fluorescence, was developed through SELEX and truncation
+analysis. A distinctive feature of the Corn aptamer is its dimeric
+structure, which is crucial for DFHO fluorescence activation. Based
+on this, Gu et al. designed the RIFC probe, which splits Corn into
+two parts, each containing the target RNA’s recognition sequence. When the target RNA is present, the aptamers
+self-assemble and activate DFHO fluorescence. Verified for imaging
+microRNAs in living cells, the RIFC probe is versatile and can be
+adapted to image various RNAs by replacing the target sequence, making
+it a ″plug-and-play″ tool. Corn-based fluorogenic RNA
+aptamer sensors offer significant advantages in cellular imaging and
+biosensor applications. The ability to convert Corn into a small-molecule-regulated
+fluorescent biosensor, as demonstrated with the S-adenosylmethionine
+(SAM) sensor, and its use in split aptamer systems showcase the versatility
+of this aptamer.
+
+Qian Zhang et
+al. designed a biosensor using a cyclic cleavage reaction to amplify
+RNA aptamer-Corn for the sensitive detection of lncRNA. By employing
+magnetic beads (MBs) for target enrichment and separation, they achieved
+highly sensitive quantification of lncRNA at femtomolar levels, with
+the ability to distinguish tumor cells from normal ones. The approach
+could be easily adapted to detect various lncRNAs by altering the
+capture probe sequences, offering a new tool for molecular diagnostics. These developments provide new opportunities
+for real-time visualization and mechanistic analysis of nucleic acids
+in living cells, with potential applications in tumor-associated RNA
+detection and RNA/RNA interaction monitoring ( ).
+ 
+
+3.4.
+
+## Multiplexed RNA Imaging with Dual-Color Aptamers
+Dual-color fluorescent RNA aptamer sensors offer significant advantages
+for RNA detection and imaging, including ratiometric analysis, improved
+sensitivity, and the potential for multicolor imaging. These systems
+have shown promise in various applications, from real-time studies
+in cell and synthetic biology to the detection of specific RNA targets
+in living cells.
+3.4.1.
+
+## FRET-Enabled Dual-Color System
+Early generation RNA quantification systems relied on coexpressed
+GFP mRNA under unified transcriptional control as calibration modules.
+Nevertheless, the photophysical constraints and spatial resolution
+limitations inherent to GFP-based references prompted the development
+of next-generation RNA imaging platforms. Contemporary solutions employ
+dual-output RNA aptamer systems that implement FRET-enabled ratiometric
+detection, significantly improving sensitivity through coordinated
+fluorophore pairing.
+
+Pioneering
+work by Zhang et al. engineered a conformation-switching aptamer-fluorophore
+assembly exhibiting cyan-to-NIR spectral conversion upon target binding,
+permitting quantitative NIR-based RNA surveillance with single-cell
+resolution across heterogeneous expression gradients. The progression toward multimodal detection has enabled
+strategic construction of chimeric aptamer assemblies. By implementing
+Watson–Crick mediated fusion of Mango-IV and iSpinach aptamers,
+investigators achieved cross-aptamer FRET activation, laying the groundwork
+for multiplexed RNA tracking systems that resolve colocalized transcripts
+with spatial precision.
+
+3.4.2.
+
+## Dicer-Mediated Proportional Imaging
+Dou et al. developed a ratiometric biosensing platform leveraging
+complementary fluorescent aptamers for microRNA quantification in
+mammalian systems. Their design incorporated Mango aptamer as a stable
+calibration unit paired with target-responsive SRB-2 aptamer, interconnected
+via a Dicer-sensitive dsRNA bridge enabling endogenous enzyme-mediated
+signal modulation. The sensor restores fluorescence in both Mango
+and SRB-2 upon target microRNA binding and Dicer cleavage, enabling
+proportional imaging ( ). This strategy minimizes interference and provides a new
+approach for RNA imaging in living cells, offering potential for building
+more RNA imaging platforms.
+
+ 
+
+3.5.
+
+## Super-Resolution Imaging with Fluorescent
+RNA Aptamers
+Super-resolution (SR) microscopy techniques
+break the diffraction limit of light, enabling visualization of cellular
+structures and biomolecule dynamics at the nanoscale. Applying these
+techniques to RNA imaging holds immense promise for uncovering the
+true spatial organization and dynamics of transcripts, such as within
+stress granules or at transcription sites. However, this imposes stringent
+requirements on the fluorescent probe: high photon output, excellent
+photostability, and efficient labeling. While early FRAPs struggled
+to meet these demands, recent advances have yielded aptamers capable
+of SR imaging. The SiRA (Silicon Rhodamine-Binding Aptamer) aptamer, binding the cell-permeable dye SiR, demonstrated
+exceptional photostability and single-molecule brightness, enabling
+robust dSTORM imaging of mRNA distribution and dynamics in fixed and
+living cells with ∼ 20 nm resolution. SiRA revealed the nanoscale
+organization of NEAT1 lncRNA within paraspeckles. The exceptional
+brightness and photostability reported for Okra and Clivia suggest these newer
+aptamers are also highly promising candidates for pushing the boundaries
+of live-cell RNA SR imaging, potentially enabling longer trajectories
+and higher localization precision for single RNA molecules. Combining
+SR-capable aptamers with advanced microscopy techniques will be crucial
+for dissecting the nanoscale architecture and dynamic interactions
+of the RNA transcriptome.
+
+4.
+
+## Advantages over Traditional RNA Imaging Methods
+Fluorescent RNA aptamer-based sensors offer several advantages
+compared to traditional RNA imaging methods, such as in situ hybridization
+and RNA probes.
+4.1.
+
+## Real-Time, Dynamic Imaging of Endogenous RNA
+Fluorescent RNA aptamer-based sensors enable real-time, continuous
+monitoring of endogenous RNA molecules in live cells. Unlike traditional
+methods that often rely on fixed samples and provide only static one-time
+observations, RNA aptamers allow dynamic observation of RNA behavior,
+interactions, and localization within their native cellular context.
+
+4.2.
+
+## High Specificity and Sensitivity
+RNA aptamers can be engineered for high specificity, enabling precise
+targeting of specific RNA sequences. This reduces nonspecific binding
+and improves imaging accuracy, particularly for low-abundance or transient
+RNA species. In comparison, traditional methods often lack the sensitivity
+to detect such targets.
+
+4.3.
+
+## No Amplification Required
+Unlike
+traditional RNA probes, which typically require amplification techniques
+to enhance the signal, RNA aptamers do not need any amplification
+steps. This simplifies the imaging process, reduces potential experimental
+errors or false signals, and offers a more direct and reliable method
+of detecting RNA.
+
+4.4.
+
+## Enhanced Versatility and Modifiability
+RNA aptamers can be easily modified to improve their properties,
+such as fluorescence intensity, photostability, and stability. This
+flexibility allows for the customization of aptamers for various applications,
+from single-molecule imaging to multiplexed RNA detection, making
+them a versatile tool in RNA biology research.
+
+5.
+
+## Challenges, Limitations, and Future Directions
+While fluorescent RNA aptamers hold immense promise, their application
+to endogenous RNA imaging faces unique hurdles. To address the challenges
+associated with RNA aptamer-based sensors, several strategies are
+being explored.
+5.1.
+
+## Specificity Issues and Technology Integration
+Many endogenous RNAs share high sequence similarity or exist as
+splice variants. Current aptamers often lack single-nucleotide resolution,
+leading to cross-reactivity. Also, RNA folding states vary with cellular
+conditions, potentially occluding aptamer-binding sites or generating
+false signals.
+Integrating RNA aptamer-based sensors with emerging
+technologies could significantly enhance future advancements in these
+sensors. For example, coupling RNA aptamers with gene-editing techniques
+could enable targeted imaging of specific RNA species in genetically
+modified organisms. Additionally, integrating RNA aptamers with single-cell
+sequencing technologies could provide unprecedented insights into
+the spatiotemporal dynamics of RNA expression at the single-cell level,
+offering new ways for understanding cellular heterogeneity and gene
+regulation.
+
+5.2.
+
+## Sensitivity Amplification and Signal Enhancement
+Transcripts like transcription factor mRNAs or rare noncoding RNAs
+exist at ultralow levels (<10 copies/cell). Existing aptamer-dye
+systems struggle to achieve sufficient signal-to-noise ratios without
+amplification. Background noise also is a very important question.
+Autofluorescence from cellular components and nonspecific dye-RNA
+interactions obscure target-specific signals, particularly in densely
+packed organelles like nucleoli.
+Developing RNA aptamers with
+enhanced optical properties is crucial to further expanding their
+utility for imaging. This includes designing aptamers that exhibit
+red-shifted fluorescence, allowing for deeper tissue penetration and
+reduced autofluorescence interference. Optimizing photostability,
+brightness, and signal-to-noise ratios will make these sensors more
+reliable and practical for complex imaging environments.
+
+5.3.
+
+## Delivery and Stability Optimization
+Current transfection methods may alter RNA expression profiles or
+induce stress responses, skewing imaging results. Moreover, aptamer
+degradation by ribonucleases limits long-term observation.
+A
+significant challenge remains the optimization of aptamer stability
+in vivo. RNA aptamers are prone to degradation in biological environments,
+which limits their long-term use in diagnostic and therapeutic settings.
+Strategies to enhance the chemical stability of aptamers and protect
+them from enzymatic degradation are critical. Furthermore, developing
+efficient and targeted delivery systems will be essential to ensure
+the effective and precise targeting of biomolecules without causing
+off-target effects or degradation.
+
+5.4.
+
+## Multiplexing and Super-Resolution Imaging
+Most aptamer-dye pairs emit in the green spectrum, hindering simultaneous
+imaging of multiple RNAs. Also, current dual-color systems require
+stringent spectral unmixing and lack modularity for diverse RNA targets.
+The rational design of next-generation fluorogenic probes requires
+molecular engineering of dyes with enhanced sensitivity, superior
+photostability, and tunable spectral properties to advance RNA-targeting
+biosensing systems. Crucially, concurrent expansion of aptamer libraries
+through directed evolution and computational design will optimize
+specificity and enhance binding affinities for diverse pathophysiological
+biomarkers. This synergistic optimization of probe-aptamer pairs translates
+to diagnostic platforms with improved clinical resolution while expanding
+their multiplexing capacity across complex biological matrices.
+
+5.5.
+
+## Clinical Translation and Diagnostic Potential
+Fluorescent RNA aptamer-based sensors show immense promise for
+clinical diagnostics, offering precise, real-time monitoring of biomolecular
+interactions. These sensors could detect diseases early, facilitate
+personalized treatment strategies, and enable noninvasive diagnostics.
+However, translating laboratory research to clinical application demands
+rigorous validation in complex biological systems, particularly in
+human clinical trials.
+
+6.
+
+## Conclusion
+Fluorescent RNA aptamer-based
+sensors are revolutionizing the study
+of endogenous RNAs by enabling real-time, label-free imaging of mRNA
+dynamics, miRNA activity, and RNA-protein interactions in live cells.
+These tools have illuminated previously inaccessible phenomena, such
+as the phase separation of stress granule-associated mRNAs or the
+spatiotemporal regulation of oncogenic miRNAs in tumor microenvironments.
+While challenges in sensitivity, multiplexing, and in vivo compatibility
+persist, emerging strategiesfrom CRISPR-coupled targeting
+to NIR-optimized fluorophorespromise to bridge these gaps.
+As these technologies mature, they will not only deepen our understanding
+of RNA biology but also pave the way for clinical innovations, such
+as intraoperative RNA-guided surgery or personalized therapeutics
+based on real-time RNA profiling. The next decade will undoubtedly
+witness fluorescent aptamers transitioning from bench-side curiosities
+to cornerstone tools in both basic research and translational medicine.
+
+## Acknowledgments
+This work was supported by National Natural Science
+Foundation of China (No. 32271512) and Natural Science Basic Research
+Program of Shaanxi (Nos. 2022JC-56, 2023-JC-ZD-43).
+
+All of the data
+and materials are included in this manuscript.
+
+The authors
+declare no competing financial interest.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+All of the data
+and materials are included in this manuscript.

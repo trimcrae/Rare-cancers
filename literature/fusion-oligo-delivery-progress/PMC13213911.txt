@@ -1,0 +1,508 @@
+pmcJ Chem Inf ModelJ Chem Inf Model822acssdciJournal of Chemical Information and Modeling1549-95961549-960Xpubs.acs.org/jcimpmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC13213911PMC13213911.113213911132139114209537210.1021/acs.jcim.5c031351ArticleComputational BiochemistryStructuring Disorder
+via Supervised Molecular Dynamics:
+Uncovering Arginine-Glycine-Glycine-Mediated Ribonucleic Acid-Intrinsically
+Disordered Region Recognition Mechanisms
+7213670NovelloGianluca7213665DodaroAndrea7213685StrasciaChiara Cavastracci7213674MeninSilvia754862https://orcid.org/0000-0003-3944-0313SturleseMattia7213691SalmasoVeronica73793https://orcid.org/0000-0002-7514-3802MoroStefano . During the simulation, both the RNA and
+protein components of the complex remained mostly stable, as shown
+by the backbone RMSD profiles of the protein and RNA ( A,B). Relevant insight emerges
+from the per-residue interaction energy profiles reported in C,D. All the protein
+residues previously identified as key for complex formation display
+favorable and stable energetic contributions throughout the simulation
+( D), confirming
+their central role in mediating binding to the most contacted nucleotides
+like G140, G141, C144, U145, G146, G148, U149, U150, C151, G154, and
+C155 ( C).
+ Based on these analyses, key protein residues and
+RNA nucleotides
+were selected to define the distance monitored by SuMD during the
+two supervision phases.
+A first attempt was made where Supervision
+Step-1 was initially
+applied to residues located within the folded regions of the proteins;
+in particular, the center of mass of Lys756 was considered as representative
+of the folded region, and U149 (interacting with Lys756 in the bound
+state) was chosen on the RNA counterpart. The resulting trajectories
+led to final states where the conformation of the structured domain
+was very different from the experimental X-ray structure (Table S2), and, moreover, the unstructured domain
+was collapsed and not prone to progress into the recognition of the
+major groove of RNA. On the other hand, these trajectories consistently
+indicated that the first protein–RNA contacts were predominantly
+mediated by the intrinsically disordered, positively charged segments.
+As shown in Figure S2A (Supporting Information), for the SF3A1-U1-SL4 system, the earliest contacts occurred through
+the disordered tail in Run2 and Run3, while in Run1, the disordered
+and folded regions approached the RNA nearly simultaneously. These
+observations suggested that, despite initial supervision being applied
+to structured regions, the intrinsically disordered segments play
+a dominant role in initiating recognition. Consequently, the supervision
+protocol was redesigned to monitor the approach of the disordered
+region to RNA during Supervision Step-1. This revised strategy resulted
+in a clearer and more consistent early interaction pattern, as illustrated
+in Figure S3A, where supervision applied
+directly to the disordered regions led to a well-defined initial contact
+phase across replicates for both systems. Together, these preliminary
+analyses supported the adoption of a two-step supervision scheme in
+which the disordered region drives the initial recognition (Supervision
+Step-1), followed by the supervision of the structured domains (Supervision
+Step-2) to capture subsequent stabilization events, as detailed below.
+For Supervision Step-1, the focus was thus placed on the intrinsically
+disordered RGGR motif (Arg788, Gly789, Gly790, and Arg791), which
+was guided toward the center of mass defined by nucleotides G141,
+U145, and G154. These nucleotides were identified as interaction hotspots
+near the RGGR tail, both in the classical MD simulation described
+above and in the reference structure. In Supervision Step-2, the selection
+was shifted to Lys756 and nucleotide U149, another key contact observed
+in the classical MD trajectory and highlighted in C. This second supervision
+phase was designed to promote the correct orientation of the folded
+globular domain after the initial engagement of the disordered tail.
+Starting from the same initial configuration, three independent
+SuMD simulations were performed under identical Supervision Step-1
+and Step-2 conditions. In particular, three independent runs of Supervision
+Step-1 were conducted, leading to the approach of the unstructured
+domain to its experimental bound conformation (Table S2). A second SuMD run was started from the last frame
+of these three independent replicates under Supervision Step-2 conditions.
+Notably, despite starting from the same initial configuration and
+applying identical supervision criteria, the three replicates extensively
+sampled different relative orientations of the RNA with respect to
+the protein ( B–D), exploring both the major and minor grooves.
+ The final states obtained from the 2-Step SuMD
+simulations were
+compared to the experimental X-ray structure by aligning the nucleic
+acid backbone and computing the RMSD of the protein backbone. These
+results are collected in , with Run1 emerging as the trajectory achieving the closest
+positioning relative to the reference PDB structure.
+ The reproduction of the X-ray complex with an RMSD
+of 4.2 Å
+proved the capability of the two-step SuMD approach to generate a
+near-native pose for the SF3A1-RNA complex. Subsequently, the possibility
+of discriminating Run1 from decoys (Run2 and Run3) was assessed to
+question the prospective applicability of this approach to predict
+RNA-IDR complex structures. In this context, the stability of the
+obtained complexes was compared by subjecting the last frames of the
+different replicates to classical MD simulations. The aim was to verify
+whether the near-native pose obtained at the end of the full recognition
+process (SuMD Step-2) was geometrically and energetically more stable
+during MD simulations as compared to decoys. In addition, the stability
+of recognition process intermediate states, obtained after SuMD Step-1,
+was also assessed, aiming to verify if it is possible to prioritize
+recognition pathways leading to near-native bound states, considering
+the stabilization of the unstructured region upon binding, thus suggesting
+which SuMD Steps-1 to extend into SuMD Steps-2 in a prospective scenario.
+The last frames of each supervision phase were extracted and subjected
+to an additional 100 ns of classical MD, where both geometrical stability
+and interaction energy were evaluated. Specifically, since during
+Supervision Step-1 the approach of the protein unfolded region to
+RNA is monitored, and thus a final productive state would ideally
+present the IDR reproducing its native-like conformation, the positioning
+of the disordered tail was assessed in terms of RMSD from the initial
+state and interaction energy. After Supervision Step-2, leading to
+the complete bound state of the complex, geometrical and energetic
+stabilities were instead evaluated for the entire protein. The results
+of these analyses for the three runs are reported in Table S3 and Figures S4 and S5 (Supporting Information). In
+terms of structural stability and interaction strength, Run1 showed
+the most favorable performance at the end of both Supervision Step-1
+and Step-2. After Step-1, Run1 displayed the lowest average RMSD (3.35
+± 0.61 Å) and the most favorable protein–RNA interaction
+energy (−452.9 ± 31.4 kcal/mol), compared to Run2 (RMSD:
+6.61 ± 1.87 Å; Energy: −336.9 ± 80.0 kcal/mol)
+and Run3 (RMSD: 15.78 ± 4.69 Å; Energy: −358.5 ±
+71.8 kcal/mol). A similar trend was observed after Step-2. Run1 maintained
+a low RMSD (1.93 ± 0.89 Å) while achieving the most favorable
+interaction energy (−904.5 ± 52.2 kcal/mol). In contrast,
+Run2 showed a comparable RMSD (3.98 ± 1.22 Å) but a markedly
+less favorable interaction energy (−651.3 ± 71.3 kcal/mol),
+whereas Run3 exhibited substantial structural instability (RMSD: 23.57
+± 10.42 Å) together with a higher variability in interaction
+energy (−677.1 ± 138.0 kcal/mol). Thus, in this case,
+RMSD and energetic analysis of prolonged MD simulations starting from
+the last SuMD frames seem able to discriminate X-ray-like conformations
+of the complex from decoys.
+The complete trajectory of the two
+supervision phases for Run1
+is shown in Video S1 (Supporting Information). In this simulation, the full recognition process between the protein
+and RNA occurred in approximately 10 ns of simulation time. A schematic
+summary of the binding process is presented in . The residues involved in the first supervision
+phase are visible from the earliest stages of interaction and remain
+stable throughout the simulation ( C,D). In contrast, residues participating
+in the second phase are engaged later, consistent with a sequential
+binding mechanism. In the final SuMD frame, the protein backbone exhibited
+an RMSD of 4.2 Å, relative to the reference structure. In contrast,
+the RGGR disordered tail, which is essential for binding, showed a
+substantially lower RMSD of 1.3 Å.
+ To assess the stability of the SuMD-generated complex
+from the
+selected Run1, the previously analyzed 100 ns classical MD trajectory
+was extended to 500 ns, and the same analyses performed on the experimental
+reference structure were applied. As shown in B, the system maintained a stable geometry,
+with both the protein and RNA backbone RMSD values ranging between
+1 and 3 Å, closely matching the reference crystal dynamics ( E). Similar trends
+were observed in the interaction profiles over time ( C,F). The energetic contributions
+of RNA and protein were comparable to those obtained from the experimental
+complex simulation. Collectively, these results confirm the ability
+of SuMD to reproduce the native binding mode, in terms of both structural
+alignment and interaction energetics, thereby providing a reliable
+basis for its application to the more complex RGG-containing system.
+ 
+
+## U1 snRNA Stem-Loop 3 in Complex with FUS/TLS RNA Recognition
+Motif (PDB ID: 6SNJ)
+The human FUS (fused in sarcoma) protein is a multifunctional
+DNA/RNA-binding protein and a member of the FET family, which includes
+FUS, EWSR1, and TAF15. A). A).
+ Consistent with these observations, the classical
+MD simulation
+of the reference complex further highlighted the energetic dominance
+of positively charged protein residues. All arginines within the disordered
+region exhibited markedly favorable interaction energies, while the
+structured portion of the protein contributed additional stabilizing
+contacts through several lysines. These residues also emerged as key
+determinants of the interaction throughout the simulation, in agreement
+with the findings reported in the reference study. A similar trend
+was observed on the RNA side: nucleotides A104 to G110 formed a persistent
+and energetically favorable cluster, representing the core segment
+of the RNA that engages the protein across both the minor and major
+grooves.
+Based on this trajectory analysis, key RNA-interacting
+residues
+were selected to define the two-step SuMD supervision protocol. Analogously
+to the previous case study, after an unproductive attempt to first
+supervise the structured domain approach to RNA (Table S2 for RMSD values), the supervision strategy was designed
+to first promote engagement of the disordered region and subsequently
+stabilize the structured portion of the protein. In Supervision Step-1,
+the distance between the center of mass of nucleotides U105, G106,
+U107, G108, G109, and G110 on RNA and the center of mass of the six
+arginines (Arg371, Arg372, Arg377, Arg383, Arg386, and Arg388) of
+the disordered region was monitored, with a rapid engagement of the
+RNA minor groove, and the IDR acting as an initial anchoring interface.
+In Supervision Step-2, the approach of a lysine-rich loop (Lys312,
+Lys315, and Lys316) to the major groove of RNA (U105, G106, U107,
+G108, G109, and G110) was monitored.
+Starting from the same
+initial configuration, three independent
+SuMD simulations were performed under identical Supervision Step-1
+and Step-2 conditions, consistent with the protocol applied in the
+previous case. Despite the identical starting point and supervision
+criteria, the three replicates explored distinct interaction modes
+and relative RNA orientations as highlighted by RMSD values from the
+experimental NMR complex reported in , reflecting a broad conformational landscape
+rather than convergence toward a single identical geometry. This behavior
+indicates that the shared starting configuration did not impose a
+bias but instead allowed extensive sampling of energetically favorable
+recognition pathways. Among the three replicates, Run3 was the one
+conducting the NMR-most similar pose.
+As in the previous case
+study, to verify the possibility of objectively
+distinguishing and highly ranking Run3 with respect to the others,
+the stability of the complexes obtained through SuMD was examined.
+The last frames of Supervision Step-1 and Step-2 were submitted to
+an additional 100 ns of classical MD to assess their stability. At
+the end of Step-1, RMSD from the initial state and interaction energy
+were evaluated, focusing on the disordered segment (residues 376–390),
+whereas after Step-2, the analyses were extended to the entire protein
+to verify stabilization of both the disordered and structured regions.
+The corresponding RMSD from the initial state and interaction energy
+profiles for all replicates are reported in Supporting Information (Table S3 and Figures S6 and S7).
+Following
+Supervision Step-1, Run3 displayed the lowest average
+RMSD (4.80 ± 0.60 Å) of the unstructured region, indicating
+comparatively higher structural stability relative to Run1 (7.30 ±
+0.80 Å) and Run2 (7.20 ± 0.60 Å), which both fluctuated
+around higher RMSD values. From an energetic standpoint, Run3 also
+exhibited the most favorable protein–RNA interaction energy
+(−590.00 ± 70.00 kcal/mol), followed by Run2 (−520.00
+± 60.00 kcal/mol), whereas Run1 showed overall less favorable
+interaction energies (−380.00 ± 40.00 kcal/mol). After
+Supervision Step-2, Run3 presented the lowest RMSD values (6.00 ±
+1.60 Å), comparable to Run1 (6.09 ± 1.69 Å) and lower
+than Run2 (8.69 ± 3.04 Å), while displaying the most favorable
+interaction energy among the three replicas (−992.10 ±
+110.30 kcal/mol), compared to Run1 (−835.20 ± 91.10 kcal/mol)
+and Run2 (−660.80 ± 98.60 kcal/mol). Taken together, the
+combined structural and energetic metrics across both supervision
+steps indicate that Run3 provides the most stable and energetically
+favorable configuration overall, supporting its identification as
+the productive trajectory for this case study.
+In Video S2 (Supporting Information), the complete
+Run3 selected is available. Analysis of the per-residue
+interaction energy profiles of this simulation, evaluated on both
+the nucleic acid side ( C) and the protein side ( D), further supports the mechanistic picture
+described above. In particular, clear initial engagement of Arg377,
+Arg383, and Arg388, located within the disordered tail, can be observed
+during the early stages of recognition. Only at a later stage is the
+interaction visible for Lys312 and Lys316, positioned within the loop
+of the globular domain, consistent with the second supervision phase
+guiding the progressive stabilization of the complex.
+ In the final SuMD frame, the protein backbone showed
+an RMSD of
+12.4 Å relative to the reference, whereas the disordered RGG-containing
+tail displayed a lower RMSD of 6.3 Å. These higher RMSD values,
+as compared to the SF3A1-U1-SL4 test case, are indicative of the intrinsically
+greater flexibility of FUS. During the early recognition phase of
+the selected SuMD trajectory, prior to the establishment of stable
+contacts with the RNA, the extended disordered tail (residues 376–390)
+exhibited pronounced conformational plasticity. Compared with the
+shorter disordered segment analyzed in the previous study, this longer
+region explored a substantially wider conformational space. Monitoring
+the RMSD of the disordered tail relative to the initial SuMD frame
+during the frames preceding the first protein–RNA contact revealed
+a mean RMSD of 17.2 Å and maximum deviations of up to 20.4 Å.
+These fluctuations reflect the high intrinsic flexibility of the tail,
+while the protein remains in the bulk solvent, emphasizing the dynamic
+nature of the recognition process. Consistently, the Cα-RMSF
+was computed over the 500 ns classical MD simulations of the reference
+experimental structures of the two case studies (Figure S1), revealing a higher overall flexibility for FUS
+as compared to SF3A1, further supporting the intrinsically dynamic
+nature of this binding event. This observation agrees with the experimental
+NMR ensemble of the FUS-U1-SL3 complex, where the RGG-containing tail
+exhibits substantial conformational heterogeneity (average RMSD ≈
+5.5 Å, peaks up to ∼10.7 Å among deposited conformers).
+Nevertheless, the near-native binding pose across key geometric
+interaction regions ( ), together with the strong similarity in the RNA–protein
+interaction energy profiles, confirms the robustness of SuMD in modeling
+highly dynamic RNA–protein assemblies.
+ As in the previous case, the SuMD-derived complex
+was further simulated
+by extending the previously analyzed 100 ns classical MD trajectory
+to a total length of 500 ns, and the resulting trajectory was compared
+with the one initiated from the experimental NMR structure. The resulting
+RMSD and per-residue interaction energy profiles closely resembled
+those obtained from the reference simulation ( ). In both trajectories, nucleotides 105–110
+consistently exhibited the strongest favorable interaction energies,
+engaging with the β-sheet, the α1-β2 loop, and the
+disordered RGG-containing region, where they interact with key arginine
+and lysine residues discussed previously ( C,F).
+ 
+
+## Telomeric Repeat-Containing RNA 12 (TERRA12, PDB ID: 2KBP) in Complex with
+Small EDRK-Rich Factor 2 (SERF2, PDB ID: 9DT0)
+SERF-related proteins (Small
+EDRK-rich Factor) are small (60–80 amino acids), highly charged
+polypeptides characterized by a conserved N-terminal domain and originally
+identified as in vivo modulators of amyloid formation associated with
+age-related diseases.
+ .
+ As observed by the previous systems, the per-residue
+interaction
+energy profiles ( C, nucleic acid; D, protein) clearly reflect the two-step supervision strategy.
+An initial energetic contribution arises from the positively charged
+residues located in the N-terminal region (residues 1–16, highlighted
+in D), which
+were also identified in the reference study as the most significantly
+perturbed in chemical shift analyses. Only in a later stage does a
+favorable energetic contribution emerge from residues in the C-terminal
+region (Gln46, Lys47, Lys49, and Lys54), consistent with the second
+supervision phase guiding the progressive stabilization of the complex.
+Particularly remarkable is the per-residue interaction energy profile
+of RNA ( C).
+The nucleotides most strongly involved in the interaction are highly
+clustered within the G4–G11 region, which includes the key
+residues (G4, G5, G9, and G10) previously identified by NMR-HSQC chemical
+shift perturbation as critical determinants of rG4 recognition. A) shows that the positively
+charged N-terminal residues (displayed in stick representation) adopt
+a favorable orientation toward nucleotides G4, G5, G9, and G10 (displayed
+in stick representation), consistent with the predicted primary binding
+interface, as confirmed by per-residue electrostatic interaction analysis
+( B). Geometric
+analyses ( D) indicate that the RNA remains structurally stable throughout the
+simulation, as reflected by steady RMSD values. Despite being almost
+entirely intrinsically disordered and highly enriched in positively
+charged residues, the protein also displays overall acceptable stability:
+its RMSD remains below ∼4 Å for approximately 350 ns of
+the 500 ns simulation, shows a transient increase up to ∼5
+Å, and then returns below 4 Å until ∼450 ns. Only
+during the final 50 ns does the protein RMSD rise to ∼7 Å;
+however, considering its fully disordered nature and the absence of
+globular domains, this behavior can still be regarded as compatible
+with a stable bound ensemble.
+ Importantly, the per-residue interaction energy
+profiles for both
+the RNA ( B) and the protein ( C) remain consistent throughout the simulation, confirming
+that the selected SuMD-derived last frame represents a complex that
+is stable not only from a geometrical standpoint but also in terms
+of its key intermolecular interactions.
+
+## Discussion and Conclusions
+In this study, we report
+the first application of supervised molecular
+dynamics (SuMD) to investigate recognition processes between nucleic
+acids and intrinsically disordered proteins (IDPs), with a specific
+focus on proteins containing RGG domains or positively charged intrinsically
+disordered regions (IDRs). While previous applications of this technique
+focused primarily on well-folded protein–ligand or protein–RNA
+complexes, here, we extend its use to two retrospective RNA–protein
+systems characterized by pronounced conformational plasticity: the
+SF3A1-UBL domain bound to U1 snRNA stem-loop 4 (SL4), and the FUS
+RRM domain bound to U1 snRNA stem-loop 3 (SL3). These systems were
+selected not only for their structural and functional relevance in
+splicing regulation but also for the inherent challenges they present,
+as positive charges and flexible regions dominate their binding interfaces,
+often mediating recognition through transient, multistep mechanisms.
+A two-step SuMD approach proved capable of capturing these complex
+recognition processes, reconstructing binding poses consistent with
+the experimentally determined structures, despite the presence of
+extended disordered elements. Each system was explored in triplicate
+to evaluate the variability of the recognition process: as reported
+in Table S3, independent runs produced
+diverse binding poses, reflecting the intrinsic conformational plasticity
+of RNA-IDR interfaces and the nondeterministic nature of techniques
+such as SuMD. While further increasing the number of replicas would,
+in principle, improve sampling coverage, the three runs adopted represent
+a pragmatic balance between accuracy and computational cost, as for
+both retrospective systems, at least one replica converged toward
+a pose in close structural agreement with the experimental reference,
+supporting the viability of this protocol.
+The productive trajectory
+was selected based on objective criteria
+combining average RMSD values of the protein backbone and protein–RNA
+interaction energy profiles calculated from 100 ns classical MD extensions
+of the last frames of SuMD trajectories. This stability-based selection
+strategy allowed identification of the trajectory that most consistently
+preserved favorable geometric and energetic features rather than relying
+solely on structural proximity to the reference complex.
+In
+the case of SF3A1-U1-SL4, this technique rapidly reproduced
+the native arrangement of the RGGR-containing tail and the associated
+network of lysine contacts after approximately 10 ns. On the other
+hand, the more structurally complex FUS-U1-SL3 assembly required a
+slightly longer time scale of around 35 ns to achieve a stable binding
+pose.
+Building on this retrospective validation, the same SuMD
+protocol
+was subsequently applied to a prospective RNA-IDR system lacking an
+experimentally resolved complex structure, namely, the interaction
+between SERF2 and telomeric rG4 RNA, providing a putative model of
+the complex, consistent with experimental binding data.
+The
+protocol, which included an initial SuMD posing phase followed
+by classical MD refinement, enabled the identification of residues
+involved in the binding process and reproduced the experimentally
+resolved complexes with close structural correspondence for SF3A1-U1-SL4
+and a higher deviation for FUS-U1-SL3, consistent with the greater
+dynamic behavior and structural complexity of this system. Importantly,
+in the prospective SERF2-rG4 case, where no experimental complex structure
+is available, the same workflow yielded a binding mode consistent
+with residue-level experimental observations, including the enrichment
+of interactions on nucleotides identified by chemical shift perturbation
+analyses. The combined geometric and energetic analysis is particularly
+relevant for highly dynamic systems, where conformational flexibility
+and transient binding modes are evident both in simulations and in
+experimental structures. In such contexts, static reproduction of
+atomic coordinates alone is insufficient to fully describe the recognition
+mechanism. For this reason, residue-level interaction fingerprints
+were generated to monitor the temporal evolution of key energetic
+contributions and to compare them either with experimentally resolved
+complexes (retrospective systems) or with independent experimental
+information such as NMR-derived binding determinants (prospective
+systems).
+The stability of SuMD-generated complexes was assessed
+in 500 ns
+classical molecular dynamics simulations, which further highlighted
+the residues involved in stabilizing the complex, yielding backbone
+RMSD values and per-residue interaction energy profiles that closely
+matched those obtained from the reference MD simulations for the retrospective
+cases. These results underscore the utility of this protocol for generating
+a plausible binding mode and investigating the energetic contributions
+of these regions to both the formation and the stabilization of the
+complexes.
+The present work highlights the crucial strategy
+of guiding positively
+charged residues (arginines and lysines) toward negatively charged
+RNA grooves during SuMD supervision in investigating RNA-IDR interactions.
+This approach proved highly effective in capturing the multistep binding
+pathways and could serve as a general guideline for similar systems,
+particularly when structural or biochemical evidence indicates a dominant
+role for electrostatic steering. These results suggest the potential
+for broader applications of SuMD in studying RNA recognition by disordered
+regions.
+The presented method still has some limitations: the
+definition
+of supervision coordinates remains dependent on prior biochemical
+or structural knowledge. Therefore, careful integration with experimental
+evidence is essential. Given the experimental challenges associated
+with resolving RNA-IDR complexes, especially those characterized by
+high flexibility and transient interactions, SuMD may serve as a complementary
+computational tool capable of bridging residue-level experimental
+data and three-dimensional structural hypotheses. The prospective
+SERF2-rG4 application illustrates how the method can support experimental
+findings by providing a structurally coherent model consistent with
+experimentally derived interaction patterns, even in the absence of
+a solved complex structure.
+IDRs, due to their “degenerate
+specificity”, can
+interact with a wide range of nucleic acid targets and form RNA-IDP
+complexes implicated in diseases involving splicing dysregulation,
+RNA granule misregulation, and neurodegenerative conditions linked
+to RGG-rich proteins such as FUS and TAF15. Given the experimental
+challenges of probing these relevant complexes, SuMD could be a reliable
+tool that enables the computationally efficient investigation of these
+interactions with simulation times comparable to those achieved in
+protein-small molecule studies.
+Furthermore, integration with
+complementary enhanced-sampling techniques,
+such as Thermal Titration MD (TTMD) (83), may enable systematic exploration
+of binding thermodynamics, stability, and energetic contributions
+of transient contacts.
+The identification of key residues and
+binding motifs represents
+an essential step in guiding the rational design of small-molecule-
+or oligonucleotide-based inhibitors. In this scenario, SuMD serves
+as a valuable tool within structure-based drug discovery pipelines
+that target RNA–IDR interactions.
+
+## Supplementary Material
+
+MMS lab is very grateful to Chemical Computing Group,
+OpenEye, and Acellera for their scientific and technical partnership.
+This work was supported in part by the high-performance computing
+infrastructure developed under the project “CONVECS”,
+funded by the PR Veneto FESR 2021-2027 program, Priority 1 –
+Specific Objective 1.1 – Action 1.1.2
+The code to perform
+SuMD simulations is available free of charge at https://github.com/molecularmodelingsection/SuMD. The script utilized to perform analysis on SuMD trajectories is
+also available at https://github.com/molecularmodelingsection/SuMD-analyzer. All trajectories presented in the article can be found at 10.5281/zenodo.17776719.
+The Supporting
+Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.jcim.5c03135.All figures marked as supporting figures (Figures S1–S9)
+and tables (Table S1–S3) (PDF)
+(VideoS1.mp4) SuMD simulation of the U1
+snRNA stem-loop
+4/SF3A1 ubiquitin-like domain (PDB ID: 7P0V); five panels: (top panels)
+molecular dynamics trajectory; (lower panels) time-dependent RMSD
+relative to the reference structure and the corresponding nucleic
+acid/protein interaction energy analyses (MP4)
+(VideoS2.mp4) SuMD simulation of the
+U1 snRNA stem-loop
+3/FUS RNA recognition motif (PDB ID: 6SNJ); six panels: (three upper panels) molecular
+dynamics trajectory; (lower panels) time-dependent RMSD and associated
+energetic analyses (MP4)
+(VideoS3.mp4) SuMD simulation of the TERRA12 G-quadruplex/SERF2
+complex; four panels: (upper panels) molecular dynamics trajectory
+(global view and nucleic acid-centered view); (lower panels) time-dependent
+per-residue interaction energy analyses for the nucleic acid and the
+protein (MP4)
+
+N.G. conceived
+and designed the study, wrote the manuscript, and performed the computational
+analyses. D.A., M.S., and C.S.C. provided scientific background support,
+assisted with scripting, and contributed to the preparation of figures
+and graphical materials. S.V. and S.M. supervised the research, provided
+valuable feedback on the scientific content, and performed proofreading
+of the manuscript. M.S. supervised the project, provided critical
+scientific input, and performed proofreading of the manuscript. The
+submitted manuscript was approved by all authors.
+The author(s)
+declare that financial support was received for the research, authorship,
+and/or publication of this article. This work has been funded by the
+European Union - Next-Generation EU (“PNRR M4C2-Investimento
+1.4- CN00000041”).
+The authors
+declare no competing financial interest.
+
+## Abbreviations
+GPUgraphic
+processing unit
+PDBProtein Data Bank
+SuMDsupervised molecular
+dynamics
+TTMDthermal
+titration molecular dynamics
+IDP/Rintrinsically disordered proteins/regions
