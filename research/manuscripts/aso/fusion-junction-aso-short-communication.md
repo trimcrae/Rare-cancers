@@ -235,14 +235,21 @@ reported EMC partners. The check had little power to fail: any non-homologous do
 separate FET paralogy from incidental exon homology. The stronger evidence for paralogy is that four
 additional two-partner sets are also FET-only.
 
-On specificity the ordering inverts (Table 2). Ranking each junction by its highest-gap-margin
-design, the best *TCF12* design carries two predicted gap-spanning near-matches, against a best of
-eight across *EWSR1*, *TAF15* and *FUS*. Five of the eight *TCF12* junctions nonetheless score worse
-than that FET best, so the distributions overlap and only the minima separate. Breadth and per-oligo specificity therefore point at different partners.
+On specificity the ordering inverts (Table 2). Taking each junction's best design after the
+orientation filter, three of the eight *TCF12* junctions carry a design with no hybridisable
+gap-spanning near-match at all, while the best across *EWSR1*, *TAF15* and *FUS* is one. *TFG*
+straddles both: its exon 6 junction also reaches zero, and its other five range from 5 to 40. The
+distributions overlap — three of the eight *TCF12* junctions still score worse than the best FET
+junction — so it is the minima that separate, not the partners wholesale. Breadth and per-oligo
+specificity therefore point at different partners: the multi-partner reagent is a FET one, and every
+design with no detectable off-target is not.
 
 ### 3.4 · Strand orientation, and the designs that survive it
 
-Twenty junctions were screened, five designs at each. `blastn` searches both strands, so a
+Twenty junctions were screened with orientation parsed and filtered, five designs at each; four
+earlier screens are carried in Table 2 marked as unfiltered and are not comparable, and one further
+junction returned no result because every submission failed at the remote service. `blastn` searches
+both strands, so a
 proportion of the returned near-matches lie on the strand opposite the target window. A transcript
 carrying the reverse complement of that window cannot be hybridised by an antisense oligonucleotide:
 there is no duplex, therefore no RNase-H1 substrate and nothing to cleave. Such a match is not a

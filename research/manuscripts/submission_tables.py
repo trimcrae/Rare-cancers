@@ -92,12 +92,23 @@ def table2(collapse, chance, atlas):
             gap_margin[(pan["junction_label"], des["antisense_5to3"])] = \
                 des.get("gap_specificity_margin")
 
-    by_j = {}
+    by_j, filtered = {}, {}
     for s in collapse["screens"]:
         lab = s.get("junction_label")
         if not lab:                              # the modelled reference seams carry no label
             continue
         by_j.setdefault(lab, []).extend(s["per_oligo"])
+        # ⛔ A FILTERED AND AN UNFILTERED ROW MUST NOT RENDER ALIKE (2026-08-12). Twenty junctions
+        # were re-screened with orientation parsed and filtered; four older ones were not, and their
+        # counts still include minus-strand hits — which across this corpus is half of them. Printed
+        # in one table with no marking, a reader comparing TCF12 e17 (filtered, 0) against FUS e5
+        # (unfiltered, >=5) would be comparing two different quantities and would reasonably
+        # conclude the second is worse. It may not be. The marker says which is which.
+        # `screen_orientation_status` returns a STRING: "orientation_parsed" or
+        # "orientation_UNPARSED_counts_are_upper_bounds". Tested for the unparsed marker rather than
+        # the parsed one, so an unrecognised future value is treated as unfiltered — the safe
+        # direction, since the failure to avoid is presenting an unfiltered count as a filtered one.
+        filtered[lab] = "UNPARSED" not in str(s.get("orientation") or "")
 
     le1 = {}
     for r in chance["per_design"]:
@@ -118,6 +129,17 @@ def table2(collapse, chance, atlas):
     rows = []
     for lab in sorted(by_j):
         ol = by_j[lab]
+        # ⛔ A JUNCTION WHOSE EVERY SCREEN FAILED MUST APPEAR AS FAILED, NOT CRASH AND NOT VANISH
+        # (2026-08-12). EWSR1 e10 returned 0 of 5 — all five BLAST submissions failed at the remote
+        # service — so its `per_oligo` list is empty and `ranked[0]` raised IndexError, which killed
+        # the whole generator and silently left the PREVIOUS table on disk. Two failures in one: a
+        # table that looked current and was not, and a junction that would otherwise be missing from
+        # the paper with no statement that it was ever attempted. An absent reading is not a reading
+        # of absence (CLAUDE.md §4), so the row is emitted saying exactly that.
+        if not ol:
+            rows.append(f"| {lab.replace('__', '::').replace('_', ' ')} | 0 of 5 — every BLAST "
+                        f"submission failed at the remote service | — | — | — | — | — | — |")
+            continue
         ranked = sorted(ol, key=lambda o: -(gap_margin.get((lab, o["antisense_5to3"])) or -1))
         best = ranked[0]
         gm = gap_margin.get((lab, best["antisense_5to3"]))
@@ -125,8 +147,9 @@ def table2(collapse, chance, atlas):
         vals = sorted(le1.get(lab, []))
         med = vals[len(vals) // 2] if vals else "—"
         mx = max(vals) if vals else "—"
+        mark = "" if filtered.get(lab) else " ‡"
         rows.append(
-            f"| {lab.replace('__', '::').replace('_', ' ')} | {len(ol)} | "
+            f"| {lab.replace('__', '::').replace('_', ' ')}{mark} | {len(ol)} | "
             f"{gm if gm is not None else '—'} | 5′-{best['antisense_5to3']}-3′ | "
             f"{cens}{best['n_transcript_near_matches_reported']} → "
             # "of those" means OF THE GAP-SPANNING LOCI, so it is the intersection of the two
@@ -166,7 +189,7 @@ hits per design, so a design with more is a lower bound. **All gap-resolved coun
 bounds**: the BLAST arm did not parse alignment orientation, so minus-strand matches — which an
 antisense oligonucleotide cannot hybridise — are included. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
-None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.
+None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n‡ This junction's screen predates the orientation filter, so its counts still include minus-strand hits — across this corpus, half of all apparent gap-spanning hits. Its numbers are upper bounds and are NOT comparable with the unmarked rows.
 
 {table2(collapse, chance, atlas)}
 """
