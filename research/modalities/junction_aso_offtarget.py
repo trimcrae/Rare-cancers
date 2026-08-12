@@ -48,7 +48,27 @@ OUT = os.path.join(os.path.dirname(__file__), f"junction-aso-offtarget{_SUFFIX}.
 
 BLAST = "https://blast.ncbi.nlm.nih.gov/Blast.cgi"
 PARENT_ACCS = {"NM_005243", "NM_006981"}          # EWSR1, NR4A3 (the intended on-/parent hits)
-PARENT_GENES = ("EWSR1", "EWS RNA", "NR4A3", "NOR-1", "nuclear receptor subfamily 4 group A member 3")
+# ⛔ THE PARENT SET MUST FOLLOW `DONOR_GENE`, OR A NON-EWSR1 SCREEN SILENTLY MISCOUNTS IN BOTH
+# DIRECTIONS (2026-08-12). This tuple names the transcripts a hit is NOT counted as an off-target
+# against, because each parent matches one wing of a junction oligo by construction. Left EWSR1-only,
+# a TAF15::NR4A3 screen would (a) count every wild-type TAF15 wing hit as an off-target, inflating
+# that junction's load, and (b) keep EXCLUDING wild-type EWSR1 — a gene that is NOT a parent of that
+# fusion and whose engagement is a real specificity finding. Two errors in opposite directions from
+# one stale constant.
+# ⚠ NOTE WHAT IS AND IS NOT SOLVED HERE. Adding the donor's SYMBOL fixes the name-match arm.
+# `PARENT_ACCS` stays EWSR1/NR4A3 because this repository holds no verified RefSeq accession for
+# TAF15, TCF12 or FUS, and typing one from memory is exactly the failure gate 4 exists for. So for a
+# non-EWSR1 donor the accession arm is INERT and only the name arm fires; every emitted artifact
+# records `parent_set` so a reader can see which arms were live rather than inferring it.
+_DONOR = (os.environ.get("DONOR_GENE") or "EWSR1").strip() or "EWSR1"
+_DONOR_ALIASES = {
+    "EWSR1": ("EWSR1", "EWS RNA"),
+    "TAF15": ("TAF15", "TATA-box binding protein associated factor 15", "TAF2N", "RBP56"),
+    "FUS": ("FUS", "FUS RNA binding protein", "TLS", "fused in sarcoma"),
+    "TCF12": ("TCF12", "transcription factor 12", "HEB"),
+}
+PARENT_GENES = tuple(_DONOR_ALIASES.get(_DONOR, (_DONOR,))) + (
+    "NR4A3", "NOR-1", "nuclear receptor subfamily 4 group A member 3")
 N_OLIGOS = 6                                       # screen the top N fusion-specific designs
 # near match = allow up to 2 mismatches over the oligo length (14/16 at len 16, 18/20 at len 20)
 NEAR_MATCH_MIN_IDENT = ja.OLIGO_LEN - 2
@@ -466,6 +486,16 @@ def main():
             "near_match_threshold": f">= {NEAR_MATCH_MIN_IDENT}/{ja.OLIGO_LEN} identical",
             "gap_region_1based": [ja.WING + 1, ja.OLIGO_LEN - ja.WING],
             "breakpoint_model": prov["note"],
+            # Which transcripts a hit was NOT counted against, and which matching arms were live.
+            # Recorded rather than assumed: for a non-EWSR1 donor the accession arm is inert (no
+            # verified RefSeq accession is held here), so a reader must be able to see that the
+            # parent exclusion rested on name matching alone.
+            "parent_set": {
+                "donor_gene": _DONOR,
+                "names_excluded": list(PARENT_GENES),
+                "accessions_excluded": sorted(PARENT_ACCS),
+                "accession_arm_live_for_donor": _DONOR == "EWSR1",
+            },
         },
         "n_oligos_screened": len(screened),
         "n_screened_ok": n_ok,

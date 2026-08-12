@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-ASO — Fusion-junction ASO / siRNA (the deliverable)
 
-**Family:** [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · **state:** ○ blocked · scoped · confidence moderate · verified 2026-08-06
+**Family:** [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · **state:** ○ blocked · scoped · confidence moderate · verified 2026-08-12
 
 **Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 1, rank 2 — DELIVERABLE
 
@@ -27,7 +27,7 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   RT_ASO["○ RT-ASO"]:::fam
-  BLK_DELIVERY{{"BLK-DELIVERY — Tumour delivery of an oligonucleotide or a…"}}:::blk
+  BLK_DELIVERY{{"BLK-DELIVERY — SYSTEMIC, antigen-dependent tumour deliver…"}}:::blk
   BLK_DELIVERY --> RT_ASO
   TECH_OLIGO_DELIVERY(["TECH-OLIGO-DELIVERY<br/>expected 2029"]):::tech
   TECH_OLIGO_DELIVERY -.-> BLK_DELIVERY
@@ -53,6 +53,8 @@ The breakpoint junction is a sequence that exists in no healthy cell. An oligonu
 
 ## Remaining unknowns
 
+- ⭐ THE LANE IS NO LONGER EWSR1-ONLY (2026-08-12, $0, offline). nr4a3-fusion-junction-atlas.json grades 207 donor-exon x NR4A3-acceptor-exon pairs across EWSR1, TAF15, TCF12 and FUS; 32 are frame-compatible and EVERY ONE yields at least one junction-spanning, parent-sparing design, so designability is not this route's constraint. One 16-mer (GGGCATATCATCAAAC) is junction-spanning and fusion-exclusive at EWSR1 e12, TAF15 e11 and FUS e10 :: NR4A3 e3 SIMULTANEOUSLY, because the three donors are identical over the 8 bases 5' of their breakpoints -- so a stock reagent, not only an n-of-1 panel, is on the table. ⛔ WHAT IS NOT KNOWN: the transcriptome-wide off-target screens have NOT run on any non-EWSR1 junction (the workflow now accepts DONOR:exon:exon and can), the provenance gate behind TAF15/TCF12/FUS transcript models is the weaker of the two, and whether patients carry breakpoints at those homologous exons is a clinical fact nobody here holds.
+- ⛔ 'DELIVERY' WAS ONE BLOCKER STANDING FOR THREE ROUTES WITH DIFFERENT REQUIREMENTS (2026-08-12; BLK-DELIVERY rescoped, paper §3c-bis). The missing EMC surface antigen gates the SYSTEMIC receptor-targeted route only. Local/intratumoural and inhaled/pulmonary administration need no antigen, and EMC's distant spread is lung-dominant (35-45% of patients, primarily lung, median ~28 months to metastasis; PMID 41055792). Inhaled oligonucleotide delivery producing gene silencing in tumours growing in the lung is an active preclinical field -- in other tumour types, in animals, never in EMC, never against a fusion, never in a patient (lit-targets-aso-delivery-routes.json). This changes what to attempt first; it does not move the modality closer to a patient.
 - The committed design panel was rebuilt at the corrected mRNA junction on 2026-08-06 (aso-offtarget.yml run 31130876597, $0): NR4A3 resumes at residue 1, seams ACGGGCAGCAGA|ATATGCCCTGCG (e7n3) and AATGGTTTGATG|ATATGCCCTGCG (e12n3). The panel covers TWO junctions, not the five once claimed — e9n3/e10n3/e13n3 and every exon-mode siRNA file never existed and stay withdrawn as unverifiable. ⛔ THE CORRECTED SCREEN DOES NOT RESTORE THE RETRACTED HEADLINE: 0 of 5 designs at EACH junction are free of gap-spanning near-matches, so 'a gapmer predicted clean on both screens at E7::N3' is CONTRADICTED by the corrected data, not merely unproven. GC does move in the route's favour (37.5-56.2% vs 75.0-81.2% at the modelled reference).
 - How to deliver an oligonucleotide to a non-hepatic solid tumour — the one remaining gate, and it is engineering rather than biology.
 - Whether predicted specificity survives a calibrated cleavage model: the current screen uses a deliberately conservative gap-mismatch heuristic, so it may be over- or under-calling.
@@ -66,6 +68,8 @@ The breakpoint junction is a sequence that exists in no healthy cell. An oligonu
 | Junction knockdown with parental sparing in an EMC line | ⛔ none built | **no** | BLK-NO-WET-LAB |
 | Regenerate the junction panel at the CORRECTED seam and re-derive every design (needs network — CI) | ⛔ none built | yes | — |
 | A calibrated gap-internal-mismatch RNase-H1 cleavage model, which would retire the conservative heuristic the specificity margin rests on (paper §8) | ⛔ none built | yes | — |
+| Run the gap-resolved BLAST + uncapped transcriptome screens at the TAF15/TCF12/FUS junctions the atlas emits -- the one gap that stops the pan-partner panel being as evidenced as the EWSR1 one (needs network -- CI; aso-offtarget.yml now takes DONOR:donorExon:NR4A3exon) | ⛔ none built | yes | — |
+| A TFG transcript model, the one reported EMC partner with no model in this repository -- one targeted Ensembl fetch, nothing else missing | ⛔ none built | yes | — |
 
 ## Blockers
 
@@ -93,7 +97,7 @@ The breakpoint junction is a sequence that exists in no healthy cell. An oligonu
 The computational arc is complete and the delivery gate is stated honestly as a gate rather than hidden. A journal submission is reachable; what would strengthen it most is not more computation but a delivery candidate to name.
 
 **Missing:**
-- a named delivery candidate
+- a named delivery candidate FOR THE SYSTEMIC ROUTE -- rescoped 2026-08-12; the local and inhaled routes never required one, and grading the whole route on the systemic route's missing input is what the BLK-DELIVERY rescope corrects
 
 **Experiment required:**
 - junction knockdown plus parental sparing in an EMC or FET-fusion line
@@ -131,7 +135,7 @@ The computation is done and publishing is what recruits the collaborator this ro
 
 ## Best next action
 
-Publish the complete in-silico arc with delivery named as the gate, and keep the delivery watch running.
+Screen the pan-partner panel (TAF15/TCF12/FUS junctions) on the transcriptome, then publish the complete in-silico arc: a systematic NR4A3-fusion junction design platform with delivery stated as three routes of differing requirement rather than one gate.
 
 *Cost:* $0
 

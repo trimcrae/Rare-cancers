@@ -254,10 +254,22 @@ must follow the triage (§3a-ter/§3a-quater). So feasibility is
 selection step (sequence the patient's breakpoint, triage it, then BLAST-screen a favorable design), not a
 roadblock — with the honest bounds that these breakpoints are *modelled, not exon-exact*, that "favorable"
 is a GC/complexity triage rather than the full BLAST screen, and that clinical design must still be re-run
-on each patient's sequenced breakpoint. We then specify what else is computable *now* without any GPU (extended
-tiling and a breakpoint-keyed per-patient panel), and we are explicit that the genuinely unsolved problem is **tumour delivery**, which
-we discuss only at the hypothesis level (e.g. a B7-H3-targeted antibody–oligonucleotide conjugate or a
-receptor-targeted nanoparticle). We ask others to run one decisive experiment: junction-ASO versus
+on each patient's sequenced breakpoint. We then extend the analysis from one partner to the disease: a pan-partner atlas
+([`nr4a3-fusion-junction-atlas.json`](../modalities/nr4a3-fusion-junction-atlas.json)) grades **207
+donor-exon × NR4A3-acceptor-exon pairs across EWSR1, TAF15, TCF12 and FUS**, finds **32** frame-compatible
+junctions of which **every one** yields at least one junction-spanning, parent-sparing design, and
+reports that **a single 16-mer gapmer is fusion-exclusive at three different partners' junctions at once**
+(EWSR1 e12, TAF15 e11 and FUS e10, each joined to NR4A3 exon 3) because the three donors are identical
+over the eight bases immediately 5′ of their breakpoints — so the deployable artifact is not necessarily
+*n* bespoke oligos. We then specify what else is computable *now* without any GPU (extended
+tiling and a breakpoint-keyed per-patient panel). On delivery we correct a framing rather than claim
+progress: **it is three routes with different requirements, not one gate.** The missing EMC surface
+antigen — which the tumour-tissue data refuses — is a prerequisite of the *systemic receptor-targeted*
+route only; local/intratumoural and **inhaled/pulmonary** administration need no antigen, and EMC's
+distant spread is lung-dominant (35–45% of patients, primarily lung; median time to metastasis ≈28
+months). Inhaled and intratracheal oligonucleotide delivery producing specific gene silencing *in
+tumours growing in the lung* is an active preclinical field, in other tumour types, in animals; we state
+plainly that no such record concerns EMC, a sarcoma lung metastasis, a fusion target, or a patient. We ask others to run one decisive experiment: junction-ASO versus
 scrambled-control knockdown in patient-derived EMC lines (USZ-EMC [Bangerter]; NCC-EMC [Iwata]), with
 specificity confirmed by sparing of the parental transcripts. ⛔ **We state the prior art rather than
 imply novelty we do not have: junction-directed oligonucleotides against fusion oncogenes are a continuous
@@ -388,7 +400,9 @@ liver-specific receptor handle, and EMC has no equivalent. §3c remains unsolved
 records, **four** name EWSR1::NR4A3 at title/abstract level; those four are three distinct papers
 (**PMID 40762284**, **PMID 29937513**, **PMID 25097177**) and **not one is an oligonucleotide study**, so the
 count of junction-directed oligonucleotide work against EWSR1::NR4A3 — or against *any* NR4A3 fusion — is
-**zero**. Against **108** junction-plus-oligo records for BCR::ABL1 and **37** for EWSR1::FLI1, EMC is not a
+**zero**. ⭐ **That second clause is now load-bearing rather than incidental**: since §3a-septies the
+paper addresses *any* NR4A3 fusion — TAF15, TCF12 and FUS as well as EWSR1 — so the untouched indication
+is the whole NR4A3-rearranged disease and not one partner of it. Against **108** junction-plus-oligo records for BCR::ABL1 and **37** for EWSR1::FLI1, EMC is not a
 thin search result; it is an untouched indication. ⚠ The method is title/abstract-only, so every count is a
 **lower bound** — which is the correct direction here, because a lower-bound method cannot manufacture a zero
 it did not observe, though it can miss a paper that names the fusion only in its body.
@@ -925,6 +939,90 @@ remains the dominant gate for the modality. The specifiable next lever is unchan
 motivated: **longer oligos (5-10-5 20-mers) with gap-centred re-tiling**, since the residual liabilities are
 gap-spanning near-matches rather than GC.
 
+### 3a-septies. The pan-partner atlas — every NR4A3 fusion, not just EWSR1 (real, committed — 2026-08-12)
+
+Everything above this line addresses **one** 5′ partner. EMC is not defined by EWSR1; it is defined by
+**NR4A3 rearrangement to a variable partner** — EWSR1 in the large majority, *TAF15* in a substantial
+minority, and *TCF12*/*TFG*/*FUS* rarely [Panagopoulos]. Until now the design lane could not address
+any partner but EWSR1, for no better reason than a hard-coded gene symbol, and that exclusion lands on
+the worst-served subgroup: every reported objective response to an antiangiogenic TKI in advanced EMC —
+the only systemic class with activity here — has occurred in a **non-TAF15** patient, with the TAF15 arm
+at 0 events across 3–5 patients. That contrast, its zero-event ceiling and the primary authors' own hedge
+that the fusion is a *surrogate* rather than a mechanism are owned by
+[`emc-fusion-partner-pooling.json`](./emc-fusion-partner-pooling.json) and are not restated here. What
+follows from it for *this* paper is only this: **the partner-defined subgroup with the fewest options was
+the one the design code excluded.**
+
+[`nr4a3_fusion_atlas.py`](../modalities/nr4a3_fusion_atlas.py) →
+[`nr4a3-fusion-junction-atlas.json`](../modalities/nr4a3-fusion-junction-atlas.json) closes that, at $0,
+offline, from the committed Ensembl transcript cache. It grades **207 donor-exon × NR4A3-acceptor-exon
+pairs across four partners** — every pair, refusals included — and emits junction-spanning gapmer panels
+for the rows it grades `EMITTABLE`.
+
+| | EWSR1 | TAF15 | TCF12 | FUS |
+|---|---|---|---|---|
+| pairs graded | 51 | 48 | 63 | 45 |
+| `EMITTABLE` junctions | 8 | 8 | 8 | 8 |
+| junctions yielding ≥1 fusion-specific design | **8** | **8** | **8** | **8** |
+| GC range across those designs | 37.5–75.0% | 31.2–68.8% | 25.0–56.2% | 31.2–62.5% |
+| provenance gate available | graded exon audit | construct-inputs self-checks only | " | " |
+
+**Three readings, and the third is the one worth the paper.**
+
+**(i) Designability is not the constraint.** All **32** frame-compatible junctions yield at least one
+gapmer that is junction-spanning and a perfect complement of no parent transcript, at GC values mostly
+inside the standard comfort band. The modality's difficulty in EMC is not finding sequences.
+
+**(ii) The generalisation reproduces the established EWSR1 result rather than moving it.** Restricted to
+this repository's declared EWSR1 breakpoint window, the `EMITTABLE` set is exactly **e7, e9, e10, e12,
+e13**, with **e11 refused** as a frame-register mismatch — the corrected 2026-08-06 result, re-derived by
+donor-generic code that never mentions EWSR1. Three further EWSR1 rows (e1, e4, e15) are frame-compatible
+and sit *outside* the declared window; they are reported as arithmetic, not as clinical breakpoints.
+
+**(iii) ⭐ One oligo can be fusion-exclusive at three different partners' junctions at once.** The
+16-mer **`5′-GGGCATATCATCAAAC-3′`** (GC 43.8%, gap-centred with a gap-level margin of 3) splits **8 + 8**
+across the seam of **EWSR1 e12::NR4A3 e3**, **TAF15 e11::NR4A3 e3** *and* **FUS e10::NR4A3 e3**, and
+occurs in **none** of the five wild-type parent transcripts. The mechanism is measured rather than
+inferred: the three donors are **identical over the 8 bases immediately 5′ of their breakpoints**
+(`GTTTGATG`), which is long enough to supply the entire donor-side contribution at all three seams. Nine
+multi-partner designs exist in total: **five** cover this same three-partner set (differing only in how
+the 16-mer is registered across the seam, 6+10 through 10+6) and four cover two partners. Of the five,
+`GGGCATATCATCAAAC` is the one with the largest gap-level margin, which is why it is the one named.
+
+**Why this is the interesting number, and why it cuts both ways.** FET-family paralogy is the reason the
+per-oligo specificity screen had to be widened from two parents to all five — a design against one
+partner's seam *can* be a perfect complement of another partner's wild-type transcript, and only a screen
+that knows about every partner can see it. The same identity that creates that liability creates the
+coverage: it is one sequence property, read twice. A reader must be able to see both from the artifact,
+and both are in it.
+
+**What this changes about the deliverable.** §3b.4 says the deployable artifact is a *panel* keyed to a
+sequenced breakpoint. That remains true and is now quantified — but it is no longer the only shape
+available. At one junction position, a **single stock reagent** addresses the commonest EWSR1 junction and
+the TAF15 and FUS equivalents together, which is a materially different manufacturing and regulatory
+proposition for an ultra-rare disease than *n* bespoke oligos.
+
+**Honest bounds, and they are firm.**
+
+- **Frame-compatible is not clinically reported.** This enumerates an arithmetic property of exon
+  structure. No partner-and-exon-resolved patient series exists here, so which exon pair a given patient
+  carries is not decidable from this table. The three-partner result reads: *if* a TAF15 patient's
+  breakpoint is at TAF15 exon 11 and a FUS patient's at FUS exon 10 — the positions whose donor sequence
+  is identical to EWSR1 exon 12's — then one oligo serves all three. Whether patients carry those exons is
+  a clinical observation nobody here has made.
+- **The provenance gate is weaker for the new partners, and that is disclosed per gene.**
+  [`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json) grades NR4A3 and EWSR1 only — the two
+  genes the 2026-08-06 off-by-two correction was derived against. For TAF15, TCF12 and FUS that gate
+  cannot run; what stands behind their seams is the weaker one (the transcript cache's own recorded
+  self-checks plus three sequence self-checks). Every partner row carries which gate ran.
+- **`fusion_specific` here is an exact-complement test, not the transcriptome screen.** The gap-resolved
+  BLAST and uncapped 186,185-transcript screens of §3a-quater/§3a-sexies have **not** been run on the
+  TAF15/TCF12/FUS panels; those need the network and are the immediate next step. Until they land, no
+  statement about off-target load at a non-EWSR1 junction is available, in either direction.
+- **TFG is a reported EMC partner with no transcript model in this repository**, so it is absent from the
+  atlas and named as absent. One targeted fetch would add it; nothing else is missing.
+- Nothing here addresses potency, knockdown, delivery, tolerability, safety or clinical use.
+
 ### 3b. What is specifiable now, without any GPU
 
 All of the following are CPU-only and need no new GPU/compute run; they are specified, not executed, in
@@ -1090,6 +1188,121 @@ No delivery claim is made; this section exists to mark delivery as the dominant 
 targeting-arm unknown from "none named" to a data-ranked shortlist**, and to point at the EMC lines that could
 confirm it — not to assert a solution.
 
+### 3c-bis. Delivery is three routes with different requirements, not one gate — and only one of them needs the antigen (2026-08-12)
+
+⛔ **THE PRECEDING SECTION IS CORRECT AND ITS SUMMARY HAS BEEN MIS-STATED — INCLUDING BY THIS
+REPOSITORY'S OWN PORTFOLIO GRAPH.** §3c already lists **local/intratumoural administration first**,
+explicitly because it is *"the only delivery hypothesis here that needs **no** EMC-specific surface
+marker"*. Yet the route is carried in [`systems/graph/blockers.json`](../../systems/graph/blockers.json)
+under a single `BLK-DELIVERY` of kind `requires_future_technology`, retired only by a capability whose
+own definition is systemic — *"a conjugate, tumour-penetrating peptide or ligand-targeted lipid
+nanoparticle — OR a characterised EMC-enriched surface antigen"* — with a forecast of **2029**. A
+monolithic blocker takes the hardest route's requirement and applies it to the modality. **The antigen
+that the tissue data has refused (§3c, `aso-delivery-antigen.json`) is a prerequisite of exactly one of
+the three routes below, and it has been gating all three.**
+
+The retrieval record for this section is [`aso_delivery_routes.py`](./aso_delivery_routes.py) →
+[`lit-targets-aso-delivery-routes.json`](./lit-targets-aso-delivery-routes.json), $0, read from corpora
+already published to the `literature-cache` branch. **A record there is evidence the record exists. It
+is not evidence that any route works, and none of the counts below is used to claim a gate is passed.**
+
+| route | needs an EMC surface antigen? | what the retrieval finds | what is still unknown |
+|---|---|---|---|
+| **R1 · local / intratumoural** | **no** | 14 records. ⚠ Read narrowly: a 2025 review of pulmonary siRNA delivery lists *"intratumoral injections, implantable depots, inhalable aerosols, and image-guided procedures"* among localised oncology approaches and notes that direct **drug** delivery is already widely applied in liver, eye, peritoneum, breast, joint, coronary and brain disease (**PMID 41658564**) — that is a statement about localised administration generally, **not** evidence that intratumoural *oligonucleotide* dosing is established | reaches accessible lesions only — not a strategy for disseminated disease |
+| **R2 · inhaled / pulmonary** | **no** | **42 records** on inhaled or intratracheal oligonucleotide delivery to lung tumours, including repeated demonstrations of gene silencing *in tumours metastatic to the lung* | deposition and uptake in a matrix-dominated EMC nodule is untested; see the bounds below |
+| **R3 · systemic receptor-targeted (AOC / ligand-NP)** | **yes** | the platform exists in other indications | **no EMC antigen survives the tissue test** (§3c) — this route, and only this route, is blocked on the missing input |
+
+**⭐ R2 is the route this disease's own natural history points at, and nobody in this program had asked
+about it.** Three readings, from three independent kinds of source, agree that EMC's distant spread is
+**lung-dominant**:
+
+1. **This repository's pooled denominator**, owned by
+   [`emc-locoregional-eligibility.json`](../modalities/emc-locoregional-eligibility.json) and not
+   re-derived here: **36.3%** (94/259, Wilson 95% CI 30.7–42.3%) of localised patients develop distant
+   disease across three non-overlapping series.
+2. **Site, where any cohort records it.** The registry's metastatic-at-diagnosis cohort reports
+   **27 lung and 2 peritoneal metastases in 29 patients**. ⚠ That is a *free-text note in one cohort*,
+   not a curated field, and it is a presenting population rather than a pooled site distribution — the
+   limitation is stated at source and is why this is listed as one reading among three rather than as
+   the answer.
+3. **An external review, retrieved rather than recalled.** A 2025 comprehensive EMC review states that
+   distant metastases develop in *"around 35-45% of patients, primarily in the lungs"*, with median time
+   to metastasis *"approximately 28 months"* (**PMID 41055792**). The rate agrees with (1) from a
+   completely different aggregation, and the site statement is the one this repository could not compute.
+
+⭐ **And the ~28-month median matters as much as the site does.** A delivery route needs a *window*, and
+a disease whose metastases appear over years rather than weeks is one where a lung-directed strategy has
+time to be applied. A large retrospective cohort separately observed a trend to better survival for
+**solitary** lung metastases (**PMID 32612944**) — consistent with, though not evidence for, the premise
+that lung-confined disease in EMC is a meaningful clinical category.
+
+So the organ this modality can be delivered to *without solving targeting* is the organ this disease
+goes to, on a timescale long enough to act. ⚠ **What none of these three establishes is the number that
+would actually size the route**: what fraction of metastatic EMC patients are lung-**confined**. That
+requires lesion-burden curation no published series provides, is recorded as open in
+`emc-locoregional-eligibility.json`, and is not asserted here in either direction.
+
+**What the retrieved record actually supports, at its true weight.** Inhaled and intratracheal
+oligonucleotide delivery is not a hypothetical route: dry-powder, nebulised and nanocarrier siRNA
+formulations have repeatedly produced **specific gene silencing in tumours already growing in the lung**
+in animal models — *"strong and specific gene silencing activity against tumors metastasized to the
+lungs"* at a 3 µg dose (**PMID 29627404**), silencing quantified histologically and separately in
+airways, parenchyma **and** lung tumours (**PMID 26138669**), and increased survival treating
+*established* lung metastases (**PMID 31481310**). Reviews describe the respiratory system as suited to
+direct delivery by *"large surface area, rich vascularization, and anatomical accessibility"*
+(**PMID 41658564**), and the formulation and barrier literature — mucociliary and cough clearance,
+alveolar macrophage clearance — is mature enough to have its own reviews (**PMID 28392618**).
+
+**⛔ And the bounds, which are wide and are the reason this is a section and not a claim.**
+
+- **No EMC.** Not one retrieved record concerns EMC, and none concerns a sarcoma lung metastasis. Every
+  result above is another tumour type in a mouse.
+- **The barrier is real and untested here.** An EMC pulmonary metastasis is a **parenchymal, hypocellular,
+  matrix-dominated nodule**, not airway-surface disease. Deposition, penetration from the airway lumen
+  into such a nodule, cellular uptake and endosomal escape are all unaddressed by a literature count.
+  ⚠ EMC's myxoid matrix is a specific reason for caution, not a generic one: this repository has already
+  closed one route on the arithmetic that a modality *dosed per unit volume but delivered per cell* is
+  penalised in a tumour with few cells per unit volume.
+- **The models flatter the route in one direction and understate it in another, and both are recorded.**
+  ⚠ Lung-metastasis models made by intravenous cell injection grow *from the vascular side*, so an inhaled
+  formulation reaching the epithelial side may be **under**-estimated — stated in the source that raises
+  it (**PMID 30954524**). Against that, mouse airway geometry and a single-dose murine readout flatter
+  deposition relative to a human lung.
+- **Nothing here is clinical.** Only 3 of the 42 records carry clinical-stage language at all, and that
+  flag is a regex over an abstract, not a verified trial stage. **No inhaled oligonucleotide against a
+  solid-tumour target is claimed here to have reached patients.**
+- **Silencing a reporter or a pathway gene is not silencing a fusion.** Every retrieved lung result
+  targets a conventional gene. The junction-specific mechanism this paper is about has never been
+  delivered by this route.
+
+**⭐ R4 — and this is the answer to "is anyone else solving this for us?"** Partly, and in the two places
+that matter most to this paper.
+
+- **A fusion-directed siRNA has been delivered systemically to a sarcoma tumour in an animal.** Cationic
+  hydrogenated detonation nanodiamonds carried an **anti-EWS-FLI1 siRNA into a Ewing sarcoma xenograft**,
+  with tritium labelling used to measure biodistribution and excretion, and *"siRNA directed against
+  EWS-FLI1 inhibited this oncogene expression in tumour xenografted on mice"* (**PMID 32204428**). This is
+  a soft-tissue/bone sarcoma, not a liver, and the payload is fusion-directed — the two properties GalNAc
+  precedent (§1a vi) does not have. ⚠ It is a mouse xenograft with a nanoparticle platform, not a
+  clinical delivery solution, and it is one report.
+- **⛔ AND THE EXPERIMENT §4 ASKS FOR HAS ALREADY BEEN RUN — IN A DIFFERENT RARE SARCOMA, WITH THE EXACT
+  CONTROL ARCHITECTURE THIS PAPER SPECIFIES.** In solitary fibrous tumour, isogenic cell models were
+  CRISPR-engineered to carry the **NAB2::STAT6** fusion, and **fusion-specific ASOs** were then evaluated
+  against them, reducing fusion expression by **58%** and reducing tumour growth (**PMID 37370737**).
+  That is §4's design — fusion-specific ASO, engineered fusion-positive/fusion-negative isogenic pair,
+  knockdown plus phenotype — executed end-to-end in a rare soft-tissue sarcoma. **It is not our result and
+  we claim nothing from it**; what it establishes is that §4 is a *routine, published, executable
+  protocol* rather than a speculative ask, which is the single most useful thing an outreach letter can
+  say to a lab deciding whether to spend a technician-month on an ultra-rare disease.
+
+**What follows, and it is a change in sequencing rather than a claim of progress.** The correct statement
+is not *"delivery is solved"* and not *"delivery is a 2029 technology"*. It is: **two of the three
+delivery routes for this modality do not depend on the input EMC lacks, one of them is matched to where
+this disease actually spreads, and the paper's decisive experiment (§4) is worth running before any of
+them is settled** — because a junction-ASO that cannot silence the fusion in an EMC cell is not worth
+delivering by any route, and one that can is worth the delivery work. **Delivery gates the therapy. It
+does not gate the experiment, and it should not have been gating the paper.**
+
 ---
 
 ## 4. The decisive experiment we ask others to run
@@ -1121,6 +1334,26 @@ occurs, so that "spared" is a real negative and not an insensitive assay. The ph
 controls the experiment converts five sequences and a mechanism into evidence; without them it can show
 on-target knockdown and EMC-cell killing but cannot *prove* the wild-type transcripts are spared. It needs no
 new molecule beyond synthesising the listed oligos and the engineered/isogenic models above.
+
+**⭐ One reagent worth prioritising, and why it is the highest-information single oligo in the paper.**
+If only a handful of sequences can be synthesised, **`5′-GGGCATATCATCAAAC-3′`** (§3a-septies) is the one
+to make first. It is gap-centred, sits at 43.8% GC, and is predicted junction-spanning and
+parent-sparing at **EWSR1 e12::NR4A3 e3, TAF15 e11::NR4A3 e3 and FUS e10::NR4A3 e3** simultaneously. That
+makes it a single experiment that tests the paper's central mechanism *and* its most surprising
+structural prediction at once: if it silences the fusion in an EWSR1 e12 line, the mechanism holds; if it
+also silences a TAF15 or FUS fusion at the homologous junction, the shared-donor-run prediction holds and
+a stock reagent — rather than a bespoke panel — becomes the realistic deliverable for an ultra-rare
+disease. **If it fails at one partner and works at another, that is informative too**, and it is exactly
+the discriminating result no amount of further sequence analysis here can produce. ⚠ The multi-partner
+prediction assumes patients carry breakpoints at those homologous exons, which is not established
+(§3a-septies bounds); a line carrying a different TAF15 exon tests nothing about this oligo.
+
+**⭐ This experiment is a published protocol, not a speculative ask — say so in the letter.** The same
+design (fusion-specific ASO, CRISPR-engineered isogenic fusion-positive/negative pair, knockdown plus
+growth readout) was executed in **solitary fibrous tumour** against **NAB2::STAT6**, giving 58% reduction
+in fusion expression and reduced tumour growth (**PMID 37370737**, §3c-bis) — in a rare soft-tissue
+sarcoma, with the very controls the red-team required here. A lab weighing a technician-month on an
+ultra-rare disease is being asked to repeat a routine protocol on a new fusion, not to invent one.
 
 **Named recipients — the outreach ask (preprint-stage action).** This is no longer an abstract "someone should
 run it": two groups now hold patient-derived EMC lines and screen drugs on them — the **USZ / University
@@ -1190,8 +1423,21 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
   per-oligo selection)."* Those runs used a seam graded `SEAM_NOT_PRODUCED`, so **every screen in this
   manuscript has still only run on modelled positions.** Every clinical design must still be
   re-derived from the patient's *sequenced* fusion transcript.
-- **Delivery unsolved.** No validated tumour-delivery route for EMC exists; §3c lists hypotheses only. This
-  is the dominant risk for the whole modality.
+- **Delivery unsolved — and it is three routes, not one gate (§3c-bis).** No validated tumour-delivery
+  route for EMC exists, and this remains the dominant risk for the whole modality. What is corrected is
+  the *shape* of the risk, not its size: the missing EMC surface antigen gates the **systemic
+  receptor-targeted** route only, while local/intratumoural and inhaled/pulmonary administration need no
+  antigen. Inhaled oligonucleotide delivery producing gene silencing in lung tumours is an active
+  preclinical field in **other** tumour types, in **animals**; no retrieved record concerns EMC, a
+  sarcoma lung metastasis, a fusion target, or a patient, and an EMC pulmonary metastasis is a
+  hypocellular matrix-dominated parenchymal nodule whose penetration and uptake properties are untested.
+  **This changes what should be attempted first. It does not move the modality closer to a patient.**
+- **The pan-partner atlas is exon arithmetic, not clinical epidemiology (§3a-septies).** It grades what
+  is frame-compatible; no partner-and-exon-resolved patient series exists here, so the three-partner
+  oligo result is conditional on breakpoints falling at homologous exons — an assumption nobody in this
+  program has tested. The transcriptome-wide off-target screens have **not** been run on the
+  TAF15/TCF12/FUS panels, so nothing about their off-target load is known in either direction, and the
+  provenance gate behind those three partners' transcript models is the weaker of the two available.
 - **Knockdown, not knockout.** ASO/siRNA reduce transcript; they do not eliminate the gene or guarantee
   durable, complete loss of fusion protein. Depth and duration of knockdown are empirical.
 - **⛔ THE PAPER NO LONGER CALLS ANY DESIGN "PREDICTED CLEAN", AND THE HEURISTIC THAT ALLOWED IT WAS NOT

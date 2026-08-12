@@ -94,7 +94,7 @@ The EWSR1::NR4A3 breakpoint junction is the one truly tumour-exclusive feature o
 
 **Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
 
-- **BLK-DELIVERY** (`requires_future_technology`) — Tumour delivery of an oligonucleotide or a vector
+- **BLK-DELIVERY** (`requires_future_technology`) — SYSTEMIC, antigen-dependent tumour delivery of an oligonucleotide or a vector — NOT delivery as such
 
 | route | role | what it contributes |
 |---|---|---|

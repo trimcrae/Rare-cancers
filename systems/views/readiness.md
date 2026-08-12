@@ -32,7 +32,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) | ST-DISSEMINATION | `journal_submission` | — |
 | [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) | ST-DISSEMINATION | `journal_submission` | — |
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | ST-DISSEMINATION | `journal_submission` | the MM-GBSA decoy null's primary run output committed as a JSON — it lives in S3, and it is the headline evidence of the recommended framing (the $0 CI job named in paper-framing-o |
-| [RT-ASO](L2-rt-aso.md) | ST-NUCLEIC-ACID | `chemrxiv` | a named delivery candidate |
+| [RT-ASO](L2-rt-aso.md) | ST-NUCLEIC-ACID | `chemrxiv` | a named delivery candidate FOR THE SYSTEMIC ROUTE -- rescoped 2026-08-12; the local and inhaled routes never required one, and grading the whole route on the systemic route's missi |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | ST-DEPENDENCY | `preprint` | an EMC-specific measurement |
 | [RT-DEGRADER](L2-rt-degrader.md) | ST-PROXIMITY | `preprint` | a passing selectivity known-answer control; an anti-target panel that recovers its own cognate ligands |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | ST-DISSEMINATION | `preprint` | — |

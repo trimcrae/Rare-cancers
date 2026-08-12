@@ -33,7 +33,7 @@ on:
         description: "Output filename suffix, e.g. -bp200-8"
         required: false
       real_junctions:
-        description: "Space-separated REAL exon junctions EWSR1exon:NR4A3exon (e.g. '12:3 7:3'). If set, runs the real-junction pipeline (design + gap-resolved BLAST + uncapped eval + junction siRNA) and skips the codon-space screen."
+        description: "Space-separated REAL exon junctions. Two-field 'donorExon:NR4A3exon' means EWSR1 (e.g. '12:3 7:3'); three-field 'DONOR:donorExon:NR4A3exon' selects any partner this repo holds a transcript model for (e.g. 'TAF15:11:3 FUS:10:3'). If set, runs the real-junction pipeline (design + gap-resolved BLAST + uncapped eval + junction siRNA) and skips the codon-space screen."
         required: false
       sirna_only_junctions:
         description: "Space-separated REAL exon junctions EWSR1exon:NR4A3exon for which to run ONLY the (fast, no-BLAST) siRNA design — e.g. junctions whose gapmer pipeline is already done ('7:3 12:3')."
@@ -111,13 +111,36 @@ jobs:
           OLIGO_LEN="${GAPMER_GEOMETRY%%,*}"
           case "$GAPMER_GEOMETRY" in *,*) WING="${GAPMER_GEOMETRY#*,}" ;; *) WING="" ;; esac
           export OLIGO_LEN WING
+          # ⭐ THREE-FIELD FORM ADDED 2026-08-12: `DONOR:donorExon:acceptorExon` (e.g. `TAF15:11:3`)
+          # alongside the existing two-field `donorExon:acceptorExon`, which still means EWSR1. EMC
+          # is defined by NR4A3 rearrangement to a VARIABLE partner, and until the design lane went
+          # donor-generic this screen could only ever run at EWSR1 junctions — so the pan-partner
+          # atlas could design at 32 junctions while the transcriptome screen reached 8.
+          # ⛔ THE SUFFIX MUST CARRY THE DONOR TOO. `-e11n3` for a TAF15 junction would overwrite
+          # nothing today and collide with EWSR1 e11 tomorrow, and a screen filed under a junction
+          # label its sequence does not match is the exact shape of the 2026-08-06 retraction.
+          # EWSR1 keeps the bare `-e{n}n{n}` suffix so every committed artifact path is unchanged.
           for jpair in $JUNCS; do
-            e="${jpair%%:*}"; n="${jpair##*:}"
-            sfx="-e${e}n${n}${SUFFIX_TAG}"
-            echo "::group::real junction EWSR1 e${e} :: NR4A3 e${n} (suffix ${sfx}; len=${OLIGO_LEN:-16})"
-            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso.py          || echo "design failed e${e} n${n}"
-            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso_offtarget.py || echo "offtarget failed e${e} n${n}"
-            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python aso_insilico.py           || echo "insilico failed e${e} n${n}"
+            case "$jpair" in
+              *:*:*) donor="${jpair%%:*}"; rest="${jpair#*:}"; e="${rest%%:*}"; n="${rest##*:}" ;;
+              *)     donor="EWSR1"; e="${jpair%%:*}"; n="${jpair##*:}" ;;
+            esac
+            case "$donor" in
+              EWSR1) sfx="-e${e}n${n}${SUFFIX_TAG}" ;;
+              *)     sfx="-$(echo "$donor" | tr '[:upper:]' '[:lower:]')e${e}n${n}${SUFFIX_TAG}" ;;
+            esac
+            echo "::group::real junction ${donor} e${e} :: NR4A3 e${n} (suffix ${sfx}; len=${OLIGO_LEN:-16})"
+            # ⚠ WHICH EXON VAR IS SET IS DELIBERATE. `EWSR1_EXON_END` still wins in junction_aso when
+            # both are present, so an EWSR1 run passes exactly the variable it always passed and its
+            # behaviour is bit-for-bit unchanged. A non-EWSR1 run passes `DONOR_EXON_END` instead,
+            # because `EWSR1_EXON_END=11 DONOR_GENE=TAF15` reads like a bug to anyone opening this
+            # file and would eventually be "fixed" by someone into a real one.
+            export DONOR_GENE="$donor"
+            case "$donor" in EWSR1) export EWSR1_EXON_END="$e" ;; *) export DONOR_EXON_END="$e" ;; esac
+            NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso.py          || echo "design failed ${donor} e${e} n${n}"
+            NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso_offtarget.py || echo "offtarget failed ${donor} e${e} n${n}"
+            NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python aso_insilico.py           || echo "insilico failed ${donor} e${e} n${n}"
+            unset DONOR_GENE EWSR1_EXON_END DONOR_EXON_END
             echo "::endgroup::"
           done
 

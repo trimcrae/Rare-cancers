@@ -59,7 +59,7 @@ last_verified: 2026-08-09
 | 6 | **PUB-EMC-CLASSIFICATION** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 2 | 0 | 0 | 33% of 3 | ◔ `outlined` |
 | 7 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |
 | 8 | **PUB-IPD-SURVIVAL** | ⭐ could still help a patient | ⭐ **no bench needed** | **11.0** | 1 | 0 | 0 | 50% of 2 | ○ `unwritten` |
-| 9 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | ⭐ could still help a patient | 🧪 bench, to build | **9.5** | 1 | 0 | 0 | 33% of 6 | ◐ `drafted` |
+| 9 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | ⭐ could still help a patient | 🧪 bench, to build | **9.5** | 1 | 0 | 0 | 50% of 8 | ◐ `drafted` |
 | 10 | [**PUB-ATR**](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | 🧪 bench, to build | **8.0** | 1 | 0 | 0 | 0% of 1 | ◐ `drafted` |
 | 11 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | ⭐ could still help a patient | 🏥 clinical adoption | **8.0** | 1 | 0 | 0 | 25% of 4 | ◐ `drafted` |
 | 12 | [**PUB-TXN-DEPENDENCY**](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) | ⭐ could still help a patient | 🧪 bench, to build | **5.0** | 0 | 0 | ⚠ 2 | 60% of 5 | ◐ `drafted` |
@@ -115,7 +115,7 @@ last_verified: 2026-08-09
 - [RT-IPD-SURVIVAL](L2-rt-ipd-survival.md) — *Can the time-to-event data this disease's clinical questions all require be recovered from the curves already published?* — `ready` / `computed` / confidence `low` · last verified `2026-08-09`
 
 **PUB-ASO** — score 9.5
-- [RT-ASO](L2-rt-aso.md) — *Can an RNase-H gapmer or siRNA against the EWSR1::NR4A3 breakpoint junction silence the chimera while sparing wild-type NR4A3?* — `blocked` / `scoped` / confidence `moderate` · last verified `2026-08-06`
+- [RT-ASO](L2-rt-aso.md) — *Can an RNase-H gapmer or siRNA against the EWSR1::NR4A3 breakpoint junction silence the chimera while sparing wild-type NR4A3?* — `blocked` / `scoped` / confidence `moderate` · last verified `2026-08-12`
 
 **PUB-ATR** — score 8.0
 - [RT-ATR-ASSESS](L2-rt-atr-assess.md) — *Does EMC inherit a replication-stress vulnerability from its FET-fusion class, and can that be assessed computationally?* — `ready` / `computed` / confidence `low` · last verified `2026-08-06`

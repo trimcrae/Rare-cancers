@@ -121,16 +121,26 @@ def build_fusion_cds(ews_cds, nr4_cds):
 def junction_label():
     """Human-readable label + provenance dict for the active breakpoint mode."""
     if os.environ.get("FUSION_JUNCTION_MODE") == "real":
-        e = _env_int("EWSR1_EXON_END", 12)
+        # ⛔ THE LABEL MUST FOLLOW `DONOR_GENE`, AND GETTING THIS WRONG WOULD BE WORSE THAN THE
+        # ORIGINAL LIMITATION. A TAF15 screen emitted under an `EWSR1_e…` label is not a missing
+        # result, it is a MISATTRIBUTED one — the exact shape of the 2026-08-06 retraction, where a
+        # panel carried a junction label its sequence did not match and the mismatch was invisible
+        # in the file that depended on it.
+        donor = (os.environ.get("DONOR_GENE") or "EWSR1").strip() or "EWSR1"
+        e = _env_int("EWSR1_EXON_END", _env_int("DONOR_EXON_END", 12))
         n = _env_int("NR4A3_EXON_START", 3)
-        return f"EWSR1_e{e}__NR4A3_e{n}", {
+        return f"{donor}_e{e}__NR4A3_e{n}", {
             "mode": "real_exon_junction_mRNA",
             "source": ("Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): "
                        "spliced cDNA, exon boundaries in transcript coordinates, CDS located inside "
                        "the cDNA. Cross-checked exon-for-exon against the committed "
-                       "nr4a3-exon-audit.json before anything is emitted."),
-            "EWSR1_exon_end": e, "NR4A3_exon_start": n,
-            "note": ("Real in-frame EWSR1::NR4A3 exon junction built at the mRNA level — the acceptor "
+                       "nr4a3-exon-audit.json before anything is emitted — ⚠ for EWSR1 and NR4A3 "
+                       "only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and "
+                       "`provenance_gate` below records which one actually ran."),
+            "donor_gene": donor,
+            "provenance_gate": dict(PROVENANCE_GATE_USED),
+            "EWSR1_exon_end": e, "donor_exon_end": e, "NR4A3_exon_start": n,
+            "note": (f"Real in-frame {donor}::NR4A3 exon junction built at the mRNA level — the acceptor "
                      "exon is taken WHOLE, including any 5'UTR it carries, because that is what a "
                      "fusion transcript contains and what an ASO hybridises to. Self-checked: exon "
                      "lengths sum to the cDNA, the CDS is a unique substring of the cDNA, "
@@ -408,8 +418,26 @@ def coding_nt_per_exon(model):
     return out
 
 
+#: {symbol: "graded_exon_audit" | "construct_inputs_self_checks_only"} — which provenance gate
+#: actually ran for each gene. Every artifact that designs on a partner MUST carry this, because
+#: the two gates are not equally strong and a reader cannot tell them apart from a seam alone.
+PROVENANCE_GATE_USED = {}
+
+
 def _cross_check_against_committed_exon_audit(model):
-    """Check 4 — the provenance gate. Refuses on ANY disagreement with `nr4a3-exon-audit.json`."""
+    """Check 4 — the provenance gate. Refuses on ANY disagreement with `nr4a3-exon-audit.json`.
+
+    ⛔ THE AUDIT GRADES TWO GENES, AND THE OTHER PARTNERS ARE NOT A LOOPHOLE. `nr4a3-exon-audit.json`
+    covers NR4A3 and EWSR1 — the two genes the 2026-08-06 off-by-two correction was derived against.
+    TAF15, TCF12 and FUS have no graded exon index in this repository, so for them this gate CANNOT
+    RUN. It would be trivial, and wrong, to let an ungraded gene fall through a `.get()` and design
+    anyway: that is precisely the shape of the defect this function exists to catch, and it would be
+    silent. Instead the weaker gate that IS available runs — `emc-construct-inputs.json`'s own four
+    recorded self-checks, already required by `_model_from_committed_cache`, plus the three sequence
+    checks in `_self_check_model` — and WHICH gate ran is recorded per gene in `PROVENANCE_GATE_USED`
+    and carried into every artifact. An absent reading is never a reading of absence (CLAUDE.md §4);
+    it is an absent reading that says its own name.
+    """
     path = os.path.join(os.path.dirname(__file__), "nr4a3-exon-audit.json")
     if not os.path.exists(path):                     # the gate cannot run; say so, do not pass
         raise RuntimeError("nr4a3-exon-audit.json is missing — the exon-index provenance gate "
@@ -418,7 +446,9 @@ def _cross_check_against_committed_exon_audit(model):
         audit = json.load(fh)
     ref = audit.get(model["symbol"])
     if not ref:
-        raise RuntimeError(f"{model['symbol']} absent from nr4a3-exon-audit.json")
+        PROVENANCE_GATE_USED[model["symbol"]] = "construct_inputs_self_checks_only"
+        return
+    PROVENANCE_GATE_USED[model["symbol"]] = "graded_exon_audit"
     if ref["transcript"] != model["transcript"]:
         raise RuntimeError(f"{model['symbol']}: Ensembl canonical is {model['transcript']} but the "
                            f"committed audit graded {ref['transcript']} — different exon maps")
@@ -446,8 +476,17 @@ def exon_tx_start(model, rank):
     return 0 if rank == 1 else model["tx_ends"][rank - 2]
 
 
-def mrna_junction(ews, nr4, e_end, n_start):
-    """Build the chimeric mRNA for EWSR1 exon `e_end` :: NR4A3 exon `n_start` and grade it.
+def mrna_junction_generic(donor, acceptor, d_end, a_start):
+    """Build the chimeric mRNA for `donor` exon `d_end` :: `acceptor` exon `a_start` and grade it.
+
+    ⭐ DONOR-GENERIC SINCE 2026-08-12, AND NOTHING ABOUT THE ARITHMETIC CHANGED TO MAKE IT SO.
+    Every quantity below was already read out of the two transcript models — `utr5_len`, the exon
+    length vector, the CDS, the annotated protein — and the only thing that was ever EWSR1-specific
+    was the name typed into the label and the key prefixes. EMC's second-commonest fusion is
+    TAF15::NR4A3, and TAF15 patients are the ones with zero reported responses to the only systemic
+    therapy with activity in this disease (`emc-fusion-partner-pooling.json`), so a design lane that
+    could not address any partner but EWSR1 was excluding, by a hard-coded string, the subgroup with
+    the worst options. `mrna_junction` below is the unchanged EWSR1 face of this function.
 
     Returns a dict that is a READING, never an assertion: `in_frame` may be False and
     `nr4a3_first_residue` may be a value no plausible breakpoint produces. `main()` refuses to
@@ -455,34 +494,58 @@ def mrna_junction(ews, nr4, e_end, n_start):
     cannot say what it refused is the failure mode this whole module is a correction for.
     """
     import fusion_breakpoints as fb
-    left = ews["cdna"][:exon_tx_end(ews, e_end)]
-    right = nr4["cdna"][exon_tx_start(nr4, n_start):]
+    left = donor["cdna"][:exon_tx_end(donor, d_end)]
+    right = acceptor["cdna"][exon_tx_start(acceptor, a_start):]
     fusion = left + right
-    orf = fusion[ews["utr5_len"]:]                 # the chimeric ORF starts at EWSR1's own ATG
+    orf = fusion[donor["utr5_len"]:]               # the chimeric ORF starts at the DONOR's own ATG
     prot = fb.translate(orf)
-    in_frame = prot.endswith(nr4["protein"][-100:])
+    in_frame = prot.endswith(acceptor["protein"][-100:])
     # where the acceptor exon's coding actually starts, in that exon's own transcript coordinates
-    coding = coding_nt_per_exon(nr4)
-    acceptor_utr = max(0, nr4["utr5_len"] - exon_tx_start(nr4, n_start))
-    nr4_cds_nt = max(0, exon_tx_start(nr4, n_start) - nr4["utr5_len"])
-    first_res = (nr4_cds_nt // 3) + 1 if coding[n_start - 1] else None
-    ews_coding_nt = sum(coding_nt_per_exon(ews)[:e_end])
+    coding = coding_nt_per_exon(acceptor)
+    acceptor_utr = max(0, acceptor["utr5_len"] - exon_tx_start(acceptor, a_start))
+    acc_cds_nt = max(0, exon_tx_start(acceptor, a_start) - acceptor["utr5_len"])
+    first_res = (acc_cds_nt // 3) + 1 if coding[a_start - 1] else None
+    donor_coding_nt = sum(coding_nt_per_exon(donor)[:d_end])
+    ds, acs = donor["symbol"], acceptor["symbol"]
     return {
-        "junction_label": f"EWSR1_e{e_end}__NR4A3_e{n_start}",
-        "EWSR1_exon_end": e_end, "NR4A3_exon_start": n_start,
-        "ewsr1_coding_nt_through_cut": ews_coding_nt,
-        "ewsr1_last_whole_residue": ews_coding_nt // 3,
-        "ewsr1_coding_phase": ews_coding_nt % 3,
-        "nr4a3_acceptor_exon_is_coding": bool(coding[n_start - 1]),
+        "junction_label": f"{ds}_e{d_end}__{acs}_e{a_start}",
+        "donor_symbol": ds, "acceptor_symbol": acs,
+        "donor_exon_end": d_end, "acceptor_exon_start": a_start,
+        "donor_coding_nt_through_cut": donor_coding_nt,
+        "donor_last_whole_residue": donor_coding_nt // 3,
+        "donor_coding_phase": donor_coding_nt % 3,
+        # ⚠ The acceptor keys keep the `nr4a3_` prefix even though this function is generic. That is
+        # deliberate and is not sloppiness: in EMC the acceptor is ALWAYS NR4A3 — the disease is
+        # defined by NR4A3 rearrangement, the partner is what varies — and every consumer, grader
+        # and committed artifact in this lane keys on these names. Renaming them would fork the
+        # grade vocabulary for zero new capability.
+        "nr4a3_acceptor_exon_is_coding": bool(coding[a_start - 1]),
         "nr4a3_acceptor_exon_5utr_nt_retained": acceptor_utr,
-        "nr4a3_cds_nt_at_resume": nr4_cds_nt,
+        "nr4a3_cds_nt_at_resume": acc_cds_nt,
         "nr4a3_first_residue": first_res,
-        "frame_sum_mod3": (ews_coding_nt + acceptor_utr) % 3,
+        "frame_sum_mod3": (donor_coding_nt + acceptor_utr) % 3,
         "in_frame": bool(in_frame),
         "chimeric_protein_length": len(prot),
         "junction_context_mRNA": left[-12:] + "|" + right[:12],
         "_left": left, "_right": right, "_fusion": fusion,
     }
+
+
+def mrna_junction(ews, nr4, e_end, n_start):
+    """The EWSR1::NR4A3 face of `mrna_junction_generic` — same reading, legacy key names kept.
+
+    Every existing consumer and test in this lane keys on `EWSR1_exon_end` / `ewsr1_coding_phase`,
+    and those artifacts are the ones the 2026-08-06 retraction was resolved against. So the keys
+    stay, as ALIASES of the generic ones rather than as a second computation — one builder, one
+    grader (rule 1).
+    """
+    j = mrna_junction_generic(ews, nr4, e_end, n_start)
+    j["EWSR1_exon_end"] = j["donor_exon_end"]
+    j["NR4A3_exon_start"] = j["acceptor_exon_start"]
+    j["ewsr1_coding_nt_through_cut"] = j["donor_coding_nt_through_cut"]
+    j["ewsr1_last_whole_residue"] = j["donor_last_whole_residue"]
+    j["ewsr1_coding_phase"] = j["donor_coding_phase"]
+    return j
 
 
 # The corrected resume residues a plausible breakpoint can produce. ONE HOME: read out of
@@ -508,11 +571,29 @@ def build_parents_and_fusion():
     strictly stricter (a superset)."""
     global EWSR1_full, NR4A3_full
     if os.environ.get("FUSION_JUNCTION_MODE") == "real":
-        e_end = _env_int("EWSR1_EXON_END", 12)
+        # ⭐ DONOR_GENE ADDED 2026-08-12. Default EWSR1, so every existing caller, workflow and
+        # committed artifact is bit-for-bit unaffected; setting it lets the SCREEN follow the design
+        # lane to TAF15/TCF12/FUS. Without this the atlas could design at 32 junctions and the
+        # transcriptome screen could only ever run at 8 of them, which would leave the paper naming
+        # a next step nothing could execute. `DONOR_EXON_END` is the generic spelling of
+        # `EWSR1_EXON_END`; the old name still works and still wins if both are set, because
+        # `aso-offtarget.yml` passes it and a silent change of meaning there would re-screen the
+        # wrong junction under the right filename.
+        donor_sym = (os.environ.get("DONOR_GENE") or "EWSR1").strip() or "EWSR1"
+        d_end = _env_int("EWSR1_EXON_END", _env_int("DONOR_EXON_END", 12))
         n_start = _env_int("NR4A3_EXON_START", 3)
-        ews = transcript_model("EWSR1")
+        ews = transcript_model(donor_sym)
         nr4 = transcript_model("NR4A3")
-        j = mrna_junction(ews, nr4, e_end, n_start)
+        # ⛔ AN EWSR1 RUN MUST EMIT THE KEY SET IT ALWAYS EMITTED. `mrna_junction_generic` alone
+        # drops `EWSR1_exon_end` / `ewsr1_coding_nt_through_cut` / `ewsr1_coding_phase` from the
+        # `measured_junction` block of every committed panel — and those are exactly the fields the
+        # 2026-08-06 retraction narrative cites when it shows WHICH seam a panel is for. Silently
+        # renaming them would make the corrected artifacts unreadable against the record that
+        # corrected them. So EWSR1 goes through `mrna_junction`, which adds the legacy aliases on
+        # top of the generic keys; a new partner gets the generic keys only, because it has no
+        # history to preserve and an `ewsr1_`-prefixed field on a TAF15 junction would be a lie.
+        j = (mrna_junction(ews, nr4, d_end, n_start) if donor_sym == "EWSR1"
+             else mrna_junction_generic(ews, nr4, d_end, n_start))
         if not j["nr4a3_acceptor_exon_is_coding"]:
             raise RuntimeError(
                 f"NR4A3 transcript exon {n_start} carries no coding sequence — refusing to slide "
@@ -520,15 +601,15 @@ def build_parents_and_fusion():
         lo, hi = plausible_nr4a3_resume_residues()
         if not (lo <= j["nr4a3_first_residue"] <= hi):
             raise RuntimeError(
-                f"EWSR1 e{e_end} :: NR4A3 e{n_start} resumes NR4A3 at residue "
+                f"{donor_sym} e{d_end} :: NR4A3 e{n_start} resumes NR4A3 at residue "
                 f"{j['nr4a3_first_residue']}, outside the corrected plausible range [{lo}, {hi}] "
                 "in fusion-object-inventory.json — this is the exact grade "
                 "fusion-neoantigen-retraction.json calls SEAM_NOT_PRODUCED. Refusing to emit.")
         if not j["in_frame"]:
             raise RuntimeError(
-                f"EWSR1 e{e_end} :: NR4A3 e{n_start} is not in-frame at the mRNA level "
-                f"(EWSR1 coding nt {j['ewsr1_coding_nt_through_cut']} phase "
-                f"{j['ewsr1_coding_phase']} + acceptor 5'UTR "
+                f"{donor_sym} e{d_end} :: NR4A3 e{n_start} is not in-frame at the mRNA level "
+                f"({donor_sym} coding nt {j['donor_coding_nt_through_cut']} phase "
+                f"{j['donor_coding_phase']} + acceptor 5'UTR "
                 f"{j['nr4a3_acceptor_exon_5utr_nt_retained']} nt => "
                 f"(cut+UTR) mod 3 = {j['frame_sum_mod3']}, must be 0); NR4A3 C-terminus not "
                 "retained. This is a READING about that exon pair, not a code failure.")
@@ -547,7 +628,21 @@ def gc(s):
     return round(100 * (s.count("G") + s.count("C")) / len(s), 1) if s else 0
 
 
-def design(left, right, fusion):
+def design(left, right, fusion, parents=None):
+    """Tile junction-spanning gapmers over `left|right` and annotate each.
+
+    `parents` — an optional {symbol: transcript_sequence} map the fusion-specificity test runs
+    against. ⭐ ADDED 2026-08-12 AND IT WIDENS A TEST THAT WAS TOO NARROW BY CONSTRUCTION. The
+    default (module globals `EWSR1_full` / `NR4A3_full`) checks a candidate against the two parents
+    of ITS OWN fusion only — which cannot see that a design against, say, TAF15::NR4A3 might be a
+    perfect complement of wild-type EWSR1, a gene the patient also expresses. The FET-family donors
+    (EWSR1, TAF15, FUS) are paralogues with genuinely similar low-complexity N-termini, so this is
+    not a theoretical concern about this particular gene set; it is the concern. Passing every
+    partner transcript makes the test strictly stricter, and the per-parent detail is reported so a
+    refusal names WHICH transcript it hit.
+    """
+    if parents is None:
+        parents = {"EWSR1": EWSR1_full, "NR4A3": NR4A3_full}
     j = len(left)  # first index of NR4A3 base in the fused string
     oligos = []
     for start in range(0, len(fusion) - OLIGO_LEN + 1):
@@ -569,8 +664,9 @@ def design(left, right, fusion):
         gap_left = j - gap_start              # junction-unique EWSR1 bases within the gap
         gap_right = gap_end - j               # junction-unique NR4A3 bases within the gap
         gap_margin = min(gap_left, gap_right)
-        # specificity: oligo must not perfectly complement either parent transcript
-        spec_ok = (target not in EWSR1_full) and (target not in NR4A3_full)
+        # specificity: oligo must not perfectly complement ANY supplied parent transcript
+        hit_parents = sorted(sym for sym, seq in parents.items() if seq and target in seq)
+        spec_ok = not hit_parents
         oligos.append({
             "antisense_5to3": oligo,
             "target_mRNA_5to3": target,
@@ -586,6 +682,10 @@ def design(left, right, fusion):
             "gc_percent": gc(target),
             "has_G4_motif": bool(re.search("G{4,}", target)),
             "fusion_specific": spec_ok,
+            # WHICH parent an exact hit landed on — a refusal that cannot name what it hit is the
+            # failure mode this module is a correction for. Empty list = clean against all of them.
+            "exact_parent_hits": hit_parents,
+            "parents_screened": sorted(parents),
         })
     # rank: gap-centred discrimination first (the operative metric), then oligo-wide margin,
     # then mid GC (40-60), then no G4. Prefers designs whose junction-unique bases fall inside
@@ -641,8 +741,8 @@ def grade_junction(j, lo, hi):
         # reproduce, in the replacement, the exact ambiguity that let the e11 self-check be
         # written off as an exon-boundary to-verify.
         return "OUT_OF_FRAME", (
-            (f"frame register mismatch: (EWSR1 coding nt "
-             f"{j['ewsr1_coding_nt_through_cut']} + acceptor 5'UTR "
+            (f"frame register mismatch: ({j.get('donor_symbol', 'EWSR1')} coding nt "
+             f"{j['donor_coding_nt_through_cut']} + acceptor 5'UTR "
              f"{j['nr4a3_acceptor_exon_5utr_nt_retained']}) mod 3 = {j['frame_sum_mod3']}, "
              "must be 0")
             if j["frame_sum_mod3"] else
