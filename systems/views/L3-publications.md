@@ -37,7 +37,7 @@ last_verified: 2026-08-06
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-ASO**<br/>[A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 b…](../../research/manuscripts/fusion-junction-aso-paper.md) | ◐ `drafted` | `chemrxiv` | 2 | — |
+| **PUB-ASO**<br/>[A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 b…](../../research/manuscripts/fusion-junction-aso-paper.md) | ◐ `drafted` | `journal_submission` | 2 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
 | **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
@@ -88,7 +88,7 @@ Coincidence detection across both halves of the fusion is a design that would co
 
 ### PUB-ASO — A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity
 
-**◐ `drafted` · aimed at `chemrxiv` · [`research/manuscripts/fusion-junction-aso-paper.md`](../../research/manuscripts/fusion-junction-aso-paper.md)**
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/fusion-junction-aso-paper.md`](../../research/manuscripts/fusion-junction-aso-paper.md)**
 
 The EWSR1::NR4A3 breakpoint junction is the one truly tumour-exclusive feature of this disease at the RNA level, an oligonucleotide can be designed to read it rather than a shape, and transcriptome-wide specificity screening finds no competing match — with delivery named as the outstanding gate rather than assumed away.
 
@@ -528,8 +528,8 @@ For each parked modality there is a single named capability — a glue design me
 | route | family | readiness today | endpoint | aimed at | role |
 |---|---|---|---|---|---|
 | [RT-ANDGATE](L2-rt-andgate.md) | [ST-PROXIMITY](L1-st-proximity.md) | `internal_note` | **PUB-ANDGATE** ◐ | `preprint` | `primary` |
-| [RT-ASO](L2-rt-aso.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `chemrxiv` | **PUB-ASO** ◐ | `chemrxiv` | `primary` |
-| [RT-ASO-ASK](L2-rt-aso-ask.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `experimental_proposal` | **PUB-ASO** ◐ | `chemrxiv` | `contributing` |
+| [RT-ASO](L2-rt-aso.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `chemrxiv` | **PUB-ASO** ◐ | `journal_submission` | `primary` |
+| [RT-ASO-ASK](L2-rt-aso-ask.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `experimental_proposal` | **PUB-ASO** ◐ | `journal_submission` | `contributing` |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `preprint` | **PUB-ATR** ◐ | `preprint` | `primary` |
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `experimental_proposal` | **PUB-ATR-PANEL-ASK** ◐ | `experimental_proposal` | `primary` |
 | [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |

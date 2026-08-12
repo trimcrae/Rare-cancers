@@ -41,6 +41,15 @@ TARGETS = {
     # ── British Journal of Cancer (Springer Nature) — surface targets. These answered on
     #    plain HTTP already; re-read here so all four venues rest on one method. ──────────
     "bjc_guide_to_authors": "https://www.nature.com/bjc/authors-and-referees/gta",
+    # ── Nucleic Acid Therapeutics (Mary Ann Liebert) — the fusion-junction ASO paper ────
+    #    Added 2026-08-12 with the venue decision. That decision was written stating the fee
+    #    model as a PLAN rather than a retrieved fact, and said so; these three targets are what
+    #    turn it into a reading. What has to be answered: is there a free subscription route
+    #    (the $0 constraint is binding and eliminates most of the field), what is the main-text
+    #    word limit, and what is the preprint policy.
+    "nat_author_guidelines": "https://home.liebertpub.com/publications/nucleic-acid-therapeutics/612/for-authors",
+    "nat_journal_home": "https://home.liebertpub.com/publications/nucleic-acid-therapeutics/612/overview",
+    "nat_open_access": "https://home.liebertpub.com/lpages/open-access-options/226",
     # ── bioRxiv, the free open copy for all four papers ─────────────────────────────────
     "biorxiv_faq": "https://www.biorxiv.org/about/FAQ",
     "biorxiv_submission_guide": "https://www.biorxiv.org/submit-a-manuscript",

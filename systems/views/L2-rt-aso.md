@@ -106,7 +106,7 @@ The computational arc is complete and the delivery gate is stated honestly as a 
 
 **[PUB-ASO](L3-publications.md)** — [A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity](../../research/manuscripts/fusion-junction-aso-paper.md)
 
-`primary` · ◐ `drafted` · aimed at `chemrxiv`
+`primary` · ◐ `drafted` · aimed at `journal_submission`
 
 **This route contributes:** The junction design, the transcriptome-wide specificity screen, and delivery stated as the outstanding gate rather than assumed away.
 

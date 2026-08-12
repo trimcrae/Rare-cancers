@@ -97,7 +97,7 @@ It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-paper.
 
 **[PUB-ASO](L3-publications.md)** — [A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity](../../research/manuscripts/fusion-junction-aso-paper.md)
 
-`contributing` · ◐ `drafted` · aimed at `chemrxiv`
+`contributing` · ◐ `drafted` · aimed at `journal_submission`
 
 **This route contributes:** The decisive experiment, specified inside the paper and sent with it: junction knockdown with wild-type sparing in an EMC line. Without it the paper states a specificity result with no named way to falsify it at a bench.
 
