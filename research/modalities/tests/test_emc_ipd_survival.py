@@ -196,3 +196,37 @@ def test_check_refuses_a_perturbed_artifact_and_writes_nothing(tmp_path):
 
 def test_check_passes_on_the_committed_artifact():
     assert mod.main(["--check"]) == 0
+
+
+def test_every_candidate_source_resolves_to_a_real_registry_citation():
+    """The work list must point at sources that exist.
+
+    CANDIDATE_SOURCES is free to build and therefore easy to let rot: a renamed or removed
+    citation key would leave a row pointing at nothing, and the list would still LOOK like a
+    plan. CLAUDE.md s6 records the cost of exactly this shape -- a name wired to a value
+    nothing used, documented in three places, which read as safe while doing nothing. So the
+    linkage is asserted rather than described.
+    """
+    path = os.path.join(mod.REPO, "research", "data", "emc-clinical-registry.json")
+    with open(path, encoding="utf-8") as fh:
+        registry = json.load(fh)
+    citations = registry.get("registry", registry)["citations"]
+
+    assert mod.CANDIDATE_SOURCES, "the work list is empty -- enumerating it costs nothing"
+    unresolved = [
+        row["source_id"] for row in mod.CANDIDATE_SOURCES if row["source_id"] not in citations
+    ]
+    assert not unresolved, f"candidate rows point at citations that do not exist: {unresolved}"
+
+
+def test_no_candidate_claims_its_figure_has_been_read():
+    """Presence on the work list must never be mistaken for evidence.
+
+    A row with figure_checked True and no corresponding entry in CURVES would assert that a
+    published figure was read while the artifact still reports zero curves -- the 2026-07-31
+    failure in a new costume, where a populated field was read as a measured one.
+    """
+    checked = [r["source_id"] for r in mod.CANDIDATE_SOURCES if r.get("figure_checked")]
+    assert not checked or mod.CURVES, (
+        f"rows claim a figure was read while CURVES is empty: {checked}"
+    )
