@@ -52,6 +52,25 @@ TARGETS = [
     "research/manuscripts/emc-surface-target-landscape-si.md",
 ]
 
+# ⛔ fusion-junction-aso-paper.md IS NOT IN `TARGETS` YET, AND THE REASON IS A MEASUREMENT RATHER
+# THAN A JUDGEMENT (2026-08-12). Its retraction apparatus was moved to Appendix A that day — the
+# precondition for adding it, since gate 5 exempts appendices so rule 1.2's superseded-value
+# register can live somewhere without dragging the running text's register with it. It was then
+# added here and the gate run, which is the only way to know the size of the job:
+#
+#     20,915 words · bold 33.2/1000 (limit 12) · em-dash 17.5/1000 (limit 6)
+#     286 bold-midsentence · 127 glyph · 14 heading-style · 4 banned-phrase
+#
+# ⚠ THAT IS A FULL REWRITE OF THE RUNNING TEXT, NOT A TIDY, AND IT CANNOT BE SCRIPTED. Getting bold
+# from 33.2 to under 12 per 1000 words means removing roughly two thirds of it across 20k words in a
+# manuscript where the bold is frequently carrying the HEDGE — "**predicted**, not demonstrated",
+# "**0 of 5** clean", "**no** design is free of…". A regex pass would strip emphasis off exactly the
+# clauses that stop this paper over-claiming, which is a worse outcome than the wrong register.
+# So it is left out deliberately, with the cost named, rather than added and half-satisfied or
+# silenced with a looser threshold. **This is the last step between the manuscript and submittable**,
+# and it is a prose job for a session that can give it a whole pass.
+_NOT_YET_A_SUBMISSION_TEXT_IN_REGISTER = "research/manuscripts/fusion-junction-aso-paper.md"
+
 # Densities are per 1000 words. They are deliberately generous: the aim is to catch prose that
 # leans on a device, not to ban the device. A paper that trips one of these is not using emphasis,
 # it is using emphasis instead of sentence structure.
