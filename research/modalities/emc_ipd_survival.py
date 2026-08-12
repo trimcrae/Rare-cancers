@@ -124,7 +124,80 @@ CURVE_SCHEMA = {
 # Series already curated here that print a Kaplan-Meier curve worth digitizing. This is a WORK
 # LIST, not evidence: presence here asserts only that the source is in the registry, never that
 # its figure has been read or that its curve is admissible.
-CANDIDATE_SOURCES: list[dict] = []
+#
+# ⛔ EVERY ROW HERE HAS `figure_checked: False`. Nobody has opened these papers to confirm a
+# Kaplan-Meier figure exists, let alone that it carries a numbers-at-risk table. `why_candidate`
+# records why the DESIGN implies a survival endpoint -- that is an inference from the registry's
+# own metadata, not a reading of the paper. Enumerating the work list is free; reading the
+# figures is the step that is not, and it has not been taken.
+#
+# ⚠ OVERLAP IS THE TRAP THAT WOULD MAKE A POOLED RESULT WRONG. systems/POLICY-evidence.md admits
+# NON-OVERLAPPING COHORTS ONLY, and several of these are the same Milan/INT patients reported
+# across successive papers. `overlap_risk` is a flag to adjudicate BEFORE pooling, never a
+# licence to pool the rows that lack it.
+CANDIDATE_SOURCES: list[dict] = [
+    # --- population-level -----------------------------------------------------------------
+    {"source_id": "seer270_2022", "n": 270, "endpoint_hint": "os",
+     "why_candidate": "SEER population series reporting overall survival; the largest single denominator available",
+     "full_text_reachable": None, "figure_checked": False, "overlap_risk": "none with institutional series",
+     "⛔_caveat": "Keyed on ICD-O-3 9231/3, the code RT-DIAGNOSTIC-PATHWAY shows two published SEER analyses read as mutually incompatible diseases. Cohort composition is UNKNOWN and this row must not anchor a pooled estimate until that split is quantified."},
+    {"source_id": "masunaga2025", "n": 171, "endpoint_hint": "os",
+     "why_candidate": "retrospective national registry study of radiotherapy and chemotherapy roles; survival endpoint implied by the question",
+     "full_text_reachable": "PMC12398172", "figure_checked": False, "overlap_risk": "none with institutional series"},
+    # --- multi-institution / referral-centre series ---------------------------------------
+    {"source_id": "meisKindblom1999", "n": 117, "endpoint_hint": "os",
+     "why_candidate": "the classic long-term prognostic pathology series; prognosis is its stated subject",
+     "full_text_reachable": None, "figure_checked": False, "overlap_risk": "may be subsumed by later referral-centre series"},
+    {"source_id": "drilon2008", "n": 87, "endpoint_hint": "os",
+     "why_candidate": "two-referral-centre retrospective review emphasising outcome",
+     "full_text_reachable": "PMC2779719", "figure_checked": False, "overlap_risk": "shares referral centres with later US series"},
+    {"source_id": "ussc2022", "n": 60, "endpoint_hint": "os",
+     "why_candidate": "US Sarcoma Collaborative multi-institution database, outcomes reported",
+     "full_text_reachable": None, "figure_checked": False, "overlap_risk": "⚠ US institutions overlap drilon2008 and uMich2023"},
+    {"source_id": "chiusole2020", "n": 59, "endpoint_hint": "os",
+     "why_candidate": "two-institution retrospective, outcomes in the title",
+     "full_text_reachable": "PMC7308468", "figure_checked": False, "overlap_risk": "⚠ likely shares Milan/INT patients with the Stacchiotti series"},
+    {"source_id": "japan2003", "n": 42, "endpoint_hint": "os",
+     "why_candidate": "multi-institution series of 42 cases",
+     "full_text_reachable": None, "figure_checked": False, "overlap_risk": "⚠ may overlap morioka2016 (Japanese trial population)"},
+    {"source_id": "uMich2023", "n": 44, "endpoint_hint": "os",
+     "why_candidate": "single-institution series explicitly examining prognostic factors",
+     "full_text_reachable": None, "figure_checked": False, "overlap_risk": "⚠ US institution, may overlap ussc2022"},
+    {"source_id": "bishop2019", "n": 41, "endpoint_hint": "lrfs",
+     "why_candidate": "single-institution combined-modality series; local control is the stated endpoint",
+     "full_text_reachable": "PMC7771031", "figure_checked": False, "overlap_risk": "⚠ US institution, may overlap ussc2022"},
+    {"source_id": "china2016", "n": 40, "endpoint_hint": "os",
+     "why_candidate": "single-country clinicopathologic and radiologic series",
+     "full_text_reachable": None, "figure_checked": False, "overlap_risk": "none known"},
+    {"source_id": "huang2023", "n": 58, "endpoint_hint": "dss",
+     "why_candidate": "molecular case series; reports disease-specific survival by fusion partner, the TAF15 prognostic question",
+     "full_text_reachable": None, "figure_checked": False, "overlap_risk": "none known",
+     "note": "the fusion-partner denominator RT-PARTNER-STRAT depends on -- EWSR1 46/58, TAF15 9/58, TCF12 2/58"},
+    # --- prospective / systemic-therapy cohorts -------------------------------------------
+    {"source_id": "stacchiotti2019pazopanib", "n": 26, "endpoint_hint": "pfs",
+     "why_candidate": "the only prospective single-arm phase 2 in advanced EMC; PFS is the primary endpoint",
+     "full_text_reachable": None, "figure_checked": False, "overlap_risk": "⚠ may share patients with earlier Milan series"},
+    {"source_id": "immunosarc2emc2025", "n": 24, "endpoint_hint": "pfs",
+     "why_candidate": "phase 2 histology-specific cohort, sunitinib plus nivolumab",
+     "full_text_reachable": None, "figure_checked": False,
+     "overlap_risk": "⚠ conference abstract; may be an expansion of martinbroto2020immunosarc1",
+     "⚠_caveat": "type is conference-abstract -- abstracts rarely print a numbers-at-risk table, so this may fail the quality floor on reporting completeness alone"},
+    {"source_id": "martinbroto2020immunosarc1", "n": 68, "endpoint_hint": "pfs",
+     "why_candidate": "single-arm phase Ib/II; EMC may appear only as a subgroup",
+     "full_text_reachable": "PMC7674086", "figure_checked": False,
+     "overlap_risk": "⚠ likely the parent trial of immunosarc2emc2025",
+     "⚠_caveat": "cohort is advanced soft-tissue sarcoma broadly; an EMC-specific curve may not exist"},
+    {"source_id": "stacchiotti2013anthracycline", "n": 11, "endpoint_hint": "pfs",
+     "why_candidate": "retrospective centrally-reviewed systemic-therapy series",
+     "full_text_reachable": "PMC3879193", "figure_checked": False, "overlap_risk": "⚠ Milan series, overlaps stacchiotti2014sunitinib and chiusole2020"},
+    {"source_id": "stacchiotti2014sunitinib", "n": 10, "endpoint_hint": "pfs",
+     "why_candidate": "retrospective consecutively-treated series, 6 of 10 RECIST partial responses",
+     "full_text_reachable": None, "figure_checked": False, "overlap_risk": "⚠ Milan series, overlaps stacchiotti2013anthracycline and stacchiotti2019pazopanib"},
+    {"source_id": "morioka2016trabectedin", "n": 5, "endpoint_hint": "pfs",
+     "why_candidate": "sub-analysis of a randomised trial; EMC arm is tiny",
+     "full_text_reachable": "PMC4946242", "figure_checked": False, "overlap_risk": "⚠ may overlap japan2003 institutions",
+     "⚠_caveat": "n=5 is below the >=5-per-study inclusion floor used by the reconstructed-IPD exemplar only if that floor is read as strictly greater; adjudicate before admitting"},
+]
 
 # ⛔ EMPTY BY CONSTRUCTION. A coordinate here would be a fabricated clinical datum. See
 # "WHAT THIS FILE DOES NOT CONTAIN".

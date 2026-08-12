@@ -1506,6 +1506,20 @@
           "use": "The findings note for the SRA-side fourth-EMC-cohort characterisation (PRJNA1357027 / SRP640302). Names the line ONCE, inside a verbatim quotation of method-watch-triggers.json TRG-EMC-EXPRESSION-DATASET's `_still_watching_for` clause (a), which calls it 'the H-EMC-SS lesson'. The line is named as the NAME OF A CAUTIONARY PRECEDENT, never as a source of a property and never as a cohort member.",
           "classification": "unaffected",
           "why_unaffected": "⭐ THE LINE IS THE REASON THE TRIGGER EXISTS, NOT AN INPUT TO ANYTHING THIS NOTE MEASURES. The note's subject is a 12-sample FFPE TUMOUR deposit; no DepMap model contributes a sample, a count, a read or a verdict to it, and the deposit was characterised entirely from NCBI E-utilities and EBI/ENA payloads. The quoted lesson is precisely that an EMC LABEL is not an EMC FUSION — which is why the trigger has been waiting for per-sample fusion confirmation, and why this deposit's `FISH_1` attribute (EWSR1 break-apart, 8 positive / 4 negative across 12 samples) is the thing that makes clause (a) satisfiable. ⛔ AND THE DISPUTE CUTS THE SAME WAY AS THE FINDING: the note explicitly refuses to read `EWSR1-` as 'not EMC', because a break-apart call names no partner and a TAF15::NR4A3 or TCF12::NR4A3 case is EWSR1-negative by construction — the identical label-vs-fusion distinction the disputed model taught. Reading the line's identity either way changes nothing in the note. ⚠ The mention is deliberately NOT deleted: the trigger it quotes names the line in its own text, and a note that silently paraphrased the quotation away would make the repository's own waiting condition unverifiable against its source."
+        },
+        {
+          "file": "research/literature/no-wet-lab-archetypes-2026-08-12.json",
+          "use": "Appears ONLY as a retrieval source URL (web.expasy.org/cellosaurus/CVCL_1238) in the second research pass's `sources` list, under the angle 'EMC / NR4A3 public data and cell-line inventory'. That angle produced ZERO verified claims, so nothing in the artifact reads a biological property off this model.",
+          "classification": "unaffected",
+          "why_unaffected": "The dispute is about WHAT this line is. An artifact that records the line's existence and that its identity is disputed does not depend on the answer. It would become `invalidated` the moment any claim here grounded an EMC property on the model.",
+          "correction_marker": null
+        },
+        {
+          "file": "research/manuscripts/no-wet-lab-publication-archetypes.md",
+          "use": "s6.5 -- cites the dispute ITSELF, and draws one consequence: the public-omics-reanalysis archetype cannot ground an EMC property on this model, so class-borrowing across FET-fusion sarcomas is the only form that route can take. s6.5 leads with the DepMap fusion-call evidence rather than the Cellosaurus EWSR1 caution, because EWSR1 is not what defines EMC (trimcrae, 2026-08-12). s7.1 records the paper idea built on this object and WITHDRAWS it.",
+          "classification": "unaffected",
+          "why_unaffected": "The memo reads no biological property off the line. Its claim depends on the dispute being REAL, not on how it resolves: whatever this line turns out to be, it cannot ground an EMC-labelled property today. s7.1 exists precisely because the stronger reading -- that published findings studied something that is not EMC -- is NOT supported by this object's own what_this_cannot_settle field.",
+          "correction_marker": null
         }
       ],
       "distinct_from": [
