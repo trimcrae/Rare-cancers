@@ -48,13 +48,16 @@
   "estimated_monthly_usd": {
     "by_source": {
       "CloudWatch Logs": 0.0,
-      "EBS volumes + snapshots": 0.0,
       "ECR (baked GPU images)": 1.88,
       "S3": 62.27
     },
-    "total": 64.15
+    "total": 64.15,
+    "total_is_a_floor": true,
+    "unknown_sources": [
+      "EBS volumes + snapshots (DENIED)"
+    ]
   },
-  "generated_utc": "2026-08-12T23:23:35+00:00",
+  "generated_utc": "2026-08-12T23:40:41+00:00",
   "logs": {
     "est_usd_per_month": 0.0,
     "groups": [
@@ -104,10 +107,10 @@
         "region": "us-east-2",
         "size_status": "ok",
         "top_prefixes": {
-          "keys_walked": 118035,
+          "keys_walked": 118037,
           "prefixes": [
             {
-              "bytes": 1457130971561,
+              "bytes": 1457130971556,
               "n": 8517,
               "prefix": "nr4a3-step1-fanout"
             },
@@ -147,8 +150,8 @@
               "prefix": "selcal-results"
             },
             {
-              "bytes": 2151281588,
-              "n": 2456,
+              "bytes": 2151316532,
+              "n": 2458,
               "prefix": "nrv04-retro-results"
             },
             {
