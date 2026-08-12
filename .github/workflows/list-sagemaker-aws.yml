@@ -73,6 +73,8 @@ jobs:
             python abfe_sel_forensic.py --tag "$ABFE_TAG"
           elif [ "$MODE" = "spend_census" ]; then
             python aws_spend_census.py
+          elif [ "$MODE" = "spend_probe" ]; then
+            python aws_spend_probe.py
           else
             python list_sagemaker.py
           fi
@@ -88,3 +90,9 @@ jobs:
           PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "aws spend census: what still bills at rest with every AWS lane retired (CI, \$0)" \
             research/modalities/aws-spend-census.json
+      - name: Commit the capability probe back to the triggering branch
+        if: ${{ inputs.mode == 'spend_probe' }}
+        run: |
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "aws spend probe: which shutdown routes the CI key is permitted to take (CI, \$0)" \
+            research/modalities/aws-spend-probe.json

@@ -543,7 +543,10 @@ def report(c: dict) -> None:
     p("\n## Estimated monthly storage cost, by what would switch it off")
     for k, v in sorted(est["by_source"].items(), key=lambda kv: -kv[1]):
         p(f"    {_fmt_money(v):>12}  {k}")
-    p(f"    {_fmt_money(est['total']):>12}  TOTAL (estimate at list price, not the bill)")
+    for k in est.get("unknown_sources", []):
+        p(f"    {'UNKNOWN':>12}  {k} — could not read; NOT counted as zero")
+    tail = " — A FLOOR, not a total: see UNKNOWN rows" if est.get("total_is_a_floor") else ""
+    p(f"    {_fmt_money(est['total']):>12}  TOTAL (estimate at list price, not the bill){tail}")
     p("\nWrote " + OUT)
 
 
@@ -565,13 +568,30 @@ def main() -> int:
         "sagemaker": sagemaker_census(regions),
         "misc": misc_census(regions),
     }
-    by_source = {
-        "S3": c["s3"].get("est_usd_per_month") or 0.0,
-        "ECR (baked GPU images)": c["ecr"].get("est_usd_per_month") or 0.0,
-        "EBS volumes + snapshots": c["ebs"].get("est_usd_per_month") or 0.0,
-        "CloudWatch Logs": c["logs"].get("est_usd_per_month") or 0.0,
+    # ⛔ A SECTION WE COULD NOT READ MUST NOT CONTRIBUTE $0.00 TO THIS TABLE. The first version of this
+    # summary did exactly that: EBS came back DENIED in all three regions and the board printed
+    # "$0.00  EBS volumes + snapshots", which reads as "checked, nothing there" — the §4 failure this
+    # whole file exists to avoid, reproduced in its own summary line. Unreadable sources are listed
+    # separately as UNKNOWN and are excluded from the total, and the total says it is a floor.
+    by_source: dict[str, float] = {}
+    unknown: list[str] = []
+    if c["s3"].get("status") == "ok":
+        by_source["S3"] = c["s3"].get("est_usd_per_month") or 0.0
+    else:
+        unknown.append(f"S3 ({c['s3'].get('status')})")
+    ebs_status = set(c["ebs"].get("region_status", {}).values())
+    if ebs_status and ebs_status != {"ok"}:
+        unknown.append(f"EBS volumes + snapshots ({'/'.join(sorted(ebs_status))})")
+    else:
+        by_source["EBS volumes + snapshots"] = c["ebs"].get("est_usd_per_month") or 0.0
+    by_source["ECR (baked GPU images)"] = c["ecr"].get("est_usd_per_month") or 0.0
+    by_source["CloudWatch Logs"] = c["logs"].get("est_usd_per_month") or 0.0
+    c["estimated_monthly_usd"] = {
+        "by_source": by_source,
+        "unknown_sources": unknown,
+        "total": round(sum(by_source.values()), 2),
+        "total_is_a_floor": bool(unknown),
     }
-    c["estimated_monthly_usd"] = {"by_source": by_source, "total": round(sum(by_source.values()), 2)}
     with open(OUT, "w") as fh:
         json.dump(c, fh, indent=2, sort_keys=True)
     report(c)
