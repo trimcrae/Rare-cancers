@@ -22,8 +22,11 @@ last_verified: 2026-08-12
 
 # In-silico design and predicted specificity limits of junction-spanning gapmers against NR4A3 fusions in extraskeletal myxoid chondrosarcoma
 
-**Authors.** [AUTHOR BLOCK TO BE COMPLETED BEFORE SUBMISSION — name, affiliation, ORCID,
-corresponding address. This manuscript must not be submitted with this placeholder in place.]
+**Author.** Tristan D. McRae
+
+*Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
+ORCID: [TO BE SUPPLIED — no ORCID iD exists in the project record; one is free to register and is
+required by some publishers at submission.]
 
 **Running title.** Junction gapmers across NR4A3 fusions
 
@@ -388,9 +391,15 @@ incorrectly through a coding-versus-transcript exon indexing error and was withd
 panels were rebuilt and verified against two independent transcript acquisitions. The complete
 correction record, including every superseded value, is released with the archive.
 
-**Competing interests.** [TO BE COMPLETED.]
+**Competing interests.** The author declares no financial competing interests: he holds no
+position, equity, consultancy or patent relating to any gene, sequence or agent named here, and no
+oligonucleotide described in this manuscript has been synthesised, licensed or offered for sale. One
+non-financial interest is declared: the author is a survivor of extraskeletal myxoid chondrosarcoma,
+the disease this work addresses.
 
-**Funding.** [TO BE COMPLETED.]
+**Funding.** This work received no external funding and was self-funded by the author. No grant,
+institution, company or charity supported it, and no funder had any role in the design of the
+analyses, the interpretation of the results, or the decision to publish.
 
 **Ethics.** No human subjects, human material or animals were involved. All clinical figures are
 taken from published aggregate data and are cited.

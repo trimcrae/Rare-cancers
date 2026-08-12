@@ -70,6 +70,23 @@ TARGETS = {
         "https://journals.sagepub.com/author-instructions/NAT",
     "sage_nat_aims_and_scope": "https://journals.sagepub.com/aims-scope/NAT",
     "sage_nat_home_alt": "https://journals.sagepub.com/description/NAT",
+    # ⛔ ANSWER THE QUESTION FROM A HOST THAT ANSWERS (2026-08-12). Measured across two runs:
+    # `journals.sagepub.com` returns 403 to a real headless browser, exactly as Wiley and Elsevier
+    # do, while `sagepub.com` and `us.sagepub.com` return 200. Adding more paths on the refusing
+    # host is not a plan. So the fee question is put to sources that DO answer, and each is a
+    # discriminator rather than a restatement of SAGE's portfolio-wide page:
+    #   * DOAJ indexes FULLY open-access journals only. Present -> the journal is gold, and the $0
+    #     constraint rules it out. Absent -> it is not indexed as fully OA, which is consistent with
+    #     hybrid. ⚠ Absence is weaker evidence than presence and must be reported as such: a gold
+    #     journal can be missing from DOAJ for administrative reasons.
+    #   * SAGE publishes its own list of pure-gold journals. NAT's absence from a list the PUBLISHER
+    #     maintains is the strongest negative available without reading the journal page itself.
+    # Together, presence in neither is what would let the hybrid inference be stated as a reading.
+    "doaj_nat_api": "https://doaj.org/api/search/journals/%22Nucleic%20Acid%20Therapeutics%22",
+    "sage_gold_oa_journal_list":
+        "https://us.sagepub.com/en-us/nam/pure-gold-open-access-journals-at-sage",
+    "us_sage_nat_description":
+        "https://us.sagepub.com/en-us/nam/journal/nucleic-acid-therapeutics",
     # ── bioRxiv, the free open copy for all four papers ─────────────────────────────────
     "biorxiv_faq": "https://www.biorxiv.org/about/FAQ",
     "biorxiv_submission_guide": "https://www.biorxiv.org/submit-a-manuscript",
