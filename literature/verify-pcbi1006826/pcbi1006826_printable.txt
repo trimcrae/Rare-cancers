@@ -1,0 +1,802 @@
+SOURCE URL: https://journals.plos.org/ploscompbiol/article/file?id=10.1371/journal.pcbi.1006826&type=printable
+FINAL URL: https://journals.plos.org/ploscompbiol/article/file?id=10.1371/journal.pcbi.1006826&type=printable
+HTTP: 200
+CONTENT-TYPE: application/pdf
+======================================================================
+RESEA RCH ARTICL E
+Machine learning analysis of gene expression
+data reveals novel diagnostic and prognostic
+biomarkers and identifies therapeutic targets
+for soft tissue sarcomas
+David G. P. van IJzendoorn
+ID
+1
+, Karoly Szuhai
+ID
+2
+, Inge H. Briaire-de Bruijn
+ID
+1
+,
+Marie Kostine
+1
+, Marieke L. Kuijjer
+ID
+3☯
+*, Judith V. M. G. Bove ´ e
+ID
+1☯
+*
+1 Department of Pathology, Leiden University Medical Center, Leiden, The Netherlan ds, 2 Department of
+Cell and Chemical Biology , Leiden University Medical Center, Leiden, The Netherlands , 3 Centre for
+Molecular Medicine Norway, Univers ity of Oslo, Oslo, Norway
+☯ These authors contribu ted equally to this work.
+* marieke.k uijjer@ncm m.uio.no (MLK); J.V.M.G.Bo vee@lum c.nl (JVMGB)
+Abstract
+Based on morphology it is often challenging to distinguish between the many different soft
+tissue sarcoma subtypes. Moreover, outcome of disease is highly variable even between
+patients with the same disease. Machine learning on transcriptome sequencing data could
+be a valuable new tool to understand differences between and within entities. Here we used
+machine learning analysis to identify novel diagnostic and prognostic markers and therapeu-
+tic targets for soft tissue sarcomas. Gene expression data was used from the Cancer
+Genome Atlas, the Genotype-Tissue Expression project and the French Sarcoma Group.
+We identified three groups of tumors that overlap in their molecular profiles as seen with
+unsupervised t-Distributed Stochastic Neighbor Embedding clustering and a deep neural
+network. The three groups corresponded to subtypes that are morphologically overlapping.
+Using a random forest algorithm, we identified novel diagnostic markers for soft tissue sar-
+coma that distinguishe d between synovial sarcoma and MPNST, and that we validated
+using qRT-PCR in an independent series. Next, we identified prognostic genes that are
+strong predictors of disease outcome when used in a k-nearest neighbor algorithm. The
+prognostic genes were further validated in expression data from the French Sarcoma Group.
+One of these, HMMR, was validated in an independent series of leiomyosarco mas using
+immunohistochem istry on tissue micro array as a prognostic gene for disease-free interval.
+Furthermore, reconstruction of regulatory networks combined with data from the Connectiv-
+ity Map showed, amongst others, that HDAC inhibitors could be a potential effective therapy
+for multiple soft tissue sarcoma subtypes. A viability assay with two HDAC inhibitors con-
+firmed that both leiomyosarcoma and synovial sarcoma are sensitive to HDAC inhibition. In
+this study we identified novel diagnostic markers, prognostic markers and therapeutic leads
+from multiple soft tissue sarcoma gene expression datasets. Thus, machine learning algo-
+rithms are powerful new tools to improve our understanding of rare tumor entities.
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 1 / 19
+a1111111111
+a1111111111
+a1111111111
+a1111111111
+a1111111111
+OPEN ACCESS
+Citation: van IJzendoo rn DGP, Szuhai K, Briaire-de
+Bruijn IH, Kostine M, Kuijjer ML, Bove ´ e JVMG
+(2019) Machine learning analysis of gene
+expression data reveals novel diagnostic and
+prognostic biomarker s and identifies therap eutic
+targets for soft tissue sarcomas. PLoS Comput Biol
+15(2): e1006826. https:// doi.org/10.1371 /journal.
+pcbi.1006826
+Editor: Ilya Ioshikhes, Ottawa Univers ity, CANADA
+Received: July 20, 2018
+Accepted: January 25, 2019
+Published: February 20, 2019
+Copyright: © 2019 van IJzendoorn et al. This is an
+open access article distributed under the terms of
+the Creative Commons Attributio n License, which
+permits unrestricte d use, distribu tion, and
+reproduction in any medium, provided the original
+author and source are credited.
+Data Availabilit y Statement: All relevant data are
+within the paper and its Support ing Information
+files.
+Funding: The authors received no specific funding
+for this work.
+Competing interests : The authors have declared
+that no competing interests exist.
+
+Author summary
+Soft-tissue sarcomas are a group of rare cancers that can be challenging to diagnose and
+treat. The morphology of the different soft-tissue sarcoma subtypes can overlap and the
+prognosis differs significantly between, and also within, the different subtypes. Moreover,
+targeted therapies are often not available. In this study we used transcriptome sequencing
+data from The Cancer Genome Atlas, containing 206 soft-tissue sarcoma samples which
+we analyzed using different machine learning algorithms to gain novel insights. When
+possible, we verified our findings in independent datasets or in cell lines. First, we found
+that both synovial sarcomas and malignant peripheral nerve sheath tumors show the larg-
+est overlap with normal tissue derived from the nervous system. This link with neural dif-
+ferentiation for synovial sarcoma was not well established until now. Second, genes were
+identified whose expression could be used to differentiate between the different soft-tissue
+sarcomas where the morphology overlaps. Third, novel prognostic genes were identified
+for separate subtypes. One gene, HMMR, which we found as a strong prognostic gene for
+leiomyosarcoma, was verified with immunohistochemistry on samples from our archives.
+Last, using a network analysis new potential therapies were identified. HDAC inhibitors
+were identified as a potential strong therapy for sarcomas, including leiomyosarcomas,
+which we verified in cell lines.
+Introduction
+Soft tissue sarcomas are rare malignancies arising in the tissues that connect, support and sur-
+round other body structures, such as fat or muscle [1]. Soft tissue sarcomas annually affect
+approximately one per 50 million population, and represent <1% of all malignant tumors [2].
+Soft tissue sarcomas can display different lines of differentiation, and as such are classified
+based on the tissue that they resemble most. More than 50 different subtypes have been
+described in the WHO classification. Even though these subtypes differ in prognosis and treat-
+ment, there is considerable morphological overlap between the different subtypes, making dif-
+ferential diagnosis both difficult and important. For instance, synovial sarcoma (SS) and
+malignant peripheral nerve sheath tumor (MPNST) can be morphologically identical, while
+also their immunohistochemical profile can overlap, making molecular testing for the presence
+of the SS specific SS18-SSX fusion essential for the final diagnosis (which is laborious and time
+consuming). Over the last years there have been many large genetic studies generating open
+accessible gene expression datasets of sarcomas. One of the biggest soft tissue sarcoma
+sequencing projects to date is the Cancer Genome Atlas (TCGA), which recently published a
+detailed analysis of the driving mutations in these cancers [3]. This data can be leveraged and
+analyzed with machine learning methodologies to better understand soft tissue sarcoma biol-
+ogy. Machine learning has been used previously to study gene expression patterns. Especially
+unsupervised algorithms, such as Principal Component Analysis (PCA) and more recently t-
+Distributed Stochastic Neighbor Embedding (t-SNE), have been successfully used in gene
+expression studies to classify cancer patients [4]. Moreover, for classification of tumors, super-
+vised algorithms such as random forest have been used previously. Gene expression signatures
+were shown to be effective at classifying breast cancer [5]. Later, it was shown that microRNA
+expression patterns could be used to distinguish between a number of different tumor sub-
+types, ranging from brain to colorectal cancer [6]. More recently, random forest analyses were
+used on DNA-methylation data to classify different brain tumor subtypes. The advantage of
+the latter is that it can be performed on paraffin embedded material [7,8].
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 2 / 19
+
+Previously the French Sarcoma Group used a machine learning approach on a large cohort
+of soft tissue sarcomas to verify a set of 67 genes (CINSARC), identified using differential
+expression analysis, that effectively predicted metastatic outcome in soft tissue sarcomas [9].
+The identified CINSARC genes were more recently found to have prognostic value for other
+tumor types as well, such as breast cancer [10]. The CINSARC genes are mostly associated
+with cell proliferation and therefore lack tumor subtype specificity. Another approach to iden-
+tify prognostic genes was used by the Pathology Atlas to identify tumor subtype specific prog-
+nostic genes. However, soft tissue sarcomas were not analyzed in this study [11].
+In this study we used machine learning on open accessible expression data from soft tissue
+sarcomas to elucidate differences between and within the different entities. First, we investi-
+gated the overlap of gene expression patterns of soft tissue sarcomas with gene expression pat-
+terns of human tissues without malignancies from the GTEx project [12] using clustering with
+PCA and a deep neural network. Second, we identified novel diagnostic markers using a ran-
+dom forest approach. Third, we identified tumor subtype specific prognostic genes and
+showed, using a k-nearest neighbor analysis, that the identified prognostic genes are predictive
+of the metastasis-free interval. Last, we analyzed differential expression in the context of a reg-
+ulatory network to identify novel therapies. We demonstrate that machine learning can be a
+powerful tool to identify novel diagnostic and prognostic biomarkers, as well as therapeutic
+targets, which will improve our understanding of rare soft tissue sarcomas.
+Materials and methods
+Ethics statement
+All the specimens were coded and handled according to the ethical guidelines described in
+the Code for Proper Secondary Use of Human Tissue in the Netherlands of the Dutch Federa-
+tion of Medical Scientific Societies as reviewed and approved by the LUMC ethical board
+(B17.036).
+Expression data
+The Cancer Genome Atlas (TCGA) RNA-seq count data was downloaded (February 2018)
+from the NIH GDC data portal (portal.gdc.cancer.gov/). All clinical data corresponding to
+the soft tissue sarcoma samples in the TCGA was recently revised by the Cancer Genome
+Atlas Research Network which resulted in 206 revised cases with clinical data (from the origi-
+nal 261 cases in the TCGA) [3]. Soft tissue leiomyosarcoma (STLMS) was the most common
+sarcoma type with 53 samples and included cases of grade 1 (n = 11), grade 2 (n = 35) and
+grade 3 (n = 7) according to the Fe ´ de ´ ration Nationale des Centres de Lutte Contre le Cancer
+(FNCLCC) grading system. In addition, there were 27 uterine leiomyosarcoma (ULMS)
+cases. Furthermore, the TCGA included 50 dedifferentiated liposarcomas (DDLPS), 44
+undifferentiated pleomorphic sarcomas (UPS), 17 myxofibrosarcomas (MFS), 10 synovial
+sarcomas (SS, both monophasic and biphasic) and 5 malignant peripheral nerve sheath
+tumors (MPNST).
+Second, the Genotype-Tissue Expression (GTEx) data (v7) was downloaded (gtexportal.
+org) with corresponding annotations. The data consisted of transcriptome sequencing read
+counts for 9662 samples. The GTEx data included expression data for 31 different tissue types
+(S1 Table). Third, DDLPS (n = 62) and leiomyosarcoma (LMS) (n = 84) expression array data
+from the French Sarcoma Group was downloaded from GEO (ncbi.nlm.nih.gov/geo), depos-
+ited under accession number GSE21050 (public in June 2010), using GEOquery (v3.6) in R
+[13].
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 3 / 19
+
+Normalization of expression data
+Genes with low expression (transcriptome sequencing read counts: cpm < 2; expression array:
+relative measured unit < 2) in all samples were removed. Thereafter, transcriptome sequenc-
+ing read count and expression array data were normalized using Limma (v3.6) R package. For
+normalization, the weighted trimmed mean of M-values was used [14]. Last, the data was log2
+transformed and analyzed further. When indicated, data was combined and normalized.
+Where indicated samples were randomly subdivided into groups using the “sample” function
+in R.
+Machine learning analysis
+For the deep neural network TensorFlow (v1.6) was used in combination with the Keras
+(v2.1.4) R package to design a neural network with one converging invisible layer. t-SNE was
+performed using the Rtsne (v0.13) R package. For t-SNE analysis a perplexity of 60 and a theta
+of 0.5 were used. Random forest analysis was performed on the normalized TCGA expression
+data. Data were analyzed according to Breiman’s random forest algorithm, using the random-
+Forest (v4.6) R package. Variable importance in the random forest analysis was calculated
+based on the Gini index, which is a measurement of variance for a given variable. For k-Near-
+est Neighbor analysis the Caret (v6.0) R package was used. To resample the data, the “repea-
+tedcv” option was used and k = 1–30 were tested.
+Enrichment analysis
+The EnrichR (v1.0) R package was used for Gene Ontology (GO) term enrichment analysis.
+GO terms were selected from the “GO biological processes 2015” database and had adjusted p
+values lower than 1e-4.
+Kaplan-Meier analysis
+As readout disease-free interval (DFI) was used, which was previously described as a strong
+measurement of outcome in soft tissue sarcomas [15]. DFI is the time until relapse, including
+distant metastasis and loco-regional recurrence. Prognostic genes were identified using the
+maxstat (v0.7) R package. Maxstat determined the maximal rank statistic using a LogRank
+analysis, to determine the optimal gene expression cut-off. P values were calculated according
+to the Streitberg algorithm [16]. Version 18 of the Human Protein Atlas data was downloaded
+to cross-check prognostic genes identified in other tumor types (proteinatlas.org/about/down-
+load). This dataset included genes and their association with disease outcome in common can-
+cer types.
+Immunohistochemistr y and analysis
+Immunohistochemistry (IHC) was performed on one existing tissue microarray (TMA) and
+one newly constructed TMA. The TMA was constructed as previously described by our group
+[17]. Clinicopathological details are summarized in S2 Table. In total, seventy leiomyosarco-
+mas could be scored for HMMR protein expression and had available clinicopathological
+information. The cases originated from two cohorts: the first contained 32 cases that could be
+scored and has been previously described by our group [17], the second consisted of 38 cases
+that could be scored. IHC was performed simultaneously on all cases to enable comparison
+between the cohorts. The 70 cases consisted of 43 females and 27 males, with a mean age of 62
+years at diagnosis. Five patients had uterine LMS, the rest were soft tissue LMS. Soft tissue
+LMS were graded according to the FNCLCC grading system, including 10 grade 1, 23 grade 2,
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 4 / 19
+
+31 grade 3 and for 1 grading was not available. HMMR was detected with a polyclonal rabbit
+antibody (Sigma-Aldrich; HPA040025). The HMMR antibody was titrated on normal testis
+tissue, the optimal antibody dilution was found to be 1:1000 in PBS/1%BSA/5%/non-fat dry
+milk. Microwave antigen retrieval was performed using citrate (pH 6.0) and immunohis-
+tochemistry was performed according to standard protocols [18]. Scoring was performed
+using ImageJ (v1.5) in which color deconvolution was used to separate haematoxylin and 3,3’-
+Diaminobenzidine (DAB) staining. Haematoxylin was used to identify the core and intensity
+of the DAB was quantified and compared between cores. A cut-off score of 20 was used to
+define high and low expressing cores. The second cohort was also scored manually by a pathol-
+ogist (JVMGB) blinded towards clinicopathological data and results of the automatic scoring,
+in which staining intensity was scored as weak (1), moderate (2) or strong (3). For the analysis,
+the average of the three cores per tumor were used.
+Quantitative reverse transcriptase Polymerase Chain Reaction (qRT-PCR)
+Frozen tissue from five SS and four MPNSTs was retrieved from our archive and anonymized.
+All selected MPNSTs were either associated with a nerve, were NF1 related or had reported
+loss of H3K27me3 at immunohistochemistry [19,20]. All selected synovial sarcomas were
+proven to be positive for the SS18-SSX translocation. RNA was isolated using the Direct-zol
+RNA isolation kit (Zymo research). cDNA was made using iScript cDNA Synthesis Kit (Bio-
+Rad). Real-time PCR was performed using Sybr Green (Bio-Rad) on a CFX384 real-time PCR
+Detection System (Bio-Rad). Real-time PCR Ct values were normalized to housekeeping gene
+HPRT1 expression. The following primers were used, noted as 5’ to 3’:
+NEURL1_Fw GCATCCTCGGCTCCACTATC
+NEURL1_Rv CTGAGCAAGGGGTCAGACA G
+SCD_Fw CTTGCGATATGCTGTGGTGC
+SCD_Rv CCGGGGGCTAATGTTC TTGT
+NPAS1_Fw CAGCTGCTACCAGTTT GTCCAC
+NPAS1_Rv ACCCTTGTCCAGCAA GTCCAC
+HPRT1_Fw TGACACTGGCAAAACAATGCA
+HPRT1_Rv GGTCCTTTTCACCAGCA AGCT
+Cell growth and viability assay
+Cells were cultured in RPMI 1640 medium (Gibco) supplemented with 10% FBS. Cells were
+tested for mycoplasma and Short Tandem Repeats were characterized for authentication. One
+SS cell-line was used (SYO-1) [21]. Three LMS cell lines were included (JA192, LMS04 and
+LMS05). Quisinostat (Selleckchem) and trichostatin A (Selleckchem) were used for HDAC
+inhibition. Both compounds were dissolved in DMSO. Cells were seeded in triplicates on a
+96-well plate and compounds were added after 24 hours. Cell viability was measured after 72
+hours incubation with the compounds by adding PrestoBlue Cell Viability Reagent (Life Tech-
+nologies) according to the manufacturers protocol. Fluorescence was measured reading the
+plate at 590 nm on a fluorometer (Victor3V, 1420 multi-label counter). Viability was deter-
+mined in three independent experiments in triplicate.
+Connectivity map analysis
+For Connectivity Map (CMAP) analysis the regulatory network was first determined using
+expression2kinase (maayanlab.net/X2K) based on the differentially expressed genes that were
+identified. Potential targeted therapies were identified based on the proteins in the regulatory
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 5 / 19
+
+network. The pipeline for identification of transcription factors and kinases is described in lit-
+erature [22].
+Statistical software and figures
+R statistical software (v3.4.4) was used for all statistical tests [13]. Network plots were generated
+with igraph (v1.2.1) R package and formatted with Cytoscape (v3.6.0) [23]. Chord diagrams
+were generated with GOplot (v1.0.2) [24]. All further graphs were generated with R package
+ggplot2 (v2.2.1). Cox regression was performed with the “coxph” function from the survival
+(v2.43) R package.
+Results
+Soft tissue sarcomas show different molecular profiles
+Since soft tissue sarcomas are histologically classified according to their line of differentiation,
+we compared gene expression data from 206 soft tissue sarcoma samples in The Cancer
+Genome Atlas (TCGA) (Table 1) with normal tissues from the Genotype-Tissue Expression
+(GTEx) project. For this we used a deep neural network approach, enabling us to find similari-
+ties between normal tissues and tumors identified through hidden layers that would not be
+obvious in a direct comparison (such as a PCA analysis). First the TCGA and GTEx data were
+combined and normalized together (S1a Fig). Principal components were calculated for all
+samples, the principal components (9868 in total) for the GTEx data was used to train a neural
+network resulting in a prediction accuracy of 98% (S1b Fig). The neural network was then
+applied to the principal components from the TCGA sarcoma data.
+As might be expected, ULMS was the only sarcoma subtype showing overlap with the
+expression patterns of normal uterus tissue as well as normal cervical tissue (S1c Fig). More-
+over, STLMS was the only subtype showing similarity to blood vessel, which may be explained
+by the fact that a subset of STLMS are presumed to arise from small to medium sized veins
+[25]. However, both ULMS and STLMS also showed overlap with skin and brain tissue which
+is more difficult to understand at this point. Interestingly, we found large similarities between
+MPNST and SS, showing expression patterns very similar to tissue derived from the nervous
+system (brain and nerve). In addition SS showed some overlap with salivary gland which
+might be explained by the fact that 2 out of 10 SS were biphasic, of which the glandular epithe-
+lial elements may have caused the found similarity with salivary gland (Fig 1a). Surprisingly,
+MFS, and to a lesser extent UPS, showed a large overlap with normal adipose tissue. The over-
+lap with adipose tissue in MFS and UPS is larger than found in DDLPS, which could be due to
+the selective sampling of DDLPS including the dedifferentiated component. For the other soft
+tissue sarcoma subtypes similarities were more dispersed since no specific normal tissue
+showed a large overlap with the tumor gene expression (S1c Fig).
+Table 1. Soft tissue sarcoma subtypes in the TCGA.
+abbreviat ion histology cases
+DDLPS dediffere ntiated liposarcom a 50
+MFS myxofibr osarcoma 17
+MPNST maligna nt peripheral nerve sheath tumor 5
+SS synovial sarcoma 10
+STLMS leiomyos arcoma—s oft tissue 53
+ULMS leiomyos arcoma—gy necologic 27
+UPS undifferen tiated pleomorphic sarcoma 44
+https://d oi.org/10.1371/j ournal.pc bi.1006826. t001
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 6 / 19
+
+To study the gene expression patterns of soft tissue sarcomas the TCGA expression data
+was normalized and differentially expressed genes (DEGs) were identified (Benjamini-Hoch-
+berg adjusted p value < 0.05 and logFC > 0) for all soft tissue sarcoma subtypes using Limma
+and Voom, comparing the subtypes to the other samples (S1d Fig). The number of DEGs per
+subtype ranged from 331 to 7784 (in STLMS and DDLPS respectively, 3156 DEGs on average)
+Fig 1. Relation to normal tissue and molecula r profiles of soft tissue sarcomas. (a) A deep neural network was trained on GTEx expression data
+from normal tissue to investigate differe ntiation in the soft tissue sarcoma subtypes . MPNST and SS both showed the most specific differentiati on and
+showed largest similarity with brain and nerve gene express ion profiles. (b) Heat map plot of the identified signature genes in the different soft tissue
+sarcoma subtypes. The largest overlap in signatu re genes is seen between UPS and MFS (1201). Enriched GO terms in each of the signature genes are
+shown in the right panel. All GO terms have an adjusted P value lower then 1e-4.
+https://doi.o rg/10.1371/j ournal.pcbi. 1006826.g001
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 7 / 19
+
+(S1e Fig). The DEGs were used to generate a heat map showing differences between soft tissue
+sarcoma subtypes. MFS and UPS showed the largest overlap in DEGs (1201 genes) followed by
+STLMS and ULMS (210 genes) (Fig 1b). Using EnrichR we tested for functional enrichment of
+the DEGs to identify GO terms associated with each of the subtypes. The DEGs from STLMS
+and MPNST showed a clear relation to differentiation; GO terms for STLMS related to muscle
+development and for MPNST the GO terms related to neuronal development. The top GO
+terms associated with ULMS were not related to muscle differentiation, but with cell cycle pro-
+cesses. However, significant GO terms associated with muscle differentiation were identified
+such as “muscle system process” (adjusted p = 6e-4) and “muscle contraction” (adjusted
+p = 3e-3) matching with the GO terms found in STLMS, which suggests that proliferation was
+more pronounced than differentiation in the ULMS compared to the STLMS samples. We did
+not identify GO terms related to differentiation for DDLPS, but, as can be seen in the heat
+map, we found that many of the identified GO terms associated with DDLPS, UPS and MFS
+overlapped. These included GO terms associated with the immune system which may reflect
+the presence of an inflammatory infiltrate in these tumors (Fig 1b).
+A random forest approach can differentiate between the soft tissue
+sarcoma subtypes
+To investigate the similarities of the molecular profiles of the different soft tissue sarcoma sub-
+types we performed a t-SNE analysis on the expression data (S2a Fig). The average of the first
+two components for the different subtypes is shown in Fig 2a. In the t-SNE analysis, three clus-
+ters of soft tissue sarcoma subtypes were identified. MFS, UPS and DDLPS clustered together,
+in line with the undifferentiated sometimes pleomorphic morphology of these tumors. ULMS
+and STLMS also cluster together. The third cluster consisted of MPNST and SS, for which dis-
+tinction based on morphology alone is often impossible.
+As a deep neural network is not informative on the biological differences between these
+subtypes, we therefore used a random forest machine learning approach to identify subtype
+defining genes. The samples were divided into test and training groups at random. The result-
+ing random forest reached a subtype prediction accuracy of over 95% for all groups, except in
+differentiating between MFS and UPS (where it reached an accuracy of 88%) (Fig 2b).
+Differentially expressed genes (adjusted p<0.05) were used to generate the random forest.
+Important genes were identified based on their variable importance index (Fig 2c). Top genes
+in group 1 (STLMS and ULMS) included HOXA11 and its anti-sense RNA (HOXA11-AS)
+were identified. HOXA11 and HOXA11-AS have both been described to be important regula-
+tors of uterine development and homeostasis [26]. For group 2 (MPNST and SS) genes related
+to neural differentiation such as NEURL1 and NPAS1 were identified, which were found to be
+upregulated in synovial sarcomas, while SCD, an enzyme involved in fatty acid biosynthesis, is
+more highly expressed in MPNST. For the third group (DDLPS, UPS and MFS), we first com-
+pared DDLPS with the UPS and MFS together. As previously described and already widely
+implemented in routine diagnostics, expression of MDM2 and CDK4 (which is part of the
+12q13-15 amplification characteristic of DDLPS) were identified as diagnostic markers to
+identify DDLPS [27]. FRS2, TSPAN31 and CTDSP2 are located near the amplified MDM2 on
+chromosome 12 and therefore most likely also part of the same amplified region that charac-
+terizes DDLPS. In Fig 2d, we visualized gene expression levels of the genes with the highest
+variable importance scores for each of the four comparisons. JADE2 showed the highest vari-
+able importance score for the differentiation between UPS and MFS although expression still
+somewhat overlapped, confirming the large molecular and morphological similarity between
+the two entities (Fig 2d).
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 8 / 19
+
+Fig 2. Diagnos tic markers to distinguish within three subgroups . (a) T-SNE analysis of all soft tissue sarcoma subtypes in the
+TCGA. The first two components were used to generate the diagram. Three groups could be identified based on the molecular
+profile: group 1 (STLMS and ULMS); group 2 (SS and MPNST); group 3 (DDLPS , UPS and MFS). (b) A machine learning
+random forest analysi s was trained and tested on a test dataset. Random forests were generated to differentiate between STLMS
+and ULMS, SS and MPNST, DDLPS and MFS with UPS and last between MFS and UPS. Within the three identified groups a
+prediction accuracy of over 95% was reached, except when differen tiating between UPS and MFS (88%). (c) From the random
+forest models, the top five genes were selected based on their Gini index, score is shown relative to the best diagnostic marker.
+(d) Gene express ion (in FPKM) for the best subtyp e predicto r within the identified groups is shown in the boxplots on the left.
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 9 / 19
+
+To verify the diagnostic markers that were identified for group 2 (MPNST and SS) using
+the random forest algorithm we used qRT-PCR on an independent cohort of nine samples.
+Indeed, the expression patterns of NEURL1, SCD and NPAS1 were similar in the independent
+cohort (Fig 2e).
+Soft tissue sarcoma subtypes have distinct prognostic genes
+We identified prognostic genes for all annotated soft tissue sarcoma subtypes, except MPNST
+(with only five samples available). First, the optimal gene expression cutoff was calculated for
+all the 24168 genes that met the defined thresholds in the TCGA soft tissue sarcoma expression
+data. Next, disease-free interval (DFI) (time to local recurrence or distant metastases) was
+tested using the Hothorn and Lausen statistical test; DFI was used as the read-out.
+In total 429 genes were found to be strong predictors (favorable or unfavorable) of DFI
+(p < 0.001) (S3 Table). Most genes were identified for SS (166 genes) while 74 and 34 genes
+were identified for STLMS and ULMS respectively. Interestingly, there was very little overlap
+between the prognostic genes for the different subtypes. Two overlapping prognostic genes
+(KLF6 and MT1F) were found for UPS and SS and one (NPM2) for ULMS and MFS. No over-
+lapping prognostic genes were found between STLMS and ULMS (Fig 3a). Furthermore, only
+one gene (CDCA3 identified in STLMS) was found to overlap between the 67 described CIN-
+SARC genes and the soft tissue sarcoma subtype specific prognostic genes identified in the
+current study. From the 429 identified prognostic genes 201 were new, 228 had however
+been previously identified in other (non-sarcoma) tumor types in the Protein Atlas database
+(S3a Fig).
+To cross-check the identified prognostic genes identified for LMS, DDLPS and UPS, we
+used expression data from the French Sarcoma Group [9]. The French Sarcoma Group array
+data was first normalized (S3b Fig). The data contained information on the metastasis-free
+interval but not DFI as was used by us for the TCGA data. The French Sarcoma Group data
+was split in two groups. Genes that were significant prognostic genes for DFI in the TCGA and
+the metastasis-free interval in the first French Sarcoma Group cohort (both with p < 0.05)
+were considered for further analysis (S4 Table). From the identified genes, strong prognostic
+genes were used in a k-nearest neighbor analysis. For LMS HMMR, MXD4 and BRCA2
+were identified, for DDLPS KLF6 was found to be a strong prognostic gene while for UPS
+PCMTD2, TNXA, TMEM65, SNRNP48 were identified. The k-nearest neighbor algorithm was
+trained on the first group and tested on the second group in the French Sarcoma samples. The
+k-nearest neighbor algorithm was a significant predictor for the metastasis-free interval for
+LMS, DDLPS and UPS in the second group (p = 0.045, p = 0.02 and p = 0.012 respectively)
+(Fig 3b), outperforming the reported CINSARC classification in the second cohort (LMS
+p = 0.24, DDLPS p = 0.14 and UPS p = 0.038) (S3c Fig).
+HMMR was identified as a significant (p<0.05) prognostic gene for DFI and the metasta-
+sis-free interval in LMS. In an independent validation set of 70 LMS cases, we verified using
+immunohistochemistry with automated scoring that high protein expression of HMMR was
+associated with a shorter DFI (p = 0.0061) (Fig 3c & 3d). For the second cohort, manual scor-
+ing was compared with automated scoring and results were similar. Prognostic value of
+On the right the top three subtype predictors are shown for group 2 (MPNST and SS), which were verified using qRT-PCR. The
+box shows the interquartile range from Q1 to Q3 and the mean. The whiskers show the highest and lowest values. Suspected
+outliers (interquar tile range
+�
+1.5) are shown as separate dots. (e) qRT-PC R validation in independen t cohort: Delta-delta Ct
+(ddCt) values are shown for the top three diagnostic genes identified for group 2 (MPNST and SS). Expressi on pattern is similar
+to what was found in the TCGA data. Expressi on was normalized with a housekeeping gene (HPRT1).
+https://doi.o rg/10.1371/j ournal.pcbi. 1006826.g002
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 10 / 19
+
+Fig 3. Novel prognostic biomarkers in soft tissue sarcomas. (a) All identified prognostic genes and their overlap within the different
+soft tissue sarcoma subtypes is shown with a network diagram. UPS and SS share two prognos tic genes and ULMS and MFS share one.
+Furtherm ore, all identified genes were specific for each sarcoma subtype. Number of prognostic genes are shown in the red circles,
+tumor types in the gray circles and number of overlapping prognostic genes in the blue circles. (b) The k-Nearest Neighbo r algorithm
+was also used with express ion data for the strongest prognos tic genes identified in both the French Sarcoma Group and TCGA
+expression data. The algorithm was trained on the first and tested on the second cohort. Both were found to be significant predicto rs of
+the metastasis-f ree interval. (c) HMMR protein expression was tested using IHC on a LMS TMA. The left panel shows a representati ve
+sample with low express ion, on the right a sample with high HMMR express ion. Scale bar indicates 50 μm. (d) High HMMR protein
+expression as seen in an independen t cohort of LMS from our archives is associate d with poor outcome .
+https://do i.org/10.1371/j ournal.pc bi.1006826. g003
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 11 / 19
+
+HMMR was further compared to the FNCLCC grading system. In a multivariate Cox-regres-
+sion it was found that the HMMR staining (p = 0.0039) retained significance and was a better
+predictor than FNCLCC histological grade (p = 0.285).
+Systems analysis of the soft tissue sarcoma subtype-specific genes identify
+targeted therapies
+To identify novel targeted therapies gene expression data was used to infer the regulatory tran-
+scription factors and kinases in the different soft tissue sarcoma subtypes. First, the signature
+genes for each soft tissue sarcoma subtype were used to infer the transcription factors that
+were most likely to regulate those genes based on data from the ChIP-seq Enrichment Analysis
+(ChEA) database [22]. The most important kinases regulating these transcription factors were
+inferred using the Kinase Enrichment Analysis [22]. Based on the identified transcription fac-
+tors and kinases, tumor subtype specific drugs were identified based on the Connectivity Map
+(CMAP) drug data (with kinases and transcription factors as input). Doxorubicin, which is
+commonly used as systemic treatment for STS, was identified as a potentially effective therapy
+for most soft tissue sarcoma subtypes, validating our analysis approach. Trichostatin A, a
+HDAC inhibitor, was predicted to be potentially efficient in all soft tissue sarcoma subtypes,
+while another HDAC inhibitor, Vorinostat, was identified for UPS and ULMS. Tanespimycin
+was identified for UPS, ULMS and MPNST, which is an inhibitor of Hsp90 and currently used
+in clinical trials for solid tumors (Fig 4a and S5 Table).
+While sensitivity to HDAC inhibition is known for translocation driven tumors like syno-
+vial sarcoma [28], for LMS this has not been extensively studied. We thus performed cell via-
+bility assays on three LMS cell lines (JA192, LMS04 and LMS05), treated with two HDAC
+inhibitors (quisinostat and trichostatin A), with one SS cell line (SYO-1) as positive control
+(Fig 4b). For both compounds the half maximal inhibitory concentration (IC50) was deter-
+mined. For trichostatin A (TSA) an IC50 ranging from 39 to 474 nM was found (JA192: 474
+nM; LMS04: 229 nM; LMS05: 178 nM; SYO-1: 39 nM). Although all cell-lines were sensitive to
+TSA, SYO-1 was more sensitive compared to the LMS cells. However, for quisinostat a low
+IC50 was found for all cell-lines; between 15 and 41 nM (JA192: 41 nM, LMS04: 34 nM;
+LMS05: 39 nM; SYO-1: 15 nM). These results indicate that LMS and SS cell lines are highly
+sensitive to HDAC inhibition by quisinostat.
+Discussion
+Accurate diagnosis and prediction of biological behavior is a challenge for soft tissue sarcoma
+pathologists. These tumors are rare and often overlap in their morphology, while subtype spe-
+cific diagnostic and prognostic markers are scarce. As an increasing amount of transcriptome
+sequencing data becomes available, even for rare cancers such as soft tissue sarcomas, new
+methods need to be developed to identify novel diagnostic and prognostic biomarkers for
+these tumors from existing data.
+Here we used machine learning algorithms to identify similarities and differences between
+soft tissue sarcoma subtypes and normal human tissue from the GTEx data.
+Using a deep neural network, we demonstrate that SS and MPNST mostly correspond to
+neural related tissues. MPNST often arises from or within nerves; therefore, it is likely a tumor
+originating from neural related tissue, while for synovial sarcoma the cell of origin and line of
+differentiation have been unclear. Our observation of the neural related tissue as a potential tis-
+sue of origin confirms previous suggestions [29]. The deep neural network also identified that
+cervix and uterine tissue showed the largest overlap with ULMS as is expected. Other findings
+however illustrate the limitations in comparing gene expression of normal tissue with tumor,
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 12 / 19
+
+such as the large overlap in gene expression between skin and adrenal gland with ULMS or the
+large overlap found between SS and salivary gland (that could be explained due to the biphasic
+SS samples displaying epithelial elements). These findings in part could be explained by the
+fact that the sequencing is performed on tissue containing many different cell types, including
+Fig 4. CMAP analysis to identify novel therapies . (a) CMAP analysis identifies potential drugs based on the express ion profile. The
+chord diagram shows links between the drugs and soft tissue sarcoma subtypes. Some compounds such as trichostat in A, doxorubicin
+and tanespim ycin show connectio ns with multiple soft tissue sarcoma subtypes, which is illustrate d by the box color for each drug
+(darker red indicates more connections ). (b) The dose response curves are shown for both trichosta tin A (TSA) and quisinostat as tested
+in one SS (SYO-1) and three LMS (JA192, LMS04 and LMS05) cell-lines.
+https://do i.org/10.1371/j ournal.pc bi.1006826. g004
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 13 / 19
+
+immune and stromal cells. Single cell sequencing and projects such as the Human Cell Atlas
+[30] could in the future shed more light on the tissue of origin for soft tissue sarcomas.
+Using a random forest analysis, we identified subtype specific genes that can be used as
+diagnostic markers within the three groups of soft tissue sarcoma subtypes that were identified
+based on their molecular profile and morphology. For instance, NEURL1 was one of the genes
+highly expressed in SS as compared to MPNST. NEURL1 is an important determinant of neu-
+ral tissue differentiation and functions as a tumor suppressor which is inactivated during
+malignant progression of astrocytic tumors [31]. In line with this, the lower expression of
+NEURL1 could be explained by recurring losses of chromosome 10 in 48% of MPNST [32].
+SCD was found to be highly expressed in MPNST compared to SS. SCD has been found to
+associate with a poor prognosis in breast and lung cancer. Moreover, SCD can be directly
+inhibited with the small molecule MF-438 which sensitized adenocarcinoma cells to cisplatin
+treatment [33,34]. It was previously found that when SS was treated with a HDAC inhibitor,
+neural differentiation was induced [28]. Furthermore, treatment with BMP4 or FGF2 restored
+expression of neural tissue related genes in SS [35]. Our study further confirms neural differen-
+tiation in SS, as shown using hidden layers in a deep neural network. Future validation studies
+should indicate whether the diagnostic biomarkers that we identified here can also be used
+immunohistochemically in the differential diagnosis.
+We identified subtype specific prognostic genes using Kaplan-Meier analysis on all individ-
+ual genes combined with a k-nearest neighbor algorithm to accurately predict the disease-free
+interval (DFI). DFI was previously shown to be one of the strongest outcome measurements
+for soft tissue sarcomas [15]. For all genes the cut off was determined first and the DFI for high
+and low expression was calculated. This Kaplan-Meier approach was previously used on 17
+other cancer types, not including soft tissue sarcomas [11]. Although this method results in
+tumor subtype specific prognostic genes that can predict outcome, a major challenge is to cor-
+rect for multiple testing. Here we used an independent cohort from the French Sarcoma
+Group to validate strong prognostic genes for LMS, DDLPS and UPS. However, for this inde-
+pendent cohort only data on metastasis were available, whereas the TCGA also contained data
+on loco-regional recurrence. Using both data sets, overlapping prognostic genes were identi-
+fied which could be considered strong prognostic genes. For the other tumor subtypes, to our
+knowledge, there are no available expression data sets with accurate follow up data to perform
+cross-validation. Interestingly we found only one gene, CDCA3, overlapped between the prog-
+nostic genes we identified in the TCGA soft tissue sarcoma data and the CINSARC prognosti-
+cator. We likely did not identify a larger overlap because the CINSARC study aimed to identify
+a general prognosticator for soft tissue sarcomas, which is not subtype specific. In addition, the
+outcome used was different; we used DFI as an outcome measurement while in the CINSARC
+study metastasis was used. Moreover, we identified subtype specific prognostic genes using a
+Kaplan-Meier approach which does not only take outcome but also time to events into
+account. Here we showed that subtype specific prognostic genes outperformed general prog-
+nostic genes.
+For one of the identified genes, HMMR, we confirmed that high protein expression was
+associated with poor outcome of LMS. Further we confirmed that HMMR expression outper-
+formed the FNCLCC histological grading to predict outcome. Recently it was shown that LMS
+displays hallmarks of “BRCAness” through identification of mutation signatures and alter-
+ations in genes related to homologous recombination [36]. Here we identified strong prognos-
+tic genes for LMS, two of which were related to homologous repair (BRCA2 and HMMR).
+HMMR forms a complex with BRCA1 or BRCA2 together with other proteins, and high
+expression of HMMR was associated with poor survival in liver, pancreatic and lung cancer
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 14 / 19
+
+[11]. Possibly, defects in the homologous repair pathway could result in over-expression of
+HMMR in an attempt to compensate for other defective proteins. The involvement of genes
+related to “BRCAness” and to disease outcome warrants further studies.
+A regulatory network reconstruction combined with the CMAP drug data revealed not
+only the commonly used drug doxorubicin, but also indicated that HDAC inhibitors could be
+a potential treatment for many different soft tissue sarcoma subtypes. Recent studies indeed
+suggest that HDAC inhibitors may be effective in treating soft tissue sarcomas. In liposarcoma
+it was shown that HDAC inhibitors increase apoptosis and anti-proliferation effects [37]. In SS
+HDAC inhibitors cause disruption of the SS18-SSX oncoprotein resulting in apoptosis [28].
+Another study found HDAC inhibitors lead to apoptosis in SS cell-lines [38]. In other sarcoma
+subtypes HDAC inhibitors have not been studied extensively. One uterine LMS cell line was
+tested and shown to be sensitive to the pan HDAC inhibitor ITF2357 with a synergistic effect
+when combined with doxorubicin [39]. In this study we further investigated LMS sensitivity to
+HDAC inhibition using quisinostat and trichostatin A. We included three LMS cell-lines, one
+ULMS (LMS04) and two STLMS (LMS05 and JA192). As SS was previously found to be sensi-
+tive to HDAC inhibition we also included one SS cell-line (SYO-1) as a positive control. SS
+showed a greater sensitivity to TSA, however, quisinostat showed a very low IC50 (15–41 nM)
+in all cell lines. Thus, quisinostat might be further explored as a potential therapy for both
+ULMS and STLMS.
+In conclusion, three groups of soft tissue sarcoma subtypes included in the TCGA study
+were identified based on similarities in their expression profiles, corresponding to their over-
+lapping morphology. Using a random forest analysis, novel diagnostic markers were identified
+that may distinguish between soft tissue sarcoma subtypes within these three groups, including
+NEURL1 that was highly expressed in SS as compared to MPNST. Next, using a Kaplan-Meier
+analysis, prognostic genes were identified. Of these, HMMR protein expression was confirmed
+to be associated with poor outcome in an independent cohort of LMS from our archives. A
+network reconstruction combined with CMAP data revealed that HDAC inhibitors could be
+effective therapy in different soft tissue sarcoma subtypes, which we confirmed in LMS and SS
+cell-lines.
+In conclusion, machine learning algorithms uncovered diagnostic biomarkers, prognostic
+genes and identified potential novel therapeutic targets for soft tissue sarcomas. This study
+thereby illustrates the power of different machine learning algorithms to improve our under-
+standing of rare cancers using existing datasets.
+Supporting information
+S1 Fig. Relation between normal tissue and molecular profiles of soft tissue sarcomas. (a)
+Combined and normalized expression data from the GTEx (red) and TCGA (blue), showing
+100 samples from both data sets. (b) Deep neural network training on GTEx principal compo-
+nent data resulted in a prediction accuracy of 98% in 30 epochs. Loss and accuracy are shown
+over the 30 training epochs. (c) Overlap of the different types of soft tissue sarcomas with nor-
+mal tissue from the GTEx. (d) Normalized expression from TCGA soft tissue sarcoma sam-
+ples. (e) Differentially expressed genes for all soft tissue sarcoma subtypes in the TCGA,
+compared to the other soft tissue sarcoma subtypes.
+(TIF)
+S2 Fig. Diagnostic markers to distinguish within three subgroups. (a) t-SNE analysis of all
+soft tissue sarcoma samples, colored according to the subtype.
+(TIF)
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 15 / 19
+
+S3 Fig. Novel prognostic biomarkers in soft tissue sarcomas. (a) Differences and overlap
+with the genes that are prognostic, as found in the Pathology Atlas analysis. Many of the identi-
+fied prognostic genes are also prognostic genes in other cancer types. Number of prognostic
+genes are shown in the red circles, tumor types in the gray circles and all tumor types analyzed
+in the protein atlas are shown as a collection in the blue circle. (b) Normalized expression data
+from the French Sarcoma Group array expression data from sarcomas. (c) Classification
+according to the CINSARC C1 or C2 classification in the second cohort.
+(TIF)
+S1 Table. Tissue types present in the GTEx data.
+(XLSX)
+S2 Table. Clinicopathological details for the newly constructed TMA.
+(XLSX)
+S3 Table. Strong predictors of the DFI.
+(XLSX)
+S4 Table. Significant prognostic genes in both the TCGA and French Sarcoma Group.
+(XLSX)
+S5 Table. Subtype specific drugs identified from the CMAP data.
+(XLSX)
+Acknowledgmen ts
+The authors would like to thank FJ Wolters (Erasmus MC, the Netherlands), NF de Miranda,
+S Venneker, BPF Lelieveldt and J Dijkstra for the thoughtful discussions, MA de Graaff for
+making the TMA, BWEM van den Akker for technical assistance with the viability assays, A
+Kawai (National Cancer Center Hospital, Japan) for providing the SYO-1 cell line, JA Fletcher
+(Harvard Medical School, USA) for providing the LMS04 and LMS05 cell-lines and F Chibon
+(Institut Bergonie ´ , France) and JM Coindre (Institut Bergonie ´ , France) for the JA192 cell-line.
+Author Contributions
+Conceptualization: David G. P. van IJzendoorn, Karoly Szuhai, Marieke L. Kuijjer, Judith V.
+M. G. Bove ´ e.
+Data curation: David G. P. van IJzendoorn, Marie Kostine.
+Formal analysis: David G. P. van IJzendoorn, Marieke L. Kuijjer, Judith V. M. G. Bove ´ e.
+Investigation: David G. P. van IJzendoorn, Inge H. Briaire-de Bruijn, Marieke L. Kuijjer,
+Judith V. M. G. Bove ´ e.
+Methodology: David G. P. van IJzendoorn, Karoly Szuhai, Marieke L. Kuijjer, Judith V. M. G.
+Bove ´ e.
+Supervision: Karoly Szuhai, Marieke L. Kuijjer, Judith V. M. G. Bove ´ e.
+Validation: David G. P. van IJzendoorn, Inge H. Briaire-de Bruijn, Marie Kostine, Judith V.
+M. G. Bove ´ e.
+Visualization: David G. P. van IJzendoorn.
+Writing – original draft: David G. P. van IJzendoorn, Judith V. M. G. Bove ´ e.
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 16 / 19
+
+Writing – review & editing: Karoly Szuhai, Inge H. Briaire-de Bruijn, Marie Kostine, Marieke
+L. Kuijjer.
+References
+1. Taylor BS, Barretina J, Maki RG, Antonescu CR, Singer S, Ladanyi M. Advances in sarcoma genomics
+and new therapeutic targets. Nat Rev Cancer. 2011/07/15. 2011; 11: 541–557. https:/ /doi.org/10.10 38/
+nrc3087 PMID: 21753790
+2. Fletcher CDM, Bridge JA, Hogendoorn PCW, Mertens F. WHO Classifi cation of Tumours of Soft Tissue
+and Bone. 2013.
+3. Abeshou se A, Adebam owo C, Adebamo wo SN, Akbani R, Akeredolu T, Ally A, et al. Comprehen sive
+and Integrat ed Genomic Character ization of Adult Soft Tissue Sarcoma s. Cell. 2017/11/0 4. 2017; 171:
+950–965.e2 8. https://doi.or g/10.1016 /j.cell.2017.1 0.014 PMID: 29100075
+4. Van Der Maaten L, Hinton G. Visualizin g Data using t-SNE [Interne t]. Journal of Machine Learning
+Research. 2008. http://www.jm lr.org/paper s/volume9/v andermaat en08a/vanderm aaten08a.pdf
+5. Sorlie T, Perou CM, Tibshirani R, Aas T, Geisler S, Johnsen H, et al. Gene expression patterns of breast
+carcinomas distingui sh tumor subclasses with clinical implication s. Proc Natl Acad Sci. 2001/09/13 .
+2001; 98: 10869– 10874. https://doi.or g/10.107 3/pnas.19 1367098 PMID: 115538 15
+6. Lu J, Getz G, Miska EA, Alvare z-Saavedra E, Lamb J, Peck D, et al. MicroR NA expression profiles clas-
+sify human cancers. Nature. Nature Publishing Group; 2005; 435: 834. https://doi.or g/10.103 8/
+nature03702 PMID: 15944708
+7. Ro ¨ hrich M, Koelsche C, Schrimpf D, Capper D, Sahm F, Kratz A, et al. Methylation -based classif ication
+of benign and maligna nt periphera l nerve sheath tumors. Acta Neuropa thol. 2016/02/ 10. 2016; 131:
+877–887. https:// doi.org/10.10 07/s0040 1-016-154 0-6 PMID: 26857854
+8. Capper D, Jones DTW, Sill M, Hovestad t V, Schrimpf D, Sturm D, et al. DNA methylation -based classifi-
+cation of central nervous system tumours. Nature. 2018/03 /15. 2018; 555: 469–474. https://doi.or g/10.
+1038/nat ure26000 PMID: 29539639
+9. Chibon F, Lagarde P, Salas S, Perot G, Brouste V, Tirode F, et al. Validated predicti on of clinical out-
+come in sarcomas and multiple types of cancer on the basis of a gene expression signature related to
+genome complexity. Nat Med. 2010/06/2 9. 2010; 16: 781–787. https://doi.or g/10.1038/ nm.2174 PMID:
+20581836
+10. Lesluyes T, Delespaul L, Coindre JM, Chibon F. The CINSA RC signature as a prognostic marker for
+clinical outcome in multiple neoplas ms. Sci Rep. 2017/07/16. 2017; 7: 5480. https://doi.or g/10.103 8/
+s41598-017 -05726-x PMID: 28710396
+11. Uhlen M, Zhang C, Lee S, Sjostedt E, Fagerberg L, Bidkhor i G, et al. A patholo gy atlas of the human
+cancer transcriptom e. Science (80-). 2017/08 /19. 2017; 357. https://doi.or g/10.1126/ science.aan2 507
+PMID: 288189 16
+12. The Genotyp e-Tissue Expressio n (GTEx) project. Nat Genet. 2013; 45: 580–58 5. https://doi.or g/10.
+1038/ng. 2653 PMID: 23715323
+13. null null. R: A Language and Environm ent for Statistical Computing [Interne t]. Vienna, Austria; 2017.
+14. Robinson MD, Oshlack A. A scaling normaliza tion method for differe ntial expression analysis of RNA-
+seq data. Genome Biol. BioMed Central; 2010; 11. https://doi.or g/10.118 6/gb-2010- 11-3-r25 PMID:
+20196867
+15. Liu J, Lichtenbe rg T, Hoadley KA, Poisson LM, Lazar AJ, Chernia ck AD, et al. An Integra ted TCGA
+Pan-Can cer Clinical Data Resourc e to Drive High-Q uality Survival Outcome Analytics . Cell. 2018/04 /
+07. 2018; 173: 400–416.e11. https:// doi.org/10.10 16/j.cell.2 018.02.05 2 PMID: 29625055
+16. Lausen B, Hothorn T, Bretz F, Schumac her M. Assessme nt of optimal selected prognostic factors. Bio-
+metrical J. WILEY-VC H Verlag; 2004; 46: 364–374. https:// doi.org/10.10 02/bimj.20 0310030
+17. De Graaff MA, Cleton-Jan sen AM, Szuhai K, Bove ´ e JVMG. Mediator complex subunit 12 exon 2 muta-
+tion analysis in different subtype s of smooth muscle tumors confirms genetic heterogenei ty. Hum
+Pathol. 2013/03 /23. 2013; 44: 1597–1 604. https://doi.or g/10.101 6/j.humpa th.2013.01. 006 PMID:
+23517922
+18. Baranski Z, Booij TH, Cleton-Jan sen AM, Price LS, van de Water B, Bovee J V, et al. Aven-mediat ed
+checkpoint kinase control regulat es proliferatio n and resistance to chemothe rapy in convention al osteo-
+sarcoma. J Pathol. 2015/03/11. 2015; 236: 348–359. https://doi.or g/10.1002/ path.4528 PMID:
+25757065
+19. Cleven AH, Sannaa GA, Briaire-de Bruijn I, Ingram DR, van de Rijn M, Rubin BP, et al. Loss of H3K27
+tri-methyl ation is a diagnos tic marker for malignant periphera l nerve sheath tumors and an indicator for
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 17 / 19
+
+an inferior survival. Mod Pathol. 2016/03/19. 2016; 29: 582–590. https://doi. org/10.1038/m odpathol.
+2016.45 PMID: 26990975
+20. Prieto-G ranada CN, Wiesner T, Messina JL, Jungbluth AA, Chi P, Antonescu CR. Loss of H3K27me3
+Expressio n Is a Highly Sensitive Marker for Sporadic and Radiation -induced MPNST. Am J Surg
+Pathol. 2015/12 /10. 2016; 40: 479–48 9. https://doi.or g/10.109 7/PAS.0000 00000000056 4 PMID:
+26645727
+21. Kawai A, Naito N, Yoshida A, Morimoto Y, Ouchid a M, Shimizu K, et al. Establishm ent and characteriz a-
+tion of a biphasic synovial sarcoma cell line, SYO-1. Cancer Lett. 2004/01/28. 2004; 204: 105–113.
+https://doi.or g/10.101 6/j.canlet.2 003.09.031 PMID: 14744540
+22. Chen EY, Xu H, Gordonov S, Lim MP, Perkin s MH, Ma’ayan A. Expressio n2Kinases : mRNA profiling
+linked to multiple upstream regulatory layers. Bioinformatic s. 2011/11 /15. 2012; 28: 105–11 1. https://
+doi.org/10.10 93/bioinformati cs/btr625 PMID: 22080467
+23. Shannon P, Markiel A, Ozier O, Baliga NS, Wang JT, Rama ge D, et al. Cytoscape : a software environ-
+ment for integrated models of biomolecu lar interaction networks . Genome Res. 2003/11 /05. 2003; 13:
+2498–2504. https:/ /doi.org/10.11 01/gr.1 239303 PMID: 14597658
+24. Walter W, Sanchez-Ca bo F, Ricote M. GOplot: an R package for visually combining express ion data
+with functional analysis . Bioinformatics . 2015/05/ 13. 2015; 31: 2912–29 14. https://doi.or g/10.1093 /
+bioinforma tics/btv300 PMID: 259646 31
+25. Lazar A, Evans H, Shipley J. Smooth-m uscle tumors. Leiomyoma of deep soft tissue. Leiomyos arcoma.
+WHO classification of tumours of soft tissue and bone. Lyon: IARC; 2013. p. 111–3.
+26. Chau YM, Pando S, Taylor HS. HOXA1 1 silencing and endoge nous HOXA1 1 antisense ribonucleic
+acid in the uterin e endometrium . J Clin Endocrinol Metab. 2002/06/07. 2002; 87: 2674–2680. https://
+doi.org/10.12 10/jcem.87.6 .8527 PMID: 12050232
+27. Binh MB, Sastre- Garau X, Guillou L, de Pinieux G, Terrier P, Lagace R, et al. MDM2 and CDK4 immu-
+nostainin gs are useful adjuncts in diagnos ing well-differentia ted and dedifferentia ted liposar coma sub-
+types: a comparati ve analysis of 559 soft tissue neoplas ms with genetic data. Am J Surg Pathol. 2005/
+09/15. 2005; 29: 1340–1347. https:// doi.org/10.10 97/01.pa s.0000170 343.09562.39 PMID: 161604 77
+28. Laporte AN, Poulin NM, Barrott JJ, Wang XQ, Lorzadeh A, Vander Werff R, et al. Death by HDAC Inhi-
+bition in Synovial Sarcoma Cells. Mol Cancer Ther. 2017/09/0 8. 2017; 16: 2656–266 7. https://doi.or g/
+10.1158/ 1535-7163.MC T-17-0397 PMID: 288780 27
+29. Ishibe T, Nakayama T, Aoyama T, Nakamu ra T, Toguchid a J. Neurona l differentiat ion of synovial sar-
+coma and its therap eutic applicati on. Clin Orthop Relat Res. 2008/06/2 0. 2008; 466: 2147–21 55.
+https://doi.or g/10.100 7/s11999 -008-0343-z PMID: 18563503
+30. Regev A, Teichmann SA, Lander ES, Amit I, Benoist C, Birney E, et al. The human cell atlas. Elife.
+2017; 6. https:// doi.org/10.75 54/eLife .27041 PMID: 2920610 4
+31. Nakamu ra H, Yoshida M, Tsuiki H, Ito K, Ueno M, Nakao M, et al. Identificati on of a human homolog of
+the Drosophil a neuralized gene within the 10q25.1 malignant astrocy toma deletion region. Oncoge ne.
+1998/03/ 31. 1998; 16: 1009–10 19. https://doi.or g/10.103 8/sj.onc.120 1618 PMID: 951987 5
+32. Bridge RS, Bridge JA, Neff JR, Naumann S, Althof P, Bruch LA. Recurren t chromosom al imbalance s
+and structural ly abnorm al breakpo ints within complex karyotype s of maligna nt periphera l nerve sheath
+tumour and malignant triton tumour: a cytogenetic and molecular cytogenet ic study. J Clin Pathol.
+2004. pp. 1172–1 178. https://doi.or g/10.113 6/jcp.2004 .019026 PMID: 155096 79
+33. Holder AM, Gonzalez -Angulo AM, Chen H, Akcakan at A, Do KA, Symma ns WF, et al. High stearoyl-
+CoA desaturase 1 express ion is associated with shorter survival in breast cancer patients. Breast Can-
+cer Res Treat. 2013; 137: 319–327. https://doi.or g/10.1007/s 10549-012- 2354-4 PMID: 23208590
+34. Pisanu ME, Noto A, De Vitis C, Morron e S, Scognamiglio G, Botti G, et al. Blockade of Stearo yl-CoA-
+desatura se 1 activity reverts resistance to cisplatin in lung cancer stem cells. Cancer Lett. 2017/08/12.
+2017; 406: 93–104. https://doi.or g/10.101 6/j.canlet.2 017.07.027 PMID: 28797843
+35. Ishibe T, Nakayama T, Aoyama T, Nakamu ra T, Toguchid a J. Neurona l Differentia tion of Synovial Sar-
+coma and Its Therapeutic Applica tion. Clin Orthop Relat Res. 2008. pp. 2147–2155. https://doi.o rg/10.
+1007/s11 999-008-0 343-z PMID: 185635 03
+36. Chudasam a P, Mughal SS, Sanders MA, Hu ¨ bschmann D, Chung I, Deeg KI, et al. Integrativ e genomic
+and transcrip tomic analysis of leiomyosar coma. Nat Commun. 2018/01/13. 2018; 9: 144. https://doi.
+org/10.1038/ s41467-017- 02602-0 PMID: 293215 23
+37. Ou W-B, Zhu J, Eilers G, Li X, Kuang Y, Liu L, et al. HDACi inhibits liposarco ma via targeting of the
+MDM2-p5 3 signaling axis and PTEN, irrespe ctive of p53 mutationa l status . Oncotarget. 2015/04 /19.
+2015; 6: 10510– 20. https://doi.or g/10.186 32/oncota rget.3230 PMID: 2588863 3
+38. Bernhart E, Stuendl N, Kaltenegger H, Windpassin ger C, Donohue N, Leithner A, et al. Histone deace-
+tylase inhibitors vorinostat and panobinos tat induce G1 cell cycle arrest and apoptosis in multidrug
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 18 / 19
+
+resistant sarcoma cell lines. Oncotarget. 2017/11 /05. 2017; 8: 77254– 77267. https://doi.or g/10.186 32/
+oncotarg et.20460 PMID: 291003 85
+39. Di Martile M, Desideri M, Tupone MG, Buglioni S, Antoniani B, Mastroiorio C, et al. Histone deacetylas e
+inhibitor ITF2357 leads to apoptosis and enhance s doxorub icin cytotoxici ty in preclinic al models of
+human sarcoma. Oncogenes is. 2018/02 /24. 2018; 7: 20. https://doi.or g/10.1038/s 41389-018- 0026-x
+PMID: 294725 30
+Novel diagnosti c and prognostic markers for soft tissue sarcomas
+PLOS Computationa l Biology | https:/ /doi.org/10.13 71/journal.p cbi.1006826 February 20, 2019 19 / 19
