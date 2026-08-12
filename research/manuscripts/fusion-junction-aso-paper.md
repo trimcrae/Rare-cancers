@@ -1002,6 +1002,14 @@ that knows about every partner can see it. The same identity that creates that l
 coverage: it is one sequence property, read twice. A reader must be able to see both from the artifact,
 and both are in it.
 
+**⭐ And the mechanism has a negative control that the atlas supplies for free — it came out right.** If
+the coverage really is FET-family paralogy, then the one partner here that is **not** a FET protein
+should be excluded from it. **TCF12 appears in no exact multi-partner set at all** — every one of the
+nine is drawn from EWSR1, TAF15 and FUS. TCF12 reaches only the weaker gap-intact category, where a match
+is tolerated mismatches in the wings. The prediction was not designed for: partner membership of the
+coverage sets was never a criterion in the ranking, and TCF12 was in the panel because it is a reported
+EMC partner, not because it was chosen as a control.
+
 **What this changes about the deliverable.** §3b.4 says the deployable artifact is a *panel* keyed to a
 sequenced breakpoint. That remains true and is now quantified — but it is no longer the only shape
 available. At one junction position, a **single stock reagent** addresses the commonest EWSR1 junction and
