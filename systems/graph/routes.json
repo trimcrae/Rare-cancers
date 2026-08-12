@@ -7430,7 +7430,7 @@
     "kind": "route",
     "title": "Metastasis-directed ablative radiotherapy to lung metastases (SABR/SBRT)",
     "grade": {
-      "value": "◐ IT HAS BEEN DONE FOUR TIMES AND STUDIED ZERO TIMES (2026-08-10). ⭐ Ablative radiotherapy has been delivered to metastatic EMC and reported in four modalities — SABR, whole-lung EBRT, HDR interstitial brachytherapy and unspecified palliative RT — twice to lung specifically, against a denominator of five papers naming EMC and stereotactic radiotherapy in title or abstract at all. No series, trial, registry analysis or guideline has ever evaluated it as a question. ⛔ The four reports are all positive and all uncontrolled, so they are usable as existence proofs that the treatment is deliverable and NOT as evidence that it works; publication bias here points the same way as the hypothesis, which is the route's main threat. ⭐ What is genuinely new is an inferential error the field has been making: every study of radiotherapy in this disease concerns conventionally fractionated dose to a PRIMARY, and its null results have been read as though they were evidence about ablative dose to a METASTASIS.",
+      "value": "◔ THE PRACTICE IS REAL; THE ARGUMENT FOR IT IS ALREADY PUBLISHED (2026-08-10, corrected the same day it was written). ⛔ THIS ROUTE'S ORIGINAL GRADE CLAIMED A CATEGORY ERROR NOBODY HAD NAMED — that the field reads conventionally fractionated primary-site nulls as evidence about ablative dose to a metastasis. The 2025 comprehensive review (PMID 41055792) names it, in BED terms: conventional EBRT 'typically deliver[s] BED levels insufficient for long-term control' against 142 Gy at α/β = 4, hypofractionation 'may have contributed to overcoming the intrinsic radioresistance of EMC', 'SBRT may also be an option instead of surgery', and 'metastasis-directed local therapy should follow uniform MDT criteria'. ⛔ THE REFUTING FULL TEXT WAS ALREADY RETRIEVED IN literature-cache WHEN THE CLAIM WAS WRITTEN, cited as a search hit and never opened. ⭐ WHAT SURVIVES IS SMALLER AND QUANTITATIVE: at least seven reported deliveries exist scattered across case reports and one review that garbles two of their attributions, and nobody has tabulated them by dose, BED and duration of local control, nor tested whether the α/β = 4 borrowed from generic sarcoma fits the EMC observations. ⛔ That is a synthesis, not a reappraisal, and it may not carry a paper by itself — publication bias across ~7 uniformly positive anecdotes will not support a dose-response claim. Superseded, retained: the category-error framing.",
       "owner": {
         "file": "research/literature/emc-rt-lung-mets-findings.json"
       }
@@ -7495,6 +7495,7 @@
       }
     ],
     "remaining_unknowns": [
+      "⛔ Whether ANY contribution survives that the 2025 review has not already made in prose. This is now the route's gating question and it was not asked before the route was minted.",
       "Dose, fractionation, lesion size and duration of local control in the one SABR report — none is in its abstract and the full text is open access and unfetched.",
       "What the whole-lung radiotherapy report actually found. It is the single most on-point paper in the record, it carries no indexed abstract, and it returns HTTP 403 to the sandbox and to a runner alike.",
       "Whether any sarcoma-wide SABR series reports an EMC subgroup, which would convert borrowed evidence into histology-specific evidence.",
@@ -7515,12 +7516,13 @@
       }
     ],
     "readiness": {
-      "attainable_today": "preprint",
+      "attainable_today": "internal_note",
       "missing": [
-        "the full text of the whole-lung radiotherapy report, blocked at both the sandbox and the runner and carrying no indexed abstract",
-        "a radiation oncologist co-author, without whom a concept paper in this space reads as an outsider's proposal"
+        "a quantitative contribution that a 2025 review has not already made in prose — currently the only candidate is the BED-versus-local-control tabulation, and roughly seven positively-selected cases will not support it",
+        "the full text of the whole-lung radiotherapy report, blocked at both the sandbox and the runner",
+        "primary reports for the three cases the 2025 review names with garbled or duplicated attributions"
       ],
-      "why_not_higher": "The argument is complete and the evidence behind it is four uncontrolled case reports whose publication bias points the same way as the hypothesis, so the paper can be written today only as a hypothesis piece that reasons from the design asymmetry rather than from the outcomes."
+      "why_not_higher": "The novelty claim that justified a standalone paper is refuted by a 2025 review that makes the same argument more precisely. What remains is a dose-and-outcome table over roughly seven uniformly positive anecdotes, which is a useful addendum to another paper and is not a preprint on its own."
     },
     "timing": {
       "recommendation": "pursue_now",
@@ -7528,7 +7530,7 @@
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Fetch the full text of the four reported deliveries and extract dose, fractionation, lesion size and duration of local control — the step that turns four anecdotes into a table.",
+      "best_next_action": "Do NOT write the concept paper as framed. Extract dose, fractionation, BED and local-control duration for every reported irradiated EMC metastasis into the findings artifact, and decide from the assembled table whether anything survives that the 2025 review has not already said.",
       "cost": "$0"
     }
   },

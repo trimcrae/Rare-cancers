@@ -12,14 +12,29 @@ last_verified: 2026-08-10
 
 # Metastasis-directed radiotherapy in EMC — is there a concept paper here?
 
-**Yes, and it is a stronger one than the route board currently implies.** This file is the proposal, not
-the manuscript. Every identifier it uses is anchored in
-[`emc-rt-lung-mets-findings.json`](../literature/emc-rt-lung-mets-findings.json), which in turn points at
-the Europe PMC index that produced it.
+## ⛔ VERDICT, CORRECTED THE SAME DAY THIS FILE WAS WRITTEN: NO — NOT AS FRAMED
 
-⚠ **Read the "what would sink it" section before writing a word of the paper.** Two of the four
-objections there are serious, and one of them is the reason this is filed as a proposal rather than an
-outline.
+⚠ *Superseded, retained: **"Yes, and it is a stronger one than the route board currently implies."*** That
+sentence was written before the 2025 comprehensive review's full text was read. **It was already retrieved,
+sitting in `literature-cache` at 112 KB, cited in the evidence artifact as a search hit and never opened.**
+
+**The review makes this paper's argument, in its own words, more precisely than §4 below makes it:**
+
+> "Stereotactic body radiation therapy (SBRT) may also be an option instead of surgery."
+> "Metastasis-directed local therapy should follow uniform MDT criteria."
+> "The use of hypofractionated RT, delivering 3–5 Gy per fraction instead of the conventional 1.8–2 Gy per
+> fraction, may have contributed to overcoming the intrinsic radioresistance of EMC."
+> "The biologically effective dose (BED) of HDR-ISBT, calculated at 142 Gy (α/β = 4), was significantly
+> higher than conventional EBRT regimens, **which typically deliver BED levels insufficient for long-term
+> control.**"
+>
+> — PMID 41055792, *J Cancer Res Clin Oncol* 2025
+
+That last sentence **is** §4's "category error", expressed in BED rather than in prose. §4 is therefore not
+a contribution, and **the sections below are retained as the record of a claim that did not survive
+contact with a paper this repository had already fetched.**
+
+**What survives is smaller and quantitative** — §8, which is now the only live part of this file.
 
 ---
 
@@ -94,7 +109,10 @@ a primary or a resection bed. None concerns ablative dose to a metastasis. A nul
 biological effect is different in kind, not degree. **The field has been reading one as though it were the
 other, and that inference is what has kept an entire modality off the table for this disease.**
 
-That is a real, checkable, previously unstated point. It is the paper's actual contribution.
+⛔ ***REFUTED — see the verdict at the top of this file.*** *Superseded, retained: "That is a real,
+checkable, previously unstated point. It is the paper's actual contribution."* It was stated, in print, in
+2025, in BED terms, in a review whose full text this repository had already downloaded. The observation
+above is correct; it is simply **not ours**.
 
 ## 5 · ⛔ What would sink this paper
 
@@ -164,3 +182,59 @@ corroborated at 27 of 29 in another. The route's missing numerator cost one fetc
 *Every claim above is anchored in [`emc-rt-lung-mets-findings.json`](../literature/emc-rt-lung-mets-findings.json).
 Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness, and the case-report
 outcomes are not evidence of benefit.*
+
+---
+
+## 8 · ⭐ What is actually left — the only live section
+
+Everything above §8 is retained as a record, not as a plan. Three candidates survive the correction, in
+descending order of how much they contribute.
+
+### (a) The survival discrepancy — the strongest of the three, and it is a different paper
+
+Median overall survival after metastasis in EMC is quoted as **17.8 months** in the 2008 two-referral-centre
+series, and as **"5–7 years in modern series"** by the 2025 review — which also cites a SEER-derived median
+of **48 months** with 10-year OS of 10%. **These differ by roughly fourfold, and the review uses both**: the
+17.8-month figure as the benchmark a treated patient exceeded, and the 5–7 year figure as the modern
+expectation.
+
+Nobody has reconciled them, and **every argument for metastasis-directed therapy in this disease depends on
+which is right** — the strategy needs the patient to live long enough for local control to matter. This
+repository already holds the instrument (`TECH-RECONSTRUCTED-IPD`, known-answer control passing, no
+published figure yet digitised into it), the input is published Kaplan–Meier curves, and the cost is $0.
+
+⚠ **This is not the radiotherapy paper.** It is a survival-methodology paper that the radiotherapy question
+happens to have surfaced, and merging the two would weaken both.
+
+### (b) The dose-and-outcome table — real but probably too thin to stand alone
+
+At least **seven** reported deliveries of radiotherapy to EMC metastases exist, scattered across case
+reports. Nobody has tabulated them by dose, fractionation, BED and duration of local control. That table is
+genuinely absent from the literature and is $0 to build.
+
+⛔ **But it will not support a dose–response claim.** Roughly seven cases, uniformly positive, selected for
+publication precisely because they worked. A BED-versus-control plot over that sample is a picture of
+publication bias with a regression line through it, and it must not be drawn as though it were evidence.
+Its honest use is as a **descriptive appendix** — "here is every dose anyone has reported and what
+followed" — attached to something else.
+
+### (c) A defect in the review worth reporting to its authors, not writing up
+
+The 2025 review tells one case **twice, in near-identical paragraphs, attributed to two different papers**
+("Qiu et al. 2014" and "Takagawa et al. 2022"), while separately citing Takagawa for the brachytherapy case.
+At least one attribution is wrong. ⛔ **Consequence for us: do not cite any of those three cases from the
+review — retrieve the primaries.** This is a correspondence-to-the-editor at most.
+
+## 9 · Recommendation
+
+**Do not write this concept paper.** Its argument is published. Writing it would restate a 2025 review at
+greater length, and the route board should not carry it as a live paper endpoint.
+
+**Do build (a)** — the survival reconciliation — as its own thing, on the instrument that already exists.
+**Fold (b) into it or into `PUB-LOCOREGIONAL` as a descriptive table**, clearly labelled as a
+publication-biased case collection.
+
+⭐ **One finding from this work survives independently of all of the above and is worth keeping:**
+`RT-LUNG-DIRECTED` records the lung-confined fraction as never curated. It is stated outright in retrieved
+full text — **63% confined to lung, lung first site in 80%** — and corroborated at 27 of 29 in an
+independent cohort. That numerator cost one fetch and is now in the evidence artifact.

@@ -9,9 +9,7 @@
     "full_text_corpus": "literature-cache branch, literature/emc-rt-lung-mets/",
     "note": "Every identifier below was returned by a Europe PMC query recorded in the citation index. Where a statement comes from an abstract rather than full text, the record says so, because an abstract is evidence of what a paper claims and not of how it got there."
   },
-
-  "headline": "ANSWER: YES, BUT ONLY AS SCATTERED CASE REPORTS, AND NEVER AS A STUDIED STRATEGY. Radiotherapy has been delivered to metastatic EMC deposits and reported at least four times in four different modalities, including twice to lung specifically. No series, no trial, no registry analysis and no guideline has ever evaluated metastasis-directed radiotherapy in this histology as a question in its own right.",
-
+  "headline": "ANSWER: YES — at least seven reported deliveries, and the rationale for doing it is ALREADY IN PRINT. ⛔ CORRECTED 2026-08-10, same day: this file first said the field had never drawn the distinction between conventionally fractionated dose to a primary and ablative dose to a metastasis. IT HAS. The 2025 comprehensive review (PMID 41055792) states in its own words that 'Stereotactic body radiation therapy (SBRT) may also be an option instead of surgery', that 'Metastasis-directed local therapy should follow uniform MDT criteria', that hypofractionation at 3-5 Gy per fraction 'may have contributed to overcoming the intrinsic radioresistance of EMC', and that conventional EBRT regimens 'typically deliver BED levels insufficient for long-term control' against a BED of 142 Gy at alpha/beta = 4. That is the argument this artifact claimed was unstated, stated more precisely than it was claimed. What remains true and unchanged: nobody has assembled the reported cases into a dose-and-outcome table, and no series, trial or registry analysis has evaluated the practice.",
   "direct_evidence_rt_to_emc_metastases": [
     {
       "pmid": "41323055",
@@ -62,7 +60,6 @@
       "why_it_matters": "It establishes that the practice happens in real cohorts and that nobody has ever reported what it did."
     }
   ],
-
   "adjacent_evidence_rt_works_on_emc_somewhere": [
     {
       "pmid": "36720511",
@@ -105,7 +102,6 @@
       "weight": "Population-level and propensity-weighted, which is the strongest design in this list, but it is localised disease and says nothing about metastases."
     }
   ],
-
   "the_live_contradiction": {
     "statement": "The field does not agree with itself about whether radiotherapy does anything in EMC, and both sides are recent and methodologically serious.",
     "against": [
@@ -121,7 +117,6 @@
     "what_nobody_has_done": "Every entry on both sides concerns the PRIMARY tumour. The contradiction has never been examined at the metastasis, at ablative dose, in the one anatomical compartment where 63% of this disease's metastatic burden actually sits.",
     "why_that_matters": "Conventionally fractionated 50-66 Gy to a resection bed and 3-5 fraction ablative SABR to a lung nodule are different treatments with different radiobiology. A null result for the first is not evidence about the second, and the literature has been reading it as though it were."
   },
-
   "the_natural_history_that_makes_the_case": {
     "source": "PMID 19347951-adjacent record retrieved as literature/emc-rt-lung-mets/emc-two-referral-centers-drilon-2008.txt (Cancer, 2008, 2 referral centres, n = 86); read from full text",
     "caution": "The PMID for this 2008 series was NOT confirmed by the probe and must not be written into any manuscript until it is. The retrieved full text is the provenance for the figures below.",
@@ -137,7 +132,6 @@
     "significance_for_this_repository": "RT-LUNG-DIRECTED's view states that the lung-confined fraction -- 'the actual eligibility criterion' -- is not curated and that metastatic site 'appears once in free text rather than as data'. That is true of the registry and NOT true of the primary literature: 63% lung-confined is stated outright in the retrieved full text of one series, and corroborated at 93% of the metastatic-at-presentation subgroup in another. The route's missing numerator was one fetch away.",
     "the_tension_that_has_to_be_stated": "A median survival of 17.8 months after metastasis sits badly beside the description of this disease as indolent, and the concept below must not quietly use the indolent framing and the long-survival figures while ignoring this one. It is from a 2008 cohort with 3.6 years median follow-up and it is the figure most likely to be revised by the reconstructed-IPD instrument this repository already has."
   },
-
   "the_borrowed_evidence_base": {
     "statement": "Metastasis-directed radiotherapy to sarcoma lung metastases is an established, prospectively studied practice. It is simply histology-agnostic.",
     "read_from": "Europe PMC counts in the citation index plus web-search summaries; the full texts of these sarcoma-wide papers were requested and mostly returned stub pages, so the numeric outcomes below are NOT verified here.",
@@ -152,7 +146,6 @@
       "A randomised phase II of SBRT in oligometastatic soft tissue sarcoma exists (Stereosarc, NCT03548428) and a prospective phase 2 of SBRT for sarcoma lung metastases exists (PMID 35987453). Neither is EMC-specific. Both identifiers came from web search and are NOT in the probe index."
     ]
   },
-
   "search_defects_found_and_fixed": [
     {
       "defect": "A wildcard inside a quoted phrase.",
@@ -172,11 +165,55 @@
       "fixed_in": "scripts/lit_rt_probe.py, all EMC queries field-restricted."
     }
   ],
-
   "what_is_still_unread": [
     "PMID 36944557 full text -- the whole-lung radiotherapy report, the single most on-point paper, blocked by Cloudflare at both the sandbox and the runner and carrying no indexed abstract.",
     "The dose, fractionation, lesion size and duration of local control in PMID 41323055, none of which is in the abstract.",
     "Whether any of the sarcoma-wide SABR series reports an EMC subgroup, which would need the full texts that returned stub pages.",
     "The PMID of the 2008 two-referral-centre series, whose figures are used above from retrieved full text but whose identifier has not been confirmed."
-  ]
+  ],
+  "correction_2026_08_10": {
+    "what_was_wrong": "The first version of this artifact, and the RT-MDT-LUNG grade written from it, claimed the field had made a category error: reading primary-site conventional-fractionation nulls as evidence about ablative dose to metastases. That claim was the route's stated reason for existing.",
+    "how_it_was_caught": "By reading the full text of the 2025 comprehensive review, which was already sitting retrieved in the literature-cache branch at 112 KB when the claim was written. It was cited in this artifact as a search hit and never opened. ⛔ THE REFUTING EVIDENCE WAS IN HAND BEFORE THE CLAIM WAS MADE, and the claim was published to the route board anyway.",
+    "the_prior_art_verbatim": [
+      "'Stereotactic body radiation therapy (SBRT) may also be an option instead of surgery.'",
+      "'Local treatments such as metastasectomy or ablation can be used for oligometastatic disease, sometimes resulting in long remissions.'",
+      "'Metastasis-directed local therapy should follow uniform MDT criteria.' (in the review's own recommendations)",
+      "'The use of hypofractionated RT, delivering 3-5 Gy per fraction instead of the conventional 1.8-2 Gy per fraction, may have contributed to overcoming the intrinsic radioresistance of EMC.'",
+      "'The biologically effective dose (BED) of HDR-ISBT, calculated at 142 Gy (alpha/beta = 4), was significantly higher than conventional EBRT regimens, which typically deliver BED levels insufficient for long-term control.'"
+    ],
+    "source": "PMID 41055792, doi 10.1007/s00432-025-06316-5, J Cancer Res Clin Oncol 2025; read from retrieved full text.",
+    "what_survives": "The observation is real and the framing was not novel. A paper arguing the rationale would be restating a 2025 review at greater length, which is not a contribution. What nobody has done is QUANTITATIVE: no one has tabulated every reported irradiated EMC metastasis with its dose, fractionation, BED and duration of local control, and no one has tested whether the alpha/beta = 4 the review borrows from generic sarcoma is consistent with the EMC observations themselves.",
+    "what_this_costs_the_route": "RT-MDT-LUNG drops from 'a reappraisal nobody has made' to 'a synthesis nobody has assembled'. That is a much smaller claim and it may not clear the bar for a paper on its own -- see the concept memo."
+  },
+  "additional_deliveries_found_in_the_review": [
+    {
+      "case": "Lung metastases treated with SBRT 40 Gy in 10 fractions, partial radiographic response, within a 10-year course of repeated radiotherapy to spine, pelvis, limb, chest wall and clavicle.",
+      "attribution_problem": "⚠ THE REVIEW TELLS THIS CASE TWICE, IN NEAR-IDENTICAL PARAGRAPHS, ATTRIBUTED TO TWO DIFFERENT PAPERS -- 'Qiu et al. (2014)' and 'Takagawa et al. (2022)'. At least one attribution is wrong, and Takagawa is separately cited in the same paragraph for the brachytherapy case (PMID 35494187). Do not cite this case from the review; find the primary report.",
+      "why_it_matters": "It is the only reported EMC LUNG metastasis treated with SBRT and given an explicit dose, and the patient far exceeded the 17.8-month figure."
+    },
+    {
+      "case": "Radiotherapy combined with trabectedin producing near-complete regression of metastatic EMC, overall survival beyond 41 months from metastatic diagnosis.",
+      "attribution": "'Filannino et al. (2018)' per the review; primary not retrieved.",
+      "why_it_matters": "A radiosensitisation observation, which is the RT-RT-INTENSIFY route's premise rather than this one's."
+    },
+    {
+      "case": "Approximately 20 pulmonary nodules resected at thoracotomy; patient disease-free at 2 years.",
+      "attribution": "'Mavrogenis et al. (2009)' per the review; primary not retrieved.",
+      "why_it_matters": "Surgical rather than radiotherapeutic, and it undercuts any tidy oligometastatic threshold -- 20 nodules is not oligometastatic by any published definition, and it worked."
+    }
+  ],
+  "the_discrepancy_nobody_has_reconciled": {
+    "statement": "Median overall survival after metastasis in EMC is quoted as 17.8 months in the 2008 two-referral-centre series and as '5-7 years in modern series' by the 2025 review, which also reports a SEER-derived median OS of 48 months with 10-year OS of 10% for metastatic disease. These differ by roughly fourfold and the review uses the 17.8-month figure as the benchmark a treated patient exceeded while elsewhere stating the 5-7 year figure.",
+    "why_it_matters_here": "Every argument for metastasis-directed therapy in this disease rests on the patient living long enough for local control to matter. The size of that window is currently unsettled by a factor of four, and the direction of the error decides whether the strategy is compelling or marginal.",
+    "who_could_settle_it": "This repository already holds the instrument -- TECH-RECONSTRUCTED-IPD, whose known-answer control passes and into which no published figure has yet been digitized. Reconstructing patient-level survival from the published Kaplan-Meier curves is exactly what it is for, costs $0, and is a quantitative contribution rather than a restatement.",
+    "caveat": "This is a DIFFERENT paper from the radiotherapy one, and conflating them would produce a worse version of both.",
+    "measured_spread": [
+      "17.8 months — median survival after detection of metastases, 2008 two-referral-centre series (n = 86), from retrieved full text.",
+      "48 months — SEER-derived median OS for metastatic disease with 10-year OS of 10%, as reported by the 2025 review.",
+      "76 months — median OS for metastatic patients in a separate cohort ⚠ from a web-search summary, source not yet identified, NOT verified.",
+      "'5-7 years' — the 2025 review's own statement of modern-series median OS in metastatic disease.",
+      "⚠ The spread is roughly fourfold and the 2025 review quotes both ends of it in different sections."
+    ],
+    "novelty_check": "Checked 2026-08-10, BEFORE recommending it — which is the discipline this session failed at on the radiotherapy claim. No pooled reconstructed-IPD survival analysis of EMC was found. Multiple independent large cohorts with published Kaplan-Meier curves exist as input: the 117-case morphologic-spectrum series, the 2008 two-centre series, a SEER long-term-outcomes analysis, the US Sarcoma Collaborative database cohort (PMID 35962783) and the two-institution molecular cohort. ⚠ Identifiers other than PMID 35962783 came from web search and are not yet in the probe index; confirm each before citing."
+  }
 }
