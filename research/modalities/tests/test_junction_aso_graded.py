@@ -162,3 +162,56 @@ def test_the_artifact_refuses_efficacy_safety_and_window_language():
     blob = json.dumps(g).lower()
     for banned in ("therapeutic window", "is safe", "will work", "clinically ready"):
         assert banned not in blob, f"graded artifact asserts {banned!r}"
+
+
+def test_a_coverage_only_screen_is_REFUSED_not_scored_as_clean():
+    """⛔ THE GUARD THAT STOPS MISSING DATA BECOMING A CLEAN CALL (added 2026-08-12).
+
+    `--rescore` was swept across every committed screen and one of them —
+    `junction-aso-offtarget-bp200-8.json` — is the pre-gap-resolution COVERAGE-ONLY screen. Its
+    oligos carry `n_true_cleavage_risk: null` and no `gap_mismatch_histogram`, and `grade_one`
+    reads absent fields through `int(... or 0)`. Every term evaluated to zero and the graded
+    artifact announced "4 of 4 with zero predicted cleavage load" — the strongest claim the model
+    can make, manufactured out of the absence of the data needed to test it, in the exact file a
+    reader would quote to call a design clean. This test is the reason that cannot recur.
+    """
+    import junction_aso_offtarget as jo
+    coverage_only = {"oligos": [
+        {"antisense_5to3": "A" * 16, "status": "screened",
+         "n_true_cleavage_risk": None, "n_gap_disrupted_no_cleavage": 3, "offtargets": []}]}
+    ok, why = jo.screen_is_gap_resolved(coverage_only)
+    assert ok is False
+    assert "coverage-only" in why and "not zero" in why
+
+    resolved_by_histogram = {"oligos": [
+        {"antisense_5to3": "A" * 16, "status": "screened",
+         "gap_mismatch_histogram": {"0": 2, "1": 1}, "offtargets": []}]}
+    assert jo.screen_is_gap_resolved(resolved_by_histogram)[0] is True
+
+    resolved_by_counter = {"oligos": [
+        {"antisense_5to3": "A" * 16, "status": "screened",
+         "n_true_cleavage_risk": 0, "n_gap_disrupted_no_cleavage": 1, "offtargets": []}]}
+    assert jo.screen_is_gap_resolved(resolved_by_counter)[0] is True
+
+    assert jo.screen_is_gap_resolved({"oligos": []})[0] is False
+
+
+def test_no_design_at_any_real_junction_reaches_zero_predicted_cleavage_load():
+    """The paper's headline negative, asserted over the whole graded corpus rather than one panel.
+
+    If this ever passes with a non-zero count, a design has become predicted-clean under a
+    literature-supported model and the manuscript's central claim has changed.
+    """
+    import glob
+    n_designs = n_zero = n_junctions = 0
+    for p in sorted(glob.glob(os.path.join(HERE, "junction-aso-offtarget-*-graded.json"))):
+        g = _load(p)
+        if g.get("source_screen") is None:
+            continue                      # the modelled codon-space panel, not a real junction
+        n_junctions += 1
+        n_designs += len(g["per_oligo"]["ostergaard_5fold"])
+        for m in g["models"].values():
+            n_zero += m["n_oligos_with_zero_predicted_cleavage_load"]
+    assert n_junctions >= 12, f"only {n_junctions} real junctions graded"
+    assert n_designs >= 58, f"only {n_designs} designs graded"
+    assert n_zero == 0, f"{n_zero} design(s) now score zero predicted cleavage load"

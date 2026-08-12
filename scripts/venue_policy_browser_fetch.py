@@ -47,9 +47,18 @@ TARGETS = {
     #    turn it into a reading. What has to be answered: is there a free subscription route
     #    (the $0 constraint is binding and eliminates most of the field), what is the main-text
     #    word limit, and what is the preprint policy.
-    "nat_author_guidelines": "https://home.liebertpub.com/publications/nucleic-acid-therapeutics/612/for-authors",
-    "nat_journal_home": "https://home.liebertpub.com/publications/nucleic-acid-therapeutics/612/overview",
-    "nat_open_access": "https://home.liebertpub.com/lpages/open-access-options/226",
+    # ⛔ THE LIEBERT URLs ARE DEAD AND THE PUBLISHER HAS CHANGED (measured 2026-08-12, this
+    #    fetcher). `home.liebertpub.com` returned 403 on both author-facing pages, and the
+    #    open-access URL RESOLVED to
+    #    sagepub.com/journals/mary-ann-liebert-journals-transition-information — "Mary Ann Liebert
+    #    journals transition information". Nucleic Acid Therapeutics is now a SAGE journal, so its
+    #    fee model has to be read at SAGE and the Liebert-era assumption is worthless. This is the
+    #    reason the venue decision was written as a plan to be confirmed rather than as a fact.
+    "nat_liebert_legacy_oa": "https://home.liebertpub.com/lpages/open-access-options/226",
+    "sage_liebert_transition": "https://www.sagepub.com/journals/mary-ann-liebert-journals-transition-information",
+    "sage_nat_journal": "https://journals.sagepub.com/home/nat",
+    "sage_open_access_options": "https://us.sagepub.com/en-us/nam/open-access-at-sage",
+    "sage_apc_information": "https://us.sagepub.com/en-us/nam/article-processing-charges-apcs",
     # ── bioRxiv, the free open copy for all four papers ─────────────────────────────────
     "biorxiv_faq": "https://www.biorxiv.org/about/FAQ",
     "biorxiv_submission_guide": "https://www.biorxiv.org/submit-a-manuscript",

@@ -31,7 +31,7 @@ consideration outright, and it removes most of the obvious ones here.
 
 | candidate | topical fit | fee model | verdict |
 |---|---|---|---|
-| **Nucleic Acid Therapeutics** (Mary Ann Liebert) | the field's dedicated oligonucleotide-therapeutics journal; publishes design, mechanism and computational work | **hybrid — subscription route free**, OA optional | ✅ **TARGET** |
+| **Nucleic Acid Therapeutics** (~~Mary Ann Liebert~~ → **SAGE**, see below) | the field's dedicated oligonucleotide-therapeutics journal; publishes design, mechanism and computational work | ⛔ **UNKNOWN — the Liebert-era assumption is void** | ◐ **TARGET, fee model unconfirmed** |
 | Molecular Therapy — Nucleic Acids | excellent fit, higher profile | fully gold OA, APC mandatory | ❌ out on fee |
 | Cancers / IJMS (MDPI) | would accept a computation-only paper | APC mandatory | ❌ out on fee |
 | PLOS ONE · Scientific Reports · Frontiers | would accept | APC mandatory | ❌ out on fee |
@@ -42,11 +42,28 @@ consideration outright, and it removes most of the obvious ones here.
 bioRxiv rather than ChemRxiv because the framing is biological rather than chemical — the degrader
 paper's ChemRxiv choice does not transfer.
 
-⚠ **Two things to verify live at submission rather than trust from here:** that NAT's author
-instructions still describe a free subscription route, and its preprint policy. Both are stated in
-this repository as a plan, not as a retrieved fact — no fee page has been fetched for NAT, and the
-degrader plan's discipline (*"FEE/POLICY CONFIRMED IN WRITING"*) has **not** been met for this venue.
-Treat the row above as a decision to be confirmed, not a confirmation.
+⛔ **THE PUBLISHER CHANGED, AND THE FETCH IS WHY WE KNOW (measured 2026-08-12).** The venue row
+above was written from a Liebert-era assumption about the fee model, flagged in this file as a plan
+rather than a retrieved fact. `venue_policy_browser_fetch.py` then read the three Liebert pages:
+`home.liebertpub.com` returned **403** on both author-facing URLs, and the open-access URL
+**resolved to `sagepub.com/journals/mary-ann-liebert-journals-transition-information`** — *"Mary Ann
+Liebert journals transition information"*. **Nucleic Acid Therapeutics is now published by SAGE.**
+
+Consequences, stated plainly:
+
+- **The hybrid/free-subscription claim for this venue is withdrawn.** It rested on Liebert's model
+  and Liebert no longer publishes the journal. It is not replaced by a claim that SAGE charges —
+  that would be the same error in the other direction. It is **unknown**, and the $0 constraint is
+  binding, so the venue cannot be committed to until it is read.
+- **The fetcher now targets SAGE**: the transition page, the SAGE journal home for NAT, and SAGE's
+  open-access and APC pages. The legacy Liebert URL is retained as a target so the 403 stays on the
+  record rather than being quietly dropped.
+- ⚠ **A 403 is not a policy reading.** Two of the three original targets refused a browser; that is
+  a statement about anti-bot filtering, not about fees. Nothing may be inferred from it.
+
+**This is what the "FEE/POLICY CONFIRMED IN WRITING" discipline is for.** Had the venue been chosen
+and the fee model taken on trust, the paper would have been aimed at a publisher that no longer
+publishes the journal.
 
 ## 2 · What the venue demands that the current draft does not meet
 

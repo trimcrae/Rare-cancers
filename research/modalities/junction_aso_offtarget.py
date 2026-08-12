@@ -378,11 +378,43 @@ def grade_panel(screen):
     }
 
 
+def screen_is_gap_resolved(screen):
+    """Can this screen be graded at all? A COVERAGE-ONLY screen cannot, and must not be zeroed.
+
+    ⛔ ADDED 2026-08-12 AFTER `--rescore` PRODUCED A CLEAN CALL OUT OF MISSING DATA. Rescoring
+    every committed screen in one sweep included `junction-aso-offtarget-bp200-8.json`, which is
+    the pre-gap-resolution coverage-only screen: its oligos carry `n_true_cleavage_risk: null`,
+    no `gap_mismatch_histogram`, and no per-hit gap profile. `grade_one` reads those absent fields
+    through `int(... or 0)`, so every term evaluated to zero and the artifact announced
+    **"4 of 4 with zero predicted cleavage load"** — the strongest possible claim, manufactured
+    entirely from the absence of the data needed to test it. That is an absent reading rendered as
+    a reading of absence (CLAUDE.md §4), in the one file a reader would quote to say a design is
+    clean, and it is the same shape as the retracted "2 of 5 clean" this whole grading model exists
+    to correct. A screen that cannot be graded must REFUSE, not score zero.
+    """
+    ok = [o for o in screen.get("oligos", []) if o.get("status") == "screened"]
+    if not ok:
+        return False, "no successfully screened oligos"
+    # Gap resolution is present if ANY screened oligo carries a resolved gap reading: either the
+    # complete histogram (post-2026-08-08 screens) or a non-null true-cleavage counter.
+    resolved = [o for o in ok if o.get("gap_mismatch_histogram")
+                or o.get("n_true_cleavage_risk") is not None]
+    if not resolved:
+        return False, ("coverage-only screen — no gap_mismatch_histogram and no "
+                       "n_true_cleavage_risk on any oligo, so cleavage load is UNMEASURED here, "
+                       "not zero. Re-run the screen with gap resolution; do not grade this file.")
+    return True, ""
+
+
 def rescore(paths):
     """`--rescore <screen.json> ...` -> writes `<screen>-graded.json` beside each. $0, offline."""
     for p in paths:
         with open(p, "r", encoding="utf-8") as fh:
             screen = json.load(fh)
+        gradeable, why = screen_is_gap_resolved(screen)
+        if not gradeable:
+            print(f"REFUSED {os.path.basename(p)}: {why}", file=sys.stderr)
+            continue
         out = p[:-5] + "-graded.json" if p.endswith(".json") else p + "-graded.json"
         art = grade_panel(screen)
         art["_generated_from"] = os.path.basename(p)
