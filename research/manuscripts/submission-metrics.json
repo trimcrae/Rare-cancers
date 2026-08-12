@@ -1,21 +1,88 @@
 {
   "_what": "What each submission-form manuscript actually is, measured, against the limits its venue is believed to set.",
-  "_why": "Two of three venues block automated retrieval of their author guidelines with deliberate security controls that persist under a real browser. The limits stay unverified; this pins down OUR side so checking theirs is a sixty-second job.",
-  "⛔_the_limits_below_are_not_verified": "Only the BJC row was read from the journal's own page. The other two are search-derived. Do not cite them as retrieved facts.",
+  "_why": "Most of these venues block automated retrieval of their author guidelines with deliberate security controls that persist under a real browser. The limits stay unverified; this pins down OUR side so checking theirs is a sixty-second job.",
+  "⛔_the_limits_below_are_not_verified": "They fall into three states and the difference matters. READ: only the BJC row was retrieved from the journal's own guide to authors at HTTP 200. SEARCH-DERIVED: the two GCC rows and the CROH row come from search summaries, because Wiley serves a bot challenge and Elsevier blocks the datacenter IP; do not cite them as retrieved facts. UNREAD: the Cancer Gene Therapy row carries no limits at all — its `null`s mean nobody has seen the guidelines, NOT that the journal sets no limit. That row is reported ungraded rather than compliant, and its numbers must never be borrowed from the BJC row merely because both journals are Springer Nature.",
+  "⛔_the_CGT_fee_schedule_is_unread_and_that_is_a_live_submission_risk": "The $0 route for Cancer Gene Therapy rests on ONE page: nature.com/cgt/open-access (HTTP 200) states that open access requires an APC and that authors 'can also choose to publish under the traditional publishing model (no APC charges apply)'. That answers the APC question and ONLY the APC question. Page charges, colour charges, submission fees and over-length charges on the subscription route are UNREAD, because they live in the author guidelines and every author-guideline path tried returned 404. ⛔ THIS IS NOT A HYPOTHETICAL: Nucleic Acid Therapeutics was the preferred venue for this paper, PASSED the no-APC test, and was rejected anyway once its guidelines were read — they levy mandatory Publishing Services Fees of $90 per page on every accepted manuscript, roughly $700-1,100 for this one. The same question has not been put to CGT. Until a CGT author-guideline or fee page is read, the venue's compliance with the $0 constraint is established for APCs and unestablished overall.",
   "⚠_none_of_this_gates_the_preprint": "bioRxiv sets no word, abstract or display-item limit, and its deposit being free is verified verbatim at primary source.",
-  "counting_rule": "Main text runs from the first substantive heading to the last heading before Declarations, excluding frontmatter, HTML comments, fenced blocks, the abstract, table bodies, references and every Appendix.",
+  "counting_rule": "Main text runs from the first substantive heading to the last heading before Declarations, excluding frontmatter, HTML comments, fenced blocks, the abstract, table bodies, the display-item block under any of its names ('Display items', 'Tables', 'Figure legends'), references and every Appendix. Figures and tables are counted as DISTINCT NUMBERS across the manuscript and its `companion_files`, so an embedded figure and its own caption count once and a table generated into a separate file still counts. References are the numbered entries inside a References section, wherever that section lives; a numbered list anywhere else in the file is not a reference.",
+  "⚠_superseded_measurements": [
+    {
+      "row": "surface-targets/emc-surface-target-landscape.md",
+      "field": "figures",
+      "was": 0,
+      "now": 1,
+      "why": "The figure counter matched only `![` image embeds. This manuscript's Figure 1 is a caption in its Display items block with no embedded image file, so a real figure counted as zero. Figures are now counted as distinct figure NUMBERS drawn from embeds and captions together."
+    },
+    {
+      "row": "surface-targets/emc-surface-target-landscape.md",
+      "field": "display_items",
+      "was": 5,
+      "now": 6,
+      "why": "Follows the figure correction above; the five tables are unchanged. Still inside the believed limit of 8."
+    },
+    {
+      "row": "surface-targets/emc-surface-target-landscape.md",
+      "field": "references",
+      "was": 21,
+      "now": 18,
+      "why": "The reference counter matched every numbered line anywhere in the file, so three numbered lines inside Appendix A were counted as references. It now reads the References section only."
+    },
+    {
+      "row": "dependency/emc-atr-collaborator-package.md",
+      "field": "references",
+      "was": 16,
+      "now": 8,
+      "why": "Same defect, larger: the eight-item numbered list in the Limitations section was counted as eight extra references, exactly doubling a reference list of 8."
+    },
+    {
+      "row": "mtap-prmt5/emc-mtap-prmt5-hypothesis.md",
+      "field": "main_words",
+      "was": 5222,
+      "now": 5213,
+      "why": "Nine `---` section dividers were counted as nine words; a horizontal rule is not a word. Rules are now blanked before counting."
+    },
+    {
+      "row": "mtap-prmt5/emc-mtap-prmt5-hypothesis.md",
+      "field": "abstract_words",
+      "was": 250,
+      "now": 249,
+      "why": "Same divider defect. Worth registering rather than waving through: 250 against a believed cap of 250 reads as sitting exactly on the line, and it never was."
+    },
+    {
+      "row": "dependency/emc-atr-collaborator-package.md",
+      "field": "main_words",
+      "was": 3161,
+      "now": 3153,
+      "why": "Eight `---` dividers counted as words."
+    },
+    {
+      "row": "dependency/emc-atr-collaborator-package.md",
+      "field": "abstract_words",
+      "was": 239,
+      "now": 238,
+      "why": "One `---` divider counted as a word."
+    },
+    {
+      "row": "repurposing/repurposing-hypotheses.md",
+      "field": "main_words",
+      "was": 5037,
+      "now": 5030,
+      "why": "Seven `---` dividers counted as words."
+    }
+  ],
   "rows": [
     {
       "file": "mtap-prmt5/emc-mtap-prmt5-hypothesis.md",
       "venue": "Genes, Chromosomes and Cancer (Wiley)",
       "measured": {
-        "main_words": 5222,
-        "abstract_words": 250,
+        "main_words": 5213,
+        "abstract_words": 249,
         "figures": 5,
         "tables": 0,
         "display_items": 5,
         "references": 11
       },
+      "companion_files": [],
       "limits": {
         "main_words": null,
         "abstract_words": 250,
@@ -23,19 +90,21 @@
         "references": null
       },
       "limits_provenance": "search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike",
+      "limits_read": true,
       "over_limit": []
     },
     {
       "file": "dependency/emc-atr-collaborator-package.md",
       "venue": "Genes, Chromosomes and Cancer (Wiley)",
       "measured": {
-        "main_words": 3161,
-        "abstract_words": 239,
+        "main_words": 3153,
+        "abstract_words": 238,
         "figures": 0,
         "tables": 7,
         "display_items": 7,
-        "references": 16
+        "references": 8
       },
+      "companion_files": [],
       "limits": {
         "main_words": null,
         "abstract_words": 250,
@@ -43,19 +112,21 @@
         "references": null
       },
       "limits_provenance": "search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike",
+      "limits_read": true,
       "over_limit": []
     },
     {
       "file": "repurposing/repurposing-hypotheses.md",
       "venue": "Critical Reviews in Oncology/Hematology (Elsevier)",
       "measured": {
-        "main_words": 5037,
+        "main_words": 5030,
         "abstract_words": 238,
         "figures": 1,
         "tables": 0,
         "display_items": 1,
         "references": 20
       },
+      "companion_files": [],
       "limits": {
         "main_words": 8000,
         "abstract_words": 250,
@@ -63,6 +134,7 @@
         "references": null
       },
       "limits_provenance": "search-derived; sciencedirect.com blocks the datacenter IP",
+      "limits_read": true,
       "over_limit": []
     },
     {
@@ -71,11 +143,12 @@
       "measured": {
         "main_words": 4755,
         "abstract_words": 194,
-        "figures": 0,
+        "figures": 1,
         "tables": 5,
-        "display_items": 5,
-        "references": 21
+        "display_items": 6,
+        "references": 18
       },
+      "companion_files": [],
       "limits": {
         "main_words": 5000,
         "abstract_words": 200,
@@ -83,6 +156,32 @@
         "references": 80
       },
       "limits_provenance": "nature.com pages DO answer; these were read from the journal's own guide to authors at HTTP 200",
+      "limits_read": true,
+      "over_limit": []
+    },
+    {
+      "file": "aso/fusion-junction-aso-short-communication.md",
+      "venue": "Cancer Gene Therapy (Springer Nature)",
+      "measured": {
+        "main_words": 3929,
+        "abstract_words": 346,
+        "figures": 3,
+        "tables": 2,
+        "display_items": 5,
+        "references": 29
+      },
+      "companion_files": [
+        "aso/fusion-junction-aso-submission-tables.md",
+        "aso/fusion-junction-aso-submission-references.md"
+      ],
+      "limits": {
+        "main_words": null,
+        "abstract_words": null,
+        "display_items": null,
+        "references": null
+      },
+      "limits_provenance": "UNREAD, NOT UNLIMITED. Cancer Gene Therapy's author guidelines have never been retrieved: https://www.nature.com/cgt/for-authors and https://www.nature.com/cgt/submission-guidelines each returned HTTP 404 on all four attempts of the 2026-08-12 headless-browser run (research/literature/venue-policy-browser-fetch.json). The pages that DID answer carry no limits: the journal home (200), the open-access fees page (200), and /cgt/about (200, redirecting to /cgt/journal-information, which gives aims, scope, article types and metrics and states no word, abstract, display-item or reference limit). No limit in this row is inherited from British Journal of Cancer or from any other Springer Nature title.",
+      "limits_read": false,
       "over_limit": []
     }
   ]

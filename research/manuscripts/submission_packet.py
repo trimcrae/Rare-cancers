@@ -89,7 +89,16 @@ def main():
     verdicts = fees.get("verdicts", {})
     venue_key = {"Genes, Chromosomes and Cancer (Wiley)": "GCC",
                  "Critical Reviews in Oncology/Hematology (Elsevier)": "CROH",
-                 "British Journal of Cancer (Springer Nature)": "BJC"}
+                 "British Journal of Cancer (Springer Nature)": "BJC",
+                 # ⚠ CGT HAS NO VERDICT IN THE FEE ARTIFACT, AND THE ROW MUST SAY SO RATHER THAN
+                 # OMIT THE PAPER. `verdicts.get(vk, {})` degrades to "not recorded", which is the
+                 # true state: nature.com/cgt/open-access answered 200 and establishes that open
+                 # access is the paid upgrade, so there is no APC on the subscription route — but
+                 # every author-facing CGT path tried returned 404, so page, colour and
+                 # over-length charges are UNREAD. Nucleic Acid Therapeutics passed the APC test
+                 # and was then disqualified by $90/page, so an unread fee schedule is the live
+                 # risk on this submission and not a formality.
+                 "Cancer Gene Therapy (Springer Nature)": "CGT"}
 
     L = ["---", "id: DOC-SUBMISSION-PACKET",
          "title: \"Submission packet — what each journal portal asks for, and what is still missing\"",
@@ -149,6 +158,15 @@ def main():
           "headless browser from CI. Word, abstract and display-item limits above are "
           "search-derived except for the British Journal of Cancer row, which was read from the "
           "journal's own page. Confirm each at the portal, where the pages load normally.",
+          "- Cancer Gene Therapy is a separate and worse case, because it is a CHOSEN venue whose "
+          "fee schedule has never been read. nature.com answers, and its open-access page was read "
+          "at HTTP 200 and establishes that open access is the optional paid upgrade — so the "
+          "subscription route carries no article processing charge. But `/cgt/for-authors`, "
+          "`/cgt/submission-guidelines` and `/cgt/about` all returned 404, so that journal's page, "
+          "colour and over-length charges are unknown. Nucleic Acid Therapeutics passed the same "
+          "APC test and was then disqualified by mandatory page charges of $90/page. Load the "
+          "journal's author guidelines in an ordinary browser and confirm the full fee schedule "
+          "before submitting there.",
           "- The $0 route rests on publisher-wide policy statements quoted verbatim in "
           "`research/literature/venue-fee-routes-2026-08-10.json`, not on the per-journal fee page. "
           "Elect the subscription route at the fee step and decline the open-access upgrade.",

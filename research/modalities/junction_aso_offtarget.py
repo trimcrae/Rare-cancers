@@ -172,14 +172,66 @@ def blast_hits(rid):
 #: whose hits lack `hit_frame` must be reported as such rather than quoted as a measurement.
 ORIENTATION_PARSED_SINCE = "2026-08-12"
 
+#: The three states a committed screen can be in. They are DISTINCT on purpose: the middle one is
+#: the state this function used to report as the good one, and it is the one that cost a paper.
+ORIENTATION_FILTERED = "orientation_filtered"
+ORIENTATION_LABELS_STRAND_BLIND = "orientation_parsed_but_labels_are_strand_blind_upper_bounds"
+ORIENTATION_UNPARSED = "orientation_UNPARSED_counts_are_upper_bounds"
+
 
 def screen_orientation_status(screen):
-    """Whether a committed screen can distinguish hybridisable hits from reverse-complement ones."""
+    """Whether a committed screen's COUNTS were actually filtered by alignment orientation.
+
+    ⛔⛔ THIS ASKED THE WRONG QUESTION UNTIL 2026-08-12, AND IT ASKED IT ONE LEVEL ABOVE THE BUG IT
+    WAS WATCHING FOR. It returned "orientation_parsed" the moment ANY hit carried `hit_frame` —
+    that is, it tested whether the FIELD WAS PRESENT, not whether any count had been computed with
+    it. `classify()`'s own docstring, thirty lines below, warns in bold that parsing `hit_frame`
+    alone fixed nothing because the classifier never read it; this function then made exactly that
+    mistake about the classifier.
+
+    ⚠ **A POPULATED FIELD IS NOT A MEASURED ONE.** Measured on the committed corpus the day this
+    was rewritten: four screens (TFG e3, e4, e5, e7) carry `hit_frame` on every hit and were
+    classified before the strand branch landed, so every one of their minus-strand hits is still
+    labelled `true_cleavage_risk` or `gap_disrupted_no_cleavage`. All four were being reported as
+    `orientation_parsed`, and 83 non-liabilities were being counted as cleavage risks inside a
+    corpus described in a manuscript as orientation-filtered throughout.
+
+    ⛔ **THE AUDIT IS ON THE LABELS, NOT THE FIELD**, because the labels are what every count is
+    built from. A screen is FILTERED only if no hit is simultaneously `is_minus_strand: True` and
+    labelled anything other than `minus_strand_not_hybridisable`. A screen with no minus-strand
+    hits at all is filtered trivially and truthfully — there was nothing to divert.
+
+    ⚠ Recovery is NOT possible for a strand-blind screen, which is why it is demoted rather than
+    re-scored: only the top 15 hits are stored against a hitlist of up to 50, so the strand of the
+    truncated tail is simply gone. An upper bound is the honest reading and the only available one.
+    """
+    parsed = False
+    saw_minus = False
     for o in screen.get("oligos", []):
         for h in (o.get("offtargets") or []):
             if "hit_frame" in h:
-                return "orientation_parsed"
-    return "orientation_UNPARSED_counts_are_upper_bounds"
+                parsed = True
+            if h.get("is_minus_strand") is True:
+                saw_minus = True
+                if h.get("risk") != "minus_strand_not_hybridisable":
+                    return ORIENTATION_LABELS_STRAND_BLIND
+    if not parsed:
+        return ORIENTATION_UNPARSED
+    # ⚠ Parsed, and every minus-strand hit was diverted — including the vacuous case of a screen
+    # that returned none. `saw_minus` is reported for the reader; it does not change the verdict.
+    return ORIENTATION_FILTERED
+
+
+def screen_counts_are_orientation_filtered(screen_or_status):
+    """THE predicate. Accepts a screen dict or an already-computed status string.
+
+    One home, because the previous consumer tested `"UNPARSED" not in status` — a substring sniff
+    that silently answers True for any new failure state whose name lacks that word, which is
+    precisely what a newly-named state is.
+    """
+    status = (screen_or_status if isinstance(screen_or_status, str)
+              else screen_orientation_status(screen_or_status))
+    return status == ORIENTATION_FILTERED
 
 
 def is_parent(h):

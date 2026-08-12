@@ -2129,3 +2129,69 @@ current.*
 > retained: the earlier and broader claim that "the ASO lane is unaffected" by the 2026-08-03 exon
 > correction. That was true of `junction_breakpoint_scan.py` and false of the lane — the earlier
 > audit checked one of the lane's two modules and generalised.*
+## Appendix B — the orientation-filter audit, and the numbers it superseded (2026-08-12)
+
+*Registered here rather than in the submission text, per rule 1.2: the superseded values below must
+stay quotable as history and must not stay quotable as current.*
+
+⛔⛔ **FOUR SCREENS WERE REPORTED AS ORIENTATION-FILTERED AND WERE NOT.** `blastn` searches both
+strands, and a transcript carrying the reverse complement of the target window is not a liability in
+any degree. `classify()` was given a branch that diverts such hits to
+`minus_strand_not_hybridisable`, and the manuscript's Methods stated that orientation was "parsed
+and filtered throughout". It was not, in four of the twenty screens the paper counted as filtered:
+**TFG e3, e4, e5 and e7** carry `hit_frame` on every hit and were classified *before* the branch
+read it, so every minus-strand hit in them is still labelled a cleavage risk. Measured: **83
+minus-strand hits counted as `true_cleavage_risk`**, 25 + 26 + 32 across e3, e5 and e7, with e4
+contributing none only because none of its four minus-strand hits happened to span the gap.
+
+⛔ **THE DEFECT WAS IN THE DETECTOR, NOT THE CLASSIFIER, AND IT IS THE SAME MISTAKE ONE LEVEL UP.**
+`screen_orientation_status()` returned `orientation_parsed` as soon as **any hit carried
+`hit_frame`** — it tested that the *field existed*, never that a count had been computed from it.
+`classify()`'s own docstring warns in bold that parsing `hit_frame` alone fixed nothing because the
+classifier did not read it; the detector then made exactly that mistake about the classifier. **A
+populated field is not a measured one.** The audit is now on the labels: a screen is filtered only
+if no hit is simultaneously `is_minus_strand: True` and labelled anything other than
+`minus_strand_not_hybridisable` (`screen_counts_are_orientation_filtered`).
+
+⚠ **AND THE CONSUMER FAILED OPEN.** `submission_tables.py` decided which rows to mark as
+upper bounds with `"UNPARSED" not in status` — chosen deliberately so that an unrecognised value
+would be treated as unfiltered, the safe direction. It was not safe. The new state is named
+`orientation_parsed_but_labels_are_strand_blind_upper_bounds`, which does not contain that word, so
+the sniff answered `True` and four upper-bound rows would have rendered as measurements. **A test
+for the absence of one word is not a test for the presence of a property.**
+
+⚠ **THE FOUR SCREENS ARE DEMOTED, NOT REPAIRED, AND THAT IS NOT A CHOICE.** Only the top 15 hits of
+a hitlist up to 50 long are retained, so the aligned strand of the truncated tail is gone. An upper
+bound is the honest reading and the only available one. They now carry ‡ in Table 2 beside the three
+screens that never parsed strand at all and the one that returned nothing.
+
+✅ **THE HEADLINE SURVIVED THE AUDIT UNCHANGED**, which is worth recording because it was not
+guaranteed: the four clean designs are all at *TCF12* junctions, none of the demoted screens is a
+*TCF12* screen, and re-deriving cleanliness from the corrected corpus returns the same four
+sequences at the same three junctions.
+
+| quantity | superseded | current | why it moved |
+|---|---|---|---|
+| junctions with orientation filtered | 20 | **16** | four demoted by the label audit |
+| designs in the filtered corpus | 95 ("five designs at each" of 20) | **75** | the demotion, and three junctions never had five screened designs |
+| junctions screened in total | "Twenty" | **24** (+1 that returned nothing) | the paper had been counting only the filtered ones |
+| minus-strand share, abstract | 42% | **47%** | 42% pooled over all 27 screens, 7 of which record no strand at all and so contributed denominator without numerator |
+| minus-strand share, Results | "half (539 of 1,074)" | **47% (362 of 777)** | 1,074 counted `true_cleavage_risk` + `minus_strand_not_hybridisable`, which admits 94 minus-strand hits whose gap is disrupted and which no classifier would call gap-spanning |
+| per-junction range | 0% (TFG e4) to 89% (EWSR1 e7, TCF12 e11) | **4% (TFG e2) to 100% (TCF12 e7)** | the 0% floor was TFG e4, a demoted screen whose filter never diverted anything; the true maximum is TCF12 e7, where every apparent risk is minus-strand |
+| EWSR1 e7 / e13 after filtering | "differ by an order of magnitude" | **6 and 53** | unchanged in substance; the counts are now stated |
+| designs reaching the 50-hit cap | 25 of 108 | **15 of 75** | 108 matched no corpus: the real-junction total is 105 and the filtered total is 75 |
+| designs with untruncated hit lists | 26 of 95 | **24 of 75** | follows the demotion |
+| median locus inflation | 2.25 | **2.50** | recomputed over the 24, not the 26 |
+| Table 1 title | "across four *NR4A3* fusion partners" | **five** | the table has always listed five and totalled "all 5 partners" |
+| TAF15 e6 screen | "not among the 12 reported here" | **one of five designs screened, unfiltered** | it is in Table 2; "12" matched no corpus |
+
+⚠ **Two §3.3 clauses were withdrawn as unsupported rather than restated.** "*TFG* … its other five
+range from 5 to 40" described four screens that are now upper bounds plus one (e2) whose minimum is
+1. And "three of the eight *TCF12* junctions still score worse than the best FET junction" is false
+on the data in either direction: the *TCF12* minima are 0, 0, 0, 1, 1, 1, 1, 1 against a best FET
+minimum of 1, so five **match** it and none is worse.
+
+**Pinned by** `research/modalities/tests/test_aso_submission_numbers.py`, which re-derives every
+figure above from the committed screens and fails if the manuscript and its evidence diverge again.
+Its last parametrised test asserts that none of the superseded values in the left column can
+reappear in the running text.

@@ -285,7 +285,15 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
       rc=1
     else
       got=$(mktemp); known=$(mktemp)
-      grep -E '^FAILED' "$out" | sed 's/^FAILED //; s/ - .*//' | sed 's/[[:space:]]*$//' | sort -u >"$got"
+      # ⛔ `|| true` BECAUSE grep EXITS 1 ON NO MATCH AND THIS SCRIPT RUNS `set -euo pipefail`
+      # (2026-08-12). No match here means ZERO test failures — the good case — so the pipeline
+      # returned 1 and `set -e` killed preflight at exactly the moment everything passed. The
+      # damage was not the non-zero exit: gate 9, the manuscript tests, sits BELOW this line and
+      # therefore never ran locally at all, while the script's own header comment warns about this
+      # precise interaction. A gate that is skipped in silence is the failure mode CLAUDE.md §7
+      # records; here the skip was caused by the suite being green.
+      grep -E '^FAILED' "$out" | sed 's/^FAILED //; s/ - .*//' | sed 's/[[:space:]]*$//' \
+        | sort -u >"$got" || true
       grep -v '^#' "$base" | sed '/^[[:space:]]*$/d' | sort -u >"$known"
       new=$(comm -23 "$got" "$known"); fixed=$(comm -13 "$got" "$known")
       if [ -n "$new" ]; then

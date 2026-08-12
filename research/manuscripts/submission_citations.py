@@ -124,6 +124,93 @@ def load_meta():
             if p and p not in out:
                 out[p] = e
     out.update({p: e for p, e in _literature_cache().items() if p not in out})
+
+    # ⛔ A RECORD THAT EXISTS IS NOT THEREBY COMPLETE (2026-08-12). Every source above is
+    # first-wins, so a PMID that arrives from a corpus carrying `title`/`authors` and no `journal`
+    # keeps that hole for good — later sources are only consulted for PMIDs nobody has at all.
+    # Two of the 29 submission references rendered with no journal name for exactly that reason,
+    # and the journal for both was sitting in a retrieved record in this repository the whole time.
+    # ⚠ ABSENT FIELDS ONLY, NEVER AN OVERWRITE. A retrieved value already in hand outranks another
+    # retrieval of the same field; the gap is the only thing being closed.
+    harvested = _harvested_records()
+    for p, src in harvested.items():
+        e = out.setdefault(p, {"pmid": p})
+        for k in ("authors", "title", "journal", "volume", "issue", "year", "doi"):
+            if not e.get(k) and src.get(k):
+                e[k] = src[k]
+    return out
+
+
+#: Retrieval products that are not reference corpora but do carry bibliographic fields. Harvested
+#: by walking for any dict with a `pmid`, because these files nest records under query names rather
+#: than at a fixed path, and a dotted path would break the next time a query is added.
+HARVEST_SOURCES = [
+    os.path.join(HERE, "..", "literature", "fusion-consensus-probe.json"),
+    os.path.join(HERE, "..", "literature", "submission-reference-metadata-2026-08-09.json"),
+    os.path.join(HERE, "fusion-partner", "lit-targets-partner-events.json"),
+]
+
+#: Europe PMC, Crossref, OpenAlex and PubMed disagree on the spelling of the same three fields.
+_ALIASES = {"authors": ("authors", "authorString"),
+            "journal": ("journal", "journalTitle"),
+            "year": ("year", "pubYear")}
+
+
+def _normalise(rec, pmid):
+    out = {"pmid": pmid}
+    for canonical, names in _ALIASES.items():
+        for n in names:
+            if rec.get(n):
+                out[canonical] = rec[n]
+                break
+    for k in ("title", "volume", "issue", "doi"):
+        if rec.get(k):
+            out[k] = rec[k]
+    return out
+
+
+def _harvested_records():
+    """PMID -> record, merged field-wise across every harvest source.
+
+    ⚠ MERGED, NOT FIRST-WINS. One source carries the author list for a 2026 Histopathology paper
+    and another carries its journal; taking either whole drops the other's field, which is how a
+    reference briefly rendered with a journal and no authors. Fields accumulate, and a field
+    already held is never overwritten.
+
+    ⚠ Two shapes are harvested: a dict carrying its own `pmid`, and a dict KEYED by PMID with no
+    `pmid` inside — the second is how the curated corpora store records, and a walker that only
+    looks for a `pmid` key cannot see it at all.
+    """
+    out = {}
+
+    def take(pmid, rec):
+        if not isinstance(rec, dict):
+            return
+        dst = out.setdefault(pmid, {"pmid": pmid})
+        for k, v in _normalise(rec, pmid).items():
+            if not dst.get(k) and v:
+                dst[k] = v
+
+    def walk(o):
+        if isinstance(o, dict):
+            p = str(o.get("pmid") or "").strip()
+            if p.isdigit():
+                take(p, o)
+            for k, v in o.items():
+                if isinstance(v, dict) and str(k).isdigit() and 6 <= len(str(k)) <= 9:
+                    take(str(k), v)
+                walk(v)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v)
+
+    for path in HARVEST_SOURCES:
+        if not os.path.exists(path):
+            continue
+        try:
+            walk(json.load(open(path)))
+        except Exception:  # noqa: BLE001 — one malformed source must not stop the rest
+            continue
     return out
 
 

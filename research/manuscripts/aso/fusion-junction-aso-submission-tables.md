@@ -2,7 +2,7 @@
 
 # Tables — fusion-junction ASO submission
 
-**Table 1. The frame-compatible junction space across four *NR4A3* fusion partners.** Every
+**Table 1. The frame-compatible junction space across five *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
 emitted. The gap-level margin is the number of junction-unique bases inside the six-nucleotide
 catalytic gap on the shorter side of the seam. Frame compatibility is an arithmetic property of exon
@@ -29,7 +29,7 @@ None of these numbers is a measurement of off-target activity.
 
 ¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.
 
-‡ This junction's screen predates the orientation filter, so its counts still include minus-strand hits — across this corpus, half of all apparent gap-spanning hits. Its numbers are upper bounds and are NOT comparable with the unmarked rows.
+‡ This junction's counts were not filtered by alignment orientation, so they still include minus-strand hits — across the filtered corpus, 47% of all apparent gap-spanning hits. Two distinct causes are marked alike here because their consequence is identical: three screens never parsed the aligned strand, and four parsed it but were classified before the filter read it. Its numbers are upper bounds and are NOT comparable with the unmarked rows.
 
 | junction | designs screened | best gap-level margin | that design | near-matches (transcripts → loci) | loci with a gap-spanning hit | of those, predicted models only¹ | ≤1-mismatch matches across that junction's designs, median (max) |
 |---|---|---|---|---|---|---|---|
@@ -53,8 +53,8 @@ None of these numbers is a measurement of off-target activity.
 | TCF12 e7::NR4A3 e3 | 4 | 2 | 5′-GGCATATCAAGCGCTG-3′ | 2 → 2 | 0 | 0 | 0 (1) |
 | TCF12 e9::NR4A3 e3 | 4 | 3 | 5′-GGGCATATCTTGCATA-3′ | 14 → 2 | 1 | 0 | 8 (23) |
 | TFG e2::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCATCT-3′ | ≥50 → ≥1 | ≥1 | 0 | — (—) |
-| TFG e3::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAAATAAT-3′ | 14 → 6 | 5 | 2 | — (—) |
-| TFG e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATTTTCA-3′ | ≥50 → ≥3 | ≥3 | 2 | — (—) |
-| TFG e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAAACC-3′ | ≥41 → ≥6 | ≥2 | 1 | — (—) |
+| TFG e3::NR4A3 e3 ‡ | 5 | 3 | 5′-GGGCATATCAAATAAT-3′ | 14 → 6 | 5 | 2 | — (—) |
+| TFG e4::NR4A3 e3 ‡ | 5 | 3 | 5′-GGGCATATCATTTTCA-3′ | ≥50 → ≥3 | ≥3 | 2 | — (—) |
+| TFG e5::NR4A3 e3 ‡ | 5 | 3 | 5′-GGGCATATCTGAAACC-3′ | ≥41 → ≥6 | ≥2 | 1 | — (—) |
 | TFG e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCAATC-3′ | ≥37 → ≥3 | ≥0 | 0 | — (—) |
-| TFG e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAATAC-3′ | ≥27 → ≥3 | ≥3 | 2 | — (—) |
+| TFG e7::NR4A3 e3 ‡ | 5 | 3 | 5′-GGGCATATCTGAATAC-3′ | ≥27 → ≥3 | ≥3 | 2 | — (—) |

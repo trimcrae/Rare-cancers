@@ -32,6 +32,22 @@ def _load(name):
     return json.load(open(p)) if os.path.exists(p) else None
 
 
+def _orientation_filtered(status):
+    """Whether a screen's counts were actually filtered by alignment orientation.
+
+    Delegated to the owning module so the definition has one home. If that import fails the answer
+    is False — an unfiltered count printed as a measurement is the error this marker exists to
+    prevent, so the fallback goes to the safe side rather than the convenient one.
+    """
+    try:
+        sys.path.insert(0, os.path.abspath(MOD))
+        from junction_aso_offtarget import (  # noqa: PLC0415
+            screen_counts_are_orientation_filtered)
+        return screen_counts_are_orientation_filtered(str(status or ""))
+    except Exception:  # noqa: BLE001
+        return False
+
+
 def table1(atlas):
     """Per partner: the graded junction space and what it yields."""
     pairs = atlas["graded_pairs"]
@@ -104,11 +120,15 @@ def table2(collapse, chance, atlas):
         # in one table with no marking, a reader comparing TCF12 e17 (filtered, 0) against FUS e5
         # (unfiltered, >=5) would be comparing two different quantities and would reasonably
         # conclude the second is worse. It may not be. The marker says which is which.
-        # `screen_orientation_status` returns a STRING: "orientation_parsed" or
-        # "orientation_UNPARSED_counts_are_upper_bounds". Tested for the unparsed marker rather than
-        # the parsed one, so an unrecognised future value is treated as unfiltered — the safe
-        # direction, since the failure to avoid is presenting an unfiltered count as a filtered one.
-        filtered[lab] = "UNPARSED" not in str(s.get("orientation") or "")
+        # ⛔ THE SUBSTRING SNIFF THAT USED TO LIVE HERE FAILED OPEN (2026-08-12). It read
+        # `"UNPARSED" not in status`, chosen so an unrecognised value would be treated as
+        # unfiltered — the safe direction. It was not safe: the audit that followed added a THIRD
+        # state, `orientation_parsed_but_labels_are_strand_blind_upper_bounds`, for screens whose
+        # `hit_frame` is present and whose labels never used it. That name does not contain
+        # "UNPARSED", so the sniff answered `True` and four upper-bound rows rendered as filtered
+        # measurements. A test for the absence of one word cannot be a test for the presence of a
+        # property. Ask the owning module the positive question instead.
+        filtered[lab] = _orientation_filtered(s.get("orientation"))
 
     le1 = {}
     for r in chance["per_design"]:
@@ -173,7 +193,7 @@ def main():
 
 # Tables — fusion-junction ASO submission
 
-**Table 1. The frame-compatible junction space across four *NR4A3* fusion partners.** Every
+**Table 1. The frame-compatible junction space across five *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
 emitted. The gap-level margin is the number of junction-unique bases inside the six-nucleotide
 catalytic gap on the shorter side of the seam. Frame compatibility is an arithmetic property of exon
@@ -189,7 +209,7 @@ hits per design, so a design with more is a lower bound. **All gap-resolved coun
 bounds**: the BLAST arm did not parse alignment orientation, so minus-strand matches — which an
 antisense oligonucleotide cannot hybridise — are included. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
-None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n‡ This junction's screen predates the orientation filter, so its counts still include minus-strand hits — across this corpus, half of all apparent gap-spanning hits. Its numbers are upper bounds and are NOT comparable with the unmarked rows.
+None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n‡ This junction's counts were not filtered by alignment orientation, so they still include minus-strand hits — across the filtered corpus, 47% of all apparent gap-spanning hits. Two distinct causes are marked alike here because their consequence is identical: three screens never parsed the aligned strand, and four parsed it but were classified before the filter read it. Its numbers are upper bounds and are NOT comparable with the unmarked rows.
 
 {table2(collapse, chance, atlas)}
 """

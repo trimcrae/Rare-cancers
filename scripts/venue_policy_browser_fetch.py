@@ -109,8 +109,22 @@ TARGETS = {
     # constraint has to be tested against the FULL fee schedule, and until today it was not.
     # These targets are the fee schedule for the venue currently chosen, so the same question gets
     # asked of it before anything is submitted.
-    "cgt_submission_guidelines": "https://www.nature.com/cgt/submission-guidelines",
-    "cgt_for_authors": "https://www.nature.com/cgt/for-authors",
+    # ⛔ ALL THREE OF THE ORIGINAL AUTHOR-FACING CGT PATHS RETURNED 404 ON EVERY ATTEMPT, SO THE
+    # FEE SCHEDULE FOR THE CHOSEN VENUE HAS NEVER BEEN READ (measured 2026-08-12). That is the
+    # open half of the paragraph above: the open-access page answered 200 and established that OA
+    # is the paid upgrade, which settles the APC question and says nothing whatever about page,
+    # colour or over-length charges. Nucleic Acid Therapeutics passed the APC test and was then
+    # disqualified by $90/page, so an unread fee schedule is not a formality here — it is the same
+    # trap one venue later.
+    # ⚠ GUESSING THE NEXT PATH IS WHAT PRODUCED THE 404s. `/cgt/for-authors`,
+    # `/cgt/submission-guidelines` and `/cgt/about` were all plausible and all wrong;
+    # `/cgt/about` merely redirected to `/cgt/journal-information`. The journal home answers 200,
+    # so the reliable move is to READ ITS LINKS rather than to invent more paths — see
+    # `harvest_links()`, which records every author-facing href the home page actually carries.
+    # The two below are kept because they are patterns confirmed to work elsewhere in this file:
+    # `authors-and-referees/gta` is the exact shape that answered 200 for BJC.
+    "cgt_gta": "https://www.nature.com/cgt/authors-and-referees/gta",
+    "cgt_article_types": "https://www.nature.com/cgt/article-types",
     "cgt_about": "https://www.nature.com/cgt/about",
     # ── bioRxiv, the free open copy for all four papers ─────────────────────────────────
     "biorxiv_faq": "https://www.biorxiv.org/about/FAQ",
@@ -133,6 +147,39 @@ PROBES = [
 OUT = os.path.join("research", "literature", "venue-policy-browser-fetch.json")
 UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
       "Chrome/126.0.0.0 Safari/537.36")
+
+
+#: Home pages whose author-facing links are worth harvesting, because guessing their paths failed.
+HARVEST_LINKS_FROM = ["cgt_journal_home"]
+
+#: A link is author-facing if its text or href says so. Deliberately broad: the cost of recording
+#: an irrelevant link is one line of JSON, and the cost of missing the fee schedule is a venue
+#: chosen on an unread policy — which this file already did once.
+LINK_WORDS = re.compile(
+    r"author|submi|guideline|instruction|for-authors|article.?type|charge|fee|"
+    r"policies|publish|editorial", re.I)
+
+
+def harvest_links(page):
+    """Every author-facing link on a page, as (text, absolute href).
+
+    ⛔ THIS EXISTS BECAUSE THREE INVENTED URLS 404ed AND THE FEE SCHEDULE WENT UNREAD. A journal's
+    own navigation is the one authority on where its guidelines live; a plausible path is a guess
+    no matter how conventional it looks.
+    """
+    try:
+        raw = page.eval_on_selector_all(
+            "a[href]", "els => els.map(e => [e.innerText.trim(), e.href])")
+    except Exception:  # noqa: BLE001 — a page that will not enumerate links is not a failure
+        return []
+    seen, out = set(), []
+    for text, href in raw:
+        if not href or href in seen:
+            continue
+        if LINK_WORDS.search(text or "") or LINK_WORDS.search(href):
+            seen.add(href)
+            out.append({"text": re.sub(r"\s+", " ", text or "")[:80], "href": href})
+    return out
 
 
 def probe_hits(text):
@@ -179,6 +226,8 @@ def main():
                         rec.update({"final_url": page.url, "status": status,
                                     "title": page.title(), "chars": len(text),
                                     "probe_hits": probe_hits(text), "text": text[:120000]})
+                        if name in HARVEST_LINKS_FROM:
+                            rec["author_facing_links"] = harvest_links(page)
                         break
                     if status == 403:
                         rec.update({"status": 403, "chars": len(text), "text": text[:4000],
