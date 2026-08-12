@@ -67,7 +67,7 @@
     }
   },
   "n_oligos_screened": 5,
-  "n_screened_ok": 4,
+  "n_screened_ok": 5,
   "n_oligos_no_true_cleavage_risk": 0,
   "oligos": [
     {
@@ -76,7 +76,7 @@
       "gc_percent": 50.0,
       "specificity_margin": 8,
       "status": "screened",
-      "blast_rid": "7TGVAYJ4016",
+      "blast_rid": "7TMWMGMN016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 26,
       "n_true_cleavage_risk": 17,
@@ -330,11 +330,11 @@
       "gc_percent": 50.0,
       "specificity_margin": 7,
       "status": "screened",
-      "blast_rid": "7TGVE82K016",
+      "blast_rid": "7TMWSSD0016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 20,
-      "n_true_cleavage_risk": 15,
-      "n_gap_disrupted_no_cleavage": 5,
+      "n_true_cleavage_risk": 11,
+      "n_gap_disrupted_no_cleavage": 4,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
       "gap_mismatch_histogram": {
@@ -345,9 +345,8 @@
       "n_gap_mismatch_unresolvable": 0,
       "n_distinct_loci": 12,
       "n_loci_seen_only_as_predicted_models": 12,
-      "n_loci_with_a_gap_spanning_hit": 10,
+      "n_loci_with_a_gap_spanning_hit": 9,
       "loci_with_a_gap_spanning_hit": [
-        "FTO",
         "KCNG3",
         "LINC02940",
         "LOC107985219",
@@ -440,7 +439,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCT",
           "midline": "||||||||||| |||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -454,7 +453,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCT",
           "midline": "||||||||||| |||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -468,7 +467,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCT",
           "midline": "||||||||||| |||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -482,7 +481,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCT",
           "midline": "||||||||||| |||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -496,7 +495,7 @@
           "is_minus_strand": true,
           "qseq": "CTGATGGATATGCCC",
           "midline": "|||||||||| ||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -576,8 +575,238 @@
       "target_mRNA_5to3": "ATCTGATGGATATGCC",
       "gc_percent": 43.8,
       "specificity_margin": 7,
-      "status": "screen_failed",
-      "error": "Remote end closed connection without response"
+      "status": "screened",
+      "blast_rid": "7TMWWAW7016",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 50,
+      "n_true_cleavage_risk": 50,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 50,
+        "1": 0,
+        "2": 0
+      },
+      "n_gap_mismatch_unresolvable": 0,
+      "n_distinct_loci": 1,
+      "n_loci_seen_only_as_predicted_models": 0,
+      "n_loci_with_a_gap_spanning_hit": 1,
+      "loci_with_a_gap_spanning_hit": [
+        "HNRNPA2B1"
+      ],
+      "offtargets": [
+        {
+          "acc": "NM_001438063",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 3, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_001438568",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 4, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_001438569",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 5, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_001438570",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 6, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_001438571",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 7, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_001438572",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 8, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_001438573",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 9, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_001438574",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 10, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_001438575",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 11, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_001438576",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 12, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_001438577",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 13, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_001438578",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 14, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_002137",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant A2, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "NM_031243",
+          "defn": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant B1, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        },
+        {
+          "acc": "XR_001744665",
+          "defn": "PREDICTED: Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant X1, misc_RNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "hit_frame": 1,
+          "is_minus_strand": false,
+          "qseq": "ATCTGATGGATATG",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk",
+          "gap_mismatches": 0
+        }
+      ]
     },
     {
       "antisense_5to3": "CAGGGCATATCCATCA",
@@ -585,11 +814,11 @@
       "gc_percent": 50.0,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "7TGVSZB2016",
+      "blast_rid": "7TMWZDWY016",
       "n_parent_or_intended_hits": 1,
       "n_offtarget_near_matches": 21,
-      "n_true_cleavage_risk": 14,
-      "n_gap_disrupted_no_cleavage": 7,
+      "n_true_cleavage_risk": 2,
+      "n_gap_disrupted_no_cleavage": 6,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
       "gap_mismatch_histogram": {
@@ -600,12 +829,10 @@
       "n_gap_mismatch_unresolvable": 0,
       "n_distinct_loci": 8,
       "n_loci_seen_only_as_predicted_models": 6,
-      "n_loci_with_a_gap_spanning_hit": 4,
+      "n_loci_with_a_gap_spanning_hit": 2,
       "loci_with_a_gap_spanning_hit": [
-        "FTO",
         "KCNG3",
-        "LOC107985219",
-        "TGFB2"
+        "LOC107985219"
       ],
       "offtargets": [
         {
@@ -619,7 +846,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -647,7 +874,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -661,7 +888,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -675,7 +902,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -689,7 +916,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -703,7 +930,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -717,7 +944,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -731,7 +958,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -745,7 +972,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "|||||| |||||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -759,7 +986,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -773,7 +1000,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -787,7 +1014,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -801,7 +1028,7 @@
           "is_minus_strand": true,
           "qseq": "TGATGGATATGCCCTG",
           "midline": "||||||||||| ||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -826,7 +1053,7 @@
       "gc_percent": 37.5,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "7TGVW1MR016",
+      "blast_rid": "7TMX383K016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 50,
       "n_true_cleavage_risk": 50,

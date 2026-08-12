@@ -561,11 +561,28 @@ def screen_one(design, rid=None):
                                             if h["risk"] == "gap_spanning_cleavage_risk"),
             # ⛔ COMPLETE HISTOGRAM OVER ALL RANKED HITS, not just the 15 saved below. Without it a
             # graded re-score can only BOUND the truncated tail; with it the bound is exact.
+            # ⛔⛔ HYBRIDISABLE HITS ONLY — AND THIS IS THE THIRD PLACE THE SAME OMISSION HID
+            # (2026-08-12). `Hsp_hit-frame` was parsed, and no number moved because `classify()`
+            # never read it. `classify()` was then fixed, and the GRADED re-score still did not
+            # move, because it reads THIS histogram — which was built over every ranked hit
+            # regardless of strand. Measured on TCF12 e17: `n_true_cleavage_risk` correctly fell to
+            # 0 while the histogram beside it still read `{"0": 7, "1": 1}` for an oligonucleotide
+            # whose eight stored hits are ALL minus-strand.
+            # The graded re-score under the literature discrimination bounds is what produces this
+            # paper's central negative, so a histogram counting non-liabilities put that negative on
+            # hits an antisense oligonucleotide cannot bind.
+            # ⚠ `is True`, not truthiness: a pre-parse hit carries no `is_minus_strand` and must
+            # keep counting, so old artifacts stay the upper bounds they are honestly labelled.
             "gap_mismatch_histogram": {
-                str(n): sum(1 for h in ranked if h.get("gap_mismatches") == n)
+                str(n): sum(1 for h in ranked
+                            if h.get("gap_mismatches") == n
+                            and h.get("is_minus_strand") is not True)
                 for n in range(0, MAX_MISMATCHES_PER_NEAR_MATCH + 1)},
+            "n_minus_strand_not_hybridisable": sum(1 for h in ranked
+                                                   if h.get("is_minus_strand") is True),
             "n_gap_mismatch_unresolvable": sum(1 for h in ranked
-                                               if h.get("gap_mismatches") is None),
+                                               if h.get("gap_mismatches") is None
+                                               and h.get("is_minus_strand") is not True),
             # ⛔ LOCUS COUNTS OVER ALL RANKED HITS, FOR THE SAME REASON AS THE HISTOGRAM ABOVE
             # (2026-08-12). A near-match count is a count of RefSeq VARIANTS, and collapsing it to
             # genes after the fact can only be done over the 15 hits saved below — which for 41 of

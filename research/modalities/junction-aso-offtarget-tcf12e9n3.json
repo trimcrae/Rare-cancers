@@ -67,8 +67,8 @@
     }
   },
   "n_oligos_screened": 5,
-  "n_screened_ok": 5,
-  "n_oligos_no_true_cleavage_risk": 0,
+  "n_screened_ok": 4,
+  "n_oligos_no_true_cleavage_risk": 1,
   "oligos": [
     {
       "antisense_5to3": "GGGCATATCTTGCATA",
@@ -76,10 +76,10 @@
       "gc_percent": 43.8,
       "specificity_margin": 8,
       "status": "screened",
-      "blast_rid": "7TM2T3CT016",
+      "blast_rid": "7TMPFXTU016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 14,
-      "n_true_cleavage_risk": 14,
+      "n_true_cleavage_risk": 8,
       "n_gap_disrupted_no_cleavage": 0,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
@@ -91,10 +91,9 @@
       "n_gap_mismatch_unresolvable": 0,
       "n_distinct_loci": 2,
       "n_loci_seen_only_as_predicted_models": 1,
-      "n_loci_with_a_gap_spanning_hit": 2,
+      "n_loci_with_a_gap_spanning_hit": 1,
       "loci_with_a_gap_spanning_hit": [
-        "ATP23",
-        "SMAD2"
+        "ATP23"
       ],
       "offtargets": [
         {
@@ -108,7 +107,7 @@
           "is_minus_strand": true,
           "qseq": "TATGCAAGATATGCCC",
           "midline": "|||| |||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -122,7 +121,7 @@
           "is_minus_strand": true,
           "qseq": "TATGCAAGATATGCCC",
           "midline": "|||| |||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -136,7 +135,7 @@
           "is_minus_strand": true,
           "qseq": "TATGCAAGATATGCCC",
           "midline": "|||| |||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -150,7 +149,7 @@
           "is_minus_strand": true,
           "qseq": "TATGCAAGATATGCCC",
           "midline": "|||| |||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -164,7 +163,7 @@
           "is_minus_strand": true,
           "qseq": "TATGCAAGATATGCCC",
           "midline": "|||| |||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -178,7 +177,7 @@
           "is_minus_strand": true,
           "qseq": "TATGCAAGATATGCCC",
           "midline": "|||| |||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -301,11 +300,11 @@
       "gc_percent": 43.8,
       "specificity_margin": 7,
       "status": "screened",
-      "blast_rid": "7TM2X33M016",
+      "blast_rid": "7TMPK97G016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 11,
       "n_true_cleavage_risk": 2,
-      "n_gap_disrupted_no_cleavage": 9,
+      "n_gap_disrupted_no_cleavage": 5,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
       "gap_mismatch_histogram": {
@@ -332,7 +331,7 @@
           "is_minus_strand": true,
           "qseq": "ATGCAAGATATGCCCT",
           "midline": "|||||||| |||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -346,7 +345,7 @@
           "is_minus_strand": true,
           "qseq": "ATGCAAGATATGCCCT",
           "midline": "|||||||| |||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -360,7 +359,7 @@
           "is_minus_strand": true,
           "qseq": "ATGCAAGATATGCCCT",
           "midline": "|||||||| |||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -374,7 +373,7 @@
           "is_minus_strand": true,
           "qseq": "ATGCAAGATATGCCCT",
           "midline": "|||||||| |||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -482,211 +481,8 @@
       "target_mRNA_5to3": "TTATGCAAGATATGCC",
       "gc_percent": 37.5,
       "specificity_margin": 7,
-      "status": "screened",
-      "blast_rid": "7TM31VTS016",
-      "n_parent_or_intended_hits": 0,
-      "n_offtarget_near_matches": 13,
-      "n_true_cleavage_risk": 11,
-      "n_gap_disrupted_no_cleavage": 2,
-      "n_wing_only_affinity": 0,
-      "n_coverage_only_fallback": 0,
-      "gap_mismatch_histogram": {
-        "0": 11,
-        "1": 2,
-        "2": 0
-      },
-      "n_gap_mismatch_unresolvable": 0,
-      "n_distinct_loci": 3,
-      "n_loci_seen_only_as_predicted_models": 0,
-      "n_loci_with_a_gap_spanning_hit": 2,
-      "loci_with_a_gap_spanning_hit": [
-        "ATP23",
-        "CCNH"
-      ],
-      "offtargets": [
-        {
-          "acc": "NM_001146335",
-          "defn": "Homo sapiens solute carrier family 6 member 15 (SLC6A15), transcript variant 3, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGCC",
-          "midline": "|||||| |||||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "NM_001320408",
-          "defn": "Homo sapiens ATP23 metallopeptidase and ATP synthase assembly factor homolog (ATP23), transcript variant 2, mRNA; nuclear gene for mitochondrial product",
-          "identity": 15,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGC",
-          "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_001320409",
-          "defn": "Homo sapiens ATP23 metallopeptidase and ATP synthase assembly factor homolog (ATP23), transcript variant 3, mRNA; nuclear gene for mitochondrial product",
-          "identity": 15,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGC",
-          "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_001320410",
-          "defn": "Homo sapiens ATP23 metallopeptidase and ATP synthase assembly factor homolog (ATP23), transcript variant 4, mRNA; nuclear gene for mitochondrial product",
-          "identity": 15,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGC",
-          "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_001363539",
-          "defn": "Homo sapiens cyclin H (CCNH), transcript variant 3, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGCC",
-          "midline": "||||||||||||| ||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_001364076",
-          "defn": "Homo sapiens cyclin H (CCNH), transcript variant 5, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGCC",
-          "midline": "||||||||||||| ||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_033276",
-          "defn": "Homo sapiens ATP23 metallopeptidase and ATP synthase assembly factor homolog (ATP23), transcript variant 1, mRNA; nuclear gene for mitochondrial product",
-          "identity": 15,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGC",
-          "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "NM_182767",
-          "defn": "Homo sapiens solute carrier family 6 member 15 (SLC6A15), transcript variant 1, mRNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGCC",
-          "midline": "|||||| |||||||||",
-          "risk": "gap_disrupted_no_cleavage",
-          "gap_mismatches": 1
-        },
-        {
-          "acc": "NR_157071",
-          "defn": "Homo sapiens cyclin H (CCNH), transcript variant 9, non-coding RNA",
-          "identity": 15,
-          "align_len": 16,
-          "q_from": 1,
-          "q_to": 16,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGCC",
-          "midline": "||||||||||||| ||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_011538976",
-          "defn": "PREDICTED: Homo sapiens ATP23 metallopeptidase and ATP synthase assembly factor homolog (ATP23), transcript variant X1, mRNA >gi|2462490267|ref|XM_054329564.1| PREDICTED: Homo sapiens ATP23 metallopeptidase and ATP synthase assembly factor homolog (ATP23), transcript variant X1, mRNA",
-          "identity": 15,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGC",
-          "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_017020206",
-          "defn": "PREDICTED: Homo sapiens ATP23 metallopeptidase and ATP synthase assembly factor homolog (ATP23), transcript variant X2, mRNA >gi|2462490269|ref|XM_054329565.1| PREDICTED: Homo sapiens ATP23 metallopeptidase and ATP synthase assembly factor homolog (ATP23), transcript variant X2, mRNA",
-          "identity": 15,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGC",
-          "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054373804",
-          "defn": "PREDICTED: Homo sapiens ATP23 metallopeptidase and ATP synthase assembly factor homolog (ATP23), transcript variant X1, mRNA",
-          "identity": 15,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGC",
-          "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        },
-        {
-          "acc": "XM_054373805",
-          "defn": "PREDICTED: Homo sapiens ATP23 metallopeptidase and ATP synthase assembly factor homolog (ATP23), transcript variant X2, mRNA",
-          "identity": 15,
-          "align_len": 15,
-          "q_from": 1,
-          "q_to": 15,
-          "hit_frame": 1,
-          "is_minus_strand": false,
-          "qseq": "TTATGCAAGATATGC",
-          "midline": "|||||||||||||||",
-          "risk": "true_cleavage_risk",
-          "gap_mismatches": 0
-        }
-      ]
+      "status": "screen_failed",
+      "error": "Remote end closed connection without response"
     },
     {
       "antisense_5to3": "CAGGGCATATCTTGCA",
@@ -694,11 +490,11 @@
       "gc_percent": 50.0,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "7TM35M0K016",
+      "blast_rid": "7TMPV8YU016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 7,
-      "n_true_cleavage_risk": 3,
-      "n_gap_disrupted_no_cleavage": 4,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 0,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
       "gap_mismatch_histogram": {
@@ -709,12 +505,8 @@
       "n_gap_mismatch_unresolvable": 0,
       "n_distinct_loci": 4,
       "n_loci_seen_only_as_predicted_models": 4,
-      "n_loci_with_a_gap_spanning_hit": 3,
-      "loci_with_a_gap_spanning_hit": [
-        "acc:XM_011531191",
-        "acc:XM_047442407",
-        "acc:XM_047442408"
-      ],
+      "n_loci_with_a_gap_spanning_hit": 0,
+      "loci_with_a_gap_spanning_hit": [],
       "offtargets": [
         {
           "acc": "XM_011531191",
@@ -727,7 +519,7 @@
           "is_minus_strand": true,
           "qseq": "TGCAAGATATGCCCTG",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -741,7 +533,7 @@
           "is_minus_strand": true,
           "qseq": "TGCAAGATATGCCCTG",
           "midline": "||||||| ||||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -755,7 +547,7 @@
           "is_minus_strand": true,
           "qseq": "TGCAAGATATGCCCTG",
           "midline": "||||||| ||||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -769,7 +561,7 @@
           "is_minus_strand": true,
           "qseq": "TGCAAGATATGCCCTG",
           "midline": "||||||| ||||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -783,7 +575,7 @@
           "is_minus_strand": true,
           "qseq": "TGCAAGATATGCCCTG",
           "midline": "||||||| ||||||||",
-          "risk": "gap_disrupted_no_cleavage",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 1
         },
         {
@@ -797,7 +589,7 @@
           "is_minus_strand": true,
           "qseq": "TGCAAGATATGCCCTG",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         },
         {
@@ -811,7 +603,7 @@
           "is_minus_strand": true,
           "qseq": "TGCAAGATATGCCCTG",
           "midline": "|| |||||||||||||",
-          "risk": "true_cleavage_risk",
+          "risk": "minus_strand_not_hybridisable",
           "gap_mismatches": 0
         }
       ]
@@ -822,11 +614,11 @@
       "gc_percent": 31.2,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "7TM397BM016",
+      "blast_rid": "7TMPZPRR016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 40,
       "n_true_cleavage_risk": 10,
-      "n_gap_disrupted_no_cleavage": 30,
+      "n_gap_disrupted_no_cleavage": 24,
       "n_wing_only_affinity": 0,
       "n_coverage_only_fallback": 0,
       "gap_mismatch_histogram": {
