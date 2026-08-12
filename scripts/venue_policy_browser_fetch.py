@@ -98,6 +98,20 @@ TARGETS = {
     "cgt_journal_home": "https://www.nature.com/cgt/",
     "cgt_author_instructions": "https://www.nature.com/cgt/for-authors",
     "cgt_open_access": "https://www.nature.com/cgt/open-access",
+    # ⛔⛔ ASK EVERY VENUE ABOUT PAGE CHARGES, NOT ONLY ABOUT APCs (2026-08-12, and this reversed a
+    # venue decision). The whole comparison above — mine and the plan's — asked one question: "is
+    # there a subscription route without an article processing charge?" Nucleic Acid Therapeutics
+    # PASSES that test (`Access: Subscription`) and still bills the author: its guidelines state
+    # "All manuscripts ... will be assessed the following MANDATORY Publishing Services Fees: Page
+    # Charges (assessed upon acceptance): $90/page", which for this manuscript is roughly $700-1,100.
+    # ⛔ "HYBRID" NEVER MEANT "FREE". It means OA is the paid upgrade; it says nothing about page,
+    # colour, submission or over-length charges levied on the subscription route as well. A $0
+    # constraint has to be tested against the FULL fee schedule, and until today it was not.
+    # These targets are the fee schedule for the venue currently chosen, so the same question gets
+    # asked of it before anything is submitted.
+    "cgt_submission_guidelines": "https://www.nature.com/cgt/submission-guidelines",
+    "cgt_for_authors": "https://www.nature.com/cgt/for-authors",
+    "cgt_about": "https://www.nature.com/cgt/about",
     # ── bioRxiv, the free open copy for all four papers ─────────────────────────────────
     "biorxiv_faq": "https://www.biorxiv.org/about/FAQ",
     "biorxiv_submission_guide": "https://www.biorxiv.org/submit-a-manuscript",
@@ -110,7 +124,8 @@ TARGETS = {
 PROBES = [
     r"free of charge", r"no charge", r"at no cost", r"no fee", r"free to (?:submit|post)",
     r"submission fee", r"article processing charge", r"article publication charge", r"\bAPC\b",
-    r"colou?r charge", r"page charge", r"word limit", r"maximum of [\d,]+ words",
+    r"colou?r charge", r"page charge", r"per page", r"publishing services fee",
+    r"mandatory", r"assessed upon acceptance", r"over-?length", r"excess page", r"word limit", r"maximum of [\d,]+ words",
     r"[\d,]+ words", r"abstract .{0,30}\b\d{3}\b .{0,10}words", r"subscription",
     r"open access option", r"hybrid",
 ]
