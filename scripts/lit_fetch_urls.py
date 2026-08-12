@@ -146,11 +146,26 @@ def fetch(name: str, url: str) -> dict:
     # Added 2026-08-12 for the EMC IPD admissibility pass: a Kaplan-Meier figure's
     # numbers-at-risk row is rendered INSIDE THE FIGURE IMAGE, so it is invisible to full-text
     # search and the only way to answer "is the curve admissible?" is to look at the graphic.
-    if ctype.lower().startswith("image/") or data[:3] == b"\xff\xd8\xff" or data[:8] == b"\x89PNG\r\n\x1a\n":
-        ext = {"image/jpeg": "jpg", "image/png": "png", "image/gif": "gif",
-               "image/tiff": "tif"}.get(ctype.split(";")[0].strip().lower())
+    # ⚠ THE DISCRIMINATOR IS THE CONTENT TYPE, NOT THE URL, AND THAT IS LOAD-BEARING. Measured
+    # 2026-08-12: pmc.ncbi.nlm.nih.gov answered a request for a `.jpg` with HTTP 200 and
+    # `text/html` -- a reCAPTCHA interstitial. Keying off the ".jpg" in the URL would have written
+    # a captcha page into a file named like an image and called the step a success. Keying off the
+    # declared type sends it down the text path, where it is legible as the refusal it is.
+    _ct = ctype.split(";")[0].strip().lower()
+    _binary_ext = {"image/jpeg": "jpg", "image/png": "png", "image/gif": "gif",
+                   "image/tiff": "tif", "application/x-tar": "tar", "application/gzip": "gz",
+                   "application/x-gzip": "gz", "application/zip": "zip"}
+    if (_ct in _binary_ext or _ct.startswith("image/")
+            or data[:3] == b"\xff\xd8\xff" or data[:8] == b"\x89PNG\r\n\x1a\n"
+            or data[:2] == b"\x1f\x8b"):
+        ext = _binary_ext.get(_ct)
         if ext is None:
-            ext = "png" if data[:8] == b"\x89PNG\r\n\x1a\n" else "jpg"
+            if data[:8] == b"\x89PNG\r\n\x1a\n":
+                ext = "png"
+            elif data[:2] == b"\x1f\x8b":
+                ext = "gz"
+            else:
+                ext = "jpg"
         binpath = os.path.join(OUT, f"{name}.{ext}")
         with open(binpath, "wb") as fh:
             fh.write(data)
