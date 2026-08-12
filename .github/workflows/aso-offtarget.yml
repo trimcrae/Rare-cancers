@@ -68,7 +68,14 @@ permissions:
   contents: write
 
 concurrency:
-  group: aso-offtarget
+  # ⛔ KEYED BY THE JUNCTION SET, BECAUSE A GLOBAL GROUP MADE EVERY SCREEN SERIAL (2026-08-12).
+  # `group: aso-offtarget` with `cancel-in-progress: true` meant a second dispatch KILLED the first,
+  # so twelve junctions could only ever be screened one run at a time -- 12 x ~28 min against a
+  # 6-hour job ceiling -- and a 20-mer tiling run was silently cancelled by the next dispatch. The
+  # guard was aimed at re-dispatching the SAME work, which is still what it does: the key is now the
+  # junction set, so a repeat of the same junctions still supersedes its predecessor while different
+  # junctions run side by side.
+  group: aso-offtarget-${{ inputs.real_junctions }}${{ inputs.sirna_only_junctions }}${{ inputs.suffix_tag }}
   cancel-in-progress: true
 
 jobs:
