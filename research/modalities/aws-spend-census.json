@@ -1,8 +1,8 @@
 {
   "account": "646605541856",
   "cost_explorer": {
-    "end": "2026-08-13",
-    "start": "2026-06-14",
+    "end": "2026-08-14",
+    "start": "2026-06-15",
     "status": "DENIED",
     "window_days": 60
   },
@@ -57,7 +57,7 @@
       "EBS volumes + snapshots (DENIED)"
     ]
   },
-  "generated_utc": "2026-08-12T23:54:43+00:00",
+  "generated_utc": "2026-08-13T00:24:16+00:00",
   "logs": {
     "est_usd_per_month": 0.0,
     "groups": [
@@ -107,12 +107,27 @@
         "region": "us-east-2",
         "size_status": "ok",
         "top_prefixes": {
-          "keys_walked": 1,
+          "keys_walked": 21,
           "prefixes": [
             {
               "bytes": 6727697574,
               "n": 1,
               "prefix": "mdenv"
+            },
+            {
+              "bytes": 14662,
+              "n": 10,
+              "prefix": "nr4a3-step1-fanout"
+            },
+            {
+              "bytes": 13720,
+              "n": 9,
+              "prefix": "nrv04-retro-results"
+            },
+            {
+              "bytes": 29,
+              "n": 1,
+              "prefix": "ternary-vast"
             }
           ],
           "truncated": false
