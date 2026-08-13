@@ -298,6 +298,57 @@ def _parse_gct(raw_gz, wanted):
     return {"tissues": tissues, "n_rows": n_rows, "rows": found}
 
 
+def _gtex_api_arm(want):
+    """FALLBACK: the portal's per-gene median endpoint, used only if the release file is unreachable.
+
+    ⚠ IT IS RECORDED, NEVER SILENTLY SUBSTITUTED (`endpoint_used`). The two paths differ in ways a
+    reader must be able to see: the release file is one immutable published object, while the API
+    resolves a symbol to a gencode id first and so can return a DIFFERENT gene model. A run that
+    fell back is still a reading; it is just a reading of a slightly different thing, and an
+    artifact that could not say which it used would make the two indistinguishable.
+    """
+    tissues, rows, errs = [], {}, {}
+    for sym in want:
+        try:
+            q = urllib.parse.urlencode({"geneId": sym})
+            g = json.loads(_get(f"{GTEX_API_GENE}?{q}", timeout=120).decode())
+            recs = [r for r in (g.get("data") or [])
+                    if str(r.get("geneSymbol", "")).upper() == sym.upper()]
+            if not recs:
+                errs[sym] = "no gencode id resolved for this symbol"
+                continue
+            gid = recs[0]["gencodeId"]
+            q2 = urllib.parse.urlencode({"gencodeId": gid, "datasetId": "gtex_v8"})
+            m = json.loads(_get(f"{GTEX_API_MEDIAN}?{q2}", timeout=180).decode())
+            data = m.get("data") or []
+            if not data:
+                errs[sym] = f"no median expression rows for {gid}"
+                continue
+            for r in data:
+                t = r.get("tissueSiteDetailId")
+                if t and t not in tissues:
+                    tissues.append(t)
+            vals = {r.get("tissueSiteDetailId"): r.get("median") for r in data}
+            rows.setdefault(sym.upper(), []).append(
+                {"gencode_id": gid, "symbol": sym, "_by_tissue": vals})
+        except Exception as exc:  # noqa: BLE001
+            errs[sym] = f"{type(exc).__name__}: {str(exc)[:160]}"
+    if not rows:
+        return None, errs
+    # ⚠ THE API RETURNS `tissueSiteDetailId` (underscored ids), NOT the release file's `SMTSD`
+    # labels, so the tissue LISTS in this module would not match. Normalise to the release file's
+    # label form; any tissue that does not normalise is left as-is and simply will not be selected,
+    # which reads as `tissue_labels_not_found` rather than as a zero.
+    norm = {t: t.replace("_", " ") for t in tissues}
+    labels = [norm[t] for t in tissues]
+    out = {}
+    for sym, models in rows.items():
+        out[sym] = [{"gencode_id": mo["gencode_id"], "symbol": mo["symbol"],
+                     "values": [mo["_by_tissue"].get(t) for t in tissues]} for mo in models]
+    return {"tissues": labels, "rows": out, "n_rows": None,
+            "_tissue_id_to_label": norm, "_per_symbol_errors": errs}, errs
+
+
 def fetch_gtex(symbols, controls=tuple(GTEX_CONTROLS)):
     rec = {"source": "GTEx v8 gene-level median TPM",
            "url": GTEX_MEDIAN_TPM_URL,
@@ -311,8 +362,29 @@ def fetch_gtex(symbols, controls=tuple(GTEX_CONTROLS)):
         rec.update(_parse_gct(raw, want))
         rec["endpoint_used"] = "release_gct"
         rec["_status"] = "read"
+        return rec
     except Exception as exc:  # noqa: BLE001 — an unread arm is UNKNOWN and says which arm and why
-        rec["_status"] = f"fetch or parse failed: {type(exc).__name__}: {str(exc)[:300]}"
+        rec["release_file_error"] = f"{type(exc).__name__}: {str(exc)[:300]}"
+
+    # ⛔ THE FALLBACK RUNS ONLY AFTER THE RELEASE FILE FAILED, and it carries the SAME controls
+    # through the SAME control gate — a fallback exempt from the known-answer check would be a way
+    # for a degraded path to emit figures the primary path could not.
+    try:
+        got, errs = _gtex_api_arm(want)
+        if got is None:
+            rec["_status"] = (f"fetch or parse failed: {rec['release_file_error']}; "
+                              f"API fallback also returned nothing: {json.dumps(errs)[:300]}")
+            return rec
+        rec.update(got)
+        rec["endpoint_used"] = "portal_api_v2_fallback"
+        rec["url"] = GTEX_API_MEDIAN
+        rec["_status"] = "read"
+        rec["⚠_fallback"] = ("the release GCT was unreachable and the portal API answered instead; "
+                             "the two can resolve a symbol to different gene models, so this is a "
+                             "reading of a slightly different object and says so here.")
+    except Exception as exc:  # noqa: BLE001
+        rec["_status"] = (f"fetch or parse failed: {rec['release_file_error']}; "
+                          f"API fallback raised {type(exc).__name__}: {str(exc)[:200]}")
     return rec
 
 
