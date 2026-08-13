@@ -108,10 +108,39 @@ def _gap_region():
         return GAP_1BASED
 
 
-def _http(url, timeout=180):
-    req = urllib.request.Request(url, headers={"Content-Type": "application/json",
-                                               "User-Agent": "rare-cancers-aso-premrna/1.0"})
-    return urllib.request.urlopen(req, timeout=timeout).read().decode("utf-8", "replace")
+def _http(url, timeout=180, accept="application/json", tries=4):
+    """GET with the Accept header Ensembl actually keys on, and a bounded retry.
+
+    ⚠ THE HEADER MATTERS AND THE FIRST VERSION SENT THE WRONG ONE. Ensembl REST selects its response
+    format from `Accept` (or the `content-type` query parameter); a `Content-Type` request header on a
+    GET describes a body that does not exist and is not what it reads. Asking for plain text with a
+    JSON `Content-Type` is the kind of mismatch that returns a 400 rather than a sequence.
+
+    ⚠ AND A ONE-SHOT NETWORK CALL IN CI IS A COIN FLIP, not a measurement: 429 and 503 are routine
+    from a public API. Retried with a widening pause, and the LAST error is raised rather than
+    swallowed, so a genuine failure still fails and still says why.
+    """
+    err = None
+    for attempt in range(tries):
+        try:
+            req = urllib.request.Request(url, headers={
+                "Accept": accept, "User-Agent": "rare-cancers-aso-premrna/1.0"})
+            return urllib.request.urlopen(req, timeout=timeout).read().decode("utf-8", "replace")
+        except Exception as e:  # noqa: BLE001 — re-raised below once the retries are spent
+            err = e
+            body = getattr(e, "read", None)
+            detail = ""
+            if callable(body):
+                try:
+                    detail = f" body={body().decode('utf-8', 'replace')[:300]!r}"
+                except Exception:  # noqa: BLE001
+                    detail = ""
+            print(f"  GET failed (attempt {attempt + 1}/{tries}): {type(e).__name__}: {e}{detail}\n"
+                  f"    url={url}", file=sys.stderr)
+            if attempt + 1 < tries:
+                time.sleep(3 * (attempt + 1))
+    raise RuntimeError(f"Ensembl GET failed after {tries} attempts: {type(err).__name__}: {err} "
+                       f"({url})")
 
 
 def fetch_premrna(transcripts):
@@ -125,9 +154,15 @@ def fetch_premrna(transcripts):
     """
     out = {}
     for gene, tid in sorted(transcripts.items()):
-        seq = _http(f"{ENSEMBL}/sequence/id/{tid}?type=genomic;content-type=text/plain").strip().upper()
+        seq = _http(f"{ENSEMBL}/sequence/id/{tid}?type=genomic",
+                    accept="text/plain").strip().upper()
+        if not seq or set(seq) - set("ACGTN"):
+            # An error page returned with a 200 would otherwise be scanned as if it were sequence,
+            # and every design would come back clean against it.
+            raise RuntimeError(f"{gene} ({tid}): the response is not nucleotide sequence "
+                               f"(len={len(seq)}, first 80 chars: {seq[:80]!r})")
         time.sleep(0.4)                       # Ensembl asks for <= 15 requests/s; this is far under
-        meta = json.loads(_http(f"{ENSEMBL}/lookup/id/{tid}?expand=1;content-type=application/json"))
+        meta = json.loads(_http(f"{ENSEMBL}/lookup/id/{tid}?expand=1"))
         strand = meta.get("strand")
         g0, g1 = meta.get("start"), meta.get("end")
         exons = []
@@ -370,6 +405,40 @@ def _designs_from_atlas():
 
 
 def main(argv):
+    """Run the screen, and make a FAILURE readable from the artifact branch.
+
+    ⛔ WHY THE WRAPPER. The first CI dispatch of this module failed, and the traceback was
+    unreachable: the run's own log archive is served from a host the dev sandbox's egress proxy
+    blocks, and the log tail the API returns was entirely consumed by the publish step's output. So
+    the diagnosis had to be guessed — which CLAUDE.md §4 forbids — over a $0 run that could simply
+    have written down what happened. A failed screen now publishes a record of the failure and THEN
+    exits non-zero: the step still goes red, and the reason travels to where it can be read.
+    """
+    try:
+        return _run(argv)
+    except Exception as e:  # noqa: BLE001 — the point is to record it, and the re-raise is below
+        import traceback  # noqa: PLC0415
+        p = os.path.join(HERE, "aso-premrna-offtarget-FAILED.json")
+        with open(p, "w") as fh:
+            json.dump({
+                "_what": "a pre-mRNA screen run that FAILED. Not a result, and not a reading of absence.",
+                "_why_this_file_exists": ("the traceback of a CI failure is otherwise unreachable "
+                                          "from the dev sandbox, so it was being guessed at"),
+                "error_type": type(e).__name__, "error": str(e),
+                "traceback": traceback.format_exc().splitlines()[-25:],
+                "argv": list(argv),
+                "env": {k: os.environ.get(k) for k in ("PREMRNA_GENOMIC", "PREMRNA_OUT")},
+                "atlas_present": os.path.exists(ATLAS),
+                "sequence_cache_present": os.path.exists(CACHE),
+            }, fh, indent=1)
+            fh.write("\n")
+        print(f"::error::pre-mRNA screen failed: {type(e).__name__}: {e}", file=sys.stderr)
+        print(f"wrote {p}", file=sys.stderr)
+        traceback.print_exc()
+        return 1
+
+
+def _run(argv):
     offline = "--offline" in argv
     designs, atlas = _designs_from_atlas()
     transcripts = {g: v["transcript"] for g, v in atlas["transcripts"].items()}

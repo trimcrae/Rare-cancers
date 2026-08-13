@@ -176,7 +176,15 @@ def blast_hits(rid):
 #: different caps operate on the same numbers and conflating them misreads both: this one
 #: bounds what the search REPORTS, while the 15-hit retention below bounds what we STORE.
 #: The manuscript quotes both, and `submission_tables` marks its columns from them.
-BLAST_HITLIST_SIZE = 50
+#: ⭐ OVERRIDABLE SO THE CENSORING CAN BE MEASURED RATHER THAN ONLY DISCLOSED (2026-08-13). 136 of the
+#: 183 screened designs carry right-censored counts, and the manuscript can only report that as a
+#: bound. A re-screen at a deeper ceiling turns those bounds into measurements — and it can move a
+#: RESULT, not just a caveat: a tenth design scores zero residual cleavage load and is refused as
+#: clean solely because its unstored hits are unknown. ⛔ A DEEPER RE-SCREEN MUST WRITE TO ITS OWN
+#: SUFFIX. Overwriting the committed screens would silently re-base every count the paper quotes,
+#: and the two sets are not comparable: a count taken at a deeper ceiling is a different measurement,
+#: not a correction of the shallower one.
+BLAST_HITLIST_SIZE = ja._env_int("BLAST_HITLIST_SIZE", 50)
 
 #: How many ranked hits are STORED per design, against a hitlist of up to `BLAST_HITLIST_SIZE`.
 #: ⛔ NAMED BECAUSE IT WAS A BARE `[:15]` IN ONE PLACE AND A TYPED "15" IN FOUR OTHERS — the
@@ -184,7 +192,9 @@ BLAST_HITLIST_SIZE = 50
 #: number that decides whether a design can be called clean at all: the strand of an unstored hit
 #: is unrecoverable, so a design with more near-matches than this carries a strand-blind count no
 #: later pass can repair. A fact that decides a headline result does not get to live as a literal.
-SAVED_HITS_PER_DESIGN = 15
+#: ⚠ RAISING THIS IS NOT COSMETIC EITHER: it is what lets a re-screen decide cleanliness for a design
+#: whose current answer is "unknown beyond the stored window".
+SAVED_HITS_PER_DESIGN = ja._env_int("SAVED_HITS_PER_DESIGN", 15)
 
 ORIENTATION_PARSED_SINCE = "2026-08-12"
 

@@ -358,6 +358,23 @@ jobs:
             git rm -rf . >/dev/null 2>&1 || true
           fi
           mkdir -p research/modalities
+          # ⛔⛔ RESTORE THE BRANCH'S OWN TREE BEFORE COPYING. MEASURED, run 31696283722 (2026-08-13):
+          # this publish DELETED 39 `junction-aso-designs*.json` artifacts from `modalities-cache`
+          # under a commit message that said it had published screens. Mechanism, and it is a shell
+          # bug rather than a git one: `rm -f research/modalities/*.json` above deletes the
+          # FEATURE-BRANCH copies; `git checkout -B` then CARRIES those working-tree deletions across,
+          # because for a file whose content is identical in both refs the deletion is an uncommitted
+          # local change git can preserve. The tree therefore arrives on `modalities-cache` with 39
+          # files missing. Then `git add research/modalities/junction-aso-designs*.json` — with the
+          # glob matching NOTHING in the working tree — is passed to git LITERALLY by the shell, git
+          # expands it as a pathspec against the INDEX instead, and stages all 39 deletions.
+          # ⭐ THAT IS WHY THE OFF-TARGET GLOB ON THE NEXT LINE DID NOT DO THE SAME THING: it matched
+          # at least one `-graded.json` file that exists only on this branch, so the shell expanded it
+          # to real paths and no deletion was ever staged. Whether a family survives depended on
+          # whether a sibling file happened to exist. Nothing about that is a property anyone chose.
+          # The recorded guards did not fire because they all reason about what the run PRODUCED, and
+          # this loss came from what the checkout carried IN.
+          git checkout HEAD -- research/modalities 2>/dev/null || true
           cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
           git add research/modalities/junction-aso-designs*.json 2>/dev/null || true
           git add research/modalities/junction-aso-offtarget*.json 2>/dev/null || true
@@ -407,6 +424,20 @@ jobs:
             MSG="retracted-seam sweep: banner every design artifact whose acceptor seam the corrected transcript model does not produce (no design, no BLAST, no network)"
           else
             MSG="ASO real/reference junction screens: design + gap-resolved BLAST + uncapped eval + siRNA"
+          fi
+          # ⛔⛔ THIS WORKFLOW ADDS AND UPDATES ARTIFACTS. IT NEVER DELETES ONE. Every guard above
+          # reasons about what the run PRODUCED — the mtime baseline, the "copying a checked-in file
+          # is not a result" rule, the commit-message check — and run 31696283722 lost 39 artifacts
+          # anyway, because the loss came from what the checkout carried IN rather than from what the
+          # run wrote out. A guard on the diff is the only one that cannot be sidestepped by a new
+          # mode: whatever the cause, a staged deletion means this publish is about to remove someone
+          # else's result, so it stops. Recovering a deleted artifact costs a git archaeology session;
+          # a red build costs a re-dispatch.
+          if git diff --cached --diff-filter=D --name-only | grep -q . ; then
+            echo "::error::this publish would DELETE artifacts from modalities-cache — refusing"
+            git diff --cached --diff-filter=D --name-only | sed 's|^|::error::  would delete |'
+            echo "::error::a mode that produces nothing must publish nothing, not remove what is there"
+            exit 1
           fi
           git commit -m "$MSG" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
