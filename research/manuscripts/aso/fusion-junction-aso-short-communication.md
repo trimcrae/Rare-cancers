@@ -165,7 +165,11 @@ bounds, marked in Table 2, and carry no claim. Whether a given screen belongs to
 decided by auditing its per-hit labels rather than by the presence of a strand field, because four
 screens record the aligned strand on every hit and were classified before the filter consulted it.
 Target-site accessibility was estimated as mean unpaired probability over a truncated 180-nucleotide
-local fold, and is reported only as a weak correlate.
+local fold, and spans 0.160 to 0.707 across the 130 designs for which it was computed (median 0.476).
+It is released with the artefacts and is not used to rank anything here. A truncated
+local fold is an equilibrium proxy that can over-estimate accessibility, the quantity is a weak
+correlate of potency at best, and no measurement in this work bears on potency — so ordering
+candidates by it would import a ranking the evidence does not support.
 
 **Discrimination model.** The binary assumption that any mismatch inside the gap abolishes cleavage
 is not supported by the primary literature and is not used for any claim of cleanliness. Measured
