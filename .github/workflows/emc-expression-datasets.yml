@@ -155,7 +155,7 @@ on:
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "sra-study", "ret-cistrome-zenodo", "gse243553-eno3", "ret-cistrome-named-geo"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "sra-study", "ret-cistrome-zenodo", "gse243553-eno3", "ret-cistrome-named-geo", "aso-offtarget-expression"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -258,7 +258,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${MODE:-}" in
-            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search|sra-study|ret-cistrome-zenodo|gse243553-eno3|ret-cistrome-named-geo) PART_B=false ;;
+            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search|sra-study|ret-cistrome-zenodo|gse243553-eno3|ret-cistrome-named-geo|aso-offtarget-expression) PART_B=false ;;
             *)                                               PART_B=true  ;;
           esac
           echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
@@ -344,6 +344,18 @@ jobs:
             # every merged score would be a blend of two experiments. The test asserts they cannot,
             # and it costs seconds against a fetch that costs the run.
             python -m pytest research/modalities/tests/test_emc_hypoxia_confounds.py -q
+          elif [ "${{ inputs.mode }}" = "aso-offtarget-expression" ]; then
+            # ⛔ NOT OPTIONAL, and this mode has the strongest version of the reason. Its output is
+            # the expression half of a LIABILITY assessment for the one clinically-relevant reagent
+            # in the ASO panel, and every way it could lie is offline arithmetic: an absent
+            # reference row rendering as "not expressed" rather than "not measured"; a shifted GCT
+            # parse emitting tissue figures that are internally consistent and wrong; a transcript
+            # RECORD count being read as a risk ranking. The selftest asserts the first two against
+            # constructed inputs — including a deliberately shifted matrix whose controls must
+            # withhold every locus verdict — and it runs BEFORE the ~1 GB GTEx download, so a broken
+            # derivation costs seconds rather than the run.
+            python research/modalities/aso_offtarget_tissue_expression.py --selftest
+            python -m pytest research/modalities/tests/test_aso_offtarget_tissue_expression.py -q
           else
             python -m pytest research/modalities/tests/test_emc_atr_vulnerability.py \
                              research/modalities/tests/test_atr_hrd_sarcoma_series.py -q
@@ -655,6 +667,60 @@ jobs:
             research/modalities/emc-cohort-search-inputs.json
 
       # ─────────────────────────────────────────────────────────────────────────────────────
+      # aso-offtarget-expression — WHERE are the junction gapmer's off-target loci expressed?
+      # ─────────────────────────────────────────────────────────────────────────────────────
+
+      # ⭐ WHAT IT IS FOR, AND WHY IT IS THE HIGHEST-VALUE READ ON THIS LANE.
+      # Five screens stand behind the ASO panel and all five ask a SEQUENCE question: does something
+      # in the transcriptome resemble this oligonucleotide closely enough to hybridise. None asks
+      # the question that decides whether such a resemblance can matter in a patient — is the
+      # transcript carrying it PRESENT in a tissue the drug reaches. At the tenfold-deeper ceiling
+      # the one clinically-relevant reagent returns 123 gap-paired hybridisable near-matches over
+      # six gene loci, and without this read the manuscript can only report that number.
+      #
+      # ⭐ THE COMPARTMENT SPLIT IS THE DELIVERABLE. Systemically dosed phosphorothioate gapmers
+      # distribute predominantly to liver and kidney, so those organs carry the EXPOSURE question,
+      # while deep soft tissue of the extremities carries the ON-SITE one. A gene can be a serious
+      # exposure liability and irrelevant on site, or the reverse, so the two are read into separate
+      # blocks and are never summed. GTEx contains no EMC and no sarcoma, so the soft-tissue block
+      # is labelled a NORMAL-TISSUE PROXY and the actual tumour reading is the EMC array arm.
+      #
+      # ⛔ IT PUBLISHES, on the same test `panels`, `cohort-search` and `sra-study` pass: NEW
+      # artifacts under NEW names nothing has ever cited, so there is no file it can be confused
+      # with. It CANNOT perturb the panels lane's artifact — arm B calls
+      # `emc_expression_panels._read_target`, which is a pure read, and the output lands only in
+      # this module's own inputs cache. Reusing that function rather than re-implementing it is a
+      # correctness argument: probe-to-symbol mapping on these two platforms is the part that has
+      # actually been hard here, and a second implementation would be free to disagree with the
+      # panels lane about whether a gene is readable at all.
+      #
+      # ⚠ THE FETCH IS ~1 GB (the GTEx v8 median-TPM release matrix), which is why the timeout is
+      # generous and why the offline suite above runs first.
+      - name: "ASO off-target expression — GTEx exposure organs, EMC tumours, and locus identity"
+        if: inputs.mode == 'aso-offtarget-expression'
+        timeout-minutes: 75
+        env:
+          EMC_ACC_BRIDGE_BUDGET_S: ${{ inputs.acc_bridge_budget_s || '1500' }}
+        run: python research/modalities/aso_offtarget_tissue_expression.py --fetch
+
+      - name: "ASO off-target expression — the verdict must re-derive offline from its own cache"
+        if: always() && inputs.mode == 'aso-offtarget-expression'
+        timeout-minutes: 10
+        run: |
+          python research/modalities/aso_offtarget_tissue_expression.py --check \
+            || echo "--check reported drift; non-blocking, but READ IT"
+
+      - name: "ASO off-target expression — upload the verdict and the raw retrievals"
+        if: always() && inputs.mode == 'aso-offtarget-expression'
+        uses: actions/upload-artifact@v4
+        with:
+          name: aso-offtarget-tissue-expression
+          if-no-files-found: warn
+          path: |
+            research/modalities/aso-offtarget-tissue-expression.json
+            research/modalities/aso-offtarget-tissue-expression-inputs.json
+
+      # ─────────────────────────────────────────────────────────────────────────────────────
       # sra-study — the SRA-side sibling: characterise ONE named archive study
       # ─────────────────────────────────────────────────────────────────────────────────────
 
@@ -931,6 +997,10 @@ jobs:
             MSG="EMC SRA study characterisation: PRJNA1357027 / SRP640302 (CI)"
             PATHS="research/modalities/emc-sra-study.json
                    research/modalities/emc-sra-study-inputs.json"
+          elif [ "${{ inputs.mode }}" = "aso-offtarget-expression" ]; then
+            MSG="ASO off-target loci: GTEx exposure organs vs the tumour compartment (CI)"
+            PATHS="research/modalities/aso-offtarget-tissue-expression.json
+                   research/modalities/aso-offtarget-tissue-expression-inputs.json"
           elif [ "${{ inputs.mode }}" = "gse243553-eno3" ]; then
             MSG="GSE243553 recon: what the oncofusion scATAC deposit actually holds (CI)"
             PATHS="research/modalities/gse243553-eno3-overlap-recon.json
@@ -1100,6 +1170,80 @@ jobs:
                         f"spec={str(a.get('rna_tissue_specificity'))[:24]:<24} "
                         f"blood={str(a.get('rna_blood_cell_specificity'))[:24]:<24} "
                         f"pm={a.get('plasma_membrane_confirmed')}")
+          PY
+
+      # ⭐ THE CONTROLS PRINT BEFORE THE LOCI, ON PURPOSE. A GCT is a wide tab matrix and a column
+      # off-by-one produces an artifact whose numbers are internally consistent and completely
+      # wrong, so ALB->Liver / UMOD->kidney / MYH7->muscle is the observation that separates a
+      # correct parse from a shifted one. A locus table printed above its controls invites the
+      # reader to believe it before knowing whether the instrument worked.
+      # ⛔ AND THE UNREADABLE ROWS PRINT IN FULL rather than being filtered out of the table. A
+      # locus this instrument cannot measure is the finding for that locus; dropping it would leave
+      # a table in which every visible row has an answer, which reads as completeness.
+      - name: "Summary — aso-offtarget-expression"
+        if: always() && inputs.mode == 'aso-offtarget-expression'
+        run: |
+          python3 - <<'PY'
+          import json
+          d = json.load(open("research/modalities/aso-offtarget-tissue-expression.json"))
+          r = d["reagent"]
+          print("=== REAGENT AND ITS LOAD (from the committed screen, not typed) ===")
+          print(f"  {r['reagent_antisense_5to3']}  {r['junction_label']}")
+          print(f"  near-matches reported {r['n_near_matches_reported']} | "
+                f"minus-strand not hybridisable {r['n_minus_strand_not_hybridisable']} | "
+                f"gap-disrupted {r['n_gap_disrupted_no_cleavage']} | "
+                f"GAP-PAIRED HYBRIDISABLE {r['n_gap_paired_hybridisable']} over "
+                f"{r['n_loci']} loci")
+          print()
+          c = d["method"]["known_answer_controls"]
+          print("=== DID THE INSTRUMENT WORK? (a shifted GCT looks entirely normal) ===")
+          print(f"  ran={c['ran']} passed={c['passed']}")
+          for g, v in sorted((c.get("controls") or {}).items()):
+              print(f"    {g:<6} max={str(v.get('max_tissue')):<28} "
+                    f"tpm={v.get('max_median_tpm')} passed={v.get('passed')}")
+          print()
+          print("=== ARMS ===")
+          for k, v in d["method"]["arms"].items():
+              print(f"  {k}: {json.dumps(v)[:300]}")
+          print()
+          print("=== PER LOCUS: EXPOSURE (liver/kidney) vs TUMOUR COMPARTMENT ===")
+          for p in d["per_locus"]:
+              sr = p["screen_records"]
+              print(f"  {p['locus']:<14} records={sr['n_transcript_records']:<3} "
+                    f"(curated {sr['n_curated_records']} / predicted "
+                    f"{sr['n_predicted_records']})  ->  {p['tier']}")
+              e = p["exposure_compartment_liver_kidney"]
+              if e["readable"]:
+                  print(f"       EXPOSURE  {json.dumps(e['values'])}")
+              else:
+                  print(f"       EXPOSURE  UNREADABLE — {e['reason'][:150]}")
+              t = p["tumour_compartment_normal_tissue_proxy"]
+              if t["readable"]:
+                  print(f"       PROXY     {json.dumps(t['values'])}")
+              else:
+                  print(f"       PROXY     UNREADABLE — {t['reason'][:150]}")
+              emc = p["tumour_compartment_emc_tumours"]
+              for mf, s in (emc.get("per_series") or {}).items():
+                  if s.get("readable"):
+                      print(f"       EMC {mf[:26]:<26} pct={s.get('median_array_percentile')} "
+                            f"probes={s.get('n_probes_mapping')} n={s.get('n_samples')}")
+                  else:
+                      print(f"       EMC {mf[:26]:<26} UNREADABLE — {str(s.get('reason'))[:110]}")
+              w = p.get("whole_body_context")
+              if w:
+                  top = ", ".join(f"{x['tissue']}={x['median_tpm']:g}"
+                                  for x in w["top_tissues"][:4])
+                  print(f"       WHOLE BODY top: {top}")
+              print(f"       {p['sentence']}")
+              print()
+          s = d["summary"]
+          print("=== SUMMARY ===")
+          print(f"  loci {s['n_loci']} | readable exposure reading "
+                f"{s['n_loci_with_a_readable_exposure_reading']}")
+          print(f"  expressed in an exposure organ: "
+                f"{s['loci_expressed_in_an_exposure_organ']}")
+          print(f"  unanswerable from public data: "
+                f"{s['loci_whose_exposure_question_is_unanswerable_from_public_data']}")
           PY
 
       # ⭐ THE QUERIES PRINT BEFORE THE VERDICT, ON PURPOSE, AND SO DOES EVERY EXCLUSION. The

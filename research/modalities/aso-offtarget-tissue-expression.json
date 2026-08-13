@@ -1,0 +1,308 @@
+{
+ "_what": "Tissue expression of every gene locus the clinically-relevant junction gapmer's deep off-target screen returns, split into the organs a systemically dosed phosphorothioate reaches and the compartment the tumour occupies.",
+ "_framing": "⛔ NOTHING IN THIS FILE IS AN EFFICACY, SELECTIVITY, SAFETY, THERAPEUTIC-WINDOW OR CLINICAL-READINESS CLAIM FOR ANY SEQUENCE. Every hit behind it sits at 14/16 identity — two mismatches in a 16-mer — and whether such a duplex is an RNase-H1 substrate at all is an affinity question no screen here answers. Expression is a NECESSARY condition for an off-target effect and never a sufficient one, so a gene being expressed is not a predicted cleavage event and a gene being unexpressed is not safety.",
+ "_what_this_is_not": [
+  "Not a cleavage assay, and not a prediction of one. No hit was re-aligned, no duplex stability was computed, and no thermodynamic threshold separates these hits from each other — they are the screen's loosest admitted class, all at two mismatches.",
+  "Not a risk ranking by transcript-record count. Record count is annotation depth.",
+  "Not a tumour measurement where it says proxy. GTEx contains no EMC and no sarcoma; the soft-tissue block is the NORMAL tissue of the compartment EMC arises in.",
+  "Not a reading of absence anywhere. Every unreadable locus carries the reason the read could not be taken, and no absence is rendered as a zero.",
+  "PRESENT_TPM = 1 is a STATED legibility cut, not a threshold of concern, and every raw median is released so another cut can be applied without re-running."
+ ],
+ "_cost": "$0 — public reference data on a CPU runner. No GPU, no rental, no wet lab.",
+ "_generated_utc": null,
+ "reagent": {
+  "screen": "junction-aso-offtarget-e12n3-deep500-b1.json",
+  "reagent_antisense_5to3": "GGGCATATCATCAAAC",
+  "junction_label": "EWSR1_e12__NR4A3_e3",
+  "n_near_matches_reported": 189,
+  "n_minus_strand_not_hybridisable": 48,
+  "n_gap_disrupted_no_cleavage": 18,
+  "n_gap_paired_hybridisable": 123,
+  "risk_class_read": "true_cleavage_risk",
+  "n_loci": 6,
+  "n_accession_fallbacks_resolved": 9,
+  "_why_that_last_number_matters": "`junction_aso_locus_collapse.locus_of` truncates each definition at its first comma before looking for a parenthesised symbol, so a gene whose DESCRIPTION contains a comma falls to a per-accession fallback and reads as one pseudo-locus per record. That many records were merged back onto their real gene here. A raw `locus_of` count of this reagent therefore returns more loci than exist, and the two counts must not be quoted against each other. See `gene_of`."
+ },
+ "method": {
+  "exposure_tissues": [
+   "Liver",
+   "Kidney - Cortex",
+   "Kidney - Medulla"
+  ],
+  "_why_those": "Systemically dosed phosphorothioate gapmers distribute predominantly to liver and kidney, so those organs carry the exposure question.",
+  "tumour_compartment_proxy_tissues": [
+   "Muscle - Skeletal",
+   "Adipose - Subcutaneous",
+   "Nerve - Tibial",
+   "Cells - Cultured fibroblasts",
+   "Artery - Tibial",
+   "Skin - Sun Exposed (Lower leg)"
+  ],
+  "_why_a_proxy": "EMC arises in deep soft tissue of the extremities and has a myxoid stroma. No reference expression atlas contains that tumour, so these are the normal tissues of that anatomical compartment, and the actual tumour reading is the EMC array arm beside them.",
+  "present_tpm_cut": 1.0,
+  "arms": {
+   "A_gtex": {
+    "status": "not fetched",
+    "url": "https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",
+    "release": null,
+    "unit": null,
+    "endpoint_used": null,
+    "n_tissues": null
+   },
+   "B_emc_series": {
+    "targets": {}
+   },
+   "C_ncbi_gene": {
+    "status": {}
+   },
+   "D_hpa": {
+    "status": {},
+    "_not_independent": null
+   }
+  },
+  "known_answer_controls": {
+   "ran": false,
+   "why": "arm A was not read",
+   "passed": null,
+   "controls": {}
+  }
+ },
+ "summary": {
+  "n_loci": 6,
+  "n_loci_with_a_readable_exposure_reading": 0,
+  "loci_expressed_in_an_exposure_organ": [],
+  "loci_whose_exposure_question_is_unanswerable_from_public_data": [
+   "ANKS1B",
+   "ZNF667",
+   "GMCL1",
+   "LOC105374140",
+   "LOC105370997",
+   "CHST5"
+  ],
+  "⚠_what_a_clean_exposure_column_does_and_does_not_buy": "It removes one hypothetical liability from a list. It does not make the reagent clean, because the same list holds loci this instrument cannot measure at all, and because none of these hits has been shown to be cleavable in the first place."
+ },
+ "per_locus": [
+  {
+   "locus": "ANKS1B",
+   "screen_records": {
+    "n_transcript_records": 67,
+    "n_curated_records": 32,
+    "n_predicted_records": 35,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "ZNF667",
+   "screen_records": {
+    "n_transcript_records": 37,
+    "n_curated_records": 3,
+    "n_predicted_records": 34,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "GMCL1",
+   "screen_records": {
+    "n_transcript_records": 9,
+    "n_curated_records": 1,
+    "n_predicted_records": 8,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "LOC105374140",
+   "screen_records": {
+    "n_transcript_records": 5,
+    "n_curated_records": 0,
+    "n_predicted_records": 5,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
+   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
+  },
+  {
+   "locus": "LOC105370997",
+   "screen_records": {
+    "n_transcript_records": 4,
+    "n_curated_records": 4,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
+   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
+  },
+  {
+   "locus": "CHST5",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 1,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  }
+ ]
+}
