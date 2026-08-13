@@ -76,10 +76,47 @@ def test_five_of_the_nine_clean_designs_carry_a_parent_duplex():
     free = sorted(s for s in clean if not rows[s]["counts_as_liability"])
     assert len(clean) == 9
     assert len(liable) == 5 and len(free) == 4, (liable, free)
+    assert "Five of the nine designs of §3.5 carry such" in _flat(_paper())
+
+
+def test_the_two_survivors_are_what_both_screens_leave():
+    """⛔ THE PAPER'S CANDIDATE SET, AND IT IS AN INTERSECTION OF TWO SCREENS.
+
+    Surviving the mature-parent screen is not enough and neither is surviving the deeper alignment
+    re-screen: `GGCATATCAAGCGCTG` passes the second and fails the first, `GGGCATATCCGTGGAC` the
+    reverse. Only the intersection is a candidate, and the paper names it in the Abstract, §3.8 and
+    §4 — three places that must not be able to drift apart, which is why this asserts the
+    intersection rather than a remembered pair.
+    """
+    import glob
+    rows = {r["antisense_5to3"]: r for r in _art()["per_design"]}
+    deep = {}
+    for p in glob.glob(os.path.join(MOD, "junction-aso-offtarget-*clean9-deep500.json")):
+        for o in json.load(open(p, encoding="utf-8")).get("oligos", []):
+            if o.get("status") != "screened":
+                continue
+            hits = o.get("offtargets") or []
+            assert len(hits) == o["n_offtarget_near_matches"], (
+                "the deeper re-screen was supposed to retain every hit; this list is truncated")
+            deep[o["antisense_5to3"]] = [h for h in hits if not h.get("is_minus_strand")]
+    if not deep:
+        pytest.skip("the deeper re-screen artifacts are not present in this checkout")
+
+    sys.path.insert(0, HERE)
+    from test_aso_submission_numbers import _clean_set  # noqa: E402
+    clean = {seq for _, seq in _clean_set()}
+    assert clean <= set(deep), "a design called clean at the default depth was never re-screened"
+
+    survivors = sorted(s for s in clean
+                       if not deep[s] and not rows[s]["counts_as_liability"])
+    assert survivors == ["AGGGCATATCGGAGTC", "GGGCATATCCGACATG"], survivors
     txt = _flat(_paper())
-    assert "Five of the nine designs called clean above carry such" in txt
-    for s in free:
-        assert f"5′-{s}-3′" in txt, f"a design that survives every screen is not named: {s}"
+    for s in survivors:
+        assert f"5′-{s}-3′" in txt, f"a surviving candidate is not named in the paper: {s}"
+    assert "two designs survive every screen" in txt.lower()
+    # and the design an earlier draft recommended must be named as withdrawn, not quietly dropped
+    assert "5′-GGGCATATCTCTATAA-3′ at *TCF12* exon\n17" in _paper() or \
+        "5′-GGGCATATCTCTATAA-3′ at *TCF12* exon 17" in txt
 
 
 def test_the_wild_type_nr4a3_case_is_named():

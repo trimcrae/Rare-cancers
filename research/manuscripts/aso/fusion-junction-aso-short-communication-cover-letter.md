@@ -62,35 +62,41 @@ compartments, mature transcript and parent pre-mRNA.
 
 The fit with the journal is that this is a nucleic-acid therapeutic design study in a
 fusion-driven cancer, reported at the point where computation stops being able to answer the
-question. Three findings stand. Junction-spanning, parent-sparing designs exist at every one of the
-38 frame-compatible junctions, and nine of them, at six junctions across four partners, carry no
-hybridisable near-match on either transcript screen and no hybridisable site in parent pre-mRNA, so neither
-sequence availability nor transcriptome load is what constrains this modality here. One 16-mer spans
+question. Designability is not the constraint: junction-spanning designs exist at every one of the
+38 frame-compatible junctions, and specificity does not sort by partner — every
+one of the five partners has a junction whose best design carries no hybridisable gap-spanning
+near-match, so it is the exon a fusion breaks at rather than the gene it breaks into that predicts a
+clean design. What is scarce is a design that survives every screen, and the manuscript reports two
+results that make it scarcer rather than one that makes it look easy. Re-screening the nine designs
+that pass the default search depth at ten times that depth leaves three, three of them having
+returned no near-match at all before and returning 27, 29 and 84. And a screen the manuscript adds
+over mature parent transcript — a compartment none of its other three can reach — finds that 87 of
+190 designs form a duplex of at least ten base pairs pairing the whole catalytic gap against a
+wild-type parent, 61 of them against *NR4A3* itself. Two designs survive everything, at junctions no
+patient is reported to carry. One 16-mer spans
 the seams of three partners at once through a measured ten-base donor identity, which would change
 the deployable artefact for an ultra-rare disease from bespoke oligonucleotides to a stock reagent —
 except that the only exon-resolved *TAF15* breakpoints published fall at a different exon, so the
 manuscript reports that result as a statement about sequence architecture and explicitly not as a
-claim that one reagent serves three patient groups. And specificity does not sort by partner: every
-one of the five partners has a junction whose best design carries no hybridisable gap-spanning
-near-match, so it is the exon a fusion breaks at rather than the gene it breaks into that predicts a
-clean design.
+claim that one reagent serves three patient groups.
 
 The honest principal limitation is the one the manuscript makes its conclusion. The limiting step is
 discrimination between the fusion and the two parent transcripts that supply the oligonucleotide's
-own halves, at the catalytic gap; the two available literature bounds on single-mismatch RNase-H1
-discrimination span one- to five-fold, the pessimistic bound is the one measured at the length used
-here, and no further sequence analysis narrows that interval. A measurement does. The manuscript
+own halves, at the catalytic gap. Both cited literature bounds are measured against a single
+substitution in an otherwise fully paired duplex, so neither transfers to a parent that leaves half
+the oligonucleotide unpaired, and no retrieved measurement bounds the parent case. The manuscript
 therefore names the experiment, its required controls and its decision threshold rather than
 claiming the design problem is solved.
 
-A methodological correction is disclosed in the Results rather than left to the archive, because it
-changed reported numbers. A nucleotide alignment search reports both strands, and a transcript
+Two methodological corrections are disclosed rather than left to the archive, because both changed
+reported numbers. A nucleotide alignment search reports both strands, and a transcript
 carrying the reverse
 complement of the target window cannot be hybridised by an antisense oligonucleotide; such hits were
 being counted as cleavage risks. All 38 junction screens are now orientation-filtered, and across
-them 44% of apparent gap-spanning risks are on the minus strand, ranging from 0% to 100% between
-junctions, so the filter reorders the junctions rather than rescaling them. No junction in the
-manuscript carries an unfiltered count.
+them 44% of apparent gap-spanning risks are on the minus strand, so the filter reorders the
+junctions rather than rescaling them. Separately, an earlier draft of this work recommended two
+reagents that the deeper re-screen withdrew; the manuscript names them as withdrawn rather than
+dropping them silently.
 
 The study is entirely computational. It uses public transcript models and public sequence databases
 only, involved no wet-laboratory work, no human participants, no identifiable data and no

@@ -426,8 +426,12 @@ None of these numbers is a measurement of off-target activity.\n\n¹ Counted ove
 
 {t2}
 
-**Table 3. The {n_clean} designs with no hybridisable near-match.** Every design at the {n_clean_junctions} junctions
-where one exists, which is the set the Results' cleanliness claim is about. A design qualifies only
+**Table 3. The {n_clean} designs with no hybridisable near-match at the default search depth.** Six of
+these lose the property when the same junctions are re-screened at a tenfold deeper alignment
+ceiling, three of them having returned no near-match at all here; §3.5 reports that
+measurement and names the three that survive it. This table is the default-depth result, retained
+because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every design at the {n_clean_junctions} junctions
+where one exists. A design qualifies only
 if its retained hit list is not truncated — no more near-matches than the {SAVED_HITS} the screens store — because the
 strand of an unstored hit cannot be recovered, so a truncated list cannot establish that nothing
 hybridisable remains. The underlying search is itself capped, so these are the designs whose

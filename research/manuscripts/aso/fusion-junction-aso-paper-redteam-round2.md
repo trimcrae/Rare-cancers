@@ -166,17 +166,66 @@ committed retrieval record — **no fabricated identifier was found**.
 
 ---
 
+## ⛔ The follow-up measurement, and what it withdrew
+
+Finding 2 said every alignment count is a lower bound. The obvious test was to run the deeper search
+at the six junctions holding the nine designs the paper called clean — 30 queries, $0, the lane that
+already produced the five `-deep500` files. It was dispatched the same session (run `31712344956`,
+10.7 min, `screen_mode=deep_rescreen`, `suffix_tag=-clean9-deep500`) and **it withdrew most of the
+paper's headline.**
+
+Every hit list is complete at the deeper retention depth (`saved == n` for all nine), so these are
+measurements rather than bounds:
+
+| design | junction | n at ceiling 50 | n at 500 | hybridisable | gap-spanning | verdict |
+|---|---|---|---|---|---|---|
+| `AGGGCATATCGGAGTC` | *FUS* e8 | 3 | **3** | 0 | 0 | survives |
+| `GGGCATATCCGACATG` | *TAF15* e1 | 5 | **5** | 0 | 0 | survives |
+| `GGCATATCAAGCGCTG` | *TCF12* e7 | 2 | **2** | 0 | 0 | survives the re-screen, fails the parent screen (11 bp) |
+| `GGGCATATCCGTGGAC` | *EWSR1* e1 | **0** | 27 | 18 | 0 | not clean |
+| `GGCATATCCGTGGACG` | *EWSR1* e1 | **0** | 29 | 22 | 0 | not clean |
+| `GCATATCCGTGGACGC` | *EWSR1* e1 | **0** | 84 | 83 | **64** | not clean |
+| `GCATATCAAGCGCTGC` | *TCF12* e7 | 1 | 18 | 2 | 0 | not clean |
+| `CAGGGCATATCTTGCA` | *TCF12* e9 | 7 | 67 | 18 | **11** | not clean |
+| `GGGCATATCTCTATAA` | *TCF12* e17 | 8 | 118 | 101 | **14** | not clean |
+
+⭐ **Three designs that returned ZERO near-matches at the default ceiling returned 27, 29 and 84.** A
+count of zero was not a count of zero — the sharpest available form of finding 2, and not something
+the reviewers predicted; they established that counts below the cap grow, and this shows the floor
+case does too.
+
+**It cost the paper both of its recommendations.** `GGGCATATCTCTATAA` at *TCF12* exon 17 was §4's
+"cleanest available test of the mechanism alone" and carries 14 gap-spanning cleavage risks;
+`CAGGGCATATCTTGCA`, the one design passing all four conventional rules, carries 11. Both are now
+named in the paper as withdrawn rather than quietly dropped.
+
+**Composed with the mature-parent screen, two designs survive everything**:
+`5′-AGGGCATATCGGAGTC-3′` at *FUS* exon 8 and `5′-GGGCATATCCGACATG-3′` at *TAF15* exon 1 — and
+neither junction has a published patient breakpoint. That is the paper's candidate set, and it is a
+floor rather than a total, because the deeper search has not been run at the other 32 junctions.
+
+⚠ **Note how the two screens interact, since neither alone is sufficient**: `GGCATATCAAGCGCTG` passes
+the deeper re-screen and fails the parent screen; `GGGCATATCCGTGGAC` does the reverse. Only the
+intersection is a candidate, which is why
+`test_the_two_survivors_are_what_both_screens_leave` asserts the intersection rather than a
+remembered pair.
+
+---
+
 ## What the review did not settle
 
-- **The genome-wide compartment.** Three screens cover six parent transcripts; intronic and mature
+- **The other 32 junctions have not had the deeper search.** The nine were re-screened because they
+  carried the headline; the corpus-wide counts elsewhere in the paper are still at the default
+  ceiling and are still lower bounds. Running all 38 is the same lane and the same $0.
+- **The genome-wide compartment.** Four screens cover six parent transcripts; intronic and mature
   sites in every other gene remain unmeasured, and the attempt against a mixed public corpus returned
   nothing interpretable. The paper says so.
 - **`MIN_DUPLEX_BP = 10`** in the new screen is a stated threshold, not a measured one. Every
   design's raw longest run is released so another threshold can be applied without re-running it.
-- **The deep re-screen was never run at the six clean junctions.** Finding 2 means their counts are
-  lower bounds like every other; 30 queries at `BLAST_HITLIST_SIZE=500` would convert that caveat into
-  a measurement. It is free and it is the obvious next step.
 - **No screen artifact records the parameter values it ran under** (`BLAST_HITLIST_SIZE`,
   `SAVED_HITS_PER_DESIGN`, `OLIGO_LEN`, `WING` are all env-overridable). That is what let the
   "tenfold retention depth" error survive, and recording them in each screen's `method` block would
   close it.
+- **The deep artifacts landed on `modalities-cache`, not the branch that dispatched the run.** They
+  were pulled onto this branch and committed in the same change, because an artifact the paper
+  depends on that lives only on a cache branch is the CLAUDE.md §7 failure exactly.
