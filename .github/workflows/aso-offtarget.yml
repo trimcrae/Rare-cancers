@@ -79,9 +79,14 @@ on:
           ⛔ PASS `suffix_tag` WITH `deep_rescreen`: a count taken at a deeper ceiling is a DIFFERENT
           measurement, not a correction of the shallower one, and must not overwrite the committed
           screens the manuscript quotes. `none` = unchanged behaviour.
+          `genome` closes the rest of the compartment: an EXHAUSTIVE <=2-mismatch scan of every
+          distinct target window and its reverse complement against every position of GRCh38, both
+          orientations, annotated from the matching Ensembl GTF. The pre-mRNA arm above covers six
+          parent transcripts, which is a small fraction of the genome; this covers the rest, and it
+          runs in its own job (see below) because it neither designs nor BLASTs anything.
         required: false
         type: choice
-        options: [none, premrna, premrna_genomic, deep_rescreen]
+        options: [none, premrna, premrna_genomic, deep_rescreen, genome]
         default: none
 
 permissions:
@@ -95,11 +100,25 @@ concurrency:
   # guard was aimed at re-dispatching the SAME work, which is still what it does: the key is now the
   # junction set, so a repeat of the same junctions still supersedes its predecessor while different
   # junctions run side by side.
-  group: aso-offtarget-${{ inputs.real_junctions }}${{ inputs.sirna_only_junctions }}${{ inputs.suffix_tag }}
+  # ⚠ `screen_mode` JOINED THE KEY WHEN THE GENOME SCAN LANDED, for the same reason and not a new
+  # one. Every input above is blank for a `premrna`, `premrna_genomic` or `genome` dispatch, so all
+  # of them collapsed onto the single key `aso-offtarget-` -- and with `cancel-in-progress` a
+  # twenty-minute genome scan would be killed by any unrelated input-less dispatch, silently, with
+  # the run reporting `cancelled` and nothing saying which dispatch did it. Different modes are
+  # different work; a repeat of the SAME mode still supersedes its predecessor, which is the
+  # behaviour this guard was built for.
+  group: aso-offtarget-${{ inputs.screen_mode }}-${{ inputs.real_junctions }}${{ inputs.sirna_only_junctions }}${{ inputs.suffix_tag }}
   cancel-in-progress: true
 
 jobs:
   run:
+    # ⛔ THE GENOME SCAN IS NOT A STEP IN THIS JOB, AND THIS GUARD IS WHY IT IS SAFE TO SKIP IT.
+    # A `genome` dispatch leaves every step below unselected, and the publish step at the end runs
+    # `if: always()`. That publish is exactly the mechanism that overwrote four runs' results on
+    # 2026-08-12 and deleted 39 artifacts on 2026-08-13; a mode that produces nothing has no
+    # business entering it at all. So the whole job is skipped rather than trusting seven step-level
+    # `if:` expressions to stay in agreement with an eighth.
+    if: ${{ inputs.screen_mode != 'genome' }}
     runs-on: ubuntu-latest
     timeout-minutes: 300
     steps:
@@ -465,3 +484,197 @@ jobs:
           fi
           git commit -m "$MSG" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
+
+  # ==========================================================================================
+  # GENOME-WIDE OFF-TARGET SCAN
+  # ==========================================================================================
+  # ⭐ WHAT THIS CLOSES. The committed pre-mRNA screen covers the six parent transcripts' unspliced
+  # sequence and says so in its own `_what_this_is_not`: it "says nothing about the other ~20,000
+  # genes' introns". RNase-H1 is nuclear and §3.8 of the manuscript found this modality's most
+  # decision-relevant liability IN INTRONIC SEQUENCE, so the unscreened compartment is the one where
+  # the interesting finding already came from. This scans every position of GRCh38, both
+  # orientations, exhaustively.
+  #
+  # ⛔ IT IS A `screen_mode` OPTION AND NOT A NEW INPUT, AND THAT IS NOT A STYLE CHOICE. This
+  # workflow sits AT GitHub's cap of ten `workflow_dispatch` inputs. An eleventh does not fail, does
+  # not warn and does not appear in the run UI — it silently delivers EVERY input as empty, so every
+  # `-f` flag on every mode would be discarded and each job would run on defaults
+  # (research/modalities/tests/test_workflow_dispatch_input_cap.py, and the hour it cost on
+  # 2026-07-30). `test_the_workflow_offers_the_genome_mode_without_adding_a_dispatch_input` asserts
+  # the shape stayed this way.
+  #
+  # ⛔ AND IT IS A SEPARATE JOB, NOT A STEP IN `run`. `run`'s publish step is the one that overwrote
+  # four runs' results on 2026-08-12 and deleted 39 artifacts on 2026-08-13; both guards it grew
+  # afterwards reason about design-artifact globs this mode never writes. A mode that designs
+  # nothing, BLASTs nothing and shares no output family with those steps has no reason to enter that
+  # publish, so `run` is skipped wholesale for this mode rather than by seven agreeing `if:`s.
+  #
+  # ⚠ NO CHROMOSOME `strategy.matrix`, AND THE REASON IS MEASURED RATHER THAN AESTHETIC.
+  #   (a) Sharding by chromosome means per-chromosome FASTA files, and Ensembl's per-chromosome set
+  #       EXCLUDES the unplaced and unlocalised scaffolds that `primary_assembly` carries. That
+  #       silently shrinks the denominator every expectation in the artifact is referred to — the
+  #       exact class of error this screen exists to stop making.
+  #   (b) Every shard would rebuild the 512 MiB membership bitmap and re-parse the whole GTF, so
+  #       25 shards pay 25x the fixed cost to parallelise a stream measured at single-digit minutes
+  #       for the whole genome (the throughput table is in `aso_genome_offtarget.CHUNK_NT`).
+  #   (c) A matrix needs a reduce job and a second publisher, and a second writer to
+  #       `modalities-cache` from the same workflow is precisely the shape of both incidents above.
+  # Resumability is provided instead by per-record checkpointing INSIDE the job, which is what the
+  # checkpoint rule actually asks for.
+  genome:
+    if: ${{ inputs.screen_mode == 'genome' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # numpy>=2 for `bitwise_count`, which is the operation the mismatch kernel is verified
+      # against. The module REFUSES rather than substituting a hand-rolled popcount if it is absent.
+      - run: pip install "numpy>=2"
+
+      # ⭐ VERIFY THE INSTRUMENT ON THE MACHINE THAT WILL USE IT, BEFORE SPENDING THE DOWNLOAD.
+      # `--check` re-derives the gap mask from the geometry and re-runs the packed-Hamming kernel
+      # against a brute-force implementation over every variant at and around the threshold. It is
+      # seconds, it needs no network, and a kernel that disagreed here would produce a full,
+      # plausible, wrong artifact twenty minutes later.
+      - name: Self-check the kernel, the mask and the neighbourhood (no network, writes nothing)
+        working-directory: research/modalities
+        run: python aso_genome_offtarget.py --check
+
+      # ⛔ THE REFERENCE IS `dna_sm` BY NAME, AND EVERY PART OF THAT NAME IS LOAD-BEARING.
+      #   `dna_sm` — SOFT-masked, so the repeat annotation arrives verified rather than assumed and
+      #     the repeat split is free. `dna` would report every hit as non-repetitive; `dna_rm` would
+      #     delete the repeats from the denominator. Both are clean, plausible, wrong measurements.
+      #   `primary_assembly` — includes unplaced and unlocalised scaffolds and excludes ALT
+      #     haplotypes, so no locus is counted twice and none is dropped.
+      #   Ensembl for BOTH sides — the FASTA and the GTF share a sequence-naming convention, so a
+      #     hit's chromosome IS the annotation's chromosome with no mapping table in between, and a
+      #     mapping table is where a silent mismatch turns every hit intergenic. It is also the
+      #     coordinate system the committed pre-mRNA screen already uses.
+      # ⚠ THE RELEASE IS RESOLVED, NEVER TYPED. `current_*` follows Ensembl's own pointer and the
+      # resolved GTF filename (which carries the release number) is recorded in the artifact, so a
+      # reader learns which release produced a number instead of trusting a constant in this file.
+      # Pin with the repository variable ENSEMBL_RELEASE if a specific release is ever needed.
+      - name: Fetch GRCh38 (soft-masked primary assembly) and the matching GTF
+        working-directory: ${{ runner.temp }}
+        env:
+          REL: ${{ vars.ENSEMBL_RELEASE || 'current' }}
+        run: |
+          set -euo pipefail
+          if [ "$REL" = "current" ]; then
+            FA_DIR="https://ftp.ensembl.org/pub/current_fasta/homo_sapiens/dna"
+            GTF_DIR="https://ftp.ensembl.org/pub/current_gtf/homo_sapiens"
+          else
+            FA_DIR="https://ftp.ensembl.org/pub/release-${REL}/fasta/homo_sapiens/dna"
+            GTF_DIR="https://ftp.ensembl.org/pub/release-${REL}/gtf/homo_sapiens"
+          fi
+          FA_NAME="Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz"
+          GTF_NAME="$(curl -sS "$GTF_DIR/" \
+            | grep -o 'Homo_sapiens\.GRCh38\.[0-9][0-9]*\.gtf\.gz' | sort -u | head -1)"
+          # ⛔ AN EMPTY OR MISSING NAME IS A HARD STOP, NOT A FALLBACK. A screen that ran against a
+          # zero-byte reference would report a tiny denominator, tiny expectations and no hits —
+          # i.e. the cleanest possible result — and nothing downstream could tell that from a clean
+          # genome. "An absent reading is not a reading of absence" (CLAUDE.md §4).
+          if [ -z "$GTF_NAME" ]; then
+            echo "::error::could not resolve a GTF filename from $GTF_DIR — refusing to scan"
+            exit 1
+          fi
+          echo "fasta: $FA_DIR/$FA_NAME"
+          echo "gtf:   $GTF_DIR/$GTF_NAME"
+          curl -fSL --retry 5 --retry-delay 10 -o "$FA_NAME"  "$FA_DIR/$FA_NAME"
+          curl -fSL --retry 5 --retry-delay 10 -o "$GTF_NAME" "$GTF_DIR/$GTF_NAME"
+          # Size floors rather than checksums: Ensembl publishes CHECKSUMS in a legacy `sum` format
+          # this step cannot verify portably, and a truncated download is the failure that actually
+          # happens. These are order-of-magnitude floors, not a claim about content — the module's
+          # own truncation guard is what refuses a FASTA whose records do not close.
+          FA_SZ=$(stat -c%s "$FA_NAME"); GTF_SZ=$(stat -c%s "$GTF_NAME")
+          echo "sizes: fasta ${FA_SZ} B, gtf ${GTF_SZ} B"
+          [ "$FA_SZ"  -gt 500000000 ] || { echo "::error::FASTA is ${FA_SZ} B — truncated"; exit 1; }
+          [ "$GTF_SZ" -gt  10000000 ] || { echo "::error::GTF is ${GTF_SZ} B — truncated"; exit 1; }
+          echo "GENOME_FASTA=${{ runner.temp }}/$FA_NAME" >> "$GITHUB_ENV"
+          echo "GENOME_GTF=${{ runner.temp }}/$GTF_NAME"  >> "$GITHUB_ENV"
+          df -h . | tail -1
+
+      # ⚠ THE GZIP IS NEVER EXPANDED TO DISK. The module streams the compressed FASTA, so peak disk
+      # is the two downloads and peak RAM is the 512 MiB bitmap plus one chunk.
+      - name: Exhaustive genome-wide scan (stream GRCh38, annotate every hit)
+        working-directory: research/modalities
+        env:
+          GENOME_CKPT_DIR: ${{ runner.temp }}/genome-ckpt
+        run: |
+          set -euo pipefail
+          python aso_genome_offtarget.py \
+            --fasta "$GENOME_FASTA" --gtf "$GENOME_GTF" \
+            --ckpt-dir "$GENOME_CKPT_DIR"
+
+      # ⛔ THE CHECKPOINTS TRAVEL EVEN WHEN THE JOB FAILS, AND THIS IS NOT A CONTINUOUS UPLOAD.
+      # CLAUDE.md §6 asks for checkpoints uploaded AS THEY ARE WRITTEN; Actions has no such
+      # primitive, and claiming one would be worse than admitting the gap. What this does give is
+      # that a timeout, a cancellation or a crash leaves every completed record's checkpoint
+      # retrievable, so a re-dispatch resumes instead of re-reading the genome. Say what it is.
+      - name: Preserve checkpoints (partial work is the deliverable on a timeout)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: genome-offtarget-checkpoints
+          path: ${{ runner.temp }}/genome-ckpt
+          retention-days: 14
+          if-no-files-found: warn
+
+      # ⛔ THROUGH `publish_artifacts.sh`, NOT A HAND-ROLLED COMMIT-AND-PUSH — and the first draft of
+      # this step DID hand-roll one, copied from the `run` job above, and
+      # `tests/test_no_hand_rolled_publish.py` refused it. That guard exists because the same
+      # `git pull --rebase` shape silently failed to publish on three separate lanes (runs
+      # 30701290485, 30710853581, 30714482049): one conflict leaves the repo mid-rebase, every retry
+      # dies on the wreckage, and the step reports SUCCESS while nothing lands. Copying a registered
+      # violation into a NEW job is exactly the generator that guard was written to stop — the fact
+      # that `aso-offtarget.yml:run` is on its backlog is a record of work owed, not a licence.
+      #
+      # ⭐ AND THE PRIMITIVE IS STRICTLY SAFER HERE THAN THE STEP IT REPLACES. It resets to the
+      # branch tip and adds only the paths this run wrote, so the two losses the `run` job's publish
+      # is annotated with — staging the checkout's stale copies over the branch's newer artifacts
+      # (2026-08-12, four runs' results) and carrying working-tree deletions across a `checkout -B`
+      # (2026-08-13, 39 artifacts) — are both unrepresentable rather than guarded against.
+      #
+      # ⚠ `PUBLISH_IF_CHANGED=1` because this is an EVENT publish, not a lane liveness signal: this
+      # artifact carries NO wall-clock field, so re-running the same scan over the same release
+      # produces the same bytes, and an unconditional commit would assert a genome screen that added
+      # nothing. `PUBLISH_FAIL_HARD=1` because a screen that ran for twenty minutes and never left
+      # the runner must be red, and this job is dispatch-only so nothing is emailed on a schedule.
+      - name: Publish the genome screen to modalities-cache
+        run: |
+          set -euo pipefail
+          test -s research/modalities/aso-genome-offtarget.json
+
+          # ⛔⛔ STAGE THE SWEEP TOOL FIRST — `modalities-cache` CARRIES NO CODE. Measured
+          # 2026-08-08: `git ls-tree -r origin/modalities-cache | grep -c '\.py$'` returns ZERO, and
+          # the primitive resets the working tree to that branch before it stages anything, so a
+          # sweep invoked from `research/modalities` afterwards would fail on a missing file. The
+          # tool and every input it reads travel to an absolute path outside the reset.
+          mkdir -p "$RUNNER_TEMP/tool" "$RUNNER_TEMP/selftest"
+          cp research/modalities/junction_seam_retraction.py \
+             research/modalities/junction_aso.py \
+             research/modalities/fusion_breakpoints.py \
+             research/modalities/nr4a3-exon-audit.json \
+             research/modalities/emc-construct-inputs.json \
+             research/modalities/fusion-object-inventory.json "$RUNNER_TEMP/tool/"
+          # Fail NOW, on the ref that has the code: a self-test over an empty directory grades
+          # nothing and is a pure import/derivation check of the staged copy.
+          python3 "$RUNNER_TEMP/tool/junction_seam_retraction.py" --check --dir "$RUNNER_TEMP/selftest" || {
+            echo "::error::the staged seam-sweep tool cannot run — refusing to publish"; exit 1; }
+
+          # ⚠ THE SWEEP RUNS AS A REPAIR HERE, NOT AS A GATE, AND THE DIFFERENCE IS DELIBERATE. In
+          # the `run` job it is a hard gate because that publish COPIES design artifacts over the
+          # branch's own and could therefore land an unbannered retracted seam. This job writes one
+          # non-design file onto a tree reset to the branch tip and touches no design artifact at
+          # all, so it cannot introduce one — the property is held by construction rather than by
+          # the check. Running the sweep anyway keeps the branch-wide repair on every writer.
+          export PUBLISH_REGEN="python3 $RUNNER_TEMP/tool/junction_seam_retraction.py --write --dir research/modalities"
+          export PUBLISH_REGEN_ADD="research/modalities/*.json"
+          export PUBLISH_IF_CHANGED=1
+          export PUBLISH_FAIL_HARD=1
+          bash research/compute/publish_artifacts.sh modalities-cache \
+            "genome-wide ASO off-target screen: exhaustive <=2-mismatch scan of every junction gapmer target window against GRCh38, both orientations, annotated and null-referenced" \
+            research/modalities/aso-genome-offtarget.json

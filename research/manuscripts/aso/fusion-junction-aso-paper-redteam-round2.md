@@ -214,12 +214,28 @@ remembered pair.
 
 ## What the review did not settle
 
-- **The other 32 junctions have not had the deeper search.** The nine were re-screened because they
-  carried the headline; the corpus-wide counts elsewhere in the paper are still at the default
-  ceiling and are still lower bounds. Running all 38 is the same lane and the same $0.
-- **The genome-wide compartment.** Four screens cover six parent transcripts; intronic and mature
-  sites in every other gene remain unmeasured, and the attempt against a mixed public corpus returned
-  nothing interpretable. The paper says so.
+- ✅ **CLOSED — the other 32 junctions have had the deeper search.** Runs `31725944229` and
+  `31725954785` covered them in two batches; with the earlier runs that is **38 of 38 junctions, 187
+  design records, and no truncated hit list**. The censoring is corpus-wide rather than a quirk of
+  the nine: of 157 comparable designs **141 return a higher count, and 125 of those never reached the
+  50-hit cap**, median growth 4.1× and maximum 29×. Re-baselining Table 2 and the corpus counts
+  against this is the largest edit still outstanding.
+- ⚪ **The genome-wide compartment — instrument built, not yet run.** A scoping pass measured a
+  prototype rather than estimating: an exhaustive ≤2-mismatch scan of GRCh38, both orientations,
+  costs **17.9 min on one core** via a 2-bit-packed 537 MB membership bitmap, which fits the
+  existing workflow's ceiling at $0. `aso_genome_offtarget.py` implements it, wired as
+  `screen_mode: genome`.
+  ⛔ **The `core_nt` attempt did not merely fail — it could not have succeeded.** That corpus has no
+  defined nucleotide span, so no null can be formed against it, and its 50-hit cap sat *below* the
+  null's own lower bound. It was not a failed measurement; it was an instrument with no reading to
+  give. Both defects are structural, which is why a bigger cap would not have helped.
+  ⛔ **And a raw genome-wide count must never be the deliverable.** Under the paper's own null,
+  ≥14/16 over both strands predicts of order 10³ near-matches per 16-mer *for any 16-mer whatever*.
+  Publishing that would re-commit at genome scale the error `offtarget_chance_baseline.py` already
+  killed at transcriptome scale, and a reader would take it for a safety finding. The artifact is
+  stratified for that reason: exact 16/16 (of order one expected per design, individually
+  checkable), observed-versus-expected per design, the named-target lookup, and the repeat split
+  that soft-masking gives free.
 - **`MIN_DUPLEX_BP = 10`** in the new screen is a stated threshold, not a measured one. Every
   design's raw longest run is released so another threshold can be applied without re-running it.
 - **No screen artifact records the parameter values it ran under** (`BLAST_HITLIST_SIZE`,
