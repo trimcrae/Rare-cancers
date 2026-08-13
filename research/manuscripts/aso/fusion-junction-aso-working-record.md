@@ -2408,3 +2408,57 @@ and the artifact records that it did not rather than leaving the field absent.
 sequence and exon coordinates travel with the archive, so `--offline` against the committed cache
 reproduces every number above; verified bit-identical before the result was written up. The other two
 arms need NCBI BLAST and a RefSeq download.
+
+### Appendix B.6 — the censoring guard, tested (2026-08-13, run 31697971910, $0)
+
+⭐ **THE RESTRICTION THE HEADLINE DEPENDS ON WAS AN ARGUMENT UNTIL TODAY, AND IT IS NOW A READING.**
+A design is not called clean merely because its RETAINED hits are all minus-strand: the strand of an
+unstored hit is unrecoverable, so a truncated list cannot establish that nothing hybridisable remains.
+That restriction is what separates **nine designs at six junctions** from **twenty-four at eighteen**,
+which is the single most inviting overstatement available in this paper — so whether it is cautious or
+merely conservative matters.
+
+**The population.** Seven design-and-junction records have no hybridisable retained hit AND a raw
+count above the retention depth but below BLAST's own 50-hit ceiling, so **retention alone** is what
+withholds a verdict on them. They were re-screened at `BLAST_HITLIST_SIZE=500`,
+`SAVED_HITS_PER_DESIGN=500` under the suffix `-deep500`.
+
+| design | junction | shallow (raw / stored / hybridisable) | deep (raw / stored / hybridisable) | verdict |
+|---|---|---|---|---|
+| `GCATATCTCCTCGCCC` | *FUS* e11 | 21 / 15 / 0 | **161 / 161 / 5** | not clean |
+| `CAGGGCATATCTCCTC` | *FUS* e11 | 47 / 15 / 0 | **196 / 196 / 119** | not clean |
+| `CAGGGCATATCTCCTC` | *TAF15* e14 | 47 / 15 / 0 | **196 / 196 / 119** | not clean |
+| `GGGCATATCAGCATCT` | *TAF15* e9 | 23 / 15 / 0 | **68 / 68 / 48** | not clean |
+| `AGGGCATATCTAGAAT` | *TCF12* e11 | 27 / 15 / 0 | **65 / 65 / 5** | not clean |
+| `CAGGGCATATCTAGAA` | *TCF12* e11 | 35 / 15 / 0 | **78 / 78 / 10** | not clean |
+| `GCATATCTCCACCTCC` | *FUS* e5 | 41 / 15 / 0 | screen failed at the remote service | undecided |
+
+⛔ **SIX OF SEVEN DECIDED, AND NOT ONE IS CLEAN.** Every design that looked clean over its retained
+window turns out to carry hybridisable near-matches once the window is opened — one of them **119** of
+them. The shallow counts were not merely bounds but severely censored ones: 21 against a true 161, 47
+against 196. **Relaxing the guard would have promoted six records the evidence refutes**, and the nine
+are unchanged by the test.
+
+⚠ **THIS IS A SEPARATE MEASUREMENT, NOT A CORRECTION.** A count taken at a deeper ceiling is a
+different instrument reading; it does not revise the shallower corpus, and **no number in the
+manuscript is restated from these artifacts.** They are released under their own suffix for exactly
+that reason.
+
+⚠ **WHAT IS STILL BOUNDED.** Eight further records sit AT the 50-hit ceiling, where the bound is the
+search's own cap rather than retention, and were not re-screened. Seven designs' original queries
+failed at the remote service and are still unscreened. Both are registered on `RT-ASO`.
+
+### Appendix B.7 — the genome-wide arm, attempted and not interpretable (run 31698435645, $0)
+
+⚠ **REPORTED BECAUSE A FAILED ATTEMPT IS A READING TOO.** The nine clean designs were queried against
+the public NCBI URL service for a genomic database. It answered on **`core_nt`** — a mixed corpus of
+genome assemblies, BAC clones, patent sequences, immunoglobulin isolates and RefSeq transcripts, not a
+genome reference. **All nine queries saturated the 50-hit ceiling** (one returned 52), and the returned
+identities run down to 13/16, below the ≥14/16 threshold this work admits. The counts therefore
+separate nothing, and no claim rests on them.
+
+⛔ **THE MODULE REFUSES TO DEGRADE INTO A TRANSCRIPT SEARCH UNDER A GENOMIC LABEL**, which is why
+`refseq_rna` is not in its candidate list and must not be added: a mature-transcript database returning
+a clean answer under the name "genomic screen" would reproduce, with a provenance string asserting the
+opposite, the exact defect the pre-mRNA work exists to close. A real genome-wide screen needs a local
+BLAST database rather than the public URL API. Recorded so nobody repeats the attempt.

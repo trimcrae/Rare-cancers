@@ -414,9 +414,15 @@ def test_the_accessibility_range_is_the_one_the_artifacts_produce():
     import statistics
     vals = []
     for name in sorted(os.listdir(MOD)):
-        if not (name.startswith("aso-insilico-evaluation-") and name.endswith(".json")):
-            continue
-        if "bp200-8" in name:            # a modelled control seam, not a real junction
+        # ⛔ THE PRIMARY CORPUS ONLY, AND THE PATTERN IS THE GUARD. This test failed the moment the
+        # deep re-screens landed, because an `in name` exclusion list let five
+        # `...-deep500.json` files join the denominator and the count went 190 -> 215 with nothing
+        # saying so. A parallel corpus taken at a different search ceiling is a DIFFERENT
+        # measurement; it must not silently enlarge a population the manuscript quotes. Primary
+        # files end at the junction tag (`...e1n3.json`), so anything carrying a further suffix —
+        # a modelled control seam, a deeper re-screen, or whatever is added next — is excluded by
+        # construction rather than by being remembered here.
+        if not re.fullmatch(r"aso-insilico-evaluation-[a-z0-9]+n3\.json", name):
             continue
         for r in json.load(open(os.path.join(MOD, name))).get("top_designs") or []:
             if r.get("site_accessibility") is not None:
@@ -427,3 +433,65 @@ def test_the_accessibility_range_is_the_one_the_artifacts_produce():
     assert f"(median {statistics.median(vals):.3f})" in txt
     assert f"{min(vals):.3f} to {max(vals):.3f}" in txt
     assert "0.476" not in txt and "130 designs" not in txt
+
+
+def test_the_censoring_guard_was_tested_and_is_load_bearing():
+    """§3.6's deeper re-screen, and the reason the guard is not merely cautious.
+
+    ⛔ THE ALTERNATIVE WAS A FALSE HEADLINE. Relax the censoring restriction — call a design clean
+    because its RETAINED hits are all minus-strand — and the count goes from nine designs at six
+    junctions to twenty-four at eighteen. Seven records sat exactly there: no hybridisable retained
+    hit, and a raw count above the retention depth but below the search's own ceiling, so retention
+    alone was withholding the verdict. Re-screened at a tenfold deeper ceiling, six of the seven are
+    decided and NONE is clean; one design's 21 near-matches become 196 with 119 hybridisable. The
+    caution the paper exercised is what stopped six wrong entries, and this test is that evidence.
+
+    ⚠ The deep artifacts are a SEPARATE measurement under their own suffix. A count taken at a deeper
+    ceiling does not correct the shallower one, and nothing in the manuscript is restated from these.
+    """
+    deep = {}
+    for name in sorted(os.listdir(MOD)):
+        if name.startswith("junction-aso-offtarget-") and name.endswith("-deep500.json"):
+            d = json.load(open(os.path.join(MOD, name)))
+            for o in d.get("oligos", []):
+                if o.get("status") == "screened":
+                    deep[(d["junction_label"], o["antisense_5to3"])] = o
+    if not deep:
+        pytest.skip("the deep re-screens are not present in this checkout")
+
+    # The population: retained-clean, raw count over the retention depth, under the BLAST ceiling.
+    candidates = []
+    for s in _filtered_screens():
+        for o in _raw(s).get("oligos", []):
+            n = o.get("n_offtarget_near_matches")
+            if o.get("status") != "screened" or n is None:
+                continue
+            if SAVED_HITS_PER_DESIGN < n < 50 and not [
+                    h for h in o.get("offtargets", []) if not h.get("is_minus_strand")]:
+                candidates.append((s["junction_label"], o["antisense_5to3"], n))
+    assert len(candidates) == 7, candidates
+
+    decided, still_clean = 0, []
+    for lab, seq, shallow_n in candidates:
+        o = deep.get((lab, seq))
+        if o is None:
+            continue                      # its deeper query failed at the remote service
+        stored = len(o.get("offtargets") or [])
+        n = o.get("n_offtarget_near_matches") or 0
+        if stored < n:
+            continue                      # still censored even at the deeper depth
+        decided += 1
+        hyb = [h for h in o.get("offtargets") or [] if not h.get("is_minus_strand")]
+        assert n > shallow_n, (
+            f"{lab}/{seq}: a deeper ceiling returned {n} against {shallow_n}; a deeper search cannot "
+            f"find fewer, so either the screen or this comparison is wrong")
+        if not hyb:
+            still_clean.append((lab, seq))
+    assert decided == 6, decided
+    assert not still_clean, (
+        f"a censored design turned out clean after all: {still_clean}. That is a RESULT, not a test "
+        f"failure — the manuscript says every decided record was not clean, so update §3.6 and the "
+        f"clean set rather than relaxing this")
+    txt = _paper()
+    assert "decided six of\nthe seven" in txt or "decided six of the seven" in txt
+    assert "every one of the six is not clean" in txt

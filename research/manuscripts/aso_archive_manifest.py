@@ -226,6 +226,28 @@ PROMISES = [
                      "research/modalities/tests/test_aso_premrna_offtarget.py"],
     },
     {
+        "id": "censoring_test_and_genomic_attempt",
+        "verbatim": False,
+        "promise": ("the test of the censoring restriction the cleanliness claim depends on, and the "
+                    "genome-wide screen that was attempted and did not work"),
+        "contributes": ("⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY "
+                        "CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit "
+                        "and a raw count above the retention depth but below the search ceiling, so "
+                        "retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, "
+                        "six are decided and NONE is clean (one design's 21 near-matches become 196 "
+                        "with 119 hybridisable). Relaxing the restriction would have promoted six "
+                        "records a deeper look refutes. ⚠ These are a SEPARATE measurement under "
+                        "their own suffix: a count at a deeper ceiling does not correct the shallower "
+                        "one, and no number in the manuscript is restated from them. Also included: "
+                        "the genome-wide arm's output, which ran against NCBI core_nt and saturated "
+                        "the hit ceiling on every query over a mixed corpus of assemblies, clones and "
+                        "patents — released so a reader need not repeat an attempt that did not "
+                        "yield an interpretable result."),
+        "patterns": ["research/modalities/junction-aso-offtarget-*-deep500.json",
+                     "research/modalities/aso-insilico-evaluation-*-deep500.json",
+                     "research/modalities/aso-premrna-offtarget-genomic.json"],
+    },
+    {
         "id": "priorart_first_in_kind_evidence",
         "verbatim": False,
         "promise": "the retrieval evidence behind the first-in-kind statement",

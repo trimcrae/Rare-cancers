@@ -388,6 +388,20 @@ Two bounds remain on these counts and neither is corrected for. The BLAST arm re
 hits per query, and 35 of the 183 filtered designs reach that cap; a further 101 exceed the 15 hits
 retained per design, so 136 in all carry right-censored counts. The nine clean designs are not among
 them, returning zero to eight raw hits each.
+
+Those bounds are the reason a design is not called clean merely because its retained hits are all
+minus-strand, and that restriction was tested rather than assumed. Seven design-and-junction records
+in the filtered corpus have no hybridisable hit among those retained and a raw count above the
+retention depth but below the search's own ceiling, so retention alone is what withholds a verdict on
+them. Re-screening their five junctions at a tenfold deeper ceiling and retention depth decided six of
+the seven, and every one of the six is not clean. The counts they had been reporting were severely
+censored: 21 raw near-matches became 161 with 5 hybridisable, 23 became 68 with 48, 27 became 65 with
+5, 35 became 78 with 10, and 47 became 196 with 119. The seventh failed at the remote service and
+remains undecided. Relaxing the censoring restriction would therefore have promoted at least six
+records that a deeper look shows carry hybridisable near-matches, one of them 119 of them, so the
+restriction is load-bearing rather than decorative and the nine are unchanged by the test. A count
+taken at a deeper ceiling is a different measurement, not a correction of the shallower one, so these
+re-screens are released as their own artefacts and no count reported above is restated from them.
 Separately, BLAST is a heuristic and its sensitivity at ≥14/16 is unquantified here, so "no
 hybridisable near-match" is a statement about what this search found. The ≤1-mismatch result carries no such
 sensitivity qualification, being exhaustive for substitutions by construction, which is why it is the
@@ -565,7 +579,9 @@ property of this search rather than of the transcriptome; the exhaustive ≤1-mi
 such qualification and is the arm the claim rests on. Counts that reached the 50-hit cap are
 right-censored lower bounds — 35 of the 183 filtered designs, none of them among the nine clean ones.
 Only 47 of those 183 have hit lists complete enough to be assessed for cleanliness at all, so nine
-clean designs is a floor over that subset and not a total. All 38 frame-compatible junctions are screened
+clean designs is a floor over that subset and not a total. The deeper re-screen of §3.6 tested six of
+the censored records that looked most likely to join the nine and none of them did, which bounds how
+much of that floor is an artefact of censoring at five junctions and says nothing about the others. All 38 frame-compatible junctions are screened
 with the orientation filter applied, so no junction here carries an unfiltered count. The chance null is crude:
 it assumes independent uniform bases, where real transcript sequence is composition-skewed and
 repetitive, so it separates "more than chance" from "at chance" and nothing finer. Which exon pair a
@@ -576,7 +592,12 @@ patients<sup>29,30</sup><!--PMID:11156374,12598313--> but not at the exon resolu
 require. The thermodynamic calculation models an unmodified DNA:RNA hybrid, while these designs carry LNA wings; LNA raises affinity on the fusion and parent duplexes alike, which compresses their difference, so the reported discrimination is an upper bound rather than an estimate, and it speaks to duplex formation rather than to cleavage. The two transcript screens search mature sequence only, which
 leaves the nuclear compartment RNase-H1 acts in unmeasured by them; §3.8 closes that for the six
 parent transcripts and not beyond, so intronic sites in every other gene remain outside all three
-screens. The pre-mRNA arm inherits the substitution-only bound as well: like the exhaustive
+screens. Extending it genome-wide was attempted and did not yield an interpretable result: the nine
+clean designs were queried against the public NCBI URL service's `core_nt`, which is a mixed corpus
+of assemblies, clones, patents and transcripts rather than a genome reference, and every query
+saturated the 50-hit ceiling while returning identities below the threshold used here, so those counts
+separate nothing. The attempt is released with the artefacts so a reader need not repeat it. The
+pre-mRNA arm also inherits the substitution-only bound: like the exhaustive
 transcript scan, it is complete for mismatches by construction and blind to insertions and deletions.
 
 ## Tables
