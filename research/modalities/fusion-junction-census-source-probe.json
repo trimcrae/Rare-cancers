@@ -1,0 +1,79 @@
+{
+  "_what": "Reachability probe for every candidate universe source. Emits NO catalog rows on purpose \u2014 it exists so parsers are written against measured payloads rather than assumed ones.",
+  "_cost": "$0 \u2014 a few HTTP GETs on a free runner.",
+  "_utc": "2026-08-13T20:15:27Z",
+  "n_sources": 5,
+  "n_answered": 4,
+  "sources": [
+    {
+      "name": "civic_clinical_evidence",
+      "url": "https://civicdb.org/downloads/nightly/nightly-ClinicalEvidenceSummaries.tsv",
+      "licence": "CC0",
+      "gives": "fusion variant, disease, therapies, source PMIDs",
+      "has_parser": true,
+      "http_status": 200,
+      "error": null,
+      "answered": true,
+      "bytes": 4102990,
+      "elapsed_s": 1.2,
+      "first_line": "molecular_profile\tmolecular_profile_id\tdisease\tdoid\tphenotypes\ttherapies\ttherapy_interaction_type\tevidence_type\tevidence_direction\tevidence_level\tsignificance\tevidence_statement\tcitation_id\tsource_type\tasco_abstract_id\tcitation\tnct_ids\trating\tevidence_status\tevidence_id\tvariant_origin\tlast_review_da",
+      "looks_like_tsv": true
+    },
+    {
+      "name": "civic_variant_summaries",
+      "url": "https://civicdb.org/downloads/nightly/nightly-VariantSummaries.tsv",
+      "licence": "CC0",
+      "gives": "variant types (fusion flagging), transcripts",
+      "has_parser": true,
+      "http_status": 200,
+      "error": null,
+      "answered": true,
+      "bytes": 586710,
+      "elapsed_s": 0.9,
+      "first_line": "variant_id\tvariant_civic_url\tfeature_type\tfeature_id\tfeature_name\tfeature_civic_url\tvariant\tvariant_aliases\tis_flagged\tvariant_groups\tvariant_types\tsingle_variant_molecular_profile_id\tlast_review_date\tgene\tentrez_id\tchromosome\tstart\tstop\treference_bases\tvariant_bases\trepresentative_transcript\tensemb",
+      "looks_like_tsv": true
+    },
+    {
+      "name": "mitelman_isb_cgc",
+      "url": "https://mitelmandatabase.isb-cgc.org/",
+      "licence": "free for research use, citation required",
+      "gives": "disease <-> fusion recurrence",
+      "has_parser": false,
+      "http_status": 200,
+      "error": null,
+      "answered": true,
+      "bytes": 13770,
+      "elapsed_s": 0.4,
+      "first_line": "<!doctype html>",
+      "looks_like_tsv": false
+    },
+    {
+      "name": "chimerdb4",
+      "url": "http://www.kobic.re.kr/chimerdb/download",
+      "licence": "free",
+      "gives": "curated fusions with breakpoints",
+      "has_parser": false,
+      "http_status": 500,
+      "error": "HTTPError 500",
+      "answered": false,
+      "bytes": 0,
+      "elapsed_s": 1.1,
+      "first_line": "",
+      "looks_like_tsv": false
+    },
+    {
+      "name": "fusiongdb2",
+      "url": "https://compbio.uth.edu/FusionGDB2/",
+      "licence": "free",
+      "gives": "ORF/frame annotation per breakpoint",
+      "has_parser": false,
+      "http_status": 200,
+      "error": null,
+      "answered": true,
+      "bytes": 608,
+      "elapsed_s": 0.2,
+      "first_line": "<!DOCTYPE html>",
+      "looks_like_tsv": false
+    }
+  ]
+}
