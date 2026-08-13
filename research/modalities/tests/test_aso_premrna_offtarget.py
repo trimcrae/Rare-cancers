@@ -188,3 +188,47 @@ def test_the_mismatch_ceiling_is_derived_from_the_blast_arms_identity_threshold(
     assert m.MAX_MM == jo.MAX_MISMATCHES_PER_NEAR_MATCH, (m.MAX_MM,)
     assert ja.OLIGO_LEN - m.MAX_MM == jo.NEAR_MATCH_MIN_IDENT
     assert m.MAX_MM == 2 and jo.NEAR_MATCH_MIN_IDENT == 14, "the 16-mer 5-6-5 panel's values moved"
+
+
+def test_the_gap_region_seam_is_live_and_not_a_silent_fallback():
+    """⛔ THIS SEAM WAS DEAD FROM THE DAY IT WAS WRITTEN UNTIL 2026-08-13.
+
+    `_gap_region()` imported `GAP_REGION_1BASED` from `junction_aso_offtarget` inside a bare
+    `except Exception` and fell back to this module's own hard-coded `GAP_1BASED`. The name had
+    never existed there, so the fallback fired on every call — and at the default 16,5 geometry the
+    fallback is the RIGHT answer, so no test, no artifact and no run could distinguish a working
+    seam from a dead one. Under a `20,5` dispatch the two modules would have disagreed about where
+    the catalytic gap is.
+
+    Assert the seam itself, not its result: the constant must exist in the owning module, and
+    `_gap_region()` must return that value rather than the local constant that happens to match it.
+    """
+    import importlib
+    import aso_premrna_offtarget as m
+    jo = importlib.import_module("junction_aso_offtarget")
+    assert hasattr(jo, "GAP_REGION_1BASED"), (
+        "the owning module stopped exporting GAP_REGION_1BASED; _gap_region() is dead again")
+    assert m._gap_region() == tuple(jo.GAP_REGION_1BASED)
+
+
+def test_the_gap_region_follows_a_geometry_change_rather_than_the_local_default():
+    """The property the docstring promises: change the geometry, the gap moves with it.
+
+    Run in a subprocess with a real environment, because OLIGO_LEN/WING resolve at import — patching
+    the constants afterwards would test the patch, not the dispatch path CI takes.
+    """
+    import subprocess
+    import sys as _sys
+    code = (
+        "import sys; sys.path.insert(0, %r);"
+        "import aso_premrna_offtarget as m, junction_aso_offtarget as jo;"
+        "print(m._gap_region(), tuple(jo.GAP_REGION_1BASED), m.GAP_1BASED)" % MOD
+    )
+    env = dict(os.environ, OLIGO_LEN="20", WING="5")
+    out = subprocess.run([_sys.executable, "-c", code], capture_output=True, text=True, env=env)
+    assert out.returncode == 0, out.stderr
+    got, owned, local = out.stdout.strip().split(") (")
+    assert got.lstrip("(") == owned, f"_gap_region() did not follow the geometry: {out.stdout}"
+    assert got.lstrip("(") != local.rstrip(")"), (
+        "at 20,5 the derived gap must differ from the hard-coded 16-mer default; if these are "
+        "equal the fallback is live again and the test cannot see it")

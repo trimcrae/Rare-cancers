@@ -99,13 +99,24 @@ def _rc(s):
 
 
 def _gap_region():
-    """Ask the owning module for the gap, so a geometry change cannot desynchronise the two."""
-    try:
-        sys.path.insert(0, HERE)
-        from junction_aso_offtarget import GAP_REGION_1BASED  # noqa: PLC0415
-        return tuple(GAP_REGION_1BASED)
-    except Exception:  # noqa: BLE001
-        return GAP_1BASED
+    """Ask the owning module for the gap, so a geometry change cannot desynchronise the two.
+
+    ⛔ THIS SEAM WAS DEAD FROM THE DAY IT WAS WRITTEN UNTIL 2026-08-13, AND NOTHING COULD SHOW IT.
+    `junction_aso_offtarget` had no `GAP_REGION_1BASED` — it computed `[ja.WING + 1, ja.OLIGO_LEN -
+    ja.WING]` inline at four separate sites — so this import raised ImportError on every call, the
+    bare `except Exception` swallowed it, and the function returned this module's own hard-coded
+    `GAP_1BASED`. At the default 16,5 geometry that fallback is the right answer, which is exactly
+    why it never surfaced: a guard that fails closed onto the correct value is indistinguishable
+    from one that works. Under a `20,5` dispatch this arm would have scored the gap as [6, 11]
+    while the screen it is meant to stay in step with used [6, 15] — the desynchronisation the
+    docstring above promises to prevent.
+
+    So the import is now unconditional. If the owning module stops exporting the constant, this
+    raises rather than quietly substituting a geometry nobody chose.
+    """
+    sys.path.insert(0, HERE)
+    from junction_aso_offtarget import GAP_REGION_1BASED  # noqa: PLC0415
+    return tuple(GAP_REGION_1BASED)
 
 
 def _http(url, timeout=180, accept="application/json", tries=4):

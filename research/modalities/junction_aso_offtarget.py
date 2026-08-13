@@ -69,6 +69,16 @@ _DONOR_ALIASES = {
 }
 PARENT_GENES = tuple(_DONOR_ALIASES.get(_DONOR, (_DONOR,))) + (
     "NR4A3", "NOR-1", "nuclear receptor subfamily 4 group A member 3")
+
+# ⛔ SPLIT BY SHAPE, BECAUSE SHAPE IS WHAT DECIDES HOW SAFELY AN ALIAS CAN BE MATCHED. A multi-word
+# phrase ("EWS RNA", "fused in sarcoma", "nuclear receptor subfamily 4 group A member 3") is
+# distinctive enough that a plain substring test cannot collide. A BARE SYMBOL is three or four
+# characters and collides constantly — see `is_parent` below for the three measured cases.
+# ⚠ DERIVED from `PARENT_GENES`, never maintained beside it: adding an alias to `_DONOR_ALIASES`
+# must not require remembering to update a second list, because that is the stale-constant failure
+# the `DONOR_GENE` comment above already records once.
+PARENT_SYMBOLS = tuple(g.upper() for g in PARENT_GENES if " " not in g)
+PARENT_PHRASES = tuple(g.upper() for g in PARENT_GENES if " " in g)
 N_OLIGOS = 6                                       # screen the top N fusion-specific designs
 # near match = allow up to 2 mismatches over the oligo length (14/16 at len 16, 18/20 at len 20)
 NEAR_MATCH_MIN_IDENT = ja.OLIGO_LEN - 2
@@ -196,6 +206,99 @@ BLAST_HITLIST_SIZE = ja._env_int("BLAST_HITLIST_SIZE", 50)
 #: whose current answer is "unknown beyond the stored window".
 SAVED_HITS_PER_DESIGN = ja._env_int("SAVED_HITS_PER_DESIGN", 15)
 
+# ─────────────────────────────────────────────────────────────────────────────────────────
+# WHAT THIS SCREEN RAN UNDER — the four knobs, recorded rather than left to be inferred
+# ─────────────────────────────────────────────────────────────────────────────────────────
+#: ⛔ AN ARTIFACT MUST STATE THE PARAMETERS IT WAS PRODUCED UNDER, BECAUSE INFERRING THEM FAILED IN
+#: PRINT (2026-08-13). Four values here are environment-overridable — `BLAST_HITLIST_SIZE`,
+#: `SAVED_HITS_PER_DESIGN`, and `OLIGO_LEN`/`WING` through `junction_aso` — and until this block
+#: existed a screen's `method` recorded the database, the program, the near-match threshold, the gap
+#: region, the breakpoint model and the parent set, and NOT ONE of the four. Two consequences, both
+#: measured in this tree:
+#:   * A manuscript sentence described a deeper re-screen as "a tenfold deeper ceiling and retention
+#:     depth". The ceiling did go 50 -> 500. The retention did NOT go to 150: `aso-offtarget.yml`
+#:     exports `SAVED_HITS_PER_DESIGN=500` alongside it, and the discriminating evidence is that one
+#:     `-deep500` design stores **305** hits — a number a retention of 150 cannot produce. Nothing
+#:     in any artifact could have told a reader that; it was caught by counting stored hits in a file.
+#:   * A `-deep500` screen and the default screen beside it have BYTE-IDENTICAL `method` blocks.
+#:     The only things separating a 500/500 run from a 50/15 run were the filename suffix and the
+#:     indirect tell that a screen storing more than 15 hits cannot have run at a retention of 15.
+#: ⛔ THIS IS FORWARD-ONLY AND CANNOT BE BACKFILLED. The committed screens carry no `parameters`
+#: block and none can be added to them: what a past run used is not recoverable from its output
+#: (only bounded by it), and an inferred value written into a provenance field is the exact failure
+#: this repository keeps paying for — a populated field is not a measured one. The absence stays
+#: visible instead.
+
+
+def _env_was_set(name):
+    """Was this knob's environment variable actually PRESENT when the constants were derived?
+
+    ⚠ THE EMPTINESS RULE IS ASKED FOR, NOT RE-IMPLEMENTED. `ja._env_int` treats "" and whitespace as
+    ABSENT, and that is not a corner case on this lane: `aso-offtarget.yml` splits its single
+    `gapmer_geometry` input into `OLIGO_LEN` and `WING` and then `export`s BOTH, so a dispatch that
+    leaves the geometry blank exports them EMPTY and the run uses the defaults. A presence test
+    written as `name in os.environ` would report every such screen's geometry as overridden — a
+    provenance field that is wrong on precisely the path CI takes, which is worse than no field.
+    `_env_int(name, None)` returns None only when the variable is absent by that same rule, and
+    `int()` can never return None, so the two cannot drift apart.
+    """
+    return ja._env_int(name, None) is not None
+
+
+#: The four variables, named ONCE. Everything that has to enumerate them walks this tuple rather
+#: than repeating the list, so a fifth knob cannot be added to the screen and forgotten here.
+_KNOB_ENV_VARS = ("BLAST_HITLIST_SIZE", "SAVED_HITS_PER_DESIGN", "OLIGO_LEN", "WING")
+
+#: 1-based inclusive span of the DNA gap, DERIVED from the geometry rather than typed.
+#: ⛔ THIS CONSTANT EXISTED IN THREE OTHER MODULES' EXPECTATIONS AND IN NONE OF THIS ONE'S NAMESPACE
+#: UNTIL 2026-08-13. `aso_premrna_offtarget._gap_region()` did `from junction_aso_offtarget import
+#: GAP_REGION_1BASED` inside a bare `except Exception`, whose docstring says the point is "so a
+#: geometry change cannot desynchronise the two" — and the name has never existed, so every call
+#: raised ImportError and silently returned that module's own hard-coded `(6, 11)`. At the default
+#: 16,5 geometry the fallback is correct, which is why nothing ever showed; under a `20,5` dispatch
+#: the pre-mRNA arm would have scored the gap as [6, 11] while the screen used [6, 15]. A seam that
+#: fails closed onto a right answer is indistinguishable from one that works, which is why this is
+#: defined here and why the importer no longer swallows the failure.
+GAP_REGION_1BASED = (ja.WING + 1, ja.OLIGO_LEN - ja.WING)
+
+#: ⚠ WHICH KNOBS THE ENVIRONMENT SET, READ ONCE AT IMPORT — the same instant the constants above
+#: were derived from it, and the instant `junction_aso` derived `OLIGO_LEN`/`WING` from it. Read at
+#: call time instead, a process that mutated `os.environ` after import could make this block
+#: describe an override that produced none of the values beside it. The VALUES are read at call
+#: time (see `screen_parameters`) because they are the module constants themselves — if a caller
+#: reassigns one, what ran is the new value, and reporting the import-time copy would be the lie.
+_ENV_OVERRIDDEN = tuple(n for n in _KNOB_ENV_VARS if _env_was_set(n))
+
+
+def screen_parameters():
+    """The four environment-overridable knobs this screen actually ran under.
+
+    `overridden_from_env` names the variables the environment set; every value NOT listed there came
+    from this module's own default, so the two together are unambiguous without re-typing a default
+    into the artifact — a default belongs to the code that reads it, and a second copy in every
+    screen would be one more number to keep in sync. The VALUE is the load-bearing field either way:
+    it is what ran, and it stays correct even if a default later moves.
+    """
+    return {
+        "_what": (
+            "The four environment-overridable knobs this screen ran under, recorded because they "
+            "were not: before 2026-08-13 a screen's method block named the database, the program, "
+            "the near-match threshold, the gap region, the breakpoint model and the parent set, and "
+            "none of these — so a re-screen at a deeper BLAST ceiling was distinguishable from a "
+            "default one only by its filename suffix, and a description of one such re-screen as a "
+            "tenfold deeper ceiling AND retention depth was wrong about the retention with nothing "
+            "in any artifact able to show it. Values not named in overridden_from_env are the "
+            "module defaults. Screens committed before that date carry no parameters block and it "
+            "cannot be added to them after the fact: what a past run used is not recoverable from "
+            "its output, and an inferred value in a provenance field is worse than a visible gap."),
+        "blast_hitlist_size": BLAST_HITLIST_SIZE,
+        "saved_hits_per_design": SAVED_HITS_PER_DESIGN,
+        "oligo_len": ja.OLIGO_LEN,
+        "wing": ja.WING,
+        "overridden_from_env": list(_ENV_OVERRIDDEN),
+    }
+
+
 ORIENTATION_PARSED_SINCE = "2026-08-12"
 
 #: The three states a committed screen can be in. They are DISTINCT on purpose: the middle one is
@@ -260,12 +363,75 @@ def screen_counts_are_orientation_filtered(screen_or_status):
     return status == ORIENTATION_FILTERED
 
 
+#: RefSeq writes the approved gene symbol in parentheses immediately before a record's qualifiers:
+#: "Homo sapiens FUS RNA binding protein (FUS), transcript variant 1, mRNA". That is the ANCHOR —
+#: not a hopeful convention but a measured one: over every hit stored in every committed screen in
+#: this tree (2026-08-13), **6767 of 6767 definition lines carry this `(SYMBOL),` form**, and none
+#: is missing it. Trailing `$` is allowed for a record whose symbol ends the line.
+_REFSEQ_SYMBOL = re.compile(r"\(([A-Za-z0-9][A-Za-z0-9._@#/-]*)\)\s*(?=,|$)")
+
+
+def _symbol_as_a_whole_word(sym, defn_upper):
+    """Is `sym` present as a standalone token, rather than buried inside a longer word?
+
+    The lookarounds are the entire fix for the substring collision: they refuse a match whose
+    neighbouring character is alphanumeric, so MITOFUSIN, FUSING and FUSION stop containing FUS.
+    """
+    return re.search(r"(?<![A-Z0-9])" + re.escape(sym) + r"(?![A-Z0-9])", defn_upper) is not None
+
+
 def is_parent(h):
+    """Is this BLAST hit one of the fusion's PARENT transcripts, rather than an off-target?
+
+    A parent hit is dropped before `n_offtarget_near_matches` is computed, because each parent
+    matches one wing of a junction oligo by construction. So a FALSE POSITIVE here silently removes
+    a real off-target from every count the paper quotes — it does not produce a visible error, it
+    produces a smaller number.
+
+    ⛔ AND THE NAME ARM USED TO BE A BARE SUBSTRING OF THE DEFINITION LINE, WHICH FIRES ON WORDS
+    THAT MERELY CONTAIN A SYMBOL (2026-08-13). `PARENT_GENES` carries three- and four-character
+    symbols, and for donor gene FUS it carries "FUS" and "TLS". `"FUS" in defn.upper()` is
+    therefore True of, among others:
+        "Homo sapiens mitofusin 1 (MFN1), transcript variant 1, mRNA"        -> MITOFUSIN
+        "Homo sapiens N-ethylmaleimide sensitive factor, vesicle fusing ATPase"  -> FUSING
+        "PREDICTED: Homo sapiens BCR-ABL fusion transcript, misc_RNA"        -> FUSION
+    Every one of those would have been counted as a parent and dropped from the near-match count of
+    every FUS-donor screen, with nothing in the artifact to show it had happened.
+
+    ⚠ MEASURED EXPOSURE IS NIL, AND THAT IS WHY THIS IS A CORRECTION TO THE CODE AND NOT TO A
+    PUBLISHED NUMBER. Over every hit stored in every committed screen (2026-08-13): **0 of 6767
+    definition lines contain "FUS" or "TLS" in any form**, so no committed count moves. It is fixed
+    because the next screen at a new donor is the one that pays, and because a filter that has
+    never yet been wrong is not thereby right.
+
+    ⛔ THE NEW PREDICATE IS A STRICT SUBSET OF THE OLD ONE, WHICH IS THE PROPERTY THAT MAKES IT SAFE
+    TO LAND WITHOUT RE-RUNNING ANYTHING. Each of the three name arms below implies the old
+    substring test: a parenthesised `(FUS)` contains "FUS", a phrase match IS a substring match,
+    and a whole-word match is a substring match with lookarounds. So no hit that is currently
+    STORED can become a parent, and no committed near-match count can silently re-base. The only
+    direction that can move is a hit the old code dropped and the new code keeps — which is exactly
+    the collision class above.
+
+    Three name arms, loosest last and each one narrower than the arm it replaces:
+      1. the RefSeq gene symbol, parenthesised — the arm that actually decides; see
+         `_REFSEQ_SYMBOL` above for the corpus measurement that supports it;
+      2. a multi-word descriptive alias, as a substring — UNCHANGED, because a phrase that long
+         cannot collide the way a symbol does, and changing it could re-base a committed count;
+      3. a bare symbol as a WHOLE WORD — kept only so a definition line carrying no parenthesised
+         symbol (a `complete cds` GenBank-style record, say) behaves as it always did. The corpus
+         contains no such line, so this arm is a guard against re-basing rather than a measured
+         need; deleting it would be a second behaviour change with no evidence behind it.
+    """
     acc = h["acc"].split(".")[0]
     if acc in PARENT_ACCS:
         return True
     d = h["defn"].upper()
-    return any(g.upper() in d for g in PARENT_GENES)
+    symbols = {m.group(1).upper() for m in _REFSEQ_SYMBOL.finditer(d)}
+    if symbols.intersection(PARENT_SYMBOLS):
+        return True
+    if any(p in d for p in PARENT_PHRASES):
+        return True
+    return any(_symbol_as_a_whole_word(s, d) for s in PARENT_SYMBOLS)
 
 
 def gap_mismatch_profile(h):
@@ -275,7 +441,7 @@ def gap_mismatch_profile(h):
     [WING+1 .. LEN-WING]). This walks the alignment, maps each column to a query position and
     counts mismatches inside the gap. `n_gap_mismatches` is None when the alignment strings are
     absent, which is the coverage-only fallback case and must never be read as zero."""
-    gap_lo, gap_hi = ja.WING + 1, ja.OLIGO_LEN - ja.WING       # 1-based inclusive gap span
+    gap_lo, gap_hi = GAP_REGION_1BASED                         # 1-based inclusive gap span
     if not (h["q_from"] <= gap_lo and h["q_to"] >= gap_hi):
         return False, False, None
     qseq, mid = h.get("qseq", ""), h.get("midline", "")
@@ -576,7 +742,7 @@ def grade_panel(screen):
         "retired_model_headline": f"{retired} of {len(ok)} predicted off-target-clean",
         "near_match_threshold": f">= {NEAR_MATCH_MIN_IDENT}/{ja.OLIGO_LEN} identical",
         "oligo_len": ja.OLIGO_LEN,
-        "gap_region_1based": [ja.WING + 1, ja.OLIGO_LEN - ja.WING],
+        "gap_region_1based": list(GAP_REGION_1BASED),
         "max_mismatches_per_near_match": MAX_MISMATCHES_PER_NEAR_MATCH,
         "models": per_model,
         "per_oligo": graded,
@@ -752,6 +918,36 @@ def screen_all(designs):
     return out
 
 
+def method_block(prov):
+    """The `method` block every screen artifact carries — what a reader needs to know what ran.
+
+    ⭐ A FUNCTION RATHER THAN A DICT LITERAL INSIDE `main()`, so it can be exercised without a
+    network. `main()` cannot run in this sandbox and cannot run in a test at all — it BLASTs — so
+    while the block was built inline, nothing could assert its contents and no guard on it could
+    exist. The thing under test is now the thing `main()` calls, with no mock in between.
+    """
+    return {
+        "db": "refseq_rna (txid9606[ORGN])", "program": "blastn (short, FILTER off)",
+        "near_match_threshold": f">= {NEAR_MATCH_MIN_IDENT}/{ja.OLIGO_LEN} identical",
+        "gap_region_1based": list(GAP_REGION_1BASED),
+        "breakpoint_model": prov["note"],
+        # The knobs this run used. `near_match_threshold` and `gap_region_1based` above are DERIVED
+        # from two of them, so before this block a reader could recover the geometry from the
+        # artifact but had no way at all to recover the search depth or the retention depth.
+        "parameters": screen_parameters(),
+        # Which transcripts a hit was NOT counted against, and which matching arms were live.
+        # Recorded rather than assumed: for a non-EWSR1 donor the accession arm is inert (no
+        # verified RefSeq accession is held here), so a reader must be able to see that the
+        # parent exclusion rested on name matching alone.
+        "parent_set": {
+            "donor_gene": _DONOR,
+            "names_excluded": list(PARENT_GENES),
+            "accessions_excluded": sorted(PARENT_ACCS),
+            "accession_arm_live_for_donor": _DONOR == "EWSR1",
+        },
+    }
+
+
 def main():
     ews, nr4, left, right, fusion = ja.build_parents_and_fusion()
     label, prov = ja.junction_label()
@@ -785,22 +981,7 @@ def main():
                   "(mismatch inside the gap) does NOT cleave; wing-only hits are weak affinity "
                   "liabilities. A clean oligo has zero true_cleavage_risk off-targets. Predicted "
                   "specificity, not validated; confirm by the parental-/off-target-sparing assays."),
-        "method": {
-            "db": "refseq_rna (txid9606[ORGN])", "program": "blastn (short, FILTER off)",
-            "near_match_threshold": f">= {NEAR_MATCH_MIN_IDENT}/{ja.OLIGO_LEN} identical",
-            "gap_region_1based": [ja.WING + 1, ja.OLIGO_LEN - ja.WING],
-            "breakpoint_model": prov["note"],
-            # Which transcripts a hit was NOT counted against, and which matching arms were live.
-            # Recorded rather than assumed: for a non-EWSR1 donor the accession arm is inert (no
-            # verified RefSeq accession is held here), so a reader must be able to see that the
-            # parent exclusion rested on name matching alone.
-            "parent_set": {
-                "donor_gene": _DONOR,
-                "names_excluded": list(PARENT_GENES),
-                "accessions_excluded": sorted(PARENT_ACCS),
-                "accession_arm_live_for_donor": _DONOR == "EWSR1",
-            },
-        },
+        "method": method_block(prov),
         "n_oligos_screened": len(screened),
         "n_screened_ok": n_ok,
         "n_oligos_no_true_cleavage_risk": n_clean,
