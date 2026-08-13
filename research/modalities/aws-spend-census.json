@@ -57,7 +57,7 @@
       "EBS volumes + snapshots (DENIED)"
     ]
   },
-  "generated_utc": "2026-08-13T00:25:42+00:00",
+  "generated_utc": "2026-08-13T01:46:39+00:00",
   "logs": {
     "est_usd_per_month": 0.0,
     "groups": [
@@ -107,8 +107,29 @@
         "region": "us-east-2",
         "size_status": "ok",
         "top_prefixes": {
-          "keys_walked": 0,
-          "prefixes": [],
+          "keys_walked": 27,
+          "prefixes": [
+            {
+              "bytes": 20836,
+              "n": 15,
+              "prefix": "nrv04-retro-results"
+            },
+            {
+              "bytes": 14638,
+              "n": 10,
+              "prefix": "nr4a3-step1-fanout"
+            },
+            {
+              "bytes": 92,
+              "n": 1,
+              "prefix": "vast-watchdog"
+            },
+            {
+              "bytes": 29,
+              "n": 1,
+              "prefix": "ternary-vast"
+            }
+          ],
           "truncated": false
         },
         "total_bytes": 2907123191017.0,
