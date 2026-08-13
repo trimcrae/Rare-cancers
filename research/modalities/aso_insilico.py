@@ -202,13 +202,25 @@ def offtarget_scan(candidates, max_records=None):
                                     c["offtarget_hits"].append({"acc": acc, "mm": mm})
                     idx = seq.find(seed, idx + 1)
 
-    acc, parts, nrec = None, [], 0
+    # ⛔ COUNT THE NUCLEOTIDES, NOT JUST THE RECORDS. This loop already reads every base of every
+    # transcript; until 2026-08-13 it reported only `transcripts_scanned`, and the ONE number the
+    # manuscript needs from this corpus is its nucleotide SPAN — the denominator of the chance null
+    # in §3.6. Lacking it, the paper carries an ASSUMED 3e8-8e8 nt range, and that assumption is
+    # what makes its headline expectations a 2.7x-wide band ("79-210 near-matches", "3.4-9.1") when
+    # they could be single figures. An accumulator in a loop that is already reading the sequence
+    # costs nothing and replaces a stated assumption with a measurement.
+    # ⚠ `scanned_nt` is the span the SCAN actually covered, so under `max_records` it is the span of
+    # that subset and not of the corpus — which is why it is reported beside `transcripts_scanned`
+    # and never alone.
+    acc, parts, nrec, nnt = None, [], 0, 0
     with gzip.open(tmp, "rt") as fh:
         for line in fh:
             if line.startswith(">"):
                 if acc is not None:
-                    scan_seq(acc, "".join(parts))
+                    seq = "".join(parts)
+                    scan_seq(acc, seq)
                     nrec += 1
+                    nnt += len(seq)
                     if max_records and nrec >= max_records:
                         acc = None
                         break
@@ -217,9 +229,16 @@ def offtarget_scan(candidates, max_records=None):
             else:
                 parts.append(line.strip().upper())
         if acc is not None:
-            scan_seq(acc, "".join(parts))
+            seq = "".join(parts)
+            scan_seq(acc, seq)
             nrec += 1
-    return {"status": "ok", "transcripts_scanned": nrec, "source": REFSEQ_RNA_URL}
+            nnt += len(seq)
+    return {"status": "ok", "transcripts_scanned": nrec, "scanned_nt": nnt,
+            "_why_scanned_nt": ("the nucleotide span this scan covered. It is the denominator of the "
+                                "chance null the manuscript reports, which otherwise carries an "
+                                "ASSUMED 3e8-8e8 nt range because this corpus was counted in "
+                                "records rather than bases."),
+            "source": REFSEQ_RNA_URL}
 
 
 # ---------------------------------------------------------------------------

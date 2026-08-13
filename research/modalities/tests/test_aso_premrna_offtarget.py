@@ -232,3 +232,41 @@ def test_the_gap_region_follows_a_geometry_change_rather_than_the_local_default(
     assert got.lstrip("(") != local.rstrip(")"), (
         "at 20,5 the derived gap must differ from the hard-coded 16-mer default; if these are "
         "equal the fallback is live again and the test cannot see it")
+
+
+def test_the_refseq_scan_counts_nucleotides_and_not_only_records():
+    """⛔ THE ONE NUMBER THE MANUSCRIPT NEEDS FROM THIS CORPUS IS ITS SPAN, AND IT WAS NOT COUNTED.
+
+    `offtarget_scan` reads every base of every transcript and reported only `transcripts_scanned`.
+    Lacking a nucleotide span, §3.6's chance null carries an ASSUMED 3e8-8e8 nt range, which is what
+    makes its headline expectations a 2.7x-wide band ("79-210", "3.4-9.1") instead of single figures.
+
+    Uses the module's own file-reuse seam — an existing gz under RUNNER_TEMP is not re-downloaded —
+    so this exercises the real loop rather than a monkeypatched substitute.
+    """
+    import gzip
+    import tempfile
+    sys.path.insert(0, MOD)
+    import aso_insilico as ai
+
+    recs = {"NM_1": "ACGT" * 10, "NM_2": "TTTT" * 7, "NM_3": "GC" * 13}
+    d = tempfile.mkdtemp()
+    with gzip.open(os.path.join(d, "grch38_rna.fna.gz"), "wt") as fh:
+        for a, s in recs.items():
+            fh.write(">%s desc\n%s\n" % (a, s))
+    old = os.environ.get("RUNNER_TEMP")
+    os.environ["RUNNER_TEMP"] = d
+    try:
+        cand = {"antisense_5to3": "ACGTACGTACGTACGT", "target_mRNA_5to3": "ACGTACGTACGTACGT"}
+        out = ai.offtarget_scan([dict(cand)])
+        assert out["transcripts_scanned"] == len(recs)
+        assert out["scanned_nt"] == sum(len(s) for s in recs.values())
+        # Under max_records the span must be the SUBSET's, never the corpus' — a span reported for
+        # sequence that was not scanned would be a denominator nothing was measured against.
+        out2 = ai.offtarget_scan([dict(cand)], max_records=2)
+        assert out2["scanned_nt"] == len(recs["NM_1"]) + len(recs["NM_2"]), out2
+    finally:
+        if old is None:
+            os.environ.pop("RUNNER_TEMP", None)
+        else:
+            os.environ["RUNNER_TEMP"] = old
