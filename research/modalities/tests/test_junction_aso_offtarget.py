@@ -209,6 +209,13 @@ SCREENS_FROM_A_REAL_RERUN = {
        for j in ("e12n3", "taf15e11n3", "fuse10n3", "tcf12e7n3", "fuse8n3", "taf15e1n3")},
     **{f"junction-aso-offtarget-{j}-20mer-deep500.json": "Actions run 31747727309"
        for j in ("e12n3", "taf15e11n3", "fuse10n3", "tcf12e7n3", "fuse8n3", "taf15e1n3")},
+    # ⭐ RE-DISPATCHES OF THREE JUNCTIONS WHOSE FIRST RUN LOST A DESIGN TO AN NCBI TRANSPORT DROP.
+    # They are SEPARATE ARTIFACTS rather than replacements: each re-run recovered the design its
+    # predecessor lost and lost a different one, so neither file is complete and neither supersedes
+    # the other. `aso_gap_length_tradeoff` unions them at read time; nothing is merged on disk.
+    "junction-aso-offtarget-taf15e11n3-18mer-deep500-b2.json": "Actions run 31749261712",
+    "junction-aso-offtarget-fuse8n3-20mer-deep500-b2.json": "Actions run 31749268061",
+    "junction-aso-offtarget-taf15e1n3-20mer-deep500-b2.json": "Actions run 31749268061",
 }
 
 

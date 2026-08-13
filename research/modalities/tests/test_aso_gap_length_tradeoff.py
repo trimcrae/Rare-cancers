@@ -251,6 +251,56 @@ def test_the_registers_per_seam_are_gap_minus_one_at_every_geometry():
             assert panel["n_fusion_specific"] <= g["gap_nt"] - 1, panel["junction_label"]
 
 
+def test_the_screen_union_never_pools_two_search_depths():
+    """⛔ A UNION ACROSS CEILINGS PRODUCES A NUMBER THAT DESCRIBES NEITHER POPULATION.
+
+    Three junctions carry two screens each, because an NCBI transport drop hit a different design in
+    each run. Unioning them recovers every record — but the same mechanism would happily pool a
+    default-ceiling screen with a deep one, which is exactly the defect 5233cf867 corrected in the
+    collapse artifact (a widening glob moved a manuscript-quoted median from 2.14 to 4.55 with no
+    science behind it). The union is therefore gated on a RECORDED, IDENTICAL depth pair, and a
+    screen that cannot prove its depth never joins one.
+    """
+    import aso_gap_length_tradeoff as m  # noqa: PLC0415
+    deep = {"method": {"parameters": {"blast_hitlist_size": 500, "saved_hits_per_design": 500}},
+            "oligos": []}
+    shallow = {"method": {"parameters": {"blast_hitlist_size": 50, "saved_hits_per_design": 15}},
+               "oligos": []}
+    unrecorded = {"method": {}, "oligos": []}
+    cands = [("deep-a.json", deep), ("deep-b.json", dict(deep)),
+             ("shallow.json", shallow), ("unrecorded.json", unrecorded)]
+    sibs = sorted(f for f, _ in m._same_depth_siblings(cands, deep))
+    assert sibs == ["deep-a.json", "deep-b.json"], sibs
+    # a screen with no recorded depth cannot anchor a union either
+    assert m._same_depth_siblings(cands, unrecorded) == []
+
+
+def test_the_union_recovers_dropped_records_without_editing_any_screen():
+    """Every design at a matched seam must carry a count, and no artifact may have been merged.
+
+    ⚠ THE RECOVERY MUST COME FROM A NAMED FILE. `_from_screen` records which run supplied each
+    design's record, so a reader can see that a recovered design came from the sibling rather than
+    from an edit to the primary screen.
+    """
+    art = _art()
+    m = art["the_trade"]["transcriptome_coincidence_falls_but_it_MUST"]["matched_junctions"]
+    if not m["n_junctions"]:
+        pytest.skip("no matched junctions in this checkout")
+    for arch, v in m["by_geometry"].items():
+        assert v["n_designs_the_remote_service_dropped"] == 0, (arch, v["designs_with_no_count"])
+    # every screened row names the file it came from, and that file exists
+    named = 0
+    for r in art["per_design"]:
+        a = r.get("alignment_screen") or {}
+        if a.get("status") != "screened":
+            continue
+        src = a.get("_from_screen")
+        assert src, r
+        assert os.path.exists(os.path.join(MOD, src)), src
+        named += 1
+    assert named
+
+
 def test_locus_counts_are_recounted_with_todays_parser_not_read_from_the_screen():
     """⛔ THE SCREENS' OWN LOCUS FIELDS WERE PRODUCED BY A PARSER THAT OVER-COUNTED.
 

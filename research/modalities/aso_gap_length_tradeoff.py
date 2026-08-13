@@ -155,8 +155,47 @@ def _discover(prefix, key):
     return found
 
 
+def _same_depth_siblings(cands, chosen_art):
+    """Screens of the same junction run at a PROVABLY identical depth to the chosen one.
+
+    ⛔ THE TEST IS THE RECORDED PAIR, AND ONLY THE RECORDED PAIR. Pooling a default-ceiling screen
+    with a deep one produces a number that describes neither population — the defect 5233cf867
+    corrected in the collapse artifact, where a widening glob moved a manuscript-quoted median from
+    2.14 to 4.55 with no science behind it. A screen carrying no `parameters` block cannot prove its
+    depth, so it never joins a union; for such junctions the union is the single chosen screen and
+    nothing changes.
+    """
+    want = _screen_depth(chosen_art)[0], (chosen_art.get("method") or {}).get(
+        "parameters", {}).get("saved_hits_per_design")
+    if want[0] is None or want[1] is None:
+        return []
+    out = []
+    for fn, art in cands:
+        got = _screen_depth(art)[0], (art.get("method") or {}).get(
+            "parameters", {}).get("saved_hits_per_design")
+        if got == want:
+            out.append((fn, art))
+    return out
+
+
 def _pick_deepest(cands):
-    """The deepest screen for one (geometry, junction), with the evidence that says it is deepest."""
+    """The deepest screen for one (geometry, junction), with the evidence that says it is deepest.
+
+    ⭐ AND THE SAME-DEPTH SIBLINGS TRAVEL WITH IT, BECAUSE A TRANSPORT FAILURE IS PER DESIGN AND PER
+    RUN (2026-08-13). NCBI dropped three of this lane's 96 design queries with "Remote end closed
+    connection without response". Re-dispatching did not simply fill them: at TAF15 e11 the re-run
+    returned the design that had failed and FAILED a different one that had succeeded, and at FUS e8
+    it did the same. Every design the two runs both screened returned identical counts, so the two
+    partial results are consistent and each holds what the other lost.
+    ⛔ THE FIX IS A UNION AT READ TIME, NOT A MERGED FILE. Editing one screen to carry another's
+    record would be a hand-built artifact that no single run produced — the exact thing
+    `test_every_committed_screen_predates_the_block_and_none_was_hand_backfilled` exists to catch.
+    Both runs stay on disk exactly as CI wrote them, the union is computed here, and every design
+    records which file supplied its record.
+    ⚠ THE FAILURES LANDING ON DIFFERENT DESIGNS IN DIFFERENT RUNS IS ITSELF THE EVIDENCE that they
+    are transport-random rather than a property of a sequence — which is what makes unioning them
+    legitimate rather than cherry-picking the friendlier answer.
+    """
     def rank(item):
         _, art = item
         ceiling, stored = _screen_depth(art)
@@ -178,7 +217,31 @@ def _pick_deepest(cands):
                            "no parameters block and no design stores more than the default retention "
                            "of 15, so the depth of this screen is UNKNOWN from the artifact alone"),
         "_n_candidates_seen": len(cands),
+        "union_of_same_depth_screens": sorted(f for f, _ in _same_depth_siblings(cands, art)),
     }
+
+
+def _union_rows(cands, chosen):
+    """Per-design records unioned across same-depth screens of one junction, screened records winning.
+
+    A design is taken from the chosen screen where that screen has it; where the chosen screen
+    records a transport failure and a same-depth sibling screened it, the sibling's record is used
+    and NAMED. A design no run screened stays a failure — the union recovers records, it never
+    invents one.
+    """
+    by_file = dict(cands)
+    order = [chosen["screen"]] + [f for f in chosen["union_of_same_depth_screens"]
+                                  if f != chosen["screen"]]
+    merged = {}
+    for fn in order:
+        art = by_file.get(fn)
+        if art is None:
+            continue
+        for seq, row in _blast_rows(art).items():
+            have = merged.get(seq)
+            if have is None or (have.get("status") != "screened" and row.get("status") == "screened"):
+                merged[seq] = {**row, "_from_screen": fn}
+    return merged
 
 
 def _recount_loci(oligo):
@@ -524,7 +587,7 @@ def build():
                 "exhaustive_le1mm_transcript_scan": ({"artifact": scan[0]} if scan else None),
             }
             # attach the per-design counts to the rows of this junction
-            by_seq = _blast_rows(dict(b)[chosen["screen"]]) if chosen else {}
+            by_seq = _union_rows(b, chosen) if chosen else {}
             le1 = {d["antisense_5to3"]: d for d in (scan[1].get("top_designs") or [])} if scan else {}
             for r in rows:
                 if r["junction"] != label:
