@@ -141,6 +141,18 @@ TARGETS = {
     "sn_oa_funding_support": "https://www.springernature.com/gp/open-research/funding/policy-compliance-faqs",
     "sn_waiver_country_list": "https://www.springernature.com/gp/open-research/policies/journal-policies/apc-waivers-discounts",
     "sage_author_discounts": "https://us.sagepub.com/en-us/nam/author-gateway-open-access-fees",
+    # ⚠ TWO NAT PATHS NEVER TRIED, AND THE REASON THEY ARE WORTH ONE MORE ATTEMPT (2026-08-13).
+    # Seven `journals.sagepub.com` paths returned 403 to a real browser, which is why this venue was
+    # abandoned as unreadable. But every one of those seven was guessed, and the CGT lesson was that
+    # guessed paths 404 while the journal's own link works: a web search surfaced
+    # `/author-instructions/nat`, which is a DIFFERENT path shape from any tried, and
+    # `uk.sagepub.com` is a HOST never attempted at all — notable because plain `sagepub.com`
+    # answered 200 while `journals.sagepub.com` did not, so the block is host-specific rather than
+    # publisher-wide. Search reports $90/page persisting under SAGE plus $800 for the first colour
+    # figure in print, and a search snippet is not a retrieved fact; these targets are what would
+    # make it one.
+    "sage_nat_author_instructions": "https://journals.sagepub.com/author-instructions/nat",
+    "sage_nat_uk_journal_page": "https://uk.sagepub.com/en-gb/eur/nucleic-acid-therapeutics/journal204141",
     "research4life_eligibility": "https://www.research4life.org/access/eligibility/",
 
     # ── bioRxiv, the free open copy for all four papers ─────────────────────────────────
