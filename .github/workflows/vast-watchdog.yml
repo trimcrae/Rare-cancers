@@ -39,9 +39,13 @@ name: Vast job watchdog — any kind (session-independent)
 # Until then, exercise it with workflow_dispatch (an on-main workflow dispatched with ref=<branch> runs THAT
 # branch's version of the file and its code).
 
+# ⛔ SCHEDULE RETIRED 2026-08-13. No lane is running (account census `n_instances: 0`) and the S3 state
+# every watched lane resumed from was purged on 2026-08-12/13. A watchdog over an empty account recovers
+# nothing; CLAUDE.md §6 already says a supervisor with nothing to supervise must not heartbeat.
+# `workflow_dispatch` is retained, so re-arming a lane means dispatching this deliberately.
 on:
-  schedule:
-    - cron: "*/15 * * * *"    # ⚠ THE "~55-65 min" THAT USED TO BE WRITTEN HERE IS RETIRED — IT WAS A
+  # schedule:                 # ⛔ RETIRED 2026-08-13 — empty account, purged S3 state.
+  #   - cron: "*/15 * * * *"  #    ⚠ THE "~55-65 min" THAT USED TO BE WRITTEN HERE IS RETIRED — IT WAS A
                               # ONE-DAY OBSERVATION QUOTED AS A CONSTANT. It held on 2026-07-26; MEASURED
                               # delivery of THIS workflow on 2026-07-27 was 1:59 AM, 5:56 AM, 8:53 AM and
                               # 11:37 AM ET -> gaps of 235, 238, 177 and 164 MINUTES. Planning against the

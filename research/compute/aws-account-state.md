@@ -118,8 +118,8 @@ essentially nothing else — measured in [`aws-spend-probe.json`](../modalities/
 
 | still costs | ~$/mo | why it is still there |
 |---|---|---|
-| ECR `nr4a3-abfe` + `nr4a3-fep` | $1.88 | **`ecr:DeleteRepository` AND `ecr:BatchDeleteImage` both denied.** Both were tried; they are different IAM actions and neither is granted. Needs a console delete or an IAM change. |
-| CloudWatch Logs, 2 groups | ~$0.001 | `logs:PutRetentionPolicy` denied. Negligible, listed for completeness. |
+| ECR `nr4a3-abfe` + `nr4a3-fep` | $1.88 | **Three separate IAM actions tried, all denied** — see below. Needs a console delete or an IAM change. |
+| CloudWatch Logs, 2 groups | ~$0.001 | **Two actions tried, both denied**: `logs:PutRetentionPolicy` and `logs:DeleteLogGroup`. |
 | `cf-templates-v2kjpo1se7g0-us-east-2` | ~$0 | 4 objects, ~10 KB. The key is not scoped to this bucket. |
 | EBS volumes / snapshots | **UNKNOWN** | `ec2:DescribeVolumes` denied in every region, so this has never been read. It is not known to be zero. |
 
@@ -127,6 +127,25 @@ essentially nothing else — measured in [`aws-spend-probe.json`](../modalities/
 (~31 bytes). The versioning probe writes before it deletes, and `DeleteObject` is denied on that bucket,
 so it cannot be removed with this key. Recorded here rather than left for a future census to discover as
 an unexplained row.
+
+★ **"BLOCKED" WAS TESTED FIVE WAYS BEFORE IT WAS WRITTEN DOWN, BECAUSE THE FIRST TWO DENIALS WERE NOT
+ENOUGH TO CLAIM IT.** CLAUDE.md §0: *blocked is a claim that needs evidence, and it is usually wrong.* The
+first report said "ECR needs trimcrae" after two denials; that was premature, because AWS offers a third,
+unrelated way to remove images. Every route has now been exercised against the live account:
+
+| action | route it would have taken | result |
+|---|---|---|
+| `ecr:DeleteRepository` | delete the repo and its images outright | `AccessDeniedException` |
+| `ecr:BatchDeleteImage` | delete the images, keep the empty repo (free) | `AccessDeniedException` |
+| `ecr:PutLifecyclePolicy` | let AWS *expire* all images against a policy | `AccessDeniedException` |
+| `logs:PutRetentionPolicy` | let the logs age out | `AccessDeniedException` |
+| `logs:DeleteLogGroup` | delete the groups | `AccessDeniedException` |
+
+The key holds object-level S3 rights and essentially nothing else. There is no fourth route and no second
+credential to try: `VAST_S3_ACCESS_KEY_ID` is a **narrower** key (six S3 actions on the lane prefixes,
+`s3_scoped_policy.py`), not a more privileged one, so it cannot reach ECR either. **$0/mo is therefore not
+reachable from CI** — the last $1.88 needs a human with console access, which is a 30-second job or a
+one-line IAM addition.
 
 **Three things only trimcrae can settle**, none of them urgent at these amounts:
 
@@ -137,7 +156,44 @@ an unexplained row.
    actual invoice instead of estimating from sizes at list price. Until then every dollar figure in this
    repo's AWS accounting is inferred.
 
-## 5 · If AWS storage is ever used again
+## 5 · The scheduled triggers were retired in the same breath, and that was the bigger risk
+
+⛔ **DELETING THE DATA WITHOUT TOUCHING THE CRONS WOULD HAVE BEEN WORSE THAN DOING NOTHING.**
+`congeneric_fanout_vast.fanout_pending` selects *"units with no `ddg.json` in S3 yet"*, and `mode_launch`'s
+idempotence — *"a unit with a result is never re-submitted"* — reads that same S3 listing. **Emptying the
+bucket therefore made all 19 finished edges look unrun**, and `step1-fanout-autoscale.yml` was firing on
+`main` every ~8 minutes with the authority to rent GPUs. A storage cleanup had quietly armed a **compute**
+re-spend of the whole tranche.
+
+⚠ **IT DID NOT FIRE ONLY BECAUSE THE TICK WAS ALREADY BROKEN.** Measured 2026-08-13 01:38Z: the scheduled
+run FAILED before reaching the launch path, and the account census confirmed `n_instances: 0` — nothing was
+rented. That is luck, not a guard. Repairing the tick would have armed the re-spend, and the failure was
+itself being reported by `fleet-supervision-alarm.yml` as a supervision outage, which is exactly the kind
+of thing someone fixes without realising what it re-enables.
+
+Retired on 2026-08-13, `workflow_dispatch` retained on every one so a deliberate re-run still works:
+
+| workflow | was | why it is off |
+|---|---|---|
+| `step1-fanout-autoscale.yml` | `*/20` | reads remaining work from the now-empty S3; would re-buy 19 finished edges |
+| `ternary-vast-watchdog.yml` | `*/15` | all 18 watch entries disabled with a LANDED `leg.json`; state purged |
+| `vast-watchdog.yml` | `*/15` | account empty; nothing to recover |
+| `fep-monitor-cron.yml` | `*/15` | zero SageMaker jobs in any region |
+| `fleet-supervision-alarm.yml` | `0 * * * *` | was firing FAILING every tick about a fleet that does not exist |
+
+★ **Re-arm the alarm in the SAME commit that re-arms a lane.** An unsupervised fleet is the failure
+CLAUDE.md §6 was written about; the alarm is only noise while there is nothing to supervise.
+
+⚠ **`vast-price-sample.yml` (hourly) is deliberately LEFT ON.** Its scheduled job is the rate-forensics
+probe, which is read-only and rents nothing, and market-price history stays useful for whatever runs next.
+It reads S3 but never writes, so it cannot repopulate the bucket.
+
+⚠ **A `schedule:` fires from the DEFAULT BRANCH ONLY, so these edits are inert until they reach `main`.**
+Until then the crons on `main` keep their old cadence. To stop them *immediately* without a merge, toggle
+the workflow off in the GitHub UI (Actions → the workflow → ⋯ → Disable) — that is a repository setting,
+lives in no branch, and is invisible to every checker in this repo (§ the Pages lesson in CLAUDE.md §6).
+
+## 6 · If AWS storage is ever used again
 
 `object_store.py` is provider-agnostic and its own header recommends **Cloudflare R2** over S3 for exactly
 this workload: S3 charges ~$0.09/GB egress and the checkpoint store is read from rented GPUs on another

@@ -61,12 +61,23 @@ name: Fleet supervision alarm — is anything actually watching the billing GPUs
 # reach a human is in `research/compute/notification-channels.md`, its one home.
 
 on:
-  schedule:
+  # schedule:                 # ⛔ RETIRED 2026-08-13 — see the note below. The KEY is commented out too,
+  #                           #    not just the cron entry: a `schedule:` with no list items is not an
+  #                           #    empty schedule, it is a malformed one, and leaving it would trade a
+  #                           #    firing alarm for a broken workflow definition.
     # Deliberately HOURLY, not */15. Asking for a high frequency on a throttled repo does not get you one (see
     # the measurements above); it just adds queue pressure to the same pool the tick is competing for. The
     # verdict this produces is not time-sensitive to the minute — it is "has supervision stopped", which is a
     # question worth asking once an hour.
-    - cron: "0 * * * *"
+    # ⛔ RETIRED 2026-08-13. This alarm asks "has supervision stopped" — a question that only means
+    # something while a fleet is billing. Nothing is: the account census reads `n_instances: 0` and every
+    # lane it supervised has been retired along with its S3 state. Left armed it does active harm rather
+    # than nothing: on 2026-08-13 it was already firing FAILING on every tick, because the tick it grades
+    # is failing and its artifact is stamped 2026-08-06 — a real alarm, correctly raised, about a fleet
+    # that does not exist. That is the alarm-fatigue path, and CLAUDE.md §6 ("a supervisor with nothing to
+    # supervise must not heartbeat") is the rule it violates. Re-arm this in the SAME commit that re-arms
+    # a lane. `workflow_dispatch` is retained.
+    # - cron: "0 * * * *"
   workflow_dispatch:
     inputs:
       fleet_branch:

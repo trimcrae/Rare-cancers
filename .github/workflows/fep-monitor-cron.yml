@@ -10,9 +10,12 @@ name: FEP early-stop monitor (scheduled — robust, session-independent)
 # no-ops in seconds. Disable it (Actions UI → this workflow → Disable, or remove the schedule) once FEP is done.
 # Also manually dispatchable. REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
 
+# ⛔ SCHEDULE RETIRED 2026-08-13. This monitors SageMaker FEP jobs; the AWS lanes are retired, the census
+# reads zero in-progress training/processing/transform jobs across every region scanned, and the S3 outputs
+# it reported on were purged on 2026-08-12/13. `workflow_dispatch` is retained.
 on:
-  schedule:
-    - cron: "*/15 * * * *"        # every 15 min (GitHub cron min ~5 min; may be delayed under load — fine here)
+  # schedule:                     # ⛔ RETIRED 2026-08-13 — no SageMaker jobs exist to monitor.
+  #   - cron: "*/15 * * * *"      #    every 15 min (GitHub cron min ~5 min; delayed under load — fine here)
   workflow_dispatch:
     inputs:
       target_ddg:

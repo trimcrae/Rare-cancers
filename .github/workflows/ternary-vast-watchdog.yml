@@ -29,10 +29,15 @@ name: Ternary VAST leg watchdog (session-independent)
 #
 # NB a `schedule:` trigger only fires from the DEFAULT BRANCH, so this must be on main to run at all.
 
+# ⛔ SCHEDULE RETIRED 2026-08-13. All 18 entries in `ternary-vast-watch.json` are disabled with a LANDED
+# `leg.json`, so every tick was already a no-op — and the S3 state those legs were keyed to was purged on
+# 2026-08-12/13 ("everything saved on AWS is dead"). A watchdog whose entire watch list is finished, over a
+# bucket that is now empty, has nothing to recover; its only remaining effect is to relaunch work if an
+# entry is ever re-enabled against state that no longer exists. `workflow_dispatch` is retained.
 on:
-  schedule:
-    - cron: "*/15 * * * *"    # matched to the recovery granularity: production commits every 40 iterations
-                              # (~10 min of MD at 4 fs), so 15 min sees at most one missed interval.
+  # schedule:                 # ⛔ RETIRED 2026-08-13 — watch list all-disabled, S3 state purged.
+  #   - cron: "*/15 * * * *"  #    matched to the recovery granularity: production commits every 40
+  #                           #    iterations (~10 min of MD at 4 fs), so 15 min saw at most one miss.
   workflow_dispatch:
     inputs:
       dry_run:

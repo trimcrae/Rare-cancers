@@ -34,9 +34,34 @@ name: STEP 1 fan-out — progress check + terminus-gated fan-out
 # silently run main's code against a feature branch's checkpoints. `fleet_branch` is therefore an explicit
 # input with an explicit default, and it is the ONLY thing that sets GIT_BRANCH.
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# ⛔ SCHEDULE RETIRED 2026-08-13 — THIS LANE IS FINISHED AND ITS S3 STATE IS GONE.
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# The fan-out completed at 18 of 19 units (the 19th blocked on a mapper limitation, not on compute), and
+# on 2026-08-12/13 the whole AWS bucket was purged — trimcrae: "everything saved on AWS is dead."
+#
+# ⛔ THOSE TWO FACTS TOGETHER ARE WHY THE CRON HAD TO GO, AND THE REASON IS NOT TIDINESS.
+# `fanout_pending` selects "units with no ddg.json in S3 yet", and `mode_launch`'s idempotence — "a unit
+# with a result is never re-submitted" — reads that same S3 listing. **Every ddg.json has been deleted.**
+# So this tick's own definition of remaining work now returns ALL 19 units, and a healthy tick would rent
+# GPUs to recompute a map that is already finished and already committed to `step1-fanout-map.json`.
+#
+# ⚠ IT DID NOT FIRE ONLY BECAUSE THE TICK IS CURRENTLY BROKEN. Measured 2026-08-13 01:38Z: the scheduled
+# run FAILED before reaching the launch path (`n_instances: 0`, nothing rented, verified against the
+# account census). That is luck, not a guard — repairing the tick would arm the re-spend. A cron whose
+# safety depends on its own code being broken is exactly the thing to switch off rather than leave.
+#
+# The lane's RESULT survives in git, which is the point: `step1-fanout-map.json` carries the per-edge ΔΔG,
+# the cycle closure and the ranking. What is gone is the raw trajectories, which nothing here needs.
+#
+# ★ TO RUN IT AGAIN you must first re-stage inputs into S3 — `workflow_dispatch` below is retained and
+# unchanged, so a deliberate human dispatch still works. What is removed is only the unattended firing.
 on:
-  schedule:
-    - cron: "*/20 * * * *"   # ⚠ THE NOMINAL CADENCE IS FICTION — DO NOT PLAN AGAINST IT, AND DO NOT QUOTE A
+  # schedule:                # ⛔ RETIRED 2026-08-13 — see the block above. Do not restore without
+  #   - cron: "*/20 * * * *" #    re-staging S3 first; the launcher would re-buy all 19 finished edges.
+  #
+  # Historical note kept for the cadence lesson, which outlives this lane:
+  #                            ⚠ THE NOMINAL CADENCE IS FICTION — DO NOT PLAN AGAINST IT, AND DO NOT QUOTE A
                              # REMEMBERED NUMBER HERE. GitHub throttles schedules on busy repos. MEASURED
                              # delivery of THIS workflow on 2026-07-27: 12:52 AM, 4:19 AM, 7:44 AM, 10:05 AM
                              # ET -> gaps of 220, 208, 205 and 141 MINUTES, against a nominal 20. So a
