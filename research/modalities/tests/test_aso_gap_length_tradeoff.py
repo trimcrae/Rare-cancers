@@ -251,6 +251,68 @@ def test_the_registers_per_seam_are_gap_minus_one_at_every_geometry():
             assert panel["n_fusion_specific"] <= g["gap_nt"] - 1, panel["junction_label"]
 
 
+def test_locus_counts_are_recounted_with_todays_parser_not_read_from_the_screen():
+    """⛔ THE SCREENS' OWN LOCUS FIELDS WERE PRODUCED BY A PARSER THAT OVER-COUNTED.
+
+    `locus_of` took the symbol as the last parenthesised token BEFORE THE FIRST COMMA, so a gene
+    whose description contains a comma lost its symbol and every transcript variant fell back to its
+    own accession. On this lane's lead reagent that turned ONE locus (nine GMCL1 variants) into
+    nine, and `n_loci_with_a_gap_spanning_hit` read 14 where the corrected parser reads 6.
+
+    A failed parse can only SPLIT a locus, never merge two, so the error is strictly one-directional
+    and every stored field is an over-count. This asserts the artifact recomputes rather than reads,
+    which is what makes the correction durable: reading the field again would silently reintroduce
+    the inflation the moment anyone regenerates.
+    """
+    art = _art()
+    sys.path.insert(0, MOD)
+    from junction_aso_locus_collapse import locus_of  # noqa: PLC0415
+
+    # the parser fix itself, on the two deflines that named it
+    assert locus_of({"defn": "Homo sapiens germ cell-less 1, spermatogenesis associated (GMCL1), "
+                             "mRNA", "acc": "NM_178439.4"}) == "GMCL1"
+    assert locus_of({"defn": "Homo sapiens glucosaminyl (N-acetyl) transferase 3, mucin type "
+                             "(GCNT3), mRNA", "acc": "NM_004751.3"}) == "GCNT3"
+
+    checked = 0
+    for r in art["per_design"]:
+        a = r.get("alignment_screen") or {}
+        if a.get("status") != "screened":
+            continue
+        loci, old = a["loci"], a["_superseded_locus_counts_from_the_old_parser"]
+        checked += 1
+        # the recount never exceeds what the superseded parser reported, on any design
+        if old.get("n_loci_with_a_gap_spanning_hit") is not None and loci["exact"]:
+            assert loci["n_loci_with_a_gap_spanning_hit"] <= old["n_loci_with_a_gap_spanning_hit"], r
+        if old.get("n_distinct_loci") is not None and loci["exact"]:
+            assert loci["n_distinct_loci"] <= old["n_distinct_loci"], r
+        # a locus list and its count are one fact
+        assert len(loci["loci_with_a_gap_spanning_hit"]) == loci["n_loci_with_a_gap_spanning_hit"]
+        # no accession ever survives as a locus name where the recount is exact
+        if loci["exact"]:
+            assert not [s for s in loci["loci_with_a_gap_spanning_hit"]
+                        if re.fullmatch(r"[NX][MR]_\d+", s)], (
+                "an accession fallback survived the corrected parser", r)
+    if not checked:
+        pytest.skip("no alignment screens in this checkout")
+
+
+def test_the_lead_reagent_locus_counts_are_the_corrected_ones():
+    """The number the correction actually moved, pinned so it cannot drift back to 14."""
+    art = _art()
+    lead = art["lead_reagent_at_the_most_commonly_reported_seam"]["by_geometry"]
+    row = lead.get("5-6-5")
+    if not row or (row.get("alignment_screen") or {}).get("status") != "screened":
+        pytest.skip("the 5-6-5 lead has no alignment screen in this checkout")
+    loci = row["alignment_screen"]["loci"]
+    assert loci["exact"], "the lead's hit list must be complete for this count to be a measurement"
+    assert loci["n_loci_with_a_gap_spanning_hit"] == 6, loci
+    assert loci["loci_with_a_gap_spanning_hit"] == [
+        "ANKS1B", "CHST5", "GMCL1", "LOC105370997", "LOC105374140", "ZNF667"], loci
+    assert row["alignment_screen"]["_superseded_locus_counts_from_the_old_parser"][
+        "n_loci_with_a_gap_spanning_hit"] == 14
+
+
 def test_a_screen_with_no_hits_is_not_graded_strand_blind():
     """⛔ THE CLEANEST POSSIBLE SCREEN WAS BEING LABELLED THE LEAST TRUSTWORTHY.
 

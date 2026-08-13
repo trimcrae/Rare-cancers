@@ -362,6 +362,32 @@ def screen_orientation_status(screen):
     ⚠ Recovery is NOT possible for a strand-blind screen, which is why it is demoted rather than
     re-scored: only the top 15 hits are stored against a hitlist of up to 50, so the strand of the
     truncated tail is simply gone. An upper bound is the honest reading and the only available one.
+
+    ⛔⛔ AND A SCREEN WITH NO HITS AT ALL WAS BEING GRADED `ORIENTATION_UNPARSED` UNTIL 2026-08-13,
+    WHICH IS A FAIL-TOWARD-DOUBT BUG AND WILL BITE ANY FUTURE CLEAN SCREEN. The parsed flag went
+    true only when some STORED HIT carried `hit_frame`. A design that returns no near-match stores
+    no hit; a screen whose every design returns none therefore stored nothing, nothing carried the
+    field, and the screen was labelled "counts are upper bounds of unknown tightness" — over a set
+    of counts that are all ZERO and cannot be an upper bound of anything. **The cleanest possible
+    result was graded the least trustworthy**, and the direction is the dangerous one: it does not
+    exaggerate a liability, it withholds credit from a design that has none, which is exactly the
+    kind of error nobody goes looking for because it reads as caution.
+    ⚠ IT IS THE SAME MISTAKE THIS FUNCTION'S OWN HISTORY IS ABOUT, ONE LEVEL FURTHER OUT. The block
+    above records that it used to test whether the FIELD WAS PRESENT rather than whether any count
+    had been computed with it; this tested whether the field was present rather than whether
+    anything EXISTED to carry it. An absent reading is not a reading of absence (CLAUDE.md §4) —
+    and "no hits were found" is a reading, not an absence.
+    ⛔ THE FIX IS SCOPED TO COMPLETE HIT LISTS AND MUST STAY THAT WAY. Zero STORED hits against a
+    NON-ZERO near-match count is a censored screen, not an empty one: its hits exist, their strand
+    is unrecoverable, and it keeps the upper-bound label. Admitting that case would hand a clean
+    verdict to precisely the screens the orientation retraction was about.
+    ⚠ `ORIENTATION_NO_HITS` IS KEPT DISTINCT FROM `ORIENTATION_FILTERED` rather than folded into it,
+    because "no hit existed" and "hits existed and every minus-strand one was diverted" are
+    different facts about a screen, and a reader deciding what a zero means needs to tell them
+    apart. `screen_counts_are_orientation_filtered` accepts both, since a set of zeros is
+    orientation-safe either way. Measured before landing: no committed screen is in the new state,
+    so nothing published moves; the two committed screens that read UNPARSED genuinely carry hits
+    and are genuinely unparsed.
     """
     parsed = False
     saw_minus = False

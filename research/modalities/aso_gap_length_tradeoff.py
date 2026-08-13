@@ -181,6 +181,47 @@ def _pick_deepest(cands):
     }
 
 
+def _recount_loci(oligo):
+    """Distinct loci and gap-spanning-risk loci, RECOUNTED from the stored hits with today's parser.
+
+    ⛔⛔ THE STORED `n_distinct_loci` AND `n_loci_with_a_gap_spanning_hit` ARE NOT USED, BECAUSE THEY
+    WERE COMPUTED AT SCREEN TIME BY A PARSER THAT WAS WRONG (2026-08-13, fixed in 5233cf867).
+    `locus_of` took the gene symbol as the last parenthesised token BEFORE THE FIRST COMMA, so every
+    gene whose own description contains a comma lost its symbol and fell back to its accession —
+    `Homo sapiens germ cell-less 1, spermatogenesis associated (GMCL1), mRNA` split to a head with no
+    parenthesis at all, and nine GMCL1 transcript variants were counted as NINE separate loci.
+    Measured on this lane's own lead reagent: the 5-6-5 `GGGCATATCATCAAAC` carried
+    `n_loci_with_a_gap_spanning_hit: 14`, of which five were real symbols and NINE were GMCL1
+    accession fallbacks. Recounted with the fixed parser it is SIX.
+
+    ⚠ THE ERROR IS ONE-DIRECTIONAL: a failed parse can only SPLIT a locus, never merge two, so every
+    stored count is an over-count and every correction moves down. That makes the stale field unsafe
+    in exactly the way that matters here — an inflated locus count reads as a dirtier reagent than
+    the evidence supports, and this artifact compares reagents.
+
+    ⛔ AND IT IS ONLY EXACT WHERE THE HIT LIST IS COMPLETE. The screen computed its counts over ALL
+    ranked hits; this recount sees only the stored ones. Where the two agree the recount is exact;
+    where the list is truncated it is a LOWER bound over a sample, and the pair is returned with
+    `exact: False` rather than quoted as a measurement. Nothing here silently mixes the two.
+    """
+    from junction_aso_locus_collapse import locus_of  # noqa: PLC0415
+    hits = oligo.get("offtargets") or []
+    near = oligo.get("n_offtarget_near_matches")
+    exact = near is not None and len(hits) == near
+    risk = [h for h in hits if str(h.get("risk") or "").startswith("true_cleavage")]
+    return {
+        "n_distinct_loci": len({locus_of(h) for h in hits}),
+        "n_loci_with_a_gap_spanning_hit": len({locus_of(h) for h in risk}),
+        "loci_with_a_gap_spanning_hit": sorted({locus_of(h) for h in risk}),
+        "exact": exact,
+        "_basis": ("recounted from the complete stored hit list with the corrected locus parser"
+                   if exact else
+                   "LOWER BOUND — recounted over a truncated stored list, so loci beyond it are "
+                   "unseen; the screen's own field is not substituted because it was produced by "
+                   "the superseded parser and over-counts"),
+    }
+
+
 def _blast_rows(screen):
     """{antisense: per-design counts} from one gap-resolved screen, orientation status carried."""
     sys.path.insert(0, HERE)
@@ -193,14 +234,22 @@ def _blast_rows(screen):
             continue
         near = o.get("n_offtarget_near_matches")
         saved = len(o.get("offtargets") or [])
+        loci = _recount_loci(o)
         rows[o["antisense_5to3"]] = {
             "status": "screened",
             "n_offtarget_near_matches": near,
             "n_true_cleavage_risk": o.get("n_true_cleavage_risk"),
             "n_minus_strand_not_hybridisable": o.get("n_minus_strand_not_hybridisable"),
             "n_gap_disrupted_no_cleavage": o.get("n_gap_disrupted_no_cleavage"),
-            "n_distinct_loci": o.get("n_distinct_loci"),
-            "n_loci_with_a_gap_spanning_hit": o.get("n_loci_with_a_gap_spanning_hit"),
+            "loci": loci,
+            # ⚠ WHAT THE SCREEN ITSELF RECORDED, KEPT BESIDE THE RECOUNT AND NEVER INSTEAD OF IT.
+            # Retained so a reader can see the size and direction of the parser correction on this
+            # exact design rather than having to take the recount on trust; it is superseded, and
+            # nothing downstream reads it.
+            "_superseded_locus_counts_from_the_old_parser": {
+                "n_distinct_loci": o.get("n_distinct_loci"),
+                "n_loci_with_a_gap_spanning_hit": o.get("n_loci_with_a_gap_spanning_hit"),
+            },
             # ⚠ RIGHT-CENSORED means the stored list is shorter than the count, so the strand of the
             # remainder is unrecoverable and no later pass can repair it. Named per design because
             # within one screen some designs are censored and some are not.
@@ -360,11 +409,24 @@ def _screen_summary(rows, junctions=None):
     scoped = [r for r in rows if junctions is None or r["junction"] in junctions]
     failed = [r["antisense_5to3"] for r in scoped
               if (r.get("alignment_screen") or {}).get("status") not in (None, "screened")]
+    risk_loci = [r["alignment_screen"]["loci"]["n_loci_with_a_gap_spanning_hit"] for r in ok]
+    old_risk_loci = [r["alignment_screen"]["_superseded_locus_counts_from_the_old_parser"]
+                     ["n_loci_with_a_gap_spanning_hit"] for r in ok]
+    inflated = sum(1 for new, old in zip(risk_loci, old_risk_loci)
+                   if old is not None and old > new)
     return {
         "n_junctions": len({r["junction"] for r in ok}),
         "n_designs_with_alignment_counts": len(ok),
         "n_designs_the_remote_service_dropped": len(failed),
         "designs_with_no_count": sorted(failed),
+        "loci_with_a_gap_spanning_hit": _dist(risk_loci),
+        "distinct_loci": _dist([r["alignment_screen"]["loci"]["n_distinct_loci"] for r in ok]),
+        # ⚠ HOW FAR THE SUPERSEDED PARSER INFLATED THIS SET, stated rather than left implicit. The
+        # correction can only move counts DOWN — a failed symbol parse splits a locus, it cannot
+        # merge two — so this is the whole size of the change on this population.
+        "n_designs_whose_risk_locus_count_the_old_parser_inflated": inflated,
+        "n_designs_whose_locus_recount_is_exact": sum(
+            1 for r in ok if r["alignment_screen"]["loci"]["exact"]),
         "n_designs_with_an_incomplete_hit_list": sum(
             1 for r in ok if not r["alignment_screen"]["hit_list_complete"]),
         "near_matches": _dist(near),
