@@ -1,6 +1,14 @@
 {
- "_what": "For every junction gapmer, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap.",
+ "_what": "For every junction gapmer, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole 6-nucleotide catalytic gap of a 16-mer 5-6-5 gapmer.",
  "_why": "None of the manuscript's three screens can see this: the alignment screen filters at >=14/16 identity and excludes parent records, the exhaustive scan admits <=1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon-exon junction.",
+ "_geometry": {
+  "oligo_len": 16,
+  "wing": 5,
+  "gap_nt": 6,
+  "architecture": "5-6-5 (LNA-DNA-LNA)",
+  "atlas": "nr4a3-fusion-junction-atlas.json",
+  "_note": "MIN_DUPLEX_BP is an ABSOLUTE hybrid length and does NOT scale with the gap. At a gap of 10 the catalytic gap alone is already a 10 bp hybrid, so every gap-pairing window clears the threshold by construction and `n_with_parent_duplex_through_gap` equals the count of gap-pairing windows; at a gap of 6 a window needs four further flanking pairs to reach it. Both readings are real and they are not the same reading, so compare geometries on the raw `longest_parent_duplex_bp_through_gap` distribution as well."
+ },
  "_what_this_is_not": [
   "Not a measurement of off-target activity. A duplex is necessary for RNase-H1 cleavage, not sufficient, and nothing here is a cleavage assay.",
   "Not transcriptome-wide. Six parent transcripts only \u2014 the same bound the pre-mRNA arm carries.",
@@ -32,6 +40,8 @@
    10
   ],
   "min_duplex_bp": 10,
+  "oligo_len": 16,
+  "wing": 5,
   "sources": [
    "aso-premrna-sequences.json",
    "nr4a3-fusion-junction-atlas.json"

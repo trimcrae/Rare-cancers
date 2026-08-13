@@ -188,6 +188,20 @@ jobs:
           OLIGO_LEN="${GAPMER_GEOMETRY%%,*}"
           case "$GAPMER_GEOMETRY" in *,*) WING="${GAPMER_GEOMETRY#*,}" ;; *) WING="" ;; esac
           export OLIGO_LEN WING
+          # ⛔ A NON-DEFAULT GEOMETRY MUST SCREEN EVERY REGISTER, OR THE GEOMETRY COMPARISON IS A
+          # READING OF `N_OLIGOS` (2026-08-13). Junction-spanning registers number `GAP - 1`: five at
+          # 5-6-5, seven at 5-8-5, nine at 5-10-5. `junction_aso_offtarget.N_OLIGOS` defaults to 6, so
+          # a 20-mer dispatch would BLAST six of its nine designs and report the result beside a
+          # 16-mer panel that was screened complete — fewer liabilities at the longer gap, three of
+          # them simply never searched, and nothing in either artifact able to say so.
+          # ⚠ SET ONLY WHEN A GEOMETRY WAS SUPPLIED. A blank `gapmer_geometry` leaves SCREEN_TOP_N
+          # unset and the module's own default of 6 stands, so every existing dispatch is bit-for-bit
+          # unchanged; `screen_parameters()` records which of the two happened.
+          if [ -n "${OLIGO_LEN:-}" ] && [ -n "${WING:-}" ]; then
+            SCREEN_TOP_N=$(( OLIGO_LEN - 2 * WING - 1 ))
+            export SCREEN_TOP_N
+            echo "geometry ${OLIGO_LEN},${WING}: screening all ${SCREEN_TOP_N} junction-spanning registers"
+          fi
           # ⭐ THREE-FIELD FORM ADDED 2026-08-12: `DONOR:donorExon:acceptorExon` (e.g. `TAF15:11:3`)
           # alongside the existing two-field `donorExon:acceptorExon`, which still means EWSR1. EMC
           # is defined by NR4A3 rearrangement to a VARIABLE partner, and until the design lane went

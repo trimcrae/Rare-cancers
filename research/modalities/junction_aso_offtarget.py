@@ -79,7 +79,16 @@ PARENT_GENES = tuple(_DONOR_ALIASES.get(_DONOR, (_DONOR,))) + (
 # the `DONOR_GENE` comment above already records once.
 PARENT_SYMBOLS = tuple(g.upper() for g in PARENT_GENES if " " not in g)
 PARENT_PHRASES = tuple(g.upper() for g in PARENT_GENES if " " in g)
-N_OLIGOS = 6                                       # screen the top N fusion-specific designs
+#: How many of the ranked fusion-specific designs are screened.
+#: ⛔ IT HAD TO BECOME A KNOB THE MOMENT A SECOND GEOMETRY EXISTED, AND A FIXED 6 WOULD HAVE MADE THE
+#: GAP-LENGTH COMPARISON AN ARTEFACT OF THIS CONSTANT (2026-08-13). The number of junction-spanning
+#: registers is `GAP - 1`: five at the 16-mer 5-6-5, seven at 5-8-5, nine at 5-10-5. A cap of 6
+#: therefore screens 5 of 5 at the short gap and 6 of 9 at the long one — so a longer-gap panel would
+#: come back with fewer counted liabilities partly because a third of its designs were never
+#: searched, and the flattering direction is the one that goes unnoticed.
+#: ⚠ THE DEFAULT IS UNCHANGED AT 6, so every committed screen and every existing dispatch is
+#: bit-for-bit unaffected; only a caller that asks for more gets more.
+N_OLIGOS = ja._env_int("SCREEN_TOP_N", 6)          # screen the top N fusion-specific designs
 # near match = allow up to 2 mismatches over the oligo length (14/16 at len 16, 18/20 at len 20)
 NEAR_MATCH_MIN_IDENT = ja.OLIGO_LEN - 2
 SUBMIT_SPACING_S = 3                               # NCBI: at most one request per 3 s
@@ -247,7 +256,12 @@ def _env_was_set(name):
 
 #: The four variables, named ONCE. Everything that has to enumerate them walks this tuple rather
 #: than repeating the list, so a fifth knob cannot be added to the screen and forgotten here.
-_KNOB_ENV_VARS = ("BLAST_HITLIST_SIZE", "SAVED_HITS_PER_DESIGN", "OLIGO_LEN", "WING")
+#: ⭐ `SCREEN_TOP_N` JOINED THE LIST WHEN IT BECAME A KNOB, WHICH IS THE WHOLE POINT OF THE LIST.
+#: How many designs a screen searched decides what its counts are counts OF, and a panel of 9
+#: registers screened 6 deep is not comparable with one of 5 screened 5 deep. Nothing in an artifact
+#: could have said which had happened.
+_KNOB_ENV_VARS = ("BLAST_HITLIST_SIZE", "SAVED_HITS_PER_DESIGN", "OLIGO_LEN", "WING",
+                  "SCREEN_TOP_N")
 
 #: 1-based inclusive span of the DNA gap, DERIVED from the geometry rather than typed.
 #: ⛔ THIS CONSTANT EXISTED IN THREE OTHER MODULES' EXPECTATIONS AND IN NONE OF THIS ONE'S NAMESPACE
@@ -295,6 +309,8 @@ def screen_parameters():
         "saved_hits_per_design": SAVED_HITS_PER_DESIGN,
         "oligo_len": ja.OLIGO_LEN,
         "wing": ja.WING,
+        "screen_top_n": N_OLIGOS,
+        "n_junction_spanning_registers": ja.GAP - 1,
         "overridden_from_env": list(_ENV_OVERRIDDEN),
     }
 

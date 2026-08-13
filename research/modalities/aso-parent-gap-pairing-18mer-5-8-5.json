@@ -1,0 +1,2476 @@
+{
+ "_what": "For every junction gapmer, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole 8-nucleotide catalytic gap of a 18-mer 5-8-5 gapmer.",
+ "_why": "None of the manuscript's three screens can see this: the alignment screen filters at >=16/18 identity and excludes parent records, the exhaustive scan admits <=1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon-exon junction.",
+ "_geometry": {
+  "oligo_len": 18,
+  "wing": 5,
+  "gap_nt": 8,
+  "architecture": "5-8-5 (LNA-DNA-LNA)",
+  "atlas": "nr4a3-fusion-junction-atlas-18mer-5-8-5.json",
+  "_note": "MIN_DUPLEX_BP is an ABSOLUTE hybrid length and does NOT scale with the gap. At a gap of 10 the catalytic gap alone is already a 10 bp hybrid, so every gap-pairing window clears the threshold by construction and `n_with_parent_duplex_through_gap` equals the count of gap-pairing windows; at a gap of 6 a window needs four further flanking pairs to reach it. Both readings are real and they are not the same reading, so compare geometries on the raw `longest_parent_duplex_bp_through_gap` distribution as well."
+ },
+ "_what_this_is_not": [
+  "Not a measurement of off-target activity. A duplex is necessary for RNase-H1 cleavage, not sufficient, and nothing here is a cleavage assay.",
+  "Not transcriptome-wide. Six parent transcripts only \u2014 the same bound the pre-mRNA arm carries.",
+  "MIN_DUPLEX_BP is a STATED threshold, not a measured one \u2014 though not an arbitrary one: 10 is the strict end of the 7-to-10 hybridised nucleotides PMID 35664704 reports as the minimum for RNase-H1 hybrid-binding-domain engagement, so this count is a floor and returns 130 of 266 at a threshold of 7. Every design's raw longest run is released so another threshold can be applied without re-running this.",
+  "Not a result that turns on that threshold. The two designs surviving every screen in the manuscript have a longest run of ZERO at any length, and the ordering by gap-level margin is monotone at every threshold from 6 to 12."
+ ],
+ "_cost": "$0 \u2014 offline, over two committed artifacts, no network and no credentials.",
+ "method": {
+  "orientation": "forward only; a reverse-complement match cannot be hybridised",
+  "compartment": "mature (spliced) parent transcript",
+  "parents_searched": [
+   "EWSR1",
+   "FUS",
+   "NR4A3",
+   "TAF15",
+   "TCF12",
+   "TFG"
+  ],
+  "parent_nt_searched": {
+   "EWSR1": 2400,
+   "FUS": 1824,
+   "NR4A3": 5604,
+   "TAF15": 2162,
+   "TCF12": 6114,
+   "TFG": 1907
+  },
+  "gap_positions_0based": [
+   5,
+   12
+  ],
+  "min_duplex_bp": 10,
+  "oligo_len": 18,
+  "wing": 5,
+  "sources": [
+   "aso-premrna-sequences.json",
+   "nr4a3-fusion-junction-atlas-18mer-5-8-5.json"
+  ]
+ },
+ "corpus": {
+  "n_designs": 266,
+  "n_with_parent_duplex_through_gap": 88,
+  "by_gap_specificity_margin": {
+   "4": {
+    "n_designs": 38,
+    "n_with_parent_duplex": 1
+   },
+   "3": {
+    "n_designs": 76,
+    "n_with_parent_duplex": 8
+   },
+   "2": {
+    "n_designs": 76,
+    "n_with_parent_duplex": 29
+   },
+   "1": {
+    "n_designs": 76,
+    "n_with_parent_duplex": 50
+   }
+  },
+  "which_parent_supplies_it": {
+   "EWSR1": 3,
+   "FUS": 3,
+   "NR4A3": 61,
+   "TAF15": 9,
+   "TCF12": 5,
+   "TFG": 7
+  }
+ },
+ "per_design": [
+  {
+   "junction": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTAGATCAA",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTAGATCA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTAGAT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTAGATC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "GCATATCTAGATCAAGAT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTAGATCAAGA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTAGATCAAG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCATCAAACC",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCATCAAAC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCATCAA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCATCAAA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "GCATATCATCAAACCATT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "FUS",
+   "parent_start_0based": 1091,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "GGCATATCATCAAACCAT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCATCAAACCA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TFG",
+   "parent_start_0based": 1870,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCCACGGA",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCCACGG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCCAC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCCACG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCCACGGAGTG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCCACGGAGT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCCACGGAG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 5983,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCCGGGGGCG",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCCGGGGGC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCCGGGG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCCGGGGG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "EWSR1",
+   "parent_start_0based": 145,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "GCATATCCGGGGGCGGAA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "GGCATATCCGGGGGCGGA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCCGGGGGCGG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCCGTGGACG",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCCGTGGAC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCCGTGG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCCGTGGA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "EWSR1",
+   "parent_start_0based": 145,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "GCATATCCGTGGACGCCA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "EWSR1",
+   "parent_start_0based": 70,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "GGCATATCCGTGGACGCC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "EWSR1",
+   "parent_start_0based": 71,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCCGTGGACGC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCAGTGGGAG",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCAGTGGGA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCAGTGG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCAGTGGG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "GCATATCAGTGGGAGGCT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "EWSR1",
+   "parent_start_0based": 202,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "GGCATATCAGTGGGAGGC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "EWSR1",
+   "parent_start_0based": 203,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCAGTGGGAGG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATTCTGCTGCC",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATTCTGCTGC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "FUS",
+   "parent_start_0based": 1371,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATTCTGCT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATTCTGCTG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "GCATATTCTGCTGCCCGT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "EWSR1",
+   "parent_start_0based": 691,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "GGCATATTCTGCTGCCCG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "GGGCATATTCTGCTGCCC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCACCAGGCT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCACCAGGC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCACCAG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCACCAGG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "GCATATCACCAGGCTTAT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "GGCATATCACCAGGCTTA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCACCAGGCTT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCATCAAACC",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCATCAAAC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCATCAA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCATCAAA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "GCATATCATCAAACCAGT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "FUS",
+   "parent_start_0based": 1091,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "GGCATATCATCAAACCAG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCATCAAACCA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TFG",
+   "parent_start_0based": 1870,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCCTCGCC",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCCTCGC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCCTC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCCTCG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCCTCGCCCTC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCCTCGCCCT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "EWSR1",
+   "parent_start_0based": 1535,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCCTCGCCC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "EWSR1",
+   "parent_start_0based": 1536,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCCATGTGAG",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCCATGTGA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCCATGT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCCATGTG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "EWSR1",
+   "parent_start_0based": 145,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "GCATATCCATGTGAGAGC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "GGCATATCCATGTGAGAG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCCATGTGAGA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCGTTTGAGG",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCGTTTGAG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCGTTTG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCGTTTGA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "GCATATCGTTTGAGGCCA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "FUS",
+   "parent_start_0based": 77,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "GGCATATCGTTTGAGGCC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "FUS",
+   "parent_start_0based": 78,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCGTTTGAGGC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 5526,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATTGTTCTGGC",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATTGTTCTGG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 4712,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATTGTTCT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATTGTTCTG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "GCATATTGTTCTGGCTCT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 2016,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "GGCATATTGTTCTGGCTC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "GGGCATATTGTTCTGGCT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCCACCTC",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCCACCT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCCAC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCCACC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCCACCTCCAC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 10,
+   "parent": "TAF15",
+   "parent_start_0based": 1128,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCCACCTCCA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCCACCTCC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 5983,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCACCAAATT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCACCAAAT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCACCAA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCACCAAA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "GCATATCACCAAATTTAT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "GGCATATCACCAAATTTA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCACCAAATTT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCGGAGTCAT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCGGAGTCA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCGGAGT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCGGAGTC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "GCATATCGGAGTCATGAC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "FUS",
+   "parent_start_0based": 896,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "GGCATATCGGAGTCATGA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCGGAGTCATG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCATCAAACC",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCATCAAAC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCATCAA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCATCAAA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "GCATATCATCAAACCAGT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "FUS",
+   "parent_start_0based": 1091,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "GGCATATCATCAAACCAG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCATCAAACCA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TFG",
+   "parent_start_0based": 1870,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCGCCGCC",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCGCCGC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCGCC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCGCCG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCGCCGCCCAC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCGCCGCCCA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCGCCGCCC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCCTCCTG",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCCTCCT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCCTC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCCTCC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCCTCCTGAGG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "TAF15",
+   "parent_start_0based": 1251,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCCTCCTGAG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "TAF15",
+   "parent_start_0based": 1252,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCCTCCTGA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 10,
+   "parent": "EWSR1",
+   "parent_start_0based": 1536,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCCGACATGA",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCCGACATG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCCGACA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCCGACAT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "EWSR1",
+   "parent_start_0based": 145,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "GCATATCCGACATGACTA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "TAF15",
+   "parent_start_0based": 81,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "GGCATATCCGACATGACT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "TAF15",
+   "parent_start_0based": 82,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCCGACATGAC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTGACTGAC",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTGACTGA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 689,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTGACT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 15,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTGACTG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "GCATATCTGACTGACTTT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTGACTGACTT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 1967,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTGACTGACT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTTGTGTGT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "TFG",
+   "parent_start_0based": 1843,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTTGTGTG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTTGTG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTTGTGT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "GCATATCTTGTGTGTGGT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "TAF15",
+   "parent_start_0based": 558,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTTGTGTGTGG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "TAF15",
+   "parent_start_0based": 559,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTTGTGTGTG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "TFG",
+   "parent_start_0based": 1842,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCACCAAAAT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCACCAAAA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCACCAA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCACCAAA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "GCATATCACCAAAATTTT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "GGCATATCACCAAAATTT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCACCAAAATT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCAGCATCTG",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCAGCATCT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCAGCAT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCAGCATC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "GCATATCAGCATCTGTTC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "TAF15",
+   "parent_start_0based": 747,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "GGCATATCAGCATCTGTT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "TAF15",
+   "parent_start_0based": 748,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCAGCATCTGT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTAGAATGC",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTAGAATG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTAGAA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTAGAAT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "GCATATCTAGAATGCTGT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTAGAATGCTG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 3294,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTAGAATGCT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTGTGAGAG",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTGTGAGA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 689,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTGTGA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 15,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTGTGAG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "GCATATCTGTGAGAGGTG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 1275,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTGTGAGAGGT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTGTGAGAGG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCTATAAT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCTATAA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCTAT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCTATA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCTATAATTTT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 5583,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCTATAATTT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCTATAATT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCTGACTT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCTGACT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCTGA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCTGAC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCTGACTTGCT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "TCF12",
+   "parent_start_0based": 2251,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCTGACTTGC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCTGACTTG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 642,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTGATCCAC",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTGATCCA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 689,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTGATC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 15,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTGATCC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "GCATATCTGATCCACTGA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 12,
+   "parent": "NR4A3",
+   "parent_start_0based": 3410,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTGATCCACTG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 12,
+   "parent": "NR4A3",
+   "parent_start_0based": 3411,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTGATCCACT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 2606,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCCATCAGAT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCCATCAGA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCCATCA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCCATCAG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "EWSR1",
+   "parent_start_0based": 145,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "GCATATCCATCAGATTTG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "GGCATATCCATCAGATTT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCCATCAGATT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCAAGCGCTG",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "NR4A3",
+   "parent_start_0based": 2278,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCAAGCGCT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCAAGCG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCAAGCGC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "GCATATCAAGCGCTGCAG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "TCF12",
+   "parent_start_0based": 799,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "GGCATATCAAGCGCTGCA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "TCF12",
+   "parent_start_0based": 800,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCAAGCGCTGC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTTGCATAA",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TFG",
+   "parent_start_0based": 1843,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTTGCATA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTTGCA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTTGCAT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "GCATATCTTGCATAAAGA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "TCF12",
+   "parent_start_0based": 958,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTTGCATAAAG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "TCF12",
+   "parent_start_0based": 959,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTTGCATAAA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "NR4A3",
+   "parent_start_0based": 676,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTTCATCTT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 10,
+   "parent": "TFG",
+   "parent_start_0based": 350,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTTCATCT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTTCAT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTTCATC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "GCATATCTTCATCTTTAT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "TFG",
+   "parent_start_0based": 443,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTTCATCTTTA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "TFG",
+   "parent_start_0based": 444,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTTCATCTTT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 10,
+   "parent": "TFG",
+   "parent_start_0based": 349,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCAAATAATG",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "NR4A3",
+   "parent_start_0based": 4156,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCAAATAAT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCAAATA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCAAATAA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "GCATATCAAATAATGTCA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "GGCATATCAAATAATGTC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "NR4A3",
+   "parent_start_0based": 3544,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCAAATAATGT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCATTTTCAG",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCATTTTCA",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCATTTT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCATTTTC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "GCATATCATTTTCAGGAA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 15,
+   "parent": "TFG",
+   "parent_start_0based": 674,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "GGCATATCATTTTCAGGA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "TFG",
+   "parent_start_0based": 675,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCATTTTCAGG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "TFG",
+   "parent_start_0based": 676,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTGAAACCT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTGAAACC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 689,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTGAAA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 15,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTGAAAC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "GCATATCTGAAACCTGAT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTGAAACCTGA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTGAAACCTG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TAF15",
+   "parent_start_0based": 770,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTTCAATCT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "TFG",
+   "parent_start_0based": 350,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTTCAATC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTTCAA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTTCAAT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "GCATATCTTCAATCTGAC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TFG",
+   "parent_start_0based": 1545,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTTCAATCTGA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "NR4A3",
+   "parent_start_0based": 4202,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTTCAATCTG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "TFG",
+   "parent_start_0based": 349,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTGAATACT",
+   "gap_specificity_margin": 4,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTGAATAC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 13,
+   "parent": "NR4A3",
+   "parent_start_0based": 689,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTGAAT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 15,
+   "parent": "NR4A3",
+   "parent_start_0based": 691,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTGAATA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 14,
+   "parent": "NR4A3",
+   "parent_start_0based": 690,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "GCATATCTGAATACTGAA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 0,
+   "parent": null,
+   "parent_start_0based": null,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTGAATACTGA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "TAF15",
+   "parent_start_0based": 769,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTGAATACTG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "TAF15",
+   "parent_start_0based": 770,
+   "counts_as_liability": false
+  }
+ ]
+}

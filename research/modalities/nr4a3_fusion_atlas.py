@@ -48,7 +48,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import junction_aso as ja  # noqa: E402
 
-OUT = os.path.join(os.path.dirname(__file__), "nr4a3-fusion-junction-atlas.json")
+#: ⛔ THE OUTPUT PATH FOLLOWS `OUT_SUFFIX`, BECAUSE A GEOMETRY CHANGE IS A DIFFERENT MEASUREMENT AND
+#: NOT A CORRECTION OF THIS ONE (2026-08-13). `ja.OLIGO_LEN`/`ja.WING` were already env-driven, so
+#: `OLIGO_LEN=20 python nr4a3_fusion_atlas.py` produced a complete 20-mer atlas — and wrote it over
+#: the 16-mer file every committed screen, the parent-duplex artifact, the pre-mRNA screen and the
+#: manuscript's own numbers are derived from. The panels would have looked normal: same junctions,
+#: same schema, different oligonucleotides. That is the deep-rescreen suffix rule
+#: (`aso-offtarget.yml`) applied to the file the whole lane reads FROM rather than writes TO.
+#: The suffix pattern is `junction_aso.py`'s, spelled the same way, so one variable moves a whole
+#: geometry's worth of artifacts aside at once.
+_SUFFIX = os.environ.get("OUT_SUFFIX", "")
+OUT = os.path.join(os.path.dirname(__file__), f"nr4a3-fusion-junction-atlas{_SUFFIX}.json")
 
 #: The acceptor. In EMC this never varies — the disease is defined by NR4A3 rearrangement.
 ACCEPTOR = "NR4A3"

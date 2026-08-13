@@ -63,7 +63,12 @@ import urllib.parse
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ATLAS = os.path.join(HERE, "nr4a3-fusion-junction-atlas.json")
+#: ⛔ THE ATLAS PATH IS A KNOB AS OF 2026-08-13, FOR THE SAME REASON `PREMRNA_OUT` ALREADY WAS. This
+#: module derives its gap span and its mismatch ceiling from `junction_aso_offtarget`, so it already
+#: follows a geometry change — but it read its DESIGNS from one fixed filename, so a 5-8-5 or 5-10-5
+#: run would have scanned the 16-mer designs under the longer geometry's gap indices. The geometry
+#: and the design set have to move together or the arm measures neither.
+ATLAS = os.path.join(HERE, os.environ.get("ATLAS_JSON") or "nr4a3-fusion-junction-atlas.json")
 CACHE = os.path.join(HERE, "aso-premrna-sequences.json")
 OUT = os.path.join(HERE, os.environ.get("PREMRNA_OUT", "aso-premrna-offtarget.json"))
 
