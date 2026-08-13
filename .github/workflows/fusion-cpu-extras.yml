@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
@@ -2529,3 +2529,39 @@ jobs:
           PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "S-calibrator survey: which paralogue pairs are structurally symmetric (CI)" \
             research/modalities/s-calibrator-survey.json
+
+  # ---- Pan-fusion junction-oligo census (Stage A of the catalog; PUB-FUSION-CATALOG) -------------------
+  # Measures the universe of recurrent fusions and, per fusion, whether ANY retrieved record has ever
+  # pointed an oligonucleotide at that junction. Pure stdlib, $0, no GPU.
+  #
+  # ⛔ NO `|| echo "... failed (continuing)"` WRAPPER ON THE SCIENCE STEP. That fail-quiet idiom is what let
+  # a one-second `int("")` crash exit 0 and republish retracted artifacts under a commit message announcing
+  # a fresh screen (junction_aso.py, run 31130625823). This step must fail the job when it fails — and
+  # exit 3 specifically means NO UNIVERSE SOURCE ANSWERED, which is a real finding, not an outage to hide.
+  #
+  # Args ride on `ternary_extra_args`, this file's documented raw-CLI-args passthrough (the input list is
+  # at GitHub's cap, so new tasks add OPTIONS, never inputs):
+  #   --probe        reachability of every universe source; writes no catalog rows
+  #   (blank)        full census
+  #   --limit=N      first N fusion pairs, for an end-to-end shakeout before the full run
+  fusion_census:
+    if: ${{ github.event.inputs.task == 'fusion_census' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fusion junction census (universe sources + Europe PMC prior art)
+        working-directory: research/modalities
+        run: python fusion_junction_census.py ${{ github.event.inputs.ternary_extra_args }}
+
+      - name: Publish census artifacts
+        if: always()
+        run: |
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "Fusion junction census: universe sources + per-fusion oligo prior art (CI)" \
+            research/modalities/fusion-junction-orphan-census.json \
+            research/modalities/fusion-junction-census-source-probe.json
