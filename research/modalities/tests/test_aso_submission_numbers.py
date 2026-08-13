@@ -256,15 +256,24 @@ def test_locus_inflation_matches_the_manuscript():
     infl = [o["inflation_factor"] for s in _collapse()["screens"] if s["screen"] in names
             for o in s["per_oligo"] if o.get("inflation_factor") is not None]
     assert len(infl) == 44, len(infl)
-    assert round(statistics.median(infl), 2) == 2.20, statistics.median(infl)
+    assert round(statistics.median(infl), 2) == 2.25, statistics.median(infl)
     assert max(infl) == 11.0, max(infl)
     txt = _paper()
     assert f"over the {len(infl)} designs of the 38 junction screens" in txt
-    assert "inflation of 2.20 transcript records" in txt
-    # The collapse artifact's own headline median is 2.14 over 46 oligos, because it includes the
-    # two modelled control screens. 2.20 is the figure restricted to the 38 junction screens, which
-    # is what the paper is about — so the paper must say which population it means.
-    assert "2.14" not in txt
+    assert "inflation of 2.25 transcript records" in txt
+    # ⚠ SUPERSEDED, RETAINED: 2.20 over these same 44 designs, and 2.14 as the artifact's headline.
+    # Both were computed with a `locus_of` that split the definition on its FIRST comma, which lost
+    # the symbol for every gene whose DESCRIPTION contains one — `germ cell-less 1, spermatogenesis
+    # associated (GMCL1)` degraded to nine accession fallbacks, so one locus counted as nine. The
+    # fix resolved 888 of 25,893 hits repo-wide and corrected 7 mis-symbolled ones, RAISING the
+    # inflation factor because loci merged: 188 distinct loci became 174 over the same hit lists.
+    # The population did not change; only the locus assignment did.
+    assert "2.20" not in txt
+    # The artifact's headline median and this 44-design figure now coincide at 2.25, which they did
+    # not before (2.14 vs 2.20). That is arithmetic coincidence, not one number: the headline is
+    # over 49 uncensored oligos INCLUDING two modelled control screens, this is over the 38 junction
+    # screens. Keep the populations named in the prose so the coincidence cannot be read as identity.
+    assert "of the 38 junction screens" in txt
 
 
 # ──────────────────────────────────────────────────────── the headline result

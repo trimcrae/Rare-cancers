@@ -7,12 +7,14 @@ makes a candidate look CLEANER than it is. Those are the cases asserted first.
 """
 import json
 import os
+import re
 import sys
 
 import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MOD = os.path.dirname(HERE)
+REPO = os.path.dirname(os.path.dirname(MOD))
 sys.path.insert(0, MOD)
 
 import junction_aso_locus_collapse as C  # noqa: E402
@@ -147,6 +149,73 @@ def test_the_lead_candidates_gap_spanning_load_is_the_one_locus_the_manuscript_c
         assert not curated_and_gap_spanning, (
             f"the manuscript says none of the gap-spanning loci is curated, but {sorted(curated_and_gap_spanning)} "
             f"carries a curated transcript. Fix the manuscript, not this test.")
+
+
+def test_the_clinically_relevant_reagents_deep_load_is_six_loci_not_123_transcripts():
+    """⛔ THE ONE DESIGN AT A JUNCTION PATIENTS ACTUALLY CARRY, AND THE NUMBER MOST LIKELY TO BE
+    MISREAD. 5′-GGGCATATCATCAAAC-3′ spans the EWSR1 e12 / TAF15 e11 / FUS e10 seams, the most
+    commonly reported EMC junction. At ten times the default search depth it returns 189
+    near-matches, and a reader who stops at that figure concludes the reagent is unusable.
+
+    Three facts bound it, and the manuscript states all three because dropping any one of them
+    changes the conclusion: the 123 gap-paired hits recount to SIX gene loci rather than 123 genes;
+    every one of them sits at the screen's loosest admitted identity (14 of 16, i.e. two
+    mismatches); and NO parent transcript is among them, which is the liability the whole modality
+    turns on. Asserted against the artifact so the paper cannot drift off it.
+
+    ⚠ This test is also why `locus_of` was fixed (2026-08-13). Under the old first-comma split,
+    GMCL1's nine variants each became their own accession fallback and this count read FOURTEEN
+    loci, not six — an inflated locus count reads as a dirtier reagent than the evidence supports,
+    and it would have been quoted in a manuscript sentence about how many genes the design can
+    cleave.
+    """
+    import junction_aso_offtarget as ja  # noqa: PLC0415
+    from collections import Counter  # noqa: PLC0415
+
+    path = os.path.join(MOD, "junction-aso-offtarget-e12n3-deep500-b1.json")
+    if not os.path.exists(path):
+        pytest.skip("the deep re-screen of the EWSR1 e12 junction is not in this checkout")
+    d = json.load(open(path, encoding="utf-8"))
+    o = next(x for x in d["oligos"] if x["antisense_5to3"] == "GGGCATATCATCAAAC")
+
+    hits = o["offtargets"]
+    assert len(hits) == o["n_offtarget_near_matches"] == 189, (
+        "the deeper re-screen must retain every hit; a truncated list makes this a lower bound")
+
+    lo, hi = ja.GAP_REGION_1BASED
+    plus = [h for h in hits if not h.get("is_minus_strand")]
+    spanning = [h for h in plus if h["q_from"] <= lo and h["q_to"] >= hi]
+    paired = [h for h in spanning if h.get("gap_mismatches") == 0]
+    assert (len(plus), len(spanning), len(paired)) == (141, 141, 123), (
+        len(plus), len(spanning), len(paired))
+
+    loci = Counter(C.locus_of(h) for h in paired)
+    assert len(loci) == 6, sorted(loci)
+    assert sum(n for _, n in loci.most_common(2)) == 104, loci.most_common()
+    assert {"ANKS1B", "ZNF667"} == {s for s, _ in loci.most_common(2)}, loci.most_common(2)
+    assert not any(s.startswith("acc:") for s in loci), (
+        f"a hit failed to resolve to a gene symbol, which over-counts loci: {sorted(loci)}")
+
+    # every one at the loosest identity the screen admits, so none is a close match
+    assert {h["identity"] for h in paired} == {14}, sorted({h["identity"] for h in paired})
+
+    # and no parent, which is the claim the modality depends on
+    assert not (set(loci) & {"EWSR1", "TAF15", "FUS", "NR4A3", "TCF12", "TFG"}), sorted(loci)
+
+    cls = Counter(C.accession_class(h) for h in paired)
+    assert cls["predicted"] == 82 and cls["curated"] == 41, cls
+
+    paper = os.path.join(REPO, "research", "manuscripts", "aso",
+                         "fusion-junction-aso-short-communication.md")
+    if not os.path.exists(paper):
+        pytest.skip("submission manuscript is not present in this checkout")
+    txt = re.sub(r"\s+", " ", open(paper, encoding="utf-8").read())
+    assert "189 near-matches" in txt
+    assert "123 with the catalytic gap perfectly paired" in txt
+    assert "six gene loci" in txt
+    assert "*ANKS1B* and *ZNF667*" in txt
+    assert "82 of the 123 are `XM_`/`XR_` predicted models" in txt
+    assert "no parent transcript is among them" in txt
 
 
 if __name__ == "__main__":
