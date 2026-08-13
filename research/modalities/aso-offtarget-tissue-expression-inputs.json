@@ -1,0 +1,1630 @@
+{
+ "_what": "Raw retrievals behind aso-offtarget-tissue-expression.json. One block per arm; an arm that failed says so here and its verdict downstream is `readable: false`.",
+ "_generated_utc": "2026-08-13T21:54:30.029048+00:00",
+ "loci_provenance": {
+  "screen": "junction-aso-offtarget-e12n3-deep500-b1.json",
+  "reagent_antisense_5to3": "GGGCATATCATCAAAC",
+  "junction_label": "EWSR1_e12__NR4A3_e3",
+  "n_near_matches_reported": 189,
+  "n_minus_strand_not_hybridisable": 48,
+  "n_gap_disrupted_no_cleavage": 18,
+  "n_gap_paired_hybridisable": 123,
+  "risk_class_read": "true_cleavage_risk",
+  "n_loci": 6,
+  "n_accession_fallbacks_resolved": 9,
+  "_why_that_last_number_matters": "`junction_aso_locus_collapse.locus_of` truncates each definition at its first comma before looking for a parenthesised symbol, so a gene whose DESCRIPTION contains a comma falls to a per-accession fallback and reads as one pseudo-locus per record. That many records were merged back onto their real gene here. A raw `locus_of` count of this reagent therefore returns more loci than exist, and the two counts must not be quoted against each other. See `gene_of`."
+ },
+ "loci": [
+  {
+   "locus": "ANKS1B",
+   "n_transcript_records": 67,
+   "n_curated_records": 32,
+   "n_predicted_records": 35,
+   "accessions": [
+    "NM_001204065",
+    "NM_001204068",
+    "NM_001204079",
+    "NM_001204080",
+    "NM_001204081",
+    "NM_001352185",
+    "NM_001352186",
+    "NM_001352187",
+    "NM_001352188",
+    "NM_001352189",
+    "NM_001352190",
+    "NM_001352192",
+    "NM_001352193",
+    "NM_001352195",
+    "NM_001352196",
+    "NM_001352197",
+    "NM_001352198",
+    "NM_001352200",
+    "NM_001352202",
+    "NM_001352204",
+    "NM_001352205",
+    "NM_001352207",
+    "NM_001352208",
+    "NM_001352209",
+    "NM_001352210",
+    "NM_001352219",
+    "NM_001352221",
+    "NM_001352222",
+    "NM_001352223",
+    "NM_001352225",
+    "NM_152788",
+    "NM_181670",
+    "XM_005269029",
+    "XM_006719504",
+    "XM_006719505",
+    "XM_006719507",
+    "XM_006719508",
+    "XM_006719510",
+    "XM_011538571",
+    "XM_017019652",
+    "XM_024449060",
+    "XM_024449061",
+    "XM_024449065",
+    "XM_024449069",
+    "XM_047429165",
+    "XM_047429166",
+    "XM_047429167",
+    "XM_047429168",
+    "XM_047429169",
+    "XM_047429170",
+    "XM_054372573",
+    "XM_054372574",
+    "XM_054372575",
+    "XM_054372576",
+    "XM_054372577",
+    "XM_054372578",
+    "XM_054372579",
+    "XM_054372580",
+    "XM_054372585",
+    "XM_054372586",
+    "XM_054372587",
+    "XM_054372588",
+    "XM_054372589",
+    "XM_054372590",
+    "XM_054372591",
+    "XM_054372592",
+    "XM_054372593"
+   ],
+   "definition_example": "Homo sapiens ankyrin repeat and sterile alpha motif domain containing 1B (ANKS1B), transcript variant 4, mRNA",
+   "symbol_resolved_by": "locus_of",
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "ZNF667",
+   "n_transcript_records": 37,
+   "n_curated_records": 3,
+   "n_predicted_records": 34,
+   "accessions": [
+    "NM_001321355",
+    "NM_001321356",
+    "NM_022103",
+    "XM_011527208",
+    "XM_024451637",
+    "XM_024451638",
+    "XM_024451640",
+    "XM_024451641",
+    "XM_024451642",
+    "XM_024451643",
+    "XM_024451644",
+    "XM_024451645",
+    "XM_024451646",
+    "XM_024451647",
+    "XM_047439207",
+    "XM_047439208",
+    "XM_047439209",
+    "XM_047439210",
+    "XM_047439211",
+    "XM_047439212",
+    "XM_054321714",
+    "XM_054321715",
+    "XM_054321716",
+    "XM_054321717",
+    "XM_054321718",
+    "XM_054321719",
+    "XM_054321720",
+    "XM_054321721",
+    "XM_054321722",
+    "XM_054321723",
+    "XM_054321724",
+    "XM_054321725",
+    "XM_054321726",
+    "XM_054321727",
+    "XM_054321728",
+    "XM_054321729",
+    "XM_054321730"
+   ],
+   "definition_example": "Homo sapiens zinc finger protein 667 (ZNF667), transcript variant 3, mRNA",
+   "symbol_resolved_by": "locus_of",
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "GMCL1",
+   "n_transcript_records": 9,
+   "n_curated_records": 1,
+   "n_predicted_records": 8,
+   "accessions": [
+    "NM_178439",
+    "XM_011533033",
+    "XM_011533034",
+    "XM_017004705",
+    "XM_047445416",
+    "XM_054343375",
+    "XM_054343376",
+    "XM_054343377",
+    "XM_054343378"
+   ],
+   "definition_example": "Homo sapiens germ cell-less 1, spermatogenesis associated (GMCL1), mRNA",
+   "symbol_resolved_by": "full_definition_second_pass",
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "LOC105374140",
+   "n_transcript_records": 5,
+   "n_curated_records": 0,
+   "n_predicted_records": 5,
+   "accessions": [
+    "XR_007073896",
+    "XR_007073897",
+    "XR_007073898",
+    "XR_007073899",
+    "XR_007096124"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens uncharacterized LOC105374140 (LOC105374140), transcript variant X5, ncRNA",
+   "symbol_resolved_by": "locus_of",
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "LOC105370997",
+   "n_transcript_records": 4,
+   "n_curated_records": 4,
+   "n_predicted_records": 0,
+   "accessions": [
+    "NR_188330",
+    "NR_188331",
+    "NR_188332",
+    "NR_188333"
+   ],
+   "definition_example": "Homo sapiens uncharacterized LOC105370997 (LOC105370997), transcript variant 1, long non-coding RNA",
+   "symbol_resolved_by": "locus_of",
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "CHST5",
+   "n_transcript_records": 1,
+   "n_curated_records": 1,
+   "n_predicted_records": 0,
+   "accessions": [
+    "NM_024533"
+   ],
+   "definition_example": "Homo sapiens carbohydrate sulfotransferase 5 (CHST5), mRNA",
+   "symbol_resolved_by": "locus_of",
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  }
+ ],
+ "arm_a_gtex": {
+  "source": "GTEx v8 gene-level median TPM",
+  "url": "https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",
+  "release": "GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm",
+  "unit": "median TPM across that tissue's donors",
+  "endpoint_used": null,
+  "_status": "fetch or parse failed: HTTPError: HTTP Error 404: Not Found"
+ },
+ "arm_b_emc_series": {
+  "source": "GEO series matrices, read through emc_expression_panels._read_target",
+  "targets": {
+   "GSE24369_series_matrix.txt.gz": {
+    "gse": "GSE24369",
+    "platform": "GPL6244",
+    "platform_matches_expected": true,
+    "n_samples": 42,
+    "n_probes": 28459,
+    "n_probes_mapped_to_a_symbol": 20211,
+    "measured_probe_mapping_rate": 0.7102,
+    "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+    "samples": [
+     {
+      "gsm": "GSM600928",
+      "title": "Desmoid fibromatosis 1",
+      "annotation_verbatim": "Desmoid fibromatosis 1 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor"
+     },
+     {
+      "gsm": "GSM600929",
+      "title": "Desmoid fibromatosis 2",
+      "annotation_verbatim": "Desmoid fibromatosis 2 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor"
+     },
+     {
+      "gsm": "GSM600930",
+      "title": "Desmoid fibromatosis 3",
+      "annotation_verbatim": "Desmoid fibromatosis 3 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor"
+     },
+     {
+      "gsm": "GSM600931",
+      "title": "Desmoid fibromatosis 4",
+      "annotation_verbatim": "Desmoid fibromatosis 4 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor"
+     },
+     {
+      "gsm": "GSM600932",
+      "title": "Desmoid fibromatosis 5",
+      "annotation_verbatim": "Desmoid fibromatosis 5 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor"
+     },
+     {
+      "gsm": "GSM600933",
+      "title": "Desmoid fibromatosis 6",
+      "annotation_verbatim": "Desmoid fibromatosis 6 | soft tissue | sample type: tumor biopsy | tissue: Desmoid fibromatosis tumor"
+     },
+     {
+      "gsm": "GSM600934",
+      "title": "Extraskeletal myxoid chondrosarcoma 1",
+      "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 1 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma"
+     },
+     {
+      "gsm": "GSM600935",
+      "title": "Extraskeletal myxoid chondrosarcoma 2",
+      "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 2 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma"
+     },
+     {
+      "gsm": "GSM600936",
+      "title": "Extraskeletal myxoid chondrosarcoma 3",
+      "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 3 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma"
+     },
+     {
+      "gsm": "GSM600937",
+      "title": "Extraskeletal myxoid chondrosarcoma 4",
+      "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 4 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma"
+     },
+     {
+      "gsm": "GSM600938",
+      "title": "Extraskeletal myxoid chondrosarcoma 5",
+      "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 5 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma"
+     },
+     {
+      "gsm": "GSM600939",
+      "title": "Extraskeletal myxoid chondrosarcoma 6",
+      "annotation_verbatim": "Extraskeletal myxoid chondrosarcoma 6 | soft tissue | sample type: tumor biopsy | tissue: Extraskeletal myxoid chondrosarcoma"
+     },
+     {
+      "gsm": "GSM600940",
+      "title": "Low-grade fibromyxoid sarcoma 1",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 1 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600941",
+      "title": "Low-grade fibromyxoid sarcoma 2",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 2 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600942",
+      "title": "Low-grade fibromyxoid sarcoma 3",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 3 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600943",
+      "title": "Low-grade fibromyxoid sarcoma 4",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 4 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600944",
+      "title": "Low-grade fibromyxoid sarcoma 5",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 5 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600945",
+      "title": "Low-grade fibromyxoid sarcoma 6",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 6 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600946",
+      "title": "Low-grade fibromyxoid sarcoma 7",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 7 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600947",
+      "title": "Low-grade fibromyxoid sarcoma 8",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 8 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600948",
+      "title": "Low-grade fibromyxoid sarcoma 9",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 9 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600949",
+      "title": "Low-grade fibromyxoid sarcoma 10",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 10 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600950",
+      "title": "Low-grade fibromyxoid sarcoma 11",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 11 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600951",
+      "title": "Low-grade fibromyxoid sarcoma 12",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 12 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600952",
+      "title": "Low-grade fibromyxoid sarcoma 13",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 13 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600953",
+      "title": "Low-grade fibromyxoid sarcoma 14",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 14 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600954",
+      "title": "Low-grade fibromyxoid sarcoma 15",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 15 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600955",
+      "title": "Low-grade fibromyxoid sarcoma 16",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 16 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600956",
+      "title": "Low-grade fibromyxoid sarcoma 17",
+      "annotation_verbatim": "Low-grade fibromyxoid sarcoma 17 | soft tissue | sample type: tumor biopsy | tissue: Low-grade fibromyxoid sarcoma"
+     },
+     {
+      "gsm": "GSM600957",
+      "title": "Myxofibrosarcoma 1",
+      "annotation_verbatim": "Myxofibrosarcoma 1 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma"
+     },
+     {
+      "gsm": "GSM600958",
+      "title": "Myxofibrosarcoma 2",
+      "annotation_verbatim": "Myxofibrosarcoma 2 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma"
+     },
+     {
+      "gsm": "GSM600959",
+      "title": "Myxofibrosarcoma 3",
+      "annotation_verbatim": "Myxofibrosarcoma 3 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma"
+     },
+     {
+      "gsm": "GSM600960",
+      "title": "Myxofibrosarcoma 4",
+      "annotation_verbatim": "Myxofibrosarcoma 4 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma"
+     },
+     {
+      "gsm": "GSM600961",
+      "title": "Myxofibrosarcoma 5",
+      "annotation_verbatim": "Myxofibrosarcoma 5 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma"
+     },
+     {
+      "gsm": "GSM600962",
+      "title": "Myxofibrosarcoma 6",
+      "annotation_verbatim": "Myxofibrosarcoma 6 | soft tissue | sample type: tumor biopsy | tissue: Myxofibrosarcoma"
+     },
+     {
+      "gsm": "GSM600963",
+      "title": "Solitary fibrous tumor 1",
+      "annotation_verbatim": "Solitary fibrous tumor 1 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor"
+     },
+     {
+      "gsm": "GSM600964",
+      "title": "Solitary fibrous tumor 2",
+      "annotation_verbatim": "Solitary fibrous tumor 2 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor"
+     },
+     {
+      "gsm": "GSM600965",
+      "title": "Solitary fibrous tumor 3",
+      "annotation_verbatim": "Solitary fibrous tumor 3 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor"
+     },
+     {
+      "gsm": "GSM600966",
+      "title": "Solitary fibrous tumor 4",
+      "annotation_verbatim": "Solitary fibrous tumor 4 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor"
+     },
+     {
+      "gsm": "GSM600967",
+      "title": "Solitary fibrous tumor 5",
+      "annotation_verbatim": "Solitary fibrous tumor 5 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor"
+     },
+     {
+      "gsm": "GSM600968",
+      "title": "Skeletal muscle pooled RNA 1",
+      "annotation_verbatim": "Skeletal muscle pooled RNA 1 | soft tissue | sample type: pooled RNA | tissue: Skeletal muscle"
+     },
+     {
+      "gsm": "GSM600969",
+      "title": "Skeletal muscle pooled RNA 2",
+      "annotation_verbatim": "Skeletal muscle pooled RNA 2 | soft tissue | sample type: pooled RNA | tissue: Skeletal muscle"
+     }
+    ],
+    "genes": {
+     "ANKS1B": {
+      "probe_ids": [
+       "7965686"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       5.5691,
+       5.5486,
+       5.6234,
+       5.6643,
+       5.6955,
+       6.0041,
+       9.4239,
+       5.4527,
+       5.7604,
+       5.2613,
+       4.8832,
+       7.7568,
+       4.9599,
+       4.9172,
+       5.1109,
+       4.7567,
+       4.9337,
+       5.1979,
+       4.813,
+       4.5885,
+       4.6069,
+       4.9285,
+       4.944,
+       5.609,
+       4.9271,
+       5.2355,
+       5.1371,
+       4.81,
+       5.541,
+       6.5447,
+       5.2059,
+       6.0194,
+       6.1079,
+       5.3987,
+       4.4523,
+       6.0731,
+       6.9777,
+       5.7289,
+       4.4296,
+       7.8805,
+       5.9009,
+       6.2667
+      ],
+      "array_percentile": [
+       0.2811,
+       0.2859,
+       0.3164,
+       0.3048,
+       0.3119,
+       0.3772,
+       0.9433,
+       0.2901,
+       0.3308,
+       0.2609,
+       0.205,
+       0.7514,
+       0.2107,
+       0.2148,
+       0.2384,
+       0.1913,
+       0.2085,
+       0.2432,
+       0.1843,
+       0.1647,
+       0.1744,
+       0.2064,
+       0.2219,
+       0.2949,
+       0.2003,
+       0.2518,
+       0.2235,
+       0.1882,
+       0.3057,
+       0.4673,
+       0.2255,
+       0.3708,
+       0.4055,
+       0.2338,
+       0.1571,
+       0.3661,
+       0.5667,
+       0.3169,
+       0.1438,
+       0.763,
+       0.3412,
+       0.4234
+      ]
+     },
+     "CHST5": {
+      "probe_ids": [
+       "8002891"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       6.2621,
+       6.1259,
+       6.1859,
+       6.2702,
+       6.0686,
+       6.099,
+       6.3126,
+       6.071,
+       6.2057,
+       6.3379,
+       6.0331,
+       6.3756,
+       5.8937,
+       5.7354,
+       6.2254,
+       6.499,
+       6.1143,
+       6.2721,
+       6.1292,
+       5.8721,
+       5.7637,
+       6.1353,
+       5.8796,
+       6.1638,
+       6.4583,
+       6.2714,
+       6.1971,
+       5.8117,
+       6.2526,
+       6.1835,
+       5.9298,
+       5.7709,
+       5.701,
+       5.9496,
+       5.756,
+       6.2297,
+       6.3009,
+       6.114,
+       6.3168,
+       6.0662,
+       6.2954,
+       6.4623
+      ],
+      "array_percentile": [
+       0.415,
+       0.391,
+       0.4241,
+       0.4203,
+       0.3843,
+       0.3976,
+       0.4225,
+       0.4002,
+       0.4178,
+       0.4556,
+       0.3921,
+       0.4378,
+       0.359,
+       0.3389,
+       0.4269,
+       0.4875,
+       0.4034,
+       0.4283,
+       0.3942,
+       0.352,
+       0.3401,
+       0.3974,
+       0.3745,
+       0.3973,
+       0.4616,
+       0.4368,
+       0.3993,
+       0.3386,
+       0.4347,
+       0.3899,
+       0.3393,
+       0.3226,
+       0.3302,
+       0.336,
+       0.3396,
+       0.398,
+       0.4076,
+       0.3865,
+       0.435,
+       0.3786,
+       0.4261,
+       0.467
+      ]
+     },
+     "ZNF667": {
+      "probe_ids": [
+       "8039593"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       7.4092,
+       7.8277,
+       7.1269,
+       7.3244,
+       7.2284,
+       7.493,
+       7.8726,
+       7.8688,
+       8.244,
+       7.8144,
+       8.2393,
+       7.9424,
+       6.7365,
+       7.018,
+       6.6223,
+       7.005,
+       7.2836,
+       7.5295,
+       7.2615,
+       6.8673,
+       6.2442,
+       7.2301,
+       7.6247,
+       7.4677,
+       6.51,
+       7.1167,
+       6.6874,
+       6.6588,
+       6.6116,
+       7.1569,
+       7.0594,
+       8.3482,
+       6.2203,
+       6.315,
+       5.583,
+       9.2961,
+       8.457,
+       8.9677,
+       9.1717,
+       8.686,
+       6.6808,
+       6.5779
+      ],
+      "array_percentile": [
+       0.6851,
+       0.7637,
+       0.6227,
+       0.6591,
+       0.6425,
+       0.6987,
+       0.7727,
+       0.7555,
+       0.8185,
+       0.7444,
+       0.8114,
+       0.7852,
+       0.5302,
+       0.5938,
+       0.5086,
+       0.5909,
+       0.6524,
+       0.6994,
+       0.646,
+       0.565,
+       0.4313,
+       0.6346,
+       0.7048,
+       0.6915,
+       0.4721,
+       0.6151,
+       0.509,
+       0.5073,
+       0.5055,
+       0.615,
+       0.5919,
+       0.8335,
+       0.4283,
+       0.4207,
+       0.3097,
+       0.9358,
+       0.8631,
+       0.913,
+       0.9251,
+       0.8811,
+       0.514,
+       0.493
+      ]
+     },
+     "GMCL1": {
+      "probe_ids": [
+       "8042487"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       8.2347,
+       7.8301,
+       7.7934,
+       7.5115,
+       7.7575,
+       7.6341,
+       8.4439,
+       8.0443,
+       8.135,
+       8.1437,
+       8.3242,
+       7.8547,
+       7.5584,
+       7.955,
+       7.6625,
+       7.8453,
+       7.4221,
+       7.7209,
+       7.7657,
+       7.6318,
+       8.0179,
+       7.8229,
+       8.0845,
+       7.9384,
+       7.8291,
+       7.7493,
+       7.749,
+       7.9983,
+       7.7183,
+       7.7149,
+       7.4107,
+       8.1115,
+       7.5061,
+       7.5697,
+       7.652,
+       7.638,
+       7.7442,
+       7.5892,
+       7.8836,
+       7.707,
+       7.456,
+       7.2536
+      ],
+      "array_percentile": [
+       0.8348,
+       0.7639,
+       0.7488,
+       0.7026,
+       0.7545,
+       0.7258,
+       0.8583,
+       0.784,
+       0.8038,
+       0.7967,
+       0.8242,
+       0.7701,
+       0.7018,
+       0.7672,
+       0.7199,
+       0.753,
+       0.6818,
+       0.7366,
+       0.7493,
+       0.7229,
+       0.7808,
+       0.7549,
+       0.784,
+       0.7856,
+       0.7629,
+       0.7402,
+       0.7457,
+       0.7817,
+       0.728,
+       0.7456,
+       0.6811,
+       0.8013,
+       0.6906,
+       0.7148,
+       0.712,
+       0.7232,
+       0.7478,
+       0.7102,
+       0.7688,
+       0.7312,
+       0.6995,
+       0.6511
+      ]
+     }
+    },
+    "probe_symbol_mapping": {
+     "platform": "GPL6244",
+     "attempts": [
+      {
+       "url": "acc.cgi?acc=GPL6244&targ=self&form=text&view=full",
+       "header": [
+        "ID",
+        "GB_LIST",
+        "SPOT_ID",
+        "seqname",
+        "RANGE_GB",
+        "RANGE_STRAND",
+        "RANGE_START",
+        "RANGE_STOP",
+        "total_probes",
+        "gene_assignment",
+        "mrna_assignment",
+        "category"
+       ],
+       "symbol_column": null,
+       "accession_column": "GB_LIST"
+      }
+     ],
+     "accession_column_used": "GB_LIST",
+     "n_probes_with_an_accession": 21146,
+     "example_probe_accessions": [
+      {
+       "probe": "7896740",
+       "accessions": [
+        "BC136848",
+        "BC136867",
+        "BC136907",
+        "BC136908"
+       ]
+      },
+      {
+       "probe": "7896742",
+       "accessions": [
+        "AK298283",
+        "AL137655",
+        "BC032332",
+        "BC118988"
+       ]
+      },
+      {
+       "probe": "7896744",
+       "accessions": [
+        "BC137547",
+        "BC137568"
+       ]
+      },
+      {
+       "probe": "7896746",
+       "accessions": [
+        "AK074482"
+       ]
+      },
+      {
+       "probe": "7896752",
+       "accessions": [
+        "M37726"
+       ]
+      },
+      {
+       "probe": "7896754",
+       "accessions": [
+        "AK026836",
+        "AK290103"
+       ]
+      },
+      {
+       "probe": "7896756",
+       "accessions": [
+        "BC037297",
+        "BC118644"
+       ]
+      },
+      {
+       "probe": "7896761",
+       "accessions": [
+        "AK054643",
+        "BC024295",
+        "BC033213",
+        "JX093066"
+       ]
+      },
+      {
+       "probe": "7896779",
+       "accessions": [
+        "AY423763",
+        "BC033192",
+        "BC045768",
+        "BC105742"
+       ]
+      },
+      {
+       "probe": "7896798",
+       "accessions": [
+        "BC101386",
+        "BC101387"
+       ]
+      },
+      {
+       "probe": "7896817",
+       "accessions": [
+        "AY168648",
+        "BC009507",
+        "BT007297",
+        "M13755"
+       ]
+      },
+      {
+       "probe": "7896822",
+       "accessions": [
+        "AB191264",
+        "AK128761"
+       ]
+      },
+      {
+       "probe": "7896865",
+       "accessions": [
+        "BC126152",
+        "BC126154"
+       ]
+      },
+      {
+       "probe": "7896878",
+       "accessions": [
+        "AY050570"
+       ]
+      },
+      {
+       "probe": "7896882",
+       "accessions": [
+        "AK093239",
+        "AK093372",
+        "AK127357",
+        "AK131558"
+       ]
+      },
+      {
+       "probe": "7896908",
+       "accessions": [
+        "AK298218",
+        "BC034304",
+        "AK027721"
+       ]
+      },
+      {
+       "probe": "7896917",
+       "accessions": [
+        "BC072454",
+        "BC098429",
+        "JN542538"
+       ]
+      },
+      {
+       "probe": "7896921",
+       "accessions": [
+        "AK122959"
+       ]
+      },
+      {
+       "probe": "7896929",
+       "accessions": [
+        "AK291557",
+        "BC059409"
+       ]
+      },
+      {
+       "probe": "7896937",
+       "accessions": [
+        "BC101211",
+        "BC101212",
+        "AB033099",
+        "AF343078"
+       ]
+      }
+     ],
+     "n_distinct_accessions": 62204,
+     "n_accessions_from_committed_cache": 0,
+     "curated_dictionary": [
+      {
+       "platform": "GPL570",
+       "added": 36627
+      },
+      {
+       "platform": "GPL8300",
+       "added": 8233
+      },
+      {
+       "platform": "GPL571",
+       "added": 116
+      }
+     ],
+     "curated_dictionary_size": 44976,
+     "n_accessions_resolved_by_curated_dictionary": 6830,
+     "unigene_archive_attempts": [
+      {
+       "url": "https://ftp.ncbi.nlm.nih.gov/repository/UniGene/Homo_sapiens/Hs.data.gz",
+       "n_clusters": 130056,
+       "n_accessions_indexed": 6365381
+      }
+     ],
+     "unigene_dictionary_size": 6365381,
+     "n_accessions_resolved_by_unigene_archive": 51071,
+     "n_accessions_from_cross_platform_cache": 0,
+     "n_accessions_newly_queried": 4303,
+     "ncbi_n_accessions_queried": 4303,
+     "ncbi_route": "esearch(accession[ACCN]) -> nuccore UID; esummary(nuccore) -> caption so the UID can be tied back to its accession; elink(nuccore->gene); esummary(gene) -> symbol",
+     "ncbi_accessions_resolved_to_a_uid": 4303,
+     "ncbi_errors_total": 20,
+     "ncbi_errors": [
+      {
+       "endpoint": "elink.fcgi",
+       "attempt": 0,
+       "error": "HTTP Error 502: Bad Gateway"
+      },
+      {
+       "endpoint": "elink.fcgi",
+       "attempt": 1,
+       "error": "IncompleteRead(0 bytes read)"
+      },
+      {
+       "endpoint": "elink.fcgi",
+       "attempt": 0,
+       "error": "IncompleteRead(0 bytes read)"
+      },
+      {
+       "endpoint": "elink.fcgi",
+       "attempt": 0,
+       "error": "IncompleteRead(0 bytes read)"
+      },
+      {
+       "endpoint": "elink.fcgi",
+       "attempt": 0,
+       "error": "IncompleteRead(0 bytes read)"
+      },
+      {
+       "endpoint": "elink.fcgi",
+       "attempt": 1,
+       "error": "IncompleteRead(0 bytes read)"
+      }
+     ],
+     "ncbi_chunks_lost_to_transport": 4,
+     "ncbi_elink_uids_lost_to_transport": 400,
+     "ncbi_accessions_linked_to_a_gene": 2997,
+     "ncbi_genes_named": 2539,
+     "ncbi_mapped": 2995,
+     "ncbi_n_accessions_answered": 4303,
+     "ncbi_elapsed_s": 880.5,
+     "n_accessions_resolved_total": 60896,
+     "accession_resolution_rate": 0.979,
+     "committed_accession_cache": {
+      "written": 60896,
+      "added": 60896
+     },
+     "n_mapped": 20625,
+     "source_used": "acc.cgi?acc=GPL6244&targ=self&form=text&view=full + accession->symbol resolution"
+    },
+    "_status": "read"
+   },
+   "GSE4303-GPL3290_series_matrix.txt.gz": {
+    "gse": "GSE4303",
+    "platform": "GPL3290",
+    "platform_matches_expected": true,
+    "n_samples": 16,
+    "n_probes": 43008,
+    "n_probes_mapped_to_a_symbol": 27203,
+    "measured_probe_mapping_rate": 0.6325,
+    "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE \u2014 an absolute level is NOT interpretable; only the between-group contrast is)",
+    "samples": [
+     {
+      "gsm": "GSM89883",
+      "title": "STT3126-DFSP",
+      "annotation_verbatim": "STT3126-DFSP | CRH | STT3126-DFSP mRNA | CRH | STT3126-DFSP mRNA"
+     },
+     {
+      "gsm": "GSM89898",
+      "title": "STT3068-DFSP",
+      "annotation_verbatim": "STT3068-DFSP | CRH | STT3068-DFSP mRNA | CRH | STT3068-DFSP mRNA"
+     },
+     {
+      "gsm": "GSM89924",
+      "title": "STT3053-DFSP",
+      "annotation_verbatim": "STT3053-DFSP | CRH | STT3053-DFSP mRNA | CRH | STT3053-DFSP mRNA"
+     },
+     {
+      "gsm": "GSM91381",
+      "title": "STT2001c-GIST-Total RNA-WT",
+      "annotation_verbatim": "STT2001c-GIST-Total RNA-WT | UHR | STT2001c-GIST-Total RNA | UHR | STT2001c-GIST-Total RNA"
+     },
+     {
+      "gsm": "GSM91397",
+      "title": "STT794b-GIST-Total RNA-PDGFRa",
+      "annotation_verbatim": "STT794b-GIST-Total RNA-PDGFRa | UHR | STT794b-GIST-Total RNA | UHR | STT794b-GIST-Total RNA"
+     },
+     {
+      "gsm": "GSM91405",
+      "title": "STT94b-GIST-Total RNA-exon9",
+      "annotation_verbatim": "STT94b-GIST-Total RNA-exon9 | UHR | STT94b-GIST-Total RNA | UHR | STT94b-GIST-Total RNA"
+     },
+     {
+      "gsm": "GSM98495",
+      "title": "STT3699-Myxoid Chondrosarcoma",
+      "annotation_verbatim": "STT3699-Myxoid Chondrosarcoma | CRH-mRNA | STT3699-Myxoid Chondrosarcoma | CRH-mRNA | STT3699-Myxoid Chondrosarcoma"
+     },
+     {
+      "gsm": "GSM98496",
+      "title": "STT3698-Myxoid Chondrosarcoma",
+      "annotation_verbatim": "STT3698-Myxoid Chondrosarcoma | CRH-mRNA | STT3698-Myxoid Chondrosarcoma | CRH-mRNA | STT3698-Myxoid Chondrosarcoma"
+     },
+     {
+      "gsm": "GSM98499",
+      "title": "STT3697-Myxoid Chondrosarcoma",
+      "annotation_verbatim": "STT3697-Myxoid Chondrosarcoma | CRH-mRNA | STT3697-Myxoid Chondrosarcoma | CRH-mRNA | STT3697-Myxoid Chondrosarcoma"
+     },
+     {
+      "gsm": "GSM98503",
+      "title": "STT3782-Myxoid chondrosarcoma",
+      "annotation_verbatim": "STT3782-Myxoid chondrosarcoma | CRH-mRNA | STT3782-Myxoid chondrosarcoma | CRH-mRNA | STT3782-Myxoid chondrosarcoma"
+     },
+     {
+      "gsm": "GSM98506",
+      "title": "STT3783-Myxoid chondrosarcoma",
+      "annotation_verbatim": "STT3783-Myxoid chondrosarcoma | CRH-mRNA | STT3783-Myxoid chondrosarcoma | CRH-mRNA | STT3783-Myxoid chondrosarcoma"
+     },
+     {
+      "gsm": "GSM98509",
+      "title": "STT3714-Myxoid Chondrosarcoma",
+      "annotation_verbatim": "STT3714-Myxoid Chondrosarcoma | CRH-mRNA | STT3714-Myxoid Chondrosarcoma | CRH-mRNA | STT3714-Myxoid Chondrosarcoma"
+     },
+     {
+      "gsm": "GSM98510",
+      "title": "STT3780-Myxoid chondrosarcoma",
+      "annotation_verbatim": "STT3780-Myxoid chondrosarcoma | CRH-mRNA | STT3780-Myxoid chondrosarcoma | CRH-mRNA | STT3780-Myxoid chondrosarcoma"
+     },
+     {
+      "gsm": "GSM98511",
+      "title": "STT1169-Myxoid Chondrosarcoma",
+      "annotation_verbatim": "STT1169-Myxoid Chondrosarcoma | CRH-mRNA | STT1169-Myxoid Chondrosarcoma | CRH-mRNA | STT1169-Myxoid Chondrosarcoma"
+     },
+     {
+      "gsm": "GSM98512",
+      "title": "STT2003-Myxoid Chondrosarcoma",
+      "annotation_verbatim": "STT2003-Myxoid Chondrosarcoma | CRH-mRNA | STT2003-Myxoid Chondrosarcoma | CRH-mRNA | STT2003-Myxoid Chondrosarcoma"
+     },
+     {
+      "gsm": "GSM98513",
+      "title": "STT2528(2)-Myxoid Chondrosarcoma",
+      "annotation_verbatim": "STT2528(2)-Myxoid Chondrosarcoma | CRH-mRNA | STT2528(2)-Myxoid Chondrosarcoma | CRH-mRNA | STT2528(2)-Myxoid Chondrosarcoma"
+     }
+    ],
+    "genes": {
+     "ANKS1B": {
+      "probe_ids": [
+       "31332",
+       "317"
+      ],
+      "n_probes_mapping": 2,
+      "values": [
+       -1.543,
+       1.2225,
+       1.9445,
+       -1.4275,
+       null,
+       null,
+       4.643,
+       4.1055,
+       3.0705,
+       1.4235,
+       -1.122,
+       4.9425,
+       5.145,
+       5.009,
+       2.2965,
+       3.552
+      ],
+      "array_percentile": [
+       0.1835,
+       0.8743,
+       0.9269,
+       0.2296,
+       null,
+       null,
+       0.9977,
+       0.9941,
+       0.9838,
+       0.9201,
+       0.341,
+       0.9993,
+       0.9985,
+       0.9979,
+       0.9658,
+       0.9935
+      ]
+     },
+     "GMCL1": {
+      "probe_ids": [
+       "15723"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       -0.076,
+       -0.371,
+       -0.369,
+       -0.947,
+       -1.905,
+       -0.924,
+       -0.408,
+       -1.17,
+       null,
+       -2.033,
+       -8.331,
+       -0.865,
+       -1.247,
+       -0.219,
+       0.279,
+       -1.572
+      ],
+      "array_percentile": [
+       0.5793,
+       0.4001,
+       0.4387,
+       0.3333,
+       0.1581,
+       0.315,
+       0.526,
+       0.3159,
+       null,
+       0.0864,
+       0.0004,
+       0.4038,
+       0.3416,
+       0.5281,
+       0.718,
+       0.247
+      ]
+     }
+    },
+    "probe_symbol_mapping": {
+     "platform": "GPL3290",
+     "attempts": [
+      {
+       "url": "acc.cgi?acc=GPL3290&targ=self&form=text&view=full",
+       "header": [
+        "ID",
+        "METACOLUMN",
+        "METAROW",
+        "COLUMN",
+        "ROW",
+        "SPOT_ID",
+        "CONTROL",
+        "POLYMER",
+        "TYPE",
+        "GB_LIST"
+       ],
+       "symbol_column": null,
+       "accession_column": "GB_LIST"
+      }
+     ],
+     "accession_column_used": "GB_LIST",
+     "n_probes_with_an_accession": 41614,
+     "example_probe_accessions": [
+      {
+       "probe": "890",
+       "accessions": [
+        "H78560",
+        "H79047"
+       ]
+      },
+      {
+       "probe": "869",
+       "accessions": [
+        "AI050027",
+        "AI792340"
+       ]
+      },
+      {
+       "probe": "867",
+       "accessions": [
+        "AI003497",
+        "AI792326",
+        "AI733554"
+       ]
+      },
+      {
+       "probe": "865",
+       "accessions": [
+        "AI000332",
+        "AI792355"
+       ]
+      },
+      {
+       "probe": "864",
+       "accessions": [
+        "AI053480",
+        "AI792454"
+       ]
+      },
+      {
+       "probe": "848",
+       "accessions": [
+        "AI054403",
+        "AI792576"
+       ]
+      },
+      {
+       "probe": "845",
+       "accessions": [
+        "AI053759",
+        "AI792560"
+       ]
+      },
+      {
+       "probe": "843",
+       "accessions": [
+        "AI053937",
+        "AI792550"
+       ]
+      },
+      {
+       "probe": "833",
+       "accessions": [
+        "AA847657",
+        "AI791228"
+       ]
+      },
+      {
+       "probe": "826",
+       "accessions": [
+        "AA872711",
+        "AI821961"
+       ]
+      },
+      {
+       "probe": "819",
+       "accessions": [
+        "AI732303",
+        "AI820725",
+        "R50024",
+        "R50363"
+       ]
+      },
+      {
+       "probe": "805",
+       "accessions": [
+        "AA569480"
+       ]
+      },
+      {
+       "probe": "797",
+       "accessions": [
+        "AA224758"
+       ]
+      },
+      {
+       "probe": "792",
+       "accessions": [
+        "AI091217"
+       ]
+      },
+      {
+       "probe": "787",
+       "accessions": [
+        "AA932366"
+       ]
+      },
+      {
+       "probe": "783",
+       "accessions": [
+        "N70003",
+        "W00867"
+       ]
+      },
+      {
+       "probe": "775",
+       "accessions": [
+        "AI263541"
+       ]
+      },
+      {
+       "probe": "769",
+       "accessions": [
+        "AI286230"
+       ]
+      },
+      {
+       "probe": "768",
+       "accessions": [
+        "AI084489"
+       ]
+      },
+      {
+       "probe": "758",
+       "accessions": [
+        "AI300557"
+       ]
+      }
+     ],
+     "n_distinct_accessions": 65180,
+     "n_accessions_from_committed_cache": 0,
+     "n_accessions_resolved_by_curated_dictionary": 630,
+     "n_accessions_resolved_by_unigene_archive": 37279,
+     "n_accessions_from_cross_platform_cache": 0,
+     "n_accessions_newly_queried": 27271,
+     "ncbi_n_accessions_queried": 27271,
+     "ncbi_route": "esearch(accession[ACCN]) -> nuccore UID; esummary(nuccore) -> caption so the UID can be tied back to its accession; elink(nuccore->gene); esummary(gene) -> symbol",
+     "ncbi_errors_total": 4,
+     "ncbi_errors": [
+      {
+       "endpoint": "esearch.fcgi",
+       "attempt": 0,
+       "error": "HTTP Error 500: Internal Server Error"
+      },
+      {
+       "endpoint": "elink.fcgi",
+       "attempt": 0,
+       "error": "IncompleteRead(0 bytes read)"
+      },
+      {
+       "endpoint": "elink.fcgi",
+       "attempt": 0,
+       "error": "IncompleteRead(0 bytes read)"
+      },
+      {
+       "endpoint": "elink.fcgi",
+       "attempt": 1,
+       "error": "IncompleteRead(0 bytes read)"
+      }
+     ],
+     "ncbi_accessions_resolved_to_a_uid": 27270,
+     "ncbi_budget_exhausted_in_elink_at": 3100,
+     "ncbi_accessions_linked_to_a_gene": 10,
+     "ncbi_genes_named": 9,
+     "ncbi_mapped": 10,
+     "ncbi_n_accessions_answered": 27271,
+     "ncbi_elapsed_s": 628.2,
+     "n_accessions_resolved_total": 37919,
+     "accession_resolution_rate": 0.582,
+     "committed_accession_cache": {
+      "written": 98815,
+      "added": 98815
+     },
+     "n_mapped": 27203,
+     "source_used": "acc.cgi?acc=GPL3290&targ=self&form=text&view=full + accession->symbol resolution"
+    },
+    "_status": "read"
+   }
+  }
+ },
+ "arm_c_ncbi_gene": {
+  "source": "NCBI Gene (E-utilities esearch + esummary)",
+  "genes": {
+   "ANKS1B": {
+    "query": "ANKS1B",
+    "gene_ids": [
+     "56899"
+    ],
+    "gene_id": "56899",
+    "name": "ANKS1B",
+    "description": "ankyrin repeat and sterile alpha motif domain containing 1B",
+    "chromosome": "12",
+    "maplocation": "12q23.1",
+    "genomicinfo": [
+     {
+      "chrloc": "12",
+      "chraccver": "NC_000012.12",
+      "chrstart": 99984935,
+      "chrstop": 98734785,
+      "exoncount": 39
+     }
+    ],
+    "summary": "This gene encodes a multi-domain protein that is predominantly expressed in brain and testis. This protein interacts with amyloid beta protein precursor (AbetaPP) and may have a role in normal brain development, and in the pathogenesis of Alzheimer's disease. Expression of this gene has been shown to be elevated in patients with pre-B cell acute lymphocytic leukemia associated with t(1;19) translocation. Alternatively spliced transcript variants encoding different isoforms (some with different subcellular localization, PMID:15004329) have been described for this gene. [provided by RefSeq, Aug 2011]",
+    "otheraliases": "AIDA, AIDA-1, ANKS2, EB-1, EB1, cajalin-2",
+    "status": "",
+    "_status": "read"
+   },
+   "CHST5": {
+    "query": "CHST5",
+    "gene_ids": [
+     "23563"
+    ],
+    "_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests"
+   },
+   "GMCL1": {
+    "query": "GMCL1",
+    "_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests"
+   },
+   "LOC105370997": {
+    "query": "LOC105370997",
+    "_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests"
+   },
+   "LOC105374140": {
+    "query": "LOC105374140",
+    "_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests"
+   },
+   "ZNF667": {
+    "query": "ZNF667",
+    "_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests"
+   }
+  }
+ },
+ "arm_d_hpa": {
+  "source": "Human Protein Atlas search_download API",
+  "_not_independent_of_gtex": "HPA consensus tissue RNA incorporates GTEx; agreement with arm A is a transport check, not an independent measurement.",
+  "genes": {
+   "ANKS1B": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "ANKS1B",
+      "Gene synonym": [
+       "AIDA-1",
+       "ANKS2",
+       "cajalin-2",
+       "EB-1"
+      ],
+      "Ensembl": "ENSG00000185046",
+      "Gene description": "Ankyrin repeat and sterile alpha motif domain containing 1B",
+      "RNA tissue specificity": "Tissue enriched",
+      "RNA tissue distribution": "Detected in many",
+      "RNA tissue specific nTPM": {
+       "brain": "66.3"
+      },
+      "RNA cancer specificity": "Cancer enhanced",
+      "Subcellular main location": [
+       "Nucleoplasm"
+      ]
+     }
+    ]
+   },
+   "CHST5": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "CHST5",
+      "Gene synonym": [
+       "FLJ22167",
+       "I-GLCNAC-6-ST"
+      ],
+      "Ensembl": "ENSG00000135702",
+      "Gene description": "Carbohydrate sulfotransferase 5",
+      "RNA tissue specificity": "Tissue enriched",
+      "RNA tissue distribution": "Detected in some",
+      "RNA tissue specific nTPM": {
+       "intestine": "82.2"
+      },
+      "RNA cancer specificity": "Group enriched",
+      "Subcellular main location": null
+     }
+    ]
+   },
+   "GMCL1": {
+    "_status": "read",
+    "n_rows": 2,
+    "exact_symbol_rows": [
+     {
+      "Gene": "GMCL1",
+      "Gene synonym": [
+       "BTBD13",
+       "FLJ13057",
+       "GCL1",
+       "SPATA29"
+      ],
+      "Ensembl": "ENSG00000087338",
+      "Gene description": "Germ cell-less 1, spermatogenesis associated",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": null
+     }
+    ]
+   },
+   "LOC105370997": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": []
+   },
+   "LOC105374140": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": []
+   },
+   "ZNF667": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "ZNF667",
+      "Gene synonym": [
+       "FLJ14011"
+      ],
+      "Ensembl": "ENSG00000198046",
+      "Gene description": "Zinc finger protein 667",
+      "RNA tissue specificity": "Tissue enhanced",
+      "RNA tissue distribution": "Detected in many",
+      "RNA tissue specific nTPM": {
+       "pituitary gland": "21.6"
+      },
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Nucleoplasm"
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

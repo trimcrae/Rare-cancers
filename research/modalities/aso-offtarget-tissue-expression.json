@@ -3,160 +3,25 @@
  "_framing": "⛔ NOTHING IN THIS FILE IS AN EFFICACY, SELECTIVITY, SAFETY, THERAPEUTIC-WINDOW OR CLINICAL-READINESS CLAIM FOR ANY SEQUENCE. Every hit behind it sits at 14/16 identity — two mismatches in a 16-mer — and whether such a duplex is an RNase-H1 substrate at all is an affinity question no screen here answers. Expression is a NECESSARY condition for an off-target effect and never a sufficient one, so a gene being expressed is not a predicted cleavage event and a gene being unexpressed is not safety.",
  "_what_this_is_not": [
   "Not a cleavage assay, and not a prediction of one. No hit was re-aligned, no duplex stability was computed, and no thermodynamic threshold separates these hits from each other — they are the screen's loosest admitted class, all at two mismatches.",
-  "Not a risk ranking by transcript-record count, or by anything else. Record count is annotation depth, and this file carries no hazard ordering of any kind.",
-  "Not evidence about the oligonucleotide. Every figure here is expression of a GENE. The join from 'this gene is expressed in liver' to 'this reagent does something in liver' requires an affinity argument no screen in this repository has made, and it is the manuscript's to make explicitly, with the missing step named.",
+  "Not a risk ranking by transcript-record count. Record count is annotation depth.",
   "Not a tumour measurement where it says proxy. GTEx contains no EMC and no sarcoma; the soft-tissue block is the NORMAL tissue of the compartment EMC arises in.",
   "Not a reading of absence anywhere. Every unreadable locus carries the reason the read could not be taken, and no absence is rendered as a zero.",
   "PRESENT_TPM = 1 is a STATED legibility cut, not a threshold of concern, and every raw median is released so another cut can be applied without re-running."
  ],
  "_cost": "$0 — public reference data on a CPU runner. No GPU, no rental, no wet lab.",
- "_generated_utc": null,
- "panel": {
-  "panel": [
-   {
-    "seam": "EWSR1_e12__NR4A3_e3",
-    "screen": "junction-aso-offtarget-e12n3-deep500-b1.json",
-    "role": "lead — the multi-partner reagent (EWSR1 e12 / TAF15 e11 / FUS e10)",
-    "junction_is_reported_in_patients": true,
-    "note": "The identical 123-hit / 6-locus load is returned independently by the TAF15 e11 and FUS e10 screens of the same molecule, under three different BLAST request ids and three different parent-exclusion sets — so the load is a property of the sequence, not of one screen.",
-    "junction_label": "EWSR1_e12__NR4A3_e3",
-    "n_designs": 1,
-    "designs": [
-     {
-      "antisense_5to3": "GGGCATATCATCAAAC",
-      "gc_percent": 43.8,
-      "specificity_margin": 8,
-      "blast_rid": "7W03YWBN016",
-      "n_near_matches_reported": 189,
-      "n_minus_strand_not_hybridisable": 48,
-      "n_gap_disrupted_no_cleavage": 18,
-      "n_gap_paired_hybridisable": 123,
-      "loci": [
-       "ANKS1B",
-       "CHST5",
-       "GMCL1",
-       "LOC105370997",
-       "LOC105374140",
-       "ZNF667"
-      ]
-     }
-    ],
-    "n_gap_paired_hybridisable": 123,
-    "risk_class_read": "true_cleavage_risk",
-    "n_loci": 6
-   },
-   {
-    "seam": "TAF15_e6__NR4A3_e3",
-    "screen": "junction-aso-offtarget-taf15e6n3-deep500-b1.json",
-    "role": "the only exon-resolved TAF15::NR4A3 breakpoint published in EMC",
-    "junction_is_reported_in_patients": true,
-    "note": "Cited at PMID 10537274 (the primary report of the variant fusion) and PMID 12378528 (all three TAF15-rearranged tumours of an 18-case series). The lead reagent shares a single donor base with this seam and cannot engage it.",
-    "junction_label": "TAF15_e6__NR4A3_e3",
-    "n_designs": 5,
-    "designs": [
-     {
-      "antisense_5to3": "GGGCATATCTTGTGTG",
-      "gc_percent": 50.0,
-      "specificity_margin": 8,
-      "blast_rid": "7W0F8E93016",
-      "n_near_matches_reported": 62,
-      "n_minus_strand_not_hybridisable": 52,
-      "n_gap_disrupted_no_cleavage": 2,
-      "n_gap_paired_hybridisable": 8,
-      "loci": [
-       "CA5B",
-       "CA5BP1-CA5B",
-       "LOC124907518",
-       "NRP1",
-       "ZFPM2"
-      ]
-     },
-     {
-      "antisense_5to3": "GGCATATCTTGTGTGT",
-      "gc_percent": 43.8,
-      "specificity_margin": 7,
-      "blast_rid": "7W0FCR2B016",
-      "n_near_matches_reported": 92,
-      "n_minus_strand_not_hybridisable": 34,
-      "n_gap_disrupted_no_cleavage": 10,
-      "n_gap_paired_hybridisable": 48,
-      "loci": [
-       "CA5B",
-       "CA5BP1-CA5B",
-       "G3BP2",
-       "GNAL",
-       "MIR9-2HG",
-       "NRP1",
-       "NRXN3-AS1",
-       "SLC17A3"
-      ]
-     },
-     {
-      "antisense_5to3": "AGGGCATATCTTGTGT",
-      "gc_percent": 43.8,
-      "specificity_margin": 7,
-      "blast_rid": "7W0FGTAU016",
-      "n_near_matches_reported": 82,
-      "n_minus_strand_not_hybridisable": 63,
-      "n_gap_disrupted_no_cleavage": 3,
-      "n_gap_paired_hybridisable": 16,
-      "loci": [
-       "LINC02030",
-       "NRP1",
-       "ZFPM2"
-      ]
-     },
-     {
-      "antisense_5to3": "CAGGGCATATCTTGTG",
-      "gc_percent": 50.0,
-      "specificity_margin": 6,
-      "blast_rid": "7W0FMRM8016",
-      "n_near_matches_reported": 80,
-      "n_minus_strand_not_hybridisable": 55,
-      "n_gap_disrupted_no_cleavage": 8,
-      "n_gap_paired_hybridisable": 17,
-      "loci": [
-       "GBP4",
-       "LINC02030",
-       "NRP1",
-       "ZFPM2"
-      ]
-     },
-     {
-      "antisense_5to3": "GCATATCTTGTGTGTG",
-      "gc_percent": 43.8,
-      "specificity_margin": 6,
-      "blast_rid": "7W0FSTV9016",
-      "n_near_matches_reported": 260,
-      "n_minus_strand_not_hybridisable": 159,
-      "n_gap_disrupted_no_cleavage": 35,
-      "n_gap_paired_hybridisable": 66,
-      "loci": [
-       "ANKRD26P3",
-       "CA5B",
-       "CA5BP1-CA5B",
-       "EEFSEC",
-       "G3BP2",
-       "GNAL",
-       "LAMA4",
-       "LOC105376349",
-       "MIR9-2HG",
-       "NRP1",
-       "SLC17A3",
-       "ST3GAL1"
-      ]
-     }
-    ],
-    "n_gap_paired_hybridisable": 155,
-    "risk_class_read": "true_cleavage_risk",
-    "n_loci": 17
-   }
-  ],
-  "n_seams": 2,
-  "n_loci_over_the_whole_panel": 23,
-  "n_gap_paired_hybridisable": 278,
+ "_generated_utc": "2026-08-13T21:54:30.029048+00:00",
+ "reagent": {
+  "screen": "junction-aso-offtarget-e12n3-deep500-b1.json",
+  "reagent_antisense_5to3": "GGGCATATCATCAAAC",
+  "junction_label": "EWSR1_e12__NR4A3_e3",
+  "n_near_matches_reported": 189,
+  "n_minus_strand_not_hybridisable": 48,
+  "n_gap_disrupted_no_cleavage": 18,
+  "n_gap_paired_hybridisable": 123,
   "risk_class_read": "true_cleavage_risk",
-  "locus_parser": "junction_aso_locus_collapse.locus_of, corrected 2026-08-13 (5233cf867) to read NCBI's defline grammar rather than the text before the first comma. This module delegates to it and carries no parser of its own."
+  "n_loci": 6,
+  "n_accession_fallbacks_resolved": 9,
+  "_why_that_last_number_matters": "`junction_aso_locus_collapse.locus_of` truncates each definition at its first comma before looking for a parenthesised symbol, so a gene whose DESCRIPTION contains a comma falls to a per-accession fallback and reads as one pseudo-locus per record. That many records were merged back onto their real gene here. A raw `locus_of` count of this reagent therefore returns more loci than exist, and the two counts must not be quoted against each other. See `gene_of`."
  },
  "method": {
   "exposure_tissues": [
@@ -177,22 +42,39 @@
   "present_tpm_cut": 1.0,
   "arms": {
    "A_gtex": {
-    "status": "not fetched",
+    "status": "fetch or parse failed: HTTPError: HTTP Error 404: Not Found",
     "url": "https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",
-    "release": null,
-    "unit": null,
+    "release": "GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm",
+    "unit": "median TPM across that tissue's donors",
     "endpoint_used": null,
     "n_tissues": null
    },
    "B_emc_series": {
-    "targets": {}
+    "targets": {
+     "GSE24369_series_matrix.txt.gz": "read",
+     "GSE4303-GPL3290_series_matrix.txt.gz": "read"
+    }
    },
    "C_ncbi_gene": {
-    "status": {}
+    "status": {
+     "ANKS1B": "read",
+     "CHST5": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "GMCL1": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "LOC105370997": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "LOC105374140": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "ZNF667": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests"
+    }
    },
    "D_hpa": {
-    "status": {},
-    "_not_independent": null
+    "status": {
+     "ANKS1B": "read",
+     "CHST5": "read",
+     "GMCL1": "read",
+     "LOC105370997": "read",
+     "LOC105374140": "read",
+     "ZNF667": "read"
+    },
+    "_not_independent": "HPA consensus tissue RNA incorporates GTEx; agreement with arm A is a transport check, not an independent measurement."
    }
   },
   "known_answer_controls": {
@@ -203,48 +85,22 @@
   }
  },
  "summary": {
-  "n_loci": 23,
+  "n_loci": 6,
   "n_loci_with_a_readable_exposure_reading": 0,
   "loci_expressed_in_an_exposure_organ": [],
   "loci_whose_exposure_question_is_unanswerable_from_public_data": [
    "ANKS1B",
-   "G3BP2",
    "ZNF667",
-   "LINC02030",
-   "MIR9-2HG",
-   "LAMA4",
-   "ZFPM2",
-   "GNAL",
    "GMCL1",
    "LOC105374140",
-   "NRP1",
    "LOC105370997",
-   "SLC17A3",
-   "CA5B",
-   "CA5BP1-CA5B",
-   "EEFSEC",
-   "ANKRD26P3",
-   "CHST5",
-   "GBP4",
-   "LOC105376349",
-   "LOC124907518",
-   "NRXN3-AS1",
-   "ST3GAL1"
+   "CHST5"
   ],
-  "⛔_this_list_is_not_a_ranking_and_this_file_has_no_risk_column": "These are the genes whose median TPM reaches the stated cut in liver or kidney. That is a reading about each GENE. It is not an ordering of the panel by hazard, and no such ordering exists anywhere in this file, because every hit behind it is a 14/16 sequence match and the step from an expressed gene to an affected one needs an affinity argument no screen here has made. Loci are ordered by transcript-record count, which is an annotation property and is labelled as one.",
-  "⚠_what_a_clean_exposure_column_does_and_does_not_buy": "It says those genes are low or absent in the dosed organs. It does not make the reagent clean: the same panel holds loci this instrument cannot measure at all, and none of these hits has been shown to be cleavable in the first place."
+  "⚠_what_a_clean_exposure_column_does_and_does_not_buy": "It removes one hypothetical liability from a list. It does not make the reagent clean, because the same list holds loci this instrument cannot measure at all, and because none of these hits has been shown to be cleavable in the first place."
  },
  "per_locus": [
   {
    "locus": "ANKS1B",
-   "seams": [
-    "EWSR1_e12__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GGGCATATCATCAAAC"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 67,
     "n_curated_records": 32,
@@ -253,89 +109,141 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "56899",
+    "description": "ankyrin repeat and sterile alpha motif domain containing 1B",
+    "map_location": "12q23.1",
+    "ncbi_summary": "This gene encodes a multi-domain protein that is predominantly expressed in brain and testis. This protein interacts with amyloid beta protein precursor (AbetaPP) and may have a role in normal brain development, and in the pathogenesis of Alzheimer's disease. Expression of this gene has been shown to be elevated in patients with pre-B cell acute lymphocytic leukemia associated with t(1;19) translocation. Alternatively spliced transcript variants encoding different isoforms (some with different subcellular localization, PMID:15004329) have been described for this gene. [provided by RefSeq, Aug 2011]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
     "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
     "values": null
    },
    "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.2811,
+       0.2859,
+       0.3164,
+       0.3048,
+       0.3119,
+       0.3772,
+       0.9433,
+       0.2901,
+       0.3308,
+       0.2609,
+       0.205,
+       0.7514,
+       0.2107,
+       0.2148,
+       0.2384,
+       0.1913,
+       0.2085,
+       0.2432,
+       0.1843,
+       0.1647,
+       0.1744,
+       0.2064,
+       0.2219,
+       0.2949,
+       0.2003,
+       0.2518,
+       0.2235,
+       0.1882,
+       0.3057,
+       0.4673,
+       0.2255,
+       0.3708,
+       0.4055,
+       0.2338,
+       0.1571,
+       0.3661,
+       0.5667,
+       0.3169,
+       0.1438,
+       0.763,
+       0.3412,
+       0.4234
+      ],
+      "median_array_percentile": 0.2811,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL3290",
+      "n_probes_mapping": 2,
+      "n_samples": 16,
+      "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "array_percentile": [
+       0.1835,
+       0.8743,
+       0.9269,
+       0.2296,
+       null,
+       null,
+       0.9977,
+       0.9941,
+       0.9838,
+       0.9201,
+       0.341,
+       0.9993,
+       0.9985,
+       0.9979,
+       0.9658,
+       0.9935
+      ],
+      "median_array_percentile": 0.9838,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     }
+    }
    },
    "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "G3BP2",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GCATATCTTGTGTGTG",
-    "GGCATATCTTGTGTGT"
-   ],
-   "n_designs_hitting_it": 2,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 56,
-    "n_curated_records": 48,
-    "n_predicted_records": 8,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "ANKS1B",
+      "Gene synonym": [
+       "AIDA-1",
+       "ANKS2",
+       "cajalin-2",
+       "EB-1"
+      ],
+      "Ensembl": "ENSG00000185046",
+      "Gene description": "Ankyrin repeat and sterile alpha motif domain containing 1B",
+      "RNA tissue specificity": "Tissue enriched",
+      "RNA tissue distribution": "Detected in many",
+      "RNA tissue specific nTPM": {
+       "brain": "66.3"
+      },
+      "RNA cancer specificity": "Cancer enhanced",
+      "Subcellular main location": [
+       "Nucleoplasm"
+      ]
+     }
+    ]
    },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
    "tier": "NOT_MEASURED",
    "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
   },
   {
    "locus": "ZNF667",
-   "seams": [
-    "EWSR1_e12__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GGGCATATCATCAAAC"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 37,
     "n_curated_records": 3,
@@ -344,7 +252,7 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": null,
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
     "ncbi_gene_id": null,
     "description": null,
     "map_location": null,
@@ -352,265 +260,109 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
     "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
     "values": null
    },
    "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.6851,
+       0.7637,
+       0.6227,
+       0.6591,
+       0.6425,
+       0.6987,
+       0.7727,
+       0.7555,
+       0.8185,
+       0.7444,
+       0.8114,
+       0.7852,
+       0.5302,
+       0.5938,
+       0.5086,
+       0.5909,
+       0.6524,
+       0.6994,
+       0.646,
+       0.565,
+       0.4313,
+       0.6346,
+       0.7048,
+       0.6915,
+       0.4721,
+       0.6151,
+       0.509,
+       0.5073,
+       0.5055,
+       0.615,
+       0.5919,
+       0.8335,
+       0.4283,
+       0.4207,
+       0.3097,
+       0.9358,
+       0.8631,
+       0.913,
+       0.9251,
+       0.8811,
+       0.514,
+       0.493
+      ],
+      "median_array_percentile": 0.646,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6325
+     }
+    }
    },
    "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "LINC02030",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "AGGGCATATCTTGTGT",
-    "CAGGGCATATCTTGTG"
-   ],
-   "n_designs_hitting_it": 2,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 22,
-    "n_curated_records": 22,
-    "n_predicted_records": 0,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "ZNF667",
+      "Gene synonym": [
+       "FLJ14011"
+      ],
+      "Ensembl": "ENSG00000198046",
+      "Gene description": "Zinc finger protein 667",
+      "RNA tissue specificity": "Tissue enhanced",
+      "RNA tissue distribution": "Detected in many",
+      "RNA tissue specific nTPM": {
+       "pituitary gland": "21.6"
+      },
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Nucleoplasm"
+      ]
+     }
+    ]
    },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "MIR9-2HG",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GCATATCTTGTGTGTG",
-    "GGCATATCTTGTGTGT"
-   ],
-   "n_designs_hitting_it": 2,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 18,
-    "n_curated_records": 18,
-    "n_predicted_records": 0,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "LAMA4",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GCATATCTTGTGTGTG"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 13,
-    "n_curated_records": 3,
-    "n_predicted_records": 10,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "ZFPM2",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "AGGGCATATCTTGTGT",
-    "CAGGGCATATCTTGTG",
-    "GGGCATATCTTGTGTG"
-   ],
-   "n_designs_hitting_it": 3,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 12,
-    "n_curated_records": 0,
-    "n_predicted_records": 12,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "GNAL",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GCATATCTTGTGTGTG",
-    "GGCATATCTTGTGTGT"
-   ],
-   "n_designs_hitting_it": 2,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 10,
-    "n_curated_records": 10,
-    "n_predicted_records": 0,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
    "tier": "NOT_MEASURED",
    "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
   },
   {
    "locus": "GMCL1",
-   "seams": [
-    "EWSR1_e12__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GGGCATATCATCAAAC"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 9,
     "n_curated_records": 1,
@@ -619,7 +371,7 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": null,
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
     "ncbi_gene_id": null,
     "description": null,
     "map_location": null,
@@ -627,35 +379,129 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
     "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
     "values": null
    },
    "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.8348,
+       0.7639,
+       0.7488,
+       0.7026,
+       0.7545,
+       0.7258,
+       0.8583,
+       0.784,
+       0.8038,
+       0.7967,
+       0.8242,
+       0.7701,
+       0.7018,
+       0.7672,
+       0.7199,
+       0.753,
+       0.6818,
+       0.7366,
+       0.7493,
+       0.7229,
+       0.7808,
+       0.7549,
+       0.784,
+       0.7856,
+       0.7629,
+       0.7402,
+       0.7457,
+       0.7817,
+       0.728,
+       0.7456,
+       0.6811,
+       0.8013,
+       0.6906,
+       0.7148,
+       0.712,
+       0.7232,
+       0.7478,
+       0.7102,
+       0.7688,
+       0.7312,
+       0.6995,
+       0.6511
+      ],
+      "median_array_percentile": 0.7488,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL3290",
+      "n_probes_mapping": 1,
+      "n_samples": 16,
+      "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "array_percentile": [
+       0.5793,
+       0.4001,
+       0.4387,
+       0.3333,
+       0.1581,
+       0.315,
+       0.526,
+       0.3159,
+       null,
+       0.0864,
+       0.0004,
+       0.4038,
+       0.3416,
+       0.5281,
+       0.718,
+       0.247
+      ],
+      "median_array_percentile": 0.3416,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     }
+    }
    },
    "whole_body_context": null,
-   "hpa_cross_check": null,
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 2,
+    "exact_symbol_rows": [
+     {
+      "Gene": "GMCL1",
+      "Gene synonym": [
+       "BTBD13",
+       "FLJ13057",
+       "GCL1",
+       "SPATA29"
+      ],
+      "Ensembl": "ENSG00000087338",
+      "Gene description": "Germ cell-less 1, spermatogenesis associated",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": null
+     }
+    ]
+   },
    "tier": "NOT_MEASURED",
    "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
   },
   {
    "locus": "LOC105374140",
-   "seams": [
-    "EWSR1_e12__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GGGCATATCATCAAAC"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 5,
     "n_curated_records": 0,
@@ -664,7 +510,7 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": null,
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
     "ncbi_gene_id": null,
     "description": null,
     "map_location": null,
@@ -672,84 +518,44 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
     "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
     "values": null
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
-    "per_series": {}
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL6244",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.7102
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6325
+     }
+    }
    },
    "whole_body_context": null,
-   "hpa_cross_check": null,
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": []
+   },
    "tier": "NOT_MEASURABLE_UNCHARACTERISED",
    "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
-  },
-  {
-   "locus": "NRP1",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "AGGGCATATCTTGTGT",
-    "CAGGGCATATCTTGTG",
-    "GCATATCTTGTGTGTG",
-    "GGCATATCTTGTGTGT",
-    "GGGCATATCTTGTGTG"
-   ],
-   "n_designs_hitting_it": 5,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 5,
-    "n_curated_records": 0,
-    "n_predicted_records": 5,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
   },
   {
    "locus": "LOC105370997",
-   "seams": [
-    "EWSR1_e12__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GGGCATATCATCAAAC"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 4,
     "n_curated_records": 4,
@@ -758,7 +564,7 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": null,
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
     "ncbi_gene_id": null,
     "description": null,
     "map_location": null,
@@ -766,265 +572,44 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
     "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
     "values": null
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
-    "per_series": {}
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL6244",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.7102
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6325
+     }
+    }
    },
    "whole_body_context": null,
-   "hpa_cross_check": null,
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": []
+   },
    "tier": "NOT_MEASURABLE_UNCHARACTERISED",
    "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
-  },
-  {
-   "locus": "SLC17A3",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GCATATCTTGTGTGTG",
-    "GGCATATCTTGTGTGT"
-   ],
-   "n_designs_hitting_it": 2,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 4,
-    "n_curated_records": 4,
-    "n_predicted_records": 0,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "CA5B",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GCATATCTTGTGTGTG",
-    "GGCATATCTTGTGTGT",
-    "GGGCATATCTTGTGTG"
-   ],
-   "n_designs_hitting_it": 3,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 3,
-    "n_curated_records": 3,
-    "n_predicted_records": 0,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "CA5BP1-CA5B",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GCATATCTTGTGTGTG",
-    "GGCATATCTTGTGTGT",
-    "GGGCATATCTTGTGTG"
-   ],
-   "n_designs_hitting_it": 3,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 3,
-    "n_curated_records": 3,
-    "n_predicted_records": 0,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "EEFSEC",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GCATATCTTGTGTGTG"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 3,
-    "n_curated_records": 2,
-    "n_predicted_records": 1,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "ANKRD26P3",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GCATATCTTGTGTGTG"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 1,
-    "n_curated_records": 1,
-    "n_predicted_records": 0,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
   },
   {
    "locus": "CHST5",
-   "seams": [
-    "EWSR1_e12__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GGGCATATCATCAAAC"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 1,
     "n_curated_records": 1,
@@ -1033,7 +618,7 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": null,
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
     "ncbi_gene_id": null,
     "description": null,
     "map_location": null,
@@ -1041,247 +626,103 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
     "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (not fetched)",
+    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
     "values": null
    },
    "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.415,
+       0.391,
+       0.4241,
+       0.4203,
+       0.3843,
+       0.3976,
+       0.4225,
+       0.4002,
+       0.4178,
+       0.4556,
+       0.3921,
+       0.4378,
+       0.359,
+       0.3389,
+       0.4269,
+       0.4875,
+       0.4034,
+       0.4283,
+       0.3942,
+       0.352,
+       0.3401,
+       0.3974,
+       0.3745,
+       0.3973,
+       0.4616,
+       0.4368,
+       0.3993,
+       0.3386,
+       0.4347,
+       0.3899,
+       0.3393,
+       0.3226,
+       0.3302,
+       0.336,
+       0.3396,
+       0.398,
+       0.4076,
+       0.3865,
+       0.435,
+       0.3786,
+       0.4261,
+       0.467
+      ],
+      "median_array_percentile": 0.398,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6325
+     }
+    }
    },
    "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "GBP4",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "CAGGGCATATCTTGTG"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 1,
-    "n_curated_records": 1,
-    "n_predicted_records": 0,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "CHST5",
+      "Gene synonym": [
+       "FLJ22167",
+       "I-GLCNAC-6-ST"
+      ],
+      "Ensembl": "ENSG00000135702",
+      "Gene description": "Carbohydrate sulfotransferase 5",
+      "RNA tissue specificity": "Tissue enriched",
+      "RNA tissue distribution": "Detected in some",
+      "RNA tissue specific nTPM": {
+       "intestine": "82.2"
+      },
+      "RNA cancer specificity": "Group enriched",
+      "Subcellular main location": null
+     }
+    ]
    },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "LOC105376349",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GCATATCTTGTGTGTG"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 1,
-    "n_curated_records": 0,
-    "n_predicted_records": 1,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
-   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
-  },
-  {
-   "locus": "LOC124907518",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GGGCATATCTTGTGTG"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 1,
-    "n_curated_records": 0,
-    "n_predicted_records": 1,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
-   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
-  },
-  {
-   "locus": "NRXN3-AS1",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GGCATATCTTGTGTGT"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 1,
-    "n_curated_records": 0,
-    "n_predicted_records": 1,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
-   "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
-  },
-  {
-   "locus": "ST3GAL1",
-   "seams": [
-    "TAF15_e6__NR4A3_e3"
-   ],
-   "designs_hitting_it": [
-    "GCATATCTTGTGTGTG"
-   ],
-   "n_designs_hitting_it": 1,
-   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
-   "screen_records": {
-    "n_transcript_records": 1,
-    "n_curated_records": 0,
-    "n_predicted_records": 1,
-    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
-    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
-   },
-   "identity": {
-    "ncbi_status": null,
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
-   },
-   "exposure_compartment_liver_kidney": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "exposure_liver_kidney",
-    "values": null
-   },
-   "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
-    "reason": "arm A was not read (not fetched)",
-    "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
-   },
-   "tumour_compartment_emc_tumours": {
-    "readable_on_any_platform": false,
-    "per_series": {}
-   },
-   "whole_body_context": null,
-   "hpa_cross_check": null,
    "tier": "NOT_MEASURED",
    "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
   }
