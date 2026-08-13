@@ -265,6 +265,42 @@ def _git(*args):
         return None
 
 
+def _tree_clean_apart_from_this_manifest():
+    """Is every file in the archive at its committed content — ignoring the manifest itself?
+
+    ⛔ THE NAIVE VERSION OF THIS FIELD IS A SELF-REFERENCE TRAP, AND IT DEFEATS THE ONE PROPERTY THE
+    MODULE HEADER PROMISES. `git status --porcelain == ""` was measured before the write, so on a
+    CLEAN tree the sequence was: run 1 reads clean -> writes `true` -> the write itself dirties the
+    tree -> run 2 reads dirty -> writes `false`. Two consecutive runs over an unchanged repository
+    produced two different files, which is exactly the "run it again, diff, expect nothing" check
+    the no-timestamp rule above exists to protect. The trap is invisible on a dirty tree — which is
+    how it survived: it was first exercised while a concurrent session held four unrelated files
+    modified, so both runs read dirty, agreed, and the hazard read as a passing test.
+
+    ⚠ AND THE STORED VALUE WAS MISLEADING IN THE DIRECTION THAT MATTERS. Any regeneration that
+    actually changes the manifest gets committed together with the manifest, so the committed copy
+    of a real update permanently recorded `false` — "these hashes were taken against a dirty tree,
+    do not trust them" — at precisely the moment they were trustworthy. A provenance field that
+    reads its own shadow is worse than no field, because a depositor at step 1 believes it.
+
+    So the manifest's own path is excluded. The question the depositor actually needs answered is
+    "are the files I am about to hash and upload at their committed content", and the manifest is
+    not one of those files — it is the answer sheet, and it is regenerated at step 2 by definition.
+    Porcelain paths are compared against the manifest's repo-relative path; a rename or a
+    `-z`-worthy pathological filename would fall through to reporting dirty, which is the safe
+    direction (it tells the depositor to look, rather than telling them not to bother).
+    """
+    porcelain = _git("status", "--porcelain")
+    if porcelain is None:
+        return None                       # no git here; "unknown", never "clean"
+    for line in porcelain.splitlines():
+        # Porcelain lines are "XY <path>"; the status columns are fixed-width, the path follows.
+        path = line[3:].strip().strip('"')
+        if path and path not in SELF_EXCLUDE:
+            return False
+    return True
+
+
 def _promise_text_found_in_paper(text, phrase):
     """Is this promise still a sentence the manuscript writes?
 
@@ -385,6 +421,18 @@ def build():
     coverage = _screen_coverage()
     total = sum(e["bytes"] for e in files)
 
+    # ★ THE IDENTITY OF THE ARCHIVE, AS DISTINCT FROM THE IDENTITY OF THE REPOSITORY. A digest over
+    # the sorted (path, sha256) pairs answers the depositor's real question — "is this the same set
+    # of bytes I looked at yesterday?" — which `git_revision` cannot, because the revision moves
+    # whenever anything in the repository moves, archived or not. Two manifests sharing this digest
+    # describe identical payloads no matter how many commits separate them, so a DOI minted against
+    # one is valid for the other. Derived from the file hashes already computed above, never from a
+    # re-read, so it cannot disagree with the list it summarises.
+    digest = hashlib.sha256()
+    for e in files:
+        digest.update(f"{e['path']}\0{e['sha256']}\n".encode("utf-8"))
+    content_digest = digest.hexdigest()
+
     unmapped = [r["id"] for r in promise_rows if r["⛔_UNMAPPED"]]
     gaps = {
         "_what": ("Every question a reviewer would put to the availability statement, answered "
@@ -434,7 +482,17 @@ def build():
             "Not a licence statement. The depositor chooses the licence at step 4 below.",
         ],
         "git_revision": _git("rev-parse", "HEAD"),
-        "git_tree_is_clean": _git("status", "--porcelain") == "",
+        # ⚠ EXCLUDES THE MANIFEST ITSELF, AND THE EXCLUSION IS THE WHOLE POINT — see
+        # `_tree_clean_apart_from_this_manifest`. `null` means "no git available", never "clean".
+        "git_tree_is_clean_apart_from_this_manifest": _tree_clean_apart_from_this_manifest(),
+        # ⚠ `git_revision` MOVES ON EVERY COMMIT, INCLUDING COMMITS THAT TOUCH NO ARCHIVED FILE, so
+        # `--check` goes red after any commit and must NOT be wired into preflight as a gate: it
+        # would cry wolf on every push and be switched off, which is how a real staleness would then
+        # be missed. It is a PRE-DEPOSIT check (step 2), run deliberately by a human at the moment
+        # the hashes have to be true. The field below is what makes that distinction checkable —
+        # a reader comparing it against the file list can tell "the archive moved" from "the
+        # repository moved around a stationary archive".
+        "archive_content_digest": content_digest,
         "n_files": len(files),
         "total_bytes": total,
         "total_mib": round(total / (1024 * 1024), 3),
