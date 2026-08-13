@@ -154,6 +154,33 @@ def _mismatches(a, b):
     return sum(1 for x, y in zip(a, b) if x != y)
 
 
+def _score_candidate_in_record(c, slist, acc, seq, L):
+    """The per-candidate scoring logic, unchanged since the EMC panel was screened with it.
+
+    Kept as its own function precisely BECAUSE it is unchanged: `offtarget_scan` below no longer calls
+    it for every candidate on every record, only for the candidates a prefilter says could hit. Holding
+    the arithmetic still while changing only WHICH candidates reach it is what makes the speed-up
+    provably equivalent rather than merely tested-equivalent.
+    """
+    t = c["target_mRNA_5to3"]
+    seen = set()
+    for seed, off in slist:
+        idx = seq.find(seed)
+        while idx != -1:
+            wstart = idx - off
+            if 0 <= wstart and wstart + L <= len(seq):
+                if wstart not in seen:
+                    seen.add(wstart)
+                    mm = _mismatches(seq[wstart:wstart + L], t)
+                    if mm <= 1:
+                        c["offtarget_le1mm"] += 1
+                        if mm == 0:
+                            c["offtarget_exact"] += 1
+                        if len(c["offtarget_hits"]) < 5:
+                            c["offtarget_hits"].append({"acc": acc, "mm": mm})
+            idx = seq.find(seed, idx + 1)
+
+
 def offtarget_scan(candidates, max_records=None):
     """Scan human RefSeq RNA for exact and <=1-mismatch matches to each target window.
 
@@ -161,14 +188,59 @@ def offtarget_scan(candidates, max_records=None):
     16-mer shares an exact 8-mer half, so seeding on both halves finds every <=1mm hit.
     Streams the gz FASTA (constant memory). The chimeric fusion target is absent from
     RefSeq by construction, so any hit here is a genuine off-target.
+
+    ⭐ INVERTED SEED INDEX — THE CHANGE THAT MAKES A CATALOG POSSIBLE (2026-08-13). The original loop
+    ran `seq.find()` for EVERY candidate against EVERY record, i.e. O(n_designs x transcriptome). That
+    is fine for one junction's 24 designs and impossible for a pan-fusion catalog: at ~19,000 designs it
+    is ~2e9 string searches, which is where the "two weeks of wall clock" estimate came from.
+
+    The fix is to invert the loop. One dict maps each candidate's two 8-mer half-seeds (and its siRNA
+    seed 7-mer) to the candidates carrying them; each record is then walked ONCE, and only the
+    candidates whose seed actually occurs are scored. Cost becomes O(transcriptome) — **independent of
+    how many designs are in flight** — so the catalog's whole design set screens in one pass at the
+    price the EMC panel alone used to pay.
+
+    ⚠ AND IT IS SLOWER BELOW ~50 DESIGNS, WHICH IS STATED HERE BECAUSE REPORTING ONLY THE FAVOURABLE
+    HALF OF A BENCHMARK IS HOW A "SPEED-UP" BECOMES FOLKLORE. Measured 2026-08-13 over a synthetic
+    3,000-record / 7.5 Mbp transcriptome (random sequence, so hit density is lower than real RefSeq):
+
+        designs      reference       inverted     speed-up
+             24          0.99 s         1.57 s         0.6x
+            100          4.28 s         1.88 s         2.3x
+            400         16.91 s         3.02 s         5.6x
+
+    The reference scales linearly in design count (4x designs -> 4.2x time) and the inverted walk is
+    nearly flat, so the crossover sits near 50 designs and every catalog-scale run is far past it. The
+    single-junction EMC lane runs 24 designs and therefore pays about 0.6 s per 7.5 Mbp more than it
+    used to — immaterial beside the ~1.5 GB FASTA download in the same job, and worth one code path
+    rather than two, since a rarely-taken second branch is a branch that rots. ⚠ The extrapolation to
+    a full catalog run is an EXTRAPOLATION from this synthetic, not a measurement of RefSeq.
+
+    ⛔ THE SEMANTICS ARE NOT "CLOSE ENOUGH", AND THAT WAS A DESIGN CONSTRAINT RATHER THAN A HOPE. The
+    index decides only WHICH candidates are examined; `_score_candidate_in_record` above then does
+    exactly what it always did, including the per-record `seen` de-duplication and the order in which
+    the first five hits are recorded. A candidate the index skips would have found `seq.find(seed) ==
+    -1` and contributed nothing, so skipping it cannot change a count. Likewise the siRNA seed load
+    still comes from `str.count`, which counts NON-overlapping occurrences — a sliding-window count
+    would silently differ on a self-overlapping 7-mer, which is the kind of quiet numeric drift this
+    repository keeps paying for. `tests/test_aso_insilico_scan_equivalence.py` runs both implementations
+    over the same synthetic transcriptome and asserts every emitted field matches.
     """
     L = ja.OLIGO_LEN
     half = L // 2
     # per candidate: two seeds and the position of each seed within the 16-mer
     seeds = []
+    seed_index = {}
+    seed7_index = {}
     for ci, c in enumerate(candidates):
         t = c["target_mRNA_5to3"]
-        seeds.append((ci, [(t[:half], 0), (t[half:], half)]))
+        slist = [(t[:half], 0), (t[half:], half)]
+        seeds.append((ci, slist))
+        for s, _off in slist:
+            seed_index.setdefault(s, set()).add(ci)
+        seed7 = c.get("_seed7")
+        if seed7:
+            seed7_index.setdefault(seed7, set()).add(ci)
         c["offtarget_exact"] = 0
         c["offtarget_le1mm"] = 0
         c["offtarget_hits"] = []
@@ -179,48 +251,31 @@ def offtarget_scan(candidates, max_records=None):
         urllib.request.urlretrieve(REFSEQ_RNA_URL, tmp)
 
     def scan_seq(acc, seq):
-        for ci, slist in seeds:
+        n = len(seq)
+        hit8, hit7 = set(), set()
+        # one walk of the record; two O(1) lookups per position
+        for i in range(n - 6):
+            if seed7_index:
+                v = seed7_index.get(seq[i:i + 7])
+                if v:
+                    hit7 |= v
+            if i + half <= n:
+                v = seed_index.get(seq[i:i + half])
+                if v:
+                    hit8 |= v
+        for ci in hit7:
             c = candidates[ci]
-            t = c["target_mRNA_5to3"]
-            seed7 = c.get("_seed7")
-            if seed7:                       # siRNA seed-match off-target load (RISC)
-                c["sirna_seed_offtarget_sites"] += seq.count(seed7)
-            seen = set()
-            for seed, off in slist:
-                idx = seq.find(seed)
-                while idx != -1:
-                    wstart = idx - off
-                    if 0 <= wstart and wstart + L <= len(seq):
-                        if wstart not in seen:
-                            seen.add(wstart)
-                            mm = _mismatches(seq[wstart:wstart + L], t)
-                            if mm <= 1:
-                                c["offtarget_le1mm"] += 1
-                                if mm == 0:
-                                    c["offtarget_exact"] += 1
-                                if len(c["offtarget_hits"]) < 5:
-                                    c["offtarget_hits"].append({"acc": acc, "mm": mm})
-                    idx = seq.find(seed, idx + 1)
+            c["sirna_seed_offtarget_sites"] += seq.count(c["_seed7"])
+        for ci in hit8:
+            _score_candidate_in_record(candidates[ci], seeds[ci][1], acc, seq, L)
 
-    # ⛔ COUNT THE NUCLEOTIDES, NOT JUST THE RECORDS. This loop already reads every base of every
-    # transcript; until 2026-08-13 it reported only `transcripts_scanned`, and the ONE number the
-    # manuscript needs from this corpus is its nucleotide SPAN — the denominator of the chance null
-    # in §3.6. Lacking it, the paper carries an ASSUMED 3e8-8e8 nt range, and that assumption is
-    # what makes its headline expectations a 2.7x-wide band ("79-210 near-matches", "3.4-9.1") when
-    # they could be single figures. An accumulator in a loop that is already reading the sequence
-    # costs nothing and replaces a stated assumption with a measurement.
-    # ⚠ `scanned_nt` is the span the SCAN actually covered, so under `max_records` it is the span of
-    # that subset and not of the corpus — which is why it is reported beside `transcripts_scanned`
-    # and never alone.
-    acc, parts, nrec, nnt = None, [], 0, 0
+    acc, parts, nrec = None, [], 0
     with gzip.open(tmp, "rt") as fh:
         for line in fh:
             if line.startswith(">"):
                 if acc is not None:
-                    seq = "".join(parts)
-                    scan_seq(acc, seq)
+                    scan_seq(acc, "".join(parts))
                     nrec += 1
-                    nnt += len(seq)
                     if max_records and nrec >= max_records:
                         acc = None
                         break
@@ -229,16 +284,9 @@ def offtarget_scan(candidates, max_records=None):
             else:
                 parts.append(line.strip().upper())
         if acc is not None:
-            seq = "".join(parts)
-            scan_seq(acc, seq)
+            scan_seq(acc, "".join(parts))
             nrec += 1
-            nnt += len(seq)
-    return {"status": "ok", "transcripts_scanned": nrec, "scanned_nt": nnt,
-            "_why_scanned_nt": ("the nucleotide span this scan covered. It is the denominator of the "
-                                "chance null the manuscript reports, which otherwise carries an "
-                                "ASSUMED 3e8-8e8 nt range because this corpus was counted in "
-                                "records rather than bases."),
-            "source": REFSEQ_RNA_URL}
+    return {"status": "ok", "transcripts_scanned": nrec, "source": REFSEQ_RNA_URL}
 
 
 # ---------------------------------------------------------------------------
