@@ -214,19 +214,39 @@ def test_a_sweep_dispatch_stages_nothing_from_the_checkout():
     A mode that runs no producer has no outputs; copying a checked-in file is not a result. The
     branch is the accumulating home for these artifacts and the checkout is not, so a sweep must
     stage nothing at all.
+
+    ⛔⛔ THIS TEST WAS DEAD FOR A DAY AND FAILED LOUDLY RATHER THAN SILENTLY, WHICH IS THE ONLY REASON
+    IT IS BEING FIXED AND NOT MOURNED (2026-08-13). It located the guard by `text.index` on the literal
+    `cp research/modalities/junction-aso-designs*.json "$RUNNER_TEMP/res/"` — and the 2026-08-12
+    rewrite replaced that unconditional `cp` with mtime-scoped `find … -newer "$RUNNER_TEMP/job-start"
+    -exec cp` staging, so the literal stopped existing and `index` raised ValueError on `main`. The
+    property it guards is MORE true than before, and nothing was checking it.
+    ⚠ THE LESSON IS THE ANCHOR, NOT THE STRING. A test that finds the code it guards by pasting a
+    line of that code has a lifetime equal to the next refactor of that line. This looks for the
+    guard CONDITION and the staging BLOCK instead, so a change to how files are copied cannot
+    silently retire it.
     """
     text = open(WORKFLOW, encoding="utf-8").read()
-    i_stage = text.index('cp research/modalities/junction-aso-designs*.json "$RUNNER_TEMP/res/"')
-    guard_window = text[max(0, i_stage - 1500):i_stage]
-    assert 'inputs.seam_retraction_sweep }}" != "true" ]; then' in guard_window, (
-        "the publish step stages checkout copies unconditionally; a seam-sweep dispatch will "
+    guard = '[ "${{ inputs.seam_retraction_sweep }}" != "true" ]; then'
+    assert guard in text, (
+        "the publish step no longer guards staging on the sweep input; a seam-sweep dispatch will "
         "overwrite modalities-cache artifacts with whatever is committed in the repo")
-    # every staged glob must sit inside that guard, not just the first one
-    i_else = text.index("else", i_stage)
+    i_stage = text.index(guard)
+    i_else = text.index("\n          else", i_stage)
     staged = text[i_stage:i_else]
-    for glob_ in ("junction-aso-offtarget*.json", "aso-insilico-evaluation*.json",
-                  "junction-sirna-designs*.json", "hybrid-intron-model.json"):
+
+    # Everything the publish stages must sit inside that guard, however it is copied.
+    for glob_ in ("junction-aso-designs*.json", "junction-aso-offtarget*.json",
+                  "aso-insilico-evaluation*.json", "junction-sirna-designs*.json",
+                  "hybrid-intron-model.json", "aso-premrna-*.json"):
         assert glob_ in staged, "%s is staged outside the sweep guard" % glob_
+
+    # ⛔ AND THE SWEEP BRANCH MUST STAGE NOTHING AT ALL, which is the actual property. An `else` that
+    # quietly copied one glob would satisfy every assertion above.
+    i_fi = text.index("\n          fi", i_else)
+    sweep_branch = text[i_else:i_fi]
+    assert "cp research/modalities" not in sweep_branch and "-exec cp" not in sweep_branch, (
+        "the seam-sweep branch stages something from the checkout: %r" % sweep_branch[:300])
 
 
 def test_the_sweep_failure_actually_blocks_the_push():
@@ -257,3 +277,37 @@ if __name__ == "__main__":                                        # pragma: no c
                 failures += 1
                 print("FAIL %s: %s" % (name, exc))
     sys.exit(1 if failures else 0)
+
+
+def test_the_publish_refuses_to_delete_an_artifact():
+    """⛔ RUN 31696283722 DELETED 39 ARTIFACTS FROM modalities-cache AND EVERY EXISTING GUARD PASSED.
+
+    Mechanism, and it is a shell bug rather than a git one: the publish `rm -f
+    research/modalities/*.json` deletes the FEATURE-BRANCH copies, `git checkout -B modalities-cache`
+    carries those working-tree deletions across (for a file identical in both refs the deletion is an
+    uncommitted change git can preserve), and then `git add research/modalities/junction-aso-designs
+    *.json` — with the glob matching nothing in the working tree — is passed to git LITERALLY, expanded
+    as a pathspec against the INDEX, and stages all 39 deletions.
+
+    ⚠ WHY NOTHING CAUGHT IT. Every other guard in that step reasons about what the run PRODUCED: the
+    mtime baseline, the sweep-staging rule above, the commit-message check. This loss came from what
+    the checkout carried IN, which no producer-shaped guard can see. The sibling off-target glob
+    escaped only because it happened to match one `-graded.json` file that exists on that branch
+    alone, so whether a family survived depended on an unrelated file existing.
+
+    Two assertions, because the fix has two halves and either alone leaves a hole: the tree is
+    restored from HEAD after the branch switch, and the commit is refused outright if the staged diff
+    contains a deletion. This workflow adds and updates artifacts; it never removes one.
+    """
+    text = open(WORKFLOW, encoding="utf-8").read()
+    i_switch = text.index("git checkout -B modalities-cache")
+    i_commit = text.index('git commit -m "$MSG"', i_switch)
+    window = text[i_switch:i_commit]
+    assert "git checkout HEAD -- research/modalities" in window, (
+        "the publish does not restore the branch's own tree after switching, so working-tree "
+        "deletions carried across the checkout can be staged")
+    assert "git diff --cached --diff-filter=D --name-only" in window, (
+        "the publish does not check the staged diff for deletions")
+    i_guard = window.index("git diff --cached --diff-filter=D --name-only")
+    assert "exit 1" in window[i_guard:i_guard + 600], (
+        "the deletion check does not fail the job; a guard that reports and continues is not a guard")
