@@ -2298,3 +2298,29 @@ file remained. **The lesson is about the CHECK, not the race:** the coverage tes
 artifact existed, and the stale file satisfied it. File presence is not file correctness, which is
 the third time this session that a check keyed on existence rather than on the property it cared
 about produced a false pass.
+
+### Appendix B.4 — coverage completed (2026-08-13)
+
+✅ **ALL 38 FRAME-COMPATIBLE JUNCTIONS ARE NOW ORIENTATION-FILTERED.** *TFG* exon 4 — the last
+exception, left behind when its re-screen lost a push race and the pre-existing strand-blind file
+satisfied a coverage check that asked only whether the file existed — was re-screened and folded in.
+
+| quantity | superseded | current |
+|---|---|---|
+| orientation-filtered junctions | 37 of 38 | **38 of 38** |
+| designs in the filtered corpus | 178 | **183** |
+| minus-strand share | 46% (738 of 1,610) | **44% (738 of 1,677)** |
+| per-junction range | 4% (*TFG* e2) to 100% | **0% (*TFG* e4) to 100%** |
+| designs at the 50-hit cap | 30 of 178 | **35 of 183** |
+| right-censored designs | 131 | **136** |
+
+⭐ **THE NUMERATOR DID NOT MOVE — 738 BOTH TIMES — AND THAT IS THE POINT.** *TFG* exon 4 contributes
+67 apparent gap-spanning hits and **not one of them is minus-strand**, which is why it now sets the
+floor of the per-junction range at 0%. It is the only junction in the corpus with no minus-strand
+gap-spanning hit at all, and its earlier strand-blind labels were therefore, by coincidence, not
+over-counting anything. That is luck rather than vindication: the same defect on any other junction
+inflated its counts, and nothing in the stale artifact distinguished the two cases.
+
+✅ **UNCHANGED BY THE ADDITION:** nine clean designs at six junctions across four partners, median
+locus inflation 2.20, and every partner still having a junction whose best design is clean. The
+last junction closed a coverage gap without moving a headline.

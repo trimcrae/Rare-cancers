@@ -53,9 +53,9 @@ screened against all six parent transcripts, against RefSeq RNA by gap-resolved 
 exhaustively for ≤1 mismatch over 186,185 transcripts.
 
 **Results.** Of 231 graded pairs, 38 are frame-compatible, and all 38 yield a gapmer matching no
-parent perfectly. All 38 were screened, 37 with orientation filtered: `blastn`
-searches both strands, and a reverse-complement match cannot hybridise. Such matches are 46% of
-apparent gap-spanning risks (738 of 1,610), ranging 4–100% between junctions, so filtering reorders
+parent perfectly. All 38 were screened with orientation filtered: `blastn`
+searches both strands, and a reverse-complement match cannot hybridise. Such matches are 44% of
+apparent gap-spanning risks (738 of 1,677), ranging 0–100% between junctions, so filtering reorders
 junctions rather than rescaling them. Nine designs at six junctions then carry no
 hybridisable near-match at all, no exact or single-mismatch match among 186,185 transcripts, and zero
 residual cleavage load under both literature discrimination bounds. One 16-mer spans the *EWSR1*
@@ -290,23 +290,23 @@ among junctions nobody had screened is not evidence that clean designs are absen
 
 ### 3.4 · Strand orientation, and the designs that survive it
 
-Thirty-seven junctions were screened with orientation parsed and filtered, 178 designs across them; one
-further screens are carried in Table 2 marked as unfiltered and are not comparable, and one further
-junction returned no result because every submission failed at the remote service. The eight divide
-by cause, and the second is worth stating because such records are indistinguishable from sound ones
-unless their labels are examined: three predate the parsing of alignment strand altogether, while
-four record the strand on every hit and were classified before the filter consulted it, so their
-counts ignore a field their own records carry. Neither group can be repaired after the fact, because
-only the top 15 hits of a list up to 50 long are retained, so the strand of the remainder is not
-recoverable. `blastn` searches both strands, so a
+All 38 frame-compatible junctions were screened with orientation parsed and filtered, 183 designs
+across them. Twenty-two were screened or re-screened for this purpose, and the reason for the
+re-screening is worth stating because the records it replaced are indistinguishable from sound ones
+unless their labels are examined: some predate the parsing of alignment strand altogether, while
+others record the strand on every hit and were classified before the filter consulted it, so their
+counts ignored a field their own records carried. Neither group could be repaired after the fact,
+because only the top 15 hits of a list up to 50 long are retained and the strand of the remainder is
+not recoverable, so each was screened again rather than corrected. Counts here therefore differ from
+any earlier version of this analysis. `blastn` searches both strands, so a
 proportion of the returned near-matches lie on the strand opposite the target window. A transcript
 carrying the reverse complement of that window cannot be hybridised by an antisense oligonucleotide:
 there is no duplex, therefore no RNase-H1 substrate and nothing to cleave. Such a match is not a
 weak liability but no liability at all, and it must be removed before any count means anything.
 
-Across the filtered corpus, 46% of the apparent gap-spanning risks are minus-strand (738 of
-1,610). The proportion is not uniform: it runs from 4% at *TFG* exon 2 to 100% at both *EWSR1* exon 1 and
-*TCF12* exon 7, where every apparent risk lies on the opposite strand. That variance is the substantive point. A
+Across the filtered corpus, 44% of the apparent gap-spanning risks are minus-strand (738 of
+1,677). The proportion is not uniform: it runs from 0% at *TFG* exon 4, where no apparent risk is
+minus-strand, to 100% at both *EWSR1* exon 1 and *TCF12* exon 7, where every one is. That variance is the substantive point. A
 uniform inflation would rescale every junction and leave their ordering intact, whereas this filter
 reorders them — *EWSR1* exons 7 and 13 return 55 and 57 apparent gap-spanning hits respectively, and
 after filtering they stand at 6 and 53.
@@ -354,8 +354,8 @@ null, the null is over-predicting, as an independent-uniform-base model will aga
 sequence; the size of that over-prediction is small here and should not be read as more. It separates "more than chance" from "at chance" and supports nothing finer.
 
 Two bounds remain on these counts and neither is corrected for. The BLAST arm returns at most 50
-hits per query, and 30 of the 178 filtered designs reach that cap; a further 101 exceed the 15 hits
-retained per design, so 131 in all carry right-censored counts. The nine clean designs are not among
+hits per query, and 35 of the 183 filtered designs reach that cap; a further 101 exceed the 15 hits
+retained per design, so 136 in all carry right-censored counts. The nine clean designs are not among
 them, returning one to eight raw hits each.
 Separately, BLAST is a heuristic and its sensitivity at ≥14/16 is unquantified here, so "no
 hybridisable near-match" is a statement about what this search found. The ≤1-mismatch result carries no such
@@ -477,11 +477,10 @@ falsify the gap-margin ranking on which every candidate here is ordered.
 its sensitivity at the ≥14/16 threshold is unquantified here, so "no hybridisable near-match" is a
 property of this search rather than of the transcriptome; the exhaustive ≤1-mismatch scan carries no
 such qualification and is the arm the claim rests on. Counts that reached the 50-hit cap are
-right-censored lower bounds — 30 of the 178 filtered designs, none of them among the nine clean ones.
-Only 44 of those 178 have hit lists short enough to assess this way at all, so nine clean
-designs is a floor over that subset and not a total. All 38 frame-compatible junctions are now
-screened, 37 of them with the orientation filter; the exception is *TFG* exon 4, whose counts are
-upper bounds and which carries no cleanliness statement. The chance null is crude:
+right-censored lower bounds — 35 of the 183 filtered designs, none of them among the nine clean ones.
+Only 44 of those 183 have hit lists short enough to assess this way at all, so nine clean
+designs is a floor over that subset and not a total. All 38 frame-compatible junctions are screened
+with the orientation filter applied, so no junction here carries an unfiltered count. The chance null is crude:
 it assumes independent uniform bases, where real transcript sequence is composition-skewed and
 repetitive, so it separates "more than chance" from "at chance" and nothing finer. Which exon pair a
 given patient carries is not decidable from exon structure, so the multi-partner result is

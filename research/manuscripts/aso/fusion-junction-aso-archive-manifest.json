@@ -9,12 +9,12 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "2183ba1f49d34077bea5c69f93eaec40a7dface5",
+  "git_revision": "dbd9eaeda4b803b5a038d149e343bc93f9236457",
   "git_tree_is_clean_apart_from_this_manifest": false,
-  "archive_content_digest": "5b049b2c1fd641fcd6ec38c72a75f75af49facbcef81d0000d56806598ad0409",
+  "archive_content_digest": "79480870062310fa7a58305cede06aac7fc19d01ca2c15695e6f47434b278a8d",
   "n_files": 215,
-  "total_bytes": 6103985,
-  "total_mib": 5.821,
+  "total_bytes": 6107685,
+  "total_mib": 5.825,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -41,11 +41,10 @@
       "n_screens_committed": 40,
       "n_screens_gap_resolved": 39,
       "n_screens_coverage_only_cannot_be_graded": 1,
-      "n_screens_not_orientation_filtered_counts_are_upper_bounds": 3,
+      "n_screens_not_orientation_filtered_counts_are_upper_bounds": 2,
       "screens_not_orientation_filtered": [
         "junction-aso-offtarget-bp200-8-gapres.json",
-        "junction-aso-offtarget-bp200-8.json",
-        "junction-aso-offtarget-tfge4n3.json"
+        "junction-aso-offtarget-bp200-8.json"
       ],
       "gap_resolved_screens_with_no_committed_graded_rescore": [],
       "junctions_with_a_design_panel_but_no_screen": [],
@@ -467,8 +466,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-short-communication.md",
-      "bytes": 45178,
-      "sha256": "62c70ccabb411903c6279d2e22b51dc98ee8f0ad43b203ba4a44897eb83885bf",
+      "bytes": 45131,
+      "sha256": "9faa2d1441245d202cafa2786fac10c645373097486f86eb7d9dd170eb8a9ff3",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -491,16 +490,16 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
-      "bytes": 6273,
-      "sha256": "e1438cb41355d58a923f0ce92a6601832b692c7039815ed93a39625d7c95f119",
+      "bytes": 6269,
+      "sha256": "55c14024f4e7c6fdf7528618a81f1e388f2e7d57778cdb2d740c6dbc08abd103",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-working-record.md",
-      "bytes": 190697,
-      "sha256": "cc3452812e2014c556581fd4ac0a910918e02f3e0e9187b035562d597db5d3df",
+      "bytes": 194295,
+      "sha256": "8cf31ddbd6330f757464cfd31d53ba6c3245e669f475e0c411edeb493e37da15",
       "serves": "correction_record",
       "also_serves": [],
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
@@ -1595,8 +1594,8 @@
     },
     {
       "path": "research/modalities/junction-aso-offtarget-locus-collapse.json",
-      "bytes": 211400,
-      "sha256": "bf473ede4dbde01c277a5be35ba6b9b583f3c5a3aeb7a556d32d362633c51140",
+      "bytes": 211361,
+      "sha256": "2ba569261341d4327a2d17a490022ad8f0da3b5cae6383347306cf2ec0f4a364",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
@@ -1891,16 +1890,16 @@
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tfge4n3-graded.json",
-      "bytes": 11127,
-      "sha256": "59ccc1d70532f4c1512ce45c57498e7e537dfa127574cc5a0032a627ab2fa911",
+      "bytes": 11119,
+      "sha256": "6a40a8485f7cd7d748291a1d781b7b236df8829257a8e374c023fbc238086eeb",
       "serves": "graded_rescores",
       "also_serves": [],
       "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tfge4n3.json",
-      "bytes": 44873,
-      "sha256": "6f4ae25d508188e051ba47e89cca59b40183006a7025932025230e1afaaeebaf",
+      "bytes": 45069,
+      "sha256": "c8a0d8095c5ee09bda2799a9695ecb045d22b2b1e3446a94a1526cebb7a41ebb",
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
@@ -2075,8 +2074,8 @@
     },
     {
       "path": "research/modalities/tests/test_aso_submission_numbers.py",
-      "bytes": 14200,
-      "sha256": "cb66c3893018bbfa70abefceb324c1e65e7e52aee3e36d0f15b39d04459b0df4",
+      "bytes": 14204,
+      "sha256": "b5beb3150e877272c9802825213197300fccdfd8023134393b31856df9c268a2",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."

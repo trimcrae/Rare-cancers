@@ -68,7 +68,7 @@ None of these numbers is a measurement of off-target activity.
 | TCF12 e9::NR4A3 e3 | 4 | 3 | 5′-GGGCATATCTTGCATA-3′ | 14 → 2 | 1 | 0 | 8 (23) |
 | TFG e2::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCATCT-3′ | ≥50 → ≥1 | 2 | 0 | 35 (87) |
 | TFG e3::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAAATAAT-3′ | 14 → 6 | 3 | 0 | 9 (17) |
-| TFG e4::NR4A3 e3 ‡ | 5 | 3 | 5′-GGGCATATCATTTTCA-3′ | ≥50 → ≥3 | 5 | 2 | 41 (100) |
+| TFG e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATTTTCA-3′ | ≥50 → ≥3 | 5 | 2 | 41 (100) |
 | TFG e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAAACC-3′ | 41 → ≥6 | 7 | 1 | 3 (21) |
 | TFG e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCAATC-3′ | 37 → ≥3 | 0 | 0 | 11 (21) |
 | TFG e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAATAC-3′ | 27 → ≥3 | 3 | 1 | 4 (26) |

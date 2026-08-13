@@ -108,27 +108,26 @@ def test_manuscript_corpus_counts_match_the_artifact():
     n_junctions = len(filt)
     n_designs = sum(s["n_oligos"] for s in filt)
     txt = _paper()
-    assert n_junctions == 37, n_junctions
-    assert n_designs == 178, n_designs
-    assert "Thirty-seven junctions were screened with orientation parsed and filtered" in txt
-    assert f"{n_designs} designs across them" in txt
+    assert n_junctions == 38, n_junctions
+    assert n_designs == 183, n_designs
+    assert "All 38 frame-compatible junctions were screened with orientation parsed and filtered" in txt
+    # ⚠ WHITESPACE-TOLERANT: the manuscript hard-wraps, so the phrase can straddle a newline.
+    import re as _re
+    assert _re.search(rf"{n_designs}\s+designs\s+across\s+them", txt), "design count"
     # every junction with a screen, filtered or not, minus the one that returned nothing
     labelled = [s for s in _collapse()["screens"] if s["junction_label"]]
     with_results = [s for s in labelled if s["n_oligos"]]
     assert len(with_results) == 38, len(with_results)
-    assert "All 38 were screened" in txt
+    assert "All 38 were screened with orientation filtered" in txt
 
 
 def test_unfiltered_screens_are_disclosed_and_counted():
     unfiltered = [s for s in _collapse()["screens"]
                   if s["junction_label"] and s["n_oligos"]
                   and not screen_counts_are_orientation_filtered(s["orientation"])]
-    assert len(unfiltered) == 1, [s["junction_label"] for s in unfiltered]
-    blind = [s for s in unfiltered if s["orientation"] == ORIENTATION_LABELS_STRAND_BLIND]
-    assert len(blind) == 1, [s["junction_label"] for s in blind]
-    assert unfiltered[0]["junction_label"] == "TFG_e4__NR4A3_e3"
+    assert unfiltered == [], [s["junction_label"] for s in unfiltered]
     txt = _paper()
-    assert "*TFG* exon 4" in txt
+    assert "no junction here carries an unfiltered count" in txt
 
 
 # ─────────────────────────────────────────────────────── the strand arithmetic
@@ -155,9 +154,9 @@ def _apparent_gap_spanning(screens):
 
 def test_minus_strand_fraction_matches_the_manuscript():
     tot, minus, _ = _apparent_gap_spanning(_filtered_screens())
-    assert (minus, tot) == (738, 1610), (minus, tot)
+    assert (minus, tot) == (738, 1677), (minus, tot)
     pct = round(100 * minus / tot)
-    assert pct == 46, pct
+    assert pct == 44, pct
     txt = _paper()
     assert f"{pct}% of\napparent" in txt or f"{pct}% of apparent" in txt, "abstract percentage"
     t = f"{tot:,}"
@@ -168,8 +167,8 @@ def test_per_junction_range_matches_the_manuscript():
     _, _, per = _apparent_gap_spanning(_filtered_screens())
     props = {k: 100 * m / a for k, (a, m) in per.items() if a}
     lo_k = min(props, key=props.get)
-    assert lo_k.startswith("TFG_e2"), lo_k
-    assert round(props[lo_k]) == 4, props[lo_k]
+    assert lo_k.startswith("TFG_e4"), lo_k
+    assert round(props[lo_k]) == 0, props[lo_k]
     # ⚠ ASSERT THE SET AT THE MAXIMUM, NOT `max()`. Two junctions now sit at exactly 100% and
     # `max()` picks between them by dict order, so a test naming one of them would fail the day a
     # third arrived, or worse, silently start describing a different junction. The manuscript names
@@ -177,7 +176,7 @@ def test_per_junction_range_matches_the_manuscript():
     at_max = sorted(k for k, v in props.items() if round(v) == 100)
     assert at_max == ["EWSR1_e1__NR4A3_e3", "TCF12_e7__NR4A3_e3"], at_max
     txt = _paper()
-    assert "from 4% at *TFG* exon 2 to 100% at both *EWSR1* exon 1 and" in txt
+    assert "from 0% at *TFG* exon 4" in txt and "100% at both *EWSR1* exon 1 and" in txt
 
 
 def test_the_reordering_example_is_exact():
@@ -196,16 +195,16 @@ def test_censoring_counts_match_the_manuscript():
     counts = [o.get("n_offtarget_near_matches") for s in _filtered_screens()
               for o in _raw(s).get("oligos", [])
               if o.get("status") == "screened" and o.get("n_offtarget_near_matches") is not None]
-    assert len(counts) == 178, len(counts)
+    assert len(counts) == 183, len(counts)
     at_cap = sum(1 for c in counts if c >= 50)
     censored = sum(1 for c in counts if c > 15)
     uncensored = sum(1 for c in counts if c <= 15)
-    assert (at_cap, censored, uncensored) == (30, 131, 47), (at_cap, censored, uncensored)
+    assert (at_cap, censored, uncensored) == (35, 136, 47), (at_cap, censored, uncensored)
     txt = _paper()
-    assert "30 of the 178 filtered designs reach that cap" in txt
+    assert "35 of the 183 filtered designs reach that cap" in txt
     assert "a further 101 exceed the 15 hits" in txt
-    assert "131 in all carry right-censored counts" in txt
-    assert "Only 44 of those 178" in txt
+    assert "136 in all carry right-censored counts" in txt
+    assert "Only 44 of those 183" in txt
 
 
 def test_locus_inflation_matches_the_manuscript():
