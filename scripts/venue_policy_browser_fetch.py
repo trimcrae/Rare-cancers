@@ -126,6 +126,23 @@ TARGETS = {
     "cgt_gta": "https://www.nature.com/cgt/authors-and-referees/gta",
     "cgt_article_types": "https://www.nature.com/cgt/article-types",
     "cgt_about": "https://www.nature.com/cgt/about",
+    # ── WAIVERS AND DISCOUNTS FOR AN UNAFFILIATED, UNFUNDED AUTHOR ──────────────────────
+    # ⛔ ASKED 2026-08-13 BY trimcrae AND ANSWERABLE ONLY BY READING, NOT BY RECALL: "Nobody
+    # waives fees for non-institutional authors?" Every fee page this repository has read so far
+    # offers exactly two routes off a charge — an institutional prepaid account, and country-based
+    # eligibility — and this author has neither an institution nor a qualifying country. That is a
+    # reading of the JOURNAL pages, though, and waiver policy at both these publishers lives at the
+    # PUBLISHER level, one link up from where anyone has looked. So these are the pages that decide
+    # it, and until they answer, "there is no waiver" is an assumption and not a finding.
+    # ⚠ The question is worth its own targets rather than a note, because a waiver would reopen
+    # both venues eliminated on fees so far — Cancer Gene Therapy at $238/page and Nucleic Acid
+    # Therapeutics at $90/page — and neither was rejected on scientific fit.
+    "sn_apc_waivers": "https://www.springernature.com/gp/open-research/policies/journal-policies",
+    "sn_oa_funding_support": "https://www.springernature.com/gp/open-research/funding/policy-compliance-faqs",
+    "sn_waiver_country_list": "https://www.springernature.com/gp/open-research/policies/journal-policies/apc-waivers-discounts",
+    "sage_author_discounts": "https://us.sagepub.com/en-us/nam/author-gateway-open-access-fees",
+    "research4life_eligibility": "https://www.research4life.org/access/eligibility/",
+
     # ── bioRxiv, the free open copy for all four papers ─────────────────────────────────
     "biorxiv_faq": "https://www.biorxiv.org/about/FAQ",
     "biorxiv_submission_guide": "https://www.biorxiv.org/submit-a-manuscript",
