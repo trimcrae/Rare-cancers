@@ -23,11 +23,14 @@ name: ASO off-target screen + uncapped full-transcriptome eval (junction gapmers
 on:
   workflow_dispatch:
     inputs:
-      ews_keep:
-        description: "EWSR1 kept codons (breakpoint); blank = canonical 264"
-        required: false
-      nr4_from:
-        description: "NR4A3 start codon (breakpoint); blank = canonical 2"
+      codon_breakpoint:
+        description: >-
+          LEGACY codon-space breakpoint as "ewsKeep,nr4From" — e.g. "200,8". Blank leaves both at the
+          canonical 264,2. ⛔ ONE INPUT BECAUSE THE CAP IS TEN AND THIS FILE WAS AT TEN: replacing the
+          separate `ews_keep` and `nr4_from` knobs freed the slot `screen_mode` needed, and they were
+          always dispatched together and are one concept — the same consolidation `gapmer_geometry`
+          made for `oligo_len` and `wing`, for the same reason. Over the cap GitHub delivers EVERY
+          input as empty with no error (test_workflow_dispatch_input_cap.py).
         required: false
       out_suffix:
         description: "Output filename suffix, e.g. -bp200-8"
@@ -63,6 +66,17 @@ on:
         required: false
         type: boolean
         default: false
+      screen_mode:
+        description: >-
+          Which extra screen to run instead of the default pipeline. `premrna` closes the compartment
+          the manuscript concedes is unmeasured: an exhaustive <=2-mismatch scan of every design
+          against the six parent transcripts' UNSPLICED sequence, gap-resolved and classified as
+          intronic / exonic / boundary-spanning. `premrna_genomic` adds the best-effort genome-wide
+          BLAST arm for the designs the cleanliness claim rests on. `none` = unchanged behaviour.
+        required: false
+        type: choice
+        options: [none, premrna, premrna_genomic]
+        default: none
 
 permissions:
   contents: write
@@ -89,13 +103,19 @@ jobs:
           python-version: "3.11"
 
       - name: Transcriptome-wide off-target screen (NCBI BLAST, stdlib only)
-        if: ${{ inputs.real_junctions == '' && !inputs.hybrid_intron && !inputs.seam_retraction_sweep }}
+        if: ${{ inputs.real_junctions == '' && !inputs.hybrid_intron && !inputs.seam_retraction_sweep && inputs.screen_mode == 'none' }}
         working-directory: research/modalities
         env:
-          EWSR1_KEEP_AA: ${{ inputs.ews_keep }}
-          NR4A3_KEEP_AA_FROM: ${{ inputs.nr4_from }}
+          CODON_BREAKPOINT: ${{ inputs.codon_breakpoint }}
           OUT_SUFFIX: ${{ inputs.out_suffix }}
-        run: python junction_aso_offtarget.py
+        run: |
+          set -u
+          # One input, two env vars the scripts already read — the gapmer_geometry pattern. A blank
+          # value leaves both unset, which is what the scripts' own defaults expect.
+          EWSR1_KEEP_AA="${CODON_BREAKPOINT%%,*}"
+          case "$CODON_BREAKPOINT" in *,*) NR4A3_KEEP_AA_FROM="${CODON_BREAKPOINT#*,}" ;; *) NR4A3_KEEP_AA_FROM="" ;; esac
+          export EWSR1_KEEP_AA NR4A3_KEEP_AA_FROM
+          python junction_aso_offtarget.py
 
       # ⭐ THE MTIME BASELINE THE PUBLISH STEP STAGES AGAINST. Written before any science step, so
       # `find -newer` can separate "this run wrote it" from "the checkout has always carried it".
@@ -213,14 +233,34 @@ jobs:
           export OLIGO_LEN WING
           python hybrid_intron.py
 
-      - name: Uncapped full-transcriptome evaluation (off-target + accessibility + siRNA seed)
-        if: ${{ inputs.real_junctions == '' && !inputs.hybrid_intron && !inputs.seam_retraction_sweep }}
+      # ⭐ THE COMPARTMENT THE MANUSCRIPT CONCEDES IS UNMEASURED. Its Limitations say both committed
+      # screens search mature transcript only, that RNase-H1 is nuclear, and that "that gap is
+      # closable by a genomic screen and is not closed here" — and until 2026-08-13 that sentence was
+      # the ONLY place in the repository where the work appeared. Exhaustive by construction over the
+      # six parent transcripts' unspliced sequence, so its completeness is a property of the seeding
+      # rather than of a search's sensitivity. Needs Ensembl, so it cannot run in the dev sandbox.
+      - name: Pre-mRNA off-target screen (Ensembl unspliced fetch + exhaustive gap-resolved scan)
+        if: ${{ inputs.screen_mode == 'premrna' || inputs.screen_mode == 'premrna_genomic' }}
         working-directory: research/modalities
         env:
-          EWSR1_KEEP_AA: ${{ inputs.ews_keep }}
-          NR4A3_KEEP_AA_FROM: ${{ inputs.nr4_from }}
+          # The genomic arm is opt-in and records which database answered; it must never fall back to
+          # a transcript database, which would reproduce the defect this step exists to close.
+          PREMRNA_GENOMIC: ${{ inputs.screen_mode == 'premrna_genomic' && '1' || '' }}
+          PREMRNA_OUT: aso-premrna-offtarget${{ inputs.suffix_tag }}.json
+        run: python aso_premrna_offtarget.py
+
+      - name: Uncapped full-transcriptome evaluation (off-target + accessibility + siRNA seed)
+        if: ${{ inputs.real_junctions == '' && !inputs.hybrid_intron && !inputs.seam_retraction_sweep && inputs.screen_mode == 'none' }}
+        working-directory: research/modalities
+        env:
+          CODON_BREAKPOINT: ${{ inputs.codon_breakpoint }}
           OUT_SUFFIX: ${{ inputs.out_suffix }}
-        run: python aso_insilico.py
+        run: |
+          set -u
+          EWSR1_KEEP_AA="${CODON_BREAKPOINT%%,*}"
+          case "$CODON_BREAKPOINT" in *,*) NR4A3_KEEP_AA_FROM="${CODON_BREAKPOINT#*,}" ;; *) NR4A3_KEEP_AA_FROM="" ;; esac
+          export EWSR1_KEEP_AA NR4A3_KEEP_AA_FROM
+          python aso_insilico.py
 
       - name: Publish result to modalities-cache branch
         if: always()
@@ -290,6 +330,13 @@ jobs:
                    -newer "$RUNNER_TEMP/job-start" -exec cp {} "$RUNNER_TEMP/res/" \; 2>/dev/null || true
               find research/modalities -maxdepth 1 -name 'junction-aso-offtarget*.json' \
                    -newer "$RUNNER_TEMP/job-start" -exec cp {} "$RUNNER_TEMP/res/" \; 2>/dev/null || true
+              # ⚠ `aso-premrna-*` NEEDS ITS OWN LINE: the glob above is `junction-aso-offtarget*` and
+              # does NOT match `aso-premrna-offtarget*`, so without this the pre-mRNA screen would run,
+              # report success, and publish nothing — the shape of every silent-loss incident recorded
+              # in this step. The SEQUENCE CACHE travels too, deliberately: it is what makes the screen
+              # re-derivable offline, which is what the manuscript's availability statement claims.
+              find research/modalities -maxdepth 1 -name 'aso-premrna-*.json' \
+                   -newer "$RUNNER_TEMP/job-start" -exec cp {} "$RUNNER_TEMP/res/" \; 2>/dev/null || true
               echo "staged $(ls -1 "$RUNNER_TEMP/res" 2>/dev/null | wc -l) file(s) written by THIS run"
             else
               echo "::error::no job-start marker — refusing to stage by glob, which would republish"
@@ -317,6 +364,7 @@ jobs:
           git add research/modalities/aso-insilico-evaluation*.json 2>/dev/null || true
           git add research/modalities/junction-sirna-designs*.json 2>/dev/null || true
           git add research/modalities/hybrid-intron-model.json 2>/dev/null || true
+          git add research/modalities/aso-premrna-*.json 2>/dev/null || true
 
           # ⛔⛔ THE RETRACTED-SEAM SWEEP, AND IT RUNS ON *EVERY* PUBLISH — NOT ONLY IN SWEEP MODE.
           # Measured 2026-08-08 at this branch's tip: THIRTEEN committed design artifacts carried the
