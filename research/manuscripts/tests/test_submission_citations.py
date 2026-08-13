@@ -106,3 +106,31 @@ def test_render_run_collapses_only_runs_of_three_or_more():
 
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))
+
+
+def test_every_citation_resolves_without_the_literature_cache_branch():
+    """⛔ CI IS A PLAIN CHECKOUT, AND THE RECORD LIVED ON A BRANCH IT DOES NOT HAVE (2026-08-13).
+
+    `test_every_cited_paper_has_a_retrieved_bibliographic_record` was RED on `main` for PMID
+    7545436 — the Sugimoto nearest-neighbour reference the ASO manuscript's thermodynamics rests on
+    — while a complete retrieved record for it sat committed in the generated submission reference
+    list the whole time. `load_meta` consulted the working-record corpus, the curated maps and the
+    `literature-cache` BRANCH, and not the generated list; so the citation resolved on a developer's
+    machine that happened to have fetched that branch and nowhere else.
+
+    ⚠ THE COST OF LEAVING IT IS NOT THE RED BUILD. A citation-integrity check that fails on a lookup
+    gap spends the credibility of a real guard on a false alarm, and the next red one gets waved
+    through. This asserts the condition CI actually runs under, which the test above cannot: it
+    passes on any machine that ever fetched the branch, including the one this was written on.
+    """
+    order = S.assign(S.parse(_text()))
+    real = S._literature_cache
+    try:
+        S._literature_cache = lambda: {}          # the branch is simply absent, as in CI
+        meta = S.load_meta()
+    finally:
+        S._literature_cache = real
+    missing = sorted(p for p in order if p not in meta)
+    assert not missing, (
+        f"PMID(s) {missing} resolve only via the literature-cache branch, so this check passes "
+        f"locally and fails in CI. Commit their retrieved records — do not type them.")
