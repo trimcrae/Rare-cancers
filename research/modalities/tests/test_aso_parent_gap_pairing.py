@@ -90,12 +90,21 @@ def test_the_candidate_set_is_what_both_screens_leave():
     """
     import glob
     rows = {r["antisense_5to3"]: r for r in _art()["per_design"]}
+    art_len = len(next(iter(rows)))
     deep = {}
     # ⚠ EVERY deep screen, not just the first batch: the panel is 38 junctions and a candidate
     # can come from any of them. Globbing one batch would have silently scoped the answer.
+    # ⛔ AND THE GEOMETRY IS FILTERED BY MEASUREMENT, NOT BY FILENAME (2026-08-13). This glob is
+    # `*deep500*`, which was unambiguous while one geometry existed and stopped being so the moment a
+    # 5-8-5 deep re-screen was published as `...-18mer-deep500.json`. It matched, its 18-mers were
+    # looked up in this 16-mer artifact's rows, and the test died on a KeyError — the lucky outcome.
+    # The unlucky one is a longer design that happens to share a sequence with nothing here and
+    # simply widens `deep` with rows from another panel. A filename convention is not a geometry
+    # filter; the length of the oligonucleotide the screen actually searched is, and it is in the
+    # file. `art_len` is read from the artifact under test so the two can never disagree.
     for p in glob.glob(os.path.join(MOD, "junction-aso-offtarget-*deep500*.json")):
         for o in json.load(open(p, encoding="utf-8")).get("oligos", []):
-            if o.get("status") != "screened":
+            if o.get("status") != "screened" or len(o.get("antisense_5to3") or "") != art_len:
                 continue
             hits = o.get("offtargets") or []
             assert len(hits) == o["n_offtarget_near_matches"], (

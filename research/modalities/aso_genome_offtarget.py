@@ -102,7 +102,13 @@ import time
 from math import comb
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ATLAS = os.path.join(HERE, "nr4a3-fusion-junction-atlas.json")
+#: ⛔ THE DESIGN SET IS A KNOB, BECAUSE `GENOME_OUT` ALREADY WAS AND HALF A PARAMETERISATION IS THE
+#: DANGEROUS HALF (2026-08-13). The output filename could already be moved aside while the INPUT
+#: could not, so a run asked for a second geometry's output would have written the 16-mer designs'
+#: genome hits under the longer geometry's name — a correct scan, filed as a measurement of designs
+#: it never saw. Everything downstream of here derives its window length and gap mask from the
+#: designs themselves, so pointing this at another atlas is all a different geometry needs.
+ATLAS = os.path.join(HERE, os.environ.get("ATLAS_JSON") or "nr4a3-fusion-junction-atlas.json")
 OUT = os.path.join(HERE, os.environ.get("GENOME_OUT", "aso-genome-offtarget.json"))
 CKPT_DIR = os.environ.get("GENOME_CKPT_DIR") or os.path.join(HERE, "aso-genome-offtarget-ckpt")
 
@@ -787,9 +793,24 @@ def designs_from_atlas(path=ATLAS):
                         "gap_specificity_margin": d.get("gap_specificity_margin"),
                         "gc_percent": d.get("gc_percent")})
     windows = sorted({d["target_mRNA_5to3"] for d in out})
-    bad = [w for w in windows if len(w) != OLIGO_LEN or set(w) - set(_BASES)]
+    # ⛔ A LENGTH DISAGREEMENT IS A GEOMETRY REFUSAL AND MUST SAY SO, NOT READ AS DIRTY SEQUENCE
+    # (2026-08-13). Pointing `ATLAS_JSON` at a 5-8-5 or 5-10-5 atlas raised "target window(s) are not
+    # clean 16-mers" and listed three perfectly clean 20-mers — a message that sends the reader
+    # hunting for an N or a lower-case base in the atlas, when the real answer is that this screen is
+    # a complete 4**16 bitmap and CANNOT run at that length at all (`BITMAP_OLIGO_LEN`). Two
+    # different refusals were sharing one sentence, and the wrong one was the louder.
+    wrong_length = sorted({len(w) for w in windows} - {OLIGO_LEN})
+    if wrong_length:
+        raise ValueError(
+            f"the atlas {os.path.basename(ATLAS)} carries {wrong_length}-mer target windows and this "
+            f"screen is built for {OLIGO_LEN}-mers. This is a GEOMETRY refusal, not malformed "
+            f"sequence: the membership test is a complete 2-bit-packed {4 ** BITMAP_OLIGO_LEN:,}-code "
+            f"bitmap, so a longer window needs a different data structure rather than a larger "
+            f"allocation (see BITMAP_OLIGO_LEN). The exhaustive genome arm is therefore UNAVAILABLE "
+            f"at that geometry and its absence must be reported as unmeasured, never as clean.")
+    bad = [w for w in windows if set(w) - set(_BASES)]
     if bad:
-        raise ValueError(f"{len(bad)} target window(s) are not clean {OLIGO_LEN}-mers, e.g. {bad[:3]}")
+        raise ValueError(f"{len(bad)} target window(s) carry non-ACGT characters, e.g. {bad[:3]}")
     return out, windows, atlas
 
 

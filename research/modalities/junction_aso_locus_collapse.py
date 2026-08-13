@@ -38,6 +38,13 @@ from collections import Counter, defaultdict
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "junction-aso-offtarget-locus-collapse.json")
 
+#: The geometry this artifact describes: the 16-mer 5-6-5 panel the manuscript reports. Screens at
+#: other geometries share the filename glob and are partitioned out rather than pooled — see
+#: `collapse_screen`. 16 is not typed here as a preference; it is the panel every committed
+#: manuscript number was measured on, and `aso_gap_length_tradeoff.py` owns the comparison across
+#: geometries.
+MANUSCRIPT_OLIGO_LEN = 16
+
 # `Homo sapiens ATP synthase F1 subunit gamma (ATP5F1C), transcript variant 1, mRNA; ...`
 # The symbol is the FIRST parenthesised token whose closing paren is followed by a comma or the end
 # of the definition. NCBI's defline is `<organism> <description> (<SYMBOL>), <tail>`, so that
@@ -172,6 +179,20 @@ def collapse_oligo(oligo):
     }
 
 
+def screen_oligo_len(screen):
+    """The oligo length a screen ACTUALLY ran at, measured from its own designs, or None.
+
+    ⛔ MEASURED, NEVER TAKEN FROM THE FILENAME, for the same reason `depth` below is a partition
+    rather than a comment: the length is the thing that ran, and it is in the file whether or not
+    anyone remembered to name the file after it. Screens committed before 2026-08-13 carry no
+    geometry block at all, so a recorded field would be absent exactly where it is needed.
+    A screen whose designs are not all one length returns None and is never pooled with anything.
+    """
+    lens = {len(o["antisense_5to3"]) for o in (screen.get("oligos") or [])
+            if o.get("antisense_5to3")}
+    return lens.pop() if len(lens) == 1 else None
+
+
 def collapse_screen(path):
     d = json.load(open(path))
     oligos = [o for o in (d.get("oligos") or []) if o.get("offtargets") is not None]
@@ -191,6 +212,14 @@ def collapse_screen(path):
         # so an inflation median taken across both describes neither population — the same defect
         # the censoring note above refuses for truncated lists. Tagged here so `main` can partition.
         "depth": "deep" if "deep500" in os.path.basename(path) else "default",
+        # ⛔ AND SO IS GEOMETRY, FOR EXACTLY THE SAME REASON (2026-08-14). The gap-length screens
+        # put 18-mer 5-8-5 and 20-mer 5-10-5 artifacts under the same `junction-aso-offtarget-*`
+        # glob. A longer gap is a different question — different catalytic span, different mismatch
+        # budget — so a near-match median taken across the three describes none of them. Measured
+        # on merge: pooling moved the deep population 38 screens/187 designs to 53/303 and
+        # `oligos_with_no_gap_spanning_locus` 12 to 110, which reads as a tenfold cleaner panel and
+        # is only a wider glob. Partition, exactly as depth is partitioned above.
+        "oligo_len": screen_oligo_len(d),
         "n_oligos": len(per),
         "per_oligo": per,
     }
@@ -200,7 +229,16 @@ def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     paths = sorted(p for p in glob.glob(os.path.join(HERE, "junction-aso-offtarget-*.json"))
                    if "-graded" not in p and "locus-collapse" not in p)
-    screens = [collapse_screen(p) for p in paths]
+    all_screens = [collapse_screen(p) for p in paths]
+
+    # ⛔ THIS ARTIFACT DESCRIBES ONE GEOMETRY, AND EVERY NUMBER IN THE MANUSCRIPT IS THAT GEOMETRY'S
+    # (2026-08-14). The gap-length work screens the same seams at 18-mer 5-8-5 and 20-mer 5-10-5 and
+    # writes them under this same glob, so the geometries are separated here before anything is
+    # counted. They are not dropped: `other_geometries` names every screen this artifact declines to
+    # pool, so a widening is visible rather than silent. The cross-geometry comparison has its own
+    # module, `aso_gap_length_tradeoff.py`, which is where a like-for-like contrast belongs.
+    screens = [s for s in all_screens if s["oligo_len"] == MANUSCRIPT_OLIGO_LEN]
+    other = [s for s in all_screens if s["oligo_len"] != MANUSCRIPT_OLIGO_LEN]
 
     # ⛔ THE HEADLINE POPULATION IS DEFAULT-DEPTH SCREENS ONLY, AND THIS IS LOAD-BEARING (2026-08-13).
     # `main` globs every `junction-aso-offtarget-*.json` on disk, so when the 38 deep re-screens
@@ -242,6 +280,16 @@ def main(argv=None):
                         "near-match count separately, so an oligonucleotide with more than 15 is "
                         "right-censored: its locus count is a lower bound and its inflation factor "
                         "is not computable. Every summary below is over the UNCENSORED subset."),
+        "⛔_one_geometry": (
+            f"Every count in this file is the {MANUSCRIPT_OLIGO_LEN}-mer 5-6-5 panel the manuscript "
+            f"reports. Screens at other geometries live under the same filename glob and are "
+            f"listed in `other_geometries` rather than pooled: a longer catalytic gap is a "
+            f"different question, so a count taken across geometries describes none of them."),
+        "manuscript_oligo_len": MANUSCRIPT_OLIGO_LEN,
+        "other_geometries": [
+            {"oligo_len": s["oligo_len"], "screen": s["screen"], "depth": s["depth"],
+             "n_oligos": s["n_oligos"]}
+            for s in sorted(other, key=lambda s: (s["oligo_len"] or 0, s["screen"]))],
         "n_screens": len(screens),
         "n_oligos": len(every),
         "n_oligos_uncensored": len(clean),

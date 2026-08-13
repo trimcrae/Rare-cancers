@@ -79,7 +79,16 @@ PARENT_GENES = tuple(_DONOR_ALIASES.get(_DONOR, (_DONOR,))) + (
 # the `DONOR_GENE` comment above already records once.
 PARENT_SYMBOLS = tuple(g.upper() for g in PARENT_GENES if " " not in g)
 PARENT_PHRASES = tuple(g.upper() for g in PARENT_GENES if " " in g)
-N_OLIGOS = 6                                       # screen the top N fusion-specific designs
+#: How many of the ranked fusion-specific designs are screened.
+#: ⛔ IT HAD TO BECOME A KNOB THE MOMENT A SECOND GEOMETRY EXISTED, AND A FIXED 6 WOULD HAVE MADE THE
+#: GAP-LENGTH COMPARISON AN ARTEFACT OF THIS CONSTANT (2026-08-13). The number of junction-spanning
+#: registers is `GAP - 1`: five at the 16-mer 5-6-5, seven at 5-8-5, nine at 5-10-5. A cap of 6
+#: therefore screens 5 of 5 at the short gap and 6 of 9 at the long one — so a longer-gap panel would
+#: come back with fewer counted liabilities partly because a third of its designs were never
+#: searched, and the flattering direction is the one that goes unnoticed.
+#: ⚠ THE DEFAULT IS UNCHANGED AT 6, so every committed screen and every existing dispatch is
+#: bit-for-bit unaffected; only a caller that asks for more gets more.
+N_OLIGOS = ja._env_int("SCREEN_TOP_N", 6)          # screen the top N fusion-specific designs
 # near match = allow up to 2 mismatches over the oligo length (14/16 at len 16, 18/20 at len 20)
 NEAR_MATCH_MIN_IDENT = ja.OLIGO_LEN - 2
 SUBMIT_SPACING_S = 3                               # NCBI: at most one request per 3 s
@@ -247,7 +256,12 @@ def _env_was_set(name):
 
 #: The four variables, named ONCE. Everything that has to enumerate them walks this tuple rather
 #: than repeating the list, so a fifth knob cannot be added to the screen and forgotten here.
-_KNOB_ENV_VARS = ("BLAST_HITLIST_SIZE", "SAVED_HITS_PER_DESIGN", "OLIGO_LEN", "WING")
+#: ⭐ `SCREEN_TOP_N` JOINED THE LIST WHEN IT BECAME A KNOB, WHICH IS THE WHOLE POINT OF THE LIST.
+#: How many designs a screen searched decides what its counts are counts OF, and a panel of 9
+#: registers screened 6 deep is not comparable with one of 5 screened 5 deep. Nothing in an artifact
+#: could have said which had happened.
+_KNOB_ENV_VARS = ("BLAST_HITLIST_SIZE", "SAVED_HITS_PER_DESIGN", "OLIGO_LEN", "WING",
+                  "SCREEN_TOP_N")
 
 #: 1-based inclusive span of the DNA gap, DERIVED from the geometry rather than typed.
 #: ⛔ THIS CONSTANT EXISTED IN THREE OTHER MODULES' EXPECTATIONS AND IN NONE OF THIS ONE'S NAMESPACE
@@ -295,6 +309,8 @@ def screen_parameters():
         "saved_hits_per_design": SAVED_HITS_PER_DESIGN,
         "oligo_len": ja.OLIGO_LEN,
         "wing": ja.WING,
+        "screen_top_n": N_OLIGOS,
+        "n_junction_spanning_registers": ja.GAP - 1,
         "overridden_from_env": list(_ENV_OVERRIDDEN),
     }
 
@@ -306,6 +322,19 @@ ORIENTATION_PARSED_SINCE = "2026-08-12"
 ORIENTATION_FILTERED = "orientation_filtered"
 ORIENTATION_LABELS_STRAND_BLIND = "orientation_parsed_but_labels_are_strand_blind_upper_bounds"
 ORIENTATION_UNPARSED = "orientation_UNPARSED_counts_are_upper_bounds"
+#: ⛔ A FOURTH STATE, BECAUSE "NOTHING TO PARSE" WAS BEING REPORTED AS "NOT PARSED" (2026-08-13).
+#: A screen whose designs return NO near-match at all stores no hit, so no hit carries `hit_frame`,
+#: so the parsed flag below never went true and the screen was graded an upper bound of unknown
+#: tightness. That is an ABSENT READING reported as a READING OF ABSENCE — this module's own §4
+#: failure — and it runs in the flattering-to-nobody direction: the cleanest possible screen, the one
+#: with zero hits, was the one labelled least trustworthy. Measured when the 5-10-5 screens landed:
+#: two of them return zero near-matches across every screened design and both were graded UNPARSED,
+#: while the only two committed screens in that state genuinely carry hits and are genuinely
+#: unparsed, so no published count moves.
+#: ⚠ KEPT DISTINCT FROM `ORIENTATION_FILTERED` rather than folded into it. "No hit existed" and
+#: "hits existed and every minus-strand one was diverted" are different facts about a screen, and a
+#: reader deciding what a zero means needs to be able to tell them apart.
+ORIENTATION_NO_HITS = "no_offtarget_hits_to_orient"
 
 
 def screen_orientation_status(screen):
@@ -333,11 +362,39 @@ def screen_orientation_status(screen):
     ⚠ Recovery is NOT possible for a strand-blind screen, which is why it is demoted rather than
     re-scored: only the top 15 hits are stored against a hitlist of up to 50, so the strand of the
     truncated tail is simply gone. An upper bound is the honest reading and the only available one.
+
+    ⛔⛔ AND A SCREEN WITH NO HITS AT ALL WAS BEING GRADED `ORIENTATION_UNPARSED` UNTIL 2026-08-13,
+    WHICH IS A FAIL-TOWARD-DOUBT BUG AND WILL BITE ANY FUTURE CLEAN SCREEN. The parsed flag went
+    true only when some STORED HIT carried `hit_frame`. A design that returns no near-match stores
+    no hit; a screen whose every design returns none therefore stored nothing, nothing carried the
+    field, and the screen was labelled "counts are upper bounds of unknown tightness" — over a set
+    of counts that are all ZERO and cannot be an upper bound of anything. **The cleanest possible
+    result was graded the least trustworthy**, and the direction is the dangerous one: it does not
+    exaggerate a liability, it withholds credit from a design that has none, which is exactly the
+    kind of error nobody goes looking for because it reads as caution.
+    ⚠ IT IS THE SAME MISTAKE THIS FUNCTION'S OWN HISTORY IS ABOUT, ONE LEVEL FURTHER OUT. The block
+    above records that it used to test whether the FIELD WAS PRESENT rather than whether any count
+    had been computed with it; this tested whether the field was present rather than whether
+    anything EXISTED to carry it. An absent reading is not a reading of absence (CLAUDE.md §4) —
+    and "no hits were found" is a reading, not an absence.
+    ⛔ THE FIX IS SCOPED TO COMPLETE HIT LISTS AND MUST STAY THAT WAY. Zero STORED hits against a
+    NON-ZERO near-match count is a censored screen, not an empty one: its hits exist, their strand
+    is unrecoverable, and it keeps the upper-bound label. Admitting that case would hand a clean
+    verdict to precisely the screens the orientation retraction was about.
+    ⚠ `ORIENTATION_NO_HITS` IS KEPT DISTINCT FROM `ORIENTATION_FILTERED` rather than folded into it,
+    because "no hit existed" and "hits existed and every minus-strand one was diverted" are
+    different facts about a screen, and a reader deciding what a zero means needs to tell them
+    apart. `screen_counts_are_orientation_filtered` accepts both, since a set of zeros is
+    orientation-safe either way. Measured before landing: no committed screen is in the new state,
+    so nothing published moves; the two committed screens that read UNPARSED genuinely carry hits
+    and are genuinely unparsed.
     """
     parsed = False
     saw_minus = False
+    n_hits = 0
     for o in screen.get("oligos", []):
         for h in (o.get("offtargets") or []):
+            n_hits += 1
             if "hit_frame" in h:
                 parsed = True
             if h.get("is_minus_strand") is True:
@@ -345,6 +402,15 @@ def screen_orientation_status(screen):
                 if h.get("risk") != "minus_strand_not_hybridisable":
                     return ORIENTATION_LABELS_STRAND_BLIND
     if not parsed:
+        # ⛔ ORDER MATTERS: ask "were there hits" BEFORE "were they parsed". A screen that stored no
+        # hit has nothing whose orientation could have been read, and calling that UNPARSED grades
+        # the cleanest possible result as the least trustworthy one. Scoped to screens whose stored
+        # lists are COMPLETE — a truncated list of zero saved hits against a non-zero count is a
+        # censored screen, not an empty one, and must keep its upper-bound label.
+        if n_hits == 0 and all(
+                (o.get("n_offtarget_near_matches") == 0)
+                for o in screen.get("oligos", []) if o.get("status") == "screened"):
+            return ORIENTATION_NO_HITS
         return ORIENTATION_UNPARSED
     # ⚠ Parsed, and every minus-strand hit was diverted — including the vacuous case of a screen
     # that returned none. `saw_minus` is reported for the reader; it does not change the verdict.
@@ -360,7 +426,11 @@ def screen_counts_are_orientation_filtered(screen_or_status):
     """
     status = (screen_or_status if isinstance(screen_or_status, str)
               else screen_orientation_status(screen_or_status))
-    return status == ORIENTATION_FILTERED
+    # ⚠ `ORIENTATION_NO_HITS` PASSES, AND IT IS NOT A LOOSENING. Every count in such a screen is
+    # zero, so there is no count an orientation filter could have changed — the predicate asks
+    # whether the counts are orientation-safe, and a set of zeros is. Measured before landing: no
+    # committed screen is in that state, so nothing published moves.
+    return status in (ORIENTATION_FILTERED, ORIENTATION_NO_HITS)
 
 
 #: RefSeq writes the approved gene symbol in parentheses immediately before a record's qualifiers:

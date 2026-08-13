@@ -163,3 +163,53 @@ reported as such rather than given a best row.
 | TFG e5::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGAAACCT-3′ | 2 | 8 | 34 → 7 | 1.38 |
 | TFG e6::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTTCAATC-3′ | 3 | 9 | 29 → 3 | 0.73 |
 | TFG e7::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGAATACT-3′ | 2 | 9 | 24 → 6 | 1.24 |
+
+**Table 5. Gap length against junction specificity, at one seam and across the design space.** The
+same seams tiled and screened at three gapmer geometries, wing held at five nucleotides so that only
+the catalytic gap changes. Inside the gap the junction-unique bases on the shorter side and the
+bases one wild-type parent pairs on the longer side are complements: they sum to the gap, which the
+generating module asserts for every design rather than assuming. Each nucleotide of gap-level margin
+therefore costs one nucleotide of contiguous wild-type-parent duplex, and the two directions are
+reported separately and never combined into a score. Near-match counts fall partly for a reason the
+instrument guarantees rather than measures: at a fixed budget of two mismatches every locus a longer
+design can reach is also reached by each of its own shorter sub-windows, so the set can only shrink,
+and two mismatches is a fractionally stricter test at 20 nucleotides than at 16. Only the size of
+the fall and which designs reach zero are measurements. The three blocks carry different
+denominators and are not comparable across blocks: the seam block is one molecule, the matched-seam
+block is the six junctions every geometry was screened at, and the corpus block is each geometry's
+whole design space, which is not screened at the same junctions. The exhaustive GRCh38 genome scan
+is unavailable at 18 and 20 nucleotides by construction, so no row reports it. Because the wing is
+five throughout, a parent's seam hybrid is five base pairs plus its share of the gap, so pairing
+five nucleotides of contiguous gap DNA and reaching a ten-base-pair hybrid are the same condition
+and are reported as one row. ΔG°37 values are for
+an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
+duplex identically and cannot explain a difference between the columns. None of these numbers is a
+measurement of cleavage.
+
+| | 5-6-5 (16-mer) | 5-8-5 (18-mer) | 5-10-5 (20-mer) |
+|---|---|---|---|
+| **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 seam** | | | |
+| design (5′→3′) | GGGCATATCATCAAAC | AGGGCATATCATCAAACC | CAGGGCATATCATCAAACCA |
+| gap-level margin | 3 | 4 | 5 |
+| hybridisable gap-spanning cleavage risks | 123 | 3 | 0 |
+| gene loci carrying one | 6 | 1 | 0 |
+| near-matches (≤2 mismatches, deeper ceiling) | 189 | 50 | 20 |
+| ≤1-mismatch matches over 186,185 transcripts | 1 | 0 | 0 |
+| mature-parent duplex through the whole gap (bp) | 8 (*TFG*) | 0 | 0 |
+| contiguous DNA a wild-type parent pairs (nt) | 3 | 4 | 5 |
+| most stable parent ΔG°37 (kcal/mol) | −7.77 | −8.66 | −10.25 |
+| **Over the six seams screened at every geometry** | | | |
+| designs screened | 30 | 42 | 54 |
+| median near-matches | 86.5 | 15 | 0 |
+| median gap-spanning cleavage risks | 21 | 0 | 0 |
+| designs carrying none | 8 of 30 | 28 of 42 | 54 of 54 |
+| most risk loci on any one design | 7 | 2 | 0 |
+| designs with no near-match at all | 0 of 30 | 7 of 42 | 39 of 54 |
+| **Over each geometry's whole design space** | | | |
+| junction-spanning registers per seam | 5 | 7 | 9 |
+| fusion-specific designs | 190 | 266 | 342 |
+| best gap-level margin available | 3 | 4 | 5 |
+| a mature parent can pair the whole gap | 181 of 190 | 130 of 266 | 87 of 342 |
+| parent pairs ≥5 nt of contiguous gap DNA, a ten-base-pair hybrid | 76 of 190 | 228 of 266 | 342 of 342 |
+| designs pairing the gap in parent pre-mRNA | 19 of 190 | 11 of 266 | 9 of 342 |
+| median most stable parent ΔG°37 (kcal/mol) | −8.66 | −11.60 | −14.58 |

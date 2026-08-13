@@ -109,3 +109,43 @@ def test_the_table_reproduces_from_committed_inputs():
 
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))
+
+
+def test_only_the_manuscripts_geometry_reaches_the_table():
+    """⛔ THE MERGE DEFECT THIS CATCHES CHANGED THE THREE CLINICALLY CENTRAL ROWS (2026-08-14).
+
+    `_deep_screens` globs `junction-aso-offtarget-*deep500*.json`, and the gap-length work writes
+    18-mer 5-8-5 and 20-mer 5-10-5 screens under that pattern. Letting them in did two things, and
+    only the first is a pooling complaint. The six re-screened junctions went from 5 designs to 21;
+    and `best_available` at the EWSR1 e12, FUS e10 and TAF15 e11 seams moved off the 16-mer this
+    paper reports onto an 18-mer — scored, moreover, against `ja.GAP_REGION_1BASED`, which is
+    5-6-5's (6, 11), so six of that design's eight catalytic bases were counted as its whole gap.
+
+    A per-junction reagent table that silently answers for a different molecule than the paper
+    discusses is worse than one that refuses, so the filter is asserted from both ends: every design
+    that reaches the table is the manuscript's length, and the screens on disk really do include
+    other lengths, so the test would fail if the filter were quietly matching everything.
+    """
+    import aso_per_junction_table as P  # noqa: PLC0415
+    import junction_aso_locus_collapse as C  # noqa: PLC0415
+
+    pairs = P._deep_screens()
+    assert pairs, "no deep screens were read at all"
+    lens = {len(seq) for _, seq, _ in pairs}
+    assert lens == {C.MANUSCRIPT_OLIGO_LEN}, sorted(lens)
+
+    # the guard is only meaningful if something was actually there to exclude
+    import glob  # noqa: PLC0415
+    seen = set()
+    for path in glob.glob(os.path.join(MOD, "junction-aso-offtarget-*deep500*.json")):
+        d = json.load(open(path, encoding="utf-8"))
+        seen |= {len(o["antisense_5to3"]) for o in d.get("oligos", [])
+                 if o.get("antisense_5to3")}
+    assert seen - {C.MANUSCRIPT_OLIGO_LEN}, (
+        "no longer-geometry screen is present, so this test proves nothing about the filter")
+
+    for j in _art()["junctions"]:
+        b = j["best_available"]
+        if b is not None:
+            assert len(b["antisense_5to3"]) == C.MANUSCRIPT_OLIGO_LEN, (
+                f"{j['junction_label']} recommends a {len(b['antisense_5to3'])}-mer")

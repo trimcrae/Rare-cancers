@@ -140,15 +140,41 @@ def test_the_default_run_writes_and_names_every_panel_it_set_aside(tmp_path):
         for line in r.stderr.splitlines():
             if "set aside" in line:
                 assert "-> kept" in line
+    # ⚠ THE TWO OMISSIONS ARE DIFFERENT DECISIONS AND MUST READ DIFFERENTLY. A panel collapsed onto
+    # the seam it re-screens is named "set aside X -> kept Y"; a panel excluded for being a
+    # different reagent length is named "excluded X (designs of length N)". A line carrying the
+    # collapse verb without `-> kept` would read as a truncated collapse, which is why the geometry
+    # readout uses its own wording and why both are asserted here rather than only the first.
+    if any(len(B.panel_oligo_lens(json.load(open(p, encoding="utf-8")))
+               - {B.OLIGO_LEN}) for p in glob.glob(
+                   os.path.join(MOD, "aso-insilico-evaluation*.json"))):
+        assert "at other geometries excluded" in r.stderr, r.stderr
+        for line in r.stderr.splitlines():
+            if line.strip().startswith("excluded "):
+                assert "designs of length" in line, line
 
 
-def test_one_panel_per_seam():
-    """The selection is on the seam a panel states, so no two chosen panels screen the same one."""
+def test_one_panel_per_seam_and_geometry():
+    """No two chosen panels are re-emissions of one another: same seam AND same reagent length.
+
+    ⚠ THE KEY GAINED ITS SECOND HALF ON 2026-08-14 AND THIS IS NOT A RELAXATION. It previously read
+    `seam_identity` alone, which was complete while every panel was a 16-mer. The gap-length work
+    evaluates these seams at 18 and 20 nucleotides too, and those are different molecules rather
+    than re-readings of one — so grouping them made the selector refuse to build at all. The
+    property under test is unchanged, that de-duplication leaves no duplicate; what changed is what
+    counts as a duplicate. Both halves are asserted, so collapsing on either alone still fails.
+    """
     paths = sorted(glob.glob(os.path.join(MOD, "aso-insilico-evaluation*.json")))
     chosen, collapsed = B.select_primary_panels(paths)
     assert len(chosen) + len(collapsed) == len(paths)
-    seams = [B.seam_identity(d) for _, d in chosen]
-    assert len(set(seams)) == len(seams), "two chosen panels screen the same seam"
+    keys = [(B.seam_identity(d), tuple(sorted(B.panel_oligo_lens(d)))) for _, d in chosen]
+    assert len(set(keys)) == len(keys), "two chosen panels screen the same seam at the same length"
+
+    # and the seam half still does real work: the 16-mer subset alone must have unique seams
+    at_16 = [k for k in keys if k[1] == (B.OLIGO_LEN,)]
+    assert len({k[0] for k in at_16}) == len(at_16), "two 16-mer panels screen the same seam"
+    assert len(at_16) < len(keys), (
+        "no longer-geometry panel is present, so the second half of the key is untested here")
 
 
 def test_a_re_emission_under_an_unanticipated_suffix_is_still_collapsed(tmp_path):
@@ -260,3 +286,45 @@ def test_the_population_is_the_one_the_manuscript_quotes():
     sources = {r["_source"] for r in art["per_design"]}
     assert len(sources) == 40
     assert not [s for s in sources if "deep500" in s]
+
+
+def test_panels_at_other_geometries_are_excluded_from_the_sixteen_mer_corpus():
+    """⛔ WITHOUT THIS FILTER THE MODULE DOES NOT BUILD AT ALL, AND THAT REFUSAL WAS CORRECT.
+
+    The gap-length work emits `aso-insilico-evaluation-*-18mer-deep500.json` and `-20mer-` panels of
+    seams this corpus already covers. `seam_identity` keys on the junction label — deliberately, so
+    that a re-emission cannot escape grouping by renaming itself — so an 18-mer panel of the EWSR1
+    e12 seam grouped with the 16-mer one, their counts differed, and `select_primary_panels` raised
+    "two different evaluations, not a shallow and a deep reading of one". They ARE two different
+    evaluations, because they are two different reagents, so the answer is to separate them before
+    grouping rather than to choose between them.
+
+    ⚠ THE FILTER IS `OLIGO_LEN`, THE SAME CONSTANT THE EXPECTATION USES, and that is what makes it a
+    correctness guard rather than a scoping preference: every `expected` in this artifact is
+    `chance_expectation(OLIGO_LEN, k)`, so an 18-mer observation admitted here would be divided by a
+    16-mer expectation and the ratio would describe neither length.
+    """
+    import glob  # noqa: PLC0415
+    import json as _json  # noqa: PLC0415
+    import os as _os  # noqa: PLC0415
+    import offtarget_chance_baseline as M  # noqa: PLC0415
+
+    off = []
+    rows = M.collect_observed(None, [], off)
+    assert rows, "no observations were collected"
+    assert all(len(r["antisense_5to3"]) == M.OLIGO_LEN for r in rows), sorted(
+        {len(r["antisense_5to3"]) for r in rows})
+
+    # something must actually have been excluded, or this asserts nothing
+    assert off, "no other-geometry panel was set aside; the filter may be matching everything"
+    assert {n for g in off for n in g["oligo_lens"]} == {18, 20}
+    excluded = {g["panel"] for g in off}
+    assert not (excluded & {r["_source"] for r in rows})
+
+    # and the span attribution names a panel this corpus actually uses, not an 18-mer one
+    nt, src = M.measured_transcriptome_nt()
+    assert nt and src
+    d = _json.load(open(_os.path.join(M.HERE, src), encoding="utf-8"))
+    lens = M.panel_oligo_lens(d)
+    assert not lens or lens == {M.OLIGO_LEN}, (src, sorted(lens))
+    assert glob  # imported for parity with the module's own discovery path

@@ -1,0 +1,324 @@
+{
+  "junction_label": "TCF12_e7__NR4A3_e3",
+  "breakpoint": {
+    "mode": "real_exon_junction_mRNA",
+    "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted \u2014 \u26a0 for EWSR1 and NR4A3 only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and `provenance_gate` below records which one actually ran.",
+    "donor_gene": "TCF12",
+    "provenance_gate": {
+      "TCF12": "construct_inputs_self_checks_only",
+      "NR4A3": "graded_exon_audit"
+    },
+    "EWSR1_exon_end": 7,
+    "donor_exon_end": 7,
+    "NR4A3_exon_start": 3,
+    "note": "Real in-frame TCF12::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
+    "measured_junction": {
+      "junction_label": "TCF12_e7__NR4A3_e3",
+      "donor_symbol": "TCF12",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 7,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 526,
+      "donor_last_whole_residue": 175,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 802,
+      "junction_context_mRNA": "CTGCAGCGCTTG|ATATGCCCTGCG"
+    },
+    "junction_context_mRNA": "CTGCAGCGCTTG|ATATGCCCTGCG",
+    "_transcript_source": {
+      "requested": "auto",
+      "used_per_gene": {
+        "TCF12": "ensembl+cache_agreed",
+        "NR4A3": "ensembl+cache_agreed"
+      }
+    }
+  },
+  "_note": "Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs (blastn-short vs human RefSeq RNA, NCBI BLAST URL API), resolved to the gap-mismatch level. A TRUE cleavage risk = an off-target near-match whose central DNA gap is fully matched (RNase-H can cleave); a gap-disrupted hit (mismatch inside the gap) does NOT cleave; wing-only hits are weak affinity liabilities. A clean oligo has zero true_cleavage_risk off-targets. Predicted specificity, not validated; confirm by the parental-/off-target-sparing assays.",
+  "method": {
+    "db": "refseq_rna (txid9606[ORGN])",
+    "program": "blastn (short, FILTER off)",
+    "near_match_threshold": ">= 18/20 identical",
+    "gap_region_1based": [
+      6,
+      15
+    ],
+    "breakpoint_model": "Real in-frame TCF12::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
+    "parameters": {
+      "_what": "The four environment-overridable knobs this screen ran under, recorded because they were not: before 2026-08-13 a screen's method block named the database, the program, the near-match threshold, the gap region, the breakpoint model and the parent set, and none of these \u2014 so a re-screen at a deeper BLAST ceiling was distinguishable from a default one only by its filename suffix, and a description of one such re-screen as a tenfold deeper ceiling AND retention depth was wrong about the retention with nothing in any artifact able to show it. Values not named in overridden_from_env are the module defaults. Screens committed before that date carry no parameters block and it cannot be added to them after the fact: what a past run used is not recoverable from its output, and an inferred value in a provenance field is worse than a visible gap.",
+      "blast_hitlist_size": 500,
+      "saved_hits_per_design": 500,
+      "oligo_len": 20,
+      "wing": 5,
+      "screen_top_n": 9,
+      "n_junction_spanning_registers": 9,
+      "overridden_from_env": [
+        "BLAST_HITLIST_SIZE",
+        "SAVED_HITS_PER_DESIGN",
+        "OLIGO_LEN",
+        "WING",
+        "SCREEN_TOP_N"
+      ]
+    },
+    "parent_set": {
+      "donor_gene": "TCF12",
+      "names_excluded": [
+        "TCF12",
+        "transcription factor 12",
+        "HEB",
+        "NR4A3",
+        "NOR-1",
+        "nuclear receptor subfamily 4 group A member 3"
+      ],
+      "accessions_excluded": [
+        "NM_005243",
+        "NM_006981"
+      ],
+      "accession_arm_live_for_donor": false
+    }
+  },
+  "n_oligos_screened": 9,
+  "n_screened_ok": 9,
+  "n_oligos_no_true_cleavage_risk": 9,
+  "oligos": [
+    {
+      "antisense_5to3": "CAGGGCATATCAAGCGCTGC",
+      "target_mRNA_5to3": "GCAGCGCTTGATATGCCCTG",
+      "gc_percent": 60.0,
+      "specificity_margin": 10,
+      "status": "screened",
+      "blast_rid": "7WFRKRC6016",
+      "n_parent_or_intended_hits": 31,
+      "n_offtarget_near_matches": 0,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0
+      },
+      "n_minus_strand_not_hybridisable": 0,
+      "n_gap_mismatch_unresolvable": 0,
+      "n_distinct_loci": 0,
+      "n_loci_seen_only_as_predicted_models": 0,
+      "n_loci_with_a_gap_spanning_hit": 0,
+      "loci_with_a_gap_spanning_hit": [],
+      "offtargets": []
+    },
+    {
+      "antisense_5to3": "AGGGCATATCAAGCGCTGCA",
+      "target_mRNA_5to3": "TGCAGCGCTTGATATGCCCT",
+      "gc_percent": 55.0,
+      "specificity_margin": 9,
+      "status": "screened",
+      "blast_rid": "7WFRRDZ1016",
+      "n_parent_or_intended_hits": 37,
+      "n_offtarget_near_matches": 0,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0
+      },
+      "n_minus_strand_not_hybridisable": 0,
+      "n_gap_mismatch_unresolvable": 0,
+      "n_distinct_loci": 0,
+      "n_loci_seen_only_as_predicted_models": 0,
+      "n_loci_with_a_gap_spanning_hit": 0,
+      "loci_with_a_gap_spanning_hit": [],
+      "offtargets": []
+    },
+    {
+      "antisense_5to3": "GCAGGGCATATCAAGCGCTG",
+      "target_mRNA_5to3": "CAGCGCTTGATATGCCCTGC",
+      "gc_percent": 60.0,
+      "specificity_margin": 9,
+      "status": "screened",
+      "blast_rid": "7WFRVWFJ016",
+      "n_parent_or_intended_hits": 3,
+      "n_offtarget_near_matches": 0,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0
+      },
+      "n_minus_strand_not_hybridisable": 0,
+      "n_gap_mismatch_unresolvable": 0,
+      "n_distinct_loci": 0,
+      "n_loci_seen_only_as_predicted_models": 0,
+      "n_loci_with_a_gap_spanning_hit": 0,
+      "loci_with_a_gap_spanning_hit": [],
+      "offtargets": []
+    },
+    {
+      "antisense_5to3": "GGGCATATCAAGCGCTGCAG",
+      "target_mRNA_5to3": "CTGCAGCGCTTGATATGCCC",
+      "gc_percent": 60.0,
+      "specificity_margin": 8,
+      "status": "screened",
+      "blast_rid": "7WFRZ656016",
+      "n_parent_or_intended_hits": 37,
+      "n_offtarget_near_matches": 0,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0
+      },
+      "n_minus_strand_not_hybridisable": 0,
+      "n_gap_mismatch_unresolvable": 0,
+      "n_distinct_loci": 0,
+      "n_loci_seen_only_as_predicted_models": 0,
+      "n_loci_with_a_gap_spanning_hit": 0,
+      "loci_with_a_gap_spanning_hit": [],
+      "offtargets": []
+    },
+    {
+      "antisense_5to3": "CGCAGGGCATATCAAGCGCT",
+      "target_mRNA_5to3": "AGCGCTTGATATGCCCTGCG",
+      "gc_percent": 60.0,
+      "specificity_margin": 8,
+      "status": "screened",
+      "blast_rid": "7WFS3K82016",
+      "n_parent_or_intended_hits": 4,
+      "n_offtarget_near_matches": 0,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0
+      },
+      "n_minus_strand_not_hybridisable": 0,
+      "n_gap_mismatch_unresolvable": 0,
+      "n_distinct_loci": 0,
+      "n_loci_seen_only_as_predicted_models": 0,
+      "n_loci_with_a_gap_spanning_hit": 0,
+      "loci_with_a_gap_spanning_hit": [],
+      "offtargets": []
+    },
+    {
+      "antisense_5to3": "GGCATATCAAGCGCTGCAGA",
+      "target_mRNA_5to3": "TCTGCAGCGCTTGATATGCC",
+      "gc_percent": 55.0,
+      "specificity_margin": 7,
+      "status": "screened",
+      "blast_rid": "7WFS7YCT016",
+      "n_parent_or_intended_hits": 37,
+      "n_offtarget_near_matches": 0,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0
+      },
+      "n_minus_strand_not_hybridisable": 0,
+      "n_gap_mismatch_unresolvable": 0,
+      "n_distinct_loci": 0,
+      "n_loci_seen_only_as_predicted_models": 0,
+      "n_loci_with_a_gap_spanning_hit": 0,
+      "loci_with_a_gap_spanning_hit": [],
+      "offtargets": []
+    },
+    {
+      "antisense_5to3": "ACGCAGGGCATATCAAGCGC",
+      "target_mRNA_5to3": "GCGCTTGATATGCCCTGCGT",
+      "gc_percent": 60.0,
+      "specificity_margin": 7,
+      "status": "screened",
+      "blast_rid": "7WFSA2RK016",
+      "n_parent_or_intended_hits": 4,
+      "n_offtarget_near_matches": 0,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0
+      },
+      "n_minus_strand_not_hybridisable": 0,
+      "n_gap_mismatch_unresolvable": 0,
+      "n_distinct_loci": 0,
+      "n_loci_seen_only_as_predicted_models": 0,
+      "n_loci_with_a_gap_spanning_hit": 0,
+      "loci_with_a_gap_spanning_hit": [],
+      "offtargets": []
+    },
+    {
+      "antisense_5to3": "GCATATCAAGCGCTGCAGAG",
+      "target_mRNA_5to3": "CTCTGCAGCGCTTGATATGC",
+      "gc_percent": 55.0,
+      "specificity_margin": 6,
+      "status": "screened",
+      "blast_rid": "7WFSER21016",
+      "n_parent_or_intended_hits": 37,
+      "n_offtarget_near_matches": 0,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0
+      },
+      "n_minus_strand_not_hybridisable": 0,
+      "n_gap_mismatch_unresolvable": 0,
+      "n_distinct_loci": 0,
+      "n_loci_seen_only_as_predicted_models": 0,
+      "n_loci_with_a_gap_spanning_hit": 0,
+      "loci_with_a_gap_spanning_hit": [],
+      "offtargets": []
+    },
+    {
+      "antisense_5to3": "GACGCAGGGCATATCAAGCG",
+      "target_mRNA_5to3": "CGCTTGATATGCCCTGCGTC",
+      "gc_percent": 60.0,
+      "specificity_margin": 6,
+      "status": "screened",
+      "blast_rid": "7WFSJ7UW016",
+      "n_parent_or_intended_hits": 4,
+      "n_offtarget_near_matches": 0,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "gap_mismatch_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0
+      },
+      "n_minus_strand_not_hybridisable": 0,
+      "n_gap_mismatch_unresolvable": 0,
+      "n_distinct_loci": 0,
+      "n_loci_seen_only_as_predicted_models": 0,
+      "n_loci_with_a_gap_spanning_hit": 0,
+      "loci_with_a_gap_spanning_hit": [],
+      "offtargets": []
+    }
+  ]
+}

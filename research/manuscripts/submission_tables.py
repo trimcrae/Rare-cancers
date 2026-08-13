@@ -331,6 +331,108 @@ def table4(per_junction):
     return "\n".join([hdr, sep] + rows)
 
 
+#: The three geometries, in the order the trade runs. Keys are the artifact's own architecture names.
+_GEOMETRIES = ("5-6-5", "5-8-5", "5-10-5")
+
+
+def table5(gap):
+    """The gap-length trade, one column per geometry, at the seam and over the corpus.
+
+    ⛔ ROWS ARE QUANTITIES AND COLUMNS ARE GEOMETRIES, because the finding is a TRADE and a trade is
+    only visible when the two directions sit in one column. Splitting it into a table per geometry,
+    or ranking the geometries, would present as a recommendation what is an accounting of costs on
+    both sides — the same reason `aso_gap_length_tradeoff` emits no composite score.
+
+    ⚠ THE THREE BLOCKS ANSWER DIFFERENT QUESTIONS AND HAVE DIFFERENT DENOMINATORS. The seam block is
+    one molecule at one junction; the matched-seam block is the six seams every geometry was
+    screened at, which is the only like-for-like alignment comparison available; the corpus block is
+    all designs at each geometry, where the geometries are NOT screened at the same junctions and
+    the counts are therefore reported per geometry rather than compared. Labelled in the rows.
+    """
+    lead = gap["lead_reagent_at_the_most_commonly_reported_seam"]["by_geometry"]
+    matched = gap["the_trade"]["transcriptome_coincidence_falls_but_it_MUST"][
+        "matched_junctions"]["by_geometry"]
+    trade, geom = gap["the_trade"], {g["architecture"]: g for g in gap["geometries"]}
+
+    # ⛔ THE MERGED ROW BELOW RESTS ON AN IDENTITY, SO THE IDENTITY IS CHECKED HERE. With a wing of
+    # five, a parent's seam hybrid is five plus its share of the gap, so reaching a ten-base-pair
+    # hybrid and reaching a five-nucleotide contiguous DNA run are the same inequality. If a future
+    # geometry changes the wing they come apart, and one row would then be silently wrong for one of
+    # them — which is exactly the class of error a generated table is supposed to make impossible.
+    for arch in _GEOMETRIES:
+        g = geom[arch]
+        ge5 = sum(v for k, v in g["parent_paired_gap_dna_distribution"].items() if int(k) >= 5)
+        if not (g["wing"] == 5 and ge5 == g["n_whose_seam_hybrid_reaches_min_duplex_bp"]):
+            raise SystemExit(
+                f"Table 5: at {arch} the ten-base-pair duplex count "
+                f"({g['n_whose_seam_hybrid_reaches_min_duplex_bp']}) and the ≥5 nt DNA count "
+                f"({ge5}, wing {g['wing']}) are no longer the same condition; split the row")
+
+    def row(label, fn, src):
+        return f"| {label} | " + " | ".join(str(fn(src[g])) for g in _GEOMETRIES) + " |"
+
+    def parent_duplex(d):
+        bp = d["mature_parent_duplex_through_whole_gap_bp"]
+        return f"{bp} (*{d['mature_parent_duplex_gene']}*)" if bp else "0"
+
+    rows = [
+        "| **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 seam** | | | |",
+        row("design (5′→3′)", lambda d: d["antisense_5to3"], lead),
+        row("gap-level margin", lambda d: d["gap_specificity_margin"], lead),
+        row("hybridisable gap-spanning cleavage risks",
+            lambda d: d["alignment_screen"]["n_true_cleavage_risk"], lead),
+        row("gene loci carrying one",
+            lambda d: d["alignment_screen"]["loci"]["n_loci_with_a_gap_spanning_hit"], lead),
+        row("near-matches (≤2 mismatches, deeper ceiling)",
+            lambda d: d["alignment_screen"]["n_offtarget_near_matches"], lead),
+        row("≤1-mismatch matches over 186,185 transcripts",
+            lambda d: d["exhaustive_le1mm_matches"], lead),
+        row("mature-parent duplex through the whole gap (bp)", parent_duplex, lead),
+        row("contiguous DNA a wild-type parent pairs (nt)",
+            lambda d: d["parent_paired_gap_dna_nt"], lead),
+        row("most stable parent ΔG°37 (kcal/mol)",
+            lambda d: f"{d['dg37_most_stable_parent_duplex']:.2f}".replace("-", "−"), lead),
+        "| **Over the six seams screened at every geometry** | | | |",
+        row("designs screened", lambda d: d["n_designs_with_alignment_counts"], matched),
+        row("median near-matches", lambda d: f"{d['near_matches']['median']:g}", matched),
+        row("median gap-spanning cleavage risks",
+            lambda d: f"{d['hybridisable_gap_spanning_risks']['median']:g}", matched),
+        row("designs carrying none",
+            lambda d: f"{d['n_with_zero_hybridisable_gap_spanning_risk']} of "
+                      f"{d['n_designs_with_alignment_counts']}", matched),
+        row("most risk loci on any one design",
+            lambda d: d["loci_with_a_gap_spanning_hit"]["max"], matched),
+        row("designs with no near-match at all",
+            lambda d: f"{d['n_with_no_near_match_at_all']} of "
+                      f"{d['n_designs_with_alignment_counts']}", matched),
+        "| **Over each geometry's whole design space** | | | |",
+        row("junction-spanning registers per seam",
+            lambda d: d["junction_spanning_registers_per_seam"], geom),
+        row("fusion-specific designs", lambda d: d["n_fusion_specific_designs"], geom),
+        f"| best gap-level margin available | " + " | ".join(
+            str(trade["improves_with_a_longer_gap"]["best_available_gap_margin"][g])
+            for g in _GEOMETRIES) + " |",
+        row("a mature parent can pair the whole gap",
+            lambda d: f"{d['mature_parent_whole_gap_duplex']['n_with_any_gap_pairing_window']} of "
+                      f"{d['n_fusion_specific_designs']}", geom),
+        # ⚠ ONE ROW, NOT TWO, BECAUSE THESE ARE THE SAME CONDITION AND PRINTING BOTH READS AS A
+        # COPY-PASTE FAULT. The parent's seam hybrid is the wing plus its share of the gap, and the
+        # wing is five at every geometry compared, so "hybrid reaches ten base pairs" and "the DNA
+        # run reaches five nucleotides" are the same inequality. Asserted below rather than trusted.
+        row("parent pairs ≥5 nt of contiguous gap DNA, a ten-base-pair hybrid",
+            lambda d: f"{d['n_reaching_reported_dna_minimum']['5']} of "
+                      f"{d['n_fusion_specific_designs']}", geom),
+        row("designs pairing the gap in parent pre-mRNA",
+            lambda d: f"{d['premrna_hybridisable_gap_paired']['n_designs_with_at_least_one']} of "
+                      f"{d['premrna_hybridisable_gap_paired']['n_designs_screened']}", geom),
+        row("median most stable parent ΔG°37 (kcal/mol)",
+            lambda d: f"{d['dg37_most_stable_parent_duplex']['median']:.2f}".replace("-", "−"),
+            geom),
+    ]
+    return "\n".join(
+        ["| | 5-6-5 (16-mer) | 5-8-5 (18-mer) | 5-10-5 (20-mer) |", "|---|---|---|---|"] + rows)
+
+
 #: The rule audit's field names are code identifiers; a manuscript table needs the rule, not the key.
 _RULE_LABELS = {
     "gc_in_band": "GC outside 40–60%",
@@ -433,7 +535,8 @@ def main():
     chance = _load("offtarget-chance-baseline.json")
     thermo = _load("junction-aso-thermo.json")
     per_junction = _load("aso-per-junction-table.json")
-    if not (atlas and collapse and chance and thermo and per_junction):
+    gap = _load("aso-gap-length-tradeoff.json")
+    if not (atlas and collapse and chance and thermo and per_junction and gap):
         print("a required artifact is missing", file=sys.stderr)
         return 2
 
@@ -514,6 +617,30 @@ for an arbitrary 16-mer, so 1.00 is chance. A junction with no design clearing t
 reported as such rather than given a best row.
 
 {table4(per_junction)}
+
+**Table 5. Gap length against junction specificity, at one seam and across the design space.** The
+same seams tiled and screened at three gapmer geometries, wing held at five nucleotides so that only
+the catalytic gap changes. Inside the gap the junction-unique bases on the shorter side and the
+bases one wild-type parent pairs on the longer side are complements: they sum to the gap, which the
+generating module asserts for every design rather than assuming. Each nucleotide of gap-level margin
+therefore costs one nucleotide of contiguous wild-type-parent duplex, and the two directions are
+reported separately and never combined into a score. Near-match counts fall partly for a reason the
+instrument guarantees rather than measures: at a fixed budget of two mismatches every locus a longer
+design can reach is also reached by each of its own shorter sub-windows, so the set can only shrink,
+and two mismatches is a fractionally stricter test at 20 nucleotides than at 16. Only the size of
+the fall and which designs reach zero are measurements. The three blocks carry different
+denominators and are not comparable across blocks: the seam block is one molecule, the matched-seam
+block is the six junctions every geometry was screened at, and the corpus block is each geometry's
+whole design space, which is not screened at the same junctions. The exhaustive GRCh38 genome scan
+is unavailable at 18 and 20 nucleotides by construction, so no row reports it. Because the wing is
+five throughout, a parent's seam hybrid is five base pairs plus its share of the gap, so pairing
+five nucleotides of contiguous gap DNA and reaching a ten-base-pair hybrid are the same condition
+and are reported as one row. ΔG°37 values are for
+an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
+duplex identically and cannot explain a difference between the columns. None of these numbers is a
+measurement of cleavage.
+
+{table5(gap)}
 """
     open(OUT, "w").write(doc)
     print(f"wrote {OUT}")

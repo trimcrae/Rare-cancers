@@ -272,3 +272,52 @@ def test_one_failed_submission_does_not_lose_the_other_designs():
     assert len(recs) == 5
     assert sum(1 for r in recs if r.get("status") == "screened") == 4
     assert sum(1 for r in recs if r.get("status") == "screen_failed") == 1
+
+
+def test_the_artifact_covers_one_geometry_and_names_the_screens_it_declines_to_pool():
+    """⛔ GEOMETRY IS PART OF A SCREEN'S IDENTITY, EXACTLY AS DEPTH IS (2026-08-14).
+
+    The gap-length work writes 18-mer 5-8-5 and 20-mer 5-10-5 screens under the same
+    `junction-aso-offtarget-*` glob this module reads. Merging that branch and regenerating pooled
+    them into the deep population: 38 screens/187 designs became 53/303 and
+    `oligos_with_no_gap_spanning_locus` went 12 -> 110, which reads as a panel an order of magnitude
+    cleaner and is only a wider glob. It is the same defect `5233cf867` fixed one axis out, where a
+    widening glob moved a manuscript-quoted median from 2.14 to 4.55.
+
+    ⚠ AND THEY MUST BE NAMED, NOT SILENTLY DROPPED. A filter that quietly excludes files is how the
+    next geometry gets screened and then never noticed, so `other_geometries` lists every screen the
+    partition set aside and this asserts the list is populated rather than merely present.
+    """
+    d = json.load(open(os.path.join(MOD, "junction-aso-offtarget-locus-collapse.json"),
+                       encoding="utf-8"))
+    assert d["manuscript_oligo_len"] == C.MANUSCRIPT_OLIGO_LEN == 16
+
+    for key in ("screens", "deep_screens"):
+        for s in d[key]:
+            assert s["oligo_len"] == 16, (
+                f"{key}: {s['screen']} is a {s['oligo_len']}-mer screen inside the 16-mer "
+                f"population; the geometry partition has stopped working")
+
+    other = d["other_geometries"]
+    assert other, ("no screen was set aside — either the longer geometries have left this "
+                   "checkout, or the partition is matching nothing")
+    assert {o["oligo_len"] for o in other} == {18, 20}, sorted({o["oligo_len"] for o in other})
+    named = {o["screen"] for o in other}
+    assert not (named & {s["screen"] for s in d["screens"] + d["deep_screens"]}), (
+        "a screen is both counted and set aside")
+
+
+def test_screen_oligo_len_is_measured_from_the_designs_not_the_filename():
+    """A filename is a convention; the design length is the thing that ran.
+
+    ⚠ Pre-2026-08-13 screens carry no geometry block at all, so a recorded field would be absent
+    exactly where the partition is needed. A screen whose designs disagree is refused rather than
+    guessed at, because pooling two lengths under one label is the failure being prevented.
+    """
+    assert C.screen_oligo_len({"oligos": [{"antisense_5to3": "A" * 20}]}) == 20
+    assert C.screen_oligo_len({"oligos": [{"antisense_5to3": "A" * 16},
+                                          {"antisense_5to3": "A" * 18}]}) is None
+    assert C.screen_oligo_len({"oligos": []}) is None
+    # and the name really is ignored: a 20-mer screen called "16mer" still measures 20
+    assert C.screen_oligo_len({"screen": "junction-aso-offtarget-16mer.json",
+                               "oligos": [{"antisense_5to3": "C" * 20}]}) == 20

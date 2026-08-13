@@ -2,6 +2,100 @@
   "what": "Off-target near-matches from every committed junction-gapmer screen, re-counted per GENE LOCUS instead of per RefSeq transcript accession, and split by whether the locus was seen in curated (NM_/NR_) or only predicted (XM_/XR_) records.",
   "\u26a0_not_a_measurement": "A locus count is a denominator, not an off-target activity. No hit was re-aligned or re-graded; the screens' own risk classes are carried through unchanged.",
   "\u26d4_censoring": "The screens store the top 15 hits per oligonucleotide and report the full near-match count separately, so an oligonucleotide with more than 15 is right-censored: its locus count is a lower bound and its inflation factor is not computable. Every summary below is over the UNCENSORED subset.",
+  "\u26d4_one_geometry": "Every count in this file is the 16-mer 5-6-5 panel the manuscript reports. Screens at other geometries live under the same filename glob and are listed in `other_geometries` rather than pooled: a longer catalytic gap is a different question, so a count taken across geometries describes none of them.",
+  "manuscript_oligo_len": 16,
+  "other_geometries": [
+    {
+      "oligo_len": 18,
+      "screen": "junction-aso-offtarget-e12n3-18mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 7
+    },
+    {
+      "oligo_len": 18,
+      "screen": "junction-aso-offtarget-fuse10n3-18mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 7
+    },
+    {
+      "oligo_len": 18,
+      "screen": "junction-aso-offtarget-fuse8n3-18mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 7
+    },
+    {
+      "oligo_len": 18,
+      "screen": "junction-aso-offtarget-taf15e11n3-18mer-deep500-b2.json",
+      "depth": "deep",
+      "n_oligos": 6
+    },
+    {
+      "oligo_len": 18,
+      "screen": "junction-aso-offtarget-taf15e11n3-18mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 6
+    },
+    {
+      "oligo_len": 18,
+      "screen": "junction-aso-offtarget-taf15e1n3-18mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 7
+    },
+    {
+      "oligo_len": 18,
+      "screen": "junction-aso-offtarget-tcf12e7n3-18mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 7
+    },
+    {
+      "oligo_len": 20,
+      "screen": "junction-aso-offtarget-e12n3-20mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 9
+    },
+    {
+      "oligo_len": 20,
+      "screen": "junction-aso-offtarget-fuse10n3-20mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 9
+    },
+    {
+      "oligo_len": 20,
+      "screen": "junction-aso-offtarget-fuse8n3-20mer-deep500-b2.json",
+      "depth": "deep",
+      "n_oligos": 8
+    },
+    {
+      "oligo_len": 20,
+      "screen": "junction-aso-offtarget-fuse8n3-20mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 8
+    },
+    {
+      "oligo_len": 20,
+      "screen": "junction-aso-offtarget-taf15e11n3-20mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 9
+    },
+    {
+      "oligo_len": 20,
+      "screen": "junction-aso-offtarget-taf15e1n3-20mer-deep500-b2.json",
+      "depth": "deep",
+      "n_oligos": 9
+    },
+    {
+      "oligo_len": 20,
+      "screen": "junction-aso-offtarget-taf15e1n3-20mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 8
+    },
+    {
+      "oligo_len": 20,
+      "screen": "junction-aso-offtarget-tcf12e7n3-20mer-deep500.json",
+      "depth": "deep",
+      "n_oligos": 9
+    }
+  ],
   "n_screens": 78,
   "n_oligos": 192,
   "n_oligos_uncensored": 49,
@@ -31,6 +125,7 @@
       "junction_label": null,
       "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -163,6 +258,7 @@
       "junction_label": null,
       "orientation": "orientation_UNPARSED_counts_are_upper_bounds",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 4,
       "per_oligo": [
         {
@@ -264,6 +360,7 @@
       "junction_label": "EWSR1_e10__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -404,6 +501,7 @@
       "junction_label": "EWSR1_e12__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -553,6 +651,7 @@
       "junction_label": "EWSR1_e13__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -694,6 +793,7 @@
       "junction_label": "EWSR1_e15__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -831,6 +931,7 @@
       "junction_label": "EWSR1_e1__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -950,6 +1051,7 @@
       "junction_label": "EWSR1_e4__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -1101,6 +1203,7 @@
       "junction_label": "EWSR1_e7__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -1240,6 +1343,7 @@
       "junction_label": "EWSR1_e9__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 2,
       "per_oligo": [
         {
@@ -1298,6 +1402,7 @@
       "junction_label": "FUS_e10__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -1447,6 +1552,7 @@
       "junction_label": "FUS_e11__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -1572,6 +1678,7 @@
       "junction_label": "FUS_e13__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -1717,6 +1824,7 @@
       "junction_label": "FUS_e1__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -1876,6 +1984,7 @@
       "junction_label": "FUS_e3__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 4,
       "per_oligo": [
         {
@@ -1982,6 +2091,7 @@
       "junction_label": "FUS_e5__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -2133,6 +2243,7 @@
       "junction_label": "FUS_e7__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -2257,6 +2368,7 @@
       "junction_label": "FUS_e8__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -2396,6 +2508,7 @@
       "junction_label": "TAF15_e11__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -2545,6 +2658,7 @@
       "junction_label": "TAF15_e12__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 4,
       "per_oligo": [
         {
@@ -2660,6 +2774,7 @@
       "junction_label": "TAF15_e14__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -2799,6 +2914,7 @@
       "junction_label": "TAF15_e1__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -2936,6 +3052,7 @@
       "junction_label": "TAF15_e4__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -3081,6 +3198,7 @@
       "junction_label": "TAF15_e6__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -3231,6 +3349,7 @@
       "junction_label": "TAF15_e8__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -3370,6 +3489,7 @@
       "junction_label": "TAF15_e9__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -3512,6 +3632,7 @@
       "junction_label": "TCF12_e11__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -3648,6 +3769,7 @@
       "junction_label": "TCF12_e13__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -3797,6 +3919,7 @@
       "junction_label": "TCF12_e17__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -3943,6 +4066,7 @@
       "junction_label": "TCF12_e19__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -4093,6 +4217,7 @@
       "junction_label": "TCF12_e3__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -4241,6 +4366,7 @@
       "junction_label": "TCF12_e5__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -4379,6 +4505,7 @@
       "junction_label": "TCF12_e7__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 4,
       "per_oligo": [
         {
@@ -4482,6 +4609,7 @@
       "junction_label": "TCF12_e9__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 4,
       "per_oligo": [
         {
@@ -4595,6 +4723,7 @@
       "junction_label": "TFG_e2__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -4725,6 +4854,7 @@
       "junction_label": "TFG_e3__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -4868,6 +4998,7 @@
       "junction_label": "TFG_e4__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -5015,6 +5146,7 @@
       "junction_label": "TFG_e5__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -5153,6 +5285,7 @@
       "junction_label": "TFG_e6__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -5286,6 +5419,7 @@
       "junction_label": "TFG_e7__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "default",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -5435,6 +5569,7 @@
       "junction_label": "EWSR1_e10__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -5625,6 +5760,7 @@
       "junction_label": "EWSR1_e12__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -5841,6 +5977,7 @@
       "junction_label": "EWSR1_e13__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -6011,6 +6148,7 @@
       "junction_label": "EWSR1_e15__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -6168,6 +6306,7 @@
       "junction_label": "EWSR1_e1__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -6300,6 +6439,7 @@
       "junction_label": "EWSR1_e4__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -6505,6 +6645,7 @@
       "junction_label": "EWSR1_e7__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -6737,6 +6878,7 @@
       "junction_label": "EWSR1_e9__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -6966,6 +7108,7 @@
       "junction_label": "FUS_e10__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -7182,6 +7325,7 @@
       "junction_label": "FUS_e11__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -7340,6 +7484,7 @@
       "junction_label": "FUS_e13__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -7522,6 +7667,7 @@
       "junction_label": "FUS_e1__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -7762,6 +7908,7 @@
       "junction_label": "FUS_e3__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -7987,6 +8134,7 @@
       "junction_label": "FUS_e5__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 3,
       "per_oligo": [
         {
@@ -8115,6 +8263,7 @@
       "junction_label": "FUS_e7__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -8325,6 +8474,7 @@
       "junction_label": "FUS_e8__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -8471,6 +8621,7 @@
       "junction_label": "TAF15_e11__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -8687,6 +8838,7 @@
       "junction_label": "TAF15_e12__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -8841,6 +8993,7 @@
       "junction_label": "TAF15_e14__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -9075,6 +9228,7 @@
       "junction_label": "TAF15_e1__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -9211,6 +9365,7 @@
       "junction_label": "TAF15_e4__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -9418,6 +9573,7 @@
       "junction_label": "TAF15_e6__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -9628,6 +9784,7 @@
       "junction_label": "TAF15_e8__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -9839,6 +9996,7 @@
       "junction_label": "TAF15_e9__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -10056,6 +10214,7 @@
       "junction_label": "TCF12_e11__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -10246,6 +10405,7 @@
       "junction_label": "TCF12_e13__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -10483,6 +10643,7 @@
       "junction_label": "TCF12_e17__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -10690,6 +10851,7 @@
       "junction_label": "TCF12_e19__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -10896,6 +11058,7 @@
       "junction_label": "TCF12_e3__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -11078,6 +11241,7 @@
       "junction_label": "TCF12_e5__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -11258,6 +11422,7 @@
       "junction_label": "TCF12_e7__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -11390,6 +11555,7 @@
       "junction_label": "TCF12_e9__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -11590,6 +11756,7 @@
       "junction_label": "TFG_e2__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 4,
       "per_oligo": [
         {
@@ -11799,6 +11966,7 @@
       "junction_label": "TFG_e3__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -12050,6 +12218,7 @@
       "junction_label": "TFG_e4__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -12345,6 +12514,7 @@
       "junction_label": "TFG_e5__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -12653,6 +12823,7 @@
       "junction_label": "TFG_e6__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {
@@ -12843,6 +13014,7 @@
       "junction_label": "TFG_e7__NR4A3_e3",
       "orientation": "orientation_filtered",
       "depth": "deep",
+      "oligo_len": 16,
       "n_oligos": 5,
       "per_oligo": [
         {

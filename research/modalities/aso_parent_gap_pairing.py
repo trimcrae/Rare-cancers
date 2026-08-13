@@ -48,12 +48,31 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SEQS = os.path.join(HERE, "aso-premrna-sequences.json")
-ATLAS = os.path.join(HERE, "nr4a3-fusion-junction-atlas.json")
-OUT = os.path.join(HERE, "aso-parent-gap-pairing.json")
 
-OLIGO_LEN = 16
-WING = 5
-#: 0-based window positions of the DNA gap in a 5-6-5 16-mer.
+#: ⛔ THE GEOMETRY AND BOTH PATHS FOLLOW THE ENVIRONMENT AS OF 2026-08-13, AND THE THREE MOVE
+#: TOGETHER OR NOT AT ALL. `OLIGO_LEN`/`WING` were literals here while every other module in this
+#: lane read them from `junction_aso`, so a 5-8-5 or 5-10-5 atlas fed to this screen would have been
+#: sliced as a 16-mer: `longest_run_through_gap` would compare positions 5..10 of an 18-mer window
+#: against a 16-nt parent window, index past the end of neither string, and return a number that is
+#: not about either geometry. A screen that silently reads the wrong six columns of a longer
+#: oligonucleotide produces a full, plausible artifact, which is the failure mode this repository
+#: keeps paying for.
+#: ⚠ DEFAULTS UNCHANGED (16, 5, the committed atlas, the committed output), so `--check` against the
+#: committed artifact is bit-for-bit what it was and no existing caller moves.
+try:                                                    # noqa: SIM105 — the fallback IS the contract
+    sys.path.insert(0, HERE)
+    import junction_aso as _ja                          # noqa: PLC0415
+    OLIGO_LEN, WING = _ja.OLIGO_LEN, _ja.WING
+except Exception:                                       # noqa: BLE001
+    OLIGO_LEN = int(os.environ.get("OLIGO_LEN") or 16)
+    WING = int(os.environ.get("WING") or 5)
+
+_SUFFIX = os.environ.get("OUT_SUFFIX", "")
+ATLAS = os.path.join(HERE, os.environ.get("ATLAS_JSON")
+                     or f"nr4a3-fusion-junction-atlas{_SUFFIX}.json")
+OUT = os.path.join(HERE, f"aso-parent-gap-pairing{_SUFFIX}.json")
+
+#: 0-based window positions of the DNA gap — `WING`..`OLIGO_LEN - WING`, six wide at the 5-6-5.
 GAP = range(WING, OLIGO_LEN - WING)
 
 #: A contiguous ASO:RNA heteroduplex shorter than this is not treated as a plausible RNase-H1
@@ -145,23 +164,46 @@ def build():
     for r in liable:
         by_parent[r["parent"]] = by_parent.get(r["parent"], 0) + 1
 
+    gap_nt = len(GAP)
     return {
-        "_what": ("For every junction gapmer, the longest contiguous duplex a MATURE wild-type "
-                  "parent transcript can form that pairs the whole six-nucleotide catalytic gap."),
-        "_why": ("None of the manuscript's three screens can see this: the alignment screen filters "
-                 "at >=14/16 identity and excludes parent records, the exhaustive scan admits <=1 "
-                 "mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a "
-                 "mature exon-exon junction."),
+        "_what": (f"For every junction gapmer, the longest contiguous duplex a MATURE wild-type "
+                  f"parent transcript can form that pairs the whole {gap_nt}-nucleotide catalytic "
+                  f"gap of a {OLIGO_LEN}-mer {WING}-{gap_nt}-{WING} gapmer."),
+        "_why": (f"None of the manuscript's three screens can see this: the alignment screen filters "
+                 f"at >={OLIGO_LEN - 2}/{OLIGO_LEN} identity and excludes parent records, the "
+                 f"exhaustive scan admits <=1 mismatch, and the pre-mRNA arm searches unspliced "
+                 f"sequence and so cannot reach a mature exon-exon junction."),
+        # ⛔ THE GEOMETRY IS STATED, NOT LEFT TO BE INFERRED FROM `gap_positions_0based`. Two of the
+        # three quantities this screen turns on — how wide the catalytic gap is, and how long a
+        # window is compared — are geometry, and until 2026-08-13 they were literals in this module
+        # and appeared in the artifact only as a pair of gap indices. A 5-8-5 and a 5-6-5 run would
+        # have differed in the artifact by the string "[5, 12]" against "[5, 10]", in a file whose
+        # headline count the manuscript quotes.
+        "_geometry": {"oligo_len": OLIGO_LEN, "wing": WING, "gap_nt": gap_nt,
+                      "architecture": f"{WING}-{gap_nt}-{WING} (LNA-DNA-LNA)",
+                      "atlas": os.path.basename(ATLAS),
+                      "_note": ("MIN_DUPLEX_BP is an ABSOLUTE hybrid length and does NOT scale with "
+                                "the gap. At a gap of 10 the catalytic gap alone is already a 10 bp "
+                                "hybrid, so every gap-pairing window clears the threshold by "
+                                "construction and `n_with_parent_duplex_through_gap` equals the "
+                                "count of gap-pairing windows; at a gap of 6 a window needs four "
+                                "further flanking pairs to reach it. Both readings are real and "
+                                "they are not the same reading, so compare geometries on the raw "
+                                "`longest_parent_duplex_bp_through_gap` distribution as well.")},
         "_what_this_is_not": [
             "Not a measurement of off-target activity. A duplex is necessary for RNase-H1 cleavage, "
             "not sufficient, and nothing here is a cleavage assay.",
             "Not transcriptome-wide. Six parent transcripts only — the same bound the pre-mRNA arm "
             "carries.",
-            "MIN_DUPLEX_BP is a STATED threshold, not a measured one — though not an arbitrary "
-            "one: 10 is the strict end of the 7-to-10 hybridised nucleotides PMID 35664704 reports "
-            "as the minimum for RNase-H1 hybrid-binding-domain engagement, so this count is a floor "
-            "and returns 175 of 190 at a threshold of 7. Every design's raw longest "
-            "run is released so another threshold can be applied without re-running this.",
+            # ⚠ THE LOOSE-THRESHOLD FIGURE IS COUNTED, NOT REMEMBERED. It was the literal "175 of
+            # 190", measured on the 16-mer corpus — correct there and false at any other geometry,
+            # in the one bullet that tells a reader the headline count is threshold-dependent.
+            f"MIN_DUPLEX_BP is a STATED threshold, not a measured one — though not an arbitrary "
+            f"one: 10 is the strict end of the 7-to-10 hybridised nucleotides PMID 35664704 reports "
+            f"as the minimum for RNase-H1 hybrid-binding-domain engagement, so this count is a floor "
+            f"and returns {sum(1 for r in rows if r['longest_parent_duplex_bp_through_gap'] >= 7)} "
+            f"of {len(rows)} at a threshold of 7. Every design's raw longest "
+            f"run is released so another threshold can be applied without re-running this.",
             "Not a result that turns on that threshold. The two designs surviving every screen in "
             "the manuscript have a longest run of ZERO at any length, and the ordering by "
             "gap-level margin is monotone at every threshold from 6 to 12.",
@@ -174,7 +216,9 @@ def build():
             "parent_nt_searched": {g: len(s) for g, s in sorted(parents.items())},
             "gap_positions_0based": [GAP.start, GAP.stop - 1],
             "min_duplex_bp": MIN_DUPLEX_BP,
-            "sources": ["aso-premrna-sequences.json", "nr4a3-fusion-junction-atlas.json"],
+            "oligo_len": OLIGO_LEN,
+            "wing": WING,
+            "sources": ["aso-premrna-sequences.json", os.path.basename(ATLAS)],
         },
         "corpus": {
             "n_designs": len(rows),

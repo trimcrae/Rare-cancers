@@ -409,10 +409,14 @@ def test_the_released_screen_and_graded_counts_are_the_ones_on_disk():
     """The Methods' inventory of what is released, which grew silently under a fixed number.
 
     ⚠ SUPERSEDED, RETAINED: "39 of the 45 screens released in total … and the five deeper
-    re-screens of §3.6". 45 was the corpus when only five junctions had been re-screened at depth;
-    38 have now, so the total is 78 and the ungraded set is 38 deep re-screens plus the one
-    coverage-only control. The graded count, 39, never moved — which is exactly why the sentence
-    read as current.
+    re-screens of §3.6". 45 was the corpus when only five junctions had been re-screened at depth.
+    ⚠ SUPERSEDED, RETAINED: 78 total and 38 deep, which was the corpus before the gap-length work of
+    §3.10 released 15 further deep screens at 5-8-5 and 5-10-5 (7 and 8). The total is 93 and the
+    ungraded set is 53 deep re-screens plus the one coverage-only control.
+
+    ⛔ THE GRADED COUNT HAS NEVER MOVED, WHICH IS THE WHOLE HAZARD HERE. 39 was right at 45, at 78
+    and at 93, so the sentence keeps reading as current while its denominator drifts underneath it.
+    Only the total is load-bearing, and it is asserted against the disk rather than remembered.
     """
     import glob  # noqa: PLC0415
     screens = [p for p in sorted(glob.glob(os.path.join(MOD, "junction-aso-offtarget-*.json")))
@@ -421,8 +425,8 @@ def test_the_released_screen_and_graded_counts_are_the_ones_on_disk():
               for p in glob.glob(os.path.join(MOD, "junction-aso-offtarget-*-graded.json"))}
     ungraded = [p for p in screens if os.path.basename(p) not in graded]
     deep = [p for p in ungraded if "deep500" in p]
-    assert (len(screens), len(graded)) == (78, 39), (len(screens), len(graded))
-    assert len(deep) == 38 and len(ungraded) - len(deep) == 1, (len(deep), len(ungraded))
+    assert (len(screens), len(graded)) == (93, 39), (len(screens), len(graded))
+    assert len(deep) == 53 and len(ungraded) - len(deep) == 1, (len(deep), len(ungraded))
     txt = _flat(_paper())
     assert (f"all 38 junction screens, and {len(graded)} of the {len(screens)} screens released in "
             f"total") in txt
@@ -685,3 +689,166 @@ def test_the_censoring_guard_was_tested_and_is_load_bearing():
     txt = _paper()
     assert "decided six of\nthe seven" in txt or "decided six of the seven" in txt
     assert "every one of the six is not clean" in txt
+
+
+# ─────────────────────────────────────────────────────────────────────────────────────────────
+# §3.10 — the gap-length trade. Added 2026-08-14 when the screen was folded into the manuscript.
+# ─────────────────────────────────────────────────────────────────────────────────────────────
+GAPLEN = os.path.join(MOD, "aso-gap-length-tradeoff.json")
+TABLES = os.path.join(REPO, "research", "manuscripts", "aso",
+                      "fusion-junction-aso-submission-tables.md")
+
+
+def _gaplen():
+    if not os.path.exists(GAPLEN):
+        pytest.skip("gap-length trade-off artifact is not present in this checkout")
+    return json.load(open(GAPLEN, encoding="utf-8"))
+
+
+def test_the_gap_length_trade_is_an_identity_and_the_paper_states_it_as_one():
+    """⛔ THE ONE CLAIM IN §3.10 THAT IS NOT A COUNT, AND THE ONLY ONE THAT COULD NOT BE FIXED LATER.
+
+    The section's load-bearing sentence is that inside the catalytic gap the junction-unique bases
+    and the bases one wild-type parent pairs are COMPLEMENTS summing to the gap. If that were merely
+    a strong correlation the conclusion would be "longer gaps tend to cost parent specificity", which
+    is a much weaker paper and an honest one; the paper says it holds for every design, so it is
+    checked for every design here rather than on the artifact's summary of itself.
+    """
+    gap = _gaplen()
+    arch_gap = {g["architecture"]: g["gap_nt"] for g in gap["geometries"]}
+    bad = [r for r in gap["per_design"]
+           if r["gap_specificity_margin"] + r["parent_paired_gap_dna_nt"]
+           != arch_gap[r["architecture"]]]
+    assert not bad, f"{len(bad)} design(s) break the complement identity, e.g. {bad[:2]}"
+    assert len(gap["per_design"]) == 798, len(gap["per_design"])
+
+    txt = _flat(_paper())
+    assert "are complements: they sum to the gap" in txt
+    assert "one more nucleotide of contiguous" in txt and "wild-type-parent duplex" in txt
+
+
+def test_the_lead_reagent_row_of_section_3_10_is_the_artifacts():
+    """The three molecules §3.10 and §4 name, and every number quoted beside them."""
+    gap = _gaplen()
+    lead = gap["lead_reagent_at_the_most_commonly_reported_seam"]["by_geometry"]
+    assert lead["5-6-5"]["antisense_5to3"] == "GGGCATATCATCAAAC"
+    assert lead["5-8-5"]["antisense_5to3"] == "AGGGCATATCATCAAACC"
+    assert lead["5-10-5"]["antisense_5to3"] == "CAGGGCATATCATCAAACCA"
+
+    risks = [lead[a]["alignment_screen"]["n_true_cleavage_risk"] for a in ("5-6-5", "5-8-5", "5-10-5")]
+    loci = [lead[a]["alignment_screen"]["loci"]["n_loci_with_a_gap_spanning_hit"]
+            for a in ("5-6-5", "5-8-5", "5-10-5")]
+    margins = [lead[a]["gap_specificity_margin"] for a in ("5-6-5", "5-8-5", "5-10-5")]
+    dna = [lead[a]["parent_paired_gap_dna_nt"] for a in ("5-6-5", "5-8-5", "5-10-5")]
+    dg = [round(lead[a]["dg37_most_stable_parent_duplex"], 2) for a in ("5-6-5", "5-8-5", "5-10-5")]
+    assert (risks, loci, margins, dna, dg) == (
+        [123, 3, 0], [6, 1, 0], [3, 4, 5], [3, 4, 5], [-7.77, -8.66, -10.25])
+
+    txt = _flat(_paper())
+    assert "123 hybridisable gap-spanning cleavage risks at six gene loci become 3 at one locus" in txt
+    assert "from 3 to 4 to 5 nucleotides and the" in txt
+    assert "−7.77 to −8.66 to −10.25 kcal/mol" in txt
+    # §4's named second reagent, and the cost it does NOT buy
+    assert "5′-AGGGCATATCATCAAACC-3′ is the 5-8-5 design" in txt
+    assert "from −7.77 to −8.66 kcal/mol" in txt
+
+
+def test_the_matched_seam_population_is_complete_and_the_paper_quotes_it():
+    """⛔ MATCHED SEAMS, NOT CORPUS TOTALS. The geometries are not screened at the same junctions, so
+    only the six seams all three reached support a like-for-like contrast. The paper must quote that
+    population and not the per-geometry one, which differs in coverage rather than in specificity.
+
+    ⚠ AND EVERY RECORD MUST BE PRESENT. An earlier state of this screen had three designs dropped by
+    the remote service, which made the zero-risk counts lower bounds; they were closed by unioning
+    two same-depth runs. A reappearing drop would silently turn these counts back into bounds while
+    the prose still reads them as exact.
+    """
+    gap = _gaplen()
+    m = gap["the_trade"]["transcriptome_coincidence_falls_but_it_MUST"]["matched_junctions"]
+    assert m["n_junctions"] == 6, m["n_junctions"]
+    by = m["by_geometry"]
+    for arch in ("5-6-5", "5-8-5", "5-10-5"):
+        assert by[arch]["n_designs_the_remote_service_dropped"] == 0, arch
+        assert by[arch]["n_designs_with_an_incomplete_hit_list"] == 0, arch
+        assert by[arch]["n_designs_whose_locus_recount_is_exact"] == \
+            by[arch]["n_designs_with_alignment_counts"], arch
+    n = [by[a]["n_designs_with_alignment_counts"] for a in ("5-6-5", "5-8-5", "5-10-5")]
+    zero = [by[a]["n_with_zero_hybridisable_gap_spanning_risk"] for a in ("5-6-5", "5-8-5", "5-10-5")]
+    maxloci = [by[a]["loci_with_a_gap_spanning_hit"]["max"] for a in ("5-6-5", "5-8-5", "5-10-5")]
+    nonear = [by[a]["n_with_no_near_match_at_all"] for a in ("5-6-5", "5-8-5", "5-10-5")]
+    assert (n, zero, maxloci, nonear) == ([30, 42, 54], [8, 28, 54], [7, 2, 0], [0, 7, 39])
+
+    txt = _flat(_paper())
+    assert "from 8 of 30 to 28 of 42 to 54 of 54" in txt
+    assert "from seven to two to none" in txt
+
+
+def test_the_corpus_parent_liability_numbers_in_section_3_10():
+    """The costed side of the trade, corpus-wide, including the count that cannot be avoided."""
+    gap = _gaplen()
+    geom = {g["architecture"]: g for g in gap["geometries"]}
+    order = ("5-6-5", "5-8-5", "5-10-5")
+    ge5 = [geom[a]["n_reaching_reported_dna_minimum"]["5"] for a in order]
+    tot = [geom[a]["n_fusion_specific_designs"] for a in order]
+    whole = [geom[a]["mature_parent_whole_gap_duplex"]["n_with_any_gap_pairing_window"] for a in order]
+    pre = [geom[a]["premrna_hybridisable_gap_paired"]["n_designs_with_at_least_one"] for a in order]
+    med = [round(geom[a]["dg37_most_stable_parent_duplex"]["median"], 2) for a in order]
+    assert (ge5, tot, whole, pre, med) == (
+        [76, 228, 342], [190, 266, 342], [181, 130, 87], [19, 11, 9], [-8.66, -11.60, -14.58])
+    # the 5-10-5 count is every design, and the paper says that is forced rather than observed
+    assert ge5[-1] == tot[-1]
+    assert tot[0] - ge5[0] == 114, tot[0] - ge5[0]
+
+    txt = _flat(_paper())
+    assert "from 76 of 190 to 228 of 266 to 342 of 342" in txt
+    assert "−8.66 to −14.58 kcal/mol" in txt
+    assert "the smaller half of a gap of ten cannot be under five" in txt
+    assert "at 5-6-5, 114 of 190 designs keep the parent below it" in txt
+    assert "181 of 190 designs at 5-6-5 but 87 of 342 at 5-10-5" in txt
+    assert "from 19 of 190 to 9 of 342" in txt
+
+
+def test_the_paper_states_the_two_bounds_that_make_the_fall_partly_arithmetic():
+    """⛔ THE HONEST BOUND, AND THE ONE MOST LIKELY TO BE DROPPED IN AN EDIT FOR LENGTH.
+
+    Part of the near-match fall is guaranteed by the instrument: at a fixed absolute mismatch budget
+    a longer probe's reachable loci are a SUBSET of its own sub-windows'. Without that sentence the
+    section reads as though a longer gap were measured to be cleaner, which is a claim this design
+    cannot support. The genome-scan absence is the same shape — structural, not merely unrun.
+    """
+    txt = _flat(_paper())
+    assert "guaranteed by the instrument rather than measured" in txt
+    assert "reachable set can only shrink" in txt
+    assert "fractionally stricter test at 20 nucleotides than at 16" in txt
+    assert "Only the size of the fall and which designs reach zero are measurements" in txt
+    assert "unavailable at 18 and 20 nucleotides by construction rather than merely unrun" in txt
+    assert "an available next step and not a result" in txt
+    # and the placeholder it replaced must not come back
+    assert "every result reported here is specific to that geometry" not in txt
+
+
+def test_table5_cells_are_the_artifacts_and_the_paper_points_at_it():
+    """Table 5 is generated; this asserts the generated file agrees with the artifact it reads."""
+    if not os.path.exists(TABLES):
+        pytest.skip("submission tables are not present in this checkout")
+    gap, txt = _gaplen(), open(TABLES, encoding="utf-8").read()
+    lead = gap["lead_reagent_at_the_most_commonly_reported_seam"]["by_geometry"]
+    assert "**Table 5. Gap length against junction specificity" in txt
+    for arch in ("5-6-5", "5-8-5", "5-10-5"):
+        assert lead[arch]["antisense_5to3"] in txt, arch
+    assert "| hybridisable gap-spanning cleavage risks | 123 | 3 | 0 |" in txt
+    assert "| designs carrying none | 8 of 30 | 28 of 42 | 54 of 54 |" in txt
+    assert "| a mature parent can pair the whole gap | 181 of 190 | 130 of 266 | 87 of 342 |" in txt
+    # the merged row rests on wing == 5; the generator refuses if that stops holding
+    assert "| parent pairs ≥5 nt of contiguous gap DNA, a ten-base-pair hybrid |" in txt
+    assert _flat(_paper()).count("Table 5") >= 1
+
+    # ⛔ AND THE POINTER MUST COVER EVERY TABLE THAT EXISTS. The manuscript keeps its tables in a
+    # generated companion file and names the range in one sentence; that sentence read "Tables 1 to
+    # 4" for as long as it took to notice, which is the same defect this generator's own docstring
+    # records — a cross-reference that is neither a false claim nor a style violation, and that reads
+    # perfectly while pointing at nothing. Derived from the generated file, never typed.
+    n_tables = len(re.findall(r"^\*\*Table (\d+)\.", txt, re.M))
+    assert n_tables >= 5, n_tables
+    assert f"Tables 1 to {n_tables} are in" in _flat(_paper()), (
+        f"the manuscript's table pointer does not cover all {n_tables} generated tables")

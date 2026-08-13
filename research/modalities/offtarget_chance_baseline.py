@@ -115,16 +115,28 @@ def measured_transcriptome_nt():
     different spans the corpus changed under the screens, and an expectation computed against either
     one would be referred to a denominator half the panel was not measured against. That refuses
     rather than picking.
+
+    ⚠ AGREEMENT IS CHECKED ACROSS EVERY GEOMETRY; ATTRIBUTION IS NOT (2026-08-14). The span is a
+    property of the DATABASE, not of the oligonucleotide, so an 18-mer panel reporting a different
+    span is still evidence the corpus moved and must still refuse — the check stays global. But the
+    filename this returns is published as `transcriptome_nt_source`, and naming a panel this
+    artifact does not use misattributes the manuscript's denominator: on merge the 18-mer screens
+    sorted first and took the credit for a 16-mer corpus's span. So the source is preferentially a
+    panel of this corpus's own geometry, and the value it carries is identical either way.
     """
-    seen = {}
+    seen, same_geometry = {}, {}
     for path in sorted(glob.glob(os.path.join(HERE, "aso-insilico-evaluation*.json"))):
         try:
-            scr = (json.load(open(path, encoding="utf-8")).get("offtarget_screen") or {})
+            d = json.load(open(path, encoding="utf-8"))
         except (OSError, ValueError):
             continue
+        scr = d.get("offtarget_screen") or {}
         nt = scr.get("scanned_nt")
         if isinstance(nt, int) and nt > 0:
             seen.setdefault(nt, os.path.basename(path))
+            lens = panel_oligo_lens(d)
+            if not lens or lens == {OLIGO_LEN}:
+                same_geometry.setdefault(nt, os.path.basename(path))
     if not seen:
         return None, None
     if len(seen) > 1:
@@ -133,7 +145,7 @@ def measured_transcriptome_nt():
             "cannot be referred to two denominators; re-run the scans or exclude the stale ones."
             % {k: v for k, v in sorted(seen.items())})
     nt = next(iter(seen))
-    return nt, seen[nt]
+    return nt, same_geometry.get(nt, seen[nt])
 
 
 def n_within(length, mismatches):
@@ -201,6 +213,11 @@ def _panel_measurements(d):
             for o in d.get("top_designs", []) if o.get("offtarget_le1mm") is not None}
 
 
+def panel_oligo_lens(d):
+    """The design lengths a panel actually evaluated, from its own designs and not its filename."""
+    return {len(o["antisense_5to3"]) for o in d.get("top_designs", []) if o.get("antisense_5to3")}
+
+
 def select_primary_panels(paths):
     """(the one panel per seam this artifact is built from, what was set aside and why).
 
@@ -216,11 +233,21 @@ def select_primary_panels(paths):
     them, so the choice cannot move a number — it decides only which `_source` string is recorded.
     The primary screen's name is a prefix of every re-emission of it, so the primary is the shortest;
     ties after that are lexicographic, so the selection is deterministic.
+
+    ⛔ THE KEY IS (SEAM, GEOMETRY), NOT SEAM ALONE (2026-08-14). Two panels are re-emissions of each
+    other only if they screened the same seam WITH THE SAME REAGENT. The gap-length work evaluates
+    these seams at 18 and 20 nucleotides as well, and grouping those with the 16-mer panel of the
+    same seam made this function raise its "two different evaluations" refusal on every build. The
+    refusal was right about the fact and wrong about the remedy: they are different evaluations
+    because they are different molecules, so they must not be compared, rather than one being chosen
+    over the other. Length is measured from the designs, never from the filename, which is the same
+    rule `seam_identity` follows and for the same reason.
     """
     groups = {}
     for path in paths:
         d = json.load(open(path))
-        groups.setdefault(seam_identity(d), []).append((path, d))
+        key = (seam_identity(d), tuple(sorted(panel_oligo_lens(d))))
+        groups.setdefault(key, []).append((path, d))
 
     chosen, collapsed = [], []
     for members in groups.values():
@@ -260,11 +287,36 @@ def committed_panel_set():
     return {r["_source"] for r in d.get("per_design", [])} or None
 
 
-def collect_observed(panels=None, collapsed=None):
+def collect_observed(panels=None, collapsed=None, off_geometry=None):
     """Every committed design's uncapped <=1-mismatch count, keyed by junction and sequence."""
     paths = sorted(glob.glob(os.path.join(HERE, "aso-insilico-evaluation*.json")))
     if panels is not None:
         paths = [p for p in paths if os.path.basename(p) in panels]
+
+    # ⛔ GEOMETRY IS PART OF A PANEL'S IDENTITY, AND WITHOUT THIS THE MODULE REFUSES TO BUILD AT ALL
+    # (2026-08-14). The gap-length work evaluates the same seams at 18-mer 5-8-5 and 20-mer 5-10-5
+    # and writes them under this same glob. `seam_identity` keys on the junction label — correctly,
+    # because a re-screen must not escape it by renaming itself — so an 18-mer panel of the EWSR1
+    # e12 seam grouped with the 16-mer one, their counts differed, and `select_primary_panels` threw:
+    # "two different evaluations, not a shallow and a deep reading of one". That refusal was RIGHT,
+    # and this is the answer to the question it asks. They are different evaluations because they
+    # are different reagents, so they are separated before grouping rather than chosen between. This
+    # artifact is the manuscript's 16-mer corpus; `aso_gap_length_tradeoff.py` owns the contrast
+    # across geometries, where the comparison is like-for-like by construction.
+    # ⚠ AND THE FILTER IS `OLIGO_LEN`, THE SAME CONSTANT THE EXPECTATION IS COMPUTED AT, because
+    # that is what makes it a correctness guard rather than a scoping preference: every `expected`
+    # below is `chance_expectation(OLIGO_LEN, k)`, so an 18-mer observation admitted here would be
+    # divided by a 16-mer expectation and the ratio would belong to neither length.
+    kept = []
+    for p in paths:
+        lens = panel_oligo_lens(json.load(open(p, encoding="utf-8")))
+        if lens and lens != {OLIGO_LEN}:
+            if off_geometry is not None:
+                off_geometry.append({"panel": os.path.basename(p), "oligo_lens": sorted(lens)})
+            continue
+        kept.append(p)
+    paths = kept
+
     selected, dropped = select_primary_panels(paths)
     if collapsed is not None:
         collapsed.extend(dropped)
@@ -357,10 +409,10 @@ def _span(vals):
     return [v[0], v[-1]]
 
 
-def build(panels=None, collapsed=None):
+def build(panels=None, collapsed=None, off_geometry=None):
     p2, exp2 = chance_expectation(OLIGO_LEN, 2)
     p1, exp1 = chance_expectation(OLIGO_LEN, 1)
-    rows = collect_observed(panels, collapsed)
+    rows = collect_observed(panels, collapsed, off_geometry)
     counts = sorted(r["offtarget_le1mm"] for r in rows)
     n = len(counts)
     median = counts[n // 2] if n % 2 else (counts[n // 2 - 1] + counts[n // 2]) / 2
@@ -541,8 +593,23 @@ def main(argv=None):
     if panels is not None:
         print(f"panel set pinned to the committed artifact's {len(panels)} sources", file=sys.stderr)
     collapsed = []
-    res = build(panels, collapsed)
+    off_geometry = []
+    res = build(panels, collapsed, off_geometry)
     new = json.dumps(res, indent=2)
+
+    # ⚠ AND SO IS THE GEOMETRY EXCLUSION, for the same reason as the collapse below: a panel set
+    # aside for being a different reagent length must be visible where the operator is looking,
+    # or the next person to add a geometry sees a corpus that silently ignored it.
+    if off_geometry:
+        print(f"{len(off_geometry)} panel(s) at other geometries excluded from this "
+              f"{OLIGO_LEN}-mer corpus (the expectation is computed at {OLIGO_LEN} nt):",
+              file=sys.stderr)
+        # ⚠ "excluded", not "set aside": the collapse readout below uses "set aside X -> kept Y",
+        # and a line with the same verb and no `-> kept` reads as a truncated collapse rather than
+        # as a different decision. Two kinds of omission, two unambiguous wordings.
+        for g in off_geometry:
+            print(f"  excluded {g['panel']} (designs of length "
+                  f"{', '.join(str(n) for n in g['oligo_lens'])})", file=sys.stderr)
 
     # ⚠ THE COLLAPSE IS REPORTED, NEVER SILENT. A selection rule that quietly drops eleven files
     # reads exactly like the glob that quietly added them; the difference has to be visible at the

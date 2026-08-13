@@ -91,6 +91,29 @@ def _deep_screens():
     for path in sorted(glob.glob(os.path.join(HERE, "junction-aso-offtarget-*deep500*.json"))):
         d = json.load(open(path, encoding="utf-8"))
         label = d.get("junction_label")
+        # ⛔ ONE GEOMETRY, AND THIS GUARD IS THE REASON TABLE 4 STILL NAMES A 16-MER (2026-08-14).
+        # The gap-length screens write 18-mer 5-8-5 and 20-mer 5-10-5 artifacts under this same
+        # glob. Two things go wrong if they are let in, and the second is not a pooling complaint
+        # but a wrong number: the gap span below is `ja.GAP_REGION_1BASED`, which is 5-6-5's
+        # (6, 11), so an 18-mer's gap-paired hits would be counted over six of its eight catalytic
+        # bases. Measured on merge: admitting them took the six re-screened junctions from 5
+        # designs to 21 and moved `best_available` at the EWSR1 e12, FUS e10 and TAF15 e11 seams —
+        # the three clinically central rows — off the 16-mer this paper reports and onto an 18-mer
+        # scored against the wrong gap. The geometry is MEASURED from the designs, never read off
+        # the filename, because the pre-2026-08-13 screens carry no geometry block to read.
+        lens = {len(o["antisense_5to3"]) for o in d.get("oligos", []) if o.get("antisense_5to3")}
+        if lens != {C.MANUSCRIPT_OLIGO_LEN}:
+            continue
+        # ⚠ and the screen must AGREE about where the gap is, not merely be the right length. A
+        # screen states its own `gap_region_1based`; if that ever diverges from the span applied
+        # below, every gap-paired count here is measured against a different window than the one
+        # the screen graded, which is the silent version of the bug above.
+        stated = (d.get("method") or {}).get("gap_region_1based")
+        if stated is not None and list(stated) != list(ja.GAP_REGION_1BASED):
+            raise SystemExit(
+                f"{os.path.basename(path)}: screen records gap region {list(stated)} but this "
+                f"table applies {list(ja.GAP_REGION_1BASED)}; refusing to count one against "
+                f"the other")
         for o in d.get("oligos", []):
             if o.get("status") != "screened":
                 continue

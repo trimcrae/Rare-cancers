@@ -63,7 +63,12 @@ import urllib.parse
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ATLAS = os.path.join(HERE, "nr4a3-fusion-junction-atlas.json")
+#: ⛔ THE ATLAS PATH IS A KNOB AS OF 2026-08-13, FOR THE SAME REASON `PREMRNA_OUT` ALREADY WAS. This
+#: module derives its gap span and its mismatch ceiling from `junction_aso_offtarget`, so it already
+#: follows a geometry change — but it read its DESIGNS from one fixed filename, so a 5-8-5 or 5-10-5
+#: run would have scanned the 16-mer designs under the longer geometry's gap indices. The geometry
+#: and the design set have to move together or the arm measures neither.
+ATLAS = os.path.join(HERE, os.environ.get("ATLAS_JSON") or "nr4a3-fusion-junction-atlas.json")
 CACHE = os.path.join(HERE, "aso-premrna-sequences.json")
 OUT = os.path.join(HERE, os.environ.get("PREMRNA_OUT", "aso-premrna-offtarget.json"))
 
@@ -223,6 +228,27 @@ def _compartment(start, end, exons):
     return "intron_exon_spanning"
 
 
+#: The number of seed blocks. `MAX_MM + 1` is the pigeonhole requirement and nothing else: with
+#: `MAX_MM` mismatches spread over this many disjoint blocks, at least one block is untouched.
+N_SEED_BLOCKS = MAX_MM + 1
+
+
+def seed_blocks(length):
+    """Half-open [start, end) spans partitioning a window of `length` into balanced seed blocks.
+
+    Balanced rather than equal, because a length need not divide: the first `length % n` blocks take
+    one extra base. At length 16 with three blocks this returns (0,6), (6,11), (11,16) — the exact
+    literal it replaces, which is what makes the change safe to land against a committed screen.
+    """
+    n = N_SEED_BLOCKS
+    sizes = [length // n + (1 if i < length % n else 0) for i in range(n)]
+    out, start = [], 0
+    for s in sizes:
+        out.append((start, start + s))
+        start += s
+    return out
+
+
 def scan(designs, premrna):
     """Exhaustive <=MAX_MM scan of every target window against every pre-mRNA, both orientations.
 
@@ -232,6 +258,13 @@ def scan(designs, premrna):
     pigeonhole argument `aso_insilico.offtarget_scan` makes for <=1 mismatch over two halves, extended
     by one block because this arm's threshold is wider — stated here because "exhaustive" is a word
     this paper uses as load-bearing and it has to be earned each time.
+
+    ⚠ AND THE BLOCK BOUNDARIES ARE DERIVED FROM THE WINDOW, NOT TYPED (2026-08-13). They were the
+    literal `[(0, 6), (6, 11), (11, L)]` — three blocks of 6, 5 and 5 at the 16-mer this arm was
+    written for. The pigeonhole argument above survives any partition into three blocks, so a longer
+    window stayed COMPLETE; what it stopped being was balanced, with the tail block running to 9 nt
+    of a 20-mer while the first two shrank in relative terms. Balanced thirds reproduce (6, 5, 5)
+    exactly at L=16, so nothing about the committed screen moves.
     """
     gap_a, gap_b = _gap_region()
     lo, hi = gap_a - 1, gap_b                 # to 0-based half-open
@@ -245,8 +278,7 @@ def scan(designs, premrna):
             for d in designs:
                 t = d["target_mRNA_5to3"]
                 L = len(t)
-                bounds = [(0, 6), (6, 11), (11, L)]
-                for a, b in bounds:
+                for a, b in seed_blocks(L):
                     index.setdefault(t[a:b], []).append((d["_key"], a, t, L))
             # One pass over the sequence per block length, collecting seed positions.
             by_len = {}

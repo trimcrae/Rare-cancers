@@ -2507,3 +2507,55 @@ figures (189 near-matches, 141 hybridisable, 123 gap-paired, six loci, `ANKS1B` 
 zero pre-mRNA sites among the nine; the genome strata (236 exact against 1.37 expected, 0.98 median
 ratio, 14 above twice, 52.5 % against 51.4 % masked, 20 of 176 with a named gap-paired site); and
 every §3.9 thermodynamic and design-rule figure.
+
+### Appendix B.9 — the gap-length screen enters the manuscript, and the pooling it nearly caused (2026-08-14, $0)
+
+⭐ **THE RESULT.** The 5-6-5 panel was tiled and screened again at 5-8-5 and 5-10-5 over the same
+seams, wing held at five nucleotides. Inside the catalytic gap the junction-unique bases on the
+shorter side and the bases one wild-type parent pairs on the longer side are **complements summing
+to the gap** — asserted for all 798 designs in `aso-gap-length-tradeoff.json`, not assumed — so each
+nucleotide of gap-level margin gained is a nucleotide of contiguous wild-type-parent duplex
+conceded. That is now §3.10 and Table 5, and it sharpens the Conclusions rather than overturning
+them: the limiting step remains fusion-versus-parent discrimination at the gap, and gap length is
+shown to be unable to relieve it by construction.
+
+| where | superseded | measured now | why it moved |
+|---|---|---|---|
+| Limitations | "One architecture was tiled, a 16-mer 5-6-5, so **every result reported here is specific to that geometry**" | §3.10's result, with its own bounds stated | placeholder written while these numbers were still moving; the geometries are now screened and reported |
+| Methods | "39 of the **78** screens released in total … and the **38** deeper re-screens" | **39 of 93**; the ungraded set is **53** deep re-screens plus one coverage-only control | 15 further deep screens released at 5-8-5 (7) and 5-10-5 (8); the graded count, 39, has never moved and so the sentence kept reading as current at 45, at 78 and at 93 |
+
+⛔ **THE MERGE ALMOST POOLED THREE GEOMETRIES INTO EVERY 16-MER POPULATION, AND NOTHING WOULD HAVE
+SAID SO.** The new screens are written under the same `junction-aso-offtarget-*` and
+`aso-insilico-evaluation-*` globs the manuscript's own generators read. Measured on merging, before
+any fix:
+
+| generator | what a regeneration would have done |
+|---|---|
+| `junction_aso_locus_collapse.py` | deep population 38 screens / 187 designs → **53 / 303**; `oligos_with_no_gap_spanning_locus` **12 → 110**, which reads as a panel an order of magnitude cleaner and is only a wider glob |
+| `aso_per_junction_table.py` | the six re-screened junctions **5 designs → 21**, and `best_available` at the *EWSR1* e12, *FUS* e10 and *TAF15* e11 seams moved off the 16-mer this paper reports onto an 18-mer — scored against `GAP_REGION_1BASED`, which is 5-6-5's `(6, 11)`, so six of that design's eight catalytic bases were counted as its whole gap |
+| `offtarget_chance_baseline.py` | refused to build at all, correctly: an 18-mer panel of a seam grouped with the 16-mer panel of the same seam and the counts disagreed |
+
+**This is the depth defect one axis out.** `5233cf867` had already established that *depth* is part of
+a screen's identity and must not be pooled away, after a widening glob moved a manuscript-quoted
+median from 2.14 to 4.55 with no science behind it. Geometry is part of it for the same reason and
+with a sharper edge, because the gap region is a module-level constant: pooling geometries does not
+merely mix populations, it measures a longer design's catalytic gap with a shorter one's window.
+Each generator now partitions on the oligonucleotide length **measured from the designs themselves**,
+never from a filename, since screens committed before 2026-08-13 carry no geometry block to read.
+The excluded screens are named in each readout rather than dropped silently, and the chance
+baseline's grouping key became `(seam, geometry)` — two panels are re-emissions of one another only
+if they screened the same seam with the same reagent.
+
+⚠ **ONE FIGURE IN THE HAND-OFF BRIEF HAS NO HOME AND WAS NOT USED.** The brief reported accessibility
+as flat across the geometries at 0.446 / 0.460 / 0.428. No such quantity exists in
+`aso-gap-length-tradeoff.json` or in any committed artifact — the evaluation panels record an
+accessibility *window* (`status`, `window_len`, `window_mRNA_span`) and no per-design or per-geometry
+figure — so nothing about accessibility is claimed in §3.10. The hypothesised cost it would have
+removed is simply left open.
+
+⭐ **WHAT WAS RE-DERIVED AND FOUND UNCHANGED**, so it is not re-litigated: every default-depth 16-mer
+count in the paper, `totals_over_uncensored_oligos_only` and the deep totals of the collapse
+artifact, all 38 rows of Table 4, and `offtarget-chance-baseline.json` byte-for-byte. The only
+committed value the merge moved was the recorded `transcriptome_nt_source`, which had begun naming
+an 18-mer panel for a 16-mer corpus's span; the span itself, 718,571,139 nucleotides, is unanimous
+across all 13 panels that record it and did not move.
