@@ -287,6 +287,61 @@ def test_the_framing_forbids_the_four_claims_the_language_rules_forbid():
     assert "two mismatches" in art["_framing"]
 
 
+def test_there_is_no_risk_column_and_no_hazard_ordering_anywhere():
+    """⛔ THE WORD WOULD IMPORT AN INFERENCE NEITHER SCREEN SUPPORTS.
+
+    Every locus in this panel is here because a 16-mer matched it at 14/16 — a sequence match at
+    two mismatches, not a predicted cleavage event. So an expression figure is evidence about the
+    GENE, and the join to the oligonucleotide needs an affinity argument nothing here has made.
+    A `risk` key, a hazard score or a ranked-by-danger list would each quietly make that join.
+
+    ⚠ The screen's OWN class name `true_cleavage_risk` is exempt: it is read from the committed
+    screen rather than coined here, and `risk_class_read` records that it was inherited. Anything
+    else carrying the word is this module editorialising.
+    """
+    art = m.derive(m._empty_inputs())
+    flat = json.dumps(art, ensure_ascii=False)
+
+    def keys(obj, out):
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                out.append(k)
+                keys(v, out)
+        elif isinstance(obj, list):
+            for v in obj:
+                keys(v, out)
+        return out
+
+    # ⚠ TWO EXEMPTIONS, BOTH NARROW. `risk_class_read` is the screen's inherited class name, and a
+    # key whose own text NEGATES the word is a refusal rather than a column — the guard fired on
+    # `…has_no_risk_column` the first time it ran, which is the guard working.
+    def _exempt(low):
+        return low.startswith("risk_class_read") or "no_risk_column" in low or "not_a_ranking" in low
+
+    for k in keys(art, []):
+        low = k.lower()
+        assert "risk" not in low or _exempt(low), f"risk-flavoured key: {k}"
+        for banned in ("hazard", "danger", "severity", "risk_score", "priority"):
+            assert banned not in low or _exempt(low), f"hazard-flavoured key: {k}"
+    # the only permitted occurrences of the word are the screen's inherited class name and the
+    # sentences that explicitly refuse to rank
+    assert m.GAP_PAIRED_CLASS == "true_cleavage_risk"
+    assert "no hazard ordering of any kind" in flat
+    s = art["summary"]
+    assert "⛔_this_list_is_not_a_ranking_and_this_file_has_no_risk_column" in s
+    assert "not an ordering of the panel by hazard" in \
+        s["⛔_this_list_is_not_a_ranking_and_this_file_has_no_risk_column"]
+
+
+def test_the_artifact_says_the_join_to_the_oligonucleotide_is_the_papers_to_make():
+    """Expression is evidence about the gene. The artifact must say so rather than let a reader
+    slide from an expressed gene to an affected one."""
+    art = m.derive(m._empty_inputs())
+    assert any("evidence about the oligonucleotide" in s for s in art["_what_this_is_not"])
+    assert any("affinity argument" in s for s in art["_what_this_is_not"])
+    assert "NECESSARY" in art["_framing"].upper()
+
+
 def test_the_present_cut_is_stated_as_a_choice_not_a_measurement():
     art = m.derive(m._empty_inputs())
     assert art["method"]["present_tpm_cut"] == m.PRESENT_TPM

@@ -3,7 +3,8 @@
  "_framing": "⛔ NOTHING IN THIS FILE IS AN EFFICACY, SELECTIVITY, SAFETY, THERAPEUTIC-WINDOW OR CLINICAL-READINESS CLAIM FOR ANY SEQUENCE. Every hit behind it sits at 14/16 identity — two mismatches in a 16-mer — and whether such a duplex is an RNase-H1 substrate at all is an affinity question no screen here answers. Expression is a NECESSARY condition for an off-target effect and never a sufficient one, so a gene being expressed is not a predicted cleavage event and a gene being unexpressed is not safety.",
  "_what_this_is_not": [
   "Not a cleavage assay, and not a prediction of one. No hit was re-aligned, no duplex stability was computed, and no thermodynamic threshold separates these hits from each other — they are the screen's loosest admitted class, all at two mismatches.",
-  "Not a risk ranking by transcript-record count. Record count is annotation depth.",
+  "Not a risk ranking by transcript-record count, or by anything else. Record count is annotation depth, and this file carries no hazard ordering of any kind.",
+  "Not evidence about the oligonucleotide. Every figure here is expression of a GENE. The join from 'this gene is expressed in liver' to 'this reagent does something in liver' requires an affinity argument no screen in this repository has made, and it is the manuscript's to make explicitly, with the missing step named.",
   "Not a tumour measurement where it says proxy. GTEx contains no EMC and no sarcoma; the soft-tissue block is the NORMAL tissue of the compartment EMC arises in.",
   "Not a reading of absence anywhere. Every unreadable locus carries the reason the read could not be taken, and no absence is rendered as a zero.",
   "PRESENT_TPM = 1 is a STATED legibility cut, not a threshold of concern, and every raw median is released so another cut can be applied without re-running."
@@ -230,7 +231,8 @@
    "NRXN3-AS1",
    "ST3GAL1"
   ],
-  "⚠_what_a_clean_exposure_column_does_and_does_not_buy": "It removes one hypothetical liability from a list. It does not make the reagent clean, because the same list holds loci this instrument cannot measure at all, and because none of these hits has been shown to be cleavable in the first place."
+  "⛔_this_list_is_not_a_ranking_and_this_file_has_no_risk_column": "These are the genes whose median TPM reaches the stated cut in liver or kidney. That is a reading about each GENE. It is not an ordering of the panel by hazard, and no such ordering exists anywhere in this file, because every hit behind it is a 14/16 sequence match and the step from an expressed gene to an affected one needs an affinity argument no screen here has made. Loci are ordered by transcript-record count, which is an annotation property and is labelled as one.",
+  "⚠_what_a_clean_exposure_column_does_and_does_not_buy": "It says those genes are low or absent in the dosed organs. It does not make the reagent clean: the same panel holds loci this instrument cannot measure at all, and none of these hits has been shown to be cleavable in the first place."
  },
  "per_locus": [
   {

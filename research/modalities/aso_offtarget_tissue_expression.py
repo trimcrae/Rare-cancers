@@ -13,9 +13,19 @@ at hundreds of TPM, and a screen that reports both as "a near-match" cannot tell
 Systemically dosed phosphorothioate gapmers distribute predominantly to liver and kidney, so those
 two organs carry the EXPOSURE question — what the drug will sit in at concentration. The tumour
 compartment (deep soft tissue of the extremities, myxoid stroma) carries a different question
-entirely — what is present where the intended target is. A gene can be a serious exposure liability
-and irrelevant on site, or the reverse. The two are held in separate blocks of this artifact for
+entirely — what is present where the intended target is. A gene can be high in a dosed organ and
+absent on site, or the reverse. The two are held in separate blocks of this artifact for
 that reason and are never summed, never averaged, and never reduced to one score.
+
+⛔ THIS FILE REPORTS EXPRESSION PER GENE. IT DOES NOT JOIN IT TO THE OLIGONUCLEOTIDE, AND THE
+DISTINCTION IS NOT PEDANTRY. A locus is in this panel because a 16-mer matched it at 14/16 — a
+sequence match at two mismatches, which is not a predicted cleavage event. So a median TPM here is
+evidence about the GENE, not about the reagent, and the step from "this gene is expressed in liver"
+to "this reagent does something in liver" needs an affinity argument no screen in this repository
+has made. That joining is the manuscript's to do, explicitly, with the missing step named. ⛔ AND
+THERE IS NO RISK COLUMN ANYWHERE IN THIS FILE, deliberately: the word would import exactly that
+inference. Loci are ordered by transcript-record count — an annotation property, stated as one —
+and never by anything that could be read as a hazard ranking.
 
 WHAT THIS IS NOT — and each line is a claim this artifact must never be read as making:
   · NOT a cleavage prediction. Every hit behind this file sits at 14/16 identity: TWO mismatches in
@@ -23,8 +33,8 @@ WHAT THIS IS NOT — and each line is a claim this artifact must never be read a
     AFFINITY question, and no screen here and no expression value anywhere can answer it. Expression
     is a NECESSARY condition for an off-target effect, never a sufficient one.
   · NOT a safety, efficacy, therapeutic-window or clinical-readiness statement about any sequence.
-    A gene turning out to be unexpressed in liver does not make an oligonucleotide safe; it removes
-    ONE hypothetical liability from a list nobody has measured the rest of.
+    A gene turning out to be unexpressed in liver does not make an oligonucleotide safe; it says
+    that one gene is unexpressed in liver, which is a fact about the gene.
   · NOT a risk ranking by record count. ANKS1B and ZNF667 carry most of the transcript records
     between them, and that is ANNOTATION DEPTH — how many variants RefSeq happens to list — not
     expression, not affinity and not risk. The record count is carried here only so a reader can see
@@ -812,7 +822,12 @@ def derive(inp):
         })
 
     readable = [p for p in per_locus if p["exposure_compartment_liver_kidney"]["readable"]]
-    concern = [p["locus"] for p in per_locus if p["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"]
+    # ⚠ NAMED FOR WHAT IT MEASURES, NOT FOR WHAT IT MIGHT IMPLY. An earlier draft called this
+    # `concern`, which is a hazard word for a list of genes whose only property here is a median
+    # TPM in an organ. The reading is "this gene is expressed there"; the step to "this reagent
+    # matters there" is the manuscript's, and it needs an affinity argument nothing here supplies.
+    expressed_in_exposure = [p["locus"] for p in per_locus
+                             if p["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"]
     unmeasurable = [p["locus"] for p in per_locus
                     if p["tier"] in ("NOT_MEASURED", "NOT_MEASURABLE_UNCHARACTERISED")]
 
@@ -832,7 +847,12 @@ def derive(inp):
             "Not a cleavage assay, and not a prediction of one. No hit was re-aligned, no duplex "
             "stability was computed, and no thermodynamic threshold separates these hits from each "
             "other — they are the screen's loosest admitted class, all at two mismatches.",
-            "Not a risk ranking by transcript-record count. Record count is annotation depth.",
+            "Not a risk ranking by transcript-record count, or by anything else. Record count is "
+            "annotation depth, and this file carries no hazard ordering of any kind.",
+            "Not evidence about the oligonucleotide. Every figure here is expression of a GENE. "
+            "The join from 'this gene is expressed in liver' to 'this reagent does something in "
+            "liver' requires an affinity argument no screen in this repository has made, and it is "
+            "the manuscript's to make explicitly, with the missing step named.",
             "Not a tumour measurement where it says proxy. GTEx contains no EMC and no sarcoma; the "
             "soft-tissue block is the NORMAL tissue of the compartment EMC arises in.",
             "Not a reading of absence anywhere. Every unreadable locus carries the reason the read "
@@ -871,12 +891,19 @@ def derive(inp):
         "summary": {
             "n_loci": len(per_locus),
             "n_loci_with_a_readable_exposure_reading": len(readable),
-            "loci_expressed_in_an_exposure_organ": concern,
+            "loci_expressed_in_an_exposure_organ": expressed_in_exposure,
             "loci_whose_exposure_question_is_unanswerable_from_public_data": unmeasurable,
+            "⛔_this_list_is_not_a_ranking_and_this_file_has_no_risk_column": (
+                "These are the genes whose median TPM reaches the stated cut in liver or kidney. "
+                "That is a reading about each GENE. It is not an ordering of the panel by hazard, "
+                "and no such ordering exists anywhere in this file, because every hit behind it is "
+                "a 14/16 sequence match and the step from an expressed gene to an affected one "
+                "needs an affinity argument no screen here has made. Loci are ordered by "
+                "transcript-record count, which is an annotation property and is labelled as one."),
             "⚠_what_a_clean_exposure_column_does_and_does_not_buy": (
-                "It removes one hypothetical liability from a list. It does not make the reagent "
-                "clean, because the same list holds loci this instrument cannot measure at all, and "
-                "because none of these hits has been shown to be cleavable in the first place."),
+                "It says those genes are low or absent in the dosed organs. It does not make the "
+                "reagent clean: the same panel holds loci this instrument cannot measure at all, "
+                "and none of these hits has been shown to be cleavable in the first place."),
         },
         "per_locus": per_locus,
     }
