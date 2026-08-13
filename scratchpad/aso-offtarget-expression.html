@@ -612,10 +612,42 @@
 
   <section>
     <div class="sec-head"><h2>What public data cannot settle</h2></div>
-    <p class="narrow">Seven of twenty-three loci carry no exposure reading at all. Six are uncharacterised or
-      non-coding entries with no GENCODE gene model, no Human Protein Atlas record and no probe on either EMC array
-      platform; one is a readthrough transcript. <strong>Three independent instruments returning nothing is not a
-      measurement of absence</strong> &mdash; it is the absence of a measurement, and it is reported as such on every row.</p>
+    <p class="narrow">Seven of twenty-three loci carry no exposure reading at all &mdash; no GENCODE gene model, and for
+      six of them no Human Protein Atlas record and no probe on either EMC array platform.
+      <strong>Three instruments returning nothing is not a measurement of absence</strong>; it is the absence of a
+      measurement, and it is reported as such on every row. What identity lookup does add is the ability to say
+      <em>why</em> each one is missing rather than leaving seven blanks:</p>
+
+    <div class="tablewrap" style="margin-bottom:20px">
+      <table style="min-width:660px">
+        <thead><tr>
+          <th>Locus</th><th class="num">Records</th><th>Locus</th><th>What it is (NCBI Gene)</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="gene">MIR9-2HG</td><td class="num">18</td><td class="mono dim">5q14.3</td>
+            <td>MIR9-2 host gene. NCBI's own summary: alternatively spliced long non-coding RNAs
+              &ldquo;<em>may be expressed predominantly in the brain and visual cortex</em>&rdquo; &mdash; a
+              characterisation, not a measurement, and no atlas covers it.</td></tr>
+          <tr><td class="gene">NRXN3-AS1</td><td class="num">1</td><td class="mono dim">14q31.1</td>
+            <td>Antisense RNA to <em>NRXN3</em>, a neurexin. No NCBI summary, no HPA record.</td></tr>
+          <tr><td class="gene">CA5BP1-CA5B</td><td class="num">3</td><td class="mono dim">Xp22.2</td>
+            <td>Readthrough between the <em>CA5B</em> pseudogene 1 and <em>CA5B</em>. Its parent
+              <em>CA5B</em> <strong>is</strong> measured here and is low in the exposure organs
+              (0.66&ndash;1.96&nbsp;TPM), which bounds but does not settle the readthrough.</td></tr>
+          <tr><td class="gene">LOC105374140</td><td class="num">5</td><td class="mono dim">3q24</td>
+            <td class="dim">Uncharacterized. No NCBI summary, zero HPA rows, no probe.</td></tr>
+          <tr><td class="gene">LOC105370997</td><td class="num">4</td><td class="mono dim">15q26.2</td>
+            <td class="dim">Uncharacterized. No NCBI summary, zero HPA rows, no probe.</td></tr>
+          <tr><td class="gene">LOC105376349</td><td class="num">1</td><td class="mono dim">10p15.3</td>
+            <td class="dim">Uncharacterized. No NCBI summary, zero HPA rows, no probe.</td></tr>
+          <tr><td class="gene">LOC124907518</td><td class="num">1</td><td class="mono dim">&mdash;</td>
+            <td class="dim">Uncharacterized, no cytogenetic band recorded. No summary, zero HPA rows, no probe.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="narrow foot">So the genuinely unattributable set is <strong>four uncharacterised loci carrying eleven of
+      the panel's 278 records</strong>. The other three are non-coding or readthrough entries whose identity is known
+      and whose expression is still unmeasured. None of that is evidence they are absent from liver or kidney.</p>
     <ul class="plain">
       <li>The <em>affinity</em> question is untouched. Nothing here re-aligned a hit, computed duplex stability, or
         distinguished these two-mismatch matches from one another. A gene being expressed is not a predicted cleavage
