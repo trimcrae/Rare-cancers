@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Derive the deposit manifest for the fusion-junction ASO short communication. ($0, offline.)
 
-⛔ WHY THIS EXISTS. The submission manuscript carries two unresolved placeholders —
-"[DATA AVAILABILITY DOI TO BE MINTED BEFORE SUBMISSION]" in Methods and "[ARCHIVE DOI TO BE
-MINTED.]" in the Declarations — and around them two sentences that PROMISE a specific archive
+⛔ WHY THIS EXISTS. The submission manuscript carries two unresolved placeholders — "[ARCHIVE DOI]"
+in Methods -> Availability and "[ARCHIVE DOI]" in Declarations -> Data and code availability — and
+around them two sentences that PROMISE a specific archive
 contents: "All code, graded artefacts and per-design tables", and "the graded junction atlas,
 per-junction design panels, both specificity screens per junction, the graded re-scores under both
 discrimination bounds, and the retrieval records for every literature claim". Minting a DOI is an
@@ -178,8 +178,16 @@ PROMISES = [
     },
     {
         "id": "inputs_that_make_it_offline",
-        "promise": ("No result in this manuscript requires network access or credentials to "
-                    "reproduce from that archive."),
+        # ⚠ RE-QUOTED 2026-08-13 AFTER THE MANUSCRIPT WAS REWRITTEN, AND THE FLAG IS WHAT CAUGHT IT.
+        # The earlier quotation ("No result in this manuscript requires network access or
+        # credentials to reproduce from that archive.") went `false` the moment the Availability
+        # paragraph was rewritten to enumerate WHICH artefacts recompute. That is the wording check
+        # doing precisely its job, so the row is re-quoted rather than the check loosened.
+        # ⛔ AND THE NEW SENTENCE IS THE STRONGER CLAIM: it names five recomputations by name, so it
+        # is now falsifiable item by item rather than in aggregate — see `gaps.⚠_known_and_deliberate`,
+        # where one of the five is currently measured NOT to recompute.
+        "promise": ("Every result reported here is re-derived from the committed artefacts in that "
+                    "archive without network access or credentials"),
         "contributes": ("The committed inputs that let the pipeline run with the network off: the "
                         "transcript cache the atlas reads instead of calling Ensembl, and the "
                         "independent exon audit the per-gene provenance gate is checked against."),

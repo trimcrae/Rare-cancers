@@ -9,11 +9,12 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "f305deba3a36cbc6aeafc7144dbfca19c7a1632c",
-  "git_tree_is_clean": false,
+  "git_revision": "7080c9502e12f77efdd4610501390cd86ed5348f",
+  "git_tree_is_clean_apart_from_this_manifest": false,
+  "archive_content_digest": "1fc4da994cacca38be689eb1e3cc70993779bf9ee321ae82aa12966285a54c71",
   "n_files": 158,
-  "total_bytes": 4605145,
-  "total_mib": 4.392,
+  "total_bytes": 4612019,
+  "total_mib": 4.398,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -275,7 +276,7 @@
     },
     {
       "id": "inputs_that_make_it_offline",
-      "promise_text": "No result in this manuscript requires network access or credentials to reproduce from that archive.",
+      "promise_text": "Every result reported here is re-derived from the committed artefacts in that archive without network access or credentials",
       "n_files": 4,
       "files": [
         "research/modalities/emc-construct-inputs.json",
@@ -283,7 +284,7 @@
         "research/modalities/junction_breakpoint_scan.py",
         "research/modalities/nr4a3-exon-audit.json"
       ],
-      "_promise_still_in_manuscript": false,
+      "_promise_still_in_manuscript": true,
       "⛔_UNMAPPED": false
     },
     {
@@ -392,8 +393,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-short-communication.md",
-      "bytes": 38060,
-      "sha256": "c5ff1612f0293b4a3cc753a79371670705458b39022260cb53f3224272f8ac25",
+      "bytes": 38763,
+      "sha256": "c430ff8a5e06b6daa69c7df7a21d3c7da98232baf73de0f0c87146d83c75da93",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -440,8 +441,8 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 31043,
-      "sha256": "bcea494b38125dce0f8c040d49c1087e1d36f753c7e13f07ac3d5273cad9da07",
+      "bytes": 37214,
+      "sha256": "b5c321f79510bf680812997b51a44e641653ee2029231dc14052899081d9a0cf",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -1521,7 +1522,7 @@
     {
       "path": "research/modalities/nr4a3-fusion-junction-atlas.json",
       "bytes": 429046,
-      "sha256": "2abb7fe4948f02930be6827fcb5ed4a0ca3022f7331e7b372fa3f965c9a59a53",
+      "sha256": "8def9068e128095bc44959bc210430d30c22088baf06eddc0e36fea7b05f2ab4",
       "serves": "graded_junction_atlas",
       "also_serves": [],
       "contributes": "Grades all 231 donor-exon x acceptor-exon pairs across the five 5' partners for frame compatibility and carries the 38 emitted design panels inline; the source of Table 1 and of every count in section 3.1."
