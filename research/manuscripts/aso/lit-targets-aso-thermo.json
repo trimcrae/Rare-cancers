@@ -1,0 +1,44 @@
+{
+ "_what_this_is": "The retrieval record for the thermodynamic and discrimination parameters the manuscript cites. It is not a result and asserts nothing: it records that a fetch happened, what it returned, and where the corpus lives, so that a citation in the paper traces to a retrieval rather than to anyone's recollection.",
+ "_why_it_exists": "⛔ GATE 4 FIRED ON THIS SESSION'S OWN CITATION. `junction_aso_thermo.py` reads its nearest-neighbour table from Biopython, whose source comment names Sugimoto et al. (1995). That is honest provenance for the NUMBERS and it is not a bibliographic record, so when the PMID entered the manuscript `lint_citations` correctly reported '1 NEW unanchored identifier'. A thermodynamic table recited from memory is the first golden rule broken in numeric form, and a PMID attached to it from memory is that rule broken twice. This file is the fetch that closes it.",
+ "_pmids_written_in_the_form_the_checker_reads": "⚠ The checker anchors a PMID only on the literal, case-sensitive form `PMID <digits>`, so a JSON key of \"7545436\" anchors nothing. Written here in the form that actually reads: PMID 7545436 (the DNA:RNA hybrid nearest-neighbour parameters), PMID 23963702 (the ~5-fold single-mismatch RNase-H1 discrimination bound), PMID 7567450 (the 16-mer no-discrimination bound). The last two were already cited by the manuscript and are re-anchored here from the same fetch.",
+ "_dispatch": {
+  "workflow": ".github/workflows/fetch-literature.yml",
+  "slug": "aso-thermo-parameters",
+  "query": "EXT_ID:7545436 OR EXT_ID:23963702 OR EXT_ID:7567450",
+  "run_id": "31656407007",
+  "conclusion": "success",
+  "corpus_branch": "literature-cache",
+  "corpus_path": "literature/aso-thermo-parameters/",
+  "⚠_not_verification": "An anchored identifier is evidence that a fetch returned a record under that PMID. It is not evidence that the citation supports the claim made beside it."
+ },
+ "records_returned": {
+  "23963702": {
+   "doi": "10.1093/nar/gkt725",
+   "title": "Rational design of antisense oligonucleotides targeting single nucleotide polymorphisms for potent and allele selective suppression of mutant Huntingtin in the CNS.",
+   "authors": "Østergaard ME, Southwell AL, Kordasiewicz H, Watt AT, Skotte NH, Doty CN, Vaid K, Villanueva EB, Swayze EE, Bennett CF, Hayden MR, Seth PP.",
+   "journal": "Nucleic acids research",
+   "volume": "41",
+   "issue": "21",
+   "year": 2013
+  },
+  "7545436": {
+   "doi": "10.1021/bi00035a029",
+   "title": "Thermodynamic parameters to predict stability of RNA/DNA hybrid duplexes.",
+   "authors": "Sugimoto N, Nakano S, Katoh M, Matsumura A, Nakamuta H, Ohmichi T, Yoneyama M, Sasaki M.",
+   "journal": "Biochemistry",
+   "volume": "34",
+   "issue": "35",
+   "year": 1995
+  },
+  "7567450": {
+   "doi": "10.1093/nar/23.17.3411",
+   "title": "Rational design of point mutation-selective antisense DNA targeted to codon 12 of Ha-ras mRNA in human cells.",
+   "authors": "Duroux I, Godard G, Boidot-Forget M, Schwab G, Hélène C, Saison-Behmoaras T.",
+   "journal": "Nucleic acids research",
+   "volume": "23",
+   "issue": "17",
+   "year": 1995
+  }
+ }
+}
