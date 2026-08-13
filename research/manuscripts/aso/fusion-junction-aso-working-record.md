@@ -2340,3 +2340,71 @@ inflated its counts, and nothing in the stale artifact distinguished the two cas
 ✅ **UNCHANGED BY THE ADDITION:** nine clean designs at six junctions across four partners, median
 locus inflation 2.20, and every partner still having a junction whose best design is clean. The
 last junction closed a coverage gap without moving a headline.
+
+### Appendix B.5 — the pre-mRNA compartment, measured (2026-08-13, run 31697045904, $0)
+
+⭐ **THE PAPER'S OWN LARGEST STATED BLIND SPOT IS NOW A READING RATHER THAN A CONCESSION.** Its
+Limitations had said, unchanged for as long as the section existed, that both screens search mature
+transcript only, that RNase-H1 is nuclear, that intronic and intron–exon-spanning sites are therefore
+invisible to both, and that "that gap is closable by a genomic screen and is not closed here." A
+repository-wide grep for `genomic screen` on the morning of 2026-08-13 returned **exactly that one
+sentence** — no `required_validation` row, no method-watch entry, no item in this record. A conceded
+hole is the easiest kind to keep, because conceding it reads as rigour.
+
+⚠ **AND THE OMISSION WAS NOT NEUTRAL IN ITS DIRECTION.**
+[`hybrid-intron-aso-target.md`](hybrid-intron-aso-target.md) already said so for the same database
+families: both target sets are mature-transcript sets, so "running them unchanged yields a low
+off-target count **by construction**." A junction gapmer's two halves are both exonic, and in a parent
+pre-mRNA an exon is followed by an intron rather than by the next exon — so parent pre-mRNA is exactly
+where a design's donor half sits beside sequence no mature screen has ever compared it against.
+
+**What ran.** [`aso_premrna_offtarget.py`](../../modalities/aso_premrna_offtarget.py) → 
+[`aso-premrna-offtarget.json`](../../modalities/aso-premrna-offtarget.json). Unspliced sequence and
+exon coordinates for all six parent transcripts, retrieved from Ensembl; every one of the 190 designs'
+target windows scanned against all of it at ≤2 mismatches — **derived** from
+`MAX_MISMATCHES_PER_NEAR_MATCH` rather than typed, because a stricter threshold here would return a
+cleaner pre-mRNA result for that reason alone — both orientations, gap-resolved, and each hit
+classified as wholly intronic, wholly exonic, or spanning an intron–exon boundary.
+
+| reading | value |
+|---|---|
+| designs scanned | 190 |
+| with any pre-mRNA near-match, either orientation | 53 |
+| with a hybridisable, gap-fully-paired site | 19 |
+| of those, sites no mature screen could see | 19 of 19 |
+| intron–exon-spanning sites, all in *NR4A3* | 9 |
+| wholly intronic sites, all in *TCF12* | 10 |
+| intronic nucleotides searched | 517,157 (*TCF12* is 365,096 of them, 71%) |
+
+⭐ **THE NINE NR4A3 SITES ARE THE FINDING, AND THEY ARE MECHANISTICALLY NECESSARY RATHER THAN
+COINCIDENTAL.** Every one sits six or seven nucleotides into *NR4A3* intron 2, spanning the boundary
+into exon 3 — verified against the committed exon spans, not inferred. A junction gapmer's acceptor
+half **is** the 5′ end of *NR4A3* exon 3, and the wild-type transcript reaches that same exon across
+its own splice junction, so a design whose donor half also matches the 3′ end of intron 2 within the
+mismatch budget pairs across the real splice site. ⛔ **That is a route to wild-type *NR4A3*
+engagement that does not pass through the fusion at all, in the compartment where RNase-H1 is active,
+and gap-level discrimination cannot protect the parent there because the gap is fully paired.** It is
+the discrimination question this program exists to answer, arriving from a direction nobody had
+screened.
+
+⚠ **THE TEN *TCF12* SITES ARE A LENGTH EFFECT AND ARE REPORTED AS ONE.** *TCF12* holds 71% of the
+intronic sequence searched and 100% of that class; 7 of 10 would be expected from volume alone. It
+says nothing about *TCF12*.
+
+✅ **TWO THINGS THIS CHANGED FOR THE PAPER'S OWN CLAIMS.** The gap-level margin predicts the
+liability — 12 of 76 designs at margin 1, 7 of 76 at margin 2, **none of 38 at margin 3** — so a
+third independent instrument now orders the candidates as the base count and the free energy already
+did. And **none of the nine designs the cleanliness claim rests on carries a pre-mRNA site**, so that
+claim survives the compartment it could not previously see. Neither outcome was arranged: the screen
+was written before either was known, and the artifact is what decided them.
+
+⚠ **SCOPE, STATED RATHER THAN IMPLIED.** Exhaustive over six parent transcripts and nothing else. The
+other ~20,000 genes' introns remain outside all three screens, and this arm inherits the
+substitution-only bound — complete for mismatches by construction, blind to insertions and deletions.
+The module carries a best-effort genome-wide NCBI arm behind `PREMRNA_GENOMIC=1`; it has not been run,
+and the artifact records that it did not rather than leaving the field absent.
+
+✅ **AND IT IS THE ONE SCREEN IN THE PAPER THAT RECOMPUTES WITH NO NETWORK AT ALL.** The retrieved
+sequence and exon coordinates travel with the archive, so `--offline` against the committed cache
+reproduces every number above; verified bit-identical before the result was written up. The other two
+arms need NCBI BLAST and a RefSeq download.
