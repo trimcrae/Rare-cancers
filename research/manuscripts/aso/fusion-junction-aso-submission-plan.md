@@ -173,7 +173,7 @@ superseded column is kept because the size of the gap is the reason the split ha
 | structured abstract | ✅ present, 274 words, four headed parts | present but long and narrative |
 | IMRaD | ✅ Results ordered by finding, §3.1–§3.4 | ordered as a **chronology** (§3a, 3a-bis, … 3a-nonies) |
 | numbered figures | ✅ three, generated from committed artifacts, with legends | **none exist** |
-| numbered reference list with author/title/journal/year | ✅ 29 entries, `fusion-junction-aso-submission-references.md`, numbering DERIVED from per-citation PMIDs; every entry now carries author, title, journal and year, the last two gaps closed by harvesting retrieved records rather than typing them | prose carries bare PMIDs; journal titles were deliberately not stored by the fetch path |
+| numbered reference list with author/title/journal/year | ✅ 30 entries, `fusion-junction-aso-submission-references.md`, numbering DERIVED from per-citation PMIDs; every entry now carries author, title, journal and year, the last two gaps closed by harvesting retrieved records rather than typing them | prose carries bare PMIDs; journal titles were deliberately not stored by the fetch path |
 | journal register | ✅ `lint_style.py` clean: 0 glyphs, bold ≈5/1000 against a limit of 12, em-dash ≈5/1000 against 6 | bold 33.2/1000, em-dash 17.5/1000, 286 mid-sentence bolds, 127 glyphs |
 | data availability | ⛔ **open** — artifacts are repo JSON on a feature branch; a citable archive is needed | same |
 | author block, funding, competing interests | ✅ **written** — author block taken from the form already committed across the other manuscripts; self-funded, no funder role; no financial interests, with survivorship declared as a non-financial one | not yet reached |

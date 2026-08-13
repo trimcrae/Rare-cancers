@@ -182,6 +182,24 @@ hit list reached its cap the strand of the remainder is unrecoverable, and those
 strand-blind count that is an upper bound; each design records which of the two applies. Where a hit
 list reached its cap, counts are right-censored and are reported as lower bounds.
 
+**Duplex thermodynamics and conventional design rules.** Because a base count is a proxy for
+discrimination and a free energy is the field's standard instrument for it, each design was also
+scored thermodynamically. A junction gapmer is a perfect complement of the fusion across all 16
+positions, while a parent transcript can pair only the half of the oligonucleotide it contributes,
+so the comparison is the full 16-mer duplex against the donor-side and acceptor-side runs alone.
+Nearest-neighbour enthalpies and entropies for a DNA:RNA hybrid were taken from Sugimoto and
+colleagues,<sup>22</sup><!--PMID:7545436--> read from a package that cites that source rather than
+entered by hand, and ΔG°37 computed at 250 nM strand concentration. The keying of the table was
+validated by reproducing an independent implementation's melting temperature over the design set,
+which agreed exactly; a reversed strand convention yields plausible-looking energies and is the
+failure this check excludes. These designs carry LNA wings and the table is for an unmodified
+hybrid, so what is computed is the duplex the DNA backbone would form. LNA raises affinity on the
+fusion and parent duplexes alike, compressing their difference, so the discrimination reported here
+is an upper bound rather than an estimate. Separately, every design was audited against four
+conventional antisense design rules (GC within 40–60%, no G-quadruplex motif, no homopolymer run of
+four, and no CpG dinucleotide), not to grade the designs, but to ask whether conventional triage and
+the gap-level margin would select the same molecules.
+
 **Availability.** All code, graded artefacts and per-design tables are released under a single
 archived version, deposited from the public repository at
 `github.com/trimcrae/Rare-cancers` [ARCHIVE DOI]. Every result reported here is re-derived from the
@@ -204,7 +222,7 @@ frame compatibility reduces to a single arithmetic condition — a donor coding 
 necessary and sufficient across all 231 rows.
 
 Among these, *EWSR1* exon 12 joined to *NR4A3* exon 3 is the junction reported most often — type 1
-in 10 of the 15 *EWSR1*-rearranged tumours of an 18-case series<sup>22</sup><!--PMID:12378528--> — so
+in 10 of the 15 *EWSR1*-rearranged tumours of an 18-case series<sup>23</sup><!--PMID:12378528--> — so
 designs at this seam correspond to the largest documented patient group.
 
 Every one of the 38 frame-compatible junctions yields at least one junction-spanning gapmer that is
@@ -225,9 +243,9 @@ what makes the coverage arithmetically possible.
 
 In one respect the published data contradict the clinical reading of this result. The only
 exon-resolved *TAF15::NR4A3* breakpoints reported in EMC are exon 6: the primary report of
-the variant fusion places the breakpoint at *TAF15* exon 6,<sup>23</sup><!--PMID:10537274--> and in a
+the variant fusion places the breakpoint at *TAF15* exon 6,<sup>24</sup><!--PMID:10537274--> and in a
 series of 18 EMCs all three *TAF15*-rearranged tumours carried exon 6 joined to *NR4A3* exon
-3<sup>22</sup><!--PMID:12378528--> — not exon 11. The exon-6 seam shares a single donor base with the exon-11 seam, so this oligonucleotide cannot
+3<sup>23</sup><!--PMID:12378528--> — not exon 11. The exon-6 seam shares a single donor base with the exon-11 seam, so this oligonucleotide cannot
 engage the *TAF15* junction that patients are reported to carry. That junction is itself
 frame-compatible and yields five fusion-specific designs (43.8–50.0% GC), but only one of the five
 was screened and that screen was not orientation-filtered, so it supports no cleanliness statement
@@ -344,6 +362,37 @@ gap-spanning — and all five are variants of a single uncharacterised locus, LO
 only as predicted `XR_` models. One locus, no curated transcript, from a raw count of nine. The same
 design returns no exact match and a single ≤1-mismatch match on the exhaustive scan.
 
+### 3.6 · Duplex thermodynamics and conventional design rules
+
+Scored as free energies, every one of the 190 fusion-specific designs favours the fusion duplex over
+the best duplex either parent can form, by 4.8 to 13.1 kcal/mol with a median of 9.6. The reason is
+structural rather than subtle: a parent pairs roughly half the oligonucleotide, and half a duplex is
+much the weaker one. That is worth stating precisely because it separates two things a base count
+conflates. Discrimination at the level of *binding* is not marginal here and is not what constrains
+the modality; what remains unresolved is discrimination at the level of *catalysis*, where RNase-H1
+requires a paired DNA gap and where the literature bounds span one- to five-fold. The thermodynamic
+result therefore narrows the paper's central uncertainty rather than relieving it.
+
+The two rankings agree in direction. Grouping designs by the gap-level margin the Methods define,
+mean ΔΔG°37 rises monotonically with it, from 8.3 kcal/mol at margin 1 to 9.9 at margin 2 and 10.7
+at margin 3, so the base count and the free energy order the candidates the same way. Since the margin
+is computed from junction-unique bases and the free energy from stacking parameters, that agreement
+is corroboration rather than restatement.
+
+Conventional design rules select differently, and against the paper's own candidates. Of the 190
+designs, 106 satisfy all four rules; the rules bind at different rates, with every design free of a
+G-quadruplex motif but 13 carrying a homopolymer run of four, 43 a CpG dinucleotide and 58
+falling outside the 40–60% GC window. The failures overlap, so they do not sum to the 84 designs
+that fail at least one.
+Two of the four designs with no hybridisable near-match, 5′-GGCATATCAAGCGCTG-3′ and
+5′-GCATATCAAGCGCTGC-3′ at *TCF12* exon 7, contain a CpG, which is the canonical TLR9
+immunostimulatory motif and is routinely designed out of therapeutic oligonucleotides; a third,
+5′-GGGCATATCTCTATAA-3′, sits at 37.5% GC, below the conventional band. The multi-partner candidate
+5′-GGGCATATCATCAAAC-3′ satisfies all four. So specificity screening and conventional triage do not
+pick the same molecules, and a candidate list ordered on off-target load alone would carry designs
+that a medicinal-chemistry filter would reject on other grounds. Neither filter dominates the other,
+and both are reported here rather than composed into a single score.
+
 ## 4 · Discussion
 
 Three findings stand, the second conditionally. Junction-spanning, parent-sparing designs exist at
@@ -362,7 +411,10 @@ measured at the length used here.<sup>21</sup><!--PMID:7567450--> This is a sepa
 off-target load, and it is not improved by the designs that carry none: an oligonucleotide with no
 transcriptome match still has to distinguish the fusion from the two parent transcripts that supply
 its own two halves, and under the pessimistic bound a 16-mer does not discriminate a single mismatch
-at all. No amount of further sequence analysis narrows that interval; a measurement does. The field's own
+at all. Free-energy calculation does not narrow it either, and locating why is the useful part: every
+design discriminates amply at the level of duplex formation, so what is unresolved is specifically
+the catalytic step, not the binding one. No amount of further sequence analysis narrows that
+interval; a measurement does. The field's own
 answer to poor single-base discrimination has been positional chemical modification of the gap rather
 than length,<sup>20</sup><!--PMID:23963702--> and that is the design direction this result points to. A steric-block
 mechanism, which does not require gap-level discrimination, is a second alternative this work does not
@@ -372,11 +424,11 @@ Delivery remains unsolved for a tumour, and separates into three routes with dif
 requirements. A characterised EMC-enriched surface antigen is a prerequisite of
 the systemic receptor-targeted route only; local and inhaled administration require none. EMC's
 distant spread is lung-dominant, at 35–45% of patients and a median of approximately 28 months to
-metastasis,<sup>24</sup><!--PMID:41055792--> and inhaled oligonucleotides have reached patients in non-oncology
-indications, including an inhaled antisense oligonucleotide in phase 1<sup>25</sup><!--PMID:39500647--> — a
+metastasis,<sup>25</sup><!--PMID:41055792--> and inhaled oligonucleotides have reached patients in non-oncology
+indications, including an inhaled antisense oligonucleotide in phase 1<sup>26</sup><!--PMID:39500647--> — a
 splice-switching oligonucleotide rather than an RNase-H1-active gapmer, so it establishes the route
 and not the mechanism used here — and an inhaled
-siRNA in phase 2b–3.<sup>26</sup><!--PMID:40028836--> Those agents target airway epithelium or parenchyma, which is the
+siRNA in phase 2b–3.<sup>27</sup><!--PMID:40028836--> Those agents target airway epithelium or parenchyma, which is the
 compartment inhalation naturally reaches; a hypocellular, matrix-rich parenchymal sarcoma nodule is
 not, and no retrieved record concerns a solid-tumour target. The route is therefore established in humans but not for
 this compartment.
@@ -384,7 +436,7 @@ this compartment.
 The experiment that would resolve the central uncertainty is routine and has been published in an
 analogous disease: fusion-specific antisense oligonucleotides against *NAB2::STAT6* in solitary
 fibrous tumour, evaluated against CRISPR-engineered isogenic fusion-positive and fusion-negative
-cells, reduced fusion expression by 58% and proliferation by 22% in vitro.<sup>27</sup><!--PMID:37370737--> Applied here,
+cells, reduced fusion expression by 58% and proliferation by 22% in vitro.<sup>28</sup><!--PMID:37370737--> Applied here,
 5′-GGGCATATCATCAAAC-3′ remains the single highest-information reagent, because one synthesis tests
 both the mechanism and the multi-partner prediction; its predicted load — five gap-spanning
 near-matches at one uncharacterised locus and a single ≤1-mismatch transcriptome match (Table 2) —
@@ -416,8 +468,8 @@ repetitive, so it separates "more than chance" from "at chance" and nothing fine
 given patient carries is not decidable from exon structure, so the multi-partner result is
 conditional on *TAF15* and *FUS* breakpoints falling at the homologous exons — a clinical fact not
 established here — and *TCF12::NR4A3* fusions are reported in
-patients<sup>28,29</sup><!--PMID:11156374,12598313--> but not at the exon resolution these designs
-require. Finally, both screens search mature transcript sequence only. RNase-H1 is active in the
+patients<sup>29,30</sup><!--PMID:11156374,12598313--> but not at the exon resolution these designs
+require. The thermodynamic calculation models an unmodified DNA:RNA hybrid, while these designs carry LNA wings; LNA raises affinity on the fusion and parent duplexes alike, which compresses their difference, so the reported discrimination is an upper bound rather than an estimate, and it speaks to duplex formation rather than to cleavage. Finally, both screens search mature transcript sequence only. RNase-H1 is active in the
 nucleus and gapmers are known to engage pre-mRNA, so intronic and intron–exon-spanning sites are a
 class of liability that neither the RefSeq RNA search nor the transcript-level exhaustive scan can
 see; the counts reported here therefore bound the mature-transcript compartment only. That gap is
@@ -501,7 +553,7 @@ of the code and for the interpretation of the results.
 
 ## References
 
-*The 29 numbered entries are listed in `fusion-junction-aso-submission-references.md`, generated
+*The 30 numbered entries are listed in `fusion-junction-aso-submission-references.md`, generated
 from retrieved bibliographic records. Each superscript above carries its PubMed identifier in a
 non-rendering comment, and the numbering is assigned from those identifiers by order of first
 citation, so a superscript and its reference cannot drift apart.*
