@@ -253,9 +253,15 @@ def table2(collapse, chance, atlas):
         # gap-spanning locus count now comes from the screen, computed over every ranked hit before
         # truncation, so it is exact. Marking an exact 0 as "≥0" is not a harmless over-caution —
         # it is unreadable, because "≥0" is true of every number and says nothing.
+        # ⚠ AND THE FROZEN FIGURE IS AN UPPER BOUND, NOT AN EXACT ONE (2026-08-13). The screen's
+        # count was computed at screen time, under a `locus_of` that has since been corrected: it
+        # split any gene whose description carries a comma into one fallback per accession, so
+        # TCF12 e5 printed 17 loci for seventeen variants of PIK3CG. Where the stored list is
+        # complete the collapse now recounts with the current rule and the value is exact; only a
+        # truncated list still carries the frozen figure, and it is marked "≤" rather than bare.
         cens_loci = "≥" if best["right_censored"] else ""
         cens_near = "≥" if (best["n_transcript_near_matches_reported"] or 0) >= HITLIST_SIZE else ""
-        cens_gap = "" if best.get("n_loci_with_a_gap_spanning_hit_is_from_the_screen") else cens_loci
+        cens_gap = "≤" if best.get("n_loci_with_a_gap_spanning_hit_is_from_the_screen") else ""
         vals = sorted(le1.get(lab, []))
         med = vals[len(vals) // 2] if vals else "—"
         mx = max(vals) if vals else "—"
@@ -279,6 +285,50 @@ def table2(collapse, chance, atlas):
             f"{len(set(best.get('loci_with_a_gap_spanning_hit') or []) & set(best.get('loci_seen_only_as_predicted_models') or []))} | "
             f"{med} ({mx}) |")
     return "\n".join([hdr, sep] + rows), any(not v for v in filtered.values())
+
+
+#: Clinical-occurrence tiers, rendered for a reader. The tier vocabulary is owned by
+#: `aso_per_junction_table.PUBLISHED_BREAKPOINTS`; this only names the three states.
+_TIER_LABELS = {
+    "published_exon_resolved_breakpoint": "published",
+    "partner_published_this_exon_not_reported": "exon not reported",
+    "no_published_exon_resolved_breakpoint": "none published",
+}
+
+
+def table4(per_junction):
+    """One best-available reagent per junction, joined across all five screens.
+
+    ⛔ WHY A FOURTH TABLE. Tables 2 and 3 both answer panel-level questions — the representative
+    design at each junction, and the panel's cleanest molecules. Neither answers the question a
+    reader with a patient has, which is what to order for ONE fusion at ONE exon pair. That was in
+    the prose for the junctions the paper discusses and nowhere for the other thirty.
+
+    ⚠ RANKED, NOT SCORED, and the ordering is the artifact's: parent liability disqualifies, then
+    pre-mRNA, then gene loci, with ties broken on gap-level margin rather than on raw hits. The two
+    axes are printed side by side and never combined.
+    """
+    hdr = ("| junction | exon-resolved breakpoint | designs clearing the parent screen | best "
+           "available design | gap-level margin | longest parent duplex through the gap (bp) | "
+           "gap-paired near-matches at the deeper ceiling (transcripts → loci) | genome-wide "
+           "gap-paired load, observed/expected |")
+    sep = "|---|---|---|---|---|---|---|---|"
+    rows = []
+    for j in per_junction["junctions"]:
+        lab = j["junction_label"].replace("__", "::").replace("_", " ")
+        tier = _TIER_LABELS.get(j["clinical_tier"], j["clinical_tier"])
+        b = j["best_available"]
+        n = f"{j['n_designs_clearing_the_parent_screen']} of {j['n_designs_screened']}"
+        if b is None:
+            rows.append(f"| {lab} | {tier} | {n} | — | — | — | — | — |")
+            continue
+        oe = b["genome_oe_gap_paired_le2"]
+        rows.append(
+            f"| {lab} | {tier} | {n} | 5′-{b['antisense_5to3']}-3′ | "
+            f"{b['gap_specificity_margin']} | {b['parent_duplex_bp']} | "
+            f"{b['n_gap_paired']} → {b['n_gap_paired_loci']} | "
+            f"{'—' if oe is None else f'{oe:.2f}'} |")
+    return "\n".join([hdr, sep] + rows)
 
 
 #: The rule audit's field names are code identifiers; a manuscript table needs the rule, not the key.
@@ -382,7 +432,8 @@ def main():
     collapse = _load("junction-aso-offtarget-locus-collapse.json")
     chance = _load("offtarget-chance-baseline.json")
     thermo = _load("junction-aso-thermo.json")
-    if not (atlas and collapse and chance and thermo):
+    per_junction = _load("aso-per-junction-table.json")
+    if not (atlas and collapse and chance and thermo and per_junction):
         print("a required artifact is missing", file=sys.stderr)
         return 2
 
@@ -422,7 +473,7 @@ accession per annotated variant. A “≥” marks a right-censored count: the s
 {SAVED_HITS} hits per design, so a design with more is a lower bound. All {sum(1 for s in collapse["screens"] if s.get("junction_label"))} junction screens
 are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
-None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits, whereas the gap-spanning locus column is computed over every ranked hit before truncation and is therefore exact. The two are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.{dagger}
+None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.{dagger}
 
 {t2}
 
@@ -445,6 +496,24 @@ bounds agree.\n\n⁴ Of four conventional antisense design rules: GC within 40�
 motif, no homopolymer run of four, no CpG dinucleotide.
 
 {t3}
+
+**Table 4. The best available design at each of the {per_junction["n_junctions"]} frame-compatible junctions.** Tables 2 and 3
+select across the panel; this table selects within each junction, which is the question a patient's
+fusion poses. Designs are ranked by parent liability first, since sparing the wild-type parents is
+what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
+on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
+from a screen already reported above. Whether a junction has a published exon-resolved breakpoint is
+reported separately from specificity and never folded into the ranking — “published” means an
+exon-resolved EMC breakpoint is reported for that exon pair, “exon not reported” that the partner
+has a resolved breakpoint at a different exon, and “none published” that no exon-resolved breakpoint
+has been reported for that partner at all. The last of those is absence of evidence: EMC case
+reports usually name the partner gene without sequencing to nucleotide resolution. Gap-paired
+near-matches are at the tenfold deeper alignment ceiling, where every hit list is complete. The
+genome column is the observed number of gap-paired sites at ≤2 mismatches over the number expected
+for an arbitrary 16-mer, so 1.00 is chance. A junction with no design clearing the parent screen is
+reported as such rather than given a best row.
+
+{table4(per_junction)}
 """
     open(OUT, "w").write(doc)
     print(f"wrote {OUT}")

@@ -138,22 +138,27 @@ def collapse_oligo(oligo):
                              else round(len(hits) / len(by_locus), 2)),
         "n_loci_with_a_curated_transcript": len(loci_curated),
         "n_loci_seen_only_as_predicted_models": len(loci_predicted),
-        # ⛔⛔ THE SCREEN'S OWN COUNT WINS, AND RECOUNTING FROM THE SAVED HITS UNDERSTATED IT
-        # (2026-08-12). `loci_risk` is derived from the top-15 hits this module can see, while the
+        # ⛔⛔ THE SCREEN'S OWN COUNT WINS ONLY WHERE THE RECOUNT CANNOT BE EXACT (2026-08-12,
+        # narrowed 2026-08-13). `loci_risk` is derived from the hits this module can see, while the
         # screen computed `n_loci_with_a_gap_spanning_hit` over EVERY ranked hit before truncation.
-        # For a censored design the two disagree, and they disagree in the flattering direction:
-        # EWSR1 e9 / GGGCATATCACCAGGC recounted to 0 here against the screen's exact 2, so Table 2
-        # printed "≥0" for a design with two gap-spanning loci — a design looking CLEANER than it
-        # is, which this module's own docstring names as the dangerous failure. It also put the
-        # table in direct contradiction with §3.3 of the manuscript, which reads the exact field.
-        # ⚠ The recount is kept as the fallback for a screen that predates the exact field, and
-        # `loci_with_a_gap_spanning_hit` stays the NAMES this module can see, which for a censored
-        # design is a subset — so the names are a lower bound while the count is exact.
+        # For a CENSORED design the two disagree in the flattering direction: EWSR1 e9 /
+        # GGGCATATCACCAGGC recounted to 0 here against the screen's exact 2, so Table 2 printed "≥0"
+        # for a design with two gap-spanning loci — a design looking CLEANER than it is, which this
+        # module's own docstring names as the dangerous failure.
+        # ⚠ BUT THE SCREEN'S FIELD IS FROZEN AT SCREEN TIME, AND `locus_of` HAS SINCE BEEN
+        # CORRECTED. Every committed screen predates the first-comma fix above, so its exact count
+        # still splits any gene whose description contains a comma across one fallback per
+        # accession: TCF12 e5 / GGGCATATCCATCAGA stores 17, and those 17 records are seventeen
+        # variants of ONE locus, PIK3CG. Where the stored list is COMPLETE the recount is both
+        # exact and current, so it wins there; only a truncated list still falls back to the frozen
+        # figure, where it is an over-count and the table marks it as one. Re-running a screen is a
+        # network operation, so this is the strongest statement available offline.
         "n_loci_with_a_gap_spanning_hit": (
             oligo["n_loci_with_a_gap_spanning_hit"]
-            if oligo.get("n_loci_with_a_gap_spanning_hit") is not None else len(loci_risk)),
-        "n_loci_with_a_gap_spanning_hit_is_from_the_screen": (
-            oligo.get("n_loci_with_a_gap_spanning_hit") is not None),
+            if censored and oligo.get("n_loci_with_a_gap_spanning_hit") is not None
+            else len(loci_risk)),
+        "n_loci_with_a_gap_spanning_hit_is_from_the_screen": bool(
+            censored and oligo.get("n_loci_with_a_gap_spanning_hit") is not None),
         "loci_with_a_gap_spanning_hit": sorted(loci_risk),
         "named_gap_spanning_loci_are_a_subset_when_censored": censored,
         # named, not just counted, so "none of the gap-spanning loci is curated" is a claim a

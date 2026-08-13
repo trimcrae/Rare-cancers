@@ -2462,3 +2462,48 @@ separate nothing, and no claim rests on them.
 a clean answer under the name "genomic screen" would reproduce, with a provenance string asserting the
 opposite, the exact defect the pre-mRNA work exists to close. A real genome-wide screen needs a local
 BLAST database rather than the public URL API. Recorded so nobody repeats the attempt.
+
+### Appendix B.8 — the locus-parser correction reaches the manuscript, and four other stale numbers (2026-08-13, $0)
+
+⛔ **`locus_of` WAS FIXED IN `5233cf867` AND ONLY ONE OF THE MANUSCRIPT'S LOCUS COUNTS WAS RECHECKED.**
+The parser split the RefSeq definition on the first comma, so every gene whose own description carries
+one degraded to one accession fallback per variant. The fix landed with the collapse artifact
+regenerated and the lead reagent's §3.7 figure corrected; **every other locus count in the paper was
+still the old parser's.** Recomputed here from the committed artifacts, all superseded values retained:
+
+| where | superseded | measured now | why it moved |
+|---|---|---|---|
+| §3.2, *TAF15* e6 | four loci at best, **seven** for the margin-leader, **five of seven** predicted-only (default depth, Table 2) | **three** at best (`AGGGCATATCTTGTGT`), **five** for the margin-leader `GGGCATATCTTGTGTG`, **three of five** predicted-only, at the deeper ceiling (Table 4) | old parser, and three of the five designs are truncated at default depth so the sentence quoted bounds as minima |
+| §3.3, *TCF12* e5 | "the highest gap-spanning near-match load in the panel: **17 loci**, 12 of them predicted" | **17 gap-spanning near-matches at ONE curated locus, `PIK3CG`** — and not the panel's highest load | `phosphatidylinositol-4,5-bisphosphate …` carries a comma, so seventeen PIK3CG variants became seventeen fallbacks |
+| Table 2, *TAF15* e6 | `11 → 10` loci, 7 gap-spanning loci, 5 predicted-only | `11 → 7`, **4**, **2** | ditto |
+| Table 2, *EWSR1* e9 | `29 → ≥10` loci | `29 → ≥2` | ditto |
+| Table 2, *TCF12* e5 | `26 → ≥15` loci, 12 predicted-only | `26 → ≥1`, **0**, gap-locus column now `≤17` | ditto |
+| §3.6 | "**23 designs** … 20 of the 23 had not approached the cap" | **164 of the 180** designs screened at both depths, **129** not at the cap | population not reproducible from the artifacts; the deep corpus grew to 187 records after it was written |
+| Limitations | "**141 of 157** comparable designs … **125** of those" | same measurement as §3.6, stated once | ditto |
+| §4 | "0.69 times the expected number of **exact** genomic matches" | 0.69 is the **≤2-mismatch** ratio; the exact ratio for that design is **0.73** | the label was wrong, not the number — §3.8 uses the same (le2, gap-paired) pair correctly |
+| §4 | "**Two** designs survive every screen applied here" | **three**, two of them at any parent-duplex threshold | §3.8 and the abstract already said three; §4 disagreed with both |
+| Methods | "39 of the **45** screens released in total … and the **five** deeper re-screens" | **39 of 78**; the ungraded set is the **38** deep re-screens plus one coverage-only control | the deep corpus grew from 5 junctions to 38 while the graded count, 39, never moved |
+| §3.4 | "**twenty-two** of them screened or re-screened after alignment strand was parsed" | clause removed | the figure has no home in any artifact — 21 junction screens carry the post-fix orientation field, not 22 — and it read as if the other 16 were unfiltered, which the corpus test refutes |
+| Limitations | "nothing here bounds what a longer catalytic gap would achieve at the same seams" | "every result reported here is specific to that geometry" | the negative is no longer true; longer-gap geometries at these seams are under separate measurement and nothing is claimed about them here |
+
+⚠ **THE SCREEN ARTIFACTS STILL CARRY THE OLD PARSER AND CANNOT ALL BE FIXED OFFLINE.**
+`_locus_summary` is computed at screen time over the COMPLETE ranked hit list, and only the top 15 are
+stored, so for a truncated design the exact count is unrecoverable without re-running BLAST.
+`collapse_oligo` now prefers its own recount wherever the stored list is complete — exact and current —
+and falls back to the frozen figure only when truncated, where Table 2 marks it `≤` because the old
+parser can only over-count. Measured across every committed screen: 33 of 236 uncensored records
+disagreed with the frozen field, worst `TAF15` e4 / `GCATATCTGACTGACT` at 95 against a true 8.
+
+⛔ **AND THE FROZEN FIELD IS WHY THIS SURVIVED THE FIX.** The collapse artifact WAS regenerated in
+`5233cf867`, so `n_distinct_loci` and the predicted-only counts became current in the same commit —
+while `n_loci_with_a_gap_spanning_hit`, the one column §3.2, §3.3 and Table 2 actually quote, kept
+reading a value frozen inside the screens. A regeneration that updates two of three columns looks
+exactly like a regeneration that updates all three.
+
+⭐ **WHAT WAS CHECKED AND FOUND CORRECT**, so it is not re-litigated: the lead reagent's §3.7 and §4
+figures (189 near-matches, 141 hybridisable, 123 gap-paired, six loci, `ANKS1B` + `ZNF667` 104, 82 of
+123 predicted, no parent); the 2.25 median inflation over 44 designs and its 11.0 maximum; every
+§3.5 deep count (27, 29, 84; 64, 14, 11; 8→118; 7→67); the five clean-design parent duplexes and the
+zero pre-mRNA sites among the nine; the genome strata (236 exact against 1.37 expected, 0.98 median
+ratio, 14 above twice, 52.5 % against 51.4 % masked, 20 of 176 with a named gap-paired site); and
+every §3.9 thermodynamic and design-rule figure.

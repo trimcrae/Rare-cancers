@@ -359,6 +359,187 @@ def test_section_3_3_partner_minima_match():
         f"§3.3's per-partner denominators {seen} disagree with the atlas {per_partner}")
 
 
+def _deep_screens():
+    """Every deep re-screen as (junction, design) -> record. Keyed by the PAIR, never the sequence:
+    nine designs span three seams at once and a sequence key silently keeps the last one read."""
+    import glob  # noqa: PLC0415
+    out = {}
+    for path in sorted(glob.glob(os.path.join(MOD, "junction-aso-offtarget-*deep500*.json"))):
+        d = json.load(open(path, encoding="utf-8"))
+        for o in d.get("oligos", []):
+            if o.get("status") == "screened" and o.get("n_offtarget_near_matches") is not None:
+                out.setdefault((d["junction_label"], o["antisense_5to3"]), o)
+    return out
+
+
+def _flat(txt):
+    return re.sub(r"\s+", " ", txt)
+
+
+def test_the_deeper_ceiling_raises_counts_across_the_whole_corpus():
+    """§3.6's censoring bound, over every design screened at both ceilings.
+
+    ⚠ SUPERSEDED, RETAINED: "23 designs ... 20 of the 23", and in Limitations "141 of 157 comparable
+    designs return a higher count and 125 of those had not reached the 50-hit cap". Neither
+    population is reproducible from the committed artifacts under any natural definition — the
+    corpus is 183 filtered design records, 180 of which also have a deep record — so both were
+    computed against a deep corpus that has since grown. The three worked examples in that sentence
+    were correct and are kept.
+    """
+    deep = _deep_screens()
+    if not deep:
+        pytest.skip("the deep re-screens are not present in this checkout")
+    default = {(s["junction_label"], o["antisense_5to3"]): o["n_transcript_near_matches_reported"]
+               for s in _collapse()["screens"] if s["junction_label"] for o in s["per_oligo"]}
+    assert len(default) == 183, len(default)
+    comparable = [k for k in default if k in deep]
+    higher = [k for k in comparable
+              if deep[k]["n_offtarget_near_matches"] > default[k]]
+    not_at_cap = [k for k in higher if default[k] < 50]
+    assert (len(comparable), len(higher), len(not_at_cap)) == (180, 164, 129), (
+        len(comparable), len(higher), len(not_at_cap))
+    txt = _flat(_paper())
+    assert f"raised the count of {len(higher)} of the {len(comparable)} designs screened at both " \
+           f"depths, and {len(not_at_cap)} of those had not approached the 50-hit cap" in txt
+    for dead in ("23 designs at a tenfold deeper ceiling", "141 of 157 comparable designs"):
+        assert dead not in txt, f"superseded censoring population is back: {dead!r}"
+
+
+def test_the_released_screen_and_graded_counts_are_the_ones_on_disk():
+    """The Methods' inventory of what is released, which grew silently under a fixed number.
+
+    ⚠ SUPERSEDED, RETAINED: "39 of the 45 screens released in total … and the five deeper
+    re-screens of §3.6". 45 was the corpus when only five junctions had been re-screened at depth;
+    38 have now, so the total is 78 and the ungraded set is 38 deep re-screens plus the one
+    coverage-only control. The graded count, 39, never moved — which is exactly why the sentence
+    read as current.
+    """
+    import glob  # noqa: PLC0415
+    screens = [p for p in sorted(glob.glob(os.path.join(MOD, "junction-aso-offtarget-*.json")))
+               if "-graded" not in p and "locus-collapse" not in p]
+    graded = {os.path.basename(p).replace("-graded.json", ".json")
+              for p in glob.glob(os.path.join(MOD, "junction-aso-offtarget-*-graded.json"))}
+    ungraded = [p for p in screens if os.path.basename(p) not in graded]
+    deep = [p for p in ungraded if "deep500" in p]
+    assert (len(screens), len(graded)) == (78, 39), (len(screens), len(graded))
+    assert len(deep) == 38 and len(ungraded) - len(deep) == 1, (len(deep), len(ungraded))
+    txt = _flat(_paper())
+    assert (f"all 38 junction screens, and {len(graded)} of the {len(screens)} screens released in "
+            f"total") in txt
+    assert f"the {len(deep)} deeper re-screens, which are released ungraded" in txt
+    for dead in ("39 of the 45 screens", "the five deeper re-screens",
+                 "twenty-two of them screened or re-screened"):
+        assert dead not in txt, f"superseded release inventory is back: {dead!r}"
+
+
+def test_the_taf15_exon6_locus_counts_are_the_deep_ceiling_ones():
+    """§3.2's *TAF15* exon-6 sentence — the junction patients with that partner are reported to carry.
+
+    ⛔ EVERY FIGURE HERE WAS PRODUCED BY A LOCUS PARSER THAT SPLIT ONE GENE ACROSS ACCESSIONS. The
+    sentence read "four loci at best and seven for the design its gap-level margin ranks first, five
+    of those seven annotated only as predicted gene models", off default-depth screens where three
+    of the five designs are truncated and the locus fields predate the fix. At the deeper ceiling
+    every hit list is complete and the recount is current, which is the only depth at which a
+    per-design locus count at this junction is a measurement rather than a bound.
+    """
+    from collections import Counter  # noqa: PLC0415
+
+    import junction_aso_locus_collapse as C  # noqa: PLC0415
+    import junction_aso_offtarget as ja  # noqa: PLC0415
+
+    deep = {seq: o for (lab, seq), o in _deep_screens().items() if lab == "TAF15_e6__NR4A3_e3"}
+    if not deep:
+        pytest.skip("the deep re-screen of the TAF15 e6 junction is not in this checkout")
+    lo, hi = ja.GAP_REGION_1BASED
+    margins = {r["antisense_5to3"]: r["gap_specificity_margin"]
+               for r in json.load(open(os.path.join(MOD, "aso-parent-gap-pairing.json"),
+                                       encoding="utf-8"))["per_design"]}
+    loci, predicted_only = {}, {}
+    for seq, o in deep.items():
+        hits = o["offtargets"]
+        assert len(hits) == o["n_offtarget_near_matches"], "a truncated deep list bounds nothing"
+        paired = [h for h in hits if not h.get("is_minus_strand")
+                  and h["q_from"] <= lo and h["q_to"] >= hi and h.get("gap_mismatches") == 0]
+        by = {}
+        for h in paired:
+            by.setdefault(C.locus_of(h), set()).add(C.accession_class(h))
+        loci[seq] = len(by)
+        predicted_only[seq] = sum(1 for v in by.values() if v == {"predicted"})
+        assert paired, f"{seq} has no gap-spanning near-match; the sentence says every one has"
+    assert len(loci) == 5, sorted(loci)
+    leader = max(loci, key=lambda s: margins.get(s) or -1)
+    assert leader == "GGGCATATCTTGTGTG" and margins[leader] == 3, leader
+    assert min(loci.values()) == 3 and min(loci, key=loci.get) == "AGGGCATATCTTGTGT", loci
+    assert loci[leader] == 5 and predicted_only[leader] == 3, (loci, predicted_only)
+    txt = _flat(_paper())
+    assert ("those recount to three gene loci at best and five for the design its gap-level margin "
+            "ranks first, three of those five annotated only as predicted gene models") in txt
+    assert "four\nloci at best" not in _paper() and "four loci at best" not in txt
+
+
+def test_the_tcf12_exon5_gap_spanning_load_is_one_locus_not_seventeen():
+    """§3.3, and the sharpest instance of the same parser defect.
+
+    ⛔ The sentence called this junction "the highest gap-spanning near-match load in the panel: 17
+    loci for its best-margin design, 12 of them predicted gene models". Those 17 records are
+    seventeen transcript variants of ONE curated locus, PIK3CG, whose description carries a comma
+    ("phosphatidylinositol-4,5-bisphosphate ...") and so fell to one accession fallback per variant.
+    Not the highest load in the panel, and not predicted models.
+    """
+    from collections import Counter  # noqa: PLC0415
+
+    import junction_aso_locus_collapse as C  # noqa: PLC0415
+    import junction_aso_offtarget as ja  # noqa: PLC0415
+
+    o = _deep_screens().get(("TCF12_e5__NR4A3_e3", "GGGCATATCCATCAGA"))
+    if o is None:
+        pytest.skip("the deep re-screen of the TCF12 e5 junction is not in this checkout")
+    lo, hi = ja.GAP_REGION_1BASED
+    paired = [h for h in o["offtargets"] if not h.get("is_minus_strand")
+              and h["q_from"] <= lo and h["q_to"] >= hi and h.get("gap_mismatches") == 0]
+    loci = Counter(C.locus_of(h) for h in paired)
+    assert dict(loci) == {"PIK3CG": 17}, loci
+    assert {C.accession_class(h) for h in paired} != {"predicted"}, "the sentence says curated"
+    txt = _flat(_paper())
+    assert ("retains 17 gap-spanning near-matches at the deeper ceiling, every one of them a "
+            "variant of a single curated locus, *PIK3CG*") in txt
+    for dead in ("highest gap-spanning near-match load in the panel", "17 loci for its best-margin"):
+        assert dead not in txt, f"superseded TCF12 e5 claim is back: {dead!r}"
+
+
+def test_the_discussion_recommends_the_two_published_junctions():
+    """⛔ THE RECOMMENDATION USED TO BE THREE DESIGNS AT JUNCTIONS NO PATIENT IS REPORTED TO CARRY.
+
+    Those three are specificity-clean and remain in the paper as mechanism controls. What a reader
+    deciding whether to synthesise needs is the best available reagent at the junctions patients
+    actually carry, and both exist at the top gap-level margin with no parent liability. Asserted
+    against the per-junction table so the prose cannot drift off it.
+    """
+    art = os.path.join(MOD, "aso-per-junction-table.json")
+    if not os.path.exists(art):
+        pytest.skip("the per-junction table is not present in this checkout")
+    d = json.load(open(art, encoding="utf-8"))
+    published = {j["junction_label"]: j for j in d["junctions"]
+                 if j["clinical_tier"] == "published_exon_resolved_breakpoint"}
+    assert set(published) == {"EWSR1_e12__NR4A3_e3", "TAF15_e6__NR4A3_e3"}, sorted(published)
+    txt = _flat(_paper())
+    for label, seq in (("EWSR1_e12__NR4A3_e3", "GGGCATATCATCAAAC"),
+                       ("TAF15_e6__NR4A3_e3", "GGGCATATCTTGTGTG")):
+        best = published[label]["best_available"]
+        assert best["antisense_5to3"] == seq, (label, best)
+        assert best["gap_specificity_margin"] == 3 and not best["parent_is_liability"], best
+        assert f"5′-{seq}-3′" in txt, f"{label}'s reagent is not named in the manuscript"
+    assert "the reagents to synthesise are the best available at the two junctions with a " \
+           "published exon-resolved breakpoint" in txt
+    # the gap-length risk is disclosed in the Methods and must be ranked first in the Discussion
+    assert "Two risks attach, in this order. The first is architectural" in txt
+    assert "The three designs that survive every screen are mechanism controls" in txt
+    # and no design clears the parent screen at three junctions, which the paper must not omit
+    none_clearing = [j["junction_label"] for j in d["junctions"] if j["best_available"] is None]
+    assert len(none_clearing) == 3, none_clearing
+    assert "at three of them every design pairs a wild-type parent through the catalytic gap" in txt
+
+
 def test_the_clean_designs_mostly_fail_conventional_triage():
     """§3.8's sharpest claim, and it moved when the corpus grew from four clean designs to nine.
 

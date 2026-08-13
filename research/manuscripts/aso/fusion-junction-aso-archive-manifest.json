@@ -9,12 +9,12 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "4f1ce429e8b06dd6dcd184efb590b07b4762448c",
+  "git_revision": "aaebcea9f89fa09107082bf43dc1dfe6091ef6df",
   "git_tree_is_clean_apart_from_this_manifest": false,
-  "archive_content_digest": "2bef6656fd3e391b783c8f7a16b9d17bfc41d49fd3cd13afabbfc8a9db31a69d",
+  "archive_content_digest": "2a7e8491dbffd93c701894df52f6c056b4031d9fcffa284f76dda53cc5d118aa",
   "n_files": 316,
-  "total_bytes": 13885016,
-  "total_mib": 13.242,
+  "total_bytes": 14179972,
+  "total_mib": 13.523,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -647,16 +647,16 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-short-communication-cover-letter.md",
-      "bytes": 8042,
-      "sha256": "59a98c4e679ee0f5be282a960ec6a45fef2b3475da43780ca7883ee1298005ff",
+      "bytes": 8316,
+      "sha256": "81f14c7fbfa3219d70ad9bc966ec55298466ffd4a777961ffd61cdbfce9452a2",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-short-communication.md",
-      "bytes": 61930,
-      "sha256": "2be2cbf9becf052e85bf1dfd4dec2fd76b22b1989fb9bb02b482dc0c9630ffd8",
+      "bytes": 64647,
+      "sha256": "259504a176273f7cb85f95ec06483007dc7767231ba78325440d829bcd07289a",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -679,16 +679,16 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
-      "bytes": 9789,
-      "sha256": "3528c6999f8c6339cf77acbff731cb6fa44f0f98712e32eaf0ad61384a0f907d",
+      "bytes": 15739,
+      "sha256": "c8466ea3f83e6eaf4f41b379705ddc3c4ab07dd25155eb2d96bcc9731d2540c5",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-working-record.md",
-      "bytes": 206422,
-      "sha256": "ddbc964034eee3b57c89da58b68bb520e878984914c8d75509ea88bd54618252",
+      "bytes": 210799,
+      "sha256": "84b6041f5c2627dcf81cb7c74e3e3fb3b4f23e142e90602e8013f2d6d5fab398",
       "serves": "correction_record",
       "also_serves": [],
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
@@ -855,8 +855,8 @@
     },
     {
       "path": "research/manuscripts/submission_tables.py",
-      "bytes": 26484,
-      "sha256": "1120eff8d6c79b14160834d9ff4bc96422076c088dd8f8e3be888090ee30b2cf",
+      "bytes": 31207,
+      "sha256": "44db62a04f21bb9e1d44b8aa3a58de3f18d69d2c2e4a8799dc12b40ba42f9951",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
@@ -2533,8 +2533,8 @@
     },
     {
       "path": "research/modalities/junction-aso-offtarget-locus-collapse.json",
-      "bytes": 211361,
-      "sha256": "2ba569261341d4327a2d17a490022ad8f0da3b5cae6383347306cf2ec0f4a364",
+      "bytes": 470270,
+      "sha256": "35bc2b0b98425b4ed0a35a166410ef8f0bb7d8658a0e83a2667e45d457de4889",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
@@ -2989,8 +2989,8 @@
     },
     {
       "path": "research/modalities/junction_aso_locus_collapse.py",
-      "bytes": 12827,
-      "sha256": "4eea3ae5909e138fcbd0e1940e4dd39c8d5f9f50f6e1fe4a46e4d75c38ef4898",
+      "bytes": 17013,
+      "sha256": "79dec7c1db4a15076e705e3455c8f0f36abd3b1bcf8b1442245b6554939b4ee1",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
@@ -3093,8 +3093,8 @@
     },
     {
       "path": "research/modalities/tests/test_aso_submission_numbers.py",
-      "bytes": 26881,
-      "sha256": "9797794b1a07d86be4be80a48c1ca24eaed6afdd57af8bab84accdc38dca1698",
+      "bytes": 36836,
+      "sha256": "dcead81e2b1964e6088d84d3034a0a55b370adacdeb35a9e92306eee378c19a6",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."
@@ -3109,8 +3109,8 @@
     },
     {
       "path": "research/modalities/tests/test_junction_aso_locus_collapse.py",
-      "bytes": 11550,
-      "sha256": "f912da08c2eb4b3bbd16451cffd6abc8f3d480f80af3c2840568f0544135f75e",
+      "bytes": 15415,
+      "sha256": "d8a5ed1ca8c69230daeead91c4d3854ef72f9db1804f480ff64c1a8abf1ef402",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."

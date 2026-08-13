@@ -30,48 +30,48 @@ None of these numbers is a measurement of off-target activity.
 
 ¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.
 
-² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits, whereas the gap-spanning locus column is computed over every ranked hit before truncation and is therefore exact. The two are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
+² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
 
 | junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, hybridisable² | loci with a gap-spanning hit | of those, predicted models only¹ | ≤1-mismatch matches across that junction's designs, median (max) |
 |---|---|---|---|---|---|---|---|---|
-| EWSR1 e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGATCA-3′ | 35 → ≥2 | ≥15 | 4 | 0 | 4 (32) |
+| EWSR1 e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGATCA-3′ | 35 → ≥2 | ≥15 | ≤4 | 0 | 4 (32) |
 | EWSR1 e12::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 2 (22) |
-| EWSR1 e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCACGG-3′ | 31 → ≥3 | ≥12 | 2 | 0 | 2 (25) |
-| EWSR1 e15::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGGGGGC-3′ | 36 → ≥2 | ≥12 | 1 | 0 | 1 (10) |
+| EWSR1 e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCACGG-3′ | 31 → ≥3 | ≥12 | ≤2 | 0 | 2 (25) |
+| EWSR1 e15::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGGGGGC-3′ | 36 → ≥2 | ≥12 | ≤1 | 0 | 1 (10) |
 | EWSR1 e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGTGGAC-3′ | 0 → 0 | 0 | 0 | 0 | 0 (0) |
 | EWSR1 e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAGTGGGA-3′ | 11 → 4 | 11 | 3 | 2 | 4 (10) |
-| EWSR1 e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATTCTGCTGC-3′ | 32 → ≥9 | ≥6 | 2 | 0 | 9 (21) |
-| EWSR1 e9::NR4A3 e3 | 2 | 3 | 5′-GGGCATATCACCAGGC-3′ | 29 → ≥10 | ≥6 | 2 | 0 | 1 (22) |
+| EWSR1 e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATTCTGCTGC-3′ | 32 → ≥9 | ≥6 | ≤2 | 0 | 9 (21) |
+| EWSR1 e9::NR4A3 e3 | 2 | 3 | 5′-GGGCATATCACCAGGC-3′ | 29 → ≥2 | ≥6 | ≤2 | 0 | 1 (22) |
 | FUS e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 2 (22) |
-| FUS e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCTCGC-3′ | 30 → ≥1 | ≥15 | 1 | 0 | 0 (3) |
+| FUS e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCTCGC-3′ | 30 → ≥1 | ≥15 | ≤1 | 0 | 0 (3) |
 | FUS e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCATGTGA-3′ | 6 → 5 | 2 | 2 | 1 | 1 (9) |
-| FUS e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCGTTTGAG-3′ | ≥50 → ≥7 | ≥13 | 1 | 0 | 10 (38) |
-| FUS e3::NR4A3 e3 | 4 | 3 | 5′-GGGCATATTGTTCTGG-3′ | 18 → ≥4 | ≥1 | 2 | 0 | 3 (23) |
-| FUS e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCACCT-3′ | 32 → ≥8 | ≥8 | 2 | 1 | 2 (3) |
-| FUS e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCACCAAAT-3′ | 34 → ≥5 | ≥8 | 0 | 0 | 12 (39) |
+| FUS e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCGTTTGAG-3′ | ≥50 → ≥7 | ≥13 | ≤1 | 0 | 10 (38) |
+| FUS e3::NR4A3 e3 | 4 | 3 | 5′-GGGCATATTGTTCTGG-3′ | 18 → ≥4 | ≥1 | ≤2 | 0 | 3 (23) |
+| FUS e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCACCT-3′ | 32 → ≥8 | ≥8 | ≤2 | 1 | 2 (3) |
+| FUS e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCACCAAAT-3′ | 34 → ≥5 | ≥8 | ≤0 | 0 | 12 (39) |
 | FUS e8::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCGGAGTCA-3′ | 4 → 3 | 3 | 1 | 0 | 0 (1) |
 | TAF15 e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 2 (22) |
-| TAF15 e12::NR4A3 e3 | 4 | 2 | 5′-AGGGCATATCTCGCCG-3′ | 42 → ≥4 | ≥11 | 3 | 0 | 3 (4) |
-| TAF15 e14::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCTCCT-3′ | ≥50 → ≥2 | ≥11 | 2 | 0 | 19 (40) |
+| TAF15 e12::NR4A3 e3 | 4 | 2 | 5′-AGGGCATATCTCGCCG-3′ | 42 → ≥4 | ≥11 | ≤3 | 0 | 3 (4) |
+| TAF15 e14::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCTCCT-3′ | ≥50 → ≥2 | ≥11 | ≤2 | 0 | 19 (40) |
 | TAF15 e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGACATG-3′ | 5 → 2 | 0 | 0 | 0 | 0 (0) |
-| TAF15 e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGACTGA-3′ | 34 → ≥3 | ≥15 | 4 | 1 | 10 (53) |
-| TAF15 e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTGTGTG-3′ | 11 → 10 | 7 | 7 | 5 | 2 (2) |
-| TAF15 e8::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCACCAAAA-3′ | 41 → ≥4 | ≥13 | 2 | 0 | 10 (17) |
-| TAF15 e9::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAGCATCT-3′ | 23 → ≥7 | ≥0 | 2 | 0 | 1 (4) |
+| TAF15 e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGACTGA-3′ | 34 → ≥3 | ≥15 | ≤4 | 1 | 10 (53) |
+| TAF15 e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTGTGTG-3′ | 11 → 7 | 7 | 4 | 2 | 2 (2) |
+| TAF15 e8::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCACCAAAA-3′ | 41 → ≥4 | ≥13 | ≤2 | 0 | 10 (17) |
+| TAF15 e9::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAGCATCT-3′ | 23 → ≥7 | ≥0 | ≤2 | 0 | 1 (4) |
 | TCF12 e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGAATG-3′ | 15 → 5 | 2 | 1 | 1 | 2 (6) |
-| TCF12 e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGTGAGA-3′ | 17 → ≥8 | ≥6 | 1 | 1 | 1 (12) |
+| TCF12 e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGTGAGA-3′ | 17 → ≥8 | ≥6 | ≤1 | 1 | 1 (12) |
 | TCF12 e17::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCTATAA-3′ | 8 → 3 | 0 | 0 | 0 | 1 (6) |
 | TCF12 e19::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCTGACT-3′ | 12 → 4 | 8 | 1 | 1 | 1 (2) |
 | TCF12 e3::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGATCCA-3′ | 15 → 4 | 10 | 2 | 2 | 2 (35) |
-| TCF12 e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCATCAGA-3′ | 26 → ≥15 | ≥15 | 17 | 12 | 2 (32) |
+| TCF12 e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCATCAGA-3′ | 26 → ≥1 | ≥15 | ≤17 | 0 | 2 (32) |
 | TCF12 e7::NR4A3 e3 | 4 | 2 | 5′-GGCATATCAAGCGCTG-3′ | 2 → 2 | 0 | 0 | 0 | 0 (1) |
 | TCF12 e9::NR4A3 e3 | 4 | 3 | 5′-GGGCATATCTTGCATA-3′ | 14 → 2 | 8 | 1 | 0 | 8 (23) |
-| TFG e2::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCATCT-3′ | ≥50 → ≥1 | ≥15 | 2 | 0 | 35 (87) |
+| TFG e2::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCATCT-3′ | ≥50 → ≥1 | ≥15 | ≤2 | 0 | 35 (87) |
 | TFG e3::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAAATAAT-3′ | 14 → 6 | 9 | 3 | 0 | 9 (17) |
-| TFG e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATTTTCA-3′ | ≥50 → ≥3 | ≥15 | 5 | 2 | 41 (100) |
-| TFG e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAAACC-3′ | 41 → ≥6 | ≥11 | 7 | 1 | 3 (21) |
-| TFG e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCAATC-3′ | 37 → ≥3 | ≥2 | 0 | 0 | 11 (21) |
-| TFG e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAATAC-3′ | 27 → ≥3 | ≥3 | 3 | 1 | 4 (26) |
+| TFG e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATTTTCA-3′ | ≥50 → ≥3 | ≥15 | ≤5 | 2 | 41 (100) |
+| TFG e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAAACC-3′ | 41 → ≥6 | ≥11 | ≤7 | 1 | 3 (21) |
+| TFG e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCAATC-3′ | 37 → ≥3 | ≥2 | ≤0 | 0 | 11 (21) |
+| TFG e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAATAC-3′ | 27 → ≥3 | ≥3 | ≤3 | 1 | 4 (26) |
 
 **Table 3. The 9 designs with no hybridisable near-match at the default search depth.** Six of
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
@@ -106,3 +106,60 @@ motif, no homopolymer run of four, no CpG dinucleotide.
 | 5′-GCATATCAAGCGCTGC-3′ | TCF12 e7::NR4A3 e3 | 56.2 | 1 | 7.98 | 1 | 0 | 0 / 0 | 0 | contains a CpG |
 | 5′-GGCATATCAAGCGCTG-3′ | TCF12 e7::NR4A3 e3 | 56.2 | 2 | 10.085 | 2 | 0 | 0 / 0 | 0 | contains a CpG |
 | 5′-CAGGGCATATCTTGCA-3′ | TCF12 e9::NR4A3 e3 | 50.0 | 1 | 9.325 | 7 | 0 | 0 / 0 | 0 | none |
+
+**Table 4. The best available design at each of the 38 frame-compatible junctions.** Tables 2 and 3
+select across the panel; this table selects within each junction, which is the question a patient's
+fusion poses. Designs are ranked by parent liability first, since sparing the wild-type parents is
+what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
+on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
+from a screen already reported above. Whether a junction has a published exon-resolved breakpoint is
+reported separately from specificity and never folded into the ranking — “published” means an
+exon-resolved EMC breakpoint is reported for that exon pair, “exon not reported” that the partner
+has a resolved breakpoint at a different exon, and “none published” that no exon-resolved breakpoint
+has been reported for that partner at all. The last of those is absence of evidence: EMC case
+reports usually name the partner gene without sequencing to nucleotide resolution. Gap-paired
+near-matches are at the tenfold deeper alignment ceiling, where every hit list is complete. The
+genome column is the observed number of gap-paired sites at ≤2 mismatches over the number expected
+for an arbitrary 16-mer, so 1.00 is chance. A junction with no design clearing the parent screen is
+reported as such rather than given a best row.
+
+| junction | exon-resolved breakpoint | designs clearing the parent screen | best available design | gap-level margin | longest parent duplex through the gap (bp) | gap-paired near-matches at the deeper ceiling (transcripts → loci) | genome-wide gap-paired load, observed/expected |
+|---|---|---|---|---|---|---|---|
+| EWSR1 e10::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGCATATCTAGATCAA-3′ | 2 | 7 | 70 → 4 | 0.61 |
+| EWSR1 e12::NR4A3 e3 | published | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 |
+| EWSR1 e13::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCCACGG-3′ | 3 | 8 | 24 → 2 | 0.29 |
+| EWSR1 e15::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCCGGGGGC-3′ | 3 | 0 | 33 → 1 | 0.06 |
+| EWSR1 e1::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCCGTGGAC-3′ | 3 | 0 | 0 → 0 | 0.07 |
+| EWSR1 e4::NR4A3 e3 | exon not reported | 4 of 5 | 5′-AGGGCATATCAGTGGG-3′ | 2 | 6 | 9 → 3 | 0.71 |
+| EWSR1 e7::NR4A3 e3 | exon not reported | 5 of 5 | 5′-CAGGGCATATTCTGCT-3′ | 1 | 8 | 14 → 5 | 1.08 |
+| EWSR1 e9::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGCATATCACCAGGCT-3′ | 2 | 7 | 15 → 4 | 0.73 |
+| FUS e10::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 |
+| FUS e11::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTCCTCGC-3′ | 3 | 9 | 30 → 1 | 0.22 |
+| FUS e13::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCCATGTGA-3′ | 3 | 7 | 2 → 2 | 0.75 |
+| FUS e1::NR4A3 e3 | none published | 2 of 5 | 5′-GGGCATATCGTTTGAG-3′ | 3 | 8 | 5 → 2 | 0.12 |
+| FUS e3::NR4A3 e3 | none published | 5 of 5 | 5′-GGCATATTGTTCTGGC-3′ | 2 | 7 | 18 → 3 | 0.76 |
+| FUS e5::NR4A3 e3 | none published | 2 of 3 | 5′-GGGCATATCTCCACCT-3′ | 3 | 8 | 33 → 4 | 0.65 |
+| FUS e7::NR4A3 e3 | none published | 4 of 5 | 5′-GGCATATCACCAAATT-3′ | 2 | 7 | 10 → 3 | 0.92 |
+| FUS e8::NR4A3 e3 | none published | 3 of 5 | 5′-AGGGCATATCGGAGTC-3′ | 2 | 0 | 0 → 0 | 0.06 |
+| TAF15 e11::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 |
+| TAF15 e12::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCGCCGC-3′ | 3 | 6 | 4 → 2 | 0.04 |
+| TAF15 e14::NR4A3 e3 | exon not reported | 0 of 5 | — | — | — | — | — |
+| TAF15 e1::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCCGACATG-3′ | 3 | 0 | 0 → 0 | 0.04 |
+| TAF15 e4::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGCATATCTGACTGAC-3′ | 2 | 8 | 12 → 2 | 0.69 |
+| TAF15 e6::NR4A3 e3 | published | 1 of 5 | 5′-GGGCATATCTTGTGTG-3′ | 3 | 9 | 8 → 5 | 0.60 |
+| TAF15 e8::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCACCAAAA-3′ | 3 | 7 | 36 → 3 | 0.86 |
+| TAF15 e9::NR4A3 e3 | exon not reported | 2 of 5 | 5′-AGGGCATATCAGCATC-3′ | 2 | 6 | 6 → 2 | 1.13 |
+| TCF12 e11::NR4A3 e3 | none published | 3 of 5 | 5′-GGCATATCTAGAATGC-3′ | 2 | 8 | 4 → 3 | 0.69 |
+| TCF12 e13::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGTGAGAG-3′ | 2 | 7 | 6 → 5 | 1.08 |
+| TCF12 e17::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTCTATAA-3′ | 3 | 7 | 14 → 5 | 0.83 |
+| TCF12 e19::NR4A3 e3 | none published | 2 of 5 | 5′-GGGCATATCTCTGACT-3′ | 3 | 8 | 75 → 3 | 0.82 |
+| TCF12 e3::NR4A3 e3 | none published | 0 of 5 | — | — | — | — | — |
+| TCF12 e5::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCCATCAGA-3′ | 3 | 7 | 17 → 1 | 0.56 |
+| TCF12 e7::NR4A3 e3 | none published | 2 of 5 | 5′-GGGCATATCAAGCGCT-3′ | 3 | 8 | 0 → 0 | 0.26 |
+| TCF12 e9::NR4A3 e3 | none published | 1 of 5 | 5′-GGGCATATCTTGCATA-3′ | 3 | 8 | 39 → 6 | 0.71 |
+| TFG e2::NR4A3 e3 | none published | 0 of 4 | — | — | — | — | — |
+| TFG e3::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCAAATAAT-3′ | 3 | 8 | 18 → 6 | 1.35 |
+| TFG e4::NR4A3 e3 | none published | 1 of 5 | 5′-AGGGCATATCATTTTC-3′ | 2 | 7 | 82 → 12 | 1.77 |
+| TFG e5::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGAAACCT-3′ | 2 | 8 | 34 → 7 | 1.38 |
+| TFG e6::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTTCAATC-3′ | 3 | 9 | 29 → 3 | 0.73 |
+| TFG e7::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGAATACT-3′ | 2 | 9 | 24 → 6 | 1.24 |

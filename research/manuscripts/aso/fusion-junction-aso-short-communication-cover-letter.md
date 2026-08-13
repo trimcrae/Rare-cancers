@@ -57,8 +57,8 @@ a variable 5′ partner. Its chimeric mRNA carries a breakpoint seam absent from
 transcript, which is the disease's one tumour-exclusive feature at the RNA level, and no
 junction-directed oligonucleotide has been reported against any NR4A3 fusion. The manuscript grades
 every donor-exon by acceptor-exon pair across all five reported partners, tiles junction-spanning
-gapmers over each frame-compatible seam, and screens them by three independent methods over two
-compartments, mature transcript and parent pre-mRNA.
+gapmers over each frame-compatible seam, and screens them by five independent methods over four
+compartments: mature transcript, parent pre-mRNA, mature parent transcript and the whole genome.
 
 The fit with the journal is that this is a nucleic-acid therapeutic design study in a
 fusion-driven cancer, reported at the point where computation stops being able to answer the
@@ -68,12 +68,14 @@ one of the five partners has a junction whose best design carries no hybridisabl
 near-match, so it is the exon a fusion breaks at rather than the gene it breaks into that predicts a
 clean design. What is scarce is a design that survives every screen, and the manuscript reports two
 results that make it scarcer rather than one that makes it look easy. Re-screening the nine designs
-that pass the default search depth at ten times that depth leaves three, three of them having
+that pass the default search depth at ten times that depth withdraws six of them, three having
 returned no near-match at all before and returning 27, 29 and 84. And a screen the manuscript adds
-over mature parent transcript — a compartment none of its other three can reach — finds that 87 of
+over mature parent transcript — a compartment none of the others can reach — finds that 87 of
 190 designs form a duplex of at least ten base pairs pairing the whole catalytic gap against a
-wild-type parent, 61 of them against *NR4A3* itself. Two designs survive everything, at junctions no
-patient is reported to carry. One 16-mer spans
+wild-type parent, 61 of them against *NR4A3* itself. Three designs survive everything, two of them
+at any parent-duplex threshold, and all three are at junctions no patient is reported to carry, so
+the manuscript presents them as mechanism controls and ranks within each junction to name the best
+available reagent at the two junctions with a published breakpoint. One 16-mer spans
 the seams of three partners at once through a measured ten-base donor identity, which would change
 the deployable artefact for an ultra-rare disease from bespoke oligonucleotides to a stock reagent —
 except that the only exon-resolved *TAF15* breakpoints published fall at a different exon, so the
