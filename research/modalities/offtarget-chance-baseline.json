@@ -2,7 +2,7 @@
   "_title": "Chance baseline for junction-gapmer off-target counts",
   "_generated_by": "research/modalities/offtarget_chance_baseline.py",
   "_cost": "$0 \u2014 arithmetic over committed artifacts. No network, no GPU.",
-  "_utc": "2026-08-13T01:14:27Z",
+  "_utc": "2026-08-13T01:23:15Z",
   "_why": "The manuscript's negative headline \u2014 '0 of 58 designs predicted off-target-clean' \u2014 is arithmetically unavoidable at a >=14/16 identity threshold and therefore says nothing about this disease, this fusion, or these junctions. This file computes what chance alone predicts, so an observed count can be read against it.",
   "_what_this_is_not": [
     "NOT a significance test and NOT a p-value. The null assumes independent uniform bases; real transcript sequence is composition-skewed, repetitive, and full of paralogues and transcript variants of one locus. It is an order-of-magnitude reference only.",
