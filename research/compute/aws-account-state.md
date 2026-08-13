@@ -54,8 +54,10 @@ account census reading `n_instances: 0`.
 
 ## 2 · What was deleted
 
-`s3://sagemaker-us-east-2-646605541856` — **118,054 objects, 2,692.43 GB.** The bucket now holds one
-object (§3). Ledger: [`aws-spend-shutdown.json`](../modalities/aws-spend-shutdown.json).
+`s3://sagemaker-us-east-2-646605541856` — **118,055 objects, 2,698.70 GB, in two passes.** 118,054
+objects on 2026-08-12, then `mdenv/nrv04md.tar.gz` (6.27 GB) on 2026-08-13 once the tooling exemption was
+overruled (§3). **The bucket is now empty.** Ledger:
+[`aws-spend-shutdown.json`](../modalities/aws-spend-shutdown.json).
 
 ⚠ **THE CENSUS WILL KEEP REPORTING ~$62/mo FOR UP TO 24 HOURS, AND THAT IS NOT A FAILED PURGE.**
 Per-bucket size comes from the CloudWatch `AWS/S3 BucketSizeBytes` metric, which AWS publishes **once a
@@ -74,13 +76,24 @@ otherwise. It carried neither.
 
 ## 3 · What SURVIVES, and what a lane will now fail to find
 
-**Kept deliberately — `mdenv/nrv04md.tar.gz` (6.27 GB).** Not a result: it is the conda-packed MD
-environment every NR-V04 Vast instance fetches at launch by presigned URL
-(`nrv04_vast_launch.MDENV_KEY`), built by the conda-pack job in `fusion-cpu-extras.yml`. The deletion was
-authorised for dead *leads*; removing this would have freed $0.14/mo and silently broken the next launch,
-which would then fail at fetch time with nothing pointing back at the cleanup.
+⛔ **NOTHING SURVIVES. THE BUCKET IS EMPTY.**
 
-⛔ **EVERYTHING ELSE IS GONE, AND SOME OF IT WAS NOT A RESULT.** A lane re-dispatched today will not find:
+⚠ *Superseded, retained: "**Kept deliberately — `mdenv/nrv04md.tar.gz` (6.27 GB).** Not a result … removing
+this would have freed $0.14/mo and silently broken the next launch."* The first pass held `mdenv/` back on
+that reasoning, and trimcrae overruled it the next day: *"everything saved on AWS is dead. I don't want to
+spend money for stuff I'm never going to touch and that I can recreate at any time"* (2026-08-13). The
+exemption was wrong on its own evidence — the same paragraph that argued for keeping the tarball also
+recorded that `fusion-cpu-extras.yml` rebuilds it, and **recreatable-on-demand is exactly the category not
+worth renting storage for.** The standing test is: pay for what cannot be recreated, not for what is
+merely inconvenient to recreate. `mdenv/nrv04md.tar.gz` was deleted 2026-08-13.
+
+★ **CONSEQUENCE, so the next NR-V04 launch is not a mystery:** `nrv04_vast_launch.MDENV_KEY` points at
+`mdenv/nrv04md.tar.gz` and that object no longer exists, so a launch will fail at the presigned fetch.
+**Rebuild it first** — the conda-pack job in [`fusion-cpu-extras.yml`](../../.github/workflows/fusion-cpu-extras.yml)
+builds the env and `aws s3 cp`s it back to `s3://$VAST_CKPT_BUCKET/mdenv/nrv04md.tar.gz`. That job is
+free CI; the only cost of this deletion is remembering to run it.
+
+⛔ **AND SOME OF WHAT WENT WAS NOT A RESULT.** A lane re-dispatched today will not find:
 
 * **`selcal-boltz-cache/`** (was 7.47 GB, 45,230 objects) — cached Boltz co-folds. Regenerating them is
   **GPU work**, not a download. A selcal re-run will recompute from scratch.

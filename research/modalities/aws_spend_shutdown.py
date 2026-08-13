@@ -66,13 +66,22 @@ PROTECTED_PREFIXES = {
     "results", "manuscript", "release", "archive",
 }
 
-# ★★ EXEMPT FROM THE PURGE BECAUSE IT IS TOOLING, NOT A LEAD (2026-08-12).
-# The purge was authorised as "delete everything, these leads are dead and documented" — a statement about
-# RESULTS. `mdenv/nrv04md.tar.gz` is not a result: it is the conda-packed MD environment that every NR-V04
-# Vast instance fetches at launch by presigned URL (`nrv04_vast_launch.MDENV_KEY`), built and uploaded by
-# the conda-pack job in `fusion-cpu-extras.yml`. Deleting it frees $0.14/mo and silently breaks the next
-# launch, which would then fail at fetch time with no attribution to this cleanup — the far more expensive
-# outcome. It is rebuildable, so this is a default and not a veto: PURGE_INCLUDE_TOOLING=1 removes it too.
+# Prefixes the purge holds back BY DEFAULT because they are tooling rather than results. `mdenv/` is the
+# conda-packed MD environment NR-V04 Vast instances fetch at launch (`nrv04_vast_launch.MDENV_KEY`), built
+# by the conda-pack job in `fusion-cpu-extras.yml`.
+#
+# ⚠ SUPERSEDED AS APPLIED TO THIS ACCOUNT, RETAINED BECAUSE THE MECHANISM IS STILL RIGHT (trimcrae,
+# 2026-08-13: *"everything saved on AWS is dead. I don't want to spend money for stuff I'm never going to
+# touch and that I can recreate at any time"*). The exemption was applied on the reasoning that deleting
+# mdenv would silently break the next NR-V04 launch — but the same paragraph that argued for keeping it
+# also recorded that `fusion-cpu-extras.yml` REBUILDS it. Recreatable-on-demand is precisely the category
+# the owner does not want to rent storage for, so the argument answered itself and was still resolved the
+# wrong way. The standing instruction is the test: pay for what cannot be recreated, not for what is
+# merely inconvenient to recreate.
+#
+# The knob stays because the DISTINCTION is real — a purge should still be able to tell tooling from
+# results, and a future account may hold tooling that is NOT rebuildable from a tracked workflow. What
+# changes is the default answer for this account: everything goes.
 TOOLING_PREFIXES = {"mdenv"}
 
 _CFG = Config(retries={"max_attempts": 5, "mode": "standard"})
