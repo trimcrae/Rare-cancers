@@ -9,12 +9,12 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "7193e3791031150c1ba2a13b9c28bece531ac109",
+  "git_revision": "16ed3a9fbc388d2b71bf4938cc2bb5ff86711f04",
   "git_tree_is_clean_apart_from_this_manifest": false,
-  "archive_content_digest": "ffa4d68a47e49d7191f9d88294ce505ea7feece403032d6b602939370035fee4",
-  "n_files": 311,
-  "total_bytes": 9919975,
-  "total_mib": 9.46,
+  "archive_content_digest": "8e6e227e1d9034d837c5cd4e73d1f93f6a898b2cc2f77f64491a7bbbc0c0e60e",
+  "n_files": 315,
+  "total_bytes": 13884714,
+  "total_mib": 13.241,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -483,6 +483,19 @@
       "⛔_UNMAPPED": false
     },
     {
+      "id": "genome_wide_screen",
+      "promise_text": "the exhaustive genome-wide screen, which removes the six-transcript bound every other arm carries, and the retrieved evidence for the RNase-H1 gap and hybrid lengths the Methods now cite",
+      "n_files": 4,
+      "files": [
+        "research/manuscripts/aso/lit-targets-aso-gap-length.json",
+        "research/modalities/aso-genome-offtarget.json",
+        "research/modalities/aso_genome_offtarget.py",
+        "research/modalities/tests/test_aso_genome_offtarget.py"
+      ],
+      "_promise_still_in_manuscript": "n/a — descriptive label, not a quotation",
+      "⛔_UNMAPPED": false
+    },
+    {
       "id": "censoring_test_and_genomic_attempt",
       "promise_text": "the test of the censoring restriction the cleanliness claim depends on, and the genome-wide screen that was attempted and did not work",
       "n_files": 23,
@@ -639,8 +652,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-short-communication.md",
-      "bytes": 58752,
-      "sha256": "45a9a0ed51bf3802da65da59ac79f18ba385bf6870d25a10e24da11950a9ff1a",
+      "bytes": 60811,
+      "sha256": "2bf9884d4454a0ea8fab3e2fc5aff0a367d22529516a4f9d4d61fd76f68ca68a",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -678,6 +691,14 @@
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
     },
     {
+      "path": "research/manuscripts/aso/lit-targets-aso-gap-length.json",
+      "bytes": 9849,
+      "sha256": "e3cfc58b78b5bf5049290ff6ef7d1111834aaf33284fc5529188263f12cff732",
+      "serves": "genome_wide_screen",
+      "also_serves": [],
+      "contributes": "Every distinct target window and its reverse complement tested against every position of GRCh38 in both orientations at ≤2 mismatches — a measured 3.10e9 nt, no seed and no word size, so completeness is definitional rather than argued. ⛔ THE RAW TOTAL IS NOT THE DELIVERABLE and the artifact says so first: at this threshold chance predicts of order 10^3 near-matches per 16-mer for ANY 16-mer. The readings are stratified — exact matches, where chance is of order one; observed-over-expected, which discriminates between designs; the named-target lookup, which one hit settles; and the repeat split, free from a soft-masked reference. Also carries the gap-length anchors, ported from the literature-cache branch where gate 4 cannot see them."
+    },
+    {
       "path": "research/manuscripts/aso/lit-targets-aso-thermo.json",
       "bytes": 3147,
       "sha256": "3a83bf4f45d4d8759e582f32ac632a2ede63e181a15c507cb9fff90eb898621c",
@@ -695,8 +716,8 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 44300,
-      "sha256": "47426c77798bd094270cd9fade42519e30993b5c7c87e56307d4510f326c9623",
+      "bytes": 45981,
+      "sha256": "3af5be55cb8ec8f014d974d41e6c2858a674dd64606eb520c5499ce2cb8d4755",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -836,6 +857,14 @@
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
+    },
+    {
+      "path": "research/modalities/aso-genome-offtarget.json",
+      "bytes": 3816777,
+      "sha256": "aad06031e877bc7d67f83db265f3c73038e9b1bc911aa9d588d1697309b98231",
+      "serves": "genome_wide_screen",
+      "also_serves": [],
+      "contributes": "Every distinct target window and its reverse complement tested against every position of GRCh38 in both orientations at ≤2 mismatches — a measured 3.10e9 nt, no seed and no word size, so completeness is definitional rather than argued. ⛔ THE RAW TOTAL IS NOT THE DELIVERABLE and the artifact says so first: at this threshold chance predicts of order 10^3 near-matches per 16-mer for ANY 16-mer. The readings are stratified — exact matches, where chance is of order one; observed-over-expected, which discriminates between designs; the named-target lookup, which one hit settles; and the repeat split, free from a soft-masked reference. Also carries the gap-length anchors, ported from the literature-cache branch where gate 4 cannot see them."
     },
     {
       "path": "research/modalities/aso-insilico-evaluation-bp200-8.json",
@@ -1514,6 +1543,14 @@
       "serves": "premrna_compartment_screen",
       "also_serves": [],
       "contributes": "The exhaustive ≤2-mismatch scan of every design against the unspliced sequence of all six parent transcripts, gap-resolved, orientation-filtered and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the paper that recomputes with no network at all: the other two need NCBI BLAST and a RefSeq download. Re-running the module with --offline against the committed cache reproduces every number in §3.8 exactly."
+    },
+    {
+      "path": "research/modalities/aso_genome_offtarget.py",
+      "bytes": 90704,
+      "sha256": "b0631f10c1192f0606c730820d63ac5f3c305fac2388c32714aecd52c77cfb17",
+      "serves": "genome_wide_screen",
+      "also_serves": [],
+      "contributes": "Every distinct target window and its reverse complement tested against every position of GRCh38 in both orientations at ≤2 mismatches — a measured 3.10e9 nt, no seed and no word size, so completeness is definitional rather than argued. ⛔ THE RAW TOTAL IS NOT THE DELIVERABLE and the artifact says so first: at this threshold chance predicts of order 10^3 near-matches per 16-mer for ANY 16-mer. The readings are stratified — exact matches, where chance is of order one; observed-over-expected, which discriminates between designs; the named-target lookup, which one hit settles; and the repeat split, free from a soft-masked reference. Also carries the gap-length anchors, ported from the literature-cache branch where gate 4 cannot see them."
     },
     {
       "path": "research/modalities/aso_insilico.py",
@@ -3018,6 +3055,14 @@
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
+    },
+    {
+      "path": "research/modalities/tests/test_aso_genome_offtarget.py",
+      "bytes": 43669,
+      "sha256": "c2c9db921bff70d022b58f9c49d078a182816e42fdc4605347dfaf32b7ae41c6",
+      "serves": "genome_wide_screen",
+      "also_serves": [],
+      "contributes": "Every distinct target window and its reverse complement tested against every position of GRCh38 in both orientations at ≤2 mismatches — a measured 3.10e9 nt, no seed and no word size, so completeness is definitional rather than argued. ⛔ THE RAW TOTAL IS NOT THE DELIVERABLE and the artifact says so first: at this threshold chance predicts of order 10^3 near-matches per 16-mer for ANY 16-mer. The readings are stratified — exact matches, where chance is of order one; observed-over-expected, which discriminates between designs; the named-target lookup, which one hit settles; and the repeat split, free from a soft-masked reference. Also carries the gap-length anchors, ported from the literature-cache branch where gate 4 cannot see them."
     },
     {
       "path": "research/modalities/tests/test_aso_parent_gap_pairing.py",

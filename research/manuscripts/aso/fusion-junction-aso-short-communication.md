@@ -50,7 +50,7 @@ retained whole; every donor-exon × acceptor-exon pair across five partners was 
 Junction-spanning 16-mer 5-6-5 LNA/DNA/LNA gapmers were tiled over each frame-compatible seam, then
 screened against all six parent transcripts, against RefSeq RNA by gap-resolved BLAST, exhaustively
 for ≤1 mismatch over 186,185 transcripts, and — because RNase-H1 acts in the nucleus — exhaustively
-against those transcripts unspliced.
+against those transcripts unspliced and against every position of GRCh38 in both orientations.
 
 **Results.** Of 231 graded pairs, 38 are frame-compatible, and all 38 yield a gapmer matching no
 parent perfectly. All 38 were screened with alignment orientation filtered, since a
@@ -61,7 +61,9 @@ leaves three standing: three designs that had returned no near-match at all retu
 three carry gap-spanning cleavage risks, 64 at worst. The parents are a separate liability no
 transcript screen reaches: 19 of 190 designs pair the catalytic gap in parent pre-mRNA, nine across
 the wild-type *NR4A3* intron-2/exon-3 boundary, and 87 of 190 pair it in mature parent transcript
-inside a duplex of at least ten base pairs, 61 of those against wild-type *NR4A3*. Two designs
+inside a duplex of at least ten base pairs, 61 of those against wild-type *NR4A3*. An exhaustive scan
+of all 3.10 × 10⁹ nucleotides of GRCh38 in both orientations finds 20 of 176 designs with a
+gap-paired, strand-agreeing site in a parent gene or an *NR4A* paralogue. Two designs
 survive every screen, at junctions no patient is reported to carry. One 16-mer spans the *EWSR1*
 exon 12, *TAF15* exon 11 and *FUS* exon 10 seams through ten identical donor bases — a sequence
 property, not a clinical one: published exon-resolved *TAF15::NR4A3* breakpoints are exon 6.
@@ -162,7 +164,7 @@ margin: the number of junction-unique bases inside the gap on the shorter side. 
 tested against all six parent transcripts, not only the two parents of its own fusion, because the
 FET-family donors (FUS, EWSR1 and TAF15) are paralogues with similar low-complexity amino-termini.
 
-**Specificity screening.** Four screens were applied, over three compartments. A gap-resolved screen queried each
+**Specificity screening.** Five screens were applied, over four compartments. A gap-resolved screen queried each
 target window against human RefSeq RNA (blastn-short, low-complexity filter off, ≥14/16 identity) and
 classified each near-match by whether the six-nucleotide gap was fully base-paired. Records of the
 six parent genes were counted separately and are excluded from every near-match count reported here,
@@ -501,8 +503,27 @@ zero rather than merely short. That is the honest size of the
 candidate set, and neither junction has a published patient breakpoint — the exon-resolved *TAF15*
 breakpoints reported in EMC are exon 6, and for *FUS* none has been published at all.
 
-Both classes are bounded the same way: these screens are exhaustive over six parent transcripts and
-say nothing about the rest of the genome.
+Both classes were bounded the same way — exhaustive over six parent transcripts and silent about
+every other gene — so a fifth screen removed that bound. Every distinct target window and its
+reverse complement was tested against every position of GRCh38 in both orientations at the same
+≤2-mismatch threshold, exhaustively: 2,948,609,696 windows scanned over a measured 3.10 × 10⁹
+nucleotides, with no seed, no word size and therefore no search sensitivity to quantify.
+
+A raw genome-wide count is not a result at this threshold. Chance alone predicts of order 10³
+near-matches per 16-mer over a genome for any 16-mer whatever, so the informative readings are
+stratified. Exact 16/16 matches are the class where chance expectation is of order one: 1.37 expected
+per design against 236 observed across 176 windows, which is at chance. Load relative to that
+expectation separates designs where a total cannot — the median design sits at 0.98 of its
+expectation and 14 of 176 exceed twice it. And the repeat split, free from a soft-masked reference,
+shows 52.5% of hits fully repeat-masked against a genome that is 51.4% masked, so the load is not
+repeat-driven.
+
+The decisive reading is a lookup rather than a count: does any design have a gap-paired,
+strand-agreeing site in *NR4A3*, in a parent gene, or in an *NR4A* paralogue anywhere in the genome?
+Twenty of 176 do. Neither of the two designs that survive every other screen is among them, and both
+carry a load well below chance — 0.33 and 0.24 of expectation at ≤2 mismatches, and 0.06 and 0.04
+for gap-paired sites, ranking 26th and 13th of 176. That is the strongest statement this work can
+make about them, and it is a statement about predicted hybridisation and not about cleavage.
 
 ### 3.9 · Duplex thermodynamics and conventional design rules
 
@@ -649,14 +670,16 @@ not the full catalogue: *ACTB*<sup>3</sup><!--PMID:41755350--> and others are re
 cohort carried no identified partner.<sup>9</sup><!--PMID:36948401--> One architecture was tiled, a
 16-mer 5-6-5, so nothing here bounds what a longer catalytic gap would achieve at the same seams. The
 thermodynamic calculation models an unmodified DNA:RNA hybrid and speaks to duplex formation rather
-than to cleavage. All four screens address hybridisation-dependent liability only; the
+than to cleavage. All five screens address hybridisation-dependent liability only; the
 sequence-independent class of a phosphorothioate LNA gapmer, protein binding and the
 target-independent hepatotoxicity of this chemistry, is not a function of any feature graded here.
-The parent screens of §3.8 cover six transcripts and not beyond, so intronic and mature sites in
-every other gene remain outside all four screens; a genome-wide extension was attempted against a
-mixed public corpus and returned nothing interpretable, and is released with the artefacts. The
-pre-mRNA and mature-parent arms also inherit the substitution-only bound: like the exhaustive
-transcript scan, they are complete for mismatches by construction and blind to insertions and deletions.
+The genome scan removes the six-transcript bound the parent screens carried, at the cost of two of
+its own: `hybridisable` is measured against an annotation, so a site in unannotated transcription is
+reported as intergenic and not counted, and a screen against one assembly says nothing about a
+patient's private variation. An earlier genome-wide attempt against a mixed public corpus returned
+nothing interpretable and is released with the artefacts; it could not have done otherwise, having
+no defined nucleotide span to form a null against. Every exhaustive arm inherits the
+substitution-only bound: all are complete for mismatches by construction and blind to insertions and deletions.
 
 ## Tables
 
@@ -700,7 +723,7 @@ predictions from sequence search, not measured off-target activity.
 
 **Data and code availability.** [ARCHIVE DOI], deposited from `github.com/trimcrae/Rare-cancers`.
 A manifest listing every archived file with its SHA-256 travels with the deposit. Artefacts include the graded junction
-atlas, per-junction design panels, all four screens, the graded re-scores under
+atlas, per-junction design panels, all five screens, the graded re-scores under
 both discrimination bounds, and the retrieval records for every literature claim.
 
 **Provenance and corrections.** An earlier version of these analyses placed the acceptor seam

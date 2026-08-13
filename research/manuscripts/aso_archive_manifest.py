@@ -249,6 +249,28 @@ PROMISES = [
                      "research/modalities/tests/test_aso_parent_gap_pairing.py"],
     },
     {
+        "id": "genome_wide_screen",
+        "verbatim": False,
+        "promise": ("the exhaustive genome-wide screen, which removes the six-transcript bound every "
+                    "other arm carries, and the retrieved evidence for the RNase-H1 gap and hybrid "
+                    "lengths the Methods now cite"),
+        "contributes": ("Every distinct target window and its reverse complement tested against every "
+                        "position of GRCh38 in both orientations at ≤2 mismatches — a measured "
+                        "3.10e9 nt, no seed and no word size, so completeness is definitional rather "
+                        "than argued. ⛔ THE RAW TOTAL IS NOT THE DELIVERABLE and the artifact says so "
+                        "first: at this threshold chance predicts of order 10^3 near-matches per "
+                        "16-mer for ANY 16-mer. The readings are stratified — exact matches, where "
+                        "chance is of order one; observed-over-expected, which discriminates between "
+                        "designs; the named-target lookup, which one hit settles; and the repeat "
+                        "split, free from a soft-masked reference. Also carries the gap-length "
+                        "anchors, ported from the literature-cache branch where gate 4 cannot see "
+                        "them."),
+        "patterns": ["research/modalities/aso-genome-offtarget.json",
+                     "research/modalities/aso_genome_offtarget.py",
+                     "research/modalities/tests/test_aso_genome_offtarget.py",
+                     "research/manuscripts/aso/lit-targets-aso-gap-length.json"],
+    },
+    {
         "id": "censoring_test_and_genomic_attempt",
         "verbatim": False,
         "promise": ("the test of the censoring restriction the cleanliness claim depends on, and the "
