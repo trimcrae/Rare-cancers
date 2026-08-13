@@ -1,0 +1,85 @@
+---
+id: DOC-FUSION-JUNCTION-ASO-PREPRINT-CHECKLIST
+title: "bioRxiv preprint checklist — the fusion-junction ASO paper"
+level: L3
+kind: memo
+status: live
+canonical_for:
+  - what must be done to post PUB-ASO as a bioRxiv preprint
+purpose: >
+  The deposit steps for the fusion-junction ASO preprint, split into what is done, what only the
+  author can do, and what is deliberately deferred. It exists so the deposit is a short session at
+  a browser rather than a re-derivation of decisions already made.
+scope: >
+  Preprint mechanics only. It makes no scientific claim, and it is not the journal submission plan
+  — that is fusion-junction-aso-submission-plan.md, and the journal question is open.
+audience: [maintainers, collaborators]
+related: [DOC-FUSION-JUNCTION-ASO-SUBMISSION, DOC-ASO-SUBMISSION-PLAN]
+date: 2026-08-13
+last_verified: 2026-08-13
+---
+
+# bioRxiv preprint checklist
+
+**Why the preprint is decoupled from the journal.** Every specialist venue that fits this paper
+charges the author by the typeset page — Cancer Gene Therapy at $238, Nucleic Acid Therapeutics at
+$90, Molecular Therapy at $116 for a non-society member — and the one venue confirmed free, the
+British Journal of Cancer, would most likely desk-reject a wet-lab-free design study in an ultra-rare
+sarcoma. bioRxiv is free, verified verbatim at primary source, sets no word, abstract or display-item
+limit, and is indexed by Europe PMC, which is the corpus this paper's own first-in-kind search ran
+against. Posting it costs nothing and forecloses nothing: bioRxiv deposit is compatible with every
+journal still under consideration.
+
+## 1 · Ready, and needs nothing further
+
+| item | state |
+|---|---|
+| Manuscript | `fusion-junction-aso-short-communication.md` — 4,244 words main text, structured abstract at 265 words. bioRxiv sets no limit on either. |
+| Tables | `fusion-junction-aso-submission-tables.md`, generated from the artifacts so a cell and its source cannot diverge |
+| References | `fusion-junction-aso-submission-references.md` — 29 entries, every one carrying author, title, journal and year, numbering derived from the per-citation PMIDs |
+| Figures | Three, each as vector PDF and 300 dpi PNG, 180 mm wide. Verified vector: no image XObjects, subsetted fonts, live text |
+| Figure accessibility | Figure 2's divergent positions are boxed as well as red, so the distinction survives greyscale and red-green colour blindness |
+| Declarations | Competing interests, funding, ethics and AI-use statements written. The survivorship non-financial interest is declared |
+| Cover letter | `fusion-junction-aso-short-communication-cover-letter.md` — not needed by bioRxiv, kept for the journal step |
+
+## 2 · Only the author can do these
+
+1. **Register an ORCID iD** at `orcid.org`. Free, about two minutes. bioRxiv accepts a submission
+   without one, so this does not block the deposit — but it is the identifier that ties this paper
+   to the next one, and the author block currently carries a placeholder.
+2. **Deposit the archive and mint the DOI.** The manifest lists every file with its hash; the
+   deposit is a Zenodo upload against the GitHub repository. **Reserve the DOI before publishing the
+   deposit**, so the manuscript can cite the DOI it will actually have rather than being edited
+   afterwards.
+3. **Post at `biorxiv.org/submit-a-manuscript`.** Category: *Cancer Biology*, or *Molecular Biology*
+   if the RNA-therapeutic framing is preferred. Licence: CC-BY is the widest and is compatible with
+   every journal still in play. bioRxiv screens for scope and plausibility, not peer review, so
+   turnaround is usually a few days.
+
+## 3 · Deliberately not done, and why
+
+- **The abstract has not been cut to 200 words.** bioRxiv sets no limit, and 200 is a
+  *journal-specific* cap whose accompanying requirement differs by venue: the British Journal of
+  Cancer wants a structured abstract under mandatory Background/Methods/Results/Conclusions
+  headings, which this one already has, while Cancer Gene Therapy wants an unstructured one. Cutting
+  to the wrong target now means cutting twice.
+- **The figures have not been made greyscale-only.** Colour is free on bioRxiv. The accessibility
+  problem — that red against green carries nothing to a colour-blind reader or a monochrome printer
+  — has been fixed by adding a shape cue, which is the part that matters regardless of venue.
+- **The journal is not chosen.** See `fusion-junction-aso-submission-plan.md` §1c. Cancer Gene
+  Therapy is eliminated on its own read fee schedule; the venue is reopened and the decision waits
+  on what the author is willing to spend.
+
+## 4 · What the preprint says that the journal version may not
+
+The manuscript reports a methodological correction in its Results rather than leaving it to the
+archive, because it changed reported numbers: an off-target screen that does not parse alignment
+orientation counts reverse-complement matches, which an antisense oligonucleotide cannot hybridise.
+Across the sixteen filtered screens that is 47% of apparent gap-spanning risks, and the proportion
+runs from 4% to 100% between junctions, so it reorders the junctions rather than rescaling them.
+
+⚠ **This is a correction, not a contribution.** Parsing the aligned strand is standard practice and
+`blastn` reports it on every hit; the defect was that one script in this repository parsed six HSP
+fields and not `hit-frame`. It belongs in the paper so a reader can see why these counts differ from
+an earlier version of the same analysis, and it should not be presented anywhere as a finding about
+off-target screening in general.

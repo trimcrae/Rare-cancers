@@ -98,6 +98,21 @@ def main(argv=None):
                 donors[k][c] != base for k in range(len(donors)))
             fill = "#c62828" if divergent else ("#1565c0" if in_donor else "#2e7d32")
             weight = "700" if divergent else "400"
+            # ⛔ COLOUR IS NOT THE ONLY CHANNEL, BECAUSE FOR TWO CLASSES OF READER IT CARRIES
+            # NOTHING (2026-08-13). The three roles were encoded as blue donor / green acceptor /
+            # red divergent, and the pair the reader most needs to separate — the green acceptor
+            # bases and the red divergent ones — sit at almost the same relative luminance (0.18
+            # against 0.15). That is the textbook red/green confusion for deuteranopia and
+            # protanopia, about 8% of male readers, AND it collapses to the same grey when a
+            # journal prints in black and white or a reader photocopies the page. Bold weight was
+            # the only non-colour cue and 13px bold monospace is not a cue anyone reliably sees.
+            # ⚠ A BOX, NOT A DIFFERENT PALETTE. Re-hueing would fix the colour-blind case and not
+            # the greyscale one; a drawn rectangle is legible under both, and under neither does it
+            # depend on the reader distinguishing anything at all.
+            if divergent:
+                p.append(f'<rect x="{L + c * CW + 0.6:.1f}" y="{y - 11}" '
+                         f'width="{CW - 1.2:.1f}" height="14" rx="2" '
+                         f'fill="none" stroke="#c62828" stroke-width="1.1"/>')
             p.append(f'<text x="{L + c * CW + CW / 2:.1f}" y="{y}" font-size="13" fill="{fill}" '
                      f'font-family="monospace" font-weight="{weight}" '
                      f'text-anchor="middle">{esc(base)}</text>')

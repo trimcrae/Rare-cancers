@@ -7,10 +7,12 @@ status: live
 canonical_for:
   - the submitted form of the fusion-junction ASO work
 purpose: >
-  The submission manuscript for PUB-ASO, written as a Short Communication for Cancer Gene Therapy
-  (Springer Nature), whose $0 subscription route is read at primary source. Nucleic Acid Therapeutics
-  is the better scientific fit and remains preferred if its fee model can ever be read; see
-  fusion-junction-aso-submission-plan.md §1b. Its provenance archive, including every superseded value and the full correction
+  The submission manuscript for PUB-ASO, going first to bioRxiv as a preprint — free, verified at
+  primary source, and compatible with every journal still under consideration. The journal venue is
+  OPEN: Cancer Gene Therapy was eliminated once its own guide to authors was read, because it levies
+  a mandatory £145/$238 per typeset page on the subscription route. See
+  fusion-junction-aso-submission-plan.md §1c and fusion-junction-aso-preprint-checklist.md. Its
+  provenance archive, including every superseded value and the full correction
   history, is fusion-junction-aso-working-record.md; the numbers themselves live in the artifacts
   under research/modalities/ and are not duplicated here.
 scope: >
@@ -18,8 +20,8 @@ scope: >
   nothing here asserts efficacy, potency, safety, a therapeutic window, delivery to a tumour, or
   clinical readiness for any sequence.
 audience: [external reviewers, collaborators, maintainers]
-date: 2026-08-12
-last_verified: 2026-08-12
+date: 2026-08-13
+last_verified: 2026-08-13
 ---
 
 # In-silico design and predicted specificity limits of junction-spanning gapmers against NR4A3 fusions in extraskeletal myxoid chondrosarcoma
@@ -27,8 +29,8 @@ last_verified: 2026-08-12
 **Author.** Tristan D. McRae
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
-ORCID: [TO BE SUPPLIED — no ORCID iD exists in the project record; one is free to register and is
-required by some publishers at submission.]
+ORCID: [AUTHOR TO INSERT — register free at orcid.org; bioRxiv accepts a submission without one, so
+this does not block the preprint.]
 
 **Running title.** Junction gapmers across NR4A3 fusions
 
@@ -181,9 +183,14 @@ strand-blind count that is an upper bound; each design records which of the two 
 list reached its cap, counts are right-censored and are reported as lower bounds.
 
 **Availability.** All code, graded artefacts and per-design tables are released under a single
-archived version [DATA AVAILABILITY DOI TO BE MINTED BEFORE SUBMISSION]. No result in this manuscript
-reported here requires network access or credentials to reproduce from that archive; only
-regenerating the specificity screens from scratch does.
+archived version, deposited from the public repository at
+`github.com/trimcrae/Rare-cancers` [ARCHIVE DOI]. Every result reported here is re-derived from the
+committed artefacts in that archive without network access or credentials: the tables, the junction
+atlas, the locus collapse, the chance baseline and the graded re-scores under both discrimination
+bounds each recompute from files the archive contains. Regenerating the specificity screens from
+scratch is not offline — the gap-resolved arm queries NCBI BLAST and the exhaustive arm downloads
+the GRCh38.p14 RefSeq RNA set — but no reported number requires it, because each screen's hit set is
+archived and the re-scores hold that hit set fixed.
 
 ## 3 · Results
 
@@ -434,7 +441,9 @@ which junctions patients carry.
 
 **Figure 2. One 16-mer spans three partners' breakpoints.** The seam windows of *EWSR1* exon
 12, *TAF15* exon 11 and *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint. Blue,
-donor exon; green, acceptor exon; red, positions at which the three donors differ. The shaded box is
+donor exon; green, acceptor exon; red and boxed, positions at which the three donors differ — boxed
+as well as coloured, because that distinction is the one a reader most needs and red against green is
+the pair that carries no information in greyscale or to a red-green colour-blind reader. The shaded box is
 the target window of 5′-GGGCATATCATCAAAC-3′, with the 5-6-5 gapmer architecture below it. The three
 donors are identical over the ten nucleotides before the breakpoint, which is what makes one
 oligonucleotide junction-spanning at all three seams — and is the same identity that makes the
@@ -458,7 +467,8 @@ predictions from sequence search, not measured off-target activity.
 
 ## Declarations
 
-**Data and code availability.** [ARCHIVE DOI TO BE MINTED.] Artifacts include the graded junction
+**Data and code availability.** [ARCHIVE DOI], deposited from `github.com/trimcrae/Rare-cancers`.
+A manifest listing every archived file with its SHA-256 travels with the deposit. Artifacts include the graded junction
 atlas, per-junction design panels, both specificity screens per junction, the graded re-scores under
 both discrimination bounds, and the retrieval records for every literature claim.
 
