@@ -54,10 +54,14 @@ account census reading `n_instances: 0`.
 
 ## 2 · What was deleted
 
-`s3://sagemaker-us-east-2-646605541856` — **118,055 objects, 2,698.70 GB, in two passes.** 118,054
-objects on 2026-08-12, then `mdenv/nrv04md.tar.gz` (6.27 GB) on 2026-08-13 once the tooling exemption was
+`s3://sagemaker-us-east-2-646605541856` — **118,075 objects, 2,698.70 GB, across three passes.**
+118,037 objects / 2,692.43 GB on 2026-08-12; 17 stragglers on a re-run the same day (`delete_objects` is
+eventually consistent, so a paginator walking a bucket mid-delete misses a few — 17 out of 118 k, which is
+why the purge is written to be safely re-runnable); then 21 objects / 6.27 GB on 2026-08-13, being
+`mdenv/nrv04md.tar.gz` plus this tool's own leftover `_spend-probe/` keys, once the tooling exemption was
 overruled (§3). **The bucket is now empty.** Ledger:
-[`aws-spend-shutdown.json`](../modalities/aws-spend-shutdown.json).
+[`aws-spend-shutdown.json`](../modalities/aws-spend-shutdown.json) — which holds only the LAST run, so the
+per-pass figures above are the ones to cite.
 
 ⚠ **THE CENSUS WILL KEEP REPORTING ~$62/mo FOR UP TO 24 HOURS, AND THAT IS NOT A FAILED PURGE.**
 Per-bucket size comes from the CloudWatch `AWS/S3 BucketSizeBytes` metric, which AWS publishes **once a
