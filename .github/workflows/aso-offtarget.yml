@@ -563,13 +563,40 @@ jobs:
           REL: ${{ vars.ENSEMBL_RELEASE || 'current' }}
         run: |
           set -euo pipefail
-          if [ "$REL" = "current" ]; then
-            FA_DIR="https://ftp.ensembl.org/pub/current_fasta/homo_sapiens/dna"
-            GTF_DIR="https://ftp.ensembl.org/pub/current_gtf/homo_sapiens"
+          # ⛔ THE RELEASE IS DISCOVERED FROM THE SERVER, NOT ASSUMED FROM A PATH CONVENTION.
+          # ⚠ *Superseded, retained:* `FA_DIR=".../pub/current_fasta/homo_sapiens/dna"` and
+          # `GTF_DIR=".../pub/current_gtf/homo_sapiens"`. Measured on run 31737468930: that GTF path
+          # returns `[http 404] The requested URL was not found on this server` — the `current_*`
+          # convenience paths are not served here. The first fix that session assumed the FILENAME
+          # PATTERN was wrong and made the guard print the listing; the listing then showed the
+          # pattern was never the problem and the URL was. Worth keeping as the record of why this
+          # step resolves rather than hard-codes: two guesses about a layout cost two dispatches,
+          # and one probe that reports what each candidate returns costs one.
+          probe() { curl -sSL -o /dev/null -w '%{http_code}' "$1/" 2>/dev/null || echo 000; }
+          if [ "$REL" != "current" ]; then
+            BASES="https://ftp.ensembl.org/pub/release-${REL}"
           else
-            FA_DIR="https://ftp.ensembl.org/pub/release-${REL}/fasta/homo_sapiens/dna"
-            GTF_DIR="https://ftp.ensembl.org/pub/release-${REL}/gtf/homo_sapiens"
+            # Highest release-N under /pub/, newest first, then the current_* paths as a fallback.
+            PUB="$(curl -sSL --retry 3 --retry-delay 5 https://ftp.ensembl.org/pub/ || true)"
+            RELS="$(printf '%s' "$PUB" | grep -oE 'release-[0-9]+' | sort -u -t- -k2 -n -r | head -3 || true)"
+            BASES=""
+            for r in $RELS; do BASES="$BASES https://ftp.ensembl.org/pub/$r"; done
+            BASES="$BASES https://ftp.ensembl.org/pub/current"
           fi
+          GTF_DIR=""; FA_DIR=""
+          echo "--- probing Ensembl layouts (HTTP code per candidate) ---"
+          for b in $BASES; do
+            g="$b/gtf/homo_sapiens"; f="$b/fasta/homo_sapiens/dna"
+            cg="$(probe "$g")"; cf="$(probe "$f")"
+            echo "  $cg  $g"
+            echo "  $cf  $f"
+            if [ "$cg" = "200" ] && [ "$cf" = "200" ]; then GTF_DIR="$g"; FA_DIR="$f"; break; fi
+          done
+          if [ -z "$GTF_DIR" ]; then
+            echo "::error::no Ensembl layout above served both a gtf/ and a fasta/dna/ directory — refusing to scan"
+            exit 1
+          fi
+          echo "resolved base: $GTF_DIR"
           FA_NAME="Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz"
           # ⛔ THE RESOLUTION IS RUN OUTSIDE `set -e`'s REACH, AND THAT IS THE WHOLE POINT.
           # ⚠ *Superseded, retained:* `GTF_NAME="$(curl -sS "$GTF_DIR/" | grep -o '...' | sort -u |
