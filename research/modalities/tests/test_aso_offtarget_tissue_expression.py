@@ -47,16 +47,92 @@ def _screen():
 # The locus set — derived, never typed
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 
-def test_the_six_loci_are_derived_from_the_committed_screen():
-    """⛔ THE ONE TABLE EVERYTHING ELSE HANGS ON. If the screen is re-run and the loci move, this
-    fails rather than letting a stale six-row table be read as current."""
-    _, rows, prov = m._locus_rows()
+def test_the_lead_reagents_six_loci_are_derived_from_the_committed_screen():
+    """⛔ THE ONE TABLE THE LEAD REAGENT HANGS ON. If the screen is re-run and the loci move, this
+    fails rather than letting a stale six-row table be read as current.
+
+    ⭐ THIS SET IS UNCHANGED BY THE 2026-08-13 LOCUS-PARSER CORRECTION, and that was CHECKED rather
+    than assumed. The old parser returned 14 pseudo-loci here because GMCL1's nine records fell to
+    accession fallbacks; the corrected parser merges them onto GMCL1 and returns the same six genes
+    with the same record counts. A parser fix that had moved this table would have moved a number
+    the manuscript quotes.
+    """
+    _, rows, prov = m._locus_rows(path=m.SCREEN, reagent=m.REAGENT)
     assert prov["n_gap_paired_hybridisable"] == 123
-    assert prov["n_loci"] == 6
+    assert prov["n_loci_over_the_whole_panel"] == 6
     got = {r["locus"]: r["n_transcript_records"] for r in rows}
     assert got == {"ANKS1B": 67, "ZNF667": 37, "GMCL1": 9,
                    "LOC105374140": 5, "LOC105370997": 4, "CHST5": 1}
     assert sum(got.values()) == prov["n_gap_paired_hybridisable"]
+
+
+def test_the_lead_reagents_load_replicates_across_three_independent_screens():
+    """⭐ THE LOAD IS A PROPERTY OF THE SEQUENCE, NOT OF ONE SCREEN.
+
+    The multi-partner reagent was screened three times — once per donor seam — under three
+    different BLAST request ids and three different parent-exclusion sets, and all three return the
+    identical 123 hits over the identical six loci. That is independent replication, and asserting
+    it here stops a future single-screen regression from looking like a real change in the load.
+    """
+    seen = {}
+    for name in ("junction-aso-offtarget-e12n3-deep500-b1.json",
+                 "junction-aso-offtarget-taf15e11n3-deep500-b1.json",
+                 "junction-aso-offtarget-fuse10n3-deep500-b2.json"):
+        p = os.path.join(MOD, name)
+        if not os.path.exists(p):
+            pytest.skip(f"{name} is not present in this checkout")
+        oligo, gap_paired = m._screen_hits(path=p, reagent=m.REAGENT)
+        counts = {}
+        for h in gap_paired:
+            counts[m.gene_of(h)] = counts.get(m.gene_of(h), 0) + 1
+        seen[name] = (oligo["blast_rid"], counts)
+    rids = {v[0] for v in seen.values()}
+    assert len(rids) == 3, f"these are not three independent queries: {rids}"
+    tables = list({json.dumps(v[1], sort_keys=True) for v in seen.values()})
+    assert len(tables) == 1, f"the three screens disagree about the load: {seen}"
+    assert json.loads(tables[0])["ANKS1B"] == 67
+
+
+def test_the_taf15_exon6_seam_is_covered_and_is_not_six_loci():
+    """⛔ THE SECOND REAGENT'S SEAM, AND THE COUNT THAT MUST NOT BE UNDERSTATED.
+
+    The exon 6 seam is the only exon-resolved TAF15::NR4A3 breakpoint published in EMC, so its
+    designs are the second real reagent in the paper. Across the five screened designs its
+    gap-paired load recounts to SEVENTEEN loci, not six — a panel covering six of them and
+    reporting "the exon 6 seam's off-targets" would be an incomplete panel presented as complete.
+    """
+    entry = [e for e in m.PANEL if e["seam"] == "TAF15_e6__NR4A3_e3"]
+    assert entry, "the exon 6 seam is not in the panel"
+    per, prov = m._seam_rows(entry[0])
+    assert prov["n_designs"] == 5, "the seam's designs were subset somewhere"
+    assert prov["n_loci"] == 17, f"the exon 6 seam returns {prov['n_loci']} loci"
+    counts = {k: v["n_transcript_records"] for k, v in per.items()}
+    assert sum(counts.values()) == prov["n_gap_paired_hybridisable"] == 155
+    # the six named in the brief are present — and so are the ones the brief did not name
+    for g in ("NRP1", "ZFPM2", "CA5B", "G3BP2", "GNAL", "SLC17A3"):
+        assert g in counts, g
+    for g in ("LINC02030", "MIR9-2HG", "LAMA4"):
+        assert g in counts, f"{g} carries more records than three of the named six and is missing"
+    assert counts["G3BP2"] == 56 and counts["LINC02030"] == 22
+
+
+def test_recurrence_across_registers_is_carried_separately_from_record_count():
+    """⭐ TWO AXES, AND NEITHER MAY STAND IN FOR THE OTHER.
+
+    NRP1 is returned by all five designs at the exon 6 seam on only five transcript records; G3BP2
+    is returned by two designs on fifty-six. Ranking by record count buries NRP1; ranking by
+    recurrence buries G3BP2. The artifact carries both, per locus, with the note saying why.
+    """
+    _, rows, _ = m._locus_rows()
+    by = {r["locus"]: r for r in rows}
+    assert by["NRP1"]["n_designs_hitting_it"] == 5
+    assert by["NRP1"]["n_transcript_records"] == 5
+    assert by["G3BP2"]["n_designs_hitting_it"] == 2
+    assert by["G3BP2"]["n_transcript_records"] == 56
+    art = m.derive(m._empty_inputs())
+    for p in art["per_locus"]:
+        note = p["⭐_recurrence_is_a_second_axis_and_not_the_record_count"]
+        assert "robust to tiling register" in note
 
 
 def test_every_hit_is_two_mismatches_which_is_what_bounds_the_whole_claim():
@@ -72,43 +148,53 @@ def test_every_hit_is_two_mismatches_which_is_what_bounds_the_whole_claim():
 
 
 def test_the_predicted_model_fraction_is_carried_not_lost():
-    """82 of 123 records are computationally predicted gene models. That is a different kind of
-    liability from a curated one and the artifact must keep the split."""
-    _, rows, _ = m._locus_rows()
+    """82 of the lead reagent's 123 records are computationally predicted gene models. That is a
+    different kind of liability from a curated one and the artifact must keep the split."""
+    _, rows, _ = m._locus_rows(path=m.SCREEN, reagent=m.REAGENT)
     pred = sum(r["n_predicted_records"] for r in rows)
     cur = sum(r["n_curated_records"] for r in rows)
     assert (pred, cur) == (82, 41)
     assert pred + cur == 123
+    # and every locus of the whole panel carries the split, not just the lead's
+    _, allrows, _ = m._locus_rows()
+    for r in allrows:
+        assert r["n_curated_records"] + r["n_predicted_records"] == r["n_transcript_records"]
 
 
-def test_the_locus_of_defect_is_recorded_rather_than_silently_repaired():
-    """⛔ THE DEFECT THIS MODULE WORKS AROUND MUST STAY VISIBLE.
+def test_there_is_exactly_one_locus_parser_and_it_handles_both_defline_shapes():
+    """⛔ TWO PARSERS EACH RIGHT ON THE CASE THAT MOTIVATED THEM IS NOT A CROSS-CHECK.
 
-    `junction_aso_locus_collapse.locus_of` truncates a definition at its first comma before looking
-    for a parenthesised symbol, so `"...germ cell-less 1, spermatogenesis associated (GMCL1), mRNA"`
-    never reaches the symbol and all nine GMCL1 records fall to a per-accession fallback. A raw
-    `locus_of` census of this reagent therefore returns 14 pseudo-loci where 6 genes exist. This
-    module resolves them and RECORDS how many it merged; if it ever stops recording that, a reader
-    comparing the two counts has no way to know why they differ.
+    This module used to carry its own second pass over `locus_of`, added because `locus_of` split
+    the defline on its first comma and lost the symbol for `"germ cell-less 1, spermatogenesis
+    associated (GMCL1), mRNA"`. That second pass took the FIRST parenthetical of the full
+    definition — which is the other half of the same bug: it returns `N-ACETYL` for
+    `"glucosaminyl (N-acetyl) transferase 3, mucin type (GCNT3), mRNA"`, a confident and wrong
+    symbol that looks like nothing downstream.
+
+    `locus_of` was corrected on 2026-08-13 to read NCBI's actual defline grammar, this module now
+    delegates to it, and both shapes are asserted here so neither failure can return by either
+    route.
     """
-    from junction_aso_locus_collapse import locus_of
+    import junction_aso_locus_collapse as J
+    assert m.gene_of is not None
+    # delegation, not a reimplementation: same answer as the shared parser on every real hit
     _, gap_paired = m._screen_hits()
-    raw = {locus_of(h) for h in gap_paired}
-    assert len(raw) == 14, "the defect this module documents is gone — re-read `gene_of`"
-    assert sum(1 for x in raw if x.startswith("acc:")) == 9
+    for h in gap_paired:
+        assert m.gene_of(h) == J.locus_of(h)
 
-    _, _, prov = m._locus_rows()
-    assert prov["n_accession_fallbacks_resolved"] == 9
-    assert "first comma" in prov["_why_that_last_number_matters"]
-
-    # the discriminating observation, asserted directly so the mechanism cannot be misattributed
-    defn = "Homo sapiens germ cell-less 1, spermatogenesis associated (GMCL1), mRNA"
-    entry = {"defn": defn, "acc": "NM_178439"}
-    assert locus_of(entry).startswith("acc:")
-    assert m.gene_of(entry) == ("GMCL1", "full_definition_second_pass")
-    # and a definition WITHOUT a comma before the symbol is untouched by the second pass
-    ok = {"defn": "Homo sapiens carbohydrate sulfotransferase 5 (CHST5), mRNA", "acc": "NM_024533"}
-    assert m.gene_of(ok) == ("CHST5", "locus_of")
+    # the comma-in-description case (what broke the ORIGINAL parser)
+    assert m.gene_of({"defn": "Homo sapiens germ cell-less 1, spermatogenesis associated "
+                              "(GMCL1), mRNA", "acc": "NM_178439"}) == "GMCL1"
+    # the parenthetical-first case (what would have broken this module's OWN second pass)
+    assert m.gene_of({"defn": "Homo sapiens glucosaminyl (N-acetyl) transferase 3, mucin type "
+                              "(GCNT3), mRNA", "acc": "NM_004751"}) == "GCNT3"
+    assert m.gene_of({"defn": "Homo sapiens small nuclear ribonucleoprotein polypeptides B and B1 "
+                              "(Sm) (SNRPB), transcript variant 1, mRNA",
+                      "acc": "NM_003091"}) == "SNRPB"
+    # and no accession fallback survives anywhere in the panel
+    _, rows, prov = m._locus_rows()
+    assert not [r for r in rows if r["locus"].startswith("acc:")], "an unresolved locus remains"
+    assert "corrected 2026-08-13" in prov["locus_parser"]
 
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────
@@ -132,7 +218,9 @@ def test_an_unread_arm_can_never_become_a_biological_statement():
         assert p["tier"] in ("NOT_MEASURED", "NOT_MEASURABLE_UNCHARACTERISED")
     s = art["summary"]
     assert s["loci_expressed_in_an_exposure_organ"] == []
-    assert len(s["loci_whose_exposure_question_is_unanswerable_from_public_data"]) == 6
+    # every locus of the panel, not a subset — an unfetched run must claim nothing about any of them
+    assert (len(s["loci_whose_exposure_question_is_unanswerable_from_public_data"])
+            == s["n_loci"] == len(art["per_locus"]))
 
 
 def test_a_failed_known_answer_control_withholds_every_locus_verdict():

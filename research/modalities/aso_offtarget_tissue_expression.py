@@ -66,6 +66,37 @@ sys.path.insert(0, HERE)
 #: the EWSR1 exon 12 / TAF15 exon 11 / FUS exon 10 seam joined to NR4A3 exon 3.
 REAGENT = "GGGCATATCATCAAAC"
 
+#: ⭐ TWO SEAMS, BECAUSE THE PAPER HAS TWO REAGENTS AND ONLY ONE OF THEM ADDRESSES A JUNCTION
+#: PATIENTS ARE REPORTED TO CARRY.
+#:   · The multi-partner lead covers EWSR1 exon 12 / TAF15 exon 11 / FUS exon 10. Its EWSR1 arm is
+#:     the most commonly reported junction, but its TAF15 arm is exon 11 — and the only
+#:     exon-resolved TAF15::NR4A3 breakpoints published in EMC are exon 6 (PMID 10537274,
+#:     PMID 12378528). So the lead cannot engage the TAF15 junction patients actually carry.
+#:   · The TAF15 exon 6 seam is that junction. Its designs are therefore the second real reagent in
+#:     the paper and their off-target expression matters on the same footing as the lead's.
+#: ⛔ `designs: None` MEANS EVERY SCREENED DESIGN AT THAT SEAM, NOT A CHOSEN ONE. No single design
+#: at the exon 6 seam has been selected, and picking one here would smuggle a recommendation into a
+#: measurement. The union across registers is what the panel has to cover.
+PANEL = [
+    {"seam": "EWSR1_e12__NR4A3_e3",
+     "screen": "junction-aso-offtarget-e12n3-deep500-b1.json",
+     "designs": [REAGENT],
+     "role": "lead — the multi-partner reagent (EWSR1 e12 / TAF15 e11 / FUS e10)",
+     "junction_is_reported_in_patients": True,
+     "note": ("The identical 123-hit / 6-locus load is returned independently by the TAF15 e11 and "
+              "FUS e10 screens of the same molecule, under three different BLAST request ids and "
+              "three different parent-exclusion sets — so the load is a property of the sequence, "
+              "not of one screen.")},
+    {"seam": "TAF15_e6__NR4A3_e3",
+     "screen": "junction-aso-offtarget-taf15e6n3-deep500-b1.json",
+     "designs": None,
+     "role": "the only exon-resolved TAF15::NR4A3 breakpoint published in EMC",
+     "junction_is_reported_in_patients": True,
+     "note": ("Cited at PMID 10537274 (the primary report of the variant fusion) and PMID 12378528 "
+              "(all three TAF15-rearranged tumours of an 18-case series). The lead reagent shares a "
+              "single donor base with this seam and cannot engage it.")},
+]
+
 #: ⭐ THE EXPOSURE TISSUES, and this list is the reason the artifact exists rather than a detail.
 #: Named as GTEx v8 `SMTSD` tissue labels exactly, because a label that does not match a column
 #: silently reads as "no data" — which is the fail-quiet direction. `_tissue_block` asserts that
@@ -138,44 +169,38 @@ _PAREN = re.compile(r"\(([^()]+)\)")
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 
 def gene_of(entry):
-    """The gene symbol a hit belongs to, resolving the accession fallbacks `locus_of` leaves.
+    """The gene symbol a hit belongs to — `junction_aso_locus_collapse.locus_of`, unmodified.
 
-    ⛔ THIS IS A DOCUMENTED SECOND PASS OVER `junction_aso_locus_collapse.locus_of`, NOT A
-    REPLACEMENT, AND THE DIFFERENCE IS A REAL DEFECT THAT THIS MODULE MUST NOT HIDE.
-    `locus_of` reads only `defn.split(",")[0]` — the text before the FIRST comma — and looks for a
-    parenthesised symbol in it. That works whenever the gene's description carries no comma, which
-    is almost always. It fails whenever the description itself contains one, because the symbol is
-    then past the split point and never seen:
+    ⛔ THIS IS A DELIBERATE ONE-LINE DELEGATION AND IT REPLACED A SECOND PASS THAT WAS WRONG IN
+    EXACTLY THE WAY THE SHARED PARSER USED TO BE (corrected 2026-08-13 against `5233cf867`).
+    `locus_of` originally took the last parenthesised token BEFORE THE FIRST COMMA, which lost the
+    symbol for every gene whose own description carries a comma — `"germ cell-less 1,
+    spermatogenesis associated (GMCL1), mRNA"` split to a head with no parenthesis at all, so nine
+    GMCL1 variants each fell back to their own accession and ONE locus was counted as NINE.
 
-        "Homo sapiens germ cell-less 1, spermatogenesis associated (GMCL1), mRNA"
-         └──────────── head, no parenthesis ─────────┘
+    ⚠ THE SECOND PASS THIS MODULE CARRIED TO WORK AROUND THAT TOOK THE **FIRST** PARENTHETICAL OF
+    THE FULL DEFINITION, WHICH IS THE OTHER HALF OF THE SAME BUG. It resolved GMCL1 correctly and
+    would have returned `N-ACETYL` for `"glucosaminyl (N-acetyl) transferase 3, mucin type
+    (GCNT3), mRNA"` — a confident, plausible, wrong symbol, and the kind that never looks like an
+    error downstream. Two independent parsers each right on the case that motivated them is not a
+    cross-check; it is two ways to be wrong.
 
-    so all nine GMCL1 records fall to the `acc:` fallback and read as NINE separate loci. That
-    fallback is deliberate and is the SAFE direction — `locus_of`'s own docstring says a shared
-    sentinel would merge unrelated hits and undercount — but it means a raw `locus_of` count of this
-    reagent returns 14 pseudo-loci where six genes exist, and the two figures are not comparable.
-
-    This pass takes `locus_of`'s answer whenever it resolved a symbol, and only for the `acc:`
-    fallbacks re-reads the FULL definition. `_locus_rows` records how many pseudo-loci were merged
-    (`n_accession_fallbacks_resolved`), so the defect stays VISIBLE in the artifact instead of being
-    silently repaired by the module that depends on it. `locus_of` itself is left alone on purpose:
-    `junction-aso-offtarget-locus-collapse.json` and the manuscript figures derived from it are
-    owned elsewhere, and quietly changing a shared counter under them is how one lane's fix becomes
-    another lane's unexplained number.
+    The corrected shared parser takes the first parenthetical whose closing paren is followed by a
+    comma or the end of the definition, which is NCBI's actual defline grammar
+    (`<organism> <description> (<SYMBOL>), <tail>`) and handles both cases. There is now one parser
+    and this module uses it, so a future correction lands in one place (CLAUDE.md §1).
     """
-    from junction_aso_locus_collapse import locus_of  # noqa: E402  (one home for the primary rule)
-    primary = locus_of(entry)
-    if not primary.startswith("acc:"):
-        return primary, "locus_of"
-    for cand in _PAREN.findall(str(entry.get("defn") or "")):
-        cand = cand.strip()
-        if cand and " " not in cand and not cand.isdigit():
-            return cand.upper(), "full_definition_second_pass"
-    return primary, "unresolved"
+    from junction_aso_locus_collapse import locus_of  # noqa: E402  (the one home for this rule)
+    return locus_of(entry)
+
+
+def _screen_path(name):
+    return name if os.path.isabs(name) else os.path.join(HERE, name)
 
 
 def _screen_hits(path=SCREEN, reagent=REAGENT):
-    """The reagent's gap-paired hits, straight out of the committed screen."""
+    """One design's gap-paired hits, straight out of the committed screen."""
+    path = _screen_path(path)
     d = json.load(open(path, encoding="utf-8"))
     match = [o for o in d.get("oligos", []) if o.get("antisense_5to3") == reagent]
     if len(match) != 1:
@@ -195,53 +220,110 @@ def _screen_hits(path=SCREEN, reagent=REAGENT):
     return o, [h for h in hits if h.get("risk") == GAP_PAIRED_CLASS]
 
 
-def _locus_rows(path=SCREEN, reagent=REAGENT):
-    """(oligo record, ordered locus rows, provenance) — the six loci and what they rest on."""
-    oligo, gap_paired = _screen_hits(path, reagent)
-    per = {}
-    n_second_pass = 0
-    for h in gap_paired:
-        sym, how = gene_of(h)
-        if how == "full_definition_second_pass":
-            n_second_pass += 1
-        row = per.setdefault(sym, {"locus": sym, "n_transcript_records": 0,
-                                   "n_curated_records": 0, "n_predicted_records": 0,
-                                   "accessions": [], "definition_example": None,
-                                   "symbol_resolved_by": how})
-        row["n_transcript_records"] += 1
-        acc = str(h.get("acc") or "")
-        row["accessions"].append(acc)
-        if acc.startswith(("NM_", "NR_")):
-            row["n_curated_records"] += 1
-        elif acc.startswith(("XM_", "XR_")):
-            row["n_predicted_records"] += 1
-        if row["definition_example"] is None:
-            row["definition_example"] = h.get("defn")
+def _seam_rows(entry):
+    """(locus rows, provenance) for ONE seam, over every design the panel entry names."""
+    path = _screen_path(entry["screen"])
+    d = json.load(open(path, encoding="utf-8"))
+    designs = entry.get("designs")
+    if designs is None:
+        designs = [o["antisense_5to3"] for o in d.get("oligos", [])
+                   if o.get("status") == "screened"]
+    per, per_design = {}, []
+    for seq in designs:
+        oligo, gap_paired = _screen_hits(path, seq)
+        seen_here = set()
+        for h in gap_paired:
+            sym = gene_of(h)
+            seen_here.add(sym)
+            row = per.setdefault(sym, {
+                "locus": sym, "n_transcript_records": 0, "n_curated_records": 0,
+                "n_predicted_records": 0, "accessions": [], "definition_example": None,
+                "seams": set(), "designs_hitting_it": set()})
+            row["n_transcript_records"] += 1
+            row["seams"].add(entry["seam"])
+            row["designs_hitting_it"].add(seq)
+            acc = str(h.get("acc") or "")
+            row["accessions"].append(acc)
+            if acc.startswith(("NM_", "NR_")):
+                row["n_curated_records"] += 1
+            elif acc.startswith(("XM_", "XR_")):
+                row["n_predicted_records"] += 1
+            if row["definition_example"] is None:
+                row["definition_example"] = h.get("defn")
+        per_design.append({
+            "antisense_5to3": seq,
+            "gc_percent": oligo.get("gc_percent"),
+            "specificity_margin": oligo.get("specificity_margin"),
+            "blast_rid": oligo.get("blast_rid"),
+            "n_near_matches_reported": oligo.get("n_offtarget_near_matches"),
+            "n_minus_strand_not_hybridisable": oligo.get("n_minus_strand_not_hybridisable"),
+            "n_gap_disrupted_no_cleavage": oligo.get("n_gap_disrupted_no_cleavage"),
+            "n_gap_paired_hybridisable": len(gap_paired),
+            "loci": sorted(seen_here),
+        })
+    prov = dict(entry)
+    prov.pop("designs", None)
+    prov.update({
+        "screen": os.path.basename(path),
+        "junction_label": d.get("junction_label"),
+        "n_designs": len(designs),
+        "designs": per_design,
+        "n_gap_paired_hybridisable": sum(x["n_gap_paired_hybridisable"] for x in per_design),
+        "risk_class_read": GAP_PAIRED_CLASS,
+        "n_loci": len(per),
+    })
+    return per, prov
 
-    rows = sorted(per.values(), key=lambda r: (-r["n_transcript_records"], r["locus"]))
+
+def _locus_rows(path=None, reagent=None, panel=None):
+    """(oligo record or None, ordered locus rows, provenance) over the whole panel.
+
+    ⭐ `n_designs_hitting_it` IS A SECOND AXIS AND IT IS NOT THE RECORD COUNT. A locus every design
+    at a seam returns is robust to tiling register — it is there wherever you put the window — while
+    a locus one register returns may be a property of that window. Record count measures neither;
+    it measures how many transcript variants RefSeq lists. The two are reported side by side because
+    ranking on either alone is a mistake this file must not invite.
+    """
+    if path is not None or reagent is not None:      # single-design call, kept for the tests
+        panel = [{"seam": "ad-hoc", "screen": path or SCREEN,
+                  "designs": [reagent or REAGENT], "role": "ad-hoc single-design call"}]
+    panel = panel if panel is not None else PANEL
+
+    merged, seams = {}, []
+    for entry in panel:
+        per, prov = _seam_rows(entry)
+        seams.append(prov)
+        for sym, row in per.items():
+            tgt = merged.setdefault(sym, {
+                "locus": sym, "n_transcript_records": 0, "n_curated_records": 0,
+                "n_predicted_records": 0, "accessions": [], "definition_example": None,
+                "seams": set(), "designs_hitting_it": set()})
+            for k in ("n_transcript_records", "n_curated_records", "n_predicted_records"):
+                tgt[k] += row[k]
+            tgt["accessions"] += row["accessions"]
+            tgt["seams"] |= row["seams"]
+            tgt["designs_hitting_it"] |= row["designs_hitting_it"]
+            if tgt["definition_example"] is None:
+                tgt["definition_example"] = row["definition_example"]
+
+    rows = sorted(merged.values(), key=lambda r: (-r["n_transcript_records"], r["locus"]))
     for r in rows:
         r["accessions"] = sorted(set(r["accessions"]))
+        r["seams"] = sorted(r["seams"])
+        r["n_designs_hitting_it"] = len(r["designs_hitting_it"])
+        r["designs_hitting_it"] = sorted(r["designs_hitting_it"])
         r["identity_of_every_record"] = "14/16 (two mismatches), the loosest the screen admits"
     prov = {
-        "screen": os.path.basename(path),
-        "reagent_antisense_5to3": reagent,
-        "junction_label": json.load(open(path, encoding="utf-8")).get("junction_label"),
-        "n_near_matches_reported": oligo.get("n_offtarget_near_matches"),
-        "n_minus_strand_not_hybridisable": oligo.get("n_minus_strand_not_hybridisable"),
-        "n_gap_disrupted_no_cleavage": oligo.get("n_gap_disrupted_no_cleavage"),
-        "n_gap_paired_hybridisable": len(gap_paired),
+        "panel": seams,
+        "n_seams": len(seams),
+        "n_loci_over_the_whole_panel": len(rows),
+        "n_gap_paired_hybridisable": sum(s["n_gap_paired_hybridisable"] for s in seams),
         "risk_class_read": GAP_PAIRED_CLASS,
-        "n_loci": len(rows),
-        "n_accession_fallbacks_resolved": n_second_pass,
-        "_why_that_last_number_matters": (
-            "`junction_aso_locus_collapse.locus_of` truncates each definition at its first comma "
-            "before looking for a parenthesised symbol, so a gene whose DESCRIPTION contains a "
-            "comma falls to a per-accession fallback and reads as one pseudo-locus per record. "
-            "That many records were merged back onto their real gene here. A raw `locus_of` count "
-            "of this reagent therefore returns more loci than exist, and the two counts must not be "
-            "quoted against each other. See `gene_of`."),
+        "locus_parser": ("junction_aso_locus_collapse.locus_of, corrected 2026-08-13 (5233cf867) "
+                         "to read NCBI's defline grammar rather than the text before the first "
+                         "comma. This module delegates to it and carries no parser of its own."),
     }
-    return oligo, rows, prov
+    return None, rows, prov
 
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────
@@ -695,6 +777,14 @@ def derive(inp):
         ident = (ncbi.get("genes") or {}).get(sym) or {}
         per_locus.append({
             "locus": sym,
+            "seams": row["seams"],
+            "designs_hitting_it": row["designs_hitting_it"],
+            "n_designs_hitting_it": row["n_designs_hitting_it"],
+            "⭐_recurrence_is_a_second_axis_and_not_the_record_count": (
+                "A locus every design at a seam returns is robust to tiling register — it is there "
+                "wherever the window is put — while a locus one register returns may be a property "
+                "of that window. Record count measures neither. Ranking on either alone is a "
+                "mistake; both are reported so neither has to stand in for the other."),
             "screen_records": {
                 "n_transcript_records": row["n_transcript_records"],
                 "n_curated_records": row["n_curated_records"],
@@ -752,7 +842,7 @@ def derive(inp):
         ],
         "_cost": "$0 — public reference data on a CPU runner. No GPU, no rental, no wet lab.",
         "_generated_utc": inp.get("_generated_utc"),
-        "reagent": inp.get("loci_provenance"),
+        "panel": inp.get("loci_provenance"),
         "method": {
             "exposure_tissues": EXPOSURE_TISSUES,
             "_why_those": ("Systemically dosed phosphorothioate gapmers distribute predominantly to "
@@ -818,10 +908,11 @@ def selftest():
     ⛔ EVERY ONE OF THESE IS A WAY THIS ARTIFACT COULD LIE, and all four are pure arithmetic over
     constructed inputs, so none of them needs a network.
     """
-    # (1) the locus set derives from the screen and the censoring guard is live
+    # (1) the locus set derives from the screens and the censoring guard is live
     _, rows, prov = _locus_rows()
     assert prov["n_gap_paired_hybridisable"] == sum(r["n_transcript_records"] for r in rows)
-    assert prov["n_loci"] == len(rows) >= 1
+    assert prov["n_loci_over_the_whole_panel"] == len(rows) >= 1
+    assert prov["n_seams"] == len(PANEL) >= 2
 
     # (2) an unfetched arm can never become a biological statement
     art = derive(_empty_inputs())

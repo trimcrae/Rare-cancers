@@ -10,18 +10,152 @@
  ],
  "_cost": "$0 — public reference data on a CPU runner. No GPU, no rental, no wet lab.",
  "_generated_utc": null,
- "reagent": {
-  "screen": "junction-aso-offtarget-e12n3-deep500-b1.json",
-  "reagent_antisense_5to3": "GGGCATATCATCAAAC",
-  "junction_label": "EWSR1_e12__NR4A3_e3",
-  "n_near_matches_reported": 189,
-  "n_minus_strand_not_hybridisable": 48,
-  "n_gap_disrupted_no_cleavage": 18,
-  "n_gap_paired_hybridisable": 123,
+ "panel": {
+  "panel": [
+   {
+    "seam": "EWSR1_e12__NR4A3_e3",
+    "screen": "junction-aso-offtarget-e12n3-deep500-b1.json",
+    "role": "lead — the multi-partner reagent (EWSR1 e12 / TAF15 e11 / FUS e10)",
+    "junction_is_reported_in_patients": true,
+    "note": "The identical 123-hit / 6-locus load is returned independently by the TAF15 e11 and FUS e10 screens of the same molecule, under three different BLAST request ids and three different parent-exclusion sets — so the load is a property of the sequence, not of one screen.",
+    "junction_label": "EWSR1_e12__NR4A3_e3",
+    "n_designs": 1,
+    "designs": [
+     {
+      "antisense_5to3": "GGGCATATCATCAAAC",
+      "gc_percent": 43.8,
+      "specificity_margin": 8,
+      "blast_rid": "7W03YWBN016",
+      "n_near_matches_reported": 189,
+      "n_minus_strand_not_hybridisable": 48,
+      "n_gap_disrupted_no_cleavage": 18,
+      "n_gap_paired_hybridisable": 123,
+      "loci": [
+       "ANKS1B",
+       "CHST5",
+       "GMCL1",
+       "LOC105370997",
+       "LOC105374140",
+       "ZNF667"
+      ]
+     }
+    ],
+    "n_gap_paired_hybridisable": 123,
+    "risk_class_read": "true_cleavage_risk",
+    "n_loci": 6
+   },
+   {
+    "seam": "TAF15_e6__NR4A3_e3",
+    "screen": "junction-aso-offtarget-taf15e6n3-deep500-b1.json",
+    "role": "the only exon-resolved TAF15::NR4A3 breakpoint published in EMC",
+    "junction_is_reported_in_patients": true,
+    "note": "Cited at PMID 10537274 (the primary report of the variant fusion) and PMID 12378528 (all three TAF15-rearranged tumours of an 18-case series). The lead reagent shares a single donor base with this seam and cannot engage it.",
+    "junction_label": "TAF15_e6__NR4A3_e3",
+    "n_designs": 5,
+    "designs": [
+     {
+      "antisense_5to3": "GGGCATATCTTGTGTG",
+      "gc_percent": 50.0,
+      "specificity_margin": 8,
+      "blast_rid": "7W0F8E93016",
+      "n_near_matches_reported": 62,
+      "n_minus_strand_not_hybridisable": 52,
+      "n_gap_disrupted_no_cleavage": 2,
+      "n_gap_paired_hybridisable": 8,
+      "loci": [
+       "CA5B",
+       "CA5BP1-CA5B",
+       "LOC124907518",
+       "NRP1",
+       "ZFPM2"
+      ]
+     },
+     {
+      "antisense_5to3": "GGCATATCTTGTGTGT",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "blast_rid": "7W0FCR2B016",
+      "n_near_matches_reported": 92,
+      "n_minus_strand_not_hybridisable": 34,
+      "n_gap_disrupted_no_cleavage": 10,
+      "n_gap_paired_hybridisable": 48,
+      "loci": [
+       "CA5B",
+       "CA5BP1-CA5B",
+       "G3BP2",
+       "GNAL",
+       "MIR9-2HG",
+       "NRP1",
+       "NRXN3-AS1",
+       "SLC17A3"
+      ]
+     },
+     {
+      "antisense_5to3": "AGGGCATATCTTGTGT",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "blast_rid": "7W0FGTAU016",
+      "n_near_matches_reported": 82,
+      "n_minus_strand_not_hybridisable": 63,
+      "n_gap_disrupted_no_cleavage": 3,
+      "n_gap_paired_hybridisable": 16,
+      "loci": [
+       "LINC02030",
+       "NRP1",
+       "ZFPM2"
+      ]
+     },
+     {
+      "antisense_5to3": "CAGGGCATATCTTGTG",
+      "gc_percent": 50.0,
+      "specificity_margin": 6,
+      "blast_rid": "7W0FMRM8016",
+      "n_near_matches_reported": 80,
+      "n_minus_strand_not_hybridisable": 55,
+      "n_gap_disrupted_no_cleavage": 8,
+      "n_gap_paired_hybridisable": 17,
+      "loci": [
+       "GBP4",
+       "LINC02030",
+       "NRP1",
+       "ZFPM2"
+      ]
+     },
+     {
+      "antisense_5to3": "GCATATCTTGTGTGTG",
+      "gc_percent": 43.8,
+      "specificity_margin": 6,
+      "blast_rid": "7W0FSTV9016",
+      "n_near_matches_reported": 260,
+      "n_minus_strand_not_hybridisable": 159,
+      "n_gap_disrupted_no_cleavage": 35,
+      "n_gap_paired_hybridisable": 66,
+      "loci": [
+       "ANKRD26P3",
+       "CA5B",
+       "CA5BP1-CA5B",
+       "EEFSEC",
+       "G3BP2",
+       "GNAL",
+       "LAMA4",
+       "LOC105376349",
+       "MIR9-2HG",
+       "NRP1",
+       "SLC17A3",
+       "ST3GAL1"
+      ]
+     }
+    ],
+    "n_gap_paired_hybridisable": 155,
+    "risk_class_read": "true_cleavage_risk",
+    "n_loci": 17
+   }
+  ],
+  "n_seams": 2,
+  "n_loci_over_the_whole_panel": 23,
+  "n_gap_paired_hybridisable": 278,
   "risk_class_read": "true_cleavage_risk",
-  "n_loci": 6,
-  "n_accession_fallbacks_resolved": 9,
-  "_why_that_last_number_matters": "`junction_aso_locus_collapse.locus_of` truncates each definition at its first comma before looking for a parenthesised symbol, so a gene whose DESCRIPTION contains a comma falls to a per-accession fallback and reads as one pseudo-locus per record. That many records were merged back onto their real gene here. A raw `locus_of` count of this reagent therefore returns more loci than exist, and the two counts must not be quoted against each other. See `gene_of`."
+  "locus_parser": "junction_aso_locus_collapse.locus_of, corrected 2026-08-13 (5233cf867) to read NCBI's defline grammar rather than the text before the first comma. This module delegates to it and carries no parser of its own."
  },
  "method": {
   "exposure_tissues": [
@@ -68,22 +202,47 @@
   }
  },
  "summary": {
-  "n_loci": 6,
+  "n_loci": 23,
   "n_loci_with_a_readable_exposure_reading": 0,
   "loci_expressed_in_an_exposure_organ": [],
   "loci_whose_exposure_question_is_unanswerable_from_public_data": [
    "ANKS1B",
+   "G3BP2",
    "ZNF667",
+   "LINC02030",
+   "MIR9-2HG",
+   "LAMA4",
+   "ZFPM2",
+   "GNAL",
    "GMCL1",
    "LOC105374140",
+   "NRP1",
    "LOC105370997",
-   "CHST5"
+   "SLC17A3",
+   "CA5B",
+   "CA5BP1-CA5B",
+   "EEFSEC",
+   "ANKRD26P3",
+   "CHST5",
+   "GBP4",
+   "LOC105376349",
+   "LOC124907518",
+   "NRXN3-AS1",
+   "ST3GAL1"
   ],
   "⚠_what_a_clean_exposure_column_does_and_does_not_buy": "It removes one hypothetical liability from a list. It does not make the reagent clean, because the same list holds loci this instrument cannot measure at all, and because none of these hits has been shown to be cleavable in the first place."
  },
  "per_locus": [
   {
    "locus": "ANKS1B",
+   "seams": [
+    "EWSR1_e12__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 67,
     "n_curated_records": 32,
@@ -120,7 +279,61 @@
    "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
   },
   {
+   "locus": "G3BP2",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT"
+   ],
+   "n_designs_hitting_it": 2,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 56,
+    "n_curated_records": 48,
+    "n_predicted_records": 8,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
    "locus": "ZNF667",
+   "seams": [
+    "EWSR1_e12__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 37,
     "n_curated_records": 3,
@@ -157,7 +370,245 @@
    "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
   },
   {
+   "locus": "LINC02030",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCTTGTGT",
+    "CAGGGCATATCTTGTG"
+   ],
+   "n_designs_hitting_it": 2,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 22,
+    "n_curated_records": 22,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "MIR9-2HG",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT"
+   ],
+   "n_designs_hitting_it": 2,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 18,
+    "n_curated_records": 18,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "LAMA4",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 13,
+    "n_curated_records": 3,
+    "n_predicted_records": 10,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "ZFPM2",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCTTGTGT",
+    "CAGGGCATATCTTGTG",
+    "GGGCATATCTTGTGTG"
+   ],
+   "n_designs_hitting_it": 3,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 12,
+    "n_curated_records": 0,
+    "n_predicted_records": 12,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "GNAL",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT"
+   ],
+   "n_designs_hitting_it": 2,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 10,
+    "n_curated_records": 10,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
    "locus": "GMCL1",
+   "seams": [
+    "EWSR1_e12__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 9,
     "n_curated_records": 1,
@@ -195,6 +646,14 @@
   },
   {
    "locus": "LOC105374140",
+   "seams": [
+    "EWSR1_e12__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 5,
     "n_curated_records": 0,
@@ -231,7 +690,64 @@
    "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
   },
   {
+   "locus": "NRP1",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCTTGTGT",
+    "CAGGGCATATCTTGTG",
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT",
+    "GGGCATATCTTGTGTG"
+   ],
+   "n_designs_hitting_it": 5,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 5,
+    "n_curated_records": 0,
+    "n_predicted_records": 5,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
    "locus": "LOC105370997",
+   "seams": [
+    "EWSR1_e12__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 4,
     "n_curated_records": 4,
@@ -268,11 +784,474 @@
    "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
   },
   {
-   "locus": "CHST5",
+   "locus": "SLC17A3",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT"
+   ],
+   "n_designs_hitting_it": 2,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 4,
+    "n_curated_records": 4,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "CA5B",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT",
+    "GGGCATATCTTGTGTG"
+   ],
+   "n_designs_hitting_it": 3,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 3,
+    "n_curated_records": 3,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "CA5BP1-CA5B",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT",
+    "GGGCATATCTTGTGTG"
+   ],
+   "n_designs_hitting_it": 3,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 3,
+    "n_curated_records": 3,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "EEFSEC",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 3,
+    "n_curated_records": 2,
+    "n_predicted_records": 1,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "ANKRD26P3",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 1,
     "n_curated_records": 1,
     "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "CHST5",
+   "seams": [
+    "EWSR1_e12__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 1,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "GBP4",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "CAGGGCATATCTTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 1,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "LOC105376349",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 0,
+    "n_predicted_records": 1,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
+   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
+  },
+  {
+   "locus": "LOC124907518",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GGGCATATCTTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 0,
+    "n_predicted_records": 1,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
+   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
+  },
+  {
+   "locus": "NRXN3-AS1",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GGCATATCTTGTGTGT"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 0,
+    "n_predicted_records": 1,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": null,
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "reason": "arm A was not read (not fetched)",
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {}
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": null,
+   "tier": "NOT_MEASURED",
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+  },
+  {
+   "locus": "ST3GAL1",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 0,
+    "n_predicted_records": 1,
     "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
