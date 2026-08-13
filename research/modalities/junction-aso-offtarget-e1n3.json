@@ -39,9 +39,11 @@
     "_transcript_source": {
       "requested": "auto",
       "used_per_gene": {
-        "EWSR1": "ensembl+cache_agreed",
+        "EWSR1": "committed_cache",
         "NR4A3": "ensembl+cache_agreed"
-      }
+      },
+      "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
+      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
     }
   },
   "_note": "Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs (blastn-short vs human RefSeq RNA, NCBI BLAST URL API), resolved to the gap-mismatch level. A TRUE cleavage risk = an off-target near-match whose central DNA gap is fully matched (RNase-H can cleave); a gap-disrupted hit (mismatch inside the gap) does NOT cleave; wing-only hits are weak affinity liabilities. A clean oligo has zero true_cleavage_risk off-targets. Predicted specificity, not validated; confirm by the parental-/off-target-sparing assays.",
@@ -80,7 +82,7 @@
       "gc_percent": 62.5,
       "specificity_margin": 8,
       "status": "screened",
-      "blast_rid": "7U74MN1Z016",
+      "blast_rid": "7U80MV5D016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 0,
       "n_true_cleavage_risk": 0,
@@ -106,7 +108,7 @@
       "gc_percent": 56.2,
       "specificity_margin": 7,
       "status": "screened",
-      "blast_rid": "7U74SZ5R016",
+      "blast_rid": "7U80S3R1016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 49,
       "n_true_cleavage_risk": 0,
@@ -343,7 +345,7 @@
       "gc_percent": 62.5,
       "specificity_margin": 7,
       "status": "screened",
-      "blast_rid": "7U74W4P1016",
+      "blast_rid": "7U80WZZ8016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 0,
       "n_true_cleavage_risk": 0,
@@ -369,7 +371,7 @@
       "gc_percent": 62.5,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "7U751STB016",
+      "blast_rid": "7U810XG3016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 0,
       "n_true_cleavage_risk": 0,
@@ -395,7 +397,7 @@
       "gc_percent": 62.5,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "7U755N13016",
+      "blast_rid": "7U813GAK016",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 49,
       "n_true_cleavage_risk": 0,
