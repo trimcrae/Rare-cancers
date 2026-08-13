@@ -578,7 +578,7 @@ jobs:
           else
             # Highest release-N under /pub/, newest first, then the current_* paths as a fallback.
             PUB="$(curl -sSL --retry 3 --retry-delay 5 https://ftp.ensembl.org/pub/ || true)"
-            RELS="$(printf '%s' "$PUB" | grep -oE 'release-[0-9]+' | sort -u -t- -k2 -n -r | head -3 || true)"
+            RELS="$(printf '%s' "$PUB" | grep -oE 'release-[0-9]+' | sort -u -t- -k2 -n -r | awk 'NR<=3')"
             BASES=""
             for r in $RELS; do BASES="$BASES https://ftp.ensembl.org/pub/$r"; done
             BASES="$BASES https://ftp.ensembl.org/pub/current"
@@ -614,13 +614,13 @@ jobs:
           # instead of reading one.
           LISTING="$(curl -sSL --retry 3 --retry-delay 5 -w '\n[http %{http_code}]\n' "$GTF_DIR/" || true)"
           GTF_NAME="$(printf '%s' "$LISTING" \
-            | grep -oE 'Homo_sapiens\.GRCh38\.[0-9]+\.gtf\.gz' | sort -u | head -1 || true)"
+            | grep -oE 'Homo_sapiens\.GRCh38\.[0-9]+\.gtf\.gz' | sort -u | awk 'NR<=1')"
           if [ -z "$GTF_NAME" ]; then
             echo "::error::could not resolve a GTF filename from $GTF_DIR/ — refusing to scan"
             echo "--- what the listing actually contained (first 40 lines) ---"
-            printf '%s\n' "$LISTING" | head -40
+            printf '%s\n' "$LISTING" | awk 'NR<=40'
             echo "--- any .gtf.gz names present at all ---"
-            printf '%s\n' "$LISTING" | grep -oE '[A-Za-z0-9._-]+\.gtf\.gz' | sort -u | head -20 \
+            printf '%s\n' "$LISTING" | grep -oE '[A-Za-z0-9._-]+\.gtf\.gz' | sort -u | awk 'NR<=20' \
               || echo "(none — the listing carries no .gtf.gz filename in any form)"
             exit 1
           fi
