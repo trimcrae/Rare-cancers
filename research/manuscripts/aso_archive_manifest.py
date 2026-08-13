@@ -197,6 +197,30 @@ PROMISES = [
                      "research/modalities/junction_breakpoint_scan.py"],
     },
     {
+        "id": "duplex_thermodynamics",
+        "verbatim": False,
+        "promise": "the nearest-neighbour duplex thermodynamics and the design-rule audit",
+        "contributes": ("ΔG37 for each design against the fusion and against the best duplex "
+                        "either parent can form, the ΔΔG discrimination that follows, and the "
+                        "audit of every design against four conventional antisense design rules. "
+                        "Carries the convention validation that licenses the energies."),
+        "patterns": ["research/modalities/junction-aso-thermo.json",
+                     "research/modalities/junction_aso_thermo.py",
+                     "research/manuscripts/aso/lit-targets-aso-thermo.json"],
+    },
+    {
+        "id": "priorart_first_in_kind_evidence",
+        "verbatim": False,
+        "promise": "the retrieval evidence behind the first-in-kind statement",
+        "contributes": ("Every identifier in the two Europe PMC corpora the Introduction's "
+                        "'5,153 unique records' rests on, with the per-corpus counts and their "
+                        "overlap, so the count is re-derivable rather than taken on trust. The "
+                        "corpora themselves live on the literature-cache branch; this is the "
+                        "evidence the claim actually needs."),
+        "patterns": ["research/manuscripts/aso/fusion-junction-aso-priorart-evidence.json",
+                     "research/manuscripts/aso_priorart_evidence.py"],
+    },
+    {
         "id": "reproduction_guards",
         "promise": ("Every quantitative statement here is produced by code in the released "
                     "archive and is reproducible from it"),
@@ -463,26 +487,19 @@ def build():
         "promises_resolving_to_no_file": unmapped,
         "screen_coverage": coverage,
         "⚠_known_and_deliberate": [
-            "The Europe PMC prior-art corpora behind the '5,153 unique records' first-in-kind "
-            "statement are published to the `literature-cache` branch, not to this branch. The "
-            "audited summary travels in the archive (aso-citations-priorart-2026-08-08.md); the "
-            "row-level corpora do not, and must be exported from that branch if the deposit is to "
-            "carry them.",
-            "⛔ MEASURED 2026-08-13, NOT YET CLOSED: the Availability paragraph names five "
-            "recomputations that run offline — the tables, the junction atlas, the locus collapse, "
-            "the chance baseline and the graded re-scores. Four were verified by execution with "
-            "the network hard-blocked and reproduced their committed artefacts byte-identically. "
-            "The FIFTH does not run at all: `offtarget_chance_baseline.py` raises "
-            "`ValueError: expected one shared value, got [2, 3]` at line 276, where "
-            "`multi_junction_span` is built with `_uniform()` over each multi-junction oligo's "
-            "`n_junctions`. The committed artefact records `multi_junction_span: 3` from a panel "
-            "set in which every multi-junction oligo spanned exactly three seams; the current panel "
-            "set contains both two- and three-seam oligos, and `_uniform` refuses by design rather "
-            "than silently picking one. The module already carries `_span()` ('[min, max] ... for "
-            "captions that quote a range') for exactly this shape. This is a re-derivation failure, "
-            "NOT a network failure, and it does not affect any reported number — the tables read "
-            "the committed baseline — but it does make the enumerated offline claim false for one "
-            "of its five items until either the module is fixed or the sentence is narrowed.",
+            "✅ CLOSED 2026-08-13. The Europe PMC prior-art corpora behind the '5,153 unique "
+            "records' first-in-kind statement live on the `literature-cache` branch and so were "
+            "outside a deposit built from this one. The identifiers, per-corpus counts and their "
+            "overlap are now exported to fusion-junction-aso-priorart-evidence.json and are in "
+            "this manifest. The arithmetic re-derives: 4,252 + 1,133 = 5,385 raw, minus 232 in "
+            "both corpora, gives 5,153 unique, matching the Introduction. The full texts are NOT "
+            "exported and are not what the claim rests on.",
+            "✅ CLOSED 2026-08-13. The Availability paragraph names five recomputations that "
+            "run offline, and the fifth — the chance baseline — did not run at all: `_uniform` "
+            "raised on a panel set holding both two- and three-seam multi-junction oligos. The "
+            "field is now a scalar when the set is uniform and a range when it is not, and the "
+            "module runs. Verified in both directions: the plain invocation exits 0, and the "
+            "pinned invocation reproduces the committed content byte-identically.",
             "The BLAST arm of the specificity screen calls NCBI over the network when SCREENING. "
             "Nothing in the manuscript re-runs it: every reported count is read from the committed "
             "screen artifacts, and the graded re-score is explicitly offline "

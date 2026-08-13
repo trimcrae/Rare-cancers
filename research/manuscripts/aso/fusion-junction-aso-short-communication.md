@@ -330,10 +330,11 @@ than nucleotides, and both bands here inherit that range) that predicts 79–210
 16-mer whatever. The BLAST arm cannot test this: its hit list is capped at 50, which lies below the
 null's lower bound of 79, so any
 design must return fewer whatever the transcriptome contains. The exhaustive arm can test it, being
-complete for substitutions by construction, and it too comes in low, a median of 2 observed against
-3.4–9.1 predicted at the ≤1-mismatch threshold. Where an instrument with ground truth disagrees with the
+complete for substitutions by construction, and it comes in marginally low: a median of 3 observed
+against 3.4–9.1 predicted at the ≤1-mismatch threshold, which sits just below the band rather than
+comfortably under it. Where an instrument complete by construction disagrees with the
 null, the null is over-predicting, as an independent-uniform-base model will against real transcript
-sequence. It separates "more than chance" from "at chance" and supports nothing finer.
+sequence; the size of that over-prediction is small here and should not be read as more. It separates "more than chance" from "at chance" and supports nothing finer.
 
 Two bounds remain on these counts and neither is corrected for. The BLAST arm returns at most 50
 hits per query, and 15 of the 75 filtered designs reach that cap; a further 36 exceed the 15 hits
@@ -503,12 +504,12 @@ parent transcripts hard to discriminate from, so the gap-level margin of three i
 Coverage is predicted from sequence and has not been measured.
 
 **Figure 3. Transcriptome load per design against chance expectation.** Each bar is one distinct
-oligonucleotide's count of exact plus ≤1-mismatch matches over 186,185 transcripts, ranked. Fifty
-designs are plotted: the 60 design records at real exon junctions collapse to 50 molecules, because
-five of the 16-mers are junction-spanning at three partners' seams at once, and each of those is one
-physical oligonucleotide, plotted once rather than three times (marked). The band is the number of
-such matches expected for an arbitrary 16-mer under an independent-uniform-base null (3.4–9.1); 41
-of the 50 fall at or below its upper bound and nine exceed it. A further ten designs, from two
+oligonucleotide's count of exact plus ≤1-mismatch matches over 186,185 transcripts, ranked. The 125
+design records at real exon junctions collapse to 114 molecules, because six of the 16-mers are
+junction-spanning at more than one partner's seam at once — five at three seams and one at two — and
+each of those is one physical oligonucleotide, plotted once rather than repeatedly (marked). The band
+is the number of such matches expected for an arbitrary 16-mer under an independent-uniform-base null
+(3.4–9.1); 77 of the 114 fall at or below its upper bound and 37 exceed it. A further ten designs, from two
 modelled breakpoints whose seams were not built from a spliced transcript model, are not plotted;
 four of those ten exceed the band, at 16 to 95 matches and 75.0 to 81.2% GC. Because this scan is
 exhaustive for
