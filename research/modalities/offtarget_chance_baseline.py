@@ -270,10 +270,27 @@ def build(panels=None):
             "n_at_or_below_chance_upper": sum(1 for s in plotted if s["at_or_below_chance"]),
             "n_above_chance_upper": sum(1 for s in plotted if not s["at_or_below_chance"]),
             "n_multi_junction_sequences": len(multi),
-            #: A scalar, not the set, because a caption has to say "each spans N junctions" in
-            #: words. Uniformity is asserted rather than assumed — a mixed set would make that
-            #: sentence false and there would be no way to tell from the number alone.
-            "multi_junction_span": _uniform(s["n_junctions"] for s in multi),
+            #: A scalar when every multi-junction oligo spans the same number of seams, because a
+            #: caption has to say "each spans N junctions" in words; `[min, max]` when they differ,
+            #: because then that sentence is false and the caption has to quote a range.
+            #: ⛔ THIS WAS `_uniform(...)`, WHICH RAISED AND STOPPED THE SCRIPT DEAD (2026-08-13).
+            #: `_uniform` refuses a mixed set by design — correctly, since silently picking one
+            #: value would put a false "each spans 3" into a caption. But refusing is right for a
+            #: VALUE and wrong for a SCRIPT: the committed artefact was built from a panel set in
+            #: which every multi-junction oligo spanned three seams, and the wider set now on disk
+            #: holds both two- and three-seam oligos, so a plain `python3 offtarget_chance_baseline.py`
+            #: died on `expected one shared value, got [2, 3]`.
+            #: ⚠ AND THAT MADE A MANUSCRIPT SENTENCE FALSE. The Availability paragraph names five
+            #: recomputations that run offline; four were verified byte-identical with the network
+            #: hard-blocked and this was the fifth. Naming them item by item is what made the claim
+            #: falsifiable, and it is how this surfaced. The module already carried `_span` for
+            #: exactly this shape.
+            #: ⚠ The committed artefact does not move: its panel set is uniform, so this still
+            #: emits the scalar 3. Only the wider set gets a range, and a reader can tell which
+            #: they are holding from the type.
+            "multi_junction_span": (
+                _uniform(s["n_junctions"] for s in multi) if len({s["n_junctions"] for s in multi}) == 1
+                else _span(s["n_junctions"] for s in multi)),
             "multi_junction_sequences": [s["antisense_5to3"] for s in multi],
             "excluded": {
                 "_why": (

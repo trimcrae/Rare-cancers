@@ -9,19 +9,19 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "7080c9502e12f77efdd4610501390cd86ed5348f",
+  "git_revision": "d12c5d6a5efa2c3284cf7dce4633c8626f7e71be",
   "git_tree_is_clean_apart_from_this_manifest": false,
-  "archive_content_digest": "1fc4da994cacca38be689eb1e3cc70993779bf9ee321ae82aa12966285a54c71",
+  "archive_content_digest": "8f40ee8216870381563ec2eeac71d9fbb96d73559d81c8ab2ac46f665ed70f92",
   "n_files": 158,
-  "total_bytes": 4612019,
-  "total_mib": 4.398,
+  "total_bytes": 4614863,
+  "total_mib": 4.401,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
     "3. Build the payload from the `files` list below — for example: `python3 -c \"import json,zipfile;m=json.load(open('research/manuscripts/aso/fusion-junction-aso-archive-manifest.json'));z=zipfile.ZipFile('emc-aso-archive.zip','w',zipfile.ZIP_DEFLATED);[z.write(f['path']) for f in m['files']];z.write('research/manuscripts/aso/fusion-junction-aso-archive-manifest.json');z.close()\"` — then verify the archive's own SHA-256 list against `files` before uploading.",
     "4. Create the deposition (Zenodo: New upload -> Dataset/Software; upload the zip; title 'Code and artefacts for: fusion-junction antisense oligonucleotides in extraskeletal myxoid chondrosarcoma'; author and ORCID; licence — CC-BY-4.0 for the artefacts and MIT or Apache-2.0 for the code is the usual pairing; keywords 'extraskeletal myxoid chondrosarcoma', 'EWSR1::NR4A3', 'antisense oligonucleotide', 'gapmer', 'fusion junction'). Attach `README` = the `_what_this_is` and `how_to_reproduce_offline` blocks of this file.",
     "5. RESERVE the DOI before publishing the deposition (Zenodo: 'Reserve DOI'). This is what makes step 6 possible: the manuscript can cite the DOI in the same version that is deposited, instead of citing a DOI that does not exist yet.",
-    "6. Paste the reserved DOI into the manuscript's two placeholders — '[DATA AVAILABILITY DOI TO BE MINTED BEFORE SUBMISSION]' in Methods -> Availability, and '[ARCHIVE DOI TO BE MINTED.]' in Declarations -> Data and code availability. Register the DOI in research/manuscripts/pinned-figures.json so the consistency linter holds the two copies together.",
+    "6. Paste the reserved DOI into the manuscript's two '[ARCHIVE DOI]' placeholders — one in Methods -> Availability, one in Declarations -> Data and code availability. Register the DOI in research/manuscripts/pinned-figures.json so the consistency linter holds the two copies together.",
     "7. Publish the deposition, then re-run `PREFLIGHT_FULL=1 ./scripts/preflight.sh` before submitting. Publishing is irreversible on Zenodo: the files of a published version cannot be edited, only superseded by a new version under the same concept DOI.",
     "8. If the gaps block below is non-empty, decide each one BEFORE step 7 — either close it (generate the missing artefact) or narrow the manuscript's wording. A promise that outruns the deposit is the one defect a reader will find first."
   ],
@@ -64,6 +64,7 @@
     },
     "⚠_known_and_deliberate": [
       "The Europe PMC prior-art corpora behind the '5,153 unique records' first-in-kind statement are published to the `literature-cache` branch, not to this branch. The audited summary travels in the archive (aso-citations-priorart-2026-08-08.md); the row-level corpora do not, and must be exported from that branch if the deposit is to carry them.",
+      "⛔ MEASURED 2026-08-13, NOT YET CLOSED: the Availability paragraph names five recomputations that run offline — the tables, the junction atlas, the locus collapse, the chance baseline and the graded re-scores. Four were verified by execution with the network hard-blocked and reproduced their committed artefacts byte-identically. The FIFTH does not run at all: `offtarget_chance_baseline.py` raises `ValueError: expected one shared value, got [2, 3]` at line 276, where `multi_junction_span` is built with `_uniform()` over each multi-junction oligo's `n_junctions`. The committed artefact records `multi_junction_span: 3` from a panel set in which every multi-junction oligo spanned exactly three seams; the current panel set contains both two- and three-seam oligos, and `_uniform` refuses by design rather than silently picking one. The module already carries `_span()` ('[min, max] ... for captions that quote a range') for exactly this shape. This is a re-derivation failure, NOT a network failure, and it does not affect any reported number — the tables read the committed baseline — but it does make the enumerated offline claim false for one of its five items until either the module is fixed or the sentence is narrowed.",
       "The BLAST arm of the specificity screen calls NCBI over the network when SCREENING. Nothing in the manuscript re-runs it: every reported count is read from the committed screen artifacts, and the graded re-score is explicitly offline (`junction_aso_offtarget.grade_panel`: 'NO NETWORK, NO RE-BLAST'). Re-deriving the paper from the archive is offline; re-generating the screens from scratch is not."
     ]
   },
@@ -393,8 +394,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-short-communication.md",
-      "bytes": 38763,
-      "sha256": "c430ff8a5e06b6daa69c7df7a21d3c7da98232baf73de0f0c87146d83c75da93",
+      "bytes": 38761,
+      "sha256": "02de36fb3eb5040882d165a8ee8de7b5aef565191ed90e7522e02c925a3cde76",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -441,8 +442,8 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 37214,
-      "sha256": "b5c321f79510bf680812997b51a44e641653ee2029231dc14052899081d9a0cf",
+      "bytes": 38595,
+      "sha256": "947589f962b997b1c66ff8e43c37976f0f20b93f5f909c6528c7c099529d5416",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -1545,8 +1546,8 @@
     },
     {
       "path": "research/modalities/offtarget_chance_baseline.py",
-      "bytes": 17841,
-      "sha256": "9a19f649c82c2eb194e2d0315438ab098374bd7d4731c377e4107b87013d7690",
+      "bytes": 19306,
+      "sha256": "af359e650fac15303ba5bfb3deaba36dcefbb8bc309b1abb1851bffe92149077",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."

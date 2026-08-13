@@ -188,8 +188,8 @@ archived version, deposited from the public repository at
 committed artefacts in that archive without network access or credentials: the tables, the junction
 atlas, the locus collapse, the chance baseline and the graded re-scores under both discrimination
 bounds each recompute from files the archive contains. Regenerating the specificity screens from
-scratch is not offline — the gap-resolved arm queries NCBI BLAST and the exhaustive arm downloads
-the GRCh38.p14 RefSeq RNA set — but no reported number requires it, because each screen's hit set is
+scratch is not offline, because the gap-resolved arm queries NCBI BLAST and the exhaustive arm
+downloads the GRCh38.p14 RefSeq RNA set. No reported number requires it, because each screen's hit set is
 archived and the re-scores hold that hit set fixed.
 
 ## 3 · Results
@@ -441,9 +441,9 @@ which junctions patients carry.
 
 **Figure 2. One 16-mer spans three partners' breakpoints.** The seam windows of *EWSR1* exon
 12, *TAF15* exon 11 and *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint. Blue,
-donor exon; green, acceptor exon; red and boxed, positions at which the three donors differ — boxed
-as well as coloured, because that distinction is the one a reader most needs and red against green is
-the pair that carries no information in greyscale or to a red-green colour-blind reader. The shaded box is
+donor exon; green, acceptor exon; red and boxed, positions at which the three donors differ. Those
+positions are boxed as well as coloured, because that distinction is the one a reader most needs and
+red against green carries no information in greyscale or to a red-green colour-blind reader. The shaded box is
 the target window of 5′-GGGCATATCATCAAAC-3′, with the 5-6-5 gapmer architecture below it. The three
 donors are identical over the ten nucleotides before the breakpoint, which is what makes one
 oligonucleotide junction-spanning at all three seams — and is the same identity that makes the

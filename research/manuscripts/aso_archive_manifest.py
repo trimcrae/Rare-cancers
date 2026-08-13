@@ -468,6 +468,21 @@ def build():
             "audited summary travels in the archive (aso-citations-priorart-2026-08-08.md); the "
             "row-level corpora do not, and must be exported from that branch if the deposit is to "
             "carry them.",
+            "⛔ MEASURED 2026-08-13, NOT YET CLOSED: the Availability paragraph names five "
+            "recomputations that run offline — the tables, the junction atlas, the locus collapse, "
+            "the chance baseline and the graded re-scores. Four were verified by execution with "
+            "the network hard-blocked and reproduced their committed artefacts byte-identically. "
+            "The FIFTH does not run at all: `offtarget_chance_baseline.py` raises "
+            "`ValueError: expected one shared value, got [2, 3]` at line 276, where "
+            "`multi_junction_span` is built with `_uniform()` over each multi-junction oligo's "
+            "`n_junctions`. The committed artefact records `multi_junction_span: 3` from a panel "
+            "set in which every multi-junction oligo spanned exactly three seams; the current panel "
+            "set contains both two- and three-seam oligos, and `_uniform` refuses by design rather "
+            "than silently picking one. The module already carries `_span()` ('[min, max] ... for "
+            "captions that quote a range') for exactly this shape. This is a re-derivation failure, "
+            "NOT a network failure, and it does not affect any reported number — the tables read "
+            "the committed baseline — but it does make the enumerated offline claim false for one "
+            "of its five items until either the module is fixed or the sentence is narrowed.",
             "The BLAST arm of the specificity screen calls NCBI over the network when SCREENING. "
             "Nothing in the manuscript re-runs it: every reported count is read from the committed "
             "screen artifacts, and the graded re-score is explicitly offline "
@@ -540,9 +555,8 @@ def build():
             "5. RESERVE the DOI before publishing the deposition (Zenodo: 'Reserve DOI'). This is "
             "what makes step 6 possible: the manuscript can cite the DOI in the same version that "
             "is deposited, instead of citing a DOI that does not exist yet.",
-            "6. Paste the reserved DOI into the manuscript's two placeholders — "
-            "'[DATA AVAILABILITY DOI TO BE MINTED BEFORE SUBMISSION]' in Methods -> Availability, "
-            "and '[ARCHIVE DOI TO BE MINTED.]' in Declarations -> Data and code availability. "
+            "6. Paste the reserved DOI into the manuscript's two '[ARCHIVE DOI]' placeholders — "
+            "one in Methods -> Availability, one in Declarations -> Data and code availability. "
             "Register the DOI in research/manuscripts/pinned-figures.json so the consistency "
             "linter holds the two copies together.",
             "7. Publish the deposition, then re-run "
