@@ -294,8 +294,22 @@ def _tree_clean_apart_from_this_manifest():
     if porcelain is None:
         return None                       # no git here; "unknown", never "clean"
     for line in porcelain.splitlines():
-        # Porcelain lines are "XY <path>"; the status columns are fixed-width, the path follows.
-        path = line[3:].strip().strip('"')
+        # ⛔ SPLIT, DO NOT SLICE — `_git` STRIPS ITS OUTPUT AND THE COLUMNS ARE NOT FIXED-WIDTH BY
+        # THE TIME THEY ARRIVE (2026-08-13). Porcelain v1 emits "XY <path>", so an unstaged
+        # modification is " M <path>" with a LEADING SPACE — which `_git`'s `.strip()` removes
+        # before this function ever sees it. `line[3:]` then ate the first character of every such
+        # path: "research/…" arrived as "esearch/…", the SELF_EXCLUDE membership test could never
+        # match, and the field reported a dirty tree unconditionally.
+        # ⚠ WHICH IS THE SAME DEFECT THIS FUNCTION WAS WRITTEN TO REMOVE, one layer down. The
+        # docstring above warns that a permanently-false reading is worse than no field because a
+        # depositor believes it; the exclusion meant to prevent that was itself inert. A guard that
+        # no-ops into the behaviour it replaced produces no symptom — the field simply kept saying
+        # what it had always said.
+        # `split(maxsplit=1)` handles " M p", "M p", "?? p" and paths containing spaces alike. A
+        # rename ("R  old -> new") lands in the else-branch below and reports dirty, which is the
+        # safe direction: it tells the depositor to look rather than not to bother.
+        parts = line.split(maxsplit=1)
+        path = parts[1].strip().strip('"') if len(parts) == 2 else ""
         if path and path not in SELF_EXCLUDE:
             return False
     return True
