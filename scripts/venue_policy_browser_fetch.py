@@ -153,6 +153,26 @@ TARGETS = {
     # make it one.
     "sage_nat_author_instructions": "https://journals.sagepub.com/author-instructions/nat",
     "sage_nat_uk_journal_page": "https://uk.sagepub.com/en-gb/eur/nucleic-acid-therapeutics/journal204141",
+
+    # ── THE ONLY PUBLISHER FAMILY NOT YET PRICED, AND THE PATTERN THAT MAKES IT WORTH ASKING ──
+    # ⛔ EVERY SPECIALIST VENUE PRICED SO FAR CHARGES BY THE PAGE ON THE SUBSCRIPTION ROUTE, and
+    # they are the venues that fit this paper best: Cancer Gene Therapy $238/page (read at primary
+    # source), Nucleic Acid Therapeutics $90/page, Molecular Therapy $116/page for a non-ASGCT
+    # member up to eight pages and $180 thereafter (both search-derived, being confirmed). The
+    # common cause is structural rather than editorial — these are society-run journals funded from
+    # subscription revenue, so the author is billed for typeset pages. A general journal without a
+    # society behind it need not work that way, and the British Journal of Cancer does not: no page
+    # charge at all, colour optional. Oxford University Press is the remaining family nobody has
+    # priced, and it is worth one fetch because OUP hybrid titles commonly levy no page charge on
+    # the subscription route.
+    # ⚠ FIT IS THE REASON THESE TWO AND NOT ANY OUP TITLE. `Briefings in Bioinformatics` was named
+    # as a fallback in the submission plan and set aside because "the emphasis is wrong: this is a
+    # therapeutic-design paper, not a method paper". That judgement predates this session's finding
+    # that an off-target screen ignoring alignment orientation overstates gap-spanning risk by 47%
+    # AND reorders the candidates, which is a methods result generalising past this manuscript.
+    "oup_bib_instructions": "https://academic.oup.com/bib/pages/General_Instructions",
+    "oup_hmg_instructions": "https://academic.oup.com/hmg/pages/General_Instructions",
+    "oup_author_charges": "https://academic.oup.com/pages/authoring/journals/preparing_your_manuscript",
     "research4life_eligibility": "https://www.research4life.org/access/eligibility/",
 
     # ── bioRxiv, the free open copy for all four papers ─────────────────────────────────
