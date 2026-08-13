@@ -506,7 +506,17 @@ def main(argv=None):
               f"{r['pdf_bytes']:8,d} B")
         print(f"  PNG  {os.path.basename(r['png']):32s} {r['png_px'][0]:8d} x {r['png_px'][1]:7d} px   "
               f"{r['png_dpi']:7.4f} dpi   {r['png_width_in']:6.3f} in wide   {r['png_bytes']:8,d} B")
-    print(f"\nwrote {2 * len(rows)} file(s) for {len(rows)} figure(s) at {args.width_mm:g} mm wide")
+    # ⛔ THE SUMMARY LINE ASSERTED A WIDTH THE RUN ABOVE IT HAD JUST CONTRADICTED (2026-08-13). It
+    # printed "at 180 mm wide" unconditionally, including for `aso-junction-space`, which the height
+    # ceiling scales to 124.4 mm — and the preprint checklist duly recorded all three figures as
+    # "180 mm wide". A per-figure note two lines up said otherwise and the summary won, because a
+    # summary is what gets copied. Name the exceptions where the summary is made.
+    capped = [r for r in rows if r["bound_by"] != "width"]
+    tail = "" if not capped else (
+        "; " + ", ".join(f"{os.path.basename(r['svg'])} is {r['target_mm'][0]:g} mm, held by the "
+                         f"{args.max_height_mm:g} mm height ceiling" for r in capped))
+    print(f"\nwrote {2 * len(rows)} file(s) for {len(rows)} figure(s) at "
+          f"{args.width_mm:g} mm wide{tail}")
     return 0
 
 

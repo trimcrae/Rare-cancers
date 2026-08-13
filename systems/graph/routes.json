@@ -300,7 +300,7 @@
       "status": "blocked",
       "maturity": "scoped",
       "confidence": "moderate",
-      "last_verified": "2026-08-12"
+      "last_verified": "2026-08-13"
     },
     "rationale": "The breakpoint junction is a sequence that exists in no healthy cell. An oligonucleotide reads sequence rather than shape, so it discriminates on SEQUENCE rather than shape — predicted, not demonstrated where every protein-directed route has to fight a shared fold. This is the fusion-selective route whose deliverable is finishable here (RT-JUNCTION-NEOANTIGEN, RT-TCR-IMMTAC and RT-RIBOZYME also retire the blocker), and its in-silico arc is complete: design, off-target screen, breakpoint-favourability scan, and gap-mismatch-resolved candidates.",
     "supporting_evidence": [
@@ -311,9 +311,9 @@
       }
     ],
     "remaining_unknowns": [
-      "⭐ THE LANE IS NO LONGER EWSR1-ONLY (2026-08-12, $0, offline). nr4a3-fusion-junction-atlas.json grades 231 donor-exon x NR4A3-acceptor-exon pairs across all five reported partners -- EWSR1, TAF15, TCF12, FUS and TFG; 38 are frame-compatible and EVERY ONE yields at least one junction-spanning, parent-sparing design, so designability is not this route's constraint. One 16-mer (GGGCATATCATCAAAC) is junction-spanning and fusion-exclusive at EWSR1 e12, TAF15 e11 and FUS e10 :: NR4A3 e3 SIMULTANEOUSLY, because the three donors are identical over the 10 bases 5' of their breakpoints (TGGTTTGATG; superseded, retained: '8 bases', which read the shared run off ONE DESIGN'S 8-base donor window instead of off the transcripts) -- so a stock reagent, not only an n-of-1 panel, is on the table. ✅ THE FIRST NON-EWSR1 SCREENS HAVE NOW RUN (2026-08-12, run 31593688595, $0): TAF15 e11 and FUS e10 return the SAME five designs as EWSR1 e12 from a live Ensembl read by an independent code path, and the shared design carries 8 predicted cleavage risks (superseded, retained: 'the cleanest of the twenty screened' -- those twenty screens were TEN distinct oligos, and TCF12 designs reach fewer; 0 exact and 1 <=1-mismatch across 186,185 transcripts). ⛔ The conclusion did not move: 0 of 5 clean at every junction. ✅ ALL FOUR PARTNERS ARE NOW SCREENED, AT 12 JUNCTIONS (run 31596310296 added TCF12's 8). TCF12 -- the one non-FET donor, excluded from every exact multi-partner set, which is the coverage mechanism's own negative control coming out right -- carries the LOWEST predicted off-target load of any partner (best 1 true cleavage risk vs 8 across EWSR1/TAF15/FUS), and TCF12 e7 is the first junction in the program with designs at zero <=1-mismatch off-targets on the uncapped scan. ⛔ It is still 0-of-4-clean on the WIDER gap-resolved screen, which is the defensible one (red-team F5), so breadth and per-oligo specificity point at different partners rather than one ranking. WHAT IS STILL NOT KNOWN: 26 of the 38 emittable junctions are unscreened, every TFG junction among them (superseded, retained: 'the other 20', from the four-partner atlas), no TCF12 breakpoint is shown to occur in a patient, the provenance gate behind the TAF15/TCF12/FUS/TFG transcript models is the weaker of the two, and whether patients carry breakpoints at those homologous exons is a clinical fact nobody here holds.",
+      "⭐ THE LANE IS NO LONGER EWSR1-ONLY (2026-08-12, $0, offline). nr4a3-fusion-junction-atlas.json grades 231 donor-exon x NR4A3-acceptor-exon pairs across all five reported partners -- EWSR1, TAF15, TCF12, FUS and TFG; 38 are frame-compatible and EVERY ONE yields at least one junction-spanning, parent-sparing design, so designability is not this route's constraint. One 16-mer (GGGCATATCATCAAAC) is junction-spanning and fusion-exclusive at EWSR1 e12, TAF15 e11 and FUS e10 :: NR4A3 e3 SIMULTANEOUSLY, because the three donors are identical over the 10 bases 5' of their breakpoints (TGGTTTGATG; superseded, retained: '8 bases', which read the shared run off ONE DESIGN'S 8-base donor window instead of off the transcripts) -- so a stock reagent, not only an n-of-1 panel, is on the table. ✅ THE FIRST NON-EWSR1 SCREENS HAVE NOW RUN (2026-08-12, run 31593688595, $0): TAF15 e11 and FUS e10 return the SAME five designs as EWSR1 e12 from a live Ensembl read by an independent code path, and the shared design carries 8 predicted cleavage risks (superseded, retained: 'the cleanest of the twenty screened' -- those twenty screens were TEN distinct oligos, and TCF12 designs reach fewer; 0 exact and 1 <=1-mismatch across 186,185 transcripts). ⛔ The conclusion did not move: 0 of 5 clean at every junction. ✅ ALL FOUR PARTNERS ARE NOW SCREENED, AT 12 JUNCTIONS (run 31596310296 added TCF12's 8). TCF12 -- the one non-FET donor, excluded from every exact multi-partner set, which is the coverage mechanism's own negative control coming out right -- carries the LOWEST predicted off-target load of any partner (best 1 true cleavage risk vs 8 across EWSR1/TAF15/FUS), and TCF12 e7 is the first junction in the program with designs at zero <=1-mismatch off-targets on the uncapped scan. ⛔ It is still 0-of-4-clean on the WIDER gap-resolved screen, which is the defensible one (red-team F5), so breadth and per-oligo specificity point at different partners rather than one ranking. ✅ ALL 38 JUNCTIONS ARE NOW SCREENED AND ORIENTATION-FILTERED (2026-08-13, 183 designs). That dissolved the partner effect above: superseded, retained -- 'breadth and per-oligo specificity point at different partners rather than one ranking' and '0 of 5 clean at every junction'. Every one of the five partners now has a junction whose best design carries no hybridisable gap-spanning near-match, and NINE designs at SIX junctions across FOUR partners carry no hybridisable near-match at all over a complete hit list, with zero residual cleavage load under both literature bounds. The partner effect was an artefact of comparing screened TCF12 junctions against partners whose junctions were mostly unscreened. WHAT IS STILL NOT KNOWN: nine is a floor over the 47 of 183 designs whose hit lists are complete enough to assess, not a total; both screens search MATURE transcript only, so the pre-mRNA compartment is unmeasured; no TCF12 breakpoint is shown to occur in a patient; the one TAF15 exon with a published breakpoint (exon 6) is designable but is NOT among the cleaner junctions, while the exon the multi-partner result rests on (exon 11) has no reported patient; the provenance gate behind the TAF15/TCF12/FUS/TFG transcript models is the weaker of the two; and whether patients carry breakpoints at those homologous exons is a clinical fact nobody here holds.",
       "⛔ 'DELIVERY' WAS ONE BLOCKER STANDING FOR THREE ROUTES WITH DIFFERENT REQUIREMENTS (2026-08-12; BLK-DELIVERY rescoped, paper §3c-bis). The missing EMC surface antigen gates the SYSTEMIC receptor-targeted route only. Local/intratumoural and inhaled/pulmonary administration need no antigen, and EMC's distant spread is lung-dominant (35-45% of patients, primarily lung, median ~28 months to metastasis; PMID 41055792). Inhaled oligonucleotide delivery producing gene silencing in tumours growing in the lung is an active preclinical field -- in other tumour types, in animals, never in EMC, never against a fusion, never in a patient (lit-targets-aso-delivery-routes.json). This changes what to attempt first; it does not move the modality closer to a patient.",
-      "The committed design panel was rebuilt at the corrected mRNA junction on 2026-08-06 (aso-offtarget.yml run 31130876597, $0): NR4A3 resumes at residue 1, seams ACGGGCAGCAGA|ATATGCCCTGCG (e7n3) and AATGGTTTGATG|ATATGCCCTGCG (e12n3). The panel covers TWO junctions, not the five once claimed — e9n3/e10n3/e13n3 and every exon-mode siRNA file never existed and stay withdrawn as unverifiable. ⛔ THE CORRECTED SCREEN DOES NOT RESTORE THE RETRACTED HEADLINE: 0 of 5 designs at EACH junction are free of gap-spanning near-matches, so 'a gapmer predicted clean on both screens at E7::N3' is CONTRADICTED by the corrected data, not merely unproven. GC does move in the route's favour (37.5-56.2% vs 75.0-81.2% at the modelled reference).",
+      "The committed design panel was rebuilt at the corrected mRNA junction on 2026-08-06 (aso-offtarget.yml run 31130876597, $0): NR4A3 resumes at residue 1, seams ACGGGCAGCAGA|ATATGCCCTGCG (e7n3) and AATGGTTTGATG|ATATGCCCTGCG (e12n3). The panel covers TWO junctions, not the five once claimed — e9n3/e10n3/e13n3 and every exon-mode siRNA file never existed and stay withdrawn as unverifiable. ⛔ THE CORRECTED SCREEN DOES NOT RESTORE THE RETRACTED HEADLINE: 0 of 5 designs at EACH junction are free of gap-spanning near-matches, so 'a gapmer predicted clean on both screens at E7::N3' is CONTRADICTED by the corrected data, not merely unproven. ⚠ SUPERSEDED IN PART 2026-08-13: that was true of the two-junction corpus this entry describes and is NOT true of the completed one -- see the first entry above. What survives is the narrower claim it was making: the E7::N3 'clean on both screens' headline stays retracted, and E7 is not among the six clean junctions. GC does move in the route's favour (37.5-56.2% vs 75.0-81.2% at the modelled reference).",
       "How to deliver an oligonucleotide to a non-hepatic solid tumour — the one remaining gate, and it is engineering rather than biology.",
       "Whether predicted specificity survives a calibrated cleavage model: the current screen uses a deliberately conservative gap-mismatch heuristic, so it may be over- or under-calling.",
       "Whether the potency ranking holds — it rests on a local-fold accessibility proxy rather than a measured accessibility model."
@@ -334,7 +334,7 @@
         ]
       },
       {
-        "what": "Regenerate the junction panel at the CORRECTED seam and re-derive every design (needs network — CI)",
+        "what": "Regenerate the junction panel at the CORRECTED seam and re-derive every design (needs network — CI). ✅ DONE 2026-08-06 — panel regenerated at the corrected seam and verified against two independent transcript acquisitions (working record §3a-sexies)",
         "feasible_today": true,
         "blocked_by": []
       },
@@ -344,19 +344,34 @@
         "blocked_by": []
       },
       {
-        "what": "A TFG transcript model, the one reported EMC partner with no model in this repository -- one targeted Ensembl fetch, nothing else missing",
+        "what": "A TFG transcript model, the one reported EMC partner with no model in this repository -- one targeted Ensembl fetch, nothing else missing. ✅ DONE 2026-08-12 — ENST00000240851, contributing 24 graded pairs and 6 frame-compatible junctions",
         "feasible_today": true,
         "blocked_by": []
       },
       {
-        "what": "Screen the remaining 20 emittable junctions; the pipeline reaches any partner now",
+        "what": "Screen the remaining 20 emittable junctions; the pipeline reaches any partner now. ✅ DONE 2026-08-13 — all 38 frame-compatible junctions screened AND orientation-filtered, 183 designs; coverage residual is zero",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "⭐ A GENOMIC / PRE-mRNA OFF-TARGET SCREEN. Both committed screens search MATURE transcript sets, so intronic and intron-exon-spanning sites are invisible to them by construction -- and RNase-H1 is nuclear, so pre-mRNA is a real substrate. The manuscript names this as its largest blind spot and says it is 'closable by a genomic screen'; until 2026-08-13 it appeared in no register here, which is how a paper's own stated hole stays open. CI-runnable, $0",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "De-censor the near-match counts: 136 of 183 designs carry right-censored counts because BLAST returns at most 50 hits and only SAVED_HITS_PER_DESIGN are stored. Raising both converts upper bounds into measurements and decides the ten-vs-nine discrepancy (a tenth design scores zero residual load but is refused as clean because its unstored hits are unknown). CI-runnable, $0",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Re-run the 7 of 190 designs whose BLAST query failed at the remote service (3 poll timeouts, 4 dropped connections), which is the whole of the gap between the 190 designs scored thermodynamically and the 183 screened. CI-runnable, $0",
         "feasible_today": true,
         "blocked_by": []
       }
     ],
     "readiness": {
       "attainable_today": "chemrxiv",
-      "why_not_higher": "The computational arc is complete and the delivery gate is stated honestly as a gate rather than hidden. A journal submission is reachable; what would strengthen it most is not more computation but a delivery candidate to name.",
+      "why_not_higher": "The computational arc is complete and the delivery gate is stated honestly as a gate rather than hidden. A journal submission is reachable; what would strengthen it most is not more computation but a delivery candidate to name. Two $0 in-silico gaps remain and are now registered in required_validation rather than only conceded in the manuscript's Limitations: the pre-mRNA/genomic compartment, and the right-censoring that leaves 136 of 183 near-match counts as bounds.",
       "missing": [
         "a named delivery candidate FOR THE SYSTEMIC ROUTE -- rescoped 2026-08-12; the local and inhaled routes never required one, and grading the whole route on the systemic route's missing input is what the BLK-DELIVERY rescope corrects"
       ],
@@ -373,7 +388,7 @@
       "automation_outlook": "The design and screening halves are already automated; delivery is not a computational problem at all."
     },
     "next": {
-      "best_next_action": "Publish the complete in-silico arc: a systematic NR4A3-fusion junction design platform spanning four partners, screened at three junctions, with delivery stated as three routes of differing requirement rather than one gate.",
+      "best_next_action": "Publish the complete in-silico arc: a systematic NR4A3-fusion junction design platform spanning all five reported partners, screened and orientation-filtered at all 38 frame-compatible junctions, with delivery stated as three routes of differing requirement rather than one gate. Superseded, retained: 'spanning four partners, screened at three junctions'.",
       "cost": "$0",
       "blocked_on": [
         "BLK-DELIVERY"

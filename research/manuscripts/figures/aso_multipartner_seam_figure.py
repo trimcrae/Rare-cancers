@@ -142,8 +142,13 @@ def main(argv=None):
              f'5′-{esc(OLIGO)}-3′ (antisense), {esc(d_bases)} donor and {esc(a_bases)} '
              f'acceptor bases either side of the seam</text>')
 
+    # ⛔ THE CAPTION DESCRIBED A CUE THE FIGURE NO LONGER USED (2026-08-13). It read "red and bold"
+    # after the boxes above were added precisely BECAUSE bold weight is not a cue a reader reliably
+    # sees — so the figure's own legend sent a greyscale or colour-blind reader looking for the one
+    # distinction it had been redrawn to stop relying on. A figure that describes itself wrongly is
+    # worse than one that describes itself thinly, because the reader trusts the legend.
     p.append(f'<text x="32" y="{H - 52}" font-size="10.5" fill="#666">'
-             f'Blue, donor exon; green, NR4A3 acceptor exon; red and bold, positions at which the '
+             f'Blue, donor exon; green, NR4A3 acceptor exon; boxed and red, positions at which the '
              f'three donors differ. Shaded box, the oligonucleotide’s target window.</text>')
     p.append(f'<text x="32" y="{H - 36}" font-size="10.5" fill="#666">'
              f'The same paralogy that lets one reagent cover three fusions is why these designs are '

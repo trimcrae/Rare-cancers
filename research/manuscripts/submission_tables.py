@@ -42,7 +42,63 @@ def _hitlist_size():
         return 50
 
 
+def _saved_hits():
+    """How many hits are stored per design. Same rule as above: ask the module that decides it."""
+    try:
+        sys.path.insert(0, os.path.abspath(MOD))
+        from junction_aso_offtarget import SAVED_HITS_PER_DESIGN  # noqa: PLC0415
+        return int(SAVED_HITS_PER_DESIGN)
+    except Exception:  # noqa: BLE001
+        return 15
+
+
 HITLIST_SIZE = _hitlist_size()
+SAVED_HITS = _saved_hits()
+
+
+def _screen(name):
+    """The raw per-junction screen behind a collapse row, or None."""
+    p = os.path.join(MOD, name)
+    return json.load(open(p)) if os.path.exists(p) else None
+
+
+def _hybridisable(oligo):
+    """Retained hits that an antisense oligonucleotide could actually hybridise.
+
+    ⛔ THIS COLUMN EXISTS BECAUSE TABLE 2 READ AS A REFUTATION OF THE PAPER'S HEADLINE. The
+    near-match count reported by a screen is STRAND-BLIND — it is what the search returned, either
+    strand — while the gap analysis beside it is orientation-filtered. So `GGCATATCAAGCGCTG`
+    printed "2 -> 2" in a table whose caption said unmarked rows were orientation-filtered, for a
+    design the Results call free of any hybridisable near-match. Both were true and the table said
+    so nowhere: its two hits are both minus-strand. A reader adding a column found a contradiction
+    that did not exist, which costs a paper more than an omission does.
+    """
+    hits = oligo.get("offtargets") or []
+    return sum(1 for h in hits if not h.get("is_minus_strand"))
+
+
+def _clean_designs(collapse):
+    """The designs with no hybridisable near-match, over a hit list complete enough to say so.
+
+    One home for the predicate the manuscript's headline rests on. The censoring restriction is
+    load-bearing and is not a nicety: a design whose stored hits are all minus-strand says nothing
+    about the hits it did not store, so it cannot be called clean. Dropping that restriction takes
+    the count from nine designs at six junctions to twenty-four at eighteen.
+    """
+    out = []
+    for s in collapse["screens"]:
+        lab = s.get("junction_label")
+        if not lab or not _orientation_filtered(s.get("orientation")):
+            continue
+        raw = _screen(s["screen"]) or {}
+        for o in raw.get("oligos") or []:
+            if o.get("status") != "screened":
+                continue
+            n = o.get("n_offtarget_near_matches")
+            if n is None or n > SAVED_HITS or _hybridisable(o):
+                continue
+            out.append((lab, o))
+    return sorted(out, key=lambda t: (t[0], t[1]["antisense_5to3"]))
 
 
 def _orientation_filtered(status):
@@ -143,6 +199,18 @@ def table2(collapse, chance, atlas):
         # property. Ask the owning module the positive question instead.
         filtered[lab] = _orientation_filtered(s.get("orientation"))
 
+    # Strand is a per-HIT fact, and the collapse artifact keeps per-oligo summaries only, so the
+    # hybridisable count has to come from the screen itself.
+    hyb_by_j = {}
+    for s in collapse["screens"]:
+        lab = s.get("junction_label")
+        if not lab:
+            continue
+        raw = _screen(s["screen"]) or {}
+        for o in raw.get("oligos") or []:
+            if o.get("status") == "screened":
+                hyb_by_j.setdefault(lab, {})[o["antisense_5to3"]] = _hybridisable(o)
+
     le1 = {}
     for r in chance["per_design"]:
         j = r["junction"]
@@ -155,10 +223,11 @@ def table2(collapse, chance, atlas):
     # candidate reads 9 there and has 8 gap-spanning. Total near-matches and gap-spanning
     # near-matches are both worth printing and are printed separately; the collapse artifact stores
     # gap-spanning resolved to LOCI but not to transcripts, so that is the column that exists.
-    hdr = ("| junction | designs screened | best gap-level margin | that design | near-matches "
-           "(transcripts → loci) | loci with a gap-spanning hit | of those, predicted models only¹ | "
+    hdr = ("| junction | designs screened | best gap-level margin | that design | near-matches, "
+           "either strand (transcripts → loci) | of the retained hits, hybridisable² | loci with a "
+           "gap-spanning hit | of those, predicted models only¹ | "
            "≤1-mismatch matches across that junction's designs, median (max) |")
-    sep = "|---|---|---|---|---|---|---|---|"
+    sep = "|---|---|---|---|---|---|---|---|---|"
     rows = []
     for lab in sorted(by_j):
         ol = by_j[lab]
@@ -171,7 +240,7 @@ def table2(collapse, chance, atlas):
         # of absence (CLAUDE.md §4), so the row is emitted saying exactly that.
         if not ol:
             rows.append(f"| {lab.replace('__', '::').replace('_', ' ')} | 0 of 5 — every BLAST "
-                        f"submission failed at the remote service | — | — | — | — | — | — |")
+                        f"submission failed at the remote service | — | — | — | — | — | — | — |")
             continue
         ranked = sorted(ol, key=lambda o: -(gap_margin.get((lab, o["antisense_5to3"])) or -1))
         best = ranked[0]
@@ -191,6 +260,13 @@ def table2(collapse, chance, atlas):
         med = vals[len(vals) // 2] if vals else "—"
         mx = max(vals) if vals else "—"
         mark = "" if filtered.get(lab) else " ‡"
+        # The hybridisable count is over the RETAINED hits, so on a truncated list it is a lower
+        # bound and says so. "≥0" is meaningful in this one column and nowhere else in this table:
+        # zero retained hybridisable hits out of a list that was cut short is exactly the state
+        # that stops a design being called clean, and printing a bare 0 there would assert the
+        # opposite of what the screen knows.
+        hyb = hyb_by_j.get(lab, {}).get(best["antisense_5to3"])
+        hyb_cell = "—" if hyb is None else f"{'≥' if best['right_censored'] else ''}{hyb}"
         rows.append(
             f"| {lab.replace('__', '::').replace('_', ' ')}{mark} | {len(ol)} | "
             f"{gm if gm is not None else '—'} | 5′-{best['antisense_5to3']}-3′ | "
@@ -198,19 +274,132 @@ def table2(collapse, chance, atlas):
             # "of those" means OF THE GAP-SPANNING LOCI, so it is the intersection of the two
             # named lists, not the whole-design predicted-only count — which is larger and would
             # have overstated how much of the liability sits in predicted annotation.
-            f"{cens_loci}{best['n_distinct_loci']} | {cens_gap}{best['n_loci_with_a_gap_spanning_hit']} | "
+            f"{cens_loci}{best['n_distinct_loci']} | {hyb_cell} | "
+            f"{cens_gap}{best['n_loci_with_a_gap_spanning_hit']} | "
             f"{len(set(best.get('loci_with_a_gap_spanning_hit') or []) & set(best.get('loci_seen_only_as_predicted_models') or []))} | "
             f"{med} ({mx}) |")
-    return "\n".join([hdr, sep] + rows)
+    return "\n".join([hdr, sep] + rows), any(not v for v in filtered.values())
+
+
+#: The rule audit's field names are code identifiers; a manuscript table needs the rule, not the key.
+_RULE_LABELS = {
+    "gc_in_band": "GC outside 40–60%",
+    "no_g_quadruplex_motif": "G-quadruplex motif",
+    "no_run_of_four": "homopolymer run of four",
+    "no_cpg": "contains a CpG",
+}
+
+
+def table3(collapse, chance, thermo, graded):
+    """The designs the paper's headline rests on, one row each.
+
+    ⛔ WHY THIS TABLE WAS MISSING AND WHY THAT MATTERED. The headline result — nine designs with no
+    hybridisable near-match — had no table, and Table 2's convention is the highest-gap-level-margin
+    design per junction, which is a different selection: only four of the nine appear there, and
+    Table 2's six zero-gap-spanning junctions are not the same six. So a reader sent to a table to
+    check the central claim could not find five of the molecules it is about, and would find two
+    junctions (FUS e8, TCF12 e9) whose Table 2 row shows a gap-spanning locus for a DIFFERENT
+    design at the same seam. Prose naming nine sequences is not a substitute for a table.
+    """
+    ddg = {r["antisense_5to3"]: r for r in thermo["per_design"]}
+    le1 = {}
+    for r in chance["per_design"]:
+        le1.setdefault(r["antisense_5to3"], (r.get("offtarget_exact"), r.get("offtarget_le1mm")))
+    hdr = ("| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, "
+           "either strand | of those, hybridisable | exact / ≤1-mismatch matches | residual "
+           "cleavage load, both bounds³ | conventional rules failed⁴ |")
+    sep = "|---|---|---|---|---|---|---|---|---|---|"
+    rows = []
+    for lab, o in _clean_designs(collapse):
+        seq = o["antisense_5to3"]
+        t = ddg.get(seq) or {}
+        ex, l1 = le1.get(seq, ("—", "—"))
+        load = graded.get((lab, seq))
+        failed = [_RULE_LABELS.get(k, k)
+                  for k, v in (t.get("design_rules") or {}).items() if v is False]
+        rows.append(
+            f"| 5′-{seq}-3′ | {lab.replace('__', '::').replace('_', ' ')} | "
+            f"{o.get('gc_percent')} | {t.get('gap_specificity_margin', '—')} | "
+            f"{t.get('ddg37_discrimination', '—')} | {o.get('n_offtarget_near_matches')} | "
+            f"{_hybridisable(o)} | {ex} / {l1} | "
+            f"{'—' if load is None else load} | "
+            f"{', '.join(failed) if failed else 'none'} |")
+    return "\n".join([hdr, sep] + rows), len(rows), len({lab for lab, _ in _clean_designs(collapse)})
+
+
+def _graded_loads():
+    """Residual cleavage load per (junction, design) under both literature bounds.
+
+    Printed as one cell because for every design here the two bounds agree, and a reader is owed
+    the fact that the OPTIMISTIC and the PESSIMISTIC model return the same number rather than being
+    left to assume the paper quoted whichever was kinder.
+    """
+    out = {}
+    for name in sorted(os.listdir(os.path.abspath(MOD))):
+        if not (name.startswith("junction-aso-offtarget-") and name.endswith("-graded.json")):
+            continue
+        d = _load(name) or {}
+        lab = d.get("source_screen")
+        if not lab:
+            continue
+        per = d.get("per_oligo") or {}
+        for model, oligos in per.items():  # noqa: B007 — model name unused, values keyed by seq
+            for seq, rec in (oligos or {}).items():
+                lo, hi = rec.get("residual_cleavage_load_lo"), rec.get("residual_cleavage_load_hi")
+                if lo is None:
+                    continue
+                prev = out.get((lab, seq))
+                cell = f"{lo:g}" if lo == hi else f"{lo:g}–{hi:g}"
+                # Both models are folded into one cell; if they ever disagree, say so rather than
+                # letting the last one written win.
+                out[(lab, seq)] = cell if prev in (None, cell) else f"{prev} / {cell}"
+    return out
+
+
+def _minus_strand_share(collapse):
+    """The share of apparent gap-spanning hits that lie on the minus strand, across the corpus.
+
+    ⛔ THIS WAS A HARDCODED "47%" IN THIS FILE'S TABLE 2 LEGEND, and it stayed 47% while the corpus
+    grew from sixteen junctions to thirty-eight and the true figure became 44%. A generated table is
+    supposed to be the one place a number cannot go stale; a literal inside the generator defeats
+    the entire point of generating it.
+    """
+    tot = minus = 0
+    for s in collapse["screens"]:
+        if not (s.get("junction_label") and _orientation_filtered(s.get("orientation"))):
+            continue
+        raw = _screen(s["screen"]) or {}
+        for o in raw.get("oligos") or []:
+            for h in o.get("offtargets") or []:
+                if h.get("gap_mismatches") == 0:
+                    tot += 1
+                    minus += bool(h.get("is_minus_strand"))
+    return (round(100 * minus / tot) if tot else None), minus, tot
 
 
 def main():
     atlas = _load("nr4a3-fusion-junction-atlas.json")
     collapse = _load("junction-aso-offtarget-locus-collapse.json")
     chance = _load("offtarget-chance-baseline.json")
-    if not (atlas and collapse and chance):
+    thermo = _load("junction-aso-thermo.json")
+    if not (atlas and collapse and chance and thermo):
         print("a required artifact is missing", file=sys.stderr)
         return 2
+
+    t2, any_unfiltered = table2(collapse, chance, atlas)
+    t3, n_clean, n_clean_junctions = table3(collapse, chance, thermo, _graded_loads())
+    pct, minus, tot = _minus_strand_share(collapse)
+
+    # ⛔ A LEGEND FOR A MARKER NO ROW CARRIES IS WORSE THAN NO LEGEND (2026-08-13). Every one of the
+    # 38 junction screens is orientation-filtered, so `‡` had not been emitted for some time — and
+    # the paragraph explaining it stayed, telling a reader to look for upper-bound rows that are not
+    # there, and quoting a stale 47% into the bargain. The block is now conditional on a row
+    # actually being marked.
+    dagger = ("" if not any_unfiltered else
+              "\n\n‡ This junction's counts were not filtered by alignment orientation, so they "
+              f"still include minus-strand hits — across the filtered corpus, {pct}% of all apparent "
+              "gap-spanning hits. Its numbers are upper bounds and are NOT comparable with the "
+              "unmarked rows.")
 
     doc = f"""<!-- GENERATED — DO NOT EDIT. Regenerate: python3 research/manuscripts/submission_tables.py -->
 
@@ -225,17 +414,31 @@ structure and is not a claim about which junctions patients carry.
 {table1(atlas)}
 
 **Table 2. Predicted specificity per screened junction.** One row per junction; figures are for the
-design with the highest gap-level margin at that junction, which is the ranking the Methods define. Near-match counts are of RefSeq
+design with the highest gap-level margin at that junction, which is the ranking the Methods define,
+and NOT for that junction's cleanest design — the two are often different molecules, and the
+cleanest ones are in Table 3. Near-match counts are of RefSeq
 transcript accessions and are also given collapsed to distinct gene loci, since RefSeq carries one
-accession per annotated variant. A “≥” marks a right-censored count: the screens store the top 15
-hits per design, so a design with more is a lower bound. **Counts in ‡-marked rows are upper
-bounds**: those screens did not filter alignment orientation, so minus-strand matches — which an
-antisense oligonucleotide cannot hybridise — are still included in them. Unmarked rows are
-orientation-filtered. `XM_`/`XR_` records are computationally
+accession per annotated variant. A “≥” marks a right-censored count: the screens store the top
+{SAVED_HITS} hits per design, so a design with more is a lower bound. All {sum(1 for s in collapse["screens"] if s.get("junction_label"))} junction screens
+are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
-None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n‡ This junction's counts were not filtered by alignment orientation, so they still include minus-strand hits — across the filtered corpus, 47% of all apparent gap-spanning hits. Two distinct causes are marked alike here because their consequence is identical: three screens never parsed the aligned strand, and four parsed it but were classified before the filter read it. Its numbers are upper bounds and are NOT comparable with the unmarked rows.
+None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits, whereas the gap-spanning locus column is computed over every ranked hit before truncation and is therefore exact. The two are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.{dagger}
 
-{table2(collapse, chance, atlas)}
+{t2}
+
+**Table 3. The {n_clean} designs with no hybridisable near-match.** Every design at the {n_clean_junctions} junctions
+where one exists, which is the set the Results' cleanliness claim is about. A design qualifies only
+if its hit list is complete — no more near-matches than the {SAVED_HITS} the screens store — because the
+strand of an unstored hit cannot be recovered, so a truncated list cannot establish that nothing
+hybridisable remains. ΔΔG°37 is the margin by which the fusion duplex is favoured over the best
+duplex either parent can form, for an unmodified DNA:RNA hybrid, and is an upper bound on
+discrimination rather than an estimate of it. None of these numbers is a measurement of off-target
+activity, and none speaks to cleavage.\n\n³ Under the optimistic five-fold and the pessimistic
+no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
+bounds agree.\n\n⁴ Of four conventional antisense design rules: GC within 40–60%, no G-quadruplex
+motif, no homopolymer run of four, no CpG dinucleotide.
+
+{t3}
 """
     open(OUT, "w").write(doc)
     print(f"wrote {OUT}")

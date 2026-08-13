@@ -132,9 +132,13 @@ selection step (sequence the patient's breakpoint, triage it, then BLAST-screen 
 roadblock — with the honest bounds that these breakpoints are *modelled, not exon-exact*, that "favorable"
 is a GC/complexity triage rather than the full BLAST screen, and that clinical design must still be re-run
 on each patient's sequenced breakpoint. We then extend the analysis from one partner to the disease: a pan-partner atlas
-([`nr4a3-fusion-junction-atlas.json`](../../modalities/nr4a3-fusion-junction-atlas.json)) grades **207
-donor-exon × NR4A3-acceptor-exon pairs across EWSR1, TAF15, TCF12 and FUS**, finds **32** frame-compatible
+([`nr4a3-fusion-junction-atlas.json`](../../modalities/nr4a3-fusion-junction-atlas.json)) grades **231
+donor-exon × NR4A3-acceptor-exon pairs across EWSR1, TAF15, TCF12, FUS and TFG**, finds **38** frame-compatible
 junctions of which **every one** yields at least one junction-spanning, parent-sparing design, and
+⚠ *superseded, retained: "**207** … pairs across EWSR1, TAF15, TCF12 and FUS" and "**32** frame-compatible" —
+the fifth partner, TFG, was added 2026-08-12 and contributes 24 graded pairs and 6 frame-compatible
+junctions. This summary paragraph was never rewritten when it landed, so the record's own opening
+understated the corpus that the rest of the record, the atlas and the manuscript all report.*
 reports that **a single 16-mer gapmer is fusion-exclusive at three different partners' junctions at once**
 (EWSR1 e12, TAF15 e11 and FUS e10, each joined to NR4A3 exon 3) because the three donors are identical
 over the eight bases immediately 5′ of their breakpoints — so the deployable artifact is not necessarily
@@ -145,9 +149,13 @@ sequences screened at the FET junctions** (8 predicted cleavage risks against 13
 ≤1-mismatch off-target across 186,185 transcripts) — ⚠ *superseded, retained: "the cleanest of the twenty
 screened."* Those twenty screens were **ten distinct oligos**, because the same five were screened at
 each of three junctions and returned identical results, so the denominator triple-counted; and TCF12
-designs score lower still (best 1, §3a-nonies). The conclusion is unchanged and is stated as such: **0 of 5 designs are clean at
-every junction screened**, so what the screens support is a rank ordering for a wet-lab assay, not a
-clean call. We then specify what else is computable *now* without any GPU (extended
+designs score lower still (best 1, §3a-nonies). ⚠ *Superseded, retained: "The conclusion is unchanged
+and is stated as such: **0 of 5 designs are clean at every junction screened**, so what the screens
+support is a rank ordering for a wet-lab assay, not a clean call."* With all 38 junctions screened and
+orientation filtered, **nine designs at six junctions across four partners carry no hybridisable
+near-match**, over the 47 of 183 designs whose hit lists are complete enough to assess — see
+Appendix B.4. The caution the superseded sentence carried is still right in its narrower form: that is
+a floor over a subset, not a total, and it is not a statement about cleavage. We then specify what else is computable *now* without any GPU (extended
 tiling and a breakpoint-keyed per-patient panel). On delivery we correct a framing rather than claim
 progress: **it is three routes with different requirements, not one gate.** The missing EMC surface
 antigen — which the tumour-tissue data refuses — is a prerequisite of the *systemic receptor-targeted*
@@ -1535,8 +1543,10 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
   `SEAM_NOT_PRODUCED`, so every screen in this manuscript has still only run on modelled positions."*
   Twelve real exon junctions across four partners have since been screened (§3a-sexies, §3a-octies,
   §3a-nonies) at seams graded frame-compatible and verified against two independent transcript
-  acquisitions. **The residual is different and smaller: 26 of the 38 frame-compatible junctions remain
-  unscreened.** Every clinical design must still be re-derived from the patient's *sequenced* fusion
+  acquisitions. ⚠ *Superseded, retained: "**The residual is different and smaller: 26 of the 38
+  frame-compatible junctions remain unscreened.**"* **All 38 are now screened and orientation-filtered
+  (Appendix B.3, B.4), so the coverage residual is zero.** What survives is the part that no amount of
+  coverage closes: every clinical design must still be re-derived from the patient's *sequenced* fusion
   transcript.
 - **Delivery unsolved — and it is three routes, not one gate (§3c-bis).** No validated tumour-delivery
   route for EMC exists, and this remains the dominant risk for the whole modality. What is corrected is
@@ -1553,9 +1563,10 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
   program has tested. ⚠ *Superseded, retained: "The transcriptome-wide off-target screens have **not**
   been run on the TAF15/TCF12/FUS panels, so nothing about their off-target load is known in either
   direction."* They have (§3a-octies, §3a-nonies): TAF15 e11, FUS e10 and all eight TCF12 junctions are
-  screened. What remains true is that **26 of 38 frame-compatible junctions are unscreened**, and that
+  screened. ⚠ *Superseded in turn, retained: "What remains true is that **26 of 38 frame-compatible
+  junctions are unscreened**" — all 38 are screened as of Appendix B.4.* What remains true is that
   the provenance gate behind the three non-EWSR1 partners' transcript models is the weaker of the two
-  available.
+  available, and that TFG, the fifth partner, has no independent exon audit at all.
 - **Knockdown, not knockout.** ASO/siRNA reduce transcript; they do not eliminate the gene or guarantee
   durable, complete loss of fusion protein. Depth and duration of knockdown are empirical.
 - **⛔ THE PAPER NO LONGER CALLS ANY DESIGN "PREDICTED CLEAN", AND THE HEURISTIC THAT ALLOWED IT WAS NOT
@@ -1564,7 +1575,12 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
   only with chemistry these designs lack), and **PMID 7567450** reports that 16mers — the length used here —
   "did not discriminate efficiently"; so the assumption was *optimistic*, not conservative, and against the
   length-matched source it fails outright. §3a-quater now reports a **residual predicted cleavage load** under
-  both bounds, on which **0 of 5** designs reach zero. What the screens support is a **rank ordering** of
+  both bounds, on which **0 of 5** designs at that modelled seam reach zero. ⚠ *That figure is about the
+  modelled 200/8 seam and must not be read across the corpus: over the 38 real junctions, nine designs
+  reach zero residual load under both bounds AND carry no hybridisable near-match over a complete hit
+  list (Appendix B.4). The heading's claim that the paper "no longer calls any design predicted clean"
+  is therefore superseded — what it must not do, and does not, is call a design clean on a truncated hit
+  list.* What the screens support at every other junction is a **rank ordering** of
   candidates for a wet-lab specificity assay. ⚠ A ranking is also a weaker instrument than a clean call in a
   way that matters downstream: it cannot say the best design's residual load is *tolerable*, only that it is
   the smallest measured here. Separately, the

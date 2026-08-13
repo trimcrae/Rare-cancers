@@ -1,0 +1,32 @@
+{
+ "_what": "content hashes of every artifact the three ASO figures were drawn from",
+ "_why": "nothing in CI regenerates these figures, so a reader cannot otherwise tell a stale figure from a current one. `--check` compares these hashes against the artifacts on disk.",
+ "_regenerate": "python3 research/manuscripts/figures/aso_junction_space_figure.py && python3 research/manuscripts/figures/aso_multipartner_seam_figure.py && python3 research/manuscripts/figures/aso_chance_baseline_figure.py && python3 research/manuscripts/figures/svg_to_submission_formats.py && python3 research/manuscripts/figures/aso_figure_provenance.py",
+ "_what_this_does_not_check": "whether a figure's LEGEND in the manuscript describes the figure. That is a separate failure and it happened: see this module's docstring and test_aso_submission_numbers.py.",
+ "figures": {
+  "aso-chance-baseline": [
+   "offtarget-chance-baseline.json"
+  ],
+  "aso-junction-space": [
+   "nr4a3-fusion-junction-atlas.json"
+  ],
+  "aso-multipartner-seam": [
+   "nr4a3-fusion-junction-atlas.json"
+  ]
+ },
+ "rendered": [
+  "aso-chance-baseline.pdf",
+  "aso-chance-baseline.png",
+  "aso-chance-baseline.svg",
+  "aso-junction-space.pdf",
+  "aso-junction-space.png",
+  "aso-junction-space.svg",
+  "aso-multipartner-seam.pdf",
+  "aso-multipartner-seam.png",
+  "aso-multipartner-seam.svg"
+ ],
+ "sources": {
+  "nr4a3-fusion-junction-atlas.json": "8def9068e128095b",
+  "offtarget-chance-baseline.json": "b81927d5a8ec7bd2"
+ }
+}

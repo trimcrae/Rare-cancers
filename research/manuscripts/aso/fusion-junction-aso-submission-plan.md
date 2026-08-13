@@ -118,8 +118,11 @@ bot detection, so **a human loading `journals.sagepub.com/home/nat` in an ordina
 it in seconds**, which is the one step this repository cannot take for itself. If that read shows a
 subscription route, switch back to NAT before submitting; nothing in the manuscript is venue-specific.
 
-**Plan of record: bioRxiv preprint (free, immediately) → Cancer Gene Therapy, subscription route.**
-The preprint is unaffected by the venue question and should not wait on it.
+⚠ **THIS WHOLE SUBSECTION IS SUPERSEDED BY §1c, WHICH FOLLOWS IT AND DISQUALIFIES CGT.** It is kept
+because the reasoning is the reason the rule in §1c exists, and because the NAT paragraph above is
+still live. ⚠ *Superseded, retained: "**Plan of record: bioRxiv preprint (free, immediately) →
+Cancer Gene Therapy, subscription route.**"* The surviving half is unchanged: the preprint is
+unaffected by the venue question and should not wait on it.
 
 ### 1c · ⛔ CGT IS DISQUALIFIED. ITS GUIDE WAS READ, AND IT CHARGES BY THE PAGE (2026-08-12)
 
@@ -146,9 +149,12 @@ the APC question and is silent on page charges.
 ⚠ **Two format facts, recorded now so the next venue is chosen with them in hand.** There is **no
 Short Communication type at CGT** — the types are Article, Review, Brief Communication (2 pages, one
 display item, 10 references), Perspective and Correspondence. The manuscript's shape fits **Article**
-comfortably (4,244 words against 12,000; five display items against seven; 29 references against 60),
+comfortably on words, display items and references — the measured values live in
+[`submission-metrics.json`](../submission-metrics.json), which is graded against every venue's
+believed limits, and are deliberately not copied here (⚠ *superseded, retained: "4,244 words against
+12,000; five display items against seven; 29 references against 60" — every one of those three drifted*) —
 but that type requires an **unstructured abstract of at most 200 words** and this manuscript's is
-structured and 265. Neither the abstract format nor its length should be changed until a venue is
+structured and longer. Neither the abstract format nor its length should be changed until a venue is
 settled, because both are venue-specific and the current form is right for a journal that wants a
 structured abstract.
 
@@ -159,7 +165,9 @@ authors rather than from a publisher-wide policy page. Two venues have now been 
 exactly this question, and both looked free until the guide was read.
 
 **Plan of record is therefore: bioRxiv preprint (free, immediately); journal venue REOPENED.**
-See §1d.
+See §1c above, which is where the disqualification is recorded. ⚠ *Superseded, retained: "See §1d" —
+there is no §1d in this file, and a dangling pointer in the sentence carrying the plan of record is
+the one place it is least affordable.*
 
 ## 2 · What the venue demands, and where the submission stands
 
@@ -167,26 +175,35 @@ See §1d.
 separate file.** Every row below now measures `fusion-junction-aso-short-communication.md`; the
 superseded column is kept because the size of the gap is the reason the split happened.
 
-| requirement | state (2026-08-12) | was, before the split |
+| requirement | state (2026-08-13) | was, before the split |
 |---|---|---|
-| ~6,000 words main text | ✅ ≈4,200 | ≈21,000 — the dominant restructuring task |
-| structured abstract | ✅ present, 274 words, four headed parts | present but long and narrative |
-| IMRaD | ✅ Results ordered by finding, §3.1–§3.4 | ordered as a **chronology** (§3a, 3a-bis, … 3a-nonies) |
-| numbered figures | ✅ three, generated from committed artifacts, with legends | **none exist** |
+| ~6,000 words main text | ✅ inside it — measured in [`submission-metrics.json`](../submission-metrics.json), not stated here (⚠ *superseded, retained: "≈4,200"*) | ≈21,000 — the dominant restructuring task |
+| structured abstract | ✅ present, four headed parts; length measured in the same artifact (⚠ *superseded, retained: "274 words", which also contradicted "265" two rows up in this same file*) | present but long and narrative |
+| IMRaD | ✅ Results ordered by finding, §3.1–§3.8 (⚠ *superseded, retained: "§3.1–§3.4"*) | ordered as a **chronology** (§3a, 3a-bis, … 3a-nonies) |
+| numbered figures | ✅ three, generated from committed artifacts, with legends, and pinned to their source revisions by `aso_figure_provenance.py --check` | **none exist** |
+| numbered tables | ✅ three, generated. Table 3 lists the nine designs the cleanliness claim is about — added 2026-08-13, because that claim had no table and only four of its nine molecules appeared anywhere in Table 2 | **none exist** |
 | numbered reference list with author/title/journal/year | ✅ 30 entries, `fusion-junction-aso-submission-references.md`, numbering DERIVED from per-citation PMIDs; every entry now carries author, title, journal and year, the last two gaps closed by harvesting retrieved records rather than typing them | prose carries bare PMIDs; journal titles were deliberately not stored by the fetch path |
-| journal register | ✅ `lint_style.py` clean: 0 glyphs, bold ≈5/1000 against a limit of 12, em-dash ≈5/1000 against 6 | bold 33.2/1000, em-dash 17.5/1000, 286 mid-sentence bolds, 127 glyphs |
+| journal register | ✅ `lint_style.py` clean | bold 33.2/1000, em-dash 17.5/1000, 286 mid-sentence bolds, 127 glyphs |
 | data availability | ⛔ **open** — artifacts are repo JSON on a feature branch; a citable archive is needed | same |
 | author block, funding, competing interests | ✅ **written** — author block taken from the form already committed across the other manuscripts; self-funded, no funder role; no financial interests, with survivorship declared as a non-financial one | not yet reached |
 | ORCID | ⛔ **open — trimcrae only.** No ORCID iD exists anywhere in the repository; free to register and required by some publishers at submission | not yet reached |
-| figures in a submission format | ⛔ **open** — the three figures are dependency-free SVG, which is vector and loses nothing, but NAT will want EPS/TIFF/PDF. No converter exists in the dev sandbox; this is a CI step, not a redraw |
-| venue confirmation | ✅ **decided — Cancer Gene Therapy (Springer Nature), $0 subscription route read at primary source.** See §1b; NAT remains preferred if a human can load its page, since the block is bot detection |
+| figures in a submission format | ✅ **closed** — `figures/svg_to_submission_formats.py` renders vector PDF and 300 dpi PNG for all three, verified no image XObjects and live text. ⚠ *Superseded, retained: "⛔ open … No converter exists in the dev sandbox"* | — |
+| venue confirmation | ⛔ **open.** ⚠ *Superseded, retained: "✅ decided — Cancer Gene Therapy (Springer Nature), $0 subscription route read at primary source" — §1c of this same file disqualifies CGT on its own read fee schedule, so this row contradicted the section above it.* NAT remains preferred if a human can load its page, since the block is bot detection |
 
 ## 3 · What must NOT be lost in the rewrite
 
 The compression is where an honest paper turns into an over-claiming one, so these are fixed points:
 
-- **0 of 5 designs are clean at every junction screened.** This is the headline result and it is a
-  negative. It must not migrate into the discussion or soften into "promising".
+- **The cleanliness claim is a floor over a subset, not a total, and the censoring guard that makes it
+  one must survive.** Nine designs at six junctions carry no hybridisable near-match, over the 47 of
+  183 designs whose hit lists are complete enough to assess. Drop the guard — count a design clean
+  because its *retained* hits are all minus-strand — and the number becomes 24 at 18 junctions. That
+  is the single most inviting overstatement available in this paper, and it must not be taken.
+  ⚠ *Superseded, retained: "**0 of 5 designs are clean at every junction screened.** This is the
+  headline result and it is a negative. It must not migrate into the discussion or soften into
+  'promising'." That was true of a five-design screen at one modelled seam. Left standing here it did
+  the opposite of its job: a fixed point instructing a future session to reinstate a negative the
+  evidence had already overturned.*
 - **The method-level novelty is nil.** Junction-directed oligonucleotides are a 35-year lineage that
   has reached clinical testing. The novelty claim is indication-level only.
 - **Delivery is unsolved for a tumour.** The inhaled route has reached patients in *other*

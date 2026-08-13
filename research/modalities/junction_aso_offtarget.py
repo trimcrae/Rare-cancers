@@ -178,6 +178,14 @@ def blast_hits(rid):
 #: The manuscript quotes both, and `submission_tables` marks its columns from them.
 BLAST_HITLIST_SIZE = 50
 
+#: How many ranked hits are STORED per design, against a hitlist of up to `BLAST_HITLIST_SIZE`.
+#: ⛔ NAMED BECAUSE IT WAS A BARE `[:15]` IN ONE PLACE AND A TYPED "15" IN FOUR OTHERS — the
+#: manuscript, the tables generator, the pinning test and this module's own comments. It is the
+#: number that decides whether a design can be called clean at all: the strand of an unstored hit
+#: is unrecoverable, so a design with more near-matches than this carries a strand-blind count no
+#: later pass can repair. A fact that decides a headline result does not get to live as a literal.
+SAVED_HITS_PER_DESIGN = 15
+
 ORIENTATION_PARSED_SINCE = "2026-08-12"
 
 #: The three states a committed screen can be in. They are DISTINCT on purpose: the middle one is
@@ -684,7 +692,7 @@ def screen_one(design, rid=None):
             # so those artifacts can offer a lower bound and nothing better. Computed here, before
             # the truncation, the collapse is exact and stays exact.
             **_locus_summary(ranked),
-            "offtargets": ranked[:15],
+            "offtargets": ranked[:SAVED_HITS_PER_DESIGN],
         })
     except Exception as e:  # noqa: BLE001 — never crash the whole screen on one query
         rec.update({"status": "screen_failed", "error": str(e)})

@@ -23,13 +23,20 @@ BODIES, since journals count tables as display items rather than as words.
 
 ⛔⛔ A DISPLAY ITEM OR A REFERENCE THAT LIVES IN A COMPANION FILE IS STILL THIS PAPER'S, AND
 COUNTING ONLY THE MANUSCRIPT FILE REPORTS ZERO FOR IT (2026-08-12). The fusion-junction ASO
-manuscript keeps its two tables in `…-submission-tables.md` and its 29 references in
+manuscript keeps its tables in `…-submission-tables.md` and its references in
 `…-submission-references.md`, both GENERATED so that a cell and its source cannot diverge — which is
 good practice and made every display-item and reference counter here read 0. A row of measured
-zeroes on a paper that has five display items and 29 references is the "a populated field is not a
-measured one" defect in its other direction: a field that is present, plausible and false. So the
-counters read the manuscript AND its declared `COMPANIONS`, and figures and tables are counted as
+zeroes on a paper that has several display items and thirty references is the "a populated field is
+not a measured one" defect in its other direction: a field that is present, plausible and false. So
+the counters read the manuscript AND its declared `COMPANIONS`, and figures and tables are counted as
 DISTINCT NUMBERS rather than as caption lines, so an embed and its own caption cannot count twice.
+
+⛔ THIS DOCSTRING WAS ITSELF A SECOND COPY OF THE NUMBERS, AND IT WENT STALE (2026-08-13). It said
+"29 references" and "two tables" while the module's own output said 30 and three, and elsewhere it
+carried "4,249 words … 265" against an emitted 5,621 and 268. A generator whose prose disagrees with
+its own artifact is the worst place for a duplicate number, because a reader has no reason to distrust
+it. Counts are named in words here and quoted nowhere: `submission-metrics.json` is the one home, and
+the checklist and submission plan point at it rather than restating it.
 
 ⚠ THE SAME PASS CORRECTED THREE EXISTING COUNTS, none of which changed a verdict — see
 `SUPERSEDED_MEASUREMENTS` below, which is the appendix rule 1.2 requires and not a changelog.
@@ -85,10 +92,11 @@ VENUES = {
     #
     # ⚠ AND THERE IS NO "SHORT COMMUNICATION" AT THIS JOURNAL. The types are Article, Review,
     # Brief Communication (2 pages, one display item, 10 references), Perspective and
-    # Correspondence. The manuscript's shape fits Article — 4,249 words against 12,000, five
-    # display items against seven, 29 references against 60 — but the abstract must be
-    # UNSTRUCTURED and at most 200 words, and this manuscript's is structured and 265. Both would
-    # have to change, and neither is worth doing until the venue is settled.
+    # Correspondence. The manuscript's shape fits Article on words, display items and references —
+    # the measured values are in this module's own output and are deliberately not repeated here —
+    # but the abstract must be UNSTRUCTURED and at most 200 words, and this manuscript's is
+    # structured and longer. Both would have to change, and neither is worth doing until the venue
+    # is settled.
     "CGT-Article": {
         "journal": "Cancer Gene Therapy (Springer Nature)",
         "limits": {"main_words": 12000, "abstract_words": 200, "display_items": 7,
