@@ -1,0 +1,78 @@
+{
+  "_note": "Fusion-junction gapmer ASO designs (RNase-H1 mechanism). DESIGN ONLY \u2014 hypotheses for wet-lab knockdown testing; not a validated drug.",
+  "_breakpoint_model": {
+    "assumption": true,
+    "EWSR1_mRNA": "NM_005243",
+    "NR4A3_mRNA": "NM_006981",
+    "EWSR1_coding_kept": "codons 1-264 (in-frame)",
+    "NR4A3_coding_kept": "from codon 2 (in-frame)",
+    "junction_context_mRNA": "TACGGGCAGCAG|CCCTGCGTCCAA",
+    "caveat": "Breakpoint is modelled; re-run with a patient's sequenced fusion transcript for clinical design."
+  },
+  "oligo_length": 16,
+  "architecture": "5-6-5",
+  "n_candidates": 5,
+  "n_fusion_specific": 5,
+  "top_designs": [
+    {
+      "antisense_5to3": "ACGCAGGGCTGCTGCC",
+      "target_mRNA_5to3": "GGCAGCAGCCCTGCGT",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "junction_offset_in_oligo": 8,
+      "bases_from_EWSR1": 8,
+      "bases_from_NR4A3": 8,
+      "specificity_margin": 8,
+      "gc_percent": 75.0,
+      "has_G4_motif": false,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "GACGCAGGGCTGCTGC",
+      "target_mRNA_5to3": "GCAGCAGCCCTGCGTC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "junction_offset_in_oligo": 9,
+      "bases_from_EWSR1": 7,
+      "bases_from_NR4A3": 9,
+      "specificity_margin": 7,
+      "gc_percent": 75.0,
+      "has_G4_motif": false,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "CGCAGGGCTGCTGCCC",
+      "target_mRNA_5to3": "GGGCAGCAGCCCTGCG",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "junction_offset_in_oligo": 7,
+      "bases_from_EWSR1": 9,
+      "bases_from_NR4A3": 7,
+      "specificity_margin": 7,
+      "gc_percent": 81.2,
+      "has_G4_motif": false,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "GGACGCAGGGCTGCTG",
+      "target_mRNA_5to3": "CAGCAGCCCTGCGTCC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "junction_offset_in_oligo": 10,
+      "bases_from_EWSR1": 6,
+      "bases_from_NR4A3": 10,
+      "specificity_margin": 6,
+      "gc_percent": 75.0,
+      "has_G4_motif": false,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "GCAGGGCTGCTGCCCG",
+      "target_mRNA_5to3": "CGGGCAGCAGCCCTGC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "junction_offset_in_oligo": 6,
+      "bases_from_EWSR1": 10,
+      "bases_from_NR4A3": 6,
+      "specificity_margin": 6,
+      "gc_percent": 81.2,
+      "has_G4_motif": false,
+      "fusion_specific": true
+    }
+  ]
+}
