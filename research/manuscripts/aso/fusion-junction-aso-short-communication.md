@@ -348,7 +348,8 @@ After filtering, nine designs at six junctions carry no hybridisable near-match 
 independently: each returns no exact and no single-mismatch match anywhere in 186,185 transcripts.
 The two arms fail in different ways — one is a heuristic alignment search over both strands, the
 other an exhaustive substitution scan over the sense orientation only — so their agreement is not a
-restatement.
+restatement. A third screen, over the compartment neither of those two can reach, does not overturn
+them either: none of the nine has a hybridisable site in parent pre-mRNA (§3.8).
 
 The graded re-score agrees, with one instructive exception. Scoring every retained hit by the
 residual cleavage a gap-internal mismatch is predicted to permit, under the optimistic five-fold
@@ -358,10 +359,10 @@ not counted as clean here. That design returns 21 near-matches of which only 15 
 all 15 are minus-strand; the graded score therefore sees nothing hybridisable to score, while the
 cleanliness criterion refuses it because the six unretained hits are unknown. The graded model has no
 censoring guard, so it can award a zero the hit list does not support, and the stricter count is the
-one reported. That is the arithmetic
-consequence of their having no hybridisable hit to score rather than an independent measurement, but
-it is the point at which the discrimination model the Discussion rests on is applied to the
-candidates themselves, and under the harsher of the two bounds they survive it.
+one reported. A zero for the nine is arithmetic rather than an independent measurement — it follows
+from their having no hybridisable hit to score — but it is the point at which the discrimination model
+the Discussion rests on is applied to the candidates themselves, and under the harsher of the two
+bounds they survive it.
 
 That agreement is also what corroborates the orientation call itself. Three designs return perfect
 16/16 BLAST matches while the sense-only exhaustive scan reports no exact match. Both results can
@@ -424,7 +425,7 @@ Unspliced sequence for all six parent transcripts was retrieved and every design
 scanned against it exhaustively at the same ≤2-mismatch threshold the alignment screen uses, both
 orientations, with the same gap resolution and the same orientation filter. Of 190 designs, 53 have a
 near-match somewhere in parent pre-mRNA and 19 carry one that is hybridisable, pairs the catalytic gap
-in full, and touches intronic sequence — the last condition being what makes it invisible to both
+in full, and touches intronic sequence, the last condition being what makes it invisible to both
 transcript screens rather than a re-count of something already reported.
 
 Those 19 sites fall into two classes that do not mix, and only one of them is mechanistically
@@ -436,7 +437,7 @@ junction — so a design whose donor half also matches the 3′ end of intron 2 
 pairs across the real splice site. It is a route to wild-type *NR4A3* engagement that does not pass
 through the fusion at all, in the compartment where RNase-H1 is active, and it is the discrimination
 question this paper is about. The other ten are wholly intronic and every one is in *TCF12*, which
-contributes 365,096 of the 517,157 intronic nucleotides searched — 71% of the search space for 100% of
+contributes 365,096 of the 517,157 intronic nucleotides searched: 71% of the search space for 100% of
 that class, which is what sequence volume alone predicts and should not be read as anything about
 *TCF12*.
 
@@ -453,7 +454,7 @@ Scored as free energies, every one of the 190 fusion-specific designs favours th
 the best duplex either parent can form, by 4.8 to 13.1 kcal/mol with a median of 9.6. The denominator
 here is 190 rather than the 183 of the specificity screens because a free energy needs only a
 sequence, whereas a screen needs a BLAST query that returned: seven of the 190 failed at the remote
-service — three on a poll timeout and four on a dropped connection — and so are scored here and not
+service (three on a poll timeout and four on a dropped connection), and so are scored here and not
 screened there. The 190 records are 176 distinct molecules, because nine of the 16-mers meet more than
 one partner's seam and are recorded once per seam. The reason every design favours the fusion is
 structural rather than subtle: a parent pairs roughly half the oligonucleotide, and half a duplex is
@@ -467,7 +468,7 @@ The two rankings agree in direction. Grouping designs by the gap-level margin th
 mean ΔΔG°37 rises monotonically with it, from 8.3 kcal/mol at margin 1 to 9.9 at margin 2 and 10.7
 at margin 3, so the base count and the free energy order the candidates the same way. Since the margin
 is computed from junction-unique bases and the free energy from stacking parameters, that agreement
-is corroboration rather than restatement — and the pre-mRNA screen of §3.8 makes it a third
+is corroboration rather than restatement, and the pre-mRNA screen of §3.8 makes it a third
 instrument, ordering the same designs the same way from sequence search rather than from either.
 
 Conventional design rules select differently, and against the paper's own candidates. Of the 190
