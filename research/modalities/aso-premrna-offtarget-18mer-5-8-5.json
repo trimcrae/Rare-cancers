@@ -1,0 +1,5327 @@
+{
+ "_what": "Exhaustive <=2-mismatch screen of every fusion-specific junction gapmer's target window against the UNSPLICED (pre-mRNA) sequence of all six parent transcripts, both orientations, gap-resolved and classified by compartment.",
+ "_why": "The manuscript's Limitations concede that both committed screens search mature transcript only, that RNase-H1 is nuclear, and that the intronic compartment is therefore unmeasured. This measures it for the gene set where a junction gapmer is most likely to find one: the parents that supply its own two halves.",
+ "_what_this_is_not": [
+  "Not a genome-wide screen. It covers six parent transcripts' pre-mRNA exhaustively and says nothing about the other ~20,000 genes' introns.",
+  "Not a measurement of cleavage. A fully paired gap is necessary for RNase-H1 and is not sufficient, and no wet-lab experiment has been performed.",
+  "Not a statement about antisense transcription at these loci. A reverse-complement match is reported and is counted as NOT hybridisable, on the same rule the mature screens use."
+ ],
+ "_cost": "$0 - CPU and one Ensembl read. No GPU, no rental.",
+ "method": {
+  "max_mismatches": 2,
+  "why_this_threshold": "matched to the BLAST arm's >=14/16 identity so the two arms describe the same liability class",
+  "gap_region_1based": [
+   6,
+   13
+  ],
+  "completeness": "exhaustive for substitutions by construction: three seed blocks over a 16-mer, so a hit at <=2 mismatches must match one block exactly",
+  "blind_to": [
+   "insertions and deletions",
+   "genes other than the six parents",
+   "unannotated transcription",
+   "any question about cleavage activity"
+  ],
+  "orientation_rule": "pre-mRNA is transcribed in transcript orientation, so a forward match is hybridisable and a reverse-complement match is not"
+ },
+ "genes": {
+  "EWSR1": {
+   "transcript": "ENST00000397938",
+   "strand": 1,
+   "genomic_start": 29268268,
+   "genomic_end": 29300521,
+   "premrna_nt": 32254,
+   "n_exons": 17,
+   "exonic_nt": 2400,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     81
+    ],
+    [
+     3948,
+     3984
+    ],
+    [
+     4112,
+     4163
+    ],
+    [
+     5473,
+     5596
+    ],
+    [
+     9762,
+     9948
+    ],
+    [
+     14122,
+     14289
+    ],
+    [
+     18655,
+     18866
+    ],
+    [
+     20338,
+     20518
+    ],
+    [
+     23294,
+     23331
+    ],
+    [
+     23869,
+     23901
+    ],
+    [
+     24220,
+     24338
+    ],
+    [
+     27971,
+     28100
+    ],
+    [
+     29559,
+     29681
+    ],
+    [
+     30465,
+     30627
+    ],
+    [
+     30966,
+     31063
+    ],
+    [
+     31331,
+     31583
+    ],
+    [
+     31854,
+     32253
+    ]
+   ]
+  },
+  "FUS": {
+   "transcript": "ENST00000254108",
+   "strand": 1,
+   "genomic_start": 31180139,
+   "genomic_end": 31191605,
+   "premrna_nt": 11467,
+   "n_exons": 15,
+   "exonic_nt": 1824,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     88
+    ],
+    [
+     2259,
+     2283
+    ],
+    [
+     2374,
+     2525
+    ],
+    [
+     3719,
+     3863
+    ],
+    [
+     4070,
+     4257
+    ],
+    [
+     4800,
+     5040
+    ],
+    [
+     6663,
+     6697
+    ],
+    [
+     8186,
+     8218
+    ],
+    [
+     8984,
+     9087
+    ],
+    [
+     9526,
+     9655
+    ],
+    [
+     9901,
+     10002
+    ],
+    [
+     10136,
+     10259
+    ],
+    [
+     10603,
+     10703
+    ],
+    [
+     10824,
+     10971
+    ],
+    [
+     11260,
+     11466
+    ]
+   ]
+  },
+  "NR4A3": {
+   "transcript": "ENST00000395097",
+   "strand": 1,
+   "genomic_start": 99821885,
+   "genomic_end": 99866891,
+   "premrna_nt": 45007,
+   "n_exons": 8,
+   "exonic_nt": 5604,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     522
+    ],
+    [
+     3774,
+     3947
+    ],
+    [
+     6156,
+     7108
+    ],
+    [
+     10804,
+     10933
+    ],
+    [
+     11397,
+     11569
+    ],
+    [
+     22764,
+     22963
+    ],
+    [
+     25552,
+     25730
+    ],
+    [
+     41735,
+     45006
+    ]
+   ]
+  },
+  "TAF15": {
+   "transcript": "ENST00000605844",
+   "strand": 1,
+   "genomic_start": 35809484,
+   "genomic_end": 35847242,
+   "premrna_nt": 37759,
+   "n_exons": 16,
+   "exonic_nt": 2162,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     92
+    ],
+    [
+     8232,
+     8271
+    ],
+    [
+     10540,
+     10591
+    ],
+    [
+     10680,
+     10764
+    ],
+    [
+     10848,
+     10953
+    ],
+    [
+     13156,
+     13349
+    ],
+    [
+     14594,
+     14714
+    ],
+    [
+     24423,
+     24457
+    ],
+    [
+     25082,
+     25114
+    ],
+    [
+     26648,
+     26757
+    ],
+    [
+     28940,
+     29069
+    ],
+    [
+     32883,
+     32975
+    ],
+    [
+     34593,
+     34674
+    ],
+    [
+     34796,
+     34884
+    ],
+    [
+     34993,
+     35554
+    ],
+    [
+     37422,
+     37758
+    ]
+   ]
+  },
+  "TCF12": {
+   "transcript": "ENST00000333725",
+   "strand": 1,
+   "genomic_start": 56918644,
+   "genomic_end": 57289853,
+   "premrna_nt": 371210,
+   "n_exons": 21,
+   "exonic_nt": 6114,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     262
+    ],
+    [
+     1248,
+     1344
+    ],
+    [
+     2382,
+     2454
+    ],
+    [
+     145106,
+     145179
+    ],
+    [
+     173145,
+     173247
+    ],
+    [
+     247758,
+     247822
+    ],
+    [
+     273514,
+     273649
+    ],
+    [
+     279129,
+     279181
+    ],
+    [
+     312508,
+     312613
+    ],
+    [
+     313647,
+     313786
+    ],
+    [
+     314068,
+     314212
+    ],
+    [
+     315399,
+     315463
+    ],
+    [
+     324828,
+     324906
+    ],
+    [
+     332706,
+     332779
+    ],
+    [
+     333777,
+     333848
+    ],
+    [
+     334618,
+     334824
+    ],
+    [
+     343450,
+     343564
+    ],
+    [
+     344468,
+     344630
+    ],
+    [
+     354386,
+     354618
+    ],
+    [
+     363801,
+     363954
+    ],
+    [
+     367513,
+     371209
+    ]
+   ]
+  },
+  "TFG": {
+   "transcript": "ENST00000240851",
+   "strand": 1,
+   "genomic_start": 100709494,
+   "genomic_end": 100748964,
+   "premrna_nt": 39471,
+   "n_exons": 8,
+   "exonic_nt": 1907,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     227
+    ],
+    [
+     4149,
+     4375
+    ],
+    [
+     10481,
+     10564
+    ],
+    [
+     19218,
+     19364
+    ],
+    [
+     23014,
+     23178
+    ],
+    [
+     27082,
+     27222
+    ],
+    [
+     35339,
+     35437
+    ],
+    [
+     38655,
+     39470
+    ]
+   ]
+  }
+ },
+ "genome_wide_arm": {
+  "ran": false,
+  "why": "not requested (set PREMRNA_GENOMIC=1 to run)",
+  "db": null
+ },
+ "corpus": {
+  "designs": 266,
+  "with_any_hit": 28,
+  "with_hybridisable_gap_paired": 11,
+  "with_a_liability_invisible_to_mature_screens": 11
+ },
+ "per_design": [
+  {
+   "junction_label": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCCAC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 1,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6150,
+     "premrna_end_0based": 6167,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCCACG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 1,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6149,
+     "premrna_end_0based": 6166,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCACCAG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 1,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6150,
+     "premrna_end_0based": 6167,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCCAC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 1,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6150,
+     "premrna_end_0based": 6167,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCAGCAT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 1,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6150,
+     "premrna_end_0based": 6167,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTTCAT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 1,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6150,
+     "premrna_end_0based": 6167,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "GCATATCTTCATCTTTAT",
+   "gc_percent": 27.8,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 1,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TCF12",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6826,
+     "premrna_end_0based": 6843,
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intronic"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTTCATCTTTA",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 1,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TCF12",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6827,
+     "premrna_end_0based": 6844,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intronic"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTGAAA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 1,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6150,
+     "premrna_end_0based": 6167,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTTCAA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 1,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6150,
+     "premrna_end_0based": 6167,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTGAAT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 1,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6150,
+     "premrna_end_0based": 6167,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTAGATCAA",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTAGATCA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTAGAT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTAGATC",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "GCATATCTAGATCAAGAT",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTAGATCAAGA",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e10__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTAGATCAAG",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCATCAAACC",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCATCAAAC",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCATCAA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCATCAAA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "GCATATCATCAAACCATT",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TAF15",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 29058,
+     "premrna_end_0based": 29075,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "GGCATATCATCAAACCAT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TAF15",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 29059,
+     "premrna_end_0based": 29076,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e12__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCATCAAACCA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TAF15",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 29060,
+     "premrna_end_0based": 29077,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCCACGGA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6147,
+     "premrna_end_0based": 6164,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCCACGG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6148,
+     "premrna_end_0based": 6165,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCCACGGAGTG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCCACGGAGT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e13__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCCACGGAG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCCGGGGGCG",
+   "gc_percent": 72.2,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCCGGGGGC",
+   "gc_percent": 72.2,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCCGGGG",
+   "gc_percent": 72.2,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCCGGGGG",
+   "gc_percent": 72.2,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "GCATATCCGGGGGCGGAA",
+   "gc_percent": 66.7,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "GGCATATCCGGGGGCGGA",
+   "gc_percent": 72.2,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e15__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCCGGGGGCGG",
+   "gc_percent": 77.8,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCCGTGGACG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCCGTGGAC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCCGTGG",
+   "gc_percent": 66.7,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCCGTGGA",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "GCATATCCGTGGACGCCA",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "GGCATATCCGTGGACGCC",
+   "gc_percent": 66.7,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e1__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCCGTGGACGC",
+   "gc_percent": 66.7,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCAGTGGGAG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCAGTGGGA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCAGTGG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCAGTGGG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "GCATATCAGTGGGAGGCT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "GGCATATCAGTGGGAGGC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e4__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCAGTGGGAGG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATTCTGCTGCC",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATTCTGCTGC",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATTCTGCT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATTCTGCTG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TCF12",
+     "orientation": "reverse_complement",
+     "hybridisable": false,
+     "premrna_start_0based": 156459,
+     "premrna_end_0based": 156476,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intronic"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "GCATATTCTGCTGCCCGT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "GGCATATTCTGCTGCCCG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e7__NR4A3_e3",
+   "antisense_5to3": "GGGCATATTCTGCTGCCC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCACCAGGCT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCACCAGGC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCACCAGG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 6149,
+     "premrna_end_0based": 6166,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "GCATATCACCAGGCTTAT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "GGCATATCACCAGGCTTA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "EWSR1_e9__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCACCAGGCTT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCATCAAACC",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCATCAAAC",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCATCAA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCATCAAA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "GCATATCATCAAACCAGT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 2,
+   "n_hybridisable": 2,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TAF15",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 29058,
+     "premrna_end_0based": 29075,
+     "mismatches": 1,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    },
+    {
+     "gene": "FUS",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 9644,
+     "premrna_end_0based": 9661,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "GGCATATCATCAAACCAG",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TAF15",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 29059,
+     "premrna_end_0based": 29076,
+     "mismatches": 1,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e10__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCATCAAACCA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TAF15",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 29060,
+     "premrna_end_0based": 29077,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCCTCGCC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCCTCGC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCCTC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCCTCG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCCTCGCCCTC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCCTCGCCCT",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e11__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCCTCGCCC",
+   "gc_percent": 66.7,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCCATGTGAG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCCATGTGA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCCATGT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCCATGTG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "GCATATCCATGTGAGAGC",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "GGCATATCCATGTGAGAG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e13__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCCATGTGAGA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCGTTTGAGG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCGTTTGAG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCGTTTG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCGTTTGA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "GCATATCGTTTGAGGCCA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TCF12",
+     "orientation": "reverse_complement",
+     "hybridisable": false,
+     "premrna_start_0based": 293083,
+     "premrna_end_0based": 293100,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intronic"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "GGCATATCGTTTGAGGCC",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TCF12",
+     "orientation": "reverse_complement",
+     "hybridisable": false,
+     "premrna_start_0based": 293082,
+     "premrna_end_0based": 293099,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intronic"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e1__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCGTTTGAGGC",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATTGTTCTGGC",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATTGTTCTGG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATTGTTCT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATTGTTCTG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "GCATATTGTTCTGGCTCT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "GGCATATTGTTCTGGCTC",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e3__NR4A3_e3",
+   "antisense_5to3": "GGGCATATTGTTCTGGCT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCCACCTC",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCCACCT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCCACC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCCACCTCCAC",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCCACCTCCA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e5__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCCACCTCC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCACCAAATT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCACCAAAT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCACCAA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCACCAAA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "GCATATCACCAAATTTAT",
+   "gc_percent": 27.8,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "GGCATATCACCAAATTTA",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e7__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCACCAAATTT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCGGAGTCAT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCGGAGTCA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCGGAGT",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCGGAGTC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "GCATATCGGAGTCATGAC",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "GGCATATCGGAGTCATGA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "FUS_e8__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCGGAGTCATG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCATCAAACC",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCATCAAAC",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCATCAA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCATCAAA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "GCATATCATCAAACCAGT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 2,
+   "n_hybridisable": 2,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TAF15",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 29058,
+     "premrna_end_0based": 29075,
+     "mismatches": 1,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    },
+    {
+     "gene": "FUS",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 9644,
+     "premrna_end_0based": 9661,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "GGCATATCATCAAACCAG",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TAF15",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 29059,
+     "premrna_end_0based": 29076,
+     "mismatches": 1,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e11__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCATCAAACCA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TAF15",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 29060,
+     "premrna_end_0based": 29077,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCGCCGCC",
+   "gc_percent": 66.7,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCGCCGC",
+   "gc_percent": 66.7,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCGCC",
+   "gc_percent": 66.7,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCGCCG",
+   "gc_percent": 66.7,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCGCCGCCCAC",
+   "gc_percent": 66.7,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCGCCGCCCA",
+   "gc_percent": 66.7,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e12__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCGCCGCCC",
+   "gc_percent": 72.2,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCCTCCTG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCCTCCT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCCTC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCCTCC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCCTCCTGAGG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCCTCCTGAG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e14__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCCTCCTGA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCCGACATGA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCCGACATG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCCGACA",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCCGACAT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "GCATATCCGACATGACTA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "GGCATATCCGACATGACT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e1__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCCGACATGAC",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTGACTGAC",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTGACTGA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTGACT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTGACTG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "GCATATCTGACTGACTTT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTGACTGACTT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e4__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTGACTGACT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTTGTGTGT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTTGTGTG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTTGTG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTTGTGT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "GCATATCTTGTGTGTGGT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTTGTGTGTGG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTTGTGTGTG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCACCAAAAT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCACCAAAA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCACCAA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCACCAAA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "GCATATCACCAAAATTTT",
+   "gc_percent": 27.8,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "GGCATATCACCAAAATTT",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e8__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCACCAAAATT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCAGCATCTG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCAGCATCT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCAGCATC",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "GCATATCAGCATCTGTTC",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "GGCATATCAGCATCTGTT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e9__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCAGCATCTGT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTAGAATGC",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTAGAATG",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTAGAA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTAGAAT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "GCATATCTAGAATGCTGT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTAGAATGCTG",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e11__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTAGAATGCT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTGTGAGAG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTGTGAGA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTGTGA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTGTGAG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "GCATATCTGTGAGAGGTG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TCF12",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 324895,
+     "premrna_end_0based": 324912,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intron_exon_spanning"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTGTGAGAGGT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e13__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTGTGAGAGG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCTATAAT",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCTATAA",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCTAT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCTATA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCTATAATTTT",
+   "gc_percent": 22.2,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCTATAATTT",
+   "gc_percent": 27.8,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e17__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCTATAATT",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTCTGACTT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTCTGACT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTCTGA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTCTGAC",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "GCATATCTCTGACTTGCT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTCTGACTTGC",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e19__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTCTGACTTG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTGATCCAC",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTGATCCA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTGATC",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTGATCC",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "GCATATCTGATCCACTGA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTGATCCACTG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e3__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTGATCCACT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCCATCAGAT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCCATCAGA",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCCATCA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCCATCAG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "GCATATCCATCAGATTTG",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "GGCATATCCATCAGATTT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e5__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCCATCAGATT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCAAGCGCTG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCAAGCGCT",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCAAGCG",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCAAGCGC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "GCATATCAAGCGCTGCAG",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "GGCATATCAAGCGCTGCA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e7__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCAAGCGCTGC",
+   "gc_percent": 61.1,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTTGCATAA",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTTGCATA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCTTGCA",
+   "gc_percent": 55.6,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTTGCAT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "GCATATCTTGCATAAAGA",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTTGCATAAAG",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TCF12_e9__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTTGCATAAA",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTTCATCTT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTTCATCT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTTCATC",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e2__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTTCATCTTT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCAAATAATG",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCAAATAAT",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCAAATA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCAAATAA",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "GCATATCAAATAATGTCA",
+   "gc_percent": 27.8,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "GGCATATCAAATAATGTC",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e3__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCAAATAATGT",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCATTTTCAG",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCATTTTCA",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "CGCAGGGCATATCATTTT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCATTTTC",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "GCATATCATTTTCAGGAA",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "GGCATATCATTTTCAGGA",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e4__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCATTTTCAGG",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTGAAACCT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTGAAACC",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTGAAAC",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "GCATATCTGAAACCTGAT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTGAAACCTGA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e5__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTGAAACCTG",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTTCAATCT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTTCAATC",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTTCAAT",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "GCATATCTTCAATCTGAC",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTTCAATCTGA",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e6__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTTCAATCTG",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "AGGGCATATCTGAATACT",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 4,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "CAGGGCATATCTGAATAC",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "GCAGGGCATATCTGAATA",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "TCF12",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 352506,
+     "premrna_end_0based": 352523,
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "compartment": "intronic"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "GCATATCTGAATACTGAA",
+   "gc_percent": 33.3,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "GGCATATCTGAATACTGA",
+   "gc_percent": 38.9,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TFG_e7__NR4A3_e3",
+   "antisense_5to3": "GGGCATATCTGAATACTG",
+   "gc_percent": 44.4,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  }
+ ]
+}

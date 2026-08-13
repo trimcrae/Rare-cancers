@@ -84,8 +84,16 @@ import statistics
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ATLAS = os.path.join(HERE, "nr4a3-fusion-junction-atlas.json")
-OUT = os.path.join(HERE, "junction-aso-thermo.json")
+#: ⛔ BOTH PATHS FOLLOW `OUT_SUFFIX`, SO A SECOND GEOMETRY CANNOT LAND ON THE FIRST ONE'S FILE
+#: (2026-08-13). Nothing in this module is 16-mer-specific — the nearest-neighbour sum walks whatever
+#: window it is handed, and the donor/acceptor split comes from the atlas row — so it produced a
+#: correct 5-10-5 answer and wrote it over the 5-6-5 artifact the manuscript's ΔΔG sentences quote.
+#: A module that is length-agnostic in its arithmetic and length-blind in its filenames is the more
+#: dangerous of the two, because the numbers inside are right.
+_SUFFIX = os.environ.get("OUT_SUFFIX", "")
+ATLAS = os.path.join(HERE, os.environ.get("ATLAS_JSON")
+                     or f"nr4a3-fusion-junction-atlas{_SUFFIX}.json")
+OUT = os.path.join(HERE, f"junction-aso-thermo{_SUFFIX}.json")
 
 R = 1.987          # cal / (mol K)
 T37 = 310.15       # K

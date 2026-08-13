@@ -25,6 +25,7 @@ the gap is closed.
 import glob
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -194,29 +195,70 @@ def test_the_parameters_block_says_it_cannot_be_backfilled():
     assert "default" in what, "the block must say what an unlisted knob means"
 
 
+#: Screens that legitimately carry a `parameters` block, with the CI run that produced each. A name
+#: enters this list only when a real dispatch wrote the file; the run id is what makes that
+#: checkable, and it is the whole difference between a recorded provenance block and an asserted one.
+#: ⛔ ADDING A NAME HERE IS NOT HOW YOU FIX A RED BUILD. It is how you record a re-screen that
+#: happened. If a block appeared without a run behind it, the file was hand-edited and the fix is to
+#: revert the file, never to extend this list.
+SCREENS_FROM_A_REAL_RERUN = {
+    # The gap-length comparison: the same six frame-compatible seams the 5-6-5 panel was screened
+    # at, re-tiled at 5-8-5 and 5-10-5 and screened at the same 500-deep ceiling and retention.
+    # Dispatched at branch `worktree-agent-ad8ebd78fe770a538`, 2026-08-13.
+    **{f"junction-aso-offtarget-{j}-18mer-deep500.json": "Actions run 31747720046"
+       for j in ("e12n3", "taf15e11n3", "fuse10n3", "tcf12e7n3", "fuse8n3", "taf15e1n3")},
+    **{f"junction-aso-offtarget-{j}-20mer-deep500.json": "Actions run 31747727309"
+       for j in ("e12n3", "taf15e11n3", "fuse10n3", "tcf12e7n3", "fuse8n3", "taf15e1n3")},
+}
+
+
 @pytest.mark.committed_artifact
 def test_every_committed_screen_predates_the_block_and_none_was_hand_backfilled():
     """⛔ THE ABSENCE IS ASSERTED, NOT PAPERED OVER.
 
     Regenerating a screen needs network BLAST, so this change reaches FUTURE screens only. Every
-    artifact in this tree was produced before the block existed and legitimately lacks it. What must
-    never happen is someone closing that gap by hand: the parameters a past run used are not
-    recoverable from its output, so a `parameters` block appearing on an artifact that no re-run
-    produced would be an inferred value in a provenance field — a populated field that was never
-    measured, which is the exact failure this block was added to prevent.
+    artifact in this tree that predates the block legitimately lacks it. What must never happen is
+    someone closing that gap by hand: the parameters a past run used are not recoverable from its
+    output, so a `parameters` block appearing on an artifact that no re-run produced would be an
+    inferred value in a provenance field — a populated field that was never measured, which is the
+    exact failure this block was added to prevent.
 
     ⚠ SO THIS TEST IS EXPECTED TO CHANGE, AND ONLY IN ONE WAY: when a screen is genuinely re-run,
     it arrives with the block and this assertion fails. That is the signal to move the artifact into
-    the second list here, WITH the run that produced it. It must never be satisfied by editing a
-    JSON file.
+    `SCREENS_FROM_A_REAL_RERUN`, WITH the run that produced it. It must never be satisfied by
+    editing a JSON file.
+
+    ⭐ AND IT FIRED FOR EXACTLY THAT REASON ON 2026-08-13, WHICH IS THE FIRST TIME IT HAD ANYTHING TO
+    SAY. Twelve screens arrived carrying the block from two real dispatches. It also caught a
+    thirteenth that was NOT from either of them — a `-spanprobe` artifact pulled into the working
+    tree by an over-broad `git checkout` of the `modalities-cache` branch — so the guard separated a
+    legitimate re-run from a stray in the same failure message.
     """
-    backfilled = [os.path.basename(p) for p, s in _screens()
-                  if "parameters" in (s.get("method") or {})]
-    assert backfilled == [], (
+    unexplained = [os.path.basename(p) for p, s in _screens()
+                   if "parameters" in (s.get("method") or {})
+                   and os.path.basename(p) not in SCREENS_FROM_A_REAL_RERUN]
+    assert unexplained == [], (
         "these screens carry a `parameters` block but no re-run in this tree could have produced "
-        f"one: {backfilled}. If a real re-screen produced them, record which run did and move them "
-        "into this test's allow-list; if they were hand-edited, revert — an inferred provenance "
+        f"one: {unexplained}. If a real re-screen produced them, record which run did and move them "
+        "into SCREENS_FROM_A_REAL_RERUN; if they were hand-edited, revert — an inferred provenance "
         "value is worse than a visible gap.")
+
+
+@pytest.mark.committed_artifact
+def test_every_allow_listed_screen_is_present_and_really_carries_the_block():
+    """The allow-list may not outlive what it explains, or it becomes a licence rather than a record.
+
+    Two directions, and the second is the one that rots: a name here whose file is gone leaves a
+    standing exemption for a filename anyone could later create, and a name here whose file carries
+    NO parameters block never needed an exemption at all.
+    """
+    have = {os.path.basename(p): s for p, s in _screens()}
+    for name, run in sorted(SCREENS_FROM_A_REAL_RERUN.items()):
+        if name not in have:
+            pytest.skip(f"{name} is not in this checkout (produced by {run})")
+        assert "parameters" in (have[name].get("method") or {}), (
+            f"{name} is allow-listed as carrying a recorded parameters block and does not")
+        assert re.search(r"run \d{6,}", run), f"{name} names no CI run id: {run!r}"
 
 
 @pytest.mark.committed_artifact

@@ -322,6 +322,19 @@ ORIENTATION_PARSED_SINCE = "2026-08-12"
 ORIENTATION_FILTERED = "orientation_filtered"
 ORIENTATION_LABELS_STRAND_BLIND = "orientation_parsed_but_labels_are_strand_blind_upper_bounds"
 ORIENTATION_UNPARSED = "orientation_UNPARSED_counts_are_upper_bounds"
+#: ⛔ A FOURTH STATE, BECAUSE "NOTHING TO PARSE" WAS BEING REPORTED AS "NOT PARSED" (2026-08-13).
+#: A screen whose designs return NO near-match at all stores no hit, so no hit carries `hit_frame`,
+#: so the parsed flag below never went true and the screen was graded an upper bound of unknown
+#: tightness. That is an ABSENT READING reported as a READING OF ABSENCE — this module's own §4
+#: failure — and it runs in the flattering-to-nobody direction: the cleanest possible screen, the one
+#: with zero hits, was the one labelled least trustworthy. Measured when the 5-10-5 screens landed:
+#: two of them return zero near-matches across every screened design and both were graded UNPARSED,
+#: while the only two committed screens in that state genuinely carry hits and are genuinely
+#: unparsed, so no published count moves.
+#: ⚠ KEPT DISTINCT FROM `ORIENTATION_FILTERED` rather than folded into it. "No hit existed" and
+#: "hits existed and every minus-strand one was diverted" are different facts about a screen, and a
+#: reader deciding what a zero means needs to be able to tell them apart.
+ORIENTATION_NO_HITS = "no_offtarget_hits_to_orient"
 
 
 def screen_orientation_status(screen):
@@ -352,8 +365,10 @@ def screen_orientation_status(screen):
     """
     parsed = False
     saw_minus = False
+    n_hits = 0
     for o in screen.get("oligos", []):
         for h in (o.get("offtargets") or []):
+            n_hits += 1
             if "hit_frame" in h:
                 parsed = True
             if h.get("is_minus_strand") is True:
@@ -361,6 +376,15 @@ def screen_orientation_status(screen):
                 if h.get("risk") != "minus_strand_not_hybridisable":
                     return ORIENTATION_LABELS_STRAND_BLIND
     if not parsed:
+        # ⛔ ORDER MATTERS: ask "were there hits" BEFORE "were they parsed". A screen that stored no
+        # hit has nothing whose orientation could have been read, and calling that UNPARSED grades
+        # the cleanest possible result as the least trustworthy one. Scoped to screens whose stored
+        # lists are COMPLETE — a truncated list of zero saved hits against a non-zero count is a
+        # censored screen, not an empty one, and must keep its upper-bound label.
+        if n_hits == 0 and all(
+                (o.get("n_offtarget_near_matches") == 0)
+                for o in screen.get("oligos", []) if o.get("status") == "screened"):
+            return ORIENTATION_NO_HITS
         return ORIENTATION_UNPARSED
     # ⚠ Parsed, and every minus-strand hit was diverted — including the vacuous case of a screen
     # that returned none. `saw_minus` is reported for the reader; it does not change the verdict.
@@ -376,7 +400,11 @@ def screen_counts_are_orientation_filtered(screen_or_status):
     """
     status = (screen_or_status if isinstance(screen_or_status, str)
               else screen_orientation_status(screen_or_status))
-    return status == ORIENTATION_FILTERED
+    # ⚠ `ORIENTATION_NO_HITS` PASSES, AND IT IS NOT A LOOSENING. Every count in such a screen is
+    # zero, so there is no count an orientation filter could have changed — the predicate asks
+    # whether the counts are orientation-safe, and a set of zeros is. Measured before landing: no
+    # committed screen is in that state, so nothing published moves.
+    return status in (ORIENTATION_FILTERED, ORIENTATION_NO_HITS)
 
 
 #: RefSeq writes the approved gene symbol in parentheses immediately before a record's qualifiers:
