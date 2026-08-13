@@ -140,6 +140,9 @@ on:
           readable EMC series against a SIZE-MATCHED EMPIRICAL NULL on the same platform
           (`nr4a3_fusion_targets.py` -> nr4a3-fusion-targets.json). Its own artifact; touches
           nothing part B or the panels lane owns.
+          fusion-figures = REDRAW the five figures that read the artifact the mode above writes,
+          and re-stamp their provenance. No network at all: it reads seven committed artifacts and
+          writes only research/manuscripts/figures/fig[1-5]-* plus figure-provenance.json.
           ret-cistrome = retrieve every public NR4A1/NR4A2/NR4A3 ChIP-seq peak set reachable at
           $0, characterise each BEFORE using it, and intersect it with the RET locus on a stated
           genome build, with the paralogue overlap. Writes its OWN artifact.
@@ -155,7 +158,7 @@ on:
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "sra-study", "ret-cistrome-zenodo", "gse243553-eno3", "ret-cistrome-named-geo"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "fusion-figures", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "sra-study", "ret-cistrome-zenodo", "gse243553-eno3", "ret-cistrome-named-geo"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -258,7 +261,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${MODE:-}" in
-            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search|sra-study|ret-cistrome-zenodo|gse243553-eno3|ret-cistrome-named-geo) PART_B=false ;;
+            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|fusion-figures|ret-cistrome|ret-motif|gse28866|cohort-search|sra-study|ret-cistrome-zenodo|gse243553-eno3|ret-cistrome-named-geo) PART_B=false ;;
             *)                                               PART_B=true  ;;
           esac
           echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
@@ -309,6 +312,19 @@ jobs:
             # constructs a KNOWN set-specific signal on the same offset and asserts it does not.
             # A build whose null calibration is broken must not be able to emit an artifact.
             python -m pytest research/modalities/tests/test_nr4a3_fusion_targets.py -q
+          elif [ "${{ inputs.mode }}" = "fusion-figures" ]; then
+            # ⛔ THE TWO STAMP TESTS ARE DESELECTED HERE, AND ONLY HERE, BECAUSE THEY ARE THE THING
+            # THIS MODE EXISTS TO REPAIR. A pre-flight gate that asserts the drift is already gone
+            # would fail every run that had a reason to exist, and would fail it BEFORE the redraw
+            # — so the mode could never fix the state it was dispatched to fix. They are not being
+            # skipped: the step AFTER the redraw runs this same file with nothing deselected, and
+            # that is where they have to pass. What runs here is the half that must hold BEFORE the
+            # redraw — the artifact lookups behind every cell, which is where this figure module
+            # has actually shipped a defect (a lookup that missed rendered as "not computed" and
+            # produced a finished-looking figure with two empty columns).
+            python -m pytest research/modalities/tests/test_nr4a3_fusion_targets_figures.py -q \
+              --deselect research/modalities/tests/test_nr4a3_fusion_targets_figures.py::test_the_provenance_stamp_matches_the_committed_artifacts \
+              --deselect research/modalities/tests/test_nr4a3_fusion_targets_figures.py::test_check_mode_reports_ok_on_a_clean_tree
           elif [ "${{ inputs.mode }}" = "cohort-search" ]; then
             # ⛔ NOT OPTIONAL, and the reason is that this mode's most likely output is a NEGATIVE.
             # A negative is only worth anything if the thing producing it could have said yes, and
@@ -375,6 +391,67 @@ jobs:
         run: |
           python research/modalities/nr4a3_fusion_targets.py --check \
             || echo "--check reported drift; non-blocking, but READ IT"
+
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # fusion-figures — redraw the five figures that read the artifact the mode above writes
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # ⭐ WHY THIS MODE EXISTS AT ALL. `nr4a3_fusion_targets_figures.py` stamps a content hash of
+      # every artifact it drew from, and `--check` compares those hashes against the files on disk.
+      # That stamp is the only staleness signal the figures have — the script's own `_why` field
+      # says so — and until now NOTHING could re-stamp it except `depmap-dependency.yml`, a
+      # ~90-minute network job that rebuilds the figures as a side effect of refreshing a dozen
+      # unrelated artifacts. So the cheapest possible repair (redraw from files already on disk,
+      # no network, ~1 minute) could only be bought by re-running the most expensive lane in the
+      # repo and merging its entire blast radius.
+      #
+      # ⛔ MEASURED 2026-08-13, and it is exactly the failure that shape predicts. Commit 0dce79be
+      # — the sweep that moved the manuscripts into per-route subfolders — rewrote THREE PROSE
+      # STRINGS inside nr4a3-fusion-targets.json, all of them file cross-references
+      # (`research/manuscripts/pparg-direction-emc.md` -> `.../repurposing/pparg-direction-emc.md`,
+      # and the same for nr4a3-emc-biology-evidence.md). Not one number moved; not one field any
+      # figure reads moved. But the stamp is a hash of the WHOLE FILE, so `--check` reported drift,
+      # two tests went red, and `main`'s test workflow stayed red for days over three edited
+      # comments — with the only repair route buried inside a DepMap refresh.
+      #
+      # ⚠ SO READ THE DRIFT SIGNAL FOR WHAT IT IS. A whole-file hash cannot tell "the data these
+      # figures draw has moved" from "a comment in the same file was reworded", and it is not
+      # supposed to: narrowing it to the read fields would make it stop catching the case it was
+      # built for. What was missing was not a smarter hash but a cheap way to answer it — this.
+      #
+      # $0, no network, and it publishes ONLY what it draws.
+      - name: "Fusion figures — redraw from the committed artifacts and re-stamp their provenance"
+        if: inputs.mode == 'fusion-figures'
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          # The drawing needs matplotlib + numpy. Everything else in the chain
+          # (nr4a3_fusion_targets -> emc_atr_vulnerability -> depmap_sarcoma_dependency,
+          # fet_ddr_axis_scan) is pure stdlib at import time, which is why this lane's "no pip
+          # install" rule needs only this one narrow exception.
+          pip install matplotlib numpy
+          echo "=== stamp BEFORE (what the committed figures claim they were drawn from) ==="
+          cat research/manuscripts/figures/figure-provenance.json
+          echo "=== the drift this run was dispatched to close ==="
+          python research/modalities/nr4a3_fusion_targets_figures.py --check || true
+          echo "=== redraw ==="
+          python research/modalities/nr4a3_fusion_targets_figures.py
+          echo "=== stamp AFTER ==="
+          cat research/manuscripts/figures/figure-provenance.json
+
+      # ⛔ HARD, NOT `|| echo`. Every other reproduce-check in this file is non-blocking because it
+      # grades a FETCH that may have been degraded by a remote. This one grades nothing but local
+      # arithmetic over files already on disk, so a failure here means the redraw did not do what
+      # it claims — and publishing a stamp that does not match its own artifacts would write the
+      # exact false provenance the stamp exists to prevent (CLAUDE.md §4: a populated field is not
+      # a measured one). The full test file runs too, with the two stamp tests NOT deselected:
+      # this is the step where they have to pass.
+      - name: "Fusion figures — the re-stamped provenance must match, and the stamp tests must pass"
+        if: inputs.mode == 'fusion-figures'
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          python research/modalities/nr4a3_fusion_targets_figures.py --check
+          python -m pytest research/modalities/tests/test_nr4a3_fusion_targets_figures.py -q
 
       # The guard is `steps.guard.outputs.part_b`, resolved once at the top of this job. The reason
       # it is not `inputs.mode == 'part-b'`, and the run a restated list already cost, are both
@@ -918,6 +995,24 @@ jobs:
             MSG="NR4A3/fusion direct-target set scored in the two readable EMC series (CI)"
             PATHS="research/modalities/nr4a3-fusion-targets.json
                    research/modalities/nr4a3-fusion-targets-inputs.json"
+          elif [ "${{ inputs.mode }}" = "fusion-figures" ]; then
+            # ⛔ THE ONLY ARM HERE THAT RE-VERIFIES BEFORE IT PUBLISHES, and the reason is this
+            # step's own `if: always()`. A redraw that failed its check would otherwise still be
+            # pushed, and a stamp that does not match the artifacts beside it is the exact false
+            # provenance the stamp exists to prevent — worse than the drift, because it reads as
+            # a measurement. Re-checking costs a stdlib hash of seven files.
+            python research/modalities/nr4a3_fusion_targets_figures.py --check || {
+              echo "::error title=FIGURES NOT PUBLISHED::the redraw did not leave the stamp matching its artifacts on disk; refusing to publish a provenance stamp that would assert a drawing that did not happen"
+              exit 1
+            }
+            MSG="NR4A3 fusion-target figures redrawn and re-stamped from the committed artifacts (CI)"
+            # Globs, not a typed list: the drawing owns which figures exist (`build()`), and a
+            # restated list here would fall behind it silently the first time a figure is added.
+            # `fig?-*` cannot reach the other families in this directory — mtap-prmt5-*, aso-*,
+            # repurposing-*, portfolio-* — and each of those has its own provenance stamp.
+            PATHS="research/manuscripts/figures/fig?-*.png
+                   research/manuscripts/figures/fig?-*.pdf
+                   research/manuscripts/figures/figure-provenance.json"
           elif [ "${{ inputs.mode }}" = "hypoxia-confounds" ]; then
             MSG="EMC hypoxia confound audit: genome-wide null + retrieved clinical status (CI)"
             PATHS="research/modalities/emc-hypoxia-confounds.json
