@@ -1,36 +1,34 @@
 {
   "_note": "In-silico evaluation of EWSR1::NR4A3 junction gapmers: transcriptome off-target screen + target-site accessibility + sequence liabilities. EVALUATION ONLY \u2014 hypotheses for wet-lab testing, not a validated drug. Does NOT address tumour delivery (the route's real bottleneck).",
-  "junction_label": "EWSR1_e10__NR4A3_e3",
+  "junction_label": "TAF15_e8__NR4A3_e3",
   "breakpoint": {
     "mode": "real_exon_junction_mRNA",
     "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted \u2014 \u26a0 for EWSR1 and NR4A3 only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and `provenance_gate` below records which one actually ran.",
-    "donor_gene": "EWSR1",
+    "donor_gene": "TAF15",
     "provenance_gate": {
-      "EWSR1": "graded_exon_audit",
+      "TAF15": "construct_inputs_self_checks_only",
       "NR4A3": "graded_exon_audit"
     },
-    "EWSR1_exon_end": 10,
-    "donor_exon_end": 10,
+    "EWSR1_exon_end": 8,
+    "donor_exon_end": 8,
     "NR4A3_exon_start": 3,
-    "note": "Real in-frame EWSR1::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
-    "junction_context_mRNA": "ATCTTGATCTAG|ATATGCCCTGCG",
+    "note": "Real in-frame TAF15::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
+    "junction_context_mRNA": "AAAATTTTGGTG|ATATGCCCTGCG",
     "_transcript_source": {
       "requested": "auto",
       "used_per_gene": {
-        "EWSR1": "ensembl+cache_agreed",
-        "NR4A3": "committed_cache"
-      },
-      "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
-      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+        "TAF15": "ensembl+cache_agreed",
+        "NR4A3": "ensembl+cache_agreed"
+      }
     },
     "measured_junction": {
-      "junction_label": "EWSR1_e10__NR4A3_e3",
-      "donor_symbol": "EWSR1",
+      "junction_label": "TAF15_e8__NR4A3_e3",
+      "donor_symbol": "TAF15",
       "acceptor_symbol": "NR4A3",
-      "donor_exon_end": 10,
+      "donor_exon_end": 8,
       "acceptor_exon_start": 3,
-      "donor_coding_nt_through_cut": 1045,
-      "donor_last_whole_residue": 348,
+      "donor_coding_nt_through_cut": 640,
+      "donor_last_whole_residue": 213,
       "donor_coding_phase": 1,
       "nr4a3_acceptor_exon_is_coding": true,
       "nr4a3_acceptor_exon_5utr_nt_retained": 2,
@@ -38,21 +36,16 @@
       "nr4a3_first_residue": 1,
       "frame_sum_mod3": 0,
       "in_frame": true,
-      "chimeric_protein_length": 975,
-      "junction_context_mRNA": "ATCTTGATCTAG|ATATGCCCTGCG",
-      "EWSR1_exon_end": 10,
-      "NR4A3_exon_start": 3,
-      "ewsr1_coding_nt_through_cut": 1045,
-      "ewsr1_last_whole_residue": 348,
-      "ewsr1_coding_phase": 1
+      "chimeric_protein_length": 840,
+      "junction_context_mRNA": "AAAATTTTGGTG|ATATGCCCTGCG"
     }
   },
   "n_evaluated": 5,
   "accessibility": {
     "status": "ok",
     "window_mRNA_span": [
-      1024,
-      1204
+      636,
+      816
     ],
     "window_len": 180
   },
@@ -67,91 +60,29 @@
   "ranking_key": "fewest gapmer off-targets > most accessible site > fusion-specific siRNA seed > lower RISC seed load > balanced junction > mid-GC > no G4 > fewer CpG",
   "top_designs": [
     {
-      "antisense_5to3": "GGGCATATCTAGATCA",
-      "target_mRNA_5to3": "TGATCTAGATATGCCC",
-      "architecture": "5-6-5 (LNA-DNA-LNA)",
-      "specificity_margin": 8,
-      "gc_percent": 43.8,
-      "site_accessibility": 0.541,
-      "offtarget_exact": 0,
-      "offtarget_le1mm": 3,
-      "offtarget_hits": [
-        {
-          "acc": "NM_001286818.2",
-          "mm": 1
-        },
-        {
-          "acc": "NM_001730.5",
-          "mm": 1
-        },
-        {
-          "acc": "XM_047430553.1",
-          "mm": 1
-        }
-      ],
-      "sirna_guide_seed_7mer": "ATATGCC",
-      "sirna_seed_spans_junction": false,
-      "sirna_seed_offtarget_sites": 28354,
-      "cpg_count": 0,
-      "has_G4_motif": false,
-      "max_homopolymer": 3,
-      "fusion_specific": true
-    },
-    {
-      "antisense_5to3": "AGGGCATATCTAGATC",
-      "target_mRNA_5to3": "GATCTAGATATGCCCT",
-      "architecture": "5-6-5 (LNA-DNA-LNA)",
-      "specificity_margin": 7,
-      "gc_percent": 43.8,
-      "site_accessibility": 0.492,
-      "offtarget_exact": 0,
-      "offtarget_le1mm": 3,
-      "offtarget_hits": [
-        {
-          "acc": "NM_001286818.2",
-          "mm": 1
-        },
-        {
-          "acc": "NM_001730.5",
-          "mm": 1
-        },
-        {
-          "acc": "XM_047430553.1",
-          "mm": 1
-        }
-      ],
-      "sirna_guide_seed_7mer": "TATGCCC",
-      "sirna_seed_spans_junction": false,
-      "sirna_seed_offtarget_sites": 25775,
-      "cpg_count": 0,
-      "has_G4_motif": false,
-      "max_homopolymer": 3,
-      "fusion_specific": true
-    },
-    {
-      "antisense_5to3": "CAGGGCATATCTAGAT",
-      "target_mRNA_5to3": "ATCTAGATATGCCCTG",
+      "antisense_5to3": "CAGGGCATATCACCAA",
+      "target_mRNA_5to3": "TTGGTGATATGCCCTG",
       "architecture": "5-6-5 (LNA-DNA-LNA)",
       "specificity_margin": 6,
-      "gc_percent": 43.8,
-      "site_accessibility": 0.492,
+      "gc_percent": 50.0,
+      "site_accessibility": 0.221,
       "offtarget_exact": 0,
       "offtarget_le1mm": 4,
       "offtarget_hits": [
         {
-          "acc": "NM_001286818.2",
+          "acc": "NM_001144961.2",
           "mm": 1
         },
         {
-          "acc": "NM_001730.5",
+          "acc": "NM_001144962.2",
           "mm": 1
         },
         {
-          "acc": "XM_047430553.1",
+          "acc": "NM_001144963.2",
           "mm": 1
         },
         {
-          "acc": "XR_007062070.1",
+          "acc": "NM_005007.4",
           "mm": 1
         }
       ],
@@ -164,72 +95,33 @@
       "fusion_specific": true
     },
     {
-      "antisense_5to3": "GCATATCTAGATCAAG",
-      "target_mRNA_5to3": "CTTGATCTAGATATGC",
-      "architecture": "5-6-5 (LNA-DNA-LNA)",
-      "specificity_margin": 6,
-      "gc_percent": 37.5,
-      "site_accessibility": 0.541,
-      "offtarget_exact": 0,
-      "offtarget_le1mm": 11,
-      "offtarget_hits": [
-        {
-          "acc": "NM_001002860.4",
-          "mm": 1
-        },
-        {
-          "acc": "NM_018167.5",
-          "mm": 1
-        },
-        {
-          "acc": "XM_011536939.3",
-          "mm": 1
-        },
-        {
-          "acc": "XM_047431565.1",
-          "mm": 1
-        },
-        {
-          "acc": "XM_047431566.1",
-          "mm": 1
-        }
-      ],
-      "sirna_guide_seed_7mer": "AGATATG",
-      "sirna_seed_spans_junction": true,
-      "sirna_seed_offtarget_sites": 45612,
-      "cpg_count": 0,
-      "has_G4_motif": false,
-      "max_homopolymer": 2,
-      "fusion_specific": true
-    },
-    {
-      "antisense_5to3": "GGCATATCTAGATCAA",
-      "target_mRNA_5to3": "TTGATCTAGATATGCC",
+      "antisense_5to3": "GGCATATCACCAAAAT",
+      "target_mRNA_5to3": "ATTTTGGTGATATGCC",
       "architecture": "5-6-5 (LNA-DNA-LNA)",
       "specificity_margin": 7,
       "gc_percent": 37.5,
-      "site_accessibility": 0.542,
+      "site_accessibility": 0.258,
       "offtarget_exact": 0,
-      "offtarget_le1mm": 32,
+      "offtarget_le1mm": 5,
       "offtarget_hits": [
         {
-          "acc": "NM_001308022.2",
+          "acc": "NR_001525.1",
           "mm": 1
         },
         {
-          "acc": "NM_001308023.2",
+          "acc": "NR_002177.1",
           "mm": 1
         },
         {
-          "acc": "NM_001387777.1",
+          "acc": "NR_002178.1",
           "mm": 1
         },
         {
-          "acc": "NM_001438865.1",
+          "acc": "XR_001749891.3",
           "mm": 1
         },
         {
-          "acc": "NM_001438866.1",
+          "acc": "XR_942007.4",
           "mm": 1
         }
       ],
@@ -238,7 +130,124 @@
       "sirna_seed_offtarget_sites": 24224,
       "cpg_count": 0,
       "has_G4_motif": false,
-      "max_homopolymer": 2,
+      "max_homopolymer": 4,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "AGGGCATATCACCAAA",
+      "target_mRNA_5to3": "TTTGGTGATATGCCCT",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 7,
+      "gc_percent": 43.8,
+      "site_accessibility": 0.226,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 10,
+      "offtarget_hits": [
+        {
+          "acc": "NM_001031746.5",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001144961.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001144962.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001144963.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_005007.4",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "TATGCCC",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 25775,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 3,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "GGGCATATCACCAAAA",
+      "target_mRNA_5to3": "TTTTGGTGATATGCCC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 8,
+      "gc_percent": 43.8,
+      "site_accessibility": 0.233,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 13,
+      "offtarget_hits": [
+        {
+          "acc": "NM_001438005.1",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001438164.1",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001438165.1",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001438166.1",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001438167.1",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "ATATGCC",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 28354,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 4,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "GCATATCACCAAAATT",
+      "target_mRNA_5to3": "AATTTTGGTGATATGC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 6,
+      "gc_percent": 31.2,
+      "site_accessibility": 0.319,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 17,
+      "offtarget_hits": [
+        {
+          "acc": "NM_001193513.3",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001193514.3",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001193515.3",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001330476.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001330477.2",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "TGATATG",
+      "sirna_seed_spans_junction": true,
+      "sirna_seed_offtarget_sites": 38397,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 4,
       "fusion_specific": true
     }
   ]
