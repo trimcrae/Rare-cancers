@@ -39,10 +39,24 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "junction-aso-offtarget-locus-collapse.json")
 
 # `Homo sapiens ATP synthase F1 subunit gamma (ATP5F1C), transcript variant 1, mRNA; ...`
-# The symbol is the LAST parenthesised token before the first comma — last, because descriptions
-# such as "... (Sm) (SNRPB), transcript variant 1" carry an earlier parenthetical that is part of
-# the protein name rather than the gene symbol.
-_PAREN = re.compile(r"\(([^()]{1,20})\)")
+# The symbol is the FIRST parenthesised token whose closing paren is followed by a comma or the end
+# of the definition. NCBI's defline is `<organism> <description> (<SYMBOL>), <tail>`, so that
+# lookahead is what separates the symbol from a parenthetical inside the description: in
+# "... (Sm) (SNRPB), transcript variant 1" only `(SNRPB)` is comma-terminated.
+#
+# ⚠ THIS REPLACED "the LAST parenthesised token before the first comma", which was wrong for every
+# gene whose DESCRIPTION itself contains a comma (measured 2026-08-13: 888 of 25,893 hits across the
+# committed screens, 3.43%). `Homo sapiens germ cell-less 1, spermatogenesis associated (GMCL1),
+# mRNA` split to `Homo sapiens germ cell-less 1`, which carries no parenthesis at all, so nine
+# GMCL1 variants degraded to nine separate accession fallbacks and ONE locus was counted as NINE.
+# The old rule also returned an outright WRONG symbol wherever the description's own parenthetical
+# came first: `glucosaminyl (N-acetyl) transferase 3, mucin type (GCNT3)` returned `N-ACETYL`.
+# ⚠ AND THE OVER-COUNTING WAS NOT HARMLESS JUST BECAUSE IT WAS THE SAFE DIRECTION. The fallback
+# comment below is right that over-counting beats merging, but a locus count is quoted in the
+# manuscript as a measure of how many distinct genes a design can cleave, and there an inflated
+# count reads as a dirtier reagent than the evidence supports. Safe-direction is a floor on the
+# damage, not a licence to leave it.
+_PAREN = re.compile(r"\(([^()]{1,20})\)(?=,|$)")
 
 # curated vs predicted, per NCBI's RefSeq accession prefixes
 CURATED_PREFIXES = ("NM_", "NR_")
@@ -58,10 +72,9 @@ def locus_of(entry):
     can only report more distinct loci than exist, never fewer.
     """
     defn = str(entry.get("defn") or "")
-    head = defn.split(",")[0]
-    hits = _PAREN.findall(head)
-    if hits:
-        sym = hits[-1].strip().upper()
+    m = _PAREN.search(defn)
+    if m:
+        sym = m.group(1).strip().upper()
         # a parenthetical that is plainly not a symbol (spaces, or a lone descriptor) is refused
         if sym and " " not in sym and not sym.isdigit():
             return sym
@@ -168,6 +181,11 @@ def collapse_screen(path):
         "screen": os.path.basename(path),
         "junction_label": d.get("junction_label"),
         "orientation": orient,
+        # ⛔ DEPTH IS PART OF A SCREEN'S IDENTITY AND MUST NOT BE POOLED AWAY. The same design
+        # returns a different near-match count at the default alignment ceiling and at ten times it,
+        # so an inflation median taken across both describes neither population — the same defect
+        # the censoring note above refuses for truncated lists. Tagged here so `main` can partition.
+        "depth": "deep" if "deep500" in os.path.basename(path) else "default",
         "n_oligos": len(per),
         "per_oligo": per,
     }
@@ -179,11 +197,35 @@ def main(argv=None):
                    if "-graded" not in p and "locus-collapse" not in p)
     screens = [collapse_screen(p) for p in paths]
 
-    every = [o for s in screens for o in s["per_oligo"]]
-    # ⛔ EVERY HEADLINE IS COMPUTED ON THE UNCENSORED SUBSET AND SAYS SO. Mixing a complete hit
-    # list with a top-15 sample produces a number that describes neither.
-    clean = [o for o in every if not o["right_censored"]]
-    infl = sorted(o["inflation_factor"] for o in clean if o["inflation_factor"] is not None)
+    # ⛔ THE HEADLINE POPULATION IS DEFAULT-DEPTH SCREENS ONLY, AND THIS IS LOAD-BEARING (2026-08-13).
+    # `main` globs every `junction-aso-offtarget-*.json` on disk, so when the 38 deep re-screens
+    # landed they silently doubled the population: a re-run moved `n_oligos` 192 -> 379 and the
+    # median inflation factor 2.14 -> 4.55, both of which the manuscript quotes. Nothing about the
+    # science changed; the glob simply widened under a number that reads as a measurement. Partition
+    # rather than pool, and let the deep population carry its own summary.
+    default_screens = [s for s in screens if s["depth"] == "default"]
+    deep_screens = [s for s in screens if s["depth"] == "deep"]
+
+    def _totals(subset):
+        every_ = [o for s in subset for o in s["per_oligo"]]
+        # ⛔ EVERY HEADLINE IS COMPUTED ON THE UNCENSORED SUBSET AND SAYS SO. Mixing a complete hit
+        # list with a top-15 sample produces a number that describes neither.
+        clean_ = [o for o in every_ if not o["right_censored"]]
+        infl_ = sorted(o["inflation_factor"] for o in clean_
+                       if o["inflation_factor"] is not None)
+        return every_, clean_, infl_, {
+            "transcript_near_matches": sum(o["n_transcript_near_matches_stored"] for o in clean_),
+            "distinct_loci_summed_over_oligos": sum(o["n_distinct_loci"] for o in clean_),
+            "median_inflation_factor": (infl_[len(infl_) // 2] if infl_ else None),
+            "max_inflation_factor": (infl_[-1] if infl_ else None),
+            "oligos_whose_loci_are_all_curated": sum(
+                1 for o in clean_ if o["n_loci_seen_only_as_predicted_models"] == 0),
+            "oligos_with_no_gap_spanning_locus": sum(
+                1 for o in clean_ if o["n_loci_with_a_gap_spanning_hit"] == 0),
+        }
+
+    every, clean, infl, default_totals = _totals(default_screens)
+    _, deep_clean, _, deep_totals = _totals(deep_screens)
     out = {
         "what": ("Off-target near-matches from every committed junction-gapmer screen, re-counted "
                  "per GENE LOCUS instead of per RefSeq transcript accession, and split by whether "
@@ -199,17 +241,22 @@ def main(argv=None):
         "n_oligos": len(every),
         "n_oligos_uncensored": len(clean),
         "n_oligos_right_censored": len(every) - len(clean),
-        "totals_over_uncensored_oligos_only": {
-            "transcript_near_matches": sum(o["n_transcript_near_matches_stored"] for o in clean),
-            "distinct_loci_summed_over_oligos": sum(o["n_distinct_loci"] for o in clean),
-            "median_inflation_factor": (infl[len(infl) // 2] if infl else None),
-            "max_inflation_factor": (infl[-1] if infl else None),
-            "oligos_whose_loci_are_all_curated": sum(
-                1 for o in clean if o["n_loci_seen_only_as_predicted_models"] == 0),
-            "oligos_with_no_gap_spanning_locus": sum(
-                1 for o in clean if o["n_loci_with_a_gap_spanning_hit"] == 0),
-        },
-        "screens": screens,
+        "totals_over_uncensored_oligos_only": default_totals,
+        "⚠_population": ("`totals_over_uncensored_oligos_only` and every count above it cover the "
+                         "DEFAULT-DEPTH screens only. The deeper re-screens are summarised "
+                         "separately below; the two are never pooled, because the same design "
+                         "returns a different near-match count at each ceiling."),
+        "n_deep_screens": len(deep_screens),
+        "n_deep_oligos_uncensored": len(deep_clean),
+        "deep_totals_over_uncensored_oligos_only": deep_totals,
+        # ⛔ `screens` IS DEFAULT-DEPTH ONLY, AND EVERY DOWNSTREAM READER DEPENDS ON THAT (2026-08-13).
+        # Partitioning only the summary while leaving this key on the raw glob is not a partition:
+        # the moment the 38 deep re-screens landed on disk, `screens` widened 40 -> 78 and
+        # `test_aso_submission_numbers._clean_set` — which iterates it — returned 13 designs where
+        # the manuscript says 9. The clean set is a default-depth claim, so the deep re-screens get
+        # their own key rather than being mixed into the list consumers already read.
+        "screens": default_screens,
+        "deep_screens": deep_screens,
     }
     if "--write" in argv:
         with open(OUT, "w") as fh:

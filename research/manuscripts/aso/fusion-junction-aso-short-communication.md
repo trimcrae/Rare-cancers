@@ -441,7 +441,7 @@ favour. RefSeq carries one accession per annotated variant, so a match to a
 constitutive exon of a multi-variant gene is counted once per variant. Recounting every screened hit
 list per gene locus, over the 44 designs of the 38 junction screens whose lists are neither truncated
 nor missing a locus recount, gives a median
-inflation of 2.20 transcript records per locus and a maximum of 11.0 — that is, a typical near-match count
+inflation of 2.25 transcript records per locus and a maximum of 11.0 — that is, a typical near-match count
 overstates the number of distinct genes involved by rather more than twofold. The distinction also
 separates observed from predicted sequence: RefSeq `NM_`/`NR_` records are curated, whereas
 `XM_`/`XR_` are computationally predicted gene models, so a design whose load sits entirely in the
@@ -453,6 +453,14 @@ only as predicted `XR_` models. One gap-spanning locus from a raw count of nine,
 curated sequence: the sixth hybridisable near-match is *H2AP* (NM_012274), whose single mismatch
 falls inside the catalytic gap and which the pessimistic bound therefore counts in full. The same
 design returns no exact match and a single ≤1-mismatch match on the exhaustive scan.
+
+Re-screened at the tenfold deeper ceiling, that design returns 189 near-matches, 141 of them
+hybridisable and gap-spanning, and 123 with the catalytic gap perfectly paired. Both effects above
+apply at that depth and neither weakens. All 123 sit at 14 of 16 identity, the loosest match the
+screen admits; they recount to six gene loci, of which *ANKS1B* and *ZNF667* supply 104 between
+them; 82 of the 123 are `XM_`/`XR_` predicted models; and no parent transcript is among them. Depth
+therefore raises the raw count roughly twentyfold and the distinct gap-spanning locus count from one
+to six.
 
 ### 3.8 · Two parent liability classes outside the transcript screens
 
@@ -639,13 +647,16 @@ fibrous tumour, evaluated against CRISPR-engineered isogenic fusion-positive and
 cells, reduced fusion expression by 58% and proliferation by 22% in vitro.<sup>35</sup><!--PMID:37370737--> Applied here,
 5′-GGGCATATCATCAAAC-3′ remains the single highest-information reagent, because one synthesis tests
 the mechanism at the most commonly reported junction and, against a synthetic target only, the
-multi-partner prediction; its predicted load — five gap-spanning
-near-matches at one uncharacterised locus, a sixth hybridisable near-match on curated *H2AP*, and a
-single ≤1-mismatch transcriptome match (§3.7) —
-should travel with it, and it has not been re-screened at the deeper ceiling. If the object is
+multi-partner prediction. It also carries the heaviest disclosed load of any design considered here:
+123 gap-paired hybridisable near-matches at the deeper ceiling, recounting to six gene loci, all at
+the screen's loosest admitted identity and none on a parent transcript (§3.7). That load should
+travel with the reagent, and it is a liability to disclose and to control for rather than a
+disqualification, because on the exhaustive scan the same design falls below chance in both
+directions that matter, at 0.69 times the expected number of exact genomic matches and 0.62 times
+the expected number of gap-paired matches at two mismatches. If the object is
 instead the cleanest available test of the mechanism alone, the candidates are
-5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8 and 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1, the two designs
-that survive every screen including the deeper one, at the
+5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8, 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 and
+5′-GGGCATATCAAGCGCT-3′ at *TCF12* exon 7, tiered as §3.8 describes, at the
 cost of addressing junctions no patient is reported to carry. 5′-GGGCATATCTCTATAA-3′ at *TCF12* exon
 17, which an earlier draft of this work put forward for that role, is not a candidate: at ten times
 the default search depth it carries 101 hybridisable near-matches, 14 of them spanning the catalytic
