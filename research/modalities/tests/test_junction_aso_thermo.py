@@ -115,13 +115,109 @@ def test_a_parent_can_only_pair_its_own_half_and_the_fusion_wins():
 def test_the_artifact_states_what_it_does_not_model():
     """LNA is not modelled and the artifact must say so, in the direction that matters.
 
-    LNA raises affinity on fusion and parent duplexes alike, so it COMPRESSES ΔΔG — the reported
-    discrimination is an upper bound. An artifact silent on this would read as an estimate.
+    ⚠ *Superseded, retained: "LNA raises affinity on fusion and parent duplexes alike, so it
+    COMPRESSES ΔΔG — the reported discrimination is an upper bound."* That is the direction the
+    module, the artifact and the manuscript all carried until 2026-08-13 and all corrected: the seam
+    lies inside the gap, so the fusion duplex pairs all ten LNA residues and each parent duplex
+    exactly five, and ΔΔG WIDENS. The reported value is a conservative FLOOR.
+
+    ⛔ THE ASSERTION USED TO PASS FOR THE WRONG REASON, WHICH IS WHY THE DOCSTRING MATTERED. It
+    checked only for "upper bound", and after the correction that phrase survived solely inside the
+    artifact's own `⚠ Superseded, retained` clause — so a test written to pin the compression claim
+    went on passing against text that says the opposite. It now pins the LIVE direction and the
+    retention of the superseded one separately, which is what rule 1.2 actually asks for.
     """
     art = _artifact()
     note = art.get("⚠_lna_not_modelled", "")
-    assert "upper bound" in note.lower() and "LNA" in note
+    assert "LNA" in note
+    assert "floor" in note.lower(), "the live text no longer states the floor direction"
+    assert "superseded" in note.lower() and "upper bound" in note.lower(), (
+        "the superseded 'upper bound' direction was dropped instead of retained")
     assert any("not_a_cleavage_prediction" in k for k in art), sorted(art)
+
+
+def test_the_median_is_a_median():
+    """⛔ THE FIELD WAS `ddg_s[len(ddg_s) // 2]` OVER AN EVEN-SIZED SET (190), which returns the
+    UPPER of the two central values (9.603) rather than their mean (9.5925).
+
+    ⚠ THE PROSE WAS RIGHT AND THE ARTIFACT WAS WRONG, WHICH IS WHY NOTHING CAUGHT IT. Both values
+    round to the "median of 9.6" the manuscript prints, so every consistency check that compared the
+    paper to the artifact at the paper's precision passed. A mislabelled field is still quotable at
+    full precision by anything that reads the artifact instead of the paper, and this asserts the
+    label against an independent implementation rather than against a rounded string.
+    """
+    import statistics
+    art = _artifact()
+    ddg = [r["ddg37_discrimination"] for r in art["per_design"]]
+    assert len(ddg) % 2 == 0, "the set is odd-sized; this test's premise no longer holds"
+    assert art["discrimination_ddg37"]["median"] == round(statistics.median(ddg), 4)
+    assert art["discrimination_ddg37"]["min"] == min(ddg)
+    assert art["discrimination_ddg37"]["max"] == max(ddg)
+    # The superseded value must stay registered, per rule 1.2, and must not be the live one.
+    sup = art["discrimination_ddg37"].get("⚠_superseded_median", "")
+    assert "9.603" in sup, "the superseded median was dropped instead of registered"
+    assert art["discrimination_ddg37"]["median"] != 9.603
+
+
+def test_the_convention_check_does_not_claim_a_power_it_does_not_have():
+    """⛔ THE ARTIFACT SAID A REVERSED STRAND CONVENTION 'IS RULED OUT'. IT IS NOT.
+
+    `duplex_enthalpy_entropy` and Biopython's `Tm_NN` build the nearest-neighbour key the same way
+    from whatever sequence they are handed, so they agree on either strand. The strand is fixed
+    instead by Biopython's documented convention for `R_DNA_NN1` — the sequence supplied must be the
+    RNA one — and the module supplies `target_mRNA_5to3`, which is that sequence.
+    """
+    art = _artifact()
+    v = art["convention_validation"]
+    proves = v["_what_this_proves"]
+    assert "ruled out" not in proves and "reversed strand" not in proves.lower(), proves
+    assert "summation" in proves.lower() and "keying" in proves.lower(), proves
+    assert str(v["n_sequences"]) in proves, (
+        "the claim must name the number of sequences it was measured over")
+    assert "⛔_what_this_does_NOT_prove" in v
+    assert "⚠_superseded_what_this_proves" in v, "the superseded claim must stay registered"
+
+
+def test_the_convention_check_has_no_power_over_the_strand_and_this_is_the_measurement():
+    """The discriminating observation, run rather than asserted.
+
+    Both implementations agree to 0.0000 °C on the target strand AND on the antisense strand, while
+    the two strands give ΔG°37 that differ by ~1.6 kcal/mol. A check that passes equally under the
+    right and the wrong strand cannot be evidence about the strand.
+    """
+    tbl = _table()
+    from Bio.SeqUtils import MeltingTemp as mt
+    target, anti = "GTCCACGGATATGCCC", "GGGCATATCCGTGGAC"
+    energies = {}
+    for seq in (target, anti):
+        dh, ds = T.duplex_enthalpy_entropy(seq, tbl)
+        mine = T._tm(dh, ds)
+        theirs = mt.Tm_NN(seq, nn_table=mt.R_DNA_NN1, Na=0, Mg=0, saltcorr=0,
+                          dnac1=T.CONC_NM / 2, dnac2=T.CONC_NM / 2)
+        assert abs(mine - theirs) < 1e-9, (
+            f"the two implementations disagree on {seq}; the premise of this test is gone")
+        energies[seq] = T.delta_g37(dh, ds)
+    assert abs(energies[target] - energies[anti]) > 1.0, (
+        "the two strands give the same free energy, so there would be nothing for the check to "
+        "miss — the module docstring's measurement no longer reproduces")
+    # And the strand the module actually computes on is the one the committed artifact holds.
+    art = _artifact()
+    row = next((r for r in art["per_design"] if r["antisense_5to3"] == anti), None)
+    if row is not None:
+        assert row["dg37_fusion_duplex"] == energies[target], (
+            "the artifact's fusion duplex no longer reproduces from the target strand")
+
+
+def test_the_validation_runs_over_the_whole_design_set_it_claims():
+    """⛔ IT RAN ON A `[:60]` SLICE OF 190 WHILE THE FIELD BESIDE IT SAID 'the real design set'.
+
+    Nothing selected those 60, nothing quotes the number, and the check is arithmetic over 16-mers
+    that costs nothing — so the honest scope and the cheap scope were the same one.
+    """
+    art = _artifact()
+    assert art["convention_validation"]["n_sequences"] == art["n_designs"], (
+        art["convention_validation"]["n_sequences"], art["n_designs"])
+    assert art["convention_validation"]["agrees"] is True
 
 
 def test_the_manuscript_and_the_artifact_agree_on_every_reported_figure():

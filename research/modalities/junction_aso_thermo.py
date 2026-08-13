@@ -33,12 +33,24 @@ table recited from memory is precisely that failure in numeric form — gate 4 e
 once wrote a PMID from recollection. The package version is recorded in the artifact so a reader can
 reproduce the exact table.
 
-⛔⛔ AND THE KEYING CONVENTION IS VALIDATED, NOT ASSUMED. A nearest-neighbour table is a dictionary of
-"XY/WZ" keys, and getting the strand convention backwards produces numbers that are wrong and look
-entirely plausible — the failure mode this repository keeps paying for. So `_validate_against_biopython`
-recomputes Tm from this module's own ΔH and ΔS and checks it against Biopython's independent
-`Tm_NN` over the real design set. If the convention were wrong the two would diverge; agreement to
-0.01 °C is what licenses every number below.
+⛔⛔ AND THE KEYING IS VALIDATED, NOT ASSUMED — BUT VALIDATED IS NOT THE SAME AS "THE STRAND IS
+RIGHT", AND THIS BLOCK CLAIMED BOTH UNTIL 2026-08-13. A nearest-neighbour table is a dictionary of
+"XY/WZ" keys, and mis-keying it produces numbers that are wrong and look entirely plausible — the
+failure mode this repository keeps paying for. So `_validate_against_biopython` recomputes Tm from
+this module's own ΔH and ΔS and checks it against Biopython's independent `Tm_NN`, which walks the
+same table through its own code path. That is a real check of the SUMMATION AND KEYING, and
+`tests/test_junction_aso_thermo.py` shows it has power by mis-keying the table and watching it break.
+⚠ *Superseded, retained: "If the convention were wrong the two would diverge; agreement to 0.01 °C is
+what licenses every number below."* It licenses the arithmetic and nothing else. Both
+implementations build the key the same way from whatever sequence they are handed, so they agree on
+EITHER strand and the check cannot see a strand swap. MEASURED, on design GGGCATATCCGTGGAC: the
+target strand GTCCACGGATATGCCC gives ΔG°37 −21.371 and the antisense strand −22.975 — a 1.6 kcal/mol
+difference — and at BOTH the two implementations agree to 0.0000 °C. A validation that passes equally
+under the right and the wrong strand says nothing about the strand.
+⭐ WHAT ACTUALLY FIXES THE STRAND is Biopython's documented convention for `R_DNA_NN1`: the sequence
+supplied must be the RNA one. This module passes `target_mRNA_5to3`, which is that sequence, and the
+committed `dg37_fusion_duplex` of −21.371 reproduces from it. The strand is right for a reason that
+is documented, not for a reason this check tested.
 
 ⚠ LNA IS NOT MODELLED, AND THAT IS A REAL LIMIT. These designs are 5-6-5 LNA/DNA/LNA. Sugimoto's
 table is for an unmodified DNA:RNA hybrid, so what is computed here is the duplex the DNA backbone
@@ -68,6 +80,7 @@ from __future__ import annotations
 
 import json
 import os
+import statistics
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -171,12 +184,19 @@ def _tm(dh, ds, conc_nm=CONC_NM):
 
 
 def _validate_against_biopython(seqs, table):
-    """Prove the keying convention by reproducing an independent Tm implementation.
+    """Prove the KEYING AND SUMMATION by reproducing an independent Tm implementation.
 
-    ⛔ THE POINT IS THAT A WRONG CONVENTION LOOKS RIGHT. Reversing the strand order in the key
-    yields free energies of an entirely plausible magnitude, and nothing downstream would notice.
-    Biopython's Tm_NN walks the same table through its own code path, so agreement is evidence
-    about THIS module's arithmetic rather than a restatement of it.
+    ⛔ THE POINT IS THAT A WRONG KEY LOOKS RIGHT. Mis-keying the table — pairing "XY" with something
+    other than the complement of XY in the same order — yields free energies of an entirely plausible
+    magnitude, and nothing downstream would notice. Biopython's `Tm_NN` walks the same table through
+    its own code path, so agreement is evidence about THIS module's arithmetic rather than a
+    restatement of it, and `test_a_reversed_convention_would_be_caught` shows the check has power.
+
+    ⛔ WHAT IT CANNOT DO, STATED HERE BECAUSE THE ARTIFACT USED TO CLAIM IT COULD. Both
+    implementations derive the key from whatever sequence they are given, so they agree on the target
+    strand and on the antisense strand alike. This check therefore has NO power over the strand
+    choice; see the module docstring for the measurement, and for the documented convention that
+    actually fixes it.
     """
     try:
         from Bio.SeqUtils import MeltingTemp as mt
@@ -204,9 +224,27 @@ def _validate_against_biopython(seqs, table):
         n += 1
     return {"ran": True, "n_sequences": n, "max_abs_tm_difference_c": round(worst, 6),
             "agrees": worst < 0.01,
-            "_what_this_proves": "This module's nearest-neighbour keying reproduces an independent "
-                                 "implementation over the real design set. A reversed strand "
-                                 "convention would diverge here and is ruled out."}
+            "_what_this_proves": (
+                f"This module's nearest-neighbour SUMMATION AND KEYING reproduce an independent "
+                f"implementation (Biopython's Tm_NN, walking the same table through its own code "
+                f"path) over {n} of the design set's 16-mers, to within 0.01 °C. That is the whole "
+                f"of what it establishes."),
+            "⛔_what_this_does_NOT_prove": (
+                "It does NOT rule out a reversed strand convention, and this field said it did "
+                "until 2026-08-13. Both implementations build the nearest-neighbour key the same "
+                "way from whatever sequence they are handed, so they agree on either strand. "
+                "Measured on design GGGCATATCCGTGGAC: the target strand gives ΔG°37 -21.371 and the "
+                "antisense strand -22.975, and at BOTH the two implementations agree to 0.0000 °C. "
+                "The strand is fixed instead by Biopython's documented convention for R_DNA_NN1 — "
+                "the sequence supplied must be the RNA one — and this module supplies "
+                "target_mRNA_5to3, which is that sequence."),
+            "⚠_superseded_what_this_proves": (
+                "Rule 1.2, retained: 'This module's nearest-neighbour keying reproduces an "
+                "independent implementation over the real design set. A reversed strand convention "
+                "would diverge here and is ruled out.' Both halves were wrong. The check ran on a "
+                "[:60] slice of the 190 designs while the artifact's own n_sequences read 60, and "
+                "it has no power over the strand at all. The slice is gone and the claim is now "
+                "scoped to what was measured.")}
 
 
 # ─────────────────────────────────────────────────────────────── the design-rule audit
@@ -289,12 +327,15 @@ def build():
                 "design_rules": design_rule_audit(anti, d.get("gc_percent") or 0.0),
             })
 
-    seqs = [r["antisense_5to3"] for r in rows]
-    targets = [r for r in rows]
-    validation = _validate_against_biopython([t["antisense_5to3"] for t in targets][:60], table)
+    # ⛔ NO SLICE. This read `[...][:60]` while the artifact's `_what_this_proves` said the check ran
+    # "over the real design set" and its own `n_sequences` said 60 — a scope claim contradicted by
+    # the field beside it. Nothing selected those 60 and nothing quotes the number; the check is
+    # arithmetic over 16-mers and costs nothing, so it now runs over every design and the claim is
+    # simply true. (Measured 2026-08-13: at n=60 and at n=190 the worst disagreement is 0.0 °C
+    # alike, so this widens the evidence without moving it.)
+    validation = _validate_against_biopython([r["antisense_5to3"] for r in rows], table)
 
     ddg = [r["ddg37_discrimination"] for r in rows]
-    ddg_s = sorted(ddg)
     n_pass_all = sum(1 for r in rows if all(r["design_rules"].values()))
     rule_counts = {k: sum(1 for r in rows if r["design_rules"][k]) for k in DESIGN_RULES}
 
@@ -330,9 +371,22 @@ def build():
         "convention_validation": validation,
         "n_designs": len(rows),
         "discrimination_ddg37": {
-            "min": ddg_s[0] if ddg_s else None,
-            "median": ddg_s[len(ddg_s) // 2] if ddg_s else None,
-            "max": ddg_s[-1] if ddg_s else None,
+            "min": min(ddg) if ddg else None,
+            #: ⛔ THIS WAS `ddg_s[len(ddg_s) // 2]`, WHICH IS NOT A MEDIAN ON AN EVEN-SIZED SET
+            #: (2026-08-13). With 190 values it returns the UPPER of the two central ones rather
+            #: than their mean, so a field labelled `median` held a value the label does not
+            #: describe. ⚠ THE LABEL IS THE DEFECT, NOT THE ROUNDED PROSE: the manuscript's "a
+            #: median of 9.6" is right either way, which is exactly why nothing caught it — a
+            #: mislabelled field is quotable at full precision by any consumer that reads the
+            #: artifact rather than the paper. Read from `statistics`, not reimplemented, because
+            #: reimplementing it is what produced the bug.
+            "median": round(statistics.median(ddg), 4) if ddg else None,
+            "⚠_superseded_median": (
+                "Rule 1.2, retained: 9.603, the value this field carried until 2026-08-13. It was "
+                "`sorted(ddg)[len(ddg) // 2]` over 190 values — the upper of the two central values "
+                "(9.582 and 9.603), not their mean. The corrected median is 9.5925; both round to "
+                "the 9.6 the manuscript prints, so no sentence changes."),
+            "max": max(ddg) if ddg else None,
             "n_favouring_fusion": sum(1 for x in ddg if x > 0),
             "n_favouring_a_parent": sum(1 for x in ddg if x <= 0),
         },

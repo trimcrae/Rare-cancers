@@ -56,9 +56,25 @@ WING = 5
 #: 0-based window positions of the DNA gap in a 5-6-5 16-mer.
 GAP = range(WING, OLIGO_LEN - WING)
 
-#: A contiguous DNA:RNA duplex shorter than this is not treated as a plausible RNase-H1 substrate.
-#: ⚠ STATED, NOT MEASURED. It is reported alongside every design's raw longest run so that a reader
-#: who prefers another threshold can apply it without re-running anything.
+#: A contiguous ASO:RNA heteroduplex shorter than this is not treated as a plausible RNase-H1
+#: substrate. ⚠ NOT THE DNA GAP: a hit counts only if all six gap positions are paired, so the
+#: DNA:RNA run is 6 bp for EVERY counted hit by construction and this threshold does not test the
+#: catalytic DNA requirement at all. What it tests is total hybrid length for hybrid-binding-domain
+#: engagement, which is the quantity the anchor below describes.
+#: ⚠ STATED, NOT MEASURED — but no longer arbitrary (anchored 2026-08-13). PMID 35664704, committed
+#: full text at `literature-cache:literature/aso-rnaseh-mismatch/PMC9136273.txt` and quoted in
+#: `research/manuscripts/aso/lit-targets-aso-gap-length.json`: "RNase H1 requires a minimum length
+#: of 7 to 10 RNA:DNA hybridized nucleotides to bind with its hybrid binding domain and cleave the
+#: RNA downstream." TEN IS THE STRICT END of that range, so this count is a FLOOR: at 7 the same
+#: screen returns 175 of 190 rather than 87. That sentence is a discussion-section rationale citing
+#: prior work, not a measurement, and nothing measures it for a 5-6-5 LNA gapmer.
+#: ⭐ THE RESULT DOES NOT TURN ON THE VALUE, WHICH IS THE POINT WORTH KNOWING. The two designs that
+#: survive every screen have a longest run of ZERO — no window of any parent pairs their gap at any
+#: length — so the candidate set is threshold-independent. The margin ordering is strictly monotone
+#: at every threshold from 6 to 12. And against NR4A3 the histogram is EMPTY at 10 and holds one
+#: design at 9, because a duplex at the real mature exon-2/exon-3 junction spans window positions
+#: 5..15 and so cannot be shorter than 11 bp: any threshold in [10, 11] returns the same 61.
+#: Every design's raw longest run is released so another threshold can be applied without re-running.
 MIN_DUPLEX_BP = 10
 
 
@@ -141,8 +157,14 @@ def build():
             "not sufficient, and nothing here is a cleavage assay.",
             "Not transcriptome-wide. Six parent transcripts only — the same bound the pre-mRNA arm "
             "carries.",
-            "MIN_DUPLEX_BP is a STATED threshold, not a measured one. Every design's raw longest "
+            "MIN_DUPLEX_BP is a STATED threshold, not a measured one — though not an arbitrary "
+            "one: 10 is the strict end of the 7-to-10 hybridised nucleotides PMID 35664704 reports "
+            "as the minimum for RNase-H1 hybrid-binding-domain engagement, so this count is a floor "
+            "and returns 175 of 190 at a threshold of 7. Every design's raw longest "
             "run is released so another threshold can be applied without re-running this.",
+            "Not a result that turns on that threshold. The two designs surviving every screen in "
+            "the manuscript have a longest run of ZERO at any length, and the ordering by "
+            "gap-level margin is monotone at every threshold from 6 to 12.",
         ],
         "_cost": "$0 — offline, over two committed artifacts, no network and no credentials.",
         "method": {

@@ -18,15 +18,18 @@
  },
  "convention_validation": {
   "ran": true,
-  "n_sequences": 60,
+  "n_sequences": 190,
   "max_abs_tm_difference_c": 0.0,
   "agrees": true,
-  "_what_this_proves": "This module's nearest-neighbour keying reproduces an independent implementation over the real design set. A reversed strand convention would diverge here and is ruled out."
+  "_what_this_proves": "This module's nearest-neighbour SUMMATION AND KEYING reproduce an independent implementation (Biopython's Tm_NN, walking the same table through its own code path) over 190 of the design set's 16-mers, to within 0.01 \u00b0C. That is the whole of what it establishes.",
+  "\u26d4_what_this_does_NOT_prove": "It does NOT rule out a reversed strand convention, and this field said it did until 2026-08-13. Both implementations build the nearest-neighbour key the same way from whatever sequence they are handed, so they agree on either strand. Measured on design GGGCATATCCGTGGAC: the target strand gives \u0394G\u00b037 -21.371 and the antisense strand -22.975, and at BOTH the two implementations agree to 0.0000 \u00b0C. The strand is fixed instead by Biopython's documented convention for R_DNA_NN1 \u2014 the sequence supplied must be the RNA one \u2014 and this module supplies target_mRNA_5to3, which is that sequence.",
+  "\u26a0_superseded_what_this_proves": "Rule 1.2, retained: 'This module's nearest-neighbour keying reproduces an independent implementation over the real design set. A reversed strand convention would diverge here and is ruled out.' Both halves were wrong. The check ran on a [:60] slice of the 190 designs while the artifact's own n_sequences read 60, and it has no power over the strand at all. The slice is gone and the claim is now scoped to what was measured."
  },
  "n_designs": 190,
  "discrimination_ddg37": {
   "min": 4.817,
-  "median": 9.603,
+  "median": 9.5925,
+  "\u26a0_superseded_median": "Rule 1.2, retained: 9.603, the value this field carried until 2026-08-13. It was `sorted(ddg)[len(ddg) // 2]` over 190 values \u2014 the upper of the two central values (9.582 and 9.603), not their mean. The corrected median is 9.5925; both round to the 9.6 the manuscript prints, so no sentence changes.",
   "max": 13.08,
   "n_favouring_fusion": 190,
   "n_favouring_a_parent": 0

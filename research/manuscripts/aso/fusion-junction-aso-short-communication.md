@@ -147,10 +147,16 @@ panel was emitted only for a pair graded frame-compatible.
 **Design.** Junction-spanning 16-mer gapmers were tiled in a 5-6-5 LNA/DNA/LNA architecture on a
 phosphorothioate backbone, the chemistry the design rules below assume, retaining
 only registers in which the seam falls inside the six-nucleotide DNA gap, since RNase-H1 cleaves
-within the DNA:RNA duplex of the gap and needs a minimum run of contiguous DNA to do so. A
-six-nucleotide gap sits at the short end of that requirement and concentrates fusion-versus-parent
-discrimination inside the catalytic window; it admits exactly five junction-spanning registers per
-seam, which is the whole design space explored here. Discrimination is set by the junction-unique bases inside
+within the DNA:RNA duplex of the gap and needs a minimum run of contiguous DNA to do so. Reported
+minima for that run are five to six nucleotides,<sup>22,23</sup><!--PMID:39126066,41614678--> and for
+LNA/DNA/LNA gapmers specifically a six-nucleotide gap gives noteworthy but incomplete activity, with
+seven to ten reported as optimal.<sup>24</sup><!--PMID:24981949--> A six-nucleotide gap therefore sits
+at the short end of the usable range and below the reported optimum. It was retained because it
+admits exactly five junction-spanning registers per
+seam, which is the whole design space explored here. No claim is made that a short gap improves
+fusion-versus-parent discrimination: one series that shortened a 5-10-5 gapmer to 5-6-5 reported
+lower off-target knockdown but also lower on-target activity and lower allele
+selectivity.<sup>22</sup><!--PMID:39126066--> Discrimination is set by the junction-unique bases inside
 the gap, not by identity across the whole oligonucleotide, so designs were ranked by a gap-level
 margin: the number of junction-unique bases inside the gap on the shorter side. Each candidate was
 tested against all six parent transcripts, not only the two parents of its own fusion, because the
@@ -192,20 +198,23 @@ and every design's target window was compared to every 16-nucleotide window of a
 forward orientation only. A window counts only if all six gap positions are paired; its size is the
 longest contiguous run of perfect pairing containing the whole gap, which is the duplex RNase-H1
 would see. Runs shorter than ten base pairs are not treated as plausible substrates — a stated
-threshold, not a measured one, so every design's longest run is released.
+threshold, not a measured one, so every design's longest run is released. Ten is the strict end of
+the seven to ten hybridised nucleotides reported as the minimum for RNase-H1 to engage a
+heteroduplex through its hybrid-binding domain and cleave,<sup>25</sup><!--PMID:35664704--> so the
+count it produces is a floor: at seven the same screen returns 175 of 190 rather than 87.
 
 **Discrimination model.** The binary assumption that any mismatch inside the gap abolishes cleavage
 is not supported by the primary literature and is not used for any claim of cleanliness. The field's
 general figure for single-nucleotide discrimination by a gapmer carrying no positional modification
-in its gap is approximately five-fold,<sup>22</sup><!--PMID:23963702--> and at 16-mer length one study reports no efficient discrimination at
-all.<sup>23</sup><!--PMID:7567450--> Both are measured against a single-nucleotide substitution rather than a fusion
+in its gap is approximately five-fold,<sup>26</sup><!--PMID:23963702--> and at 16-mer length one study reports no efficient discrimination at
+all.<sup>27</sup><!--PMID:7567450--> Both are measured against a single-nucleotide substitution rather than a fusion
 seam, and the pessimistic one used unmodified antisense DNA; they are used here as bounds for
 unmodified chemistry, not as a property of this architecture. Gapmer-specific work points the same
 way and is the reason the bounds are not narrowed: across more than 120 gapmers spanning five
 single-nucleotide changes, only two or three achieved preferential cleavage of the mutant allele in
-cells,<sup>24</sup><!--PMID:28970564--> and where allele selectivity is achieved it is engineered by
+cells,<sup>28</sup><!--PMID:28970564--> and where allele selectivity is achieved it is engineered by
 modifying a gap position to block cleavage of the near-match rather than obtained from the mismatch
-itself.<sup>25</sup><!--PMID:42327837--> Every gap-resolved screen was therefore re-scored under both bounds as a graded
+itself.<sup>29</sup><!--PMID:42327837--> Every gap-resolved screen was therefore re-scored under both bounds as a graded
 residual cleavage load, holding the hit set fixed so that only the scoring changed: all 38 junction
 screens and 39 of the 45 screens released in total, the exceptions being one coverage-only
 control screen that records no gap-mismatch depth and so cannot be graded at all, and the five deeper
@@ -225,7 +234,7 @@ scored thermodynamically. A junction gapmer is a perfect complement of the fusio
 positions, while a parent transcript can pair only the half of the oligonucleotide it contributes,
 so the comparison is the full 16-mer duplex against the donor-side and acceptor-side runs alone.
 Nearest-neighbour enthalpies and entropies for a DNA:RNA hybrid were taken from Sugimoto and
-colleagues,<sup>26</sup><!--PMID:7545436--> and ΔG°37 computed as ΔH° − TΔS°; the 250 nM strand concentration enters only the
+colleagues,<sup>30</sup><!--PMID:7545436--> and ΔG°37 computed as ΔH° − TΔS°; the 250 nM strand concentration enters only the
 melting temperature used to check the arithmetic against an independent implementation, which agreed
 exactly. That check verifies the summation, not the choice of strand, which is fixed by the table's
 documented convention that the sequence supplied is the RNA one. These designs carry LNA wings and the table is for an unmodified
@@ -259,7 +268,7 @@ frame compatibility reduces to a single arithmetic condition — a donor coding 
 necessary and sufficient across its 77 rows, and necessary but not sufficient across all 231.
 
 Among these, *EWSR1* exon 12 joined to *NR4A3* exon 3 is the junction reported most often — type 1
-in 10 of the 15 *EWSR1*-rearranged tumours of an 18-case series<sup>27</sup><!--PMID:12378528--> — so
+in 10 of the 15 *EWSR1*-rearranged tumours of an 18-case series<sup>31</sup><!--PMID:12378528--> — so
 designs at this seam correspond to the largest documented patient group.
 
 No design at any of the 38 junctions is a perfect complement of any of the six parent transcripts, a
@@ -280,9 +289,9 @@ what makes the coverage arithmetically possible.
 
 In one respect the published data contradict the clinical reading of this result. The only
 exon-resolved *TAF15::NR4A3* breakpoints reported in EMC are exon 6: the primary report of
-the variant fusion places the breakpoint at *TAF15* exon 6,<sup>28</sup><!--PMID:10537274--> and in a
+the variant fusion places the breakpoint at *TAF15* exon 6,<sup>32</sup><!--PMID:10537274--> and in a
 series of 18 EMCs all three *TAF15*-rearranged tumours carried exon 6 joined to *NR4A3* exon
-3<sup>27</sup><!--PMID:12378528--> — not exon 11. The exon-6 seam shares a single donor base with the exon-11 seam, so this oligonucleotide cannot
+3<sup>31</sup><!--PMID:12378528--> — not exon 11. The exon-6 seam shares a single donor base with the exon-11 seam, so this oligonucleotide cannot
 engage the *TAF15* junction that patients are reported to carry. That junction is itself
 frame-compatible and yields five fusion-specific designs (43.8–50.0% GC), all five screened and
 orientation-filtered — and every one of them retains a hybridisable gap-spanning near-match, four
@@ -473,7 +482,8 @@ the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon�
 parent duplex of 11 or 12 contiguous base pairs that pairs the whole catalytic gap is invisible to
 all three while being what RNase-H1 requires. Comparing every design's target window to every window
 of all six mature parents, 87 of 190 designs have one of at least ten base pairs, and 61 of those 87
-are against wild-type *NR4A3* — the transcript this modality must spare. It falls steeply with the
+are against wild-type *NR4A3* — the transcript this modality must spare, with a 62nd pairing *NR4A3*
+at eleven base pairs but another parent at twelve, so that it is attributed elsewhere. It falls steeply with the
 gap-level margin, from 50 of 76 designs at margin 1 through 29 of 76 at margin 2 to 8 of 38 at margin
 3, which is what the margin's definition predicts: at margin 1 a parent needs one lucky base to pair
 the whole gap and at margin 3 it needs three. Five of the nine designs of §3.5 carry such
@@ -485,7 +495,9 @@ the seam without asking whether a parent carries them elsewhere.
 Composing this with the deeper re-screen of §3.5 leaves two candidates in the whole panel:
 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8 and 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1, which carry no
 hybridisable near-match at ten times the default search depth, no single-mismatch match on the
-exhaustive scan, no pre-mRNA site and no mature-parent duplex. That is the honest size of the
+exhaustive scan, no pre-mRNA site and no mature-parent duplex. Neither depends on the ten-base-pair
+threshold: no window of any parent pairs their catalytic gap at any length, so their longest run is
+zero rather than merely short. That is the honest size of the
 candidate set, and neither junction has a published patient breakpoint — the exon-resolved *TAF15*
 breakpoints reported in EMC are exon 6, and for *FUS* none has been published at all.
 
@@ -544,7 +556,9 @@ eleven- or twelve-base-pair duplex with a mature wild-type parent that pairs the
 one of them with *NR4A3* itself, where no screen filtering on global identity can see it. Two designs
 survive every screen applied here — at *FUS* exon 8 and *TAF15* exon 1, neither a junction any patient
 is reported to carry. That is the honest size of the candidate set, and it is a floor rather than a
-total: the same deeper search has not been run at the other 32 junctions.
+total until the same depth is applied everywhere — which it now has been, for all 38 junctions
+and 187 design records, with no hit list truncated. Those counts are reported as their own
+measurement and are not folded into the default-depth figures above.
 
 The limiting step is discrimination between the fusion and its parents, and it is not resolved here.
 Both cited bounds are measured against a single substitution in an otherwise fully paired duplex, so
@@ -564,7 +578,7 @@ sequence analysis is either of them: a measurement, or a physics-based estimate 
 on the RNase-H1·heteroduplex complex, for which experimental structures exist. Neither is attempted
 here. The field's own
 answer to poor single-base discrimination has been positional chemical modification of the gap rather
-than length,<sup>22</sup><!--PMID:23963702--> and that is the design direction this result points to. A steric-block
+than length,<sup>26</sup><!--PMID:23963702--> and that is the design direction this result points to. A steric-block
 mechanism, which does not require gap-level discrimination, is a second alternative this work does not
 evaluate.
 
@@ -573,10 +587,10 @@ requirements. A characterised EMC-enriched surface antigen is a prerequisite of
 the systemic receptor-targeted route only; local and inhaled administration require none. EMC's
 distant spread is lung-dominant, at 35–45% of patients and a median of approximately 28 months to
 metastasis,<sup>6</sup><!--PMID:41055792--> and inhaled oligonucleotides have reached human dosing in non-oncology
-indications, including an inhaled antisense oligonucleotide dosed in healthy volunteers in phase 1<sup>29</sup><!--PMID:39500647--> — a
+indications, including an inhaled antisense oligonucleotide dosed in healthy volunteers in phase 1<sup>33</sup><!--PMID:39500647--> — a
 splice-switching oligonucleotide rather than an RNase-H1-active gapmer, so it establishes the route
 and not the mechanism used here — and an inhaled
-siRNA in phase 2b–3 in patients.<sup>30</sup><!--PMID:40028836--> Those agents target airway epithelium or parenchyma, which is the
+siRNA in phase 2b–3 in patients.<sup>34</sup><!--PMID:40028836--> Those agents target airway epithelium or parenchyma, which is the
 compartment inhalation naturally reaches; a hypocellular, matrix-rich parenchymal sarcoma nodule is
 not. Inhaled delivery to lung tumours is an active preclinical field — 68 records in the retrieval
 corpus behind this section — but only two of those carry clinical-stage language and neither is a
@@ -585,7 +599,7 @@ trial, so the route is established in humans and not for this target.
 The experiment that would resolve the central uncertainty is routine and has been published in an
 analogous disease: fusion-specific antisense oligonucleotides against *NAB2::STAT6* in solitary
 fibrous tumour, evaluated against CRISPR-engineered isogenic fusion-positive and fusion-negative
-cells, reduced fusion expression by 58% and proliferation by 22% in vitro.<sup>31</sup><!--PMID:37370737--> Applied here,
+cells, reduced fusion expression by 58% and proliferation by 22% in vitro.<sup>35</sup><!--PMID:37370737--> Applied here,
 5′-GGGCATATCATCAAAC-3′ remains the single highest-information reagent, because one synthesis tests
 the mechanism at the most commonly reported junction and, against a synthetic target only, the
 multi-partner prediction; its predicted load — five gap-spanning
@@ -618,9 +632,10 @@ re-screen shows how tight that bound is. The alignment screen
 returned hit lists for 183 filtered designs. Only 47 of those 183 are short enough to be assessed for
 cleanliness at all, so nine
 clean designs is a floor over that subset and not a total. It is also an over-count: six of the nine
-lost the property at ten times the default search depth, so the corresponding figure at the other 32
-junctions, where that deeper search has not been run, is unknown and should not be assumed to be
-better. BLAST is also heuristic and its sensitivity at the ≥14/16 threshold is unquantified
+lost the property at ten times the default search depth. Across all 38 junctions re-screened at
+that depth, 141 of 157 comparable designs return a higher count and 125 of those had not reached the
+50-hit cap, so the default-depth figures throughout should be read as lower bounds rather than as
+counts. BLAST is also heuristic and its sensitivity at the ≥14/16 threshold is unquantified
 here, so "no hybridisable near-match" is a property of this search rather than of the transcriptome;
 the exhaustive ≤1-mismatch scan carries no such qualification and is the arm the claim rests on. All 38 frame-compatible junctions are screened
 with the orientation filter applied, so no junction here carries an unfiltered count. The chance null is crude:

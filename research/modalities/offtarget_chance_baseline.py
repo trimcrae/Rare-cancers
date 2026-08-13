@@ -29,6 +29,50 @@ sequence. A design at chance is a statement that the screen found nothing specif
 ⛔ In particular this must NEVER be reported as a significance test, and no threshold on the ratio is
 proposed here, because the null is too crude to license one.
 
+⛔⛔ A PANEL FILE IS NOT A JUNCTION, AND THE GLOB WAS TREATING IT AS ONE (2026-08-13). The input
+pattern `aso-insilico-evaluation*.json` was written when one junction meant one file. It stopped
+meaning that when the deeper re-screen campaign began emitting a second evaluation per junction under
+its own suffix, and `*` matched every one of them. MEASURED 2026-08-13, hours after the first such
+panel was committed: a plain `python3 offtarget_chance_baseline.py` read 51 panels instead of 40 and
+reported `n_designs` 255 against the committed 200, `mean` 8.1 against 9.5,
+`n_at_or_below_chance_upper` 192 against 142, and 61 multi-junction oligonucleotides spanning [2, 4]
+seams against the committed 9 spanning [2, 3]. The file reproduced its own artifact only under the
+non-default `--panels-from-artifact`.
+⚠ THE WINDOW WAS HOURS, NOT WEEKS, AND THAT IS THE WARNING RATHER THAN THE COMFORT. The first
+re-emitted panel and the reading above landed the same day, so nothing had time to be quoted from
+the wrong population — but the campaign was still running while this was being fixed, and it was:
+thirteen further panels under a THIRD suffix (`-deep500-b2`) appeared between writing the fix and
+verifying it. A defect that arrives faster than a session can read the directory is not one a
+remembered exclusion list can keep up with.
+⚠ THE INFLATED MULTI-JUNCTION COUNT IS THE TELL, AND IT NAMES THE MECHANISM. `dedupe_sequences`
+exists to stop one physical oligonucleotide being counted once per junction; it keys on the sequence
+and appends a junction label per row. Two panels for the SAME junction therefore appended the SAME
+label twice, and a design at one seam was recorded as spanning two. So this was not "extra data" —
+it was the pseudoreplication that function was written to prevent, reappearing one level above it,
+in the step that decides what a panel IS.
+⭐ WHAT THE FIX IS, AND WHY IT IS NOT A FILENAME RULE. `-deep500` is a convention, and a convention
+is not a discriminator: three spellings are already on disk (`-deep500`, `-clean9-deep500`,
+`-deep500-b2`) and the next one will be whatever the next campaign chooses. Excluding a spelling only
+holds until somebody spells it differently, which is the failure this repository has paid for before.
+So selection is done on the SEAM a panel says it screened (`seam_identity`), read from the panel's own
+record: a junction that already has a screen is not a new junction, whatever the file is called.
+✅ AND THAT WAS TESTED BY EVENTS RATHER THAN BY ASSERTION. `-deep500-b2` did not exist when this rule
+was written; thirteen panels carrying it landed before it was verified, and the default invocation
+absorbed all thirteen and still reproduced the artifact byte-for-byte. A suffix blacklist written
+that morning would already have been out of date by the afternoon.
+⚠ AND THE PANELS DO NOT RECORD THE DEPTH THEY RAN AT — checked, across all 51 files on disk: the
+union of their top-level keys is `_note, accessibility, breakpoint, junction_label,
+n_candidates_*, n_evaluated, offtarget_screen, ranking_key, sirna_note, top_designs`, and
+`offtarget_screen` carries only `status`, `transcripts_scanned` and `source`. A depth-aware rule is
+therefore not available to write today, and cannot be until the producer records it. Nor can depth be
+inferred from the counts: this artifact reads `offtarget_le1mm`, which is the UNCAPPED local scan and
+not the capped BLAST hitlist, so a deeper search ceiling cannot move it — measured, every re-emitted
+panel is value-for-value identical to the primary it duplicates, while the deep SCREEN artifacts
+(`junction-aso-offtarget-*-deep500.json`, a different file and a different quantity) report counts
+for the same designs of up to 305 against an evaluation panel's 0. Two evaluations of one seam that
+disagree are therefore not a shallow and a deep reading of one quantity; they are two different
+evaluations, and this module refuses them rather than picking.
+
 Outputs: offtarget-chance-baseline.json
 """
 
@@ -76,6 +120,80 @@ def seam_class(d):
     return "modelled_breakpoint", (bp or None)
 
 
+def seam_identity(d):
+    """WHICH SEAM this panel screened, read from the panel's own record and never from its filename.
+
+    ⛔ THIS IS THE DISCRIMINATOR, AND ITS WHOLE VALUE IS THAT A NEW SUFFIX CANNOT DEFEAT IT. A
+    re-screen re-runs a junction; it does not invent one. So the label a panel states is the identity
+    that matters, and two panels stating the same label are two readings of one seam however they are
+    named.
+
+    ⚠ THE TWO LEGACY CONTROL PANELS STATE NO LABEL, and falling back to their filename would put the
+    hole straight back — a re-emission of one of them would key on its own basename and duplicate
+    silently, which is exactly the defect this function exists to close. What identifies THEIR seam is
+    what they do record: the breakpoint they declare (one states it in amino-acid coordinates, the
+    other declares none at all) and the accessibility window that breakpoint produced. Both are
+    properties of the seam, so a re-emission of the same seam carries the same pair.
+    """
+    label = d.get("junction_label")
+    if label:
+        return ("junction_label", label)
+    return ("unlabelled_seam",
+            json.dumps(d.get("breakpoint") or {}, sort_keys=True),
+            json.dumps((d.get("accessibility") or {}).get("window_mRNA_span")))
+
+
+def _panel_measurements(d):
+    """{sequence: every value this module reads from that design} — the panel's whole contribution.
+
+    Scoped deliberately to what is READ. Two panels that differ only in a field nothing here consumes
+    are the same measurement for this artifact's purposes, and refusing them would be a false alarm.
+    """
+    return {o["antisense_5to3"]: (o.get("gc_percent"), o.get("offtarget_exact"),
+                                  o.get("offtarget_le1mm"))
+            for o in d.get("top_designs", []) if o.get("offtarget_le1mm") is not None}
+
+
+def select_primary_panels(paths):
+    """(the one panel per seam this artifact is built from, what was set aside and why).
+
+    ⛔ A DISAGREEMENT IS REFUSED, NOT RESOLVED. Because `offtarget_le1mm` is the uncapped scan, two
+    evaluations of one seam cannot legitimately differ by search depth — so if they differ at all
+    they are different evaluations, and choosing between them is a data decision with manuscript
+    consequences that must not be taken as a side effect of a regeneration. The refusal names both
+    files and the escape (`--panels-from-artifact`), because a gate that stops the work without
+    saying what to do next is a gate that gets deleted.
+
+    ⚠ THE TIE-BREAK IS A FILENAME, AND THAT IS DELIBERATELY THE ONLY THING A FILENAME DECIDES HERE.
+    Once the copies are proven value-for-value identical, NOTHING in their content distinguishes
+    them, so the choice cannot move a number — it decides only which `_source` string is recorded.
+    The primary screen's name is a prefix of every re-emission of it, so the primary is the shortest;
+    ties after that are lexicographic, so the selection is deterministic.
+    """
+    groups = {}
+    for path in paths:
+        d = json.load(open(path))
+        groups.setdefault(seam_identity(d), []).append((path, d))
+
+    chosen, collapsed = [], []
+    for members in groups.values():
+        members.sort(key=lambda pd: (len(os.path.basename(pd[0])), os.path.basename(pd[0])))
+        primary, d_primary = members[0]
+        for other, d_other in members[1:]:
+            if _panel_measurements(d_primary) != _panel_measurements(d_other):
+                raise ValueError(
+                    f"{os.path.basename(primary)} and {os.path.basename(other)} evaluate the same "
+                    f"seam and report different off-target counts. They are two different "
+                    f"evaluations, not a shallow and a deep reading of one, so this module will not "
+                    f"choose between them. Decide which panel set this artifact is about, then "
+                    f"either retire the stale file or regenerate with --panels-from-artifact.")
+            collapsed.append({"kept": os.path.basename(primary),
+                              "set_aside": os.path.basename(other)})
+        chosen.append((primary, d_primary))
+    chosen.sort(key=lambda pd: pd[0])
+    return chosen, collapsed
+
+
 def committed_panel_set():
     """The source panels the CURRENTLY COMMITTED artifact was built from, or None if there is none.
 
@@ -95,13 +213,17 @@ def committed_panel_set():
     return {r["_source"] for r in d.get("per_design", [])} or None
 
 
-def collect_observed(panels=None):
+def collect_observed(panels=None, collapsed=None):
     """Every committed design's uncapped <=1-mismatch count, keyed by junction and sequence."""
+    paths = sorted(glob.glob(os.path.join(HERE, "aso-insilico-evaluation*.json")))
+    if panels is not None:
+        paths = [p for p in paths if os.path.basename(p) in panels]
+    selected, dropped = select_primary_panels(paths)
+    if collapsed is not None:
+        collapsed.extend(dropped)
+
     rows = []
-    for path in sorted(glob.glob(os.path.join(HERE, "aso-insilico-evaluation*.json"))):
-        if panels is not None and os.path.basename(path) not in panels:
-            continue
-        d = json.load(open(path))
+    for path, d in selected:
         label = d.get("junction_label") or os.path.basename(path)
         cls, bp = seam_class(d)
         for o in d.get("top_designs", []):
@@ -116,6 +238,23 @@ def collect_observed(panels=None):
                          "breakpoint_record": bp,
                          "transcripts_scanned":
                              (d.get("offtarget_screen") or {}).get("transcripts_scanned")})
+
+    # ⛔ THE INVARIANT, ASSERTED WHERE IT IS CHEAP TO ASSERT. A row of `per_design` is a
+    # (junction, design) PAIR and each pair may appear exactly once; every count, fraction and span
+    # below is arithmetic over these rows. Nothing checked this, so when a second panel per junction
+    # appeared the population silently grew by a quarter and every derived number moved with it, in a
+    # file whose whole job is to say what a number means. `select_primary_panels` is the fix and this
+    # is the guard: it is one dict comparison, it is independent of how panels are chosen, and it
+    # fails loudly the next time something enlarges this population by a route nobody anticipated.
+    seen = {}
+    for r in rows:
+        key = (r["junction"], r["antisense_5to3"])
+        if key in seen:
+            raise ValueError(
+                f"design {r['antisense_5to3']} appears twice at {r['junction']} — from "
+                f"{seen[key]} and {r['_source']}. A (junction, design) pair is one row; counting it "
+                f"twice is pseudoreplication and moves every figure derived below.")
+        seen[key] = r["_source"]
     return rows
 
 
@@ -171,10 +310,10 @@ def _span(vals):
     return [v[0], v[-1]]
 
 
-def build(panels=None):
+def build(panels=None, collapsed=None):
     p2, exp2 = chance_expectation(OLIGO_LEN, 2)
     p1, exp1 = chance_expectation(OLIGO_LEN, 1)
-    rows = collect_observed(panels)
+    rows = collect_observed(panels, collapsed)
     counts = sorted(r["offtarget_le1mm"] for r in rows)
     n = len(counts)
     median = counts[n // 2] if n % 2 else (counts[n // 2 - 1] + counts[n // 2]) / 2
@@ -292,9 +431,15 @@ def build(panels=None):
             #: hard-blocked and this was the fifth. Naming them item by item is what made the claim
             #: falsifiable, and it is how this surfaced. The module already carried `_span` for
             #: exactly this shape.
-            #: ⚠ The committed artefact does not move: its panel set is uniform, so this still
-            #: emits the scalar 3. Only the wider set gets a range, and a reader can tell which
-            #: they are holding from the type.
+            #: ⚠ *Superseded, retained (rule 1.2): "The committed artefact does not move: its panel
+            #: set is uniform, so this still emits the scalar 3. Only the wider set gets a range."*
+            #: The committed artefact was never uniform and has always emitted the LIST [2, 3] —
+            #: five oligonucleotides meet three seams and four meet two, which
+            #: `test_the_figure_3_legend_matches_the_series_it_describes` has asserted all along.
+            #: The claim was made about the artefact rather than read off it, and it read as
+            #: reassurance that the change was inert. What actually did not move is the artefact's
+            #: BYTES, which is checkable and was checked. A reader can still tell a scalar from a
+            #: range by its type; that half stands.
             "multi_junction_span": (
                 _uniform(s["n_junctions"] for s in multi) if len({s["n_junctions"] for s in multi}) == 1
                 else _span(s["n_junctions"] for s in multi)),
@@ -336,9 +481,37 @@ def main(argv=None):
     panels = committed_panel_set() if "--panels-from-artifact" in argv else None
     if panels is not None:
         print(f"panel set pinned to the committed artifact's {len(panels)} sources", file=sys.stderr)
-    res = build(panels)
+    collapsed = []
+    res = build(panels, collapsed)
+    new = json.dumps(res, indent=2)
+
+    # ⚠ THE COLLAPSE IS REPORTED, NEVER SILENT. A selection rule that quietly drops eleven files
+    # reads exactly like the glob that quietly added them; the difference has to be visible at the
+    # place the operator is looking. It is NOT written into the artifact: the artifact already names
+    # every panel it used in `per_design[]._source`, and its bytes are hashed by
+    # `aso-figure-provenance.json`, so a provenance block here would re-base a recorded hash to say
+    # something the file can already answer.
+    if collapsed:
+        print(f"{len(collapsed)} re-emitted panel(s) collapsed onto the seam they re-screen "
+              f"(identical off-target counts, so no value moves):", file=sys.stderr)
+        for c in collapsed:
+            print(f"  set aside {c['set_aside']} -> kept {c['kept']}", file=sys.stderr)
+
+    # ⛔ A `--check` THAT WRITES IS NOT A CHECK. Until 2026-08-13 this module had no `--check` at
+    # all, so `offtarget_chance_baseline.py --check` fell through to the write path: it OVERWROTE
+    # the artifact it was being asked to verify and exited 0, which is the one behaviour a staleness
+    # gate must never have. `regenerate_aso_chain.sh` records the absence as "(no --check mode;
+    # verified by the tree diff below)" and can now use this instead.
+    if "--check" in argv:
+        cur = open(OUT, encoding="utf-8").read() if os.path.exists(OUT) else ""
+        if cur != new:
+            print("offtarget-chance-baseline.json is stale; re-run without --check", file=sys.stderr)
+            return 1
+        print("chance-baseline artifact is current")
+        return 0
+
     with open(OUT, "w", encoding="utf-8") as fh:
-        json.dump(res, fh, indent=2)
+        fh.write(new)
     print("wrote", OUT, file=sys.stderr)
     summary = {k: v for k, v in res.items() if k not in ("per_design", "per_sequence")}
     summary["figure_series"] = {k: v for k, v in summary["figure_series"].items()

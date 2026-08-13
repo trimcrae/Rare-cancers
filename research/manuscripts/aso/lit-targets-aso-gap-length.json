@@ -1,0 +1,131 @@
+{
+ "_what": "Retrieved evidence for the RNase-H1 gap-length and hybrid-length statements the ASO submission manuscript makes in its Methods, and for the MIN_DUPLEX_BP threshold in aso_parent_gap_pairing.py.",
+ "_why": "Those statements were UNCITED, and one of them was contradicted by a paper this repository already holds. The anchors existed only as open-access full texts on the `literature-cache` branch, where lint_citations.py cannot see them: gate 4 anchors a prose identifier only against files tracked on the working branch. Citing them without this file would fail that gate, and porting the quotes here is also CLAUDE.md section 7 — an artifact the paper depends on that lives only on a cache branch is branch drift.",
+ "_what_this_is_not": [
+  "Not a fetch performed here. Every quote below is copied from a full text ALREADY COMMITTED on the literature-cache branch at the revision named in `source`, and each was re-read from that branch and matched verbatim before this file was written. No identifier and no sentence was written from recollection.",
+  "Not a claim that these papers measured the quantity the manuscript uses. The 7-to-10 hybridised-nucleotide figure appears in a discussion paragraph citing prior work, not in a measurement, and nothing here measures it for a 5-6-5 LNA gapmer.",
+  "Not exhaustive. These are the records that bear on gap length and hybrid length; the corpus they come from holds 646."
+ ],
+ "_cost": "$0 — read from a branch already in this repository, no network.",
+ "source": {
+  "branch": "literature-cache",
+  "revision": "f55c4bd02adafef2e177ed52b4a1a4cf8a534968",
+  "corpus": "literature/aso-rnaseh-mismatch/",
+  "verified_utc": "2026-08-13T17:55:29Z"
+ },
+ "n_records": 7,
+ "n_quotes": 10,
+ "records": [
+  {
+   "id": "PMID: 24981949",
+   "pmid": "24981949",
+   "pmcid": "PMC7105916",
+   "title": "Locked nucleic acid (LNA): High affinity targeting of RNA for diagnostics and therapeutics.",
+   "year": 2005,
+   "full_text_path": "literature/aso-rnaseh-mismatch/PMC7105916.txt",
+   "quotes": [
+    {
+     "fragment": "gap of six DNA nucleotides is necessary for noteworthy RNase H activity",
+     "context_verbatim": "observed with a fully modified 11mer LNA or with an 11mer LNA/DNA mixmer [ ]. Kurreck et al. [ ] and Elmén et al. [ ] have investigated various LNA/DNA mixmers and gapmers and found that a gap of six DNA nucleotides is necessary for noteworthy RNase H activity, and that a gap of seven DNA nucleotides allows complete RNase H activity. In accordance herewith, Frieden et al. [ ] concluded that a DNA gap size between 7 and 10 nucleotides is optimal f"
+    },
+    {
+     "fragment": "DNA gap size between 7 and 10 nucleotides is optimal",
+     "context_verbatim": "cleotides is necessary for noteworthy RNase H activity, and that a gap of seven DNA nucleotides allows complete RNase H activity. In accordance herewith, Frieden et al. [ ] concluded that a DNA gap size between 7 and 10 nucleotides is optimal for LNA/DNA/LNA antisense gapmers. The overall conclusion is that antisense LNA oligonucleotides can be designed to elicit RNase H activity while still containing LNA monomers for improved"
+    },
+    {
+     "fragment": "LNA/DNA/LNA gapmer, with a six-nucleotide DNA gap",
+     "context_verbatim": "cleotides composed of modified segments flanking a central DNA (or phosphorothioate DNA) segment that is compatible with RNase H activity, is often used. Wahlestedt et al. [ ] found that an LNA/DNA/LNA gapmer, with a six-nucleotide DNA gap, elicited substantial RNase H activity. However, no RNase H-mediated cleavage was observed with a fully modified 11mer LNA or with an 11mer LNA/DNA mixmer [ ]. Kurreck et al. [ ] and Elmén"
+    }
+   ]
+  },
+  {
+   "id": "PMID: 26544037",
+   "pmid": "26544037",
+   "pmcid": "PMC4704561",
+   "title": "A Tandem Oligonucleotide Approach for SNP-Selective RNA Degradation Using Modified Antisense Oligonucleotides.",
+   "year": 2015,
+   "full_text_path": "literature/aso-rnaseh-mismatch/PMC4704561.txt",
+   "quotes": [
+    {
+     "fragment": "6–8 nucleotide long DNA oligomer is sufficient to activate RNase H",
+     "context_verbatim": "ajor models for the mechanism of ASO silencing [ ]. One is based on the formation of a DNA/RNA duplex that promotes RNase H activation and cleavage of the RNA strand. It was observed that a 6–8 nucleotide long DNA oligomer is sufficient to activate RNase H [ , ]. Another mechanism is based on the hybridization of the ASO to RNA regions important for biological functions, causing steric hindrance. Studies of modified oligonucleotides have show"
+    }
+   ]
+  },
+  {
+   "id": "PMID: 28290206",
+   "pmid": "28290206",
+   "pmcid": "PMC5371978",
+   "title": "Diverse Applications of Nanomedicine.",
+   "year": 2017,
+   "full_text_path": "literature/aso-rnaseh-mismatch/PMC5371978.txt",
+   "quotes": [
+    {
+     "fragment": "internal stretch of at least 6 DNA oligonucleotides",
+     "context_verbatim": "th target RNAs more than any other known nucleotide modification, without compromising target specificity as long as immune stimulatory sequences are avoided. , Gapmers are ASOs carrying an internal stretch of at least 6 DNA oligonucleotides for the recruitment of endogenous RNase H activities that cleave the target RNA in the RNA:DNA hybrid region. The 5′- and 3′-terminal nucleotides of gapmers preferentially modified with LNA"
+    }
+   ]
+  },
+  {
+   "id": "PMID: 28624195",
+   "pmid": "28624195",
+   "pmcid": "PMC5363678",
+   "title": "Fluorinated Nucleotide Modifications Modulate Allele Selectivity of SNP-Targeting Antisense Oligonucleotides.",
+   "year": 2017,
+   "full_text_path": "literature/aso-rnaseh-mismatch/PMC5363678.txt",
+   "quotes": [
+    {
+     "fragment": "minimum length required for catalysis by RNase H1",
+     "context_verbatim": "tion, FHNA is at position 1 and cEt at position 7 of the footprint, where both modifications are tolerated. This ASO now effectively has a 5-base DNA gap that was previously shown to be the minimum length required for catalysis by RNase H1. Along these lines, FHNA at T6 restores cleavage at sites “a” and “b”; FHNA at T5 restores “a,” “b,” and “c”; and FHNA at A4 restores “a,” “b,” “c,” and “d,” but ablates “e” because it is n"
+    }
+   ]
+  },
+  {
+   "id": "PMID: 35664704",
+   "pmid": "35664704",
+   "pmcid": "PMC9136273",
+   "title": "RNA modifications can affect RNase H1-mediated PS-ASO activity.",
+   "year": 2022,
+   "full_text_path": "literature/aso-rnaseh-mismatch/PMC9136273.txt",
+   "quotes": [
+    {
+     "fragment": "minimum length of 7 to 10 RNA:DNA hybridized nucleotides",
+     "context_verbatim": "e hybrid; however, in the case of the PS-ASO 558807 and its size-matched target RNA from the Cxcl12 gene, we do observe reduced cleavage over time. This could be because RNase H1 requires a minimum length of 7 to 10 RNA:DNA hybridized nucleotides to bind with its hybrid binding domain and cleave the RNA downstream. Limiting the sites RNase H1 can cut with 2′OMe modifications within the fixed hybrid length determined by the PS-ASO co"
+    }
+   ]
+  },
+  {
+   "id": "PMID: 39126066",
+   "pmid": "39126066",
+   "pmcid": "PMC11312655",
+   "title": "Allele-Selective Thiomorpholino Antisense Oligonucleotides as a Therapeutic Approach for Fused-in-Sarcoma Amyotrophic Lateral Sclerosis.",
+   "year": 2024,
+   "full_text_path": "literature/aso-rnaseh-mismatch/PMC11312655.txt",
+   "quotes": [
+    {
+     "fragment": "requires a gap size of at least five for cleavage to occur",
+     "context_verbatim": "ases. How changes in AO length and gap length will affect selectivity or efficacy can be hard to predict. RNase H1, which is responsible for AO-mediated cleavage of RNA in eukaryotes [ , ], requires a gap size of at least five for cleavage to occur [ ]. The cleavage rate of RNase H1 increases with an increase in the length of substrate. This is because more potential cleavage sites become available, increasing the number of productive"
+    },
+    {
+     "fragment": "reduced selectivity and AO activity in most cases",
+     "context_verbatim": "t of reducing the gap length and the total AO length on allele selectivity of our TMO-modified gapmers. We found that reducing the AO length or gap length from our original 5-10-5 AO design reduced selectivity and AO activity in most cases. Only the 5-8-5 design led to a small increase in AO activity or allele selectivity in some cases. How changes in AO length and gap length will affect selectivity or efficacy can be hard to"
+    }
+   ]
+  },
+  {
+   "id": "PMID: 41614678",
+   "pmid": "41614678",
+   "pmcid": "PMC12908109",
+   "title": "Transient Cyclic Structured Oligonucleotide Designs for Therapeutic Applications.",
+   "year": 2026,
+   "full_text_path": "literature/aso-rnaseh-mismatch/PMC12908109.txt",
+   "quotes": [
+    {
+     "fragment": "sufficient to activate RNase H. In general, this is six or more bases",
+     "context_verbatim": "cleavage of the duplex. For example, if cleavage is supposed to utilize RNase H, then the circularizing duplex must consist of PO DNA, or PS DNA and PO RNA, with the DNA segment of a length sufficient to activate RNase H. In general, this is six or more bases (Agrawal et al., ). Alternatively, the circularizing duplex could be composed of two PO DNA sequences and thus recognized by a restriction enzyme for cleavage. As discussed in the preceding"
+    }
+   ]
+  }
+ ],
+ "_anchoring_note": "Each record carries `id` in the `PMID: <n>` form used by lit-targets-aso-verify.json. That is not decoration: lint_citations.py anchors a prose identifier only against a PMID token or a quoted numeric KEY in a lit-targets-*.json, so a bare `\"pmid\": \"...\"` VALUE anchors nothing and the four identifiers below read as suspected fabrications until this field exists."
+}
