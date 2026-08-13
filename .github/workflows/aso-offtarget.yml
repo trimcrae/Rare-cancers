@@ -72,10 +72,16 @@ on:
           the manuscript concedes is unmeasured: an exhaustive <=2-mismatch scan of every design
           against the six parent transcripts' UNSPLICED sequence, gap-resolved and classified as
           intronic / exonic / boundary-spanning. `premrna_genomic` adds the best-effort genome-wide
-          BLAST arm for the designs the cleanliness claim rests on. `none` = unchanged behaviour.
+          BLAST arm for the designs the cleanliness claim rests on. `deep_rescreen` re-runs the
+          REAL-JUNCTION pipeline (so pass `real_junctions` too) at a deeper BLAST ceiling and a deeper
+          retention depth, turning right-censored counts into measurements — 136 of 183 designs carry
+          bounds today, and at least one design's cleanliness is undecided for that reason alone.
+          ⛔ PASS `suffix_tag` WITH `deep_rescreen`: a count taken at a deeper ceiling is a DIFFERENT
+          measurement, not a correction of the shallower one, and must not overwrite the committed
+          screens the manuscript quotes. `none` = unchanged behaviour.
         required: false
         type: choice
-        options: [none, premrna, premrna_genomic]
+        options: [none, premrna, premrna_genomic, deep_rescreen]
         default: none
 
 permissions:
@@ -138,8 +144,26 @@ jobs:
           JUNCS: ${{ inputs.real_junctions }}
           GAPMER_GEOMETRY: ${{ inputs.gapmer_geometry }}
           SUFFIX_TAG: ${{ inputs.suffix_tag }}
+          SCREEN_MODE: ${{ inputs.screen_mode }}
         run: |
           set -u
+          # ⭐ `deep_rescreen` MEASURES THE CENSORING INSTEAD OF DISCLOSING IT. 136 of 183 designs carry
+          # right-censored near-match counts because BLAST returns at most 50 hits and only the top 15
+          # are stored, and the strand of an unstored hit is unrecoverable — so a design whose stored
+          # hits are all minus-strand cannot be called clean, however clean it looks. A deeper ceiling
+          # turns those bounds into measurements and can move a RESULT: one design already scores zero
+          # residual cleavage load and is refused solely because its unstored hits are unknown.
+          # ⛔ IT MUST WRITE TO ITS OWN SUFFIX, and this refuses to run without one, because the two
+          # sets are not comparable and overwriting the committed screens would silently re-base every
+          # count the manuscript quotes.
+          if [ "$SCREEN_MODE" = "deep_rescreen" ]; then
+            if [ -z "${SUFFIX_TAG:-}" ]; then
+              echo "::error::deep_rescreen needs suffix_tag — it must not overwrite the committed screens"
+              exit 1
+            fi
+            export BLAST_HITLIST_SIZE=500 SAVED_HITS_PER_DESIGN=500
+            echo "deep re-screen: BLAST ceiling ${BLAST_HITLIST_SIZE}, retention ${SAVED_HITS_PER_DESIGN}, suffix ${SUFFIX_TAG}"
+          fi
           # One input, two env vars the scripts already read. A blank geometry leaves both unset,
           # which is what `${OLIGO_LEN:-16}` below and junction_aso._env_int expect.
           OLIGO_LEN="${GAPMER_GEOMETRY%%,*}"

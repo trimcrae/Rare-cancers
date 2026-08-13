@@ -48,16 +48,21 @@ oligonucleotide has been reported against any NR4A3 fusion.
 **Methods.** Chimeras were built at the mRNA level from canonical Ensembl models, acceptor exon
 retained whole; every donor-exon × acceptor-exon pair across five partners was graded.
 Junction-spanning 16-mer 5-6-5 LNA/DNA/LNA gapmers were tiled over each frame-compatible seam, then
-screened against all six parent transcripts, against RefSeq RNA by gap-resolved BLAST, and
-exhaustively for ≤1 mismatch over 186,185 transcripts.
+screened against all six parent transcripts, against RefSeq RNA by gap-resolved BLAST, exhaustively
+for ≤1 mismatch over 186,185 transcripts, and — because RNase-H1 is nuclear — exhaustively against
+those transcripts unspliced.
 
 **Results.** Of 231 graded pairs, 38 are frame-compatible, and all 38 yield a gapmer matching no
-parent perfectly. All 38 were screened with alignment orientation filtered, because a nucleotide
-alignment search reports both strands and a reverse-complement match cannot hybridise. Such matches are 44% of
-apparent gap-spanning risks (738 of 1,677), ranging 0–100% between junctions, so filtering reorders
-junctions rather than rescaling them. Nine designs at six junctions then carry no
-hybridisable near-match at all, no exact or single-mismatch match among 186,185 transcripts, and zero
-residual cleavage load under both literature discrimination bounds. One 16-mer spans the *EWSR1*
+parent perfectly. All 38 were screened with alignment orientation filtered, since a
+reverse-complement match cannot hybridise: such matches are 44% of apparent gap-spanning risks
+(738 of 1,677) and range 0–100% between junctions, so filtering
+reorders junctions rather than rescaling them. Nine designs at six junctions then carry no
+hybridisable near-match at all, no exact or single-mismatch match among 186,185 transcripts, no
+hybridisable pre-mRNA site, and zero residual cleavage load under both literature discrimination
+bounds. Pre-mRNA is not a null compartment: 19 of 190 designs pair the gap where no transcript screen
+can see, nine of them across the wild-type *NR4A3* intron-2/exon-3 boundary — a route to the parent
+this modality must spare, and one the gap-level margin predicts, from 12 of 76 designs at margin 1 to
+none of 38 at margin 3. One 16-mer spans the *EWSR1*
 exon 12, *TAF15* exon 11 and *FUS* exon 10 seams through ten identical donor bases — a sequence
 property, not a clinical one: published exon-resolved *TAF15::NR4A3* breakpoints are exon 6.
 
@@ -147,7 +152,7 @@ margin: the number of junction-unique bases inside the gap on the shorter side. 
 tested against all six parent transcripts, not only the two parents of its own fusion, because the
 FET-family donors (FUS, EWSR1 and TAF15) are paralogues with similar low-complexity amino-termini.
 
-**Specificity screening.** Two independent screens were applied. A gap-resolved screen queried each
+**Specificity screening.** Three screens were applied, over two compartments. A gap-resolved screen queried each
 target window against human RefSeq RNA (blastn-short, low-complexity filter off, ≥14/16 identity) and
 classified each near-match by whether the six-nucleotide gap was fully base-paired. An exhaustive
 seed-and-extend scan then searched 186,185 transcripts (GRCh38.p14) for exact and ≤1-mismatch matches;
@@ -165,6 +170,17 @@ rather than transcript coordinates, which carry no junction and support no claim
 decided by auditing its per-hit labels rather than by the presence of a strand field, because a
 screen can record the aligned strand on every hit and still have been classified before the filter
 consulted it, which is indistinguishable from a sound screen unless the labels are read.
+
+Both of those screens search mature transcript sequence, so a third was added over the compartment
+they cannot reach. Unspliced sequence and exon coordinates for all six parent transcripts were
+retrieved from Ensembl, and every design's target window was scanned against that sequence in both
+orientations at the same ≤2-mismatch threshold the alignment screen admits, which keeps the two arms
+comparable: a stricter threshold here would return a cleaner pre-mRNA result for that reason alone.
+This arm is exhaustive for substitutions by construction, seeded on three blocks of the 16-mer so a
+hit within the threshold must match one block exactly, and each hit is classified as wholly intronic,
+wholly exonic, or spanning an intron–exon boundary, since only the exonic class could have been
+visible to a transcript screen. Pre-mRNA is transcribed in transcript orientation, so the same
+orientation rule applies: a forward match is hybridisable and a reverse-complement match is not.
 Target-site accessibility was estimated as mean unpaired probability over a truncated 180-nucleotide
 local fold, and spans 0.160 to 0.707 across all 190 designs at real exon junctions (median 0.477).
 It is released with the artefacts and is not used to rank anything here. A truncated
@@ -216,7 +232,9 @@ atlas, the locus collapse, the chance baseline and the graded re-scores under bo
 bounds each recompute from files the archive contains. Regenerating the specificity screens from
 scratch is not offline, because the gap-resolved arm queries NCBI BLAST and the exhaustive arm
 downloads the GRCh38.p14 RefSeq RNA set. No reported number requires it, because each screen's hit set is
-archived and the re-scores hold that hit set fixed.
+archived and the re-scores hold that hit set fixed. The pre-mRNA screen is fully offline against the
+archive: the retrieved unspliced sequence and exon coordinates travel with it, so every number in §3.8
+recomputes from committed files, and doing so was verified to reproduce them exactly.
 
 ## 3 · Results
 
@@ -393,7 +411,43 @@ gap-spanning — and all five are variants of a single uncharacterised locus, LO
 only as predicted `XR_` models. One locus, no curated transcript, from a raw count of nine. The same
 design returns no exact match and a single ≤1-mismatch match on the exhaustive scan.
 
-### 3.8 · Duplex thermodynamics and conventional design rules
+### 3.8 · A pre-mRNA liability class invisible to both transcript screens
+
+RNase-H1 is active in the nucleus and gapmers engage pre-mRNA, so a screen over mature transcripts
+cannot see intronic or intron–exon-spanning sites. That omission is not neutral in its direction: a
+junction gapmer's two halves are both exonic, and in a parent pre-mRNA an exon is followed by an
+intron rather than by the next exon, so parent pre-mRNA is precisely where a design's donor half sits
+beside sequence no mature screen has compared it against. A mature-only screen therefore returns a
+low count partly by construction.
+
+Unspliced sequence for all six parent transcripts was retrieved and every design's target window
+scanned against it exhaustively at the same ≤2-mismatch threshold the alignment screen uses, both
+orientations, with the same gap resolution and the same orientation filter. Of 190 designs, 53 have a
+near-match somewhere in parent pre-mRNA and 19 carry one that is hybridisable, pairs the catalytic gap
+in full, and touches intronic sequence — the last condition being what makes it invisible to both
+transcript screens rather than a re-count of something already reported.
+
+Those 19 sites fall into two classes that do not mix, and only one of them is mechanistically
+interesting. Nine are intron–exon-spanning and every one is in *NR4A3*, at the same place: six or
+seven nucleotides into intron 2, spanning the boundary into exon 3. That is a necessary consequence of
+the design problem rather than a coincidence. A junction gapmer's acceptor half is the 5′ end of
+*NR4A3* exon 3, and the wild-type *NR4A3* transcript reaches that same exon across its own splice
+junction — so a design whose donor half also matches the 3′ end of intron 2 within the mismatch budget
+pairs across the real splice site. It is a route to wild-type *NR4A3* engagement that does not pass
+through the fusion at all, in the compartment where RNase-H1 is active, and it is the discrimination
+question this paper is about. The other ten are wholly intronic and every one is in *TCF12*, which
+contributes 365,096 of the 517,157 intronic nucleotides searched — 71% of the search space for 100% of
+that class, which is what sequence volume alone predicts and should not be read as anything about
+*TCF12*.
+
+The gap-level margin predicts this liability, which is the third independent instrument to agree with
+it. Of the designs at margin 1, 12 of 76 carry a pre-mRNA site; at margin 2, 7 of 76; at margin 3,
+none of 38. And none of the nine designs with no hybridisable near-match on either transcript screen
+carries one either, so the cleanliness claim survives the compartment it could not previously see. What
+remains unmeasured is every other gene's introns: this screen is exhaustive over six parent
+transcripts and says nothing about the rest of the genome.
+
+### 3.9 · Duplex thermodynamics and conventional design rules
 
 Scored as free energies, every one of the 190 fusion-specific designs favours the fusion duplex over
 the best duplex either parent can form, by 4.8 to 13.1 kcal/mol with a median of 9.6. The denominator
@@ -413,7 +467,8 @@ The two rankings agree in direction. Grouping designs by the gap-level margin th
 mean ΔΔG°37 rises monotonically with it, from 8.3 kcal/mol at margin 1 to 9.9 at margin 2 and 10.7
 at margin 3, so the base count and the free energy order the candidates the same way. Since the margin
 is computed from junction-unique bases and the free energy from stacking parameters, that agreement
-is corroboration rather than restatement.
+is corroboration rather than restatement — and the pre-mRNA screen of §3.8 makes it a third
+instrument, ordering the same designs the same way from sequence search rather than from either.
 
 Conventional design rules select differently, and against the paper's own candidates. Of the 190
 designs, 106 satisfy all four rules; the rules bind at different rates, with every design free of a
@@ -436,7 +491,8 @@ because composing them would hide precisely this tension.
 Three findings stand, the second conditionally. Junction-spanning, parent-sparing designs exist at
 every frame-compatible NR4A3 fusion junction, and nine of them, at six junctions across four
 partners, carry no hybridisable near-match on
-the alignment screen and no single-mismatch match on the exhaustive one, so neither sequence availability nor transcriptome load is what constrains this
+the alignment screen, no single-mismatch match on the exhaustive one, and no hybridisable site in
+parent pre-mRNA either, so neither sequence availability nor transcriptome load is what constrains this
 modality here. One 16-mer spans three partners' seams at once through a ten-base donor
 identity, which would change the deployable artefact for an ultra-rare disease from *n* bespoke
 oligonucleotides to a stock reagent — if patients carrying *TAF15* and *FUS* fusions prove to break at
@@ -451,7 +507,14 @@ measured at the length used here.<sup>21</sup><!--PMID:7567450--> This is a sepa
 off-target load, and it is not improved by the designs that carry none: an oligonucleotide with no
 transcriptome match still has to distinguish the fusion from the two parent transcripts that supply
 its own two halves, and under the pessimistic bound a 16-mer does not discriminate a single mismatch
-at all. Free-energy calculation does not narrow it either, and locating why is the useful part: every
+at all. The pre-mRNA screen sharpens what that means rather than softening it. For nine designs the
+route to wild-type *NR4A3* is not a mismatch discrimination problem at all: they pair the catalytic
+gap in full across the wild-type intron-2/exon-3 boundary, so nothing about gap-level discrimination
+protects the parent there, and the compartment in which that duplex would form is the nuclear one
+RNase-H1 occupies. None of the nine candidates this paper puts forward is among them, which is a
+result rather than a design choice; the general point is that a fusion-junction design's most
+plausible wild-type liability is a splice junction, and it is invisible to any screen run over mature
+transcripts. Free-energy calculation does not narrow it either, and locating why is the useful part: every
 design discriminates amply at the level of duplex formation, so what is unresolved is specifically
 the catalytic step, not the binding one. No amount of further sequence analysis narrows that
 interval; a measurement does. The field's own
@@ -509,11 +572,11 @@ given patient carries is not decidable from exon structure, so the multi-partner
 conditional on *TAF15* and *FUS* breakpoints falling at the homologous exons — a clinical fact not
 established here — and *TCF12::NR4A3* fusions are reported in
 patients<sup>29,30</sup><!--PMID:11156374,12598313--> but not at the exon resolution these designs
-require. The thermodynamic calculation models an unmodified DNA:RNA hybrid, while these designs carry LNA wings; LNA raises affinity on the fusion and parent duplexes alike, which compresses their difference, so the reported discrimination is an upper bound rather than an estimate, and it speaks to duplex formation rather than to cleavage. Finally, both screens search mature transcript sequence only. RNase-H1 is active in the
-nucleus and gapmers are known to engage pre-mRNA, so intronic and intron–exon-spanning sites are a
-class of liability that neither the RefSeq RNA search nor the transcript-level exhaustive scan can
-see; the counts reported here therefore bound the mature-transcript compartment only. That gap is
-closable by a genomic screen and is not closed here.
+require. The thermodynamic calculation models an unmodified DNA:RNA hybrid, while these designs carry LNA wings; LNA raises affinity on the fusion and parent duplexes alike, which compresses their difference, so the reported discrimination is an upper bound rather than an estimate, and it speaks to duplex formation rather than to cleavage. The two transcript screens search mature sequence only, which
+leaves the nuclear compartment RNase-H1 acts in unmeasured by them; §3.8 closes that for the six
+parent transcripts and not beyond, so intronic sites in every other gene remain outside all three
+screens. The pre-mRNA arm inherits the substitution-only bound as well: like the exhaustive
+transcript scan, it is complete for mismatches by construction and blind to insertions and deletions.
 
 ## Tables
 

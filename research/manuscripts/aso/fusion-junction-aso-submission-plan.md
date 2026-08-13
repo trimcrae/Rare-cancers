@@ -179,7 +179,7 @@ superseded column is kept because the size of the gap is the reason the split ha
 |---|---|---|
 | ~6,000 words main text | ✅ inside it — measured in [`submission-metrics.json`](../submission-metrics.json), not stated here (⚠ *superseded, retained: "≈4,200"*) | ≈21,000 — the dominant restructuring task |
 | structured abstract | ✅ present, four headed parts; length measured in the same artifact (⚠ *superseded, retained: "274 words", which also contradicted "265" two rows up in this same file*) | present but long and narrative |
-| IMRaD | ✅ Results ordered by finding, §3.1–§3.8 (⚠ *superseded, retained: "§3.1–§3.4"*) | ordered as a **chronology** (§3a, 3a-bis, … 3a-nonies) |
+| IMRaD | ✅ Results ordered by finding, §3.1–§3.9 (⚠ *superseded, retained: "§3.1–§3.4"*) | ordered as a **chronology** (§3a, 3a-bis, … 3a-nonies) |
 | numbered figures | ✅ three, generated from committed artifacts, with legends, and pinned to their source revisions by `aso_figure_provenance.py --check` | **none exist** |
 | numbered tables | ✅ three, generated. Table 3 lists the nine designs the cleanliness claim is about — added 2026-08-13, because that claim had no table and only four of its nine molecules appeared anywhere in Table 2 | **none exist** |
 | numbered reference list with author/title/journal/year | ✅ 30 entries, `fusion-junction-aso-submission-references.md`, numbering DERIVED from per-citation PMIDs; every entry now carries author, title, journal and year, the last two gaps closed by harvesting retrieved records rather than typing them | prose carries bare PMIDs; journal titles were deliberately not stored by the fetch path |

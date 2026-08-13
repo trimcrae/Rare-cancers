@@ -117,6 +117,69 @@ def test_the_genomic_arm_never_falls_back_to_a_transcript_database():
     assert all("rna" not in db for db in m.GENOMIC_DB_CANDIDATES), m.GENOMIC_DB_CANDIDATES
 
 
+def test_the_manuscript_matches_the_committed_premrna_screen():
+    """§3.8's numbers, tied to the artifact, in both directions.
+
+    ⚠ THIS SECTION IS THE ONLY PLACE THE PAPER REPORTS A COMPARTMENT IT PREVIOUSLY CONCEDED WAS
+    UNMEASURED, so its numbers will be the ones a reviewer checks first. They are asserted against the
+    artifact rather than against each other, and the two-class structure is asserted too — because the
+    interesting half of the finding is not the count but that every intron-exon-spanning site is in
+    NR4A3 at one boundary, and every wholly intronic one is in the gene holding most of the introns.
+    """
+    art = os.path.join(MOD, "aso-premrna-offtarget.json")
+    paper = os.path.join(os.path.dirname(MOD), "manuscripts", "aso",
+                         "fusion-junction-aso-short-communication.md")
+    if not (os.path.exists(art) and os.path.exists(paper)):
+        pytest.skip("the pre-mRNA screen or the manuscript is not present in this checkout")
+    d = __import__("json").load(open(art))
+    txt = open(paper, encoding="utf-8").read()
+    c = d["corpus"]
+    assert c["designs"] == 190 and c["with_any_hit"] == 53, c
+    assert c["with_hybridisable_gap_paired"] == 19, c
+    # Equal by construction is worth asserting: a purely exonic gap-paired site would have been
+    # visible to the mature screens, so if these ever diverge the compartment logic has changed.
+    assert c["with_a_liability_invisible_to_mature_screens"] == 19, c
+    assert "53 have a" in txt and "19 carry one that is hybridisable" in txt
+
+    classes = {}
+    for r in d["per_design"]:
+        for h in r["hits"]:
+            if h["hybridisable"] and h["gap_fully_paired"] and h["compartment"] != "exonic":
+                classes.setdefault((h["gene"], h["compartment"]), 0)
+                classes[(h["gene"], h["compartment"])] += 1
+    assert classes == {("NR4A3", "intron_exon_spanning"): 9, ("TCF12", "intronic"): 10}, classes
+    assert "Nine are intron–exon-spanning and every one is in *NR4A3*" in txt
+    assert "The other ten are wholly intronic and every one is in *TCF12*" in txt
+
+    # The margin trend, which is what makes this a third instrument agreeing with the ranking.
+    by_margin = {}
+    for r in d["per_design"]:
+        n, k = by_margin.get(r["gap_specificity_margin"], (0, 0))
+        by_margin[r["gap_specificity_margin"]] = (
+            n + 1, k + bool(r["n_invisible_to_mature_screens"]))
+    assert by_margin[1] == (76, 12) and by_margin[2] == (76, 7) and by_margin[3] == (38, 0), by_margin
+    # ⚠ WHITESPACE-TOLERANT: the manuscript hard-wraps, so any of these phrases can straddle a
+    # newline. A test that only passes on one line-break position is a test of the reflow.
+    flat = " ".join(txt.split())
+    for phrase in (f"at margin 1, {by_margin[1][1]} of {by_margin[1][0]} carry a pre-mRNA site",
+                   f"at margin 2, {by_margin[2][1]} of {by_margin[2][0]}",
+                   f"at margin 3, none of {by_margin[3][0]}"):
+        assert phrase in flat, phrase
+
+    # And the headline: the nine clean designs must be clean in this compartment too.
+    clean = m._clean_sequences()
+    if clean:
+        rows = {r["antisense_5to3"]: r for r in d["per_design"]}
+        offenders = [q for q in clean if rows.get(q, {}).get("n_invisible_to_mature_screens")]
+        assert not offenders, f"a design the paper calls clean carries a pre-mRNA liability: {offenders}"
+
+    # The intronic search space, quoted in the paper as the reason TCF12 holds that whole class.
+    intronic = sum(g["premrna_nt"] - g["exonic_nt"] for g in d["genes"].values())
+    tcf12 = d["genes"]["TCF12"]["premrna_nt"] - d["genes"]["TCF12"]["exonic_nt"]
+    assert f"{tcf12:,} of the {intronic:,} intronic nucleotides" in flat
+    assert f"{round(100 * tcf12 / intronic)}% of the search space" in flat
+
+
 def test_the_mismatch_ceiling_is_derived_from_the_blast_arms_identity_threshold():
     """<=2 mismatches over 16 nt IS >=14/16. Ask pre-mRNA a stricter question and it looks cleaner
     for that reason alone, which is the most flattering way this screen could be wrong."""

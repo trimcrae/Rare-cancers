@@ -209,6 +209,23 @@ PROMISES = [
                      "research/manuscripts/aso/lit-targets-aso-thermo.json"],
     },
     {
+        "id": "premrna_compartment_screen",
+        "verbatim": False,
+        "promise": ("the pre-mRNA screen behind §3.8, and the sequence it ran against, so the "
+                    "compartment the transcript screens cannot see is re-derivable offline"),
+        "contributes": ("The exhaustive ≤2-mismatch scan of every design against the unspliced "
+                        "sequence of all six parent transcripts, gap-resolved, orientation-filtered "
+                        "and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED "
+                        "SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the "
+                        "paper that recomputes with no network at all: the other two need NCBI BLAST "
+                        "and a RefSeq download. Re-running the module with --offline against the "
+                        "committed cache reproduces every number in §3.8 exactly."),
+        "patterns": ["research/modalities/aso-premrna-offtarget.json",
+                     "research/modalities/aso-premrna-sequences.json",
+                     "research/modalities/aso_premrna_offtarget.py",
+                     "research/modalities/tests/test_aso_premrna_offtarget.py"],
+    },
+    {
         "id": "priorart_first_in_kind_evidence",
         "verbatim": False,
         "promise": "the retrieval evidence behind the first-in-kind statement",
