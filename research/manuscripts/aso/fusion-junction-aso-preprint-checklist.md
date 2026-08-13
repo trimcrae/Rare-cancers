@@ -62,7 +62,11 @@ journal still under consideration.
   *journal-specific* cap whose accompanying requirement differs by venue: the British Journal of
   Cancer wants a structured abstract under mandatory Background/Methods/Results/Conclusions
   headings, which this one already has, while Cancer Gene Therapy wants an unstructured one. Cutting
-  to the wrong target now means cutting twice.
+  to the wrong target now means cutting twice. ⚠ **The cut got bigger on 2026-08-13** — the pre-mRNA
+  compartment and the censoring test are both new results and both are reported in the abstract, so
+  whoever does the cut is starting from further out. The measured length is in
+  [`submission-metrics.json`](../submission-metrics.json), which now grades this paper against
+  bioRxiv rather than against a journal the plan had already eliminated.
 - **The figures have not been made greyscale-only.** Colour is free on bioRxiv. The accessibility
   problem — that red against green carries nothing to a colour-blind reader or a monochrome printer
   — has been fixed by adding a shape cue, which is the part that matters regardless of venue.

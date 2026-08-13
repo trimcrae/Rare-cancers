@@ -54,6 +54,22 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 #: sets no limit of that kind, or none was found. Provenance is carried per venue so a reader never
 #: mistakes one of these for a retrieved fact.
 VENUES = {
+    "bioRxiv-preprint": {
+        "journal": "bioRxiv (preprint; journal venue still open)",
+        "limits": {"main_words": None, "abstract_words": None, "display_items": None,
+                   "references": None},
+        #: ⛔ THE FLAG THAT SEPARATES "NO LIMIT" FROM "UNREAD". Without it the grader reads four
+        #: nulls as ignorance and reports the one venue whose rules are fully known as ungraded.
+        "no_limits_by_policy": True,
+        "provenance": ("VERIFIED at primary source: bioRxiv sets no word, abstract or display-item "
+                       "limit and its deposit is free — the one venue fact in this table that was "
+                       "read rather than searched. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means "
+                       "this manuscript is measured and ungated, which is the honest state while the "
+                       "journal is undecided. A journal's limits apply when one is chosen, and "
+                       "cutting the abstract to any particular cap before then means cutting twice, "
+                       "because the venues under consideration disagree on both length AND whether a "
+                       "structured abstract is wanted at all."),
+    },
     "GCC-Research-Article": {
         "journal": "Genes, Chromosomes and Cancer (Wiley)",
         "limits": {"main_words": None, "abstract_words": 250, "display_items": None,
@@ -118,7 +134,13 @@ MANUSCRIPTS = {
     "dependency/emc-atr-collaborator-package.md": "GCC-Research-Article",
     "repurposing/repurposing-hypotheses.md": "CROH-Review",
     "surface-targets/emc-surface-target-landscape.md": "BJC-Article",
-    "aso/fusion-junction-aso-short-communication.md": "CGT-Article",
+    # ⛔ GRADED AGAINST A VENUE ITS OWN PLANNING DOCUMENT HAD DISQUALIFIED (fixed 2026-08-13). This
+    # row said `CGT-Article` for a day after `fusion-junction-aso-submission-plan.md` §1c eliminated
+    # Cancer Gene Therapy on its read fee schedule, so every run printed an OVER verdict against an
+    # abstract limit no venue in play imposes — a red flag pointing at a decision already made, which
+    # is how a real one gets ignored. The venue is open; bioRxiv is the immediate destination and
+    # sets no limits, so that is what the paper is measured against until a journal is chosen.
+    "aso/fusion-junction-aso-short-communication.md": "bioRxiv-preprint",
 }
 
 #: Files that carry display items or reference entries belonging to a manuscript but living outside
@@ -336,14 +358,25 @@ def main():
         # ⚠ A ROW WHOSE LIMITS ARE ALL UNREAD MUST NOT PRINT AS "within believed limits". There is
         # nothing to be within, and a green line against no limit is the most confident-looking
         # false reassurance this file could emit.
+        # ⛔ `None` WAS DOING TWO JOBS AND THEY MEAN OPPOSITE THINGS (2026-08-13). A `None` limit is
+        # "nobody has read this journal's guidelines" for Cancer Gene Therapy and "this venue imposes
+        # no such limit" for bioRxiv, and the grader could not tell them apart: it inferred
+        # "unread" from the absence of any numeric limit, so the venue whose rules ARE fully known —
+        # because there are none — reported as the least known of all. A venue therefore declares
+        # `no_limits_by_policy` rather than having it guessed from its nulls.
         graded = [k for k, lim in v["limits"].items() if lim is not None]
+        read = bool(graded) or bool(v.get("no_limits_by_policy"))
         rows.append({"file": fname, "venue": v["journal"], "measured": m,
                      "companion_files": companions,
                      "figure_files": FIGURE_FILES.get(fname, []),
                      "limits": v["limits"], "limits_provenance": v["provenance"],
-                     "limits_read": bool(graded), "over_limit": flags})
+                     "limits_read": read,
+                     "no_limits_by_policy": bool(v.get("no_limits_by_policy")),
+                     "over_limit": flags})
         if flags:
             state = "OVER: " + "; ".join(flags)
+        elif v.get("no_limits_by_policy"):
+            state = "no limits to exceed — this venue sets none"
         elif graded:
             state = "within believed limits"
         else:

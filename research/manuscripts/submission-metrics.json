@@ -92,6 +92,7 @@
       },
       "limits_provenance": "search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike",
       "limits_read": true,
+      "no_limits_by_policy": false,
       "over_limit": []
     },
     {
@@ -115,6 +116,7 @@
       },
       "limits_provenance": "search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike",
       "limits_read": true,
+      "no_limits_by_policy": false,
       "over_limit": []
     },
     {
@@ -138,6 +140,7 @@
       },
       "limits_provenance": "search-derived; sciencedirect.com blocks the datacenter IP",
       "limits_read": true,
+      "no_limits_by_policy": false,
       "over_limit": []
     },
     {
@@ -161,11 +164,12 @@
       },
       "limits_provenance": "nature.com pages DO answer; these were read from the journal's own guide to authors at HTTP 200",
       "limits_read": true,
+      "no_limits_by_policy": false,
       "over_limit": []
     },
     {
       "file": "aso/fusion-junction-aso-short-communication.md",
-      "venue": "Cancer Gene Therapy (Springer Nature)",
+      "venue": "bioRxiv (preprint; journal venue still open)",
       "measured": {
         "main_words": 6798,
         "abstract_words": 335,
@@ -184,16 +188,15 @@
         "figures/aso-chance-baseline.svg"
       ],
       "limits": {
-        "main_words": 12000,
-        "abstract_words": 200,
-        "display_items": 7,
-        "references": 60
+        "main_words": null,
+        "abstract_words": null,
+        "display_items": null,
+        "references": null
       },
-      "limits_provenance": "READ at primary source: nature.com/cgt/authors-and-referees/gta, HTTP 200, 2026-08-12, via a real headless browser (see research/literature/venue-policy-browser-fetch.json → cgt_gta). ⛔ FEE-DISQUALIFIED: the same page states a MANDATORY charge of £145 / $238 per page on the subscription route, waived only for authors who pay the open-access APC. The $0 constraint is binding, so this venue cannot be used. ⚠ The abstract limit is for an UNSTRUCTURED abstract; this manuscript's is structured, so the format as well as the length is wrong for this journal.",
+      "limits_provenance": "VERIFIED at primary source: bioRxiv sets no word, abstract or display-item limit and its deposit is free — the one venue fact in this table that was read rather than searched. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means this manuscript is measured and ungated, which is the honest state while the journal is undecided. A journal's limits apply when one is chosen, and cutting the abstract to any particular cap before then means cutting twice, because the venues under consideration disagree on both length AND whether a structured abstract is wanted at all.",
       "limits_read": true,
-      "over_limit": [
-        "abstract_words 335 > 200"
-      ]
+      "no_limits_by_policy": true,
+      "over_limit": []
     }
   ]
 }
