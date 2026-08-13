@@ -10,19 +10,153 @@
   "PRESENT_TPM = 1 is a STATED legibility cut, not a threshold of concern, and every raw median is released so another cut can be applied without re-running."
  ],
  "_cost": "$0 — public reference data on a CPU runner. No GPU, no rental, no wet lab.",
- "_generated_utc": "2026-08-13T21:54:30.029048+00:00",
+ "_generated_utc": "2026-08-13T22:20:34.306281+00:00",
  "panel": {
-  "screen": "junction-aso-offtarget-e12n3-deep500-b1.json",
-  "reagent_antisense_5to3": "GGGCATATCATCAAAC",
-  "junction_label": "EWSR1_e12__NR4A3_e3",
-  "n_near_matches_reported": 189,
-  "n_minus_strand_not_hybridisable": 48,
-  "n_gap_disrupted_no_cleavage": 18,
-  "n_gap_paired_hybridisable": 123,
+  "panel": [
+   {
+    "seam": "EWSR1_e12__NR4A3_e3",
+    "screen": "junction-aso-offtarget-e12n3-deep500-b1.json",
+    "role": "lead — the multi-partner reagent (EWSR1 e12 / TAF15 e11 / FUS e10)",
+    "junction_is_reported_in_patients": true,
+    "note": "The identical 123-hit / 6-locus load is returned independently by the TAF15 e11 and FUS e10 screens of the same molecule, under three different BLAST request ids and three different parent-exclusion sets — so the load is a property of the sequence, not of one screen.",
+    "junction_label": "EWSR1_e12__NR4A3_e3",
+    "n_designs": 1,
+    "designs": [
+     {
+      "antisense_5to3": "GGGCATATCATCAAAC",
+      "gc_percent": 43.8,
+      "specificity_margin": 8,
+      "blast_rid": "7W03YWBN016",
+      "n_near_matches_reported": 189,
+      "n_minus_strand_not_hybridisable": 48,
+      "n_gap_disrupted_no_cleavage": 18,
+      "n_gap_paired_hybridisable": 123,
+      "loci": [
+       "ANKS1B",
+       "CHST5",
+       "GMCL1",
+       "LOC105370997",
+       "LOC105374140",
+       "ZNF667"
+      ]
+     }
+    ],
+    "n_gap_paired_hybridisable": 123,
+    "risk_class_read": "true_cleavage_risk",
+    "n_loci": 6
+   },
+   {
+    "seam": "TAF15_e6__NR4A3_e3",
+    "screen": "junction-aso-offtarget-taf15e6n3-deep500-b1.json",
+    "role": "the only exon-resolved TAF15::NR4A3 breakpoint published in EMC",
+    "junction_is_reported_in_patients": true,
+    "note": "Cited at PMID 10537274 (the primary report of the variant fusion) and PMID 12378528 (all three TAF15-rearranged tumours of an 18-case series). The lead reagent shares a single donor base with this seam and cannot engage it.",
+    "junction_label": "TAF15_e6__NR4A3_e3",
+    "n_designs": 5,
+    "designs": [
+     {
+      "antisense_5to3": "GGGCATATCTTGTGTG",
+      "gc_percent": 50.0,
+      "specificity_margin": 8,
+      "blast_rid": "7W0F8E93016",
+      "n_near_matches_reported": 62,
+      "n_minus_strand_not_hybridisable": 52,
+      "n_gap_disrupted_no_cleavage": 2,
+      "n_gap_paired_hybridisable": 8,
+      "loci": [
+       "CA5B",
+       "CA5BP1-CA5B",
+       "LOC124907518",
+       "NRP1",
+       "ZFPM2"
+      ]
+     },
+     {
+      "antisense_5to3": "GGCATATCTTGTGTGT",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "blast_rid": "7W0FCR2B016",
+      "n_near_matches_reported": 92,
+      "n_minus_strand_not_hybridisable": 34,
+      "n_gap_disrupted_no_cleavage": 10,
+      "n_gap_paired_hybridisable": 48,
+      "loci": [
+       "CA5B",
+       "CA5BP1-CA5B",
+       "G3BP2",
+       "GNAL",
+       "MIR9-2HG",
+       "NRP1",
+       "NRXN3-AS1",
+       "SLC17A3"
+      ]
+     },
+     {
+      "antisense_5to3": "AGGGCATATCTTGTGT",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "blast_rid": "7W0FGTAU016",
+      "n_near_matches_reported": 82,
+      "n_minus_strand_not_hybridisable": 63,
+      "n_gap_disrupted_no_cleavage": 3,
+      "n_gap_paired_hybridisable": 16,
+      "loci": [
+       "LINC02030",
+       "NRP1",
+       "ZFPM2"
+      ]
+     },
+     {
+      "antisense_5to3": "CAGGGCATATCTTGTG",
+      "gc_percent": 50.0,
+      "specificity_margin": 6,
+      "blast_rid": "7W0FMRM8016",
+      "n_near_matches_reported": 80,
+      "n_minus_strand_not_hybridisable": 55,
+      "n_gap_disrupted_no_cleavage": 8,
+      "n_gap_paired_hybridisable": 17,
+      "loci": [
+       "GBP4",
+       "LINC02030",
+       "NRP1",
+       "ZFPM2"
+      ]
+     },
+     {
+      "antisense_5to3": "GCATATCTTGTGTGTG",
+      "gc_percent": 43.8,
+      "specificity_margin": 6,
+      "blast_rid": "7W0FSTV9016",
+      "n_near_matches_reported": 260,
+      "n_minus_strand_not_hybridisable": 159,
+      "n_gap_disrupted_no_cleavage": 35,
+      "n_gap_paired_hybridisable": 66,
+      "loci": [
+       "ANKRD26P3",
+       "CA5B",
+       "CA5BP1-CA5B",
+       "EEFSEC",
+       "G3BP2",
+       "GNAL",
+       "LAMA4",
+       "LOC105376349",
+       "MIR9-2HG",
+       "NRP1",
+       "SLC17A3",
+       "ST3GAL1"
+      ]
+     }
+    ],
+    "n_gap_paired_hybridisable": 155,
+    "risk_class_read": "true_cleavage_risk",
+    "n_loci": 17
+   }
+  ],
+  "n_seams": 2,
+  "n_loci_over_the_whole_panel": 23,
+  "n_gap_paired_hybridisable": 278,
   "risk_class_read": "true_cleavage_risk",
-  "n_loci": 6,
-  "n_accession_fallbacks_resolved": 9,
-  "_why_that_last_number_matters": "`junction_aso_locus_collapse.locus_of` truncates each definition at its first comma before looking for a parenthesised symbol, so a gene whose DESCRIPTION contains a comma falls to a per-accession fallback and reads as one pseudo-locus per record. That many records were merged back onto their real gene here. A raw `locus_of` count of this reagent therefore returns more loci than exist, and the two counts must not be quoted against each other. See `gene_of`."
+  "locus_parser": "junction_aso_locus_collapse.locus_of, corrected 2026-08-13 (5233cf867) to read NCBI's defline grammar rather than the text before the first comma. This module delegates to it and carries no parser of its own."
  },
  "method": {
   "exposure_tissues": [
@@ -43,12 +177,12 @@
   "present_tpm_cut": 1.0,
   "arms": {
    "A_gtex": {
-    "status": "fetch or parse failed: HTTPError: HTTP Error 404: Not Found",
-    "url": "https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",
+    "status": "read",
+    "url": "https://gtexportal.org/api/v2/expression/medianGeneExpression",
     "release": "GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm",
     "unit": "median TPM across that tissue's donors",
-    "endpoint_used": null,
-    "n_tissues": null
+    "endpoint_used": "portal_api_v2_fallback",
+    "n_tissues": 54
    },
    "B_emc_series": {
     "targets": {
@@ -58,44 +192,128 @@
    },
    "C_ncbi_gene": {
     "status": {
-     "ANKS1B": "read",
+     "ANKRD26P3": "read",
+     "ANKS1B": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "CA5B": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "CA5BP1-CA5B": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
      "CHST5": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "EEFSEC": "read",
+     "G3BP2": "read",
+     "GBP4": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
      "GMCL1": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "GNAL": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "LAMA4": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "LINC02030": "read",
      "LOC105370997": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
      "LOC105374140": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "LOC105376349": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "LOC124907518": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "MIR9-2HG": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "NRP1": "read",
+     "NRXN3-AS1": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "SLC17A3": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "ST3GAL1": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "ZFPM2": "read",
      "ZNF667": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests"
     }
    },
    "D_hpa": {
     "status": {
+     "ANKRD26P3": "read",
      "ANKS1B": "read",
+     "CA5B": "read",
+     "CA5BP1-CA5B": "read",
      "CHST5": "read",
+     "EEFSEC": "read",
+     "G3BP2": "read",
+     "GBP4": "read",
      "GMCL1": "read",
+     "GNAL": "read",
+     "LAMA4": "read",
+     "LINC02030": "read",
      "LOC105370997": "read",
      "LOC105374140": "read",
+     "LOC105376349": "read",
+     "LOC124907518": "read",
+     "MIR9-2HG": "read",
+     "NRP1": "read",
+     "NRXN3-AS1": "read",
+     "SLC17A3": "read",
+     "ST3GAL1": "read",
+     "ZFPM2": "read",
      "ZNF667": "read"
     },
     "_not_independent": "HPA consensus tissue RNA incorporates GTEx; agreement with arm A is a transport check, not an independent measurement."
    }
   },
   "known_answer_controls": {
-   "ran": false,
-   "why": "arm A was not read",
-   "passed": null,
-   "controls": {}
+   "ran": true,
+   "passed": false,
+   "controls": {
+    "ALB": {
+     "found": true,
+     "max_tissue": "Liver",
+     "max_median_tpm": 25201.3,
+     "expected_max_in": [
+      "Liver"
+     ],
+     "passed": true,
+     "why": "albumin is the canonical hepatocyte-restricted transcript"
+    },
+    "UMOD": {
+     "found": true,
+     "max_tissue": "Kidney Medulla",
+     "max_median_tpm": 2116.02,
+     "expected_max_in": [
+      "Kidney - Medulla",
+      "Kidney - Cortex"
+     ],
+     "passed": false,
+     "why": "uromodulin is made only by the thick ascending limb of the nephron"
+    },
+    "MYH7": {
+     "found": true,
+     "max_tissue": "Heart Left Ventricle",
+     "max_median_tpm": 4513.66,
+     "expected_max_in": [
+      "Muscle - Skeletal",
+      "Heart - Left Ventricle"
+     ],
+     "passed": false,
+     "why": "beta-myosin heavy chain is restricted to slow skeletal muscle and ventricle"
+    }
+   },
+   "_meaning": "These assert that the tissue COLUMNS are aligned to the values. A failure means the parse is shifted and every tissue figure below is wrong; it does not mean the genes are unusual."
   }
  },
  "summary": {
-  "n_loci": 6,
+  "n_loci": 23,
   "n_loci_with_a_readable_exposure_reading": 0,
   "loci_expressed_in_an_exposure_organ": [],
   "loci_whose_exposure_question_is_unanswerable_from_public_data": [
    "ANKS1B",
+   "G3BP2",
    "ZNF667",
+   "LINC02030",
+   "MIR9-2HG",
+   "LAMA4",
+   "ZFPM2",
+   "GNAL",
    "GMCL1",
    "LOC105374140",
+   "NRP1",
    "LOC105370997",
-   "CHST5"
+   "SLC17A3",
+   "CA5B",
+   "CA5BP1-CA5B",
+   "EEFSEC",
+   "ANKRD26P3",
+   "CHST5",
+   "GBP4",
+   "LOC105376349",
+   "LOC124907518",
+   "NRXN3-AS1",
+   "ST3GAL1"
   ],
   "⛔_this_list_is_not_a_ranking_and_this_file_has_no_risk_column": "These are the genes whose median TPM reaches the stated cut in liver or kidney. That is a reading about each GENE. It is not an ordering of the panel by hazard, and no such ordering exists anywhere in this file, because every hit behind it is a 14/16 sequence match and the step from an expressed gene to an affected one needs an affinity argument no screen here has made. Loci are ordered by transcript-record count, which is an annotation property and is labelled as one.",
   "⚠_what_a_clean_exposure_column_does_and_does_not_buy": "It says those genes are low or absent in the dosed organs. It does not make the reagent clean: the same panel holds loci this instrument cannot measure at all, and none of these hits has been shown to be cleavable in the first place."
@@ -104,10 +322,12 @@
   {
    "locus": "ANKS1B",
    "seams": [
-    "not_recorded_by_the_run_that_wrote_this_cache"
+    "EWSR1_e12__NR4A3_e3"
    ],
-   "designs_hitting_it": [],
-   "n_designs_hitting_it": null,
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
    "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 67,
@@ -117,23 +337,23 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "read",
-    "ncbi_gene_id": "56899",
-    "description": "ankyrin repeat and sterile alpha motif domain containing 1B",
-    "map_location": "12q23.1",
-    "ncbi_summary": "This gene encodes a multi-domain protein that is predominantly expressed in brain and testis. This protein interacts with amyloid beta protein precursor (AbetaPP) and may have a role in normal brain development, and in the pathogenesis of Alzheimer's disease. Expression of this gene has been shown to be elevated in patients with pre-B cell acute lymphocytic leukemia associated with t(1;19) translocation. Alternatively spliced transcript variants encoding different isoforms (some with different subcellular localization, PMID:15004329) have been described for this gene. [provided by RefSeq, Aug 2011]"
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -220,7 +440,36 @@
      }
     }
    },
-   "whole_body_context": null,
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Brain Spinal cord cervical c-1",
+      "median_tpm": 24.8646
+     },
+     {
+      "tissue": "Brain Frontal Cortex BA9",
+      "median_tpm": 22.9209
+     },
+     {
+      "tissue": "Brain Nucleus accumbens basal ganglia",
+      "median_tpm": 22.8587
+     },
+     {
+      "tissue": "Brain Caudate basal ganglia",
+      "median_tpm": 17.6334
+     },
+     {
+      "tissue": "Brain Cortex",
+      "median_tpm": 17.3164
+     },
+     {
+      "tissue": "Brain Hippocampus",
+      "median_tpm": 16.5317
+     }
+    ],
+    "n_tissues_at_or_above_cut": 28,
+    "n_tissues_read": 54
+   },
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 1,
@@ -248,15 +497,193 @@
     ]
    },
    "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "G3BP2",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT"
+   ],
+   "n_designs_hitting_it": 2,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 56,
+    "n_curated_records": 48,
+    "n_predicted_records": 8,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "read",
+    "ncbi_gene_id": "9908",
+    "description": "G3BP stress granule assembly factor 2",
+    "map_location": "4q21.1",
+    "ncbi_summary": "Enables molecular condensate scaffold activity. Involved in positive regulation of stress granule assembly; protein homooligomerization; and stress granule assembly. Located in cytoplasmic stress granule and cytosol. [provided by Alliance of Genome Resources, Apr 2025]"
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.931,
+       0.922,
+       0.9339,
+       0.9313,
+       0.9324,
+       0.9245,
+       0.9154,
+       0.9483,
+       0.9254,
+       0.9593,
+       0.9555,
+       0.9235,
+       0.9364,
+       0.9429,
+       0.9453,
+       0.9492,
+       0.9408,
+       0.944,
+       0.9333,
+       0.942,
+       0.9335,
+       0.9346,
+       0.9458,
+       0.9378,
+       0.9113,
+       0.9372,
+       0.9479,
+       0.9296,
+       0.9345,
+       0.9293,
+       0.9086,
+       0.9477,
+       0.9089,
+       0.9277,
+       0.8927,
+       0.9412,
+       0.9411,
+       0.9259,
+       0.9226,
+       0.93,
+       0.9727,
+       0.9727
+      ],
+      "median_array_percentile": 0.9345,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL3290",
+      "n_probes_mapping": 3,
+      "n_samples": 16,
+      "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "array_percentile": [
+       0.231,
+       0.3358,
+       0.2274,
+       0.162,
+       0.3943,
+       0.8359,
+       0.074,
+       0.1641,
+       0.1326,
+       0.1198,
+       0.6415,
+       0.1654,
+       0.3875,
+       0.2166,
+       0.514,
+       0.2597
+      ],
+      "median_array_percentile": 0.231,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Cells EBV-transformed lymphocytes",
+      "median_tpm": 91.8975
+     },
+     {
+      "tissue": "Brain Cerebellar Hemisphere",
+      "median_tpm": 87.4012
+     },
+     {
+      "tissue": "Cells Cultured fibroblasts",
+      "median_tpm": 77.0226
+     },
+     {
+      "tissue": "Brain Frontal Cortex BA9",
+      "median_tpm": 56.7453
+     },
+     {
+      "tissue": "Brain Cerebellum",
+      "median_tpm": 56.3229
+     },
+     {
+      "tissue": "Artery Tibial",
+      "median_tpm": 55.4863
+     }
+    ],
+    "n_tissues_at_or_above_cut": 54,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "G3BP2",
+      "Gene synonym": [
+       "KIAA0660"
+      ],
+      "Ensembl": "ENSG00000138757",
+      "Gene description": "G3BP stress granule assembly factor 2",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Cytosol"
+      ]
+     }
+    ]
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
   },
   {
    "locus": "ZNF667",
    "seams": [
-    "not_recorded_by_the_run_that_wrote_this_cache"
+    "EWSR1_e12__NR4A3_e3"
    ],
-   "designs_hitting_it": [],
-   "n_designs_hitting_it": null,
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
    "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 37,
@@ -274,15 +701,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -344,11 +771,40 @@
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6325
+      "probe_mapping_rate": 0.6324
      }
     }
    },
-   "whole_body_context": null,
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Pituitary",
+      "median_tpm": 24.0852
+     },
+     {
+      "tissue": "Brain Cerebellar Hemisphere",
+      "median_tpm": 9.837810000000001
+     },
+     {
+      "tissue": "Brain Nucleus accumbens basal ganglia",
+      "median_tpm": 8.75747
+     },
+     {
+      "tissue": "Brain Cerebellum",
+      "median_tpm": 8.682839999999999
+     },
+     {
+      "tissue": "Brain Cortex",
+      "median_tpm": 7.74643
+     },
+     {
+      "tissue": "Brain Frontal Cortex BA9",
+      "median_tpm": 7.2984
+     }
+    ],
+    "n_tissues_at_or_above_cut": 46,
+    "n_tissues_read": 54
+   },
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 1,
@@ -373,15 +829,710 @@
     ]
    },
    "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "LINC02030",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCTTGTGT",
+    "CAGGGCATATCTTGTG"
+   ],
+   "n_designs_hitting_it": 2,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 22,
+    "n_curated_records": 22,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "read",
+    "ncbi_gene_id": "105377098",
+    "description": "long independently transcribed non-coding RNA 2030",
+    "map_location": "3p14.3",
+    "ncbi_summary": ""
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL6244",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.7043
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6324
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Testis",
+      "median_tpm": 0.661741
+     },
+     {
+      "tissue": "Skin Sun Exposed Lower leg",
+      "median_tpm": 0.290082
+     },
+     {
+      "tissue": "Skin Not Sun Exposed Suprapubic",
+      "median_tpm": 0.125826
+     },
+     {
+      "tissue": "Cells Cultured fibroblasts",
+      "median_tpm": 0.0958797
+     },
+     {
+      "tissue": "Kidney Medulla",
+      "median_tpm": 0.0161596
+     },
+     {
+      "tissue": "Adipose Subcutaneous",
+      "median_tpm": 0.0
+     }
+    ],
+    "n_tissues_at_or_above_cut": 0,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": []
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "MIR9-2HG",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT"
+   ],
+   "n_designs_hitting_it": 2,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 18,
+    "n_curated_records": 18,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL6244",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.7043
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6324
+     }
+    }
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": []
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "LAMA4",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 13,
+    "n_curated_records": 3,
+    "n_predicted_records": 10,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.9843,
+       0.9832,
+       0.9838,
+       0.9845,
+       0.987,
+       0.9828,
+       0.7583,
+       0.9402,
+       0.8596,
+       0.9877,
+       0.9889,
+       0.967,
+       0.9264,
+       0.8979,
+       0.9501,
+       0.9231,
+       0.8676,
+       0.9483,
+       0.4039,
+       0.8293,
+       0.9342,
+       0.9252,
+       0.9423,
+       0.9154,
+       0.9726,
+       0.9421,
+       0.861,
+       0.9667,
+       0.9604,
+       0.9916,
+       0.9955,
+       0.993,
+       0.9913,
+       0.9859,
+       0.9949,
+       0.9775,
+       0.8344,
+       0.7104,
+       0.9726,
+       0.8688,
+       0.8056,
+       0.7774
+      ],
+      "median_array_percentile": 0.9501,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL3290",
+      "n_probes_mapping": 5,
+      "n_samples": 16,
+      "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "array_percentile": [
+       0.9091,
+       0.9269,
+       0.8127,
+       0.7815,
+       0.8605,
+       0.7143,
+       0.8243,
+       0.3915,
+       0.2719,
+       0.78,
+       0.4815,
+       0.5497,
+       0.7134,
+       0.6401,
+       0.3733,
+       0.812
+      ],
+      "median_array_percentile": 0.78,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Cells Cultured fibroblasts",
+      "median_tpm": 268.58799999999997
+     },
+     {
+      "tissue": "Esophagus Muscularis",
+      "median_tpm": 145.961
+     },
+     {
+      "tissue": "Nerve Tibial",
+      "median_tpm": 132.805
+     },
+     {
+      "tissue": "Fallopian Tube",
+      "median_tpm": 119.984
+     },
+     {
+      "tissue": "Adipose Visceral Omentum",
+      "median_tpm": 114.2
+     },
+     {
+      "tissue": "Esophagus Gastroesophageal Junction",
+      "median_tpm": 106.615
+     }
+    ],
+    "n_tissues_at_or_above_cut": 51,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "LAMA4",
+      "Gene synonym": [
+       "LAMA3"
+      ],
+      "Ensembl": "ENSG00000112769",
+      "Gene description": "Laminin subunit alpha 4",
+      "RNA tissue specificity": "Tissue enhanced",
+      "RNA tissue distribution": "Detected in many",
+      "RNA tissue specific nTPM": {
+       "fallopian tube": "163.3"
+      },
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Plasma membrane",
+       "Cytosol"
+      ]
+     }
+    ]
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "ZFPM2",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCTTGTGT",
+    "CAGGGCATATCTTGTG",
+    "GGGCATATCTTGTGTG"
+   ],
+   "n_designs_hitting_it": 3,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 12,
+    "n_curated_records": 0,
+    "n_predicted_records": 12,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "read",
+    "ncbi_gene_id": "23414",
+    "description": "zinc finger protein, FOG family member 2",
+    "map_location": "8q23.1",
+    "ncbi_summary": "The zinc finger protein encoded by this gene is a widely expressed member of the FOG family of transcription factors. The family members modulate the activity of GATA family proteins, which are important regulators of hematopoiesis and cardiogenesis in mammals. It has been demonstrated that the protein can both activate and down-regulate expression of GATA-target genes, suggesting different modulation in different promoter contexts. A related mRNA suggests an alternatively spliced product but this information is not yet fully supported by the sequence. [provided by RefSeq, Jul 2008]"
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.7577,
+       0.8107,
+       0.9161,
+       0.8629,
+       0.8375,
+       0.8747,
+       0.9844,
+       0.9448,
+       0.9424,
+       0.8079,
+       0.8383,
+       0.9879,
+       0.7366,
+       0.4418,
+       0.691,
+       0.4528,
+       0.8591,
+       0.8198,
+       0.3338,
+       0.6074,
+       0.519,
+       0.6803,
+       0.3467,
+       0.7355,
+       0.3825,
+       0.8891,
+       0.5086,
+       0.339,
+       0.7572,
+       0.5549,
+       0.9193,
+       0.9018,
+       0.7909,
+       0.8029,
+       0.9391,
+       0.4119,
+       0.3236,
+       0.9249,
+       0.8175,
+       0.9297,
+       0.9031,
+       0.9116
+      ],
+      "median_array_percentile": 0.8107,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL3290",
+      "n_probes_mapping": 2,
+      "n_samples": 16,
+      "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "array_percentile": [
+       0.9435,
+       0.8975,
+       0.5524,
+       0.945,
+       0.141,
+       0.3292,
+       0.5179,
+       0.984,
+       0.9988,
+       0.8373,
+       0.8706,
+       0.9781,
+       0.7225,
+       0.9799,
+       0.9682,
+       0.9824
+      ],
+      "median_array_percentile": 0.9435,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Brain Cerebellar Hemisphere",
+      "median_tpm": 39.2331
+     },
+     {
+      "tissue": "Brain Cerebellum",
+      "median_tpm": 27.2681
+     },
+     {
+      "tissue": "Ovary",
+      "median_tpm": 26.9572
+     },
+     {
+      "tissue": "Fallopian Tube",
+      "median_tpm": 17.6002
+     },
+     {
+      "tissue": "Uterus",
+      "median_tpm": 16.2715
+     },
+     {
+      "tissue": "Adipose Visceral Omentum",
+      "median_tpm": 11.703
+     }
+    ],
+    "n_tissues_at_or_above_cut": 45,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "ZFPM2",
+      "Gene synonym": [
+       "FOG2",
+       "hFOG-2",
+       "ZC2HC11B",
+       "ZNF89B"
+      ],
+      "Ensembl": "ENSG00000169946",
+      "Gene description": "Zinc finger protein, FOG family member 2",
+      "RNA tissue specificity": "Tissue enhanced",
+      "RNA tissue distribution": "Detected in many",
+      "RNA tissue specific nTPM": {
+       "brain": "27.5",
+       "ovary": "32.4"
+      },
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Nucleoplasm"
+      ]
+     }
+    ]
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "GNAL",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT"
+   ],
+   "n_designs_hitting_it": 2,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 10,
+    "n_curated_records": 10,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.6774,
+       0.541,
+       0.7051,
+       0.5753,
+       0.6644,
+       0.6423,
+       0.3778,
+       0.4418,
+       0.2617,
+       0.3217,
+       0.2645,
+       0.3094,
+       0.2932,
+       0.3496,
+       0.3408,
+       0.288,
+       0.3258,
+       0.4338,
+       0.3348,
+       0.3133,
+       0.3873,
+       0.32,
+       0.3145,
+       0.3026,
+       0.3773,
+       0.3989,
+       0.3103,
+       0.3661,
+       0.4591,
+       0.6941,
+       0.4165,
+       0.552,
+       0.2675,
+       0.2971,
+       0.7577,
+       0.255,
+       0.2419,
+       0.2623,
+       0.3414,
+       0.3359,
+       0.5029,
+       0.5961
+      ],
+      "median_array_percentile": 0.3496,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL3290",
+      "n_probes_mapping": 3,
+      "n_samples": 16,
+      "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "array_percentile": [
+       0.3846,
+       0.4974,
+       0.6485,
+       0.5914,
+       0.208,
+       0.7312,
+       0.3621,
+       0.3014,
+       0.5291,
+       0.5307,
+       0.8308,
+       0.2797,
+       0.3331,
+       0.5012,
+       0.5798,
+       0.431
+      ],
+      "median_array_percentile": 0.5012,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Brain Nucleus accumbens basal ganglia",
+      "median_tpm": 45.6431
+     },
+     {
+      "tissue": "Brain Caudate basal ganglia",
+      "median_tpm": 28.8777
+     },
+     {
+      "tissue": "Brain Putamen basal ganglia",
+      "median_tpm": 21.6526
+     },
+     {
+      "tissue": "Pituitary",
+      "median_tpm": 18.8966
+     },
+     {
+      "tissue": "Bladder",
+      "median_tpm": 12.9199
+     },
+     {
+      "tissue": "Brain Frontal Cortex BA9",
+      "median_tpm": 11.1726
+     }
+    ],
+    "n_tissues_at_or_above_cut": 49,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 6834,
+    "exact_symbol_rows": [
+     {
+      "Gene": "GNAL",
+      "Gene synonym": [],
+      "Ensembl": "ENSG00000141404",
+      "Gene description": "G protein subunit alpha L",
+      "RNA tissue specificity": "Tissue enhanced",
+      "RNA tissue distribution": "Detected in many",
+      "RNA tissue specific nTPM": {
+       "brain": "63.4"
+      },
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Plasma membrane",
+       "Cytosol"
+      ]
+     }
+    ]
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
   },
   {
    "locus": "GMCL1",
    "seams": [
-    "not_recorded_by_the_run_that_wrote_this_cache"
+    "EWSR1_e12__NR4A3_e3"
    ],
-   "designs_hitting_it": [],
-   "n_designs_hitting_it": null,
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
    "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 9,
@@ -399,15 +1550,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -494,7 +1645,36 @@
      }
     }
    },
-   "whole_body_context": null,
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Testis",
+      "median_tpm": 24.3161
+     },
+     {
+      "tissue": "Artery Tibial",
+      "median_tpm": 18.3414
+     },
+     {
+      "tissue": "Cells EBV-transformed lymphocytes",
+      "median_tpm": 17.2236
+     },
+     {
+      "tissue": "Nerve Tibial",
+      "median_tpm": 15.8285
+     },
+     {
+      "tissue": "Artery Aorta",
+      "median_tpm": 14.6335
+     },
+     {
+      "tissue": "Brain Cerebellar Hemisphere",
+      "median_tpm": 14.4273
+     }
+    ],
+    "n_tissues_at_or_above_cut": 54,
+    "n_tissues_read": 54
+   },
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 2,
@@ -518,15 +1698,17 @@
     ]
    },
    "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
   },
   {
    "locus": "LOC105374140",
    "seams": [
-    "not_recorded_by_the_run_that_wrote_this_cache"
+    "EWSR1_e12__NR4A3_e3"
    ],
-   "designs_hitting_it": [],
-   "n_designs_hitting_it": null,
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
    "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 5,
@@ -544,15 +1726,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
@@ -561,13 +1743,13 @@
       "readable": false,
       "platform": "GPL6244",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.7102
+      "probe_mapping_rate": 0.7043
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6325
+      "probe_mapping_rate": 0.6324
      }
     }
    },
@@ -577,16 +1759,199 @@
     "n_rows": 0,
     "exact_symbol_rows": []
    },
-   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
-   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "NRP1",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCTTGTGT",
+    "CAGGGCATATCTTGTG",
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT",
+    "GGGCATATCTTGTGTG"
+   ],
+   "n_designs_hitting_it": 5,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 5,
+    "n_curated_records": 0,
+    "n_predicted_records": 5,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "read",
+    "ncbi_gene_id": "8829",
+    "description": "neuropilin 1",
+    "map_location": "10p11.22",
+    "ncbi_summary": "This gene encodes one of two neuropilins, which contain specific protein domains which allow them to participate in several different types of signaling pathways that control cell migration. Neuropilins contain a large N-terminal extracellular domain, made up of complement-binding, coagulation factor V/VIII, and meprin domains. These proteins also contains a short membrane-spanning domain and a small cytoplasmic domain. Neuropilins bind many ligands and various types of co-receptors; they affect cell survival, migration, and attraction. Some of the ligands and co-receptors bound by neuropilins are vascular endothelial growth factor (VEGF) and semaphorin family members. This protein has also been determined to act as a co-receptor for SARS-CoV-2 (which causes COVID-19) to infect host cells. [provided by RefSeq, Nov 2020]"
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.9667,
+       0.981,
+       0.9754,
+       0.9652,
+       0.9756,
+       0.9835,
+       0.7,
+       0.8043,
+       0.8436,
+       0.9644,
+       0.9881,
+       0.7192,
+       0.9845,
+       0.9633,
+       0.9866,
+       0.9814,
+       0.9625,
+       0.9885,
+       0.8599,
+       0.9404,
+       0.9218,
+       0.972,
+       0.9402,
+       0.9648,
+       0.9504,
+       0.9757,
+       0.9448,
+       0.9909,
+       0.9595,
+       0.9868,
+       0.9689,
+       0.9722,
+       0.9832,
+       0.9797,
+       0.9765,
+       0.9466,
+       0.8408,
+       0.6113,
+       0.9256,
+       0.7991,
+       0.8936,
+       0.869
+      ],
+      "median_array_percentile": 0.9648,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL3290",
+      "n_probes_mapping": 2,
+      "n_samples": 16,
+      "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "array_percentile": [
+       0.9431,
+       0.8523,
+       0.9651,
+       0.825,
+       0.904,
+       0.9774,
+       0.4304,
+       0.9194,
+       0.6666,
+       0.551,
+       0.009,
+       0.3004,
+       0.3823,
+       0.3939,
+       0.6915,
+       0.4487
+      ],
+      "median_array_percentile": 0.6915,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Cells Cultured fibroblasts",
+      "median_tpm": 104.709
+     },
+     {
+      "tissue": "Adipose Visceral Omentum",
+      "median_tpm": 66.0532
+     },
+     {
+      "tissue": "Adipose Subcutaneous",
+      "median_tpm": 62.1285
+     },
+     {
+      "tissue": "Thyroid",
+      "median_tpm": 48.2904
+     },
+     {
+      "tissue": "Breast Mammary Tissue",
+      "median_tpm": 45.2777
+     },
+     {
+      "tissue": "Lung",
+      "median_tpm": 41.4733
+     }
+    ],
+    "n_tissues_at_or_above_cut": 50,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 3,
+    "exact_symbol_rows": [
+     {
+      "Gene": "NRP1",
+      "Gene synonym": [
+       "CD304",
+       "NRP",
+       "VEGF165R"
+      ],
+      "Ensembl": "ENSG00000099250",
+      "Gene description": "Neuropilin 1",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Cancer enhanced",
+      "Subcellular main location": [
+       "Mitochondria"
+      ]
+     }
+    ]
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
   },
   {
    "locus": "LOC105370997",
    "seams": [
-    "not_recorded_by_the_run_that_wrote_this_cache"
+    "EWSR1_e12__NR4A3_e3"
    ],
-   "designs_hitting_it": [],
-   "n_designs_hitting_it": null,
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
    "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 4,
@@ -604,15 +1969,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
@@ -621,13 +1986,13 @@
       "readable": false,
       "platform": "GPL6244",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.7102
+      "probe_mapping_rate": 0.7043
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6325
+      "probe_mapping_rate": 0.6324
      }
     }
    },
@@ -637,16 +2002,701 @@
     "n_rows": 0,
     "exact_symbol_rows": []
    },
-   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
-   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "SLC17A3",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT"
+   ],
+   "n_designs_hitting_it": 2,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 4,
+    "n_curated_records": 4,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.1281,
+       0.1525,
+       0.1375,
+       0.1326,
+       0.1567,
+       0.1901,
+       0.1725,
+       0.1497,
+       0.1448,
+       0.1538,
+       0.1546,
+       0.1556,
+       0.2693,
+       0.1659,
+       0.1745,
+       0.1377,
+       0.1825,
+       0.1739,
+       0.1695,
+       0.1464,
+       0.1395,
+       0.1906,
+       0.207,
+       0.1798,
+       0.2012,
+       0.1909,
+       0.1919,
+       0.168,
+       0.2263,
+       0.1839,
+       0.1964,
+       0.1604,
+       0.1663,
+       0.2061,
+       0.1733,
+       0.1799,
+       0.148,
+       0.1271,
+       0.2006,
+       0.1598,
+       0.1899,
+       0.1652
+      ],
+      "median_array_percentile": 0.1695,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL3290",
+      "n_probes_mapping": 3,
+      "n_samples": 16,
+      "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "array_percentile": [
+       0.0353,
+       0.4899,
+       0.6918,
+       null,
+       null,
+       null,
+       0.4898,
+       null,
+       null,
+       0.3197,
+       null,
+       0.0266,
+       null,
+       0.546,
+       0.0949,
+       0.3129
+      ],
+      "median_array_percentile": 0.3197,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Kidney Cortex",
+      "median_tpm": 33.6126
+     },
+     {
+      "tissue": "Liver",
+      "median_tpm": 9.141060000000001
+     },
+     {
+      "tissue": "Kidney Medulla",
+      "median_tpm": 8.08976
+     },
+     {
+      "tissue": "Testis",
+      "median_tpm": 0.6343850000000001
+     },
+     {
+      "tissue": "Adrenal Gland",
+      "median_tpm": 0.5782970000000001
+     },
+     {
+      "tissue": "Pituitary",
+      "median_tpm": 0.482336
+     }
+    ],
+    "n_tissues_at_or_above_cut": 3,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "SLC17A3",
+      "Gene synonym": [
+       "NPT4"
+      ],
+      "Ensembl": "ENSG00000124564",
+      "Gene description": "Solute carrier family 17 member 3",
+      "RNA tissue specificity": "Tissue enriched",
+      "RNA tissue distribution": "Detected in some",
+      "RNA tissue specific nTPM": {
+       "kidney": "153.3"
+      },
+      "RNA cancer specificity": "Group enriched",
+      "Subcellular main location": null
+     }
+    ]
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "CA5B",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT",
+    "GGGCATATCTTGTGTG"
+   ],
+   "n_designs_hitting_it": 3,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 3,
+    "n_curated_records": 3,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.7522,
+       0.7912,
+       0.7749,
+       0.8115,
+       0.769,
+       0.7893,
+       0.9942,
+       0.9665,
+       0.9116,
+       0.9755,
+       0.9107,
+       0.9853,
+       0.7016,
+       0.7242,
+       0.8649,
+       0.6997,
+       0.8236,
+       0.9368,
+       0.7439,
+       0.9323,
+       0.9395,
+       0.7292,
+       0.7697,
+       0.7374,
+       0.8412,
+       0.7144,
+       0.7973,
+       0.7471,
+       0.852,
+       0.9612,
+       0.8837,
+       0.9735,
+       0.8066,
+       0.754,
+       0.9304,
+       0.7953,
+       0.7352,
+       0.6995,
+       0.7126,
+       0.8358,
+       0.4656,
+       0.4626
+      ],
+      "median_array_percentile": 0.7973,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL3290",
+      "n_probes_mapping": 1,
+      "n_samples": 16,
+      "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "array_percentile": [
+       null,
+       0.5166,
+       0.6118,
+       0.1666,
+       null,
+       null,
+       0.8856,
+       0.289,
+       0.1496,
+       0.111,
+       0.4905,
+       0.6788,
+       0.9189,
+       0.9412,
+       0.4608,
+       0.7361
+      ],
+      "median_array_percentile": 0.5166,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Artery Aorta",
+      "median_tpm": 14.5182
+     },
+     {
+      "tissue": "Cervix Ectocervix",
+      "median_tpm": 14.1727
+     },
+     {
+      "tissue": "Testis",
+      "median_tpm": 11.9825
+     },
+     {
+      "tissue": "Artery Tibial",
+      "median_tpm": 11.6905
+     },
+     {
+      "tissue": "Artery Coronary",
+      "median_tpm": 10.1603
+     },
+     {
+      "tissue": "Cervix Endocervix",
+      "median_tpm": 9.82267
+     }
+    ],
+    "n_tissues_at_or_above_cut": 51,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 2,
+    "exact_symbol_rows": [
+     {
+      "Gene": "CA5B",
+      "Gene synonym": [],
+      "Ensembl": "ENSG00000169239",
+      "Gene description": "Carbonic anhydrase 5B",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Mitochondria"
+      ]
+     }
+    ]
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "CA5BP1-CA5B",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG",
+    "GGCATATCTTGTGTGT",
+    "GGGCATATCTTGTGTG"
+   ],
+   "n_designs_hitting_it": 3,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 3,
+    "n_curated_records": 3,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL6244",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.7043
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6324
+     }
+    }
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": []
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "EEFSEC",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 3,
+    "n_curated_records": 2,
+    "n_predicted_records": 1,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "read",
+    "ncbi_gene_id": "60678",
+    "description": "eukaryotic elongation factor, selenocysteine-tRNA specific",
+    "map_location": "3q21.3",
+    "ncbi_summary": "Enables GTPase activity. Involved in selenocysteine incorporation. Predicted to be located in cytoplasm and nucleus. Predicted to be part of ribonucleoprotein complex. [provided by Alliance of Genome Resources, Jul 2025]"
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.7039,
+       0.7358,
+       0.7092,
+       0.7215,
+       0.6353,
+       0.7163,
+       0.6661,
+       0.6777,
+       0.7169,
+       0.6968,
+       0.712,
+       0.7467,
+       0.7332,
+       0.7139,
+       0.742,
+       0.6944,
+       0.7091,
+       0.7017,
+       0.6985,
+       0.7123,
+       0.7025,
+       0.7227,
+       0.7154,
+       0.7189,
+       0.7383,
+       0.7313,
+       0.697,
+       0.7205,
+       0.7811,
+       0.6774,
+       0.7283,
+       0.7462,
+       0.7045,
+       0.71,
+       0.7844,
+       0.6865,
+       0.7218,
+       0.6994,
+       0.7023,
+       0.6979,
+       0.8096,
+       0.8267
+      ],
+      "median_array_percentile": 0.7139,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL3290",
+      "n_probes_mapping": 2,
+      "n_samples": 16,
+      "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "array_percentile": [
+       0.5337,
+       0.5064,
+       0.6479,
+       0.3718,
+       0.3745,
+       0.1612,
+       0.6097,
+       0.6542,
+       0.2112,
+       0.2871,
+       0.6617,
+       0.5621,
+       0.6003,
+       0.7163,
+       0.5972,
+       0.4792
+      ],
+      "median_array_percentile": 0.5621,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Testis",
+      "median_tpm": 50.0323
+     },
+     {
+      "tissue": "Nerve Tibial",
+      "median_tpm": 39.093
+     },
+     {
+      "tissue": "Uterus",
+      "median_tpm": 38.0924
+     },
+     {
+      "tissue": "Cervix Endocervix",
+      "median_tpm": 36.4647
+     },
+     {
+      "tissue": "Cervix Ectocervix",
+      "median_tpm": 35.1545
+     },
+     {
+      "tissue": "Fallopian Tube",
+      "median_tpm": 32.4774
+     }
+    ],
+    "n_tissues_at_or_above_cut": 54,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "EEFSEC",
+      "Gene synonym": [
+       "EFSEC",
+       "SELB"
+      ],
+      "Ensembl": "ENSG00000132394",
+      "Gene description": "Eukaryotic elongation factor, selenocysteine-tRNA specific",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in many",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Nucleoplasm",
+       "Nuclear bodies"
+      ]
+     }
+    ]
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "ANKRD26P3",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 1,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "read",
+    "ncbi_gene_id": "100101938",
+    "description": "ankyrin repeat domain 26 pseudogene 3",
+    "map_location": "13q12.11",
+    "ncbi_summary": ""
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL6244",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.7043
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6324
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Testis",
+      "median_tpm": 5.996169999999999
+     },
+     {
+      "tissue": "Spleen",
+      "median_tpm": 0.25421
+     },
+     {
+      "tissue": "Cells EBV-transformed lymphocytes",
+      "median_tpm": 0.23191199999999998
+     },
+     {
+      "tissue": "Brain Hippocampus",
+      "median_tpm": 0.075583
+     },
+     {
+      "tissue": "Brain Anterior cingulate cortex BA24",
+      "median_tpm": 0.0632478
+     },
+     {
+      "tissue": "Brain Cortex",
+      "median_tpm": 0.0626601
+     }
+    ],
+    "n_tissues_at_or_above_cut": 1,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": []
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
   },
   {
    "locus": "CHST5",
    "seams": [
-    "not_recorded_by_the_run_that_wrote_this_cache"
+    "EWSR1_e12__NR4A3_e3"
    ],
-   "designs_hitting_it": [],
-   "n_designs_hitting_it": null,
+   "designs_hitting_it": [
+    "GGGCATATCATCAAAC"
+   ],
+   "n_designs_hitting_it": 1,
    "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
    "screen_records": {
     "n_transcript_records": 1,
@@ -664,15 +2714,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "exposure_liver_kidney",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
-    "reason": "arm A was not read (fetch or parse failed: HTTPError: HTTP Error 404: Not Found)",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -734,11 +2784,40 @@
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6325
+      "probe_mapping_rate": 0.6324
      }
     }
    },
-   "whole_body_context": null,
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Small Intestine Terminal Ileum",
+      "median_tpm": 25.5508
+     },
+     {
+      "tissue": "Colon Transverse",
+      "median_tpm": 12.735
+     },
+     {
+      "tissue": "Brain Cerebellar Hemisphere",
+      "median_tpm": 5.876869999999999
+     },
+     {
+      "tissue": "Brain Cerebellum",
+      "median_tpm": 5.67436
+     },
+     {
+      "tissue": "Brain Nucleus accumbens basal ganglia",
+      "median_tpm": 3.88059
+     },
+     {
+      "tissue": "Brain Cortex",
+      "median_tpm": 2.95641
+     }
+    ],
+    "n_tissues_at_or_above_cut": 17,
+    "n_tissues_read": 54
+   },
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 1,
@@ -762,7 +2841,523 @@
     ]
    },
    "tier": "NOT_MEASURED",
-   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "GBP4",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "CAGGGCATATCTTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 1,
+    "n_predicted_records": 0,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.3236,
+       0.3585,
+       0.5696,
+       0.4433,
+       0.5144,
+       0.4871,
+       0.2724,
+       0.2506,
+       0.5257,
+       0.4054,
+       0.2272,
+       0.3162,
+       0.5954,
+       0.7926,
+       0.6595,
+       0.6134,
+       0.7632,
+       0.6096,
+       0.4723,
+       0.5678,
+       0.6886,
+       0.6867,
+       0.526,
+       0.3902,
+       0.5973,
+       0.6767,
+       0.7528,
+       0.5812,
+       0.68,
+       0.491,
+       0.55,
+       0.7295,
+       0.9668,
+       0.753,
+       0.652,
+       0.6114,
+       0.7108,
+       0.372,
+       0.7894,
+       0.6378,
+       0.4618,
+       0.5821
+      ],
+      "median_array_percentile": 0.5821,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6324
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Lung",
+      "median_tpm": 38.6515
+     },
+     {
+      "tissue": "Spleen",
+      "median_tpm": 22.0749
+     },
+     {
+      "tissue": "Adipose Subcutaneous",
+      "median_tpm": 18.1694
+     },
+     {
+      "tissue": "Ovary",
+      "median_tpm": 14.8163
+     },
+     {
+      "tissue": "Cells EBV-transformed lymphocytes",
+      "median_tpm": 13.9499
+     },
+     {
+      "tissue": "Adipose Visceral Omentum",
+      "median_tpm": 13.2387
+     }
+    ],
+    "n_tissues_at_or_above_cut": 52,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 2,
+    "exact_symbol_rows": [
+     {
+      "Gene": "GBP4",
+      "Gene synonym": [
+       "Mpa2"
+      ],
+      "Ensembl": "ENSG00000162654",
+      "Gene description": "Guanylate binding protein 4",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Golgi apparatus"
+      ]
+     }
+    ]
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "LOC105376349",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 0,
+    "n_predicted_records": 1,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL6244",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.7043
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6324
+     }
+    }
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": []
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "LOC124907518",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GGGCATATCTTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 0,
+    "n_predicted_records": 1,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL6244",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.7043
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6324
+     }
+    }
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": []
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "NRXN3-AS1",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GGCATATCTTGTGTGT"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 0,
+    "n_predicted_records": 1,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": false,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL6244",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.7043
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": false,
+      "platform": "GPL3290",
+      "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
+      "probe_mapping_rate": 0.6324
+     }
+    }
+   },
+   "whole_body_context": null,
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": []
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+  },
+  {
+   "locus": "ST3GAL1",
+   "seams": [
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "⭐_recurrence_is_a_second_axis_and_not_the_record_count": "A locus every design at a seam returns is robust to tiling register — it is there wherever the window is put — while a locus one register returns may be a property of that window. Record count measures neither. Ranking on either alone is a mistake; both are reported so neither has to stand in for the other.",
+   "screen_records": {
+    "n_transcript_records": 1,
+    "n_curated_records": 0,
+    "n_predicted_records": 1,
+    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits",
+    "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
+   },
+   "identity": {
+    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+    "ncbi_gene_id": null,
+    "description": null,
+    "map_location": null,
+    "ncbi_summary": null
+   },
+   "exposure_compartment_liver_kidney": {
+    "readable": false,
+    "block": "exposure_liver_kidney",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_normal_tissue_proxy": {
+    "readable": false,
+    "block": "tumour_compartment_normal_tissue_proxy",
+    "values": null,
+    "reason": "withheld: arm A's known-answer controls failed"
+   },
+   "tumour_compartment_emc_tumours": {
+    "readable_on_any_platform": true,
+    "per_series": {
+     "GSE24369_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL6244",
+      "n_probes_mapping": 1,
+      "n_samples": 42,
+      "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+      "array_percentile": [
+       0.5058,
+       0.5487,
+       0.5086,
+       0.5154,
+       0.6237,
+       0.5877,
+       0.9294,
+       0.8934,
+       0.9518,
+       0.9428,
+       0.7933,
+       0.8819,
+       0.5499,
+       0.6324,
+       0.6301,
+       0.8198,
+       0.4984,
+       0.4951,
+       0.4407,
+       0.4724,
+       0.6036,
+       0.5742,
+       0.6332,
+       0.4087,
+       0.5333,
+       0.5981,
+       0.4945,
+       0.4705,
+       0.7474,
+       0.6402,
+       0.5445,
+       0.7008,
+       0.7631,
+       0.8044,
+       0.7169,
+       0.6654,
+       0.6064,
+       0.5196,
+       0.8145,
+       0.6264,
+       0.8784,
+       0.9057
+      ],
+      "median_array_percentile": 0.6264,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     },
+     "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "readable": true,
+      "platform": "GPL3290",
+      "n_probes_mapping": 2,
+      "n_samples": 16,
+      "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE — an absolute level is NOT interpretable; only the between-group contrast is)",
+      "array_percentile": [
+       0.7148,
+       0.3519,
+       0.4133,
+       0.7511,
+       0.9567,
+       0.4752,
+       0.974,
+       0.8127,
+       0.8242,
+       0.8761,
+       0.6334,
+       0.7305,
+       0.7347,
+       0.9539,
+       0.9131,
+       0.9883
+      ],
+      "median_array_percentile": 0.8127,
+      "_percentile_is_the_readout": "the gene's rank within THIS array's own probe distribution, which is the only 'is it on at all' reading an array supports; the raw value is platform-relative and is not comparable to a TPM."
+     }
+    }
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Thyroid",
+      "median_tpm": 92.08
+     },
+     {
+      "tissue": "Artery Coronary",
+      "median_tpm": 37.8788
+     },
+     {
+      "tissue": "Fallopian Tube",
+      "median_tpm": 34.8072
+     },
+     {
+      "tissue": "Lung",
+      "median_tpm": 33.4372
+     },
+     {
+      "tissue": "Adipose Visceral Omentum",
+      "median_tpm": 31.2654
+     },
+     {
+      "tissue": "Heart Left Ventricle",
+      "median_tpm": 30.5368
+     }
+    ],
+    "n_tissues_at_or_above_cut": 54,
+    "n_tissues_read": 54
+   },
+   "hpa_cross_check": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "ST3GAL1",
+      "Gene synonym": [
+       "SIAT4A",
+       "SIATFL",
+       "ST3GalA.1",
+       "ST3O"
+      ],
+      "Ensembl": "ENSG00000008513",
+      "Gene description": "ST3 beta-galactoside alpha-2,3-sialyltransferase 1",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Cancer enhanced",
+      "Subcellular main location": null
+     }
+    ]
+   },
+   "tier": "NOT_MEASURED",
+   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
   }
  ]
 }
