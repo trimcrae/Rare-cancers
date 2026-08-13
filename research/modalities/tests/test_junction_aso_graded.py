@@ -196,7 +196,7 @@ def test_a_coverage_only_screen_is_REFUSED_not_scored_as_clean():
     assert jo.screen_is_gap_resolved({"oligos": []})[0] is False
 
 
-def test_exactly_the_four_orientation_clean_designs_reach_zero_predicted_cleavage_load():
+def test_exactly_the_orientation_clean_designs_reach_zero_predicted_cleavage_load():
     """The paper's headline, asserted over the whole graded corpus rather than one panel.
 
     ⭐ THIS TEST FIRED AS DESIGNED AND THE CLAIM IT GUARDED CHANGED (2026-08-12). It previously
@@ -222,7 +222,15 @@ def test_exactly_the_four_orientation_clean_designs_reach_zero_predicted_cleavag
     the only remaining route to a zero is a censored design whose unseen tail was assumed away.
     """
     import glob
-    expected = {"GGGCATATCTCTATAA", "CAGGGCATATCTTGCA", "GGCATATCAAGCGCTG", "GCATATCAAGCGCTGC"}
+    # ⚠ TEN, NOT NINE, AND THE EXTRA ONE IS THE POINT. The manuscript reports nine clean designs;
+    # this set has ten. `GCATATCTCCTCGCCC` at FUS e11 returns 21 near-matches with only 15 retained,
+    # all of them minus-strand — so the graded model sees nothing hybridisable and scores zero,
+    # while the cleanliness criterion refuses it because the six unretained hits are unknown.
+    # `grade_one` has NO censoring guard, so it can award a zero its hit list does not support.
+    # Asserted rather than filtered out, so that gap stays visible.
+    expected = {"GGGCATATCCGTGGAC", "GGCATATCCGTGGACG", "GCATATCCGTGGACGC",
+                "AGGGCATATCGGAGTC", "GGGCATATCCGACATG", "GCATATCTCCTCGCCC",
+                "GGGCATATCTCTATAA", "CAGGGCATATCTTGCA", "GGCATATCAAGCGCTG", "GCATATCAAGCGCTGC"}
     n_designs = n_junctions = 0
     zero_seqs, zero_junctions = set(), set()
     for p in sorted(glob.glob(os.path.join(HERE, "junction-aso-offtarget-*-graded.json"))):
@@ -241,8 +249,9 @@ def test_exactly_the_four_orientation_clean_designs_reach_zero_predicted_cleavag
     assert n_designs >= 58, f"only {n_designs} designs graded"
     assert zero_seqs == expected, (
         f"the set of predicted-clean designs changed: {sorted(zero_seqs)}")
-    assert zero_junctions == {"TCF12_e7__NR4A3_e3", "TCF12_e9__NR4A3_e3",
-                              "TCF12_e17__NR4A3_e3"}, sorted(zero_junctions)
+    assert zero_junctions == {"EWSR1_e1__NR4A3_e3", "FUS_e8__NR4A3_e3", "FUS_e11__NR4A3_e3",
+                              "TAF15_e1__NR4A3_e3", "TCF12_e7__NR4A3_e3",
+                              "TCF12_e9__NR4A3_e3", "TCF12_e17__NR4A3_e3"}, sorted(zero_junctions)
 
 
 def test_a_zero_load_is_never_awarded_to_a_design_with_a_hybridisable_hit():

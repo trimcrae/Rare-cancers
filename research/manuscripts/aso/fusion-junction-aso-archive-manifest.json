@@ -9,12 +9,12 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "ba5e99e4b5a7a59eac5e5bdb6ab867a55fc7820b",
+  "git_revision": "2183ba1f49d34077bea5c69f93eaec40a7dface5",
   "git_tree_is_clean_apart_from_this_manifest": false,
-  "archive_content_digest": "751d77e572044456cb6e123e3d496261c906cd4accb73ac9038985664119d5f9",
-  "n_files": 163,
-  "total_bytes": 4955794,
-  "total_mib": 4.726,
+  "archive_content_digest": "5b049b2c1fd641fcd6ec38c72a75f75af49facbcef81d0000d56806598ad0409",
+  "n_files": 215,
+  "total_bytes": 6103985,
+  "total_mib": 5.821,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -38,27 +38,17 @@
     "screen_coverage": {
       "classifier": "junction_aso_offtarget.screen_is_gap_resolved",
       "ok": true,
-      "n_screens_committed": 27,
-      "n_screens_gap_resolved": 25,
-      "n_screens_coverage_only_cannot_be_graded": 2,
-      "n_screens_not_orientation_filtered_counts_are_upper_bounds": 11,
+      "n_screens_committed": 40,
+      "n_screens_gap_resolved": 39,
+      "n_screens_coverage_only_cannot_be_graded": 1,
+      "n_screens_not_orientation_filtered_counts_are_upper_bounds": 3,
       "screens_not_orientation_filtered": [
         "junction-aso-offtarget-bp200-8-gapres.json",
         "junction-aso-offtarget-bp200-8.json",
-        "junction-aso-offtarget-e10n3.json",
-        "junction-aso-offtarget-fuse1n3.json",
-        "junction-aso-offtarget-fuse3n3.json",
-        "junction-aso-offtarget-fuse5n3.json",
-        "junction-aso-offtarget-taf15e6n3.json",
-        "junction-aso-offtarget-tfge3n3.json",
-        "junction-aso-offtarget-tfge4n3.json",
-        "junction-aso-offtarget-tfge5n3.json",
-        "junction-aso-offtarget-tfge7n3.json"
+        "junction-aso-offtarget-tfge4n3.json"
       ],
       "gap_resolved_screens_with_no_committed_graded_rescore": [],
-      "junctions_with_a_design_panel_but_no_screen": [
-        "fuse7n3"
-      ],
+      "junctions_with_a_design_panel_but_no_screen": [],
       "junctions_screened_by_blast_arm_only": [],
       "junctions_screened_by_exhaustive_arm_only": []
     },
@@ -83,20 +73,32 @@
     {
       "id": "per_junction_design_panels",
       "promise_text": "per-junction design panels",
-      "n_files": 28,
+      "n_files": 40,
       "files": [
         "research/modalities/junction-aso-designs-e10n3.json",
         "research/modalities/junction-aso-designs-e12n3.json",
         "research/modalities/junction-aso-designs-e13n3.json",
+        "research/modalities/junction-aso-designs-e15n3.json",
+        "research/modalities/junction-aso-designs-e1n3.json",
+        "research/modalities/junction-aso-designs-e4n3.json",
         "research/modalities/junction-aso-designs-e7n3.json",
         "research/modalities/junction-aso-designs-e9n3.json",
         "research/modalities/junction-aso-designs-fuse10n3.json",
+        "research/modalities/junction-aso-designs-fuse11n3.json",
+        "research/modalities/junction-aso-designs-fuse13n3.json",
         "research/modalities/junction-aso-designs-fuse1n3.json",
         "research/modalities/junction-aso-designs-fuse3n3.json",
         "research/modalities/junction-aso-designs-fuse5n3.json",
         "research/modalities/junction-aso-designs-fuse7n3.json",
+        "research/modalities/junction-aso-designs-fuse8n3.json",
         "research/modalities/junction-aso-designs-taf15e11n3.json",
+        "research/modalities/junction-aso-designs-taf15e12n3.json",
+        "research/modalities/junction-aso-designs-taf15e14n3.json",
+        "research/modalities/junction-aso-designs-taf15e1n3.json",
+        "research/modalities/junction-aso-designs-taf15e4n3.json",
         "research/modalities/junction-aso-designs-taf15e6n3.json",
+        "research/modalities/junction-aso-designs-taf15e8n3.json",
+        "research/modalities/junction-aso-designs-taf15e9n3.json",
         "research/modalities/junction-aso-designs-tcf12e11n3.json",
         "research/modalities/junction-aso-designs-tcf12e13n3.json",
         "research/modalities/junction-aso-designs-tcf12e17n3.json",
@@ -120,21 +122,34 @@
     {
       "id": "specificity_screen_blast",
       "promise_text": "both specificity screens per junction (arm 1: gap-resolved BLAST screen)",
-      "n_files": 28,
+      "n_files": 41,
       "files": [
         "research/modalities/junction-aso-offtarget-bp200-8-gapres.json",
         "research/modalities/junction-aso-offtarget-bp200-8.json",
         "research/modalities/junction-aso-offtarget-e10n3.json",
         "research/modalities/junction-aso-offtarget-e12n3.json",
         "research/modalities/junction-aso-offtarget-e13n3.json",
+        "research/modalities/junction-aso-offtarget-e15n3.json",
+        "research/modalities/junction-aso-offtarget-e1n3.json",
+        "research/modalities/junction-aso-offtarget-e4n3.json",
         "research/modalities/junction-aso-offtarget-e7n3.json",
         "research/modalities/junction-aso-offtarget-e9n3.json",
         "research/modalities/junction-aso-offtarget-fuse10n3.json",
+        "research/modalities/junction-aso-offtarget-fuse11n3.json",
+        "research/modalities/junction-aso-offtarget-fuse13n3.json",
         "research/modalities/junction-aso-offtarget-fuse1n3.json",
         "research/modalities/junction-aso-offtarget-fuse3n3.json",
         "research/modalities/junction-aso-offtarget-fuse5n3.json",
+        "research/modalities/junction-aso-offtarget-fuse7n3.json",
+        "research/modalities/junction-aso-offtarget-fuse8n3.json",
         "research/modalities/junction-aso-offtarget-taf15e11n3.json",
+        "research/modalities/junction-aso-offtarget-taf15e12n3.json",
+        "research/modalities/junction-aso-offtarget-taf15e14n3.json",
+        "research/modalities/junction-aso-offtarget-taf15e1n3.json",
+        "research/modalities/junction-aso-offtarget-taf15e4n3.json",
         "research/modalities/junction-aso-offtarget-taf15e6n3.json",
+        "research/modalities/junction-aso-offtarget-taf15e8n3.json",
+        "research/modalities/junction-aso-offtarget-taf15e9n3.json",
         "research/modalities/junction-aso-offtarget-tcf12e11n3.json",
         "research/modalities/junction-aso-offtarget-tcf12e13n3.json",
         "research/modalities/junction-aso-offtarget-tcf12e17n3.json",
@@ -157,20 +172,33 @@
     {
       "id": "specificity_screen_exhaustive",
       "promise_text": "both specificity screens per junction (arm 2: exhaustive seed-and-extend scan)",
-      "n_files": 28,
+      "n_files": 41,
       "files": [
         "research/modalities/aso-insilico-evaluation-bp200-8.json",
         "research/modalities/aso-insilico-evaluation-e10n3.json",
         "research/modalities/aso-insilico-evaluation-e12n3.json",
         "research/modalities/aso-insilico-evaluation-e13n3.json",
+        "research/modalities/aso-insilico-evaluation-e15n3.json",
+        "research/modalities/aso-insilico-evaluation-e1n3.json",
+        "research/modalities/aso-insilico-evaluation-e4n3.json",
         "research/modalities/aso-insilico-evaluation-e7n3.json",
         "research/modalities/aso-insilico-evaluation-e9n3.json",
         "research/modalities/aso-insilico-evaluation-fuse10n3.json",
+        "research/modalities/aso-insilico-evaluation-fuse11n3.json",
+        "research/modalities/aso-insilico-evaluation-fuse13n3.json",
         "research/modalities/aso-insilico-evaluation-fuse1n3.json",
         "research/modalities/aso-insilico-evaluation-fuse3n3.json",
         "research/modalities/aso-insilico-evaluation-fuse5n3.json",
+        "research/modalities/aso-insilico-evaluation-fuse7n3.json",
+        "research/modalities/aso-insilico-evaluation-fuse8n3.json",
         "research/modalities/aso-insilico-evaluation-taf15e11n3.json",
+        "research/modalities/aso-insilico-evaluation-taf15e12n3.json",
+        "research/modalities/aso-insilico-evaluation-taf15e14n3.json",
+        "research/modalities/aso-insilico-evaluation-taf15e1n3.json",
+        "research/modalities/aso-insilico-evaluation-taf15e4n3.json",
         "research/modalities/aso-insilico-evaluation-taf15e6n3.json",
+        "research/modalities/aso-insilico-evaluation-taf15e8n3.json",
+        "research/modalities/aso-insilico-evaluation-taf15e9n3.json",
         "research/modalities/aso-insilico-evaluation-tcf12e11n3.json",
         "research/modalities/aso-insilico-evaluation-tcf12e13n3.json",
         "research/modalities/aso-insilico-evaluation-tcf12e17n3.json",
@@ -194,19 +222,33 @@
     {
       "id": "graded_rescores",
       "promise_text": "the graded re-scores under both discrimination bounds",
-      "n_files": 25,
+      "n_files": 39,
       "files": [
         "research/modalities/junction-aso-offtarget-bp200-8-gapres-graded.json",
+        "research/modalities/junction-aso-offtarget-e10n3-graded.json",
         "research/modalities/junction-aso-offtarget-e12n3-graded.json",
         "research/modalities/junction-aso-offtarget-e13n3-graded.json",
+        "research/modalities/junction-aso-offtarget-e15n3-graded.json",
+        "research/modalities/junction-aso-offtarget-e1n3-graded.json",
+        "research/modalities/junction-aso-offtarget-e4n3-graded.json",
         "research/modalities/junction-aso-offtarget-e7n3-graded.json",
         "research/modalities/junction-aso-offtarget-e9n3-graded.json",
         "research/modalities/junction-aso-offtarget-fuse10n3-graded.json",
+        "research/modalities/junction-aso-offtarget-fuse11n3-graded.json",
+        "research/modalities/junction-aso-offtarget-fuse13n3-graded.json",
         "research/modalities/junction-aso-offtarget-fuse1n3-graded.json",
         "research/modalities/junction-aso-offtarget-fuse3n3-graded.json",
         "research/modalities/junction-aso-offtarget-fuse5n3-graded.json",
+        "research/modalities/junction-aso-offtarget-fuse7n3-graded.json",
+        "research/modalities/junction-aso-offtarget-fuse8n3-graded.json",
         "research/modalities/junction-aso-offtarget-taf15e11n3-graded.json",
+        "research/modalities/junction-aso-offtarget-taf15e12n3-graded.json",
+        "research/modalities/junction-aso-offtarget-taf15e14n3-graded.json",
+        "research/modalities/junction-aso-offtarget-taf15e1n3-graded.json",
+        "research/modalities/junction-aso-offtarget-taf15e4n3-graded.json",
         "research/modalities/junction-aso-offtarget-taf15e6n3-graded.json",
+        "research/modalities/junction-aso-offtarget-taf15e8n3-graded.json",
+        "research/modalities/junction-aso-offtarget-taf15e9n3-graded.json",
         "research/modalities/junction-aso-offtarget-tcf12e11n3-graded.json",
         "research/modalities/junction-aso-offtarget-tcf12e13n3-graded.json",
         "research/modalities/junction-aso-offtarget-tcf12e17n3-graded.json",
@@ -425,8 +467,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-short-communication.md",
-      "bytes": 43570,
-      "sha256": "5718fb34afce0069c533b9b4fc3c077d56bfb166a06c235753523fa958aa473e",
+      "bytes": 45178,
+      "sha256": "62c70ccabb411903c6279d2e22b51dc98ee8f0ad43b203ba4a44897eb83885bf",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -449,8 +491,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
-      "bytes": 5190,
-      "sha256": "bdb684a603a7f177fd00e8870a60d77f34a578fa57e5860757e71172b3b93779",
+      "bytes": 6273,
+      "sha256": "e1438cb41355d58a923f0ce92a6601832b692c7039815ed93a39625d7c95f119",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
@@ -497,24 +539,24 @@
     },
     {
       "path": "research/manuscripts/figures/aso-chance-baseline.pdf",
-      "bytes": 94119,
-      "sha256": "51decae17cae8242076b691d84e0dd39018a07ff9ef17cc3acb8c012944aba7c",
+      "bytes": 110349,
+      "sha256": "c864463946d6d1a185af1c0798772fb424a5c2edb8c863f9c1fa06266cf35ae4",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-chance-baseline.png",
-      "bytes": 101284,
-      "sha256": "3d2930015f9a5d0f864bc08ce67467c3d7d0c0d25a7ea25c1b3e0ee70f9952fc",
+      "bytes": 107269,
+      "sha256": "6612cca6585daecee7690bde9b5d907fd590775aca1535c2c22ffbf108adf533",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-chance-baseline.svg",
-      "bytes": 12868,
-      "sha256": "1d490fcd1da7cb748b94a496ed40c2b95dab05883e25b1c8b7eeb12a033faa49",
+      "bytes": 18281,
+      "sha256": "77b86219c96dcfbb945bd9b1cbc233b4d68d575795a9865483e95fe9a2846cdb",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -656,6 +698,30 @@
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
+      "path": "research/modalities/aso-insilico-evaluation-e15n3.json",
+      "bytes": 6793,
+      "sha256": "d8f68bb135a881bec9ead3ba370448fa9d5f26e373ab6521f597059f71300e89",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
+      "path": "research/modalities/aso-insilico-evaluation-e1n3.json",
+      "bytes": 6164,
+      "sha256": "c4351b1cf38b6124e8d0b4b70dfc252e83bbd1388972785a7325f64d754f18da",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
+      "path": "research/modalities/aso-insilico-evaluation-e4n3.json",
+      "bytes": 7668,
+      "sha256": "37a65537e6bf851c90cc57e947474153f94d8e913fc5e0dd19a92d984ff4c67e",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
       "path": "research/modalities/aso-insilico-evaluation-e7n3.json",
       "bytes": 7816,
       "sha256": "8da531c33e8da2e814be3addc63b77879519c7d79a1744cc2fe7cee6e53e8884",
@@ -675,6 +741,22 @@
       "path": "research/modalities/aso-insilico-evaluation-fuse10n3.json",
       "bytes": 7154,
       "sha256": "0d0787580d75bb43aca1adc18d00402d7a974c2c4460bc0b41de59a419859f40",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
+      "path": "research/modalities/aso-insilico-evaluation-fuse11n3.json",
+      "bytes": 6325,
+      "sha256": "9f2299bd5a2be3a4c4ff35d884d2097c30e11521446bfa0d376fe660f1dd9dec",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
+      "path": "research/modalities/aso-insilico-evaluation-fuse13n3.json",
+      "bytes": 6846,
+      "sha256": "5e952992d4f1aff0c8c965f9e3f413542a463241bd689aaff6cafdc6da97d28a",
       "serves": "specificity_screen_exhaustive",
       "also_serves": [],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
@@ -704,6 +786,22 @@
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
+      "path": "research/modalities/aso-insilico-evaluation-fuse7n3.json",
+      "bytes": 7804,
+      "sha256": "0536dadad940ae345027b64ba38f4a948760c3f7fa56b5285fe2d68a4ba4e920",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
+      "path": "research/modalities/aso-insilico-evaluation-fuse8n3.json",
+      "bytes": 6086,
+      "sha256": "99f8bef354ff15230efd4a9f25d560443dc677e55e3eeaf08d41589484cc3715",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
       "path": "research/modalities/aso-insilico-evaluation-taf15e11n3.json",
       "bytes": 7166,
       "sha256": "0f460808758cca6ee42ddd7679d8f0150361ec37fcfd8a77b291606ddeb5741e",
@@ -712,9 +810,57 @@
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
+      "path": "research/modalities/aso-insilico-evaluation-taf15e12n3.json",
+      "bytes": 6857,
+      "sha256": "50d9886ce4993b25202ad595a0a97dcd51f77845541a37815804f676443f2d15",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
+      "path": "research/modalities/aso-insilico-evaluation-taf15e14n3.json",
+      "bytes": 7303,
+      "sha256": "69b80ec9a38348c08231b6952504e2923e4432647bdff8c1c700d2243bd904fe",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
+      "path": "research/modalities/aso-insilico-evaluation-taf15e1n3.json",
+      "bytes": 6016,
+      "sha256": "3be7aac7009cdc95af8b6446544c176b84cbb131ebc0dcefe26a2aa5cc9c7535",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
+      "path": "research/modalities/aso-insilico-evaluation-taf15e4n3.json",
+      "bytes": 7880,
+      "sha256": "7424c746c2abafbee80a9f74a999cdfec765cc1e909777a8ffe6d4ef29c118b8",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
       "path": "research/modalities/aso-insilico-evaluation-taf15e6n3.json",
       "bytes": 6469,
       "sha256": "593186d5bda8038946ad5a3710299aa41a7b8dc60ea784b6dc27243e964fbed5",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
+      "path": "research/modalities/aso-insilico-evaluation-taf15e8n3.json",
+      "bytes": 7813,
+      "sha256": "ea50fcf79899312df5fcfb0858f291a4d097406a2e47296a8cafe5faf0db8366",
+      "serves": "specificity_screen_exhaustive",
+      "also_serves": [],
+      "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
+    },
+    {
+      "path": "research/modalities/aso-insilico-evaluation-taf15e9n3.json",
+      "bytes": 6706,
+      "sha256": "139631c18b72a238819f0a2e9055913a811c1641c2fd37a956370d5b5a6f3c0e",
       "serves": "specificity_screen_exhaustive",
       "also_serves": [],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
@@ -880,6 +1026,30 @@
       "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
     },
     {
+      "path": "research/modalities/junction-aso-designs-e15n3.json",
+      "bytes": 6000,
+      "sha256": "f4174a72263c0b5a8f72841493545e8432d8d8e602264b3400b25f8cac006955",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
+      "path": "research/modalities/junction-aso-designs-e1n3.json",
+      "bytes": 5985,
+      "sha256": "c4645d2416665e17f1dfadf0d0d491f97545e4e95bd91a23214f0dcd4593eea7",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
+      "path": "research/modalities/junction-aso-designs-e4n3.json",
+      "bytes": 5989,
+      "sha256": "2b723b53ba826372d25960e67588cd430831ccb50c7059df66faa92a0c3fdc00",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
       "path": "research/modalities/junction-aso-designs-e7n3.json",
       "bytes": 5991,
       "sha256": "5b49e9710598faf299a1710d1e8b6942f9dc6ada5c64c78148f3d05b1f812621",
@@ -899,6 +1069,22 @@
       "path": "research/modalities/junction-aso-designs-fuse10n3.json",
       "bytes": 5831,
       "sha256": "fa47e463f753e88578370105908811a4fcbea29eee8cd8422c3d1559818647ec",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
+      "path": "research/modalities/junction-aso-designs-fuse11n3.json",
+      "bytes": 5832,
+      "sha256": "93e47a0bafaff38ee4d8b0ac205abf558d442b0eb9ae39a08d7655e91028ed62",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
+      "path": "research/modalities/junction-aso-designs-fuse13n3.json",
+      "bytes": 5832,
+      "sha256": "01f0433abfc0d8fc6fb8bb3c19281448f449d09f0e4df72cbddc72fa726fc91f",
       "serves": "per_junction_design_panels",
       "also_serves": [],
       "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
@@ -936,6 +1122,14 @@
       "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
     },
     {
+      "path": "research/modalities/junction-aso-designs-fuse8n3.json",
+      "bytes": 5825,
+      "sha256": "1cb4d2b09cb2be83882666806099ba8f4ed4a40838a258f121dce0bf48b96390",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
       "path": "research/modalities/junction-aso-designs-taf15e11n3.json",
       "bytes": 5844,
       "sha256": "e5ed31ecc4409830dc21ca6ac678fe35d538e30513494c6df05a683744c605a0",
@@ -944,9 +1138,57 @@
       "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
     },
     {
+      "path": "research/modalities/junction-aso-designs-taf15e12n3.json",
+      "bytes": 5845,
+      "sha256": "b85e18e71bad2ea624307735f78caafced6a40aefc3ebee28aa9384e64b21710",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
+      "path": "research/modalities/junction-aso-designs-taf15e14n3.json",
+      "bytes": 5846,
+      "sha256": "6f066c7287aa6cdfc8ff99d2027f3b5502715a7234ed0b85e4e709c122eac098",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
+      "path": "research/modalities/junction-aso-designs-taf15e1n3.json",
+      "bytes": 5835,
+      "sha256": "988d7ed7c8039dfe2b2d7f700bc399ff2b493a4914eae693503e7f51a0109083",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
+      "path": "research/modalities/junction-aso-designs-taf15e4n3.json",
+      "bytes": 5838,
+      "sha256": "9fe46abbba510453da900c88800464ef3de291c703bca695ea07cf70d4896749",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
       "path": "research/modalities/junction-aso-designs-taf15e6n3.json",
       "bytes": 5839,
       "sha256": "35945effb1c661d92f26810455562d10ea48e23f50c69cef196a29e530d205e5",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
+      "path": "research/modalities/junction-aso-designs-taf15e8n3.json",
+      "bytes": 5839,
+      "sha256": "69ee0b382002d72a3e514aefa706b1021362a1c256bb5f9bbfcb713e11886af1",
+      "serves": "per_junction_design_panels",
+      "also_serves": [],
+      "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
+    },
+    {
+      "path": "research/modalities/junction-aso-designs-taf15e9n3.json",
+      "bytes": 5839,
+      "sha256": "8faef5de9e837522317f7879fe7a5377893afccb7a80a2ef7c6b33362d6e86a4",
       "serves": "per_junction_design_panels",
       "also_serves": [],
       "contributes": "Per-junction gapmer panel: the 16-mer 5-6-5 LNA/DNA/LNA registers whose seam falls inside the DNA gap, with the gap-level specificity margin the paper ranks on."
@@ -1096,9 +1338,17 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-e10n3-graded.json",
+      "bytes": 11291,
+      "sha256": "7ccec576accbf1c362fadd588dbde4951f79cd6486bafc97599b16deadf0267f",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-e10n3.json",
-      "bytes": 5127,
-      "sha256": "dee46c59c78455e88349177bfc588c96fe6f4a0e987a962cabf4f875fb7eb944",
+      "bytes": 43797,
+      "sha256": "aba16990c6d8b9548114fcd5870fdf49d9a99443dc756a8809be0f428f42eb0c",
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
@@ -1131,6 +1381,54 @@
       "path": "research/modalities/junction-aso-offtarget-e13n3.json",
       "bytes": 45007,
       "sha256": "7d41a5f9f09687245c87d3e7805ecdccba335bf779c077f51d16f80f555faa1d",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-e15n3-graded.json",
+      "bytes": 11286,
+      "sha256": "790e26466b2123bd9362c29fce45b66588014b625f7094794c2e4e7cd4087891",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-e15n3.json",
+      "bytes": 37533,
+      "sha256": "714ff86d6a81c6588f538d9fe4e4d19ed42450a12879037473d374e36dd3eb07",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-e1n3-graded.json",
+      "bytes": 11246,
+      "sha256": "c1ccfcb6b4cd90e694d2df23ceb3db7b809afe2382c284f141eddf3d5edf4402",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-e1n3.json",
+      "bytes": 22554,
+      "sha256": "fa4339a1786064ff167d0b31517d810d0a2fdd64accfd78ca5c8a587710e2964",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-e4n3-graded.json",
+      "bytes": 11260,
+      "sha256": "681d0311ad1f9186c5e9f355b6fffa29d5cebf54205bc22ddfe360f857c582fc",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-e4n3.json",
+      "bytes": 39551,
+      "sha256": "122fa21906d98cfe437c2576f90f4c2e0fd652d1c7239bc5e223dc97689c5a63",
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
@@ -1184,57 +1482,121 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-fuse11n3-graded.json",
+      "bytes": 11113,
+      "sha256": "ad8579889691fdf699d2bdf139c51b25e0f342239d7947eda0d0e8a0c25ddbb8",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-fuse11n3.json",
+      "bytes": 45838,
+      "sha256": "b401fa41f04ea92c4bc22d27ece41a58500b0d698f99d3fb3259d264aff75e5a",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-fuse13n3-graded.json",
+      "bytes": 11097,
+      "sha256": "9dbdbceef9f3ac10413b878d865040e6869d0a26fc05e4946352243de00af5e1",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-fuse13n3.json",
+      "bytes": 38306,
+      "sha256": "c0a8d423791679d0d1b0ec60e54d63bcd7d53dbcdc839b02d2ce87879040e7ed",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-fuse1n3-graded.json",
-      "bytes": 9938,
-      "sha256": "debd1b66b60e57aa2d2ffe1bc6398f3ed37c1574faecb5d6502d50f9355cb6e6",
+      "bytes": 11122,
+      "sha256": "e8c5558430d8f38721f689ab198025deea49a6b37989020baee0aaf3ae79c5ca",
       "serves": "graded_rescores",
       "also_serves": [],
       "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-fuse1n3.json",
-      "bytes": 32278,
-      "sha256": "ba8aa1113d5c7da3f44a5f7e6a00a84da4dc5e08d11601c05f61944eeb4eaa89",
+      "bytes": 45657,
+      "sha256": "4ef3e4687cfae042d4cb76ba95abdb918271bf67dcbf906cee9bf23464f85a69",
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-fuse3n3-graded.json",
-      "bytes": 7570,
-      "sha256": "65c0fe0e6439d56aa148c4ce72a263d525f9bea85b3762abe286c69473f1b31d",
+      "bytes": 9916,
+      "sha256": "7c8c2727a5047770f518c9e8a7e73a08029e2093aff48c1b9f1f016e999fdb36",
       "serves": "graded_rescores",
       "also_serves": [],
       "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-fuse3n3.json",
-      "bytes": 18121,
-      "sha256": "53dd8ba6ae386b392a6304d50642243b4a91e36af3c62a565ca1aed99203c0b3",
+      "bytes": 36295,
+      "sha256": "5ba0b204698d61ddbd46fba51aca7e4b5bec45edf0f2d7c7ac8c7f4ad5bb556f",
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-fuse5n3-graded.json",
-      "bytes": 8759,
-      "sha256": "152a06e3fabab73ae3920c37ffdf7ae3e219f134e6838d42761811480c796ac0",
+      "bytes": 11103,
+      "sha256": "823940ddafd23f82c2fd5027271775b6dddb8c004c661ae922676248187e4dc8",
       "serves": "graded_rescores",
       "also_serves": [],
       "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-fuse5n3.json",
-      "bytes": 24818,
-      "sha256": "a01a000d05acb23ce6c1ecfdbbd918785d11156e2b89675b23fac22669955731",
+      "bytes": 44301,
+      "sha256": "7289a519ed53d492e1a8114fba6a86d7f86dcab5b4eabbcddb565c3a1250e73b",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-fuse7n3-graded.json",
+      "bytes": 11115,
+      "sha256": "e2b88404446cddbf1e77267d8dbd50506dd7d5672cd1cb9fcc88ace44623e787",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-fuse7n3.json",
+      "bytes": 43492,
+      "sha256": "268c485a2eda10051c0850d394edad0cb115e57792c7eb9b48e8ec6a64c2e32e",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-fuse8n3-graded.json",
+      "bytes": 11079,
+      "sha256": "898fca3611117dbd85ee8f8d37b631e9f30516d7799ca9af0820619130fb55d1",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-fuse8n3.json",
+      "bytes": 25386,
+      "sha256": "ed655390c397ce4fc2b0347fbc6c3758e8c163ff02ef34b1c650f2da8252ba0e",
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-locus-collapse.json",
-      "bytes": 128563,
-      "sha256": "7178612d01f6e37f140305e4317ddb8f69eae27977c32898541cfe3f0655bb39",
+      "bytes": 211400,
+      "sha256": "bf473ede4dbde01c277a5be35ba6b9b583f3c5a3aeb7a556d32d362633c51140",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
@@ -1256,17 +1618,113 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-taf15e12n3-graded.json",
+      "bytes": 9946,
+      "sha256": "69e5bae9117f4bea485fbade374534902e74b6ff84854a0bea60eb2440560086",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e12n3.json",
+      "bytes": 35838,
+      "sha256": "91a4031e12ba09a01deabf69c5dfd3db36b468a97566d6b0c0ce46268f4cd1e6",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e14n3-graded.json",
+      "bytes": 11133,
+      "sha256": "65f43f63dda6615937e2a17336eed268a06f5856704ec4a4dff275a3614c8c9c",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e14n3.json",
+      "bytes": 44657,
+      "sha256": "c82c4a648c70011500973478ac07e6c2404b2df197935833add27a22a64d870a",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e1n3-graded.json",
+      "bytes": 11087,
+      "sha256": "d9c38a148d0d879f517f6b4570e75454b2d06e0b40bcfb2154ead6e3a82a9bc3",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e1n3.json",
+      "bytes": 25659,
+      "sha256": "2da29e11ec00780babcc0188a6fe4f41d5cd9d7a7949ae0e17da77341de2179c",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e4n3-graded.json",
+      "bytes": 11138,
+      "sha256": "9a336976e667dd91e346b85e11ec1e59b3bd45269a8eb9b28e743a4ba6fed7b1",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e4n3.json",
+      "bytes": 45840,
+      "sha256": "7241c8e7508f5a99e5378ca8cd61391989dea296943151533683043b0ae549b6",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-taf15e6n3-graded.json",
-      "bytes": 6399,
-      "sha256": "18cedccf9f7f978dde7f996101fc668f1e7c6a97bbea6da02bb4aaf08cc88638",
+      "bytes": 11113,
+      "sha256": "61aea8ff1038e4e8718cae1ba7560f6b20cc156f62b01fd9e91bfe78bbe2a072",
       "serves": "graded_rescores",
       "also_serves": [],
       "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-taf15e6n3.json",
-      "bytes": 11776,
-      "sha256": "00fa76d7b7949ea7c695c43f9a38e86a1b2dc41ba83c21e0a198dcc8f523e425",
+      "bytes": 40484,
+      "sha256": "867302ec973047f0b59d228ddd6537228c775a542f9d9838d981eba14b47a525",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e8n3-graded.json",
+      "bytes": 11131,
+      "sha256": "9000c2dada81df9d8084b25d8f9d442714b3cc0914bd59dea9fcb6f0fccd9122",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e8n3.json",
+      "bytes": 43654,
+      "sha256": "ea200806adae63dc1ca059cd4f3bc9e2c6098b8add8c3004ab6d544d719db71a",
+      "serves": "specificity_screen_blast",
+      "also_serves": [],
+      "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e9n3-graded.json",
+      "bytes": 11119,
+      "sha256": "239baa6d509b506285c3966fe12b58c23b5cc70bc38491cc66a28c5341644a1f",
+      "serves": "graded_rescores",
+      "also_serves": [],
+      "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e9n3.json",
+      "bytes": 45208,
+      "sha256": "c023787600f35c0f29bac538b4792866ecc64d5c06ae44bd5d78a455b124a9e4",
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
@@ -1417,16 +1875,16 @@
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tfge3n3-graded.json",
-      "bytes": 11127,
-      "sha256": "4a7bfa0871a6623bef5e675b8a864fccd68c7337a851b1ec12432dc2ed793111",
+      "bytes": 11118,
+      "sha256": "ef0f7fcb199a02643167ba54c260863d728c9c1330e8c5038db0dbccf4e92f02",
       "serves": "graded_rescores",
       "also_serves": [],
       "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tfge3n3.json",
-      "bytes": 43182,
-      "sha256": "c7aaa3044b7a8ebe0505aedc0d904c6df4b6b689050ca6ecaf8e2e575419d31a",
+      "bytes": 43526,
+      "sha256": "7b331b75142c277ebe456022535ce827ea5dfa77c0cc757c5c4618bb434ee41d",
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
@@ -1449,16 +1907,16 @@
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tfge5n3-graded.json",
-      "bytes": 11131,
-      "sha256": "2cf865a3d21132985c5956796d778d5e61c2697ec9741fa917454a881de80fb9",
+      "bytes": 11117,
+      "sha256": "aa71d9aa7886220e2f694c5e70770be1d044a92c7d39fd4ba4e789cf6b5ff561",
       "serves": "graded_rescores",
       "also_serves": [],
       "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tfge5n3.json",
-      "bytes": 44130,
-      "sha256": "a066efb622c2ec5dddc09b00051817eecac50c83180422f37a736c40863f5817",
+      "bytes": 44583,
+      "sha256": "5012258f91cdd0871fb8b496976d3eb1f57d50a2437a2a0601f548829ad1b440",
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
@@ -1481,16 +1939,16 @@
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tfge7n3-graded.json",
-      "bytes": 11121,
-      "sha256": "4703d7d7777eab4d313f6f4c232910691e2be56c27e330bf71f8997333228eb3",
+      "bytes": 11103,
+      "sha256": "70defe6d8eac549e68401cabef55ffa41e952ba0ca74beb54164aa823890972c",
       "serves": "graded_rescores",
       "also_serves": [],
       "contributes": "Re-score of a committed screen under both literature discrimination bounds (5-fold; and no efficient discrimination at 16-mer), holding the hit set fixed so only the scoring moves. Produced offline by `junction_aso_offtarget.py --rescore`; no network, no re-BLAST."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tfge7n3.json",
-      "bytes": 42471,
-      "sha256": "b66aa3e40504513cf37f31c82adeb2fe1603264d87f43ed08fb843bcfce0d9cc",
+      "bytes": 42751,
+      "sha256": "f54760f8fd58b4cd0f88981b60b5c120ab79d94db4e78d15cd59a246e193f5d7",
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
@@ -1601,32 +2059,32 @@
     },
     {
       "path": "research/modalities/offtarget-chance-baseline.json",
-      "bytes": 191573,
-      "sha256": "536ab9bf6018f021ed32ea9bdbd2efff379d5520fd1bb87b3368f0d820a13192",
+      "bytes": 285315,
+      "sha256": "b81927d5a8ec7bd2299cfab2f279ff228e5ab5a1b73900af94ed2e2dedce1295",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
     },
     {
       "path": "research/modalities/offtarget_chance_baseline.py",
-      "bytes": 19306,
-      "sha256": "af359e650fac15303ba5bfb3deaba36dcefbb8bc309b1abb1851bffe92149077",
+      "bytes": 19955,
+      "sha256": "bdc4fa01e9d0dc4f0bce6e24c500db6a5236ffcb34aab13b33c7bcd71baba8bf",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
     },
     {
       "path": "research/modalities/tests/test_aso_submission_numbers.py",
-      "bytes": 13736,
-      "sha256": "46629bbbfe4e20643db837a8d2c074b95da515db7e61cf506df5c32a6b5fbf3d",
+      "bytes": 14200,
+      "sha256": "cb66c3893018bbfa70abefceb324c1e65e7e52aee3e36d0f15b39d04459b0df4",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."
     },
     {
       "path": "research/modalities/tests/test_junction_aso_graded.py",
-      "bytes": 14962,
-      "sha256": "a19a90a6009e49bced513ff347e412e02b8e4dbe3d8d0f7fdbde29c6df6b2b33",
+      "bytes": 15781,
+      "sha256": "a195383a8a6b26c5dc529c3899510d7d00fb967d46a6f5e39dc4783f8159d66f",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."

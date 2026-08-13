@@ -204,7 +204,14 @@ def build(panels=None):
         "_title": "Chance baseline for junction-gapmer off-target counts",
         "_generated_by": "research/modalities/offtarget_chance_baseline.py",
         "_cost": "$0 — arithmetic over committed artifacts. No network, no GPU.",
-        "_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        # ⛔ NO TIMESTAMP. A wall-clock field in a DERIVED artifact makes regeneration
+        # non-idempotent: the file changes on every run whether or not a single input did,
+        # so "did anything actually change?" stops being answerable by a diff. That question
+        # is load-bearing here — an unattended routine folds new junction screens in only
+        # when the chain produces a diff, and a per-run timestamp would make it report a
+        # change every hour with nothing behind it. The inputs are content-hashed and the
+        # git history already records when this ran, which is the same information without
+        # the cost. Superseded, retained (rule 1.2): `"_utc": time.strftime(...)`.
         "_why": (
             "The manuscript's negative headline — '0 of 58 designs predicted off-target-clean' — is "
             "arithmetically unavoidable at a >=14/16 identity threshold and therefore says nothing "

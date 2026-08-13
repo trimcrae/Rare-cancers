@@ -2245,3 +2245,56 @@ tripwire and pointed the other way: a fifth design reaching zero, or any design 
 junctions, fails the build — because with the strand filter correct, the only remaining route to a
 zero is a censored design whose unseen tail was assumed away. A second test asserts directly that no
 design with even one hybridisable hit is ever awarded a zero.
+
+### Appendix B.3 — full junction coverage, and the partner effect it dissolved (2026-08-13)
+
+⭐ **THE CORPUS WENT FROM 16 ORIENTATION-FILTERED JUNCTIONS TO 37, AND ONE REPORTED FINDING DID NOT
+SURVIVE IT.** Twenty-two junctions were screened in a single evening — the eight whose earlier
+screens had never applied the orientation filter, and the fourteen that had never been screened at
+all — taking coverage to all 38 frame-compatible junctions.
+
+⛔ **WHAT FELL: "BREADTH AND SPECIFICITY POINT AT DIFFERENT PARTNERS."** Over the partial corpus every
+design with no hybridisable near-match was at *TCF12*, and the manuscript reported that as a partner
+effect: the multi-partner reagent is a FET one, the clean designs are not. With all 37 filtered
+junctions in hand, **every one of the five partners has a junction whose best design carries no
+hybridisable gap-spanning near-match** — three of eight at *TCF12* and at *FUS*, two of eight at
+*EWSR1*, one of eight at *TAF15*, one of five at *TFG*. The effect is gone.
+
+⚠ **AND NOTHING ABOUT *TCF12* CHANGED.** The comparison had been drawn against partners whose
+junctions were mostly unscreened, and an absence of clean designs among junctions nobody had
+screened is not evidence that clean designs are absent there. This is the same error shape as
+`screen_orientation_status` reading field presence as filtering: a property inferred from what had
+not been looked at.
+
+| quantity | superseded | current |
+|---|---|---|
+| orientation-filtered junctions | 16 | **37** |
+| designs in the filtered corpus | 75 | **178** |
+| junctions with any screen | 24 of 38 | **38 of 38** |
+| minus-strand share | 47% (362 of 777) | **46% (738 of 1,610)** |
+| junctions at 100% minus-strand | 1 (*TCF12* e7) | **2** (*EWSR1* e1 and *TCF12* e7) |
+| designs with no hybridisable near-match | 4, at 3 *TCF12* junctions | **9, at 6 junctions across 4 partners** |
+| designs at the 50-hit cap | 15 of 75 | **30 of 178** |
+| right-censored designs | 51 | **131** |
+| uncensored designs | 24 | **47** |
+| median locus inflation | 2.50 (max 7.0) | **2.20 (max 11.0)** |
+| unscreened frame-compatible junctions | 14 | **0** |
+
+✅ **WHAT SURVIVED UNCHANGED, WHICH IS THE USEFUL CONTROL.** The per-junction minus-strand range is
+still 4% to 100%; *EWSR1* exons 7 and 13 still return 55 and 57 apparent gap-spanning hits and still
+stand at 6 and 53 after filtering. Those are the numbers the orientation argument rests on, and more
+than doubling the corpus did not move them.
+
+⛔ **A DISCREPANCY WORTH KEEPING VISIBLE: THE GRADED MODEL HAS NO CENSORING GUARD.** Ten designs score
+zero residual cleavage load; only nine are reported clean. `GCATATCTCCTCGCCC` at *FUS* exon 11 returns
+21 near-matches of which 15 are retained, all minus-strand — so `grade_one` sees nothing hybridisable
+and awards zero, while the cleanliness criterion refuses it because the six unretained hits are
+unknown. The stricter count is the one the manuscript reports, and the gap is asserted in
+`test_junction_aso_graded.py` rather than filtered out.
+
+⚠ **ONE JUNCTION IS STILL UNFILTERED: *TFG* exon 4.** Its re-screen was in the batch that lost a push
+race to `modalities-cache` — six concurrent jobs, four winners — and the pre-existing strand-blind
+file remained. **The lesson is about the CHECK, not the race:** the coverage test asked whether the
+artifact existed, and the stale file satisfied it. File presence is not file correctness, which is
+the third time this session that a check keyed on existence rather than on the property it cared
+about produced a false pass.

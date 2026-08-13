@@ -106,15 +106,15 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 5046 (limit 12000) |
-| Abstract | 265 words (limit 200) |
+| Word count, main text | 5316 (limit 12000) |
+| Abstract | 264 words (limit 200) |
 | Display items | 5 (3 figures, 2 tables) (limit 7) |
 | References | 30 (limit 60) |
 | Cover letter | `aso/fusion-junction-aso-short-communication-cover-letter.md` |
 | Supplementary file | none |
 | Fee route | not recorded |
 
-> **Over a stated limit:** abstract_words 265 > 200
+> **Over a stated limit:** abstract_words 264 > 200
 
 ⚠ Limits provenance: READ at primary source: nature.com/cgt/authors-and-referees/gta, HTTP 200, 2026-08-12, via a real headless browser (see research/literature/venue-policy-browser-fetch.json → cgt_gta). ⛔ FEE-DISQUALIFIED: the same page states a MANDATORY charge of £145 / $238 per page on the subscription route, waived only for authors who pay the open-access APC. The $0 constraint is binding, so this venue cannot be used. ⚠ The abstract limit is for an UNSTRUCTURED abstract; this manuscript's is structured, so the format as well as the length is wrong for this journal..
 
