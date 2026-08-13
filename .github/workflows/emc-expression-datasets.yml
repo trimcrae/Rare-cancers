@@ -1186,14 +1186,19 @@ jobs:
           python3 - <<'PY'
           import json
           d = json.load(open("research/modalities/aso-offtarget-tissue-expression.json"))
-          r = d["reagent"]
-          print("=== REAGENT AND ITS LOAD (from the committed screen, not typed) ===")
-          print(f"  {r['reagent_antisense_5to3']}  {r['junction_label']}")
-          print(f"  near-matches reported {r['n_near_matches_reported']} | "
-                f"minus-strand not hybridisable {r['n_minus_strand_not_hybridisable']} | "
-                f"gap-disrupted {r['n_gap_disrupted_no_cleavage']} | "
-                f"GAP-PAIRED HYBRIDISABLE {r['n_gap_paired_hybridisable']} over "
-                f"{r['n_loci']} loci")
+          # ⚠ `panel`, NOT `reagent`. This step read `d["reagent"]` after the artifact grew from one
+          # reagent to a two-seam panel and the field was renamed; run 31749264339 published a
+          # perfect 23-locus artifact and then went RED on `KeyError: 'reagent'` in this summary.
+          # A reporting step that dies after the publish makes a successful run look like a failed
+          # one, which is the mirror of the failure this repository actually fears.
+          p = d["panel"]
+          print("=== PANEL AND ITS LOAD (from the committed screens, not typed) ===")
+          print(f"  seams {p['n_seams']} | loci {p['n_loci_over_the_whole_panel']} | "
+                f"gap-paired hybridisable {p['n_gap_paired_hybridisable']}")
+          for s in p["panel"]:
+              print(f"    {s['seam']:<24} designs={s['n_designs']} "
+                    f"gap-paired={s['n_gap_paired_hybridisable']} loci={s['n_loci']}")
+              print(f"      role: {s.get('role')}")
           print()
           c = d["method"]["known_answer_controls"]
           print("=== DID THE INSTRUMENT WORK? (a shifted GCT looks entirely normal) ===")
@@ -1209,7 +1214,8 @@ jobs:
           print("=== PER LOCUS: EXPOSURE (liver/kidney) vs TUMOUR COMPARTMENT ===")
           for p in d["per_locus"]:
               sr = p["screen_records"]
-              print(f"  {p['locus']:<14} records={sr['n_transcript_records']:<3} "
+              print(f"  {p['locus']:<14} records={str(sr['n_transcript_records']):<4}"
+                    f"designs={str(p.get('n_designs_hitting_it')):<3} "
                     f"(curated {sr['n_curated_records']} / predicted "
                     f"{sr['n_predicted_records']})  ->  {p['tier']}")
               e = p["exposure_compartment_liver_kidney"]

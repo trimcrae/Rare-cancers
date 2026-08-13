@@ -248,7 +248,7 @@
   },
   "known_answer_controls": {
    "ran": true,
-   "passed": false,
+   "passed": true,
    "controls": {
     "ALB": {
      "found": true,
@@ -268,7 +268,7 @@
       "Kidney - Medulla",
       "Kidney - Cortex"
      ],
-     "passed": false,
+     "passed": true,
      "why": "uromodulin is made only by the thick ascending limb of the nephron"
     },
     "MYH7": {
@@ -279,7 +279,7 @@
       "Muscle - Skeletal",
       "Heart - Left Ventricle"
      ],
-     "passed": false,
+     "passed": true,
      "why": "beta-myosin heavy chain is restricted to slow skeletal muscle and ventricle"
     }
    },
@@ -288,32 +288,23 @@
  },
  "summary": {
   "n_loci": 23,
-  "n_loci_with_a_readable_exposure_reading": 0,
-  "loci_expressed_in_an_exposure_organ": [],
-  "loci_whose_exposure_question_is_unanswerable_from_public_data": [
-   "ANKS1B",
+  "n_loci_with_a_readable_exposure_reading": 16,
+  "loci_expressed_in_an_exposure_organ": [
    "G3BP2",
-   "ZNF667",
-   "LINC02030",
-   "MIR9-2HG",
-   "LAMA4",
-   "ZFPM2",
-   "GNAL",
-   "GMCL1",
-   "LOC105374140",
    "NRP1",
-   "LOC105370997",
    "SLC17A3",
-   "CA5B",
-   "CA5BP1-CA5B",
    "EEFSEC",
-   "ANKRD26P3",
-   "CHST5",
    "GBP4",
+   "ST3GAL1"
+  ],
+  "loci_whose_exposure_question_is_unanswerable_from_public_data": [
+   "MIR9-2HG",
+   "LOC105374140",
+   "LOC105370997",
+   "CA5BP1-CA5B",
    "LOC105376349",
    "LOC124907518",
-   "NRXN3-AS1",
-   "ST3GAL1"
+   "NRXN3-AS1"
   ],
   "⛔_this_list_is_not_a_ranking_and_this_file_has_no_risk_column": "These are the genes whose median TPM reaches the stated cut in liver or kidney. That is a reading about each GENE. It is not an ordering of the panel by hazard, and no such ordering exists anywhere in this file, because every hit behind it is a 14/16 sequence match and the step from an expressed gene to an affected one needs an affinity argument no screen here has made. Loci are ordered by transcript-record count, which is an annotation property and is labelled as one.",
   "⚠_what_a_clean_exposure_column_does_and_does_not_buy": "It says those genes are low or absent in the dosed organs. It does not make the reagent clean: the same panel holds loci this instrument cannot measure at all, and none of these hits has been shown to be cleavable in the first place."
@@ -344,16 +335,56 @@
     "ncbi_summary": null
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 0.0346283,
+     "Kidney - Cortex": 0.462038,
+     "Kidney - Medulla": 0.276909
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000185046.18",
+      "median_tpm": {
+       "Liver": 0.0346283,
+       "Kidney - Cortex": 0.462038,
+       "Kidney - Medulla": 0.276909
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Cortex",
+    "any_present_at_cut": false
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 0.529033,
+     "Adipose - Subcutaneous": 0.47078000000000003,
+     "Nerve - Tibial": 1.87621,
+     "Cells - Cultured fibroblasts": 0.042584500000000004,
+     "Artery - Tibial": 3.6254,
+     "Skin - Sun Exposed (Lower leg)": 0.323368
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000185046.18",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.529033,
+       "Adipose - Subcutaneous": 0.47078000000000003,
+       "Nerve - Tibial": 1.87621,
+       "Cells - Cultured fibroblasts": 0.042584500000000004,
+       "Artery - Tibial": 3.6254,
+       "Skin - Sun Exposed (Lower leg)": 0.323368
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Artery - Tibial",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -496,8 +527,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "BELOW_DETECTION_IN_EXPOSURE_ORGANS",
+   "sentence": "Median TPM is below 1 in every exposure tissue (highest 0.462038). This is a measured low reading in GTEx v8, not a safety statement."
   },
   {
    "locus": "G3BP2",
@@ -525,16 +556,56 @@
     "ncbi_summary": "Enables molecular condensate scaffold activity. Involved in positive regulation of stress granule assembly; protein homooligomerization; and stress granule assembly. Located in cytoplasmic stress granule and cytosol. [provided by Alliance of Genome Resources, Apr 2025]"
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 11.9161,
+     "Kidney - Cortex": 17.0269,
+     "Kidney - Medulla": 23.1161
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000138757.14",
+      "median_tpm": {
+       "Liver": 11.9161,
+       "Kidney - Cortex": 17.0269,
+       "Kidney - Medulla": 23.1161
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 47.7931,
+     "Adipose - Subcutaneous": 33.8458,
+     "Nerve - Tibial": 31.3363,
+     "Cells - Cultured fibroblasts": 77.0226,
+     "Artery - Tibial": 55.4863,
+     "Skin - Sun Exposed (Lower leg)": 25.214000000000002
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000138757.14",
+      "median_tpm": {
+       "Muscle - Skeletal": 47.7931,
+       "Adipose - Subcutaneous": 33.8458,
+       "Nerve - Tibial": 31.3363,
+       "Cells - Cultured fibroblasts": 77.0226,
+       "Artery - Tibial": 55.4863,
+       "Skin - Sun Exposed (Lower leg)": 25.214000000000002
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Cells - Cultured fibroblasts",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -672,8 +743,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
+   "sentence": "Median TPM reaches 23.1161 in Kidney - Medulla. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
   },
   {
    "locus": "ZNF667",
@@ -700,16 +771,56 @@
     "ncbi_summary": null
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 0.312814,
+     "Kidney - Cortex": 1.62683,
+     "Kidney - Medulla": 2.57697
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000198046.11",
+      "median_tpm": {
+       "Liver": 0.312814,
+       "Kidney - Cortex": 1.62683,
+       "Kidney - Medulla": 2.57697
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 0.5576840000000001,
+     "Adipose - Subcutaneous": 1.65365,
+     "Nerve - Tibial": 6.16814,
+     "Cells - Cultured fibroblasts": 2.35865,
+     "Artery - Tibial": 2.40997,
+     "Skin - Sun Exposed (Lower leg)": 1.43909
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000198046.11",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.5576840000000001,
+       "Adipose - Subcutaneous": 1.65365,
+       "Nerve - Tibial": 6.16814,
+       "Cells - Cultured fibroblasts": 2.35865,
+       "Artery - Tibial": 2.40997,
+       "Skin - Sun Exposed (Lower leg)": 1.43909
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Nerve - Tibial",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -828,8 +939,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "LOW_IN_EXPOSURE_ORGANS",
+   "sentence": "Median TPM peaks at 2.57697 in Kidney - Medulla — detectable and low against the whole-body maximum recorded alongside it."
   },
   {
    "locus": "LINC02030",
@@ -857,16 +968,56 @@
     "ncbi_summary": ""
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 0.0,
+     "Kidney - Cortex": 0.0,
+     "Kidney - Medulla": 0.0161596
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000240708.1",
+      "median_tpm": {
+       "Liver": 0.0,
+       "Kidney - Cortex": 0.0,
+       "Kidney - Medulla": 0.0161596
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": false
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 0.0,
+     "Adipose - Subcutaneous": 0.0,
+     "Nerve - Tibial": 0.0,
+     "Cells - Cultured fibroblasts": 0.0958797,
+     "Artery - Tibial": 0.0,
+     "Skin - Sun Exposed (Lower leg)": 0.290082
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000240708.1",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.0,
+       "Adipose - Subcutaneous": 0.0,
+       "Nerve - Tibial": 0.0,
+       "Cells - Cultured fibroblasts": 0.0958797,
+       "Artery - Tibial": 0.0,
+       "Skin - Sun Exposed (Lower leg)": 0.290082
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Skin - Sun Exposed (Lower leg)",
+    "any_present_at_cut": false
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
@@ -920,8 +1071,8 @@
     "n_rows": 0,
     "exact_symbol_rows": []
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "BELOW_DETECTION_IN_EXPOSURE_ORGANS",
+   "sentence": "Median TPM is below 1 in every exposure tissue (highest 0.0161596). This is a measured low reading in GTEx v8, not a safety statement."
   },
   {
    "locus": "MIR9-2HG",
@@ -950,15 +1101,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
@@ -984,7 +1135,7 @@
     "exact_symbol_rows": []
    },
    "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
   },
   {
    "locus": "LAMA4",
@@ -1011,16 +1162,56 @@
     "ncbi_summary": null
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 1.27941,
+     "Kidney - Cortex": 3.13174,
+     "Kidney - Medulla": 6.06374
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000112769.18",
+      "median_tpm": {
+       "Liver": 1.27941,
+       "Kidney - Cortex": 3.13174,
+       "Kidney - Medulla": 6.06374
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 3.12026,
+     "Adipose - Subcutaneous": 89.3624,
+     "Nerve - Tibial": 132.805,
+     "Cells - Cultured fibroblasts": 268.58799999999997,
+     "Artery - Tibial": 53.9281,
+     "Skin - Sun Exposed (Lower leg)": 16.6314
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000112769.18",
+      "median_tpm": {
+       "Muscle - Skeletal": 3.12026,
+       "Adipose - Subcutaneous": 89.3624,
+       "Nerve - Tibial": 132.805,
+       "Cells - Cultured fibroblasts": 268.58799999999997,
+       "Artery - Tibial": 53.9281,
+       "Skin - Sun Exposed (Lower leg)": 16.6314
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Cells - Cultured fibroblasts",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -1161,8 +1352,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "LOW_IN_EXPOSURE_ORGANS",
+   "sentence": "Median TPM peaks at 6.06374 in Kidney - Medulla — detectable and low against the whole-body maximum recorded alongside it."
   },
   {
    "locus": "ZFPM2",
@@ -1191,16 +1382,56 @@
     "ncbi_summary": "The zinc finger protein encoded by this gene is a widely expressed member of the FOG family of transcription factors. The family members modulate the activity of GATA family proteins, which are important regulators of hematopoiesis and cardiogenesis in mammals. It has been demonstrated that the protein can both activate and down-regulate expression of GATA-target genes, suggesting different modulation in different promoter contexts. A related mRNA suggests an alternatively spliced product but this information is not yet fully supported by the sequence. [provided by RefSeq, Jul 2008]"
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 0.644009,
+     "Kidney - Cortex": 0.550288,
+     "Kidney - Medulla": 0.402817
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000169946.13",
+      "median_tpm": {
+       "Liver": 0.644009,
+       "Kidney - Cortex": 0.550288,
+       "Kidney - Medulla": 0.402817
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Liver",
+    "any_present_at_cut": false
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 5.67057,
+     "Adipose - Subcutaneous": 7.93832,
+     "Nerve - Tibial": 4.269909999999999,
+     "Cells - Cultured fibroblasts": 0.549822,
+     "Artery - Tibial": 9.59137,
+     "Skin - Sun Exposed (Lower leg)": 1.77215
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000169946.13",
+      "median_tpm": {
+       "Muscle - Skeletal": 5.67057,
+       "Adipose - Subcutaneous": 7.93832,
+       "Nerve - Tibial": 4.269909999999999,
+       "Cells - Cultured fibroblasts": 0.549822,
+       "Artery - Tibial": 9.59137,
+       "Skin - Sun Exposed (Lower leg)": 1.77215
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Artery - Tibial",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -1344,8 +1575,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "BELOW_DETECTION_IN_EXPOSURE_ORGANS",
+   "sentence": "Median TPM is below 1 in every exposure tissue (highest 0.644009). This is a measured low reading in GTEx v8, not a safety statement."
   },
   {
    "locus": "GNAL",
@@ -1373,16 +1604,56 @@
     "ncbi_summary": null
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 0.663471,
+     "Kidney - Cortex": 1.7386599999999999,
+     "Kidney - Medulla": 1.80872
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000141404.15",
+      "median_tpm": {
+       "Liver": 0.663471,
+       "Kidney - Cortex": 1.7386599999999999,
+       "Kidney - Medulla": 1.80872
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 3.77674,
+     "Adipose - Subcutaneous": 6.29537,
+     "Nerve - Tibial": 7.24834,
+     "Cells - Cultured fibroblasts": 0.5721649999999999,
+     "Artery - Tibial": 8.576889999999999,
+     "Skin - Sun Exposed (Lower leg)": 7.33615
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000141404.15",
+      "median_tpm": {
+       "Muscle - Skeletal": 3.77674,
+       "Adipose - Subcutaneous": 6.29537,
+       "Nerve - Tibial": 7.24834,
+       "Cells - Cultured fibroblasts": 0.5721649999999999,
+       "Artery - Tibial": 8.576889999999999,
+       "Skin - Sun Exposed (Lower leg)": 7.33615
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Artery - Tibial",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -1521,8 +1792,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "LOW_IN_EXPOSURE_ORGANS",
+   "sentence": "Median TPM peaks at 1.80872 in Kidney - Medulla — detectable and low against the whole-body maximum recorded alongside it."
   },
   {
    "locus": "GMCL1",
@@ -1549,16 +1820,56 @@
     "ncbi_summary": null
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 4.5172300000000005,
+     "Kidney - Cortex": 4.98156,
+     "Kidney - Medulla": 6.72472
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000087338.4",
+      "median_tpm": {
+       "Liver": 4.5172300000000005,
+       "Kidney - Cortex": 4.98156,
+       "Kidney - Medulla": 6.72472
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 2.22823,
+     "Adipose - Subcutaneous": 11.7181,
+     "Nerve - Tibial": 15.8285,
+     "Cells - Cultured fibroblasts": 12.7316,
+     "Artery - Tibial": 18.3414,
+     "Skin - Sun Exposed (Lower leg)": 10.7012
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000087338.4",
+      "median_tpm": {
+       "Muscle - Skeletal": 2.22823,
+       "Adipose - Subcutaneous": 11.7181,
+       "Nerve - Tibial": 15.8285,
+       "Cells - Cultured fibroblasts": 12.7316,
+       "Artery - Tibial": 18.3414,
+       "Skin - Sun Exposed (Lower leg)": 10.7012
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Artery - Tibial",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -1697,8 +2008,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "LOW_IN_EXPOSURE_ORGANS",
+   "sentence": "Median TPM peaks at 6.72472 in Kidney - Medulla — detectable and low against the whole-body maximum recorded alongside it."
   },
   {
    "locus": "LOC105374140",
@@ -1726,15 +2037,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
@@ -1759,8 +2070,8 @@
     "n_rows": 0,
     "exact_symbol_rows": []
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
+   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
   },
   {
    "locus": "NRP1",
@@ -1791,16 +2102,56 @@
     "ncbi_summary": "This gene encodes one of two neuropilins, which contain specific protein domains which allow them to participate in several different types of signaling pathways that control cell migration. Neuropilins contain a large N-terminal extracellular domain, made up of complement-binding, coagulation factor V/VIII, and meprin domains. These proteins also contains a short membrane-spanning domain and a small cytoplasmic domain. Neuropilins bind many ligands and various types of co-receptors; they affect cell survival, migration, and attraction. Some of the ligands and co-receptors bound by neuropilins are vascular endothelial growth factor (VEGF) and semaphorin family members. This protein has also been determined to act as a co-receptor for SARS-CoV-2 (which causes COVID-19) to infect host cells. [provided by RefSeq, Nov 2020]"
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 6.61972,
+     "Kidney - Cortex": 16.8686,
+     "Kidney - Medulla": 17.8143
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000099250.17",
+      "median_tpm": {
+       "Liver": 6.61972,
+       "Kidney - Cortex": 16.8686,
+       "Kidney - Medulla": 17.8143
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 6.63583,
+     "Adipose - Subcutaneous": 62.1285,
+     "Nerve - Tibial": 33.1735,
+     "Cells - Cultured fibroblasts": 104.709,
+     "Artery - Tibial": 25.1441,
+     "Skin - Sun Exposed (Lower leg)": 10.2666
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000099250.17",
+      "median_tpm": {
+       "Muscle - Skeletal": 6.63583,
+       "Adipose - Subcutaneous": 62.1285,
+       "Nerve - Tibial": 33.1735,
+       "Cells - Cultured fibroblasts": 104.709,
+       "Artery - Tibial": 25.1441,
+       "Skin - Sun Exposed (Lower leg)": 10.2666
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Cells - Cultured fibroblasts",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -1940,8 +2291,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
+   "sentence": "Median TPM reaches 17.8143 in Kidney - Medulla. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
   },
   {
    "locus": "LOC105370997",
@@ -1969,15 +2320,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
@@ -2002,8 +2353,8 @@
     "n_rows": 0,
     "exact_symbol_rows": []
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
+   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
   },
   {
    "locus": "SLC17A3",
@@ -2031,16 +2382,56 @@
     "ncbi_summary": null
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 9.141060000000001,
+     "Kidney - Cortex": 33.6126,
+     "Kidney - Medulla": 8.08976
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000124564.17",
+      "median_tpm": {
+       "Liver": 9.141060000000001,
+       "Kidney - Cortex": 33.6126,
+       "Kidney - Medulla": 8.08976
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Cortex",
+    "any_present_at_cut": true
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 0.0,
+     "Adipose - Subcutaneous": 0.025893799999999998,
+     "Nerve - Tibial": 0.014747999999999999,
+     "Cells - Cultured fibroblasts": 0.0,
+     "Artery - Tibial": 0.020288099999999996,
+     "Skin - Sun Exposed (Lower leg)": 0.0
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000124564.17",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.0,
+       "Adipose - Subcutaneous": 0.025893799999999998,
+       "Nerve - Tibial": 0.014747999999999999,
+       "Cells - Cultured fibroblasts": 0.0,
+       "Artery - Tibial": 0.020288099999999996,
+       "Skin - Sun Exposed (Lower leg)": 0.0
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Adipose - Subcutaneous",
+    "any_present_at_cut": false
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -2178,8 +2569,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
+   "sentence": "Median TPM reaches 33.6126 in Kidney - Cortex. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
   },
   {
    "locus": "CA5B",
@@ -2208,16 +2599,56 @@
     "ncbi_summary": null
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 0.661929,
+     "Kidney - Cortex": 1.57418,
+     "Kidney - Medulla": 1.96363
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000169239.12",
+      "median_tpm": {
+       "Liver": 0.661929,
+       "Kidney - Cortex": 1.57418,
+       "Kidney - Medulla": 1.96363
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 0.540213,
+     "Adipose - Subcutaneous": 6.52766,
+     "Nerve - Tibial": 7.20183,
+     "Cells - Cultured fibroblasts": 3.7513699999999996,
+     "Artery - Tibial": 11.6905,
+     "Skin - Sun Exposed (Lower leg)": 5.1214699999999995
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000169239.12",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.540213,
+       "Adipose - Subcutaneous": 6.52766,
+       "Nerve - Tibial": 7.20183,
+       "Cells - Cultured fibroblasts": 3.7513699999999996,
+       "Artery - Tibial": 11.6905,
+       "Skin - Sun Exposed (Lower leg)": 5.1214699999999995
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Artery - Tibial",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -2353,8 +2784,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "LOW_IN_EXPOSURE_ORGANS",
+   "sentence": "Median TPM peaks at 1.96363 in Kidney - Medulla — detectable and low against the whole-body maximum recorded alongside it."
   },
   {
    "locus": "CA5BP1-CA5B",
@@ -2384,15 +2815,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
@@ -2418,7 +2849,7 @@
     "exact_symbol_rows": []
    },
    "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
   },
   {
    "locus": "EEFSEC",
@@ -2445,16 +2876,56 @@
     "ncbi_summary": "Enables GTPase activity. Involved in selenocysteine incorporation. Predicted to be located in cytoplasm and nucleus. Predicted to be part of ribonucleoprotein complex. [provided by Alliance of Genome Resources, Jul 2025]"
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 16.1454,
+     "Kidney - Cortex": 14.3744,
+     "Kidney - Medulla": 15.5714
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000132394.10",
+      "median_tpm": {
+       "Liver": 16.1454,
+       "Kidney - Cortex": 14.3744,
+       "Kidney - Medulla": 15.5714
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Liver",
+    "any_present_at_cut": true
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 18.8533,
+     "Adipose - Subcutaneous": 26.4078,
+     "Nerve - Tibial": 39.093,
+     "Cells - Cultured fibroblasts": 18.395,
+     "Artery - Tibial": 28.6817,
+     "Skin - Sun Exposed (Lower leg)": 29.9153
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000132394.10",
+      "median_tpm": {
+       "Muscle - Skeletal": 18.8533,
+       "Adipose - Subcutaneous": 26.4078,
+       "Nerve - Tibial": 39.093,
+       "Cells - Cultured fibroblasts": 18.395,
+       "Artery - Tibial": 28.6817,
+       "Skin - Sun Exposed (Lower leg)": 29.9153
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Nerve - Tibial",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -2594,8 +3065,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
+   "sentence": "Median TPM reaches 16.1454 in Liver. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
   },
   {
    "locus": "ANKRD26P3",
@@ -2622,16 +3093,56 @@
     "ncbi_summary": ""
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 0.0,
+     "Kidney - Cortex": 0.0,
+     "Kidney - Medulla": 0.0
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000237636.2",
+      "median_tpm": {
+       "Liver": 0.0,
+       "Kidney - Cortex": 0.0,
+       "Kidney - Medulla": 0.0
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Liver",
+    "any_present_at_cut": false
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 0.014987100000000001,
+     "Adipose - Subcutaneous": 0.0,
+     "Nerve - Tibial": 0.0,
+     "Cells - Cultured fibroblasts": 0.0,
+     "Artery - Tibial": 0.0,
+     "Skin - Sun Exposed (Lower leg)": 0.0
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000237636.2",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.014987100000000001,
+       "Adipose - Subcutaneous": 0.0,
+       "Nerve - Tibial": 0.0,
+       "Cells - Cultured fibroblasts": 0.0,
+       "Artery - Tibial": 0.0,
+       "Skin - Sun Exposed (Lower leg)": 0.0
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Muscle - Skeletal",
+    "any_present_at_cut": false
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
@@ -2685,8 +3196,8 @@
     "n_rows": 0,
     "exact_symbol_rows": []
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "BELOW_DETECTION_IN_EXPOSURE_ORGANS",
+   "sentence": "Median TPM is below 1 in every exposure tissue (highest 0). This is a measured low reading in GTEx v8, not a safety statement."
   },
   {
    "locus": "CHST5",
@@ -2713,16 +3224,56 @@
     "ncbi_summary": null
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 0.07165319999999999,
+     "Kidney - Cortex": 0.349771,
+     "Kidney - Medulla": 0.77725
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000135702.14",
+      "median_tpm": {
+       "Liver": 0.07165319999999999,
+       "Kidney - Cortex": 0.349771,
+       "Kidney - Medulla": 0.77725
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": false
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 0.08081870000000001,
+     "Adipose - Subcutaneous": 0.21389499999999997,
+     "Nerve - Tibial": 0.7805989999999999,
+     "Cells - Cultured fibroblasts": 0.134904,
+     "Artery - Tibial": 0.217917,
+     "Skin - Sun Exposed (Lower leg)": 0.30607
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000135702.14",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.08081870000000001,
+       "Adipose - Subcutaneous": 0.21389499999999997,
+       "Nerve - Tibial": 0.7805989999999999,
+       "Cells - Cultured fibroblasts": 0.134904,
+       "Artery - Tibial": 0.217917,
+       "Skin - Sun Exposed (Lower leg)": 0.30607
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Nerve - Tibial",
+    "any_present_at_cut": false
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -2840,8 +3391,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "BELOW_DETECTION_IN_EXPOSURE_ORGANS",
+   "sentence": "Median TPM is below 1 in every exposure tissue (highest 0.77725). This is a measured low reading in GTEx v8, not a safety statement."
   },
   {
    "locus": "GBP4",
@@ -2868,16 +3419,56 @@
     "ncbi_summary": null
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 3.1175200000000003,
+     "Kidney - Cortex": 5.59305,
+     "Kidney - Medulla": 10.0776
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000162654.8",
+      "median_tpm": {
+       "Liver": 3.1175200000000003,
+       "Kidney - Cortex": 5.59305,
+       "Kidney - Medulla": 10.0776
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 2.42277,
+     "Adipose - Subcutaneous": 18.1694,
+     "Nerve - Tibial": 9.07596,
+     "Cells - Cultured fibroblasts": 0.317421,
+     "Artery - Tibial": 3.75349,
+     "Skin - Sun Exposed (Lower leg)": 3.08766
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000162654.8",
+      "median_tpm": {
+       "Muscle - Skeletal": 2.42277,
+       "Adipose - Subcutaneous": 18.1694,
+       "Nerve - Tibial": 9.07596,
+       "Cells - Cultured fibroblasts": 0.317421,
+       "Artery - Tibial": 3.75349,
+       "Skin - Sun Exposed (Lower leg)": 3.08766
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Adipose - Subcutaneous",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -2994,8 +3585,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
+   "sentence": "Median TPM reaches 10.0776 in Kidney - Medulla. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
   },
   {
    "locus": "LOC105376349",
@@ -3023,15 +3614,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
@@ -3056,8 +3647,8 @@
     "n_rows": 0,
     "exact_symbol_rows": []
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
+   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
   },
   {
    "locus": "LOC124907518",
@@ -3085,15 +3676,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
@@ -3118,8 +3709,8 @@
     "n_rows": 0,
     "exact_symbol_rows": []
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "NOT_MEASURABLE_UNCHARACTERISED",
+   "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
   },
   {
    "locus": "NRXN3-AS1",
@@ -3147,15 +3738,15 @@
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_normal_tissue_proxy": {
     "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": null
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": false,
@@ -3181,7 +3772,7 @@
     "exact_symbol_rows": []
    },
    "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
   },
   {
    "locus": "ST3GAL1",
@@ -3208,16 +3799,56 @@
     "ncbi_summary": null
    },
    "exposure_compartment_liver_kidney": {
-    "readable": false,
+    "readable": true,
     "block": "exposure_liver_kidney",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Liver": 28.5843,
+     "Kidney - Cortex": 16.355,
+     "Kidney - Medulla": 8.065
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000008513.14",
+      "median_tpm": {
+       "Liver": 28.5843,
+       "Kidney - Cortex": 16.355,
+       "Kidney - Medulla": 8.065
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Liver",
+    "any_present_at_cut": true
    },
    "tumour_compartment_normal_tissue_proxy": {
-    "readable": false,
+    "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
-    "values": null,
-    "reason": "withheld: arm A's known-answer controls failed"
+    "values": {
+     "Muscle - Skeletal": 27.1866,
+     "Adipose - Subcutaneous": 21.795,
+     "Nerve - Tibial": 12.4823,
+     "Cells - Cultured fibroblasts": 18.3848,
+     "Artery - Tibial": 14.0232,
+     "Skin - Sun Exposed (Lower leg)": 8.1495
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000008513.14",
+      "median_tpm": {
+       "Muscle - Skeletal": 27.1866,
+       "Adipose - Subcutaneous": 21.795,
+       "Nerve - Tibial": 12.4823,
+       "Cells - Cultured fibroblasts": 18.3848,
+       "Artery - Tibial": 14.0232,
+       "Skin - Sun Exposed (Lower leg)": 8.1495
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Muscle - Skeletal",
+    "any_present_at_cut": true
    },
    "tumour_compartment_emc_tumours": {
     "readable_on_any_platform": true,
@@ -3356,8 +3987,8 @@
      }
     ]
    },
-   "tier": "NOT_MEASURED",
-   "sentence": "The GTEx known-answer controls failed, so the tissue columns of this parse are not trusted and no exposure figure is emitted."
+   "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
+   "sentence": "Median TPM reaches 28.5843 in Liver. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
   }
  ]
 }

@@ -192,6 +192,31 @@ GAP_PAIRED_CLASS = "true_cleavage_risk"
 _PAREN = re.compile(r"\(([^()]+)\)")
 
 
+def _tkey(t):
+    """Endpoint-independent tissue key: lower-cased, stripped of every non-alphanumeric.
+
+    ⛔ WHY THIS EXISTS, MEASURED 2026-08-13 (run 31749264339). The release GCT labels tissues in
+    GTEx's `SMTSD` form — `Kidney - Medulla`, `Heart - Left Ventricle`, `Skin - Sun Exposed (Lower
+    leg)` — while the portal API returns `tissueSiteDetailId` — `Kidney_Medulla`,
+    `Heart_Left_Ventricle`, `Skin_Sun_Exposed_Lower_leg`. The API fallback normalised underscores to
+    spaces, which produces `Kidney Medulla` and matches NEITHER form.
+
+    ⚠ THE CONSEQUENCE WAS A FALSE NEGATIVE ON THE SAFETY GATE, WHICH IS THE EXPENSIVE DIRECTION OF
+    BEING RIGHT. The fetch was flawless — ALB peaked in Liver at 25,201 TPM, UMOD in Kidney Medulla
+    at 2,116, MYH7 in Heart Left Ventricle at 4,514, exactly as they must — but two of three
+    controls compared `Kidney Medulla` against `Kidney - Medulla`, failed on the punctuation, and
+    the control gate correctly withheld EVERY locus verdict. A whole 26-minute run produced no
+    exposure figure because of a hyphen.
+
+    Matching on this key instead means the same tissue compares equal whichever endpoint answered,
+    so a fallback run is graded by the same controls as a primary one rather than being failed by
+    its own label vocabulary. It cannot merge two real tissues: no two GTEx tissue names differ only
+    in punctuation, which `test_the_tissue_key_cannot_merge_two_real_gtex_tissues` asserts over the
+    full 54-label list.
+    """
+    return re.sub(r"[^a-z0-9]", "", str(t).lower())
+
+
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 # The locus set — DERIVED from the committed screen, never typed
 # ─────────────────────────────────────────────────────────────────────────────────────────────
@@ -747,7 +772,9 @@ def _control_verdict(gtex):
         vals = got[0]["values"]
         pairs = [(t, v) for t, v in zip(tissues, vals) if v is not None]
         top = max(pairs, key=lambda p: p[1]) if pairs else (None, None)
-        passed = top[0] in spec["expect_max_in"]
+        # ⛔ COMPARED ON `_tkey`, NOT ON THE RAW LABEL. Two of three controls failed on a hyphen in
+        # run 31749264339 and took every locus verdict down with them; see `_tkey`.
+        passed = _tkey(top[0]) in {_tkey(x) for x in spec["expect_max_in"]}
         res[sym] = {"found": True, "max_tissue": top[0], "max_median_tpm": top[1],
                     "expected_max_in": spec["expect_max_in"], "passed": passed,
                     "why": spec["why"]}
@@ -807,12 +834,13 @@ def _tissue_block(gtex, sym, tissues, label, hpa=None):
                            "measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO."),
                 "block": label, "values": None}
     order = gtex.get("tissues") or []
-    idx = {t: i for i, t in enumerate(order)}
-    missing = [t for t in tissues if t not in idx]
+    idx = {_tkey(t): i for i, t in enumerate(order)}      # see `_tkey`: endpoint-independent
+    missing = [t for t in tissues if _tkey(t) not in idx]
     vals, per_model = {}, []
     for row in got:
         v = row["values"]
-        one = {t: (v[idx[t]] if t in idx and idx[t] < len(v) else None) for t in tissues}
+        one = {t: (v[idx[_tkey(t)]] if _tkey(t) in idx and idx[_tkey(t)] < len(v) else None)
+               for t in tissues}
         per_model.append({"gencode_id": row["gencode_id"], "median_tpm": one})
     for t in tissues:
         seen = [m["median_tpm"][t] for m in per_model if m["median_tpm"][t] is not None]

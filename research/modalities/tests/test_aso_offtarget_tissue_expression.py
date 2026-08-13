@@ -401,6 +401,66 @@ def test_ncbi_calls_are_paced_so_the_identity_arm_cannot_be_rate_limited_away():
         "the esummary call bypasses the paced helper"
 
 
+def test_the_tissue_key_matches_across_endpoints_and_cannot_merge_two_real_tissues():
+    """⛔ A HYPHEN COST A WHOLE 26-MINUTE RUN (run 31749264339).
+
+    The release GCT labels tissues `Kidney - Medulla`; the portal API returns `Kidney_Medulla`.
+    The fallback normalised underscores to spaces, producing `Kidney Medulla`, which matches
+    NEITHER. Two of three known-answer controls then failed on punctuation while the underlying
+    fetch was flawless — ALB 25,201 TPM in Liver, UMOD 2,116 in Kidney Medulla, MYH7 4,514 in
+    Heart Left Ventricle — and the control gate correctly withheld every locus verdict. A false
+    negative on a safety gate is the expensive direction of being right.
+
+    ⚠ AND THE KEY MUST NOT FIX THAT BY COLLAPSING REAL TISSUES. Stripping punctuation is only safe
+    if no two GTEx tissue names differ solely in punctuation, which is asserted here over the full
+    54-label vocabulary rather than assumed.
+    """
+    assert m._tkey("Kidney - Medulla") == m._tkey("Kidney_Medulla") == m._tkey("Kidney Medulla")
+    assert m._tkey("Skin - Sun Exposed (Lower leg)") == m._tkey("Skin_Sun_Exposed_Lower_leg")
+    assert m._tkey("Cells - Cultured fibroblasts") == m._tkey("Cells_Cultured_fibroblasts")
+    assert m._tkey("Heart - Left Ventricle") == m._tkey("Heart_Left_Ventricle")
+    # distinct tissues stay distinct
+    assert m._tkey("Kidney - Cortex") != m._tkey("Kidney - Medulla")
+    assert m._tkey("Brain - Cortex") != m._tkey("Brain - Cerebellum")
+
+    # over the real vocabulary, if the committed inputs cache carries one
+    if os.path.exists(os.path.join(MOD, "aso-offtarget-tissue-expression-inputs.json")):
+        inp = json.load(open(os.path.join(MOD, "aso-offtarget-tissue-expression-inputs.json"),
+                             encoding="utf-8"))
+        tissues = (inp.get("arm_a_gtex") or {}).get("tissues") or []
+        if tissues:
+            keys = [m._tkey(t) for t in tissues]
+            assert len(set(keys)) == len(keys), (
+                "two GTEx tissues collide under _tkey — the key is unsafe: "
+                + str([t for t in tissues if keys.count(m._tkey(t)) > 1]))
+
+
+def test_a_control_that_lands_in_the_right_tissue_passes_whichever_endpoint_answered():
+    """The gate must grade an API-fallback run by the same controls as a release-file run."""
+    inp = m._empty_inputs()
+    sym = m._locus_rows()[1][0]["locus"]
+    api_labels = ["Liver", "Kidney Cortex", "Kidney Medulla", "Heart Left Ventricle",
+                  "Muscle Skeletal"]
+
+    def row(s, mapping):
+        return [{"gencode_id": "g", "symbol": s,
+                 "values": [mapping.get(t, 0.0) for t in api_labels]}]
+
+    inp["arm_a_gtex"] = {"_status": "read", "endpoint_used": "portal_api_v2_fallback",
+                         "tissues": api_labels, "rows": {
+                             "ALB": row("ALB", {"Liver": 25201.3}),
+                             "UMOD": row("UMOD", {"Kidney Medulla": 2116.02}),
+                             "MYH7": row("MYH7", {"Heart Left Ventricle": 4513.66}),
+                             sym.upper(): row(sym, {"Liver": 0.0, "Kidney Cortex": 0.5})}}
+    art = m.derive(inp)
+    assert art["method"]["known_answer_controls"]["passed"] is True, (
+        "the same controls that pass on release-file labels must pass on API labels")
+    r = [p for p in art["per_locus"] if p["locus"] == sym][0]
+    assert r["exposure_compartment_liver_kidney"]["readable"] is True
+    assert r["exposure_compartment_liver_kidney"]["values"]["Kidney - Cortex"] == 0.5
+    assert r["tier"] == "BELOW_DETECTION_IN_EXPOSURE_ORGANS"
+
+
 def test_the_present_cut_is_stated_as_a_choice_not_a_measurement():
     art = m.derive(m._empty_inputs())
     assert art["method"]["present_tpm_cut"] == m.PRESENT_TPM
