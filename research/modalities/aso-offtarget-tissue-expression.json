@@ -10,7 +10,7 @@
   "PRESENT_TPM = 1 is a STATED legibility cut, not a threshold of concern, and every raw median is released so another cut can be applied without re-running."
  ],
  "_cost": "$0 — public reference data on a CPU runner. No GPU, no rental, no wet lab.",
- "_generated_utc": "2026-08-13T22:20:34.306281+00:00",
+ "_generated_utc": "2026-08-13T22:47:13.484529+00:00",
  "panel": {
   "panel": [
    {
@@ -178,10 +178,10 @@
   "arms": {
    "A_gtex": {
     "status": "read",
-    "url": "https://gtexportal.org/api/v2/expression/medianGeneExpression",
+    "url": "https://storage.googleapis.com/adult-gtex/bulk-gex/v8/rna-seq/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",
     "release": "GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm",
     "unit": "median TPM across that tissue's donors",
-    "endpoint_used": "portal_api_v2_fallback",
+    "endpoint_used": "release_gct",
     "n_tissues": 54
    },
    "B_emc_series": {
@@ -193,28 +193,28 @@
    "C_ncbi_gene": {
     "status": {
      "ANKRD26P3": "read",
-     "ANKS1B": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "CA5B": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "CA5BP1-CA5B": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "CHST5": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "ANKS1B": "read",
+     "CA5B": "read",
+     "CA5BP1-CA5B": "read",
+     "CHST5": "read",
      "EEFSEC": "read",
      "G3BP2": "read",
-     "GBP4": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "GMCL1": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "GNAL": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "LAMA4": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "GBP4": "read",
+     "GMCL1": "read",
+     "GNAL": "read",
+     "LAMA4": "read",
      "LINC02030": "read",
-     "LOC105370997": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "LOC105374140": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "LOC105376349": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "LOC124907518": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "MIR9-2HG": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "LOC105370997": "read",
+     "LOC105374140": "read",
+     "LOC105376349": "read",
+     "LOC124907518": "read",
+     "MIR9-2HG": "read",
      "NRP1": "read",
-     "NRXN3-AS1": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "SLC17A3": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-     "ST3GAL1": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
+     "NRXN3-AS1": "read",
+     "SLC17A3": "read",
+     "ST3GAL1": "read",
      "ZFPM2": "read",
-     "ZNF667": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests"
+     "ZNF667": "read"
     }
    },
    "D_hpa": {
@@ -262,7 +262,7 @@
     },
     "UMOD": {
      "found": true,
-     "max_tissue": "Kidney Medulla",
+     "max_tissue": "Kidney - Medulla",
      "max_median_tpm": 2116.02,
      "expected_max_in": [
       "Kidney - Medulla",
@@ -273,7 +273,7 @@
     },
     "MYH7": {
      "found": true,
-     "max_tissue": "Heart Left Ventricle",
+     "max_tissue": "Heart - Left Ventricle",
      "max_median_tpm": 4513.66,
      "expected_max_in": [
       "Muscle - Skeletal",
@@ -328,11 +328,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "56899",
+    "description": "ankyrin repeat and sterile alpha motif domain containing 1B",
+    "map_location": "12q23.1",
+    "ncbi_summary": "This gene encodes a multi-domain protein that is predominantly expressed in brain and testis. This protein interacts with amyloid beta protein precursor (AbetaPP) and may have a role in normal brain development, and in the pathogenesis of Alzheimer's disease. Expression of this gene has been shown to be elevated in patients with pre-B cell acute lymphocytic leukemia associated with t(1;19) translocation. Alternatively spliced transcript variants encoding different isoforms (some with different subcellular localization, PMID:15004329) have been described for this gene. [provided by RefSeq, Aug 2011]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": true,
@@ -362,9 +362,9 @@
     "block": "tumour_compartment_normal_tissue_proxy",
     "values": {
      "Muscle - Skeletal": 0.529033,
-     "Adipose - Subcutaneous": 0.47078000000000003,
+     "Adipose - Subcutaneous": 0.47078,
      "Nerve - Tibial": 1.87621,
-     "Cells - Cultured fibroblasts": 0.042584500000000004,
+     "Cells - Cultured fibroblasts": 0.0425845,
      "Artery - Tibial": 3.6254,
      "Skin - Sun Exposed (Lower leg)": 0.323368
     },
@@ -374,9 +374,9 @@
       "gencode_id": "ENSG00000185046.18",
       "median_tpm": {
        "Muscle - Skeletal": 0.529033,
-       "Adipose - Subcutaneous": 0.47078000000000003,
+       "Adipose - Subcutaneous": 0.47078,
        "Nerve - Tibial": 1.87621,
-       "Cells - Cultured fibroblasts": 0.042584500000000004,
+       "Cells - Cultured fibroblasts": 0.0425845,
        "Artery - Tibial": 3.6254,
        "Skin - Sun Exposed (Lower leg)": 0.323368
       }
@@ -474,27 +474,27 @@
    "whole_body_context": {
     "top_tissues": [
      {
-      "tissue": "Brain Spinal cord cervical c-1",
+      "tissue": "Brain - Spinal cord (cervical c-1)",
       "median_tpm": 24.8646
      },
      {
-      "tissue": "Brain Frontal Cortex BA9",
+      "tissue": "Brain - Frontal Cortex (BA9)",
       "median_tpm": 22.9209
      },
      {
-      "tissue": "Brain Nucleus accumbens basal ganglia",
+      "tissue": "Brain - Nucleus accumbens (basal ganglia)",
       "median_tpm": 22.8587
      },
      {
-      "tissue": "Brain Caudate basal ganglia",
+      "tissue": "Brain - Caudate (basal ganglia)",
       "median_tpm": 17.6334
      },
      {
-      "tissue": "Brain Cortex",
+      "tissue": "Brain - Cortex",
       "median_tpm": 17.3164
      },
      {
-      "tissue": "Brain Hippocampus",
+      "tissue": "Brain - Hippocampus",
       "median_tpm": 16.5317
      }
     ],
@@ -525,7 +525,54 @@
        "Nucleoplasm"
       ]
      }
-    ]
+    ],
+    "ensembl": "ENSG00000185046",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "BELOW_DETECTION_IN_EXPOSURE_ORGANS",
    "sentence": "Median TPM is below 1 in every exposure tissue (highest 0.462038). This is a measured low reading in GTEx v8, not a safety statement."
@@ -587,7 +634,7 @@
      "Nerve - Tibial": 31.3363,
      "Cells - Cultured fibroblasts": 77.0226,
      "Artery - Tibial": 55.4863,
-     "Skin - Sun Exposed (Lower leg)": 25.214000000000002
+     "Skin - Sun Exposed (Lower leg)": 25.214
     },
     "n_gene_models": 1,
     "per_gene_model": [
@@ -599,7 +646,7 @@
        "Nerve - Tibial": 31.3363,
        "Cells - Cultured fibroblasts": 77.0226,
        "Artery - Tibial": 55.4863,
-       "Skin - Sun Exposed (Lower leg)": 25.214000000000002
+       "Skin - Sun Exposed (Lower leg)": 25.214
       }
      }
     ],
@@ -695,27 +742,27 @@
    "whole_body_context": {
     "top_tissues": [
      {
-      "tissue": "Cells EBV-transformed lymphocytes",
+      "tissue": "Cells - EBV-transformed lymphocytes",
       "median_tpm": 91.8975
      },
      {
-      "tissue": "Brain Cerebellar Hemisphere",
+      "tissue": "Brain - Cerebellar Hemisphere",
       "median_tpm": 87.4012
      },
      {
-      "tissue": "Cells Cultured fibroblasts",
+      "tissue": "Cells - Cultured fibroblasts",
       "median_tpm": 77.0226
      },
      {
-      "tissue": "Brain Frontal Cortex BA9",
+      "tissue": "Brain - Frontal Cortex (BA9)",
       "median_tpm": 56.7453
      },
      {
-      "tissue": "Brain Cerebellum",
+      "tissue": "Brain - Cerebellum",
       "median_tpm": 56.3229
      },
      {
-      "tissue": "Artery Tibial",
+      "tissue": "Artery - Tibial",
       "median_tpm": 55.4863
      }
     ],
@@ -741,7 +788,54 @@
        "Cytosol"
       ]
      }
-    ]
+    ],
+    "ensembl": "ENSG00000138757",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
    "sentence": "Median TPM reaches 23.1161 in Kidney - Medulla. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
@@ -764,11 +858,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "63934",
+    "description": "zinc finger protein 667",
+    "map_location": "19q13.43",
+    "ncbi_summary": "Predicted to enable DNA-binding transcription factor activity and RNA polymerase II cis-regulatory region sequence-specific DNA binding activity. Predicted to be involved in regulation of transcription by RNA polymerase II. Predicted to be located in nucleus. [provided by Alliance of Genome Resources, Jul 2025]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": true,
@@ -797,7 +891,7 @@
     "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
     "values": {
-     "Muscle - Skeletal": 0.5576840000000001,
+     "Muscle - Skeletal": 0.557684,
      "Adipose - Subcutaneous": 1.65365,
      "Nerve - Tibial": 6.16814,
      "Cells - Cultured fibroblasts": 2.35865,
@@ -809,7 +903,7 @@
      {
       "gencode_id": "ENSG00000198046.11",
       "median_tpm": {
-       "Muscle - Skeletal": 0.5576840000000001,
+       "Muscle - Skeletal": 0.557684,
        "Adipose - Subcutaneous": 1.65365,
        "Nerve - Tibial": 6.16814,
        "Cells - Cultured fibroblasts": 2.35865,
@@ -882,7 +976,7 @@
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
@@ -893,23 +987,23 @@
       "median_tpm": 24.0852
      },
      {
-      "tissue": "Brain Cerebellar Hemisphere",
-      "median_tpm": 9.837810000000001
+      "tissue": "Brain - Cerebellar Hemisphere",
+      "median_tpm": 9.83781
      },
      {
-      "tissue": "Brain Nucleus accumbens basal ganglia",
+      "tissue": "Brain - Nucleus accumbens (basal ganglia)",
       "median_tpm": 8.75747
      },
      {
-      "tissue": "Brain Cerebellum",
-      "median_tpm": 8.682839999999999
+      "tissue": "Brain - Cerebellum",
+      "median_tpm": 8.68284
      },
      {
-      "tissue": "Brain Cortex",
+      "tissue": "Brain - Cortex",
       "median_tpm": 7.74643
      },
      {
-      "tissue": "Brain Frontal Cortex BA9",
+      "tissue": "Brain - Frontal Cortex (BA9)",
       "median_tpm": 7.2984
      }
     ],
@@ -937,7 +1031,54 @@
        "Nucleoplasm"
       ]
      }
-    ]
+    ],
+    "ensembl": "ENSG00000198046",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "LOW_IN_EXPOSURE_ORGANS",
    "sentence": "Median TPM peaks at 2.57697 in Kidney - Medulla — detectable and low against the whole-body maximum recorded alongside it."
@@ -1026,13 +1167,13 @@
       "readable": false,
       "platform": "GPL6244",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.7043
+      "probe_mapping_rate": 0.711
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
@@ -1043,23 +1184,23 @@
       "median_tpm": 0.661741
      },
      {
-      "tissue": "Skin Sun Exposed Lower leg",
+      "tissue": "Skin - Sun Exposed (Lower leg)",
       "median_tpm": 0.290082
      },
      {
-      "tissue": "Skin Not Sun Exposed Suprapubic",
+      "tissue": "Skin - Not Sun Exposed (Suprapubic)",
       "median_tpm": 0.125826
      },
      {
-      "tissue": "Cells Cultured fibroblasts",
+      "tissue": "Cells - Cultured fibroblasts",
       "median_tpm": 0.0958797
      },
      {
-      "tissue": "Kidney Medulla",
+      "tissue": "Kidney - Medulla",
       "median_tpm": 0.0161596
      },
      {
-      "tissue": "Adipose Subcutaneous",
+      "tissue": "Adipose - Subcutaneous",
       "median_tpm": 0.0
      }
     ],
@@ -1069,7 +1210,11 @@
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 0,
-    "exact_symbol_rows": []
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
    },
    "tier": "BELOW_DETECTION_IN_EXPOSURE_ORGANS",
    "sentence": "Median TPM is below 1 in every exposure tissue (highest 0.0161596). This is a measured low reading in GTEx v8, not a safety statement."
@@ -1093,11 +1238,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "645323",
+    "description": "MIR9-2 host gene",
+    "map_location": "5q14.3",
+    "ncbi_summary": "This is an evolutionarily conserved gene that produces alternatively spliced long non-coding RNAs that may be expressed predominantly in the brain and visual cortex. These transcripts may be involved in tumorigenesis, as depletion by siRNA suppressed glioma cell division. Transcripts may also bind to and regulate the activity of miR-411-5p and argonaut 2, thereby altering the expression of genes involved in tumor growth. [provided by RefSeq, Nov 2017]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
@@ -1118,13 +1263,13 @@
       "readable": false,
       "platform": "GPL6244",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.7043
+      "probe_mapping_rate": 0.711
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
@@ -1132,7 +1277,11 @@
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 0,
-    "exact_symbol_rows": []
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
    },
    "tier": "NOT_MEASURED",
    "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
@@ -1155,11 +1304,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "3910",
+    "description": "laminin subunit alpha 4",
+    "map_location": "6q21",
+    "ncbi_summary": "Laminins, a family of extracellular matrix glycoproteins, are the major noncollagenous constituent of basement membranes. They have been implicated in a wide variety of biological processes including cell adhesion, differentiation, migration, signaling, neurite outgrowth and metastasis. Laminins are composed of 3 non identical chains: laminin alpha, beta and gamma (formerly A, B1, and B2, respectively) and they form a cruciform structure consisting of 3 short arms, each formed by a different chain, and a long arm composed of all 3 chains. Each laminin chain is a multidomain protein encoded by a distinct gene. Several isoforms of each chain have been described. Different alpha, beta and gamma chain isomers combine to give rise to different heterotrimeric laminin isoforms which are designated by Arabic numerals in the order of their discovery, i.e. alpha1beta1gamma1 heterotrimer is laminin 1. The biological functions of the different chains and trimer molecules are largely unknown, but some of the chains have been shown to differ with respect to their tissue distribution, presumably reflecting diverse functions in vivo. This gene encodes the alpha chain isoform laminin, alpha 4. The domain structure of alpha 4 is similar to that of alpha 3, both of which resemble truncated versions of alpha 1 and alpha 2, in that approximately 1,200 residues at the N-terminus (domains IV, V and VI) have been lost. Laminin, alpha 4 contains the C-terminal G domain which distinguishes all alpha chains from the beta and gamma chains. The RNA analysis from adult and fetal tissues revealed developmental regulation of expression, however, the exact function of laminin, alpha 4 is not known. Tissue-specific utilization of alternative polyA-signal has been described in literature. Alternative splicing results in multiple transcript variants encoding distinct isoforms. [provided by RefSeq, Aug 2011]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": true,
@@ -1191,7 +1340,7 @@
      "Muscle - Skeletal": 3.12026,
      "Adipose - Subcutaneous": 89.3624,
      "Nerve - Tibial": 132.805,
-     "Cells - Cultured fibroblasts": 268.58799999999997,
+     "Cells - Cultured fibroblasts": 268.588,
      "Artery - Tibial": 53.9281,
      "Skin - Sun Exposed (Lower leg)": 16.6314
     },
@@ -1203,7 +1352,7 @@
        "Muscle - Skeletal": 3.12026,
        "Adipose - Subcutaneous": 89.3624,
        "Nerve - Tibial": 132.805,
-       "Cells - Cultured fibroblasts": 268.58799999999997,
+       "Cells - Cultured fibroblasts": 268.588,
        "Artery - Tibial": 53.9281,
        "Skin - Sun Exposed (Lower leg)": 16.6314
       }
@@ -1301,15 +1450,15 @@
    "whole_body_context": {
     "top_tissues": [
      {
-      "tissue": "Cells Cultured fibroblasts",
-      "median_tpm": 268.58799999999997
+      "tissue": "Cells - Cultured fibroblasts",
+      "median_tpm": 268.588
      },
      {
-      "tissue": "Esophagus Muscularis",
+      "tissue": "Esophagus - Muscularis",
       "median_tpm": 145.961
      },
      {
-      "tissue": "Nerve Tibial",
+      "tissue": "Nerve - Tibial",
       "median_tpm": 132.805
      },
      {
@@ -1317,11 +1466,11 @@
       "median_tpm": 119.984
      },
      {
-      "tissue": "Adipose Visceral Omentum",
+      "tissue": "Adipose - Visceral (Omentum)",
       "median_tpm": 114.2
      },
      {
-      "tissue": "Esophagus Gastroesophageal Junction",
+      "tissue": "Esophagus - Gastroesophageal Junction",
       "median_tpm": 106.615
      }
     ],
@@ -1350,7 +1499,54 @@
        "Cytosol"
       ]
      }
-    ]
+    ],
+    "ensembl": "ENSG00000112769",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "LOW_IN_EXPOSURE_ORGANS",
    "sentence": "Median TPM peaks at 6.06374 in Kidney - Medulla — detectable and low against the whole-body maximum recorded alongside it."
@@ -1410,7 +1606,7 @@
     "values": {
      "Muscle - Skeletal": 5.67057,
      "Adipose - Subcutaneous": 7.93832,
-     "Nerve - Tibial": 4.269909999999999,
+     "Nerve - Tibial": 4.26991,
      "Cells - Cultured fibroblasts": 0.549822,
      "Artery - Tibial": 9.59137,
      "Skin - Sun Exposed (Lower leg)": 1.77215
@@ -1422,7 +1618,7 @@
       "median_tpm": {
        "Muscle - Skeletal": 5.67057,
        "Adipose - Subcutaneous": 7.93832,
-       "Nerve - Tibial": 4.269909999999999,
+       "Nerve - Tibial": 4.26991,
        "Cells - Cultured fibroblasts": 0.549822,
        "Artery - Tibial": 9.59137,
        "Skin - Sun Exposed (Lower leg)": 1.77215
@@ -1521,11 +1717,11 @@
    "whole_body_context": {
     "top_tissues": [
      {
-      "tissue": "Brain Cerebellar Hemisphere",
+      "tissue": "Brain - Cerebellar Hemisphere",
       "median_tpm": 39.2331
      },
      {
-      "tissue": "Brain Cerebellum",
+      "tissue": "Brain - Cerebellum",
       "median_tpm": 27.2681
      },
      {
@@ -1541,7 +1737,7 @@
       "median_tpm": 16.2715
      },
      {
-      "tissue": "Adipose Visceral Omentum",
+      "tissue": "Adipose - Visceral (Omentum)",
       "median_tpm": 11.703
      }
     ],
@@ -1573,7 +1769,54 @@
        "Nucleoplasm"
       ]
      }
-    ]
+    ],
+    "ensembl": "ENSG00000169946",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "BELOW_DETECTION_IN_EXPOSURE_ORGANS",
    "sentence": "Median TPM is below 1 in every exposure tissue (highest 0.644009). This is a measured low reading in GTEx v8, not a safety statement."
@@ -1597,18 +1840,18 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "2774",
+    "description": "G protein subunit alpha L",
+    "map_location": "18p11.21",
+    "ncbi_summary": "This gene encodes a stimulatory G protein alpha subunit which mediates odorant signaling in the olfactory epithelium. This protein couples dopamine type 1 receptors and adenosine A2A receptors and is widely expressed in the central nervous system. Mutations in this gene have been associated with dystonia 25 and this gene is located in a susceptibility region for bipolar disorder and schizophrenia. Alternative splicing results in multiple transcript variants. [provided by RefSeq, Dec 2013]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": true,
     "block": "exposure_liver_kidney",
     "values": {
      "Liver": 0.663471,
-     "Kidney - Cortex": 1.7386599999999999,
+     "Kidney - Cortex": 1.73866,
      "Kidney - Medulla": 1.80872
     },
     "n_gene_models": 1,
@@ -1617,7 +1860,7 @@
       "gencode_id": "ENSG00000141404.15",
       "median_tpm": {
        "Liver": 0.663471,
-       "Kidney - Cortex": 1.7386599999999999,
+       "Kidney - Cortex": 1.73866,
        "Kidney - Medulla": 1.80872
       }
      }
@@ -1633,8 +1876,8 @@
      "Muscle - Skeletal": 3.77674,
      "Adipose - Subcutaneous": 6.29537,
      "Nerve - Tibial": 7.24834,
-     "Cells - Cultured fibroblasts": 0.5721649999999999,
-     "Artery - Tibial": 8.576889999999999,
+     "Cells - Cultured fibroblasts": 0.572165,
+     "Artery - Tibial": 8.57689,
      "Skin - Sun Exposed (Lower leg)": 7.33615
     },
     "n_gene_models": 1,
@@ -1645,8 +1888,8 @@
        "Muscle - Skeletal": 3.77674,
        "Adipose - Subcutaneous": 6.29537,
        "Nerve - Tibial": 7.24834,
-       "Cells - Cultured fibroblasts": 0.5721649999999999,
-       "Artery - Tibial": 8.576889999999999,
+       "Cells - Cultured fibroblasts": 0.572165,
+       "Artery - Tibial": 8.57689,
        "Skin - Sun Exposed (Lower leg)": 7.33615
       }
      }
@@ -1743,15 +1986,15 @@
    "whole_body_context": {
     "top_tissues": [
      {
-      "tissue": "Brain Nucleus accumbens basal ganglia",
+      "tissue": "Brain - Nucleus accumbens (basal ganglia)",
       "median_tpm": 45.6431
      },
      {
-      "tissue": "Brain Caudate basal ganglia",
+      "tissue": "Brain - Caudate (basal ganglia)",
       "median_tpm": 28.8777
      },
      {
-      "tissue": "Brain Putamen basal ganglia",
+      "tissue": "Brain - Putamen (basal ganglia)",
       "median_tpm": 21.6526
      },
      {
@@ -1763,7 +2006,7 @@
       "median_tpm": 12.9199
      },
      {
-      "tissue": "Brain Frontal Cortex BA9",
+      "tissue": "Brain - Frontal Cortex (BA9)",
       "median_tpm": 11.1726
      }
     ],
@@ -1790,7 +2033,54 @@
        "Cytosol"
       ]
      }
-    ]
+    ],
+    "ensembl": "ENSG00000141404",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "LOW_IN_EXPOSURE_ORGANS",
    "sentence": "Median TPM peaks at 1.80872 in Kidney - Medulla — detectable and low against the whole-body maximum recorded alongside it."
@@ -1813,17 +2103,17 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "64395",
+    "description": "germ cell-less 1, spermatogenesis associated",
+    "map_location": "2p13.3",
+    "ncbi_summary": "This gene encodes a nuclear envelope protein that appears to be involved in spermatogenesis, either directly or by influencing genes that play a more direct role in the process. This multi-exon locus is the homolog of the mouse and drosophila germ cell-less gene but the human genome also contains a single-exon locus on chromosome 5 that contains an open reading frame capable of encoding a highly-related protein. [provided by RefSeq, Jul 2008]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": true,
     "block": "exposure_liver_kidney",
     "values": {
-     "Liver": 4.5172300000000005,
+     "Liver": 4.51723,
      "Kidney - Cortex": 4.98156,
      "Kidney - Medulla": 6.72472
     },
@@ -1832,7 +2122,7 @@
      {
       "gencode_id": "ENSG00000087338.4",
       "median_tpm": {
-       "Liver": 4.5172300000000005,
+       "Liver": 4.51723,
        "Kidney - Cortex": 4.98156,
        "Kidney - Medulla": 6.72472
       }
@@ -1963,23 +2253,23 @@
       "median_tpm": 24.3161
      },
      {
-      "tissue": "Artery Tibial",
+      "tissue": "Artery - Tibial",
       "median_tpm": 18.3414
      },
      {
-      "tissue": "Cells EBV-transformed lymphocytes",
+      "tissue": "Cells - EBV-transformed lymphocytes",
       "median_tpm": 17.2236
      },
      {
-      "tissue": "Nerve Tibial",
+      "tissue": "Nerve - Tibial",
       "median_tpm": 15.8285
      },
      {
-      "tissue": "Artery Aorta",
+      "tissue": "Artery - Aorta",
       "median_tpm": 14.6335
      },
      {
-      "tissue": "Brain Cerebellar Hemisphere",
+      "tissue": "Brain - Cerebellar Hemisphere",
       "median_tpm": 14.4273
      }
     ],
@@ -2006,7 +2296,54 @@
       "RNA cancer specificity": "Low cancer specificity",
       "Subcellular main location": null
      }
-    ]
+    ],
+    "ensembl": "ENSG00000087338",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "LOW_IN_EXPOSURE_ORGANS",
    "sentence": "Median TPM peaks at 6.72472 in Kidney - Medulla — detectable and low against the whole-body maximum recorded alongside it."
@@ -2029,11 +2366,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "105374140",
+    "description": "uncharacterized LOC105374140",
+    "map_location": "3q24",
+    "ncbi_summary": ""
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
@@ -2054,13 +2391,13 @@
       "readable": false,
       "platform": "GPL6244",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.7043
+      "probe_mapping_rate": 0.711
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
@@ -2068,7 +2405,11 @@
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 0,
-    "exact_symbol_rows": []
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
    },
    "tier": "NOT_MEASURABLE_UNCHARACTERISED",
    "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
@@ -2241,15 +2582,15 @@
    "whole_body_context": {
     "top_tissues": [
      {
-      "tissue": "Cells Cultured fibroblasts",
+      "tissue": "Cells - Cultured fibroblasts",
       "median_tpm": 104.709
      },
      {
-      "tissue": "Adipose Visceral Omentum",
+      "tissue": "Adipose - Visceral (Omentum)",
       "median_tpm": 66.0532
      },
      {
-      "tissue": "Adipose Subcutaneous",
+      "tissue": "Adipose - Subcutaneous",
       "median_tpm": 62.1285
      },
      {
@@ -2257,7 +2598,7 @@
       "median_tpm": 48.2904
      },
      {
-      "tissue": "Breast Mammary Tissue",
+      "tissue": "Breast - Mammary Tissue",
       "median_tpm": 45.2777
      },
      {
@@ -2289,7 +2630,54 @@
        "Mitochondria"
       ]
      }
-    ]
+    ],
+    "ensembl": "ENSG00000099250",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
    "sentence": "Median TPM reaches 17.8143 in Kidney - Medulla. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
@@ -2312,11 +2700,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "105370997",
+    "description": "uncharacterized LOC105370997",
+    "map_location": "15q26.2",
+    "ncbi_summary": ""
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
@@ -2337,13 +2725,13 @@
       "readable": false,
       "platform": "GPL6244",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.7043
+      "probe_mapping_rate": 0.711
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
@@ -2351,7 +2739,11 @@
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 0,
-    "exact_symbol_rows": []
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
    },
    "tier": "NOT_MEASURABLE_UNCHARACTERISED",
    "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
@@ -2375,17 +2767,17 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "10786",
+    "description": "solute carrier family 17 member 3",
+    "map_location": "6p22.2",
+    "ncbi_summary": "The protein encoded by this gene is a voltage-driven transporter that excretes intracellular urate and organic anions from the blood into renal tubule cells. Two transcript variants encoding different isoforms have been found for this gene. The longer isoform is a plasma membrane protein with transporter activity while the shorter isoform localizes to the endoplasmic reticulum. [provided by RefSeq, Aug 2012]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": true,
     "block": "exposure_liver_kidney",
     "values": {
-     "Liver": 9.141060000000001,
+     "Liver": 9.14106,
      "Kidney - Cortex": 33.6126,
      "Kidney - Medulla": 8.08976
     },
@@ -2394,7 +2786,7 @@
      {
       "gencode_id": "ENSG00000124564.17",
       "median_tpm": {
-       "Liver": 9.141060000000001,
+       "Liver": 9.14106,
        "Kidney - Cortex": 33.6126,
        "Kidney - Medulla": 8.08976
       }
@@ -2409,10 +2801,10 @@
     "block": "tumour_compartment_normal_tissue_proxy",
     "values": {
      "Muscle - Skeletal": 0.0,
-     "Adipose - Subcutaneous": 0.025893799999999998,
-     "Nerve - Tibial": 0.014747999999999999,
+     "Adipose - Subcutaneous": 0.0258938,
+     "Nerve - Tibial": 0.014748,
      "Cells - Cultured fibroblasts": 0.0,
-     "Artery - Tibial": 0.020288099999999996,
+     "Artery - Tibial": 0.0202881,
      "Skin - Sun Exposed (Lower leg)": 0.0
     },
     "n_gene_models": 1,
@@ -2421,10 +2813,10 @@
       "gencode_id": "ENSG00000124564.17",
       "median_tpm": {
        "Muscle - Skeletal": 0.0,
-       "Adipose - Subcutaneous": 0.025893799999999998,
-       "Nerve - Tibial": 0.014747999999999999,
+       "Adipose - Subcutaneous": 0.0258938,
+       "Nerve - Tibial": 0.014748,
        "Cells - Cultured fibroblasts": 0.0,
-       "Artery - Tibial": 0.020288099999999996,
+       "Artery - Tibial": 0.0202881,
        "Skin - Sun Exposed (Lower leg)": 0.0
       }
      }
@@ -2521,24 +2913,24 @@
    "whole_body_context": {
     "top_tissues": [
      {
-      "tissue": "Kidney Cortex",
+      "tissue": "Kidney - Cortex",
       "median_tpm": 33.6126
      },
      {
       "tissue": "Liver",
-      "median_tpm": 9.141060000000001
+      "median_tpm": 9.14106
      },
      {
-      "tissue": "Kidney Medulla",
+      "tissue": "Kidney - Medulla",
       "median_tpm": 8.08976
      },
      {
       "tissue": "Testis",
-      "median_tpm": 0.6343850000000001
+      "median_tpm": 0.634385
      },
      {
       "tissue": "Adrenal Gland",
-      "median_tpm": 0.5782970000000001
+      "median_tpm": 0.578297
      },
      {
       "tissue": "Pituitary",
@@ -2567,7 +2959,54 @@
       "RNA cancer specificity": "Group enriched",
       "Subcellular main location": null
      }
-    ]
+    ],
+    "ensembl": "ENSG00000124564",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
    "sentence": "Median TPM reaches 33.6126 in Kidney - Cortex. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
@@ -2592,11 +3031,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "11238",
+    "description": "carbonic anhydrase 5B",
+    "map_location": "Xp22.2",
+    "ncbi_summary": "Carbonic anhydrases (CAs) are a large family of zinc metalloenzymes that catalyze the reversible hydration of carbon dioxide. They participate in a variety of biological processes, including respiration, calcification, acid-base balance, bone resorption, and the formation of aqueous humor, cerebrospinal fluid, saliva, and gastric acid. They show extensive diversity in tissue distribution and in their subcellular localization. This gene encodes carbonic anhydrase 5B. CA5B, and the related CA5A gene, has its expression localized in the mitochondria though CA5B has a wider tissue distribution than CA5A, which is restricted to the liver, kidneys, and skeletal muscle. A carbonic anhydrase pseudogene (CA5BP1) is adjacent to the CA5B gene and these two loci produce CA5BP1-CA5B readthrough transcripts. [provided by RefSeq, Jan 2019]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": true,
@@ -2628,9 +3067,9 @@
      "Muscle - Skeletal": 0.540213,
      "Adipose - Subcutaneous": 6.52766,
      "Nerve - Tibial": 7.20183,
-     "Cells - Cultured fibroblasts": 3.7513699999999996,
+     "Cells - Cultured fibroblasts": 3.75137,
      "Artery - Tibial": 11.6905,
-     "Skin - Sun Exposed (Lower leg)": 5.1214699999999995
+     "Skin - Sun Exposed (Lower leg)": 5.12147
     },
     "n_gene_models": 1,
     "per_gene_model": [
@@ -2640,9 +3079,9 @@
        "Muscle - Skeletal": 0.540213,
        "Adipose - Subcutaneous": 6.52766,
        "Nerve - Tibial": 7.20183,
-       "Cells - Cultured fibroblasts": 3.7513699999999996,
+       "Cells - Cultured fibroblasts": 3.75137,
        "Artery - Tibial": 11.6905,
-       "Skin - Sun Exposed (Lower leg)": 5.1214699999999995
+       "Skin - Sun Exposed (Lower leg)": 5.12147
       }
      }
     ],
@@ -2738,11 +3177,11 @@
    "whole_body_context": {
     "top_tissues": [
      {
-      "tissue": "Artery Aorta",
+      "tissue": "Artery - Aorta",
       "median_tpm": 14.5182
      },
      {
-      "tissue": "Cervix Ectocervix",
+      "tissue": "Cervix - Ectocervix",
       "median_tpm": 14.1727
      },
      {
@@ -2750,15 +3189,15 @@
       "median_tpm": 11.9825
      },
      {
-      "tissue": "Artery Tibial",
+      "tissue": "Artery - Tibial",
       "median_tpm": 11.6905
      },
      {
-      "tissue": "Artery Coronary",
+      "tissue": "Artery - Coronary",
       "median_tpm": 10.1603
      },
      {
-      "tissue": "Cervix Endocervix",
+      "tissue": "Cervix - Endocervix",
       "median_tpm": 9.82267
      }
     ],
@@ -2782,7 +3221,54 @@
        "Mitochondria"
       ]
      }
-    ]
+    ],
+    "ensembl": "ENSG00000169239",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "LOW_IN_EXPOSURE_ORGANS",
    "sentence": "Median TPM peaks at 1.96363 in Kidney - Medulla — detectable and low against the whole-body maximum recorded alongside it."
@@ -2807,11 +3293,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "114004397",
+    "description": "CA5BP1-CA5B readthrough",
+    "map_location": "Xp22.2",
+    "ncbi_summary": "This locus represents naturally occurring readthrough transcription between the neighboring carbonic anhydrase 5B pseudogene 1 and carbonic anhydrase 5B genes on chromosome X. The readthrough transcription is not predicted to produce a protein product. [provided by RefSeq, Jan 2019]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
@@ -2832,13 +3318,13 @@
       "readable": false,
       "platform": "GPL6244",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.7043
+      "probe_mapping_rate": 0.711
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
@@ -2846,7 +3332,11 @@
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 1,
-    "exact_symbol_rows": []
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
    },
    "tier": "NOT_MEASURED",
    "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
@@ -3019,7 +3509,7 @@
       "median_tpm": 50.0323
      },
      {
-      "tissue": "Nerve Tibial",
+      "tissue": "Nerve - Tibial",
       "median_tpm": 39.093
      },
      {
@@ -3027,11 +3517,11 @@
       "median_tpm": 38.0924
      },
      {
-      "tissue": "Cervix Endocervix",
+      "tissue": "Cervix - Endocervix",
       "median_tpm": 36.4647
      },
      {
-      "tissue": "Cervix Ectocervix",
+      "tissue": "Cervix - Ectocervix",
       "median_tpm": 35.1545
      },
      {
@@ -3063,7 +3553,54 @@
        "Nuclear bodies"
       ]
      }
-    ]
+    ],
+    "ensembl": "ENSG00000132394",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
    "sentence": "Median TPM reaches 16.1454 in Liver. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
@@ -3119,7 +3656,7 @@
     "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
     "values": {
-     "Muscle - Skeletal": 0.014987100000000001,
+     "Muscle - Skeletal": 0.0149871,
      "Adipose - Subcutaneous": 0.0,
      "Nerve - Tibial": 0.0,
      "Cells - Cultured fibroblasts": 0.0,
@@ -3131,7 +3668,7 @@
      {
       "gencode_id": "ENSG00000237636.2",
       "median_tpm": {
-       "Muscle - Skeletal": 0.014987100000000001,
+       "Muscle - Skeletal": 0.0149871,
        "Adipose - Subcutaneous": 0.0,
        "Nerve - Tibial": 0.0,
        "Cells - Cultured fibroblasts": 0.0,
@@ -3151,13 +3688,13 @@
       "readable": false,
       "platform": "GPL6244",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.7043
+      "probe_mapping_rate": 0.711
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
@@ -3165,26 +3702,26 @@
     "top_tissues": [
      {
       "tissue": "Testis",
-      "median_tpm": 5.996169999999999
+      "median_tpm": 5.99617
      },
      {
       "tissue": "Spleen",
       "median_tpm": 0.25421
      },
      {
-      "tissue": "Cells EBV-transformed lymphocytes",
-      "median_tpm": 0.23191199999999998
+      "tissue": "Cells - EBV-transformed lymphocytes",
+      "median_tpm": 0.231912
      },
      {
-      "tissue": "Brain Hippocampus",
+      "tissue": "Brain - Hippocampus",
       "median_tpm": 0.075583
      },
      {
-      "tissue": "Brain Anterior cingulate cortex BA24",
+      "tissue": "Brain - Anterior cingulate cortex (BA24)",
       "median_tpm": 0.0632478
      },
      {
-      "tissue": "Brain Cortex",
+      "tissue": "Brain - Cortex",
       "median_tpm": 0.0626601
      }
     ],
@@ -3194,7 +3731,11 @@
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 0,
-    "exact_symbol_rows": []
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
    },
    "tier": "BELOW_DETECTION_IN_EXPOSURE_ORGANS",
    "sentence": "Median TPM is below 1 in every exposure tissue (highest 0). This is a measured low reading in GTEx v8, not a safety statement."
@@ -3217,17 +3758,17 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "23563",
+    "description": "carbohydrate sulfotransferase 5",
+    "map_location": "16q23.1",
+    "ncbi_summary": "The protein encoded by this gene belongs to the Gal/GalNAc/GlcNAc 6-O-sulfotransferase (GST) family, members of which catalyze the transfer of sulfate to position 6 of galactose (Gal), N-acetylgalactosamine (GalNAc), or N-acetylglucosamine (GlcNAc) residues within proteoglycans, and sulfation of O-linked sugars of mucin-type acceptors. Carbohydrate sulfation plays a critical role in many biologic processes. This gene is predominantly expressed in colon and small intestine. [provided by RefSeq, Aug 2011]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": true,
     "block": "exposure_liver_kidney",
     "values": {
-     "Liver": 0.07165319999999999,
+     "Liver": 0.0716532,
      "Kidney - Cortex": 0.349771,
      "Kidney - Medulla": 0.77725
     },
@@ -3236,7 +3777,7 @@
      {
       "gencode_id": "ENSG00000135702.14",
       "median_tpm": {
-       "Liver": 0.07165319999999999,
+       "Liver": 0.0716532,
        "Kidney - Cortex": 0.349771,
        "Kidney - Medulla": 0.77725
       }
@@ -3250,9 +3791,9 @@
     "readable": true,
     "block": "tumour_compartment_normal_tissue_proxy",
     "values": {
-     "Muscle - Skeletal": 0.08081870000000001,
-     "Adipose - Subcutaneous": 0.21389499999999997,
-     "Nerve - Tibial": 0.7805989999999999,
+     "Muscle - Skeletal": 0.0808187,
+     "Adipose - Subcutaneous": 0.213895,
+     "Nerve - Tibial": 0.780599,
      "Cells - Cultured fibroblasts": 0.134904,
      "Artery - Tibial": 0.217917,
      "Skin - Sun Exposed (Lower leg)": 0.30607
@@ -3262,9 +3803,9 @@
      {
       "gencode_id": "ENSG00000135702.14",
       "median_tpm": {
-       "Muscle - Skeletal": 0.08081870000000001,
-       "Adipose - Subcutaneous": 0.21389499999999997,
-       "Nerve - Tibial": 0.7805989999999999,
+       "Muscle - Skeletal": 0.0808187,
+       "Adipose - Subcutaneous": 0.213895,
+       "Nerve - Tibial": 0.780599,
        "Cells - Cultured fibroblasts": 0.134904,
        "Artery - Tibial": 0.217917,
        "Skin - Sun Exposed (Lower leg)": 0.30607
@@ -3335,34 +3876,34 @@
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
    "whole_body_context": {
     "top_tissues": [
      {
-      "tissue": "Small Intestine Terminal Ileum",
+      "tissue": "Small Intestine - Terminal Ileum",
       "median_tpm": 25.5508
      },
      {
-      "tissue": "Colon Transverse",
+      "tissue": "Colon - Transverse",
       "median_tpm": 12.735
      },
      {
-      "tissue": "Brain Cerebellar Hemisphere",
-      "median_tpm": 5.876869999999999
+      "tissue": "Brain - Cerebellar Hemisphere",
+      "median_tpm": 5.87687
      },
      {
-      "tissue": "Brain Cerebellum",
+      "tissue": "Brain - Cerebellum",
       "median_tpm": 5.67436
      },
      {
-      "tissue": "Brain Nucleus accumbens basal ganglia",
+      "tissue": "Brain - Nucleus accumbens (basal ganglia)",
       "median_tpm": 3.88059
      },
      {
-      "tissue": "Brain Cortex",
+      "tissue": "Brain - Cortex",
       "median_tpm": 2.95641
      }
     ],
@@ -3389,7 +3930,54 @@
       "RNA cancer specificity": "Group enriched",
       "Subcellular main location": null
      }
-    ]
+    ],
+    "ensembl": "ENSG00000135702",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "BELOW_DETECTION_IN_EXPOSURE_ORGANS",
    "sentence": "Median TPM is below 1 in every exposure tissue (highest 0.77725). This is a measured low reading in GTEx v8, not a safety statement."
@@ -3412,17 +4000,17 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "115361",
+    "description": "guanylate binding protein 4",
+    "map_location": "1p22.2",
+    "ncbi_summary": "Guanylate-binding proteins, such as GBP4, are induced by interferon and hydrolyze GTP to both GDP and GMP (Vestal, 2005 [PubMed 16108726]).[supplied by OMIM, Dec 2008]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": true,
     "block": "exposure_liver_kidney",
     "values": {
-     "Liver": 3.1175200000000003,
+     "Liver": 3.11752,
      "Kidney - Cortex": 5.59305,
      "Kidney - Medulla": 10.0776
     },
@@ -3431,7 +4019,7 @@
      {
       "gencode_id": "ENSG00000162654.8",
       "median_tpm": {
-       "Liver": 3.1175200000000003,
+       "Liver": 3.11752,
        "Kidney - Cortex": 5.59305,
        "Kidney - Medulla": 10.0776
       }
@@ -3530,7 +4118,7 @@
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
@@ -3545,7 +4133,7 @@
       "median_tpm": 22.0749
      },
      {
-      "tissue": "Adipose Subcutaneous",
+      "tissue": "Adipose - Subcutaneous",
       "median_tpm": 18.1694
      },
      {
@@ -3553,11 +4141,11 @@
       "median_tpm": 14.8163
      },
      {
-      "tissue": "Cells EBV-transformed lymphocytes",
+      "tissue": "Cells - EBV-transformed lymphocytes",
       "median_tpm": 13.9499
      },
      {
-      "tissue": "Adipose Visceral Omentum",
+      "tissue": "Adipose - Visceral (Omentum)",
       "median_tpm": 13.2387
      }
     ],
@@ -3583,7 +4171,54 @@
        "Golgi apparatus"
       ]
      }
-    ]
+    ],
+    "ensembl": "ENSG00000162654",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
    "sentence": "Median TPM reaches 10.0776 in Kidney - Medulla. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
@@ -3606,11 +4241,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "105376349",
+    "description": "uncharacterized LOC105376349",
+    "map_location": "10p15.3",
+    "ncbi_summary": ""
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
@@ -3631,13 +4266,13 @@
       "readable": false,
       "platform": "GPL6244",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.7043
+      "probe_mapping_rate": 0.711
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
@@ -3645,7 +4280,11 @@
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 0,
-    "exact_symbol_rows": []
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
    },
    "tier": "NOT_MEASURABLE_UNCHARACTERISED",
    "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
@@ -3668,11 +4307,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "124907518",
+    "description": "uncharacterized LOC124907518",
+    "map_location": "",
+    "ncbi_summary": ""
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
@@ -3693,13 +4332,13 @@
       "readable": false,
       "platform": "GPL6244",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.7043
+      "probe_mapping_rate": 0.711
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
@@ -3707,7 +4346,11 @@
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 0,
-    "exact_symbol_rows": []
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
    },
    "tier": "NOT_MEASURABLE_UNCHARACTERISED",
    "sentence": "An uncharacterised locus with no GTEx v8 gene model, so no exposure-organ expression figure exists in this instrument. Nothing here says it is absent from liver or kidney — only that public bulk expression data as retrieved cannot answer the question for it."
@@ -3730,11 +4373,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "124903353",
+    "description": "NRXN3 antisense RNA 1",
+    "map_location": "14q31.1",
+    "ncbi_summary": ""
    },
    "exposure_compartment_liver_kidney": {
     "readable": false,
@@ -3755,13 +4398,13 @@
       "readable": false,
       "platform": "GPL6244",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.7043
+      "probe_mapping_rate": 0.711
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
       "readable": false,
       "platform": "GPL3290",
       "reason": "no probe on this platform maps to this symbol — the READ could not be taken. ⚠ THIS IS NOT A STATEMENT THAT THE GENE IS OFF.",
-      "probe_mapping_rate": 0.6324
+      "probe_mapping_rate": 0.6325
      }
     }
    },
@@ -3769,7 +4412,11 @@
    "hpa_cross_check": {
     "_status": "read",
     "n_rows": 0,
-    "exact_symbol_rows": []
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
    },
    "tier": "NOT_MEASURED",
    "sentence": "No expression reading could be taken in the exposure arm; the reason is recorded and is not a reading of absence."
@@ -3792,11 +4439,11 @@
     "⚠_record_count_is_annotation_depth": "how many transcript variants RefSeq lists for this gene, not expression, not affinity and not risk. A locus with many records is not thereby a larger liability, and one with a single record is not thereby a smaller one."
    },
    "identity": {
-    "ncbi_status": "fetch failed: HTTPError: HTTP Error 429: Too Many Requests",
-    "ncbi_gene_id": null,
-    "description": null,
-    "map_location": null,
-    "ncbi_summary": null
+    "ncbi_status": "read",
+    "ncbi_gene_id": "6482",
+    "description": "ST3 beta-galactoside alpha-2,3-sialyltransferase 1",
+    "map_location": "8q24.22",
+    "ncbi_summary": "The protein encoded by this gene is a type II membrane protein that catalyzes the transfer of sialic acid from CMP-sialic acid to galactose-containing substrates. The encoded protein is normally found in the Golgi but can be proteolytically processed to a soluble form. Correct glycosylation of the encoded protein may be critical to its sialyltransferase activity. This protein, which is a member of glycosyltransferase family 29, can use the same acceptor substrates as does sialyltransferase 4B. Two transcript variants encoding the same protein have been found for this gene. Other transcript variants may exist, but have not been fully characterized yet. [provided by RefSeq, Jul 2008]"
    },
    "exposure_compartment_liver_kidney": {
     "readable": true,
@@ -3942,7 +4589,7 @@
       "median_tpm": 92.08
      },
      {
-      "tissue": "Artery Coronary",
+      "tissue": "Artery - Coronary",
       "median_tpm": 37.8788
      },
      {
@@ -3954,11 +4601,11 @@
       "median_tpm": 33.4372
      },
      {
-      "tissue": "Adipose Visceral Omentum",
+      "tissue": "Adipose - Visceral (Omentum)",
       "median_tpm": 31.2654
      },
      {
-      "tissue": "Heart Left Ventricle",
+      "tissue": "Heart - Left Ventricle",
       "median_tpm": 30.5368
      }
     ],
@@ -3985,7 +4632,54 @@
       "RNA cancer specificity": "Cancer enhanced",
       "Subcellular main location": null
      }
-    ]
+    ],
+    "ensembl": "ENSG00000008513",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
    },
    "tier": "EXPRESSED_IN_AN_EXPOSURE_ORGAN",
    "sentence": "Median TPM reaches 28.5843 in Liver. A transcript at this level in a dosed organ is where an off-target hypothesis would have to be tested; whether a two-mismatch duplex engages it is not answered by any screen here."
