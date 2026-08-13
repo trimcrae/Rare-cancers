@@ -79,7 +79,13 @@ PROMISES = [
         "contributes": ("Grades all 231 donor-exon x acceptor-exon pairs across the five 5' "
                         "partners for frame compatibility and carries the 38 emitted design "
                         "panels inline; the source of Table 1 and of every count in section 3.1."),
+        # ⛔ `fusion-object-inventory.json` is not optional: `junction_aso.plausible_nr4a3_resume_
+        # residues()` opens it unconditionally, so an archive without it cannot regenerate the
+        # atlas at all (measured 2026-08-13 — `nr4a3_fusion_atlas.py` dies with FileNotFoundError).
+        # It was missing from this row until a data-integrity review ran the regeneration rather
+        # than reading the file list.
         "patterns": ["research/modalities/nr4a3-fusion-junction-atlas.json",
+                     "research/modalities/fusion-object-inventory.json",
                      "research/modalities/nr4a3_fusion_atlas.py"],
     },
     {
@@ -224,6 +230,23 @@ PROMISES = [
                      "research/modalities/aso-premrna-sequences.json",
                      "research/modalities/aso_premrna_offtarget.py",
                      "research/modalities/tests/test_aso_premrna_offtarget.py"],
+    },
+    {
+        "id": "mature_parent_gap_pairing_screen",
+        "verbatim": False,
+        "promise": ("the mature-parent screen behind §3.8's second class — the liability that "
+                    "none of the other three screens is able to see"),
+        "contributes": ("For every design, the longest contiguous duplex a MATURE wild-type parent "
+                        "transcript can form that pairs the whole six-nucleotide catalytic gap. "
+                        "⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: "
+                        "the alignment screen excludes parent records and filters at ≥14/16 "
+                        "identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm "
+                        "searches unspliced sequence and so cannot reach a mature exon–exon "
+                        "junction. It is fully offline against the same cached sequence the "
+                        "pre-mRNA arm uses, and `--check` re-derives it."),
+        "patterns": ["research/modalities/aso-parent-gap-pairing.json",
+                     "research/modalities/aso_parent_gap_pairing.py",
+                     "research/modalities/tests/test_aso_parent_gap_pairing.py"],
     },
     {
         "id": "censoring_test_and_genomic_attempt",

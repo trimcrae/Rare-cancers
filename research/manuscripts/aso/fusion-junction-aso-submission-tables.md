@@ -75,11 +75,13 @@ None of these numbers is a measurement of off-target activity.
 
 **Table 3. The 9 designs with no hybridisable near-match.** Every design at the 6 junctions
 where one exists, which is the set the Results' cleanliness claim is about. A design qualifies only
-if its hit list is complete — no more near-matches than the 15 the screens store — because the
+if its retained hit list is not truncated — no more near-matches than the 15 the screens store — because the
 strand of an unstored hit cannot be recovered, so a truncated list cannot establish that nothing
-hybridisable remains. ΔΔG°37 is the margin by which the fusion duplex is favoured over the best
-duplex either parent can form, for an unmodified DNA:RNA hybrid, and is an upper bound on
-discrimination rather than an estimate of it. None of these numbers is a measurement of off-target
+hybridisable remains. The underlying search is itself capped, so these are the designs whose
+near-match lists are shortest, not the designs whose lists are known to be exhaustive. ΔΔG°37 is the margin by which the fusion duplex is favoured over the best
+duplex either parent can form, for an unmodified DNA:RNA hybrid; because the fusion duplex pairs
+both LNA wings and each parent duplex only one, it is a lower bound on the modified
+oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
 activity, and none speaks to cleavage.
 
 ³ Under the optimistic five-fold and the pessimistic

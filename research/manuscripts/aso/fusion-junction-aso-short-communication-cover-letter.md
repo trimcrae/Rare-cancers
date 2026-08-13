@@ -47,23 +47,24 @@ addressed to a venue its own planning document had already ruled out.*
 
 **Date:** [DATE]
 
-**Re:** Submission of a Short Communication — *"In-silico design and predicted specificity limits of junction-spanning gapmers against NR4A3 fusions in extraskeletal myxoid chondrosarcoma"*
+**Re:** Submission of an Article — *"In-silico design and predicted specificity limits of junction-spanning gapmers against NR4A3 fusions in extraskeletal myxoid chondrosarcoma"*
 
 Dear Editor,
 
-I submit the manuscript above for consideration as a Short Communication in *[JOURNAL]*.
+I submit the manuscript above for consideration as an Article in *[JOURNAL]*.
 Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma defined by rearrangement of *NR4A3* to
 a variable 5′ partner. Its chimeric mRNA carries a breakpoint seam absent from every normal
 transcript, which is the disease's one tumour-exclusive feature at the RNA level, and no
 junction-directed oligonucleotide has been reported against any NR4A3 fusion. The manuscript grades
 every donor-exon by acceptor-exon pair across all five reported partners, tiles junction-spanning
-gapmers over each frame-compatible seam, and screens them by two independent methods.
+gapmers over each frame-compatible seam, and screens them by three independent methods over two
+compartments, mature transcript and parent pre-mRNA.
 
 The fit with the journal is that this is a nucleic-acid therapeutic design study in a
 fusion-driven cancer, reported at the point where computation stops being able to answer the
 question. Three findings stand. Junction-spanning, parent-sparing designs exist at every one of the
 38 frame-compatible junctions, and nine of them, at six junctions across four partners, carry no
-detectable off-target on either screen, so neither
+hybridisable near-match on either transcript screen and no hybridisable site in parent pre-mRNA, so neither
 sequence availability nor transcriptome load is what constrains this modality here. One 16-mer spans
 the seams of three partners at once through a measured ten-base donor identity, which would change
 the deployable artefact for an ultra-rare disease from bespoke oligonucleotides to a stock reagent —

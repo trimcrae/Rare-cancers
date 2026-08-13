@@ -42,10 +42,24 @@ recomputes Tm from this module's own ΔH and ΔS and checks it against Biopython
 
 ⚠ LNA IS NOT MODELLED, AND THAT IS A REAL LIMIT. These designs are 5-6-5 LNA/DNA/LNA. Sugimoto's
 table is for an unmodified DNA:RNA hybrid, so what is computed here is the duplex the DNA backbone
-would form. LNA wings raise affinity substantially. The effect is applied to BOTH the fusion duplex
-and the parent duplex, so it is not neutral — it compresses ΔΔG, meaning the discrimination reported
-here is an UPPER bound on the modified oligonucleotide's, not an estimate of it. Stated in the
-artifact and in the manuscript rather than buried.
+would form.
+
+⛔ THE DIRECTION OF THAT LIMIT WAS STATED BACKWARDS UNTIL 2026-08-13, HERE, IN THE ARTIFACT AND IN
+THE MANUSCRIPT. ⚠ *Superseded, retained: "The effect is applied to BOTH the fusion duplex and the
+parent duplex, so it is not neutral — it compresses ΔΔG, meaning the discrimination reported here is
+an UPPER bound on the modified oligonucleotide's."* Two things are wrong with that. Equal ABSOLUTE
+stabilisation of both duplexes leaves a DIFFERENCE of free energies unchanged rather than compressed
+— ΔΔG is in kcal/mol, not a ratio. And the stabilisation is not equal, because the retention rule
+puts the seam strictly inside the gap: `n_donor` and `n_acceptor` are both in {6,…,10}, so the
+donor-side run always covers the whole 5′ LNA wing and never the 3′ one, and the acceptor-side run
+the reverse. THE FUSION DUPLEX PAIRS ALL TEN LNA RESIDUES AND EACH PARENT DUPLEX EXACTLY FIVE, for
+all 190 designs by construction. LNA therefore adds roughly twice as much affinity to the fusion
+duplex, and ΔΔG GROWS: what is computed here is a conservative FLOOR on the modified
+oligonucleotide's binding discrimination, not a ceiling.
+The compression intuition is right for a different comparison — a transcriptome near-match that
+pairs both wings and mismatches inside the DNA gap — and it was carried over to the parent
+comparison, where the geometry is the opposite. ⚠ The floor direction is argued from the
+architecture, NOT computed: no LNA nearest-neighbour parameters are applied anywhere in this module.
 
     python3 research/modalities/junction_aso_thermo.py            # write the artifact
     python3 research/modalities/junction_aso_thermo.py --check    # exit 1 if it would change
@@ -303,9 +317,13 @@ def build():
             "circular."),
         "⚠_lna_not_modelled": (
             "The designs are 5-6-5 LNA/DNA/LNA and this table is for an unmodified DNA:RNA hybrid, "
-            "so these are the duplexes the DNA backbone would form. LNA raises affinity on BOTH "
-            "the fusion and the parent duplex, which compresses ΔΔG — so the discrimination "
-            "reported here is an UPPER bound on the modified oligonucleotide's, not an estimate."),
+            "so these are the duplexes the DNA backbone would form. Because the seam lies inside "
+            "the gap, the fusion duplex pairs all TEN LNA residues while each parent duplex pairs "
+            "exactly FIVE, for every design by construction — so LNA widens ΔΔG rather than "
+            "compressing it, and the discrimination reported here is a conservative FLOOR on the "
+            "modified oligonucleotide's, not a ceiling. Argued from the architecture, not computed: "
+            "no LNA parameters are applied. ⚠ Superseded, retained: this field previously said the "
+            "opposite, that LNA 'compresses ΔΔG' and the value is an UPPER bound."),
         "parameters": provenance,
         "conditions": {"temperature_k": T37, "strand_conc_nm": CONC_NM,
                        "delta_g_units": "kcal/mol"},

@@ -51,10 +51,16 @@ TARGETS = [
     "research/manuscripts/surface-targets/emc-surface-target-landscape.md",
     "research/manuscripts/surface-targets/emc-surface-target-landscape-si.md",
     # ⭐ THE ASO SUBMISSION, ADDED 2026-08-12 WHEN IT BECAME A SUBMISSION TEXT RATHER THAN A
-    # WORKING DOCUMENT. Measured on entry: 2,341 words, 274-word structured abstract, zero glyphs,
-    # bold 6.8/1000 against the limit of 12, em-dashes 3.4/1000 against 6, no inline repository
-    # paths. It passes on merit, not by exemption. Its 24,000-word predecessor could not, and the
-    # split is what made both readable — see the note below.
+    # WORKING DOCUMENT. It passes on merit, not by exemption; its 24,000-word predecessor could not,
+    # and the split is what made both readable — see the note below.
+    # ⛔ DO NOT RESTATE ITS LENGTH HERE. Length and abstract length have ONE home,
+    # `research/manuscripts/submission-metrics.json` (regenerate: `submission_metrics.py`), and the
+    # live style densities are what a `lint_style.py` run prints. ⚠ *Superseded, retained: "Measured
+    # on entry: 2,341 words, 274-word structured abstract … bold 6.8/1000 …, em-dashes 3.4/1000".*
+    # Those were true on 2026-08-12 and false a day later — the paper more than tripled as the
+    # pre-mRNA compartment, the censoring re-screen and Table 3 landed, and this comment went on
+    # reading as a current measurement. That is the exact failure rule 1 exists to stop, sitting
+    # inside the gate that enforces it.
     "research/manuscripts/aso/fusion-junction-aso-short-communication.md",
 ]
 

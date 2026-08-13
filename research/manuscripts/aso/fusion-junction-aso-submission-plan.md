@@ -177,7 +177,7 @@ superseded column is kept because the size of the gap is the reason the split ha
 
 | requirement | state (2026-08-13) | was, before the split |
 |---|---|---|
-| ~6,000 words main text | ✅ inside it — measured in [`submission-metrics.json`](../submission-metrics.json), not stated here (⚠ *superseded, retained: "≈4,200"*) | ≈21,000 — the dominant restructuring task |
+| main-text length | ⚪ **ungraded — bioRxiv sets no limit**, and no journal is chosen, so there is nothing to be inside of. The measured length is in [`submission-metrics.json`](../submission-metrics.json) and is not stated here. It is an **Article** length, not a Short Communication one, which is why the cover letter asks for the Article type; the filename is historical (⚠ *superseded, retained: "~6,000 words main text · ✅ inside it", which graded the paper against a target belonging to a venue §1c had already eliminated, and "≈4,200"*) | ≈21,000 — the dominant restructuring task |
 | structured abstract | ✅ present, four headed parts; length measured in the same artifact (⚠ *superseded, retained: "274 words", which also contradicted "265" two rows up in this same file*) | present but long and narrative |
 | IMRaD | ✅ Results ordered by finding, §3.1–§3.9 (⚠ *superseded, retained: "§3.1–§3.4"*) | ordered as a **chronology** (§3a, 3a-bis, … 3a-nonies) |
 | numbered figures | ✅ three, generated from committed artifacts, with legends, and pinned to their source revisions by `aso_figure_provenance.py --check` | **none exist** |

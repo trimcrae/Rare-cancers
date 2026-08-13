@@ -134,3 +134,29 @@ def test_every_citation_resolves_without_the_literature_cache_branch():
     assert not missing, (
         f"PMID(s) {missing} resolve only via the literature-cache branch, so this check passes "
         f"locally and fails in CI. Commit their retrieved records — do not type them.")
+
+
+def test_the_check_flag_actually_checks(tmp_path, monkeypatch, capsys):
+    """⛔ `--check` used to be a no-op that returned 0.
+
+    The module had exactly two behaviours — `--write`, which repairs the numbering, and a default
+    that printed the derived numbering and returned 0. An unrecognised flag fell into the default,
+    so `submission_citations.py --check` reported nothing and exited 0 no matter how badly the
+    printed superscripts disagreed with the identifiers beside them. A data-integrity review caught
+    it on 2026-08-13 by running the flag against a draft whose numbering was, at that moment,
+    genuinely broken.
+
+    The test above (`test_the_printed_numbers_are_the_ones_the_identifiers_imply`) would have caught
+    the broken draft, and did not fail only because it was never run inside that window. This one
+    covers the other half: that the COMMAND a human or a workflow would reach for is not a no-op.
+    """
+    good = open(S.PAPER, encoding="utf-8").read()
+    assert S.main(["--check"]) == 0, "the committed manuscript should pass its own citation check"
+
+    broken = good.replace("<sup>1</sup><!--PMID:8634690-->", "<sup>7</sup><!--PMID:8634690-->", 1)
+    assert broken != good, "the fixture superscript is no longer present — pick another"
+    p = tmp_path / "paper.md"
+    p.write_text(broken, encoding="utf-8")
+    monkeypatch.setattr(S, "PAPER", str(p))
+    assert S.main(["--check"]) == 1, "a mis-numbered superscript must fail --check, not pass it"
+    assert "should be" in capsys.readouterr().err

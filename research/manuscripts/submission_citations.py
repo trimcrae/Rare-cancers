@@ -354,6 +354,28 @@ def main(argv=None):
                    "unannotated_superscripts": sorted(set(bare))},
                   open(OUT_JSON, "w"), indent=2)
         print(f"  wrote {os.path.basename(OUT_MD)} and {os.path.basename(OUT_JSON)}")
+    elif "--check" in argv:
+        # ⛔ WHY THIS MODE EXISTS (added 2026-08-13, after a data-integrity review caught the gap).
+        # Until now this tool had exactly two behaviours: --write, which repairs the numbering, and
+        # a default that PRINTS the derived numbering and returns 0. Nothing ever compared the
+        # number PRINTED in the manuscript against the number DERIVED from its PMID comments — so a
+        # draft in which four numbers each pointed at two different references, with 28 superscripts
+        # out of order, exited 0 and passed `test_submission_citations.py`. That is precisely the
+        # drift the module docstring says cannot happen, surviving inside the tool written to stop
+        # it, because a checker that only recomputes and never compares is a checker of nothing.
+        bad = []
+        for _span, printed, pmids in cites:
+            want = render_run([order[p] for p in pmids])
+            got = re.sub(r"\s+", "", printed)
+            if got != want:
+                bad.append((got, want, ",".join(pmids)))
+        for got, want, pmids in bad:
+            print(f"  ⛔ superscript {got!r} should be {want!r} for PMID:{pmids}", file=sys.stderr)
+        if bad or bare:
+            print(f"citation numbering is stale: {len(bad)} mis-numbered superscript(s), "
+                  f"{len(bare)} unannotated — re-run with --write", file=sys.stderr)
+            return 1
+        print("  citation numbering is current")
     else:
         for p, n in sorted(order.items(), key=lambda kv: kv[1]):
             print(f"  {n:>3}  PMID:{p}  {'' if p in meta else '(no fetched record)'}")

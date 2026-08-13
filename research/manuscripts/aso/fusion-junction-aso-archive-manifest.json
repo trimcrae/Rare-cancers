@@ -9,12 +9,12 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "6efa9b4a47e93b62663565969a1968dddec7c88c",
+  "git_revision": "11d19cd390766fa4c777fd0a353c22323dbf610f",
   "git_tree_is_clean_apart_from_this_manifest": false,
-  "archive_content_digest": "de1da9a5a5c70d33feec710cab5711690ebae4c8fa27415713f1a93093cb93fc",
-  "n_files": 235,
-  "total_bytes": 8590858,
-  "total_mib": 8.193,
+  "archive_content_digest": "9c85a9f1ce0789de99dd1fe36408189cab00b43647ccbbd534669a9b7074ef63",
+  "n_files": 239,
+  "total_bytes": 8730509,
+  "total_mib": 8.326,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -67,8 +67,9 @@
     {
       "id": "graded_junction_atlas",
       "promise_text": "the graded junction atlas",
-      "n_files": 2,
+      "n_files": 3,
       "files": [
+        "research/modalities/fusion-object-inventory.json",
         "research/modalities/nr4a3-fusion-junction-atlas.json",
         "research/modalities/nr4a3_fusion_atlas.py"
       ],
@@ -371,6 +372,18 @@
       "⛔_UNMAPPED": false
     },
     {
+      "id": "mature_parent_gap_pairing_screen",
+      "promise_text": "the mature-parent screen behind §3.8's second class — the liability that none of the other three screens is able to see",
+      "n_files": 3,
+      "files": [
+        "research/modalities/aso-parent-gap-pairing.json",
+        "research/modalities/aso_parent_gap_pairing.py",
+        "research/modalities/tests/test_aso_parent_gap_pairing.py"
+      ],
+      "_promise_still_in_manuscript": "n/a — descriptive label, not a quotation",
+      "⛔_UNMAPPED": false
+    },
+    {
       "id": "censoring_test_and_genomic_attempt",
       "promise_text": "the test of the censoring restriction the cleanliness claim depends on, and the genome-wide screen that was attempted and did not work",
       "n_files": 11,
@@ -507,48 +520,48 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-short-communication-cover-letter.md",
-      "bytes": 7429,
-      "sha256": "41816406255fca155803c951341811f9a114f22a73a6ca017664976d3a2da1b6",
+      "bytes": 7527,
+      "sha256": "fa55be0a129232681d6b5071834282db8946906e22ec14c61f09bf5e56f83fd4",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-short-communication.md",
-      "bytes": 54543,
-      "sha256": "520b3d183e9b6fce419720b96b6c34821d6bf0bd759e161333ec87f3d9ef69f8",
+      "bytes": 55532,
+      "sha256": "958ffd7996dbd10087ae23d1ce46b791a654273482e1bd5c1f1ae4e65ed83ab4",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
-      "bytes": 31442,
-      "sha256": "b90cfd66926d1d8863683983e5685095e561d950173449b786aca813b3f339c5",
+      "bytes": 32188,
+      "sha256": "62aaf5bea317ffc22befcdb10135be95b7b9af70d3ccf2fec3c0fd260f0d4e8d",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-references.md",
-      "bytes": 9522,
-      "sha256": "9dfe665b661753b8506f2ec5976753bd2a414ce8b8261ccae187ad6f1f5fa5b1",
+      "bytes": 9785,
+      "sha256": "a3dc7f72e04ffc9e326c856218ed2c13d5e7188b33b429f74f1d6918458a0dca",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
-      "bytes": 9165,
-      "sha256": "18a9e2ea1d7371afa984b7bdba4a691cf1861c920454b38107cc658027050c30",
+      "bytes": 9441,
+      "sha256": "79266fe82a74fce824ef68c8f3078ad5b91ac3d4ca99cf569a07348b65cd4c3b",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-working-record.md",
-      "bytes": 202548,
-      "sha256": "d41422b8445e88416982bb43c4b4bb31dee7a49bb701fa839aafb22fe7113566",
+      "bytes": 206422,
+      "sha256": "ddbc964034eee3b57c89da58b68bb520e878984914c8d75509ea88bd54618252",
       "serves": "correction_record",
       "also_serves": [],
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
@@ -571,8 +584,8 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 42546,
-      "sha256": "09518bef4ab9028863fe1ca9c0d5cf9c173a86581de9aa7862915f77ae820699",
+      "bytes": 44300,
+      "sha256": "47426c77798bd094270cd9fade42519e30993b5c7c87e56307d4510f326c9623",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -699,16 +712,16 @@
     },
     {
       "path": "research/manuscripts/submission_citations.py",
-      "bytes": 15347,
-      "sha256": "cc8f5c4d4ca15d8ba3377f077c08ae1df89c4785cc8094f86f2b710bec978865",
+      "bytes": 17442,
+      "sha256": "cff60d2d3868c177d1f2fc48c7a26c364c738b8394badcc9cd8523572ac8b1c6",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
       "path": "research/manuscripts/submission_tables.py",
-      "bytes": 25860,
-      "sha256": "27467c8df5fcdb579c2d31454c214d4cdb88d1d436a2eed0d2b7e1e6c1843b7b",
+      "bytes": 26136,
+      "sha256": "0f8462e6588195a886f69ca5483892e8fc61a60ccdf985fd10bbe5ca69232ee9",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
@@ -1084,6 +1097,14 @@
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
+      "path": "research/modalities/aso-parent-gap-pairing.json",
+      "bytes": 49417,
+      "sha256": "427bdbec381151a0ea5884fdc554e3bd1c8e76b37d6b06637be88c4d9167ee9f",
+      "serves": "mature_parent_gap_pairing_screen",
+      "also_serves": [],
+      "contributes": "For every design, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap. ⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: the alignment screen excludes parent records and filters at ≥14/16 identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon–exon junction. It is fully offline against the same cached sequence the pre-mRNA arm uses, and `--check` re-derives it."
+    },
+    {
       "path": "research/modalities/aso-premrna-offtarget-genomic.json",
       "bytes": 245644,
       "sha256": "7e93c59f1c3a8056c5d4b1f41c1f07a04a43a071848863b1d89c600f05c8ddc0",
@@ -1116,6 +1137,14 @@
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
+      "path": "research/modalities/aso_parent_gap_pairing.py",
+      "bytes": 9380,
+      "sha256": "e6431900a1aa8956a7178faf6aefb9fcbf81a7b28a33e342061f3b4fa998a645",
+      "serves": "mature_parent_gap_pairing_screen",
+      "also_serves": [],
+      "contributes": "For every design, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap. ⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: the alignment screen excludes parent records and filters at ≥14/16 identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon–exon junction. It is fully offline against the same cached sequence the pre-mRNA arm uses, and `--check` re-derives it."
+    },
+    {
       "path": "research/modalities/aso_premrna_offtarget.py",
       "bytes": 29423,
       "sha256": "af1103a0b6adb8eca979496e6793f1dcabdb7a0d254798078b782ebefa4aeb89",
@@ -1130,6 +1159,14 @@
       "serves": "inputs_that_make_it_offline",
       "also_serves": [],
       "contributes": "The committed inputs that let the pipeline run with the network off: the transcript cache the atlas reads instead of calling Ensembl, and the independent exon audit the per-gene provenance gate is checked against."
+    },
+    {
+      "path": "research/modalities/fusion-object-inventory.json",
+      "bytes": 60037,
+      "sha256": "11c22f28453a11a634296be6fff45b082c9154aa82c1c8b6da208793acfd6201",
+      "serves": "graded_junction_atlas",
+      "also_serves": [],
+      "contributes": "Grades all 231 donor-exon x acceptor-exon pairs across the five 5' partners for frame compatibility and carries the 38 emitted design panels inline; the source of Table 1 and of every count in section 3.1."
     },
     {
       "path": "research/modalities/junction-aso-designs-e10n3.json",
@@ -2173,8 +2210,8 @@
     },
     {
       "path": "research/modalities/junction-aso-thermo.json",
-      "bytes": 100208,
-      "sha256": "5cf972975225b869a636853a39712e6be9707831845a8ea6cee9d2daf7f632f0",
+      "bytes": 100551,
+      "sha256": "1c494c9ecffd255e8d29965f2eb6729b8e6cf17892dfd2b62fc966e2fa79475f",
       "serves": "duplex_thermodynamics",
       "also_serves": [],
       "contributes": "ΔG37 for each design against the fusion and against the best duplex either parent can form, the ΔΔG discrimination that follows, and the audit of every design against four conventional antisense design rules. Carries the convention validation that licenses the energies."
@@ -2221,8 +2258,8 @@
     },
     {
       "path": "research/modalities/junction_aso_thermo.py",
-      "bytes": 17920,
-      "sha256": "a4f0ef5c6e9c02aedf2c59e6154dcbfc396f02568226121876375ae43093581a",
+      "bytes": 19504,
+      "sha256": "bdf0d4990f06d020d647668b909110d6a68db35e92c2f7b39b3d4d58ca4ab692",
       "serves": "duplex_thermodynamics",
       "also_serves": [],
       "contributes": "ΔG37 for each design against the fusion and against the best duplex either parent can form, the ΔΔG discrimination that follows, and the audit of every design against four conventional antisense design rules. Carries the convention validation that licenses the energies."
@@ -2284,6 +2321,14 @@
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
     },
     {
+      "path": "research/modalities/tests/test_aso_parent_gap_pairing.py",
+      "bytes": 4873,
+      "sha256": "7781a7fce88cc3c73328e81101f90da432974271f29070497dccd8293fd05162",
+      "serves": "mature_parent_gap_pairing_screen",
+      "also_serves": [],
+      "contributes": "For every design, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap. ⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: the alignment screen excludes parent records and filters at ≥14/16 identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon–exon junction. It is fully offline against the same cached sequence the pre-mRNA arm uses, and `--check` re-derives it."
+    },
+    {
       "path": "research/modalities/tests/test_aso_premrna_offtarget.py",
       "bytes": 9763,
       "sha256": "ed135bda746b10f8ea750538c0845098b91b4f1901ae5b9f5990fbabc2fe938b",
@@ -2325,8 +2370,8 @@
     },
     {
       "path": "research/modalities/tests/test_junction_seam_retraction.py",
-      "bytes": 13885,
-      "sha256": "3cc314b113452671e61557a04ee2605f5d7920f3df69347ebc5caacdc9462b88",
+      "bytes": 17531,
+      "sha256": "5bbfae7b902f538ae5017f815a18f2f87c4e903b8df02ad8f55d4bb8a6760e09",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."
