@@ -60,6 +60,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -146,8 +147,25 @@ GTEX_CONTROLS = {
 #: preference to the portal's per-gene API on purpose: it is one request whose parse either works or
 #: throws, rather than 6 requests against a schema that has moved between versions, and it is the
 #: same object a reader can download to check this artifact.
-GTEX_MEDIAN_TPM_URL = ("https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/"
-                       "GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz")
+#:
+#: ⛔ A LIST, TRIED IN ORDER, WITH THE WINNER RECORDED — NOT A GUESS RE-TYPED (measured 2026-08-13,
+#: run 31747675357). The `gtex_analysis_v8/rna_seq_data/` path returned **HTTP 404** and took the
+#: whole exposure arm down with it; GTEx reorganised its public bucket under `adult-gtex/`. Editing
+#: one constant to another remembered path would have been the same bet placed twice, so this
+#: follows the pattern `s_calibrator_survey.GENE_ATTRS` already uses for RCSB's moving schema: try
+#: each candidate, record which one the server actually accepted (`endpoint_used`), and record what
+#: every other one said (`url_attempts`). A future move then shows up as a recorded 404 next to a
+#: recorded success rather than as a silent empty arm.
+#: ⚠ The failure was NOT silent even so — every locus read `NOT_MEASURED` with the 404 quoted, and
+#: the known-answer controls refused to run. That is the guard working; it is still an arm down.
+GTEX_MEDIAN_TPM_URLS = [
+    ("https://storage.googleapis.com/adult-gtex/bulk-gex/v8/rna-seq/"
+     "GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz"),
+    ("https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/"
+     "GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz"),
+]
+#: Kept as the nominal citation target: the release object these paths serve.
+GTEX_MEDIAN_TPM_URL = GTEX_MEDIAN_TPM_URLS[0]
 
 #: ⚠ FALLBACK ONLY, and it answers a DIFFERENT shape of question, so a run that used it says so.
 #: Recorded rather than silently substituted (`arm_a.endpoint_used`).
@@ -346,6 +364,37 @@ def _get(url, timeout=600, headers=None):
         return fh.read()
 
 
+#: ⛔ NCBI E-UTILITIES RATE LIMIT, MEASURED THE HARD WAY (run 31747675357). Two unthrottled calls
+#: per gene took arm C from six genes to ONE: `ANKS1B` read, and the other five returned
+#: **HTTP 429 Too Many Requests**. E-utilities allows ~3 requests/second without an API key, and
+#: this module was issuing them back to back.
+#: ⚠ THE DAMAGE WAS NOT A MISSING FIELD, IT WAS A MISSING DISTINCTION. Arm C is the arm that says
+#: what the two `LOC` entries ARE, which is what lets their absence from GTEx be attributed to "no
+#: GENCODE model for an uncharacterised NCBI-only locus" rather than left as an unexplained gap. A
+#: throttled arm C therefore degrades a *reason* into a *silence*, which is the shape §4 is about.
+_NCBI_MIN_INTERVAL_S = 0.4
+_NCBI_MAX_RETRIES = 4
+
+
+def _ncbi_get(url, timeout=120):
+    """One E-utilities call, paced and retried on 429/5xx with backoff."""
+    delay = _NCBI_MIN_INTERVAL_S
+    last = None
+    for attempt in range(_NCBI_MAX_RETRIES):
+        time.sleep(delay)
+        try:
+            return _get(url, timeout=timeout)
+        except urllib.error.HTTPError as exc:
+            last = exc
+            if exc.code not in (429, 500, 502, 503, 504):
+                raise
+            delay = min(delay * 3, 8.0)          # 0.4 -> 1.2 -> 3.6 -> 8.0
+        except urllib.error.URLError as exc:
+            last = exc
+            delay = min(delay * 3, 8.0)
+    raise last if last is not None else RuntimeError("unreachable")
+
+
 def _parse_gct(raw_gz, wanted):
     """Rows of a GCT whose `Description` is in `wanted`, plus the tissue column order.
 
@@ -448,15 +497,21 @@ def fetch_gtex(symbols, controls=tuple(GTEX_CONTROLS)):
            "unit": "median TPM across that tissue's donors",
            "endpoint_used": None}
     want = sorted(set(symbols) | set(controls))
-    try:
-        raw = _get(GTEX_MEDIAN_TPM_URL, timeout=1800)
-        rec["compressed_bytes"] = len(raw)
-        rec.update(_parse_gct(raw, want))
-        rec["endpoint_used"] = "release_gct"
-        rec["_status"] = "read"
-        return rec
-    except Exception as exc:  # noqa: BLE001 — an unread arm is UNKNOWN and says which arm and why
-        rec["release_file_error"] = f"{type(exc).__name__}: {str(exc)[:300]}"
+    attempts = []
+    for url in GTEX_MEDIAN_TPM_URLS:
+        try:
+            raw = _get(url, timeout=1800)
+            rec["compressed_bytes"] = len(raw)
+            rec.update(_parse_gct(raw, want))
+            rec["url"] = url
+            rec["endpoint_used"] = "release_gct"
+            rec["url_attempts"] = attempts + [{"url": url, "result": "read"}]
+            rec["_status"] = "read"
+            return rec
+        except Exception as exc:  # noqa: BLE001 — every refusal is recorded, none is silent
+            attempts.append({"url": url, "result": f"{type(exc).__name__}: {str(exc)[:200]}"})
+    rec["url_attempts"] = attempts
+    rec["release_file_error"] = "; ".join(a["result"] for a in attempts)[:400]
 
     # ⛔ THE FALLBACK RUNS ONLY AFTER THE RELEASE FILE FAILED, and it carries the SAME controls
     # through the SAME control gate — a fallback exempt from the known-answer check would be a way
@@ -494,7 +549,7 @@ def fetch_ncbi_gene(symbols):
         try:
             q = urllib.parse.urlencode({"db": "gene", "retmode": "json",
                                         "term": f"{sym}[Gene Name] AND human[ORGN]"})
-            hits = json.loads(_get(f"{EUTILS}/esearch.fcgi?{q}", timeout=120).decode())
+            hits = json.loads(_ncbi_get(f"{EUTILS}/esearch.fcgi?{q}").decode())
             ids = hits.get("esearchresult", {}).get("idlist", [])
             g["gene_ids"] = ids
             if not ids:
@@ -502,7 +557,7 @@ def fetch_ncbi_gene(symbols):
                 out["genes"][sym] = g
                 continue
             q2 = urllib.parse.urlencode({"db": "gene", "retmode": "json", "id": ids[0]})
-            summ = json.loads(_get(f"{EUTILS}/esummary.fcgi?{q2}", timeout=120).decode())
+            summ = json.loads(_ncbi_get(f"{EUTILS}/esummary.fcgi?{q2}").decode())
             doc = summ.get("result", {}).get(ids[0], {})
             g["gene_id"] = ids[0]
             for k in ("name", "description", "chromosome", "maplocation", "genomicinfo",
@@ -537,12 +592,80 @@ def fetch_hpa(symbols):
             body = _get(f"{HPA_SEARCH}?{q}", timeout=180).decode("utf-8", "replace")
             rows = json.loads(body)
             exact = [r for r in rows if str(r.get("Gene", "")).upper() == sym.upper()]
-            out["genes"][sym] = {"_status": "read", "n_rows": len(rows),
-                                 "exact_symbol_rows": exact[:3]}
+            rec = {"_status": "read", "n_rows": len(rows), "exact_symbol_rows": exact[:3]}
+            # ⛔ THE SEARCH COLUMNS DO NOT ANSWER THE EXPOSURE QUESTION, MEASURED 2026-08-13.
+            # `rnatsm` ("RNA tissue specific nTPM") returns ONLY the tissue a gene is enriched in —
+            # ANKS1B came back `{"brain": "66.3"}` and CHST5 `{"intestine": "82.2"}`, with no liver
+            # or kidney figure at all. That is a real and useful reading about the gene, and it is
+            # NOT the reading this artifact's exposure block needs. So the per-gene record is
+            # fetched too, where the full tissue vector lives.
+            ens = (exact[0].get("Ensembl") if exact else None)
+            rec["ensembl"] = ens
+            if ens:
+                try:
+                    raw = _get(f"https://www.proteinatlas.org/{ens}.json", timeout=180)
+                    rec["per_gene"] = _hpa_tissue_vector(json.loads(raw.decode("utf-8", "replace")))
+                except Exception as exc:  # noqa: BLE001
+                    rec["per_gene"] = {"_status": f"fetch failed: {type(exc).__name__}: "
+                                                  f"{str(exc)[:200]}"}
+            else:
+                rec["per_gene"] = {"_status": "no Ensembl id in the HPA search row"}
+            out["genes"][sym] = rec
         except Exception as exc:  # noqa: BLE001
             out["genes"][sym] = {"_status": f"fetch failed: {type(exc).__name__}: "
                                             f"{str(exc)[:200]}"}
     return out
+
+
+#: HPA tissue labels for the two exposure organs, lower-cased. HPA uses `liver` and `kidney`
+#: (it does not split cortex from medulla the way GTEx does), so the kidney figure here is a
+#: WHOLE-ORGAN value and is not interchangeable with a GTEx cortex or medulla column.
+_HPA_EXPOSURE_KEYS = ("liver", "kidney")
+
+
+def _hpa_tissue_vector(doc):
+    """Pull a {tissue: nTPM} mapping out of an HPA per-gene record, defensively.
+
+    ⛔ WRITTEN TO SURVIVE A SCHEMA IT CANNOT BE TESTED AGAINST HERE. The sandbox 403s
+    proteinatlas.org, so the exact key holding the consensus tissue vector cannot be confirmed
+    offline. Rather than assume one, this walks the document for any dict whose keys look like
+    tissue names and whose values are numeric, records WHICH key path it used, and records the
+    candidate paths it rejected. A future schema move then shows up as `matched_path: null` beside
+    the paths that were tried — a recorded miss rather than a silent empty column.
+    """
+    found = []
+
+    def walk(node, path):
+        if len(found) > 40 or len(path) > 8:
+            return
+        if isinstance(node, dict):
+            numeric = {}
+            for k, v in node.items():
+                if isinstance(v, (int, float)):
+                    numeric[str(k).lower()] = float(v)
+                elif isinstance(v, str):
+                    try:
+                        numeric[str(k).lower()] = float(v)
+                    except ValueError:
+                        pass
+            if len(numeric) >= 10 and any(t in numeric for t in _HPA_EXPOSURE_KEYS):
+                found.append({"path": "/".join(path), "n_tissues": len(numeric),
+                              "values": numeric})
+            for k, v in node.items():
+                walk(v, path + [str(k)])
+        elif isinstance(node, list):
+            for i, v in enumerate(node[:60]):
+                walk(v, path + [str(i)])
+
+    walk(doc, [])
+    if not found:
+        return {"_status": "no tissue vector found in the HPA record",
+                "matched_path": None,
+                "top_level_keys": sorted(doc.keys())[:40] if isinstance(doc, dict) else None}
+    best = max(found, key=lambda f: f["n_tissues"])
+    return {"_status": "read", "matched_path": best["path"], "n_tissues": best["n_tissues"],
+            "values": best["values"],
+            "other_candidate_paths": [f["path"] for f in found if f is not best][:6]}
 
 
 def fetch_emc_series(symbols):
@@ -635,9 +758,45 @@ def _control_verdict(gtex):
                          "does not mean the genes are unusual.")}
 
 
-def _tissue_block(gtex, sym, tissues, label):
+def _hpa_exposure_block(hpa, sym, label):
+    """The exposure block from HPA when GTEx could not be read at all.
+
+    ⚠ IT IS A DIFFERENT INSTRUMENT AND SAYS SO ON EVERY ROW. HPA reports consensus nTPM over a
+    whole `kidney`, where GTEx splits cortex from medulla, and HPA's consensus incorporates GTEx
+    among its sources — so this is neither interchangeable with the GTEx block nor independent of
+    it. It exists because an arm-A outage taking the entire exposure question down with it is worse
+    than a labelled second-choice reading, not because the two are equivalent.
+    """
+    rec = ((hpa.get("genes") or {}).get(sym) or {}).get("per_gene") or {}
+    if rec.get("_status") != "read":
+        return None
+    vals = rec.get("values") or {}
+    got = {k: vals[k] for k in _HPA_EXPOSURE_KEYS if k in vals}
+    if not got:
+        return None
+    return {"readable": True, "block": label, "values": got,
+            "source": "Human Protein Atlas consensus tissue nTPM",
+            "unit": "nTPM (HPA consensus), NOT GTEx median TPM — do not pool the two",
+            "matched_path": rec.get("matched_path"),
+            "⚠_substituted_for_gtex": (
+                "GTEx arm A could not be read on this run, so the exposure figure here is HPA's. "
+                "HPA gives a WHOLE-KIDNEY value rather than GTEx's cortex/medulla split, and its "
+                "consensus incorporates GTEx, so this is a second-choice reading and not an "
+                "independent confirmation of one."),
+            "max_tissue_in_block": max(got, key=lambda t: got[t]),
+            "any_present_at_cut": any(v >= PRESENT_TPM for v in got.values())}
+
+
+def _tissue_block(gtex, sym, tissues, label, hpa=None):
     """Median TPM for one locus across one named tissue list, or an explicit unreadable state."""
     if gtex.get("_status") != "read":
+        # ⛔ ONLY THE EXPOSURE BLOCK HAS A FALLBACK. The soft-tissue proxy block has no HPA
+        # equivalent worth substituting, so it stays unreadable rather than being filled from a
+        # source that does not carry those tissues.
+        if hpa is not None and label == "exposure_liver_kidney":
+            alt = _hpa_exposure_block(hpa, sym, label)
+            if alt is not None:
+                return alt
         return {"readable": False,
                 "reason": f"arm A was not read ({gtex.get('_status')})",
                 "block": label, "values": None}
@@ -770,7 +929,7 @@ def derive(inp):
     per_locus = []
     for row in inp.get("loci") or []:
         sym = row["locus"]
-        exposure = _tissue_block(gtex, sym, EXPOSURE_TISSUES, "exposure_liver_kidney")
+        exposure = _tissue_block(gtex, sym, EXPOSURE_TISSUES, "exposure_liver_kidney", hpa=hpa)
         proxy = _tissue_block(gtex, sym, TUMOUR_COMPARTMENT_PROXY_TISSUES,
                               "tumour_compartment_normal_tissue_proxy")
         # ⛔ THE CONTROL GATE. A shifted parse must not be able to produce a locus verdict.
@@ -785,21 +944,27 @@ def derive(inp):
         else:
             tier, sentence = _locus_verdict(row, exposure, proxy, emc, ncbi)
         ident = (ncbi.get("genes") or {}).get(sym) or {}
+        # ⛔ READ WITH `.get`, BECAUSE A COMMITTED INPUTS CACHE OUTLIVES THE CODE THAT WROTE IT.
+        # Measured 2026-08-13: run 31747675357's published cache carries the single-seam locus rows
+        # written before the panel existed, so `row["seams"]` raised `KeyError` and the derive half
+        # could not reproduce the artifact from its OWN published inputs. A module whose `--check`
+        # crashes on last run's cache has no reproduction test at all, which is worse than a stale
+        # number — so a pre-panel cache degrades to an explicit "not recorded" rather than throwing.
         per_locus.append({
             "locus": sym,
-            "seams": row["seams"],
-            "designs_hitting_it": row["designs_hitting_it"],
-            "n_designs_hitting_it": row["n_designs_hitting_it"],
+            "seams": row.get("seams") or ["not_recorded_by_the_run_that_wrote_this_cache"],
+            "designs_hitting_it": row.get("designs_hitting_it") or [],
+            "n_designs_hitting_it": row.get("n_designs_hitting_it"),
             "⭐_recurrence_is_a_second_axis_and_not_the_record_count": (
                 "A locus every design at a seam returns is robust to tiling register — it is there "
                 "wherever the window is put — while a locus one register returns may be a property "
                 "of that window. Record count measures neither. Ranking on either alone is a "
                 "mistake; both are reported so neither has to stand in for the other."),
             "screen_records": {
-                "n_transcript_records": row["n_transcript_records"],
-                "n_curated_records": row["n_curated_records"],
-                "n_predicted_records": row["n_predicted_records"],
-                "identity_of_every_record": row["identity_of_every_record"],
+                "n_transcript_records": row.get("n_transcript_records"),
+                "n_curated_records": row.get("n_curated_records"),
+                "n_predicted_records": row.get("n_predicted_records"),
+                "identity_of_every_record": row.get("identity_of_every_record"),
                 "⚠_record_count_is_annotation_depth": (
                     "how many transcript variants RefSeq lists for this gene, not expression, not "
                     "affinity and not risk. A locus with many records is not thereby a larger "

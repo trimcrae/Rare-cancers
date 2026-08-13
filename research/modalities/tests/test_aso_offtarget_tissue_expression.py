@@ -342,6 +342,65 @@ def test_the_artifact_says_the_join_to_the_oligonucleotide_is_the_papers_to_make
     assert "NECESSARY" in art["_framing"].upper()
 
 
+def test_the_hpa_exposure_fallback_is_labelled_and_never_pooled_with_gtex():
+    """⛔ A SECOND-CHOICE READING MUST NOT RENDER AS THE FIRST-CHOICE ONE.
+
+    Run 31747675357 lost the whole exposure arm to a single GTEx 404, so HPA now answers when arm A
+    cannot. But HPA reports a WHOLE-KIDNEY consensus nTPM where GTEx splits cortex from medulla,
+    and HPA's consensus incorporates GTEx — so it is neither interchangeable with nor independent
+    of the GTEx block. Every fallback row has to say both things, or a reader pools two different
+    instruments and a later comparison silently mixes units.
+    """
+    inp = m._empty_inputs()
+    inp["arm_a_gtex"] = {"_status": "fetch or parse failed: HTTPError: HTTP Error 404: Not Found"}
+    sym = m._locus_rows()[1][0]["locus"]
+    inp["arm_d_hpa"] = {"genes": {sym: {"_status": "read", "ensembl": "ENSGTEST", "per_gene": {
+        "_status": "read", "matched_path": "x/y",
+        "values": {"liver": 44.0, "kidney": 3.0, "brain": 1.0, "lung": 2.0, "heart": 1.0,
+                   "skin": 1.0, "colon": 1.0, "testis": 1.0, "thyroid": 1.0, "spleen": 1.0}}}}}
+    art = m.derive(inp)
+    row = [p for p in art["per_locus"] if p["locus"] == sym][0]
+    e = row["exposure_compartment_liver_kidney"]
+    assert e["readable"] is True
+    assert e["values"] == {"liver": 44.0, "kidney": 3.0}
+    assert "NOT GTEx median TPM" in e["unit"] and "do not pool" in e["unit"]
+    assert "second-choice" in e["⚠_substituted_for_gtex"]
+    assert "WHOLE-KIDNEY" in e["⚠_substituted_for_gtex"]
+    assert row["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"
+
+    # ⛔ and the PROXY block gets no such fallback — HPA does not carry those tissues, so filling it
+    # from HPA would be inventing a soft-tissue reading out of a different instrument's vocabulary
+    assert row["tumour_compartment_normal_tissue_proxy"]["readable"] is False
+
+    # every OTHER locus, with no HPA record, stays unreadable rather than becoming a zero
+    for p in art["per_locus"]:
+        if p["locus"] == sym:
+            continue
+        assert p["exposure_compartment_liver_kidney"]["readable"] is False
+
+
+def test_the_gtex_url_is_a_recorded_attempt_list_not_a_single_guess():
+    """A single constant took the whole exposure arm down with one 404. The replacement must try
+    candidates in order and record which answered, so a future bucket move is a recorded miss."""
+    assert isinstance(m.GTEX_MEDIAN_TPM_URLS, list) and len(m.GTEX_MEDIAN_TPM_URLS) >= 2
+    assert all(u.startswith("https://") for u in m.GTEX_MEDIAN_TPM_URLS)
+    assert m.GTEX_MEDIAN_TPM_URL == m.GTEX_MEDIAN_TPM_URLS[0]
+    src = open(os.path.join(MOD, "aso_offtarget_tissue_expression.py"), encoding="utf-8").read()
+    assert "url_attempts" in src, "the attempt list is not recorded"
+
+
+def test_ncbi_calls_are_paced_so_the_identity_arm_cannot_be_rate_limited_away():
+    """⛔ ARM C IS WHAT LETS AN ABSENCE BE ATTRIBUTED. Unthrottled, it lost five of six genes to
+    HTTP 429 and degraded a *reason* into a *silence* — the shape §4 is written about."""
+    assert m._NCBI_MIN_INTERVAL_S >= 0.34, "faster than NCBI's ~3 req/s without an API key"
+    assert m._NCBI_MAX_RETRIES >= 3
+    src = open(os.path.join(MOD, "aso_offtarget_tissue_expression.py"), encoding="utf-8").read()
+    assert "esearch.fcgi" in src and "_ncbi_get(f\"{EUTILS}/esearch.fcgi" in src, \
+        "the esearch call bypasses the paced helper"
+    assert "_ncbi_get(f\"{EUTILS}/esummary.fcgi" in src, \
+        "the esummary call bypasses the paced helper"
+
+
 def test_the_present_cut_is_stated_as_a_choice_not_a_measurement():
     art = m.derive(m._empty_inputs())
     assert art["method"]["present_tpm_cut"] == m.PRESENT_TPM
@@ -370,6 +429,30 @@ def test_a_truncated_screen_is_refused_rather_than_censused():
     _, gap_paired = m._screen_hits(path=shallow, reagent=m.REAGENT)
     assert len(gap_paired) == 5, (
         "the shallow screen's gap-spanning count for the reagent moved; the manuscript quotes it")
+
+
+def test_derive_tolerates_an_inputs_cache_written_by_an_older_version_of_itself():
+    """⛔ A COMMITTED INPUTS CACHE OUTLIVES THE CODE THAT WROTE IT.
+
+    Measured 2026-08-13: run 31747675357 published a cache whose locus rows predate the two-seam
+    panel, and `derive` raised `KeyError: 'seams'` on it — so the module could not reproduce its own
+    artifact from its own published inputs, and `--check` was not a reproduction test but a crash.
+    A missing field must degrade to an explicit "not recorded", never to an exception, because the
+    whole point of the cache is that a later run can re-derive from an earlier fetch.
+    """
+    inp = m._empty_inputs()
+    inp["loci"] = [{"locus": "ANKS1B", "n_transcript_records": 67, "n_curated_records": 32,
+                    "n_predicted_records": 35, "accessions": [],
+                    "identity_of_every_record": "14/16"}]          # pre-panel shape: no `seams`
+    art = m.derive(inp)                                            # must not raise
+    row = art["per_locus"][0]
+    assert row["locus"] == "ANKS1B"
+    assert row["seams"] == ["not_recorded_by_the_run_that_wrote_this_cache"]
+    assert row["n_designs_hitting_it"] is None
+    assert row["screen_records"]["n_transcript_records"] == 67
+    # and a cache missing the count fields entirely is still not an exception
+    inp["loci"] = [{"locus": "X"}]
+    assert m.derive(inp)["per_locus"][0]["screen_records"]["n_transcript_records"] is None
 
 
 def test_the_artifact_reproduces_from_its_committed_inputs():
