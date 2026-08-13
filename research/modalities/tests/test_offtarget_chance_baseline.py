@@ -251,7 +251,12 @@ def test_the_population_is_the_one_the_manuscript_quotes():
     assert art["observed"]["n_designs"] == 200
     assert art["observed_distinct_sequences"]["n_sequences"] == 186
     assert art["observed"]["mean"] == 9.5
-    assert art["observed"]["n_at_or_below_chance_upper"] == 142
+    # ⚠ *Superseded, retained: 142.* The at-or-below count is not a property of the designs alone —
+    # it is counted against the chance expectation, and on 2026-08-13 that expectation stopped being
+    # an assumed 3e8-8e8 nt band and became a measured 718,571,139 nt span. A tighter expectation
+    # (8.2 rather than an upper bound of 9.1) necessarily moves designs from below it to above it.
+    # The observed counts themselves did not change; the line they are compared against did.
+    assert art["observed"]["n_at_or_below_chance_upper"] == 135
     sources = {r["_source"] for r in art["per_design"]}
     assert len(sources) == 40
     assert not [s for s in sources if "deep500" in s]

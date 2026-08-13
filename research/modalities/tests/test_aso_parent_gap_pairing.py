@@ -79,7 +79,7 @@ def test_five_of_the_nine_clean_designs_carry_a_parent_duplex():
     assert "Five of the nine designs of §3.5 carry such" in _flat(_paper())
 
 
-def test_the_two_survivors_are_what_both_screens_leave():
+def test_the_candidate_set_is_what_both_screens_leave():
     """⛔ THE PAPER'S CANDIDATE SET, AND IT IS AN INTERSECTION OF TWO SCREENS.
 
     Surviving the mature-parent screen is not enough and neither is surviving the deeper alignment
@@ -91,7 +91,9 @@ def test_the_two_survivors_are_what_both_screens_leave():
     import glob
     rows = {r["antisense_5to3"]: r for r in _art()["per_design"]}
     deep = {}
-    for p in glob.glob(os.path.join(MOD, "junction-aso-offtarget-*clean9-deep500.json")):
+    # ⚠ EVERY deep screen, not just the first batch: the panel is 38 junctions and a candidate
+    # can come from any of them. Globbing one batch would have silently scoped the answer.
+    for p in glob.glob(os.path.join(MOD, "junction-aso-offtarget-*deep500*.json")):
         for o in json.load(open(p, encoding="utf-8")).get("oligos", []):
             if o.get("status") != "screened":
                 continue
@@ -107,13 +109,33 @@ def test_the_two_survivors_are_what_both_screens_leave():
     clean = {seq for _, seq in _clean_set()}
     assert clean <= set(deep), "a design called clean at the default depth was never re-screened"
 
-    survivors = sorted(s for s in clean
-                       if not deep[s] and not rows[s]["counts_as_liability"])
-    assert survivors == ["AGGGCATATCGGAGTC", "GGGCATATCCGACATG"], survivors
+    # ⚠ THE DEEP-CLEAN SET IS NOT A SUBSET OF THE DEFAULT-DEPTH `clean` SET, AND ASSUMING IT WAS
+    # WOULD UNDERCOUNT. Seven designs FAILED at the remote service at the default ceiling and carried
+    # no count at all; all seven returned at the deeper one, and `GGGCATATCAAGCGCT` came back with no
+    # hybridisable near-match. A design the shallower pass never screened is a candidate the
+    # shallower pass could not have found, so the population here is every deep-screened design.
+    deep_clean = sorted(s for s, hy in deep.items() if not hy)
+    assert clean - set(deep_clean), "the deeper pass is supposed to have withdrawn some of the nine"
+    survivors = sorted(s for s in deep_clean if not rows[s]["counts_as_liability"])
+    assert survivors == ["AGGGCATATCGGAGTC", "GGGCATATCAAGCGCT",
+                         "GGGCATATCCGACATG"], survivors
     txt = _flat(_paper())
     for s in survivors:
         assert f"5′-{s}-3′" in txt, f"a surviving candidate is not named in the paper: {s}"
-    assert "two designs survive every screen" in txt.lower()
+    assert "three candidates in the whole panel" in txt
+
+    # ⭐ AND THE TIERING MUST SURVIVE EDITING. Two of the three have a longest parent run of ZERO, so
+    # they are candidates at ANY threshold; the third is BELOW the stated cut rather than absent, so
+    # it is a candidate at this cut and not at a stricter one. Collapsing that distinction would
+    # present a threshold-dependent result as a threshold-independent one, which is the whole reason
+    # `MIN_DUPLEX_BP` is documented as a choice.
+    unconditional = sorted(s for s in survivors
+                           if rows[s]["longest_parent_duplex_bp_through_gap"] == 0)
+    assert unconditional == ["AGGGCATATCGGAGTC", "GGGCATATCCGACATG"], unconditional
+    conditional = [s for s in survivors if s not in unconditional]
+    assert len(conditional) == 1, conditional
+    assert rows[conditional[0]]["longest_parent_duplex_bp_through_gap"] == 8
+    assert "below the threshold rather than absent" in txt
     # and the design an earlier draft recommended must be named as withdrawn, not quietly dropped
     assert "5′-GGGCATATCTCTATAA-3′ at *TCF12* exon\n17" in _paper() or \
         "5′-GGGCATATCTCTATAA-3′ at *TCF12* exon 17" in txt

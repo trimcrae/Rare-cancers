@@ -42,7 +42,7 @@ myxoid chondrosarcoma
 
 **Background.** Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma defined by
 rearrangement of *NR4A3* to a variable 5′ partner. Its chimeric mRNA carries a breakpoint seam
-absent from every normal transcript — its one tumour-exclusive RNA feature. A structured literature
+absent from every normal transcript, its one tumour-exclusive RNA feature. A structured literature
 search retrieved no junction-directed oligonucleotide against any NR4A3 fusion.
 
 **Methods.** Chimeras were built at the mRNA level from canonical Ensembl models, acceptor exon
@@ -63,10 +63,11 @@ transcript screen reaches: 19 of 190 designs pair the catalytic gap in parent pr
 the wild-type *NR4A3* intron-2/exon-3 boundary, and 87 of 190 pair it in mature parent transcript
 inside a duplex of at least ten base pairs, 61 of those against wild-type *NR4A3*. An exhaustive scan
 of all 3.10 × 10⁹ nucleotides of GRCh38 in both orientations finds 20 of 176 designs with a
-gap-paired, strand-agreeing site in a parent gene or an *NR4A* paralogue. Two designs
-survive every screen, at junctions no patient is reported to carry. One 16-mer spans the *EWSR1*
-exon 12, *TAF15* exon 11 and *FUS* exon 10 seams through ten identical donor bases — a sequence
-property, not a clinical one: published exon-resolved *TAF15::NR4A3* breakpoints are exon 6.
+gap-paired, strand-agreeing site in a parent gene or an *NR4A* paralogue. Three designs
+survive every screen, two of them at any parent-duplex threshold, at junctions no patient is
+reported to carry. One 16-mer spans the *EWSR1*
+exon 12, *TAF15* exon 11 and *FUS* exon 10 seams through ten identical donor bases, a sequence
+property and not a clinical one: published exon-resolved *TAF15::NR4A3* breakpoints are exon 6.
 
 **Conclusions.** Designability does not limit junction gapmers here, but clean designs are far
 scarcer than a capped search suggests, and it is the parent transcripts rather than the transcriptome
@@ -369,8 +370,9 @@ censoring guard, so it can award a zero the hit list does not support, and the s
 one reported. A zero for the nine is arithmetic rather than an independent measurement: it follows
 from their having no hybridisable hit to score.
 
-All six junctions were then re-screened at a tenfold deeper alignment ceiling, with retention raised
-to match it so that every hit list is complete, and the result withdraws most of the set above. Only
+Every junction was then re-screened at a tenfold deeper alignment ceiling, with retention raised
+to match it so that every hit list is complete — 38 junctions and 187 design records, none truncated
+— and the result withdraws most of the set above. Only
 three of the nine still carry no hybridisable near-match: 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8,
 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 and 5′-GGCATATCAAGCGCTG-3′ at *TCF12* exon 7, each of which
 returned the same count at both depths. The other six did not. The three *EWSR1* exon-1 designs had
@@ -379,7 +381,14 @@ at *TCF12* exon 17 goes from 8 to 118, and 5′-CAGGGCATATCTTGCA-3′ at *TCF12*
 Three of the six carry hits that span the catalytic gap and so are cleavage risks rather than merely
 hybridisable: 64 for 5′-GCATATCCGTGGACGC-3′, 14 for 5′-GGGCATATCTCTATAA-3′ and 11 for
 5′-CAGGGCATATCTTGCA-3′. A count of zero at the default ceiling was not a count of zero, which is the
-sharpest form of the bound §3.6 sets out. The deeper counts are reported here as their own
+sharpest form of the bound §3.6 sets out.
+
+The deeper pass also decided what the default one could not. Seven of the 190 designs had failed at
+the remote service and carried no count at all; all seven returned at the deeper ceiling, six of them
+dirty and one — 5′-GGGCATATCAAGCGCT-3′ at *TCF12* exon 7 — with three near-matches and none
+hybridisable. So the set of designs with a complete hit list and no hybridisable near-match is four
+at this depth rather than three: a design the shallower pass never screened joins the three that
+survived it. The deeper counts are reported as their own
 measurement and no figure quoted above is restated from them.
 
 The orientation call is corroborated independently of any of this. Ten designs return perfect
@@ -390,16 +399,17 @@ only be correct if every one of those BLAST hits is on the minus strand, and eve
 
 A chance argument bounds how surprising a low count should be, and it points the other way from the
 reading these numbers first invite. There are 1,129 16-mers within two substitutions of any given 16-mer, so an arbitrary
-transcriptome position matches at ≥14/16 with probability 2.6 × 10⁻⁷; over an assumed RefSeq RNA
-span of 3 × 10⁸–8 × 10⁸ nucleotides (assumed, because the screens record transcripts scanned rather
-than nucleotides) that predicts 79–210 near-matches for any 16-mer whatever, on one strand. The BLAST arm cannot test this: its hit list is capped at 50, below
-the null's lower bound of 79 for one strand and 158 for the two the search covers, so any
+transcriptome position matches at ≥14/16 with probability 2.6 × 10⁻⁷. The span that probability
+multiplies is measured rather than assumed: the exhaustive scan counts 718,571,139 nucleotides across
+its 186,185 transcripts, so the prediction is 189 near-matches for any 16-mer whatever on one strand,
+a single figure rather than the range an assumed span would give. The BLAST arm cannot test this: its
+hit list is capped at 50, far below 189 on one strand and 378 on the two the search covers, so any
 design must return fewer whatever the transcriptome contains. The exhaustive arm can test it, being
-complete for substitutions by construction, and it comes in at chance rather than below it. The band
-is an expected count, and the observed mean over the 176 distinct oligonucleotides is 9.2 against
-3.4–9.1 predicted; the median is 3, which is what the low end of the band predicts for a count of
-this kind. Real transcript sequence therefore produces a long right tail an independent-uniform-base
-model cannot, reaching 100 matches, rather than a uniform shift below the band.
+complete for substitutions by construction, and it comes in at chance rather than below it. At the
+≤1-mismatch threshold the same span predicts 8.2 per design, against an observed mean of 9.2 over the
+176 distinct oligonucleotides, a ratio of 1.12, while the median is 3. Real transcript sequence
+therefore produces a long right tail an independent-uniform-base
+model cannot, reaching 100 matches, rather than a uniform shift away from the expectation.
 
 Two bounds remain on these counts and neither is corrected for. The BLAST arm returns at most 50
 hits per query, and 35 of the 183 filtered designs reach that cap; a further 101 exceed the 15 hits
@@ -484,7 +494,7 @@ the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon�
 parent duplex of 11 or 12 contiguous base pairs that pairs the whole catalytic gap is invisible to
 all three while being what RNase-H1 requires. Comparing every design's target window to every window
 of all six mature parents, 87 of 190 designs have one of at least ten base pairs, and 61 of those 87
-are against wild-type *NR4A3* — the transcript this modality must spare, with a 62nd pairing *NR4A3*
+are against wild-type *NR4A3*, the transcript this modality must spare, with a 62nd pairing *NR4A3*
 at eleven base pairs but another parent at twelve, so that it is attributed elsewhere. It falls steeply with the
 gap-level margin, from 50 of 76 designs at margin 1 through 29 of 76 at margin 2 to 8 of 38 at margin
 3, which is what the margin's definition predicts: at margin 1 a parent needs one lucky base to pair
@@ -494,14 +504,20 @@ itself. The margin is a predictor of
 parent engagement rather than a guarantee against it, because it counts bases unique to the fusion at
 the seam without asking whether a parent carries them elsewhere.
 
-Composing this with the deeper re-screen of §3.5 leaves two candidates in the whole panel:
-5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8 and 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1, which carry no
+Composing this with the deeper re-screen of §3.5 leaves three candidates in the whole panel, and
+they are not equally secure. 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8 and 5′-GGGCATATCCGACATG-3′ at
+*TAF15* exon 1 carry no
 hybridisable near-match at ten times the default search depth, no single-mismatch match on the
-exhaustive scan, no pre-mRNA site and no mature-parent duplex. Neither depends on the ten-base-pair
-threshold: no window of any parent pairs their catalytic gap at any length, so their longest run is
-zero rather than merely short. That is the honest size of the
-candidate set, and neither junction has a published patient breakpoint — the exon-resolved *TAF15*
-breakpoints reported in EMC are exon 6, and for *FUS* none has been published at all.
+exhaustive scan, no pre-mRNA site and no mature-parent duplex. Neither depends on the
+ten-base-pair threshold, because no window of any parent pairs their catalytic gap at any length, so
+their longest run is zero rather than merely short. 5′-GGGCATATCAAGCGCT-3′ at *TCF12* exon 7 passes
+the same screens but not in the same way: its longest parent run is eight base pairs against
+wild-type *NR4A3*, below the threshold rather than absent, so it is a candidate at the stated cut and
+not at a stricter one. The fourth design with a clean deep screen,
+5′-GGCATATCAAGCGCTG-3′ at the same junction, is excluded by an eleven-base-pair *NR4A3* duplex.
+That is the honest size of the
+candidate set, and no junction among them has a published patient breakpoint — the exon-resolved *TAF15*
+breakpoints reported in EMC are exon 6, and for *FUS* and *TCF12* exon 7 none has been published at all.
 
 Both classes were bounded the same way — exhaustive over six parent transcripts and silent about
 every other gene — so a fifth screen removed that bound. Every distinct target window and its
@@ -709,13 +725,14 @@ Coverage is predicted from sequence and has not been measured.
 oligonucleotide's count of exact plus ≤1-mismatch matches over 186,185 transcripts, ranked. The 190
 design records at real exon junctions collapse to 176 molecules, because nine of the 16-mers are
 junction-spanning at more than one partner's seam at once — five at three seams and four at two — and
-each of those is one physical oligonucleotide, plotted once rather than repeatedly (marked). The band
-is the number of such matches expected for an arbitrary 16-mer under an independent-uniform-base null
-(3.4–9.1); 125 of the 176 fall at or below its upper bound and 51 exceed it. Ten further designs from
+each of those is one physical oligonucleotide, plotted once rather than repeatedly (marked). The line
+is the number of such matches expected for an arbitrary 16-mer under an independent-uniform-base
+null, 8.2, computed against the scan's measured 718,571,139-nucleotide span;
+118 of the 176 fall at or below it and 58 exceed it. Ten further designs from
 modelled breakpoints not built from a spliced transcript model are excluded, and are released with
-the artefacts. The band is an expected count: the observed mean is 9.2, at its upper end, while the
-median is 3 at its lower end, so real transcript sequence produces a long right tail the null cannot
-rather than a uniform shift away from it. The band
+the artefacts. It is an expected count: the observed mean is 9.2, a ratio of 1.12, while the
+median is 3, so real transcript sequence produces a long right tail the null cannot
+rather than a uniform shift away from it. The line
 separates "more than chance" from "at chance" and is not a significance test; the counts are
 predictions from sequence search, not measured off-target activity.
 

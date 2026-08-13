@@ -95,10 +95,45 @@ OLIGO_LEN = 16
 #: manuscript's Declarations record as withdrawn in full. The classification is therefore read off
 #: each source file, never inferred from a filename.
 REAL_JUNCTION_BREAKPOINT_MODE = "real_exon_junction_mRNA"
-#: Transcriptome size is not recorded by the screens (they record transcript COUNT, 186,185, not
-#: nucleotides), so the expectation is reported as a RANGE over a plausible span rather than as a
-#: single number nobody measured. Naming the uncertainty is the point; picking a midpoint would hide it.
+#: ⚠ *Superseded, retained:* "Transcriptome size is not recorded by the screens (they record
+#: transcript COUNT, 186,185, not nucleotides), so the expectation is reported as a RANGE over a
+#: plausible span rather than as a single number nobody measured. Naming the uncertainty is the
+#: point; picking a midpoint would hide it." That was the right call while the span was unmeasured,
+#: and it cost the manuscript a 2.7x-wide band on its central quantitative claim ("79-210",
+#: "3.4-9.1"). ⛔ THE SPAN WAS NEVER HARD TO MEASURE — the scan loop in `aso_insilico.py` reads every
+#: base of every transcript and simply did not count them. It now does, so the expectation below is
+#: referred to a COUNTED denominator and is a single figure.
+#: The fallback range is kept for a checkout whose eval artifacts predate the accumulator; a run that
+#: falls back SAYS SO in the artifact rather than silently reporting a wider band as if measured.
 TRANSCRIPTOME_NT_RANGE = (3.0e8, 8.0e8)
+
+
+def measured_transcriptome_nt():
+    """The scanned nucleotide span, read from whichever committed eval artifact recorded it.
+
+    Returns (nt, source_filename) or (None, None). ⛔ REQUIRES AGREEMENT: if two artifacts report
+    different spans the corpus changed under the screens, and an expectation computed against either
+    one would be referred to a denominator half the panel was not measured against. That refuses
+    rather than picking.
+    """
+    seen = {}
+    for path in sorted(glob.glob(os.path.join(HERE, "aso-insilico-evaluation*.json"))):
+        try:
+            scr = (json.load(open(path, encoding="utf-8")).get("offtarget_screen") or {})
+        except (OSError, ValueError):
+            continue
+        nt = scr.get("scanned_nt")
+        if isinstance(nt, int) and nt > 0:
+            seen.setdefault(nt, os.path.basename(path))
+    if not seen:
+        return None, None
+    if len(seen) > 1:
+        raise RuntimeError(
+            "eval artifacts disagree about the scanned transcriptome span: %s. One expectation "
+            "cannot be referred to two denominators; re-run the scans or exclude the stale ones."
+            % {k: v for k, v in sorted(seen.items())})
+    nt = next(iter(seen))
+    return nt, seen[nt]
 
 
 def n_within(length, mismatches):
@@ -106,10 +141,22 @@ def n_within(length, mismatches):
     return sum(comb(length, k) * 3 ** k for k in range(mismatches + 1))
 
 
+_MEASURED_NT, _MEASURED_SRC = None, None
+
+
 def chance_expectation(length, mismatches):
-    """(p_per_position, (lo, hi) expected hits per oligo) under an i.i.d. uniform-base null."""
+    """(p_per_position, (lo, hi) expected hits per oligo) under an i.i.d. uniform-base null.
+
+    When the span has been measured the two bounds are the SAME number, so every consumer keeps
+    working unchanged and a reader can see at a glance whether the expectation is a range or a
+    measurement.
+    """
+    global _MEASURED_NT, _MEASURED_SRC
     p = n_within(length, mismatches) / 4 ** length
-    return p, tuple(round(p * n, 1) for n in TRANSCRIPTOME_NT_RANGE)
+    nt, src = measured_transcriptome_nt()
+    _MEASURED_NT, _MEASURED_SRC = nt, src
+    spans = (nt, nt) if nt else TRANSCRIPTOME_NT_RANGE
+    return p, tuple(round(p * n, 1) for n in spans)
 
 
 def seam_class(d):
@@ -370,11 +417,21 @@ def build(panels=None, collapsed=None):
         "null_model": {
             "oligo_len": OLIGO_LEN,
             "assumption": "independent, uniformly distributed bases",
-            "transcriptome_nt_range_assumed": list(TRANSCRIPTOME_NT_RANGE),
+            "transcriptome_nt": _MEASURED_NT or None,
+            "transcriptome_nt_source": _MEASURED_SRC or None,
+            "transcriptome_nt_range_assumed": (None if _MEASURED_NT
+                                               else list(TRANSCRIPTOME_NT_RANGE)),
             "_transcriptome_nt_caveat": (
+                ("MEASURED, not assumed: %d nucleotides counted across the scan's 186,185 "
+                 "transcripts, read from %s. Every expectation below is therefore a single figure. "
+                 "Superseded, retained: the span used to be assumed over 3e8-8e8 nt because the "
+                 "screens recorded transcript COUNT and not bases, which made the manuscript's "
+                 "headline expectations a 2.7x-wide band." % (_MEASURED_NT, _MEASURED_SRC))
+                if _MEASURED_NT else
                 "The screens record transcripts SCANNED (186,185), not nucleotides, so the "
                 "nucleotide span is assumed over a range rather than measured. Every expectation "
-                "below inherits that range."),
+                "below inherits that range. ⚠ THIS IS THE FALLBACK: an eval artifact recording "
+                "`scanned_nt` would make it a measurement, and none was found in this checkout."),
             "n_strings_within_2_substitutions": n_within(OLIGO_LEN, 2),
             "p_per_position_ge_14_of_16": p2,
             "expected_near_matches_per_oligo_ge_14_of_16": list(exp2),
@@ -465,7 +522,9 @@ def build(panels=None, collapsed=None):
             "series": plotted,
         },
         "_reading": (
-            f"At the <=1-mismatch threshold chance alone predicts {lo}-{hi} hits per 16-mer. The "
+            f"At the <=1-mismatch threshold chance alone predicts "
+            f"{lo if lo == hi else f'{lo}-{hi}'} hits per 16-mer"
+            f"{' over a MEASURED span' if lo == hi else ' over an assumed span range'}. The "
             f"observed median across {n} committed designs is {median}. The median design is "
             "therefore AT OR BELOW what an arbitrary oligonucleotide of this length would return, "
             "which is the honest form of the paper's specificity statement: no design is clean "
