@@ -67,31 +67,41 @@ VENUES = {
         "provenance": "nature.com pages DO answer; these were read from the journal's own guide to "
                       "authors at HTTP 200",
     },
-    # ⛔ EVERY LIMIT HERE IS `None` BECAUSE IT IS UNREAD, WHICH IS NOT THE SAME `None` AS THE ROWS
-    # ABOVE. There it can mean "the venue sets no limit of that kind"; here it means nobody has ever
-    # seen this journal's author guidelines. ⛔ DO NOT FILL THESE IN FROM BJC. Both are Springer
-    # Nature and the temptation is obvious, but a sibling journal's guide is not this journal's
-    # guide, and a borrowed number would read as a measured one for the rest of the paper's life.
-    # ⚠ AND DO NOT READ THE 404s AS A BLOCK. nature.com answers this repository normally — the
-    # journal home, the open-access page and `/cgt/about` all returned 200. What failed was
-    # GUESSING PATHS: `/cgt/for-authors` and `/cgt/submission-guidelines` do not exist. The
-    # guidelines are almost certainly reachable from links the journal home actually carries, which
-    # is what `venue_policy_browser_fetch.harvest_links()` was added to record. So this row's `None`
-    # is one CI fetch from becoming a number, not a dead end.
-    "CGT-Short-Communication": {
+    # ⛔⛔ READ AT LAST, AND IT DISQUALIFIES THE VENUE (2026-08-12). The guide was never missing —
+    # the URLs being guessed were. `/cgt/for-authors` and `/cgt/submission-guidelines` 404, and
+    # `/cgt/authors-and-referees/gta` returns 200: the same shape that already worked for the
+    # British Journal of Cancer row above, confirmed by harvesting the journal home's own links,
+    # which carry "Guide For Authors" pointing exactly there.
+    #
+    # ⛔ THE $0 CONSTRAINT FAILS HERE, verbatim from that page: "After final layout for
+    # publication, each page of an article will incur a fixed charge of £145 / $238 per page …
+    # Page charges will NOT apply to authors who choose to pay an article processing charge to
+    # make their paper open access." So the subscription route carries a MANDATORY per-page charge
+    # and the only escape is the APC. That is the Nucleic Acid Therapeutics trap again at 2.6× the
+    # price — NAT was rejected at $90/page — and it is why "hybrid, no APC on the subscription
+    # route" was never a sufficient test. This row is retained rather than deleted because the
+    # measured numbers below are still the honest measurement of the manuscript, and because the
+    # next venue must be tested against the FULL fee schedule, not the APC question alone.
+    #
+    # ⚠ AND THERE IS NO "SHORT COMMUNICATION" AT THIS JOURNAL. The types are Article, Review,
+    # Brief Communication (2 pages, one display item, 10 references), Perspective and
+    # Correspondence. The manuscript's shape fits Article — 4,249 words against 12,000, five
+    # display items against seven, 29 references against 60 — but the abstract must be
+    # UNSTRUCTURED and at most 200 words, and this manuscript's is structured and 265. Both would
+    # have to change, and neither is worth doing until the venue is settled.
+    "CGT-Article": {
         "journal": "Cancer Gene Therapy (Springer Nature)",
-        "limits": {"main_words": None, "abstract_words": None, "display_items": None,
-                   "references": None},
-        "provenance": "UNREAD, NOT UNLIMITED. Cancer Gene Therapy's author guidelines have never "
-                      "been retrieved: https://www.nature.com/cgt/for-authors and "
-                      "https://www.nature.com/cgt/submission-guidelines each returned HTTP 404 on "
-                      "all four attempts of the 2026-08-12 headless-browser run "
-                      "(research/literature/venue-policy-browser-fetch.json). The pages that DID "
-                      "answer carry no limits: the journal home (200), the open-access fees page "
-                      "(200), and /cgt/about (200, redirecting to /cgt/journal-information, which "
-                      "gives aims, scope, article types and metrics and states no word, abstract, "
-                      "display-item or reference limit). No limit in this row is inherited from "
-                      "British Journal of Cancer or from any other Springer Nature title.",
+        "limits": {"main_words": 12000, "abstract_words": 200, "display_items": 7,
+                   "references": 60},
+        "provenance": "READ at primary source: nature.com/cgt/authors-and-referees/gta, HTTP 200, "
+                      "2026-08-12, via a real headless browser (see "
+                      "research/literature/venue-policy-browser-fetch.json → cgt_gta). "
+                      "⛔ FEE-DISQUALIFIED: the same page states a MANDATORY charge of "
+                      "£145 / $238 per page on the subscription route, waived only for authors who "
+                      "pay the open-access APC. The $0 constraint is binding, so this venue cannot "
+                      "be used. ⚠ The abstract limit is for an UNSTRUCTURED abstract; this "
+                      "manuscript's is structured, so the format as well as the length is wrong "
+                      "for this journal.",
     },
 }
 
@@ -100,7 +110,7 @@ MANUSCRIPTS = {
     "dependency/emc-atr-collaborator-package.md": "GCC-Research-Article",
     "repurposing/repurposing-hypotheses.md": "CROH-Review",
     "surface-targets/emc-surface-target-landscape.md": "BJC-Article",
-    "aso/fusion-junction-aso-short-communication.md": "CGT-Short-Communication",
+    "aso/fusion-junction-aso-short-communication.md": "CGT-Article",
 }
 
 #: Files that carry display items or reference entries belonging to a manuscript but living outside

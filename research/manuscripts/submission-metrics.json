@@ -167,7 +167,7 @@
       "file": "aso/fusion-junction-aso-short-communication.md",
       "venue": "Cancer Gene Therapy (Springer Nature)",
       "measured": {
-        "main_words": 4249,
+        "main_words": 4244,
         "abstract_words": 265,
         "figures": 3,
         "tables": 2,
@@ -184,14 +184,16 @@
         "figures/aso-chance-baseline.svg"
       ],
       "limits": {
-        "main_words": null,
-        "abstract_words": null,
-        "display_items": null,
-        "references": null
+        "main_words": 12000,
+        "abstract_words": 200,
+        "display_items": 7,
+        "references": 60
       },
-      "limits_provenance": "UNREAD, NOT UNLIMITED. Cancer Gene Therapy's author guidelines have never been retrieved: https://www.nature.com/cgt/for-authors and https://www.nature.com/cgt/submission-guidelines each returned HTTP 404 on all four attempts of the 2026-08-12 headless-browser run (research/literature/venue-policy-browser-fetch.json). The pages that DID answer carry no limits: the journal home (200), the open-access fees page (200), and /cgt/about (200, redirecting to /cgt/journal-information, which gives aims, scope, article types and metrics and states no word, abstract, display-item or reference limit). No limit in this row is inherited from British Journal of Cancer or from any other Springer Nature title.",
-      "limits_read": false,
-      "over_limit": []
+      "limits_provenance": "READ at primary source: nature.com/cgt/authors-and-referees/gta, HTTP 200, 2026-08-12, via a real headless browser (see research/literature/venue-policy-browser-fetch.json → cgt_gta). ⛔ FEE-DISQUALIFIED: the same page states a MANDATORY charge of £145 / $238 per page on the subscription route, waived only for authors who pay the open-access APC. The $0 constraint is binding, so this venue cannot be used. ⚠ The abstract limit is for an UNSTRUCTURED abstract; this manuscript's is structured, so the format as well as the length is wrong for this journal.",
+      "limits_read": true,
+      "over_limit": [
+        "abstract_words 265 > 200"
+      ]
     }
   ]
 }

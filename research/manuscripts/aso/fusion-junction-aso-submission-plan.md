@@ -121,6 +121,46 @@ subscription route, switch back to NAT before submitting; nothing in the manuscr
 **Plan of record: bioRxiv preprint (free, immediately) → Cancer Gene Therapy, subscription route.**
 The preprint is unaffected by the venue question and should not wait on it.
 
+### 1c · ⛔ CGT IS DISQUALIFIED. ITS GUIDE WAS READ, AND IT CHARGES BY THE PAGE (2026-08-12)
+
+**The guide was never missing; the URLs being guessed for it were.** `/cgt/for-authors` and
+`/cgt/submission-guidelines` return 404 and do not exist. `nature.com/cgt/authors-and-referees/gta`
+returns **HTTP 200** — the same URL shape already known to work for the British Journal of Cancer,
+and the one the journal's own home page links as "Guide For Authors". Three rounds of path-guessing
+were spent on a page that a link harvest found immediately.
+
+⛔ **AND IT FAILS THE $0 CONSTRAINT, VERBATIM:**
+
+> "After final layout for publication, each page of an article will incur a fixed charge of
+> **£145 / $238 per page**. This charge is fully inclusive of colour reproduction … **Page charges
+> will NOT apply to authors who choose to pay an article processing charge to make their paper open
+> access.**"
+
+So the subscription route carries a **mandatory** per-page charge, and the only way out is the APC.
+For a manuscript of this size that is roughly **$1,900–2,400**. This is the Nucleic Acid Therapeutics
+trap a second time at **2.6× the price** — NAT was rejected at $90/page — and it is the reason
+"hybrid, therefore no APC on the subscription route" was never a sufficient test. §1b's reasoning was
+sound and its conclusion is withdrawn: what was read there was the *open-access* page, which settles
+the APC question and is silent on page charges.
+
+⚠ **Two format facts, recorded now so the next venue is chosen with them in hand.** There is **no
+Short Communication type at CGT** — the types are Article, Review, Brief Communication (2 pages, one
+display item, 10 references), Perspective and Correspondence. The manuscript's shape fits **Article**
+comfortably (4,244 words against 12,000; five display items against seven; 29 references against 60),
+but that type requires an **unstructured abstract of at most 200 words** and this manuscript's is
+structured and 265. Neither the abstract format nor its length should be changed until a venue is
+settled, because both are venue-specific and the current form is right for a journal that wants a
+structured abstract.
+
+✅ **What this cost and what it bought.** Nothing was submitted, so the cost is zero. What it bought
+is the rule generalised: **ask every venue for its FULL fee schedule, not its APC policy** — page,
+colour, submission and over-length charges included — and read it from the journal's own guide to
+authors rather than from a publisher-wide policy page. Two venues have now been eliminated by
+exactly this question, and both looked free until the guide was read.
+
+**Plan of record is therefore: bioRxiv preprint (free, immediately); journal venue REOPENED.**
+See §1d.
+
 ## 2 · What the venue demands, and where the submission stands
 
 ⚠ **This table was written against the WORKING RECORD, before the submission text existed as a

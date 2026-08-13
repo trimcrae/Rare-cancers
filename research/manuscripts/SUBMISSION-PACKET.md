@@ -106,15 +106,17 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3929 (no limit found) |
-| Abstract | 346 words  |
-| Display items | 5 (3 figures, 2 tables) |
-| References | 29 |
+| Word count, main text | 4244 (limit 12000) |
+| Abstract | 265 words (limit 200) |
+| Display items | 5 (3 figures, 2 tables) (limit 7) |
+| References | 29 (limit 60) |
 | Cover letter | `aso/fusion-junction-aso-short-communication-cover-letter.md` |
 | Supplementary file | none |
 | Fee route | not recorded |
 
-⚠ Limits provenance: UNREAD, NOT UNLIMITED. Cancer Gene Therapy's author guidelines have never been retrieved: https://www.nature.com/cgt/for-authors and https://www.nature.com/cgt/submission-guidelines each returned HTTP 404 on all four attempts of the 2026-08-12 headless-browser run (research/literature/venue-policy-browser-fetch.json). The pages that DID answer carry no limits: the journal home (200), the open-access fees page (200), and /cgt/about (200, redirecting to /cgt/journal-information, which gives aims, scope, article types and metrics and states no word, abstract, display-item or reference limit). No limit in this row is inherited from British Journal of Cancer or from any other Springer Nature title..
+> **Over a stated limit:** abstract_words 265 > 200
+
+⚠ Limits provenance: READ at primary source: nature.com/cgt/authors-and-referees/gta, HTTP 200, 2026-08-12, via a real headless browser (see research/literature/venue-policy-browser-fetch.json → cgt_gta). ⛔ FEE-DISQUALIFIED: the same page states a MANDATORY charge of £145 / $238 per page on the subscription route, waived only for authors who pay the open-access APC. The $0 constraint is binding, so this venue cannot be used. ⚠ The abstract limit is for an UNSTRUCTURED abstract; this manuscript's is structured, so the format as well as the length is wrong for this journal..
 
 **Figures to upload**
 
