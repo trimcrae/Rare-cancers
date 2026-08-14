@@ -26,6 +26,12 @@ last_verified: 2026-08-14
 
 # Round-3 pre-deposit review of the fusion-junction ASO submission
 
+> ⚠ **EVERY §-REFERENCE BELOW PREDATES THE ROUND-4 RENUMBER AND POINTS AT THE OLD SECTIONS.**
+> [Round 4](./fusion-junction-aso-paper-redteam-round4.md) §3 carries the map — in short, old §3.5
+> is now §3.4, old §3.6 is §3.5, old §3.7 and §3.11 are §3.6, old §3.8 split into §3.7 and §3.8,
+> and old §4 split into §4, §5 and §6. Nothing in this review's findings changed; only where the
+> paper keeps them.
+>
 > **Rounds 1 and 2** are [`fusion-junction-aso-paper-redteam.md`](./fusion-junction-aso-paper-redteam.md)
 > and [`fusion-junction-aso-paper-redteam-round2.md`](./fusion-junction-aso-paper-redteam-round2.md).
 > Nothing below re-raises a finding from either, and the four items round 2 left open under "what

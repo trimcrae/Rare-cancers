@@ -67,7 +67,14 @@ def test_the_margin_gradient_matches_the_manuscript():
 
 
 def test_five_of_the_nine_clean_designs_carry_a_parent_duplex():
-    """The finding itself. If this stops being five, the Abstract and §3.8 are both wrong."""
+    """The finding itself. If this stops being five, the Abstract and §3.7 are both wrong.
+
+    ⚠ The section reference below tracks a RENUMBER, not a relaxation: the clean-design section was
+    §3.5 until the Results were rebalanced (the 104-word strand-orientation stub was folded into it
+    as its opening), and it is §3.4 now. The assertion still pins the same sentence to the same
+    cross-reference — a stale pointer here would let the paper cite a section that no longer holds
+    the designs it is counting.
+    """
     sys.path.insert(0, HERE)
     from test_aso_submission_numbers import _clean_set  # noqa: E402  (one home for the predicate)
     clean = {seq for _, seq in _clean_set()}
@@ -76,7 +83,7 @@ def test_five_of_the_nine_clean_designs_carry_a_parent_duplex():
     free = sorted(s for s in clean if not rows[s]["counts_as_liability"])
     assert len(clean) == 9
     assert len(liable) == 5 and len(free) == 4, (liable, free)
-    assert "Five of the nine designs of §3.5 carry such" in _flat(_paper())
+    assert "Five of the nine designs of §3.4 carry such" in _flat(_paper())
 
 
 def test_the_candidate_set_is_what_both_screens_leave():
