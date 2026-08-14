@@ -500,33 +500,32 @@ whereas `XM_`/`XR_` are computationally predicted gene models. A design's *load*
 predicted off-target burden, counted as near-matches. A load sitting entirely in the predicted
 namespace is a different kind of liability from one that matches curated transcripts.
 For the multi-partner candidate 5′-GGGCATATCATCAAAC-3′ both effects apply and compound with the
-orientation filter. Of its nine near-matches, six are hybridisable and five of those are
-gap-spanning, and all five are variants of a single uncharacterised locus, LOC105374140, annotated
-only as predicted `XR_` models. One gap-spanning locus from a raw count of nine, but not one clean of
-curated sequence: the sixth hybridisable near-match is *H2AP* (NM_012274), whose single mismatch
-falls inside the catalytic gap and which the pessimistic bound therefore counts in full. The same
-design returns no exact match and a single ≤1-mismatch match on the exhaustive scan.
+orientation filter. Of its nine near-matches, six are hybridisable and five of those span the
+catalytic gap. All five are variants of a single uncharacterised locus, LOC105374140, annotated only
+as predicted `XR_` models. That is one gap-spanning locus from a raw count of nine, but it is not
+clean of curated sequence. The sixth hybridisable near-match is *H2AP* (NM_012274), whose single
+mismatch falls inside the catalytic gap, so the pessimistic bound counts it in full. The same design
+returns no exact match and a single ≤1-mismatch match on the exhaustive transcript scan.
 
-Re-screened at the tenfold deeper ceiling, that design returns 189 near-matches, 141 of them
-hybridisable and gap-spanning, and 123 with the catalytic gap perfectly paired. Both effects above
-apply at that depth and neither weakens. All 123 sit at 14 of 16 identity, the loosest match the
-screen admits; they recount to six gene loci, of which *ANKS1B* and *ZNF667* supply 104 between
-them; 82 of the 123 are `XM_`/`XR_` predicted models; and no parent transcript is among them. Depth
-therefore raises the raw count roughly twentyfold and the distinct gap-spanning locus count from one
-to six.
+Re-screened at the tenfold deeper ceiling, that design returns 189 near-matches. Of these, 141 are
+hybridisable and span the gap, and 123 pair the catalytic gap perfectly. Both effects above apply at
+that depth and neither weakens. All 123 sit at 14 of 16 identity, the loosest match the screen
+admits. They recount to six gene loci, of which *ANKS1B* and *ZNF667* supply 104 between them. Of the
+123, 82 are `XM_`/`XR_` predicted models, and no parent transcript is among them. Depth therefore
+raises the raw count roughly twentyfold, and the distinct gap-spanning locus count from one to six.
 
 A third discount applies to all of these counts, and it is the one a bench reader will care about
-most: the screens establish that a design matches a gene, not that the gene is transcribed where the
+most. The screens establish that a design matches a gene, not that the gene is transcribed where the
 drug goes. Read against reference expression data, the gap-paired loci of the best design at each of
 the two junctions with a published exon-resolved breakpoint separate, in the direction opposite to
-the sizes of their loads (Table 6). The *EWSR1* exon 12 reagent's six loci carry 123 of
-the panel's 278 transcript records, and none of the four measurable ones reaches the upper cut in
-liver or either kidney compartment; *ANKS1B* supplies 67 of them and sits below the lower cut in all
-three, peaking instead in brain at 24.9 TPM. The *TAF15* exon 6 reagent returns five loci, of which
-*NRP1* reaches 6.6 to 17.8 TPM across all three exposure tissues and is the only one all five of that
-seam's tiling registers return, on five transcript records, so robustness to register and record
-count order it differently. The tumour-compartment proxy orders them differently again, *LAMA4*
-carrying the panel's highest value there at 268.6 TPM in cultured fibroblasts.
+the sizes of their loads (Table 6). The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's
+278 transcript records, and none of the four measurable ones reaches the upper cut in liver or either
+kidney compartment. *ANKS1B* supplies 67 of them and sits below the lower cut in all three, peaking
+instead in brain at 24.9 TPM. The *TAF15* exon 6 reagent returns five loci. Of these, *NRP1* reaches
+6.6 to 17.8 TPM across all three exposure tissues and is the only one all five of that seam's tiling
+registers return, on five transcript records, so robustness to register and record count order it
+differently. The tumour-compartment proxy orders them differently again, *LAMA4* carrying the panel's
+highest value there at 268.6 TPM in cultured fibroblasts.
 
 ### 3.7 · The parents: liability in pre-mRNA and in mature transcript
 
@@ -668,86 +667,84 @@ single score.
 The panel above is one geometry. Tiling the same seams at 5-8-5 and 5-10-5, wing fixed at five
 nucleotides, resolves what a longer catalytic gap buys and what it costs (Table 5).
 
-The two are the same nucleotide. Inside the gap, the junction-unique bases on the shorter side and
-the bases one wild-type parent pairs on the longer side are complements: they sum to the gap. That
-holds for every design in all three panels rather than on average, so no design can gain a nucleotide
-of gap-level margin without handing RNase-H1 one more nucleotide of contiguous wild-type-parent
-duplex. Lengthening the gap makes the enzyme more competent against the fusion and against the parent
-transcript together, and no choice of register avoids it.
+What a longer gap buys and what it costs are the same nucleotide. Inside the gap, the junction-unique
+bases on the shorter side and the bases one wild-type parent pairs on the longer side are
+complements: they sum to the gap. That holds for every design in all three panels rather than on
+average. No design can therefore gain a nucleotide of gap-level margin without handing RNase-H1 one
+more nucleotide of contiguous wild-type-parent duplex. Lengthening the gap makes the enzyme more
+competent against the fusion and against the parent together, and no choice of register avoids it.
 
-Both directions are large. The best available gap-level margin rises from 3 to 4 to 5 and the
-junction-spanning registers per seam from five to seven to nine. At the *EWSR1* exon 12 / *TAF15*
-exon 11 / *FUS* exon 10 seam the design carrying that margin sheds its transcriptome load completely:
-123 hybridisable gap-spanning cleavage risks at six gene loci become 3 at one locus and then none.
-Over the six seams screened at every geometry, designs carrying no gap-spanning risk rise from 8 of
-30 to 28 of 42 to 54 of 54, and the most such risk loci on any one design falls from seven to two to
-none. Against that, the contiguous DNA a wild-type parent pairs at the same seam rises from 3 to 4 to
-5 nucleotides and the most stable parent duplex from −7.77 to −8.66 to −10.25 kcal/mol. The corpus
-shows the same trade: designs whose parent pairs at least five nucleotides of contiguous gap DNA, the
+Both directions are large. The best available gap-level margin rises from 3 to 4 to 5, and the
+junction-spanning registers per seam from five to seven to nine. At the *EWSR1* exon 12, *TAF15* exon
+11 and *FUS* exon 10 seam, the design carrying that margin sheds its transcriptome load completely:
+123 hybridisable cleavage risks across the gap at six gene loci become 3 at one locus and then none.
+Over the six seams screened at every geometry, designs carrying no such risk rise from 8 of 30 to 28
+of 42 to 54 of 54, and the most risk loci on any one design falls from seven to two to none.
+
+Against that, the contiguous DNA a wild-type parent pairs at the same seam rises from 3 to 4 to 5
+nucleotides, and the most stable parent duplex from −7.77 to −8.66 to −10.25 kcal/mol. The corpus
+shows the same trade. Designs whose parent pairs at least five nucleotides of contiguous gap DNA, the
 shorter of the two reported minima for RNase-H1, rise from 76 of 190 to 228 of 266 to 342 of 342, and
 the median most stable parent duplex falls from −8.66 to −14.58 kcal/mol. At 5-10-5 that count is
-every design, and necessarily so, since the smaller half of a gap of ten cannot be under five; at
+every design, and necessarily so, since the smaller half of a gap of ten cannot be under five. At
 5-6-5, 114 of 190 designs keep the parent below it.
 
 Part of the fall in near-matches is guaranteed by the instrument rather than measured. At a fixed
 budget of two mismatches, every locus a longer design can reach is also reached by each of its own
-shorter sub-windows, so the reachable set can only shrink as the design lengthens, and two mismatches
-is a fractionally stricter test at 20 nucleotides than at 16. Only the size of the fall and which
-designs reach zero are measurements. The parent-side quantities carry no such qualification, being
+shorter sub-windows, so the reachable set can only shrink as the design lengthens. Two mismatches is
+also a fractionally stricter test at 20 nucleotides than at 16. Only the size of the fall, and which
+designs reach zero, are measurements. The parent-side quantities carry no such qualification, being
 computed from the seam rather than from a search.
 
-Two liabilities the transcript screens do not reach move the favourable way: a mature parent can pair
+Two liabilities the transcript screens do not reach move the favourable way. A mature parent can pair
 the whole gap for 181 of 190 designs at 5-6-5 but 87 of 342 at 5-10-5, and designs pairing the gap in
-parent pre-mRNA fall from 19 of 190 to 9 of 342. Nor is the effect confined to the longest geometry,
-since 5′-CAGGGCATATCAAGCGCT-3′ at *TCF12* exon 7 returns no near-match at all where the 16-mer
-surviving at that seam returns three.
+parent pre-mRNA fall from 19 of 190 to 9 of 342. Nor is the effect confined to the longest geometry:
+5′-CAGGGCATATCAAGCGCT-3′ at *TCF12* exon 7 returns no near-match at all, where the 16-mer surviving
+at that seam returns three.
 
 ## 4 · Discussion
 
-Designability is not the constraint: junction-spanning designs exist at every frame-compatible NR4A3
+Designability is not the constraint. Junction-spanning designs exist at every frame-compatible NR4A3
 fusion junction, though at three of them every design pairs a wild-type parent through the catalytic
-gap. Specificity does not
-sort by partner — with all 38 junctions screened, every one of the five partners has a junction whose
-best design carries no hybridisable gap-spanning near-match, so it is the exon a fusion breaks at,
-not the gene it breaks into, that predicts a clean design.
+gap. Nor does specificity sort by partner. With all 38 junctions screened, every one of the five
+partners has a junction whose best design carries no hybridisable near-match across the gap. It is
+therefore the exon a fusion breaks at, not the gene it breaks into, that predicts a clean design.
 
 Clean designs are much scarcer than the default search depth implies, and two independent findings
 converge on that. Of the nine designs with no hybridisable near-match at that depth, six lose the
-property at ten times it, three of them having reported no near-match at all before; and five form an
-eleven- or twelve-base-pair duplex with a mature wild-type parent that pairs the whole catalytic gap,
-one of them with *NR4A3* itself, where no screen filtering on global identity can see it. Three designs
-survive every screen applied here, two of them at any parent-duplex threshold, and that is the honest
-size of the candidate set, taken at
-the deeper ceiling now applied to all 38 junctions and 187 design records with no hit list
-truncated. Those counts are reported as their own
-measurement and are not folded into the default-depth figures above.
+property at ten times it, three of them having reported no near-match at all before. Separately, five
+form an eleven- or twelve-base-pair duplex with a mature wild-type parent that pairs the whole
+catalytic gap, one of them with *NR4A3* itself, where no screen filtering on global identity can see
+it. Three designs survive every screen applied here, two of them at any parent-duplex threshold. That
+is the honest size of the candidate set, taken at the deeper ceiling now applied to all 38 junctions
+and 187 design records with no hit list truncated. Those counts are reported as their own measurement
+and are not folded into the default-depth figures above.
 
 The limiting step is discrimination between the fusion and its parents, and it is not resolved here.
-Both cited bounds are measured against a single substitution in an otherwise fully paired duplex, so
-neither transfers to a parent that leaves half the oligonucleotide unpaired and the catalytic gap
+Both cited bounds are measured against a single substitution in an otherwise fully paired duplex.
+Neither transfers to a parent that leaves half the oligonucleotide unpaired and the catalytic gap
 only partly so: they bound the near-match case, and no retrieved measurement bounds the parent case.
-The two parent compartments of §3.7 sharpen that rather than softening it. For nine designs the
-route to wild-type *NR4A3* is not a gap-level discrimination problem at all: they pair the catalytic
-gap in full across the wild-type intron-2/exon-3 boundary, at two mismatches that both fall in the
-LNA wing, and the compartment in which that duplex would form is the nuclear one
-RNase-H1 occupies. For 87 the same is true in mature parent sequence. The general point is that a
-fusion-junction design's most plausible wild-type liability is its own parent, reached either across
-a splice junction or in the mature transcript, and both are invisible to a screen that ranks
-candidates by global identity.
+The two parent compartments of §3.7 sharpen that rather than softening it. For nine designs the route
+to wild-type *NR4A3* is not a gap-level discrimination problem at all. They pair the catalytic gap in
+full across the wild-type intron-2/exon-3 boundary, at two mismatches that both fall in the LNA wing,
+and the compartment in which that duplex would form is the nuclear one RNase-H1 occupies. For 87 the
+same is true in mature parent sequence. The general point is that a fusion-junction design's most
+plausible wild-type liability is its own parent, reached either across a splice junction or in the
+mature transcript, and both are invisible to a screen that ranks candidates by global identity.
 
-Free-energy calculation does not narrow the interval either: every
-design discriminates amply at the level of duplex formation, so what is unresolved is specifically
-the catalytic step, not the binding one. Two things could narrow that interval and no further
-sequence analysis is either of them: a measurement, or a physics-based estimate of cleavage geometry
-on the RNase-H1·heteroduplex complex, for which experimental structures exist. Neither is attempted
-here. Gap length is not a third, for a reason that is arithmetic rather than empirical: in every design of
-all three panels the margin a longer gap wins and the contiguous parent duplex it concedes are the
-same nucleotides (§3.10). A longer gap buys a markedly quieter transcriptome, and buys it by making
-RNase-H1 more competent against the parent as well as against the fusion, which is the same limit
-reached from the other side rather than a way around it. The field's own
-answer to poor single-base discrimination has been positional chemical modification of the gap rather
-than length,<sup>26</sup><!--PMID:23963702--> and that is the design direction this result points to,
-now for a demonstrated reason rather than by analogy. A steric-block
+Free-energy calculation does not narrow the interval either. Every design discriminates amply at the
+level of duplex formation, so what is unresolved is specifically the catalytic step, not the binding
+one. Two things could narrow that interval, and no further sequence analysis is either of them: a
+measurement, or a physics-based estimate of cleavage geometry on the RNase-H1·heteroduplex complex,
+for which experimental structures exist. Neither is attempted here. Gap length is not a third, for a
+reason that is arithmetic rather than empirical. In every design of all three panels, the margin a
+longer gap wins and the contiguous parent duplex it concedes are the same nucleotides (§3.10). A
+longer gap buys a markedly quieter transcriptome, and buys it by making RNase-H1 more competent
+against the parent as well as against the fusion. That is the same limit reached from the other side
+rather than a way around it. The field's own answer to poor single-base discrimination has been
+positional chemical modification of the gap rather than
+length,<sup>26</sup><!--PMID:23963702--> and that is the design direction this result points to, now
+for a demonstrated reason rather than by analogy. A steric-block
 mechanism, which does not require gap-level discrimination, is a second alternative this work does not
 evaluate.
 
