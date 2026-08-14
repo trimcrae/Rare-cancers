@@ -40,37 +40,27 @@ myxoid chondrosarcoma
 
 ## Abstract
 
-**Background.** Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma driven by the fusion of
-a variable partner gene to *NR4A3*. The chimeric mRNA contains a breakpoint junction, a short
-stretch of sequence present in no normal transcript, so a drug could in principle tell the fusion
-from the two genes it is built from by base-pairing alone. A structured search retrieved no
-oligonucleotide directed at such a junction in this disease.
+**Background.** Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma driven by fusion of a
+variable partner gene to *NR4A3*. Its chimeric mRNA carries a breakpoint junction found in no normal
+transcript, so base-pairing could in principle distinguish it from both parent genes. No
+oligonucleotide against such a junction has been reported in this disease.
 
-**Methods.** All 231 donor-exon and acceptor-exon pairs across five fusion partners were graded for
-whether they produce an in-frame chimeric transcript. Over every frame-compatible junction, 16-mer
-gapmers (5-6-5 LNA/DNA/LNA on a phosphorothioate backbone) were tiled in each register that places
-the breakpoint inside the central DNA gap, the segment within which RNase-H1 cleaves. The designs
-were put through five specificity screens spanning mature transcripts, the unspliced pre-mRNA of the
-parent genes and the whole GRCh38 genome, and the tiling was repeated at three gap lengths.
+**Methods.** All 231 donor-acceptor exon pairs across five partners were graded for frame.
+Junction-spanning 16-mer 5-6-5 LNA/DNA/LNA gapmers were tiled over every frame-compatible junction
+and screened against mature transcripts, parent pre-mRNA and GRCh38, at three gap lengths.
 
-**Results.** Of the 231 pairs, 38 are frame-compatible and so could support a fusion; these carry
-190 candidate oligonucleotides, none of which matches any parent transcript along its full length.
-Nine designs returned no off-target match anywhere in the transcriptome that an antisense
-oligonucleotide could actually base-pair with; searching ten times deeper, only three of those nine
-still returned none, all at junctions no patient has been reported to carry. The parents are the liability no
-transcriptome screen detects, since such screens exclude them by construction: 87 of the 190 designs
-pair the catalytic gap against a mature parent transcript, 61 of those against wild-type *NR4A3*,
-the transcript this approach exists to spare. Separately, 19 of the 190 do so in parent pre-mRNA,
-where RNase-H1 is also active. Ranking within each junction returns a usable candidate at both
-junctions with a published exon-resolved breakpoint, together about 95% of molecularly confirmed
-cases, and none at three of the 38.
+**Results.** Designs are plentiful: 38 of the 231 pairs are frame-compatible, carrying 190
+candidates. The constraint is the parent genes, which transcriptome screens exclude by construction
+and so never test. Of the 190 designs, 87 pair the catalytic gap against a mature parent transcript,
+61 of those against wild-type *NR4A3*, the transcript this approach exists to spare; separately, 19
+of the 190 pair it in parent pre-mRNA, where RNase-H1 is also active. Apparently clean designs
+mostly fail a tenfold deeper search. Ranking within each junction still returns a usable candidate
+at both published breakpoints, about 95% of confirmed cases.
 
-**Conclusions.** Designability is not the constraint: the parents, not the wider transcriptome,
-consume the clean designs. The limiting step is telling the fusion from its own parents at the
-catalytic gap, and a longer gap cannot relieve it, because every nucleotide that makes RNase-H1 more
-competent against the fusion makes it equally more competent against the parent. The
-oligonucleotides to synthesise, the controls needed to interpret the result, and the selectivity
-value that would falsify the ranking used here are named.
+**Conclusions.** Designability is not the constraint: the parents, not the transcriptome, consume
+the clean designs. Fusion-versus-parent discrimination at the catalytic gap is the limiting step,
+and gap length cannot relieve it, since the same nucleotides arm RNase-H1 against both. Reagents,
+controls and a falsifying threshold are named.
 
 ---
 
