@@ -389,7 +389,10 @@ from their having no hybridisable hit to score.
 
 Every junction was then re-screened at a tenfold deeper alignment ceiling, with retention raised
 to match it so that every hit list is complete — 38 junctions and 187 design records, none truncated
-— and the result withdraws most of the set above. Only
+— and the result withdraws most of the set above. The 187 are the panel's 190 less three that failed
+at the remote service on this pass, two at *FUS* exon 5 and one at *TFG* exon 2; each had already
+returned 23, 41 and 31 near-matches at the default depth, so none was a candidate and no count below
+depends on them. Only
 three of the nine still carry no hybridisable near-match: 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8,
 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 and 5′-GGCATATCAAGCGCTG-3′ at *TCF12* exon 7, each of which
 returned the same count at both depths. The other six did not. The three *EWSR1* exon-1 designs had
@@ -492,6 +495,17 @@ Of 190 designs, 53 have a
 near-match somewhere in parent pre-mRNA and 19 carry one that is hybridisable, pairs the catalytic gap
 in full, and touches intronic sequence, the last condition being what makes it invisible to both
 transcript screens rather than a re-count of something already reported.
+
+The step from 53 to 19 is a threshold rather than a measurement, and the class it removes is the one
+the Methods decline to dismiss. Forty designs carry a hybridisable parent pre-mRNA site; the 19
+counted here are those pairing the catalytic gap in full, and the remaining 21 pair all of it but
+one or two positions — 26 of their 28 sites are a single gap mismatch short, and five are in
+*NR4A3* itself. Under the bounds this work adopts a single mismatch inside the gap does not abolish
+cleavage, so those 21 are not a null result; they are excluded because a graded count over this
+compartment would need a discrimination model the literature does not supply for a parent duplex.
+The same condition governs the mature-parent screen below, which considers only windows pairing the
+whole gap. Every count in this section should be read as the fully-paired class and not as the whole
+parent liability.
 
 Those 19 sites fall into two classes that do not mix, and only one of them is mechanistically
 interesting. Nine are intron–exon-spanning and every one is in *NR4A3*, at the same place: six or
@@ -745,7 +759,16 @@ from −7.77 to −8.66 kcal/mol. Both arms therefore need the fusion-negative c
 them: the *EWSR1* reagent carries the heaviest disclosed load of any design considered here,
 123 gap-paired hybridisable near-matches at the deeper ceiling, recounting to six gene loci, all at
 the screen's loosest admitted identity and none on a parent transcript (§3.7), against 8 such
-near-matches at five loci for the *TAF15* reagent. That load should
+near-matches at five loci for the *TAF15* reagent. The parent compartments qualify that, and in a
+way the transcript screens cannot show. The *EWSR1* reagent carries a hybridisable
+intron–exon-spanning near-match in wild-type *TAF15* pre-mRNA at two mismatches, one of them inside
+the catalytic gap, returned independently by the pre-mRNA and the genome-wide arms; it falls outside
+every parent count reported here because those require the gap to be paired in full, and by the
+bounds adopted above a single gap mismatch does not abolish cleavage. It is the multi-partner
+result's own cost rather than an incidental hit: the ten donor bases shared across *EWSR1*, *TAF15*
+and *FUS* that let one oligonucleotide span three seams are the bases that place it against
+wild-type *TAF15*. The *TAF15* exon-6 reagent carries no hybridisable pre-mRNA site at all, which is
+a second respect in which the two separate on something other than count. That load should
 travel with the reagent, and it is a liability to disclose and to control for rather than a
 disqualification, because on the exhaustive genome scan the same design falls below chance in both
 directions that matter, at 0.69 times the expected number of near-matches at two mismatches and
@@ -806,7 +829,11 @@ its own sub-windows, but no such scan has been run, so that bound is an availabl
 result. No RNase-H1 assay distinguishes these geometries here, so which gap is preferable is not decided by
 this work. The
 thermodynamic calculation models an unmodified DNA:RNA hybrid and speaks to duplex formation rather
-than to cleavage. All five screens address hybridisation-dependent liability only; the
+than to cleavage. Every parent count reported here requires the catalytic gap to be paired in full, which is the
+binary rule the Methods decline to apply to cleavage, used as an inclusion criterion because no
+retrieved measurement grades a partly-paired parent duplex; the class it excludes is 21 designs at
+the pre-mRNA arm and is stated in §3.8 rather than left to the artefacts. All five screens address
+hybridisation-dependent liability only; the
 sequence-independent class of a phosphorothioate LNA gapmer, protein binding and the
 target-independent hepatotoxicity of this chemistry, is not a function of any feature graded here.
 The expression reading carries bounds of its own. Seven of the 23 loci returned no reading: three are

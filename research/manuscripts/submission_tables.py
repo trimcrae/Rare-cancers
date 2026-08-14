@@ -94,6 +94,47 @@ def _hybridisable(oligo):
     return sum(1 for h in hits if not h.get("is_minus_strand"))
 
 
+def _deep_lookup():
+    """Every 16-mer design's deep-ceiling counts, keyed `(junction_label, sequence)`.
+
+    ⛔ WHY TABLES 2 AND 3 NEEDED THIS COLUMN (round-3 review, 2026-08-14). Both tables are the
+    DEFAULT-depth result, and the Results withdraw part of what they print: three Table 2 rows
+    showed `0 hybridisable, 0 gap-spanning loci` for designs carrying 14, 29 and 30 hybridisable
+    hits at ten times the ceiling, and every one of Table 3's nine rows printed a zero that §3.5
+    withdraws for six of them. The captions said so in prose. **A caption is not where a reader
+    checks a number** — the cell is, and a cell that reads clean beside a text that calls the
+    design dirty reads as the text being wrong. `GGGCATATCTCTATAA` was the sharpest case: named in
+    §4 as withdrawn with 14 gap-spanning risks, and shown in Table 2 with none.
+
+    The default-depth columns STAY, because they are the depth the corpus-wide counts elsewhere in
+    the paper were computed at and dropping them would break that correspondence. This adds the
+    measurement beside them rather than replacing it.
+
+    ⚠ A design absent from the deep set is not a design with a deep count of zero. Three of the 190
+    records failed at the deeper ceiling (FUS e5 twice, TFG e2 once), so they get `—` and never `0`
+    — the distinction CLAUDE.md §4 exists for, and the reason this returns None rather than a
+    default.
+    """
+    out = {}
+    try:
+        screens = ass.load_screens(GEOMETRY, ass.BLAST_SCREEN, select=ass.is_deep)
+    except Exception:                                        # noqa: BLE001
+        return out                                           # no deep set on disk: columns read "—"
+    for s in screens:
+        lab = s.junction_label
+        if not lab:
+            continue
+        for o in (s.artifact.get("oligos") or []):
+            if o.get("status") != "screened":
+                continue
+            out[(lab, o["antisense_5to3"])] = {
+                "n": o.get("n_offtarget_near_matches"),
+                "hyb": _hybridisable(o),
+                "gap_loci": o.get("n_loci_with_a_gap_spanning_hit"),
+            }
+    return out
+
+
 def _clean_designs(collapse):
     """The designs with no hybridisable near-match, over a hit list complete enough to say so.
 
@@ -240,11 +281,13 @@ def table2(collapse, chance, atlas):
     # candidate reads 9 there and has 8 gap-spanning. Total near-matches and gap-spanning
     # near-matches are both worth printing and are printed separately; the collapse artifact stores
     # gap-spanning resolved to LOCI but not to transcripts, so that is the column that exists.
+    deep = _deep_lookup()
     hdr = ("| junction | designs screened | best gap-level margin | that design | near-matches, "
            "either strand (transcripts → loci) | of the retained hits, hybridisable² | loci with a "
            "gap-spanning hit | of those, predicted models only¹ | "
+           "at the deeper ceiling: near-matches / hybridisable / gap-spanning loci⁵ | "
            "≤1-mismatch matches across that junction's designs, median (max) |")
-    sep = "|---|---|---|---|---|---|---|---|---|"
+    sep = "|---|---|---|---|---|---|---|---|---|---|"
     rows = []
     for lab in sorted(by_j):
         ol = by_j[lab]
@@ -257,7 +300,7 @@ def table2(collapse, chance, atlas):
         # of absence (CLAUDE.md §4), so the row is emitted saying exactly that.
         if not ol:
             rows.append(f"| {lab.replace('__', '::').replace('_', ' ')} | 0 of 5 — every BLAST "
-                        f"submission failed at the remote service | — | — | — | — | — | — | — |")
+                        f"submission failed at the remote service | — | — | — | — | — | — | — | — |")
             continue
         ranked = sorted(ol, key=lambda o: -(gap_margin.get((lab, o["antisense_5to3"])) or -1))
         best = ranked[0]
@@ -290,6 +333,11 @@ def table2(collapse, chance, atlas):
         # opposite of what the screen knows.
         hyb = hyb_by_j.get(lab, {}).get(best["antisense_5to3"])
         hyb_cell = "—" if hyb is None else f"{'≥' if best['right_censored'] else ''}{hyb}"
+        # ⚠ "—" HERE MEANS THE DEEP RE-SCREEN HAS NO READING FOR THIS DESIGN, NOT THAT IT FOUND
+        # NOTHING. Three of the 190 records failed at the deeper ceiling; rendering that as 0 would
+        # be the flattering direction and the one this table has gone wrong in twice before.
+        d = deep.get((lab, best["antisense_5to3"]))
+        deep_cell = "—" if d is None else f"{d['n']} / {d['hyb']} / {d['gap_loci']}"
         rows.append(
             f"| {lab.replace('__', '::').replace('_', ' ')}{mark} | {len(ol)} | "
             f"{gm if gm is not None else '—'} | 5′-{best['antisense_5to3']}-3′ | "
@@ -300,7 +348,7 @@ def table2(collapse, chance, atlas):
             f"{cens_loci}{best['n_distinct_loci']} | {hyb_cell} | "
             f"{cens_gap}{best['n_loci_with_a_gap_spanning_hit']} | "
             f"{len(set(best.get('loci_with_a_gap_spanning_hit') or []) & set(best.get('loci_seen_only_as_predicted_models') or []))} | "
-            f"{med} ({mx}) |")
+            f"{deep_cell} | {med} ({mx}) |")
     return "\n".join([hdr, sep] + rows), any(not v for v in filtered.values())
 
 
@@ -565,10 +613,12 @@ def table3(collapse, chance, thermo, graded):
     le1 = {}
     for r in chance["per_design"]:
         le1.setdefault(r["antisense_5to3"], (r.get("offtarget_exact"), r.get("offtarget_le1mm")))
+    deep = _deep_lookup()
     hdr = ("| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, "
            "either strand | of those, hybridisable | exact / ≤1-mismatch matches | residual "
-           "cleavage load, both bounds³ | conventional rules failed⁴ |")
-    sep = "|---|---|---|---|---|---|---|---|---|---|"
+           "cleavage load, both bounds³ | conventional rules failed⁴ | "
+           "at the deeper ceiling: near-matches / hybridisable / gap-spanning loci | survives⁵ |")
+    sep = "|---|---|---|---|---|---|---|---|---|---|---|---|"
     rows = []
     for lab, o in _clean_designs(collapse):
         seq = o["antisense_5to3"]
@@ -577,13 +627,20 @@ def table3(collapse, chance, thermo, graded):
         load = graded.get((lab, seq))
         failed = [_RULE_LABELS.get(k, k)
                   for k, v in (t.get("design_rules") or {}).items() if v is False]
+        # ⛔ THE VERDICT IS DERIVED FROM THE DEEP COUNTS, NEVER FROM A REMEMBERED LIST OF THREE.
+        # Round 2 recorded the survivors by name and the set has already moved once; a hardcoded
+        # membership test would go stale silently, which is the failure this whole table is a
+        # response to.
+        d = deep.get((lab, seq))
+        deep_cell = "—" if d is None else f"{d['n']} / {d['hyb']} / {d['gap_loci']}"
+        verdict = "not re-screened" if d is None else ("yes" if d["hyb"] == 0 else "**no**")
         rows.append(
             f"| 5′-{seq}-3′ | {lab.replace('__', '::').replace('_', ' ')} | "
             f"{o.get('gc_percent')} | {t.get('gap_specificity_margin', '—')} | "
             f"{t.get('ddg37_discrimination', '—')} | {o.get('n_offtarget_near_matches')} | "
             f"{_hybridisable(o)} | {ex} / {l1} | "
             f"{'—' if load is None else load} | "
-            f"{', '.join(failed) if failed else 'none'} |")
+            f"{', '.join(failed) if failed else 'none'} | {deep_cell} | {verdict} |")
     return "\n".join([hdr, sep] + rows), len(rows), len({lab for lab, _ in _clean_designs(collapse)})
 
 
@@ -726,7 +783,7 @@ accession per annotated variant. A “≥” marks a right-censored count: the s
 {SAVED_HITS} hits per design, so a design with more is a lower bound. All {sum(1 for s in collapse["screens"] if s.get("junction_label"))} junction screens
 are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
-None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.{dagger}
+None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. It is given beside the default-depth columns rather than in place of them, because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three rows here reading zero hybridisable at the default depth carry hybridisable hits at ten times it. A “—” means the deeper re-screen returned no result for that design and is not a count of zero.{dagger}
 
 {t2}
 
@@ -746,7 +803,11 @@ oligonucleotide's discrimination rather than an upper one. None of these numbers
 activity, and none speaks to cleavage.\n\n³ Under the optimistic five-fold and the pessimistic
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
 bounds agree.\n\n⁴ Of four conventional antisense design rules: GC within 40–60%, no G-quadruplex
-motif, no homopolymer run of four, no CpG dinucleotide.
+motif, no homopolymer run of four, no CpG dinucleotide.\n\n⁵ Whether the design still carries no
+hybridisable near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
+is computed from the deep counts in the preceding column, not asserted, so this table cannot come to
+disagree with §3.5 about which designs survive. The six that do not are the reason this table's
+default-depth zeros must not be read on their own.
 
 {t3}
 
