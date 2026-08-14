@@ -874,3 +874,190 @@ def test_table5_cells_are_the_artifacts_and_the_paper_points_at_it():
     assert n_tables >= 5, n_tables
     assert f"Tables 1 to {n_tables} are in" in _flat(_paper()), (
         f"the manuscript's table pointer does not cover all {n_tables} generated tables")
+
+
+EXPRESSION = os.path.join(MOD, "aso-offtarget-tissue-expression.json")
+
+
+def _expression():
+    if not os.path.exists(EXPRESSION):
+        pytest.skip("the off-target expression artifact is not present in this checkout")
+    return json.load(open(EXPRESSION, encoding="utf-8"))
+
+
+def _loci_of_design(expr, seq):
+    """The loci ONE design returns, not the loci its seam returns.
+
+    ⛔ THIS DISTINCTION IS THE WHOLE REASON THIS HELPER EXISTS. The *TAF15* exon 6 seam is tiled by
+    five designs and its panel holds 17 loci; the reagent §4 actually recommends returns 5 of them.
+    A seam-level figure written against a named reagent overstates that reagent's load by more than
+    threefold, and reads as a measurement of the molecule when it is a measurement of the window it
+    was slid through. §3.11 and §4 both speak about reagents, so both are pinned per design.
+    """
+    return [L for L in expr["per_locus"] if seq in L["designs_hitting_it"]]
+
+
+def test_section_3_11_expression_figures_are_the_artifacts():
+    """Every number in §3.11, read from the expression artifact rather than from a summary.
+
+    ⛔ WRITTEN BECAUSE THE HAND-OFF THAT COMMISSIONED THIS SECTION CARRIED TWO FIGURES THE ARTIFACT
+    DOES NOT SUPPORT: it described the *TAF15* reagent's load as "six of seventeen" loci reaching the
+    exposure organs, which is the SEAM's panel across five tiling registers rather than the
+    reagent's five loci, and it ranked *NRP1* "eleventh of seventeen" by record count where the
+    artifact puts it seventh. Neither reached the manuscript. This test is what keeps that true.
+    """
+    expr, txt = _expression(), _flat(_paper())
+    tiss = expr["method"]["exposure_tissues"]
+    assert tiss == ["Liver", "Kidney - Cortex", "Kidney - Medulla"], tiss
+
+    # ── the lead, at EWSR1 exon 12 ────────────────────────────────────────────────────────────
+    lead = _loci_of_design(expr, "GGGCATATCATCAAAC")
+    assert len(lead) == 6, [L["locus"] for L in lead]
+    assert sum(L["screen_records"]["n_transcript_records"] for L in lead) == 123
+    assert expr["panel"]["n_gap_paired_hybridisable"] == 278
+    readable = [L for L in lead if L["exposure_compartment_liver_kidney"]["readable"]]
+    assert len(readable) == 4, [L["locus"] for L in readable]
+    # the claim is "none of the four measurable ones reaches the upper cut"
+    assert not [L for L in lead if L["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"]
+    assert ("The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's 278 transcript "
+            "records, and none of the four measurable ones reaches the upper cut") in txt
+
+    anks = next(L for L in lead if L["locus"] == "ANKS1B")
+    assert anks["screen_records"]["n_transcript_records"] == 67
+    assert anks["tier"] == "BELOW_DETECTION_IN_EXPOSURE_ORGANS"
+    top = anks["whole_body_context"]["top_tissues"][0]
+    assert top["tissue"].startswith("Brain") and round(top["median_tpm"], 1) == 24.9, top
+    assert "*ANKS1B* supplies 67 of them and sits below the lower cut in all" in txt
+    assert "peaking instead in brain at 24.9 TPM" in txt
+
+    # ── the TAF15 exon 6 reagent ──────────────────────────────────────────────────────────────
+    taf = _loci_of_design(expr, "GGGCATATCTTGTGTG")
+    assert len(taf) == 5, [L["locus"] for L in taf]
+    nrp1 = next(L for L in taf if L["locus"] == "NRP1")
+    vals = nrp1["exposure_compartment_liver_kidney"]["values"]
+    assert round(min(vals.values()), 1) == 6.6 and round(max(vals.values()), 1) == 17.8, vals
+    assert all(v >= 1.0 for v in vals.values()), "the sentence says across all three"
+    assert nrp1["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"
+    # recurrence: every tiling register at that seam, on five records — two different axes
+    n_des = {s["junction_label"]: s["n_designs"] for s in expr["panel"]["panel"]}
+    assert nrp1["n_designs_hitting_it"] == n_des["TAF15_e6__NR4A3_e3"] == 5
+    assert nrp1["screen_records"]["n_transcript_records"] == 5
+    assert [L["locus"] for L in expr["per_locus"]
+            if L["n_designs_hitting_it"] == n_des.get(L["seams"][0])
+            and L["seams"][0] == "TAF15_e6__NR4A3_e3"] == ["NRP1"], "NRP1 is the only such locus"
+    assert ("*NRP1* reaches 6.6 to 17.8 TPM across all three exposure tissues and is the only one "
+            "all five of that seam's tiling registers return, on five transcript records") in txt
+
+    # ── the tumour compartment, which is a SEPARATE axis and ordered differently ───────────────
+    lama = next(L for L in expr["per_locus"] if L["locus"] == "LAMA4")
+    tu = lama["tumour_compartment_normal_tissue_proxy"]
+    assert round(max(tu["values"].values()), 1) == 268.6
+    assert tu["max_tissue_in_block"] == "Cells - Cultured fibroblasts"
+    assert max(tu["values"].values()) == max(
+        max(L["tumour_compartment_normal_tissue_proxy"]["values"].values())
+        for L in expr["per_locus"]
+        if L["tumour_compartment_normal_tissue_proxy"].get("readable")), "the panel's highest"
+    assert lama["tier"] != "EXPRESSED_IN_AN_EXPOSURE_ORGAN", "LAMA4 is the reverse case"
+    assert "*LAMA4* carrying the panel's highest value there at 268.6 TPM" in txt
+
+
+def test_the_expression_limits_are_stated_and_the_unmeasured_loci_are_accounted():
+    """The Limitations sentence: three instruments returning nothing is not a reading of absence.
+
+    ⛔ THE NUMBERS HERE ARE THE ONES THAT MAKE THE LIMIT CHECKABLE. Seven loci carry no exposure
+    reading; three are attributable to what the locus is and four are not, and those four carry 11
+    of the panel's 278 records. Without the record count a reader cannot tell whether the unanswered
+    fraction is trivial or dominant, which is exactly the judgement the limit exists to enable.
+    """
+    expr, txt = _expression(), _flat(_paper())
+    unread = [L for L in expr["per_locus"]
+              if not L["exposure_compartment_liver_kidney"]["readable"]]
+    assert len(unread) == 7 and expr["summary"]["n_loci"] == 23
+    assert expr["summary"]["n_loci_with_a_readable_exposure_reading"] == 16
+    uncharacterised = [L for L in unread if L["tier"] == "NOT_MEASURABLE_UNCHARACTERISED"]
+    attributed = [L for L in unread if L["tier"] == "NOT_MEASURED"]
+    assert len(uncharacterised) == 4 and len(attributed) == 3, (
+        [L["locus"] for L in uncharacterised], [L["locus"] for L in attributed])
+    assert sum(L["screen_records"]["n_transcript_records"] for L in uncharacterised) == 11
+    assert "Seven of the 23 loci returned no reading" in txt
+    assert ("four remain uncharacterised and carry 11 of the panel's 278 records, so for those the "
+            "exposure question is unanswered rather than answered negatively") in txt
+    assert "No expression figure is a predicted cleavage event" in txt
+
+
+def test_section_4_separates_the_two_reagents_without_making_a_safety_claim():
+    """§4's use of the expression result, and the two properties it must not acquire.
+
+    ⛔ THE ARTIFACT CARRIES NO RISK COLUMN AND NO HAZARD ORDERING, AND A TEST WALKS ITS KEYS TO KEEP
+    IT SO. That guarantee is worth nothing if the prose reintroduces the ordering the artifact
+    refused, so the same refusal is asserted on the manuscript: the paragraph may report where the
+    loci are expressed and may say the two reagents differ, and may not call either one risky, safe,
+    concerning or a hazard. It must also keep the ranking it had, because expression is not
+    cleavage and nothing here establishes that a two-mismatch duplex engages any locus.
+    """
+    expr, txt = _expression(), _flat(_paper())
+    lead = _loci_of_design(expr, "GGGCATATCATCAAAC")
+    taf = _loci_of_design(expr, "GGGCATATCTTGTGTG")
+    assert not [L for L in lead if L["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"]
+    assert [L["locus"] for L in taf
+            if L["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"] == ["NRP1"]
+    # ⛔ "four measurable", NEVER "six". Two of the lead's six loci have NO exposure reading, so a
+    # sentence saying none of the six is expressed would convert an absent reading into a reading of
+    # absence — in the one paragraph a reader takes a recommendation from.
+    assert len([L for L in lead
+                if not L["exposure_compartment_liver_kidney"]["readable"]]) == 2, "two unreadable"
+    assert ("none of the *EWSR1* reagent's four measurable loci is expressed at the upper cut in "
+            "the organs a systemic dose reaches, while the *TAF15* reagent's five include *NRP1*, "
+            "which is, in all three") in txt
+    assert "reagent's six loci is expressed" not in txt
+    assert "That does not reverse the ranking" in txt
+    assert "it is not a statement about safety" in txt
+
+    # the paragraph that carries the expression result must not acquire a hazard vocabulary
+    para = txt[txt.index("Expression reads those two loads differently"):]
+    para = para[:para.index("The three designs that survive every screen")]
+    for banned in ("high-risk", "high risk", "concerning", "dangerous", "unsafe", "hazard",
+                   "toxic", "safety concern", "safer", "riskier"):
+        assert banned not in para.lower(), f"§4 acquired hazard framing: {banned!r}"
+
+
+def test_table6_cells_are_the_artifact_and_its_two_compartments_stay_separate():
+    """Table 6 is generated from the expression artifact, and never merges the two compartments.
+
+    ⚠ THE REGISTER COLUMN CARRIES ITS DENOMINATOR ON PURPOSE. One seam contributes a single design
+    and the other five, so a bare count would read as a difference in robustness where one of the
+    two is every register there is.
+    """
+    tables = os.path.join(REPO, "research", "manuscripts", "aso",
+                          "fusion-junction-aso-submission-tables.md")
+    if not os.path.exists(tables):
+        pytest.skip("the generated tables file is not present in this checkout")
+    expr = _expression()
+    txt = open(tables, encoding="utf-8").read()
+    assert "**Table 6." in txt, "Table 6 is not in the generated tables file"
+    body = txt[txt.index("**Table 6."):]
+
+    for t in expr["method"]["exposure_tissues"]:
+        assert t in body, t
+    # one row per locus, every locus, with its own record count
+    for L in expr["per_locus"]:
+        assert f"*{L['locus']}*" in body, L["locus"]
+    n_des = {s["junction_label"]: s["n_designs"] for s in expr["panel"]["panel"]}
+    for L in expr["per_locus"]:
+        assert f"| {L['n_designs_hitting_it']} of {n_des[L['seams'][0]]} |" in body, L["locus"]
+
+    # an unreadable locus prints its reason, never a zero
+    for L in expr["per_locus"]:
+        if not L["exposure_compartment_liver_kidney"]["readable"]:
+            row = next(r for r in body.splitlines() if f"*{L['locus']}*" in r)
+            assert "0.00" not in row, f"{L['locus']} rendered an absent reading as a number"
+
+    # the two compartments are separate columns and the table carries no risk ordering
+    assert "soft-tissue proxy maximum" in body and "exposure-organ reading" in body
+    for banned in ("risk", "hazard", "concerning", "safety", "priority", "rank "):
+        assert banned not in body.lower().split("| seam |")[1][:4000], banned
+
+    # the cuts are the module's, not re-typed into the legend
+    import aso_offtarget_tissue_expression as X  # noqa: PLC0415
+    assert f"below {X.PRESENT_TPM:g} TPM in all three exposure" in body
+    assert f"at or above {X.EXPRESSED_TPM:g} TPM in any of them" in body

@@ -41,6 +41,14 @@ def _load(name):
     return json.load(open(p)) if os.path.exists(p) else None
 
 
+def _expression_cuts():
+    """The two legibility cuts, from the module that sets them. One home, never re-typed."""
+    sys.path.insert(0, os.path.abspath(MOD))
+    from aso_offtarget_tissue_expression import (EXPRESSED_TPM,  # noqa: PLC0415
+                                                 PRESENT_TPM)
+    return float(PRESENT_TPM), float(EXPRESSED_TPM)
+
+
 def _hitlist_size():
     """BLAST's per-query hit ceiling, from the module that sets it. One home, never re-typed."""
     try:
@@ -477,6 +485,71 @@ _RULE_LABELS = {
 }
 
 
+#: How the expression artifact's tiers read in a table cell. The artifact owns the thresholds and
+#: the wording; this maps its enum to a column heading's worth of words and nothing else. A tier the
+#: artifact adds later and this dict has not heard of renders as itself rather than silently blank.
+_EXPOSURE_READING = {
+    "EXPRESSED_IN_AN_EXPOSURE_ORGAN": "at or above the upper cut",
+    "LOW_IN_EXPOSURE_ORGANS": "detectable, below the upper cut",
+    "BELOW_DETECTION_IN_EXPOSURE_ORGANS": "below the lower cut in all three",
+    "NOT_MEASURABLE_UNCHARACTERISED": "no gene model — not measurable",
+    "NOT_MEASURED": "no reading taken",
+}
+
+
+def table6(expr):
+    """Where each off-target locus of the two clinically-relevant reagents is expressed.
+
+    ⛔ TWO COMPARTMENTS, NEVER ONE COLUMN. The organs a systemically dosed gapmer distributes to and
+    the compartment the tumour sits in are different questions, and a table that merged them — or
+    that ranked loci on either — would be inventing the join this work does not make. They are
+    printed side by side and never combined, exactly as Table 5 keeps the two directions of the
+    gap-length trade apart.
+
+    ⛔ NO RISK COLUMN, AND NO ORDERING BY EXPRESSION. Rows are grouped by seam and then by transcript
+    record count, which is annotation depth. Every hit behind this table is at the screen's loosest
+    admitted identity, so nothing here distinguishes the loci on affinity, and an expression figure
+    is not a predicted cleavage event. The artifact refuses a hazard ordering and so does its table.
+
+    ⚠ AN UNREADABLE LOCUS PRINTS ITS REASON, NEVER A ZERO — an absent reading is not a reading of
+    absence, and rendering one as `0.00` would convert it into one.
+    """
+    tiss = expr["method"]["exposure_tissues"]
+    rows, seen = [], set()
+    order = {s["junction_label"]: i for i, s in enumerate(expr["panel"]["panel"])}
+    # ⚠ THE REGISTER COLUMN NEEDS ITS DENOMINATOR OR THE TWO SEAMS ARE NOT COMPARABLE. One seam
+    # contributes a single design and the other five, so a bare "1" and a bare "5" read as a
+    # thirteen-fold difference in robustness when one of them is every register there is.
+    n_des = {s["junction_label"]: s["n_designs"] for s in expr["panel"]["panel"]}
+    per = sorted(expr["per_locus"],
+                 key=lambda L: (order.get(L["seams"][0], 99),
+                                -L["screen_records"]["n_transcript_records"], L["locus"]))
+    for L in per:
+        seam = L["seams"][0]
+        lab = "" if seam in seen else seam.replace("__", "::").replace("_", " ")
+        seen.add(seam)
+        ex, tu = L["exposure_compartment_liver_kidney"], L["tumour_compartment_normal_tissue_proxy"]
+        if ex.get("readable") and ex.get("values"):
+            cells = [f"{ex['values'][t]:.2f}" if ex["values"].get(t) is not None else "—"
+                     for t in tiss]
+        else:
+            cells = ["—"] * len(tiss)
+        if tu.get("readable") and tu.get("values"):
+            hi = max(tu["values"].values())
+            soft = f"{hi:.1f} ({tu['max_tissue_in_block']})"
+        else:
+            soft = "—"
+        reading = _EXPOSURE_READING.get(L["tier"], L["tier"])
+        rows.append(f"| {lab} | *{L['locus']}* | "
+                    f"{L['screen_records']['n_transcript_records']} | "
+                    f"{L['n_designs_hitting_it']} of {n_des.get(seam, '?')} | "
+                    + " | ".join(cells) + f" | {soft} | {reading} |")
+    hdr = ("| seam | gene locus | transcript records | tiling registers returning it | "
+           + " | ".join(tiss) + " | soft-tissue proxy maximum | exposure-organ reading |")
+    sep = "|---|---|---|---|" + "---|" * (len(tiss) + 2)
+    return "\n".join([hdr, sep] + rows)
+
+
 def table3(collapse, chance, thermo, graded):
     """The designs the paper's headline rests on, one row each.
 
@@ -580,9 +653,17 @@ def main():
     thermo = _load("junction-aso-thermo.json")
     per_junction = _load("aso-per-junction-table.json")
     gap = _load("aso-gap-length-tradeoff.json")
-    if not (atlas and collapse and chance and thermo and per_junction and gap):
+    expr = _load("aso-offtarget-tissue-expression.json")
+    if not (atlas and collapse and chance and thermo and per_junction and gap and expr):
         print("a required artifact is missing", file=sys.stderr)
         return 2
+
+    lo_cut, hi_cut = _expression_cuts()
+    # The exposure tissues are named by the artifact, so a fourth one added upstream reaches this
+    # sentence instead of leaving it quietly describing three.
+    _et = expr["method"]["exposure_tissues"]
+    lo_cut_txt = (", ".join(t.lower() for t in _et[:-1]) + " and " + _et[-1].lower()
+                  if len(_et) > 1 else _et[0].lower())
 
     t2, any_unfiltered = table2(collapse, chance, atlas)
     t3, n_clean, n_clean_junctions = table3(collapse, chance, thermo, _graded_loads())
@@ -685,6 +766,27 @@ duplex identically and cannot explain a difference between the columns. None of 
 measurement of cleavage.
 
 {table5(gap)}
+
+**Table 6. Where the two clinically-relevant reagents' off-target loci are expressed.** Every gene
+locus returned by the deeper screens at the two seams with a published exon-resolved EMC breakpoint,
+read against reference expression data. The two compartments answer different questions and are
+never combined: a systemically dosed phosphorothioate gapmer distributes predominantly to liver and
+kidney, so {lo_cut_txt} address exposure, while the soft-tissue column is the normal
+tissue of the compartment EMC arises in and stands in for a tumour no reference atlas contains.
+Values are GTEx v8 median TPM across each tissue's donors. The two cuts behind the last column are
+stated for legibility and are not thresholds of concern: below {lo_cut:g} TPM in all three exposure
+tissues reads as below detection, at or above {hi_cut:g} TPM in any of them as the level at which an
+off-target hypothesis would have to be tested. Every raw median is released so another cut can be
+applied without re-running. Tiling registers is how many of the designs tiled across that seam
+return the locus, which is robustness to where the window is placed and is a different axis from the
+record count beside it; neither is ranked on. Transcript records are how many accessions RefSeq
+lists for the gene, that is annotation depth, not expression and not affinity. A locus with no
+reading carries the reason rather than a zero, because an absent reading is not a reading of
+absence. Every hit behind this table sits at 14 of 16 identity, the loosest the screen admits, so
+nothing here distinguishes these loci from one another on affinity. None of these numbers is a
+measurement of cleavage, and no expression figure is a predicted cleavage event.
+
+{table6(expr)}
 """
     open(OUT, "w").write(doc)
     print(f"wrote {OUT}")

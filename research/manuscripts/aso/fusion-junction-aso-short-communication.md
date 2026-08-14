@@ -212,6 +212,16 @@ the seven to ten hybridised nucleotides reported as the minimum for RNase-H1 to 
 heteroduplex through its hybrid-binding domain and cleave,<sup>25</sup><!--PMID:35664704--> so the
 count it produces is a floor: at seven the same screen returns 175 of 190 rather than 87.
 
+**Expression of the off-target loci.** No screen above says whether a matched gene is transcribed
+where the drug goes. For the two junctions with a published exon-resolved breakpoint, the gene loci
+their deeper screens return at the gap-paired class were read against GTEx v8 median TPM in two
+blocks reported separately and never combined: liver and both kidney compartments, the organs a
+systemically dosed phosphorothioate gapmer distributes to, and six soft-tissue types standing in for
+the compartment EMC arises in, no atlas containing the tumour itself. NCBI Gene supplied locus
+identity, so a locus with no reading is attributed rather than left blank; the Human Protein Atlas
+was read as a transport check only, its consensus incorporating GTEx rather than confirming it
+independently.
+
 **Discrimination model.** The binary assumption that any mismatch inside the gap abolishes cleavage
 is not supported by the primary literature and is not used for any claim of cleanliness. The field's
 general figure for single-nucleotide discrimination by a gapmer carrying no positional modification
@@ -478,9 +488,7 @@ intron rather than by the next exon, so parent pre-mRNA is precisely where a des
 beside sequence no mature screen has compared it against. A mature-only screen therefore returns a
 low count partly by construction.
 
-Unspliced sequence for all six parent transcripts was retrieved and every design's target window
-scanned against it exhaustively at the same ≤2-mismatch threshold the alignment screen uses, both
-orientations, with the same gap resolution and the same orientation filter. Of 190 designs, 53 have a
+Of 190 designs, 53 have a
 near-match somewhere in parent pre-mRNA and 19 carry one that is hybridisable, pairs the catalytic gap
 in full, and touches intronic sequence, the last condition being what makes it invisible to both
 transcript screens rather than a re-count of something already reported.
@@ -637,6 +645,19 @@ parent pre-mRNA fall from 19 of 190 to 9 of 342. Nor is the effect confined to t
 since 5′-CAGGGCATATCAAGCGCT-3′ at *TCF12* exon 7 returns no near-match at all where the 16-mer
 surviving at that seam returns three.
 
+### 3.11 · Off-target loci in the exposure organs and the tumour compartment
+
+The screens establish that a design matches a gene, not that the gene is transcribed where the drug
+goes. Read against reference expression data, the two reagents' gap-paired loci separate, in the
+direction opposite to the sizes of their loads (Table 6). The *EWSR1* exon 12 reagent's six loci carry 123 of
+the panel's 278 transcript records, and none of the four measurable ones reaches the upper cut in
+liver or either kidney compartment; *ANKS1B* supplies 67 of them and sits below the lower cut in all
+three, peaking instead in brain at 24.9 TPM. The *TAF15* exon 6 reagent returns five loci, of which
+*NRP1* reaches 6.6 to 17.8 TPM across all three exposure tissues and is the only one all five of that
+seam's tiling registers return, on five transcript records, so robustness to register and record
+count order it differently. The tumour-compartment proxy orders them differently again, *LAMA4*
+carrying the panel's highest value there at 268.6 TPM in cultured fibroblasts.
+
 ## 4 · Discussion
 
 Designability is not the constraint: junction-spanning designs exist at every frame-compatible NR4A3
@@ -728,7 +749,13 @@ near-matches at five loci for the *TAF15* reagent. That load should
 travel with the reagent, and it is a liability to disclose and to control for rather than a
 disqualification, because on the exhaustive genome scan the same design falls below chance in both
 directions that matter, at 0.69 times the expected number of near-matches at two mismatches and
-0.62 times the expected number of gap-paired ones. The three designs that survive every screen are
+0.62 times the expected number of gap-paired ones. Expression reads those two loads differently from
+their sizes (§3.11): none of the *EWSR1* reagent's four measurable loci is expressed at the upper cut
+in the organs a systemic dose reaches, while the *TAF15* reagent's five include *NRP1*, which is, in
+all three. That does not reverse the ranking, since no screen here establishes that a two-mismatch duplex
+engages any of them, and it is not a statement about safety. It is the first evidence separating the
+two reagents on anything but count, and it points the load question at the shorter list rather than
+the longer. The three designs that survive every screen are
 mechanism controls rather than candidates: 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8,
 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 and
 5′-GGGCATATCAAGCGCT-3′ at *TCF12* exon 7, tiered as §3.8 describes. The *TAF15* exon-1 design is
@@ -776,13 +803,19 @@ exhaustive GRCh38 scan is unavailable at 18 and 20 nucleotides by construction r
 unrun, since the scanner is a packed bitmap over the code space of a 16-mer and a longer window needs
 a different data structure; the nesting argument bounds a longer design's genome liability by that of
 its own sub-windows, but no such scan has been run, so that bound is an available next step and not a
-result. Part of the fall in transcript near-matches is likewise arithmetic rather than measurement.
-No RNase-H1 assay distinguishes these geometries here, so which gap is preferable is not decided by
+result. No RNase-H1 assay distinguishes these geometries here, so which gap is preferable is not decided by
 this work. The
 thermodynamic calculation models an unmodified DNA:RNA hybrid and speaks to duplex formation rather
 than to cleavage. All five screens address hybridisation-dependent liability only; the
 sequence-independent class of a phosphorothioate LNA gapmer, protein binding and the
 target-independent hepatotoxicity of this chemistry, is not a function of any feature graded here.
+The expression reading carries bounds of its own. Seven of the 23 loci returned no reading: three are
+attributable to what the locus is, a brain-associated long non-coding RNA host, an antisense
+transcript and a readthrough, while four remain uncharacterised and carry 11 of the panel's 278
+records, so for those the exposure question is unanswered rather than answered negatively. No
+expression figure is a predicted cleavage event, and the step from a gene being expressed in liver to
+that oligonucleotide being a problem needs an argument no screen here supplies (Table 6). Reference
+bulk medians describe normal tissue in a population, not a dosed patient's organ.
 The genome scan removes the six-transcript bound the parent screens carried, at the cost of two of
 its own: `hybridisable` is measured against an annotation, so a site in unannotated transcription is
 reported as intergenic and not counted, and a screen against one assembly says nothing about a
@@ -793,7 +826,7 @@ substitution-only bound: all are complete for mismatches by construction and bli
 
 ## Tables
 
-Tables 1 to 5 are in `fusion-junction-aso-submission-tables.md`, generated from the released
+Tables 1 to 6 are in `fusion-junction-aso-submission-tables.md`, generated from the released
 artefacts so that a cell and its source cannot diverge.
 
 ## Figure legends

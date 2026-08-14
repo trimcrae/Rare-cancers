@@ -213,3 +213,48 @@ measurement of cleavage.
 | parent pairs ≥5 nt of contiguous gap DNA, a ten-base-pair hybrid | 76 of 190 | 228 of 266 | 342 of 342 |
 | designs pairing the gap in parent pre-mRNA | 19 of 190 | 11 of 266 | 9 of 342 |
 | median most stable parent ΔG°37 (kcal/mol) | −8.66 | −11.60 | −14.58 |
+
+**Table 6. Where the two clinically-relevant reagents' off-target loci are expressed.** Every gene
+locus returned by the deeper screens at the two seams with a published exon-resolved EMC breakpoint,
+read against reference expression data. The two compartments answer different questions and are
+never combined: a systemically dosed phosphorothioate gapmer distributes predominantly to liver and
+kidney, so liver, kidney - cortex and kidney - medulla address exposure, while the soft-tissue column is the normal
+tissue of the compartment EMC arises in and stands in for a tumour no reference atlas contains.
+Values are GTEx v8 median TPM across each tissue's donors. The two cuts behind the last column are
+stated for legibility and are not thresholds of concern: below 1 TPM in all three exposure
+tissues reads as below detection, at or above 10 TPM in any of them as the level at which an
+off-target hypothesis would have to be tested. Every raw median is released so another cut can be
+applied without re-running. Tiling registers is how many of the designs tiled across that seam
+return the locus, which is robustness to where the window is placed and is a different axis from the
+record count beside it; neither is ranked on. Transcript records are how many accessions RefSeq
+lists for the gene, that is annotation depth, not expression and not affinity. A locus with no
+reading carries the reason rather than a zero, because an absent reading is not a reading of
+absence. Every hit behind this table sits at 14 of 16 identity, the loosest the screen admits, so
+nothing here distinguishes these loci from one another on affinity. None of these numbers is a
+measurement of cleavage, and no expression figure is a predicted cleavage event.
+
+| seam | gene locus | transcript records | tiling registers returning it | Liver | Kidney - Cortex | Kidney - Medulla | soft-tissue proxy maximum | exposure-organ reading |
+|---|---|---|---|---|---|---|---|---|
+| EWSR1 e12::NR4A3 e3 | *ANKS1B* | 67 | 1 of 1 | 0.03 | 0.46 | 0.28 | 3.6 (Artery - Tibial) | below the lower cut in all three |
+|  | *ZNF667* | 37 | 1 of 1 | 0.31 | 1.63 | 2.58 | 6.2 (Nerve - Tibial) | detectable, below the upper cut |
+|  | *GMCL1* | 9 | 1 of 1 | 4.52 | 4.98 | 6.72 | 18.3 (Artery - Tibial) | detectable, below the upper cut |
+|  | *LOC105374140* | 5 | 1 of 1 | — | — | — | — | no gene model — not measurable |
+|  | *LOC105370997* | 4 | 1 of 1 | — | — | — | — | no gene model — not measurable |
+|  | *CHST5* | 1 | 1 of 1 | 0.07 | 0.35 | 0.78 | 0.8 (Nerve - Tibial) | below the lower cut in all three |
+| TAF15 e6::NR4A3 e3 | *G3BP2* | 56 | 2 of 5 | 11.92 | 17.03 | 23.12 | 77.0 (Cells - Cultured fibroblasts) | at or above the upper cut |
+|  | *LINC02030* | 22 | 2 of 5 | 0.00 | 0.00 | 0.02 | 0.3 (Skin - Sun Exposed (Lower leg)) | below the lower cut in all three |
+|  | *MIR9-2HG* | 18 | 2 of 5 | — | — | — | — | no reading taken |
+|  | *LAMA4* | 13 | 1 of 5 | 1.28 | 3.13 | 6.06 | 268.6 (Cells - Cultured fibroblasts) | detectable, below the upper cut |
+|  | *ZFPM2* | 12 | 3 of 5 | 0.64 | 0.55 | 0.40 | 9.6 (Artery - Tibial) | below the lower cut in all three |
+|  | *GNAL* | 10 | 2 of 5 | 0.66 | 1.74 | 1.81 | 8.6 (Artery - Tibial) | detectable, below the upper cut |
+|  | *NRP1* | 5 | 5 of 5 | 6.62 | 16.87 | 17.81 | 104.7 (Cells - Cultured fibroblasts) | at or above the upper cut |
+|  | *SLC17A3* | 4 | 2 of 5 | 9.14 | 33.61 | 8.09 | 0.0 (Adipose - Subcutaneous) | at or above the upper cut |
+|  | *CA5B* | 3 | 3 of 5 | 0.66 | 1.57 | 1.96 | 11.7 (Artery - Tibial) | detectable, below the upper cut |
+|  | *CA5BP1-CA5B* | 3 | 3 of 5 | — | — | — | — | no reading taken |
+|  | *EEFSEC* | 3 | 1 of 5 | 16.15 | 14.37 | 15.57 | 39.1 (Nerve - Tibial) | at or above the upper cut |
+|  | *ANKRD26P3* | 1 | 1 of 5 | 0.00 | 0.00 | 0.00 | 0.0 (Muscle - Skeletal) | below the lower cut in all three |
+|  | *GBP4* | 1 | 1 of 5 | 3.12 | 5.59 | 10.08 | 18.2 (Adipose - Subcutaneous) | at or above the upper cut |
+|  | *LOC105376349* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+|  | *LOC124907518* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+|  | *NRXN3-AS1* | 1 | 1 of 5 | — | — | — | — | no reading taken |
+|  | *ST3GAL1* | 1 | 1 of 5 | 28.58 | 16.36 | 8.06 | 27.2 (Muscle - Skeletal) | at or above the upper cut |

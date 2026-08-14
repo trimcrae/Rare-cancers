@@ -100,23 +100,21 @@ last_verified: 2026-08-10
 
 **Figures to upload** — none; this paper's display items are all tables.
 
-## Cancer Gene Therapy (Springer Nature)
+## bioRxiv (preprint; journal venue still open)
 
 **Manuscript** `aso/fusion-junction-aso-short-communication.md`
 
 | field | value |
 |---|---|
-| Word count, main text | 5304 (limit 12000) |
-| Abstract | 263 words (limit 200) |
-| Display items | 5 (3 figures, 2 tables) (limit 7) |
-| References | 30 (limit 60) |
+| Word count, main text | 9751 (no limit found) |
+| Abstract | 459 words  |
+| Display items | 9 (3 figures, 6 tables) |
+| References | 35 |
 | Cover letter | `aso/fusion-junction-aso-short-communication-cover-letter.md` |
 | Supplementary file | none |
 | Fee route | not recorded |
 
-> **Over a stated limit:** abstract_words 263 > 200
-
-⚠ Limits provenance: READ at primary source: nature.com/cgt/authors-and-referees/gta, HTTP 200, 2026-08-12, via a real headless browser (see research/literature/venue-policy-browser-fetch.json → cgt_gta). ⛔ FEE-DISQUALIFIED: the same page states a MANDATORY charge of £145 / $238 per page on the subscription route, waived only for authors who pay the open-access APC. The $0 constraint is binding, so this venue cannot be used. ⚠ The abstract limit is for an UNSTRUCTURED abstract; this manuscript's is structured, so the format as well as the length is wrong for this journal..
+⚠ Limits provenance: VERIFIED at primary source: bioRxiv sets no word, abstract or display-item limit and its deposit is free — the one venue fact in this table that was read rather than searched. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means this manuscript is measured and ungated, which is the honest state while the journal is undecided. A journal's limits apply when one is chosen, and cutting the abstract to any particular cap before then means cutting twice, because the venues under consideration disagree on both length AND whether a structured abstract is wanted at all..
 
 **Figures to upload**
 

@@ -2559,3 +2559,55 @@ artifact, all 38 rows of Table 4, and `offtarget-chance-baseline.json` byte-for-
 committed value the merge moved was the recorded `transcriptome_nt_source`, which had begun naming
 an 18-mer panel for a 16-mer corpus's span; the span itself, 718,571,139 nucleotides, is unanimous
 across all 13 panels that record it and did not move.
+
+---
+
+## 2026-08-13 · Folding the off-target expression read into the paper (§3.11, Table 6)
+
+The expression branch answers a question no screen in this paper had asked: the screens establish
+that a design matches a gene, never that the gene is transcribed where the drug goes. Folded in as
+§3.11, a Methods paragraph, one paragraph of §4 and **Table 6**, which is generated from
+`aso-offtarget-tissue-expression.json` so a cell and its source cannot diverge.
+
+⚠ **THE HAND-OFF BRIEF DESCRIBED THE *TAF15* REAGENT'S LOAD AT SEAM LEVEL, AND THE MANUSCRIPT NEEDED
+IT AT REAGENT LEVEL — THE TWO DIFFER BY MORE THAN THREEFOLD.** The brief reported "six of seventeen
+seam loci reach the exposure organs" against the reagent 5′-GGGCATATCTTGTGTG-3′. Those 17 loci belong
+to the **seam**, which is tiled by five designs; the named reagent returns **five** of them, of which
+**one** (*NRP1*) reaches the upper cut. Written as the brief framed it, §4 would have attributed to a
+molecule a load that is a property of the window it was slid through. Both §3.11 and §4 are pinned
+per design by `_loci_of_design` in `test_aso_submission_numbers.py`, which exists for this reason.
+The same brief ranked *NRP1* "eleventh of seventeen" by record count; sorted on
+`n_transcript_records` it is **seventh** (56, 22, 18, 13, 12, 10, **5**, …). Neither figure was used.
+
+⭐ **THE TWO-ROUTE GTEx AGREEMENT IS REAL AND IS DELIBERATELY NOT IN THE PAPER.** Two committed
+artifact revisions read the exposure column by different routes — `f74328f93` via
+`portal_api_v2_fallback`, `8579a4847` via `release_gct`, both after the tissue-key fix. Re-derived
+here: **48 locus × exposure-tissue pairs, 43 identical, worst relative difference 1.97 × 10⁻¹⁴ %**.
+⚠ The brief's denominator of **57** counts the 19 `arm_a_gtex.rows` gene-model rows × 3 tissues, not
+the 48 per-locus readings. It is omitted from the manuscript on merit rather than for length: it is a
+transport check on one underlying release reached two ways, it is explicitly **not** a second
+measurement of the biology, and no committed artifact carries the comparison as a field — the current
+artifact records `url_attempts` of length 1 and one endpoint.
+
+⛔ **A LATENT DEFECT SURFACED BY RUNNING THE CHAIN, LEFT UNFIXED AND UNCOMMITTED ON PURPOSE.**
+`scripts/regenerate_aso_chain.sh` step 0 rescores every screen it finds, which generates **53
+`-graded.json` artifacts for the deep and gap-length screens that have never been committed** — the
+committed manifest carries 352 files and **zero** deep-graded entries. Materialising them changes
+Table 3: `_graded_loads` in `submission_tables.py` keys on `(source_screen, sequence)` and carries
+**no depth**, so for 5′-GGGCATATCTCTATAA-3′ at *TCF12* e17 the default screen's `0 / 0` and the
+deep screen's `31.4 / 101` collapse into one cell reading `31.4 / 101 / 0 / 0`. Table 3 is by its own
+legend the **default-depth** result, so that cell mixes two populations, and the `/`-joined format
+was built to show the two *discrimination models* disagreeing, not two depths. This is the
+2026-08-13 depth defect one consumer further on, in the one generator the geometry sweep fixed for
+geometry and not for depth. The 53 artifacts were **removed rather than committed** and the manifest
+re-derived at 352 files, so this branch carries the expression work only; the fix changes a
+submission table's semantics and is trimcrae's to sequence.
+
+**Length.** The paper went 9,303 → 9,754 main words (**+451**). Paid for by deleting a Methods
+restatement inside §3.8 and a thrice-stated arithmetic caveat in Limitations, and by keeping the
+instrument's method and every caveat in Table 6's legend, which lives in the companion tables file
+and costs no main words. Three further trims were **reverted**: `test_unfiltered_screens_are_disclosed_and_counted`,
+`test_the_gap_length_trade_is_an_identity_and_the_paper_states_it_as_one` and
+`test_the_paper_states_the_two_bounds_that_make_the_fall_partly_arithmetic` each failed on them, and
+the last one's docstring says in terms that it exists to stop an edit for length dropping that bound.
+The guards were right; net zero was not reachable without cutting honest content.

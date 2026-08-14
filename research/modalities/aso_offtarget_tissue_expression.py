@@ -184,6 +184,17 @@ UA = {"User-Agent": "rare-cancers-aso-offtarget-expression/1.0"}
 #: re-running this, and no verdict in this file changes across the range 0.5 to 2.
 PRESENT_TPM = 1.0
 
+#: The upper legibility cut, separating `LOW_IN_EXPOSURE_ORGANS` from
+#: `EXPRESSED_IN_AN_EXPOSURE_ORGAN`. ⛔ THIS WAS A BARE `10` INSIDE `_tier` AND NOTHING ELSE COULD
+#: POINT AT IT (2026-08-13). `PRESENT_TPM` one screen above it is a named constant carrying the
+#: paragraph that says it is a STATED cut and not a threshold of concern; the upper cut does exactly
+#: the same job, decides the tier the manuscript's Table 6 prints, and had no name, so a table
+#: legend describing it would have had to re-type the number — rule 1's exact failure. Like
+#: `PRESENT_TPM` it is a legibility cut and NOT a threshold of concern: it says where a median stops
+#: being a low reading and starts being one an off-target hypothesis would have to be tested
+#: against, and every raw median is released so another cut can be applied without re-running.
+EXPRESSED_TPM = 10.0
+
 #: The screen's own risk class for a hit whose catalytic gap is fully paired. Read from the screen
 #: rather than re-derived, so this module cannot disagree with `junction_aso_offtarget` about what a
 #: gap-paired hit is.
@@ -932,7 +943,7 @@ def _locus_verdict(row, exposure, tumour_proxy, emc, ncbi):
     hi = max(vals.values()) if vals else None
     if hi is None:
         return ("NOT_MEASURED", "The exposure arm carried no value for this locus.")
-    if hi >= 10:
+    if hi >= EXPRESSED_TPM:
         return ("EXPRESSED_IN_AN_EXPOSURE_ORGAN",
                 f"Median TPM reaches {hi:g} in {exposure['max_tissue_in_block']}. A transcript at "
                 f"this level in a dosed organ is where an off-target hypothesis would have to be "
