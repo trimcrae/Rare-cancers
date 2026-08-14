@@ -271,8 +271,24 @@ deliberately and for a good reason. Two notes for whoever picks the venue:
 |---|---|
 | 1 | **Applied.** §4 now discloses the *TAF15* pre-mRNA site where the reagent's load is discussed, states that it falls outside every parent count because those require the gap paired in full, and names it as the multi-partner result's own cost rather than an incidental hit. It also records that the *TAF15* exon-6 reagent carries no hybridisable pre-mRNA site, which separates the two reagents on something other than count for a second time. |
 | 2 | **Applied.** §3.8 now reports the 40 / 19 / 21 split, that 26 of the 21's 28 sites are one gap mismatch short and five are in *NR4A3*, and that the step from 53 to 19 is a threshold rather than a measurement. The Limitations name the fully-paired condition as the binary rule the Methods otherwise decline, used as an inclusion criterion because no retrieved measurement grades a partly-paired parent duplex. |
-| 3 | **Applied, in the generator.** `submission_tables._deep_lookup()` reads the deep screens through `aso_screen_sets.load_screens(GEOMETRY, BLAST_SCREEN, select=is_deep)` — content, not filename — and both tables gain a deeper-ceiling column beside the default-depth one rather than in place of it, because the default depth is where the corpus counts were computed. **Table 3 also gains a derived `survives` verdict**, computed from the deep counts rather than from a remembered list, so the table cannot come to disagree with §3.5 about which designs survive: it now renders 3 `yes` and 6 `no`. A design the deep pass did not return renders `—`, never `0`. |
+| 3 | **Applied, in the generator.** `submission_tables._deep_lookup()` reads the deep screens through `aso_screen_sets.load_screens(GEOMETRY, BLAST_SCREEN, select=is_deep)` — content, not filename — and both tables gain three deeper-ceiling columns beside the default-depth ones rather than in place of them, because the default depth is where the corpus counts were computed. **Table 3 also gains a derived `survives` verdict**, computed from those columns rather than from a remembered list, so the table cannot come to disagree with §3.5 about which designs survive: it now renders 3 `yes` and 6 `no`. A design the deep pass did not return renders `—`, never `0`. |
 | 4 | **Applied.** §3.5 now reconciles 187 against the panel's 190 at first use, naming the three failures and their default-depth counts so the reader can see none was a candidate. |
+
+⛔ **AND THE FIRST ATTEMPT AT FINDING 3 BROKE A GUARD, WHICH IS THE MOST USEFUL THING IN THIS FILE.**
+The deep measurement was first written as one cell, `84 / 83 / 1`, and
+`test_graded_rescore_depth.py::test_no_residual_load_cell_pools_two_depths` failed the build. That
+guard scans **every** cell of Table 3's design rows rather than the residual-load column alone,
+because the defect it was written for — `31.4 / 101 / 0 / 0`, a default-depth re-score pooled with a
+deep one — hid inside a cell shape that looks legitimate: `a / b` is the model-disagreement form and
+is correct, so a reader cannot tell a pooled cell from a real one by looking. **Narrowing the guard
+to one column would have made the new cell pass and would have re-opened the hole.** The separator
+was the problem, so the three values now go in three columns and the guard is untouched.
+
+⚠ **It was caught by the full suite and not by the targeted run.** A 298-test selection over the ASO
+and manuscripts suites passed while this was broken, because `test_graded_rescore_depth.py` is a
+modalities test that no selector reached. The preflight that caught it reported **1 failure NOT in
+the sandbox baseline**, named in full — which is exactly what that baseline mechanism exists to do,
+and the reason it stores a list rather than a count.
 
 ⚠ **One correction to this review's own text, recorded because it is the mistake it warns about.**
 The finding-3 table first reported the deep figures for *TFG* e6 and *FUS* e7 as "0 hybridisable" at

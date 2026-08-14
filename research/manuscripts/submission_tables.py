@@ -114,6 +114,16 @@ def _deep_lookup():
     records failed at the deeper ceiling (FUS e5 twice, TFG e2 once), so they get `—` and never `0`
     — the distinction CLAUDE.md §4 exists for, and the reason this returns None rather than a
     default.
+
+    ⛔ THE THREE VALUES GO IN THREE COLUMNS, NEVER IN ONE `a / b / c` CELL — and the first version of
+    this change did exactly that and was caught by
+    `test_graded_rescore_depth.py::test_no_residual_load_cell_pools_two_depths`. That guard scans
+    EVERY cell of Table 3's design rows, not just the residual-load one, because the defect it was
+    written for (`31.4 / 101 / 0 / 0`, a default-depth re-score pooled with a deep one) hid inside a
+    cell shape that looks legitimate: `a / b` is the model-disagreement form and is fine, so a
+    reader cannot tell a pooled cell from a real one by looking. Narrowing the guard to one column
+    would have made this pass and would have re-opened the hole. The separator is the problem, so
+    the separator is what changed.
     """
     out = {}
     try:
@@ -285,9 +295,10 @@ def table2(collapse, chance, atlas):
     hdr = ("| junction | designs screened | best gap-level margin | that design | near-matches, "
            "either strand (transcripts → loci) | of the retained hits, hybridisable² | loci with a "
            "gap-spanning hit | of those, predicted models only¹ | "
-           "at the deeper ceiling: near-matches / hybridisable / gap-spanning loci⁵ | "
+           "at the deeper ceiling: near-matches⁵ | of those, hybridisable⁵ | "
+           "loci with a gap-spanning hit⁵ | "
            "≤1-mismatch matches across that junction's designs, median (max) |")
-    sep = "|---|---|---|---|---|---|---|---|---|---|"
+    sep = "|---|---|---|---|---|---|---|---|---|---|---|---|"
     rows = []
     for lab in sorted(by_j):
         ol = by_j[lab]
@@ -300,7 +311,8 @@ def table2(collapse, chance, atlas):
         # of absence (CLAUDE.md §4), so the row is emitted saying exactly that.
         if not ol:
             rows.append(f"| {lab.replace('__', '::').replace('_', ' ')} | 0 of 5 — every BLAST "
-                        f"submission failed at the remote service | — | — | — | — | — | — | — | — |")
+                        f"submission failed at the remote service | — | — | — | — | — | — | — | "
+                        f"— | — | — |")
             continue
         ranked = sorted(ol, key=lambda o: -(gap_margin.get((lab, o["antisense_5to3"])) or -1))
         best = ranked[0]
@@ -337,7 +349,7 @@ def table2(collapse, chance, atlas):
         # NOTHING. Three of the 190 records failed at the deeper ceiling; rendering that as 0 would
         # be the flattering direction and the one this table has gone wrong in twice before.
         d = deep.get((lab, best["antisense_5to3"]))
-        deep_cell = "—" if d is None else f"{d['n']} / {d['hyb']} / {d['gap_loci']}"
+        deep_cell = "— | — | —" if d is None else f"{d['n']} | {d['hyb']} | {d['gap_loci']}"
         rows.append(
             f"| {lab.replace('__', '::').replace('_', ' ')}{mark} | {len(ol)} | "
             f"{gm if gm is not None else '—'} | 5′-{best['antisense_5to3']}-3′ | "
@@ -617,8 +629,9 @@ def table3(collapse, chance, thermo, graded):
     hdr = ("| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, "
            "either strand | of those, hybridisable | exact / ≤1-mismatch matches | residual "
            "cleavage load, both bounds³ | conventional rules failed⁴ | "
-           "at the deeper ceiling: near-matches / hybridisable / gap-spanning loci | survives⁵ |")
-    sep = "|---|---|---|---|---|---|---|---|---|---|---|---|"
+           "at the deeper ceiling: near-matches | of those, hybridisable | "
+           "loci with a gap-spanning hit | survives⁵ |")
+    sep = "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"
     rows = []
     for lab, o in _clean_designs(collapse):
         seq = o["antisense_5to3"]
@@ -632,7 +645,7 @@ def table3(collapse, chance, thermo, graded):
         # membership test would go stale silently, which is the failure this whole table is a
         # response to.
         d = deep.get((lab, seq))
-        deep_cell = "—" if d is None else f"{d['n']} / {d['hyb']} / {d['gap_loci']}"
+        deep_cell = "— | — | —" if d is None else f"{d['n']} | {d['hyb']} | {d['gap_loci']}"
         verdict = "not re-screened" if d is None else ("yes" if d["hyb"] == 0 else "**no**")
         rows.append(
             f"| 5′-{seq}-3′ | {lab.replace('__', '::').replace('_', ' ')} | "
@@ -783,7 +796,7 @@ accession per annotated variant. A “≥” marks a right-censored count: the s
 {SAVED_HITS} hits per design, so a design with more is a lower bound. All {sum(1 for s in collapse["screens"] if s.get("junction_label"))} junction screens
 are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
-None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. It is given beside the default-depth columns rather than in place of them, because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three rows here reading zero hybridisable at the default depth carry hybridisable hits at ten times it. A “—” means the deeper re-screen returned no result for that design and is not a count of zero.{dagger}
+None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.{dagger}
 
 {t2}
 
@@ -805,7 +818,7 @@ no-discrimination bound on RNase-H1 single-mismatch discrimination. A single val
 bounds agree.\n\n⁴ Of four conventional antisense design rules: GC within 40–60%, no G-quadruplex
 motif, no homopolymer run of four, no CpG dinucleotide.\n\n⁵ Whether the design still carries no
 hybridisable near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
-is computed from the deep counts in the preceding column, not asserted, so this table cannot come to
+is computed from the three deep columns beside it, not asserted, so this table cannot come to
 disagree with §3.5 about which designs survive. The six that do not are the reason this table's
 default-depth zeros must not be read on their own.
 
