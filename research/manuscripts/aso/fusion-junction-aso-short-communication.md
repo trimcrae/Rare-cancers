@@ -41,21 +41,21 @@ myxoid chondrosarcoma
 ## Abstract
 
 Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma driven by fusion of a variable partner
-gene to *NR4A3*. Its chimeric mRNA carries a breakpoint junction found in no normal transcript, so
-base-pairing could in principle distinguish it from both parent genes, yet no oligonucleotide
-against such a junction has been reported in this disease. All 231 donor-acceptor exon pairs across
-five partners were graded for frame, junction-spanning 16-mer 5-6-5 LNA/DNA/LNA gapmers were tiled
-over every frame-compatible junction, and each design was screened against mature transcripts,
-parent pre-mRNA and GRCh38 at three gap lengths. Designs proved plentiful: 38 pairs are
-frame-compatible, carrying 190 candidates. The constraint is instead the parent genes, which
+gene to *NR4A3*. Its chimeric mRNA carries a breakpoint junction found in no normal transcript.
+Base-pairing could in principle distinguish the fusion from both parent genes, but no
+oligonucleotide against such a junction has been reported in this disease. All 231 donor-acceptor
+exon pairs across five partners were graded for frame. Junction-spanning 16-mer 5-6-5 LNA/DNA/LNA
+gapmers were tiled over every frame-compatible junction. Each design was screened against mature
+transcripts, parent pre-mRNA and GRCh38, at three gap lengths. Designs proved plentiful: 38 pairs
+are frame-compatible, carrying 190 candidates. The constraint is instead the parent genes, which
 transcriptome screens exclude by construction and so never test. Of the 190 designs, 87 pair the
-catalytic gap against a mature parent transcript and 61 of those against wild-type *NR4A3*, the
-transcript this approach exists to spare; separately, 19 of the 190 pair it in parent pre-mRNA,
-where RNase-H1 is also active. Apparently clean designs mostly fail a tenfold deeper search, though
-ranking within each junction still returns a usable candidate at both published breakpoints, about
-95% of confirmed cases. Fusion-versus-parent discrimination at the catalytic gap is therefore the
-limiting step, and gap length cannot relieve it, since the same nucleotides arm RNase-H1 against
-both. Reagents, controls and a falsifying threshold are named.
+catalytic gap against a mature parent transcript. Of those 87, 61 pair wild-type *NR4A3*, the
+transcript this approach exists to spare. In parent pre-mRNA, where RNase-H1 is also active, 19 of
+the 190 do the same. Apparently clean designs mostly fail a tenfold deeper search. Ranking within
+each junction still returns a usable candidate at both published breakpoints, about 95% of confirmed
+cases. Fusion-versus-parent discrimination at the catalytic gap is therefore the limiting step. Gap
+length cannot relieve it: the same nucleotides arm RNase-H1 against fusion and parent alike.
+Reagents, controls and a falsifying threshold are named.
 
 ---
 
