@@ -86,10 +86,10 @@ ligand that engages it cannot distinguish fusion from wild type. That matters be
 tumour-suppressive: combined *NR4A1*/*NR4A3* loss causes acute myeloid leukaemia in
 mice,<sup>10</sup><!--PMID:17515897--> and NR4A3's roles in cancer are context-dependent, tumour-suppressive in some
 tissues and tumour-promoting in others.<sup>11</sup><!--PMID:33106376--> Either way, wild-type NR4A3 is not a protein a
-therapy should silence indiscriminately. The chimeric mRNA
-does not share this problem. Its breakpoint seam is a contiguous sequence absent from both parent
-transcripts, so discrimination can in principle be enforced by base-pairing rather than by protein
-conformation.
+therapy should silence indiscriminately. The chimeric mRNA does not share this problem. Its
+breakpoint *seam*, the one contiguous stretch of sequence present in no normal transcript, is absent
+from both parent transcripts, so discrimination can in principle be enforced by base-pairing rather
+than by protein conformation. That seam is the target of every design in this paper.
 
 Targeting a fusion breakpoint with an oligonucleotide is not new; the approach has a continuous
 lineage from
@@ -116,26 +116,6 @@ out where a computational screen stops being able to answer them, and ends by na
 oligonucleotides to synthesise, the controls that make the result interpretable, and the measured
 threshold that would falsify the ranking every candidate here is ordered by (§5).
 
-**Terms used here.** Several of the terms below carry a specific meaning in this paper, and the
-counts throughout depend on which one is meant.
-
-- *Seam*: the breakpoint junction in the chimeric mRNA, the one contiguous stretch of sequence
-  present in no normal transcript.
-- *Frame-compatible*: a donor-exon and acceptor-exon pair whose chimeric open reading frame is in
-  frame, and therefore a pair at which a fusion could exist.
-- *Gap-level margin*: the number of fusion-unique bases inside the catalytic gap on the shorter side
-  of the seam. This is the paper's ranking statistic, because RNase-H1 cleaves inside the gap rather
-  than along the whole oligonucleotide.
-- *Near-match*: a transcript window matching a design at 14 or more of 16 positions.
-- *Hybridisable*: a match in the orientation an antisense oligonucleotide can actually base-pair
-  with. A transcript carrying the reverse complement of the target window is not a liability at all.
-- *Gap-paired*, *gap-spanning*: a near-match in which the catalytic-gap positions are themselves
-  paired, so RNase-H1 could cleave there. A match that pairs only the wings cannot be cleaved.
-- *Clean*: carrying no hybridisable near-match over a complete hit list, at the stated search depth.
-- *Search ceiling*: how many alignments the search keeps per query. A count taken at the default
-  ceiling is a lower bound, and §3.5 measures by how much.
-- *Load*: a design's total predicted off-target burden, as a count of near-matches.
-
 ## 2 · Methods
 
 **Transcript models.** Canonical transcripts for *EWSR1* (ENST00000397938), *TAF15*
@@ -151,8 +131,9 @@ weaker check is recorded per gene in the released artefacts.
 sequences: a fusion transcript retains the acceptor exon whole, so *NR4A3* exon-3 bases 5′ of its own
 initiation codon are physically present in the transcript and are the bases an oligonucleotide meets
 immediately 3′ of the seam. Let *U* be the number of retained untranslated acceptor-exon nucleotides, measured here as 2.
-The chimeric open reading frame is then in frame when (donor coding nucleotides + *U*) mod 3 = 0. Every declared exon pair was graded by this rule before any design was emitted, and a
-panel was emitted only for a pair graded frame-compatible.
+The chimeric open reading frame is then in frame when (donor coding nucleotides + *U*) mod 3 = 0.
+Every declared exon pair was graded by this rule before any design was emitted. A pair that passes it
+is *frame-compatible*: a pair at which a fusion could exist. A panel was emitted only for those.
 
 **Design.** Junction-spanning 16-mer gapmers were tiled in a 5-6-5 LNA/DNA/LNA architecture on a
 phosphorothioate backbone, the chemistry the design rules below assume, retaining
@@ -170,9 +151,12 @@ selectivity.<sup>22</sup><!--PMID:39126066--> Because that trade is the modality
 longer geometries were tiled over the same seams by the same rule and carried through the same
 screens: 5-8-5 and 5-10-5, with the wing held at five nucleotides so that only the catalytic gap
 changed. Holding the wing fixed is what makes the geometries comparable, since LNA affinity then
-enters every parent duplex identically; §3.10 reports the comparison. Discrimination is set by the junction-unique bases inside
-the gap, not by identity across the whole oligonucleotide, so designs were ranked by a gap-level
-margin: the number of junction-unique bases inside the gap on the shorter side. Each candidate was
+enters every parent duplex identically; §3.10 reports the comparison. Discrimination is set by the
+junction-unique bases inside the gap, not by identity across the whole oligonucleotide. Designs were
+therefore ranked by their *gap-level margin*: the number of junction-unique bases inside the gap on
+the shorter side of the seam. This is the paper's ranking statistic throughout, and it is a
+gap-level rather than a whole-oligonucleotide quantity because RNase-H1 cleaves inside the gap. Each
+candidate was
 tested against all six parent transcripts, not only the two parents of its own fusion, because the
 FET-family donors (FUS, EWSR1 and TAF15) are paralogues with similar low-complexity amino-termini.
 
@@ -181,12 +165,16 @@ name throughout, because each reaches a compartment the others cannot and each i
 another catches. No single screen supports any claim here on its own.
 
 1. **The alignment screen.** Each target window was queried against human RefSeq RNA (blastn-short,
-   low-complexity filter off, ≥14/16 identity), and every near-match was classified by whether the
-   six-nucleotide gap was fully base-paired. This is a heuristic search and keeps only a limited
-   number of hits per query, so its counts are lower bounds; §3.5 measures by how much. Records of
-   the six parent genes are counted separately and excluded from every near-match count reported
-   here, since each parent pairs one wing by construction and would otherwise dominate the list. The
-   parents are assessed instead by the gap-level margin and by screen 4.
+   low-complexity filter off, ≥14/16 identity). A transcript window matching a design at 14 or more
+   of its 16 positions is a *near-match*, and every near-match was classified by whether the
+   six-nucleotide gap was itself base-paired. One that pairs the gap is *gap-paired*, or equivalently
+   *gap-spanning*, and RNase-H1 could cleave there; one that pairs only the wings could not be
+   cleaved. This is a heuristic search, and it retains only a limited number of hits per query. That
+   retention limit is the *search ceiling*, and it makes every count taken at the default ceiling a
+   lower bound rather than a total; §3.5 measures by how much. Records of the six parent genes are
+   counted separately and excluded from every near-match count reported here, since each parent pairs
+   one wing by construction and would otherwise dominate the list. The parents are assessed instead
+   by the gap-level margin and by screen 4.
 
 2. **The exhaustive transcript scan.** A seed-and-extend scan searched 186,185 transcripts
    (GRCh38.p14) for exact and ≤1-mismatch matches. It is complete for substitutions by construction,
@@ -220,15 +208,20 @@ another catches. No single screen supports any claim here on its own.
    therefore no search sensitivity to quantify. §3.8 reports it.
 
 **Strand orientation.** A match matters only if an antisense oligonucleotide could base-pair with
-it. The alignment screen did not originally check this. `blastn` searches both strands, and a
-transcript carrying the reverse complement of the target window cannot be base-paired at all, so it
-is not a liability — yet such hits passed the identity filter, and where they spanned the catalytic
-gap they were recorded as cleavage risks. Orientation is now parsed and filtered in all 38 junction
+it. A match in that orientation is *hybridisable*; one carrying the reverse complement of the target
+window is not a liability at all. The alignment screen did not originally check this. `blastn`
+searches both strands, so reverse-complement hits passed the identity filter, and where they spanned
+the catalytic gap they were recorded as cleavage risks. Orientation is now parsed and filtered in all 38 junction
 screens and the 183 designs they hold, and therefore in every cleanliness statement made here. The
 only two screens in the released set that are not filtered are modelled control seams built in
 amino-acid rather than transcript coordinates, which carry no junction and support no claim. The
 same rule governs pre-mRNA, which is transcribed in transcript orientation: a forward match can be
 base-paired and a reverse-complement match cannot.
+
+A design is called *clean* when it carries no hybridisable near-match over a complete hit list, at
+the stated search depth. Both qualifications are load-bearing. A hit list that the search ceiling
+truncated is not complete, so no verdict is available for that design, and a design clean at one
+depth need not be clean at another; §3.4 and §3.5 report both effects.
 
 **Target-site accessibility.** Estimated as mean unpaired probability over a local fold of up to 180
 nucleotides. It spans 0.160 to 0.707 across all 190 designs at real exon junctions, with a median of
@@ -496,14 +489,15 @@ favour. RefSeq carries one accession per annotated variant, so a match to a
 constitutive exon of a multi-variant gene is counted once per variant. Recounting every screened hit
 list per gene locus, over the 44 designs of the 38 junction screens whose lists are neither truncated
 nor missing a locus recount, gives a median
-inflation of 2.25 transcript records per locus and a maximum of 11.0 — that is, a typical near-match count
-overstates the number of distinct genes involved by rather more than twofold. The distinction also
-separates observed from predicted sequence: RefSeq `NM_`/`NR_` records are curated, whereas
-`XM_`/`XR_` are computationally predicted gene models, so a design whose load sits entirely in the
-predicted namespace carries a different kind of liability from one that matches curated transcripts.
+inflation of 2.25 transcript records per locus and a maximum of 11.0. A typical near-match count
+therefore overstates the number of distinct genes involved by rather more than twofold. The
+distinction also separates observed from predicted sequence: RefSeq `NM_`/`NR_` records are curated,
+whereas `XM_`/`XR_` are computationally predicted gene models. A design's *load* is its total
+predicted off-target burden, counted as near-matches. A load sitting entirely in the predicted
+namespace is a different kind of liability from one that matches curated transcripts.
 For the multi-partner candidate 5′-GGGCATATCATCAAAC-3′ both effects apply and compound with the
 orientation filter. Of its nine near-matches, six are hybridisable and five of those are
-gap-spanning — and all five are variants of a single uncharacterised locus, LOC105374140, annotated
+gap-spanning, and all five are variants of a single uncharacterised locus, LOC105374140, annotated
 only as predicted `XR_` models. One gap-spanning locus from a raw count of nine, but not one clean of
 curated sequence: the sixth hybridisable near-match is *H2AP* (NM_012274), whose single mismatch
 falls inside the catalytic gap and which the pessimistic bound therefore counts in full. The same
