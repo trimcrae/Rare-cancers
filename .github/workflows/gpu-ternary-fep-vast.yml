@@ -2125,7 +2125,34 @@ jobs:
           #
           # `--allow-empty` in BOTH places, so the step can neither silently skip (the old landmine) nor
           # fail red on a no-diff (the naive fix). Publishing is unconditional in both directions.
-          git commit -q --allow-empty -m "in-flight board (CI)"
+          #
+          # ★★ EXCEPT WHEN THERE IS NOTHING TO SUPERVISE (trimcrae, 2026-08-14: the board commits are
+          # "annoying"). MEASURED THAT DAY: 118 commits to `main` in 24 h, 66 of them "in-flight board
+          # (CI)" from THIS lane, and 65 of those 66 carried no change but an incremented "N min ago"
+          # counter — while `inflight-board.d/ternary.json` read `"rows": []` and every other lane's
+          # fragment was 8 to 13 days stale or operator-paused.
+          #
+          # ⛔ THIS IS NOT THE `git diff --cached --quiet` GUARD THE PARAGRAPH ABOVE FORBIDS, and the
+          # distinction is the whole safety argument. That guard asked "did the FILE change", which the
+          # generation stamp always answers yes to, and which would make a healthy IDLE lane render
+          # byte-identically to a DEAD one. `fleet_armed` asks a different question — "does the ACCOUNT
+          # hold anything" — from an account-level reading this lane does not own. It is FAIL-ARMED on
+          # every doubt, and the census lane is exempt, so idle still leaves one hourly commit trail and
+          # "no commits at all" stays a real signal. The timestamp is still the heartbeat; there is now
+          # a state in which the watchman has nothing to guard. See research/modalities/fleet_armed.py.
+          #
+          # ⚠ EXIT 10 IS IDLE, AND ONLY 10. Any other status — including a crash — falls through to the
+          # commit, because a traceback must never be readable as "nothing to supervise".
+          # ⚠ `|| armed_rc=$?`, NEVER `|| true`. `|| true` resets $? to 0, so the test below could never
+          # see a 10 and the guard would no-op into the old behaviour with no symptom — fail-armed, and
+          # therefore invisible, which is the shape of defect this repository has already paid for twice.
+          armed_rc=0
+          python3 research/modalities/fleet_armed.py ternary-inflight-board >/dev/null 2>&1 || armed_rc=$?
+          if [ "$armed_rc" = "10" ]; then
+            echo "::notice title=BOARD IDLE::fleet_armed reports nothing to supervise; board regenerated and pushed if changed, non-event commit skipped."
+          else
+            git commit -q --allow-empty -m "in-flight board (CI)"
+          fi
           # ⚠ NO `git stash` HERE. The first version stashed, reset, and popped — but the board file is
           # the ONLY thing this step changes and it is already committed by the time we push, so there is
           # nothing to stash. `git stash pop` then failed with "No stash entries found", and the following
@@ -2152,7 +2179,11 @@ jobs:
             # fetch of its own — it is the same regeneration as before the loop, against fresher inputs.
             python3 research/modalities/inflight_board.py --write >/dev/null 2>&1 || true
             git add research/modalities/inflight-board-all.md 2>/dev/null || true
-            git commit -q --allow-empty -m "in-flight board (CI)"
+            # Same gate as above, re-evaluated: a host can appear between the first attempt and a retry,
+            # and the retry is what would carry the row that proves it.
+            armed_rc=0
+            python3 research/modalities/fleet_armed.py ternary-inflight-board >/dev/null 2>&1 || armed_rc=$?
+            [ "$armed_rc" = "10" ] || git commit -q --allow-empty -m "in-flight board (CI)"
           done
       # ★★ RETIRE THE WATCH ENTRY OF ANY LEG THAT HAS ALREADY LANDED (2026-07-27, 7:45 PM ET).
       #
