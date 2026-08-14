@@ -113,6 +113,21 @@
    ],
    "signals_recorded": 0,
    "abstracts_fetched": 58
+  },
+  {
+   "date": "2026-08-14",
+   "mode": "scan",
+   "triggers": 30,
+   "queries": 124,
+   "new_hits": 17,
+   "appended": 14,
+   "errors": [
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=protac&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "chemrxiv: DROPPED FOR THIS RUN after 3 consecutive failures (last: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden). Every ChemRxiv query below was SKIPPED -- this run's preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result is not a reading of absence."
+   ],
+   "signals_recorded": 17,
+   "abstracts_fetched": 60
   }
  ],
  "hits": {
@@ -1158,6 +1173,18 @@
     "first_seen": "2026-08-08",
     "age_days_at_first_seen": 8,
     "abstract": "Predicting the magnitude of a CRISPRi perturbation's transcriptomic effect on held-out target genes is an important open problem in single-cell biology. Recent work has documented that simple baselines often match or exceed deep perturbation predictors on related protocols. We study this phenomenon on the Virtual Cell Challenge (VCC) benchmark under a strict held-out target-gene split, identify the specific low-dimensional signal that drives the gap, and characterize how it transfers across cell types. The target is the log Anderson-Darling distance from non-targeting controls, which is strongly predictable from four deterministic scalar functions of the 2,000-dimensional input. A deep MLP encoder with direct access to the full input collapses toward the marginal training mean, and standard remedies do not close the gap. A linear regression on the four magnitude scalars alone exceeds the strongest x-only classical model, while a Random Forest on the input plus the four scalars substantially outperforms our deep proof-of-concept encoder. Two pre-specified controls attribute the magnitude gain to per-row alignment rather than added dimensionality. Under zero-shot transfer to two external CRISPRi screens evaluated against a target-gene endpoint rebuilt from single-cell data, magnitude-only predictors transfer positively whereas expression-only predictors are negative or unresolved. Exposing magnitude to the deep encoder improves transfer over its expression-only counterpart, yet the encoder does not outperform a four-scalar linear regression on the same features. We also find that the Anderson-Darling column distributed with these screens measures transcriptome-wide response breadth rather than target-gene effect strength, so evaluating transfer against it scores a different outcome."
+   },
+   "arXiv/2608.06824v1": {
+    "id": "arXiv/2608.06824v1",
+    "title": "Control-Anchored Residual Flow Matching Conditioned on Gene Geometry for Virtual Cell Perturbation Modeling",
+    "date": "2026-08-07",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2608.06824v1",
+    "is_preprint": true,
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 7,
+    "abstract": "A central task in virtual cell modeling is predicting single-cell transcriptional responses to unseen genetic perturbations and drug combinations, and biological networks provide valuable priors on gene relationships. Existing graph-based models commonly use the same network to structure gene representations and mediate intergene interactions, thereby implicitly treating stable associations as perturbation-response pathways. Gene Ontology and control-derived coexpression networks encode relatively stable relationships rather than intervention-specific response directions or magnitudes. We therefore propose GeneGeoFlow, which conditions a control-anchored residual flow on gene-wise geometry derived from biological networks to learn intervention-specific transcriptional responses. GeneGeoFlow derives multi-scale spectral coordinates from Gene Ontology and control-derived coexpression networks. A perturbation-conditioned, gene-wise gating module selects relevant structural scales and network sources, yielding intervention-specific gene geometry. The resulting geometry conditions a control-anchored residual flow without explicitly propagating target-derived signals along the graph. Condition-wise optimal transport couples unpaired control and perturbed populations for training, while a Delta-correlation objective aligns the predicted and observed condition-level expression-shift directions. GeneGeoFlow achieves Pearson Delta scores of 0.8979 on the Norman additive benchmark and 0.9088 on five held-out drug combinations in the fixed ComboSciPlex test split. These results support perturbation-conditioned gene geometry as an effective structural prior for intervention-specific response prediction, without conflating stable gene relationships with response propagation."
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -1416,6 +1443,18 @@
     "first_seen": "2026-08-08",
     "age_days_at_first_seen": 75,
     "abstract": "Abstract      An open-source physiologically based pharmacokinetic\u2013pharmacodynamic (PBPK\u2013PD) framework was developed to translate   in vitro   tuberculosis drug potency into clinical exposure\u2013response predictions across clinically relevant subpopulations, formulations, and adherence scenarios. A whole-body rifampicin PBPK model was implemented in PK-Sim/MoBi to simulate plasma concentration\u2013time profiles under once-daily oral dosing (10 mg/kg) for 14 days across virtual cohorts (n\u2009=\u2009100 per scenario), including pregnancy, pediatrics, geriatrics, and hepatic impairment. Controlled-release formulations were implemented via digitized   in vitro   dissolution profiles. The multistate tuberculosis pharmacometrics (MTP) model was translated from NONMEM to mrgsolve without structural modification, and PBPK-predicted concentrations were coupled to the MTP model in R as time-varying forcing functions. Treatment success was defined as a\u2009\u2265\u20093-log\u2081\u2080 reduction in total bacterial burden by day 14, normalized to the adult reference. Pregnancy simulations predicted attenuated normalized success in the first trimester (0.84), recovering in trimesters 2\u20133 (1.01). Among pediatric cohorts, neonates (1.03) and toddlers (1.01) matched the adult response, whereas preschool children showed reduced success (0.90). Geriatric and hepatically impaired cohorts showed higher success (1.23\u20131.28). Slower-release formulations progressively reduced success, and consecutive missed doses (0.83) had a greater impact than a single interruption (0.95). This proof-of-concept framework mechanistically links physiology-driven rifampicin exposure to multistate bacterial killing, identifies vulnerable subgroups, and demonstrates how interoperable open-source tools can support model-informed drug development for tuberculosis."
+   },
+   "PPR/PPR1297025": {
+    "id": "PPR/PPR1297025",
+    "title": "Development of a Dissolution-Informed PBPK-Assisted In Vitro\u2013In Silico Correlation Framework for Predicting Food Effects of Lurasidone Hydrochloride",
+    "date": "2026-08-12",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1297025",
+    "is_preprint": true,
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 2,
+    "abstract": "Abstract    Background  Lurasidone hydrochloride, a Biopharmaceutics Classification System (BCS) Class II drug, exhibits dissolution-limited absorption and a pronounced food effect, making prediction of its in vivo performance challenging. This study developed a dissolution-informed physiologically based pharmacokinetic (PBPK) model integrated with biorelevant dissolution testing to establish a PBPK-assisted in vitro\u2013in silico correlation (IVISc). Methods  Dissolution studies of a 40 mg lurasidone tablet were performed in fasted- and fed-state simulated gastric and intestinal media (FaSSGF, FeSSGF, FaSSIF, and FeSSIF). Experimentally generated dissolution profiles were incorporated into a PBPK model developed using PK-Sim\u00ae to predict plasma concentration\u2013time profiles, pharmacokinetic parameters, and food effects. Model performance was evaluated using fold error (FE), average absolute fold error (AAFE), goodness-of-fit analysis, and visual predictive checks. Results  Dissolution was significantly influenced by gastrointestinal conditions (p"
    }
   },
   "TRG-VECTOR-DELIVERY-SOLID-TUMOUR": {},
@@ -1449,6 +1488,18 @@
     "url": "https://europepmc.org/article/MED/41670633",
     "first_seen": "2026-08-03",
     "age_days_at_first_seen": 173
+   },
+   "PPR/PPR1294495": {
+    "id": "PPR/PPR1294495",
+    "title": "ASOCompass: Context- and Chemistry-Aware Activity Prediction for Transferable Antisense Oligonucleotide Screening",
+    "date": "2026-08-07",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1294495",
+    "is_preprint": true,
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 7,
+    "abstract": "Antisense oligonucleotide (ASO) activity is jointly influenced by nucleotide sequence, chemical modification, target-RNA context, dose, delivery protocol, and cellular environment. Most existing computational screening methods model only a subset of these factors, limiting their ability to predict experimentally measured activity across heterogeneous screening conditions and previously unseen biological contexts. We introduce  ASOCompass , a context-and chemistry-aware framework for ASO activity prediction and candidate ranking. ASOCompass integrates contextualized ASO and target-RNA sequence representations with position-specific molecular representations of chemical modifications. It further incorporates dose and delivery information together with prototype-adapted transcriptomic representations of target genes and cell lines. To encourage chemically and biophysically informative representations, the model is jointly trained on auxiliary molecular-property and sequence-derived thermodynamic prediction tasks. We evaluate ASOCompass on ASO Atlas, a large patent-derived dataset of RNase H-mediated gapmer ASOs, under held-out drug, target-gene, cell line, and joint gene\u2013cell line settings. ASOCompass achieves an overall Spearman correlation of 0.5970, improving over the strongest ASO-specific baseline by 0.0421, and consistently performs best across all four distribution shifts. When adapted to unseen SOD1 and KLKB1 targets, ASOCompass also provides more accurate candidate ranking across different annotation budgets, reaching correlations of 0.830 and 0.696 with 1,024 target-specific labels. Additional analyses suggest that molecular-property supervision improves modification-specific ranking, while the auxiliary thermodynamic task produces representations more closely aligned with measured inhibition. These results demonstrate the potential of jointly modeling sequence, chemistry, and experimental-biological context for transferable ASO screening."
    }
   },
   "TRG-ASO-EFFICACY-ACCESSIBILITY": {
@@ -1759,7 +1810,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1222576",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 165
+    "age_days_at_first_seen": 165,
+    "abstract": "RNA interference (RNAi) is a biological process in which a small interfering RNA (siRNA) prevents the translation of a messenger RNA (mRNA) into a protein by cleaving the mRNA before translation. We exploit this process to prevent the formation of harmful proteins by using an effective siRNA on the target mRNA. The current rapidly emerging RNAi-based drugs show immense potential for therapeutic applications. Traditionally, designing a potent siRNA for an mRNA requires extensive lab experimentation and trials; therefore, there is a need to develop a model that reliably predicts a siRNA\u2019s efficacy against mRNA. This saves both cost and time. But designing such models is challenging, as the data available is either scarce or biased. The current models available exhibit limited generalization and are restricted to a fixed siRNA lengths of either 19 or 21 nucleotides, limiting flexible use. To address these challenges, we introduce OligoGraph, a graph-based deep learning architecture that operates on the siRNA-mRNA duplex. It leverages RiNALMo embeddings, multiple GATconv and Transformerconv layers, and self-supervised pretraining, and outperforms all other existing models in our testing on seen and unseen data. We implemented specialized OligoGraph variants for 19- and 21-nucleotide siRNAs, both of which outperformed the current state-of-the-art models on unseen data. The 19-nucleotide model yielded AUC-ROC and PCC increases of 1.1% and 4.6% on the Mixset; 19.07% and 127.3% on the Takayuki dataset, respectively. Furthermore, the 21-nucleotide model improved predictive performance on the Simone dataset by 2.62% (AUC-ROC) and 6.65% (PCC)."
    },
    "PPR/PPR1217242": {
     "id": "PPR/PPR1217242",
@@ -1770,7 +1822,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1217242",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 130
+    "age_days_at_first_seen": 130,
+    "abstract": "The clinical translation of RNA interference (RNAi) therapeutics remains limited by inefficient delivery and cancer-target accumulation. Here, we report the development of a new cationic liposome (CLP) nanocarrier engineered for delivery and controlled-release of small interfering RNA (siRNA) targeting the epidermal growth factor receptor (EGFR) in human colorectal cancer. CLPs were synthesized from ethylphosphocholine-based lipids and PEGylated components, with folic acid (FA) tissue-specific ligand and fluorophore labelling. These nanocarriers exhibited robust physicochemical stability across a broad pH and temperature range, efficient siRNA complexation, and nuclease-protection of siRNA. Functional studies revealed that CLP-siEGFR achieved effective cytosolic siRNA cargo release and EGFR silencing in vitro, proving to be more effective than conventional lipid-based transfection systems. In human xenograft models, intravenously administered CLP-siEGFR showed enhanced tumor localization, prolonged siRNA retention, and significant tumor growth suppression, accompanied by marked downregulation of EGFR. Importantly, systemic dosing was well-tolerated, with no evidence of hepatotoxicity, nephrotoxicity, or hematological abnormalities. These results position CLP nanocarriers as an effective platform for targeted RNAi therapeutics, offering translational potential for precision oncology applications."
    },
    "PPR/PPR1210671": {
     "id": "PPR/PPR1210671",
@@ -1781,7 +1834,54 @@
     "url": "https://europepmc.org/article/PPR/PPR1210671",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 89
+    "age_days_at_first_seen": 89,
+    "abstract": "MicroRNA (miRNAs) are small non-coding RNAs that regulate gene expression by binding to the target messenger RNA (mRNA), whose versatility has inspired RNA-interference (RNAi)-based drug designs. However, off-target effects lead to unintended gene silencing and toxicity. Existing methods suffer from experimental data scarcity and fail to effectively integrate target specificity into designing de novo small interference RNAs (siRNA). To overcome the above challenges, we present S  peci M  i R, a specificity-guided generative framework that synthesizes target-conditioned miRNAs. By training on a large experimental data containing 2.2M miRNA-mRNA pairs, S  peci M  i R minimizes off-target effects with enhanced on-target potency. As a result, S  peci M  i R-generated miRNAs bind more strongly to the target mRNAs than the observed miRNAs and much less so to off-target mRNAs. We tested S  peci M  i R on mRNA targets for liver disease, for which 6 FDA-approved siRNA-based drugs were available. S  peci M  i R recovers binding regions that correspond to FDA-approved siRNA drugs across 3 targets, and demonstrates greater structural specificity for on-target mRNAs than for off-target mRNAs. Together, S  peci M  i R offers an AI solution to synthesize miRNA-inspired and target-specific siRNA sequences towards RNAi-based drug design. Code/data is available at  https://anonymous.4open.science/r/SpeciMiR-278F"
+   },
+   "MED/42569578": {
+    "id": "MED/42569578",
+    "title": "High-throughput microfluidics and machine learning-assisted screening of lipid nanoparticle formulations for siRNA delivery",
+    "date": "2026-07-22",
+    "venue": "Mater Today Bio",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42569578",
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 23
+   },
+   "PPR/PPR1297633": {
+    "id": "PPR/PPR1297633",
+    "title": "siDiff: De Novo siRNA Design via Efficacy-Guided Discrete Masked Diffusion",
+    "date": "2026-08-11",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1297633",
+    "is_preprint": true,
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 3,
+    "abstract": "Target-conditioned de novo siRNA design requires capturing both target mRNA binding context and internal siRNA sequence-activity rules. Traditional computational pipelines predominantly rely on discriminative prediction models that rank pre-filtered candidate pools. However, these approaches struggle with generalization on novel target genes and often overlook potent candidates due to dataset size constraints and motif overfitting. To reconcile generation precision with sequence diversity, we propose siDiff, an efficacy-guided discrete diffusion framework for target-conditioned de novo siRNA design. siDiff pairs a discrete-masked diffusion transformer--which models the underlying sequence distribution over functional duplexes--with a mask-robust efficacy guidance model. During inference, we introduce a biology-aware, three-stage sampling mechanism that performs structural candidate filtering, dynamic unmasking guidance, and cluster-aware redundancy mitigation. This dual mechanism enables the diffusion process to explore broad sequence spaces while the efficacy model prevents distributional shift toward non-functional candidates. Extensive experiments across four datasets, including the public Takayuki benchmark and three curated patent datasets, demonstrate that siDiff significantly outperforms state-of-the-art discriminative baselines and discrete diffusion models, achieving relative hit-rate improvements of over 30% and demonstrating superior generalization on out-of-distribution gene targets. The source code and related materials are available at https://github.com/cybericha/siDiff."
+   },
+   "PPR/PPR1297514": {
+    "id": "PPR/PPR1297514",
+    "title": "DuplexFM: Transferable small-RNA target representations link miRNA interactions to siRNA efficacy prediction",
+    "date": "2026-08-12",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1297514",
+    "is_preprint": true,
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 2,
+    "abstract": "MicroRNAs (miRNAs) and small interfering RNAs (siRNAs) share Argonaute-mediated guide-target recognition, yet quantitative siRNA efficacy measurements are substantially scarcer and more costly to generate than miRNA-target interaction data. We therefore asked whether miRNA interaction data could provide transferable supervision for siRNA efficacy prediction. Here we present DuplexFM, a biologically grounded framework that uses sample-specific gates to integrate five evidence sources: pairing and sequence-context priors, duplex energetics, experimentally supervised mRNA accessibility, target-to-guide cross-attention, and contextual token-pair compatibility. The accessibility expert, trained on nucleotide-resolution icSHAPE measurements, achieved a held-out nucleotide-level Pearson correlation of 0.627 and evaluated accessibility at seed match and energy-supported candidate sites. On miRBench v7, three independently trained DuplexFM models achieved a macro APS of 0.873 (SD = 0.002), soft-voting increased this to 0.876 and yielded the highest APS on all four test sets. We then froze the miRNA-trained representation and trained only a lightweight residual head with 24 siRNA-specific descriptors. Transfer improved Pearson and Spearman correlations, AUPRC, and F1 over the descriptor-only baseline in all six evaluation settings. The ensemble achieved the highest Pearson and Spearman correlations in four settings, whereas OligoFormer remained stronger on Huesken and Takayuki. These findings show that experimentally grounded accessibility and miRNA-derived interaction representations provide complementary, transferable information, supporting a parameter-efficient route towards unified modeling of Argonaute-guided RNA regulation. Code and data are available at https://github.com/cbaiming/DuplexFM."
+   },
+   "PPR/PPR1296349": {
+    "id": "PPR/PPR1296349",
+    "title": "Fundamentals on the Kinetic and Thermodynamic Analysis of Oligonucleotide DNA Hybridization by Surface Plasmon Resonance: A Guide for HIF1\u03b1 Antisense Design",
+    "date": "2026-08-11",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1296349",
+    "is_preprint": true,
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 3,
+    "abstract": "Antisense oligonucleotides (ASO) are nucleotide polymers that hybridize to sense strands and have been successful in treating a variety of diseases. A wide range of strategies have been investigated to optimize and develop ASO for clinical studies. A key objective for this study was to provide an overview of the range of detailed data that get be obtained and provide an updated method review on how to design surface plasmon resonance (SPR) kinetic experiments for DNA oligonucleotide hybridization studies that can also be applied to other ASO including peptide nucleic acids (PNA). We describe many lessons learned from published literature and provide a state-of-the-art strategy and methods for generating not only kinetic but also thermodynamic characterizations of oligonucleotide hybridization. In this study we have performed an SPR kinetic and thermodynamic analysis for the hybridization of HIF1\u03b1 antisense DNA strands to its immobilized Intron2-Exon3 splice site sense DNA strand to provide insight, in general, on the optimal length and insight into optimal design of DNA ASOs. We provide a process on how to design experiments to: 1.) obtain oligonucleotide-length dependent kinetics, 2.) analyze reactions to obtain association and dissociation rate kinetics (k  a , k  d ), assess if hybridization follows a 2-state model and to obtain kinetic dissociation constants (K  d ), 3.) perform temperature-dependent hybridization kinetics to obtain thermodynamic values (\u0394H\u00b0, \u0394S\u00b0 and \u0394G\u00b0) that can give insight into the molecular interactions driving hybridization, 4.) compare experimental thermodynamic values to values derived from nearest-neighbor prediction models to identify atypical reactions and importantly 5.) enable calculations to predict oligomer hybridization affinity at the physiological 37 \u00b0C temperature to asses if the design of the oligomer will have the required cellular activity for a therapeutic effect. The strategy and results presented throughout the paper are compared to previous SPR reports and suggestions made to optimize kinetic studies."
    }
   },
   "TRG-EMC-FUNCTIONAL-MODEL": {
@@ -1804,7 +1904,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1284994",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 15
+    "age_days_at_first_seen": 15,
+    "abstract": "Abstract    The disialoganglioside GD2 is a cell surface marker of neuroblastoma and an attractive target for chimeric antigen receptor (CAR) T-cell therapy. GD2 is also expressed in Ewing sarcoma (EwS), but more heterogeneously and often below the threshold required for CAR-mediated T-cell activation. We previously showed that pharmacological inhibition of the epigenetic regulator Enhancer of Zeste Homolog 2 (EZH2), for example with the approved drug tazemetostat, selectively upregulates GD2 expression in EwS cells in vitro. Here, we evaluated prerequisites for combining EZH2 inhibition with GD2-directed CAR T-cell therapy. Oral tazemetostat induced GD2 expression in EwS xenografts in vivo, but the effect was model-dependent and not consistently reproducible. In vitro analyses revealed a pronounced impact of EZH2 inhibition on CAR T cell biology. Tazemetostat markedly impaired T cell proliferation and expansion, while enhancing antigen-specific cytolytic activity on a per-cell basis. In contrast, tazemetostat did not measurably affect macrophage polarization under conditions promoting M2-like phenotypes characteristic of the EwS tumor microenvironment. Together, these findings argue against concomitant administration of tazemetostat with GD2-specific CAR T cells. The variable target induction capacity of tazemetostat in vivo and its recent withdrawal from the market limit the translational potential of the strategy. Systematic in vivo screening of epigenetically active compounds may identify more suitable candidates for robust, clinically relevant modulation of GD2 expression in EwS and other GD2-positive cancers."
    }
   },
   "TRG-CLOUD-WET-LAB": {
@@ -2069,7 +2170,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1271826",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 35
+    "age_days_at_first_seen": 35,
+    "abstract": "T cell receptor recognition of peptide\u2013MHC depends on sequence, interface chemistry, and three-dimensional geometry, but docking geometry is often summarized at the whole-receptor level, leaving CDR3-local pose difficult to compare across structures. We introduce TCR-FramePose, a local-frame descriptor set that represents each TCR\u2013pMHC complex as three bodies \u2014 whole TCR, CDR3\u03b1, and CDR3\u03b2 \u2014 measured relative to a pMHC groove frame. For each body, FramePose decomposes the native pose into reach, offset direction on S  2 , and orientation on  SO (3); for tangent-space analyses, these components are mapped to six coordinates per body and 18 coordinates per complex.  Applied to 378 curated \u03b1\u03b2TCR\u2013pMHC crystal structures, FramePose recovers known class-associated receptor-placement differences and additionally resolved whole-TCR and CDR3\u03b2 orientation shifts that were not captured by crossing angle. The same orientation coordinates identified reverse-polarity and off-axis outliers as distinct modes. In cross-validated association analyses, FramePose added nonredundant BSA- and affinity-associated information beyond conventional descriptors, and the modest affinity gain was concentrated in CDR3 orientation blocks which were least recoverable from conventional descriptors. Biological grouping analyses showed that shared receptor pose over peptide\u2013MHC was organized primarily by germline V-region framework. TCRs recognizing the same peptide\u2013MHC target favors shared FramePose geometries rather than strong receptor-specific divergence, whereas CDR3 sequence did not detectably reposition the rigid-body pose after antigen context and germline framework were fixed. MHC allele and peptide length contributed smaller adjustments, localized mainly to CDR3\u03b2 and groove-normal orientation axes. Finally, interface analyses showed that affinity tracked interface burial, with CDR3\u03b2 reach linking FramePose geometry to binding through buried surface area. Within engineered panels, mutation-level effects were panel-specific, with CDR3\u03b2 remodeling localizing to a recurrent interface region but varying in direction across receptors. These properties enable FramePose to serve as a geometric filter for in silico TCR\u2013pMHC models and as a feature layer for structure-guided TCR engineering. Together, TCR-FramePose provides a nonredundant geometric layer for structure-guided TCR\u2013pMHC analysis, linking germline-scaffolded recognition, CDR3-local pose, and interface organization without replacing sequence, contact, or energetic descriptors."
    },
    "PPR/PPR1256676": {
     "id": "PPR/PPR1256676",
@@ -2080,7 +2182,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1256676",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 49
+    "age_days_at_first_seen": 49,
+    "abstract": "ABSTRACT   The mechanical response of the interaction between the T cell receptor (TCR) and the peptide major histocompatibility complex (pMHC) is fundamental to antigen recognition, but the atomic-scale mechanisms by which the CD8 coreceptor modulates the complex\u2019s conformational states and force-bearing behavior remain poorly understood. We employed all-atom molecular dynamics and steered molecular dynamics simulations of membrane-embedded TCR\u2013pMHC and TCR\u2013pMHC\u2013CD8 complexes to characterize their dynamics and force-induced dissociation. Microsecond-long molecular dynamics (MD) simulations show that binding of CD8 to the MHC \u03b1  3 domain applies restraints to the latter one, which leads the MHC \u03b1  1 helix to stably bind against the TCR complementarity-determining regions (CDRs) and suppresses the fluctuations of the antigenic peptide. Furthermore, under mechanical loading, the TCR\u2013pMHC\u2013CD8 system exhibits a distinct dissociation pathway compared to that of TCR\u2013pMHC complex, which may strengthen the mechanical stability of the binding of TCR\u2013pMHC. Collectively, these findings unravel the molecular mechanisms of CD8-mediated synergistic stabilization and mechanical regulation of TCR\u2013pMHC, providing new mechanistic insights into coreceptor-dependent T cell antigen recognition.   SIGNIFICANCE   The TCR\u2013pMHC handshake is the definitive spark that ignites the immune response. It has been shown that the force applied to the TCR\u2013pMHC complex is critical for triggering the downstream signaling. In addition, TCR recognition of pMHC is regulated by force and strongly influenced by coreceptors, such as CD8. Therefore, understanding how coreceptors mediate TCR\u2013pMHC interactions upon the application of force is crucial for revealing the biophysical basis of immune signaling. This study unravels how coreceptors shape the dynamics and mechanical response of the TCR\u2013pMHC complex at the atomic level."
    },
    "PPR/PPR1214560": {
     "id": "PPR/PPR1214560",
@@ -2091,7 +2194,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1214560",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 113
+    "age_days_at_first_seen": 113,
+    "abstract": "Public TCR\u2013pMHC binding databases are heavily skewed toward a handful of well-studied HLA alleles\u2014 most prominently HLA-A*02:01, which covers \u223c45% of curated records\u2014and toward patients from European-ancestry cohorts. Standard empirical risk minimization (ERM) trained on such data achieves strong pooled accuracy but routinely underperforms on rare alleles and underrepresented cohorts, creating systematic disparities that are invisible in single-metric benchmarks. We introduce  FairTCR , a group distributionally robust optimization (GDRO) framework that minimizes worstgroup loss across HLA supertypes and cohort strata via online exponentiated gradient updates. FairTCR reduces the average\u2013 worst-group AUPRC disparity from 0.190 (ERM) to 0.098 on a curated VDJdb\u2013IEDB benchmark, achieving a 48.4% disparity reduction while maintaining competitive average AUPRC (0.432 vs. 0.431 for ERM). Per-HLA analysis shows that rare allele groups (B*08:01, B*44:02) gain up to 0.062 AUPRC points, directly improving the equity of computational pre-screening for underrepresented patient populations."
    },
    "PPR/PPR1214518": {
     "id": "PPR/PPR1214518",
@@ -2102,7 +2206,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1214518",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 113
+    "age_days_at_first_seen": 113,
+    "abstract": "Wet-lab validation of TCR\u2013pMHC binding hypotheses is the rate-limiting step in T-cell therapy discovery: a single binding assay round can cost thousands of dollars and weeks of turnaround time, yet computational models generate thousands of candidate pairs per run. We frame this as a  pool-based active learning problem: given a fixed annotation budget  B , which unlabeled pairs should be sent to the assay to maximally improve a predictive model that will guide the next screening round? We introduce  UDAL (Uncertainty\u2013Diversity Active Learning), a batch acquisition strategy that combines BALD-based uncertainty estimation via MC Dropout with greedy core-set diversity selection in the encoder feature space. Evaluated on a curated VDJdb\u2013IEDB benchmark under epitope-held-out and distance-aware protocols, UDAL achieves AUPRC 0.487 with only 5,000 queried labels\u2014matching the performance of a model trained on 3  \u00d7 more randomly sampled labels. At a budget of 2,000 labels, UDAL improves AUPRC by 16.7% over random acquisition, translating directly to fewer wasted assay slots. These results demonstrate that principled active query strategies can substantially reduce the wet-lab cost of building reliable TCR specificity models."
    },
    "PPR/PPR1210883": {
     "id": "PPR/PPR1210883",
@@ -2113,7 +2218,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1210883",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 90
+    "age_days_at_first_seen": 90,
+    "abstract": "Effective anti-tumor T cell response depends on both neoantigen quality (non-selfness) and quantity (abundance). However, existing methods for neoantigen prioritization largely overlook peptide abundance because it is difficult to measure and model. To bridge this gap, we developed epiVIP, a deep learning framework that predicts the abundance of individual HLA-I peptides using widely available (sc)RNA-seq data. Trained on 1.7 million immune peptides paired with gene expression profiles, epiVIP demonstrated strong generalizability across unseen samples. Analyzing 33,711 neoantigens from clinical datasets revealed a compensatory relationship between abundance and non-selfness in determining antigenicity, providing quantitative support for the TCR avidity theory. Importantly, abundance independently predicted tumor reactivity and patient survival across multiple neoantigen vaccine cohorts and immune checkpoint blockade cohorts. Mechanistic interpretation of epiVIP further identified directional regulation of MAGEA3 epitope presentation by PSME4, which was validated experimentally using T cell functional assays. Together, these findings established AI-enabled virtual immunopeptidomics as a powerful strategy to improve cancer immunotherapy."
    },
    "PPR/PPR1183027": {
     "id": "PPR/PPR1183027",
@@ -2124,7 +2230,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1183027",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 102
+    "age_days_at_first_seen": 102,
+    "abstract": "Abstract    T cell immunity relies on interactions between peptide-MHC (pMHC) complexes and T cell receptors (TCRs), yet most computational methods model peptide-MHC binding or epitope-TCR specificity in isolation and rarely incorporate structural interface signals. Here we present PepBridge, a peptide-bridged, and residue-level conformation supervised deep learning framework for modeling the pMHC-TCR recognition cascade across multiple tasks, including peptide-MHC, peptide-TCR and MHC-peptide-TCR binding, and epitope immunogenicity. PepBridge performs favorably than existing methods, particularly for peptide-TCR and MHC-peptide-TCR interaction-related prediction tasks. Importantly, using the epitopes embedding in peptide-MHC to dynamically regularize their representations in the peptide-TCR embedding space is an effective approach to improving the decoding of pMHC-TCR interaction semantics. Fine-tuning on antigen-specific single-T-cell sequencing data enables PepBridge scores to exhibit strong correlation to TCR clonal expansion specific to chosen epitopes, highlighting the transferability of PepBridge as a foundation model. PepBridge provides an integrated foundation for structure-aware pMHC-TCR modeling and translational immunology applications."
    }
   },
   "TRG-NR4A3-DIRECT-MATTER": {
@@ -2157,7 +2264,18 @@
     "url": "https://europepmc.org/article/PPR/PPR1262777",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 39
+    "age_days_at_first_seen": 39,
+    "abstract": "Objectives   The role of nuclear receptor subfamily 4, group A, member 3 (NR4A3) in hepatic steatosis, inflammation, and insulin resistance (IR) within the context of metabolic dysfunction-associated steatotic liver disease (MASLD) remains largely underexplored. Consequently, this study aimed to examine NR4A3\u2019s impact on MASLD and the potential underlying mechanisms.  Methods   We aimed to elucidate the functional role of NR4A3 in MASLD through its knockdown in cell culture and animal models. To establish the cell culture model of MASLD, LO2 cells were treated with free fatty acids (FFAs), while male C57BL/6 mice were fed a high-fat diet (HFD) to create the animal model. NR4A3 knockdown was achieved using specific short hairpin RNA (NR4A3-shRNA) in the mice model and three small interfering RNAs (NR4A3-siRNAs) in the cell culture model. The lipids content, fatty acid synthesis, inflammatory factors, and IR were then assessed with and without NR4A3 knockdown. Furthermore, the underlying mechanism through which NR4A3 exerts its influence was explored by analyzing the interaction between NR4A3 and activating transcription factor 3 (ATF3).  Results   In the cell culture experiments, the knockdown of NR4A3 significantly decreased the lipids content, fatty acid synthesis, and inflammatory factors in the LO2 cells treated with FFAs in the NR4A3-shRNA group compared with those in the NC-shRNA control group. In the animal model experiments, NR4A3 knockdown in the HFD male C57BL/6 mice significantly ameliorated HFD-induced hepatic steatosis, inflammation, and IR. Mechanistically, the knockdown of NR4A3 downregulated the expression and transcriptional activity of ATF3, resulting in an impaired ATF3 function. ATF3 overexpression significantly reversed lipid accumulation decline and reduced inflammation after NR4A3 knockdown.  Conclusion   The downregulation of NR4A3 alleviates MASLD by modulating ATF3, suggesting this may be a promising therapeutic target."
+   },
+   "MED/42572167": {
+    "id": "MED/42572167",
+    "title": "Nr4a3 Deficiency Disrupts MEK1-ERK1/2-Drp1 Signaling, Driving Adiposity and Glucose Intolerance in Male Mice",
+    "date": "2026-08-09",
+    "venue": "Am J Physiol Endocrinol Metab",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42572167",
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 5
    }
   },
   "TRG-EMC-EXPRESSION-DATASET": {
@@ -2330,7 +2448,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1163941",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "duplicate_of_title": true
+    "duplicate_of_title": true,
+    "abstract": "Objective:   Soft tissue sarcomas (STS) are biologically heterogeneous malignancies with unpredictable clinical behavior. Although tumor size, histological grade, and surgical margin status remain the main determinants of prognosis, additional biomarkers that integrate tumor biology and host-related factors are needed. The hemoglobin \u00d7 albumin \u00d7 lymphocyte/platelet (HALP) score reflects systemic inflammation and nutritional status. This study aimed to evaluate the association between preoperative HALP score and oncological as well as surgical outcomes in patients undergoing curative resection for STS.  Materials and Methods:  A retrospective cohort study was conducted including 46 consecutive patients who underwent surgery for STS between 2017 and 2025. HALP scores were calculated using preoperative laboratory parameters, and patients were stratified into low and high HALP groups according to the cohort median (24.9). Overall survival (OS) and disease-free survival (DFS) were analyzed using the Kaplan\u2013Meier method and Cox proportional hazards models. Surgical margin status and postoperative complications were also compared.  Results:  Patients with low HALP scores had significantly larger tumors, higher rates of non-R0 resection, and increased major complications (p&lt;0.05). Recurrence and mortality were more frequent in the low HALP group. Kaplan\u2013Meier analysis demonstrated significantly shorter OS (log-rank p=0.0034) and DFS (log-rank p=0.0318) in patients with low HALP scores. In univariate Cox analysis, HALP was significantly associated with survival outcomes; however, in multivariate analysis, histological grade and surgical margin status remained independent prognostic factors, while HALP lost independent significance.  Conclusion:  A low preoperative HALP score is associated with aggressive tumor characteristics, increased surgical morbidity, and poorer survival in STS patients. Although HALP did not retain independent significance in multivariable analysis, its strong association with tumor aggressiveness and survival suggests that it may reflect the systemic manifestation of high-risk tumor biology. As a simple and cost-effective biomarker derived from routine laboratory parameters, HALP may support preoperative risk stratification and help identify patients with biologically aggressive disease."
    }
   },
   "TRG-FEM1B-LINKER-BEARING-STRUCTURE": {
@@ -2478,7 +2597,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1279232",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 26
+    "age_days_at_first_seen": 26,
+    "abstract": "Motivation   As biomedical datasets and knowledge graphs continue to grow in size, complexity, and heterogeneity, navigating and extracting actionable insights from them presents a major bottleneck for researchers. There is a clear need for autonomous analytical solutions that can utilize recent advancements in agentic AI such as agent harnessing and loop engineering without introducing hallucination or workflow fragmentation. Researchers, regardless of technical expertise, need tools that streamline complex data analysis and deliver meaningful, actionable insights grounded in both data and established biomedical knowledge. EcoXAI addresses this by introducing a modular, customizable, containerized multi-agent system that structures analysis into explicit pipeline execution stages, lowering the computational barrier for clinical and translational researchers.  Result   EcoXAI replaces monolithic AI text interfaces with an autonomous execution-driven framework with specialized bioinformatics agents for delivering proactive, data-driven insights grounded in established biological knowledge. Unlike purely LLM-driven or less integrated AI solutions prone to hallucinations or biologically implausible outcomes, EcoXAI\u2019s multi-agent framework, which leverages modern agentic management and explicit knowledge graph integration, provides greater transparency and verifiability in its reasoning. In our use case in drug repurposing for Alzheimer\u2019s Disease, EcoXAI evaluated 103 drug candidates and identified 79 novel candidates whose predictive models exceeded a randomized baseline, including the CCR5 antagonist Maraviroc, whose generated hypothesis was subsequently supported by the literature. These results demonstrate the potential of knowledge graph-grounded AI agents to accelerate hypothesis-driven biomedical research.  Availability and implementation   EcoXAI is available on GitHub at:  https://github.com/EpistasisLab/EcoXAI .   Contact   jason.moore@csmc.edu"
    },
    "PPR/PPR1278442": {
     "id": "PPR/PPR1278442",
@@ -2489,7 +2609,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1278442",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 25
+    "age_days_at_first_seen": 25,
+    "abstract": "Abstract    Autonomous research has rapidly expanded from isolated research-assistant systems to systems that automate increasingly large portions of scientific workflows. This expansion has made the literature difficult to synthesize, since existing work uses overlapping terminology, addresses different stages of the research process, reports heterogeneous forms of evidence, and evaluates systems using benchmarks that are often not directly comparable. To address this fragmentation, this survey systematizes public work on autonomous research through June 2026.For systems, we organize 56 systems along seven axes, namely loop topology (L), verifier gate scope (G), orchestration mode (O), portfolio parallelism (P), artifact substrate (A), disciplinary coverage (DC), and lifecycle coverage (LC).We also report an Evidence Reliability Grade (R-grade) for each system to record public-evidence strength rather than system capability.For evaluation and verification, we map benchmark targets (reconstruction, optimization, process quality, and soundness) and verifier routes (execution/deployment checks, formal/statistical gates, evidence bundles, and LLM judges).Read together, these axes expose a gap between what systems produce and what they can defend. Most reviewed systems can generate research artifacts, yet few can block a weak result before release. No reviewed public system reaches a full-manuscript release gate (G-paper-full), agent-dispatcher orchestration (O2), a multi-project portfolio (P2), or cross-disciplinary validation in the DC-Evidence column (DC3), and only four gate even selected paper-level claims (G-paper-partial). The resulting field map places each system by both its production and its defensibility, and makes the missing release architecture explicit."
    },
    "PPR/PPR1274022": {
     "id": "PPR/PPR1274022",
@@ -2500,7 +2621,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1274022",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 32
+    "age_days_at_first_seen": 32,
+    "abstract": "Abstract    There is just too much new research coming out for anyone to keep up with. That\u2019s why we made the Autonomous Research Assistant, a full-stack AI web app that does most of the hard work for you. It finds papers, gets citations, and basically helps you get to the point. This is how it works: It connects to the Semantic Scholar API and uses Google Gemini 2.5 Flash to get real-time summaries and key terms from a huge library of over 200 million papers. We used 18,000 arXiv abstracts to train a fine-tuned Linear SVM model to sort those papers. It is almost exactly right, with a 97.25% accuracy rate across six research fields. Deno-powered serverless Edge Functions do everything, so it\u2019s fast and doesn\u2019t slow down even when there are a lot of people using it. Row-Level Security makes it very safe to store data in PostgreSQL. It\u2019s important to keep things private here. TypeScript and React 18 play nicely together right out of the gate. The team tried all sorts of sorting methods\u2014Random Forest, Naive Bayes, SVM, SGD Classifier, Logistic Regression. But honestly, nothing topped Linear SVM with Platt scaling. That one hit a macro F1 score of 0.97, leaving the others in the dust. This system makes manual literature reviews three times faster. That\u2019s about a 70% savings in time. And formatting citations isn\u2019t a pain anymore. IEEE, MLA, and APA are all taken care of automatically, so you don\u2019t have to do anything extra."
    },
    "PPR/PPR1259012": {
     "id": "PPR/PPR1259012",
@@ -2511,7 +2633,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1259012",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 45
+    "age_days_at_first_seen": 45,
+    "abstract": "SUMMARY   Clinical research advances slowly because its core tasks, from evidence synthesis to mechanistic validation, remain fragmented. We present MedGenesis, a clinical artificial intelligence (AI) scientist built on a world-model reasoning loop that jointly updates a Latent Hypothesis Space and a Latent Action Space under expected information gain (EIG), uncertainty reduction (UR), and a safety prior P(safe), and integrates longitudinal electronic health records (EHRs) via the Virtual Clinical Trajectory and Observation Representation (ViCTOR) for cohort retrieval, trajectory stratification, and time-to-event analysis. On two benchmarks\u2014ClinicalResBench (1,697 expert-curated questions) and ClinicalRepBench (40 paper-reproduction tasks)\u2014MedGenesis outperformed frontier language models and biomedical AI systems while reducing hallucination. Across 1 million patient observations spanning five clinical evidence formats, it generated traceable outputs across meta-analysis, randomized controlled trials, real-world trajectories, case-control studies, and case reports, with one wet-lab-coupled run nominating a 3-hydroxybutyrate\u2013 neutrophil axis modulating antitumor immunity. These results compress hypothesis-to-evidence cycles from years to hours, creating a continuous clinical discovery process."
    },
    "PPR/PPR1258732": {
     "id": "PPR/PPR1258732",
@@ -2522,7 +2645,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1258732",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 45
+    "age_days_at_first_seen": 45,
+    "abstract": "Abstract    Autonomous labs enable the integration of automated experiment execution, data analysis and decision making. The main challenge remains the integration of diverse data streams from multiple instruments, where the data is often heterogeneous and unsynchronized. The standard learning process of undetermined synthesis-process-structure-property relationships (SPSPR) usually relies on post-experiment analysis after data is fully collected, not during live experiments, and decision making is carried out independently across characterization equipment. Here, we demonstrate the Multi-instrument Autonomous Discovery (MAD) framework \u2014 combining structural property mapping and functional property optimization simultaneously in a closed-loop manner. As an example, we applied MAD to phase change memory (PCM) materials, and, in particular on the Mn-Sb-Te ternary, a previously unexplored materials system for PCM. A multi-output model is employed to merge data from x-ray diffraction (XRD) and electrical resistance measurements simultaneously through a co-regionalization kernel that models the relationship between them. The output probabilistic posterior and uncertainty quantification facilitate decision making with shared knowledge, while the goals are different across tasks. We aimed to maximize the knowledge of crystal structure distribution using non-negative matrix factorization (NMF), while in parallel, we find the composition with the maximum resistance value, an important figure of merit for PCM. Leveraging MAD, we found promising electrical PCMs and identified the SPSPR within 25 closed-loop iterations, corresponding to a seven-fold speed-up. The framework opens a new path of study in large-scale autonomous facilities, where future experiments can be run in parallel together, not independently, and the labs will not only make decisions for faster convergence, but also with better materials co-design criteria."
    },
    "PPR/PPR1252505": {
     "id": "PPR/PPR1252505",
@@ -2533,7 +2657,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1252505",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 59
+    "age_days_at_first_seen": 59,
+    "abstract": "Plant genomics faces a paradox: genomic, phenotypic and literature resources continue to expand, yet discovery remains limited by the workflow needed to integrate dispersed literature, heterogeneous analytical tools and iterative reasoning into a defensible candidate hypothesis. We argue that this gap reflects a systems-level constraint: in current human-centred practice, literature depth, analytical breadth and time efficiency are difficult to improve simultaneously, producing an empirical trade-off frontier that bounds many existing workflows. Here we frame the frontier as a conceptual and measurable evaluation agenda for assessing computational systems in plant genomics discovery. On this basis, we propose a four-level based plant-genomics capability hierarchy for autonomous agents, defined by functional and falsifiable criteria rather than by model architecture: L1 knowledge integration, L2 tool orchestration, L3 closed-loop computational discovery, and L4 self-evolving systems. Existing plant-focused systems provide evidence mainly for L1 capabilities and early L2 orchestration, whereas L3 remains an open empirical target and L4 is speculative. To make these distinctions testable, we outline PlantAgentBench, a plant-focused benchmark spanning literature-based gene prioritisation, reproducible multi-tool workflow execution, and iterative candidate-gene refinement. Relevant metrics include recall, provenance completeness, autonomous cycles and human-intervention count. We conclude that autonomous agents are most valuable not as replacements for plant scientists, but as auditable infrastructure for extending expert-guided discovery."
    },
    "PPR/PPR1251599": {
     "id": "PPR/PPR1251599",
@@ -2544,7 +2669,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1251599",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 57
+    "age_days_at_first_seen": 57,
+    "abstract": "SUMMARY   Generalizable Agentic Laboratory Intelligence for Learning, Experimentation, and Optimization (GALILEO) closes the prediction-to-intervention gap in therapeutic peptide discovery. Unlike prior AI-scientist systems, GALILEO couples an Observation-Thought-Action-Summary (OTAS) reasoning loop with robotic peptide synthesis and multimodal phenotyping. Candidate peptides are retrieved from a clinically informed peptide prior (CPP) and locally edited through auditable operations. GALILEO autonomously prioritized LRRC8C and SLC25A1 branches and used wet-lab feedback to update target beliefs, sequence policies, assay choices, and mechanism hypotheses. Peptides generated under this framework blocked LRRC8C currents, perturbed osmolyte/redox homeostasis, and promoted tumor-dependent T-cell activation, while SLC25A1 peptides disrupted citrate-export metabolism, reduced extracellular acidosis, and enhanced CD8+ T-cell function. These results establish retrieval-and-editing-based physical learning as a route for auditable, experimentally grounded interventions and transferable membrane-blocker rules."
    },
    "PPR/PPR1249134": {
     "id": "PPR/PPR1249134",
@@ -2555,7 +2681,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1249134",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 60
+    "age_days_at_first_seen": 60,
+    "abstract": "Advances in large language models (LLMs)-based artificial intelligence (AI) agents have improved their ability to execute structured analytical workflows, including standard bioinformatic pipelines for biological discovery. However, computational biology rarely consists of deterministic pipeline execution alone. Biological datasets are heterogeneous and noisy, and meaningful discovery often requires open-ended hypothesis generation and iterative reasoning over multimodal evidence. These challenges are particularly evident in multi-omic studies, where paired molecular modalities and heterogeneous clinical contexts create both opportunities and obstacles for discovery. The extent to which emerging agentic AI systems can support or automate this mode of scientific discovery remains poorly understood. Here, we systematically evaluated the capabilities and limitations of agentic AI for biological discovery using multi-omic single cell datasets spanning 11 cancer types. We developed the Multistep Multimodal Multiomic Agentic (M3A) Framework to support LLM-driven reasoning over persistent multimodal data states and to capture agentic reasoning behavior in autonomous and human-AI copilot settings. Using this framework, we assessed AI agents across complementary tasks, including autonomous cell-type annotation, generation of falsifiable biological hypotheses from gene programs, and copilot experiments testing the effect of human involvement and domain expertise. We found that current AI agents are effective at broad, systemic exploration of complex data, whereas domain experts remain critical for methodological guidance and biological synthesis across analyses. Together, our results delineate the current potential and boundaries of agentic AI in computational biology, and establish a framework for evaluating AI systems designed to support biological discovery."
    },
    "PPR/PPR1244454": {
     "id": "PPR/PPR1244454",
@@ -2566,7 +2693,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1244454",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 67
+    "age_days_at_first_seen": 67,
+    "abstract": "Conventional signature-based defenses no longer protect the heterogeneous, large-scale infrastructures that the Internet of Things (IoT) now constitutes. Large language models (LLMs) and agentic artificial intelligence (AI)\u2014systems that autonomously perceive, reason, plan, and act\u2014open a path to self-defending IoT ecosystems, but the integrating literature remains fragmented. Within the IEEE Xplore, ACM Digital Library, and MDPI literature, this survey is, to the best of our knowledge, among the first systematic reviews of agentic AI and LLM-driven approaches for autonomous IoT cybersecurity. Following a PRISMA 2020 protocol, we analyze 153 peer-reviewed studies published between 2020 and 2026 in IEEE Xplore, the ACM Digital Library, and MDPI journals. We organize the corpus along a four-pillar taxonomy: agent architecture (single- vs. multi-agent), reasoning strategy (chain-of-thought, ReAct, plan-and-solve, tool use), action scope (detection, response, threat hunting, vulnerability discovery, deception), and deployment topology (edge, fog, cloud). We synthesize four flagship application domains, consolidate datasets and benchmarks, and analyze open challenges including hallucination, prompt-injection robustness, explainability, privacy, latency, and governance. A 2026 research roadmap identifies federated agentic learning, verifiable autonomous reasoning, trustworthy multi-agent collaboration, and resource-hardened edge agents as high-priority directions. A companion reproducibility kit \u2014 prompt templates, reference single- and multi-agent loops, and an Edge-IIoTset-style evaluation harness \u2014 is released at https://github.com/vnageshwaran-de/agentic-iot-security and archived on Zenodo (DOI 10.5281/zenodo.20446651)."
    },
    "PPR/PPR1239998": {
     "id": "PPR/PPR1239998",
@@ -2577,7 +2705,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1239998",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 73
+    "age_days_at_first_seen": 73,
+    "abstract": "Abstract    Developing high-dimensional multi-element alloy electrocatalysts is crucial for clean energy, yet the discovery process is fundamentally hindered by the combinatorial explosion of the vast chemical space. Traditional trial-and-error methodologies are prohibitively slow, while current active learning approaches heavily rely on human-engineered features and frequently fall into the exploitation trap of localized optima. Here, we show an autonomous materials discovery framework operating from a tabula rasa state by coupling a descriptor-free surrogate model (PC-BAN) with a neuroscience-inspired acquisition function (LCBDS) that enforces surprise-driven exploration. Within a design space of 6074 quaternary combinations, our framework autonomously identified the absolute global optimum catalyst exhibiting an exceptional overpotential of 206 mV using only 220 queries to an experimental oracle, substantially outperforming traditional baselines and human-guided searches. By mathematically formalizing curiosity without prior chemical biases, this work lays a scalable, descriptor-free algorithmic foundation for the next generation of prospective autonomous laboratories."
    },
    "PPR/PPR1183419": {
     "id": "PPR/PPR1183419",
@@ -2588,7 +2717,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1183419",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 101
+    "age_days_at_first_seen": 101,
+    "abstract": "Abstract    Autonomous robots operating in open and changing environments must discover emerging issues such as unfamiliar objects without relying on manually predefined issue types. However, many existing robotic learning and anomaly detection methods depend on fixed detection targets, static environmental representations, or direct recognition models, which limits their ability to discover newly appearing issues during long-term operation. This paper proposes a Difference-Triggered Issue Discovery with Up-to-Date Environmental Understanding (DTID-UEU) model for autonomous robots. The core idea is that a robot continuously maintains an internal understanding of the environment it has encountered, uses this understanding to predict expected observations, and compares the predictions with real-time observations. When the difference between the predicted and observed states becomes significant, the robot treats the inconsistency as a potential issue and activates further judgment, learning, and environmental understanding update. To support this process, DTID-UEU introduces a thinking-guided difference judgment mechanism to distinguish ordinary variation, noise, emerging issues, abnormal events, and task-relevant failures. It also employs difference-proportional learning, where meaningful observations with larger differences receive stronger learning intensity and are integrated into the robot's updated environmental understanding. Experimental results show that DTID-UEU achieves the highest F1-score and recall among the compared methods, improving the F1-score from 0.1710 to 0.3848 compared with the red-threshold baseline and from 0.0544 to 0.3848 compared with the static-understanding baseline."
    },
    "arXiv/2607.11084v1": {
     "id": "arXiv/2607.11084v1",
@@ -2599,7 +2729,8 @@
     "url": "http://arxiv.org/abs/2607.11084v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 26
+    "age_days_at_first_seen": 26,
+    "abstract": "Agentic research systems are emerging as a new paradigm for coordinating scientific workflows beyond isolated model inference, code generation, or statistical analysis. However, deployment in institutional biomedical environments requires governed mechanisms for research planning, data access, workflow orchestration, evidence tracking, reproducibility, and human oversight. We present NVAITC AI Scientist (NAIS), a governed end-to-end agentic research system designed to support domain-general scientific workflows while keeping protected data within institutional privacy boundaries. NAIS integrates proposal review, execution planning, governed computational routing, reproducible workflow orchestration, evidence generation, and scientist-in-the-loop oversight. We validate NAIS in a real-world hypertension genome-wide association study (GWAS) using hospital-linked genotype and electronic health record (EHR) data from 286,422 individuals under an aggregate-only data policy. The agent planned cohort extraction, orchestrated GWAS execution, generated quality-control summaries, and drafted publication-oriented outputs. Human-AI review identified phenotype discrepancies and enabled iterative refinement of the hypertension definition. After reconciliation, the agent-orchestrated GWAS reproduced established hypertension loci, including FGF5, ATP2B1, CNNM2, FTO, and GRB14, with the strongest signal at FGF5 reaching $-\\log_{10}(p) \\sim 70$. As a secondary demonstration, NAIS also supported a drug-induced liver injury prediction workflow, achieving a multimodal graph neural network AUC of 0.842. These results demonstrate that governed agentic research systems can support scalable AI-assisted biomedical discovery while producing outputs comparable to expert-led workflows."
    },
    "arXiv/2606.29981v1": {
     "id": "arXiv/2606.29981v1",
@@ -2610,7 +2741,8 @@
     "url": "http://arxiv.org/abs/2606.29981v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 40
+    "age_days_at_first_seen": 40,
+    "abstract": "Cyber offense is moving to machine speed; cyber research itself is not. Existing AI scientist systems make end-to-end research automation increasingly plausible, but they target relatively stable scientific domains. We argue that AI-native cybersecurity is a different kind of scientific object. Its recurring units of study are security events and interaction traces, not static assets; its model and tool substrate is non-stationary, not steady-state; and credible evaluation depends on digital twins, cyber ranges, and auditable evidence rather than on a single benchmark score. We call this object the Cybersecurity AI Scientist. A practical realization is a modular, role-specialized multi-agent research system that coordinates problem framing, threat modeling, tool generation, controlled experimentation, evaluation, governance, and scientific reporting, and that anchors its concrete objectives in a four-zeros frame spanning risk, trust, incident, and energy dimensions. As a representative agenda we focus on AI-native defense, where steady-state perimeters give way to resilient agent legions and the classical category of terminal security is itself being deconstructed into agent security. This paper defines the object, separates it from any single organizational realization, and offers an architecture and an agenda on which later systems, benchmarks, and empirical programs can be built."
    },
    "arXiv/2608.05179v1": {
     "id": "arXiv/2608.05179v1",
@@ -2621,7 +2753,8 @@
     "url": "http://arxiv.org/abs/2608.05179v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 40
+    "age_days_at_first_seen": 40,
+    "abstract": "Large language model (LLM) agents are increasingly used across the scientific research lifecycle: ideation, literature search, experiment design and execution, analysis, manuscript drafting, and review. End-to-end AI scientist systems can now produce paper-like manuscripts, but their claims are often harder to verify than their code is to run. This survey studies that gap in computational AI/ML research, where code, benchmarks, experiments, and write-ups are most visible. We screen 125 candidate works and include 35, with full-text coding of 26 entries: 24 runnable systems and two study or position papers. We code seven audit dimensions: lifecycle stage, autonomy level, evaluation method, released artifacts, human-in-the-loop points, novelty verification, and result-selection disclosure. The main pattern is that code release is now common, but reproducibility-grade and claim-verification artifacts remain much less common. In the 24 runnable systems, 83 percent release code, while 38 percent release seeds or execution traces and 38 percent report any novelty-verification method. Among nine closed-loop L4 systems, seven are mechanical reruns and one is author-claimed without an external check; no LLM-era system in the corpus demonstrates an externally validated in-loop oracle under our coding rule. We contribute a coded corpus, a lifecycle-by-autonomy map, an auditability-gap analysis, and a reviewer-facing reporting checklist. The survey argues that the field's central bottleneck is no longer only whether agents can complete research tasks, but whether reviewers can verify the claims those agents produce."
    },
    "arXiv/2605.16616v1": {
     "id": "arXiv/2605.16616v1",
@@ -2632,7 +2765,8 @@
     "url": "http://arxiv.org/abs/2605.16616v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 85
+    "age_days_at_first_seen": 85,
+    "abstract": "Autonomous research systems capable of generating complete scientific manuscripts have advanced rapidly, yet robust and realistic evaluation frameworks have failed to keep pace. To bridge this gap, we introduce MLReplicate, an end-to-end benchmark evaluating autonomous research systems on machine learning reproducibility. The benchmark was constructed from ICML 2025 outstanding papers reformulated into standardized input specifications and evaluated across 6 state-of-the-art research systems: AI SCIENTIST-V1, AI SCIENTIST-V2, AGENT LABORATORY, CYCLERESEARCHER, AI RESEARCHER, and TINY SCIENTIST, yielding 45 generated manuscripts, with 3 failed experiments. Outputs are assessed using a dual-protocol approach that combines automated conference-style review and structured expert human evaluation, while tracking computational cost, runtime, and the amount of required human intervention. The automated conference-style review accepted 10 out of 37 valid submissions. An additional 8 submissions were desk-rejected before review for failing to meet the minimum page threshold. In contrast to automated reviews, human reviewers consistently identified methodological flaws, hallucinated experimental results, and reproducibility failures across all systems, and 59% of accepted automated reviews contained fabricated or unsupported claims. We further find that neither token budget nor computational cost predicts output quality: the cheapest system outperforms the most resource-intensive system in human evaluation, despite a 38-fold difference in input tokens. We thus demonstrate that autonomous research workflow design matters more than the scale of compute. MLReplicate exposes a substantial gap between current autonomous research systems and genuine scientific rigor, and establishes a practical, extensible evaluation framework for systematic progress toward trustworthy AI-driven scientific discovery."
    },
    "arXiv/2605.08956v1": {
     "id": "arXiv/2605.08956v1",
@@ -2643,7 +2777,8 @@
     "url": "http://arxiv.org/abs/2605.08956v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 91
+    "age_days_at_first_seen": 91,
+    "abstract": "A growing body of work pursues AI scientists capable of end-to-end autonomous scientific discovery. This position paper argues that although they already function as co-scientists, agentic AI scientists are not built for autonomous scientific discovery. We identify the following challenges in building and deploying autonomous AI scientists: (1) Problem selection is influenced by the McNamara fallacy; (2) Agents are built on large language models (LLMs) whose training corpora omit tacit procedural and failure knowledge of laboratory practice; (3) Preference optimisation during post-training compresses output diversity toward consensus; and (4) Most scientific benchmarks measure single-turn prediction accuracy and lack feedback from physical experiments back to the computational model. These challenges are not just questions of scale and scaffolding; they require revisiting fundamental design choices. To build truly autonomous AI scientists, we recommend the use of scientific simulations as verifiers for training, the design of persistent world models that represent the shifting objectives governing real investigations, the establishment of a centralized preregistration repository for all AI-generated hypotheses, and application driven by scientific need rather than tool affordance."
    },
    "arXiv/2608.04738v2": {
     "id": "arXiv/2608.04738v2",
@@ -2654,7 +2789,8 @@
     "url": "http://arxiv.org/abs/2608.04738v2",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 3
+    "age_days_at_first_seen": 3,
+    "abstract": "Autonomous research agents can generate hypotheses, execute experiments, and draft manuscripts, yet their outputs often contain unsupported claims and inconsistencies between research questions, experiments, results, and conclusions. We argue that this problem is partly architectural: existing systems organize research as sequential pipelines but do not explicitly maintain or validate the evolving claim-evidence structure across stages. In this paper, we introduce EviGraph, an autonomous research framework that represents the research process as a typed evidence graph containing Problem, Gap, Hypothesis, Experiment, Finding, and Claim nodes. The graph serves as the operational state of the agent rather than a post-hoc record. EviGraph inspects evidence chains for missing dependencies, semantic misalignment, and result-claim inconsistencies, localizes the earliest weak node, and regenerates its affected downstream subgraph. Graph checkpointing prevents unsuccessful repairs from corrupting previously validated evidence. Manuscripts are generated only after every retained claim is grounded in a validated evidence chain. Experiments on ARC-Bench-ML and NanoResearch-20 show that EviGraph outperforms the compared end-to-end research-agent baselines in overall research performance, improves Claim Support Rate by 40.19% over the strongest baseline, and achieves 87.73% Experimental Data Consistency. These results demonstrate the value of explicit evidence-state maintenance for reliable autonomous research."
    },
    "arXiv/2608.05225v1": {
     "id": "arXiv/2608.05225v1",
@@ -2665,7 +2801,8 @@
     "url": "http://arxiv.org/abs/2608.05225v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 3
+    "age_days_at_first_seen": 3,
+    "abstract": "Research agents can increasingly search literature, propose hypotheses, generate code, run experiments, and draft manuscripts from a single topic. However, a research project is not merely a larger task: it is a long-horizon agenda that must be advanced through multiple bounded tasks with distinct but related objectives, parallel alternatives, and dependency-aware sequences. Existing single-task systems often treat the project as one oversized task, produce a flat set of vague or overlapping tasks, or leave task boundaries and execution order to manual coordination. We introduce Project2Task, a graph-guided project-level planning layer for autonomous research. Given a project brief, it represents candidate contributions as innovation atoms and organizes them in a directed lineage graph. A lightweight Bernoulli block-model objective selects among horizontal, vertical, and hybrid portfolio decompositions. Project2Task then generates bounded tasks with explicit contribution ownership, repairs overlaps and missing execution fields, and emits dependency-aware task contracts that specify objectives, inputs, expected artifacts, evaluation requirements, boundary constraints, dependencies, and execution order. The contracts are independent of any particular downstream research executor and support integration of task outputs into a coherent project-level result. On a benchmark of ten project briefs yielding roughly 30 tasks, manuscript-based portfolio evaluation gives Project2Task an average quality score of 7.15, compared with 4.58 for the Brief Baseline and 5.31 for the Topic-only Setting. Integrating its contracts with AutoResearchClaw increases average downstream task accuracy from 0.536 to 0.759. These results demonstrate the value of explicit project-to-task planning for producing coherent, non-redundant, and executable research-task portfolios."
    },
    "arXiv/2608.02143v1": {
     "id": "arXiv/2608.02143v1",
@@ -2676,7 +2813,8 @@
     "url": "http://arxiv.org/abs/2608.02143v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 5
+    "age_days_at_first_seen": 5,
+    "abstract": "Long-horizon autonomous research tasks such as machine learning engineering require systems to make interdependent decisions under a limited budget. Existing LLM-based agents typically organize candidate-solution improvement through tree, graph, or chain structures, meaning that the search process determines how information is acquired and managed. We call this design solution-centric search and propose instead the information paradigm, in which an evolving information state represents the system's understanding of the task and guides solution improvement. We instantiate this paradigm in Iris, an inquiry-revision loop. For information acquisition, Iris generates local action plans from the current information state and uses epistemic actions to probe decision-critical unknowns without modifying the retained solution. For information management, Iris synthesizes observations across experiments into task knowledge composed of revisable claims with explicit scope and status. It updates this knowledge as new evidence arrives and constructs each decision context from raw evidence, structured summaries, or task knowledge at the required level of detail. On MLE-Bench, Iris attains a 64.9% any-medal rate under a 12-hour budget, the highest among compared systems. Across four tasks spanning harness engineering and model post-training, Iris also demonstrates cross-domain generalization."
    },
    "arXiv/2608.01995v1": {
     "id": "arXiv/2608.01995v1",
@@ -2687,7 +2825,8 @@
     "url": "http://arxiv.org/abs/2608.01995v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 5
+    "age_days_at_first_seen": 5,
+    "abstract": "We study what happens when a single general-purpose large language model acts as the sole researcher on a long-horizon neural architecture design problem. The agent receives a scientific question, an initial hypothesis and motivation, a compute budget, and research affordances (source and experiment management, experiment tracking, literature access, and persistent memory), then autonomously proposes, implements, evaluates, and records experiments over an extended period. The study comprises three phases, separated by human-declared transitions, that progressively expand the agent's tool surface or problem scale. Across approximately 100 sequential experiments, the agent improves a non-standard Vision Transformer from a weak baseline to a stronger, efficient model on small benchmarks and a usable but sub-SOTA model on ImageNet-1K, while producing a dense behavioural trace. We report four findings.(i)Productivity exhibits a clear phase structure: rapid early gains, a multi-dozen-hypothesis saturation wall, and recovery, with recovery triggered by expanding the action surface rather than changing the underlying model.(ii)A single early hypothesis contributes more to accuracy gain, with later improvements long-tailed.(iii)The preference for greedy, incremental hypotheses is largely workflow-induced: a commit-or-discard evaluation rule is isomorphic to greedy hill-climbing; the remainder reflects risk aversion after bold failures and anchoring on familiar literature. (iv)The agent independently rediscovers established results and, in the unfamiliar regime of pure channel attention, overturns a standard design choice. We conclude that workflow design was at least as influential as agent capability in this study and propose diversified search, budgeted moonshot hypotheses, explicit forks, and regime-aware re-validation as testable directions for future autonomous research."
    },
    "arXiv/2607.27562v1": {
     "id": "arXiv/2607.27562v1",
@@ -2698,7 +2837,8 @@
     "url": "http://arxiv.org/abs/2607.27562v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 9
+    "age_days_at_first_seen": 9,
+    "abstract": "The DeepResearch Agent System is a large language model system engineered for deep information retrieval, multi-step reasoning, and autonomous research tasks. Built upon a sparse activation architecture with 30 billion total parameters of which only 3 billion are activated per token, the system achieves state-of-the-art performance on multiple agent search benchmarks while delivering 3.2 times faster inference compared to dense counterparts of equivalent scale. The system supports a 128K-token context window with hierarchical attention mechanisms that yield 18.7% accuracy and 23.4% recall improvements over standard long-context approaches. A dual-mode reasoning engine provides both a ReAct paradigm for basic multi-step problem solving and an IterResearch mode for high-performance iterative research with up to 20 reasoning steps, collectively delivering a 31.2% accuracy improvement over single-pass baselines. Multi-tool coordination integrates retrieval, computation, web search, and file parsing modules to achieve 92.1% tool-use accuracy. A reinforcement learning optimization framework based on the GRPO algorithm provides token-level policy gradients that improve training stability by 35% and accelerate convergence by 42%. An automated data synthesis pipeline with seed-based expansion achieves a 92.5% usability rate. Benchmark results include 87.3% on Humanity's Last Exam, 85.3% on BrowserComp Chinese, and 91.2% on WebWalkerQA. The system is fully open-sourced, including data synthesis, training, and inference code, and supports applications in academic research, business analysis, R&D support, and education."
    },
    "arXiv/2607.12301v1": {
     "id": "arXiv/2607.12301v1",
@@ -2709,7 +2849,8 @@
     "url": "http://arxiv.org/abs/2607.12301v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 25
+    "age_days_at_first_seen": 25,
+    "abstract": "Autonomous research systems are often evaluated as one-shot paper generators: given a topic, they produce a manuscript and a small set of experiment logs. This framing hides the operational problem that makes such systems difficult to trust: research is long-running, branching, failure-prone, and dependent on auditable handoffs between agents and humans. XScientist is a git-like research protocol and operating system for this setting. It orchestrates idea generation, experiment execution, manuscript drafting, self-review, repair, quality gating, daemon scheduling, and reproducibility artifacts as one continuously observable pipeline. The central design choice is to treat each run as a portable research artifact rather than only as a PDF. XScientist exports an Agent-Native Research Artifact (ARA), a protocol that records an exploration DAG, per-node code and outputs, claim-to-evidence anchors, content hashes, provenance, and re-execution hooks. This makes each generated paper inspectable as a science exploration tree: failed branches, repaired experiments, ablations, and manuscript claims remain connected to the nodes that produced them. The system also includes deterministic integrity forensics, sample gates, truth contracts, reviewer-oriented repair loops, and long-running daemon controls. This paper describes the current XScientist architecture, the ARA protocol surface, and the practical safeguards needed to move autonomous science from single-run demos toward reproducible, reviewable, and forkable research infrastructure. The implementation and manuscript source are maintained in the public GitHub repository at https://github.com/smileformylove/XScientist."
    },
    "arXiv/2607.02329v1": {
     "id": "arXiv/2607.02329v1",
@@ -2720,7 +2861,8 @@
     "url": "http://arxiv.org/abs/2607.02329v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 37
+    "age_days_at_first_seen": 37,
+    "abstract": "Autonomous-research agents have demonstrated end-to-end LLM automation in machine-learning sandboxes where execution provides calibration. Frontier physical science differs categorically: physical reasoning underlies every methodology choice, toolchains are often underdocumented, and calibration must come from external literature anchors - which unscaffolded agents cite but do not confront, hallucinating plausible, unverifiable results from internal priors. We present a pipeline that runs end-to-end from a corpus of 11,083 recent condensed-matter physics arXiv papers to a publication-grade manuscript with three substantive physics findings (here on altermagnetic piezomagnetism): the agent autonomously conceives a research direction by mapping the corpus, calibrates methodology by reproducing published references, conducts novel first-principles computations, and writes the manuscript - grounded in literature throughout, across 47 fresh-context sessions in six phases sharing only on-disk state, with 2,162 literature-consultation events. Fault tolerance emerges from redundancy: fresh-context isolation, distributed grounding, and adversarial review catch what any single session misses; pre- and post-pilot stages are fully autonomous, and pilot requires bounded human intervention only at reproduction failures - operational knowledge curation, not scientific direction. Two paired failure modes - a pre-architecture baseline and a no-pilot ablation - isolate structurally enforced numerical confrontation at calibration checkpoints as the operative grounding mechanism. The primitives, characterized failure modes, and quantified intervention pattern lay a foundation for autonomous research in high-stakes scientific domains beyond computational physics."
    },
    "arXiv/2606.31478v1": {
     "id": "arXiv/2606.31478v1",
@@ -2731,7 +2873,8 @@
     "url": "http://arxiv.org/abs/2606.31478v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 39
+    "age_days_at_first_seen": 39,
+    "abstract": "Autonomous research agents can now draft hypotheses, write code, run experiments, and produce papers, but they remain brittle when experiments fail. Under the prevailing paradigm, failure recovery is usually delegated to a single free-form reflection: a rich trajectory of metrics, logs, and design choices is compressed into one verbal critique, which often leads either to localized trial-and-error or to hard pivots that discard useful context. We propose SAGE, a Self-correcting, Autonomous, Grounded Experimenter, to tackle this failure-recovery bottleneck. Its core mechanism, Multi-Hypothesis Failure Attribution (MHFA), treats recovery as a structured causal diagnosis. By analyzing dynamic trajectory features, MHFA systematically generates multiple evidence-grounded explanations for a failure, independently evaluates their severity, and deterministically routes the verified root cause to the correct intervention level (hypothesis, experimental design, or implementation). To guarantee scientific honesty, SAGE further employs a grounded reporting mechanism that explicitly constrains drafted results to actual measured values, redacting hallucinated numbers. On a 12-topic, 5-domain benchmark, SAGE increases metrics-bearing outputs from 42% to 92% over a reflection baseline, improves artifact quality from 5.00 to 6.75/10, and blindly outscores AI-Scientist-v2 (52.0 vs. 48.2), with gains concentrated in code development and execution. While fully autonomous scientific writing and generating conference-ready papers remain notoriously difficult open problems for the entire field, SAGE successfully produces significantly more reliable and higher-quality scientific artifacts. Ultimately, by coupling structured recovery with explicit grounding constraints, SAGE significantly outperforms monolithic reflection paradigms, establishing a highly trustworthy foundation for future autonomous research."
    },
    "arXiv/2606.30246v1": {
     "id": "arXiv/2606.30246v1",
@@ -2742,7 +2885,8 @@
     "url": "http://arxiv.org/abs/2606.30246v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 40
+    "age_days_at_first_seen": 40,
+    "abstract": "Existing autonomous research agents can support parts of the research process, but most systems still treat research as either an isolated assistant task or a closed workflow. Therefore, autonomous science needs a collaboration infrastructure that coordinates projects, agents, and digital and physical resources. We identify this as a shift from code-centered execution loops to research-oriented collaboration processes, where questions, evidence, participants, and resources must be coordinated under uncertainty. In this framing, an agent may be an AI system, a human researcher, a team, a laboratory, or an organization-backed participant. To this end, we present Clarus, a collaboration infrastructure for coordinating autonomous research agents toward web-scale scientific collaboration. Clarus reformulates research as an open, auditable, attributable, and resource-aware multi-phase collaboration process. It defines a minimal project-agent-resource object model and organizes scientific collaboration through four layers including Research Application, Digital Collaboration, Physical Substrate, and Physical World. Core modules are implemented as pluggable mechanisms, allowing Clarus to adapt to task risk, collaboration structure, and resource constraints. Through a controlled paper-generation case study, we show that Clarus can organize a research goal into a traceable, reviewable, attributable, and accumulative collaboration network across phases, tasks, and participants. Together, the object model, collaboration protocol, trust mechanisms, and prototype validation provide an initial foundation for open research networks. Clarus is now available at clarus.holosai.io."
    },
    "arXiv/2606.29717v1": {
     "id": "arXiv/2606.29717v1",
@@ -2753,7 +2897,8 @@
     "url": "http://arxiv.org/abs/2606.29717v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 40
+    "age_days_at_first_seen": 40,
+    "abstract": "Predicting a material's properties from its structure is a central, fast-advancing problem in computational materials science. A decade of work has produced standard public benchmarks and many published machine-learning models for the task (Dunn et al., 2020). The task's fixed metric and these baselines make it a natural setting for autonomous agent research (Karpathy, 2026). On the MatBench band-gap benchmark ($>$100k crystals), a general-purpose coding agent autonomously built the most accurate model trained without external pretraining, ahead of all seventeen expert-designed models reported for the task. A closer analysis shows it reached this by implementing known methods: either already standard in crystal neural-network models, or borrowed from other areas of machine learning. The contributing implementations include element-pair features on each message-passing edge and a crystal space-group embedding. The work not only demonstrates that LLM-agent autonomous research can optimize an expert-designed machine learning model for material property prediction, but also investigates the limitations of such autonomous research."
    },
    "arXiv/2607.09195v1": {
     "id": "arXiv/2607.09195v1",
@@ -2764,7 +2909,64 @@
     "url": "http://arxiv.org/abs/2607.09195v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 29
+    "age_days_at_first_seen": 29,
+    "abstract": "Large language model (LLM) agents are increasingly expected to play a central role in AI-driven scientific discovery. Equipped with broad knowledge, flexible reasoning, and tool use, they have the potential to autonomously explore and solve scientific problems by repeatedly proposing hypotheses, testing them, and revising their beliefs in the light of the evidence. In current agents, however, these hypotheses, tests, and belief updates are buried in unstructured logs, and no mechanism lets the agent or the human researcher audit that process. Here we propose the Hypothesis Evolution Protocol (HEP), an agent harness that provides hypothesis generation, evaluation, and evolution as explicit, auditable operations. On materials-science research tasks, a HEP-equipped agent operates the hypothesis--test--evidence--belief cycle that planning-style agents lack, generalizes across research questions, and exploits the protocol more fully as the base LLM becomes more capable. These results mark a step toward auditable AI scientists, whose scientific reasoning can be inspected, verified, and built upon."
+   },
+   "MED/42584105": {
+    "id": "MED/42584105",
+    "title": "AI for Accelerated Materials Discovery: From Generative Design to Autonomous Realization",
+    "date": "2026-08-01",
+    "venue": "Chem Rev",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42584105",
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 13
+   },
+   "MED/42566370": {
+    "id": "MED/42566370",
+    "title": "The Hitchhiker's Guide to Autonomous Research: A Survey of Scientific Agents",
+    "date": "2026-08-07",
+    "venue": "IEEE Trans Pattern Anal Mach Intell",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42566370",
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 7
+   },
+   "arXiv/2608.13558v1": {
+    "id": "arXiv/2608.13558v1",
+    "title": "OmniScientist: An Omni-Modal Omni-Discipline AI Scientist",
+    "date": "2026-08-13",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2608.13558v1",
+    "is_preprint": true,
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 1,
+    "abstract": "Recent advances in foundation models have enabled AI scientists to automate increasingly complete research workflows, from hypothesis generation and code execution to manuscript preparation. Yet workflow coverage alone does not provide access to the full evidence on which scientific discovery depends. Existing systems typically reason over text, code, labels, or precomputed summaries, leaving scientifically decisive spatial, temporal, cross-channel, and procedural relations unavailable to the agent. We introduce OmniScientist, an end-to-end, omni-modal AI scientist that conducts multidisciplinary research directly from heterogeneous raw evidence. A perception layer and 3 autonomous agents for ideation, experiment, and writeup operate within a deterministic pipeline, allowing observations to shape research questions, experimental decisions, and final claims throughout the research lifecycle. By running idea, rigour, and claim checks in code, the system enforces novelty screening, statistical validity, execution provenance, and numerical traceability. We evaluate OmniScientist on 36 real-data cases spanning 5 discipline families, 4 families of scientific evidence, and modalities including images, signals, audio, video, 3-D structures, trajectories, tables, formulae, and graphs. The system completes the full path from raw data to a compiled manuscript in all 36 cases and achieves a mean overall paper score of 6.3 with the reference reasoning backbone. In paired comparisons against a blind variant that receives only precomputed scalar features, direct perception improves all 7 evaluation dimensions and wins 85% of head-to-head judgments. These results show that lifecycle-wide perception is essential for evidence-grounded scientific discovery and provides a practical path toward broadly capable AI scientists."
+   },
+   "arXiv/2608.11250v1": {
+    "id": "arXiv/2608.11250v1",
+    "title": "AgonAlpha: Autonomous Alpha Discovery via Prompt Economy and Scalable Agentic Search",
+    "date": "2026-08-04",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2608.11250v1",
+    "is_preprint": true,
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 10,
+    "abstract": "Language models can propose many plausible trading factors, but an autonomous research system must also allocate its evaluation budget, verify its own evidence, and preserve how each candidate was produced. We present AgonAlpha, an architecture that searches over frozen research artifacts---hypotheses, executable expressions, platform evidence, rationales, and review status---rather than formulas alone. To our knowledge, AgonAlpha is the first alpha-mining system to combine verified artifact search, a fresh-context adversarial reviewer with re-execution and veto authority, and pending-aware parallel budget allocation, together with a complete public evidence trail. Independent deployments on WorldQuant BRAIN produced SPECTACULAR-grade alphas across five users and six model backends, with Fitness reaching 9.50 and Sharpe reaching 3.48, while retaining prompt-to-expression provenance for every submission."
+   },
+   "arXiv/2608.07542v1": {
+    "id": "arXiv/2608.07542v1",
+    "title": "An AI Scientist that Doesn't Drift: Taste, Structure, and Falsifiable Findings in a Quadruped Navigation Research Loop",
+    "date": "2026-07-30",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2608.07542v1",
+    "is_preprint": true,
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 15,
+    "abstract": "Autonomous research loops driven by large language models can run machine-learning experiments at scale but tend to drift toward local refinements of whichever metric they optimise rather than testing the hypotheses that motivate the experiments. We address this structurally and present an AI Scientist for studying generalisation in quadruped robot navigation policies in simulation. Building on the autoresearch paradigm of Karpathy, our loop adds three components: an immutable experiment card that pairs each iteration's prediction with its outcome under a fixed schema, so a falsified hypothesis cannot be retconned; specialised subagents restricted to mechanical roles; and kkanbu, a preference oracle that holds the user's research taste as a typed knowledge graph and is the only component permitted to make subjective judgements. To isolate the oracle we run the identical loop twice across eleven research streams, with and without kkanbu. Neither arm drifts: both falsify roughly three quarters of their own hypotheses, and the best trained policy comes from the oracle-less arm. What the oracle changes is direction, not score: it alone explores test-time adaptation, it authored the winning designs where its arm led, and it carried lessons across streams that the other arm repeatedly re-derived. The scaffold keeps the loop honest; kkanbu decides where it looks."
    }
   },
   "TRG-POSE-ORIENTATION-CONVERGENCE": {
@@ -2997,7 +3199,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1288818",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 10
+    "age_days_at_first_seen": 10,
+    "abstract": "Deep learning structure predictors, most prominently AlphaFold2 (the field-standard tool benchmarked against throughout this study), have substantially expanded access to protein structural information, yet characteristically return a single static conformation per target. This is an incomplete representation of the binding-competent state for the many pharmacologically relevant targets whose recognition geometry is intrinsically dependent on receptor flexibility, including cryptic-pocket, induced-fit, and water-mediated binding mechanisms. We present a category-stratified, statistically powered benchmark comparing pose prediction from receptor conformational ensembles against AlphaFold2, used as a matched static-structure baseline, across 29 protein-ligand systems spanning cryptic-pocket, induced-fit, water-mediated, and autoimmune-indication target classes. Considering the most accurate pose available from each method's full candidate output, ensemble-derived poses achieved lower RMSD to the experimental structure than AlphaFold on 21 of 29 targets (72.4%), with a mean RMSD of 3.39 A versus 5.60 A: a clear, statistically decisive advantage (paired Wilcoxon signed-rank test, W = 93.0, p = 0.0060). Rather than being diffuse, this advantage was concentrated precisely where mechanistic theory predicts it should be: in induced-fit and water-mediated categories, the classes in which static-structure prediction is expected to be least representative of the bound state: a result that constitutes direct, quantitative confirmation of the ensemble hypothesis, not merely a favorable average. Independent assessment against a field-standard physical-validity framework confirmed that this accuracy gain was achieved without any trade-off in chemical or geometric realism. We further quantify, rather than assume, the extent to which this advantage is recoverable by fully autonomous pose selection, using a proprietary ensemble-aware scoring model with no access to the correct answer, and report a substantial, discriminative signal (cross-validated mean AUC 0.92) with a partial, and clearly characterized, recovery under the strictest accuracy criteria (mean AUPR 0.36), which we identify as the principal, now precisely quantified, determinant of near-term translational progress. Under this same fully autonomous, ground-truth-blind setting, AlphaFold's own top-ranked poses currently match or modestly exceed Mavchen-1's autonomously selected poses on strict success-rate criteria (e.g., 17.2% vs. 20.7% at the combined RMSD-and-validity threshold), a result we report without qualification as the clearest current benchmark for near-term development. Together, these results provide compelling, statistically rigorous evidence that conformational ensemble sampling is a mechanistically grounded and substantial source of improved pose accuracy relative to static-structure prediction, and establish a quantitative benchmark against which continued methodological development can be measured and demonstrably improved upon."
    },
    "PPR/PPR1243764": {
     "id": "PPR/PPR1243764",
@@ -3008,7 +3211,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1243764",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 67
+    "age_days_at_first_seen": 67,
+    "abstract": "Abstract    Liver diseases remain a major global health challenge, often driven by oxidative stress and reactive metabolites generated during xenobiotic metabolism. Cytochrome P450 2E1 (CYP2E1) plays a central role in hepatotoxicity through the bioactivation of toxic compounds and excessive production of reactive oxygen species. This study aimed to evaluate the inhibitory potential of selected phytochemicals (curcumin, quercetin, and kaempferol) against CYP2E1 using molecular docking, with silymarin as a benchmark compound. Molecular docking was performed using SwissDock, while UCSF Chimera was used for three-dimensional visualization and interaction confirmation. BIOVIA Discovery Studio Visualizer was employed for detailed 2D interaction profiling, including hydrogen bonding and hydrophobic interaction analysis. Binding affinities were evaluated based on estimated free energy values (\u0394G), and interaction patterns were analyzed to assess ligand stability within the CYP2E1 active site. Results revealed that curcumin exhibited the strongest binding affinity (\u2212\u20096.9889 kcal/mol), outperforming the benchmark ligand silymarin (\u2212\u20096.5559 kcal/mol), followed by kaempferol (\u2212\u20096.3145 kcal/mol) and quercetin (\u2212\u20096.0048 kcal/mol). Curcumin also formed the highest number of hydrogen bonds and demonstrated favorable hydrophobic and short-range interactions within the active site. These combined interactions suggest strong ligand\u2013enzyme stability and effective binding within the CYP2E1 catalytic pocket. On the whole curcumin demonstrated the most promising inhibitory potential against CYP2E1 among the evaluated phytochemicals, suggesting its possible role as a natural hepatoprotective agent. However, further molecular dynamics simulations, in vitro enzymatic studies, and in vivo validation are required to confirm its therapeutic efficacy."
    },
    "PPR/PPR1242413": {
     "id": "PPR/PPR1242413",
@@ -3019,7 +3223,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1242413",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 71
+    "age_days_at_first_seen": 71,
+    "abstract": "The blood-sucking ectoparasite  Rhipicephalus B. microplus represents one of the greatest economic threats to livestock worldwide. The discovery of novel acaricidal molecules based on environmentally sustainable technologies is therefore required, particularly those suitable for use in dairy and meat-producing livestock without generating contaminant residues. This study aimed to identify and validate plant-derived metabolites with dual activity on acetylcholinesterase and mitochondrial targets as sustainable acaricidal agents against  R. microplus , integrating computational screening, biochemical assays and field evaluation. Following  in silico screening of 1.300 plant metabolites targeting acetylcholinesterase and mitochondrial function, fourteen compounds were selected for  in vitro and  in vivo mortality assays using immersion and larval vessel methods. Carvacrol was identified as the most promising metabolite and showed an inhibitory mechanism of action on acetylcholinesterase and mitochondrial complexes I, III, and IV. Its acaricidal efficacy was subsequently confirmed under field conditions using ethanolic and oily formulations (spray and pour-on) applied to cattle (  Bos taurus ). The spray formulation significantly reduced tick infestation, decreasing tick counts by 20% every 10 days (p  Highlights   Structured and sequential workflow (pipeline) from  in silico to  Bos taurus Identification and validation of phytometabolites against  R. microplus Carvacrol multitarget activity on acetylcholinesterase and bioenergetic in ticks The spray formulation reduces tick infestation by 20% every 10 days  Graphical abstract   Created in BioRender. Avenda\u00f1o, G. (2026)  https://BioRender.com/7pm1ffj"
    },
    "PPR/PPR1239865": {
     "id": "PPR/PPR1239865",
@@ -3030,7 +3235,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1239865",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 73
+    "age_days_at_first_seen": 73,
+    "abstract": "Abstract    India, the most venture-dense consumer market in our sequence, returned a 79% Discovery Index: 19 of 24 high-volume persona-surfaced pain themes mapped to funded or category-forming local startup activity. The deeper result, however, was not the rate itself. Across all five studies, culturally calibrated synthetic personas repeatedly surfaced what we call the wrong-layer pattern: funded incumbents addressed a legible adjacent layer of the problem, while the persona-named operational friction remained only partially owned or unowned. We report an inverse-docking experiment for synthetic personas: open-ended pain elicitation followed by symmetric validation against external venture-market evidence in each persona\u2019s market. The five studies span India, the United Arab Emirates, Australia, Southeast Asia, and Germany, covering four B2C consumer panels and one B2B finance/compliance panel. In total, 1,433 personas surfaced 212 distinct pain themes. Discovery Index values ranged from 40% to 79%, with Germany B2B at 58% and UAE, Australia, and Southeast Asia clustering at 40\u201343%. In the mixed-country Southeast Asia study, themes self-stratified by country without explicit prompting, including Filipino-heavy remittance and motorcycle-taxi themes, Malaysian-heavy prayer and Ramadan themes, and Thai-heavy banana-leaf and motorbike themes. We position these results as evidence for a discovery use case of synthetic personas that is distinct from the dominant stimulus-to-response validation paradigm, while also stating clear limits: one sample per geography, author-judged validation, and no controlled direct-prompt baseline in the present draft."
    },
    "PPR/PPR1214516": {
     "id": "PPR/PPR1214516",
@@ -3041,7 +3247,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1214516",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 114
+    "age_days_at_first_seen": 114,
+    "abstract": "The problem of identifying which protein target a potential drug-like molecule interacts with is crucial for both the study of existing drugs and the design of new therapeutic compounds. Despite the importance of target identification, existing computational approaches remain limited in terms of speed, accuracy, and protein target coverage. We introduce ProteomeScan, a large-scale, gene-driven computational toolkit for systematic proteome-wide scanning to uncover hidden or previously uncharacterized protein-ligand interactions. ProteomeScan leverages cloud-scale high performance computing to perform extensive molecular docking simulations across the human proteome to rank candidate targets based on binding affinities. After filtering promiscuous targets, we found that ProteomeScan ranks known target significantly better than a random baseline for a set of control compounds. Furthermore, we performed physical analyses of predicted binding modes for both promiscuous and known protein-ligand binding pairs to validate that ProteomeScan identifies interactions with valid binding pockets. In addition, we conducted experiments using mutant variants of proteins to study how mutations affect binding behavior. We have open sourced the core ProteomeScan algorithm as part of the DeepChem ecosystem to enhance transparency and reproducibility.  Author summary"
    },
    "PPR/PPR1183354": {
     "id": "PPR/PPR1183354",
@@ -3052,7 +3259,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1183354",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 102
+    "age_days_at_first_seen": 102,
+    "abstract": "Abstract    A key challenge in structure-based drug discovery is accurately predicting protein-ligand binding due to the complex interplay between receptor flexibility, ligand conformational diversity, and the limitations of current sampling and scoring methods. In this study, we employed standardised redocking and cross-docking protocols to compare traditional physics-based docking tools (AutoDock, AutoDock Vina, and DOCK 6) with several data-driven approaches, including a deep learning (DL) method (GNINA 1.3) and diffusion-based models (AlphaFold 3, Boltz-2, and DiffDock-L). The performance was evaluated on three relevant targets to Alzheimer\u2019s disease (AD), i.e., acetylcholinesterase (AChE), \u03b2-secretase 1 (BACE1), and glycogen synthase kinase-3\u03b2 (GSK-3\u03b2). In redocking, rigid docking achieved an accuracy of over 50% for the top-ranked pose, indicating that physics-based methods remain competitive under ideal conditions. However, cross-docking shows a drop in performance across all these classical methods, indicating that they are sensitive to protein and ligand conformation state. The apo structure yielded improved accuracy for GSK-3\u03b2, whereas the holo structures for AChE and BACE1 highlight intrinsic differences in binding-site architecture and flexibility across targets. Further, rigid docking consistently outperforms flexible protocols, indicating that current methods of receptor flexibility introduce conformational noise without improving accuracy. DL-based methods exhibit strong performance in pose generation in the cross-docking scenario but demonstrate strong target dependence. Despite extensive training-test overlap, we observed significant failure rates in binding pose prediction in the case of cross-docking, prominently in GNINA 1.3. This indicates that current models merely memorise the geometries of ligands. Together, these findings indicate that receptor and ligand conformations are the primary factors influencing docking accuracy. Moreover, it was established that cross-docking is a rigorous standard for realistic assessment. Our results reveal major limitations in current binding pose predictions and emphasise the necessity of methods that better capture conformational variability for reliable drug discovery."
    },
    "PPR/PPR1180572": {
     "id": "PPR/PPR1180572",
@@ -3063,7 +3271,40 @@
     "url": "https://europepmc.org/article/PPR/PPR1180572",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 109
+    "age_days_at_first_seen": 109,
+    "abstract": "Background:   /Objectives: Astragalus root, a traditional Chinese herbal remedy, has shown potential benefits against diabetic nephropathy (DN). However, the mechanisms driving its effects remain poorly understood. This study explored the molecular pathways through which Astragalus root improves DN.  Methods:  To identify possible targets and mechanisms of Astragalus root in DN treatment, we applied network pharmacology, molecular docking, molecular dynamics simulation, and in vitro assays.  Results:  Network pharmacology screening uncovered 46 overlapping targets between Astragalus root and DN. Protein-protein interaction (PPI) network analysis identified five core candidate targets: CASP3, VEGFA, CTNNB1, MYC, and PRKCB. KEGG pathway analysis indicated that the AGE-RAGE signaling pathway was the most significantly enriched. Molecular docking revealed that quercetin, \u03b2-carotene, daidzein, capsaicin, and kaempferol\u2014major bioactive components of Astragalus root\u2014bound strongly to each of the five core targets. Molecular dynamics simulations further confirmed the conformational stability of kaempferol when complexed with these target proteins. In vitro experiments showed that kaempferol markedly reduced protein levels of \u03b1-SMA, Col I, and Col IV; lowered secretion of TNF-\u03b1, IL-6, and IL-1\u03b2; and decreased ROS and MDA content. Additionally, kaempferol&#039;s therapeutic effects were mediated through suppression of the AGE-RAGE-PKC-TGF-\u03b2 signaling axis.  Conclusions:  This work identified kaempferol, a bioactive ingredient of Astragalus root, as a potential therapeutic agent against DN, along with its target pathways. These findings provide a scientific foundation for its clinical translation."
+   },
+   "MED/42576576": {
+    "id": "MED/42576576",
+    "title": "Unraveling the Antibacterial Mechanisms of Bletilla striata: A Synergistic Approach Combining Network Pharmacology, Molecular Docking, and In Vitro Validation",
+    "date": "2026-07-30",
+    "venue": "Curr Pharm Des",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42576576",
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 15
+   },
+   "MED/42576526": {
+    "id": "MED/42576526",
+    "title": "Elucidating the Activity of E-Lian Granule in Alleviating Chronic Atrophic Gastritis: Insights from Network Pharmacology, Molecular Docking, and Experimental Validation",
+    "date": "2026-07-28",
+    "venue": "Curr Comput Aided Drug Des",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42576526",
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 17
+   },
+   "PPR/PPR1297595": {
+    "id": "PPR/PPR1297595",
+    "title": "Structural Context Determines Docking Engine Performance: A Family-Stratified Benchmark of Six Engines",
+    "date": "2026-08-11",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1297595",
+    "is_preprint": true,
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 3,
+    "abstract": "Molecular docking and co-folding engines are widely used to prioritize compounds for wet-lab validation, yet their accuracy is known to vary substantially across protein targets for reasons that remain only qualitatively understood. Here we benchmark six docking and co-folding engines (RevDock, DiffDock, Boltz2, AutoDock-GPU, rDock, and PandaDock) across 14 protein families, evaluating scoring power, ranking power, docking power, and physical validity. Rather than treating engine performance as protein-family-specific, we classify all 14 families into six mechanistic groups according to which of four scoring-function simplifications, rigid receptor, pairwise additivity, fixed point charges, and implicit solvent, is most severely stressed by that family's binding site. This framework helps explain, rather than simply describe, where each engine succeeds or fails: RevDock's CNN rescoring layer mitigates the pairwise additivity and fixed-charge limitations relative to physics-only scoring, achieving the highest overall pose accuracy (73.3% of poses \u2264 2.0 A RMSD), while Boltz2's sequence-based co-folding bypasses the rigid-receptor assumption and achieves comparable affinity correlation (mean Pearson r \u2248 0.60 for both engines). PandaDock, run with expanded conformational sampling, matches RevDock on pose accuracy (72.1% of poses \u2264 2.0 A, lowest median RMSD at 0.96 A) and exceeds AutoDock-GPU on affinity correlation (mean r = 0.460), indicating that the performance of a physics-based scoring function is limited as much by search adequacy as by the scoring function itself. These results suggest that engine selection for a docking or co-folding campaign should be guided less by an engine's aggregate benchmark ranking and more by which of these four structural and physical characteristics dominate the target of interest."
    }
   },
   "TRG-COVALENT-EXPOSURE-CRITERION": {
@@ -3216,7 +3457,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1211915",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 97
+    "age_days_at_first_seen": 97,
+    "abstract": "ABSTRACT   Despite intensive efforts, the ferroptosis gatekeeper glutathione peroxidase 4 (GPX4) remains difficult to selectively target due to stringent structural constraints surrounding its catalytic selenocysteine, which impose tight requirements on warhead reactivity and geometry. Here, leveraging a chemoproteomic approach, we characterize a potent and selective covalent GPX4 inhibitor featuring a pyrimidinylmethyl isourea warhead and define the chemical features underlying its proteome-wide selectivity. This chemotype enables tunable electrophile reactivity through steric and electronic modulation of leaving group ability, suggesting potential broader utility for targeting other recalcitrant proteins. Building on this scaffold, we further develop two selective GPX4 degraders - one CRBN-dependent and the other CRBN-independent - enabling complementary modulation of GPX4 through both inhibition and degradation. Together, these molecules expand the GPX4 chemical toolbox for more nuanced interrogation of GPX4 biology."
    },
    "MED/42321189": {
     "id": "MED/42321189",
@@ -3227,6 +3469,16 @@
     "url": "https://europepmc.org/article/MED/42321189",
     "first_seen": "2026-08-08",
     "age_days_at_first_seen": 50
+   },
+   "MED/42569816": {
+    "id": "MED/42569816",
+    "title": "Chemoproteomic discovery of a brain-penetrant, covalent NLRP3 inhibitor that binds a novel allosteric pocket",
+    "date": "2026-08-08",
+    "venue": "Br J Pharmacol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42569816",
+    "first_seen": "2026-08-14",
+    "age_days_at_first_seen": 6
    }
   },
   "TRG-ANTITARGET-PANEL-PROTOCOL": {
@@ -3339,7 +3591,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1245811",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 65
+    "age_days_at_first_seen": 65,
+    "abstract": "More than 1,200 variants of the cystic fibrosis transmembrane conductance regulator gene (  CFTR ) are associated with cystic fibrosis (CF), an autosomal recessive pulmonary disease affecting over 100,000 people. Most people with CF bear a common  CFTR variant (F508del) that can be treated with therapeutics containing \u201ccorrectors\u201d that suppress the misfolding of the CFTR chloride channel. However, the pharmacological responsiveness of other rare CF variants can vary tremendously. The approval of VX-121, a VX-445 analog that serves as a key component of Alyftrek  TM , potentially provides a new therapeutic option for those with rare CF variants. Nevertheless, it remains unclear whether VX-121 offers superior rescue across the entire spectrum of rare CF variants. In this work, we use deep mutational scanning (DMS) to survey the impact of VX-121 on the plasma membrane expression of 232 rare CF variants. Our results show that VX-121 generally enhances CF variant expression more than VX-445 and is most potent towards variants with mutations in the first membrane spanning domain (MSD1). However, we identify one variant (Y1032C) with diminished proteostatic and functional selectivity for VX-121 relative to VX-445. Computational docking suggests that the native Y1032 side chain forms favorable interactions with VX-121 that are disrupted by this mutation in a manner that alters its coordination. Finally, using photo-crosslinking, we show that VX-121 avoids a key off-target interaction of VX-445. Together, our findings provide new insights into the similarities and differences between current approved CF therapeutics."
    },
    "PPR/PPR1244144": {
     "id": "PPR/PPR1244144",
@@ -3350,7 +3603,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1244144",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 67
+    "age_days_at_first_seen": 67,
+    "abstract": "CRISPR interference screens use catalytically inactive dCas9 fused to a repressor domain to enable genetic perturbations at the transcriptomic level. Interpretation of results involves identification of guide RNAs associated with the screen phenotype, followed by secondary analysis. During validation of a genetic screen, we observed different phenotypes from non-overlapping guide RNAs targeting one gene. Here, we developed POCKET-seq to map the binding of dCas9 genome-wide. We show that off-target binding occurs frequently and can generate false-positive interactions when it occurs near the promoter of genes associated with the screen phenotype. POCKET-seq classifies these false-positive and true-positive interactions using gene ontology."
    },
    "PPR/PPR1215178": {
     "id": "PPR/PPR1215178",
@@ -3361,7 +3615,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1215178",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "duplicate_of_title": true
+    "duplicate_of_title": true,
+    "abstract": "The interdomain flexibility of GT-B fold glycosyltransferases regulates substrate binding and catalysis, yet the role of local structural variations in donor substrate specificity remains unclear. GumK, a GT70 enzyme from  Xanthomonas campestris , exhibits local plasticity within its donor-binding pocket. We classify this plasticity into two conformational states, defined by the presence (closed state) or absence (open state) of a conserved hydrophobic interaction stabilizing the pocket. Using the AI-enhanced docking approach GNINA, we investigated the relationship between these states and substrate specificity by comparing UDP-glucuronate with five acidic and neutral ligand analogs. While docking scores showed limited discrimination among ligands, distance-based analysis between the sugar C6 atom and Lys307 revealed conformation-dependent trends. In the open state, negatively charged sugars preferentially interact with Lys307 via their carboxylate groups. Conversely, the closed state favors interactions with the pyrophosphate moiety. To provide orthogonal validation, we generated ensembles of GumK\u2013substrate complexes using AI-based cofolding methods (AlphaFold3 and Boltz). While Boltz-2 affinities correctly ranked substrate specificity, only the GNINA-generated ensembles were consistent with physics-based simulations in capturing the conformational basis of selectivity. These results suggest that donor specificity arises from the interplay between ligand chemistry and binding-site plasticity rather than from a single rigid binding mode, and highlight complementary strengths of docking and cofolding approaches for studying flexible CAZymes."
    }
   }
  }
