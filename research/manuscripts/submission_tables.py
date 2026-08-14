@@ -86,7 +86,7 @@ def _hybridisable(oligo):
     near-match count reported by a screen is STRAND-BLIND — it is what the search returned, either
     strand — while the gap analysis beside it is orientation-filtered. So `GGCATATCAAGCGCTG`
     printed "2 -> 2" in a table whose caption said unmarked rows were orientation-filtered, for a
-    design the Results call free of any hybridisable near-match. Both were true and the table said
+    design the Results call free of any sense-strand near-match. Both were true and the table said
     so nowhere: its two hits are both minus-strand. A reader adding a column found a contradiction
     that did not exist, which costs a paper more than an omission does.
     """
@@ -99,7 +99,7 @@ def _deep_lookup():
 
     ⛔ WHY TABLES 2 AND 3 NEEDED THIS COLUMN (round-3 review, 2026-08-14). Both tables are the
     DEFAULT-depth result, and the Results withdraw part of what they print: three Table 2 rows
-    showed `0 hybridisable, 0 gap-spanning loci` for designs carrying 14, 29 and 30 hybridisable
+    showed `0 on the sense strand, 0 gap-spanning loci` for designs carrying 14, 29 and 30 hybridisable
     hits at ten times the ceiling, and every one of Table 3's nine rows printed a zero that §3.5
     withdraws for six of them. The captions said so in prose. **A caption is not where a reader
     checks a number** — the cell is, and a cell that reads clean beside a text that calls the
@@ -146,7 +146,7 @@ def _deep_lookup():
 
 
 def _clean_designs(collapse):
-    """The designs with no hybridisable near-match, over a hit list complete enough to say so.
+    """The designs with no sense-strand near-match, over a hit list complete enough to say so.
 
     One home for the predicate the manuscript's headline rests on. The censoring restriction is
     load-bearing and is not a nicety: a design whose stored hits are all minus-strand says nothing
@@ -340,7 +340,7 @@ def table2(collapse, chance, atlas):
         mark = "" if filtered.get(lab) else " ‡"
         # The hybridisable count is over the RETAINED hits, so on a truncated list it is a lower
         # bound and says so. "≥0" is meaningful in this one column and nowhere else in this table:
-        # zero retained hybridisable hits out of a list that was cut short is exactly the state
+        # zero retained sense-strand hits out of a list that was cut short is exactly the state
         # that stops a design being called clean, and printing a bare 0 there would assert the
         # opposite of what the screen knows.
         hyb = hyb_by_j.get(lab, {}).get(best["antisense_5to3"])
@@ -482,7 +482,7 @@ def table5(gap):
         "| **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 junction** | | | |",
         row("design (5′→3′)", lambda d: d["antisense_5to3"], lead),
         row("gap-level margin", lambda d: d["gap_specificity_margin"], lead),
-        row("hybridisable gap-spanning cleavage risks",
+        row("sense-strand gap-spanning cleavage risks",
             lambda d: d["alignment_screen"]["n_true_cleavage_risk"], lead),
         row("gene loci carrying one",
             lambda d: d["alignment_screen"]["loci"]["n_loci_with_a_gap_spanning_hit"], lead),
@@ -614,7 +614,7 @@ def table3(collapse, chance, thermo, graded):
     """The designs the paper's headline rests on, one row each.
 
     ⛔ WHY THIS TABLE WAS MISSING AND WHY THAT MATTERED. The headline result — nine designs with no
-    hybridisable near-match — had no table, and Table 2's convention is the highest-gap-level-margin
+    sense-strand near-match — had no table, and Table 2's convention is the highest-gap-level-margin
     design per junction, which is a different selection: only four of the nine appear there, and
     Table 2's six zero-gap-spanning junctions are not the same six. So a reader sent to a table to
     check the central claim could not find five of the molecules it is about, and would find two
@@ -796,11 +796,11 @@ accession per annotated variant. A “≥” marks a right-censored count: the s
 {SAVED_HITS} hits per design, so a design with more is a lower bound. All {sum(1 for s in collapse["screens"] if s.get("junction_label"))} junction screens
 are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
-None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.{dagger}
+None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.{dagger}
 
 {t2}
 
-**Table 3. The {n_clean} designs with no hybridisable near-match at the default search depth.** Six of
+**Table 3. The {n_clean} designs with no sense-strand near-match at the default search depth.** Six of
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
 ceiling, three of them having returned no near-match at all here; §3.5 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
@@ -817,7 +817,7 @@ activity, and none speaks to cleavage.\n\n³ Under the optimistic five-fold and 
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
 bounds agree.\n\n⁴ Of four conventional antisense design rules: GC within 40–60%, no G-quadruplex
 motif, no homopolymer run of four, no CpG dinucleotide.\n\n⁵ Whether the design still carries no
-hybridisable near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
+sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
 is computed from the three deep columns beside it, not asserted, so this table cannot come to
 disagree with §3.5 about which designs survive. The six that do not are the reason this table's
 default-depth zeros must not be read on their own.

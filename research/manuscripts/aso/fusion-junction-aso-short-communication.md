@@ -213,7 +213,7 @@ another catches. No single screen supports any claim here on its own.
    therefore no search sensitivity to quantify. §3.8 reports it.
 
 **Strand orientation.** A match matters only if an antisense oligonucleotide could base-pair with
-it. A match in that orientation is *hybridisable*; one carrying the reverse complement of the target
+it, which means a match on the sense strand. One carrying the reverse complement of the target
 window is not a liability at all. The alignment screen did not originally check this. `blastn`
 searches both strands, so reverse-complement hits passed the identity filter, and where they spanned
 the catalytic gap they were recorded as cleavage risks. Orientation is now parsed and filtered in all 38 junction
@@ -223,7 +223,7 @@ amino-acid rather than transcript coordinates, which carry no junction and suppo
 same rule governs pre-mRNA, which is transcribed in transcript orientation: a forward match can be
 base-paired and a reverse-complement match cannot.
 
-Designs are called clean below when they carry no hybridisable near-match, and that is always a
+Designs are called clean below when they carry no sense-strand near-match, and that is always a
 statement about a complete hit list at a stated search depth. Both qualifications matter. A hit list
 the cap truncated is not complete, so no verdict is available for that design, and a design clean at
 one depth need not be clean at another. §3.4 and §3.5 report both effects.
@@ -259,7 +259,7 @@ Every screen that resolves the gap was therefore re-scored under both bounds as 
 cleavage load, holding the hit set fixed so that only the scoring changed: all 38 junction screens, and 39 of
 the 93 screens released in total. The exceptions are one coverage-only control screen that records no
 gap-mismatch depth and so cannot be graded at all, and the 53 deeper re-screens, which are released
-ungraded. The re-score counts only hybridisable hits where it can, meaning where the retained hit
+ungraded. The re-score counts only sense-strand hits where it can, meaning where the retained hit
 list is complete and every hit's strand is therefore known.
 
 Two distinct bounds follow, and they run in opposite directions. Where a hit list is truncated, the
@@ -356,7 +356,7 @@ series of 18 EMCs all three *TAF15*-rearranged tumours carried exon 6 joined to 
 so this oligonucleotide cannot engage the *TAF15* junction that patients are reported to carry.
 
 That junction is itself in-frame and yields five fusion-specific designs (43.8–50.0% GC), all
-five screened and orientation-filtered. Every one of them retains a hybridisable near-match spanning
+five screened and orientation-filtered. Every one of them retains a sense-strand near-match spanning
 the catalytic gap. At the tenfold deeper ceiling, where every hit list is complete, those recount to
 three gene loci at best, and five for the design its gap-level margin ranks first, three of those
 five annotated only as predicted gene models (Table 4). Two of the five nonetheless return no exact
@@ -380,7 +380,7 @@ evidence for paralogy is that four additional two-partner sets are also FET-only
 
 Specificity does not sort by partner (Table 2). Taking at each junction the lowest count any of its
 designs achieves after the orientation filter, every one of the five partners has at least one
-junction whose best design carries no hybridisable near-match across the catalytic gap: three of
+junction whose best design carries no sense-strand near-match across the catalytic gap: three of
 eight at both *TCF12* and *FUS*, two of eight at *EWSR1*, one of eight at *TAF15* and one of six at
 *TFG*. The
 minima therefore separate junctions rather than partners. Which exon a fusion breaks at matters more
@@ -391,12 +391,12 @@ published *TCF12::NR4A3* breakpoint reports a chimera retaining the first 108 TC
 residues,<sup>5</sup><!--PMID:11156374--> which in this transcript model is *TCF12* exon 5 and no
 other exon. That junction is in-frame and designable, and its best-margin design retains 17
 gap-spanning near-matches at the deeper ceiling, every one of them a variant of a single curated
-locus, *PIK3CG* (Table 4). None of the four *TCF12* designs with no hybridisable near-match is at
+locus, *PIK3CG* (Table 4). None of the four *TCF12* designs with no sense-strand near-match is at
 that exon. So for *TCF12* as for *TAF15*, the junction a patient is reported to carry is designable and
 is not among the clean ones, while the clean junctions have no reported patient. That last is an
 inference from a residue count against this transcript model, not an exon reported as such.
 
-### 3.4 · Strand orientation, and designs with no hybridisable near-match
+### 3.4 · Strand orientation, and designs with no sense-strand near-match
 
 All 38 in-frame junctions were screened with orientation filtered, covering 183 designs, and Table 2
 gives the per-junction result. Of the 1,677 apparent cleavage risks across the retained hit lists,
@@ -409,7 +409,7 @@ inflation would rescale every junction and leave their ordering intact; this one
 *EWSR1* exons 7 and 13 return 55 and 57 apparent gap-spanning hits, and after filtering they stand
 at 6 and 53.
 
-After filtering, nine designs at six junctions carry no hybridisable near-match among non-parent
+After filtering, nine designs at six junctions carry no sense-strand near-match among non-parent
 transcripts (Table 3), spanning four of the five partners: three at *EWSR1* exon 1
 (5′-GGGCATATCCGTGGAC-3′, 5′-GGCATATCCGTGGACG-3′, 5′-GCATATCCGTGGACGC-3′), one at *FUS* exon 8
 (5′-AGGGCATATCGGAGTC-3′), one at *TAF15* exon 1 (5′-GGGCATATCCGACATG-3′), and four at *TCF12* —
@@ -419,7 +419,7 @@ independently: each returns no exact and no single-mismatch match anywhere in 18
 The two screens fail in different ways, so their agreement is not a restatement. One is a heuristic
 alignment search over both strands; the other an exhaustive substitution scan over the sense
 orientation only. The pre-mRNA screen, over a compartment neither of those reaches, does not
-overturn them either: none of the nine has a hybridisable site in parent pre-mRNA (§3.7).
+overturn them either: none of the nine has a sense-strand site in parent pre-mRNA (§3.7).
 
 The graded re-score agrees, with one instructive exception. Scoring every retained hit by the
 residual cleavage a gap-internal mismatch is predicted to permit, under both literature bounds,
@@ -429,27 +429,27 @@ are retained, and all 15 are minus-strand. The graded score therefore sees nothi
 while the cleanliness criterion refuses the design because the strand of the six unretained hits is
 unknown. The graded model has no censoring guard, so it can award a zero the hit list does not
 support, and the stricter count is the one reported. A zero for the nine is arithmetic rather than an
-independent measurement: it follows from their having no hybridisable hit to score.
+independent measurement: it follows from their having no sense-strand hit to score.
 
 Every junction was then re-screened at a tenfold deeper alignment ceiling, with retention raised to
 match so that no hit list is truncated: 38 junctions and 187 design records. The result withdraws
 most of the set above. The 187 are the panel's 190 less three that failed at the remote service on
 this pass, two at *FUS* exon 5 and one at *TFG* exon 2. Each had already returned 23, 41 and 31
 near-matches at the default depth, so none was a candidate and no count below depends on them. Only
-three of the nine still carry no hybridisable near-match: 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8,
+three of the nine still carry no sense-strand near-match: 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8,
 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 and 5′-GGCATATCAAGCGCTG-3′ at *TCF12* exon 7, each of which
 returned the same count at both depths. The other six did not. The three *EWSR1* exon-1 designs had
 returned no near-match at all at the default ceiling and return 27, 29 and 84; 5′-GGGCATATCTCTATAA-3′
 at *TCF12* exon 17 goes from 8 to 118, and 5′-CAGGGCATATCTTGCA-3′ at *TCF12* exon 9 from 7 to 67.
 Three of the six carry hits that span the catalytic gap and so are cleavage risks rather than merely
-hybridisable: 64 for 5′-GCATATCCGTGGACGC-3′, 14 for 5′-GGGCATATCTCTATAA-3′ and 11 for
+sense-strand matches: 64 for 5′-GCATATCCGTGGACGC-3′, 14 for 5′-GGGCATATCTCTATAA-3′ and 11 for
 5′-CAGGGCATATCTTGCA-3′. A count of zero at the default ceiling was not a count of zero, which is the
 sharpest form of the bound §3.5 sets out.
 
 The deeper pass also decided what the default one could not. Seven of the 190 designs had failed at
 the remote service and carried no count at all; all seven returned at the deeper ceiling, six of them
 dirty and one — 5′-GGGCATATCAAGCGCT-3′ at *TCF12* exon 7 — with three near-matches and none
-hybridisable. So the set of designs with a complete hit list and no hybridisable near-match is four
+on the sense strand. So the set of designs with a complete hit list and no sense-strand near-match is four
 at this depth rather than three: a design the shallower pass never screened joins the three that
 survived it. The deeper counts are reported as their own
 measurement and no figure quoted above is restated from them.
@@ -488,14 +488,14 @@ exempt: §3.4 reports three designs that returned no near-match at this depth an
 times it.
 
 Retention is the second bound, and the restriction it imposes was tested rather than assumed. Seven
-design-and-junction records have no hybridisable hit among those retained and a raw count above the
+design-and-junction records have no sense-strand hit among those retained and a raw count above the
 retention depth, so retention alone withholds a verdict on them. Their five junctions were
 re-screened at the tenfold deeper ceiling, with retention raised to match. That decided six of the
 seven, and none of the six is clean. The counts they had been reporting were severely censored: 21
-raw near-matches became 161 with 5 hybridisable, 23 became 68 with 48, 27 became 65 with 5, 35 became
+raw near-matches became 161 with 5 on the sense strand, 23 became 68 with 48, 27 became 65 with 5, 35 became
 78 with 10, and 47 became 196 with 119, the last at both junctions that sequence spans. The seventh
 re-screen did not return, and that record remains undecided. Relaxing the censoring restriction would
-therefore have promoted at least six records that a deeper look shows carry hybridisable
+therefore have promoted at least six records that a deeper look shows carry sense-strand
 near-matches, one of them 119 of them. The nine are unchanged by the test.
 
 ### 3.6 · Transcript records, gene loci, and their expression
@@ -512,15 +512,15 @@ whereas `XM_`/`XR_` are computationally predicted gene models. A design's *load*
 predicted off-target burden, counted as near-matches. A load sitting entirely in the predicted
 namespace is a different kind of liability from one that matches curated transcripts.
 For the multi-partner candidate 5′-GGGCATATCATCAAAC-3′ both effects apply and compound with the
-orientation filter. Of its nine near-matches, six are hybridisable and five of those span the
+orientation filter. Of its nine near-matches, six are on the sense strand and five of those span the
 catalytic gap. All five are variants of a single uncharacterised locus, LOC105374140, annotated only
 as predicted `XR_` models. That is one gap-spanning locus from a raw count of nine, but it is not
-clean of curated sequence. The sixth hybridisable near-match is *H2AP* (NM_012274), whose single
+clean of curated sequence. The sixth sense-strand near-match is *H2AP* (NM_012274), whose single
 mismatch falls inside the catalytic gap, so the pessimistic bound counts it in full. The same design
 returns no exact match and a single ≤1-mismatch match on the exhaustive transcript scan.
 
 Re-screened at the tenfold deeper ceiling, that design returns 189 near-matches. Of these, 141 are
-hybridisable and span the gap, and 123 pair the catalytic gap perfectly. Both effects above apply at
+on the sense strand and span the gap, and 123 pair the catalytic gap perfectly. Both effects above apply at
 that depth and neither weakens. All 123 sit at 14 of 16 identity, the loosest match the screen
 admits. They recount to six gene loci, of which *ANKS1B* and *ZNF667* supply 104 between them. Of the
 123, 82 are `XM_`/`XR_` predicted models, and no parent transcript is among them. Depth therefore
@@ -549,12 +549,12 @@ half sits beside sequence no mature screen has compared it against. A mature-onl
 low count partly by construction.
 
 Of the 190 designs, 53 have a near-match somewhere in parent pre-mRNA. Nineteen carry one that meets
-all three conditions that would make it dangerous: it is hybridisable, it pairs the catalytic gap in
+all three conditions that would make it dangerous: it is on the sense strand, it pairs the catalytic gap in
 full, and it touches intronic sequence. That third condition is what makes such a site invisible to
 both transcript screens, rather than a re-count of something already reported.
 
 The step from 53 to 19 is a threshold rather than a measurement, and the class it removes is the one
-the Methods decline to dismiss. Forty designs carry a hybridisable parent pre-mRNA site. The 19
+the Methods decline to dismiss. Forty designs carry a sense-strand parent pre-mRNA site. The 19
 counted here are those pairing the catalytic gap in full; the remaining 21 pair all of it but one or
 two positions. Of their 28 sites, 26 are a single gap mismatch short, and five are in *NR4A3* itself.
 Under the bounds this work adopts, a single mismatch inside the gap does not abolish cleavage, so
@@ -578,7 +578,7 @@ volume alone predicts and should not be read as anything about *TCF12*.
 The liability tracks the tiling register, of which the gap-level margin is a function. At margin 1,
 12 of 76 designs carry a pre-mRNA site; at margin 2, 7 of 76; at margin 3, none of 38. Eight of the
 nine *NR4A3* boundary sites are at the shortest donor-side register, which needs the fewest intronic
-bases to match. None of the nine designs with no hybridisable near-match on either transcript screen
+bases to match. None of the nine designs with no sense-strand near-match on either transcript screen
 carries one.
 
 The second class is in mature parent transcript, and it is larger. Each of the first three screens
@@ -603,7 +603,7 @@ the fusion at the junction without asking whether a parent carries them elsewher
 
 Composing this with the deeper re-screen of §3.4 leaves three candidates in the whole panel, and they
 are not equally secure. 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8 and 5′-GGGCATATCCGACATG-3′ at *TAF15*
-exon 1 carry no hybridisable near-match at ten times the default search depth, no single-mismatch
+exon 1 carry no sense-strand near-match at ten times the default search depth, no single-mismatch
 match on the exhaustive transcript scan, no pre-mRNA site and no mature-parent duplex. Neither
 depends on the ten-base-pair threshold, because no window of any parent pairs their catalytic gap at
 any length: their longest run is zero rather than merely short. 5′-GGGCATATCAAGCGCT-3′ at *TCF12*
@@ -663,7 +663,7 @@ designs, 106 satisfy all four rules; the rules bind at different rates, with eve
 G-quadruplex motif but 13 carrying a homopolymer run of four, 43 a CpG dinucleotide and 58
 falling outside the 40–60% GC window. The failures overlap, so they do not sum to the 84 designs
 that fail at least one.
-The disagreement is sharpest exactly where it matters most. Of the nine designs with no hybridisable
+The disagreement is sharpest exactly where it matters most. Of the nine designs with no sense-strand
 near-match (Table 3), exactly one satisfies all four rules. Seven contain a CpG dinucleotide, the
 canonical TLR9 immunostimulatory motif, which in practice is neutralised by 5-methylcytosine
 substitution rather than by changing the sequence; four fall outside the 40–60% GC window — the three *EWSR1* exon-1 designs above
@@ -689,7 +689,7 @@ competent against the fusion and against the parent together, and no choice of r
 Both directions are large. The best available gap-level margin rises from 3 to 4 to 5, and the
 junction-spanning registers per junction from five to seven to nine. At the *EWSR1* exon 12, *TAF15* exon
 11 and *FUS* exon 10 junction, the design carrying that margin sheds its transcriptome load completely:
-123 hybridisable cleavage risks across the gap at six gene loci become 3 at one locus and then none.
+123 sense-strand cleavage risks across the gap at six gene loci become 3 at one locus and then none.
 Over the six junctions screened at every geometry, designs carrying no such risk rise from 8 of 30 to 28
 of 42 to 54 of 54, and the most risk loci on any one design falls from seven to two to none.
 
@@ -719,11 +719,11 @@ at that junction returns three.
 Designability is not the constraint. Junction-spanning designs exist at every in-frame NR4A3
 fusion junction, though at three of them every design pairs a wild-type parent through the catalytic
 gap. Nor does specificity sort by partner. With all 38 junctions screened, every one of the five
-partners has a junction whose best design carries no hybridisable near-match across the gap. It is
+partners has a junction whose best design carries no sense-strand near-match across the gap. It is
 therefore the exon a fusion breaks at, not the gene it breaks into, that predicts a clean design.
 
 Clean designs are much scarcer than the default search depth implies, and two independent findings
-converge on that. Of the nine designs with no hybridisable near-match at that depth, six lose the
+converge on that. Of the nine designs with no sense-strand near-match at that depth, six lose the
 property at ten times it, three of them having reported no near-match at all before. Separately, five
 form an eleven- or twelve-base-pair duplex with a mature wild-type parent that pairs the whole
 catalytic gap, one of them with *NR4A3* itself, where no screen filtering on global identity can see
@@ -808,7 +808,7 @@ caveat.
 
 5′-AGGGCATATCATCAAACC-3′ is the 5-8-5 design at the same *EWSR1* exon 12 junction. It spans the same
 three partners' breakpoints and sits inside the reported activity optimum. It holds a gap-level
-margin of 4 where the 16-mer holds 3, and carries 3 hybridisable near-matches across the gap at one
+margin of 4 where the 16-mer holds 3, and carries 3 sense-strand near-matches across the gap at one
 gene locus, against the 16-mer's 123 at six (§3.10, Table 5).
 
 Synthesised alongside the 16-mer, at one extra oligonucleotide and one extra well per condition, it
@@ -822,18 +822,18 @@ the fusion-negative comparator below.
 
 The second risk is transcriptome load, and it differs sharply between the two reagents. The *EWSR1*
 reagent carries the heaviest disclosed load of any design considered here: 123 gap-paired
-hybridisable near-matches at the deeper ceiling, recounting to six gene loci, all at the screen's
+sense-strand near-matches at the deeper ceiling, recounting to six gene loci, all at the screen's
 loosest admitted identity and none on a parent transcript (§3.6). The *TAF15* reagent carries 8 such
 near-matches at five loci.
 
 The parent compartments qualify that, in a way the transcript screens cannot show. The *EWSR1*
-reagent carries a hybridisable intron–exon-spanning near-match in wild-type *TAF15* pre-mRNA at two
+reagent carries a sense-strand intron–exon-spanning near-match in wild-type *TAF15* pre-mRNA at two
 mismatches, one of them inside the catalytic gap, returned independently by the pre-mRNA screen and
 the genome scan. It falls outside every parent count reported here, because those require the gap to
 be paired in full, and by the bounds adopted above a single gap mismatch does not abolish cleavage.
 It is the multi-partner result's own cost rather than an incidental hit: the ten donor bases shared
 across *EWSR1*, *TAF15* and *FUS* that let one oligonucleotide span three junctions are the bases that
-place it against wild-type *TAF15*. The *TAF15* exon-6 reagent carries no hybridisable pre-mRNA site
+place it against wild-type *TAF15*. The *TAF15* exon-6 reagent carries no sense-strand pre-mRNA site
 at all, which is a second respect in which the two separate on something other than count.
 
 That load should travel with the reagent. It is a liability to disclose and to control for rather
@@ -855,7 +855,7 @@ The three designs that survive every screen are mechanism controls rather than c
 contradicted by the exon-6 breakpoints reported in EMC, and for *FUS* and *TCF12* no exon-resolved
 EMC breakpoint has been published at all. 5′-GGGCATATCTCTATAA-3′ at *TCF12* exon 17, which an earlier
 draft of this work put forward for that role, is not among them. At ten times the default search
-depth it carries 101 hybridisable near-matches, 14 of them spanning the catalytic gap.
+depth it carries 101 sense-strand near-matches, 14 of them spanning the catalytic gap.
 
 Transferability depends on how that experiment is set up. The breakpoint of the cell line or patient
 sample must be established at nucleotide resolution by RNA sequencing before any oligonucleotide is
@@ -885,7 +885,7 @@ designs is therefore a floor over that subset, not a total. It is also an over-c
 lost the property at ten times the default search depth, and that censoring is corpus-wide across all
 38 junctions re-screened at that depth (§3.5). The default-depth figures throughout should be read as
 lower bounds rather than as counts. BLAST is also heuristic, and its sensitivity at the ≥14/16
-threshold is unquantified here, so "no hybridisable near-match" is a property of this search rather
+threshold is unquantified here, so "no sense-strand near-match" is a property of this search rather
 than of the transcriptome. The exhaustive transcript scan carries no such qualification, and is the
 screen the claim rests on. All 38 in-frame junctions are screened with the orientation filter
 applied, so no junction here carries an unfiltered count. The chance null is crude: it assumes
@@ -928,8 +928,9 @@ that oligonucleotide being a problem needs an argument no screen here supplies (
 bulk medians describe normal tissue in a population, not a dosed patient's organ.
 
 **The genome scan.** Screen 5 removes the six-transcript bound the parent screens carried, at the
-cost of two bounds of its own. Hybridisability is measured against an annotation, so a site in
-unannotated transcription is reported as intergenic and not counted. And a screen against one
+cost of two bounds of its own. Whether a site lies on a gene's sense strand is decided against an
+annotation, so a site in unannotated transcription is reported as intergenic and not counted. And a
+screen against one
 assembly says nothing about a patient's private variation. An earlier genome-wide attempt against a
 mixed public corpus returned nothing interpretable and is released with the artefacts; it could not
 have done otherwise, having no defined nucleotide span to form a null against. Every exhaustive

@@ -30,7 +30,7 @@ None of these numbers is a measurement of off-target activity.
 
 ¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.
 
-² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
+² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
 
 ⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.
 
@@ -75,7 +75,7 @@ None of these numbers is a measurement of off-target activity.
 | TFG e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCAATC-3′ | 37 → ≥3 | ≥2 | ≤0 | 0 | 238 | 193 | 3 | 11 (21) |
 | TFG e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAATAC-3′ | 27 → ≥3 | ≥3 | ≤3 | 1 | 43 | 12 | 4 | 4 (26) |
 
-**Table 3. The 9 designs with no hybridisable near-match at the default search depth.** Six of
+**Table 3. The 9 designs with no sense-strand near-match at the default search depth.** Six of
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
 ceiling, three of them having returned no near-match at all here; §3.5 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
@@ -98,7 +98,7 @@ bounds agree.
 motif, no homopolymer run of four, no CpG dinucleotide.
 
 ⁵ Whether the design still carries no
-hybridisable near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
+sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
 is computed from the three deep columns beside it, not asserted, so this table cannot come to
 disagree with §3.5 about which designs survive. The six that do not are the reason this table's
 default-depth zeros must not be read on their own.
@@ -199,7 +199,7 @@ measurement of cleavage.
 | **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 junction** | | | |
 | design (5′→3′) | GGGCATATCATCAAAC | AGGGCATATCATCAAACC | CAGGGCATATCATCAAACCA |
 | gap-level margin | 3 | 4 | 5 |
-| hybridisable gap-spanning cleavage risks | 123 | 3 | 0 |
+| sense-strand gap-spanning cleavage risks | 123 | 3 | 0 |
 | gene loci carrying one | 6 | 1 | 0 |
 | near-matches (≤2 mismatches, deeper ceiling) | 189 | 50 | 20 |
 | ≤1-mismatch matches over 186,185 transcripts | 1 | 0 | 0 |
