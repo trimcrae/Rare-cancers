@@ -2603,6 +2603,22 @@ geometry and not for depth. The 53 artifacts were **removed rather than committe
 re-derived at 352 files, so this branch carries the expression work only; the fix changes a
 submission table's semantics and is trimcrae's to sequence.
 
+⚠ **`aso_archive_manifest.py --check` IS RED ON EVERY COMMITTED TREE, BY DESIGN — DO NOT CHASE IT.**
+The hand-off for this session flagged the manifest as failing `--check` with a stale `git_revision`
+before any edit, and regenerating it appears to clear the red. It clears only in the window between
+regenerating and committing: the manifest embeds `git_revision`, is generated *before* the commit
+that carries it, and so names its own parent the moment it lands. Measured here — regenerated at
+`0e37a12bf`, committed as `c6668cb4b`, `--check` red again immediately, with `git_revision` and
+`git_tree_is_clean_apart_from_this_manifest` the only two fields differing. The generator says so
+itself at the `git_revision` field: it *"moves on every commit, including commits that touch no
+archived file, so `--check` goes red after any commit and must NOT be wired into preflight as a
+gate"* — which is why preflight is green while this is red, and why the chain script's `--check`
+inherits the red. **`archive_content_digest` is the archive's real identity** and is stable across
+commits that leave the files alone; it did not move here. The pointer was still worth correcting in
+a follow-up commit, because step 1 of the manifest's own deposit instructions is "check out the
+revision named in `git_revision` and confirm `git status` is clean", and the revision it named was
+one where the recorded hashes do not hold.
+
 **Length.** The paper went 9,303 → 9,754 main words (**+451**). Paid for by deleting a Methods
 restatement inside §3.8 and a thrice-stated arithmetic caveat in Limitations, and by keeping the
 instrument's method and every caveat in Table 6's legend, which lives in the companion tables file
