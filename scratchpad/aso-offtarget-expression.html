@@ -1,0 +1,708 @@
+<title>Gapmer Off-Target Atlas</title>
+<style>
+  :root {
+    --paper: #F7F5F2;
+    --panel: #FFFFFF;
+    --ink: #1B1D20;
+    --ink-2: #4A4E54;
+    --ink-3: #74797F;
+    --rule: #DFDAD2;
+    --rule-2: #ECE8E2;
+    --exposure: #8A5A18;
+    --exposure-soft: #C8A268;
+    --exposure-wash: #F2E7D6;
+    --onsite: #1F5F63;
+    --onsite-soft: #6FA3A6;
+    --onsite-wash: #DCEAEA;
+    --unmeasured: #6B7076;
+    --shadow: 0 1px 2px rgba(27,29,32,.05), 0 8px 24px -16px rgba(27,29,32,.25);
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, sans-serif;
+    --serif: Charter, "Bitstream Charter", "Iowan Old Style", "Source Serif Pro", Georgia, ui-serif, serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #131619;
+      --panel: #1A1E22;
+      --ink: #E9E6E1;
+      --ink-2: #B2B7BD;
+      --ink-3: #868C93;
+      --rule: #2C3237;
+      --rule-2: #22272B;
+      --exposure: #D9A55E;
+      --exposure-soft: #8A6B36;
+      --exposure-wash: #2E2418;
+      --onsite: #6FBFC4;
+      --onsite-soft: #2F6165;
+      --onsite-wash: #16292B;
+      --unmeasured: #7C838A;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #131619;
+    --panel: #1A1E22;
+    --ink: #E9E6E1;
+    --ink-2: #B2B7BD;
+    --ink-3: #868C93;
+    --rule: #2C3237;
+    --rule-2: #22272B;
+    --exposure: #D9A55E;
+    --exposure-soft: #8A6B36;
+    --exposure-wash: #2E2418;
+    --onsite: #6FBFC4;
+    --onsite-soft: #2F6165;
+    --onsite-wash: #16292B;
+    --unmeasured: #7C838A;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px 96px; }
+  .narrow { max-width: 680px; }
+
+  h1, h2, h3, .label, .tag, th { font-family: var(--sans); }
+  h1 {
+    font-size: clamp(2.1rem, 5vw, 3.1rem);
+    line-height: 1.04;
+    letter-spacing: -.032em;
+    font-weight: 800;
+    margin: 0 0 .5rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-size: 1.45rem; letter-spacing: -.022em; font-weight: 750;
+    margin: 0 0 .2rem; text-wrap: balance;
+  }
+  h3 { font-size: 1.02rem; letter-spacing: -.012em; font-weight: 700; margin: 0 0 .35rem; }
+  p { margin: 0 0 1rem; }
+  .narrow p { max-width: 66ch; }
+  a { color: var(--onsite); }
+
+  .label {
+    font-size: .685rem; font-weight: 700; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  header.head { padding: 72px 0 40px; border-bottom: 2px solid var(--ink); }
+  .kicker { display: flex; gap: 14px; align-items: baseline; margin-bottom: 18px; flex-wrap: wrap; }
+  .dek { font-size: 1.17rem; color: var(--ink-2); max-width: 62ch; margin: 0; }
+
+  section { padding-top: 52px; }
+  .sec-head { display: flex; gap: 16px; align-items: baseline; margin-bottom: 20px; flex-wrap: wrap; }
+
+  /* ---- the bounding limit: the page's most load-bearing block ---- */
+  .limit {
+    margin-top: 34px;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--ink);
+    background: var(--panel);
+    padding: 22px 26px;
+    box-shadow: var(--shadow);
+  }
+  .limit p:last-child { margin-bottom: 0; }
+  .limit strong { font-weight: 600; }
+
+  /* ---- compartment legend ---- */
+  .compartments {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+    gap: 18px; margin-top: 26px;
+  }
+  .comp {
+    background: var(--panel); border: 1px solid var(--rule);
+    border-top: 3px solid var(--c); padding: 18px 20px; box-shadow: var(--shadow);
+  }
+  .comp.exposure { --c: var(--exposure); }
+  .comp.onsite { --c: var(--onsite); }
+  .comp h3 { color: var(--c); }
+  .comp p { font-size: .93rem; color: var(--ink-2); margin: 0; }
+
+  /* ---- instrument check ---- */
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; }
+  .ctrl {
+    font-family: var(--mono); font-size: .8rem; padding: 7px 12px;
+    border: 1px solid var(--rule); background: var(--panel);
+    display: flex; gap: 9px; align-items: center;
+  }
+  .ctrl b { font-weight: 700; letter-spacing: .02em; }
+  .ctrl .ok { color: var(--onsite); font-weight: 700; }
+
+  /* ---- the locus table ---- */
+  .tablewrap { overflow-x: auto; margin-top: 8px; border: 1px solid var(--rule); background: var(--panel); box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; min-width: 880px; }
+  caption { text-align: left; padding: 0 0 10px; color: var(--ink-2); font-size: .93rem; }
+  th {
+    font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700;
+    color: var(--ink-3); text-align: left; padding: 13px 12px 9px; vertical-align: bottom;
+    border-bottom: 1px solid var(--rule); white-space: nowrap;
+  }
+  th.grp {
+    text-align: center; padding-bottom: 4px; border-bottom: 2px solid var(--gc);
+    color: var(--gc); letter-spacing: .12em;
+  }
+  th.grp.exposure { --gc: var(--exposure); }
+  th.grp.onsite { --gc: var(--onsite); }
+  td { padding: 11px 12px; border-bottom: 1px solid var(--rule-2); vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: 0; }
+  /* the gutter that makes the compartment split structural */
+  .gut { border-left: 2px solid var(--rule); }
+  th.gut { border-left: 2px solid var(--rule); }
+
+  .gene { font-family: var(--mono); font-size: .875rem; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
+  .gene .loc { color: var(--ink-3); font-weight: 400; }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: .82rem; text-align: right; white-space: nowrap; }
+  .dim { color: var(--ink-3); }
+
+  /* value cell: number over a proportional rule */
+  .v { display: flex; flex-direction: column; gap: 3px; min-width: 62px; }
+  .v .n { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: .8rem; text-align: right; }
+  .bar { height: 3px; background: var(--rule-2); position: relative; }
+  .bar i { position: absolute; inset: 0 auto 0 0; display: block; }
+  .exposure .bar i, td.exposure-cell .bar i { background: var(--exposure); }
+  td.onsite-cell .bar i { background: var(--onsite); }
+  td.na { color: var(--unmeasured); font-family: var(--mono); font-size: .74rem; letter-spacing: .04em; }
+  .hatch {
+    height: 3px; border: 1px dashed var(--unmeasured); background: transparent; opacity: .75;
+  }
+
+  .pill {
+    display: inline-block; font-family: var(--mono); font-size: .72rem; padding: 2px 7px;
+    border: 1px solid var(--rule); color: var(--ink-2); white-space: nowrap;
+  }
+  .pill.hi { border-color: var(--onsite-soft); background: var(--onsite-wash); color: var(--onsite); }
+
+  .tier { font-family: var(--sans); font-size: .68rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
+  .tier.expressed { color: var(--exposure); }
+  .tier.low { color: var(--ink-2); }
+  .tier.below { color: var(--ink-3); }
+  .tier.nm { color: var(--unmeasured); }
+
+  .recurs { display: inline-flex; gap: 2px; align-items: center; }
+  .recurs span { width: 5px; height: 11px; background: var(--onsite-soft); display: block; }
+  .recurs span.off { background: var(--rule); }
+
+  .foot { font-size: .87rem; color: var(--ink-2); margin-top: 12px; }
+  .foot code, code { font-family: var(--mono); font-size: .84em; background: var(--rule-2); padding: 1px 5px; }
+
+  .callouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 22px; }
+  .callout { background: var(--panel); border: 1px solid var(--rule); padding: 20px 22px; box-shadow: var(--shadow); }
+  .callout h3 { font-family: var(--mono); font-size: .9rem; letter-spacing: -.01em; }
+  .callout p { font-size: .93rem; color: var(--ink-2); margin: 0; }
+  .callout .tag { font-size: .64rem; letter-spacing: .11em; text-transform: uppercase; font-weight: 700; color: var(--ink-3); display: block; margin-bottom: 8px; }
+
+  ul.plain { margin: 0 0 1rem; padding-left: 1.15rem; }
+  ul.plain li { margin-bottom: .5rem; max-width: 66ch; }
+
+  hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+
+  :focus-visible { outline: 2px solid var(--onsite); outline-offset: 2px; }
+  @media (prefers-reduced-motion: no-preference) { .bar i { transition: none; } }
+  @media (max-width: 720px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 18px 72px; }
+    header.head { padding: 48px 0 30px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="kicker">
+      <span class="label">Extraskeletal myxoid chondrosarcoma &middot; fusion-junction gapmers</span>
+      <span class="label mono">23 loci &middot; 2 seams</span>
+    </div>
+    <h1>Where the off&#8209;targets are expressed</h1>
+    <p class="dek">Both junction gapmers in the ASO panel carry an off-target load of near-matches. This asks the
+      question the five sequence screens cannot: is the transcript carrying each near-match actually
+      <em>present</em> in a tissue the drug reaches?</p>
+
+    <div class="limit narrow">
+      <p><strong>Every hit behind this page sits at 14/16 identity &mdash; two mismatches in a 16&#8209;mer, the loosest
+        class the screen admits.</strong> Whether such a duplex is an RNase&#8209;H1 substrate at all is an affinity
+        question, and no screen here and no expression value anywhere answers it.</p>
+      <p>So expression is a <strong>necessary</strong> condition for an off-target effect and never a sufficient one.
+        Every figure below is evidence about a <strong>gene</strong>, not about an oligonucleotide. There is no risk
+        column on this page, deliberately: the step from &ldquo;this gene is expressed in liver&rdquo; to
+        &ldquo;this reagent does something in liver&rdquo; needs an argument nothing here supplies.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><h2>Two compartments, held apart</h2></div>
+    <p class="narrow">A gene can be high in a dosed organ and absent on site, or the reverse. The two questions are
+      never summed, averaged, or reduced to one score anywhere in this work.</p>
+
+    <div class="compartments">
+      <div class="comp exposure">
+        <h3>Exposure &mdash; liver and kidney</h3>
+        <p>Systemically dosed phosphorothioate gapmers distribute predominantly to liver and kidney, so these organs
+          carry the exposure question. Read as GTEx v8 median TPM in Liver, Kidney&nbsp;Cortex and Kidney&nbsp;Medulla.</p>
+      </div>
+      <div class="comp onsite">
+        <h3>On site &mdash; the tumour compartment</h3>
+        <p>EMC arises in deep soft tissue of the extremities with a myxoid stroma. No reference atlas contains that
+          tumour, so normal soft tissue is a labelled <em>proxy</em> &mdash; and the real tumour reading sits beside it:
+          array percentile in archival EMC.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Did the instrument work?</h2>
+      <span class="label">known-answer controls</span>
+    </div>
+    <p class="narrow">A shifted column in a wide expression matrix produces an artifact whose numbers are internally
+      consistent and completely wrong. Three genes with textbook tissue restriction are carried through the same parse
+      as every locus below; if any lands in the wrong tissue, the run emits no exposure figure at all.</p>
+    <ul class="controls">
+      <li class="ctrl"><b>ALB</b> <span class="dim">&rarr;</span> Liver <span class="mono">25,201&nbsp;TPM</span> <span class="ok">PASS</span></li>
+      <li class="ctrl"><b>UMOD</b> <span class="dim">&rarr;</span> Kidney Medulla <span class="mono">2,116&nbsp;TPM</span> <span class="ok">PASS</span></li>
+      <li class="ctrl"><b>MYH7</b> <span class="dim">&rarr;</span> Heart Left Ventricle <span class="mono">4,514&nbsp;TPM</span> <span class="ok">PASS</span></li>
+    </ul>
+    <p class="foot">This gate has already earned its place: an earlier run fetched perfectly and still withheld every
+      figure, because a label mismatch (<code>Kidney Medulla</code> against <code>Kidney&nbsp;-&nbsp;Medulla</code>)
+      failed two of three controls. A false negative on a safety gate is the cheap direction of being wrong.</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Reagent A &mdash; the lead</h2>
+      <span class="label mono">5&#8242;-GGGCATATCATCAAAC-3&#8242;</span>
+    </div>
+    <p class="narrow"><em>EWSR1</em> exon&nbsp;12 / <em>TAF15</em> exon&nbsp;11 / <em>FUS</em> exon&nbsp;10 joined to
+      <em>NR4A3</em> exon&nbsp;3. Its 123 gap&#8209;paired hybridisable near-matches recount to
+      <strong>six gene loci</strong> &mdash; a figure returned independently by all three seam screens, under three
+      different BLAST request ids and three different parent-exclusion sets.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Locus</th>
+            <th rowspan="2" class="num">Records</th>
+            <th colspan="3" class="grp exposure">Exposure &mdash; median TPM</th>
+            <th colspan="2" class="grp onsite gut">On site</th>
+            <th rowspan="2">Reading</th>
+          </tr>
+          <tr>
+            <th class="num">Liver</th><th class="num">Kid. cortex</th><th class="num">Kid. medulla</th>
+            <th class="num gut">Soft tissue</th><th>EMC array</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="gene">ANKS1B</td>
+            <td class="num">67 <span class="dim">32c/35p</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.03</span><span class="bar"><i style="width:2%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.46</span><span class="bar"><i style="width:6%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.28</span><span class="bar"><i style="width:4%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">3.6</span><span class="bar"><i style="width:28%"></i></span></div></td>
+            <td><span class="pill">0.28 / 0.98</span></td>
+            <td><span class="tier below">Below detection</span></td>
+          </tr>
+          <tr>
+            <td class="gene">ZNF667</td>
+            <td class="num">37 <span class="dim">3c/34p</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.31</span><span class="bar"><i style="width:5%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">1.63</span><span class="bar"><i style="width:17%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">2.58</span><span class="bar"><i style="width:23%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">6.2</span><span class="bar"><i style="width:35%"></i></span></div></td>
+            <td><span class="pill">0.65 / &mdash;</span></td>
+            <td><span class="tier low">Low</span></td>
+          </tr>
+          <tr>
+            <td class="gene">GMCL1</td>
+            <td class="num">9 <span class="dim">1c/8p</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">4.52</span><span class="bar"><i style="width:31%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">4.98</span><span class="bar"><i style="width:32%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">6.72</span><span class="bar"><i style="width:36%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">18.3</span><span class="bar"><i style="width:53%"></i></span></div></td>
+            <td><span class="pill">0.75 / 0.34</span></td>
+            <td><span class="tier low">Low</span></td>
+          </tr>
+          <tr>
+            <td class="gene">LOC105374140 <span class="loc">ncRNA</span></td>
+            <td class="num">5 <span class="dim">0c/5p</span></td>
+            <td class="na" colspan="3">no gene model in GTEx v8 &middot; no HPA record &middot; no array probe</td>
+            <td class="gut na">&mdash;</td>
+            <td class="na">&mdash;</td>
+            <td><span class="tier nm">Not measurable</span></td>
+          </tr>
+          <tr>
+            <td class="gene">LOC105370997 <span class="loc">lncRNA</span></td>
+            <td class="num">4 <span class="dim">4c/0p</span></td>
+            <td class="na" colspan="3">no gene model in GTEx v8 &middot; no HPA record &middot; no array probe</td>
+            <td class="gut na">&mdash;</td>
+            <td class="na">&mdash;</td>
+            <td><span class="tier nm">Not measurable</span></td>
+          </tr>
+          <tr>
+            <td class="gene">CHST5</td>
+            <td class="num">1 <span class="dim">1c/0p</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.07</span><span class="bar"><i style="width:1%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.35</span><span class="bar"><i style="width:5%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.78</span><span class="bar"><i style="width:10%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">0.8</span><span class="bar"><i style="width:10%"></i></span></div></td>
+            <td><span class="pill">0.40 / &mdash;</span></td>
+            <td><span class="tier below">Below detection</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="foot"><b>Records</b> is the transcript count RefSeq lists, split curated/predicted &mdash; annotation
+      depth, not expression and not a ranking. <b>Soft tissue</b> is the highest of six normal proxy tissues.
+      <b>EMC array</b> is the median within-array percentile in GSE24369 (n&nbsp;=&nbsp;42) / GSE4303 (n&nbsp;=&nbsp;16);
+      &ldquo;&mdash;&rdquo; means no probe mapped, which is a read that could not be taken, not a gene that is off.
+      Rules under each figure run on a shared log scale &mdash; log<sub>10</sub>(TPM&nbsp;+&nbsp;1) against the panel
+      maximum of 268.6 &mdash; so exposure and on-site lengths are directly comparable; the number, not the rule, is
+      the measurement.</p>
+
+    <div class="callouts">
+      <div class="callout">
+        <span class="tag">the largest contributor</span>
+        <h3>ANKS1B</h3>
+        <p>67 of the reagent's 123 records &mdash; and <strong>below detection in all three exposure tissues</strong>
+          (0.03&ndash;0.46 TPM). Its whole-body maximum sits in brain: spinal cord 24.9, frontal cortex 22.9 TPM, and
+          HPA calls it tissue-enriched at 66.3 nTPM in brain. Systemically dosed gapmers are not described as reaching
+          that compartment.</p>
+      </div>
+      <div class="callout">
+        <span class="tag">the honest gap</span>
+        <h3>Two uncharacterised loci</h3>
+        <p>LOC105374140 and LOC105370997 carry 9 records between them and return <strong>nothing from three
+          independent instruments</strong> &mdash; no GENCODE gene model, zero HPA rows, no array probe on either
+          platform. Their exposure question is not answered here, and no absence of data is written up as absence of
+          expression.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Reagent B &mdash; the <em>TAF15</em> exon&nbsp;6 seam</h2>
+      <span class="label mono">5 designs &middot; 155 records &middot; 17 loci</span>
+    </div>
+    <p class="narrow">This is the only exon-resolved <em>TAF15::NR4A3</em> breakpoint published in EMC, and the lead
+      reagent shares a single donor base with it &mdash; so the lead cannot engage the <em>TAF15</em> junction patients
+      are reported to carry. No single design at this seam has been selected, so the panel covers the union across all
+      five tiling registers.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Locus</th>
+            <th rowspan="2" class="num">Records</th>
+            <th rowspan="2">Registers</th>
+            <th colspan="3" class="grp exposure">Exposure &mdash; median TPM</th>
+            <th colspan="2" class="grp onsite gut">On site</th>
+            <th rowspan="2">Reading</th>
+          </tr>
+          <tr>
+            <th class="num">Liver</th><th class="num">Kid. cortex</th><th class="num">Kid. medulla</th>
+            <th class="num gut">Soft tissue</th><th>EMC array</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="gene">G3BP2</td><td class="num">56 <span class="dim">48c/8p</span></td>
+            <td><span class="recurs"><span></span><span></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">2/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">11.9</span><span class="bar"><i style="width:46%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">17.0</span><span class="bar"><i style="width:51%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">23.1</span><span class="bar"><i style="width:57%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">77.0</span><span class="bar"><i style="width:78%"></i></span></div></td>
+            <td><span class="pill hi">0.93 / 0.23</span></td>
+            <td><span class="tier expressed">Expressed</span></td>
+          </tr>
+          <tr>
+            <td class="gene">LINC02030 <span class="loc">lncRNA</span></td><td class="num">22 <span class="dim">22c/0p</span></td>
+            <td><span class="recurs"><span></span><span></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">2/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.00</span><span class="bar"><i style="width:0%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.00</span><span class="bar"><i style="width:0%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.02</span><span class="bar"><i style="width:1%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">0.3</span><span class="bar"><i style="width:5%"></i></span></div></td>
+            <td><span class="pill">&mdash; / &mdash;</span></td>
+            <td><span class="tier below">Below detection</span></td>
+          </tr>
+          <tr>
+            <td class="gene">MIR9-2HG <span class="loc">lncRNA</span></td><td class="num">18 <span class="dim">18c/0p</span></td>
+            <td><span class="recurs"><span></span><span></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">2/5</span></td>
+            <td class="na" colspan="3">no gene model in GTEx v8 &middot; no array probe</td>
+            <td class="gut na">&mdash;</td><td class="na">&mdash;</td>
+            <td><span class="tier nm">Not measurable</span></td>
+          </tr>
+          <tr>
+            <td class="gene">LAMA4</td><td class="num">13 <span class="dim">3c/10p</span></td>
+            <td><span class="recurs"><span></span><span class="off"></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">1/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">1.28</span><span class="bar"><i style="width:15%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">3.13</span><span class="bar"><i style="width:26%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">6.06</span><span class="bar"><i style="width:35%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">268.6</span><span class="bar"><i style="width:100%"></i></span></div></td>
+            <td><span class="pill hi">0.95 / 0.78</span></td>
+            <td><span class="tier low">Low</span></td>
+          </tr>
+          <tr>
+            <td class="gene">ZFPM2</td><td class="num">12 <span class="dim">0c/12p</span></td>
+            <td><span class="recurs"><span></span><span></span><span></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">3/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.64</span><span class="bar"><i style="width:9%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.55</span><span class="bar"><i style="width:8%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.40</span><span class="bar"><i style="width:6%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">9.6</span><span class="bar"><i style="width:42%"></i></span></div></td>
+            <td><span class="pill hi">0.81 / 0.94</span></td>
+            <td><span class="tier below">Below detection</span></td>
+          </tr>
+          <tr>
+            <td class="gene">GNAL</td><td class="num">10 <span class="dim">10c/0p</span></td>
+            <td><span class="recurs"><span></span><span></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">2/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.66</span><span class="bar"><i style="width:9%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">1.74</span><span class="bar"><i style="width:18%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">1.81</span><span class="bar"><i style="width:19%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">8.6</span><span class="bar"><i style="width:40%"></i></span></div></td>
+            <td><span class="pill">0.35 / 0.50</span></td>
+            <td><span class="tier low">Low</span></td>
+          </tr>
+          <tr>
+            <td class="gene">NRP1</td><td class="num">5 <span class="dim">0c/5p</span></td>
+            <td><span class="recurs"><span></span><span></span><span></span><span></span><span></span></span> <span class="mono dim">5/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">6.62</span><span class="bar"><i style="width:36%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">16.9</span><span class="bar"><i style="width:51%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">17.8</span><span class="bar"><i style="width:52%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">104.7</span><span class="bar"><i style="width:83%"></i></span></div></td>
+            <td><span class="pill hi">0.96 / 0.69</span></td>
+            <td><span class="tier expressed">Expressed</span></td>
+          </tr>
+          <tr>
+            <td class="gene">SLC17A3</td><td class="num">4 <span class="dim">4c/0p</span></td>
+            <td><span class="recurs"><span></span><span></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">2/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">9.14</span><span class="bar"><i style="width:42%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">33.6</span><span class="bar"><i style="width:63%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">8.09</span><span class="bar"><i style="width:40%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">0.03</span><span class="bar"><i style="width:1%"></i></span></div></td>
+            <td><span class="pill">0.17 / 0.32</span></td>
+            <td><span class="tier expressed">Expressed</span></td>
+          </tr>
+          <tr>
+            <td class="gene">CA5B</td><td class="num">3 <span class="dim">3c/0p</span></td>
+            <td><span class="recurs"><span></span><span></span><span></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">3/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.66</span><span class="bar"><i style="width:9%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">1.57</span><span class="bar"><i style="width:17%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">1.96</span><span class="bar"><i style="width:20%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">11.7</span><span class="bar"><i style="width:45%"></i></span></div></td>
+            <td><span class="pill">0.80 / 0.52</span></td>
+            <td><span class="tier low">Low</span></td>
+          </tr>
+          <tr>
+            <td class="gene">CA5BP1-CA5B <span class="loc">readthrough</span></td><td class="num">3 <span class="dim">3c/0p</span></td>
+            <td><span class="recurs"><span></span><span></span><span></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">3/5</span></td>
+            <td class="na" colspan="3">no gene model in GTEx v8 &middot; no array probe</td>
+            <td class="gut na">&mdash;</td><td class="na">&mdash;</td>
+            <td><span class="tier nm">Not measurable</span></td>
+          </tr>
+          <tr>
+            <td class="gene">EEFSEC</td><td class="num">3 <span class="dim">2c/1p</span></td>
+            <td><span class="recurs"><span></span><span class="off"></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">1/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">16.2</span><span class="bar"><i style="width:50%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">14.4</span><span class="bar"><i style="width:49%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">15.6</span><span class="bar"><i style="width:50%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">39.1</span><span class="bar"><i style="width:66%"></i></span></div></td>
+            <td><span class="pill">0.71 / 0.56</span></td>
+            <td><span class="tier expressed">Expressed</span></td>
+          </tr>
+          <tr>
+            <td class="gene">ST3GAL1</td><td class="num">1 <span class="dim">0c/1p</span></td>
+            <td><span class="recurs"><span></span><span class="off"></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">1/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">28.6</span><span class="bar"><i style="width:61%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">16.4</span><span class="bar"><i style="width:51%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">8.06</span><span class="bar"><i style="width:40%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">27.2</span><span class="bar"><i style="width:60%"></i></span></div></td>
+            <td><span class="pill">0.63 / 0.81</span></td>
+            <td><span class="tier expressed">Expressed</span></td>
+          </tr>
+          <tr>
+            <td class="gene">GBP4</td><td class="num">1 <span class="dim">1c/0p</span></td>
+            <td><span class="recurs"><span></span><span class="off"></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">1/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">3.12</span><span class="bar"><i style="width:26%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">5.59</span><span class="bar"><i style="width:33%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">10.1</span><span class="bar"><i style="width:43%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">18.2</span><span class="bar"><i style="width:53%"></i></span></div></td>
+            <td><span class="pill">0.58 / &mdash;</span></td>
+            <td><span class="tier expressed">Expressed</span></td>
+          </tr>
+          <tr>
+            <td class="gene">ANKRD26P3 <span class="loc">pseudogene</span></td><td class="num">1 <span class="dim">1c/0p</span></td>
+            <td><span class="recurs"><span></span><span class="off"></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">1/5</span></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.00</span><span class="bar"><i style="width:0%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.00</span><span class="bar"><i style="width:0%"></i></span></div></td>
+            <td class="exposure-cell"><div class="v"><span class="n">0.00</span><span class="bar"><i style="width:0%"></i></span></div></td>
+            <td class="onsite-cell gut"><div class="v"><span class="n">0.02</span><span class="bar"><i style="width:0%"></i></span></div></td>
+            <td><span class="pill">&mdash; / &mdash;</span></td>
+            <td><span class="tier below">Below detection</span></td>
+          </tr>
+          <tr>
+            <td class="gene">NRXN3-AS1 <span class="loc">antisense</span></td><td class="num">1 <span class="dim">0c/1p</span></td>
+            <td><span class="recurs"><span></span><span class="off"></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">1/5</span></td>
+            <td class="na" colspan="3">no gene model in GTEx v8 &middot; no array probe</td>
+            <td class="gut na">&mdash;</td><td class="na">&mdash;</td>
+            <td><span class="tier nm">Not measurable</span></td>
+          </tr>
+          <tr>
+            <td class="gene">LOC105376349</td><td class="num">1 <span class="dim">0c/1p</span></td>
+            <td><span class="recurs"><span></span><span class="off"></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">1/5</span></td>
+            <td class="na" colspan="3">uncharacterised &middot; no gene model, no HPA record, no probe</td>
+            <td class="gut na">&mdash;</td><td class="na">&mdash;</td>
+            <td><span class="tier nm">Not measurable</span></td>
+          </tr>
+          <tr>
+            <td class="gene">LOC124907518</td><td class="num">1 <span class="dim">0c/1p</span></td>
+            <td><span class="recurs"><span></span><span class="off"></span><span class="off"></span><span class="off"></span><span class="off"></span></span> <span class="mono dim">1/5</span></td>
+            <td class="na" colspan="3">uncharacterised &middot; no gene model, no HPA record, no probe</td>
+            <td class="gut na">&mdash;</td><td class="na">&mdash;</td>
+            <td><span class="tier nm">Not measurable</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="foot"><b>Registers</b> counts how many of the five tiling designs at this seam return the locus. It is a
+      second axis and not the record count: a locus every register returns is there wherever the window is put, while
+      one register may be a property of that window. Neither may stand in for the other.</p>
+
+    <div class="callouts">
+      <div class="callout">
+        <span class="tag">both compartments</span>
+        <h3>NRP1</h3>
+        <p>The only locus returned by <strong>all five registers</strong>, on just five transcript records &mdash; and it
+          reads positive on both axes: 6.6&ndash;17.8&nbsp;TPM across liver and kidney, 104.7 in fibroblasts, and the
+          highest EMC array percentile in the panel at 0.96. Record count would have buried it at rank eleven of
+          seventeen.</p>
+      </div>
+      <div class="callout">
+        <span class="tag">exposure-concentrated</span>
+        <h3>SLC17A3</h3>
+        <p>Its whole-body top three tissues are, in order, <strong>Kidney Cortex, Liver and Kidney Medulla</strong> &mdash;
+          a urate transporter essentially restricted to the two organs a systemic phosphorothioate distributes to. On
+          site it is near the bottom of the array distribution (0.17). Four records, two registers.</p>
+      </div>
+      <div class="callout">
+        <span class="tag">on site only</span>
+        <h3>LAMA4</h3>
+        <p>Low across the exposure organs (1.3&ndash;6.1&nbsp;TPM) and the <strong>highest soft-tissue value in the whole
+          panel</strong> at 268.6 in fibroblasts, 132.8 in tibial nerve, with an EMC array percentile of 0.95. The exact
+          case the compartment split exists to keep visible.</p>
+      </div>
+      <div class="callout">
+        <span class="tag">clean on exposure</span>
+        <h3>ZFPM2</h3>
+        <p>Flagged as a priority for recurring across registers, and the exposure column does not support that framing:
+          0.4&ndash;0.6&nbsp;TPM in all three organs, with its whole-body maximum in cerebellum (39.2) and ovary (27.0).
+          Three of five registers, but not an exposure-organ transcript.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>What public data cannot settle</h2></div>
+    <p class="narrow">Seven of twenty-three loci carry no exposure reading at all &mdash; no GENCODE gene model, and for
+      six of them no Human Protein Atlas record and no probe on either EMC array platform.
+      <strong>Three instruments returning nothing is not a measurement of absence</strong>; it is the absence of a
+      measurement, and it is reported as such on every row. What identity lookup does add is the ability to say
+      <em>why</em> each one is missing rather than leaving seven blanks:</p>
+
+    <div class="tablewrap" style="margin-bottom:20px">
+      <table style="min-width:660px">
+        <thead><tr>
+          <th>Locus</th><th class="num">Records</th><th>Locus</th><th>What it is (NCBI Gene)</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="gene">MIR9-2HG</td><td class="num">18</td><td class="mono dim">5q14.3</td>
+            <td>MIR9-2 host gene. NCBI's own summary: alternatively spliced long non-coding RNAs
+              &ldquo;<em>may be expressed predominantly in the brain and visual cortex</em>&rdquo; &mdash; a
+              characterisation, not a measurement, and no atlas covers it.</td></tr>
+          <tr><td class="gene">NRXN3-AS1</td><td class="num">1</td><td class="mono dim">14q31.1</td>
+            <td>Antisense RNA to <em>NRXN3</em>, a neurexin. No NCBI summary, no HPA record.</td></tr>
+          <tr><td class="gene">CA5BP1-CA5B</td><td class="num">3</td><td class="mono dim">Xp22.2</td>
+            <td>Readthrough between the <em>CA5B</em> pseudogene 1 and <em>CA5B</em>. Its parent
+              <em>CA5B</em> <strong>is</strong> measured here and is low in the exposure organs
+              (0.66&ndash;1.96&nbsp;TPM), which bounds but does not settle the readthrough.</td></tr>
+          <tr><td class="gene">LOC105374140</td><td class="num">5</td><td class="mono dim">3q24</td>
+            <td class="dim">Uncharacterized. No NCBI summary, zero HPA rows, no probe.</td></tr>
+          <tr><td class="gene">LOC105370997</td><td class="num">4</td><td class="mono dim">15q26.2</td>
+            <td class="dim">Uncharacterized. No NCBI summary, zero HPA rows, no probe.</td></tr>
+          <tr><td class="gene">LOC105376349</td><td class="num">1</td><td class="mono dim">10p15.3</td>
+            <td class="dim">Uncharacterized. No NCBI summary, zero HPA rows, no probe.</td></tr>
+          <tr><td class="gene">LOC124907518</td><td class="num">1</td><td class="mono dim">&mdash;</td>
+            <td class="dim">Uncharacterized, no cytogenetic band recorded. No summary, zero HPA rows, no probe.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="narrow foot">So the genuinely unattributable set is <strong>four uncharacterised loci carrying eleven of
+      the panel's 278 records</strong>. The other three are non-coding or readthrough entries whose identity is known
+      and whose expression is still unmeasured. None of that is evidence they are absent from liver or kidney.</p>
+    <ul class="plain">
+      <li>The <em>affinity</em> question is untouched. Nothing here re-aligned a hit, computed duplex stability, or
+        distinguished these two-mismatch matches from one another. A gene being expressed is not a predicted cleavage
+        event.</li>
+      <li>The tumour compartment has no atlas. GTEx contains no EMC and no sarcoma of any kind, so the soft-tissue
+        column is normal tissue of the right anatomical region, and the only genuine tumour reading is an array
+        percentile in six and ten archival tumours.</li>
+      <li>Both array platforms are probe-limited. Where a probe does not map, the read could not be taken &mdash; on
+        GPL3290 that includes ZNF667, CHST5 and GBP4, none of which is thereby silent in EMC.</li>
+      <li>Nothing on this page is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness statement
+        about any sequence.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>How it was measured</h2></div>
+    <div class="callouts">
+      <div class="callout">
+        <span class="tag">arm A &middot; exposure</span>
+        <h3>GTEx v8</h3>
+        <p>Gene-level median TPM across 54 tissues. Liver and kidney read from the same matrix as every other tissue,
+          so the comparison sits inside one instrument.</p>
+      </div>
+      <div class="callout">
+        <span class="tag">arm B &middot; on site</span>
+        <h3>GSE24369 &middot; GSE4303</h3>
+        <p>The two readable EMC series, read through the existing panels pipeline so this cannot disagree with it
+          about what a probe mapping is. Reported as within-array percentile.</p>
+      </div>
+      <div class="callout">
+        <span class="tag">arm C &middot; identity</span>
+        <h3>NCBI Gene</h3>
+        <p>What each locus is, so an absence from the expression atlases can be attributed to an uncharacterised
+          NCBI-only locus rather than left as an unexplained gap.</p>
+      </div>
+      <div class="callout">
+        <span class="tag">arm D &middot; cross-check</span>
+        <h3>Human Protein Atlas</h3>
+        <p>Tissue-specificity calls and consensus nTPM. Not independent of GTEx &mdash; HPA's consensus incorporates it
+          &mdash; so agreement is a transport check, not replication.</p>
+      </div>
+    </div>
+    <div class="limit narrow" style="margin-top:26px">
+      <p style="margin-bottom:.6rem"><span class="label">Corroboration &mdash; two GTEx endpoints, same numbers</span></p>
+      <p>The exposure column was read twice by different routes: once from the GTEx portal API and once from the
+        published v8 release matrix, in separate runs. Across all <strong>57 gene &times; exposure-tissue pairs the two
+        agree to floating-point precision</strong> &mdash; worst relative difference 2&times;10<sup>&minus;14</sup>&nbsp;%.
+        That rules out a transport or parsing artifact in these figures. It says nothing about GTEx itself being right,
+        and it is not a second measurement: it is the same underlying release reached two ways.</p>
+    </div>
+
+    <p class="foot">Locus sets are derived from the committed deep screens rather than typed, at the screen's own
+      gap-paired class. Source: <code>research/modalities/aso_offtarget_tissue_expression.py</code> with
+      <code>--check</code> reproduction and a 25-assertion suite; artifact and raw retrievals in
+      <code>aso-offtarget-tissue-expression.json</code> and its <code>-inputs.json</code>.</p>
+  </section>
+
+</div>
