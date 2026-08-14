@@ -47,6 +47,7 @@ import glob
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -343,6 +344,9 @@ PROMISES = [
 # then never be idempotent. It is named here so a reader can see the omission is a decision.
 SELF_EXCLUDE = {os.path.relpath(OUT, REPO)}
 
+#: Distinguishes "work it out yourself" from `None`, which here means "git could not answer".
+_MISSING = object()
+
 
 def _sha256(path):
     h = hashlib.sha256()
@@ -352,13 +356,37 @@ def _sha256(path):
     return h.hexdigest()
 
 
-def _resolve(patterns):
-    """Globs -> sorted repo-relative paths, de-duplicated.
+def _tracked_files():
+    """Every path git is tracking, repo-relative, or None if git cannot answer.
+
+    ⛔ A DEPOSIT IS WHAT A CHECKOUT CONTAINS, NOT WHAT A WORKING TREE HAPPENS TO HOLD (2026-08-14).
+    Step 0 of `scripts/regenerate_aso_chain.sh` re-scores every screen it finds, which materialises
+    the 53 deeper re-screens' graded artifacts — files the Methods explicitly release UNGRADED and
+    which are therefore never committed. This module globbed the filesystem, so a chain run made it
+    hash them: measured that night, `n_files` went 352 -> 405 and 53 untracked files were listed
+    with SHA-256s in a deposit manifest, in a commit that was pushed. Nobody can reproduce that
+    deposit — the files are in no revision — and the manifest's own step 1 tells a depositor to
+    "check out the revision named in `git_revision` and confirm `git status` is clean", which would
+    leave 53 of its rows unresolvable.
+
+    ⚠ FAIL-OPEN, AND IT SAYS SO. Without git there is no way to tell tracked from untracked, so the
+    inventory falls back to every file it can see and `inventory_limited_to_tracked_files` goes
+    false rather than the manifest quietly claiming a property it did not check.
+    """
+    out = _git("ls-files", "-z")
+    if out is None:
+        return None
+    return frozenset(p for p in out.split("\0") if p)
+
+
+def _resolve(patterns, tracked=_MISSING):
+    """Globs -> sorted repo-relative paths, de-duplicated, TRACKED ONLY where git can say.
 
     ⚠ `-graded.json` is stripped from every row except the graded row. The screen glob
     `junction-aso-offtarget-*n3.json` matches the re-scores too, and a re-score counted as a screen
     would inflate the screen coverage check below into saying every junction has both arms.
     """
+    tracked = _tracked_files() if tracked is _MISSING else tracked
     graded_row = any("-graded" in p for p in patterns)
     out = set()
     for pat in patterns:
@@ -369,6 +397,8 @@ def _resolve(patterns):
             if rel in SELF_EXCLUDE:
                 continue
             if not graded_row and rel.endswith("-graded.json"):
+                continue
+            if tracked is not None and rel not in tracked:
                 continue
             out.add(rel)
     return sorted(out)
@@ -447,6 +477,42 @@ def _promise_text_found_in_paper(text, phrase):
     return probe in flat
 
 
+#: ⛔ THE SHAPE OF A JUNCTION LABEL, WHICH IS THE VOCABULARY THE `junctions_*` FIELDS SPEAK.
+#: `<PARTNER>_e<exon>__NR4A3_e<exon>` — two spliced-transcript coordinates joined by a double
+#: underscore, as `junction_label` states it in every screen, panel and design artifact. A filename
+#: tag (`taf15e11n3-18mer-deep500-b2`) cannot match it, which is the entire point: the two
+#: vocabularies were interchangeable for as long as every seam was screened exactly once, and a
+#: deposit field silently changed languages the moment that stopped being true.
+JUNCTION_LABEL_RE = re.compile(r"^[A-Z][A-Z0-9]*_e\d+__NR4A3_e\d+$")
+JUNCTION_LABEL_EXAMPLE = "EWSR1_e12__NR4A3_e3"
+
+
+def _labels_only(field, values, res):
+    """Sorted junction labels, or a LOUD refusal if anything else tried to enter a junction field.
+
+    ⛔ ASSERTED, NOT CONVENTIONAL, AND THAT IS THE FIX RATHER THAN THE NEW READER ABOVE IT. Swapping
+    tags for labels repairs today's values; it does nothing about tomorrow, because the next author
+    to add a source here sees a set of strings going into a set of strings and has no way to know
+    the field has a vocabulary. This makes the vocabulary a checked property of the artifact.
+
+    ⚠ IT RECORDS AND EXITS NON-ZERO RATHER THAN RAISING, matching this module's rule that a check it
+    could not complete is reported in the deposit instead of vanishing into a traceback — a manifest
+    that silently omits a field reads as "no gaps".
+    """
+    bad = sorted(v for v in values if not JUNCTION_LABEL_RE.match(str(v)))
+    if bad:
+        res["ok"] = False
+        res.setdefault("⛔_wrong_vocabulary", {})[field] = {
+            "n_rejected": len(bad),
+            "rejected": bad[:10],
+            "_why": (f"`{field}` holds junction labels like `{JUNCTION_LABEL_EXAMPLE}`. These are "
+                     f"not labels — almost certainly filename tags, which is the defect this guard "
+                     f"was added for on 2026-08-14. Read the `junction_label` each artifact states "
+                     f"rather than slicing its basename."),
+        }
+    return sorted(v for v in values if JUNCTION_LABEL_RE.match(str(v)))
+
+
 def _screen_coverage():
     """Which junctions carry BOTH screens, and which gap-resolved screens lack a graded re-score.
 
@@ -482,6 +548,13 @@ def _screen_coverage():
     screens, gap_resolved, ungraded, unfiltered = [], [], [], []
     by_geom = dict(ass.iter_geometries(ass.BLAST_SCREEN, root=os.path.abspath(MOD)))
     every = sorted((s for ss in by_geom.values() for s in ss), key=lambda s: s.name)
+    # ⛔ "HAS A COMMITTED GRADED RE-SCORE" IS A QUESTION ABOUT THE REPOSITORY, NOT ABOUT THE DISK
+    # (2026-08-14). The field is named `..._with_no_committed_graded_rescore` and was answered with
+    # `os.path.exists`, so a chain run — which re-scores every screen it finds — made all 53 gaps
+    # disappear the instant the files appeared in the working tree, while the deposit still shipped
+    # none of them. That is the fail-quiet direction: the manifest would report a clean bill at
+    # precisely the moment its inventory and its gap list disagreed most.
+    tracked = _tracked_files()
     for s in every:
         base, screen = s.name, s.artifact
         screens.append(base)
@@ -490,32 +563,64 @@ def _screen_coverage():
         ok, _why = screen_is_gap_resolved(screen)
         if ok:
             gap_resolved.append(base)
-            if not os.path.exists(s.path[:-5] + "-graded.json"):
+            graded = os.path.relpath(s.path[:-5] + "-graded.json", REPO)
+            if not (os.path.exists(os.path.join(REPO, graded))
+                    and (tracked is None or graded in tracked)):
                 ungraded.append(base)
 
-    # ⚠⚠ THESE THREE SETS ARE FILENAME TAGS, NOT JUNCTIONS, AND THE FIELDS BELOW CALL THEM
-    # JUNCTIONS. `_tags` strips a prefix and `.json` off a basename, so a re-dispatch committed as
-    # `...-taf15e1n3-20mer-deep500-b2.json` enters as the "junction" `taf15e1n3-20mer-deep500-b2`.
-    # That was harmless while every screen was one seam under one name; it is not now, and
-    # `junctions_screened_by_blast_arm_only` went from `[]` to three such tags when the gap-length
-    # screens landed. The honest population is the junction LABEL each artifact states, compared at
-    # one geometry. ⛔ NOT CHANGED HERE: that moves a published deposit field, which is a data
-    # decision rather than a refactor, and this pass is byte-identical on purpose. Reported instead.
-    def _tags(pattern, prefix):
+    # ⛔⛔ THE THREE `junctions_*` FIELDS BELOW HOLD JUNCTION LABELS, AND UNTIL 2026-08-14 THEY HELD
+    # FILENAME TAGS. The old reader stripped a prefix and `.json` off a basename, so a re-dispatch
+    # committed as `...-taf15e1n3-20mer-deep500-b2.json` entered a field named "junctions" as the
+    # "junction" `taf15e1n3-20mer-deep500-b2`. That was invisible while every seam was screened once
+    # under one name: 38 junctions, 38 tags, and the two vocabularies agreed by coincidence. The
+    # gap-length work broke the coincidence — 93 tags against 38 labels — and
+    # `junctions_screened_by_blast_arm_only` went from `[]` to three tags, and
+    # `junctions_screened_by_exhaustive_arm_only` to one. Both read as coverage GAPS in a deposit
+    # manifest. There are none: every one of the 38 junctions carries all three arms.
+    #
+    # ⭐ THE LABEL IS WHAT THE ARTIFACT STATES ABOUT ITSELF; THE TAG IS WHAT SOMEONE NAMED THE FILE.
+    # Only the first can answer "which junctions have one arm of evidence and not the other", which
+    # is the question these fields exist for. A tag-space answer is a fact about naming conventions
+    # that changes whenever a re-dispatch picks a new suffix, and nobody has ever wanted it.
+    #
+    # ⚠ POOLED ACROSS GEOMETRIES ON PURPOSE, matching the deposit inventory above it: a seam
+    # screened at 16-mer and evaluated at 18-mer has both arms, and reporting it as a gap because
+    # the two readings came from different reagent lengths would invent one.
+    #
+    # ⛔ AND THE VOCABULARY IS ASSERTED RATHER THAN TRUSTED — see `_labels_only`. The old code was
+    # not wrong about any single name; it was wrong about which *kind* of name belonged in the
+    # field, and nothing could tell, because a set of strings looks like a set of strings.
+    def _design_panel_labels():
+        """Design panels state their seam under `_breakpoint_model`, not at the top level.
+
+        ⚠ THIS FAMILY IS NOT IN `aso_screen_sets` and is globbed here, which is allowed and is not
+        the defect that loader exists for: `junction-aso-designs-*.json` is ONE geometry-agnostic
+        family with no gap span applied to it, so there is no window to count over wrongly. What is
+        read from it is a label, and the label is what it states.
+        """
         out = set()
-        for p in glob.glob(os.path.join(MOD, pattern)):
-            b = os.path.basename(p)
-            if b.endswith("-graded.json"):
+        for p in sorted(glob.glob(os.path.join(MOD, "junction-aso-designs-*.json"))):
+            try:
+                with open(p, encoding="utf-8") as fh:
+                    lab = (json.load(fh).get("_breakpoint_model") or {}).get("junction_label")
+            except (OSError, ValueError):
                 continue
-            out.add(b[len(prefix):-len(".json")])
+            if lab:
+                out.add(lab)
         return out
 
-    blast = {s.name[len("junction-aso-offtarget-"):-len(".json")] for s in every}
-    exhaustive = {s.name[len("aso-insilico-evaluation-"):-len(".json")]
-                  for _g, ss in ass.iter_geometries(ass.DESIGN_EVALUATION,
-                                                    root=os.path.abspath(MOD)) for s in ss
-                  if s.name.startswith("aso-insilico-evaluation-")}
-    designs = _tags("junction-aso-designs-*.json", "junction-aso-designs-")
+    # ⚠ AN UNLABELLED SCREEN DROPS OUT BY CONSTRUCTION, WHICH RETIRED A HARD-CODED EXCLUSION. This
+    # line used to end `- {"bp200-8-gapres"}`: the modelled-seam control screens are not built from
+    # a spliced transcript and state no `junction_label`, so in tag space they had to be named and
+    # subtracted by hand, and the OTHER one (`bp200-8`) was never subtracted at all. In label space
+    # neither is a junction and neither needs mentioning — which is the tell that the vocabulary,
+    # not the exclusion list, was the thing that was wrong.
+    blast_labels = {s.junction_label for s in every if s.junction_label}
+    exhaustive_labels = {s.junction_label
+                         for _g, ss in ass.iter_geometries(ass.DESIGN_EVALUATION,
+                                                           root=os.path.abspath(MOD))
+                         for s in ss if s.junction_label}
+    design_labels = _design_panel_labels()
 
     res.update({
         "n_screens_committed": len(screens),
@@ -524,9 +629,18 @@ def _screen_coverage():
         "n_screens_not_orientation_filtered_counts_are_upper_bounds": len(unfiltered),
         "screens_not_orientation_filtered": sorted(unfiltered),
         "gap_resolved_screens_with_no_committed_graded_rescore": sorted(ungraded),
-        "junctions_with_a_design_panel_but_no_screen": sorted(designs - blast),
-        "junctions_screened_by_blast_arm_only": sorted(blast - exhaustive - {"bp200-8-gapres"}),
-        "junctions_screened_by_exhaustive_arm_only": sorted(exhaustive - blast),
+        "_junction_fields_vocabulary": (
+            "The three `junctions_*` fields below are JUNCTION LABELS as each artifact states them "
+            f"(`{JUNCTION_LABEL_EXAMPLE}`), never filename tags. `n_junctions_known` is the size of "
+            "that vocabulary; a value in any of those fields that is not one of them fails the "
+            "build rather than being deposited."),
+        "n_junctions_known": len(blast_labels | exhaustive_labels | design_labels),
+        "junctions_with_a_design_panel_but_no_screen": _labels_only(
+            "junctions_with_a_design_panel_but_no_screen", design_labels - blast_labels, res),
+        "junctions_screened_by_blast_arm_only": _labels_only(
+            "junctions_screened_by_blast_arm_only", blast_labels - exhaustive_labels, res),
+        "junctions_screened_by_exhaustive_arm_only": _labels_only(
+            "junctions_screened_by_exhaustive_arm_only", exhaustive_labels - blast_labels, res),
     })
     return res
 
@@ -648,6 +762,11 @@ def build():
         # the hashes have to be true. The field below is what makes that distinction checkable —
         # a reader comparing it against the file list can tell "the archive moved" from "the
         # repository moved around a stationary archive".
+        # ⛔ THE INVENTORY IS TRACKED FILES ONLY — see `_tracked_files`. `false` means git could not
+        # answer and the inventory therefore includes whatever was in the working tree, which is a
+        # deposit nobody can reproduce from a revision. It is stated rather than assumed because
+        # this manifest once shipped 53 untracked files with SHA-256s beside them.
+        "inventory_limited_to_tracked_files": _tracked_files() is not None,
         "archive_content_digest": content_digest,
         "n_files": len(files),
         "total_bytes": total,

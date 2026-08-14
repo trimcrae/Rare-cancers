@@ -8,6 +8,82 @@
     "NOT a cleanliness criterion. Nothing here licenses calling any design clean, and no threshold on the observed/expected ratio is proposed, because the null cannot support one.",
     "NOT a substitute for calibration against oligonucleotides with MEASURED off-target behaviour, which is what would actually convert these counts into a decision and which this repository has not done."
   ],
+  "\u26d4_one_geometry": "Every count in this file is the 16-mer panel the manuscript reports. Panels at other geometries are evaluated under the same filename glob and are listed in `other_geometries` rather than pooled: the expectation below is computed at 16 nt, so a count taken across geometries describes none of them.",
+  "manuscript_oligo_len": 16,
+  "other_geometries": [
+    {
+      "panel": "aso-insilico-evaluation-e12n3-18mer-deep500.json",
+      "oligo_lens": [
+        18
+      ]
+    },
+    {
+      "panel": "aso-insilico-evaluation-fuse10n3-18mer-deep500.json",
+      "oligo_lens": [
+        18
+      ]
+    },
+    {
+      "panel": "aso-insilico-evaluation-fuse8n3-18mer-deep500.json",
+      "oligo_lens": [
+        18
+      ]
+    },
+    {
+      "panel": "aso-insilico-evaluation-taf15e11n3-18mer-deep500.json",
+      "oligo_lens": [
+        18
+      ]
+    },
+    {
+      "panel": "aso-insilico-evaluation-taf15e1n3-18mer-deep500.json",
+      "oligo_lens": [
+        18
+      ]
+    },
+    {
+      "panel": "aso-insilico-evaluation-tcf12e7n3-18mer-deep500.json",
+      "oligo_lens": [
+        18
+      ]
+    },
+    {
+      "panel": "aso-insilico-evaluation-e12n3-20mer-deep500.json",
+      "oligo_lens": [
+        20
+      ]
+    },
+    {
+      "panel": "aso-insilico-evaluation-fuse10n3-20mer-deep500.json",
+      "oligo_lens": [
+        20
+      ]
+    },
+    {
+      "panel": "aso-insilico-evaluation-fuse8n3-20mer-deep500.json",
+      "oligo_lens": [
+        20
+      ]
+    },
+    {
+      "panel": "aso-insilico-evaluation-taf15e11n3-20mer-deep500.json",
+      "oligo_lens": [
+        20
+      ]
+    },
+    {
+      "panel": "aso-insilico-evaluation-taf15e1n3-20mer-deep500.json",
+      "oligo_lens": [
+        20
+      ]
+    },
+    {
+      "panel": "aso-insilico-evaluation-tcf12e7n3-20mer-deep500.json",
+      "oligo_lens": [
+        20
+      ]
+    }
+  ],
   "null_model": {
     "oligo_len": 16,
     "assumption": "independent, uniformly distributed bases",

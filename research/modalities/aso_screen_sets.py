@@ -136,14 +136,15 @@ class Family:
     them ends up missing a third file nobody anticipated.
     """
 
-    __slots__ = ("name", "pattern", "exclude", "_designs", "_stated", "_what")
+    __slots__ = ("name", "pattern", "exclude", "_designs", "_stated", "_depth", "_what")
 
-    def __init__(self, name, pattern, exclude, designs, stated, what):
+    def __init__(self, name, pattern, exclude, designs, stated, depth, what):
         self.name = name
         self.pattern = pattern
         self.exclude = tuple(exclude)
         self._designs = designs
         self._stated = stated
+        self._depth = depth
         self._what = what
 
     def matches(self, basename: str) -> bool:
@@ -164,6 +165,19 @@ class Family:
         """
         return {k: v for k, v in self._stated(artifact).items() if v is not None}
 
+    def depth_evidence(self, artifact) -> dict | None:
+        """The EVIDENCE of how deep the search behind this artifact ran, or None if it has no depth.
+
+        ⛔ EVIDENCE, NEVER A VERDICT. What is read here is the recorded BLAST ceiling and the number
+        of hits actually retained — the two things a search leaves behind. The comparison against
+        the default lives once, in `is_deep`, so a family cannot disagree with another family about
+        what "deep" means, and a stored boolean cannot outlive the default it was judged against.
+
+        `None` means this family HAS no depth axis, which is not the same as "ran at the default"
+        and is why the return is tri-state rather than a dict that might be empty.
+        """
+        return self._depth(artifact)
+
     def __repr__(self):
         return f"Family({self.name})"
 
@@ -180,6 +194,14 @@ def _blast_stated(art):
             "wing": params.get("wing")}
 
 
+def _blast_depth(art):
+    """A screen states its own ceiling where it has a `parameters` block, and always its retention."""
+    params = (art.get("method") or {}).get("parameters") or {}
+    return {"blast_hitlist_size": params.get("blast_hitlist_size"),
+            "max_hits_stored_per_design": max(
+                (len(o.get("offtargets") or []) for o in (art.get("oligos") or [])), default=0)}
+
+
 def _graded_designs(art):
     per = art.get("per_oligo") or {}
     return [seq for rows in per.values() if isinstance(rows, dict) for seq in rows]
@@ -188,6 +210,35 @@ def _graded_designs(art):
 def _graded_stated(art):
     return {"gap_region_1based": art.get("gap_region_1based"),
             "oligo_len": art.get("oligo_len")}
+
+
+def _graded_depth(art):
+    """A re-score INHERITS its depth from the screen it re-scored, which recorded it for that reason.
+
+    ⛔ THE RE-SCORE HOLDS NO HITS OF ITS OWN, so nothing in this artifact's own shape can answer the
+    question — `grade_panel` writes the source screen's evidence in, exactly as it writes the source
+    screen's measured geometry in. A graded artifact produced before that (2026-08-14) carries
+    nothing here, and `is_deep` REFUSES rather than defaulting: see the note on that function.
+
+    ⚠ `{}` RATHER THAN `None` WHEN THE FIELD IS ABSENT, AND THE DIFFERENCE IS THE ERROR A READER
+    GETS. `None` is this family HAS no depth axis, which is untrue of a re-score and would send the
+    reader looking for a predicate that does not exist; `{}` is "this artifact did not record the
+    depth it inherited", whose remedy is to re-run step 0 of the chain, and that is what it says.
+    """
+    return art.get("source_screen_depth") or {}
+
+
+def _eval_depth(_art):
+    """⛔ NOT APPLICABLE — and that is a THIRD state, not "ran at the default".
+
+    A design-evaluation panel is an exhaustive <=1-mismatch local scan over every transcript. It has
+    no hit ceiling to raise, so "deep" is not a property it can have. Measured 2026-08-14:
+    `aso-insilico-evaluation-e1n3-clean9-deep500.json` and `aso-insilico-evaluation-e1n3.json` are
+    byte-identical in content — the `-deep500` in that name describes the BLAST campaign the panel
+    was emitted alongside, not this file. Answering `False` here would report the filename's claim as
+    a measurement of this artifact, which is the shape of defect this module exists to refuse.
+    """
+    return None
 
 
 def _eval_designs(art):
@@ -222,15 +273,15 @@ def _eval_stated(art):
 #: invisible to every consumer, which is the fail-quiet direction this rule could otherwise take.
 BLAST_SCREEN = Family(
     "blast_screen", "junction-aso-offtarget-*.json",
-    ("*-graded.json", "*locus-collapse*"), _blast_designs, _blast_stated,
+    ("*-graded.json", "*locus-collapse*"), _blast_designs, _blast_stated, _blast_depth,
     "transcriptome-wide near-match screens (the gap-resolved BLAST arm)")
 GRADED_RESCORE = Family(
     "graded_rescore", "junction-aso-offtarget-*-graded.json", (),
-    _graded_designs, _graded_stated,
+    _graded_designs, _graded_stated, _graded_depth,
     "graded re-scores of a committed screen under the two literature fold-discrimination models")
 DESIGN_EVALUATION = Family(
     "design_evaluation", "aso-insilico-evaluation*.json", (),
-    _eval_designs, _eval_stated,
+    _eval_designs, _eval_stated, _eval_depth,
     "per-seam design panels with the exhaustive <=1-mismatch local scan")
 
 FAMILIES = (BLAST_SCREEN, GRADED_RESCORE, DESIGN_EVALUATION)
@@ -555,6 +606,10 @@ def load_screens(geometry: Geometry, family: Family = _MISSING, *, root: str | N
 # ═════════════════════════════════════════════════════════════════════════════════════════════
 # Selectors — content predicates, offered here so five consumers do not write five copies
 # ═════════════════════════════════════════════════════════════════════════════════════════════
+class DepthError(ValueError):
+    """A screen whose search depth cannot be read, or which has no depth axis at all."""
+
+
 def is_deep(screen: Screen) -> bool:
     """A screen run at a deeper alignment ceiling than the default, judged on CONTENT.
 
@@ -562,17 +617,44 @@ def is_deep(screen: Screen) -> bool:
     `-clean9-deep500`, `-deep500-b2`) and the next campaign will choose a fourth. The evidence a
     pre-2026-08-13 screen carries is that retention EXCEEDED the default 15 on some design, which a
     default run cannot produce; a screen with a `parameters` block says so outright.
+
+    ⛔⛔ IT REFUSES RATHER THAN ANSWERING `False` WHEN IT CANNOT READ, AND THAT IS THE WHOLE POINT OF
+    THIS FUNCTION'S SECOND VERSION (2026-08-14). The first read `artifact["method"]["parameters"]`
+    and `artifact["oligos"]` directly — the shape of a BLAST SCREEN — and every consumer to date
+    happened to hold one. A GRADED RE-SCORE has neither key, so it fell to
+    `max(..., default=0) > 15` and came back **False for every graded artifact ever written**.
+    Measured that day: 77 sixteen-mer graded artifacts all reported default-depth, while the 78
+    sixteen-mer screens they were derived from were 38 deep. That is an ABSENT READING RENDERED AS A
+    READING OF ABSENCE (CLAUDE.md §4) inside a selector whose entire job is to discriminate depth.
+
+    ⛔ AND IT MADE THE OBVIOUS FIX A NO-OP. `submission_tables._graded_loads` pools two depths into
+    one Table 3 cell; the natural repair is `select=is_default_depth`, which under the old function
+    would have kept every artifact, changed nothing, and looked correct in the diff — a gate that
+    reports while measuring nothing, which is the defect this repository keeps paying for. So depth
+    is read through `Family.depth_evidence`, each family says how its own artifacts record it, and a
+    family that cannot answer raises here instead of quietly voting "default".
     """
-    art = screen.artifact
-    params = (art.get("method") or {}).get("parameters") or {}
-    ceiling = params.get("blast_hitlist_size")
+    ev = screen.family.depth_evidence(screen.artifact)
+    if ev is None:
+        raise DepthError(
+            f"{screen.name}: a {screen.family.name} artifact has no search-depth axis, so it is "
+            f"neither deep nor default-depth. Asking is a category error — the caller is holding "
+            f"the wrong family, or wants a different predicate.")
+    ceiling = ev.get("blast_hitlist_size")
     if ceiling is not None:
         return int(ceiling) > _default_hitlist_size()
-    stored = max((len(o.get("offtargets") or []) for o in (art.get("oligos") or [])), default=0)
-    return stored > _default_saved_hits()
+    stored = ev.get("max_hits_stored_per_design")
+    if stored is None:
+        raise DepthError(
+            f"{screen.name}: records neither a BLAST ceiling nor a retained-hit count, so its "
+            f"search depth is UNKNOWN, not default. Re-run step 0 of "
+            f"`scripts/regenerate_aso_chain.sh` ($0, offline) to rewrite it with the depth of the "
+            f"screen it came from.")
+    return int(stored) > _default_saved_hits()
 
 
 def is_default_depth(screen: Screen) -> bool:
+    """The complement of `is_deep`, and it inherits the refusal above rather than swallowing it."""
     return not is_deep(screen)
 
 
@@ -618,7 +700,13 @@ def main(argv=None):
         if not by:
             print("    (none)")
         for geom, screens in sorted(by.items()):
-            deep = sum(1 for s in screens if is_deep(s))
+            # ⚠ `deep=—` IS NOT `deep=0`. A family with no depth axis, or an artifact that has not
+            # recorded the depth it inherited, must not print a zero a reader would take for a
+            # measurement — that is the exact confusion `is_deep`'s refusal exists to surface.
+            try:
+                deep = str(sum(1 for s in screens if is_deep(s)))
+            except DepthError:
+                deep = "—"
             print(f"    {geom!r:<34} n={len(screens):<4} deep={deep:<4} "
                   f"gap_region_1based={list(geom.gap_region_1based)}")
     return 0

@@ -850,6 +850,17 @@ def grade_panel(screen):
         "oligo_len": geom.oligo_len if geom else None,
         "gap_region_1based": list(geom.gap_region_1based) if geom else None,
         "max_mismatches_per_near_match": MAX_MISMATCHES_PER_NEAR_MATCH,
+        # ⛔ THE SEARCH DEPTH IS THE SCREEN'S TOO, AND IT HAS TO BE CARRIED OR IT IS UNRECOVERABLE
+        # (2026-08-14). A re-score holds no hits of its own — only per-design loads — so nothing in
+        # this artifact's shape can say whether the search behind it stopped at the default ceiling
+        # or ten times deeper. `aso_screen_sets.is_deep` therefore answered False for every graded
+        # artifact ever written, and `submission_tables._graded_loads` pooled a default and a deep
+        # re-score of the same seam into one Table 3 cell: `31.4 / 101 / 0 / 0` for
+        # `GGGCATATCTCTATAA`, in a table whose legend says it reports the default-depth result.
+        # ⚠ EVIDENCE, NOT A VERDICT. What is stored is the ceiling the screen recorded and the hits
+        # it actually retained; the comparison against the default stays in `is_deep`, so a graded
+        # artifact cannot carry a stale "deep" judged against a threshold that has since moved.
+        "source_screen_depth": ass.BLAST_SCREEN.depth_evidence(screen),
         "models": per_model,
         "per_oligo": graded,
         "source_screen": screen.get("junction_label"),

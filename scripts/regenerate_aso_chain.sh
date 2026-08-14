@@ -88,6 +88,15 @@ run_step "figure 1 junction space"   "python3 $FIG/aso_junction_space_figure.py"
 run_step "figure 2 multipartner seam" "python3 $FIG/aso_multipartner_seam_figure.py" ""
 run_step "figure 3 chance baseline"  "python3 $FIG/aso_chance_baseline_figure.py"    ""
 run_step "figure submission formats" "python3 $FIG/svg_to_submission_formats.py"     ""
+# ⛔ RECORD THE FIGURES' PROVENANCE IMMEDIATELY AFTER DRAWING THEM, AND BEFORE ANYTHING HASHES THEM.
+# Omitted until 2026-08-14, which made this script report `ASO CHAIN OK` while leaving a gate red:
+# `aso_figure_provenance.py` pins the hash of every artifact the figures were drawn from, so any
+# chain run that moved one of those artifacts — that day, `offtarget-chance-baseline.json` gaining
+# its published geometry exclusions — left the record naming the OLD hash, and
+# `research/manuscripts/tests/test_aso_figure_provenance.py` failed in preflight straight after a
+# green chain. A regeneration script that leaves a checker stale is worse than no script: it is the
+# one place a maintainer trusts not to have to remember the order.
+run_step "figure provenance"   "python3 $FIG/aso_figure_provenance.py" "python3 $FIG/aso_figure_provenance.py --check"
 run_step "submission tables"   "python3 $MAN/submission_tables.py"                   ""
 run_step "submission references" "python3 $MAN/submission_citations.py --write"      ""
 run_step "submission metrics"  "python3 $MAN/submission_metrics.py"                  ""

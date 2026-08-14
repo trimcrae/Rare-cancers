@@ -2603,6 +2603,42 @@ geometry and not for depth. The 53 artifacts were **removed rather than committe
 re-derived at 352 files, so this branch carries the expression work only; the fix changes a
 submission table's semantics and is trimcrae's to sequence.
 
+✅ **CLOSED 2026-08-14, AND THE RULING ON THE 53 IS: DO NOT COMMIT THEM.** The Methods already say
+so — *"all 38 junction screens, and 39 of the 93 screens released in total … and the 53 deeper
+re-screens, which are released ungraded"* — and
+`test_the_released_screen_and_graded_counts_are_the_ones_on_disk` asserts that inventory against the
+tree. Committing them would take `39` to `92` and falsify a sentence in the paper, so the question
+was settled by the manuscript rather than by preference. **What was actually wrong is that two
+consumers changed their output depending on whether those files happened to be on disk**, and both
+are now invariant to it:
+- **Table 3** selects default depth through the loader (`select=ass.is_default_depth`), the same way
+  it already selected one geometry. Verified both ways: with all 92 graded artifacts present the
+  regenerated tables file is **byte-identical** to the committed one.
+- **The archive manifest** deposits **tracked files only**. It had been globbing the filesystem, so a
+  chain run made it hash the 53: measured on this branch at `301873b1d`, `n_files` went **352 → 405**
+  and 53 untracked files were listed with SHA-256s **in a pushed commit** before being reverted by
+  hand at `963488e90`. A deposit whose rows are in no revision cannot be checked out, which is step 1
+  of its own instructions. `gap_resolved_screens_with_no_committed_graded_rescore` now asks git
+  rather than `os.path.exists`, so it keeps naming all 53 instead of emptying the moment they appear.
+
+⛔ **THE TRAP IN THIS FIX, RECORDED BECAUSE IT WOULD HAVE LOOKED LIKE A FIX.** `aso_screen_sets.is_deep`
+read `artifact["method"]["parameters"]` and `artifact["oligos"]` — the shape of a **BLAST screen**. A
+graded re-score has neither key, so it fell through to `max(…, default=0) > 15` and returned **False
+for every graded artifact ever written**: 77 sixteen-mer graded artifacts all reading default-depth,
+derived from 78 sixteen-mer screens of which 38 are deep. Passing `select=is_default_depth` on top of
+that would have kept all 92, moved nothing, and read as correct in the diff. So depth is now measured
+per family (`Family.depth_evidence`), `grade_panel` carries the source screen's depth **evidence**
+into each re-score the way it already carried its geometry, and `is_deep` **raises** where it cannot
+read instead of voting "default" — including for design-evaluation panels, which are exhaustive scans
+with no depth axis at all and for which the answer is neither true nor false.
+
+⚠ **Two smaller things found in the same pass.** The manifest's three `junctions_*` fields held
+**filename tags**, not junction labels (`taf15e11n3-18mer-deep500-b2` as a "junction"); they now hold
+the `junction_label` each artifact states, all three read `[]`, and the vocabulary is asserted rather
+than conventional. And `scripts/regenerate_aso_chain.sh` never ran `aso_figure_provenance.py`, so a
+chain that moved a figure input printed `ASO CHAIN OK` and left preflight red — it is now a chain
+step.
+
 ⚠ **`aso_archive_manifest.py --check` IS RED ON EVERY COMMITTED TREE, BY DESIGN — DO NOT CHASE IT.**
 The hand-off for this session flagged the manifest as failing `--check` with a stale `git_revision`
 before any edit, and regenerating it appears to clear the red. It clears only in the window between

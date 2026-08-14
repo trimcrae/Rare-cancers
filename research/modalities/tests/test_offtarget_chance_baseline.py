@@ -336,3 +336,72 @@ def test_panels_at_other_geometries_are_excluded_from_the_sixteen_mer_corpus():
     lens = M.panel_oligo_lens(d)
     assert not lens or lens == {M.OLIGO_LEN}, (src, sorted(lens))
     assert glob  # imported for parity with the module's own discovery path
+
+
+# ═════════════════════════════════════════════════════════════════════════════════════════════
+# The geometry exclusion is PUBLISHED, not printed (2026-08-14)
+# ═════════════════════════════════════════════════════════════════════════════════════════════
+def test_the_geometry_exclusions_are_in_the_artifact_not_only_on_stderr():
+    """⛔ STDERR DOES NOT SURVIVE INTO THE RECORD, AND THIS DECISION HAD TO BE READ BACK.
+
+    Twelve 18-mer and 20-mer panels are declined from this 16-mer corpus. Until this field existed
+    they were announced only on stderr at generation time, and measured on the committed artifact
+    beforehand: the twelve panels appeared nowhere in it and the strings "18mer"/"20mer" occurred
+    zero times. So a reader of the deposited file could not tell that a longer-geometry panel of a
+    seam existed and was declined — nor, the fail-quiet direction, that a seam was missing from the
+    corpus entirely because it had only ever been evaluated at another geometry.
+
+    ⚠ THE COLLAPSE READOUT IS DELIBERATELY STILL STDERR-ONLY and that is not an inconsistency: a
+    collapsed panel is a re-emission of one the artifact DOES name in `per_design[]._source`, so
+    the file can already answer it. An excluded panel is in the file nowhere.
+    """
+    art = B.build()
+    assert "other_geometries" in art, "the geometry exclusion is not published at all"
+    assert art["manuscript_oligo_len"] == B.OLIGO_LEN
+    assert art["other_geometries"], (
+        "no panel was declined, so this test asserts nothing about the corpus. If the 18-mer and "
+        "20-mer panels have left the tree, this guard needs a different fixture.")
+    for g in art["other_geometries"]:
+        assert set(g) == {"panel", "oligo_lens"}, sorted(g)
+
+
+def test_every_published_exclusion_is_really_a_different_geometry():
+    """The published list is checked against the loader's MEASURED geometry, not against a name."""
+    art = B.build()
+    excluded = {g["panel"]: g["oligo_lens"] for g in art["other_geometries"]}
+    measured = {s.name: s.geometry.oligo_len
+                for _g, ss in ass.iter_geometries(ass.DESIGN_EVALUATION, root=MOD) for s in ss}
+    for panel, lens in excluded.items():
+        assert panel in measured, f"{panel} is published as excluded but is not on disk"
+        assert measured[panel] != B.OLIGO_LEN, (
+            f"{panel} is published as a different geometry but measures {measured[panel]}-mer, "
+            f"which is this corpus's own length")
+        assert lens == [measured[panel]], (panel, lens, measured[panel])
+
+    # and nothing at the manuscript geometry was quietly swept in with them
+    used = {r["_source"] for r in art["per_design"]}
+    assert not (set(excluded) & used), "a panel is both used and published as excluded"
+
+
+def test_the_exclusion_list_does_not_depend_on_the_caller_collecting_it():
+    """⛔ `build()` AND `main()` MUST PRODUCE THE SAME BYTES.
+
+    `collapsed` and `off_geometry` are out-parameters for the stderr readout. Once the exclusion
+    became part of the ARTIFACT, an artifact whose content depended on whether a caller passed a
+    list would make `--check` red on a tree nobody had touched — and
+    `test_the_default_derivation_reproduces_the_committed_artifact` above compares exactly the
+    no-argument call against the file that `main()` wrote.
+    """
+    bare = B.build()
+    collected = B.build(None, [], [])
+    assert bare["other_geometries"] == collected["other_geometries"]
+    assert json.dumps(bare, indent=2) == json.dumps(collected, indent=2)
+
+
+def test_the_committed_artifact_carries_the_exclusions():
+    """The deposited bytes, not just the generator."""
+    committed = json.loads(_committed())
+    assert committed.get("other_geometries"), (
+        "the committed chance-baseline artifact publishes no geometry exclusions. Re-run "
+        "research/modalities/offtarget_chance_baseline.py.")
+    assert committed["other_geometries"] == B.build()["other_geometries"]

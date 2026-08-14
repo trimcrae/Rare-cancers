@@ -459,6 +459,12 @@ def _span(vals):
 def build(panels=None, collapsed=None, off_geometry=None):
     p2, exp2 = chance_expectation(OLIGO_LEN, 2)
     p1, exp1 = chance_expectation(OLIGO_LEN, 1)
+    # ⛔ THE OFF-GEOMETRY LIST IS COLLECTED WHETHER OR NOT A CALLER ASKED FOR IT, because it is now
+    # part of the ARTIFACT and not just of `main`'s stderr readout. `collapsed` and `off_geometry`
+    # are out-parameters for that readout, and leaving the artifact's content dependent on whether
+    # one was passed would mean `build()` and `main()` produced different bytes — a `--check` that
+    # compares them would then be red on a tree nobody had touched. One artifact, one content.
+    off_geometry = [] if off_geometry is None else off_geometry
     rows = collect_observed(panels, collapsed, off_geometry)
     counts = sorted(r["offtarget_le1mm"] for r in rows)
     n = len(counts)
@@ -513,6 +519,31 @@ def build(panels=None, collapsed=None, off_geometry=None):
             "behaviour, which is what would actually convert these counts into a decision and which "
             "this repository has not done.",
         ],
+        # ⛔ THE PANELS THIS CORPUS DECLINED FOR BEING A DIFFERENT REAGENT LENGTH (published
+        # 2026-08-14). Until then this was printed to STDERR ONLY, and stderr does not survive into
+        # the record: nothing a reader of the deposited artifact could do would recover it.
+        # ⚠ THE ARGUMENT THAT KEPT THE *COLLAPSE* OUT OF THE ARTIFACT DOES NOT REACH HERE, WHICH IS
+        # WHY ONE IS PUBLISHED AND THE OTHER STILL IS NOT. That argument is "the artifact already
+        # names every panel it used in `per_design[]._source`" — true of a collapsed re-emission,
+        # whose seam IS in the file under the panel that was kept, and FALSE of an off-geometry
+        # panel, which was excluded outright. Measured on the committed artifact before this change:
+        # the twelve excluded 18-mer and 20-mer panels appear nowhere in it, and the strings "18mer"
+        # and "20mer" occur zero times. A reader could not tell that a longer-geometry panel of a
+        # seam existed and was declined, nor — the fail-quiet direction — that some seam was absent
+        # from this corpus entirely because it was only ever evaluated at 18-mer.
+        # ⭐ AND `junction_aso_locus_collapse` ALREADY PUBLISHES EXACTLY THIS, under exactly this
+        # name. Two modules making the same geometry decision with two visibilities is how one of
+        # them silently stops being true.
+        "⛔_one_geometry": (
+            f"Every count in this file is the {OLIGO_LEN}-mer panel the manuscript reports. Panels "
+            f"at other geometries are evaluated under the same filename glob and are listed in "
+            f"`other_geometries` rather than pooled: the expectation below is computed at "
+            f"{OLIGO_LEN} nt, so a count taken across geometries describes none of them."),
+        "manuscript_oligo_len": OLIGO_LEN,
+        "other_geometries": sorted(
+            ({"panel": g["panel"], "oligo_lens": list(g["oligo_lens"])}
+             for g in (off_geometry or [])),
+            key=lambda g: (g["oligo_lens"], g["panel"])),
         "null_model": {
             "oligo_len": OLIGO_LEN,
             "assumption": "independent, uniformly distributed bases",
