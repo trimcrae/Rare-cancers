@@ -390,46 +390,44 @@ residue count against this transcript model, not an exon reported as such.
 
 ### 3.4 · Strand orientation, and designs with no hybridisable near-match
 
-All 38 frame-compatible junctions were screened with orientation parsed and filtered, 183 designs
-across them. Across the retained hit lists, 44% of apparent gap-spanning risks are
-minus-strand (738 of 1,677), and so cannot be engaged by an antisense oligonucleotide at all.
+All 38 frame-compatible junctions were screened with orientation filtered, covering 183 designs. Of
+the 1,677 apparent cleavage risks across the retained hit lists, 738 sit on the minus strand, or
+44%. An antisense oligonucleotide cannot base-pair with those at all.
 
 The proportion is not uniform. It runs from 0% at *TFG* exon 4, where no apparent risk is
 minus-strand, to 100% at both *EWSR1* exon 1 and *TCF12* exon 7, where every one is. That
-non-uniformity is what makes the filter worth applying rather than approximating: a uniform
-inflation would rescale every junction and leave their ordering intact, whereas this one reorders
-them. *EWSR1* exons 7 and 13 return 55 and 57 apparent gap-spanning hits respectively; after
-filtering they stand at 6 and 53.
+non-uniformity is what makes the filter worth applying rather than approximating. A uniform
+inflation would rescale every junction and leave their ordering intact; this one reorders them.
+*EWSR1* exons 7 and 13 return 55 and 57 apparent gap-spanning hits, and after filtering they stand
+at 6 and 53.
 
 After filtering, nine designs at six junctions carry no hybridisable near-match among non-parent
 transcripts (Table 3), spanning four of the five partners: three at *EWSR1* exon 1
 (5′-GGGCATATCCGTGGAC-3′, 5′-GGCATATCCGTGGACG-3′, 5′-GCATATCCGTGGACGC-3′), one at *FUS* exon 8
 (5′-AGGGCATATCGGAGTC-3′), one at *TAF15* exon 1 (5′-GGGCATATCCGACATG-3′), and four at *TCF12* —
 5′-GGGCATATCTCTATAA-3′ at exon 17, 5′-CAGGGCATATCTTGCA-3′ at exon 9, and
-5′-GGCATATCAAGCGCTG-3′ and 5′-GCATATCAAGCGCTGC-3′ at exon 7. The exhaustive scan agrees
+5′-GGCATATCAAGCGCTG-3′ and 5′-GCATATCAAGCGCTGC-3′ at exon 7. The exhaustive transcript scan agrees
 independently: each returns no exact and no single-mismatch match anywhere in 186,185 transcripts.
-The two arms fail in different ways — one is a heuristic alignment search over both strands, the
-other an exhaustive substitution scan over the sense orientation only — so their agreement is not a
-restatement. A third screen, over the compartment neither of those two can reach, does not overturn
-them either: none of the nine has a hybridisable site in parent pre-mRNA (§3.7).
+The two screens fail in different ways, so their agreement is not a restatement. One is a heuristic
+alignment search over both strands; the other an exhaustive substitution scan over the sense
+orientation only. The pre-mRNA screen, over a compartment neither of those reaches, does not
+overturn them either: none of the nine has a hybridisable site in parent pre-mRNA (§3.7).
 
 The graded re-score agrees, with one instructive exception. Scoring every retained hit by the
 residual cleavage a gap-internal mismatch is predicted to permit, under both literature bounds,
-returns a residual
-load of zero for all nine — and for one further design, at *FUS* exon 11, which is
-not counted as clean here. That design returns 21 near-matches of which only 15 are retained, and
-all 15 are minus-strand; the graded score therefore sees nothing hybridisable to score, while the
-cleanliness criterion refuses it because the six unretained hits are unknown. The graded model has no
-censoring guard, so it can award a zero the hit list does not support, and the stricter count is the
-one reported. A zero for the nine is arithmetic rather than an independent measurement: it follows
-from their having no hybridisable hit to score.
+returns a residual load of zero for all nine. It returns zero for one further design too, at *FUS*
+exon 11, which is not counted as clean here. That design returns 21 near-matches, of which only 15
+are retained, and all 15 are minus-strand. The graded score therefore sees nothing it can score,
+while the cleanliness criterion refuses the design because the strand of the six unretained hits is
+unknown. The graded model has no censoring guard, so it can award a zero the hit list does not
+support, and the stricter count is the one reported. A zero for the nine is arithmetic rather than an
+independent measurement: it follows from their having no hybridisable hit to score.
 
-Every junction was then re-screened at a tenfold deeper alignment ceiling, with retention raised
-to match it so that every hit list is complete — 38 junctions and 187 design records, none truncated
-— and the result withdraws most of the set above. The 187 are the panel's 190 less three that failed
-at the remote service on this pass, two at *FUS* exon 5 and one at *TFG* exon 2; each had already
-returned 23, 41 and 31 near-matches at the default depth, so none was a candidate and no count below
-depends on them. Only
+Every junction was then re-screened at a tenfold deeper alignment ceiling, with retention raised to
+match so that no hit list is truncated: 38 junctions and 187 design records. The result withdraws
+most of the set above. The 187 are the panel's 190 less three that failed at the remote service on
+this pass, two at *FUS* exon 5 and one at *TFG* exon 2. Each had already returned 23, 41 and 31
+near-matches at the default depth, so none was a candidate and no count below depends on them. Only
 three of the nine still carry no hybridisable near-match: 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8,
 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 and 5′-GGCATATCAAGCGCTG-3′ at *TCF12* exon 7, each of which
 returned the same count at both depths. The other six did not. The three *EWSR1* exon-1 designs had
