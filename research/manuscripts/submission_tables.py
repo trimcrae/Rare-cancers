@@ -100,7 +100,7 @@ def _deep_lookup():
     ⛔ WHY TABLES 2 AND 3 NEEDED THIS COLUMN (round-3 review, 2026-08-14). Both tables are the
     DEFAULT-depth result, and the Results withdraw part of what they print: three Table 2 rows
     showed `0 on the sense strand, 0 gap-spanning loci` for designs carrying 14, 29 and 30 hybridisable
-    hits at ten times the ceiling, and every one of Table 3's nine rows printed a zero that §3.5
+    hits at ten times the ceiling, and every one of Table 3's nine rows printed a zero that §3.10
     withdraws for six of them. The captions said so in prose. **A caption is not where a reader
     checks a number** — the cell is, and a cell that reads clean beside a text that calls the
     design dirty reads as the text being wrong. `GGGCATATCTCTATAA` was the sharpest case: named in
@@ -802,7 +802,7 @@ None of these numbers is a measurement of off-target activity.\n\n¹ Counted ove
 
 **Table 3. The {n_clean} designs with no sense-strand near-match at the default search depth.** Six of
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
-ceiling, three of them having returned no near-match at all here; §3.5 reports that
+ceiling, three of them having returned no near-match at all here; §3.10 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
 because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every design at the {n_clean_junctions} junctions
 where one exists. A design qualifies only
@@ -819,7 +819,7 @@ bounds agree.\n\n⁴ Of four conventional antisense design rules: GC within 40�
 motif, no homopolymer run of four, no CpG dinucleotide.\n\n⁵ Whether the design still carries no
 sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
 is computed from the three deep columns beside it, not asserted, so this table cannot come to
-disagree with §3.5 about which designs survive. The six that do not are the reason this table's
+disagree with §3.10 about which designs survive. The six that do not are the reason this table's
 default-depth zeros must not be read on their own.
 
 {t3}
