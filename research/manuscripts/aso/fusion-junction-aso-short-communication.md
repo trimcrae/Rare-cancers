@@ -305,7 +305,15 @@ exist at all, whether one can serve more than one patient group, and whether the
 predicts a clean design. Sections 3.4 to 3.6 ask how far the specificity screens can be trusted, and
 find that the answer is less far than a single search suggests. Sections 3.7 and 3.8 turn to the
 parent transcripts, which is where the designs are actually consumed. Sections 3.9 and 3.10 test
-whether two other instruments — duplex free energy, and a longer catalytic gap — change any of it.
+whether two other measures change any of it: duplex free energy, and a longer catalytic gap.
+
+**How the counts are denominated.** Six numbers recur below and they are not interchangeable. 231 is
+the donor-exon by acceptor-exon pairs graded for frame. 38 are the frame-compatible junctions among
+them. Those 38 carry 190 design records, which are 176 distinct molecules, because nine of the
+16-mers span more than one partner's seam and are recorded once per seam. Of the 190, 183 have a
+returned specificity screen; the other seven failed at the remote service, which matters because a
+free energy needs only a sequence where a screen needs a query that came back. 187 is the count
+re-screened at the tenfold deeper ceiling. Each result below names the denominator it uses.
 
 ### 3.1 · Frame compatibility as the bound on junction space
 
@@ -627,17 +635,15 @@ make about them, and it is a statement about predicted hybridisation and not abo
 
 ### 3.9 · Duplex thermodynamics and conventional design rules
 
-Scored as free energies, every one of the 190 fusion-specific designs favours the fusion duplex over
-the best duplex either parent can form, by 4.8 to 13.1 kcal/mol with a median of 9.6. The denominator
-here is 190 rather than the 183 of the specificity screens because a free energy needs only a
-sequence, whereas a screen needs a BLAST query that returned, and seven of the 190 failed at the
-remote service. The 190 records are 176 distinct molecules, because nine of the 16-mers meet more than
-one partner's seam and are recorded once per seam. Every design favours the fusion because a parent
-pairs roughly half the oligonucleotide, and half a duplex is much the weaker one. That separates two
-things a base count conflates. Discrimination at the level of *binding* is not marginal here and is not what constrains
-the modality; what remains unresolved is discrimination at the level of *catalysis*, where RNase-H1
-requires a paired DNA gap and where the literature bounds span one- to five-fold. The thermodynamic
-result therefore narrows the paper's central uncertainty rather than relieving it.
+Scored as free energies, every one of the 190 designs favours the fusion duplex over the best duplex
+either parent can form, by 4.8 to 13.1 kcal/mol with a median of 9.6. The denominator is 190 here
+rather than the 183 of the specificity screens for the reason given at the head of §3. Every design
+favours the fusion because a parent pairs roughly half the oligonucleotide, and half a duplex is much
+the weaker one. That separates two things a base count conflates. Discrimination at the level of
+*binding* is not marginal here, and is not what constrains the modality. What remains unresolved is
+discrimination at the level of *catalysis*, where RNase-H1 requires a paired DNA gap and where the
+literature bounds span one- to five-fold. The thermodynamic result therefore narrows the paper's
+central uncertainty rather than relieving it.
 
 The two rankings agree in direction. Grouping designs by the gap-level margin the Methods define,
 mean ΔΔG°37 rises monotonically with it, from 8.3 kcal/mol at margin 1 to 9.9 at margin 2 and 10.7
