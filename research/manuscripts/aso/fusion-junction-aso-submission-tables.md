@@ -2,13 +2,13 @@
 
 # Tables — fusion-junction ASO submission
 
-**Table 1. The frame-compatible junction space across five *NR4A3* fusion partners.** Every
+**Table 1. The in-frame junction space across five *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
 emitted. The gap-level margin is the number of junction-unique bases inside the six-nucleotide
-catalytic gap on the shorter side of the seam. Frame compatibility is an arithmetic property of exon
+catalytic gap on the shorter side of the junction. Frame compatibility is an arithmetic property of exon
 structure and is not a claim about which junctions patients carry.
 
-| 5′ partner | donor exons | exon pairs graded | frame-compatible | with ≥1 fusion-specific design | GC range of those designs (%) | best gap-level margin |
+| 5′ partner | donor exons | exon pairs graded | in-frame | with ≥1 fusion-specific design | GC range of those designs (%) | best gap-level margin |
 |---|---|---|---|---|---|---|
 | *EWSR1* | 17 | 51 | 8 | 8 | 37.5–75.0 | 3 |
 | *FUS* | 15 | 45 | 8 | 8 | 31.2–62.5 | 3 |
@@ -30,7 +30,7 @@ None of these numbers is a measurement of off-target activity.
 
 ¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.
 
-² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the hybridisable hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
+² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
 
 ⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.
 
@@ -75,7 +75,7 @@ None of these numbers is a measurement of off-target activity.
 | TFG e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCAATC-3′ | 37 → ≥3 | ≥2 | ≤0 | 0 | 238 | 193 | 3 | 11 (21) |
 | TFG e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAATAC-3′ | 27 → ≥3 | ≥3 | ≤3 | 1 | 43 | 12 | 4 | 4 (26) |
 
-**Table 3. The 9 designs with no hybridisable near-match at the default search depth.** Six of
+**Table 3. The 9 designs with no sense-strand near-match at the default search depth.** Six of
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
 ceiling, three of them having returned no near-match at all here; §3.5 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
@@ -98,7 +98,7 @@ bounds agree.
 motif, no homopolymer run of four, no CpG dinucleotide.
 
 ⁵ Whether the design still carries no
-hybridisable near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
+sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
 is computed from the three deep columns beside it, not asserted, so this table cannot come to
 disagree with §3.5 about which designs survive. The six that do not are the reason this table's
 default-depth zeros must not be read on their own.
@@ -115,7 +115,7 @@ default-depth zeros must not be read on their own.
 | 5′-GGCATATCAAGCGCTG-3′ | TCF12 e7::NR4A3 e3 | 56.2 | 2 | 10.085 | 2 | 0 | 0 / 0 | 0 | contains a CpG | 2 | 0 | 0 | yes |
 | 5′-CAGGGCATATCTTGCA-3′ | TCF12 e9::NR4A3 e3 | 50.0 | 1 | 9.325 | 7 | 0 | 0 / 0 | 0 | none | 67 | 18 | 4 | **no** |
 
-**Table 4. The best available design at each of the 38 frame-compatible junctions.** Tables 2 and 3
+**Table 4. The best available design at each of the 38 in-frame junctions.** Tables 2 and 3
 select across the panel; this table selects within each junction, which is the question a patient's
 fusion poses. Designs are ranked by parent liability first, since sparing the wild-type parents is
 what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
@@ -172,8 +172,8 @@ reported as such rather than given a best row.
 | TFG e6::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTTCAATC-3′ | 3 | 9 | 29 → 3 | 0.73 |
 | TFG e7::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGAATACT-3′ | 2 | 9 | 24 → 6 | 1.24 |
 
-**Table 5. Gap length against junction specificity, at one seam and across the design space.** The
-same seams tiled and screened at three gapmer geometries, wing held at five nucleotides so that only
+**Table 5. Gap length against junction specificity, at one junction and across the design space.** The
+same junctions tiled and screened at three gapmer geometries, wing held at five nucleotides so that only
 the catalytic gap changes. Inside the gap the junction-unique bases on the shorter side and the
 bases one wild-type parent pairs on the longer side are complements: they sum to the gap, which the
 generating module asserts for every design rather than assuming. Each nucleotide of gap-level margin
@@ -183,11 +183,11 @@ instrument guarantees rather than measures: at a fixed budget of two mismatches 
 design can reach is also reached by each of its own shorter sub-windows, so the set can only shrink,
 and two mismatches is a fractionally stricter test at 20 nucleotides than at 16. Only the size of
 the fall and which designs reach zero are measurements. The three blocks carry different
-denominators and are not comparable across blocks: the seam block is one molecule, the matched-seam
+denominators and are not comparable across blocks: the junction block is one molecule, the matched-junction
 block is the six junctions every geometry was screened at, and the corpus block is each geometry's
 whole design space, which is not screened at the same junctions. The exhaustive GRCh38 genome scan
 is unavailable at 18 and 20 nucleotides by construction, so no row reports it. Because the wing is
-five throughout, a parent's seam hybrid is five base pairs plus its share of the gap, so pairing
+five throughout, a parent's junction hybrid is five base pairs plus its share of the gap, so pairing
 five nucleotides of contiguous gap DNA and reaching a ten-base-pair hybrid are the same condition
 and are reported as one row. ΔG°37 values are for
 an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
@@ -196,17 +196,17 @@ measurement of cleavage.
 
 | | 5-6-5 (16-mer) | 5-8-5 (18-mer) | 5-10-5 (20-mer) |
 |---|---|---|---|
-| **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 seam** | | | |
+| **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 junction** | | | |
 | design (5′→3′) | GGGCATATCATCAAAC | AGGGCATATCATCAAACC | CAGGGCATATCATCAAACCA |
 | gap-level margin | 3 | 4 | 5 |
-| hybridisable gap-spanning cleavage risks | 123 | 3 | 0 |
+| sense-strand gap-spanning cleavage risks | 123 | 3 | 0 |
 | gene loci carrying one | 6 | 1 | 0 |
 | near-matches (≤2 mismatches, deeper ceiling) | 189 | 50 | 20 |
 | ≤1-mismatch matches over 186,185 transcripts | 1 | 0 | 0 |
 | mature-parent duplex through the whole gap (bp) | 8 (*TFG*) | 0 | 0 |
 | contiguous DNA a wild-type parent pairs (nt) | 3 | 4 | 5 |
 | most stable parent ΔG°37 (kcal/mol) | −7.77 | −8.66 | −10.25 |
-| **Over the six seams screened at every geometry** | | | |
+| **Over the six junctions screened at every geometry** | | | |
 | designs screened | 30 | 42 | 54 |
 | median near-matches | 86.5 | 15 | 0 |
 | median gap-spanning cleavage risks | 21 | 0 | 0 |
@@ -214,7 +214,7 @@ measurement of cleavage.
 | most risk loci on any one design | 7 | 2 | 0 |
 | designs with no near-match at all | 0 of 30 | 7 of 42 | 39 of 54 |
 | **Over each geometry's whole design space** | | | |
-| junction-spanning registers per seam | 5 | 7 | 9 |
+| junction-spanning registers per junction | 5 | 7 | 9 |
 | fusion-specific designs | 190 | 266 | 342 |
 | best gap-level margin available | 3 | 4 | 5 |
 | a mature parent can pair the whole gap | 181 of 190 | 130 of 266 | 87 of 342 |
@@ -223,7 +223,7 @@ measurement of cleavage.
 | median most stable parent ΔG°37 (kcal/mol) | −8.66 | −11.60 | −14.58 |
 
 **Table 6. Where the two clinically-relevant reagents' off-target loci are expressed.** Every gene
-locus returned by the deeper screens at the two seams with a published exon-resolved EMC breakpoint,
+locus returned by the deeper screens at the two junctions with a published exon-resolved EMC breakpoint,
 read against reference expression data. The two compartments answer different questions and are
 never combined: a systemically dosed phosphorothioate gapmer distributes predominantly to liver and
 kidney, so liver, kidney - cortex and kidney - medulla address exposure, while the soft-tissue column is the normal
@@ -232,7 +232,7 @@ Values are GTEx v8 median TPM across each tissue's donors. The two cuts behind t
 stated for legibility and are not thresholds of concern: below 1 TPM in all three exposure
 tissues reads as below detection, at or above 10 TPM in any of them as the level at which an
 off-target hypothesis would have to be tested. Every raw median is released so another cut can be
-applied without re-running. Tiling registers is how many of the designs tiled across that seam
+applied without re-running. Tiling registers is how many of the designs tiled across that junction
 return the locus, which is robustness to where the window is placed and is a different axis from the
 record count beside it; neither is ranked on. Transcript records are how many accessions RefSeq
 lists for the gene, that is annotation depth, not expression and not affinity. A locus with no
@@ -241,7 +241,7 @@ absence. Every hit behind this table sits at 14 of 16 identity, the loosest the 
 nothing here distinguishes these loci from one another on affinity. None of these numbers is a
 measurement of cleavage, and no expression figure is a predicted cleavage event.
 
-| seam | gene locus | transcript records | tiling registers returning it | Liver | Kidney - Cortex | Kidney - Medulla | soft-tissue proxy maximum | exposure-organ reading |
+| junction | gene locus | transcript records | tiling registers returning it | Liver | Kidney - Cortex | Kidney - Medulla | soft-tissue proxy maximum | exposure-organ reading |
 |---|---|---|---|---|---|---|---|---|
 | EWSR1 e12::NR4A3 e3 | *ANKS1B* | 67 | 1 of 1 | 0.03 | 0.46 | 0.28 | 3.6 (Artery - Tibial) | below the lower cut in all three |
 |  | *ZNF667* | 37 | 1 of 1 | 0.31 | 1.63 | 2.58 | 6.2 (Nerve - Tibial) | detectable, below the upper cut |

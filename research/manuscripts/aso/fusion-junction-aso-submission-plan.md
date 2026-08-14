@@ -153,10 +153,20 @@ comfortably on words, display items and references — the measured values live 
 [`submission-metrics.json`](../submission-metrics.json), which is graded against every venue's
 believed limits, and are deliberately not copied here (⚠ *superseded, retained: "4,244 words against
 12,000; five display items against seven; 29 references against 60" — every one of those three drifted*) —
-but that type requires an **unstructured abstract of at most 200 words** and this manuscript's is
-structured and longer. Neither the abstract format nor its length should be changed until a venue is
-settled, because both are venue-specific and the current form is right for a journal that wants a
-structured abstract.
+but that type requires an **unstructured abstract of at most 200 words**.
+⚠ **FORMAT AND LENGTH WERE HELD UNDER ONE RULE, AND THEY DO NOT DESERVE THE SAME RULE (trimcrae,
+2026-08-14: *"This is an abstract. Not a mini paper."*).** *Superseded, retained: "Neither the
+abstract format nor its length should be changed until a venue is settled, because both are
+venue-specific and the current form is right for a journal that wants a structured abstract."*
+That reasoning holds for **length** — cutting to a 200-word cap and re-expanding for a venue that
+allows 250 is real work, which is the "cutting twice" this section exists to avoid. It does not
+hold for **format**: restoring four bold headings for a venue that mandates them is a two-minute
+edit in either direction, so holding the format buys nothing and costs every preprint reader in the
+meantime. The abstract is now **unstructured**, which is the norm for a computational
+sequence-design paper and what bioRxiv, the imminent destination, receives. The headings were also
+load-bearing in the wrong way: a `Results.` label supplies context for free and so licenses a bare
+run of numbers beneath it, which is how the abstract came to be unreadable at 199 words. Length
+remains uncut and venue-specific, exactly as this section says.
 
 ✅ **What this cost and what it bought.** Nothing was submitted, so the cost is zero. What it bought
 is the rule generalised: **ask every venue for its FULL fee schedule, not its APC policy** — page,
@@ -178,7 +188,7 @@ superseded column is kept because the size of the gap is the reason the split ha
 | requirement | state (2026-08-13) | was, before the split |
 |---|---|---|
 | main-text length | ⚪ **ungraded — bioRxiv sets no limit**, and no journal is chosen, so there is nothing to be inside of. The measured length is in [`submission-metrics.json`](../submission-metrics.json) and is not stated here. It is an **Article** length, not a Short Communication one, which is why the cover letter asks for the Article type; the filename is historical (⚠ *superseded, retained: "~6,000 words main text · ✅ inside it", which graded the paper against a target belonging to a venue §1c had already eliminated, and "≈4,200"*) | ≈21,000 — the dominant restructuring task |
-| structured abstract | ✅ present, four headed parts; length measured in the same artifact (⚠ *superseded, retained: "274 words", which also contradicted "265" two rows up in this same file*) | present but long and narrative |
+| abstract | ✅ present, **unstructured**, one paragraph — the form bioRxiv receives and the norm for a computational design paper; four bold headings restore in minutes for a venue that mandates them (BJC does; §1c). Length measured in the same artifact and deliberately uncut (⚠ *superseded, retained: "structured abstract … ✅ present, four headed parts" and "274 words", the latter also contradicting "265" two rows up in this same file*) | present but long and narrative |
 | IMRaD | ✅ Results ordered by finding, §3.1–§3.9 (⚠ *superseded, retained: "§3.1–§3.4"*) | ordered as a **chronology** (§3a, 3a-bis, … 3a-nonies) |
 | numbered figures | ✅ three, generated from committed artifacts, with legends, and pinned to their source revisions by `aso_figure_provenance.py --check` | **none exist** |
 | numbered tables | ✅ three, generated. Table 3 lists the nine designs the cleanliness claim is about — added 2026-08-13, because that claim had no table and only four of its nine molecules appeared anywhere in Table 2 | **none exist** |

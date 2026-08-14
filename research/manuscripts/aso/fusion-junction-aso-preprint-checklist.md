@@ -59,14 +59,25 @@ journal still under consideration.
 ## 3 · Deliberately not done, and why
 
 - **The abstract has not been cut to 200 words.** bioRxiv sets no limit, and 200 is a
-  *journal-specific* cap whose accompanying requirement differs by venue: the British Journal of
-  Cancer wants a structured abstract under mandatory Background/Methods/Results/Conclusions
-  headings, which this one already has, while Cancer Gene Therapy wants an unstructured one. Cutting
-  to the wrong target now means cutting twice. ⚠ **The cut got bigger on 2026-08-13** — the pre-mRNA
-  compartment and the censoring test are both new results and both are reported in the abstract, so
-  whoever does the cut is starting from further out. The measured length is in
-  [`submission-metrics.json`](../submission-metrics.json), which now grades this paper against
-  bioRxiv rather than against a journal the plan had already eliminated.
+  *journal-specific* cap, so cutting to the wrong target now means cutting twice. The measured
+  length is in [`submission-metrics.json`](../submission-metrics.json), which grades this paper
+  against bioRxiv rather than against a journal the plan had already eliminated.
+  ⚠ *Superseded, retained: "the British Journal of Cancer wants a structured abstract under
+  mandatory Background/Methods/Results/Conclusions headings, **which this one already has**, while
+  Cancer Gene Therapy wants an unstructured one", and "**The cut got bigger on 2026-08-13** — the
+  pre-mRNA compartment and the censoring test are both new results and both are reported in the
+  abstract, so whoever does the cut is starting from further out."* The venue facts are unchanged
+  and BJC still mandates those headings; what changed is that the abstract is now unstructured
+  (2026-08-14, see submission-plan §1c), so the parenthetical no longer describes it. The second
+  sentence is retired for a different reason: both results are still reported, but compactly, the
+  pre-mRNA compartment as "another 19" and the censoring test as "designs that look clean mostly
+  stop looking clean under a tenfold deeper search". ⛔ **DO NOT STATE THE DISTANCE TO A CAP HERE.**
+  ⚠ *Superseded, retained, one commit after it was written: "The measured distance to a 200-word cap
+  is now a few words, not seventy."* It was true at 223 words and false at the next edit, which
+  traded jargon for plain English and cost about fifty words — plain language is longer than the
+  compressed technical register it replaces, and that trade will be made again. The length has one
+  home, [`submission-metrics.json`](../submission-metrics.json), which is regenerated rather than
+  typed; a distance quoted here is a subtraction against a number that moves.
 - **The figures have not been made greyscale-only.** Colour is free on bioRxiv. The accessibility
   problem — that red against green carries nothing to a colour-blind reader or a monochrome printer
   — has been fixed by adding a shape cue, which is the part that matters regardless of venue.
