@@ -40,22 +40,22 @@ myxoid chondrosarcoma
 
 ## Abstract
 
-Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma driven by fusion of a variable partner
-gene to *NR4A3*. Its chimeric mRNA carries a breakpoint junction found in no normal transcript.
-Base-pairing could in principle distinguish the fusion from both parent genes, but no
-oligonucleotide against such a junction has been reported in this disease. All 231 donor-acceptor
-exon pairs across five partners were graded for frame. Junction-spanning 16-mer 5-6-5 LNA/DNA/LNA
-gapmers were tiled over every frame-compatible junction. Each design was screened against mature
-transcripts, parent pre-mRNA and GRCh38, at three gap lengths. Designs proved plentiful: 38 pairs
-are frame-compatible, carrying 190 candidates. The constraint is instead the parent genes, which
-transcriptome screens exclude by construction and so never test. Of the 190 designs, 87 pair the
-catalytic gap against a mature parent transcript. Of those 87, 61 pair wild-type *NR4A3*, the
-transcript this approach exists to spare. In parent pre-mRNA, where RNase-H1 is also active, 19 of
-the 190 do the same. Apparently clean designs mostly fail a tenfold deeper search. Ranking within
-each junction still returns a usable candidate at both published breakpoints, about 95% of confirmed
-cases. Fusion-versus-parent discrimination at the catalytic gap is therefore the limiting step. Gap
-length cannot relieve it: the same nucleotides arm RNase-H1 against fusion and parent alike.
-Reagents, controls and a falsifying threshold are named.
+Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma driven by a fusion gene that joins a
+variable partner to *NR4A3*. The fusion transcript carries a short sequence spanning the join,
+present in no normal gene. A drug recognising it could in principle spare both parent genes, but
+none has been reported for this disease. Of the 231 possible joins across the five known partners,
+38 produce a working reading frame. Across those 38, 190 antisense oligonucleotides were designed
+over the join, each a 16-base LNA gapmer with a central DNA window where the enzyme RNase-H1 cuts.
+All were screened against human transcripts, the unspliced precursors of the parent genes, and the
+whole genome, at three window lengths. Designs are plentiful, so design is not the constraint. The
+parent genes are. Standard transcript screens leave them out by construction and so never test them. Of the 190 designs, 87 pair that DNA window against a parent transcript. Of those
+87, 61 pair wild-type *NR4A3*, the gene this approach exists to spare. Another 19 pair it in the
+unspliced precursor, where the enzyme is also active. Designs that look clean mostly stop looking
+clean under a tenfold deeper search. The best design at each join is nonetheless usable at both
+joins reported in patients, about 95% of confirmed cases. Telling the fusion from its own parents
+at the cut site is therefore the limiting step. A longer window cannot relieve it: the same bases
+that help the enzyme cut the fusion help it cut the parent. The molecules to make, the controls
+needed, and the result that would falsify the ranking are named.
 
 ---
 
