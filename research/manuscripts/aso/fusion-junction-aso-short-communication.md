@@ -40,48 +40,25 @@ myxoid chondrosarcoma
 
 ## Abstract
 
-**Background.** Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma defined by
-rearrangement of *NR4A3* to a variable 5′ partner. Its chimeric mRNA carries a breakpoint seam absent
-from every normal transcript, its one tumour-exclusive RNA feature; a structured search retrieved no
-junction-directed oligonucleotide against any NR4A3 fusion.
+**Background.** Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma driven by *NR4A3*
+fusion to a variable 5′ partner. Its chimeric mRNA carries a breakpoint seam absent from every
+normal transcript; a structured search retrieved no oligonucleotide directed at one.
 
-**Methods.** Chimeras were built at the mRNA level from canonical Ensembl models, acceptor exon
-retained whole, and every donor-exon × acceptor-exon pair across five partners graded.
+**Methods.** Every donor–acceptor exon pair across five partners was graded for frame.
 Junction-spanning 16-mer 5-6-5 LNA/DNA/LNA gapmers were tiled over each frame-compatible seam and
-screened against all six parent transcripts, against RefSeq RNA by gap-resolved BLAST, exhaustively
-for ≤1 mismatch over 186,185 transcripts, and — because RNase-H1 acts in the nucleus — unspliced and
-against all of GRCh38 in both orientations. Two longer geometries, 5-8-5 and 5-10-5 at the
-same wing, were tiled and screened over those seams.
+put through five screens, including parent pre-mRNA and GRCh38, at three geometries.
 
-**Results.** Of 231 graded pairs, 38 are frame-compatible, all yielding a gapmer matching no
-parent perfectly. All 38 were screened with alignment orientation filtered. Nine designs at six
-junctions carry no hybridisable near-match among non-parent transcripts and no single-mismatch
-match among 186,185 transcripts; that search is capped: re-screening ten times deeper leaves three.
+**Results.** Of 231 graded pairs, 38 are frame-compatible.
+All 38 were screened with alignment orientation filtered. Nine designs carry no hybridisable
+near-match; ten times deeper, three do, all at junctions no patient is reported to carry. The
+parents are the liability no transcript screen reaches: 87 of 190 pair the catalytic gap in mature
+parent transcript, 61 of those against wild-type *NR4A3*, 19 in parent pre-mRNA. Ranking within each
+junction returns a usable design at both published exon-resolved breakpoints, about 95% of confirmed
+cases, none at three.
 
-The parents are a liability no transcript screen reaches: 19 of 190 designs pair the catalytic
-gap in parent pre-mRNA, 87 of 190 pair it in mature parent transcript inside a duplex of at least ten
-base pairs, 61 of those against wild-type *NR4A3*, and an exhaustive GRCh38 scan finds such a site in
-a parent gene or *NR4A* paralogue for 20 of 176. Three designs survive every screen, two at any parent-duplex
-threshold, but at junctions no patient is reported to carry. Ranking within each junction returns a
-usable design at both junctions with a published exon-resolved breakpoint, about 95% of confirmed
-cases, and none at three where every design pairs a parent. One 16-mer spans three partners' seams
-through ten identical donor bases, a sequence property, not a clinical one.
-
-A longer gap does not escape the parents: inside it the junction-unique bases and those a wild-type
-parent pairs are complements summing to the gap, so across 798 designs at three geometries each
-nucleotide of margin gained costs one of contiguous parent duplex. There a 5-10-5
-design sheds all 123 of the 16-mer's gap-spanning transcript risks and lengthens the parent's run
-from 3 to 5 nucleotides.
-
-**Conclusions.** Designability does not limit junction gapmers here, but clean designs are far
-scarcer than a capped search suggests, and it is the parents, not the transcriptome,
-that consume them. The limiting step is fusion-versus-parent discrimination at the
-catalytic gap, set by enzymology and chemistry, which no computation here resolves; gap length cannot
-relieve it, the nucleotide that sharpens the fusion margin being the one that lengthens the parent
-duplex. What remains for a laboratory is named rather than implied: the two oligonucleotides to
-synthesise at the junctions patients are reported to carry, a longer-gap arm separating gap length
-from sequence, the three required controls, and the selectivity threshold that would falsify the
-ranking used to choose them.
+**Conclusions.** Designability is not the constraint: the parents, not the transcriptome, consume
+the clean designs. Fusion-versus-parent discrimination at the catalytic gap is the limiting step,
+which gap length cannot relieve. Reagents, controls and a falsifying threshold are named.
 
 ---
 

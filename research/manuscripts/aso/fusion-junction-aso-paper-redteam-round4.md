@@ -150,11 +150,26 @@ Round 3's warning is now measured twice.
 
 - **No number was re-derived and no artifact re-read.** Round 3 did that pass and found no
   arithmetic error; repeating it would test the copy, not the claim.
-- **The abstract was restructured, not cut.** Its 251-word Results block is now three paragraphs, and
-  the Conclusions gained the deliverable sentence, taking it 459 → 507 words. **bioRxiv sets no cap,
-  so this blocks nothing** — but round 3's open note stands and is now slightly larger: 507 is more
-  than double every journal cap in play, and the cut is still an author decision at the venue step,
-  not an editorial one.
+- **The abstract was cut to 199 words, clearing every cap in play.** ⚠ *Superseded, retained: "The
+  abstract was restructured, not cut … taking it 459 → 507 words … the cut is still an author
+  decision at the venue step, not an editorial one."* That was true for about an hour and was the
+  wrong call twice over. Restructuring a 459-word abstract into paragraphs made it readable and left
+  round 3's actual finding — that it is more than double every journal cap — untouched, and adding
+  the deliverable sentence made it worse. Deferring the cut to "the venue step" also assumed the cut
+  was venue-specific, and it is not: **200 clears all four**, so there is no version of this decision
+  where a longer abstract buys anything.
+  **What went, and it is recoverable from the body if a venue allows more:** the multi-partner
+  16-mer, the genome-wide 20-of-176 stratum, the gap-length arithmetic in full (the Conclusions keep
+  the finding), the ≥10-base-pair duplex threshold, and "three designs survive every screen, two at
+  any parent-duplex threshold". Every number kept is unchanged and every hedge is intact.
+  ⛔ **Three of the phrasings the cut first reached for were pinned by tests and existed ONLY in the
+  abstract** — `All 38 were screened with alignment orientation filtered`, `87 of 190 pair`, and
+  `61 of those against wild-type *NR4A3*`, each worded differently where §3.4 and §3.7 carry the same
+  fact. Two more were broken not by deletion but by **line rewrapping**, which split a frozen phrase
+  across a newline in a test that reads raw text rather than flattened. A test right beside one of
+  them carries a `⚠ WHITESPACE-TOLERANT` comment for exactly that reason, so the inconsistency is in
+  the assertions rather than in the prose; that is worth closing before the next person rewraps a
+  paragraph.
 - **The three pre-deposit blockers from round 3 are untouched and still author-only**: `ORCID:
   [to be inserted]` and the two `[ARCHIVE DOI]` placeholders, with the Zenodo DOI to be reserved
   *before* the deposit so the manuscript cites the DOI it will actually have.
