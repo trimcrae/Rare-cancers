@@ -43,19 +43,23 @@ myxoid chondrosarcoma
 Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma driven by a fusion gene that joins a
 variable partner to *NR4A3*. The fusion transcript carries a short sequence spanning the join,
 present in no normal gene. A drug recognising it could in principle spare both parent genes, but
-none has been reported for this disease. Of the 231 possible joins across the five known partners,
-38 produce a working reading frame. Across those 38, 190 antisense oligonucleotides were designed
-over the join, each a 16-base LNA gapmer with a central DNA window where the enzyme RNase-H1 cuts.
-All were screened against human transcripts, the unspliced precursors of the parent genes, and the
-whole genome, at three window lengths. Designs are plentiful, so design is not the constraint. The
-parent genes are. Standard transcript screens leave them out by construction and so never test them. Of the 190 designs, 87 pair that DNA window against a parent transcript. Of those
-87, 61 pair wild-type *NR4A3*, the gene this approach exists to spare. Another 19 pair it in the
-unspliced precursor, where the enzyme is also active. Designs that look clean mostly stop looking
-clean under a tenfold deeper search. The best design at each join is nonetheless usable at both
-joins reported in patients, about 95% of confirmed cases. Telling the fusion from its own parents
-at the cut site is therefore the limiting step. A longer window cannot relieve it: the same bases
-that help the enzyme cut the fusion help it cut the parent. The molecules to make, the controls
-needed, and the result that would falsify the ranking are named.
+none has been reported for this disease. Five partner genes are known. Of the 231 ways they could
+join *NR4A3*, 38 keep the two genes in frame and so could give rise to a fusion protein. Across
+those 38, 190 antisense
+oligonucleotides were designed to straddle the join. Each is a gapmer: 16 bases long, with a central
+window of DNA where the enzyme RNase-H1 cuts the target. All were screened against human
+transcripts, against the unspliced precursors of the parent genes, and against the whole genome, at
+three window lengths. Designs are plentiful, so design is not the constraint. The parent genes are.
+Screens against mature transcripts leave the parents out by design and so never test them. Yet 87
+of the 190 designs line up their cutting window against a parent transcript. Of those 87, 61 line
+up against healthy *NR4A3* itself, the gene this approach exists to spare. Another 19 do so in the
+unspliced precursor, where the enzyme is also active. Designs that look free of off-target matches
+mostly turn out not to be, once the search runs ten times deeper. Even so, the best design at each
+join still clears the parent screen at both joins reported in patients, about 95% of confirmed
+cases. Telling the fusion from its own parents at the cut site is therefore the limiting step. A
+longer window cannot relieve it: the same bases that help the enzyme cut the fusion help it cut the
+parent. The molecules to make, the controls needed, and the measurement that would falsify the
+ranking used here are all named.
 
 ---
 
