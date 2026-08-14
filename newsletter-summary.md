@@ -1,10 +1,9 @@
-# NR4A3 method-watch — week of August 7
+# NR4A3 method-watch — week of August 14
 
-**Quiet week — nothing that unlocks or changes the plan.**
+**Quiet week again — nothing new that unlocks or changes the plan.**
 
-- **Worth a skim:** "Accurately modeling RNase H-mediated antisense oligonucleotide efficacy" (2026-07-07) — matches the ASO/siRNA efficacy-predictor trigger squarely (not a keyword collision). Could be worth checking against the local-fold accessibility proxy in the ASO paper, but not urgent.
-- **AlphaFold3** ticked to v3.0.4 (2026-07-28) — routine patch, not a new capability.
-- The recurring "NOR-1 (NR4A3) as a Context-Dependent Rheostat of Vascular and Cardiac Remodeling" paper is back in this week's hits too — still cardiovascular biology, not oncology/degrader-relevant, still nothing to act on.
-- Everything else is noise: PROTAC papers on unrelated targets (AURKB, SETDB1, ATR, RET), the usual "ASO Author Reflections" false positives (*Annals of Surgical Oncology*), generic siRNA/nanoparticle delivery papers with no EMC tie-in.
+- **New this week:** BioEmu (the cheap generative conformational-ensemble tool watched for a near-zero-cost cross-check on the NR4A3 LBD cryptic-pocket work) shipped **v1.4.0** (2026-07-20). Worth a look only if that thread reopens — not urgent.
+- Everything else is a repeat of last week: the RNase-H ASO-efficacy paper (7/7) and the AlphaFold3 v3.0.4 patch (7/28) are still sitting there, still not urgent, no new developments on either.
+- No genuine NR4A3/EWSR1::NR4A3/EMC advances — this week's hits were the usual keyword false positives (ASO = *Annals of Surgical Oncology*, unrelated "protein dynamics"/vascular NOR-1 papers).
 
 No trigger crossed. No plan changes.
