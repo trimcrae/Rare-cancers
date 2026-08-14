@@ -206,7 +206,7 @@ def table1(atlas):
             "gc_range": f"{min(gcs):.1f}–{max(gcs):.1f}" if gcs else "—",
             "best_gap_margin": max(margins) if margins else "—",
         })
-    hdr = ("| 5′ partner | donor exons | exon pairs graded | frame-compatible | with ≥1 "
+    hdr = ("| 5′ partner | donor exons | exon pairs graded | in-frame | with ≥1 "
            "fusion-specific design | GC range of those designs (%) | best gap-level margin |")
     sep = "|---|---|---|---|---|---|---|"
     body = [f"| *{r['partner']}* | {r['donor_exons']} | {r['pairs_graded']} | "
@@ -248,7 +248,7 @@ def table2(collapse, chance, atlas):
     by_j, filtered = {}, {}
     for s in collapse["screens"]:
         lab = s.get("junction_label")
-        if not lab:                              # the modelled reference seams carry no label
+        if not lab:                              # the modelled reference junctions carry no label
             continue
         by_j.setdefault(lab, []).extend(s["per_oligo"])
         # ⛔ A FILTERED AND AN UNFILTERED ROW MUST NOT RENDER ALIKE (2026-08-12). Twenty junctions
@@ -428,15 +428,15 @@ def _geometry_columns(gap):
 
 
 def table5(gap):
-    """The gap-length trade, one column per geometry, at the seam and over the corpus.
+    """The gap-length trade, one column per geometry, at the junction and over the corpus.
 
     ⛔ ROWS ARE QUANTITIES AND COLUMNS ARE GEOMETRIES, because the finding is a TRADE and a trade is
     only visible when the two directions sit in one column. Splitting it into a table per geometry,
     or ranking the geometries, would present as a recommendation what is an accounting of costs on
     both sides — the same reason `aso_gap_length_tradeoff` emits no composite score.
 
-    ⚠ THE THREE BLOCKS ANSWER DIFFERENT QUESTIONS AND HAVE DIFFERENT DENOMINATORS. The seam block is
-    one molecule at one junction; the matched-seam block is the six seams every geometry was
+    ⚠ THE THREE BLOCKS ANSWER DIFFERENT QUESTIONS AND HAVE DIFFERENT DENOMINATORS. The junction block is
+    one molecule at one junction; the matched-junction block is the six junctions every geometry was
     screened at, which is the only like-for-like alignment comparison available; the corpus block is
     all designs at each geometry, where the geometries are NOT screened at the same junctions and
     the counts are therefore reported per geometry rather than compared. Labelled in the rows.
@@ -451,14 +451,14 @@ def table5(gap):
     # AND SAYS NOTHING ABOUT IT. Deriving the columns only moves the omission one step if a
     # geometry can be present in `geometries` and missing from `by_geometry`.
     for arch in columns:
-        for name, src in (("lead reagent", lead), ("matched seams", matched)):
+        for name, src in (("lead reagent", lead), ("matched junctions", matched)):
             if arch not in src:
                 raise SystemExit(
                     f"Table 5: geometry {arch} is present in the trade-off artifact but has no "
                     f"{name} row; the table would omit a screened geometry without saying so")
 
     # ⛔ THE MERGED ROW BELOW RESTS ON AN IDENTITY, SO THE IDENTITY IS CHECKED HERE. With a wing of
-    # five, a parent's seam hybrid is five plus its share of the gap, so reaching a ten-base-pair
+    # five, a parent's junction hybrid is five plus its share of the gap, so reaching a ten-base-pair
     # hybrid and reaching a five-nucleotide contiguous DNA run are the same inequality. If a future
     # geometry changes the wing they come apart, and one row would then be silently wrong for one of
     # them — which is exactly the class of error a generated table is supposed to make impossible.
@@ -479,7 +479,7 @@ def table5(gap):
         return f"{bp} (*{d['mature_parent_duplex_gene']}*)" if bp else "0"
 
     rows = [
-        "| **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 seam** | | | |",
+        "| **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 junction** | | | |",
         row("design (5′→3′)", lambda d: d["antisense_5to3"], lead),
         row("gap-level margin", lambda d: d["gap_specificity_margin"], lead),
         row("hybridisable gap-spanning cleavage risks",
@@ -495,7 +495,7 @@ def table5(gap):
             lambda d: d["parent_paired_gap_dna_nt"], lead),
         row("most stable parent ΔG°37 (kcal/mol)",
             lambda d: f"{d['dg37_most_stable_parent_duplex']:.2f}".replace("-", "−"), lead),
-        "| **Over the six seams screened at every geometry** | | | |",
+        "| **Over the six junctions screened at every geometry** | | | |",
         row("designs screened", lambda d: d["n_designs_with_alignment_counts"], matched),
         row("median near-matches", lambda d: f"{d['near_matches']['median']:g}", matched),
         row("median gap-spanning cleavage risks",
@@ -509,7 +509,7 @@ def table5(gap):
             lambda d: f"{d['n_with_no_near_match_at_all']} of "
                       f"{d['n_designs_with_alignment_counts']}", matched),
         "| **Over each geometry's whole design space** | | | |",
-        row("junction-spanning registers per seam",
+        row("junction-spanning registers per junction",
             lambda d: d["junction_spanning_registers_per_seam"], geom),
         row("fusion-specific designs", lambda d: d["n_fusion_specific_designs"], geom),
         f"| best gap-level margin available | " + " | ".join(
@@ -519,7 +519,7 @@ def table5(gap):
             lambda d: f"{d['mature_parent_whole_gap_duplex']['n_with_any_gap_pairing_window']} of "
                       f"{d['n_fusion_specific_designs']}", geom),
         # ⚠ ONE ROW, NOT TWO, BECAUSE THESE ARE THE SAME CONDITION AND PRINTING BOTH READS AS A
-        # COPY-PASTE FAULT. The parent's seam hybrid is the wing plus its share of the gap, and the
+        # COPY-PASTE FAULT. The parent's junction hybrid is the wing plus its share of the gap, and the
         # wing is five at every geometry compared, so "hybrid reaches ten base pairs" and "the DNA
         # run reaches five nucleotides" are the same inequality. Asserted below rather than trusted.
         row("parent pairs ≥5 nt of contiguous gap DNA, a ten-base-pair hybrid",
@@ -566,7 +566,7 @@ def table6(expr):
     printed side by side and never combined, exactly as Table 5 keeps the two directions of the
     gap-length trade apart.
 
-    ⛔ NO RISK COLUMN, AND NO ORDERING BY EXPRESSION. Rows are grouped by seam and then by transcript
+    ⛔ NO RISK COLUMN, AND NO ORDERING BY EXPRESSION. Rows are grouped by junction and then by transcript
     record count, which is annotation depth. Every hit behind this table is at the screen's loosest
     admitted identity, so nothing here distinguishes the loci on affinity, and an expression figure
     is not a predicted cleavage event. The artifact refuses a hazard ordering and so does its table.
@@ -577,7 +577,7 @@ def table6(expr):
     tiss = expr["method"]["exposure_tissues"]
     rows, seen = [], set()
     order = {s["junction_label"]: i for i, s in enumerate(expr["panel"]["panel"])}
-    # ⚠ THE REGISTER COLUMN NEEDS ITS DENOMINATOR OR THE TWO SEAMS ARE NOT COMPARABLE. One seam
+    # ⚠ THE REGISTER COLUMN NEEDS ITS DENOMINATOR OR THE TWO SEAMS ARE NOT COMPARABLE. One junction
     # contributes a single design and the other five, so a bare "1" and a bare "5" read as a
     # thirteen-fold difference in robustness when one of them is every register there is.
     n_des = {s["junction_label"]: s["n_designs"] for s in expr["panel"]["panel"]}
@@ -585,9 +585,9 @@ def table6(expr):
                  key=lambda L: (order.get(L["seams"][0], 99),
                                 -L["screen_records"]["n_transcript_records"], L["locus"]))
     for L in per:
-        seam = L["seams"][0]
-        lab = "" if seam in seen else seam.replace("__", "::").replace("_", " ")
-        seen.add(seam)
+        junction = L["seams"][0]
+        lab = "" if junction in seen else junction.replace("__", "::").replace("_", " ")
+        seen.add(junction)
         ex, tu = L["exposure_compartment_liver_kidney"], L["tumour_compartment_normal_tissue_proxy"]
         if ex.get("readable") and ex.get("values"):
             cells = [f"{ex['values'][t]:.2f}" if ex["values"].get(t) is not None else "—"
@@ -602,9 +602,9 @@ def table6(expr):
         reading = _EXPOSURE_READING.get(L["tier"], L["tier"])
         rows.append(f"| {lab} | *{L['locus']}* | "
                     f"{L['screen_records']['n_transcript_records']} | "
-                    f"{L['n_designs_hitting_it']} of {n_des.get(seam, '?')} | "
+                    f"{L['n_designs_hitting_it']} of {n_des.get(junction, '?')} | "
                     + " | ".join(cells) + f" | {soft} | {reading} |")
-    hdr = ("| seam | gene locus | transcript records | tiling registers returning it | "
+    hdr = ("| junction | gene locus | transcript records | tiling registers returning it | "
            + " | ".join(tiss) + " | soft-tissue proxy maximum | exposure-organ reading |")
     sep = "|---|---|---|---|" + "---|" * (len(tiss) + 2)
     return "\n".join([hdr, sep] + rows)
@@ -619,7 +619,7 @@ def table3(collapse, chance, thermo, graded):
     Table 2's six zero-gap-spanning junctions are not the same six. So a reader sent to a table to
     check the central claim could not find five of the molecules it is about, and would find two
     junctions (FUS e8, TCF12 e9) whose Table 2 row shows a gap-spanning locus for a DIFFERENT
-    design at the same seam. Prose naming nine sequences is not a substitute for a table.
+    design at the same junction. Prose naming nine sequences is not a substitute for a table.
     """
     ddg = {r["antisense_5to3"]: r for r in thermo["per_design"]}
     le1 = {}
@@ -677,7 +677,7 @@ def _graded_loads():
 
     ⛔⛔ ONE DEPTH TOO, BY THE SAME ARGUMENT AND FOR THE SAME TABLE (2026-08-14). The key here is
     `(source_screen, sequence)` and carries no depth, so a default-depth re-score and a deep
-    re-score of the SAME seam and the SAME design write to the same key. The "if the two models ever
+    re-score of the SAME junction and the SAME design write to the same key. The "if the two models ever
     disagree, say so" fold below then joined them, and Table 3's residual-load column read
     `31.4 / 101 / 0 / 0` for `GGGCATATCTCTATAA` — the deep screen's bounds and the default screen's,
     in one cell, in a table whose legend says in its first sentence that it is the default-depth
@@ -692,7 +692,7 @@ def _graded_loads():
     leave `table3` to CHOOSE at lookup time, and choosing at lookup is precisely what failed — the
     right value was present in `31.4 / 101 / 0 / 0` the whole time and was still reported wrongly.
     Filtering makes the other depth unreachable rather than merely un-chosen, and `select=` is the
-    loader's own documented seam for exactly this ("filters on the artifact's own content (depth,
+    loader's own documented junction for exactly this ("filters on the artifact's own content (depth,
     junction label, orientation status)").
 
     ⚠ AND THE FILTER IS ONLY REAL BECAUSE `is_deep` WAS FIXED IN THE SAME PASS. Until then it read
@@ -779,10 +779,10 @@ def main():
 
 # Tables — fusion-junction ASO submission
 
-**Table 1. The frame-compatible junction space across five *NR4A3* fusion partners.** Every
+**Table 1. The in-frame junction space across five *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
 emitted. The gap-level margin is the number of junction-unique bases inside the six-nucleotide
-catalytic gap on the shorter side of the seam. Frame compatibility is an arithmetic property of exon
+catalytic gap on the shorter side of the junction. Frame compatibility is an arithmetic property of exon
 structure and is not a claim about which junctions patients carry.
 
 {table1(atlas)}
@@ -824,7 +824,7 @@ default-depth zeros must not be read on their own.
 
 {t3}
 
-**Table 4. The best available design at each of the {per_junction["n_junctions"]} frame-compatible junctions.** Tables 2 and 3
+**Table 4. The best available design at each of the {per_junction["n_junctions"]} in-frame junctions.** Tables 2 and 3
 select across the panel; this table selects within each junction, which is the question a patient's
 fusion poses. Designs are ranked by parent liability first, since sparing the wild-type parents is
 what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
@@ -842,8 +842,8 @@ reported as such rather than given a best row.
 
 {table4(per_junction)}
 
-**Table 5. Gap length against junction specificity, at one seam and across the design space.** The
-same seams tiled and screened at three gapmer geometries, wing held at five nucleotides so that only
+**Table 5. Gap length against junction specificity, at one junction and across the design space.** The
+same junctions tiled and screened at three gapmer geometries, wing held at five nucleotides so that only
 the catalytic gap changes. Inside the gap the junction-unique bases on the shorter side and the
 bases one wild-type parent pairs on the longer side are complements: they sum to the gap, which the
 generating module asserts for every design rather than assuming. Each nucleotide of gap-level margin
@@ -853,11 +853,11 @@ instrument guarantees rather than measures: at a fixed budget of two mismatches 
 design can reach is also reached by each of its own shorter sub-windows, so the set can only shrink,
 and two mismatches is a fractionally stricter test at 20 nucleotides than at 16. Only the size of
 the fall and which designs reach zero are measurements. The three blocks carry different
-denominators and are not comparable across blocks: the seam block is one molecule, the matched-seam
+denominators and are not comparable across blocks: the junction block is one molecule, the matched-junction
 block is the six junctions every geometry was screened at, and the corpus block is each geometry's
 whole design space, which is not screened at the same junctions. The exhaustive GRCh38 genome scan
 is unavailable at 18 and 20 nucleotides by construction, so no row reports it. Because the wing is
-five throughout, a parent's seam hybrid is five base pairs plus its share of the gap, so pairing
+five throughout, a parent's junction hybrid is five base pairs plus its share of the gap, so pairing
 five nucleotides of contiguous gap DNA and reaching a ten-base-pair hybrid are the same condition
 and are reported as one row. ΔG°37 values are for
 an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
@@ -867,7 +867,7 @@ measurement of cleavage.
 {table5(gap)}
 
 **Table 6. Where the two clinically-relevant reagents' off-target loci are expressed.** Every gene
-locus returned by the deeper screens at the two seams with a published exon-resolved EMC breakpoint,
+locus returned by the deeper screens at the two junctions with a published exon-resolved EMC breakpoint,
 read against reference expression data. The two compartments answer different questions and are
 never combined: a systemically dosed phosphorothioate gapmer distributes predominantly to liver and
 kidney, so {lo_cut_txt} address exposure, while the soft-tissue column is the normal
@@ -876,7 +876,7 @@ Values are GTEx v8 median TPM across each tissue's donors. The two cuts behind t
 stated for legibility and are not thresholds of concern: below {lo_cut:g} TPM in all three exposure
 tissues reads as below detection, at or above {hi_cut:g} TPM in any of them as the level at which an
 off-target hypothesis would have to be tested. Every raw median is released so another cut can be
-applied without re-running. Tiling registers is how many of the designs tiled across that seam
+applied without re-running. Tiling registers is how many of the designs tiled across that junction
 return the locus, which is robustness to where the window is placed and is a different axis from the
 record count beside it; neither is ranked on. Transcript records are how many accessions RefSeq
 lists for the gene, that is annotation depth, not expression and not affinity. A locus with no
