@@ -73,52 +73,45 @@ That driver is currently untargeted. Surgery with clear margins is the backbone 
 and for advanced disease no agent is approved specifically for
 EMC.<sup>6</sup><!--PMID:41055792--> The largest EMC-specific prospective study, a single-arm phase 2
 of pazopanib in centrally confirmed *NR4A3*-translocated disease, returned four objective responses
-in 22 evaluable patients, with a median progression-free survival of 19 months (95% CI
-11–27).<sup>7</sup><!--PMID:31331701--> First-line anthracycline-based chemotherapy returned four
-responses in ten evaluable patients in a molecularly confirmed retrospective
-series.<sup>8</sup><!--PMID:24345066--> The population a fusion-directed agent would address is close
+in 22 evaluable patients.<sup>7</sup><!--PMID:31331701--> First-line anthracycline-based
+chemotherapy returned four responses in ten evaluable patients in a molecularly confirmed
+retrospective series.<sup>8</sup><!--PMID:24345066--> The population a fusion-directed agent would address is close
 to the whole disease: across 58 molecularly confirmed cases, 79% carried *EWSR1::NR4A3*, 16%
 *TAF15::NR4A3* and 3% *TCF12::NR4A3*.<sup>9</sup><!--PMID:36948401-->
 
-Protein-directed approaches to this fusion face a structural problem. The *NR4A3* ligand-binding
-domain is retained near-intact in the chimera and is identical in sequence to wild-type NR4A3, so a
-ligand that engages it cannot distinguish fusion from wild type. That matters because NR4A3 can be
-tumour-suppressive. Combined *NR4A1*/*NR4A3* loss causes acute myeloid leukaemia in
-mice,<sup>10</sup><!--PMID:17515897--> and NR4A3's roles in cancer are context-dependent,
-tumour-suppressive in some tissues and tumour-promoting in
-others.<sup>11</sup><!--PMID:33106376--> Either way, wild-type NR4A3 is not a protein a therapy
-should silence indiscriminately. The chimeric mRNA does not share this problem. Its
-breakpoint junction is a contiguous stretch of sequence present in no normal transcript, and absent
-from both parent transcripts, so discrimination can in principle be enforced by base-pairing rather
-than by protein conformation. That junction is the target of every design in this paper.
+The chimeric mRNA offers a discrimination handle its protein product does not. The *NR4A3*
+ligand-binding domain is retained near-intact in the chimera and is identical in sequence to
+wild-type NR4A3, so a ligand that engages it cannot distinguish fusion from wild type. The
+breakpoint junction can: it is a contiguous stretch of sequence present in no normal transcript, and
+absent from both parent transcripts, so selectivity can in principle be enforced by base-pairing
+rather than by protein conformation. That junction is the target of every design in this paper.
 
 Targeting a fusion breakpoint with an oligonucleotide is not new. The approach has a continuous
-lineage from 1991,<sup>12</sup><!--PMID:1794439--> including RNase-H-dependent antisense at a sarcoma
-fusion breakpoint in 1997,<sup>13</sup><!--PMID:9049825--> and the fusion-exclusivity rationale was
-stated as a general principle in 2005.<sup>14</sup><!--PMID:16083345--> Parental sparing has been
+lineage from 1991,<sup>10</sup><!--PMID:1794439--> including RNase-H-dependent antisense at a sarcoma
+fusion breakpoint in 1997,<sup>11</sup><!--PMID:9049825--> and the fusion-exclusivity rationale was
+stated as a general principle in 2005.<sup>12</sup><!--PMID:16083345--> Parental sparing has been
 demonstrated in at least four
-fusions.<sup>15–18</sup><!--PMID:33241214,36265509,21846246,23052253--> A bi-shRNA lipoplex directed
+fusions.<sup>13–16</sup><!--PMID:33241214,36265509,21846246,23052253--> A bi-shRNA lipoplex directed
 at the *EWSR1::FLI1* junction was taken to preclinical
-justification,<sup>19</sup><!--PMID:27166877--> and a GalNAc-conjugated junction siRNA in
+justification,<sup>17</sup><!--PMID:27166877--> and a GalNAc-conjugated junction siRNA in
 fibrolamellar hepatocellular carcinoma passed the delivery gate in a rare fusion-driven
-cancer.<sup>20</sup><!--PMID:37980543--> The contribution here is therefore not the modality but the
+cancer.<sup>18</sup><!--PMID:37980543--> The contribution here is therefore not the modality but the
 indication. Across 5,153 unique records retrieved from Europe PMC, four mention *EWSR1::NR4A3* at
 title or abstract level, resolving to three papers, none an oligonucleotide study.
 
 Two questions follow that the field has not asked of this disease. The first is that prior design
-work has addressed only *EWSR1*, while the partner varies. Partner identity is not clinically inert:
-every reported objective response to an antiangiogenic tyrosine-kinase inhibitor in advanced EMC has
-occurred in a non-*TAF15* patient, though the *TAF15* arm comprises three to five patients with zero
-events and its Wilson upper bound remains compatible with equal
-response.<sup>7,21</sup><!--PMID:31331701,24703573--> The second is whether a junction
-oligonucleotide must be bespoke per patient, or whether one sequence can serve more than one fusion.
-That determines whether the deployable artefact for an ultra-rare disease is a stock reagent or a
-panel.
+work has addressed only *EWSR1*, while the partner varies. Partner identity may not be clinically
+inert: every reported objective response to an antiangiogenic tyrosine-kinase inhibitor in advanced
+EMC has occurred in a non-*TAF15* patient, on a *TAF15* arm of three to five patients whose Wilson
+upper bound remains compatible with equal response.<sup>7,19</sup><!--PMID:31331701,24703573--> The
+second is whether a junction oligonucleotide must be bespoke per patient, or whether one sequence can
+serve more than one fusion. That determines whether the deployable artefact for an ultra-rare disease
+is a stock reagent or a panel.
 
-This paper is written to be acted on at a bench. It answers those two questions from sequence, and
-sets out where a computational screen stops being able to answer them. It ends by naming the
-oligonucleotides to synthesise, the controls that make the result interpretable, and the measured
-threshold that would falsify the ranking every candidate here is ordered by (§5).
+This paper answers both questions from sequence, sets out where a computational screen stops being
+able to answer them, and ends by naming the oligonucleotides to synthesise, the controls that make a
+knockdown result interpretable, and the measured threshold that would falsify the ranking every
+candidate here is ordered by (§5).
 
 ## 2 · Methods
 
@@ -144,15 +137,15 @@ emitted only for the in-frame ones, since those are the pairs at which a fusion 
 phosphorothioate backbone, which is the chemistry the design rules below assume. Only registers
 placing the junction inside the six-nucleotide DNA gap were retained, since RNase-H1 cleaves within the
 DNA:RNA duplex of the gap and needs a minimum run of contiguous DNA to do so. Reported
-minima for that run are five to six nucleotides,<sup>22,23</sup><!--PMID:39126066,41614678--> and for
+minima for that run are five to six nucleotides,<sup>20,21</sup><!--PMID:39126066,41614678--> and for
 LNA/DNA/LNA gapmers specifically a six-nucleotide gap gives noteworthy but incomplete activity, with
-seven to ten reported as optimal.<sup>24</sup><!--PMID:24981949--> A six-nucleotide gap therefore sits
+seven to ten reported as optimal.<sup>22</sup><!--PMID:24981949--> A six-nucleotide gap therefore sits
 at the short end of the usable range and below the reported optimum. It was retained because it
 admits exactly five junction-spanning registers per
 junction. No claim is made that a short gap improves
 fusion-versus-parent discrimination: one series that shortened a 5-10-5 gapmer to 5-6-5 reported
 lower off-target knockdown but also lower on-target activity and lower allele
-selectivity.<sup>22</sup><!--PMID:39126066--> Because that trade is the modality's central one, two
+selectivity.<sup>20</sup><!--PMID:39126066--> Because that trade is the modality's central one, two
 longer geometries were tiled over the same junctions by the same rule and carried through the same
 screens: 5-8-5 and 5-10-5, with the wing held at five nucleotides so that only the catalytic gap
 changed. Holding the wing fixed is what makes the geometries comparable, since LNA affinity then
@@ -203,7 +196,7 @@ another catches. No single screen supports any claim here on its own.
    would see. Runs shorter than ten base pairs are not treated as plausible substrates. That is a
    stated threshold, not a measured one, so every design's longest run is released. Ten is the strict
    end of the seven to ten hybridised nucleotides reported as the minimum for RNase-H1 to engage a
-   heteroduplex through its hybrid-binding domain and cleave,<sup>25</sup><!--PMID:35664704--> so the
+   heteroduplex through its hybrid-binding domain and cleave,<sup>23</sup><!--PMID:35664704--> so the
    count it produces is a floor: at seven the same screen returns 175 of 190 rather than 87.
 
 5. **The genome scan.** Screens 1 to 4 are bounded either by an annotation or by six transcripts.
@@ -245,15 +238,15 @@ consensus incorporating GTEx rather than confirming it independently.
 **Discrimination model.** The binary assumption that any mismatch inside the gap abolishes cleavage
 is not supported by the primary literature and is not used for any claim of cleanliness. The field's
 general figure for single-nucleotide discrimination by a gapmer carrying no positional modification
-in its gap is approximately five-fold,<sup>26</sup><!--PMID:23963702--> and at 16-mer length one
-study reports no efficient discrimination at all.<sup>27</sup><!--PMID:7567450--> Both are measured
+in its gap is approximately five-fold,<sup>24</sup><!--PMID:23963702--> and at 16-mer length one
+study reports no efficient discrimination at all.<sup>25</sup><!--PMID:7567450--> Both are measured
 against a single-nucleotide substitution rather than a fusion junction, and the pessimistic one used
 unmodified antisense DNA. They are used here as bounds for unmodified chemistry, not as a property of
 this architecture. Gapmer-specific work points the same way, and is the reason the bounds are not
 narrowed. Across more than 120 gapmers spanning five single-nucleotide changes, only two or three
-achieved preferential cleavage of the mutant allele in cells.<sup>28</sup><!--PMID:28970564--> Where
+achieved preferential cleavage of the mutant allele in cells.<sup>26</sup><!--PMID:28970564--> Where
 allele selectivity is achieved, it is engineered by modifying a gap position to block cleavage of the
-near-match, rather than obtained from the mismatch itself.<sup>29</sup><!--PMID:42327837-->
+near-match, rather than obtained from the mismatch itself.<sup>27</sup><!--PMID:42327837-->
 
 Every screen that resolves the gap was therefore re-scored under both bounds as a graded residual
 cleavage load, holding the hit set fixed so that only the scoring changed: all 38 junction screens, and 39 of
@@ -275,7 +268,7 @@ field's standard instrument for it, so each design was also scored thermodynamic
 gapmer is a perfect complement of the fusion across all 16 positions, while a parent transcript can
 pair only the half of the oligonucleotide it contributes. The comparison is therefore the full 16-mer
 duplex against the donor-side and acceptor-side runs alone. Nearest-neighbour enthalpies and
-entropies for a DNA:RNA hybrid were taken from Sugimoto and colleagues,<sup>30</sup><!--PMID:7545436-->
+entropies for a DNA:RNA hybrid were taken from Sugimoto and colleagues,<sup>28</sup><!--PMID:7545436-->
 and ΔG°37 computed as ΔH° − TΔS°. The 250 nM strand concentration enters only the melting temperature
 used to check the arithmetic against an independent implementation, which agreed exactly. That check
 verifies the summation, not the choice of strand, which is fixed by the table's documented convention
@@ -329,7 +322,7 @@ donor coding phase of 1, which is necessary and sufficient across its 77 rows bu
 across all 231.
 
 Among these, *EWSR1* exon 12 joined to *NR4A3* exon 3 is the junction reported most often: type 1 in
-10 of the 15 *EWSR1*-rearranged tumours of an 18-case series.<sup>31</sup><!--PMID:12378528--> Designs
+10 of the 15 *EWSR1*-rearranged tumours of an 18-case series.<sup>29</sup><!--PMID:12378528--> Designs
 at this junction therefore correspond to the largest documented patient group.
 
 No design at any of the 38 junctions is a perfect complement of any of the six parent transcripts.
@@ -350,9 +343,9 @@ what makes the coverage arithmetically possible.
 
 In one respect the published data contradict the clinical reading of this result. The only
 exon-resolved *TAF15::NR4A3* breakpoints reported in EMC are at exon 6, not exon 11. The primary
-report of the variant fusion places the breakpoint there,<sup>32</sup><!--PMID:10537274--> and in a
+report of the variant fusion places the breakpoint there,<sup>30</sup><!--PMID:10537274--> and in a
 series of 18 EMCs all three *TAF15*-rearranged tumours carried exon 6 joined to *NR4A3* exon
-3.<sup>31</sup><!--PMID:12378528--> The exon-6 junction shares a single donor base with the exon-11 junction,
+3.<sup>29</sup><!--PMID:12378528--> The exon-6 junction shares a single donor base with the exon-11 junction,
 so this oligonucleotide cannot engage the *TAF15* junction that patients are reported to carry.
 
 That junction is itself in-frame and yields five fusion-specific designs (43.8–50.0% GC), all
@@ -755,7 +748,7 @@ longer gap buys a markedly quieter transcriptome, and buys it by making RNase-H1
 against the parent as well as against the fusion. That is the same limit reached from the other side
 rather than a way around it. The field's own answer to poor single-base discrimination has been
 positional chemical modification of the gap rather than
-length,<sup>26</sup><!--PMID:23963702--> and that is the design direction this result points to, now
+length,<sup>24</sup><!--PMID:23963702--> and that is the design direction this result points to, now
 for a demonstrated reason rather than by analogy. A steric-block
 mechanism, which does not require gap-level discrimination, is a second alternative this work does not
 evaluate.
@@ -766,9 +759,9 @@ the systemic receptor-targeted route only; local and inhaled administration requ
 distant spread is lung-dominant, at 35–45% of patients and a median of approximately 28 months to
 metastasis.<sup>6</sup><!--PMID:41055792--> Inhaled oligonucleotides have reached human dosing in
 non-oncology indications. An inhaled antisense oligonucleotide has been dosed in healthy volunteers
-in phase 1,<sup>33</sup><!--PMID:39500647--> though that was a splice-switching oligonucleotide rather
+in phase 1,<sup>31</sup><!--PMID:39500647--> though that was a splice-switching oligonucleotide rather
 than an RNase-H1-active gapmer, so it establishes the route and not the mechanism used here. An
-inhaled siRNA has reached phase 2b–3 in patients.<sup>34</sup><!--PMID:40028836--> Both target airway
+inhaled siRNA has reached phase 2b–3 in patients.<sup>32</sup><!--PMID:40028836--> Both target airway
 epithelium or parenchyma, which is the compartment inhalation naturally reaches. A hypocellular,
 matrix-rich parenchymal sarcoma nodule is not. Inhaled delivery to lung tumours is an active
 preclinical field, with 68 records in the retrieval corpus behind this section, but only two of those
@@ -789,7 +782,7 @@ The experiment that would resolve the central uncertainty is routine, and has be
 analogous disease. Fusion-specific antisense oligonucleotides against *NAB2::STAT6* in solitary
 fibrous tumour, evaluated against CRISPR-engineered isogenic fusion-positive and fusion-negative
 cells, reduced fusion expression by 58% and proliferation by 22% in
-vitro.<sup>35</sup><!--PMID:37370737-->
+vitro.<sup>33</sup><!--PMID:37370737-->
 
 Applied here, the reagents to synthesise are the best available at the two junctions with a published
 exon-resolved breakpoint (Table 4): 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
@@ -800,7 +793,7 @@ tests the multi-partner prediction, against a synthetic target only.
 
 Two risks attach, in this order. The first is architectural, and the Methods disclose it. A
 six-nucleotide gap supports noteworthy but incomplete RNase-H1 activity where seven to ten are
-reported as optimal,<sup>24</sup><!--PMID:24981949--> so weak knockdown is at least as likely to be
+reported as optimal,<sup>22</sup><!--PMID:24981949--> so weak knockdown is at least as likely to be
 the gap as the sequence. That risk is now addressable by a named second reagent rather than by a
 caveat.
 

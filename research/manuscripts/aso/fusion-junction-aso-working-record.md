@@ -204,9 +204,13 @@ near-intact in the fusion, and its amino-acid sequence is **identical** to that 
 ligand that binds the fusion's LBD therefore cannot, in principle, distinguish the fusion from wild-type
 NR4A3: the degrader is **NR4A3-selective but not fusion-selective**. The degrader paper handles this
 honestly — its selectivity work is *paralogue* selectivity (NR4A3 vs NR4A1/NR4A2), not *fusion-vs-wildtype*
-selectivity — and it is bounded by NR4A3's own tumour-suppressor roles (combined NR4A1/NR4A3 loss causes
-AML [Mullican]; NR4A3 is tumour-suppressive in HCC/breast/lymphoma [Safe & Karki]). Removing wild-type
-NR4A3 systemically is thus a real liability the degrader must manage.
+selectivity.
+⚠ *Superseded, retained (2026-08-14): "and it is bounded by NR4A3's own tumour-suppressor roles (combined
+NR4A1/NR4A3 loss causes AML [Mullican]; NR4A3 is tumour-suppressive in HCC/breast/lymphoma [Safe & Karki]).
+Removing wild-type NR4A3 systemically is thus a real liability the degrader must manage." The AML phenotype
+requires **combined** Nr4a1/Nr4a3 loss and single nulls do not produce it, so it does not support a liability
+attaching to loss of NR4A3 alone. Withdrawn from the submission manuscript and not to be requoted —
+[Appendix B.10](#appendix-b10--the-wild-type-nr4a3-liability-argument-withdrawn-from-the-introduction-2026-08-14-0).*
 
 The fusion **mRNA junction** dissolves this problem at the sequence level. The breakpoint seam — the few
 nucleotides where the retained EWSR1 exon is spliced to the retained NR4A3 exon — is a contiguous sequence
@@ -1499,10 +1503,16 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
   each side: "a parent matches only one wing" is necessary but not sufficient (a parent matching the full gap
   plus a flank could still be cleaved). This is why the gap-mismatch-resolved off-target screen, not the
   oligo-wide specificity margin, is the operative filter (§2a, §3a-quater).
-- **Spares wild-type NR4A3 — and therefore avoids the tumour-suppressor liability the degrader carries.**
-  This is the key safety advantage over the LBD degrader. Because the junction is absent from wild-type
-  *NR4A3*, the oligo does not touch the wild-type transcript, side-stepping the AML risk of combined
-  NR4A1/NR4A3 loss [Mullican] and the HCC/breast/lymphoma tumour-suppressor roles of NR4A3 [Safe & Karki].
+- **Spares wild-type NR4A3 — a selectivity property, and it is claimed as nothing more.** Because the
+  junction is absent from wild-type *NR4A3*, a design that engages only the junction leaves the wild-type
+  transcript intact. What that buys is fusion-versus-wild-type discrimination, which the LBD degrader
+  cannot offer; it is **not** a safety advantage over the degrader, because no evidence here establishes
+  that losing wild-type NR4A3 alone is harmful.
+  ⚠ *Superseded, retained (2026-08-14): "**Spares wild-type NR4A3 — and therefore avoids the
+  tumour-suppressor liability the degrader carries.** This is the key safety advantage over the LBD
+  degrader … side-stepping the AML risk of combined NR4A1/NR4A3 loss [Mullican] and the HCC/breast/lymphoma
+  tumour-suppressor roles of NR4A3 [Safe & Karki]." Grounds and the manuscript edit:
+  [Appendix B.10](#appendix-b10--the-wild-type-nr4a3-liability-argument-withdrawn-from-the-introduction-2026-08-14-0).*
 - **Spares wild-type EWSR1.** EWSR1 is a broadly expressed FET-family gene with essential functions; a
   junction oligo leaves the wild-type *EWSR1* transcript intact, matching only one wing.
 - **Residual risks remain and must be tested, not assumed away:** sequence-based off-target hybridisation
@@ -2559,6 +2569,47 @@ artifact, all 38 rows of Table 4, and `offtarget-chance-baseline.json` byte-for-
 committed value the merge moved was the recorded `transcriptome_nt_source`, which had begun naming
 an 18-mer panel for a 16-mer corpus's span; the span itself, 718,571,139 nucleotides, is unanimous
 across all 13 panels that record it and did not move.
+
+### Appendix B.10 — the wild-type NR4A3 liability argument, withdrawn from the Introduction (2026-08-14, $0)
+
+⛔ **THE CLAIM DOES NOT FOLLOW FROM THE CITED PHENOTYPE, AND IT IS OUT (trimcrae, 2026-08-14:
+*"You need NR4A1 also knocked out for the leukemia … so it is feasible in principle to knock out
+NR4A3 and be fine."*).** The submission's Introduction argued that wild-type NR4A3 is a protein a
+therapy should not silence indiscriminately, and rested it on Mullican (PMID **17515897**) plus the
+context-dependent-roles review (PMID **33106376**). Mullican's phenotype is the **combined**
+*Nr4a1*⁻/⁻;*Nr4a3*⁻/⁻ mouse; single nulls do not develop AML, which the repository already records as
+a hard constraint on the *degrader* route for exactly the opposite reason — the degrader
+reconstitutes the pair, an ASO against the junction does not
+([roadmap](../nr4a3-program-map.md), [`target-route-options.md`](../program/target-route-options.md)).
+Read as a bound on losing NR4A3 alone, the citation is being asked to carry a paralogue-redundancy
+question it does not answer: NR4A1 and NR4A2 are the plausible replacements, and nothing retrieved
+here measures whether they suffice. The review's context-dependent roles are weaker still — they
+establish that the direction varies by tissue, not that chronic systemic loss is harmful.
+
+**Withdrawn text**, registered here so it stays quotable as history and nowhere else:
+
+> That matters because NR4A3 can be tumour-suppressive. Combined *NR4A1*/*NR4A3* loss causes acute
+> myeloid leukaemia in mice, and NR4A3's roles in cancer are context-dependent, tumour-suppressive in
+> some tissues and tumour-promoting in others. Either way, wild-type NR4A3 is not a protein a therapy
+> should silence indiscriminately.
+
+⚠ **WHAT THIS DOES AND DOES NOT COST THE PAPER.** It removes an argument, not a measurement. Nothing
+in Results, §5 or §6 rested on it: every parent-screen count is a **selectivity** finding, and a
+design that pairs its catalytic gap against wild-type *NR4A3* is a design that is not
+junction-selective, which is the paper's subject whether or not losing NR4A3 is tolerable. The same
+screens' *EWSR1*, *TAF15*, *FUS*, *TCF12* and *TFG* liabilities are untouched by this and were never
+argued from NR4A3 biology. PMIDs 17515897 and 33106376 leave the submission's reference list, which
+falls 35 → 33; superscripts were re-derived by `submission_citations.py --write` rather than
+renumbered by hand.
+
+⭐ **IT ALSO CLOSES A KNOWN CONTRADICTION.**
+[`emc-treatment-strategy.md`](../program/emc-treatment-strategy.md) had logged, as an open
+pre-submission item, that the repository asserted both "WT NR4A3 loss is tolerable (paralogue
+redundancy)" for the degrader and "sparing WT NR4A3 avoids the tumour-suppressor liability" for the
+ASO, and that as two independent confident claims they contradict. The ruling resolves it in the
+first direction: **tolerability is unresolved, and neither manuscript may claim the liability as
+established.** The ASO's wild-type sparing is now stated as what it is, a fusion-versus-wild-type
+selectivity property the LBD degrader cannot offer.
 
 ---
 

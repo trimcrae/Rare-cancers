@@ -437,6 +437,14 @@ first*. The two priorities:
    certain; the **degrader bets it is tolerable**, the **ASO hedges** against that bet being wrong. Frame the
    ASO's WT-sparing as *insurance + automatic paralogue/tumour-exclusivity*, **not** as an independent win the
    degrader's own thesis declares moot. Align both manuscripts' WT-NR4A3 language to this.
+   ✅ **RESOLVED 2026-08-14 (trimcrae), and not as a hedge.** The liability side of the contradiction is
+   withdrawn: Mullican's AML phenotype needs the **combined** *Nr4a1*/*Nr4a3* null, single nulls do not
+   produce it, and no retrieved evidence bounds the loss of NR4A3 alone — so the tumour-suppressor liability
+   was never established and neither manuscript may assert it. Tolerability stays **unresolved** in both
+   directions. The ASO argument that rested on it is out of the submission's Introduction; its wild-type
+   sparing is now stated as a fusion-versus-wild-type *selectivity* property, which is what the screens
+   measure. One home for the ruling, the withdrawn text and what it costs the paper:
+   [`fusion-junction-aso-working-record.md` → Appendix B.10](../aso/fusion-junction-aso-working-record.md#appendix-b10--the-wild-type-nr4a3-liability-argument-withdrawn-from-the-introduction-2026-08-14-0).
    *(A third, related inconsistency — §2.7's "source paralogue selectivity from the ternary, not the binder"
    read as contradicting the whole binder campaign — was **fixed 2026-07-01** (trimcrae): reframed to
    "binder **+** ternary" (factors compound; a selective binder is the primary goal and `denovo_401` is one,
