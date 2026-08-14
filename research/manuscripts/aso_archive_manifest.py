@@ -54,6 +54,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))          # research/
 REPO = os.path.abspath(os.path.join(ROOT, ".."))          # repository root
 MOD = os.path.join(ROOT, "modalities")
+sys.path.insert(0, os.path.abspath(MOD))
+import aso_screen_sets as ass                                            # noqa: E402
 LIT = os.path.join(ROOT, "literature")
 ASO = os.path.join(HERE, "aso")
 OUT = os.path.join(ASO, "fusion-junction-aso-archive-manifest.json")
@@ -469,22 +471,36 @@ def _screen_coverage():
                                    "grading gaps below are UNKNOWN, not empty."})
         return res
 
+    # ⭐ THE DEPOSIT INVENTORY IS DELIBERATELY EVERY GEOMETRY, and that is the one place in this
+    # repository where pooling is right: this block counts what the ARCHIVE SHIPS, and a deposit
+    # that silently stopped listing a geometry would be a worse defect than the one the loader
+    # exists to prevent. What it must not do is discover those files by a pattern of its own — the
+    # scan goes through `aso_screen_sets`, which measures each screen's geometry and checks it
+    # against whatever the screen states, so the inventory is a considered union of named
+    # per-geometry sets rather than a glob nobody has looked at since the corpus widened.
+    # ⚠ AND THE UNION IS WRITTEN OUT HERE, VISIBLY, which is the property `iter_geometries` is for.
     screens, gap_resolved, ungraded, unfiltered = [], [], [], []
-    for p in sorted(glob.glob(os.path.join(MOD, "junction-aso-offtarget-*.json"))):
-        base = os.path.basename(p)
-        if base.endswith("-graded.json") or "locus-collapse" in base:
-            continue
-        with open(p, "r", encoding="utf-8") as fh:
-            screen = json.load(fh)
+    by_geom = dict(ass.iter_geometries(ass.BLAST_SCREEN, root=os.path.abspath(MOD)))
+    every = sorted((s for ss in by_geom.values() for s in ss), key=lambda s: s.name)
+    for s in every:
+        base, screen = s.name, s.artifact
         screens.append(base)
         if screen_orientation_status(screen) != ORIENTATION_FILTERED:
             unfiltered.append(base)
         ok, _why = screen_is_gap_resolved(screen)
         if ok:
             gap_resolved.append(base)
-            if not os.path.exists(p[:-5] + "-graded.json"):
+            if not os.path.exists(s.path[:-5] + "-graded.json"):
                 ungraded.append(base)
 
+    # ⚠⚠ THESE THREE SETS ARE FILENAME TAGS, NOT JUNCTIONS, AND THE FIELDS BELOW CALL THEM
+    # JUNCTIONS. `_tags` strips a prefix and `.json` off a basename, so a re-dispatch committed as
+    # `...-taf15e1n3-20mer-deep500-b2.json` enters as the "junction" `taf15e1n3-20mer-deep500-b2`.
+    # That was harmless while every screen was one seam under one name; it is not now, and
+    # `junctions_screened_by_blast_arm_only` went from `[]` to three such tags when the gap-length
+    # screens landed. The honest population is the junction LABEL each artifact states, compared at
+    # one geometry. ⛔ NOT CHANGED HERE: that moves a published deposit field, which is a data
+    # decision rather than a refactor, and this pass is byte-identical on purpose. Reported instead.
     def _tags(pattern, prefix):
         out = set()
         for p in glob.glob(os.path.join(MOD, pattern)):
@@ -494,9 +510,11 @@ def _screen_coverage():
             out.add(b[len(prefix):-len(".json")])
         return out
 
-    blast = _tags("junction-aso-offtarget-*.json", "junction-aso-offtarget-")
-    blast.discard("locus-collapse")
-    exhaustive = _tags("aso-insilico-evaluation-*.json", "aso-insilico-evaluation-")
+    blast = {s.name[len("junction-aso-offtarget-"):-len(".json")] for s in every}
+    exhaustive = {s.name[len("aso-insilico-evaluation-"):-len(".json")]
+                  for _g, ss in ass.iter_geometries(ass.DESIGN_EVALUATION,
+                                                    root=os.path.abspath(MOD)) for s in ss
+                  if s.name.startswith("aso-insilico-evaluation-")}
     designs = _tags("junction-aso-designs-*.json", "junction-aso-designs-")
 
     res.update({

@@ -32,7 +32,6 @@ that clear the parent screens, with margin printed beside it, never folded in.
 from __future__ import annotations
 
 import argparse
-import glob
 import json
 import os
 import sys
@@ -42,8 +41,16 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "aso-per-junction-table.json")
 
 sys.path.insert(0, HERE)
+import aso_screen_sets as ass  # noqa: E402
 import junction_aso_locus_collapse as C  # noqa: E402
-import junction_aso_offtarget as ja  # noqa: E402
+
+#: The geometry this table is about — the panel the manuscript recommends from. Named, never
+#: defaulted: `load_screens` has no default geometry, precisely so that the module which has not
+#: thought about geometry cannot silently inherit one. ⚠ `junction_aso_offtarget` is no longer
+#: imported here: the only thing this module took from it was `GAP_REGION_1BASED`, which is the
+#: geometry THIS PROCESS's environment built rather than the one the screen ran at — the constant
+#: at the centre of the defect. The window now comes from `screen.geometry`.
+GEOMETRY = ass.MANUSCRIPT_GEOMETRY
 
 #: ⛔ EXON-RESOLVED PATIENT BREAKPOINTS, AND ONLY WHAT IS ACTUALLY CITED IN THE MANUSCRIPT.
 #: Nothing is inferred here. EMC case reports overwhelmingly name the partner GENE without
@@ -86,34 +93,32 @@ def _deep_screens():
     where the panel has 38, with the MOST COMMONLY REPORTED patient junction among the missing.
     A per-junction table that loses the clinically-central junction to a dict collision is worse
     than no table, so the pairs are emitted flat and grouped by the caller.
+
+    ⛔ ONE GEOMETRY, AND THE GUARD THAT USED TO SAY SO HERE IS NOW REDUNDANT (2026-08-14). The
+    gap-length screens write 18-mer 5-8-5 and 20-mer 5-10-5 artifacts under the same glob this
+    function used. Two things go wrong if they are let in, and the second is not a pooling complaint
+    but a wrong number: the gap span applied below was `ja.GAP_REGION_1BASED`, which is 5-6-5's
+    (6, 11), so an 18-mer's gap-paired hits were counted over six of its eight catalytic bases.
+    Measured on merge: admitting them took the six re-screened junctions from 5 designs to 21 and
+    moved `best_available` at the EWSR1 e12, FUS e10 and TAF15 e11 seams — the three clinically
+    central rows — off the 16-mer this paper reports and onto an 18-mer scored against the wrong gap.
+
+    ⭐ WHAT REPLACED THE GUARD, AND WHY THAT IS DIFFERENT IN KIND. The guard was a length check and
+    a gap-region assertion written HERE, protecting THIS call site; six other modules had the same
+    defect and three of them still did when this was written. Both of its checks survive — in
+    `aso_screen_sets`, once, for every consumer — and the third thing it did, `continue` on a wrong
+    length, is now unrepresentable: `load_screens` cannot return two geometries and this function is
+    never handed a screen whose geometry was not measured. The gap window below comes from the
+    SCREEN's own geometry rather than from a module constant, so the two can no longer be different
+    things wearing the same name.
+    ⚠ WHAT IS NOT THE LOADER'S JOB AND STAYS HERE: the truncation check. That is a property of a hit
+    list, not of a geometry, and it is what stops a lower bound being reported as a measurement.
     """
     pairs = []
-    for path in sorted(glob.glob(os.path.join(HERE, "junction-aso-offtarget-*deep500*.json"))):
-        d = json.load(open(path, encoding="utf-8"))
+    for screen in ass.load_screens(GEOMETRY, ass.BLAST_SCREEN, root=HERE, select=ass.is_deep):
+        d = screen.artifact
         label = d.get("junction_label")
-        # ⛔ ONE GEOMETRY, AND THIS GUARD IS THE REASON TABLE 4 STILL NAMES A 16-MER (2026-08-14).
-        # The gap-length screens write 18-mer 5-8-5 and 20-mer 5-10-5 artifacts under this same
-        # glob. Two things go wrong if they are let in, and the second is not a pooling complaint
-        # but a wrong number: the gap span below is `ja.GAP_REGION_1BASED`, which is 5-6-5's
-        # (6, 11), so an 18-mer's gap-paired hits would be counted over six of its eight catalytic
-        # bases. Measured on merge: admitting them took the six re-screened junctions from 5
-        # designs to 21 and moved `best_available` at the EWSR1 e12, FUS e10 and TAF15 e11 seams —
-        # the three clinically central rows — off the 16-mer this paper reports and onto an 18-mer
-        # scored against the wrong gap. The geometry is MEASURED from the designs, never read off
-        # the filename, because the pre-2026-08-13 screens carry no geometry block to read.
-        lens = {len(o["antisense_5to3"]) for o in d.get("oligos", []) if o.get("antisense_5to3")}
-        if lens != {C.MANUSCRIPT_OLIGO_LEN}:
-            continue
-        # ⚠ and the screen must AGREE about where the gap is, not merely be the right length. A
-        # screen states its own `gap_region_1based`; if that ever diverges from the span applied
-        # below, every gap-paired count here is measured against a different window than the one
-        # the screen graded, which is the silent version of the bug above.
-        stated = (d.get("method") or {}).get("gap_region_1based")
-        if stated is not None and list(stated) != list(ja.GAP_REGION_1BASED):
-            raise SystemExit(
-                f"{os.path.basename(path)}: screen records gap region {list(stated)} but this "
-                f"table applies {list(ja.GAP_REGION_1BASED)}; refusing to count one against "
-                f"the other")
+        lo, hi = screen.geometry.gap_region_1based
         for o in d.get("oligos", []):
             if o.get("status") != "screened":
                 continue
@@ -122,9 +127,8 @@ def _deep_screens():
             # a measurement — the exact defect that produced the withdrawn "nine clean designs".
             if o.get("n_offtarget_near_matches") != len(hits):
                 raise SystemExit(
-                    f"{os.path.basename(path)}: {o['antisense_5to3']} stores {len(hits)} hits but "
+                    f"{screen.name}: {o['antisense_5to3']} stores {len(hits)} hits but "
                     f"reports {o.get('n_offtarget_near_matches')}; the deep screens must retain all")
-            lo, hi = ja.GAP_REGION_1BASED
             plus = [h for h in hits if not h.get("is_minus_strand")]
             paired = [h for h in plus
                       if h["q_from"] <= lo and h["q_to"] >= hi and h.get("gap_mismatches") == 0]

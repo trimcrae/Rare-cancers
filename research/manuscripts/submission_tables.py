@@ -26,6 +26,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 MOD = os.path.join(HERE, "..", "modalities")
 OUT = os.path.join(HERE, "aso", "fusion-junction-aso-submission-tables.md")
 
+sys.path.insert(0, os.path.abspath(MOD))
+import aso_screen_sets as ass                                            # noqa: E402
+
+#: The geometry Tables 2 to 4 are about — the panel the manuscript reports. ⚠ TABLE 5 IS THE
+#: EXCEPTION AND IS SUPPOSED TO BE: it is the gap-length trade, one column per geometry, and it
+#: reads `aso-gap-length-tradeoff.json`, which is the artifact that owns the cross-geometry
+#: comparison. A per-geometry TABLE built from a per-geometry ARTIFACT is not pooling.
+GEOMETRY = ass.MANUSCRIPT_GEOMETRY
+
 
 def _load(name):
     p = os.path.join(MOD, name)
@@ -331,8 +340,23 @@ def table4(per_junction):
     return "\n".join([hdr, sep] + rows)
 
 
-#: The three geometries, in the order the trade runs. Keys are the artifact's own architecture names.
-_GEOMETRIES = ("5-6-5", "5-8-5", "5-10-5")
+def _geometry_columns(gap):
+    """Every geometry the artifact says is PRESENT, ordered by gap length. Derived, never typed.
+
+    ⛔ THIS WAS `_GEOMETRIES = ("5-6-5", "5-8-5", "5-10-5")`, A TYPED LIST — the mirror image of the
+    pooling defect and just as quiet (2026-08-14). Pooling makes a table describe two panels at
+    once; a typed column list makes it silently OMIT one. A fourth geometry screened tomorrow would
+    appear in `aso-gap-length-tradeoff.json`, appear in the artifact's own `geometries` block, and
+    never appear in the table generated from it — and `test_table5_cells_are_the_artifacts` types
+    the same three names, so the guard would agree with the generator and both would be wrong.
+    Rule 1: restating a list instead of pointing at it is how it silently falls short.
+    ⚠ ORDER IS BY GAP LENGTH, which is the axis the trade runs along, so the columns cannot be
+    re-ordered by a dict-insertion accident. Today this returns exactly the three typed before.
+    """
+    present = [g for g in gap["geometries"] if g.get("present")]
+    if not present:
+        raise SystemExit("Table 5: the trade-off artifact reports no present geometry")
+    return tuple(g["architecture"] for g in sorted(present, key=lambda g: g["gap_nt"]))
 
 
 def table5(gap):
@@ -353,13 +377,24 @@ def table5(gap):
     matched = gap["the_trade"]["transcriptome_coincidence_falls_but_it_MUST"][
         "matched_junctions"]["by_geometry"]
     trade, geom = gap["the_trade"], {g["architecture"]: g for g in gap["geometries"]}
+    columns = _geometry_columns(gap)
+
+    # ⛔ AND EVERY PRESENT GEOMETRY MUST HAVE A ROW IN BOTH BLOCKS, OR THE TABLE IS SHORT A COLUMN
+    # AND SAYS NOTHING ABOUT IT. Deriving the columns only moves the omission one step if a
+    # geometry can be present in `geometries` and missing from `by_geometry`.
+    for arch in columns:
+        for name, src in (("lead reagent", lead), ("matched seams", matched)):
+            if arch not in src:
+                raise SystemExit(
+                    f"Table 5: geometry {arch} is present in the trade-off artifact but has no "
+                    f"{name} row; the table would omit a screened geometry without saying so")
 
     # ⛔ THE MERGED ROW BELOW RESTS ON AN IDENTITY, SO THE IDENTITY IS CHECKED HERE. With a wing of
     # five, a parent's seam hybrid is five plus its share of the gap, so reaching a ten-base-pair
     # hybrid and reaching a five-nucleotide contiguous DNA run are the same inequality. If a future
     # geometry changes the wing they come apart, and one row would then be silently wrong for one of
     # them — which is exactly the class of error a generated table is supposed to make impossible.
-    for arch in _GEOMETRIES:
+    for arch in columns:
         g = geom[arch]
         ge5 = sum(v for k, v in g["parent_paired_gap_dna_distribution"].items() if int(k) >= 5)
         if not (g["wing"] == 5 and ge5 == g["n_whose_seam_hybrid_reaches_min_duplex_bp"]):
@@ -369,7 +404,7 @@ def table5(gap):
                 f"({ge5}, wing {g['wing']}) are no longer the same condition; split the row")
 
     def row(label, fn, src):
-        return f"| {label} | " + " | ".join(str(fn(src[g])) for g in _GEOMETRIES) + " |"
+        return f"| {label} | " + " | ".join(str(fn(src[g])) for g in columns) + " |"
 
     def parent_duplex(d):
         bp = d["mature_parent_duplex_through_whole_gap_bp"]
@@ -411,7 +446,7 @@ def table5(gap):
         row("fusion-specific designs", lambda d: d["n_fusion_specific_designs"], geom),
         f"| best gap-level margin available | " + " | ".join(
             str(trade["improves_with_a_longer_gap"]["best_available_gap_margin"][g])
-            for g in _GEOMETRIES) + " |",
+            for g in columns) + " |",
         row("a mature parent can pair the whole gap",
             lambda d: f"{d['mature_parent_whole_gap_duplex']['n_with_any_gap_pairing_window']} of "
                       f"{d['n_fusion_specific_designs']}", geom),
@@ -485,12 +520,21 @@ def _graded_loads():
     Printed as one cell because for every design here the two bounds agree, and a reader is owed
     the fact that the OPTIMISTIC and the PESSIMISTIC model return the same number rather than being
     left to assume the paper quoted whichever was kinder.
+
+    ⛔ ONE GEOMETRY, THROUGH THE ONE LOADER — AND THIS CONSUMER WAS MISSED BY THE 2026-08-14
+    GEOMETRY SWEEP. It listed the directory and filtered on `startswith("junction-aso-offtarget-")
+    and endswith("-graded.json")`, which is a filename rule and therefore not a geometry filter.
+    Nothing had fired here yet only because no 18-mer graded artifact existed — and the reason it
+    did not is `junction_aso_offtarget.grade_panel`, which was ALSO writing this process's geometry
+    onto every re-score it produced. Step 0 of `scripts/regenerate_aso_chain.sh` rescores every
+    screen it finds, so the next chain run would have created 18-mer and 20-mer graded artifacts
+    mislabelled `oligo_len: 16` and this function would have folded their residual loads into a
+    table of the 16-mer panel, keyed by a sequence a reader would take for one of ours. Two latent
+    defects composing into one wrong column is exactly what a per-consumer guard cannot see.
     """
     out = {}
-    for name in sorted(os.listdir(os.path.abspath(MOD))):
-        if not (name.startswith("junction-aso-offtarget-") and name.endswith("-graded.json")):
-            continue
-        d = _load(name) or {}
+    for screen in ass.load_screens(GEOMETRY, ass.GRADED_RESCORE, root=os.path.abspath(MOD)):
+        d = screen.artifact
         lab = d.get("source_screen")
         if not lab:
             continue

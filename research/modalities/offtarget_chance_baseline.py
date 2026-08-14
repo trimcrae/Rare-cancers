@@ -76,7 +76,6 @@ evaluations, and this module refuses them rather than picking.
 Outputs: offtarget-chance-baseline.json
 """
 
-import glob
 import json
 import os
 import sys
@@ -84,9 +83,22 @@ import time
 from math import comb
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import aso_screen_sets as ass                                            # noqa: E402
+
 OUT = os.path.join(HERE, "offtarget-chance-baseline.json")
 
-OLIGO_LEN = 16
+#: ⛔⛔ THE NULL IS A FUNCTION OF THE LENGTH, SO THE PANEL SET AND THE LENGTH MOVE TOGETHER OR THE
+#: WHOLE ARTIFACT IS WRONG. `n_within(length, 2) / 4**length` is the entire model: at 16 it is
+#: 1129/4^16 = 2.6e-07, at 18 it is 1.0e-08 — a factor of 26. An 18-mer panel scored against this
+#: 16-mer expectation would be graded against a null predicting 26 times too many hits, and every
+#: one of its designs would come back "far below chance". That is the flattering direction, on the
+#: module whose only job is to say whether a count is a finding.
+#: ⭐ NAMED AS A GEOMETRY RATHER THAN AN INT (2026-08-14), so the panel selection and the null are
+#: the same fact rather than two constants that agree today. `load_screens` has no default
+#: geometry; this is what this module passes it.
+GEOMETRY = ass.MANUSCRIPT_GEOMETRY
+OLIGO_LEN = GEOMETRY.oligo_len
 
 #: A source panel counts as a REAL junction only if its own record says its seam was built from a
 #: spliced transcript model. Both remaining panels predate that rebuild: neither carries a
@@ -123,20 +135,28 @@ def measured_transcriptome_nt():
     artifact does not use misattributes the manuscript's denominator: on merge the 18-mer screens
     sorted first and took the credit for a 16-mer corpus's span. So the source is preferentially a
     panel of this corpus's own geometry, and the value it carries is identical either way.
+
+    ⛔ AND "PANEL WHOSE LENGTH COULD NOT BE MEASURED" IS NOT "PANEL OF OUR GEOMETRY" (2026-08-14).
+    The first version of that preference read `if not lens or lens == {OLIGO_LEN}`, which credits a
+    panel holding no design as though it had been measured and agreed — an absent reading rendered
+    as a reading of absence, in a provenance field. The loader answers the same question by
+    returning only what it could measure at this geometry, so a panel that states nothing is simply
+    not a candidate for the credit rather than a silent winner of it.
+    ⚠ The ITERATION ORDER is deliberately global-alphabetical, unchanged: `seen[nt]` is a
+    first-wins fallback and re-ordering it would move a published `transcriptome_nt_source` string.
     """
     seen, same_geometry = {}, {}
-    for path in sorted(glob.glob(os.path.join(HERE, "aso-insilico-evaluation*.json"))):
-        try:
-            d = json.load(open(path, encoding="utf-8"))
-        except (OSError, ValueError):
-            continue
-        scr = d.get("offtarget_screen") or {}
+    same_names = {os.path.basename(p) for p in panel_paths()}
+    every = sorted((s for _g, ss in ass.iter_geometries(ass.DESIGN_EVALUATION, root=HERE)
+                    for s in ss), key=lambda s: s.name)
+    for s in every:
+        scr = s.artifact.get("offtarget_screen") or {}
         nt = scr.get("scanned_nt")
-        if isinstance(nt, int) and nt > 0:
-            seen.setdefault(nt, os.path.basename(path))
-            lens = panel_oligo_lens(d)
-            if not lens or lens == {OLIGO_LEN}:
-                same_geometry.setdefault(nt, os.path.basename(path))
+        if not (isinstance(nt, int) and nt > 0):
+            continue
+        seen.setdefault(nt, s.name)
+        if s.name in same_names:
+            same_geometry.setdefault(nt, s.name)
     if not seen:
         return None, None
     if len(seen) > 1:
@@ -214,8 +234,25 @@ def _panel_measurements(d):
 
 
 def panel_oligo_lens(d):
-    """The design lengths a panel actually evaluated, from its own designs and not its filename."""
-    return {len(o["antisense_5to3"]) for o in d.get("top_designs", []) if o.get("antisense_5to3")}
+    """The design lengths a panel actually evaluated, from its own designs and not its filename.
+
+    ⭐ ONE HOME (2026-08-14). This measurement existed here, in `junction_aso_locus_collapse`, in
+    `aso_per_junction_table` and inline in three tests — five copies of one rule, four of which
+    checked only the LENGTH while a screen also states where its gap is. It now asks
+    `aso_screen_sets`, which checks both.
+    """
+    return {ass.measure_oligo_len(ass.DESIGN_EVALUATION, d)} - {None}
+
+
+def panel_paths():
+    """Every design-evaluation panel of THIS module's geometry, through the one loader.
+
+    ⛔ NOT A GLOB. `aso-insilico-evaluation*.json` matches 18-mer and 20-mer panels too, and this
+    module's docstring records that a plain invocation over that glob DIED. `load_screens` measures
+    each panel's design length, checks it against whatever the panel states about itself, and
+    returns only the one geometry; there is no call it could have made that returns a mixed set.
+    """
+    return [s.path for s in ass.load_screens(GEOMETRY, ass.DESIGN_EVALUATION, root=HERE)]
 
 
 def select_primary_panels(paths):
@@ -242,6 +279,10 @@ def select_primary_panels(paths):
     because they are different molecules, so they must not be compared, rather than one being chosen
     over the other. Length is measured from the designs, never from the filename, which is the same
     rule `seam_identity` follows and for the same reason.
+    ⭐ THE COMPOUND KEY IS THE LOADER'S SHAPE (2026-08-14) — `aso_screen_sets.group_by_geometry_and`
+    exists because this is not a one-off: any artifact that says "two records are re-emissions of
+    each other" needs (what was measured, what it was measured WITH). Built here from the same
+    measurement so the key cannot be right in this module and subtly different in the next one.
     """
     groups = {}
     for path in paths:
@@ -289,10 +330,6 @@ def committed_panel_set():
 
 def collect_observed(panels=None, collapsed=None, off_geometry=None):
     """Every committed design's uncapped <=1-mismatch count, keyed by junction and sequence."""
-    paths = sorted(glob.glob(os.path.join(HERE, "aso-insilico-evaluation*.json")))
-    if panels is not None:
-        paths = [p for p in paths if os.path.basename(p) in panels]
-
     # ⛔ GEOMETRY IS PART OF A PANEL'S IDENTITY, AND WITHOUT THIS THE MODULE REFUSES TO BUILD AT ALL
     # (2026-08-14). The gap-length work evaluates the same seams at 18-mer 5-8-5 and 20-mer 5-10-5
     # and writes them under this same glob. `seam_identity` keys on the junction label — correctly,
@@ -303,19 +340,29 @@ def collect_observed(panels=None, collapsed=None, off_geometry=None):
     # are different reagents, so they are separated before grouping rather than chosen between. This
     # artifact is the manuscript's 16-mer corpus; `aso_gap_length_tradeoff.py` owns the contrast
     # across geometries, where the comparison is like-for-like by construction.
-    # ⚠ AND THE FILTER IS `OLIGO_LEN`, THE SAME CONSTANT THE EXPECTATION IS COMPUTED AT, because
+    # ⚠ AND THE SELECTION IS AT `GEOMETRY`, THE SAME GEOMETRY THE EXPECTATION IS COMPUTED AT, because
     # that is what makes it a correctness guard rather than a scoping preference: every `expected`
-    # below is `chance_expectation(OLIGO_LEN, k)`, so an 18-mer observation admitted here would be
-    # divided by a 16-mer expectation and the ratio would belong to neither length.
-    kept = []
-    for p in paths:
-        lens = panel_oligo_lens(json.load(open(p, encoding="utf-8")))
-        if lens and lens != {OLIGO_LEN}:
-            if off_geometry is not None:
-                off_geometry.append({"panel": os.path.basename(p), "oligo_lens": sorted(lens)})
+    # below is `chance_expectation(OLIGO_LEN, k)` with `OLIGO_LEN = GEOMETRY.oligo_len`, so an
+    # 18-mer observation admitted here would be divided by a 16-mer expectation and the ratio would
+    # belong to neither length.
+    # ⭐ THE SEPARATION IS THE LOADER'S (2026-08-14): the glob-then-filter above was a third hand
+    # written copy of the same rule, and it treated a panel whose length could not be measured as
+    # in-geometry (`if lens and lens != {OLIGO_LEN}` keeps an empty `lens`) — an absent reading read
+    # as a reading of absence. `load_screens` returns only what it MEASURED at this geometry, so an
+    # unmeasurable panel is excluded rather than admitted, and the exclusion is reported below.
+    every = sorted((s for _g, ss in ass.iter_geometries(ass.DESIGN_EVALUATION, root=HERE)
+                    for s in ss), key=lambda s: s.name)
+    keep_names = {os.path.basename(p) for p in panel_paths()}
+    paths = []
+    for s in every:
+        if panels is not None and s.name not in panels:
             continue
-        kept.append(p)
-    paths = kept
+        if s.name not in keep_names:
+            if off_geometry is not None:
+                off_geometry.append({"panel": s.name,
+                                     "oligo_lens": [s.geometry.oligo_len]})
+            continue
+        paths.append(s.path)
 
     selected, dropped = select_primary_panels(paths)
     if collapsed is not None:

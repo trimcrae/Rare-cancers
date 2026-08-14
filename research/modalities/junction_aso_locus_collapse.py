@@ -28,7 +28,6 @@ counts are upper bounds, and this module records that verdict per screen rather 
 """
 from __future__ import annotations
 
-import glob
 import json
 import os
 import re
@@ -36,6 +35,9 @@ import sys
 from collections import Counter, defaultdict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import aso_screen_sets as ass                                            # noqa: E402
+
 OUT = os.path.join(HERE, "junction-aso-offtarget-locus-collapse.json")
 
 #: The geometry this artifact describes: the 16-mer 5-6-5 panel the manuscript reports. Screens at
@@ -43,7 +45,16 @@ OUT = os.path.join(HERE, "junction-aso-offtarget-locus-collapse.json")
 #: `collapse_screen`. 16 is not typed here as a preference; it is the panel every committed
 #: manuscript number was measured on, and `aso_gap_length_tradeoff.py` owns the comparison across
 #: geometries.
-MANUSCRIPT_OLIGO_LEN = 16
+#: ⭐ AND IT IS NOW DERIVED FROM THE ONE LOADER RATHER THAN TYPED (2026-08-14). This partition was
+#: written here by hand, correctly, and the same partition was written by hand in
+#: `aso_per_junction_table` and `offtarget_chance_baseline` — three independent implementations of
+#: one rule, each landing after its own consumer had already been caught by a human. Three more
+#: consumers were still pooling when this was checked (`junction_aso_offtarget.grade_panel`,
+#: `submission_tables._graded_loads`, `aso_archive_manifest._screen_coverage`), which is what
+#: writing the rule three times rather than once buys. `aso_screen_sets` is the one home; the value
+#: below is unchanged and the artifact is byte-identical.
+GEOMETRY = ass.MANUSCRIPT_GEOMETRY
+MANUSCRIPT_OLIGO_LEN = GEOMETRY.oligo_len
 
 # `Homo sapiens ATP synthase F1 subunit gamma (ATP5F1C), transcript variant 1, mRNA; ...`
 # The symbol is the FIRST parenthesised token whose closing paren is followed by a comma or the end
@@ -187,31 +198,49 @@ def screen_oligo_len(screen):
     anyone remembered to name the file after it. Screens committed before 2026-08-13 carry no
     geometry block at all, so a recorded field would be absent exactly where it is needed.
     A screen whose designs are not all one length returns None and is never pooled with anything.
+
+    ⭐ THE MEASUREMENT IS THE LOADER'S NOW (2026-08-14) — this is a thin adapter kept because the
+    artifact's `oligo_len` field and three tests read it. `aso_screen_sets.measure_oligo_len` does
+    the same thing and ALSO checks the answer against whatever geometry the screen states about
+    itself, which is the half a per-consumer copy of this rule kept omitting: a screen graded
+    against one window and counted against another crashes nothing.
     """
-    lens = {len(o["antisense_5to3"]) for o in (screen.get("oligos") or [])
-            if o.get("antisense_5to3")}
-    return lens.pop() if len(lens) == 1 else None
+    try:
+        return ass.measure_oligo_len(ass.BLAST_SCREEN, screen)
+    except ass.GeometryError:
+        return None                      # designs of two lengths: never pooled with anything
 
 
-def collapse_screen(path):
-    d = json.load(open(path))
+def collapse_screen(screen):
+    """Locus-level counts for one `aso_screen_sets.Screen`.
+
+    ⚠ TAKES THE LOADED SCREEN, NOT A PATH, so a caller cannot reach this function with a file the
+    loader never measured a geometry for. The type IS the check.
+    """
+    d = screen.artifact
     oligos = [o for o in (d.get("oligos") or []) if o.get("offtargets") is not None]
     per = [collapse_oligo(o) for o in oligos]
     try:  # the orientation verdict is owned elsewhere; this module reports it, never derives it
-        sys.path.insert(0, HERE)
         from junction_aso_offtarget import screen_orientation_status  # noqa: PLC0415
         orient = screen_orientation_status(d)
     except Exception as exc:  # noqa: BLE001
         orient = {"status": "unreadable", "why": str(exc)[:120]}
     return {
-        "screen": os.path.basename(path),
+        "screen": screen.name,
         "junction_label": d.get("junction_label"),
         "orientation": orient,
         # ⛔ DEPTH IS PART OF A SCREEN'S IDENTITY AND MUST NOT BE POOLED AWAY. The same design
         # returns a different near-match count at the default alignment ceiling and at ten times it,
         # so an inflation median taken across both describes neither population — the same defect
         # the censoring note above refuses for truncated lists. Tagged here so `main` can partition.
-        "depth": "deep" if "deep500" in os.path.basename(path) else "default",
+        # ⚠ AND IT IS NOW READ FROM THE ARTIFACT RATHER THAN FROM THE FILENAME (2026-08-14). This
+        # was `"deep500" in basename`, sitting one line above a comment that says geometry is
+        # measured "NEVER TAKEN FROM THE FILENAME" — the same rule enforced on one axis and not the
+        # other, in one dict literal. Three spellings of that suffix are already on disk.
+        # `aso_screen_sets.is_deep` reads the recorded ceiling where there is one and otherwise the
+        # retention evidence a default run cannot produce. Verified: the two agree on all 93 screens
+        # in this tree, so no committed value moves.
+        "depth": "deep" if ass.is_deep(screen) else "default",
         # ⛔ AND SO IS GEOMETRY, FOR EXACTLY THE SAME REASON (2026-08-14). The gap-length screens
         # put 18-mer 5-8-5 and 20-mer 5-10-5 artifacts under the same `junction-aso-offtarget-*`
         # glob. A longer gap is a different question — different catalytic span, different mismatch
@@ -219,7 +248,7 @@ def collapse_screen(path):
         # on merge: pooling moved the deep population 38 screens/187 designs to 53/303 and
         # `oligos_with_no_gap_spanning_locus` 12 to 110, which reads as a tenfold cleaner panel and
         # is only a wider glob. Partition, exactly as depth is partitioned above.
-        "oligo_len": screen_oligo_len(d),
+        "oligo_len": screen.geometry.oligo_len,
         "n_oligos": len(per),
         "per_oligo": per,
     }
@@ -227,9 +256,11 @@ def collapse_screen(path):
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
-    paths = sorted(p for p in glob.glob(os.path.join(HERE, "junction-aso-offtarget-*.json"))
-                   if "-graded" not in p and "locus-collapse" not in p)
-    all_screens = [collapse_screen(p) for p in paths]
+    # ⛔ ONE LOADER. The glob that used to live here matched three geometries; `iter_geometries`
+    # hands them back one at a time and there is no call that would have returned them pooled.
+    all_screens = [collapse_screen(s)
+                   for _geom, screens in ass.iter_geometries(ass.BLAST_SCREEN, root=HERE)
+                   for s in screens]
 
     # ⛔ THIS ARTIFACT DESCRIBES ONE GEOMETRY, AND EVERY NUMBER IN THE MANUSCRIPT IS THAT GEOMETRY'S
     # (2026-08-14). The gap-length work screens the same seams at 18-mer 5-8-5 and 20-mer 5-10-5 and

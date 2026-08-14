@@ -45,6 +45,9 @@ import statistics
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import aso_screen_sets as ass                                            # noqa: E402
+
 REPO = os.path.dirname(os.path.dirname(HERE))
 OUT = os.path.join(HERE, "aso-gap-length-tradeoff.json")
 GAP_LENGTH_LIT = os.path.join(REPO, "research", "manuscripts", "aso",
@@ -111,6 +114,13 @@ def _read(name):
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 # Screen discovery — by MEASURED oligo length, never by a filename convention
 # ─────────────────────────────────────────────────────────────────────────────────────────────
+#: ⭐ THIS IS THE ONE CONSUMER THAT LEGITIMATELY NEEDS MORE THAN ONE GEOMETRY, and it is served
+#: `aso_screen_sets.iter_geometries` — one geometry at a time, as a mapping — rather than a pooled
+#: list. The distinction is the whole point: this module compares geometries and must never average
+#: across them, so it holds one set per geometry and combines them only where it says it is doing
+#: so, per readout, in the open. There is no call in `aso_screen_sets` that would have handed it one
+#: mixed bag, so "compares geometries" and "pools geometries" are different code rather than one
+#: keystroke apart.
 def _screen_geometry(screen):
     """The oligo length a committed screen ACTUALLY ran at, measured from its own designs.
 
@@ -119,10 +129,16 @@ def _screen_geometry(screen):
     that date states its database, its program and its threshold and NOT its geometry. The length of
     the oligonucleotide the screen searched is in the file regardless — it is the thing that ran —
     and reading it is the difference between knowing and assuming which panel a count belongs to.
+
+    ⭐ THE MEASUREMENT MOVED TO `aso_screen_sets` (2026-08-14) and this is a thin adapter. It was
+    one of five hand-written copies of the same rule; four of them checked only the LENGTH, and a
+    screen also states where its gap is. The loader checks both, which matters most in THIS module,
+    since a gap window is the quantity it compares.
     """
-    lens = {len(o["antisense_5to3"]) for o in (screen.get("oligos") or [])
-            if o.get("antisense_5to3")}
-    return lens.pop() if len(lens) == 1 else None
+    try:
+        return ass.measure_oligo_len(ass.BLAST_SCREEN, screen)
+    except ass.GeometryError:
+        return None
 
 
 def _screen_depth(screen):
@@ -138,20 +154,24 @@ def _screen_depth(screen):
     return params.get("blast_hitlist_size"), stored
 
 
-def _discover(prefix, key):
-    """{(oligo_len, junction_label): [(filename, artifact)]} over every `prefix*.json` in this dir."""
+def _discover(family):
+    """{(oligo_len, junction_label): [(filename, artifact)]} over one artifact family.
+
+    ⛔ THE PARTITION IS THE LOADER'S, NOT THIS MODULE'S (2026-08-14). This walked the directory
+    itself and measured the length inline — correct, and a second implementation of a rule five
+    other modules also needed, which is how one of them ends up with a different one. It now
+    iterates `aso_screen_sets.iter_geometries`, which measures the same way AND additionally refuses
+    any screen whose stated `gap_region_1based` disagrees with what it holds. A screen graded
+    against one window and counted against another is the silent form of the geometry bug, and this
+    module — which compares gap windows for a living — is the last place that should be reading one.
+    """
     found = {}
-    for fn in sorted(os.listdir(HERE)):
-        if not (fn.startswith(prefix) and fn.endswith(".json")) or "-graded" in fn:
-            continue
-        art = _read(fn)
-        if not isinstance(art, dict):
-            continue
-        label = art.get("junction_label")
-        length = key(art)
-        if not label or not length:
-            continue
-        found.setdefault((length, label), []).append((fn, art))
+    for geom, screens in ass.iter_geometries(family, root=HERE):
+        for s in screens:
+            label = s.junction_label
+            if not label:
+                continue
+            found.setdefault((geom.oligo_len, label), []).append((s.name, s.artifact))
     return found
 
 
@@ -543,11 +563,8 @@ def build():
     sys.path.insert(0, HERE)
     from aso_parent_gap_pairing import MIN_DUPLEX_BP  # noqa: PLC0415 — one home for the threshold
 
-    blast = _discover("junction-aso-offtarget", _screen_geometry)
-    exhaustive = _discover("aso-insilico-evaluation",
-                           lambda a: next((len(d["antisense_5to3"])
-                                           for d in (a.get("top_designs") or [])
-                                           if d.get("antisense_5to3")), None))
+    blast = _discover(ass.BLAST_SCREEN)
+    exhaustive = _discover(ass.DESIGN_EVALUATION)
 
     geoms, per_design, screens = [], [], {}
     rows_by_geom, atlases = {}, {}

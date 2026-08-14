@@ -221,7 +221,7 @@ def test_exactly_the_orientation_clean_designs_reach_zero_predicted_cleavage_loa
     outside TCF12 e7/e9/e17 reaching zero, fails this test — because with the strand filter correct
     the only remaining route to a zero is a censored design whose unseen tail was assumed away.
     """
-    import glob
+    import aso_screen_sets as ass
     # ⚠ TEN, NOT NINE, AND THE EXTRA ONE IS THE POINT. The manuscript reports nine clean designs;
     # this set has ten. `GCATATCTCCTCGCCC` at FUS e11 returns 21 near-matches with only 15 retained,
     # all of them minus-strand — so the graded model sees nothing hybridisable and scores zero,
@@ -233,8 +233,13 @@ def test_exactly_the_orientation_clean_designs_reach_zero_predicted_cleavage_loa
                 "GGGCATATCTCTATAA", "CAGGGCATATCTTGCA", "GGCATATCAAGCGCTG", "GCATATCAAGCGCTGC"}
     n_designs = n_junctions = 0
     zero_seqs, zero_junctions = set(), set()
-    for p in sorted(glob.glob(os.path.join(HERE, "junction-aso-offtarget-*-graded.json"))):
-        g = _load(p)
+    # ⛔ THE CLEAN SET IS A CLAIM ABOUT THE MANUSCRIPT'S PANEL, so the population is one geometry.
+    # A graded re-score of an 18-mer screen carries different sequences at the same junctions, and
+    # folding one into `zero_seqs` would change a set §3.5 of the paper is written from. No such
+    # artifact exists yet — because `grade_panel` had a defect of its own that this pass fixed —
+    # which is exactly the shape of latency this guard is for.
+    for s in ass.load_screens(ass.MANUSCRIPT_GEOMETRY, ass.GRADED_RESCORE, root=HERE):
+        g = s.artifact
         if g.get("source_screen") is None:
             continue                      # the modelled codon-space panel, not a real junction
         n_junctions += 1
@@ -261,12 +266,16 @@ def test_a_zero_load_is_never_awarded_to_a_design_with_a_hybridisable_hit():
     hybridisable hit ever scored zero, the load would be measuring the strand filter rather than
     the transcriptome.
     """
-    import glob
+    import aso_screen_sets as ass
     import junction_aso_offtarget as jo
-    for p in sorted(glob.glob(os.path.join(HERE, "junction-aso-offtarget-*.json"))):
-        if "-graded" in p or "locus-collapse" in p:
-            continue
-        screen = _load(p)
+    # ⚠ THIS ONE IS A PER-FILE INVARIANT, SO IT WANTS EVERY GEOMETRY — and takes them one geometry
+    # at a time rather than as a pooled glob. The property is asked of each screen against its own
+    # counters and nothing is summed across screens, so a longer geometry is one more case to check
+    # rather than a contaminant. What the loader adds over the glob is that each file has been
+    # MEASURED and checked against its own stated gap span before this test reads it.
+    every = [s for _g, ss in ass.iter_geometries(ass.BLAST_SCREEN, root=HERE) for s in ss]
+    for s in every:
+        screen = s.artifact
         # ⚠ A COVERAGE-ONLY SCREEN IS EXCLUDED HERE FOR THE SAME REASON `--rescore` REFUSES IT.
         # `junction-aso-offtarget-bp200-8.json` records no gap-mismatch depth and no strand, so
         # `grade_one` reads absent fields as zero and returns a zero load manufactured out of the
@@ -281,5 +290,5 @@ def test_a_zero_load_is_never_awarded_to_a_design_with_a_hybridisable_hit():
             for fold in (5.0, 1.0):
                 if jo.grade_one(o, fold)["zero_predicted_cleavage_load"]:
                     assert not plus, (
-                        f"{os.path.basename(p)} / {o['antisense_5to3']} scored zero load with "
+                        f"{s.name} / {o['antisense_5to3']} scored zero load with "
                         f"{len(plus)} hybridisable hit(s)")

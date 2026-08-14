@@ -33,6 +33,7 @@ PAPER = os.path.join(REPO, "research", "manuscripts", "aso",
 COLLAPSE = os.path.join(MOD, "junction-aso-offtarget-locus-collapse.json")
 sys.path.insert(0, MOD)
 
+import aso_screen_sets as ass  # noqa: E402
 from junction_aso_offtarget import (  # noqa: E402
     ORIENTATION_FILTERED, ORIENTATION_LABELS_STRAND_BLIND, SAVED_HITS_PER_DESIGN,
     screen_counts_are_orientation_filtered, screen_orientation_status)
@@ -362,10 +363,15 @@ def test_section_3_3_partner_minima_match():
 def _deep_screens():
     """Every deep re-screen as (junction, design) -> record. Keyed by the PAIR, never the sequence:
     nine designs span three seams at once and a sequence key silently keeps the last one read."""
-    import glob  # noqa: PLC0415
+    # ⛔ MEASURED DEPTH AT ONE MEASURED GEOMETRY, NOT A `*deep500*` GLOB (2026-08-14). That pattern
+    # admitted all twelve 18-mer and 20-mer screens into a dict this file pins manuscript numbers
+    # off. ⚠ It moved no number, because this dict is keyed by (junction, SEQUENCE) and a longer
+    # geometry's designs are different sequences, so the contaminants matched no lookup — the lucky
+    # outcome, not a defence, and the same coincidence `test_aso_parent_gap_pairing` records.
     out = {}
-    for path in sorted(glob.glob(os.path.join(MOD, "junction-aso-offtarget-*deep500*.json"))):
-        d = json.load(open(path, encoding="utf-8"))
+    for s_ in ass.load_screens(ass.MANUSCRIPT_GEOMETRY, ass.BLAST_SCREEN, root=MOD,
+                               select=ass.is_deep, allow_empty=True):
+        d = s_.artifact
         for o in d.get("oligos", []):
             if o.get("status") == "screened" and o.get("n_offtarget_near_matches") is not None:
                 out.setdefault((d["junction_label"], o["antisense_5to3"]), o)
@@ -418,11 +424,12 @@ def test_the_released_screen_and_graded_counts_are_the_ones_on_disk():
     and at 93, so the sentence keeps reading as current while its denominator drifts underneath it.
     Only the total is load-bearing, and it is asserted against the disk rather than remembered.
     """
-    import glob  # noqa: PLC0415
-    screens = [p for p in sorted(glob.glob(os.path.join(MOD, "junction-aso-offtarget-*.json")))
-               if "-graded" not in p and "locus-collapse" not in p]
-    graded = {os.path.basename(p).replace("-graded.json", ".json")
-              for p in glob.glob(os.path.join(MOD, "junction-aso-offtarget-*-graded.json"))}
+    # ⚠ THE RELEASE INVENTORY IS EVERY GEOMETRY ON PURPOSE — it is what the deposit ships — so it
+    # unions the loader's per-geometry mapping HERE, visibly, rather than reaching for a glob that
+    # happens to return the same set today and would silently return a different one tomorrow.
+    screens = [s.path for _g, ss in ass.iter_geometries(ass.BLAST_SCREEN, root=MOD) for s in ss]
+    graded = {s.name.replace("-graded.json", ".json")
+              for _g, ss in ass.iter_geometries(ass.GRADED_RESCORE, root=MOD) for s in ss}
     ungraded = [p for p in screens if os.path.basename(p) not in graded]
     deep = [p for p in ungraded if "deep500" in p]
     assert (len(screens), len(graded)) == (93, 39), (len(screens), len(graded))
@@ -607,18 +614,18 @@ def test_the_accessibility_range_is_the_one_the_artifacts_produce():
     """
     import statistics
     vals = []
-    for name in sorted(os.listdir(MOD)):
-        # ⛔ THE PRIMARY CORPUS ONLY, AND THE PATTERN IS THE GUARD. This test failed the moment the
-        # deep re-screens landed, because an `in name` exclusion list let five
-        # `...-deep500.json` files join the denominator and the count went 190 -> 215 with nothing
-        # saying so. A parallel corpus taken at a different search ceiling is a DIFFERENT
-        # measurement; it must not silently enlarge a population the manuscript quotes. Primary
-        # files end at the junction tag (`...e1n3.json`), so anything carrying a further suffix —
-        # a modelled control seam, a deeper re-screen, or whatever is added next — is excluded by
-        # construction rather than by being remembered here.
-        if not re.fullmatch(r"aso-insilico-evaluation-[a-z0-9]+n3\.json", name):
-            continue
-        for r in json.load(open(os.path.join(MOD, name))).get("top_designs") or []:
+    # ⛔ THE PRIMARY CORPUS ONLY, AT ONE GEOMETRY, AND BOTH HALVES ARE NEEDED. This test failed the
+    # moment the deep re-screens landed, because an `in name` exclusion list let five
+    # `...-deep500.json` files join the denominator and the count went 190 -> 215 with nothing
+    # saying so. A parallel corpus taken at a different search ceiling is a DIFFERENT measurement;
+    # it must not silently enlarge a population the manuscript quotes. The name rule that replaced
+    # that exclusion list is right about depth and says NOTHING about geometry — it is now
+    # `aso_screen_sets.is_primary_panel`, applied to a set the loader has already narrowed to the
+    # manuscript's 16-mer 5-6-5, so a `...-18mer-...n3.json` emitted tomorrow could not enter this
+    # denominator even if its name matched.
+    for screen in ass.load_screens(ass.MANUSCRIPT_GEOMETRY, ass.DESIGN_EVALUATION, root=MOD,
+                                   select=ass.is_primary_panel):
+        for r in screen.artifact.get("top_designs") or []:
             if r.get("site_accessibility") is not None:
                 vals.append(r["site_accessibility"])
     assert len(vals) == 190, len(vals)
@@ -643,13 +650,20 @@ def test_the_censoring_guard_was_tested_and_is_load_bearing():
     ⚠ The deep artifacts are a SEPARATE measurement under their own suffix. A count taken at a deeper
     ceiling does not correct the shallower one, and nothing in the manuscript is restated from these.
     """
+    # ⛔ MEASURED DEPTH AT ONE MEASURED GEOMETRY, NOT A FILENAME SUFFIX (2026-08-14). This selected
+    # `endswith("-deep500.json")`, which was wrong in BOTH directions once the campaigns diverged:
+    # it admitted all twelve 18-mer and 20-mer screens — a mixed bag under an assertion that pins
+    # `decided == 6` — and it MISSED 27 legitimate 16-mer deep re-screens spelled `-deep500-b1`/`-b2`.
+    # ⚠ Neither error moved `decided`: this dict is keyed by (junction, SEQUENCE), and a longer
+    # geometry's designs are different sequences, so the contaminants matched no candidate. That is
+    # the lucky outcome, not a defence. MEASURED both ways before and after the change: 7 candidates,
+    # 6 decided, none still clean.
     deep = {}
-    for name in sorted(os.listdir(MOD)):
-        if name.startswith("junction-aso-offtarget-") and name.endswith("-deep500.json"):
-            d = json.load(open(os.path.join(MOD, name)))
-            for o in d.get("oligos", []):
-                if o.get("status") == "screened":
-                    deep[(d["junction_label"], o["antisense_5to3"])] = o
+    for s_ in ass.load_screens(ass.MANUSCRIPT_GEOMETRY, ass.BLAST_SCREEN, root=MOD,
+                               select=ass.is_deep, allow_empty=True):
+        for o in s_.artifact.get("oligos", []):
+            if o.get("status") == "screened":
+                deep[(s_.junction_label, o["antisense_5to3"])] = o
     if not deep:
         pytest.skip("the deep re-screens are not present in this checkout")
 
@@ -834,7 +848,15 @@ def test_table5_cells_are_the_artifacts_and_the_paper_points_at_it():
     gap, txt = _gaplen(), open(TABLES, encoding="utf-8").read()
     lead = gap["lead_reagent_at_the_most_commonly_reported_seam"]["by_geometry"]
     assert "**Table 5. Gap length against junction specificity" in txt
-    for arch in ("5-6-5", "5-8-5", "5-10-5"):
+    # ⛔ THE COLUMN SET IS DERIVED FROM THE ARTIFACT, NOT TYPED (2026-08-14). It was
+    # `("5-6-5", "5-8-5", "5-10-5")` here and the identical tuple in the generator — two copies of
+    # one list, so a fourth geometry would have been omitted from the table AND from the check that
+    # is supposed to catch the omission. A guard that types the same list as the thing it guards
+    # agrees with it while both are wrong.
+    present = tuple(g["architecture"] for g in sorted(
+        (g for g in gap["geometries"] if g.get("present")), key=lambda g: g["gap_nt"]))
+    assert len(present) >= 3, present
+    for arch in present:
         assert lead[arch]["antisense_5to3"] in txt, arch
     assert "| hybridisable gap-spanning cleavage risks | 123 | 3 | 0 |" in txt
     assert "| designs carrying none | 8 of 30 | 28 of 42 | 54 of 54 |" in txt

@@ -60,12 +60,19 @@ def _hit(defn, acc="XM_999999.1"):
 
 
 def _screens():
-    """Every committed screen artifact — the real ones, not the graded re-scores."""
-    for p in sorted(glob.glob(os.path.join(MOD, "junction-aso-offtarget-*.json"))):
-        if "-graded" in p or "locus-collapse" in p:
-            continue
-        with open(p, "r", encoding="utf-8") as fh:
-            yield p, json.load(fh)
+    """Every committed screen artifact — the real ones, not the graded re-scores.
+
+    ⚠ EVERY GEOMETRY, DELIBERATELY, AND ONE GEOMETRY AT A TIME RATHER THAN AS A GLOB. The tests
+    below ask per-file questions — does this screen carry a `parameters` block, is it
+    orientation-filtered, does `is_parent` misfire on its hits — and nothing is summed across
+    screens, so a longer geometry is one more case to check. What the loader supplies that the glob
+    did not is that each file has been MEASURED and checked against its own stated gap span before
+    any test reads it.
+    """
+    import aso_screen_sets as ass  # noqa: PLC0415
+    for _geom, screens in ass.iter_geometries(ass.BLAST_SCREEN, root=MOD):
+        for s in screens:
+            yield s.path, s.artifact
 
 
 def _run_with_env(**env):

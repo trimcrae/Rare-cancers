@@ -135,12 +135,9 @@ def test_only_the_manuscripts_geometry_reaches_the_table():
     assert lens == {C.MANUSCRIPT_OLIGO_LEN}, sorted(lens)
 
     # the guard is only meaningful if something was actually there to exclude
-    import glob  # noqa: PLC0415
-    seen = set()
-    for path in glob.glob(os.path.join(MOD, "junction-aso-offtarget-*deep500*.json")):
-        d = json.load(open(path, encoding="utf-8"))
-        seen |= {len(o["antisense_5to3"]) for o in d.get("oligos", [])
-                 if o.get("antisense_5to3")}
+    import aso_screen_sets as ass  # noqa: PLC0415
+    seen = {g.oligo_len for g, ss in ass.iter_geometries(ass.BLAST_SCREEN, root=MOD)
+            if any(ass.is_deep(s) for s in ss)}
     assert seen - {C.MANUSCRIPT_OLIGO_LEN}, (
         "no longer-geometry screen is present, so this test proves nothing about the filter")
 
