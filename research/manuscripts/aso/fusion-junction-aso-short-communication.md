@@ -40,25 +40,21 @@ myxoid chondrosarcoma
 
 ## Abstract
 
-Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma driven by a fusion gene that joins a
-variable partner to *NR4A3*. The fusion transcript carries a short sequence spanning the join,
-present in no normal gene. A drug recognising it could in principle spare both parent genes, but
-none has been reported for this disease. Five partner genes are known. Of the 231 ways they could
-join *NR4A3*, 38 keep the two genes in frame and so could give rise to a fusion protein. Antisense
-oligonucleotides were designed to straddle each of those joins: gapmers, which carry a central
-window of DNA where the enzyme RNase-H1 cuts the target. All 190 were screened against human
-transcripts, against the unspliced precursors of the parent genes, and against the whole genome, at
-three window lengths. Designs are plentiful, so design is not the constraint. The parent genes are.
-Screens against mature transcripts leave the parents out by design and so never test them. Yet 87
-of the 190 designs line up their cutting window against a parent transcript — 61 of them against
-healthy *NR4A3*, the gene this approach exists to spare. Another 19 do so in the unspliced
-precursor, where the enzyme is also active. Designs that look free of off-target matches
-mostly turn out not to be, once the search runs ten times deeper. Even so, the best design at each
-join still clears the parent screen at both joins reported in patients, about 95% of confirmed
-cases. Telling the fusion from its own parents at the cut site is therefore the limiting step. A
-longer window cannot relieve it: the same bases that help the enzyme cut the fusion help it cut the
-parent. The molecules to make, the controls needed, and the measurement that would falsify the
-ranking used here are all named.
+Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma in which a variable partner gene fuses
+to *NR4A3*. The fusion transcript carries a short sequence spanning the join that occurs in no
+normal gene. An antisense drug could in principle destroy that transcript by base-pairing alone,
+sparing both genes the fusion was built from, but none has been reported for this disease. Designs
+prove easy to find. Of the 231 ways the five known partners could join *NR4A3*, 38 keep the reading
+frame intact, and all 38 yield candidate gapmers. The difficulty lies where standard practice does
+not look. Specificity screens compare a candidate against the transcriptome but routinely exclude
+the parent genes, which are the most dangerous match such a drug can have. Screened against them
+directly, 87 of 190 candidates place their cut site on a parent transcript, 61 of those on healthy
+*NR4A3*, the gene the approach exists to spare. Another 19 do so in unspliced precursor RNA, where
+RNase-H1 is also active and no mature-transcript screen reaches. Lengthening the cut site, the
+obvious remedy, cannot help: the same bases that arm the enzyme against the fusion arm it against
+the parent. Candidates nevertheless clear the parent screens at both junctions reported in patients,
+about 95% of confirmed cases. Two are named for synthesis, with the controls that make a knockdown
+experiment interpretable and the selectivity value that would falsify the ranking used here.
 
 ---
 
