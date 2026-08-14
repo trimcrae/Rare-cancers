@@ -41,18 +41,18 @@ myxoid chondrosarcoma
 ## Abstract
 
 Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma in which a variable partner gene fuses
-to *NR4A3*. The fusion transcript carries a short sequence spanning the join that occurs in no
-normal gene. An antisense drug could in principle destroy that transcript by base-pairing alone,
-sparing both genes the fusion was built from, but none has been reported for this disease. Designs
-prove easy to find. Of the 231 ways the five known partners could join *NR4A3*, 38 keep the reading
-frame intact, and all 38 yield candidate gapmers. The difficulty lies where standard practice does
-not look. Specificity screens compare a candidate against the transcriptome but routinely exclude
-the parent genes, which are the most dangerous match such a drug can have. Screened against them
-directly, 87 of 190 candidates place their cut site on a parent transcript, 61 of those on healthy
-*NR4A3*, the gene the approach exists to spare. Another 19 do so in unspliced precursor RNA, where
-RNase-H1 is also active and no mature-transcript screen reaches. Lengthening the cut site, the
-obvious remedy, cannot help: the same bases that arm the enzyme against the fusion arm it against
-the parent. Candidates nevertheless clear the parent screens at both junctions reported in patients,
+to *NR4A3*. The fusion transcript carries a short sequence spanning the breakpoint junction that
+occurs in no normal gene. An antisense drug could in principle destroy that transcript by
+base-pairing alone, sparing both genes the fusion was built from, but none has been reported for this
+disease. Designs prove easy to find. Of the 231 ways the five known partners could join *NR4A3*, 38
+keep the reading frame intact, and all 38 yield candidate gapmers, whose central DNA gap is where
+RNase-H1 cuts. The difficulty lies where standard practice does not look. Specificity screens compare
+a candidate against the transcriptome but routinely exclude the parent genes, which are the most
+dangerous match such a drug can have. Screened against them directly, 87 of 190 candidates pair that
+gap against a parent transcript, 61 of those against healthy *NR4A3*, the gene the approach exists to
+spare. Another 19 do so in unspliced precursor RNA, where RNase-H1 is also active and no
+mature-transcript screen reaches. Lengthening the gap, the obvious remedy, cannot help: the same
+bases that arm the enzyme against the fusion arm it against the parent. Candidates nevertheless clear the parent screens at both junctions reported in patients,
 about 95% of confirmed cases. Two are named for synthesis, with the controls that make a knockdown
 experiment interpretable and the selectivity value that would falsify the ranking used here.
 
@@ -255,8 +255,8 @@ achieved preferential cleavage of the mutant allele in cells.<sup>28</sup><!--PM
 allele selectivity is achieved, it is engineered by modifying a gap position to block cleavage of the
 near-match, rather than obtained from the mismatch itself.<sup>29</sup><!--PMID:42327837-->
 
-Every gap-resolved screen was therefore re-scored under both bounds as a graded residual cleavage
-load, holding the hit set fixed so that only the scoring changed: all 38 junction screens, and 39 of
+Every screen that resolves the gap was therefore re-scored under both bounds as a graded residual
+cleavage load, holding the hit set fixed so that only the scoring changed: all 38 junction screens, and 39 of
 the 93 screens released in total. The exceptions are one coverage-only control screen that records no
 gap-mismatch depth and so cannot be graded at all, and the 53 deeper re-screens, which are released
 ungraded. The re-score counts only hybridisable hits where it can, meaning where the retained hit
@@ -378,10 +378,11 @@ the oligonucleotide wings. That check had little power to fail, since any non-ho
 be excluded, so it does not separate FET paralogy from incidental exon homology. The stronger
 evidence for paralogy is that four additional two-partner sets are also FET-only.
 
-Specificity does not sort by partner. Taking at each junction the lowest count any of its designs
-achieves after the orientation filter, every one of the five partners has at least one junction whose
-best design carries no hybridisable near-match across the catalytic gap: three of eight at both
-*TCF12* and *FUS*, two of eight at *EWSR1*, one of eight at *TAF15* and one of six at *TFG*. The
+Specificity does not sort by partner (Table 2). Taking at each junction the lowest count any of its
+designs achieves after the orientation filter, every one of the five partners has at least one
+junction whose best design carries no hybridisable near-match across the catalytic gap: three of
+eight at both *TCF12* and *FUS*, two of eight at *EWSR1*, one of eight at *TAF15* and one of six at
+*TFG*. The
 minima therefore separate junctions rather than partners. Which exon a fusion breaks at matters more
 for specificity than which gene it breaks into.
 
@@ -397,9 +398,9 @@ inference from a residue count against this transcript model, not an exon report
 
 ### 3.4 · Strand orientation, and designs with no hybridisable near-match
 
-All 38 in-frame junctions were screened with orientation filtered, covering 183 designs. Of
-the 1,677 apparent cleavage risks across the retained hit lists, 738 sit on the minus strand, or
-44%. An antisense oligonucleotide cannot base-pair with those at all.
+All 38 in-frame junctions were screened with orientation filtered, covering 183 designs, and Table 2
+gives the per-junction result. Of the 1,677 apparent cleavage risks across the retained hit lists,
+738 sit on the minus strand, or 44%. An antisense oligonucleotide cannot base-pair with those at all.
 
 The proportion is not uniform. It runs from 0% at *TFG* exon 4, where no apparent risk is
 minus-strand, to 100% at both *EWSR1* exon 1 and *TCF12* exon 7, where every one is. That
@@ -462,12 +463,13 @@ only be correct if every one of those BLAST hits is on the minus strand, and eve
 A chance argument bounds how surprising a low count should be, and it points the other way from the
 reading these numbers first invite. There are 1,129 16-mers within two substitutions of any given 16-mer, so an arbitrary
 transcriptome position matches at ≥14/16 with probability 2.6 × 10⁻⁷. The span that probability
-multiplies is measured rather than assumed: the exhaustive scan counts 718,571,139 nucleotides across
-its 186,185 transcripts, so the prediction is 189 near-matches for any 16-mer whatever on one strand,
-a single figure rather than the range an assumed span would give. The BLAST arm cannot test this: its
-hit list is capped at 50, far below 189 on one strand and 378 on the two the search covers, so any
-design must return fewer whatever the transcriptome contains. The exhaustive arm can test it, being
-complete for substitutions by construction, and it comes in at chance rather than below it. At the
+multiplies is measured rather than assumed. The exhaustive transcript scan counts 718,571,139
+nucleotides across its 186,185 transcripts, so the prediction is 189 near-matches for any 16-mer
+whatever on one strand, a single figure rather than the range an assumed span would give. The
+alignment screen cannot test this: its hit list is capped at 50, far below 189 on one strand and 378
+on the two the search covers, so any design must return fewer whatever the transcriptome contains.
+The exhaustive transcript scan can test it, being complete for substitutions by construction, and it
+comes in at chance rather than below it. At the
 ≤1-mismatch threshold the same span predicts 8.2 per design, against an observed mean of 9.2 over the
 176 distinct oligonucleotides, a ratio of 1.12, while the median is 3. Real transcript sequence
 therefore produces a long right tail an independent-uniform-base
