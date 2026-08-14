@@ -752,15 +752,16 @@ Delivery remains unsolved for a tumour, and separates into three routes with dif
 requirements. A characterised EMC-enriched surface antigen is a prerequisite of
 the systemic receptor-targeted route only; local and inhaled administration require none. EMC's
 distant spread is lung-dominant, at 35–45% of patients and a median of approximately 28 months to
-metastasis.<sup>6</sup><!--PMID:41055792--> Inhaled oligonucleotides have reached human dosing in non-oncology
-indications: an inhaled antisense oligonucleotide has been dosed in healthy volunteers in phase 1<sup>33</sup><!--PMID:39500647--> — a
-splice-switching oligonucleotide rather than an RNase-H1-active gapmer, so it establishes the route
-and not the mechanism used here — and an inhaled
-siRNA has reached phase 2b–3 in patients.<sup>34</sup><!--PMID:40028836--> Those agents target airway epithelium or parenchyma, which is the
-compartment inhalation naturally reaches; a hypocellular, matrix-rich parenchymal sarcoma nodule is
-not. Inhaled delivery to lung tumours is an active preclinical field — 68 records in the retrieval
-corpus behind this section — but only two of those carry clinical-stage language and neither is a
-trial, so the route is established in humans and not for this target.
+metastasis.<sup>6</sup><!--PMID:41055792--> Inhaled oligonucleotides have reached human dosing in
+non-oncology indications. An inhaled antisense oligonucleotide has been dosed in healthy volunteers
+in phase 1,<sup>33</sup><!--PMID:39500647--> though that was a splice-switching oligonucleotide rather
+than an RNase-H1-active gapmer, so it establishes the route and not the mechanism used here. An
+inhaled siRNA has reached phase 2b–3 in patients.<sup>34</sup><!--PMID:40028836--> Both target airway
+epithelium or parenchyma, which is the compartment inhalation naturally reaches. A hypocellular,
+matrix-rich parenchymal sarcoma nodule is not. Inhaled delivery to lung tumours is an active
+preclinical field, with 68 records in the retrieval corpus behind this section, but only two of those
+carry clinical-stage language and neither is a trial. The route is therefore established in humans
+and not for this target.
 
 ## 5 · Reagents, controls and the decisive experiment
 
@@ -772,22 +773,24 @@ sequence named below has been synthesised or tested.
 
 ### 5.1 · The two reagents to synthesise
 
-The experiment that would resolve the central uncertainty is routine and has been published in an
-analogous disease: fusion-specific antisense oligonucleotides against *NAB2::STAT6* in solitary
+The experiment that would resolve the central uncertainty is routine, and has been published in an
+analogous disease. Fusion-specific antisense oligonucleotides against *NAB2::STAT6* in solitary
 fibrous tumour, evaluated against CRISPR-engineered isogenic fusion-positive and fusion-negative
-cells, reduced fusion expression by 58% and proliferation by 22% in vitro.<sup>35</sup><!--PMID:37370737--> Applied here, the
-reagents to synthesise are the best available at the two junctions with a published exon-resolved
-breakpoint (Table 4): 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at
-*TAF15* exon 6, together about 95% of molecularly confirmed cases. Both hold the top gap-level
-margin of 3 and neither pairs a parent through the catalytic gap at the ten-base-pair threshold,
-although the *TAF15* reagent's longest parent run is nine; the first
-also tests, against a synthetic target only, the multi-partner prediction.
+cells, reduced fusion expression by 58% and proliferation by 22% in
+vitro.<sup>35</sup><!--PMID:37370737-->
 
-Two risks attach, in this
-order. The first is architectural and the Methods disclose it: a six-nucleotide gap supports
-noteworthy but incomplete RNase-H1 activity where seven to ten are reported as
-optimal,<sup>24</sup><!--PMID:24981949--> so weak knockdown is at least as likely to be the gap as
-the sequence. That risk is now addressable by a named second reagent rather than by a caveat.
+Applied here, the reagents to synthesise are the best available at the two junctions with a published
+exon-resolved breakpoint (Table 4): 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
+5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, together about 95% of molecularly confirmed cases. Both
+hold the top gap-level margin of 3, and neither pairs a parent through the catalytic gap at the
+ten-base-pair threshold, although the *TAF15* reagent's longest parent run is nine. The first also
+tests the multi-partner prediction, against a synthetic target only.
+
+Two risks attach, in this order. The first is architectural, and the Methods disclose it. A
+six-nucleotide gap supports noteworthy but incomplete RNase-H1 activity where seven to ten are
+reported as optimal,<sup>24</sup><!--PMID:24981949--> so weak knockdown is at least as likely to be
+the gap as the sequence. That risk is now addressable by a named second reagent rather than by a
+caveat.
 
 ### 5.2 · A second geometry as a gap-length control
 
@@ -803,44 +806,42 @@ from −7.77 to −8.66 kcal/mol. Both arms therefore need the fusion-negative c
 
 ### 5.3 · The predicted off-target load of each reagent
 
-The second risk is transcriptome load, which differs sharply between
-them: the *EWSR1* reagent carries the heaviest disclosed load of any design considered here,
-123 gap-paired hybridisable near-matches at the deeper ceiling, recounting to six gene loci, all at
-the screen's loosest admitted identity and none on a parent transcript (§3.6), against 8 such
-near-matches at five loci for the *TAF15* reagent.
+The second risk is transcriptome load, and it differs sharply between the two reagents. The *EWSR1*
+reagent carries the heaviest disclosed load of any design considered here: 123 gap-paired
+hybridisable near-matches at the deeper ceiling, recounting to six gene loci, all at the screen's
+loosest admitted identity and none on a parent transcript (§3.6). The *TAF15* reagent carries 8 such
+near-matches at five loci.
 
-The parent compartments qualify that, and in a
-way the transcript screens cannot show. The *EWSR1* reagent carries a hybridisable
-intron–exon-spanning near-match in wild-type *TAF15* pre-mRNA at two mismatches, one of them inside
-the catalytic gap, returned independently by the pre-mRNA and the genome-wide arms; it falls outside
-every parent count reported here because those require the gap to be paired in full, and by the
-bounds adopted above a single gap mismatch does not abolish cleavage. It is the multi-partner
-result's own cost rather than an incidental hit: the ten donor bases shared across *EWSR1*, *TAF15*
-and *FUS* that let one oligonucleotide span three seams are the bases that place it against
-wild-type *TAF15*. The *TAF15* exon-6 reagent carries no hybridisable pre-mRNA site at all, which is
-a second respect in which the two separate on something other than count. That load should
-travel with the reagent, and it is a liability to disclose and to control for rather than a
-disqualification, because on the exhaustive genome scan the same design falls below chance in both
-directions that matter, at 0.69 times the expected number of near-matches at two mismatches and
-0.62 times the expected number of gap-paired ones. Expression reads those two loads differently from
-their sizes (§3.6): none of the *EWSR1* reagent's four measurable loci is expressed at the upper cut
-in the organs a systemic dose reaches, while the *TAF15* reagent's five include *NRP1*, which is, in
-all three. That does not reverse the ranking, since no screen here establishes that a two-mismatch duplex
-engages any of them, and it is not a statement about safety. It is the first evidence separating the
-two reagents on anything but count, and it points the load question at the shorter list rather than
-the longer.
+The parent compartments qualify that, in a way the transcript screens cannot show. The *EWSR1*
+reagent carries a hybridisable intron–exon-spanning near-match in wild-type *TAF15* pre-mRNA at two
+mismatches, one of them inside the catalytic gap, returned independently by the pre-mRNA screen and
+the genome scan. It falls outside every parent count reported here, because those require the gap to
+be paired in full, and by the bounds adopted above a single gap mismatch does not abolish cleavage.
+It is the multi-partner result's own cost rather than an incidental hit: the ten donor bases shared
+across *EWSR1*, *TAF15* and *FUS* that let one oligonucleotide span three seams are the bases that
+place it against wild-type *TAF15*. The *TAF15* exon-6 reagent carries no hybridisable pre-mRNA site
+at all, which is a second respect in which the two separate on something other than count.
+
+That load should travel with the reagent. It is a liability to disclose and to control for rather
+than a disqualification, because on the genome scan the same design falls below chance in both
+directions that matter: 0.69 times the expected number of near-matches at two mismatches, and 0.62
+times the expected number of gap-paired ones. Expression reads the two loads differently from their
+sizes (§3.6). None of the *EWSR1* reagent's four measurable loci is expressed at the upper cut in the
+organs a systemic dose reaches, while the *TAF15* reagent's five include *NRP1*, which is expressed
+at that level in all three. That does not reverse the ranking, since no screen here establishes that
+a two-mismatch duplex engages any of them, and it is not a statement about safety. It is the first
+evidence separating the two reagents on anything but count, and it points the load question at the
+shorter list rather than the longer.
 
 ### 5.4 · Controls and the decision threshold
 
-The three designs that survive every screen are
-mechanism controls rather than candidates: 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8,
-5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 and
+The three designs that survive every screen are mechanism controls rather than candidates:
+5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8, 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 and
 5′-GGGCATATCAAGCGCT-3′ at *TCF12* exon 7, tiered as §3.8 describes. The *TAF15* exon-1 design is
-contradicted by the exon-6 breakpoints reported in EMC, while for *FUS* and *TCF12* no exon-resolved
-EMC breakpoint has been published at all. 5′-GGGCATATCTCTATAA-3′ at *TCF12* exon
-17, which an earlier draft of this work put forward for that role, is not among them: at ten times
-the default search depth it carries 101 hybridisable near-matches, 14 of them spanning the catalytic
-gap.
+contradicted by the exon-6 breakpoints reported in EMC, and for *FUS* and *TCF12* no exon-resolved
+EMC breakpoint has been published at all. 5′-GGGCATATCTCTATAA-3′ at *TCF12* exon 17, which an earlier
+draft of this work put forward for that role, is not among them. At ten times the default search
+depth it carries 101 hybridisable near-matches, 14 of them spanning the catalytic gap.
 
 Transferability depends on how that experiment is set up. The breakpoint of the cell line or patient
 sample must be established at nucleotide resolution by RNA sequencing before any oligonucleotide is
@@ -864,46 +865,44 @@ falsify the gap-margin ranking on which every candidate here is ordered.
 ## 6 · Limitations
 
 **Search depth.** The cleanliness claim is bounded by what each screen can see, and the deeper
-re-screen shows how tight that bound is. The alignment screen
-returned hit lists for 183 filtered designs. Only 47 of those 183 are short enough to be assessed for
-cleanliness at all, so nine
-clean designs is a floor over that subset and not a total. It is also an over-count: six of the nine
-lost the property at ten times the default search depth, and that censoring is corpus-wide across
-all 38 junctions re-screened at that depth (§3.5), so the default-depth figures throughout should be
-read as lower bounds rather than as
-counts. BLAST is also heuristic and its sensitivity at the ≥14/16 threshold is unquantified
-here, so "no hybridisable near-match" is a property of this search rather than of the transcriptome;
-the exhaustive ≤1-mismatch scan carries no such qualification and is the arm the claim rests on. All 38 frame-compatible junctions are screened
-with the orientation filter applied, so no junction here carries an unfiltered count. The chance null is crude:
-it assumes independent uniform bases, where real transcript sequence is composition-skewed and
-repetitive, so it separates "more than chance" from "at chance" and nothing finer.
+re-screen shows how tight that bound is. The alignment screen returned hit lists for 183 filtered
+designs, and only 47 of those 183 are short enough to be assessed for cleanliness at all. Nine clean
+designs is therefore a floor over that subset, not a total. It is also an over-count: six of the nine
+lost the property at ten times the default search depth, and that censoring is corpus-wide across all
+38 junctions re-screened at that depth (§3.5). The default-depth figures throughout should be read as
+lower bounds rather than as counts. BLAST is also heuristic, and its sensitivity at the ≥14/16
+threshold is unquantified here, so "no hybridisable near-match" is a property of this search rather
+than of the transcriptome. The exhaustive transcript scan carries no such qualification, and is the
+screen the claim rests on. All 38 frame-compatible junctions are screened with the orientation filter
+applied, so no junction here carries an unfiltered count. The chance null is crude: it assumes
+independent uniform bases, where real transcript sequence is composition-skewed and repetitive, so it
+separates "more than chance" from "at chance" and nothing finer.
 
-**Which junction a patient actually carries.** Which exon pair a
-given patient carries is not decidable from exon structure. The multi-partner result is therefore
-conditional on *TAF15* and *FUS* breakpoints falling at the homologous exons, a clinical fact not
-established here, and the *TCF12* exon assignment of §3.3 is inferred from a reported residue count
-against this transcript model rather than reported as an exon. The five partners modelled here are
-not the full catalogue: *ACTB*<sup>3</sup><!--PMID:41755350--> and others are reported, and 2% of one
-cohort carried no identified partner.<sup>9</sup><!--PMID:36948401-->
+**Which junction a patient actually carries.** Which exon pair a given patient carries is not
+decidable from exon structure. The multi-partner result is therefore conditional on *TAF15* and *FUS*
+breakpoints falling at the homologous exons, a clinical fact not established here. The *TCF12* exon
+assignment of §3.3 is inferred from a reported residue count against this transcript model rather
+than reported as an exon. The five partners modelled here are also not the full catalogue:
+*ACTB*<sup>3</sup><!--PMID:41755350--> and others are reported, and 2% of one cohort carried no
+identified partner.<sup>9</sup><!--PMID:36948401-->
 
-**Geometry.** Every screened count outside
-§3.10 is for one architecture, a 16-mer 5-6-5, and §3.10's comparison carries bounds of its own. The
-exhaustive GRCh38 scan is unavailable at 18 and 20 nucleotides by construction rather than merely
-unrun, since the scanner is a packed bitmap over the code space of a 16-mer and a longer window needs
-a different data structure. The nesting argument bounds a longer design's genome liability by that of
-its own sub-windows, but no such scan has been run, so that bound is an available next step and not a
-result. No RNase-H1 assay distinguishes these geometries here, so which gap is preferable is not decided by
-this work.
+**Geometry.** Every screened count outside §3.10 is for one architecture, a 16-mer 5-6-5, and
+§3.10's comparison carries bounds of its own. The genome scan is unavailable at 18 and 20
+nucleotides by construction rather than merely unrun, since the scanner is a packed bitmap over the
+code space of a 16-mer and a longer window needs a different data structure. The nesting argument
+bounds a longer design's genome liability by that of its own sub-windows, but no such scan has been
+run, so that bound is an available next step and not a result. No RNase-H1 assay distinguishes these
+geometries here, so which gap is preferable is not decided by this work.
 
-**What the screens do and do not model.** The
-thermodynamic calculation models an unmodified DNA:RNA hybrid and speaks to duplex formation rather
-than to cleavage. Every parent count reported here requires the catalytic gap to be paired in full, which is the
-binary rule the Methods decline to apply to cleavage, used as an inclusion criterion because no
-retrieved measurement grades a partly-paired parent duplex; the class it excludes is 21 designs at
-the pre-mRNA arm and is stated in §3.7 rather than left to the artefacts. All five screens address
-hybridisation-dependent liability only; the
-sequence-independent class of a phosphorothioate LNA gapmer, protein binding and the
-target-independent hepatotoxicity of this chemistry, is not a function of any feature graded here.
+**What the screens do and do not model.** The thermodynamic calculation models an unmodified DNA:RNA
+hybrid, and speaks to duplex formation rather than to cleavage. Every parent count reported here
+requires the catalytic gap to be paired in full. That is the binary rule the Methods decline to apply
+to cleavage, used here as an inclusion criterion because no retrieved measurement grades a
+partly-paired parent duplex; the class it excludes is 21 designs at the pre-mRNA screen, and is
+stated in §3.7 rather than left to the artefacts. All five screens address hybridisation-dependent
+liability only. The sequence-independent liabilities of a phosphorothioate LNA gapmer, protein
+binding and the target-independent hepatotoxicity of this chemistry, are not a function of any
+feature graded here.
 
 **Expression.** The expression reading carries bounds of its own. Seven of the 23 loci returned no reading: three are
 attributable to what the locus is, a brain-associated long non-coding RNA host, an antisense
@@ -913,13 +912,14 @@ expression figure is a predicted cleavage event, and the step from a gene being 
 that oligonucleotide being a problem needs an argument no screen here supplies (Table 6). Reference
 bulk medians describe normal tissue in a population, not a dosed patient's organ.
 
-**The genome scan.** The genome scan removes the six-transcript bound the parent screens carried, at the cost of two of
-its own: `hybridisable` is measured against an annotation, so a site in unannotated transcription is
-reported as intergenic and not counted, and a screen against one assembly says nothing about a
-patient's private variation. An earlier genome-wide attempt against a mixed public corpus returned
-nothing interpretable and is released with the artefacts; it could not have done otherwise, having
-no defined nucleotide span to form a null against. Every exhaustive arm inherits the
-substitution-only bound: all are complete for mismatches by construction and blind to insertions and deletions.
+**The genome scan.** Screen 5 removes the six-transcript bound the parent screens carried, at the
+cost of two bounds of its own. Hybridisability is measured against an annotation, so a site in
+unannotated transcription is reported as intergenic and not counted. And a screen against one
+assembly says nothing about a patient's private variation. An earlier genome-wide attempt against a
+mixed public corpus returned nothing interpretable and is released with the artefacts; it could not
+have done otherwise, having no defined nucleotide span to form a null against. Every exhaustive
+screen also inherits the substitution-only bound: all are complete for mismatches by construction and
+blind to insertions and deletions.
 
 ## Tables
 
