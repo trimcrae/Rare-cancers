@@ -23,7 +23,6 @@ tests against the unfixed module OVERWROTE the committed artifact, and every lat
 then read the corrupted copy and failed for the wrong reason. Anything that must exercise the real
 command line therefore runs against an isolated copy of the tree.
 """
-import glob
 import json
 import os
 import shutil
@@ -36,6 +35,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 MOD = os.path.dirname(HERE)
 sys.path.insert(0, MOD)
 
+import aso_screen_sets as ass
 import offtarget_chance_baseline as B  # noqa: E402
 
 ART = os.path.join(MOD, "offtarget-chance-baseline.json")
@@ -70,9 +70,15 @@ def _isolated_tree(tmp_path):
     d = tmp_path / "modalities"
     d.mkdir()
     shutil.copy(SCRIPT, d)
-    for p in glob.glob(os.path.join(MOD, "aso-insilico-evaluation*.json")):
-        shutil.copy(p, d)
+    # ⚠ THE ISOLATED TREE MUST HOLD WHAT THE REAL ONE HOLDS, INCLUDING THE OTHER GEOMETRIES. Every
+    # panel of every geometry is copied on purpose: a fixture quietly containing only the 16-mer
+    # panels would exercise a corpus the module never meets, and selecting correctly out of a
+    # directory that has all three is the module's whole job here.
+    for _g, screens in ass.iter_geometries(ass.DESIGN_EVALUATION, root=MOD):
+        for sc in screens:
+            shutil.copy(sc.path, d)
     shutil.copy(ART, d)
+    shutil.copy(os.path.join(MOD, "aso_screen_sets.py"), d)   # the loader travels with the module
     return d
 
 
@@ -133,7 +139,7 @@ def test_the_default_run_writes_and_names_every_panel_it_set_aside(tmp_path):
     r = _run(script)
     assert r.returncode == 0, r.stderr
     assert art.read_text(encoding="utf-8") == committed
-    n_panels = len(glob.glob(os.path.join(MOD, "aso-insilico-evaluation*.json")))
+    n_panels = len(B.panel_paths())
     n_used = len({row["_source"] for row in json.loads(committed)["per_design"]})
     if n_panels > n_used:
         assert "collapsed onto the seam" in r.stderr, r.stderr
@@ -145,9 +151,8 @@ def test_the_default_run_writes_and_names_every_panel_it_set_aside(tmp_path):
     # different reagent length is named "excluded X (designs of length N)". A line carrying the
     # collapse verb without `-> kept` would read as a truncated collapse, which is why the geometry
     # readout uses its own wording and why both are asserted here rather than only the first.
-    if any(len(B.panel_oligo_lens(json.load(open(p, encoding="utf-8")))
-               - {B.OLIGO_LEN}) for p in glob.glob(
-                   os.path.join(MOD, "aso-insilico-evaluation*.json"))):
+    if any(g != ass.MANUSCRIPT_GEOMETRY
+           for g, _ss in ass.iter_geometries(ass.DESIGN_EVALUATION, root=MOD)):
         assert "at other geometries excluded" in r.stderr, r.stderr
         for line in r.stderr.splitlines():
             if line.strip().startswith("excluded "):
@@ -164,7 +169,10 @@ def test_one_panel_per_seam_and_geometry():
     property under test is unchanged, that de-duplication leaves no duplicate; what changed is what
     counts as a duplicate. Both halves are asserted, so collapsing on either alone still fails.
     """
-    paths = sorted(glob.glob(os.path.join(MOD, "aso-insilico-evaluation*.json")))
+    # ⚠ EVERY GEOMETRY HERE, because the property under test is that the compound key
+    # de-duplicates ACROSS them — a population narrowed to one geometry could not fail it.
+    paths = [sc.path for _g, ss in ass.iter_geometries(ass.DESIGN_EVALUATION, root=MOD)
+             for sc in ss]
     chosen, collapsed = B.select_primary_panels(paths)
     assert len(chosen) + len(collapsed) == len(paths)
     keys = [(B.seam_identity(d), tuple(sorted(B.panel_oligo_lens(d)))) for _, d in chosen]

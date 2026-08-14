@@ -203,7 +203,14 @@ def blast_hits(rid):
 #: SUFFIX. Overwriting the committed screens would silently re-base every count the paper quotes,
 #: and the two sets are not comparable: a count taken at a deeper ceiling is a different measurement,
 #: not a correction of the shallower one.
-BLAST_HITLIST_SIZE = ja._env_int("BLAST_HITLIST_SIZE", 50)
+#: ⭐ THE DEFAULT IS NAMED SEPARATELY FROM THE LIVE VALUE, because they answer different
+#: questions. The live constant is what THIS process would search at; the default is the floor a
+#: committed screen is graded against when asking "was this run deeper than a normal one?"
+#: (`aso_screen_sets.is_deep`). Under a `BLAST_HITLIST_SIZE=500` dispatch the live value is 500,
+#: and reading it as the default would make every deep screen on disk look shallow — a depth
+#: test that silently answers "no" for every file.
+DEFAULT_BLAST_HITLIST_SIZE = 50
+BLAST_HITLIST_SIZE = ja._env_int("BLAST_HITLIST_SIZE", DEFAULT_BLAST_HITLIST_SIZE)
 
 #: How many ranked hits are STORED per design, against a hitlist of up to `BLAST_HITLIST_SIZE`.
 #: ⛔ NAMED BECAUSE IT WAS A BARE `[:15]` IN ONE PLACE AND A TYPED "15" IN FOUR OTHERS — the
@@ -213,7 +220,9 @@ BLAST_HITLIST_SIZE = ja._env_int("BLAST_HITLIST_SIZE", 50)
 #: later pass can repair. A fact that decides a headline result does not get to live as a literal.
 #: ⚠ RAISING THIS IS NOT COSMETIC EITHER: it is what lets a re-screen decide cleanliness for a design
 #: whose current answer is "unknown beyond the stored window".
-SAVED_HITS_PER_DESIGN = ja._env_int("SAVED_HITS_PER_DESIGN", 15)
+#: The default, named for the same reason as `DEFAULT_BLAST_HITLIST_SIZE` above.
+DEFAULT_SAVED_HITS_PER_DESIGN = 15
+SAVED_HITS_PER_DESIGN = ja._env_int("SAVED_HITS_PER_DESIGN", DEFAULT_SAVED_HITS_PER_DESIGN)
 
 # ─────────────────────────────────────────────────────────────────────────────────────────
 # WHAT THIS SCREEN RAN UNDER — the four knobs, recorded rather than left to be inferred
@@ -768,7 +777,30 @@ def grade_panel(screen):
     ⛔ DELIBERATELY DERIVED FROM THE COMMITTED SCREEN RATHER THAN A FRESH ONE. A new BLAST would
     return a different hit set, and the old and new headline figures would then differ for two
     reasons at once — the model change and the retrieval change — which is exactly the comparison
-    a corrected headline must not be muddied by. The hit set is held fixed; only the scoring moves."""
+    a corrected headline must not be muddied by. The hit set is held fixed; only the scoring moves.
+
+    ⛔⛔ THE GEOMETRY IS THE SCREEN'S, NOT THIS MODULE'S — AND WRITING THIS MODULE'S WAS A LIVE
+    DEFECT THAT SURVIVED THE GEOMETRY SWEEP OF 2026-08-14 (found and reproduced the same day).
+    `oligo_len`, `gap_region_1based` and `near_match_threshold` below were `ja.OLIGO_LEN` /
+    `GAP_REGION_1BASED` / `NEAR_MATCH_MIN_IDENT` — the geometry THIS PROCESS'S environment built,
+    which is the manuscript's 5-6-5 unless a dispatch overrode it. Step 0 of
+    `scripts/regenerate_aso_chain.sh` rescores EVERY `junction-aso-offtarget-*.json` in one sweep,
+    so the first chain run after the 18-mer and 20-mer screens landed would have written graded
+    artifacts stating `oligo_len: 16`, `gap_region_1based: [6, 11]` and `>= 14/16 identical` over
+    18-mer and 20-mer designs — and `submission_tables._graded_loads` globs those into the
+    manuscript's residual-load column. Reproduced end to end on
+    `junction-aso-offtarget-e12n3-18mer-deep500.json` before this fix: `oligo_len` 16 beside designs
+    measured at 18, `>= 14/16` on a screen that ran at 16/18.
+    ⚠ NOTHING COMMITTED WAS AFFECTED — the chain had not been re-run since those screens landed, so
+    all 39 graded artifacts on disk are 16-mer, and re-grading every committed screen after this fix
+    reproduces all 39 byte-for-byte. Latent is what this fix is for.
+    ⭐ AND IT IS THE ARGUMENT FOR THE LOADER RATHER THAN FOR ANOTHER PER-CONSUMER GUARD: three
+    generators were fixed by hand on 2026-08-14, each after its own symptom was caught by a human,
+    and this one — which no symptom had reached yet — was not among them.
+    """
+    import aso_screen_sets as ass                                             # noqa: PLC0415
+    geom = ass.geometry_of(ass.BLAST_SCREEN, screen,
+                           where=f"screen for {screen.get('junction_label') or '<unlabelled>'}")
     graded, per_model = {}, {}
     ok = [o for o in screen.get("oligos", []) if o.get("status") == "screened"]
     for name, m in DISCRIMINATION_MODELS.items():
@@ -810,9 +842,13 @@ def grade_panel(screen):
         ],
         "retired_model": RETIRED_ABOLITION_MODEL,
         "retired_model_headline": f"{retired} of {len(ok)} predicted off-target-clean",
-        "near_match_threshold": f">= {NEAR_MATCH_MIN_IDENT}/{ja.OLIGO_LEN} identical",
-        "oligo_len": ja.OLIGO_LEN,
-        "gap_region_1based": list(GAP_REGION_1BASED),
+        # ⛔ Every field below is the SCREEN's geometry, measured from its designs — see the
+        # docstring. `geom` is None only for a screen holding no design at all, in which case there
+        # is nothing graded and the fields state their own absence rather than this module's values.
+        "near_match_threshold": (
+            f">= {geom.oligo_len - 2}/{geom.oligo_len} identical" if geom else None),
+        "oligo_len": geom.oligo_len if geom else None,
+        "gap_region_1based": list(geom.gap_region_1based) if geom else None,
         "max_mismatches_per_near_match": MAX_MISMATCHES_PER_NEAR_MATCH,
         "models": per_model,
         "per_oligo": graded,

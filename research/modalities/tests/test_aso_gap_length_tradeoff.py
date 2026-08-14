@@ -394,16 +394,20 @@ def test_a_screen_with_no_hits_is_not_graded_strand_blind():
 
 def test_every_new_geometry_screen_is_orientation_safe():
     """A geometry comparison must not put a filtered count beside a strand-blind one."""
-    import glob  # noqa: PLC0415
-
+    import aso_screen_sets as ass  # noqa: PLC0415
     import junction_aso_offtarget as jo  # noqa: PLC0415
-    paths = glob.glob(os.path.join(MOD, "junction-aso-offtarget-*mer-deep500.json"))
-    if not paths:
+    # ⛔ "LONGER GEOMETRY" IS A MEASUREMENT, NOT THE SUBSTRING `mer-deep500` (2026-08-14). That
+    # pattern misses a longer-geometry screen re-dispatched under any other spelling — three
+    # `-18mer-deep500-b2` / `-20mer-deep500-b2` files are already on disk and it matches none of
+    # them — so this guard was silently narrower than its own name. Every geometry that is NOT the
+    # manuscript's is checked here, whatever its file is called.
+    longer = [s for g, ss in ass.iter_geometries(ass.BLAST_SCREEN, root=MOD)
+              if g != ass.MANUSCRIPT_GEOMETRY for s in ss]
+    if not longer:
         pytest.skip("no longer-geometry screens in this checkout")
-    for p in sorted(paths):
-        screen = json.load(open(p, encoding="utf-8"))
-        assert jo.screen_counts_are_orientation_filtered(screen), (
-            f"{os.path.basename(p)} is {jo.screen_orientation_status(screen)} — its counts cannot "
+    for s in sorted(longer, key=lambda x: x.name):
+        assert jo.screen_counts_are_orientation_filtered(s.artifact), (
+            f"{s.name} is {jo.screen_orientation_status(s.artifact)} — its counts cannot "
             "be compared with an orientation-filtered geometry")
 
 

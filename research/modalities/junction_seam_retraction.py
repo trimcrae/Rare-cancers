@@ -62,6 +62,7 @@ from datetime import datetime, timedelta, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+import aso_screen_sets as _ass                                           # noqa: E402
 
 BANNER_KEY = "⛔_RETRACTED_SEAMS"
 #: Mirrors `fusion_neoantigen_invalidation.STAMP_KEY`: a grade saying "this artifact is now correct"
@@ -72,12 +73,21 @@ EXON_AUDIT = os.path.join(HERE, "nr4a3-exon-audit.json")
 
 #: The artifact families this module grades. Glob patterns, relative to the scanned directory.
 #: Every one of them carries a seam built as `left[-12:] + "|" + right[:12]`.
-ARTIFACT_GLOBS = (
-    "junction-aso-designs*.json",
-    "junction-aso-offtarget*.json",
-    "aso-insilico-evaluation*.json",
-    "junction-sirna-designs*.json",
-)
+#: ⭐ THIS MODULE IS DELIBERATELY GEOMETRY-BLIND, AND THAT IS CORRECT HERE. It grades the SEAM a
+#: file declares — twelve nucleotides either side of the breakpoint — and applies no gap window, no
+#: length arithmetic and no per-design index. An 18-mer screen at a retracted seam is exactly as
+#: retracted as a 16-mer one, so restricting this sweep to one geometry would leave the others
+#: ungraded, which is the opposite of the failure `aso_screen_sets` exists for.
+#: ⚠ BUT THE PATTERNS STILL HAVE ONE HOME. The two families the loader owns are taken FROM it
+#: rather than re-typed here — a sixth spelling of `junction-aso-offtarget*.json` in a sixth module
+#: is how one of them ends up missing a file nobody anticipated.
+#: ⚠ THE THIRD ENTRY BELOW IS THE LEGACY PRE-PANEL SCREEN, named because the loader family pattern
+#: deliberately excludes it (see `aso_screen_sets.BLAST_SCREEN`). Dropping it would have narrowed
+#: this sweep from 315 files to 314 — measured — and the file it loses is a modelled-seam artifact,
+#: which is exactly the kind this module exists to banner.
+_OWN_GLOBS = ("junction-aso-designs*.json", "junction-sirna-designs*.json",
+              "junction-aso-offtarget.json")
+ARTIFACT_GLOBS = tuple(sorted({f.pattern for f in _ass.FAMILIES} | set(_OWN_GLOBS)))
 
 GRADE_RETRACTED = "RETRACTED"
 GRADE_CORRECT = "CORRECT"
