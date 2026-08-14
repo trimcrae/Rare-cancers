@@ -130,15 +130,16 @@ def test_manuscript_corpus_counts_match_the_artifact():
     txt = _paper()
     assert n_junctions == 38, n_junctions
     assert n_designs == 183, n_designs
-    assert "All 38 frame-compatible junctions were screened with orientation parsed and filtered" in txt
+    assert (f"parsed and filtered in all {n_junctions} junction screens and the {n_designs} "
+            "designs they hold") in _flat(txt)
     # ⚠ WHITESPACE-TOLERANT: the manuscript hard-wraps, so the phrase can straddle a newline.
     import re as _re
-    assert _re.search(rf"{n_designs}\s+designs\s+across\s+them", txt), "design count"
+    assert _re.search(rf"covering\s+{n_designs}\s+designs", txt), "design count"
     # every junction with a screen, filtered or not, minus the one that returned nothing
     labelled = [s for s in _collapse()["screens"] if s["junction_label"]]
     with_results = [s for s in labelled if s["n_oligos"]]
     assert len(with_results) == 38, len(with_results)
-    assert "All 38 were screened with alignment orientation filtered" in txt
+    assert "All 38 in-frame junctions were screened with orientation filtered" in txt
 
 
 def test_the_methods_do_not_still_describe_the_sixteen_junction_corpus():
@@ -197,9 +198,9 @@ def test_minus_strand_fraction_matches_the_manuscript():
     pct = round(100 * minus / tot)
     assert pct == 44, pct
     txt = _paper()
-    assert f"{pct}% of\napparent" in txt or f"{pct}% of apparent" in txt, "abstract percentage"
+    assert f"{minus} sit on the minus strand, or {pct}%" in _flat(txt), "minus-strand percentage"
     t = f"{tot:,}"
-    assert f"({minus} of\n{t})" in txt or f"({minus} of {t})" in txt, "results count"
+    assert f"Of the {t} apparent cleavage risks" in _flat(txt), "results count"
 
 
 def test_per_junction_range_matches_the_manuscript():
@@ -225,8 +226,8 @@ def test_the_reordering_example_is_exact():
     a13, m13 = per["EWSR1_e13__NR4A3_e3"]
     assert (a7, a13) == (55, 57), (a7, a13)
     assert (a7 - m7, a13 - m13) == (6, 53), (a7 - m7, a13 - m13)
-    assert "return 55 and 57 apparent gap-spanning hits" in _paper()
-    assert "they stand at 6 and 53" in _paper()
+    assert "return 55 and 57 apparent gap-spanning hits" in _flat(_paper())
+    assert "they stand at 6 and 53" in _flat(_paper())
 
 
 # ────────────────────────────────────────────────────────────── censoring
@@ -240,15 +241,15 @@ def test_censoring_counts_match_the_manuscript():
     uncensored = sum(1 for c in counts if c <= 15)
     assert (at_cap, censored, uncensored) == (35, 136, 47), (at_cap, censored, uncensored)
     txt = _paper()
-    assert "35 of the 183 filtered designs reach that cap" in txt
-    assert "a further 101 exceed the 15 hits" in txt
-    assert "136 in all carry right-censored counts" in txt
+    assert "35 of the 183 filtered designs reach that cap" in _flat(txt)
+    assert "A further 101 exceed the 15 hits" in _flat(txt)
+    assert "136 in all carry right-censored counts" in _flat(txt)
     # ⚠ THE CENSORING DENOMINATOR IS 47, NOT 44, AND THE PAPER SAID 44 (2026-08-13). 44 is the
     # subset with a computable locus `inflation_factor`, which is the LOCUS claim's denominator in
     # the test below; the number of designs whose hit list is complete enough to be assessed for
     # cleanliness at all is 47. Two nearby quantities, one of them borrowed for the other's
     # sentence — and the smaller one made the paper sound more cautious than its evidence required.
-    assert f"Only {uncensored} of those 183" in txt
+    assert f"only {uncensored} of those 183" in _flat(txt)
 
 
 def test_locus_inflation_matches_the_manuscript():
@@ -332,7 +333,7 @@ def test_section_3_3_partner_minima_match():
         "explicitly withdrew; re-derive the prose rather than relaxing this")
     txt = _paper()
     assert "Specificity does not sort by partner" in txt
-    assert "three of eight at both" in txt
+    assert "three of eight at both" in _flat(txt)
     # ⛔ AND THE DENOMINATORS MUST SUM TO THE CORPUS. The paper read "one of five at *TFG*" while
     # the atlas, Table 1 and Table 2's six TFG rows all say six, so §3.3's five per-partner
     # denominators summed to 37 against a 38-junction corpus. An arithmetic error a reviewer finds
@@ -351,7 +352,7 @@ def test_section_3_3_partner_minima_match():
     # ⚠ WHITESPACE-TOLERANT: the manuscript hard-wraps, and "at both" sits at the end of a line with
     # its two partners on the next one, so a pattern with literal spaces silently matched neither.
     for word, partners in re.findall(
-            r"of (\w+) at\s+(?:both\s+)?((?:\*[A-Z0-9]+\*(?:,?\s+and\s+)?)+)", txt):
+            r"of (\w+) at\s+(?:both\s+)?((?:\*[A-Z0-9]+\*(?:,?\s+and\s+)?)+)", _flat(txt)):
         if word not in words:
             continue
         for partner in re.findall(r"\*([A-Z0-9]+)\*", partners):
@@ -483,8 +484,8 @@ def test_the_taf15_exon6_locus_counts_are_the_deep_ceiling_ones():
     assert min(loci.values()) == 3 and min(loci, key=loci.get) == "AGGGCATATCTTGTGT", loci
     assert loci[leader] == 5 and predicted_only[leader] == 3, (loci, predicted_only)
     txt = _flat(_paper())
-    assert ("those recount to three gene loci at best and five for the design its gap-level margin "
-            "ranks first, three of those five annotated only as predicted gene models") in txt
+    assert ("those recount to three gene loci at best, and five for the design its gap-level "
+            "margin ranks first, three of those five annotated only as predicted gene models") in txt
     assert "four\nloci at best" not in _paper() and "four loci at best" not in txt
 
 
@@ -599,8 +600,8 @@ def test_the_figure_3_legend_matches_the_series_it_describes():
     for r in fs["series"]:
         spans[r["n_junctions"]] = spans.get(r["n_junctions"], 0) + 1
     assert spans[3] == 5 and spans[2] == 4, spans
-    assert f"nine of the 16-mers" in txt and "five at three seams and four at two" in txt
-    for dead in ("114 molecules", "77 of the 114", "five at three seams and one at two"):
+    assert f"nine of the 16-mers" in txt and "five at three junctions and four at two" in txt
+    for dead in ("114 molecules", "77 of the 114", "five at three junctions and one at two"):
         assert dead not in txt, f"superseded Figure 3 legend value is back: {dead!r}"
 
 
@@ -631,7 +632,7 @@ def test_the_accessibility_range_is_the_one_the_artifacts_produce():
     assert len(vals) == 190, len(vals)
     txt = _paper()
     assert f"across all {len(vals)} designs at real exon junctions" in txt
-    assert f"(median {statistics.median(vals):.3f})" in txt
+    assert f"with a median of {statistics.median(vals):.3f}" in _flat(txt)
     assert f"{min(vals):.3f} to {max(vals):.3f}" in txt
     assert "0.476" not in txt and "130 designs" not in txt
 
@@ -701,8 +702,8 @@ def test_the_censoring_guard_was_tested_and_is_load_bearing():
         f"failure — the manuscript says every decided record was not clean, so update §3.6 and the "
         f"clean set rather than relaxing this")
     txt = _paper()
-    assert "decided six of\nthe seven" in txt or "decided six of the seven" in txt
-    assert "every one of the six is not clean" in txt
+    assert "decided six of the seven" in _flat(txt)
+    assert "none of the six is clean" in _flat(txt)
 
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────
@@ -759,8 +760,8 @@ def test_the_lead_reagent_row_of_section_3_10_is_the_artifacts():
         [123, 3, 0], [6, 1, 0], [3, 4, 5], [3, 4, 5], [-7.77, -8.66, -10.25])
 
     txt = _flat(_paper())
-    assert "123 hybridisable gap-spanning cleavage risks at six gene loci become 3 at one locus" in txt
-    assert "from 3 to 4 to 5 nucleotides and the" in txt
+    assert "123 sense-strand cleavage risks across the gap at six gene loci become 3 at one locus" in txt
+    assert "from 3 to 4 to 5 nucleotides, and the" in txt
     assert "−7.77 to −8.66 to −10.25 kcal/mol" in txt
     # §4's named second reagent, and the cost it does NOT buy
     assert "5′-AGGGCATATCATCAAACC-3′ is the 5-8-5 design" in txt
@@ -817,7 +818,7 @@ def test_the_corpus_parent_liability_numbers_in_section_3_10():
     assert "from 76 of 190 to 228 of 266 to 342 of 342" in txt
     assert "−8.66 to −14.58 kcal/mol" in txt
     assert "the smaller half of a gap of ten cannot be under five" in txt
-    assert "at 5-6-5, 114 of 190 designs keep the parent below it" in txt
+    assert "At 5-6-5, 114 of 190 designs keep the parent below it" in txt
     assert "181 of 190 designs at 5-6-5 but 87 of 342 at 5-10-5" in txt
     assert "from 19 of 190 to 9 of 342" in txt
 
@@ -834,7 +835,7 @@ def test_the_paper_states_the_two_bounds_that_make_the_fall_partly_arithmetic():
     assert "guaranteed by the instrument rather than measured" in txt
     assert "reachable set can only shrink" in txt
     assert "fractionally stricter test at 20 nucleotides than at 16" in txt
-    assert "Only the size of the fall and which designs reach zero are measurements" in txt
+    assert "Only the size of the fall, and which designs reach zero, are measurements" in txt
     assert "unavailable at 18 and 20 nucleotides by construction rather than merely unrun" in txt
     assert "an available next step and not a result" in txt
     # and the placeholder it replaced must not come back
@@ -858,7 +859,7 @@ def test_table5_cells_are_the_artifacts_and_the_paper_points_at_it():
     assert len(present) >= 3, present
     for arch in present:
         assert lead[arch]["antisense_5to3"] in txt, arch
-    assert "| hybridisable gap-spanning cleavage risks | 123 | 3 | 0 |" in txt
+    assert "| sense-strand gap-spanning cleavage risks | 123 | 3 | 0 |" in txt
     assert "| designs carrying none | 8 of 30 | 28 of 42 | 54 of 54 |" in txt
     assert "| a mature parent can pair the whole gap | 181 of 190 | 130 of 266 | 87 of 342 |" in txt
     # the merged row rests on wing == 5; the generator refuses if that stops holding
@@ -946,7 +947,7 @@ def test_section_3_11_expression_figures_are_the_artifacts():
             if L["n_designs_hitting_it"] == n_des.get(L["seams"][0])
             and L["seams"][0] == "TAF15_e6__NR4A3_e3"] == ["NRP1"], "NRP1 is the only such locus"
     assert ("*NRP1* reaches 6.6 to 17.8 TPM across all three exposure tissues and is the only one "
-            "all five of that seam's tiling registers return, on five transcript records") in txt
+            "all five of that junction's tiling registers return, on five transcript records") in txt
 
     # ── the tumour compartment, which is a SEPARATE axis and ordered differently ───────────────
     lama = next(L for L in expr["per_locus"] if L["locus"] == "LAMA4")
@@ -1006,15 +1007,15 @@ def test_section_4_separates_the_two_reagents_without_making_a_safety_claim():
     # absence — in the one paragraph a reader takes a recommendation from.
     assert len([L for L in lead
                 if not L["exposure_compartment_liver_kidney"]["readable"]]) == 2, "two unreadable"
-    assert ("none of the *EWSR1* reagent's four measurable loci is expressed at the upper cut in "
+    assert ("None of the *EWSR1* reagent's four measurable loci is expressed at the upper cut in "
             "the organs a systemic dose reaches, while the *TAF15* reagent's five include *NRP1*, "
-            "which is, in all three") in txt
+            "which is expressed at that level in all three") in _flat(txt)
     assert "reagent's six loci is expressed" not in txt
     assert "That does not reverse the ranking" in txt
     assert "it is not a statement about safety" in txt
 
     # the paragraph that carries the expression result must not acquire a hazard vocabulary
-    para = txt[txt.index("Expression reads those two loads differently"):]
+    para = txt[txt.index("Expression reads the two loads differently"):]
     para = para[:para.index("The three designs that survive every screen")]
     for banned in ("high-risk", "high risk", "concerning", "dangerous", "unsafe", "hazard",
                    "toxic", "safety concern", "safer", "riskier"):
@@ -1055,7 +1056,7 @@ def test_table6_cells_are_the_artifact_and_its_two_compartments_stay_separate():
     # the two compartments are separate columns and the table carries no risk ordering
     assert "soft-tissue proxy maximum" in body and "exposure-organ reading" in body
     for banned in ("risk", "hazard", "concerning", "safety", "priority", "rank "):
-        assert banned not in body.lower().split("| seam |")[1][:4000], banned
+        assert banned not in body.lower().split("| junction |")[1][:4000], banned
 
     # the cuts are the module's, not re-typed into the legend
     import aso_offtarget_tissue_expression as X  # noqa: PLC0415

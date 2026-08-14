@@ -32,7 +32,12 @@ jobs:
       # not cosmetic: on 2026-07-27 another lane's red assertions took the whole step-1 supervision tick down
       # with them (the tick gated on pytest before it measured). The test CAN run anywhere — it needs no
       # credentials and touches no network — so the fix is to install the dependency, not to skip the test.
-      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3 jsonschema
+      # biopython backs junction_aso_thermo.py's nearest-neighbour table. Without it that module
+      # REFUSES to run rather than hand-entering the table, which is correct behaviour and which
+      # made test_the_16mer_thermo_artifact_still_reproduces read as an artifact drift when it was
+      # a missing dependency. Verified 2026-08-14: with biopython the check answers "thermo
+      # artifact is current". A guard that cannot run is not a guard that passed.
+      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
       # Run the doc linters FIRST and standalone. Both are also asserted inside the pytest
       # suite, but a doc author who breaks one should see the offending file:line as a
       # failing step named after the linter, not a traceback buried in ~1500 tests.

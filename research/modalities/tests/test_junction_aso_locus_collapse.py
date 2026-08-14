@@ -211,10 +211,10 @@ def test_the_clinically_relevant_reagents_deep_load_is_six_loci_not_123_transcri
         pytest.skip("submission manuscript is not present in this checkout")
     txt = re.sub(r"\s+", " ", open(paper, encoding="utf-8").read())
     assert "189 near-matches" in txt
-    assert "123 with the catalytic gap perfectly paired" in txt
+    assert "123 pair the catalytic gap perfectly" in txt
     assert "six gene loci" in txt
     assert "*ANKS1B* and *ZNF667*" in txt
-    assert "82 of the 123 are `XM_`/`XR_` predicted models" in txt
+    assert "Of the 123, 82 are `XM_`/`XR_` predicted models" in txt
     assert "no parent transcript is among them" in txt
 
 

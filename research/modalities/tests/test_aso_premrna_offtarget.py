@@ -11,6 +11,7 @@ below at a known coordinate, so a wrong answer is a specific wrong answer.
 """
 import os
 import random
+import re
 import sys
 
 import pytest
@@ -132,14 +133,14 @@ def test_the_manuscript_matches_the_committed_premrna_screen():
     if not (os.path.exists(art) and os.path.exists(paper)):
         pytest.skip("the pre-mRNA screen or the manuscript is not present in this checkout")
     d = __import__("json").load(open(art))
-    txt = open(paper, encoding="utf-8").read()
+    txt = re.sub(r"\s+", " ", open(paper, encoding="utf-8").read())
     c = d["corpus"]
     assert c["designs"] == 190 and c["with_any_hit"] == 53, c
     assert c["with_hybridisable_gap_paired"] == 19, c
     # Equal by construction is worth asserting: a purely exonic gap-paired site would have been
     # visible to the mature screens, so if these ever diverge the compartment logic has changed.
     assert c["with_a_liability_invisible_to_mature_screens"] == 19, c
-    assert "53 have a" in txt and "19 carry one that is hybridisable" in txt
+    assert "53 have a" in txt and "Nineteen carry one that meets all three conditions" in txt
 
     classes = {}
     for r in d["per_design"]:
@@ -148,7 +149,7 @@ def test_the_manuscript_matches_the_committed_premrna_screen():
                 classes.setdefault((h["gene"], h["compartment"]), 0)
                 classes[(h["gene"], h["compartment"])] += 1
     assert classes == {("NR4A3", "intron_exon_spanning"): 9, ("TCF12", "intronic"): 10}, classes
-    assert "Nine are intron–exon-spanning and every one is in *NR4A3*" in txt
+    assert "Nine are intron–exon-spanning, and every one is in *NR4A3*" in txt
     assert "The other ten are wholly intronic and every one is in *TCF12*" in txt
 
     # The margin trend, which is what makes this a third instrument agreeing with the ranking.
@@ -161,9 +162,9 @@ def test_the_manuscript_matches_the_committed_premrna_screen():
     # ⚠ WHITESPACE-TOLERANT: the manuscript hard-wraps, so any of these phrases can straddle a
     # newline. A test that only passes on one line-break position is a test of the reflow.
     flat = " ".join(txt.split())
-    for phrase in (f"at margin 1, {by_margin[1][1]} of {by_margin[1][0]} carry a pre-mRNA site",
-                   f"at margin 2, {by_margin[2][1]} of {by_margin[2][0]}",
-                   f"at margin 3, none of {by_margin[3][0]}"):
+    for phrase in (f"margin 1, {by_margin[1][1]} of {by_margin[1][0]} designs carry a pre-mRNA site",
+                   f"margin 2, {by_margin[2][1]} of {by_margin[2][0]}",
+                   f"margin 3, none of {by_margin[3][0]}"):
         assert phrase in flat, phrase
 
     # And the headline: the nine clean designs must be clean in this compartment too.

@@ -30,11 +30,11 @@ None of these numbers is a measurement of off-target activity.
 
 ¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.
 
-² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” hybridisable and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
+² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
 
 ⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.
 
-| junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, hybridisable² | loci with a gap-spanning hit | of those, predicted models only¹ | at the deeper ceiling: near-matches⁵ | of those, hybridisable⁵ | loci with a gap-spanning hit⁵ | ≤1-mismatch matches across that junction's designs, median (max) |
+| junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, on the sense strand² | loci with a gap-spanning hit | of those, predicted models only¹ | at the deeper ceiling: near-matches⁵ | of those, on the sense strand⁵ | loci with a gap-spanning hit⁵ | ≤1-mismatch matches across that junction's designs, median (max) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | EWSR1 e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGATCA-3′ | 35 → ≥2 | ≥15 | ≤4 | 0 | 138 | 137 | 5 | 4 (32) |
 | EWSR1 e12::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 14 | 2 (22) |
@@ -83,7 +83,7 @@ because it is the depth at which the corpus-wide counts elsewhere in the paper w
 where one exists. A design qualifies only
 if its retained hit list is not truncated — no more near-matches than the 15 the screens store — because the
 strand of an unstored hit cannot be recovered, so a truncated list cannot establish that nothing
-hybridisable remains. The underlying search is itself capped, so these are the designs whose
+on the sense strand remains. The underlying search is itself capped, so these are the designs whose
 near-match lists are shortest, not the designs whose lists are known to be exhaustive. ΔΔG°37 is the margin by which the fusion duplex is favoured over the best
 duplex either parent can form, for an unmodified DNA:RNA hybrid; because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
@@ -103,7 +103,7 @@ is computed from the three deep columns beside it, not asserted, so this table c
 disagree with §3.5 about which designs survive. The six that do not are the reason this table's
 default-depth zeros must not be read on their own.
 
-| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, either strand | of those, hybridisable | exact / ≤1-mismatch matches | residual cleavage load, both bounds³ | conventional rules failed⁴ | at the deeper ceiling: near-matches | of those, hybridisable | loci with a gap-spanning hit | survives⁵ |
+| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, either strand | of those, on the sense strand | exact / ≤1-mismatch matches | residual cleavage load, both bounds³ | conventional rules failed⁴ | at the deeper ceiling: near-matches | of those, on the sense strand | loci with a gap-spanning hit | survives⁵ |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 5′-GCATATCCGTGGACGC-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 1 | 7.981 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 84 | 83 | 1 | **no** |
 | 5′-GGCATATCCGTGGACG-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 2 | 10.085 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 29 | 22 | 0 | **no** |

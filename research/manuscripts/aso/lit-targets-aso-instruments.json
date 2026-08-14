@@ -1,0 +1,77 @@
+{
+ "_note": "Retrieval record for the INSTRUMENTS the fusion-junction ASO manuscript's Methods runs on — the transcript source, the sequence sets, the aligner, the fold and the two expression atlases. Every identifier below was RETURNED BY A EUROPE PMC SEARCH RUN ON A GITHUB RUNNER on 2026-08-14 and every field is quoted from that returned record; none was typed from recollection. This file is the ANCHOR research/manuscripts/lint_citations.py checks those prose identifiers against.",
+ "_limits": [
+  "An identifier returned by Europe PMC is evidence the RECORD EXISTS with that title and journal. It is NOT evidence that the paper supports the sentence it is attached to; that check is human.",
+  "These are resource/tool citations. Citing a database's release paper does not establish which release was used — no Ensembl release number is recorded in this repository's artefacts, so none is claimed."
+ ],
+ "generated_utc": "2026-08-14T23:33:34Z",
+ "produced_by": {
+  "workflow": ".github/workflows/fetch-literature.yml (query path -> scripts/fetch-paper.mjs sync)",
+  "dispatched_at_ref": "main",
+  "runs": [
+   31847605123,
+   31848431244
+  ],
+  "corpora_published_to": "branch literature-cache, under literature/resource-citations{,-2}/"
+ },
+ "known_positive_control": {
+  "used": false,
+  "why": "Left empty deliberately, per the workflow's own guidance: a control must be a paper the query would actually return. These queries are exact-title searches for the resource papers themselves, so the returned records ARE the control — each requested title came back, and the two that did not (GTEx v8 and the HPA tissue map, absent from the first corpus) are why a second query was run rather than a near-vintage paper being substituted."
+ },
+ "records": [
+  {
+   "id": "PMID: 39656687",
+   "title": "Ensembl 2025.",
+   "authors": "Dyer SC, Austine-Orimoloye O, Azov AG, Barba M, Barnes I, Barrera-Enriquez VP, Becker A, Bennett R, Beracochea M, Berry A, Bhai J, Bhurji SK, Boddu S, Branco Lins PR, Brooks L, Ramaraju SB, Campbell LI, Martinez MC, Charkhchi M, Cortes LA, Davidson C, Denni S, Dodiya K, Donaldson S, El Houdaigui B, El Naboulsi T, Falola O, Fatima R, Genez T, Martinez JG, Gurbich T, Hardy M, Hollis Z, Hunt T, Kay M, Kaykala V, Lemos D, Lodha D, Mathlouthi N, Merino GA, Merritt R, Mirabueno LP, Mushtaq A, Hossain SN, Pérez-Silva JG, Perry M, Piližota I, Poppleton D, Prosovetskaia I, Raj S, Salam AIA, Saraf S, Saraiva-Agostinho N, Sinha S, Sipos B, Sitnik V, Steed E, Suner MM, Surapaneni L, Sutinen K, Tricomi FF, Tsang I, Urbina-Gómez D, Veidenberg A, Walsh TA, Willhoft NL, Allen J, Alvarez-Jarreta J, Chakiachvili M, Cheema J, da Rocha JB, De Silva NH, Giorgetti S, Haggerty L, Ilsley GR, Keatley J, Loveland JE, Moore B, Mudge JM, Naamati G, Tate J, Trevanion SJ, Winterbottom A, Flint B, Frankish A, Hunt SE, Finn RD, Freeberg MA, Harrison PW, Martin FJ, Yates AD.",
+   "journal": "Nucleic acids research",
+   "year": 2025,
+   "corpus": "resource-citations",
+   "role": "Ensembl — the source of every transcript model (Methods, Transcript models)"
+  },
+  {
+   "id": "PMID: 26553804",
+   "title": "Reference sequence (RefSeq) database at NCBI: current status, taxonomic expansion, and functional annotation.",
+   "authors": "O'Leary NA, Wright MW, Brister JR, Ciufo S, Haddad D, McVeigh R, Rajput B, Robbertse B, Smith-White B, Ako-Adjei D, Astashyn A, Badretdin A, Bao Y, Blinkova O, Brover V, Chetvernin V, Choi J, Cox E, Ermolaeva O, Farrell CM, Goldfarb T, Gupta T, Haft D, Hatcher E, Hlavina W, Joardar VS, Kodali VK, Li W, Maglott D, Masterson P, McGarvey KM, Murphy MR, O'Neill K, Pujar S, Rangwala SH, Rausch D, Riddick LD, Schoch C, Shkeda A, Storz SS, Sun H, Thibaud-Nissen F, Tolstoy I, Tully RE, Vatsan AR, Wallin C, Webb D, Wu W, Landrum MJ, Kimchi A, Tatusova T, DiCuccio M, Kitts P, Murphy TD, Pruitt KD.",
+   "journal": "Nucleic acids research",
+   "year": 2016,
+   "corpus": "resource-citations",
+   "role": "RefSeq — the RNA set the alignment screen queries (Methods, screen 1)"
+  },
+  {
+   "id": "PMID: 20003500",
+   "title": "BLAST+: architecture and applications.",
+   "authors": "Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K, Madden TL.",
+   "journal": "BMC bioinformatics",
+   "year": 2009,
+   "corpus": "resource-citations",
+   "role": "BLAST+ — the aligner the alignment screen runs (Methods, screen 1)"
+  },
+  {
+   "id": "PMID: 22115189",
+   "title": "ViennaRNA Package 2.0.",
+   "authors": "Lorenz R, Bernhart SH, Höner Zu Siederdissen C, Tafer H, Flamm C, Stadler PF, Hofacker IL.",
+   "journal": "Algorithms for molecular biology : AMB",
+   "year": 2011,
+   "corpus": "resource-citations",
+   "role": "ViennaRNA — the partition function behind target-site accessibility (Methods)"
+  },
+  {
+   "id": "PMID: 32913098",
+   "title": "The GTEx Consortium atlas of genetic regulatory effects across human tissues.",
+   "authors": "GTEx Consortium.",
+   "journal": "Science (New York, N.Y.)",
+   "year": 2020,
+   "corpus": "resource-citations-2",
+   "role": "GTEx v8 — the median-TPM source for off-target locus expression (Methods)"
+  },
+  {
+   "id": "PMID: 25613900",
+   "title": "Proteomics. Tissue-based map of the human proteome.",
+   "authors": "Uhlén M, Fagerberg L, Hallström BM, Lindskog C, Oksvold P, Mardinoglu A, Sivertsson Å, Kampf C, Sjöstedt E, Asplund A, Olsson I, Edlund K, Lundberg E, Navani S, Szigyarto CA, Odeberg J, Djureinovic D, Takanen JO, Hober S, Alm T, Edqvist PH, Berling H, Tegel H, Mulder J, Rockberg J, Nilsson P, Schwenk JM, Hamsten M, von Feilitzen K, Forsberg M, Persson L, Johansson F, Zwahlen M, von Heijne G, Nielsen J, Pontén F.",
+   "journal": "Science (New York, N.Y.)",
+   "year": 2015,
+   "corpus": "resource-citations-2",
+   "role": "Human Protein Atlas — read as a transport check only (Methods)"
+  }
+ ]
+}

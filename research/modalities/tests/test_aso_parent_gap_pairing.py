@@ -50,9 +50,9 @@ def test_the_corpus_counts_match_the_manuscript():
     c = _art()["corpus"]
     txt = _flat(_paper())
     assert c["n_designs"] == 190
-    assert f"{c['n_with_parent_duplex_through_gap']} of {c['n_designs']} pair" in txt
+    assert f"{c['n_with_parent_duplex_through_gap']} of {c['n_designs']} candidates pair" in txt
     nr4a3 = c["which_parent_supplies_it"]["NR4A3"]
-    assert f"{nr4a3} of those against wild-type *NR4A3*" in txt
+    assert f"{nr4a3} of those against healthy *NR4A3*" in txt
 
 
 def test_the_margin_gradient_matches_the_manuscript():
@@ -167,7 +167,7 @@ def test_the_wild_type_nr4a3_case_is_named():
     rows = {r["antisense_5to3"]: r for r in _art()["per_design"]}
     r = rows["CAGGGCATATCTTGCA"]
     assert r["parent"] == "NR4A3" and r["longest_parent_duplex_bp_through_gap"] >= 10
-    assert "5′-CAGGGCATATCTTGCA-3′, against wild-type *NR4A3*" in _flat(_paper())
+    assert "5′-CAGGGCATATCTTGCA-3′ against wild-type *NR4A3*" in _flat(_paper())
 
 
 def test_the_screen_reproduces_from_committed_inputs():
