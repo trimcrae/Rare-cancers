@@ -176,46 +176,63 @@ margin: the number of junction-unique bases inside the gap on the shorter side. 
 tested against all six parent transcripts, not only the two parents of its own fusion, because the
 FET-family donors (FUS, EWSR1 and TAF15) are paralogues with similar low-complexity amino-termini.
 
-**Specificity screening.** Five screens were applied, over four compartments. A gap-resolved screen queried each
-target window against human RefSeq RNA (blastn-short, low-complexity filter off, ≥14/16 identity) and
-classified each near-match by whether the six-nucleotide gap was fully base-paired. Records of the
-six parent genes were counted separately and are excluded from every near-match count reported here,
-since each parent pairs one wing by construction and would otherwise dominate the list; the parents
-are assessed instead by the gap-level margin and by the fourth screen below. An exhaustive
-seed-and-extend scan then searched 186,185 transcripts (GRCh38.p14) for exact and ≤1-mismatch matches;
-this arm is complete for substitutions by construction and does not detect insertions or deletions.
-The BLAST arm did not parse alignment orientation. `blastn` searches both strands, and a transcript
-carrying the reverse complement of the target window cannot be hybridised by an antisense
-oligonucleotide, so it is not a liability at all — yet such hits passed the identity filter and,
-where they spanned the catalytic gap, were recorded as cleavage risks. Orientation is parsed and filtered in all 38 junction
-screens, the 183 designs they hold, and therefore in every cleanliness statement made here; the only
-two screens in the released set that are not filtered are modelled control seams built in amino-acid
-rather than transcript coordinates, which carry no junction and support no claim.
+**Specificity screening.** Five screens were applied. Each is named below and referred to by that
+name throughout, because each reaches a compartment the others cannot and each is blind to something
+another catches. No single screen supports any claim here on its own.
 
-Both of those screens search mature transcript sequence, so a third was added over the nuclear
-compartment they cannot reach. Unspliced sequence and exon coordinates for all six parent transcripts were
-retrieved from Ensembl, and every design's target window was scanned against that sequence in both
-orientations at the same ≤2-mismatch threshold the alignment screen admits, which keeps the two arms
-comparable: a stricter threshold here would return a cleaner pre-mRNA result for that reason alone.
-This arm is exhaustive for substitutions by construction, seeded on three blocks of the 16-mer so a
-hit within the threshold must match one block exactly, and each hit is classified as wholly intronic,
-wholly exonic, or spanning an intron–exon boundary, since only the exonic class could have been
-visible to a transcript screen. Pre-mRNA is transcribed in transcript orientation, so the same
-orientation rule applies: a forward match is hybridisable and a reverse-complement match is not.
-Target-site accessibility was estimated as mean unpaired probability over a local fold of up to 180
-nucleotides, and spans 0.160 to 0.707 across all 190 designs at real exon junctions (median 0.477).
-It is released with the artefacts and is not used to rank anything here.
+1. **The alignment screen.** Each target window was queried against human RefSeq RNA (blastn-short,
+   low-complexity filter off, ≥14/16 identity), and every near-match was classified by whether the
+   six-nucleotide gap was fully base-paired. This is a heuristic search and keeps only a limited
+   number of hits per query, so its counts are lower bounds; §3.5 measures by how much. Records of
+   the six parent genes are counted separately and excluded from every near-match count reported
+   here, since each parent pairs one wing by construction and would otherwise dominate the list. The
+   parents are assessed instead by the gap-level margin and by screen 4.
 
-A fourth screen addresses the parent transcripts the alignment screen excludes, in the compartment
-the pre-mRNA arm cannot reach. Mature parent transcripts were spliced from the same Ensembl records,
-and every design's target window was compared to every 16-nucleotide window of all six in the
-forward orientation only. A window counts only if all six gap positions are paired; its size is the
-longest contiguous run of perfect pairing containing the whole gap, which is the duplex RNase-H1
-would see. Runs shorter than ten base pairs are not treated as plausible substrates — a stated
-threshold, not a measured one, so every design's longest run is released. Ten is the strict end of
-the seven to ten hybridised nucleotides reported as the minimum for RNase-H1 to engage a
-heteroduplex through its hybrid-binding domain and cleave,<sup>25</sup><!--PMID:35664704--> so the
-count it produces is a floor: at seven the same screen returns 175 of 190 rather than 87.
+2. **The exhaustive transcript scan.** A seed-and-extend scan searched 186,185 transcripts
+   (GRCh38.p14) for exact and ≤1-mismatch matches. It is complete for substitutions by construction,
+   reads the sense orientation only, and does not detect insertions or deletions.
+
+3. **The pre-mRNA screen.** Screens 1 and 2 search mature transcript, so a third covers the nuclear
+   compartment they cannot reach. Unspliced sequence and exon coordinates for all six parents were
+   retrieved from Ensembl, and every target window was scanned against them in both orientations at
+   ≤2 mismatches. That is the threshold the alignment screen admits, which keeps the two comparable:
+   a stricter one here would return a cleaner pre-mRNA result for that reason alone. This arm is
+   exhaustive for substitutions, seeded on three blocks of the 16-mer so that a hit within the
+   threshold must match one block exactly. Each hit is classified as wholly intronic, wholly exonic,
+   or spanning an intron–exon boundary, since only the exonic class could have been visible to a
+   transcript screen.
+
+4. **The mature-parent screen.** This addresses the parent transcripts screen 1 excludes, in the
+   compartment screen 3 cannot reach. Mature parent transcripts were spliced from the same Ensembl
+   records, and every target window was compared to every 16-nucleotide window of all six, forward
+   orientation only. A window counts only if all six gap positions are paired. Its size is the
+   longest contiguous run of perfect pairing containing the whole gap, which is the duplex RNase-H1
+   would see. Runs shorter than ten base pairs are not treated as plausible substrates. That is a
+   stated threshold, not a measured one, so every design's longest run is released. Ten is the strict
+   end of the seven to ten hybridised nucleotides reported as the minimum for RNase-H1 to engage a
+   heteroduplex through its hybrid-binding domain and cleave,<sup>25</sup><!--PMID:35664704--> so the
+   count it produces is a floor: at seven the same screen returns 175 of 190 rather than 87.
+
+5. **The genome scan.** Screens 1 to 4 are bounded either by an annotation or by six transcripts.
+   The fifth removes that bound. Every distinct target window and its reverse complement was tested
+   against every position of GRCh38 in both orientations at ≤2 mismatches, exhaustively:
+   2,948,609,696 windows over a measured 3.10 × 10⁹ nucleotides, with no seed, no word size and
+   therefore no search sensitivity to quantify. §3.8 reports it.
+
+**Strand orientation.** A match matters only if an antisense oligonucleotide could base-pair with
+it. The alignment screen did not originally check this. `blastn` searches both strands, and a
+transcript carrying the reverse complement of the target window cannot be base-paired at all, so it
+is not a liability — yet such hits passed the identity filter, and where they spanned the catalytic
+gap they were recorded as cleavage risks. Orientation is now parsed and filtered in all 38 junction
+screens and the 183 designs they hold, and therefore in every cleanliness statement made here. The
+only two screens in the released set that are not filtered are modelled control seams built in
+amino-acid rather than transcript coordinates, which carry no junction and support no claim. The
+same rule governs pre-mRNA, which is transcribed in transcript orientation: a forward match can be
+base-paired and a reverse-complement match cannot.
+
+**Target-site accessibility.** Estimated as mean unpaired probability over a local fold of up to 180
+nucleotides. It spans 0.160 to 0.707 across all 190 designs at real exon junctions, with a median of
+0.477. It is released with the artefacts and is not used to rank anything here.
 
 **Expression of the off-target loci.** No screen above says whether a matched gene is transcribed
 where the drug goes. For the two junctions with a published exon-resolved breakpoint, the gene loci
@@ -589,11 +606,8 @@ screen and *TAF15* exon 14, *TCF12* exon 3 and *TFG* exon 2 have none. Both junc
 published exon-resolved breakpoint have one at the top gap-level margin, with longest parent runs of
 eight and nine base pairs.
 
-Both classes were bounded the same way — exhaustive over six parent transcripts and silent about
-every other gene — so a fifth screen removed that bound. Every distinct target window and its
-reverse complement was tested against every position of GRCh38 in both orientations at the same
-≤2-mismatch threshold, exhaustively: 2,948,609,696 windows scanned over a measured 3.10 × 10⁹
-nucleotides, with no seed, no word size and therefore no search sensitivity to quantify.
+Both classes were bounded the same way: exhaustive over six parent transcripts and silent about every
+other gene. The genome scan, screen 5, removes that bound.
 
 A raw genome-wide count is not a result at this threshold. Chance alone predicts of order 10³
 near-matches per 16-mer over a genome for any 16-mer whatever, so the informative readings are
