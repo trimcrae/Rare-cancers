@@ -679,9 +679,34 @@ def _wild_type_register_table(junction_designs):
                     f"positions {gap_lo}..{gap_hi} of the {ja.OLIGO_LEN}-mer"),
         "wild_type_boundary_unspliced_offset_0based": k,
         "wild_type_boundary_context": f"{pre[k - 8:k]}|{pre[k:k + 10]}",
+        # ⛔ THIS RULE TRAVELS IN THE ARTIFACT, NOT ONLY IN THE SOURCE. It generalises to every
+        # future seam at this acceptor and the margin heuristic it replaces does not, so a reader
+        # holding only the JSON has to be able to see it.
+        "⛔_THE_RULE_THIS_REFUTES": (
+            "'LOW GAP SPECIFICITY MARGIN DECIDES' IS FALSE AT AN NR4A3 EXON-2 ACCEPTOR. That "
+            "heuristic was generalised from the TAF15 intron-2 cryptic-exon seam, where the one "
+            "condemned design also happened to be the lowest-margin one. Here it breaks: at "
+            "EWSR1 e13 :: NR4A3 e2 the two condemned designs are those with <=2 DONOR bases inside "
+            "the catalytic gap, while the margin-1 design carrying 5 donor bases in the gap is "
+            "clean. WHAT DECIDES IS HOW MUCH OF THE CATALYTIC GAP IS ACCEPTOR SEQUENCE THE "
+            "WILD-TYPE ALLELE ALSO CARRIES — the donor bases are the only part of the gap the "
+            "un-rearranged allele does not have, so they are what the discrimination rests on. "
+            "Gap specificity margin is symmetric and therefore cannot express this; the donor-side "
+            "gap count can."),
+        "⛔_AND_IT_IS_DONOR_SPECIFIC_NOT_A_PROPERTY_OF_THE_ACCEPTOR": (
+            "The liability is not a hazard of the exon-2 acceptor as such. It exists because THIS "
+            "donor's 3' end resembles NR4A3 intron 1's 3' end: both terminate in the AG that a 3' "
+            "splice site must end in, and the identity extends further upstream. The identical "
+            "arithmetic over TAF15 exon 6 finds 3-7 mismatches in every register and condemns "
+            "nothing. So the question to ask at any new seam here is 'how much does this donor's "
+            "3' end look like NR4A3 intron 1's?', measured per-donor in "
+            "emc-model-junction-evidence.json -> nr4a3_wild_type_acceptor_context, and never "
+            "assumed from the acceptor."),
         "⚠_scope": ("ONE register at ONE boundary — it explains the scan's verdicts, it does not "
                     "replace them. The exhaustive scan over the whole NR4A3 unspliced sequence is "
-                    "the measurement; this is the mechanism behind it."),
+                    "the measurement; this is the mechanism behind it. Both are corroborated "
+                    "independently by the exhaustive GRCh38 screen, which finds the same two "
+                    "designs cleaving NR4A3 at chr9:99825651 and chr9:99825652."),
         "per_junction": rows,
     }
 

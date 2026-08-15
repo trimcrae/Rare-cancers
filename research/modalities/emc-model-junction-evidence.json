@@ -242,6 +242,41 @@
   },
   "⚠_this_is_a_context_measurement_not_a_verdict": "Which designs are actually condemned is measured by the scan, not by this table: read `⭐_wild_type_NR4A3_cleavage_liability` in aso-noncoding-acceptor-designs.json, which runs against NR4A3's whole unspliced sequence with a fixed known-positive control."
  },
+ "⛔⛔_the_only_purchasable_EMC_line_cannot_test_a_junction_reagent": {
+  "_why_this_is_in_THIS_file": "This file exists to say which EMC models a junction-spanning reagent can be tested in. The two USZ models above are available ON REQUEST from one laboratory. The model a reader would reach for first is H-EMC-SS (RRID:CVCL_1238) — the only EMC line purchasable from a repository, named in 37 Europe PMC papers, and a member of DepMap/CCLE, GDSC and COSMIC. A reader who is not told, here, that no junction-spanning reagent can be tested in it will discover it after ordering.",
+  "line": "H-EMC-SS",
+  "rrid": "RRID:CVCL_1238",
+  "purchasable_from": [
+   "ECACC 94042258",
+   "RIKEN BRC RCB0508",
+   "ICLC HTL99016"
+  ],
+  "⛔_verdict": "NOT FUSION-POSITIVE ON THE PUBLIC RECORD. A junction-spanning gapmer has nothing to span in this line.",
+  "⛔_one_home_for_the_verdict": "research/modalities/emc-atr-vulnerability.json -> part_a_hemcss_identity, which owns the verdict string, the DepMap fusion-caller read, the expression read and the Cellosaurus record. NOT restated here — this block adds only the primary-source reading below, which that file does not carry, and the reagent consequence, which is this file's own subject.",
+  "⭐_the_primary_source_read_here_rather_than_the_registry_summary": {
+   "_why": "The Cellosaurus caution cites exactly ONE PubMed ID, so the whole registry flag rests on one paper. It is quoted everywhere as 'PCR and FISH evidence'. That paper was therefore read in full rather than summarised, and the reading below WEAKENS the citation — while leaving the verdict standing on the independent evidence that does not depend on it.",
+   "citation": "PMID 34413129 / PMC8571037 — Gartrell et al., Mol Cancer Ther 20:2151-2165 (2021)",
+   "⚠_what_the_paper_is_about": "NOT EMC. Its title is 'SLFN11 is widely expressed in pediatric sarcoma and induces variable sensitization to replicative stress caused by DNA damaging agents'. EWSR1-translocation status is a COVARIATE across a 14-line sarcoma drug panel, not the object of study.",
+   "where_the_negative_appears": "the Figure 2A legend only, as a parenthetical: 'Although extraskeletal myxoid chondrosarcoma (EMC) cancers such as H-EMC-SS typically have EWSR1-NR4A3 fusions, we did not detect a EWSR1-translocation in this line. n >= 2.' There is no results sentence, figure, table or supplementary file reporting the assay for this line. The 'n >= 2' is the drug-assay replicate count, not the translocation assay's.",
+   "the_methods_sentence_in_full_context": "'Cell lines were authenticated using short tandem repeat analysis via PowerPlex (Promega) and tested for mycoplasma using MycoAlert (Lonza). Translocation status was confirmed using PCR and Fluorescence In Situ Hybridization (FISH).' — it sits in the Cell Lines paragraph as a BLANKET statement over the whole panel, immediately after the STR and mycoplasma sentences.",
+   "⛔_what_the_paper_does_NOT_say": [
+    "which FISH probe was used — an EWSR1 BREAK-APART probe would detect an EWSR1 rearrangement whatever the partner, whereas a fusion-specific probe or an EWSR1-FLI1 RT-PCR (the fusion this Ewing-focused paper cares about) would not exclude EWSR1::NR4A3. The text does not distinguish these, so the assay's sensitivity to an NR4A3 partner is NOT established by this source.",
+    "which PCR primers were used, or against which fusion",
+    "a per-line result for H-EMC-SS, anywhere outside the figure legend",
+    "how many times the translocation assay was run"
+   ],
+   "⚠_the_honest_reading": "'PCR and FISH evidence behind it' overstates this citation. What the paper supports is that a group holding the line from ECACC looked for an EWSR1 translocation with unstated methods and did not find one. That is real evidence and it is thin, and the verdict must not rest on it alone."
+  },
+  "⭐_why_the_verdict_stands_anyway": [
+   "DepMap's filtered fusion caller is INDEPENDENT of that paper and is not an absent reading: emc-atr-vulnerability.json records the model PRESENT in OmicsFusionFiltered.csv with 2 calls, neither naming NR4A3 nor any FET gene. A caller that ran and produced output is a different thing from a caller that never ran, and that distinction is recorded rather than assumed.",
+   "DepMap expression is weak corroboration in the same direction: NR4A3 sits at floor level in absolute terms, which is not what a line whose driver transcript carries the NR4A3 body under a partner promoter would read. The numbers have one home in emc-atr-vulnerability.json and are not copied here.",
+   "Cellosaurus carries NO `CC Sequence variation: Gene fusion` line for CVCL_1238, while it carries one for each USZ model. The absence is visible in the record itself rather than inferred from the caution.",
+   "NO source found anywhere reports a POSITIVE NR4A3 fusion in this line. A Europe PMC sweep of ('H-EMC-SS' OR 'HEMCSS' OR 'HEMC-SS') AND (NR4A3 OR EWSR1 OR 'EWS/CHN' OR TAF15 OR fusion) returns hitCount 12, and not one abstract names the line at all — so the sweep bounds the abstract layer only, and is reported as that rather than as a proven absence.",
+   "⚠ It is NOT an STR misidentification call. Cellosaurus records no `CC Problematic cell line:` line and carries an 18-locus STR profile from three independent sources, so this is a molecular-identity question about a real, profiled line."
+  ],
+  "⛔_consequence_for_this_reagent_programme": "Every reagent in this repository is a junction-spanning gapmer, and a gapmer needs a junction to span. So the one EMC line anyone can buy cannot test any of them — not because a reagent is missing but because the target is. The testable surface is the ENGINEERED tBJ/ER arms (E-N, T-N*, T-N — rebuildable from published exon spans, deposited nowhere) and the two USZ models (available on request from the University of Zurich, and only for those does a patient-derived test exist). ⚠ This is a statement about a fusion-junction modality. It is NOT a claim that H-EMC-SS is useless, nor that it is not EMC — see the verdict home's own `_what_this_cannot_settle`.",
+  "what_would_change_it": "RT-PCR across an NR4A3 junction in H-EMC-SS, or an EWSR1 break-apart FISH reported with its probe. Either would settle in one experiment what four indirect sources currently agree on."
+ },
  "what_would_settle_the_acceptor": [
   "One RT-PCR/Sanger read across the junction in either USZ model, published or supplied — the same nucleotide-resolution confirmation §5.4 of the manuscript already requires before any reagent is used.",
   "The FoundationOne®HEME report's own transcript reference for NR4A3, which would say whether its exon indices are RefSeq transcript indices or breakpoint-flanking labels.",
