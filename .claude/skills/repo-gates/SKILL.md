@@ -1,6 +1,6 @@
 ---
 name: repo-gates
-description: This repository's commit gates, linters, architecture graph and deliverable map. Load before committing or pushing, before running preflight, when a preflight or CI gate goes red, when writing or editing a manuscript or its SI, when touching anything under systems/ or the registry, and before any outward-facing step (preprint, submission, release, DOI). Covers: tiered preflight (scoped tests for the commit loop, PREFLIGHT_FULL=1 before publication) and why the selector fails to full; the nine gates in order; lint_claims vs lint_citations (claim strength is orthogonal to citation provenance); why the prose-style gate is scoped to submission texts only; branch drift as a data-loss bug and checking which ref a workflow actually writes to; the generated systems/views; and the retired patient-facing site, which must not be recreated.
+description: This repository's commit gates, linters, architecture graph, deliverable map, and the six-part reviewer-AI review block. Load before committing or pushing, before running preflight, when a preflight or CI gate goes red, when writing or editing a manuscript or its SI, when touching anything under systems/ or the registry, and before any outward-facing step (preprint, submission, release, DOI). Covers: tiered preflight (scoped tests for the commit loop, PREFLIGHT_FULL=1 before publication) and why the selector fails to full; the nine gates in order; lint_claims vs lint_citations (claim strength is orthogonal to citation provenance); why the prose-style gate is scoped to submission texts only; branch drift as a data-loss bug and checking which ref a workflow actually writes to; the generated systems/views; and the retired patient-facing site, which must not be recreated; and the exact six parts a reviewer-AI review block must contain before any outward-facing step.
 ---
 
 # Commit gates, architecture and deliverables
@@ -165,3 +165,23 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   Pre-post checklist:
   [preprint-plan.md](./research/manuscripts/degrader/nr4a3-degrader-preprint-plan.md); ready-to-send outreach:
   [outreach-emails.md](./research/manuscripts/degrader/nr4a3-degrader-outreach-emails.md).
+
+## The reviewer-AI review block — its six required parts
+
+CLAUDE.md §3 owns **when** to produce a block (program-shifting decisions, >$50 GPU spend, outward-facing or
+irreversible acts) and the rule that it is the **first thing** in your reply — self-contained, copyable and
+fenced, because the reviewer sees only what is inside the box. This is **what goes in it**:
+
+1. Role + the ask, verbatim: *"approve, or return a specific list of fixes"*.
+2. Project + goal, one paragraph.
+3. What was done, with repo/PR/file paths.
+4. The exact proposed next action(s) needing sign-off, verbatim.
+5. Known risks, uncertainties and judgment calls, stated honestly — over-claim vs verification level, medical
+   integrity, ethics/tone.
+6. Your specific questions.
+
+Apply the returned changes **yourself**, and only then proceed.
+
+⚠ *Superseded, retained: "every hand-off gets a block" (corrected 2026-07-12 after over-escalation). A block is
+NOT for finished free work, curation you can verify, ordering self-doable work, or cheap authorized runs — for
+those, execute and report the result.*

@@ -25,9 +25,6 @@ ordered plan, the spend ladder and the open decisions. It wins over this file. I
 [pricing.md](./research/compute/pricing.md) owns the cost evidence — **never restate prices here.**
 [STRATEGY.md](./STRATEGY.md) is history only (Appendix A: superseded numbers; B: retired framings).
 
-**Reference material lives in four skills** (§6 routes you to them). Resident here is only what fires on a
-situation you don't yet know you're in.
-
 ---
 
 ## 0 · WHAT TO WORK ON — LIVE PATHS FIRST
@@ -39,10 +36,9 @@ silently falling back to writing up closed routes looks identical to progress.
 
 - **⛔ A negative is a byproduct, never the objective.** Write one when a route is genuinely closed, when a
   live path is blocked on trimcrae or the outside world, or when the writing is small next to what is live.
-- **⛔ Axis D is a tiebreaker, never the work queue.**
-  [`emc-post-degrader-options.md`](./research/manuscripts/program/emc-post-degrader-options.md) grades routes
-  partly on *what do we hold if the experiment never happens?* — which structurally promotes completed
-  negatives over live leads.
+- **⛔ Axis D is a tiebreaker, never the work queue** —
+  [`emc-post-degrader-options.md`](./research/manuscripts/program/emc-post-degrader-options.md) ranks partly on
+  *what do we hold if the experiment never happens?*, which structurally promotes finished work over live leads.
 - **⛔ "Blocked" is a claim that needs evidence, and it is usually wrong.** Most blocked rows wait on a $0 CI
   fetch, a regeneration or a staging step. Check what a route is ACTUALLY waiting on.
 - **§5's "every route's end goal is a paper" is a TEST, not a work queue.** It catches routes that are
@@ -52,20 +48,18 @@ silently falling back to writing up closed routes looks identical to progress.
 
 - **📏 ONE FACT, ONE PLACE.** Every number, gate and status has one home; everywhere else points at it. Typing
   a cost, rate or status that exists elsewhere is the bug — link it.
-  (1) **A total is DERIVED, never typed** (`vast_cost_model.py` → `vast-ladder-repricing.json`).
-  (2) **Corrections go in an appendix, not inline** — never silently drop a superseded number, never leave the
-  "was X, then Y, now Z" narrative live.
-  (3) **Changing a pinned number means adding the old one to
-  [`pinned-figures.json`](./research/manuscripts/pinned-figures.json) IN THE SAME COMMIT** — it is how CI finds
-  the copies you missed.
-  Enforced by [`lint_consistency.py`](./research/manuscripts/lint_consistency.py) in CI over every `targets`
-  file. It clears correctly-written retractions, so **a red build is a real inconsistency — fix the doc, don't
-  loosen the pattern.**
+  (1) **A total is DERIVED, never typed** — regenerate it.
+  (2) **Corrections go in an appendix, not inline.**
+  (3) **Changing a pinned number means registering the old one in
+  [`pinned-figures.json`](./research/manuscripts/pinned-figures.json) IN THE SAME COMMIT** — that is how CI
+  finds the copies you missed.
+  Enforced by [`lint_consistency.py`](./research/manuscripts/lint_consistency.py), which clears
+  correctly-written retractions — so **a red build is a real
+  inconsistency; fix the doc, don't loosen the pattern.**
 - **⏰ Times: ET, 12-hour.** Container is UTC — `TZ=America/New_York date '+%-I:%M %p ET'`, never bare `date`.
-- **⏱️ If your final message leaves real compute running, it ENDS with an "In flight:" board** — one line per
-  item: what · state · ET ETA · cost · $/ns. Real compute only (GPU/CI jobs, working subagents) — not your own
-  timers, pollers or schedules. Nothing running → "Nothing in flight". Replaces status narration.
-  **Format and the $/ns buy line: `inflight-reporting`.**
+- **⏱️ If your final message leaves real compute running, it ENDS with an "In flight:" board.** Real compute
+  only (GPU/CI jobs, working subagents) — never your own timers, pollers or schedules. Nothing running →
+  "Nothing in flight". Replaces status narration. **Columns and the $/ns buy line: `inflight-reporting`.**
 - **Manuscript language discipline** is in
   [the roadmap](./research/manuscripts/nr4a3-program-map.md#honest-scope-and-language-discipline-apply-everywhere-including-the-manuscript),
   enforced by `lint_claims.py` (R1–R5). Never imply proteome-wide selectivity, EMC efficacy, safety, a
@@ -102,11 +96,9 @@ free work, curation you can verify, ordering self-doable work, or cheap authoriz
 **This does not pause self-doable no-spend work**: produce the block only when the step is imminent, and keep
 building meanwhile.
 
-When a trigger applies the block is the **first thing** in your reply — self-contained, copyable, fenced (the
-reviewer sees only what is inside it): (1) role + "approve, or return a specific list of fixes"; (2) project +
-goal, one paragraph; (3) what was done, with paths; (4) the exact proposed next actions, verbatim; (5) known
-risks, uncertainties and judgment calls — over-claim vs verification level, medical integrity, ethics/tone;
-(6) your questions. Apply the returned changes yourself, then proceed.
+When a trigger applies the block is the **first thing** in your reply — self-contained, copyable, fenced,
+because the reviewer sees only what is inside it. **Its six required parts: `repo-gates`.** Apply the returned
+changes yourself, then proceed.
 
 **📱 Notify in the SAME TURN** (trimcrae routes these elsewhere and is often away): **always**
 `PushNotification` (`status: proactive`, one line <200 chars, no markdown), **and** unless there is nothing to
@@ -129,17 +121,15 @@ decide, `AskUserQuestion`. Block stays in the message text. Skip only if trimcra
   phase with no new output, is evidence something is wrong. Pull the live log, read the actual phase and
   last-event timestamp, verify a concrete hypothesis against it — not against your prior estimate. **Own your
   ETAs: the FIRST time reality diverges, dig.** Don't make trimcrae be the one to notice.
-- **★★ TIGHT MONITORING OF AN UNPROVEN PIPELINE.** A pipeline is **unproven** until you have watched it reach
-  its real success terminus once — not "no error yet", not "it provisioned". While unproven, check every
-  **~3–6 min**, and make every check a **PROGRESS check, not a liveness ping**: GPU busy, phase moved,
-  iteration count **up**. Frozen phase + idle GPU across two consecutive checks = a stall → diagnose and fix.
-  Every new stage is its own first-time risk. Once proven end-to-end, relax to a heartbeat.
-- **★★ AN ABSENT READING IS NOT A READING OF ABSENCE — AND A POPULATED FIELD IS NOT A MEASURED ONE.**
-  (a) "targets not in the record" means the collector could not READ that leg, **not** that the leg is frozen.
-  (b) ⚠ **A record that looks plausible is more dangerous than one that looks empty** — env-echoed defaults
-  once carried a fabricated verdict all the way out. **A field's PRESENCE is never evidence of its
-  provenance**: check the thing only a real run can produce (wall time, frame count, equilibration), never the
-  thing a default can fill in.
+- **★★ AN UNPROVEN PIPELINE GETS PROGRESS CHECKS, NOT LIVENESS PINGS.** Unproven = you have not yet watched
+  it reach its real success terminus ("no error yet" and "it provisioned" are not that). While unproven, every
+  check must show movement — phase advanced, iteration count **up** — every ~3–6 min; twice frozen is a stall,
+  so diagnose. Every new stage is its own first-time risk.
+- **★★ AN ABSENT READING IS NOT A READING OF ABSENCE, AND A POPULATED FIELD IS NOT A MEASURED ONE.**
+  "Not in the record" means the collector could not READ it, not that it is frozen. ⚠ **A plausible-looking
+  record is more dangerous than an empty one** — env-echoed defaults once carried a fabricated verdict all the
+  way out. **Presence is never evidence of provenance:** check what only a real run can produce (wall time,
+  frame count, equilibration), never what a default can fill in.
 
 ## 5 · Scope, spend and the research program
 
@@ -148,9 +138,8 @@ decide, `AskUserQuestion`. Block stays in the message text. Skip only if trimcra
   result at its true weight, **across the whole route portfolio**. Read [IDEAS.md](./research/IDEAS.md) and
   [emc-treatment-strategy.md](./research/manuscripts/program/emc-treatment-strategy.md) before resuming
   treatment-research work so you don't re-litigate settled calls.
-  - **⛔ The degrader is not the north star and gets no special treatment** (2026-08-06). One route of forty,
-    ranked on the same axes. Nothing measured is withdrawn. **No strategy family holds `portfolio_role: lead`**
-    — an honest state, not a slot to fill.
+  - **⛔ The degrader gets no special treatment** — one route of forty, ranked on the same axes; nothing
+    measured is withdrawn. **No family holds `portfolio_role: lead`** — an honest state, not a slot to fill.
   - **★★ EVERY ROUTE'S END GOAL IS A PAPER.** No wet lab, no clinic — the published record is the only channel
     by which any of this reaches a patient. A route that cannot name its paper is an **activity, not an
     option**. The paper need not be written; the endpoint, its one sentence, and an honest statement of what is
@@ -167,12 +156,11 @@ decide, `AskUserQuestion`. Block stays in the message text. Skip only if trimcra
   (code, refactors, checkpoint/resume, more tests) costs **nothing** and is never weighed against a saving.
   "Not worth the engineering effort to save $X" is **never** valid. Default every job to the cheapest
   real-dollar path and write whatever code makes that safe.
-- **OPERATING REGIME — one researcher, no wet lab, no race.** A self-funded wet-lab program is off the table,
-  so every next step is publish-to-convince or in-silico. **GPU spend is not a gate on paper quality**: run the
-  warranted experiments, including expensive ones, and post once that work is folded in. Cost is a reason to
-  sequence and right-size, not to skip a decision-relevant run. **Long-lived on a rising frontier, not a
-  one-shot:** parked items are "revisit when capability X lands", and completed work is worth re-grading as
-  methods improve. A coming capability justifies waiting or re-running, **never** claiming a result early.
+- **OPERATING REGIME — one researcher, no wet lab, no race.** Every next step is publish-to-convince or
+  in-silico. **GPU spend is not a gate on paper quality**: run the warranted experiments, including expensive
+  ones. Cost is a reason to sequence and right-size, never to skip a decision-relevant run. **Long-lived on a
+  rising frontier:** parked items mean "revisit when capability X lands", and finished work is worth re-grading
+  as methods improve — but a coming capability **never** licenses claiming a result early.
 
 ## 6 · Compute, commits and reporting — THE TRIPWIRES
 
