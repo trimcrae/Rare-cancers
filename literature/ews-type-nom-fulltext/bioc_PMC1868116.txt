@@ -1,0 +1,88 @@
+SOURCE URL: https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_xml/PMC1868116/unicode
+FINAL URL: https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_xml/PMC1868116/unicode
+HTTP: 200
+CONTENT-TYPE: text/html
+======================================================================
+[Error] : No result can be found. 
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//[pmcoa|pubmed].cgi/[BioC_JSON|BioC_XML]/[PMIDs|PMCIDs]/[UNICODE|ASCII] 
+ Functions: Extracting pubmed abstracts or PMC full texts in BioC format.
+ - [pmcoa]: PMC full texts (open access subset)
+ - [pubmed]: PubMed abstracts
+ - [UNICODE]: Output in unicode
+ - [ASCII]: Output in ascii
+ Examples:
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//pubmed.cgi/bioc_json/17299597,17299598/ascii 
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//pmcoa.cgi/BioC_xml/17299597,17299598/unicode 
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//pmcoa.cgi/bioc_json/PMC1790863,PMC1790864/unicode 
+
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//supplmat.cgi/[BioC_JSON|BioC_XML]/[PMIDs|PMCIDs]/[# of SM|LIST] 
+ Functions: Extracting PMC open access supplementary material (SM) in BioC format.
+ - [# of SM]: The # of SM files of the article. It can be reached from # by LIST option.
+ - [LIST]: Lists all supplementary filenames of the requested articles. 
+ Examples:
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//supplmat.cgi/bioc_xml/32419307/1 
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//supplmat.cgi/bioc_xml/32419307/all 
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//supplmat.cgi/bioc_xml/32419307/list 
+
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//supplmat_relevant.cgi/[BioC_JSON|BioC_XML]/[PMIDs|PMCIDs]/SM-filename 
+ Functions:
+ - supplmat_relevant: Extracting relevant SM files searched by a specific SM file (a combination of PMCID+filename).
+ Examples:
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//supplmat_relevant.cgi/bioc_xml/PMC7641839/13058_2020_1355_MOESM5_ESM.docx 
+
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//supplmat_query_request.cgi/[BioC_JSON|BioC_XML]/[PMIDs|PMCIDs]/[Code] 
+ Functions:
+ - supplmat_query_request: Submit a request to extract relevant SM files by a query.
+ - [Code]: Please assign a data type to the search. The avaliable codes are shown in below table.
+ Examples:
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//supplmat_query_request.cgi/bioc_xml/breast cancer/GPED 
+
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//supplmat_query_receive.cgi/[Accession number] 
+ Functions:
+ - supplmat_query_receive Number: Retrieve the relevant SM files.
+ - [Accession number]: The accession number assigned by supplmat_query_request.cgi
+ Examples:
+ - https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful//supplmat_query_receive.cgi/bioc_xml/breast cancer/GPED 
+
+ Code Data Type 
+ ALL All articles 
+ AMP Animal Model Phenotyping 
+ BAD Biomechanical Analysis Data 
+ BDC Bibliographic Data Compilation 
+ BDPBR Bibliographic Data in Plant Biology Research 
+ CAC Computational Algorithm Comparison 
+ CARO Comparative Analysis of Research Output 
+ CBSM Computational Biology and Structural Modeling 
+ CDD Clinical Diagnostics Data 
+ CGP Comparative Genomics and Phylogenetics 
+ CMPE Computational Model and Algorithm Performance Evaluation 
+ CPC Cohort and Patient Characteristics 
+ CSAD Chemical Shift Analysis Data 
+ DEA Dietary Exposure Analysis 
+ DRP Dose-Response or Pharmacokinetics 
+ ECD Experimental Conditions and Designs 
+ ED Ecotoxicology Data 
+ FAPA Functional Annotation and Pathway Analysis 
+ FMS Functional Mutagenesis Studies 
+ FOMA Financial and Operational Metrics Analysis 
+ GD Geographical Data 
+ GPED Gene Expression Data 
+ IRD Immune Response Data 
+ MAV Genomic Mutation and Variant Data 
+ MC Microbiome Composition 
+ MDSD Molecular Dynamics Simulation Data 
+ MIA Microscopy and Imaging Analysis 
+ MLD Metabolomics and Lipidomics Data 
+ MLPE Machine Learning Model Performance Evaluation 
+ MPA Material Properties Analysis 
+ MSCR Manuscript Structure and Content Recommendations 
+ NDA Neurophysiological Data Analysis 
+ OPGOD Optical Properties of Graphene Oxide Derivatives 
+ PEPA Patient Experience and Perception Analysis 
+ QAPF Qualitative Analysis of Participant Feedback 
+ SA Survival Analysis 
+ SAC Statistical Analysis and Correlations 
+ SDD Species Distribution Data 
+ SDSP Survey Data and Student Perceptions 
+ SPCD Surgical Procedure Consensus Data 
+ TLD Transaction Log Data
