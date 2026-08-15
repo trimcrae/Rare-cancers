@@ -5,7 +5,7 @@
   "one_line": "1 of this file's 1 junction seam fields carry an acceptor built by the retracted CODING-exon index, resuming NR4A3 at residue 361 instead of residue 1. Every oligo in this panel spans the seam by construction, so not one design survives the correction.",
   "the_defect": "`fusion_breakpoints.py` addressed NR4A3's coding-offset table with TRANSCRIPT exon numbers. NR4A3 ENST00000395097 has 8 transcript exons of which the first two carry no coding sequence, so the label \"NR4A3 exon 3\" reached the THIRD CODING exon instead of transcript exon 3. For EWSR1 the two numberings coincide (its exon 1 is coding), which is exactly why the error was invisible and why the donor side of these seams is correct.",
   "fixed_at_source": "fusion_breakpoints.resume_offset / cut_offset (2026-08-02) - they now RAISE on a non-coding exon rather than sliding onto its neighbour",
-  "corrected_acceptor_seam": null,
+  "corrected_acceptor_seam": "ATATGCCCTGCG",
   "corrected_acceptor_seam_source": "re-derived at grading time from junction_aso.mrna_junction over the committed transcript cache; never typed into this module",
   "retracted_seams_found": [
    {
@@ -18,8 +18,8 @@
   ],
   "⛔_not_regenerated": "This artifact was NOT rebuilt. Regenerating the design panels emits numbers no manuscript currently states, while every claim sourced to them is already withdrawn as unverifiable - that is the ASO lane's call, not this grader's. Nothing here designs, scores or invents an oligo; the banner is counted from what is already in the file. `junction-mrna-frame-audit.json` grades the corresponding junctions EMITTABLE under the corrected model, so a rebuild is possible; when it happens this grader lifts the banner by RE-DERIVATION, not because the file was rewritten.",
   "⛔_scope": "exon arithmetic and sequence composition only. No potency, knockdown, specificity, delivery, tolerability, efficacy, safety or clinical claim is made, repaired or implied here, and none was ever established by this file.",
-  "graded_utc": "2026-08-15T18:21:02Z",
-  "graded_et": "2026-08-15 2:21 PM ET",
+  "graded_utc": "2026-08-15T18:45:31Z",
+  "graded_et": "2026-08-15 2:45 PM ET",
   "graded_by": "research/modalities/junction_seam_retraction.py"
  },
  "_note": "Junction-spanning siRNA designs (RISC/Ago2 mechanism) — a GC-TOLERANT alternative to the 75-81% GC junction gapmers. DESIGN ONLY; hypotheses for wet-lab knockdown + parental-sparing testing. Specificity is predicted (central-cleavage-site discrimination), not validated.",
