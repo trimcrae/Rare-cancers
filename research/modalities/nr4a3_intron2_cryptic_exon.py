@@ -218,8 +218,60 @@ ACCEPTOR_SYMBOL, ACCEPTOR_EXON = "NR4A3", 3
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 # 1 · The length is DERIVED, not assumed
 # ─────────────────────────────────────────────────────────────────────────────────────────────
+def aa_accounting(L):
+    """Both ways of counting "amino acids prior to the NR4A3 ATG" for a cryptic exon of length L.
+
+    ⛔⛔ THE SENTENCE IS AMBIGUOUS AND THE AMBIGUITY IS WORTH A FULL CODON. This function exists
+    because an earlier version of this module DERIVED a length from the paper's phrase and got the
+    wrong answer, and the wrong answer was self-consistent enough to look right.
+
+    "T-N retains a short cryptic exon ... thus encoding 25 additional amino acids prior to the NR4A3
+    ATG" can mean either of two things, and BOTH are frame-preserving:
+
+      DIFFERENCE  — T-N has 25 more whole codons before the NR4A3 ATG than T-N* does.  → L = 75
+      ENCODED     — the cryptic exon contributes bases to 25 codons.                    → L = 72
+
+    ⭐ THE ANNOTATION SETTLES IT, NOT THE ARITHMETIC. The exon is annotated (curated RefSeq
+    NM_173200.3, and independently the mRNA U12767, at identical coordinates) at 72 nt, which
+    satisfies the ENCODED reading exactly. So this function no longer predicts a length: it REPORTS
+    what each reading implies, and `resolve` checks the measured exon against them. An arithmetic
+    prediction from an ambiguous sentence is a hypothesis, and this lane's rule is that a hypothesis
+    never outranks a measurement.
+    """
+    donor = ja.transcript_model(DONOR_SYMBOL)
+    acceptor = ja.transcript_model(ACCEPTOR_SYMBOL)
+    cut = sum(ja.coding_nt_per_exon(donor)[:DONOR_EXON])
+    U = max(0, acceptor["utr5_len"] - ja.exon_tx_start(acceptor, ACCEPTOR_EXON))
+    first = cut // 3 + 1                      # 1-based codon holding the first cryptic base
+    last = (cut + L - 1) // 3 + 1             # 1-based codon holding the last cryptic base
+    return {
+        "cryptic_exon_length_nt": L,
+        "donor_coding_nt_through_cut": cut,
+        "acceptor_exon_5utr_nt_retained": U,
+        "frame_preserved": (cut + L + U) % 3 == 0,
+        "aa_before_nr4a3_atg_in_TNstar": (cut + U) // 3,
+        "aa_before_nr4a3_atg_in_TN": (cut + L + U) // 3,
+        "reading_DIFFERENCE_aa": (cut + L + U) // 3 - (cut + U) // 3,
+        "reading_ENCODED_aa": last - first + 1,
+        "_codon_span_touched_by_the_cryptic_exon": [first, last],
+    }
+
+
+#: The number the paper states. Named once; used only as a CHECK on a measured exon, never to predict
+#: one. See `aa_accounting` for why predicting from it produced a wrong length that looked right.
+def _matches_the_papers_claim(acc):
+    hits = [k for k in ("reading_DIFFERENCE_aa", "reading_ENCODED_aa")
+            if acc[k] == ADDITIONAL_AA_BEFORE_NR4A3_ATG]
+    return hits
+
+
 def derive_required_length():
-    """How long the cryptic exon must be, from measured sequence + the paper's 25-aa claim.
+    """DEPRECATED PREDICTOR — retained only to show what it predicted and why that was not enough.
+
+    ⚠ THIS FUNCTION'S ANSWER IS NOT USED TO CHOOSE A SEQUENCE ANY MORE. It is kept, and its output
+    is carried in the artifact, because the artifact must show that a 75-nt prediction was made,
+    was arithmetically self-consistent, and was WRONG — otherwise a later reader has no way to know
+    the ambiguity exists and may re-derive it.
 
     ⭐ THIS IS THE STEP THAT MAKES THE RETRIEVAL FALSIFIABLE. The paper gives no coordinates and no
     sequence, so without a derived length any 30-nt or 300-nt window in the intron would be equally
@@ -470,6 +522,131 @@ def enumerate_candidates(intron_seq, length, cut):
                     "flank_3p_intron_6nt": intron_seq[e:e + 6],
                     "gc_percent": round(100 * (win.count("G") + win.count("C")) / len(win), 1)})
     return out
+
+
+#: UCSC track payloads fetched alongside the Ensembl ones. `ncbiRefSeqCurated` is the authoritative
+#: arm — a MANUALLY CURATED RefSeq model, not a prediction — and `all_mrna` is the independent
+#: evidence arm: a real spliced mRNA aligned to the genome, which is exactly what a "cryptic exon"
+#: claim needs behind it. `ncbiRefSeq` additionally carries XM_ predicted models, which are recorded
+#: but never allowed to resolve anything on their own.
+UCSC_TRACKS = ("ncbiRefSeqCurated", "ncbiRefSeq", "knownGene", "all_mrna", "intronEst",
+               "ncbiRefSeqOther")
+UCSC_AUTHORITATIVE = ("ncbiRefSeqCurated",)
+
+
+def ucsc_exons_in_intron(intron):
+    """Every annotated/aligned exon block lying wholly inside the intron, per UCSC track.
+
+    ⚠ UCSC IS 0-BASED HALF-OPEN AND ENSEMBL IS 1-BASED INCLUSIVE, and this is the single likeliest
+    place for this whole module to go silently wrong by one. So the conversion is done ONCE, here,
+    and every returned exon carries BOTH coordinate systems plus the sequence cut from the Ensembl
+    intron at the converted offset — and `resolve` then re-checks that the cut sequence's own splice
+    flanks read AG…GT. A one-base slip breaks that check immediately.
+    """
+    lo1, hi1 = intron["genomic_start"], intron["genomic_end"]        # 1-based inclusive
+    lo0, hi0 = lo1 - 1, hi1                                          # 0-based half-open
+    out = []
+    for track in UCSC_TRACKS:
+        try:
+            blob = json.loads(_fetched(f"ucsc_{_UCSC_FILE_ALIAS.get(track, track)}"))
+        except Exception as exc:                                     # noqa: BLE001
+            out.append({"track": track, "_unavailable": str(exc)})
+            continue
+        rows = blob.get(track)
+        if isinstance(rows, dict):                                   # bigBed tracks nest by chrom
+            flat = []
+            for v in rows.values():
+                flat.extend(v if isinstance(v, list) else [v])
+            rows = flat
+        for r in rows or []:
+            if "exonStarts" in r:
+                ss = [int(x) for x in str(r["exonStarts"]).rstrip(",").split(",") if x]
+                ee = [int(x) for x in str(r["exonEnds"]).rstrip(",").split(",") if x]
+            elif "tStarts" in r and "blockSizes" in r:               # PSL alignment
+                ss = [int(x) for x in str(r["tStarts"]).rstrip(",").split(",") if x]
+                bs = [int(x) for x in str(r["blockSizes"]).rstrip(",").split(",") if x]
+                ee = [a + b for a, b in zip(ss, bs)]
+            else:
+                continue
+            for a, b in zip(ss, ee):
+                if a >= lo0 and b <= hi0:
+                    out.append({
+                        "track": track,
+                        "authoritative": track in UCSC_AUTHORITATIVE,
+                        "name": r.get("name") or r.get("qName"),
+                        "gene": r.get("name2") or r.get("geneName"),
+                        "strand": r.get("strand"),
+                        "ucsc_0based_start": a, "ucsc_0based_end": b,
+                        "genomic_start_1based": a + 1, "genomic_end_1based": b,
+                        "length_nt": b - a,
+                        "offset_in_intron_0based": (a + 1) - lo1,
+                    })
+    return out
+
+
+#: UCSC track name -> the filename stem it was fetched under. The corpus was fetched with readable
+#: names; mapping them here keeps the track vocabulary (which is UCSC's) separate from the file
+#: vocabulary (which is ours), so neither has to be renamed to match the other.
+_UCSC_FILE_ALIAS = {
+    "ncbiRefSeqCurated": "refseq_curated", "ncbiRefSeq": "refseq_all",
+    "knownGene": "knowngene_gencode", "all_mrna": "all_mrna",
+    "intronEst": "intron_est", "ncbiRefSeqOther": "refseq_other",
+}
+
+
+def resolve(intron_seq, ucsc_exons, cut):
+    """Pick the cryptic exon from the ANNOTATION, then put it through every independent check.
+
+    ⛔ AN ANNOTATED EXON IS A CANDIDATE, NOT AN ANSWER, UNTIL IT SURVIVES ALL OF THESE:
+      1. it is recorded by at least one AUTHORITATIVE (manually curated) track;
+      2. the sequence cut at its converted offset is a substring of the intron measured from a
+         DIFFERENT source (Ensembl) — a cross-source agreement no single database can fake;
+      3. its own flanks read AG | exon | GT, which is what breaks a one-base coordinate slip;
+      4. its length preserves the chimeric reading frame;
+      5. it carries no stop codon in that frame — the paper says T-N encodes the whole NR4A3 CDS;
+      6. it reproduces the paper's 25-amino-acid statement under a NAMED reading.
+    Anything that fails is returned with the failure attached rather than dropped, because "no exon
+    resolved" and "an exon was found and rejected" are different findings.
+    """
+    graded = []
+    for ex in ucsc_exons:
+        if "_unavailable" in ex:
+            continue
+        off, L = ex["offset_in_intron_0based"], ex["length_nt"]
+        g = dict(ex)
+        seq = intron_seq[off:off + L] if 0 <= off and off + L <= len(intron_seq) else ""
+        acc = aa_accounting(L) if L else None
+        g.update({
+            "sequence": seq or None,
+            "check_1_authoritative_track": bool(ex.get("authoritative")),
+            "check_2_substring_of_the_ensembl_intron": bool(seq) and seq in intron_seq,
+            "check_3_splice_flanks": (f"{intron_seq[off-2:off]}|exon|{intron_seq[off+L:off+L+2]}"
+                                      if seq else None),
+            "check_3_pass": bool(seq) and intron_seq[off-2:off] == "AG"
+                            and intron_seq[off + L:off + L + 2] == "GT",
+            "check_4_frame_preserved": bool(acc and acc["frame_preserved"]),
+            "check_5_no_stop_in_the_fusion_frame": bool(seq) and not any(
+                seq[i:i + 3] in STOPS for i in range(_codon_offset_into_cryptic(cut), len(seq) - 2, 3)),
+            "check_6_readings_matching_the_papers_25aa": _matches_the_papers_claim(acc) if acc else [],
+            "aa_accounting": acc,
+        })
+        g["passes_every_check"] = bool(
+            g["check_1_authoritative_track"] and g["check_2_substring_of_the_ensembl_intron"]
+            and g["check_3_pass"] and g["check_4_frame_preserved"]
+            and g["check_5_no_stop_in_the_fusion_frame"]
+            and g["check_6_readings_matching_the_papers_25aa"])
+        graded.append(g)
+
+    winners = {g["sequence"] for g in graded if g["passes_every_check"]}
+    if len(winners) == 1:
+        seq = winners.pop()
+        supporting = sorted({g["name"] for g in graded if g["sequence"] == seq and g["name"]})
+        return seq, graded, {
+            "how": "annotated_exon_passing_every_independent_check",
+            "supporting_records": supporting,
+            "n_independent_records_at_these_coordinates": len(supporting),
+        }
+    return None, graded, {"how": None, "n_passing": len(winners)}
 
 
 def _assert_from_measured_intron(seq, intron_seq):

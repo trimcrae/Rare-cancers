@@ -208,9 +208,29 @@ def derive(inp):
                                                "re-implemented or re-typed here"),
             "loci_are_derived_from": inp.get("loci_provenance", {}).get("panel"),
         },
+        "⚠_which_designs_touch_which_locus_stated_WITHOUT_the_expression_join": {
+            "_why_this_is_separate": (
+                "⛔ THIS FILE DOES NOT JOIN EXPRESSION TO AN OLIGONUCLEOTIDE, and the panel's module "
+                "refuses the same join for the same reason: a locus is in this population because a "
+                "16-mer matched it at 14/16, so a median TPM is evidence about the GENE and the "
+                "step from 'this gene is expressed in kidney' to 'this reagent does something in "
+                "kidney' needs an affinity argument no screen here has made. What IS reportable is "
+                "set membership — which designs touch which locus — and a reader can hold that "
+                "beside the expression blocks without either of us making the inference for them."),
+            "by_locus": {s: {"n_designs_hitting_it": b["n_designs_hitting_it"],
+                             "designs_hitting_it": b["designs_hitting_it"]}
+                         for s, b in loci.items()},
+        },
         "n_loci": len(loci),
         "n_loci_readable_in_gtex": len(readable),
         "loci_not_readable_in_gtex": unreadable,
+        "_reading_the_unreadable_five": (
+            "All five are LOC/LINC entries with no row in the GTEx v8 gene model. That is a property "
+            "of the reference the instrument was built on, not of the loci: they are annotated in "
+            "RefSeq, which is where the screen found them, and absent from a 2017 gene model. "
+            "⛔ THEY ARE NOT READ AS ZERO, and the exposure question is UNANSWERED for them rather "
+            "than answered negatively. Arms C and D of the panel's screen exist to characterise "
+            "exactly this class, and neither is reachable from this box."),
         "loci": loci,
     }
 

@@ -158,7 +158,7 @@ on:
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "fusion-figures", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "sra-study", "ret-cistrome-zenodo", "gse243553-eno3", "ret-cistrome-named-geo", "aso-offtarget-expression", "fusion-read-probe", "fusion-read-scan"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "fusion-figures", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "sra-study", "ret-cistrome-zenodo", "gse243553-eno3", "ret-cistrome-named-geo", "aso-offtarget-expression", "fusion-read-probe", "fusion-read-scan", "nuccore-sweep"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -280,7 +280,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${MODE:-}" in
-            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|fusion-figures|ret-cistrome|ret-motif|gse28866|cohort-search|sra-study|ret-cistrome-zenodo|gse243553-eno3|ret-cistrome-named-geo|aso-offtarget-expression|fusion-read-probe|fusion-read-scan) PART_B=false ;;
+            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|fusion-figures|ret-cistrome|ret-motif|gse28866|cohort-search|sra-study|ret-cistrome-zenodo|gse243553-eno3|ret-cistrome-named-geo|aso-offtarget-expression|fusion-read-probe|fusion-read-scan|nuccore-sweep) PART_B=false ;;
             *)                                               PART_B=true  ;;
           esac
           echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
@@ -352,6 +352,14 @@ jobs:
             # reading as new, and a series with NO sample-level read being promoted rather than
             # marked ungraded. All three are asserted here, before one byte is fetched.
             python -m pytest research/modalities/tests/test_emc_cohort_search.py -q
+          elif [ "${{ inputs.mode }}" = "nuccore-sweep" ]; then
+            # ⛔ NOT OPTIONAL. This mode's whole value is an ALIAS TABLE — NR4A3 is TEC/CHN/NOR1
+            # in the era when fusion cDNAs were actually deposited, and AF289510's DEFINITION line
+            # contains no "NR4A3" at all. A sweep that quietly lost those aliases would search only
+            # the years in which nobody deposited and would report a confident, empty negative.
+            # The selftest asserts the aliases survive, that a query using them is built, and that
+            # the KNOWN control record is parsed and its junction assigned from its own sequence.
+            python research/modalities/nr4a3_nuccore_sweep.py --selftest
           elif [ "${{ inputs.mode }}" = "fusion-read-probe" ] \
             || [ "${{ inputs.mode }}" = "fusion-read-scan" ]; then
             # ⛔ NOT OPTIONAL, and this is the one lane where the offline suite is the ONLY thing
@@ -918,6 +926,23 @@ jobs:
           python research/modalities/emc_fusion_read_scan.py --scan ${SCAN_RUNS} \
             --budget-s 6000
 
+      - name: "Nuccore sweep — the CHEAP route: deposited chimeric cDNAs, alias-aware"
+        if: inputs.mode == 'nuccore-sweep'
+        timeout-minutes: 60
+        run: |
+          set -euo pipefail
+          python research/modalities/nr4a3_nuccore_sweep.py --fetch --budget-s 2400
+
+      - name: "Nuccore sweep — upload the sweep and every query it ran"
+        if: always() && inputs.mode == 'nuccore-sweep'
+        uses: actions/upload-artifact@v4
+        with:
+          name: nr4a3-nuccore-sweep
+          if-no-files-found: warn
+          path: |
+            research/modalities/nr4a3-nuccore-sweep.json
+            research/modalities/nr4a3-nuccore-sweep-inputs.json
+
       - name: "Fusion reads — upload the verdict and the run tables it was driven from"
         if: always() && (inputs.mode == 'fusion-read-probe' || inputs.mode == 'fusion-read-scan')
         uses: actions/upload-artifact@v4
@@ -1181,6 +1206,10 @@ jobs:
             MSG="EMC SRA study characterisation: PRJNA1357027 / SRP640302 (CI)"
             PATHS="research/modalities/emc-sra-study.json
                    research/modalities/emc-sra-study-inputs.json"
+          elif [ "${{ inputs.mode }}" = "nuccore-sweep" ]; then
+            MSG="NR4A3 fusion junctions from deposited sequence records (CI)"
+            PATHS="research/modalities/nr4a3-nuccore-sweep.json
+                   research/modalities/nr4a3-nuccore-sweep-inputs.json"
           elif [ "${{ inputs.mode }}" = "fusion-read-probe" ]; then
             MSG="NR4A3 fusion reads: what each deposit actually serves (CI)"
             PATHS="research/modalities/emc-fusion-read-scan-deposits.json"
