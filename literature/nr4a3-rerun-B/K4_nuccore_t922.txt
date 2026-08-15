@@ -1,0 +1,6 @@
+SOURCE URL: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&retmode=json&retmax=500&term=%28%22t%289%3B22%29%22%20OR%20%229%3B22%22%29%20AND%20%28chondrosarcoma%20OR%20myxoid%20OR%20chordoid%29
+FINAL URL: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&retmode=json&retmax=500&term=%28%22t%289%3B22%29%22%20OR%20%229%3B22%22%29%20AND%20%28chondrosarcoma%20OR%20myxoid%20OR%20chordoid%29
+HTTP: 200
+CONTENT-TYPE: application/json; charset=UTF-8
+======================================================================
+{"header":{"type":"esearch","version":"0.3"},"esearchresult":{"count":"3","retmax":"3","retstart":"0","idlist":["1519243370","1928917093","1890259025"],"translationset":[],"translationstack":[{"term":"\"t(9;22)\"[All Fields]","field":"All Fields","count":"357","explode":"N"},{"term":"\"9;22\"[All Fields]","field":"All Fields","count":"13627","explode":"N"},"OR","GROUP",{"term":"chondrosarcoma[All Fields]","field":"All Fields","count":"96342","explode":"N"},{"term":"myxoid[All Fields]","field":"All Fields","count":"1619","explode":"N"},"OR","GROUP","AND"],"querytranslation":"(\"t(9;22)\"[All Fields] OR \"9;22\"[All Fields]) AND (chondrosarcoma[All Fields] OR myxoid[All Fields])","errorlist":{"phrasesnotfound":["chordoid"],"fieldsnotfound":[]}}}
