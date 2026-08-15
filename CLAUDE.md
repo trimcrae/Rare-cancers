@@ -146,6 +146,13 @@ to progress.
     which is ≈1.92× the current basis — and a row at or above it is drift and says so**; that is what the
     fleet-launch gate in §6 refuses to buy into. Rows with no GPU (CI, analysis, subagents) carry `—`
     rather than a fabricated figure.
+    ⚠ **THE DASH IS FOR A MIXED BOARD. WITH NO GPU ROW AT ALL, THE COLUMN GOES TOO (trimcrae,
+    2026-08-14: *"Why are you reporting `$/ns` on something that has nothing to do with that?"*).** A
+    `—` earns its place next to a row that IS being billed. A board whose every row is CI or analysis
+    has nothing to compare, so it carries **no `$/ns` column** — a drift guard printed where no drift
+    can occur is one the eye learns to skip, which costs the guard exactly where it matters. And a
+    single $0 row is a **line, not a table**: §1 asks for one scannable line per item, bullet *or*
+    table. *Superseded, retained: the reading under which every board rendered the column.*
     - **★★ THE LINE IS AN ABSOLUTE `$/ns`, NOT A MULTIPLE — `$0.006539/ns` ≈ **1.92× basis** (trimcrae,
       2026-07-27, re-expression ruling).** ⚠ **≈1.92× IS NOT A LOOSENING OF THE 1.5× STATED EARLIER THE SAME
       DAY. IT IS THE SAME DOLLARS PER NANOSECOND.** The throughput table was re-anchored that afternoon; the
