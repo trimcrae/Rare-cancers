@@ -223,14 +223,47 @@ def elink_one(pmid, to_db):
     out["linkset_ids_echoed_by_ncbi"] = echoed
     out["echo_matches_requested_pmid"] = echoed == [str(pmid)]
 
-    links, linknames = [], []
+    # ⛔⛔ THE LINKNAME IS THE ANSWER, AND MERGING THE LINK SETS DESTROYS IT. Measured 2026-08-15 on
+    # this very probe's first run: PMID 12378528 came back with 7 nuccore links and the run reported
+    # "returned 7 records" — literally true and thoroughly misleading, because ALL SEVEN were
+    # `pubmed_nuccore_refseq`: curated RefSeq reference records (NM_006981 NR4A3, NM_003487 TAF15,
+    # …) that merely CITE the paper in their bibliography. Every paper about a gene links to that
+    # gene's RefSeq entry; it says nothing about whether the authors deposited anything.
+    #
+    # The link set that means "the authors deposited this" is the bare `pubmed_nuccore`, and the
+    # positive control PROVES the distinction is real rather than assumed: PMID 11156374 returns
+    # BOTH `pubmed_nuccore` (carrying uid 13540159 = AF289510.1, the actual chimeric cDNA) and
+    # `pubmed_nuccore_refseq`, in the same job, against the same endpoint, in the same session.
+    # So the two are separated here and never summed.
+    by_name = {}
     for ls in linksets:
         for db in ls.get("linksetdbs", []):
-            linknames.append(db.get("linkname"))
-            links.extend(str(x) for x in db.get("links", []))
-    out["linknames_returned"] = sorted(set(n for n in linknames if n))
-    out["linked_uids"] = sorted(set(links), key=lambda s: (len(s), s))
-    out["n_linked"] = len(out["linked_uids"])
+            name = db.get("linkname")
+            if not name:
+                continue
+            by_name.setdefault(name, []).extend(str(x) for x in db.get("links", []))
+    by_name = {k: sorted(set(v), key=lambda s: (len(s), s)) for k, v in by_name.items()}
+
+    primary = f"pubmed_{to_db}"          # the authors' own submissions
+    refseq = f"pubmed_{to_db}_refseq"    # curated records that cite the paper
+
+    out["links_by_linkname"] = by_name
+    out["linknames_returned"] = sorted(by_name)
+    out["primary_deposit_linkname"] = primary
+    out["primary_deposit_uids"] = by_name.get(primary, [])
+    out["n_primary_deposits"] = len(out["primary_deposit_uids"])
+    out["refseq_reference_uids"] = by_name.get(refseq, [])
+    out["n_refseq_references"] = len(out["refseq_reference_uids"])
+    out["⚠ what_the_two_link_sets_mean"] = (
+        f"`{primary}` = sequence records SUBMITTED with this paper — the thing being looked for. "
+        f"`{refseq}` = curated RefSeq entries that cite this paper in their bibliography; every "
+        "paper about a gene links to that gene's RefSeq record, so it is not evidence of a deposit."
+    )
+    # kept so nothing downstream silently loses a uid, but it is NEVER the reported answer
+    out["linked_uids_all_linknames_merged"] = sorted(
+        {u for v in by_name.values() for u in v}, key=lambda s: (len(s), s)
+    )
+    out["n_linked"] = len(out["linked_uids_all_linknames_merged"])
 
     if not out["echo_matches_requested_pmid"]:
         out["verdict"] = "ERROR_NO_MEASUREMENT"
@@ -241,18 +274,28 @@ def elink_one(pmid, to_db):
         )
         return out
 
-    if out["n_linked"] > 0:
-        out["verdict"] = "LINKED"
+    if out["n_primary_deposits"] > 0:
+        out["verdict"] = "PRIMARY_DEPOSITS_PRESENT"
         out["✅ how_to_read_this"] = (
-            f"elink pubmed->{to_db} for PMID {pmid} returned {out['n_linked']} record(s). The "
-            "records themselves are analysed below; a link is not yet a junction."
+            f"elink pubmed->{to_db} for PMID {pmid} returned {out['n_primary_deposits']} record(s) "
+            f"under `{primary}` — sequences submitted with this paper. They are analysed below; a "
+            "link is not yet a junction."
+        )
+    elif out["n_refseq_references"] > 0:
+        out["verdict"] = "NO_PRIMARY_DEPOSIT_ONLY_REFSEQ_REFERENCES"
+        out["✅ how_to_read_this"] = (
+            f"elink pubmed->{to_db} for PMID {pmid} returned 0 records under `{primary}` and "
+            f"{out['n_refseq_references']} under `{refseq}`. The endpoint answered 200 and the "
+            f"linkset echoed exactly id {pmid}, so this is a MEASURED zero for DEPOSITS by this "
+            "paper specifically — the records it does link are curated reference entries that cite "
+            "it, not submissions from it."
         )
     else:
         out["verdict"] = "MEASURED_ZERO"
         out["✅ how_to_read_this"] = (
-            f"elink pubmed->{to_db} for PMID {pmid} returned 0 records. The endpoint answered 200, "
-            f"the linkset echoed exactly id {pmid}, and it carried no link set. This is a MEASURED "
-            "zero for THIS paper specifically, not a batch total and not a failed read."
+            f"elink pubmed->{to_db} for PMID {pmid} returned 0 records of any kind. The endpoint "
+            f"answered 200, the linkset echoed exactly id {pmid}, and it carried no link set at "
+            "all. A MEASURED zero for THIS paper, not a batch total and not a failed read."
         )
     return out
 
@@ -496,7 +539,13 @@ def run_probe():
 
     # ---- CONTROLS FIRST, in the same session and against the same endpoint as the targets.
     pos = elink_one(pc["pmid"], "nuccore")
-    pos_ok = pos["verdict"] == "LINKED" and pc["expected_nuccore_uid"] in pos["linked_uids"]
+    # ⛔ The control asserts the DISCRIMINATION the whole probe rests on, not merely that something
+    # came back: the known deposit must appear under the PRIMARY linkname `pubmed_nuccore`. If it
+    # only showed up in the merged list, the probe could not tell a submission from a citation.
+    pos_ok = (
+        pos["verdict"] == "PRIMARY_DEPOSITS_PRESENT"
+        and pc["expected_nuccore_uid"] in pos.get("primary_deposit_uids", [])
+    )
     neg = elink_one(NEGATIVE_CONTROL_PMID, "nuccore")
     neg_ok = neg.get("n_linked", None) == 0
 
@@ -504,12 +553,19 @@ def run_probe():
         "positive": {
             "what_it_proves": (
                 "That elink pubmed->nuccore is answering correctly RIGHT NOW, on this network path, "
-                "in this job. Without it a zero from a broken query looks exactly like a zero from "
-                "a paper that deposited nothing — and a zero is this probe's expected result."
+                "in this job, AND that a real deposit lands under the primary `pubmed_nuccore` "
+                "linkname rather than the refseq one. Without it a zero from a broken query looks "
+                "exactly like a zero from a paper that deposited nothing — and a zero is this "
+                "probe's expected result."
             ),
+            "observed_primary_deposit_uids": None,  # filled below from the result
             **pc,
             "result": pos,
             "passed": pos_ok,
+            "⛔ if_this_failed": (
+                "Any 'this paper deposited nothing' statement below is UNSUPPORTED — an instrument "
+                "that cannot re-find a known deposit cannot certify an absence."
+            ),
         },
         "negative": {
             "what_it_proves": (
@@ -540,12 +596,27 @@ def run_probe():
             entry["elink"][db] = r
             time.sleep(0.35)
 
-            if r["verdict"] != "LINKED":
+            # The curated citing records are IDENTIFIED but not sequence-analysed: they are
+            # wild-type gene entries, and fetching 143 of them to rediscover that would be waste.
+            # Naming them keeps the negative bounded — a reader can see exactly what WAS returned.
+            if r.get("refseq_reference_uids"):
+                rs_meta = esummary_db(db, r["refseq_reference_uids"])
+                r["refseq_references_identified"] = [
+                    {
+                        "uid": u,
+                        "accession": rs_meta.get(u, {}).get("accession"),
+                        "title_verbatim": rs_meta.get(u, {}).get("title_verbatim"),
+                    }
+                    for u in r["refseq_reference_uids"]
+                ]
+                time.sleep(0.35)
+
+            if r["verdict"] != "PRIMARY_DEPOSITS_PRESENT":
                 continue
 
-            uids = r["linked_uids"]
+            uids = r["primary_deposit_uids"]
             meta = esummary_db(db, uids)
-            r["esummary_of_linked_uids"] = meta
+            r["esummary_of_primary_deposits"] = meta
             keep = [
                 u
                 for u in uids
@@ -588,18 +659,26 @@ def run_probe():
         lines = []
         for db in TARGET_DBS:
             r = entry["elink"][db]
-            if r["verdict"] == "LINKED":
-                lines.append(f"elink pubmed->{db} for PMID {pmid} returned {r['n_linked']} records")
-            elif r["verdict"] == "MEASURED_ZERO":
-                lines.append(f"elink pubmed->{db} for PMID {pmid} returned 0 records")
-            else:
+            if r["verdict"] == "ERROR_NO_MEASUREMENT":
                 lines.append(
                     f"elink pubmed->{db} for PMID {pmid} DID NOT PRODUCE A MEASUREMENT "
                     f"(http_status={r['http_status']})"
                 )
+            else:
+                # ⛔ Both numbers, always. Stating only the total is what made the first run's
+                # "returned 7 records" read as a deposit count when it was a citation count.
+                lines.append(
+                    f"elink pubmed->{db} for PMID {pmid} returned "
+                    f"{r['n_primary_deposits']} records deposited with the paper "
+                    f"(linkname {r['primary_deposit_linkname']}) and "
+                    f"{r['n_refseq_references']} curated RefSeq records that merely cite it"
+                )
         entry["answer_for_the_record"] = "; ".join(lines)
         entry["all_calls_measured"] = all(
-            entry["elink"][db]["verdict"] in ("LINKED", "MEASURED_ZERO") for db in TARGET_DBS
+            entry["elink"][db]["verdict"] != "ERROR_NO_MEASUREMENT" for db in TARGET_DBS
+        )
+        entry["deposited_any_sequence"] = any(
+            entry["elink"][db].get("n_primary_deposits", 0) > 0 for db in TARGET_DBS
         )
         findings.append(entry)
 
@@ -678,7 +757,7 @@ def selftest():
         chk(r["n_linked"] == 0 and r["echo_matches_requested_pmid"],
             "a measured zero must record both the count and the echo check")
 
-        # links present -> LINKED, and the uid list is carried
+        # a real deposit -> PRIMARY_DEPOSITS_PRESENT, and the uid list is carried
         globals()["_get"] = lambda url, timeout=60, tries=3: {
             "url": url, "http_status": 200, "sha256_of_body": "x", "n_attempts": 1,
             "body": json.dumps({"linksets": [{"dbfrom": "pubmed", "ids": ["11156374"],
@@ -686,9 +765,45 @@ def selftest():
                                                               "links": ["13540159"]}]}]}),
         }
         r = elink_one("11156374", "nuccore")
-        chk(r["verdict"] == "LINKED" and r["linked_uids"] == ["13540159"],
-            f"a populated linkset graded {r['verdict']} / {r.get('linked_uids')}")
+        chk(r["verdict"] == "PRIMARY_DEPOSITS_PRESENT" and r["primary_deposit_uids"] == ["13540159"],
+            f"a real deposit graded {r['verdict']} / {r.get('primary_deposit_uids')}")
         chk(r["linknames_returned"] == ["pubmed_nuccore"], "link names must be recorded")
+
+        # ⛔⛔ THE REGRESSION THIS PROBE'S FIRST RUN ACTUALLY SHIPPED. Seven `pubmed_nuccore_refseq`
+        # links and nothing under `pubmed_nuccore` is NOT a deposit — it is a paper being cited by
+        # the RefSeq entries of the genes it studied. Grading this as a hit is exactly how the
+        # unreachable-coverage question would have been answered backwards.
+        globals()["_get"] = lambda url, timeout=60, tries=3: {
+            "url": url, "http_status": 200, "sha256_of_body": "x", "n_attempts": 1,
+            "body": json.dumps({"linksets": [{"dbfrom": "pubmed", "ids": ["12378528"],
+                                              "linksetdbs": [{"linkname": "pubmed_nuccore_refseq",
+                                                              "links": ["27894356", "1519243370"]}]}]}),
+        }
+        r = elink_one("12378528", "nuccore")
+        chk(r["verdict"] == "NO_PRIMARY_DEPOSIT_ONLY_REFSEQ_REFERENCES",
+            f"⛔ refseq-only links graded {r['verdict']} — a citation is not a deposit")
+        chk(r["n_primary_deposits"] == 0,
+            f"refseq-only links reported {r['n_primary_deposits']} deposits — must be 0")
+        chk(r["n_refseq_references"] == 2, "the citing records must still be counted and named")
+        chk(r["n_linked"] == 2,
+            "the merged total must remain available, but it is not the reported answer")
+
+        # and the two link sets must never be summed into the deposit count
+        globals()["_get"] = lambda url, timeout=60, tries=3: {
+            "url": url, "http_status": 200, "sha256_of_body": "x", "n_attempts": 1,
+            "body": json.dumps({"linksets": [{"dbfrom": "pubmed", "ids": ["11156374"],
+                                              "linksetdbs": [
+                                                  {"linkname": "pubmed_nuccore",
+                                                   "links": ["13540159"]},
+                                                  {"linkname": "pubmed_nuccore_refseq",
+                                                   "links": ["27894356", "1519243370"]}]}]}),
+        }
+        r = elink_one("11156374", "nuccore")
+        chk(r["n_primary_deposits"] == 1 and r["n_refseq_references"] == 2 and r["n_linked"] == 3,
+            f"mixed link sets misattributed: primary={r['n_primary_deposits']} "
+            f"refseq={r['n_refseq_references']} merged={r['n_linked']}")
+        chk(r["primary_deposit_uids"] == ["13540159"],
+            "the deposit uid must be recoverable from the primary link set alone")
     finally:
         globals()["_get"] = saved
 
@@ -793,7 +908,8 @@ def main():
     pos = art["control_gate"]["positive"]
     print(f"  positive  PMID {pos['pmid']} -> expected uid {pos['expected_nuccore_uid']} "
           f"({pos['expected_accession']}): {pos['result']['verdict']}, "
-          f"uids={pos['result'].get('linked_uids')}")
+          f"primary_deposit_uids={pos['result'].get('primary_deposit_uids')}, "
+          f"linknames={pos['result'].get('linknames_returned')}")
     neg = art["control_gate"]["negative"]
     print(f"  negative  PMID {neg['pmid']}: {neg['result']['verdict']}, "
           f"n_linked={neg['result'].get('n_linked')}")
@@ -807,10 +923,10 @@ def main():
         for db in TARGET_DBS:
             r = f["elink"][db]
             print(f"  elink pubmed->{db}: verdict={r['verdict']} "
-                  f"http={r['http_status']} echo_ok={r.get('echo_matches_requested_pmid')} "
-                  f"n_linked={r.get('n_linked')}")
-            if r.get("linked_uids"):
-                print(f"     uids: {r['linked_uids']}")
+                  f"http={r['http_status']} echo_ok={r.get('echo_matches_requested_pmid')}")
+            print(f"     DEPOSITED WITH THE PAPER ({r.get('primary_deposit_linkname')}): "
+                  f"{r.get('n_primary_deposits')}   uids={r.get('primary_deposit_uids')}")
+            print(f"     curated RefSeq records that merely cite it: {r.get('n_refseq_references')}")
         print(f"  ANSWER: {f['answer_for_the_record']}")
         for d in f["deposits_analysed"]:
             print(f"    - {d.get('accession')} [{d.get('db')}] "
