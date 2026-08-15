@@ -345,9 +345,232 @@ def assign_junction(seq, genes, scanner):
     return out
 
 
+# ⛔ PATENT ACCESSION PREFIXES. A patent sequence record is a legal filing, not a specimen, and it
+# carries no /tissue_type or /cell_line to contradict a title. The 2026-08-15 sweep graded
+# LG067227.1 and LG067228.1 PATIENT_MATERIAL because the word "Tumor" appears in the patent title
+# "Compositions for Preventing or Treating a Tumor Disorder Comprising TFG-TEC Protein Mutant",
+# while their two siblings DI433544.1/DI438966.1 were graded ENGINEERED_CONSTRUCT only because
+# their titles happen to contain the token "Construct". Same family, same sequence, two verdicts,
+# both decided by an accident of wording. The ACCESSION PREFIX is the reliable discriminator and it
+# is checked FIRST, before any text pattern can fire.
+PATENT_ACCESSION_PREFIX = re.compile(r"^(DI|DJ|DL|DM|DD|DE|LG|LP|GM|HV|JA|JB|JC|JD|JE|PAT)\d", re.I)
+
+
+def is_patent_accession(acc):
+    return bool(acc and PATENT_ACCESSION_PREFIX.match(str(acc)))
+
+
+# ------------------------------------------------- DISCOVERING a junction nobody has named yet
+#
+# ⛔⛔ WHY `assign_junction` ABOVE IS NOT ENOUGH, MEASURED. `JunctionScanner` tests THREE hard-coded
+# acceptor sites (NR4A3 exon 2 start, exon 3 start, intron 2 start) and a donor set of partner exon
+# ENDS. It can therefore only ever CONFIRM a junction someone has already named. On 2026-08-15 the
+# 1479-UID sweep retrieved GenBank AF524261.1 — "Homo sapiens extraskeletal myxoid chondrosarcoma
+# EWS/TEC/CHN fusion protein mRNA", isolation_source "extraskeletal myxoid chondrosarcoma patient" —
+# attributed 341 nt to EWSR1 and 159 nt to NR4A3, and returned `seam_match: []`. The record then
+# fell out of `records_with_a_junction` entirely and was reported nowhere. The junction it carries
+# is EWSR1 exon 10 :: the 72-nt NR4A3 intron-2 cryptic exon :: NR4A3 exon 3 — an acceptor that is in
+# ACCEPTOR_SITES only as `intron2_start`, which is NOT where this transcript resumes.
+#
+# ⛔ A MATCHER THAT CAN ONLY CONFIRM KNOWN JUNCTIONS CANNOT DISCOVER ONE, AND ITS SILENCE LOOKS
+# EXACTLY LIKE A NEGATIVE. That is the whole failure mode this function exists to close: it finds
+# the junction by MAXIMAL ALIGNMENT against the committed transcript models rather than by testing a
+# list, and any part of the deposit that belongs to NEITHER spliced transcript is reported VERBATIM
+# rather than dropped.
+#
+# ⚠ AND THE BOUNDARY IS AMBIGUOUS BY MICROHOMOLOGY. Greedily maximising one side silently shifts the
+# exon call: validated 2026-08-15 on a synthetic TCF12 e5 :: NR4A3 e3 seam, where the last base of
+# TCF12 exon 5 is also the last base of NR4A3 exon 2, so the greedy acceptor start landed 1 nt
+# inside exon 2 and named the wrong exon. So every split in the ambiguity interval is enumerated and
+# the ones landing EXACTLY on an exon boundary are preferred — with the interval itself reported, so
+# a genuinely ambiguous seam stays visibly ambiguous.
+
+MIN_BLOCK = 24  # nt each side before a co-occurrence is worth naming
+
+
+def _spliced(gene):
+    n = len(gene["exon_spans_0based_inclusive"])
+    return "".join(exon_seq(gene, i) for i in range(1, n + 1)).upper()
+
+
+def _exon_bounds(gene):
+    out, off = [], 0
+    for i in range(1, len(gene["exon_spans_0based_inclusive"]) + 1):
+        L = len(exon_seq(gene, i))
+        out.append((i, off, off + L))
+        off += L
+    return out
+
+
+def _offset_to_exon(gene, off, which):
+    """Spliced-transcript offset -> exon, WITH the arithmetic that produced it."""
+    for i, a, b in _exon_bounds(gene):
+        if which == "end" and off == b:
+            return {"exon": i, "exact_boundary": True,
+                    "where": f"exactly the 3' end of exon {i}",
+                    "arithmetic": f"offset {off} == cumulative end of exon {i} (span {a}..{b})"}
+        if which == "start" and off == a:
+            return {"exon": i, "exact_boundary": True,
+                    "where": f"exactly the 5' start of exon {i}",
+                    "arithmetic": f"offset {off} == cumulative start of exon {i} (span {a}..{b})"}
+        if a <= off < b:
+            return {"exon": i, "exact_boundary": False,
+                    "where": f"inside exon {i}, {off - a} nt from its 5' end",
+                    "arithmetic": f"offset {off} inside exon {i} (span {a}..{b}); "
+                                  f"{off - a} nt in, {b - off} nt short of its end"}
+    return {"exon": None, "exact_boundary": False,
+            "where": f"offset {off} outside the transcript", "arithmetic": ""}
+
+
+def _longest_prefix_in(rec, hay):
+    lo, hi, best = 0, len(rec), 0
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if mid and rec[:mid] in hay:
+            best, lo = mid, mid + 1
+        else:
+            hi = mid - 1
+    return best
+
+
+def _shortest_suffix_start_in(rec, hay):
+    lo, hi, best = 0, len(rec), None
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if rec[mid:] and rec[mid:] in hay:
+            best, hi = mid, mid - 1
+        else:
+            lo = mid + 1
+    return best
+
+
+def discover_junction(seq, genes):
+    """Name the junction in a deposit WITHOUT being told the acceptor in advance.
+
+    Returns None when no partner+NR4A3 co-occurrence reaches MIN_BLOCK on both sides. Otherwise a
+    dict whose every exon number is DERIVED, with the arithmetic carried alongside it.
+    """
+    if not seq:
+        return None
+    seq = re.sub(r"[^ACGTNacgtn]", "", seq).upper()
+    acc_gene = genes[ACCEPTOR]
+    sp_acc = _spliced(acc_gene)
+
+    best = None
+    for pname, g in genes.items():
+        if pname == ACCEPTOR:
+            continue
+        sp_p = _spliced(g)
+        for orient, s in (("+", seq), ("-", revcomp(seq))):
+            maxP = _longest_prefix_in(s, sp_p)
+            minA = _shortest_suffix_start_in(s, sp_acc)
+            if maxP < MIN_BLOCK or minA is None or (len(s) - minA) < MIN_BLOCK:
+                continue
+            score = maxP + (len(s) - minA)
+            if best is None or score > best["score"]:
+                best = {"score": score, "partner": pname, "orient": orient, "s": s,
+                        "maxP": maxP, "minA": minA, "sp_p": sp_p, "gene": g}
+    if best is None:
+        return None
+
+    s, g, sp_p = best["s"], best["gene"], best["sp_p"]
+    maxP, minA = best["maxP"], best["minA"]
+
+    # ---- prefer a split where BOTH sides land exactly on an exon boundary
+    chosen, candidates = None, []
+    lo_i, hi_i = max(MIN_BLOCK, minA), maxP          # clean-junction ambiguity interval
+    for i in range(hi_i, lo_i - 1, -1):
+        d = _offset_to_exon(g, sp_p.find(s[:i]) + i, "end")
+        a = _offset_to_exon(acc_gene, sp_acc.find(s[i:]), "start")
+        candidates.append((i, d, a))
+        if d["exact_boundary"] and a["exact_boundary"] and chosen is None:
+            chosen = {"kind": "CLEAN", "split": i, "donor": d, "acceptor": a, "insert_nt": 0}
+    if chosen is None and minA > maxP:
+        # ⛔ THE INSERT BRANCH NEEDS THE SAME BOUNDARY-EXACT SEARCH, and the first version of this
+        # function did not have it. Measured on the real AF524261.1: the 72-nt cryptic exon opens
+        # "GCCC" and EWSR1 exon 11 also opens "GCCC", so the greedy donor block ran 4 nt PAST the
+        # true breakpoint and the function reported "inside exon 11" for a junction whose donor is
+        # exon 10 — the depositor's own `misc_feature <1..337 /note="contains exons 7 through 10 of
+        # EWS"` says exon 10, and so does the alignment once the boundary is respected. A greedy
+        # block end is not a breakpoint; it is a breakpoint plus whatever microhomology follows.
+        SHIFT = 32  # nt of microhomology worth walking back; a splice seam cannot need more
+        i = maxP
+        for cand in range(maxP, max(MIN_BLOCK, maxP - SHIFT) - 1, -1):
+            if _offset_to_exon(g, sp_p.find(s[:cand]) + cand, "end")["exact_boundary"]:
+                i = cand
+                break
+        j = minA
+        for cand in range(minA, min(len(s) - MIN_BLOCK, minA + SHIFT) + 1):
+            if _offset_to_exon(acc_gene, sp_acc.find(s[cand:]), "start")["exact_boundary"]:
+                j = cand
+                break
+        d = _offset_to_exon(g, sp_p.find(s[:i]) + i, "end")
+        a = _offset_to_exon(acc_gene, sp_acc.find(s[j:]), "start")
+        maxP, minA = i, j
+        chosen = {"kind": "INSERT", "split": i, "donor": d, "acceptor": a,
+                  "insert_nt": j - i}
+    if chosen is None:
+        i, d, a = candidates[0] if candidates else (maxP, None, None)
+        chosen = {"kind": "AMBIGUOUS", "split": i, "donor": d, "acceptor": a, "insert_nt": 0}
+
+    out = {
+        "partner_gene": best["partner"],
+        "orientation_of_deposit": chosen and best["orient"],
+        "kind": chosen["kind"],
+        "donor": chosen["donor"],
+        "acceptor": chosen["acceptor"],
+        "n_partner_nt": maxP,
+        "n_acceptor_nt": len(s) - minA,
+        "microhomology_interval": [lo_i, hi_i] if hi_i >= lo_i else None,
+        "⚠ interval_meaning": (
+            "every split in this closed interval reproduces the deposit equally well; the reported "
+            "exon pair is the one landing exactly on both exon boundaries."
+        ),
+    }
+
+    # ---- the segment belonging to NEITHER spliced transcript: report it, then place it
+    if chosen["insert_nt"]:
+        mid = s[maxP:minA]
+        out["unexplained_segment"] = {
+            "length_nt": len(mid),
+            "sequence_verbatim": mid,
+            "seam_5prime_verbatim": s[max(0, maxP - 16):maxP] + "|" + mid[:16],
+            "seam_3prime_verbatim": mid[-16:] + "|" + s[minA:minA + 16],
+            "found_in": [],
+            "⛔ what_it_is_not": (
+                "An unexplained segment is NOT by itself a cryptic exon. It is sequence the "
+                "committed SPLICED models do not contain; where it is placed below is what says "
+                "what it is."
+            ),
+        }
+        for gname in (best["partner"], ACCEPTOR):
+            gg = genes[gname]
+            for k in range(1, len(gg["exon_spans_0based_inclusive"])):
+                iseq = intron_seq(gg, k).upper()
+                p = iseq.find(mid)
+                if p >= 0:
+                    out["unexplained_segment"]["found_in"].append({
+                        "gene": gname, "intron": k, "intron_len": len(iseq),
+                        "offset_in_intron": p,
+                        "flank_5prime_2nt": iseq[max(0, p - 2):p],
+                        "flank_3prime_2nt": iseq[p + len(mid):p + len(mid) + 2],
+                        "_reading": ("an AG immediately 5' and a GT immediately 3' are the canonical "
+                                     "splice dinucleotides of a cassette exon; they are REPORTED, "
+                                     "not required."),
+                    })
+    else:
+        j = chosen["split"]
+        out["seam_verbatim"] = s[max(0, j - 16):j] + "|" + s[j:j + 16]
+    return out
+
+
 def classify_material(rec):
     """A patient tumour and an engineered construct are both informative and are NOT the same
     evidence. Conflating them would let a lab plasmid stand in for a patient's breakpoint."""
+    acc = rec.get("accession") or rec.get("version") or ""
+    if is_patent_accession(acc):
+        # ⛔ Never graded from title text. See PATENT_ACCESSION_PREFIX above.
+        return "PATENT_SEQUENCE"
     text = " ".join(
         [rec.get("definition", "")] + rec.get("notes", []) + rec.get("cell_lines", [])
         + rec.get("tissue_types", [])
@@ -471,6 +694,20 @@ def sweep(budget_s=2400, retmax=200):
             ACCEPTOR in rec["junction"]["longest_blocks"]
             and len(rec["junction"]["longest_blocks"]) > 1
         )
+        # ⛔ THE DISCOVERY PASS RUNS ON EVERY CO-OCCURRENCE, NOT ONLY ON SEAM MISSES. Running it
+        # where the seam matcher already fired is what makes the two readings CROSS-CHECKABLE; the
+        # 2026-08-15 EWSR1 e10 recovery was validated exactly that way, by reproducing the three
+        # junctions the seam matcher had independently named.
+        if rec["is_nr4a3_fusion"]:
+            rec["discovered_junction"] = discover_junction(seq, genes)
+            # ⛔ RETAIN THE SEQUENCE. The 2026-08-15 sweep popped it, so when AF524261.1 turned out
+            # to carry an unnamed acceptor the record could not be re-analysed from the artifact and
+            # a second network round trip was required to answer a question the run had already
+            # paid for. A deposit is a few hundred bp; the triage gate above caps it at
+            # MAX_RECORD_BP, so this cannot reintroduce the OOM.
+            rec["sequence_verbatim"] = seq
+        else:
+            rec["discovered_junction"] = None
         rec["flatfile_head"] = "\n".join(text.splitlines()[:14])
         records.append(rec)
 
