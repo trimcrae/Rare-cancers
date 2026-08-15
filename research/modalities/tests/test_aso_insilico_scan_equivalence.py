@@ -5,7 +5,7 @@ every candidate against every record — O(n_designs x transcriptome). That is a
 24 designs and impossible for a pan-fusion catalog (~2e9 string searches at ~19,000 designs), so the loop
 was inverted: index the seeds once, walk each record once, score only the candidates whose seed occurs.
 
-⛔ THE COMMITTED EMC NUMBERS ARE PUBLISHED. `fusion-junction-aso-short-communication.md` reports off-target
+⛔ THE COMMITTED EMC NUMBERS ARE PUBLISHED. `fusion-junction-aso-research-article.md` reports off-target
 counts over 186,185 transcripts, and nine designs are called clean on the strength of them. A speed-up that
 moved any of those counts by one would silently invalidate a manuscript claim — and it would look like a
 faster pipeline, not like a retraction. So the reference implementation is kept here VERBATIM and both are

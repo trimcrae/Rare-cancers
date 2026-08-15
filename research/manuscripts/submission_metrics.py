@@ -140,7 +140,7 @@ MANUSCRIPTS = {
     # abstract limit no venue in play imposes — a red flag pointing at a decision already made, which
     # is how a real one gets ignored. The venue is open; bioRxiv is the immediate destination and
     # sets no limits, so that is what the paper is measured against until a journal is chosen.
-    "aso/fusion-junction-aso-short-communication.md": "bioRxiv-preprint",
+    "aso/fusion-junction-aso-research-article.md": "bioRxiv-preprint",
 }
 
 #: Files that carry display items or reference entries belonging to a manuscript but living outside
@@ -148,7 +148,7 @@ MANUSCRIPTS = {
 #: ⚠ MAIN TEXT AND THE ABSTRACT ARE NEVER READ FROM A COMPANION — only display items and
 #: references are, because those are the two things a journal counts wherever they physically sit.
 COMPANIONS = {
-    "aso/fusion-junction-aso-short-communication.md": [
+    "aso/fusion-junction-aso-research-article.md": [
         "aso/fusion-junction-aso-submission-tables.md",
         "aso/fusion-junction-aso-submission-references.md",
     ],
@@ -167,7 +167,7 @@ COMPANIONS = {
 #: relative to this directory, and `submission_packet` reports each one MISSING if it is absent, so
 #: a wrong entry here fails loudly rather than silently shrinking the checklist.
 FIGURE_FILES = {
-    "aso/fusion-junction-aso-short-communication.md": [
+    "aso/fusion-junction-aso-research-article.md": [
         "figures/aso-junction-space.svg",
         "figures/aso-multipartner-seam.svg",
         "figures/aso-chance-baseline.svg",

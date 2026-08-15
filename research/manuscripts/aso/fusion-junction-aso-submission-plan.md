@@ -182,7 +182,7 @@ the one place it is least affordable.*
 ## 2 · What the venue demands, and where the submission stands
 
 ⚠ **This table was written against the WORKING RECORD, before the submission text existed as a
-separate file.** Every row below now measures `fusion-junction-aso-short-communication.md`; the
+separate file.** Every row below now measures `fusion-junction-aso-research-article.md`; the
 superseded column is kept because the size of the gap is the reason the split happened.
 
 | requirement | state (2026-08-13) | was, before the split |

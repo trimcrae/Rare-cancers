@@ -224,7 +224,7 @@ def test_the_manuscript_and_the_artifact_agree_on_every_reported_figure():
     """Rule 1: a number in the paper and its artifact may not diverge."""
     art = _artifact()
     paper_path = os.path.join(os.path.dirname(os.path.dirname(MOD)), "research", "manuscripts",
-                              "aso", "fusion-junction-aso-short-communication.md")
+                              "aso", "fusion-junction-aso-research-article.md")
     if not os.path.exists(paper_path):
         pytest.skip("manuscript is not present in this checkout")
     txt = open(paper_path, encoding="utf-8").read()

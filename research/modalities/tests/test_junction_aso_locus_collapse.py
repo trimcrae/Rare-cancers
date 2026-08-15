@@ -206,7 +206,7 @@ def test_the_clinically_relevant_reagents_deep_load_is_six_loci_not_123_transcri
     assert cls["predicted"] == 82 and cls["curated"] == 41, cls
 
     paper = os.path.join(REPO, "research", "manuscripts", "aso",
-                         "fusion-junction-aso-short-communication.md")
+                         "fusion-junction-aso-research-article.md")
     if not os.path.exists(paper):
         pytest.skip("submission manuscript is not present in this checkout")
     txt = re.sub(r"\s+", " ", open(paper, encoding="utf-8").read())

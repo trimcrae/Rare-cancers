@@ -129,7 +129,7 @@ def test_the_manuscript_matches_the_committed_premrna_screen():
     """
     art = os.path.join(MOD, "aso-premrna-offtarget.json")
     paper = os.path.join(os.path.dirname(MOD), "manuscripts", "aso",
-                         "fusion-junction-aso-short-communication.md")
+                         "fusion-junction-aso-research-article.md")
     if not (os.path.exists(art) and os.path.exists(paper)):
         pytest.skip("the pre-mRNA screen or the manuscript is not present in this checkout")
     d = __import__("json").load(open(art))

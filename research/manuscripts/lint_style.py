@@ -61,12 +61,12 @@ TARGETS = [
     # pre-mRNA compartment, the censoring re-screen and Table 3 landed, and this comment went on
     # reading as a current measurement. That is the exact failure rule 1 exists to stop, sitting
     # inside the gate that enforces it.
-    "research/manuscripts/aso/fusion-junction-aso-short-communication.md",
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
 ]
 
 # ⛔ fusion-junction-aso-working-record.md IS DELIBERATELY NOT IN `TARGETS`, AND THAT IS NOW CORRECT
 # RATHER THAN DEFERRED (2026-08-12). It is no longer a manuscript: the submission is
-# `fusion-junction-aso-short-communication.md`, and the working record is its provenance archive —
+# `fusion-junction-aso-research-article.md`, and the working record is its provenance archive —
 # every analysis in full plus the superseded-value register that rule 1.2 REQUIRES. Gate 5 checks
 # journal REGISTER, and that file's audience is a maintainer, so the house style is right there.
 #

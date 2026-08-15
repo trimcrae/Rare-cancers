@@ -102,7 +102,7 @@ last_verified: 2026-08-10
 
 ## bioRxiv (preprint; journal venue still open)
 
-**Manuscript** `aso/fusion-junction-aso-short-communication.md`
+**Manuscript** `aso/fusion-junction-aso-research-article.md`
 
 | field | value |
 |---|---|
@@ -110,7 +110,7 @@ last_verified: 2026-08-10
 | Abstract | 459 words  |
 | Display items | 9 (3 figures, 6 tables) |
 | References | 35 |
-| Cover letter | `aso/fusion-junction-aso-short-communication-cover-letter.md` |
+| Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
 | Supplementary file | none |
 | Fee route | not recorded |
 

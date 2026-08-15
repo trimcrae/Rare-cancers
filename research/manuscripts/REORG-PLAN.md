@@ -52,7 +52,7 @@ RT-ASO + RT-ASO-ASK (ST-NUCLEIC-ACID) — the junction ASO short communication, 
 - `fusion-junction-aso-paper-redteam.md`
 - `fusion-junction-aso-references.json`
 - `fusion-junction-aso-references.md`
-- `fusion-junction-aso-short-communication.md`
+- `fusion-junction-aso-research-article.md`
 - `fusion-junction-aso-submission-plan.md`
 - `fusion-junction-aso-submission-references.json`
 - `fusion-junction-aso-submission-references.md`

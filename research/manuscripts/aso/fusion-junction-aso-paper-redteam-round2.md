@@ -7,7 +7,7 @@ status: live
 canonical_for:
   - the round-2 red team of the fusion-junction ASO submission manuscript
 purpose: >
-  Hold the second adversarial review of fusion-junction-aso-short-communication.md, run 2026-08-13 as
+  Hold the second adversarial review of fusion-junction-aso-research-article.md, run 2026-08-13 as
   five independent reviewers plus the maintaining agent's own pass, with the disposition of every
   finding and the evidence behind it. Its reason for existing is that a review whose findings are
   applied but not recorded gets re-run from scratch, and its wrong leads get re-raised — which is

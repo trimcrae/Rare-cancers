@@ -34,7 +34,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PAPER = os.path.join(HERE, "aso", "fusion-junction-aso-short-communication.md")
+PAPER = os.path.join(HERE, "aso", "fusion-junction-aso-research-article.md")
 REFS_JSON = os.path.join(HERE, "aso", "fusion-junction-aso-references.json")
 OUT_MD = os.path.join(HERE, "aso", "fusion-junction-aso-submission-references.md")
 OUT_JSON = os.path.join(HERE, "aso", "fusion-junction-aso-submission-references.json")

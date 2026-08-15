@@ -8,7 +8,7 @@ canonical_for:
   - the round-4 editorial review of the fusion-junction ASO submission manuscript
   - the §3 and §4 section renumber map that rounds 1-3 predate
 purpose: >
-  Hold the editorial review of fusion-junction-aso-short-communication.md run 2026-08-14, on the
+  Hold the editorial review of fusion-junction-aso-research-article.md run 2026-08-14, on the
   three axes rounds 1-3 did not cover: whether the prose is comprehensible to its stated audience,
   whether the section structure is balanced, and whether the paper is framed for the reader it is
   written for. Its second reason for existing is mechanical and load-bearing: this pass RENUMBERED

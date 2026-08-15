@@ -26,7 +26,7 @@ documents. To avoid the "which of these is *the paper*?" confusion, the rule is:
 >    ACS Central Science" aim was walked back 2026-07-08 as over-optimistic for a no-wet-lab study). Framing decision:
 >    [`nr4a3-degrader-carT-and-family-druggability-framing.md`](./degrader/nr4a3-degrader-carT-and-family-druggability-framing.md).
 >    *Selective pole is NR4A3-selective but NOT fusion-selective (the LBD is shared with wild-type NR4A3).*
-> 2. **[`fusion-junction-aso-short-communication.md`](./aso/fusion-junction-aso-short-communication.md)** — **fusion-exclusive result
+> 2. **[`fusion-junction-aso-research-article.md`](./aso/fusion-junction-aso-research-article.md)** — **fusion-exclusive result
 >    paper**: an RNase-H gapmer / siRNA against the EWSR1::NR4A3 breakpoint junction that silences the
 >    chimera while **sparing wild-type NR4A3** — the most-likely-to-work fusion-unique route, with a
 >    complete in-silico arc (design → off-target → breakpoint-favorability scan → a gap-mismatch-resolved
@@ -50,7 +50,7 @@ documents. To avoid the "which of these is *the paper*?" confusion, the rule is:
 ## ▶ Priority manuscripts (publish first — 2026-06-26 decision)
 
 - **[`nr4a3-degrader-paper.md`](./degrader/nr4a3-degrader-paper.md)** and
-  **[`fusion-junction-aso-short-communication.md`](./aso/fusion-junction-aso-short-communication.md)** — the two papers to develop to
+  **[`fusion-junction-aso-research-article.md`](./aso/fusion-junction-aso-research-article.md)** — the two papers to develop to
   preprint/submission first (see the priority block at the top of this file and `emc-treatment-strategy.md`
   Q1). The degrader is the target-selective result; the ASO is the fusion-exclusive result that spares
   wild-type NR4A3.

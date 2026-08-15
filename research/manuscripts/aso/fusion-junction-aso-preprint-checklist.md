@@ -34,13 +34,13 @@ journal still under consideration.
 
 | item | state |
 |---|---|
-| Manuscript | `fusion-junction-aso-short-communication.md`. Word and abstract counts are measured, not asserted: `submission-metrics.json` is their one home (`python3 research/manuscripts/submission_metrics.py`). bioRxiv sets no limit on either. ⚠ *Superseded, retained: "4,244 words main text, structured abstract at 265 words" — both were typed here and both drifted; the measured main text is over a thousand words longer.* |
+| Manuscript | `fusion-junction-aso-research-article.md`. Word and abstract counts are measured, not asserted: `submission-metrics.json` is their one home (`python3 research/manuscripts/submission_metrics.py`). bioRxiv sets no limit on either. ⚠ *Superseded, retained: "4,244 words main text, structured abstract at 265 words" — both were typed here and both drifted; the measured main text is over a thousand words longer.* |
 | Tables | `fusion-junction-aso-submission-tables.md`, generated from the artifacts so a cell and its source cannot diverge. Table 3 lists the designs the cleanliness claim is about, which until 2026-08-13 appeared in no table |
 | References | `fusion-junction-aso-submission-references.md` — every entry carrying author, title, journal and year, numbering derived from the per-citation PMIDs; the count is in `submission-metrics.json`. ⚠ *Superseded, retained: "29 entries" — the file holds 30 and the manuscript body cites 1–30 with no gaps.* |
 | Figures | Three, each as vector PDF and 300 dpi PNG. Verified vector: no image XObjects, subsetted fonts, live text. Widths are as `svg_to_submission_formats.py` reports them — two at 180 mm and `aso-junction-space` at 124.4 mm, held by the 247 mm height ceiling. ⚠ *Superseded, retained: "180 mm wide" for all three; the converter's own per-figure line said otherwise and its summary line, which said 180 mm unconditionally, is what got copied.* Provenance is pinned by `aso_figure_provenance.py --check` |
 | Figure accessibility | Figure 2's divergent positions are boxed as well as red, so the distinction survives greyscale and red-green colour blindness |
 | Declarations | Competing interests, funding, ethics and AI-use statements written. The survivorship non-financial interest is declared |
-| Cover letter | `fusion-junction-aso-short-communication-cover-letter.md` — not needed by bioRxiv, kept for the journal step |
+| Cover letter | `fusion-junction-aso-cover-letter.md` — not needed by bioRxiv, kept for the journal step |
 
 ## 2 · Only the author can do these
 

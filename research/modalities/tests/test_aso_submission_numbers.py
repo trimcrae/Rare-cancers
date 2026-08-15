@@ -29,7 +29,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 MOD = os.path.dirname(HERE)
 REPO = os.path.dirname(os.path.dirname(MOD))
 PAPER = os.path.join(REPO, "research", "manuscripts", "aso",
-                     "fusion-junction-aso-short-communication.md")
+                     "fusion-junction-aso-research-article.md")
 COLLAPSE = os.path.join(MOD, "junction-aso-offtarget-locus-collapse.json")
 sys.path.insert(0, MOD)
 
