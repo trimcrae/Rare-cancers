@@ -21,6 +21,7 @@ resolves, and refuses the combinations the register's own rules forbid.
 from __future__ import annotations
 
 import argparse
+import glob
 import json
 import os
 import re
@@ -1318,6 +1319,9 @@ def check_doc_ids(g, f):
 
 PINNED = os.path.join(REPO, "research", "manuscripts", "pinned-figures.json")
 INSTRUCTION_DOCS = ("CLAUDE.md", "AGENTS.md")
+#: Project instructions that load on demand rather than every session. CLAUDE.md §6 routes to these by
+#: name, so a path quoted inside one is exactly as binding as a path quoted in CLAUDE.md itself.
+INSTRUCTION_SKILLS = os.path.join(REPO, ".claude", "skills")
 INSTRUCTION_REF = re.compile(r"[\(\[`]([A-Za-z0-9_./-]+\.md)")
 
 
@@ -1343,12 +1347,25 @@ def _instruction_paths():
     literal: it does not try to distinguish "read this" from "this is retired", because the
     `history_only: true` acknowledgement is how a genuine history reference declares itself. Over-
     flagging costs one frontmatter line; under-flagging is how a live document gets archived.
+
+    ⛔ THE SKILLS COUNT, AND OMITTING THEM TURNED THE BUILD RED (2026-08-15). CLAUDE.md's reference
+    material moved into `.claude/skills/*/SKILL.md` and §6 now routes to them by name. Reading only the
+    two resident files dropped every path those skills cite — `nr4a3-degrader-preprint-plan.md` among
+    them, which [D8] exists to stop being archived. The instruction corpus is defined by what BINDS a
+    reader, never by which file it happens to sit in.
     """
     out = set()
+    sources = [os.path.join(REPO, d) for d in INSTRUCTION_DOCS]
     for doc in INSTRUCTION_DOCS:
-        p = os.path.join(REPO, doc)
-        if not os.path.exists(p):
+        if not os.path.exists(os.path.join(REPO, doc)):
             raise RuntimeError(f"{doc} is missing — [D8]'s instruction half would be inert")
+    if os.path.isdir(INSTRUCTION_SKILLS):
+        skills = sorted(glob.glob(os.path.join(INSTRUCTION_SKILLS, "*", "SKILL.md")))
+        if not skills:
+            raise RuntimeError(".claude/skills/ exists but holds no SKILL.md — CLAUDE.md §6 routes to "
+                               "skills, so an empty set means [D8] is reading a truncated instruction corpus")
+        sources.extend(skills)
+    for p in sources:
         with open(p, encoding="utf-8") as fh:
             for m in INSTRUCTION_REF.finditer(fh.read()):
                 t = m.group(1).lstrip("./")
@@ -1461,9 +1478,20 @@ def check_document_frontmatter(g, f):
                       f"L5 items in the graph")
 
 
-#: Documents that name the registry validator's position in `preflight.sh`. One fact, four homes — so
+#: Documents that name the registry validator's position in `preflight.sh`. One fact, several homes — so
 #: the ordinal is READ from the script rather than trusted in any of them.
+#:
+#: ⛔ THE SKILLS ARE SCANNED TOO (2026-08-15). CLAUDE.md's nine-gate list moved into
+#: `.claude/skills/repo-gates/SKILL.md`, which says "gate 7 of preflight's 9" — a live ordinal that would
+#: have drifted unwatched the next time a gate was inserted. Relocating a fact does not relocate the
+#: obligation to check it.
 GATE_ORDINAL_DOCS = ("README.md", "CONTRIBUTING.md", "systems/POLICY-evidence.md", "CLAUDE.md")
+
+
+def _gate_ordinal_docs():
+    """`GATE_ORDINAL_DOCS` plus every on-demand instruction skill, as repo-relative paths."""
+    skills = sorted(glob.glob(os.path.join(INSTRUCTION_SKILLS, "*", "SKILL.md")))
+    return list(GATE_ORDINAL_DOCS) + [os.path.relpath(p, REPO) for p in skills]
 
 
 def check_preflight_gate_ordinal(g, f):
@@ -1491,7 +1519,7 @@ def check_preflight_gate_ordinal(g, f):
         return
     want = re.compile(rf"gate {idx} of (?:preflight|`?scripts/preflight\.sh`?)|"
                       rf"gate {idx} of preflight's {len(gates)}")
-    for rel in GATE_ORDINAL_DOCS:
+    for rel in _gate_ordinal_docs():
         path = os.path.join(REPO, rel)
         if not os.path.exists(path):
             continue
