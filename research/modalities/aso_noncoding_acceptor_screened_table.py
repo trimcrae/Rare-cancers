@@ -110,7 +110,7 @@ def _panel_row_keys():
     return set()
 
 
-def _partial_rows(parent, premrna, genome):
+def _partial_rows(parent, premrna, genome, skip=()):
     """Rows in the panel's field set for the screens that HAVE run, with the rest explicitly null.
 
     ⛔ WHY THIS EXISTS AND WHY IT IS NOT `junction_rows`. `junction_rows` ranks designs by
@@ -129,6 +129,8 @@ def _partial_rows(parent, premrna, genome):
         return []
     out = []
     for pan in atlas.get("panels") or []:
+        if pan.get("junction_label") in set(skip):
+            continue                      # this junction has a real alignment screen; not partial
         rows = []
         for d in pan.get("designs") or []:
             if not d.get("fusion_specific"):
@@ -315,14 +317,23 @@ def build():
     parent = APJT._load(PARENT_SCREEN) if pa_doc else {}
     premrna = APJT._load(PREMRNA_SCREEN) if pm_doc else {}
     genome = APJT._load(GENOME_SCREEN) if gn_doc else {}
-    if deep:
-        junctions = APJT.junction_rows(deep, parent, premrna, genome)
-        screens_complete = all(s["ran"] for s in states.values())
-    else:
-        junctions = _partial_rows(parent, premrna, genome)
-        screens_complete = False
+    # ⛔ THE TWO PATHS COEXIST PER JUNCTION, AND LEARNING THAT COST A ROW (2026-08-15). This read
+    # `if deep: … else: …`, so the moment ONE junction's alignment screen landed, every junction
+    # WITHOUT one vanished from the table — PGR e2 :: NR4A3 e2 went from a row of explicit nulls to
+    # no row at all. That is the absent-reading failure in its purest form: "this junction's screens
+    # have not run" and "this junction does not exist" rendered identically, and the disappearance
+    # was caused by a DIFFERENT junction's screen succeeding. Screen state is per junction, so the
+    # table is built per junction: complete rows where an alignment screen exists, explicit-null
+    # rows where it does not, and never a junction dropped because a sibling was luckier.
+    lane_screens_all_ran = all(s["ran"] for s in states.values())
+    junctions = APJT.junction_rows(deep, parent, premrna, genome) if deep else []
     for j in junctions:
-        j["screens_complete"] = screens_complete
+        j["screens_complete"] = lane_screens_all_ran
+    covered = {j["junction_label"] for j in junctions}
+    for j in _partial_rows(parent, premrna, genome, skip=covered):
+        j["screens_complete"] = False
+        junctions.append(j)
+    junctions.sort(key=lambda j: str(j["junction_label"]))
 
     # ⛔ EVERY SOURCE SCREEN IS SEAM-GRADED BEFORE ITS NUMBERS ARE QUOTED. The CI publish sweeps the
     # `modalities-cache` tree; the copies committed HERE sit in a subdirectory the repo-level sweep
@@ -358,16 +369,15 @@ def build():
         # that did not run: the same class of error as a stale "screened", in the field a reader
         # checks to see how much weight the rows carry.
         "⚠_not_a_measurement_of_its_own": (
-            ("Nothing here was re-screened. Every field is joined from a screen artifact that "
-             "already ran, by aso_per_junction_table.junction_rows — the same grader the panel's "
-             "table uses, called with a different root.")
-            if screens_complete or deep else
-            ("Nothing here was re-screened, AND THE ROWS ARE PARTIAL. The alignment screen that "
-             "supplies the transcriptome load has not run, so the rows were built by this module's "
-             "`_partial_rows` rather than by aso_per_junction_table.junction_rows: same field "
-             "names, checked against the panel artifact's own row keys, with every field of an "
-             "unrun screen left null and listed in `⛔_unmeasured_fields`. There is no ranking and "
-             "no `best_available`, because the rank key is one of the unmeasured fields.")),
+            "Nothing here was re-screened. A junction with `screens_complete: true` had its rows "
+            "built by aso_per_junction_table.junction_rows — the same grader the panel's table "
+            "uses, called with a different root — and every field is joined from a screen artifact "
+            "that ran. A junction with `screens_complete: false` has NOT had its alignment screen "
+            "run: its rows come from this module's `_partial_rows`, carry the same field names "
+            "(checked against the panel artifact's own row keys), leave every field of an unrun "
+            "screen null and listed in `⛔_unmeasured_fields`, and have no `best_available`, "
+            "because the rank key is one of the unmeasured fields. ⛔ The flag is PER JUNCTION: a "
+            "sibling junction's screen succeeding says nothing about this one."),
         "⛔_two_axes_not_one": (
             "gap_specificity_margin (fusion-versus-parent discrimination) and the transcriptome "
             "load move in opposite directions at some seams and are never combined into a single "

@@ -1,6 +1,6 @@
 {
  "_what": "Raw retrievals behind aso-offtarget-tissue-expression.json. One block per arm; an arm that failed says so here and its verdict downstream is `readable: false`.",
- "_generated_utc": "2026-08-13T22:59:16.764533+00:00",
+ "_generated_utc": "2026-08-15T13:58:56.716810+00:00",
  "loci_provenance": {
   "panel": [
    {
@@ -140,15 +140,266 @@
     "n_gap_paired_hybridisable": 155,
     "risk_class_read": "true_cleavage_risk",
     "n_loci": 17
+   },
+   {
+    "seam": "EWSR1_e13__NR4A3_e3",
+    "screen": "junction-aso-offtarget-e13n3-deep500-b1.json",
+    "role": "the second-most-common EWSR1::NR4A3 transcript reported in EMC (type 5)",
+    "junction_is_reported_in_patients": true,
+    "note": "Two independent patient series and one clinical assay. PMID 12378528: 'the second most common (type 5; two cases) was fusion of EWS exon 13 with CHN exon 3' \u2014 two of the fifteen EWSR1-rearranged tumours of the same 18-case series that supplies the exon 12 count, restated in the open-access CTOS 2001 supplement PMC2395470 (PMID 18521326), which is that series again and NOT a second cohort. PMID 29937513 IS a second cohort: 'exon13/exon3 and exon7/exon2 were detected respectively in samples #4 and #1' of five, by whole-transcriptome sequencing. PMID 32612944 builds a qRT-PCR panel around EWSR1(ex13)/NR4A3(ex3) among four junctions. The lead reagent shares no register with this seam and cannot engage it.",
+    "junction_label": "EWSR1_e13__NR4A3_e3",
+    "n_designs": 5,
+    "designs": [
+     {
+      "antisense_5to3": "GGGCATATCTCCACGG",
+      "gc_percent": 62.5,
+      "specificity_margin": 8,
+      "blast_rid": "7W06DZGN016",
+      "n_near_matches_reported": 63,
+      "n_minus_strand_not_hybridisable": 16,
+      "n_gap_disrupted_no_cleavage": 23,
+      "n_gap_paired_hybridisable": 24,
+      "loci": [
+       "CDC42SE1",
+       "FNBP1"
+      ]
+     },
+     {
+      "antisense_5to3": "GGCATATCTCCACGGA",
+      "gc_percent": 56.2,
+      "specificity_margin": 7,
+      "blast_rid": "7W06H2EG016",
+      "n_near_matches_reported": 65,
+      "n_minus_strand_not_hybridisable": 17,
+      "n_gap_disrupted_no_cleavage": 6,
+      "n_gap_paired_hybridisable": 42,
+      "loci": [
+       "EHMT2",
+       "FNBP1",
+       "LRP5L"
+      ]
+     },
+     {
+      "antisense_5to3": "AGGGCATATCTCCACG",
+      "gc_percent": 56.2,
+      "specificity_margin": 7,
+      "blast_rid": "7W06NVP2016",
+      "n_near_matches_reported": 76,
+      "n_minus_strand_not_hybridisable": 23,
+      "n_gap_disrupted_no_cleavage": 31,
+      "n_gap_paired_hybridisable": 22,
+      "loci": [
+       "CDC42SE1",
+       "ESYT2",
+       "THEMIS"
+      ]
+     },
+     {
+      "antisense_5to3": "GCATATCTCCACGGAG",
+      "gc_percent": 56.2,
+      "specificity_margin": 6,
+      "blast_rid": "7W06T8BG016",
+      "n_near_matches_reported": 41,
+      "n_minus_strand_not_hybridisable": 10,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_gap_paired_hybridisable": 31,
+      "loci": [
+       "EHMT2",
+       "LOC105374651",
+       "LRP5L",
+       "ZC3H4",
+       "ZNF236"
+      ]
+     },
+     {
+      "antisense_5to3": "CAGGGCATATCTCCAC",
+      "gc_percent": 56.2,
+      "specificity_margin": 6,
+      "blast_rid": "7W0718M5016",
+      "n_near_matches_reported": 115,
+      "n_minus_strand_not_hybridisable": 33,
+      "n_gap_disrupted_no_cleavage": 40,
+      "n_gap_paired_hybridisable": 42,
+      "loci": [
+       "ERBIN",
+       "ESYT2",
+       "ZNF215"
+      ]
+     }
+    ],
+    "n_gap_paired_hybridisable": 161,
+    "risk_class_read": "true_cleavage_risk",
+    "n_loci": 11
+   },
+   {
+    "seam": "TCF12_e5__NR4A3_e3",
+    "screen": "junction-aso-offtarget-tcf12e5n3-deep500-b1.json",
+    "role": "the only exon-resolved TCF12::NR4A3 breakpoint published in EMC",
+    "junction_is_reported_in_patients": true,
+    "note": "Reported at NUCLEOTIDE resolution rather than as an exon, which is why no literature sweep found it: GenBank AF289510.1 (421 bp, 'Homo sapiens TCF12-TEC fusion protein mRNA, partial cds', submitted 25-JUL-2000, citing PMID 11156374) splits 1..263 on chromosome 15 (15q21) and 264..421 on chromosome 9 (9q22). Mapped against the committed transcript models the donor side ends at TCF12 exon 5 and no other exon, the acceptor side begins at NR4A3 exon 3 and no other exon, and the seam is identical to the one the screens ran on. Corroborated independently by PMID 12826747, a TCF12 gene-structure paper reporting 21 exons \u2014 the same count as the committed model \u2014 and that 'intron 5 in the TCF12 gene corresponds to the region involved in a translocation, t(9;15)(q22;q21)'. \u26a0 ONE TUMOUR: neither breakpoint series behind the coverage ladder contains a TCF12-rearranged tumour, so this seam has a resolved junction and no within-partner distribution.",
+    "junction_label": "TCF12_e5__NR4A3_e3",
+    "n_designs": 5,
+    "designs": [
+     {
+      "antisense_5to3": "GGGCATATCCATCAGA",
+      "gc_percent": 50.0,
+      "specificity_margin": 8,
+      "blast_rid": "7W0WRVXM016",
+      "n_near_matches_reported": 83,
+      "n_minus_strand_not_hybridisable": 13,
+      "n_gap_disrupted_no_cleavage": 53,
+      "n_gap_paired_hybridisable": 17,
+      "loci": [
+       "PIK3CG"
+      ]
+     },
+     {
+      "antisense_5to3": "AGGGCATATCCATCAG",
+      "gc_percent": 50.0,
+      "specificity_margin": 7,
+      "blast_rid": "7W0WVY1R016",
+      "n_near_matches_reported": 67,
+      "n_minus_strand_not_hybridisable": 21,
+      "n_gap_disrupted_no_cleavage": 15,
+      "n_gap_paired_hybridisable": 31,
+      "loci": [
+       "EFCAB11",
+       "KCNG3",
+       "LINC02940",
+       "LOC107985219",
+       "PIK3CG"
+      ]
+     },
+     {
+      "antisense_5to3": "GGCATATCCATCAGAT",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "blast_rid": "7W0WZ825016",
+      "n_near_matches_reported": 168,
+      "n_minus_strand_not_hybridisable": 43,
+      "n_gap_disrupted_no_cleavage": 55,
+      "n_gap_paired_hybridisable": 70,
+      "loci": [
+       "HNRNPA2B1",
+       "LOC107984281",
+       "PIK3CG",
+       "PLAC8"
+      ]
+     },
+     {
+      "antisense_5to3": "CAGGGCATATCCATCA",
+      "gc_percent": 50.0,
+      "specificity_margin": 6,
+      "blast_rid": "7W0X3299016",
+      "n_near_matches_reported": 44,
+      "n_minus_strand_not_hybridisable": 22,
+      "n_gap_disrupted_no_cleavage": 19,
+      "n_gap_paired_hybridisable": 3,
+      "loci": [
+       "KCNG3",
+       "LOC107985219"
+      ]
+     },
+     {
+      "antisense_5to3": "GCATATCCATCAGATT",
+      "gc_percent": 37.5,
+      "specificity_margin": 6,
+      "blast_rid": "7W0X724U016",
+      "n_near_matches_reported": 199,
+      "n_minus_strand_not_hybridisable": 53,
+      "n_gap_disrupted_no_cleavage": 57,
+      "n_gap_paired_hybridisable": 89,
+      "loci": [
+       "EXOC2",
+       "HNRNPA2B1",
+       "LOC107984281",
+       "LOC107987169",
+       "LOC124905457",
+       "MROH2A",
+       "PLAC8"
+      ]
+     }
+    ],
+    "n_gap_paired_hybridisable": 210,
+    "risk_class_read": "true_cleavage_risk",
+    "n_loci": 12
    }
   ],
-  "n_seams": 2,
-  "n_loci_over_the_whole_panel": 23,
-  "n_gap_paired_hybridisable": 278,
+  "n_seams": 4,
+  "n_loci_over_the_whole_panel": 46,
+  "n_gap_paired_hybridisable": 649,
   "risk_class_read": "true_cleavage_risk",
   "locus_parser": "junction_aso_locus_collapse.locus_of, corrected 2026-08-13 (5233cf867) to read NCBI's defline grammar rather than the text before the first comma. This module delegates to it and carries no parser of its own."
  },
  "loci": [
+  {
+   "locus": "HNRNPA2B1",
+   "n_transcript_records": 100,
+   "n_curated_records": 28,
+   "n_predicted_records": 72,
+   "accessions": [
+    "NM_001438063",
+    "NM_001438568",
+    "NM_001438569",
+    "NM_001438570",
+    "NM_001438571",
+    "NM_001438572",
+    "NM_001438573",
+    "NM_001438574",
+    "NM_001438575",
+    "NM_001438576",
+    "NM_001438577",
+    "NM_001438578",
+    "NM_002137",
+    "NM_031243",
+    "XR_001744665",
+    "XR_001744666",
+    "XR_001744670",
+    "XR_001744671",
+    "XR_001744672",
+    "XR_001744673",
+    "XR_001744674",
+    "XR_002956424",
+    "XR_007060011",
+    "XR_007060012",
+    "XR_007060013",
+    "XR_007060014",
+    "XR_007060015",
+    "XR_007060016",
+    "XR_007060017",
+    "XR_008487568",
+    "XR_008487569",
+    "XR_008487570",
+    "XR_008487571",
+    "XR_008487572",
+    "XR_008487573",
+    "XR_008487574",
+    "XR_008487575",
+    "XR_008487576",
+    "XR_008487577",
+    "XR_008487578",
+    "XR_008487579",
+    "XR_008487580",
+    "XR_008487581",
+    "XR_008487582",
+    "XR_008487583",
+    "XR_008487584",
+    "XR_008487585",
+    "XR_242076",
+    "XR_242077",
+    "XR_428077"
+   ],
+   "definition_example": "Homo sapiens heterogeneous nuclear ribonucleoprotein A2/B1 (HNRNPA2B1), transcript variant 3, mRNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT",
+    "GGCATATCCATCAGAT"
+   ],
+   "n_designs_hitting_it": 2,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
   {
    "locus": "ANKS1B",
    "n_transcript_records": 67,
@@ -280,6 +531,81 @@
    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
   },
   {
+   "locus": "PIK3CG",
+   "n_transcript_records": 51,
+   "n_curated_records": 9,
+   "n_predicted_records": 42,
+   "accessions": [
+    "NM_001282426",
+    "NM_001282427",
+    "NM_002649",
+    "XM_005250443",
+    "XM_011516316",
+    "XM_011516317",
+    "XM_017012328",
+    "XM_047420479",
+    "XM_047420480",
+    "XM_047420481",
+    "XM_054358410",
+    "XM_054358411",
+    "XM_054358412",
+    "XM_054358413",
+    "XM_054358414",
+    "XM_054358415",
+    "XM_054358416"
+   ],
+   "definition_example": "Homo sapiens phosphatidylinositol-4,5-bisphosphate 3-kinase catalytic subunit gamma (PIK3CG), transcript variant 2, mRNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCCATCAG",
+    "GGCATATCCATCAGAT",
+    "GGGCATATCCATCAGA"
+   ],
+   "n_designs_hitting_it": 3,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "FNBP1",
+   "n_transcript_records": 42,
+   "n_curated_records": 22,
+   "n_predicted_records": 20,
+   "accessions": [
+    "NM_001438006",
+    "NM_001439041",
+    "NM_001439042",
+    "NM_001439046",
+    "NM_001439047",
+    "NM_001439050",
+    "NM_001439051",
+    "NM_001439053",
+    "NM_001439054",
+    "NM_001439055",
+    "NM_015033",
+    "XM_005251826",
+    "XM_011518401",
+    "XM_047423013",
+    "XM_047423014",
+    "XM_047423020",
+    "XM_054362399",
+    "XM_054362403",
+    "XM_054362405",
+    "XM_054362416",
+    "XM_054362423"
+   ],
+   "definition_example": "Homo sapiens formin binding protein 1 (FNBP1), transcript variant 4, mRNA",
+   "seams": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GGCATATCTCCACGGA",
+    "GGGCATATCTCCACGG"
+   ],
+   "n_designs_hitting_it": 2,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
    "locus": "ZNF667",
    "n_transcript_records": 37,
    "n_curated_records": 3,
@@ -331,6 +657,161 @@
     "GGGCATATCATCAAAC"
    ],
    "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "EHMT2",
+   "n_transcript_records": 34,
+   "n_curated_records": 22,
+   "n_predicted_records": 12,
+   "accessions": [
+    "NM_001289413",
+    "NM_001318833",
+    "NM_001363689",
+    "NM_001395160",
+    "NM_001395161",
+    "NM_001395162",
+    "NM_001395163",
+    "NM_001395164",
+    "NM_001395165",
+    "NM_006709",
+    "NM_025256",
+    "XM_006714974",
+    "XM_006714975",
+    "XM_054328443",
+    "XM_054328444",
+    "XM_054330993",
+    "XM_054330994"
+   ],
+   "definition_example": "Homo sapiens euchromatic histone lysine methyltransferase 2 (EHMT2), transcript variant 1, mRNA",
+   "seams": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTCCACGGAG",
+    "GGCATATCTCCACGGA"
+   ],
+   "n_designs_hitting_it": 2,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "MROH2A",
+   "n_transcript_records": 28,
+   "n_curated_records": 2,
+   "n_predicted_records": 26,
+   "accessions": [
+    "NM_001367507",
+    "NM_001394639",
+    "XM_011511076",
+    "XM_011511086",
+    "XM_024452839",
+    "XM_024452840",
+    "XM_024452841",
+    "XM_024452842",
+    "XM_024452843",
+    "XM_024452844",
+    "XM_024452845",
+    "XM_024452846",
+    "XM_024452847",
+    "XM_024452848",
+    "XM_024452849",
+    "XM_054341700",
+    "XM_054341701",
+    "XM_054341702",
+    "XM_054341703",
+    "XM_054341704",
+    "XM_054341705",
+    "XM_054341706",
+    "XM_054341707",
+    "XM_054341708",
+    "XM_054341709",
+    "XM_054341710",
+    "XM_054341711",
+    "XM_054341712"
+   ],
+   "definition_example": "Homo sapiens maestro heat like repeat family member 2A (MROH2A), transcript variant 1, mRNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT"
+   ],
+   "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "ZNF215",
+   "n_transcript_records": 27,
+   "n_curated_records": 10,
+   "n_predicted_records": 17,
+   "accessions": [
+    "NM_001354853",
+    "NM_001354854",
+    "NM_001354855",
+    "NM_001354856",
+    "NM_001354857",
+    "NM_001354858",
+    "NM_001354859",
+    "NM_001354860",
+    "NM_013250",
+    "NR_149005",
+    "XM_024448683",
+    "XM_047427566",
+    "XM_047427567",
+    "XM_047427568",
+    "XM_047427569",
+    "XM_047427570",
+    "XM_047427571",
+    "XM_047427572",
+    "XM_054369903",
+    "XM_054369904",
+    "XM_054369905",
+    "XM_054369906",
+    "XM_054369907",
+    "XM_054369908",
+    "XM_054369909",
+    "XM_054369910",
+    "XR_002957191"
+   ],
+   "definition_example": "Homo sapiens zinc finger protein 215 (ZNF215), transcript variant 2, mRNA",
+   "seams": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "CAGGGCATATCTCCAC"
+   ],
+   "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "ESYT2",
+   "n_transcript_records": 26,
+   "n_curated_records": 4,
+   "n_predicted_records": 22,
+   "accessions": [
+    "NM_001367773",
+    "NM_020728",
+    "XM_024446846",
+    "XM_024446847",
+    "XM_024446848",
+    "XM_024446849",
+    "XM_047420658",
+    "XM_047420659",
+    "XM_047420660",
+    "XM_054358714",
+    "XM_054358715",
+    "XM_054358716",
+    "XM_054358717"
+   ],
+   "definition_example": "Homo sapiens extended synaptotagmin 2 (ESYT2), transcript variant 1, mRNA",
+   "seams": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCTCCACG",
+    "CAGGGCATATCTCCAC"
+   ],
+   "n_designs_hitting_it": 2,
    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
   },
   {
@@ -492,6 +973,121 @@
    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
   },
   {
+   "locus": "LINC02940",
+   "n_transcript_records": 9,
+   "n_curated_records": 0,
+   "n_predicted_records": 9,
+   "accessions": [
+    "XR_007067865",
+    "XR_007067866",
+    "XR_007067867",
+    "XR_007067869",
+    "XR_007090174",
+    "XR_007090175",
+    "XR_007090176",
+    "XR_007090178",
+    "XR_007090179"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens long intergenic non-protein coding RNA 2940 (LINC02940), transcript variant X1, ncRNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCCATCAG"
+   ],
+   "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "LRP5L",
+   "n_transcript_records": 8,
+   "n_curated_records": 0,
+   "n_predicted_records": 8,
+   "accessions": [
+    "XR_007090518",
+    "XR_007090519",
+    "XR_007090520",
+    "XR_007090521"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens LDL receptor related protein 5 like (pseudogene) (LRP5L), transcript variant X13, misc_RNA",
+   "seams": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTCCACGGAG",
+    "GGCATATCTCCACGGA"
+   ],
+   "n_designs_hitting_it": 2,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "CDC42SE1",
+   "n_transcript_records": 6,
+   "n_curated_records": 2,
+   "n_predicted_records": 4,
+   "accessions": [
+    "NM_001038707",
+    "XM_017001847",
+    "XM_054337751"
+   ],
+   "definition_example": "Homo sapiens CDC42 small effector 1 (CDC42SE1), transcript variant 1, mRNA",
+   "seams": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCTCCACG",
+    "GGGCATATCTCCACGG"
+   ],
+   "n_designs_hitting_it": 2,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "EXOC2",
+   "n_transcript_records": 6,
+   "n_curated_records": 0,
+   "n_predicted_records": 6,
+   "accessions": [
+    "XM_017011025",
+    "XM_047419016",
+    "XM_047419017",
+    "XM_054355858",
+    "XM_054355859",
+    "XM_054355860"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens exocyst complex component 2 (EXOC2), transcript variant X13, mRNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT"
+   ],
+   "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "THEMIS",
+   "n_transcript_records": 6,
+   "n_curated_records": 0,
+   "n_predicted_records": 6,
+   "accessions": [
+    "XM_047418763",
+    "XM_047418765",
+    "XM_047418767",
+    "XM_054355406",
+    "XM_054355408",
+    "XM_054355410"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens thymocyte selection associated (THEMIS), transcript variant X1, mRNA >gi|2462489560|ref|XM_054328690.1| PREDICTED: Homo sapiens thymocyte selection associated (THEMIS), transcript variant X1, mRNA",
+   "seams": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCTCCACG"
+   ],
+   "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
    "locus": "LOC105374140",
    "n_transcript_records": 5,
    "n_curated_records": 0,
@@ -536,6 +1132,26 @@
    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
   },
   {
+   "locus": "KCNG3",
+   "n_transcript_records": 4,
+   "n_curated_records": 0,
+   "n_predicted_records": 4,
+   "accessions": [
+    "XR_007069666",
+    "XR_008486299"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens potassium voltage-gated channel modifier subfamily G member 3 (KCNG3), transcript variant X1, misc_RNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCCATCAG",
+    "CAGGGCATATCCATCA"
+   ],
+   "n_designs_hitting_it": 2,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
    "locus": "LOC105370997",
    "n_transcript_records": 4,
    "n_curated_records": 4,
@@ -557,6 +1173,47 @@
    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
   },
   {
+   "locus": "LOC105374651",
+   "n_transcript_records": 4,
+   "n_curated_records": 0,
+   "n_predicted_records": 4,
+   "accessions": [
+    "XR_007075480",
+    "XR_925783",
+    "XR_925785",
+    "XR_925786"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens uncharacterized LOC105374651 (LOC105374651), transcript variant X5, ncRNA",
+   "seams": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTCCACGGAG"
+   ],
+   "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "PLAC8",
+   "n_transcript_records": 4,
+   "n_curated_records": 4,
+   "n_predicted_records": 0,
+   "accessions": [
+    "NM_001130716",
+    "NM_016619"
+   ],
+   "definition_example": "Homo sapiens placenta associated 8 (PLAC8), transcript variant 1, mRNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT",
+    "GGCATATCCATCAGAT"
+   ],
+   "n_designs_hitting_it": 2,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
    "locus": "SLC17A3",
    "n_transcript_records": 4,
    "n_curated_records": 4,
@@ -574,6 +1231,27 @@
     "GGCATATCTTGTGTGT"
    ],
    "n_designs_hitting_it": 2,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "ZC3H4",
+   "n_transcript_records": 4,
+   "n_curated_records": 0,
+   "n_predicted_records": 4,
+   "accessions": [
+    "XM_005258676",
+    "XM_047438514",
+    "XM_054320345",
+    "XM_054320352"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens zinc finger CCCH-type containing 4 (ZC3H4), transcript variant X2, mRNA",
+   "seams": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTCCACGGAG"
+   ],
+   "n_designs_hitting_it": 1,
    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
   },
   {
@@ -632,6 +1310,101 @@
    ],
    "designs_hitting_it": [
     "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "EFCAB11",
+   "n_transcript_records": 2,
+   "n_curated_records": 2,
+   "n_predicted_records": 0,
+   "accessions": [
+    "NM_001284266",
+    "NM_001284268"
+   ],
+   "definition_example": "Homo sapiens EF-hand calcium binding domain 11 (EFCAB11), transcript variant 2, mRNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCCATCAG"
+   ],
+   "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "ERBIN",
+   "n_transcript_records": 2,
+   "n_curated_records": 0,
+   "n_predicted_records": 2,
+   "accessions": [
+    "XM_047417386",
+    "XM_054352933"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens erbb2 interacting protein (ERBIN), transcript variant X12, mRNA",
+   "seams": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "CAGGGCATATCTCCAC"
+   ],
+   "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "LOC107984281",
+   "n_transcript_records": 2,
+   "n_curated_records": 2,
+   "n_predicted_records": 0,
+   "accessions": [
+    "NR_186705"
+   ],
+   "definition_example": "Homo sapiens uncharacterized LOC107984281 (LOC107984281), transcript variant 2, long non-coding RNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT",
+    "GGCATATCCATCAGAT"
+   ],
+   "n_designs_hitting_it": 2,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "LOC107985219",
+   "n_transcript_records": 2,
+   "n_curated_records": 0,
+   "n_predicted_records": 2,
+   "accessions": [
+    "XR_007070783"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens uncharacterized LOC107985219 (LOC107985219), transcript variant X2, ncRNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "AGGGCATATCCATCAG",
+    "CAGGGCATATCCATCA"
+   ],
+   "n_designs_hitting_it": 2,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "ZNF236",
+   "n_transcript_records": 2,
+   "n_curated_records": 0,
+   "n_predicted_records": 2,
+   "accessions": [
+    "XM_011526169",
+    "XM_054319099"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens zinc finger protein 236 (ZNF236), transcript variant X5, mRNA",
+   "seams": [
+    "EWSR1_e13__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCTCCACGGAG"
    ],
    "n_designs_hitting_it": 1,
    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
@@ -704,6 +1477,42 @@
    ],
    "designs_hitting_it": [
     "GCATATCTTGTGTGTG"
+   ],
+   "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "LOC107987169",
+   "n_transcript_records": 1,
+   "n_curated_records": 0,
+   "n_predicted_records": 1,
+   "accessions": [
+    "XR_007063616"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens uncharacterized LOC107987169 (LOC107987169), misc_RNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT"
+   ],
+   "n_designs_hitting_it": 1,
+   "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
+  },
+  {
+   "locus": "LOC124905457",
+   "n_transcript_records": 1,
+   "n_curated_records": 0,
+   "n_predicted_records": 1,
+   "accessions": [
+    "XR_007069166"
+   ],
+   "definition_example": "PREDICTED: Homo sapiens placenta-specific gene 8 protein-like (LOC124905457), misc_RNA",
+   "seams": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT"
    ],
    "n_designs_hitting_it": 1,
    "identity_of_every_record": "14/16 (two mismatches), the loosest the screen admits"
@@ -890,6 +1699,130 @@
      ]
     }
    ],
+   "CDC42SE1": [
+    {
+     "gencode_id": "ENSG00000197622.12",
+     "symbol": "CDC42SE1",
+     "values": [
+      75.8252,
+      103.18,
+      72.83,
+      137.38,
+      115.3,
+      108.477,
+      106.395,
+      25.208,
+      25.3578,
+      24.9807,
+      67.0868,
+      75.0763,
+      36.9868,
+      34.2651,
+      27.5744,
+      35.0261,
+      22.4507,
+      21.8419,
+      63.9735,
+      33.885,
+      95.1201,
+      70.2234,
+      123.875,
+      117.376,
+      118.862,
+      87.357,
+      70.9352,
+      88.1354,
+      161.586,
+      83.0417,
+      128.734,
+      45.992,
+      24.4897,
+      44.7348,
+      78.9687,
+      22.7371,
+      166.854,
+      106.617,
+      22.3259,
+      187.566,
+      101.975,
+      30.8955,
+      84.4456,
+      130.226,
+      114.879,
+      113.737,
+      98.2257,
+      234.032,
+      68.8949,
+      39.5399,
+      127.908,
+      108.243,
+      148.655,
+      351.693
+     ]
+    }
+   ],
+   "KCNG3": [
+    {
+     "gencode_id": "ENSG00000171126.7",
+     "symbol": "KCNG3",
+     "values": [
+      0.0548882,
+      0.0232506,
+      1.21374,
+      0.0,
+      0.0197011,
+      0.0,
+      0.0236165,
+      0.425385,
+      0.739614,
+      0.838839,
+      0.0,
+      0.0,
+      0.631418,
+      1.02713,
+      0.405505,
+      0.212953,
+      1.17718,
+      0.5501,
+      0.0209485,
+      0.103026,
+      0.073094,
+      0.0,
+      0.0163656,
+      0.0343014,
+      0.0422426,
+      0.0979842,
+      0.44916,
+      0.0,
+      0.0252349,
+      0.0,
+      0.10749,
+      0.0,
+      0.0,
+      0.09125,
+      0.0629553,
+      0.0,
+      0.110842,
+      0.0418979,
+      0.0,
+      1.2765,
+      0.390084,
+      0.104234,
+      0.784448,
+      0.131932,
+      0.130684,
+      0.19542,
+      0.0681086,
+      0.0,
+      0.0207649,
+      1.47449,
+      0.0138964,
+      0.0470448,
+      0.0790855,
+      0.0
+     ]
+    }
+   ],
    "GMCL1": [
     {
      "gencode_id": "ENSG00000087338.4",
@@ -949,6 +1882,68 @@
       13.2772,
       13.103,
       4.96083
+     ]
+    }
+   ],
+   "MROH2A": [
+    {
+     "gencode_id": "ENSG00000185038.14",
+     "symbol": "MROH2A",
+     "values": [
+      0.0216765,
+      0.0162619,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.189809,
+      0.00434853,
+      0.0188439,
+      0.00970694,
+      0.0,
+      0.0,
+      0.0152331,
+      0.0166215,
+      0.0,
+      0.0165405,
+      0.0326402,
+      0.0,
+      0.0,
+      0.0,
+      0.0119749,
+      0.0,
+      0.00662755,
+      0.0,
+      0.0,
+      0.0,
+      0.0281097,
+      0.0,
+      0.236003,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.421763,
+      0.0668723,
+      1.03575,
+      0.0170688,
+      0.00475007,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.166773,
+      0.0105844,
+      0.109545,
+      0.271726,
+      0.0350884,
+      0.0153243,
+      0.530088,
+      6.15044,
+      2.4173,
+      0.0,
+      0.0649153,
+      0.0
      ]
     }
    ],
@@ -1200,6 +2195,192 @@
      ]
     }
    ],
+   "PLAC8": [
+    {
+     "gencode_id": "ENSG00000145287.10",
+     "symbol": "PLAC8",
+     "values": [
+      0.722753,
+      1.20691,
+      0.59164,
+      0.337813,
+      0.505249,
+      0.235023,
+      0.592669,
+      0.163102,
+      0.13195,
+      0.182715,
+      0.120456,
+      0.114561,
+      0.135898,
+      0.137251,
+      0.178143,
+      0.286389,
+      0.168623,
+      0.148014,
+      0.450361,
+      0.247351,
+      0.83751,
+      0.310058,
+      118.903,
+      0.685161,
+      0.964334,
+      0.497391,
+      15.5966,
+      0.247502,
+      17.7646,
+      0.261896,
+      1.33554,
+      0.390602,
+      0.117681,
+      0.316492,
+      0.303712,
+      1.43106,
+      13.3864,
+      1.11898,
+      0.0966863,
+      0.43831,
+      0.4623,
+      0.172794,
+      0.676919,
+      1.1847,
+      0.194146,
+      0.192068,
+      20.2123,
+      45.8588,
+      6.58194,
+      0.243858,
+      0.933081,
+      0.664847,
+      0.880575,
+      44.3663
+     ]
+    }
+   ],
+   "ERBIN": [
+    {
+     "gencode_id": "ENSG00000112851.14",
+     "symbol": "ERBIN",
+     "values": [
+      20.0646,
+      16.8703,
+      13.0844,
+      19.6338,
+      19.0596,
+      22.8525,
+      24.1564,
+      27.7398,
+      15.9279,
+      26.1005,
+      5.77924,
+      7.64603,
+      18.5182,
+      17.216,
+      25.0403,
+      23.4683,
+      19.2016,
+      28.1589,
+      41.7193,
+      31.8695,
+      20.079,
+      43.7772,
+      34.0026,
+      22.8133,
+      25.9369,
+      25.3981,
+      20.0874,
+      18.2381,
+      16.4099,
+      18.3734,
+      24.1347,
+      7.67099,
+      5.06868,
+      9.38281,
+      14.6816,
+      9.80252,
+      21.8516,
+      17.5849,
+      9.68803,
+      36.1805,
+      22.6935,
+      7.20383,
+      11.2482,
+      21.4279,
+      27.4325,
+      26.8072,
+      27.2757,
+      20.9684,
+      15.9583,
+      22.366,
+      25.6865,
+      25.4118,
+      21.0191,
+      7.92701
+     ]
+    }
+   ],
+   "EXOC2": [
+    {
+     "gencode_id": "ENSG00000112685.13",
+     "symbol": "EXOC2",
+     "values": [
+      18.6834,
+      14.1307,
+      11.4094,
+      15.2466,
+      16.8362,
+      18.3438,
+      16.9751,
+      8.16186,
+      9.18653,
+      9.36771,
+      17.5677,
+      15.4592,
+      10.9705,
+      12.9649,
+      8.73899,
+      11.5486,
+      9.9486,
+      7.88568,
+      16.5177,
+      9.88425,
+      17.5491,
+      18.8293,
+      19.3341,
+      20.4883,
+      19.9944,
+      15.552,
+      13.0776,
+      15.6167,
+      15.5555,
+      15.3192,
+      13.8581,
+      7.10686,
+      4.72421,
+      6.53647,
+      8.87489,
+      5.26716,
+      18.0395,
+      12.7641,
+      7.51036,
+      22.464,
+      13.359,
+      4.42018,
+      16.1896,
+      13.5308,
+      15.7264,
+      17.8356,
+      14.3299,
+      16.9385,
+      10.8557,
+      26.8649,
+      18.6714,
+      18.263,
+      17.8534,
+      4.7191
+     ]
+    }
+   ],
    "SLC17A3": [
     {
      "gencode_id": "ENSG00000124564.17",
@@ -1262,6 +2443,68 @@
      ]
     }
    ],
+   "EHMT2": [
+    {
+     "gencode_id": "ENSG00000204371.11",
+     "symbol": "EHMT2",
+     "values": [
+      27.5156,
+      21.1331,
+      24.3168,
+      33.2034,
+      28.5621,
+      34.5073,
+      42.5362,
+      32.5701,
+      43.8952,
+      46.9736,
+      80.3132,
+      82.7734,
+      59.3986,
+      51.1362,
+      31.162,
+      38.3021,
+      57.0694,
+      40.1401,
+      29.5564,
+      25.8703,
+      28.5798,
+      30.2515,
+      35.7132,
+      64.2891,
+      62.5252,
+      36.6038,
+      25.4323,
+      29.261,
+      26.4956,
+      27.4974,
+      47.7943,
+      8.82994,
+      5.71736,
+      13.2255,
+      16.7001,
+      6.89285,
+      26.4531,
+      26.4786,
+      6.40587,
+      52.9549,
+      56.4751,
+      10.0284,
+      43.4531,
+      43.5499,
+      30.0377,
+      29.8489,
+      31.2317,
+      39.266,
+      20.7435,
+      64.7069,
+      39.4855,
+      74.4922,
+      38.8672,
+      8.58409
+     ]
+    }
+   ],
    "LAMA4": [
     {
      "gencode_id": "ENSG00000112769.18",
@@ -1321,6 +2564,254 @@
       99.5201,
       35.1291,
       0.0851413
+     ]
+    }
+   ],
+   "THEMIS": [
+    {
+     "gencode_id": "ENSG00000172673.10",
+     "symbol": "THEMIS",
+     "values": [
+      0.263648,
+      0.561853,
+      0.0821226,
+      0.224526,
+      0.297823,
+      0.0642031,
+      0.41654,
+      0.2254,
+      0.871032,
+      0.0813102,
+      0.0298891,
+      0.0349864,
+      0.829126,
+      1.85131,
+      0.248063,
+      0.112701,
+      0.0523739,
+      0.107263,
+      0.437077,
+      0.165421,
+      0.209173,
+      0.0197828,
+      0.216818,
+      0.242536,
+      0.349294,
+      0.105844,
+      0.365147,
+      0.0789553,
+      0.251673,
+      0.108633,
+      0.453075,
+      0.0638131,
+      0.0133934,
+      0.0769111,
+      0.184688,
+      0.131524,
+      1.3773,
+      0.317734,
+      0.0151905,
+      0.218127,
+      0.0755687,
+      0.0551082,
+      0.0989884,
+      0.361869,
+      0.141765,
+      0.0934557,
+      1.59462,
+      2.49292,
+      0.374846,
+      0.0980752,
+      0.616393,
+      0.213661,
+      0.507863,
+      1.32459
+     ]
+    }
+   ],
+   "HNRNPA2B1": [
+    {
+     "gencode_id": "ENSG00000122566.20",
+     "symbol": "HNRNPA2B1",
+     "values": [
+      383.377,
+      443.305,
+      392.43,
+      415.874,
+      421.83,
+      406.872,
+      465.932,
+      204.186,
+      199.816,
+      223.879,
+      661.842,
+      578.84,
+      214.379,
+      253.219,
+      196.756,
+      230.396,
+      221.921,
+      182.418,
+      363.259,
+      224.722,
+      433.166,
+      487.473,
+      838.365,
+      681.891,
+      691.186,
+      415.953,
+      380.248,
+      424.621,
+      375.378,
+      401.544,
+      584.508,
+      243.001,
+      196.692,
+      247.244,
+      457.303,
+      184.122,
+      539.829,
+      352.998,
+      345.481,
+      656.577,
+      889.442,
+      185.797,
+      489.918,
+      466.632,
+      324.92,
+      300.003,
+      465.619,
+      573.446,
+      317.749,
+      548.485,
+      600.918,
+      763.298,
+      510.094,
+      162.861
+     ]
+    }
+   ],
+   "PIK3CG": [
+    {
+     "gencode_id": "ENSG00000105851.10",
+     "symbol": "PIK3CG",
+     "values": [
+      1.20027,
+      1.21308,
+      0.42873,
+      0.70941,
+      0.93014,
+      0.356232,
+      0.602444,
+      0.0957603,
+      0.122558,
+      0.0967959,
+      0.0360104,
+      0.0259895,
+      0.11885,
+      0.137109,
+      0.110055,
+      0.15625,
+      0.0858311,
+      0.0649129,
+      0.443014,
+      0.193904,
+      0.78468,
+      0.0,
+      4.37447,
+      0.44239,
+      0.646442,
+      0.490736,
+      0.940126,
+      0.426177,
+      0.295691,
+      0.418753,
+      0.547946,
+      0.20887,
+      0.153439,
+      0.168719,
+      0.368569,
+      0.143094,
+      2.39191,
+      0.789253,
+      0.0673436,
+      0.675902,
+      0.568242,
+      0.120781,
+      0.307494,
+      0.491809,
+      0.25108,
+      0.280024,
+      2.24336,
+      5.79015,
+      0.573615,
+      4.96589,
+      0.878018,
+      0.607043,
+      0.433137,
+      7.5024
+     ]
+    }
+   ],
+   "ESYT2": [
+    {
+     "gencode_id": "ENSG00000117868.15",
+     "symbol": "ESYT2",
+     "values": [
+      77.6011,
+      58.6357,
+      42.6821,
+      140.154,
+      103.781,
+      139.922,
+      60.0158,
+      12.7671,
+      16.8828,
+      19.1854,
+      45.987,
+      37.4103,
+      20.214,
+      23.6556,
+      16.005,
+      21.1442,
+      18.7525,
+      16.8601,
+      20.5421,
+      15.5156,
+      59.1211,
+      84.0399,
+      33.9498,
+      63.0085,
+      72.2046,
+      67.4836,
+      40.9678,
+      93.1317,
+      41.1573,
+      92.0533,
+      77.7379,
+      31.1768,
+      18.6332,
+      14.2622,
+      28.2804,
+      10.4204,
+      56.7385,
+      45.5912,
+      32.7986,
+      75.3294,
+      80.1191,
+      14.4391,
+      34.2349,
+      41.193,
+      44.7182,
+      51.5971,
+      36.0069,
+      21.8239,
+      24.5809,
+      27.1968,
+      54.0322,
+      74.698,
+      54.1525,
+      9.39112
      ]
     }
    ],
@@ -1448,6 +2939,68 @@
      ]
     }
    ],
+   "FNBP1": [
+    {
+     "gencode_id": "ENSG00000187239.16",
+     "symbol": "FNBP1",
+     "values": [
+      29.6173,
+      23.4341,
+      12.5336,
+      46.2268,
+      44.9519,
+      54.2347,
+      108.541,
+      29.3369,
+      22.6703,
+      29.4327,
+      181.53,
+      170.723,
+      28.8159,
+      27.1147,
+      29.9058,
+      36.5517,
+      26.5976,
+      29.9124,
+      63.8643,
+      38.5907,
+      23.5901,
+      23.5465,
+      349.916,
+      59.3585,
+      59.4295,
+      171.897,
+      56.7764,
+      163.72,
+      27.1598,
+      200.59,
+      61.0584,
+      9.80893,
+      5.83833,
+      12.124,
+      14.0578,
+      7.07781,
+      38.0264,
+      18.6521,
+      11.5205,
+      56.4925,
+      37.5072,
+      3.60846,
+      27.2009,
+      58.5925,
+      31.4946,
+      33.7678,
+      51.244,
+      66.8513,
+      16.0306,
+      31.1675,
+      55.5467,
+      85.0977,
+      38.4921,
+      34.3615
+     ]
+    }
+   ],
    "NRP1": [
     {
      "gencode_id": "ENSG00000099250.17",
@@ -1507,6 +3060,68 @@
       34.3699,
       14.9283,
       0.133483
+     ]
+    }
+   ],
+   "ZNF215": [
+    {
+     "gencode_id": "ENSG00000149054.15",
+     "symbol": "ZNF215",
+     "values": [
+      0.586965,
+      0.539111,
+      0.497629,
+      0.605678,
+      1.03067,
+      0.597734,
+      0.834458,
+      0.213016,
+      0.356254,
+      0.189811,
+      0.148052,
+      0.189111,
+      0.49507,
+      0.646324,
+      0.209498,
+      0.649523,
+      0.274321,
+      0.121558,
+      0.134608,
+      0.105678,
+      0.676428,
+      5.21149,
+      5.62715,
+      1.14602,
+      1.64307,
+      0.431978,
+      1.9914,
+      0.250255,
+      1.0764,
+      0.234381,
+      0.651643,
+      0.334324,
+      0.0724498,
+      0.674569,
+      1.26517,
+      0.130825,
+      0.832079,
+      1.77071,
+      0.0741992,
+      0.755718,
+      0.753191,
+      1.28242,
+      0.338141,
+      1.53552,
+      0.404798,
+      0.376381,
+      2.85408,
+      1.99195,
+      0.400175,
+      2.82313,
+      1.74689,
+      1.3809,
+      1.28695,
+      0.0256855
      ]
     }
    ],
@@ -1696,6 +3311,68 @@
      ]
     }
    ],
+   "EFCAB11": [
+    {
+     "gencode_id": "ENSG00000140025.15",
+     "symbol": "EFCAB11",
+     "values": [
+      1.04734,
+      0.904427,
+      1.23526,
+      0.75543,
+      0.827753,
+      0.849163,
+      1.19272,
+      1.5767,
+      1.22654,
+      1.32001,
+      1.34748,
+      1.1269,
+      1.06099,
+      1.35497,
+      1.19704,
+      1.36178,
+      1.28927,
+      1.19901,
+      2.02967,
+      1.54888,
+      1.24887,
+      2.05269,
+      2.1403,
+      1.29644,
+      1.26827,
+      0.958111,
+      0.883942,
+      0.729036,
+      1.10764,
+      0.800102,
+      0.822801,
+      0.36388,
+      0.20715,
+      0.918216,
+      1.20132,
+      0.36777,
+      0.683487,
+      1.23075,
+      0.208811,
+      0.958414,
+      1.19012,
+      0.292428,
+      1.32448,
+      1.21157,
+      0.797162,
+      0.873109,
+      0.83084,
+      0.896648,
+      0.712053,
+      8.39163,
+      1.4469,
+      0.912442,
+      1.12281,
+      0.164612
+     ]
+    }
+   ],
    "UMOD": [
     {
      "gencode_id": "ENSG00000169344.15",
@@ -1882,6 +3559,130 @@
      ]
     }
    ],
+   "ZNF236": [
+    {
+     "gencode_id": "ENSG00000130856.15",
+     "symbol": "ZNF236",
+     "values": [
+      5.24462,
+      4.54102,
+      3.93967,
+      4.69819,
+      4.7124,
+      5.49324,
+      5.99237,
+      2.46969,
+      3.34876,
+      3.20818,
+      7.04592,
+      7.40295,
+      4.00742,
+      4.09022,
+      2.85127,
+      2.97144,
+      3.63949,
+      2.51979,
+      3.93777,
+      2.50919,
+      5.12144,
+      6.7896,
+      7.84858,
+      7.99522,
+      8.44619,
+      6.13005,
+      3.9225,
+      5.21677,
+      4.30901,
+      5.06744,
+      6.89375,
+      2.33414,
+      1.41572,
+      2.29455,
+      2.90316,
+      1.67968,
+      5.1846,
+      4.59203,
+      2.00686,
+      8.66094,
+      9.51464,
+      1.97701,
+      8.21375,
+      6.26733,
+      5.73537,
+      5.51376,
+      4.71319,
+      4.6044,
+      4.32053,
+      12.26,
+      7.01199,
+      9.11016,
+      6.70307,
+      0.692589
+     ]
+    }
+   ],
+   "ZC3H4": [
+    {
+     "gencode_id": "ENSG00000130749.9",
+     "symbol": "ZC3H4",
+     "values": [
+      15.3086,
+      12.0241,
+      10.8817,
+      16.6926,
+      15.9604,
+      18.0079,
+      20.2305,
+      6.56933,
+      6.93146,
+      7.2709,
+      25.9552,
+      28.2339,
+      10.0958,
+      8.69382,
+      6.59881,
+      7.83418,
+      7.80918,
+      6.26049,
+      8.60674,
+      6.38855,
+      15.073,
+      20.4551,
+      26.9731,
+      19.0723,
+      23.812,
+      18.8995,
+      14.3861,
+      17.156,
+      16.9191,
+      16.8466,
+      22.757,
+      6.53182,
+      5.26449,
+      5.88908,
+      9.71325,
+      6.40716,
+      15.19,
+      13.9283,
+      8.45383,
+      26.2301,
+      23.8295,
+      7.28284,
+      18.6329,
+      17.9191,
+      16.3702,
+      18.388,
+      16.8907,
+      20.9485,
+      11.622,
+      26.9088,
+      22.0284,
+      26.5934,
+      18.5653,
+      4.88459
+     ]
+    }
+   ],
    "ZNF667": [
     {
      "gencode_id": "ENSG00000198046.11",
@@ -1941,6 +3742,68 @@
       4.71698,
       3.11097,
       0.0386076
+     ]
+    }
+   ],
+   "LRP5L": [
+    {
+     "gencode_id": "ENSG00000100068.11",
+     "symbol": "LRP5L",
+     "values": [
+      6.55782,
+      6.43916,
+      4.10339,
+      4.29935,
+      5.10842,
+      4.38209,
+      9.9183,
+      0.925046,
+      1.07334,
+      1.01377,
+      0.475433,
+      0.712395,
+      1.48767,
+      1.24388,
+      1.06805,
+      1.25018,
+      1.1408,
+      0.835035,
+      1.97657,
+      1.11887,
+      8.74775,
+      3.29795,
+      6.19452,
+      13.8625,
+      18.9798,
+      5.88848,
+      6.00454,
+      6.0758,
+      3.45068,
+      5.69613,
+      15.7125,
+      3.08804,
+      1.69746,
+      6.31547,
+      11.1603,
+      7.83012,
+      9.74951,
+      7.64881,
+      1.13586,
+      8.00873,
+      10.7963,
+      3.33643,
+      5.219,
+      13.3314,
+      6.90099,
+      7.09556,
+      6.63084,
+      10.6272,
+      4.6256,
+      9.67299,
+      25.535,
+      9.37285,
+      9.86537,
+      3.11391
      ]
     }
    ],
@@ -2024,8 +3887,8 @@
     "platform_matches_expected": true,
     "n_samples": 42,
     "n_probes": 28459,
-    "n_probes_mapped_to_a_symbol": 20214,
-    "measured_probe_mapping_rate": 0.7103,
+    "n_probes_mapped_to_a_symbol": 20225,
+    "measured_probe_mapping_rate": 0.7107,
     "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
     "samples": [
      {
@@ -2334,6 +4197,100 @@
        0.5821
       ]
      },
+     "CDC42SE1": {
+      "probe_ids": [
+       "7919888"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       8.1426,
+       8.3284,
+       8.382,
+       8.1514,
+       8.3161,
+       8.3698,
+       7.7879,
+       8.445,
+       8.1059,
+       8.0261,
+       7.9081,
+       7.3066,
+       8.9762,
+       8.8849,
+       8.7753,
+       8.5967,
+       8.6873,
+       8.3515,
+       8.6874,
+       8.6738,
+       9.0621,
+       8.5582,
+       8.5131,
+       8.4756,
+       8.2399,
+       8.4423,
+       8.6397,
+       8.5593,
+       8.6598,
+       8.0269,
+       8.2316,
+       7.9731,
+       9.1312,
+       8.5842,
+       8.385,
+       8.6273,
+       8.1079,
+       8.694,
+       8.1407,
+       8.3362,
+       6.8579,
+       6.9753
+      ],
+      "array_percentile": [
+       0.8228,
+       0.841,
+       0.8373,
+       0.8202,
+       0.8423,
+       0.8404,
+       0.7568,
+       0.8382,
+       0.8002,
+       0.7798,
+       0.7602,
+       0.6537,
+       0.9051,
+       0.8898,
+       0.8844,
+       0.861,
+       0.8766,
+       0.8394,
+       0.8777,
+       0.8708,
+       0.9104,
+       0.8637,
+       0.8471,
+       0.8607,
+       0.8301,
+       0.8434,
+       0.8756,
+       0.8639,
+       0.8706,
+       0.8041,
+       0.8443,
+       0.7784,
+       0.9136,
+       0.873,
+       0.8318,
+       0.8746,
+       0.8113,
+       0.8848,
+       0.8098,
+       0.8352,
+       0.5577,
+       0.5861
+      ]
+     },
      "NRP1": {
       "probe_ids": [
        "7932985"
@@ -2428,6 +4385,100 @@
        0.869
       ]
      },
+     "ZNF215": {
+      "probe_ids": [
+       "7938183"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       5.8776,
+       6.1481,
+       6.0884,
+       5.7226,
+       5.5284,
+       5.6097,
+       5.2033,
+       4.8748,
+       6.5241,
+       5.9836,
+       7.0425,
+       4.0926,
+       6.8957,
+       6.5298,
+       6.1603,
+       7.3058,
+       4.8899,
+       5.4574,
+       5.7571,
+       6.5095,
+       7.0028,
+       6.0561,
+       6.1773,
+       6.1875,
+       5.698,
+       6.1766,
+       5.4811,
+       6.5542,
+       5.3975,
+       4.6319,
+       4.159,
+       6.8882,
+       4.695,
+       5.6751,
+       3.9244,
+       5.7911,
+       5.399,
+       6.1754,
+       6.9929,
+       5.7192,
+       4.7532,
+       4.6944
+      ],
+      "array_percentile": [
+       0.3372,
+       0.3955,
+       0.4047,
+       0.3139,
+       0.2846,
+       0.3046,
+       0.229,
+       0.2056,
+       0.4841,
+       0.3846,
+       0.6018,
+       0.1153,
+       0.5663,
+       0.4913,
+       0.4136,
+       0.6491,
+       0.2039,
+       0.2817,
+       0.3229,
+       0.4844,
+       0.5897,
+       0.3818,
+       0.4303,
+       0.4021,
+       0.3133,
+       0.4184,
+       0.273,
+       0.4863,
+       0.2834,
+       0.1633,
+       0.1182,
+       0.5601,
+       0.1835,
+       0.2832,
+       0.1097,
+       0.3111,
+       0.2465,
+       0.3988,
+       0.5864,
+       0.3142,
+       0.171,
+       0.1673
+      ]
+     },
      "ANKS1B": {
       "probe_ids": [
        "7965686"
@@ -2520,6 +4571,100 @@
        0.763,
        0.3412,
        0.4234
+      ]
+     },
+     "EFCAB11": {
+      "probe_ids": [
+       "7980690"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       6.4955,
+       6.5286,
+       6.5625,
+       6.2483,
+       6.3134,
+       6.3798,
+       6.5612,
+       6.4885,
+       6.0985,
+       6.086,
+       6.572,
+       6.3593,
+       6.4014,
+       6.3242,
+       6.7677,
+       6.3042,
+       6.3219,
+       6.2604,
+       6.2424,
+       6.4056,
+       6.3564,
+       6.4709,
+       6.524,
+       6.3663,
+       6.4122,
+       6.2162,
+       6.3695,
+       6.1473,
+       6.546,
+       6.2323,
+       6.4146,
+       6.5695,
+       6.655,
+       6.5596,
+       6.9512,
+       6.5097,
+       6.2257,
+       6.2615,
+       6.6074,
+       6.1143,
+       6.2827,
+       6.1896
+      ],
+      "array_percentile": [
+       0.4701,
+       0.4773,
+       0.5038,
+       0.4154,
+       0.4353,
+       0.4564,
+       0.4791,
+       0.4852,
+       0.394,
+       0.4041,
+       0.5041,
+       0.4346,
+       0.4595,
+       0.4498,
+       0.5378,
+       0.4476,
+       0.4456,
+       0.4262,
+       0.4169,
+       0.4615,
+       0.454,
+       0.467,
+       0.4969,
+       0.4402,
+       0.4511,
+       0.4253,
+       0.4359,
+       0.4013,
+       0.493,
+       0.4005,
+       0.4369,
+       0.4888,
+       0.5181,
+       0.4788,
+       0.5733,
+       0.4576,
+       0.3918,
+       0.415,
+       0.4975,
+       0.3878,
+       0.423,
+       0.4074
       ]
      },
      "CHST5": {
@@ -2710,6 +4855,100 @@
        0.5961
       ]
      },
+     "ZNF236": {
+      "probe_ids": [
+       "8021783"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       7.537,
+       7.7383,
+       7.4075,
+       7.5832,
+       7.5491,
+       7.7421,
+       7.4174,
+       7.5459,
+       7.3318,
+       7.3028,
+       7.6003,
+       7.3305,
+       7.0272,
+       7.3795,
+       7.3088,
+       7.2421,
+       7.3502,
+       7.2981,
+       7.2794,
+       7.4459,
+       7.6122,
+       7.4195,
+       7.3174,
+       7.4255,
+       7.3804,
+       7.5921,
+       7.4321,
+       7.4696,
+       7.2449,
+       7.8354,
+       7.429,
+       7.9787,
+       7.494,
+       7.5577,
+       7.7108,
+       8.1314,
+       7.7338,
+       7.8505,
+       7.8961,
+       7.9322,
+       7.54,
+       7.557
+      ],
+      "array_percentile": [
+       0.7147,
+       0.7474,
+       0.6787,
+       0.7174,
+       0.7145,
+       0.7461,
+       0.6808,
+       0.7006,
+       0.6595,
+       0.6506,
+       0.7075,
+       0.6589,
+       0.5929,
+       0.6636,
+       0.6483,
+       0.637,
+       0.6669,
+       0.6522,
+       0.6504,
+       0.6875,
+       0.711,
+       0.6758,
+       0.6501,
+       0.6826,
+       0.6723,
+       0.7107,
+       0.682,
+       0.6829,
+       0.6336,
+       0.7695,
+       0.6842,
+       0.7792,
+       0.6885,
+       0.7122,
+       0.723,
+       0.8089,
+       0.7455,
+       0.759,
+       0.7708,
+       0.7716,
+       0.7168,
+       0.7209
+      ]
+     },
      "ZNF667": {
       "probe_ids": [
        "8039593"
@@ -2896,6 +5135,288 @@
        0.7312,
        0.6995,
        0.6511
+      ]
+     },
+     "MROH2A": {
+      "probe_ids": [
+       "8049375"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       6.2233,
+       6.0152,
+       6.027,
+       5.6136,
+       5.7473,
+       5.8181,
+       5.8899,
+       5.7857,
+       5.9479,
+       5.7845,
+       5.8656,
+       5.8944,
+       5.8787,
+       5.8531,
+       6.0298,
+       5.836,
+       6.0152,
+       5.9129,
+       6.0627,
+       5.8848,
+       5.9238,
+       5.9437,
+       5.724,
+       6.0014,
+       6.0941,
+       5.9192,
+       6.1144,
+       5.9254,
+       5.8329,
+       6.0102,
+       6.0312,
+       5.8697,
+       5.7395,
+       5.8609,
+       5.6445,
+       5.8268,
+       5.9922,
+       5.8766,
+       5.8353,
+       5.993,
+       6.1772,
+       6.0435
+      ],
+      "array_percentile": [
+       0.4066,
+       0.3682,
+       0.3926,
+       0.2964,
+       0.3206,
+       0.3409,
+       0.3416,
+       0.3479,
+       0.3649,
+       0.3471,
+       0.3596,
+       0.3394,
+       0.3563,
+       0.3594,
+       0.3892,
+       0.3573,
+       0.3823,
+       0.3591,
+       0.3811,
+       0.3547,
+       0.3679,
+       0.3602,
+       0.346,
+       0.3645,
+       0.3848,
+       0.3682,
+       0.3833,
+       0.3596,
+       0.3557,
+       0.357,
+       0.3591,
+       0.3409,
+       0.3369,
+       0.3172,
+       0.3201,
+       0.3174,
+       0.347,
+       0.3428,
+       0.3365,
+       0.3646,
+       0.4,
+       0.3773
+      ]
+     },
+     "KCNG3": {
+      "probe_ids": [
+       "8051785"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       6.1364,
+       5.7578,
+       5.515,
+       5.9267,
+       5.6275,
+       5.6413,
+       6.3573,
+       5.6118,
+       6.7349,
+       6.2907,
+       5.3543,
+       7.3536,
+       5.4704,
+       5.4513,
+       5.7715,
+       5.6435,
+       5.6397,
+       5.6263,
+       6.0576,
+       5.5465,
+       5.3509,
+       5.6457,
+       5.2986,
+       5.7099,
+       5.7848,
+       6.0303,
+       6.0017,
+       5.4717,
+       5.8469,
+       7.0545,
+       5.9983,
+       5.6831,
+       5.2731,
+       5.5105,
+       5.2873,
+       6.2601,
+       5.4515,
+       5.6343,
+       5.461,
+       5.5993,
+       6.2937,
+       5.9277
+      ],
+      "array_percentile": [
+       0.3883,
+       0.3211,
+       0.2963,
+       0.3505,
+       0.3003,
+       0.3101,
+       0.4328,
+       0.3179,
+       0.5294,
+       0.445,
+       0.2714,
+       0.6649,
+       0.2865,
+       0.2909,
+       0.3434,
+       0.3218,
+       0.3145,
+       0.3097,
+       0.3802,
+       0.295,
+       0.2705,
+       0.3085,
+       0.2745,
+       0.3116,
+       0.329,
+       0.3886,
+       0.3607,
+       0.2793,
+       0.3586,
+       0.5902,
+       0.3526,
+       0.308,
+       0.2593,
+       0.2524,
+       0.2619,
+       0.4039,
+       0.2544,
+       0.2997,
+       0.2708,
+       0.2931,
+       0.4256,
+       0.3552
+      ]
+     },
+     "LRP5L": {
+      "probe_ids": [
+       "8075052"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       6.4146,
+       6.4078,
+       6.4159,
+       6.8141,
+       6.3317,
+       6.3225,
+       6.8364,
+       7.2131,
+       6.8747,
+       6.8363,
+       7.1378,
+       7.3337,
+       6.9904,
+       7.0526,
+       6.5497,
+       7.434,
+       6.8054,
+       6.9244,
+       7.2093,
+       7.1597,
+       6.7704,
+       6.8285,
+       7.1586,
+       6.9181,
+       6.9097,
+       7.0589,
+       6.7414,
+       7.078,
+       6.5827,
+       6.6467,
+       6.7921,
+       6.8195,
+       6.4896,
+       6.4581,
+       6.7848,
+       6.4569,
+       6.7105,
+       6.7297,
+       6.4689,
+       7.8615,
+       6.4639,
+       6.4148
+      ],
+      "array_percentile": [
+       0.4503,
+       0.4506,
+       0.473,
+       0.542,
+       0.4391,
+       0.4436,
+       0.5421,
+       0.6367,
+       0.5618,
+       0.5592,
+       0.6208,
+       0.66,
+       0.5854,
+       0.6005,
+       0.4927,
+       0.6745,
+       0.5498,
+       0.5693,
+       0.6358,
+       0.6284,
+       0.5392,
+       0.5441,
+       0.62,
+       0.5679,
+       0.5635,
+       0.6028,
+       0.5206,
+       0.5991,
+       0.4997,
+       0.4916,
+       0.5244,
+       0.545,
+       0.4815,
+       0.4533,
+       0.5382,
+       0.4464,
+       0.5012,
+       0.5182,
+       0.466,
+       0.7595,
+       0.4618,
+       0.4551
       ]
      },
      "EEFSEC": {
@@ -3086,6 +5607,194 @@
        0.9727
       ]
      },
+     "PLAC8": {
+      "probe_ids": [
+       "8101429"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       4.3335,
+       5.1684,
+       4.9686,
+       5.2688,
+       4.3456,
+       5.2271,
+       5.647,
+       5.7894,
+       5.1005,
+       6.0117,
+       5.1713,
+       5.547,
+       4.9267,
+       5.2107,
+       5.472,
+       4.7926,
+       4.8381,
+       4.4241,
+       5.4167,
+       4.7944,
+       5.485,
+       5.6556,
+       4.8691,
+       4.8741,
+       4.813,
+       5.5573,
+       5.1593,
+       5.012,
+       5.3991,
+       5.2901,
+       5.5032,
+       5.561,
+       6.2523,
+       5.8513,
+       7.0258,
+       5.9797,
+       5.6887,
+       5.4299,
+       4.9465,
+       5.3538,
+       5.5268,
+       5.1632
+      ],
+      "array_percentile": [
+       0.1252,
+       0.2294,
+       0.213,
+       0.2457,
+       0.1358,
+       0.2425,
+       0.2965,
+       0.3486,
+       0.227,
+       0.39,
+       0.244,
+       0.2805,
+       0.2063,
+       0.2525,
+       0.2922,
+       0.196,
+       0.1958,
+       0.1534,
+       0.2658,
+       0.1868,
+       0.2928,
+       0.3103,
+       0.2129,
+       0.1937,
+       0.1869,
+       0.3021,
+       0.2268,
+       0.214,
+       0.284,
+       0.242,
+       0.2678,
+       0.2886,
+       0.4349,
+       0.3153,
+       0.5874,
+       0.347,
+       0.2909,
+       0.2667,
+       0.1985,
+       0.2549,
+       0.2758,
+       0.2257
+      ]
+     },
+     "EXOC2": {
+      "probe_ids": [
+       "8123524"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       8.271,
+       8.0329,
+       8.1814,
+       7.8405,
+       8.0605,
+       8.2,
+       7.5089,
+       7.9639,
+       7.7398,
+       8.2134,
+       8.1133,
+       7.2935,
+       9.7622,
+       8.6898,
+       8.1567,
+       10.1249,
+       9.2077,
+       9.1057,
+       8.5489,
+       9.0465,
+       8.6303,
+       8.5381,
+       9.1395,
+       8.8571,
+       8.5382,
+       8.4451,
+       7.6025,
+       9.3337,
+       8.2443,
+       8.2004,
+       7.7656,
+       8.1097,
+       8.5249,
+       7.8938,
+       8.1048,
+       8.2159,
+       8.1488,
+       8.1199,
+       8.2711,
+       8.8944,
+       7.2067,
+       6.9385
+      ],
+      "array_percentile": [
+       0.8395,
+       0.7995,
+       0.8098,
+       0.7667,
+       0.8067,
+       0.8186,
+       0.702,
+       0.7716,
+       0.7388,
+       0.8074,
+       0.7937,
+       0.6503,
+       0.9576,
+       0.8687,
+       0.805,
+       0.9707,
+       0.9252,
+       0.9201,
+       0.8629,
+       0.9085,
+       0.8638,
+       0.8615,
+       0.916,
+       0.9015,
+       0.8689,
+       0.8438,
+       0.717,
+       0.937,
+       0.8174,
+       0.8313,
+       0.7612,
+       0.801,
+       0.8488,
+       0.775,
+       0.791,
+       0.8215,
+       0.8181,
+       0.8068,
+       0.8292,
+       0.9028,
+       0.6426,
+       0.5777
+      ]
+     },
      "SLC17A3": {
       "probe_ids": [
        "8124351"
@@ -3180,6 +5889,100 @@
        0.1652
       ]
      },
+     "EHMT2": {
+      "probe_ids": [
+       "8125172"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       7.3333,
+       7.5776,
+       7.9136,
+       7.4884,
+       7.6758,
+       7.6902,
+       7.6308,
+       7.7892,
+       7.5247,
+       7.7507,
+       7.9384,
+       7.6577,
+       7.6192,
+       7.7944,
+       7.462,
+       8.021,
+       7.5064,
+       7.5931,
+       7.4583,
+       7.2353,
+       7.4852,
+       7.6134,
+       7.6994,
+       7.4332,
+       7.548,
+       7.5676,
+       6.9269,
+       7.7401,
+       7.6808,
+       7.6824,
+       7.6027,
+       7.4641,
+       7.9174,
+       7.6159,
+       7.8329,
+       7.8625,
+       7.7017,
+       7.522,
+       7.6797,
+       7.5964,
+       7.0407,
+       7.2554
+      ],
+      "array_percentile": [
+       0.6667,
+       0.7168,
+       0.7679,
+       0.6969,
+       0.7388,
+       0.7367,
+       0.7269,
+       0.7409,
+       0.6974,
+       0.7322,
+       0.765,
+       0.7321,
+       0.7127,
+       0.7397,
+       0.6809,
+       0.7815,
+       0.6981,
+       0.7115,
+       0.6889,
+       0.6448,
+       0.6859,
+       0.7145,
+       0.7182,
+       0.6842,
+       0.7078,
+       0.7059,
+       0.564,
+       0.7367,
+       0.7215,
+       0.74,
+       0.7255,
+       0.6877,
+       0.7627,
+       0.7236,
+       0.7463,
+       0.7659,
+       0.738,
+       0.6955,
+       0.7331,
+       0.7101,
+       0.6024,
+       0.6515
+      ]
+     },
      "LAMA4": {
       "probe_ids": [
        "8128991"
@@ -3272,6 +6075,382 @@
        0.8688,
        0.8056,
        0.7774
+      ]
+     },
+     "THEMIS": {
+      "probe_ids": [
+       "8129410"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       4.9961,
+       4.7862,
+       4.645,
+       4.9302,
+       5.1406,
+       5.025,
+       4.7704,
+       4.3071,
+       4.9394,
+       4.8397,
+       4.4303,
+       4.5766,
+       4.8034,
+       6.1314,
+       4.7044,
+       4.8215,
+       5.6435,
+       5.3861,
+       5.0913,
+       4.5526,
+       6.422,
+       5.9227,
+       4.8535,
+       5.2249,
+       4.4925,
+       5.303,
+       4.8309,
+       4.8288,
+       5.4938,
+       5.3254,
+       5.2753,
+       6.4173,
+       8.4487,
+       5.0069,
+       5.0733,
+       5.0719,
+       5.2533,
+       4.4603,
+       4.9084,
+       5.1411,
+       5.0023,
+       5.1058
+      ],
+      "array_percentile": [
+       0.198,
+       0.1824,
+       0.1719,
+       0.199,
+       0.2265,
+       0.214,
+       0.1754,
+       0.1423,
+       0.2069,
+       0.2035,
+       0.1533,
+       0.1582,
+       0.1907,
+       0.4118,
+       0.1881,
+       0.1996,
+       0.3152,
+       0.2711,
+       0.2188,
+       0.1618,
+       0.4681,
+       0.3569,
+       0.211,
+       0.2382,
+       0.1521,
+       0.2614,
+       0.1868,
+       0.19,
+       0.2981,
+       0.2472,
+       0.2355,
+       0.4556,
+       0.8385,
+       0.1807,
+       0.2322,
+       0.2076,
+       0.2268,
+       0.1454,
+       0.1941,
+       0.2261,
+       0.2004,
+       0.218
+      ]
+     },
+     "PIK3CG": {
+      "probe_ids": [
+       "8135363"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       6.6283,
+       7.1847,
+       6.8268,
+       7.2166,
+       6.9759,
+       7.0685,
+       6.2887,
+       5.2136,
+       6.4887,
+       5.6611,
+       5.1104,
+       6.0159,
+       6.6475,
+       7.4299,
+       6.7945,
+       6.6175,
+       6.7564,
+       6.8759,
+       5.8326,
+       6.2604,
+       7.4184,
+       7.0646,
+       6.6497,
+       6.4843,
+       6.6491,
+       6.9343,
+       6.8614,
+       6.5085,
+       8.212,
+       7.5924,
+       6.8249,
+       7.1191,
+       8.6421,
+       8.5084,
+       8.2333,
+       6.8325,
+       6.6863,
+       7.0162,
+       6.1517,
+       8.041,
+       6.2518,
+       6.3681
+      ],
+      "array_percentile": [
+       0.5024,
+       0.6295,
+       0.5611,
+       0.6349,
+       0.5848,
+       0.6074,
+       0.4169,
+       0.2525,
+       0.4764,
+       0.3257,
+       0.2351,
+       0.3632,
+       0.5108,
+       0.6737,
+       0.5435,
+       0.5114,
+       0.5394,
+       0.5588,
+       0.3366,
+       0.4305,
+       0.6737,
+       0.5979,
+       0.5218,
+       0.466,
+       0.5047,
+       0.5778,
+       0.5484,
+       0.4767,
+       0.8129,
+       0.7199,
+       0.5331,
+       0.6133,
+       0.8634,
+       0.8645,
+       0.811,
+       0.5356,
+       0.4951,
+       0.5843,
+       0.3999,
+       0.791,
+       0.416,
+       0.4453
+      ]
+     },
+     "HNRNPA2B1": {
+      "probe_ids": [
+       "8138670"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       10.6607,
+       10.7885,
+       10.763,
+       10.4926,
+       10.6365,
+       10.6258,
+       11.0284,
+       11.1335,
+       10.7428,
+       10.4268,
+       10.8817,
+       10.8759,
+       11.0475,
+       11.0484,
+       10.4246,
+       10.8895,
+       10.9458,
+       10.9637,
+       10.7636,
+       10.8075,
+       10.9053,
+       10.6102,
+       10.7303,
+       10.6912,
+       11.0941,
+       10.818,
+       11.0065,
+       11.0941,
+       10.8149,
+       10.7808,
+       10.7775,
+       11.1816,
+       11.2899,
+       11.1928,
+       11.5086,
+       11.2763,
+       10.8292,
+       11.2191,
+       11.4661,
+       11.0346,
+       10.6618,
+       10.5748
+      ],
+      "array_percentile": [
+       0.9868,
+       0.9869,
+       0.9856,
+       0.9842,
+       0.9854,
+       0.9849,
+       0.9896,
+       0.9891,
+       0.9836,
+       0.9762,
+       0.9858,
+       0.9875,
+       0.99,
+       0.9893,
+       0.9801,
+       0.9881,
+       0.9886,
+       0.9899,
+       0.9842,
+       0.9862,
+       0.9879,
+       0.9838,
+       0.9846,
+       0.9871,
+       0.9911,
+       0.9857,
+       0.9894,
+       0.991,
+       0.9865,
+       0.9885,
+       0.9884,
+       0.9924,
+       0.9923,
+       0.9922,
+       0.9947,
+       0.993,
+       0.9893,
+       0.993,
+       0.9944,
+       0.9914,
+       0.9857,
+       0.9838
+      ]
+     },
+     "ESYT2": {
+      "probe_ids": [
+       "8144184"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       9.5758,
+       9.5957,
+       9.5376,
+       9.5748,
+       9.5312,
+       9.8074,
+       9.9127,
+       9.906,
+       10.339,
+       9.4633,
+       10.0941,
+       9.7158,
+       9.6475,
+       9.5171,
+       9.7261,
+       9.8272,
+       10.8735,
+       10.378,
+       10.9572,
+       10.6909,
+       10.3973,
+       10.025,
+       9.9631,
+       10.729,
+       10.172,
+       10.5655,
+       10.2672,
+       9.598,
+       9.7626,
+       9.724,
+       9.43,
+       9.7452,
+       9.4058,
+       9.3286,
+       9.6233,
+       9.3843,
+       9.1121,
+       9.712,
+       9.1633,
+       10.177,
+       9.2701,
+       9.1799
+      ],
+      "array_percentile": [
+       0.9553,
+       0.9516,
+       0.9442,
+       0.9558,
+       0.9503,
+       0.9605,
+       0.9647,
+       0.9579,
+       0.975,
+       0.9377,
+       0.967,
+       0.9604,
+       0.9519,
+       0.9415,
+       0.9566,
+       0.96,
+       0.9872,
+       0.9796,
+       0.9874,
+       0.9843,
+       0.9787,
+       0.9692,
+       0.9643,
+       0.9877,
+       0.976,
+       0.9809,
+       0.9771,
+       0.9521,
+       0.9577,
+       0.963,
+       0.9527,
+       0.9579,
+       0.9341,
+       0.9383,
+       0.9519,
+       0.9416,
+       0.9275,
+       0.9598,
+       0.9245,
+       0.9755,
+       0.9359,
+       0.9269
       ]
      },
      "ZFPM2": {
@@ -3460,6 +6639,100 @@
        0.6264,
        0.8784,
        0.9057
+      ]
+     },
+     "FNBP1": {
+      "probe_ids": [
+       "8164607"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       8.4621,
+       9.0456,
+       8.728,
+       8.6305,
+       8.7267,
+       8.7967,
+       8.6326,
+       8.7895,
+       8.9397,
+       8.7328,
+       8.529,
+       9.1048,
+       7.7062,
+       8.2374,
+       8.5523,
+       7.7527,
+       8.6932,
+       8.9405,
+       8.2471,
+       8.538,
+       8.5489,
+       8.6244,
+       8.2229,
+       8.2001,
+       8.3267,
+       8.4004,
+       8.1532,
+       7.8721,
+       8.5551,
+       10.1447,
+       8.3757,
+       8.5297,
+       9.3011,
+       8.571,
+       8.7576,
+       7.864,
+       7.8679,
+       7.8359,
+       8.2868,
+       8.4007,
+       8.2839,
+       8.1463
+      ],
+      "array_percentile": [
+       0.8633,
+       0.9164,
+       0.8769,
+       0.8821,
+       0.8881,
+       0.8898,
+       0.88,
+       0.8786,
+       0.9013,
+       0.8753,
+       0.8494,
+       0.9274,
+       0.73,
+       0.8105,
+       0.8586,
+       0.7344,
+       0.8772,
+       0.9059,
+       0.8244,
+       0.855,
+       0.8546,
+       0.871,
+       0.8058,
+       0.825,
+       0.8417,
+       0.8384,
+       0.8136,
+       0.7611,
+       0.8589,
+       0.9765,
+       0.8631,
+       0.8573,
+       0.9273,
+       0.8717,
+       0.8815,
+       0.7661,
+       0.771,
+       0.756,
+       0.8315,
+       0.8458,
+       0.8478,
+       0.8256
       ]
      },
      "CA5B": {
@@ -3737,7 +7010,7 @@
       }
      ],
      "n_distinct_accessions": 62204,
-     "n_accessions_from_committed_cache": 59057,
+     "n_accessions_from_committed_cache": 61059,
      "curated_dictionary": [
       {
        "platform": "GPL570",
@@ -3763,12 +7036,12 @@
      ],
      "unigene_dictionary_size": 6365381,
      "n_accessions_resolved_by_unigene_archive": 51071,
-     "n_accessions_from_cross_platform_cache": 59057,
-     "n_accessions_newly_queried": 3147,
-     "ncbi_n_accessions_queried": 3147,
+     "n_accessions_from_cross_platform_cache": 61059,
+     "n_accessions_newly_queried": 1145,
+     "ncbi_n_accessions_queried": 1145,
      "ncbi_route": "esearch(accession[ACCN]) -> nuccore UID; esummary(nuccore) -> caption so the UID can be tied back to its accession; elink(nuccore->gene); esummary(gene) -> symbol",
-     "ncbi_accessions_resolved_to_a_uid": 3147,
-     "ncbi_errors_total": 18,
+     "ncbi_accessions_resolved_to_a_uid": 1145,
+     "ncbi_errors_total": 6,
      "ncbi_errors": [
       {
        "endpoint": "elink.fcgi",
@@ -3777,11 +7050,6 @@
       },
       {
        "endpoint": "elink.fcgi",
-       "attempt": 1,
-       "error": "IncompleteRead(0 bytes read)"
-      },
-      {
-       "endpoint": "elink.fcgi",
        "attempt": 0,
        "error": "IncompleteRead(0 bytes read)"
       },
@@ -3792,29 +7060,34 @@
       },
       {
        "endpoint": "elink.fcgi",
-       "attempt": 0,
+       "attempt": 2,
        "error": "IncompleteRead(0 bytes read)"
       },
       {
        "endpoint": "elink.fcgi",
        "attempt": 0,
+       "error": "IncompleteRead(0 bytes read)"
+      },
+      {
+       "endpoint": "elink.fcgi",
+       "attempt": 1,
        "error": "IncompleteRead(0 bytes read)"
       }
      ],
-     "ncbi_chunks_lost_to_transport": 2,
-     "ncbi_elink_uids_lost_to_transport": 200,
-     "ncbi_accessions_linked_to_a_gene": 2004,
-     "ncbi_genes_named": 1764,
-     "ncbi_mapped": 2002,
-     "ncbi_n_accessions_answered": 3147,
-     "ncbi_elapsed_s": 740.2,
-     "n_accessions_resolved_total": 61059,
-     "accession_resolution_rate": 0.982,
+     "ncbi_chunks_lost_to_transport": 1,
+     "ncbi_elink_uids_lost_to_transport": 100,
+     "ncbi_accessions_linked_to_a_gene": 77,
+     "ncbi_genes_named": 74,
+     "ncbi_mapped": 75,
+     "ncbi_n_accessions_answered": 1145,
+     "ncbi_elapsed_s": 258.3,
+     "n_accessions_resolved_total": 61134,
+     "accession_resolution_rate": 0.983,
      "committed_accession_cache": {
-      "written": 98971,
-      "added": 2002
+      "written": 99046,
+      "added": 75
      },
-     "n_mapped": 20628,
+     "n_mapped": 20639,
      "source_used": "acc.cgi?acc=GPL6244&targ=self&form=text&view=full + accession->symbol resolution"
     },
     "_status": "read"
@@ -4000,6 +7273,96 @@
        0.9935
       ]
      },
+     "PIK3CG": {
+      "probe_ids": [
+       "1857",
+       "5401",
+       "6289"
+      ],
+      "n_probes_mapping": 3,
+      "values": [
+       -5.8303,
+       -3.2203,
+       -4.8697,
+       1.924,
+       1.4773,
+       2.9967,
+       -6.262,
+       -6.451,
+       null,
+       -1.4457,
+       null,
+       -3.565,
+       null,
+       -2.745,
+       -2.4473,
+       -3.484
+      ],
+      "array_percentile": [
+       0.006,
+       0.0225,
+       0.0133,
+       0.9206,
+       0.9024,
+       0.9833,
+       0.0068,
+       0.0055,
+       null,
+       0.1702,
+       null,
+       0.0604,
+       null,
+       0.0692,
+       0.1442,
+       0.0692
+      ]
+     },
+     "ESYT2": {
+      "probe_ids": [
+       "31939",
+       "3231",
+       "33635",
+       "33801",
+       "42804"
+      ],
+      "n_probes_mapping": 5,
+      "values": [
+       -0.589,
+       0.9224,
+       0.366,
+       0.2184,
+       -0.8854,
+       0.447,
+       1.0574,
+       0.2078,
+       0.976,
+       -0.2382,
+       -0.2962,
+       1.164,
+       -0.3162,
+       1.1166,
+       1.1764,
+       1.1122
+      ],
+      "array_percentile": [
+       0.4044,
+       0.8229,
+       0.6735,
+       0.6776,
+       0.3367,
+       0.746,
+       0.8751,
+       0.6893,
+       0.8429,
+       0.5333,
+       0.5582,
+       0.8981,
+       0.5843,
+       0.8675,
+       0.8893,
+       0.8805
+      ]
+     },
      "GNAL": {
       "probe_ids": [
        "3950",
@@ -4130,6 +7493,52 @@
        0.4792
       ]
      },
+     "FNBP1": {
+      "probe_ids": [
+       "13642",
+       "20408",
+       "33339",
+       "34739",
+       "9498"
+      ],
+      "n_probes_mapping": 5,
+      "values": [
+       0.2708,
+       0.6664,
+       2.0968,
+       -0.105,
+       -1.1244,
+       1.173,
+       -0.2318,
+       -0.0608,
+       0.2995,
+       -0.8674,
+       -0.4246,
+       -0.0108,
+       -1.9413,
+       0.1998,
+       0.4556,
+       -0.0558
+      ],
+      "array_percentile": [
+       0.6923,
+       0.7642,
+       0.9372,
+       0.5796,
+       0.2825,
+       0.8886,
+       0.5841,
+       0.6203,
+       0.7004,
+       0.3067,
+       0.5236,
+       0.6528,
+       0.1979,
+       0.6605,
+       0.7587,
+       0.6301
+      ]
+     },
      "SLC17A3": {
       "probe_ids": [
        "15259",
@@ -4174,6 +7583,48 @@
        0.3129
       ]
      },
+     "PLAC8": {
+      "probe_ids": [
+       "15594"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       -2.642,
+       -2.087,
+       -2.471,
+       -3.223,
+       -2.542,
+       -4.04,
+       -3.487,
+       null,
+       null,
+       -2.879,
+       null,
+       null,
+       null,
+       -2.456,
+       -4.118,
+       null
+      ],
+      "array_percentile": [
+       0.0743,
+       0.0711,
+       0.0798,
+       0.0625,
+       0.086,
+       0.0276,
+       0.0603,
+       null,
+       null,
+       0.0339,
+       null,
+       null,
+       null,
+       0.0893,
+       0.0364,
+       null
+      ]
+     },
      "GMCL1": {
       "probe_ids": [
        "15723"
@@ -4214,6 +7665,222 @@
        0.5281,
        0.718,
        0.247
+      ]
+     },
+     "EHMT2": {
+      "probe_ids": [
+       "16481",
+       "36978"
+      ],
+      "n_probes_mapping": 2,
+      "values": [
+       -0.541,
+       -0.8115,
+       -0.498,
+       -0.8295,
+       -0.21,
+       -0.6585,
+       -0.4665,
+       -0.0785,
+       -0.003,
+       -1.125,
+       -1.347,
+       -0.171,
+       -0.354,
+       -0.1445,
+       0.1645,
+       -0.0715
+      ],
+      "array_percentile": [
+       0.4204,
+       0.2564,
+       0.3996,
+       0.3632,
+       0.5435,
+       0.392,
+       0.5062,
+       0.6153,
+       0.6246,
+       0.2373,
+       0.2879,
+       0.606,
+       0.5731,
+       0.5529,
+       0.6901,
+       0.6251
+      ]
+     },
+     "CDC42SE1": {
+      "probe_ids": [
+       "18749",
+       "32695",
+       "33655"
+      ],
+      "n_probes_mapping": 3,
+      "values": [
+       0.213,
+       -0.1773,
+       0.042,
+       -0.0933,
+       -1.7385,
+       -0.59,
+       -0.1817,
+       -1.7777,
+       -1.083,
+       -0.9907,
+       -0.9265,
+       -1.0107,
+       -0.9325,
+       -0.536,
+       -1.4663,
+       -1.2847
+      ],
+      "array_percentile": [
+       0.6742,
+       0.4735,
+       0.5725,
+       0.5834,
+       0.1773,
+       0.4122,
+       0.5995,
+       0.2036,
+       0.3551,
+       0.2732,
+       0.3899,
+       0.3675,
+       0.4211,
+       0.4222,
+       0.2964,
+       0.2988
+      ]
+     },
+     "ZC3H4": {
+      "probe_ids": [
+       "24245",
+       "36953"
+      ],
+      "n_probes_mapping": 2,
+      "values": [
+       -0.0045,
+       0.055,
+       0.0415,
+       -0.8725,
+       -0.091,
+       -0.374,
+       -0.795,
+       0.106,
+       0.505,
+       -0.9695,
+       0.194,
+       0.125,
+       0.605,
+       -0.4725,
+       -0.9975,
+       -2.0505
+      ],
+      "array_percentile": [
+       0.6042,
+       0.5628,
+       0.5725,
+       0.352,
+       0.583,
+       0.4809,
+       0.406,
+       0.6643,
+       0.7487,
+       0.2777,
+       0.6881,
+       0.6923,
+       0.7857,
+       0.4423,
+       0.3967,
+       0.1806
+      ]
+     },
+     "ZNF236": {
+      "probe_ids": [
+       "24657",
+       "24899"
+      ],
+      "n_probes_mapping": 2,
+      "values": [
+       -0.312,
+       1.0055,
+       1.2275,
+       0.016,
+       -1.856,
+       -1.758,
+       0.6485,
+       1.2465,
+       1.5195,
+       -0.158,
+       0.1975,
+       1.53,
+       -0.4275,
+       0.7405,
+       1.555,
+       1.7065
+      ],
+      "array_percentile": [
+       0.4983,
+       0.839,
+       0.8548,
+       0.6181,
+       0.1631,
+       0.1507,
+       0.811,
+       0.8774,
+       0.9096,
+       0.564,
+       0.6889,
+       0.933,
+       0.5535,
+       0.8024,
+       0.9261,
+       0.9385
+      ]
+     },
+     "EXOC2": {
+      "probe_ids": [
+       "25483",
+       "33603"
+      ],
+      "n_probes_mapping": 2,
+      "values": [
+       0.3795,
+       0.415,
+       0.522,
+       -0.485,
+       -0.6745,
+       0.5365,
+       -0.028,
+       -1.3,
+       -0.3045,
+       0.1245,
+       -0.0445,
+       -0.4615,
+       -0.429,
+       0.1755,
+       -0.283,
+       0.1575
+      ],
+      "array_percentile": [
+       0.725,
+       0.692,
+       0.716,
+       0.4603,
+       0.3948,
+       0.7704,
+       0.645,
+       0.289,
+       0.5465,
+       0.6727,
+       0.6266,
+       0.5172,
+       0.5531,
+       0.6534,
+       0.576,
+       0.6914
       ]
      },
      "G3BP2": {
@@ -4260,6 +7927,48 @@
        0.2597
       ]
      },
+     "HNRNPA2B1": {
+      "probe_ids": [
+       "28928"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       -0.371,
+       -0.168,
+       -0.384,
+       -0.533,
+       -0.401,
+       -0.506,
+       -0.662,
+       -0.232,
+       -0.959,
+       -1.047,
+       -1.052,
+       -0.521,
+       -0.81,
+       -0.79,
+       -0.641,
+       -0.306
+      ],
+      "array_percentile": [
+       0.4773,
+       0.4769,
+       0.4341,
+       0.4465,
+       0.4794,
+       0.4386,
+       0.4446,
+       0.5717,
+       0.3841,
+       0.256,
+       0.3569,
+       0.4996,
+       0.452,
+       0.3527,
+       0.4843,
+       0.5493
+      ]
+     },
      "CA5B": {
       "probe_ids": [
        "31677"
@@ -4300,6 +8009,48 @@
        0.9412,
        0.4608,
        0.7361
+      ]
+     },
+     "EFCAB11": {
+      "probe_ids": [
+       "33637"
+      ],
+      "n_probes_mapping": 1,
+      "values": [
+       null,
+       -0.121,
+       -0.638,
+       -0.934,
+       -3.34,
+       -1.534,
+       -1.544,
+       null,
+       null,
+       -2.307,
+       -5.009,
+       -1.314,
+       -1.824,
+       -1.089,
+       -1.736,
+       -2.181
+      ],
+      "array_percentile": [
+       null,
+       0.4952,
+       0.3584,
+       0.3363,
+       0.046,
+       0.1797,
+       0.239,
+       null,
+       null,
+       0.062,
+       0.0203,
+       0.2984,
+       0.2171,
+       0.2814,
+       0.2449,
+       0.1665
       ]
      },
      "NRP1": {
@@ -4557,42 +8308,42 @@
      "n_accessions_newly_queried": 27268,
      "ncbi_n_accessions_queried": 27268,
      "ncbi_route": "esearch(accession[ACCN]) -> nuccore UID; esummary(nuccore) -> caption so the UID can be tied back to its accession; elink(nuccore->gene); esummary(gene) -> symbol",
-     "ncbi_accessions_resolved_to_a_uid": 27267,
      "ncbi_errors_total": 4,
      "ncbi_errors": [
       {
+       "endpoint": "esearch.fcgi",
+       "attempt": 0,
+       "error": "HTTP Error 502: Bad Gateway"
+      },
+      {
+       "endpoint": "esummary.fcgi",
+       "attempt": 0,
+       "error": "HTTP Error 502: Bad Gateway"
+      },
+      {
+       "endpoint": "esearch.fcgi",
+       "attempt": 0,
+       "error": "HTTP Error 502: Bad Gateway"
+      },
+      {
        "endpoint": "elink.fcgi",
        "attempt": 0,
-       "error": "IncompleteRead(0 bytes read)"
-      },
-      {
-       "endpoint": "elink.fcgi",
-       "attempt": 1,
-       "error": "IncompleteRead(0 bytes read)"
-      },
-      {
-       "endpoint": "elink.fcgi",
-       "attempt": 0,
-       "error": "IncompleteRead(0 bytes read)"
-      },
-      {
-       "endpoint": "elink.fcgi",
-       "attempt": 1,
        "error": "HTTP Error 502: Bad Gateway"
       }
      ],
+     "ncbi_accessions_resolved_to_a_uid": 27267,
      "ncbi_elink_abandoned_for_zero_yield_at": 1200,
      "\u26a0_what_that_means": "12 consecutive elink chunks (1200 UIDs) returned no gene link at all, so the remaining 26067 were not queried. This is a reading about the ENDPOINT, not about the accessions: it says NCBI stopped answering, and it does NOT mean those accessions have no gene. The resolution rate below is a floor.",
      "ncbi_accessions_linked_to_a_gene": 0,
      "ncbi_genes_named": 0,
      "ncbi_mapped": 0,
      "ncbi_n_accessions_answered": 27268,
-     "ncbi_elapsed_s": 390.4,
+     "ncbi_elapsed_s": 385.2,
      "n_accessions_resolved_total": 37912,
      "accession_resolution_rate": 0.582,
      "committed_accession_cache": {
-      "written": 98971,
-      "added": 2002
+      "written": 99046,
+      "added": 75
      },
      "n_mapped": 27197,
      "source_used": "acc.cgi?acc=GPL3290&targ=self&form=text&view=full + accession->symbol resolution"
@@ -4700,6 +8451,30 @@
     "status": "",
     "_status": "read"
    },
+   "CDC42SE1": {
+    "query": "CDC42SE1",
+    "gene_ids": [
+     "56882"
+    ],
+    "gene_id": "56882",
+    "name": "CDC42SE1",
+    "description": "CDC42 small effector 1",
+    "chromosome": "1",
+    "maplocation": "1q21.3",
+    "genomicinfo": [
+     {
+      "chrloc": "1",
+      "chraccver": "NC_000001.11",
+      "chrstart": 151059621,
+      "chrstop": 151050984,
+      "exoncount": 6
+     }
+    ],
+    "summary": "Predicted to enable GTPase inhibitor activity. Predicted to be involved in signal transduction. Located in cell junction. [provided by Alliance of Genome Resources, Jul 2025]",
+    "otheraliases": "SCIP1, SPEC1",
+    "status": "",
+    "_status": "read"
+   },
    "CHST5": {
     "query": "CHST5",
     "gene_ids": [
@@ -4745,6 +8520,150 @@
     ],
     "summary": "Enables GTPase activity. Involved in selenocysteine incorporation. Predicted to be located in cytoplasm and nucleus. Predicted to be part of ribonucleoprotein complex. [provided by Alliance of Genome Resources, Jul 2025]",
     "otheraliases": "EFSEC, NEDPSB, SELB",
+    "status": "",
+    "_status": "read"
+   },
+   "EFCAB11": {
+    "query": "EFCAB11",
+    "gene_ids": [
+     "90141"
+    ],
+    "gene_id": "90141",
+    "name": "EFCAB11",
+    "description": "EF-hand calcium binding domain 11",
+    "chromosome": "14",
+    "maplocation": "14q32.11",
+    "genomicinfo": [
+     {
+      "chrloc": "14",
+      "chraccver": "NC_000014.9",
+      "chrstart": 89954776,
+      "chrstop": 89794668,
+      "exoncount": 9
+     }
+    ],
+    "summary": "Predicted to enable calcium ion binding activity and enzyme regulator activity. Predicted to be involved in microtubule cytoskeleton organization. Predicted to be active in cytoplasm. [provided by Alliance of Genome Resources, Jul 2025]",
+    "otheraliases": "C14orf143",
+    "status": "",
+    "_status": "read"
+   },
+   "EHMT2": {
+    "query": "EHMT2",
+    "gene_ids": [
+     "10919"
+    ],
+    "gene_id": "10919",
+    "name": "EHMT2",
+    "description": "euchromatic histone lysine methyltransferase 2",
+    "chromosome": "6",
+    "maplocation": "6p21.33",
+    "genomicinfo": [
+     {
+      "chrloc": "6",
+      "chraccver": "NC_000006.12",
+      "chrstart": 31897697,
+      "chrstop": 31879758,
+      "exoncount": 29
+     }
+    ],
+    "summary": "This gene encodes a methyltransferase that methylates lysine residues of histone H3. Methylation of H3 at lysine 9 by this protein results in recruitment of additional epigenetic regulators and repression of transcription. This gene was initially thought to be two different genes, NG36 and G9a, adjacent to each other in the HLA locus. Alternative splicing results in multiple transcript variants. [provided by RefSeq, Jan 2016]",
+    "otheraliases": "BAT8, C6orf30, G9A, GAT8, KMT1C, NG36",
+    "status": "",
+    "_status": "read"
+   },
+   "ERBIN": {
+    "query": "ERBIN",
+    "gene_ids": [
+     "55914"
+    ],
+    "gene_id": "55914",
+    "name": "ERBIN",
+    "description": "erbb2 interacting protein",
+    "chromosome": "5",
+    "maplocation": "5q12.3",
+    "genomicinfo": [
+     {
+      "chrloc": "5",
+      "chraccver": "NC_000005.10",
+      "chrstart": 65926574,
+      "chrstop": 66082545,
+      "exoncount": 29
+     }
+    ],
+    "summary": "This gene is a member of the leucine-rich repeat and PDZ domain (LAP) family. The encoded protein contains 17 leucine-rich repeats and one PDZ domain. It binds to the unphosphorylated form of the ERBB2 protein and regulates ERBB2 function and localization. It has also been shown to affect the Ras signaling pathway by disrupting Ras-Raf interaction. Alternatively spliced transcript variants encoding multiple isoforms have been observed for this gene. [provided by RefSeq, Nov 2011]",
+    "otheraliases": "ERBB2IP, HEL-S-78, LAP2",
+    "status": "",
+    "_status": "read"
+   },
+   "ESYT2": {
+    "query": "ESYT2",
+    "gene_ids": [
+     "57488"
+    ],
+    "gene_id": "57488",
+    "name": "ESYT2",
+    "description": "extended synaptotagmin 2",
+    "chromosome": "7",
+    "maplocation": "7q36.3",
+    "genomicinfo": [
+     {
+      "chrloc": "7",
+      "chraccver": "NC_000007.14",
+      "chrstart": 158829508,
+      "chrstop": 158730996,
+      "exoncount": 28
+     }
+    ],
+    "summary": "Enables calcium ion binding activity; identical protein binding activity; and phospholipid binding activity. Predicted to be involved in endocytosis; endoplasmic reticulum-plasma membrane tethering; and lipid transport. Located in several cellular components, including cytoplasmic side of plasma membrane; endoplasmic reticulum membrane; and endoplasmic reticulum-plasma membrane contact site. [provided by Alliance of Genome Resources, Jul 2025]",
+    "otheraliases": "CHR2SYT, E-Syt2, FAM62B",
+    "status": "",
+    "_status": "read"
+   },
+   "EXOC2": {
+    "query": "EXOC2",
+    "gene_ids": [
+     "55770"
+    ],
+    "gene_id": "55770",
+    "name": "EXOC2",
+    "description": "exocyst complex component 2",
+    "chromosome": "6",
+    "maplocation": "6p25.3",
+    "genomicinfo": [
+     {
+      "chrloc": "6",
+      "chraccver": "NC_000006.12",
+      "chrstart": 693138,
+      "chrstop": 485153,
+      "exoncount": 33
+     }
+    ],
+    "summary": "The protein encoded by this gene is a component of the exocyst complex, a multi-protein complex essential for the polarized targeting of exocytic vesicles to specific docking sites on the plasma membrane. Though best characterized in yeast, the component proteins and the functions of the exocyst complex have been demonstrated to be highly conserved in higher eukaryotes. At least eight components of the exocyst complex, including this protein, are found to interact with the actin cytoskeletal remodeling and vesicle transport machinery. This interaction has been shown to mediate filopodia formation in fibroblasts. This protein has been shown to interact with the Ral subfamily of GTPases and thereby mediate exocytosis by tethering vesicles to the plasma membrane. Alternative splicing results in multiple transcript variants. [provided by RefSeq, Jul 2012]",
+    "otheraliases": "NEDFACH, SEC5, SEC5L1, Sec5p",
+    "status": "",
+    "_status": "read"
+   },
+   "FNBP1": {
+    "query": "FNBP1",
+    "gene_ids": [
+     "23048"
+    ],
+    "gene_id": "23048",
+    "name": "FNBP1",
+    "description": "formin binding protein 1",
+    "chromosome": "9",
+    "maplocation": "9q34.11",
+    "genomicinfo": [
+     {
+      "chrloc": "9",
+      "chraccver": "NC_000009.12",
+      "chrstart": 130053878,
+      "chrstop": 129887186,
+      "exoncount": 20
+     }
+    ],
+    "summary": "The protein encoded by this gene is a member of the formin-binding-protein family. The protein contains an N-terminal Fer/Cdc42-interacting protein 4 (CIP4) homology (FCH) domain followed by a coiled-coil domain, a proline-rich motif, a second coiled-coil domain, a Rho family protein-binding domain (RBD), and a C-terminal SH3 domain. This protein binds sorting nexin 2 (SNX2), tankyrase (TNKS), and dynamin; an interaction between this protein and formin has not been demonstrated yet in human. [provided by RefSeq, Jul 2008]",
+    "otheraliases": "FBP17",
     "status": "",
     "_status": "read"
    },
@@ -4844,6 +8763,54 @@
     "status": "",
     "_status": "read"
    },
+   "HNRNPA2B1": {
+    "query": "HNRNPA2B1",
+    "gene_ids": [
+     "3181"
+    ],
+    "gene_id": "3181",
+    "name": "HNRNPA2B1",
+    "description": "heterogeneous nuclear ribonucleoprotein A2/B1",
+    "chromosome": "7",
+    "maplocation": "7p15.2",
+    "genomicinfo": [
+     {
+      "chrloc": "7",
+      "chraccver": "NC_000007.14",
+      "chrstart": 26200745,
+      "chrstop": 26189926,
+      "exoncount": 13
+     }
+    ],
+    "summary": "This gene belongs to the A/B subfamily of ubiquitously expressed heterogeneous nuclear ribonucleoproteins (hnRNPs). The hnRNPs are RNA binding proteins and they complex with heterogeneous nuclear RNA (hnRNA). These proteins are associated with pre-mRNAs in the nucleus and appear to influence pre-mRNA processing and other aspects of mRNA metabolism and transport. While all of the hnRNPs are present in the nucleus, some seem to shuttle between the nucleus and the cytoplasm. The hnRNP proteins have distinct nucleic acid binding properties. The protein encoded by this gene has two repeats of quasi-RRM domains that bind to RNAs. This gene has been described to generate two alternatively spliced transcript variants which encode different isoforms. [provided by RefSeq, Jul 2008]",
+    "otheraliases": "HNRNPA2, HNRNPB1, HNRPA2, HNRPA2B1, HNRPB1, IBMPFD2, OPDM2, OPMD2, RNPA2, SNRPB1",
+    "status": "",
+    "_status": "read"
+   },
+   "KCNG3": {
+    "query": "KCNG3",
+    "gene_ids": [
+     "170850"
+    ],
+    "gene_id": "170850",
+    "name": "KCNG3",
+    "description": "potassium voltage-gated channel modifier subfamily G member 3",
+    "chromosome": "2",
+    "maplocation": "2p21",
+    "genomicinfo": [
+     {
+      "chrloc": "2",
+      "chraccver": "NC_000002.12",
+      "chrstart": 42493981,
+      "chrstop": 42388351,
+      "exoncount": 5
+     }
+    ],
+    "summary": "Voltage-gated potassium (Kv) channels represent the most complex class of voltage-gated ion channels from both functional and structural standpoints. Their diverse functions include regulating neurotransmitter release, heart rate, insulin secretion, neuronal excitability, epithelial electrolyte transport, smooth muscle contraction, and cell volume. This gene encodes a member of the potassium channel, voltage-gated, subfamily G. This member is a gamma subunit functioning as a modulatory molecule. Alternative splicing results in two transcript variants encoding distinct isoforms. [provided by RefSeq, Jul 2008]",
+    "otheraliases": "KV10.1, KV6.3",
+    "status": "",
+    "_status": "read"
+   },
    "LAMA4": {
     "query": "LAMA4",
     "gene_ids": [
@@ -4889,6 +8856,30 @@
     ],
     "summary": "",
     "otheraliases": "",
+    "status": "",
+    "_status": "read"
+   },
+   "LINC02940": {
+    "query": "LINC02940",
+    "gene_ids": [
+     "102724740"
+    ],
+    "gene_id": "102724740",
+    "name": "LINC02940",
+    "description": "long independently transcribed non-coding RNA 2940",
+    "chromosome": "21",
+    "maplocation": "21q22.2",
+    "genomicinfo": [
+     {
+      "chrloc": "21",
+      "chraccver": "NC_000021.9",
+      "chrstart": 39019255,
+      "chrstop": 38985350,
+      "exoncount": 8
+     }
+    ],
+    "summary": "",
+    "otheraliases": "CCMAlnc",
     "status": "",
     "_status": "read"
    },
@@ -4940,6 +8931,30 @@
     "status": "",
     "_status": "read"
    },
+   "LOC105374651": {
+    "query": "LOC105374651",
+    "gene_ids": [
+     "105374651"
+    ],
+    "gene_id": "105374651",
+    "name": "LOC105374651",
+    "description": "uncharacterized LOC105374651",
+    "chromosome": "5",
+    "maplocation": "5p15.2",
+    "genomicinfo": [
+     {
+      "chrloc": "5",
+      "chraccver": "NC_000005.10",
+      "chrstart": 10316351,
+      "chrstop": 10337410,
+      "exoncount": 5
+     }
+    ],
+    "summary": "",
+    "otheraliases": "",
+    "status": "",
+    "_status": "read"
+   },
    "LOC105376349": {
     "query": "LOC105376349",
     "gene_ids": [
@@ -4964,6 +8979,94 @@
     "status": "",
     "_status": "read"
    },
+   "LOC107984281": {
+    "query": "LOC107984281",
+    "gene_ids": [
+     "107984281"
+    ],
+    "gene_id": "107984281",
+    "name": "LOC107984281",
+    "description": "uncharacterized LOC107984281",
+    "chromosome": "10",
+    "maplocation": "10q26.3",
+    "genomicinfo": [
+     {
+      "chrloc": "10",
+      "chraccver": "NC_000010.11",
+      "chrstart": 129767615,
+      "chrstop": 129835325,
+      "exoncount": 14
+     }
+    ],
+    "summary": "",
+    "otheraliases": "",
+    "status": "",
+    "_status": "read"
+   },
+   "LOC107985219": {
+    "query": "LOC107985219",
+    "gene_ids": [
+     "107985219"
+    ],
+    "gene_id": "107985219",
+    "name": "LOC107985219",
+    "description": "uncharacterized LOC107985219",
+    "chromosome": "1",
+    "maplocation": "1q23.2",
+    "genomicinfo": [
+     {
+      "chrloc": "1",
+      "chraccver": "NC_000001.11",
+      "chrstart": 160284364,
+      "chrstop": 160292825,
+      "exoncount": 3
+     }
+    ],
+    "summary": "",
+    "otheraliases": "",
+    "status": "",
+    "_status": "read"
+   },
+   "LOC107987169": {
+    "query": "LOC107987169",
+    "gene_ids": [
+     "107987169"
+    ],
+    "gene_id": "107987169",
+    "name": "LOC107987169",
+    "description": "uncharacterized LOC107987169",
+    "chromosome": "12",
+    "maplocation": "12q24.33",
+    "genomicinfo": [
+     {
+      "chrloc": "12",
+      "chraccver": "NC_000012.12",
+      "chrstart": 132132566,
+      "chrstop": 132126185,
+      "exoncount": 3
+     }
+    ],
+    "summary": "",
+    "otheraliases": "",
+    "status": "",
+    "_status": "read"
+   },
+   "LOC124905457": {
+    "query": "LOC124905457",
+    "gene_ids": [
+     "124905457"
+    ],
+    "gene_id": "124905457",
+    "name": "LOC124905457",
+    "description": "placenta-specific gene 8 protein-like",
+    "chromosome": "12",
+    "maplocation": "",
+    "genomicinfo": [],
+    "summary": "",
+    "otheraliases": "",
+    "status": "",
+    "_status": "read"
+   },
    "LOC124907518": {
     "query": "LOC124907518",
     "gene_ids": [
@@ -4975,6 +9078,30 @@
     "chromosome": "15",
     "maplocation": "",
     "genomicinfo": [],
+    "summary": "",
+    "otheraliases": "",
+    "status": "",
+    "_status": "read"
+   },
+   "LRP5L": {
+    "query": "LRP5L",
+    "gene_ids": [
+     "91355"
+    ],
+    "gene_id": "91355",
+    "name": "LRP5L",
+    "description": "LDL receptor related protein 5 like (pseudogene)",
+    "chromosome": "22",
+    "maplocation": "22q11.23",
+    "genomicinfo": [
+     {
+      "chrloc": "22",
+      "chraccver": "NC_000022.11",
+      "chrstart": 25405407,
+      "chrstop": 25351417,
+      "exoncount": 8
+     }
+    ],
     "summary": "",
     "otheraliases": "",
     "status": "",
@@ -5001,6 +9128,30 @@
     ],
     "summary": "This is an evolutionarily conserved gene that produces alternatively spliced long non-coding RNAs that may be expressed predominantly in the brain and visual cortex. These transcripts may be involved in tumorigenesis, as depletion by siRNA suppressed glioma cell division. Transcripts may also bind to and regulate the activity of miR-411-5p and argonaut 2, thereby altering the expression of genes involved in tumor growth. [provided by RefSeq, Nov 2017]",
     "otheraliases": "ECONEXIN, EyeLinc1, LINC00461, LINC02060, NDIME, VISC, uc.166",
+    "status": "",
+    "_status": "read"
+   },
+   "MROH2A": {
+    "query": "MROH2A",
+    "gene_ids": [
+     "339766"
+    ],
+    "gene_id": "339766",
+    "name": "MROH2A",
+    "description": "maestro heat like repeat family member 2A",
+    "chromosome": "2",
+    "maplocation": "2q37.1",
+    "genomicinfo": [
+     {
+      "chrloc": "2",
+      "chraccver": "NC_000002.12",
+      "chrstart": 233775723,
+      "chrstop": 233833417,
+      "exoncount": 45
+     }
+    ],
+    "summary": "This gene encodes a HEAT-domain-containing protein. The function of the encoded protein has not been characterized. [provided by RefSeq, Aug 2016]",
+    "otheraliases": "HEATR7B1",
     "status": "",
     "_status": "read"
    },
@@ -5052,6 +9203,55 @@
     "status": "",
     "_status": "read"
    },
+   "PIK3CG": {
+    "query": "PIK3CG",
+    "gene_ids": [
+     "5294"
+    ],
+    "gene_id": "5294",
+    "name": "PIK3CG",
+    "description": "phosphatidylinositol-4,5-bisphosphate 3-kinase catalytic subunit gamma",
+    "chromosome": "7",
+    "maplocation": "7q22.3",
+    "genomicinfo": [
+     {
+      "chrloc": "7",
+      "chraccver": "NC_000007.14",
+      "chrstart": 106865281,
+      "chrstop": 106908979,
+      "exoncount": 14
+     }
+    ],
+    "summary": "Phosphoinositide 3-kinases (PI3Ks) phosphorylate inositol lipids and are involved in the immune response. The protein encoded by this gene is a class I catalytic subunit of PI3K. Like other class I catalytic subunits (p110-alpha p110-beta, and p110-delta), the encoded protein binds a p85 regulatory subunit to form PI3K. This gene is located in a commonly deleted segment of chromosome 7 previously identified in myeloid leukemias. Several transcript variants encoding the same protein have been found for this gene. [provided by RefSeq, Jun 2015]",
+    "otheraliases": "IMD97, PI3CG, PI3K, PI3Kgamma, PIK3, p110gamma, p120-PI3K",
+    "status": "",
+    "_status": "read"
+   },
+   "PLAC8": {
+    "query": "PLAC8",
+    "gene_ids": [
+     "29124",
+     "51316"
+    ],
+    "gene_id": "29124",
+    "name": "LGALS13",
+    "description": "galectin 13",
+    "chromosome": "19",
+    "maplocation": "19q13.2",
+    "genomicinfo": [
+     {
+      "chrloc": "19",
+      "chraccver": "NC_000019.10",
+      "chrstart": 39602523,
+      "chrstop": 39607473,
+      "exoncount": 4
+     }
+    ],
+    "summary": "Lysophospholipases are enzymes that act on biological membranes to regulate the multifunctional lysophospholipids. The protein encoded by this gene has lysophospholipase activity. It is composed of two identical subunits which are held together by disulfide bonds. This protein has structural similarity to several members of the beta-galactoside-binding S-type lectin family. [provided by RefSeq, Jul 2008]",
+    "otheraliases": "GAL13, PLAC8, PP13",
+    "status": "",
+    "_status": "read"
+   },
    "SLC17A3": {
     "query": "SLC17A3",
     "gene_ids": [
@@ -5100,6 +9300,54 @@
     "status": "",
     "_status": "read"
    },
+   "THEMIS": {
+    "query": "THEMIS",
+    "gene_ids": [
+     "387357"
+    ],
+    "gene_id": "387357",
+    "name": "THEMIS",
+    "description": "thymocyte selection associated",
+    "chromosome": "6",
+    "maplocation": "6q22.33",
+    "genomicinfo": [
+     {
+      "chrloc": "6",
+      "chraccver": "NC_000006.12",
+      "chrstart": 127918594,
+      "chrstop": 127696627,
+      "exoncount": 11
+     }
+    ],
+    "summary": "This gene encodes a protein that plays a regulatory role in both positive and negative T-cell selection during late thymocyte development. The protein functions through T-cell antigen receptor signaling, and is necessary for proper lineage commitment and maturation of T-cells. Alternative splicing results in multiple transcript variants. [provided by RefSeq, Sep 2009]",
+    "otheraliases": "C6orf190, C6orf207, GASP, SPOT, THEMIS1, TSEPA",
+    "status": "",
+    "_status": "read"
+   },
+   "ZC3H4": {
+    "query": "ZC3H4",
+    "gene_ids": [
+     "23211"
+    ],
+    "gene_id": "23211",
+    "name": "ZC3H4",
+    "description": "zinc finger CCCH-type containing 4",
+    "chromosome": "19",
+    "maplocation": "19q13.32",
+    "genomicinfo": [
+     {
+      "chrloc": "19",
+      "chraccver": "NC_000019.10",
+      "chrstart": 47113775,
+      "chrstop": 47064186,
+      "exoncount": 20
+     }
+    ],
+    "summary": "This gene encodes a member of a family of CCCH (C-x8-C-x5-C-x3-H type) zinc finger domain-containing proteins. These zinc finger domains, which coordinate zinc finger binding and are characterized by three cysteine residues and one histidine residue, are nucleic acid-binding. Other family members are known to function in post-transcriptional regulation. [provided by RefSeq, Aug 2011]",
+    "otheraliases": "C19orf7",
+    "status": "",
+    "_status": "read"
+   },
    "ZFPM2": {
     "query": "ZFPM2",
     "gene_ids": [
@@ -5121,6 +9369,54 @@
     ],
     "summary": "The zinc finger protein encoded by this gene is a widely expressed member of the FOG family of transcription factors. The family members modulate the activity of GATA family proteins, which are important regulators of hematopoiesis and cardiogenesis in mammals. It has been demonstrated that the protein can both activate and down-regulate expression of GATA-target genes, suggesting different modulation in different promoter contexts. A related mRNA suggests an alternatively spliced product but this information is not yet fully supported by the sequence. [provided by RefSeq, Jul 2008]",
     "otheraliases": "DIH3, FOG2, PRDM19, SRXY9, ZC2HC11B, ZNF89B, hFOG-2",
+    "status": "",
+    "_status": "read"
+   },
+   "ZNF215": {
+    "query": "ZNF215",
+    "gene_ids": [
+     "7762"
+    ],
+    "gene_id": "7762",
+    "name": "ZNF215",
+    "description": "zinc finger protein 215",
+    "chromosome": "11",
+    "maplocation": "11p15.4",
+    "genomicinfo": [
+     {
+      "chrloc": "11",
+      "chraccver": "NC_000011.10",
+      "chrstart": 6926425,
+      "chrstop": 6994422,
+      "exoncount": 11
+     }
+    ],
+    "summary": "This gene is imprinted in a tissue-specific manner with preferential expression in the testis, and encodes a zinc finger protein that belongs to a family of zinc finger transcription factors. The encoded protein contains an N-terminal SRE-ZBP, Ctfin51, AW-1, and Number 18 (SCAN) domain, a kruppel-associated box A (KRABA) domain, and four C-terminal zinc finger domains. This gene is located within one of three regions on chromosome 11p15 associated with Beckwith-Wiedemann syndrome, called Beckwith-Wiedemann syndrome chromosome region-2 (BWSCR2), and is thought to play a role in the etiology of this disease. [provided by RefSeq, Aug 2017]",
+    "otheraliases": "BAZ-2, BAZ2, ZKSCAN11, ZSCAN43",
+    "status": "",
+    "_status": "read"
+   },
+   "ZNF236": {
+    "query": "ZNF236",
+    "gene_ids": [
+     "7776"
+    ],
+    "gene_id": "7776",
+    "name": "ZNF236",
+    "description": "zinc finger protein 236",
+    "chromosome": "18",
+    "maplocation": "18q23",
+    "genomicinfo": [
+     {
+      "chrloc": "18",
+      "chraccver": "NC_000018.10",
+      "chrstart": 76822556,
+      "chrstop": 76972900,
+      "exoncount": 36
+     }
+    ],
+    "summary": "Predicted to enable DNA-binding transcription factor activity, RNA polymerase II-specific and RNA polymerase II cis-regulatory region sequence-specific DNA binding activity. Involved in cellular response to glucose stimulus. Predicted to be active in nucleus. [provided by Alliance of Genome Resources, Jul 2025]",
+    "otheraliases": "ZNF236A, ZNF236B",
     "status": "",
     "_status": "read"
    },
@@ -5311,6 +9607,75 @@
      "_status": "no Ensembl id in the HPA search row"
     }
    },
+   "CDC42SE1": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "CDC42SE1",
+      "Gene synonym": [
+       "SCIP1",
+       "SPEC1"
+      ],
+      "Ensembl": "ENSG00000197622",
+      "Gene description": "CDC42 small effector 1",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Cell Junctions"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000197622",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
    "CHST5": {
     "_status": "read",
     "n_rows": 1,
@@ -5403,6 +9768,433 @@
      }
     ],
     "ensembl": "ENSG00000132394",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
+   "EFCAB11": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "EFCAB11",
+      "Gene synonym": [
+       "C14orf143"
+      ],
+      "Ensembl": "ENSG00000140025",
+      "Gene description": "EF-hand calcium binding domain 11",
+      "RNA tissue specificity": "Tissue enhanced",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": {
+       "testis": "35.2"
+      },
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Cell Junctions",
+       "Cytosol"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000140025",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
+   "EHMT2": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "EHMT2",
+      "Gene synonym": [
+       "BAT8",
+       "C6orf30",
+       "Em:AF134726.3",
+       "G9A",
+       "KMT1C",
+       "NG36/G9a"
+      ],
+      "Ensembl": "ENSG00000204371",
+      "Gene description": "Euchromatic histone lysine methyltransferase 2",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in many",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Nucleoplasm",
+       "Nuclear speckles"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000204371",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
+   "ERBIN": {
+    "_status": "read",
+    "n_rows": 27,
+    "exact_symbol_rows": [
+     {
+      "Gene": "ERBIN",
+      "Gene synonym": [
+       "ERBB2IP",
+       "LAP2"
+      ],
+      "Ensembl": "ENSG00000112851",
+      "Gene description": "Erbb2 interacting protein",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Plasma membrane",
+       "Cell Junctions"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000112851",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
+   "ESYT2": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "ESYT2",
+      "Gene synonym": [
+       "CHR2SYT",
+       "FAM62B",
+       "KIAA1228"
+      ],
+      "Ensembl": "ENSG00000117868",
+      "Gene description": "Extended synaptotagmin 2",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Plasma membrane",
+       "Cytosol"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000117868",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
+   "EXOC2": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "EXOC2",
+      "Gene synonym": [
+       "FLJ11026",
+       "Sec5",
+       "SEC5L1"
+      ],
+      "Ensembl": "ENSG00000112685",
+      "Gene description": "Exocyst complex component 2",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Vesicles"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000112685",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
+   "FNBP1": {
+    "_status": "read",
+    "n_rows": 2,
+    "exact_symbol_rows": [
+     {
+      "Gene": "FNBP1",
+      "Gene synonym": [
+       "FBP17",
+       "KIAA0554"
+      ],
+      "Ensembl": "ENSG00000187239",
+      "Gene description": "Formin binding protein 1",
+      "RNA tissue specificity": "Tissue enhanced",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": {
+       "lymphoid tissue": "101.9"
+      },
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Plasma membrane"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000187239",
     "per_gene": {
      "_status": "no tissue vector found in the HPA record",
      "matched_path": null,
@@ -5724,6 +10516,144 @@
      ]
     }
    },
+   "HNRNPA2B1": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "HNRNPA2B1",
+      "Gene synonym": [
+       "HNRPA2B1"
+      ],
+      "Ensembl": "ENSG00000122566",
+      "Gene description": "Heterogeneous nuclear ribonucleoprotein A2/B1",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Nucleoplasm"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000122566",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
+   "KCNG3": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "KCNG3",
+      "Gene synonym": [
+       "Kv6.3"
+      ],
+      "Ensembl": "ENSG00000171126",
+      "Gene description": "Potassium voltage-gated channel modifier subfamily G member 3",
+      "RNA tissue specificity": "Tissue enhanced",
+      "RNA tissue distribution": "Detected in single",
+      "RNA tissue specific nTPM": {
+       "brain": "1.0"
+      },
+      "RNA cancer specificity": "Cancer enhanced",
+      "Subcellular main location": [
+       "Cytoplasmic bodies"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000171126",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
    "LAMA4": {
     "_status": "read",
     "n_rows": 1,
@@ -5804,6 +10734,15 @@
      "_status": "no Ensembl id in the HPA search row"
     }
    },
+   "LINC02940": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
+   },
    "LOC105370997": {
     "_status": "read",
     "n_rows": 0,
@@ -5822,7 +10761,52 @@
      "_status": "no Ensembl id in the HPA search row"
     }
    },
+   "LOC105374651": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
+   },
    "LOC105376349": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
+   },
+   "LOC107984281": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
+   },
+   "LOC107985219": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
+   },
+   "LOC107987169": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
+   },
+   "LOC124905457": {
     "_status": "read",
     "n_rows": 0,
     "exact_symbol_rows": [],
@@ -5840,6 +10824,15 @@
      "_status": "no Ensembl id in the HPA search row"
     }
    },
+   "LRP5L": {
+    "_status": "read",
+    "n_rows": 0,
+    "exact_symbol_rows": [],
+    "ensembl": null,
+    "per_gene": {
+     "_status": "no Ensembl id in the HPA search row"
+    }
+   },
    "MIR9-2HG": {
     "_status": "read",
     "n_rows": 0,
@@ -5847,6 +10840,77 @@
     "ensembl": null,
     "per_gene": {
      "_status": "no Ensembl id in the HPA search row"
+    }
+   },
+   "MROH2A": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "MROH2A",
+      "Gene synonym": [
+       "HEATR7B1"
+      ],
+      "Ensembl": "ENSG00000185038",
+      "Gene description": "Maestro heat like repeat family member 2A",
+      "RNA tissue specificity": "Tissue enhanced",
+      "RNA tissue distribution": "Detected in some",
+      "RNA tissue specific nTPM": {
+       "testis": "1.6",
+       "thyroid gland": "1.5"
+      },
+      "RNA cancer specificity": "Not detected",
+      "Subcellular main location": [
+       "Cytosol"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000185038",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
     }
    },
    "NRP1": {
@@ -5926,6 +10990,148 @@
     "ensembl": null,
     "per_gene": {
      "_status": "no Ensembl id in the HPA search row"
+    }
+   },
+   "PIK3CG": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "PIK3CG",
+      "Gene synonym": [],
+      "Ensembl": "ENSG00000105851",
+      "Gene description": "Phosphatidylinositol-4,5-bisphosphate 3-kinase catalytic subunit gamma",
+      "RNA tissue specificity": "Group enriched",
+      "RNA tissue distribution": "Detected in many",
+      "RNA tissue specific nTPM": {
+       "bone marrow": "41.2",
+       "lymphoid tissue": "18.4"
+      },
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Plasma membrane"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000105851",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
+   "PLAC8": {
+    "_status": "read",
+    "n_rows": 4,
+    "exact_symbol_rows": [
+     {
+      "Gene": "PLAC8",
+      "Gene synonym": [
+       "C15",
+       "onzin"
+      ],
+      "Ensembl": "ENSG00000145287",
+      "Gene description": "Placenta associated 8",
+      "RNA tissue specificity": "Tissue enhanced",
+      "RNA tissue distribution": "Detected in many",
+      "RNA tissue specific nTPM": {
+       "bone marrow": "345.6",
+       "intestine": "221.2",
+       "lymphoid tissue": "149.0"
+      },
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Cytosol"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000145287",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
     }
    },
    "SLC17A3": {
@@ -6065,6 +11271,150 @@
      ]
     }
    },
+   "THEMIS": {
+    "_status": "read",
+    "n_rows": 2,
+    "exact_symbol_rows": [
+     {
+      "Gene": "THEMIS",
+      "Gene synonym": [
+       "bA325O24.3",
+       "bA325O24.4",
+       "C6orf190",
+       "C6orf207",
+       "FLJ40584",
+       "TSEPA"
+      ],
+      "Ensembl": "ENSG00000172673",
+      "Gene description": "Thymocyte selection associated",
+      "RNA tissue specificity": "Tissue enriched",
+      "RNA tissue distribution": "Detected in some",
+      "RNA tissue specific nTPM": {
+       "lymphoid tissue": "29.1"
+      },
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Cytosol"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000172673",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
+   "ZC3H4": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "ZC3H4",
+      "Gene synonym": [
+       "C19orf7",
+       "KIAA1064"
+      ],
+      "Ensembl": "ENSG00000130749",
+      "Gene description": "Zinc finger CCCH-type containing 4",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Nucleoplasm"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000130749",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
    "ZFPM2": {
     "_status": "read",
     "n_rows": 1,
@@ -6092,6 +11442,145 @@
      }
     ],
     "ensembl": "ENSG00000169946",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
+   "ZNF215": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "ZNF215",
+      "Gene synonym": [
+       "ZKSCAN11",
+       "ZSCAN43"
+      ],
+      "Ensembl": "ENSG00000149054",
+      "Gene description": "Zinc finger protein 215",
+      "RNA tissue specificity": "Tissue enhanced",
+      "RNA tissue distribution": "Detected in some",
+      "RNA tissue specific nTPM": {
+       "lymphoid tissue": "3.9"
+      },
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Nucleoplasm",
+       "Vesicles"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000149054",
+    "per_gene": {
+     "_status": "no tissue vector found in the HPA record",
+     "matched_path": null,
+     "top_level_keys": [
+      "Antibody",
+      "Antibody RRID",
+      "Biological process",
+      "Blood concentration - Conc. blood IM [pg/L]",
+      "Blood concentration - Conc. blood MS [pg/L]",
+      "Blood expression cluster",
+      "Brain expression cluster",
+      "CCD Protein",
+      "CCD Transcript",
+      "Cancer prognostics - Bladder Urothelial Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (TCGA)",
+      "Cancer prognostics - Breast Invasive Carcinoma (validation)",
+      "Cancer prognostics - Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Colon Adenocarcinoma (validation)",
+      "Cancer prognostics - Glioblastoma Multiforme (TCGA)",
+      "Cancer prognostics - Glioblastoma Multiforme (validation)",
+      "Cancer prognostics - Head and Neck Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Chromophobe (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Kidney Renal Clear Cell Carcinoma (validation)",
+      "Cancer prognostics - Kidney Renal Papillary Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (TCGA)",
+      "Cancer prognostics - Liver Hepatocellular Carcinoma (validation)",
+      "Cancer prognostics - Lung Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Lung Adenocarcinoma (validation)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (TCGA)",
+      "Cancer prognostics - Lung Squamous Cell Carcinoma (validation)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (TCGA)",
+      "Cancer prognostics - Ovary Serous Cystadenocarcinoma (validation)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Pancreatic Adenocarcinoma (validation)",
+      "Cancer prognostics - Prostate Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Rectum Adenocarcinoma (validation)",
+      "Cancer prognostics - Skin Cutaneous Melanoma (TCGA)",
+      "Cancer prognostics - Stomach Adenocarcinoma (TCGA)",
+      "Cancer prognostics - Testicular Germ Cell Tumor (TCGA)",
+      "Cancer prognostics - Thyroid Carcinoma (TCGA)",
+      "Cancer prognostics - Uterine Corpus Endometrial Carcinoma (TCGA)"
+     ]
+    }
+   },
+   "ZNF236": {
+    "_status": "read",
+    "n_rows": 1,
+    "exact_symbol_rows": [
+     {
+      "Gene": "ZNF236",
+      "Gene synonym": [],
+      "Ensembl": "ENSG00000130856",
+      "Gene description": "Zinc finger protein 236",
+      "RNA tissue specificity": "Low tissue specificity",
+      "RNA tissue distribution": "Detected in all",
+      "RNA tissue specific nTPM": null,
+      "RNA cancer specificity": "Low cancer specificity",
+      "Subcellular main location": [
+       "Nucleoplasm",
+       "Cell Junctions"
+      ]
+     }
+    ],
+    "ensembl": "ENSG00000130856",
     "per_gene": {
      "_status": "no tissue vector found in the HPA record",
      "matched_path": null,

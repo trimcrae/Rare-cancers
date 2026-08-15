@@ -405,8 +405,18 @@ def _screens_run_on(label):
     if label not in {j.get("junction_label") for j in art.get("junctions") or []}:
         return (f"NONE at this junction — {os.path.basename(_SCREENED_TABLE)} exists but carries no "
                 f"row for it. Absent from a table is an absent reading, not a clean one.")
+    row = next(j for j in art["junctions"] if j.get("junction_label") == label)
     ran = sorted(k for k, v in (art.get("screens") or {}).items() if v.get("ran"))
     out = sorted(k for k, v in (art.get("screens") or {}).items() if not v.get("ran"))
+    # ⛔ THE LANE-WIDE SCREEN LIST IS NOT THIS JUNCTION'S STATE. The alignment screen is dispatched
+    # PER JUNCTION, so "the lane's alignment screen ran" can be true while this seam has no rows at
+    # all — a sibling's success reported as this one's coverage. `screens_complete` is the per-row
+    # flag the table sets, and it is what decides the sentence.
+    if not row.get("screens_complete"):
+        return (f"INCOMPLETE at this junction. Lane-wide: ran {', '.join(ran) or 'none'}; NOT run "
+                f"{', '.join(out) or 'none'} — but this seam's own alignment screen has NOT run, so "
+                f"its transcriptome-load fields are null and listed in the table's "
+                f"`⛔_unmeasured_fields`. Unmeasured is not clean.")
     return (f"ran: {', '.join(ran) or 'none'}; NOT run: {', '.join(out) or 'none'}. Per-design "
             f"counts are in noncoding-acceptor/{os.path.basename(_SCREENED_TABLE)}, which is the "
             "one home for them; they are not restated here.")
@@ -421,12 +431,16 @@ def _off_target_screening_status():
                 "network. These counts are therefore NOT comparable with the panel's, and a design "
                 "here is not shown to be as clean as, or cleaner than, any screened design.")
     ran, total = art.get("n_screens_that_ran"), len(art.get("screens") or {})
-    return (f"⛔ OFF-TARGET SCREENING IS PARTIAL AND THE SPLIT IS PER SCREEN, NOT PER JUNCTION: "
-            f"{ran} of {total} screens have run over this lane's designs "
-            f"(noncoding-acceptor/{os.path.basename(_SCREENED_TABLE)} names which, and which have "
-            f"not). A design whose screens are incomplete is NOT shown to be as clean as a panel "
-            f"design that went through all of them, and an unrun screen is unmeasured — never "
-            f"clean. The per-design counts live in that table and are not restated here.")
+    js = art.get("junctions") or []
+    complete = sorted(j["junction_label"] for j in js if j.get("screens_complete"))
+    partial = sorted(j["junction_label"] for j in js if not j.get("screens_complete"))
+    return (f"⛔ OFF-TARGET SCREENING IS PER JUNCTION, NOT PER LANE. Lane-wide {ran} of {total} "
+            f"screens have run; COMPLETE at {', '.join(complete) or 'no junction'}; still "
+            f"INCOMPLETE at {', '.join(partial) or 'no junction'}. A junction whose alignment "
+            f"screen has not run carries null transcriptome-load fields, and null is unmeasured — "
+            f"never clean, and never comparable with a panel design that went through all five. "
+            f"The per-design counts live in "
+            f"noncoding-acceptor/{os.path.basename(_SCREENED_TABLE)} and are not restated here.")
 
 
 def build():

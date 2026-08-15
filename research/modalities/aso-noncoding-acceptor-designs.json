@@ -3,7 +3,7 @@
  "_why": "The EWSR1 type 2 transcript joins EWSR1 exon 7 to NR4A3 exon 2 and is reported in at least two sequenced patients across two series. Every junction in the panel uses NR4A3 exon 3, so no reagent in it can engage those tumours. The exclusion is a frame/coding grade, which is the right filter for a fusion protein and the wrong one for an RNase-H mechanism. The PGR e2 :: NR4A3 e2 seam is excluded by the same acceptor grade AND by a second, independent gap: PGR is not one of the five 5' partners the atlas models, so no design lane could reach that patient even with the acceptor filter lifted.",
  "_what_this_is_not": [
   "Not an efficacy claim and not a claim of activity. Sequence arithmetic and a parent-exclusion screen only. Nothing here has been synthesised or tested.",
-  "⛔ OFF-TARGET SCREENING IS PARTIAL AND THE SPLIT IS PER SCREEN, NOT PER JUNCTION: 2 of 5 screens have run over this lane's designs (noncoding-acceptor/aso-noncoding-acceptor-screened-table.json names which, and which have not). A design whose screens are incomplete is NOT shown to be as clean as a panel design that went through all of them, and an unrun screen is unmeasured — never clean. The per-design counts live in that table and are not restated here.",
+  "⛔ OFF-TARGET SCREENING IS PER JUNCTION, NOT PER LANE. Lane-wide 5 of 5 screens have run; COMPLETE at EWSR1_e7__NR4A3_e2; still INCOMPLETE at PGR_e2__NR4A3_e2. A junction whose alignment screen has not run carries null transcriptome-load fields, and null is unmeasured — never clean, and never comparable with a panel design that went through all five. The per-design counts live in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json and are not restated here.",
   "Not a relaxation of the coding-acceptor guard in junction_aso. That guard catches a coordinate slip and still raises; this module reaches its seams through an explicit published-breakpoint whitelist, so it cannot design at a junction nobody sequenced.",
   "Not a claim that the type 2 chimera makes a protein, or that it is oncogenic. Real questions, and not the gapmer's questions."
  ],
@@ -16,7 +16,7 @@
   "_same_as": "aso_screen_sets.MANUSCRIPT_GEOMETRY, asserted at build time"
  },
  "transcript_source": {
-  "requested": "cache",
+  "requested": "auto",
   "used_per_gene": {
    "EWSR1": "committed_cache",
    "TAF15": "committed_cache",
@@ -74,7 +74,7 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: mature_parent_gap_pairing, premrna; NOT run: exhaustive_transcript_scan, genome_grch38, transcriptome_blast_deep. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean."
     },
     {
      "antisense_5to3": "GTGGGCTCTTCCATTG",
@@ -87,7 +87,7 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: mature_parent_gap_pairing, premrna; NOT run: exhaustive_transcript_scan, genome_grch38, transcriptome_blast_deep. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean."
     },
     {
      "antisense_5to3": "CAGTGGGCTCTTCCAT",
@@ -100,7 +100,7 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: mature_parent_gap_pairing, premrna; NOT run: exhaustive_transcript_scan, genome_grch38, transcriptome_blast_deep. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean."
     },
     {
      "antisense_5to3": "TGGGCTCTTCCATTGC",
@@ -113,7 +113,7 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: mature_parent_gap_pairing, premrna; NOT run: exhaustive_transcript_scan, genome_grch38, transcriptome_blast_deep. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean."
     },
     {
      "antisense_5to3": "GCAGTGGGCTCTTCCA",
@@ -126,7 +126,7 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: mature_parent_gap_pairing, premrna; NOT run: exhaustive_transcript_scan, genome_grch38, transcriptome_blast_deep. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean."
     }
    ],
    "best_by_gap_specificity_margin": "AGTGGGCTCTTCCATT"
@@ -172,7 +172,7 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: mature_parent_gap_pairing, premrna; NOT run: exhaustive_transcript_scan, genome_grch38, transcriptome_blast_deep. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
     },
     {
      "antisense_5to3": "CAGTGGGCTTCTGCTG",
@@ -185,7 +185,7 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: mature_parent_gap_pairing, premrna; NOT run: exhaustive_transcript_scan, genome_grch38, transcriptome_blast_deep. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
     },
     {
      "antisense_5to3": "GTGGGCTTCTGCTGCC",
@@ -198,7 +198,7 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: mature_parent_gap_pairing, premrna; NOT run: exhaustive_transcript_scan, genome_grch38, transcriptome_blast_deep. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
     },
     {
      "antisense_5to3": "GCAGTGGGCTTCTGCT",
@@ -211,7 +211,7 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: mature_parent_gap_pairing, premrna; NOT run: exhaustive_transcript_scan, genome_grch38, transcriptome_blast_deep. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
     },
     {
      "antisense_5to3": "TGGGCTTCTGCTGCCC",
@@ -224,7 +224,7 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: mature_parent_gap_pairing, premrna; NOT run: exhaustive_transcript_scan, genome_grch38, transcriptome_blast_deep. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
     }
    ],
    "best_by_gap_specificity_margin": "AGTGGGCTTCTGCTGC"

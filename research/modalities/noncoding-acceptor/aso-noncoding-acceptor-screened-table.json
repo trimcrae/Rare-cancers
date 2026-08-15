@@ -2,7 +2,7 @@
   "_title": "The published NON-CANONICAL NR4A3 fusion junctions, screened to the panel's depth and joined into the panel's field set",
   "_generated_by": "research/modalities/aso_noncoding_acceptor_screened_table.py",
   "⛔_this_is_not_the_manuscript_panel": "Every junction here is one the manuscript's 38-junction panel EXCLUDES, by a protein-level filter: the acceptor exon carries no CDS, or the chimeric register does not compose. They are screened because an RNase-H1 gapmer cleaves a transcript rather than a protein. Do not pool these rows into the panel's counts.",
-  "⚠_not_a_measurement_of_its_own": "Nothing here was re-screened, AND THE ROWS ARE PARTIAL. The alignment screen that supplies the transcriptome load has not run, so the rows were built by this module's `_partial_rows` rather than by aso_per_junction_table.junction_rows: same field names, checked against the panel artifact's own row keys, with every field of an unrun screen left null and listed in `⛔_unmeasured_fields`. There is no ranking and no `best_available`, because the rank key is one of the unmeasured fields.",
+  "⚠_not_a_measurement_of_its_own": "Nothing here was re-screened. A junction with `screens_complete: true` had its rows built by aso_per_junction_table.junction_rows — the same grader the panel's table uses, called with a different root — and every field is joined from a screen artifact that ran. A junction with `screens_complete: false` has NOT had its alignment screen run: its rows come from this module's `_partial_rows`, carry the same field names (checked against the panel artifact's own row keys), leave every field of an unrun screen null and listed in `⛔_unmeasured_fields`, and have no `best_available`, because the rank key is one of the unmeasured fields. ⛔ The flag is PER JUNCTION: a sibling junction's screen succeeding says nothing about this one.",
   "⛔_two_axes_not_one": "gap_specificity_margin (fusion-versus-parent discrimination) and the transcriptome load move in opposite directions at some seams and are never combined into a single score. Ranking is by load among designs clearing the parent screen; margin is printed beside it, exactly as in the panel's table.",
   "geometry": {
     "oligo_len": 16,
@@ -18,15 +18,71 @@
   "screens": {
     "transcriptome_blast_deep": {
       "artifact": "noncoding-acceptor",
-      "ran": false,
-      "screens": [],
-      "why": "no DEEP 16-mer 5-6-5 BLAST screen is present in this directory. That is a screen that did not run, NOT a screen that found nothing — the two must not render alike. It needs NCBI, so it runs in CI: dispatch .github/workflows/aso-offtarget.yml with real_junctions 'EWSR1:7:2:published', screen_mode 'deep_rescreen', suffix_tag '-deep500', then commit the published artifacts into this directory."
+      "ran": true,
+      "screens": [
+        "junction-aso-offtarget-e7n2-deep500.json"
+      ],
+      "geometry": {
+        "oligo_len": 16,
+        "wing": 5,
+        "gap_nt": 6,
+        "architecture": "5-6-5 (LNA-DNA-LNA)",
+        "gap_region_1based": [
+          6,
+          11
+        ]
+      },
+      "_geometry_is_measured": "from the designs in each artifact, then checked against the geometry the artifact states about itself"
     },
     "exhaustive_transcript_scan": {
       "artifact": "noncoding-acceptor",
-      "ran": false,
-      "screens": [],
-      "why": "no 16-mer design-evaluation panel is present in this directory. It downloads the full RefSeq transcript set, so it runs in CI alongside the BLAST screen in the same dispatch."
+      "ran": true,
+      "screens": [
+        "aso-insilico-evaluation-e7n2-deep500.json"
+      ],
+      "geometry": {
+        "oligo_len": 16,
+        "wing": 5,
+        "gap_nt": 6,
+        "architecture": "5-6-5 (LNA-DNA-LNA)",
+        "gap_region_1based": [
+          6,
+          11
+        ]
+      },
+      "per_design": [
+        {
+          "antisense_5to3": "AGTGGGCTTCTGCTGC",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 21,
+          "site_accessibility": 0.52
+        },
+        {
+          "antisense_5to3": "CAGTGGGCTTCTGCTG",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 42,
+          "site_accessibility": 0.523
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTTCTGCT",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 88,
+          "site_accessibility": 0.531
+        },
+        {
+          "antisense_5to3": "GTGGGCTTCTGCTGCC",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 23,
+          "site_accessibility": 0.506
+        },
+        {
+          "antisense_5to3": "TGGGCTTCTGCTGCCC",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 76,
+          "site_accessibility": 0.493
+        }
+      ],
+      "_not_in_the_field_set": "these columns are not part of aso-per-junction-table.json's field set and are not joined into the rows below; they are here so the fifth screen's state is readable rather than inferred"
     },
     "mature_parent_gap_pairing": {
       "artifact": "aso-parent-gap-pairing-noncoding-acceptor.json",
@@ -1838,10 +1894,12 @@
       }
     }
   },
-  "n_screens_that_ran": 3,
-  "n_screens_outstanding": 2,
+  "n_screens_that_ran": 5,
+  "n_screens_outstanding": 0,
   "seam_grades_of_the_source_artifacts": {
-    "junction-aso-designs-e7n2-deep500.json": "CORRECT"
+    "aso-insilico-evaluation-e7n2-deep500.json": "CORRECT",
+    "junction-aso-designs-e7n2-deep500.json": "CORRECT",
+    "junction-aso-offtarget-e7n2-deep500.json": "CORRECT"
   },
   "n_junctions": 2,
   "junctions": [
@@ -1855,43 +1913,48 @@
       ],
       "n_designs_screened": 5,
       "n_designs_clearing_the_parent_screen": 4,
-      "n_designs_with_no_parent_screen_reading": 0,
-      "best_available": null,
-      "_why_no_best_available": "the rank key is the transcriptome load among designs clearing the parent screen, and the alignment screen that measures it has not run. Ranking on the screens that did run would manufacture a recommendation out of an absence.",
+      "best_available": {
+        "antisense_5to3": "CAGTGGGCTTCTGCTG",
+        "gap_specificity_margin": 2,
+        "n_gap_paired": 51,
+        "n_gap_paired_loci": 7,
+        "gap_paired_loci": [
+          "AFF1",
+          "CEP104",
+          "LOC107985957",
+          "LOC107986735",
+          "LOC124906238",
+          "PROCA1",
+          "TOP3A"
+        ],
+        "n_hybridisable": 71,
+        "n_near_matches": 132,
+        "parent": "TAF15",
+        "parent_duplex_bp": 8,
+        "parent_is_liability": false,
+        "premrna_gap_paired_hybridisable": 0,
+        "genome_oe_gap_paired_le2": 1.507,
+        "genome_named_target_sites": 0,
+        "genome_named_target_genes": []
+      },
       "best_by_gap_specificity_margin": "AGTGGGCTTCTGCTGC",
-      "⛔_unmeasured_fields": [
-        "gap_paired_loci",
-        "n_gap_paired",
-        "n_gap_paired_loci",
-        "n_hybridisable",
-        "n_near_matches"
-      ],
-      "⛔_unmeasured_is_not_clean": "every field listed above is null because the screen that measures it HAS NOT RUN. Null is an absent reading; it is not a reading of absence, and it must never be read as zero off-target load.",
       "designs": [
-        {
-          "antisense_5to3": "AGTGGGCTTCTGCTGC",
-          "gap_specificity_margin": 3,
-          "n_gap_paired": null,
-          "n_gap_paired_loci": null,
-          "gap_paired_loci": null,
-          "n_hybridisable": null,
-          "n_near_matches": null,
-          "parent": "TAF15",
-          "parent_duplex_bp": 8,
-          "parent_is_liability": false,
-          "premrna_gap_paired_hybridisable": 0,
-          "genome_oe_gap_paired_le2": 1.401,
-          "genome_named_target_sites": 0,
-          "genome_named_target_genes": []
-        },
         {
           "antisense_5to3": "CAGTGGGCTTCTGCTG",
           "gap_specificity_margin": 2,
-          "n_gap_paired": null,
-          "n_gap_paired_loci": null,
-          "gap_paired_loci": null,
-          "n_hybridisable": null,
-          "n_near_matches": null,
+          "n_gap_paired": 51,
+          "n_gap_paired_loci": 7,
+          "gap_paired_loci": [
+            "AFF1",
+            "CEP104",
+            "LOC107985957",
+            "LOC107986735",
+            "LOC124906238",
+            "PROCA1",
+            "TOP3A"
+          ],
+          "n_hybridisable": 71,
+          "n_near_matches": 132,
           "parent": "TAF15",
           "parent_duplex_bp": 8,
           "parent_is_liability": false,
@@ -1901,13 +1964,53 @@
           "genome_named_target_genes": []
         },
         {
+          "antisense_5to3": "AGTGGGCTTCTGCTGC",
+          "gap_specificity_margin": 3,
+          "n_gap_paired": 164,
+          "n_gap_paired_loci": 11,
+          "gap_paired_loci": [
+            "AFF1",
+            "ARHGAP20",
+            "BPTF",
+            "FBXO22",
+            "KCNA2",
+            "KIAA0825",
+            "LOC101929444",
+            "LOC105378741",
+            "LOC107985957",
+            "LOC124906238",
+            "LOC124907518"
+          ],
+          "n_hybridisable": 231,
+          "n_near_matches": 292,
+          "parent": "TAF15",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.401,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": []
+        },
+        {
           "antisense_5to3": "GTGGGCTTCTGCTGCC",
           "gap_specificity_margin": 2,
-          "n_gap_paired": null,
-          "n_gap_paired_loci": null,
-          "gap_paired_loci": null,
-          "n_hybridisable": null,
-          "n_near_matches": null,
+          "n_gap_paired": 152,
+          "n_gap_paired_loci": 11,
+          "gap_paired_loci": [
+            "AFF1",
+            "ARHGAP20",
+            "ARID5B",
+            "BPTF",
+            "FBXO22",
+            "KCNA2",
+            "KIAA0825",
+            "LOC101929444",
+            "LOC107985957",
+            "LOC124906238",
+            "PDIA5"
+          ],
+          "n_hybridisable": 153,
+          "n_near_matches": 219,
           "parent": "TAF15",
           "parent_duplex_bp": 8,
           "parent_is_liability": false,
@@ -1917,29 +2020,29 @@
           "genome_named_target_genes": []
         },
         {
-          "antisense_5to3": "GCAGTGGGCTTCTGCT",
-          "gap_specificity_margin": 1,
-          "n_gap_paired": null,
-          "n_gap_paired_loci": null,
-          "gap_paired_loci": null,
-          "n_hybridisable": null,
-          "n_near_matches": null,
-          "parent": "NR4A3",
-          "parent_duplex_bp": 11,
-          "parent_is_liability": true,
-          "premrna_gap_paired_hybridisable": 0,
-          "genome_oe_gap_paired_le2": 1.425,
-          "genome_named_target_sites": 0,
-          "genome_named_target_genes": []
-        },
-        {
           "antisense_5to3": "TGGGCTTCTGCTGCCC",
           "gap_specificity_margin": 1,
-          "n_gap_paired": null,
-          "n_gap_paired_loci": null,
-          "gap_paired_loci": null,
-          "n_hybridisable": null,
-          "n_near_matches": null,
+          "n_gap_paired": 123,
+          "n_gap_paired_loci": 15,
+          "gap_paired_loci": [
+            "AFF1",
+            "ARID5B",
+            "CACFD1",
+            "DCDC2",
+            "DPP10",
+            "FBXO22",
+            "HS1BP3",
+            "KCNA2",
+            "KIAA0825",
+            "LINC00115",
+            "LOC101929444",
+            "PDIA5",
+            "RFX5",
+            "SECISBP2L",
+            "ZNF596"
+          ],
+          "n_hybridisable": 141,
+          "n_near_matches": 288,
           "parent": "EWSR1",
           "parent_duplex_bp": 8,
           "parent_is_liability": false,
@@ -1947,9 +2050,30 @@
           "genome_oe_gap_paired_le2": 2.078,
           "genome_named_target_sites": 0,
           "genome_named_target_genes": []
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTTCTGCT",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": 35,
+          "n_gap_paired_loci": 4,
+          "gap_paired_loci": [
+            "AFF1",
+            "CEP104",
+            "LOC124900852",
+            "TKTL1"
+          ],
+          "n_hybridisable": 110,
+          "n_near_matches": 150,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 11,
+          "parent_is_liability": true,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.425,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": []
         }
       ],
-      "screens_complete": false
+      "screens_complete": true
     },
     {
       "junction_label": "PGR_e2__NR4A3_e2",
