@@ -63,7 +63,7 @@ LANDSCAPE_MIN_COLS = 8
 
 PAPERS = {
     "aso": {
-        "manuscript": "aso/fusion-junction-aso-short-communication.md",
+        "manuscript": "aso/fusion-junction-aso-research-article.md",
         "tables": "aso/fusion-junction-aso-submission-tables.md",
         "references": "aso/fusion-junction-aso-submission-references.md",
         #: Legend prefix -> the SVG that legend describes. Stated rather than inferred from
@@ -71,22 +71,25 @@ PAPERS = {
         #: whether a legend describes its figure, and a silent mis-pairing is unreadable in a PDF.
         "figures": {
             "Figure 1.": "aso-junction-space.svg",
-            "Figure 2.": "aso-multipartner-seam.svg",
-            "Figure 3.": "aso-chance-baseline.svg",
+            "Figure 2.": "aso-gap-length-tradeoff.svg",
+            "Figure 3.": "aso-multipartner-seam.svg",
+            "Supplementary Figure S1.": "aso-chance-baseline.svg",
         },
-        #: ⚠ FIGURE 3 IS NEVER CITED BY NAME IN THE BODY, so the journal style has no anchor to
-        #: float it to and would otherwise place it arbitrarily. It is the chance-baseline panel,
-        #: and §3.10 is the section that derives the baseline it draws — the 8.2 expectation, the
-        #: 186,185 transcripts and the 718,571,139-nucleotide span are all that section's numbers.
+        #: ⚠ THE CHANCE-BASELINE PANEL IS NEVER CITED BY NAME IN THE BODY, so the journal style
+        #: has no anchor to float it to and would otherwise place it arbitrarily. §3.10 is the
+        #: section that derives the baseline it draws — the 8.2 expectation, the 186,185
+        #: transcripts and the 718,571,139-nucleotide span are all that section's numbers.
         #: Declared here rather than guessed at render time, and the build fails if an uncited item
         #: has no declaration.
-        "placement": {"Figure 3": {"after_heading": "3.10"}},
+        #: ⚠ RENUMBERED 2026-08-15: it was Figure 3 until the gap-length identity took Figure 2 and
+        #: the multi-partner seam moved to Figure 3, which pushed this panel to the supplement.
+        "placement": {"Supplementary Figure S1": {"after_heading": "3.10"}},
         "journal": {
-            "article_type": "Short communication",
+            "article_type": "Research article",
             "section": "Cancer genomics · RNA therapeutics",
             "preprint_note": "Preprint — not peer reviewed. Posted to bioRxiv under CC-BY.",
         },
-        "out": "aso/fusion-junction-aso-short-communication.pdf",
+        "out": "aso/fusion-junction-aso-research-article.pdf",
     },
 }
 
@@ -152,14 +155,26 @@ def split_tables(tables_md):
     return blocks
 
 
+#: ⚠ A SUPPLEMENTARY FIGURE SORTS AFTER EVERY NUMBERED ONE, WHICH IS WHY IT IS NOT JUST "S1".
+#: `split_figures` keys blocks by a sortable number and the renderer lays them out in that order.
+#: Giving a supplementary panel the key 1 would float it between Figures 1 and 2; this offset puts
+#: S1 after Figure N for any N a paper will ever have, without special-casing the layout code.
+SUPPLEMENTARY_SORT_BASE = 1000
+
+
 def split_figures(body, figures):
     """One block per figure: the SVG markup plus the legend paragraph that describes it."""
     _, end, after_heading = section_span(body, "Figure legends")
     legends = body[after_heading:end]
     blocks = {}
     for prefix, svgname in figures.items():
-        number = int(re.match(r"Figure (\d+)\.", prefix).group(1))
-        match = re.search(r"^\*\*" + re.escape(prefix) + r".*?(?=^\*\*Figure \d+\.|\Z)",
+        m = re.match(r"(?:Supplementary )?Figure S?(\d+)\.", prefix)
+        if not m:
+            raise SystemExit(f"figure key {prefix!r} is neither 'Figure N.' nor "
+                             f"'Supplementary Figure SN.'")
+        number = int(m.group(1)) + (SUPPLEMENTARY_SORT_BASE if "Supplementary" in prefix else 0)
+        match = re.search(r"^\*\*" + re.escape(prefix)
+                          + r".*?(?=^\*\*(?:Supplementary )?Figure S?\d+\.|\Z)",
                           legends, re.M | re.S)
         if not match:
             raise SystemExit(f"no legend found for {svgname}: expected a paragraph "
@@ -260,7 +275,12 @@ def assemble(paper, style="journal"):
     for number in sorted(figures):
         token = f"@@FLOAT:figure{number}@@"
         floats[token] = ("figure", number, figures[number], False)
-        items.append((f"Figure {number}", token))
+        # ⚠ THE CITATION LABEL MUST BE THE STRING THE BODY ACTUALLY USES, not the sort key. A
+        # supplementary panel is keyed above SUPPLEMENTARY_SORT_BASE so it lays out last, and
+        # searching the body for "Figure 1001" would find nothing and report it as uncited.
+        label = (f"Supplementary Figure S{number - SUPPLEMENTARY_SORT_BASE}"
+                 if number >= SUPPLEMENTARY_SORT_BASE else f"Figure {number}")
+        items.append((label, token))
 
     body = place_floats(body, items, paper.get("placement", {}))
     return body, floats

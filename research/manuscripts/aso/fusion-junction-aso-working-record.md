@@ -15,7 +15,7 @@ _backfilled: true
 > # THIS IS THE WORKING RECORD, NOT THE SUBMISSION
 >
 > **The submitted manuscript is
-> [`fusion-junction-aso-short-communication.md`](./fusion-junction-aso-short-communication.md).** This
+> [`fusion-junction-aso-research-article.md`](./fusion-junction-aso-research-article.md).** This
 > file is its provenance archive: every analysis in full, every superseded value, and the complete
 > correction history that repository rule 1.2 requires be registered rather than dropped.
 >

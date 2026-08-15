@@ -182,7 +182,7 @@ the one place it is least affordable.*
 ## 2 · What the venue demands, and where the submission stands
 
 ⚠ **This table was written against the WORKING RECORD, before the submission text existed as a
-separate file.** Every row below now measures `fusion-junction-aso-short-communication.md`; the
+separate file.** Every row below now measures `fusion-junction-aso-research-article.md`; the
 superseded column is kept because the size of the gap is the reason the split happened.
 
 | requirement | state (2026-08-13) | was, before the split |
@@ -223,6 +223,39 @@ The compression is where an honest paper turns into an over-claiming one, so the
 - **The retraction record must survive somewhere.** Repository rule 1.2 requires superseded values be
   registered. A journal does not want that in the running text; the SI or a data-repository record is
   the right home, and dropping it entirely is not an option.
+
+### 1d · External review, 2026-08-15: the venue shortlist, and a parallel move worth more than the venue
+
+An external reviewer of the submission draft named the realistic targets independently of the fee
+question: ***Nucleic Acid Therapeutics*, *Molecular Therapy — Nucleic Acids*, or *PLOS ONE***, with
+the judgement that **a sequence-only paper with no wet-lab arm will struggle above that**. Two of
+the three are already on this page — NAT as the preferred fit whose fee model could not be read
+(§1b), MTNA priced at $116 per page for a non-society member on the checklist. The reading that is
+new is the ceiling: this page had been treating venue as a fee-constrained optimisation, and the
+constraint that actually binds is the absence of an experiment.
+
+⭐ **AND THE HIGHER-VALUE MOVE IS PARALLEL RATHER THAN SEQUENTIAL.** Post to bioRxiv now — that was
+already the plan of record and it is unaffected by the journal question — and separately approach a
+group holding molecularly confirmed EMC material with breakpoint sequencing. **Two oligonucleotides
+and three controls is a small ask for a laboratory that already has the cells**, and §5 of the
+manuscript is written as exactly that request: named sequences, named controls, and a
+pre-registered decision threshold.
+
+The obvious group is the **Milan sarcoma group at Istituto Nazionale Tumori**, and this repository
+already holds the evidence for why: they are the source of the sunitinib series in
+[`emc-fusion-partner-pooling.json`](../fusion-partner/emc-fusion-partner-pooling.json), which is
+partner-stratified, so they have both the cohort and the molecular annotation §5.4 requires before
+any oligonucleotide is ordered.
+
+⚠ **TWO THINGS THIS SUBSECTION DOES NOT DO.** It does not settle the venue, because the fee reads
+in §1b and §1c stand and NAT still needs a human with an ordinary browser. And it does not send
+anything: outreach is outward-facing and irreversible, so it goes to trimcrae as a review block
+when the preprint is actually ready to post, per CLAUDE.md §3, not before.
+
+⭐ **One further reviewer judgement, recorded because it cuts against this repository's instinct:**
+the author's declared connection to the disease is **an asset in that conversation, not something
+to keep out of it**. The competing-interests declaration already states it. The outreach draft
+should lead with it rather than bury it.
 
 ## 4 · Sequence
 

@@ -93,16 +93,24 @@ import struct
 import subprocess
 import sys
 import tempfile
+import zlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# The three figures of the ASO short communication, in manuscript order. Named explicitly rather
-# than globbed, because this directory also holds matplotlib-authored figures that already have
-# their PDF and PNG and must not be re-rendered through a different pipeline.
+# The figures of the ASO research article, in manuscript order. Named explicitly rather than
+# globbed, because this directory also holds matplotlib-authored figures that already have their
+# PDF and PNG and must not be re-rendered through a different pipeline.
+# ⚠ THE ORDER CHANGED ON 2026-08-15 AND THE ORDER IS THE POINT. External review observed that the
+# paper's most original result — the gap-length identity of section 3.8 — was buried with no figure,
+# while Figure 2 was given to the multi-partner molecule, which section 3.2 states is a hypothesis
+# about junctions no patient is known to carry. Visual emphasis was contradicting the paper's own
+# caveat. The gap-length figure is now Figure 2, the multi-partner seam is Figure 3, and the
+# chance-expectation bar chart moved to the supplement.
 ASO_FIGURES = [
-    "aso-junction-space.svg",       # Figure 1
-    "aso-multipartner-seam.svg",    # Figure 2
-    "aso-chance-baseline.svg",      # Figure 3
+    "aso-junction-space.svg",         # Figure 1
+    "aso-gap-length-tradeoff.svg",    # Figure 2  (was: none — the result had no figure)
+    "aso-multipartner-seam.svg",      # Figure 3  (was: Figure 2)
+    "aso-chance-baseline.svg",        # Supplementary Figure S1 (was: Figure 3)
 ]
 
 # Springer Nature's full double-column measure. 180 mm = 7.087 in, inside check_figure_specs.py's
@@ -363,6 +371,80 @@ def png_set_resolution(path, dpi):
     return ppm * 0.0254
 
 
+#: ⛔⛔ HEADLESS CHROMIUM'S VIEWPORT IS SHORTER THAN THE WINDOW IT WAS ASKED FOR, AND EVERY FIGURE
+#: THIS SCRIPT HAS EVER PRODUCED WAS TRUNCATED BECAUSE OF IT (measured 2026-08-15).
+#: `--window-size=W,H` sizes the WINDOW; the viewport it yields is a constant band shorter, and the
+#: screenshot is viewport-sized. Anything the page draws below that line is captured as blank white
+#: rather than dropped, so the PNG comes out at exactly the requested pixel count, at exactly the
+#: requested dpi, with a clean white strip where the bottom of the figure should be. Every check
+#: this script performs — pixel count, dpi, aspect ratio, font references — passes on a truncated
+#: file, which is why it survived: nothing here was looking at the pixels.
+#:
+#: MEASURED, by rendering a ruler SVG at four canvas heights: the unpainted band is 86.3 CSS px at
+#: H = 300, 460, 664 and 1000. Constant, not proportional. WHAT IT COST, on the three figures that
+#: were already deposited: Figure 3's x-axis title and its three caveat lines, including "Counts are
+#: predictions from sequence search, not measured off-target activity" and the disclosure of the ten
+#: designs not plotted; Figure 2's whole three-line caption, including the sentence its own
+#: generator's docstring insists must appear, that the paralogy letting one reagent cover three
+#: fusions is what makes those designs hard to discriminate from the parents; and 95 px off the
+#: bottom of Figure 1. In each case the line that vanished was a limitation, which is the worst
+#: possible selection bias for a silent truncation to have.
+#:
+#: THE FIX: ask for a window taller than the drawing by more than that band, so the whole page falls
+#: inside the viewport, then crop the screenshot back to the drawing's own height. Padding without
+#: cropping would deliver a file of the wrong aspect ratio at the wrong dpi.
+VIEWPORT_PAD_PX = 220
+
+
+def png_crop_height(path, keep_rows):
+    """Trim a PNG to its first `keep_rows` rows, in place. Pure stdlib: no PIL, no cairo.
+
+    The cropped band is the padding added to defeat the viewport shortfall above, so it is white
+    background by construction — but this re-encodes rather than assuming that, because a crop that
+    silently kept drawn content would be a second truncation with the same signature as the first.
+    """
+    chunks = _png_chunks(open(path, "rb").read())
+    ihdr = next(payload for typ, payload in chunks if typ == b"IHDR")
+    w, h, depth, colour, comp, filt, interlace = struct.unpack(">IIBBBBB", ihdr[:13])
+    if depth != 8 or interlace != 0 or colour not in (0, 2, 4, 6):
+        raise ConversionError(f"{path}: cannot crop depth {depth} colour {colour} "
+                              f"interlace {interlace}")
+    if keep_rows >= h:
+        return w, h
+    nch = {0: 1, 2: 3, 4: 2, 6: 4}[colour]
+    stride = w * nch
+    raw = zlib.decompress(b"".join(p for t, p in chunks if t == b"IDAT"))
+    out, prev, pos = [], bytearray(stride), 0
+    for _y in range(keep_rows):
+        ft = raw[pos]
+        pos += 1
+        line = bytearray(raw[pos:pos + stride])
+        pos += stride
+        for x in range(stride):
+            a = line[x - nch] if x >= nch else 0
+            b = prev[x]
+            c = prev[x - nch] if x >= nch else 0
+            if ft == 1:
+                line[x] = (line[x] + a) & 255
+            elif ft == 2:
+                line[x] = (line[x] + b) & 255
+            elif ft == 3:
+                line[x] = (line[x] + (a + b) // 2) & 255
+            elif ft == 4:
+                p = a + b - c
+                pa, pb, pc = abs(p - a), abs(p - b), abs(p - c)
+                line[x] = (line[x] + (a if (pa <= pb and pa <= pc) else
+                                      (b if pb <= pc else c))) & 255
+        out.append(b"\x00" + bytes(line))          # re-emit with filter None; size is not the point
+        prev = line
+    new = [(b"IHDR", struct.pack(">IIBBBBB", w, keep_rows, depth, colour, comp, filt, interlace))]
+    new += [(t, p) for t, p in chunks if t not in (b"IHDR", b"IDAT", b"IEND")]
+    new.append((b"IDAT", zlib.compress(b"".join(out), 9)))
+    new.append((b"IEND", b""))
+    open(path, "wb").write(_png_build(new))
+    return w, keep_rows
+
+
 def png_dimensions(path):
     data = open(path, "rb").read()
     for typ, payload in _png_chunks(data):
@@ -383,14 +465,18 @@ def render_png(binary, wrapper_url, out_path, w_px, h_px, width_mm, dpi, profile
     # portal is entitled to reject. A spare pixel costs nothing.
     target_px = math.ceil(width_mm / MM_PER_IN * dpi)
     scale = target_px / w_px
+    # ⛔ THE WINDOW IS PADDED AND THE SCREENSHOT IS CROPPED BACK. See VIEWPORT_PAD_PX: asking for a
+    # window exactly as tall as the drawing leaves the last ~86 CSS px of it outside the viewport,
+    # where it is captured as blank white at the correct pixel count and the correct dpi.
     run_chromium(binary, [
-        f"--window-size={int(round(w_px))},{int(round(h_px))}",
+        f"--window-size={int(round(w_px))},{int(round(h_px)) + VIEWPORT_PAD_PX}",
         f"--force-device-scale-factor={scale:.10f}",
         "--default-background-color=FFFFFFFF",
         "--screenshot=" + out_path,
     ], wrapper_url, profile_dir)
     if not os.path.exists(out_path):
         raise ConversionError(f"chromium reported success but wrote no {out_path}")
+    png_crop_height(out_path, int(math.ceil(h_px * scale)))
     px_w, px_h = png_dimensions(out_path)
     # The honest dpi is the one the delivered pixels actually represent at the target width, not
     # the one that was requested. They differ by Chromium's sub-pixel rounding.

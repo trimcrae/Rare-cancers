@@ -40,6 +40,14 @@ OUT = os.path.join(HERE, "aso-figure-provenance.json")
 #: derived list and the check would pass by covering less.
 FIGURES = {
     "aso-junction-space": ["nr4a3-fusion-junction-atlas.json"],
+    # ⚠ THREE ATLASES, NOT ONE, AND THAT IS THE WHOLE POINT OF THE FIGURE. It draws the identity
+    # across 5-6-5, 5-8-5 and 5-10-5, so a change to ANY geometry's atlas makes it stale. Listing
+    # only the 16-mer here would leave the two panels that carry the argument unwatched.
+    "aso-gap-length-tradeoff": [
+        "nr4a3-fusion-junction-atlas.json",
+        "nr4a3-fusion-junction-atlas-18mer-5-8-5.json",
+        "nr4a3-fusion-junction-atlas-20mer-5-10-5.json",
+    ],
     "aso-multipartner-seam": ["nr4a3-fusion-junction-atlas.json"],
     "aso-chance-baseline": ["offtarget-chance-baseline.json"],
 }

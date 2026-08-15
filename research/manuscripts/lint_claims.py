@@ -495,6 +495,60 @@ RULES = [
         # -- and a linter that flags true statements is a linter that gets ignored.
         context_required=r"\bedge\b|\bRBFE\b|\bternary\b|\balchemical\b|\bFEP\b",
     ),
+    # -- R6: a claim about what OTHER PEOPLE routinely do ---------------------------------
+    Rule(
+        "R6-unsurveyed-field-practice",
+        # ⛔ WHY THIS RULE EXISTS (trimcrae, 2026-08-15): *"I'm a little skeptical of the
+        # claim here that standard practice for ASO design doesn't consider sparing the
+        # parent gene. That seems like a pretty obvious thing to do. And we're claiming we
+        # invented it?"* We were, in the abstract, and we should not have been. THIS
+        # pipeline drops parent-gene records from its alignment screen for a stated reason
+        # (`junction_aso_offtarget.is_parent`), and the abstract had generalised that
+        # implementation choice into "standard practice does not look" and "specificity
+        # screens routinely exclude the parent genes" — a claim about the field, with no
+        # survey behind it, contradicted by this paper's OWN citations (refs 13-16
+        # demonstrate parental sparing) and by its own working record ("this paper's
+        # method-level novelty is nil").
+        #
+        # ⚠ WHY NO EXISTING RULE CAUGHT IT. R1-R5 police the strength of claims about OUR
+        # results — "selective hit", "synthesis-ready", "recovered degradation". Every one
+        # of them asks "is this result as strong as the sentence says". None asks "is this
+        # sentence about SOMEONE ELSE, and did we measure it". A claim about the field is a
+        # claim like any other and needs a source or a hedge.
+        #
+        # ⚠ KEPT TIGHT, per pinned-figures.json's own warning that a linter flagging true
+        # statements gets ignored. It fires only on a generalisation about practice — the
+        # subject must be the field or its tools AND the verb must be a habitual. It does
+        # NOT fire on "the field has not asked of this disease", which is scoped to an
+        # indication and anchored to a stated retrieval two sentences earlier.
+        #
+        # ⛔⛔ AND THE FIRST VERSION OF THIS RULE COULD NOT FIRE, which is the failure this
+        # repository calls the bug rather than the miss. It was written `clears_on="hedge"`,
+        # and `DISCLAIMER_MARKERS` contains `\bdoes not\b` — so the very phrase the rule
+        # triggers on ("standard practice DOES NOT look") registered as its own disclaimer
+        # and cleared it. Proved by running it against the retracted sentence: clean.
+        # A negation-shaped assertion is exactly the shape this rule must catch, so the
+        # disclaimer test can never be the right clearer for it.
+        #
+        # ⭐ IT CLEARS ON A CITATION INSTEAD, which is the thing actually missing. The
+        # `(?![^.\n]*<sup>)` lookahead asserts there is no citation marker between the
+        # generalisation and the end of its sentence. Cite a survey and the rule is silent;
+        # assert it bare and it is an ERROR. That is the whole content of the objection.
+        r"\b(?:standard|common|conventional|current|usual|established)\s+practice\b"
+        r"(?![^.\n]*<sup>)"
+        r"[^.\n]{0,60}\b(?:does not|do not|never|fails? to|ignores?|omits?|overlooks?)\b"
+        r"|\b(?:screens?|pipelines?|tools?|the field|most groups?|designers?)\b"
+        r"(?![^.\n]*<sup>)"
+        r"[^.\n]{0,90}\broutinely\b[^.\n]{0,40}"
+        r"\b(?:exclude|omit|ignore|skip|overlook)\b",
+        "ERROR",
+        "this asserts what OTHER GROUPS routinely do, and no survey of published pipelines "
+        "was performed. Either cite one, or rewrite it as an argument about the instrument "
+        "(what a screen filtering on global identity can and cannot surface) or about this "
+        "paper's own screens, which is what is actually established",
+        "trimcrae 2026-08-15: \"we're claiming we invented it?\"",
+        clears_on=None,
+    ),
 ]
 
 

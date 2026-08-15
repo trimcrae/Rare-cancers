@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Census of recurrent gene fusions: which fusion-driven cancers have EVER had a junction-directed oligo?
 
-⭐ WHY THIS EXISTS. `fusion-junction-aso-short-communication.md` establishes for ONE disease (EMC) that a
+⭐ WHY THIS EXISTS. `fusion-junction-aso-research-article.md` establishes for ONE disease (EMC) that a
 breakpoint seam admits parent-sparing gapmers, that the EXON rather than the GENE predicts a clean design,
 and that the limiting step — RNase-H1 single-mismatch discrimination — is not computable. The per-disease
 marginal cost of asking that question is a ~10-minute $0 CI job, and for a cancer with tens of cases a year
@@ -570,7 +570,7 @@ def classify_pair(donor, acceptor):
 
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────────
-#: ⭐ THE KNOWN-ANSWER POSITIVE CONTROL, RUN ON EVERY CENSUS. `fusion-junction-aso-short-communication.md`
+#: ⭐ THE KNOWN-ANSWER POSITIVE CONTROL, RUN ON EVERY CENSUS. `fusion-junction-aso-research-article.md`
 #: established over 5,153 retrieved Europe PMC records that the count of junction-directed
 #: oligonucleotide work against any NR4A3 fusion is ZERO. That makes EWSR1::NR4A3 the one pair in this
 #: universe whose answer is independently known — so it is the one pair that can tell a working
@@ -583,7 +583,7 @@ def classify_pair(donor, acceptor):
 #: happens to know the EMC literature.
 CONTROL_FUSION = ("EWSR1", "NR4A3")
 CONTROL_EXPECTED = "orphan"
-CONTROL_BASIS = ("fusion-junction-aso-short-communication.md: across 5,153 unique Europe PMC records, "
+CONTROL_BASIS = ("fusion-junction-aso-research-article.md: across 5,153 unique Europe PMC records, "
                  "no junction-directed oligonucleotide study exists against any NR4A3 fusion")
 
 

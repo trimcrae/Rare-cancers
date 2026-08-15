@@ -6,7 +6,7 @@ kind: memo
 status: live
 canonical_for: []
 purpose: >
-  Hold the cover letter accompanying fusion-junction-aso-short-communication.md, with the fit
+  Hold the cover letter accompanying fusion-junction-aso-research-article.md, with the fit
   statement, the scope disclosure, the preprint note and the integrity declarations a journal
   expects at submission. The addressee is a placeholder: the venue is open, and both venues
   previously chosen were eliminated on their page charges — see

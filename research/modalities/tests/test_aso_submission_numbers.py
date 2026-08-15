@@ -29,7 +29,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 MOD = os.path.dirname(HERE)
 REPO = os.path.dirname(os.path.dirname(MOD))
 PAPER = os.path.join(REPO, "research", "manuscripts", "aso",
-                     "fusion-junction-aso-short-communication.md")
+                     "fusion-junction-aso-research-article.md")
 COLLAPSE = os.path.join(MOD, "junction-aso-offtarget-locus-collapse.json")
 sys.path.insert(0, MOD)
 
@@ -577,8 +577,13 @@ def test_the_clean_designs_mostly_fail_conventional_triage():
     assert "four fall outside the 40–60% GC window" in txt
 
 
-def test_the_figure_3_legend_matches_the_series_it_describes():
+def test_the_chance_baseline_legend_matches_the_series_it_describes():
     """⛔ THE LEGEND AND THE FIGURE DISAGREED, AND THE FIGURE WAS RIGHT.
+
+    ⚠ Named for the FIGURE, not its number. This was `test_the_figure_3_legend_...` until
+    2026-08-15, when the chance-baseline chart moved to Supplementary Figure S1 and a new Figure 2
+    took the gap-length identity. A test named after an ordinal goes stale the first time a figure
+    is reordered, and then points a future reader at the wrong panel.
 
     The legend said 125 design records collapse to 114 molecules, 77 at or below the chance band and
     37 above, from six multi-seam designs. The artifact says 190 records, 176 molecules, 125 at or
@@ -602,7 +607,7 @@ def test_the_figure_3_legend_matches_the_series_it_describes():
     assert spans[3] == 5 and spans[2] == 4, spans
     assert f"nine of the 16-mers" in txt and "five at three junctions and four at two" in txt
     for dead in ("114 molecules", "77 of the 114", "five at three junctions and one at two"):
-        assert dead not in txt, f"superseded Figure 3 legend value is back: {dead!r}"
+        assert dead not in txt, f"superseded chance-baseline legend value is back: {dead!r}"
 
 
 def test_the_accessibility_range_is_the_one_the_artifacts_produce():

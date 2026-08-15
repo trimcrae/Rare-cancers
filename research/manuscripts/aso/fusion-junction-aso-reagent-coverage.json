@@ -1,0 +1,104 @@
+{
+ "_what": "The fraction of molecularly confirmed EMC the two named reagents could engage, with the partner prevalence discounted by the published breakpoint distribution \u2014 because the reagents are junction-specific, not partner-specific.",
+ "_why": "The manuscript claimed 'about 95% of molecularly confirmed cases' in its abstract and section 5.1. 95% is PARTNER prevalence and the reagents are junction-specific, which the manuscript states itself in section 5.4. Raised by external review, 2026-08-15.",
+ "_what_this_is_not": [
+  "Not a coverage measurement. No patient was screened with either reagent, and a sequence that matches a junction is not thereby active against it.",
+  "Not a pooled proportion. Two cohorts, combined multiplicatively rather than pooled; POLICY-evidence.md section 2.3 governs double-counted patients and does not reach a product of a prevalence and a conditional fraction.",
+  "Not assumption-free. It assumes the breakpoint distribution within EWSR1-rearranged tumours is the same in the 58-case cohort as in the 18-case one, 21 years apart. Nothing here tests that.",
+  "Not rescued by the interval. The TAF15 arm rests on three tumours."
+ ],
+ "_cost": "$0 \u2014 arithmetic over two retrieved bibliographic records.",
+ "inputs": {
+  "partner_prevalence": {
+   "pmid": "36948401",
+   "n": 58,
+   "counts": {
+    "EWSR1": 46,
+    "TAF15": 9,
+    "TCF12": 2,
+    "no_identified_partner": 1
+   },
+   "verbatim": "fusion distribution reported as 46 EWSR1::NR4A3 (79%), 9 TAF15::NR4A3 (16%), 2 TCF12::NR4A3 (3%), 1 NR4A3-rearranged with no identified partner (2%)",
+   "source": "research/literature/no-wet-lab-archetypes-2026-08-12.json"
+  },
+  "breakpoint_distribution": {
+   "pmid": "12378528",
+   "n": 18,
+   "verbatim": "Fifteen cases had an EWS/CHN fusion transcript and three had an RBP56/CHN transcript. The most frequent EWS/CHN transcript (type 1; 10 tumors), involved fusion of EWS exon 12 with CHN exon 3 ... In all tumors with RBP56/CHN fusion, exon 6 of RBP56 was fused to exon 3 of CHN.",
+   "source": "research/manuscripts/aso/lit-targets-aso-verify.json",
+   "arms": {
+    "EWSR1_e12__NR4A3_e3": {
+     "k": 10,
+     "n": 15
+    },
+    "TAF15_e6__NR4A3_e3": {
+     "k": 3,
+     "n": 3
+    }
+   }
+  }
+ },
+ "arms": [
+  {
+   "reagent_junction": "EWSR1_e12__NR4A3_e3",
+   "partner": "EWSR1",
+   "partner_share_of_cohort": 0.7931,
+   "partner_share_counts": "46/58",
+   "partner_share_wilson95": [
+    0.6723,
+    0.8775
+   ],
+   "breakpoint_fraction_within_partner": 0.6667,
+   "breakpoint_fraction_counts": "10/15",
+   "breakpoint_fraction_wilson95": [
+    0.4171,
+    0.8482
+   ],
+   "contribution_to_coverage": 0.5287,
+   "contribution_range": [
+    0.3308,
+    0.6727
+   ]
+  },
+  {
+   "reagent_junction": "TAF15_e6__NR4A3_e3",
+   "partner": "TAF15",
+   "partner_share_of_cohort": 0.1552,
+   "partner_share_counts": "9/58",
+   "partner_share_wilson95": [
+    0.0838,
+    0.2693
+   ],
+   "breakpoint_fraction_within_partner": 1.0,
+   "breakpoint_fraction_counts": "3/3",
+   "breakpoint_fraction_wilson95": [
+    0.4385,
+    1.0
+   ],
+   "contribution_to_coverage": 0.1552,
+   "contribution_range": [
+    0.068,
+    0.1552
+   ]
+  }
+ ],
+ "coverage": {
+  "point_estimate": 0.6839,
+  "percent": 68.4,
+  "plain_language": "roughly two thirds",
+  "range_from_breakpoint_intervals": [
+   0.3988,
+   0.8279
+  ],
+  "percent_range": [
+   39.9,
+   82.8
+  ],
+  "_how_the_range_is_built": "Coverage is increasing in both breakpoint fractions, so the endpoints compose exactly when each fraction is taken to its own Wilson bound. That treats the two arms as moving together and is therefore CONSERVATIVE \u2014 wider than a treatment that let them vary independently. Partner shares are held at their point estimates because they rest on 58 cases against 15 and 3; their own intervals are reported per arm so a reader can see that they are not what drives the width.",
+  "_the_superseded_figure": {
+   "value": 94.8,
+   "what_it_actually_is": "partner prevalence \u2014 the ceiling a reagent set could reach if every patient's breakpoint fell at the modelled exon pair",
+   "why_it_was_wrong_here": "the reagents are specific to one exon pair each; section 3.2 of the manuscript shows a design missing the reported TAF15 junction by all but a single donor base"
+  }
+ }
+}

@@ -34,7 +34,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PAPER = os.path.join(HERE, "aso", "fusion-junction-aso-short-communication.md")
+PAPER = os.path.join(HERE, "aso", "fusion-junction-aso-research-article.md")
 REFS_JSON = os.path.join(HERE, "aso", "fusion-junction-aso-references.json")
 OUT_MD = os.path.join(HERE, "aso", "fusion-junction-aso-submission-references.md")
 OUT_JSON = os.path.join(HERE, "aso", "fusion-junction-aso-submission-references.json")
@@ -180,6 +180,10 @@ HARVEST_SOURCES = [
     os.path.join(HERE, "..", "literature", "fusion-consensus-probe.json"),
     os.path.join(HERE, "..", "literature", "submission-reference-metadata-2026-08-09.json"),
     os.path.join(HERE, "fusion-partner", "lit-targets-partner-events.json"),
+    # Added 2026-08-15 for the NR4A-redundancy paragraph. Its records were fetched after the ASO
+    # corpus was frozen, so no source above can see them — which the `_literature_cache` docstring
+    # names as a reason to fetch again and never a reason to type an author list.
+    os.path.join(HERE, "aso", "lit-targets-nr4a-redundancy.json"),
 ]
 
 #: Europe PMC, Crossref, OpenAlex and PubMed disagree on the spelling of the same three fields.

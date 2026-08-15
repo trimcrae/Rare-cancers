@@ -64,13 +64,25 @@ def test_every_table_survives_into_the_journal_layout(journal):
 
 
 def test_every_figure_is_placed_with_the_legend_that_describes_it(journal):
+    """⚠ A SUPPLEMENTARY PANEL IS KEYED ABOVE THE NUMBERED ONES SO IT LAYS OUT LAST.
+
+    `build_submission_pdf.SUPPLEMENTARY_SORT_BASE` offsets it rather than special-casing the
+    layout, so the key is 1001 and the label the body cites is "Supplementary Figure S1". Both
+    halves are asserted: a mismatch between them is how a panel gets reported as uncited.
+    """
+    import build_submission_pdf as bsp
     _, floats, rendered, _ = journal
     figures = {n: p for (kind, n, p, _w) in floats.values() if kind == "figure"}
-    assert set(figures) == {1, 2, 3}
+    numbered = {n for n in figures if n < bsp.SUPPLEMENTARY_SORT_BASE}
+    supplementary = {n for n in figures if n >= bsp.SUPPLEMENTARY_SORT_BASE}
+    assert numbered == {1, 2, 3}
+    assert supplementary == {bsp.SUPPLEMENTARY_SORT_BASE + 1}
     for number, (svg, legend) in figures.items():
         assert svg.startswith("<svg")
-        assert legend.startswith(f"**Figure {number}."), "a legend was paired to the wrong panel"
-    assert rendered.count("<svg") == 3
+        expected = (f"**Supplementary Figure S{number - bsp.SUPPLEMENTARY_SORT_BASE}."
+                    if number >= bsp.SUPPLEMENTARY_SORT_BASE else f"**Figure {number}.")
+        assert legend.startswith(expected), "a legend was paired to the wrong panel"
+    assert rendered.count("<svg") == len(figures)
 
 
 # ---------------------------------------------------------------- the anchors are load-bearing
@@ -124,7 +136,11 @@ def test_front_matter_captures_whole_paragraphs_not_first_lines(journal):
     front, _, _, _ = journal
     assert front["keywords"].endswith("myxoid chondrosarcoma")
     assert "ORCID" in front["affiliation"]
-    assert front["abstract"].endswith("falsify the ranking used here.")
+    # ⚠ Compared with whitespace normalised. The source wraps, and asserting a literal ending
+    # made this test fail on a rewrap rather than on the defect it is for — a first-line-only
+    # match dropping the tail. The tail is what is checked; how it wraps is not.
+    assert " ".join(front["abstract"].split()).endswith(
+        "the selectivity value that would falsify the ranking used here.")
 
 
 def test_citation_markers_render_and_their_pmid_comments_do_not(journal):

@@ -61,7 +61,7 @@ LIT = os.path.join(ROOT, "literature")
 ASO = os.path.join(HERE, "aso")
 OUT = os.path.join(ASO, "fusion-junction-aso-archive-manifest.json")
 
-PAPER = os.path.join(ASO, "fusion-junction-aso-short-communication.md")
+PAPER = os.path.join(ASO, "fusion-junction-aso-research-article.md")
 
 # ---------------------------------------------------------------------------------------------
 # The promise table.
@@ -330,8 +330,8 @@ PROMISES = [
         "contributes": ("The submission text, its cover letter, and the figure generators with "
                         "their vector and raster output. The figures are generated from the same "
                         "artifacts as the tables, so a reader can regenerate them."),
-        "patterns": ["research/manuscripts/aso/fusion-junction-aso-short-communication.md",
-                     "research/manuscripts/aso/fusion-junction-aso-short-communication-cover-letter.md",
+        "patterns": ["research/manuscripts/aso/fusion-junction-aso-research-article.md",
+                     "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
                      "research/manuscripts/figures/aso_*_figure.py",
                      "research/manuscripts/figures/aso-*.pdf",
                      "research/manuscripts/figures/aso-*.png",

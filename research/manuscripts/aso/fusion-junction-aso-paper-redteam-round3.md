@@ -7,7 +7,7 @@ status: live
 canonical_for:
   - the round-3 pre-deposit review of the fusion-junction ASO submission manuscript
 purpose: >
-  Hold the pre-deposit quality review of fusion-junction-aso-short-communication.md, run 2026-08-14
+  Hold the pre-deposit quality review of fusion-junction-aso-research-article.md, run 2026-08-14
   against the committed tree, with every number re-derived from the artifacts rather than read from
   the prose. Its reason for existing is the same as round 2's: a review whose findings are applied
   but not recorded gets re-run from scratch, and its wrong leads get re-raised. It exists separately

@@ -1,6 +1,6 @@
 ---
 id: DOC-FUSION-JUNCTION-ASO-SUBMISSION
-title: "Design and predicted specificity limits of junction-spanning gapmers against NR4A3 fusions in extraskeletal myxoid chondrosarcoma"
+title: "Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene, and a longer catalytic gap cannot separate them"
 level: L3
 kind: manuscript
 status: live
@@ -24,7 +24,12 @@ date: 2026-08-13
 last_verified: 2026-08-13
 ---
 
-# Design and predicted specificity limits of junction-spanning gapmers against *NR4A3* fusions in extraskeletal myxoid chondrosarcoma
+# Nearly half of junction-spanning gapmer designs against the *NR4A3* fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene, and a longer catalytic gap cannot separate them
+
+**Article type.** Full research article. An earlier draft was prepared as a short communication and
+that framing was withdrawn: the work reports five specificity screens with a null for the one that
+lacked it, three oligonucleotide geometries, six tables and three figures, and no venue's short-form
+limits accommodate it without deleting results the conclusions rest on.
 
 **Author.** Tristan D. McRae
 
@@ -46,15 +51,27 @@ occurs in no normal gene. An antisense drug could in principle destroy that tran
 base-pairing alone, sparing both genes the fusion was built from, but none has been reported for this
 disease. Designs prove easy to find. Of the 231 ways the five known partners could join *NR4A3*, 38
 keep the reading frame intact, and all 38 yield candidate gapmers, whose central DNA gap is where
-RNase-H1 cuts. The difficulty lies where standard practice does not look. Specificity screens compare
-a candidate against the transcriptome but routinely exclude the parent genes, which are the most
-dangerous match such a drug can have. Screened against them directly, 87 of 190 candidates pair that
-gap against a parent transcript, 61 of those against healthy *NR4A3*, the gene the approach exists to
-spare. Another 19 do so in unspliced precursor RNA, where RNase-H1 is also active and no
-mature-transcript screen reaches. Lengthening the gap, the obvious remedy, cannot help: the same
-bases that arm the enzyme against the fusion arm it against the parent. Candidates nevertheless clear the parent screens at both junctions reported in patients,
-about 95% of confirmed cases. Two are named for synthesis, with the controls that make a knockdown
-experiment interpretable and the selectivity value that would falsify the ranking used here.
+RNase-H1 cuts. Sparing the parent genes is the established test of such a design, but it is normally
+confirmed in cells after synthesis, and the sequence screens that rank candidates beforehand cannot
+see the form the liability takes: an identity-filtered alignment screen cannot surface an
+eleven-base-pair contiguous duplex, and a mature-transcript screen cannot reach precursor RNA.
+Compared directly against the six parent transcripts, 87 of 190 candidates pair that gap against a
+mature parent transcript, 61 of those against healthy *NR4A3*, the gene the approach exists to
+spare. That rate is not what arbitrary sequence gives: scrambled and randomly chosen
+16-mers reach 6.2% and 6.9% on the same screen, and chimeras joining the same two parent transcripts
+at random offsets reach 23.8%, against 45.8% observed. Another 19 candidates pair the gap in
+unspliced precursor RNA, where RNase-H1 is also active and no mature-transcript screen reaches.
+Lengthening the gap, the obvious remedy, cannot help, and the reason is arithmetic rather than
+empirical: in every design of all three geometries tiled here, the junction-unique bases a longer gap
+wins and the contiguous wild-type-parent duplex it concedes are the same nucleotides. Candidates do
+clear the parent screens at both junctions with a published exon-resolved breakpoint, together
+roughly two thirds of molecularly confirmed cases once partner prevalence is discounted by breakpoint
+distribution. They do not clear them cleanly: the *EWSR1* reagent named below carries the heaviest
+disclosed transcriptome load of any design considered here, 123 gap-paired sense-strand near-matches
+at six gene loci, together with a sense-strand near-match in wild-type *TAF15* precursor RNA. Two
+oligonucleotides are named for synthesis with that load attached, alongside the controls that make a
+knockdown experiment interpretable and the selectivity value that would falsify the ranking used
+here.
 
 ---
 
@@ -143,9 +160,13 @@ six-nucleotide DNA gap were retained, since RNase-H1 cleaves within the DNA:RNA 
 needs a minimum run of contiguous DNA to do so.
 
 The gap length is a compromise and is treated as one. Reported minima for that
-run are five to six nucleotides,<sup>21,22</sup><!--PMID:39126066,41614678--> and for LNA/DNA/LNA
-gapmers specifically a six-nucleotide gap gives noteworthy but incomplete activity, with seven to ten
-reported as optimal.<sup>23</sup><!--PMID:24981949--> Six therefore sits at the short end of the
+run are five to six nucleotides, and the two sources are not of equal weight: one states that
+RNase-H1 requires a gap of at least five for cleavage to
+occur,<sup>21</sup><!--PMID:39126066--> while the other is a design-protocol statement that the
+DNA segment must be "six or more bases" to activate the enzyme, given in passing and citing prior
+work rather than measuring it.<sup>22</sup><!--PMID:41614678--> Neither is a titration in this
+architecture. For LNA/DNA/LNA gapmers specifically a six-nucleotide gap gives noteworthy but
+incomplete activity, with seven to ten reported as optimal.<sup>23</sup><!--PMID:24981949--> Six therefore sits at the short end of the
 usable range and below the reported optimum. It was retained because it admits exactly five
 junction-spanning registers per junction. No claim is made that a short gap improves
 fusion-versus-parent discrimination: one series that shortened a 5-10-5 gapmer to 5-6-5 reported
@@ -206,6 +227,20 @@ another catches. No single screen supports any claim here on its own.
    heteroduplex through its hybrid-binding domain and cleave,<sup>26</sup><!--PMID:35664704--> so the
    count it produces is a floor: at seven the same screen returns 175 of 190 rather than 87.
 
+   **The null for this screen.** Unlike the genome scan, this one is bounded by six transcripts and
+   so has no chance expectation of its own, and a count against six transcripts is not interpretable
+   without one. Six ensembles of arbitrary 16-mers were therefore pushed through the identical
+   screen, 200 draws per design in each: each design's target window shuffled to preserve base
+   composition; shuffled to preserve dinucleotide composition by an Eulerian-path shuffle; drawn
+   from uniform bases; drawn from the panel's pooled base composition; and two arms holding either
+   the catalytic gap or the wings fixed while shuffling the other. A seventh is not a chance null
+   but a structural one: a random window of a real donor parent joined to a random window of real
+   *NR4A3* at the same split offset as the design it is matched to, which keeps the whole design
+   rule and randomises only where in each transcript the two pieces come from. Proportions carry
+   Wilson 95% intervals. The pseudo-random stream is written out in the released code rather than
+   taken from the interpreter's own, so the artefact is reproducible bit for bit. §3.5 reports the
+   result.
+
 5. **The genome scan.** Screens 1 to 4 are bounded either by an annotation or by six transcripts.
    The fifth removes that bound. Every distinct target window and its reverse complement was tested
    against every position of GRCh38 in both orientations at ≤2 mismatches, exhaustively:
@@ -230,7 +265,19 @@ one depth need not be clean at another. §3.4 and §3.10 report both effects.
 
 **Target-site accessibility.** Estimated as mean unpaired probability over a local fold of up to 180
 nucleotides, computed with the ViennaRNA partition function.<sup>27</sup><!--PMID:22115189--> It spans 0.160 to 0.707 across all 190 designs at real exon junctions, with a median of
-0.477. It is released with the artefacts and is not used to rank anything here.
+0.477. It is released with the artefacts and is not used to rank anything here, and the omission is
+deliberate rather than an oversight. Three reasons, in decreasing order of force. First, the quantity
+is not the one the paper is about: accessibility predicts whether an oligonucleotide can reach its
+site on the fusion, and every question asked here is whether it can be told apart from a parent once
+it does. An inaccessible site is a potency problem, and potency is not claimed for any sequence.
+Second, the estimate is a fold of a naked transcript, whereas the compartment that matters is a
+nascent, protein-coated pre-mRNA; measured antisense activity correlates with such predictions weakly
+and inconsistently, which is why the field selects by screening rather than by folding. Third, it
+would have no purchase on the result even if it were reliable: the surviving candidates are separated
+by orders of magnitude of predicted off-target load, and reordering them on a quantity that spans
+0.160 to 0.707 across the panel would substitute a weak predictor for a strong one. The values are
+released so that a laboratory ordering several oligonucleotides at one junction can break a tie on
+them, which is the use they support.
 
 **Expression of the off-target loci.** No screen above says whether a matched gene is transcribed
 where the drug goes. For the two junctions with a published exon-resolved breakpoint, the gene loci
@@ -306,8 +353,8 @@ offline against the archive: the retrieved unspliced sequence and exon coordinat
 The results are ordered for a laboratory deciding what to make. Sections 3.1 to 3.3 ask whether
 designs exist at all, whether one can serve more than one patient group, and whether the partner gene
 predicts a clean design. Section 3.4 gives the designs that survive the transcriptome screens, 3.5
-what they would do to the parent genes, and 3.6 the candidates left once every screen has been
-applied. Sections 3.7 to 3.9 carry what a bench decision turns on next: where the off-target loci are
+what they would do to the parent genes and how that compares with what arbitrary sequence does, and
+3.6 the candidates left once every screen has been applied. Sections 3.7 to 3.9 carry what a bench decision turns on next: where the off-target loci are
 expressed, which catalytic gap to build, and whether duplex free energy or the conventional design
 rules would select different molecules. Section 3.10 states how far the counts themselves can be
 trusted, and it bounds everything above it.
@@ -342,7 +389,7 @@ candidate sequences is therefore not the constraint on this modality in this dis
 ### 3.2 · Cross-partner coverage by a single oligonucleotide
 
 Nine designs span the junction of more than one junction exactly, and all nine draw from *EWSR1*, *TAF15*
-and *FUS* (Figure 2). Five cover the same three-partner set, differing only in register across the
+and *FUS* (Figure 3). Five cover the same three-partner set, differing only in register across the
 junction. The best by gap-level margin is 5′-GGGCATATCATCAAAC-3′ (43.8% GC, gap-level margin 3), which
 divides eight donor and eight acceptor bases at the junction of *EWSR1* exon 12, *TAF15* exon 11 and
 *FUS* exon 10 joined to *NR4A3* exon 3, and occurs in none of the six wild-type parent transcripts.
@@ -520,6 +567,31 @@ pairs, including 5′-CAGGGCATATCTTGCA-3′ against wild-type *NR4A3* itself. Th
 predictor of parent engagement rather than a guarantee against it, because it counts bases unique to
 the fusion at the junction without asking whether a parent carries them elsewhere.
 
+Eighty-seven of 190 is 45.8%, and a count of that kind means little without a null, so the same
+screen was run over arbitrary 16-mers. Only the query changes: the same six mature parents, the same
+forward orientation, the same ten-base-pair threshold. Scrambling each design's own target window,
+which preserves its base composition and is the scrambled-gapmer control §5.4 asks a laboratory to
+make, gives 6.2%; a dinucleotide-preserving shuffle gives 10.0%; 16-mers drawn from uniform bases
+give 6.9%, and from the panel's pooled base composition 7.2%. A calculation agrees with the sampled
+figure rather than the sampled figure standing alone: the gap must pair, at 4⁻⁶, and the run must
+then extend four further nucleotides across the two wings, at 1/64, which over the 19,921 parent
+windows searched predicts 7.3%. The observed rate is about sevenfold that, and the arm the modality
+actually turns on separates further still: 32.1% of designs pair the gap against wild-type *NR4A3*
+specifically, against 1.8% of scrambles.
+
+A second null asks whether that excess is a fact about reported breakpoints or merely about the
+design rule. Joining a random window of a real donor parent to a random window of real *NR4A3*, split
+at the same offset as the design it is matched to, reproduces everything the rule specifies, namely
+donor sequence 5′, *NR4A3* sequence 3′ and the junction inside the catalytic gap, while destroying
+only the fact that the two pieces meet where a tumour joins them. Those chimeras reach 23.8%. About
+half the observed liability is therefore generic to any chimera of these two transcripts, and about
+half is specific to the real junctions. Two further arms locate it no more finely: holding the six
+gap bases and scrambling the wings gives 9.1%, and the mirror gives 8.8%, because a run reaching ten
+base pairs needs the real gap and the real flanks together. None of these rates is a significance
+test and none is offered as one. The 190 records are 176 distinct molecules tiled at overlapping
+registers across 38 junctions, so they are not independent draws, and a test treating them as 190
+would be wrong about its own denominator.
+
 ### 3.6 · The surviving candidates, and a genome-wide check
 
 Composing this with the deeper re-screen of §3.4 leaves three candidates in the whole panel, and they
@@ -577,7 +649,7 @@ highest value there at 268.6 TPM in cultured fibroblasts.
 ### 3.8 · Gap length trades junction specificity against parent-duplex competence
 
 The panel above is one geometry. Tiling the same junctions at 5-8-5 and 5-10-5, wing fixed at five
-nucleotides, resolves what a longer catalytic gap buys and what it costs (Table 5).
+nucleotides, resolves what a longer catalytic gap buys and what it costs (Table 5, Figure 2).
 
 What a longer gap buys and what it costs are the same nucleotide. Inside the gap, the junction-unique
 bases on the shorter side and the bases one wild-type parent pairs on the longer side are
@@ -679,8 +751,7 @@ depths, and 129 of those had not approached the 50-hit cap. One reporting 9 near
 one reporting 10 returned 110; and one reporting 15, a count the pipeline treats as a complete list,
 returned 204. Every alignment count taken at the default ceiling is therefore a lower bound, whether
 or not it reached the cap. Reaching the cap is not what censors a count, and a count of zero is not
-exempt: §3.4 reports three designs that returned no near-match at this depth and 27, 29 and 84 at ten
-times it.
+exempt, which §3.4 shows for three designs at the junction the cleanliness claim turned on.
 
 Retention is the second bound, and the restriction it imposes was tested rather than assumed. Seven
 design-and-junction records have no sense-strand hit among those retained and a raw count above the
@@ -728,14 +799,12 @@ partners has a junction whose best design carries no sense-strand near-match acr
 therefore the exon a fusion breaks at, not the gene it breaks into, that predicts a clean design.
 
 Clean designs are much scarcer than the default search depth implies, and two independent findings
-converge on that. Of the nine designs with no sense-strand near-match at that depth, six lose the
-property at ten times it, three of them having reported no near-match at all before. Separately, five
-form an eleven- or twelve-base-pair duplex with a mature wild-type parent that pairs the whole
-catalytic gap, one of them with *NR4A3* itself, where no screen filtering on global identity can see
-it. Three designs survive every screen applied here, two of them at any parent-duplex threshold. That
-is the honest size of the candidate set, taken at the deeper ceiling now applied to all 38 junctions
-and 187 design records with no hit list truncated. Those counts are reported as their own measurement
-and are not folded into the default-depth figures above.
+converge on that. One is search depth, measured in §3.4 and bounded corpus-wide in §3.10. The other
+is invisible to depth at any setting: five of the nine designs form an eleven- or twelve-base-pair
+duplex with a mature wild-type parent that pairs the whole catalytic gap, one of them with *NR4A3*
+itself, where no screen filtering on global identity can see it. Three designs survive every screen
+applied here, two of them at any parent-duplex threshold. That is the honest size of the candidate
+set.
 
 The limiting step is discrimination between the fusion and its parents, and it is not resolved here.
 Both cited bounds are measured against a single substitution in an otherwise fully paired duplex.
@@ -748,6 +817,39 @@ and the compartment in which that duplex would form is the nuclear one RNase-H1 
 same is true in mature parent sequence. The general point is that a fusion-junction design's most
 plausible wild-type liability is its own parent, reached either across a splice junction or in the
 mature transcript, and both are invisible to a screen that ranks candidates by global identity.
+Parental sparing is established in cells, on molecules already made; the comparison above is
+available before anything is synthesised. The null of §3.5 is what makes that a finding rather than a restatement of the design rule: arbitrary
+sequence meets this screen at about 6%, and a chimera keeping the whole rule while joining the two
+parents at random offsets meets it at 24%, against 46% for designs at real breakpoints. Roughly half
+the liability is therefore inherent in joining these two transcripts at all, and roughly half is
+specific to where the disease joins them.
+
+All of that presumes that sparing wild-type *NR4A3* is worth the specificity cost, and that premise
+deserves examination rather than assumption. The published evidence cuts both ways and neither way
+is decisive. On the permissive side, *NR4A3* has two close paralogues and the family is functionally
+redundant where it has been tested: NR4A1 and NR4A3 are described as functionally redundant
+suppressors of acute myeloid leukaemia, and the three receptors are highly
+homologous.<sup>37,38</sup><!--PMID:29343483,25446259--> A conditional double knockout of *Nr4a1*
+and *Nr4a3* is required to disturb haematopoietic stem-cell homeostasis, and even then the cells
+retain regenerative and differentiation capacity.<sup>37</sup><!--PMID:29343483--> On the
+restrictive side, that same work makes the loss of *NR4A3* consequential rather than silent when
+paralogue reserve is reduced: mice hypoallelic across the two genes develop a myelodysplastic or
+myeloproliferative neoplasm, and abrogation of both leads to rapid postnatal
+leukaemia.<sup>39</sup><!--PMID:21205929--> The family is also not uniform in direction — within
+atherosclerosis, NR4A1 and NR4A2 attenuate lesion formation while NR4A3 aggravates
+it<sup>40</sup><!--PMID:24005216--> — so paralogue redundancy cannot be assumed to be
+substitution.
+
+Two limits on that reading matter more than the reading itself. Every study cited here is
+haematopoietic or vascular, and none addresses the tissue an extraskeletal myxoid chondrosarcoma
+arises in; and all describe germline or conditional gene deletion, which is a different and more
+complete perturbation than partial, reversible, dose-limited knockdown by an oligonucleotide. The
+honest position is therefore that wild-type *NR4A3* knockdown has an unquantified cost that is
+probably not zero and probably not catastrophic, and that the case for junction selectivity does not
+rest on it. It rests on the *EWSR1* and *TAF15* side: the fusion's partner genes are essential
+RNA-binding proteins, and a reagent cleaving a parent transcript is failing at the one thing that
+distinguishes this modality from knocking down *NR4A3* directly, which requires no junction at all.
+A design that cannot spare the parents has no advantage left to trade.
 
 Free-energy calculation does not narrow the interval either. Every design discriminates amply at the
 level of duplex formation, so what is unresolved is specifically the catalytic step, not the binding
@@ -771,9 +873,9 @@ the systemic receptor-targeted route only; local and inhaled administration requ
 distant spread is lung-dominant, at 35–45% of patients and a median of approximately 28 months to
 metastasis.<sup>6</sup><!--PMID:41055792--> Inhaled oligonucleotides have reached human dosing in
 non-oncology indications. An inhaled antisense oligonucleotide has been dosed in healthy volunteers
-in phase 1,<sup>37</sup><!--PMID:39500647--> though that was a splice-switching oligonucleotide rather
+in phase 1,<sup>41</sup><!--PMID:39500647--> though that was a splice-switching oligonucleotide rather
 than an RNase-H1-active gapmer, so it establishes the route and not the mechanism used here. An
-inhaled siRNA has reached phase 2b–3 in patients.<sup>38</sup><!--PMID:40028836--> Both target airway
+inhaled siRNA has reached phase 2b–3 in patients.<sup>42</sup><!--PMID:40028836--> Both target airway
 epithelium or parenchyma, which is the compartment inhalation naturally reaches. A hypocellular,
 matrix-rich parenchymal sarcoma nodule is not. Inhaled delivery to lung tumours is an active
 preclinical field, with 68 records in the retrieval corpus behind this section, but only two of those
@@ -794,14 +896,30 @@ The experiment that would resolve the central uncertainty is routine, and has be
 analogous disease. Fusion-specific antisense oligonucleotides against *NAB2::STAT6* in solitary
 fibrous tumour, evaluated against CRISPR-engineered isogenic fusion-positive and fusion-negative
 cells, reduced fusion expression by 58% and proliferation by 22% in
-vitro.<sup>39</sup><!--PMID:37370737-->
+vitro.<sup>43</sup><!--PMID:37370737-->
 
 Applied here, the reagents to synthesise are the best available at the two junctions with a published
 exon-resolved breakpoint (Table 4): 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
-5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, together about 95% of molecularly confirmed cases. Both
-hold the top gap-level margin of 3, and neither pairs a parent through the catalytic gap at the
-ten-base-pair threshold, although the *TAF15* reagent's longest parent run is nine. The first also
-tests the multi-partner prediction, against a synthetic target only.
+5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6. Both hold the top gap-level margin of 3, and neither pairs
+a parent through the catalytic gap at the ten-base-pair threshold, although the *TAF15* reagent's
+longest parent run is nine. The first also tests the multi-partner prediction, against a synthetic
+target only.
+
+How much of the disease those two junctions represent has to be stated as a junction figure and not
+as a partner figure, and the two differ substantially. Partner prevalence across 58 molecularly
+confirmed cases is 46 *EWSR1* and 9 *TAF15*, or 95% between them.<sup>9</sup><!--PMID:36948401-->
+These reagents are not partner-specific: each spans one exon pair, and §5.4 requires the breakpoint
+of any test material to be established at nucleotide resolution before either is ordered. Discounting
+by the published breakpoint distribution — *EWSR1* exon 12 to *NR4A3* exon 3 in 10 of 15
+*EWSR1*-rearranged tumours, and *TAF15* exon 6 to *NR4A3* exon 3 in all three *TAF15*-rearranged
+tumours of the same 18-case series<sup>35</sup><!--PMID:12378528--> — gives 68.4%, or roughly two
+thirds. The interval is wide and the reason is the denominators rather than the estimate: taking each
+breakpoint fraction to its own Wilson bound spans 39.9% to 82.8%, because the *EWSR1* arm rests on 15
+tumours and the *TAF15* arm on three. It also assumes that the breakpoint distribution within
+*EWSR1*-rearranged tumours is the same in the 58-case cohort as in the 18-case one, which nothing
+here tests and which no published series is large enough to settle. Two thirds is therefore the
+honest figure to plan a reagent set around, and the quantity that would sharpen it is breakpoint
+sequencing of archival material rather than any further analysis of sequence.
 
 Two risks attach, in this order. The first is architectural, and the Methods disclose it. A
 six-nucleotide gap supports noteworthy but incomplete RNase-H1 activity where seven to ten are
@@ -883,13 +1001,12 @@ falsify the gap-margin ranking on which every candidate here is ordered.
 
 ## 6 · Limitations
 
-**Search depth.** The cleanliness claim is bounded by what each screen can see, and the deeper
-re-screen shows how tight that bound is. The alignment screen returned hit lists for 183 filtered
-designs, and only 47 of those 183 are short enough to be assessed for cleanliness at all. Nine clean
-designs is therefore a floor over that subset, not a total. It is also an over-count: six of the nine
-lost the property at ten times the default search depth, and that censoring is corpus-wide across all
-38 junctions re-screened at that depth (§3.10). The default-depth figures throughout should be read as
-lower bounds rather than as counts. BLAST is also heuristic, and its sensitivity at the ≥14/16
+**Search depth.** The cleanliness claim is bounded by what each screen can see. The alignment screen
+returned hit lists for 183 filtered designs, and only 47 of those 183 are short enough to be assessed
+for cleanliness at all, so nine clean designs is a floor over that subset rather than a total — and
+simultaneously an over-count, for the censoring reasons measured in §3.4 and bounded in §3.10. The
+default-depth figures throughout should be read as lower bounds rather than as counts. BLAST is also
+heuristic, and its sensitivity at the ≥14/16
 threshold is unquantified here, so "no sense-strand near-match" is a property of this search rather
 than of the transcriptome. The exhaustive transcript scan carries no such qualification, and is the
 screen the claim rests on. All 38 in-frame junctions are screened with the orientation filter
@@ -956,7 +1073,20 @@ Rows are donor exons grouped by partner; columns are *NR4A3* acceptor exons. Two
 are refused in every pair for structural reasons, so the 38 in-frame junctions lie in a
 single column.
 
-**Figure 2. One 16-mer spans three partners' breakpoints.** The junction windows of *EWSR1* exon
+**Figure 2. The margin a longer catalytic gap wins is the parent duplex it concedes.** (A) The
+best-margin design at *EWSR1* exon 12 joined to *NR4A3* exon 3, drawn at 5-6-5, 5-8-5 and 5-10-5
+with the wings held at five nucleotides. Every base inside the catalytic gap comes from the donor
+exon or from the acceptor exon, so the junction-unique bases on the shorter side and the bases one
+wild-type parent pairs on the longer side tile the gap and sum to it. (B) Every fusion-specific
+design in all three geometries, 798 over 38 junctions, plotted as gap-level margin against the
+contiguous run of gap DNA a wild-type parent can pair. Marker area is the number of designs at that
+point and the label is that count; the three lines are drawn from the identity, not fitted. The
+relation holds for each design individually rather than on average, so no design can gain a
+nucleotide of margin without conceding one nucleotide of contiguous parent duplex, and no choice of
+register avoids it. A longer gap also buys a markedly quieter transcriptome (§3.8, Table 5); this
+figure is what it costs.
+
+**Figure 3. One 16-mer spans three partners' breakpoints.** The junction windows of *EWSR1* exon
 12, *TAF15* exon 11 and *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint. Blue,
 donor exon; green, acceptor exon; positions at which the three donors differ are boxed as well as
 coloured, for greyscale and colour-blind readers. The shaded box is
@@ -966,7 +1096,7 @@ donors are identical over the ten nucleotides before the breakpoint, which is wh
 oligonucleotide junction-spanning at all three junctions.
 Coverage is predicted from sequence and has not been measured.
 
-**Figure 3. Transcriptome load per design against chance expectation.** Each bar is one distinct
+**Supplementary Figure S1. Transcriptome load per design against chance expectation.** Each bar is one distinct
 oligonucleotide's count of exact plus ≤1-mismatch matches over 186,185 transcripts, ranked. The 190
 design records at real exon junctions collapse to 176 molecules, because nine of the 16-mers are
 junction-spanning at more than one partner's junction at once — five at three junctions and four at two — and
@@ -994,6 +1124,26 @@ incorrectly through a coding-versus-transcript exon indexing error and was withd
 panels were rebuilt and verified against two independent transcript acquisitions. The complete
 correction record, including every superseded value, is released with the archive.
 
+Because that is the failure a reader will reasonably assume could recur, the two instruments the
+paper's conclusions rest on were reimplemented a second time and the two implementations compared.
+The reimplementation shares no code with the original and differs from it on four axes: it splices
+each mature transcript out of the genomic record rather than reading the cDNA record; it locates each
+gene's coding start by open-reading-frame search rather than by reading the annotated 5′ untranslated
+length, which is the class of value the retracted error turned on; it grades the reading frame by
+arithmetic on exon coding-length vectors rather than by translating the chimera; and it computes the
+mature-parent screen by substring search over the design's gap-containing substrings rather than by
+scanning every parent window and extending outward from the gap. The two agree on all 231 graded exon
+pairs, field by field and not only on the grade, and on the longest parent duplex of all 190 designs,
+giving the same 87 and the same 61 against *NR4A3*. The two transcript acquisitions agree base for
+base for all six genes, and the annotation-free coding start reproduces the annotated one for all
+six. Both implementations, the comparison and its deliberate-corruption tests are in the archive.
+
+Two things that check should not be read as. It is not external review: the same author prepared
+both implementations. And it bounds implementation error only — two implementations of a
+specification that is itself wrong will agree with each other and both be wrong, so agreement here is
+not evidence that the longest contiguous run containing the catalytic gap is the right quantity to
+compute. Independent review of the code by another group remains wanted and is not claimed.
+
 **Competing interests.** The author declares no financial competing interests: he holds no
 position, equity, consultancy or patent relating to any gene, sequence or agent named here, and no
 oligonucleotide described in this manuscript has been synthesised, licensed or offered for sale. One
@@ -1013,8 +1163,13 @@ manuscript, and to conduct internal critical review of earlier drafts. Every qua
 here is produced by code in the released archive and is reproducible from it; no numerical result
 was generated by a language model directly. Every literature identifier was checked against a
 retrieved bibliographic record, and identifiers that could not be so anchored were removed rather
-than retained. The author takes full responsibility for the content, including for the correctness
-of the code and for the interpretation of the results.
+than retained. The three references dated 2026 were additionally checked for live resolution against
+two independent registries, Europe PMC and Crossref, which return the same title and the same digital
+object identifier for each; those records travel with the archive. The frame grading and the
+mature-parent screen were additionally reimplemented and
+cross-checked as described under Provenance, which bounds implementation error but is not
+independent review. The author takes full responsibility for the content, including for the
+correctness of the code and for the interpretation of the results.
 
 ## References
 
