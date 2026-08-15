@@ -110,12 +110,16 @@
    }
   }
  },
- "⭐_the_same_scan_over_the_SIBLING_seam_as_a_positive_control": {
-  "_why": "A liability scan that returns zero everywhere is indistinguishable from a broken one. The sibling cryptic-acceptor junction has a KNOWN positive — the genome screen found TGATGAGGGCCTTGTG forming a gap-paired duplex on chr9 — so the same function is run over that design set here. If this control stops showing exactly one cleavage-competent design, the scan above is not trustworthy and neither is any 'clean' verdict it gives.",
-  "control_junction": [
-   "TAF15 e6"
+ "⭐_liability_scan_positive_control": {
+  "control_junction": "TAF15 e6 :: NR4A3 intron-2 cryptic exon",
+  "expected": "exactly 1 cleavage-competent design (TGATGAGGGCCTTGTG), per the genome screen",
+  "observed_n_cleavage_competent_designs": 1,
+  "observed_designs": [
+   "TGATGAGGGCCTTGTG"
   ],
-  "result": {
+  "passed": true,
+  "⛔_if_this_fails": "the wild-type liability scan is not detecting the one case it is known to have to detect, so no 'clean' verdict above may be relied on.",
+  "_full": {
    "_status": "run",
    "_source": "aso-premrna-sequences.json -> genes.NR4A3.sequence (unspliced)",
    "_method": "exhaustive <=2-mismatch scan of the NR4A3 unspliced sequence; the catalytic gap is positions 5..10 of the 16-mer target (5-6-5). A site with zero gap mismatches is treated as cleavage-competent, the same criterion the genome screen applies.",

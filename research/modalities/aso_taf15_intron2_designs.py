@@ -510,21 +510,42 @@ def wildtype_nr4a3_liability(designs, cryptic):
     }
 
 
-def _control_designs(this_key, cryptic, parents):
-    """The OTHER whitelisted junction's designs, built the same way, as a scan positive control."""
-    out = []
-    for k in PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS:
-        if k == this_key:
-            continue
-        try:
-            jj = ja.mrna_junction_generic(ja.transcript_model(k[0]),
-                                          build_tn_acceptor_model(cryptic), k[1], 1)
-            out += [o["antisense_5to3"] for o in ja.design(
-                jj["_left"], jj["_right"], jj["_fusion"],
-                parents={a: b for a, b in parents.items() if b})]
-        except Exception as exc:  # noqa: BLE001
-            print(f"  ⚠ control designs for {k[0]} unavailable: {exc}", file=sys.stderr)
-    return out
+def _known_positive_control(cryptic, parents):
+    """⛔ THE SCAN'S OWN CONTROL, AND IT IS A FIXED KNOWN POSITIVE — never "the other entry".
+
+    The first version of this control scanned whichever junction was NOT being built, which made it
+    vacuous in both directions: building the TAF15 artifact scanned EWSR1 (correctly 0 sites) and
+    then reported its own control as silent, while the one design with a real liability sat in the
+    same file. A control has to be a case whose answer is known.
+
+    The known positive is TAF15 e6 :: cryptic exon, design TGATGAGGGCCTTGTG: the genome screen
+    measured it forming a gap-paired hybridisable duplex on chr9 in wild-type NR4A3. This control
+    rebuilds that design set from the transcript models and requires the scan to re-find EXACTLY ONE
+    cleavage-competent design. If it does not, every "clean" verdict in this file is unsupported.
+    """
+    key = ("TAF15", 6, "NR4A3", "intron2_cryptic_exon")
+    try:
+        jj = ja.mrna_junction_generic(ja.transcript_model(key[0]),
+                                      build_tn_acceptor_model(cryptic), key[1], 1)
+        designs = [o["antisense_5to3"] for o in ja.design(
+            jj["_left"], jj["_right"], jj["_fusion"],
+            parents={a: b for a, b in parents.items() if b})]
+    except Exception as exc:  # noqa: BLE001
+        return {"_status": f"control could not be built: {exc}", "passed": None}
+    res = wildtype_nr4a3_liability(designs, cryptic)
+    per = res.get("per_design") or {}
+    n = sum(v["⛔_n_cleavage_competent_sites_in_wild_type_NR4A3"] for v in per.values())
+    hits = [a for a, v in per.items() if v["⛔_n_cleavage_competent_sites_in_wild_type_NR4A3"]]
+    return {
+        "control_junction": "TAF15 e6 :: NR4A3 intron-2 cryptic exon",
+        "expected": "exactly 1 cleavage-competent design (TGATGAGGGCCTTGTG), per the genome screen",
+        "observed_n_cleavage_competent_designs": n,
+        "observed_designs": hits,
+        "passed": n == 1 and hits == ["TGATGAGGGCCTTGTG"],
+        "⛔_if_this_fails": ("the wild-type liability scan is not detecting the one case it is known "
+                            "to have to detect, so no 'clean' verdict above may be relied on."),
+        "_full": res,
+    }
 
 
 def panel_reach_check(fusion):
@@ -740,17 +761,7 @@ def build(key=None):
         # reading that looks reassuring and is not.
         "⭐_wild_type_NR4A3_cleavage_liability": wildtype_nr4a3_liability(
             [o["antisense_5to3"] for o in oligos], cryptic),
-        "⭐_the_same_scan_over_the_SIBLING_seam_as_a_positive_control": {
-            "_why": ("A liability scan that returns zero everywhere is indistinguishable from a "
-                     "broken one. The sibling cryptic-acceptor junction has a KNOWN positive — the "
-                     "genome screen found TGATGAGGGCCTTGTG forming a gap-paired duplex on chr9 — so "
-                     "the same function is run over that design set here. If this control stops "
-                     "showing exactly one cleavage-competent design, the scan above is not "
-                     "trustworthy and neither is any 'clean' verdict it gives."),
-            "control_junction": [f"{k[0]} e{k[1]}" for k in PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS
-                                 if k != key],
-            "result": wildtype_nr4a3_liability(_control_designs(key, cryptic, parents), cryptic),
-        },
+        "⭐_liability_scan_positive_control": _known_positive_control(cryptic, parents),
         "deep_screen_results": screen_readout(meta["slug"]),
         "⭐_what_the_screens_actually_found": (
             "GAP SPECIFICITY MARGIN DECIDES WHETHER THIS REAGENT CUTS THE PATIENT'S OWN NR4A3, and "

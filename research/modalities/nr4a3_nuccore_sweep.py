@@ -561,6 +561,35 @@ def discover_junction(seq, genes):
     else:
         j = chosen["split"]
         out["seam_verbatim"] = s[max(0, j - 16):j] + "|" + s[j:j + 16]
+
+    # ⛔ GRADE THE CALL, BECAUSE AN INSERT HAS TWO VERY DIFFERENT CAUSES AND THEY LOOK ALIKE.
+    # Measured on the 1279-record sweep of 2026-08-15: four records came back INSERT. ONE of them
+    # (AF524261.1) had its 72-nt segment placed exactly inside NR4A3 intron 2 — a real cryptic-exon
+    # acceptor. The other three (S81242.1 +102 nt, DI174531.1 +1018 nt, LG067228.1 +1027 nt) had
+    # `found_in: []` — the segment was placed nowhere, and in each case the seam matcher had already
+    # named a junction the maximal alignment then disagreed with. That signature is a record whose
+    # sequence is not contiguous against the committed models (a patent construct carrying extra or
+    # altered sequence, or a partial exon), NOT a novel acceptor: LG067228.1's "insert" literally
+    # begins with NR4A3 exon 3's first bases.
+    # ⚠ SO AN UNPLACED INSERT MAKES THE EXON CALL UNRELIABLE, and saying so is the difference
+    # between an instrument that discovers junctions and one that manufactures them.
+    if chosen["insert_nt"]:
+        placed = bool(out["unexplained_segment"]["found_in"])
+        out["grade"] = "PLACED_INSERT" if placed else "UNPLACED_INSERT"
+        out["⚠ how_to_read_this_grade"] = (
+            "PLACED_INSERT — the segment was located exactly inside a named intron of one of the "
+            "two genes, so it is a candidate cryptic/retained exon and the flanking exon calls are "
+            "boundary-exact."
+            if placed else
+            "⛔ UNPLACED_INSERT — the segment matches NOTHING in either gene, so this record is not "
+            "contiguous against the committed transcript models and THE EXON CALL ABOVE IS "
+            "UNRELIABLE. Do not read it as a novel junction. Compare it with the seam matcher's "
+            "answer for the same record before using either.")
+    else:
+        out["grade"] = "CLEAN"
+        out["⚠ how_to_read_this_grade"] = (
+            "CLEAN — the partner block and the NR4A3 block abut, and both ends land exactly on exon "
+            "boundaries.")
     return out
 
 
