@@ -72,6 +72,101 @@
   "_method": "exact presence of each panel design's target window in the modelled T-N chimeric transcript — the same substring test the parent-specificity screen uses. Exact matches only; near-matches are the deep screens' question.",
   "_reading": "0 means no reagent in the published panel is a perfect complement of any window of a T-N transcript, so a TAF15 patient carrying T-N is not addressed by the panel as it stands."
  },
+ "⭐_wild_type_NR4A3_cleavage_liability": {
+  "_status": "run",
+  "_source": "aso-premrna-sequences.json -> genes.NR4A3.sequence (unspliced)",
+  "_method": "exhaustive <=2-mismatch scan of the NR4A3 unspliced sequence; the catalytic gap is positions 5..10 of the 16-mer target (5-6-5). A site with zero gap mismatches is treated as cleavage-competent, the same criterion the genome screen applies.",
+  "⚠_scope": "ONE LOCUS ONLY — NR4A3's own pre-mRNA, where this seam's liability lives. NOT a genome-wide result and NOT a substitute for aso_genome_offtarget.py.",
+  "per_design": {
+   "ATGAGGGCCTAGATCA": {
+    "n_sites_le2_mismatches": 0,
+    "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+    "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+    "sites": []
+   },
+   "TGAGGGCCTAGATCAA": {
+    "n_sites_le2_mismatches": 0,
+    "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+    "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+    "sites": []
+   },
+   "GATGAGGGCCTAGATC": {
+    "n_sites_le2_mismatches": 0,
+    "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+    "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+    "sites": []
+   },
+   "TGATGAGGGCCTAGAT": {
+    "n_sites_le2_mismatches": 0,
+    "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+    "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+    "sites": []
+   },
+   "GAGGGCCTAGATCAAG": {
+    "n_sites_le2_mismatches": 0,
+    "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+    "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+    "sites": []
+   }
+  }
+ },
+ "⭐_the_same_scan_over_the_SIBLING_seam_as_a_positive_control": {
+  "_why": "A liability scan that returns zero everywhere is indistinguishable from a broken one. The sibling cryptic-acceptor junction has a KNOWN positive — the genome screen found TGATGAGGGCCTTGTG forming a gap-paired duplex on chr9 — so the same function is run over that design set here. If this control stops showing exactly one cleavage-competent design, the scan above is not trustworthy and neither is any 'clean' verdict it gives.",
+  "control_junction": [
+   "TAF15 e6"
+  ],
+  "result": {
+   "_status": "run",
+   "_source": "aso-premrna-sequences.json -> genes.NR4A3.sequence (unspliced)",
+   "_method": "exhaustive <=2-mismatch scan of the NR4A3 unspliced sequence; the catalytic gap is positions 5..10 of the 16-mer target (5-6-5). A site with zero gap mismatches is treated as cleavage-competent, the same criterion the genome screen applies.",
+   "⚠_scope": "ONE LOCUS ONLY — NR4A3's own pre-mRNA, where this seam's liability lives. NOT a genome-wide result and NOT a substitute for aso_genome_offtarget.py.",
+   "per_design": {
+    "ATGAGGGCCTTGTGTG": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "TGAGGGCCTTGTGTGT": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "GATGAGGGCCTTGTGT": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "TGATGAGGGCCTTGTG": {
+     "n_sites_le2_mismatches": 1,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 1,
+     "verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+     "sites": [
+      {
+       "pre_mrna_offset": 4839,
+       "site_5to3": "CAACAGGCCCTCATCA",
+       "n_mismatches": 2,
+       "mismatch_positions": [
+        2,
+        3
+       ],
+       "n_gap_mismatches": 0,
+       "gap_fully_paired": true,
+       "offset_relative_to_cryptic_exon_start": -6
+      }
+     ]
+    },
+    "GAGGGCCTTGTGTGTG": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    }
+   }
+  }
+ },
  "deep_screen_results": {
   "genome": {
    "_status": "NOT RUN — no artifact on disk. ABSENT, NOT CLEAN.",
